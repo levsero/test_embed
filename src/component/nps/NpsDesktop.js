@@ -18,20 +18,18 @@ const initialState = {
 };
 
 export class NpsDesktop extends Component {
-  constructor(props, context) {
+  constructor = (props, context) => {
     super(props, context);
-    bindMethods(this, NpsDesktop.prototype);
-
     this.state = initialState;
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate = (prevProps, prevState) => {
     if (prevState.currentPage.selectingRating && this.state.currentPage.addingComment) {
       this.refs.npsComment.focusField();
     }
   }
 
-  setCurrentPage(page) {
+  setCurrentPage = (page) => {
     this.setState({
       currentPage: _.mapValues(
         initialState.currentPage,
@@ -40,21 +38,21 @@ export class NpsDesktop extends Component {
     });
   }
 
-  ratingChangeValueHandler(rating) {
+  ratingChangeValueHandler = (rating) => {
     this.props.submitRatingHandler(rating, () => this.setCurrentPage('addingComment'));
   }
 
-  submitCommentHandler(ev) {
+  submitCommentHandler = (ev) => {
     this.props.submitCommentHandler(ev, () => {
       this.setCurrentPage('thankYou');
     });
   }
 
-  resetState() {
+  resetState = () => {
     this.setState(initialState);
   }
 
-  render() {
+  render = () => {
     if (this.props.updateFrameSize) {
       setTimeout(() => { this.props.updateFrameSize(); }, 0);
     }

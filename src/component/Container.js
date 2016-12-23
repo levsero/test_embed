@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 export class Container extends Component {
-  render() {
+  render = () => {
     const containerClasses = classNames({
       [`Container u-posRelative ${this.props.className}`]: true,
       'Container--popover': !this.props.fullscreen,

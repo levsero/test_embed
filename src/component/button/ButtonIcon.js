@@ -5,7 +5,7 @@ import { Icon } from 'component/Icon';
 import { isIE } from 'utility/devices';
 
 export class ButtonIcon extends Component {
-  render() {
+  render = () => {
     const buttonClasses = classNames({
       'Button--icon u-userFillColor u-isActionable': true,
       'u-flex': !isIE(),
@@ -41,4 +41,3 @@ ButtonIcon.defaultProps = {
   icon: '',
   className: ''
 };
-

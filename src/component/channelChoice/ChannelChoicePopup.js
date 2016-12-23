@@ -5,16 +5,11 @@ import { bindMethods } from 'utility/utils';
 import { ButtonIcon } from 'component/button/ButtonIcon';
 
 export class ChannelChoicePopup extends Component {
-  constructor(props, context) {
-    super(props, context);
-    bindMethods(this, ChannelChoicePopup.prototype);
-  }
-
-  handleClick(embed) {
+  handleClick = (embed) => {
     return () => this.props.onNextClick(embed);
   }
 
-  render() {
+  render = () => {
     return (
       <div className='u-posAbsolute Container--channelChoicePopup'>
         <ButtonIcon

@@ -36,7 +36,7 @@ const icons = {
 };
 
 export class Icon extends Component {
-  render() {
+  render = () => {
     const icon = icons[this.props.type];
     const iconClasses = classNames({
       [`Icon ${this.props.type} ${this.props.className}`]: true,

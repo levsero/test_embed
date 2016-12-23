@@ -5,7 +5,7 @@ import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
 export class ZendeskLogo extends Component {
-  render() {
+  render = () => {
     const { fullscreen, rtl, formSuccess } = this.props;
     const logoClasses = classNames({
       'u-linkClean': true,

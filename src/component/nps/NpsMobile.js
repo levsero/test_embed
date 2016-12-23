@@ -30,28 +30,26 @@ const initialState = {
 };
 
 export class NpsMobile extends Component {
-  constructor(props, context) {
+  constructor = (props, context) => {
     super(props, context);
-    bindMethods(this, NpsMobile.prototype);
-
     this.state = initialState;
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate = (prevProps, prevState) => {
     if ((!prevState.fullscreen && this.state.fullscreen) ||
         (!prevState.isEditing && this.state.isEditing)) {
       this.refs.npsComment.focusField();
     }
   }
 
-  setDefaultNpsMobileSize() {
+  setDefaultNpsMobileSize = () => {
     setTimeout(() => this.props.setFrameSize(
       '100%',
       this.calcHeightPercentage()),
     0);
   }
 
-  goToFullScreen() {
+  goToFullScreen = () => {
     if (isIos()) {
       this.startScrollHacks();
       setTimeout(() => this.props.setFrameSize(
@@ -65,7 +63,7 @@ export class NpsMobile extends Component {
     }
   }
 
-  resetFullScreen() {
+  resetFullScreen = () => {
     if (isIos()) {
       this.stopScrollHacks();
       this.setDefaultNpsMobileSize();
@@ -75,7 +73,7 @@ export class NpsMobile extends Component {
     }
   }
 
-  startEditing() {
+  startEditing = () => {
     if (isIos()) {
       this.goToFullScreen();
     }
@@ -84,7 +82,7 @@ export class NpsMobile extends Component {
     });
   }
 
-  stopEditing() {
+  stopEditing = () => {
     if (isIos()) {
       this.resetFullScreen();
     }
@@ -93,7 +91,7 @@ export class NpsMobile extends Component {
     });
   }
 
-  calcHeightPercentage() {
+  calcHeightPercentage = () => {
     const ratio = getZoomSizingRatio();
     const heightThreshold = 450;
     const heightRatio = win.innerHeight / ratio;
@@ -107,7 +105,7 @@ export class NpsMobile extends Component {
            : '52%';
   }
 
-  setCurrentPage(page) {
+  setCurrentPage = (page) => {
     this.setState({
       currentPage: _.mapValues(
         initialState.currentPage,
@@ -116,56 +114,56 @@ export class NpsMobile extends Component {
     });
   }
 
-  submitCommentHandler(ev) {
+  submitCommentHandler = (ev) => {
     this.props.submitCommentHandler(ev, () => {
       this.stopEditing();
       this.setCurrentPage('thankYou');
     });
   }
 
-  ratingChangeValueHandler(rating) {
+  ratingChangeValueHandler = (rating) => {
     this.props.submitRatingHandler(rating, () => this.setCurrentPage('addingComment'));
   }
 
-  handleDropDownBlur() {
+  handleDropDownBlur = () => {
     if (isIos()) {
       this.stopScrollHacks();
     }
   }
 
-  handleDropDownSelection(e) {
+  handleDropDownSelection = (e) => {
     this.props.updateRating(e.target.value);
   }
 
-  removeRatingTemplate(ratingText) {
+  removeRatingTemplate = (ratingText) => {
     return ratingText.replace('%{rating}', '').trim();
   }
 
-  handleDropDownFocus() {
+  handleDropDownFocus = () => {
     if (isIos()) {
       this.startScrollHacks();
     }
   }
 
-  startScrollHacks() {
+  startScrollHacks = () => {
     setTimeout(() => {
       setWindowScroll(0);
       setScrollKiller(true);
     }, 0);
   }
 
-  stopScrollHacks() {
+  stopScrollHacks = () => {
     setTimeout(() => {
       setScrollKiller(false);
       revertWindowScroll();
     }, 0);
   }
 
-  resetState() {
+  resetState = () => {
     this.setState(initialState);
   }
 
-  render() {
+  render = () => {
     let headingText;
 
     if (!this.state.fullscreen) {

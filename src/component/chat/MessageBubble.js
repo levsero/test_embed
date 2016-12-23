@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { locals as styles } from './MessageBubble.sass';
 
 export class MessageBubble extends Component {
-  render() {
+  render = () => {
     const style = {
       color: this.props.color,
       backgroundColor: this.props.backgroundColor

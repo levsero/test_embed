@@ -5,7 +5,7 @@ import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
 export class ButtonDropzone extends Component {
-  render() {
+  render = () => {
     const label = this.props.isMobile
                 ? i18n.t('embeddable_framework.submitTicket.attachments.button.label_mobile',
                   { fallback: 'Add file from device' })

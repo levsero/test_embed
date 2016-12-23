@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { Icon } from 'component/Icon';
 
 export class NpsSelectList extends Component {
-  render() {
+  render = () => {
     const optionsList = this.props.options.map(
       (label, i) => {
         return (this.props.selectedItem === label)

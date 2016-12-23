@@ -4,20 +4,16 @@ import classNames from 'classnames';
 import { bindMethods } from 'utility/utils';
 
 export class Dropzone extends Component {
-  constructor(props, context) {
+  constructor = (props, context) => {
     super(props, context);
-    bindMethods(this, Dropzone.prototype);
-
-    this.state = {
-      isDragActive: false
-    };
+    this.state = { isDragActive: false };
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.enterCounter = 0;
   }
 
-  onDragEnter(e) {
+  onDragEnter = (e) => {
     e.preventDefault();
 
     // Count the dropzone and any children that are entered.
@@ -26,13 +22,13 @@ export class Dropzone extends Component {
     this.props.onDragEnter(e);
   }
 
-  onDragOver(e) {
+  onDragOver = (e) => {
     e.preventDefault();
     e.stopPropagation();
     return false;
   }
 
-  onDragLeave(e) {
+  onDragLeave = (e) => {
     e.preventDefault();
 
     // Only deactivate once the dropzone and all children have left.
@@ -44,7 +40,7 @@ export class Dropzone extends Component {
     this.props.onDragLeave(e);
   }
 
-  onDrop(e) {
+  onDrop = (e) => {
     e.preventDefault();
 
     const droppedFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files;
@@ -53,14 +49,14 @@ export class Dropzone extends Component {
     this.props.onDrop(droppedFiles, e);
   }
 
-  onClick() {
+  onClick = () => {
     if (!this.props.disableClick) {
       this.fileInputEl.value = null;
       this.fileInputEl.click();
     }
   }
 
-  render() {
+  render = () => {
     const dropzoneClasses = classNames({
       [`${this.props.className}`]: true,
       [`${this.props.activeClassName}`]: this.state.isDragActive

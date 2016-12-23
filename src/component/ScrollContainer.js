@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
 export class ScrollContainer extends Component {
-  constructor(props, context) {
+  constructor = (props, context) => {
     super(props, context);
 
     this.state = {
@@ -11,23 +11,23 @@ export class ScrollContainer extends Component {
     };
   }
 
-  getContentContainer() {
+  getContentContainer = () => {
     const elem = ReactDOM.findDOMNode(this);
 
     return elem.querySelector('.ScrollContainer-content');
   }
 
-  scrollToBottom() {
+  scrollToBottom = () => {
     const container = this.getContentContainer();
 
     container.scrollTop = container.scrollHeight;
   }
 
-  setScrollShadowVisible(visible) {
+  setScrollShadowVisible = (visible) => {
     this.setState({scrollShadowVisible: visible});
   }
 
-  render() {
+  render = () => {
     const containerClasses = classNames({
       'ScrollContainer-content': true,
       'u-paddingHS u-marginHS': true,

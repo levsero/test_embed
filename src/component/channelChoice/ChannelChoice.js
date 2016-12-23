@@ -8,22 +8,17 @@ import { i18n } from 'service/i18n';
 import { bindMethods } from 'utility/utils';
 
 export class ChannelChoice extends Component {
-  constructor(props, context) {
-    super(props, context);
-    bindMethods(this, ChannelChoice.prototype);
-  }
-
-  handleClick(embed) {
+  handleClick = (embed) => {
     return () => this.props.onNextClick(embed);
   }
 
-  renderZendeskLogo() {
+  renderZendeskLogo = () => {
     return !this.props.hideZendeskLogo
       ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />
       : null;
   }
 
-  renderBody() {
+  renderBody = () => {
     return (
       <div>
         <p>{i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket')}</p>
@@ -49,7 +44,7 @@ export class ChannelChoice extends Component {
     );
   }
 
-  render() {
+  render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     return (
@@ -81,4 +76,3 @@ ChannelChoice.defaultProps = {
   hideZendeskLogo: false,
   onNextClick: () => {}
 };
-

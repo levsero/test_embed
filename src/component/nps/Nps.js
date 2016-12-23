@@ -32,22 +32,21 @@ const initialState = {
 };
 
 export class Nps extends Component {
-  constructor(props, context) {
+  constructor = (props, context) => {
     super(props, context);
-    bindMethods(this, Nps.prototype);
 
     const state =_.extend({}, initialState, { isMobile: props.mobile });
 
     this.state = state;
   }
 
-  setError(errorState) {
+  setError = (errorState) => {
     this.setState({
       survey: _.extend({}, this.state.survey, { error: errorState })
     });
   }
 
-  npsSender(params, doneFn, failFn) {
+  npsSender = (params, doneFn, failFn) => {
     const fail = (error) => {
       this.setError(true);
       this.setState({isSubmittingRating: false, isSubmittingComment: false});
@@ -68,7 +67,7 @@ export class Nps extends Component {
     this.props.npsSender(params, done, fail);
   }
 
-  sendRating(doneFn, failFn) {
+  sendRating = (doneFn, failFn) => {
     const params = {
       npsResponse: {
         surveyId: this.state.survey.id,
@@ -80,7 +79,7 @@ export class Nps extends Component {
     this.npsSender(params, doneFn, failFn);
   }
 
-  sendComment(doneFn, failFn) {
+  sendComment = (doneFn, failFn) => {
     const params = {
       npsResponse: {
         surveyId: this.state.survey.id,
@@ -93,7 +92,7 @@ export class Nps extends Component {
     this.npsSender(params, doneFn, failFn);
   }
 
-  submitRatingHandler(rating, doneFn) {
+  submitRatingHandler = (rating, doneFn) => {
     const errorHandler = () => {
       this.setState({
         response: _.extend({}, this.state.response, { rating: null })
@@ -108,32 +107,32 @@ export class Nps extends Component {
     setTimeout(() => this.sendRating(doneFn, errorHandler), 0);
   }
 
-  updateRating(rating) {
+  updateRating = (rating) => {
     this.setState({
       response: _.extend({}, this.state.response, { rating })
     });
   }
 
-  submitCommentHandler(ev, doneFn, failFn) {
+  submitCommentHandler = (ev, doneFn, failFn) => {
     ev.preventDefault();
     this.setState({ isSubmittingComment: true });
     setTimeout(() => this.sendComment(doneFn, failFn), 0);
   }
 
-  onCommentChangeHandler(ev) {
+  onCommentChangeHandler = (ev) => {
     this.setState({
       response: _.extend({}, this.state.response, { comment: ev.target.value }),
       commentFieldDirty: true
     });
   }
 
-  resetState(mergeObj = {}) {
+  resetState = (mergeObj = {}) => {
     const state = _.extend({}, initialState, { isMobile: this.state.isMobile }, mergeObj);
 
     this.setState(state);
   }
 
-  render() {
+  render = () => {
     return (this.state.isMobile)
       ? <NpsMobile
           ref='mobile'

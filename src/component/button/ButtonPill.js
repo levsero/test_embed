@@ -5,7 +5,7 @@ import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
 export class ButtonPill extends Component {
-  render() {
+  render = () => {
     const buttonClasses = classNames({
       'c-btn c-btn--medium c-btn--secondary c-btn--pill': true,
       'u-textNormal': true,
@@ -37,4 +37,3 @@ ButtonPill.defaultProps = {
   showIcon: true,
   onClick: () => {}
 };
-

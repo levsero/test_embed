@@ -5,7 +5,7 @@ import { LoadingSpinner } from 'component/loading/Loading';
 import { ButtonSecondary } from 'component/button/ButtonSecondary';
 
 export class ButtonRating extends Component {
-  render() {
+  render = () => {
     const ButtonRatingClasses = classNames({
       'ButtonRating': true,
       'is-mobile': this.props.fullscreen,

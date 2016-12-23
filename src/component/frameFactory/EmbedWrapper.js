@@ -11,10 +11,8 @@ import { bindMethods } from 'utility/utils';
 import { Provider } from 'react-redux';
 
 export class EmbedWrapper extends Component {
-  constructor(props, context) {
+  constructor = (props, context) => {
     super(props, context);
-    bindMethods(this, EmbedWrapper.prototype);
-
     this.state = {
       css: '',
       showBackButton: false,
@@ -22,11 +20,11 @@ export class EmbedWrapper extends Component {
     };
   }
 
-  showBackButton(show = true) {
+  showBackButton = (show = true) => {
     this.setState({ showBackButton: show });
   }
 
-  setHighlightColor(color) {
+  setHighlightColor = (color) => {
     const css = generateNpsCSS({ color: color });
 
     if (css) {
@@ -34,7 +32,7 @@ export class EmbedWrapper extends Component {
     }
   }
 
-  setButtonColor(color) {
+  setButtonColor = (color) => {
     const css = generateWebWidgetPreviewCSS(color);
 
     if (css) {
@@ -42,7 +40,7 @@ export class EmbedWrapper extends Component {
     }
   }
 
-  renderNavButton(options = {}) {
+  renderNavButton = (options = {}) => {
     return (
       <ButtonNav
         onClick={options.onClick}
@@ -59,7 +57,7 @@ export class EmbedWrapper extends Component {
     );
   }
 
-  render() {
+  render = () => {
     const backButtonClasses = classNames({
       'u-isHidden': !this.state.showBackButton
     });

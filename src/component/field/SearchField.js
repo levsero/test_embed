@@ -8,10 +8,8 @@ import { Icon } from 'component/Icon';
 import { bindMethods } from 'utility/utils';
 
 export class SearchField extends Component {
-  constructor(props, context) {
+  constructor = (props, context) => {
     super(props, context);
-    bindMethods(this, SearchField.prototype);
-
     this.state = {
       focused: false,
       blurred: false,
@@ -19,7 +17,7 @@ export class SearchField extends Component {
     };
   }
 
-  onFocus(e) {
+  onFocus = (e) => {
     this.setState({
       focused: true
     });
@@ -27,7 +25,7 @@ export class SearchField extends Component {
     this.props.onFocus(e);
   }
 
-  onBlur(e) {
+  onBlur = (e) => {
     this.setState({
       focused: false,
       blurred: true
@@ -36,7 +34,7 @@ export class SearchField extends Component {
     this.props.onBlur(e);
   }
 
-  onChange(e) {
+  onChange = (e) => {
     const value = e.target.value;
 
     this.setState({
@@ -47,7 +45,7 @@ export class SearchField extends Component {
     this.props.onChangeValue(value);
   }
 
-  clearInput() {
+  clearInput = () => {
     this.setState({
       searchInputVal: ''
     });
@@ -55,28 +53,28 @@ export class SearchField extends Component {
     this.props.onChangeValue('');
   }
 
-  getSearchField() {
+  getSearchField = () => {
     return this.refs.searchFieldInput.getInput();
   }
 
-  getValue() {
+  getValue = () => {
     return this.state.searchInputVal;
   }
 
-  setValue(value) {
+  setValue = (value) => {
     this.setState({ searchInputVal: value });
     this.props.onChangeValue(value);
   }
 
-  focus() {
+  focus = () => {
     this.getSearchField().focus();
   }
 
-  blur() {
+  blur = () => {
     this.getSearchField().blur();
   }
 
-  renderSearchIconButton() {
+  renderSearchIconButton = () => {
     return (
       <IconFieldButton
         onClick={this.props.onSearchIconClick}
@@ -85,7 +83,7 @@ export class SearchField extends Component {
     );
   }
 
-  renderSearchInput() {
+  renderSearchInput = () => {
     return (
       <SearchInput
         fullscreen={this.props.fullscreen}
@@ -97,7 +95,7 @@ export class SearchField extends Component {
     );
   }
 
-  renderSearchIcon() {
+  renderSearchIcon = () => {
     const searchInputFieldIconClasses = classNames({
       'Arrange-sizeFit u-isActionable': true,
       'u-userTextColor u-userFillColor': this.state.focused,
@@ -112,7 +110,7 @@ export class SearchField extends Component {
     );
   }
 
-  renderSearchLoadingIcon() {
+  renderSearchLoadingIcon = () => {
     const { isLoading } = this.props;
     const loadingClasses = classNames({
       'u-paddingRS': true,
@@ -134,7 +132,7 @@ export class SearchField extends Component {
     );
   }
 
-  renderSearchClear() {
+  renderSearchClear = () => {
     const { fullscreen, isLoading } = this.props;
     const loadingClasses = classNames({
       'u-isHidden': !isLoading
@@ -157,7 +155,7 @@ export class SearchField extends Component {
     );
   }
 
-  render() {
+  render = () => {
     const { fullscreen, hasSearched, disableAutoSearch } = this.props;
     const searchContainerClasses = classNames({
       'u-cf': true,
@@ -225,4 +223,3 @@ SearchField.defaultProps = {
   onSearchIconClick:  () => {},
   onChangeValue: () => {}
 };
-

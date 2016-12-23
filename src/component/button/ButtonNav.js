@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 export class ButtonNav extends Component {
-  render() {
+  render = () => {
     const { fullscreen, position, rtl } = this.props;
     const isLeft = (position === 'left');
     const isRight = (position === 'right');
@@ -46,4 +46,3 @@ ButtonNav.defaultProps = {
   onClick: () => {},
   className: ''
 };
-

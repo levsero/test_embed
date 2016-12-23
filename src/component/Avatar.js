@@ -5,7 +5,7 @@ import { locals as styles } from './Avatar.sass';
 import { Icon } from 'component/Icon';
 
 export class Avatar extends Component {
-  renderCustom(classes) {
+  renderCustom = (classes) => {
     return (
       <img
         className={classes}
@@ -13,7 +13,7 @@ export class Avatar extends Component {
     );
   }
 
-  renderDefault(classes) {
+  renderDefault = (classes) => {
     return (
       <Icon
         className={classes}
@@ -21,7 +21,7 @@ export class Avatar extends Component {
     );
   }
 
-  render() {
+  render = () => {
     const classes = `${styles.avatar} ${this.props.className}`;
 
     return _.isEmpty(this.props.src)

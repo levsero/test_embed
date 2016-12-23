@@ -4,15 +4,9 @@ import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
-import { bindMethods } from 'utility/utils';
 
 export class Attachment extends Component {
-  constructor(props, context) {
-    super(props, context);
-    bindMethods(this, Attachment.prototype);
-  }
-
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps = (nextProps) => {
     const { progressBar } = this.refs;
 
     if (progressBar) {
@@ -20,7 +14,7 @@ export class Attachment extends Component {
     }
   }
 
-  handleIconClick() {
+  handleIconClick = () => {
     if (this.props.uploading) {
       this.props.uploadRequestSender.abort();
     }
@@ -28,7 +22,7 @@ export class Attachment extends Component {
     this.props.handleRemoveAttachment(this.props.attachmentId);
   }
 
-  formatAttachmentSize(bytes) {
+  formatAttachmentSize = (bytes) => {
     // If the size of the file is less than 1KB, just round it up.
     const size = Math.max(bytes, 1000);
 
@@ -45,7 +39,7 @@ export class Attachment extends Component {
              });
   }
 
-  renderProgressBar() {
+  renderProgressBar = () => {
     return (
       <div
         className='Attachment-progress u-vsizeAll u-posAbsolute u-posStart--flush u-posStart--vertFlush'
@@ -53,7 +47,7 @@ export class Attachment extends Component {
     );
   }
 
-  render() {
+  render = () => {
     const { file, errorMessage, uploading } = this.props;
     const hasError = !!errorMessage;
     const containerClasses = classNames({

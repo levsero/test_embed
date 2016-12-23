@@ -5,7 +5,7 @@ import { Icon } from 'component/Icon';
 import { IconFieldButton } from 'component/button/IconFieldButton';
 
 export class SearchFieldButton extends Component {
-  render() {
+  render = () => {
     const { disableAutoSearch } = this.props;
     const fieldClasses = classNames({
       'Arrange Arrange--middle Form-field Form-field--search u-isSelectable is-mobile': true,

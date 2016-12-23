@@ -18,17 +18,15 @@ const allowedIframeAttribs = [
 ];
 
 class HelpCenterArticle extends Component {
-  constructor(props, context) {
+  constructor = (props, context) => {
     super(props, context);
-    this.handleClick = this.handleClick.bind(this);
-
     this.state = {
       queuedImages: {},
       lastActiveArticleId: null
     };
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     const doc = ReactDOM.findDOMNode(this).ownerDocument;
     const base = doc.createElement('base');
 
@@ -36,7 +34,7 @@ class HelpCenterArticle extends Component {
     doc.head.appendChild(base);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate = () => {
     const { activeArticle } = this.props;
     const container = ReactDOM.findDOMNode(this.refs.article);
     const sanitizeHtmlOptions = {
@@ -112,7 +110,7 @@ class HelpCenterArticle extends Component {
     }
   }
 
-  handleClick(e) {
+  handleClick = (e) => {
     const target = e.target;
     let nodeName = target.nodeName;
     let href = target.getAttribute('href');
@@ -153,7 +151,7 @@ class HelpCenterArticle extends Component {
     }
   }
 
-  filterVideoEmbed(tagName, attribs) {
+  filterVideoEmbed = (tagName, attribs) => {
     const allowedAttribs = pick(attribs, allowedIframeAttribs);
 
     if (!allowedAttribs.src) {
@@ -176,7 +174,7 @@ class HelpCenterArticle extends Component {
          : false;
   }
 
-  replaceArticleImages(activeArticle, lastActiveArticleId) {
+  replaceArticleImages = (activeArticle, lastActiveArticleId) => {
     const { storedImages } = this.props;
     const articleDomain = parseUrl(activeArticle.url).hostname;
     const parseHtmlString = (htmlStr) => {
@@ -227,7 +225,7 @@ class HelpCenterArticle extends Component {
     return htmlEl.outerHTML;
   }
 
-  queueImageRequests(imageUrls = []) {
+  queueImageRequests = (imageUrls = []) => {
     const handleSuccess = (src, res) => {
       const url = window.URL.createObjectURL(res.xhr.response);
 
@@ -247,7 +245,7 @@ class HelpCenterArticle extends Component {
     });
   }
 
-  renderOriginalArticleButton() {
+  renderOriginalArticleButton = () => {
     if (!this.props.originalArticleButton) return;
 
     return (
@@ -264,7 +262,7 @@ class HelpCenterArticle extends Component {
     );
   }
 
-  render() {
+  render = () => {
     const mobileClasses = this.props.fullscreen ? styles.contentMobile : '';
 
     return (

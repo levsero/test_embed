@@ -7,7 +7,7 @@ import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
 
 export class Launcher extends Component {
-  constructor(props, context) {
+  constructor = (props, context) => {
     super(props, context);
 
     this.state = {
@@ -18,20 +18,20 @@ export class Launcher extends Component {
     };
   }
 
-  setLabel(label, labelOptions = {}) {
+  setLabel = (label, labelOptions = {}) => {
     this.setState({
       label: label,
       labelOptions: labelOptions
     });
   }
 
-  setIcon(icon) {
+  setIcon = (icon) => {
     this.setState({
       icon: icon
     });
   }
 
-  render() {
+  render = () => {
     const buttonClasses = classNames({
       [`${styles.wrapper}`]: true,
       'u-userBackgroundColor': true,

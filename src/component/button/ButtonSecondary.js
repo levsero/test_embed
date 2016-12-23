@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 export class ButtonSecondary extends Component {
-  render() {
+  render = () => {
     const buttonClasses = classNames({
       'c-btn c-btn--medium c-btn--secondary': true,
       [this.props.className]: true
@@ -42,4 +42,3 @@ ButtonSecondary.defaultProps = {
   style: null,
   onClick: () => {}
 };
-

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 export class ButtonGroup extends Component {
-  render() {
+  render = () => {
     const buttonClasses = classNames({
       'ButtonGroup': true,
       'u-textRight': !this.props.fullscreen && !this.props.rtl,
@@ -31,4 +31,3 @@ ButtonGroup.defaultProps = {
   fullscreen: false,
   style: null
 };
-
