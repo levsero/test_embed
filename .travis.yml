@@ -20,7 +20,7 @@ script:
 branches:
   only:
     - master
-    - /^feature.*$/i
+    - /^feature.*$/
 
 notifications:
   email: false
