@@ -28,7 +28,7 @@ If you have anything else relevant to your PR add it to the list.
  - [ ] Mobile
  - [ ] RTL
  - [ ] Design Sign-Off
- - [ ] Asset Composer Build
+ - [ ] Asset Composer Build & Manifest
 
 ### Risks
  - %SAY_SOMETHING%
