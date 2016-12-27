@@ -33,9 +33,7 @@ export class HelpCenterMobile extends Component {
     }
 
     if (searchField) {
-      searchField.setState({
-        searchInputVal: this.props.searchFieldValue
-      });
+      searchField.setState({ searchInputVal: this.props.searchFieldValue });
     }
   }
 

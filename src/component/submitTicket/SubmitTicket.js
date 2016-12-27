@@ -24,21 +24,22 @@ let frameDimensions = {
 export class SubmitTicket extends Component {
   constructor(props, context) {
     super(props, context);
+
     this.state = {
-      formTitleKey: props.formTitleKey,
-      showNotification: false,
-      message: '',
-      expanded: props.expanded,
-      fullscreen: isMobileBrowser(),
       errorMessage: null,
-      uid: _.uniqueId('submitTicketForm_'),
-      searchTerm: null,
-      searchLocale: null,
+      expanded: props.expanded,
+      formState: {},
+      formTitleKey: props.formTitleKey,
+      fullscreen: isMobileBrowser(),
       isDragActive: false,
       loading: false,
+      message: '',
+      searchLocale: null,
+      searchTerm: null,
+      selectedTicketForm: null,
+      showNotification: false,
       ticketForms: {},
-      formState: {},
-      selectedTicketForm: null
+      uid: _.uniqueId('submitTicketForm_')
     };
   }
 
@@ -48,16 +49,11 @@ export class SubmitTicket extends Component {
 
   clearForm = () => {
     this.refs.submitTicketForm.clear();
-
     this.setState({ selectedTicketForm: null });
   }
 
-  showField = () => {
-    this.setState({ showEmail: true });
-  }
-
-  setLoading = (value) => {
-    this.setState({ loading: value });
+  setLoading = (loading) => {
+    this.setState({ loading });
   }
 
   expand = (expanded) => {
@@ -180,9 +176,7 @@ export class SubmitTicket extends Component {
   }
 
   formatTicketFieldData = (data) => {
-    let params = {
-      fields: {}
-    };
+    let params = { fields: {} };
     const subjectField = this.findField('Subject');
     const subjectFieldId = subjectField ? subjectField.id : null;
     const descriptionField = this.findField('Description');
@@ -219,21 +213,15 @@ export class SubmitTicket extends Component {
   }
 
   handleDragEnter = () => {
-    this.setState({
-      isDragActive: true
-    });
+    this.setState({ isDragActive: true });
   }
 
   handleDragLeave = () => {
-    this.setState({
-      isDragActive: false
-    });
+    this.setState({ isDragActive: false });
   }
 
   handleOnDrop = (files) => {
-    this.setState({
-      isDragActive: false
-    });
+    this.setState({ isDragActive: false });
     this.refs.submitTicketForm.handleOnDrop(files);
   }
 
@@ -249,7 +237,6 @@ export class SubmitTicket extends Component {
     });
 
     this.setState({ selectedTicketForm: selectedTicketForm });
-
     this.props.showBackButton();
 
     setTimeout(() => {

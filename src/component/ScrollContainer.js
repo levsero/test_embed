@@ -5,6 +5,7 @@ import classNames from 'classnames';
 export class ScrollContainer extends Component {
   constructor(props, context) {
     super(props, context);
+
     this.state = { scrollShadowVisible: false };
   }
 

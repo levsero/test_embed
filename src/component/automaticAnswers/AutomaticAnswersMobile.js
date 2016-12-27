@@ -20,7 +20,9 @@ export class AutomaticAnswersMobile extends Component {
   }
 
   renderContent = () => {
-    return (!this.props.solveSuccess) ? this.renderTicketContent() : this.renderSuccessContent();
+    return (!this.props.solveSuccess)
+         ? this.renderTicketContent()
+         : this.renderSuccessContent();
   }
 
   renderTicketContent = () => {

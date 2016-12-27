@@ -9,9 +9,7 @@ export class IpmDesktop extends Component {
   handleOnClick = () => {
     const { buttonUrl } = this.props.ipm.message;
 
-    if (buttonUrl.trim().match(/^javascript:/)) {
-      return;
-    }
+    if (buttonUrl.trim().match(/^javascript:/)) return;
 
     const cleanUrl = buttonUrl.trim().match(/^(https?|\/)/)
       ? buttonUrl

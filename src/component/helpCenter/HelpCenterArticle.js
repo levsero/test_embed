@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
-import { pick, some } from 'lodash';
 
 import { ButtonPill } from 'component/button/ButtonPill';
 import { authentication } from 'service/authentication';
@@ -20,6 +19,7 @@ const allowedIframeAttribs = [
 class HelpCenterArticle extends Component {
   constructor(props, context) {
     super(props, context);
+
     this.state = {
       queuedImages: {},
       lastActiveArticleId: null
@@ -152,18 +152,16 @@ class HelpCenterArticle extends Component {
   }
 
   filterVideoEmbed = (tagName, attribs) => {
-    const allowedAttribs = pick(attribs, allowedIframeAttribs);
+    const allowedAttribs = _.pick(attribs, allowedIframeAttribs);
 
-    if (!allowedAttribs.src) {
-      return false;
-    }
+    if (!allowedAttribs.src) return false;
 
     const allowedDomains = [
       'youtube',
       'player\.vimeo',
       'fast\.wistia'
     ];
-    const hasMatched = some(allowedDomains, (domain) => {
+    const hasMatched = _.some(allowedDomains, (domain) => {
       const validDomainTest = `^(.*?)\/\/(?:www\.)?${domain}(?:-nocookie)?(\.com|\.net)\/`;
 
       return (allowedAttribs.src.search(validDomainTest) >= 0);

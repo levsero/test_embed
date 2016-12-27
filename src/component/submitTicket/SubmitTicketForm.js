@@ -77,9 +77,7 @@ export class SubmitTicketForm extends Component {
   resetTicketFormVisibility = () => {
     // if the user closes and reopens, we need to
     // re-render the search field
-    this.setState({
-      shouldRemoveForm: false
-    });
+    this.setState({ shouldRemoveForm: false });
   }
 
   focusField = () => {
@@ -90,15 +88,11 @@ export class SubmitTicketForm extends Component {
       return input.value === '' && _.includes(['text', 'textarea', 'email'], input.type);
     });
 
-    if (element) {
-      element.focus();
-    }
+    if (element) element.focus();
   }
 
   hideVirtualKeyboard = () => {
-    this.setState({
-      shouldRemoveForm: true
-    });
+    this.setState({ shouldRemoveForm: true });
   }
 
   failedToSubmit = () => {

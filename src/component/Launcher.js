@@ -26,9 +26,7 @@ export class Launcher extends Component {
   }
 
   setIcon = (icon) => {
-    this.setState({
-      icon: icon
-    });
+    this.setState({ icon: icon });
   }
 
   render = () => {

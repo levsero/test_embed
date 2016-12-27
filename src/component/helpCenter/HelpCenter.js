@@ -14,32 +14,33 @@ const maximumSearchResults = 9;
 export class HelpCenter extends Component {
   constructor(props, context) {
     super(props, context);
+
     this.state = {
-      articles: [],
-      resultsCount: 0,
-      searchTerm: '',
-      showNextButton: this.props.showNextButton,
-      previousSearchTerm: '',
-      hasSearched: false,
-      hasContextualSearched: false,
-      searchFailed: false,
-      articleViewActive: false,
       activeArticle: {},
-      searchTracked: false,
-      searchResultClicked: false,
-      searchFieldFocused: false,
-      expanded: props.expanded,
-      resultsPerPage: minimumSearchResults,
-      showViewMore: true,
+      articles: [],
+      articleViewActive: false,
       chatOnline: false,
+      expanded: props.expanded,
+      hasContextualSearched: false,
+      hasSearched: false,
+      previousSearchTerm: '',
+      resultsCount: 0,
+      resultsPerPage: minimumSearchResults,
+      searchFailed: false,
+      searchFieldFocused: false,
+      searchResultClicked: false,
+      searchTerm: '',
+      searchTracked: false,
+      showNextButton: this.props.showNextButton,
+      showViewMore: true,
       viewMoreActive: false
     };
   }
 
   getHelpCenterComponent = () => {
     return (this.props.fullscreen)
-           ? this.refs.helpCenterMobile
-           : this.refs.helpCenterDesktop;
+         ? this.refs.helpCenterMobile
+         : this.refs.helpCenterDesktop;
   }
 
   searchStartState = (state) => {
@@ -259,9 +260,7 @@ export class HelpCenter extends Component {
       origin: 'web_widget'
     });
 
-    this.setState({
-      searchTracked: true
-    });
+    this.setState({ searchTracked: true });
   }
 
   /**
@@ -308,17 +307,14 @@ export class HelpCenter extends Component {
   trackArticleView = () => {
     const trackPayload = {
       query: this.state.searchTerm,
-      resultsCount: this.state.resultsCount > 3 ? 3 : this.state.resultsCount,
+      resultsCount: (this.state.resultsCount > 3) ? 3 : this.state.resultsCount,
       uniqueSearchResultClick: !this.state.searchResultClicked,
       articleId: this.state.activeArticle.id,
       locale: i18n.getLocale()
     };
 
     this.props.onArticleClick(trackPayload);
-
-    this.setState({
-      searchResultClicked: true
-    });
+    this.setState({ searchResultClicked: true });
   }
 
   onContainerClick = () => {
@@ -339,6 +335,7 @@ export class HelpCenter extends Component {
     if (this.state.articleViewActive || !hasSearched) {
       return null;
     }
+
     const showViewMore = this.props.viewMoreEnabled &&
                          this.state.showViewMore &&
                          this.state.resultsCount > minimumSearchResults;
@@ -367,9 +364,7 @@ export class HelpCenter extends Component {
   }
 
   renderArticles = () => {
-    if (!this.state.articleViewActive) {
-      return null;
-    }
+    if (!this.state.articleViewActive) return null;
 
     return (
       <HelpCenterArticle

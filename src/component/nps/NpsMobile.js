@@ -31,6 +31,7 @@ const initialState = {
 export class NpsMobile extends Component {
   constructor(props, context) {
     super(props, context);
+
     this.state = initialState;
   }
 
@@ -56,9 +57,7 @@ export class NpsMobile extends Component {
         '100%',
         false),
       0);
-      this.setState({
-        fullscreen: true
-      });
+      this.setState({ fullscreen: true });
     }
   }
 
@@ -66,9 +65,7 @@ export class NpsMobile extends Component {
     if (isIos()) {
       this.stopScrollHacks();
       this.setDefaultNpsMobileSize();
-      this.setState({
-        fullscreen: false
-      });
+      this.setState({ fullscreen: false });
     }
   }
 
@@ -76,18 +73,16 @@ export class NpsMobile extends Component {
     if (isIos()) {
       this.goToFullScreen();
     }
-    this.setState({
-      isEditing: true
-    });
+
+    this.setState({ isEditing: true });
   }
 
   stopEditing = () => {
     if (isIos()) {
       this.resetFullScreen();
     }
-    this.setState({
-      isEditing: false
-    });
+
+    this.setState({ isEditing: false });
   }
 
   calcHeightPercentage = () => {

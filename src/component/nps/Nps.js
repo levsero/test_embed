@@ -49,17 +49,15 @@ export class Nps extends Component {
     const fail = (error) => {
       this.setError(true);
       this.setState({isSubmittingRating: false, isSubmittingComment: false});
-      if (failFn) {
-        failFn(error);
-      }
+
+      if (failFn) failFn(error);
     };
 
     const done = () => {
       this.setError(false);
       this.setState({isSubmittingRating: false, isSubmittingComment: false});
-      if (doneFn) {
-        doneFn();
-      }
+
+      if (doneFn) doneFn();
     };
 
     this.setError(false);

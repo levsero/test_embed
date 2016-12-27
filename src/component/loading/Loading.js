@@ -6,9 +6,7 @@ import { isDevice } from 'utility/devices';
 class LoadingSpinner extends Component {
   render = () => {
     return (
-      <div
-        className={`LoadingSpinner u-userTextColorConstrast ${this.props.className}`}>
-      </div>
+      <div className={`LoadingSpinner u-userTextColorConstrast ${this.props.className}`} />
     );
   }
 }

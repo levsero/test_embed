@@ -17,10 +17,7 @@ export class SearchField extends Component {
   }
 
   onFocus = (e) => {
-    this.setState({
-      focused: true
-    });
-
+    this.setState({ focused: true });
     this.props.onFocus(e);
   }
 
@@ -45,10 +42,7 @@ export class SearchField extends Component {
   }
 
   clearInput = () => {
-    this.setState({
-      searchInputVal: ''
-    });
-
+    this.setState({ searchInputVal: '' });
     this.props.onChangeValue('');
   }
 

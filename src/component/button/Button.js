@@ -7,7 +7,7 @@ export class Button extends Component {
       'c-btn c-btn--medium c-btn--primary': true,
       'Anim-color u-textNoWrap u-borderTransparent u-userBackgroundColor': true,
       'is-mobile u-sizeFull u-textSizeBaseMobile': this.props.fullscreen,
-      [`${this.props.className}`]: true
+      [this.props.className]: true
     });
     const allowedTypes = /^(submit|button)$/i;
     const type = allowedTypes.test(this.props.type)

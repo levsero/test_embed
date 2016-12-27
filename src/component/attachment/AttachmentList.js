@@ -6,23 +6,23 @@ import { ButtonDropzone } from 'component/button/ButtonDropzone';
 import { i18n } from 'service/i18n';
 
 const iconMapper = {
-  'pdf': 'Icon--preview-pdf',
-  'img': 'Icon--preview-img',
-  'png': 'Icon--preview-img',
+  'doc': 'Icon--preview-doc',
+  'docx': 'Icon--preview-doc',
   'gif': 'Icon--preview-img',
+  'img': 'Icon--preview-img',
   'jpeg': 'Icon--preview-img',
   'jpg': 'Icon--preview-img',
-  'docx': 'Icon--preview-doc',
-  'doc': 'Icon--preview-doc',
   'key': 'Icon--preview-key',
   'numbers': 'Icon--preview-num',
-  'pptx': 'Icon--preview-ppt',
-  'ppt': 'Icon--preview-ppt',
   'pages': 'Icon--preview-pag',
+  'pdf': 'Icon--preview-pdf',
+  'png': 'Icon--preview-img',
+  'ppt': 'Icon--preview-ppt',
+  'pptx': 'Icon--preview-ppt',
   'rtf': 'Icon--preview-txt',
   'txt': 'Icon--preview-txt',
-  'xlsx': 'Icon--preview-xls',
-  'xls': 'Icon--preview-xls'
+  'xls': 'Icon--preview-xls',
+  'xlsx': 'Icon--preview-xls'
 };
 
 export class AttachmentList extends Component {

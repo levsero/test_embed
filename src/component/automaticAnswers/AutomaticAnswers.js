@@ -36,9 +36,7 @@ export class AutomaticAnswers extends Component {
   handleSolveTicket = () => {
     const jwtBody = automaticAnswersPersistence.getContext();
 
-    if (!jwtBody)  {
-      return this.solveTicketFail();
-    }
+    if (!jwtBody) return this.solveTicketFail();
 
     const ticketId = jwtBody.ticket_id;
     const token = jwtBody.token;

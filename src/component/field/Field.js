@@ -21,16 +21,15 @@ export class Field extends Component {
   }
 
   onFocus = (e) => {
-    this.setState({
-      focused: true
-    });
+    const { onFocus } = this.props;
 
-    if (this.props.onFocus) {
-      this.props.onFocus(e);
-    }
+    this.setState({ focused: true });
+
+    if (onFocus) onFocus(e);
   }
 
   onBlur = (e) => {
+    const { onBlur } = this.props;
     const result = ReactDOM.findDOMNode(this.refs.field);
 
     this.setState({
@@ -40,9 +39,7 @@ export class Field extends Component {
       dirty: !this.state.value
     });
 
-    if (this.props.onBlur) {
-      this.props.onBlur(e);
-    }
+    if (onBlur) onBlur(e);
   }
 
   onChange = (e) => {

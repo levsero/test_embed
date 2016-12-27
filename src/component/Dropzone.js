@@ -4,6 +4,7 @@ import classNames from 'classnames';
 export class Dropzone extends Component {
   constructor(props, context) {
     super(props, context);
+
     this.state = { isDragActive: false };
   }
 
@@ -30,9 +31,7 @@ export class Dropzone extends Component {
     e.preventDefault();
 
     // Only deactivate once the dropzone and all children have left.
-    if (--this.enterCounter > 0) {
-      return;
-    }
+    if (--this.enterCounter > 0) return;
 
     this.setState({ isDragActive: false });
     this.props.onDragLeave(e);
@@ -56,8 +55,8 @@ export class Dropzone extends Component {
 
   render = () => {
     const dropzoneClasses = classNames({
-      [`${this.props.className}`]: true,
-      [`${this.props.activeClassName}`]: this.state.isDragActive
+      [this.props.className]: true,
+      [this.props.activeClassName]: this.state.isDragActive
     });
     const inputStyle = { display: 'none' };
 
