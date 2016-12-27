@@ -311,7 +311,7 @@ import { isMobileBrowser } from 'utility/devices';
 
 <a name="headReactComponents"></a>**Components**
 
-Define components using ES6 Classes that extend from `React.Component`.
+Define components using ES7 Classes that extend from `React.Component`.
 
 ```javascript
 import React, { Component, PropTypes } from 'react';
@@ -319,7 +319,7 @@ import React, { Component, PropTypes } from 'react';
 class NewComponent extends Component {
   ...
 
-  render() {
+  render = () => {
     ...
 
     return (
