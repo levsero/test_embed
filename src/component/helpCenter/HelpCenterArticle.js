@@ -216,7 +216,7 @@ class HelpCenterArticle extends Component {
     if (lastActiveArticleId !== this.props.activeArticle.id) {
       _.chain(pendingImageUrls)
         .filter((src) => !this.state.queuedImages.hasOwnProperty(src))
-        .tap(this.queueImageRequests.bind(this))
+        .tap(this.queueImageRequests)
         .value();
     }
 

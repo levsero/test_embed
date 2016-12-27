@@ -372,7 +372,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       let childParams = _.reduce(
         params.extend,
         (res, val, key) => {
-          res[key] = val.bind(this);
+          res[key] = val;
           return res;
         },
         {}

@@ -27,7 +27,7 @@ export class HelpCenterResults extends Component {
     const paddingClasses = showPadding ? styles.listBottom : '';
     const mobileClasses = this.props.fullscreen ? styles.listMobile : '';
     const articleLinks = _.chain(this.props.articles)
-      .map(this.renderResultRow.bind(this))
+      .map(this.renderResultRow)
       .value();
 
     return (
