@@ -22,7 +22,7 @@ export class ScrollContainer extends Component {
   }
 
   setScrollShadowVisible = (visible) => {
-    this.setState({scrollShadowVisible: visible});
+    this.setState({ scrollShadowVisible: visible });
   }
 
   render = () => {
