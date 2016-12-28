@@ -49,9 +49,6 @@ describe('Nps component', function() {
           return false;
         }
       },
-      'utility/utils': {
-        bindMethods: mockBindMethods
-      },
       'component/FormField': {
         Field: noopReactComponent()
       },

@@ -6,17 +6,10 @@ import { Button } from 'component/button/Button';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 
 export class IpmDesktop extends Component {
-  constructor(props, context) {
-    super(props, context);
-    this.handleOnClick = this.handleOnClick.bind(this);
-  }
-
-  handleOnClick() {
+  handleOnClick = () => {
     const { buttonUrl } = this.props.ipm.message;
 
-    if (buttonUrl.trim().match(/^javascript:/)) {
-      return;
-    }
+    if (buttonUrl.trim().match(/^javascript:/)) return;
 
     const cleanUrl = buttonUrl.trim().match(/^(https?|\/)/)
       ? buttonUrl
@@ -32,13 +25,13 @@ export class IpmDesktop extends Component {
     this.props.closeFrame();
   }
 
-  updateFrameSize() {
+  updateFrameSize = () => {
     if (this.props.updateFrameSize) {
       setTimeout(() => { this.props.updateFrameSize(); }, 0);
     }
   }
 
-  getAvatarElement() {
+  getAvatarElement = () => {
     const className = 'IpmDesktop-avatar u-posAbsolute';
 
     return (
@@ -48,7 +41,7 @@ export class IpmDesktop extends Component {
     );
   }
 
-  render() {
+  render = () => {
     this.updateFrameSize();
 
     return (

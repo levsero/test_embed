@@ -7,7 +7,6 @@ import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop';
 import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile';
 import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
-import { bindMethods } from 'utility/utils';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
@@ -15,44 +14,43 @@ const maximumSearchResults = 9;
 export class HelpCenter extends Component {
   constructor(props, context) {
     super(props, context);
-    bindMethods(this, HelpCenter.prototype);
 
     this.state = {
-      articles: [],
-      resultsCount: 0,
-      searchTerm: '',
-      showNextButton: this.props.showNextButton,
-      previousSearchTerm: '',
-      hasSearched: false,
-      hasContextualSearched: false,
-      searchFailed: false,
-      articleViewActive: false,
       activeArticle: {},
-      searchTracked: false,
-      searchResultClicked: false,
-      searchFieldFocused: false,
-      expanded: props.expanded,
-      resultsPerPage: minimumSearchResults,
-      showViewMore: true,
+      articles: [],
+      articleViewActive: false,
       chatOnline: false,
+      expanded: props.expanded,
+      hasContextualSearched: false,
+      hasSearched: false,
+      previousSearchTerm: '',
+      resultsCount: 0,
+      resultsPerPage: minimumSearchResults,
+      searchFailed: false,
+      searchFieldFocused: false,
+      searchResultClicked: false,
+      searchTerm: '',
+      searchTracked: false,
+      showNextButton: this.props.showNextButton,
+      showViewMore: true,
       viewMoreActive: false
     };
   }
 
-  getHelpCenterComponent() {
+  getHelpCenterComponent = () => {
     return (this.props.fullscreen)
-           ? this.refs.helpCenterMobile
-           : this.refs.helpCenterDesktop;
+         ? this.refs.helpCenterMobile
+         : this.refs.helpCenterDesktop;
   }
 
-  searchStartState(state) {
+  searchStartState = (state) => {
     return _.extend({
       isLoading: true,
       searchResultClicked: false
     }, state);
   }
 
-  searchCompleteState(state) {
+  searchCompleteState = (state) => {
     return _.extend({
       hasSearched: true,
       isLoading: false,
@@ -61,19 +59,19 @@ export class HelpCenter extends Component {
     }, state);
   }
 
-  expand(expanded) {
+  expand = (expanded) => {
     this.setState({ expanded });
   }
 
-  setArticleView(articleViewActive) {
+  setArticleView = (articleViewActive) => {
     this.setState({ articleViewActive });
   }
 
-  setChatOnline(state) {
+  setChatOnline = (state) => {
     this.setState({ chatOnline: state });
   }
 
-  interactiveSearchSuccessFn(res, query) {
+  interactiveSearchSuccessFn = (res, query) => {
     this.setState(
       this.searchCompleteState({
         hasContextualSearched: false,
@@ -86,13 +84,13 @@ export class HelpCenter extends Component {
     this.focusField();
   }
 
-  focusField() {
+  focusField = () => {
     if (this.refs.helpCenterDesktop) {
       this.refs.helpCenterDesktop.focusField();
     }
   }
 
-  contextualSearch(options) {
+  contextualSearch = (options) => {
     /* eslint camelcase:0 */
     const hasLabelsKey = options.labels &&
                          _.isArray(options.labels) &&
@@ -139,7 +137,7 @@ export class HelpCenter extends Component {
     this.performContextualSearch(query, successFn);
   }
 
-  search() {
+  search = () => {
     const searchField = this.getHelpCenterComponent().refs.searchField;
     const searchTerm = (this.state.viewMoreActive)
                      ? this.state.previousSearchTerm
@@ -172,7 +170,7 @@ export class HelpCenter extends Component {
     }
   }
 
-  updateResults(res) {
+  updateResults = (res) => {
     const json = res.body;
     const articles = json.results;
 
@@ -188,7 +186,7 @@ export class HelpCenter extends Component {
     this.props.showBackButton(false);
   }
 
-  searchFail() {
+  searchFail = () => {
     this.setState({
       isLoading: false,
       previousSearchTerm: this.state.searchTerm,
@@ -199,7 +197,7 @@ export class HelpCenter extends Component {
     this.focusField();
   }
 
-  performSearchWithLocaleFallback(query, successFn) {
+  performSearchWithLocaleFallback = (query, successFn) => {
     // When localeFallbacks is defined in the zESettings object then
     // attempt the search with each locale in that array in order. Otherwise
     // try the search with no locale.
@@ -222,7 +220,7 @@ export class HelpCenter extends Component {
     this.props.searchSender(query, doneFn, this.searchFail);
   }
 
-  performContextualSearch(query, successFn) {
+  performContextualSearch = (query, successFn) => {
     const doneFn = (res) => {
       if (res.ok) {
         successFn(res, query);
@@ -234,7 +232,7 @@ export class HelpCenter extends Component {
     this.props.contextualSearchSender(query, doneFn, this.searchFail);
   }
 
-  handleViewMoreClick(e) {
+  handleViewMoreClick = (e) => {
     e.preventDefault();
 
     this.setState({
@@ -245,16 +243,16 @@ export class HelpCenter extends Component {
     setTimeout(() => this.search(), 0);
   }
 
-  handleNextClick(e) {
+  handleNextClick = (e) => {
     e.preventDefault();
     this.props.onNextClick();
   }
 
-  handleOnChangeValue(value) {
+  handleOnChangeValue = (value) => {
     this.setState({ searchFieldValue: value });
   }
 
-  trackSearch() {
+  trackSearch = () => {
     /* eslint camelcase:0 */
     this.props.searchSender({
       query: this.state.searchTerm,
@@ -262,15 +260,13 @@ export class HelpCenter extends Component {
       origin: 'web_widget'
     });
 
-    this.setState({
-      searchTracked: true
-    });
+    this.setState({ searchTracked: true });
   }
 
   /**
    * Instrument the last auto-search, if it's still pending to be instrumented
    */
-  backtrackSearch() {
+  backtrackSearch = () => {
     if (!this.state.searchTracked &&
         this.state.searchTerm &&
         !this.state.hasContextualSearched) {
@@ -278,19 +274,19 @@ export class HelpCenter extends Component {
     }
   }
 
-  resetState() {
+  resetState = () => {
     this.refs.helpCenterMobile.resetState();
   }
 
-  showNextButton(value) {
+  showNextButton = (value) => {
     this.setState({ showNextButton: value });
   }
 
-  setChatOnline(chatOnline) {
+  setChatOnline = (chatOnline) => {
     this.setState({ chatOnline });
   }
 
-  handleArticleClick(articleIndex, e) {
+  handleArticleClick = (articleIndex, e) => {
     e.preventDefault();
 
     this.setState({
@@ -308,40 +304,38 @@ export class HelpCenter extends Component {
     }
   }
 
-  trackArticleView() {
+  trackArticleView = () => {
     const trackPayload = {
       query: this.state.searchTerm,
-      resultsCount: this.state.resultsCount > 3 ? 3 : this.state.resultsCount,
+      resultsCount: (this.state.resultsCount > 3) ? 3 : this.state.resultsCount,
       uniqueSearchResultClick: !this.state.searchResultClicked,
       articleId: this.state.activeArticle.id,
       locale: i18n.getLocale()
     };
 
     this.props.onArticleClick(trackPayload);
-
-    this.setState({
-      searchResultClicked: true
-    });
+    this.setState({ searchResultClicked: true });
   }
 
-  onContainerClick() {
+  onContainerClick = () => {
     if (this.refs.helpCenterDesktop) {
       this.refs.helpCenterDesktop.hideChannelChoice();
     }
   }
 
-  updateImages(img) {
+  updateImages = (img) => {
     this.setState({
       images: _.extend({}, this.state.images, img)
     });
   }
 
-  renderResults() {
+  renderResults = () => {
     const hasSearched = this.state.hasSearched || this.state.hasContextualSearched;
 
     if (this.state.articleViewActive || !hasSearched) {
       return null;
     }
+
     const showViewMore = this.props.viewMoreEnabled &&
                          this.state.showViewMore &&
                          this.state.resultsCount > minimumSearchResults;
@@ -369,10 +363,8 @@ export class HelpCenter extends Component {
     );
   }
 
-  renderArticles() {
-    if (!this.state.articleViewActive) {
-      return null;
-    }
+  renderArticles = () => {
+    if (!this.state.articleViewActive) return null;
 
     return (
       <HelpCenterArticle
@@ -387,7 +379,7 @@ export class HelpCenter extends Component {
     );
   }
 
-  renderHelpCenterDesktop(buttonLabel) {
+  renderHelpCenterDesktop = (buttonLabel) => {
     const shadowVisible = this.state.articleViewActive ||
                           this.state.articles.length > minimumSearchResults;
 
@@ -416,7 +408,7 @@ export class HelpCenter extends Component {
     );
   }
 
-  renderHelpCenterMobile(buttonLabel) {
+  renderHelpCenterMobile = (buttonLabel) => {
     return (
       <HelpCenterMobile
         ref='helpCenterMobile'
@@ -438,7 +430,7 @@ export class HelpCenter extends Component {
     );
   }
 
-  render() {
+  render = () => {
     let buttonLabel;
 
     if (this.props.channelChoice) {

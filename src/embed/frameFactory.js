@@ -11,8 +11,7 @@ import { clickBusterRegister,
          getZoomSizingRatio,
          isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
-import { bindMethods,
-         cssTimeToMs } from 'utility/utils';
+import { cssTimeToMs } from 'utility/utils';
 
 // Unregister lodash from window._
 if (!__DEV__) {
@@ -90,8 +89,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
   class Frame extends Component {
     constructor(props, context) {
       super(props, context);
-      bindMethods(this, Frame.prototype);
-
       this.state = {
         visible: this.props.visible,
         frameStyle: params.frameStyle,
@@ -104,23 +101,23 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       };
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
       this.renderFrameContent();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate = () => {
       this.renderFrameContent();
     }
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
       ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this).contentDocument.body);
     }
 
-    getChild() {
+    getChild = () => {
       return child;
     }
 
-    getRootComponent() {
+    getRootComponent = () => {
       if (child) {
         const rootComponent = child.refs.rootComponent;
 
@@ -130,14 +127,14 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       }
     }
 
-    setOffsetHorizontal(offsetValue = 0) {
+    setOffsetHorizontal = (offsetValue = 0) => {
       if (!params.disableSetOffsetHorizontal) {
         ReactDOM.findDOMNode(this).style.marginLeft = `${offsetValue}px`;
         ReactDOM.findDOMNode(this).style.marginRight = `${offsetValue}px`;
       }
     }
 
-    setFrameSize(width, height, transparent = true) {
+    setFrameSize = (width, height, transparent = true) => {
       const iframe = ReactDOM.findDOMNode(this);
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
@@ -165,7 +162,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
         ), 0);
     }
 
-    updateFrameSize() {
+    updateFrameSize = () => {
       const iframe = ReactDOM.findDOMNode(this);
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
@@ -174,7 +171,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
         return false;
       }
 
-      const getDimensions = function() {
+      const getDimensions = () => {
         const el = frameDoc.querySelector('#Embed').firstChild;
         const width  = Math.max(el.clientWidth, el.offsetWidth);
         const height = Math.max(el.clientHeight, el.offsetHeight);
@@ -224,14 +221,14 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       return dimensions;
     }
 
-    updateBaseFontSize(fontSize) {
+    updateBaseFontSize = (fontSize) => {
       const iframe = ReactDOM.findDOMNode(this);
       const htmlElem = iframe.contentDocument.documentElement;
 
       htmlElem.style.fontSize = fontSize;
     }
 
-    show(options = {}) {
+    show = (options = {}) => {
       const frameFirstChild = ReactDOM.findDOMNode(this).contentDocument.body.firstChild.firstChild;
       const transition = params.transitions[options.transition] || defaultShowTransition;
       const animateFrom = _.extend({}, this.state.frameStyle, transition.start);
@@ -263,7 +260,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       params.onShow(this);
     }
 
-    hide(options = {}) {
+    hide = (options = {}) => {
       const transition = params.transitions[options.transition] || defaultHideTransition;
       const frameStyle = _.extend({}, this.state.frameStyle, transition.end);
 
@@ -275,7 +272,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       }, cssTimeToMs(transition.end.transitionDuration));
     }
 
-    close(ev, options = {}) {
+    close = (ev, options = {}) => {
       if (params.preventClose) return;
 
       // ev.touches added for automation testing mobile browsers
@@ -293,37 +290,37 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       params.onClose(this, options);
     }
 
-    back(ev) {
+    back = (ev) => {
       ev.preventDefault();
       params.onBack(this);
     }
 
-    expand(e) {
+    expand = (e) => {
       e.preventDefault();
 
       expanded = !expanded;
       this.getRootComponent().expand(expanded);
     }
 
-    setHiddenByZoom(hide) {
+    setHiddenByZoom = (hide) => {
       this.setState({
         hiddenByZoom: hide
       });
     }
 
-    toggleVisibility() {
+    toggleVisibility = () => {
       this.setState({ visible: !this.state.visible });
     }
 
-    setHighlightColor(color) {
+    setHighlightColor = (color) => {
       this.getChild().setHighlightColor(color);
     }
 
-    setButtonColor(color) {
+    setButtonColor = (color) => {
       this.getChild().setButtonColor(color);
     }
 
-    computeIframeStyle() {
+    computeIframeStyle = () => {
       const iframeDimensions = this.state.iframeDimensions;
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
@@ -358,7 +355,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       );
     }
 
-    constructEmbed(html, doc) {
+    constructEmbed = (html, doc) => {
       const position = settings.get('position.horizontal') || this.props.position;
       const cssText = baseCSS + mainCSS + params.css + baseFontCSS;
       const fullscreen = params.fullscreenable && params.isMobile;
@@ -375,7 +372,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       let childParams = _.reduce(
         params.extend,
         (res, val, key) => {
-          res[key] = val.bind(this);
+          res[key] = val;
           return res;
         },
         {}
@@ -410,7 +407,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       this.setState({ _rendered: true });
     }
 
-    renderFrameContent() {
+    renderFrameContent = () => {
       if (this.state._rendered) {
         return false;
       }
@@ -433,7 +430,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       }
     }
 
-    render() {
+    render = () => {
       const iframeNamespace = 'zEWidget';
       const iframeClasses = classNames({
         [`${iframeNamespace}-${params.name}`]: true,

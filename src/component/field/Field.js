@@ -7,13 +7,10 @@ import { isMobileBrowser,
          isLandscape,
          isIos } from 'utility/devices';
 import { Icon } from 'component/Icon';
-import { bindMethods } from 'utility/utils';
 
 export class Field extends Component {
   constructor(props, context) {
     super(props, context);
-    bindMethods(this, Field.prototype);
-
     this.state = {
       focused: false,
       blurred: false,
@@ -23,17 +20,15 @@ export class Field extends Component {
     };
   }
 
-  onFocus(e) {
-    this.setState({
-      focused: true
-    });
+  onFocus = (e) => {
+    this.setState({ focused: true });
 
     if (this.props.onFocus) {
       this.props.onFocus(e);
     }
   }
 
-  onBlur(e) {
+  onBlur = (e) => {
     const result = ReactDOM.findDOMNode(this.refs.field);
 
     this.setState({
@@ -48,7 +43,7 @@ export class Field extends Component {
     }
   }
 
-  onChange(e) {
+  onChange = (e) => {
     const value = e.target.value;
     const result = ReactDOM.findDOMNode(this.refs.field);
 
@@ -63,7 +58,7 @@ export class Field extends Component {
     }
   }
 
-  renderDropdownArrow() {
+  renderDropdownArrow = () => {
     const landscape = (isMobileBrowser() && isLandscape());
     const dropdownClasses = classNames({
       'Form-fieldArrows': true,
@@ -78,7 +73,7 @@ export class Field extends Component {
     );
   }
 
-  renderInput() {
+  renderInput = () => {
     const sharedProps = {
       onChange: this.onChange,
       onBlur: this.onBlur,
@@ -125,7 +120,7 @@ export class Field extends Component {
          : <input {...sharedProps} {...fieldProps} className={fieldInputClasses} />;
   }
 
-  render() {
+  render = () => {
     const landscape = (isMobileBrowser() && isLandscape());
     const portrait = (isMobileBrowser() && !isLandscape());
     const isCheckbox = (this.props.type === 'checkbox');

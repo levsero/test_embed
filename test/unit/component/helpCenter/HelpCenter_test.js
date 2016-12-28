@@ -93,9 +93,6 @@ describe('HelpCenter component', () => {
       'utility/globals': {
         win: window,
         document: document
-      },
-      'utility/utils': {
-        bindMethods: mockBindMethods
       }
     });
 

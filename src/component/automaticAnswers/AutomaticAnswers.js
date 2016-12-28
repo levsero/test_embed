@@ -5,15 +5,12 @@ import { AutomaticAnswersMobile } from 'component/automaticAnswers/AutomaticAnsw
 import { automaticAnswersPersistence  } from 'service/automaticAnswersPersistence';
 import { i18n } from 'service/i18n';
 import { getHelpCenterArticleId } from 'utility/pages';
-import { bindMethods } from 'utility/utils';
 
 const closeFrameDelay = 4000;
 
 export class AutomaticAnswers extends Component {
   constructor(props, context) {
     super(props, context);
-    bindMethods(this, AutomaticAnswers.prototype);
-
     this.state = {
       ticket: {
         title: '',
@@ -26,7 +23,7 @@ export class AutomaticAnswers extends Component {
     };
   }
 
-  updateTicket(ticket) {
+  updateTicket = (ticket) => {
     this.setState({
       ticket: {
         title: ticket.title,
@@ -36,12 +33,10 @@ export class AutomaticAnswers extends Component {
     });
   }
 
-  handleSolveTicket() {
+  handleSolveTicket = () => {
     const jwtBody = automaticAnswersPersistence.getContext();
 
-    if (!jwtBody)  {
-      return this.solveTicketFail();
-    }
+    if (!jwtBody) return this.solveTicketFail();
 
     const ticketId = jwtBody.ticket_id;
     const token = jwtBody.token;
@@ -63,7 +58,7 @@ export class AutomaticAnswers extends Component {
     }
   }
 
-  solveTicketDone() {
+  solveTicketDone = () => {
     this.setState({
       solveSuccess: true,
       isSubmitting: false
@@ -72,7 +67,7 @@ export class AutomaticAnswers extends Component {
     this.props.closeFrame(closeFrameDelay);
   }
 
-  solveTicketFail() {
+  solveTicketFail = () => {
     const errorKey = (this.props.mobile)
                      ? 'embeddable_framework.automaticAnswers.label.error_mobile'
                      : 'embeddable_framework.automaticAnswers.label.error_v2';
@@ -85,7 +80,7 @@ export class AutomaticAnswers extends Component {
     });
   }
 
-  renderMobile() {
+  renderMobile = () => {
     return (
       <AutomaticAnswersMobile
         solveSuccess={this.state.solveSuccess}
@@ -96,7 +91,7 @@ export class AutomaticAnswers extends Component {
     );
   }
 
-  renderDesktop() {
+  renderDesktop = () => {
     return (
       <AutomaticAnswersDesktop
         ticketNiceId={this.state.ticket.niceId}
@@ -108,7 +103,7 @@ export class AutomaticAnswers extends Component {
     );
   }
 
-  render() {
+  render = () => {
     return (this.props.mobile) ? this.renderMobile() : this.renderDesktop();
   }
 }

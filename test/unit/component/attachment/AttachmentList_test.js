@@ -38,9 +38,6 @@ describe('AttachmentList component', () => {
           t: _.identity
         }
       },
-      'utility/utils': {
-        bindMethods: mockBindMethods
-      },
       'lodash': _
     });
 

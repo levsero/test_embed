@@ -7,19 +7,16 @@ import { ScrollContainer } from 'component/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
-import { bindMethods } from 'utility/utils';
 
 import { locals as styles } from './HelpCenterDesktop.sass';
 
 export class HelpCenterDesktop extends Component {
   constructor(props, context) {
     super(props, context);
-    bindMethods(this, HelpCenterDesktop.prototype);
-
     this.state = { channelChoiceShown: false };
   }
 
-  componentDidUpdate() {
+  componentDidUpdate = () => {
     if (this.refs.searchField) {
       this.refs.searchField.setState({
         searchInputVal: this.props.searchFieldValue
@@ -32,7 +29,7 @@ export class HelpCenterDesktop extends Component {
     this.refs.scrollContainer.setScrollShadowVisible(shadowVisible);
   }
 
-  focusField() {
+  focusField = () => {
     if (!this.props.articleViewActive) {
       const searchField = this.refs.searchField;
       const searchFieldInputNode = searchField.getSearchField();
@@ -45,12 +42,12 @@ export class HelpCenterDesktop extends Component {
     }
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
     this.props.search();
   }
 
-  handleNextButtonClick(e) {
+  handleNextButtonClick = (e) => {
     e.preventDefault();
 
     if (this.props.channelChoice) {
@@ -60,11 +57,11 @@ export class HelpCenterDesktop extends Component {
     }
   }
 
-  hideChannelChoice() {
+  hideChannelChoice = () => {
     this.setState({ channelChoiceShown: false });
   }
 
-  renderForm() {
+  renderForm = () => {
     return (
       <form
         ref='helpCenterForm'
@@ -83,31 +80,31 @@ export class HelpCenterDesktop extends Component {
     );
   }
 
-  renderHeaderContent() {
+  renderHeaderContent = () => {
     return (this.props.articleViewActive || !this.props.hasSearched)
          ? null
          : this.renderForm();
   }
 
-  renderBodyForm() {
+  renderBodyForm = () => {
     return this.props.hasSearched
          ? null
          : this.renderForm();
   }
 
-  renderZendeskLogo() {
+  renderZendeskLogo = () => {
     return !this.props.hideZendeskLogo
          ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />
          : null;
   }
 
-  renderChannelChoice() {
+  renderChannelChoice = () => {
     return this.state.channelChoiceShown
          ? <ChannelChoicePopup onNextClick={this.props.onNextClick} />
          : null;
   }
 
-  renderFooterContent() {
+  renderFooterContent = () => {
     if (!this.props.showNextButton || !this.props.hasSearched) return null;
 
     const logoClasses = this.props.hideZendeskLogo ? styles.logoHidden : '';
@@ -125,7 +122,7 @@ export class HelpCenterDesktop extends Component {
     );
   }
 
-  render() {
+  render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     return (

@@ -7,11 +7,11 @@ import { i18n } from 'service/i18n';
 import { isIos } from 'utility/devices';
 
 export class SearchInput extends Component {
-  getInput() {
+  getInput = () => {
     return ReactDOM.findDOMNode(this.refs.input);
   }
 
-  render() {
+  render = () => {
     const { fullscreen, onChange, onFocus, onBlur, searchInputVal } = this.props;
     const searchInputFieldClasses = classNames({
       'Arrange-sizeFill u-paddingR Form-placeholder': true,

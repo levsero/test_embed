@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { IconFieldButton } from 'component/button/IconFieldButton';
 
 export class SearchFieldButton extends Component {
-  render() {
+  render = () => {
     const fieldClasses = classNames({
       'Arrange Arrange--middle Form-field Form-field--search u-isSelectable is-mobile': true,
       'u-paddingRN u-paddingVN': true

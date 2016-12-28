@@ -2,25 +2,23 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
-import { bindMethods } from 'utility/utils';
 
 export class IconFieldButton extends Component {
   constructor(props, context) {
     super(props, context);
-    bindMethods(this, IconFieldButton.prototype);
 
     this.state = { hovering: false };
   }
 
-  handleMouseEnter() {
+  handleMouseEnter = () => {
     this.setState({ hovering: true });
   }
 
-  handleMouseLeave() {
+  handleMouseLeave = () => {
     this.setState({ hovering: false });
   }
 
-  render() {
+  render = () => {
     const { fullscreen, focused } = this.props;
     const buttonClasses = classNames({
       'Button--field u-borderTransparent u-marginLS': true,
@@ -59,4 +57,3 @@ IconFieldButton.defaultProps = {
   fullscreen: false,
   focused: false
 };
-

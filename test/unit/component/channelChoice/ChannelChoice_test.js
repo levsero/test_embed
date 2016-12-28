@@ -27,9 +27,6 @@ describe('ChannelChoice component', () => {
           isRTL: noop,
           t: _.identity
         }
-      },
-      'utility/utils': {
-        bindMethods: mockBindMethods
       }
     });
 

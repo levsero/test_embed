@@ -7,7 +7,7 @@ import { i18n } from 'service/i18n';
 import { locals as styles } from './HelpCenterResults.sass';
 
 export class HelpCenterResults extends Component {
-  renderResultRow(article, index) {
+  renderResultRow = (article, index) => {
     const mobileClasses = this.props.fullscreen ? styles.itemMobile : '';
 
     return (
@@ -22,12 +22,12 @@ export class HelpCenterResults extends Component {
     );
   }
 
-  renderResults() {
+  renderResults = () => {
     const showPadding = !this.props.fullscreen && !this.props.hideBottomPadding;
     const paddingClasses = showPadding ? styles.listBottom : '';
     const mobileClasses = this.props.fullscreen ? styles.listMobile : '';
     const articleLinks = _.chain(this.props.articles)
-      .map(this.renderResultRow.bind(this))
+      .map(this.renderResultRow)
       .value();
 
     return (
@@ -37,7 +37,7 @@ export class HelpCenterResults extends Component {
     );
   }
 
-  renderNoResults() {
+  renderNoResults = () => {
     const noResultsClasses = this.props.fullscreen
                            ? styles.noResultsMobile
                            : styles.noResultsDesktop;
@@ -66,7 +66,7 @@ export class HelpCenterResults extends Component {
     );
   }
 
-  renderViewMoreButton() {
+  renderViewMoreButton = () => {
     const RTLClasses = i18n.isRTL() ? styles.viewMoreRTL : '';
 
     return (
@@ -82,7 +82,7 @@ export class HelpCenterResults extends Component {
     );
   }
 
-  renderLegend() {
+  renderLegend = () => {
     const mobileClasses = this.props.fullscreen ? styles.legendMobile : '';
     const resultsLegend = this.props.hasContextualSearched
                         ? i18n.t('embeddable_framework.helpCenter.label.topSuggestions')
@@ -97,7 +97,7 @@ export class HelpCenterResults extends Component {
     );
   }
 
-  render() {
+  render = () => {
     const initialSearchResults = this.props.articles.length > 0 &&
                                  this.props.articles.length < 4;
     const showBottomBorder = this.props.showBottomBorder && initialSearchResults;

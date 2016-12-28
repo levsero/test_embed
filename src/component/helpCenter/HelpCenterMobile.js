@@ -7,15 +7,12 @@ import { SearchField } from 'component/field/SearchField';
 import { SearchFieldButton } from 'component/button/SearchFieldButton';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
-import { bindMethods } from 'utility/utils';
 
 import { locals as styles } from './HelpCenterMobile.sass';
 
 export class HelpCenterMobile extends Component {
   constructor(props, context) {
     super(props, context);
-    bindMethods(this, HelpCenterMobile.prototype);
-
     this.state = {
       showIntroScreen: true,
       searchFieldFocused: false,
@@ -23,7 +20,7 @@ export class HelpCenterMobile extends Component {
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate = (prevProps, prevState) => {
     const { searchField } = this.refs;
 
     // We have to do this check in componentDidUpdate so that
@@ -36,13 +33,11 @@ export class HelpCenterMobile extends Component {
     }
 
     if (searchField) {
-      searchField.setState({
-        searchInputVal: this.props.searchFieldValue
-      });
+      searchField.setState({ searchInputVal: this.props.searchFieldValue });
     }
   }
 
-  resetState() {
+  resetState = () => {
     if (!this.props.hasSearched) {
       this.setState({
         showIntroScreen: true,
@@ -51,21 +46,21 @@ export class HelpCenterMobile extends Component {
     }
   }
 
-  setContextualSearched() {
+  setContextualSearched = () => {
     this.setState({
       showIntroScreen: false,
       hasContextualSearched: true
     });
   }
 
-  handleSearchBoxClicked() {
+  handleSearchBoxClicked = () => {
     this.setState({
       showIntroScreen: false,
       searchFieldFocused: true
     });
   }
 
-  handleOnBlur() {
+  handleOnBlur = () => {
     // defer event to allow onClick events to fire first
     setTimeout(() => {
       this.setState({ searchFieldFocused: false });
@@ -76,16 +71,16 @@ export class HelpCenterMobile extends Component {
     }, 1);
   }
 
-  handleOnFocus() {
+  handleOnFocus = () => {
     this.setState({ searchFieldFocused: true });
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
     this.props.search();
   }
 
-  renderSearchField() {
+  renderSearchField = () => {
     // needs to be hidden rather then return null so the
     // field can be focused on
     const searchFieldClasses = this.state.showIntroScreen ? 'u-isHidden' : '';
@@ -105,7 +100,7 @@ export class HelpCenterMobile extends Component {
     );
   }
 
-  renderSearchFieldButton() {
+  renderSearchFieldButton = () => {
     return !this.state.showIntroScreen
          ? null
          : <SearchFieldButton
@@ -115,7 +110,7 @@ export class HelpCenterMobile extends Component {
              searchTerm={this.props.searchFieldValue} />;
   }
 
-  renderForm() {
+  renderForm = () => {
     const hiddenClasses = !this.state.showIntroScreen ? 'u-isHidden' : '';
 
     return (
@@ -134,7 +129,7 @@ export class HelpCenterMobile extends Component {
     );
   }
 
-  renderFormContainer() {
+  renderFormContainer = () => {
     return this.props.articleViewActive || !this.state.showIntroScreen
          ? null
          : (<div>
@@ -143,7 +138,7 @@ export class HelpCenterMobile extends Component {
            </div>);
   }
 
-  renderLinkContent() {
+  renderLinkContent = () => {
     if (!this.props.showNextButton || !this.state.showIntroScreen) return null;
 
     const linkContext = this.props.chatOnline
@@ -160,13 +155,13 @@ export class HelpCenterMobile extends Component {
     );
   }
 
-  renderHeaderContent() {
+  renderHeaderContent = () => {
     return (this.props.articleViewActive || this.state.showIntroScreen)
          ? null
          : this.renderForm();
   }
 
-  renderFooterContent() {
+  renderFooterContent = () => {
     if (!this.props.showNextButton ||
        (this.state.showIntroScreen || this.state.searchFieldFocused)) return;
 
@@ -184,13 +179,13 @@ export class HelpCenterMobile extends Component {
     );
   }
 
-  renderZendeskLogo(hideZendeskLogo) {
+  renderZendeskLogo = (hideZendeskLogo) => {
     return !hideZendeskLogo
          ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={true} />
          : null;
   }
 
-  render() {
+  render = () => {
     const mobileHideLogoState = this.props.hasSearched;
     const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
 

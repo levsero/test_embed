@@ -23,9 +23,6 @@ describe('AutomaticAnswers component', () => {
       'utility/pages': {
         getHelpCenterArticleId: jasmine.createSpy().and.callFake(() => mockUrlArticleId)
       },
-      'utility/utils': {
-        bindMethods: mockBindMethods
-      },
       'service/automaticAnswersPersistence' : {
         automaticAnswersPersistence: {
           getContext: jasmine.createSpy().and.callFake(() => mockJwtBody)

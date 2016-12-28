@@ -6,28 +6,26 @@ export class ScrollContainer extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.state = {
-      scrollShadowVisible: false
-    };
+    this.state = { scrollShadowVisible: false };
   }
 
-  getContentContainer() {
+  getContentContainer = () => {
     const elem = ReactDOM.findDOMNode(this);
 
     return elem.querySelector('.ScrollContainer-content');
   }
 
-  scrollToBottom() {
+  scrollToBottom = () => {
     const container = this.getContentContainer();
 
     container.scrollTop = container.scrollHeight;
   }
 
-  setScrollShadowVisible(visible) {
-    this.setState({scrollShadowVisible: visible});
+  setScrollShadowVisible = (visible) => {
+    this.setState({ scrollShadowVisible: visible });
   }
 
-  render() {
+  render = () => {
     const containerClasses = classNames({
       'ScrollContainer-content': true,
       'u-paddingHS u-marginHS': true,

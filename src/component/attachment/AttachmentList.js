@@ -4,46 +4,43 @@ import _ from 'lodash';
 import { Attachment } from 'component/attachment/Attachment';
 import { ButtonDropzone } from 'component/button/ButtonDropzone';
 import { i18n } from 'service/i18n';
-import { bindMethods } from 'utility/utils';
 
 const iconMapper = {
-  'pdf': 'Icon--preview-pdf',
-  'img': 'Icon--preview-img',
-  'png': 'Icon--preview-img',
+  'doc': 'Icon--preview-doc',
+  'docx': 'Icon--preview-doc',
   'gif': 'Icon--preview-img',
+  'img': 'Icon--preview-img',
   'jpeg': 'Icon--preview-img',
   'jpg': 'Icon--preview-img',
-  'docx': 'Icon--preview-doc',
-  'doc': 'Icon--preview-doc',
   'key': 'Icon--preview-key',
   'numbers': 'Icon--preview-num',
-  'pptx': 'Icon--preview-ppt',
-  'ppt': 'Icon--preview-ppt',
   'pages': 'Icon--preview-pag',
+  'pdf': 'Icon--preview-pdf',
+  'png': 'Icon--preview-img',
+  'ppt': 'Icon--preview-ppt',
+  'pptx': 'Icon--preview-ppt',
   'rtf': 'Icon--preview-txt',
   'txt': 'Icon--preview-txt',
-  'xlsx': 'Icon--preview-xls',
-  'xls': 'Icon--preview-xls'
+  'xls': 'Icon--preview-xls',
+  'xlsx': 'Icon--preview-xls'
 };
 
 export class AttachmentList extends Component {
   constructor(props, context) {
     super(props, context);
-    bindMethods(this, AttachmentList.prototype);
-
     this.state = {
       attachments: {},
       errorMessage: null
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate = (prevProps, prevState) => {
     if (prevState.errorMessage === null && this.state.errorMessage) {
       this.props.handleAttachmentsError();
     }
   }
 
-  handleOnDrop(files) {
+  handleOnDrop = (files) => {
     const { maxFileCount, maxFileSize } = this.props;
     const numAttachments = this.numValidAttachments();
     const numFilesToAdd = maxFileCount - numAttachments;
@@ -84,7 +81,7 @@ export class AttachmentList extends Component {
     setTimeout(this.props.updateForm, 0);
   }
 
-  handleRemoveAttachment(attachmentId) {
+  handleRemoveAttachment = (attachmentId) => {
     this.setState({
       attachments: _.omit(this.state.attachments, attachmentId),
       errorMessage: null
@@ -93,7 +90,7 @@ export class AttachmentList extends Component {
     setTimeout(this.props.updateForm, 0);
   }
 
-  createAttachment(file, errorMessage) {
+  createAttachment = (file, errorMessage) => {
     const attachmentId = _.uniqueId();
     const attachment = {
       file: file,
@@ -145,7 +142,7 @@ export class AttachmentList extends Component {
     }, 0);
   }
 
-  updateAttachmentState(attachmentId, newState = {}) {
+  updateAttachmentState = (attachmentId, newState = {}) => {
     const attachment = _.extend({}, this.state.attachments[attachmentId], newState);
 
     this.setState({
@@ -153,43 +150,43 @@ export class AttachmentList extends Component {
     });
   }
 
-  getAttachmentTokens() {
+  getAttachmentTokens = () => {
     return _.map(this.state.attachments, (a) => a.uploadToken);
   }
 
-  filterAttachments(includeUploading) {
+  filterAttachments = (includeUploading) => {
     return _.chain(this.state.attachments)
             .filter((a) => (!a.uploading || includeUploading) && !a.errorMessage);
   }
 
-  uploadedAttachments() {
+  uploadedAttachments = () => {
     return this.filterAttachments(false).value();
   }
 
-  numUploadedAttachments() {
+  numUploadedAttachments = () => {
     return this.filterAttachments(false)
                .size()
                .value();
   }
 
-  numValidAttachments() {
+  numValidAttachments = () => {
     return this.filterAttachments(true)
                .size()
                .value();
   }
 
-  attachmentsReady() {
+  attachmentsReady = () => {
     return this.numUploadedAttachments() === _.size(this.state.attachments);
   }
 
-  clear() {
+  clear = () => {
     this.setState({
       attachments: {},
       errorMessage: null
     });
   }
 
-  renderAttachments() {
+  renderAttachments = () => {
     return _.map(this.state.attachments, (attachment, id) => {
       const { file } = attachment;
 
@@ -213,7 +210,7 @@ export class AttachmentList extends Component {
     });
   }
 
-  renderErrorMessage() {
+  renderErrorMessage = () => {
     return (
       <div className='Error u-textError u-marginVS'>
         {this.state.errorMessage}
@@ -221,7 +218,7 @@ export class AttachmentList extends Component {
     );
   }
 
-  render() {
+  render = () => {
     const numAttachments = this.numUploadedAttachments();
     const title = (numAttachments > 0)
                 ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount',

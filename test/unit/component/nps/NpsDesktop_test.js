@@ -98,8 +98,7 @@ describe('NpsDesktop component', function() {
         }
       },
       'utility/utils': {
-        generateConstrastColor: noop,
-        bindMethods: mockBindMethods
+        generateConstrastColor: noop
       },
       'service/i18n': {
         i18n: {

@@ -7,26 +7,20 @@ import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
 export class AutomaticAnswersDesktop extends Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.handleSolveClick = this.handleSolveClick.bind(this);
-  }
-
-  componentDidMount() {
+  componentDidMount = () => {
     this.props.updateFrameSize();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate = () => {
     this.props.updateFrameSize();
   }
 
-  handleSolveClick(e) {
+  handleSolveClick = (e) => {
     e.preventDefault();
     this.props.handleSolveTicket();
   }
 
-  renderMasterIcon() {
+  renderMasterIcon = () => {
     const type = this.props.solveSuccess ? 'tick' : 'article';
     const props = {
       className: 'AutomaticAnswersDesktop-masterIcon u-posAbsolute u-paddingAN u-textCenter'
@@ -39,11 +33,11 @@ export class AutomaticAnswersDesktop extends Component {
     );
   }
 
-  renderContent() {
+  renderContent = () => {
     return (!this.props.solveSuccess) ? this.renderTicketContent() : this.renderSuccessContent();
   }
 
-  renderTicketContent() {
+  renderTicketContent = () => {
     return (
       <div>
         {this.renderIntroduction()}
@@ -53,7 +47,7 @@ export class AutomaticAnswersDesktop extends Component {
     );
   }
 
-  renderIntroduction() {
+  renderIntroduction = () => {
     const messageClasses = classNames({
       'AutomaticAnswersDesktop-message u-paddingTL u-paddingBXL u-marginBN': true,
       'u-borderBottom': !this.props.errorMessage
@@ -71,7 +65,7 @@ export class AutomaticAnswersDesktop extends Component {
     );
   }
 
-  renderErrorMessage() {
+  renderErrorMessage = () => {
     const errorClasses = classNames({
       'Error': true,
       'u-isHidden': !this.props.errorMessage
@@ -84,7 +78,7 @@ export class AutomaticAnswersDesktop extends Component {
     );
   }
 
-  renderButton() {
+  renderButton = () => {
     const submittingLabel = i18n.t('embeddable_framework.submitTicket.form.submitButton.label.sending');
     const ctaLabel = i18n.t('embeddable_framework.automaticAnswers.button.solve_v2', {
       fallback: 'Yes, close my request'
@@ -100,7 +94,7 @@ export class AutomaticAnswersDesktop extends Component {
     );
   }
 
-  renderSuccessContent() {
+  renderSuccessContent = () => {
     const successMessage = i18n.t('embeddable_framework.automaticAnswers.label.success_v2', {
       fallback: 'Thank you, your request has been closed.'
     });
@@ -112,7 +106,7 @@ export class AutomaticAnswersDesktop extends Component {
     );
   }
 
-  render() {
+  render = () => {
     return (
       <Container card={true} className='AutomaticAnswersDesktop u-paddingHXL'>
         <div className='Container-content u-paddingBM'>

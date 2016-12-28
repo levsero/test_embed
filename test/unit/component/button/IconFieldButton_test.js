@@ -12,9 +12,6 @@ describe('IconFieldButton component', () => {
       'React': React,
       'component/Icon': {
         Icon: noopReactComponent()
-      },
-      'utility/utils': {
-        bindMethods: mockBindMethods
       }
     });
 

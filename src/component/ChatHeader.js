@@ -7,7 +7,7 @@ import { Avatar } from 'component/Avatar';
 
 // TODO: Notify Avatar to change profile picture
 export class ChatHeader extends Component {
-  render() {
+  render = () => {
     return (
       <div className={styles.container}>
         <Avatar />

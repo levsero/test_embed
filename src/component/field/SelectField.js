@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Field } from 'component/field/Field';
 
 export class SelectField extends Component {
-  formatOptions() {
+  formatOptions = () => {
     const props = this.props;
     const options = [
       <option value='' key='' disabled={props.required}>-</option>
@@ -44,7 +44,7 @@ export class SelectField extends Component {
     return options;
   }
 
-  render() {
+  render = () => {
     return (
       <Field
         {...this.props}

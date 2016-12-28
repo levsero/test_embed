@@ -45,9 +45,6 @@ describe('WebWidget component', () => {
       },
       'component/submitTicket/SubmitTicket': {
         SubmitTicket: MockSubmitTicket
-      },
-      'utility/utils': {
-        bindMethods: mockBindMethods
       }
     });
 
@@ -263,4 +260,3 @@ describe('WebWidget component', () => {
     });
   });
 });
-

@@ -18,20 +18,18 @@ export class Launcher extends Component {
     };
   }
 
-  setLabel(label, labelOptions = {}) {
+  setLabel = (label, labelOptions = {}) => {
     this.setState({
       label: label,
       labelOptions: labelOptions
     });
   }
 
-  setIcon(icon) {
-    this.setState({
-      icon: icon
-    });
+  setIcon = (icon) => {
+    this.setState({ icon });
   }
 
-  render() {
+  render = () => {
     const buttonClasses = classNames({
       [`${styles.wrapper}`]: true,
       'u-userBackgroundColor': true,

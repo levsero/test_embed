@@ -5,28 +5,28 @@ import classNames from 'classnames';
 import { ButtonRating } from 'component/button/ButtonRating';
 
 export class NpsRatingsList extends Component {
-  ratingClickHandlerFn(rating) {
+  ratingClickHandlerFn = (rating) => {
     return (ev) => {
       ev.preventDefault();
       this.props.onChangeValue(rating);
     };
   }
 
-  _prependWith(prepend, str) {
+  _prependWith = (prepend, str) => {
     return str.indexOf(prepend) > -1
       ? str
       : `${prepend}${str}`;
   }
 
-  likelyLabel() {
+  likelyLabel = () => {
     return this._prependWith('10 = ', this.props.likelyLabel);
   }
 
-  notLikelyLabel() {
+  notLikelyLabel = () => {
     return this._prependWith('0 = ', this.props.notLikelyLabel);
   }
 
-  render() {
+  render = () => {
     const ratingsLegendClasses = 'RatingsList-legend u-sizeFull u-paddingHT';
     const ratingsListClasses = `RatingsList u-textCenter ${this.props.className}`;
 

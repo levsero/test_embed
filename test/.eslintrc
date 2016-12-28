@@ -21,7 +21,6 @@
     "resetDOM": true,
     "shallowRender": true,
     "instanceRender": true,
-    "mockBindMethods": true,
     "mockObjectDifference": true,
   },
   "rules": {

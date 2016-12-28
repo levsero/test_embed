@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 export class NpsCommentButton extends Component {
-  render() {
+  render = () => {
     const classes = `
       Form-fieldLabel
       u-textXHeight

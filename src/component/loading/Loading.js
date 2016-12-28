@@ -4,11 +4,9 @@ import classNames from 'classnames';
 import { isDevice } from 'utility/devices';
 
 class LoadingSpinner extends Component {
-  render() {
+  render = () => {
     return (
-      <div
-        className={`LoadingSpinner u-userTextColorConstrast ${this.props.className}`}>
-      </div>
+      <div className={`LoadingSpinner u-userTextColorConstrast ${this.props.className}`} />
     );
   }
 }
@@ -22,7 +20,7 @@ LoadingSpinner.propTypes = {
 };
 
 class LoadingEllipses extends Component {
-  render() {
+  render = () => {
     // On IOS8 iphone the scale animation crashes the webpage so
     // we need to animation differently.
     const isIos8 = isDevice('iPhone', 'OS 8');

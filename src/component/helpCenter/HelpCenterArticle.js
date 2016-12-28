@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
-import { pick, some } from 'lodash';
 
 import { ButtonPill } from 'component/button/ButtonPill';
 import { authentication } from 'service/authentication';
@@ -20,7 +19,6 @@ const allowedIframeAttribs = [
 class HelpCenterArticle extends Component {
   constructor(props, context) {
     super(props, context);
-    this.handleClick = this.handleClick.bind(this);
 
     this.state = {
       queuedImages: {},
@@ -28,7 +26,7 @@ class HelpCenterArticle extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     const doc = ReactDOM.findDOMNode(this).ownerDocument;
     const base = doc.createElement('base');
 
@@ -36,7 +34,7 @@ class HelpCenterArticle extends Component {
     doc.head.appendChild(base);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate = () => {
     const { activeArticle } = this.props;
     const container = ReactDOM.findDOMNode(this.refs.article);
     const sanitizeHtmlOptions = {
@@ -112,7 +110,7 @@ class HelpCenterArticle extends Component {
     }
   }
 
-  handleClick(e) {
+  handleClick = (e) => {
     const target = e.target;
     let nodeName = target.nodeName;
     let href = target.getAttribute('href');
@@ -153,19 +151,17 @@ class HelpCenterArticle extends Component {
     }
   }
 
-  filterVideoEmbed(tagName, attribs) {
-    const allowedAttribs = pick(attribs, allowedIframeAttribs);
+  filterVideoEmbed = (tagName, attribs) => {
+    const allowedAttribs = _.pick(attribs, allowedIframeAttribs);
 
-    if (!allowedAttribs.src) {
-      return false;
-    }
+    if (!allowedAttribs.src) return false;
 
     const allowedDomains = [
       'youtube',
       'player\.vimeo',
       'fast\.wistia'
     ];
-    const hasMatched = some(allowedDomains, (domain) => {
+    const hasMatched = _.some(allowedDomains, (domain) => {
       const validDomainTest = `^(.*?)\/\/(?:www\.)?${domain}(?:-nocookie)?(\.com|\.net)\/`;
 
       return (allowedAttribs.src.search(validDomainTest) >= 0);
@@ -176,7 +172,7 @@ class HelpCenterArticle extends Component {
          : false;
   }
 
-  replaceArticleImages(activeArticle, lastActiveArticleId) {
+  replaceArticleImages = (activeArticle, lastActiveArticleId) => {
     const { storedImages } = this.props;
     const articleDomain = parseUrl(activeArticle.url).hostname;
     const parseHtmlString = (htmlStr) => {
@@ -220,14 +216,14 @@ class HelpCenterArticle extends Component {
     if (lastActiveArticleId !== this.props.activeArticle.id) {
       _.chain(pendingImageUrls)
         .filter((src) => !this.state.queuedImages.hasOwnProperty(src))
-        .tap(this.queueImageRequests.bind(this))
+        .tap(this.queueImageRequests)
         .value();
     }
 
     return htmlEl.outerHTML;
   }
 
-  queueImageRequests(imageUrls = []) {
+  queueImageRequests = (imageUrls = []) => {
     const handleSuccess = (src, res) => {
       const url = window.URL.createObjectURL(res.xhr.response);
 
@@ -247,7 +243,7 @@ class HelpCenterArticle extends Component {
     });
   }
 
-  renderOriginalArticleButton() {
+  renderOriginalArticleButton = () => {
     if (!this.props.originalArticleButton) return;
 
     return (
@@ -264,7 +260,7 @@ class HelpCenterArticle extends Component {
     );
   }
 
-  render() {
+  render = () => {
     const mobileClasses = this.props.fullscreen ? styles.contentMobile : '';
 
     return (

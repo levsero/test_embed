@@ -9,8 +9,6 @@ import { getPageTitle } from 'utility/utils';
 export class Ipm extends Component {
   constructor(props, context) {
     super(props, context);
-    this.ipmSender = this.ipmSender.bind(this);
-
     this.state = {
       ipm: {
         id: null,
@@ -25,7 +23,7 @@ export class Ipm extends Component {
     };
   }
 
-  ipmSender(name) {
+  ipmSender = (name) => {
     if (!this.state.ipm.id) {
       logging.error({
         error: new Error('Cannot send an IPM event without a campaign'),
@@ -50,7 +48,7 @@ export class Ipm extends Component {
     this.props.ipmSender(params);
   }
 
-  render() {
+  render = () => {
     return (
       <IpmDesktop
         {...this.state}

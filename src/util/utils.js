@@ -46,14 +46,6 @@ function cappedIntervalCall(callback, delay, repetitions = 1) {
   }, delay);
 }
 
-function bindMethods(instance, prototype) {
-  const methods = Object.getOwnPropertyNames(prototype);
-
-  methods.forEach((method) => {
-    instance[method] = instance[method].bind(instance);
-  });
-}
-
 function base64decode(string) {
   return window.atob(string);
 }
@@ -106,7 +98,6 @@ export {
   parseUrl,
   cappedIntervalCall,
   splitPath,
-  bindMethods,
   base64decode,
   base64encode,
   objectDifference,

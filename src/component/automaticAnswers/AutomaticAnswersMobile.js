@@ -6,30 +6,26 @@ import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
 export class AutomaticAnswersMobile extends Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.handleSolveClick = this.handleSolveClick.bind(this);
-  }
-
-  componentDidMount() {
+  componentDidMount = () => {
     this.props.updateFrameSize();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate = () => {
     this.props.updateFrameSize();
   }
 
-  handleSolveClick(e) {
+  handleSolveClick = (e) => {
     e.preventDefault();
     this.props.handleSolveTicket();
   }
 
-  renderContent() {
-    return (!this.props.solveSuccess) ? this.renderTicketContent() : this.renderSuccessContent();
+  renderContent = () => {
+    return (!this.props.solveSuccess)
+         ? this.renderTicketContent()
+         : this.renderSuccessContent();
   }
 
-  renderTicketContent() {
+  renderTicketContent = () => {
     const messageClasses =
       'AutomaticAnswersMobile-message u-flex u-flexAlignItemsCenter u-flexJustifyBetween u-marginHL u-paddingVL';
 
@@ -44,7 +40,7 @@ export class AutomaticAnswersMobile extends Component {
     );
   }
 
-  renderIntroduction() {
+  renderIntroduction = () => {
     const messageClasses = 'AutomaticAnswersMobile-message u-marginBN';
     const introduction = i18n.t('embeddable_framework.automaticAnswers.label.prompt_mobile', {
       fallback: 'Does this article answer your question?'
@@ -57,7 +53,7 @@ export class AutomaticAnswersMobile extends Component {
     );
   }
 
-  renderErrorMessage() {
+  renderErrorMessage = () => {
     const errorClasses = classNames({
       'u-backgroundWhite u-textCenter u-marginBN u-paddingVM u-isError u-borderBottom': true,
       'u-isHidden': !this.props.errorMessage
@@ -70,7 +66,7 @@ export class AutomaticAnswersMobile extends Component {
     );
   }
 
-  renderButton() {
+  renderButton = () => {
     const ctaLabel = i18n.t('embeddable_framework.automaticAnswers.button_mobile', {
       fallback: 'Yes'
     });
@@ -90,7 +86,7 @@ export class AutomaticAnswersMobile extends Component {
     );
   }
 
-  renderSuccessContent() {
+  renderSuccessContent = () => {
     const successMessage = i18n.t('embeddable_framework.automaticAnswers.label.success_v2', {
       fallback: 'Thank you, your request has been closed.'
     });
@@ -103,7 +99,7 @@ export class AutomaticAnswersMobile extends Component {
     );
   }
 
-  render() {
+  render = () => {
     const containerClasses =
       'AutomaticAnswersMobile u-backgroundWhiteSmoke u-flex u-flexJustifyCenter u-flexAlignItemsCenter';
 

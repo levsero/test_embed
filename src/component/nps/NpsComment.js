@@ -9,11 +9,11 @@ import { LoadingSpinner } from 'component/loading/Loading';
 import { i18n } from 'service/i18n';
 
 export class NpsComment extends Component {
-  focusField() {
+  focusField = () => {
     ReactDOM.findDOMNode(this.refs.commentField.refs.field).focus();
   }
 
-  render() {
+  render = () => {
     const sendFeedbackLabel = i18n.t(
       'embeddable_framework.npsMobile.submitButton.label.sendFeedback',
       { fallback: 'Send Feedback' }
