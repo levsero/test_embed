@@ -90,6 +90,8 @@
     "url-loader": "~0.5.7",
     "webpack": "^1.13.1",
     "webpack-visualizer-plugin": "^0.1.5",
-    "when": "~3.4.4"
+    "when": "~3.4.4",
+    "zd-css-buttons": "git+ssh://git@github.com/zendeskgarden/css-buttons.git",
+    "zd-css-variables": "git+ssh://git@github.com/zendeskgarden/css-variables.git"
   }
 }

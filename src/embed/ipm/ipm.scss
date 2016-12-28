@@ -21,17 +21,17 @@
 }
 
 .IpmDesktop-intro {
-  color: $zendesk-color--aluminum;
+  color: $zd-color-aluminum;
   font-size: #{12/$font-size}rem;
   line-height: #{20/$font-size}rem;
   margin-top: #{7/$font-size}rem;
 }
 
 .IpmDesktop-message {
-  color: $zendesk-color--oil;
+  color: $zd-color-oil;
   font-size: #{14/$font-size}rem;
   line-height: #{20/$font-size}rem;
-  border-bottom: #{1/$font-size}rem solid $zendesk-color--gainsboro;
+  border-bottom: #{1/$font-size}rem solid $zd-color-gainsboro;
   white-space: pre-line;
 }
 
@@ -55,5 +55,5 @@
 }
 
 .IpmDesktop-footer .c-btn--primary {
-  background-color: $zendesk-color--pelorous;
+  background-color: $zd-color-pelorous;
 }

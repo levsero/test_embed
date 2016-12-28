@@ -106,8 +106,8 @@
   }
 
   pre {
-    background: $zendesk-color--white-smoke;
-    border: #{1/$font-size}rem solid $zendesk-color--gainsboro;
+    background: $zd-color-white-smoke;
+    border: #{1/$font-size}rem solid $zd-color-gainsboro;
     border-radius: #{3/$font-size}rem;
     padding: #{10/$font-size}rem #{15/$font-size}rem;
     overflow: auto;

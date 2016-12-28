@@ -8,15 +8,13 @@ $Button-baseFontSize: #{14/$font-size}rem;
 $Button-nudge: 5;
 
 .wrapper {
-  composes: u-isActionable u-textLeft u-inlineBlock u-textNoWrap Arrange Arrange--middle from '../styles/utils.scss';
+  composes: u-isActionable u-textLeft u-inlineBlock u-borderNone u-textBold u-textNoWrap Arrange Arrange--middle from '../styles/utils.scss';
   font-size: $Button-baseFontSize;
   color: $base-color;
   fill: $base-color;
-  font-weight: 700;
   letter-spacing: 0.4;
-  padding: #{12/$font-size}rem #{22/$font-size}rem #{14/$font-size}rem;
+  padding: #{13/$font-size}rem #{22/$font-size}rem;
   border-radius: 999rem; /* 1 */
-  border: 0;
   bottom: 0;
   letter-spacing: 0.6;
   font-size: #{15/$font-size}rem;

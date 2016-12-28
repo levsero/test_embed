@@ -1,36 +1,6 @@
 @import '_vars.scss';
 @import 'utils.scss';
 
-//
-// SETTINGS
-//
-@import 'bower_components/zd-css-settings.global/settings.global';
-@import 'bower_components/zd-css-settings.colors/settings.colors';
-$inuit-base-font-size: 14px;
-@import 'bower_components/inuit-defaults/settings.defaults';
-@import 'bower_components/zd-css-settings.headings/settings.headings';
-@import 'bower_components/zd-css-settings.weights/settings.weights';
-
-//
-// TOOLS
-//
-@import 'bower_components/inuit-functions/tools.functions';
-@import 'bower_components/inuit-mixins/tools.mixins';
-@import 'bower_components/zd-css-tools.buttons/tools.buttons';
-
-//
-// OBJECTS
-//
-@import 'bower_components/inuit-buttons/objects.buttons';
-
-//
-// COMPONENTS
-$zendesk-enable-btn--primary: true;
-$zendesk-enable-btn--secondary: true;
-$zendesk-enable-btn--medium: true;
-$zendesk-enable-btn--large: true;
-@import 'bower_components/zd-css-components.buttons/components.buttons';
-
 $font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
 $font-weight: 300;
 $line-height: 1.4;

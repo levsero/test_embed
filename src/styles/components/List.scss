@@ -15,14 +15,14 @@
 
 .RatingsList-btn {
   border-radius: #{4/$font-size}rem;
-  border: #{2/$font-size}rem solid $zendesk-color--gainsboro;
+  border: #{2/$font-size}rem solid $zd-color-gainsboro;
   height: #{34/$font-size}rem;
   line-height: #{34/$font-size}rem;
   width: #{34/$font-size}rem;
 
   &:hover, &:focus {
-    background-color: $zendesk-color--white-smoke;
-    border: #{2/$font-size}rem solid $zendesk-color--iron;
+    background-color: $zd-color-white-smoke;
+    border: #{2/$font-size}rem solid $zd-color-iron;
   }
 }
 
@@ -31,5 +31,5 @@
 }
 
 .RatingsList-legend {
-  color: $zendesk-color--aluminum;
+  color: $zd-color-aluminum;
 }
