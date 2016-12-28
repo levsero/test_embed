@@ -109,8 +109,8 @@ export class WebWidget extends Component {
           onArticleClick={this.props.onArticleClick}
           onSearch={this.props.onSearch}
           position={this.props.position}
-          buttonLabelKey={this.props.buttonLabelKey}
-          formTitleKey={this.props.formTitleKey}
+          buttonLabelKey={helpCenterConfig.buttonLabelKey}
+          formTitleKey={helpCenterConfig.formTitleKey}
           showBackButton={this.props.showBackButton}
           showNextButton={this.props.submitTicketAvaliable}
           searchSender={this.props.searchSender}
