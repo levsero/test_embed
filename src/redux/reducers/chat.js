@@ -15,9 +15,11 @@ const initialState = {
 };
 
 function processFirehoseData(state, _action) {
-  const action = _action.payload;
-
   const isAgent = (nick) => nick.startsWith('agent:');
+  const concatChat = (chats, chat) => chats.concat({
+    [chat.timestamp]: { ...chat }
+  });
+  const action = _action.payload;
 
   switch (action.type) {
     case 'connection_update':
@@ -70,36 +72,30 @@ function processFirehoseData(state, _action) {
           }
           else {
             newState.visitor.nick = action.detail.nick;
-          }
-
-          if (!isAgent(action.detail.nick)) {
             newState.is_chatting = true;
           }
 
-          newState.chats = state.chats.concat({
-            [action.detail.timestamp]: { ...action.detail }
-          });
-
-          return newState;
+          return {
+            ...newState,
+            chats: concatChat(state.chats, action.detail)
+          };
         case 'chat.memberleave':
           if (!isAgent(action.detail.nick)) {
             newState.is_chatting = false;
           }
 
-          newState.chats = state.chats.concat({
-            [action.detail.timestamp]: { ...action.detail }
-          });
-
-          return newState;
+          return {
+            ...newState,
+            chats: concatChat(state.chats, action.detail)
+          };
         case 'chat.file':
         case 'chat.wait_queue':
         case 'chat.request.rating':
         case 'chat.msg':
-          newState.chats = state.chats.concat({
-            [action.detail.timestamp]: { ...action.detail }
-          });
-
-          return newState;
+          return {
+            ...newState,
+            chats: concatChat(state.chats, action.detail)
+          };
         case 'typing':
           return {
             ...state,

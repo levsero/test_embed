@@ -39,7 +39,7 @@ describe('chat redux reducers', () => {
 
   describe('reducer', () => {
     describe('initial state', () => {
-      it('has an emppty collection of chats', () => {
+      it('has an empty collection of chats', () => {
         expect(initialState.chats.length)
           .toEqual(0);
       });
@@ -110,7 +110,7 @@ describe('chat redux reducers', () => {
           .toHaveBeenCalledWith(true);
       });
 
-      it('calls zChat.sendTyping with "true" after 2 seconds', () => {
+      it('calls zChat.sendTyping with "false" after 2 seconds', () => {
         jasmine.clock().tick(2000);
 
         expect(mockSendTyping)
