@@ -801,6 +801,11 @@ describe('embed.webWidget', () => {
         .toHaveBeenCalledWith('ticketSubmissionForm.hide', jasmine.any(Function));
     });
 
+    it('should subscribe to webWidget.activate', () => {
+      expect(mockMediator.channel.subscribe)
+        .toHaveBeenCalledWith('webWidget.activate', jasmine.any(Function));
+    });
+
     it('subscribes to <any>.refreshLocale and <any>.update together', () => {
       const calls = [
         'ticketSubmissionForm.refreshLocale',

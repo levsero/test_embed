@@ -303,6 +303,13 @@ function setUpMediator() {
   mediator.channel.subscribe('helpCenterForm.isAuthenticated', () => {
     hasAuthenticatedSuccessfully = true;
   });
+
+  mediator.channel.subscribe('webWidget.activate', () => {
+    waitForRootComponent(() => {
+      getWebWidgetComponent().activate();
+      embed.instance.show();
+    });
+  });
 }
 
 function get() {
