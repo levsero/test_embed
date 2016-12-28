@@ -118,6 +118,7 @@ function processFirehoseData(state, _action) {
 
 export default function reducer(state = initialState, action = {}) {
   const { type, payload } = action;
+  const chatTypingTimeout = 2000;
 
   switch (type) {
     case 'SENT_CHAT_MSG':
@@ -129,7 +130,7 @@ export default function reducer(state = initialState, action = {}) {
       };
     case 'UPDATE_CHAT_MSG':
       zChat.sendTyping(true);
-      setTimeout(() => zChat.sendTyping(false), 2000);
+      setTimeout(() => zChat.sendTyping(false), chatTypingTimeout);
 
       return {
         ...state,
