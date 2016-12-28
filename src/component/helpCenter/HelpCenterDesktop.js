@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { Button } from 'component/button/Button';
 import { ButtonGroup } from 'component/button/ButtonGroup';
 import { ChannelChoicePopup } from 'component/channelChoice/ChannelChoicePopup';
-import { ScrollContainer } from 'component/ScrollContainer';
+import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';

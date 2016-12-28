@@ -44,7 +44,7 @@ describe('NpsMobile component', () => {
 
     mockRegistry = initMockRegistry({
       'React': React,
-      'component/Container': {
+      'component/container/Container': {
         Container: class extends Component {
           render() {
             // used function instead of () => as to not reference outter 'this'

@@ -31,7 +31,7 @@ describe('HelpCenterDesktop component', () => {
       'component/ZendeskLogo': {
         ZendeskLogo: noopReactComponent()
       },
-      'component/ScrollContainer': {
+      'component/container/ScrollContainer': {
         ScrollContainer: class extends Component {
           setScrollShadowVisible() {}
           render() {

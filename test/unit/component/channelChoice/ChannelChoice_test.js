@@ -11,10 +11,10 @@ describe('ChannelChoice component', () => {
       'component/button/Button': {
         Button: noopReactComponent()
       },
-      'component/Container': {
+      'component/container/Container': {
         Container: noopReactComponent()
       },
-      'component/ScrollContainer': {
+      'component/container/ScrollContainer': {
         ScrollContainer: noopReactComponent()
       },
       'component/ZendeskLogo': {

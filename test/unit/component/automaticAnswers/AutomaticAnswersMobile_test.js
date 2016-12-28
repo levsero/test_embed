@@ -16,7 +16,7 @@ describe('AutomaticAnswersMobile component', () => {
 
     initMockRegistry({
       'React': React,
-      'component/Container': {
+      'component/container/Container': {
         Container: class extends Component {
           render() {
             // use of () => here breaks the domRender test due to outer 'this' context

@@ -1,6 +1,6 @@
 describe('ScrollContainer component', () => {
   let ScrollContainer;
-  const containerPath = buildSrcPath('component/ScrollContainer');
+  const containerPath = buildSrcPath('component/container/ScrollContainer');
 
   beforeEach(() => {
     resetDOM();

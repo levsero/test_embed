@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 import { Button } from 'component/button/Button';
-import { Container } from 'component/Container';
+import { Container } from 'component/container/Container';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 

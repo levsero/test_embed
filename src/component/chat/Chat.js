@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
-import { ScrollContainer } from 'component/ScrollContainer';
-import { Container } from 'component/Container';
+import { ScrollContainer } from 'component/container/ScrollContainer';
+import { Container } from 'component/container/Container';
 
 export class Chat extends Component {
   render = () => {

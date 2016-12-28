@@ -9,7 +9,7 @@ import { Button } from 'component/button/Button';
 import { ButtonSecondary } from 'component/button/ButtonSecondary';
 import { ButtonGroup } from 'component/button/ButtonGroup';
 import { Field } from 'component/field/Field';
-import { ScrollContainer } from 'component/ScrollContainer';
+import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
 import { getCustomFields } from 'utility/fields';
 

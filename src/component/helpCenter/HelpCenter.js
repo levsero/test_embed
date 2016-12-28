@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 
-import { Container } from 'component/Container';
+import { Container } from 'component/container/Container';
 import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle';
 import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop';
 import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile';
