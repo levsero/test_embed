@@ -12,7 +12,6 @@ config.plugins = [
   }),
   new webpack.WatchIgnorePlugin([
     path.resolve(__dirname, './node_modules/'),
-    path.resolve(__dirname, './bower_components/'),
     path.resolve(__dirname, './test/')
   ]),
   new webpack.NoErrorsPlugin()

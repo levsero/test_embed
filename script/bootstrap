@@ -36,8 +36,7 @@ try() {
   fi
 }
 
-try "Installing bower" "npm install -g --quiet bower > /dev/null"
-try "Installing npm & bower packages" "npm install --quiet > /dev/null && bower install --quiet > /dev/null"
+try "Installing npm packages" "npm install --quiet > /dev/null"
 try "Building Engagement Framework" "npm run build:debug > /dev/null"
 try "Downloading translations" "script/fetch_i18n"
 bold "Installing UI Regression Tooling"

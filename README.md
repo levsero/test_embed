@@ -39,8 +39,8 @@ Run the following commands inside this folder:
 The bootstrap file will do the following:
 
 * Set Node version
-* Install bower & selenium-server globally
-* Run `npm install & bower install` to get all dependencies
+* Install selenium-server globally
+* Run `npm install` to get all dependencies
 * Run `npm build:debug` to generate snippet, framework and example files
 * Download rosetta translation into `src/translation/translation.json`
 * Download graphicsmagick, imagemagick & cairo using brew
