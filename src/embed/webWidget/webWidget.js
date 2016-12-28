@@ -111,6 +111,9 @@ const afterShowAnimate = () => {
 const onClose = () => {
   mediator.channel.broadcast(`${getWebWidgetComponent().getActiveComponent()}.onClose`);
 };
+const onNextClick = () => {
+  mediator.channel.broadcast(name + '.onNextClick');
+};
 
 function create(name, config = {}, reduxStore = {}) {
   let containerStyle;
@@ -302,6 +305,13 @@ function setUpMediator() {
 
   mediator.channel.subscribe('helpCenterForm.isAuthenticated', () => {
     hasAuthenticatedSuccessfully = true;
+  });
+
+  mediator.channel.subscribe('webWidget.activate', () => {
+    waitForRootComponent(() => {
+      getWebWidgetComponent().activate();
+      embed.instance.show();
+    });
   });
 }
 

@@ -188,6 +188,8 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept('.activate', (__, options = {}) => {
+    c.broadcast('webWidget.activate');
+
     if (!embedVisible(state)) {
       resetActiveEmbed();
 
