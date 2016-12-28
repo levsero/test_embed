@@ -75,7 +75,7 @@ export class WebWidget extends Component {
       this.setState({ activeComponent: helpCenter });
       this.props.showBackButton(!!this.getRootComponent().state.articleViewActive);
     } else {
-      this.setState({ activeComponent: helpCenter });
+      this.setState({ activeComponent: submitTicket });
     }
   }
 

@@ -111,9 +111,6 @@ const afterShowAnimate = () => {
 const onClose = () => {
   mediator.channel.broadcast(`${getWebWidgetComponent().getActiveComponent()}.onClose`);
 };
-const onNextClick = () => {
-  mediator.channel.broadcast(name + '.onNextClick');
-};
 
 function create(name, config = {}, reduxStore = {}) {
   let containerStyle;
