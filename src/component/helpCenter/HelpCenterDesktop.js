@@ -107,10 +107,8 @@ export class HelpCenterDesktop extends Component {
   renderFooterContent = () => {
     if (!this.props.showNextButton || !this.props.hasSearched) return null;
 
-    const logoClasses = this.props.hideZendeskLogo ? styles.logoHidden : '';
-
     return (
-      <div className={`${styles.buttonContainer} ${logoClasses}`}>
+      <div className={styles.buttonContainer}>
         <ButtonGroup rtl={i18n.isRTL()}>
           <Button
             fullscreen={false}
@@ -125,13 +123,19 @@ export class HelpCenterDesktop extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
+    let footerClasses = '';
+
+    if (!this.props.showNextButton && this.props.hasSearched) {
+      footerClasses = this.props.hideZendeskLogo ? styles.footer : styles.footerLogo;
+    }
+
     return (
       <div>
         <ScrollContainer
           ref='scrollContainer'
           hideZendeskLogo={this.props.hideZendeskLogo}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
-          footerContentHidden={!this.props.showNextButton && this.props.hasSearched}
+          footerClasses={footerClasses}
           contentExpanded={this.props.expanded}
           headerContent={this.renderHeaderContent()}
           footerContent={this.renderFooterContent()}>

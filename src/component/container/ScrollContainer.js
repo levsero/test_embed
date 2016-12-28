@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
+import { locals as styles } from './ScrollContainer.sass';
+
 export class ScrollContainer extends Component {
   constructor(props, context) {
     super(props, context);
@@ -26,43 +28,25 @@ export class ScrollContainer extends Component {
   }
 
   render = () => {
-    const containerClasses = classNames({
-      'ScrollContainer-content': true,
-      'u-paddingHS u-marginHS': true,
-      'u-paddingTM': !this.props.hideZendeskLogo,
-      'u-paddingTL': this.props.hideZendeskLogo,
-      'u-paddingBM': this.state.scrollShadowVisible,
-      'is-mobile': this.props.fullscreen,
-      'is-bigheader': this.props.headerContent && !this.props.isVirtualKeyboardOpen,
-      'ScrollContainer--expanded': this.props.contentExpanded,
-      [this.props.containerClasses]: true
-    });
-    const scrollFooterClasses = classNames({
-      'ScrollContainer-footer': true,
-      'u-paddingHL u-posRelative': true,
-      'u-paddingVM': !this.props.hideZendeskLogo,
-      'u-paddingVL': this.props.footerContentHidden && !this.props.hideZendeskLogo,
-      'u-marginVS': this.props.footerContentHidden,
-      'ScrollContainer-footer--shadow': this.state.scrollShadowVisible,
-      [this.props.footerClasses]: true
-    });
-    const titleClasses = classNames({
-      'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight': true,
-      'u-textSizeBaseMobile': this.props.fullscreen
-    });
+    const { fullscreen, contentExpanded, containerClasses, footerClasses } = this.props;
+    const expandedClasses = contentExpanded ? styles.expanded : '';
+    const mobileContentClasses = fullscreen ? styles.contentMobile : '';
+    const footerShadowClasses = this.state.scrollShadowVisible ? styles.footerShadow : '';
+    const mobileTitleClasses = fullscreen ? styles.titleMobile : '';
 
     return (
-      <div className='ScrollContainer u-nbfc'>
-        <header className='ScrollContainer-header u-paddingVM u-paddingHL'>
-          <div className={titleClasses}>
+      <div className={styles.container}>
+        <header className={styles.header}>
+          <div className={`${styles.title} ${mobileTitleClasses}`}>
             {this.props.title}
           </div>
           {this.props.headerContent}
         </header>
-        <div className={containerClasses}>
+        <div className={`${styles.content} ${containerClasses} ${expandedClasses} ${mobileContentClasses}`}>
           {this.props.children}
         </div>
-        <footer className={scrollFooterClasses}>
+        <footer
+          className={`${styles.footer} ${footerClasses} ${footerShadowClasses}`}>
           {this.props.footerContent}
         </footer>
       </div>
