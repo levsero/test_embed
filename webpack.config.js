@@ -24,7 +24,7 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules)/,
         loader: 'babel'
       },
       {
@@ -71,6 +71,6 @@ module.exports = {
       mainCSS: path.join(prefix + '/src/styles/main.scss'),
       icons: path.join(prefix + '/src/asset/icons')
     },
-    modulesDirectories: ['node_modules', 'bower_components']
+    modulesDirectories: ['node_modules']
   }
 };
