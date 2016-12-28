@@ -36,6 +36,11 @@ export class WebWidget extends Component {
     return this.refs[this.state.activeComponent];
   }
 
+  showHelpCenter = () => {
+    this.setState({ activeComponent: helpCenter });
+    this.props.showBackButton(!!this.getRootComponent().state.articleViewActive);
+  }
+
   onNextClick = () => {
     if (this.state.chatOnline) {
       this.setState({ activeComponent: chat });
@@ -48,8 +53,7 @@ export class WebWidget extends Component {
 
   onCancelClick = () => {
     if (this.props.helpCenterAvaliable) {
-      this.setState({ activeComponent: helpCenter });
-      this.props.showBackButton(!!this.getRootComponent().state.articleViewActive);
+      this.showHelpCenter();
     } else {
       this.props.onCancel();
     }
@@ -65,15 +69,13 @@ export class WebWidget extends Component {
       this.props.showBackButton(this.state.helpCenterAvaliable);
       rootComponent.clearForm();
     } else {
-      this.setState({ activeComponent: helpCenter });
-      this.props.showBackButton(!!rootComponent.state.articleViewActive);
+      this.showHelpCenter();
     }
   }
 
   activate() {
     if (this.props.helpCenterAvaliable) {
-      this.setState({ activeComponent: helpCenter });
-      this.props.showBackButton(!!this.getRootComponent().state.articleViewActive);
+      this.showHelpCenter();
     } else {
       this.setState({ activeComponent: submitTicket });
     }
