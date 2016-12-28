@@ -143,6 +143,7 @@ describe('embed.webWidget', () => {
       'component/helpCenter/HelpCenterMobile.sass': '',
       'component/helpCenter/HelpCenterArticle.sass': '',
       'component/helpCenter/HelpCenterResults.sass': '',
+      'component/container/ScrollContainer.sass': '',
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory
       },

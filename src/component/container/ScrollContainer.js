@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import classNames from 'classnames';
 
 import { locals as styles } from './ScrollContainer.sass';
 
@@ -14,7 +13,7 @@ export class ScrollContainer extends Component {
   getContentContainer = () => {
     const elem = ReactDOM.findDOMNode(this);
 
-    return elem.querySelector('.ScrollContainer-content');
+    return elem.querySelector('.content');
   }
 
   scrollToBottom = () => {
@@ -65,10 +64,7 @@ ScrollContainer.propTypes = {
   containerClasses: PropTypes.string,
   footerClasses: PropTypes.string,
   contentExpanded: PropTypes.bool,
-  fullscreen: PropTypes.bool,
-  hideZendeskLogo: PropTypes.bool,
-  footerContentHidden: PropTypes.bool,
-  isVirtualKeyboardOpen: PropTypes.bool
+  fullscreen: PropTypes.bool
 };
 
 ScrollContainer.defaultProps = {
@@ -77,8 +73,5 @@ ScrollContainer.defaultProps = {
   containerClasses: '',
   footerClasses: '',
   contentExpanded: false,
-  fullscreen: false,
-  hideZendeskLogo: false,
-  footerContentHidden: false,
-  isVirtualKeyboardOpen: false
+  fullscreen: false
 };
