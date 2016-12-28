@@ -61,7 +61,6 @@ namespace :embeddable_framework do
   task :build_assets do
     logger.info "Building assets"
     sh "npm install"
-    sh "node_modules/.bin/bower install"
     sh "script/fetch_i18n"
     sh "npm run build"
   end
