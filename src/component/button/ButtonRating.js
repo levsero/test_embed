@@ -5,6 +5,30 @@ import { LoadingSpinner } from 'component/loading/Loading';
 import { ButtonSecondary } from 'component/button/ButtonSecondary';
 
 export class ButtonRating extends Component {
+  static propTypes = {
+    label: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.string
+    ]).isRequired,
+    disabled: PropTypes.bool,
+    fullscreen: PropTypes.bool,
+    highlightColor: PropTypes.string,
+    loading: PropTypes.bool,
+    loadingSpinnerClassName: PropTypes.string,
+    onClick: PropTypes.func,
+    selected: PropTypes.bool
+  };
+
+  static defaultProps = {
+    disabled: false,
+    highlightColor: '#77a500',
+    label: '',
+    loading: false,
+    loadingSpinnerClassName: '',
+    onClick: () => {},
+    selected: false
+  };
+
   render = () => {
     const ButtonRatingClasses = classNames({
       'ButtonRating': true,
@@ -29,27 +53,3 @@ export class ButtonRating extends Component {
     );
   }
 }
-
-ButtonRating.propTypes = {
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element
-  ]).isRequired,
-  fullscreen: PropTypes.bool,
-  highlightColor: PropTypes.string,
-  selected: PropTypes.bool,
-  loading: PropTypes.bool,
-  loadingSpinnerClassName: PropTypes.string,
-  disabled: PropTypes.bool,
-  onClick: PropTypes.func
-};
-
-ButtonRating.defaultProps = {
-  highlightColor: '#77a500',
-  selected: false,
-  loading: false,
-  label: '',
-  loadingSpinnerClassName: '',
-  disabled: false,
-  onClick: () => {}
-};

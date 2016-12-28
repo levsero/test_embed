@@ -10,8 +10,61 @@ const helpCenter = 'helpCenterForm';
 const chat = 'chat';
 
 export class WebWidget extends Component {
+  static propTypes = {
+    attachmentSender: PropTypes.func.isRequired,
+    buttonLabelKey: PropTypes.string,
+    channelChoice: PropTypes.bool,
+    formTitleKey: PropTypes.string,
+    fullscreen: PropTypes.bool,
+    helpCenterAvaliable: PropTypes.bool,
+    helpCenterConfig: PropTypes.object,
+    hideZendeskLogo: PropTypes.bool,
+    imagesSender: PropTypes.func,
+    localeFallbacks: PropTypes.arr,
+    onArticleClick: PropTypes.func,
+    onCancel: PropTypes.func,
+    onSearch: PropTypes.func,
+    onSubmitted: PropTypes.func,
+    originalArticleButton: PropTypes.bool,
+    position: PropTypes.string,
+    searchSender: PropTypes.func,
+    showBackButton: PropTypes.func,
+    style: PropTypes.object,
+    subjectEnabled: PropTypes.bool,
+    submitTicketAvaliable: PropTypes.bool,
+    submitTicketConfig: PropTypes.object,
+    submitTicketSender: PropTypes.func.isRequired,
+    updateFrameSize: PropTypes.func,
+    zendeskHost: PropTypes.string.isRequired
+  };
+
+  static defaultProps = {
+    buttonLabelKey: '',
+    channelChoice: true,
+    formTitleKey: '',
+    fullscreen: true,
+    helpCenterAvaliable: false,
+    helpCenterConfig: {},
+    hideZendeskLogo: false,
+    imagesSender: () => {},
+    localeFallbacks: [],
+    onArticleClick: () => {},
+    onCancel: () => {},
+    onSearch: () => {},
+    onSubmitted: () => {},
+    originalArticleButton: true,
+    position: 'right',
+    searchSender: () => {},
+    showBackButton: () => {},
+    style: null,
+    submitTicketAvaliable: true,
+    submitTicketConfig: {},
+    updateFrameSize: () => {}
+  };
+
   constructor(props, context) {
     super(props, context);
+
     this.state = {
       activeComponent: helpCenter,
       chatOnline: false
@@ -163,55 +216,3 @@ export class WebWidget extends Component {
     );
   }
 }
-
-WebWidget.propTypes = {
-  submitTicketConfig: PropTypes.object,
-  submitTicketSender: PropTypes.func.isRequired,
-  attachmentSender: PropTypes.func.isRequired,
-  zendeskHost: PropTypes.string.isRequired,
-  updateFrameSize: PropTypes.func,
-  style: PropTypes.object,
-  position: PropTypes.string,
-  onSubmitted: PropTypes.func,
-  onCancel: PropTypes.func,
-  subjectEnabled: PropTypes.bool,
-  showBackButton: PropTypes.func,
-  helpCenterConfig: PropTypes.object,
-  hideZendeskLogo: PropTypes.bool,
-  onArticleClick: PropTypes.func,
-  onSearch: PropTypes.func,
-  buttonLabelKey: PropTypes.string,
-  formTitleKey: PropTypes.string,
-  searchSender: PropTypes.func,
-  imagesSender: PropTypes.func,
-  fullscreen: PropTypes.bool,
-  originalArticleButton: PropTypes.bool,
-  localeFallbacks: PropTypes.arr,
-  channelChoice: PropTypes.bool,
-  helpCenterAvaliable: PropTypes.bool,
-  submitTicketAvaliable: PropTypes.bool
-};
-
-WebWidget.defaultProps = {
-  submitTicketConfig: {},
-  updateFrameSize: () => {},
-  style: null,
-  position: 'right',
-  onSubmitted: () => {},
-  onCancel: () => {},
-  showBackButton: () => {},
-  helpCenterConfig: {},
-  hideZendeskLogo: false,
-  onArticleClick: () => {},
-  onSearch: () => {},
-  buttonLabelKey: '',
-  formTitleKey: '',
-  searchSender: () => {},
-  imagesSender: () => {},
-  fullscreen: true,
-  originalArticleButton: true,
-  localeFallbacks: [],
-  channelChoice: true,
-  helpCenterAvaliable: false,
-  submitTicketAvaliable: true
-};

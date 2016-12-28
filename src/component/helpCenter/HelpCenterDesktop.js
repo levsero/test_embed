@@ -11,8 +11,44 @@ import { i18n } from 'service/i18n';
 import { locals as styles } from './HelpCenterDesktop.sass';
 
 export class HelpCenterDesktop extends Component {
+  static propTypes = {
+    articleViewActive: PropTypes.bool,
+    buttonLabel: PropTypes.string.isRequired,
+    channelChoice: PropTypes.bool,
+    children: PropTypes.node.isRequired,
+    expanded: PropTypes.bool,
+    formTitleKey: PropTypes.string,
+    handleNextClick: PropTypes.func.isRequired,
+    handleOnChangeValue: PropTypes.func.isRequired,
+    hasSearched: PropTypes.bool,
+    hideZendeskLogo: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    onNextClick: PropTypes.func,
+    search: PropTypes.func.isRequired,
+    searchFieldValue: PropTypes.string,
+    shadowVisible: PropTypes.bool,
+    showNextButton: PropTypes.bool,
+    updateFrameSize: PropTypes.func
+  };
+
+  static defaultProps = {
+    articleViewActive: false,
+    channelChoice: false,
+    expanded: false,
+    formTitleKey: 'help',
+    hasSearched: false,
+    hideZendeskLogo: false,
+    isLoading: false,
+    onNextClick: () => {},
+    searchFieldValue: '',
+    shadowVisible: false,
+    showNextButton: true,
+    updateFrameSize: () => {}
+  };
+
   constructor(props, context) {
     super(props, context);
+
     this.state = { channelChoiceShown: false };
   }
 
@@ -36,6 +72,7 @@ export class HelpCenterDesktop extends Component {
       const strLength = searchFieldInputNode.value.length;
 
       searchField.focus();
+
       if (searchFieldInputNode.setSelectionRange) {
         searchFieldInputNode.setSelectionRange(strLength, strLength);
       }
@@ -143,38 +180,3 @@ export class HelpCenterDesktop extends Component {
     );
   }
 }
-
-HelpCenterDesktop.propTypes = {
-  handleNextClick: PropTypes.func.isRequired,
-  search: PropTypes.func.isRequired,
-  handleOnChangeValue: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
-  onNextClick: PropTypes.func,
-  hideZendeskLogo: PropTypes.bool,
-  updateFrameSize: PropTypes.func,
-  formTitleKey: PropTypes.string,
-  isLoading: PropTypes.bool,
-  articleViewActive: PropTypes.bool,
-  hasSearched: PropTypes.bool,
-  buttonLabel: PropTypes.string.isRequired,
-  shadowVisible: PropTypes.bool,
-  searchFieldValue: PropTypes.string,
-  channelChoice: PropTypes.bool,
-  showNextButton: PropTypes.bool,
-  expanded: PropTypes.bool
-};
-
-HelpCenterDesktop.defaultProps = {
-  onNextClick: () => {},
-  hideZendeskLogo: false,
-  updateFrameSize: () => {},
-  formTitleKey: 'help',
-  isLoading: false,
-  articleViewActive: false,
-  hasSearched: false,
-  shadowVisible: false,
-  searchFieldValue: '',
-  channelChoice: false,
-  showNextButton: true,
-  expanded: false
-};

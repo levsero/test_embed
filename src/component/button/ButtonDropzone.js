@@ -5,6 +5,16 @@ import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
 export class ButtonDropzone extends Component {
+  static propTypes = {
+    isMobile: PropTypes.bool,
+    onDrop: PropTypes.func
+  };
+
+  static defaultProps = {
+    isMobile: false,
+    onDrop: () => {}
+  };
+
   render = () => {
     const label = this.props.isMobile
                 ? i18n.t('embeddable_framework.submitTicket.attachments.button.label_mobile',
@@ -25,13 +35,3 @@ export class ButtonDropzone extends Component {
     );
   }
 }
-
-ButtonDropzone.propTypes = {
-  onDrop: PropTypes.func,
-  isMobile: PropTypes.bool
-};
-
-ButtonDropzone.defaultProps = {
-  onDrop: () => {},
-  isMobile: false
-};

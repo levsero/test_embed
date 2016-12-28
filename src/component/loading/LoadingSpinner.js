@@ -2,6 +2,16 @@ import React, { Component, PropTypes } from 'react';
 import { locals as styles } from './LoadingSpinner.sass';
 
 export class LoadingSpinner extends Component {
+  static propTypes = {
+    height: PropTypes.number,
+    width: PropTypes.number
+  };
+
+  static defaultProps = {
+    height: 180,
+    width: 180
+  };
+
   render = () => {
     const { width, height } = this.props;
     const circleStyles = `u-userStrokeColor ${styles.circle}`;
@@ -21,13 +31,3 @@ export class LoadingSpinner extends Component {
     );
   }
 }
-
-LoadingSpinner.defaultProps = {
-  width: 180,
-  height: 180
-};
-
-LoadingSpinner.propTypes = {
-  width: PropTypes.number,
-  height: PropTypes.number
-};

@@ -31,6 +31,20 @@ const initialState = {
 };
 
 export class Nps extends Component {
+  static propTypes = {
+    mobile: PropTypes.bool.isRequired,
+    npsSender: PropTypes.func.isRequired,
+    setFrameSize: PropTypes.func,
+    setOffsetHorizontal: PropTypes.func,
+    updateFrameSize: PropTypes.func
+  };
+
+  static defaultProps = {
+    setFrameSize: () => {},
+    setOffsetHorizontal: () => {},
+    updateFrameSize: () => {}
+  };
+
   constructor(props, context) {
     super(props, context);
 
@@ -149,17 +163,3 @@ export class Nps extends Component {
           setOffsetHorizontal={this.props.setOffsetHorizontal} />;
   }
 }
-
-Nps.propTypes = {
-  npsSender: PropTypes.func.isRequired,
-  mobile: PropTypes.bool.isRequired,
-  setOffsetHorizontal: PropTypes.func,
-  setFrameSize: PropTypes.func,
-  updateFrameSize: PropTypes.func
-};
-
-Nps.defaultProps = {
-  setOffsetHorizontal: () => {},
-  setFrameSize: () => {},
-  updateFrameSize: () => {}
-};

@@ -7,11 +7,34 @@ import { LoadingEllipses } from 'component/loading/Loading';
 import { Icon } from 'component/Icon';
 
 export class SearchField extends Component {
+  static propTypes = {
+    fullscreen: PropTypes.bool,
+    hasSearched: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    onChangeValue: PropTypes.func,
+    onFocus: PropTypes.func,
+    onSearchIconClick: PropTypes.func
+  };
+
+  static defaultProps = {
+    fullscreen: false,
+    hasSearched: false,
+    isLoading: false,
+    onBlur: () => {},
+    onChange: () => {},
+    onChangeValue: () => {},
+    onFocus: () => {},
+    onSearchIconClick:  () => {}
+  };
+
   constructor(props, context) {
     super(props, context);
+
     this.state = {
-      focused: false,
       blurred: false,
+      focused: false,
       searchInputVal: ''
     };
   }
@@ -33,9 +56,7 @@ export class SearchField extends Component {
   onChange = (e) => {
     const value = e.target.value;
 
-    this.setState({
-      searchInputVal: value
-    });
+    this.setState({ searchInputVal: value });
 
     this.props.onChange(e);
     this.props.onChangeValue(value);
@@ -185,25 +206,3 @@ export class SearchField extends Component {
     );
   }
 }
-
-SearchField.propTypes = {
-  fullscreen: PropTypes.bool,
-  isLoading: PropTypes.bool,
-  hasSearched: PropTypes.bool,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  onChange: PropTypes.func,
-  onSearchIconClick: PropTypes.func,
-  onChangeValue: PropTypes.func
-};
-
-SearchField.defaultProps = {
-  fullscreen: false,
-  isLoading: false,
-  hasSearched: false,
-  onFocus: () => {},
-  onBlur: () => {},
-  onChange: () => {},
-  onSearchIconClick:  () => {},
-  onChangeValue: () => {}
-};

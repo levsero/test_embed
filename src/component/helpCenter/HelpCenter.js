@@ -12,6 +12,47 @@ const minimumSearchResults = 3;
 const maximumSearchResults = 9;
 
 export class HelpCenter extends Component {
+  static propTypes = {
+    buttonLabelKey: PropTypes.string,
+    channelChoice: PropTypes.bool,
+    contextualSearchSender: PropTypes.func.isRequired,
+    expanded: PropTypes.bool,
+    formTitleKey: PropTypes.string,
+    fullscreen: PropTypes.bool.isRequired,
+    hideZendeskLogo: PropTypes.bool,
+    imagesSender: PropTypes.func.isRequired,
+    localeFallbacks: PropTypes.arr,
+    onArticleClick: PropTypes.func,
+    onNextClick: PropTypes.func,
+    onSearch: PropTypes.func,
+    originalArticleButton: PropTypes.bool,
+    searchSender: PropTypes.func.isRequired,
+    showBackButton: PropTypes.func,
+    showNextButton: PropTypes.bool,
+    style: PropTypes.object,
+    updateFrameSize: PropTypes.func,
+    viewMoreEnabled: PropTypes.bool,
+    zendeskHost: PropTypes.string.isRequired
+  };
+
+  static defaultProps = {
+    buttonLabelKey: 'message',
+    channelChoice: false,
+    expanded: false,
+    formTitleKey: 'help',
+    hideZendeskLogo: false,
+    localeFallbacks: [],
+    onArticleClick: () => {},
+    onNextClick: () => {},
+    onSearch: () => {},
+    originalArticleButton: true,
+    showBackButton: () => {},
+    showNextButton: true,
+    style: null,
+    updateFrameSize: () => {},
+    viewMoreEnabled: false
+  };
+
   constructor(props, context) {
     super(props, context);
 
@@ -458,44 +499,3 @@ export class HelpCenter extends Component {
     );
   }
 }
-
-HelpCenter.propTypes = {
-  searchSender: PropTypes.func.isRequired,
-  contextualSearchSender: PropTypes.func.isRequired,
-  imagesSender: PropTypes.func.isRequired,
-  zendeskHost: PropTypes.string.isRequired,
-  fullscreen: PropTypes.bool.isRequired,
-  buttonLabelKey: PropTypes.string,
-  onSearch: PropTypes.func,
-  showBackButton: PropTypes.func,
-  onNextClick: PropTypes.func,
-  onArticleClick: PropTypes.func,
-  hideZendeskLogo: PropTypes.bool,
-  updateFrameSize: PropTypes.func,
-  style: PropTypes.object,
-  formTitleKey: PropTypes.string,
-  originalArticleButton: PropTypes.bool,
-  channelChoice: PropTypes.bool,
-  localeFallbacks: PropTypes.arr,
-  expanded: PropTypes.bool,
-  showNextButton: PropTypes.bool,
-  viewMoreEnabled: PropTypes.bool
-};
-
-HelpCenter.defaultProps = {
-  buttonLabelKey: 'message',
-  onSearch: () => {},
-  showBackButton: () => {},
-  onNextClick: () => {},
-  onArticleClick: () => {},
-  hideZendeskLogo: false,
-  updateFrameSize: () => {},
-  style: null,
-  formTitleKey: 'help',
-  originalArticleButton: true,
-  localeFallbacks: [],
-  channelChoice: false,
-  viewMoreEnabled: false,
-  expanded: false,
-  showNextButton: true
-};

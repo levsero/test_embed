@@ -4,6 +4,16 @@ import { ScrollContainer } from 'component/ScrollContainer';
 import { Container } from 'component/Container';
 
 export class Chat extends Component {
+  static propTypes = {
+    position: PropTypes.string,
+    style: PropTypes.object
+  };
+
+  static defaultProps = {
+    position: 'right',
+    style: null
+  };
+
   render = () => {
     return (
       <Container
@@ -17,13 +27,3 @@ export class Chat extends Component {
     );
   }
 }
-
-Chat.propTypes = {
-  style: PropTypes.object,
-  position: PropTypes.string
-};
-
-Chat.defaultProps = {
-  style: null,
-  position: 'right'
-};

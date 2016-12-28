@@ -3,6 +3,35 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
 export class ScrollContainer extends Component {
+  static propTypes = {
+    footerContent: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.element),
+      PropTypes.element
+    ]),
+    children: PropTypes.node.isRequired,
+    containerClasses: PropTypes.string,
+    contentExpanded: PropTypes.bool,
+    footerClasses: PropTypes.string,
+    footerContentHidden: PropTypes.bool,
+    fullscreen: PropTypes.bool,
+    headerContent: PropTypes.element,
+    hideZendeskLogo: PropTypes.bool,
+    isVirtualKeyboardOpen: PropTypes.bool,
+    title: PropTypes.string.isRequired
+  };
+
+  static defaultProps = {
+    containerClasses: '',
+    contentExpanded: false,
+    footerClasses: '',
+    footerContent: [],
+    footerContentHidden: false,
+    fullscreen: false,
+    headerContent: null,
+    hideZendeskLogo: false,
+    isVirtualKeyboardOpen: false
+  };
+
   constructor(props, context) {
     super(props, context);
 
@@ -69,32 +98,3 @@ export class ScrollContainer extends Component {
     );
   }
 }
-
-ScrollContainer.propTypes = {
-  title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  footerContent: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.arrayOf(PropTypes.element)
-  ]),
-  headerContent: PropTypes.element,
-  containerClasses: PropTypes.string,
-  footerClasses: PropTypes.string,
-  contentExpanded: PropTypes.bool,
-  fullscreen: PropTypes.bool,
-  hideZendeskLogo: PropTypes.bool,
-  footerContentHidden: PropTypes.bool,
-  isVirtualKeyboardOpen: PropTypes.bool
-};
-
-ScrollContainer.defaultProps = {
-  footerContent: [],
-  headerContent: null,
-  containerClasses: '',
-  footerClasses: '',
-  contentExpanded: false,
-  fullscreen: false,
-  hideZendeskLogo: false,
-  footerContentHidden: false,
-  isVirtualKeyboardOpen: false
-};

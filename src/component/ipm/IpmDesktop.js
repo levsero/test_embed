@@ -6,6 +6,12 @@ import { Button } from 'component/button/Button';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 
 export class IpmDesktop extends Component {
+  static propTypes = {
+    closeFrame: PropTypes.func.isRequired,
+    ipm: PropTypes.object.isRequired,
+    updateFrameSize: PropTypes.func.isRequired
+  };
+
   handleOnClick = () => {
     const { buttonUrl } = this.props.ipm.message;
 
@@ -69,9 +75,3 @@ export class IpmDesktop extends Component {
     );
   }
 }
-
-IpmDesktop.propTypes = {
-  ipm: PropTypes.object.isRequired,
-  updateFrameSize: PropTypes.func.isRequired,
-  closeFrame: PropTypes.func.isRequired
-};

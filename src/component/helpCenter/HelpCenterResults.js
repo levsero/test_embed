@@ -7,6 +7,36 @@ import { i18n } from 'service/i18n';
 import { locals as styles } from './HelpCenterResults.sass';
 
 export class HelpCenterResults extends Component {
+  static propTypes = {
+    applyPadding: PropTypes.bool,
+    articles: PropTypes.array,
+    fullscreen: PropTypes.bool,
+    handleArticleClick: PropTypes.func,
+    handleViewMoreClick: PropTypes.func,
+    hasContextualSearched: PropTypes.bool,
+    hideBottomPadding: PropTypes.bool,
+    previousSearchTerm: PropTypes.string,
+    searchFailed: PropTypes.bool,
+    showBottomBorder: PropTypes.bool,
+    showContactButton: PropTypes.bool,
+    showViewMore: PropTypes.bool
+  };
+
+  static defaultProps = {
+    applyPadding: false,
+    articles: [],
+    fullscreen: false,
+    handleArticleClick: () => {},
+    handleViewMoreClick: () => {},
+    hasContextualSearched: false,
+    hideBottomPadding: false,
+    previousSearchTerm: '',
+    searchFailed: false,
+    showBottomBorder: true,
+    showContactButton: true,
+    showViewMore: false
+  };
+
   renderResultRow = (article, index) => {
     const mobileClasses = this.props.fullscreen ? styles.itemMobile : '';
 
@@ -122,33 +152,3 @@ export class HelpCenterResults extends Component {
     );
   }
 }
-
-HelpCenterResults.propTypes = {
-  articles: PropTypes.array,
-  fullscreen: PropTypes.bool,
-  showViewMore: PropTypes.bool,
-  applyPadding: PropTypes.bool,
-  showBottomBorder: PropTypes.bool,
-  searchFailed: PropTypes.bool,
-  previousSearchTerm: PropTypes.string,
-  hasContextualSearched: PropTypes.bool,
-  hideBottomPadding: PropTypes.bool,
-  handleArticleClick: PropTypes.func,
-  handleViewMoreClick: PropTypes.func,
-  showContactButton: PropTypes.bool
-};
-
-HelpCenterResults.defaultProps = {
-  articles: [],
-  fullscreen: false,
-  showViewMore: false,
-  applyPadding: false,
-  showBottomBorder: true,
-  searchFailed: false,
-  previousSearchTerm: '',
-  hasContextualSearched: false,
-  hideBottomPadding: false,
-  handleArticleClick: () => {},
-  handleViewMoreClick: () => {},
-  showContactButton: true
-};

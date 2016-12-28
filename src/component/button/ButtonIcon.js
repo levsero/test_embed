@@ -5,6 +5,20 @@ import { Icon } from 'component/Icon';
 import { isIE } from 'utility/devices';
 
 export class ButtonIcon extends Component {
+  static propTypes = {
+    className: PropTypes.string,
+    icon: PropTypes.string,
+    label: PropTypes.string,
+    onClick: PropTypes.func
+  };
+
+  static defaultProps = {
+    className: '',
+    icon: '',
+    label: '',
+    onClick: () => {}
+  };
+
   render = () => {
     const buttonClasses = classNames({
       'Button--icon u-userFillColor u-isActionable': true,
@@ -27,17 +41,3 @@ export class ButtonIcon extends Component {
     );
   }
 }
-
-ButtonIcon.propTypes = {
-  label: PropTypes.string,
-  onClick: PropTypes.func,
-  icon: PropTypes.string,
-  className: PropTypes.string
-};
-
-ButtonIcon.defaultProps = {
-  onClick: () => {},
-  label: '',
-  icon: '',
-  className: ''
-};

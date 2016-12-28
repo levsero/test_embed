@@ -5,6 +5,19 @@ import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
 export class ButtonPill extends Component {
+  static propTypes = {
+    fullscreen: PropTypes.bool,
+    label: PropTypes.string.isRequired,
+    onClick: PropTypes.func,
+    showIcon: PropTypes.bool
+  };
+
+  static defaultProps = {
+    fullscreen: false,
+    onClick: () => {},
+    showIcon: true
+  };
+
   render = () => {
     const buttonClasses = classNames({
       'c-btn c-btn--secondary c-btn--pill': true,
@@ -24,16 +37,3 @@ export class ButtonPill extends Component {
     );
   }
 }
-
-ButtonPill.propTypes = {
-  label: PropTypes.string.isRequired,
-  fullscreen: PropTypes.bool,
-  showIcon: PropTypes.bool,
-  onClick: PropTypes.func
-};
-
-ButtonPill.defaultProps = {
-  fullscreen: false,
-  showIcon: true,
-  onClick: () => {}
-};

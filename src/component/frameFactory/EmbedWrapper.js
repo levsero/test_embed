@@ -10,12 +10,37 @@ import { generateNpsCSS,
 import { Provider } from 'react-redux';
 
 export class EmbedWrapper extends Component {
+  static propTypes = {
+    baseCSS: PropTypes.string,
+    childFn: PropTypes.func.isRequired,
+    childParams: PropTypes.object,
+    fullscreen: PropTypes.bool,
+    handleBackClick: PropTypes.func,
+    handleCloseClick: PropTypes.func,
+    handleExpandClick: PropTypes.func,
+    hideCloseButton: PropTypes.bool,
+    reduxStore: PropTypes.object.isRequired,
+    showExpandButton: PropTypes.bool
+  };
+
+  static defaultProps = {
+    baseCSS: '',
+    childParams: {},
+    fullscreen: false,
+    handleBackClick: () => {},
+    handleCloseClick: () => {},
+    handleExpandClick: () => {},
+    hideCloseButton: false,
+    showExpandButton: false
+  };
+
   constructor(props, context) {
     super(props, context);
+
     this.state = {
       css: '',
-      showBackButton: false,
-      isMobile: false
+      isMobile: false,
+      showBackButton: false
     };
   }
 
@@ -107,27 +132,3 @@ export class EmbedWrapper extends Component {
     );
   }
 }
-
-EmbedWrapper.propTypes = {
-  handleBackClick: PropTypes.func,
-  baseCSS: PropTypes.string,
-  reduxStore: PropTypes.object.isRequired,
-  handleCloseClick: PropTypes.func,
-  handleExpandClick: PropTypes.func,
-  fullscreen: PropTypes.bool,
-  hideCloseButton: PropTypes.bool,
-  childFn: PropTypes.func.isRequired,
-  childParams: PropTypes.object,
-  showExpandButton: PropTypes.bool
-};
-
-EmbedWrapper.defaultProps = {
-  handleBackClick: () => {},
-  baseCSS: '',
-  handleCloseClick: () => {},
-  handleExpandClick: () => {},
-  fullscreen: false,
-  hideCloseButton: false,
-  childParams: {},
-  showExpandButton: false
-};

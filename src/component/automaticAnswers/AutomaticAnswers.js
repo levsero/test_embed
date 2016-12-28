@@ -9,8 +9,16 @@ import { getHelpCenterArticleId } from 'utility/pages';
 const closeFrameDelay = 4000;
 
 export class AutomaticAnswers extends Component {
+  static propTypes = {
+    solveTicket: PropTypes.func.isRequired,
+    updateFrameSize: PropTypes.func,
+    mobile: PropTypes.bool.isRequired,
+    closeFrame: PropTypes.func.isRequired
+  };
+
   constructor(props, context) {
     super(props, context);
+
     this.state = {
       ticket: {
         title: '',
@@ -69,8 +77,8 @@ export class AutomaticAnswers extends Component {
 
   solveTicketFail = () => {
     const errorKey = (this.props.mobile)
-                     ? 'embeddable_framework.automaticAnswers.label.error_mobile'
-                     : 'embeddable_framework.automaticAnswers.label.error_v2';
+                   ? 'embeddable_framework.automaticAnswers.label.error_mobile'
+                   : 'embeddable_framework.automaticAnswers.label.error_v2';
 
     this.setState({
       errorMessage: i18n.t(errorKey, {
@@ -107,12 +115,3 @@ export class AutomaticAnswers extends Component {
     return (this.props.mobile) ? this.renderMobile() : this.renderDesktop();
   }
 }
-
-AutomaticAnswers.propTypes = {
-  solveTicket: PropTypes.func.isRequired,
-  updateFrameSize: PropTypes.func,
-  mobile: PropTypes.bool.isRequired,
-  closeFrame: PropTypes.func.isRequired
-};
-
-AutomaticAnswers.defaultProps = {};

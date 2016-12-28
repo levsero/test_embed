@@ -2,6 +2,26 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 export class Dropzone extends Component {
+  static propTypes = {
+    activeClassName: PropTypes.string,
+    children: PropTypes.node,
+    className: PropTypes.string,
+    disableClick: PropTypes.bool,
+    onDragEnter: PropTypes.func,
+    onDragLeave: PropTypes.func,
+    onDrop: PropTypes.func.isRequired,
+    style: PropTypes.object
+  };
+
+  static defaultProps = {
+    activeClassName: '',
+    className: '',
+    disableClick: false,
+    onDragEnter: () => {},
+    onDragLeave: () => {},
+    style: {}
+  };
+
   constructor(props, context) {
     super(props, context);
 
@@ -80,23 +100,3 @@ export class Dropzone extends Component {
     );
   }
 }
-
-Dropzone.defaultProps = {
-  onDragEnter: () => {},
-  onDragLeave: () => {},
-  style: {},
-  className: '',
-  activeClassName: '',
-  disableClick: false
-};
-
-Dropzone.propTypes = {
-  onDrop: PropTypes.func.isRequired,
-  onDragEnter: PropTypes.func,
-  style: PropTypes.object,
-  onDragLeave: PropTypes.func,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  activeClassName: PropTypes.string,
-  disableClick: PropTypes.bool
-};

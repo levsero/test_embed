@@ -36,6 +36,18 @@ const icons = {
 };
 
 export class Icon extends Component {
+  static propTypes = {
+    className: PropTypes.string,
+    isMobile: PropTypes.bool,
+    type: PropTypes.string
+  };
+
+  static defaultProps = {
+    className: '',
+    isMobile: isMobileBrowser(),
+    type: ''
+  };
+
   render = () => {
     const icon = icons[this.props.type];
     const iconClasses = classNames({
@@ -51,15 +63,3 @@ export class Icon extends Component {
     );
   }
 }
-
-Icon.propTypes = {
-  type: PropTypes.string,
-  className: PropTypes.string,
-  isMobile: PropTypes.bool
-};
-
-Icon.defaultProps = {
-  type: '',
-  className: '',
-  isMobile: isMobileBrowser()
-};

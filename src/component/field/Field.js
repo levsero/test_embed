@@ -9,13 +9,60 @@ import { isMobileBrowser,
 import { Icon } from 'component/Icon';
 
 export class Field extends Component {
+  static propTypes = {
+    label: (props, propName, componentName) => {
+      if (props.type === 'checkbox' && !props[propName]) {
+        return new Error(`${componentName} must have a label prop if type is set to "checkbox"`);
+      }
+    },
+    name: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
+    ]).isRequired,
+    value: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
+    ]),
+    disabled: PropTypes.bool,
+    hasSearched: PropTypes.bool,
+    input: PropTypes.element,
+    labelClasses: PropTypes.string,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    onFocus: PropTypes.func,
+    options: PropTypes.array,
+    pattern: PropTypes.string,
+    placeholder: PropTypes.string,
+    required: PropTypes.bool,
+    step: PropTypes.string,
+    type: PropTypes.string
+  };
+
+  static defaultProps = {
+    disabled: false,
+    hasSearched: false,
+    input: null,
+    labelClasses: '',
+    onBlur: () => {},
+    onChange: () => {},
+    onFocus: () => {},
+    options: [],
+    pattern: '',
+    placeholder: '',
+    required: false,
+    step: '',
+    type: '',
+    value: ''
+  };
+
   constructor(props, context) {
     super(props, context);
+
     this.state = {
-      focused: false,
       blurred: false,
-      hasError: false,
       dirty: false,
+      focused: false,
+      hasError: false,
       value: props.value
     };
   }
@@ -171,49 +218,3 @@ export class Field extends Component {
     );
   }
 }
-
-Field.propTypes = {
-  name: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]).isRequired,
-  placeholder: PropTypes.string,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  input: PropTypes.element,
-  required: PropTypes.bool,
-  label: (props, propName, componentName) => {
-    if (props.type === 'checkbox' && !props[propName]) {
-      return new Error(`${componentName} must have a label prop if type is set to "checkbox"`);
-    }
-  },
-  type: PropTypes.string,
-  options: PropTypes.array,
-  hasSearched: PropTypes.bool,
-  labelClasses: PropTypes.string,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  onChange: PropTypes.func,
-  step: PropTypes.string,
-  pattern: PropTypes.string,
-  disabled: PropTypes.bool
-};
-
-Field.defaultProps = {
-  placeholder: '',
-  value: '',
-  input: null,
-  required: false,
-  type: '',
-  options: [],
-  hasSearched: false,
-  labelClasses: '',
-  onFocus: () => {},
-  onBlur: () => {},
-  onChange: () => {},
-  step: '',
-  pattern: '',
-  disabled: false
-};

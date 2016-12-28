@@ -17,24 +17,58 @@ const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitBu
 const sendingButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.sending';
 const cancelButtonMessageString = 'embeddable_framework.submitTicket.form.cancelButton.label.cancel';
 const initialState = {
-  isValid: false,
-  isSubmitting: false,
-  isRTL: i18n.isRTL(),
-  shouldRemoveForm: false,
-  showErrorMessage: false,
   attachments: [],
   buttonMessage: sendButtonMessageString,
-  cancelButtonMessage: cancelButtonMessageString
+  cancelButtonMessage: cancelButtonMessageString,
+  isRTL: i18n.isRTL(),
+  isSubmitting: false,
+  isValid: false,
+  shouldRemoveForm: false,
+  showErrorMessage: false
 };
 
 export class SubmitTicketForm extends Component {
+  static propTypes = {
+    attachmentsEnabled: PropTypes.bool,
+    attachmentSender: PropTypes.func.isRequired,
+    children: PropTypes.element.isRequired,
+    customFields: PropTypes.array,
+    expanded: PropTypes.bool,
+    formState: PropTypes.object,
+    formTitleKey: PropTypes.string.isRequired,
+    fullscreen: PropTypes.bool,
+    hide: PropTypes.bool,
+    maxFileCount: PropTypes.number,
+    maxFileSize: PropTypes.number,
+    onCancel: PropTypes.func,
+    previewEnabled: PropTypes.bool,
+    setFormState: PropTypes.func,
+    subjectEnabled: PropTypes.bool,
+    submit: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    attachmentsEnabled: false,
+    customFields: [],
+    expanded: false,
+    formState: {},
+    fullscreen: false,
+    hide: false,
+    maxFileCount: 5,
+    maxFileSize: 5 * 1024 * 1024,
+    onCancel: () => {},
+    previewEnabled: false,
+    setFormState: () => {},
+    subjectEnabled: false
+  };
+
   constructor(props, context) {
     super(props, context);
 
     this.state = _.extend({}, initialState, {
+      isValid: props.previewEnabled,
       ticketForm: null,
-      ticketFormFields: [],
-      isValid: props.previewEnabled
+      ticketFormFields: []
     });
   }
 
@@ -350,37 +384,3 @@ export class SubmitTicketForm extends Component {
     );
   }
 }
-
-SubmitTicketForm.propTypes = {
-  formTitleKey: PropTypes.string.isRequired,
-  children: PropTypes.element.isRequired,
-  submit: PropTypes.func.isRequired,
-  hide: PropTypes.bool,
-  customFields: PropTypes.array,
-  fullscreen: PropTypes.bool,
-  onCancel: PropTypes.func,
-  attachmentSender: PropTypes.func.isRequired,
-  attachmentsEnabled: PropTypes.bool,
-  subjectEnabled: PropTypes.bool,
-  maxFileCount: PropTypes.number,
-  maxFileSize: PropTypes.number,
-  previewEnabled: PropTypes.bool,
-  formState: PropTypes.object,
-  setFormState: PropTypes.func,
-  expanded: PropTypes.bool
-};
-
-SubmitTicketForm.defaultProps = {
-  hide: false,
-  customFields: [],
-  fullscreen: false,
-  onCancel: () => {},
-  attachmentsEnabled: false,
-  subjectEnabled: false,
-  maxFileCount: 5,
-  maxFileSize: 5 * 1024 * 1024,
-  previewEnabled: false,
-  expanded: false,
-  formState: {},
-  setFormState: () => {}
-};

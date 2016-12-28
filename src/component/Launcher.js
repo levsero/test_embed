@@ -7,14 +7,26 @@ import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
 
 export class Launcher extends Component {
+  static propTypes = {
+    icon: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+    position: PropTypes.string.isRequired,
+    updateFrameSize: PropTypes.func
+  };
+
+  static defaultProps = {
+    updateFrameSize: () => {}
+  };
+
   constructor(props, context) {
     super(props, context);
 
     this.state = {
+      hasUnreadMessages: false,
       icon: props.icon,
       label: props.label,
-      labelOptions: {},
-      hasUnreadMessages: false
+      labelOptions: {}
     };
   }
 
@@ -59,15 +71,3 @@ export class Launcher extends Component {
     );
   }
 }
-
-Launcher.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  updateFrameSize: PropTypes.func,
-  position: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired
-};
-
-Launcher.defaultProps = {
-  updateFrameSize: () => {}
-};

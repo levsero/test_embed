@@ -16,13 +16,34 @@ const allowedIframeAttribs = [
   'oallowfullscreen', 'msallowfullscreen'
 ];
 
-class HelpCenterArticle extends Component {
+export class HelpCenterArticle extends Component {
+  static propTypes = {
+    activeArticle: PropTypes.object.isRequired,
+    fullscreen: PropTypes.bool,
+    imagesSender: PropTypes.func,
+    originalArticleButton: PropTypes.bool,
+    storedImages: PropTypes.array,
+    updateFrameSize: PropTypes.func,
+    updateStoredImages: PropTypes.func,
+    zendeskHost: PropTypes.string
+  };
+
+  static defaultProps = {
+    fullscreen: false,
+    imagesSender: () => {},
+    originalArticleButton: true,
+    storedImages: [],
+    updateFrameSize: () => {},
+    updateStoredImages: () => {},
+    zendeskHost: ''
+  };
+
   constructor(props, context) {
     super(props, context);
 
     this.state = {
-      queuedImages: {},
-      lastActiveArticleId: null
+      lastActiveArticleId: null,
+      queuedImages: {}
     };
   }
 
@@ -276,26 +297,3 @@ class HelpCenterArticle extends Component {
     );
   }
 }
-
-HelpCenterArticle.propTypes = {
-  activeArticle: PropTypes.object.isRequired,
-  zendeskHost: PropTypes.string,
-  storedImages: PropTypes.array,
-  imagesSender: PropTypes.func,
-  updateStoredImages: PropTypes.func,
-  updateFrameSize: PropTypes.func,
-  originalArticleButton: PropTypes.bool,
-  fullscreen: PropTypes.bool
-};
-
-HelpCenterArticle.defaultProps = {
-  zendeskHost: '',
-  storedImages: [],
-  imagesSender: () => {},
-  updateStoredImages: () => {},
-  updateFrameSize: () => {},
-  originalArticleButton: true,
-  fullscreen: false
-};
-
-export { HelpCenterArticle };

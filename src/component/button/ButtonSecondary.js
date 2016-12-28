@@ -2,6 +2,24 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 export class ButtonSecondary extends Component {
+  static propTypes = {
+    label: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.string
+    ]).isRequired,
+    className: PropTypes.string,
+    disabled: PropTypes.bool,
+    onClick: PropTypes.func,
+    style: PropTypes.element
+  };
+
+  static defaultProps = {
+    className: '',
+    disabled: false,
+    onClick: () => {},
+    style: null
+  };
+
   render = () => {
     const buttonClasses = classNames({
       'c-btn c-btn--medium c-btn--secondary': true,
@@ -24,21 +42,3 @@ export class ButtonSecondary extends Component {
            </div>;
   }
 }
-
-ButtonSecondary.propTypes = {
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element
-  ]).isRequired,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-  style: PropTypes.element,
-  onClick: PropTypes.func
-};
-
-ButtonSecondary.defaultProps = {
-  disabled: false,
-  className: '',
-  style: null,
-  onClick: () => {}
-};

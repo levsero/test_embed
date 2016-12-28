@@ -5,6 +5,24 @@ import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
 export class ZendeskLogo extends Component {
+  static propTypes = {
+    className: PropTypes.string,
+    formSuccess: PropTypes.bool,
+    fullscreen: PropTypes.bool,
+    logoLink: PropTypes.string,
+    rtl: PropTypes.bool,
+    utm: PropTypes.string
+  };
+
+  static defaultProps = {
+    className: '',
+    formSuccess: false,
+    fullscreen: false,
+    logoLink: 'embeddables',
+    rtl: false,
+    utm: 'webwidget'
+  };
+
   render = () => {
     const { fullscreen, rtl, formSuccess } = this.props;
     const logoClasses = classNames({
@@ -32,21 +50,3 @@ export class ZendeskLogo extends Component {
     );
   }
 }
-
-ZendeskLogo.propTypes = {
-  rtl: PropTypes.bool,
-  fullscreen: PropTypes.bool,
-  formSuccess: PropTypes.bool,
-  className: PropTypes.string,
-  utm: PropTypes.string,
-  logoLink: PropTypes.string
-};
-
-ZendeskLogo.defaultProps = {
-  rtl: false,
-  fullscreen: false,
-  formSuccess: false,
-  className: '',
-  utm: 'webwidget',
-  logoLink: 'embeddables'
-};

@@ -7,6 +7,21 @@ import { i18n } from 'service/i18n';
 import { isIos } from 'utility/devices';
 
 export class SearchInput extends Component {
+  static propTypes = {
+    fullscreen: PropTypes.bool,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    onFocus: PropTypes.func,
+    searchInputVal: PropTypes.string.isRequired
+  };
+
+  static defaultProps = {
+    fullscreen: false,
+    onBlur: () => {},
+    onChange: () => {},
+    onFocus: () => {}
+  };
+
   getInput = () => {
     return ReactDOM.findDOMNode(this.refs.input);
   }
@@ -48,18 +63,3 @@ export class SearchInput extends Component {
     );
   }
 }
-
-SearchInput.propTypes = {
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  onChange: PropTypes.func,
-  fullscreen: PropTypes.bool,
-  searchInputVal: PropTypes.string.isRequired
-};
-
-SearchInput.defaultProps = {
-  onFocus: () => {},
-  onBlur: () => {},
-  onChange: () => {},
-  fullscreen: false
-};

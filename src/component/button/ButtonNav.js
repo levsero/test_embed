@@ -2,6 +2,23 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 export class ButtonNav extends Component {
+  static propTypes = {
+    className: PropTypes.string,
+    fullscreen: PropTypes.bool,
+    label: PropTypes.element.isRequired,
+    onClick: PropTypes.func,
+    position: PropTypes.string,
+    rtl: PropTypes.bool
+  };
+
+  static defaultProps = {
+    className: '',
+    fullscreen: false,
+    onClick: () => {},
+    position: 'left',
+    rtl: false
+  };
+
   render = () => {
     const { fullscreen, position, rtl } = this.props;
     const isLeft = (position === 'left');
@@ -29,20 +46,3 @@ export class ButtonNav extends Component {
     );
   }
 }
-
-ButtonNav.propTypes = {
-  label: PropTypes.element.isRequired,
-  rtl: PropTypes.bool,
-  fullscreen: PropTypes.bool,
-  position: PropTypes.string,
-  onClick: PropTypes.func,
-  className: PropTypes.string
-};
-
-ButtonNav.defaultProps = {
-  rtl: false,
-  fullscreen: false,
-  position: 'left',
-  onClick: () => {},
-  className: ''
-};
