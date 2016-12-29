@@ -20,7 +20,7 @@ export class WebWidget extends Component {
     helpCenterConfig: PropTypes.object,
     hideZendeskLogo: PropTypes.bool,
     imagesSender: PropTypes.func,
-    localeFallbacks: PropTypes.arr,
+    localeFallbacks: PropTypes.array,
     onArticleClick: PropTypes.func,
     onCancel: PropTypes.func,
     onSearch: PropTypes.func,

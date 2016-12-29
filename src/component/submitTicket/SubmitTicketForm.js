@@ -49,6 +49,7 @@ export class SubmitTicketForm extends Component {
 
   static defaultProps = {
     attachmentsEnabled: false,
+    children: <span />,
     customFields: [],
     expanded: false,
     formState: {},

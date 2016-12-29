@@ -57,7 +57,7 @@ export class Icon extends Component {
 
     return (
       <span
-        {...this.props}
+        type={this.props.type}
         className={iconClasses}
         dangerouslySetInnerHTML={{__html: icon}} />
     );

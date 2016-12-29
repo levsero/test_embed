@@ -21,7 +21,7 @@ export class HelpCenter extends Component {
     fullscreen: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
     imagesSender: PropTypes.func.isRequired,
-    localeFallbacks: PropTypes.arr,
+    localeFallbacks: PropTypes.array,
     onArticleClick: PropTypes.func,
     onNextClick: PropTypes.func,
     onSearch: PropTypes.func,
