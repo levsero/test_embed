@@ -5,11 +5,14 @@ import { Icon } from 'component/Icon';
 export class NpsSelectList extends Component {
   static propTypes = {
     highlightColor: PropTypes.string,
+    iconClassNames: PropTypes.string,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
     options: PropTypes.array,
-    selectedItem: PropTypes.number
+    selectClassNames: PropTypes.string,
+    selectedItem: PropTypes.number,
+    wrapperClassNames: PropTypes.string
   };
 
   static defaultProps = {

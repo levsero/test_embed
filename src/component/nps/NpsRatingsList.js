@@ -25,7 +25,8 @@ export class NpsRatingsList extends Component {
     isSubmittingComment: false,
     isSubmittingRating: false,
     onChangeValue: () => {},
-    ratingsRange: _.range(11)
+    ratingsRange: _.range(11),
+    selectedRating: -1
   };
 
   ratingClickHandlerFn = (rating) => {
@@ -77,7 +78,7 @@ export class NpsRatingsList extends Component {
         loadingSpinnerClassName: 'RatingsList-spinner',
         selected: isSelected,
         disabled: !isSelected && (this.props.isSubmittingRating || this.props.isSubmittingComment),
-        onClick: !isSelected && !this.props.isSubmittingRating && this.ratingClickHandlerFn(rating)
+        onClick: (!isSelected && !this.props.isSubmittingRating) ? this.ratingClickHandlerFn(rating) : () => {}
       };
 
       return (

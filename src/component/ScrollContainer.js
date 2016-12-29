@@ -21,6 +21,7 @@ export class ScrollContainer extends Component {
   };
 
   static defaultProps = {
+    children: <span />,
     containerClasses: '',
     contentExpanded: false,
     footerClasses: '',

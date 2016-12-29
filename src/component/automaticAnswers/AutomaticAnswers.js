@@ -16,6 +16,10 @@ export class AutomaticAnswers extends Component {
     closeFrame: PropTypes.func.isRequired
   };
 
+  static defaultProps = {
+    updateFrameSize: () => {}
+  };
+
   constructor(props, context) {
     super(props, context);
 

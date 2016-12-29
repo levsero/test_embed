@@ -17,6 +17,7 @@ export class AutomaticAnswersDesktop extends Component {
   };
 
   static defaultProps = {
+    ticketNiceId: -1,
     updateFrameSize: () => {}
   };
 
