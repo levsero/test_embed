@@ -25,6 +25,8 @@
   font-size: #{12/$font-size}rem;
   line-height: #{20/$font-size}rem;
   margin-top: #{7/$font-size}rem;
+  max-width: #{305/$font-size}rem;
+  word-wrap: break-word;
 }
 
 .IpmDesktop-message {
@@ -55,5 +57,8 @@
 }
 
 .IpmDesktop-footer .c-btn--primary {
+  text-overflow: initial;
+  font-size: #{12/$font-size}rem;
+  max-width: #{250/$font-size}rem;
   background-color: $zd-color-pelorous;
 }
