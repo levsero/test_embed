@@ -73,6 +73,14 @@ $Base-posOffset: $med + 1;
 }
 
 /**
+ * Overflow
+ */
+
+u-overflowAuto {
+  overflow: auto !important;
+}
+
+/**
  * Used to adjust the default spacing between components
  * Use with great care!
  *

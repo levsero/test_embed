@@ -41,7 +41,7 @@ describe('ScrollContainer component', () => {
     const scrollContainer = domRender(<ScrollContainer fullscreen={true} />);
 
     spyOn(scrollContainer, 'getContentContainer')
-      .and.returnValue({scrollHeight: 100, scrollTop: 0});
+      .and.returnValue({ scrollHeight: 100, scrollTop: 0 });
 
     scrollContainer.scrollToBottom();
 

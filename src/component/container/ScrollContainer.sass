@@ -1,9 +1,8 @@
 /**
- * 1. fallback for old android browsers
- * 2. Chrome on android acts weird when keyboard is shown
+ * 1. Chrome on android acts weird when keyboard is shown
  *    it triggers landscape mode and we need to reset scroll
  *    containers height so the footer doesn't sit over the top
- * 3. This equals to approximately 15px on mobile browsers.
+ * 2. This equals to approximately 15px on mobile browsers.
  */
 
 @import '../../styles/_vars.scss';
@@ -53,16 +52,16 @@
 }
 
 .contentMobile {
+  composes: u-overflowAuto from '../../styles/utils.scss';
   -webkit-overflow-scrolling: touch;
   box-sizing: border-box;
-  overflow: auto;
   height: calc(100% - #{114/$font-size}rem);
-  margin-bottom: #{6/$font-size}rem; /* 3 */
+  margin-bottom: #{6/$font-size}rem; /* 2 */
   max-height: initial;
   max-width: 100%;
 
   @media screen and (orientation: landscape) {
-    height: auto; /* 2 */
+    height: auto; /* 1 */
   }
 }
 
