@@ -263,9 +263,9 @@ describe('WebWidget component', () => {
   describe('#activate', () => {
     let webWidget;
 
-    describe('when help center is avaliable', () => {
+    describe('when help center is available', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget helpCenterAvaliable={true} />);
+        webWidget = domRender(<WebWidget helpCenterAvailable={true} />);
 
         webWidget.activate();
       });
@@ -278,9 +278,9 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when help center is not avaliable', () => {
+    describe('when help center is not available', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget helpCenterAvaliable={false} />);
+        webWidget = domRender(<WebWidget helpCenterAvailable={false} />);
 
         webWidget.activate();
       });

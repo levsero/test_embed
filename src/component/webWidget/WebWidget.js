@@ -105,7 +105,7 @@ export class WebWidget extends Component {
   }
 
   onCancelClick = () => {
-    if (this.props.helpCenterAvaliable) {
+    if (this.props.helpCenterAvailable) {
       this.showHelpCenter();
     } else {
       this.props.onCancel();
@@ -127,7 +127,7 @@ export class WebWidget extends Component {
   }
 
   activate() {
-    if (this.props.helpCenterAvaliable) {
+    if (this.props.helpCenterAvailable) {
       this.showHelpCenter();
     } else {
       this.setState({ activeComponent: submitTicket });
