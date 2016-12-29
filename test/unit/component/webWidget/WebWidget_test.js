@@ -259,4 +259,38 @@ describe('WebWidget component', () => {
       });
     });
   });
+
+  describe('#activate', () => {
+    let webWidget;
+
+    describe('when help center is avaliable', () => {
+      beforeEach(() => {
+        webWidget = domRender(<WebWidget helpCenterAvaliable={true} />);
+
+        webWidget.activate();
+      });
+
+      it('shows helpCenter', () => {
+        expect(webWidget.renderHelpCenter().props.className)
+          .not.toContain('u-isHidden');
+        expect(webWidget.renderSubmitTicket().props.className)
+          .toContain('u-isHidden');
+      });
+    });
+
+    describe('when help center is not avaliable', () => {
+      beforeEach(() => {
+        webWidget = domRender(<WebWidget helpCenterAvaliable={false} />);
+
+        webWidget.activate();
+      });
+
+      it('shows SubmitTicket', () => {
+        expect(webWidget.renderSubmitTicket().props.className)
+          .not.toContain('u-isHidden');
+        expect(webWidget.renderHelpCenter().props.className)
+          .toContain('u-isHidden');
+      });
+    });
+  });
 });

@@ -143,6 +143,7 @@ describe('embed.webWidget', () => {
       'component/helpCenter/HelpCenterMobile.sass': '',
       'component/helpCenter/HelpCenterArticle.sass': '',
       'component/helpCenter/HelpCenterResults.sass': '',
+      'component/container/ScrollContainer.sass': '',
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory
       },
@@ -799,6 +800,11 @@ describe('embed.webWidget', () => {
     it('should subscribe to ticketSubmissionForm.hide', () => {
       expect(mockMediator.channel.subscribe)
         .toHaveBeenCalledWith('ticketSubmissionForm.hide', jasmine.any(Function));
+    });
+
+    it('should subscribe to webWidget.activate', () => {
+      expect(mockMediator.channel.subscribe)
+        .toHaveBeenCalledWith('webWidget.activate', jasmine.any(Function));
     });
 
     it('subscribes to <any>.refreshLocale and <any>.update together', () => {

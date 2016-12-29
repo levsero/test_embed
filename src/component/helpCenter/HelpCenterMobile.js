@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import { Button } from 'component/button/Button';
 import { ButtonGroup } from 'component/button/ButtonGroup';
-import { ScrollContainer } from 'component/ScrollContainer';
+import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { SearchFieldButton } from 'component/button/SearchFieldButton';
 import { ZendeskLogo } from 'component/ZendeskLogo';

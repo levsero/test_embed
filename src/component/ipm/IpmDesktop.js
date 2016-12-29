@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import { Avatar } from 'component/Avatar';
-import { Container } from 'component/Container';
+import { Container } from 'component/container/Container';
 import { Button } from 'component/button/Button';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 

@@ -89,6 +89,11 @@ export class WebWidget extends Component {
     return this.refs[this.state.activeComponent];
   }
 
+  showHelpCenter = () => {
+    this.setState({ activeComponent: helpCenter });
+    this.props.showBackButton(!!this.getRootComponent().state.articleViewActive);
+  }
+
   onNextClick = () => {
     if (this.state.chatOnline) {
       this.setState({ activeComponent: chat });
@@ -100,9 +105,8 @@ export class WebWidget extends Component {
   }
 
   onCancelClick = () => {
-    if (this.props.helpCenterAvailable) {
-      this.setState({ activeComponent: helpCenter });
-      this.props.showBackButton(this.getRootComponent().state.articleViewActive);
+    if (this.props.helpCenterAvaliable) {
+      this.showHelpCenter();
     } else {
       this.props.onCancel();
     }
@@ -118,8 +122,15 @@ export class WebWidget extends Component {
       this.props.showBackButton(this.state.helpCenterAvailable);
       rootComponent.clearForm();
     } else {
-      this.setState({ activeComponent: helpCenter });
-      this.props.showBackButton(rootComponent.state.articleViewActive);
+      this.showHelpCenter();
+    }
+  }
+
+  activate() {
+    if (this.props.helpCenterAvaliable) {
+      this.showHelpCenter();
+    } else {
+      this.setState({ activeComponent: submitTicket });
     }
   }
 
@@ -153,8 +164,8 @@ export class WebWidget extends Component {
           onArticleClick={this.props.onArticleClick}
           onSearch={this.props.onSearch}
           position={this.props.position}
-          buttonLabelKey={this.props.buttonLabelKey}
-          formTitleKey={this.props.formTitleKey}
+          buttonLabelKey={helpCenterConfig.buttonLabelKey}
+          formTitleKey={helpCenterConfig.formTitleKey}
           showBackButton={this.props.showBackButton}
           showNextButton={this.props.submitTicketAvailable}
           searchSender={this.props.searchSender}

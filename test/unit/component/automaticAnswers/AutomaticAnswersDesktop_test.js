@@ -17,7 +17,7 @@ describe('AutomaticAnswersDesktop component', () => {
 
     initMockRegistry({
       'React': React,
-      'component/Container': {
+      'component/container/Container': {
         Container: class {
           render() {
             return <div>{this.props.children}</div>;

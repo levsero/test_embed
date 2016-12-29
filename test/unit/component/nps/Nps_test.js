@@ -28,7 +28,7 @@ describe('Nps component', function() {
           }
         }
       },
-      'component/Container': {
+      'component/container/Container': {
         Container: class extends Component {
           render() {
             return <div>{this.props.children}</div>;

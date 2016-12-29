@@ -28,6 +28,7 @@ import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.sass
 import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.sass';
 import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.sass';
 import HelpCenterResultsStyles from 'component/helpCenter/HelpCenterResults.sass';
+import ScrollContainerStyles from 'component/container/ScrollContainer.sass';
 
 const helpCenterCSS = `
   ${require('./helpCenter.scss')}
@@ -35,6 +36,7 @@ const helpCenterCSS = `
   ${HelpCenterMobileStyles}
   ${HelpCenterArticleStyles}
   ${HelpCenterResultsStyles}
+  ${ScrollContainerStyles}
 `;
 
 let helpCenters = {};

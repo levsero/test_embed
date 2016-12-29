@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import _     from 'lodash';
 import classNames from 'classnames';
 
-import { Container } from 'component/Container';
+import { Container } from 'component/container/Container';
 import { NpsComment } from 'component/nps/NpsComment';
 import { NpsCommentButton } from 'component/nps/NpsCommentButton';
 import { Icon } from 'component/Icon';

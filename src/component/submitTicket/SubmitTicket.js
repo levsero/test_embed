@@ -4,10 +4,10 @@ import _ from 'lodash';
 import { locals as styles } from './SubmitTicket.sass';
 
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
-import { Container } from 'component/Container';
+import { Container } from 'component/container/Container';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { Icon } from 'component/Icon';
-import { ScrollContainer } from 'component/ScrollContainer';
+import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';

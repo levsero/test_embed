@@ -21,12 +21,14 @@ import { transport } from 'service/transport';
 import LoadingSpinnerStyles from 'component/loading/LoadingSpinner.sass';
 import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.sass';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.sass';
+import ScrollContainerStyles from 'component/container/ScrollContainer.sass';
 
 const submitTicketCSS = `
   ${require('./submitTicket.scss')}
   ${LoadingSpinnerStyles}
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
+  ${ScrollContainerStyles}
 `;
 let submitTickets = {};
 let backButtonSetByHelpCenter = false;
