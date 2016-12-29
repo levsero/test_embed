@@ -67,7 +67,7 @@ export class WebWidget extends Component {
 
     this.state = {
       activeComponent: helpCenter,
-      chatOnline: false
+      chatOnline: true
     };
   }
 
@@ -144,6 +144,7 @@ export class WebWidget extends Component {
         <Chat
           ref={chat}
           style={this.props.style}
+          updateFrameSize={this.props.updateFrameSize}
           position={this.props.position} />
       </div>
     );

@@ -34,6 +34,10 @@ import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.sass';
 import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.sass';
 import HelpCenterResultsStyles from 'component/helpCenter/HelpCenterResults.sass';
 import ScrollContainerStyles from 'component/container/ScrollContainer.sass';
+import chatHeaderStyles from 'component/chat/ChatHeader.sass';
+import chatBoxStyles from 'component/chat/ChatBox.sass';
+import chatStyles from 'component/chat/Chat.sass';
+import messageBubbleStyles from 'component/chat/MessageBubble.sass';
 
 const webWidgetCSS = `
   ${require('./webWidget.scss')}
@@ -45,6 +49,9 @@ const webWidgetCSS = `
   ${HelpCenterArticleStyles}
   ${HelpCenterResultsStyles}
   ${ScrollContainerStyles}
+  ${chatHeaderStyles}
+  ${chatBoxStyles}
+  ${chatStyles}
 `;
 
 let embed = null;
