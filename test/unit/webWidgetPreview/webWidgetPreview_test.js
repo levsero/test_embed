@@ -41,7 +41,10 @@ describe('webWidgetPreview entry file', () => {
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['setLocale'])
       },
-      'embed/submitTicket/submitTicket.scss': ''
+      'embed/submitTicket/submitTicket.scss': '',
+      'component/submitTicket/SubmitTicket.sass': '',
+      'component/submitTicket/SubmitTicketForm.sass': '',
+      'component/container/ScrollContainer.sass': ''
     });
 
     requireUncached(webWidgetPreviewPath);

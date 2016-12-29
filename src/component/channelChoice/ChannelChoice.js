@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 
 import { Button } from 'component/button/Button';
-import { Container } from 'component/Container';
-import { ScrollContainer } from 'component/ScrollContainer';
+import { Container } from 'component/container/Container';
+import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 

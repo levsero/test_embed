@@ -73,6 +73,14 @@ $Base-posOffset: $med + 1;
 }
 
 /**
+ * Overflow
+ */
+
+u-overflowAuto {
+  overflow: auto !important;
+}
+
+/**
  * Used to adjust the default spacing between components
  * Use with great care!
  *
@@ -241,9 +249,9 @@ $Base-posOffset: $med + 1;
   padding-right: $spacing-xl !important;
 }
 
-.u-paddingVN {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+.u-paddingVS {
+  padding-top: $spacing-sml !important;
+  padding-bottom: $spacing-sml !important;
 }
 
 .u-paddingVM {
@@ -259,6 +267,11 @@ $Base-posOffset: $med + 1;
 .u-paddingVXL {
   padding-top: $spacing-xl !important;
   padding-bottom: $spacing-xl !important;
+}
+
+.u-paddingVN {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .u-paddingR {

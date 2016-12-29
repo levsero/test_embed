@@ -73,7 +73,7 @@ describe('SubmitTicketForm component', function() {
           }
         }
       },
-      'component/ScrollContainer': {
+      'component/container/ScrollContainer': {
         ScrollContainer: class extends Component {
           constructor() {
             super();

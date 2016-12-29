@@ -1,6 +1,6 @@
 describe('Container component', () => {
   let Container;
-  const containerPath = buildSrcPath('component/Container');
+  const containerPath = buildSrcPath('component/container/Container');
 
   beforeEach(() => {
     resetDOM();

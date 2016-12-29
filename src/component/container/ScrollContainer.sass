@@ -1,0 +1,83 @@
+/**
+ * 1. Chrome on android acts weird when keyboard is shown
+ *    it triggers landscape mode and we need to reset scroll
+ *    containers height so the footer doesn't sit over the top
+ * 2. This equals to approximately 15px on mobile browsers.
+ */
+
+@import '../../styles/_vars.scss';
+
+.container {
+  composes: u-nbfc from '../../styles/utils.scss';
+  border-radius: #{8/$font-size}rem;
+  box-sizing: border-box;
+}
+
+.header {
+  composes: u-paddingVM u-paddingHL from '../../styles/utils.scss';
+  background: $form-cta-color;
+  border-bottom: $thin-border-size solid $header-stroke;
+  color: $zd-color-dark-gray;
+}
+
+.title {
+  composes: u-textSizeMed u-textBold u-textCenter u-textXHeight from '../../styles/utils.scss';
+}
+
+.titleMobile {
+  composes: u-textSizeBaseMobile from '../../styles/utils.scss';
+}
+
+.content {
+  composes: u-paddingHS u-marginHS u-paddingTM from '../../styles/utils.scss';
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: #{350/$font-size}rem;
+  box-sizing: border-box;
+
+  /*
+   * Customise scrollbar for safari/chrome
+   */
+  &::-webkit-scrollbar-track {
+    margin: $spacing-med 0;
+  }
+  &::-webkit-scrollbar {
+    box-shadow: none;
+    width: #{3/$font-size}rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $base-border-color;
+    border-radius: #{3/$font-size}rem;
+  }
+}
+
+.contentMobile {
+  composes: u-overflowAuto from '../../styles/utils.scss';
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  height: calc(100% - #{114/$font-size}rem);
+  margin-bottom: #{6/$font-size}rem; /* 2 */
+  max-height: initial;
+  max-width: 100%;
+
+  @media screen and (orientation: landscape) {
+    height: auto; /* 1 */
+  }
+}
+
+.contentBigheader {
+  height: calc(100% - #{174/$font-size}rem);
+}
+
+.expanded {
+  max-height: calc(100% - #{108/$font-size}rem);
+}
+
+.footer {
+  composes: u-paddingHL u-posRelative u-paddingVM from '../../styles/utils.scss';
+}
+
+.footerShadow {
+  border-top: $thin-border-size solid $inactive-color;
+  box-shadow: 0 -#{1/$font-size}rem #{3/$font-size}rem rgba($base-shadow, .08);
+}

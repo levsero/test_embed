@@ -31,7 +31,7 @@ describe('HelpCenterDesktop component', () => {
       'component/ZendeskLogo': {
         ZendeskLogo: noopReactComponent()
       },
-      'component/ScrollContainer': {
+      'component/container/ScrollContainer': {
         ScrollContainer: class extends Component {
           setScrollShadowVisible() {}
           render() {
@@ -52,7 +52,10 @@ describe('HelpCenterDesktop component', () => {
         ButtonGroup: noopReactComponent()
       },
       './HelpCenterDesktop.sass': {
-        locals: {}
+        locals: {
+          footer: 'footerClasses',
+          footerLogo: 'footerLogoClasses'
+        }
       },
       'service/i18n': {
         i18n: {
@@ -101,11 +104,44 @@ describe('HelpCenterDesktop component', () => {
         .not.toContain('u-isHidden');
     });
 
-    it('should not exist if the showNextButton prop is false', () => {
-      const footerContent = helpCenterDesktop.refs.scrollContainer.props.footerContent;
+    describe('when showNextButton is false', () => {
+      beforeEach(() => {
+        helpCenterDesktop = domRender(<HelpCenterDesktop hasSearched={true} showNextButton={false} />);
+      });
 
-      expect(TestUtils.isDOMComponent(footerContent))
-        .toBe(false);
+      it('should not exist', () => {
+        const footerContent = helpCenterDesktop.refs.scrollContainer.props.footerContent;
+
+        expect(TestUtils.isDOMComponent(footerContent))
+          .toBe(false);
+      });
+
+      describe('when ZendeskLogo is enabled', () => {
+        it('should pass the correct classes through to scroll container', () => {
+          const footerClasses = helpCenterDesktop.refs.scrollContainer.props.footerClasses;
+
+          expect(footerClasses)
+            .toBe('footerLogoClasses');
+        });
+      });
+
+      describe('when ZendeskLogo is disabled', () => {
+        beforeEach(() => {
+          helpCenterDesktop = domRender(
+            <HelpCenterDesktop
+              hideZendeskLogo={true}
+              hasSearched={true}
+              showNextButton={false} />
+          );
+        });
+
+        it('should pass the correct classes through to scroll container', () => {
+          const footerClasses = helpCenterDesktop.refs.scrollContainer.props.footerClasses;
+
+          expect(footerClasses)
+            .toBe('footerClasses');
+        });
+      });
     });
   });
 

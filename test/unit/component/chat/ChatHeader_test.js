@@ -1,6 +1,6 @@
 describe('ChatHeader component', () => {
   let ChatHeader;
-  const chatHeaderPath = buildSrcPath('component/ChatHeader');
+  const chatHeaderPath = buildSrcPath('component/chat/ChatHeader');
 
   class MockAvatar extends React.Component {
     render() {

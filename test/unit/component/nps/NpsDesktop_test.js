@@ -41,7 +41,7 @@ describe('NpsDesktop component', function() {
 
     initMockRegistry({
       'React': React,
-      'component/Container': {
+      'component/container/Container': {
         Container: class extends Component {
           render() {
             return <div>{this.props.children}</div>;
