@@ -44,7 +44,8 @@ describe('webWidgetPreview entry file', () => {
       'embed/submitTicket/submitTicket.scss': '',
       'component/submitTicket/SubmitTicket.sass': '',
       'component/submitTicket/SubmitTicketForm.sass': '',
-      'component/container/ScrollContainer.sass': ''
+      'component/container/ScrollContainer.sass': '',
+      'src/redux/createStore': noop
     });
 
     requireUncached(webWidgetPreviewPath);

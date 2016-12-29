@@ -323,7 +323,7 @@ describe('renderer', () => {
 
       it('should create a channelChoice embed', () => {
         expect(mockChannelChoice.create)
-          .toHaveBeenCalledWith('channelChoice', jasmine.any(Object));
+          .toHaveBeenCalledWith('channelChoice', jasmine.any(Object), jasmine.any(Object));
       });
     });
 

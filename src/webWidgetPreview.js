@@ -10,6 +10,8 @@ import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.sass';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.sass';
 import ScrollContainerStyles from 'component/container/ScrollContainer.sass';
 
+import createStore from 'src/redux/createStore';
+
 const defaultOptions = {
   locale: 'en-US',
   color: '#659700',
@@ -65,7 +67,8 @@ const renderWebWidgetPreview = (options) => {
           style={containerStyle} />
       );
     },
-    frameParams
+    frameParams,
+    createStore()
   );
 
   const container = document.createElement('div');

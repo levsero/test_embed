@@ -77,7 +77,7 @@ function init(config) {
     i18n.setLocale(config.locale);
 
     if (settings.get('channelChoice')) {
-      embedsMap.channelChoice.create('channelChoice', {});
+      embedsMap.channelChoice.create('channelChoice', {}, reduxStore);
       embedsMap.channelChoice.render('channelChoice');
     }
 
