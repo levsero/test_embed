@@ -91,7 +91,7 @@ function init(config) {
                                .mapValues('props')
                                .value();
 
-      parsedConfig = _.omit(parsedConfig, webWidgetEmbeds);
+      parsedConfig = _.omit(parsedConfig, ['ticketSubmissionForm', 'helpCenterForm']);
 
       parsedConfig.webWidget = {
         embed: 'webWidget',

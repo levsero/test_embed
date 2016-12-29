@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-import { Chat } from 'component/chat/Chat';
+import Chat from 'component/chat/Chat';
 import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 
