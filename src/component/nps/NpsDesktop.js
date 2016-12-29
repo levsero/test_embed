@@ -130,7 +130,7 @@ export class NpsDesktop extends Component {
                       ? (<div className='u-textCenter u-paddingBM'>
                            <ZendeskLogo
                              utm='embeddednps'
-                             className='u-posStatic'
+                             className='u-posStatic u-marginLL'
                              fullscreen={this.props.isMobile} />
                         </div>)
                       : null;
