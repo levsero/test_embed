@@ -16,7 +16,7 @@ export class WebWidget extends Component {
     channelChoice: PropTypes.bool,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
-    helpCenterAvaliable: PropTypes.bool,
+    helpCenterAvailable: PropTypes.bool,
     helpCenterConfig: PropTypes.object,
     hideZendeskLogo: PropTypes.bool,
     imagesSender: PropTypes.func,
@@ -31,7 +31,7 @@ export class WebWidget extends Component {
     showBackButton: PropTypes.func,
     style: PropTypes.object,
     subjectEnabled: PropTypes.bool,
-    submitTicketAvaliable: PropTypes.bool,
+    submitTicketAvailable: PropTypes.bool,
     submitTicketConfig: PropTypes.object,
     submitTicketSender: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
@@ -43,7 +43,7 @@ export class WebWidget extends Component {
     channelChoice: true,
     formTitleKey: '',
     fullscreen: true,
-    helpCenterAvaliable: false,
+    helpCenterAvailable: false,
     helpCenterConfig: {},
     hideZendeskLogo: false,
     imagesSender: () => {},
@@ -57,7 +57,7 @@ export class WebWidget extends Component {
     searchSender: () => {},
     showBackButton: () => {},
     style: null,
-    submitTicketAvaliable: true,
+    submitTicketAvailable: true,
     submitTicketConfig: {},
     updateFrameSize: () => {}
   };
@@ -100,7 +100,7 @@ export class WebWidget extends Component {
   }
 
   onCancelClick = () => {
-    if (this.props.helpCenterAvaliable) {
+    if (this.props.helpCenterAvailable) {
       this.setState({ activeComponent: helpCenter });
       this.props.showBackButton(this.getRootComponent().state.articleViewActive);
     } else {
@@ -115,7 +115,7 @@ export class WebWidget extends Component {
       rootComponent.setArticleView(false);
       this.props.showBackButton(false);
     } else if (rootComponent.state.selectedTicketForm) {
-      this.props.showBackButton(this.state.helpCenterAvaliable);
+      this.props.showBackButton(this.state.helpCenterAvailable);
       rootComponent.clearForm();
     } else {
       this.setState({ activeComponent: helpCenter });
@@ -156,7 +156,7 @@ export class WebWidget extends Component {
           buttonLabelKey={this.props.buttonLabelKey}
           formTitleKey={this.props.formTitleKey}
           showBackButton={this.props.showBackButton}
-          showNextButton={this.props.submitTicketAvaliable}
+          showNextButton={this.props.submitTicketAvailable}
           searchSender={this.props.searchSender}
           contextualSearchSender={this.props.searchSender}
           imagesSender={this.props.imagesSender}
