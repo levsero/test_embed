@@ -122,8 +122,9 @@ function create(name, config = {}, reduxStore = {}) {
     expandable: false,
     color: '#659700'
   };
-  const helpCenterAvailable = config.helpCenterForm;
-  const submitTicketAvailable = config.ticketSubmissionForm;
+
+  const helpCenterAvailable = !!config.helpCenterForm;
+  const submitTicketAvailable = !!config.ticketSubmissionForm;
   const submitTicketSettings = setUpSubmitTicket(config.ticketSubmissionForm);
   const helpCenterSettings = setUpHelpCenter(config.helpCenterForm);
   const globalConfig = _.extend(configDefaults, helpCenterSettings.config);
