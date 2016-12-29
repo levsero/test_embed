@@ -60,7 +60,7 @@ export class NpsRatingsList extends Component {
 
     const likelyLabelClasses = classNames({
       [labelClasses]: true,
-      'u-textRight': true
+      'u-textRight u-pullRight': true
     });
 
     const notLikelyLabelClasses = classNames({
