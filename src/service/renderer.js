@@ -85,12 +85,13 @@ function init(config) {
     let parsedConfig = parseConfig(config);
 
     if (singleIframe) {
+      const webWidgetEmbeds = ['ticketSubmissionForm', 'zopimChat', 'helpCenterForm'];
       const webWidgetConfig = _.chain(parsedConfig)
-                               .pick(['ticketSubmissionForm', 'helpCenterForm'])
+                               .pick(webWidgetEmbeds)
                                .mapValues('props')
                                .value();
 
-      parsedConfig = _.omit(parsedConfig, ['ticketSubmissionForm', 'helpCenterForm']);
+      parsedConfig = _.omit(parsedConfig, webWidgetEmbeds);
 
       parsedConfig.webWidget = {
         embed: 'webWidget',
