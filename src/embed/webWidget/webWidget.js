@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { webWidgetStyles } from './webWidgetStyles.js';
-import { WebWidget } from 'component/webWidget/WebWidget';
 import { frameFactory } from 'embed/frameFactory';
 import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
@@ -25,6 +24,7 @@ import { isOnHelpCenterPage,
          isOnHostMappedDomain } from 'utility/pages';
 import { cappedIntervalCall,
          getPageKeywords } from 'utility/utils';
+import WebWidget from 'component/webWidget/WebWidget';
 import zChat from 'vendor/web-sdk';
 
 const webWidgetCSS = `${require('./webWidget.scss')} ${webWidgetStyles}`;

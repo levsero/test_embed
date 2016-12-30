@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import Chat from 'component/chat/Chat';
@@ -9,7 +10,11 @@ const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
 const chat = 'chat';
 
-export class WebWidget extends Component {
+const mapStateToProps = (state) => {
+  return { chat: state.chat };
+};
+
+class WebWidget extends Component {
   static propTypes = {
     attachmentSender: PropTypes.func.isRequired,
     buttonLabelKey: PropTypes.string,
@@ -95,7 +100,7 @@ export class WebWidget extends Component {
   }
 
   onNextClick = () => {
-    if (this.state.chatOnline) {
+    if (this.props.chat.account_status !== 'offline') {
       this.setState({ activeComponent: chat });
       // TODO: track chat started
     } else {
@@ -229,3 +234,5 @@ export class WebWidget extends Component {
     );
   }
 }
+
+export default connect(mapStateToProps, {}, null, { withRef: true })(WebWidget);
