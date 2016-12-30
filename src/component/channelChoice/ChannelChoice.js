@@ -7,6 +7,22 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 
 export class ChannelChoice extends Component {
+  static propTypes = {
+    formTitleKey: PropTypes.string,
+    hideZendeskLogo: PropTypes.bool,
+    onNextClick: PropTypes.func,
+    style: PropTypes.object,
+    updateFrameSize: PropTypes.func
+  };
+
+  static defaultProps = {
+    formTitleKey: 'help',
+    hideZendeskLogo: false,
+    onNextClick: () => {},
+    style: {},
+    updateFrameSize: () => {}
+  };
+
   handleClick = (embed) => {
     return () => this.props.onNextClick(embed);
   }
@@ -59,19 +75,3 @@ export class ChannelChoice extends Component {
     );
   }
 }
-
-ChannelChoice.propTypes = {
-  updateFrameSize: PropTypes.func,
-  style: PropTypes.object,
-  formTitleKey: PropTypes.string,
-  hideZendeskLogo: PropTypes.bool,
-  onNextClick: PropTypes.func
-};
-
-ChannelChoice.defaultProps = {
-  updateFrameSize: () => {},
-  style: {},
-  formTitleKey: 'help',
-  hideZendeskLogo: false,
-  onNextClick: () => {}
-};

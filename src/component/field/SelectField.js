@@ -4,6 +4,21 @@ import _ from 'lodash';
 import { Field } from 'component/field/Field';
 
 export class SelectField extends Component {
+  static propTypes = {
+    name: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
+    ]).isRequired,
+    onBlur: PropTypes.func,
+    onFocus: PropTypes.func,
+    options: PropTypes.array.isRequired
+  };
+
+  static defaultProps = {
+    onBlur: () => {},
+    onFocus: () => {}
+  };
+
   formatOptions = () => {
     const props = this.props;
     const options = [
@@ -52,18 +67,3 @@ export class SelectField extends Component {
     );
   }
 }
-
-SelectField.propTypes = {
-  name: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]).isRequired,
-  options: PropTypes.array.isRequired,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func
-};
-
-SelectField.defaultProps = {
-  onFocus: () => {},
-  onBlur: () => {}
-};

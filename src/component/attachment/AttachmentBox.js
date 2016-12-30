@@ -7,6 +7,17 @@ import { i18n } from 'service/i18n';
 const dropzoneMargin = 38; // the frames border and padding
 
 export class AttachmentBox extends Component {
+  static propTypes = {
+    dimensions: PropTypes.object,
+    onDragLeave: PropTypes.func,
+    onDrop: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    dimensions: { width: 0, height: 0 },
+    onDragLeave: () => {}
+  };
+
   render = () => {
     const style = {
       width: `${this.props.dimensions.width - dropzoneMargin}px`,
@@ -35,14 +46,3 @@ export class AttachmentBox extends Component {
     );
   }
 }
-
-AttachmentBox.propTypes = {
-  onDrop: PropTypes.func.isRequired,
-  dimensions: PropTypes.object,
-  onDragLeave: PropTypes.func
-};
-
-AttachmentBox.defaultProps = {
-  dimensions: { width: 0, height: 0 },
-  onDragLeave: () => {}
-};

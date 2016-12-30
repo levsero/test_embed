@@ -11,12 +11,40 @@ import { i18n } from 'service/i18n';
 import { locals as styles } from './HelpCenterMobile.sass';
 
 export class HelpCenterMobile extends Component {
+  static propTypes = {
+    articleViewActive: PropTypes.bool,
+    buttonLabel: PropTypes.string.isRequired,
+    chatOnline: PropTypes.bool,
+    children: PropTypes.node.isRequired,
+    formTitleKey: PropTypes.string,
+    handleNextClick: PropTypes.func.isRequired,
+    handleOnChangeValue: PropTypes.func.isRequired,
+    hasSearched: PropTypes.bool,
+    hideZendeskLogo: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    search: PropTypes.func.isRequired,
+    searchFieldValue: PropTypes.string,
+    showNextButton: PropTypes.bool
+  };
+
+  static defaultProps = {
+    articleViewActive: false,
+    chatOnline: false,
+    formTitleKey: 'help',
+    hasSearched: false,
+    hideZendeskLogo: false,
+    isLoading: false,
+    searchFieldValue: '',
+    showNextButton: true
+  };
+
   constructor(props, context) {
     super(props, context);
+
     this.state = {
-      showIntroScreen: true,
+      hasContextualSearched: false,
       searchFieldFocused: false,
-      hasContextualSearched: false
+      showIntroScreen: true
     };
   }
 
@@ -207,30 +235,3 @@ export class HelpCenterMobile extends Component {
     );
   }
 }
-
-HelpCenterMobile.propTypes = {
-  handleNextClick: PropTypes.func.isRequired,
-  search: PropTypes.func.isRequired,
-  handleOnChangeValue: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
-  hideZendeskLogo: PropTypes.bool,
-  formTitleKey: PropTypes.string,
-  buttonLabel: PropTypes.string.isRequired,
-  isLoading: PropTypes.bool,
-  articleViewActive: PropTypes.bool,
-  chatOnline: PropTypes.bool,
-  hasSearched: PropTypes.bool,
-  searchFieldValue: PropTypes.string,
-  showNextButton: PropTypes.bool
-};
-
-HelpCenterMobile.defaultProps = {
-  hideZendeskLogo: false,
-  formTitleKey: 'help',
-  isLoading: false,
-  articleViewActive: false,
-  chatOnline: false,
-  hasSearched: false,
-  searchFieldValue: '',
-  showNextButton: true
-};

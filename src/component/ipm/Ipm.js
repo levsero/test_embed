@@ -7,19 +7,33 @@ import { logging } from 'service/logging';
 import { getPageTitle } from 'utility/utils';
 
 export class Ipm extends Component {
+  static propTypes = {
+    closeFrame: PropTypes.func.isRequired,
+    ipmSender: PropTypes.func.isRequired,
+    mobile: PropTypes.bool.isRequired,
+    setFrameSize: PropTypes.func,
+    updateFrameSize: PropTypes.func
+  };
+
+  static defaultProps = {
+    setFrameSize: () => {},
+    updateFrameSize: () => {}
+  };
+
   constructor(props, context) {
     super(props, context);
+
     this.state = {
       ipm: {
         id: null,
+        message: {},
         name: '',
-        type: '',
         recipientEmail: '',
-        message: {}
+        type: ''
       },
-      url: '',
       ipmAvailable: null,
-      isMobile: props.mobile
+      isMobile: props.mobile,
+      url: ''
     };
   }
 
@@ -57,16 +71,3 @@ export class Ipm extends Component {
     );
   }
 }
-
-Ipm.propTypes = {
-  ipmSender: PropTypes.func.isRequired,
-  mobile: PropTypes.bool.isRequired,
-  closeFrame: PropTypes.func.isRequired,
-  setFrameSize: PropTypes.func,
-  updateFrameSize: PropTypes.func
-};
-
-Ipm.defaultProps = {
-  setFrameSize: () => {},
-  updateFrameSize: () => {}
-};

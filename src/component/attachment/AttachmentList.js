@@ -26,6 +26,20 @@ const iconMapper = {
 };
 
 export class AttachmentList extends Component {
+  static propTypes = {
+    attachmentSender: PropTypes.func.isRequired,
+    updateForm: PropTypes.func.isRequired,
+    maxFileCount: PropTypes.number.isRequired,
+    maxFileSize: PropTypes.number.isRequired,
+    fullscreen: PropTypes.bool,
+    handleAttachmentsError: PropTypes.func
+  };
+
+  static defaultProps = {
+    fullscreen: false,
+    handleAttachmentsError: () => {}
+  };
+
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -244,17 +258,3 @@ export class AttachmentList extends Component {
     );
   }
 }
-
-AttachmentList.propTypes = {
-  attachmentSender: PropTypes.func.isRequired,
-  updateForm: PropTypes.func.isRequired,
-  maxFileCount: PropTypes.number.isRequired,
-  maxFileSize: PropTypes.number.isRequired,
-  fullscreen: PropTypes.bool,
-  handleAttachmentsError: PropTypes.func
-};
-
-AttachmentList.defaultProps = {
-  fullscreen: false,
-  handleAttachmentsError: () => {}
-};

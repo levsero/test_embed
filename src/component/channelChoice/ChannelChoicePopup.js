@@ -4,6 +4,10 @@ import { i18n } from 'service/i18n';
 import { ButtonIcon } from 'component/button/ButtonIcon';
 
 export class ChannelChoicePopup extends Component {
+  static propTypes = {
+    onNextClick: PropTypes.func.isRequired
+  };
+
   handleClick = (embed) => {
     return () => this.props.onNextClick(embed);
   }
@@ -23,7 +27,3 @@ export class ChannelChoicePopup extends Component {
     );
   }
 }
-
-ChannelChoicePopup.propTypes = {
-  onNextClick: PropTypes.func.isRequired
-};

@@ -2,6 +2,19 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 export class ButtonGroup extends Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+    fullscreen: PropTypes.bool,
+    rtl: PropTypes.bool,
+    style: PropTypes.element
+  };
+
+  static defaultProps = {
+    fullscreen: false,
+    rtl: false,
+    style: null
+  };
+
   render = () => {
     const buttonClasses = classNames({
       'ButtonGroup': true,
@@ -18,16 +31,3 @@ export class ButtonGroup extends Component {
     );
   }
 }
-
-ButtonGroup.propTypes = {
-  children: PropTypes.node.isRequired,
-  rtl: PropTypes.bool,
-  fullscreen: PropTypes.bool,
-  style: PropTypes.element
-};
-
-ButtonGroup.defaultProps = {
-  rtl: false,
-  fullscreen: false,
-  style: null
-};

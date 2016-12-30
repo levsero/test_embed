@@ -6,6 +6,18 @@ import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
 export class AutomaticAnswersMobile extends Component {
+  static propTypes = {
+    errorMessage: PropTypes.string.isRequired,
+    handleSolveTicket: PropTypes.func.isRequired,
+    isSubmitting: PropTypes.bool.isRequired,
+    solveSuccess: PropTypes.bool.isRequired,
+    updateFrameSize: PropTypes.func
+  };
+
+  static defaultProps = {
+    updateFrameSize: () => {}
+  };
+
   componentDidMount = () => {
     this.props.updateFrameSize();
   }
@@ -110,15 +122,3 @@ export class AutomaticAnswersMobile extends Component {
     );
   }
 }
-
-AutomaticAnswersMobile.propTypes = {
-  solveSuccess: PropTypes.bool.isRequired,
-  isSubmitting: PropTypes.bool.isRequired,
-  updateFrameSize: PropTypes.func,
-  handleSolveTicket: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string.isRequired
-};
-
-AutomaticAnswersMobile.defaultProps = {
-  updateFrameSize: () => {}
-};

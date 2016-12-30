@@ -113,13 +113,13 @@ describe('WebWidget component', () => {
   describe('#onCancelClick', () => {
     let webWidget;
 
-    describe('when helpCenter is avaliable', () => {
+    describe('when helpCenter is available', () => {
       let showBackButtonSpy;
 
       beforeEach(() => {
         showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
         webWidget = domRender(
-          <WebWidget helpCenterAvaliable={true} showBackButton={showBackButtonSpy} />
+          <WebWidget helpCenterAvailable={true} showBackButton={showBackButtonSpy} />
         );
         webWidget.onCancelClick();
       });
@@ -135,7 +135,7 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when help center is not avaliable', () => {
+    describe('when help center is not available', () => {
       let onCancelSpy;
 
       beforeEach(() => {
@@ -158,7 +158,7 @@ describe('WebWidget component', () => {
 
     describe('when chat is online', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget helpCenterAvaliable={true} />);
+        webWidget = domRender(<WebWidget helpCenterAvailable={true} />);
         // TODO: Replace with whatever function will set chat status
         webWidget.setState({ chatOnline: true });
         webWidget.onNextClick();
@@ -176,7 +176,7 @@ describe('WebWidget component', () => {
       beforeEach(() => {
         showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
         webWidget = domRender(
-          <WebWidget helpCenterAvaliable={true} showBackButton={showBackButtonSpy} />
+          <WebWidget helpCenterAvailable={true} showBackButton={showBackButtonSpy} />
         );
         webWidget.onNextClick();
       });
@@ -200,7 +200,7 @@ describe('WebWidget component', () => {
     beforeEach(() => {
       showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
       webWidget = domRender(
-        <WebWidget helpCenterAvaliable={true} showBackButton={showBackButtonSpy} />
+        <WebWidget helpCenterAvailable={true} showBackButton={showBackButtonSpy} />
       );
     });
 
@@ -263,9 +263,9 @@ describe('WebWidget component', () => {
   describe('#activate', () => {
     let webWidget;
 
-    describe('when help center is avaliable', () => {
+    describe('when help center is available', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget helpCenterAvaliable={true} />);
+        webWidget = domRender(<WebWidget helpCenterAvailable={true} />);
 
         webWidget.activate();
       });
@@ -278,9 +278,9 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when help center is not avaliable', () => {
+    describe('when help center is not available', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget helpCenterAvaliable={false} />);
+        webWidget = domRender(<WebWidget helpCenterAvailable={false} />);
 
         webWidget.activate();
       });

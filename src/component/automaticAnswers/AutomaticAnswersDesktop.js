@@ -7,6 +7,20 @@ import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
 export class AutomaticAnswersDesktop extends Component {
+  static propTypes = {
+    solveSuccess: PropTypes.bool.isRequired,
+    isSubmitting: PropTypes.bool.isRequired,
+    updateFrameSize: PropTypes.func,
+    handleSolveTicket: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string.isRequired,
+    ticketNiceId: PropTypes.number
+  };
+
+  static defaultProps = {
+    ticketNiceId: -1,
+    updateFrameSize: () => {}
+  };
+
   componentDidMount = () => {
     this.props.updateFrameSize();
   }
@@ -117,16 +131,3 @@ export class AutomaticAnswersDesktop extends Component {
     );
   }
 }
-
-AutomaticAnswersDesktop.propTypes = {
-  solveSuccess: PropTypes.bool.isRequired,
-  isSubmitting: PropTypes.bool.isRequired,
-  updateFrameSize: PropTypes.func,
-  handleSolveTicket: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string.isRequired,
-  ticketNiceId: PropTypes.number
-};
-
-AutomaticAnswersDesktop.defaultProps = {
-  updateFrameSize: () => {}
-};

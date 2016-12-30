@@ -17,11 +17,48 @@ import { isMobileBrowser,
 import { location } from 'utility/globals';
 
 let frameDimensions = {
-  width: 0,
-  height: 0
+  height: 0,
+  width: 0
 };
 
 export class SubmitTicket extends Component {
+  static propTypes = {
+    attachmentsEnabled: PropTypes.bool,
+    attachmentSender: PropTypes.func.isRequired,
+    customFields: PropTypes.array,
+    expanded: PropTypes.bool,
+    formTitleKey: PropTypes.string.isRequired,
+    hideZendeskLogo: PropTypes.bool,
+    maxFileCount: PropTypes.number,
+    maxFileSize: PropTypes.number,
+    onCancel: PropTypes.func,
+    onSubmitted: PropTypes.func,
+    position: PropTypes.string,
+    previewEnabled: PropTypes.bool,
+    showBackButton: PropTypes.func,
+    style: PropTypes.object,
+    subjectEnabled: PropTypes.bool,
+    submitTicketSender: PropTypes.func.isRequired,
+    updateFrameSize: PropTypes.func
+  };
+
+  static defaultProps = {
+    attachmentsEnabled: false,
+    customFields: [],
+    expanded: false,
+    hideZendeskLogo: false,
+    maxFileCount: 5,
+    maxFileSize: 5 * 1024 * 1024,
+    onCancel: () => {},
+    onSubmitted: () => {},
+    position: 'right',
+    previewEnabled: false,
+    showBackButton: () => {},
+    style: null,
+    subjectEnabled: false,
+    updateFrameSize: () => {}
+  };
+
   constructor(props, context) {
     super(props, context);
 
@@ -402,40 +439,3 @@ export class SubmitTicket extends Component {
     );
   }
 }
-
-SubmitTicket.propTypes = {
-  formTitleKey: PropTypes.string.isRequired,
-  submitTicketSender: PropTypes.func.isRequired,
-  attachmentSender: PropTypes.func.isRequired,
-  previewEnabled: PropTypes.bool,
-  updateFrameSize: PropTypes.func,
-  hideZendeskLogo: PropTypes.bool,
-  customFields: PropTypes.array,
-  style: PropTypes.object,
-  position: PropTypes.string,
-  onSubmitted: PropTypes.func,
-  onCancel: PropTypes.func,
-  attachmentsEnabled: PropTypes.bool,
-  subjectEnabled: PropTypes.bool,
-  maxFileCount: PropTypes.number,
-  maxFileSize: PropTypes.number,
-  showBackButton: PropTypes.func,
-  expanded: PropTypes.bool
-};
-
-SubmitTicket.defaultProps = {
-  previewEnabled: false,
-  updateFrameSize: () => {},
-  hideZendeskLogo: false,
-  customFields: [],
-  style: null,
-  position: 'right',
-  onSubmitted: () => {},
-  onCancel: () => {},
-  attachmentsEnabled: false,
-  subjectEnabled: false,
-  maxFileCount: 5,
-  maxFileSize: 5 * 1024 * 1024,
-  showBackButton: () => {},
-  expanded: false
-};

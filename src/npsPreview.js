@@ -5,6 +5,8 @@ import _ from 'lodash';
 import { frameFactory } from 'embed/frameFactory';
 import { Nps } from 'component/nps/Nps';
 
+import createStore from 'src/redux/createStore';
+
 const npsCSS = require('embed/nps/nps.scss');
 
 const renderNps = (locale, elem) => {
@@ -71,7 +73,8 @@ const renderNps = (locale, elem) => {
           ref='rootComponent' />
       );
     },
-    frameParams
+    frameParams,
+    createStore()
   );
 
   nps = ReactDOM.render(<Embed />, elem);

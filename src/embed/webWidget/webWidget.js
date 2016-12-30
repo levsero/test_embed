@@ -124,8 +124,8 @@ function create(name, config = {}, reduxStore = {}) {
     expandable: false,
     color: '#659700'
   };
-  const helpCenterAvaliable = config.helpCenterForm;
-  const submitTicketAvaliable = config.ticketSubmissionForm;
+  const helpCenterAvailable = !!config.helpCenterForm;
+  const submitTicketAvailable = !!config.ticketSubmissionForm;
   const submitTicketSettings = setUpSubmitTicket(config.ticketSubmissionForm);
   const helpCenterSettings = setUpHelpCenter(config.helpCenterForm);
   const globalConfig = _.extend(configDefaults, helpCenterSettings.config);
@@ -177,8 +177,8 @@ function create(name, config = {}, reduxStore = {}) {
           onSubmitted={submitTicketSettings.onSubmitted}
           position={globalConfig.position}
           style={containerStyle}
-          helpCenterAvaliable={helpCenterAvaliable}
-          submitTicketAvaliable={submitTicketAvaliable}
+          helpCenterAvailable={helpCenterAvailable}
+          submitTicketAvailable={submitTicketAvailable}
           showBackButton={showBackButton}
           subjectEnabled={settings.get('contactForm.subject')}
           hideZendeskLogo={globalConfig.hideZendeskLogo}

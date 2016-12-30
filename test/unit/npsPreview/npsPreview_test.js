@@ -28,7 +28,8 @@ describe('npsPreview entry file', function() {
           }
         }
       },
-      'embed/nps/nps.scss': ''
+      'embed/nps/nps.scss': '',
+      'src/redux/createStore': noop
     });
 
     requireUncached(npsPath);

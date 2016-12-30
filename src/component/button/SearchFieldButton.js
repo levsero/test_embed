@@ -4,6 +4,18 @@ import classNames from 'classnames';
 import { IconFieldButton } from 'component/button/IconFieldButton';
 
 export class SearchFieldButton extends Component {
+  static propTypes = {
+    onClick: PropTypes.func,
+    onTouch: PropTypes.func,
+    searchTerm: React.PropTypes.string
+  };
+
+  static defaultProps = {
+    onClick: () => {},
+    onTouch: () => {},
+    searchTerm: ''
+  };
+
   render = () => {
     const fieldClasses = classNames({
       'Arrange Arrange--middle Form-field Form-field--search u-isSelectable is-mobile': true,
@@ -33,15 +45,3 @@ export class SearchFieldButton extends Component {
     );
   }
 }
-
-SearchFieldButton.propTypes = {
-  onClick: PropTypes.func,
-  onTouch: PropTypes.func,
-  searchTerm: React.PropTypes.string
-};
-
-SearchFieldButton.defaultProps = {
-  onClick: () => {},
-  onTouch: () => {},
-  searchTerm: ''
-};

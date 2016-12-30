@@ -6,6 +6,23 @@ import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
 export class Attachment extends Component {
+  static propTypes = {
+    attachmentId: PropTypes.string.isRequired,
+    errorMessage: PropTypes.string,
+    file: PropTypes.object.isRequired,
+    handleRemoveAttachment: PropTypes.func.isRequired,
+    icon: PropTypes.string.isRequired,
+    uploading: PropTypes.bool.isRequired,
+    uploadProgress: PropTypes.number,
+    uploadRequestSender: PropTypes.object
+  };
+
+  static defaultProps = {
+    errorMessage: '',
+    uploadProgress: 0,
+    uploadRequestSender: {}
+  };
+
   componentWillReceiveProps = (nextProps) => {
     const { progressBar } = this.refs;
 
@@ -104,20 +121,3 @@ export class Attachment extends Component {
     );
   }
 }
-
-Attachment.propTypes = {
-  attachmentId: PropTypes.string.isRequired,
-  file: PropTypes.object.isRequired,
-  uploading: PropTypes.bool.isRequired,
-  icon: PropTypes.string.isRequired,
-  handleRemoveAttachment: PropTypes.func.isRequired,
-  uploadProgress: PropTypes.number,
-  errorMessage: PropTypes.string,
-  uploadRequestSender: PropTypes.object
-};
-
-Attachment.defaultProps = {
-  uploadProgress: 0,
-  errorMessage: '',
-  uploadRequestSender: {}
-};

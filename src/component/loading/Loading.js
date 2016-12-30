@@ -4,6 +4,14 @@ import classNames from 'classnames';
 import { isDevice } from 'utility/devices';
 
 class LoadingSpinner extends Component {
+  static propTypes = {
+    className: PropTypes.string
+  };
+
+  static defaultProps = {
+    className: ''
+  };
+
   render = () => {
     return (
       <div className={`LoadingSpinner u-userTextColorConstrast ${this.props.className}`} />
@@ -11,15 +19,15 @@ class LoadingSpinner extends Component {
   }
 }
 
-LoadingSpinner.defaultProps = {
-  className: ''
-};
-
-LoadingSpinner.propTypes = {
-  className: PropTypes.string
-};
-
 class LoadingEllipses extends Component {
+  static propTypes = {
+    className: PropTypes.string
+  };
+
+  static defaultProps = {
+    className: ''
+  };
+
   render = () => {
     // On IOS8 iphone the scale animation crashes the webpage so
     // we need to animation differently.
@@ -39,13 +47,5 @@ class LoadingEllipses extends Component {
     );
   }
 }
-
-LoadingEllipses.propTypes = {
-  className: PropTypes.string
-};
-
-LoadingEllipses.defaultProps = {
-  className: ''
-};
 
 export { LoadingSpinner, LoadingEllipses };

@@ -2,6 +2,26 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 export class Button extends Component {
+  static propTypes = {
+    className: PropTypes.string,
+    disabled: PropTypes.bool,
+    fullscreen: PropTypes.bool,
+    label: PropTypes.string,
+    onClick: PropTypes.func,
+    style: PropTypes.element,
+    type: PropTypes.string
+  };
+
+  static defaultProps = {
+    className: '',
+    disabled: false,
+    fullscreen: false,
+    label: '',
+    onClick: () => {},
+    style: null,
+    type: 'submit'
+  };
+
   render = () => {
     const buttonClasses = classNames({
       'c-btn c-btn--medium c-btn--primary': true,
@@ -26,23 +46,3 @@ export class Button extends Component {
     );
   }
 }
-
-Button.propTypes = {
-  label: PropTypes.string,
-  fullscreen: PropTypes.bool,
-  disabled: PropTypes.bool,
-  onClick: PropTypes.func,
-  type: PropTypes.string,
-  className: PropTypes.string,
-  style: PropTypes.element
-};
-
-Button.defaultProps = {
-  label: '',
-  fullscreen: false,
-  disabled: false,
-  onClick: () => {},
-  type: 'submit',
-  className: '',
-  style: null
-};

@@ -2,6 +2,18 @@ import React, { Component, PropTypes } from 'react';
 import { locals as styles } from './MessageBubble.sass';
 
 export class MessageBubble extends Component {
+  static propTypes = {
+    backgroundColor: PropTypes.string,
+    color: PropTypes.string,
+    message: PropTypes.string
+  };
+
+  static defaultProps = {
+    backgroundColor: '#78A300',
+    color: 'white',
+    message: ''
+  };
+
   render = () => {
     const style = {
       color: this.props.color,
@@ -17,15 +29,3 @@ export class MessageBubble extends Component {
     );
   }
 }
-
-MessageBubble.propTypes = {
-  message: PropTypes.string,
-  backgroundColor: PropTypes.string,
-  color: PropTypes.string
-};
-
-MessageBubble.defaultProps = {
-  message: '',
-  backgroundColor: '#78A300',
-  color: 'white'
-};

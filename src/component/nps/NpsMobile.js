@@ -20,15 +20,36 @@ import { Button } from 'component/button/Button';
 
 const initialState = {
   currentPage: {
+    addingComment: false,
     selectingRating: true,
-    thankYou: false,
-    addingComment: false
+    thankYou: false
   },
   fullscreen: false,
   isEditing: false
 };
 
 export class NpsMobile extends Component {
+  static propTypes = {
+    isSubmittingComment: PropTypes.bool,
+    isSubmittingRating: PropTypes.bool,
+    npsSender: PropTypes.func.isRequired,
+    onCommentChangeHandler: PropTypes.func,
+    response: PropTypes.object.isRequired,
+    setFrameSize: PropTypes.func.isRequired,
+    submitCommentHandler: PropTypes.func,
+    submitRatingHandler: PropTypes.func,
+    survey: PropTypes.object.isRequired,
+    updateRating: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    isSubmittingComment: false,
+    isSubmittingRating: false,
+    onCommentChangeHandler: () => {},
+    submitCommentHandler: () => {},
+    submitRatingHandler: () => {}
+  };
+
   constructor(props, context) {
     super(props, context);
 
@@ -287,24 +308,3 @@ export class NpsMobile extends Component {
     );
   }
 }
-
-NpsMobile.propTypes = {
-  npsSender: PropTypes.func.isRequired,
-  response: PropTypes.object.isRequired,
-  setFrameSize: PropTypes.func.isRequired,
-  survey: PropTypes.object.isRequired,
-  updateRating: PropTypes.func.isRequired,
-  isSubmittingComment: PropTypes.bool,
-  isSubmittingRating: PropTypes.bool,
-  onCommentChangeHandler: PropTypes.func,
-  submitCommentHandler: PropTypes.func,
-  submitRatingHandler: PropTypes.func
-};
-
-NpsMobile.defaultProps = {
-  isSubmittingComment: false,
-  isSubmittingRating: false,
-  onCommentChangeHandler: () => {},
-  submitCommentHandler: () => {},
-  submitRatingHandler: () => {}
-};

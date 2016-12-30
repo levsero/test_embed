@@ -4,6 +4,22 @@ import classNames from 'classnames';
 import { Icon } from 'component/Icon';
 
 export class IconFieldButton extends Component {
+  static propTypes = {
+    className: PropTypes.string,
+    focused: PropTypes.bool,
+    fullscreen: PropTypes.bool,
+    icon: PropTypes.string,
+    onClick: PropTypes.func
+  };
+
+  static defaultProps = {
+    className: '',
+    focused: false,
+    fullscreen: false,
+    icon: '',
+    onClick: () => {}
+  };
+
   constructor(props, context) {
     super(props, context);
 
@@ -41,19 +57,3 @@ export class IconFieldButton extends Component {
     );
   }
 }
-
-IconFieldButton.propTypes = {
-  onClick: PropTypes.func,
-  icon: PropTypes.string,
-  className: PropTypes.string,
-  fullscreen: PropTypes.bool,
-  focused: PropTypes.bool
-};
-
-IconFieldButton.defaultProps = {
-  onClick: () => {},
-  icon: '',
-  className: '',
-  fullscreen: false,
-  focused: false
-};

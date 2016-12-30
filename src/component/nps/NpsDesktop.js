@@ -10,13 +10,37 @@ import { NpsComment } from 'component/nps/NpsComment';
 
 const initialState = {
   currentPage: {
+    addingComment: false,
     selectingRating: true,
-    thankYou: false,
-    addingComment: false
+    thankYou: false
   }
 };
 
 export class NpsDesktop extends Component {
+  static propTypes = {
+    hideZendeskLogo: PropTypes.bool,
+    isMobile: PropTypes.bool,
+    isSubmittingComment: PropTypes.bool,
+    isSubmittingRating: PropTypes.bool,
+    onCommentChangeHandler: PropTypes.func,
+    response: PropTypes.object.isRequired,
+    setOffsetHorizontal: PropTypes.func.isRequired,
+    submitCommentHandler: PropTypes.func,
+    submitRatingHandler: PropTypes.func,
+    survey: PropTypes.object.isRequired,
+    updateFrameSize: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    hideZendeskLogo: false,
+    isMobile: false,
+    isSubmittingComment: false,
+    isSubmittingRating: false,
+    onCommentChangeHandler: () => {},
+    submitCommentHandler: () => {},
+    submitRatingHandler: () => {}
+  };
+
   constructor(props, context) {
     super(props, context);
 
@@ -106,7 +130,7 @@ export class NpsDesktop extends Component {
                       ? (<div className='u-textCenter u-paddingBM'>
                            <ZendeskLogo
                              utm='embeddednps'
-                             className='u-posStatic'
+                             className='u-posStatic u-marginLL'
                              fullscreen={this.props.isMobile} />
                         </div>)
                       : null;
@@ -168,27 +192,3 @@ export class NpsDesktop extends Component {
     );
   }
 }
-
-NpsDesktop.propTypes = {
-  response: PropTypes.object.isRequired,
-  setOffsetHorizontal: PropTypes.func.isRequired,
-  survey: PropTypes.object.isRequired,
-  updateFrameSize: PropTypes.func.isRequired,
-  hideZendeskLogo: PropTypes.bool,
-  isMobile: PropTypes.bool,
-  isSubmittingComment: PropTypes.bool,
-  isSubmittingRating: PropTypes.bool,
-  onCommentChangeHandler: PropTypes.func,
-  submitCommentHandler: PropTypes.func,
-  submitRatingHandler: PropTypes.func
-};
-
-NpsDesktop.defaultProps = {
-  hideZendeskLogo: false,
-  isMobile: false,
-  isSubmittingComment: false,
-  isSubmittingRating: false,
-  onCommentChangeHandler: () => {},
-  submitCommentHandler: () => {},
-  submitRatingHandler: () => {}
-};

@@ -2,6 +2,27 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 export class Container extends Component {
+  static propTypes = {
+    card: PropTypes.bool,
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string,
+    expanded: PropTypes.bool,
+    fullscreen: PropTypes.bool,
+    onClick: PropTypes.func,
+    onDragEnter: PropTypes.func,
+    style: PropTypes.object
+  };
+
+  static defaultProps = {
+    card: false,
+    className: '',
+    expanded: false,
+    fullscreen: false,
+    onClick: () => {},
+    onDragEnter: () => {},
+    style: null
+  };
+
   render = () => {
     const containerClasses = classNames({
       [`Container u-posRelative ${this.props.className}`]: true,
@@ -22,24 +43,3 @@ export class Container extends Component {
     );
   }
 }
-
-Container.propTypes = {
-  children: PropTypes.node.isRequired,
-  fullscreen: PropTypes.bool,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  card: PropTypes.bool,
-  onClick: PropTypes.func,
-  onDragEnter: PropTypes.func,
-  expanded: PropTypes.bool
-};
-
-Container.defaultProps = {
-  fullscreen: false,
-  className: '',
-  style: null,
-  card: false,
-  onClick: () => {},
-  onDragEnter: () => {},
-  expanded: false
-};

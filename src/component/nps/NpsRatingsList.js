@@ -5,6 +5,30 @@ import classNames from 'classnames';
 import { ButtonRating } from 'component/button/ButtonRating';
 
 export class NpsRatingsList extends Component {
+  static propTypes = {
+    className: PropTypes.string,
+    hideRatingsLegend: PropTypes.bool,
+    highlightColor: PropTypes.string,
+    isSubmittingComment: PropTypes.bool,
+    isSubmittingRating: PropTypes.bool,
+    likelyLabel: PropTypes.string.isRequired,
+    notLikelyLabel: PropTypes.string.isRequired,
+    onChangeValue: PropTypes.func,
+    ratingsRange: PropTypes.array,
+    selectedRating: PropTypes.number
+  };
+
+  static defaultProps = {
+    className: '',
+    hideRatingsLegend: false,
+    highlightColor: '#77a500',
+    isSubmittingComment: false,
+    isSubmittingRating: false,
+    onChangeValue: () => {},
+    ratingsRange: _.range(11),
+    selectedRating: -1
+  };
+
   ratingClickHandlerFn = (rating) => {
     return (ev) => {
       ev.preventDefault();
@@ -36,7 +60,7 @@ export class NpsRatingsList extends Component {
 
     const likelyLabelClasses = classNames({
       [labelClasses]: true,
-      'u-textRight': true
+      'u-textRight u-pullRight': true
     });
 
     const notLikelyLabelClasses = classNames({
@@ -54,7 +78,7 @@ export class NpsRatingsList extends Component {
         loadingSpinnerClassName: 'RatingsList-spinner',
         selected: isSelected,
         disabled: !isSelected && (this.props.isSubmittingRating || this.props.isSubmittingComment),
-        onClick: !isSelected && !this.props.isSubmittingRating && this.ratingClickHandlerFn(rating)
+        onClick: (!isSelected && !this.props.isSubmittingRating) ? this.ratingClickHandlerFn(rating) : () => {}
       };
 
       return (
@@ -87,26 +111,3 @@ export class NpsRatingsList extends Component {
     );
   }
 }
-
-NpsRatingsList.propTypes = {
-  likelyLabel: PropTypes.string.isRequired,
-  notLikelyLabel: PropTypes.string.isRequired,
-  selectedRating: PropTypes.number,
-  className: PropTypes.string,
-  hideRatingsLegend: PropTypes.bool,
-  highlightColor: PropTypes.string,
-  isSubmittingComment: PropTypes.bool,
-  isSubmittingRating: PropTypes.bool,
-  onChangeValue: PropTypes.func,
-  ratingsRange: PropTypes.array
-};
-
-NpsRatingsList.defaultProps = {
-  className: '',
-  hideRatingsLegend: false,
-  highlightColor: '#77a500',
-  isSubmittingComment: false,
-  isSubmittingRating: false,
-  onChangeValue: () => {},
-  ratingsRange: _.range(11)
-};
