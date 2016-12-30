@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { ChatBox } from 'component/chat/ChatBox';
 import { ChatHeader } from 'component/chat/ChatHeader';
-import { ChatMessage } from 'component/chat/ChatHeader';
+import { ChatMessage } from 'component/chat/ChatMessage';
 import { Container } from 'component/container/Container';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
@@ -33,7 +33,7 @@ class Chat extends Component {
     if (this.props.chat.chats.length === 0) return;
 
     const chatRowTemplate = (data) => {
-      return (<ChatMessage name={data.display_name} message={data.msg} />);
+      return (<ChatMessage name={data.display_name} message={data.msg} nick={data.nick} />);
     };
 
     return _.chain(this.props.chat.chats.toObject())

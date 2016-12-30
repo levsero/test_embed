@@ -1,13 +1,24 @@
-.message {
-  background-color:#fff;
-  padding:10px;
-  font-size:16px;
+@import '../../styles/_vars.scss';
 
-  margin-bottom: 10px;
-  border-radius: 4px;
+.wrapper {
+  display: block;
+  composes: u-cf from '../../styles/utils.scss';
+}
+
+.message {
+  composes: u-paddingS u-marginBS from '../../styles/utils.scss';
+}
+
+.messageUser {
+  composes: u-pullRight from '../../styles/utils.scss';
+}
+
+.messageAgent {
+  composes: u-pullLeft from '../../styles/utils.scss';
 }
 
 .name {
   font-weight: strong;
-  font-size: 12px;
+  font-size: #{12/$font-size}rem;
+  color: $zd-color-dark-gray;
 }
