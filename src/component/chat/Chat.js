@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { ChatBox } from 'component/chat/ChatBox';
-import { ChatHeader } from 'component/chat/ChatHeader';
 import { ChatMessage } from 'component/chat/ChatMessage';
 import { Container } from 'component/container/Container';
 import { ScrollContainer } from 'component/container/ScrollContainer';
@@ -52,11 +51,10 @@ class Chat extends Component {
         expanded={true}>
         <ScrollContainer
           title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-          headerContent={<ChatHeader />}
           headerClasses={styles.header}
           footerContent={
             <ChatBox
-              chat={this.props.chat}
+              currentMessage={this.props.chat.currentMessage}
               sendMsg={this.props.sendMsg}
               updateCurrentMsg={this.props.updateCurrentMsg} />}
           contentExpanded={true}>
