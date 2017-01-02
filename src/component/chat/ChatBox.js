@@ -22,7 +22,7 @@ export class ChatBox extends Component {
     return (
       <div>
         <div className={styles.container}>
-          <input type='text' onChange={this.handleMsgChange} className={styles.input} value={this.props.chat.currentMessage} />
+          <input type='text' onChange={this.handleMsgChange} className={styles.input} value={this.props.currentMessage} />
           <button onClick={this.handleSendClick} className={styles.button}>Send</button>
         </div>
       </div>
@@ -31,7 +31,7 @@ export class ChatBox extends Component {
 }
 
 ChatBox.propTypes = {
-  chat: PropTypes.object.isRequired,
+  currentMessage: PropTypes.string.isRequired,
   sendMsg: PropTypes.func.isRequired,
   updateCurrentMsg: PropTypes.func.isRequired
 };
