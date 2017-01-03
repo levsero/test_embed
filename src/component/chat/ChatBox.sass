@@ -1,14 +1,11 @@
-.container {
-  width: 380px;
+@import '../../styles/_vars.scss';
+
+.input {
+  composes: u-inlineBlock u-marginRS u-alignBottom from '../../styles/utils.scss';
+  width: #{210/$font-size}rem;
 }
 
-input {
-  padding: 3px;
-  width: 260px;
-  font-size:20px;
+.button {
+  composes: u-inlineBlock from '../../styles/utils.scss';
 }
 
-button {
-  font-size:20px;
-  width: 50px;
-}

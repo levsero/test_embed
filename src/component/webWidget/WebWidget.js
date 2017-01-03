@@ -71,8 +71,7 @@ class WebWidget extends Component {
     super(props, context);
 
     this.state = {
-      activeComponent: helpCenter,
-      chatOnline: true
+      activeComponent: helpCenter
     };
   }
 
