@@ -18,6 +18,8 @@ describe('embed.webWidget', () => {
   const contextualSearch = jasmine.createSpy();
   const authenticateSpy = jasmine.createSpy();
   const revokeSpy = jasmine.createSpy();
+  const zChatInitSpy = jasmine.createSpy();
+  const zChatFirehoseSpy = jasmine.createSpy().and.callThrough();
 
   beforeEach(() => {
     mockSettingsValue = '';
@@ -151,11 +153,11 @@ describe('embed.webWidget', () => {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory
       },
       'vendor/web-sdk': {
-        init: noop,
+        init: zChatInitSpy,
         getFirehose: () => {
           return {
-            on: noop
-          }
+            on: zChatFirehoseSpy
+          };
         }
       },
       'utility/devices': {
@@ -370,6 +372,26 @@ describe('embed.webWidget', () => {
           expect(mockTransport.get.calls.mostRecent().args[0].path)
             .toContain('212');
         });
+      });
+    });
+
+    describe('setUpChat', () => {
+      beforeEach(() => {
+        const chatConfig = { zopimId: '123abc' };
+
+        webWidget.create('faythe', { zopimChat: chatConfig });
+
+        faythe = webWidget.get('faythe');
+      });
+
+      it('calls zChat init with the chat key', () => {
+        expect(zChatInitSpy)
+          .toHaveBeenCalledWith({ account_key: '123abc' }); // eslint-disable-line camelcase
+      });
+
+      it('sets up firehose data', () => {
+        expect(zChatFirehoseSpy)
+          .toHaveBeenCalled();
       });
     });
 
