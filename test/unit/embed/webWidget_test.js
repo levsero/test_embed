@@ -104,35 +104,33 @@ describe('embed.webWidget', () => {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
-      'component/webWidget/WebWidget': {
-        WebWidget: class extends Component {
-          constructor() {
-            super();
-            this.resetState = resetState;
-            this.backtrackSearch = backtrackSearch;
-            this.contextualSearch = contextualSearch;
-            this.performSearch = performSearch;
-            this.focusField = focusField;
-            this.state = {
-              topics: [],
-              searchCount: 0,
-              searchTerm: '',
-              hasSearched: false,
-              showIntroScreen: false
-            };
-          }
+      'component/webWidget/WebWidget': class extends Component {
+        constructor() {
+          super();
+          this.resetState = resetState;
+          this.backtrackSearch = backtrackSearch;
+          this.contextualSearch = contextualSearch;
+          this.performSearch = performSearch;
+          this.focusField = focusField;
+          this.state = {
+            topics: [],
+            searchCount: 0,
+            searchTerm: '',
+            hasSearched: false,
+            showIntroScreen: false
+          };
+        }
 
-          getRootComponent() {
-            return this.refs.rootComponent;
-          }
+        getRootComponent() {
+          return this.refs.rootComponent;
+        }
 
-          render() {
-            return (
-              <div className='mock-webWidget'>
-                <WebWidgetChild ref='rootComponent' />
-              </div>
-            );
-          }
+        render() {
+          return (
+            <div className='mock-webWidget'>
+              <WebWidgetChild ref='rootComponent' />
+            </div>
+          );
         }
       },
       './webWidget.scss': '',
@@ -141,6 +139,14 @@ describe('embed.webWidget', () => {
       },
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory
+      },
+      'vendor/web-sdk': {
+        init: noop,
+        getFirehose: () => {
+          return {
+            on: noop
+          }
+        }
       },
       'utility/devices': {
         isMobileBrowser() { return mockIsMobileBrowser; },
@@ -171,7 +177,8 @@ describe('embed.webWidget', () => {
         },
         location: {
           protocol: 'https:'
-        }
+        },
+        win: global.window
       },
       'service/authentication' : {
         authentication: {
