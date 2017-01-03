@@ -39,12 +39,14 @@ export class Icon extends Component {
   static propTypes = {
     className: PropTypes.string,
     isMobile: PropTypes.bool,
+    onClick: PropTypes.func,
     type: PropTypes.string
   };
 
   static defaultProps = {
     className: '',
     isMobile: isMobileBrowser(),
+    onClick: () => {},
     type: ''
   };
 
@@ -57,8 +59,9 @@ export class Icon extends Component {
 
     return (
       <span
-        type={this.props.type}
+        onClick={this.props.onClick}
         className={iconClasses}
+        type={this.props.type}
         dangerouslySetInnerHTML={{__html: icon}} />
     );
   }
