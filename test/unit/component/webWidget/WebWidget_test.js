@@ -156,9 +156,9 @@ describe('WebWidget component', () => {
 
     describe('when chat is online', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget helpCenterAvailable={true} />);
-        // TODO: Replace with whatever function will set chat status
-        webWidget.setState({ chatOnline: true });
+        const chatProp = { account_status: 'online' }; // eslint-disable-line camelcase
+
+        webWidget = domRender(<WebWidget helpCenterAvailable={true} chat={chatProp} />);
         webWidget.onNextClick();
       });
 
@@ -172,9 +172,11 @@ describe('WebWidget component', () => {
       let showBackButtonSpy;
 
       beforeEach(() => {
+        const chatProp = { account_status: 'offline' }; // eslint-disable-line camelcase
+
         showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
         webWidget = domRender(
-          <WebWidget helpCenterAvailable={true} showBackButton={showBackButtonSpy} />
+          <WebWidget helpCenterAvailable={true} showBackButton={showBackButtonSpy} chat={chatProp} />
         );
         webWidget.onNextClick();
       });

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import { MessageBubble } from 'src/component/chat/MessageBubble';
+import { MessageBubble } from 'component/chat/MessageBubble';
 
 import { locals as styles } from './ChatMessage.sass';
 

@@ -25,10 +25,6 @@ export class ChatBox extends Component {
   handleChange = (e) => {
     const value = e.target.value;
 
-    if (e.keyCode === 13) {
-      this.handleSendClick();
-    }
-
     this.props.updateCurrentMsg(value);
   }
 
