@@ -41,7 +41,9 @@ export class ScrollContainer extends Component {
           </div>
           {this.props.headerContent}
         </header>
-        <div id='content' className={`${styles.content} ${containerClasses} ${expandedClasses} ${mobileContentClasses}`}>
+        <div
+          id='content'
+          className={`${styles.content} ${containerClasses} ${expandedClasses} ${mobileContentClasses}`}>
           {this.props.children}
         </div>
         <footer
