@@ -1,14 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 
+import { ButtonSecondary } from 'component/button/ButtonSecondary';
+import { Field } from 'component/field/Field';
+import { i18n } from 'service/i18n';
+
 import { locals as styles } from './ChatBox.sass';
 
 export class ChatBox extends Component {
   handleSendClick = () => {
-    this.props.sendMsg(this.props.chat.currentMessage);
+    this.props.sendMsg(this.props.currentMessage);
     this.props.updateCurrentMsg('');
   }
 
-  handleMsgChange = (e) => {
+  handleChange = (e) => {
     const value = e.target.value;
 
     if (e.keyCode === 13) {
@@ -21,10 +25,15 @@ export class ChatBox extends Component {
   render = () => {
     return (
       <div>
-        <div className={styles.container}>
-          <input type='text' onChange={this.handleMsgChange} className={styles.input} value={this.props.currentMessage} />
-          <button onClick={this.handleSendClick} className={styles.button}>Send</button>
+        <div className={styles.input}>
+          <Field
+            onChange={this.handleChange}
+            value={this.props.currentMessage} />
         </div>
+        <ButtonSecondary
+          onClick={this.handleSendClick}
+          className={styles.button}
+          label={i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')} />
       </div>
     );
   }

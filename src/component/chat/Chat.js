@@ -17,8 +17,11 @@ const mapStateToProps = (state) => {
 
 class Chat extends Component {
   static propTypes = {
+    chat: PropTypes.object.isRequired,
     position: PropTypes.string,
+    sendMsg: PropTypes.func.isRequired,
     style: PropTypes.object,
+    updateCurrentMsg: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func
   };
 
@@ -31,13 +34,13 @@ class Chat extends Component {
   renderChatLog = () => {
     if (this.props.chat.chats.length === 0) return;
 
-    const chatRowTemplate = (data) => {
+    const chatMessage = (data) => {
       return (<ChatMessage name={data.display_name} message={data.msg} nick={data.nick} />);
     };
 
     return _.chain(this.props.chat.chats.toObject())
             .filter((m) => m.type === 'chat.msg')
-            .map(chatRowTemplate)
+            .map(chatMessage)
             .value();
   }
 
