@@ -13,7 +13,7 @@ export class ScrollContainer extends Component {
   getContentContainer = () => {
     const elem = ReactDOM.findDOMNode(this);
 
-    return elem.querySelector('.content');
+    return elem.querySelector('#content');
   }
 
   scrollToBottom = () => {
@@ -41,7 +41,7 @@ export class ScrollContainer extends Component {
           </div>
           {this.props.headerContent}
         </header>
-        <div className={`${styles.content} ${containerClasses} ${expandedClasses} ${mobileContentClasses}`}>
+        <div id='content' className={`${styles.content} ${containerClasses} ${expandedClasses} ${mobileContentClasses}`}>
           {this.props.children}
         </div>
         <footer
