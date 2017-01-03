@@ -104,35 +104,33 @@ describe('embed.webWidget', () => {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
-      'component/webWidget/WebWidget': {
-        WebWidget: class extends Component {
-          constructor() {
-            super();
-            this.resetState = resetState;
-            this.backtrackSearch = backtrackSearch;
-            this.contextualSearch = contextualSearch;
-            this.performSearch = performSearch;
-            this.focusField = focusField;
-            this.state = {
-              topics: [],
-              searchCount: 0,
-              searchTerm: '',
-              hasSearched: false,
-              showIntroScreen: false
-            };
-          }
+      'component/webWidget/WebWidget': class extends Component {
+        constructor() {
+          super();
+          this.resetState = resetState;
+          this.backtrackSearch = backtrackSearch;
+          this.contextualSearch = contextualSearch;
+          this.performSearch = performSearch;
+          this.focusField = focusField;
+          this.state = {
+            topics: [],
+            searchCount: 0,
+            searchTerm: '',
+            hasSearched: false,
+            showIntroScreen: false
+          };
+        }
 
-          getRootComponent() {
-            return this.refs.rootComponent;
-          }
+        getRootComponent() {
+          return this.refs.rootComponent;
+        }
 
-          render() {
-            return (
-              <div className='mock-webWidget'>
-                <WebWidgetChild ref='rootComponent' />
-              </div>
-            );
-          }
+        render() {
+          return (
+            <div className='mock-webWidget'>
+              <WebWidgetChild ref='rootComponent' />
+            </div>
+          );
         }
       },
       './webWidget.scss': 'mockCSS',
@@ -144,8 +142,21 @@ describe('embed.webWidget', () => {
       'component/helpCenter/HelpCenterArticle.sass': '',
       'component/helpCenter/HelpCenterResults.sass': '',
       'component/container/ScrollContainer.sass': '',
+      'component/chat/Chat.sass': '',
+      'component/chat/ChatBox.sass': '',
+      'component/chat/ChatHeader.sass': '',
+      'component/chat/ChatMessage.sass': '',
+      'component/chat/MessageBubble.sass': '',
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory
+      },
+      'vendor/web-sdk': {
+        init: noop,
+        getFirehose: () => {
+          return {
+            on: noop
+          }
+        }
       },
       'utility/devices': {
         isMobileBrowser() { return mockIsMobileBrowser; },
@@ -176,7 +187,8 @@ describe('embed.webWidget', () => {
         },
         location: {
           protocol: 'https:'
-        }
+        },
+        win: global.window
       },
       'service/authentication' : {
         authentication: {

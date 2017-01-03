@@ -19,6 +19,7 @@ class WebWidget extends Component {
     attachmentSender: PropTypes.func.isRequired,
     buttonLabelKey: PropTypes.string,
     channelChoice: PropTypes.bool,
+    chat: PropTypes.object.isRequired,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
     helpCenterAvailable: PropTypes.bool,
@@ -130,7 +131,7 @@ class WebWidget extends Component {
     }
   }
 
-  activate() {
+  activate = () => {
     if (this.props.helpCenterAvailable) {
       this.showHelpCenter();
     } else {

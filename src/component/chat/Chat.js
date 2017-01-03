@@ -34,8 +34,8 @@ class Chat extends Component {
   renderChatLog = () => {
     if (this.props.chat.chats.length === 0) return;
 
-    const chatMessage = (data) => {
-      return (<ChatMessage name={data.display_name} message={data.msg} nick={data.nick} />);
+    const chatMessage = (data, key) => {
+      return (<ChatMessage key={key} name={data.display_name} message={data.msg} nick={data.nick} />);
     };
 
     return _.chain(this.props.chat.chats.toObject())

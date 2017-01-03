@@ -37,9 +37,7 @@ describe('WebWidget component', () => {
 
     initMockRegistry({
       'React': React,
-      'component/chat/Chat': {
-        Chat: noopReactComponent()
-      },
+      'component/chat/Chat': noopReactComponent(),
       'component/helpCenter/HelpCenter': {
         HelpCenter: MockHelpCenter
       },
@@ -49,7 +47,7 @@ describe('WebWidget component', () => {
     });
 
     mockery.registerAllowable(webWidgetPath);
-    WebWidget = requireUncached(webWidgetPath).WebWidget;
+    WebWidget = requireUncached(webWidgetPath).default.WrappedComponent;
   });
 
   afterEach(() => {
