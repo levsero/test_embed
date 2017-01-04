@@ -112,7 +112,9 @@ function boot() {
   // Honour any no-referrer policies on the host page by dynamically
   // injecting the appropriate meta tags on the iframe.
   // TODO: When main.js refactor is complete, test this.
-  setReferrerMetas(iframe);
+  if (iframe) {
+    setReferrerMetas(iframe);
+  }
 
   identity.init();
   logging.init();
