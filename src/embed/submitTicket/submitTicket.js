@@ -242,7 +242,9 @@ function create(name, config, reduxStore) {
         if (rootComponent) {
           if (isMobileBrowser()) {
             setScaleLock(false);
-            rootComponent.refs.submitTicketForm.hideVirtualKeyboard();
+            if (rootComponent.refs.submitTicketForm) {
+              rootComponent.refs.submitTicketForm.hideVirtualKeyboard();
+            }
           }
           rootComponent.clearNotification();
         }
