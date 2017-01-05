@@ -197,11 +197,11 @@ describe('Field component', () => {
 
   describe('pattern attr', () => {
     it('should be used if it is passed in', () => {
-      const field = domRender(<Field pattern='[a-zA-Z]' />);
+      const field = domRender(<Field disableAutoComplete={true} />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
-      expect(fieldNode.querySelector('input').getAttribute('pattern'))
-        .toEqual('[a-zA-Z]');
+      expect(fieldNode.querySelector('input').getAttribute('autoComplete'))
+        .toEqual('off');
     });
 
     it('should not use one if it is not passed in', () => {
@@ -209,6 +209,24 @@ describe('Field component', () => {
       const fieldNode = ReactDOM.findDOMNode(field);
 
       expect(fieldNode.querySelector('input').getAttribute('pattern'))
+        .toBeFalsy();
+    });
+  });
+
+  describe('disableAutoComplete', () => {
+    it('should be added if it is true', () => {
+      const field = domRender(<Field disableAutoComplete={true} />);
+      const fieldNode = ReactDOM.findDOMNode(field);
+
+      expect(fieldNode.querySelector('input').getAttribute('autoComplete'))
+        .toEqual('off');
+    });
+
+    it('should not be added if it is false', () => {
+      const field = domRender(<Field />);
+      const fieldNode = ReactDOM.findDOMNode(field);
+
+      expect(fieldNode.querySelector('input').getAttribute('autoComplete'))
         .toBeFalsy();
     });
   });
