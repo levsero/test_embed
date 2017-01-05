@@ -403,6 +403,7 @@ function setUpSubmitTicket(config) {
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024, // 5 MB
     ticketForms: [],
+    disableAutoComplete: false,
     color: '#659700'
   };
   const attachmentsSetting = settings.get('contactForm.attachments');
@@ -524,6 +525,7 @@ function setUpHelpCenter(config) {
     signInRequired: false,
     disableAutoSearch: false,
     expandable: false,
+    disableAutoComplete: false,
     enableMouseDrivenContextualHelp: false,
     viewMoreEnabled: false,
     color: '#659700'

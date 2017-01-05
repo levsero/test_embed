@@ -174,7 +174,7 @@ export class WebWidget extends Component {
           style={this.props.style}
           fullscreen={this.props.fullscreen}
           updateFrameSize={this.props.updateFrameSize}
-          disableAutoSearch={helpCenterConfig.disableAutoSearch}
+          disableAutoComplete={helpCenterConfig.disableAutoComplete}
           originalArticleButton={this.props.originalArticleButton}
           localeFallbacks={this.props.localeFallbacks}
           channelChoice={this.props.channelChoice}
@@ -203,6 +203,7 @@ export class WebWidget extends Component {
           onSubmitted={this.props.onSubmitted}
           position={submitTicketConfig.position}
           formTitleKey={submitTicketConfig.formTitleKey}
+          disableAutoComplete={submitTicketConfig.disableAutoComplete}
           style={this.props.style}
           showBackButton={this.props.showBackButton}
           attachmentsEnabled={submitTicketConfig.attachmentsEnabled}

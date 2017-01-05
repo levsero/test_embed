@@ -33,6 +33,7 @@ export class SubmitTicketForm extends Component {
     attachmentSender: PropTypes.func.isRequired,
     children: PropTypes.element.isRequired,
     customFields: PropTypes.array,
+    disableAutoComplete: PropTypes.bool,
     expanded: PropTypes.bool,
     formState: PropTypes.object,
     formTitleKey: PropTypes.string.isRequired,
@@ -51,6 +52,7 @@ export class SubmitTicketForm extends Component {
     attachmentsEnabled: false,
     children: <span />,
     customFields: [],
+    disableAutoComplete: false,
     expanded: false,
     formState: {},
     fullscreen: false,
@@ -74,7 +76,7 @@ export class SubmitTicketForm extends Component {
   }
 
   componentDidMount = () => {
-    const customFields = getCustomFields(this.props.customFields, this.props.formState);
+    const customFields = getCustomFields(this.props.customFields, this.props.formState, this.props.disableAutoComplete);
     const showShadow = customFields.fields.length > 0 || this.props.attachmentsEnabled;
 
     this.refs.scrollContainer.setScrollShadowVisible(showShadow);
@@ -243,6 +245,7 @@ export class SubmitTicketForm extends Component {
          : <Field
             placeholder={placeholder}
             value={this.props.formState.subject}
+            disableAutoComplete={this.props.disableAutoComplete}
             name='subject'
             disabled={this.props.previewEnabled} />;
   }
@@ -253,6 +256,7 @@ export class SubmitTicketForm extends Component {
         placeholder={i18n.t('embeddable_framework.form.field.email.label')}
         type='email'
         required={true}
+        disableAutoComplete={this.props.disableAutoComplete}
         pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
         value={this.props.formState.email}
         name='email'
@@ -266,6 +270,7 @@ export class SubmitTicketForm extends Component {
         placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
         value={this.props.formState.name}
         name='name'
+        disableAutoComplete={this.props.disableAutoComplete}
         disabled={this.props.previewEnabled} />
     );
   }
@@ -277,6 +282,7 @@ export class SubmitTicketForm extends Component {
         required={true}
         value={this.props.formState.description}
         name='description'
+        disableAutoComplete={this.props.disableAutoComplete}
         input={<textarea rows='5' />}
         disabled={this.props.previewEnabled} />
     );
@@ -378,6 +384,7 @@ export class SubmitTicketForm extends Component {
             </ButtonGroup>
           }
           fullscreen={fullscreen}>
+          <input type='text' autoComplete='on' name='name' />
           {formBody}
           {attachments}
         </ScrollContainer>

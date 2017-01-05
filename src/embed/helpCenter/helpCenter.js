@@ -58,6 +58,7 @@ function create(name, config, reduxStore) {
     hideZendeskLogo: false,
     signInRequired: false,
     expandable: false,
+    disableAutoComplete: false,
     enableMouseDrivenContextualHelp: false,
     color: '#659700'
   };
@@ -176,6 +177,7 @@ function create(name, config, reduxStore) {
           originalArticleButton={settings.get('helpCenter.originalArticleButton')}
           localeFallbacks={settings.get('helpCenter.localeFallbacks')}
           channelChoice={channelChoice}
+          disableAutoComplete={config.disableAutoComplete}
           viewMoreEnabled={viewMoreEnabled}
           zendeskHost={transport.getZendeskHost()} />
       );
