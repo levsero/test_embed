@@ -380,7 +380,7 @@ export class SubmitTicket extends Component {
         ref='ticketFormSelector'
         contentExpanded={this.state.expanded}
         fullscreen={fullscreen}
-        scrollShadowVisible={true}
+        scrollShadowVisible={!fullscreen}
         containerClasses={containerClasses}
         footerClasses={footerClasses}>
         <div className={`${styles.ticketFormsListTitle} ${titleMobileClasses}`}>
