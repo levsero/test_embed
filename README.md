@@ -46,7 +46,7 @@ The bootstrap file will do the following:
 * Download graphicsmagick, imagemagick & cairo using brew
 * Run npm install webdriverio & webdrivercss (these depend on the above)
 
-To run the embeddables locally type `npm run watch` in this folder for it to kick off. This creates a dist folder with `main.js`, `boostrap.js` files and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/example/](http://localhost:1337/example/) to test live examples.
+To run the embeddables locally type `npm run watch` in this folder for it to kick off. This creates a dist folder with `main.js`, `boostrap.js` files and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/webpack-dev-server/](http://localhost:1337/webpack-dev-server/) to test live examples.
 
 ## Running in Docker
 
