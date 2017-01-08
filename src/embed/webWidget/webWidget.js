@@ -523,7 +523,6 @@ function setUpHelpCenter(config) {
     formTitleKey: 'help',
     hideZendeskLogo: false,
     signInRequired: false,
-    disableAutoSearch: false,
     expandable: false,
     disableAutoComplete: false,
     enableMouseDrivenContextualHelp: false,

@@ -384,7 +384,6 @@ export class SubmitTicketForm extends Component {
             </ButtonGroup>
           }
           fullscreen={fullscreen}>
-          <input type='text' autoComplete='on' name='name' />
           {formBody}
           {attachments}
         </ScrollContainer>

@@ -197,11 +197,11 @@ describe('Field component', () => {
 
   describe('pattern attr', () => {
     it('should be used if it is passed in', () => {
-      const field = domRender(<Field disableAutoComplete={true} />);
+      const field = domRender(<Field pattern='[a-zA-Z]' />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
-      expect(fieldNode.querySelector('input').getAttribute('autoComplete'))
-        .toEqual('off');
+      expect(fieldNode.querySelector('input').getAttribute('pattern'))
+        .toEqual('[a-zA-Z]');
     });
 
     it('should not use one if it is not passed in', () => {
