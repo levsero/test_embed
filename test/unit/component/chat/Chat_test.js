@@ -71,7 +71,7 @@ describe('Chat component', () => {
         component = domRender(<Chat chat={chatProp} />);
       });
 
-      it('should not return anything', () => {
+      it('should return the chat messages', () => {
         expect(component.renderChatLog().length)
           .toBe(2);
       });

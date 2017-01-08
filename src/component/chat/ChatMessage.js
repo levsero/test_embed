@@ -4,6 +4,9 @@ import { MessageBubble } from 'component/chat/MessageBubble';
 
 import { locals as styles } from './ChatMessage.sass';
 
+const AgentColor = '#6AABC4';
+const UserColor = '#30AABC';
+
 export class ChatMessage extends Component {
   static propTypes = {
     nick: PropTypes.string,
@@ -19,8 +22,8 @@ export class ChatMessage extends Component {
 
   render() {
     const isAgent = this.props.nick.indexOf('agent') > -1;
-    const color = isAgent ? '#6AABC4' : '#30AABC';
-    const userClasses = !isAgent ? styles.messageUser : styles.messageAgent;
+    const color = isAgent ? AgentColor : UserColor;
+    const userClasses = isAgent ? styles.messageAgent : styles.messageUser;
 
     return (
       <div className={styles.wrapper}>
