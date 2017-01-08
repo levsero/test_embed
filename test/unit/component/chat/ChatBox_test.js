@@ -52,7 +52,11 @@ describe('ChatBox component', () => {
     beforeEach(() => {
       updateCurrentMsgSpy = jasmine.createSpy();
       sendMsgSpy = jasmine.createSpy();
-      component = domRender(<ChatBox updateCurrentMsg={updateCurrentMsgSpy} sendMsg={sendMsgSpy} />);
+      component = domRender(
+        <ChatBox
+          currentMessage='Hello!'
+          updateCurrentMsg={updateCurrentMsgSpy}
+          sendMsg={sendMsgSpy} />);
 
       component.handleChange({ target: { value: 'Hello!' } });
       component.handleSendClick();
@@ -64,8 +68,8 @@ describe('ChatBox component', () => {
     });
 
     it('calls sendMsg prop', () => {
-      expect(updateCurrentMsgSpy)
-        .toHaveBeenCalledWith('');
+      expect(sendMsgSpy)
+        .toHaveBeenCalledWith('Hello!');
     });
   });
 });
