@@ -13,7 +13,7 @@ const geti18nContent = (field) => {
   return title ? title.content : field.title;
 };
 
-const getCustomFields = (customFields, formState) => {
+const getCustomFields = (customFields, formState, disableAutoComplete) => {
   const isCheckbox = (field) => {
     return field && field.props && field.props.type === 'checkbox';
   };
@@ -25,7 +25,8 @@ const getCustomFields = (customFields, formState) => {
       value: formState[field.id],
       required: isRequired,
       placeholder: title,
-      key: title
+      key: title,
+      disableAutoComplete
     };
 
     if (field.variants) {

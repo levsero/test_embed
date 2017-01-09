@@ -23,6 +23,7 @@ export class Field extends Component {
       PropTypes.number,
       PropTypes.string
     ]),
+    disableAutoComplete: PropTypes.bool,
     disabled: PropTypes.bool,
     hasSearched: PropTypes.bool,
     input: PropTypes.element,
@@ -39,6 +40,7 @@ export class Field extends Component {
   };
 
   static defaultProps = {
+    disableAutoComplete: false,
     disabled: false,
     hasSearched: false,
     input: null,
@@ -150,6 +152,12 @@ export class Field extends Component {
         autoCorrect: 'off',
         autoComplete: 'off',
         spellCheck: 'false'
+      });
+    }
+
+    if (this.props.disableAutoComplete) {
+      fieldProps = _.extend(fieldProps, {
+        autoComplete: 'off'
       });
     }
 

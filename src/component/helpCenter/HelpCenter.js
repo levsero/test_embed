@@ -16,6 +16,7 @@ export class HelpCenter extends Component {
     buttonLabelKey: PropTypes.string,
     channelChoice: PropTypes.bool,
     contextualSearchSender: PropTypes.func.isRequired,
+    disableAutoComplete: PropTypes.bool,
     expanded: PropTypes.bool,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool.isRequired,
@@ -38,6 +39,7 @@ export class HelpCenter extends Component {
   static defaultProps = {
     buttonLabelKey: 'message',
     channelChoice: false,
+    disableAutoComplete: false,
     expanded: false,
     formTitleKey: 'help',
     hideZendeskLogo: false,
@@ -432,6 +434,7 @@ export class HelpCenter extends Component {
         search={this.search}
         showNextButton={this.state.showNextButton}
         hideZendeskLogo={this.props.hideZendeskLogo}
+        disableAutoComplete={this.props.disableAutoComplete}
         isLoading={this.state.isLoading}
         onNextClick={this.props.onNextClick}
         channelChoice={this.props.channelChoice && this.state.chatOnline}

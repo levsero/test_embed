@@ -26,6 +26,7 @@ export class SubmitTicket extends Component {
     attachmentsEnabled: PropTypes.bool,
     attachmentSender: PropTypes.func.isRequired,
     customFields: PropTypes.array,
+    disableAutoComplete: PropTypes.bool,
     expanded: PropTypes.bool,
     formTitleKey: PropTypes.string.isRequired,
     hideZendeskLogo: PropTypes.bool,
@@ -45,6 +46,7 @@ export class SubmitTicket extends Component {
   static defaultProps = {
     attachmentsEnabled: false,
     customFields: [],
+    disableAutoComplete: false,
     expanded: false,
     hideZendeskLogo: false,
     maxFileCount: 5,
@@ -317,6 +319,7 @@ export class SubmitTicket extends Component {
         hide={this.state.showNotification}
         expanded={this.state.expanded}
         customFields={this.props.customFields}
+        disableAutoComplete={this.props.disableAutoComplete}
         formTitleKey={this.state.formTitleKey}
         attachmentSender={this.props.attachmentSender}
         attachmentsEnabled={this.props.attachmentsEnabled}

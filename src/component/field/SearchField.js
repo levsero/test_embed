@@ -8,6 +8,7 @@ import { Icon } from 'component/Icon';
 
 export class SearchField extends Component {
   static propTypes = {
+    disableAutoComplete: PropTypes.bool,
     fullscreen: PropTypes.bool,
     hasSearched: PropTypes.bool,
     isLoading: PropTypes.bool,
@@ -19,6 +20,7 @@ export class SearchField extends Component {
   };
 
   static defaultProps = {
+    disableAutoComplete: false,
     fullscreen: false,
     hasSearched: false,
     isLoading: false,
@@ -100,6 +102,7 @@ export class SearchField extends Component {
   renderSearchInput = () => {
     return (
       <SearchInput
+        disableAutoComplete={this.props.disableAutoComplete}
         fullscreen={this.props.fullscreen}
         onChange={this.onChange}
         onBlur={this.onBlur}

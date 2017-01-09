@@ -212,4 +212,22 @@ describe('Field component', () => {
         .toBeFalsy();
     });
   });
+
+  describe('disableAutoComplete', () => {
+    it('should be added if it is true', () => {
+      const field = domRender(<Field disableAutoComplete={true} />);
+      const fieldNode = ReactDOM.findDOMNode(field);
+
+      expect(fieldNode.querySelector('input').getAttribute('autoComplete'))
+        .toEqual('off');
+    });
+
+    it('should not be added if it is false', () => {
+      const field = domRender(<Field />);
+      const fieldNode = ReactDOM.findDOMNode(field);
+
+      expect(fieldNode.querySelector('input').getAttribute('autoComplete'))
+        .toBeFalsy();
+    });
+  });
 });

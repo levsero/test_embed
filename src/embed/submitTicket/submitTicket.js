@@ -47,6 +47,7 @@ function create(name, config, reduxStore) {
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024, // 5 MB
     ticketForms: [],
+    disableAutoComplete: false,
     color: '#659700'
   };
   const attachmentsSetting = settings.get('contactForm.attachments');
@@ -208,6 +209,7 @@ function create(name, config, reduxStore) {
           subjectEnabled={settings.get('contactForm.subject')}
           maxFileCount={config.maxFileCount}
           maxFileSize={config.maxFileSize}
+          disableAutoComplete={config.disableAutoComplete}
           updateFrameSize={params.updateFrameSize} />
       );
     },
