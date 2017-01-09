@@ -506,7 +506,7 @@ function setUpChat(config, store) {
   const chatConfigDefaults = {
     position: 'right',
     color: '#659700',
-    zopimId: ' '
+    zopimId: 'xxx'
   };
 
   config = _.extend({}, chatConfigDefaults, config);
