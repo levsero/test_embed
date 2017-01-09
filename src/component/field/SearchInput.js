@@ -52,9 +52,7 @@ export class SearchInput extends Component {
     }
 
     if (this.props.disableAutoComplete) {
-      _.extend(attribs, {
-        autoComplete: 'off'
-      });
+      _.extend(attribs, { autoComplete: 'off' });
     }
 
     return (
