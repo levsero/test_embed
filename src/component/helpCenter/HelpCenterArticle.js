@@ -69,7 +69,7 @@ export class HelpCenterArticle extends Component {
       allowedSchemes: ['http', 'https', 'mailto', 'blob'],
       allowedSchemesByTag: {
         'iframe': ['https'],
-        'img': ['data']
+        'img': ['data', 'http', 'https', 'blob']
       },
       allowedAttributes: {
         'a': ['id', 'href', 'target', 'title', 'name'],
