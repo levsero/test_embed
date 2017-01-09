@@ -168,9 +168,9 @@ export class SubmitTicket extends Component {
     this.props.submitTicketSender(formParams, doneCallback, failCallback);
   }
 
-  findField = (fieldName) => {
+  findField = (fieldType) => {
     return _.find(this.state.ticketForms.ticket_fields, (field) => {
-      return field.type === fieldName && field.removable === false;
+      return field.type === fieldType && field.removable === false;
     });
   }
 
