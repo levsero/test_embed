@@ -170,7 +170,7 @@ export class SubmitTicket extends Component {
 
   findField = (fieldName) => {
     return _.find(this.state.ticketForms.ticket_fields, (field) => {
-      return field.raw_title === fieldName && field.removable === false;
+      return field.type === fieldName && field.removable === false;
     });
   }
 
@@ -181,10 +181,10 @@ export class SubmitTicket extends Component {
       { url: location.href }
     );
     const descriptionData = ticketFormsAvailable
-               ? data.value[this.findField('Description').id]
+               ? data.value[this.findField('description').id]
                : data.value.description;
     const subjectData = ticketFormsAvailable
-                      ? data.value[this.findField('Subject').id]
+                      ? data.value[this.findField('subject').id]
                       : data.value.subject;
     const description = `${descriptionData}\n\n------------------\n${submittedFrom}`;
     const uploads = this.refs.submitTicketForm.refs.attachments
@@ -216,9 +216,9 @@ export class SubmitTicket extends Component {
 
   formatTicketFieldData = (data) => {
     let params = { fields: {} };
-    const subjectField = this.findField('Subject');
+    const subjectField = this.findField('subject');
     const subjectFieldId = subjectField ? subjectField.id : null;
-    const descriptionField = this.findField('Description');
+    const descriptionField = this.findField('description');
     const descriptionFieldId = descriptionField ? descriptionField.id : null;
 
     _.forEach(data.value, function(value, name) {

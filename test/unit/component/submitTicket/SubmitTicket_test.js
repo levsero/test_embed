@@ -336,17 +336,17 @@ describe('Submit ticket component', () => {
             ticket_fields: [
               {
                 id: 1,
-                raw_title: 'Description',
+                type: 'description',
                 removable: false
               },
               {
                 id: 2,
-                raw_title: 'Subject',
+                type: 'subject',
                 removable: false
               },
               {
                 id: 4,
-                raw_title: 'Favorite Burger',
+                type: 'text',
                 removable: true
               }
             ]
