@@ -515,6 +515,10 @@ u-overflowAuto {
   border-top: $thin-border-size solid $base-border-color;
 }
 
+.u-border {
+  border: $thin-border-size solid $base-border-color;
+}
+
 .u-borderBottom {
   border-bottom: $thin-border-size solid $base-border-color;
 }

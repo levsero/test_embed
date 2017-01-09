@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { Field } from 'component/field/Field';
 import { SelectField } from 'component/field/SelectField';
+import { Dropdown } from 'component/field/DropDown';
 
 const geti18nContent = (field) => {
   const title = _.find(field.variants, (variant) => {
@@ -45,14 +46,22 @@ const getCustomFields = (customFields, formState, disableAutoComplete) => {
 
         _.forEach(field.options, (option) => {
           if (option.name) {
-            option.title = option.name;
+            option.label = option.name;
+          } else {
+            option.label = option.title;
           }
 
           if (option.variants) {
-            option.title = geti18nContent(option);
+            option.label = geti18nContent(option);
           }
         });
-        return <SelectField {...sharedProps} options={field.options} />;
+        field.options[3] =   {
+         type: 'group', name: 'group2', items: [
+           { value: 'five', label: 'Five' },
+           { value: 'six', label: 'Six' }
+         ]
+        }
+        return <Dropdown options={field.options} value={field.options[0]} onChange={() =>{}} placeholder='-' />;
       case 'integer':
         return <Field {...sharedProps} pattern='\d+' type='number' />;
       case 'decimal':
