@@ -241,10 +241,9 @@ describe('renderer', () => {
         .toHaveBeenCalledWith('thing', {
           visible: true,
           hideZendeskLogo: undefined,
-          brand: undefined,
-          expandable: undefined,
           disableAutoComplete: undefined,
-          zopimId: undefined
+          expandable: undefined,
+          brand: undefined,
         }, jasmine.any(Object));
 
       expect(mockLauncher.render)
