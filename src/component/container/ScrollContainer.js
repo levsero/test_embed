@@ -4,6 +4,32 @@ import ReactDOM from 'react-dom';
 import { locals as styles } from './ScrollContainer.sass';
 
 export class ScrollContainer extends Component {
+  static propTypes = {
+    footerContent: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.element),
+      PropTypes.element
+    ]),
+    children: PropTypes.node.isRequired,
+    containerClasses: PropTypes.string,
+    contentExpanded: PropTypes.bool,
+    footerClasses: PropTypes.string,
+    fullscreen: PropTypes.bool,
+    headerContent: PropTypes.element,
+    scrollShadowVisible: PropTypes.bool,
+    title: PropTypes.string.isRequired
+  };
+
+  static defaultProps = {
+    children: <span />,
+    containerClasses: '',
+    contentExpanded: false,
+    footerClasses: '',
+    footerContent: [],
+    fullscreen: false,
+    headerContent: null,
+    scrollShadowVisible: false
+  };
+
   constructor(props, context) {
     super(props, context);
 
@@ -27,10 +53,10 @@ export class ScrollContainer extends Component {
   }
 
   render = () => {
-    const { fullscreen, contentExpanded, containerClasses, footerClasses } = this.props;
+    const { fullscreen, contentExpanded, containerClasses, footerClasses, scrollShadowVisible } = this.props;
     const expandedClasses = contentExpanded ? styles.expanded : '';
     const mobileContentClasses = fullscreen ? styles.contentMobile : '';
-    const footerShadowClasses = this.state.scrollShadowVisible ? styles.footerShadow : '';
+    const footerShadowClasses = this.state.scrollShadowVisible || scrollShadowVisible ? styles.footerShadow : '';
     const mobileTitleClasses = fullscreen ? styles.titleMobile : '';
 
     return (
@@ -54,26 +80,3 @@ export class ScrollContainer extends Component {
     );
   }
 }
-
-ScrollContainer.propTypes = {
-  title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  footerContent: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.arrayOf(PropTypes.element)
-  ]),
-  headerContent: PropTypes.element,
-  containerClasses: PropTypes.string,
-  footerClasses: PropTypes.string,
-  contentExpanded: PropTypes.bool,
-  fullscreen: PropTypes.bool
-};
-
-ScrollContainer.defaultProps = {
-  footerContent: [],
-  headerContent: null,
-  containerClasses: '',
-  footerClasses: '',
-  contentExpanded: false,
-  fullscreen: false
-};

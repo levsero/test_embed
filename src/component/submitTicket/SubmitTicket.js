@@ -381,9 +381,9 @@ export class SubmitTicket extends Component {
       <ScrollContainer
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         ref='ticketFormSelector'
-        footerContentHidden={true}
         contentExpanded={this.state.expanded}
         fullscreen={fullscreen}
+        scrollShadowVisible={!fullscreen}
         containerClasses={containerClasses}
         footerClasses={footerClasses}>
         <div className={`${styles.ticketFormsListTitle} ${titleMobileClasses}`}>
