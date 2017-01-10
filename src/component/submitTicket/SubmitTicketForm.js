@@ -293,7 +293,7 @@ export class SubmitTicketForm extends Component {
     const formTicketFields = _.filter(ticketFormFields, (field) => {
       return ticketForm.ticket_field_ids.indexOf(field.id) > -1;
     });
-    const ticketFieldsElem = getCustomFields(formTicketFields, this.props.formState);
+    const ticketFieldsElem = getCustomFields(formTicketFields, this.props.formState, this.props.disableAutoComplete);
     const titleMobileClasses = this.props.fullscreen ? styles.ticketFormTitleMobile : '';
 
     ticketFieldsElem.allFields.unshift([this.renderNameField(), this.renderEmailField()]);
@@ -310,7 +310,7 @@ export class SubmitTicketForm extends Component {
   }
 
   renderFormBody = () => {
-    const customFields = getCustomFields(this.props.customFields, this.props.formState);
+    const customFields = getCustomFields(this.props.customFields, this.props.formState, this.props.disableAutoComplete);
 
     return (
       <div ref='formWrapper'>
