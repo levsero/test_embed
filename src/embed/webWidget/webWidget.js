@@ -39,6 +39,7 @@ import chatBoxStyles from 'component/chat/ChatBox.sass';
 import chatMessageStyles from 'component/chat/ChatMessage.sass';
 import chatStyles from 'component/chat/Chat.sass';
 import messageBubbleStyles from 'component/chat/MessageBubble.sass';
+import avatarStyles from 'component/Avatar.sass';
 
 const webWidgetCSS = `
   ${require('./webWidget.scss')}
@@ -55,6 +56,7 @@ const webWidgetCSS = `
   ${chatStyles}
   ${chatMessageStyles}
   ${messageBubbleStyles}
+  ${avatarStyles}
 `;
 
 let embed = null;

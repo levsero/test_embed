@@ -15,6 +15,9 @@ describe('Chat component', () => {
       'component/chat/ChatBox': {
         ChatBox: noopReactComponent()
       },
+      'component/chat/ChatHeader': {
+        ChatHeader: noopReactComponent()
+      },
       'component/chat/ChatMessage': {
         ChatMessage: noopReactComponent()
       },

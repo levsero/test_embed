@@ -149,6 +149,7 @@ describe('embed.webWidget', () => {
       'component/chat/ChatHeader.sass': '',
       'component/chat/ChatMessage.sass': '',
       'component/chat/MessageBubble.sass': '',
+      'component/Avatar.sass': '',
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory
       },

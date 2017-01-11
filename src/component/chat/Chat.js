@@ -48,6 +48,10 @@ class Chat extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
+    const { chat } = this.props;
+    const firstAgent = chat.agents[_.keys(chat.agents)[0]];
+    const agentAvatar = firstAgent && firstAgent.avatar_path ? firstAgent.avatar_path : '';
+
     return (
       <Container
         style={this.props.style}
@@ -55,11 +59,11 @@ class Chat extends Component {
         expanded={true}>
         <ScrollContainer
           title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-          headerContent={<ChatHeader />}
+          headerContent={<ChatHeader avatarPath={agentAvatar}/>}
           headerClasses={styles.header}
           footerContent={
             <ChatBox
-              currentMessage={this.props.chat.currentMessage}
+              currentMessage={chat.currentMessage}
               sendMsg={this.props.sendMsg}
               updateCurrentMsg={this.props.updateCurrentMsg} />}
           contentExpanded={true}>
