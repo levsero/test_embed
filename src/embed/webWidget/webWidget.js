@@ -321,6 +321,8 @@ function setUpMediator() {
   });
 
   mediator.channel.subscribe('webWidget.activate', () => {
+    if (embed.instance.state.visible) return;
+
     waitForRootComponent(() => {
       getWebWidgetComponent().activate();
       embed.instance.show();
