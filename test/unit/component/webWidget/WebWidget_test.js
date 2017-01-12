@@ -220,6 +220,23 @@ describe('WebWidget component', () => {
       });
     });
 
+    describe('when chat is the active component', () => {
+      beforeEach(() => {
+        webWidget.setComponent('chat');
+        webWidget.onBackClick();
+      });
+
+      it('should call showBackButton prop', () => {
+        expect(showBackButtonSpy)
+          .toHaveBeenCalled();
+      });
+
+      it('shows help center', () => {
+        expect(webWidget.renderHelpCenter().props.className)
+          .not.toContain('u-isHidden');
+      });
+    });
+
     describe('when submit ticket is the active component', () => {
       beforeEach(() => {
         webWidget.setComponent('ticketSubmissionForm');

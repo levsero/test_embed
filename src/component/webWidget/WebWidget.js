@@ -103,6 +103,7 @@ class WebWidget extends Component {
     if (this.props.chat.account_status !== 'offline') {
       this.setState({ activeComponent: chat });
       // TODO: track chat started
+      this.props.showBackButton(true);
     } else {
       this.setState({ activeComponent: submitTicket });
       this.props.showBackButton(true);
@@ -123,6 +124,8 @@ class WebWidget extends Component {
     if (this.state.activeComponent === helpCenter) {
       rootComponent.setArticleView(false);
       this.props.showBackButton(false);
+    } else if (this.state.activeComponent === chat) {
+      this.showHelpCenter();
     } else if (rootComponent.state.selectedTicketForm) {
       this.props.showBackButton(this.state.helpCenterAvailable);
       rootComponent.clearForm();
