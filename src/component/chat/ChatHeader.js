@@ -17,8 +17,8 @@ export class ChatHeader extends Component {
   render = () => {
     // TODO: Handle multiple agents in chats.
     const { agents } = this.props;
-    const avatars = _.chain(this.props.agents)
-                     .map((agent) => agent.avatar_path ? agent.avatar_path : null)
+    const avatars = _.chain(agents)
+                     .map((agent) => agent.avatar_path || null)
                      .compact()
                      .value();
     const firstAgent = agents[_.keys(agents)[0]];

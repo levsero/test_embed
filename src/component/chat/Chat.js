@@ -57,7 +57,7 @@ class Chat extends Component {
         expanded={true}>
         <ScrollContainer
           title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-          headerContent={<ChatHeader agents={chat.agents}/>}
+          headerContent={<ChatHeader agents={chat.agents} />}
           headerClasses={styles.header}
           footerContent={
             <ChatBox
