@@ -42,7 +42,15 @@ describe('ChatHeader component', () => {
     let component;
 
     beforeEach(() => {
-      component = domRender(<ChatHeader />);
+      const agents = {
+        'agent:111': {
+          'avatar_path': 'https://example.com/snake',
+          'display_name': 'Luke Skywalker',
+          'title': 'Jedi'
+        }
+      };
+
+      component = domRender(<ChatHeader agents={agents} />);
     });
 
     it('should render an Avatar', () => {
@@ -52,21 +60,17 @@ describe('ChatHeader component', () => {
 
     describe('when passing props', () => {
       it('should render props.title as `Foo`', () => {
-        component = domRender(<ChatHeader title='foo' />);
-
         const titleElem = document.querySelector('.textContainer').firstChild;
 
         expect(titleElem.innerHTML)
-          .toEqual('Foo');
+          .toEqual('Luke Skywalker');
       });
 
       it('should render props.subText as `Bar`', () => {
-        component = domRender(<ChatHeader subText='bar' />);
-
         const subTextElem = document.querySelector('.textContainer').childNodes[1];
 
         expect(subTextElem.innerHTML)
-          .toEqual('Bar');
+          .toEqual('Jedi');
       });
     });
   });

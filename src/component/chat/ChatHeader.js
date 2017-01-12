@@ -5,27 +5,36 @@ import { locals as styles } from './ChatHeader.sass';
 
 import { Avatar } from 'component/Avatar';
 
-// TODO: Notify Avatar to change profile picture
 export class ChatHeader extends Component {
   static propTypes = {
-    subText: PropTypes.string,
-    title: PropTypes.string,
-    avatarPath: PropTypes.string
+    agents: PropTypes.object
   };
 
   static defaultProps = {
-    subText: i18n.t('embeddable_framework.chat.header.subText', { fallback: 'Ask us anything' }),
-    title: i18n.t('embeddable_framework.chat.header.title', { fallback: 'Welcome' }),
-    avatarPath: ''
+    agents: {}
   };
 
   render = () => {
+    // TODO: Handle multiple agents in chats.
+    const { agents } = this.props;
+    const avatars = _.chain(this.props.agents)
+                     .map((agent) => agent.avatar_path ? agent.avatar_path : null)
+                     .compact()
+                     .value();
+    const firstAgent = agents[_.keys(agents)[0]];
+    const title = firstAgent && firstAgent.display_name
+                ? firstAgent.display_name
+                : i18n.t('embeddable_framework.chat.header.title');
+    const subText = firstAgent && firstAgent.title
+                  ? firstAgent.title
+                  : i18n.t('embeddable_framework.chat.header.subText');
+
     return (
       <div className={styles.container}>
-        <Avatar className={styles.avatar} src={this.props.avatarPath} />
+        <Avatar className={styles.avatar} src={avatars[0]} />
         <div className={styles.textContainer}>
-          <div className={styles.title}>{_.capitalize(this.props.title)}</div>
-          <div>{_.capitalize(this.props.subText)}</div>
+          <div className={styles.title}>{title}</div>
+          <div>{subText}</div>
         </div>
       </div>
     );
