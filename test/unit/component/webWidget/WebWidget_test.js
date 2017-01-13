@@ -152,13 +152,22 @@ describe('WebWidget component', () => {
   });
 
   describe('#onNextClick', () => {
-    let webWidget;
+    let webWidget, showBackButtonSpy;
+
+    beforeEach(() => {
+      showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
+    });
 
     describe('when chat is online', () => {
       beforeEach(() => {
         const chatProp = { account_status: 'online' }; // eslint-disable-line camelcase
 
-        webWidget = domRender(<WebWidget helpCenterAvailable={true} chat={chatProp} />);
+        webWidget = domRender(
+          <WebWidget
+            helpCenterAvailable={true}
+            chat={chatProp}
+            showBackButton={showBackButtonSpy} />
+        );
         webWidget.onNextClick();
       });
 
@@ -166,17 +175,22 @@ describe('WebWidget component', () => {
         expect(webWidget.renderChat().props.className)
           .not.toContain('u-isHidden');
       });
+
+      it('should call onBackClick prop', () => {
+        expect(showBackButtonSpy)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('when chat is offline', () => {
-      let showBackButtonSpy;
-
       beforeEach(() => {
         const chatProp = { account_status: 'offline' }; // eslint-disable-line camelcase
 
-        showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
         webWidget = domRender(
-          <WebWidget helpCenterAvailable={true} showBackButton={showBackButtonSpy} chat={chatProp} />
+          <WebWidget
+            helpCenterAvailable={true}
+            showBackButton={showBackButtonSpy}
+            chat={chatProp} />
         );
         webWidget.onNextClick();
       });
@@ -186,7 +200,7 @@ describe('WebWidget component', () => {
           .not.toContain('u-isHidden');
       });
 
-      it('should call onCancel prop', () => {
+      it('should call onBackClick prop', () => {
         expect(showBackButtonSpy)
           .toHaveBeenCalled();
       });
