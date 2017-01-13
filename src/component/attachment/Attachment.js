@@ -68,15 +68,14 @@ export class Attachment extends Component {
     const { file, errorMessage, uploading } = this.props;
     const hasError = !!errorMessage;
     const containerClasses = classNames({
+      'Attachment-container': true,
       'Form-field--display-preview': true,
+      'u-marginTT u-posRelative': true,
       'Attachment--uploading': uploading,
-      'u-posRelative': true,
-      'u-marginTT': true,
-      'u-borderError': hasError
+      'Attachment-container--error u-borderError': hasError
     });
     const secondaryTextClasses = classNames({
-      'u-pullLeft': true,
-      'u-clearLeft': true,
+      'u-pullLeft u-clearLeft': true,
       'Attachment-error u-textError': hasError
     });
     const titleClasses = classNames({
