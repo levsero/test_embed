@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
-import launcherStyles from 'component/Launcher.sass';
-
+import { launcherStyles } from './launcherStyles.js';
 import { document,
          getDocumentHost } from 'utility/globals';
 import { Launcher } from 'component/Launcher';
@@ -14,8 +13,7 @@ import { settings } from 'service/settings';
 import { generateUserCSS } from 'utility/color';
 import { transitionFactory } from 'service/transitionFactory';
 
-const launcherCSS = require('./launcher.scss').toString()
-                  + launcherStyles.toString();
+const launcherCSS = `${require('./launcher.scss')} ${launcherStyles}`;
 
 let launchers = {};
 

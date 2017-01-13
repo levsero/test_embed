@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
+import { helpCenterStyles } from './helpCenterStyles.js';
 import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { frameFactory } from 'embed/frameFactory';
 import { authentication } from 'service/authentication';
@@ -24,20 +25,7 @@ import { isOnHelpCenterPage,
 import { cappedIntervalCall,
          getPageKeywords } from 'utility/utils';
 
-import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.sass';
-import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.sass';
-import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.sass';
-import HelpCenterResultsStyles from 'component/helpCenter/HelpCenterResults.sass';
-import ScrollContainerStyles from 'component/container/ScrollContainer.sass';
-
-const helpCenterCSS = `
-  ${require('./helpCenter.scss')}
-  ${HelpCenterDesktopStyles}
-  ${HelpCenterMobileStyles}
-  ${HelpCenterArticleStyles}
-  ${HelpCenterResultsStyles}
-  ${ScrollContainerStyles}
-`;
+const helpCenterCSS = `${require('./helpCenter.scss')} ${helpCenterStyles}`;
 
 let helpCenters = {};
 let hasManuallySetContextualSuggestions = false;

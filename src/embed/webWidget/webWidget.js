@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
+import { webWidgetStyles } from './webWidgetStyles.js';
 import { WebWidget } from 'component/webWidget/WebWidget';
 import { frameFactory } from 'embed/frameFactory';
 import { authentication } from 'service/authentication';
@@ -24,26 +25,7 @@ import { isOnHelpCenterPage,
 import { cappedIntervalCall,
          getPageKeywords } from 'utility/utils';
 
-import LoadingSpinnerStyles from 'component/loading/LoadingSpinner.sass';
-import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.sass';
-import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.sass';
-import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.sass';
-import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.sass';
-import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.sass';
-import HelpCenterResultsStyles from 'component/helpCenter/HelpCenterResults.sass';
-import ScrollContainerStyles from 'component/container/ScrollContainer.sass';
-
-const webWidgetCSS = `
-  ${require('./webWidget.scss')}
-  ${LoadingSpinnerStyles}
-  ${SubmitTicketStyles}
-  ${SubmitTicketFormStyles}
-  ${HelpCenterDesktopStyles}
-  ${HelpCenterMobileStyles}
-  ${HelpCenterArticleStyles}
-  ${HelpCenterResultsStyles}
-  ${ScrollContainerStyles}
-`;
+const webWidgetCSS = `${require('./webWidget.scss')} ${webWidgetStyles}`;
 
 let embed = null;
 let hasManuallySetContextualSuggestions = false;
