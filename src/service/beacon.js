@@ -34,6 +34,8 @@ const sendPageViewWhenReady = () => {
 };
 
 const sendPageView = () => {
+  if (config.reduceBlipping) return;
+
   const now = Date.now();
   const referrer = parseUrl(doc.referrer);
   const previousTime = store.get('currentTime', true) || 0;
@@ -67,7 +69,8 @@ function setConfig(_config) {
   config = {
     useBase64: newBlips,
     method: newBlips ? 'GET' : 'POST',
-    endpoint: newBlips ? '/embeddable_blip' : '/embeddable/blips'
+    endpoint: newBlips ? '/embeddable_blip' : '/embeddable/blips',
+    reduceBlipping: _config.reduceBlipping
   };
 }
 
@@ -81,6 +84,8 @@ function init() {
 }
 
 function sendConfigLoadTime(time) {
+  if (config.reduceBlipping) return;
+
   const params = {
     performance: { configLoadTime: time }
   };
@@ -94,7 +99,7 @@ function sendConfigLoadTime(time) {
 }
 
 function trackUserAction(category, action, label = null, value = null) {
-  if (_.isUndefined(category) || _.isUndefined(action)) {
+  if (_.isUndefined(category) || _.isUndefined(action) || config.reduceBlipping) {
     return false;
   }
 
@@ -114,7 +119,7 @@ function trackUserAction(category, action, label = null, value = null) {
 }
 
 function trackSettings(settings) {
-  if (!win.zESettings || _.isEmpty(settings)) return;
+  if (!win.zESettings || _.isEmpty(settings) || config.reduceBlipping) return;
 
   const previousSettings = store.get('settings');
   const expiryTime = nowInSeconds() - 24*60*60;

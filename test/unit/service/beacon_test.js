@@ -625,4 +625,55 @@ describe('beacon', () => {
         .toEqual(mockGlobals.navigator.userAgent);
     });
   });
+
+  describe('with reduceBlipping turned on', () => {
+    let mockTransport;
+
+    beforeEach(() => {
+      beacon.setConfig({ reduceBlipping: true });
+      mockTransport = mockRegistry['service/transport'].transport;
+    });
+
+    afterEach(() => {
+      beacon.setConfig({});
+    });
+
+    it('should not send pageView blips', () => {
+      beacon.sendPageView();
+
+      expect(mockTransport.sendWithMeta)
+        .not.toHaveBeenCalled();
+    });
+
+    it('should not send userAction blips', () => {
+      beacon.trackUserAction('launcher', 'click');
+
+      expect(mockTransport.sendWithMeta)
+        .not.toHaveBeenCalled();
+    });
+
+    it('should not send settings blips', () => {
+      const mockSettings = { webWidget: { viaId: 48 } };
+
+      mockRegistry['utility/globals'].win.zESettings = mockSettings;
+      beacon.trackSettings(mockSettings);
+
+      expect(mockTransport.sendWithMeta)
+        .not.toHaveBeenCalled();
+    });
+
+    it('should not send performance blips', () => {
+      beacon.sendConfigLoadTime();
+
+      expect(mockTransport.sendWithMeta)
+        .not.toHaveBeenCalled();
+    });
+
+    it('should send identify blips', () => {
+      beacon.identify({ name: 'Frank', email: 'frank@name.com' });
+
+      expect(mockTransport.sendWithMeta)
+        .toHaveBeenCalled();
+    });
+  });
 });
