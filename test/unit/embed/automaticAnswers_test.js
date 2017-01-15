@@ -334,21 +334,43 @@ describe('embed.automaticAnswers', () => {
           mockURLParameter = '1';
         });
 
-        it('updates the component to show the ticket closed screen', () => {
-          fetchTicket();
+        describe('and query params contains `solved`', () => {
+          beforeEach(() => {
+            mockURLParameter = '1';
+          });
 
-          callback(resSuccess(statusId));
+          it('updates the component to show the ticket closed screen', () => {
+            fetchTicket();
 
-          expect(instance.getRootComponent().ticketClosed).toHaveBeenCalled();
+            callback(resSuccess(statusId));
+
+            expect(instance.getRootComponent().ticketClosed).toHaveBeenCalled();
+          });
+
+          it('shows the embed solved screen after a short delay', () => {
+            fetchTicket();
+
+            callback(resSuccess(statusId));
+            jasmine.clock().tick(showSolvedFrameDelay);
+
+            expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
+          });
         });
 
-        it('shows the embed solved screen after a short delay', () => {
-          fetchTicket();
+        describe('and query params does not contain `solved`', () => {
+          beforeEach(() => {
+            mockURLParameter = null;
+          });
 
-          callback(resSuccess(statusId));
-          jasmine.clock().tick(showSolvedFrameDelay);
+          it('does not show embeddable widget', () => {
+            fetchTicket();
 
-          expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
+            callback(resSuccess(statusId));
+
+            expect(instance.getRootComponent().ticketClosed).not.toHaveBeenCalled();
+            expect(instance.getRootComponent().updateTicket).not.toHaveBeenCalled();
+            expect(instance.getRootComponent().closedWithUndo).not.toHaveBeenCalled();
+          });
         });
       });
 
@@ -356,7 +378,6 @@ describe('embed.automaticAnswers', () => {
         beforeEach(() => {
           statusId = statusOpen;
           isSolvedPending = true;
-          mockURLParameter = '1';
         });
 
         describe('and canUndo is enabled', () => {
@@ -364,21 +385,43 @@ describe('embed.automaticAnswers', () => {
             config = { canUndo: true };
           });
 
-          it('updates the component to show the ticket closed screen', () => {
-            fetchTicket();
+          describe('and query params contains `solved`', () => {
+            beforeEach(() => {
+              mockURLParameter = '1';
+            });
 
-            callback(resSuccess(statusId, isSolvedPending));
+            it('updates the component to show the ticket closed with undo screen', () => {
+              fetchTicket();
 
-            expect(instance.getRootComponent().closedWithUndo).toHaveBeenCalled();
+              callback(resSuccess(statusId, isSolvedPending));
+
+              expect(instance.getRootComponent().closedWithUndo).toHaveBeenCalled();
+            });
+
+            it('shows the embed solved screen after a short delay', () => {
+              fetchTicket();
+
+              callback(resSuccess(statusId, isSolvedPending));
+              jasmine.clock().tick(showSolvedFrameDelay);
+
+              expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
+            });
           });
 
-          it('shows the embed solved screen after a short delay', () => {
-            fetchTicket();
+          describe('and query params does not contain `solved`', () => {
+            beforeEach(() => {
+              mockURLParameter = null;
+            });
 
-            callback(resSuccess(statusId, isSolvedPending));
-            jasmine.clock().tick(showSolvedFrameDelay);
+            it('does not show embeddable widget', () => {
+              fetchTicket();
 
-            expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
+              callback(resSuccess(statusId, isSolvedPending));
+
+              expect(instance.getRootComponent().ticketClosed).not.toHaveBeenCalled();
+              expect(instance.getRootComponent().updateTicket).not.toHaveBeenCalled();
+              expect(instance.getRootComponent().closedWithUndo).not.toHaveBeenCalled();
+            });
           });
         });
 
@@ -410,56 +453,6 @@ describe('embed.automaticAnswers', () => {
         beforeEach(() => {
           statusId = statusOpen;
           isSolvedPending = false;
-        });
-
-        it('updates the component to show the update ticket screen', () => {
-          fetchTicket();
-
-          callback(resSuccess(statusId, isSolvedPending));
-
-          expect(instance.getRootComponent().updateTicket).toHaveBeenCalled();
-        });
-
-        it('shows the embed update ticket screen after a short delay', () => {
-          fetchTicket();
-
-          callback(resSuccess(statusId, isSolvedPending));
-          jasmine.clock().tick(showFrameDelay);
-
-          expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
-        });
-      });
-
-      describe('and a solve parameter other than "1" exists in the url', () => {
-        beforeEach(() => {
-          statusId = statusSolved;
-          isSolvedPending = true;
-          mockURLParameter = '0';
-        });
-
-        it('updates the component to show the update ticket screen', () => {
-          fetchTicket();
-
-          callback(resSuccess(statusId, isSolvedPending));
-
-          expect(instance.getRootComponent().updateTicket).toHaveBeenCalled();
-        });
-
-        it('shows the embed update ticket screen after a short delay', () => {
-          fetchTicket();
-
-          callback(resSuccess(statusId, isSolvedPending));
-          jasmine.clock().tick(showFrameDelay);
-
-          expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
-        });
-      });
-
-      describe('and no solve parameter exists in the url', () => {
-        beforeEach(() => {
-          statusId = statusSolved;
-          isSolvedPending = true;
-          mockURLParameter = null;
         });
 
         it('updates the component to show the update ticket screen', () => {
