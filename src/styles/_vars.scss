@@ -11,7 +11,7 @@ $thin-border-size: #{1.1/$font-size}rem; /* 1 */
 
 // Button colors
 $cta-color: $zd-color-zendesk-green;
-$inactive-color: #DDDDDD;
+$inactive-color: $zd-color-gainsboro;
 $active-color: #8e8e8e;
 
 //Scroll Container colors
@@ -19,28 +19,28 @@ $header-stroke: $zd-color-gainsboro;
 
 // Container colors
 $stroke-color: #DADADA;
-$stroke-focused-color: #AEAEAE;
-$base-color: #FFFFFF;
-$base-shadow: #000000;
-$base-border-color: #E4E4E4;
+$stroke-focused-color: $zd-color-aluminum;
+$base-color: $zd-color-white;
+$base-shadow: $zd-color-black;
+$base-border-color: $zd-color-gainsboro;
 $form-cta-color: $zd-color-white-smoke;
 
 // Text colors
 $body-color: $zd-color-dark-gray;
-$secondary-color: #939393;
+$secondary-color: $zd-color-aluminum;
 
 // Icons
-$icon-color: #BBBBBB;
+$icon-color: $zd-color-silver-sand;
 $icon-inactive-color: $zd-color-aluminum;
 $icon-active-color: $zd-color-dark-gray;
 
 // Lists
-$list-color: #BDBDBD;
+$list-color: $zd-color-aluminum;
 
 // Errors
-$error-color: #D24000;
+$error-color: $zd-color-flamingo;
 $error-border-color: $error-color;
-$error-text-color: #C14D00;
+$error-text-color: $error-color;
 $error-field-color: #FFE3D6;
 
 // Spacing units and rem calculations

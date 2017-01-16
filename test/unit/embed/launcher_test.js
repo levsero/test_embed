@@ -50,7 +50,9 @@ describe('embed.launcher', function() {
         }
       },
       './launcher.scss': '',
-      'component/Launcher.sass': '',
+      './launcherStyles.js': {
+        launcherStyles: 'mockCss'
+      },
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
@@ -239,7 +241,6 @@ describe('embed.launcher', function() {
 
     it('applies launcher.scss to the frame', function() {
       const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
-      const mockCss = mockRegistry['./launcher.scss'];
 
       launcher.create('alice');
       launcher.render('alice');
@@ -247,7 +248,7 @@ describe('embed.launcher', function() {
       const mockFrameCss = mockFrameFactory.calls.mostRecent().args[1].css;
 
       expect(mockFrameCss)
-        .toEqual(mockCss);
+        .toContain('mockCss');
     });
 
     describe('mediator subscriptions', function() {
