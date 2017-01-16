@@ -126,7 +126,7 @@ describe('logging', function() {
     });
   });
 
-  fdescribe('errorFilter', () => {
+  describe('errorFilter', () => {
     let notice;
     let error;
 
@@ -137,10 +137,10 @@ describe('logging', function() {
           { file: 'eval at <anonymous> (https://assets.zendesk.com/embeddable_framework/main.js:1:2), <anonymous>' },
           { file: 'eval at <anonymous> (http://assets.zendesk.com/embeddable_framework/main.js:3:4), <anonymous>' }
         ]
-      }
+      };
       notice = {
         errors: [error]
-      }
+      };
     });
 
     describe('when error is valid', () => {
