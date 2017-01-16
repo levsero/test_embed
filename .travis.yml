@@ -12,7 +12,7 @@ before_script:
   - ./script/fetch_i18n
   - npm run lint
   - npm run validate-manifest
-  - npm run build
+  - npm run test
 
 script:
   - npm test
