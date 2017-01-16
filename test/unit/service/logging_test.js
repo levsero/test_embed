@@ -108,53 +108,79 @@ describe('logging', function() {
 
   describe('errorFilter', () => {
     let notice;
-    let error;
+    let errorA, errorB;
 
     beforeEach(() => {
-      error = {
+      errorA = {
         message: 'Valid error baby!',
         backtrace: [
           { file: 'eval at <anonymous> (https://assets.zendesk.com/embeddable_framework/main.js:1:2), <anonymous>' },
           { file: 'eval at <anonymous> (http://assets.zendesk.com/embeddable_framework/main.js:3:4), <anonymous>' }
         ]
       };
+      errorB = {
+        message: 'Another valid error baby!',
+        backtrace: [
+          { file: 'eval at <anonymous> (https://assets.zendesk.com/embeddable_framework/main.js:5:6), <anonymous>' },
+          { file: 'eval at <anonymous> (http://assets.zendesk.com/embeddable_framework/main.js:7:8), <anonymous>' }
+        ]
+      };
       notice = {
-        errors: [error]
+        errors: [errorA, errorB]
       };
     });
 
-    describe('when error is valid', () => {
+    describe('when an error is valid', () => {
       it('returns the notice object', () => {
         expect(logging.errorFilter(notice))
           .toBe(notice);
       });
+
+      it('error should not be dropped', () => {
+        expect(logging.errorFilter(notice).errors)
+          .toContain(errorA);
+
+        expect(logging.errorFilter(notice).errors)
+          .toContain(errorB);
+      });
     });
 
-    describe('when error contains a cross origin message', () => {
+    describe('when all errors are invalid', () => {
       it('should return null', () => {
-        error.message = 'No \'Access-Control-Allow-Origin\' header is present on the requested resource';
+        errorA.message = 'No \'Access-Control-Allow-Origin\' header is present on the requested resource';
+        errorB.backtrace[0].file = 'eval at <anonymous> (https://pizzapasta.com/intercom.js:1:2), <anonymous>';
+        errorB.backtrace[1].file = 'eval at <anonymous> (https://gyros.com/salesforce.js:3:4), <anonymous>';
 
         expect(logging.errorFilter(notice))
           .toBe(null);
       });
     });
 
-    describe('when error contains a timeout exceeded error', () => {
-      it('should return null', () => {
-        error.message = 'timeout of 10000ms exceeded';
+    describe('when an error contains a cross origin message', () => {
+      it('should be dropped', () => {
+        errorA.message = 'No \'Access-Control-Allow-Origin\' header is present on the requested resource';
 
-        expect(logging.errorFilter(notice))
-          .toBe(null);
+        expect(logging.errorFilter(notice).errors)
+          .not.toContain(errorA);
+      });
+    });
+
+    describe('when an error contains a timeout exceeded error', () => {
+      it('should be dropped', () => {
+        errorB.message = 'timeout of 10000ms exceeded';
+
+        expect(logging.errorFilter(notice).errors)
+          .not.toContain(errorB);
       });
     });
 
     describe('when error does not originate from embeddable framework', () => {
-      it('should return null', () => {
-        error.backtrace[0].file = 'eval at <anonymous> (https://pizzapasta.com/intercom.js:1:2), <anonymous>';
-        error.backtrace[1].file = 'eval at <anonymous> (https://gyros.com/salesforce.js:3:4), <anonymous>';
+      it('should be dropped', () => {
+        errorA.backtrace[0].file = 'eval at <anonymous> (https://pizzapasta.com/intercom.js:1:2), <anonymous>';
+        errorA.backtrace[1].file = 'eval at <anonymous> (https://gyros.com/salesforce.js:3:4), <anonymous>';
 
-        expect(logging.errorFilter(notice))
-          .toBe(null);
+        expect(logging.errorFilter(notice).errors)
+          .not.toContain(errorA);
       });
     });
   });

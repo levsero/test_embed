@@ -9,7 +9,8 @@ const errorFilter = (notice) => {
     'timeout of [0-9]+ms exceeded'
   ];
   const errorMessageRegex = new RegExp(errorMessageBlacklist.join('|'));
-  const valid = _.every(notice.errors, (error) => {
+
+  notice.errors = _.filter(notice.errors, (error) => {
     const validBacktrace = _.some(error.backtrace, (backtrace) => {
       // TODO: Once we know what the path will look like for asset composer build,
       // allow this filtering to handle that too.
@@ -19,11 +20,10 @@ const errorFilter = (notice) => {
     return validBacktrace && !errorMessageRegex.test(error.message);
   });
 
-  // The notice object always contains a single element errors array.
   // airbrake-js will filter out the error if null is returned, and will
   // send it through if the notice object is returned.
   // See #Filtering Errors: https://github.com/airbrake/airbrake-js
-  return valid ? notice : null;
+  return notice.errors.length > 0 ? notice : null;
 };
 
 const wrap = (fn) => airbrake.wrap(fn);
