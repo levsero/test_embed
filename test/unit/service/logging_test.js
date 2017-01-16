@@ -126,42 +126,56 @@ describe('logging', function() {
     });
   });
 
-  describe('errorFilter', () => {
+  fdescribe('errorFilter', () => {
     let notice;
+    let error;
 
-    beforeEach(function() {
-      notice = {
-        errors: [
-          {
-            message: ''
-          }
+    beforeEach(() => {
+      error = {
+        message: 'Valid error baby!',
+        backtrace: [
+          { file: 'eval at <anonymous> (https://assets.zendesk.com/embeddable_framework/main.js:1:2), <anonymous>' },
+          { file: 'eval at <anonymous> (http://assets.zendesk.com/embeddable_framework/main.js:3:4), <anonymous>' }
         ]
-      };
+      }
+      notice = {
+        errors: [error]
+      }
     });
 
-    it('should filter out cross origin errors', () => {
-      notice.errors[0].message = 'No \'Access-Control-Allow-Origin\' header is present on the requested resource';
-      expect(logging.errorFilter(notice))
-        .toEqual(null);
+    describe('when error is valid', () => {
+      it('returns the notice object', () => {
+        expect(logging.errorFilter(notice))
+          .toBe(notice);
+      });
     });
 
-    it('should filter out timeout exceeded errors', () => {
-      notice.errors[0].message = 'timeout of 10000ms exceeded';
+    describe('when error contains a cross origin message', () => {
+      it('should return null', () => {
+        error.message = 'No \'Access-Control-Allow-Origin\' header is present on the requested resource';
 
-      expect(logging.errorFilter(notice))
-        .toEqual(null);
+        expect(logging.errorFilter(notice))
+          .toBe(null);
+      });
     });
 
-    it('should not filter out any other errors', () => {
-      notice.errors[0].message = 'Attempted to assign to readonly property.';
+    describe('when error contains a timeout exceeded error', () => {
+      it('should return null', () => {
+        error.message = 'timeout of 10000ms exceeded';
 
-      expect(logging.errorFilter(notice))
-        .toEqual(notice);
+        expect(logging.errorFilter(notice))
+          .toBe(null);
+      });
+    });
 
-      notice.errors[0].message = 'Some other error';
+    describe('when error does not originate from embeddable framework', () => {
+      it('should return null', () => {
+        error.backtrace[0].file = 'eval at <anonymous> (https://pizzapasta.com/intercom.js:1:2), <anonymous>';
+        error.backtrace[1].file = 'eval at <anonymous> (https://gyros.com/salesforce.js:3:4), <anonymous>';
 
-      expect(logging.errorFilter(notice))
-        .toEqual(notice);
+        expect(logging.errorFilter(notice))
+          .toBe(null);
+      });
     });
   });
 });
