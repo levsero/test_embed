@@ -24,7 +24,6 @@ import { isOnHelpCenterPage,
          isOnHostMappedDomain } from 'utility/pages';
 import { cappedIntervalCall,
          getPageKeywords } from 'utility/utils';
-import zChat from 'vendor/web-sdk';
 
 import WebWidget from 'component/webWidget/WebWidget';
 import zChat from 'vendor/web-sdk';
