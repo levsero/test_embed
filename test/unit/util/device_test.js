@@ -104,6 +104,13 @@ describe('devices', function() {
         .toBe(true);
     });
 
+    it('returns true if IEMobile/10.0 is within the user agent string', function() {
+      mockGlobals.navigator.userAgent = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch)';
+
+      expect(isBlacklisted())
+        .toBe(true);
+    });
+
     it('returns true if Googlebot is within the user agent string', function() {
       mockGlobals.navigator.userAgent = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)';
 
