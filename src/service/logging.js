@@ -11,6 +11,8 @@ const errorFilter = (notice) => {
   const errorMessageRegex = new RegExp(errorMessageBlacklist.join('|'));
   const valid = _.every(notice.errors, (error) => {
     const validBacktrace = _.some(error.backtrace, (backtrace) => {
+      // TODO: Once we know what the path will look like for asset composer build,
+      // allow this filtering to handle that too.
       return _.includes(backtrace.file, '/embeddable_framework/main.js');
     });
 
