@@ -77,6 +77,9 @@ function isBlacklisted() {
     // MSIE 9.0
     navigator.userAgent.indexOf('MSIE 9.0') !== -1 ||
 
+    // IE 10 on windows phone
+    navigator.userAgent.indexOf('IEMobile/10.0') !== -1 ||
+
     // Googlebot, Googlebot-Mobile, etc. https://support.google.com/webmasters/answer/1061943?hl=en
     navigator.userAgent.indexOf('Googlebot') !== -1 ||
 
