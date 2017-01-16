@@ -3,8 +3,7 @@ describe('logging', function() {
     airbrakeInitSpy,
     airbrakeAddFilterSpy,
     airbrakeWrapSpy,
-    airbrakeNotifySpy,
-    mockRegistry;
+    airbrakeNotifySpy;
   const loggingPath = buildSrcPath('service/logging');
 
   beforeEach(function() {
@@ -15,7 +14,7 @@ describe('logging', function() {
     airbrakeWrapSpy = jasmine.createSpy('wrap');
     airbrakeNotifySpy = jasmine.createSpy('notify');
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'airbrake-js': (opts) => {
         airbrakeInitSpy(opts);
         return {
@@ -23,9 +22,6 @@ describe('logging', function() {
           wrap: airbrakeWrapSpy,
           notify: airbrakeNotifySpy
         };
-      },
-      'utility/globals': {
-        win: { onerror: null }
       }
     });
 
@@ -45,8 +41,7 @@ describe('logging', function() {
     beforeEach(function() {
       expectedOptions = {
         projectId: '124081',
-        projectKey: '8191392d5f8c97c8297a08521aab9189',
-        onerror: true
+        projectKey: '8191392d5f8c97c8297a08521aab9189'
       };
     });
 
@@ -58,21 +53,6 @@ describe('logging', function() {
     it('should add a filter event handler', () => {
       expect(airbrakeAddFilterSpy)
         .toHaveBeenCalled();
-    });
-
-    describe('when main.js is embedded directly on the host page', () => {
-      beforeEach(function() {
-        mockRegistry['utility/globals'].win = global.window;
-        logging = requireUncached(loggingPath).logging;
-        logging.init();
-      });
-
-      it('should initialise airbrake with `onerror` false', () => {
-        expectedOptions.onerror = false;
-
-        expect(airbrakeInitSpy)
-          .toHaveBeenCalledWith(expectedOptions);
-      });
     });
   });
 
