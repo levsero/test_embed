@@ -78,12 +78,11 @@ describe('embed.submitTicket', () => {
           }
         }
       },
-      './submitTicket.scss': 'mockCSS',
+      './submitTicket.scss': '',
       './submitTicketFrame.scss': '',
-      'component/loading/LoadingSpinner.sass': '',
-      'component/submitTicket/SubmitTicket.sass': '',
-      'component/submitTicket/SubmitTicketForm.sass': '',
-      'component/container/ScrollContainer.sass': '',
+      './submitTicketStyles.js': {
+        submitTicketStyles: 'mockCss'
+      },
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods

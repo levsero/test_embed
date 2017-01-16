@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import _ from 'lodash';
 
+import { submitTicketStyles } from './submitTicketStyles.js';
 import { document,
          getDocumentHost } from 'utility/globals';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
@@ -18,18 +19,7 @@ import { settings } from 'service/settings';
 import { generateUserCSS } from 'utility/color';
 import { transport } from 'service/transport';
 
-import LoadingSpinnerStyles from 'component/loading/LoadingSpinner.sass';
-import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.sass';
-import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.sass';
-import ScrollContainerStyles from 'component/container/ScrollContainer.sass';
-
-const submitTicketCSS = `
-  ${require('./submitTicket.scss')}
-  ${LoadingSpinnerStyles}
-  ${SubmitTicketStyles}
-  ${SubmitTicketFormStyles}
-  ${ScrollContainerStyles}
-`;
+const submitTicketCSS = `${require('./submitTicket.scss')} ${submitTicketStyles}`;
 let submitTickets = {};
 let backButtonSetByHelpCenter = false;
 

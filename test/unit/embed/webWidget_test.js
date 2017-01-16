@@ -135,15 +135,10 @@ describe('embed.webWidget', () => {
           }
         }
       },
-      './webWidget.scss': 'mockCSS',
-      'component/loading/LoadingSpinner.sass': '',
-      'component/submitTicket/SubmitTicket.sass': '',
-      'component/submitTicket/SubmitTicketForm.sass': '',
-      'component/helpCenter/HelpCenterDesktop.sass': '',
-      'component/helpCenter/HelpCenterMobile.sass': '',
-      'component/helpCenter/HelpCenterArticle.sass': '',
-      'component/helpCenter/HelpCenterResults.sass': '',
-      'component/container/ScrollContainer.sass': '',
+      './webWidget.scss': '',
+      './webWidgetStyles.js': {
+        webWidgetStyles: 'mockCss'
+      },
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory
       },
@@ -769,7 +764,7 @@ describe('embed.webWidget', () => {
       const mockFrameFactoryCss = mockFrameFactory.calls.mostRecent().args[1].css;
 
       expect(mockFrameFactoryCss)
-        .toContain('mockCSS');
+        .toContain('mockCss');
     });
   });
 

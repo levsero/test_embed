@@ -92,13 +92,11 @@ describe('embed.helpCenter', () => {
           }
         }
       },
-      './helpCenter.scss': 'mockCss',
+      './helpCenter.scss': '',
       './helpCenterFrame.scss': '',
-      'component/helpCenter/HelpCenterDesktop.sass': '',
-      'component/helpCenter/HelpCenterMobile.sass': '',
-      'component/helpCenter/HelpCenterArticle.sass': '',
-      'component/helpCenter/HelpCenterResults.sass': '',
-      'component/container/ScrollContainer.sass': '',
+      './helpCenterStyles.js': {
+        helpCenterStyles: 'mockCss'
+      },
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory
       },
