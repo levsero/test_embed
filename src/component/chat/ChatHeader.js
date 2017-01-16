@@ -15,13 +15,9 @@ export class ChatHeader extends Component {
   };
 
   render = () => {
-    // TODO: Handle multiple agents in chats.
     const { agents } = this.props;
-    const avatars = _.chain(agents)
-                     .map((agent) => agent.avatar_path || null)
-                     .compact()
-                     .value();
     const firstAgent = agents[_.keys(agents)[0]];
+    const avatar = firstAgent && firstAgent.avatar_path ? firstAgent.avatar_path : '';
     const title = firstAgent && firstAgent.display_name
                 ? firstAgent.display_name
                 : i18n.t('embeddable_framework.chat.header.title');
@@ -31,7 +27,7 @@ export class ChatHeader extends Component {
 
     return (
       <div className={styles.container}>
-        <Avatar className={styles.avatar} src={avatars[0]} />
+        <Avatar className={styles.avatar} src={avatar} />
         <div className={styles.textContainer}>
           <div className={styles.title}>{title}</div>
           <div>{subText}</div>
