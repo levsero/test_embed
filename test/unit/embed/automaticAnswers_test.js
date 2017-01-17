@@ -375,4 +375,80 @@ describe('embed.automaticAnswers', () => {
       });
     });
   });
+
+  describe('markArticleIrrelevant', () => {
+    let mostRecent,
+      formData;
+    const mockArticleIdInUrl = 23425454;
+    const mockReason = 2;
+    const callbacks = {
+      done: () => {},
+      fail: () => {}
+    };
+
+    const markArticleIrrelevant = () => {
+      mockTransport = mockRegistry['service/transport'].transport;
+      automaticAnswers.markArticleIrrelevant(mockJwtToken, mockArticleIdInUrl, mockReason, callbacks);
+      mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
+      formData = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[1];
+    };
+
+    beforeEach(() => {
+      markArticleIrrelevant();
+    });
+
+    describe('payload configuration and callbacks', () => {
+      it('sends a correctly configured payload to automaticAnswersApiRequest', () => {
+        expect(mostRecent.path)
+          .toBe(`/requests/automatic-answers/embed/ticket/irrelevant?source=embed&mobile=false`);
+
+        expect(mostRecent.method)
+          .toEqual('post');
+      });
+
+      it('triggers the supplied callbacks', () => {
+        expect(mostRecent.callbacks.done)
+          .toEqual(callbacks.done);
+
+        expect(mostRecent.callbacks.fail)
+          .toEqual(callbacks.fail);
+      });
+    });
+
+    describe('formData', () => {
+      it('includes the auth_token', () => {
+        expect(formData.auth_token)
+          .toBe(mockJwtToken);
+      });
+
+      it('includes the article_id', () => {
+        expect(formData.article_id)
+          .toBe(mockArticleIdInUrl);
+      });
+
+      it('includes the reason', () => {
+        expect(formData.reason)
+          .toBe(mockReason);
+      });
+    });
+
+    describe('query params for device tracking', () => {
+      it('includes the source=embed query param', () => {
+        expect(mostRecent.path)
+          .toContain(`source=embed`);
+      });
+
+      describe('when the device is a mobile browser', () => {
+        beforeEach(() => {
+          mockIsMobileBrowserValue = true;
+          markArticleIrrelevant();
+        });
+
+        it('includes the mobile=true query param', () => {
+          expect(mostRecent.path)
+            .toContain(`mobile=true`);
+        });
+      });
+    });
+  });
 });
