@@ -68,6 +68,9 @@ function create(name, config, reduxStore) {
   const onArticleClick = function(trackPayload) {
     beacon.trackUserAction('helpCenter', 'click', name, trackPayload);
   };
+  const onViewOriginalArticleClick = function(trackPayload) {
+    beacon.trackUserAction('helpCenter', 'viewOriginalArticle', name, trackPayload);
+  };
   const showBackButton = function(show = true) {
     get(name).instance.getChild().setState({
       showBackButton: show
@@ -163,6 +166,7 @@ function create(name, config, reduxStore) {
           hideZendeskLogo={config.hideZendeskLogo}
           onNextClick={onNextClick}
           onArticleClick={onArticleClick}
+          onViewOriginalArticleClick={onViewOriginalArticleClick}
           onSearch={onSearch}
           position={config.position}
           buttonLabelKey={config.buttonLabelKey}

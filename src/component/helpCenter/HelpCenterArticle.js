@@ -22,6 +22,7 @@ export class HelpCenterArticle extends Component {
     fullscreen: PropTypes.bool,
     imagesSender: PropTypes.func,
     originalArticleButton: PropTypes.bool,
+    handleOriginalArticleClick: PropTypes.func,
     storedImages: PropTypes.array,
     updateFrameSize: PropTypes.func,
     updateStoredImages: PropTypes.func,
@@ -32,6 +33,7 @@ export class HelpCenterArticle extends Component {
     fullscreen: false,
     imagesSender: () => {},
     originalArticleButton: true,
+    handleOriginalArticleClick: () => {},
     storedImages: [],
     updateFrameSize: () => {},
     updateStoredImages: () => {},
@@ -273,7 +275,8 @@ export class HelpCenterArticle extends Component {
         <a
           className={styles.link}
           href={this.props.activeArticle.html_url}
-          target='_blank'>
+          target='_blank'
+          onClick={this.props.handleOriginalArticleClick}>
           <ButtonPill
             fullscreen={this.props.fullscreen}
             label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')} />
