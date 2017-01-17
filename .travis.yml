@@ -7,15 +7,15 @@ cache:
   directories:
     - node_modules
 
-before_install:
-  - npm install
-  - ./script/fetch_i18n
-
 env:
   - TASK=lint
   - TASK=validate-manifest
   - TASK=test
   - TASK=build
+
+install:
+  - npm install
+  - ./script/fetch_i18n
 
 script: "npm run $TASK"
 
