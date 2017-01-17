@@ -1,18 +1,19 @@
 describe('AutomaticAnswersMobile component', () => {
   let AutomaticAnswersMobile,
-    automaticAnswersProps,
+    AutomaticAnswers,
+    Button,
     component;
 
-  const automaticAnswersPath = buildSrcPath('component/automaticAnswers/AutomaticAnswersMobile');
+  const automaticAnswersPath = buildSrcPath('component/automaticAnswers/AutomaticAnswers');
+  const automaticAnswersMobilePath = buildSrcPath('component/automaticAnswers/AutomaticAnswersMobile');
+  const buttonPath = buildSrcPath('component/button/Button');
 
   beforeEach(() => {
-    automaticAnswersProps = {
-      handleSolveTicket: jasmine.createSpy()
-    };
-
     resetDOM();
 
     mockery.enable();
+
+    Button = requireUncached(buttonPath).Button;
 
     initMockRegistry({
       'React': React,
@@ -32,6 +33,17 @@ describe('AutomaticAnswersMobile component', () => {
           }
         }
       },
+      'component/button/Button': {
+        Button: Button
+      },
+      'utility/pages': {
+        getHelpCenterArticleId: jasmine.createSpy().and.callFake(() => '456')
+      },
+      'service/automaticAnswersPersistence' : {
+        automaticAnswersPersistence: {
+          getContext: jasmine.createSpy().and.callFake(() => '123')
+        }
+      },
       'service/i18n': {
         i18n: {
           t: _.identity
@@ -39,7 +51,14 @@ describe('AutomaticAnswersMobile component', () => {
       }
     });
 
-    AutomaticAnswersMobile = requireUncached(automaticAnswersPath).AutomaticAnswersMobile;
+    AutomaticAnswers = requireUncached(automaticAnswersPath).AutomaticAnswers;
+    initMockRegistry({
+      'component/automaticAnswers/AutomaticAnswers': {
+        AutomaticAnswers: AutomaticAnswers
+      }
+    });
+
+    AutomaticAnswersMobile = requireUncached(automaticAnswersMobilePath).AutomaticAnswersMobile;
   });
 
   afterEach(() => {
@@ -48,23 +67,16 @@ describe('AutomaticAnswersMobile component', () => {
   });
 
   describe('handleSolveClick', () => {
-    const e = { preventDefault: jasmine.createSpy() };
-
     beforeEach(() => {
-      component = instanceRender(
-        <AutomaticAnswersMobile
-          {...automaticAnswersProps} />
-      );
-      component.handleSolveClick(e);
-    });
-
-    it('prevents the default DOM click event', () => {
-      expect(e.preventDefault)
-        .toHaveBeenCalled();
+      component = shallow(
+         <AutomaticAnswersMobile
+           solveTicket={jasmine.createSpy()} />);
+      spyOn(component.instance(), 'handleSolveTicket');
+      component.find('.c-btn').simulate('click');
     });
 
     it('calls handleSolveTicket', () => {
-      expect(component.props.handleSolveTicket)
+      expect(component.instance().handleSolveTicket)
         .toHaveBeenCalled();
     });
   });
@@ -73,8 +85,7 @@ describe('AutomaticAnswersMobile component', () => {
     describe('when the ticket is not solved', () => {
       beforeEach(() => {
         component = instanceRender(
-          <AutomaticAnswersMobile
-            solveSuccess={false} />
+          <AutomaticAnswersMobile />
         );
         spyOn(component, 'renderTicketContent');
         component.renderContent();
@@ -86,14 +97,14 @@ describe('AutomaticAnswersMobile component', () => {
       });
     });
 
-    describe('when the ticket is solved', () => {
+    describe('when the screen state is set to TICKET_CLOSED', () => {
       beforeEach(() => {
         component = instanceRender(
           <AutomaticAnswersMobile
-            solveSuccess={true} />
+            closeFrame={() => {}} />
         );
         spyOn(component, 'renderSuccessContent');
-        component.renderContent();
+        component.setState({ screen: AutomaticAnswers.ticketClosed });
       });
 
       it('renders a success message', () => {
@@ -106,29 +117,25 @@ describe('AutomaticAnswersMobile component', () => {
   describe('renderButton', () => {
     describe('when the ticket is not submitting', () => {
       beforeEach(() => {
-        domRender(
-          <AutomaticAnswersMobile
-            isSubmitting={false} />
-        );
+        component = shallow(<AutomaticAnswersMobile />);
+        component.setState({ 'isSubmitting' : false });
       });
 
       it('renders a button with a call to action string', () => {
-        expect(document.querySelector('.c-btn--primary--icon').innerHTML)
-          .toContain('embeddable_framework.automaticAnswers.button_mobile');
+        expect(component.find('.c-btn--primary--icon').text().includes('embeddable_framework.automaticAnswers.button_mobile'))
+          .toEqual(true);
       });
     });
 
     describe('when the ticket is submitting', () => {
       beforeEach(() => {
-        domRender(
-          <AutomaticAnswersMobile
-            isSubmitting={true} />
-        );
+        component = shallow(<AutomaticAnswersMobile />);
+        component.setState({ 'isSubmitting' : true });
       });
 
       it('renders a button with a "..." string', () => {
-        expect(document.querySelector('.c-btn--primary--icon').innerHTML)
-          .toContain('...');
+        expect(component.find('.c-btn--primary--icon').text().includes('...'))
+          .toEqual(true);
       });
     });
   });
@@ -136,29 +143,25 @@ describe('AutomaticAnswersMobile component', () => {
   describe('renderErrorMessage', () => {
     describe('when errorMessage is falsely', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <AutomaticAnswersMobile
-            errorMessage={''} />
-        );
+        component = shallow(<AutomaticAnswersMobile />);
+        component.setState({ 'errorMessage' : '' });
       });
 
       it('contains .u-isHidden', () => {
-        expect(component.renderErrorMessage().props.className)
-          .toContain('u-isHidden');
+        expect(component.find('.u-isError.u-isHidden').length)
+          .toEqual(1);
       });
     });
 
     describe('when errorMessage is truthy', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <AutomaticAnswersMobile
-            errorMessage={'derp'} />
-        );
+        component = shallow(<AutomaticAnswersMobile />);
+        component.setState({ 'errorMessage' : 'dude things are wrong.' });
       });
 
       it('does not contain .u-isHidden', () => {
-        expect(component.renderErrorMessage().props.className)
-          .not.toContain('u-isHidden');
+        expect(component.find('.u-isError.u-isHidden').length)
+          .toEqual(0);
       });
     });
   });

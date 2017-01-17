@@ -200,6 +200,13 @@
   }
 }
 
+.Icon--circleTick-large {
+  svg {
+    width: #{48/$font-size}rem;
+    height: #{48/$font-size}rem;
+  }
+}
+
 .Icon--check {
   svg {
     fill: $secondary-color;

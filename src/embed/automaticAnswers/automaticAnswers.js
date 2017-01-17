@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
-import { AutomaticAnswers } from 'component/automaticAnswers/AutomaticAnswers';
+import { AutomaticAnswersDesktop } from 'component/automaticAnswers/AutomaticAnswersDesktop';
+import { AutomaticAnswersMobile } from 'component/automaticAnswers/AutomaticAnswersMobile';
 import { frameFactory } from 'embed/frameFactory';
 import { automaticAnswersPersistence  } from 'service/automaticAnswersPersistence';
 import { transitionFactory } from 'service/transitionFactory';
@@ -14,7 +15,7 @@ import { getURLParameterByName,
          getHelpCenterArticleId } from 'utility/pages';
 
 const automaticAnswersCSS = require('./automaticAnswers.scss').toString();
-const showFrameDelay = 2000;
+const showFrameDelay = 200;
 const showSolvedFrameDelay = 500;
 // 0 = New, 1 = Open, 2 = Pending, 6 = Hold
 const unsolvedStatusIds = [0, 1, 2, 6];
@@ -24,6 +25,7 @@ const solvedStatusIds = [3, 4];
 let embed;
 
 function create(name, config, reduxStore) {
+  let closeTimeoutId = null;
   let frameStyle = {
     position: 'fixed',
     bottom: 0,
@@ -51,10 +53,13 @@ function create(name, config, reduxStore) {
     frameStyle: frameStyle,
     css: automaticAnswersCSS + generateUserCSS(),
     fullWidth: isMobileBrowser(),
+    // We are not using the close button on EmbedWrapper because we need the flexibility
+    // to show the close button on some screens, but not others.
     hideCloseButton: true,
     name: name,
     // Add offsetHeight to allow updateFrameSize to account for the box-shadow frame margin
-    offsetHeight: (isMobileBrowser()) ? 10 : 50,
+    offsetHeight: (isMobileBrowser()) ? 10 : 30,
+    offsetWidth: (isMobileBrowser()) ? 0 : 30,
     transitions: {
       close: transitionSet.downHide(),
       upShow: transitionSet.upShow(),
@@ -62,14 +67,28 @@ function create(name, config, reduxStore) {
     }
   };
 
-  const closeFrame = (delay) => setTimeout(() => embed.instance.close({}), delay);
+  // The onClose in frameFactory param is being called after the embed has been hidden
+  // but we need to clear the timeout before it is being closed.
+  const closeFrame = (delay) => {
+    if (!delay) {
+      if (closeTimeoutId) {
+        closeTimeoutId = clearTimeout(closeTimeoutId);
+      }
+      embed.instance.close({});
+    } else if (!closeTimeoutId) {
+      closeTimeoutId = setTimeout(() => embed.instance.close({}), delay);
+    }
+  };
+
+  const ComponentType = (isMobileBrowser()) ? AutomaticAnswersMobile : AutomaticAnswersDesktop;
 
   const Embed = frameFactory(
     (params) => {
       return (
-        <AutomaticAnswers
+        <ComponentType
           ref='rootComponent'
-          solveTicket={solveTicketFn}
+          solveTicket={solveTicket}
+          markArticleIrrelevant={markArticleIrrelevant}
           updateFrameSize={params.updateFrameSize}
           mobile={isMobileBrowser()}
           closeFrame={closeFrame} />
@@ -139,7 +158,7 @@ function fetchTicketFn(authToken) {
   transport.automaticAnswersApiRequest(payload);
 }
 
-function solveTicketFn(authToken, articleId, callbacks) {
+function solveTicket(authToken, articleId, callbacks) {
   const path = `/requests/automatic-answers/embed/ticket/solve`;
   const queryParams = `?source=embed&mobile=${isMobileBrowser()}`;
   const payload = {

@@ -14,6 +14,11 @@ describe('embed.automaticAnswers', () => {
 
     mockery.enable();
 
+    class AutomaticAnswers extends Component {
+      updateTicket() {}
+      solveTicketDone() {}
+    }
+
     mockRegistry = initMockRegistry({
       'React': React,
       './automaticAnswers.scss': '',
@@ -21,13 +26,20 @@ describe('embed.automaticAnswers', () => {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
-      'component/automaticAnswers/AutomaticAnswers': {
-        AutomaticAnswers: class extends Component {
-          updateTicket() {}
-          solveTicketDone() {}
+      'component/automaticAnswers/AutomaticAnswersDesktop': {
+        AutomaticAnswersDesktop: class extends AutomaticAnswers {
           render() {
             return (
-              <div className='mock-automaticAnswers' />
+              <div className='mock-automaticAnswersDesktop' />
+            );
+          }
+        }
+      },
+      'component/automaticAnswers/AutomaticAnswersMobile': {
+        AutomaticAnswersMobile: class extends AutomaticAnswers {
+          render() {
+            return (
+              <div className='mock-automaticAnswersMobile' />
             );
           }
         }
@@ -102,15 +114,29 @@ describe('embed.automaticAnswers', () => {
   });
 
   describe('render', () => {
-    it('renders an automaticAnswers embed in the document', () => {
-      automaticAnswers.create('zomg');
-      automaticAnswers.render('zomg');
+    describe('when isMobileDevice is false', () => {
+      beforeEach(() => {
+        automaticAnswers.create('zomg');
+        automaticAnswers.render('zomg');
+      });
 
-      expect(document.querySelectorAll('.mock-frame').length)
-       .toEqual(1);
+      it('renders the AutomaticAnswersDesktop component', function() {
+        expect(document.querySelectorAll('.mock-frame .mock-automaticAnswersDesktop').length)
+           .toEqual(1);
+      });
+    });
 
-      expect(document.querySelectorAll('.mock-frame .mock-automaticAnswers').length)
-       .toEqual(1);
+    describe('when isMobileDevice is true', () => {
+      beforeEach(() => {
+        mockIsMobileBrowserValue = true;
+        automaticAnswers.create('zomg');
+        automaticAnswers.render('zomg');
+      });
+
+      it('renders the AutomaticAnswersMobile component', function() {
+        expect(document.querySelectorAll('.mock-frame .mock-automaticAnswersMobile').length)
+           .toEqual(1);
+      });
     });
   });
 
@@ -181,7 +207,7 @@ describe('embed.automaticAnswers', () => {
 
     describe('when the request is successful', () => {
       let callback;
-      const showFrameDelay = 2000;
+      const showFrameDelay = 200;
       const showSolvedFrameDelay = 500;
       const resSuccess = (statusId) => {
         return {
@@ -232,7 +258,7 @@ describe('embed.automaticAnswers', () => {
             mockSolvedURLParameter = '1';
           });
 
-          it('updates the component solveSuccess state', () => {
+          it('updates the component to show the ticket closed screen', () => {
             callback(resSuccess(statusSolved));
 
             expect(instance.getRootComponent().solveTicketDone)
@@ -442,6 +468,88 @@ describe('embed.automaticAnswers', () => {
         beforeEach(() => {
           mockIsMobileBrowserValue = true;
           markArticleIrrelevant();
+        });
+
+        it('includes the mobile=true query param', () => {
+          expect(mostRecent.path)
+            .toContain(`mobile=true`);
+        });
+      });
+    });
+  });
+
+  describe('markArticleIrrelevant', () => {
+    let markArticleIrrelevant,
+      mostRecent,
+      formData;
+    const mockArticleIdInUrl = 23425454;
+    const mockReason = 2;
+    const callbacks = {
+      done: () => {},
+      fail: () => {}
+    };
+
+    const renderAndMarkArticleIrrelevant = () => {
+      mockTransport = mockRegistry['service/transport'].transport;
+      automaticAnswers.create('automaticAnswers');
+      automaticAnswers.render();
+
+      markArticleIrrelevant = automaticAnswers.get().instance.getRootComponent().props.markArticleIrrelevant;
+      markArticleIrrelevant(mockJwtToken, mockArticleIdInUrl, mockReason, callbacks);
+
+      mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
+      formData = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[1];
+    };
+
+    beforeEach(() => {
+      renderAndMarkArticleIrrelevant();
+    });
+
+    describe('payload configuration and callbacks', () => {
+      it('sends a correctly configured payload to automaticAnswersApiRequest', () => {
+        expect(mostRecent.path)
+          .toBe(`/requests/automatic-answers/embed/article/irrelevant?source=embed&mobile=false`);
+
+        expect(mostRecent.method)
+          .toEqual('post');
+      });
+
+      it('triggers the supplied callbacks', () => {
+        expect(mostRecent.callbacks.done)
+          .toEqual(callbacks.done);
+
+        expect(mostRecent.callbacks.fail)
+          .toEqual(callbacks.fail);
+      });
+    });
+
+    describe('formData', () => {
+      it('includes the auth_token', () => {
+        expect(formData.auth_token)
+          .toBe(mockJwtToken);
+      });
+
+      it('includes the article_id', () => {
+        expect(formData.article_id)
+          .toBe(mockArticleIdInUrl);
+      });
+
+      it('includes the reason', () => {
+        expect(formData.reason)
+          .toBe(mockReason);
+      });
+    });
+
+    describe('query params for device tracking', () => {
+      it('includes the source=embed query param', () => {
+        expect(mostRecent.path)
+          .toContain(`source=embed`);
+      });
+
+      describe('when the device is a mobile browser', () => {
+        beforeEach(() => {
+          mockIsMobileBrowserValue = true;
+          renderAndMarkArticleIrrelevant();
         });
 
         it('includes the mobile=true query param', () => {

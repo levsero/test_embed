@@ -53,6 +53,7 @@
     "concurrently": "^3.1.0",
     "css-loader": "^0.23.1",
     "cssstyle": "0.2.30",
+    "enzyme": "^2.7.1",
     "es5-shim": "~3.4.0",
     "eslint": "^1.10.3",
     "eslint-plugin-jasmine": "^1.6.0",

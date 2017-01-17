@@ -25,6 +25,7 @@ describe('Icon component', function() {
       'icons/widget-icon_icon.svg': DummyIcon,
       'icons/widget-icon_form.svg': DummyIcon,
       'icons/widget-icon_tick.svg': DummyIcon,
+      'icons/widget-icon_circle_tick_large.svg': DummyIcon,
       'icons/widget-icon_checkboxCheck.svg': DummyIcon,
       'icons/widget-icon_caret.svg': DummyIcon,
       'icons/widget-icon_avatar.svg': DummyIcon,

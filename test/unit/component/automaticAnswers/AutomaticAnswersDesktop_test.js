@@ -1,47 +1,64 @@
 describe('AutomaticAnswersDesktop component', () => {
   let AutomaticAnswersDesktop,
-    automaticAnswersProps,
+    AutomaticAnswers,
+    Icon,
+    Button,
     component;
 
-  const automaticAnswersPath = buildSrcPath('component/automaticAnswers/AutomaticAnswersDesktop');
+  const automaticAnswersPath = buildSrcPath('component/automaticAnswers/AutomaticAnswers');
+  const automaticAnswersDesktopPath = buildSrcPath('component/automaticAnswers/AutomaticAnswersDesktop');
+  const buttonPath = buildSrcPath('component/button/Button');
 
   beforeEach(() => {
-    automaticAnswersProps = {
-      handleSolveTicket: jasmine.createSpy(),
-      ticketNiceId: 8765
-    };
-
     resetDOM();
 
     mockery.enable();
 
+    Button = requireUncached(buttonPath).Button;
+    Icon = class extends Component {
+      render() { return <div className={this.props.className} />; }
+    };
+
     initMockRegistry({
       'React': React,
       'component/container/Container': {
-        Container: class {
+        Container: class extends Component {
           render() {
             return <div>{this.props.children}</div>;
           }
         }
       },
       'component/button/Button': {
-        Button: noopReactComponent()
+        Button: Button
       },
-      'component/Icon': {
-        Icon: class {
-          render() {
-            return <div className='Avatar' />;
-          }
+      'utility/pages': {
+        getHelpCenterArticleId: jasmine.createSpy().and.callFake(() => '456')
+      },
+      'service/automaticAnswersPersistence' : {
+        automaticAnswersPersistence: {
+          getContext: jasmine.createSpy().and.callFake(() => '123')
         }
       },
       'service/i18n': {
         i18n: {
           t: _.identity
         }
+      },
+      'component/Icon': {
+        Icon: Icon
       }
     });
 
-    AutomaticAnswersDesktop = requireUncached(automaticAnswersPath).AutomaticAnswersDesktop;
+    // Run initMockRegistry again. The below modules will not work if required in the previous run due
+    // to ordered dependency issues. Resolving dependent modules in the previous run addresses this issue.
+    AutomaticAnswers = requireUncached(automaticAnswersPath).AutomaticAnswers;
+    initMockRegistry({
+      'component/automaticAnswers/AutomaticAnswers': {
+        AutomaticAnswers: AutomaticAnswers
+      }
+    });
+
+    AutomaticAnswersDesktop = requireUncached(automaticAnswersDesktopPath).AutomaticAnswersDesktop;
   });
 
   afterEach(() => {
@@ -50,117 +67,137 @@ describe('AutomaticAnswersDesktop component', () => {
   });
 
   describe('handleSolveClick', () => {
-    const e = { preventDefault: jasmine.createSpy() };
-
     beforeEach(() => {
-      component = instanceRender(
-        <AutomaticAnswersDesktop
-          {...automaticAnswersProps} />
-      );
-      component.handleSolveClick(e);
-    });
-
-    it('prevents the default DOM click event', () => {
-      expect(e.preventDefault)
-        .toHaveBeenCalled();
+      component = shallow(
+         <AutomaticAnswersDesktop
+           solveTicket={jasmine.createSpy()} />);
+      spyOn(component.instance(), 'handleSolveTicket');
+      component.find('.AutomaticAnswersBtn--cta').simulate('click');
     });
 
     it('calls handleSolveTicket', () => {
-      expect(component.props.handleSolveTicket)
+      expect(component.instance().handleSolveTicket)
         .toHaveBeenCalled();
-    });
-  });
-
-  describe('renderMasterIcon', () => {
-    describe('when the ticket is not solved', () => {
-      beforeEach(() => {
-        component = instanceRender(
-          <AutomaticAnswersDesktop
-            solveSuccess={false} />
-        );
-      });
-
-      it('renders an article icon', () => {
-        expect(component.renderMasterIcon().props.type)
-          .toEqual('Icon--article');
-      });
-    });
-
-    describe('when the ticket is solved', () => {
-      beforeEach(() => {
-        component = instanceRender(
-          <AutomaticAnswersDesktop
-            solveSuccess={true} />
-        );
-      });
-
-      it('renders a tick icon', () => {
-        expect(component.renderMasterIcon().props.type)
-          .toEqual('Icon--tick');
-      });
     });
   });
 
   describe('renderContent', () => {
-    describe('when the ticket is not solved', () => {
+    beforeEach(() => {
+      component = shallow(<AutomaticAnswersDesktop closeFrame={() => {}}/>);
+    });
+
+    describe('when the screen state is set to SOLVE_TICKET_QUESTION', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <AutomaticAnswersDesktop
-            solveSuccess={false} />
-        );
-        spyOn(component, 'renderTicketContent');
-        component.renderContent();
+        spyOn(component.instance(), 'renderTicketContent');
+        component.setState({ screen: AutomaticAnswers.solveTicketQuestion });
       });
 
-      it('renders the solve ticket content', () => {
-        expect(component.renderTicketContent)
+      it('renders the solve question content', () => {
+        expect(component.instance().renderTicketContent)
           .toHaveBeenCalled();
       });
     });
 
-    describe('when the ticket is solved', () => {
+    describe('when the screen state is set to TICKET_CLOSED', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <AutomaticAnswersDesktop
-            solveSuccess={true} />
-        );
-        spyOn(component, 'renderSuccessContent');
-        component.renderContent();
+        spyOn(component.instance(), 'renderSuccessContent');
+        component.setState({ screen: AutomaticAnswers.ticketClosed });
       });
 
-      it('renders a success message', () => {
-        expect(component.renderSuccessContent)
+      it('renders the success content', () => {
+        expect(component.instance().renderSuccessContent)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the screen state is set to MARK_AS_IRRELEVANT', () => {
+      beforeEach(() => {
+        spyOn(component.instance(), 'renderIrrelevantContent');
+        component.setState({ screen: AutomaticAnswers.markAsIrrelevant });
+      });
+
+      it('renders the mark as irrelevant content', () => {
+        expect(component.instance().renderIrrelevantContent)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the screen state is set to THANKS_FOR_FEEDBACK', () => {
+      beforeEach(() => {
+        spyOn(component.instance(), 'renderThanksForFeedbackContent');
+        component.setState({ screen: AutomaticAnswers.thanksForFeedback });
+      });
+
+      it('renders the mark as irrelevant content', () => {
+        expect(component.instance().renderThanksForFeedbackContent)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('default behaviour for the screen state', () => {
+      beforeEach(() => {
+        spyOn(component.instance(), 'renderSolveQuestion');
+        component.setState({ screen: 'thing' });
+      });
+
+      it('renders the solve question content', () => {
+        expect(component.instance().renderSolveQuestion)
           .toHaveBeenCalled();
       });
     });
   });
 
-  describe('renderButton', () => {
+  describe('renderButtons', () => {
     describe('when the ticket is not submitting', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <AutomaticAnswersDesktop
-            isSubmitting={false} />
-        );
+        component = shallow(<AutomaticAnswersDesktop />);
+        component.setState({ 'isSubmitting' : false });
       });
 
       it('renders a button with a call to action string', () => {
-        expect(component.renderButton().props.children.props.label)
+        expect(component.find('.AutomaticAnswersBtn--cta').props().label)
           .toEqual('embeddable_framework.automaticAnswers.button.solve_v2');
+      });
+
+      it('renders a button labelled No', () => {
+        expect(component.find('.AutomaticAnswersBtn--no').props().label)
+          .toEqual('embeddable_framework.automaticAnswers.desktop.solve.no');
       });
     });
 
     describe('when the ticket is submitting', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <AutomaticAnswersDesktop
-            isSubmitting={true} />
-        );
+        component = shallow(<AutomaticAnswersDesktop />);
+        component.setState({ 'isSubmitting' : true });
       });
 
-      it('renders a button with a submitting string', () => {
-        expect(component.renderButton().props.children.props.label)
+      it('renders a cta button with a submitting string', () => {
+        expect(component.find('.AutomaticAnswersBtn--cta').props().label)
           .toEqual('embeddable_framework.submitTicket.form.submitButton.label.sending');
+      });
+
+      it('disables the cta button and the no button', () => {
+        const buttons = component.find(Button);
+
+        expect(buttons.length)
+          .toEqual(2);
+
+        expect(buttons.everyWhere(n => n.prop('disabled')))
+          .toEqual(true);
+      });
+    });
+  });
+
+  describe('renderIrrelevantContent', () => {
+    describe('when the irrelevant feedback request is submitting', () => {
+      beforeEach(() => {
+        component = shallow(<AutomaticAnswersDesktop />);
+        component.setState({ 'isSubmitting' : true });
+      });
+
+      it('disables both buttons', () => {
+        expect(component.find('Button').everyWhere(n => n.props('disabled')))
+          .toEqual(true);
       });
     });
   });
@@ -168,59 +205,51 @@ describe('AutomaticAnswersDesktop component', () => {
   describe('renderErrorMessage', () => {
     describe('when errorMessage is falsely', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <AutomaticAnswersDesktop
-            errorMessage={''} />
-        );
+        component = shallow(<AutomaticAnswersDesktop />);
+        component.setState({ 'errorMessage' : '' });
       });
 
       it('contains .u-isHidden', () => {
-        expect(component.renderErrorMessage().props.className)
-          .toContain('u-isHidden');
+        expect(component.find('.Error.u-isHidden').length)
+          .toEqual(1);
       });
     });
 
     describe('when errorMessage is truthy', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <AutomaticAnswersDesktop
-            errorMessage={'derp'} />
-        );
+        component = shallow(<AutomaticAnswersDesktop />);
+        component.setState({ 'errorMessage' : 'Invalid things dude.' });
       });
 
       it('does not contain .u-isHidden', () => {
-        expect(component.renderErrorMessage().props.className)
-          .not.toContain('u-isHidden');
+        expect(component.find('.Error.u-isHidden').length)
+          .toEqual(0);
       });
     });
   });
 
-  describe('renderIntroduction', () => {
+  describe('renderSolveQuestion', () => {
     describe('when errorMessage is falsely', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <AutomaticAnswersDesktop
-          errorMessage={''} />
-        );
+        component = shallow(<AutomaticAnswersDesktop />);
+        component.setState({ 'errorMessage' : '' });
       });
 
       it('contains .u-borderBottom', () => {
-        expect(component.renderIntroduction().props.className)
-          .toContain('u-borderBottom');
+        expect(component.find('.AutomaticAnswersDesktop-solve .u-borderBottom').length)
+          .toEqual(1);
       });
     });
 
     describe('when errorMessage is truthy', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <AutomaticAnswersDesktop
-            errorMessage={'derp'} />
-        );
+        component = shallow(<AutomaticAnswersDesktop />);
+        component.setState({ 'errorMessage' : 'Invalid things dude.' });
       });
 
       it('does not contain .u-borderBottom', () => {
-        expect(component.renderIntroduction().props.className)
-          .not.toContain('u-borderBottom');
+        expect(component.find('.AutomaticAnswersDesktop-solve .u-borderBottom').length)
+          .toEqual(0);
       });
     });
   });
