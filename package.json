@@ -8,7 +8,7 @@
     "prebuild-examples": "uglifyjs --compress --mangle -- ./src/bootstrap.js > ./dist/bootstrap.js",
     "build-examples": "node script/build-examples.js",
     "prewatch": "npm run build:version:generate && npm run build-examples",
-    "prebuild:prod": "npm run lint && npm run build:cachebuster && npm run prebuild-examples && rm -rf ./dist/*.map && npm run build:version:generate",
+    "prebuild:prod": "npm run build:cachebuster && npm run prebuild-examples && rm -rf ./dist/*.map && npm run build:version:generate",
     "prebuild:ac": "cp manifest.json dist",
     "build:cachebuster-clean": "rm -rf ./dist/update.js",
     "build:cachebuster": "npm run build:version:generate && node ./script/cachebuster.js && npm run build:cachebuster-clean",
