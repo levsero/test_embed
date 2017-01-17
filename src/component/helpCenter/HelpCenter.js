@@ -361,7 +361,7 @@ export class HelpCenter extends Component {
       uniqueSearchResultClick: !this.state.searchResultClicked,
       articleId: this.state.activeArticle.id,
       locale: i18n.getLocale()
-    }
+    };
   }
 
   handleOriginalArticleClick = (e) => {
