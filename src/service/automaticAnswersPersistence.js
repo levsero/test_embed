@@ -18,7 +18,7 @@ function getFromLocalStorage() {
   return store.get(automaticAnswersLocalStorageKey);
 }
 
-function getAuthToken() {
+function authTokenFromStore() {
   const automaticAnswersConfig = getFromLocalStorage();
 
   if (!automaticAnswersConfig) return null;
@@ -31,13 +31,14 @@ function getAuthToken() {
 }
 
 function getContext() {
-  const initialJwtToken = getURLParameterByName(automaticAnswersJwtUrlParameter);
+  const authTokenFromUrl = getURLParameterByName(automaticAnswersJwtUrlParameter);
 
-  if (initialJwtToken) {
-    setLocalStorage(initialJwtToken);
+  if (authTokenFromUrl) {
+    setLocalStorage(authTokenFromUrl);
+    return authTokenFromUrl;
+  } else {
+    return authTokenFromStore();
   }
-
-  return getAuthToken();
 }
 
 export const automaticAnswersPersistence = {
