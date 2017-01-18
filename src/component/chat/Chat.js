@@ -8,7 +8,10 @@ import { ChatMessage } from 'component/chat/ChatMessage';
 import { Container } from 'component/container/Container';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
-import { sendMsg, updateCurrentMsg, endChat } from 'src/redux/modules/chat';
+import { sendMsg,
+         updateCurrentMsg,
+         endChat,
+         setVisitorInfo } from 'src/redux/modules/chat';
 
 import { locals as styles } from './Chat.sass';
 
@@ -22,6 +25,7 @@ class Chat extends Component {
     endChat: PropTypes.func.isRequired,
     position: PropTypes.string,
     sendMsg: PropTypes.func.isRequired,
+    setVisitorInfo: PropTypes.func.isRequired,
     style: PropTypes.object,
     updateCurrentMsg: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func
@@ -32,6 +36,13 @@ class Chat extends Component {
     style: null,
     updateFrameSize: () => {}
   };
+
+  updateUser = (user) => {
+    this.props.setVisitorInfo({
+      display_name: user.name || '', // eslint-disable-line camelcase
+      email: user.email
+    });
+  }
 
   renderChatLog = () => {
     if (this.props.chat.chats.length <= 0) return;
@@ -88,4 +99,11 @@ class Chat extends Component {
   }
 }
 
-export default connect(mapStateToProps, { sendMsg, updateCurrentMsg, endChat }, null, { withRef: true })(Chat);
+const actionCreators = {
+  sendMsg,
+  updateCurrentMsg,
+  endChat,
+  setVisitorInfo
+};
+
+export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);

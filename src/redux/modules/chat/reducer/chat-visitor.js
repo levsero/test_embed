@@ -1,4 +1,4 @@
-import { SDK_CHAT_MEMBER_JOIN, SDK_VISITOR_UPDATE } from '../chat-action-types';
+import { SDK_CHAT_MEMBER_JOIN, SDK_VISITOR_UPDATE, UPDATE_VISITOR_INFO } from '../chat-action-types';
 
 const initialState = {};
 
@@ -20,6 +20,11 @@ const visitor = (state = initialState, action = {}) => {
       return {
         ...state,
         ...payload.detail
+      };
+    case UPDATE_VISITOR_INFO:
+      return {
+        ...state,
+        visitor: payload
       };
     default:
       return state;
