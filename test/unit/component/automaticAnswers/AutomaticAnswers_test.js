@@ -3,11 +3,9 @@ describe('AutomaticAnswers component', () => {
     mockCloseFrame,
     AutomaticAnswers,
     automaticAnswers,
-    mockJwtBody,
+    mockJwtToken,
     mockUrlArticleId;
   const automaticAnswersPath = buildSrcPath('component/automaticAnswers/AutomaticAnswers');
-  const mockTicketId = 123456;
-  const mockToken = 'abcdef';
 
   beforeEach(() => {
     resetDOM();
@@ -25,7 +23,7 @@ describe('AutomaticAnswers component', () => {
       },
       'service/automaticAnswersPersistence' : {
         automaticAnswersPersistence: {
-          getContext: jasmine.createSpy().and.callFake(() => mockJwtBody)
+          getContext: jasmine.createSpy().and.callFake(() => mockJwtToken)
         }
       },
       'component/automaticAnswers/AutomaticAnswersDesktop': {
@@ -51,10 +49,7 @@ describe('AutomaticAnswers component', () => {
     AutomaticAnswers = requireUncached(automaticAnswersPath).AutomaticAnswers;
 
     mockUrlArticleId = 23425454;
-    mockJwtBody = {
-      'ticket_id': mockTicketId,
-      'token': mockToken
-    };
+    mockJwtToken = 'abcdef.hijk.lmnop';
   });
 
   describe('instantiation', () => {
@@ -145,12 +140,12 @@ describe('AutomaticAnswers component', () => {
 
       beforeEach(() => {
         automaticAnswers.handleSolveTicket();
-        callbacks = mockSolveTicket.calls.mostRecent().args[3];
+        callbacks = mockSolveTicket.calls.mostRecent().args[2];
       });
 
-      it('passes the ticketId, token, articleId and callbacks to the solve ticket request', () => {
+      it('passes the auth_token, articleId and callbacks to the solve ticket request', () => {
         expect(mockSolveTicket)
-          .toHaveBeenCalledWith(mockTicketId, mockToken, mockUrlArticleId, callbacks);
+          .toHaveBeenCalledWith(mockJwtToken, mockUrlArticleId, callbacks);
       });
 
       it('defines callback behaviour for the solve ticket request', () => {
@@ -162,9 +157,9 @@ describe('AutomaticAnswers component', () => {
       });
     });
 
-    describe('when the JWT body from local storage is not valid', () => {
+    describe('when the JWT token from local storage is not valid', () => {
       beforeEach(() => {
-        mockJwtBody = null;
+        mockJwtToken = null;
         spyOn(automaticAnswers, 'solveTicketFail');
         automaticAnswers.handleSolveTicket();
       });

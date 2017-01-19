@@ -188,12 +188,16 @@ function getZendeskHost() {
   return config.zendeskHost;
 }
 
-function automaticAnswersApiRequest(payload) {
+function automaticAnswersApiRequest(payload, formData = {}) {
   if (!config.zendeskHost) {
     throw 'Missing zendeskHost config param.';
   }
 
   superagent(payload.method.toUpperCase(), buildFullUrl(payload.path))
+    // superAgent sets type('json') by default, which breaks CORS.
+    // setting 'form-data' results in 'Content-type: www-url-form-encoded' to prevent a preflight OPTIONS request.
+    .type('form-data')
+    .send(formData)
     .end((err, res) => {
       if (err) {
         if (_.isFunction(payload.callbacks.fail)) {

@@ -64,10 +64,7 @@ describe('embed.automaticAnswers', () => {
     mockery.registerAllowable(automaticAnswersPath);
     automaticAnswers = requireUncached(automaticAnswersPath).automaticAnswers;
 
-    mockJwtToken = {
-      'ticket_id': 123456,
-      'token': 'abcdef'
-    };
+    mockJwtToken = 'abcdef';
     mockIsMobileBrowserValue = false;
     mockArticleIdInUrl = 1234;
   });
@@ -124,7 +121,7 @@ describe('embed.automaticAnswers', () => {
       automaticAnswers.render();
     });
 
-    describe('when the JWT body contains ticket_id and token parameters', () => {
+    describe('when the JWT is available', () => {
       let mostRecent;
 
       beforeEach(() => {
@@ -132,9 +129,9 @@ describe('embed.automaticAnswers', () => {
         mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
       });
 
-      it('passes ticket_id and token to fetchTicketFn', () => {
+      it('passes auth_token to fetchTicketFn', () => {
         expect(mostRecent.path)
-          .toEqual('/requests/automatic-answers/ticket/123456/fetch/token/abcdef');
+          .toEqual('/requests/automatic-answers/embed/ticket/fetch?auth_token=abcdef');
         expect(mostRecent.method)
           .toEqual('get');
         expect(mockTransport.automaticAnswersApiRequest)
@@ -142,7 +139,7 @@ describe('embed.automaticAnswers', () => {
       });
     });
 
-    describe('when the JWT body does not contain ticket_id and token parameters', () => {
+    describe('when the JWT is unavailable', () => {
       beforeEach(() => {
         mockJwtToken = null;
         automaticAnswers.postRender('automaticAnswers');
@@ -305,10 +302,9 @@ describe('embed.automaticAnswers', () => {
 
   describe('solveTicket', () => {
     let solveTicket,
-      mostRecent;
-    const mockTicketId = '123456';
-    const mockToken = 'abcdef';
-    const mockArticleId = 23425454;
+      mostRecent,
+      formData;
+    const mockArticleIdInUrl = 23425454;
     const callbacks = {
       done: () => {},
       fail: () => {}
@@ -320,9 +316,10 @@ describe('embed.automaticAnswers', () => {
       automaticAnswers.render();
 
       solveTicket = automaticAnswers.get().instance.getRootComponent().props.solveTicket;
-      solveTicket(mockTicketId, mockToken, mockArticleId, callbacks);
+      solveTicket(mockJwtToken, mockArticleIdInUrl, callbacks);
 
       mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
+      formData = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[1];
     };
 
     describe('payload configuration and callbacks', () => {
@@ -332,10 +329,18 @@ describe('embed.automaticAnswers', () => {
 
       it('sends a correctly configured payload to automaticAnswersApiRequest', () => {
         expect(mostRecent.path)
-          .toBe(`/requests/automatic-answers/ticket/${mockTicketId}/solve/token/${mockToken}/article/${mockArticleId}?source=embed&mobile=false`);
+          .toBe(`/requests/automatic-answers/embed/ticket/solve?source=embed&mobile=false`);
 
         expect(mostRecent.method)
           .toEqual('post');
+      });
+
+      it('sends correctly configured form data', () => {
+        expect(formData.auth_token)
+          .toBe(mockJwtToken);
+
+        expect(formData.article_id)
+          .toBe(mockArticleIdInUrl);
       });
 
       it('triggers the supplied callbacks', () => {

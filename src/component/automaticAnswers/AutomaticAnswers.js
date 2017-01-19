@@ -46,12 +46,10 @@ export class AutomaticAnswers extends Component {
   }
 
   handleSolveTicket = () => {
-    const jwtBody = automaticAnswersPersistence.getContext();
+    const authToken = automaticAnswersPersistence.getContext();
 
-    if (!jwtBody) return this.solveTicketFail();
+    if (!authToken) return this.solveTicketFail();
 
-    const ticketId = jwtBody.ticket_id;
-    const token = jwtBody.token;
     const articleId = getHelpCenterArticleId();
     const callbacks = {
       done: this.solveTicketDone,
@@ -63,8 +61,8 @@ export class AutomaticAnswers extends Component {
       isSubmitting: true
     });
 
-    if (ticketId && token && articleId) {
-      this.props.solveTicket(ticketId, token, articleId, callbacks);
+    if (authToken  && articleId) {
+      this.props.solveTicket(authToken, articleId, callbacks);
     } else {
       this.solveTicketFail();
     }
