@@ -1,4 +1,4 @@
-import { SDK_CHAT_MEMBER_JOIN, SDK_CHAT_MEMBER_LEAVE } from '../chat-action-types';
+import { SDK_CHAT_MEMBER_JOIN, SDK_CHAT_MEMBER_LEAVE, END_CHAT } from '../chat-action-types';
 
 const initialState = false;
 
@@ -16,6 +16,8 @@ const isChatting = (state = initialState, action) => {
         return false;
       }
       return state;
+    case END_CHAT:
+      return false;
     default:
       return state;
   }

@@ -8,7 +8,7 @@ import { ChatMessage } from 'component/chat/ChatMessage';
 import { Container } from 'component/container/Container';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
-import { sendMsg, updateCurrentMsg } from 'src/redux/modules/chat';
+import { sendMsg, updateCurrentMsg, endChat } from 'src/redux/modules/chat';
 
 import { locals as styles } from './Chat.sass';
 
@@ -19,6 +19,7 @@ const mapStateToProps = (state) => {
 class Chat extends Component {
   static propTypes = {
     chat: PropTypes.object.isRequired,
+    endChat: PropTypes.func.isRequired,
     position: PropTypes.string,
     sendMsg: PropTypes.func.isRequired,
     style: PropTypes.object,
@@ -49,6 +50,9 @@ class Chat extends Component {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     const { chat } = this.props;
+    const chatEndedMsg = (this.props.chat.chats.length !== 0 && !this.props.chat.is_chatting)
+                       ? <div className={styles.chatEnd}>Chat Ended</div>
+                       : null;
 
     return (
       <Container
@@ -57,8 +61,10 @@ class Chat extends Component {
         expanded={true}>
         <ScrollContainer
           title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-          headerContent={<ChatHeader agents={chat.agents} />}
+          headerContent={<ChatHeader agents={chat.agents} endChat={this.props.endChat} />}
           headerClasses={styles.header}
+          contentClasses={styles.content}
+          footerClasses={styles.footer}
           footerContent={
             <ChatBox
               currentMessage={chat.currentMessage}
@@ -67,6 +73,7 @@ class Chat extends Component {
           contentExpanded={true}>
           <div className={styles.messages}>
             {this.renderChatLog()}
+            {chatEndedMsg}
           </div>
         </ScrollContainer>
       </Container>
@@ -74,4 +81,4 @@ class Chat extends Component {
   }
 }
 
-export default connect(mapStateToProps, { sendMsg, updateCurrentMsg }, null, { withRef: true })(Chat);
+export default connect(mapStateToProps, { sendMsg, updateCurrentMsg, endChat }, null, { withRef: true })(Chat);

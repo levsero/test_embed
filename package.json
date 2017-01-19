@@ -37,8 +37,7 @@
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
     "sanitize-html": "~1.10.0",
-    "superagent": "^2.0.0",
-    "zd-css-components.buttons": "git+ssh://git@github.com/zendeskgarden/css-components.buttons.git"
+    "superagent": "^2.0.0"
   },
   "devDependencies": {
     "autoprefixer-loader": "~0.1.1",
