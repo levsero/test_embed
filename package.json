@@ -37,7 +37,8 @@
     "redux-thunk": "^2.1.0",
     "sanitize-html": "~1.10.0",
     "superagent": "^2.0.0",
-    "zd-css-components.buttons": "git+ssh://git@github.com/zendeskgarden/css-components.buttons.git"
+    "zd-css-buttons": "git+ssh://git@github.com/zendeskgarden/css-buttons.git",
+    "zd-css-variables": "git+ssh://git@github.com/zendeskgarden/css-variables.git"
   },
   "devDependencies": {
     "autoprefixer-loader": "~0.1.1",
@@ -87,8 +88,6 @@
     "webpack-dashboard": "^0.2.1",
     "webpack-dev-server": "^1.16.2",
     "webpack-visualizer-plugin": "^0.1.5",
-    "when": "~3.4.4",
-    "zd-css-buttons": "git+ssh://git@github.com/zendeskgarden/css-buttons.git",
-    "zd-css-variables": "git+ssh://git@github.com/zendeskgarden/css-variables.git"
+    "when": "~3.4.4"
   }
 }
