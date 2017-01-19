@@ -7,7 +7,7 @@
   <script src="/dist/bootstrap.js" inline></script>
 
   <script>
-    window.location.href = 'http://localhost:1337/example/nps.html#zd-testNps';
+    window.location.href += '#zd-testNps';
     window.localStorage.clear(); // Clear storage to take NPS survey again
     zE(function() {
       zE.identify({name: 'Ryan', email: 'ryan@foo.com', externalId: '1234'});
