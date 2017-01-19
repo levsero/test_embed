@@ -371,6 +371,52 @@ parts:
       title: "Error message on a failed ticket update, shortened for mobile."
       screenshot: "https://zendesk.box.com/s/mtgpbbhx8zfmzvp1lzfjiky3dy8q6jyr"
       value: "There was a problem. Please try again."
+  - translation:
+      key: "embeddable_framework.automaticAnswers.desktop.solve.question"
+      title: "Ask the user whether the article answered their question."
+      screenshot: "https://zendesk.box.com/s/0yq1wme6li36l5pftk7xsrlxi8kvwhvn"
+      value: "Does this article answer your question?"
+  - translation:
+      key: "embeddable_framework.automaticAnswers.desktop.solve.subtext"
+      title: "Clarification to the user that clicking yes will close their request. %()s stands for string and does not need to be translated."
+      screenshot: "https://zendesk.box.com/s/0yq1wme6li36l5pftk7xsrlxi8kvwhvn"
+      value: "Let us know and we'll close your request %(requestLink)s."
+  - translation:
+      key: "embeddable_framework.automaticAnswers.desktop.request_url"
+      title: "Url of the request page. %()s stands for string and does not need to be translated."
+      screenshot: "https://zendesk.box.com/s/0yq1wme6li36l5pftk7xsrlxi8kvwhvn"
+      value: "/hc/requests/%(requestId)s"
+      hidden: true
+  - translation:
+      key: "embeddable_framework.automaticAnswers.desktop.solve.yes"
+      title: "Option for the user to pick regarding whether the article answered their question."
+      screenshot: "https://zendesk.box.com/s/0yq1wme6li36l5pftk7xsrlxi8kvwhvn"
+      value: "Yes"
+  - translation:
+      key: "embeddable_framework.automaticAnswers.desktop.solve.no"
+      title: "Option for the user to pick regarding whether the article answered their question."
+      screenshot: "https://zendesk.box.com/s/0yq1wme6li36l5pftk7xsrlxi8kvwhvn"
+      value: "No"
+  - translation:
+      key: "embeddable_framework.automaticAnswers.desktop.irrelevant.question"
+      title: "Ask the user for feedback on why the article didn't answer their question."
+      screenshot: "https://zendesk.box.com/s/5hmtud5zlowalr7puxgvra9ur170sgtp"
+      value: "Why didn't the article answer your question?"
+  - translation:
+      key: "embeddable_framework.automaticAnswers.desktop.irrelevant.not_related"
+      title: "Choice for the user to pick regarding why the article didn't answer their question."
+      screenshot: "https://zendesk.box.com/s/5hmtud5zlowalr7puxgvra9ur170sgtp"
+      value: "It's not related to my question"
+  - translation:
+      key: "embeddable_framework.automaticAnswers.desktop.irrelevant.related_no_answer"
+      title: "Choice for the user to pick regarding why the article didn't answer their question."
+      screenshot: "https://zendesk.box.com/s/5hmtud5zlowalr7puxgvra9ur170sgtp"
+      value: "It's related but didn't answer my question"
+  - translation:
+      key: "embeddable_framework.automaticAnswers.desktop.irrelevant.thanks_for_feedback"
+      title: "Confirmation text once irrelevant article feedback has been submitted."
+      screenshot: "https://zendesk.box.com/s/dujivyzoqio0rihqw02p6en24txbt10c"
+      value: "Thanks for your feedback."
 
   # Channel Choice
   - translation:
