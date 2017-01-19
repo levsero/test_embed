@@ -382,7 +382,7 @@ describe('embed.helpCenter', () => {
             component.props.onViewOriginalArticleClick({});
           });
 
-          it('should call beacon.trackUserAction with ', () => {
+          it('should call beacon.trackUserAction with the correct tracking payload', () => {
             expect(mockBeacon.trackUserAction)
               .toHaveBeenCalledWith('helpCenter', 'viewOriginalArticle', 'carlos', trackPayload);
           });
