@@ -11,11 +11,13 @@ env:
   - TASK=lint
   - TASK=validate-manifest
   - TASK=test
-  - TASK=build
+  - TASK=build:prod
+  - TASK=build:ac
 
 install:
   - npm install
   - ./script/fetch_i18n
+  - npm run build-setup:prod
 
 script: "npm run $TASK"
 
