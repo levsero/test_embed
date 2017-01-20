@@ -831,6 +831,11 @@ describe('embed.webWidget', () => {
         .toHaveBeenCalledWith('webWidget.activate', jasmine.any(Function));
     });
 
+    it('should subscribe to zopimChat.setUser', () => {
+      expect(mockMediator.channel.subscribe)
+        .toHaveBeenCalledWith('zopimChat.setUser', jasmine.any(Function));
+    });
+
     it('subscribes to <any>.refreshLocale and <any>.update together', () => {
       const calls = [
         'ticketSubmissionForm.refreshLocale',
