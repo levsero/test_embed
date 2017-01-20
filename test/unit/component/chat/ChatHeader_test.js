@@ -42,7 +42,15 @@ describe('ChatHeader component', () => {
     let component;
 
     beforeEach(() => {
-      component = domRender(<ChatHeader />);
+      const agents = {
+        'agent:111': {
+          'avatar_path': 'https://example.com/snake',
+          'display_name': 'Luke Skywalker',
+          'title': 'Jedi'
+        }
+      };
+
+      component = domRender(<ChatHeader agents={agents} />);
     });
 
     it('should render an Avatar', () => {
@@ -50,23 +58,26 @@ describe('ChatHeader component', () => {
         .not.toThrow();
     });
 
-    describe('when passing props', () => {
-      it('should render props.title as `Foo`', () => {
-        component = domRender(<ChatHeader title='foo' />);
-
+    describe('agents prop', () => {
+      it('should use the agents name as the title', () => {
         const titleElem = document.querySelector('.textContainer').firstChild;
 
         expect(titleElem.innerHTML)
-          .toEqual('Foo');
+          .toEqual('Luke Skywalker');
       });
 
-      it('should render props.subText as `Bar`', () => {
-        component = domRender(<ChatHeader subText='bar' />);
-
+      it('should use the agents title as the subText', () => {
         const subTextElem = document.querySelector('.textContainer').childNodes[1];
 
         expect(subTextElem.innerHTML)
-          .toEqual('Bar');
+          .toEqual('Jedi');
+      });
+
+      it('should pass the avatar_path to the avatar component', () => {
+        const avatar = TestUtils.findRenderedComponentWithType(component, MockAvatar);
+
+        expect(avatar.props.src)
+          .toEqual('https://example.com/snake');
       });
     });
   });
