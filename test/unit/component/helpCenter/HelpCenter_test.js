@@ -1190,4 +1190,20 @@ describe('HelpCenter component', () => {
         .toHaveBeenCalled();
     });
   });
+
+  describe('handleOriginalArticleClick', () => {
+    let helpCenter,
+      mockOnViewOriginalArticleClick;
+
+    beforeEach(() => {
+      mockOnViewOriginalArticleClick = jasmine.createSpy('mockOnViewOriginalArticleClick');
+      helpCenter = domRender(<HelpCenter onViewOriginalArticleClick={mockOnViewOriginalArticleClick} />);
+      helpCenter.handleOriginalArticleClick({ preventDefault: noop });
+    });
+
+    it('calls onViewOriginalArticleClick prop', () => {
+      expect(mockOnViewOriginalArticleClick)
+        .toHaveBeenCalled();
+    });
+  });
 });
