@@ -373,12 +373,12 @@ parts:
       value: "There was a problem. Please try again."
   - translation:
       key: "embeddable_framework.automaticAnswers.desktop.solve.question"
-      title: "Ask the user whether the article answered their question."
+      title: "Ask the user whether the article answered their question. Do not use YOUR question, but THE question (or similar) to avoid formal/informal issues"
       screenshot: "https://zendesk.box.com/s/0yq1wme6li36l5pftk7xsrlxi8kvwhvn"
       value: "Does this article answer your question?"
   - translation:
       key: "embeddable_framework.automaticAnswers.desktop.solve.subtext"
-      title: "Clarification to the user that clicking yes will close their request. %()s stands for string and does not need to be translated."
+      title: "Clarification to the user that clicking yes will close their request. %()s stands for string and does not need to be translated. Do not use YOUR request, but THE request (or similar) to avoid formal/informal issues"
       screenshot: "https://zendesk.box.com/s/0yq1wme6li36l5pftk7xsrlxi8kvwhvn"
       value: "Let us know and we'll close your request %(requestLink)s."
   - translation:
@@ -399,7 +399,7 @@ parts:
       value: "No"
   - translation:
       key: "embeddable_framework.automaticAnswers.desktop.irrelevant.question"
-      title: "Ask the user for feedback on why the article didn't answer their question."
+      title: "Ask the user for feedback on why the article didn't answer their question. Do not use YOUR question but THE question (or similar) to avoid formal/informal issues."
       screenshot: "https://zendesk.box.com/s/5hmtud5zlowalr7puxgvra9ur170sgtp"
       value: "Why didn't the article answer your question?"
   - translation:
@@ -414,7 +414,7 @@ parts:
       value: "It's related but didn't answer my question"
   - translation:
       key: "embeddable_framework.automaticAnswers.desktop.irrelevant.thanks_for_feedback"
-      title: "Confirmation text once irrelevant article feedback has been submitted."
+      title: "Confirmation text once irrelevant article feedback has been submitted. Do not use YOUR feedback but THE feedback (or similar) to avoid formal/informal issues."
       screenshot: "https://zendesk.box.com/s/dujivyzoqio0rihqw02p6en24txbt10c"
       value: "Thanks for your feedback."
 
