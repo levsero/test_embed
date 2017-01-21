@@ -517,7 +517,9 @@ function setUpChat(config, store) {
   zChat.init({ account_key: config.zopimId }); // eslint-disable-line camelcase
 
   zChat.getFirehose().on('data', (data) => {
-    store.dispatch({ type: 'FIREHOSE_DATA', payload: data });
+    const actionType = data.detail.type ? `websdk/${data.detail.type}` : `websdk/${data.type}`;
+
+    store.dispatch({ type: actionType, payload: data });
   });
 }
 

@@ -1,6 +1,7 @@
 import zChat from 'vendor/web-sdk';
+
 import {
-  UPDATE_CHAT_MSG,
+  UPDATE_CURRENT_MSG,
   SENT_CHAT_MSG_REQUEST,
   SENT_CHAT_MSG_SUCCESS,
   SENT_CHAT_MSG_FAILURE
@@ -25,13 +26,13 @@ export function sendMsg(msg) {
 
     zChat.sendChatMsg(msg, (err) => {
       if (!err) {
-        return (dispatch) => {
-          return dispatch(sendMsgSuccess(msg));
-        };
+        // return (dispatch) => {
+          dispatch(sendMsgSuccess(msg));
+        // };
       } else {
-        return (dispatch) => {
-          return dispatch(sendMsgFailure(err));
-        };
+        // return (dispatch) => {
+          dispatch(sendMsgFailure(err));
+        // };
       }
     });
   };
@@ -59,7 +60,7 @@ export function sendMsgFailure(err) {
 
 export function updateCurrentMsg(msg) {
   return {
-    type: UPDATE_CHAT_MSG,
+    type: UPDATE_CURRENT_MSG,
     payload: msg
   };
 }
