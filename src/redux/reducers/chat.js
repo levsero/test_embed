@@ -121,7 +121,7 @@ export default function reducer(state = initialState, action = {}) {
   const chatTypingTimeout = 2000;
 
   switch (type) {
-    case 'SENT_CHAT_MSG':
+    case 'SENT_CHAT_MSG_SUCCESS':
       return {
         ...state,
         chats: state.chats.concat({

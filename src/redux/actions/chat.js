@@ -20,13 +20,9 @@ export function sendMsg(msg) {
 
     zChat.sendChatMsg(msg, (err) => {
       if (!err) {
-        return (dispatch) => {
-          return dispatch(sendMsgSuccess(msg));
-        };
+        dispatch(sendMsgSuccess(msg));
       } else {
-        return (dispatch) => {
-          return dispatch(sendMsgFailure(err));
-        };
+        dispatch(sendMsgFailure(err));
       }
     });
   };

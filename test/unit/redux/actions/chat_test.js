@@ -85,7 +85,7 @@ describe('chat redux actions', () => {
 
       describe('when there are no errors', () => {
         beforeEach(() => {
-          mockStore.dispatch(callbackFn());
+          callbackFn();
         });
 
         it('dispatches a SENT_CHAT_MSG_SUCCESS action with the message in payload', () => {
@@ -104,7 +104,7 @@ describe('chat redux actions', () => {
         ];
 
         beforeEach(() => {
-          mockStore.dispatch(callbackFn(errors));
+          callbackFn(errors);
         });
 
         it('dispatches a SENT_CHAT_MSG_FAILURE action with the errors in the payload', () => {
