@@ -450,5 +450,56 @@ describe('embed.chat', () => {
         });
       });
     });
+
+    describe('validateZopim', () => {
+      const chatName = 'montblanc';
+      const zopimId = '1a2b3c';
+
+      describe('when $zopim is undefined', () => {
+        beforeEach(() => {
+          mockGlobals.win.$zopim = undefined;
+        });
+
+        it('re-initializes the $zopim variable with a callback function', () => {
+          chat.create(chatName, { zopimId: zopimId });
+          chat.render(chatName);
+
+          expect(typeof mockGlobals.win.$zopim)
+            .toEqual('function');
+
+          // Verify that queue callback exists
+          expect(mockGlobals.win.$zopim._.length)
+            .toEqual(2);
+
+          mockGlobals.win.$zopim(() => mockGlobals.win.$zopim.livechat.setEmail('marche@radiuju.com'));
+
+          expect(mockGlobals.win.$zopim._.length)
+            .toEqual(3);
+        });
+      });
+
+      describe('when $zopim is not a function type', () => {
+        beforeEach(() => {
+          mockGlobals.win.$zopim = {};
+        });
+
+        it('re-initializes the $zopim variable with a callback function', () => {
+          chat.create(chatName, { zopimId: zopimId });
+          chat.render(chatName);
+
+          expect(typeof mockGlobals.win.$zopim)
+            .toEqual('function');
+
+          // Verify that queue callback exists
+          expect(mockGlobals.win.$zopim._.length)
+            .toEqual(2);
+
+          mockGlobals.win.$zopim(() => mockGlobals.win.$zopim.livechat.setEmail('marche@radiuju.com'));
+
+          expect(mockGlobals.win.$zopim._.length)
+            .toEqual(3);
+        });
+      });
+    });
   });
 });
