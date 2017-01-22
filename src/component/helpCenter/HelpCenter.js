@@ -364,8 +364,7 @@ export class HelpCenter extends Component {
     };
   }
 
-  handleOriginalArticleClick = (e) => {
-    e.preventDefault();
+  handleOriginalArticleClick = () => {
     this.props.onViewOriginalArticleClick(this.getTrackPayload());
   }
 
