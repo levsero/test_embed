@@ -8,7 +8,7 @@ let reducer,
 const reducerPath = buildSrcPath('redux/reducers/chat');
 const actionsPath = buildSrcPath('redux/actions/chat');
 
-describe('chat redux reducers', () => {
+xdescribe('chat redux reducers', () => {
   beforeEach(() => {
     mockery.enable();
 

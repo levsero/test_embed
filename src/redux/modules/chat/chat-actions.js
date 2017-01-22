@@ -26,13 +26,9 @@ export function sendMsg(msg) {
 
     zChat.sendChatMsg(msg, (err) => {
       if (!err) {
-        // return (dispatch) => {
-          dispatch(sendMsgSuccess(msg));
-        // };
+        dispatch(sendMsgSuccess(msg));
       } else {
-        // return (dispatch) => {
-          dispatch(sendMsgFailure(err));
-        // };
+        dispatch(sendMsgFailure(err));
       }
     });
   };
