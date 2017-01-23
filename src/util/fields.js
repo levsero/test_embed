@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { Field } from 'component/field/Field';
 import { SelectField } from 'component/field/SelectField';
-import { Dropdown } from 'component/field/DropDown';
+import { Dropdown } from 'component/field/Dropdown';
 
 const geti18nContent = (field) => {
   const title = _.find(field.variants, (variant) => {
@@ -14,7 +14,7 @@ const geti18nContent = (field) => {
   return title ? title.content : field.title;
 };
 
-const getCustomFields = (customFields, formState, disableAutoComplete) => {
+const getCustomFields = (customFields, formState, options) => {
   const isCheckbox = (field) => {
     return field && field.props && field.props.type === 'checkbox';
   };
@@ -27,7 +27,7 @@ const getCustomFields = (customFields, formState, disableAutoComplete) => {
       required: isRequired,
       placeholder: title,
       key: title,
-      disableAutoComplete,
+      disableAutoComplete: options.disableAutoComplete,
       description: field.description
     };
 
@@ -46,22 +46,20 @@ const getCustomFields = (customFields, formState, disableAutoComplete) => {
 
         _.forEach(field.options, (option) => {
           if (option.name) {
-            option.label = option.name;
+            option.title = option.name;
           } else {
-            option.label = option.title;
+            option.title = option.title;
           }
 
           if (option.variants) {
-            option.label = geti18nContent(option);
+            option.title = geti18nContent(option);
           }
         });
-        field.options[3] =   {
-         type: 'group', name: 'group2', items: [
-           { value: 'five', label: 'Five' },
-           { value: 'six', label: 'Six' }
-         ]
-        }
-        return <Dropdown options={field.options} value={field.options[0]} onChange={() =>{}} placeholder='-' />;
+
+        return options.ticketForms
+             ? <Dropdown options={field.options} value={field.options[0]} onChange={() =>{}} placeholder='-' />
+             : <SelectField {...sharedProps} options={field.options} />;
+
       case 'integer':
         return <Field {...sharedProps} pattern='\d+' type='number' />;
       case 'decimal':

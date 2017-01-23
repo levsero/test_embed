@@ -76,8 +76,7 @@ export class SubmitTicketForm extends Component {
   }
 
   componentDidMount = () => {
-    const customFields = getCustomFields(this.props.customFields, this.props.formState, this.props.disableAutoComplete);
-    const showShadow = customFields.fields.length > 0 || this.props.attachmentsEnabled;
+    const showShadow = this.props.customFields.length > 0 || this.props.attachmentsEnabled;
 
     this.refs.scrollContainer.setScrollShadowVisible(showShadow);
   }
@@ -357,7 +356,13 @@ export class SubmitTicketForm extends Component {
     const formTicketFields = _.filter(ticketFormFields, (field) => {
       return ticketForm.ticket_field_ids.indexOf(field.id) > -1;
     });
-    const ticketFieldsElem = getCustomFields(formTicketFields, this.props.formState, this.props.disableAutoComplete);
+    const ticketFieldsElem = getCustomFields(
+      formTicketFields,
+      this.props.formState,
+      {
+        disableAutoComplete: this.props.disableAutoComplete,
+        ticketForms: true
+      });
     const titleMobileClasses = this.props.fullscreen ? styles.ticketFormTitleMobile : '';
 
     ticketFieldsElem.allFields.unshift([this.renderNameField(), this.renderEmailField()]);
@@ -374,7 +379,11 @@ export class SubmitTicketForm extends Component {
   }
 
   renderFormBody = () => {
-    const customFields = getCustomFields(this.props.customFields, this.props.formState, this.props.disableAutoComplete);
+    const customFields = getCustomFields(
+      this.props.customFields,
+      this.props.formState,
+      { disableAutoComplete: this.props.disableAutoComplete }
+    );
 
     return (
       <div ref='formWrapper'>
