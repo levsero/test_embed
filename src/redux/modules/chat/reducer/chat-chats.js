@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import SortedMap from 'collections/sorted-map';
 
 import {
@@ -22,10 +23,9 @@ const formatMessage = (payload, visitor) => {
     type: 'chat.msg',
     msg: payload.msg,
     timestamp: payload.timestamp,
-    nick: visitor.nick,
-    display_name: visitor.display_name
+    ...visitor
   };
-}
+};
 
 const chats  = (state = initialState, action) => {
   switch (action.type) {
@@ -47,6 +47,6 @@ const chats  = (state = initialState, action) => {
     default:
       return state;
   }
-}
+};
 
 export default chats;

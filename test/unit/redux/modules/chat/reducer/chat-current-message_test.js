@@ -39,7 +39,7 @@ describe('chat reducer currentMessage', () => {
         state = reducer(initialState, {
           type: actionTypes.UPDATE_CURRENT_MSG,
           payload: payload
-        })
+        });
       });
 
       it('updates the state with payload', () => {

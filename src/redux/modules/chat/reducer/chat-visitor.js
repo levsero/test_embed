@@ -24,6 +24,6 @@ const visitor  = (state = initialState, action = {}) => {
     default:
       return state;
   }
-}
+};
 
 export default visitor;

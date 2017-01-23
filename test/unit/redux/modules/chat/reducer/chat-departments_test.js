@@ -40,6 +40,7 @@ describe('chat reducer departments', () => {
           }
         },
         newState;
+
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.SDK_DEPARTMENT_UPDATE,

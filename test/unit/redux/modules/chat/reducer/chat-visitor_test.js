@@ -78,7 +78,7 @@ describe('chat reducer visitor', () => {
       beforeEach(() => {
         payload = {
           detail: {
-            display_name: 'agent:xxx',
+            display_name: 'agent:xxx', // eslint-disable-line camelcase
             email: 'bob@example.com',
             phone: '0400123456'
           }

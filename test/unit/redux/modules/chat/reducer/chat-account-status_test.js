@@ -40,7 +40,7 @@ describe('chat reducer account_status', () => {
             detail: accountStatus
           }
         });
-      })
+      });
 
       it('sets the action payload.detail as the state', () => {
         expect(state)

@@ -87,7 +87,7 @@ describe('chat reducer chats', () => {
               detail: {
                 timestamp: Date.now(),
                 nick: 'person:x',
-                display_name: 'Mr X'
+                display_name: 'Mr X' // eslint-disable-line camelcase
               }
             };
 

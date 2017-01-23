@@ -37,8 +37,8 @@ describe('chat reducer agents', () => {
         payload = {
           detail: {
             nick: 'agent:mcbob',
-            display_name: 'McBob',
-            avatar_path: 'http://www.example.com/avatar.png',
+            display_name: 'McBob', // eslint-disable-line camelcase
+            avatar_path: 'http://www.example.com/avatar.png', // eslint-disable-line camelcase
             title: 'Bobliest Bob'
           }
         };
@@ -84,7 +84,7 @@ describe('chat reducer agents', () => {
         detail: {
           type: 'chat.memberjoin',
           nick: '',
-          display_name: '',
+          display_name: '', // eslint-disable-line camelcase
           timestamp: Date.now()
         }
       };
