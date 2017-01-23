@@ -1,6 +1,7 @@
 describe('chat reducer currentMessage', () => {
   let reducer,
-    actionTypes;
+    actionTypes,
+    initialState;
 
   beforeAll(() => {
     mockery.enable();
@@ -10,6 +11,8 @@ describe('chat reducer currentMessage', () => {
 
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);
+
+    initialState = reducer(undefined, { type: '' });
   });
 
   afterAll(() => {
@@ -21,13 +24,27 @@ describe('chat reducer currentMessage', () => {
     let state;
 
     describe('initial state', () => {
+      it('is set to an empty string', () => {
+        expect(initialState)
+          .toEqual('');
+      });
+    });
+
+    describe('when a UPDATE_CURRENT_MSG action is dispatched', () => {
+      let payload;
+
       beforeEach(() => {
-        state = reducer(undefined, { type: 'NOTHING' });
+        payload = 'im typing here';
+
+        state = reducer(initialState, {
+          type: actionTypes.UPDATE_CURRENT_MSG,
+          payload: payload
+        })
       });
 
-      it('is set to an empty string', () => {
+      it('updates the state with payload', () => {
         expect(state)
-          .toEqual('');
+          .toEqual(payload);
       });
     });
   });

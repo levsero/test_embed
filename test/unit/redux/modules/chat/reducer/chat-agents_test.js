@@ -1,6 +1,7 @@
 describe('chat reducer agents', () => {
   let reducer,
-    actionTypes;
+    actionTypes,
+    initialState;
 
   beforeAll(() => {
     mockery.enable();
@@ -10,6 +11,8 @@ describe('chat reducer agents', () => {
 
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);
+
+    initialState = reducer(undefined, { type: '' });
   });
 
   afterAll(() => {
@@ -21,12 +24,8 @@ describe('chat reducer agents', () => {
     let state;
 
     describe('initial state', () => {
-      beforeEach(() => {
-        state = reducer(undefined, { type: 'NOTHING' });
-      });
-
       it('is set to an empty object', () => {
-        expect(state)
+        expect(initialState)
           .toEqual({});
       });
     });
@@ -44,7 +43,7 @@ describe('chat reducer agents', () => {
           }
         };
 
-        state = reducer(undefined, {
+        state = reducer(initialState, {
           type: actionTypes.SDK_AGENT_UPDATE,
           payload: payload
         });
@@ -68,7 +67,7 @@ describe('chat reducer agents', () => {
           }
         };
 
-        state = reducer(undefined, {
+        state = reducer(initialState, {
           type: actionTypes.SDK_CHAT_TYPING,
           payload: payload
         });
@@ -96,7 +95,7 @@ describe('chat reducer agents', () => {
         beforeEach(() => {
           payload.detail.nick = agentNick;
 
-          state = reducer(undefined, {
+          state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_JOIN,
             payload: payload
           });
@@ -116,7 +115,7 @@ describe('chat reducer agents', () => {
         beforeEach(() => {
           payload.detail.nick = visitorNick;
 
-          state = reducer(undefined, {
+          state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_JOIN,
             payload: payload
           });
@@ -124,7 +123,7 @@ describe('chat reducer agents', () => {
 
         it('does not change the state', () => {
           expect(state)
-            .toEqual({});
+            .toEqual(initialState);
         });
       });
     });

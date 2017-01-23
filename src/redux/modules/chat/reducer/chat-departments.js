@@ -3,11 +3,16 @@ import { SDK_DEPARTMENT_UPDATE } from '../chat-action-types';
 const initialState = [];
 
 const departments = (state = initialState, action) => {
-  switch (action.type) {
+  const { type, payload } = action;
+
+  switch (type) {
     case SDK_DEPARTMENT_UPDATE:
       return {
         ...state,
-        departments: action.payload.detail
+        [payload.detail.id]: {
+          ...state[payload.detail.id],
+          ...payload.detail
+        }
       };
     default:
       return state;

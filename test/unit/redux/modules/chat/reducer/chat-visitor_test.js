@@ -1,6 +1,7 @@
 describe('chat reducer visitor', () => {
   let reducer,
-    actionTypes;
+    actionTypes,
+    initialState;
 
   beforeAll(() => {
     mockery.enable();
@@ -10,6 +11,8 @@ describe('chat reducer visitor', () => {
 
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);
+
+    initialState = reducer(undefined, { type: 'NOTHING' });
   });
 
   afterAll(() => {
@@ -21,13 +24,74 @@ describe('chat reducer visitor', () => {
     let state;
 
     describe('initial state', () => {
-      beforeEach(() => {
-        state = reducer(undefined, { type: 'NOTHING' });
+      it('is set to an empty object', () => {
+        expect(initialState)
+          .toEqual({});
+      });
+    });
+
+    describe('when a SDK_CHAT_MEMBER_JOIN action is dispatchd', () => {
+      let payload;
+
+      describe('when the member is a visitor', () => {
+        beforeEach(() => {
+          payload = {
+            detail: {
+              nick: 'visitor:xxx'
+            }
+          };
+          state = reducer(initialState, {
+            type: actionTypes.SDK_CHAT_MEMBER_JOIN,
+            payload: payload
+          });
+        });
+
+        it('updates state.nick', () => {
+          expect(state.nick)
+            .toEqual(payload.detail.nick);
+        });
       });
 
-      it('is set to an empty object', () => {
+      describe('when the member is an agent', () => {
+        beforeEach(() => {
+          payload = {
+            detail: {
+              nick: 'agent:xxx'
+            }
+          };
+          state = reducer(initialState, {
+            type: actionTypes.SDK_CHAT_MEMBER_JOIN,
+            payload: payload
+          });
+        });
+
+        it('does not change the state', () => {
+          expect(state)
+            .toEqual(initialState);
+        });
+      });
+    });
+
+    describe('when a SDK_VISITOR_UPDATE action is dispatchd', () => {
+      let payload;
+
+      beforeEach(() => {
+        payload = {
+          detail: {
+            display_name: 'agent:xxx',
+            email: 'bob@example.com',
+            phone: '0400123456'
+          }
+        };
+        state = reducer(initialState, {
+          type: actionTypes.SDK_VISITOR_UPDATE,
+          payload: payload
+        });
+      });
+
+      it('updates state with data from payload.detail', () => {
         expect(state)
-          .toEqual({});
+          .toEqual(jasmine.objectContaining(payload.detail));
       });
     });
   });

@@ -1,6 +1,7 @@
 describe('chat reducer connections', () => {
   let reducer,
-    actionTypes;
+    actionTypes,
+    initialState;
 
   beforeAll(() => {
     mockery.enable();
@@ -10,6 +11,8 @@ describe('chat reducer connections', () => {
 
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);
+
+    initialState = reducer(undefined, { type: '' });
   });
 
   afterAll(() => {
@@ -21,13 +24,29 @@ describe('chat reducer connections', () => {
     let state;
 
     describe('initial state', () => {
+      it('is set to an empty string', () => {
+        expect(initialState)
+          .toEqual('');
+      });
+    });
+
+    describe('when a SDK_CONNECTION_UPDATE action is dispatched', () => {
+      let payload;
+
       beforeEach(() => {
-        state = reducer(undefined, { type: 'NOTHING' });
+        payload = {
+          detail: 'connected'
+        };
+
+        state = reducer(initialState, {
+          type: actionTypes.SDK_CONNECTION_UPDATE,
+          payload: payload
+        });
       });
 
-      it('is set to an empty string', () => {
+      it('updates the state with payload.detail', () => {
         expect(state)
-          .toEqual('');
+          .toEqual('connected');
       });
     });
   });

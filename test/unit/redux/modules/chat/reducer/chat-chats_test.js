@@ -1,9 +1,11 @@
 import SortedMap from 'collections/sorted-map';
 
+import * as chatActionTypes from '../../../../../../src/redux/modules/chat/chat-action-types';
+
 describe('chat reducer chats', () => {
-  let initialState,
-    reducer,
-    actionTypes;
+  let reducer,
+    actionTypes,
+    initialState;
 
   beforeAll(() => {
     mockery.enable();
@@ -63,6 +65,49 @@ describe('chat reducer chats', () => {
             timestamp: testPayload.timestamp,
             msg: testPayload.msg
           }));
+      });
+    });
+
+    describe('chat SDK actions', () => {
+      const sdkActionTypes = [
+        chatActionTypes.SDK_CHAT_FILE,
+        chatActionTypes.SDK_CHAT_WAIT_QUEUE,
+        chatActionTypes.SDK_CHAT_REQUEST_RATING,
+        chatActionTypes.SDK_CHAT_RATING,
+        chatActionTypes.SDK_CHAT_COMMENT,
+        chatActionTypes.SDK_CHAT_MSG,
+        chatActionTypes.SDK_CHAT_MEMBER_JOIN,
+        chatActionTypes.SDK_CHAT_MEMBER_LEAVE
+      ];
+
+      sdkActionTypes.forEach((actionType) => {
+        describe(`when a ${actionType} action is dispatched`, () => {
+          let state,
+            testPayload = {
+              detail: {
+                timestamp: Date.now(),
+                nick: 'person:x',
+                display_name: 'Mr X'
+              }
+            };
+
+          beforeEach(() => {
+            const action = {
+              type: actionType,
+              payload: testPayload
+            };
+
+            state = reducer(initialState, action);
+          });
+
+          it('adds the message to the chats collection', () => {
+            expect(state.length)
+              .toEqual(1);
+
+            expect(state.toObject()[testPayload.detail.timestamp])
+              .toEqual(jasmine.objectContaining(testPayload.detail));
+          });
+        });
       });
     });
   });

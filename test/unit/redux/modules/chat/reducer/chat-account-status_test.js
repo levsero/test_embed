@@ -1,6 +1,7 @@
 describe('chat reducer account_status', () => {
   let reducer,
-    actionTypes;
+    actionTypes,
+    initialState;
 
   beforeAll(() => {
     mockery.enable();
@@ -10,6 +11,8 @@ describe('chat reducer account_status', () => {
 
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);
+
+    initialState = reducer(undefined, { type: '' });
   });
 
   afterAll(() => {
@@ -21,12 +24,8 @@ describe('chat reducer account_status', () => {
     let state;
 
     describe('initial state', () => {
-      beforeEach(() => {
-        state = reducer(undefined, { type: 'NOTHING' });
-      });
-
       it('is set to an empty string', () => {
-        expect(state)
+        expect(initialState)
           .toEqual('');
       });
     });
@@ -35,7 +34,7 @@ describe('chat reducer account_status', () => {
       let accountStatus = 'online';
 
       beforeEach(() => {
-        state = reducer(undefined, {
+        state = reducer(initialState, {
           type: actionTypes.SDK_ACCOUNT_STATUS,
           payload: {
             detail: accountStatus
