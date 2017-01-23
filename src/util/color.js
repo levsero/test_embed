@@ -37,6 +37,18 @@ function generateUserCSS(color = defaultColor) {
     .u-userBackgroundColor:not([disabled]):focus {
       background-color: ${highlightColor} !important;
     }
+    .u-userBorderColor:not([disabled]) {
+      color: ${color} !important;
+      background-color: transparent !important;
+      border-color: ${color} !important;
+    }
+    .u-userBorderColor:not([disabled]):hover,
+    .u-userBorderColor:not([disabled]):active,
+    .u-userBorderColor:not([disabled]):focus {
+      color: ${highlightColor} !important;
+      background-color: transparent !important;
+      border-color: ${highlightColor} !important;
+    }
     .u-userLinkColor a {
       color: ${color} !important;
     }

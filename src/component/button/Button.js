@@ -9,7 +9,8 @@ export class Button extends Component {
     label: PropTypes.string,
     onClick: PropTypes.func,
     style: PropTypes.element,
-    type: PropTypes.string
+    type: PropTypes.string,
+    primary: PropTypes.bool
   };
 
   static defaultProps = {
@@ -19,13 +20,16 @@ export class Button extends Component {
     label: '',
     onClick: () => {},
     style: null,
-    type: 'submit'
+    type: 'submit',
+    primary: true
   };
 
   render = () => {
     const buttonClasses = classNames({
-      'c-btn c-btn--medium c-btn--primary': true,
-      'Anim-color u-textNoWrap u-borderTransparent u-userBackgroundColor': true,
+      'c-btn c-btn--medium': true,
+      'c-btn--primary u-borderTransparent u-userBackgroundColor': this.props.primary,
+      'u-userBorderColor': !this.props.primary,
+      'Anim-color u-textNoWrap': true,
       'is-mobile u-sizeFull u-textSizeBaseMobile': this.props.fullscreen,
       [this.props.className]: true
     });
