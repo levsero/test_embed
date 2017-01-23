@@ -43,7 +43,9 @@ describe('chat reducer chats', () => {
       beforeAll(() => {
         testPayload = {
           timestamp: Date.now(),
-          msg: 'Hi'
+          msg: 'Hi',
+          nick: 'visitor',
+          display_name: 'Visitor 123' // eslint-disable-line camelcase
         };
       });
 

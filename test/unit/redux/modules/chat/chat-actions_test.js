@@ -57,10 +57,23 @@ describe('chat redux actions', () => {
   });
 
   describe('sendMsg', () => {
-    let message = 'Hi there';
+    let message,
+      mockVisitor;
+
+    beforeAll(() => {
+      message = 'Hi there';
+      mockVisitor = {
+        display_name: 'Visitor 123', // eslint-disable-line camelcase
+        nick: 'visitor'
+      };
+      mockStore = createMockStore({
+        chat: {
+          visitor: mockVisitor
+        }
+      });
+    });
 
     beforeEach(() => {
-      mockStore = createMockStore({});
       mockStore.dispatch(actions.sendMsg(message));
     });
 
@@ -95,8 +108,11 @@ describe('chat redux actions', () => {
             .toContain({
               type: actionTypes.SENT_CHAT_MSG_SUCCESS,
               payload: {
+                type: 'chat.msg',
                 msg: message,
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                nick: mockVisitor.nick,
+                display_name: mockVisitor.display_name // eslint-disable-line camelcase
               }
             });
         });
