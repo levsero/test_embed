@@ -15,13 +15,14 @@ export function msgActionPayload(msg) {
 }
 
 export function sendMsg(msg) {
-  return (dispatch) => {
+  return dispatch => {
+    dispatch(sendMsgRequest());
+
     zChat.sendChatMsg(msg, (err) => {
       if (!err) {
-        dispatch({
-          type: 'SENT_CHAT_MSG',
-          payload: msgActionPayload(msg)
-        });
+        dispatch(sendMsgSuccess(msg));
+      } else {
+        dispatch(sendMsgFailure(err));
       }
     });
   };
@@ -31,5 +32,25 @@ export function updateCurrentMsg(msg) {
   return {
     type: 'UPDATE_CHAT_MSG',
     payload: msg
+  };
+}
+
+function sendMsgRequest() {
+  return {
+    type: 'SENT_CHAT_MSG_REQUEST'
+  };
+}
+
+function sendMsgSuccess(msg) {
+  return {
+    type: 'SENT_CHAT_MSG_SUCCESS',
+    payload: msgActionPayload(msg)
+  };
+}
+
+function sendMsgFailure(err) {
+  return {
+    type: 'SENT_CHAT_MSG_FAILURE',
+    payload: err
   };
 }

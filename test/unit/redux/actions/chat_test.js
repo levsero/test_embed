@@ -1,8 +1,14 @@
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+
 let sendMsg,
   updateCurrentMsg,
+  msgActionPayload,
+  mockStore,
   mockSendChatMsg = jasmine.createSpy('sendChatMsg');
 
-const actionsPath = buildSrcPath('redux/actions/chat');
+const middlewares = [thunk];
+const createMockStore = configureMockStore(middlewares);
 
 describe('chat redux actions', () => {
   beforeEach(() => {
@@ -14,11 +20,16 @@ describe('chat redux actions', () => {
       }
     });
 
+    const actionsPath = buildSrcPath('redux/actions/chat');
+
     mockery.registerAllowable(actionsPath);
+
     sendMsg = requireUncached(actionsPath).sendMsg;
     updateCurrentMsg = requireUncached(actionsPath).updateCurrentMsg;
+    msgActionPayload = requireUncached(actionsPath).msgActionPayload;
 
     jasmine.clock().install();
+    jasmine.clock().mockDate(Date.now());
   });
 
   afterEach(() => {
@@ -46,15 +57,64 @@ describe('chat redux actions', () => {
   });
 
   describe('sendMsg', () => {
-    let thunk;
+    let message = 'Hi there';
 
     beforeEach(() => {
-      thunk = sendMsg('hi there');
+      mockStore = createMockStore({});
+      mockStore.dispatch(sendMsg(message));
     });
 
-    it('returns a thunk', () => {
-      expect(typeof(thunk))
-        .toEqual('function');
+    it('calls sendChatMsg on the web sdk', () => {
+      expect(mockSendChatMsg)
+        .toHaveBeenCalled();
+    });
+
+    it('dispatches a SENT_CHAT_MSG_REQUEST action', () => {
+      expect(mockStore.getActions())
+        .toContain({ type: 'SENT_CHAT_MSG_REQUEST' });
+    });
+
+    describe('Web SDK callback', () => {
+      let callbackFn;
+
+      beforeEach(() => {
+        const sendMsgCall = mockSendChatMsg.calls.mostRecent().args;
+
+        callbackFn = sendMsgCall[1];
+      });
+
+      describe('when there are no errors', () => {
+        beforeEach(() => {
+          callbackFn();
+        });
+
+        it('dispatches a SENT_CHAT_MSG_SUCCESS action with the message in payload', () => {
+          expect(mockStore.getActions())
+            .toContain({
+              type: 'SENT_CHAT_MSG_SUCCESS',
+              payload: msgActionPayload(message)
+            });
+        });
+      });
+
+      describe('when there are errors', () => {
+        let errors = [
+          'There was an error',
+          'Another error'
+        ];
+
+        beforeEach(() => {
+          callbackFn(errors);
+        });
+
+        it('dispatches a SENT_CHAT_MSG_FAILURE action with the errors in the payload', () => {
+          expect(mockStore.getActions())
+            .toContain({
+              type: 'SENT_CHAT_MSG_FAILURE',
+              payload: errors
+            });
+        });
+      });
     });
   });
 });

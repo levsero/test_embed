@@ -65,7 +65,7 @@ describe('chat redux reducers', () => {
       });
     });
 
-    describe('when a SENT_CHAT_MSG action is dispatched', () => {
+    describe('when a SENT_CHAT_MSG_SUCCESS action is dispatched', () => {
       let state,
         testPayload;
 
@@ -74,7 +74,7 @@ describe('chat redux reducers', () => {
 
         const action = {
           payload: testPayload,
-          type: 'SENT_CHAT_MSG'
+          type: 'SENT_CHAT_MSG_SUCCESS'
         };
 
         state = reducer(initialState, action);
