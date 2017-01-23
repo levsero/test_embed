@@ -17,10 +17,24 @@ const initialState = new SortedMap();
 const concatChat = (chats, chat) => chats.concat({
   [chat.timestamp]: { ...chat }
 });
+const formatMessage = (payload, visitor) => {
+  return {
+    type: 'chat.msg',
+    msg: payload.msg,
+    timestamp: payload.timestamp,
+    nick: visitor.nick,
+    display_name: visitor.display_name
+  };
+}
 
 const chats  = (state = initialState, action) => {
   switch (action.type) {
     case SENT_CHAT_MSG_SUCCESS:
+      // need to find a way to get this visitor data from the store
+      const visitor = { nick: 'visitor:xxxx', display_name: 'Mr X' };
+      const chatMessage = formatMessage(action.payload, visitor);
+
+      return concatChat(state, chatMessage);
     case SDK_CHAT_FILE:
     case SDK_CHAT_WAIT_QUEUE:
     case SDK_CHAT_REQUEST_RATING:

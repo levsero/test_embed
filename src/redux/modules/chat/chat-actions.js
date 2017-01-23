@@ -7,19 +7,6 @@ import {
   SENT_CHAT_MSG_FAILURE
 } from './chat-action-types';
 
-export function msgActionPayload(msg) {
-  return {
-    type: 'chat',
-    detail: {
-      type: 'chat.msg',
-      nick: 'visitor:xxxx',
-      timestamp: Date.now(),
-      display_name: 'Visitor Joe',
-      msg: msg
-    }
-  };
-}
-
 export function sendMsg(msg) {
   return dispatch => {
     dispatch(sendMsgRequest());
@@ -43,7 +30,10 @@ export function sendMsgRequest() {
 export function sendMsgSuccess(msg) {
   return {
     type: SENT_CHAT_MSG_SUCCESS,
-    payload: msgActionPayload(msg)
+    payload: {
+      msg,
+      timestamp: Date.now()
+    }
   };
 }
 

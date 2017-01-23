@@ -36,13 +36,14 @@ describe('chat reducer chats', () => {
 
     describe('when a SENT_CHAT_MSG_SUCCESS action is dispatched', () => {
       let state,
+        testPayload;
+
+      beforeAll(() => {
         testPayload = {
-          detail: {
-            timestamp: Date.now(),
-            nick: 'someguy',
-            msg: 'Hi'
-          }
+          timestamp: Date.now(),
+          msg: 'Hi'
         };
+      });
 
       beforeEach(() => {
         const action = {
@@ -57,8 +58,11 @@ describe('chat reducer chats', () => {
         expect(state.length)
           .toEqual(1);
 
-        expect(state.toObject()[testPayload.detail.timestamp])
-          .toEqual(testPayload.detail);
+        expect(state.toObject()[testPayload.timestamp])
+          .toEqual(jasmine.objectContaining({
+            timestamp: testPayload.timestamp,
+            msg: testPayload.msg
+          }));
       });
     });
   });

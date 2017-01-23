@@ -94,7 +94,10 @@ describe('chat redux actions', () => {
           expect(mockStore.getActions())
             .toContain({
               type: actionTypes.SENT_CHAT_MSG_SUCCESS,
-              payload: actions.msgActionPayload(message)
+              payload: {
+                msg: message,
+                timestamp: Date.now()
+              }
             });
         });
       });
@@ -117,57 +120,6 @@ describe('chat redux actions', () => {
             });
         });
       });
-    });
-  });
-
-  describe('sendMsgRequest', () => {
-    let action;
-
-    beforeEach(() => {
-      action = actions.sendMsgRequest();
-    });
-
-    it('creates an action of type SENT_CHAT_MSG_REQUEST', () => {
-      expect(action.type)
-        .toEqual(actionTypes.SENT_CHAT_MSG_REQUEST);
-    });
-  });
-
-  describe('sendMsgSuccess', () => {
-    let action,
-      message = 'Hello';
-
-    beforeEach(() => {
-      action = actions.sendMsgSuccess(message);
-    });
-
-    it('creates an action of type SENT_CHAT_MSG_SUCCESS', () => {
-      expect(action.type)
-        .toEqual(actionTypes.SENT_CHAT_MSG_SUCCESS);
-    });
-
-    it('has the message in the payload', () => {
-      expect(action.payload)
-        .toEqual(actions.msgActionPayload(message));
-    });
-  });
-
-  describe('sendMsgFailure', () => {
-    let action,
-      error = 'Something is wrong';
-
-    beforeEach(() => {
-      action = actions.sendMsgFailure(error);
-    });
-
-    it('creates an action of type SENT_CHAT_MSG_FAILURE', () => {
-      expect(action.type)
-        .toEqual(actionTypes.SENT_CHAT_MSG_FAILURE);
-    });
-
-    it('has the message in the payload', () => {
-      expect(action.payload)
-        .toEqual(error);
     });
   });
 });
