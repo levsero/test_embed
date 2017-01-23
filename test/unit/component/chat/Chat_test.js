@@ -27,7 +27,7 @@ describe('Chat component', () => {
       'component/container/ScrollContainer': {
         ScrollContainer: noopReactComponent()
       },
-      'src/redux/modules/chat/chat-actions': {
+      'src/redux/modules/chat': {
         sendMsg: noop,
         updateCurrentMsg: noop
       },

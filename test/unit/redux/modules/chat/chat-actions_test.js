@@ -19,7 +19,7 @@ describe('chat redux actions', () => {
       }
     });
 
-    const actionsPath = buildSrcPath('redux/modules/chat/chat-actions');
+    const actionsPath = buildSrcPath('redux/modules/chat');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
 
     mockery.registerAllowable(actionsPath);
