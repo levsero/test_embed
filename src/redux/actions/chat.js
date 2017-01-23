@@ -28,29 +28,29 @@ export function sendMsg(msg) {
   };
 }
 
-export function sendMsgRequest() {
+export function updateCurrentMsg(msg) {
+  return {
+    type: 'UPDATE_CHAT_MSG',
+    payload: msg
+  };
+}
+
+function sendMsgRequest() {
   return {
     type: 'SENT_CHAT_MSG_REQUEST'
   };
 }
 
-export function sendMsgSuccess(msg) {
+function sendMsgSuccess(msg) {
   return {
     type: 'SENT_CHAT_MSG_SUCCESS',
     payload: msgActionPayload(msg)
   };
 }
 
-export function sendMsgFailure(err) {
+function sendMsgFailure(err) {
   return {
     type: 'SENT_CHAT_MSG_FAILURE',
     payload: err
-  };
-}
-
-export function updateCurrentMsg(msg) {
-  return {
-    type: 'UPDATE_CHAT_MSG',
-    payload: msg
   };
 }
