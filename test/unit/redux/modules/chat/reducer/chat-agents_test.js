@@ -30,7 +30,7 @@ describe('chat reducer agents', () => {
       });
     });
 
-    describe(`when a SDK_AGENT_UPDATE action is dispatched`, () => {
+    describe('when a SDK_AGENT_UPDATE action is dispatched', () => {
       let payload;
 
       beforeEach(() => {
@@ -55,7 +55,7 @@ describe('chat reducer agents', () => {
       });
     });
 
-    describe(`when a SDK_CHAT_TYPING action is dispatched`, () => {
+    describe('when a SDK_CHAT_TYPING action is dispatched', () => {
       let payload;
 
       beforeEach(() => {
