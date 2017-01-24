@@ -7,7 +7,35 @@ import {
   SENT_CHAT_MSG_FAILURE
 } from './chat-action-types';
 
-export function sendMsg(msg) {
+const CHAT_TYPING_TIMEOUT = 2000;
+
+const sendMsgRequest = () => {
+  return {
+    type: SENT_CHAT_MSG_REQUEST
+  };
+};
+
+const sendMsgSuccess = (msg, visitor) => {
+  return {
+    type: SENT_CHAT_MSG_SUCCESS,
+    payload: {
+      type: 'chat.msg',
+      msg,
+      nick: visitor.nick,
+      display_name: visitor.display_name,
+      timestamp: Date.now()
+    }
+  };
+};
+
+const sendMsgFailure = (err) => {
+  return {
+    type: SENT_CHAT_MSG_FAILURE,
+    payload: err
+  };
+};
+
+export const sendMsg = (msg) => {
   return (dispatch, getState) => {
     dispatch(sendMsgRequest());
 
@@ -21,37 +49,17 @@ export function sendMsg(msg) {
       }
     });
   };
-}
+};
 
-export function updateCurrentMsg(msg) {
-  return {
-    type: UPDATE_CURRENT_MSG,
-    payload: msg
-  };
-}
+export const updateCurrentMsg = (msg) => {
+  return dispatch => {
+    dispatch({
+      type: UPDATE_CURRENT_MSG,
+      payload: msg
+    });
 
-function sendMsgRequest() {
-  return {
-    type: SENT_CHAT_MSG_REQUEST
+    zChat.sendTyping(true);
+    setTimeout(() => zChat.sendTyping(false), CHAT_TYPING_TIMEOUT);
   };
-}
+};
 
-function sendMsgSuccess(msg, visitor) {
-  return {
-    type: SENT_CHAT_MSG_SUCCESS,
-    payload: {
-      type: 'chat.msg',
-      msg,
-      nick: visitor.nick,
-      display_name: visitor.display_name,
-      timestamp: Date.now()
-    }
-  };
-}
-
-function sendMsgFailure(err) {
-  return {
-    type: SENT_CHAT_MSG_FAILURE,
-    payload: err
-  };
-}

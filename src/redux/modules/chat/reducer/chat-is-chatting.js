@@ -4,7 +4,7 @@ const initialState = false;
 
 const isAgent = (nick) => nick.startsWith('agent:');
 
-const isChatting  = (state = initialState, action) => {
+const isChatting = (state = initialState, action) => {
   switch (action.type) {
     case SDK_CHAT_MEMBER_JOIN:
       if (!isAgent(action.payload.detail.nick)) {

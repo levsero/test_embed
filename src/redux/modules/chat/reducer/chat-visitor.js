@@ -4,7 +4,7 @@ const initialState = {};
 
 const isAgent = (nick) => nick.startsWith('agent:');
 
-const visitor  = (state = initialState, action = {}) => {
+const visitor = (state = initialState, action = {}) => {
   const { type, payload } = action;
 
   switch (type) {

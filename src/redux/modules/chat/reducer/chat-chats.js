@@ -18,7 +18,7 @@ const concatChat = (chats, chat) => chats.concat({
   [chat.timestamp]: { ...chat }
 });
 
-const chats  = (state = initialState, action) => {
+const chats = (state = initialState, action) => {
   switch (action.type) {
     case SENT_CHAT_MSG_SUCCESS:
       return concatChat(state, action.payload);

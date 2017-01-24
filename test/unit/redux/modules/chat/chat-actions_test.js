@@ -4,7 +4,9 @@ import thunk from 'redux-thunk';
 let actions,
   actionTypes,
   mockStore,
-  mockSendChatMsg = jasmine.createSpy('sendChatMsg');
+  mockVisitor,
+  mockSendChatMsg = jasmine.createSpy('sendChatMsg'),
+  mockSendTyping = jasmine.createSpy('sendTyping');
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -15,7 +17,8 @@ describe('chat redux actions', () => {
 
     initMockRegistry({
       'vendor/web-sdk': {
-        sendChatMsg: mockSendChatMsg
+        sendChatMsg: mockSendChatMsg,
+        sendTyping: mockSendTyping
       }
     });
 
@@ -28,6 +31,13 @@ describe('chat redux actions', () => {
     actions = requireUncached(actionsPath);
     actionTypes = requireUncached(actionTypesPath);
 
+    mockVisitor = { display_name: 'Visitor 123', nick: 'visitor' };
+    mockStore = createMockStore({
+      chat: {
+        visitor: mockVisitor
+      }
+    });
+
     jasmine.clock().install();
     jasmine.clock().mockDate(Date.now());
   });
@@ -39,41 +49,43 @@ describe('chat redux actions', () => {
   });
 
   describe('updateCurrentMsg', () => {
-    let action;
+    let message,
+      action;
 
     beforeEach(() => {
-      action = actions.updateCurrentMsg('new message');
+      message = 'new message';
+      mockStore.dispatch(actions.updateCurrentMsg(message));
+      action = mockStore.getActions()[0];
     });
 
-    it('creates an action of type UPDATE_CURRENT_MSG', () => {
+    it('dispatches an action of type UPDATE_CURRENT_MSG', () => {
       expect(action.type)
         .toEqual(actionTypes.UPDATE_CURRENT_MSG);
     });
 
     it('has the message in the payload', () => {
       expect(action.payload)
-        .toEqual('new message');
+        .toEqual(message);
+    });
+
+    it('calls sendTyping(true) on the web sdk', () => {
+      expect(mockSendTyping)
+        .toHaveBeenCalledWith(true);
+    });
+
+    it('calls sendTyping(false) on the web sdk after 2 seconds', () => {
+      jasmine.clock().tick(2000);
+
+      expect(mockSendTyping)
+        .toHaveBeenCalledWith(false);
     });
   });
 
   describe('sendMsg', () => {
-    let message,
-      mockVisitor;
-
-    beforeAll(() => {
-      message = 'Hi there';
-      mockVisitor = {
-        display_name: 'Visitor 123',
-        nick: 'visitor'
-      };
-      mockStore = createMockStore({
-        chat: {
-          visitor: mockVisitor
-        }
-      });
-    });
+    let message;
 
     beforeEach(() => {
+      message = 'Hi there';
       mockStore.dispatch(actions.sendMsg(message));
     });
 
