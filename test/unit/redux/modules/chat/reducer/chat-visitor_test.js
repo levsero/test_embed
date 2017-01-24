@@ -12,7 +12,7 @@ describe('chat reducer visitor', () => {
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);
 
-    initialState = reducer(undefined, { type: 'NOTHING' });
+    initialState = reducer(undefined, { type: '' });
   });
 
   afterAll(() => {
@@ -40,6 +40,7 @@ describe('chat reducer visitor', () => {
               nick: 'visitor:xxx'
             }
           };
+
           state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_JOIN,
             payload: payload
@@ -59,6 +60,7 @@ describe('chat reducer visitor', () => {
               nick: 'agent:xxx'
             }
           };
+
           state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_JOIN,
             payload: payload
@@ -83,6 +85,7 @@ describe('chat reducer visitor', () => {
             phone: '0400123456'
           }
         };
+
         state = reducer(initialState, {
           type: actionTypes.SDK_VISITOR_UPDATE,
           payload: payload

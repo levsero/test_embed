@@ -46,7 +46,7 @@ describe('chat reducer connections', () => {
 
       it('updates the state with payload.detail', () => {
         expect(state)
-          .toEqual('connected');
+          .toEqual(payload.detail);
       });
     });
   });

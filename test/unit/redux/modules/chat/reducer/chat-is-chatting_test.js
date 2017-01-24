@@ -40,6 +40,7 @@ describe('chat reducer is_chatting', () => {
               nick: 'visitor:xxx'
             }
           };
+
           state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_JOIN,
             payload: payload
@@ -59,6 +60,7 @@ describe('chat reducer is_chatting', () => {
               nick: 'agent:xxx'
             }
           };
+
           state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_JOIN,
             payload: payload
@@ -86,6 +88,7 @@ describe('chat reducer is_chatting', () => {
               nick: 'visitor:xxx'
             }
           };
+
           state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
             payload: payload
@@ -105,6 +108,7 @@ describe('chat reducer is_chatting', () => {
               nick: 'agent:xxx'
             }
           };
+
           state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
             payload: payload

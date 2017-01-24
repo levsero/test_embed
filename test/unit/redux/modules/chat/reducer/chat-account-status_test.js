@@ -31,9 +31,11 @@ describe('chat reducer account_status', () => {
     });
 
     describe(`when a SDK_ACCOUNT_STATUS action is dispatched`, () => {
-      let accountStatus = 'online';
+      let accountStatus;
 
       beforeEach(() => {
+        accountStatus = 'online';
+
         state = reducer(initialState, {
           type: actionTypes.SDK_ACCOUNT_STATUS,
           payload: {

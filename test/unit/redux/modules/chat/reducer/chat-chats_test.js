@@ -38,34 +38,30 @@ describe('chat reducer chats', () => {
 
     describe('when a SENT_CHAT_MSG_SUCCESS action is dispatched', () => {
       let state,
-        testPayload;
+        payload;
 
-      beforeAll(() => {
-        testPayload = {
+      beforeEach(() => {
+        payload = {
           timestamp: Date.now(),
           msg: 'Hi',
           nick: 'visitor',
           display_name: 'Visitor 123'
         };
-      });
 
-      beforeEach(() => {
-        const action = {
+        state = reducer(initialState, {
           type: actionTypes.SENT_CHAT_MSG_SUCCESS,
-          payload: testPayload
-        };
-
-        state = reducer(initialState, action);
+          payload: payload
+        });
       });
 
       it('adds the message to the chats collection', () => {
         expect(state.length)
           .toEqual(1);
 
-        expect(state.toObject()[testPayload.timestamp])
+        expect(state.toObject()[payload.timestamp])
           .toEqual(jasmine.objectContaining({
-            timestamp: testPayload.timestamp,
-            msg: testPayload.msg
+            timestamp: payload.timestamp,
+            msg: payload.msg
           }));
       });
     });
@@ -85,29 +81,27 @@ describe('chat reducer chats', () => {
       sdkActionTypes.forEach((actionType) => {
         describe(`when a ${actionType} action is dispatched`, () => {
           let state,
-            testPayload = {
-              detail: {
-                timestamp: Date.now(),
-                nick: 'person:x',
-                display_name: 'Mr X'
-              }
-            };
+            detail;
 
           beforeEach(() => {
-            const action = {
-              type: actionType,
-              payload: testPayload
+            detail = {
+              timestamp: Date.now(),
+              nick: 'visitor:x',
+              display_name: 'Mr X'
             };
 
-            state = reducer(initialState, action);
+            state = reducer(initialState, {
+              type: actionType,
+              payload: { detail: detail }
+            });
           });
 
           it('adds the message to the chats collection', () => {
             expect(state.length)
               .toEqual(1);
 
-            expect(state.toObject()[testPayload.detail.timestamp])
-              .toEqual(jasmine.objectContaining(testPayload.detail));
+            expect(state.toObject()[detail.timestamp])
+              .toEqual(jasmine.objectContaining(detail));
           });
         });
       });

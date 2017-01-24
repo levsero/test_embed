@@ -32,16 +32,18 @@ describe('chat reducer departments', () => {
     });
 
     describe('when a SDK_DEPARTMENT_UPDATE action is dispatched', () => {
-      let payload = {
+      let payload,
+        newState;
+
+      beforeEach(() => {
+        payload = {
           detail: {
             id: 123,
             name: 'Helpdesk',
             status: 'online'
           }
-        },
-        newState;
+        };
 
-      beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.SDK_DEPARTMENT_UPDATE,
           payload: payload

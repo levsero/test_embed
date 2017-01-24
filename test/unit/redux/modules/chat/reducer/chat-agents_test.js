@@ -80,20 +80,22 @@ describe('chat reducer agents', () => {
     });
 
     describe('when a SDK_CHAT_MEMBER_JOIN action is dispatched', () => {
-      let payload = {
-        detail: {
-          type: 'chat.memberjoin',
-          nick: '',
-          display_name: '',
-          timestamp: Date.now()
-        }
-      };
+      let payload;
+
+      beforeAll(() => {
+        payload = {
+          detail: {
+            type: 'chat.memberjoin',
+            nick: '',
+            display_name: '',
+            timestamp: Date.now()
+          }
+        };
+      });
 
       describe('when the member is an agent', () => {
-        let agentNick = 'agent:mcbob';
-
         beforeEach(() => {
-          payload.detail.nick = agentNick;
+          payload.detail.nick = 'agent:mcbob';
 
           state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_JOIN,
@@ -102,18 +104,14 @@ describe('chat reducer agents', () => {
         });
 
         it('adds an agent setting the nick property to payload.detail.nick', () => {
-          expect(state[agentNick])
-            .toEqual({
-              nick: payload.detail.nick
-            });
+          expect(state['agent:mcbob'].nick)
+            .toEqual(payload.detail.nick);
         });
       });
 
       describe('when the member is a visitor', () => {
-        let visitorNick = 'someguy';
-
         beforeEach(() => {
-          payload.detail.nick = visitorNick;
+          payload.detail.nick = 'someguy';
 
           state = reducer(initialState, {
             type: actionTypes.SDK_CHAT_MEMBER_JOIN,
