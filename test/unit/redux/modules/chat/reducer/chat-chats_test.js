@@ -1,8 +1,8 @@
 import SortedMap from 'collections/sorted-map';
 
-import * as chatActionTypes from '../../../../../../src/redux/modules/chat/chat-action-types';
+import * as chatActionTypes from '/redux/modules/chat/chat-action-types';
 
-describe('chat reducer chats', () => {
+fdescribe('chat reducer chats', () => {
   let reducer,
     actionTypes,
     initialState;
@@ -45,7 +45,7 @@ describe('chat reducer chats', () => {
           timestamp: Date.now(),
           msg: 'Hi',
           nick: 'visitor',
-          display_name: 'Visitor 123' // eslint-disable-line camelcase
+          display_name: 'Visitor 123'
         };
       });
 
@@ -89,7 +89,7 @@ describe('chat reducer chats', () => {
               detail: {
                 timestamp: Date.now(),
                 nick: 'person:x',
-                display_name: 'Mr X' // eslint-disable-line camelcase
+                display_name: 'Mr X'
               }
             };
 

@@ -63,7 +63,7 @@ describe('chat redux actions', () => {
     beforeAll(() => {
       message = 'Hi there';
       mockVisitor = {
-        display_name: 'Visitor 123', // eslint-disable-line camelcase
+        display_name: 'Visitor 123',
         nick: 'visitor'
       };
       mockStore = createMockStore({
@@ -112,7 +112,7 @@ describe('chat redux actions', () => {
                 msg: message,
                 timestamp: Date.now(),
                 nick: mockVisitor.nick,
-                display_name: mockVisitor.display_name // eslint-disable-line camelcase
+                display_name: mockVisitor.display_name
               }
             });
         });

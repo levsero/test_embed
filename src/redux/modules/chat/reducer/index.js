@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { combineReducers } from 'redux';
 
 import accountStatus from './chat-account-status';

@@ -37,8 +37,8 @@ describe('chat reducer agents', () => {
         payload = {
           detail: {
             nick: 'agent:mcbob',
-            display_name: 'McBob', // eslint-disable-line camelcase
-            avatar_path: 'http://www.example.com/avatar.png', // eslint-disable-line camelcase
+            display_name: 'McBob',
+            avatar_path: 'http://www.example.com/avatar.png',
             title: 'Bobliest Bob'
           }
         };
@@ -79,12 +79,12 @@ describe('chat reducer agents', () => {
       });
     });
 
-    describe(`when a SDK_CHAT_MEMBER_JOIN action is dispatched`, () => {
+    describe('when a SDK_CHAT_MEMBER_JOIN action is dispatched', () => {
       let payload = {
         detail: {
           type: 'chat.memberjoin',
           nick: '',
-          display_name: '', // eslint-disable-line camelcase
+          display_name: '',
           timestamp: Date.now()
         }
       };

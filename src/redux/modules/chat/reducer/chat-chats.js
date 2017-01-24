@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import SortedMap from 'collections/sorted-map';
 
 import {

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import zChat from 'vendor/web-sdk';
 
 import {
@@ -16,7 +15,7 @@ export function sendMsg(msg) {
       if (!err) {
         const { visitor } = getState().chat;
 
-        dispatch(sendMsgSuccess(msg, visitor.nick, visitor.display_name));
+        dispatch(sendMsgSuccess(msg, visitor));
       } else {
         dispatch(sendMsgFailure(err));
       }
@@ -37,14 +36,14 @@ function sendMsgRequest() {
   };
 }
 
-function sendMsgSuccess(msg, nick, display_name) {
+function sendMsgSuccess(msg, visitor) {
   return {
     type: SENT_CHAT_MSG_SUCCESS,
     payload: {
       type: 'chat.msg',
       msg,
-      nick,
-      display_name,
+      nick: visitor.nick,
+      display_name: visitor.display_name,
       timestamp: Date.now()
     }
   };
