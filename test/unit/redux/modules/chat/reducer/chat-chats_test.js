@@ -1,8 +1,8 @@
 import SortedMap from 'collections/sorted-map';
 
-import * as chatActionTypes from '/redux/modules/chat/chat-action-types';
+import * as chatActionTypes from '../../../../../../src/redux/modules/chat/chat-action-types';
 
-fdescribe('chat reducer chats', () => {
+describe('chat reducer chats', () => {
   let reducer,
     actionTypes,
     initialState;
