@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import classNames from 'classnames';
+import _ from 'lodash';
+
+import { locals as styles } from './Dropdown.sass';
+import { DropdownOption } from 'src/component/field/DropdownOption';
 
 export class Dropdown extends Component {
   static propTypes = {
-    disabled: PropTypes.bool,
     onChange: PropTypes.func,
     options: PropTypes.array,
     placeholder: PropTypes.string,
@@ -34,11 +36,9 @@ export class Dropdown extends Component {
     event.stopPropagation();
     event.preventDefault();
 
-    if (!this.props.disabled) {
-      this.setState({
-        isOpen: !this.state.isOpen
-      });
-    }
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
   }
 
   setValue = (value, title) => {
@@ -64,7 +64,7 @@ export class Dropdown extends Component {
     return (
       <div
         key={value}
-        className='u-border u-paddingAS'
+        className={styles.field}
         onMouseDown={this.setValue.bind(this, value, title)}
         onClick={this.setValue.bind(this, value, title)}>
         {title}
@@ -72,42 +72,49 @@ export class Dropdown extends Component {
     );
   }
 
-  buildMenu = () => {
-    let { options } = this.props;
-    let ops = options.map((option) => {
-      if (option.type === 'group') {
-        let groupTitle = (<div className={''}>{option.name}</div>);
-        let _options = option.items.map((item) => this.renderOption(item));
+  renderDropdown = (options) => {
+    const optionObj = [];
 
-        return (
-          <div className='u-border u-paddingAS' key={option.name}>
-            {groupTitle}
-            {_options}
-          </div>
-        );
+    const optionGroups = _.groupBy(options, (option) => {
+      return (option.title.indexOf('::') !== -1)
+           ? option.title.split('::')[0]
+           : '';
+    });
+
+    _.forEach(optionGroups, (group, key) => {
+      // if not nested anymore will be blank
+      if (_.isEmpty(key)) {
+        _.forEach(group, (option) => {
+          if (!_.includes(_.keys(optionGroups), option.title)) {
+            optionObj.push(this.renderOption(option));
+          }
+        });
       } else {
-        return this.renderOption(option);
+        // Remove the group title from the title.
+        _.forEach(group, (item) => {
+          item.title = item.title.substring(item.title.indexOf('::') + 2);
+        });
+
+        // And look for further nesting
+        const nestedOptions = this.renderDropdown(group);
+
+        optionObj.push(
+          <DropdownOption title={key} nestedOptions={nestedOptions} />
+        );
       }
     });
 
-    return ops.length ? ops : <div className={`noresults`}>No options found</div>;
+    return optionObj;
   }
 
   render = () => {
-    const disabledClass = this.props.disabled ? 'Dropdown-disabled' : '';
     const placeHolderValue = typeof this.state.selected === 'string' ? this.state.selected : this.state.selected.title;
     let value = (<div className={`placeholder`}>{placeHolderValue}</div>);
-    let menu = this.state.isOpen ? <div className={`menu`}>{this.buildMenu()}</div> : null;
-
-    let dropdownClass = classNames({
-      'u-border u-paddingAS': true,
-      'is-open': this.state.isOpen
-    });
+    let menu = this.state.isOpen ? <div className={styles.menu}>{this.renderDropdown(this.props.options)}</div> : null;
 
     return (
-      <div className={dropdownClass}>
+      <div className={styles.container}>
         <div
-          className={`control ${disabledClass}`}
           onMouseDown={this.handleMouseDown.bind(this)}
           onTouchEnd={this.handleMouseDown.bind(this)}>
           {value}

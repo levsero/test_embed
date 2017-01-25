@@ -1,0 +1,16 @@
+@import '../../styles/_vars.scss';
+
+.field {
+  composes: u-border u-paddingAS from '../../styles/utils.scss';
+  background-color: $zd-color-white;
+}
+
+.container {
+  composes: u-marginBM u-border u-paddingAS u-posRelative from '../../styles/utils.scss';
+}
+
+.menu {
+  composes: u-posAbsolute u-hsizeAll from '../../styles/utils.scss';
+  z-index: 1;
+  left: 0;
+}
