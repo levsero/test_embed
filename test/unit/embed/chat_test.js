@@ -454,19 +454,23 @@ describe('embed.chat', () => {
     describe('validateZopim', () => {
       const chatName = 'Montblanc';
       const zopimId = '1a2b3c';
-      const ArbitraryClass = class {
-        constructor() {
-          this.foo = 'foo';
-        }
-      };
-      const subjects = [undefined, NaN, Infinity, -Infinity, 1, -2, [], 'Ritz Malheur', new Date(), /pattern/, new ArbitraryClass()];
+      const ArbitraryClass = class {};
+      const subjects = [
+        undefined,
+        NaN, Infinity, -Infinity, 1, -2,
+        [],
+        'Ritz Malheur',
+        new Date(),
+        /pattern/,
+        new ArbitraryClass()
+      ];
 
       subjects.forEach((zopimValue) => {
         describe(`when $zopim is a ${Object.prototype.toString.call(zopimValue)}`, () => {
           beforeEach(() => {
             mockGlobals.win.$zopim = zopimValue;
 
-            chat.create(chatName, { zopimId: zopimId });
+            chat.create(chatName, { zopimId });
             chat.render(chatName);
           });
 
@@ -482,7 +486,7 @@ describe('embed.chat', () => {
             .toEqual(2);
 
             mockGlobals.win.$zopim.set(() => {});
-            mockGlobals.win.$zopim(() => mockGlobals.win.$zopim.livechat.setEmail('Marche@Radiuju.com'));
+            mockGlobals.win.$zopim(() => {});
 
             expect(mockGlobals.win.$zopim.set._.length)
             .toEqual(1);
