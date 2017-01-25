@@ -23,43 +23,23 @@ export class Dropdown extends Component {
     };
   }
 
-  componentWillReceiveProps = (newProps) => {
-    if (newProps.value && newProps.value !== this.state.selected) {
-      this.setState({selected: newProps.value});
-    } else if (!newProps.value && newProps.placeholder) {
-      this.setState({selected: { title: newProps.placeholder, value: '' }});
-    }
-  }
-
   handleMouseDown = (event) => {
     if (event.type === 'mousedown' && event.button !== 0) return;
     event.stopPropagation();
     event.preventDefault();
 
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
+    this.setState({ isOpen: !this.state.isOpen });
   }
 
   setValue = (value, title) => {
-    let newState = {
+    this.setState({
       selected: { value, title },
       isOpen: false
-    };
-
-    this.fireChangeEvent(newState);
-    this.setState(newState);
-  }
-
-  fireChangeEvent (newState) {
-    if (newState.selected !== this.state.selected && this.props.onChange) {
-      this.props.onChange(newState.selected);
-    }
+    });
   }
 
   renderOption = (option) => {
-    let value = option.value || option.title || option;
-    let title = option.title || option.value || option;
+    const { value, title } = option;
 
     return (
       <div
@@ -72,8 +52,10 @@ export class Dropdown extends Component {
     );
   }
 
-  renderDropdown = (options) => {
+  renderDropdown = (optionsProp) => {
     const optionObj = [];
+
+    const options = _.cloneDeep(optionsProp);
 
     const optionGroups = _.groupBy(options, (option) => {
       return (option.title.indexOf('::') !== -1)
@@ -92,15 +74,14 @@ export class Dropdown extends Component {
       } else {
         // Remove the group title from the title.
         _.forEach(group, (item) => {
+
           item.title = item.title.substring(item.title.indexOf('::') + 2);
         });
 
         // And look for further nesting
         const nestedOptions = this.renderDropdown(group);
 
-        optionObj.push(
-          <DropdownOption title={key} nestedOptions={nestedOptions} />
-        );
+        optionObj.push(<DropdownOption title={key} nestedOptions={nestedOptions} />);
       }
     });
 
@@ -108,15 +89,14 @@ export class Dropdown extends Component {
   }
 
   render = () => {
-    const placeHolderValue = typeof this.state.selected === 'string' ? this.state.selected : this.state.selected.title;
-    let value = (<div className={`placeholder`}>{placeHolderValue}</div>);
+    let value = (<div className={`placeholder`}>{this.state.selected.title}</div>);
     let menu = this.state.isOpen ? <div className={styles.menu}>{this.renderDropdown(this.props.options)}</div> : null;
 
     return (
       <div className={styles.container}>
         <div
-          onMouseDown={this.handleMouseDown.bind(this)}
-          onTouchEnd={this.handleMouseDown.bind(this)}>
+          onMouseDown={this.handleMouseDown}
+          onTouchEnd={this.handleMouseDown}>
           {value}
           <span className={`arrow`} />
         </div>
