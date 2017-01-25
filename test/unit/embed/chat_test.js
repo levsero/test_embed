@@ -452,52 +452,43 @@ describe('embed.chat', () => {
     });
 
     describe('validateZopim', () => {
-      const chatName = 'montblanc';
+      const chatName = 'Montblanc';
       const zopimId = '1a2b3c';
+      const ArbitraryClass = class {
+        constructor() {
+          this.foo = 'foo';
+        }
+      };
+      const subjects = [undefined, NaN, Infinity, -Infinity, 1, -2, [], 'Ritz Malheur', new Date(), /pattern/, new ArbitraryClass()];
 
-      describe('when $zopim is undefined', () => {
-        beforeEach(() => {
-          mockGlobals.win.$zopim = undefined;
-        });
+      subjects.forEach((zopimValue) => {
+        describe('when $zopim is a ' + Object.prototype.toString.call(zopimValue), () => {
+          beforeEach(() => {
+            mockGlobals.win.$zopim = zopimValue;
 
-        it('re-initializes the $zopim variable with a callback function', () => {
-          chat.create(chatName, { zopimId: zopimId });
-          chat.render(chatName);
+            chat.create(chatName, { zopimId: zopimId });
+            chat.render(chatName);
+          });
 
-          expect(typeof mockGlobals.win.$zopim)
+          it('re-initializes the $zopim variable with a callback function', () => {
+            expect(typeof mockGlobals.win.$zopim)
             .toEqual('function');
+          });
 
-          // Verify that queue callback exists
-          expect(mockGlobals.win.$zopim._.length)
+          it('sets up the queues correctly', () => {
+            expect(mockGlobals.win.$zopim.set._.length)
+            .toEqual(0);
+            expect(mockGlobals.win.$zopim._.length)
             .toEqual(2);
 
-          mockGlobals.win.$zopim(() => mockGlobals.win.$zopim.livechat.setEmail('marche@radiuju.com'));
+            mockGlobals.win.$zopim.set(() => {});
+            mockGlobals.win.$zopim(() => mockGlobals.win.$zopim.livechat.setEmail('Marche@Radiuju.com'));
 
-          expect(mockGlobals.win.$zopim._.length)
+            expect(mockGlobals.win.$zopim.set._.length)
+            .toEqual(1);
+            expect(mockGlobals.win.$zopim._.length)
             .toEqual(3);
-        });
-      });
-
-      describe('when $zopim is not a function type', () => {
-        beforeEach(() => {
-          mockGlobals.win.$zopim = {};
-        });
-
-        it('re-initializes the $zopim variable with a callback function', () => {
-          chat.create(chatName, { zopimId: zopimId });
-          chat.render(chatName);
-
-          expect(typeof mockGlobals.win.$zopim)
-            .toEqual('function');
-
-          // Verify that queue callback exists
-          expect(mockGlobals.win.$zopim._.length)
-            .toEqual(2);
-
-          mockGlobals.win.$zopim(() => mockGlobals.win.$zopim.livechat.setEmail('marche@radiuju.com'));
-
-          expect(mockGlobals.win.$zopim._.length)
-            .toEqual(3);
+          });
         });
       });
     });
