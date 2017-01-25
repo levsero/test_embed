@@ -462,7 +462,7 @@ describe('embed.chat', () => {
       const subjects = [undefined, NaN, Infinity, -Infinity, 1, -2, [], 'Ritz Malheur', new Date(), /pattern/, new ArbitraryClass()];
 
       subjects.forEach((zopimValue) => {
-        describe('when $zopim is a ' + Object.prototype.toString.call(zopimValue), () => {
+        describe(`when $zopim is a ${Object.prototype.toString.call(zopimValue)}`, () => {
           beforeEach(() => {
             mockGlobals.win.$zopim = zopimValue;
 
