@@ -6,27 +6,31 @@ import { locals as styles } from './Dropdown.sass';
 export class DropdownOption extends Component {
   static propTypes = {
     title: PropTypes.string,
-    nestedOptions: PropTypes.object
+    nestedOptions: PropTypes.object,
+    onClick: PropTypes.func
   }
 
   constructor (props) {
     super(props);
-    this.state = {
-      isOpen: false
-    };
   }
 
   handleDropdownOpen = () => {
-    this.setState({ isOpen: !this.state.isOpen });
+    if (this.props.nestedOptions !== null) {
+      // this.setState({ isOpen: !this.state.isOpen });
+      this.props.updateScreen(this.props.nestedOptions, this.props.title);
+    } else {
+      this.props.onClick();
+    }
   }
 
   render = () => {
-    const nestedFields = this.state.isOpen ? this.props.nestedOptions : null;
+    const hasNestedFields = this.props.nestedOptions !== null;
+    const nestedFields = hasNestedFields ? this.props.nestedOptions : null;
+    const arrow = hasNestedFields ? '->' : '';
 
     return (
-      <div className={styles.container} key={this.props.title}>
-        <div className={''} onClick={this.handleDropdownOpen.bind(this)}>- {this.props.title}</div>
-        <div>{nestedFields}</div>
+      <div className={styles.field} key={this.props.title}>
+        <div className={''} onClick={this.handleDropdownOpen}>{arrow} {this.props.title}</div>
       </div>
     );
   }
