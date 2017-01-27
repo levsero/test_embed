@@ -360,6 +360,7 @@ function init(embedsAccessible, params = {}) {
           c.broadcast(`${launcher}.hide`);
         } else {
           c.broadcast(`${launcher}.show`);
+          setScrollKiller(false);
         }
 
         trackChatStarted();
