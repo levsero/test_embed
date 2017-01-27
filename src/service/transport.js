@@ -196,6 +196,7 @@ function automaticAnswersApiRequest(payload, formData = {}) {
   superagent(payload.method.toUpperCase(), buildFullUrl(payload.path))
     // superAgent sets type('json') by default, which breaks CORS.
     // setting 'form-data' results in 'Content-type: www-url-form-encoded' to prevent a preflight OPTIONS request.
+    .query(payload.queryParams)
     .type('form-data')
     .send(formData)
     .end((err, res) => {

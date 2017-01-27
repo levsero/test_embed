@@ -126,10 +126,10 @@ function postRender() {
 
   if (!authToken) return;
 
-  fetchTicketFn(authToken);
+  fetchTicket(authToken);
 }
 
-function fetchTicketFn(authToken) {
+function fetchTicket(authToken) {
   const fetchTicketDone = (res) => {
     const ticket = res.body.ticket;
     const ticketUnsolved = _.includes(unsolvedStatusIds, ticket.status_id);
@@ -148,7 +148,12 @@ function fetchTicketFn(authToken) {
   };
 
   const payload = {
-    path: `/requests/automatic-answers/embed/ticket/fetch?auth_token=${authToken}`,
+    path: '/requests/automatic-answers/embed/ticket/fetch',
+    queryParams: {
+      'auth_token': authToken,
+      source: 'embed',
+      mobile: isMobileBrowser()
+    },
     method: 'get',
     callbacks: {
       done: fetchTicketDone,
@@ -160,10 +165,12 @@ function fetchTicketFn(authToken) {
 }
 
 function solveTicket(authToken, articleId, callbacks) {
-  const path = `/requests/automatic-answers/embed/ticket/solve`;
-  const queryParams = `?source=embed&mobile=${isMobileBrowser()}`;
   const payload = {
-    path: path + queryParams,
+    path: '/requests/automatic-answers/embed/ticket/solve',
+    queryParams: {
+      source: 'embed',
+      mobile: isMobileBrowser()
+    },
     method: 'post',
     callbacks: callbacks
   };
@@ -176,10 +183,12 @@ function solveTicket(authToken, articleId, callbacks) {
 }
 
 function markArticleIrrelevant(authToken, articleId, reason, callbacks) {
-  const path = `/requests/automatic-answers/embed/article/irrelevant`;
-  const queryParams = `?source=embed&mobile=${isMobileBrowser()}`;
   const payload = {
-    path: path + queryParams,
+    path: '/requests/automatic-answers/embed/article/irrelevant',
+    queryParams: {
+      source: 'embed',
+      mobile: isMobileBrowser()
+    },
     method: 'post',
     callbacks: callbacks
   };
@@ -197,5 +206,6 @@ export const automaticAnswers = {
   get: get,
   render: render,
   postRender: postRender,
-  markArticleIrrelevant: markArticleIrrelevant
+  markArticleIrrelevant: markArticleIrrelevant,
+  fetchTicket: fetchTicket
 };
