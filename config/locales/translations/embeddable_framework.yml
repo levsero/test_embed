@@ -382,6 +382,11 @@ parts:
       screenshot: "https://zendesk.box.com/s/0yq1wme6li36l5pftk7xsrlxi8kvwhvn"
       value: "Let us know and we'll close your request %(requestLink)s."
   - translation:
+      key: "embeddable_framework.automaticAnswers.desktop.solve.subtext_v2"
+      title: "Clarification to the user that clicking yes will close their request. %()s stands for string and does not need to be translated."
+      screenshot: "https://zendesk.box.com/s/ftyeesyx3m5x09j2te62bv3qcvzqt4r9"
+      value: "If it does, we can close your recent request %(requestLink)s"
+  - translation:
       key: "embeddable_framework.automaticAnswers.desktop.request_url"
       title: "Url of the request page. %()s stands for string and does not need to be translated."
       screenshot: "https://zendesk.box.com/s/0yq1wme6li36l5pftk7xsrlxi8kvwhvn"
@@ -398,10 +403,25 @@ parts:
       screenshot: "https://zendesk.box.com/s/0yq1wme6li36l5pftk7xsrlxi8kvwhvn"
       value: "No"
   - translation:
+      key: "embeddable_framework.automaticAnswers.desktop.solve.closed"
+      title: "Confirmation message when request successfully closed."
+      screenshot: "https://zendesk.box.com/s/0dynx26jv0bx87ji3g3nf0sp2riw2m10"
+      value: "Nice! Your request has been closed"
+  - translation:
       key: "embeddable_framework.automaticAnswers.desktop.irrelevant.question"
       title: "Ask the user for feedback on why the article didn't answer their question. Do not use YOUR question but THE question (or similar) to avoid formal/informal issues."
       screenshot: "https://zendesk.box.com/s/5hmtud5zlowalr7puxgvra9ur170sgtp"
       value: "Why didn't the article answer your question?"
+  - translation:
+      key: "embeddable_framework.automaticAnswers.desktop.irrelevant.question_v2"
+      title: "Ask the user for feedback on why the article didn't answer their question."
+      screenshot: "https://zendesk.box.com/s/28bxbvxczuie8znlue2wker28fplpsq7"
+      value: "Why didn't it answer your question?"
+  - translation:
+      key: "embeddable_framework.automaticAnswers.mobile.irrelevant.question"
+      title: "Ask the user for feedback on why the article didn't answer their question."
+      screenshot: "https://zendesk.box.com/s/g4cz4iwtlpoo2cr49odoj0w31j8a4bba"
+      value: "Why not?"
   - translation:
       key: "embeddable_framework.automaticAnswers.desktop.irrelevant.not_related"
       title: "Choice for the user to pick regarding why the article didn't answer their question."
@@ -417,6 +437,11 @@ parts:
       title: "Confirmation text once irrelevant article feedback has been submitted. Do not use YOUR feedback but THE feedback (or similar) to avoid formal/informal issues."
       screenshot: "https://zendesk.box.com/s/dujivyzoqio0rihqw02p6en24txbt10c"
       value: "Thanks for your feedback."
+  - translation:
+      key: "embeddable_framework.automaticAnswers.desktop.irrelevant.thanks_for_feedback_v2"
+      title: "Confirmation text once irrelevant article feedback has been submitted."
+      screenshot: "https://zendesk.box.com/s/ucnotxaimioe7714iu6n7ttgpa0zqp1d"
+      value: "Thanks for your feedback"
 
   # Channel Choice
   - translation:
