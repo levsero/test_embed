@@ -360,6 +360,7 @@ function init(embedsAccessible, params = {}) {
           c.broadcast(`${launcher}.hide`);
         } else {
           c.broadcast(`${launcher}.show`);
+          setScrollKiller(false);
         }
 
         trackChatStarted();
@@ -399,23 +400,26 @@ function init(embedsAccessible, params = {}) {
       c.broadcast('authentication.renew');
     }
 
-    if (state.activeEmbed !== chat &&
-        chatAvailable() &&
-        state[`${chat}.unreadMsgs`]) {
+    // When opening chat on mobile, directly broadcast a chat.show event.
+    // Because zopim can open in a new tab, we need to make sure we don't make a call to `setScrollKiller`.
+    // If we do the host page will be frozen when the user exits the zopim chat tab.
+    // Note: `showEmbed` will invoke `setScrollKiller`.
+    if (state.activeEmbed === chat && isMobileBrowser()) {
+      c.broadcast(`${chat}.show`);
+    } else if (chatAvailable() && state[`${chat}.unreadMsgs`]) {
       state[`${chat}.unreadMsgs`] = 0;
       state.activeEmbed = chat;
-    }
+      c.broadcast(`${chat}.show`);
+    } else {
+      c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
 
-    if (state.activeEmbed !== chat || !isMobileBrowser()) {
-      c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() });
+      /**
+       * This timeout mitigates the Ghost Click produced when the launcher
+       * button is on the left, using a mobile device with small screen
+       * e.g. iPhone4. It's not a bulletproof solution, but it helps
+       */
+      setTimeout(() => showEmbed(state), 0);
     }
-
-    /**
-     * This timeout mitigates the Ghost Click produced when the launcher
-     * button is on the left, using a mobile device with small screen
-     * e.g. iPhone4. It's not a bulletproof solution, but it helps
-     */
-    setTimeout(() => showEmbed(state), 0);
   });
 
   c.intercept(`${helpCenter}.onClose`, (_broadcast) => {
