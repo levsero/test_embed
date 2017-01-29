@@ -155,9 +155,27 @@ function solveTicketFn(authToken, articleId, callbacks) {
   transport.automaticAnswersApiRequest(payload, formData);
 }
 
+function markArticleIrrelevant(authToken, articleId, reason, callbacks) {
+  const path = `/requests/automatic-answers/embed/article/irrelevant`;
+  const queryParams = `?source=embed&mobile=${isMobileBrowser()}`;
+  const payload = {
+    path: path + queryParams,
+    method: 'post',
+    callbacks: callbacks
+  };
+  const formData = {
+    'auth_token' : authToken,
+    'article_id' : articleId,
+    'reason' : reason
+  };
+
+  transport.automaticAnswersApiRequest(payload, formData);
+}
+
 export const automaticAnswers = {
   create: create,
   get: get,
   render: render,
-  postRender: postRender
+  postRender: postRender,
+  markArticleIrrelevant: markArticleIrrelevant
 };
