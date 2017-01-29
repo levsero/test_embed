@@ -156,7 +156,7 @@ function solveTicketFn(authToken, articleId, callbacks) {
 }
 
 function markArticleIrrelevant(authToken, articleId, reason, callbacks) {
-  const path = `/requests/automatic-answers/embed/ticket/irrelevant`;
+  const path = `/requests/automatic-answers/embed/article/irrelevant`;
   const queryParams = `?source=embed&mobile=${isMobileBrowser()}`;
   const payload = {
     path: path + queryParams,

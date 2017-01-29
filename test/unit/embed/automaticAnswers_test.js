@@ -400,7 +400,7 @@ describe('embed.automaticAnswers', () => {
     describe('payload configuration and callbacks', () => {
       it('sends a correctly configured payload to automaticAnswersApiRequest', () => {
         expect(mostRecent.path)
-          .toBe(`/requests/automatic-answers/embed/ticket/irrelevant?source=embed&mobile=false`);
+          .toBe(`/requests/automatic-answers/embed/article/irrelevant?source=embed&mobile=false`);
 
         expect(mostRecent.method)
           .toEqual('post');
