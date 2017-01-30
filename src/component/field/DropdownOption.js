@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 
-import { locals as styles } from './Dropdown.sass';
+import { locals as styles } from './DropdownOption.sass';
 
 export class DropdownOption extends Component {
   static propTypes = {
@@ -23,14 +23,18 @@ export class DropdownOption extends Component {
     }
   }
 
+  renderNextArrow = () => {
+    return <div className={styles.arrowNext}></div>;
+  }
+
+
   render = () => {
     const hasNestedFields = this.props.nestedOptions !== null;
-    const nestedFields = hasNestedFields ? this.props.nestedOptions : null;
-    const arrow = hasNestedFields ? '->' : '';
+    const arrow = hasNestedFields ? this.renderNextArrow() : '';
 
     return (
-      <div className={styles.field} key={this.props.title}>
-        <div className={''} onClick={this.handleDropdownOpen}>{arrow} {this.props.title}</div>
+      <div className={styles.field} key={this.props.title} onClick={this.handleDropdownOpen}>
+        <div>{this.props.title} {arrow}</div>
       </div>
     );
   }

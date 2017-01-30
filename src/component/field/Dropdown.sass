@@ -1,19 +1,58 @@
 @import '../../styles/_vars.scss';
 
 .field {
-  composes: u-border u-paddingAS from '../../styles/utils.scss';
-  background-color: $zd-color-white;
-  border-radius: #{4/$font-size}rem;
+  composes: u-paddingAS from '../../styles/utils.scss';
+
+  &:hover {
+    background-color: $zd-color-white-smoke;
+  }
 }
 
 .container {
   composes: u-marginBM u-border u-paddingAS u-posRelative from '../../styles/utils.scss';
   border-radius: #{4/$font-size}rem;
   background-color: $zd-color-white;
+  color: $zd-color-dark-gray;
 }
 
 .menu {
-  composes: u-posAbsolute u-hsizeAll from '../../styles/utils.scss';
-  z-index: 1;
+  composes: u-posAbsolute u-border u-hsizeAll from '../../styles/utils.scss';
+  z-index: 10;
   left: 0;
+  top: #{35/$font-size}rem;
+  height: #{200/$font-size}rem;
+  overflow: hidden;
+  background-color: $zd-color-white;
+}
+
+.arrow {
+  composes: u-pullRight u-paddingTT from '../../styles/utils.scss';
+}
+
+.arrowOpen {
+  svg {
+    transform: rotate(180deg);
+  }
+}
+
+.arrowBack {
+  composes: u-pullLeft from '../../styles/utils.scss';
+
+  width: 0;
+  height: 0;
+  border-top: #{5/$font-size}rem solid transparent;
+  border-bottom: #{5/$font-size}rem solid transparent;
+  border-right: #{7/$font-size}rem solid $zd-color-aluminum;
+
+  margin-top: #{1/$font-size}rem;
+  margin-right: #{8/$font-size}rem;
+}
+
+.back {
+  composes: u-borderBottom from '../../styles/utils.scss';
+}
+
+.label {
+  composes: Form-fieldLabel from '../../styles/components/Form.scss';
+  composes: u-textXHeight from '../../styles/utils.scss';
 }

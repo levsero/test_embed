@@ -57,7 +57,7 @@ const getCustomFields = (customFields, formState, options) => {
         });
 
         return options.ticketForms
-             ? <Dropdown options={field.options} value={field.options[0]} onChange={() =>{}} />
+             ? <Dropdown {...sharedProps} options={field.options} value={field.options[0]} />
              : <SelectField {...sharedProps} options={field.options} />;
 
       case 'integer':

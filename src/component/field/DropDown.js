@@ -3,6 +3,8 @@ import _ from 'lodash';
 
 import { locals as styles } from './Dropdown.sass';
 import { DropdownOption } from 'src/component/field/DropdownOption';
+import { Icon } from 'component/Icon';
+import { i18n } from 'service/i18n';
 
 export class Dropdown extends Component {
   static propTypes = {
@@ -101,29 +103,51 @@ export class Dropdown extends Component {
     return optionObj;
   }
 
+  renderBackArrow = () => {
+    if (this.state.previousScreen.length <= 0) return;
+
+    return (
+      <div
+        className={`${styles.field} ${styles.back}`}
+        onClick={this.onBackClick}>
+        <div className={styles.arrowBack} />
+        {i18n.t('embeddable_framework.navigation.back')}
+      </div>
+    );
+  }
+
   renderMenu = () => {
     if (!this.state.isOpen) return;
 
-    const back = (this.state.previousScreen.length > 0)
-               ? <div className={styles.field} onClick={this.onBackClick}>BACK</div>
-               : null;
+    return (
+      <div className={styles.menu}>
+        {this.renderBackArrow()}
+        {this.state.displayedScreen}
+      </div>
+    );
+  }
+
+  renderArrow = () => {
+    const iconOpenClasses = this.state.isOpen ? styles.arrowOpen : '';
 
     return (
-      <div>
-        <div className={styles.menu}>{back}{this.state.displayedScreen}</div>
-      </div>
+      <Icon type='Icon--caret' className={`${styles.arrow} ${iconOpenClasses}`} />
     );
   }
 
   render = () => {
     return (
-      <div className={styles.container}>
-        <div
-          onMouseDown={this.handleMouseDown}
-          onTouchEnd={this.handleMouseDown}>
-          {this.state.selected.title}
+      <div>
+        <div className={styles.label}>{this.props.placeholder}</div>
+        <div className={styles.container}>
+          <div
+            onMouseDown={this.handleMouseDown}
+            onTouchEnd={this.handleMouseDown}>
+            {this.state.selected.title}
+            {this.renderArrow()}
+          </div>
+          {this.renderMenu()}
         </div>
-        {this.renderMenu()}
       </div>
     );
   }
