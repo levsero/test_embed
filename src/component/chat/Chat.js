@@ -8,7 +8,7 @@ import { ChatMessage } from 'component/chat/ChatMessage';
 import { Container } from 'component/container/Container';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
-import { sendMsg, updateCurrentMsg } from 'src/redux/actions/chat';
+import { sendMsg, updateCurrentMsg } from 'src/redux/modules/chat';
 
 import { locals as styles } from './Chat.sass';
 

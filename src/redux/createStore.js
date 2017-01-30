@@ -2,7 +2,7 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 
-import reducer from 'src/redux/reducers';
+import reducer from 'src/redux/modules/reducer';
 
 export default function() {
   const logger = createLogger();
@@ -10,10 +10,10 @@ export default function() {
                           ? window.parent.devToolsExtension()
                           : (a) => a;
 
-  const createStoreWithMiddleware = compose(
+  const storeEnhancers = [
     applyMiddleware(thunk, logger),
     devToolsExtension
-  )(createStore);
+  ];
 
-  return createStoreWithMiddleware(reducer);
+  return compose(...storeEnhancers)(createStore)(reducer);
 }

@@ -1,67 +1,92 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-let sendMsg,
-  updateCurrentMsg,
-  msgActionPayload,
+let actions,
+  actionTypes,
   mockStore,
-  mockSendChatMsg = jasmine.createSpy('sendChatMsg');
+  mockVisitor,
+  mockSendChatMsg = jasmine.createSpy('sendChatMsg'),
+  mockSendTyping = jasmine.createSpy('sendTyping');
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
 
 describe('chat redux actions', () => {
-  beforeEach(() => {
+  beforeAll(() => {
     mockery.enable();
 
     initMockRegistry({
       'vendor/web-sdk': {
-        sendChatMsg: mockSendChatMsg
+        sendChatMsg: mockSendChatMsg,
+        sendTyping: mockSendTyping
       }
     });
 
-    const actionsPath = buildSrcPath('redux/actions/chat');
+    const actionsPath = buildSrcPath('redux/modules/chat');
+    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
 
     mockery.registerAllowable(actionsPath);
+    mockery.registerAllowable(actionTypesPath);
 
-    sendMsg = requireUncached(actionsPath).sendMsg;
-    updateCurrentMsg = requireUncached(actionsPath).updateCurrentMsg;
-    msgActionPayload = requireUncached(actionsPath).msgActionPayload;
+    actions = requireUncached(actionsPath);
+    actionTypes = requireUncached(actionTypesPath);
+
+    mockVisitor = { display_name: 'Visitor 123', nick: 'visitor' };
+    mockStore = createMockStore({
+      chat: {
+        visitor: mockVisitor
+      }
+    });
 
     jasmine.clock().install();
     jasmine.clock().mockDate(Date.now());
   });
 
-  afterEach(() => {
-    jasmine.clock().uninstall();
-    mockery.deregisterAll();
+  afterAll(() => {
     mockery.disable();
+    mockery.deregisterAll();
+    jasmine.clock().uninstall();
   });
 
   describe('updateCurrentMsg', () => {
-    let action;
+    let message,
+      action;
 
     beforeEach(() => {
-      action = updateCurrentMsg('new message');
+      message = 'new message';
+      mockStore.dispatch(actions.updateCurrentMsg(message));
+      action = mockStore.getActions()[0];
     });
 
-    it('creates an action of type UPDATE_CHAT_MSG', () => {
+    it('dispatches an action of type UPDATE_CURRENT_MSG', () => {
       expect(action.type)
-        .toEqual('UPDATE_CHAT_MSG');
+        .toEqual(actionTypes.UPDATE_CURRENT_MSG);
     });
 
     it('has the message in the payload', () => {
       expect(action.payload)
-        .toEqual('new message');
+        .toEqual(message);
+    });
+
+    it('calls sendTyping(true) on the web sdk', () => {
+      expect(mockSendTyping)
+        .toHaveBeenCalledWith(true);
+    });
+
+    it('calls sendTyping(false) on the web sdk after 2 seconds', () => {
+      jasmine.clock().tick(2000);
+
+      expect(mockSendTyping)
+        .toHaveBeenCalledWith(false);
     });
   });
 
   describe('sendMsg', () => {
-    let message = 'Hi there';
+    let message;
 
     beforeEach(() => {
-      mockStore = createMockStore({});
-      mockStore.dispatch(sendMsg(message));
+      message = 'Hi there';
+      mockStore.dispatch(actions.sendMsg(message));
     });
 
     it('calls sendChatMsg on the web sdk', () => {
@@ -71,7 +96,9 @@ describe('chat redux actions', () => {
 
     it('dispatches a SENT_CHAT_MSG_REQUEST action', () => {
       expect(mockStore.getActions())
-        .toContain({ type: 'SENT_CHAT_MSG_REQUEST' });
+        .toContain({
+          type: actionTypes.SENT_CHAT_MSG_REQUEST
+        });
     });
 
     describe('Web SDK callback', () => {
@@ -91,8 +118,14 @@ describe('chat redux actions', () => {
         it('dispatches a SENT_CHAT_MSG_SUCCESS action with the message in payload', () => {
           expect(mockStore.getActions())
             .toContain({
-              type: 'SENT_CHAT_MSG_SUCCESS',
-              payload: msgActionPayload(message)
+              type: actionTypes.SENT_CHAT_MSG_SUCCESS,
+              payload: {
+                type: 'chat.msg',
+                msg: message,
+                timestamp: Date.now(),
+                nick: mockVisitor.nick,
+                display_name: mockVisitor.display_name
+              }
             });
         });
       });
@@ -110,7 +143,7 @@ describe('chat redux actions', () => {
         it('dispatches a SENT_CHAT_MSG_FAILURE action with the errors in the payload', () => {
           expect(mockStore.getActions())
             .toContain({
-              type: 'SENT_CHAT_MSG_FAILURE',
+              type: actionTypes.SENT_CHAT_MSG_FAILURE,
               payload: errors
             });
         });
