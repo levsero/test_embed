@@ -32,13 +32,14 @@ const agents = (state = initialState, action = {}) => {
         }
       };
     case SDK_AGENT_UPDATE:
-      const isTyping = (state[payload.detail.nick] || { typing: false }).typing;
+      const { nick: nickname } = payload.detail;
+      const isTyping = !!(state[nickname] && state[nickname].typing);
 
       return {
         ...state,
-        [payload.detail.nick]: {
+        [nickname]: {
           ...payload.detail,
-          nick: payload.detail.nick,
+          nick: nickname,
           typing: isTyping
         }
       };

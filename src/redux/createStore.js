@@ -15,7 +15,5 @@ export default function() {
     devToolsExtension
   ];
 
-  const store = compose(...storeEnhancers)(createStore)(reducer);
-
-  return store;
+  return compose(...storeEnhancers)(createStore)(reducer);
 }

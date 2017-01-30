@@ -94,18 +94,42 @@ describe('chat reducer agents', () => {
       });
 
       describe('when the member is an agent', () => {
-        beforeEach(() => {
+        beforeAll(() => {
           payload.detail.nick = 'agent:mcbob';
+        });
 
-          state = reducer(initialState, {
-            type: actionTypes.SDK_CHAT_MEMBER_JOIN,
-            payload: payload
+        describe('when the member does not exist in the state already', () => {
+          beforeEach(() => {
+            state = reducer(initialState, {
+              type: actionTypes.SDK_CHAT_MEMBER_JOIN,
+              payload: payload
+            });
+          });
+
+          it('adds an entry for the member', () => {
+            expect(state)
+              .toEqual(jasmine.objectContaining({
+                'agent:mcbob': { nick: payload.detail.nick }
+              }));
           });
         });
 
-        it('adds an agent setting the nick property to payload.detail.nick', () => {
-          expect(state['agent:mcbob'].nick)
-            .toEqual(payload.detail.nick);
+        describe('when the member exists in the state already', () => {
+          beforeEach(() => {
+            const currentState = {
+              'agent:mcbob': {}
+            };
+
+            state = reducer(currentState, {
+              type: actionTypes.SDK_CHAT_MEMBER_JOIN,
+              payload: payload
+            });
+          });
+
+          it('updates the entry for the member', () => {
+            expect(state['agent:mcbob'].nick)
+              .toEqual(payload.detail.nick);
+          });
         });
       });
 

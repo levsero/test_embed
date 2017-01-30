@@ -30,7 +30,7 @@ describe('chat reducer is_chatting', () => {
       });
     });
 
-    describe('when a SDK_CHAT_MEMBER_JOIN action is dispatchd', () => {
+    describe('when a SDK_CHAT_MEMBER_JOIN action is dispatched', () => {
       let payload;
 
       describe('when the member is a visitor', () => {
@@ -74,7 +74,7 @@ describe('chat reducer is_chatting', () => {
       });
     });
 
-    describe('when a SDK_CHAT_MEMBER_LEAVE action is dispatchd', () => {
+    describe('when a SDK_CHAT_MEMBER_LEAVE action is dispatched', () => {
       let payload;
 
       beforeAll(() => {

@@ -7,7 +7,7 @@ import {
   SENT_CHAT_MSG_FAILURE
 } from './chat-action-types';
 
-const CHAT_TYPING_TIMEOUT = 2000;
+const chatTypingTimeout = 2000;
 
 const sendMsgRequest = () => {
   return {
@@ -59,7 +59,7 @@ export const updateCurrentMsg = (msg) => {
     });
 
     zChat.sendTyping(true);
-    setTimeout(() => zChat.sendTyping(false), CHAT_TYPING_TIMEOUT);
+    setTimeout(() => zChat.sendTyping(false), chatTypingTimeout);
   };
 };
 
