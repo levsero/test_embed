@@ -72,7 +72,7 @@ describe('AutomaticAnswersMobile component', () => {
          <AutomaticAnswersMobile
            solveTicket={jasmine.createSpy()} />);
       spyOn(component.instance(), 'handleSolveTicket');
-      component.find('.c-btn').simulate('click');
+      component.find('.AutomaticAnswersBtn--cta').simulate('click');
     });
 
     it('calls handleSolveTicket', () => {
@@ -82,17 +82,18 @@ describe('AutomaticAnswersMobile component', () => {
   });
 
   describe('renderContent', () => {
-    describe('when the ticket is not solved', () => {
+    beforeEach(() => {
+      component = shallow(<AutomaticAnswersMobile closeFrame={() => {}}/>);
+    });
+
+    describe('when the screen state is set to SOLVE_TICKET_QUESTION', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <AutomaticAnswersMobile />
-        );
-        spyOn(component, 'renderTicketContent');
-        component.renderContent();
+        spyOn(component.instance(), 'renderTicketContent');
+        component.setState({ screen: requireUncached(automaticAnswersPath).SOLVE_TICKET_QUESTION });
       });
 
-      it('renders the solve ticket content', () => {
-        expect(component.renderTicketContent)
+      it('renders the solve question content', () => {
+        expect(component.instance().renderTicketContent)
           .toHaveBeenCalled();
       });
     });
@@ -107,34 +108,94 @@ describe('AutomaticAnswersMobile component', () => {
         component.setState({ screen: AutomaticAnswers.ticketClosed });
       });
 
-      it('renders a success message', () => {
-        expect(component.renderSuccessContent)
+      it('renders the success content', () => {
+        expect(component.instance().renderSuccessContent)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the screen state is set to MARK_AS_IRRELEVANT', () => {
+      beforeEach(() => {
+        spyOn(component.instance(), 'renderIrrelevantContent');
+        component.setState({ screen: requireUncached(automaticAnswersPath).MARK_AS_IRRELEVANT });
+      });
+
+      it('renders the mark as irrelevant content', () => {
+        expect(component.instance().renderIrrelevantContent)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the screen state is set to THANKS_FOR_FEEDBACK', () => {
+      beforeEach(() => {
+        spyOn(component.instance(), 'renderThanksForFeedbackContent');
+        component.setState({ screen: requireUncached(automaticAnswersPath).THANKS_FOR_FEEDBACK });
+      });
+
+      it('renders the mark as irrelevant content', () => {
+        expect(component.instance().renderThanksForFeedbackContent)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('default behaviour for the screen state', () => {
+      beforeEach(() => {
+        spyOn(component.instance(), 'renderSolveQuestion');
+        component.setState({ screen: 'thing' });
+      });
+
+      it('renders the solve question content', () => {
+        expect(component.instance().renderSolveQuestion)
           .toHaveBeenCalled();
       });
     });
   });
 
-  describe('renderButton', () => {
-    describe('when the ticket is not submitting', () => {
+  describe('renderButtons', () => {
+    describe('when the close ticket request is not submitting', () => {
       beforeEach(() => {
         component = shallow(<AutomaticAnswersMobile />);
         component.setState({ 'isSubmitting' : false });
       });
 
       it('renders a button with a call to action string', () => {
-        expect(component.find('.c-btn--primary--icon').text().includes('embeddable_framework.automaticAnswers.button_mobile'))
-          .toEqual(true);
+        expect(component.find('.AutomaticAnswersBtn--cta').props().label)
+          .toEqual('embeddable_framework.automaticAnswers.desktop.solve.yes');
+      });
+
+      it('renders a button labelled No', () => {
+        expect(component.find('.AutomaticAnswersBtn--no').props().label)
+          .toEqual('embeddable_framework.automaticAnswers.desktop.solve.no');
       });
     });
 
-    describe('when the ticket is submitting', () => {
+    describe('when the close ticket request is submitting', () => {
       beforeEach(() => {
         component = shallow(<AutomaticAnswersMobile />);
         component.setState({ 'isSubmitting' : true });
       });
 
-      it('renders a button with a "..." string', () => {
-        expect(component.find('.c-btn--primary--icon').text().includes('...'))
+      it('disables the cta button and the no button', () => {
+        const buttons = component.find(Button);
+
+        expect(buttons.length)
+          .toEqual(2);
+
+        expect(buttons.everyWhere(n => n.prop('disabled')))
+          .toEqual(true);
+      });
+    });
+  });
+
+  describe('renderIrrelevantContent', () => {
+    describe('when the irrelevant feedback request is submitting', () => {
+      beforeEach(() => {
+        component = shallow(<AutomaticAnswersMobile />);
+        component.setState({ 'isSubmitting' : true });
+      });
+
+      it('disables both buttons', () => {
+        expect(component.find('Button').everyWhere(n => n.props('disabled')))
           .toEqual(true);
       });
     });
