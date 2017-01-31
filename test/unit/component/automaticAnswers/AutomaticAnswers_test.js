@@ -343,4 +343,77 @@ describe('AutomaticAnswers component', () => {
       });
     });
   });
+
+  describe('randomise options', () => {
+    describe('when the options are [a, b]', () => {
+      const options = ['a', 'b'];
+
+      beforeEach(() => {
+        automaticAnswers = instanceRender(<AutomaticAnswers />);
+      });
+
+      describe('and ticket id is odd', () => {
+        beforeEach(() => {
+          automaticAnswers.updateTicket({ 'nice_id': 1 });
+        });
+
+        it('equals to [b, a]', () => {
+          expect(automaticAnswers.randomiseOptions(options))
+            .toEqual(['b', 'a']);
+        });
+      });
+
+      describe('and ticket id is even', () => {
+        beforeEach(() => {
+          automaticAnswers.updateTicket({ 'nice_id': 2 });
+        });
+
+        it('equals to [a, b]', () => {
+          expect(automaticAnswers.randomiseOptions(options))
+            .toEqual(['a', 'b']);
+        });
+      });
+    });
+
+    describe('when the options are [a, b, c]', () => {
+      const options = ['a', 'b', 'c'];
+
+      beforeEach(() => {
+        automaticAnswers = instanceRender(<AutomaticAnswers />);
+      });
+
+      describe('and (ticket id % 3) == 0', () => {
+        beforeEach(() => {
+          automaticAnswers.updateTicket({ 'nice_id': 6 });
+        });
+
+        it('equals to [a, b, c]', () => {
+          expect(automaticAnswers.randomiseOptions(options))
+            .toEqual(['a', 'b', 'c']);
+        });
+      });
+
+      describe('and (ticket id % 3) == 1', () => {
+        beforeEach(() => {
+          automaticAnswers.updateTicket({ 'nice_id': 7 });
+        });
+
+        it('equals to [b, c, a]', () => {
+          expect(automaticAnswers.randomiseOptions(options))
+            .toEqual(['b', 'c', 'a']);
+        });
+      });
+
+      describe('and (ticket id % 3) == 2', () => {
+        beforeEach(() => {
+          automaticAnswers.updateTicket({ 'nice_id': 8 });
+        });
+
+        it('equals to [c, a, b]', () => {
+          expect(automaticAnswers.randomiseOptions(options))
+            .toEqual(['c', 'a', 'b']);
+        });
+      });
+    });
+  });
 });

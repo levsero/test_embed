@@ -192,12 +192,50 @@ describe('AutomaticAnswersDesktop component', () => {
     describe('when the irrelevant feedback request is submitting', () => {
       beforeEach(() => {
         component = shallow(<AutomaticAnswersDesktop />);
-        component.setState({ 'isSubmitting' : true });
+        component.setState({
+          'screen' : AutomaticAnswers.markAsIrrelevant,
+          'isSubmitting' : true
+        });
       });
 
       it('disables both buttons', () => {
-        expect(component.find('Button').everyWhere(n => n.props('disabled')))
+        const button = component.find('Button');
+
+        expect(button.length)
+          .toEqual(2);
+
+        expect(button.everyWhere(n => n.props('disabled')))
           .toEqual(true);
+      });
+    });
+
+    describe('when ticket ID is odd number', () => {
+      beforeEach(() => {
+        component = shallow(<AutomaticAnswersDesktop />);
+        component.setState({
+          'screen' : AutomaticAnswers.markAsIrrelevant,
+          'ticket' : { 'niceId' : 1 }
+        });
+      });
+
+      it('the first button is for relatedButNotAnswered', () => {
+        expect(component.find('Button').first().key())
+          .toEqual('relatedButNotAnswered');
+      });
+    });
+
+    describe('when ticket ID is even number', () => {
+      beforeEach(() => {
+        component = shallow(<AutomaticAnswersDesktop />);
+        component.setState({
+          'screen' : AutomaticAnswers.markAsIrrelevant,
+          'ticket' : { 'niceId' : 2 }
+        });
+      });
+
+      it('the first button is for notRelated', () => {
+        expect(component.find('Button').first().key())
+          .toEqual('notRelated');
       });
     });
   });
