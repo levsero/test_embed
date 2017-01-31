@@ -15,12 +15,18 @@
 
 .menu {
   composes: u-posAbsolute u-border u-hsizeAll from '../../styles/utils.scss';
-  z-index: 10;
+  border-radius: #{4/$font-size}rem;
+  z-index: 1;
   left: 0;
   top: #{35/$font-size}rem;
   height: #{200/$font-size}rem;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
   background-color: $zd-color-white;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .arrow {

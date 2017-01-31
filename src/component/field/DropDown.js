@@ -11,13 +11,13 @@ export class Dropdown extends Component {
     onChange: PropTypes.func,
     options: PropTypes.array,
     placeholder: PropTypes.string,
-    value: PropTypes.string
+    value: PropTypes.object
   }
 
   constructor (props) {
     super(props);
 
-    const initialScreen = this.renderDropdown(this.props.options);
+    const initialScreen = this.renderDropdownOptions(this.props.options);
 
     this.state = {
       selected: props.value || {
@@ -26,7 +26,7 @@ export class Dropdown extends Component {
       },
       displayedScreen: initialScreen,
       previousScreen: [],
-      isOpen: false
+      open: false
     };
 
     this.containerClicked = false;
@@ -37,7 +37,7 @@ export class Dropdown extends Component {
     event.stopPropagation();
     event.preventDefault();
 
-    this.setState({ isOpen: !this.state.isOpen });
+    this.setState({ open: !this.state.open });
   }
 
   handleBlur = () => {
@@ -45,7 +45,7 @@ export class Dropdown extends Component {
       this.refs.input.focus();
     }
 
-    this.setState({ isOpen: this.containerClicked });
+    this.setState({ open: this.containerClicked });
   }
 
   handleBackClick = () => {
@@ -64,7 +64,7 @@ export class Dropdown extends Component {
   setValue = (value, title) => {
     this.setState({
       selected: { value, title },
-      isOpen: false
+      open: false
     });
     this.refs.input.blur();
   }
@@ -81,13 +81,14 @@ export class Dropdown extends Component {
     return (
       <DropdownOption
         title={title}
+        key={title}
         nestedOptions={null}
         onClick={this.setValue.bind(this, value, title)} />
     );
   }
 
-  renderDropdown = (optionsProp) => {
-    const optionObj = [];
+  renderDropdownOptions = (optionsProp) => {
+    const optionElements = [];
     const options = _.cloneDeep(optionsProp);
     // Group by nested fields
     const optionGroups = _.groupBy(options, (option) => {
@@ -97,27 +98,27 @@ export class Dropdown extends Component {
     });
 
     _.forEach(optionGroups, (group, key) => {
-      // if not nested will be blank
+      // if not nested key will be blank
       if (_.isEmpty(key)) {
         _.forEach(group, (option) => {
           if (!_.includes(_.keys(optionGroups), option.title)) {
-            optionObj.push(this.renderOption(option));
+            optionElements.push(this.renderOption(option));
           }
         });
       } else {
-        // Remove the group title from the title.
+        // Remove the groups title from the title.
         _.forEach(group, (item) => {
           item.title = item.title.substring(item.title.indexOf('::') + 2);
         });
 
         // And look for further nesting
-        const nestedOptions = this.renderDropdown(group);
+        const nestedOptions = this.renderDropdownOptions(group);
 
-        optionObj.push(<DropdownOption title={key} nestedOptions={nestedOptions} updateScreen={this.updateScreen} />);
+        optionElements.push(<DropdownOption title={key} key={key} nestedOptions={nestedOptions} updateScreen={this.updateScreen} />);
       }
     });
 
-    return optionObj;
+    return optionElements;
   }
 
   renderBackArrow = () => {
@@ -134,7 +135,7 @@ export class Dropdown extends Component {
   }
 
   renderMenu = () => {
-    if (!this.state.isOpen) return;
+    if (!this.state.open) return;
 
     return (
       <div className={styles.menu}>
@@ -145,7 +146,7 @@ export class Dropdown extends Component {
   }
 
   renderArrow = () => {
-    const iconOpenClasses = this.state.isOpen ? styles.arrowOpen : '';
+    const iconOpenClasses = this.state.open ? styles.arrowOpen : '';
 
     return (
       <Icon type='Icon--caret' className={`${styles.arrow} ${iconOpenClasses}`} />
@@ -164,6 +165,7 @@ export class Dropdown extends Component {
             className={styles.input}
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}
+            readOnly='readOnly'
             placeholder={this.state.selected.title} />
           {this.renderArrow()}
           {this.renderMenu()}

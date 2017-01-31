@@ -6,8 +6,9 @@ import { locals as styles } from './DropdownOption.sass';
 export class DropdownOption extends Component {
   static propTypes = {
     title: PropTypes.string,
-    nestedOptions: PropTypes.object,
-    onClick: PropTypes.func
+    nestedOptions: PropTypes.array,
+    onClick: PropTypes.func,
+    updateScreen: PropTypes.func
   }
 
   constructor (props) {
