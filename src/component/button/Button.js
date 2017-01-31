@@ -8,6 +8,7 @@ export class Button extends Component {
     fullscreen: PropTypes.bool,
     label: PropTypes.string,
     onClick: PropTypes.func,
+    onTouchStartDisabled: PropTypes.bool,
     style: PropTypes.element,
     type: PropTypes.string,
     primary: PropTypes.bool
@@ -19,6 +20,7 @@ export class Button extends Component {
     fullscreen: false,
     label: '',
     onClick: () => {},
+    onTouchStartDisabled: false,
     style: null,
     type: 'submit',
     primary: true
@@ -43,7 +45,7 @@ export class Button extends Component {
         type={type}
         value={this.props.label}
         onClick={this.props.onClick}
-        onTouchStart={this.props.onClick}
+        onTouchStart={this.props.onTouchStartDisabled ? null : this.props.onClick}
         disabled={this.props.disabled}
         style={this.props.style}
         className={buttonClasses} />
