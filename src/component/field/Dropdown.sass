@@ -9,9 +9,7 @@
 }
 
 .container {
-  composes: u-marginBM u-border u-paddingAS u-posRelative from '../../styles/utils.scss';
-  border-radius: #{4/$font-size}rem;
-  background-color: $zd-color-white;
+  composes: u-marginBM u-posRelative from '../../styles/utils.scss';
   color: $zd-color-dark-gray;
 }
 
@@ -26,7 +24,14 @@
 }
 
 .arrow {
-  composes: u-pullRight u-paddingTT from '../../styles/utils.scss';
+  composes: u-pullRight u-paddingTT u-posAbsolute from '../../styles/utils.scss';
+  right: #{10/$font-size}rem;
+  top: #{10/$font-size}rem;
+  pointer-events: none;
+
+  svg {
+    pointer-events: none;
+  }
 }
 
 .arrowOpen {
@@ -55,4 +60,9 @@
 .label {
   composes: Form-fieldLabel from '../../styles/components/Form.scss';
   composes: u-textXHeight from '../../styles/utils.scss';
+}
+
+.input {
+  composes: Form-field from '../../styles/components/Form.scss';
+  composes: u-hsizeAll from '../../styles/utils.scss';
 }

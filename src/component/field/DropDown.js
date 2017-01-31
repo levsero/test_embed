@@ -28,9 +28,11 @@ export class Dropdown extends Component {
       previousScreen: [],
       isOpen: false
     };
+
+    this.containerClicked = false;
   }
 
-  handleMouseDown = (event) => {
+  handleFocus = (event) => {
     if (event.type === 'mousedown' && event.button !== 0) return;
     event.stopPropagation();
     event.preventDefault();
@@ -38,23 +40,39 @@ export class Dropdown extends Component {
     this.setState({ isOpen: !this.state.isOpen });
   }
 
+  handleBlur = () => {
+    if (this.containerClicked) {
+      this.refs.input.focus();
+    }
+
+    this.setState({ isOpen: this.containerClicked });
+  }
+
+  handleBackClick = () => {
+    this.setState({ displayedScreen: this.state.previousScreen[0] });
+
+    this.state.previousScreen.shift();
+  }
+
+  handleContainerClick = () => {
+    this.containerClicked = true;
+    setTimeout(() => {
+      this.containerClicked = false;
+    }, 0);
+  }
+
   setValue = (value, title) => {
     this.setState({
       selected: { value, title },
       isOpen: false
     });
+    this.refs.input.blur();
   }
 
   updateScreen = (screen) => {
     this.state.previousScreen.unshift(this.state.displayedScreen);
 
     this.setState({ displayedScreen: screen });
-  }
-
-  onBackClick = () => {
-    this.setState({ displayedScreen: this.state.previousScreen[0] });
-
-    this.state.previousScreen.shift();
   }
 
   renderOption = (option) => {
@@ -70,9 +88,8 @@ export class Dropdown extends Component {
 
   renderDropdown = (optionsProp) => {
     const optionObj = [];
-
     const options = _.cloneDeep(optionsProp);
-
+    // Group by nested fields
     const optionGroups = _.groupBy(options, (option) => {
       return (option.title.indexOf('::') !== -1)
            ? option.title.split('::')[0]
@@ -80,7 +97,7 @@ export class Dropdown extends Component {
     });
 
     _.forEach(optionGroups, (group, key) => {
-      // if not nested anymore will be blank
+      // if not nested will be blank
       if (_.isEmpty(key)) {
         _.forEach(group, (option) => {
           if (!_.includes(_.keys(optionGroups), option.title)) {
@@ -109,7 +126,7 @@ export class Dropdown extends Component {
     return (
       <div
         className={`${styles.field} ${styles.back}`}
-        onClick={this.onBackClick}>
+        onClick={this.handleBackClick}>
         <div className={styles.arrowBack} />
         {i18n.t('embeddable_framework.navigation.back')}
       </div>
@@ -137,15 +154,18 @@ export class Dropdown extends Component {
 
   render = () => {
     return (
-      <div>
-        <div className={styles.label}>{this.props.placeholder}</div>
+      <div onMouseDown={this.handleContainerClick}>
+        <div className={styles.label}>
+          {this.props.placeholder}
+        </div>
         <div className={styles.container}>
-          <div
-            onMouseDown={this.handleMouseDown}
-            onTouchEnd={this.handleMouseDown}>
-            {this.state.selected.title}
-            {this.renderArrow()}
-          </div>
+          <input
+            ref='input'
+            className={styles.input}
+            onBlur={this.handleBlur}
+            onFocus={this.handleFocus}
+            placeholder={this.state.selected.title} />
+          {this.renderArrow()}
           {this.renderMenu()}
         </div>
       </div>
