@@ -450,5 +450,51 @@ describe('embed.chat', () => {
         });
       });
     });
+
+    describe('validateZopim', () => {
+      const chatName = 'Montblanc';
+      const zopimId = '1a2b3c';
+      const ArbitraryClass = class {};
+      const subjects = [
+        undefined,
+        NaN, Infinity, -Infinity, 1, -2,
+        [],
+        'Ritz Malheur',
+        new Date(),
+        /pattern/,
+        new ArbitraryClass()
+      ];
+
+      subjects.forEach((zopimValue) => {
+        describe(`when $zopim is a ${Object.prototype.toString.call(zopimValue)}`, () => {
+          beforeEach(() => {
+            mockGlobals.win.$zopim = zopimValue;
+
+            chat.create(chatName, { zopimId });
+            chat.render(chatName);
+          });
+
+          it('re-initializes the $zopim variable with a callback function', () => {
+            expect(typeof mockGlobals.win.$zopim)
+            .toEqual('function');
+          });
+
+          it('sets up the queues correctly', () => {
+            expect(mockGlobals.win.$zopim.set._.length)
+            .toEqual(0);
+            expect(mockGlobals.win.$zopim._.length)
+            .toEqual(2);
+
+            mockGlobals.win.$zopim.set(() => {});
+            mockGlobals.win.$zopim(() => {});
+
+            expect(mockGlobals.win.$zopim.set._.length)
+            .toEqual(1);
+            expect(mockGlobals.win.$zopim._.length)
+            .toEqual(3);
+          });
+        });
+      });
+    });
   });
 });
