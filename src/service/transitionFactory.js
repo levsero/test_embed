@@ -149,12 +149,12 @@ const transitionFactory = {
         transitionProperty: 'none',
         transitionDuration: '0',
         transitionTimingFunction: 'unset',
-        opacity: 0,
-        bottom: '-100px'
+        opacity: 1,
+        bottom: '-500px'
       },
       {
         transitionProperty: 'all',
-        transitionDuration: '300ms',
+        transitionDuration: '400ms',
         transitionTimingFunction: 'ease-out',
         opacity: 1,
         bottom: 0
@@ -166,7 +166,7 @@ const transitionFactory = {
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-in',
         opacity: 0,
-        bottom: '-100px'
+        bottom: 0
       }
     )
   },
@@ -181,7 +181,7 @@ const transitionFactory = {
       },
       {
         transitionProperty: 'all',
-        transitionDuration: '300ms',
+        transitionDuration: '500ms',
         transitionTimingFunction: 'ease-out',
         opacity: 1,
         bottom: 0

@@ -186,14 +186,51 @@ describe('AutomaticAnswers component', () => {
         automaticAnswers.handleSolveTicket(e);
       });
 
-      it('sets errorMessage to an empty string', () => {
-        expect(automaticAnswers.state.errorMessage)
-          .toEqual('');
-      });
-
       it('sets isSubmitting to true', () => {
         expect(automaticAnswers.state.isSubmitting)
           .toBe(true);
+      });
+    });
+  });
+
+  describe('close frame behaviour', () => {
+    const closeFrameDelay = 5000;
+
+    beforeEach(() => {
+      mockCloseFrame = jasmine.createSpy('mockCloseFrame');
+      automaticAnswers = shallow(<AutomaticAnswers closeFrame={mockCloseFrame} />);
+    });
+
+    describe('when the screen state is ticketClosed', () => {
+      beforeEach(() => {
+        automaticAnswers.setState({ screen: AutomaticAnswers.ticketClosed });
+      });
+
+      it('the frame closes after a short delay', () => {
+        expect(mockCloseFrame)
+          .toHaveBeenCalledWith(closeFrameDelay);
+      });
+    });
+
+    describe('when the screen state is thanksForFeedback', () => {
+      beforeEach(() => {
+        automaticAnswers.setState({ screen: AutomaticAnswers.thanksForFeedback });
+      });
+
+      it('the frame closes after a short delay', () => {
+        expect(mockCloseFrame)
+          .toHaveBeenCalledWith(closeFrameDelay);
+      });
+    });
+
+    describe('otherwise', () => {
+      beforeEach(() => {
+        automaticAnswers.setState({ screen: AutomaticAnswers.markAsIrrelevant });
+      });
+
+      it('the frame does not close', () => {
+        expect(mockCloseFrame)
+          .not.toHaveBeenCalled();
       });
     });
   });
@@ -215,9 +252,19 @@ describe('AutomaticAnswers component', () => {
         automaticAnswers.solveTicketDone();
       });
 
+      it('sets screen to ticketClosed', () => {
+        expect(automaticAnswers.state.screen)
+          .toBe(AutomaticAnswers.ticketClosed);
+      });
+
       it('sets isSubmitting to false', () => {
         expect(automaticAnswers.state.isSubmitting)
           .toBe(false);
+      });
+
+      it('sets errorMessage to an empty string', () => {
+        expect(automaticAnswers.state.errorMessage)
+          .toBe('');
       });
 
       it('closes the frame after a short delay', () => {
@@ -251,6 +298,7 @@ describe('AutomaticAnswers component', () => {
       mockMarkArticleIrrelevant = jasmine.createSpy('mockMarkArticleIrrelevant');
       automaticAnswers = instanceRender(
          <AutomaticAnswers
+           closeFrame={() => {}}
            markArticleIrrelevant={mockMarkArticleIrrelevant} />);
     });
 
@@ -332,14 +380,34 @@ describe('AutomaticAnswers component', () => {
         automaticAnswers.handleMarkArticleAsIrrelevant(mockReason, e);
       });
 
-      it('sets errorMessage to an empty string', () => {
-        expect(automaticAnswers.state.errorMessage)
-          .toEqual('');
-      });
-
       it('sets isSubmitting to true', () => {
         expect(automaticAnswers.state.isSubmitting)
           .toBe(true);
+      });
+    });
+
+    describe('when article has been marked as irrelevant successfully', () => {
+      beforeEach(() => {
+        automaticAnswers.setState({
+          errorMessage: 'derp',
+          isSubmitting: true
+        });
+        automaticAnswers.markArticleIrrelevantDone();
+      });
+
+      it('sets screen to thanksForFeedback', () => {
+        expect(automaticAnswers.state.screen)
+          .toBe(AutomaticAnswers.thanksForFeedback);
+      });
+
+      it('sets isSubmitting to false', () => {
+        expect(automaticAnswers.state.isSubmitting)
+          .toBe(false);
+      });
+
+      it('sets errorMessage to an empty string', () => {
+        expect(automaticAnswers.state.errorMessage)
+          .toBe('');
       });
     });
   });

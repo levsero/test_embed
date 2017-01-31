@@ -207,7 +207,7 @@ describe('embed.automaticAnswers', () => {
 
     describe('when the request is successful', () => {
       let callback;
-      const showFrameDelay = 200;
+      const showFrameDelay = 500;
       const showSolvedFrameDelay = 500;
       const resSuccess = (statusId) => {
         return {

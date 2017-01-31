@@ -86,10 +86,10 @@ describe('AutomaticAnswersMobile component', () => {
       component = shallow(<AutomaticAnswersMobile closeFrame={() => {}}/>);
     });
 
-    describe('when the screen state is set to SOLVE_TICKET_QUESTION', () => {
+    describe('when the screen state is set to solveTicketQuestion', () => {
       beforeEach(() => {
         spyOn(component.instance(), 'renderTicketContent');
-        component.setState({ screen: requireUncached(automaticAnswersPath).SOLVE_TICKET_QUESTION });
+        component.setState({ screen: AutomaticAnswers.solveTicketQuestion });
       });
 
       it('renders the solve question content', () => {
@@ -98,13 +98,9 @@ describe('AutomaticAnswersMobile component', () => {
       });
     });
 
-    describe('when the screen state is set to TICKET_CLOSED', () => {
+    describe('when the screen state is set to ticketClosed', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <AutomaticAnswersMobile
-            closeFrame={() => {}} />
-        );
-        spyOn(component, 'renderSuccessContent');
+        spyOn(component.instance(), 'renderSuccessContent');
         component.setState({ screen: AutomaticAnswers.ticketClosed });
       });
 
@@ -114,10 +110,10 @@ describe('AutomaticAnswersMobile component', () => {
       });
     });
 
-    describe('when the screen state is set to MARK_AS_IRRELEVANT', () => {
+    describe('when the screen state is set to markAsIrrelevant', () => {
       beforeEach(() => {
         spyOn(component.instance(), 'renderIrrelevantContent');
-        component.setState({ screen: requireUncached(automaticAnswersPath).MARK_AS_IRRELEVANT });
+        component.setState({ screen: AutomaticAnswers.markAsIrrelevant });
       });
 
       it('renders the mark as irrelevant content', () => {
@@ -126,13 +122,13 @@ describe('AutomaticAnswersMobile component', () => {
       });
     });
 
-    describe('when the screen state is set to THANKS_FOR_FEEDBACK', () => {
+    describe('when the screen state is set to thanksForFeedback', () => {
       beforeEach(() => {
         spyOn(component.instance(), 'renderThanksForFeedbackContent');
-        component.setState({ screen: requireUncached(automaticAnswersPath).THANKS_FOR_FEEDBACK });
+        component.setState({ screen: AutomaticAnswers.thanksForFeedback });
       });
 
-      it('renders the mark as irrelevant content', () => {
+      it('renders the thanks for feedback content', () => {
         expect(component.instance().renderThanksForFeedbackContent)
           .toHaveBeenCalled();
       });
@@ -188,9 +184,12 @@ describe('AutomaticAnswersMobile component', () => {
   });
 
   describe('renderIrrelevantContent', () => {
+    beforeEach(() => {
+      component = shallow(<AutomaticAnswersMobile />);
+    });
+
     describe('when the irrelevant feedback request is submitting', () => {
       beforeEach(() => {
-        component = shallow(<AutomaticAnswersMobile />);
         component.setState({ 'isSubmitting' : true });
       });
 
@@ -199,30 +198,98 @@ describe('AutomaticAnswersMobile component', () => {
           .toEqual(true);
       });
     });
+
+    describe('when ticket ID is odd number', () => {
+      beforeEach(() => {
+        component.setState({
+          'screen' : AutomaticAnswers.markAsIrrelevant,
+          'ticket' : { 'niceId' : 1 }
+        });
+      });
+
+      it('the first button is for relatedButNotAnswered', () => {
+        expect(component.find('Button').first().key())
+          .toEqual(`${AutomaticAnswers.relatedButNotAnswered}`);
+      });
+    });
+
+    describe('when ticket ID is even number', () => {
+      beforeEach(() => {
+        component.setState({
+          'screen' : AutomaticAnswers.markAsIrrelevant,
+          'ticket' : { 'niceId' : 2 }
+        });
+      });
+
+      it('the first button is for notRelated', () => {
+        expect(component.find('Button').first().key())
+          .toEqual(`${AutomaticAnswers.notRelated}`);
+      });
+    });
   });
 
   describe('renderErrorMessage', () => {
+    beforeEach(() => {
+      component = shallow(<AutomaticAnswersMobile />);
+    });
+
     describe('when errorMessage is falsely', () => {
       beforeEach(() => {
-        component = shallow(<AutomaticAnswersMobile />);
         component.setState({ 'errorMessage' : '' });
       });
 
       it('contains .u-isHidden', () => {
-        expect(component.find('.u-isError.u-isHidden').length)
+        expect(component.find('.Error.u-isHidden').length)
           .toEqual(1);
       });
     });
 
     describe('when errorMessage is truthy', () => {
       beforeEach(() => {
-        component = shallow(<AutomaticAnswersMobile />);
         component.setState({ 'errorMessage' : 'dude things are wrong.' });
       });
 
       it('does not contain .u-isHidden', () => {
         expect(component.find('.u-isError.u-isHidden').length)
           .toEqual(0);
+      });
+    });
+  });
+
+  describe('click behaviour when marking an article as irrelevant', () => {
+    let btn;
+    const mockEvent = () => {};
+
+    beforeEach(() => {
+      component = shallow(
+         <AutomaticAnswersMobile
+           closeFrame={() => {}}
+           markArticleIrrelevant={jasmine.createSpy()} />);
+      component.setState({ screen: AutomaticAnswers.markAsIrrelevant });
+      spyOn(component.instance(), 'handleMarkArticleAsIrrelevant');
+    });
+
+    describe('when the notRelated option is clicked', () => {
+      beforeEach(() => {
+        btn = component.findWhere(n => n.key() === `${AutomaticAnswers.notRelated}`);
+        btn.simulate('click', mockEvent);
+      });
+
+      it('handleMarkArticleAsIrrelevant is called with the notRelated key', () => {
+        expect(component.instance().handleMarkArticleAsIrrelevant)
+          .toHaveBeenCalledWith(AutomaticAnswers.notRelated, mockEvent);
+      });
+    });
+
+    describe('when the relatedButNotAnswered option is clicked', () => {
+      beforeEach(() => {
+        btn = component.findWhere(n => n.key() === `${AutomaticAnswers.relatedButNotAnswered}`);
+        btn.simulate('click', mockEvent);
+      });
+
+      it('handleMarkArticleAsIrrelevant is called with the relatedButNotAnswered key', () => {
+        expect(component.instance().handleMarkArticleAsIrrelevant)
+          .toHaveBeenCalledWith(AutomaticAnswers.relatedButNotAnswered, mockEvent);
       });
     });
   });

@@ -86,7 +86,6 @@ export class AutomaticAnswers extends Component {
     };
 
     this.setState({
-      errorMessage: '',
       isSubmitting: true
     });
 
@@ -100,7 +99,8 @@ export class AutomaticAnswers extends Component {
   solveTicketDone = () => {
     this.setState({
       screen: AutomaticAnswers.ticketClosed,
-      isSubmitting: false
+      isSubmitting: false,
+      errorMessage: ''
     });
   }
 
@@ -128,7 +128,6 @@ export class AutomaticAnswers extends Component {
     };
 
     this.setState({
-      errorMessage: '',
       isSubmitting: true
     });
 
@@ -142,7 +141,8 @@ export class AutomaticAnswers extends Component {
   markArticleIrrelevantDone = () => {
     this.setState({
       screen: AutomaticAnswers.thanksForFeedback,
-      isSubmitting: false
+      isSubmitting: false,
+      errorMessage: ''
     });
   }
 

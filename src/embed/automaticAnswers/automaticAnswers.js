@@ -15,7 +15,8 @@ import { getURLParameterByName,
          getHelpCenterArticleId } from 'utility/pages';
 
 const automaticAnswersCSS = require('./automaticAnswers.scss').toString();
-const showFrameDelay = 200;
+// Anything less than 500 causes an animation bug.
+const showFrameDelay = 500;
 const showSolvedFrameDelay = 500;
 // 0 = New, 1 = Open, 2 = Pending, 6 = Hold
 const unsolvedStatusIds = [0, 1, 2, 6];
@@ -58,7 +59,7 @@ function create(name, config, reduxStore) {
     hideCloseButton: true,
     name: name,
     // Add offsetHeight to allow updateFrameSize to account for the box-shadow frame margin
-    offsetHeight: (isMobileBrowser()) ? 20 : 30,
+    offsetHeight: (isMobileBrowser()) ? 60 : 30,
     offsetWidth: (isMobileBrowser()) ? 0 : 30,
     transitions: {
       close: transitionSet.downHide(),

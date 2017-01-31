@@ -70,11 +70,13 @@ export class AutomaticAnswersDesktop extends AutomaticAnswers {
         <Button className='AutomaticAnswersBtn AutomaticAnswersBtn--no u-pullRight u-marginLS Anim-all--fast'
           disabled={this.state.isSubmitting}
           onClick={(e) => this.goToMarkAsIrrelevant(e)}
+          onTouchStartDisabled={true}
           primary={false}
           label={noLabel} />
         <Button className='AutomaticAnswersBtn AutomaticAnswersBtn--cta u-pullRight Anim-all--fast'
           disabled={this.state.isSubmitting}
           onClick={(e) => this.handleSolveTicket(e)}
+          onTouchStartDisabled={true}
           label={(this.state.isSubmitting) ? submittingLabel : ctaLabel} />
       </div>
     );
@@ -104,16 +106,18 @@ export class AutomaticAnswersDesktop extends AutomaticAnswers {
     });
 
     return this.randomiseOptions([
-      <Button key="notRelated"
+      <Button key={AutomaticAnswers.notRelated}
         className={className}
         disabled={this.state.isSubmitting}
         onClick={(e) => this.handleMarkArticleAsIrrelevant(AutomaticAnswers.notRelated, e)}
+        onTouchStartDisabled={true}
         label={notRelated}
         primary={false} />,
-      <Button key="relatedButNotAnswered"
+      <Button key={AutomaticAnswers.relatedButNotAnswered}
         className={className}
         disabled={this.state.isSubmitting}
         onClick={(e) => this.handleMarkArticleAsIrrelevant(AutomaticAnswers.relatedButNotAnswered, e)}
+        onTouchStartDisabled={true}
         label={relatedButNotAnswered}
         primary={false} />
     ]);
@@ -152,10 +156,10 @@ export class AutomaticAnswersDesktop extends AutomaticAnswers {
 
     return (
       <Container card={true} className='AutomaticAnswersDesktop u-paddingHL'>
-        {closeButton}
         <div className='Container-content u-paddingBM'>
           {this.renderContent()}
         </div>
+        {closeButton}
       </Container>
     );
   }

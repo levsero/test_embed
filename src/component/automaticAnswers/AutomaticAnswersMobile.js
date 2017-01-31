@@ -1,9 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { AutomaticAnswers,
-         NOT_RELATED,
-         RELATED_BUT_NOT_ANSWERED } from 'component/automaticAnswers/AutomaticAnswers';
+import { AutomaticAnswers } from 'component/automaticAnswers/AutomaticAnswers';
 import { Button } from 'component/button/Button';
 import { Container } from 'component/container/Container';
 import { Icon } from 'component/Icon';
@@ -13,9 +11,9 @@ export class AutomaticAnswersMobile extends AutomaticAnswers {
   renderTicketContent = () => {
     return (
       <div className='u-hsizeAll'>
-        {this.renderErrorMessage()}
         <div className='AutomaticAnswersMobile-message'>
           {this.renderSolveQuestion()}
+          {this.renderErrorMessage()}
           {this.renderButtons()}
         </div>
       </div>
@@ -23,13 +21,12 @@ export class AutomaticAnswersMobile extends AutomaticAnswers {
   }
 
   renderSolveQuestion = () => {
-    const messageClasses = 'u-marginBT';
     const introduction = i18n.t('embeddable_framework.automaticAnswers.label.prompt_mobile', {
       fallback: 'Does this article answer your question?'
     });
 
     return (
-      <p className={messageClasses}>
+      <p className='u-marginBS'>
         <strong>{introduction}</strong>
       </p>
     );
@@ -37,7 +34,7 @@ export class AutomaticAnswersMobile extends AutomaticAnswers {
 
   renderErrorMessage = () => {
     const errorClasses = classNames({
-      'u-backgroundWhite u-textCenter u-marginBN u-paddingBM u-isError u-borderBottom': true,
+      'Error': true,
       'u-isHidden': !this.state.errorMessage
     });
 
@@ -57,14 +54,16 @@ export class AutomaticAnswersMobile extends AutomaticAnswers {
     });
 
     return (
-      <div className='AutomaticAnswersDesktop-footer'>
-        <Button className='AutomaticAnswersBtn AutomaticAnswersBtn--cta u-marginHT'
+      <div>
+        <Button className='AutomaticAnswersBtn--mobile AutomaticAnswersBtn--cta u-marginHT'
           disabled={this.state.isSubmitting}
           onClick={(e) => this.handleSolveTicket(e)}
+          onTouchStartDisabled={true}
           label={ctaLabel} />
-        <Button className='AutomaticAnswersBtn AutomaticAnswersBtn--no u-marginHT'
+        <Button className='AutomaticAnswersBtn--mobile AutomaticAnswersBtn--no u-marginHT'
           disabled={this.state.isSubmitting}
           onClick={(e) => this.goToMarkAsIrrelevant(e)}
+          onTouchStartDisabled={true}
           primary={false}
           label={noLabel} />
       </div>
@@ -77,8 +76,8 @@ export class AutomaticAnswersMobile extends AutomaticAnswers {
     });
 
     return (
-      <div className={'AutomaticAnswersDesktop-message u-textCenter u-textSizeSml'}>
-        <strong className="u-marginBS u-marginTS u-inlineBlock">{irrelevantQuestion}</strong>
+      <div className={'u-textCenter'}>
+        <strong className="u-marginBS u-marginTM u-inlineBlock">{irrelevantQuestion}</strong>
         {this.renderErrorMessage()}
         {this.renderIrrelevantOptions()}
       </div>
@@ -92,23 +91,24 @@ export class AutomaticAnswersMobile extends AutomaticAnswers {
     const relatedButNotAnswered = i18n.t('embeddable_framework.automaticAnswers.desktop.irrelevant.related_no_answer', {
       fallback: "It's related but didn't answer my question"
     });
+    const classNames = 'AutomaticAnswersBtn--mobile c-btn--fullWidth u-marginVT Anim-all--fast';
 
-    return (
-      <div className="u-marginBT">
-        <Button key="notRelated"
-          className='AutomaticAnswersBtn c-btn--fullWidth Anim-all--fast'
-          disabled={this.state.isSubmitting}
-          onClick={(e) => this.handleMarkArticleAsIrrelevant(NOT_RELATED, e)}
-          label={notRelated}
-          primary={false} />
-        <Button key="relatedButNotAnswered"
-          className='AutomaticAnswersBtn c-btn--fullWidth u-marginTS Anim-all--fast'
-          disabled={this.state.isSubmitting}
-          onClick={(e) => this.handleMarkArticleAsIrrelevant(RELATED_BUT_NOT_ANSWERED, e)}
-          label={relatedButNotAnswered}
-          primary={false} />
-      </div>
-    );
+    return this.randomiseOptions([
+      <Button key={AutomaticAnswers.notRelated}
+        className={classNames}
+        disabled={this.state.isSubmitting}
+        onClick={(e) => this.handleMarkArticleAsIrrelevant(AutomaticAnswers.notRelated, e)}
+        onTouchStartDisabled={true}
+        label={notRelated}
+        primary={false} />,
+      <Button key={AutomaticAnswers.relatedButNotAnswered}
+        className={classNames}
+        disabled={this.state.isSubmitting}
+        onClick={(e) => this.handleMarkArticleAsIrrelevant(AutomaticAnswers.relatedButNotAnswered, e)}
+        onTouchStartDisabled={true}
+        label={relatedButNotAnswered}
+        primary={false} />
+    ]);
   }
 
   renderSuccessContent = () => {
@@ -117,8 +117,10 @@ export class AutomaticAnswersMobile extends AutomaticAnswers {
     });
 
     return (
-      <p className={'AutomaticAnswersMobile-message u-textCenter u-posRelative u-marginVS'}>
-        <Icon type='Icon--circleTick-small' className='u-paddingAN u-posRelative u-marginRS u-inlineBlock u-isSuccessful'/>
+      <p className={'AutomaticAnswersMobile-message u-textCenter u-posRelative u-marginVL'}>
+        <Icon
+          type='Icon--circleTick-small'
+          className='u-paddingAN u-posRelative u-marginRS u-inlineBlock u-isSuccessful' />
         <span>{successMessage}</span>
       </p>
     );
@@ -130,23 +132,25 @@ export class AutomaticAnswersMobile extends AutomaticAnswers {
     });
 
     return (
-      <p className={'AutomaticAnswersMobile-message u-textCenter u-posRelative u-marginVS'}>
-        <Icon type='Icon--circleTick-small' className='u-paddingAN u-posRelative u-marginRS u-inlineBlock u-isSuccessful'/>
+      <p className='AutomaticAnswersMobile-message u-textCenter u-posRelative u-marginVL'>
+        <Icon
+          type='Icon--circleTick-small'
+          className='u-paddingAN u-posRelative u-marginRS u-inlineBlock u-isSuccessful'/>
         <span>{feedbackMessage}</span>
       </p>
     );
   }
 
   render = () => {
-    const containerClasses = 'AutomaticAnswersMobile u-block u-textCenter u-paddingHS u-paddingVS';
+    const containerClasses = 'AutomaticAnswersMobile u-textSizeMed u-block u-textCenter u-paddingHS u-paddingVS';
     const closeButton = (this.showCloseButton())
       ? (<Icon type="Icon--close" onClick={() => this.props.closeFrame(0)} />)
       : null;
 
     return (
       <Container className={containerClasses}>
-        {closeButton}
         {this.renderContent()}
+        {closeButton}
       </Container>
     );
   }

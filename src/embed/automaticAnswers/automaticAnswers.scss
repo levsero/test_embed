@@ -59,11 +59,14 @@
 
 .AutomaticAnswersMobile-message {
   color: $zd-color-aluminum;
-  font-size: #{12/$font-size}rem;
   line-height: #{18/$font-size}rem;
   white-space: pre-line;
 
   strong {
+    color: $zd-color-dark-gray;
+  }
+
+  .Error {
     color: $zd-color-dark-gray;
   }
 
@@ -104,8 +107,17 @@
 
 .AutomaticAnswersBtn {
   font-size: #{12/$font-size}rem;
+  border-radius: #{3/$font-size}rem;
 }
 
 .AutomaticAnswersBtn--no {
   min-width: #{90/$font-size}rem;
+}
+
+.AutomaticAnswersBtn--mobile {
+  border-radius: #{3/$font-size}rem;
+  font-size: #{14/$font-size}rem;
+  min-width: #{100/$font-size}rem;
+  padding-left: #{10/$font-size}rem;
+  padding-right: #{10/$font-size}rem;
 }
