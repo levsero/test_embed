@@ -46,15 +46,20 @@ class Chat extends Component {
             .value();
   }
 
+  renderChatEnded = () => {
+    if (this.props.chat.chats.length === 0 || this.props.chat.is_chatting) return;
+
+    return (
+      <div className={styles.chatEnd}>
+        {i18n.t('embeddable_framework.chat.ended.label', { fallback: 'Chat Ended' })}
+      </div>
+    );
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     const { chat } = this.props;
-    const chatEndedMsg = (this.props.chat.chats.length !== 0 && !this.props.chat.is_chatting)
-                       ? <div className={styles.chatEnd}>
-                           {i18n.t('embeddable_framework.chat.ended.label', { fallback: 'Chat Ended' })}
-                          </div>
-                       : null;
 
     return (
       <Container
@@ -75,7 +80,7 @@ class Chat extends Component {
           contentExpanded={true}>
           <div className={styles.messages}>
             {this.renderChatLog()}
-            {chatEndedMsg}
+            {this.renderChatEnded()}
           </div>
         </ScrollContainer>
       </Container>

@@ -1,7 +1,7 @@
 import zChat from 'vendor/web-sdk';
 
 import {
-  END_CHAT,
+  END_CHAT_SUCCESS,
   SENT_CHAT_MSG_REQUEST,
   SENT_CHAT_MSG_SUCCESS,
   SENT_CHAT_MSG_FAILURE,
@@ -68,7 +68,7 @@ export function endChat() {
   return (dispatch) => {
     zChat.endChat((err) => {
       if (!err) {
-        dispatch({ type: END_CHAT });
+        dispatch({ type: END_CHAT_SUCCESS });
       }
     });
   };

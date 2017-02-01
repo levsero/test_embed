@@ -121,5 +121,20 @@ describe('chat reducer is_chatting', () => {
         });
       });
     });
+
+    describe('when a END_CHAT_SUCCESS action is dispatched', () => {
+      describe('when the member is an agent', () => {
+        beforeEach(() => {
+          state = reducer(initialState, {
+            type: actionTypes.END_CHAT_SUCCESS
+          });
+        });
+
+        it('should set the state to false', () => {
+          expect(state)
+            .toEqual(false);
+        });
+      });
+    });
   });
 });

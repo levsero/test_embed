@@ -80,5 +80,54 @@ describe('Chat component', () => {
       });
     });
   });
+
+  describe('renderChatEnded', () => {
+    let component, chatProp;
+
+    beforeEach(() => {
+      const chats = new SortedMap();
+
+      chatProp = { chats: chats };
+    });
+
+    describe('when there are no messages', () => {
+      beforeEach(() => {
+        component = domRender(<Chat chat={chatProp} />);
+      });
+
+      it('should not display', () => {
+        expect(component.renderChatEnded())
+          .toBeUndefined();
+      });
+    });
+
+    describe('when is_chatting is true', () => {
+      beforeEach(() => {
+        chatProp.chats.add({ timestamp: 123, type: 'chat.msg' }, 123);
+        chatProp.is_chatting = true; // eslint-disable-line camelcase
+
+        component = domRender(<Chat chat={chatProp} />);
+      });
+
+      it('should not display chat end message', () => {
+        expect(component.renderChatEnded())
+          .toBeUndefined();
+      });
+    });
+
+    describe('when is_chatting is false', () => {
+      beforeEach(() => {
+        chatProp.chats.add({ timestamp: 123, type: 'chat.msg' }, 123);
+        chatProp.is_chatting = false; // eslint-disable-line camelcase
+
+        component = domRender(<Chat chat={chatProp} />);
+      });
+
+      it('should display chat end message', () => {
+        expect(component.renderChatEnded())
+          .not.toBeUndefined();
+      });
+    });
+  });
 });
 

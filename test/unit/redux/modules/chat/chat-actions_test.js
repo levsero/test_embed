@@ -6,7 +6,8 @@ let actions,
   mockStore,
   mockVisitor,
   mockSendChatMsg = jasmine.createSpy('sendChatMsg'),
-  mockSendTyping = jasmine.createSpy('sendTyping');
+  mockSendTyping = jasmine.createSpy('sendTyping'),
+  mockEndChat = jasmine.createSpy('endChat');
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -18,7 +19,8 @@ describe('chat redux actions', () => {
     initMockRegistry({
       'vendor/web-sdk': {
         sendChatMsg: mockSendChatMsg,
-        sendTyping: mockSendTyping
+        sendTyping: mockSendTyping,
+        endChat: mockEndChat
       }
     });
 
@@ -145,6 +147,40 @@ describe('chat redux actions', () => {
             .toContain({
               type: actionTypes.SENT_CHAT_MSG_FAILURE,
               payload: errors
+            });
+        });
+      });
+    });
+  });
+
+  describe('endChat', () => {
+    beforeEach(() => {
+      mockStore.dispatch(actions.endChat());
+    });
+
+    it('calls sendChatMsg on the web sdk', () => {
+      expect(mockEndChat)
+        .toHaveBeenCalled();
+    });
+
+    describe('Web SDK callback', () => {
+      let callbackFn;
+
+      beforeEach(() => {
+        const endChatCalls = mockEndChat.calls.mostRecent().args;
+
+        callbackFn = endChatCalls[0];
+      });
+
+      describe('when there are no errors', () => {
+        beforeEach(() => {
+          callbackFn();
+        });
+
+        it('dispatches a END_CHAT_SUCCESS action', () => {
+          expect(mockStore.getActions())
+            .toContain({
+              type: actionTypes.END_CHAT_SUCCESS
             });
         });
       });
