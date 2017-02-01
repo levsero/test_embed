@@ -5,35 +5,45 @@
 @import 'Animation';
 
 .AutomaticAnswersDesktop {
-  margin-top: #{45/$font-size}rem;
+  margin-top: #{15/$font-size}rem;
+  margin-right: #{12/$font-size}rem;
+  box-shadow: 0 0 #{12/$font-size}rem 0 rgba($base-shadow, .25);
   min-width: #{380/$font-size}rem;
   max-width: #{380/$font-size}rem;
-}
 
-.AutomaticAnswersDesktop-masterIcon {
-  border-radius: 50%;
-  top: #{-32/$font-size}rem;
-  left: 50%;
-  margin-left: #{-32/$font-size}rem;
-  border: #{2/$font-size}rem solid $zd-color-apple-green;
-  background-color: $zd-color-white;
-  height: #{60/$font-size}rem;
-  width: #{60/$font-size}rem;
+  .Icon--close {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: #{10/$font-size}rem;
+    height: #{10/$font-size}rem;
+    padding: #{15/$font-size}rem;
+    opacity: 0.2;
+
+    svg {
+      fill: black;
+    }
+  }
+
+  .Icon--close:hover {
+    opacity: 0.4;
+  }
 }
 
 .AutomaticAnswersDesktop-message {
   color: $zd-color-oil;
-  font-size: #{14/$font-size}rem;
+  font-size: #{12/$font-size}rem;
   line-height: #{20/$font-size}rem;
   white-space: pre-line;
 
   span {
+    color: $zd-color-aluminum;
     display: block;
-    margin-bottom: #{20/$font-size}rem;
   }
 
   a {
-    color: $zd-color-curious-blue;
+    color: $zd-color-apple-green;
   }
 }
 
@@ -65,3 +75,10 @@
   display: inline-block;
 }
 
+.AutomaticAnswersBtn {
+  font-size: #{12/$font-size}rem;
+}
+
+.AutomaticAnswersBtn--no {
+  min-width: #{90/$font-size}rem;
+}

@@ -11,6 +11,7 @@ const icons = {
   'Icon--caret': require('icons/widget-icon_caret.svg'),
   'Icon--chat': require('icons/widget-icon_chat.svg'),
   'Icon--check': require('icons/widget-icon_checkboxCheck.svg'),
+  'Icon--circleTick-large': require('icons/widget-icon_circle_tick_large.svg'),
   'Icon--clearInput': require('icons/widget-icon_clearInput.svg'),
   'Icon--close': require('icons/widget-icon_close.svg'),
   'Icon--form': require('icons/widget-icon_form.svg'),

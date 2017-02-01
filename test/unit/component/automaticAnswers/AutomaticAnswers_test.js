@@ -1,5 +1,6 @@
 describe('AutomaticAnswers component', () => {
   let mockSolveTicket,
+    mockMarkArticleIrrelevant,
     mockCloseFrame,
     AutomaticAnswers,
     automaticAnswers,
@@ -24,24 +25,6 @@ describe('AutomaticAnswers component', () => {
       'service/automaticAnswersPersistence' : {
         automaticAnswersPersistence: {
           getContext: jasmine.createSpy().and.callFake(() => mockJwtToken)
-        }
-      },
-      'component/automaticAnswers/AutomaticAnswersDesktop': {
-        AutomaticAnswersDesktop: class extends Component {
-          render() {
-            return (
-              <div className='automaticAnswers-desktop' />
-            );
-          }
-        }
-      },
-      'component/automaticAnswers/AutomaticAnswersMobile': {
-        AutomaticAnswersMobile: class extends Component {
-          render() {
-            return (
-              <div className='automaticAnswers-mobile' />
-            );
-          }
         }
       }
     });
@@ -68,38 +51,14 @@ describe('AutomaticAnswers component', () => {
         .toEqual(null);
     });
 
-    it('sets solveSuccess to false', () => {
-      expect(automaticAnswers.state.solveSuccess)
-        .toEqual(false);
-    });
-
     it('sets an empty errorMessage', () => {
       expect(automaticAnswers.state.errorMessage)
         .toEqual('');
     });
-  });
 
-  describe('render', () => {
-    describe('when mobile prop is true', () => {
-      beforeEach(() => {
-        domRender(<AutomaticAnswers mobile={true} />);
-      });
-
-      it('renders the AutomaticAnswersMobile component', function() {
-        expect(document.querySelectorAll('.automaticAnswers-mobile').length)
-          .toEqual(1);
-      });
-    });
-
-    describe('when mobile prop is false', () => {
-      beforeEach(() => {
-        domRender(<AutomaticAnswers mobile={false} />);
-      });
-
-      it('renders the AutomaticAnswersDesktop component', function() {
-        expect(document.querySelectorAll('.automaticAnswers-desktop').length)
-          .toEqual(1);
-      });
+    it('sets the initial screen to SOLVE_TICKET_QUESTION', () => {
+      expect(automaticAnswers.state.screen)
+        .toEqual(AutomaticAnswers.solveTicketQuestion);
     });
   });
 
@@ -127,10 +86,24 @@ describe('AutomaticAnswers component', () => {
     });
   });
 
+  describe('goToMarkAsIrrelevant', () => {
+    beforeEach(() => {
+      automaticAnswers = instanceRender(<AutomaticAnswers />);
+      automaticAnswers.goToMarkAsIrrelevant();
+    });
+
+    it('updates the screen to MARK_AS_IRRELEVANT', () => {
+      expect(automaticAnswers.state.screen)
+        .toEqual(AutomaticAnswers.markAsIrrelevant);
+    });
+  });
+
   describe('handleSolveTicket', () => {
+    const e = { preventDefault: () => {} };
+
     beforeEach(() => {
       mockSolveTicket = jasmine.createSpy('mockSolveTicket');
-      automaticAnswers = domRender(
+      automaticAnswers = instanceRender(
          <AutomaticAnswers
            solveTicket={mockSolveTicket} />);
     });
@@ -139,7 +112,7 @@ describe('AutomaticAnswers component', () => {
       let callbacks;
 
       beforeEach(() => {
-        automaticAnswers.handleSolveTicket();
+        automaticAnswers.handleSolveTicket(e);
         callbacks = mockSolveTicket.calls.mostRecent().args[2];
       });
 
@@ -153,19 +126,19 @@ describe('AutomaticAnswers component', () => {
           .toEqual(automaticAnswers.solveTicketDone);
 
         expect(callbacks.fail)
-          .toEqual(automaticAnswers.solveTicketFail);
+          .toEqual(automaticAnswers.requestFailed);
       });
     });
 
     describe('when the JWT token from local storage is not valid', () => {
       beforeEach(() => {
         mockJwtToken = null;
-        spyOn(automaticAnswers, 'solveTicketFail');
-        automaticAnswers.handleSolveTicket();
+        spyOn(automaticAnswers, 'requestFailed');
+        automaticAnswers.handleSolveTicket(e);
       });
 
-      it('calls solveTicketFail', () => {
-        expect(automaticAnswers.solveTicketFail)
+      it('calls requestFailed', () => {
+        expect(automaticAnswers.requestFailed)
           .toHaveBeenCalled();
       });
 
@@ -178,7 +151,7 @@ describe('AutomaticAnswers component', () => {
     describe('when the Help Center articleId cannot be parsed from the pathname', () => {
       beforeEach(() => {
         mockUrlArticleId = null;
-        automaticAnswers.handleSolveTicket();
+        automaticAnswers.handleSolveTicket(e);
       });
 
       it('does not make a call to solve the ticket', () => {
@@ -190,12 +163,12 @@ describe('AutomaticAnswers component', () => {
     describe('error behaviour when parameter condition is false', () => {
       beforeEach(() => {
         mockUrlArticleId = NaN;
-        automaticAnswers.handleSolveTicket();
+        automaticAnswers.handleSolveTicket(e);
       });
 
       it('sets an errorMessage', () => {
         expect(automaticAnswers.state.errorMessage)
-          .toBe('embeddable_framework.automaticAnswers.label.error_v2');
+          .toBe('embeddable_framework.automaticAnswers.label.error_mobile');
       });
 
       it('sets isSubmitting to false', () => {
@@ -210,7 +183,7 @@ describe('AutomaticAnswers component', () => {
           errorMessage: 'derp',
           isSubmitting: false
         });
-        automaticAnswers.handleSolveTicket();
+        automaticAnswers.handleSolveTicket(e);
       });
 
       it('sets errorMessage to an empty string', () => {
@@ -226,7 +199,7 @@ describe('AutomaticAnswers component', () => {
   });
 
   describe('sending a request to solve a ticket', () => {
-    const closeFrameDelay = 4000;
+    const closeFrameDelay = 5000;
 
     beforeEach(() => {
       mockSolveTicket = jasmine.createSpy('mockSolveTicket');
@@ -242,11 +215,6 @@ describe('AutomaticAnswers component', () => {
         automaticAnswers.solveTicketDone();
       });
 
-      it('sets the solveSuccess state to true', () => {
-        expect(automaticAnswers.state.solveSuccess)
-          .toEqual(true);
-      });
-
       it('sets isSubmitting to false', () => {
         expect(automaticAnswers.state.isSubmitting)
           .toBe(false);
@@ -260,17 +228,118 @@ describe('AutomaticAnswers component', () => {
 
     describe('when the request fails', () => {
       beforeEach(() => {
-        automaticAnswers.solveTicketFail();
+        automaticAnswers.requestFailed();
       });
 
       it('sets errorMessage to the correct tanslation string', () => {
         expect(automaticAnswers.state.errorMessage)
-          .toBe('embeddable_framework.automaticAnswers.label.error_v2');
+          .toBe('embeddable_framework.automaticAnswers.label.error_mobile');
       });
 
       it('sets isSubmitting to false', () => {
         expect(automaticAnswers.state.isSubmitting)
           .toBe(false);
+      });
+    });
+  });
+
+  describe('handleMarkArticleAsIrrelevant', () => {
+    const mockReason = 3;
+    const e = { preventDefault: () => {} };
+
+    beforeEach(() => {
+      mockMarkArticleIrrelevant = jasmine.createSpy('mockMarkArticleIrrelevant');
+      automaticAnswers = instanceRender(
+         <AutomaticAnswers
+           markArticleIrrelevant={mockMarkArticleIrrelevant} />);
+    });
+
+    describe('when the JWT body from local storage is valid, and articleId can be parsed from the pathname', () => {
+      let callbacks;
+
+      beforeEach(() => {
+        automaticAnswers.handleMarkArticleAsIrrelevant(mockReason, e);
+        callbacks = mockMarkArticleIrrelevant.calls.mostRecent().args[3];
+      });
+
+      it('passes the auth_token, articleId and callbacks to the solve ticket request', () => {
+        expect(mockMarkArticleIrrelevant)
+          .toHaveBeenCalledWith(mockJwtToken, mockUrlArticleId, mockReason, callbacks);
+      });
+
+      it('defines callback behaviour for the mark article irrelevant request', () => {
+        expect(callbacks.done)
+          .toEqual(automaticAnswers.markArticleIrrelevantDone);
+
+        expect(callbacks.fail)
+          .toEqual(automaticAnswers.requestFailed);
+      });
+    });
+
+    describe('when the JWT token from local storage is not valid', () => {
+      beforeEach(() => {
+        mockJwtToken = null;
+        spyOn(automaticAnswers, 'requestFailed');
+        automaticAnswers.handleMarkArticleAsIrrelevant(mockReason, e);
+      });
+
+      it('calls requestFailed', () => {
+        expect(automaticAnswers.requestFailed)
+          .toHaveBeenCalled();
+      });
+
+      it('does not make a call to mark the article as irrelevant', () => {
+        expect(mockMarkArticleIrrelevant)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when the Help Center articleId cannot be parsed from the pathname', () => {
+      beforeEach(() => {
+        mockUrlArticleId = null;
+        automaticAnswers.handleMarkArticleAsIrrelevant(mockReason, e);
+      });
+
+      it('does not make a call to mark the article as irrelevant', () => {
+        expect(mockMarkArticleIrrelevant)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('error behaviour when parameter condition is false', () => {
+      beforeEach(() => {
+        mockUrlArticleId = NaN;
+        automaticAnswers.handleMarkArticleAsIrrelevant(mockReason, e);
+      });
+
+      it('sets an errorMessage', () => {
+        expect(automaticAnswers.state.errorMessage)
+          .toBe('embeddable_framework.automaticAnswers.label.error_mobile');
+      });
+
+      it('sets isSubmitting to false', () => {
+        expect(automaticAnswers.state.isSubmitting)
+          .toBe(false);
+      });
+    });
+
+    describe('component state', () => {
+      beforeEach(() => {
+        automaticAnswers.setState({
+          errorMessage: 'derp',
+          isSubmitting: false
+        });
+        automaticAnswers.handleMarkArticleAsIrrelevant(mockReason, e);
+      });
+
+      it('sets errorMessage to an empty string', () => {
+        expect(automaticAnswers.state.errorMessage)
+          .toEqual('');
+      });
+
+      it('sets isSubmitting to true', () => {
+        expect(automaticAnswers.state.isSubmitting)
+          .toBe(true);
       });
     });
   });

@@ -1,80 +1,44 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
 import { Button } from 'component/button/Button';
 import { Container } from 'component/container/Container';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
+import { AutomaticAnswers } from 'component/automaticAnswers/AutomaticAnswers';
 
-export class AutomaticAnswersDesktop extends Component {
-  static propTypes = {
-    solveSuccess: PropTypes.bool.isRequired,
-    isSubmitting: PropTypes.bool.isRequired,
-    updateFrameSize: PropTypes.func,
-    handleSolveTicket: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string.isRequired,
-    ticketNiceId: PropTypes.number
-  };
-
-  static defaultProps = {
-    ticketNiceId: -1,
-    updateFrameSize: () => {}
-  };
-
-  componentDidMount = () => {
-    this.props.updateFrameSize();
-  }
-
-  componentDidUpdate = () => {
-    this.props.updateFrameSize();
-  }
-
-  handleSolveClick = (e) => {
-    e.preventDefault();
-    this.props.handleSolveTicket();
-  }
-
-  renderMasterIcon = () => {
-    const type = this.props.solveSuccess ? 'tick' : 'article';
-    const props = {
-      className: 'AutomaticAnswersDesktop-masterIcon u-posAbsolute u-paddingAN u-textCenter'
-    };
-
-    return (
-      <Icon
-        {...props}
-        type={`Icon--${type}`} />
-    );
-  }
-
-  renderContent = () => {
-    return (!this.props.solveSuccess) ? this.renderTicketContent() : this.renderSuccessContent();
-  }
-
+export class AutomaticAnswersDesktop extends AutomaticAnswers {
   renderTicketContent = () => {
     return (
       <div>
-        {this.renderIntroduction()}
+        {this.renderSolveQuestion()}
         {this.renderErrorMessage()}
-        {this.renderButton()}
+        {this.renderButtons()}
       </div>
     );
   }
 
-  renderIntroduction = () => {
+  renderSolveQuestion = () => {
     const messageClasses = classNames({
-      'AutomaticAnswersDesktop-message u-paddingTL u-paddingBXL u-marginBN': true,
-      'u-borderBottom': !this.props.errorMessage
+      'AutomaticAnswersDesktop-message AutomaticAnswersDesktop-solve u-paddingBM u-marginBN': true,
+      'u-borderBottom': !this.state.errorMessage
     });
-    const introduction = i18n.t('embeddable_framework.automaticAnswers.label.introduction', {
-      fallback: `<span>Hi there,</span> If this article answers your question, ` +
-                `please let us know and we'll close your request %(requestIdUrl)s.`,
-      requestIdUrl: `#${this.props.ticketNiceId}`
+    const solveQuestion = i18n.t('embeddable_framework.automaticAnswers.desktop.solve.question', {
+      fallback: 'Does this article answer your question?'
+    });
+    const requestUrl = i18n.t('embeddable_framework.automaticAnswers.desktop.request_url', {
+      fallback: `/hc/requests/%(requestId)s`,
+      requestId: this.state.ticket.niceId
+    });
+    const solveQuestionSubtext = i18n.t('embeddable_framework.automaticAnswers.desktop.solve.subtext_v2', {
+      fallback: 'If it does, we can close your recent request %(requestLink)s',
+      requestLink: `<a target="_blank" href="${requestUrl}">#${this.state.ticket.niceId}</a>`
     });
 
     return (
-      <p className={messageClasses}
-        dangerouslySetInnerHTML={{__html: introduction}}>
+      <p className={messageClasses}>
+        <strong>{solveQuestion}</strong>
+        <span className={'u-paddingTT'} dangerouslySetInnerHTML={{__html: solveQuestionSubtext}} />
       </p>
     );
   }
@@ -82,49 +46,115 @@ export class AutomaticAnswersDesktop extends Component {
   renderErrorMessage = () => {
     const errorClasses = classNames({
       'Error': true,
-      'u-isHidden': !this.props.errorMessage
+      'u-isHidden': !this.state.errorMessage
     });
 
     return (
       <p className={errorClasses}>
-        {this.props.errorMessage}
+        {this.state.errorMessage}
       </p>
     );
   }
 
-  renderButton = () => {
+  renderButtons = () => {
     const submittingLabel = i18n.t('embeddable_framework.submitTicket.form.submitButton.label.sending');
     const ctaLabel = i18n.t('embeddable_framework.automaticAnswers.button.solve_v2', {
       fallback: 'Yes, close my request'
     });
+    const noLabel = i18n.t('embeddable_framework.automaticAnswers.desktop.solve.no', {
+      fallback: 'No'
+    });
 
     return (
       <div className='AutomaticAnswersDesktop-footer u-posRelative u-marginTM'>
-        <Button className='u-pullRight'
-          disabled={this.props.isSubmitting}
-          onClick={this.handleSolveClick}
-          label={(this.props.isSubmitting) ? submittingLabel : ctaLabel} />
+        <Button className='AutomaticAnswersBtn AutomaticAnswersBtn--no u-pullRight u-marginLS Anim-all--fast'
+          disabled={this.state.isSubmitting}
+          onClick={(e) => this.goToMarkAsIrrelevant(e)}
+          primary={false}
+          label={noLabel} />
+        <Button className='AutomaticAnswersBtn AutomaticAnswersBtn--cta u-pullRight Anim-all--fast'
+          disabled={this.state.isSubmitting}
+          onClick={(e) => this.handleSolveTicket(e)}
+          label={(this.state.isSubmitting) ? submittingLabel : ctaLabel} />
+      </div>
+    );
+  }
+
+  renderIrrelevantContent = () => {
+    const irrelevantQuestion = i18n.t('embeddable_framework.automaticAnswers.desktop.irrelevant.question_v2', {
+      fallback: "Why didn't it answer your question?"
+    });
+
+    return (
+      <div className={'AutomaticAnswersDesktop-message u-textCenter u-textSizeSml'}>
+        <strong className="u-marginBM u-inlineBlock">{irrelevantQuestion}</strong>
+        {this.renderErrorMessage()}
+        {this.renderIrrelevantOptions()}
+      </div>
+    );
+  }
+
+  renderIrrelevantOptions = () => {
+    const notRelated = i18n.t('embeddable_framework.automaticAnswers.desktop.irrelevant.not_related', {
+      fallback: "It's not related to my question"
+    });
+    const relatedButNotAnswered = i18n.t('embeddable_framework.automaticAnswers.desktop.irrelevant.related_no_answer', {
+      fallback: "It's related but didn't answer my question"
+    });
+
+    return (
+      <div className="u-marginBT">
+        <Button key="notRelated"
+          className='AutomaticAnswersBtn c-btn--fullWidth Anim-all--fast'
+          disabled={this.state.isSubmitting}
+          onClick={(e) => this.handleMarkArticleAsIrrelevant(AutomaticAnswers.notRelated, e)}
+          label={notRelated}
+          primary={false} />
+        <Button key="relatedButNotAnswered"
+          className='AutomaticAnswersBtn c-btn--fullWidth u-marginTS Anim-all--fast'
+          disabled={this.state.isSubmitting}
+          onClick={(e) => this.handleMarkArticleAsIrrelevant(AutomaticAnswers.relatedButNotAnswered, e)}
+          label={relatedButNotAnswered}
+          primary={false} />
       </div>
     );
   }
 
   renderSuccessContent = () => {
-    const successMessage = i18n.t('embeddable_framework.automaticAnswers.label.success_v2', {
-      fallback: 'Thank you, your request has been closed.'
+    const successMessage = i18n.t('embeddable_framework.automaticAnswers.desktop.solve.closed', {
+      fallback: 'Nice! Your request has been closed'
     });
 
     return (
-      <p className={'AutomaticAnswersDesktop-message u-isSuccessful u-textCenter u-paddingVXL u-marginVXL'}>
-        {successMessage}
+      <p className={'AutomaticAnswersDesktop-message u-textCenter u-marginVL'}>
+        <Icon type='Icon--circleTick-large' className='u-paddingAN u-isSuccessful u-paddingBS'/>
+        <span>{successMessage}</span>
+      </p>
+    );
+  }
+
+  renderThanksForFeedbackContent = () => {
+    const feedbackMessage = i18n.t('embeddable_framework.automaticAnswers.desktop.irrelevant.thanks_for_feedback_v2', {
+      fallback: 'Thanks for your feedback'
+    });
+
+    return (
+      <p className={'AutomaticAnswersDesktop-message u-textCenter u-marginVL'}>
+        <Icon type='Icon--circleTick-large' className='u-paddingAN u-isSuccessful u-paddingBS'/>
+        <span>{feedbackMessage}</span>
       </p>
     );
   }
 
   render = () => {
+    const closeButton = (this.showCloseButton()
+      ? (<Icon type="Icon--close" onClick={() => this.props.closeFrame(0)} />)
+      : null);
+
     return (
-      <Container card={true} className='AutomaticAnswersDesktop u-paddingHXL'>
+      <Container card={true} className='AutomaticAnswersDesktop u-paddingHL'>
+        {closeButton}
         <div className='Container-content u-paddingBM'>
-          {this.renderMasterIcon()}
           {this.renderContent()}
         </div>
       </Container>

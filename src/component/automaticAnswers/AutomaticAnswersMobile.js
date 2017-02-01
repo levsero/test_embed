@@ -1,42 +1,12 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
+import { AutomaticAnswers } from 'component/automaticAnswers/AutomaticAnswers';
 import { Container } from 'component/container/Container';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
-export class AutomaticAnswersMobile extends Component {
-  static propTypes = {
-    errorMessage: PropTypes.string.isRequired,
-    handleSolveTicket: PropTypes.func.isRequired,
-    isSubmitting: PropTypes.bool.isRequired,
-    solveSuccess: PropTypes.bool.isRequired,
-    updateFrameSize: PropTypes.func
-  };
-
-  static defaultProps = {
-    updateFrameSize: () => {}
-  };
-
-  componentDidMount = () => {
-    this.props.updateFrameSize();
-  }
-
-  componentDidUpdate = () => {
-    this.props.updateFrameSize();
-  }
-
-  handleSolveClick = (e) => {
-    e.preventDefault();
-    this.props.handleSolveTicket();
-  }
-
-  renderContent = () => {
-    return (!this.props.solveSuccess)
-         ? this.renderTicketContent()
-         : this.renderSuccessContent();
-  }
-
+export class AutomaticAnswersMobile extends AutomaticAnswers {
   renderTicketContent = () => {
     const messageClasses =
       'AutomaticAnswersMobile-message u-flex u-flexAlignItemsCenter u-flexJustifyBetween u-marginHL u-paddingVL';
@@ -68,12 +38,12 @@ export class AutomaticAnswersMobile extends Component {
   renderErrorMessage = () => {
     const errorClasses = classNames({
       'u-backgroundWhite u-textCenter u-marginBN u-paddingVM u-isError u-borderBottom': true,
-      'u-isHidden': !this.props.errorMessage
+      'u-isHidden': !this.state.errorMessage
     });
 
     return (
       <p className={errorClasses}>
-        {this.props.errorMessage}
+        {this.state.errorMessage}
       </p>
     );
   }
@@ -89,11 +59,11 @@ export class AutomaticAnswersMobile extends Component {
     // TODO - Create a reusable ButtonWithIcon component to replace this.
     return (
       <button className={buttonClasses}
-        disabled={this.props.isSubmitting}
-        onTouchStart={this.handleSolveClick}
-        onClick={this.handleSolveClick} >
+        disabled={this.state.isSubmitting}
+        onTouchStart={(e) => this.handleSolveClick(e)}
+        onClick={(e) => this.handleSolveTicket(e)} >
         <Icon type='Icon--tick-inline' />
-        {(this.props.isSubmitting) ? submittingLabel : ctaLabel}
+        {(this.state.isSubmitting) ? submittingLabel : ctaLabel}
       </button>
     );
   }
