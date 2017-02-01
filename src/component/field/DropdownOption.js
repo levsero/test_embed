@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import _ from 'lodash';
 
 import { locals as styles } from './DropdownOption.sass';
 
@@ -27,7 +26,6 @@ export class DropdownOption extends Component {
   renderNextArrow = () => {
     return <div className={styles.arrowNext}></div>;
   }
-
 
   render = () => {
     const hasNestedFields = this.props.nestedOptions !== null;

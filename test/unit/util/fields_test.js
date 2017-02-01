@@ -135,6 +135,9 @@ describe('fields', () => {
       'component/field/SelectField': {
         SelectField: noopReactComponent()
       },
+      'component/field/Dropdown': {
+        Dropdown: noopReactComponent()
+      },
       'service/i18n': {
         i18n: {
           getLocaleId: () => mockLocaleIdValue

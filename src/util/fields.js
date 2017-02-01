@@ -14,7 +14,7 @@ const geti18nContent = (field) => {
   return title ? title.content : field.title;
 };
 
-const getCustomFields = (customFields, formState, options) => {
+const getCustomFields = (customFields, formState, options = {}) => {
   const isCheckbox = (field) => {
     return field && field.props && field.props.type === 'checkbox';
   };

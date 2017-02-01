@@ -32,11 +32,7 @@ export class Dropdown extends Component {
     this.containerClicked = false;
   }
 
-  handleFocus = (event) => {
-    if (event.type === 'mousedown' && event.button !== 0) return;
-    event.stopPropagation();
-    event.preventDefault();
-
+  handleFocus = () => {
     this.setState({ open: !this.state.open });
   }
 
@@ -114,7 +110,13 @@ export class Dropdown extends Component {
         // And look for further nesting
         const nestedOptions = this.renderDropdownOptions(group);
 
-        optionElements.push(<DropdownOption title={key} key={key} nestedOptions={nestedOptions} updateScreen={this.updateScreen} />);
+        optionElements.push(
+          <DropdownOption
+            title={key}
+            key={key}
+            nestedOptions={nestedOptions}
+            updateScreen={this.updateScreen} />
+        );
       }
     });
 
