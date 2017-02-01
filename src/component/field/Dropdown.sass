@@ -14,10 +14,8 @@
 }
 
 .menu {
-  composes: u-posAbsolute u-border u-hsizeAll from '../../styles/utils.scss';
+  composes: u-posAbsolute u-border u-hsizeAll u-zIndex1 u-posStart--flush from '../../styles/utils.scss';
   border-radius: #{4/$font-size}rem;
-  z-index: 1;
-  left: 0;
   top: #{35/$font-size}rem;
   height: #{200/$font-size}rem;
   overflow-x: hidden;

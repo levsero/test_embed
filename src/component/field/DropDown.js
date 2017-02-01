@@ -2,16 +2,21 @@ import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 
 import { locals as styles } from './Dropdown.sass';
-import { DropdownOption } from 'src/component/field/DropdownOption';
+import { DropdownOption } from 'component/field/DropdownOption';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
 export class Dropdown extends Component {
   static propTypes = {
-    onChange: PropTypes.func,
-    options: PropTypes.array,
+    options: PropTypes.array.isRequired,
     placeholder: PropTypes.string,
     value: PropTypes.object
+  }
+
+  static defaultProps = {
+    options: [],
+    placeholder: '',
+    value: {}
   }
 
   constructor (props) {
@@ -20,10 +25,7 @@ export class Dropdown extends Component {
     const initialScreen = this.renderDropdownOptions(this.props.options);
 
     this.state = {
-      selected: props.value || {
-        title: props.placeholder || 'Select...',
-        value: ''
-      },
+      selected: props.value,
       displayedScreen: initialScreen,
       previousScreen: [],
       open: false
@@ -57,7 +59,7 @@ export class Dropdown extends Component {
     }, 0);
   }
 
-  setValue = (value, title) => {
+  setValue = (value, title) => () => {
     this.setState({
       selected: { value, title },
       open: false
@@ -78,8 +80,7 @@ export class Dropdown extends Component {
       <DropdownOption
         title={title}
         key={title}
-        nestedOptions={null}
-        onClick={this.setValue.bind(this, value, title)} />
+        onClick={this.setValue(value, title)} />
     );
   }
 
@@ -124,7 +125,7 @@ export class Dropdown extends Component {
   }
 
   renderBackArrow = () => {
-    if (this.state.previousScreen.length <= 0) return;
+    if (!this.state.previousScreen.length) return;
 
     return (
       <div
@@ -147,7 +148,7 @@ export class Dropdown extends Component {
     );
   }
 
-  renderArrow = () => {
+  renderDropdownArrow = () => {
     const iconOpenClasses = this.state.open ? styles.arrowOpen : '';
 
     return (
@@ -169,7 +170,7 @@ export class Dropdown extends Component {
             onFocus={this.handleFocus}
             readOnly='readOnly'
             placeholder={this.state.selected.title} />
-          {this.renderArrow()}
+          {this.renderDropdownArrow()}
           {this.renderMenu()}
         </div>
       </div>

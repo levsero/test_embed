@@ -47,8 +47,6 @@ const getCustomFields = (customFields, formState, options = {}) => {
         _.forEach(field.options, (option) => {
           if (option.name) {
             option.title = option.name;
-          } else {
-            option.title = option.title;
           }
 
           if (option.variants) {

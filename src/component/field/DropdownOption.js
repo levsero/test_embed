@@ -10,13 +10,15 @@ export class DropdownOption extends Component {
     updateScreen: PropTypes.func
   }
 
-  constructor (props) {
-    super(props);
+  static defaultProps = {
+    nestedOptions: null,
+    title: '',
+    onClick: () => {},
+    updateScreen: () => {}
   }
 
   handleDropdownOpen = () => {
     if (this.props.nestedOptions !== null) {
-      // this.setState({ isOpen: !this.state.isOpen });
       this.props.updateScreen(this.props.nestedOptions, this.props.title);
     } else {
       this.props.onClick();
@@ -24,7 +26,7 @@ export class DropdownOption extends Component {
   }
 
   renderNextArrow = () => {
-    return <div className={styles.arrowNext}></div>;
+    return <div className={styles.arrowNext} />;
   }
 
   render = () => {
