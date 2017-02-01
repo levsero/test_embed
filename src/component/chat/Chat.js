@@ -51,7 +51,9 @@ class Chat extends Component {
 
     const { chat } = this.props;
     const chatEndedMsg = (this.props.chat.chats.length !== 0 && !this.props.chat.is_chatting)
-                       ? <div className={styles.chatEnd}>Chat Ended</div>
+                       ? <div className={styles.chatEnd}>
+                           {i18n.t('embeddable_framework.chat.ended.label', { fallback: 'Chat Ended' })}
+                          </div>
                        : null;
 
     return (

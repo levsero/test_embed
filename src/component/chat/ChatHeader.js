@@ -38,7 +38,7 @@ export class ChatHeader extends Component {
         <ButtonSecondary
           onClick={this.props.endChat}
           className={styles.button}
-          label='End' />
+          label={i18n.t('embeddable_framework.chat.end.label', { fallback: 'End' })} />
       </div>
     );
   }
