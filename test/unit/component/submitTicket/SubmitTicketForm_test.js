@@ -109,6 +109,7 @@ describe('SubmitTicketForm component', function() {
         i18n: {
           init: noop,
           setLocale: noop,
+          getLocale: noop,
           isRTL: noop,
           t: _.identity
         }
@@ -331,7 +332,6 @@ describe('SubmitTicketForm component', function() {
         { id: 4, raw_title: 'Favorite Burger' },
         { id: 5, raw_title: 'Favorite Pizza' }
       ];
-
       /* eslint-enable camelcase */
 
       component = domRender(<SubmitTicketForm />);

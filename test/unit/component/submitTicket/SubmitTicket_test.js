@@ -524,7 +524,7 @@ describe('Submit ticket component', () => {
     });
 
     it('should be rendered when there is more then one ticket form', () => {
-      submitTicket.updateTicketForms({ ticket_forms: [1, 2], ticket_fields: [] });
+      submitTicket.updateTicketForms({ ticket_forms: [{ id: 1 }, { id: 2 }], ticket_fields: [] });
 
       expect(submitTicket.refs.ticketFormSelector)
         .toBeDefined();

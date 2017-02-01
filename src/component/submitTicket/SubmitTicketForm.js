@@ -181,11 +181,32 @@ export class SubmitTicketForm extends Component {
       {}).value();
   }
 
-  updateTicketForm = (form, fields) => {
+  prefillFormState = (prefill = {}) => {
+    const isPrefillValid = () => {
+      return prefill.fields &&
+             Array.isArray(prefill.fields) &&
+             prefill.fields.length !== 0;
+    };
+
+    if (!isPrefillValid()) return;
+
+    let formState = this.getFormState();
+    const currentLocale = i18n.getLocale();
+
+    prefill.fields.forEach((field) => {
+      if (field.id in formState) {
+        formState[field.id] = field.prefill[`${currentLocale}`] || field.prefill['*'] || '';
+      }
+    });
+
+    this.props.setFormState(formState);
+  }
+
+  updateTicketForm = (form, fields, prefill) => {
     this.setState({
       ticketForm: form,
       ticketFormFields: fields
-    });
+    }, () => this.prefillFormState(prefill));
   }
 
   updateForm = () => {

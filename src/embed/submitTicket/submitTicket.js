@@ -23,6 +23,17 @@ const submitTicketCSS = `${require('./submitTicket.scss')} ${submitTicketStyles}
 let submitTickets = {};
 let backButtonSetByHelpCenter = false;
 
+function getTicketForms(config) {
+  const settingTicketForms = settings.get('contactForm.ticketForms');
+  const rawTicketForms = _.isEmpty(settingTicketForms)
+                       ? config.ticketForms  // Find out what this is
+                       : settingTicketForms;
+
+  return _.filter(rawTicketForms, (ticketForm) => {
+    return (typeof ticketForm === 'object') && ticketForm.id;
+  });
+}
+
 function create(name, config, reduxStore) {
   let containerStyle;
   let frameStyle = {};
@@ -140,13 +151,12 @@ function create(name, config, reduxStore) {
     containerStyle = { width: 342 };
   }
 
-  const settingTicketForms = settings.get('contactForm.ticketForms');
-  const ticketForms = _.isEmpty(settingTicketForms)
-                    ? config.ticketForms
-                    : settingTicketForms;
+  // FIXME: Mirror changes applied for settings.get('contactForm.ticketForms')
+  //        into webWidget.js (single iframe)
+  const ticketForms = getTicketForms(config);
 
   if (!_.isEmpty(ticketForms)) {
-    const ticketFormIds = ticketForms.join();
+    const ticketFormIds = _.map(ticketForms, (ticketForm) => ticketForm.id).join();
 
     waitForRootComponent(name, () => {
       getRootComponent(name).setLoading(true);

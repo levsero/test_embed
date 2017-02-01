@@ -269,17 +269,21 @@ export class SubmitTicket extends Component {
   }
 
   handleTicketFormsListClick = (e) => {
+    const settingsTicketForms = settings.get('contactForm.ticketForms');
     const value = e.target.dataset.id;
     const { ticketForms } = this.state;
     const selectedTicketForm = _.find(ticketForms.ticket_forms, (f) => {
       return f.id === parseInt(value);
     });
+    const ticketFormPrefill = _.find(settingsTicketForms, (f) => {
+      return f.id === parseInt(value);
+    });
 
-    this.setState({ selectedTicketForm: selectedTicketForm });
+    this.setState({ selectedTicketForm });
     this.props.showBackButton();
 
     setTimeout(() => {
-      this.refs.submitTicketForm.updateTicketForm(selectedTicketForm, ticketForms.ticket_fields);
+      this.refs.submitTicketForm.updateTicketForm(selectedTicketForm, ticketForms.ticket_fields, ticketFormPrefill);
       this.refs.submitTicketForm.updateForm();
     }, 0);
   }
