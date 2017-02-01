@@ -153,6 +153,12 @@ export class AutomaticAnswers extends Component {
     });
   }
 
+  randomiseOptions = (options) => {
+    const order = this.state.ticket.niceId % options.length;
+
+    return options.slice(order).concat(options.slice(0, order));
+  }
+
   renderContent = () => {
     switch (this.state.screen) {
       case AutomaticAnswers.solveTicketQuestion:

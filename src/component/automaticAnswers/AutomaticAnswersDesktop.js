@@ -43,11 +43,11 @@ export class AutomaticAnswersDesktop extends AutomaticAnswers {
     );
   }
 
-  renderErrorMessage = () => {
+  renderErrorMessage = (classes = '') => {
     const errorClasses = classNames({
       'Error': true,
       'u-isHidden': !this.state.errorMessage
-    });
+    }) + ` ${classes}`;
 
     return (
       <p className={errorClasses}>
@@ -87,14 +87,15 @@ export class AutomaticAnswersDesktop extends AutomaticAnswers {
 
     return (
       <div className={'AutomaticAnswersDesktop-message u-textCenter u-textSizeSml'}>
-        <strong className="u-marginBM u-inlineBlock">{irrelevantQuestion}</strong>
-        {this.renderErrorMessage()}
+        <strong className="u-marginBS u-inlineBlock">{irrelevantQuestion}</strong>
+        {this.renderErrorMessage('u-marginTT u-marginBS')}
         {this.renderIrrelevantOptions()}
       </div>
     );
   }
 
   renderIrrelevantOptions = () => {
+    const className='AutomaticAnswersBtn c-btn--fullWidth u-marginVT Anim-all--fast';
     const notRelated = i18n.t('embeddable_framework.automaticAnswers.desktop.irrelevant.not_related', {
       fallback: "It's not related to my question"
     });
@@ -102,22 +103,20 @@ export class AutomaticAnswersDesktop extends AutomaticAnswers {
       fallback: "It's related but didn't answer my question"
     });
 
-    return (
-      <div className="u-marginBT">
-        <Button key="notRelated"
-          className='AutomaticAnswersBtn c-btn--fullWidth Anim-all--fast'
-          disabled={this.state.isSubmitting}
-          onClick={(e) => this.handleMarkArticleAsIrrelevant(AutomaticAnswers.notRelated, e)}
-          label={notRelated}
-          primary={false} />
-        <Button key="relatedButNotAnswered"
-          className='AutomaticAnswersBtn c-btn--fullWidth u-marginTS Anim-all--fast'
-          disabled={this.state.isSubmitting}
-          onClick={(e) => this.handleMarkArticleAsIrrelevant(AutomaticAnswers.relatedButNotAnswered, e)}
-          label={relatedButNotAnswered}
-          primary={false} />
-      </div>
-    );
+    return this.randomiseOptions([
+      <Button key="notRelated"
+        className={className}
+        disabled={this.state.isSubmitting}
+        onClick={(e) => this.handleMarkArticleAsIrrelevant(AutomaticAnswers.notRelated, e)}
+        label={notRelated}
+        primary={false} />,
+      <Button key="relatedButNotAnswered"
+        className={className}
+        disabled={this.state.isSubmitting}
+        onClick={(e) => this.handleMarkArticleAsIrrelevant(AutomaticAnswers.relatedButNotAnswered, e)}
+        label={relatedButNotAnswered}
+        primary={false} />
+    ]);
   }
 
   renderSuccessContent = () => {
