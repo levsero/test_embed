@@ -362,7 +362,8 @@ export class SubmitTicketForm extends Component {
       {
         disableAutoComplete: this.props.disableAutoComplete,
         ticketForms: true
-      });
+      }
+    );
     const titleMobileClasses = this.props.fullscreen ? styles.ticketFormTitleMobile : '';
 
     ticketFieldsElem.allFields.unshift([this.renderNameField(), this.renderEmailField()]);

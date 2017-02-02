@@ -76,7 +76,7 @@ export class Dropdown extends Component {
   renderDropdownOptions = (optionsProp) => {
     const options = _.cloneDeep(optionsProp);
     const groupByFn = (option) => {
-      return (option.title.indexOf('::') !== -1)
+      return (option.title.indexOf('::') > -1)
            ? option.title.split('::')[0]
            : '';
     };
@@ -119,7 +119,7 @@ export class Dropdown extends Component {
   }
 
   renderBackArrow = () => {
-    if (!this.state.previousScreen.length) return;
+    if (this.state.previousScreen.length === 0) return;
 
     return (
       <div
@@ -162,7 +162,7 @@ export class Dropdown extends Component {
             className={styles.input}
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}
-            readOnly='readOnly'
+            readOnly
             placeholder={this.state.selected.title} />
           {this.renderDropdownArrow()}
           {this.renderMenu()}
