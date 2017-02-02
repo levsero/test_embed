@@ -58,27 +58,66 @@
 }
 
 .AutomaticAnswersMobile-message {
-  color: $zd-color-dark-gray;
-  font-size: #{12/$font-size}rem;
+  color: $zd-color-aluminum;
   line-height: #{18/$font-size}rem;
-  font-weight: bold;
   white-space: pre-line;
+
+  strong {
+    color: $zd-color-dark-gray;
+  }
+
+  .Error {
+    color: $zd-color-dark-gray;
+  }
+
+  .Icon {
+    top: #{5/$font-size}rem;
+  }
 }
 
 .AutomaticAnswersMobile {
-  width: 100%;
+  margin-left: #{8/$font-size}rem;
+  margin-right: #{8/$font-size}rem;
   margin-top: #{10/$font-size}rem;
+  margin-bottom: #{10/$font-size}rem;
   border-left: 0;
   border-right: 0;
   box-shadow: 0 0 #{10/$font-size}rem #{3/$font-size}rem rgba(0,0,0,0.2);
-  border-radius: 0;
-  display: inline-block;
+  border-radius: #{6/$font-size}rem;
+
+  .Icon--close {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: #{10/$font-size}rem;
+    height: #{10/$font-size}rem;
+    padding: #{15/$font-size}rem;
+    opacity: 0.2;
+
+    svg {
+      fill: black;
+    }
+  }
+
+  .Icon--close:hover {
+    opacity: 0.4;
+  }
 }
 
 .AutomaticAnswersBtn {
   font-size: #{12/$font-size}rem;
+  border-radius: #{3/$font-size}rem;
 }
 
 .AutomaticAnswersBtn--no {
   min-width: #{90/$font-size}rem;
+}
+
+.AutomaticAnswersBtn--mobile {
+  border-radius: #{3/$font-size}rem;
+  font-size: #{14/$font-size}rem;
+  min-width: #{100/$font-size}rem;
+  padding-left: #{10/$font-size}rem;
+  padding-right: #{10/$font-size}rem;
 }

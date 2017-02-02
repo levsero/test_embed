@@ -52,6 +52,32 @@ describe('Button', () => {
       .toEqual('success');
   });
 
+  describe('onTouchStartDisabled prop', () => {
+    let button;
+
+    describe('when the onTouchStartDisabled prop is not defined', () => {
+      beforeEach(() => {
+        button = shallowRender(<Button />);
+      });
+
+      it('the onTouchStart prop is assigned to the onClick function', () => {
+        expect(button.props.onTouchStart)
+          .toBe(button.props.onClick);
+      });
+    });
+
+    describe('when the onTouchStartDisabled prop is true', () => {
+      beforeEach(() => {
+        button = shallowRender(<Button onTouchStartDisabled={true} />);
+      });
+
+      it('the onTouchStart prop is null', () => {
+        expect(button.props.onTouchStart)
+          .toBe(null);
+      });
+    });
+  });
+
   describe('primary prop', () => {
     let button;
 

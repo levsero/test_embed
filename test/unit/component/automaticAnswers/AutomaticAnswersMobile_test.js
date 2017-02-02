@@ -72,7 +72,7 @@ describe('AutomaticAnswersMobile component', () => {
          <AutomaticAnswersMobile
            solveTicket={jasmine.createSpy()} />);
       spyOn(component.instance(), 'handleSolveTicket');
-      component.find('.c-btn').simulate('click');
+      component.find('.AutomaticAnswersBtn--cta').simulate('click');
     });
 
     it('calls handleSolveTicket', () => {
@@ -82,86 +82,214 @@ describe('AutomaticAnswersMobile component', () => {
   });
 
   describe('renderContent', () => {
-    describe('when the ticket is not solved', () => {
+    beforeEach(() => {
+      component = shallow(<AutomaticAnswersMobile closeFrame={() => {}}/>);
+    });
+
+    describe('when the screen state is set to solveTicketQuestion', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <AutomaticAnswersMobile />
-        );
-        spyOn(component, 'renderTicketContent');
-        component.renderContent();
+        spyOn(component.instance(), 'renderTicketContent');
+        component.setState({ screen: AutomaticAnswers.solveTicketQuestion });
       });
 
-      it('renders the solve ticket content', () => {
-        expect(component.renderTicketContent)
+      it('renders the solve question content', () => {
+        expect(component.instance().renderTicketContent)
           .toHaveBeenCalled();
       });
     });
 
-    describe('when the screen state is set to TICKET_CLOSED', () => {
+    describe('when the screen state is set to ticketClosed', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <AutomaticAnswersMobile
-            closeFrame={() => {}} />
-        );
-        spyOn(component, 'renderSuccessContent');
+        spyOn(component.instance(), 'renderSuccessContent');
         component.setState({ screen: AutomaticAnswers.ticketClosed });
       });
 
-      it('renders a success message', () => {
-        expect(component.renderSuccessContent)
+      it('renders the success content', () => {
+        expect(component.instance().renderSuccessContent)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the screen state is set to markAsIrrelevant', () => {
+      beforeEach(() => {
+        spyOn(component.instance(), 'renderIrrelevantContent');
+        component.setState({ screen: AutomaticAnswers.markAsIrrelevant });
+      });
+
+      it('renders the mark as irrelevant content', () => {
+        expect(component.instance().renderIrrelevantContent)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the screen state is set to thanksForFeedback', () => {
+      beforeEach(() => {
+        spyOn(component.instance(), 'renderThanksForFeedbackContent');
+        component.setState({ screen: AutomaticAnswers.thanksForFeedback });
+      });
+
+      it('renders the thanks for feedback content', () => {
+        expect(component.instance().renderThanksForFeedbackContent)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('default behaviour for the screen state', () => {
+      beforeEach(() => {
+        spyOn(component.instance(), 'renderSolveQuestion');
+        component.setState({ screen: 'thing' });
+      });
+
+      it('renders the solve question content', () => {
+        expect(component.instance().renderSolveQuestion)
           .toHaveBeenCalled();
       });
     });
   });
 
-  describe('renderButton', () => {
-    describe('when the ticket is not submitting', () => {
+  describe('renderButtons', () => {
+    describe('when the close ticket request is not submitting', () => {
       beforeEach(() => {
         component = shallow(<AutomaticAnswersMobile />);
         component.setState({ 'isSubmitting' : false });
       });
 
       it('renders a button with a call to action string', () => {
-        expect(component.find('.c-btn--primary--icon').text().includes('embeddable_framework.automaticAnswers.button_mobile'))
-          .toEqual(true);
+        expect(component.find('.AutomaticAnswersBtn--cta').props().label)
+          .toEqual('embeddable_framework.automaticAnswers.desktop.solve.yes');
+      });
+
+      it('renders a button labelled No', () => {
+        expect(component.find('.AutomaticAnswersBtn--no').props().label)
+          .toEqual('embeddable_framework.automaticAnswers.desktop.solve.no');
       });
     });
 
-    describe('when the ticket is submitting', () => {
+    describe('when the close ticket request is submitting', () => {
       beforeEach(() => {
         component = shallow(<AutomaticAnswersMobile />);
         component.setState({ 'isSubmitting' : true });
       });
 
-      it('renders a button with a "..." string', () => {
-        expect(component.find('.c-btn--primary--icon').text().includes('...'))
+      it('disables the cta button and the no button', () => {
+        const buttons = component.find(Button);
+
+        expect(buttons.length)
+          .toEqual(2);
+
+        expect(buttons.everyWhere(n => n.prop('disabled')))
           .toEqual(true);
       });
     });
   });
 
+  describe('renderIrrelevantContent', () => {
+    beforeEach(() => {
+      component = shallow(<AutomaticAnswersMobile />);
+    });
+
+    describe('when the irrelevant feedback request is submitting', () => {
+      beforeEach(() => {
+        component.setState({ 'isSubmitting' : true });
+      });
+
+      it('disables both buttons', () => {
+        expect(component.find('Button').everyWhere(n => n.props('disabled')))
+          .toEqual(true);
+      });
+    });
+
+    describe('when ticket ID is odd number', () => {
+      beforeEach(() => {
+        component.setState({
+          'screen' : AutomaticAnswers.markAsIrrelevant,
+          'ticket' : { 'niceId' : 1 }
+        });
+      });
+
+      it('the first button is for relatedButNotAnswered', () => {
+        expect(component.find('Button').first().key())
+          .toEqual(`${AutomaticAnswers.relatedButNotAnswered}`);
+      });
+    });
+
+    describe('when ticket ID is even number', () => {
+      beforeEach(() => {
+        component.setState({
+          'screen' : AutomaticAnswers.markAsIrrelevant,
+          'ticket' : { 'niceId' : 2 }
+        });
+      });
+
+      it('the first button is for notRelated', () => {
+        expect(component.find('Button').first().key())
+          .toEqual(`${AutomaticAnswers.notRelated}`);
+      });
+    });
+  });
+
   describe('renderErrorMessage', () => {
+    beforeEach(() => {
+      component = shallow(<AutomaticAnswersMobile />);
+    });
+
     describe('when errorMessage is falsely', () => {
       beforeEach(() => {
-        component = shallow(<AutomaticAnswersMobile />);
         component.setState({ 'errorMessage' : '' });
       });
 
       it('contains .u-isHidden', () => {
-        expect(component.find('.u-isError.u-isHidden').length)
+        expect(component.find('.Error.u-isHidden').length)
           .toEqual(1);
       });
     });
 
     describe('when errorMessage is truthy', () => {
       beforeEach(() => {
-        component = shallow(<AutomaticAnswersMobile />);
         component.setState({ 'errorMessage' : 'dude things are wrong.' });
       });
 
       it('does not contain .u-isHidden', () => {
         expect(component.find('.u-isError.u-isHidden').length)
           .toEqual(0);
+      });
+    });
+  });
+
+  describe('click behaviour when marking an article as irrelevant', () => {
+    let btn;
+    const mockEvent = () => {};
+
+    beforeEach(() => {
+      component = shallow(
+         <AutomaticAnswersMobile
+           closeFrame={() => {}}
+           markArticleIrrelevant={jasmine.createSpy()} />);
+      component.setState({ screen: AutomaticAnswers.markAsIrrelevant });
+      spyOn(component.instance(), 'handleMarkArticleAsIrrelevant');
+    });
+
+    describe('when the notRelated option is clicked', () => {
+      beforeEach(() => {
+        btn = component.findWhere(n => n.key() === `${AutomaticAnswers.notRelated}`);
+        btn.simulate('click', mockEvent);
+      });
+
+      it('handleMarkArticleAsIrrelevant is called with the notRelated key', () => {
+        expect(component.instance().handleMarkArticleAsIrrelevant)
+          .toHaveBeenCalledWith(AutomaticAnswers.notRelated, mockEvent);
+      });
+    });
+
+    describe('when the relatedButNotAnswered option is clicked', () => {
+      beforeEach(() => {
+        btn = component.findWhere(n => n.key() === `${AutomaticAnswers.relatedButNotAnswered}`);
+        btn.simulate('click', mockEvent);
+      });
+
+      it('handleMarkArticleAsIrrelevant is called with the relatedButNotAnswered key', () => {
+        expect(component.instance().handleMarkArticleAsIrrelevant)
+          .toHaveBeenCalledWith(AutomaticAnswers.relatedButNotAnswered, mockEvent);
       });
     });
   });

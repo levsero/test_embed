@@ -86,7 +86,7 @@ describe('AutomaticAnswersDesktop component', () => {
       component = shallow(<AutomaticAnswersDesktop closeFrame={() => {}}/>);
     });
 
-    describe('when the screen state is set to SOLVE_TICKET_QUESTION', () => {
+    describe('when the screen state is set to solveTicketQuestion', () => {
       beforeEach(() => {
         spyOn(component.instance(), 'renderTicketContent');
         component.setState({ screen: AutomaticAnswers.solveTicketQuestion });
@@ -98,7 +98,7 @@ describe('AutomaticAnswersDesktop component', () => {
       });
     });
 
-    describe('when the screen state is set to TICKET_CLOSED', () => {
+    describe('when the screen state is set to ticketClosed', () => {
       beforeEach(() => {
         spyOn(component.instance(), 'renderSuccessContent');
         component.setState({ screen: AutomaticAnswers.ticketClosed });
@@ -110,7 +110,7 @@ describe('AutomaticAnswersDesktop component', () => {
       });
     });
 
-    describe('when the screen state is set to MARK_AS_IRRELEVANT', () => {
+    describe('when the screen state is set to markAsIrrelevant', () => {
       beforeEach(() => {
         spyOn(component.instance(), 'renderIrrelevantContent');
         component.setState({ screen: AutomaticAnswers.markAsIrrelevant });
@@ -122,7 +122,7 @@ describe('AutomaticAnswersDesktop component', () => {
       });
     });
 
-    describe('when the screen state is set to THANKS_FOR_FEEDBACK', () => {
+    describe('when the screen state is set to thanksForFeedback', () => {
       beforeEach(() => {
         spyOn(component.instance(), 'renderThanksForFeedbackContent');
         component.setState({ screen: AutomaticAnswers.thanksForFeedback });
@@ -189,9 +189,12 @@ describe('AutomaticAnswersDesktop component', () => {
   });
 
   describe('renderIrrelevantContent', () => {
+    beforeEach(() => {
+      component = shallow(<AutomaticAnswersDesktop />);
+    });
+
     describe('when the irrelevant feedback request is submitting', () => {
       beforeEach(() => {
-        component = shallow(<AutomaticAnswersDesktop />);
         component.setState({
           'screen' : AutomaticAnswers.markAsIrrelevant,
           'isSubmitting' : true
@@ -211,7 +214,6 @@ describe('AutomaticAnswersDesktop component', () => {
 
     describe('when ticket ID is odd number', () => {
       beforeEach(() => {
-        component = shallow(<AutomaticAnswersDesktop />);
         component.setState({
           'screen' : AutomaticAnswers.markAsIrrelevant,
           'ticket' : { 'niceId' : 1 }
@@ -220,13 +222,12 @@ describe('AutomaticAnswersDesktop component', () => {
 
       it('the first button is for relatedButNotAnswered', () => {
         expect(component.find('Button').first().key())
-          .toEqual('relatedButNotAnswered');
+          .toEqual(`${AutomaticAnswers.relatedButNotAnswered}`);
       });
     });
 
     describe('when ticket ID is even number', () => {
       beforeEach(() => {
-        component = shallow(<AutomaticAnswersDesktop />);
         component.setState({
           'screen' : AutomaticAnswers.markAsIrrelevant,
           'ticket' : { 'niceId' : 2 }
@@ -235,15 +236,18 @@ describe('AutomaticAnswersDesktop component', () => {
 
       it('the first button is for notRelated', () => {
         expect(component.find('Button').first().key())
-          .toEqual('notRelated');
+          .toEqual(`${AutomaticAnswers.notRelated}`);
       });
     });
   });
 
   describe('renderErrorMessage', () => {
+    beforeEach(() => {
+      component = shallow(<AutomaticAnswersDesktop />);
+    });
+
     describe('when errorMessage is falsely', () => {
       beforeEach(() => {
-        component = shallow(<AutomaticAnswersDesktop />);
         component.setState({ 'errorMessage' : '' });
       });
 
@@ -255,7 +259,6 @@ describe('AutomaticAnswersDesktop component', () => {
 
     describe('when errorMessage is truthy', () => {
       beforeEach(() => {
-        component = shallow(<AutomaticAnswersDesktop />);
         component.setState({ 'errorMessage' : 'Invalid things dude.' });
       });
 
@@ -288,6 +291,44 @@ describe('AutomaticAnswersDesktop component', () => {
       it('does not contain .u-borderBottom', () => {
         expect(component.find('.AutomaticAnswersDesktop-solve .u-borderBottom').length)
           .toEqual(0);
+      });
+    });
+  });
+
+  describe('click behaviour when marking an article as irrelevant', () => {
+    let btn;
+    const mockEvent = () => {};
+
+    beforeEach(() => {
+      component = shallow(
+         <AutomaticAnswersDesktop
+           closeFrame={() => {}}
+           markArticleIrrelevant={jasmine.createSpy()} />);
+      component.setState({ screen: AutomaticAnswers.markAsIrrelevant });
+      spyOn(component.instance(), 'handleMarkArticleAsIrrelevant');
+    });
+
+    describe('when the notRelated option is clicked', () => {
+      beforeEach(() => {
+        btn = component.findWhere(n => n.key() === `${AutomaticAnswers.notRelated}`);
+        btn.simulate('click', mockEvent);
+      });
+
+      it('handleMarkArticleAsIrrelevant is called with the notRelated key', () => {
+        expect(component.instance().handleMarkArticleAsIrrelevant)
+          .toHaveBeenCalledWith(AutomaticAnswers.notRelated, mockEvent);
+      });
+    });
+
+    describe('when the relatedButNotAnswered option is clicked', () => {
+      beforeEach(() => {
+        btn = component.findWhere(n => n.key() === `${AutomaticAnswers.relatedButNotAnswered}`);
+        btn.simulate('click', mockEvent);
+      });
+
+      it('handleMarkArticleAsIrrelevant is called with the relatedButNotAnswered key', () => {
+        expect(component.instance().handleMarkArticleAsIrrelevant)
+          .toHaveBeenCalledWith(AutomaticAnswers.relatedButNotAnswered, mockEvent);
       });
     });
   });
