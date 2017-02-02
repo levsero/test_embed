@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
+import { AutomaticAnswersScreen } from 'component/automaticAnswers/AutomaticAnswers';
 import { AutomaticAnswersDesktop } from 'component/automaticAnswers/AutomaticAnswersDesktop';
 import { AutomaticAnswersMobile } from 'component/automaticAnswers/AutomaticAnswersMobile';
 import { frameFactory } from 'embed/frameFactory';
@@ -80,7 +81,9 @@ function create(name, config, reduxStore) {
           markArticleIrrelevant={markArticleIrrelevant}
           updateFrameSize={params.updateFrameSize}
           mobile={isMobileBrowser()}
-          closeFrame={closeFrame} />
+          closeFrame={closeFrame}
+          initialScreen={getInitialScreen()}
+          />
       );
     },
     frameParams,
@@ -189,11 +192,18 @@ function markArticleIrrelevant(authToken, articleId, reason, callbacks) {
   transport.automaticAnswersApiRequest(payload, formData);
 }
 
+function getInitialScreen() {
+  return (parseInt(getURLParameterByName('article_feedback'))
+      ? AutomaticAnswersScreen.markAsIrrelevant
+      : undefined);
+}
+
 export const automaticAnswers = {
   create: create,
   get: get,
   render: render,
   postRender: postRender,
   markArticleIrrelevant: markArticleIrrelevant,
-  fetchTicket: fetchTicket
+  fetchTicket: fetchTicket,
+  getInitialScreen: getInitialScreen
 };

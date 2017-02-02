@@ -17,11 +17,13 @@ export class AutomaticAnswers extends Component {
     markArticleIrrelevant: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
     mobile: PropTypes.bool.isRequired,
-    closeFrame: PropTypes.func.isRequired
+    closeFrame: PropTypes.func.isRequired,
+    initialScreen: PropTypes.string
   };
 
   static defaultProps = {
-    updateFrameSize: () => {}
+    updateFrameSize: () => {},
+    initialScreen: AutomaticAnswersScreen.solveTicketQuestion
   };
 
   constructor(props, context) {
@@ -33,7 +35,7 @@ export class AutomaticAnswers extends Component {
         niceId: null,
         statusId: null
       },
-      screen: AutomaticAnswers.solveTicketQuestion,
+      screen: props.initialScreen,
       errorMessage: '',
       isSubmitting: false
     };
