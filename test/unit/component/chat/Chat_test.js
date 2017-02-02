@@ -87,7 +87,7 @@ describe('Chat component', () => {
     beforeEach(() => {
       const chats = new SortedMap();
 
-      chatProp = { chats: chats };
+      chatProp = { chats };
     });
 
     describe('when there are no messages', () => {

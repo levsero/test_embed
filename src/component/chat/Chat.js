@@ -34,7 +34,7 @@ class Chat extends Component {
   };
 
   renderChatLog = () => {
-    if (this.props.chat.chats.length === 0) return;
+    if (this.props.chat.chats.length <= 0) return;
 
     const chatMessage = (data, key) => {
       return (<ChatMessage key={key} name={data.display_name} message={data.msg} nick={data.nick} />);
@@ -47,7 +47,7 @@ class Chat extends Component {
   }
 
   renderChatEnded = () => {
-    if (this.props.chat.chats.length === 0 || this.props.chat.is_chatting) return;
+    if (this.props.chat.chats.length <= 0 || this.props.chat.is_chatting) return;
 
     return (
       <div className={styles.chatEnd}>

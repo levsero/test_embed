@@ -184,6 +184,19 @@ describe('chat redux actions', () => {
             });
         });
       });
+
+      describe('when there are errors', () => {
+        beforeEach(() => {
+          callbackFn(['error!']);
+        });
+
+        it('dispatches a END_CHAT_SUCCESS action', () => {
+          expect(mockStore.getActions())
+            .toContain({
+              type: actionTypes.END_CHAT_FAILURE
+            });
+        });
+      });
     });
   });
 });
