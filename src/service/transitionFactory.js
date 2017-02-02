@@ -150,7 +150,7 @@ const transitionFactory = {
         transitionDuration: '0',
         transitionTimingFunction: 'unset',
         opacity: 1,
-        bottom: '-500px'
+        bottom: '-150px'
       },
       {
         transitionProperty: 'all',
