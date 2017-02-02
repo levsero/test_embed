@@ -71,25 +71,7 @@ function hide() {
   });
 }
 
-function validateZopim() {
-  // Reinitialize $zopim global variable as a callback queue
-  // where code is extracted from the one in main.js
-  if (!win.$zopim || typeof win.$zopim !== 'function') {
-    win.$zopim = (callback) => {
-      win.$zopim._.push(callback);
-    };
-
-    win.$zopim.set = (callback) => {
-      win.$zopim.set._.push(callback);
-    };
-    win.$zopim._ = [];
-    win.$zopim.set._ = [];
-  }
-}
-
 function render(name) {
-  validateZopim();
-
   const config = get(name).config;
   const zopimId = config.zopimId;
   const snippet = `
