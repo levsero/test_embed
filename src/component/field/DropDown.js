@@ -73,37 +73,28 @@ export class Dropdown extends Component {
     this.setState({ displayedScreen: screen });
   }
 
-  renderOption = (option) => {
-    const { value, title } = option;
-
-    return (
-      <DropdownOption
-        title={title}
-        key={title}
-        onClick={this.setValue(value, title)} />
-    );
-  }
-
   renderDropdownOptions = (optionsProp) => {
-    const optionElements = [];
     const options = _.cloneDeep(optionsProp);
-    // Group by nested fields
-    const optionGroups = _.groupBy(options, (option) => {
+    const groupByFn = (option) => {
       return (option.title.indexOf('::') !== -1)
            ? option.title.split('::')[0]
            : '';
-    });
-
-    _.forEach(optionGroups, (group, key) => {
-      // if not nested key will be blank
+    };
+    const mapFn = (group, key, allGroups) => {
       if (_.isEmpty(key)) {
-        _.forEach(group, (option) => {
-          if (!_.includes(_.keys(optionGroups), option.title)) {
-            optionElements.push(this.renderOption(option));
+        return _.map(group, (option) => {
+          // Don't return duplicate fields. ie `one` and `one::two`
+          if (!_.includes(_.keys(allGroups), option.title)) {
+            return (
+              <DropdownOption
+                title={option.title}
+                key={option.title}
+                onClick={this.setValue(option.value, option.title)} />
+            );
           }
         });
       } else {
-        // Remove the groups title from the title.
+        // Remove the groups name from the title value.
         _.forEach(group, (item) => {
           item.title = item.title.substring(item.title.indexOf('::') + 2);
         });
@@ -111,7 +102,7 @@ export class Dropdown extends Component {
         // And look for further nesting
         const nestedOptions = this.renderDropdownOptions(group);
 
-        optionElements.push(
+        return (
           <DropdownOption
             title={key}
             key={key}
@@ -119,9 +110,12 @@ export class Dropdown extends Component {
             updateScreen={this.updateScreen} />
         );
       }
-    });
+    };
 
-    return optionElements;
+    return _.chain(options)
+          .groupBy(groupByFn)
+          .map(mapFn)
+          .value();
   }
 
   renderBackArrow = () => {
