@@ -487,4 +487,49 @@ describe('AutomaticAnswers component', () => {
       });
     });
   });
+
+  describe('handleDismissalContext', () => {
+    const mockCloseFrame = jasmine.createSpy();
+
+    beforeEach(() => {
+      automaticAnswers = shallow(<AutomaticAnswers closeFrame={mockCloseFrame} />);
+    });
+
+    describe('when the screen state is markAsIrrelevant', () => {
+      beforeEach(() => {
+        automaticAnswers.setState({
+          screen: AutomaticAnswersScreen.markAsIrrelevant,
+          errorMessage: 'derp'
+        });
+        automaticAnswers.instance().handleDismissalContext();
+      });
+
+      it('updates the screen to solveTicketQuestion', () => {
+        expect(automaticAnswers.state().screen)
+          .toEqual(AutomaticAnswers.solveTicketQuestion);
+      });
+
+      it('sets the errorMessage to an empty string', () => {
+        expect(automaticAnswers.state().errorMessage)
+          .toEqual('');
+      });
+
+      it('does not close the frame', () => {
+        expect(mockCloseFrame)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when the screen state is not markAsIrrelevant', () => {
+      beforeEach(() => {
+        automaticAnswers.setState({ screen: AutomaticAnswersScreen.ticketClosed });
+        automaticAnswers.instance().handleDismissalContext();
+      });
+
+      it('closes the frame', () => {
+        expect(mockCloseFrame)
+          .toHaveBeenCalled();
+      });
+    });
+  });
 });

@@ -151,6 +151,17 @@ export class AutomaticAnswers extends Component {
     return options.slice(order).concat(options.slice(0, order));
   }
 
+  handleDismissalContext = () => {
+    if (this.state.screen === AutomaticAnswersScreen.markAsIrrelevant) {
+      this.setState({
+        screen: AutomaticAnswers.solveTicketQuestion,
+        errorMessage: ''
+      });
+    } else {
+      this.props.closeFrame();
+    }
+  }
+
   renderContent = () => {
     switch (this.state.screen) {
       case AutomaticAnswersScreen.solveTicketQuestion:

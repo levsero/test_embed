@@ -295,4 +295,18 @@ describe('AutomaticAnswersMobile component', () => {
       });
     });
   });
+
+  describe('clicking the close button', () => {
+    beforeEach(() => {
+      component = shallow(<AutomaticAnswersMobile closeFrame={() => {}} />);
+      component.setState({ screen: AutomaticAnswersScreen.markAsIrrelevant });
+      spyOn(component.instance(), 'handleDismissalContext');
+      component.findWhere((n) => n.props().type === 'Icon--close').simulate('click');
+    });
+
+    it('calls handleDismissalContext', () => {
+      expect(component.instance().handleDismissalContext)
+        .toHaveBeenCalled();
+    });
+  });
 });
