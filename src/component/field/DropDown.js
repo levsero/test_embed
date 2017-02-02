@@ -22,12 +22,12 @@ export class Dropdown extends Component {
   constructor (props) {
     super(props);
 
-    const initialScreen = this.renderDropdownOptions(this.props.options);
+    const initialMenu = this.renderDropdownOptions(this.props.options);
 
     this.state = {
       selected: props.value,
-      displayedScreen: initialScreen,
-      previousScreen: [],
+      displayedMenu: initialMenu,
+      previousMenu: [],
       open: false
     };
 
@@ -47,9 +47,9 @@ export class Dropdown extends Component {
   }
 
   handleBackClick = () => {
-    this.setState({ displayedScreen: this.state.previousScreen[0] });
+    this.setState({ displayedMenu: this.state.previousMenu[0] });
 
-    this.state.previousScreen.shift();
+    this.state.previousMenu.shift();
   }
 
   handleContainerClick = () => {
@@ -67,10 +67,10 @@ export class Dropdown extends Component {
     this.refs.input.blur();
   }
 
-  updateScreen = (screen) => {
-    this.state.previousScreen.unshift(this.state.displayedScreen);
+  updateMenu = (menu) => {
+    this.state.previousMenu.unshift(this.state.displayedMenu);
 
-    this.setState({ displayedScreen: screen });
+    this.setState({ displayedMenu: menu });
   }
 
   renderDropdownOptions = (optionsProp) => {
@@ -107,7 +107,7 @@ export class Dropdown extends Component {
             title={key}
             key={key}
             nestedOptions={nestedOptions}
-            updateScreen={this.updateScreen} />
+            updateMenu={this.updateMenu} />
         );
       }
     };
@@ -119,7 +119,7 @@ export class Dropdown extends Component {
   }
 
   renderBackArrow = () => {
-    if (this.state.previousScreen.length === 0) return;
+    if (this.state.previousMenu.length === 0) return;
 
     return (
       <div
@@ -137,7 +137,7 @@ export class Dropdown extends Component {
     return (
       <div className={styles.menu}>
         {this.renderBackArrow()}
-        {this.state.displayedScreen}
+        {this.state.displayedMenu}
       </div>
     );
   }
@@ -162,7 +162,7 @@ export class Dropdown extends Component {
             className={styles.input}
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}
-            readOnly
+            readOnly={true}
             placeholder={this.state.selected.title} />
           {this.renderDropdownArrow()}
           {this.renderMenu()}

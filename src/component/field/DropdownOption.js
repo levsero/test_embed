@@ -7,7 +7,7 @@ export class DropdownOption extends Component {
     title: PropTypes.string,
     nestedOptions: PropTypes.array,
     onClick: PropTypes.func,
-    updateScreen: PropTypes.func
+    updateMenu: PropTypes.func
   }
 
   static defaultProps = {
@@ -19,7 +19,7 @@ export class DropdownOption extends Component {
 
   handleDropdownOpen = () => {
     if (this.props.nestedOptions !== null) {
-      this.props.updateScreen(this.props.nestedOptions, this.props.title);
+      this.props.updateMenu(this.props.nestedOptions, this.props.title);
     } else {
       this.props.onClick();
     }
