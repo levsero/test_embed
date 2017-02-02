@@ -691,8 +691,6 @@ describe('transport', () => {
     let config,
       mockSuperagent,
       payload,
-      path,
-      queryParams,
       formData,
       articleId = 10001,
       authToken = 'abc';
@@ -731,14 +729,19 @@ describe('transport', () => {
         spyOn(mockMethods, 'end').and.callThrough();
         spyOn(mockMethods, 'send').and.callThrough();
         spyOn(mockMethods, 'type').and.callThrough();
+        spyOn(mockMethods, 'query').and.callThrough();
       });
 
       describe('when sending a POST request', () => {
         beforeEach(() => {
-          path = '/test/solve';
-          queryParams = `?source=embed&mobile=false`;
-          payload.method = 'post';
-          payload.path = path + queryParams;
+          payload = {
+            path: '/test/solve',
+            queryParams: {
+              source: 'embed',
+              mobile: false
+            },
+            method: 'post'
+          };
           formData = {
             'auth_token' : authToken,
             'article_id' : articleId
@@ -750,7 +753,12 @@ describe('transport', () => {
           expect(mockSuperagent)
             .toHaveBeenCalledWith(
               'POST',
-              'https://lolz.zendesk.host/test/solve?source=embed&mobile=false');
+              'https://lolz.zendesk.host/test/solve');
+        });
+
+        it('appends query params to the url', () => {
+          expect(mockMethods.query)
+            .toHaveBeenCalledWith(payload.queryParams);
         });
 
         it('sets the correct type to avoid a CORS failure', () => {
