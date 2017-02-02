@@ -26,6 +26,9 @@ describe('embed.automaticAnswers', () => {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
+      'component/automaticAnswers/AutomaticAnswers': {
+        AutomaticAnswersScreen: {}
+      },
       'component/automaticAnswers/AutomaticAnswersDesktop': {
         AutomaticAnswersDesktop: class extends AutomaticAnswers {
           render() {

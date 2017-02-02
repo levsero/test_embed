@@ -3,6 +3,7 @@ describe('AutomaticAnswers component', () => {
     mockMarkArticleIrrelevant,
     AutomaticAnswers,
     automaticAnswers,
+    AutomaticAnswersScreen,
     mockJwtToken,
     mockUrlArticleId;
   const automaticAnswersPath = buildSrcPath('component/automaticAnswers/AutomaticAnswers');
@@ -28,6 +29,7 @@ describe('AutomaticAnswers component', () => {
       }
     });
 
+    AutomaticAnswersScreen = requireUncached(automaticAnswersPath).AutomaticAnswersScreen;
     AutomaticAnswers = requireUncached(automaticAnswersPath).AutomaticAnswers;
 
     mockUrlArticleId = 23425454;
@@ -93,7 +95,7 @@ describe('AutomaticAnswers component', () => {
 
     it('updates the screen to MARK_AS_IRRELEVANT', () => {
       expect(automaticAnswers.state.screen)
-        .toEqual(AutomaticAnswers.markAsIrrelevant);
+        .toEqual(AutomaticAnswersScreen.markAsIrrelevant);
     });
   });
 
@@ -208,7 +210,7 @@ describe('AutomaticAnswers component', () => {
 
       it('sets screen to ticketClosed', () => {
         expect(automaticAnswers.state.screen)
-          .toBe(AutomaticAnswers.ticketClosed);
+          .toBe(AutomaticAnswersScreen.ticketClosed);
       });
 
       it('sets isSubmitting to false', () => {
@@ -346,7 +348,7 @@ describe('AutomaticAnswers component', () => {
 
       it('sets screen to thanksForFeedback', () => {
         expect(automaticAnswers.state.screen)
-          .toBe(AutomaticAnswers.thanksForFeedback);
+          .toBe(AutomaticAnswersScreen.thanksForFeedback);
       });
 
       it('sets isSubmitting to false', () => {

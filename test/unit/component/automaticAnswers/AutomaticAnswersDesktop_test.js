@@ -1,6 +1,7 @@
 describe('AutomaticAnswersDesktop component', () => {
   let AutomaticAnswersDesktop,
     AutomaticAnswers,
+    AutomaticAnswersScreen,
     Icon,
     Button,
     component;
@@ -51,6 +52,7 @@ describe('AutomaticAnswersDesktop component', () => {
 
     // Run initMockRegistry again. The below modules will not work if required in the previous run due
     // to ordered dependency issues. Resolving dependent modules in the previous run addresses this issue.
+    AutomaticAnswersScreen = requireUncached(automaticAnswersPath).AutomaticAnswersScreen;
     AutomaticAnswers = requireUncached(automaticAnswersPath).AutomaticAnswers;
     initMockRegistry({
       'component/automaticAnswers/AutomaticAnswers': {
@@ -89,7 +91,7 @@ describe('AutomaticAnswersDesktop component', () => {
     describe('when the screen state is set to solveTicketQuestion', () => {
       beforeEach(() => {
         spyOn(component.instance(), 'renderTicketContent');
-        component.setState({ screen: AutomaticAnswers.solveTicketQuestion });
+        component.setState({ screen: AutomaticAnswersScreen.solveTicketQuestion });
       });
 
       it('renders the solve question content', () => {
@@ -101,7 +103,7 @@ describe('AutomaticAnswersDesktop component', () => {
     describe('when the screen state is set to ticketClosed', () => {
       beforeEach(() => {
         spyOn(component.instance(), 'renderSuccessContent');
-        component.setState({ screen: AutomaticAnswers.ticketClosed });
+        component.setState({ screen: AutomaticAnswersScreen.ticketClosed });
       });
 
       it('renders the success content', () => {
@@ -113,7 +115,7 @@ describe('AutomaticAnswersDesktop component', () => {
     describe('when the screen state is set to markAsIrrelevant', () => {
       beforeEach(() => {
         spyOn(component.instance(), 'renderIrrelevantContent');
-        component.setState({ screen: AutomaticAnswers.markAsIrrelevant });
+        component.setState({ screen: AutomaticAnswersScreen.markAsIrrelevant });
       });
 
       it('renders the mark as irrelevant content', () => {
@@ -125,7 +127,7 @@ describe('AutomaticAnswersDesktop component', () => {
     describe('when the screen state is set to thanksForFeedback', () => {
       beforeEach(() => {
         spyOn(component.instance(), 'renderThanksForFeedbackContent');
-        component.setState({ screen: AutomaticAnswers.thanksForFeedback });
+        component.setState({ screen: AutomaticAnswersScreen.thanksForFeedback });
       });
 
       it('renders the mark as irrelevant content', () => {
@@ -196,7 +198,7 @@ describe('AutomaticAnswersDesktop component', () => {
     describe('when the irrelevant feedback request is submitting', () => {
       beforeEach(() => {
         component.setState({
-          'screen' : AutomaticAnswers.markAsIrrelevant,
+          'screen' : AutomaticAnswersScreen.markAsIrrelevant,
           'isSubmitting' : true
         });
       });
@@ -215,7 +217,7 @@ describe('AutomaticAnswersDesktop component', () => {
     describe('when ticket ID is odd number', () => {
       beforeEach(() => {
         component.setState({
-          'screen' : AutomaticAnswers.markAsIrrelevant,
+          'screen' : AutomaticAnswersScreen.markAsIrrelevant,
           'ticket' : { 'niceId' : 1 }
         });
       });
@@ -229,7 +231,7 @@ describe('AutomaticAnswersDesktop component', () => {
     describe('when ticket ID is even number', () => {
       beforeEach(() => {
         component.setState({
-          'screen' : AutomaticAnswers.markAsIrrelevant,
+          'screen' : AutomaticAnswersScreen.markAsIrrelevant,
           'ticket' : { 'niceId' : 2 }
         });
       });
@@ -304,7 +306,7 @@ describe('AutomaticAnswersDesktop component', () => {
          <AutomaticAnswersDesktop
            closeFrame={() => {}}
            markArticleIrrelevant={jasmine.createSpy()} />);
-      component.setState({ screen: AutomaticAnswers.markAsIrrelevant });
+      component.setState({ screen: AutomaticAnswersScreen.markAsIrrelevant });
       spyOn(component.instance(), 'handleMarkArticleAsIrrelevant');
     });
 

@@ -1,6 +1,7 @@
 describe('AutomaticAnswersMobile component', () => {
   let AutomaticAnswersMobile,
     AutomaticAnswers,
+    AutomaticAnswersScreen,
     Button,
     component;
 
@@ -51,6 +52,7 @@ describe('AutomaticAnswersMobile component', () => {
       }
     });
 
+    AutomaticAnswersScreen = requireUncached(automaticAnswersPath).AutomaticAnswersScreen;
     AutomaticAnswers = requireUncached(automaticAnswersPath).AutomaticAnswers;
     initMockRegistry({
       'component/automaticAnswers/AutomaticAnswers': {
@@ -89,7 +91,7 @@ describe('AutomaticAnswersMobile component', () => {
     describe('when the screen state is set to solveTicketQuestion', () => {
       beforeEach(() => {
         spyOn(component.instance(), 'renderTicketContent');
-        component.setState({ screen: AutomaticAnswers.solveTicketQuestion });
+        component.setState({ screen: AutomaticAnswersScreen.solveTicketQuestion });
       });
 
       it('renders the solve question content', () => {
@@ -101,7 +103,7 @@ describe('AutomaticAnswersMobile component', () => {
     describe('when the screen state is set to ticketClosed', () => {
       beforeEach(() => {
         spyOn(component.instance(), 'renderSuccessContent');
-        component.setState({ screen: AutomaticAnswers.ticketClosed });
+        component.setState({ screen: AutomaticAnswersScreen.ticketClosed });
       });
 
       it('renders the success content', () => {
@@ -113,7 +115,7 @@ describe('AutomaticAnswersMobile component', () => {
     describe('when the screen state is set to markAsIrrelevant', () => {
       beforeEach(() => {
         spyOn(component.instance(), 'renderIrrelevantContent');
-        component.setState({ screen: AutomaticAnswers.markAsIrrelevant });
+        component.setState({ screen: AutomaticAnswersScreen.markAsIrrelevant });
       });
 
       it('renders the mark as irrelevant content', () => {
@@ -125,7 +127,7 @@ describe('AutomaticAnswersMobile component', () => {
     describe('when the screen state is set to thanksForFeedback', () => {
       beforeEach(() => {
         spyOn(component.instance(), 'renderThanksForFeedbackContent');
-        component.setState({ screen: AutomaticAnswers.thanksForFeedback });
+        component.setState({ screen: AutomaticAnswersScreen.thanksForFeedback });
       });
 
       it('renders the thanks for feedback content', () => {
@@ -202,7 +204,7 @@ describe('AutomaticAnswersMobile component', () => {
     describe('when ticket ID is odd number', () => {
       beforeEach(() => {
         component.setState({
-          'screen' : AutomaticAnswers.markAsIrrelevant,
+          'screen' : AutomaticAnswersScreen.markAsIrrelevant,
           'ticket' : { 'niceId' : 1 }
         });
       });
@@ -216,7 +218,7 @@ describe('AutomaticAnswersMobile component', () => {
     describe('when ticket ID is even number', () => {
       beforeEach(() => {
         component.setState({
-          'screen' : AutomaticAnswers.markAsIrrelevant,
+          'screen' : AutomaticAnswersScreen.markAsIrrelevant,
           'ticket' : { 'niceId' : 2 }
         });
       });
@@ -265,7 +267,7 @@ describe('AutomaticAnswersMobile component', () => {
          <AutomaticAnswersMobile
            closeFrame={() => {}}
            markArticleIrrelevant={jasmine.createSpy()} />);
-      component.setState({ screen: AutomaticAnswers.markAsIrrelevant });
+      component.setState({ screen: AutomaticAnswersScreen.markAsIrrelevant });
       spyOn(component.instance(), 'handleMarkArticleAsIrrelevant');
     });
 
