@@ -59,7 +59,7 @@ function create(name, config, reduxStore) {
     hideCloseButton: true,
     name: name,
     // Add offsetHeight to allow updateFrameSize to account for the box-shadow frame margin
-    offsetHeight: (isMobileBrowser()) ? 60 : 30,
+    offsetHeight: (isMobileBrowser()) ? 20 : 30,
     offsetWidth: (isMobileBrowser()) ? 0 : 30,
     transitions: {
       close: transitionSet.downHide(),
