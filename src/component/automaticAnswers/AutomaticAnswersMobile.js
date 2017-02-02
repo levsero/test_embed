@@ -144,7 +144,7 @@ export class AutomaticAnswersMobile extends AutomaticAnswers {
   render = () => {
     const containerClasses = 'AutomaticAnswersMobile u-textSizeMed u-block u-textCenter u-paddingHS u-paddingVS';
     const closeButton = (this.showCloseButton())
-      ? (<Icon type="Icon--close" onClick={() => this.props.closeFrame(0)} />)
+      ? (<Icon type="Icon--close" onClick={() => this.props.closeFrame()} />)
       : null;
 
     return (

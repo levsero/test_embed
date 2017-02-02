@@ -1,7 +1,6 @@
 describe('AutomaticAnswers component', () => {
   let mockSolveTicket,
     mockMarkArticleIrrelevant,
-    mockCloseFrame,
     AutomaticAnswers,
     automaticAnswers,
     mockJwtToken,
@@ -193,58 +192,13 @@ describe('AutomaticAnswers component', () => {
     });
   });
 
-  describe('close frame behaviour', () => {
-    const closeFrameDelay = 5000;
-
-    beforeEach(() => {
-      mockCloseFrame = jasmine.createSpy('mockCloseFrame');
-      automaticAnswers = shallow(<AutomaticAnswers closeFrame={mockCloseFrame} />);
-    });
-
-    describe('when the screen state is ticketClosed', () => {
-      beforeEach(() => {
-        automaticAnswers.setState({ screen: AutomaticAnswers.ticketClosed });
-      });
-
-      it('the frame closes after a short delay', () => {
-        expect(mockCloseFrame)
-          .toHaveBeenCalledWith(closeFrameDelay);
-      });
-    });
-
-    describe('when the screen state is thanksForFeedback', () => {
-      beforeEach(() => {
-        automaticAnswers.setState({ screen: AutomaticAnswers.thanksForFeedback });
-      });
-
-      it('the frame closes after a short delay', () => {
-        expect(mockCloseFrame)
-          .toHaveBeenCalledWith(closeFrameDelay);
-      });
-    });
-
-    describe('otherwise', () => {
-      beforeEach(() => {
-        automaticAnswers.setState({ screen: AutomaticAnswers.markAsIrrelevant });
-      });
-
-      it('the frame does not close', () => {
-        expect(mockCloseFrame)
-          .not.toHaveBeenCalled();
-      });
-    });
-  });
-
   describe('sending a request to solve a ticket', () => {
-    const closeFrameDelay = 5000;
-
     beforeEach(() => {
       mockSolveTicket = jasmine.createSpy('mockSolveTicket');
-      mockCloseFrame = jasmine.createSpy('mockCloseFrame');
       automaticAnswers = domRender(
          <AutomaticAnswers
            solveTicket={mockSolveTicket}
-           closeFrame={mockCloseFrame} />);
+           closeFrame={() => {}} />);
     });
 
     describe('when the request is successful', () => {
@@ -265,11 +219,6 @@ describe('AutomaticAnswers component', () => {
       it('sets errorMessage to an empty string', () => {
         expect(automaticAnswers.state.errorMessage)
           .toBe('');
-      });
-
-      it('closes the frame after a short delay', () => {
-        expect(automaticAnswers.props.closeFrame)
-          .toHaveBeenCalledWith(closeFrameDelay);
       });
     });
 

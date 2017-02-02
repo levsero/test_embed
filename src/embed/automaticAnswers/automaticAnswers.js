@@ -26,7 +26,6 @@ const solvedStatusIds = [3, 4];
 let embed;
 
 function create(name, config, reduxStore) {
-  let closeTimeoutId = null;
   let frameStyle = {
     position: 'fixed',
     bottom: 0,
@@ -68,18 +67,7 @@ function create(name, config, reduxStore) {
     }
   };
 
-  // The onClose in frameFactory param is being called after the embed has been hidden
-  // but we need to clear the timeout before it is being closed.
-  const closeFrame = (delay) => {
-    if (!delay) {
-      if (closeTimeoutId) {
-        closeTimeoutId = clearTimeout(closeTimeoutId);
-      }
-      embed.instance.close({});
-    } else if (!closeTimeoutId) {
-      closeTimeoutId = setTimeout(() => embed.instance.close({}), delay);
-    }
-  };
+  const closeFrame = () => embed.instance.close({});
 
   const ComponentType = (isMobileBrowser()) ? AutomaticAnswersMobile : AutomaticAnswersDesktop;
 
