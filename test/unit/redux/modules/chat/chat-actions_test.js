@@ -190,7 +190,7 @@ describe('chat redux actions', () => {
           callbackFn(['error!']);
         });
 
-        it('dispatches a END_CHAT_SUCCESS action', () => {
+        it('dispatches a END_CHAT_FAILURE action', () => {
           expect(mockStore.getActions())
             .toContain({
               type: actionTypes.END_CHAT_FAILURE
