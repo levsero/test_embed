@@ -55,12 +55,12 @@ export class AutomaticAnswersMobile extends AutomaticAnswers {
 
     return (
       <div>
-        <Button className='AutomaticAnswersBtn--mobile AutomaticAnswersBtn--cta u-marginHT'
+        <Button className='AutomaticAnswersBtn--mobile AutomaticAnswersBtn--cta u-marginHT Anim-none'
           disabled={this.state.isSubmitting}
           onClick={(e) => this.handleSolveTicket(e)}
           onTouchStartDisabled={true}
           label={ctaLabel} />
-        <Button className='AutomaticAnswersBtn--mobile AutomaticAnswersBtn--no u-marginHT'
+        <Button className='AutomaticAnswersBtn--mobile AutomaticAnswersBtn--no u-marginHT Anim-none'
           disabled={this.state.isSubmitting}
           onClick={(e) => this.goToMarkAsIrrelevant(e)}
           onTouchStartDisabled={true}
@@ -91,7 +91,7 @@ export class AutomaticAnswersMobile extends AutomaticAnswers {
     const relatedButNotAnswered = i18n.t('embeddable_framework.automaticAnswers.desktop.irrelevant.related_no_answer', {
       fallback: "It's related but didn't answer my question"
     });
-    const classNames = 'AutomaticAnswersBtn--mobile c-btn--fullWidth u-marginVT Anim-all--fast';
+    const classNames = 'AutomaticAnswersBtn--mobile c-btn--fullWidth u-marginVT Anim-none';
 
     return this.randomiseOptions([
       <Button key={AutomaticAnswers.notRelated}

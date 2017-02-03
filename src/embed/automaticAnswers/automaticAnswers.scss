@@ -120,4 +120,12 @@
   min-width: #{100/$font-size}rem;
   padding-left: #{10/$font-size}rem;
   padding-right: #{10/$font-size}rem;
+
+  // Neutralise c-btn behaviour
+  &.u-userBorderColor:not([disabled]):hover,
+  &.u-userBorderColor:not([disabled]):active,
+  &.u-userBorderColor:not([disabled]):focus {
+    color: $zd-color-apple-green !important;
+    background-color: transparent !important;
+  }
 }

@@ -6,6 +6,10 @@
   transition: all 0.25s ease;
 }
 
+.Anim-none {
+  transition: none !important;
+}
+
 @keyframes Bounce-delay {
   0%, 80%, 100% {
     transform: scale(0.0);
