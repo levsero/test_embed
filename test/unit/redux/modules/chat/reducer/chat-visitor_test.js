@@ -97,5 +97,26 @@ describe('chat reducer visitor', () => {
           .toEqual(jasmine.objectContaining(payload.detail));
       });
     });
+
+    describe('when a UPDATE_VISITOR_INFO_SUCCESS action is dispatched', () => {
+      let payload;
+
+      beforeEach(() => {
+        payload = {
+          display_name: 'Tay Tay',
+          email: 'tt@example.com'
+        };
+
+        state = reducer(initialState, {
+          type: actionTypes.UPDATE_VISITOR_INFO_SUCCESS,
+          payload: payload
+        });
+      });
+
+      it('updates state with data from payload', () => {
+        expect(state.payload)
+          .toEqual(jasmine.objectContaining(payload));
+      });
+    });
   });
 });

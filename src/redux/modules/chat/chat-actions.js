@@ -7,7 +7,8 @@ import {
   SENT_CHAT_MSG_SUCCESS,
   SENT_CHAT_MSG_FAILURE,
   UPDATE_CURRENT_MSG,
-  UPDATE_VISITOR_INFO
+  UPDATE_VISITOR_INFO_SUCCESS,
+  UPDATE_VISITOR_INFO_FAILURE
 } from './chat-action-types';
 
 const chatTypingTimeout = 2000;
@@ -83,9 +84,11 @@ export function setVisitorInfo(visitor) {
     zChat.setVisitorInfo(visitor, (err) => {
       if (!err) {
         dispatch({
-          type: UPDATE_VISITOR_INFO,
+          type: UPDATE_VISITOR_INFO_SUCCESS,
           payload: visitor
         });
+      } else {
+        dispatch({ type: UPDATE_VISITOR_INFO_FAILURE });
       }
     });
   };
