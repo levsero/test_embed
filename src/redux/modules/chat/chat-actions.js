@@ -1,10 +1,12 @@
 import zChat from 'vendor/web-sdk';
 
 import {
-  UPDATE_CURRENT_MSG,
+  END_CHAT_SUCCESS,
+  END_CHAT_FAILURE,
   SENT_CHAT_MSG_REQUEST,
   SENT_CHAT_MSG_SUCCESS,
-  SENT_CHAT_MSG_FAILURE
+  SENT_CHAT_MSG_FAILURE,
+  UPDATE_CURRENT_MSG
 } from './chat-action-types';
 
 const chatTypingTimeout = 2000;
@@ -63,3 +65,14 @@ export const updateCurrentMsg = (msg) => {
   };
 };
 
+export function endChat() {
+  return (dispatch) => {
+    zChat.endChat((err) => {
+      if (!err) {
+        dispatch({ type: END_CHAT_SUCCESS });
+      } else {
+        dispatch({ type: END_CHAT_FAILURE });
+      }
+    });
+  };
+}

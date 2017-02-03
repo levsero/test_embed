@@ -1,7 +1,9 @@
-export const UPDATE_CURRENT_MSG = 'widget/chat/UPDATE_CURRENT_MSG';
+export const END_CHAT_SUCCESS = 'widget/chat/END_CHAT_SUCCESS';
+export const END_CHAT_FAILURE = 'widget/chat/END_CHAT_FAILURE';
 export const SENT_CHAT_MSG_REQUEST = 'widget/chat/SENT_CHAT_MSG_REQUEST';
 export const SENT_CHAT_MSG_SUCCESS = 'widget/chat/SENT_CHAT_MSG_SUCCESS';
 export const SENT_CHAT_MSG_FAILURE = 'widget/chat/SENT_CHAT_MSG_FAILURE';
+export const UPDATE_CURRENT_MSG = 'widget/chat/UPDATE_CURRENT_MSG';
 
 export const SDK_CHAT_MSG = 'websdk/chat.msg';
 export const SDK_CHAT_FILE = 'websdk/chat.file';

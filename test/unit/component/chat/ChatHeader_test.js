@@ -16,6 +16,9 @@ describe('ChatHeader component', () => {
       'component/Avatar': {
         Avatar: MockAvatar
       },
+      'component/button/ButtonSecondary': {
+        ButtonSecondary: noopReactComponent()
+      },
       'service/i18n': {
         i18n: {
           t: noop
