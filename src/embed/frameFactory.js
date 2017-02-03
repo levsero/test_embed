@@ -166,6 +166,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       const iframe = ReactDOM.findDOMNode(this);
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
+      const fullscreenWidth = `${win.innerWidth}px`;
 
       if (!frameDoc.firstChild) {
         return false;
@@ -178,7 +179,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
         const fullscreen = params.isMobile && params.fullscreenable;
         // FIXME shouldn't set background & zIndex in a dimensions object
         const fullscreenStyle = {
-          width: `${win.innerWidth}px`,
+          width: fullscreenWidth,
           height: '100%',
           left: 0,
           background:'#FFF',
@@ -205,7 +206,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       if (params.fullscreenable && params.isMobile) {
         frameDoc.body.firstChild.setAttribute(
           'style',
-          ['width: 100%',
+          [`width: ${fullscreenWidth}`,
           'height: 100%',
           'overflow-x: hidden'].join(';')
         );
