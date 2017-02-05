@@ -108,6 +108,7 @@
 .AutomaticAnswersBtn {
   font-size: #{12/$font-size}rem;
   border-radius: #{3/$font-size}rem;
+  border: #{1/$font-size}rem solid $zd-color-apple-green !important;
 }
 
 .AutomaticAnswersBtn--no {
@@ -120,4 +121,12 @@
   min-width: #{100/$font-size}rem;
   padding-left: #{10/$font-size}rem;
   padding-right: #{10/$font-size}rem;
+
+  // Neutralise c-btn behaviour
+  &.u-userBorderColor:not([disabled]):hover,
+  &.u-userBorderColor:not([disabled]):active,
+  &.u-userBorderColor:not([disabled]):focus {
+    color: $zd-color-apple-green !important;
+    background-color: transparent !important;
+  }
 }
