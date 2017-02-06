@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 
 import { locals as styles } from './Dropdown.sass';
+import { DropdownMenu } from 'component/field/DropdownMenu';
 import { DropdownOption } from 'component/field/DropdownOption';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
@@ -22,7 +23,8 @@ export class Dropdown extends Component {
   constructor (props) {
     super(props);
 
-    const initialMenu = this.renderDropdownOptions(this.props.options);
+    const options = this.renderDropdownOptions(this.props.options);
+    const initialMenu = <DropdownMenu ref='::' options={options} onOptionClick={this.setValue} />;
 
     this.state = {
       selected: props.value,
@@ -101,12 +103,13 @@ export class Dropdown extends Component {
 
         // And look for further nesting
         const nestedOptions = this.renderDropdownOptions(group);
+        const menu = <DropdownMenu ref={group[0].name} backButton={true} handleBackClick={this.handleBackClick} options={nestedOptions} />;
 
         return (
           <DropdownOption
             title={key}
             key={key}
-            nestedOptions={nestedOptions}
+            nestedMenu={menu}
             updateMenu={this.updateMenu} />
         );
       }
@@ -127,17 +130,6 @@ export class Dropdown extends Component {
         onClick={this.handleBackClick}>
         <div className={styles.arrowBack} />
         {i18n.t('embeddable_framework.navigation.back')}
-      </div>
-    );
-  }
-
-  renderMenu = () => {
-    if (!this.state.open) return;
-
-    return (
-      <div className={styles.menu}>
-        {this.renderBackArrow()}
-        {this.state.displayedMenu}
       </div>
     );
   }
@@ -165,7 +157,7 @@ export class Dropdown extends Component {
             readOnly={true}
             placeholder={this.state.selected.title} />
           {this.renderDropdownArrow()}
-          {this.renderMenu()}
+          {this.state.open && this.state.displayedMenu}
         </div>
       </div>
     );

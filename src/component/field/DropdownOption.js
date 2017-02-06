@@ -5,21 +5,21 @@ import { locals as styles } from './DropdownOption.sass';
 export class DropdownOption extends Component {
   static propTypes = {
     title: PropTypes.string,
-    nestedOptions: PropTypes.array,
+    nestedMenu: PropTypes.object,
     onClick: PropTypes.func,
     updateMenu: PropTypes.func
   }
 
   static defaultProps = {
-    nestedOptions: null,
+    nestedMenu: null,
     title: '',
     onClick: () => {},
     updateScreen: () => {}
   }
 
   handleDropdownOpen = () => {
-    if (this.props.nestedOptions !== null) {
-      this.props.updateMenu(this.props.nestedOptions, this.props.title);
+    if (this.props.nestedMenu !== null) {
+      this.props.updateMenu(this.props.nestedMenu, this.props.title);
     } else {
       this.props.onClick();
     }
@@ -30,7 +30,7 @@ export class DropdownOption extends Component {
   }
 
   render = () => {
-    const hasNestedFields = this.props.nestedOptions !== null;
+    const hasNestedFields = this.props.nestedMenu !== null;
     const arrow = hasNestedFields ? this.renderNextArrow() : '';
 
     return (
