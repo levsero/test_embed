@@ -23,9 +23,8 @@ set(:build_version) { (tag && tag.gsub(/^v/, '')) || fetch(:branch, nil) || loca
 set(:real_revision) { Zendesk::Deployment::Committish.new(revision).sha }
 
 set(:aws_credentials) {
-  secrets_file = YAML.load(File.read('/etc/zendesk/zendesk.yml'))
-  key = secrets_file['production']['aws_access_key']
-  secret = secrets_file['production']['aws_secret_key']
+  key = ENV['AWS_RW_ACCESS_KEY']
+  secret = ENV['AWS_RW_SECRET_KEY']
   Aws::Credentials.new(key, secret)
 }
 
