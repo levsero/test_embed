@@ -348,4 +348,48 @@ describe('AutomaticAnswersDesktop component', () => {
         .toHaveBeenCalled();
     });
   });
+
+  describe('button labels when marking an article as irrelevant', () => {
+    let btn;
+
+    beforeEach(() => {
+      component = shallow(
+        <AutomaticAnswersDesktop
+           closeFrame={noop}
+           markArticleIrrelevant={noop} />);
+      component.setState({ screen: AutomaticAnswersScreen.markAsIrrelevant });
+    });
+
+    describe('when an option is initially rendered', () => {
+      beforeEach(() => {
+        btn = component.findWhere(n => n.key() === `${AutomaticAnswers.notRelated}`);
+      });
+
+      it('the option is labelled with the translation key', () => {
+        expect(btn.props().label)
+          .toEqual('embeddable_framework.automaticAnswers.desktop.irrelevant.not_related');
+      });
+    });
+
+    describe('when an option is clicked', () => {
+      beforeEach(() => {
+        component.findWhere(n => n.key() === `${AutomaticAnswers.notRelated}`)
+          .simulate('click', { preventDefault: noop });
+      });
+
+      it('the clicked option is labelled with the "submitting" translation', () => {
+        btn = component.findWhere(n => n.key() === `${AutomaticAnswers.notRelated}`);
+
+        expect(btn.props().label)
+          .toEqual('embeddable_framework.submitTicket.form.submitButton.label.sending');
+      });
+
+      it('the option not clicked is labelled with the translation key', () => {
+        btn = component.findWhere(n => n.key() === `${AutomaticAnswers.relatedButNotAnswered}`);
+
+        expect(btn.props().label)
+          .toEqual('embeddable_framework.automaticAnswers.desktop.irrelevant.related_no_answer');
+      });
+    });
+  });
 });

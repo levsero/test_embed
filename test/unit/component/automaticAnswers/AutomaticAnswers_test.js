@@ -4,16 +4,23 @@ describe('AutomaticAnswers component', () => {
     AutomaticAnswers,
     automaticAnswers,
     AutomaticAnswersScreen,
+    Button,
     mockJwtToken,
     mockUrlArticleId;
   const automaticAnswersPath = buildSrcPath('component/automaticAnswers/AutomaticAnswers');
+  const buttonPath = buildSrcPath('component/button/Button');
 
   beforeEach(() => {
     resetDOM();
 
     mockery.enable();
 
+    Button = requireUncached(buttonPath).Button;
+
     initMockRegistry({
+      'component/button/Button': {
+        Button: Button
+      },
       'service/i18n': {
         i18n: {
           t: _.identity
@@ -61,6 +68,11 @@ describe('AutomaticAnswers component', () => {
       it('sets the initial screen to SOLVE_TICKET_QUESTION', () => {
         expect(automaticAnswers.state.screen)
           .toEqual(AutomaticAnswersScreen.solveTicketQuestion);
+      });
+
+      it('sets optionReasonClicked to null', () => {
+        expect(automaticAnswers.state.optionReasonClicked)
+          .toBe(null);
       });
     });
 
@@ -372,6 +384,11 @@ describe('AutomaticAnswers component', () => {
         expect(automaticAnswers.state.isSubmitting)
           .toBe(false);
       });
+
+      it('sets optionReasonClicked to null', () => {
+        expect(automaticAnswers.state.optionReasonClicked)
+          .toBe(null);
+      });
     });
 
     describe('component state', () => {
@@ -387,13 +404,19 @@ describe('AutomaticAnswers component', () => {
         expect(automaticAnswers.state.isSubmitting)
           .toBe(true);
       });
+
+      it('sets optionReasonClicked to the reason', () => {
+        expect(automaticAnswers.state.optionReasonClicked)
+          .toBe(mockReason);
+      });
     });
 
     describe('when article has been marked as irrelevant successfully', () => {
       beforeEach(() => {
         automaticAnswers.setState({
           errorMessage: 'derp',
-          isSubmitting: true
+          isSubmitting: true,
+          optionReasonClicked: AutomaticAnswers.notRelated
         });
         automaticAnswers.markArticleIrrelevantDone();
       });
@@ -411,6 +434,11 @@ describe('AutomaticAnswers component', () => {
       it('sets errorMessage to an empty string', () => {
         expect(automaticAnswers.state.errorMessage)
           .toBe('');
+      });
+
+      it('sets optionReasonClicked to null', () => {
+        expect(automaticAnswers.state.optionReasonClicked)
+          .toBe(null);
       });
     });
   });

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
+import { Button } from 'component/button/Button';
 import { automaticAnswersPersistence  } from 'service/automaticAnswersPersistence';
 import { i18n } from 'service/i18n';
 import { getHelpCenterArticleId } from 'utility/pages';
@@ -37,7 +38,8 @@ export class AutomaticAnswers extends Component {
       },
       screen: props.initialScreen,
       errorMessage: '',
-      isSubmitting: false
+      isSubmitting: false,
+      optionReasonClicked: null
     };
   }
 
@@ -52,6 +54,17 @@ export class AutomaticAnswers extends Component {
   // irrelevent article reasons
   static notRelated = 1;
   static relatedButNotAnswered = 2;
+
+  static irrelevantReasons = {
+    [AutomaticAnswers.notRelated] :
+      i18n.t('embeddable_framework.automaticAnswers.desktop.irrelevant.not_related', {
+        fallback: "It's not related to my question"
+      }),
+    [AutomaticAnswers.relatedButNotAnswered] :
+      i18n.t('embeddable_framework.automaticAnswers.desktop.irrelevant.related_no_answer', {
+        fallback: "It's related but didn't answer my question"
+      })
+  }
 
   updateTicket = (ticket) => {
     this.setState({
@@ -103,7 +116,8 @@ export class AutomaticAnswers extends Component {
       errorMessage: i18n.t(errorKey, {
         fallback: 'There was a problem. Please try again.'
       }),
-      isSubmitting: false
+      isSubmitting: false,
+      optionReasonClicked: null
     });
   }
 
@@ -120,7 +134,8 @@ export class AutomaticAnswers extends Component {
     };
 
     this.setState({
-      isSubmitting: true
+      isSubmitting: true,
+      optionReasonClicked: reason
     });
 
     if (authToken && articleId) {
@@ -134,6 +149,7 @@ export class AutomaticAnswers extends Component {
     this.setState({
       screen: AutomaticAnswersScreen.thanksForFeedback,
       isSubmitting: false,
+      optionReasonClicked: null,
       errorMessage: ''
     });
   }
@@ -160,6 +176,24 @@ export class AutomaticAnswers extends Component {
     } else {
       this.props.closeFrame();
     }
+  }
+
+  optionWasClicked = (key) => {
+    return this.state.optionReasonClicked === key;
+  }
+
+  irrelevantOption = (key, classNames) => {
+    const submittingLabel = i18n.t('embeddable_framework.submitTicket.form.submitButton.label.sending');
+
+    return (
+      <Button key={key}
+        className={classNames}
+        disabled={this.state.isSubmitting}
+        onClick={(e) => this.handleMarkArticleAsIrrelevant(key, e)}
+        onTouchStartDisabled={true}
+        label={(this.optionWasClicked(key)) ? submittingLabel: AutomaticAnswers.irrelevantReasons[key]}
+        primary={false} />
+    );
   }
 
   renderContent = () => {
