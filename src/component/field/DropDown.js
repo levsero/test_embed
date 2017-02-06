@@ -3,7 +3,6 @@ import _ from 'lodash';
 
 import { locals as styles } from './Dropdown.sass';
 import { DropdownMenu } from 'component/field/DropdownMenu';
-import { DropdownOption } from 'component/field/DropdownOption';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
@@ -24,7 +23,12 @@ export class Dropdown extends Component {
     super(props);
 
     const options = this.renderDropdownOptions(this.props.options);
-    const initialMenu = <DropdownMenu ref='::' options={options} onOptionClick={this.setValue} />;
+    const initialMenu = (
+      <DropdownMenu
+        ref={_.uniqueId('menu-')}
+        options={options}
+        onOptionClick={this.setValue} />
+    );
 
     this.state = {
       selected: props.value,
@@ -87,12 +91,7 @@ export class Dropdown extends Component {
         return _.map(group, (option) => {
           // Don't return duplicate fields. ie `one` and `one::two`
           if (!_.includes(_.keys(allGroups), option.title)) {
-            return (
-              <DropdownOption
-                title={option.title}
-                key={option.title}
-                onClick={this.setValue(option.value, option.title)} />
-            );
+            return { title: option.title, onClick: this.setValue(option.value, option.title), value: option.value };
           }
         });
       } else {
@@ -103,21 +102,22 @@ export class Dropdown extends Component {
 
         // And look for further nesting
         const nestedOptions = this.renderDropdownOptions(group);
-        const menu = <DropdownMenu ref={group[0].name} backButton={true} handleBackClick={this.handleBackClick} options={nestedOptions} />;
-
-        return (
-          <DropdownOption
-            title={key}
-            key={key}
-            nestedMenu={menu}
-            updateMenu={this.updateMenu} />
+        const menu = (
+          <DropdownMenu
+            ref={_.uniqueId('menu-')}
+            backButton={true}
+            handleBackClick={this.handleBackClick}
+            options={nestedOptions} />
         );
+
+        return { title: key, nestedMenu: menu, updateMenu: this.updateMenu};
       }
     };
 
     return _.chain(options)
           .groupBy(groupByFn)
-          .map(mapFn)
+          .flatMap(mapFn)
+          .compact()
           .value();
   }
 
