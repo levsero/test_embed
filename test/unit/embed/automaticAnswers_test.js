@@ -5,9 +5,10 @@ describe('embed.automaticAnswers', () => {
     mockJwtToken,
     mockIsMobileBrowserValue,
     mockArticleIdInUrl,
-    mockSolvedURLParameter;
+    mockURLParameter;
 
   const automaticAnswersPath = buildSrcPath('embed/automaticAnswers/automaticAnswers');
+  const mockScreenState = 'IRRELEVANT_SCREEN';
 
   beforeEach(() => {
     resetDOM();
@@ -25,6 +26,11 @@ describe('embed.automaticAnswers', () => {
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
+      },
+      'component/automaticAnswers/AutomaticAnswers': {
+        AutomaticAnswersScreen: {
+          markAsIrrelevant: mockScreenState
+        }
       },
       'component/automaticAnswers/AutomaticAnswersDesktop': {
         AutomaticAnswersDesktop: class extends AutomaticAnswers {
@@ -68,7 +74,7 @@ describe('embed.automaticAnswers', () => {
         transport: jasmine.createSpyObj('transport', ['automaticAnswersApiRequest'])
       },
       'utility/pages': {
-        getURLParameterByName: jasmine.createSpy().and.callFake(() => mockSolvedURLParameter),
+        getURLParameterByName: jasmine.createSpy().and.callFake(() => mockURLParameter),
         getHelpCenterArticleId: jasmine.createSpy().and.callFake(() => mockArticleIdInUrl)
       }
     });
@@ -301,7 +307,7 @@ describe('embed.automaticAnswers', () => {
       describe('given the ticket status is one of solved or closed', () => {
         describe('and a solve parameter equal to "1" exists in the url', () => {
           beforeEach(() => {
-            mockSolvedURLParameter = '1';
+            mockURLParameter = '1';
           });
 
           it('updates the component to show the ticket closed screen', () => {
@@ -322,7 +328,7 @@ describe('embed.automaticAnswers', () => {
 
         describe('and a solve parameter other than "1" exists in the url', () => {
           beforeEach(() => {
-            mockSolvedURLParameter = '0';
+            mockURLParameter = '0';
           });
 
           it('does nothing', () => {
@@ -338,7 +344,7 @@ describe('embed.automaticAnswers', () => {
 
         describe('and no solve parameter exists in the url', () => {
           beforeEach(() => {
-            mockSolvedURLParameter = null;
+            mockURLParameter = null;
           });
 
           it('does nothing', () => {
@@ -519,6 +525,54 @@ describe('embed.automaticAnswers', () => {
         it('includes the mobile=true query param', () => {
           expect(mostRecent.queryParams.mobile)
             .toBe(true);
+        });
+      });
+    });
+  });
+
+  describe('article_feedback URL parameter', () => {
+    let instance;
+
+    describe('is not set', () => {
+      beforeEach(() => { mockURLParameter = ''; });
+
+      it('getInitialScreen should return undefined', () => {
+        expect(automaticAnswers.getInitialScreen())
+          .toEqual(undefined);
+      });
+
+      describe('component initialScreen props', () => {
+        beforeEach(() => {
+          automaticAnswers.create('automaticAnswers');
+          automaticAnswers.render();
+          instance = automaticAnswers.get().instance;
+        });
+
+        it('should be undefined', () => {
+          expect(instance.getRootComponent().props.initialScreen)
+            .toEqual(undefined);
+        });
+      });
+    });
+
+    describe('is set to 1', () => {
+      beforeEach(() => { mockURLParameter = '1'; });
+
+      it(`getInitialScreen should return ${mockScreenState}`, () => {
+        expect(automaticAnswers.getInitialScreen())
+          .toEqual(mockScreenState);
+      });
+
+      describe('component initialScreen props', () => {
+        beforeEach(() => {
+          automaticAnswers.create('automaticAnswers');
+          automaticAnswers.render();
+          instance = automaticAnswers.get().instance;
+        });
+
+        it(`should be ${mockScreenState}`, () => {
+          expect(instance.getRootComponent().props.initialScreen)
+            .toEqual(mockScreenState);
         });
       });
     });

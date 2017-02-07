@@ -3,6 +3,7 @@ describe('AutomaticAnswers component', () => {
     mockMarkArticleIrrelevant,
     AutomaticAnswers,
     automaticAnswers,
+    AutomaticAnswersScreen,
     mockJwtToken,
     mockUrlArticleId;
   const automaticAnswersPath = buildSrcPath('component/automaticAnswers/AutomaticAnswers');
@@ -28,6 +29,7 @@ describe('AutomaticAnswers component', () => {
       }
     });
 
+    AutomaticAnswersScreen = requireUncached(automaticAnswersPath).AutomaticAnswersScreen;
     AutomaticAnswers = requireUncached(automaticAnswersPath).AutomaticAnswers;
 
     mockUrlArticleId = 23425454;
@@ -35,29 +37,81 @@ describe('AutomaticAnswers component', () => {
   });
 
   describe('instantiation', () => {
-    beforeEach(() => {
-      automaticAnswers = instanceRender(<AutomaticAnswers />);
+    describe('without props', () => {
+      beforeEach(() => {
+        automaticAnswers = instanceRender(<AutomaticAnswers />);
+      });
+
+      it('sets initial ticket state', () => {
+        expect(automaticAnswers.state.ticket.title)
+          .toEqual('');
+
+        expect(automaticAnswers.state.ticket.niceId)
+          .toEqual(null);
+
+        expect(automaticAnswers.state.ticket.statusId)
+          .toEqual(null);
+      });
+
+      it('sets an empty errorMessage', () => {
+        expect(automaticAnswers.state.errorMessage)
+          .toEqual('');
+      });
+
+      it('sets the initial screen to SOLVE_TICKET_QUESTION', () => {
+        expect(automaticAnswers.state.screen)
+          .toEqual(AutomaticAnswersScreen.solveTicketQuestion);
+      });
     });
 
-    it('sets initial ticket state', () => {
-      expect(automaticAnswers.state.ticket.title)
-        .toEqual('');
+    describe('with initialScreen', () => {
+      describe('as undefined', () => {
+        beforeEach(() => {
+          automaticAnswers = shallow(
+            <AutomaticAnswers initialScreen={undefined} />
+          );
+        });
 
-      expect(automaticAnswers.state.ticket.niceId)
-        .toEqual(null);
+        it('sets screen to SOLVE_TICKET_QUESTION', () => {
+          expect(automaticAnswers.state().screen)
+            .toEqual(AutomaticAnswersScreen.solveTicketQuestion);
+        });
+      });
 
-      expect(automaticAnswers.state.ticket.statusId)
-        .toEqual(null);
-    });
+      describe('as SOLVE_TICKET_QUESTION', () => {
+        beforeEach(() => {
+          automaticAnswers = shallow(
+            <AutomaticAnswers initialScreen={AutomaticAnswersScreen.solveTicketQuestion} />
+          );
+        });
 
-    it('sets an empty errorMessage', () => {
-      expect(automaticAnswers.state.errorMessage)
-        .toEqual('');
-    });
+        it('sets screen to SOLVE_TICKET_QUESTION', () => {
+          expect(automaticAnswers.state().screen)
+            .toEqual(AutomaticAnswersScreen.solveTicketQuestion);
+        });
+      });
 
-    it('sets the initial screen to SOLVE_TICKET_QUESTION', () => {
-      expect(automaticAnswers.state.screen)
-        .toEqual(AutomaticAnswers.solveTicketQuestion);
+      describe('as MARK_AS_IRRELEVANT', () => {
+        beforeEach(() => {
+          automaticAnswers = shallow(<AutomaticAnswers initialScreen={AutomaticAnswersScreen.markAsIrrelevant} />);
+        });
+
+        it('sets screen to MARK_AS_IRRELEVANT', () => {
+          expect(automaticAnswers.state().screen)
+            .toEqual(AutomaticAnswersScreen.markAsIrrelevant);
+        });
+      });
+
+      describe('as TICKET_CLOSED', () => {
+        beforeEach(() => {
+          automaticAnswers = shallow(<AutomaticAnswers initialScreen={AutomaticAnswersScreen.ticketClosed} />);
+        });
+
+        it('sets screen to TICKET_CLOSED', () => {
+          expect(automaticAnswers.state().screen)
+            .toEqual(AutomaticAnswersScreen.ticketClosed);
+        });
+      });
     });
   });
 
@@ -93,7 +147,7 @@ describe('AutomaticAnswers component', () => {
 
     it('updates the screen to MARK_AS_IRRELEVANT', () => {
       expect(automaticAnswers.state.screen)
-        .toEqual(AutomaticAnswers.markAsIrrelevant);
+        .toEqual(AutomaticAnswersScreen.markAsIrrelevant);
     });
   });
 
@@ -208,7 +262,7 @@ describe('AutomaticAnswers component', () => {
 
       it('sets screen to ticketClosed', () => {
         expect(automaticAnswers.state.screen)
-          .toBe(AutomaticAnswers.ticketClosed);
+          .toBe(AutomaticAnswersScreen.ticketClosed);
       });
 
       it('sets isSubmitting to false', () => {
@@ -346,7 +400,7 @@ describe('AutomaticAnswers component', () => {
 
       it('sets screen to thanksForFeedback', () => {
         expect(automaticAnswers.state.screen)
-          .toBe(AutomaticAnswers.thanksForFeedback);
+          .toBe(AutomaticAnswersScreen.thanksForFeedback);
       });
 
       it('sets isSubmitting to false', () => {

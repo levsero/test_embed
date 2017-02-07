@@ -4,17 +4,26 @@ import { automaticAnswersPersistence  } from 'service/automaticAnswersPersistenc
 import { i18n } from 'service/i18n';
 import { getHelpCenterArticleId } from 'utility/pages';
 
+export const AutomaticAnswersScreen = {
+  solveTicketQuestion: 'SOLVE_TICKET_QUESTION',
+  ticketClosed: 'TICKET_CLOSED',
+  thanksForFeedback: 'THANKS_FOR_FEEDBACK',
+  markAsIrrelevant: 'MARK_AS_IRRELEVANT'
+};
+
 export class AutomaticAnswers extends Component {
   static propTypes = {
     solveTicket: PropTypes.func.isRequired,
     markArticleIrrelevant: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
     mobile: PropTypes.bool.isRequired,
-    closeFrame: PropTypes.func.isRequired
+    closeFrame: PropTypes.func.isRequired,
+    initialScreen: PropTypes.string
   };
 
   static defaultProps = {
-    updateFrameSize: () => {}
+    updateFrameSize: () => {},
+    initialScreen: AutomaticAnswersScreen.solveTicketQuestion
   };
 
   constructor(props, context) {
@@ -26,7 +35,7 @@ export class AutomaticAnswers extends Component {
         niceId: null,
         statusId: null
       },
-      screen: AutomaticAnswers.solveTicketQuestion,
+      screen: props.initialScreen,
       errorMessage: '',
       isSubmitting: false
     };
@@ -39,12 +48,6 @@ export class AutomaticAnswers extends Component {
   componentDidUpdate = () => {
     this.props.updateFrameSize();
   }
-
-  // screen states
-  static solveTicketQuestion = 'SOLVE_TICKET_QUESTION';
-  static ticketClosed = 'TICKET_CLOSED';
-  static thanksForFeedback = 'THANKS_FOR_FEEDBACK';
-  static markAsIrrelevant = 'MARK_AS_IRRELEVANT';
 
   // irrelevent article reasons
   static notRelated = 1;
@@ -60,7 +63,7 @@ export class AutomaticAnswers extends Component {
     });
   }
 
-  showCloseButton = () => this.state.screen !== AutomaticAnswers.solveTicketQuestion
+  showCloseButton = () => this.state.screen !== AutomaticAnswersScreen.solveTicketQuestion
 
   handleSolveTicket = (e) => {
     e.preventDefault();
@@ -87,7 +90,7 @@ export class AutomaticAnswers extends Component {
 
   solveTicketDone = () => {
     this.setState({
-      screen: AutomaticAnswers.ticketClosed,
+      screen: AutomaticAnswersScreen.ticketClosed,
       isSubmitting: false,
       errorMessage: ''
     });
@@ -129,7 +132,7 @@ export class AutomaticAnswers extends Component {
 
   markArticleIrrelevantDone = () => {
     this.setState({
-      screen: AutomaticAnswers.thanksForFeedback,
+      screen: AutomaticAnswersScreen.thanksForFeedback,
       isSubmitting: false,
       errorMessage: ''
     });
@@ -137,7 +140,7 @@ export class AutomaticAnswers extends Component {
 
   goToMarkAsIrrelevant = () => {
     this.setState({
-      screen: AutomaticAnswers.markAsIrrelevant,
+      screen: AutomaticAnswersScreen.markAsIrrelevant,
       errorMessage: ''
     });
   }
@@ -150,13 +153,13 @@ export class AutomaticAnswers extends Component {
 
   renderContent = () => {
     switch (this.state.screen) {
-      case AutomaticAnswers.solveTicketQuestion:
+      case AutomaticAnswersScreen.solveTicketQuestion:
         return this.renderTicketContent();
-      case AutomaticAnswers.ticketClosed:
+      case AutomaticAnswersScreen.ticketClosed:
         return this.renderSuccessContent();
-      case AutomaticAnswers.markAsIrrelevant:
+      case AutomaticAnswersScreen.markAsIrrelevant:
         return this.renderIrrelevantContent();
-      case AutomaticAnswers.thanksForFeedback :
+      case AutomaticAnswersScreen.thanksForFeedback :
         return this.renderThanksForFeedbackContent();
       default:
         return this.renderTicketContent();
