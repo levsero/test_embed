@@ -151,7 +151,7 @@ export class AutomaticAnswersDesktop extends AutomaticAnswers {
 
   render = () => {
     const closeButton = (this.showCloseButton()
-      ? (<Icon type="Icon--close" onClick={() => this.props.closeFrame(0)} />)
+      ? (<Icon type="Icon--close" onClick={() => this.props.closeFrame()} />)
       : null);
 
     return (

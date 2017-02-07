@@ -4,8 +4,6 @@ import { automaticAnswersPersistence  } from 'service/automaticAnswersPersistenc
 import { i18n } from 'service/i18n';
 import { getHelpCenterArticleId } from 'utility/pages';
 
-const closeFrameDelay = 5000;
-
 export class AutomaticAnswers extends Component {
   static propTypes = {
     solveTicket: PropTypes.func.isRequired,
@@ -40,8 +38,6 @@ export class AutomaticAnswers extends Component {
 
   componentDidUpdate = () => {
     this.props.updateFrameSize();
-
-    if (this.isFinalScreen()) this.props.closeFrame(closeFrameDelay);
   }
 
   // screen states
@@ -65,13 +61,6 @@ export class AutomaticAnswers extends Component {
   }
 
   showCloseButton = () => this.state.screen !== AutomaticAnswers.solveTicketQuestion
-
-  isFinalScreen = () => {
-    const screen = this.state.screen;
-
-    return screen === AutomaticAnswers.ticketClosed ||
-           screen === AutomaticAnswers.thanksForFeedback;
-  }
 
   handleSolveTicket = (e) => {
     e.preventDefault();
