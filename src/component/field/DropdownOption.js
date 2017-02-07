@@ -17,25 +17,62 @@ export class DropdownOption extends Component {
     updateScreen: () => {}
   }
 
-  handleDropdownOpen = () => {
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      focused: false
+    };
+
+    this.element = null;
+  }
+
+  handleDropdownOpen = (e, fromKeyboard) => {
     if (this.props.nestedMenu !== null) {
-      this.props.updateMenu(this.props.nestedMenu, this.props.title);
+      this.props.updateMenu(this.props.nestedMenu, fromKeyboard);
     } else {
-      this.props.onClick();
+      this.props.onClick(fromKeyboard);
     }
   }
 
+  openNestedMenuFromKeyboard = () => {
+    if (this.props.nestedMenu !== null) {
+      this.props.updateMenu(this.props.nestedMenu, true);
+    }
+  }
+
+  focus = () => {
+    this.setState({ focused: true });
+  }
+
+  blur = () => {
+    this.setState({ focused: false });
+  }
+
   renderNextArrow = () => {
+    if (this.props.nestedMenu === null) return;
+
     return <div className={styles.arrowNext} />;
   }
 
-  render = () => {
-    const hasNestedFields = this.props.nestedMenu !== null;
-    const arrow = hasNestedFields ? this.renderNextArrow() : '';
+  renderBackArrow = () => {
+    if (!this.props.backButton) return;
 
     return (
-      <div className={styles.field} key={this.props.title} onClick={this.handleDropdownOpen}>
-        <div>{this.props.title} {arrow}</div>
+      <div className={styles.arrowBack} />
+    );
+  }
+
+  render = () => {
+    const focusedClasses = this.state.focused ? styles.fieldFocused : '';
+
+    return (
+      <div
+        ref={(el) => { this.element = el; }}
+        className={`${styles.field} ${focusedClasses}`}
+        key={this.props.title}
+        onClick={this.handleDropdownOpen}>
+        <div>{this.renderBackArrow()}{this.props.title}{this.renderNextArrow()}</div>
       </div>
     );
   }

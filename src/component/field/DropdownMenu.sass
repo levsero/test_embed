@@ -1,0 +1,15 @@
+@import '../../styles/_vars.scss';
+
+.menu {
+  composes: u-posAbsolute u-border u-hsizeAll u-zIndex1 u-posStart--flush from '../../styles/utils.scss';
+  border-radius: #{4/$font-size}rem;
+  top: #{35/$font-size}rem;
+  height: #{200/$font-size}rem;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-color: $zd-color-white;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}

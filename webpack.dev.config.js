@@ -4,7 +4,7 @@ var webpack = require('webpack');
 var DashboardPlugin = require('webpack-dashboard/plugin');
 
 config.debug = true;
-config.devtool = 'cheap-module-eval-source-map';
+config.devtool = 'source-map';
 
 config.devServer = {
   port: 1337,

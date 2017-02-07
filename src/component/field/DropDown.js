@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { locals as styles } from './Dropdown.sass';
 import { DropdownMenu } from 'component/field/DropdownMenu';
 import { Icon } from 'component/Icon';
-import { i18n } from 'service/i18n';
+import { keyCodes } from 'utility/keyboard';
 
 export class Dropdown extends Component {
   static propTypes = {
@@ -41,7 +41,9 @@ export class Dropdown extends Component {
   }
 
   handleFocus = () => {
-    this.setState({ open: !this.state.open });
+    if (this.containerClicked) {
+      this.setState({ open: !this.state.open });
+    }
   }
 
   handleBlur = () => {
@@ -52,10 +54,16 @@ export class Dropdown extends Component {
     this.setState({ open: this.containerClicked });
   }
 
-  handleBackClick = () => {
+  handleBackClick = (focusField = false) => {
+    if (this.state.previousMenu.length === 0) return;
+
     this.setState({ displayedMenu: this.state.previousMenu[0] });
 
     this.state.previousMenu.shift();
+
+    if (focusField) {
+      setTimeout(() => this.refs[this.state.displayedMenu.ref].keyDown(keyCodes.DOWN), 0);
+    }
   }
 
   handleContainerClick = () => {
@@ -63,6 +71,20 @@ export class Dropdown extends Component {
     setTimeout(() => {
       this.containerClicked = false;
     }, 0);
+  }
+
+  handleKeyDown = (e) => {
+    e.preventDefault();
+    const key = e.keyCode;
+
+    if (key === keyCodes.DOWN) {
+      this.setState({ open: true });
+      setTimeout(() => {
+        this.refs[this.state.displayedMenu.ref].keyDown(key);
+      }, 0);
+    } else {
+      this.refs[this.state.displayedMenu.ref].keyDown(key);
+    }
   }
 
   setValue = (value, title) => () => {
@@ -73,10 +95,14 @@ export class Dropdown extends Component {
     this.refs.input.blur();
   }
 
-  updateMenu = (menu) => {
+  updateMenu = (menu, focusField = false) => {
     this.state.previousMenu.unshift(this.state.displayedMenu);
 
     this.setState({ displayedMenu: menu });
+
+    if (focusField) {
+      setTimeout(() => this.refs[this.state.displayedMenu.ref].keyDown(keyCodes.DOWN), 0);
+    }
   }
 
   renderDropdownOptions = (optionsProp) => {
@@ -91,7 +117,7 @@ export class Dropdown extends Component {
         return _.map(group, (option) => {
           // Don't return duplicate fields. ie `one` and `one::two`
           if (!_.includes(_.keys(allGroups), option.title)) {
-            return { title: option.title, onClick: this.setValue(option.value, option.title), value: option.value };
+            return { title: option.title, onClick: this.setValue(option.value, option.title), value: option.value, id: _.uniqueId('option-') };
           }
         });
       } else {
@@ -110,7 +136,7 @@ export class Dropdown extends Component {
             options={nestedOptions} />
         );
 
-        return { title: key, nestedMenu: menu, updateMenu: this.updateMenu};
+        return { title: key, nestedMenu: menu, updateMenu: this.updateMenu, id: _.uniqueId('option-')};
       }
     };
 
@@ -119,19 +145,6 @@ export class Dropdown extends Component {
           .flatMap(mapFn)
           .compact()
           .value();
-  }
-
-  renderBackArrow = () => {
-    if (this.state.previousMenu.length === 0) return;
-
-    return (
-      <div
-        className={`${styles.field} ${styles.back}`}
-        onClick={this.handleBackClick}>
-        <div className={styles.arrowBack} />
-        {i18n.t('embeddable_framework.navigation.back')}
-      </div>
-    );
   }
 
   renderDropdownArrow = () => {
@@ -155,6 +168,7 @@ export class Dropdown extends Component {
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}
             readOnly={true}
+            onKeyDown={this.handleKeyDown}
             placeholder={this.state.selected.title} />
           {this.renderDropdownArrow()}
           {this.state.open && this.state.displayedMenu}

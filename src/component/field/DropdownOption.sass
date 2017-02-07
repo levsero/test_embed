@@ -8,6 +8,10 @@
   }
 }
 
+.fieldFocused {
+  background-color: $zd-color-white-smoke;
+}
+
 .arrowNext {
   composes: u-pullRight from '../../styles/utils.scss';
 
@@ -17,4 +21,17 @@
   border-bottom: #{5/$font-size}rem solid transparent;
   border-left: #{7/$font-size}rem solid $zd-color-aluminum;
   margin-top: #{1/$font-size}rem;
+}
+
+.arrowBack {
+  composes: u-pullLeft from '../../styles/utils.scss';
+
+  width: 0;
+  height: 0;
+  border-top: #{5/$font-size}rem solid transparent;
+  border-bottom: #{5/$font-size}rem solid transparent;
+  border-right: #{7/$font-size}rem solid $zd-color-aluminum;
+
+  margin-top: #{1/$font-size}rem;
+  margin-right: #{8/$font-size}rem;
 }
