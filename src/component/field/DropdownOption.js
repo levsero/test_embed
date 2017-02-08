@@ -4,6 +4,7 @@ import { locals as styles } from './DropdownOption.sass';
 
 export class DropdownOption extends Component {
   static propTypes = {
+    backButton: PropTypes.bool,
     title: PropTypes.string,
     nestedMenu: PropTypes.object,
     onClick: PropTypes.func,
@@ -11,6 +12,7 @@ export class DropdownOption extends Component {
   }
 
   static defaultProps = {
+    backButton: false,
     nestedMenu: null,
     title: '',
     onClick: () => {},

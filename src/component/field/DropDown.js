@@ -134,7 +134,12 @@ export class Dropdown extends Component {
         return _.map(group, (option) => {
           // Don't return duplicate fields. ie `one` and `one::two`
           if (!_.includes(_.keys(allGroups), option.title)) {
-            return { title: option.title, onClick: this.setValue(option.value, option.title), value: option.value, id: _.uniqueId('option-') };
+            return {
+              title: option.title,
+              onClick: this.setValue(option.value, option.title),
+              value: option.value,
+              id: _.uniqueId('option-')
+            };
           }
         });
       } else {
@@ -153,7 +158,12 @@ export class Dropdown extends Component {
             options={nestedOptions} />
         );
 
-        return { title: key, nestedMenu: menu, updateMenu: this.updateMenu, id: _.uniqueId('option-')};
+        return {
+          title: key,
+          nestedMenu: menu,
+          updateMenu: this.updateMenu,
+          id: _.uniqueId('option-')
+        };
       }
     };
 
