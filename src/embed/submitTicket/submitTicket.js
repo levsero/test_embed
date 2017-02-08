@@ -26,7 +26,7 @@ let backButtonSetByHelpCenter = false;
 function getTicketForms(config) {
   const settingTicketForms = settings.get('contactForm.ticketForms');
   const rawTicketForms = _.isEmpty(settingTicketForms)
-                       ? config.ticketForms  // Find out what this is
+                       ? config.ticketForms
                        : settingTicketForms;
 
   return _.filter(rawTicketForms, (ticketForm) => {
@@ -151,8 +151,6 @@ function create(name, config, reduxStore) {
     containerStyle = { width: 342 };
   }
 
-  // FIXME: Mirror changes applied for settings.get('contactForm.ticketForms')
-  //        into webWidget.js (single iframe)
   const ticketForms = getTicketForms(config);
 
   if (!_.isEmpty(ticketForms)) {

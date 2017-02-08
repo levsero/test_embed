@@ -448,13 +448,20 @@ function setUpSubmitTicket(config) {
   const onCancel = () => {
     mediator.channel.broadcast('ticketSubmissionForm.onCancelClick');
   };
-  const settingTicketForms = settings.get('contactForm.ticketForms');
-  const ticketForms = _.isEmpty(settingTicketForms)
-                    ? config.ticketForms
-                    : settingTicketForms;
+  const getTicketForms = (config) => {
+    const settingTicketForms = settings.get('contactForm.ticketForms');
+    const rawTicketForms = _.isEmpty(settingTicketForms)
+                         ? config.ticketForms
+                         : settingTicketForms;
+
+    return _.filter(rawTicketForms, (ticketForm) => {
+      return (typeof ticketForm === 'object') && ticketForm.id;
+    });
+  };
+  const ticketForms = getTicketForms(config);
 
   if (!_.isEmpty(ticketForms)) {
-    const ticketFormIds = ticketForms.join();
+    const ticketFormIds = _.map(ticketForms, (ticketForm) => ticketForm.id).join();
 
     waitForRootComponent(() => {
       getRootComponent().setLoading(true);

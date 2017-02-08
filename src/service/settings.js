@@ -81,7 +81,6 @@ let webWidgetCustomizations = false;
 
 const initStore = (settings, options, defaults) => {
   const reduceFn = (res, val) => {
-    // TODO: Look at this later
     if (_.has(settings, val)) {
       _.set(res, val, _.get(settings, val, null));
     }
