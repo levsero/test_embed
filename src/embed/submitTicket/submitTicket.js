@@ -193,22 +193,24 @@ function create(name, config, reduxStore) {
       return (
         <SubmitTicket
           ref='rootComponent'
-          customFields={config.customFields}
-          hideZendeskLogo={config.hideZendeskLogo}
-          onCancel={onCancel}
-          submitTicketSender={submitTicketSender}
-          attachmentSender={attachmentSender}
-          onSubmitted={onSubmitted}
-          position={config.position}
-          formTitleKey={config.formTitleKey}
-          style={containerStyle}
-          showBackButton={showBackButton}
           attachmentsEnabled={config.attachmentsEnabled}
-          subjectEnabled={settings.get('contactForm.subject')}
+          attachmentSender={attachmentSender}
+          customFields={config.customFields}
+          disableAutoComplete={config.disableAutoComplete}
+          formTitleKey={config.formTitleKey}
+          hideZendeskLogo={config.hideZendeskLogo}
           maxFileCount={config.maxFileCount}
           maxFileSize={config.maxFileSize}
-          disableAutoComplete={config.disableAutoComplete}
-          updateFrameSize={params.updateFrameSize} />
+          onCancel={onCancel}
+          onSubmitted={onSubmitted}
+          position={config.position}
+          showBackButton={showBackButton}
+          style={containerStyle}
+          subjectEnabled={settings.get('contactForm.subject')}
+          submitTicketSender={submitTicketSender}
+          ticketFormSettings={settings.get('contactForm.ticketForms')}
+          updateFrameSize={params.updateFrameSize}
+          viaId={settings.get('viaId')} />
       );
     },
     {

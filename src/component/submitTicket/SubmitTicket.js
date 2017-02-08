@@ -40,7 +40,9 @@ export class SubmitTicket extends Component {
     style: PropTypes.object,
     subjectEnabled: PropTypes.bool,
     submitTicketSender: PropTypes.func.isRequired,
-    updateFrameSize: PropTypes.func
+    ticketFormSettings: PropTypes.array,
+    updateFrameSize: PropTypes.func,
+    viaId: PropTypes.number
   };
 
   static defaultProps = {
@@ -58,7 +60,9 @@ export class SubmitTicket extends Component {
     showBackButton: () => {},
     style: null,
     subjectEnabled: false,
-    updateFrameSize: () => {}
+    ticketFormSettings: [],
+    updateFrameSize: () => {},
+    viaId: -1
   };
 
   constructor(props, context) {
@@ -196,7 +200,7 @@ export class SubmitTicket extends Component {
     const params = {
       'subject': subject,
       'tags': ['web_widget'],
-      'via_id': settings.get('viaId'),
+      'via_id': this.props.viaId,
       'comment': {
         'body': description,
         'uploads': uploads
@@ -269,13 +273,12 @@ export class SubmitTicket extends Component {
   }
 
   handleTicketFormsListClick = (e) => {
-    const settingsTicketForms = settings.get('contactForm.ticketForms');
     const value = e.target.dataset.id;
     const { ticketForms } = this.state;
     const selectedTicketForm = _.find(ticketForms.ticket_forms, (f) => {
       return f.id === parseInt(value);
     });
-    const ticketFormPrefill = _.find(settingsTicketForms, (f) => {
+    const ticketFormPrefill = _.find(this.props.ticketFormSettings, (f) => {
       return f.id === parseInt(value);
     });
 
