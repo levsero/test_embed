@@ -29,9 +29,24 @@ function getTicketForms(config) {
                        ? config.ticketForms
                        : settingTicketForms;
 
-  return _.filter(rawTicketForms, (ticketForm) => {
-    return _.isObjectLike(ticketForm) && ticketForm.id;
-  });
+  // TODO: Alter this code that accepts an array of objects or integers.
+  //       This is to be done once pre-fill feature has been GA'd.
+  //       We should expect an array of objects in the future.
+  const firstElement = rawTicketForms[0];
+
+  // Either return an array of Objects
+  if (_.isObject(firstElement)) {
+    return _.filter(rawTicketForms, (ticketForm) => {
+      return _.isObjectLike(ticketForm) && ticketForm.id;
+    });
+  }
+
+  // Or return an array of numbers
+  if (_.isNumber(firstElement)) {
+    return _.filter(rawTicketForms, (ticketFormId) => {
+      return _.isNumber(ticketFormId);
+    });
+  }
 }
 
 function create(name, config, reduxStore) {
@@ -154,7 +169,8 @@ function create(name, config, reduxStore) {
   const ticketForms = getTicketForms(config);
 
   if (!_.isEmpty(ticketForms)) {
-    const ticketFormIds = _.map(ticketForms, (ticketForm) => ticketForm.id).join();
+    // TODO: Alter this code to return objects with id's once pre-fill is GA'd
+    const ticketFormIds = _.map(ticketForms, (ticketForm) => ticketForm.id || ticketForm).join();
 
     waitForRootComponent(name, () => {
       getRootComponent(name).setLoading(true);
