@@ -27,7 +27,7 @@ export class DropdownOption extends Component {
     this.element = null;
   }
 
-  handleDropdownOpen = (e, fromKeyboard) => {
+  handleDropdownOpen = (e, re, fromKeyboard = false) => {
     if (this.props.nestedMenu !== null) {
       this.props.updateMenu(this.props.nestedMenu, fromKeyboard);
     } else {

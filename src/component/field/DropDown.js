@@ -42,7 +42,9 @@ export class Dropdown extends Component {
 
   handleFocus = () => {
     if (this.containerClicked) {
-      this.setState({ open: !this.state.open });
+      this.setState({
+        open: true
+      });
     }
   }
 
@@ -52,6 +54,10 @@ export class Dropdown extends Component {
     }
 
     this.setState({ open: this.containerClicked });
+  }
+
+  handleInputClick = () => {
+    this.setState({ open: !this.state.open });
   }
 
   handleBackClick = (focusField = false) => {
@@ -74,16 +80,28 @@ export class Dropdown extends Component {
   }
 
   handleKeyDown = (e) => {
-    e.preventDefault();
     const key = e.keyCode;
 
-    if (key === keyCodes.DOWN) {
-      this.setState({ open: true });
-      setTimeout(() => {
-        this.refs[this.state.displayedMenu.ref].keyDown(key);
-      }, 0);
+    if (key === keyCodes.TAB) {
+      return;
     } else {
-      this.refs[this.state.displayedMenu.ref].keyDown(key);
+      e.preventDefault();
+    }
+
+    switch (key) {
+      case keyCodes.DOWN:
+        this.setState({ open: true });
+        setTimeout(() => {
+          this.refs[this.state.displayedMenu.ref].keyDown(key);
+        }, 0);
+        break;
+      case keyCodes.ESC:
+        this.setState({ open: false });
+        break;
+      default:
+        if (this.refs[this.state.displayedMenu.ref]) {
+          this.refs[this.state.displayedMenu.ref].keyDown(key);
+        }
     }
   }
 
@@ -92,7 +110,6 @@ export class Dropdown extends Component {
       selected: { value, title },
       open: false
     });
-    this.refs.input.blur();
   }
 
   updateMenu = (menu, focusField = false) => {
@@ -167,6 +184,7 @@ export class Dropdown extends Component {
             className={styles.input}
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}
+            onMouseDown={this.handleInputClick}
             readOnly={true}
             onKeyDown={this.handleKeyDown}
             placeholder={this.state.selected.title} />

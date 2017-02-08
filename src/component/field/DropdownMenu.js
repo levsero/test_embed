@@ -78,7 +78,7 @@ export class DropdownMenu extends Component {
         this.props.handleBackClick(true);
         break;
       case keyCodes.ENTER:
-        this.items[this.focusedField].handleDropdownOpen(null, true);
+        this.items[this.focusedField].handleDropdownOpen(null, null, true);
         break;
       default:
         return;
