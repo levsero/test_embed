@@ -11,7 +11,6 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
-import { settings } from 'service/settings';
 import { isMobileBrowser,
          isIE } from 'utility/devices';
 import { location } from 'utility/globals';
