@@ -182,13 +182,11 @@ export class SubmitTicketForm extends Component {
   }
 
   prefillFormState = (prefill = {}) => {
-    const isPrefillValid = () => {
-      return prefill.fields &&
-             Array.isArray(prefill.fields) &&
-             prefill.fields.length !== 0;
-    };
+    const isPrefillValid = prefill.fields &&
+                           prefill.fields.length !== 0 &&
+                           Array.isArray(prefill.fields);
 
-    if (!isPrefillValid()) return;
+    if (!isPrefillValid) return;
 
     let formState = this.getFormState();
     const currentLocale = i18n.getLocale();

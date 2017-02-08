@@ -30,7 +30,7 @@ function getTicketForms(config) {
                        : settingTicketForms;
 
   return _.filter(rawTicketForms, (ticketForm) => {
-    return (typeof ticketForm === 'object') && ticketForm.id;
+    return _.isObjectLike(ticketForm) && ticketForm.id;
   });
 }
 
