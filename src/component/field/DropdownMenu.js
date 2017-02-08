@@ -40,10 +40,6 @@ export class DropdownMenu extends Component {
     this.element = null;
   }
 
-  getOption = (position) => {
-    return this.items[position];
-  }
-
   changeFocus = (newFocus) => {
     setTimeout(() => {
       if (this.items[this.focusedField] && this.items[newFocus]) {
@@ -51,6 +47,7 @@ export class DropdownMenu extends Component {
       }
       if (this.items[newFocus]) {
         this.items[newFocus].focus();
+        // Keep item in view
         this.element.scrollTop = this.items[newFocus].element.offsetTop - 160;
         this.focusedField = newFocus;
       }

@@ -22,11 +22,10 @@ export class Dropdown extends Component {
   constructor (props) {
     super(props);
 
-    const options = this.renderDropdownOptions(this.props.options);
     const initialMenu = (
       <DropdownMenu
         ref={_.uniqueId('menu-')}
-        options={options}
+        options={this.formatDropdownOptions(this.props.options)}
         onOptionClick={this.setValue} />
     );
 
@@ -38,19 +37,18 @@ export class Dropdown extends Component {
     };
 
     this.containerClicked = false;
+    this.input = null;
   }
 
   handleFocus = () => {
     if (this.containerClicked) {
-      this.setState({
-        open: true
-      });
+      this.setState({ open: true });
     }
   }
 
   handleBlur = () => {
     if (this.containerClicked) {
-      this.refs.input.focus();
+      this.input.focus();
     }
 
     this.setState({ open: this.containerClicked });
@@ -122,7 +120,7 @@ export class Dropdown extends Component {
     }
   }
 
-  renderDropdownOptions = (optionsProp) => {
+  formatDropdownOptions = (optionsProp) => {
     const options = _.cloneDeep(optionsProp);
     const groupByFn = (option) => {
       return (option.title.indexOf('::') > -1)
@@ -149,7 +147,7 @@ export class Dropdown extends Component {
         });
 
         // And look for further nesting
-        const nestedOptions = this.renderDropdownOptions(group);
+        const nestedOptions = this.formatDropdownOptions(group);
         const menu = (
           <DropdownMenu
             ref={_.uniqueId('menu-')}
@@ -190,7 +188,7 @@ export class Dropdown extends Component {
         </div>
         <div className={styles.container}>
           <input
-            ref='input'
+            ref={(i) => this.input = i}
             className={styles.input}
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}
