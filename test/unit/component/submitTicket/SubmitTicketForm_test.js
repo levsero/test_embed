@@ -109,16 +109,35 @@ describe('SubmitTicketForm component', function() {
         i18n: {
           init: noop,
           setLocale: noop,
-          getLocale: noop,
+          getLocale: () => 'en-GB',
           isRTL: noop,
           t: _.identity
         }
       },
       'utility/fields': {
         getCustomFields: (fields) => {
+          const generateField = (field) => {
+            switch (field.type) {
+              case 'checkbox':
+                return <input type='checkbox' name={field.id} />;
+              case 'tagger':
+                return <select type='tagger' name={field.id} />;
+              case 'description':
+              case 'textarea':
+                return <textarea rows='5' type={field.type} name={field.id} />;
+              case 'integer':
+              case 'decimal':
+                return <input type='number' name={field.id} />;
+              case 'text':
+              case 'subject':
+              default:
+                return <input type='text' name={field.id} />;
+            }
+          };
+
           return {
             fields: [],
-            allFields: _.map(fields, (f) => <div name={f.id} />)
+            allFields: _.map(fields, (f) => generateField(f))
           };
         }
       },
@@ -420,6 +439,135 @@ describe('SubmitTicketForm component', function() {
       it('should not call props.submit', () => {
         expect(onSubmit)
           .not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('prefillFormState', () => {
+    let submitTicketForm,
+      mockSetFormState;
+
+    const mockTicketForm = {
+      id: 1,
+      ticket_field_ids: ['name', 'email', 2387462, 9465549, 1872364, 1238743, 3287425] // eslint-disable-line
+    };
+    const mockTicketFields = [
+      { id: 'name', type: 'name' },
+      { id: 'email', type: 'email' },
+      { id: 2387462, type: 'checkbox' },
+      { id: 9465549, type: 'tagger' },
+      { id: 1872364, type: 'integer' },
+      { id: 1238743, type: 'decimal' },
+      { id: 3287425, type: 'text' }
+    ];
+
+    beforeEach(() => {
+      mockSetFormState = jasmine.createSpy('mockSetFormState');
+
+      submitTicketForm = domRender(
+        <SubmitTicketForm
+          setFormState={mockSetFormState}
+          formState={mockFormState} />
+      );
+      submitTicketForm.updateTicketForm(mockTicketForm, mockTicketFields);
+    });
+
+    describe('when given an empty pre-fill data', () => {
+      it('should not pre-fill any ticket fields', () => {
+        submitTicketForm.prefillFormState(mockTicketFields);
+
+        expect(mockSetFormState.calls.mostRecent())
+          .toBeFalsy();
+      });
+    });
+
+    describe('when given an unexpected pre-fill data', () => {
+      const mockPrefillList = [
+        'Denam Pavel',
+        9001,
+        new Date(),
+        { 'Terence': 1234 },
+        { id: 1234, 'Ezel': 'Berbier' },
+        { 'Ramza': 'Beoulve', prefill: { '*': 'foo', 'en-GB': 'bar' } }
+      ];
+
+      it('should not pre-fill any ticket fields', () => {
+        mockPrefillList.forEach((prefill) => {
+          submitTicketForm.prefillFormState(mockTicketFields, prefill);
+
+          expect(mockSetFormState.calls.mostRecent())
+            .toBeFalsy();
+        });
+      });
+    });
+
+    describe('when pre-fill contains disallowed field types', () => {
+      const mockPrefill = {
+        fields: [
+          { id: 'name', prefill: { '*': 'abc', 'en-GB': 'Arycelle Dania' } },
+          { id: 'email', prefill: { '*': 'def', 'en-GB': 'arycelle@dania.com' } },
+          { id: 2387462, prefill: { '*': 'ghi', 'en-GB': 'Boco' } },
+          { id: 9465549, prefill: { '*': 'jkl', 'en-GB': 'Luso' } }
+        ]
+      };
+
+      it('should not pre-fill the ticket fields', () => {
+        submitTicketForm.prefillFormState(mockTicketFields, mockPrefill);
+
+        expect(mockSetFormState.calls.mostRecent())
+          .toBeFalsy();
+      });
+    });
+
+    describe(`when current locale is 'en-GB'`, () => {
+      const mockPrefill = {
+        fields: [
+          { id: 1872364, prefill: { '*': 123, 'en-GB': 1337 } },
+          { id: 3287425, prefill: { '*': 324, 'en-GB': 10101001 } }
+        ]
+      };
+      const expectation = [{
+        '1238743': '',
+        '1872364': 1337,
+        '2387462': 0,
+        '3287425': 10101001,
+        '9465549': '',
+        name: '',
+        email: ''
+      }];
+
+      it('should pre-fill ticket fields in the ticket form', () => {
+        submitTicketForm.prefillFormState(mockTicketFields, mockPrefill);
+
+        expect(mockSetFormState.calls.mostRecent().args)
+          .toEqual(expectation);
+      });
+    });
+
+    describe(`when current locale is '*' (fallback locale)`, () => {
+      const mockPrefill = {
+        fields: [
+          { id: 1872364, prefill: { '*': 123, 'en-GB': 1337 } },
+          { id: 3287425, prefill: { '*': 324, 'en-GB': 10101001 } }
+        ]
+      };
+      const expectation = [{
+        '1238743': '',
+        '1872364': 123,
+        '2387462': 0,
+        '3287425': 324,
+        '9465549': '',
+        name: '',
+        email: ''
+      }];
+
+      it('should pre-fill ticket fields in the ticket form', () => {
+        mockRegistry['service/i18n'].i18n.getLocale = () => '*';
+
+        submitTicketForm.prefillFormState(mockTicketFields, mockPrefill);
+
+        expect(mockSetFormState.calls.mostRecent().args)
+          .toEqual(expectation);
       });
     });
   });

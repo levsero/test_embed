@@ -443,7 +443,7 @@ describe('Submit ticket component', () => {
       it('Adds the correct via_id', () => {
         /* eslint camelcase:0 */
         expect(params.request.via_id)
-          .toEqual(48);
+          .toEqual(-1);
       });
 
       describe('when there is a successful response', () => {
