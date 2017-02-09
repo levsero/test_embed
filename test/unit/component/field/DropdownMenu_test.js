@@ -69,6 +69,7 @@ describe('dropdownMenu component', () => {
   afterAll(() => {
     mockery.deregisterAll();
     mockery.disable();
+    jasmine.clock().uninstall();
   });
 
   describe('items', () => {

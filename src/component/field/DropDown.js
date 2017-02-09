@@ -24,7 +24,7 @@ export class Dropdown extends Component {
 
     const initialMenu = (
       <DropdownMenu
-        ref={_.uniqueId('menu-')}
+        ref={(m) => {this.menu = m;}}
         options={this.formatDropdownOptions(this.props.options)}
         onOptionClick={this.setValue} />
     );
@@ -38,6 +38,7 @@ export class Dropdown extends Component {
 
     this.containerClicked = false;
     this.input = null;
+    this.menu = null;
   }
 
   handleFocus = () => {
@@ -66,7 +67,7 @@ export class Dropdown extends Component {
     this.state.previousMenu.shift();
 
     if (focusField) {
-      setTimeout(() => this.refs[this.state.displayedMenu.ref].keyDown(keyCodes.DOWN), 0);
+      setTimeout(() => this.menu.keyDown(keyCodes.DOWN), 0);
     }
   }
 
@@ -89,16 +90,14 @@ export class Dropdown extends Component {
     switch (key) {
       case keyCodes.DOWN:
         this.setState({ open: true });
-        setTimeout(() => {
-          this.refs[this.state.displayedMenu.ref].keyDown(key);
-        }, 0);
+        setTimeout(() => { this.menu.keyDown(key); }, 0);
         break;
       case keyCodes.ESC:
         this.setState({ open: false });
         break;
       default:
-        if (this.refs[this.state.displayedMenu.ref]) {
-          this.refs[this.state.displayedMenu.ref].keyDown(key);
+        if (this.menu) {
+          this.menu.keyDown(key);
         }
     }
   }
@@ -116,7 +115,7 @@ export class Dropdown extends Component {
     this.setState({ displayedMenu: menu });
 
     if (focusField) {
-      setTimeout(() => this.refs[this.state.displayedMenu.ref].keyDown(keyCodes.DOWN), 0);
+      setTimeout(() => this.menu.keyDown(keyCodes.DOWN), 0);
     }
   }
 
@@ -150,7 +149,7 @@ export class Dropdown extends Component {
         const nestedOptions = this.formatDropdownOptions(group);
         const menu = (
           <DropdownMenu
-            ref={_.uniqueId('menu-')}
+            ref={(m) => {this.menu = m;}}
             backButton={true}
             handleBackClick={this.handleBackClick}
             options={nestedOptions} />
