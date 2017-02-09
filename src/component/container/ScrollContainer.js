@@ -53,11 +53,19 @@ export class ScrollContainer extends Component {
   }
 
   render = () => {
-    const { fullscreen, contentExpanded, containerClasses, footerClasses, scrollShadowVisible } = this.props;
+    const {
+      fullscreen,
+      headerContent,
+      contentExpanded,
+      containerClasses,
+      footerClasses,
+      scrollShadowVisible
+    } = this.props;
     const expandedClasses = contentExpanded ? styles.expanded : '';
     const mobileContentClasses = fullscreen ? styles.contentMobile : '';
     const footerShadowClasses = this.state.scrollShadowVisible || scrollShadowVisible ? styles.footerShadow : '';
     const mobileTitleClasses = fullscreen ? styles.titleMobile : '';
+    const bigHeaderClasses = headerContent ? styles.contentBigheader : '';
 
     return (
       <div className={styles.container}>
@@ -69,7 +77,13 @@ export class ScrollContainer extends Component {
         </header>
         <div
           id='content'
-          className={`${styles.content} ${containerClasses} ${expandedClasses} ${mobileContentClasses}`}>
+          className={`
+            ${styles.content}
+            ${containerClasses}
+            ${expandedClasses}
+            ${mobileContentClasses}
+            ${bigHeaderClasses}`
+          }>
           {this.props.children}
         </div>
         <footer

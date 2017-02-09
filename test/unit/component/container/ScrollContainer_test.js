@@ -15,7 +15,8 @@ describe('ScrollContainer component', () => {
           footer: 'footerClasses',
           footerShadow: 'footerShadowClasses',
           content: 'contentClasses',
-          expanded: 'expandedClasses'
+          expanded: 'expandedClasses',
+          contentBigheader: 'contentBigheaderClasses'
         }
       }
     });
@@ -35,6 +36,13 @@ describe('ScrollContainer component', () => {
 
     expect(container.props.children[1].props.className)
       .toMatch('contentMobileClasses');
+  });
+
+  it('should have `contentBigheader` classes when fullscreen and headerContent is not null', () => {
+    const container = shallowRender(<ScrollContainer fullscreen={true} headerContent={<div />} />);
+
+    expect(container.props.children[1].props.className)
+      .toMatch('contentBigheaderClasses');
   });
 
   it('should set scrollTop to scrollHeight value when calling `this.scrollToBottom`', () => {
