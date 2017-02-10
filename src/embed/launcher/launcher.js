@@ -6,7 +6,7 @@ import { launcherStyles } from './launcherStyles.js';
 import { document,
          getDocumentHost } from 'utility/globals';
 import { Launcher } from 'component/Launcher';
-import { frameFactory } from 'embed/frameFactory';
+import { Frame } from 'embed/frameFactory';
 import { beacon } from 'service/beacon';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
@@ -38,49 +38,46 @@ function create(name, config, reduxStore) {
 
   config = _.extend(configDefaults, config);
 
-  const Embed = frameFactory(
-    (params) => {
-      return (
-        <Launcher
-          ref='rootComponent'
-          onClick={params.onClickHandler}
-          onTouchEnd={params.onClickHandler}
-          updateFrameSize={params.updateFrameSize}
-          position={config.position}
-          label={`embeddable_framework.launcher.label.${config.labelKey}`}
-          icon={config.icon} />
-      );
+  const params = {
+    frameStyle: frameStyle,
+    position: config.position,
+    css: launcherCSS + generateUserCSS(config.color),
+    name: name,
+    hideCloseButton: true,
+    expandable: false,
+    fullscreenable: false,
+    offsetWidth: 5,
+    offsetHeight: 1,
+    transitions: {
+      upShow: transitionFactory.webWidget.launcherUpShow(),
+      downHide: transitionFactory.webWidget.launcherDownHide(),
+      downShow: transitionFactory.webWidget.launcherDownShow(),
+      upHide: transitionFactory.webWidget.launcherUpHide()
     },
-    {
-      frameStyle: frameStyle,
-      position: config.position,
-      css: launcherCSS + generateUserCSS(config.color),
-      name: name,
-      hideCloseButton: true,
-      expandable: false,
-      fullscreenable: false,
-      offsetWidth: 5,
-      offsetHeight: 1,
-      transitions: {
-        upShow: transitionFactory.webWidget.launcherUpShow(),
-        downHide: transitionFactory.webWidget.launcherDownHide(),
-        downShow: transitionFactory.webWidget.launcherDownShow(),
-        upHide: transitionFactory.webWidget.launcherUpHide()
-      },
-      extend: {
-        onClickHandler: (e) => {
-          e.preventDefault();
+    extend: {
+      onClickHandler: (e) => {
+        e.preventDefault();
 
-          beacon.trackUserAction('launcher', 'click', name);
-          mediator.channel.broadcast(name + '.onClick');
-        }
+        beacon.trackUserAction('launcher', 'click', name);
+        mediator.channel.broadcast(name + '.onClick');
       }
-    },
-    reduxStore
+    }
+  };
+
+  const Embed = (
+    <Frame params={params} visible={config.visible} position={config.position} store={reduxStore}>
+      <Launcher
+        onClick={params.extend.onClickHandler}
+        //onTouchEnd={params.onClickHandler}
+        //updateFrameSize={params.updateFrameSize}
+        position={config.position}
+        label={`embeddable_framework.launcher.label.${config.labelKey}`}
+        icon={config.icon} />
+    </Frame>
   );
 
   launchers[name] = {
-    component: <Embed visible={config.visible} position={config.position} />,
+    component: Embed,
     config: config
   };
 }

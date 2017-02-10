@@ -97,6 +97,11 @@ export class EmbedWrapper extends Component {
     const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />;
     const expandClasses = i18n.isRTL() ? 'u-posStartL' : 'u-posEndL';
+    const newChild = React.cloneElement(this.props.children, {
+      ref: 'rootComponent'
+    });
+
+    setTimeout(() => this.updateFrameSize(), 0);
 
     return (
       <Provider store={this.props.reduxStore}>
@@ -126,7 +131,7 @@ export class EmbedWrapper extends Component {
             })}
           </div>
           <div id='Embed'>
-            {this.props.childFn(this.props.childParams)}
+            {newChild}
           </div>
         </div>
       </Provider>
