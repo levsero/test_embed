@@ -65,7 +65,7 @@ export class ScrollContainer extends Component {
     const mobileContentClasses = fullscreen ? styles.contentMobile : '';
     const footerShadowClasses = this.state.scrollShadowVisible || scrollShadowVisible ? styles.footerShadow : '';
     const mobileTitleClasses = fullscreen ? styles.titleMobile : '';
-    const bigHeaderClasses = headerContent ? styles.contentBigheader : '';
+    const bigHeaderClasses = headerContent && fullscreen ? styles.contentBigheader : '';
 
     return (
       <div className={styles.container}>
