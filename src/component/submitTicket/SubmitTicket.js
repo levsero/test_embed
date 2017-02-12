@@ -41,7 +41,7 @@ export class SubmitTicket extends Component {
     submitTicketSender: PropTypes.func.isRequired,
     ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
-    viaId: PropTypes.number
+    viaId: PropTypes.number.isRequired
   };
 
   static defaultProps = {
@@ -60,8 +60,7 @@ export class SubmitTicket extends Component {
     style: null,
     subjectEnabled: false,
     ticketFormSettings: [],
-    updateFrameSize: () => {},
-    viaId: -1
+    updateFrameSize: () => {}
   };
 
   constructor(props, context) {
