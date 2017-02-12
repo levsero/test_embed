@@ -182,7 +182,7 @@ export class SubmitTicketForm extends Component {
   }
 
   prefillFormState = (fields, rawPrefillData = {}) => {
-    const permittedFields = ['text', 'textarea', 'description', 'integer', 'decimal'];
+    const permittedFields = ['text', 'textarea', 'description', 'integer', 'decimal', 'subject'];
     const isPrefillValid = rawPrefillData.fields
                            && Array.isArray(rawPrefillData.fields)
                            && rawPrefillData.fields.length !== 0;
