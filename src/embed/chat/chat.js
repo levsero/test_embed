@@ -111,11 +111,11 @@ function render(name) {
 
   mediator.channel.subscribe(`${name}.setUser`, (user) => {
     win.$zopim && win.$zopim(() => {
-      if ('name' in user) {
+      if (_.isString(user.name)) {
         win.$zopim.livechat.setName(user.name);
       }
 
-      if ('email' in user) {
+      if (_.isString(user.email)) {
         win.$zopim.livechat.setEmail(user.email);
       }
     });

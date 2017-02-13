@@ -7,6 +7,7 @@ import { setScrollKiller,
          setWindowScroll,
          revertWindowScroll } from 'utility/scrollHacks';
 import { isOnHelpCenterPage } from 'utility/pages';
+import { emailValid } from 'utility/utils';
 
 const c = new airwaves.Channel();
 
@@ -553,9 +554,18 @@ function initMessaging() {
   c.intercept('.onIdentify', (__, params) => {
     state['identify.pending'] = true;
 
-    c.broadcast('beacon.identify', params);
-    c.broadcast(`${submitTicket}.prefill`, params);
-    c.broadcast(`${chat}.setUser`, params);
+    if (emailValid(params.email)) {
+      c.broadcast('beacon.identify', params);
+      c.broadcast(`${chat}.setUser`, params);
+      c.broadcast(`${submitTicket}.prefill`, params);
+    } else {
+      console.warn('invalid params passed into zE.identify', params);
+
+      if (_.isString(params.name)) {
+        c.broadcast(`${chat}.setUser`, { name: params.name });
+        c.broadcast(`${submitTicket}.prefill`, { name: params.name });
+      }
+    }
   });
 
   c.intercept('identify.onSuccess', (__, params) => {
