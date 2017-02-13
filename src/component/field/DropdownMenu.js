@@ -76,9 +76,6 @@ export class DropdownMenu extends Component {
         break;
       case keyCodes.ENTER:
         this.items[this.focusedField].handleDropdownOpen(null, null, true);
-        break;
-      default:
-        return;
     }
   }
 
