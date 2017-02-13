@@ -455,18 +455,15 @@ describe('SubmitTicketForm component', function() {
       { id: 1238743, type: 'decimal' },
       { id: 3287425, type: 'text' }
     ];
-    const mockPrefill = {
-      id: 7213001,
-      fields: [
-        { id: 'name', prefill: { 'en-GB': 'I' } },
-        { id: 'email', prefill: { 'en-GB': 'hate' } },
-        { id: '2387462', prefill: { 'en-GB': 'this' } },
-        { id: '9465549', prefill: { 'en-GB': 'really' } },
-        { id: '1872364', prefill: { 'en-GB': 'really2' } },
-        { id: '1238743', prefill: { 'en-GB': 'dumb' } },
-        { id: '3287425', prefill: { 'en-GB': 'story' } }
-      ]
-    };
+    const mockPrefill = [
+      { id: 'name', prefill: { 'en-GB': 'I' } },
+      { id: 'email', prefill: { 'en-GB': 'hate' } },
+      { id: '2387462', prefill: { 'en-GB': 'this' } },
+      { id: '9465549', prefill: { 'en-GB': 'really' } },
+      { id: '1872364', prefill: { 'en-GB': 'really2' } },
+      { id: '1238743', prefill: { 'en-GB': 'dumb' } },
+      { id: '3287425', prefill: { 'en-GB': 'story' } }
+    ];
     const expectation = [
       { id: '1872364', prefill: { 'en-GB': 'really2' } },
       { id: '1238743', prefill: { 'en-GB': 'dumb' } },
@@ -478,7 +475,7 @@ describe('SubmitTicketForm component', function() {
     });
 
     it('returns valid pre-fill data', () => {
-      const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefill.fields);
+      const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefill);
 
       expect(expectation)
         .toEqual(result);
@@ -562,12 +559,10 @@ describe('SubmitTicketForm component', function() {
     });
 
     describe('when pre-fill contains allowed field types', () => {
-      const mockPrefill = {
-        fields: [
-          { id: 1872364, prefill: { '*': 123, 'en-GB': 1337 } },
-          { id: 3287425, prefill: { '*': 324, 'en-GB': 10101001 } }
-        ]
-      };
+      const mockPrefill = [
+        { id: 1872364, prefill: { '*': 123, 'en-GB': 1337 } },
+        { id: 3287425, prefill: { '*': 324, 'en-GB': 10101001 } }
+      ];
 
       describe(`when current locale is 'en-GB'`, () => {
         const expectation = [{
@@ -608,6 +603,6 @@ describe('SubmitTicketForm component', function() {
             .toEqual(expectation);
         });
       });
-    })
+    });
   });
 });

@@ -39,6 +39,7 @@ export class SubmitTicket extends Component {
     style: PropTypes.object,
     subjectEnabled: PropTypes.bool,
     submitTicketSender: PropTypes.func.isRequired,
+    ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
     viaId: PropTypes.number.isRequired
@@ -59,6 +60,7 @@ export class SubmitTicket extends Component {
     showBackButton: () => {},
     style: null,
     subjectEnabled: false,
+    ticketFieldSettings: [],
     ticketFormSettings: [],
     updateFrameSize: () => {}
   };
@@ -271,20 +273,26 @@ export class SubmitTicket extends Component {
   }
 
   handleTicketFormsListClick = (e) => {
-    const value = e.target.dataset.id;
     const { ticketForms } = this.state;
+    const { ticketFormSettings, ticketFieldSettings } = this.props;
+    const value = e.target.dataset.id;
     const selectedTicketForm = _.find(ticketForms.ticket_forms, (f) => {
       return f.id === parseInt(value);
     });
-    const ticketFormPrefill = _.find(this.props.ticketFormSettings, (f) => {
+    const ticketFormPrefill = _.find(ticketFormSettings, (f) => {
       return f.id === parseInt(value);
-    });
+    }) || {};
 
     this.setState({ selectedTicketForm });
     this.props.showBackButton();
 
     setTimeout(() => {
-      this.refs.submitTicketForm.updateTicketForm(selectedTicketForm, ticketForms.ticket_fields, ticketFormPrefill);
+      this.refs.submitTicketForm.updateTicketForm(
+        selectedTicketForm,
+        ticketForms.ticket_fields,
+        ticketFormPrefill.fields,
+        ticketFieldSettings
+      );
       this.refs.submitTicketForm.updateForm();
     }, 0);
   }

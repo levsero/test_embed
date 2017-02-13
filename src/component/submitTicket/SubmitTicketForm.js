@@ -181,13 +181,22 @@ export class SubmitTicketForm extends Component {
       {}).value();
   }
 
-  filterPrefillFields = (fields, rawPrefillFields) => {
+  isPrefillValid = (prefill) => {
+    return prefill
+           && Array.isArray(prefill)
+           && prefill.length !== 0;
+  }
+
+  filterPrefillFields = (fields, prefillFields, prefillAll) => {
     const permittedFields = ['text', 'textarea', 'description', 'integer', 'decimal', 'subject'];
+    const mergedPrefill = (this.isPrefillValid(prefillAll))
+                        ? _.merge(prefillAll, prefillFields) // Broken logic
+                        : prefillFields;
 
     // Cleans data by removing fields we do not want to enable pre-fill on
-    return _.filter(rawPrefillFields, (prefillTicketField) => {
+    return _.filter(mergedPrefill, (ticketField) => {
       // Intentional non-strict matching between integer and string ids
-      const matchingField = _.find(fields, (field) => field.id == prefillTicketField.id); // eslint-disable-line
+      const matchingField = _.find(fields, (field) => field.id == ticketField.id); // eslint-disable-line
 
       return matchingField
            ? _.includes(permittedFields, matchingField.type)
@@ -195,33 +204,29 @@ export class SubmitTicketForm extends Component {
     });
   }
 
-  prefillFormState = (fields, rawPrefillData = {}) => {
-    const isPrefillValid = rawPrefillData.fields
-                           && Array.isArray(rawPrefillData.fields)
-                           && rawPrefillData.fields.length !== 0;
+  prefillFormState = (fields, prefillFields, prefillAll) => {
+    if (!this.isPrefillValid(prefillFields)) return;
 
-    if (!isPrefillValid) return;
-
-    const fieldsPrefill = this.filterPrefillFields(fields, rawPrefillData.fields);
+    const filteredFields = this.filterPrefillFields(fields, prefillFields, prefillAll);
 
     // Check if pre-fill is still valid after processing
-    if (fieldsPrefill.length === 0) return;
+    if (filteredFields.length === 0) return;
 
     let formState = this.getFormState();
     const currentLocale = i18n.getLocale();
 
-    fieldsPrefill.forEach((field) => {
+    filteredFields.forEach((field) => {
       formState[field.id] = field.prefill[`${currentLocale}`] || field.prefill['*'] || '';
     });
 
     this.props.setFormState(formState);
   }
 
-  updateTicketForm = (form, fields, prefill) => {
+  updateTicketForm = (form, fields, prefill, prefillAll) => {
     this.setState({
       ticketForm: form,
       ticketFormFields: fields
-    }, () => this.prefillFormState(fields, prefill));
+    }, () => this.prefillFormState(fields, prefill, prefillAll));
   }
 
   updateForm = () => {
