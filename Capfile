@@ -14,7 +14,6 @@ set :framework_files,    ["main.js",
                           "webWidgetPreview.js",
                           "web_widget.js",
                           "manifest.json",
-                          "update.html",
                           "bootstrap.js"]
 
 set(:framework_deploy_path) { File.join(deploy_to, 'assets', 'embeddable_framework') }
