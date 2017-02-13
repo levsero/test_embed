@@ -114,7 +114,7 @@ describe('chat reducer visitor', () => {
       });
 
       it('updates state with data from payload', () => {
-        expect(state.payload)
+        expect(state)
           .toEqual(jasmine.objectContaining(payload));
       });
     });

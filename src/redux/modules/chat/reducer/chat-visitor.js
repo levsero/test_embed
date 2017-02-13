@@ -24,7 +24,7 @@ const visitor = (state = initialState, action = {}) => {
     case UPDATE_VISITOR_INFO_SUCCESS:
       return {
         ...state,
-        payload
+        ...payload
       };
     default:
       return state;
