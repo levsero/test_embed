@@ -181,17 +181,17 @@ export class SubmitTicketForm extends Component {
       {}).value();
   }
 
-  filterPrefill = (fields, rawPrefillData) => {
+  filterPrefillFields = (fields, rawPrefillFields) => {
     const permittedFields = ['text', 'textarea', 'description', 'integer', 'decimal', 'subject'];
 
     // Cleans data by removing fields we do not want to enable pre-fill on
-    return _.filter(rawPrefillData.fields, (prefillTicketField) => {
+    return _.filter(rawPrefillFields, (prefillTicketField) => {
       // Intentional non-strict matching between integer and string ids
       const matchingField = _.find(fields, (field) => field.id == prefillTicketField.id); // eslint-disable-line
 
       return matchingField
-        ? _.includes(permittedFields, matchingField.type)
-        : false;
+           ? _.includes(permittedFields, matchingField.type)
+           : false;
     });
   }
 
@@ -202,7 +202,7 @@ export class SubmitTicketForm extends Component {
 
     if (!isPrefillValid) return;
 
-    const fieldsPrefill = this.filterPrefill(fields, rawPrefillData);
+    const fieldsPrefill = this.filterPrefillFields(fields, rawPrefillData.fields);
 
     // Check if pre-fill is still valid after processing
     if (fieldsPrefill.length === 0) return;

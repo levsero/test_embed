@@ -42,11 +42,7 @@ function getTicketForms(config) {
   }
 
   // Or return an array of numbers
-  if (_.isNumber(firstElement)) {
-    return _.filter(rawTicketForms, (ticketFormId) => {
-      return _.isNumber(ticketFormId);
-    });
-  }
+  return _.filter(rawTicketForms, _.isNumber);
 }
 
 function create(name, config, reduxStore) {

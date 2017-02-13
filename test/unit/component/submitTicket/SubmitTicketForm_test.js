@@ -443,7 +443,7 @@ describe('SubmitTicketForm component', function() {
     });
   });
 
-  describe('filterPrefill', () => {
+  describe('filterPrefillFields', () => {
     let submitTicketForm;
 
     const mockTicketFields = [
@@ -478,7 +478,7 @@ describe('SubmitTicketForm component', function() {
     });
 
     it('returns valid pre-fill data', () => {
-      const result = submitTicketForm.filterPrefill(mockTicketFields, mockPrefill);
+      const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefill.fields);
 
       expect(expectation)
         .toEqual(result);
