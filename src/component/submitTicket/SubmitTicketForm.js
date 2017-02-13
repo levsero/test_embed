@@ -189,8 +189,6 @@ export class SubmitTicketForm extends Component {
       // Intentional non-strict matching between integer and string ids
       const matchingField = _.find(fields, (field) => field.id == prefillTicketField.id); // eslint-disable-line
 
-      console.log(matchingField);
-
       return matchingField
         ? _.includes(permittedFields, matchingField.type)
         : false;
