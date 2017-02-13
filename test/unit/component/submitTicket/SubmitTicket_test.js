@@ -230,7 +230,8 @@ describe('Submit ticket component', () => {
             submitTicketSender={mockSubmitTicketSender}
             attachmentsEnabled={true}
             onSubmitted={mockOnSubmitted}
-            updateFrameSize={noop} />
+            updateFrameSize={noop}
+            viaId={48} />
         );
 
         submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
@@ -443,7 +444,7 @@ describe('Submit ticket component', () => {
       it('Adds the correct via_id', () => {
         /* eslint camelcase:0 */
         expect(params.request.via_id)
-          .toEqual(-1);
+          .toEqual(48);
       });
 
       describe('when there is a successful response', () => {
