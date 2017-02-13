@@ -443,6 +443,48 @@ describe('SubmitTicketForm component', function() {
     });
   });
 
+  describe('filterPrefill', () => {
+    let submitTicketForm;
+
+    const mockTicketFields = [
+      { id: 'name', type: 'name' },
+      { id: 'email', type: 'email' },
+      { id: 2387462, type: 'checkbox' },
+      { id: 9465549, type: 'tagger' },
+      { id: 1872364, type: 'integer' },
+      { id: 1238743, type: 'decimal' },
+      { id: 3287425, type: 'text' }
+    ];
+    const mockPrefill = {
+      id: 7213001,
+      fields: [
+        { id: 'name', prefill: { 'en-GB': 'I' } },
+        { id: 'email', prefill: { 'en-GB': 'hate' } },
+        { id: '2387462', prefill: { 'en-GB': 'this' } },
+        { id: '9465549', prefill: { 'en-GB': 'really' } },
+        { id: '1872364', prefill: { 'en-GB': 'really2' } },
+        { id: '1238743', prefill: { 'en-GB': 'dumb' } },
+        { id: '3287425', prefill: { 'en-GB': 'story' } }
+      ]
+    };
+    const expectation = [
+      { id: '1872364', prefill: { 'en-GB': 'really2' } },
+      { id: '1238743', prefill: { 'en-GB': 'dumb' } },
+      { id: '3287425', prefill: { 'en-GB': 'story' } }
+    ];
+
+    beforeEach(() => {
+      submitTicketForm = domRender(<SubmitTicketForm />);
+    });
+
+    it('returns valid pre-fill data', () => {
+      const result = submitTicketForm.filterPrefill(mockTicketFields, mockPrefill);
+
+      expect(expectation)
+        .toEqual(result);
+    });
+  });
+
   describe('prefillFormState', () => {
     let submitTicketForm,
       mockSetFormState;
