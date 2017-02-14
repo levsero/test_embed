@@ -418,6 +418,11 @@ parts:
       screenshot: "https://zendesk.box.com/s/28bxbvxczuie8znlue2wker28fplpsq7"
       value: "Why didn't it answer your question?"
   - translation:
+      key: "embeddable_framework.automaticAnswers.desktop.irrelevant.question_v3"
+      title: "Ask the user for feedback on why the article didn't answer their question. DO NOT use possessive (your question)"
+      screenshot: "https://zendesk.box.com/s/omr68ddl72uyayh6ltcm83mja1gqzscb"
+      value: "Please tell us why:"
+  - translation:
       key: "embeddable_framework.automaticAnswers.mobile.irrelevant.question"
       title: "Ask the user for feedback on why the article didn't answer their question."
       screenshot: "https://zendesk.box.com/s/g4cz4iwtlpoo2cr49odoj0w31j8a4bba"
