@@ -40,7 +40,7 @@ class Chat extends Component {
   updateUser = (user) => {
     this.props.setVisitorInfo({
       display_name: user.name || '', // eslint-disable-line camelcase
-      email: user.email
+      email: user.email || ''
     });
   }
 
