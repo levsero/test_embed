@@ -190,10 +190,7 @@ export class SubmitTicketForm extends Component {
 
     prefillAll.forEach((field) => {
       if (!_.find(prefillFields, (ticketField) => ticketField.id == field.id)) { // eslint-disable-line
-        result.push({
-          id: field.id,
-          prefill: field.prefill
-        });
+        result.push(field);
       }
     });
 
@@ -205,12 +202,12 @@ export class SubmitTicketForm extends Component {
     const prefillFieldValid = this.isPrefillValid(prefillFields);
     const prefillAllValid = this.isPrefillValid(prefillAll);
     const prefillData = (prefillFieldValid)
-                        ? (prefillAllValid)
-                            ? this.mergePrefill(prefillFields, prefillAll)
-                            : prefillFields
-                        : (prefillAllValid)
-                            ? prefillAll
-                            : [];
+                      ? (prefillAllValid)
+                          ? this.mergePrefill(prefillFields, prefillAll)
+                          : prefillFields
+                      : (prefillAllValid)
+                          ? prefillAll
+                          : [];
 
     // Cleans data by removing fields we do not want to enable pre-fill on
     return _.filter(prefillData, (ticketField) => {
