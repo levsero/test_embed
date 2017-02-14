@@ -16,6 +16,7 @@ describe('mediator', function() {
     mockContactFormSuppressedValue,
     mockOnHelpCenterPageValue,
     mockPositionValue,
+    mockEmailValid,
     initSubscriptionSpies;
 
   const reset = function(spy) {
@@ -57,6 +58,11 @@ describe('mediator', function() {
       'utility/pages': {
         isOnHelpCenterPage: () => {
           return mockOnHelpCenterPageValue;
+        }
+      },
+      'utility/utils': {
+        emailValid: () => {
+          return mockEmailValid;
         }
       }
     });
@@ -224,39 +230,98 @@ describe('mediator', function() {
       mediator.init({ submitTicket: true, helpCenter: false });
     });
 
-    it('should broadcast beacon.identify with given params', function() {
-      const params = {
-        user: 'James Dean',
-        email: 'james@dean.com'
-      };
+    describe('when email is valid', () => {
+      let params;
 
-      c.broadcast('.onIdentify', params);
+      beforeEach(() => {
+        params = {
+          name: 'James Dean',
+          email: 'james@dean.com'
+        };
 
-      expect(beaconSub.identify)
-        .toHaveBeenCalledWith(params);
+        mockEmailValid = true;
+
+        c.broadcast('.onIdentify', params);
+      });
+
+      it('should broadcast beacon.identify with given params', function() {
+        expect(beaconSub.identify)
+          .toHaveBeenCalledWith(params);
+      });
+
+      it('should broadcast submitTicket.prefill with given params', function() {
+        expect(submitTicketSub.prefill)
+          .toHaveBeenCalledWith(params);
+      });
+
+      it('should broadcast chat.setUser with given params', function() {
+        expect(chatSub.setUser)
+          .toHaveBeenCalledWith(params);
+      });
     });
 
-    it('should broadcast submitTicket.prefill with given params', function() {
-      const params = {
-        user: 'James Dean',
-        email: 'james@dean.com'
-      };
+    describe('when email is invalid', () => {
+      let params;
 
-      c.broadcast('.onIdentify', params);
-      expect(submitTicketSub.prefill)
-        .toHaveBeenCalledWith(params);
-    });
+      beforeEach(() => {
+        params = {
+          name: 'James Dean',
+          email: 'james@dean'
+        };
 
-    it('should broadcast chat.setUser with given params', function() {
-      const params = {
-        user: 'James Dean',
-        email: 'james@dean.com'
-      };
+        mockEmailValid = false;
 
-      c.broadcast('.onIdentify', params);
+        spyOn(console, 'warn');
 
-      expect(chatSub.setUser)
-        .toHaveBeenCalledWith(params);
+        c.broadcast('.onIdentify', params);
+      });
+
+      it('should not broadcast beacon.identify with given params', function() {
+        expect(beaconSub.identify)
+          .not.toHaveBeenCalled();
+      });
+
+      it('should show a warning', function() {
+        expect(console.warn) // eslint-disable-line no-console
+          .toHaveBeenCalled();
+      });
+
+      describe('when name is valid', () => {
+        it('should broadcast submitTicket.prefill with name', function() {
+          expect(submitTicketSub.prefill)
+            .toHaveBeenCalledWith({ name: params.name });
+        });
+
+        it('should broadcast chat.setUser with name', function() {
+          expect(chatSub.setUser)
+            .toHaveBeenCalledWith({ name: params.name });
+        });
+      });
+
+      describe('when name is invalid', () => {
+        beforeEach(() => {
+          params = {
+            name: undefined,
+            email: 'james@dean'
+          };
+
+          mockEmailValid = false;
+          reset(chatSub.setUser);
+          reset(submitTicketSub.prefill);
+
+          c.broadcast('.onIdentify', params);
+        });
+
+        it('should not broadcast submitTicket.prefill', function() {
+          expect(submitTicketSub.prefill)
+            .not.toHaveBeenCalled();
+        });
+
+        it('should not broadcast chat.setUser', function() {
+          expect(chatSub.setUser)
+            .not.toHaveBeenCalled();
+        });
+      });
     });
   });
 

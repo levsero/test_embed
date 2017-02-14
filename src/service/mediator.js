@@ -560,7 +560,7 @@ function initMessaging() {
       c.broadcast(`${submitTicket}.prefill`, params);
     } else {
       // Make this a variable so that it doesn't get stripped by webpack.
-      const warn = console.warn;
+      const warn = console.warn; // eslint-disable-line no-console
 
       warn('invalid params passed into zE.identify', params);
 
