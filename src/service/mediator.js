@@ -559,7 +559,10 @@ function initMessaging() {
       c.broadcast(`${chat}.setUser`, params);
       c.broadcast(`${submitTicket}.prefill`, params);
     } else {
-      console.warn('invalid params passed into zE.identify', params);
+      // Make this a variable so that it doesn't get stripped by webpack.
+      const warn = console.warn;
+
+      warn('invalid params passed into zE.identify', params);
 
       if (_.isString(params.name)) {
         c.broadcast(`${chat}.setUser`, { name: params.name });
