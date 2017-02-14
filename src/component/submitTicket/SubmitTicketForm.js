@@ -186,11 +186,10 @@ export class SubmitTicketForm extends Component {
   }
 
   mergePrefill = (prefillFields, prefillAll) => {
-    // Simplify this
     let result = prefillFields;
 
     prefillAll.forEach((field) => {
-      if (!_.find(prefillFields, (ticketField) => ticketField.id == field.id)) {
+      if (!_.find(prefillFields, (ticketField) => ticketField.id == field.id)) { // eslint-disable-line
         result.push({
           id: field.id,
           prefill: field.prefill
