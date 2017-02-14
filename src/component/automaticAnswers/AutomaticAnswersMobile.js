@@ -71,8 +71,8 @@ export class AutomaticAnswersMobile extends AutomaticAnswers {
   }
 
   renderIrrelevantContent = () => {
-    const irrelevantQuestion = i18n.t('embeddable_framework.automaticAnswers.desktop.irrelevant.question_v2', {
-      fallback: "Why didn't it answer your question?"
+    const irrelevantQuestion = i18n.t('embeddable_framework.automaticAnswers.desktop.irrelevant.question_v3', {
+      fallback: 'Please tell us why:'
     });
 
     return (
