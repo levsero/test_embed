@@ -182,19 +182,39 @@ export class SubmitTicketForm extends Component {
   }
 
   isPrefillValid = (prefill) => {
-    return prefill
-           && Array.isArray(prefill)
-           && prefill.length !== 0;
+    return prefill && Array.isArray(prefill) && prefill.length !== 0;
+  }
+
+  mergePrefill = (prefillFields, prefillAll) => {
+    // Simplify this
+    let result = prefillFields;
+
+    prefillAll.forEach((field) => {
+      if (!_.find(prefillFields, (ticketField) => ticketField.id == field.id)) {
+        result.push({
+          id: field.id,
+          prefill: field.prefill
+        });
+      }
+    });
+
+    return result;
   }
 
   filterPrefillFields = (fields, prefillFields, prefillAll) => {
     const permittedFields = ['text', 'textarea', 'description', 'integer', 'decimal', 'subject'];
-    const mergedPrefill = (this.isPrefillValid(prefillAll))
-                        ? _.merge(prefillAll, prefillFields) // Broken logic
-                        : prefillFields;
+    const prefillFieldValid = this.isPrefillValid(prefillFields);
+    const prefillAllValid = this.isPrefillValid(prefillAll);
+    const prefillData = (prefillFieldValid)
+                        ? (prefillAllValid)
+                            ? this.mergePrefill(prefillFields, prefillAll)
+                            : prefillFields
+                        : (prefillAllValid)
+                            ? prefillAll
+                            : [];
 
     // Cleans data by removing fields we do not want to enable pre-fill on
-    return _.filter(mergedPrefill, (ticketField) => {
+    return _.filter(prefillData, (ticketField) => {
       // Intentional non-strict matching between integer and string ids
       const matchingField = _.find(fields, (field) => field.id == ticketField.id); // eslint-disable-line
 
@@ -205,8 +225,6 @@ export class SubmitTicketForm extends Component {
   }
 
   prefillFormState = (fields, prefillFields, prefillAll) => {
-    if (!this.isPrefillValid(prefillFields)) return;
-
     const filteredFields = this.filterPrefillFields(fields, prefillFields, prefillAll);
 
     // Check if pre-fill is still valid after processing
