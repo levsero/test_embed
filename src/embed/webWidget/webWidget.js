@@ -252,11 +252,19 @@ function setUpMediator() {
 
   mediator.channel.subscribe('ticketSubmissionForm.prefill', (user) => {
     waitForRootComponent(() => {
-      const submitTicketForm = getRootComponent().refs.submitTicketForm;
+      const submitTicketForm = getWebWidgetComponent().refs.ticketSubmissionForm;
 
       submitTicketForm.setState({
         formState: _.pick(user, ['name', 'email'])
       });
+    });
+  });
+
+  mediator.channel.subscribe('zopimChat.setUser', (user) => {
+    waitForRootComponent(() => {
+      const chat = getWebWidgetComponent().refs.chat.refs.wrappedInstance;
+
+      chat.updateUser(_.pick(user, ['name', 'email']));
     });
   });
 

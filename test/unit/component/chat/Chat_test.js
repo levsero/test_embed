@@ -29,7 +29,8 @@ describe('Chat component', () => {
       },
       'src/redux/modules/chat': {
         sendMsg: noop,
-        updateCurrentMsg: noop
+        updateCurrentMsg: noop,
+        setVisitorInfo: noop
       },
       'service/i18n': {
         i18n: { t: noop }

@@ -6,7 +6,9 @@ import {
   SENT_CHAT_MSG_REQUEST,
   SENT_CHAT_MSG_SUCCESS,
   SENT_CHAT_MSG_FAILURE,
-  UPDATE_CURRENT_MSG
+  UPDATE_CURRENT_MSG,
+  UPDATE_VISITOR_INFO_SUCCESS,
+  UPDATE_VISITOR_INFO_FAILURE
 } from './chat-action-types';
 
 const chatTypingTimeout = 2000;
@@ -72,6 +74,21 @@ export function endChat() {
         dispatch({ type: END_CHAT_SUCCESS });
       } else {
         dispatch({ type: END_CHAT_FAILURE });
+      }
+    });
+  };
+}
+
+export function setVisitorInfo(visitor) {
+  return (dispatch) => {
+    zChat.setVisitorInfo(visitor, (err) => {
+      if (!err) {
+        dispatch({
+          type: UPDATE_VISITOR_INFO_SUCCESS,
+          payload: visitor
+        });
+      } else {
+        dispatch({ type: UPDATE_VISITOR_INFO_FAILURE });
       }
     });
   };

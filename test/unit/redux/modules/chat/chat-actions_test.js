@@ -7,6 +7,7 @@ let actions,
   mockVisitor,
   mockSendChatMsg = jasmine.createSpy('sendChatMsg'),
   mockSendTyping = jasmine.createSpy('sendTyping'),
+  mockSetVisitorInfo = jasmine.createSpy('mockSetVisitorInfo'),
   mockEndChat = jasmine.createSpy('endChat');
 
 const middlewares = [thunk];
@@ -20,7 +21,8 @@ describe('chat redux actions', () => {
       'vendor/web-sdk': {
         sendChatMsg: mockSendChatMsg,
         sendTyping: mockSendTyping,
-        endChat: mockEndChat
+        endChat: mockEndChat,
+        setVisitorInfo: mockSetVisitorInfo
       }
     });
 
@@ -194,6 +196,56 @@ describe('chat redux actions', () => {
           expect(mockStore.getActions())
             .toContain({
               type: actionTypes.END_CHAT_FAILURE
+            });
+        });
+      });
+    });
+  });
+
+  describe('setVisitorInfo', () => {
+    beforeEach(() => {
+      const info = { email: 'x@x.com' };
+
+      mockStore.dispatch(actions.setVisitorInfo(info));
+    });
+
+    it('calls setVisitorInfo on the web sdk', () => {
+      expect(mockSetVisitorInfo)
+        .toHaveBeenCalled();
+    });
+
+    describe('Web SDK callback', () => {
+      let callbackFn;
+
+      beforeEach(() => {
+        const setVisitorInfoCalls = mockSetVisitorInfo.calls.mostRecent().args;
+
+        callbackFn = setVisitorInfoCalls[1];
+      });
+
+      describe('when there are no errors', () => {
+        beforeEach(() => {
+          callbackFn();
+        });
+
+        it('dispatches a UPDATE_VISITOR_INFO_SUCCESS action with the correct payload', () => {
+          expect(mockStore.getActions())
+            .toContain({
+              type: actionTypes.UPDATE_VISITOR_INFO_SUCCESS,
+              payload: { email: 'x@x.com' }
+            });
+        });
+      });
+
+      describe('when there are errors', () => {
+        beforeEach(() => {
+          callbackFn(['error!']);
+        });
+
+        it('dispatches a UPDATE_VISITOR_INFO_FAILURE action', () => {
+          expect(mockStore.getActions())
+            .toContain({
+              type: actionTypes.UPDATE_VISITOR_INFO_FAILURE
             });
         });
       });
