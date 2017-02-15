@@ -182,19 +182,7 @@ export class SubmitTicketForm extends Component {
   }
 
   isPrefillValid = (prefill) => {
-    return prefill && Array.isArray(prefill) && prefill.length !== 0;
-  }
-
-  mergePrefill = (prefillFields, prefillAll) => {
-    let result = prefillFields;
-
-    prefillAll.forEach((field) => {
-      if (!_.find(prefillFields, (ticketField) => ticketField.id == field.id)) { // eslint-disable-line
-        result.push(field);
-      }
-    });
-
-    return result;
+    return Array.isArray(prefill) && prefill.length !== 0;
   }
 
   filterPrefillFields = (fields, prefillFields, prefillAll) => {
@@ -203,7 +191,7 @@ export class SubmitTicketForm extends Component {
     const prefillAllValid = this.isPrefillValid(prefillAll);
     const prefillFieldData = prefillFieldValid ? prefillFields : [];
     const prefillData = prefillAllValid
-                      ? this.mergePrefill(prefillFieldData, prefillAll)
+                      ? _.unionWith(prefillFields, prefillAll, (a1, a2) => a1.id == a2.id)
                       : prefillFieldData;
 
     // Cleans data by removing fields we do not want to enable pre-fill on

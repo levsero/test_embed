@@ -469,37 +469,6 @@ describe('SubmitTicketForm component', function() {
     });
   });
 
-  describe('mergePrefill', () => {
-    let submitTicketForm;
-
-    beforeEach(() => {
-      submitTicketForm = domRender(<SubmitTicketForm />);
-    });
-
-    describe('when given two valid pre-fill data', () => {
-      const mockPrefillFields = [
-        { id: 1, prefill: { '*': 'Apsala' } },
-        { id: 2, prefill: { '*': 'Barbas' } }
-      ];
-      const mockPrefillAll = [
-        { id: 2, prefill: { '*': 'Bayin', 'en-GB': 'Rodrick' } },
-        { id: 3, prefill: { '*': 'Vepar', 'en-GB': 'Ozma' } }
-      ];
-
-      it('should return a union of data sets', () => {
-        const result = submitTicketForm.mergePrefill(mockPrefillFields, mockPrefillAll);
-        const expectation = [
-          { id: 1, prefill: { '*': 'Apsala' } },
-          { id: 2, prefill: { '*': 'Barbas' } },
-          { id: 3, prefill: { '*': 'Vepar', 'en-GB': 'Ozma' } }
-        ];
-
-        expect(result)
-          .toEqual(expectation);
-      });
-    });
-  });
-
   describe('filterPrefillFields', () => {
     let submitTicketForm;
 
