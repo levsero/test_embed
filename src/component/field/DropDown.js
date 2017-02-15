@@ -24,7 +24,7 @@ export class Dropdown extends Component {
 
     const initialMenu = (
       <DropdownMenu
-        ref={(m) => {this.menu = m;}}
+        ref={(m) => { this.menu = m; }}
         options={this.formatDropdownOptions(this.props.options)}
         onOptionClick={this.setValue} />
     );
@@ -90,7 +90,7 @@ export class Dropdown extends Component {
     switch (key) {
       case keyCodes.DOWN:
         this.setState({ open: true });
-        setTimeout(() => { this.menu.keyDown(key); }, 0);
+        setTimeout(() => this.menu.keyDown(key), 0);
         break;
       case keyCodes.ESC:
         this.setState({ open: false });

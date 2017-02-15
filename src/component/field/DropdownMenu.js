@@ -23,59 +23,56 @@ export class DropdownMenu extends Component {
   constructor (props) {
     super(props);
 
-    this.focusedField = null;
+    this.focusedFieldIndex = null;
     this.element = null;
     this.items = [];
   }
 
   componentWillUpdate() {
     this.items = [];
-    this.focusedField = null;
+    this.focusedFieldIndex = null;
     this.element = null;
   }
 
-  componentWillUnmount() {
-    this.items = [];
-    this.focusedField = null;
-    this.element = null;
-  }
+  changeFocus = (newFocusIndex) => {
+    const currentFocusItem = this.items[this.focusedFieldIndex];
+    const newFocusItem = this.items[newFocusIndex];
 
-  changeFocus = (newFocus) => {
     setTimeout(() => {
-      if (this.items[this.focusedField] && this.items[newFocus]) {
-        this.items[this.focusedField].blur();
+      if (currentFocusItem && newFocusItem) {
+        currentFocusItem.blur();
       }
-      if (this.items[newFocus]) {
-        this.items[newFocus].focus();
+      if (newFocusItem) {
+        newFocusItem.focus();
         // Keep item in view
-        this.element.scrollTop = this.items[newFocus].element.offsetTop - 160;
-        this.focusedField = newFocus;
+        this.element.scrollTop = newFocusItem.element.offsetTop - 160;
+        this.focusedFieldIndex = newFocusIndex;
       }
     }, 0);
   }
 
   keyDown = (key) => {
-    if (this.focusedField === null) {
-      this.focusedField = 0;
-      setTimeout(() => this.items[this.focusedField].focus(), 0);
+    if (this.focusedFieldIndex === null) {
+      this.focusedFieldIndex = 0;
+      setTimeout(() => this.items[this.focusedFieldIndex].focus(), 0);
       return;
     }
 
     switch (key) {
       case keyCodes.DOWN:
-        this.changeFocus(this.focusedField+1);
+        this.changeFocus(this.focusedFieldIndex+1);
         break;
       case keyCodes.UP:
-        this.changeFocus(this.focusedField-1);
+        this.changeFocus(this.focusedFieldIndex-1);
         break;
       case keyCodes.RIGHT:
-        this.items[this.focusedField].openNestedMenuFromKeyboard();
+        this.items[this.focusedFieldIndex].openNestedMenuFromKeyboard();
         break;
       case keyCodes.LEFT:
         this.props.handleBackClick(true);
         break;
       case keyCodes.ENTER:
-        this.items[this.focusedField].handleDropdownOpen(null, null, true);
+        this.items[this.focusedFieldIndex].handleDropdownOpen(null, null, true);
     }
   }
 
@@ -98,9 +95,9 @@ export class DropdownMenu extends Component {
           ref={(opt) => { if (opt !== null) this.items.push(opt); }}
           title={option.title}
           key={option.title}
-          onClick={option.onClick || _.noop}
-          nestedMenu={option.nestedMenu || null}
-          updateMenu={option.updateMenu || _.noop} />
+          onClick={option.onClick}
+          nestedMenu={option.nestedMenu}
+          updateMenu={option.updateMenu} />
       );
     });
   }
