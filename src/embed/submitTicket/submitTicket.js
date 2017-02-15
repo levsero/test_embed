@@ -326,8 +326,10 @@ function prefillForm(name, user) {
   waitForRootComponent(name, function() {
     const submitTicket = getRootComponent(name);
 
+    const formData = _.pickBy(_.pick(user, ['name', 'email']), _.isString);
+
     submitTicket.setState({
-      formState: _.pick(user, ['name', 'email'])
+      formState: formData
     });
   });
 }

@@ -49,9 +49,17 @@ function error(err) {
   }
 }
 
+function warn(...warning) {
+    // Make this a variable so that it doesn't get stripped by webpack.
+  const warn = console.warn; // eslint-disable-line no-console
+
+  warn(...warning);
+}
+
 export const logging = {
   init,
   error,
   wrap,
-  errorFilter
+  errorFilter,
+  warn
 };
