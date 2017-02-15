@@ -185,13 +185,13 @@ export class SubmitTicketForm extends Component {
     return Array.isArray(prefill) && prefill.length !== 0;
   }
 
-  filterPrefillFields = (fields, prefillFields, prefillAll) => {
+  filterPrefillFields = (fields, prefillTicketForm, prefillTicketField) => {
     const permittedFields = ['text', 'textarea', 'description', 'integer', 'decimal', 'subject'];
-    const prefillFieldValid = this.isPrefillValid(prefillFields);
-    const prefillAllValid = this.isPrefillValid(prefillAll);
-    const prefillFieldData = prefillFieldValid ? prefillFields : [];
-    const prefillData = prefillAllValid
-                      ? _.unionWith(prefillFields, prefillAll, (a1, a2) => a1.id == a2.id)
+    const prefillTicketFormValid = this.isPrefillValid(prefillTicketForm);
+    const prefillTicketFieldValid = this.isPrefillValid(prefillTicketField);
+    const prefillFieldData = prefillTicketFormValid ? prefillTicketForm : [];
+    const prefillData = prefillTicketFieldValid
+                      ? _.unionWith(prefillTicketForm, prefillTicketField, (a1, a2) => a1.id == a2.id)
                       : prefillFieldData;
 
     // Cleans data by removing fields we do not want to enable pre-fill on
@@ -205,8 +205,8 @@ export class SubmitTicketForm extends Component {
     });
   }
 
-  prefillFormState = (fields, prefillFields, prefillAll) => {
-    const filteredFields = this.filterPrefillFields(fields, prefillFields, prefillAll);
+  prefillFormState = (fields, prefillTicketForm, prefillTicketField) => {
+    const filteredFields = this.filterPrefillFields(fields, prefillTicketForm, prefillTicketField);
 
     // Check if pre-fill is still valid after processing
     if (filteredFields.length === 0) return;
@@ -221,11 +221,11 @@ export class SubmitTicketForm extends Component {
     this.props.setFormState(formState);
   }
 
-  updateTicketForm = (form, fields, prefill, prefillAll) => {
+  updateTicketForm = (form, fields, prefill, prefillTicketField) => {
     this.setState({
       ticketForm: form,
       ticketFormFields: fields
-    }, () => this.prefillFormState(fields, prefill, prefillAll));
+    }, () => this.prefillFormState(fields, prefill, prefillTicketField));
   }
 
   updateForm = () => {
