@@ -1,4 +1,4 @@
-describe('SubmitTicketForm component', function() {
+describe('SubmitTicketForm component', () => {
   let SubmitTicketForm,
     onSubmit,
     onCancel,
@@ -18,7 +18,7 @@ describe('SubmitTicketForm component', function() {
     mockFormState = state;
   };
 
-  beforeEach(function() {
+  beforeEach(() => {
     onSubmit = jasmine.createSpy();
     onCancel = jasmine.createSpy();
 
@@ -154,20 +154,20 @@ describe('SubmitTicketForm component', function() {
     SubmitTicketForm = requireUncached(submitTicketFormPath).SubmitTicketForm;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  it('should display form title', function() {
+  it('should display form title', () => {
     domRender(<SubmitTicketForm formTitleKey='testTitle' />);
 
     expect(document.getElementById('formTitle').innerHTML)
       .toEqual('embeddable_framework.submitTicket.form.title.testTitle');
   });
 
-  it('should call i18n.t with the right parameter to set the form title', function() {
+  it('should call i18n.t with the right parameter to set the form title', () => {
     const titleKey = 'foo bar';
 
     spyOn(mockRegistry['service/i18n'].i18n, 't').and.callThrough();
@@ -178,14 +178,14 @@ describe('SubmitTicketForm component', function() {
       .toHaveBeenCalledWith(`embeddable_framework.submitTicket.form.title.${titleKey}`);
   });
 
-  it('should correctly render form with noValidate attribute', function() {
+  it('should correctly render form with noValidate attribute', () => {
     const submitTicketForm = domRender(<SubmitTicketForm />);
 
     expect(ReactDOM.findDOMNode(submitTicketForm).getAttribute('novalidate'))
       .toEqual('');
   });
 
-  it('should change state and alter submit button on valid submit', function() {
+  it('should change state and alter submit button on valid submit', () => {
     const submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} />);
     const submitTicketFormNode = ReactDOM.findDOMNode(submitTicketForm);
     const submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
@@ -270,7 +270,7 @@ describe('SubmitTicketForm component', function() {
     });
   });
 
-  it('should disable submit button when attachments not ready', function() {
+  it('should disable submit button when attachments not ready', () => {
     const submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} attachmentsEnabled={true} />);
     const submitTicketFormNode = ReactDOM.findDOMNode(submitTicketForm);
     const submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
@@ -284,19 +284,19 @@ describe('SubmitTicketForm component', function() {
       .toEqual(true);
   });
 
-  describe('ButtonSecondary', function() {
-    it('should be rendered in the form when fullscreen is false', function() {
+  describe('ButtonSecondary', () => {
+    it('should be rendered in the form when fullscreen is false', () => {
       const submitTicketForm = domRender(<SubmitTicketForm fullscreen={false} />);
 
-      expect(function() {
+      expect(() => {
         TestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');
       }).not.toThrow();
     });
 
-    it('should not be rendered in the form when fullscreen is true', function() {
+    it('should not be rendered in the form when fullscreen is true', () => {
       const submitTicketForm = domRender(<SubmitTicketForm fullscreen={true} />);
 
-      expect(function() {
+      expect(() => {
         TestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');
       }).toThrow();
     });
@@ -529,18 +529,52 @@ describe('SubmitTicketForm component', function() {
       });
     });
 
-    describe('when both pre-fill fields and all is given', () => {
-      it('returns valid pre-fill data', () => {
-        const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefill, mockPrefillAll);
-        const expectation = [
-          { id: 'subject', prefill: { 'en-GB': 'Nybeth' } },
-          { id: 1238743, prefill: { 'en-GB': 'Canopus' } },
-          { id: '3287425', prefill: { 'en-GB': 'Mannaflora' } },
-          { id: '1872364', prefill: { 'en-GB': 'Voltare' } }
-        ];
+    describe('when both pre-fill form and fields is given', () => {
+      const mockTicketFields = [
+        { id: 123, type: 'text' },
+        { id: '456', type: 'text' },
+        { id: 789, type: 'text' },
+        { id: '2983745', type: 'text' },
+        { id: 5873874, type: 'text' },
+      ];
+      const mockPrefill = [
+        { id: 123, prefill: { '*': 'Adrian' } },
+        { id: '456', prefill: { '*': 'Anthony' } },
+        { id: 789, prefill: { '*': 'Dan' } }
+      ];
 
-        expect(expectation)
-          .toEqual(result);
+      describe('with existing ids in both data sets', () => {
+        it('should not overwrite pre-fill field data', () => {
+          const mockPrefillAll = [
+            { id: 123, prefill: { '*': 'Bobdrian' } },
+            { id: '456', prefill: { '*': 'Anthony the artist' } }
+          ];
+          const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefill, mockPrefillAll);
+
+          expect(mockPrefill)
+            .toEqual(result);
+        })
+      });
+
+      describe('with non-existing ids in both data sets', () => {
+        it('should merge pre-fill field data that is missing', () => {
+          const mockPrefillAll = [
+            { id: 123, prefill: { '*': 'Terence' } },
+            { id: '2983745', prefill: { '*': 'Mike' } },
+            { id: 5873874, prefill: { '*': 'Brieannah' } }
+          ];
+          const expectation = [
+            { id: 123, prefill: { '*': 'Adrian' } },
+            { id: '456', prefill: { '*': 'Anthony' } },
+            { id: 789, prefill: { '*': 'Dan' } },
+            { id: '2983745', prefill: { '*': 'Mike' } },
+            { id: 5873874, prefill: { '*': 'Brieannah' } },
+          ];
+          const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefill, mockPrefillAll);
+
+          expect(expectation)
+            .toEqual(result);
+        })
       });
     });
 
