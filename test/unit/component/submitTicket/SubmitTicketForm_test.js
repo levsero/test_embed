@@ -482,7 +482,7 @@ describe('SubmitTicketForm component', () => {
       { id: 1238743, type: 'decimal' },
       { id: 3287425, type: 'text' }
     ];
-    const mockPrefill = [
+    const mockPrefillTicketForm = [
       { id: 'name', prefill: { 'en-GB': 'Lanselot' } },
       { id: 'subject', prefill: { 'en-GB': 'Nybeth' } },
       { id: 9465549, prefill: { 'en-GB': 'Versalia' } },
@@ -490,7 +490,7 @@ describe('SubmitTicketForm component', () => {
       { id: '3287425', prefill: { 'en-GB': 'Mannaflora' } },
       { id: '1872364', prefill: { 'en-GB': 'Voltare' } }
     ];
-    const mockPrefillAll = [
+    const mockPrefillFields = [
       { id: 'email', prefill: { 'en-GB': 'Cressidia' } },
       { id: '2387462', prefill: { 'en-GB': 'Ravness' } },
       { id: '1872364', prefill: { 'en-GB': 'Andoras' } },
@@ -503,7 +503,7 @@ describe('SubmitTicketForm component', () => {
 
     describe('when only valid pre-fill data is given', () => {
       it('returns valid pre-fill data', () => {
-        const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefill);
+        const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefillTicketForm);
         const expectation = [
           { id: 'subject', prefill: { 'en-GB': 'Nybeth' } },
           { id: 1238743, prefill: { 'en-GB': 'Canopus' } },
@@ -518,7 +518,7 @@ describe('SubmitTicketForm component', () => {
 
     describe('when only valid pre-fill all data is given', () => {
       it('returns valid pre-fill data', () => {
-        const result = submitTicketForm.filterPrefillFields(mockTicketFields, [], mockPrefillAll);
+        const result = submitTicketForm.filterPrefillFields(mockTicketFields, [], mockPrefillFields);
         const expectation = [
           { id: '1872364', prefill: { 'en-GB': 'Andoras' } },
           { id: 3287425, prefill: { 'en-GB': 'Catiua' } }
@@ -537,7 +537,7 @@ describe('SubmitTicketForm component', () => {
         { id: '2983745', type: 'text' },
         { id: 5873874, type: 'text' },
       ];
-      const mockPrefill = [
+      const mockPrefillTicketForm = [
         { id: 123, prefill: { '*': 'Adrian' } },
         { id: '456', prefill: { '*': 'Anthony' } },
         { id: 789, prefill: { '*': 'Dan' } }
@@ -545,20 +545,20 @@ describe('SubmitTicketForm component', () => {
 
       describe('with existing ids in both data sets', () => {
         it('should not overwrite pre-fill field data', () => {
-          const mockPrefillAll = [
+          const mockPrefillFields = [
             { id: 123, prefill: { '*': 'Bobdrian' } },
             { id: '456', prefill: { '*': 'Anthony the artist' } }
           ];
-          const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefill, mockPrefillAll);
+          const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefillTicketForm, mockPrefillFields);
 
-          expect(mockPrefill)
+          expect(mockPrefillTicketForm)
             .toEqual(result);
         })
       });
 
       describe('with non-existing ids in both data sets', () => {
         it('should merge pre-fill field data that is missing', () => {
-          const mockPrefillAll = [
+          const mockPrefillFields = [
             { id: 123, prefill: { '*': 'Terence' } },
             { id: '2983745', prefill: { '*': 'Mike' } },
             { id: 5873874, prefill: { '*': 'Brieannah' } }
@@ -570,7 +570,7 @@ describe('SubmitTicketForm component', () => {
             { id: '2983745', prefill: { '*': 'Mike' } },
             { id: 5873874, prefill: { '*': 'Brieannah' } },
           ];
-          const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefill, mockPrefillAll);
+          const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefillTicketForm, mockPrefillFields);
 
           expect(expectation)
             .toEqual(result);
@@ -648,7 +648,7 @@ describe('SubmitTicketForm component', () => {
     });
 
     describe('when pre-fill contains disallowed field types', () => {
-      const mockPrefill = {
+      const mockPrefillTicketForm = {
         fields: [
           { id: 'name', prefill: { '*': 'abc', 'en-GB': 'Arycelle Dania' } },
           { id: 'email', prefill: { '*': 'def', 'en-GB': 'arycelle@dania.com' } },
@@ -658,7 +658,7 @@ describe('SubmitTicketForm component', () => {
       };
 
       it('should not pre-fill the ticket fields', () => {
-        submitTicketForm.prefillFormState(mockTicketFields, mockPrefill);
+        submitTicketForm.prefillFormState(mockTicketFields, mockPrefillTicketForm);
 
         expect(mockSetFormState.calls.mostRecent())
           .toBeFalsy();
@@ -666,7 +666,7 @@ describe('SubmitTicketForm component', () => {
     });
 
     describe('when pre-fill contains allowed field types', () => {
-      const mockPrefill = [
+      const mockPrefillTicketForm = [
         { id: 'subject', prefill: { '*': 'elmo', 'en-GB': 'cookie monster' } },
         { id: 1872364, prefill: { '*': 123, 'en-GB': 1337 } },
         { id: 3287425, prefill: { '*': 324, 'en-GB': 10101001 } }
@@ -685,7 +685,7 @@ describe('SubmitTicketForm component', () => {
         }];
 
         it('should pre-fill ticket fields in the ticket form', () => {
-          submitTicketForm.prefillFormState(mockTicketFields, mockPrefill);
+          submitTicketForm.prefillFormState(mockTicketFields, mockPrefillTicketForm);
 
           expect(mockSetFormState.calls.mostRecent().args)
             .toEqual(expectation);
@@ -707,7 +707,7 @@ describe('SubmitTicketForm component', () => {
         it('should pre-fill ticket fields in the ticket form', () => {
           mockRegistry['service/i18n'].i18n.getLocale = () => '*';
 
-          submitTicketForm.prefillFormState(mockTicketFields, mockPrefill);
+          submitTicketForm.prefillFormState(mockTicketFields, mockPrefillTicketForm);
 
           expect(mockSetFormState.calls.mostRecent().args)
             .toEqual(expectation);
