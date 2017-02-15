@@ -172,6 +172,8 @@ function create(name, config = {}, reduxStore = {}) {
           showBackButton={showBackButton}
           style={containerStyle}
           subjectEnabled={settings.get('contactForm.subject')}
+          ticketFormSettings={settings.get('contactForm.ticketForms')}
+          ticketFieldSettings={settings.get('contactForm.fields')}
           submitTicketAvailable={submitTicketAvailable}
           submitTicketConfig={submitTicketSettings.config}
           submitTicketSender={submitTicketSettings.submitTicketSender}
