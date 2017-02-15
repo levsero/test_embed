@@ -191,7 +191,7 @@ export class HelpCenterMobile extends Component {
 
   renderFooterContent = () => {
     if (!this.props.showNextButton ||
-       (this.state.showIntroScreen || this.state.searchFieldFocused)) return;
+       (this.state.showIntroScreen || this.state.searchFieldFocused)) return null;
 
     const logoClasses = this.props.hideZendeskLogo ? styles.logoHidden : '';
 
@@ -214,18 +214,19 @@ export class HelpCenterMobile extends Component {
   }
 
   render = () => {
-    const mobileHideLogoState = this.props.hasSearched;
     const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
+    const mobileHideLogoState = this.props.hasSearched;
+    const containerClasses = this.props.showNextButton ? '' : `${styles.container}`
 
     return (
       <div>
         <ScrollContainer
           ref='scrollContainer'
-          hideZendeskLogo={hideZendeskLogo}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
           headerContent={this.renderHeaderContent()}
           footerContent={this.renderFooterContent()}
           fullscreen={true}
+          containerClasses={containerClasses}
           isVirtualKeyboardOpen={this.state.searchFieldFocused}>
           {this.renderFormContainer()}
           {this.props.children}
