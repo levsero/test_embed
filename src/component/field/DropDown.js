@@ -149,7 +149,7 @@ export class Dropdown extends Component {
         const nestedOptions = this.formatDropdownOptions(group);
         const menu = (
           <DropdownMenu
-            ref={(m) => {this.menu = m;}}
+            ref={(m) => { this.menu = m; }}
             backButton={true}
             handleBackClick={this.handleBackClick}
             options={nestedOptions} />

@@ -105,14 +105,14 @@ describe('dropdownMenu component', () => {
       jasmine.clock().install();
     });
 
-    describe('when focusField is null', () => {
+    describe('when focusFieldIndex is null', () => {
       describe('when any key is passed', () => {
         beforeEach(() => {
           menu.keyDown(40);
         });
 
         it('should focus on the first field', () => {
-          expect(menu.focusedField)
+          expect(menu.focusedFieldIndex)
             .toBe(0);
         });
       });
@@ -126,8 +126,8 @@ describe('dropdownMenu component', () => {
           jasmine.clock().tick(0);
         });
 
-        it('should move the focusedField up', () => {
-          expect(menu.focusedField)
+        it('should move the focusedFieldIndex up', () => {
+          expect(menu.focusedFieldIndex)
             .toBe(1);
         });
       });
@@ -139,8 +139,8 @@ describe('dropdownMenu component', () => {
           jasmine.clock().tick(0);
         });
 
-        it('should move the focusedField down', () => {
-          expect(menu.focusedField)
+        it('should move the focusedFieldIndex down', () => {
+          expect(menu.focusedFieldIndex)
             .toBe(0);
         });
       });

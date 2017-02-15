@@ -161,7 +161,7 @@ describe('dropdown component', () => {
       let filteredItems;
 
       beforeAll(() => {
-        filteredItems = _.reject(items, (item) => !item.onClick);
+        filteredItems = _.reject(items, (item) => item.nestedMenu);
       });
 
       it('should return the correct amount', () => {

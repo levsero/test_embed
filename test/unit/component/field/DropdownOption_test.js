@@ -62,7 +62,7 @@ describe('dropdownOption component', () => {
   });
 
   describe('handleDropdownOpen', () => {
-    let updateMenuSpy, onClickSpy;
+    let updateMenuSpy, onClickSpy, option;
 
     beforeEach(() => {
       updateMenuSpy = jasmine.createSpy('updateMenu');
@@ -70,33 +70,47 @@ describe('dropdownOption component', () => {
     });
 
     describe('when there is a nested menu', () => {
-      it('shows when nestedMenu is not null', () => {
-        const option = domRender(
+      beforeEach(() => {
+        option = domRender(
           <DropdownOption
             nestedMenu={noopReactComponent()}
             updateMenu={updateMenuSpy}
-            onClickSpy={onClickSpy} />
+            onClick={onClickSpy} />
         );
 
         option.handleDropdownOpen();
+      });
 
+      it('calls updateMenu prop', () => {
         expect(updateMenuSpy)
           .toHaveBeenCalled();
+      });
+
+      it('does not call onClick prop', () => {
+        expect(onClickSpy)
+          .not.toHaveBeenCalled();
       });
     });
 
     describe('when there is not a nested menu', () => {
-      it('calls the onClick prop', () => {
-        const option = domRender(
+      beforeEach(() => {
+        option = domRender(
           <DropdownOption
             updateMenu={updateMenuSpy}
             onClick={onClickSpy} />
         );
 
         option.handleDropdownOpen();
+      });
 
+      it('calls the onClick prop', () => {
         expect(onClickSpy)
           .toHaveBeenCalled();
+      });
+
+      it('does not call updateMenu prop', () => {
+        expect(updateMenuSpy)
+          .not.toHaveBeenCalled();
       });
     });
   });

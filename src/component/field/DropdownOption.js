@@ -74,7 +74,11 @@ export class DropdownOption extends Component {
         className={`${styles.field} ${focusedClasses}`}
         key={this.props.title}
         onClick={this.handleDropdownOpen}>
-        <div>{this.renderBackArrow()}{this.props.title}{this.renderNextArrow()}</div>
+        <div>
+          {this.renderBackArrow()}
+          {this.props.title}
+          {this.renderNextArrow()}
+        </div>
       </div>
     );
   }
