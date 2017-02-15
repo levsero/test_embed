@@ -191,7 +191,7 @@ export class SubmitTicketForm extends Component {
     const prefillTicketFieldValid = this.isPrefillValid(prefillTicketField);
     const prefillFieldData = prefillTicketFormValid ? prefillTicketForm : [];
     const prefillData = prefillTicketFieldValid
-                      ? _.unionWith(prefillTicketForm, prefillTicketField, (a1, a2) => a1.id == a2.id)
+                      ? _.unionWith(prefillTicketForm, prefillTicketField, (a1, a2) => a1.id == a2.id) // eslint-disable-line
                       : prefillFieldData;
 
     // Cleans data by removing fields we do not want to enable pre-fill on

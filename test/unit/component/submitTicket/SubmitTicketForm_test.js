@@ -535,7 +535,7 @@ describe('SubmitTicketForm component', () => {
         { id: '456', type: 'text' },
         { id: 789, type: 'text' },
         { id: '2983745', type: 'text' },
-        { id: 5873874, type: 'text' },
+        { id: 5873874, type: 'text' }
       ];
       const mockPrefillTicketForm = [
         { id: 123, prefill: { '*': 'Adrian' } },
@@ -553,7 +553,7 @@ describe('SubmitTicketForm component', () => {
 
           expect(mockPrefillTicketForm)
             .toEqual(result);
-        })
+        });
       });
 
       describe('with non-existing ids in both data sets', () => {
@@ -568,13 +568,13 @@ describe('SubmitTicketForm component', () => {
             { id: '456', prefill: { '*': 'Anthony' } },
             { id: 789, prefill: { '*': 'Dan' } },
             { id: '2983745', prefill: { '*': 'Mike' } },
-            { id: 5873874, prefill: { '*': 'Brieannah' } },
+            { id: 5873874, prefill: { '*': 'Brieannah' } }
           ];
           const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefillTicketForm, mockPrefillFields);
 
           expect(expectation)
             .toEqual(result);
-        })
+        });
       });
     });
 
