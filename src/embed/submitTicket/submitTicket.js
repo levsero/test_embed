@@ -221,6 +221,7 @@ function create(name, config, reduxStore) {
           subjectEnabled={settings.get('contactForm.subject')}
           submitTicketSender={submitTicketSender}
           ticketFormSettings={settings.get('contactForm.ticketForms')}
+          ticketFieldSettings={settings.get('contactForm.fields')}
           updateFrameSize={params.updateFrameSize}
           viaId={settings.get('viaId')} />
       );

@@ -181,13 +181,23 @@ export class SubmitTicketForm extends Component {
       {}).value();
   }
 
-  filterPrefillFields = (fields, rawPrefillFields) => {
+  isPrefillValid = (prefill) => {
+    return Array.isArray(prefill) && prefill.length !== 0;
+  }
+
+  filterPrefillFields = (fields, prefillTicketForm, prefillTicketField) => {
     const permittedFields = ['text', 'textarea', 'description', 'integer', 'decimal', 'subject'];
+    const prefillTicketFormValid = this.isPrefillValid(prefillTicketForm);
+    const prefillTicketFieldValid = this.isPrefillValid(prefillTicketField);
+    const prefillFieldData = prefillTicketFormValid ? prefillTicketForm : [];
+    const prefillData = prefillTicketFieldValid
+                      ? _.unionWith(prefillTicketForm, prefillTicketField, (a1, a2) => a1.id == a2.id)
+                      : prefillFieldData;
 
     // Cleans data by removing fields we do not want to enable pre-fill on
-    return _.filter(rawPrefillFields, (prefillTicketField) => {
+    return _.filter(prefillData, (ticketField) => {
       // Intentional non-strict matching between integer and string ids
-      const matchingField = _.find(fields, (field) => field.id == prefillTicketField.id); // eslint-disable-line
+      const matchingField = _.find(fields, (field) => field.id == ticketField.id); // eslint-disable-line
 
       return matchingField
            ? _.includes(permittedFields, matchingField.type)
@@ -195,33 +205,27 @@ export class SubmitTicketForm extends Component {
     });
   }
 
-  prefillFormState = (fields, rawPrefillData = {}) => {
-    const isPrefillValid = rawPrefillData.fields
-                           && Array.isArray(rawPrefillData.fields)
-                           && rawPrefillData.fields.length !== 0;
-
-    if (!isPrefillValid) return;
-
-    const fieldsPrefill = this.filterPrefillFields(fields, rawPrefillData.fields);
+  prefillFormState = (fields, prefillTicketForm, prefillTicketField) => {
+    const filteredFields = this.filterPrefillFields(fields, prefillTicketForm, prefillTicketField);
 
     // Check if pre-fill is still valid after processing
-    if (fieldsPrefill.length === 0) return;
+    if (filteredFields.length === 0) return;
 
     let formState = this.getFormState();
     const currentLocale = i18n.getLocale();
 
-    fieldsPrefill.forEach((field) => {
+    filteredFields.forEach((field) => {
       formState[field.id] = field.prefill[`${currentLocale}`] || field.prefill['*'] || '';
     });
 
     this.props.setFormState(formState);
   }
 
-  updateTicketForm = (form, fields, prefill) => {
+  updateTicketForm = (form, fields, prefill, prefillTicketField) => {
     this.setState({
       ticketForm: form,
       ticketFormFields: fields
-    }, () => this.prefillFormState(fields, prefill));
+    }, () => this.prefillFormState(fields, prefill, prefillTicketField));
   }
 
   updateForm = () => {
