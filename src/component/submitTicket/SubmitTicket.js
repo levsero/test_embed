@@ -273,10 +273,9 @@ export class SubmitTicket extends Component {
   }
 
   handleTicketFormsListClick = (e) => {
-    const { ticketForms } = this.state;
     const { ticketFormSettings, ticketFieldSettings } = this.props;
     const value = e.target.dataset.id;
-    const selectedTicketForm = _.find(ticketForms.ticket_forms, (f) => {
+    const selectedTicketForm = _.find(this.state.ticketForms.ticket_forms, (f) => {
       return f.id === parseInt(value);
     });
     const ticketFormPrefill = _.find(ticketFormSettings, (f) => {
@@ -289,7 +288,7 @@ export class SubmitTicket extends Component {
     setTimeout(() => {
       this.refs.submitTicketForm.updateTicketForm(
         selectedTicketForm,
-        ticketForms.ticket_fields,
+        this.state.ticketForms.ticket_fields,
         ticketFormPrefill.fields,
         ticketFieldSettings
       );
