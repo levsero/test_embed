@@ -501,7 +501,7 @@ describe('SubmitTicketForm component', () => {
       submitTicketForm = domRender(<SubmitTicketForm />);
     });
 
-    describe('when only valid pre-fill data is given', () => {
+    describe('when only valid pre-fill form is given', () => {
       it('returns valid pre-fill data', () => {
         const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefillTicketForm);
         const expectation = [
@@ -516,7 +516,7 @@ describe('SubmitTicketForm component', () => {
       });
     });
 
-    describe('when only valid pre-fill all data is given', () => {
+    describe('when only valid pre-fill field data is given', () => {
       it('returns valid pre-fill data', () => {
         const result = submitTicketForm.filterPrefillFields(mockTicketFields, [], mockPrefillFields);
         const expectation = [
@@ -529,7 +529,7 @@ describe('SubmitTicketForm component', () => {
       });
     });
 
-    describe('when both pre-fill form and fields is given', () => {
+    describe('when both pre-fill form and field is given', () => {
       const mockTicketFields = [
         { id: 123, type: 'text' },
         { id: '456', type: 'text' },
@@ -627,7 +627,7 @@ describe('SubmitTicketForm component', () => {
       });
     });
 
-    describe('when given an unexpected pre-fill data', () => {
+    describe('when given an unexpected pre-fill field data', () => {
       const mockPrefillList = [
         'Denam Pavel',
         9001,
