@@ -201,13 +201,10 @@ export class SubmitTicketForm extends Component {
     const permittedFields = ['text', 'textarea', 'description', 'integer', 'decimal', 'subject'];
     const prefillFieldValid = this.isPrefillValid(prefillFields);
     const prefillAllValid = this.isPrefillValid(prefillAll);
-    const prefillData = (prefillFieldValid)
-                      ? (prefillAllValid)
-                          ? this.mergePrefill(prefillFields, prefillAll)
-                          : prefillFields
-                      : (prefillAllValid)
-                          ? prefillAll
-                          : [];
+    const prefillFieldData = prefillFieldValid ? prefillFields : [];
+    const prefillData = prefillAllValid
+                      ? this.mergePrefill(prefillFieldData, prefillAll)
+                      : prefillFieldData;
 
     // Cleans data by removing fields we do not want to enable pre-fill on
     return _.filter(prefillData, (ticketField) => {
