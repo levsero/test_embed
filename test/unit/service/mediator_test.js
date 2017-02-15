@@ -67,9 +67,7 @@ describe('mediator', () => {
         }
       },
       'utility/utils': {
-        emailValid: () => {
-          return mockEmailValid;
-        }
+        emailValid: () => mockEmailValid
       }
     });
 
