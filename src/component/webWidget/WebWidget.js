@@ -34,7 +34,10 @@ export class WebWidget extends Component {
     submitTicketAvailable: PropTypes.bool,
     submitTicketConfig: PropTypes.object,
     submitTicketSender: PropTypes.func.isRequired,
+    ticketFieldSettings: PropTypes.array,
+    ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
+    viaId: PropTypes.number.isRequired,
     zendeskHost: PropTypes.string.isRequired
   };
 
@@ -59,6 +62,8 @@ export class WebWidget extends Component {
     style: null,
     submitTicketAvailable: true,
     submitTicketConfig: {},
+    ticketFieldSettings: [],
+    ticketFormSettings: [],
     updateFrameSize: () => {}
   };
 
@@ -195,23 +200,26 @@ export class WebWidget extends Component {
       <div className={classes}>
         <SubmitTicket
           ref={submitTicket}
-          customFields={submitTicketConfig.customFields}
-          hideZendeskLogo={this.props.hideZendeskLogo}
-          onCancel={this.onCancelClick}
-          submitTicketSender={this.props.submitTicketSender}
-          attachmentSender={this.props.attachmentSender}
-          onSubmitted={this.props.onSubmitted}
-          position={submitTicketConfig.position}
-          formTitleKey={submitTicketConfig.formTitleKey}
-          disableAutoComplete={submitTicketConfig.disableAutoComplete}
-          style={this.props.style}
-          showBackButton={this.props.showBackButton}
           attachmentsEnabled={submitTicketConfig.attachmentsEnabled}
-          subjectEnabled={this.props.subjectEnabled}
+          attachmentSender={this.props.attachmentSender}
+          customFields={submitTicketConfig.customFields}
+          disableAutoComplete={submitTicketConfig.disableAutoComplete}
+          expanded={true}
+          formTitleKey={submitTicketConfig.formTitleKey}
+          hideZendeskLogo={this.props.hideZendeskLogo}
           maxFileCount={submitTicketConfig.maxFileCount}
           maxFileSize={submitTicketConfig.maxFileSize}
-          expanded={true}
-          updateFrameSize={this.props.updateFrameSize} />
+          onCancel={this.onCancelClick}
+          onSubmitted={this.props.onSubmitted}
+          position={submitTicketConfig.position}
+          showBackButton={this.props.showBackButton}
+          style={this.props.style}
+          subjectEnabled={this.props.subjectEnabled}
+          submitTicketSender={this.props.submitTicketSender}
+          ticketFieldSettings={this.props.ticketFieldSettings}
+          ticketFormSettings={this.props.ticketFormSettings}
+          updateFrameSize={this.props.updateFrameSize}
+          viaId={this.props.viaId} />
       </div>
     );
   }

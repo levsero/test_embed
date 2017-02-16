@@ -9,11 +9,12 @@ const optionWhitelist = {
     'channelChoice',
     'chat.suppress',
     'color',
-    'contactForm.subject',
     'contactForm.attachments',
+    'contactForm.fields',
+    'contactForm.subject',
     'contactForm.suppress',
-    'contactForm.title',
     'contactForm.ticketForms',
+    'contactForm.title',
     'expanded',
     'helpCenter.chatButton',
     'helpCenter.messageButton',
@@ -39,6 +40,7 @@ const optionWhitelist = {
 };
 const customizationsWhitelist = [
   'channelChoice',
+  'contactForm.fields',
   'helpCenter.localeFallbacks'
 ];
 const webWidgetStoreDefaults = {
@@ -46,6 +48,7 @@ const webWidgetStoreDefaults = {
     subject: false,
     attachments: true,
     suppress: false,
+    fields: [],
     ticketForms: []
   },
   channelChoice: false,

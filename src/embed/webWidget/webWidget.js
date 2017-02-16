@@ -153,30 +153,33 @@ function create(name, config = {}, reduxStore = {}) {
       return (
         <WebWidget
           ref='rootComponent'
+          attachmentSender={submitTicketSettings.attachmentSender}
+          channelChoice={helpCenterSettings.channelChoice}
+          contextualSearchSender={helpCenterSettings.searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')} // eslint-disable-line
+          fullscreen={isMobileBrowser()}
+          helpCenterAvailable={helpCenterAvailable}
+          helpCenterConfig={helpCenterSettings.config}
+          hideZendeskLogo={globalConfig.hideZendeskLogo}
+          imagesSender={helpCenterSettings.imagesSenderFn}
+          localeFallbacks={settings.get('helpCenter.localeFallbacks')}
+          onArticleClick={helpCenterSettings.onArticleClick}
+          onCancel={submitTicketSettings.onCancel}
+          onSearch={helpCenterSettings.onSearch}
+          onSubmitted={submitTicketSettings.onSubmitted}
+          originalArticleButton={settings.get('helpCenter.originalArticleButton')}
+          position={globalConfig.position}
+          searchSender={helpCenterSettings.searchSenderFn('/api/v2/help_center/search.json')}
+          showBackButton={showBackButton}
+          style={containerStyle}
+          subjectEnabled={settings.get('contactForm.subject')}
+          ticketFormSettings={settings.get('contactForm.ticketForms')}
+          ticketFieldSettings={settings.get('contactForm.fields')}
+          submitTicketAvailable={submitTicketAvailable}
           submitTicketConfig={submitTicketSettings.config}
           submitTicketSender={submitTicketSettings.submitTicketSender}
-          attachmentSender={submitTicketSettings.attachmentSender}
-          onSubmitted={submitTicketSettings.onSubmitted}
-          position={globalConfig.position}
-          style={containerStyle}
-          helpCenterAvailable={helpCenterAvailable}
-          submitTicketAvailable={submitTicketAvailable}
-          showBackButton={showBackButton}
-          subjectEnabled={settings.get('contactForm.subject')}
-          hideZendeskLogo={globalConfig.hideZendeskLogo}
-          onArticleClick={helpCenterSettings.onArticleClick}
-          onSearch={helpCenterSettings.onSearch}
-          onCancel={submitTicketSettings.onCancel}
-          helpCenterConfig={helpCenterSettings.config}
-          searchSender={helpCenterSettings.searchSenderFn('/api/v2/help_center/search.json')}
-          contextualSearchSender={helpCenterSettings.searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')} // eslint-disable-line
-          imagesSender={helpCenterSettings.imagesSenderFn}
-          fullscreen={isMobileBrowser()}
-          originalArticleButton={settings.get('helpCenter.originalArticleButton')}
-          localeFallbacks={settings.get('helpCenter.localeFallbacks')}
-          channelChoice={helpCenterSettings.channelChoice}
-          zendeskHost={transport.getZendeskHost()}
-          updateFrameSize={params.updateFrameSize} />
+          updateFrameSize={params.updateFrameSize}
+          viaId={settings.get('viaId')}
+          zendeskHost={transport.getZendeskHost()} />
       );
     },
     frameParams,
@@ -448,13 +451,32 @@ function setUpSubmitTicket(config) {
   const onCancel = () => {
     mediator.channel.broadcast('ticketSubmissionForm.onCancelClick');
   };
-  const settingTicketForms = settings.get('contactForm.ticketForms');
-  const ticketForms = _.isEmpty(settingTicketForms)
-                    ? config.ticketForms
-                    : settingTicketForms;
+  const getTicketForms = (config) => {
+    const settingTicketForms = settings.get('contactForm.ticketForms');
+    const rawTicketForms = _.isEmpty(settingTicketForms)
+                         ? config.ticketForms
+                         : settingTicketForms;
+
+    // TODO: Alter this code that accepts an array of objects or integers.
+    //       This is to be done once pre-fill feature has been GA'd.
+    //       We should expect an array of objects in the future.
+    const firstElement = rawTicketForms[0];
+
+    // Either return an array of Objects
+    if (_.isObject(firstElement)) {
+      return _.filter(rawTicketForms, (ticketForm) => {
+        return _.isObjectLike(ticketForm) && ticketForm.id;
+      });
+    }
+
+    // Or return an array of numbers
+    return _.filter(rawTicketForms, _.isNumber);
+  };
+  const ticketForms = getTicketForms(config);
 
   if (!_.isEmpty(ticketForms)) {
-    const ticketFormIds = ticketForms.join();
+    // TODO: Alter this code to return objects with id's once pre-fill is GA'd
+    const ticketFormIds = _.map(ticketForms, (ticketForm) => ticketForm.id || ticketForm).join();
 
     waitForRootComponent(() => {
       getRootComponent().setLoading(true);

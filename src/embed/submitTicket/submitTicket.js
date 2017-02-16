@@ -23,6 +23,28 @@ const submitTicketCSS = `${require('./submitTicket.scss')} ${submitTicketStyles}
 let submitTickets = {};
 let backButtonSetByHelpCenter = false;
 
+function getTicketForms(config) {
+  const settingTicketForms = settings.get('contactForm.ticketForms');
+  const rawTicketForms = _.isEmpty(settingTicketForms)
+                       ? config.ticketForms
+                       : settingTicketForms;
+
+  // TODO: Alter this code that accepts an array of objects or integers.
+  //       This is to be done once pre-fill feature has been GA'd.
+  //       We should expect an array of objects in the future.
+  const firstElement = rawTicketForms[0];
+
+  // Either return an array of Objects
+  if (_.isObject(firstElement)) {
+    return _.filter(rawTicketForms, (ticketForm) => {
+      return _.isObjectLike(ticketForm) && ticketForm.id;
+    });
+  }
+
+  // Or return an array of numbers
+  return _.filter(rawTicketForms, _.isNumber);
+}
+
 function create(name, config, reduxStore) {
   let containerStyle;
   let frameStyle = {};
@@ -140,13 +162,11 @@ function create(name, config, reduxStore) {
     containerStyle = { width: 342 };
   }
 
-  const settingTicketForms = settings.get('contactForm.ticketForms');
-  const ticketForms = _.isEmpty(settingTicketForms)
-                    ? config.ticketForms
-                    : settingTicketForms;
+  const ticketForms = getTicketForms(config);
 
   if (!_.isEmpty(ticketForms)) {
-    const ticketFormIds = ticketForms.join();
+    // TODO: Alter this code to return objects with id's once pre-fill is GA'd
+    const ticketFormIds = _.map(ticketForms, (ticketForm) => ticketForm.id || ticketForm).join();
 
     waitForRootComponent(name, () => {
       getRootComponent(name).setLoading(true);
@@ -185,22 +205,25 @@ function create(name, config, reduxStore) {
       return (
         <SubmitTicket
           ref='rootComponent'
-          customFields={config.customFields}
-          hideZendeskLogo={config.hideZendeskLogo}
-          onCancel={onCancel}
-          submitTicketSender={submitTicketSender}
-          attachmentSender={attachmentSender}
-          onSubmitted={onSubmitted}
-          position={config.position}
-          formTitleKey={config.formTitleKey}
-          style={containerStyle}
-          showBackButton={showBackButton}
           attachmentsEnabled={config.attachmentsEnabled}
-          subjectEnabled={settings.get('contactForm.subject')}
+          attachmentSender={attachmentSender}
+          customFields={config.customFields}
+          disableAutoComplete={config.disableAutoComplete}
+          formTitleKey={config.formTitleKey}
+          hideZendeskLogo={config.hideZendeskLogo}
           maxFileCount={config.maxFileCount}
           maxFileSize={config.maxFileSize}
-          disableAutoComplete={config.disableAutoComplete}
-          updateFrameSize={params.updateFrameSize} />
+          onCancel={onCancel}
+          onSubmitted={onSubmitted}
+          position={config.position}
+          showBackButton={showBackButton}
+          style={containerStyle}
+          subjectEnabled={settings.get('contactForm.subject')}
+          submitTicketSender={submitTicketSender}
+          ticketFormSettings={settings.get('contactForm.ticketForms')}
+          ticketFieldSettings={settings.get('contactForm.fields')}
+          updateFrameSize={params.updateFrameSize}
+          viaId={settings.get('viaId')} />
       );
     },
     {

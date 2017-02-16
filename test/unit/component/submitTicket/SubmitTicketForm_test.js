@@ -1,4 +1,4 @@
-describe('SubmitTicketForm component', function() {
+describe('SubmitTicketForm component', () => {
   let SubmitTicketForm,
     onSubmit,
     onCancel,
@@ -18,7 +18,7 @@ describe('SubmitTicketForm component', function() {
     mockFormState = state;
   };
 
-  beforeEach(function() {
+  beforeEach(() => {
     onSubmit = jasmine.createSpy();
     onCancel = jasmine.createSpy();
 
@@ -109,15 +109,35 @@ describe('SubmitTicketForm component', function() {
         i18n: {
           init: noop,
           setLocale: noop,
+          getLocale: () => 'en-GB',
           isRTL: noop,
           t: _.identity
         }
       },
       'utility/fields': {
         getCustomFields: (fields) => {
+          const generateField = (field) => {
+            switch (field.type) {
+              case 'checkbox':
+                return <input type='checkbox' name={field.id} />;
+              case 'tagger':
+                return <select type='tagger' name={field.id} />;
+              case 'description':
+              case 'textarea':
+                return <textarea rows='5' type={field.type} name={field.id} />;
+              case 'integer':
+              case 'decimal':
+                return <input type='number' name={field.id} />;
+              case 'text':
+              case 'subject':
+              default:
+                return <input type='text' name={field.id} />;
+            }
+          };
+
           return {
             fields: [],
-            allFields: _.map(fields, (f) => <div name={f.id} />)
+            allFields: _.map(fields, (f) => generateField(f))
           };
         }
       },
@@ -134,20 +154,20 @@ describe('SubmitTicketForm component', function() {
     SubmitTicketForm = requireUncached(submitTicketFormPath).SubmitTicketForm;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  it('should display form title', function() {
+  it('should display form title', () => {
     domRender(<SubmitTicketForm formTitleKey='testTitle' />);
 
     expect(document.getElementById('formTitle').innerHTML)
       .toEqual('embeddable_framework.submitTicket.form.title.testTitle');
   });
 
-  it('should call i18n.t with the right parameter to set the form title', function() {
+  it('should call i18n.t with the right parameter to set the form title', () => {
     const titleKey = 'foo bar';
 
     spyOn(mockRegistry['service/i18n'].i18n, 't').and.callThrough();
@@ -158,14 +178,14 @@ describe('SubmitTicketForm component', function() {
       .toHaveBeenCalledWith(`embeddable_framework.submitTicket.form.title.${titleKey}`);
   });
 
-  it('should correctly render form with noValidate attribute', function() {
+  it('should correctly render form with noValidate attribute', () => {
     const submitTicketForm = domRender(<SubmitTicketForm />);
 
     expect(ReactDOM.findDOMNode(submitTicketForm).getAttribute('novalidate'))
       .toEqual('');
   });
 
-  it('should change state and alter submit button on valid submit', function() {
+  it('should change state and alter submit button on valid submit', () => {
     const submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} />);
     const submitTicketFormNode = ReactDOM.findDOMNode(submitTicketForm);
     const submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
@@ -250,7 +270,7 @@ describe('SubmitTicketForm component', function() {
     });
   });
 
-  it('should disable submit button when attachments not ready', function() {
+  it('should disable submit button when attachments not ready', () => {
     const submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} attachmentsEnabled={true} />);
     const submitTicketFormNode = ReactDOM.findDOMNode(submitTicketForm);
     const submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
@@ -264,19 +284,19 @@ describe('SubmitTicketForm component', function() {
       .toEqual(true);
   });
 
-  describe('ButtonSecondary', function() {
-    it('should be rendered in the form when fullscreen is false', function() {
+  describe('ButtonSecondary', () => {
+    it('should be rendered in the form when fullscreen is false', () => {
       const submitTicketForm = domRender(<SubmitTicketForm fullscreen={false} />);
 
-      expect(function() {
+      expect(() => {
         TestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');
       }).not.toThrow();
     });
 
-    it('should not be rendered in the form when fullscreen is true', function() {
+    it('should not be rendered in the form when fullscreen is true', () => {
       const submitTicketForm = domRender(<SubmitTicketForm fullscreen={true} />);
 
-      expect(function() {
+      expect(() => {
         TestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');
       }).toThrow();
     });
@@ -331,7 +351,6 @@ describe('SubmitTicketForm component', function() {
         { id: 4, raw_title: 'Favorite Burger' },
         { id: 5, raw_title: 'Favorite Pizza' }
       ];
-
       /* eslint-enable camelcase */
 
       component = domRender(<SubmitTicketForm />);
@@ -420,6 +439,289 @@ describe('SubmitTicketForm component', function() {
       it('should not call props.submit', () => {
         expect(onSubmit)
           .not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('isPrefillValid', () => {
+    let submitTicketForm;
+
+    beforeEach(() => {
+      submitTicketForm = domRender(<SubmitTicketForm />);
+    });
+
+    describe('when given a value that is not an array of items', () => {
+      it('should return false', () => {
+        const subjects = [false, 1, 'Brenda', new Date(), { id: 123, prefill: '' }, []];
+
+        subjects.forEach((subject) => {
+          expect(submitTicketForm.isPrefillValid(subject))
+            .toEqual(false);
+        });
+      });
+    });
+
+    describe('when given an array of items', () => {
+      it('should return true', () => {
+        expect(submitTicketForm.isPrefillValid([1,2,3]))
+          .toEqual(true);
+      });
+    });
+  });
+
+  describe('mergePrefill', () => {
+    let submitTicketForm;
+
+    const mockPrefillTicketForm = [
+      { id: 'name', prefill: { 'en-GB': 'Lanselot' } },
+      { id: 'subject', prefill: { 'en-GB': 'Nybeth' } },
+      { id: 9465549, prefill: { 'en-GB': 'Versalia' } },
+      { id: 1238743, prefill: { 'en-GB': 'Canopus' } },
+      { id: '3287425', prefill: { 'en-GB': 'Mannaflora' } },
+      { id: '1872364', prefill: { 'en-GB': 'Voltare' } }
+    ];
+    const mockPrefillFields = [
+      { id: 'email', prefill: { 'en-GB': 'Cressidia' } },
+      { id: '2387462', prefill: { 'en-GB': 'Ravness' } },
+      { id: '1872364', prefill: { 'en-GB': 'Andoras' } },
+      { id: 3287425, prefill: { 'en-GB': 'Catiua' } }
+    ];
+
+    beforeEach(() => {
+      submitTicketForm = domRender(<SubmitTicketForm />);
+    });
+
+    describe('when both pre-fill form and field is given', () => {
+      const mockPrefillTicketForm = [
+        { id: 123, prefill: { '*': 'Adrian' } },
+        { id: '456', prefill: { '*': 'Anthony' } },
+        { id: 789, prefill: { '*': 'Dan' } }
+      ];
+
+      describe('with existing ids in both data sets', () => {
+        it('should not overwrite pre-fill field data', () => {
+          const mockPrefillFields = [
+            { id: 123, prefill: { '*': 'Bobdrian' } },
+            { id: '456', prefill: { '*': 'Anthony the artist' } }
+          ];
+          const result = submitTicketForm.mergePrefill(mockPrefillTicketForm, mockPrefillFields);
+
+          expect(result)
+            .toEqual(mockPrefillTicketForm);
+        });
+      });
+
+      describe('with non-existing ids in both data sets', () => {
+        it('should merge pre-fill field data that is missing', () => {
+          const mockPrefillFields = [
+            { id: 123, prefill: { '*': 'Terence' } },
+            { id: '2983745', prefill: { '*': 'Mike' } },
+            { id: 5873874, prefill: { '*': 'Brieannah' } }
+          ];
+          const expectation = [
+            { id: 123, prefill: { '*': 'Adrian' } },
+            { id: '456', prefill: { '*': 'Anthony' } },
+            { id: 789, prefill: { '*': 'Dan' } },
+            { id: '2983745', prefill: { '*': 'Mike' } },
+            { id: 5873874, prefill: { '*': 'Brieannah' } }
+          ];
+          const result = submitTicketForm.mergePrefill(mockPrefillTicketForm, mockPrefillFields);
+
+          expect(result)
+            .toEqual(expectation);
+        });
+      });
+    });
+
+    describe('when only pre-fill form data is given', () => {
+      it('returns pre-fill form data', () => {
+        const result = submitTicketForm.mergePrefill(mockPrefillTicketForm);
+
+        expect(result)
+          .toEqual(mockPrefillTicketForm);
+      });
+    });
+
+    describe('when only pre-fill field data is given', () => {
+      it('returns pre-fill field data', () => {
+        const result = submitTicketForm.mergePrefill([], mockPrefillFields);
+
+        expect(result)
+          .toEqual(mockPrefillFields);
+      });
+    });
+
+    describe('when no pre-fill data is given', () => {
+      it('returns an empty array', () => {
+        const result = submitTicketForm.mergePrefill();
+
+        expect(result)
+          .toEqual([]);
+      });
+    });
+  });
+
+  describe('filterPrefillFields', () => {
+    let submitTicketForm;
+    const mockTicketFields = [
+      { id: 'name', type: 'name' },
+      { id: 'email', type: 'email' },
+      { id: 'subject', type: 'subject' },
+      { id: 2387462, type: 'checkbox' },
+      { id: '9465549', type: 'tagger' },
+      { id: 1872364, type: 'integer' },
+      { id: '1238743', type: 'decimal' },
+      { id: 3287425, type: 'text' }
+    ];
+
+    beforeEach(() => {
+      submitTicketForm = domRender(<SubmitTicketForm />);
+    });
+
+    describe('when given an empty pre-fill data', () => {
+      it('should return an empty array', () => {
+        const result = submitTicketForm.filterPrefillFields(mockTicketFields);
+
+        expect(result)
+          .toEqual([]);
+      });
+    });
+
+    describe('when given an unexpected pre-fill field data', () => {
+      const mockPrefillList = [
+        'Denam Pavel',
+        9001,
+        new Date(),
+        { 'Terence': 1234 },
+        { id: 1234, 'Ezel': 'Berbier' },
+        { 'Ramza': 'Beoulve', prefill: { '*': 'foo', 'en-GB': 'bar' } }
+      ];
+
+      it('should return an empty array', () => {
+        mockPrefillList.forEach((prefill) => {
+          const result = submitTicketForm.filterPrefillFields(mockTicketFields, prefill);
+          const result2 = submitTicketForm.filterPrefillFields(mockTicketFields, [], prefill);
+
+          expect(result)
+            .toEqual([]);
+
+          expect(result2)
+            .toEqual([]);
+        });
+      });
+    });
+
+    describe('when pre-fill contains disallowed field types', () => {
+      const mockPrefillTicketForm = {
+        fields: [
+          { id: 'name', prefill: { '*': 'abc', 'en-GB': 'Arycelle Dania' } },
+          { id: 'email', prefill: { '*': 'def', 'en-GB': 'arycelle@dania.com' } },
+          { id: 2387462, prefill: { '*': 'ghi', 'en-GB': 'Boco' } },
+          { id: 9465549, prefill: { '*': 'jkl', 'en-GB': 'Luso' } }
+        ]
+      };
+
+      it('should not pre-fill the ticket fields', () => {
+        const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefillTicketForm);
+
+        expect(result)
+          .toEqual([]);
+      });
+    });
+
+    describe('when pre-fill contains allowed field types', () => {
+      const mockPrefillTicketForm = [
+        { id: 'subject', prefill: { '*': 'elmo', 'en-GB': 'cookie monster' } },
+        { id: 1872364, prefill: { '*': 123, 'en-GB': 1337 } },
+        { id: 3287425, prefill: { '*': 324, 'en-GB': 10101001 } }
+      ];
+
+      it('should return an array of valid pre-fill objects', () => {
+        const result = submitTicketForm.filterPrefillFields(mockTicketFields, mockPrefillTicketForm);
+
+        expect(result)
+          .toEqual(mockPrefillTicketForm);
+      });
+    });
+  });
+
+  describe('prefillFormState', () => {
+    let submitTicketForm,
+      mockSetFormState;
+
+    const mockTicketForm = {
+      id: 1,
+      ticket_field_ids: ['name', 'email', 'subject', 2387462, '9465549', 1872364, '1238743', 3287425] // eslint-disable-line camelcase
+    };
+    const mockTicketFields = [
+      { id: 'name', type: 'name' },
+      { id: 'email', type: 'email' },
+      { id: 'subject', type: 'subject' },
+      { id: 2387462, type: 'checkbox' },
+      { id: '9465549', type: 'tagger' },
+      { id: 1872364, type: 'integer' },
+      { id: '1238743', type: 'decimal' },
+      { id: 3287425, type: 'text' }
+    ];
+
+    beforeEach(() => {
+      mockSetFormState = jasmine.createSpy('mockSetFormState');
+
+      submitTicketForm = domRender(
+        <SubmitTicketForm
+          setFormState={mockSetFormState}
+          formState={mockFormState} />
+      );
+      submitTicketForm.updateTicketForm(mockTicketForm, mockTicketFields);
+    });
+
+    describe('when pre-fill contains allowed field types', () => {
+      const mockPrefillTicketForm = [
+        { id: 'subject', prefill: { '*': 'elmo', 'en-GB': 'cookie monster' } },
+        { id: 1872364, prefill: { '*': 123, 'en-GB': 1337 } },
+        { id: 3287425, prefill: { '*': 324, 'en-GB': 10101001 } }
+      ];
+
+      describe(`when current locale is 'en-GB'`, () => {
+        const expectation = [{
+          '1238743': '',
+          '1872364': 1337,
+          '2387462': 0,
+          '3287425': 10101001,
+          '9465549': '',
+          name: '',
+          email: '',
+          subject: 'cookie monster'
+        }];
+
+        it('should pre-fill ticket fields in the ticket form', () => {
+          submitTicketForm.prefillFormState(mockTicketFields, mockPrefillTicketForm);
+
+          expect(mockSetFormState.calls.mostRecent().args)
+            .toEqual(expectation);
+        });
+      });
+
+      describe(`when current locale is '*' (fallback locale)`, () => {
+        const expectation = [{
+          '1238743': '',
+          '1872364': 123,
+          '2387462': 0,
+          '3287425': 324,
+          '9465549': '',
+          name: '',
+          email: '',
+          subject: 'elmo'
+        }];
+
+        it('should pre-fill ticket fields in the ticket form', () => {
+          mockRegistry['service/i18n'].i18n.getLocale = () => '*';
+
+          submitTicketForm.prefillFormState(mockTicketFields, mockPrefillTicketForm);
+
+          expect(mockSetFormState.calls.mostRecent().args)
+            .toEqual(expectation);
+        });
       });
     });
   });
