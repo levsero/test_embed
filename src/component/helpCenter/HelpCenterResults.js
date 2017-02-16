@@ -52,12 +52,7 @@ export class HelpCenterResults extends Component {
 
   renderResults = () => {
     const { fullscreen, articles, showViewMore } = this.props;
-    let paddingClasses = '';
-
-    if (!fullscreen) {
-      paddingClasses = showViewMore ? styles.listBottomViewMore : styles.listBottom;
-    }
-
+    const paddingClasses = showViewMore ? styles.listBottomViewMore : styles.listBottom;
     const mobileClasses = fullscreen ? styles.listMobile : '';
     const articleLinks = _.chain(articles)
       .map(this.renderResultRow)
