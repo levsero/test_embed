@@ -52,7 +52,9 @@ describe('HelpCenterMobile component', () => {
         ButtonGroup: noopReactComponent()
       },
       './HelpCenterMobile.sass': {
-        locals: {}
+        locals: {
+          container: 'containerClasses'
+        }
       },
       'service/i18n': {
         i18n: {
@@ -161,6 +163,69 @@ describe('HelpCenterMobile component', () => {
 
       expect(helpCenterMobile.state.searchFieldFocused)
         .toEqual(true);
+    });
+  });
+
+  describe('render', () => {
+    let helpCenterMobile,
+      containerClasses;
+
+    describe('when contact form is suppressed', () => {
+      describe('when zendesk logo is hidden', () => {
+        beforeEach(() => {
+          helpCenterMobile = domRender(
+            <HelpCenterMobile
+              showNextButton={false}
+              hideZendeskLogo={true} />
+          );
+          containerClasses = helpCenterMobile.refs.scrollContainer.props.containerClasses;
+        });
+
+        it('should pass the container class to ScrollContainer', () => {
+          expect(containerClasses)
+            .toBe('containerClasses');
+        });
+      });
+
+      describe('when props.hasSearched is true', () => {
+        beforeEach(() => {
+          helpCenterMobile = domRender(
+            <HelpCenterMobile
+              showNextButton={false}
+              hasSearched={true} />
+          );
+          containerClasses = helpCenterMobile.refs.scrollContainer.props.containerClasses;
+        });
+
+        it('should pass the container class to ScrollContainer', () => {
+          expect(containerClasses)
+            .toBe('containerClasses');
+        });
+      });
+
+      describe('when zendesk logo is not hidden', () => {
+        beforeEach(() => {
+          helpCenterMobile = domRender(<HelpCenterMobile showNextButton={false} />);
+          containerClasses = helpCenterMobile.refs.scrollContainer.props.containerClasses;
+        });
+
+        it('should not pass the container class to ScrollContainer', () => {
+          expect(containerClasses)
+            .toBe('');
+        });
+      });
+    });
+
+    describe('when contact form is not suppressed', () => {
+      beforeEach(() => {
+        helpCenterMobile = domRender(<HelpCenterMobile showNextButton={true} />);
+        containerClasses = helpCenterMobile.refs.scrollContainer.props.containerClasses;
+      });
+
+      it('should not pass the container class to ScrollContainer', () => {
+        expect(containerClasses)
+          .toBe('');
+      });
     });
   });
 });

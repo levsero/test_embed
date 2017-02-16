@@ -214,7 +214,7 @@ export class HelpCenterMobile extends Component {
   render = () => {
     const mobileHideLogoState = this.props.hasSearched;
     const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
-    const containerClasses = !this.props.showNextButton && mobileHideLogoState
+    const containerClasses = !this.props.showNextButton && hideZendeskLogo
                            ? styles.container
                            : '';
 

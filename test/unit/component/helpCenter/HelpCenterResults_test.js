@@ -31,7 +31,8 @@ describe('HelpCenterResults component', () => {
           resultsBorder: 'borderClasses',
           viewMore: 'viewMoreClasses',
           resultsPadding: 'resultsPaddingClasses',
-          listBottom: 'listBottomClasses'
+          listBottom: 'listBottomClasses',
+          listBottomViewMore: 'listBottomViewMoreClasses'
         }
       },
       'service/i18n': {
@@ -98,28 +99,6 @@ describe('HelpCenterResults component', () => {
         expect(document.querySelector('.legendClasses'))
           .toBeTruthy();
       });
-
-      describe('when hideBottomPadding is true', () => {
-        beforeEach(() => {
-          component = domRender(
-            <HelpCenterResults
-              hideBottomPadding={true}
-              articles={articles} />
-          );
-        });
-
-        it('should not apply the u-paddingBM class', () => {
-          expect(document.querySelector('.listBottomClasses'))
-            .toBeFalsy();
-        });
-      });
-
-      describe('when hideBottomPadding is false', () => {
-        it('should apply the u-paddingBM class', () => {
-          expect(document.querySelector('.listBottomClasses'))
-            .toBeTruthy();
-        });
-      });
     });
 
     describe('when props.showViewMore is true', () => {
@@ -163,6 +142,56 @@ describe('HelpCenterResults component', () => {
       it('displays the embeddable_framework.helpCenter.label.results label', () => {
         expect(mockRegistry['service/i18n'].i18n.t)
           .toHaveBeenCalledWith('embeddable_framework.helpCenter.label.results');
+      });
+    });
+  });
+
+  describe('#renderResults', () => {
+    let helpCenterResults;
+
+    describe('when not on mobile', () => {
+      describe('when view more button is visible', () => {
+        beforeEach(() => {
+          helpCenterResults = domRender(
+            <HelpCenterResults
+              fullscreen={false}
+              showViewMore={true}
+              articles={articles} />
+          );
+          helpCenterResults.renderResults();
+        });
+
+        it('should pass down the listBottomViewMore classes', () => {
+          expect(document.querySelector('.listBottomViewMoreClasses'))
+            .toBeTruthy();
+        });
+      });
+
+      describe('when view more button is not visible', () => {
+        beforeEach(() => {
+          helpCenterResults = domRender(<HelpCenterResults fullscreen={false} articles={articles} />);
+          helpCenterResults.renderResults();
+        });
+
+        it('should pass down the listBottom classes', () => {
+          expect(document.querySelector('.listBottomClasses'))
+            .toBeTruthy();
+        });
+      });
+    });
+
+    describe('when on mobile', () => {
+      beforeEach(() => {
+        helpCenterResults = domRender(<HelpCenterResults fullscreen={true} articles={articles} />);
+        helpCenterResults.renderResults();
+      });
+
+      it('should not pass down padding classes', () => {
+        expect(document.querySelector('listBottomViewMoreClasses'))
+          .toBeFalsy();
+
+        expect(document.querySelector('listBottomClasses'))
+          .toBeFalsy();
       });
     });
   });
