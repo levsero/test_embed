@@ -185,14 +185,19 @@ export class SubmitTicketForm extends Component {
     return Array.isArray(prefill) && prefill.length !== 0;
   }
 
-  filterPrefillFields = (fields, prefillTicketForm, prefillTicketField) => {
-    const permittedFields = ['text', 'textarea', 'description', 'integer', 'decimal', 'subject'];
+  mergePrefill = (prefillTicketForm, prefillTicketField) => {
     const prefillTicketFormValid = this.isPrefillValid(prefillTicketForm);
     const prefillTicketFieldValid = this.isPrefillValid(prefillTicketField);
     const prefillFieldData = prefillTicketFormValid ? prefillTicketForm : [];
-    const prefillData = prefillTicketFieldValid
-                      ? _.unionWith(prefillTicketForm, prefillTicketField, (a1, a2) => a1.id == a2.id) // eslint-disable-line
-                      : prefillFieldData;
+
+    return prefillTicketFieldValid
+         ? _.unionWith(prefillTicketForm, prefillTicketField, (a1, a2) => a1.id == a2.id) // eslint-disable-line
+         : prefillFieldData;
+  }
+
+  filterPrefillFields = (fields, prefillTicketForm, prefillTicketField) => {
+    const permittedFields = ['text', 'textarea', 'description', 'integer', 'decimal', 'subject'];
+    const prefillData = this.mergePrefill(prefillTicketForm, prefillTicketField);
 
     // Cleans data by removing fields we do not want to enable pre-fill on
     return _.filter(prefillData, (ticketField) => {
