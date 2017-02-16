@@ -14,7 +14,6 @@ export class HelpCenterResults extends Component {
     handleArticleClick: PropTypes.func,
     handleViewMoreClick: PropTypes.func,
     hasContextualSearched: PropTypes.bool,
-    hideBottomPadding: PropTypes.bool,
     previousSearchTerm: PropTypes.string,
     searchFailed: PropTypes.bool,
     showBottomBorder: PropTypes.bool,
@@ -29,7 +28,6 @@ export class HelpCenterResults extends Component {
     handleArticleClick: () => {},
     handleViewMoreClick: () => {},
     hasContextualSearched: false,
-    hideBottomPadding: false,
     previousSearchTerm: '',
     searchFailed: false,
     showBottomBorder: true,
@@ -53,10 +51,15 @@ export class HelpCenterResults extends Component {
   }
 
   renderResults = () => {
-    const showPadding = !this.props.fullscreen && !this.props.hideBottomPadding;
-    const paddingClasses = showPadding ? styles.listBottom : '';
-    const mobileClasses = this.props.fullscreen ? styles.listMobile : '';
-    const articleLinks = _.chain(this.props.articles)
+    const { fullscreen, articles, showViewMore } = this.props;
+    let paddingClasses = '';
+
+    if (!fullscreen) {
+      paddingClasses = showViewMore ? styles.listBottomViewMore : styles.listBottom;
+    }
+
+    const mobileClasses = fullscreen ? styles.listMobile : '';
+    const articleLinks = _.chain(articles)
       .map(this.renderResultRow)
       .value();
 

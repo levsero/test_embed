@@ -193,10 +193,8 @@ export class HelpCenterMobile extends Component {
     if (!this.props.showNextButton ||
        (this.state.showIntroScreen || this.state.searchFieldFocused)) return null;
 
-    const logoClasses = this.props.hideZendeskLogo ? styles.logoHidden : '';
-
     return (
-      <div className={`${styles.buttonContainer} ${logoClasses}`}>
+      <div className={`${styles.buttonContainer}`}>
         <ButtonGroup rtl={i18n.isRTL()}>
           <Button
             fullscreen={true}
@@ -216,7 +214,7 @@ export class HelpCenterMobile extends Component {
   render = () => {
     const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
     const mobileHideLogoState = this.props.hasSearched;
-    const containerClasses = this.props.showNextButton ? '' : `${styles.container}`
+    const containerClasses = !this.props.showNextButton ? styles.container : '';
 
     return (
       <div>

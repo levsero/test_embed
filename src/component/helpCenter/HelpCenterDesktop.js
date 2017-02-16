@@ -166,7 +166,11 @@ export class HelpCenterDesktop extends Component {
     let footerClasses = '';
 
     if (!this.props.showNextButton && this.props.hasSearched) {
-      footerClasses = this.props.hideZendeskLogo ? styles.footer : styles.footerLogo;
+      if (this.props.articleViewActive) {
+        footerClasses = styles.footerArticleView;
+      } else {
+        footerClasses = this.props.hideZendeskLogo ? styles.footer : styles.footerLogo;
+      }
     }
 
     return (
