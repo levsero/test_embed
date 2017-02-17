@@ -1,13 +1,10 @@
 describe('HelpCenterResults component', () => {
   let HelpCenterResults,
     component,
-    mockRegistry;
+    mockRegistry,
+    articles;
 
   const helpCenterResultsPath = buildSrcPath('component/helpCenter/HelpCenterResults');
-  const articles = [
-    { 'html_url': 'http://www.example.com', title: 'Test article one', name: 'Test article 1' },
-    { 'html_url': 'http://www.example.com', title: 'Test article two', name: 'Test article 2' }
-  ];
 
   beforeEach(() => {
     resetDOM();
@@ -46,6 +43,11 @@ describe('HelpCenterResults component', () => {
       },
       '_': _
     });
+
+    articles = [
+      { 'html_url': 'http://www.example.com', title: 'Test article one', name: 'Test article 1' },
+      { 'html_url': 'http://www.example.com', title: 'Test article two', name: 'Test article 2' }
+    ];
 
     mockery.registerAllowable(helpCenterResultsPath);
     HelpCenterResults = requireUncached(helpCenterResultsPath).HelpCenterResults;
@@ -227,13 +229,13 @@ describe('HelpCenterResults component', () => {
         });
       });
 
-      describe('when zendesk logo is enabled', () => {
+      describe('when zendesk logo is disabled', () => {
         beforeEach(() => {
           helpCenterResults = domRender(
             <HelpCenterResults
               showViewMore={false}
               showContactButton={false}
-              showBottomBorder={true}
+              showBottomBorder={false}
               articles={articles} />
           );
           helpCenterResults.renderResults();

@@ -194,7 +194,7 @@ export class HelpCenterMobile extends Component {
        (this.state.showIntroScreen || this.state.searchFieldFocused)) return null;
 
     return (
-      <div className={`${styles.buttonContainer}`}>
+      <div className={styles.buttonContainer}>
         <ButtonGroup rtl={i18n.isRTL()}>
           <Button
             fullscreen={true}
