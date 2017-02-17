@@ -149,27 +149,53 @@ describe('HelpCenterResults component', () => {
   describe('#renderResults', () => {
     let helpCenterResults;
 
-    describe('when not on mobile', () => {
-      describe('when view more button is visible', () => {
+    describe('when view more button is visible', () => {
+      beforeEach(() => {
+        helpCenterResults = domRender(
+          <HelpCenterResults
+            showViewMore={true}
+            articles={articles} />
+        );
+        helpCenterResults.renderResults();
+      });
+
+      it('should pass down the listBottomViewMore classes', () => {
+        expect(document.querySelector('.listBottomViewMoreClasses'))
+          .toBeTruthy();
+      });
+    });
+
+    describe('when view more button is not visible', () => {
+      describe('when contact form is suppressed, there are 3 or less results, and zendesk logo is enabled', () => {
         beforeEach(() => {
           helpCenterResults = domRender(
             <HelpCenterResults
-              fullscreen={false}
-              showViewMore={true}
+              showViewMore={false}
+              showContactButton={false}
+              showBottomBorder={true}
               articles={articles} />
           );
           helpCenterResults.renderResults();
         });
 
-        it('should pass down the listBottomViewMore classes', () => {
+        it('should pass down no list bottom padding', () => {
+          expect(document.querySelector('.listBottomClasses'))
+            .toBeFalsy();
+
           expect(document.querySelector('.listBottomViewMoreClasses'))
-            .toBeTruthy();
+            .toBeFalsy();
         });
       });
 
-      describe('when view more button is not visible', () => {
+      describe('when contact form is not suppressed', () => {
         beforeEach(() => {
-          helpCenterResults = domRender(<HelpCenterResults fullscreen={false} articles={articles} />);
+          helpCenterResults = domRender(
+            <HelpCenterResults
+              showViewMore={false}
+              showContactButton={true}
+              showBottomBorder={true}
+              articles={articles} />
+          );
           helpCenterResults.renderResults();
         });
 
@@ -178,20 +204,45 @@ describe('HelpCenterResults component', () => {
             .toBeTruthy();
         });
       });
-    });
 
-    describe('when on mobile', () => {
-      beforeEach(() => {
-        helpCenterResults = domRender(<HelpCenterResults fullscreen={true} articles={articles} />);
-        helpCenterResults.renderResults();
+      describe('when there are more than 3 results visible', () => {
+        beforeEach(() => {
+          articles.push(
+            { 'html_url': 'http://www.example.com', title: 'Test article one', name: 'Test article 3' },
+            { 'html_url': 'http://www.example.com', title: 'Test article two', name: 'Test article 4' }
+          );
+          helpCenterResults = domRender(
+            <HelpCenterResults
+              showViewMore={false}
+              showContactButton={false}
+              showBottomBorder={true}
+              articles={articles} />
+          );
+          helpCenterResults.renderResults();
+        });
+
+        it('should pass down the listBottom classes', () => {
+          expect(document.querySelector('.listBottomClasses'))
+            .toBeTruthy();
+        });
       });
 
-      it('should not pass down padding classes', () => {
-        expect(document.querySelector('listBottomViewMoreClasses'))
-          .toBeFalsy();
+      describe('when zendesk logo is enabled', () => {
+        beforeEach(() => {
+          helpCenterResults = domRender(
+            <HelpCenterResults
+              showViewMore={false}
+              showContactButton={false}
+              showBottomBorder={true}
+              articles={articles} />
+          );
+          helpCenterResults.renderResults();
+        });
 
-        expect(document.querySelector('listBottomClasses'))
-          .toBeFalsy();
+        it('should pass down the listBottom classes', () => {
+          expect(document.querySelector('.listBottomClasses'))
+            .toBeTruthy();
+        });
       });
     });
   });

@@ -35,6 +35,11 @@ export class HelpCenterResults extends Component {
     showViewMore: false
   };
 
+  initialSearchResults = () => {
+    return this.props.articles.length > 0 &&
+           this.props.articles.length < 4;
+  }
+
   renderResultRow = (article, index) => {
     const mobileClasses = this.props.fullscreen ? styles.itemMobile : '';
 
@@ -51,8 +56,23 @@ export class HelpCenterResults extends Component {
   }
 
   renderResults = () => {
-    const { fullscreen, articles, showViewMore } = this.props;
-    const paddingClasses = showViewMore ? styles.listBottomViewMore : styles.listBottom;
+    const {
+      fullscreen,
+      articles,
+      showViewMore,
+      showBottomBorder,
+      showContactButton } = this.props;
+    const noPaddingClasses = !showContactButton && this.initialSearchResults() && showBottomBorder;
+    let paddingClasses = '';
+
+    if (showViewMore) {
+      paddingClasses = styles.listBottomViewMore;
+    } else if (noPaddingClasses) {
+      paddingClasses = '';
+    } else {
+      paddingClasses = styles.listBottom;
+    }
+
     const mobileClasses = fullscreen ? styles.listMobile : '';
     const articleLinks = _.chain(articles)
       .map(this.renderResultRow)
@@ -126,8 +146,7 @@ export class HelpCenterResults extends Component {
   }
 
   render = () => {
-    const initialSearchResults = this.props.articles.length > 0 &&
-                                 this.props.articles.length < 4;
+    const initialSearchResults = this.initialSearchResults();
     const showBottomBorder = this.props.showBottomBorder && initialSearchResults;
     const applyPadding = this.props.showViewMore ||
                          (this.props.applyPadding && initialSearchResults);
