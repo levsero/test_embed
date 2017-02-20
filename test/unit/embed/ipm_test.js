@@ -1,7 +1,9 @@
 describe('embed.ipm', () => {
   let ipm,
     mockSettingsValue,
-    mockRegistry;
+    mockRegistry,
+    mockApiResponses,
+    apiGetSpy;
 
   const ipmPath = buildSrcPath('embed/ipm/ipm');
 
@@ -11,6 +13,10 @@ describe('embed.ipm', () => {
     mockery.enable();
 
     mockSettingsValue = {};
+    mockApiResponses = {};
+
+    apiGetSpy = jasmine.createSpy('apiGet')
+      .and.callFake((path) => Promise.resolve(mockApiResponses[path] || {}));
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -25,6 +31,7 @@ describe('embed.ipm', () => {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
+      'embed/ipm/apiGet': apiGetSpy,
       'component/ipm/Ipm': {
         Ipm: class extends Component {
           constructor() {
@@ -40,6 +47,14 @@ describe('embed.ipm', () => {
             );
           }
         }
+      },
+      'service/identity': {
+        identity: {
+          getBuid: () => 'some-buid'
+        }
+      },
+      'service/logging': {
+        error: noop
       },
       'service/settings': {
         settings: {
@@ -224,6 +239,174 @@ describe('embed.ipm', () => {
     });
   });
 
+  describe('activateIpm', () => {
+    let mockFrameFactory,
+      mockMediator,
+      dan;
+
+    beforeEach(() => {
+      mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
+      mockMediator = mockRegistry['service/mediator'].mediator;
+      ipm.create('dan');
+      ipm.render('dan');
+      dan = ipm.get('dan');
+    });
+
+    const ipmParams = {
+      pendingCampaign: {
+        id: 1,
+        message: {
+          body: 'comments question',
+          color: 'red'
+        }
+      }
+    };
+
+    describe('when ipm is available', () => {
+      beforeEach((done) => {
+        pluckSubscribeCall(mockMediator, 'ipm.identifying')();
+        pluckSubscribeCall(mockMediator, 'ipm.setIpm')(ipmParams);
+        ipm.activateIpm('dan').then(done);
+      });
+
+      it('should show an ipm', () => {
+        expect(dan.instance.show.__reactBoundMethod)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when ipm is not available', () => {
+      beforeEach((done) => {
+        pluckSubscribeCall(mockMediator, 'ipm.identifying')();
+        pluckSubscribeCall(mockMediator, 'ipm.setIpm')({});
+        ipm.activateIpm('dan').then(done);
+      });
+
+      it('should not show an ipm', () => {
+        expect(dan.instance.show.__reactBoundMethod)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when ipm is already seen', () => {
+      beforeEach((done) => {
+        pluckSubscribeCall(mockMediator, 'ipm.identifying')();
+        pluckSubscribeCall(mockMediator, 'ipm.setIpm')(ipmParams);
+
+        const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+        const params = mockFrameFactoryCall[1];
+
+        params.onShow(dan.instance);
+        // Attempt to activate the ipm a second time
+        ipm.activateIpm('dan').then(done);
+      });
+
+      it('should not show an ipm', function() {
+        expect(dan.instance.show.__reactBoundMethod)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when user is not identified', () => {
+      describe('and an anonymous campaign exists and is allowed in config', () => {
+        beforeEach((done) => {
+          mockApiResponses[ipm.CONNECT_API_CONFIG_PATH] =
+            { anonymousCampaignsAllowed: true };
+          mockApiResponses[ipm.CONNECT_API_PENDING_CAMPAIGN_PATH] = ipmParams;
+          ipm.create('anon');
+          ipm.render('anon');
+          ipm.activateIpm('anon').then(done);
+        });
+
+        it('checks for anonymous pending campaign', () => {
+          expect(apiGetSpy).toHaveBeenCalledWith(ipm.CONNECT_API_PENDING_CAMPAIGN_PATH, {
+            anonymousId: 'some-buid'
+          });
+        });
+
+        it('should show an ipm', () => {
+          expect(dan.instance.show.__reactBoundMethod)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('and anonymous campaign is not allowed in config', () => {
+        beforeEach((done) => {
+          mockApiResponses[ipm.CONNECT_API_CONFIG_PATH] =
+            { anonymousCampaignsAllowed: false };
+          ipm.create('anon');
+          ipm.render('anon');
+          ipm.activateIpm('anon').then(done);
+        });
+
+        it('does not check for anonymous pending campaign', () => {
+          expect(apiGetSpy).not.toHaveBeenCalledWith(ipm.CONNECT_API_PENDING_CAMPAIGN_PATH, {
+            anonymousId: 'some-buid'
+          });
+        });
+
+        it('should not show an ipm', () => {
+          expect(dan.instance.show.__reactBoundMethod)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
+  describe('setIpm', () => {
+    let dan,
+      danIpm;
+
+    const ipmParams = {
+      id: 1,
+      message: {
+        body: 'comments question',
+        color: 'red'
+      }
+    };
+
+    beforeEach(() => {
+      ipm.create('dan');
+      ipm.render('dan');
+      dan = ipm.get('dan');
+      danIpm = dan.instance.getChild().refs.rootComponent;
+    });
+
+    describe('when no ipm is available', () => {
+      beforeEach((done) => {
+        ipm.setIpm({}, 'dan').then(done);
+      });
+
+      it('should set state.ipmAvailable to false', () => {
+        expect(danIpm.state.ipmAvailable)
+          .toEqual(false);
+      });
+    });
+
+    describe('when an ipm is available', () => {
+      beforeEach((done) => {
+        ipm.setIpm(ipmParams, 'dan').then(done);
+      });
+
+      it('should set the ipm correctly', () => {
+        const ipmKeys = [
+          'id',
+          'name',
+          'type',
+          'message'
+        ];
+
+        ipmKeys.forEach((key) => {
+          expect(danIpm.state.ipm[key])
+            .toEqual(ipmParams[key]);
+        });
+
+        expect(danIpm.state.ipmAvailable)
+          .toEqual(true);
+      });
+    });
+  });
+
   describe('render', () => {
     it('renders an ipm embed the document', () => {
       ipm.create('dan');
@@ -237,28 +420,14 @@ describe('embed.ipm', () => {
     });
 
     describe('mediator subscriptions', () => {
-      let mockFrameFactory,
-        mockMediator,
-        dan,
-        danIpm;
-
-      const ipmParams = {
-        pendingCampaign: {
-          id: 1,
-          message: {
-            body: 'comments question',
-            color: 'red'
-          }
-        }
-      };
+      let mockMediator,
+        dan;
 
       beforeEach(() => {
-        mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
         mockMediator = mockRegistry['service/mediator'].mediator;
         ipm.create('dan');
         ipm.render('dan');
         dan = ipm.get('dan');
-        danIpm = dan.instance.getChild().refs.rootComponent;
       });
 
       describe('subscriptions to ipm.activate', () => {
@@ -266,67 +435,12 @@ describe('embed.ipm', () => {
           expect(mockMediator.channel.subscribe)
             .toHaveBeenCalledWith('ipm.activate', jasmine.any(Function));
         });
-
-        it('should show if a ipm is available', () => {
-          pluckSubscribeCall(mockMediator, 'ipm.setIpm')(ipmParams);
-          pluckSubscribeCall(mockMediator, 'ipm.activate')();
-
-          expect(dan.instance.show.__reactBoundMethod)
-            .toHaveBeenCalled();
-        });
-
-        it('should not show if a ipm is not available', () => {
-          pluckSubscribeCall(mockMediator, 'ipm.setIpm')({});
-          pluckSubscribeCall(mockMediator, 'ipm.activate')();
-
-          expect(dan.instance.show.__reactBoundMethod)
-            .not.toHaveBeenCalled();
-        });
-
-        it('should not show ipm if already seen', function() {
-          const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-          const params = mockFrameFactoryCall[1];
-
-          params.onShow(dan.instance);
-
-          // Attempt to activate the ipm a second time
-          pluckSubscribeCall(mockMediator, 'ipm.activate')();
-
-          expect(dan.instance.show.__reactBoundMethod)
-            .not.toHaveBeenCalled();
-        });
       });
 
       describe('subscription to ipm.setIpm', () => {
         it('should be subscribed', () => {
           expect(mockMediator.channel.subscribe)
             .toHaveBeenCalledWith('ipm.setIpm', jasmine.any(Function));
-        });
-
-        it('should set state.ipmAvailable to false if none is available', () => {
-          pluckSubscribeCall(mockMediator, 'ipm.setIpm')({});
-
-          expect(danIpm.state.ipmAvailable)
-            .toEqual(false);
-        });
-
-        it('should set the ipm correctly if one is available', () => {
-          pluckSubscribeCall(mockMediator, 'ipm.setIpm')(ipmParams);
-
-          const ipmKeys = [
-            'id',
-            'name',
-            'type',
-            'message'
-          ];
-
-          ipmKeys.forEach((key) => {
-            expect(danIpm.state.ipm[key])
-              .toEqual(ipmParams.pendingCampaign[key]);
-          });
-
-          expect(danIpm.state.ipmAvailable)
-            .toEqual(true);
         });
       });
 

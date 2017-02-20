@@ -24,8 +24,10 @@
   "dependencies": {
     "airbrake-js": "^0.5.9",
     "airwaves": "~0.3.0",
+    "babel-polyfill": "^6.23.0",
     "color": "~0.7.3",
     "counterpart": "~0.16.0",
+    "humps": "^2.0.0",
     "lodash": "~4.0.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",

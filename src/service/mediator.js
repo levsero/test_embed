@@ -556,6 +556,7 @@ function initMessaging() {
     state['identify.pending'] = true;
 
     if (emailValid(params.email)) {
+      c.broadcast('ipm.identifying');
       c.broadcast('beacon.identify', params);
       c.broadcast(`${chat}.setUser`, params);
       c.broadcast(`${submitTicket}.prefill`, params);
