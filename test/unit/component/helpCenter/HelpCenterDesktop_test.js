@@ -195,7 +195,7 @@ describe('HelpCenterDesktop component', () => {
     let helpCenterDesktop,
       footerClasses;
 
-    describe('when contact form is suppressed and props.hasSeached is true', () => {
+    describe('when props.showNextButton is false and props.hasSearched is true', () => {
       describe('when props.articleViewActive is true and zendesk logo is hidden', () => {
         beforeEach(() => {
           helpCenterDesktop = domRender(

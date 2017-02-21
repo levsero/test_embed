@@ -170,7 +170,7 @@ describe('HelpCenterMobile component', () => {
     let helpCenterMobile,
       containerClasses;
 
-    describe('when contact form is suppressed', () => {
+    describe('when props.showNextButton is false', () => {
       describe('when zendesk logo is hidden', () => {
         beforeEach(() => {
           helpCenterMobile = domRender(
@@ -216,7 +216,7 @@ describe('HelpCenterMobile component', () => {
       });
     });
 
-    describe('when contact form is not suppressed', () => {
+    describe('when props.showNextButton is true', () => {
       beforeEach(() => {
         helpCenterMobile = domRender(<HelpCenterMobile showNextButton={true} />);
         containerClasses = helpCenterMobile.refs.scrollContainer.props.containerClasses;

@@ -168,7 +168,7 @@ describe('HelpCenterResults component', () => {
     });
 
     describe('when view more button is not visible', () => {
-      describe('when contact form is suppressed, there are 3 or less results, and zendesk logo is enabled', () => {
+      describe('when props.showContactButton is false, there are 3 or less results, and zendesk logo is enabled', () => {
         beforeEach(() => {
           helpCenterResults = domRender(
             <HelpCenterResults
@@ -189,7 +189,7 @@ describe('HelpCenterResults component', () => {
         });
       });
 
-      describe('when contact form is not suppressed', () => {
+      describe('when props.showContactButton is true', () => {
         beforeEach(() => {
           helpCenterResults = domRender(
             <HelpCenterResults
