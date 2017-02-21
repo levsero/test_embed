@@ -23,6 +23,7 @@ export class Field extends Component {
       PropTypes.number,
       PropTypes.string
     ]),
+    description: PropTypes.string,
     disableAutoComplete: PropTypes.bool,
     disabled: PropTypes.bool,
     hasSearched: PropTypes.bool,
@@ -40,6 +41,7 @@ export class Field extends Component {
   };
 
   static defaultProps = {
+    description: '',
     disableAutoComplete: false,
     disabled: false,
     hasSearched: false,
@@ -199,30 +201,33 @@ export class Field extends Component {
     const dropdownArrow = isDropdown ? this.renderDropdownArrow() : null;
 
     return (
-      <label className='Form-fieldContainer u-block'>
-        <div className={fieldLabelClasses}>
-          {isCheckbox ? '' : this.props.placeholder}
-          {this.props.required && !isCheckbox ? '*' : ''}
-        </div>
-        <div className={fieldClasses}>
-          {this.renderInput()}
-          {
-            (isCheckbox)
-              ? <div className='Form-checkbox u-pullLeft u-posRelative u-isActionable'>
-                  <Icon type='Icon--check' />
-                </div>
-              : null
-          }
-          {
-            (this.props.label)
-              ? <span className='Form-checkboxCaption u-nbfc u-isActionable u-block'>
-                {this.props.label}{isCheckbox && this.props.required ? '*' : ''}
-                </span>
-              : null
-          }
-          {dropdownArrow}
-        </div>
-      </label>
+      <div className='Form-fieldContainer'>
+        <label className='Form-fieldContainer u-block'>
+          <div className={fieldLabelClasses}>
+            {isCheckbox ? '' : this.props.placeholder}
+            {this.props.required && !isCheckbox ? '*' : ''}
+          </div>
+          <div className={fieldClasses}>
+            {this.renderInput()}
+            {
+              (isCheckbox)
+                ? <div className='Form-checkbox u-pullLeft u-posRelative u-isActionable'>
+                    <Icon type='Icon--check' />
+                  </div>
+                : null
+            }
+            {
+              (this.props.label)
+                ? <span className='Form-checkboxCaption u-nbfc u-isActionable u-block'>
+                  {this.props.label}{isCheckbox && this.props.required ? '*' : ''}
+                  </span>
+                : null
+            }
+            {dropdownArrow}
+          </div>
+        </label>
+        <div className='u-textAluminum u-marginTT'>{this.props.description}</div>
+      </div>
     );
   }
 }

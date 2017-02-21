@@ -230,4 +230,22 @@ describe('Field component', () => {
         .toBeFalsy();
     });
   });
+
+  describe('description', () => {
+    it('should be added if it is true', () => {
+      const field = domRender(<Field description='hello' />);
+      const fieldNode = ReactDOM.findDOMNode(field);
+
+      expect(fieldNode.children[1].innerHTML)
+        .toEqual('hello');
+    });
+
+    it('should not be added if it is false', () => {
+      const field = domRender(<Field />);
+      const fieldNode = ReactDOM.findDOMNode(field);
+
+      expect(fieldNode.children[1].innerHTML)
+        .toEqual('');
+    });
+  });
 });
