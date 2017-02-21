@@ -60,7 +60,7 @@ describe('Field component', () => {
 
   it('should render field DOM with a label wrapping two child divs', () => {
     const field = domRender(<Field name='alice' />);
-    const fieldNode = ReactDOM.findDOMNode(field);
+    const fieldNode = ReactDOM.findDOMNode(field).children[0];
 
     expect(fieldNode.nodeName)
       .toEqual('LABEL');
