@@ -177,17 +177,40 @@ export class Field extends Component {
          : <input {...sharedProps} {...fieldProps} className={fieldInputClasses} />;
   }
 
+  renderCheckbox = () => {
+    if (this.props.type !== 'checkbox') return null;
+
+    return (
+      <div className='Form-checkbox u-pullLeft u-posRelative u-isActionable'>
+        <Icon type='Icon--check' />
+      </div>
+    );
+  }
+
+  renderLabel = () => {
+    if (!this.props.label) return null;
+
+    const required = this.props.type === 'checkbox' && this.props.required ? '*' : '';
+
+    return (
+      <span className='Form-checkboxCaption u-nbfc u-isActionable u-block'>
+        {this.props.label}
+        {required}
+      </span>
+    );
+  }
+
   render = () => {
     const landscape = (isMobileBrowser() && isLandscape());
     const portrait = (isMobileBrowser() && !isLandscape());
-    const isCheckbox = (this.props.type === 'checkbox');
     const isDropdown = this.props.options.length > 0;
+    const isCheckbox = this.props.type === 'checkbox';
     const fieldClasses = classNames({
       'Form-field u-isSelectable u-posRelative': true,
       'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
       'Form-field--focused': this.state.focused && !isCheckbox,
       'Form-field--dropdown': isDropdown,
-      'Form-field--clean': isCheckbox,
+      'Form-field--clean u-flex u-flexAlignItemsBase': isCheckbox,
       'is-mobile': isMobileBrowser(),
       'Form-field--small': landscape
     });
@@ -209,24 +232,12 @@ export class Field extends Component {
           </div>
           <div className={fieldClasses}>
             {this.renderInput()}
-            {
-              (isCheckbox)
-                ? <div className='Form-checkbox u-pullLeft u-posRelative u-isActionable'>
-                    <Icon type='Icon--check' />
-                  </div>
-                : null
-            }
-            {
-              (this.props.label)
-                ? <span className='Form-checkboxCaption u-nbfc u-isActionable u-block'>
-                  {this.props.label}{isCheckbox && this.props.required ? '*' : ''}
-                  </span>
-                : null
-            }
+            {this.renderCheckbox()}
+            {this.renderLabel()}
             {dropdownArrow}
           </div>
         </label>
-        <div className='u-textAluminum u-marginTT'>{this.props.description}</div>
+        <div className='Form-description u-textAluminum'>{this.props.description}</div>
       </div>
     );
   }

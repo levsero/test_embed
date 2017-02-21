@@ -97,7 +97,6 @@ $Form-fontSize: #{13/$font-size}rem;
 
 .Form-checkbox {
   width: #{14/$font-size}rem;
-  height: #{14/$font-size}rem;
   background-color: $base-color;
   border: $thin-border-size solid $stroke-color;
   border-radius: #{4/$font-size}rem;
@@ -181,8 +180,8 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .Form-checkboxCaption {
-  font-size: $Form-fontSize;
-  color: $body-color;
+  color: $zd-color-monsoon;
+  font-weight: 700;
 }
 
 .Form-field--blurred.Form-field--invalid {
@@ -194,4 +193,8 @@ $Form-fontSize: #{13/$font-size}rem;
   font-weight: 700;
   display: block;
   color: $zd-color-monsoon;
+}
+
+.Form-description {
+  margin-top: #{7/$font-size}rem;
 }
