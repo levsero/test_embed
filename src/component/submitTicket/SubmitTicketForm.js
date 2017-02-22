@@ -199,23 +199,24 @@ export class SubmitTicketForm extends Component {
     const permittedFields = ['description', 'subject', 'text', 'textarea', 'integer', 'decimal'];
     const permittedSystemFieldsIds = ['description', 'subject'];
     const prefillData = this.mergePrefill(prefillTicketForm, prefillTicketField);
+    const filterPrefillFn = (ticketField) => {
+      // Intentional non-strict matching between integer and string ids
+      const matchingField = _.find(fields, (f) => {
+        return f.id == ticketField.id // eslint-disable-line
+            || f.type === ticketField.id && _.includes(permittedSystemFieldsIds, ticketField.id);
+      }) || {};
+
+      if (_.includes(permittedFields, matchingField.type)) {
+        // Replace ticketField.id where it could be a text instead of an integer
+        ticketField.id = matchingField.id;
+        return ticketField;
+      }
+    }
 
     return _.chain(prefillData)
-      .map((ticketField) => {
-        // Intentional non-strict matching between integer and string ids
-        const matchingField = _.find(fields, (f) => {
-          return f.id == ticketField.id // eslint-disable-line
-              || f.type === ticketField.id && _.includes(permittedSystemFieldsIds, ticketField.id);
-        }) || {};
-
-        if (_.includes(permittedFields, matchingField.type)) {
-          // Replace ticketField.id where it could be a text instead of an integer
-          ticketField.id = matchingField.id;
-          return ticketField;
-        }
-      })
-      .compact()
-      .value();
+            .map(filterPrefillFn)
+            .compact()
+            .value();
   }
 
   prefillFormState = (fields, prefillTicketForm, prefillTicketField) => {
