@@ -54,6 +54,7 @@ describe('HelpCenterDesktop component', () => {
       './HelpCenterDesktop.sass': {
         locals: {
           footer: 'footerClasses',
+          footerArticleView: 'footerArticleViewClasses',
           footerLogo: 'footerLogoClasses'
         }
       },
@@ -187,6 +188,67 @@ describe('HelpCenterDesktop component', () => {
     it('should be hidden by default', () => {
       expect(helpCenterDesktop.state.channelChoiceShown)
         .toBe(false);
+    });
+  });
+
+  describe('render', () => {
+    let helpCenterDesktop,
+      footerClasses;
+
+    describe('when props.showNextButton is false and props.hasSearched is true', () => {
+      describe('when props.articleViewActive is true and zendesk logo is hidden', () => {
+        beforeEach(() => {
+          helpCenterDesktop = domRender(
+            <HelpCenterDesktop
+              showNextButton={false}
+              hasSearched={true}
+              articleViewActive={true}
+              hideZendeskLogo={true} />
+          );
+          footerClasses = helpCenterDesktop.refs.scrollContainer.props.footerClasses;
+        });
+
+        it('should pass footerArticleView class to ScrollContainer', () => {
+          expect(footerClasses)
+            .toBe('footerArticleViewClasses');
+        });
+      });
+
+      describe('when props.articleViewActive is false', () => {
+        beforeEach(() => {
+          helpCenterDesktop = domRender(
+            <HelpCenterDesktop
+              showNextButton={false}
+              hasSearched={true}
+              articleViewActive={false}
+              hideZendeskLogo={true} />
+          );
+          footerClasses = helpCenterDesktop.refs.scrollContainer.props.footerClasses;
+        });
+
+        it('should pass footer class to ScrollContainer', () => {
+          expect(footerClasses)
+            .toBe('footerClasses');
+        });
+      });
+
+      describe('when zendesk logo is not hidden', () => {
+        beforeEach(() => {
+          helpCenterDesktop = domRender(
+            <HelpCenterDesktop
+              showNextButton={false}
+              hasSearched={true}
+              articleViewActive={true}
+              hideZendeskLogo={false} />
+          );
+          footerClasses = helpCenterDesktop.refs.scrollContainer.props.footerClasses;
+        });
+
+        it('should pass footerLogo class to ScrollContainer', () => {
+          expect(footerClasses)
+            .toBe('footerLogoClasses');
+        });
+      });
     });
   });
 });

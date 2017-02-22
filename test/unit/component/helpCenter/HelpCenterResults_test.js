@@ -1,13 +1,10 @@
 describe('HelpCenterResults component', () => {
   let HelpCenterResults,
     component,
-    mockRegistry;
+    mockRegistry,
+    articles;
 
   const helpCenterResultsPath = buildSrcPath('component/helpCenter/HelpCenterResults');
-  const articles = [
-    { 'html_url': 'http://www.example.com', title: 'Test article one', name: 'Test article 1' },
-    { 'html_url': 'http://www.example.com', title: 'Test article two', name: 'Test article 2' }
-  ];
 
   beforeEach(() => {
     resetDOM();
@@ -31,7 +28,8 @@ describe('HelpCenterResults component', () => {
           resultsBorder: 'borderClasses',
           viewMore: 'viewMoreClasses',
           resultsPadding: 'resultsPaddingClasses',
-          listBottom: 'listBottomClasses'
+          listBottom: 'listBottomClasses',
+          listBottomViewMore: 'listBottomViewMoreClasses'
         }
       },
       'service/i18n': {
@@ -45,6 +43,11 @@ describe('HelpCenterResults component', () => {
       },
       '_': _
     });
+
+    articles = [
+      { 'html_url': 'http://www.example.com', title: 'Test article one', name: 'Test article 1' },
+      { 'html_url': 'http://www.example.com', title: 'Test article two', name: 'Test article 2' }
+    ];
 
     mockery.registerAllowable(helpCenterResultsPath);
     HelpCenterResults = requireUncached(helpCenterResultsPath).HelpCenterResults;
@@ -98,28 +101,6 @@ describe('HelpCenterResults component', () => {
         expect(document.querySelector('.legendClasses'))
           .toBeTruthy();
       });
-
-      describe('when hideBottomPadding is true', () => {
-        beforeEach(() => {
-          component = domRender(
-            <HelpCenterResults
-              hideBottomPadding={true}
-              articles={articles} />
-          );
-        });
-
-        it('should not apply the u-paddingBM class', () => {
-          expect(document.querySelector('.listBottomClasses'))
-            .toBeFalsy();
-        });
-      });
-
-      describe('when hideBottomPadding is false', () => {
-        it('should apply the u-paddingBM class', () => {
-          expect(document.querySelector('.listBottomClasses'))
-            .toBeTruthy();
-        });
-      });
     });
 
     describe('when props.showViewMore is true', () => {
@@ -163,6 +144,107 @@ describe('HelpCenterResults component', () => {
       it('displays the embeddable_framework.helpCenter.label.results label', () => {
         expect(mockRegistry['service/i18n'].i18n.t)
           .toHaveBeenCalledWith('embeddable_framework.helpCenter.label.results');
+      });
+    });
+  });
+
+  describe('#renderResults', () => {
+    let helpCenterResults;
+
+    describe('when view more button is visible', () => {
+      beforeEach(() => {
+        helpCenterResults = domRender(
+          <HelpCenterResults
+            showViewMore={true}
+            articles={articles} />
+        );
+        helpCenterResults.renderResults();
+      });
+
+      it('should pass down the listBottomViewMore classes', () => {
+        expect(document.querySelector('.listBottomViewMoreClasses'))
+          .toBeTruthy();
+      });
+    });
+
+    describe('when view more button is not visible', () => {
+      describe('when props.showContactButton is false, there are 3 or less results, and zendesk logo is enabled', () => {
+        beforeEach(() => {
+          helpCenterResults = domRender(
+            <HelpCenterResults
+              showViewMore={false}
+              showContactButton={false}
+              showBottomBorder={true}
+              articles={articles} />
+          );
+          helpCenterResults.renderResults();
+        });
+
+        it('should pass down no list bottom padding', () => {
+          expect(document.querySelector('.listBottomClasses'))
+            .toBeFalsy();
+
+          expect(document.querySelector('.listBottomViewMoreClasses'))
+            .toBeFalsy();
+        });
+      });
+
+      describe('when props.showContactButton is true', () => {
+        beforeEach(() => {
+          helpCenterResults = domRender(
+            <HelpCenterResults
+              showViewMore={false}
+              showContactButton={true}
+              showBottomBorder={true}
+              articles={articles} />
+          );
+          helpCenterResults.renderResults();
+        });
+
+        it('should pass down the listBottom classes', () => {
+          expect(document.querySelector('.listBottomClasses'))
+            .toBeTruthy();
+        });
+      });
+
+      describe('when there are more than 3 results visible', () => {
+        beforeEach(() => {
+          articles.push(
+            { 'html_url': 'http://www.example.com', title: 'Test article one', name: 'Test article 3' },
+            { 'html_url': 'http://www.example.com', title: 'Test article two', name: 'Test article 4' }
+          );
+          helpCenterResults = domRender(
+            <HelpCenterResults
+              showViewMore={false}
+              showContactButton={false}
+              showBottomBorder={true}
+              articles={articles} />
+          );
+          helpCenterResults.renderResults();
+        });
+
+        it('should pass down the listBottom classes', () => {
+          expect(document.querySelector('.listBottomClasses'))
+            .toBeTruthy();
+        });
+      });
+
+      describe('when zendesk logo is disabled', () => {
+        beforeEach(() => {
+          helpCenterResults = domRender(
+            <HelpCenterResults
+              showViewMore={false}
+              showContactButton={false}
+              showBottomBorder={false}
+              articles={articles} />
+          );
+          helpCenterResults.renderResults();
+        });
+
+        it('should pass down the listBottom classes', () => {
+          expect(document.querySelector('.listBottomClasses'))
+            .toBeTruthy();
+        });
       });
     });
   });

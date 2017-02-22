@@ -14,7 +14,6 @@ export class HelpCenterResults extends Component {
     handleArticleClick: PropTypes.func,
     handleViewMoreClick: PropTypes.func,
     hasContextualSearched: PropTypes.bool,
-    hideBottomPadding: PropTypes.bool,
     previousSearchTerm: PropTypes.string,
     searchFailed: PropTypes.bool,
     showBottomBorder: PropTypes.bool,
@@ -29,13 +28,18 @@ export class HelpCenterResults extends Component {
     handleArticleClick: () => {},
     handleViewMoreClick: () => {},
     hasContextualSearched: false,
-    hideBottomPadding: false,
     previousSearchTerm: '',
     searchFailed: false,
     showBottomBorder: true,
     showContactButton: true,
     showViewMore: false
   };
+
+  hasInitialSearchResults = () => {
+    const { articles } = this.props;
+
+    return articles.length > 0 && articles.length < 4;
+  }
 
   renderResultRow = (article, index) => {
     const mobileClasses = this.props.fullscreen ? styles.itemMobile : '';
@@ -53,12 +57,23 @@ export class HelpCenterResults extends Component {
   }
 
   renderResults = () => {
-    const showPadding = !this.props.fullscreen && !this.props.hideBottomPadding;
-    const paddingClasses = showPadding ? styles.listBottom : '';
-    const mobileClasses = this.props.fullscreen ? styles.listMobile : '';
-    const articleLinks = _.chain(this.props.articles)
-      .map(this.renderResultRow)
-      .value();
+    let paddingClasses = '';
+    const {
+      fullscreen,
+      articles,
+      showViewMore,
+      showBottomBorder,
+      showContactButton } = this.props;
+    const noPaddingClasses = !showContactButton && this.hasInitialSearchResults() && showBottomBorder;
+
+    if (showViewMore) {
+      paddingClasses = styles.listBottomViewMore;
+    } else if (!noPaddingClasses) {
+      paddingClasses = styles.listBottom;
+    }
+
+    const mobileClasses = fullscreen ? styles.listMobile : '';
+    const articleLinks = _.map(articles, this.renderResultRow);
 
     return (
       <ul className={`${styles.list} ${paddingClasses} ${mobileClasses}`}>
@@ -128,11 +143,10 @@ export class HelpCenterResults extends Component {
   }
 
   render = () => {
-    const initialSearchResults = this.props.articles.length > 0 &&
-                                 this.props.articles.length < 4;
-    const showBottomBorder = this.props.showBottomBorder && initialSearchResults;
+    const hasInitialSearchResults = this.hasInitialSearchResults();
+    const showBottomBorder = this.props.showBottomBorder && hasInitialSearchResults;
     const applyPadding = this.props.showViewMore ||
-                         (this.props.applyPadding && initialSearchResults);
+                         (this.props.applyPadding && hasInitialSearchResults);
     const borderClasses = showBottomBorder ? styles.resultsBorder : '';
     const paddingClasses = applyPadding ? styles.resultsPadding : '';
     const legend = !(this.props.searchFailed || this.props.articles.length === 0)
