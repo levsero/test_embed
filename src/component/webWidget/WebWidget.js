@@ -34,6 +34,7 @@ export class WebWidget extends Component {
     submitTicketAvailable: PropTypes.bool,
     submitTicketConfig: PropTypes.object,
     submitTicketSender: PropTypes.func.isRequired,
+    tags: PropTypes.array,
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
@@ -62,6 +63,7 @@ export class WebWidget extends Component {
     style: null,
     submitTicketAvailable: true,
     submitTicketConfig: {},
+    tags: [],
     ticketFieldSettings: [],
     ticketFormSettings: [],
     updateFrameSize: () => {}
@@ -216,6 +218,7 @@ export class WebWidget extends Component {
           style={this.props.style}
           subjectEnabled={this.props.subjectEnabled}
           submitTicketSender={this.props.submitTicketSender}
+          tags={this.props.tags}
           ticketFieldSettings={this.props.ticketFieldSettings}
           ticketFormSettings={this.props.ticketFormSettings}
           updateFrameSize={this.props.updateFrameSize}

@@ -231,6 +231,7 @@ describe('Submit ticket component', () => {
             attachmentsEnabled={true}
             onSubmitted={mockOnSubmitted}
             updateFrameSize={noop}
+            tags={['extra_tag']}
             viaId={48} />
         );
 
@@ -438,7 +439,12 @@ describe('Submit ticket component', () => {
 
       it('Adds the correct tag', () => {
         expect(params.request.tags)
-          .toEqual(['web_widget']);
+          .toContain('web_widget');
+      });
+
+      it('adds any extra tags', () => {
+        expect(params.request.tags)
+          .toContain('extra_tag');
       });
 
       it('Adds the correct via_id', () => {

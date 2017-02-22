@@ -223,6 +223,7 @@ function create(name, config, reduxStore) {
           ticketFormSettings={settings.get('contactForm.ticketForms')}
           ticketFieldSettings={settings.get('contactForm.fields')}
           updateFrameSize={params.updateFrameSize}
+          tags={settings.get('contactForm.tags')}
           viaId={settings.get('viaId')} />
       );
     },
