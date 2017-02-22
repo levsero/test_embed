@@ -576,6 +576,10 @@ u-overflowAuto {
   display: inherit;
 }
 
+.u-flexAlignItemsBase {
+  align-items: baseline !important;
+}
+
 /**
  * Used to hide the widget when printing the host page
  */
