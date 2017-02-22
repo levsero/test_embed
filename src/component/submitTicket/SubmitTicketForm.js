@@ -200,7 +200,7 @@ export class SubmitTicketForm extends Component {
     const permittedSystemFieldIds = ['description', 'subject'];
     const prefillData = this.mergePrefill(prefillTicketForm, prefillTicketField);
     const findMatchingField = (prefillField) => (ticketField) => {
-      return ticketField.id == prefillField.id || // eslint-disable-line
+      return ticketField.id == prefillField.id || // eslint-disable-line eqeqeq
              (ticketField.type === prefillField.id && _.includes(permittedSystemFieldIds, prefillField.id));
     };
     const mapPrefillFields = (prefillField) => {

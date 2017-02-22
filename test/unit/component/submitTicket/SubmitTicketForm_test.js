@@ -566,7 +566,7 @@ describe('SubmitTicketForm component', () => {
     const mockTicketFields = [
       { id: 1111111, type: 'name' },
       { id: '2222222', type: 'email' },
-      { id: 3333333, type: 'subject' },
+      { id: 'subject', type: 'subject' },
       { id: '4444444', type: 'checkbox' },
       { id: 5555555, type: 'tagger' },
       { id: '6666666', type: 'integer' },
@@ -632,7 +632,7 @@ describe('SubmitTicketForm component', () => {
 
     describe('when pre-fill contains allowed field types', () => {
       const mockPrefillTicketForm = [
-        { id: 3333333, prefill: { '*': 'elmo', 'en-GB': 'cookie monster' } },
+        { id: 'subject', prefill: { '*': 'elmo', 'en-GB': 'cookie monster' } },
         { id: '6666666', prefill: { '*': 123, 'en-GB': 1337 } },
         { id: 7777777, prefill: { '*': 324, 'en-GB': 10101001 } }
       ];
@@ -652,12 +652,12 @@ describe('SubmitTicketForm component', () => {
 
     const mockTicketForm = {
       id: 1,
-      ticket_field_ids: [1111111, '2222222', 3333333, '4444444', 5555555, '6666666', 7777777, '8888888'] // eslint-disable-line camelcase
+      ticket_field_ids: [1111111, '2222222', 'subject', '4444444', 5555555, '6666666', 7777777, '8888888'] // eslint-disable-line camelcase
     };
     const mockTicketFields = [
       { id: 1111111, type: 'name' },
       { id: '2222222', type: 'email' },
-      { id: 3333333, type: 'subject' },
+      { id: 'subject', type: 'subject' },
       { id: '4444444', type: 'checkbox' },
       { id: 5555555, type: 'tagger' },
       { id: '6666666', type: 'integer' },
@@ -678,7 +678,7 @@ describe('SubmitTicketForm component', () => {
 
     describe('when pre-fill contains allowed field types', () => {
       const mockPrefillTicketForm = [
-        { id: 3333333, prefill: { '*': 'elmo', 'en-GB': 'cookie monster' } },
+        { id: 'subject', prefill: { '*': 'elmo', 'en-GB': 'cookie monster' } },
         { id: 7777777, prefill: { '*': 123, 'en-GB': 1337 } },
         { id: '8888888', prefill: { '*': 324, 'en-GB': 10101001 } }
       ];
@@ -687,7 +687,7 @@ describe('SubmitTicketForm component', () => {
         const expectation = [{
           1111111: '',
           '2222222': '',
-          3333333: 'cookie monster',
+          'subject': 'cookie monster',
           '4444444': 0,
           5555555: '',
           '6666666': '',
@@ -709,7 +709,7 @@ describe('SubmitTicketForm component', () => {
         const expectation = [{
           1111111: '',
           '2222222': '',
-          3333333: 'elmo',
+          'subject': 'elmo',
           '4444444': 0,
           5555555: '',
           '6666666': '',
