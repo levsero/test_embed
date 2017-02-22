@@ -196,18 +196,26 @@ export class SubmitTicketForm extends Component {
   }
 
   filterPrefillFields = (fields, prefillTicketForm, prefillTicketField) => {
-    const permittedFields = ['text', 'textarea', 'description', 'integer', 'decimal', 'subject'];
+    const permittedFields = ['description', 'subject', 'text', 'textarea', 'integer', 'decimal'];
+    const permittedSystemFieldsIds = ['description', 'subject'];
     const prefillData = this.mergePrefill(prefillTicketForm, prefillTicketField);
 
-    // Cleans data by removing fields we do not want to enable pre-fill on
-    return _.filter(prefillData, (ticketField) => {
-      // Intentional non-strict matching between integer and string ids
-      const matchingField = _.find(fields, (field) => field.id == ticketField.id); // eslint-disable-line
+    return _.chain(prefillData)
+      .map((ticketField) => {
+        // Intentional non-strict matching between integer and string ids
+        const matchingField = _.find(fields, (f) => {
+          return f.id == ticketField.id // eslint-disable-line
+              || f.type === ticketField.id && _.includes(permittedSystemFieldsIds, ticketField.id);
+        }) || {};
 
-      return matchingField
-           ? _.includes(permittedFields, matchingField.type)
-           : false;
-    });
+        if (_.includes(permittedFields, matchingField.type)) {
+          // Replace ticketField.id where it could be a text instead of an integer
+          ticketField.id = matchingField.id;
+          return ticketField;
+        }
+      })
+      .compact()
+      .value();
   }
 
   prefillFormState = (fields, prefillTicketForm, prefillTicketField) => {

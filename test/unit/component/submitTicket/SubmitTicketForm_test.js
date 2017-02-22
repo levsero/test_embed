@@ -564,14 +564,14 @@ describe('SubmitTicketForm component', () => {
   describe('filterPrefillFields', () => {
     let submitTicketForm;
     const mockTicketFields = [
-      { id: 'name', type: 'name' },
-      { id: 'email', type: 'email' },
-      { id: 'subject', type: 'subject' },
-      { id: 2387462, type: 'checkbox' },
-      { id: '9465549', type: 'tagger' },
-      { id: 1872364, type: 'integer' },
-      { id: '1238743', type: 'decimal' },
-      { id: 3287425, type: 'text' }
+      { id: 1111111, type: 'name' },
+      { id: '2222222', type: 'email' },
+      { id: 3333333, type: 'subject' },
+      { id: '4444444', type: 'checkbox' },
+      { id: 5555555, type: 'tagger' },
+      { id: '6666666', type: 'integer' },
+      { id: 7777777, type: 'decimal' },
+      { id: '8888888', type: 'text' }
     ];
 
     beforeEach(() => {
@@ -616,8 +616,9 @@ describe('SubmitTicketForm component', () => {
         fields: [
           { id: 'name', prefill: { '*': 'abc', 'en-GB': 'Arycelle Dania' } },
           { id: 'email', prefill: { '*': 'def', 'en-GB': 'arycelle@dania.com' } },
-          { id: 2387462, prefill: { '*': 'ghi', 'en-GB': 'Boco' } },
-          { id: 9465549, prefill: { '*': 'jkl', 'en-GB': 'Luso' } }
+          { id: '4444444', prefill: { '*': 'ghi', 'en-GB': 'Boco' } },
+          { id: 5555555, prefill: { '*': 'jkl', 'en-GB': 'Luso' } },
+          { id: 1234567, prefill: { '*': 'field should not', 'en-GB': 'exist' } }
         ]
       };
 
@@ -631,9 +632,9 @@ describe('SubmitTicketForm component', () => {
 
     describe('when pre-fill contains allowed field types', () => {
       const mockPrefillTicketForm = [
-        { id: 'subject', prefill: { '*': 'elmo', 'en-GB': 'cookie monster' } },
-        { id: 1872364, prefill: { '*': 123, 'en-GB': 1337 } },
-        { id: 3287425, prefill: { '*': 324, 'en-GB': 10101001 } }
+        { id: 3333333, prefill: { '*': 'elmo', 'en-GB': 'cookie monster' } },
+        { id: '6666666', prefill: { '*': 123, 'en-GB': 1337 } },
+        { id: 7777777, prefill: { '*': 324, 'en-GB': 10101001 } }
       ];
 
       it('should return an array of valid pre-fill objects', () => {
@@ -651,17 +652,17 @@ describe('SubmitTicketForm component', () => {
 
     const mockTicketForm = {
       id: 1,
-      ticket_field_ids: ['name', 'email', 'subject', 2387462, '9465549', 1872364, '1238743', 3287425] // eslint-disable-line camelcase
+      ticket_field_ids: [1111111, '2222222', 3333333, '4444444', 5555555, '6666666', 7777777, '8888888'] // eslint-disable-line camelcase
     };
     const mockTicketFields = [
-      { id: 'name', type: 'name' },
-      { id: 'email', type: 'email' },
-      { id: 'subject', type: 'subject' },
-      { id: 2387462, type: 'checkbox' },
-      { id: '9465549', type: 'tagger' },
-      { id: 1872364, type: 'integer' },
-      { id: '1238743', type: 'decimal' },
-      { id: 3287425, type: 'text' }
+      { id: 1111111, type: 'name' },
+      { id: '2222222', type: 'email' },
+      { id: 3333333, type: 'subject' },
+      { id: '4444444', type: 'checkbox' },
+      { id: 5555555, type: 'tagger' },
+      { id: '6666666', type: 'integer' },
+      { id: 7777777, type: 'decimal' },
+      { id: '8888888', type: 'text' }
     ];
 
     beforeEach(() => {
@@ -677,21 +678,23 @@ describe('SubmitTicketForm component', () => {
 
     describe('when pre-fill contains allowed field types', () => {
       const mockPrefillTicketForm = [
-        { id: 'subject', prefill: { '*': 'elmo', 'en-GB': 'cookie monster' } },
-        { id: 1872364, prefill: { '*': 123, 'en-GB': 1337 } },
-        { id: 3287425, prefill: { '*': 324, 'en-GB': 10101001 } }
+        { id: 3333333, prefill: { '*': 'elmo', 'en-GB': 'cookie monster' } },
+        { id: 7777777, prefill: { '*': 123, 'en-GB': 1337 } },
+        { id: '8888888', prefill: { '*': 324, 'en-GB': 10101001 } }
       ];
 
       describe(`when current locale is 'en-GB'`, () => {
         const expectation = [{
-          '1238743': '',
-          '1872364': 1337,
-          '2387462': 0,
-          '3287425': 10101001,
-          '9465549': '',
+          1111111: '',
+          '2222222': '',
+          3333333: 'cookie monster',
+          '4444444': 0,
+          5555555: '',
+          '6666666': '',
+          7777777: 1337,
+          '8888888': 10101001,
           name: '',
-          email: '',
-          subject: 'cookie monster'
+          email: ''
         }];
 
         it('should pre-fill ticket fields in the ticket form', () => {
@@ -704,14 +707,16 @@ describe('SubmitTicketForm component', () => {
 
       describe(`when current locale is '*' (fallback locale)`, () => {
         const expectation = [{
-          '1238743': '',
-          '1872364': 123,
-          '2387462': 0,
-          '3287425': 324,
-          '9465549': '',
+          1111111: '',
+          '2222222': '',
+          3333333: 'elmo',
+          '4444444': 0,
+          5555555: '',
+          '6666666': '',
+          7777777: 123,
+          '8888888': 324,
           name: '',
-          email: '',
-          subject: 'elmo'
+          email: ''
         }];
 
         it('should pre-fill ticket fields in the ticket form', () => {
