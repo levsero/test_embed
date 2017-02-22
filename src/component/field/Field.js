@@ -188,14 +188,16 @@ export class Field extends Component {
   }
 
   renderLabel = () => {
-    if (!this.props.label) return null;
+    const { label, type, required } = this.props;
 
-    const required = this.props.type === 'checkbox' && this.props.required ? '*' : '';
+    if (!label) return null;
+
+    const requiredLabel = (type === 'checkbox' && required) ? '*' : '';
 
     return (
-      <span className='Form-checkboxCaption u-nbfc u-isActionable u-block'>
-        {this.props.label}
-        {required}
+      <span className='Form-checkboxCaption u-textBold u-nbfc u-isActionable u-block'>
+        {label}
+        {requiredLabel}
       </span>
     );
   }
