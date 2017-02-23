@@ -39,6 +39,7 @@ export class SubmitTicket extends Component {
     style: PropTypes.object,
     subjectEnabled: PropTypes.bool,
     submitTicketSender: PropTypes.func.isRequired,
+    tags: PropTypes.array,
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
@@ -60,6 +61,7 @@ export class SubmitTicket extends Component {
     showBackButton: () => {},
     style: null,
     subjectEnabled: false,
+    tags: [],
     ticketFieldSettings: [],
     ticketFormSettings: [],
     updateFrameSize: () => {}
@@ -199,7 +201,7 @@ export class SubmitTicket extends Component {
                   : (descriptionData.length <= 50) ? descriptionData : `${descriptionData.slice(0,50)}...`;
     const params = {
       'subject': subject,
-      'tags': ['web_widget'],
+      'tags': ['web_widget'].concat(this.props.tags),
       'via_id': this.props.viaId,
       'comment': {
         'body': description,

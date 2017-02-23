@@ -13,6 +13,7 @@ const optionWhitelist = {
     'contactForm.fields',
     'contactForm.subject',
     'contactForm.suppress',
+    'contactForm.tags',
     'contactForm.ticketForms',
     'contactForm.title',
     'expanded',
@@ -49,7 +50,8 @@ const webWidgetStoreDefaults = {
     attachments: true,
     suppress: false,
     fields: [],
-    ticketForms: []
+    ticketForms: [],
+    tags: []
   },
   channelChoice: false,
   helpCenter: {
