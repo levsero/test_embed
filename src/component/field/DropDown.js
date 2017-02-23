@@ -4,6 +4,8 @@ import _ from 'lodash';
 import { locals as styles } from './Dropdown.sass';
 import { DropdownMenu } from 'component/field/DropdownMenu';
 import { Icon } from 'component/Icon';
+import { isMobileBrowser,
+         isLandscape } from 'utility/devices';
 import { keyCodes } from 'utility/keyboard';
 
 export class Dropdown extends Component {
@@ -25,6 +27,7 @@ export class Dropdown extends Component {
     const initialMenu = (
       <DropdownMenu
         ref={(m) => { this.menu = m; }}
+        fullscreen={isMobileBrowser()}
         options={this.formatDropdownOptions(this.props.options)}
         onOptionClick={this.setValue} />
     );
@@ -48,7 +51,7 @@ export class Dropdown extends Component {
   }
 
   handleBlur = () => {
-    if (this.containerClicked) {
+    if (this.containerClicked && !isMobileBrowser()) {
       this.input.focus();
     }
 
@@ -152,6 +155,7 @@ export class Dropdown extends Component {
             ref={(m) => { this.menu = m; }}
             backButton={true}
             handleBackClick={this.handleBackClick}
+            fullscreen={isMobileBrowser()}
             options={nestedOptions} />
         );
 
@@ -180,15 +184,18 @@ export class Dropdown extends Component {
   }
 
   render = () => {
+    const mobileClasses = isMobileBrowser() && !isLandscape() ? styles.labelMobile : '';
+    const landscapeClasses = isLandscape() ? styles.labelLandscape : '';
+
     return (
       <div onMouseDown={this.handleContainerClick}>
-        <div className={styles.label}>
+        <div className={`${styles.label} ${landscapeClasses} ${mobileClasses}`}>
           {this.props.placeholder}
         </div>
         <div className={styles.container}>
           <input
             ref={(i) => this.input = i}
-            className={styles.input}
+            className={`${styles.input} ${mobileClasses} ${landscapeClasses}`}
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}
             onMouseDown={this.handleInputClick}

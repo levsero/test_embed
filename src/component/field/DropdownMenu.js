@@ -11,12 +11,14 @@ export class DropdownMenu extends Component {
   static propTypes = {
     options: PropTypes.array,
     backButton: PropTypes.bool,
+    fullscreen: PropTypes.bool,
     handleBackClick: PropTypes.func
   }
 
   static defaultProps = {
     options: [],
     backButton: false,
+    fullscreen: false,
     handleBackClick: () => {}
   }
 
@@ -83,6 +85,7 @@ export class DropdownMenu extends Component {
       <DropdownOption
         ref={(opt) => { if (opt !== null) this.items.unshift(opt); }}
         backButton={true}
+        fullscreen={this.props.fullscreen}
         onClick={this.props.handleBackClick}
         title={i18n.t('embeddable_framework.navigation.back')} />
     );
@@ -96,6 +99,7 @@ export class DropdownMenu extends Component {
           title={option.title}
           key={option.title}
           onClick={option.onClick}
+          fullscreen={this.props.fullscreen}
           nestedMenu={option.nestedMenu}
           updateMenu={option.updateMenu} />
       );
@@ -103,9 +107,11 @@ export class DropdownMenu extends Component {
   }
 
   render = () => {
+    const mobileClasses = this.props.fullscreen ? styles.fieldMobile : '';
+
     return (
       <div
-        className={styles.menu}
+        className={`${styles.menu} ${mobileClasses}`}
         ref={(el) => { this.element = el; }}>
         {this.renderBackArrow()}
         {this.renderOptions()}

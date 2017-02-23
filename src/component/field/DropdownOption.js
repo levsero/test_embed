@@ -5,6 +5,7 @@ import { locals as styles } from './DropdownOption.sass';
 export class DropdownOption extends Component {
   static propTypes = {
     backButton: PropTypes.bool,
+    fullscreen: PropTypes.bool,
     title: PropTypes.string,
     nestedMenu: PropTypes.object,
     onClick: PropTypes.func,
@@ -13,6 +14,7 @@ export class DropdownOption extends Component {
 
   static defaultProps = {
     backButton: false,
+    fullscreen: false,
     nestedMenu: null,
     title: '',
     onClick: () => {},
@@ -54,14 +56,18 @@ export class DropdownOption extends Component {
   renderNextArrow = () => {
     if (this.props.nestedMenu === null) return;
 
-    return <div className={styles.arrowNext} />;
+    const arrowMobileClasses = this.props.fullscreen ? styles.arrowMobile : '';
+
+    return <div className={`${styles.arrowNext} ${arrowMobileClasses}`} />;
   }
 
   renderBackArrow = () => {
     if (!this.props.backButton) return;
 
+    const arrowMobileClasses = this.props.fullscreen ? styles.arrowMobile : '';
+
     return (
-      <div className={styles.arrowBack} />
+      <div className={`${styles.arrowBack} ${arrowMobileClasses}`} />
     );
   }
 
