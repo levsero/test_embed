@@ -333,7 +333,7 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.refreshLocale', () => {
     waitForRootComponent(name, () => {
-      getRootComponent(name).forceUpdate();
+      getRootComponent(name).forceUpdate(getRootComponent(name).updateSubmitTicket());
     });
   });
 

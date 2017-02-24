@@ -239,28 +239,6 @@ export class SubmitTicket extends Component {
     return params;
   }
 
-  updateTicketForms = (forms) => {
-    this.setState({
-      ticketForms: forms,
-      loading: false
-    });
-
-    if (forms.ticket_forms.length === 1) {
-      const ticketFormPrefill = this.props.ticketFormSettings[0] || {};
-
-      this.setState({ selectedTicketForm: forms.ticket_forms[0] });
-
-      setTimeout(() => {
-        this.refs.submitTicketForm.updateTicketForm(
-          forms.ticket_forms[0],
-          forms.ticket_fields,
-          ticketFormPrefill.fields,
-          this.props.ticketFieldSettings
-        );
-      }, 0);
-    }
-  }
-
   handleDragEnter = () => {
     this.setState({ isDragActive: true });
   }
@@ -278,28 +256,53 @@ export class SubmitTicket extends Component {
     this.setState({ formTitleKey });
   }
 
-  handleTicketFormsListClick = (e) => {
-    const { ticketFormSettings, ticketFieldSettings } = this.props;
-    const value = e.target.dataset.id;
-    const selectedTicketForm = _.find(this.state.ticketForms.ticket_forms, (f) => {
-      return f.id === parseInt(value);
-    });
-    const ticketFormPrefill = _.find(ticketFormSettings, (f) => {
-      return f.id === parseInt(value);
-    }) || {};
+  updateSubmitTicket = () => {
+    /* eslint camelcase:0 */
+    const { ticket_forms } = this.state.ticketForms;
 
-    this.setState({ selectedTicketForm });
-    this.props.showBackButton();
+    if (ticket_forms && ticket_forms.length === 1) {
+      this.updateTicketForms(this.state.ticketForms);
+    } else {
+      this.handleTicketFormsListClick();
+    }
+  }
 
-    setTimeout(() => {
+  updateSubmitTicketForm = (selectedTicketForm, ticketFormPrefill = {}) => {
+    const updateFormFn = () => {
       this.refs.submitTicketForm.updateTicketForm(
         selectedTicketForm,
         this.state.ticketForms.ticket_fields,
         ticketFormPrefill.fields,
-        ticketFieldSettings
+        this.props.ticketFieldSettings
       );
-      this.refs.submitTicketForm.updateForm();
-    }, 0);
+    };
+
+    this.setState({ selectedTicketForm }, updateFormFn);
+  }
+
+  updateTicketForms = (forms) => {
+    const selectedTicketForm = forms.ticket_forms[0];
+    const ticketFormPrefill = this.props.ticketFormSettings[0];
+    const callbackFn = (forms.ticket_forms.length === 1)
+                     ? () => this.updateSubmitTicketForm(selectedTicketForm, ticketFormPrefill)
+                     : () => {};
+
+    this.setState({
+      ticketForms: forms,
+      loading: false
+    }, callbackFn);
+  }
+
+  handleTicketFormsListClick = (e) => {
+    if (!e && !this.state.selectedTicketForm) return;
+
+    const value = e && e.target.dataset.id || this.state.selectedTicketForm.id;
+    const getformByIdFn = (form) => form.id === parseInt(value);
+    const selectedTicketForm = _.find(this.state.ticketForms.ticket_forms, getformByIdFn);
+    const ticketFormPrefill = _.find(this.props.ticketFormSettings, getformByIdFn);
+
+    this.props.showBackButton();
+    this.updateSubmitTicketForm(selectedTicketForm, ticketFormPrefill);
   }
 
   renderLoadingSpinner = () => {
