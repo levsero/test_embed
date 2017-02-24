@@ -412,14 +412,16 @@ parts:
       title: "Ask the user for feedback on why the article didn't answer their question. Do not use YOUR question but THE question (or similar) to avoid formal/informal issues."
       screenshot: "https://zendesk.box.com/s/5hmtud5zlowalr7puxgvra9ur170sgtp"
       value: "Why didn't the article answer your question?"
+      obsolete: "2017-04-16"
   - translation:
       key: "embeddable_framework.automaticAnswers.desktop.irrelevant.question_v2"
       title: "Ask the user for feedback on why the article didn't answer their question. DO NOT use possessive (your question)"
       screenshot: "https://zendesk.box.com/s/28bxbvxczuie8znlue2wker28fplpsq7"
       value: "Why didn't it answer your question?"
+      obsolete: "2017-04-16"
   - translation:
       key: "embeddable_framework.automaticAnswers.desktop.irrelevant.question_v3"
-      title: "Ask the user for feedback on why the article didn't answer their question. DO NOT use possessive (your question)"
+      title: "Ask the user for feedback on why the article didn't answer their question."
       screenshot: "https://zendesk.box.com/s/omr68ddl72uyayh6ltcm83mja1gqzscb"
       value: "Please tell us why:"
   - translation:
