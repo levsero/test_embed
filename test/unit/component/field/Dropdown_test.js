@@ -13,7 +13,9 @@ describe('dropdown component', () => {
         title: 'foo::baz',
         value: 3
       }
-    ];
+    ],
+    mockIsLandscapeValue,
+    mockIsMobileBrowserValue;
 
   const dropdownPath = buildSrcPath('component/field/Dropdown');
   const keyDownSpy = jasmine.createSpy('keydown');
@@ -25,10 +27,16 @@ describe('dropdown component', () => {
       warnOnReplace: false
     });
 
+    mockIsLandscapeValue = false;
+    mockIsMobileBrowserValue = false;
+
     initMockRegistry({
       'React': React,
       './Dropdown.sass': {
-        locals: {}
+        locals: {
+          labelMobile: 'labelMobileClasses',
+          labelLandscape: 'labelLandscapeClasses'
+        }
       },
       'component/field/DropdownMenu': {
         DropdownMenu: class extends Component {
@@ -50,6 +58,10 @@ describe('dropdown component', () => {
           'TAB': 9,
           'ESC': 27
         }
+      },
+      'utility/devices': {
+        isMobileBrowser: () => mockIsMobileBrowserValue,
+        isLandscape: () => mockIsLandscapeValue
       }
     });
 
@@ -351,6 +363,53 @@ describe('dropdown component', () => {
       jasmine.clock().tick(1);
       expect(dropdown.containerClicked)
         .toEqual(false);
+    });
+  });
+
+  describe('render', () => {
+    describe('when isMobileBrowser is false', () => {
+      beforeEach(() => {
+        dropdown = domRender(<Dropdown />);
+      });
+
+      it('should not show any mobile classes', () => {
+        expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelMobileClasses'))
+          .toBeNull();
+
+        expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelLandscapeClasses'))
+          .toBeNull();
+      });
+    });
+
+    describe('when isMobileBrowser is true', () => {
+      beforeEach(() => {
+        mockIsMobileBrowserValue = true;
+        dropdown = domRender(<Dropdown />);
+      });
+
+      describe('when isLandscape is false', () => {
+        it('should have mobile classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelMobileClasses'))
+            .not.toBeNull();
+        });
+
+        it('should not have landscape classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelLandscapeClasses'))
+            .toBeNull();
+        });
+      });
+
+      describe('when isLandscape is true', () => {
+        beforeEach(() => {
+          mockIsLandscapeValue = true;
+          dropdown = domRender(<Dropdown />);
+        });
+
+        it('should have landscape classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelLandscapeClasses'))
+            .not.toBeNull();
+        });
+      });
     });
   });
 });

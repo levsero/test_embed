@@ -30,7 +30,9 @@ describe('dropdownMenu component', () => {
     initMockRegistry({
       'React': React,
       './DropdownMenu.sass': {
-        locals: {}
+        locals: {
+          fieldMobile: 'fieldMobileClasses'
+        }
       },
       'component/field/DropdownOption': {
         DropdownOption: class extends Component {
@@ -70,6 +72,32 @@ describe('dropdownMenu component', () => {
     mockery.deregisterAll();
     mockery.disable();
     jasmine.clock().uninstall();
+  });
+
+  describe('render', () => {
+    let menu;
+
+    describe('when fullscreen is false', () => {
+      beforeEach(() => {
+        menu = domRender(<DropdownMenu />);
+      });
+
+      it('should not have mobile classes', () => {
+        expect(ReactDOM.findDOMNode(menu).className)
+          .not.toContain('fieldMobileClasses');
+      });
+    });
+
+    describe('when fullscreen is true', () => {
+      beforeEach(() => {
+        menu = domRender(<DropdownMenu fullscreen={true} />);
+      });
+
+      it('should have mobile classes', () => {
+        expect(ReactDOM.findDOMNode(menu).className)
+          .toContain('fieldMobileClasses');
+      });
+    });
   });
 
   describe('items', () => {

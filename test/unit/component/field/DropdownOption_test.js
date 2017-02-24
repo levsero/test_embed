@@ -14,7 +14,8 @@ describe('dropdownOption component', () => {
       './DropdownOption.sass': {
         locals: {
           arrowBack: 'arrowBackClasses',
-          arrowNext: 'arrowNextClasses'
+          arrowNext: 'arrowNextClasses',
+          arrowMobile: 'arrowMobileClasses'
         }
       }
     });
@@ -43,6 +44,19 @@ describe('dropdownOption component', () => {
       expect(ReactDOM.findDOMNode(option).querySelector('.arrowBackClasses'))
         .not.toBeNull();
     });
+
+    describe('when fullscreen is true', () => {
+      let option;
+
+      beforeEach(() => {
+        option = domRender(<DropdownOption backButton={true} fullscreen={true} />);
+      });
+
+      it('should have mobile classes', () => {
+        expect(ReactDOM.findDOMNode(option).querySelector('.arrowMobileClasses'))
+          .not.toBeNull();
+      });
+    });
   });
 
   describe('nextArrow', () => {
@@ -58,6 +72,19 @@ describe('dropdownOption component', () => {
 
       expect(ReactDOM.findDOMNode(option).querySelector('.arrowNextClasses'))
         .not.toBeNull();
+    });
+
+    describe('when fullscreen is true', () => {
+      let option;
+
+      beforeEach(() => {
+        option = domRender(<DropdownOption nestedMenu={noopReactComponent()} fullscreen={true} />);
+      });
+
+      it('should have mobile classes', () => {
+        expect(ReactDOM.findDOMNode(option).querySelector('.arrowMobileClasses'))
+          .not.toBeNull();
+      });
     });
   });
 
