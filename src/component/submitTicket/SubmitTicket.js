@@ -246,12 +246,16 @@ export class SubmitTicket extends Component {
     });
 
     if (forms.ticket_forms.length === 1) {
+      const ticketFormPrefill = this.props.ticketFormSettings[0] || {};
+
       this.setState({ selectedTicketForm: forms.ticket_forms[0] });
 
       setTimeout(() => {
         this.refs.submitTicketForm.updateTicketForm(
           forms.ticket_forms[0],
-          forms.ticket_fields
+          forms.ticket_fields,
+          ticketFormPrefill.fields,
+          this.props.ticketFieldSettings
         );
       }, 0);
     }
