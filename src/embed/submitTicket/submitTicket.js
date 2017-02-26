@@ -164,6 +164,39 @@ function create(name, config, reduxStore) {
 
   const ticketForms = getTicketForms(config);
 
+  if (config.customFields.length !== 0 && _.isInteger(config.customFields[0])) {
+    waitForRootComponent(name, () => {
+      getRootComponent(name).setLoading(true);
+    });
+
+    transport.get({
+      method: 'get',
+      path: `/embeddable/ticket_fields?ids=${config.customFields.join()}&$locale=${i18n.getLocale()}`,
+      timeout: 20000,
+      locale: i18n.getLocale(),
+      callbacks: {
+        done(res) {
+          // do this on next tick so that it never happens before
+          // the one above that sets loading to true.
+          setTimeout(() => {
+            waitForRootComponent(name, () => {
+              getRootComponent(name).updateTicketFields(JSON.parse(res.text));
+            });
+          }, 0);
+        },
+        fail() {
+          // do this on next tick so that it never happens before
+          // the one above that sets loading to true.
+          setTimeout(() => {
+            waitForRootComponent(name, () => {
+              getRootComponent(name).setLoading(false);
+            });
+          }, 0);
+        }
+      }
+    });
+  }
+
   if (!_.isEmpty(ticketForms)) {
     // TODO: Alter this code to return objects with id's once pre-fill is GA'd
     const ticketFormIds = _.map(ticketForms, (ticketForm) => ticketForm.id || ticketForm).join();

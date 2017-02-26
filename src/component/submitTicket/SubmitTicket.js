@@ -83,6 +83,7 @@ export class SubmitTicket extends Component {
       searchTerm: null,
       selectedTicketForm: null,
       showNotification: false,
+      ticketFields: [],
       ticketForms: {},
       uid: _.uniqueId('submitTicketForm_')
     };
@@ -241,6 +242,14 @@ export class SubmitTicket extends Component {
 
   updateContactForm = () => {
     this.refs.submitTicketForm.updateContactForm(this.props.ticketFieldSettings);
+  }
+
+  updateTicketFields = (fields) => {
+    console.log(fields);
+    this.setState({
+      ticketFields: fields,
+      loading: false
+    });
   }
 
   handleDragEnter = () => {
