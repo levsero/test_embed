@@ -1,6 +1,20 @@
-import { camelizeKeys, decamelizeKeys } from 'humps';
+import { transform, snakeCase, camelCase, isObject } from 'lodash';
 
 import { transport } from 'service/transport';
+
+const deepRenameKeys = (hash, fn) => (
+  transform(hash, (result, value, key) => {
+    result[fn(key)] = isObject(value) ? deepRenameKeys(value, fn) : value;
+  })
+);
+
+const camelizeKeys = (hash) => (
+  deepRenameKeys(hash, camelCase)
+);
+
+const decamelizeKeys = (hash) => (
+  deepRenameKeys(hash, snakeCase)
+);
 
 export default function apiGet(path, query = {}) {
   return new Promise((resolve, reject) => {

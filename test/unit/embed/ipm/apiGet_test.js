@@ -1,6 +1,4 @@
-import { camelizeKeys, decamelizeKeys } from 'humps';
-
-describe('embed.ipm.apiGet', () => {
+fdescribe('embed.ipm.apiGet', () => {
   let apiGet,
     transportGetSpy;
 
@@ -12,10 +10,6 @@ describe('embed.ipm.apiGet', () => {
     transportGetSpy = jasmine.createSpy('transport.get');
 
     initMockRegistry({
-      'humps': {
-        camelizeKeys,
-        decamelizeKeys
-      },
       'service/transport': {
         transport: {
           get: transportGetSpy
