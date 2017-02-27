@@ -5,6 +5,14 @@
 
   &:hover {
     background-color: $zd-color-white-smoke;
+
+    .arrowNext {
+      border-left: #{7/$font-size}rem solid $zd-color-oil;
+    }
+
+    .arrowBack {
+      border-right: #{7/$font-size}rem solid $zd-color-oil;
+    }
   }
 }
 
@@ -20,7 +28,8 @@
   border-top: #{5/$font-size}rem solid transparent;
   border-bottom: #{5/$font-size}rem solid transparent;
   border-left: #{7/$font-size}rem solid $zd-color-aluminum;
-  margin-top: #{1/$font-size}rem;
+  margin-top: #{2/$font-size}rem;
+  margin-right: #{12/$font-size}rem;
 }
 
 .arrowBack {
@@ -32,10 +41,15 @@
   border-bottom: #{5/$font-size}rem solid transparent;
   border-right: #{7/$font-size}rem solid $zd-color-aluminum;
 
-  margin-top: #{1/$font-size}rem;
+  margin-top: #{2/$font-size}rem;
   margin-right: #{8/$font-size}rem;
 }
 
 .arrowMobile {
   margin-top: #{4/$font-size}rem;
+}
+
+.title {
+  composes: u-inlineBlock from '../../styles/utils.scss';
+  width: 90%;
 }

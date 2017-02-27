@@ -2,7 +2,7 @@
 
 .container {
   composes: u-marginBM u-posRelative from '../../styles/utils.scss';
-  color: $zd-color-dark-gray;
+  color: $zd-color-oil;
 }
 
 .arrow {
@@ -33,6 +33,18 @@
 
   &:focus {
     border: $thin-border-size solid $stroke-focused-color;
+  }
+
+  &::-webkit-input-placeholder {
+    color: $zd-color-oil;
+  }
+
+  &:-moz-placeholder {
+    color: $zd-color-oil;
+  }
+
+  &:-ms-input-placeholder {
+    color: $zd-color-oil;
   }
 }
 

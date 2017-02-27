@@ -1,13 +1,18 @@
+/*
+ * 1. 100% makes it go one pixel over and ruins the alignment of the menu.
+ */
+
 @import '../../styles/_vars.scss';
 
 .menu {
-  composes: u-posAbsolute u-border u-hsizeAll u-zIndex1 u-posStart--flush from '../../styles/utils.scss';
+  composes: u-posAbsolute u-border u-zIndex1 u-posStart--flush from '../../styles/utils.scss';
   border-radius: #{4/$font-size}rem;
   top: #{35/$font-size}rem;
   height: #{200/$font-size}rem;
   overflow-x: hidden;
   overflow-y: scroll;
   background-color: $zd-color-white;
+  width: 99.5%; /* 1 */
 
   ::-webkit-scrollbar {
     display: none;

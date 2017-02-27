@@ -82,7 +82,9 @@ export class DropdownOption extends Component {
         onClick={this.handleDropdownOpen}>
         <div>
           {this.renderBackArrow()}
-          {this.props.title}
+          <div className={styles.title}>
+            {this.props.title}
+          </div>
           {this.renderNextArrow()}
         </div>
       </div>
