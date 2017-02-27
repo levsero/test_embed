@@ -69,13 +69,13 @@ describe('embed.ipm', () => {
       },
       'utility/globals': {
         document: global.document,
-        getDocumentHost: function() {
+        getDocumentHost: () => {
           return document.body;
         },
         location: global.location
       },
       'utility/devices': {
-        isMobileBrowser: function() {
+        isMobileBrowser: () => {
           return false;
         }
       },
@@ -301,7 +301,7 @@ describe('embed.ipm', () => {
         ipm.activateIpm('dan').then(done);
       });
 
-      it('should not show an ipm', function() {
+      it('should not show an ipm', () => {
         expect(dan.instance.show.__reactBoundMethod)
           .not.toHaveBeenCalled();
       });
@@ -444,7 +444,7 @@ describe('embed.ipm', () => {
         });
       });
 
-      it('should subscribe to ipm.hide', function() {
+      it('should subscribe to ipm.hide', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('ipm.hide', jasmine.any(Function));
 
@@ -454,7 +454,7 @@ describe('embed.ipm', () => {
           .toHaveBeenCalled();
       });
 
-      it('should subscribe to ipm.show', function() {
+      it('should subscribe to ipm.show', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('ipm.show', jasmine.any(Function));
 

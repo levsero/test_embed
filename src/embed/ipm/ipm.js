@@ -23,8 +23,8 @@ const ipmCSS = `
   ${require('./ipm.scss')}
 `;
 
-const CONNECT_API_CONFIG_PATH = '/connect/api/ipm/config.json';
-const CONNECT_API_PENDING_CAMPAIGN_PATH = '/connect/api/ipm/pending_campaign.json';
+const connectApiConfigPath = '/connect/api/ipm/config.json';
+const connectApiPendingCampaignPath = '/connect/api/ipm/pending_campaign.json';
 
 let ipmes = {};
 let hasSeenIpm = false;
@@ -93,8 +93,8 @@ function create(name, config, reduxStore) {
     }
   };
 
-  ipmConfig = apiGet(CONNECT_API_CONFIG_PATH).catch((err) => {
-    logging.error({ error: err });
+  ipmConfig = apiGet(connectApiConfigPath).catch((error) => {
+    logging.error({ error });
     return {};
   });
 
@@ -166,7 +166,7 @@ async function showIpm(name) {
   const ipm = await waitForRootComponent(name);
 
   if (ipm.state.ipmAvailable && !hasSeenIpm) {
-    ipmes[name].instance.show({transition: 'downShow'});
+    ipmes[name].instance.show({ transition: 'downShow' });
   } else if (ipm.state.ipmAvailable === null) {
     const err = new Error([
       'An error occurred in your use of the Zendesk Widget API:',
@@ -184,7 +184,7 @@ async function showIpm(name) {
 
 function checkAnonymousPendingCampaign() {
   return (
-    apiGet(CONNECT_API_PENDING_CAMPAIGN_PATH, { anonymousId: identity.getBuid() })
+    apiGet(connectApiPendingCampaignPath, { anonymousId: identity.getBuid() })
       .catch((err) => {
         // Ignore 404 errors, as this is the API's way of telling us there are no pending campaigns
         if (err.message === 'Not Found') {
@@ -245,8 +245,8 @@ export const ipm = {
   render,
 
   // for testing
-  CONNECT_API_CONFIG_PATH,
-  CONNECT_API_PENDING_CAMPAIGN_PATH,
+  connectApiConfigPath,
+  connectApiPendingCampaignPath,
   activateIpm,
   setIpm
 };
