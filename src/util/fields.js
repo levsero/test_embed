@@ -26,7 +26,8 @@ const getCustomFields = (customFields, formState, disableAutoComplete) => {
       required: isRequired,
       placeholder: title,
       key: title,
-      disableAutoComplete
+      disableAutoComplete,
+      description: field.description
     };
 
     if (field.variants) {

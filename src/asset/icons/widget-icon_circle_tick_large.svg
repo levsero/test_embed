@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>tick-desktop</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="25" cy="25" r="25"></circle>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="50" height="50" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+    </defs>
+    <g id="Visual-Designs---Proposed" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="DESK----1.6.-Confirmation-message---Article-is-relevant--V3" transform="translate(-1046.000000, -700.000000)" stroke="#78A300">
+            <g id="Group" transform="translate(880.000000, 659.000000)">
+                <g id="tick-desktop" transform="translate(166.000000, 41.000000)">
+                    <g id="tick">
+                        <use id="Oval-3" mask="url(#mask-2)" stroke-width="4" fill="#FFFFFF" xlink:href="#path-1"></use>
+                        <path d="M22.4437118,32.4 C22.2037118,32.4 21.9637118,32.32 21.8037118,32.16 L16.2037118,25.76 C15.8837118,25.44 15.9637118,24.96 16.2837118,24.64 C16.6037118,24.32 17.0837118,24.4 17.4037118,24.72 L22.4437118,30.4 L33.8837118,18.24 C34.2037118,17.92 34.6837118,17.92 35.0037118,18.24 C35.3237118,18.56 35.3237118,19.04 35.0037118,19.36 L23.0037118,32.16 C22.8437118,32.32 22.6837118,32.4 22.4437118,32.4 Z" id="Shape" stroke-width="0.5" fill="#78A300"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
+

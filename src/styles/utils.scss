@@ -146,6 +146,11 @@ u-overflowAuto {
   margin-top: $spacing-lrg !important;
 }
 
+.u-marginVT {
+  margin-top: $spacing-tny !important;
+  margin-bottom: $spacing-tny !important;
+}
+
 .u-marginVS {
   margin-top: $spacing-sml !important;
   margin-bottom: $spacing-sml !important;
@@ -187,8 +192,17 @@ u-overflowAuto {
   margin-left: $spacing-sml !important;
 }
 
+.u-marginLM {
+  margin-left: $spacing-med !important;
+}
+
 .u-marginLL {
   margin-left: $spacing-lrg !important;
+}
+
+.u-marginHT {
+  margin-left: $spacing-tny !important;
+  margin-right: $spacing-tny !important;
 }
 
 .u-marginHS {
@@ -560,6 +574,10 @@ u-overflowAuto {
 
 .u-displayInherit {
   display: inherit;
+}
+
+.u-flexAlignItemsBase {
+  align-items: baseline !important;
 }
 
 /**

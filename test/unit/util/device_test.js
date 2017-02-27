@@ -1,5 +1,5 @@
 /* eslint max-len:0 */
-describe('devices', function() {
+describe('devices', () => {
   let isBlacklisted,
     isLandscape,
     getDeviceZoom,
@@ -29,7 +29,7 @@ describe('devices', function() {
   };
   const devicesPath = buildSrcPath('util/devices');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable();
@@ -65,46 +65,53 @@ describe('devices', function() {
     metaTag.name = 'viewport';
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('isBlacklisted', function() {
-    it('returns false if doesn\'t support CORS or user agent has nothing within it blacklisted', function() {
+  describe('isBlacklisted', () => {
+    it('returns false if doesn\'t support CORS or user agent has nothing within it blacklisted', () => {
       expect(isBlacklisted())
         .toBe(false);
     });
 
-    it('returns true if chrome browser on iOS 8 is within the user agent string', function() {
+    it('returns true if chrome browser on iOS 8 is within the user agent string', () => {
       mockGlobals.navigator.userAgent = 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 8_0 like Mac OS X; en) AppleWebKit/534.46.0 (KHTML, like Gecko) CriOS/19.0.1084.60 Mobile/9B206 Safari/7534.48.3';
 
       expect(isBlacklisted())
         .toBe(true);
     });
 
-    it('returns false if chrome browser on iOS 8.1 is within the user agent string', function() {
+    it('returns false if chrome browser on iOS 8.1 is within the user agent string', () => {
       mockGlobals.navigator.userAgent = 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 8_1 like Mac OS X; en) AppleWebKit/534.46.0 (KHTML, like Gecko) CriOS/19.0.1084.60 Mobile/9B206 Safari/7534.48.3';
 
       expect(isBlacklisted())
         .toBe(false);
     });
 
-    it('returns false if chrome browser not on iOS 8 is within the user agent string', function() {
+    it('returns false if chrome browser not on iOS 8 is within the user agent string', () => {
       mockGlobals.navigator.userAgent = 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 7_1 like Mac OS X; en) AppleWebKit/534.46.0 (KHTML, like Gecko) CriOS/19.0.1084.60 Mobile/9B206 Safari/7534.48.3';
 
       expect(isBlacklisted())
         .toBe(false);
     });
 
-    it('returns true if MSIE 9 is within the user agent string', function() {
+    it('returns true if MSIE 9 is within the user agent string', () => {
       mockGlobals.navigator.userAgent = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)';
 
       expect(isBlacklisted())
         .toBe(true);
     });
 
-    it('returns true if Googlebot is within the user agent string', function() {
+    it('returns true if IEMobile/10.0 is within the user agent string', () => {
+      mockGlobals.navigator.userAgent = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch)';
+
+      expect(isBlacklisted())
+        .toBe(true);
+    });
+
+    it('returns true if Googlebot is within the user agent string', () => {
       mockGlobals.navigator.userAgent = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)';
 
       expect(isBlacklisted())
@@ -116,7 +123,7 @@ describe('devices', function() {
         .toBe(true);
     });
 
-    it('returns true if the browser doesn\'t supports CORS', function() {
+    it('returns true if the browser doesn\'t supports CORS', () => {
       mockGlobals.win.XMLHttpRequest = noop;
 
       expect(isBlacklisted())
@@ -124,17 +131,17 @@ describe('devices', function() {
     });
   });
 
-  describe('isLandscape', function() {
+  describe('isLandscape', () => {
     const win = mockGlobals.win;
 
-    it('should return true if win.orientation is 90 degrees', function() {
+    it('should return true if win.orientation is 90 degrees', () => {
       win.orientation = 90;
 
       expect(isLandscape())
         .toBe(true);
     });
 
-    it('should return false if win.orientation is not 90 degrees', function() {
+    it('should return false if win.orientation is not 90 degrees', () => {
       win.orientation = 0;
 
       expect(isLandscape())
@@ -142,34 +149,34 @@ describe('devices', function() {
     });
   });
 
-  describe('isDevice', function() {
-    beforeEach(function() {
+  describe('isDevice', () => {
+    beforeEach(() => {
       mockGlobals.navigator.userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.122 Safari/537.36';
     });
 
-    it('should return true if user agent matches array of strings', function() {
+    it('should return true if user agent matches array of strings', () => {
       expect(isDevice('Mozilla', '10_9_5', 'Safari'))
         .toBe(true);
     });
 
-    it('should return false if user agent does not match anything in a array of strings', function() {
+    it('should return false if user agent does not match anything in a array of strings', () => {
       expect(isDevice('Mozilla', '10_9_4', 'Safari'))
         .toBe(false);
     });
   });
 
-  describe('launcher-scaling', function() {
+  describe('launcher-scaling', () => {
     const win = mockGlobals.win;
 
-    describe('getDeviceZoom', function() {
-      it('should return the correct zoom with no mobile device meta tags', function() {
+    describe('getDeviceZoom', () => {
+      it('should return the correct zoom with no mobile device meta tags', () => {
         win.innerWidth = 980;
 
         expect(getDeviceZoom())
           .toBeCloseTo(0.3265, 4);
       });
 
-      it('should return the correct zoom with mobile device meta tags forcing width', function() {
+      it('should return the correct zoom with mobile device meta tags forcing width', () => {
         win.innerWidth = 640;
 
         expect(getDeviceZoom())
@@ -177,15 +184,15 @@ describe('devices', function() {
       });
     });
 
-    describe('getZoomSizingRatio', function() {
-      it('should return the correct ratio with no mobile device meta tags', function() {
+    describe('getZoomSizingRatio', () => {
+      it('should return the correct ratio with no mobile device meta tags', () => {
         win.innerWidth = 980;
 
         expect(getZoomSizingRatio())
           .toBeCloseTo(3.0625, 4);
       });
 
-      it('should return the correct ratio with mobile device meta tags forcing width', function() {
+      it('should return the correct ratio with mobile device meta tags forcing width', () => {
         win.innerWidth = 640;
 
         expect(getZoomSizingRatio())
@@ -194,8 +201,8 @@ describe('devices', function() {
     });
   });
 
-  describe('setScaleLock(true)', function() {
-    it('adds a <meta name="viewport" /> tag if one does not exist', function() {
+  describe('setScaleLock(true)', () => {
+    it('adds a <meta name="viewport" /> tag if one does not exist', () => {
       expect(document.querySelectorAll('meta[name="viewport"]').length)
         .toEqual(0);
 
@@ -205,7 +212,7 @@ describe('devices', function() {
         .toEqual(1);
     });
 
-    it('does not add a <meta name="viewport" /> tag if one exists', function() {
+    it('does not add a <meta name="viewport" /> tag if one exists', () => {
       document.head.appendChild(metaTag);
 
       expect(document.querySelectorAll('meta[name="viewport"]').length)
@@ -217,7 +224,7 @@ describe('devices', function() {
         .toEqual(1);
     });
 
-    it('adds a "user-scalable" key/value to existing <meta name="viewport" /> if it does not exist', function() {
+    it('adds a "user-scalable" key/value to existing <meta name="viewport" /> if it does not exist', () => {
       metaTag.content = 'initial-scale=1.0';
       document.head.appendChild(metaTag);
 
@@ -232,7 +239,7 @@ describe('devices', function() {
         .toEqual('1.0');
     });
 
-    it('sets `user-scalable` to "No" if `user-scalable` does not exist', function() {
+    it('sets `user-scalable` to "No" if `user-scalable` does not exist', () => {
       metaTag.content = '';
       document.head.appendChild(metaTag);
 
@@ -245,12 +252,12 @@ describe('devices', function() {
     });
   });
 
-  describe('setScaleLock(false)', function() {
+  describe('setScaleLock(false)', () => {
     beforeEach(() => {
       getZoomSizingRatio = jasmine.createSpy('getZoomSizingRatio').and.returnValue(1);
     });
 
-    it('does not add a <meta name="viewport" /> tag if one does not exist', function() {
+    it('does not add a <meta name="viewport" /> tag if one does not exist', () => {
       expect(document.querySelectorAll('meta[name="viewport"]').length)
         .toEqual(0);
 
@@ -260,7 +267,7 @@ describe('devices', function() {
         .toEqual(0);
     });
 
-    it('resets user-scalable if `originalUserScalable` does exist', function() {
+    it('resets user-scalable if `originalUserScalable` does exist', () => {
       metaTag.content = 'user-scalable=NO_CHANGE';
       document.head.appendChild(metaTag);
 
@@ -279,7 +286,7 @@ describe('devices', function() {
         .toEqual('NO_CHANGE');
     });
 
-    it('unsets `user-scalable` if `originalUserScalable` is null', function() {
+    it('unsets `user-scalable` if `originalUserScalable` is null', () => {
       document.head.appendChild(metaTag);
 
       setScaleLock(false);

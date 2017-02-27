@@ -233,6 +233,7 @@ describe('embed.helpCenter', () => {
         expect(payload.props.formTitleKey)
           .toEqual(carlos.config.formTitleKey);
       });
+
       it('should pass in zendeskHost from transport.getZendeskHost', () => {
         const payload = childFn({});
 
@@ -360,6 +361,29 @@ describe('embed.helpCenter', () => {
 
           expect(backtrackSearch)
             .toHaveBeenCalled();
+        });
+      });
+
+      describe('tracking', () => {
+        let mockBeacon;
+
+        beforeEach(() => {
+          mockBeacon = mockRegistry['service/beacon'].beacon;
+        });
+
+        describe('onViewOriginalArticleClick', () => {
+          let trackPayload = {};
+
+          beforeEach(() => {
+            const component = childFn(trackPayload);
+
+            component.props.onViewOriginalArticleClick({});
+          });
+
+          it('should call beacon.trackUserAction with the correct tracking payload', () => {
+            expect(mockBeacon.trackUserAction)
+              .toHaveBeenCalledWith('helpCenter', 'viewOriginalArticle', 'carlos', trackPayload);
+          });
         });
       });
     });

@@ -10,6 +10,7 @@ function generateUserCSS(color = defaultColor) {
   }
 
   const highlightColor = generateHighlightColor(color);
+  const constrastColor = generateContrastColor(color);
 
   return (`
     .rf-CheckboxGroup__checkbox:checked + span:before,
@@ -35,6 +36,17 @@ function generateUserCSS(color = defaultColor) {
     .u-userBackgroundColor:not([disabled]):hover,
     .u-userBackgroundColor:not([disabled]):active,
     .u-userBackgroundColor:not([disabled]):focus {
+      background-color: ${highlightColor} !important;
+    }
+    .u-userBorderColor:not([disabled]) {
+      color: ${color} !important;
+      background-color: transparent !important;
+      border-color: ${color} !important;
+    }
+    .u-userBorderColor:not([disabled]):hover,
+    .u-userBorderColor:not([disabled]):active,
+    .u-userBorderColor:not([disabled]):focus {
+      color: ${constrastColor} !important;
       background-color: ${highlightColor} !important;
     }
     .u-userLinkColor a {

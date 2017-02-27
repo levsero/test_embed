@@ -3,7 +3,6 @@ describe('service.automaticAnswersPersistence', () => {
     store,
     mockUrlJwtToken,
     mockJWTStorageItem,
-    mockJwtBody,
     mockRegistry;
   const automaticAnswersPersistencePath = buildSrcPath('service/automaticAnswersPersistence');
 
@@ -20,17 +19,14 @@ describe('service.automaticAnswersPersistence', () => {
       },
       'utility/pages': {
         getURLParameterByName: jasmine.createSpy().and.callFake(() => mockUrlJwtToken),
-        getDecodedJWTBody: jasmine.createSpy().and.callFake(() => mockJwtBody)
+        getAuthToken: jasmine.createSpy().and.callFake(() => mockUrlJwtToken)
       }
     });
 
     mockery.registerAllowable(automaticAnswersPersistencePath);
     automaticAnswersPersistence = requireUncached(automaticAnswersPersistencePath).automaticAnswersPersistence;
 
-    mockJwtBody = {
-      'ticket_id': 123456,
-      'token': 'abcdef'
-    };
+    mockUrlJwtToken = '1324b235.2342ccdsc.9a8sdcy9';
   });
 
   afterEach(() => {

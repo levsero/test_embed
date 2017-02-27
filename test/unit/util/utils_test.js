@@ -5,7 +5,8 @@ describe('utils', () => {
     nowInSeconds,
     objectDifference,
     cssTimeToMs,
-    base64encode;
+    base64encode,
+    emailValid;
 
   const mockGlobals = {
     win: {},
@@ -43,6 +44,7 @@ describe('utils', () => {
     cssTimeToMs = require(utilPath).cssTimeToMs;
     nowInSeconds = require(utilPath).nowInSeconds;
     base64encode = require(utilPath).base64encode;
+    emailValid = require(utilPath).emailValid;
   });
 
   afterEach(() => {
@@ -261,5 +263,36 @@ describe('utils', () => {
           .toEqual('8J+YgvCfmJPwn5il8J+YrfCfkqk=');
       });
     });
+  });
+
+  describe('emailValid()', () => {
+    const validEmails = [
+      'x@x.x',
+      'a/b@domain.com',
+      'tu!!7n7.ad##0!!!@company.ca'
+    ];
+    const invalidEmails = [
+      'x@x', // Is valid in some browsers but Zendesk doesn't handle them
+      '',
+      'hello.hi@hey',
+      '123',
+      '@something.com',
+      'foo.bar',
+      null,
+      undefined,
+      {},
+      [],
+      10000
+    ];
+
+    _.forEach(validEmails, (email) => it(`should return true for ${email}`, () => {
+      expect(emailValid(email))
+        .toEqual(true);
+    }));
+
+    _.forEach(invalidEmails, (email) => it(`should return false for ${email}`, () => {
+      expect(emailValid(email))
+        .toEqual(false);
+    }));
   });
 });

@@ -3,8 +3,7 @@ describe('logging', function() {
     airbrakeInitSpy,
     airbrakeAddFilterSpy,
     airbrakeWrapSpy,
-    airbrakeNotifySpy,
-    mockRegistry;
+    airbrakeNotifySpy;
   const loggingPath = buildSrcPath('service/logging');
 
   beforeEach(function() {
@@ -15,7 +14,7 @@ describe('logging', function() {
     airbrakeWrapSpy = jasmine.createSpy('wrap');
     airbrakeNotifySpy = jasmine.createSpy('notify');
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'airbrake-js': (opts) => {
         airbrakeInitSpy(opts);
         return {
@@ -23,9 +22,6 @@ describe('logging', function() {
           wrap: airbrakeWrapSpy,
           notify: airbrakeNotifySpy
         };
-      },
-      'utility/globals': {
-        win: { onerror: null }
       }
     });
 
@@ -45,8 +41,7 @@ describe('logging', function() {
     beforeEach(function() {
       expectedOptions = {
         projectId: '124081',
-        projectKey: '8191392d5f8c97c8297a08521aab9189',
-        onerror: true
+        projectKey: '8191392d5f8c97c8297a08521aab9189'
       };
     });
 
@@ -58,21 +53,6 @@ describe('logging', function() {
     it('should add a filter event handler', () => {
       expect(airbrakeAddFilterSpy)
         .toHaveBeenCalled();
-    });
-
-    describe('when main.js is embedded directly on the host page', () => {
-      beforeEach(function() {
-        mockRegistry['utility/globals'].win = global.window;
-        logging = requireUncached(loggingPath).logging;
-        logging.init();
-      });
-
-      it('should initialise airbrake with `onerror` false', () => {
-        expectedOptions.onerror = false;
-
-        expect(airbrakeInitSpy)
-          .toHaveBeenCalledWith(expectedOptions);
-      });
     });
   });
 
@@ -128,40 +108,80 @@ describe('logging', function() {
 
   describe('errorFilter', () => {
     let notice;
+    let errorA, errorB;
 
-    beforeEach(function() {
-      notice = {
-        errors: [
-          {
-            message: ''
-          }
+    beforeEach(() => {
+      errorA = {
+        message: 'Valid error baby!',
+        backtrace: [
+          { file: 'eval at <anonymous> (https://assets.zendesk.com/embeddable_framework/main.js:1:2), <anonymous>' },
+          { file: 'eval at <anonymous> (http://assets.zendesk.com/embeddable_framework/main.js:3:4), <anonymous>' }
         ]
+      };
+      errorB = {
+        message: 'Another valid error baby!',
+        backtrace: [
+          { file: 'eval at <anonymous> (https://assets.zendesk.com/embeddable_framework/main.js:5:6), <anonymous>' },
+          { file: 'eval at <anonymous> (http://assets.zendesk.com/embeddable_framework/main.js:7:8), <anonymous>' }
+        ]
+      };
+      notice = {
+        errors: [errorA, errorB]
       };
     });
 
-    it('should filter out cross origin errors', () => {
-      notice.errors[0].message = 'No \'Access-Control-Allow-Origin\' header is present on the requested resource';
-      expect(logging.errorFilter(notice))
-        .toEqual(null);
+    describe('when an error is valid', () => {
+      it('returns the notice object', () => {
+        expect(logging.errorFilter(notice))
+          .toBe(notice);
+      });
+
+      it('error should not be dropped', () => {
+        expect(logging.errorFilter(notice).errors)
+          .toContain(errorA);
+
+        expect(logging.errorFilter(notice).errors)
+          .toContain(errorB);
+      });
     });
 
-    it('should filter out timeout exceeded errors', () => {
-      notice.errors[0].message = 'timeout of 10000ms exceeded';
+    describe('when all errors are invalid', () => {
+      it('should return null', () => {
+        errorA.message = 'No \'Access-Control-Allow-Origin\' header is present on the requested resource';
+        errorB.backtrace[0].file = 'eval at <anonymous> (https://pizzapasta.com/intercom.js:1:2), <anonymous>';
+        errorB.backtrace[1].file = 'eval at <anonymous> (https://gyros.com/salesforce.js:3:4), <anonymous>';
 
-      expect(logging.errorFilter(notice))
-        .toEqual(null);
+        expect(logging.errorFilter(notice))
+          .toBe(null);
+      });
     });
 
-    it('should not filter out any other errors', () => {
-      notice.errors[0].message = 'Attempted to assign to readonly property.';
+    describe('when an error contains a cross origin message', () => {
+      it('should be dropped', () => {
+        errorA.message = 'No \'Access-Control-Allow-Origin\' header is present on the requested resource';
 
-      expect(logging.errorFilter(notice))
-        .toEqual(notice);
+        expect(logging.errorFilter(notice).errors)
+          .not.toContain(errorA);
+      });
+    });
 
-      notice.errors[0].message = 'Some other error';
+    describe('when an error contains a timeout exceeded error', () => {
+      it('should be dropped', () => {
+        errorB.message = 'timeout of 10000ms exceeded';
 
-      expect(logging.errorFilter(notice))
-        .toEqual(notice);
+        expect(logging.errorFilter(notice).errors)
+          .not.toContain(errorB);
+      });
+    });
+
+    describe('when error does not originate from embeddable framework', () => {
+      it('should be dropped', () => {
+        errorA.backtrace[0].file = 'eval at <anonymous> (https://pizzapasta.com/intercom.js:1:2), <anonymous>';
+        errorA.backtrace[1].file = 'eval at <anonymous> (https://gyros.com/salesforce.js:3:4), <anonymous>';
+
+        expect(logging.errorFilter(notice).errors)
+          .not.toContain(errorA);
+      });
     });
   });
 });

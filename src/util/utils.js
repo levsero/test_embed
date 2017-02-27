@@ -92,6 +92,13 @@ function nowInSeconds() {
   return Math.floor(Date.now() / 1000);
 }
 
+function emailValid (email) {
+  // Taken from https://tinyurl.com/35646w3
+  const validRegex = new RegExp(/^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/) // eslint-disable-line
+
+  return validRegex.test(email);
+}
+
 export {
   getPageKeywords,
   getPageTitle,
@@ -103,5 +110,6 @@ export {
   objectDifference,
   cssTimeToMs,
   nowInSeconds,
-  sha1
+  sha1,
+  emailValid
 };

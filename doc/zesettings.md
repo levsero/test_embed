@@ -193,7 +193,7 @@ window.zESettings = {
 </script>
 ```
 
-
+For more examples, see [Limiting search results](https://support.zendesk.com/hc/en-us/articles/229167008#topic_usl_bbq_mx) in the Zendesk Support Help Center.
 
 ### label
 

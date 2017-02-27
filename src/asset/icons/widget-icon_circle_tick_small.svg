@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-tick-mobile</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="12" cy="12" r="12"></circle>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="24" height="24" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+    </defs>
+    <g id="Visual-Designs---Proposed" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="MOB----1.6.-Confirmation-message---Article-is-relevant--V3" transform="translate(-44.000000, -601.000000)" stroke="#78A300">
+            <g id="Group" transform="translate(44.000000, 601.000000)">
+                <g id="icon-tick-mobile">
+                    <g id="tick">
+                        <use id="Oval-4" mask="url(#mask-2)" stroke-width="3" fill="#FFFFFF" xlink:href="#path-1"></use>
+                        <path d="M10.4145375,15.6 L10.4145375,15.6 C10.2948101,15.6 10.1750827,15.56 10.0952644,15.48 L7.30162455,12.28 C7.14198799,12.12 7.18189713,11.88 7.34153369,11.72 C7.50117025,11.56 7.74062509,11.6 7.90026166,11.76 L10.4145375,14.6 L16.1215446,8.52 C16.2811812,8.36 16.520636,8.36 16.6802726,8.52 C16.8399091,8.68 16.8399091,8.92 16.6802726,9.08 L10.6939015,15.48 C10.6140832,15.56 10.5342649,15.6 10.4145375,15.6 Z" stroke-width="0.5" fill="#78A300"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
+

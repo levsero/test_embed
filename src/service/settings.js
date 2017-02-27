@@ -9,11 +9,14 @@ const optionWhitelist = {
     'channelChoice',
     'chat.suppress',
     'color',
-    'contactForm.subject',
     'contactForm.attachments',
+    'contactForm.fields',
+    'contactForm.subject',
     'contactForm.suppress',
-    'contactForm.title',
+    'contactForm.tags',
     'contactForm.ticketForms',
+    'contactForm.title',
+    'contactForm.selectTicketForm',
     'expanded',
     'helpCenter.chatButton',
     'helpCenter.messageButton',
@@ -23,6 +26,7 @@ const optionWhitelist = {
     'helpCenter.title',
     'helpCenter.localeFallbacks',
     'helpCenter.filter',
+    'helpCenter.searchPlaceholder',
     'launcher.chatLabel',
     'launcher.label',
     'offset.vertical',
@@ -39,6 +43,7 @@ const optionWhitelist = {
 };
 const customizationsWhitelist = [
   'channelChoice',
+  'contactForm.fields',
   'helpCenter.localeFallbacks'
 ];
 const webWidgetStoreDefaults = {
@@ -46,7 +51,9 @@ const webWidgetStoreDefaults = {
     subject: false,
     attachments: true,
     suppress: false,
-    ticketForms: []
+    fields: [],
+    ticketForms: [],
+    tags: []
   },
   channelChoice: false,
   helpCenter: {
@@ -130,7 +137,9 @@ function getTranslations() {
     helpCenterTitle: webWidgetStore.helpCenter.title,
     helpCenterMessageButton: webWidgetStore.helpCenter.messageButton,
     helpCenterChatButton: webWidgetStore.helpCenter.chatButton,
-    contactFormTitle: webWidgetStore.contactForm.title
+    helpCenterSearchPlaceholder: webWidgetStore.helpCenter.searchPlaceholder,
+    contactFormTitle: webWidgetStore.contactForm.title,
+    contactFormSelectTicketForm: webWidgetStore.contactForm.selectTicketForm
   };
 
   return _.omitBy(translations, _.isUndefined);

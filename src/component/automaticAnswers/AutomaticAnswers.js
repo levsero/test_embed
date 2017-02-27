@@ -1,23 +1,29 @@
 import React, { Component, PropTypes } from 'react';
 
-import { AutomaticAnswersDesktop } from 'component/automaticAnswers/AutomaticAnswersDesktop';
-import { AutomaticAnswersMobile } from 'component/automaticAnswers/AutomaticAnswersMobile';
 import { automaticAnswersPersistence  } from 'service/automaticAnswersPersistence';
 import { i18n } from 'service/i18n';
 import { getHelpCenterArticleId } from 'utility/pages';
 
-const closeFrameDelay = 4000;
+export const AutomaticAnswersScreen = {
+  solveTicketQuestion: 'SOLVE_TICKET_QUESTION',
+  ticketClosed: 'TICKET_CLOSED',
+  thanksForFeedback: 'THANKS_FOR_FEEDBACK',
+  markAsIrrelevant: 'MARK_AS_IRRELEVANT'
+};
 
 export class AutomaticAnswers extends Component {
   static propTypes = {
     solveTicket: PropTypes.func.isRequired,
+    markArticleIrrelevant: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
     mobile: PropTypes.bool.isRequired,
-    closeFrame: PropTypes.func.isRequired
+    closeFrame: PropTypes.func.isRequired,
+    initialScreen: PropTypes.string
   };
 
   static defaultProps = {
-    updateFrameSize: () => {}
+    updateFrameSize: () => {},
+    initialScreen: AutomaticAnswersScreen.solveTicketQuestion
   };
 
   constructor(props, context) {
@@ -29,11 +35,23 @@ export class AutomaticAnswers extends Component {
         niceId: null,
         statusId: null
       },
-      solveSuccess: false,
+      screen: props.initialScreen,
       errorMessage: '',
       isSubmitting: false
     };
   }
+
+  componentDidMount = () => {
+    this.props.updateFrameSize();
+  }
+
+  componentDidUpdate = () => {
+    this.props.updateFrameSize();
+  }
+
+  // irrelevent article reasons
+  static notRelated = 1;
+  static relatedButNotAnswered = 2;
 
   updateTicket = (ticket) => {
     this.setState({
@@ -45,44 +63,41 @@ export class AutomaticAnswers extends Component {
     });
   }
 
-  handleSolveTicket = () => {
-    const jwtBody = automaticAnswersPersistence.getContext();
+  showCloseButton = () => this.state.screen !== AutomaticAnswersScreen.solveTicketQuestion
 
-    if (!jwtBody) return this.solveTicketFail();
+  handleSolveTicket = (e) => {
+    e.preventDefault();
+    const authToken = automaticAnswersPersistence.getContext();
 
-    const ticketId = jwtBody.ticket_id;
-    const token = jwtBody.token;
+    if (!authToken) return this.requestFailed();
+
     const articleId = getHelpCenterArticleId();
     const callbacks = {
       done: this.solveTicketDone,
-      fail: this.solveTicketFail
+      fail: this.requestFailed
     };
 
     this.setState({
-      errorMessage: '',
       isSubmitting: true
     });
 
-    if (ticketId && token && articleId) {
-      this.props.solveTicket(ticketId, token, articleId, callbacks);
+    if (authToken && articleId) {
+      this.props.solveTicket(authToken, articleId, callbacks);
     } else {
-      this.solveTicketFail();
+      this.requestFailed();
     }
   }
 
   solveTicketDone = () => {
     this.setState({
-      solveSuccess: true,
-      isSubmitting: false
+      screen: AutomaticAnswersScreen.ticketClosed,
+      isSubmitting: false,
+      errorMessage: ''
     });
-
-    this.props.closeFrame(closeFrameDelay);
   }
 
-  solveTicketFail = () => {
-    const errorKey = (this.props.mobile)
-                   ? 'embeddable_framework.automaticAnswers.label.error_mobile'
-                   : 'embeddable_framework.automaticAnswers.label.error_v2';
+  requestFailed = () => {
+    const errorKey = 'embeddable_framework.automaticAnswers.label.error_mobile';
 
     this.setState({
       errorMessage: i18n.t(errorKey, {
@@ -92,30 +107,77 @@ export class AutomaticAnswers extends Component {
     });
   }
 
-  renderMobile = () => {
-    return (
-      <AutomaticAnswersMobile
-        solveSuccess={this.state.solveSuccess}
-        errorMessage={this.state.errorMessage}
-        isSubmitting={this.state.isSubmitting}
-        handleSolveTicket={this.handleSolveTicket}
-        updateFrameSize={this.props.updateFrameSize} />
-    );
+  handleMarkArticleAsIrrelevant = (reason, e) => {
+    e.preventDefault();
+    const authToken = automaticAnswersPersistence.getContext();
+
+    if (!authToken) return this.requestFailed();
+
+    const articleId = getHelpCenterArticleId();
+    const callbacks = {
+      done: this.markArticleIrrelevantDone,
+      fail: this.requestFailed
+    };
+
+    this.setState({
+      isSubmitting: true
+    });
+
+    if (authToken && articleId) {
+      this.props.markArticleIrrelevant(authToken, articleId, reason, callbacks);
+    } else {
+      this.requestFailed();
+    }
   }
 
-  renderDesktop = () => {
-    return (
-      <AutomaticAnswersDesktop
-        ticketNiceId={this.state.ticket.niceId}
-        solveSuccess={this.state.solveSuccess}
-        errorMessage={this.state.errorMessage}
-        isSubmitting={this.state.isSubmitting}
-        handleSolveTicket={this.handleSolveTicket}
-        updateFrameSize={this.props.updateFrameSize} />
-    );
+  markArticleIrrelevantDone = () => {
+    this.setState({
+      screen: AutomaticAnswersScreen.thanksForFeedback,
+      isSubmitting: false,
+      errorMessage: ''
+    });
+  }
+
+  goToMarkAsIrrelevant = () => {
+    this.setState({
+      screen: AutomaticAnswersScreen.markAsIrrelevant,
+      errorMessage: ''
+    });
+  }
+
+  randomiseOptions = (options) => {
+    const order = this.state.ticket.niceId % options.length;
+
+    return options.slice(order).concat(options.slice(0, order));
+  }
+
+  handleDismissalContext = () => {
+    if (this.state.screen === AutomaticAnswersScreen.markAsIrrelevant) {
+      this.setState({
+        screen: AutomaticAnswers.solveTicketQuestion,
+        errorMessage: ''
+      });
+    } else {
+      this.props.closeFrame();
+    }
+  }
+
+  renderContent = () => {
+    switch (this.state.screen) {
+      case AutomaticAnswersScreen.solveTicketQuestion:
+        return this.renderTicketContent();
+      case AutomaticAnswersScreen.ticketClosed:
+        return this.renderSuccessContent();
+      case AutomaticAnswersScreen.markAsIrrelevant:
+        return this.renderIrrelevantContent();
+      case AutomaticAnswersScreen.thanksForFeedback :
+        return this.renderThanksForFeedbackContent();
+      default:
+        return this.renderTicketContent();
+    }
   }
 
   render = () => {
-    return (this.props.mobile) ? this.renderMobile() : this.renderDesktop();
+    return <div />;
   }
 }

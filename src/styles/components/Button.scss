@@ -185,3 +185,8 @@ $Button-nudge: 5;
     background: $zd-color-white-smoke;
   }
 }
+
+.c-btn--fullWidth {
+  width: 100% !important;
+  max-width: 100% !important;
+}

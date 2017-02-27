@@ -5,14 +5,20 @@ describe('embed.automaticAnswers', () => {
     mockJwtToken,
     mockIsMobileBrowserValue,
     mockArticleIdInUrl,
-    mockSolvedURLParameter;
+    mockURLParameter;
 
   const automaticAnswersPath = buildSrcPath('embed/automaticAnswers/automaticAnswers');
+  const mockScreenState = 'IRRELEVANT_SCREEN';
 
   beforeEach(() => {
     resetDOM();
 
     mockery.enable();
+
+    class AutomaticAnswers extends Component {
+      updateTicket() {}
+      solveTicketDone() {}
+    }
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -22,12 +28,24 @@ describe('embed.automaticAnswers', () => {
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'component/automaticAnswers/AutomaticAnswers': {
-        AutomaticAnswers: class extends Component {
-          updateTicket() {}
-          solveTicketDone() {}
+        AutomaticAnswersScreen: {
+          markAsIrrelevant: mockScreenState
+        }
+      },
+      'component/automaticAnswers/AutomaticAnswersDesktop': {
+        AutomaticAnswersDesktop: class extends AutomaticAnswers {
           render() {
             return (
-              <div className='mock-automaticAnswers' />
+              <div className='mock-automaticAnswersDesktop' />
+            );
+          }
+        }
+      },
+      'component/automaticAnswers/AutomaticAnswersMobile': {
+        AutomaticAnswersMobile: class extends AutomaticAnswers {
+          render() {
+            return (
+              <div className='mock-automaticAnswersMobile' />
             );
           }
         }
@@ -56,7 +74,7 @@ describe('embed.automaticAnswers', () => {
         transport: jasmine.createSpyObj('transport', ['automaticAnswersApiRequest'])
       },
       'utility/pages': {
-        getURLParameterByName: jasmine.createSpy().and.callFake(() => mockSolvedURLParameter),
+        getURLParameterByName: jasmine.createSpy().and.callFake(() => mockURLParameter),
         getHelpCenterArticleId: jasmine.createSpy().and.callFake(() => mockArticleIdInUrl)
       }
     });
@@ -64,10 +82,7 @@ describe('embed.automaticAnswers', () => {
     mockery.registerAllowable(automaticAnswersPath);
     automaticAnswers = requireUncached(automaticAnswersPath).automaticAnswers;
 
-    mockJwtToken = {
-      'ticket_id': 123456,
-      'token': 'abcdef'
-    };
+    mockJwtToken = 'abcdef';
     mockIsMobileBrowserValue = false;
     mockArticleIdInUrl = 1234;
   });
@@ -105,15 +120,29 @@ describe('embed.automaticAnswers', () => {
   });
 
   describe('render', () => {
-    it('renders an automaticAnswers embed in the document', () => {
-      automaticAnswers.create('zomg');
-      automaticAnswers.render('zomg');
+    describe('when isMobileDevice is false', () => {
+      beforeEach(() => {
+        automaticAnswers.create('zomg');
+        automaticAnswers.render('zomg');
+      });
 
-      expect(document.querySelectorAll('.mock-frame').length)
-       .toEqual(1);
+      it('renders the AutomaticAnswersDesktop component', function() {
+        expect(document.querySelectorAll('.mock-frame .mock-automaticAnswersDesktop').length)
+           .toEqual(1);
+      });
+    });
 
-      expect(document.querySelectorAll('.mock-frame .mock-automaticAnswers').length)
-       .toEqual(1);
+    describe('when isMobileDevice is true', () => {
+      beforeEach(() => {
+        mockIsMobileBrowserValue = true;
+        automaticAnswers.create('zomg');
+        automaticAnswers.render('zomg');
+      });
+
+      it('renders the AutomaticAnswersMobile component', function() {
+        expect(document.querySelectorAll('.mock-frame .mock-automaticAnswersMobile').length)
+           .toEqual(1);
+      });
     });
   });
 
@@ -124,7 +153,7 @@ describe('embed.automaticAnswers', () => {
       automaticAnswers.render();
     });
 
-    describe('when the JWT body contains ticket_id and token parameters', () => {
+    describe('when the JWT is available', () => {
       let mostRecent;
 
       beforeEach(() => {
@@ -132,17 +161,13 @@ describe('embed.automaticAnswers', () => {
         mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
       });
 
-      it('passes ticket_id and token to fetchTicketFn', () => {
-        expect(mostRecent.path)
-          .toEqual('/requests/automatic-answers/ticket/123456/fetch/token/abcdef');
-        expect(mostRecent.method)
-          .toEqual('get');
-        expect(mockTransport.automaticAnswersApiRequest)
-          .toHaveBeenCalled();
+      it('passes auth_token to fetchTicket', () => {
+        expect(mostRecent.queryParams.auth_token)
+          .toEqual('abcdef');
       });
     });
 
-    describe('when the JWT body does not contain ticket_id and token parameters', () => {
+    describe('when the JWT is unavailable', () => {
       beforeEach(() => {
         mockJwtToken = null;
         automaticAnswers.postRender('automaticAnswers');
@@ -168,6 +193,56 @@ describe('embed.automaticAnswers', () => {
     });
   });
 
+  describe('fetchTicket', () => {
+    let mostRecent;
+    const fetchTicket = () => {
+      mockTransport = mockRegistry['service/transport'].transport;
+      automaticAnswers.create('automaticAnswers');
+      automaticAnswers.render();
+      automaticAnswers.fetchTicket(mockJwtToken);
+      mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
+    };
+
+    describe('payload configuration and callbacks', () => {
+      beforeEach(() => {
+        fetchTicket();
+      });
+
+      it('contains the correct URL path', () => {
+        expect(mostRecent.path)
+          .toContain(`/requests/automatic-answers/embed/ticket/fetch`);
+      });
+
+      it('uses a GET method', () => {
+        expect(mostRecent.method)
+          .toEqual('get');
+      });
+    });
+
+    describe('query params for device tracking', () => {
+      beforeEach(() => {
+        fetchTicket();
+      });
+
+      it('includes the source=embed query param', () => {
+        expect(mostRecent.queryParams.source)
+          .toEqual('embed');
+      });
+
+      describe('when the device is a mobile browser', () => {
+        beforeEach(() => {
+          mockIsMobileBrowserValue = true;
+          fetchTicket();
+        });
+
+        it('includes the mobile=true query param', () => {
+          expect(mostRecent.queryParams.mobile)
+            .toBe(true);
+        });
+      });
+    });
+  });
+
   describe('when a request to fetch ticket data is received', () => {
     let instance,
       mostRecent;
@@ -184,7 +259,7 @@ describe('embed.automaticAnswers', () => {
 
     describe('when the request is successful', () => {
       let callback;
-      const showFrameDelay = 2000;
+      const showFrameDelay = 500;
       const showSolvedFrameDelay = 500;
       const resSuccess = (statusId) => {
         return {
@@ -232,10 +307,10 @@ describe('embed.automaticAnswers', () => {
       describe('given the ticket status is one of solved or closed', () => {
         describe('and a solve parameter equal to "1" exists in the url', () => {
           beforeEach(() => {
-            mockSolvedURLParameter = '1';
+            mockURLParameter = '1';
           });
 
-          it('updates the component solveSuccess state', () => {
+          it('updates the component to show the ticket closed screen', () => {
             callback(resSuccess(statusSolved));
 
             expect(instance.getRootComponent().solveTicketDone)
@@ -253,7 +328,7 @@ describe('embed.automaticAnswers', () => {
 
         describe('and a solve parameter other than "1" exists in the url', () => {
           beforeEach(() => {
-            mockSolvedURLParameter = '0';
+            mockURLParameter = '0';
           });
 
           it('does nothing', () => {
@@ -269,7 +344,7 @@ describe('embed.automaticAnswers', () => {
 
         describe('and no solve parameter exists in the url', () => {
           beforeEach(() => {
-            mockSolvedURLParameter = null;
+            mockURLParameter = null;
           });
 
           it('does nothing', () => {
@@ -305,10 +380,9 @@ describe('embed.automaticAnswers', () => {
 
   describe('solveTicket', () => {
     let solveTicket,
-      mostRecent;
-    const mockTicketId = '123456';
-    const mockToken = 'abcdef';
-    const mockArticleId = 23425454;
+      mostRecent,
+      formData;
+    const mockArticleIdInUrl = 23425454;
     const callbacks = {
       done: () => {},
       fail: () => {}
@@ -320,9 +394,10 @@ describe('embed.automaticAnswers', () => {
       automaticAnswers.render();
 
       solveTicket = automaticAnswers.get().instance.getRootComponent().props.solveTicket;
-      solveTicket(mockTicketId, mockToken, mockArticleId, callbacks);
+      solveTicket(mockJwtToken, mockArticleIdInUrl, callbacks);
 
       mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
+      formData = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[1];
     };
 
     describe('payload configuration and callbacks', () => {
@@ -332,10 +407,18 @@ describe('embed.automaticAnswers', () => {
 
       it('sends a correctly configured payload to automaticAnswersApiRequest', () => {
         expect(mostRecent.path)
-          .toBe(`/requests/automatic-answers/ticket/${mockTicketId}/solve/token/${mockToken}/article/${mockArticleId}?source=embed&mobile=false`);
+          .toBe('/requests/automatic-answers/embed/ticket/solve');
 
         expect(mostRecent.method)
           .toEqual('post');
+      });
+
+      it('sends correctly configured form data', () => {
+        expect(formData.auth_token)
+          .toBe(mockJwtToken);
+
+        expect(formData.article_id)
+          .toBe(mockArticleIdInUrl);
       });
 
       it('triggers the supplied callbacks', () => {
@@ -353,8 +436,8 @@ describe('embed.automaticAnswers', () => {
       });
 
       it('includes the source=embed query param', () => {
-        expect(mostRecent.path)
-          .toContain(`source=embed`);
+        expect(mostRecent.queryParams.source)
+          .toEqual('embed');
       });
 
       describe('when the device is a mobile browser', () => {
@@ -364,8 +447,132 @@ describe('embed.automaticAnswers', () => {
         });
 
         it('includes the mobile=true query param', () => {
-          expect(mostRecent.path)
-            .toContain(`mobile=true`);
+          expect(mostRecent.queryParams.mobile)
+            .toBe(true);
+        });
+      });
+    });
+  });
+
+  describe('markArticleIrrelevant', () => {
+    let mostRecent,
+      formData;
+    const mockArticleIdInUrl = 23425454;
+    const mockReason = 2;
+    const callbacks = {
+      done: () => {},
+      fail: () => {}
+    };
+
+    const markArticleIrrelevant = () => {
+      mockTransport = mockRegistry['service/transport'].transport;
+      automaticAnswers.markArticleIrrelevant(mockJwtToken, mockArticleIdInUrl, mockReason, callbacks);
+      mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
+      formData = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[1];
+    };
+
+    beforeEach(() => {
+      markArticleIrrelevant();
+    });
+
+    describe('payload configuration and callbacks', () => {
+      it('sends a correctly configured payload to automaticAnswersApiRequest', () => {
+        expect(mostRecent.path)
+          .toEqual('/requests/automatic-answers/embed/article/irrelevant');
+
+        expect(mostRecent.method)
+          .toEqual('post');
+      });
+
+      it('triggers the supplied callbacks', () => {
+        expect(mostRecent.callbacks.done)
+          .toEqual(callbacks.done);
+
+        expect(mostRecent.callbacks.fail)
+          .toEqual(callbacks.fail);
+      });
+    });
+
+    describe('formData', () => {
+      it('includes the auth_token', () => {
+        expect(formData.auth_token)
+          .toBe(mockJwtToken);
+      });
+
+      it('includes the article_id', () => {
+        expect(formData.article_id)
+          .toBe(mockArticleIdInUrl);
+      });
+
+      it('includes the reason', () => {
+        expect(formData.reason)
+          .toBe(mockReason);
+      });
+    });
+
+    describe('query params for device tracking', () => {
+      it('includes the source=embed query param', () => {
+        expect(mostRecent.queryParams.source)
+          .toEqual('embed');
+      });
+
+      describe('when the device is a mobile browser', () => {
+        beforeEach(() => {
+          mockIsMobileBrowserValue = true;
+          markArticleIrrelevant();
+        });
+
+        it('includes the mobile=true query param', () => {
+          expect(mostRecent.queryParams.mobile)
+            .toBe(true);
+        });
+      });
+    });
+  });
+
+  describe('article_feedback URL parameter', () => {
+    let instance;
+
+    describe('is not set', () => {
+      beforeEach(() => { mockURLParameter = ''; });
+
+      it('getInitialScreen should return undefined', () => {
+        expect(automaticAnswers.getInitialScreen())
+          .toEqual(undefined);
+      });
+
+      describe('component initialScreen props', () => {
+        beforeEach(() => {
+          automaticAnswers.create('automaticAnswers');
+          automaticAnswers.render();
+          instance = automaticAnswers.get().instance;
+        });
+
+        it('should be undefined', () => {
+          expect(instance.getRootComponent().props.initialScreen)
+            .toEqual(undefined);
+        });
+      });
+    });
+
+    describe('is set to 1', () => {
+      beforeEach(() => { mockURLParameter = '1'; });
+
+      it(`getInitialScreen should return ${mockScreenState}`, () => {
+        expect(automaticAnswers.getInitialScreen())
+          .toEqual(mockScreenState);
+      });
+
+      describe('component initialScreen props', () => {
+        beforeEach(() => {
+          automaticAnswers.create('automaticAnswers');
+          automaticAnswers.render();
+          instance = automaticAnswers.get().instance;
+        });
+
+        it(`should be ${mockScreenState}`, () => {
+          expect(instance.getRootComponent().props.initialScreen)
+            .toEqual(mockScreenState);
         });
       });
     });

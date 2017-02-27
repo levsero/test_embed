@@ -1,6 +1,4 @@
-import { cacheBuster } from 'service/cacheBuster';
-
-const win = cacheBuster.isCacheBusting(window.name) ? window : window.parent;
+const win = window.parent;
 const document = win.document;
 const navigator = win.navigator;
 const location = win.location;

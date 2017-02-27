@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
-import { cacheBuster } from 'service/cacheBuster';
 import { i18n } from 'service/i18n';
 import { identity } from 'service/identity';
 import { logging } from 'service/logging';
@@ -119,8 +118,6 @@ function boot() {
   identity.init();
   logging.init();
 
-  cacheBuster.bustCache(__EMBEDDABLE_VERSION__);
-
   transport.init({
     zendeskHost: document.zendeskHost,
     version: __EMBEDDABLE_VERSION__
@@ -144,8 +141,7 @@ function boot() {
 
   if (__DEV__) {
     devApi = {
-      devRender: renderer.init,
-      bustCache: transport.bustCache
+      devRender: renderer.init
     };
   }
 
@@ -237,17 +233,15 @@ function boot() {
   }
 }
 
-if (!cacheBuster.isCacheBusting(window.name)) {
-  try {
-    if (!isBlacklisted()) {
-      // setTimeout needed for ie10. Otherwise it calls boot too early
-      // and the other zE functions on the page aren't seen. This leads to
-      // the pre render queue being skipped which breaks zE.hide.
-      setTimeout(boot, 0);
-    }
-  } catch (err) {
-    logging.error({
-      error: err
-    });
+try {
+  if (!isBlacklisted()) {
+    // setTimeout needed for ie10. Otherwise it calls boot too early
+    // and the other zE functions on the page aren't seen. This leads to
+    // the pre render queue being skipped which breaks zE.hide.
+    setTimeout(boot, 0);
   }
+} catch (err) {
+  logging.error({
+    error: err
+  });
 }

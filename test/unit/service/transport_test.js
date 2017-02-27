@@ -691,8 +691,9 @@ describe('transport', () => {
     let config,
       mockSuperagent,
       payload,
-      ticket_id = '123',
-      token = 'abc';
+      formData,
+      articleId = 10001,
+      authToken = 'abc';
 
     beforeEach(() => {
       config = {
@@ -717,7 +718,7 @@ describe('transport', () => {
         transport.init(config);
         payload = {
           method: 'get',
-          path: `/test/fetch/${ticket_id}/token/${token}`,
+          path: `/test/fetch?auth_token=${authToken}`,
           callbacks: {
             done: noop,
             fail: noop
@@ -726,9 +727,52 @@ describe('transport', () => {
         spyOn(payload.callbacks, 'done');
         spyOn(payload.callbacks, 'fail');
         spyOn(mockMethods, 'end').and.callThrough();
+        spyOn(mockMethods, 'send').and.callThrough();
+        spyOn(mockMethods, 'type').and.callThrough();
+        spyOn(mockMethods, 'query').and.callThrough();
       });
 
-      describe('when sending a request', () => {
+      describe('when sending a POST request', () => {
+        beforeEach(() => {
+          payload = {
+            path: '/test/solve',
+            queryParams: {
+              source: 'embed',
+              mobile: false
+            },
+            method: 'post'
+          };
+          formData = {
+            'auth_token' : authToken,
+            'article_id' : articleId
+          };
+          transport.automaticAnswersApiRequest(payload, formData);
+        });
+
+        it('sets the correct http method and path', () => {
+          expect(mockSuperagent)
+            .toHaveBeenCalledWith(
+              'POST',
+              'https://lolz.zendesk.host/test/solve');
+        });
+
+        it('appends query params to the url', () => {
+          expect(mockMethods.query)
+            .toHaveBeenCalledWith(payload.queryParams);
+        });
+
+        it('sets the correct type to avoid a CORS failure', () => {
+          expect(mockMethods.type)
+            .toHaveBeenCalledWith('form-data');
+        });
+
+        it('sends the correct form data', () => {
+          expect(mockMethods.send)
+            .toHaveBeenCalledWith({ 'auth_token' : 'abc', 'article_id': 10001 });
+        });
+      });
+
+      describe('when sending a GET request', () => {
         beforeEach(() => {
           transport.automaticAnswersApiRequest(payload);
         });
@@ -737,7 +781,12 @@ describe('transport', () => {
           expect(mockSuperagent)
             .toHaveBeenCalledWith(
               'GET',
-              'https://lolz.zendesk.host/test/fetch/123/token/abc');
+              `https://lolz.zendesk.host/test/fetch?auth_token=${authToken}`);
+        });
+
+        it('sends an empty form data object', () => {
+          expect(mockMethods.send)
+            .toHaveBeenCalledWith({});
         });
       });
 
@@ -754,7 +803,7 @@ describe('transport', () => {
           callback = recentCall.args[0];
         });
 
-        it('triggers the fail callback if response is successful', () => {
+        it('triggers the done callback if response is successful', () => {
           callback(null, { ok: true });
 
           expect(payload.callbacks.done)

@@ -1,3 +1,9 @@
+/**
+ * 1. This ensures there is a margin between the footer and the
+      Help Center article content. Appears as a small white strip.
+ */
+
+@import '../../styles/_vars.scss';
 @import '../../styles/mixins.scss';
 
 .form {
@@ -7,10 +13,6 @@
 
 .buttonContainer {
   composes: u-posRelative from '../../styles/utils.scss';
-}
-
-.logoHidden {
-  composes: u-marginVM from '../../styles/utils.scss';
 }
 
 .searchTitle {
@@ -30,4 +32,9 @@
 
 .linkContainer {
   composes: u-textSizeBaseMobile u-textCenter u-marginTL from '../../styles/utils.scss';
+}
+
+.container {
+  /* 1 */
+  height: calc(100% - #{60/$font-size}rem);
 }

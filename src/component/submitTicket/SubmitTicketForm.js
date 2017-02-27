@@ -181,11 +181,65 @@ export class SubmitTicketForm extends Component {
       {}).value();
   }
 
-  updateTicketForm = (form, fields) => {
+  isPrefillValid = (prefill) => {
+    return Array.isArray(prefill) && prefill.length !== 0;
+  }
+
+  mergePrefill = (prefillTicketForm, prefillTicketField) => {
+    const prefillTicketFormValid = this.isPrefillValid(prefillTicketForm);
+    const prefillTicketFieldValid = this.isPrefillValid(prefillTicketField);
+    const prefillFieldData = prefillTicketFormValid ? prefillTicketForm : [];
+
+    return prefillTicketFieldValid
+         ? _.unionWith(prefillTicketForm, prefillTicketField, (a1, a2) => a1.id == a2.id) // eslint-disable-line
+         : prefillFieldData;
+  }
+
+  filterPrefillFields = (fields, prefillTicketForm, prefillTicketField) => {
+    const permittedFieldTypes = ['description', 'subject', 'text', 'textarea', 'integer', 'decimal'];
+    const permittedSystemFieldIds = ['description', 'subject'];
+    const prefillData = this.mergePrefill(prefillTicketForm, prefillTicketField);
+    const findMatchingField = (prefillField) => (ticketField) => {
+      return ticketField.id == prefillField.id || // eslint-disable-line eqeqeq
+             (ticketField.type === prefillField.id && _.includes(permittedSystemFieldIds, prefillField.id));
+    };
+    const mapPrefillFields = (prefillField) => {
+      const matchingField = _.find(fields, findMatchingField(prefillField)) || {};
+
+      if (_.includes(permittedFieldTypes, matchingField.type)) {
+        // Replace ticketField.id where it could be a text instead of an integer
+        prefillField.id = matchingField.id;
+        return prefillField;
+      }
+    };
+
+    return _.chain(prefillData)
+            .map(mapPrefillFields)
+            .compact()
+            .value();
+  }
+
+  prefillFormState = (fields, prefillTicketForm, prefillTicketField) => {
+    const filteredFields = this.filterPrefillFields(fields, prefillTicketForm, prefillTicketField);
+
+    // Check if pre-fill is still valid after processing
+    if (filteredFields.length === 0) return;
+
+    let formState = this.getFormState();
+    const currentLocale = i18n.getLocale();
+
+    filteredFields.forEach((field) => {
+      formState[field.id] = field.prefill[`${currentLocale}`] || field.prefill['*'] || '';
+    });
+
+    this.props.setFormState(formState);
+  }
+
+  updateTicketForm = (form, fields, prefill, prefillTicketField) => {
     this.setState({
       ticketForm: form,
       ticketFormFields: fields
-    });
+    }, () => this.prefillFormState(fields, prefill, prefillTicketField));
   }
 
   updateForm = () => {

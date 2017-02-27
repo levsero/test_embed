@@ -36,11 +36,15 @@ global.location = global.window.location;
 const React = require('react');
 const ReactDOM = require('react-dom');
 const TestUtils = require('react-addons-test-utils');
+const Enzyme = require('enzyme');
 
 global.React = React;
 global.Component = React.Component;
 global.ReactDOM = ReactDOM;
 global.TestUtils = TestUtils;
+global.Enzyme = Enzyme;
+
+global.shallow = Enzyme.shallow;
 
 global.noopReactComponent = () => class extends Component {
   render() {

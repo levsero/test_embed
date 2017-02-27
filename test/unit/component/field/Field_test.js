@@ -60,7 +60,7 @@ describe('Field component', () => {
 
   it('should render field DOM with a label wrapping two child divs', () => {
     const field = domRender(<Field name='alice' />);
-    const fieldNode = ReactDOM.findDOMNode(field);
+    const fieldNode = ReactDOM.findDOMNode(field).children[0];
 
     expect(fieldNode.nodeName)
       .toEqual('LABEL');
@@ -228,6 +228,24 @@ describe('Field component', () => {
 
       expect(fieldNode.querySelector('input').getAttribute('autoComplete'))
         .toBeFalsy();
+    });
+  });
+
+  describe('description', () => {
+    it('should be added if it is true', () => {
+      const field = domRender(<Field description='hello' />);
+      const fieldNode = ReactDOM.findDOMNode(field);
+
+      expect(fieldNode.children[1].innerHTML)
+        .toEqual('hello');
+    });
+
+    it('should not be added if it is false', () => {
+      const field = domRender(<Field />);
+      const fieldNode = ReactDOM.findDOMNode(field);
+
+      expect(fieldNode.children[1].innerHTML)
+        .toEqual('');
     });
   });
 });

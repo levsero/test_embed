@@ -24,6 +24,7 @@ export class HelpCenter extends Component {
     imagesSender: PropTypes.func.isRequired,
     localeFallbacks: PropTypes.array,
     onArticleClick: PropTypes.func,
+    onViewOriginalArticleClick: PropTypes.func,
     onNextClick: PropTypes.func,
     onSearch: PropTypes.func,
     originalArticleButton: PropTypes.bool,
@@ -45,6 +46,7 @@ export class HelpCenter extends Component {
     hideZendeskLogo: false,
     localeFallbacks: [],
     onArticleClick: () => {},
+    onViewOriginalArticleClick: () => {},
     onNextClick: () => {},
     onSearch: () => {},
     originalArticleButton: true,
@@ -348,16 +350,22 @@ export class HelpCenter extends Component {
   }
 
   trackArticleView = () => {
-    const trackPayload = {
+    this.props.onArticleClick(this.getTrackPayload());
+    this.setState({ searchResultClicked: true });
+  }
+
+  getTrackPayload = () => {
+    return {
       query: this.state.searchTerm,
       resultsCount: (this.state.resultsCount > 3) ? 3 : this.state.resultsCount,
       uniqueSearchResultClick: !this.state.searchResultClicked,
       articleId: this.state.activeArticle.id,
       locale: i18n.getLocale()
     };
+  }
 
-    this.props.onArticleClick(trackPayload);
-    this.setState({ searchResultClicked: true });
+  handleOriginalArticleClick = () => {
+    this.props.onViewOriginalArticleClick(this.getTrackPayload());
   }
 
   onContainerClick = () => {
@@ -385,9 +393,6 @@ export class HelpCenter extends Component {
     const showBottomBorder = !this.props.fullscreen &&
                              !(!this.state.showNextButton && this.props.hideZendeskLogo);
     const applyPadding = !this.state.showNextButton && !this.props.hideZendeskLogo;
-    const hideBottomPadding = this.props.viewMoreEnabled &&
-                              this.state.articles.length > minimumSearchResults &&
-                              !this.state.showNextButton;
 
     return (
       <HelpCenterResults
@@ -401,7 +406,6 @@ export class HelpCenter extends Component {
         handleArticleClick={this.handleArticleClick}
         handleViewMoreClick={this.handleViewMoreClick}
         hasContextualSearched={this.state.hasContextualSearched}
-        hideBottomPadding={hideBottomPadding}
         showContactButton={this.state.showNextButton} />
     );
   }
@@ -414,6 +418,7 @@ export class HelpCenter extends Component {
         activeArticle={this.state.activeArticle}
         zendeskHost={this.props.zendeskHost}
         originalArticleButton={this.props.originalArticleButton}
+        handleOriginalArticleClick={this.handleOriginalArticleClick}
         storedImages={this.state.images}
         imagesSender={this.props.imagesSender}
         updateStoredImages={this.updateImages}

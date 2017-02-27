@@ -2,11 +2,13 @@ import airwaves from 'airwaves';
 import _ from 'lodash';
 
 import { settings } from 'service/settings';
+import { logging } from 'service/logging';
 import { isMobileBrowser } from 'utility/devices';
 import { setScrollKiller,
          setWindowScroll,
          revertWindowScroll } from 'utility/scrollHacks';
 import { isOnHelpCenterPage } from 'utility/pages';
+import { emailValid } from 'utility/utils';
 
 const c = new airwaves.Channel();
 
@@ -360,6 +362,7 @@ function init(embedsAccessible, params = {}) {
           c.broadcast(`${launcher}.hide`);
         } else {
           c.broadcast(`${launcher}.show`);
+          setScrollKiller(false);
         }
 
         trackChatStarted();
@@ -399,23 +402,26 @@ function init(embedsAccessible, params = {}) {
       c.broadcast('authentication.renew');
     }
 
-    if (state.activeEmbed !== chat &&
-        chatAvailable() &&
-        state[`${chat}.unreadMsgs`]) {
+    // When opening chat on mobile, directly broadcast a chat.show event.
+    // Because zopim can open in a new tab, we need to make sure we don't make a call to `setScrollKiller`.
+    // If we do the host page will be frozen when the user exits the zopim chat tab.
+    // Note: `showEmbed` will invoke `setScrollKiller`.
+    if (state.activeEmbed === chat && isMobileBrowser()) {
+      c.broadcast(`${chat}.show`);
+    } else if (chatAvailable() && state[`${chat}.unreadMsgs`]) {
       state[`${chat}.unreadMsgs`] = 0;
       state.activeEmbed = chat;
-    }
+      c.broadcast(`${chat}.show`);
+    } else {
+      c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
 
-    if (state.activeEmbed !== chat || !isMobileBrowser()) {
-      c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() });
+      /**
+       * This timeout mitigates the Ghost Click produced when the launcher
+       * button is on the left, using a mobile device with small screen
+       * e.g. iPhone4. It's not a bulletproof solution, but it helps
+       */
+      setTimeout(() => showEmbed(state), 0);
     }
-
-    /**
-     * This timeout mitigates the Ghost Click produced when the launcher
-     * button is on the left, using a mobile device with small screen
-     * e.g. iPhone4. It's not a bulletproof solution, but it helps
-     */
-    setTimeout(() => showEmbed(state), 0);
   });
 
   c.intercept(`${helpCenter}.onClose`, (_broadcast) => {
@@ -549,9 +555,18 @@ function initMessaging() {
   c.intercept('.onIdentify', (__, params) => {
     state['identify.pending'] = true;
 
-    c.broadcast('beacon.identify', params);
-    c.broadcast(`${submitTicket}.prefill`, params);
-    c.broadcast(`${chat}.setUser`, params);
+    if (emailValid(params.email)) {
+      c.broadcast('beacon.identify', params);
+      c.broadcast(`${chat}.setUser`, params);
+      c.broadcast(`${submitTicket}.prefill`, params);
+    } else {
+      logging.warn('invalid params passed into zE.identify', params);
+
+      if (_.isString(params.name)) {
+        c.broadcast(`${chat}.setUser`, { name: params.name });
+        c.broadcast(`${submitTicket}.prefill`, { name: params.name });
+      }
+    }
   });
 
   c.intercept('identify.onSuccess', (__, params) => {

@@ -20,6 +20,7 @@
     "requireUncached": true,
     "resetDOM": true,
     "shallowRender": true,
+    "shallow": true,
     "instanceRender": true,
     "mockObjectDifference": true,
   },

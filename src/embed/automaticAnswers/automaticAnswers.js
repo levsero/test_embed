@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
-import { AutomaticAnswers } from 'component/automaticAnswers/AutomaticAnswers';
+import { AutomaticAnswersScreen } from 'component/automaticAnswers/AutomaticAnswers';
+import { AutomaticAnswersDesktop } from 'component/automaticAnswers/AutomaticAnswersDesktop';
+import { AutomaticAnswersMobile } from 'component/automaticAnswers/AutomaticAnswersMobile';
 import { frameFactory } from 'embed/frameFactory';
 import { automaticAnswersPersistence  } from 'service/automaticAnswersPersistence';
 import { transitionFactory } from 'service/transitionFactory';
@@ -14,7 +16,8 @@ import { getURLParameterByName,
          getHelpCenterArticleId } from 'utility/pages';
 
 const automaticAnswersCSS = require('./automaticAnswers.scss').toString();
-const showFrameDelay = 2000;
+// Anything less than 500 causes an animation bug.
+const showFrameDelay = 500;
 const showSolvedFrameDelay = 500;
 // 0 = New, 1 = Open, 2 = Pending, 6 = Hold
 const unsolvedStatusIds = [0, 1, 2, 6];
@@ -51,10 +54,13 @@ function create(name, config, reduxStore) {
     frameStyle: frameStyle,
     css: automaticAnswersCSS + generateUserCSS(),
     fullWidth: isMobileBrowser(),
+    // We are not using the close button on EmbedWrapper because we need the flexibility
+    // to show the close button on some screens, but not others.
     hideCloseButton: true,
     name: name,
     // Add offsetHeight to allow updateFrameSize to account for the box-shadow frame margin
-    offsetHeight: (isMobileBrowser()) ? 10 : 50,
+    offsetHeight: (isMobileBrowser()) ? 20 : 30,
+    offsetWidth: (isMobileBrowser()) ? 0 : 30,
     transitions: {
       close: transitionSet.downHide(),
       upShow: transitionSet.upShow(),
@@ -62,17 +68,22 @@ function create(name, config, reduxStore) {
     }
   };
 
-  const closeFrame = (delay) => setTimeout(() => embed.instance.close({}), delay);
+  const closeFrame = () => embed.instance.close({});
+
+  const ComponentType = (isMobileBrowser()) ? AutomaticAnswersMobile : AutomaticAnswersDesktop;
 
   const Embed = frameFactory(
     (params) => {
       return (
-        <AutomaticAnswers
+        <ComponentType
           ref='rootComponent'
-          solveTicket={solveTicketFn}
+          solveTicket={solveTicket}
+          markArticleIrrelevant={markArticleIrrelevant}
           updateFrameSize={params.updateFrameSize}
           mobile={isMobileBrowser()}
-          closeFrame={closeFrame} />
+          closeFrame={closeFrame}
+          initialScreen={getInitialScreen()}
+          />
       );
     },
     frameParams,
@@ -102,19 +113,14 @@ function postRender() {
 
   if (_.isNaN(articleId)) return;
 
-  const jwtBody = automaticAnswersPersistence.getContext();
+  const authToken = automaticAnswersPersistence.getContext();
 
-  if (!jwtBody) return;
+  if (!authToken) return;
 
-  const ticketId = jwtBody.ticket_id;
-  const token = jwtBody.token;
-
-  if (ticketId && token) {
-    fetchTicketFn(ticketId, token);
-  }
+  fetchTicket(authToken);
 }
 
-function fetchTicketFn(ticketId, token) {
+function fetchTicket(authToken) {
   const fetchTicketDone = (res) => {
     const ticket = res.body.ticket;
     const ticketUnsolved = _.includes(unsolvedStatusIds, ticket.status_id);
@@ -133,7 +139,12 @@ function fetchTicketFn(ticketId, token) {
   };
 
   const payload = {
-    path: `/requests/automatic-answers/ticket/${ticketId}/fetch/token/${token}`,
+    path: '/requests/automatic-answers/embed/ticket/fetch',
+    queryParams: {
+      'auth_token': authToken,
+      source: 'embed',
+      mobile: isMobileBrowser()
+    },
     method: 'get',
     callbacks: {
       done: fetchTicketDone,
@@ -144,21 +155,55 @@ function fetchTicketFn(ticketId, token) {
   transport.automaticAnswersApiRequest(payload);
 }
 
-function solveTicketFn(ticketId, token, articleId, callbacks) {
-  const path = `/requests/automatic-answers/ticket/${ticketId}/solve/token/${token}/article/${articleId}`;
-  const queryParams = `?source=embed&mobile=${isMobileBrowser()}`;
+function solveTicket(authToken, articleId, callbacks) {
   const payload = {
-    path: path + queryParams,
+    path: '/requests/automatic-answers/embed/ticket/solve',
+    queryParams: {
+      source: 'embed',
+      mobile: isMobileBrowser()
+    },
     method: 'post',
     callbacks: callbacks
   };
+  const formData = {
+    'auth_token' : authToken,
+    'article_id' : articleId
+  };
 
-  transport.automaticAnswersApiRequest(payload);
+  transport.automaticAnswersApiRequest(payload, formData);
+}
+
+function markArticleIrrelevant(authToken, articleId, reason, callbacks) {
+  const payload = {
+    path: '/requests/automatic-answers/embed/article/irrelevant',
+    queryParams: {
+      source: 'embed',
+      mobile: isMobileBrowser()
+    },
+    method: 'post',
+    callbacks: callbacks
+  };
+  const formData = {
+    'auth_token' : authToken,
+    'article_id' : articleId,
+    'reason' : reason
+  };
+
+  transport.automaticAnswersApiRequest(payload, formData);
+}
+
+function getInitialScreen() {
+  return (parseInt(getURLParameterByName('article_feedback'))
+      ? AutomaticAnswersScreen.markAsIrrelevant
+      : undefined);
 }
 
 export const automaticAnswers = {
   create: create,
   get: get,
   render: render,
-  postRender: postRender
+  postRender: postRender,
+  markArticleIrrelevant: markArticleIrrelevant,
+  fetchTicket: fetchTicket,
+  getInitialScreen: getInitialScreen
 };

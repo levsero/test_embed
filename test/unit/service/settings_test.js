@@ -21,7 +21,8 @@ describe('settings', () => {
       contactForm: {
         subject: false,
         attachments: true,
-        ticketForms: []
+        ticketForms: [],
+        tags: []
       },
       channelChoice: false,
       expanded: false,
@@ -73,6 +74,11 @@ describe('settings', () => {
       it('has the correct value for contactForm.subject', () => {
         expect(settings.get('contactForm.subject'))
           .toEqual(defaults.contactForm.subject);
+      });
+
+      it('has the correct value for contactForm.tags', () => {
+        expect(settings.get('contactForm.tags'))
+          .toEqual(defaults.contactForm.tags);
       });
 
       it('has the correct value for contactForm.ticketForms', () => {
