@@ -235,6 +235,16 @@ export class SubmitTicketForm extends Component {
     this.props.setFormState(formState);
   }
 
+  updateContactForm = (prefillTicketField) => {
+    const internalFields = [
+      { id: 'description', type: 'description' },
+      { id: 'subject', type: 'subject' }
+    ];
+    const fieldsData = _.compact(_.concat(this.props.customFields, internalFields));
+
+    this.prefillFormState(fieldsData, {}, prefillTicketField);
+  }
+
   updateTicketForm = (form, fields, prefill, prefillTicketField) => {
     this.setState({
       ticketForm: form,
