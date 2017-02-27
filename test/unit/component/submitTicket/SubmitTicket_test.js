@@ -1,7 +1,8 @@
 describe('Submit ticket component', () => {
   let SubmitTicket,
     mockIsIEValue,
-    mockIsMobileBrowserValue;
+    mockIsMobileBrowserValue,
+    mockUpdateContactForm;
 
   const formParams = {
     'name': 'bob',
@@ -92,6 +93,7 @@ describe('Submit ticket component', () => {
             };
           }
           clear() {}
+          updateContactForm = mockUpdateContactForm
           updateTicketForm() {}
           render() {
             return (
@@ -637,6 +639,25 @@ describe('Submit ticket component', () => {
 
       expect(document.querySelectorAll('.attachment_box').length)
         .toEqual(0);
+    });
+  });
+
+  describe('updateContactForm', () => {
+    beforeEach(() => {
+      mockUpdateContactForm = jasmine.createSpy('updateContactForm');
+    });
+
+    it('should invoke updateContactForm with ticket field settings', () => {
+      const ticketFieldSettings = [
+        { id: 'description', prefill: { '*': 'Yukihira Souma' } },
+        { id: 12345678, prefill: { '*': 'Nakiri Erina' } }
+      ];
+      const submitTicket = domRender(<SubmitTicket ticketFieldSettings={ticketFieldSettings} />);
+
+      submitTicket.updateContactForm();
+
+      expect(mockUpdateContactForm.calls.mostRecent().args[0])
+        .toEqual(ticketFieldSettings);
     });
   });
 });

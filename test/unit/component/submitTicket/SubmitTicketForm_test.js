@@ -730,4 +730,59 @@ describe('SubmitTicketForm component', () => {
       });
     });
   });
+
+  describe('updateContactForm', () => {
+    let submitTicketForm;
+    const internalFields = [
+      { id: 'description', type: 'description' },
+      { id: 'subject', type: 'subject' }
+    ];
+    const mockPrefillFields = [
+      { id: 1234567, prefill: { '*': 'arbirtary data' } },
+      { id: 9876543, prefill: { '*': 'arbirtary data 2' } }
+    ];
+
+    describe('with an unset customFields prop', () => {
+      it('should call prefillFormState with data that contains only internal fields', () => {
+        submitTicketForm = domRender(<SubmitTicketForm />);
+        submitTicketForm.prefillFormState = jasmine.createSpy('prefillFormState');
+        submitTicketForm.updateContactForm(mockPrefillFields);
+
+        const results = submitTicketForm.prefillFormState.calls.mostRecent().args;
+
+        expect(results[0])
+          .toEqual(internalFields);
+
+        expect(results[1])
+          .toEqual({});
+
+        expect(results[2])
+          .toEqual(mockPrefillFields);
+      });
+    });
+
+    describe('with a set customFields prop', () => {
+      it('should call prefillFormState with data that contains merged fields', () => {
+        const customFields = [
+          { id: 24176755, type: 'text', required: false, title: 'Tell us how we can improve' },
+          { id: 24176765, type: 'number', required: true, title: 'Rating' }
+        ];
+
+        submitTicketForm = domRender(<SubmitTicketForm customFields={customFields} />);
+        submitTicketForm.prefillFormState = jasmine.createSpy('prefillFormState');
+        submitTicketForm.updateContactForm(mockPrefillFields);
+
+        const results = submitTicketForm.prefillFormState.calls.mostRecent().args;
+
+        expect(results[0])
+          .toEqual(_.concat(customFields, internalFields));
+
+        expect(results[1])
+          .toEqual({});
+
+        expect(results[2])
+          .toEqual(mockPrefillFields);
+      });
+    });
+  });
 });
