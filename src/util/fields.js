@@ -5,6 +5,8 @@ import { i18n } from 'service/i18n';
 import { Field } from 'component/field/Field';
 import { SelectField } from 'component/field/SelectField';
 import { Dropdown } from 'component/field/Dropdown';
+import { isMobileBrowser,
+         isLandscape } from 'utility/devices';
 
 const geti18nContent = (field) => {
   const title = _.find(field.variants, (variant) => {
@@ -28,7 +30,9 @@ const getCustomFields = (customFields, formState, options = {}) => {
       placeholder: title,
       key: title,
       disableAutoComplete: options.disableAutoComplete,
-      description: field.description
+      description: field.description,
+      fullscreen: isMobileBrowser(),
+      landscape: isLandscape()
     };
 
     if (field.variants) {

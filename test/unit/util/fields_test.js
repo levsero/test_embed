@@ -142,6 +142,10 @@ describe('fields', () => {
         i18n: {
           getLocaleId: () => mockLocaleIdValue
         }
+      },
+      'utility/devices': {
+        isMobileBrowser: noop,
+        isLandscape: noop
       }
     });
 

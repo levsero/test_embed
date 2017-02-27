@@ -13,9 +13,7 @@ describe('dropdown component', () => {
         title: 'foo::baz',
         value: 3
       }
-    ],
-    mockIsLandscapeValue,
-    mockIsMobileBrowserValue;
+    ];
 
   const dropdownPath = buildSrcPath('component/field/Dropdown');
   const keyDownSpy = jasmine.createSpy('keydown');
@@ -26,9 +24,6 @@ describe('dropdown component', () => {
     mockery.enable({
       warnOnReplace: false
     });
-
-    mockIsLandscapeValue = false;
-    mockIsMobileBrowserValue = false;
 
     initMockRegistry({
       'React': React,
@@ -58,10 +53,6 @@ describe('dropdown component', () => {
           'TAB': 9,
           'ESC': 27
         }
-      },
-      'utility/devices': {
-        isMobileBrowser: () => mockIsMobileBrowserValue,
-        isLandscape: () => mockIsLandscapeValue
       }
     });
 
@@ -367,7 +358,7 @@ describe('dropdown component', () => {
   });
 
   describe('render', () => {
-    describe('when isMobileBrowser is false', () => {
+    describe('when fullscreen is false', () => {
       beforeEach(() => {
         dropdown = domRender(<Dropdown />);
       });
@@ -381,13 +372,12 @@ describe('dropdown component', () => {
       });
     });
 
-    describe('when isMobileBrowser is true', () => {
+    describe('when fullscreen is true', () => {
       beforeEach(() => {
-        mockIsMobileBrowserValue = true;
-        dropdown = domRender(<Dropdown />);
+        dropdown = domRender(<Dropdown fullscreen={true} />);
       });
 
-      describe('when isLandscape is false', () => {
+      describe('when landscape is false', () => {
         it('should have mobile classes', () => {
           expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelMobileClasses'))
             .not.toBeNull();
@@ -399,10 +389,9 @@ describe('dropdown component', () => {
         });
       });
 
-      describe('when isLandscape is true', () => {
+      describe('when landscape is true', () => {
         beforeEach(() => {
-          mockIsLandscapeValue = true;
-          dropdown = domRender(<Dropdown />);
+          dropdown = domRender(<Dropdown fullscreen={true} landscape={true} />);
         });
 
         it('should have landscape classes', () => {

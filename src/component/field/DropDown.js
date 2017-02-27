@@ -4,18 +4,20 @@ import _ from 'lodash';
 import { locals as styles } from './Dropdown.sass';
 import { DropdownMenu } from 'component/field/DropdownMenu';
 import { Icon } from 'component/Icon';
-import { isMobileBrowser,
-         isLandscape } from 'utility/devices';
 import { keyCodes } from 'utility/keyboard';
 
 export class Dropdown extends Component {
   static propTypes = {
+    fullscreen: PropTypes.bool,
+    landscape: PropTypes.bool,
     options: PropTypes.array.isRequired,
     placeholder: PropTypes.string,
     value: PropTypes.object
   }
 
   static defaultProps = {
+    fullscreen: false,
+    landscape: false,
     options: [],
     placeholder: '',
     value: {}
@@ -27,7 +29,7 @@ export class Dropdown extends Component {
     const initialMenu = (
       <DropdownMenu
         ref={(m) => { this.menu = m; }}
-        fullscreen={isMobileBrowser()}
+        fullscreen={this.props.fullscreen}
         options={this.formatDropdownOptions(this.props.options)}
         onOptionClick={this.setValue} />
     );
@@ -51,7 +53,7 @@ export class Dropdown extends Component {
   }
 
   handleBlur = () => {
-    if (this.containerClicked && !isMobileBrowser()) {
+    if (this.containerClicked && !this.props.fullscreen) {
       this.input.focus();
     }
 
@@ -155,7 +157,7 @@ export class Dropdown extends Component {
             ref={(m) => { this.menu = m; }}
             backButton={true}
             handleBackClick={this.handleBackClick}
-            fullscreen={isMobileBrowser()}
+            fullscreen={this.props.fullscreen}
             options={nestedOptions} />
         );
 
@@ -184,8 +186,8 @@ export class Dropdown extends Component {
   }
 
   render = () => {
-    const mobileClasses = isMobileBrowser() && !isLandscape() ? styles.labelMobile : '';
-    const landscapeClasses = isLandscape() ? styles.labelLandscape : '';
+    const mobileClasses = this.props.fullscreen && !this.props.landscape ? styles.labelMobile : '';
+    const landscapeClasses = this.props.landscape ? styles.labelLandscape : '';
 
     return (
       <div onMouseDown={this.handleContainerClick}>
