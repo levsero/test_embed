@@ -57,6 +57,19 @@ describe('dropdownOption component', () => {
           .not.toBeNull();
       });
     });
+
+    describe('when fullscreen is true', () => {
+      let option;
+
+      beforeEach(() => {
+        option = domRender(<DropdownOption backButton={true} />);
+      });
+
+      it('should have mobile classes', () => {
+        expect(ReactDOM.findDOMNode(option).querySelector('.arrowMobileClasses'))
+          .toBeNull();
+      });
+    });
   });
 
   describe('nextArrow', () => {
@@ -84,6 +97,19 @@ describe('dropdownOption component', () => {
       it('should have mobile classes', () => {
         expect(ReactDOM.findDOMNode(option).querySelector('.arrowMobileClasses'))
           .not.toBeNull();
+      });
+    });
+
+    describe('when fullscreen is true', () => {
+      let option;
+
+      beforeEach(() => {
+        option = domRender(<DropdownOption nestedMenu={noopReactComponent()} />);
+      });
+
+      it('should have mobile classes', () => {
+        expect(ReactDOM.findDOMNode(option).querySelector('.arrowMobileClasses'))
+          .toBeNull();
       });
     });
   });

@@ -398,6 +398,11 @@ describe('dropdown component', () => {
           expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelLandscapeClasses'))
             .not.toBeNull();
         });
+
+        it('should not have mobile classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelMobileClasses'))
+            .toBeNull();
+        });
       });
     });
   });
