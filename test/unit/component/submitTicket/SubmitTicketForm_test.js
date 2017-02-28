@@ -753,17 +753,17 @@ describe('SubmitTicketForm component', () => {
       });
 
       describe('when prefillFormState is invoked', () => {
-        it('should be internal fields', () => {
+        it('has the internal fields for the first argument', () => {
           expect(results[0])
             .toEqual(internalFields);
         });
 
-        it('should be empty object', () => {
+        it('has an empty object for the second argument', () => {
           expect(results[1])
             .toEqual({});
         });
 
-        it('should be pre-fill fields', () => {
+        it('has the pre-fill fields for the third argument', () => {
           expect(results[2])
             .toEqual(mockPrefillFields);
         });
@@ -785,17 +785,17 @@ describe('SubmitTicketForm component', () => {
       });
 
       describe('when prefillFormState is invoked', () => {
-        it('should be concatenated fields', () => {
+        it('has the concatenated fields for the first argument', () => {
           expect(results[0])
             .toEqual(_.concat(customFields, internalFields));
         });
 
-        it('should be empty object', () => {
+        it('has an empty object for the second argument', () => {
           expect(results[1])
             .toEqual({});
         });
 
-        it('should be pre-fill fields', () => {
+        it('has the pre-fill fields for the third argument', () => {
           expect(results[2])
             .toEqual(mockPrefillFields);
         });
