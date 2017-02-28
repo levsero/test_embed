@@ -260,7 +260,7 @@ export class SubmitTicket extends Component {
     this.setState({ formTitleKey });
   }
 
-  updateSubmitTicket = () => {
+  updateTicketFormState = () => {
     /* eslint camelcase:0 */
     const { ticket_forms } = this.state.ticketForms;
 

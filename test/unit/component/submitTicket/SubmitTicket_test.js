@@ -661,4 +661,56 @@ describe('Submit ticket component', () => {
         .toEqual(ticketFieldSettings);
     });
   });
+
+  describe('updateTicketFormState', () => {
+    let submitTicket,
+      mockUpdateContactForm,
+      mockUpdateTicketForms,
+      mockHandleTicketFormsListClick;
+
+    describe('when ticket forms is not available', () => {
+      beforeEach(() => {
+        submitTicket = domRender(<SubmitTicket />);
+        submitTicket.updateContactForm = mockUpdateContactForm = jasmine.createSpy('updateContactForm');
+        submitTicket.updateTicketFormState();
+      });
+
+      it('should invoke updateContactForm', () => {
+        expect(mockUpdateContactForm)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when ticket forms length is 1', () => {
+      const mockTicketForms = { ticket_forms: [{ id: 1234567 }] };
+
+      beforeEach(() => {
+        submitTicket = domRender(<SubmitTicket />);
+        submitTicket.setState({ ticketForms: mockTicketForms });
+        submitTicket.updateTicketForms = mockUpdateTicketForms = jasmine.createSpy('updateTicketForms');
+        submitTicket.updateTicketFormState();
+      });
+
+      it('should invoke updateTicketForms with ticket_forms', () => {
+        expect(mockUpdateTicketForms)
+          .toHaveBeenCalledWith(mockTicketForms.ticket_forms);
+      });
+    });
+
+    describe('when ticket forms is not available or not a length of 1', () => {
+      const mockTicketForms = { ticket_forms: [{ id: 1234567 }, { id: 9876543 }, { id: 1010111 }] };
+
+      beforeEach(() => {
+        submitTicket = domRender(<SubmitTicket />);
+        submitTicket.setState({ ticketForms: mockTicketForms });
+        submitTicket.handleTicketFormsListClick = mockHandleTicketFormsListClick = jasmine.createSpy('updateTicketForms');
+        submitTicket.updateTicketFormState();
+      });
+
+      it('should invoke handleTicketFormsListClick', () => {
+        expect(mockHandleTicketFormsListClick)
+          .toHaveBeenCalled();
+      });
+    });
+  });
 });
