@@ -264,8 +264,10 @@ export class SubmitTicket extends Component {
     /* eslint camelcase:0 */
     const { ticket_forms } = this.state.ticketForms;
 
-    if (ticket_forms && ticket_forms.length === 1) {
-      this.updateTicketForms(this.state.ticketForms);
+    if (!ticket_forms) {
+      this.updateContactForm();
+    } else if (ticket_forms.length === 1) {
+      this.updateTicketForms(ticket_forms);
     } else {
       this.handleTicketFormsListClick();
     }
