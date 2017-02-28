@@ -57,10 +57,11 @@ describe('embed.submitTicket', () => {
         SubmitTicket: class extends Component {
           constructor() {
             super();
-            this.show = jasmine.createSpy('show');
-            this.hide = jasmine.createSpy('hide');
-            this.clearNotification = jasmine.createSpy('clearNotification');
             this.clearForm = clearForm;
+            this.clearNotification = jasmine.createSpy('clearNotification');
+            this.hide = jasmine.createSpy('hide');
+            this.show = jasmine.createSpy('show');
+            this.updateContactForm = jasmine.createSpy('updateContactForm');
             this.state = {
               showNotification: false,
               message: '',
