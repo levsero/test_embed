@@ -154,19 +154,29 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .Form-field--focused,
-.Form-field:hover,
 .Form-checkboxInput--focused + .Form-checkbox {
   border: $thin-border-size solid $stroke-focused-color;
+  box-shadow: 0 0 0 #{3/$font-size}rem rgba(153,153,153, 0.4);
 
   > .Icon--search {
     color: $cta-color;
   }
 }
 
+.Form-field:hover {
+  border: $thin-border-size solid $stroke-focused-color;
+}
+
+
 .Form-field--invalid,
 .Form-field--invalid:hover,
 .Form-checkboxInput--invalid + .Form-checkbox {
   @include error-state($thin-border-size);
+}
+
+.Form-field--invalidFocused {
+  @include error-state($thin-border-size);
+  box-shadow: 0 0 0 #{3/$font-size}rem rgba(235,102,81, 0.4);
 }
 
 .Form-field--clean,

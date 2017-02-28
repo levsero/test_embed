@@ -207,10 +207,12 @@ export class Field extends Component {
     const portrait = (isMobileBrowser() && !isLandscape());
     const isDropdown = this.props.options.length > 0;
     const isCheckbox = this.props.type === 'checkbox';
+    const isInvalid = this.state.hasError && this.state.blurred && !isCheckbox;
     const fieldClasses = classNames({
       'Form-field u-isSelectable u-posRelative': true,
-      'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
+      'Form-field--invalid': isInvalid,
       'Form-field--focused': this.state.focused && !isCheckbox,
+      'Form-field--invalidFocused': isInvalid && this.state.focused,
       'Form-field--dropdown': isDropdown,
       'Form-field--clean u-flex u-flexAlignItemsBase': isCheckbox,
       'is-mobile': isMobileBrowser(),

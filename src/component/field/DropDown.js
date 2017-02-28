@@ -35,6 +35,7 @@ export class Dropdown extends Component {
     );
 
     this.state = {
+      focused: false,
       selected: props.value,
       displayedMenu: initialMenu,
       previousMenu: [],
@@ -50,14 +51,15 @@ export class Dropdown extends Component {
     if (this.containerClicked) {
       this.setState({ open: true });
     }
+    this.setState({ focused: true });
   }
 
   handleBlur = () => {
+    this.setState({ open: this.containerClicked, focused: false });
+
     if (this.containerClicked && !this.props.fullscreen) {
       this.input.focus();
     }
-
-    this.setState({ open: this.containerClicked });
   }
 
   handleInputClick = () => {
@@ -188,13 +190,14 @@ export class Dropdown extends Component {
   render = () => {
     const mobileClasses = this.props.fullscreen && !this.props.landscape ? styles.labelMobile : '';
     const landscapeClasses = this.props.landscape ? styles.labelLandscape : '';
+    const focusedClasses = this.state.focused ? styles.inputFocus : '';
 
     return (
       <div onMouseDown={this.handleContainerClick}>
         <div className={`${styles.label} ${landscapeClasses} ${mobileClasses}`}>
           {this.props.placeholder}
         </div>
-        <div className={styles.container}>
+        <div className={`${styles.container} ${focusedClasses}`}>
           <input
             ref={(i) => this.input = i}
             className={`${styles.input} ${mobileClasses} ${landscapeClasses}`}
