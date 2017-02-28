@@ -643,17 +643,18 @@ describe('Submit ticket component', () => {
   });
 
   describe('updateContactForm', () => {
+    let submitTicket;
+    const ticketFieldSettings = [
+      { id: 'description', prefill: { '*': 'Yukihira Souma' } },
+      { id: 12345678, prefill: { '*': 'Nakiri Erina' } }
+    ];
+
     beforeEach(() => {
       mockUpdateContactForm = jasmine.createSpy('updateContactForm');
+      submitTicket = domRender(<SubmitTicket ticketFieldSettings={ticketFieldSettings} />);
     });
 
     it('should invoke updateContactForm with ticket field settings', () => {
-      const ticketFieldSettings = [
-        { id: 'description', prefill: { '*': 'Yukihira Souma' } },
-        { id: 12345678, prefill: { '*': 'Nakiri Erina' } }
-      ];
-      const submitTicket = domRender(<SubmitTicket ticketFieldSettings={ticketFieldSettings} />);
-
       submitTicket.updateContactForm();
 
       expect(mockUpdateContactForm.calls.mostRecent().args[0])

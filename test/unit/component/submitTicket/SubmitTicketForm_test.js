@@ -732,7 +732,8 @@ describe('SubmitTicketForm component', () => {
   });
 
   describe('updateContactForm', () => {
-    let submitTicketForm;
+    let submitTicketForm,
+      results;
     const internalFields = [
       { id: 'description', type: 'description' },
       { id: 'subject', type: 'subject' }
@@ -743,45 +744,61 @@ describe('SubmitTicketForm component', () => {
     ];
 
     describe('with an unset customFields prop', () => {
-      it('should call prefillFormState with data that contains only internal fields', () => {
+      beforeEach(() => {
         submitTicketForm = domRender(<SubmitTicketForm />);
         submitTicketForm.prefillFormState = jasmine.createSpy('prefillFormState');
         submitTicketForm.updateContactForm(mockPrefillFields);
 
-        const results = submitTicketForm.prefillFormState.calls.mostRecent().args;
+        results = submitTicketForm.prefillFormState.calls.mostRecent().args;
+      });
 
-        expect(results[0])
-          .toEqual(internalFields);
+      describe('when prefillFormState is invoked', () => {
+        it('first argument as internal fields', () => {
+          expect(results[0])
+            .toEqual(internalFields);
+        });
 
-        expect(results[1])
-          .toEqual({});
+        it('second argument as empty object', () => {
+          expect(results[1])
+            .toEqual({});
+        });
 
-        expect(results[2])
-          .toEqual(mockPrefillFields);
+        it('third argument as pre-fill fields', () => {
+          expect(results[2])
+            .toEqual(mockPrefillFields);
+        });
       });
     });
 
     describe('with a set customFields prop', () => {
-      it('should call prefillFormState with data that contains merged fields', () => {
-        const customFields = [
-          { id: 24176755, type: 'text', required: false, title: 'Tell us how we can improve' },
-          { id: 24176765, type: 'number', required: true, title: 'Rating' }
-        ];
+      const customFields = [
+        { id: 24176755, type: 'text', required: false, title: 'Tell us how we can improve' },
+        { id: 24176765, type: 'number', required: true, title: 'Rating' }
+      ];
 
+      beforeEach(() => {
         submitTicketForm = domRender(<SubmitTicketForm customFields={customFields} />);
         submitTicketForm.prefillFormState = jasmine.createSpy('prefillFormState');
         submitTicketForm.updateContactForm(mockPrefillFields);
 
-        const results = submitTicketForm.prefillFormState.calls.mostRecent().args;
+        results = submitTicketForm.prefillFormState.calls.mostRecent().args;
+      });
 
-        expect(results[0])
-          .toEqual(_.concat(customFields, internalFields));
+      describe('when prefillFormState is invoked', () => {
+        it('first argument as concatenated fields', () => {
+          expect(results[0])
+            .toEqual(_.concat(customFields, internalFields));
+        });
 
-        expect(results[1])
-          .toEqual({});
+        it('second argument as empty object', () => {
+          expect(results[1])
+            .toEqual({});
+        });
 
-        expect(results[2])
-          .toEqual(mockPrefillFields);
+        it('third argument as pre-fill fields', () => {
+          expect(results[2])
+            .toEqual(mockPrefillFields);
+        });
       });
     });
   });
