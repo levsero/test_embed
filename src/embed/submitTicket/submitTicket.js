@@ -172,6 +172,9 @@ function create(name, config, reduxStore) {
       getRootComponent(name).setLoading(true);
     });
 
+    // For setTimeout and invocation of waitForRootComponent,
+    // defer and wait for rootComponent before processing statements
+    // in order execute after setLoading is completed
     transport.get({
       method: 'get',
       path: `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`,
@@ -179,8 +182,6 @@ function create(name, config, reduxStore) {
       locale: i18n.getLocale(),
       callbacks: {
         done(res) {
-          // do this on next tick so that it never happens before
-          // the one above that sets loading to true.
           setTimeout(() => {
             waitForRootComponent(name, () => {
               getRootComponent(name).updateTicketForms(JSON.parse(res.text));
@@ -188,8 +189,6 @@ function create(name, config, reduxStore) {
           }, 0);
         },
         fail() {
-          // do this on next tick so that it never happens before
-          // the one above that sets loading to true.
           setTimeout(() => {
             waitForRootComponent(name, () => {
               getRootComponent(name).setLoading(false);
@@ -198,6 +197,12 @@ function create(name, config, reduxStore) {
         }
       }
     });
+  } else {
+    setTimeout(() => {
+      waitForRootComponent(name, () => {
+        getRootComponent(name).updateContactForm();
+      });
+    }, 0);
   }
 
   const Embed = frameFactory(

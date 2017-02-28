@@ -239,6 +239,10 @@ export class SubmitTicket extends Component {
     return params;
   }
 
+  updateContactForm = () => {
+    this.refs.submitTicketForm.updateContactForm(this.props.ticketFieldSettings);
+  }
+
   handleDragEnter = () => {
     this.setState({ isDragActive: true });
   }
