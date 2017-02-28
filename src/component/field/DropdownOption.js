@@ -73,14 +73,15 @@ export class DropdownOption extends Component {
 
   render = () => {
     const focusedClasses = this.state.focused ? styles.fieldFocused : '';
+    const borderClasses = this.props.backButton ? styles.fieldBorder : '';
 
     return (
       <div
         ref={(el) => { this.element = el; }}
-        className={`${styles.field} ${focusedClasses}`}
+        className={`${borderClasses}`}
         key={this.props.title}
         onClick={this.handleDropdownOpen}>
-        <div>
+        <div className={`${styles.field} ${focusedClasses}`}>
           {this.renderBackArrow()}
           <div className={styles.title}>
             {this.props.title}
