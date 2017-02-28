@@ -16,7 +16,7 @@ describe('embed.ipm', () => {
     mockApiResponses = {};
 
     apiGetSpy = jasmine.createSpy('apiGet')
-      .and.callFake((path) => Promise.resolve(mockApiResponses[path] || {}));
+      .and.callFake((path, query, resolve) => resolve(mockApiResponses[path] || {}));
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -263,10 +263,10 @@ describe('embed.ipm', () => {
     };
 
     describe('when ipm is available', () => {
-      beforeEach((done) => {
+      beforeEach(() => {
         pluckSubscribeCall(mockMediator, 'ipm.identifying')();
         pluckSubscribeCall(mockMediator, 'ipm.setIpm')(ipmParams);
-        ipm.activateIpm('dan').then(done);
+        ipm.activateIpm('dan');
       });
 
       it('should show an ipm', () => {
@@ -276,10 +276,10 @@ describe('embed.ipm', () => {
     });
 
     describe('when ipm is not available', () => {
-      beforeEach((done) => {
+      beforeEach(() => {
         pluckSubscribeCall(mockMediator, 'ipm.identifying')();
         pluckSubscribeCall(mockMediator, 'ipm.setIpm')({});
-        ipm.activateIpm('dan').then(done);
+        ipm.activateIpm('dan');
       });
 
       it('should not show an ipm', () => {
@@ -289,7 +289,7 @@ describe('embed.ipm', () => {
     });
 
     describe('when ipm is already seen', () => {
-      beforeEach((done) => {
+      beforeEach(() => {
         pluckSubscribeCall(mockMediator, 'ipm.identifying')();
         pluckSubscribeCall(mockMediator, 'ipm.setIpm')(ipmParams);
 
@@ -298,7 +298,7 @@ describe('embed.ipm', () => {
 
         params.onShow(dan.instance);
         // Attempt to activate the ipm a second time
-        ipm.activateIpm('dan').then(done);
+        ipm.activateIpm('dan');
       });
 
       it('should not show an ipm', () => {
@@ -309,19 +309,17 @@ describe('embed.ipm', () => {
 
     describe('when user is not identified', () => {
       describe('and an anonymous campaign exists and is allowed in config', () => {
-        beforeEach((done) => {
-          mockApiResponses[ipm.CONNECT_API_CONFIG_PATH] =
-            { anonymousCampaignsAllowed: true };
-          mockApiResponses[ipm.CONNECT_API_PENDING_CAMPAIGN_PATH] = ipmParams;
-          ipm.create('anon');
+        beforeEach(() => {
+          mockApiResponses[ipm.connectApiPendingCampaignPath] = ipmParams;
+          ipm.create('anon', { anonymousCampaigns: true });
           ipm.render('anon');
-          ipm.activateIpm('anon').then(done);
+          ipm.activateIpm('anon');
         });
 
         it('checks for anonymous pending campaign', () => {
-          expect(apiGetSpy).toHaveBeenCalledWith(ipm.CONNECT_API_PENDING_CAMPAIGN_PATH, {
+          expect(apiGetSpy).toHaveBeenCalledWith(ipm.connectApiPendingCampaignPath, {
             anonymousId: 'some-buid'
-          });
+          }, jasmine.any(Function), jasmine.any(Function));
         });
 
         it('should show an ipm', () => {
@@ -331,16 +329,16 @@ describe('embed.ipm', () => {
       });
 
       describe('and anonymous campaign is not allowed in config', () => {
-        beforeEach((done) => {
+        beforeEach(() => {
           mockApiResponses[ipm.CONNECT_API_CONFIG_PATH] =
             { anonymousCampaignsAllowed: false };
           ipm.create('anon');
           ipm.render('anon');
-          ipm.activateIpm('anon').then(done);
+          ipm.activateIpm('anon');
         });
 
         it('does not check for anonymous pending campaign', () => {
-          expect(apiGetSpy).not.toHaveBeenCalledWith(ipm.CONNECT_API_PENDING_CAMPAIGN_PATH, {
+          expect(apiGetSpy).not.toHaveBeenCalledWith(ipm.connectApiPendingCampaignPath, {
             anonymousId: 'some-buid'
           });
         });
@@ -373,8 +371,8 @@ describe('embed.ipm', () => {
     });
 
     describe('when no ipm is available', () => {
-      beforeEach((done) => {
-        ipm.setIpm({}, 'dan').then(done);
+      beforeEach(() => {
+        ipm.setIpm({}, 'dan', danIpm);
       });
 
       it('should set state.ipmAvailable to false', () => {
@@ -384,8 +382,8 @@ describe('embed.ipm', () => {
     });
 
     describe('when an ipm is available', () => {
-      beforeEach((done) => {
-        ipm.setIpm(ipmParams, 'dan').then(done);
+      beforeEach(() => {
+        ipm.setIpm(ipmParams, 'dan', danIpm);
       });
 
       it('should set the ipm correctly', () => {

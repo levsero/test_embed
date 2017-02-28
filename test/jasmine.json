@@ -5,7 +5,6 @@
   ],
   "helpers": [
     "../../node_modules/babel-core/register.js",
-    "../../node_modules/babel-polyfill/lib/index.js",
     "*_helper.js"
   ]
 }

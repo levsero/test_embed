@@ -1,4 +1,4 @@
-fdescribe('embed.ipm.apiGet', () => {
+describe('embed.ipm.apiGet', () => {
   let apiGet,
     transportGetSpy;
 
@@ -28,7 +28,10 @@ fdescribe('embed.ipm.apiGet', () => {
   });
 
   describe('apiGet', () => {
-    let result;
+    let result,
+      error,
+      resolve,
+      reject;
 
     describe('with a successful request', () => {
       beforeEach(() => {
@@ -39,11 +42,11 @@ fdescribe('embed.ipm.apiGet', () => {
             }
           });
         });
-        result = apiGet('foobar', { someParam: true });
-      });
-
-      it('returns a promise', () => {
-        expect(result instanceof Promise).toBeTruthy;
+        result = null;
+        error = null;
+        resolve = (value) => { result = value; };
+        reject = (err) => { error = err; };
+        apiGet('foobar', { someParam: true }, resolve, reject);
       });
 
       it('calls transport get with path and decamelized keys', () => {
@@ -56,31 +59,25 @@ fdescribe('embed.ipm.apiGet', () => {
         }));
       });
 
-      it('resolves promise with camelized result', (done) => {
-        result.then((body) => {
-          expect(body).toEqual({
-            'someResponse': 42
-          });
-          done();
+      it('calls resolve callback with camelized result', () => {
+        expect(result).toEqual({
+          'someResponse': 42
         });
       });
     });
 
     describe('with a failed request', () => {
-      const error = new Error('bad times');
+      const err = new Error('bad times');
 
       beforeEach(() => {
         transportGetSpy.and.callFake(({ callbacks: { fail } }) => {
-          fail(error);
+          fail(err);
         });
-        result = apiGet('foobar', { someParam: true });
+        result = apiGet('foobar', { someParam: true }, resolve, reject);
       });
 
-      it('rejects promise with error', (done) => {
-        result.catch((e) => {
-          expect(e).toEqual(error);
-          done();
-        });
+      it('calls reject callback with error', () => {
+        expect(error).toEqual(err);
       });
     });
   });

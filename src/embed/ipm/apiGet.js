@@ -16,20 +16,18 @@ const decamelizeKeys = (hash) => (
   deepRenameKeys(hash, snakeCase)
 );
 
-export default function apiGet(path, query = {}) {
-  return new Promise((resolve, reject) => {
-    transport.get({
-      method: 'get',
-      path,
-      query: decamelizeKeys(query),
-      callbacks: {
-        done({ body }) {
-          resolve(camelizeKeys(body));
-        },
-        fail(error) {
-          reject(error);
-        }
+export default function apiGet(path, query = {}, resolve, reject) {
+  transport.get({
+    method: 'get',
+    path,
+    query: decamelizeKeys(query),
+    callbacks: {
+      done({ body }) {
+        resolve(camelizeKeys(body));
+      },
+      fail(error) {
+        reject(error);
       }
-    });
+    }
   });
 }

@@ -12,7 +12,6 @@ import { document,
          getDocumentHost,
          location } from 'utility/globals';
 import { transport } from 'service/transport';
-import { logging } from 'service/logging';
 import { identity } from 'service/identity';
 import apiGet from 'embed/ipm/apiGet';
 
@@ -23,13 +22,11 @@ const ipmCSS = `
   ${require('./ipm.scss')}
 `;
 
-const connectApiConfigPath = '/connect/api/ipm/config.json';
 const connectApiPendingCampaignPath = '/connect/api/ipm/pending_campaign.json';
 
 let ipmes = {};
 let hasSeenIpm = false;
 let hasSentIdentify = false;
-let ipmConfig;
 
 function create(name, config, reduxStore) {
   let containerStyle;
@@ -93,11 +90,6 @@ function create(name, config, reduxStore) {
     }
   };
 
-  ipmConfig = apiGet(connectApiConfigPath).catch((error) => {
-    logging.error({ error });
-    return {};
-  });
-
   const Embed = frameFactory(
     (params) => {
       return (
@@ -125,24 +117,21 @@ function get(name) {
   return ipmes[name];
 }
 
-function waitForRootComponent(name) {
-  return new Promise((resolve) => {
-    const checkForRootComponent = () => {
-      const rootComponent = get(name).instance.getRootComponent();
+function waitForRootComponent(name, callback) {
+  const checkForRootComponent = () => {
+    const rootComponent = get(name).instance.getRootComponent();
 
-      if (rootComponent) {
-        resolve(rootComponent);
-      } else {
-        setTimeout(checkForRootComponent, 0);
-      }
-    };
+    if (rootComponent) {
+      callback(rootComponent);
+    } else {
+      setTimeout(checkForRootComponent, 0);
+    }
+  };
 
-    checkForRootComponent();
-  });
+  checkForRootComponent();
 }
 
-async function setIpm(ipmContent, name) {
-  const ipm = await waitForRootComponent(name);
+function setIpm(ipmContent, name, ipm) {
   const color = ipmContent.message && ipmContent.message.color;
 
   if (color) {
@@ -162,9 +151,7 @@ async function setIpm(ipmContent, name) {
   }
 }
 
-async function showIpm(name) {
-  const ipm = await waitForRootComponent(name);
-
+function showIpm(name, ipm) {
   if (ipm.state.ipmAvailable && !hasSeenIpm) {
     ipmes[name].instance.show({ transition: 'downShow' });
   } else if (ipm.state.ipmAvailable === null) {
@@ -182,35 +169,37 @@ async function showIpm(name) {
   }
 }
 
-function checkAnonymousPendingCampaign() {
+function checkAnonymousPendingCampaign(resolve) {
   return (
-    apiGet(connectApiPendingCampaignPath, { anonymousId: identity.getBuid() })
-      .catch((err) => {
-        // Ignore 404 errors, as this is the API's way of telling us there are no pending campaigns
-        if (err.message === 'Not Found') {
-          return {};
-        }
+    apiGet(connectApiPendingCampaignPath, { anonymousId: identity.getBuid() }, resolve, (err) => {
+      // Ignore 404 errors, as this is the API's way of telling us there are no pending campaigns
+      if (err.message === 'Not Found') {
+        resolve({});
+        return;
+      }
 
-        throw err;
-      })
+      throw err;
+    })
   );
 }
 
-async function activateIpm(name) {
-  if (hasSentIdentify) {
-    await showIpm(name);
-  } else {
-    const { anonymousCampaignsAllowed } = await ipmConfig;
+function activateIpm(name) {
+  waitForRootComponent(name, (ipm) => {
+    if (hasSentIdentify) {
+      showIpm(name, ipm);
+    } else {
+      const { anonymousCampaigns } = get(name).config;
 
-    if (anonymousCampaignsAllowed) {
-      const { pendingCampaign } = await checkAnonymousPendingCampaign();
-
-      if (pendingCampaign) {
-        await setIpm(pendingCampaign, name);
-        await showIpm(name);
+      if (anonymousCampaigns) {
+        checkAnonymousPendingCampaign(({ pendingCampaign }) => {
+          if (pendingCampaign) {
+            setIpm(pendingCampaign, name, ipm);
+            showIpm(name, ipm);
+          }
+        });
       }
     }
-  }
+  });
 }
 
 function render(name) {
@@ -223,7 +212,9 @@ function render(name) {
   });
 
   mediator.channel.subscribe('ipm.setIpm', ({ pendingCampaign = {} }) => {
-    setIpm(pendingCampaign, name);
+    waitForRootComponent(name, (ipm) => {
+      setIpm(pendingCampaign, name, ipm);
+    });
   });
 
   mediator.channel.subscribe('ipm.activate', () => {
@@ -245,7 +236,6 @@ export const ipm = {
   render,
 
   // for testing
-  connectApiConfigPath,
   connectApiPendingCampaignPath,
   activateIpm,
   setIpm
