@@ -1,19 +1,23 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: Form-field from '../../styles/components/Form.scss';
   composes: u-marginBM u-posRelative from '../../styles/utils.scss';
-  color: $zd-color-oil;
+  color: $zd-color-monsoon;
 }
 
 .arrow {
-  composes: u-pullRight u-paddingTT u-posAbsolute from '../../styles/utils.scss';
+  composes: u-pullRight u-posAbsolute from '../../styles/utils.scss';
+  background: $zd-color-white;
   right: #{10/$font-size}rem;
   top: #{10/$font-size}rem;
   pointer-events: none;
+  padding-top: #{4/$font-size}rem;
+  padding-left: #{8/$font-size}rem;
 
   svg {
     pointer-events: none;
+    fill: $zd-color-silver-sand;
+    color: $zd-color-silver-sand;
   }
 }
 
@@ -23,18 +27,25 @@
   }
 }
 
+.arrowHover {
+  svg {
+    fill: $zd-color-dark-gray !important;
+    color: $zd-color-dark-gray !important;
+  }
+}
+
 .label {
   composes: Form-fieldLabel from '../../styles/components/Form.scss';
   composes: u-textXHeight from '../../styles/utils.scss';
 }
 
 .inputFocus {
-  border: $thin-border-size solid $stroke-focused-color;
-  box-shadow: 0 0 0 #{3/$font-size}rem rgba(153,153,153, 0.4);
+
 }
 
 .input {
-  width: 90% !important;
+  composes: Form-field from '../../styles/components/Form.scss';
+  composes: u-hsizeAll from '../../styles/utils.scss';
 
   &::-webkit-input-placeholder {
     color: $zd-color-oil;
@@ -46,6 +57,11 @@
 
   &:-ms-input-placeholder {
     color: $zd-color-oil;
+  }
+
+  &:focus {
+    border: $thin-border-size solid $stroke-focused-color;
+    box-shadow: 0 0 0 #{3/$font-size}rem rgba(153,153,153, 0.4);
   }
 }
 

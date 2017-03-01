@@ -35,7 +35,7 @@ export class Dropdown extends Component {
     );
 
     this.state = {
-      focused: false,
+      hovering: false,
       selected: props.value,
       displayedMenu: initialMenu,
       previousMenu: [],
@@ -51,11 +51,10 @@ export class Dropdown extends Component {
     if (this.containerClicked) {
       this.setState({ open: true });
     }
-    this.setState({ focused: true });
   }
 
   handleBlur = () => {
-    this.setState({ open: this.containerClicked, focused: false });
+    this.setState({ open: this.containerClicked });
 
     if (this.containerClicked && !this.props.fullscreen) {
       this.input.focus();
@@ -107,6 +106,14 @@ export class Dropdown extends Component {
           this.menu.keyDown(key);
         }
     }
+  }
+
+  handleMouseEnter = () => {
+    this.setState({ hovering: true });
+  }
+
+  handleMouseLeave = () => {
+    this.setState({ hovering: false });
   }
 
   setValue = (value, title) => () => {
@@ -181,29 +188,31 @@ export class Dropdown extends Component {
 
   renderDropdownArrow = () => {
     const iconOpenClasses = this.state.open ? styles.arrowOpen : '';
+    const hoveredClasses = this.state.hovering ? styles.arrowHover : '';
 
     return (
-      <Icon type='Icon--caret' className={`${styles.arrow} ${iconOpenClasses}`} />
+      <Icon type='Icon--caret' className={`${styles.arrow} ${iconOpenClasses} ${hoveredClasses}`} />
     );
   }
 
   render = () => {
     const mobileClasses = this.props.fullscreen && !this.props.landscape ? styles.labelMobile : '';
     const landscapeClasses = this.props.landscape ? styles.labelLandscape : '';
-    const focusedClasses = this.state.focused ? styles.inputFocus : '';
 
     return (
       <div onMouseDown={this.handleContainerClick}>
         <div className={`${styles.label} ${landscapeClasses} ${mobileClasses}`}>
           {this.props.placeholder}
         </div>
-        <div className={`${styles.container} ${focusedClasses}`}>
+        <div className={`${styles.container}`}>
           <input
             ref={(i) => this.input = i}
             className={`${styles.input} ${mobileClasses} ${landscapeClasses}`}
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}
             onMouseDown={this.handleInputClick}
+            onMouseEnter={this.handleMouseEnter}
+            onMouseLeave={this.handleMouseLeave}
             readOnly={true}
             onKeyDown={this.handleKeyDown}
             placeholder={this.state.selected.title} />

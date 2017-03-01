@@ -54,7 +54,7 @@ $Form-fontSize: #{13/$font-size}rem;
   background: $base-color;
   border: $thin-border-size solid $stroke-color;
   border-radius: #{4/$font-size}rem;
-  padding: #{9/$font-size}rem $spacing-sml $spacing-sml;
+  padding: #{9.5/$font-size}rem $spacing-sml #{9.5/$font-size}rem;
   color: $secondary-color;
 
   textarea, input, select {
