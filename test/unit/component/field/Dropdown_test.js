@@ -30,7 +30,8 @@ describe('dropdown component', () => {
       './Dropdown.sass': {
         locals: {
           labelMobile: 'labelMobileClasses',
-          labelLandscape: 'labelLandscapeClasses'
+          labelLandscape: 'labelLandscapeClasses',
+          arrowHover: 'arrowHoverClasses'
         }
       },
       'component/field/DropdownMenu': {
@@ -403,6 +404,30 @@ describe('dropdown component', () => {
           expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelMobileClasses'))
             .toBeNull();
         });
+      });
+    });
+
+    describe('when hovering on input field', () => {
+      beforeEach(() => {
+        dropdown = domRender(<Dropdown />);
+        dropdown.handleMouseEnter();
+      });
+
+      it('should show hover classes', () => {
+        expect(dropdown.renderDropdownArrow().props.className)
+          .toContain('arrowHoverClasses');
+      });
+    });
+
+    describe('when not hovering on input field', () => {
+      beforeEach(() => {
+        dropdown = domRender(<Dropdown />);
+        dropdown.handleMouseLeave();
+      });
+
+      it('should show hover classes', () => {
+        expect(dropdown.renderDropdownArrow().props.className)
+          .not.toContain('arrowHoverClasses');
       });
     });
   });

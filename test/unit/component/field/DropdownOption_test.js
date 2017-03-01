@@ -15,7 +15,9 @@ describe('dropdownOption component', () => {
         locals: {
           arrowBack: 'arrowBackClasses',
           arrowNext: 'arrowNextClasses',
-          arrowMobile: 'arrowMobileClasses'
+          arrowMobile: 'arrowMobileClasses',
+          fieldBorder: 'fieldBorderClasses',
+          fieldFocused: 'fieldFocusedClasses'
         }
       }
     });
@@ -164,6 +166,64 @@ describe('dropdownOption component', () => {
       it('does not call updateMenu prop', () => {
         expect(updateMenuSpy)
           .not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('render', () => {
+    let option;
+
+    describe('when the field is focused', () => {
+      beforeEach(() => {
+        option = domRender(
+          <DropdownOption />
+        );
+
+        option.focus();
+      });
+
+      it('has focused classes', () => {
+        expect(ReactDOM.findDOMNode(option).querySelector('.fieldFocusedClasses'))
+          .not.toBeNull();
+      });
+    });
+
+    describe('when the field is not focused', () => {
+      beforeEach(() => {
+        option = domRender(<DropdownOption />);
+
+        option.blur();
+      });
+
+      it('does not have focused classes', () => {
+        expect(ReactDOM.findDOMNode(option).querySelector('.fieldFocusedClasses'))
+          .toBeNull();
+      });
+    });
+
+    describe('when the back button is shown', () => {
+      beforeEach(() => {
+        option = domRender(
+          <DropdownOption backButton={true} />
+        );
+      });
+
+      it('has border classes', () => {
+        expect(ReactDOM.findDOMNode(option).className)
+          .toContain('fieldBorderClasses');
+      });
+    });
+
+    describe('when the back button is not shown', () => {
+      beforeEach(() => {
+        option = domRender(
+          <DropdownOption />
+        );
+      });
+
+      it('has border classes', () => {
+        expect(ReactDOM.findDOMNode(option).querySelector('.fieldBorderClasses'))
+          .toBeNull();
       });
     });
   });

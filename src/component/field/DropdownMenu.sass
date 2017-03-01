@@ -5,7 +5,7 @@
 @import '../../styles/_vars.scss';
 
 .menu {
-  composes: u-posAbsolute u-border u-zIndex1 u-posStart--flush from '../../styles/utils.scss';
+  composes: u-posAbsolute u-border u-hsizeAll u-zIndex1 u-posStart--flush from '../../styles/utils.scss';
   border-radius: #{4/$font-size}rem;
   border-color: $zd-color-aluminum;
   top: #{36/$font-size}rem;
@@ -14,13 +14,24 @@
   overflow-x: hidden;
   overflow-y: scroll;
   background-color: $zd-color-white;
-  width: 100%; /* 1 */
   padding-top: #{8/$font-size}rem;
   padding-bottom: #{8/$font-size}rem;
   box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .2);
 
-  ::-webkit-scrollbar {
-    display: none;
+  /*
+   * Customise scrollbar for safari/chrome
+   */
+  &::-webkit-scrollbar-track {
+    margin: #{5/$font-size}rem;
+    padding-right: #{5/$font-size}rem;
+  }
+  &::-webkit-scrollbar {
+    box-shadow: none;
+    width: #{3/$font-size}rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $base-border-color;
+    border-radius: #{3/$font-size}rem;
   }
 }
 
