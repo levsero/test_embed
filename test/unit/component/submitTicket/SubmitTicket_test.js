@@ -661,4 +661,140 @@ describe('Submit ticket component', () => {
         .toEqual(ticketFieldSettings);
     });
   });
+
+  describe('setTicketForm', () => {
+    let submitTicket,
+      mockShowBackButton,
+      mockUpdateSubmitTicketForm;
+
+    describe('when there are no ticket forms', () => {
+      const ticketForms = { ticket_forms: [] };
+      const subjects = ['Kuroi Uta', 123, [], { id: 456 }];
+
+      beforeEach(() => {
+        mockShowBackButton = jasmine.createSpy('showBackButton');
+        submitTicket = domRender(<SubmitTicket showBackButton={mockShowBackButton} />);
+        submitTicket.setState({ ticketForms });
+        submitTicket.updateSubmitTicketForm = mockUpdateSubmitTicketForm = jasmine.createSpy('updateSubmitTicketForm');
+      });
+
+      describe('when it is passed any data type representing a ticketFormId', () => {
+        it('does not call showBackButton', () => {
+          subjects.forEach((subject) => {
+            submitTicket.setTicketForm(subject);
+          });
+
+          expect(mockShowBackButton)
+            .not.toHaveBeenCalled();
+        });
+
+        it('does not call updateSubmitTicketForm', () => {
+          subjects.forEach((subject) => {
+            submitTicket.setTicketForm(subject);
+          });
+
+          expect(mockUpdateSubmitTicketForm)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when there are ticket forms', () => {
+      const ticketForms = { ticket_forms: [{ id: 123 }, { id: 456 }] };
+
+      beforeEach(() => {
+        mockShowBackButton = jasmine.createSpy('showBackButton');
+        submitTicket = domRender(<SubmitTicket showBackButton={mockShowBackButton} />);
+        submitTicket.setState({ ticketForms });
+        submitTicket.updateSubmitTicketForm = mockUpdateSubmitTicketForm = jasmine.createSpy('updateSubmitTicketForm');
+      });
+
+      describe('when it is passed a non-existing ticketFormId', () => {
+        it('calls showBackButton', () => {
+          submitTicket.setTicketForm(777);
+
+          expect(mockShowBackButton)
+            .toHaveBeenCalled();
+        });
+
+        it('calls updateSubmitTicketForm with undefined as ticketForm', () => {
+          const ticketForm = undefined;
+
+          submitTicket.setTicketForm(777);
+
+          expect(mockUpdateSubmitTicketForm)
+            .toHaveBeenCalledWith(ticketForm, undefined);
+        });
+      });
+
+      describe('when it is passed an existing ticketFormId', () => {
+        it('calls showBackButton', () => {
+          submitTicket.setTicketForm(123);
+
+          expect(mockShowBackButton)
+            .toHaveBeenCalled();
+        });
+
+        it('calls updateSubmitTicketForm with a ticketForm object', () => {
+          submitTicket.setTicketForm(456);
+
+          expect(mockUpdateSubmitTicketForm)
+            .toHaveBeenCalledWith({ id: 456 }, undefined);
+        });
+      });
+    });
+  });
+
+  describe('updateTicketFormState', () => {
+    let submitTicket,
+      mockUpdateContactForm,
+      mockUpdateTicketForms,
+      mockSetTicketForm;
+
+    describe('when ticket forms is not available', () => {
+      beforeEach(() => {
+        submitTicket = domRender(<SubmitTicket />);
+        submitTicket.updateContactForm = mockUpdateContactForm = jasmine.createSpy('updateContactForm');
+        submitTicket.updateTicketFormState();
+      });
+
+      it('should invoke updateContactForm', () => {
+        expect(mockUpdateContactForm)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when ticket forms length is 1', () => {
+      const mockTicketForms = { ticket_forms: [{ id: 1234567 }] };
+
+      beforeEach(() => {
+        submitTicket = domRender(<SubmitTicket />);
+        submitTicket.setState({ ticketForms: mockTicketForms });
+        submitTicket.updateTicketForms = mockUpdateTicketForms = jasmine.createSpy('updateTicketForms');
+        submitTicket.updateTicketFormState();
+      });
+
+      it('should invoke updateTicketForms with ticket_forms', () => {
+        expect(mockUpdateTicketForms)
+          .toHaveBeenCalledWith(mockTicketForms.ticket_forms);
+      });
+    });
+
+    describe('when ticket forms is not available or not a length of 1', () => {
+      const mockTicketForms = { ticket_forms: [{ id: 1234567 }, { id: 9876543 }, { id: 1010111 }] };
+      const selectedTicketForm = mockTicketForms.ticket_forms[0];
+
+      beforeEach(() => {
+        submitTicket = domRender(<SubmitTicket />);
+        submitTicket.setState({ ticketForms: mockTicketForms, selectedTicketForm });
+        submitTicket.setTicketForm = mockSetTicketForm = jasmine.createSpy('setTicketForm');
+        submitTicket.updateTicketFormState();
+      });
+
+      it('should invoke setTicketForm', () => {
+        expect(mockSetTicketForm)
+          .toHaveBeenCalledWith(selectedTicketForm.id);
+      });
+    });
+  });
 });
