@@ -23,7 +23,7 @@ export class ChatBox extends Component {
   }
 
   handleChange = (e) => {
-    const value = e.target.value;
+    const { value } = e.target;
 
     this.props.updateCurrentMsg(value);
   }
