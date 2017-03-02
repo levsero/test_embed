@@ -269,7 +269,7 @@ export class SubmitTicket extends Component {
     } else if (ticket_forms.length === 1) {
       this.updateTicketForms(ticket_forms);
     } else {
-      if (this.state.selectedTicketForm && this.state.selectedTicketForm.id) {
+      if (this.state.selectedTicketForm.id) {
         this.setTicketForm(this.state.selectedTicketForm.id);
       }
     }
@@ -304,7 +304,7 @@ export class SubmitTicket extends Component {
   setTicketForm = (ticketFormId) => {
     const { ticket_forms } = this.state.ticketForms;
 
-    if (!ticket_forms || Array.isArray(ticket_forms) && ticket_forms.length === 0) return;
+    if (Array.isArray(ticket_forms) && ticket_forms.length === 0) return;
 
     const getformByIdFn = (form) => form.id === parseInt(ticketFormId);
     const selectedTicketForm = _.find(ticket_forms, getformByIdFn);
