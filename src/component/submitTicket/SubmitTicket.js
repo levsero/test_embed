@@ -269,7 +269,9 @@ export class SubmitTicket extends Component {
     } else if (ticket_forms.length === 1) {
       this.updateTicketForms(ticket_forms);
     } else {
-      this.handleTicketFormsListClick();
+      if (this.state.selectedTicketForm && this.state.selectedTicketForm.id) {
+        this.setTicketForm(this.state.selectedTicketForm.id);
+      }
     }
   }
 
@@ -299,16 +301,23 @@ export class SubmitTicket extends Component {
     }, callbackFn);
   }
 
-  handleTicketFormsListClick = (e) => {
-    if (!e && !this.state.selectedTicketForm) return;
+  setTicketForm = (ticketFormId) => {
+    const { ticket_forms } = this.state.ticketForms;
 
-    const value = e && e.target.dataset.id || this.state.selectedTicketForm.id;
-    const getformByIdFn = (form) => form.id === parseInt(value);
-    const selectedTicketForm = _.find(this.state.ticketForms.ticket_forms, getformByIdFn);
+    if (!ticket_forms || Array.isArray(ticket_forms) && ticket_forms.length === 0) return;
+
+    const getformByIdFn = (form) => form.id === parseInt(ticketFormId);
+    const selectedTicketForm = _.find(ticket_forms, getformByIdFn);
     const ticketFormPrefill = _.find(this.props.ticketFormSettings, getformByIdFn);
 
     this.props.showBackButton();
     this.updateSubmitTicketForm(selectedTicketForm, ticketFormPrefill);
+  }
+
+  handleTicketFormsListClick = (e) => {
+    const ticketFormId = e && e.target.dataset.id;
+
+    this.setTicketForm(ticketFormId);
   }
 
   renderLoadingSpinner = () => {

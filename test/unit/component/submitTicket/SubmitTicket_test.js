@@ -666,7 +666,7 @@ describe('Submit ticket component', () => {
     let submitTicket,
       mockUpdateContactForm,
       mockUpdateTicketForms,
-      mockHandleTicketFormsListClick;
+      mockSetTicketForm;
 
     describe('when ticket forms is not available', () => {
       beforeEach(() => {
@@ -699,17 +699,18 @@ describe('Submit ticket component', () => {
 
     describe('when ticket forms is not available or not a length of 1', () => {
       const mockTicketForms = { ticket_forms: [{ id: 1234567 }, { id: 9876543 }, { id: 1010111 }] };
+      const selectedTicketForm = mockTicketForms.ticket_forms[0];
 
       beforeEach(() => {
         submitTicket = domRender(<SubmitTicket />);
-        submitTicket.setState({ ticketForms: mockTicketForms });
-        submitTicket.handleTicketFormsListClick = mockHandleTicketFormsListClick = jasmine.createSpy('updateTicketForms');
+        submitTicket.setState({ ticketForms: mockTicketForms, selectedTicketForm });
+        submitTicket.setTicketForm = mockSetTicketForm = jasmine.createSpy('setTicketForm');
         submitTicket.updateTicketFormState();
       });
 
-      it('should invoke handleTicketFormsListClick', () => {
-        expect(mockHandleTicketFormsListClick)
-          .toHaveBeenCalled();
+      it('should invoke setTicketForm', () => {
+        expect(mockSetTicketForm)
+          .toHaveBeenCalledWith(selectedTicketForm.id);
       });
     });
   });
