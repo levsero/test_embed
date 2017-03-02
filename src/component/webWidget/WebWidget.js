@@ -150,9 +150,7 @@ class WebWidget extends Component {
   }
 
   renderChat = () => {
-    const classes = classNames({
-      'u-isHidden': this.state.activeComponent !== chat
-    });
+    const classes = this.state.activeComponent !== chat ? 'u-isHidden' : '';
 
     return (
       <div className={classes}>
