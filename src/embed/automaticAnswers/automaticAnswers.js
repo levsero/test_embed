@@ -52,7 +52,7 @@ function create(name, config, reduxStore) {
 
   const frameParams = {
     frameStyle: frameStyle,
-    css: automaticAnswersCSS + generateUserCSS(),
+    css: automaticAnswersCSS + generateUserCSS('#333333'),
     fullWidth: isMobileBrowser(),
     // We are not using the close button on EmbedWrapper because we need the flexibility
     // to show the close button on some screens, but not others.

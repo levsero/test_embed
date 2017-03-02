@@ -43,7 +43,7 @@
   }
 
   a {
-    color: $zd-color-apple-green;
+    color: $zd-color-pelorous;
   }
 }
 
@@ -106,10 +106,12 @@
 }
 
 .AutomaticAnswersBtn {
+  color: white;
   font-size: #{12/$font-size}rem;
   border-radius: #{3/$font-size}rem;
-  border: #{1/$font-size}rem solid $zd-color-apple-green !important;
+  border: #{1/$font-size}rem solid $zd-color-oil !important;
 }
+
 
 .AutomaticAnswersBtn--no {
   min-width: #{90/$font-size}rem;
@@ -126,7 +128,7 @@
   &.u-userBorderColor:not([disabled]):hover,
   &.u-userBorderColor:not([disabled]):active,
   &.u-userBorderColor:not([disabled]):focus {
-    color: $zd-color-apple-green !important;
+    color: $zd-color-oil !important;
     background-color: transparent !important;
   }
 }
