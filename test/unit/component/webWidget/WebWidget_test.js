@@ -37,9 +37,7 @@ describe('WebWidget component', () => {
 
     initMockRegistry({
       'React': React,
-      'component/chat/Chat': {
-        Chat: noopReactComponent()
-      },
+      'component/chat/Chat': noopReactComponent(),
       'component/helpCenter/HelpCenter': {
         HelpCenter: MockHelpCenter
       },
@@ -49,7 +47,7 @@ describe('WebWidget component', () => {
     });
 
     mockery.registerAllowable(webWidgetPath);
-    WebWidget = requireUncached(webWidgetPath).WebWidget;
+    WebWidget = requireUncached(webWidgetPath).default.WrappedComponent;
   });
 
   afterEach(() => {
@@ -154,13 +152,22 @@ describe('WebWidget component', () => {
   });
 
   describe('#onNextClick', () => {
-    let webWidget;
+    let webWidget, showBackButtonSpy;
+
+    beforeEach(() => {
+      showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
+    });
 
     describe('when chat is online', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget helpCenterAvailable={true} />);
-        // TODO: Replace with whatever function will set chat status
-        webWidget.setState({ chatOnline: true });
+        const chatProp = { account_status: 'online' }; // eslint-disable-line camelcase
+
+        webWidget = domRender(
+          <WebWidget
+            helpCenterAvailable={true}
+            chat={chatProp}
+            showBackButton={showBackButtonSpy} />
+        );
         webWidget.onNextClick();
       });
 
@@ -168,15 +175,22 @@ describe('WebWidget component', () => {
         expect(webWidget.renderChat().props.className)
           .not.toContain('u-isHidden');
       });
+
+      it('should call onBackClick prop', () => {
+        expect(showBackButtonSpy)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('when chat is offline', () => {
-      let showBackButtonSpy;
-
       beforeEach(() => {
-        showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
+        const chatProp = { account_status: 'offline' }; // eslint-disable-line camelcase
+
         webWidget = domRender(
-          <WebWidget helpCenterAvailable={true} showBackButton={showBackButtonSpy} />
+          <WebWidget
+            helpCenterAvailable={true}
+            showBackButton={showBackButtonSpy}
+            chat={chatProp} />
         );
         webWidget.onNextClick();
       });
@@ -186,7 +200,7 @@ describe('WebWidget component', () => {
           .not.toContain('u-isHidden');
       });
 
-      it('should call onCancel prop', () => {
+      it('should call onBackClick prop', () => {
         expect(showBackButtonSpy)
           .toHaveBeenCalled();
       });
@@ -217,6 +231,23 @@ describe('WebWidget component', () => {
       it('should call showBackButton prop', () => {
         expect(showBackButtonSpy)
           .toHaveBeenCalled();
+      });
+    });
+
+    describe('when chat is the active component', () => {
+      beforeEach(() => {
+        webWidget.setComponent('chat');
+        webWidget.onBackClick();
+      });
+
+      it('should call showBackButton prop', () => {
+        expect(showBackButtonSpy)
+          .toHaveBeenCalled();
+      });
+
+      it('shows help center', () => {
+        expect(webWidget.renderHelpCenter().props.className)
+          .not.toContain('u-isHidden');
       });
     });
 

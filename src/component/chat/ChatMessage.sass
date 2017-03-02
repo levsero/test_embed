@@ -1,0 +1,22 @@
+@import '../../styles/_vars.scss';
+
+.wrapper {
+  composes: u-cf u-block from '../../styles/utils.scss';
+}
+
+.message {
+  composes: u-paddingS u-marginBS from '../../styles/utils.scss';
+}
+
+.messageUser {
+  composes: u-pullRight from '../../styles/utils.scss';
+}
+
+.messageAgent {
+  composes: u-pullLeft from '../../styles/utils.scss';
+}
+
+.name {
+  composes: u-textBold from '../../styles/utils.scss';
+  color: $zd-color-dark-gray;
+}

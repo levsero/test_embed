@@ -18,6 +18,8 @@ describe('embed.webWidget', () => {
   const contextualSearch = jasmine.createSpy();
   const authenticateSpy = jasmine.createSpy();
   const revokeSpy = jasmine.createSpy();
+  const zChatInitSpy = jasmine.createSpy();
+  const zChatFirehoseSpy = jasmine.createSpy().and.callThrough();
 
   beforeEach(() => {
     mockSettingsValue = '';
@@ -104,35 +106,33 @@ describe('embed.webWidget', () => {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
-      'component/webWidget/WebWidget': {
-        WebWidget: class extends Component {
-          constructor() {
-            super();
-            this.resetState = resetState;
-            this.backtrackSearch = backtrackSearch;
-            this.contextualSearch = contextualSearch;
-            this.performSearch = performSearch;
-            this.focusField = focusField;
-            this.state = {
-              topics: [],
-              searchCount: 0,
-              searchTerm: '',
-              hasSearched: false,
-              showIntroScreen: false
-            };
-          }
+      'component/webWidget/WebWidget': class extends Component {
+        constructor() {
+          super();
+          this.resetState = resetState;
+          this.backtrackSearch = backtrackSearch;
+          this.contextualSearch = contextualSearch;
+          this.performSearch = performSearch;
+          this.focusField = focusField;
+          this.state = {
+            topics: [],
+            searchCount: 0,
+            searchTerm: '',
+            hasSearched: false,
+            showIntroScreen: false
+          };
+        }
 
-          getRootComponent() {
-            return this.refs.rootComponent;
-          }
+        getRootComponent() {
+          return this.refs.rootComponent;
+        }
 
-          render() {
-            return (
-              <div className='mock-webWidget'>
-                <WebWidgetChild ref='rootComponent' />
-              </div>
-            );
-          }
+        render() {
+          return (
+            <div className='mock-webWidget'>
+              <WebWidgetChild ref='rootComponent' />
+            </div>
+          );
         }
       },
       './webWidget.scss': '',
@@ -141,6 +141,14 @@ describe('embed.webWidget', () => {
       },
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory
+      },
+      'vendor/web-sdk': {
+        init: zChatInitSpy,
+        getFirehose: () => {
+          return {
+            on: zChatFirehoseSpy
+          };
+        }
       },
       'utility/devices': {
         isMobileBrowser() { return mockIsMobileBrowser; },
@@ -171,7 +179,8 @@ describe('embed.webWidget', () => {
         },
         location: {
           protocol: 'https:'
-        }
+        },
+        win: global.window
       },
       'service/authentication' : {
         authentication: {
@@ -353,6 +362,26 @@ describe('embed.webWidget', () => {
           expect(mockTransport.get.calls.mostRecent().args[0].path)
             .toContain('212');
         });
+      });
+    });
+
+    describe('setUpChat', () => {
+      beforeEach(() => {
+        const chatConfig = { zopimId: '123abc' };
+
+        webWidget.create('faythe', { zopimChat: chatConfig });
+
+        faythe = webWidget.get('faythe');
+      });
+
+      it('calls zChat init with the chat key', () => {
+        expect(zChatInitSpy)
+          .toHaveBeenCalledWith({ account_key: '123abc' }); // eslint-disable-line camelcase
+      });
+
+      it('sets up firehose data', () => {
+        expect(zChatFirehoseSpy)
+          .toHaveBeenCalled();
       });
     });
 
@@ -800,6 +829,11 @@ describe('embed.webWidget', () => {
     it('should subscribe to webWidget.activate', () => {
       expect(mockMediator.channel.subscribe)
         .toHaveBeenCalledWith('webWidget.activate', jasmine.any(Function));
+    });
+
+    it('should subscribe to zopimChat.setUser', () => {
+      expect(mockMediator.channel.subscribe)
+        .toHaveBeenCalledWith('zopimChat.setUser', jasmine.any(Function));
     });
 
     it('subscribes to <any>.refreshLocale and <any>.update together', () => {

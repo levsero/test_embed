@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { webWidgetStyles } from './webWidgetStyles.js';
-import { WebWidget } from 'component/webWidget/WebWidget';
 import { frameFactory } from 'embed/frameFactory';
 import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
@@ -18,12 +17,16 @@ import { getZoomSizingRatio,
          setScaleLock } from 'utility/devices';
 import { document,
          getDocumentHost,
-         location } from 'utility/globals';
+         location,
+         win } from 'utility/globals';
 import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage,
          isOnHostMappedDomain } from 'utility/pages';
 import { cappedIntervalCall,
          getPageKeywords } from 'utility/utils';
+
+import WebWidget from 'component/webWidget/WebWidget';
+import zChat from 'vendor/web-sdk';
 
 const webWidgetCSS = `${require('./webWidget.scss')} ${webWidgetStyles}`;
 
@@ -111,6 +114,8 @@ function create(name, config = {}, reduxStore = {}) {
   const submitTicketSettings = setUpSubmitTicket(config.ticketSubmissionForm);
   const helpCenterSettings = setUpHelpCenter(config.helpCenterForm);
   const globalConfig = _.extend(configDefaults, helpCenterSettings.config);
+
+  setUpChat(config.zopimChat, reduxStore);
 
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
@@ -251,11 +256,19 @@ function setUpMediator() {
 
   mediator.channel.subscribe('ticketSubmissionForm.prefill', (user) => {
     waitForRootComponent(() => {
-      const submitTicketForm = getRootComponent().refs.submitTicketForm;
+      const submitTicketForm = getWebWidgetComponent().refs.ticketSubmissionForm;
 
       submitTicketForm.setState({
         formState: _.pick(user, ['name', 'email'])
       });
+    });
+  });
+
+  mediator.channel.subscribe('zopimChat.setUser', (user) => {
+    waitForRootComponent(() => {
+      const chat = getWebWidgetComponent().refs.chat.refs.wrappedInstance;
+
+      chat.updateUser(_.pick(user, ['name', 'email']));
     });
   });
 
@@ -293,6 +306,8 @@ function setUpMediator() {
   });
 
   mediator.channel.subscribe('webWidget.activate', () => {
+    if (embed.instance.state.visible) return;
+
     waitForRootComponent(() => {
       getWebWidgetComponent().activate();
       embed.instance.show();
@@ -517,6 +532,26 @@ function setUpSubmitTicket(config) {
     onSubmitted,
     onCancel
   };
+}
+
+function setUpChat(config, store) {
+  win.zChat = zChat;
+
+  const chatConfigDefaults = {
+    position: 'right',
+    color: '#659700',
+    zopimId: 'xxx'
+  };
+
+  config = _.extend({}, chatConfigDefaults, config);
+
+  zChat.init({ account_key: config.zopimId }); // eslint-disable-line camelcase
+
+  zChat.getFirehose().on('data', (data) => {
+    const actionType = data.detail.type ? `websdk/${data.detail.type}` : `websdk/${data.type}`;
+
+    store.dispatch({ type: actionType, payload: data });
+  });
 }
 
 function setUpHelpCenter(config) {

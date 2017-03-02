@@ -1,14 +1,15 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: u-flex u-flexAlignItemsCenter u-posStart--flush u-posAbsolute u-sizeFull from '../styles/utils.scss';
+  composes: u-flex u-flexAlignItemsCenter u-posStart--flush u-posAbsolute u-hsizeAll from '../../styles/utils.scss';
   background-color: $base-color;
   border-bottom: #{1/$font-size}rem solid $zd-color-gainsboro;
   box-sizing: border-box;
   height: #{58/$font-size}rem;
   opacity: 0.8;
-  padding: 0 #{17/$font-size}rem;
+  padding: #{5/$font-size}rem #{17/$font-size}rem;
   top: #{43/$font-size}rem;
+  margin-top: #{3/$font-size}rem;
 }
 
 .textContainer {
@@ -16,6 +17,10 @@
 }
 
 .title {
-  composes: u-textBold from '../styles/utils.scss';
+  composes: u-textBold from '../../styles/utils.scss';
   color: $zd-color-pelorous;
+}
+
+.button {
+  margin-left: auto;
 }

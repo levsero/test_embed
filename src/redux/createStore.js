@@ -2,11 +2,18 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 
-import reducer from 'src/redux/reducers';
+import reducer from 'src/redux/modules/reducer';
 
 export default function() {
   const logger = createLogger();
-  const createStoreWithMiddleware = compose(applyMiddleware(thunk, logger))(createStore);
+  const devToolsExtension = __DEV__ && window.parent.devToolsExtension
+                          ? window.parent.devToolsExtension()
+                          : (a) => a;
 
-  return createStoreWithMiddleware(reducer);
+  const storeEnhancers = [
+    applyMiddleware(thunk, logger),
+    devToolsExtension
+  ];
+
+  return compose(...storeEnhancers)(createStore)(reducer);
 }
