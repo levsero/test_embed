@@ -717,7 +717,7 @@ describe('Submit ticket component', () => {
             .toHaveBeenCalled();
         });
 
-        it('calls updateSubmitTicketForm with a undefined as ticketForm', () => {
+        it('calls updateSubmitTicketForm with undefined as ticketForm', () => {
           const ticketForm = undefined;
 
           submitTicket.setTicketForm(777);
