@@ -679,7 +679,7 @@ describe('Submit ticket component', () => {
       });
 
       describe('when it is passed any data type representing a ticketFormId', () => {
-        it(' does not call showBackButton', () => {
+        it('does not call showBackButton', () => {
           subjects.forEach((subject) => {
             submitTicket.setTicketForm(subject);
           });
@@ -688,7 +688,7 @@ describe('Submit ticket component', () => {
             .not.toHaveBeenCalled();
         });
 
-        it('calls updateSubmitTicketForm with a null as ticketForm', () => {
+        it('does not call updateSubmitTicketForm', () => {
           subjects.forEach((subject) => {
             submitTicket.setTicketForm(subject);
           });
@@ -717,11 +717,13 @@ describe('Submit ticket component', () => {
             .toHaveBeenCalled();
         });
 
-        it('calls updateSubmitTicketForm with a null as ticketForm', () => {
+        it('calls updateSubmitTicketForm with a undefined as ticketForm', () => {
+          const ticketForm = undefined;
+
           submitTicket.setTicketForm(777);
 
           expect(mockUpdateSubmitTicketForm)
-            .toHaveBeenCalledWith(undefined, undefined);
+            .toHaveBeenCalledWith(ticketForm, undefined);
         });
       });
 
