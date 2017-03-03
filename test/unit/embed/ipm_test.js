@@ -1,9 +1,12 @@
+import { noop } from 'lodash';
+
 describe('embed.ipm', () => {
   let ipm,
     mockSettingsValue,
     mockRegistry,
     mockApiResponses,
-    apiGetSpy;
+    apiGetSpy,
+    apiPostSpy;
 
   const ipmPath = buildSrcPath('embed/ipm/ipm');
 
@@ -16,7 +19,9 @@ describe('embed.ipm', () => {
     mockApiResponses = {};
 
     apiGetSpy = jasmine.createSpy('apiGet')
-      .and.callFake((path, query, resolve) => resolve(mockApiResponses[path] || {}));
+      .and.callFake((path, query, resolve = noop) => resolve(mockApiResponses[path] || {}));
+    apiPostSpy = jasmine.createSpy('apiPost')
+      .and.callFake((path, query, resolve = noop) => resolve(mockApiResponses[path] || {}));
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -31,7 +36,12 @@ describe('embed.ipm', () => {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
-      'embed/ipm/apiGet': apiGetSpy,
+      'embed/ipm/api': {
+        api: {
+          get: apiGetSpy,
+          post: apiPostSpy
+        }
+      },
       'component/ipm/Ipm': {
         Ipm: class extends Component {
           constructor() {
@@ -151,18 +161,18 @@ describe('embed.ipm', () => {
   });
 
   describe('ipmSender', () => {
-    it('calls transport.send when called', () => {
-      const mockTransport = mockRegistry['service/transport'].transport;
+    it('calls apiPost when called', () => {
+      const params = { foo: 'bar' };
 
       ipm.create('dan');
       ipm.render('dan');
 
       const embed = ipm.get('dan').instance.getRootComponent();
 
-      embed.props.ipmSender();
+      embed.props.ipmSender(params);
 
-      expect(mockTransport.send)
-        .toHaveBeenCalled();
+      expect(apiPostSpy)
+        .toHaveBeenCalledWith(ipm.connectApiCampaignEventsPath, params);
     });
   });
 

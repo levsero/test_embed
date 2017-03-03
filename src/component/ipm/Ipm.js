@@ -47,15 +47,17 @@ export class Ipm extends Component {
       return;
     }
 
+    const recipientEmail = this.state.ipm.recipientEmail;
     const params = {
+      campaignId: this.state.ipm.id,
+      recipientEmail,
+      anonymousSuid: recipientEmail ? undefined : identity.getSuid().id,
       event: {
-        campaignId: this.state.ipm.id,
-        email: this.state.ipm.recipientEmail,
-        type: name,
-        url: this.state.url,
-        title: getPageTitle(),
+        anonymousId: identity.getBuid(),
         locale: i18n.getLocale(),
-        'anonymous_id': identity.getBuid()
+        title: getPageTitle(),
+        type: name,
+        url: this.state.url
       }
     };
 

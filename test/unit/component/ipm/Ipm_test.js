@@ -21,6 +21,7 @@ describe('Ipm component', function() {
       },
       'service/identity': {
         identity: {
+          getSuid: () => ({ id: '789789xyz' }),
           getBuid: () => '1357911abc'
         }
       },
@@ -53,42 +54,76 @@ describe('Ipm component', function() {
   });
 
   describe('#ipmSender', function() {
+    let ipmSenderSpy,
+      component;
+
     beforeEach(function() {
-      this.ipmSenderSpy = jasmine.createSpy();
-      this.component = instanceRender(
-        <Ipm ipmSender={this.ipmSenderSpy} />
+      ipmSenderSpy = jasmine.createSpy();
+      component = instanceRender(
+        <Ipm ipmSender={ipmSenderSpy} />
       );
     });
 
     describe('when there is a campaign', () => {
-      it('should call the this.props.ipmSender with event details', function() {
-        const ipm = { id: 123, recipientEmail: 'imissryan@zendesk.com' };
+      let ipm;
 
-        this.component.setState({ ipm: ipm, url: 'https://askjeeves.com' });
-        this.component.ipmSender('clicked');
+      describe('when recipient has an email', () => {
+        beforeEach(() => {
+          ipm = { id: 123, recipientEmail: 'imissryan@zendesk.com' };
+          component.setState({ ipm: ipm, url: 'https://askjeeves.com' });
+          component.ipmSender('clicked');
+        });
 
-        expect(this.ipmSenderSpy)
-          .toHaveBeenCalledWith({
-            event: {
+        it('should call the this.props.ipmSender with event details', function() {
+          expect(ipmSenderSpy)
+            .toHaveBeenCalledWith({
               campaignId: ipm.id,
-              email: ipm.recipientEmail,
-              type: 'clicked',
-              url: 'https://askjeeves.com',
-              title: 'Awesome Page',
-              locale: 'un-US',
-              'anonymous_id': '1357911abc'
-            }
-          });
+              recipientEmail: ipm.recipientEmail,
+              anonymousSuid: undefined,
+              event: {
+                anonymousId: '1357911abc',
+                locale: 'un-US',
+                title: 'Awesome Page',
+                type: 'clicked',
+                url: 'https://askjeeves.com'
+              }
+            });
+        });
+      });
+
+      describe('when recipient does not have an email', () => {
+        beforeEach(() => {
+          const ipm = { id: 123 };
+
+          component.setState({ ipm: ipm, url: 'https://askjeeves.com' });
+          component.ipmSender('clicked');
+        });
+
+        it('should call the this.props.ipmSender with anonymous event details', function() {
+          expect(ipmSenderSpy)
+            .toHaveBeenCalledWith({
+              campaignId: ipm.id,
+              recipientEmail: undefined,
+              anonymousSuid: '789789xyz',
+              event: {
+                anonymousId: '1357911abc',
+                locale: 'un-US',
+                title: 'Awesome Page',
+                type: 'clicked',
+                url: 'https://askjeeves.com'
+              }
+            });
+        });
       });
     });
 
     describe('when there is no campaign', function() {
       beforeEach(function() {
-        this.component.ipmSender('clicked');
+        component.ipmSender('clicked');
       });
 
       it('does not invoke this.props.ipmSender', function() {
-        expect(this.ipmSenderSpy)
+        expect(ipmSenderSpy)
           .not.toHaveBeenCalled();
       });
 
