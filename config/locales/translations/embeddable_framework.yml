@@ -56,7 +56,7 @@ parts:
   - translation:
       key: "embeddable_framework.chat.ended.label"
       title: "The label that displays once chat has ended"
-      value: "Chat Ended"
+      value: "Chat ended"
       wip: true
 
   # Submit Ticket component
