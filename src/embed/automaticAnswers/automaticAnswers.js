@@ -50,9 +50,11 @@ function create(name, config, reduxStore) {
                       ? transitionFactory.automaticAnswersMobile
                       : transitionFactory.automaticAnswersDesktop;
 
+  const zdColorOil = '#333333';
+
   const frameParams = {
     frameStyle: frameStyle,
-    css: automaticAnswersCSS + generateUserCSS('#333333'),
+    css: automaticAnswersCSS + generateUserCSS(zdColorOil),
     fullWidth: isMobileBrowser(),
     // We are not using the close button on EmbedWrapper because we need the flexibility
     // to show the close button on some screens, but not others.
