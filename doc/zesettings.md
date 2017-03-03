@@ -100,7 +100,7 @@ Replaces the default string on the button in the Help Center form that opens the
 
 ![example](https://support.zendesk.com/hc/user_images/UZH2vMZVWgnC6woZ_EeihA.png)
 
-You can use different strings for different locales or use one string for all locales by using an asterisk (`*`) for the locale.
+You can use different strings for different locales or use one string for all locales by using an asterisk (`*`) for the locale. You can also use the asterisk locale (`*`) to specify a fallback string in case the browser isn't set to a listed locale.
 
 The string can't exceed 25 characters.
 
@@ -116,6 +116,7 @@ window.zESettings = {
   webWidget: {
     helpCenter: {
       chatButton: {
+        'fr': 'Discutez avec une personne',
         '*': 'Chat with a person now'
       }
     }
@@ -131,7 +132,7 @@ Replaces the default string on the launcher button when Chat is enabled and Help
 
 ![example](https://support.zendesk.com/hc/user_images/XhuqwmDp14XoQqrW8K-t-Q.png)
 
-You can use different strings for different locales or use one string for all locales by using an asterisk (`*`) for the locale.
+You can use different strings for different locales or use one string for all locales by using an asterisk (`*`) for the locale. You can also use the asterisk locale (`*`) to specify a fallback string in case the browser isn't set to a listed locale.
 
 #### Availability
 
@@ -201,7 +202,7 @@ Replaces the default string on the launcher button.
 
 ![example](https://support.zendesk.com/hc/user_images/jvBVJXA0_vfJ8byykbSyFg.png)
 
-You can use different strings for different locales or use one string for all locales by using an asterisk (`*`) for the locale.
+You can use different strings for different locales or use one string for all locales by using an asterisk (`*`) for the locale. You can also use the asterisk locale (`*`) to specify a fallback string in case the browser isn't set to a listed locale.
 
 #### Availability
 
@@ -231,7 +232,7 @@ Replaces the default string on the button in the Help Center form that opens the
 
 ![example](https://support.zendesk.com/hc/user_images/-iPa0eoCPqKuLhkGOgAugw.png)
 
-You can use different strings for different locales or use one string for all locales by using an asterisk (`*`) for the locale.
+You can use different strings for different locales or use one string for all locales by using an asterisk (`*`) for the locale. You can also use the asterisk locale (`*`) to specify a fallback string in case the browser isn't set to a listed locale.
 
 The string can't exceed 25 characters.
 
@@ -366,7 +367,7 @@ Replaces the default title string with a custom string.
 
 ![example](https://support.zendesk.com/hc/user_images/BdjgvaDafRlnbyU09Jny3Q.png)
 
-You can use different strings for different locales or use one string for all locales by using an asterisk (`*`) for the locale.
+You can use different strings for different locales or use one string for all locales by using an asterisk (`*`) for the locale. You can also use the asterisk locale (`*`) to specify a fallback string in case the browser isn't set to a listed locale.
 
 #### Availability
 
