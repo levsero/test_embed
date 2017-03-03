@@ -425,7 +425,7 @@ describe('dropdown component', () => {
         dropdown.handleMouseLeave();
       });
 
-      it('should show hover classes', () => {
+      it('should not show hover classes', () => {
         expect(dropdown.renderDropdownArrow().props.className)
           .not.toContain('arrowHoverClasses');
       });

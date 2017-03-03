@@ -72,6 +72,10 @@ $Form-fontSize: #{13/$font-size}rem;
     }
   }
 
+  &:hover {
+    border: $thin-border-size solid $stroke-focused-color;
+  }
+
   textarea {
     height: #{78/$font-size}rem;
   }
@@ -161,10 +165,6 @@ $Form-fontSize: #{13/$font-size}rem;
   > .Icon--search {
     color: $cta-color;
   }
-}
-
-.Form-field:hover {
-  border: $thin-border-size solid $stroke-focused-color;
 }
 
 .Form-field--invalid,

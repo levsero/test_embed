@@ -204,7 +204,7 @@ export class Dropdown extends Component {
         <div className={`${styles.label} ${landscapeClasses} ${mobileClasses}`}>
           {this.props.placeholder}
         </div>
-        <div className={`${styles.container}`}>
+        <div className={styles.container}>
           <input
             ref={(i) => this.input = i}
             className={`${styles.input} ${mobileClasses} ${landscapeClasses}`}

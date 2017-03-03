@@ -39,23 +39,11 @@
   composes: u-textXHeight from '../../styles/utils.scss';
 }
 
-.inputFocus {
-
-}
-
 .input {
   composes: Form-field from '../../styles/components/Form.scss';
   composes: u-hsizeAll from '../../styles/utils.scss';
 
-  &::-webkit-input-placeholder {
-    color: $zd-color-oil;
-  }
-
-  &:-moz-placeholder {
-    color: $zd-color-oil;
-  }
-
-  &:-ms-input-placeholder {
+  &::placeholder {
     color: $zd-color-oil;
   }
 

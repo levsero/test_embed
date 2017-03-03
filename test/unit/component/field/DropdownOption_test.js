@@ -175,9 +175,7 @@ describe('dropdownOption component', () => {
 
     describe('when the field is focused', () => {
       beforeEach(() => {
-        option = domRender(
-          <DropdownOption />
-        );
+        option = domRender(<DropdownOption />);
 
         option.focus();
       });
@@ -203,9 +201,7 @@ describe('dropdownOption component', () => {
 
     describe('when the back button is shown', () => {
       beforeEach(() => {
-        option = domRender(
-          <DropdownOption backButton={true} />
-        );
+        option = domRender(<DropdownOption backButton={true} />);
       });
 
       it('has border classes', () => {
@@ -216,14 +212,12 @@ describe('dropdownOption component', () => {
 
     describe('when the back button is not shown', () => {
       beforeEach(() => {
-        option = domRender(
-          <DropdownOption />
-        );
+        option = domRender(<DropdownOption />);
       });
 
-      it('has border classes', () => {
-        expect(ReactDOM.findDOMNode(option).querySelector('.fieldBorderClasses'))
-          .toBeNull();
+      it('does not have border classes', () => {
+        expect(ReactDOM.findDOMNode(option).className)
+          .not.toContain('fieldBorderClasses');
       });
     });
   });

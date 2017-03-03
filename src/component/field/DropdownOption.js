@@ -78,7 +78,7 @@ export class DropdownOption extends Component {
     return (
       <div
         ref={(el) => { this.element = el; }}
-        className={`${borderClasses}`}
+        className={borderClasses}
         key={this.props.title}
         onClick={this.handleDropdownOpen}>
         <div className={`${styles.field} ${focusedClasses}`}>
