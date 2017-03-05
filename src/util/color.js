@@ -48,6 +48,7 @@ function generateUserCSS(color = defaultColor) {
     .u-userBorderColor:not([disabled]):focus {
       color: ${constrastColor} !important;
       background-color: ${highlightColor} !important;
+      border-color: ${highlightColor} !important;
     }
     .u-userLinkColor a {
       color: ${color} !important;
