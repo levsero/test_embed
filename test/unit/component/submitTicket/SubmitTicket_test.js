@@ -662,6 +662,61 @@ describe('Submit ticket component', () => {
     });
   });
 
+  describe('clearForm', () => {
+    let submitTicket,
+      mockSetState,
+      mockClear;
+
+    beforeEach(() => {
+      submitTicket = domRender(<SubmitTicket />);
+      submitTicket.refs.submitTicketForm = { clear: mockClear = jasmine.createSpy('setState') };
+    });
+
+    describe('when there is more than 1 ticket form', () => {
+      const mockTicketForms = {
+        ticket_forms: [{ id: 123 }, { id: 456 }]
+      };
+
+      beforeEach(() => {
+        submitTicket.setState({ ticketForms: mockTicketForms });
+        submitTicket.setState = mockSetState = jasmine.createSpy('setState');
+        submitTicket.clearForm();
+      });
+
+      it('should call clear on submitTicketForm', () => {
+        expect(mockClear)
+          .toHaveBeenCalled();
+      });
+
+      it('should call setState with null set to selectedTicketForm', () => {
+        const expectation = { selectedTicketForm: null };
+
+        expect(mockSetState)
+          .toHaveBeenCalledWith(expectation);
+      });
+    });
+
+    describe('when there is 1 ticket form', () => {
+      const mockTicketForms = { ticket_forms: [{ id: 123 }] };
+
+      beforeEach(() => {
+        submitTicket.setState({ ticketForms: mockTicketForms });
+        submitTicket.setState = mockSetState = jasmine.createSpy('setState');
+        submitTicket.clearForm();
+      });
+
+      it('should call clear on submitTicketForm', () => {
+        expect(mockClear)
+          .toHaveBeenCalled();
+      });
+
+      it('should not call setState', () => {
+        expect(mockSetState)
+          .not.toHaveBeenCalled();
+      });
+    });
+  });
+
   describe('setTicketForm', () => {
     let submitTicket,
       mockShowBackButton,

@@ -125,6 +125,7 @@ function create(name, config, reduxStore) {
     mediator.channel.broadcast(name + '.onFormSubmitted');
   };
   const onCancel = function() {
+    getRootComponent(name).clearForm();
     mediator.channel.broadcast(name + '.onCancelClick');
   };
   const onShow = (frame) => {
@@ -274,11 +275,14 @@ function create(name, config, reduxStore) {
         mediator.channel.broadcast(name + '.onClose');
       },
       onBack() {
-        if (getRootComponent(name).state.selectedTicketForm) {
+        const { selectedTicketForm, ticketForms } = getRootComponent(name).state;
+        const ticketFormsList = ticketForms && ticketForms.ticket_forms || [];
+
+        if (!selectedTicketForm || ticketFormsList.length === 1) {
+          mediator.channel.broadcast(name + '.onBackClick');
+        } else {
           showBackButton(backButtonSetByHelpCenter);
           getRootComponent(name).clearForm();
-        } else {
-          mediator.channel.broadcast(name + '.onBackClick');
         }
       },
       extend: {}
