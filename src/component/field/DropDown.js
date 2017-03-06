@@ -217,7 +217,11 @@ export class Dropdown extends Component {
             onKeyDown={this.handleKeyDown}
             placeholder={this.state.selected.title} />
           {this.renderDropdownArrow()}
-          {this.state.open && this.state.displayedMenu}
+          <div className={styles.menuContainer}>
+            <div className={`${styles.menu} ${styles.menuLeft}`}>{this.state.previousMenu[0]}</div>
+            <div className={styles.menu}>{this.state.displayedMenu}</div>
+          </div>
+          {/*{this.state.open && this.state.displayedMenu}*/}
         </div>
       </div>
     );

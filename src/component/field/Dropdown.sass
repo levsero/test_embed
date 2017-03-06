@@ -61,3 +61,64 @@
 .labelLandscape {
   composes: u-textSizeSml from '../../styles/utils.scss';
 }
+
+.menuContainer {
+  composes: u-posAbsolute u-border u-hsizeAll u-zIndex1 u-posStart--flush from '../../styles/utils.scss';
+  border-radius: #{4/$font-size}rem;
+  border-color: $zd-color-aluminum;
+  top: #{36/$font-size}rem;
+  left: #{-1/$font-size}rem;
+  height: #{200/$font-size}rem;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-color: $zd-color-white;
+  padding-top: #{8/$font-size}rem;
+  padding-bottom: #{8/$font-size}rem;
+  box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .2);
+
+  /*
+   * Customise scrollbar for safari/chrome
+   */
+  &::-webkit-scrollbar-track {
+    margin: #{5/$font-size}rem;
+    padding-right: #{5/$font-size}rem;
+  }
+  &::-webkit-scrollbar {
+    box-shadow: none;
+    width: #{3/$font-size}rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $base-border-color;
+    border-radius: #{3/$font-size}rem;
+  }
+}
+
+.menu {
+  // composes: u-posAbsolute u-border u-hsizeAll u-zIndex1 u-posStart--flush from '../../styles/utils.scss';
+  // border-radius: #{4/$font-size}rem;
+  // top: #{35/$font-size}rem;
+  // height: #{200/$font-size}rem;
+  // overflow-x: hidden;
+  // overflow-y: scroll;
+  // background-color: $zd-color-white;
+
+  overflow: auto;
+  float: left;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  transition: all 1s ease-in-out;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.menuLeft {
+  margin-left: -100%;
+}
+
+.menuRight {
+  margin-right: -100%;
+}
+
