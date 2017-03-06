@@ -328,9 +328,10 @@ describe('renderer', () => {
       });
     });
 
-    describe('when expanded setting is true', () => {
+    describe('when expanded setting and expandable is true', () => {
       beforeEach(() => {
         mockExpandedValue = true;
+        configJSON.expandable = true;
 
         renderer.init(configJSON);
       });
