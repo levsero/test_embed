@@ -774,9 +774,9 @@ describe('Submit ticket component', () => {
         submitTicket.updateTicketFormState();
       });
 
-      it('should invoke updateTicketForms with ticket_forms', () => {
+      it('should invoke updateTicketForms with ticketForms obj', () => {
         expect(mockUpdateTicketForms)
-          .toHaveBeenCalledWith(mockTicketForms.ticket_forms);
+          .toHaveBeenCalledWith(mockTicketForms);
       });
     });
 

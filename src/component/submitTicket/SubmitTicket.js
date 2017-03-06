@@ -267,7 +267,7 @@ export class SubmitTicket extends Component {
     if (!ticket_forms) {
       this.updateContactForm();
     } else if (ticket_forms.length === 1) {
-      this.updateTicketForms(ticket_forms);
+      this.updateTicketForms(this.state.ticketForms);
     } else {
       if (this.state.selectedTicketForm.id) {
         this.setTicketForm(this.state.selectedTicketForm.id);
