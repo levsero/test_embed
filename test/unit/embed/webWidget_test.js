@@ -69,7 +69,8 @@ describe('embed.webWidget', () => {
           showIntroScreen: false
         };
       }
-
+      setLoading() {}
+      updateContactForm() {}
       render() {
         return (
           <MockGrandchild ref='submitTicketForm' />
@@ -83,7 +84,9 @@ describe('embed.webWidget', () => {
         beacon: jasmine.createSpyObj('beacon', ['trackUserAction'])
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['t'])
+        i18n: {
+          getLocale: () => 'fr'
+        }
       },
       'service/transport': {
         transport: {
@@ -361,6 +364,36 @@ describe('embed.webWidget', () => {
 
           expect(mockTransport.get.calls.mostRecent().args[0].path)
             .toContain('212');
+        });
+      });
+
+      describe('when ticket fields are an array of numbers', () => {
+        let mockTransport;
+
+        beforeEach(() => {
+          mockTransport = mockRegistry['service/transport'].transport;
+        });
+
+        it('should call embeddable/ticket_fields with the ids', () => {
+          webWidget.create('faythe', { ticketSubmissionForm: { customFields: { ids: [1, 2, 3] } } } );
+
+          expect(mockTransport.get.calls.mostRecent().args[0].path)
+            .toEqual('/embeddable/ticket_fields?field_ids=1,2,3&locale=fr');
+        });
+      });
+
+      describe('when ticket fields specify all', () => {
+        let mockTransport;
+
+        beforeEach(() => {
+          mockTransport = mockRegistry['service/transport'].transport;
+        });
+
+        it('should call embeddable/ticket_fields with the ids', () => {
+          webWidget.create('faythe', { ticketSubmissionForm: { customFields: { all: true } } } );
+
+          expect(mockTransport.get.calls.mostRecent().args[0].path)
+            .toEqual('/embeddable/ticket_fields?locale=fr');
         });
       });
     });
