@@ -14,7 +14,7 @@ const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
 
 describe('chat redux actions', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     mockery.enable();
 
     initMockRegistry({
@@ -46,7 +46,7 @@ describe('chat redux actions', () => {
     jasmine.clock().mockDate(Date.now());
   });
 
-  afterAll(() => {
+  afterEach(() => {
     mockery.disable();
     mockery.deregisterAll();
     jasmine.clock().uninstall();

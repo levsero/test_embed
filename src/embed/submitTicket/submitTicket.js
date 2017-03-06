@@ -44,7 +44,8 @@ function getTicketForms(config) {
   // Or return an array of numbers
   return _.filter(rawTicketForms, _.isNumber);
 }
-const apiGet = (name, path, doneFn) => {
+
+const getWithSpinner = (name, path, doneFn) => {
   waitForRootComponent(name, () => {
     getRootComponent(name).setLoading(true);
   });
@@ -200,12 +201,12 @@ function create(name, config, reduxStore) {
     const ticketFormIds = _.map(ticketForms, (ticketForm) => ticketForm.id || ticketForm).join();
     const onDone = (res) => getRootComponent(name).updateTicketForms(res);
 
-    apiGet(name, `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`, onDone);
-  } else if (config.customFields.length !== 0 && _.isInteger(config.customFields[0])) {
+    getWithSpinner(name, `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`, onDone);
+  } else if (config.customFields.ids || config.customFields.all) {
     const onDone = (res) => getRootComponent(name).updateTicketFields(res);
-    const pathIds = config.customFields.all ? '' : `field_ids=${config.customFields.join()}&`;
+    const pathIds = config.customFields.all ? '' : `field_ids=${config.customFields.ids.join()}&`;
 
-    apiGet(name, `/embeddable/ticket_fields?${pathIds}locale=${i18n.getLocale()}`, onDone);
+    getWithSpinner(name, `/embeddable/ticket_fields?${pathIds}locale=${i18n.getLocale()}`, onDone);
     config.customFields = [];
   } else {
     setTimeout(() => {
