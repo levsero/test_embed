@@ -245,7 +245,6 @@ export class SubmitTicket extends Component {
   }
 
   updateTicketFields = (fields) => {
-    console.log(fields);
     this.setState({
       ticketFields: fields,
       loading: false
@@ -356,6 +355,12 @@ export class SubmitTicket extends Component {
   }
 
   renderForm = () => {
+    // TODO: When ticket fields are all sent down via the api we can
+    // remove the customFields prop and always send down the state.
+    const fields = this.props.customFields.length === 0
+                 ? this.state.ticketFields
+                 : this.props.customFields;
+
     return (
       <SubmitTicketForm
         onCancel={this.props.onCancel}
@@ -363,7 +368,7 @@ export class SubmitTicket extends Component {
         ref='submitTicketForm'
         hide={this.state.showNotification}
         expanded={this.state.expanded}
-        customFields={this.props.customFields}
+        customFields={fields}
         disableAutoComplete={this.props.disableAutoComplete}
         formTitleKey={this.state.formTitleKey}
         attachmentSender={this.props.attachmentSender}

@@ -44,6 +44,37 @@ function getTicketForms(config) {
   // Or return an array of numbers
   return _.filter(rawTicketForms, _.isNumber);
 }
+const apiGet = (name, path, doneFn) => {
+  waitForRootComponent(name, () => {
+    getRootComponent(name).setLoading(true);
+  });
+
+  // For setTimeout and invocation of waitForRootComponent,
+  // defer and wait for rootComponent before processing statements
+  // in order execute after setLoading is completed
+  transport.get({
+    method: 'get',
+    path,
+    timeout: 20000,
+    locale: i18n.getLocale(),
+    callbacks: {
+      done(res) {
+        setTimeout(() => {
+          waitForRootComponent(name, () => {
+            doneFn(JSON.parse(res.text));
+          });
+        }, 0);
+      },
+      fail() {
+        setTimeout(() => {
+          waitForRootComponent(name, () => {
+            getRootComponent(name).setLoading(false);
+          });
+        }, 0);
+      }
+    }
+  }, false);
+};
 
 function create(name, config, reduxStore) {
   let containerStyle;
@@ -164,72 +195,18 @@ function create(name, config, reduxStore) {
 
   const ticketForms = getTicketForms(config);
 
-  if (config.customFields.length !== 0 && _.isInteger(config.customFields[0])) {
-    waitForRootComponent(name, () => {
-      getRootComponent(name).setLoading(true);
-    });
-
-    transport.get({
-      method: 'get',
-      path: `/embeddable/ticket_fields?ids=${config.customFields.join()}&$locale=${i18n.getLocale()}`,
-      timeout: 20000,
-      locale: i18n.getLocale(),
-      callbacks: {
-        done(res) {
-          // do this on next tick so that it never happens before
-          // the one above that sets loading to true.
-          setTimeout(() => {
-            waitForRootComponent(name, () => {
-              getRootComponent(name).updateTicketFields(JSON.parse(res.text));
-            });
-          }, 0);
-        },
-        fail() {
-          // do this on next tick so that it never happens before
-          // the one above that sets loading to true.
-          setTimeout(() => {
-            waitForRootComponent(name, () => {
-              getRootComponent(name).setLoading(false);
-            });
-          }, 0);
-        }
-      }
-    });
-  }
-
   if (!_.isEmpty(ticketForms)) {
     // TODO: Alter this code to return objects with id's once pre-fill is GA'd
     const ticketFormIds = _.map(ticketForms, (ticketForm) => ticketForm.id || ticketForm).join();
+    const onDone = (res) => getRootComponent(name).updateTicketForms(res);
 
-    waitForRootComponent(name, () => {
-      getRootComponent(name).setLoading(true);
-    });
+    apiGet(name, `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`, onDone);
+  } else if (config.customFields.length !== 0 && _.isInteger(config.customFields[0])) {
+    const onDone = (res) => getRootComponent(name).updateTicketFields(res);
+    const pathIds = config.customFields.all ? '' : `field_ids=${config.customFields.join()}&`;
 
-    // For setTimeout and invocation of waitForRootComponent,
-    // defer and wait for rootComponent before processing statements
-    // in order execute after setLoading is completed
-    transport.get({
-      method: 'get',
-      path: `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`,
-      timeout: 20000,
-      locale: i18n.getLocale(),
-      callbacks: {
-        done(res) {
-          setTimeout(() => {
-            waitForRootComponent(name, () => {
-              getRootComponent(name).updateTicketForms(JSON.parse(res.text));
-            });
-          }, 0);
-        },
-        fail() {
-          setTimeout(() => {
-            waitForRootComponent(name, () => {
-              getRootComponent(name).setLoading(false);
-            });
-          }, 0);
-        }
-      }
-    });
+    apiGet(name, `/embeddable/ticket_fields?${pathIds}locale=${i18n.getLocale()}`, onDone);
+    config.customFields = [];
   } else {
     setTimeout(() => {
       waitForRootComponent(name, () => {
