@@ -38,7 +38,9 @@ export class Ipm extends Component {
   }
 
   ipmSender = (name) => {
-    if (!this.state.ipm.id) {
+    const { id: campaignId, recipientEmail } = this.state.ipm;
+
+    if (!campaignId) {
       logging.error({
         error: new Error('Cannot send an IPM event without a campaign'),
         context: this.state
@@ -47,21 +49,26 @@ export class Ipm extends Component {
       return;
     }
 
-    const recipientEmail = this.state.ipm.recipientEmail;
-    const params = {
-      campaignId: this.state.ipm.id,
-      recipientEmail,
+    this.props.ipmSender({
       anonymousSuid: recipientEmail ? undefined : identity.getSuid().id,
-      event: {
-        anonymousId: identity.getBuid(),
-        locale: i18n.getLocale(),
-        title: getPageTitle(),
-        type: name,
-        url: this.state.url
-      }
-    };
+      campaignId,
+      event: this.buildEvent(name),
+      recipientEmail
+    });
+  }
 
-    this.props.ipmSender(params);
+  buildEvent = (name) => {
+    const { url } = this.state;
+    const { referrer } = document;
+
+    return {
+      anonymousId: identity.getBuid(),
+      locale: i18n.getLocale(),
+      referrer,
+      title: getPageTitle(),
+      type: name,
+      url
+    };
   }
 
   render = () => {

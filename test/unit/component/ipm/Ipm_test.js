@@ -83,6 +83,7 @@ describe('Ipm component', function() {
               event: {
                 anonymousId: '1357911abc',
                 locale: 'un-US',
+                referrer: document.referrer,
                 title: 'Awesome Page',
                 type: 'clicked',
                 url: 'https://askjeeves.com'
@@ -108,6 +109,7 @@ describe('Ipm component', function() {
               event: {
                 anonymousId: '1357911abc',
                 locale: 'un-US',
+                referrer: document.referrer,
                 title: 'Awesome Page',
                 type: 'clicked',
                 url: 'https://askjeeves.com'
