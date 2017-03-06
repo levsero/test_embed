@@ -1,6 +1,7 @@
 describe('boot', () => {
   let getConfig,
     mockRegistry;
+  const bootPath = buildSrcPath('boot');
 
   beforeEach(() => {
     mockery.enable();
@@ -36,8 +37,6 @@ describe('boot', () => {
       }
     });
 
-    const bootPath = buildSrcPath('boot');
-
     mockery.registerAllowable(bootPath);
     getConfig = requireUncached(bootPath).getConfig;
   });
@@ -58,7 +57,7 @@ describe('boot', () => {
       transportSpy = mockRegistry['service/transport'].transport;
     });
 
-    it('makes a GET request to embeddable/config', () => {
+    it('makes a GET request to /embeddable/config', () => {
       getConfig(win, postRenderQueue);
 
       const params = {
