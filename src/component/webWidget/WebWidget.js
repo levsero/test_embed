@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { Chat } from 'component/chat/Chat';
+import Chat from 'component/chat/Chat';
 import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 
@@ -9,11 +10,16 @@ const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
 const chat = 'chat';
 
-export class WebWidget extends Component {
+const mapStateToProps = (state) => {
+  return { chat: state.chat };
+};
+
+class WebWidget extends Component {
   static propTypes = {
     attachmentSender: PropTypes.func.isRequired,
     buttonLabelKey: PropTypes.string,
     channelChoice: PropTypes.bool,
+    chat: PropTypes.object.isRequired,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
     helpCenterAvailable: PropTypes.bool,
@@ -73,8 +79,7 @@ export class WebWidget extends Component {
     super(props, context);
 
     this.state = {
-      activeComponent: helpCenter,
-      chatOnline: false
+      activeComponent: helpCenter
     };
   }
 
@@ -102,9 +107,10 @@ export class WebWidget extends Component {
   }
 
   onNextClick = () => {
-    if (this.state.chatOnline) {
+    if (this.props.chat.account_status !== 'offline') {
       this.setState({ activeComponent: chat });
       // TODO: track chat started
+      this.props.showBackButton(true);
     } else {
       this.setState({ activeComponent: submitTicket });
       this.props.showBackButton(true);
@@ -125,6 +131,8 @@ export class WebWidget extends Component {
     if (this.state.activeComponent === helpCenter) {
       rootComponent.setArticleView(false);
       this.props.showBackButton(false);
+    } else if (this.state.activeComponent === chat) {
+      this.showHelpCenter();
     } else if (rootComponent.state.selectedTicketForm) {
       this.props.showBackButton(this.state.helpCenterAvailable);
       rootComponent.clearForm();
@@ -133,7 +141,7 @@ export class WebWidget extends Component {
     }
   }
 
-  activate() {
+  activate = () => {
     if (this.props.helpCenterAvailable) {
       this.showHelpCenter();
     } else {
@@ -142,15 +150,14 @@ export class WebWidget extends Component {
   }
 
   renderChat = () => {
-    const classes = classNames({
-      'u-isHidden': this.state.activeComponent !== chat
-    });
+    const classes = this.state.activeComponent !== chat ? 'u-isHidden' : '';
 
     return (
       <div className={classes}>
         <Chat
           ref={chat}
           style={this.props.style}
+          updateFrameSize={this.props.updateFrameSize}
           position={this.props.position} />
       </div>
     );
@@ -239,3 +246,5 @@ export class WebWidget extends Component {
     );
   }
 }
+
+export default connect(mapStateToProps, {}, null, { withRef: true })(WebWidget);

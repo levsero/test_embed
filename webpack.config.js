@@ -65,6 +65,7 @@ module.exports = {
       src: path.join(prefix + '/src'),
       utility: path.join(prefix + '/src/util'),
       translation: path.join(prefix + '/src/translation'),
+      vendor: path.join(prefix + '/src/vendor'),
       // CSS Components
       baseCSS: path.join(prefix + '/src/styles/base.css'),
       componentCSS: path.join(prefix + '/src/styles/components'),

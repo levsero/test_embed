@@ -61,7 +61,9 @@ function parseConfig(config) {
   if (!isMobileBrowser()) {
     rendererConfig.ipm = {
       embed: 'ipm',
-      props: {}
+      props: {
+        anonymousCampaigns: config.ipmAnonymousCampaigns
+      }
     };
   }
 
@@ -85,8 +87,9 @@ function init(config) {
     let parsedConfig = parseConfig(config);
 
     if (singleIframe) {
+      const webWidgetEmbeds = ['ticketSubmissionForm', 'zopimChat', 'helpCenterForm'];
       const webWidgetConfig = _.chain(parsedConfig)
-                               .pick(['ticketSubmissionForm', 'helpCenterForm'])
+                               .pick(webWidgetEmbeds)
                                .mapValues('props')
                                .value();
 
