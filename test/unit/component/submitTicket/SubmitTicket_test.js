@@ -696,7 +696,7 @@ describe('Submit ticket component', () => {
       });
     });
 
-    describe('when there is less or equal to 1 ticket form', () => {
+    describe('when there is 1 ticket form', () => {
       const mockTicketForms = { ticket_forms: [{ id: 123 }] };
 
       beforeEach(() => {

@@ -93,11 +93,12 @@ export class SubmitTicket extends Component {
   }
 
   clearForm = () => {
-    const { ticketForms } = this.state;
+    /* eslint camelcase:0 */
+    const { ticket_forms } = this.state.ticketForms;
 
     this.refs.submitTicketForm.clear();
 
-    if (ticketForms.ticket_forms.length > 1) { // eslint-disable-line camelcase
+    if (ticket_forms && ticket_forms.length > 1) {
       this.setState({ selectedTicketForm: null });
     }
   }
