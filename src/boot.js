@@ -88,7 +88,7 @@ const setupServices = () => {
   authentication.init();
 };
 
-const setupWidgetApi = (win, postRenderQueue) => {
+const setupWidgetQueue = (win, postRenderQueue) => {
   let devApi;
 
   // no "fat arrow" because it binds `this` to the scoped environment and does not allow it to be re-set with .bind()
@@ -131,7 +131,7 @@ const setupWidgetApi = (win, postRenderQueue) => {
   };
 };
 
-const setupZopimApi = (win) => {
+const setupZopimQueue = (win) => {
   let $zopim = () => {};
 
   // To enable $zopim api calls to work we need to define the queue callback.
@@ -191,22 +191,7 @@ const getConfig = (win, postRenderQueue) => {
   });
 };
 
-const boot = (win, doc) => {
-  setupIframe(window.frameElement, doc);
-  setupServices();
-
-  const postRenderQueue = [];
-  const { publicApi, devApi } = setupWidgetApi(win, postRenderQueue);
-
-  setupZopimApi(win);
-
-  _.extend(win.zEmbed, publicApi, devApi);
-  handleQueue(document.zEQueue);
-  beacon.init();
-
-  win.onunload = identity.unload;
-
-  // Post-render methods
+const setupWidgetApi = (win) => {
   win.zE.identify = (user) => {
     mediator.channel.broadcast('.onIdentify', user);
   };
@@ -235,7 +220,25 @@ const boot = (win, doc) => {
     i18n.setLocale(locale, true);
     mediator.channel.broadcast('.onSetLocale', locale);
   };
+};
 
+const boot = (win, doc) => {
+  setupIframe(window.frameElement, doc);
+  setupServices();
+
+  const postRenderQueue = [];
+  const { publicApi, devApi } = setupWidgetQueue(win, postRenderQueue);
+
+  setupZopimQueue(win);
+
+  _.extend(win.zEmbed, publicApi, devApi);
+
+  handleQueue(document.zEQueue);
+
+  beacon.init();
+  win.onunload = identity.unload;
+
+  setupWidgetApi(win);
   getConfig(win, postRenderQueue);
 
   if (isMobileBrowser()) {
@@ -254,7 +257,7 @@ export {
   setReferrerMetas,
   setupIframe,
   setupServices,
-  setupWidgetApi,
-  setupZopimApi,
+  setupWidgetQueue,
+  setupZopimQueue,
   getConfig
 };
