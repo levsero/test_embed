@@ -531,8 +531,9 @@ function setUpSubmitTicket(config) {
   } else if (config.customFields.ids || config.customFields.all === true) {
     const onDone = (res) => getWebWidgetComponent().refs.ticketSubmissionForm.updateTicketFields(res);
     const pathIds = config.customFields.all ? '' : `field_ids=${config.customFields.ids.join()}&`;
+    const path = `/embeddable/ticket_fields?${pathIds}locale=${i18n.getLocale()}`;
 
-    getWithSpinner(`/embeddable/ticket_fields?${pathIds}locale=${i18n.getLocale()}`, onDone);
+    getWithSpinner(path, onDone);
     config.customFields = [];
   } else {
     setTimeout(() => {

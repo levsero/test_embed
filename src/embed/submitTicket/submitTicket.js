@@ -205,8 +205,9 @@ function create(name, config, reduxStore) {
   } else if (config.customFields.ids || config.customFields.all) {
     const onDone = (res) => getRootComponent(name).updateTicketFields(res);
     const pathIds = config.customFields.all ? '' : `field_ids=${config.customFields.ids.join()}&`;
+    const path = `/embeddable/ticket_fields?${pathIds}locale=${i18n.getLocale()}`;
 
-    getWithSpinner(name, `/embeddable/ticket_fields?${pathIds}locale=${i18n.getLocale()}`, onDone);
+    getWithSpinner(name, path, onDone);
     config.customFields = [];
   } else {
     setTimeout(() => {
