@@ -5,6 +5,7 @@ import { i18n } from 'service/i18n';
 import { identity } from 'service/identity';
 import { logging } from 'service/logging';
 import { getPageTitle } from 'utility/utils';
+import { referrer } from 'util/globals';
 
 export class Ipm extends Component {
   static propTypes = {
@@ -59,7 +60,6 @@ export class Ipm extends Component {
 
   buildEvent = (name) => {
     const { url } = this.state;
-    const { referrer } = document;
 
     return {
       anonymousId: identity.getBuid(),

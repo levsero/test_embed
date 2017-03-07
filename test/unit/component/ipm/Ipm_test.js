@@ -2,6 +2,7 @@ describe('Ipm component', function() {
   let Ipm;
   let loggingErrorSpy;
   const ipmPath = buildSrcPath('component/ipm/Ipm');
+  const referrer = 'http://altavista.com';
 
   beforeEach(function() {
     resetDOM();
@@ -27,6 +28,9 @@ describe('Ipm component', function() {
       },
       'service/logging': {
         logging: { error: loggingErrorSpy }
+      },
+      'util/globals': {
+        referrer
       },
       'component/ipm/IpmDesktop': {
         IpmDesktop: class {
@@ -83,7 +87,7 @@ describe('Ipm component', function() {
               event: {
                 anonymousId: '1357911abc',
                 locale: 'un-US',
-                referrer: document.referrer,
+                referrer,
                 title: 'Awesome Page',
                 type: 'clicked',
                 url: 'https://askjeeves.com'
@@ -109,7 +113,7 @@ describe('Ipm component', function() {
               event: {
                 anonymousId: '1357911abc',
                 locale: 'un-US',
-                referrer: document.referrer,
+                referrer,
                 title: 'Awesome Page',
                 type: 'clicked',
                 url: 'https://askjeeves.com'

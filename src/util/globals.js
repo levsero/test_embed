@@ -2,6 +2,7 @@ const win = window.parent;
 const document = win.document;
 const navigator = win.navigator;
 const location = win.location;
+const referrer = document.referrer;
 
 function getDocumentHost() {
   return document.body || document.documentElement;
@@ -29,4 +30,4 @@ function getDocumentHost() {
   }
 }());
 
-export { win, document, navigator, location, getDocumentHost };
+export { win, document, navigator, location, getDocumentHost, referrer };
