@@ -6,6 +6,7 @@ import { webWidgetStyles } from './webWidgetStyles.js';
 import { frameFactory } from 'embed/frameFactory';
 import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
+import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { transitionFactory } from 'service/transitionFactory';
@@ -36,6 +37,37 @@ let hasAuthenticatedSuccessfully = false;
 let useMouseDistanceContexualSearch = false;
 let cancelTargetHandler = null;
 
+const getWithSpinner = (path, doneFn) => {
+  waitForRootComponent(() => {
+    getWebWidgetComponent().refs.ticketSubmissionForm.setLoading(true);
+  });
+
+  // For setTimeout and invocation of waitForRootComponent,
+  // defer and wait for rootComponent before processing statements
+  // in order execute after setLoading is completed
+  transport.get({
+    method: 'get',
+    path,
+    timeout: 20000,
+    locale: i18n.getLocale(),
+    callbacks: {
+      done(res) {
+        setTimeout(() => {
+          waitForRootComponent(() => {
+            doneFn(JSON.parse(res.text));
+          });
+        }, 0);
+      },
+      fail() {
+        setTimeout(() => {
+          waitForRootComponent(() => {
+            getRootComponent().setLoading(false);
+          });
+        }, 0);
+      }
+    }
+  }, false);
+};
 const showBackButton = (show = true) => {
   embed.instance.getChild().showBackButton(show);
 };
@@ -493,36 +525,24 @@ function setUpSubmitTicket(config) {
   if (!_.isEmpty(ticketForms)) {
     // TODO: Alter this code to return objects with id's once pre-fill is GA'd
     const ticketFormIds = _.map(ticketForms, (ticketForm) => ticketForm.id || ticketForm).join();
+    const onDone = (res) => getWebWidgetComponent().refs.ticketSubmissionForm.updateTicketForms(res);
 
-    waitForRootComponent(() => {
-      getRootComponent().setLoading(true);
-    });
+    getWithSpinner(`/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`, onDone);
+  } else if (config.customFields.ids || config.customFields.all === true) {
+    const onDone = (res) => getWebWidgetComponent().refs.ticketSubmissionForm.updateTicketFields(res);
+    const pathIds = config.customFields.all ? '' : `field_ids=${config.customFields.ids.join()}&`;
+    const path = `/embeddable/ticket_fields?${pathIds}locale=${i18n.getLocale()}`;
 
-    transport.get({
-      method: 'get',
-      path: `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`,
-      timeout: 20000,
-      callbacks: {
-        done(res) {
-          // do this on next tick so that it never happens before
-          // the one above that sets loading to true.
-          setTimeout(() => {
-            waitForRootComponent(() => {
-              getRootComponent().updateTicketForms(JSON.parse(res.text));
-            });
-          }, 0);
-        },
-        fail() {
-          // do this on next tick so that it never happens before
-          // the one above that sets loading to true.
-          setTimeout(() => {
-            waitForRootComponent(() => {
-              getRootComponent().setLoading(false);
-            });
-          }, 0);
+    getWithSpinner(path, onDone);
+    config.customFields = [];
+  } else {
+    setTimeout(() => {
+      waitForRootComponent(() => {
+        if (getRootComponent().updateContactForm) {
+          getWebWidgetComponent().refs.ticketSubmissionForm.updateContactForm();
         }
-      }
-    });
+      });
+    }, 0);
   }
 
   return {

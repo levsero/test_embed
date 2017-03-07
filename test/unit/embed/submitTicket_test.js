@@ -35,7 +35,7 @@ describe('embed.submitTicket', () => {
       },
       'service/i18n': {
         i18n: {
-          getLocale: noop
+          getLocale: () => 'fr'
         }
       },
       'component/submitTicket/SubmitTicketForm': {
@@ -68,6 +68,7 @@ describe('embed.submitTicket', () => {
               uid: defaultValue
             };
           }
+          setLoading() {}
           render() {
             const SubmitTicketForm = mockRegistry['component/submitTicket/SubmitTicketForm'].SubmitTicketForm;
 
@@ -195,6 +196,36 @@ describe('embed.submitTicket', () => {
 
         expect(mockTransport.get.calls.mostRecent().args[0].path)
           .toContain('212');
+      });
+    });
+
+    describe('when ticket fields are an array of numbers', () => {
+      let mockTransport;
+
+      beforeEach(() => {
+        mockTransport = mockRegistry['service/transport'].transport;
+      });
+
+      it('should call embeddable/ticket_fields with the ids', () => {
+        submitTicket.create('bob', { customFields: { ids: [1, 2, 3] } } );
+
+        expect(mockTransport.get.calls.mostRecent().args[0].path)
+          .toEqual('/embeddable/ticket_fields?field_ids=1,2,3&locale=fr');
+      });
+    });
+
+    describe('when ticket fields specify all', () => {
+      let mockTransport;
+
+      beforeEach(() => {
+        mockTransport = mockRegistry['service/transport'].transport;
+      });
+
+      it('should call embeddable/ticket_fields with the ids', () => {
+        submitTicket.create('bob', { customFields: { all: true } } );
+
+        expect(mockTransport.get.calls.mostRecent().args[0].path)
+          .toEqual('/embeddable/ticket_fields?locale=fr');
       });
     });
 

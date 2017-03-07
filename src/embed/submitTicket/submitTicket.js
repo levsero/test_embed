@@ -45,6 +45,38 @@ function getTicketForms(config) {
   return _.filter(rawTicketForms, _.isNumber);
 }
 
+const getWithSpinner = (name, path, doneFn) => {
+  waitForRootComponent(name, () => {
+    getRootComponent(name).setLoading(true);
+  });
+
+  // For setTimeout and invocation of waitForRootComponent,
+  // defer and wait for rootComponent before processing statements
+  // in order execute after setLoading is completed
+  transport.get({
+    method: 'get',
+    path,
+    timeout: 20000,
+    locale: i18n.getLocale(),
+    callbacks: {
+      done(res) {
+        setTimeout(() => {
+          waitForRootComponent(name, () => {
+            doneFn(JSON.parse(res.text));
+          });
+        }, 0);
+      },
+      fail() {
+        setTimeout(() => {
+          waitForRootComponent(name, () => {
+            getRootComponent(name).setLoading(false);
+          });
+        }, 0);
+      }
+    }
+  }, false);
+};
+
 function create(name, config, reduxStore) {
   let containerStyle;
   let frameStyle = {};
@@ -168,36 +200,16 @@ function create(name, config, reduxStore) {
   if (!_.isEmpty(ticketForms)) {
     // TODO: Alter this code to return objects with id's once pre-fill is GA'd
     const ticketFormIds = _.map(ticketForms, (ticketForm) => ticketForm.id || ticketForm).join();
+    const onDone = (res) => getRootComponent(name).updateTicketForms(res);
 
-    waitForRootComponent(name, () => {
-      getRootComponent(name).setLoading(true);
-    });
+    getWithSpinner(name, `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`, onDone);
+  } else if (config.customFields.ids || config.customFields.all) {
+    const onDone = (res) => getRootComponent(name).updateTicketFields(res);
+    const pathIds = config.customFields.all ? '' : `field_ids=${config.customFields.ids.join()}&`;
+    const path = `/embeddable/ticket_fields?${pathIds}locale=${i18n.getLocale()}`;
 
-    // For setTimeout and invocation of waitForRootComponent,
-    // defer and wait for rootComponent before processing statements
-    // in order execute after setLoading is completed
-    transport.get({
-      method: 'get',
-      path: `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`,
-      timeout: 20000,
-      locale: i18n.getLocale(),
-      callbacks: {
-        done(res) {
-          setTimeout(() => {
-            waitForRootComponent(name, () => {
-              getRootComponent(name).updateTicketForms(JSON.parse(res.text));
-            });
-          }, 0);
-        },
-        fail() {
-          setTimeout(() => {
-            waitForRootComponent(name, () => {
-              getRootComponent(name).setLoading(false);
-            });
-          }, 0);
-        }
-      }
-    });
+    getWithSpinner(name, path, onDone);
+    config.customFields = [];
   } else {
     setTimeout(() => {
       waitForRootComponent(name, () => {

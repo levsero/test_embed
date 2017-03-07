@@ -83,6 +83,7 @@ export class SubmitTicket extends Component {
       searchTerm: null,
       selectedTicketForm: null,
       showNotification: false,
+      ticketFields: [],
       ticketForms: {},
       uid: _.uniqueId('submitTicketForm_')
     };
@@ -249,6 +250,13 @@ export class SubmitTicket extends Component {
     this.refs.submitTicketForm.updateContactForm(this.props.ticketFieldSettings);
   }
 
+  updateTicketFields = (fields) => {
+    this.setState({
+      ticketFields: fields,
+      loading: false
+    });
+  }
+
   handleDragEnter = () => {
     this.setState({ isDragActive: true });
   }
@@ -353,6 +361,12 @@ export class SubmitTicket extends Component {
   }
 
   renderForm = () => {
+    // TODO: When ticket fields are all sent down via the api we can
+    // remove the customFields prop and always send down the state.
+    const fields = this.props.customFields.length === 0
+                 ? this.state.ticketFields
+                 : this.props.customFields;
+
     return (
       <SubmitTicketForm
         onCancel={this.props.onCancel}
@@ -360,7 +374,7 @@ export class SubmitTicket extends Component {
         ref='submitTicketForm'
         hide={this.state.showNotification}
         expanded={this.state.expanded}
-        customFields={this.props.customFields}
+        customFields={fields}
         disableAutoComplete={this.props.disableAutoComplete}
         formTitleKey={this.state.formTitleKey}
         attachmentSender={this.props.attachmentSender}
