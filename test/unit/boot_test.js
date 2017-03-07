@@ -70,7 +70,7 @@ describe('boot', () => {
       };
 
       expect(transportSpy.get)
-        .toHaveBeenCalledWith(jasmine.objectContaining(params));
+        .toHaveBeenCalledWith(jasmine.objectContaining(params), false);
     });
 
     describe('when the request succeeds', () => {

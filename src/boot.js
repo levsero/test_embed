@@ -188,7 +188,7 @@ const getConfig = (win, postRenderQueue) => {
       done,
       fail
     }
-  });
+  }, false);
 };
 
 const setupWidgetApi = (win) => {
