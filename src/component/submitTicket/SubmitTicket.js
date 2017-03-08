@@ -222,7 +222,9 @@ export class SubmitTicket extends Component {
       'ticket_form_id': ticketFormsAvailable ? this.state.selectedTicketForm.id : null
     };
 
-    return this.props.customFields.length > 0 || ticketFormsAvailable
+    return this.props.customFields.length > 0
+           || this.state.ticketFields.length > 0
+           || ticketFormsAvailable
          ? { request: _.extend(params, this.formatTicketFieldData(data)) }
          : { request: params };
   }
