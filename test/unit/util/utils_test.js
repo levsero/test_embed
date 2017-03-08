@@ -6,9 +6,7 @@ describe('utils', () => {
     objectDifference,
     cssTimeToMs,
     base64encode,
-    emailValid,
-    getMapEntries,
-    getMapValues;
+    emailValid;
 
   const mockGlobals = {
     win: {},
@@ -47,8 +45,6 @@ describe('utils', () => {
     nowInSeconds = require(utilPath).nowInSeconds;
     base64encode = require(utilPath).base64encode;
     emailValid = require(utilPath).emailValid;
-    getMapEntries = require(utilPath).getMapEntries;
-    getMapValues = require(utilPath).getMapValues;
   });
 
   afterEach(() => {

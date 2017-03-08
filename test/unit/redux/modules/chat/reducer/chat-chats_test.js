@@ -1,5 +1,3 @@
-const Map = require(buildSrcPath('vendor/es6-map')).Map;
-
 import * as chatActionTypes from '../../../../../../src/redux/modules/chat/chat-action-types';
 
 describe('chat reducer chats', () => {
@@ -11,7 +9,7 @@ describe('chat reducer chats', () => {
     mockery.enable();
 
     initMockRegistry({
-      'vendor/es6-map': { Map: Map }
+      'vendor/es6-map': require(buildSrcPath('vendor/es6-map'))
     });
 
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-chats');
