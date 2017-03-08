@@ -85,29 +85,11 @@ export class AutomaticAnswersMobile extends AutomaticAnswers {
   }
 
   renderIrrelevantOptions = () => {
-    const notRelated = i18n.t('embeddable_framework.automaticAnswers.desktop.irrelevant.not_related', {
-      fallback: "It's not related to my question"
-    });
-    const relatedButNotAnswered = i18n.t('embeddable_framework.automaticAnswers.desktop.irrelevant.related_no_answer', {
-      fallback: "It's related but didn't answer my question"
-    });
     const classNames = 'AutomaticAnswersBtn--mobile c-btn--fullWidth u-marginVT Anim-none';
 
     return this.randomiseOptions([
-      <Button key={AutomaticAnswers.notRelated}
-        className={classNames}
-        disabled={this.state.isSubmitting}
-        onClick={(e) => this.handleMarkArticleAsIrrelevant(AutomaticAnswers.notRelated, e)}
-        onTouchStartDisabled={true}
-        label={notRelated}
-        primary={false} />,
-      <Button key={AutomaticAnswers.relatedButNotAnswered}
-        className={classNames}
-        disabled={this.state.isSubmitting}
-        onClick={(e) => this.handleMarkArticleAsIrrelevant(AutomaticAnswers.relatedButNotAnswered, e)}
-        onTouchStartDisabled={true}
-        label={relatedButNotAnswered}
-        primary={false} />
+      this.irrelevantOption(AutomaticAnswers.notRelated, classNames),
+      this.irrelevantOption(AutomaticAnswers.relatedButNotAnswered, classNames)
     ]);
   }
 
