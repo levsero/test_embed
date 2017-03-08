@@ -29,7 +29,7 @@ describe('Ipm component', function() {
       'service/logging': {
         logging: { error: loggingErrorSpy }
       },
-      'util/globals': {
+      'utility/globals': {
         referrer
       },
       'component/ipm/IpmDesktop': {

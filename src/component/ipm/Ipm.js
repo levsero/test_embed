@@ -5,7 +5,7 @@ import { i18n } from 'service/i18n';
 import { identity } from 'service/identity';
 import { logging } from 'service/logging';
 import { getPageTitle } from 'utility/utils';
-import { referrer } from 'util/globals';
+import { referrer } from 'utility/globals';
 
 export class Ipm extends Component {
   static propTypes = {
