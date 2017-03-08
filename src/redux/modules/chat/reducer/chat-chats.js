@@ -1,4 +1,4 @@
-import SortedMap from 'collections/sorted-map';
+import { Map } from 'vendor/es6-map';
 
 import {
   SENT_CHAT_MSG_SUCCESS,
@@ -12,11 +12,13 @@ import {
   SDK_CHAT_COMMENT
 } from '../chat-action-types';
 
-const initialState = new SortedMap();
+const initialState = new Map();
 
-const concatChat = (chats, chat) => chats.concat({
-  [chat.timestamp]: { ...chat }
-});
+const concatChat = (chats, chat) => {
+  const copy = new Map(chats);
+
+  return copy.set(chat.timestamp, { ...chat });
+};
 
 const chats = (state = initialState, action) => {
   switch (action.type) {

@@ -45,20 +45,22 @@ class Chat extends Component {
   }
 
   renderChatLog = () => {
-    if (this.props.chat.chats.length <= 0) return;
+    const { chats } = this.props.chat;
+
+    if (chats.size <= 0) return;
 
     const chatMessage = (data, key) => {
       return (<ChatMessage key={key} name={data.display_name} message={data.msg} nick={data.nick} />);
     };
 
-    return _.chain(this.props.chat.chats.toObject())
+    return _.chain([...chats.values()])
             .filter((m) => m.type === 'chat.msg')
             .map(chatMessage)
             .value();
   }
 
   renderChatEnded = () => {
-    if (this.props.chat.chats.length <= 0 || this.props.chat.is_chatting) return;
+    if (this.props.chat.chats.size <= 0 || this.props.chat.is_chatting) return;
 
     return (
       <div className={styles.chatEnd}>

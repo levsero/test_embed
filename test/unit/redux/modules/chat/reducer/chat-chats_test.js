@@ -1,5 +1,3 @@
-import SortedMap from 'collections/sorted-map';
-
 import * as chatActionTypes from '../../../../../../src/redux/modules/chat/chat-action-types';
 
 describe('chat reducer chats', () => {
@@ -11,7 +9,7 @@ describe('chat reducer chats', () => {
     mockery.enable();
 
     initMockRegistry({
-      'collections/sorted-map': SortedMap
+      'vendor/es6-map': require(buildSrcPath('vendor/es6-map'))
     });
 
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-chats');
@@ -31,7 +29,7 @@ describe('chat reducer chats', () => {
   describe('reducer', () => {
     describe('initial state', () => {
       it('contains no entries', () => {
-        expect(initialState.length)
+        expect(initialState.size)
           .toEqual(0);
       });
     });
@@ -55,10 +53,10 @@ describe('chat reducer chats', () => {
       });
 
       it('adds the message to the chats collection', () => {
-        expect(state.length)
+        expect(state.size)
           .toEqual(1);
 
-        expect(state.toObject()[payload.timestamp])
+        expect(state.get(payload.timestamp))
           .toEqual(jasmine.objectContaining({
             timestamp: payload.timestamp,
             msg: payload.msg
@@ -97,10 +95,10 @@ describe('chat reducer chats', () => {
           });
 
           it('adds the message to the chats collection', () => {
-            expect(state.length)
+            expect(state.size)
               .toEqual(1);
 
-            expect(state.toObject()[detail.timestamp])
+            expect(state.get(detail.timestamp))
               .toEqual(jasmine.objectContaining(detail));
           });
         });
