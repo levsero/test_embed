@@ -1,5 +1,3 @@
-import SortedMap from 'collections/sorted-map';
-
 import {
   SENT_CHAT_MSG_SUCCESS,
   SDK_CHAT_MSG,
@@ -11,12 +9,15 @@ import {
   SDK_CHAT_RATING,
   SDK_CHAT_COMMENT
 } from '../chat-action-types';
+import { getMapEntries } from 'utility/utils';
 
-const initialState = new SortedMap();
+const initialState = new Map();
 
-const concatChat = (chats, chat) => chats.concat({
-  [chat.timestamp]: { ...chat }
-});
+const concatChat = (chats, chat) => {
+  const map = chats.set(chat.timestamp, { ...chat });
+
+  return new Map(getMapEntries(map));
+};
 
 const chats = (state = initialState, action) => {
   switch (action.type) {

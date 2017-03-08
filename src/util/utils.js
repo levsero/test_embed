@@ -99,6 +99,16 @@ function emailValid (email) {
   return validRegex.test(email);
 }
 
+function getMapEntries(map) {
+  const r = map ? [...map.entries()] : [];
+  debugger
+  return r;
+}
+
+function getMapValues(map) {
+  return map ? [...map.values()] : [];
+}
+
 export {
   getPageKeywords,
   getPageTitle,
@@ -111,5 +121,7 @@ export {
   cssTimeToMs,
   nowInSeconds,
   sha1,
-  emailValid
+  emailValid,
+  getMapEntries,
+  getMapValues
 };

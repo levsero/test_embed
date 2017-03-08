@@ -6,7 +6,9 @@ describe('utils', () => {
     objectDifference,
     cssTimeToMs,
     base64encode,
-    emailValid;
+    emailValid,
+    getMapEntries,
+    getMapValues;
 
   const mockGlobals = {
     win: {},
@@ -45,6 +47,8 @@ describe('utils', () => {
     nowInSeconds = require(utilPath).nowInSeconds;
     base64encode = require(utilPath).base64encode;
     emailValid = require(utilPath).emailValid;
+    getMapEntries = require(utilPath).getMapEntries;
+    getMapValues = require(utilPath).getMapValues;
   });
 
   afterEach(() => {
@@ -294,5 +298,37 @@ describe('utils', () => {
       expect(emailValid(email))
         .toEqual(false);
     }));
+  });
+
+  fdescribe('getMapEntries', () => {
+    let map;
+
+    beforeEach(() => {
+      map = new Map();
+    });
+
+    describe('when there are entries in the map', () => {
+      beforeEach(() => {
+        map.set('ovalteenies', 'delicious');
+        map.set('vim', 'awesome');
+      });
+
+      it('should return an array of key value pairs', () => {
+        expect(getMapEntries(map))
+          .toBe([['ovalteenies', 'delicious'], ['vim', 'awesome']]);
+      });
+    });
+
+    describe('when there are no entries in the map', () => {
+      it('should return an empty array', () => {
+
+      });
+    });
+
+    describe('when the map is undefined', () => {
+      it('should return an empty array', () => {
+
+      });
+    });
   });
 });
