@@ -157,7 +157,6 @@ function create(name, config, reduxStore) {
     mediator.channel.broadcast(name + '.onFormSubmitted');
   };
   const onCancel = function() {
-    getRootComponent(name).clearForm();
     mediator.channel.broadcast(name + '.onCancelClick');
   };
   const onShow = (frame) => {
