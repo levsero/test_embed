@@ -1,3 +1,5 @@
+import { Map } from 'vendor/es6-map';
+
 import {
   SENT_CHAT_MSG_SUCCESS,
   SDK_CHAT_MSG,
@@ -9,14 +11,13 @@ import {
   SDK_CHAT_RATING,
   SDK_CHAT_COMMENT
 } from '../chat-action-types';
-import { getMapEntries } from 'utility/utils';
 
 const initialState = new Map();
 
 const concatChat = (chats, chat) => {
-  const map = chats.set(chat.timestamp, { ...chat });
+  const copy = new Map(chats);
 
-  return new Map(getMapEntries(map));
+  return copy.set(chat.timestamp, { ...chat });
 };
 
 const chats = (state = initialState, action) => {

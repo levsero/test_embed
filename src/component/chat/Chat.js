@@ -12,7 +12,6 @@ import { endChat,
          sendMsg,
          setVisitorInfo,
          updateCurrentMsg } from 'src/redux/modules/chat';
-import { getMapValues } from 'utility/utils';
 
 import { locals as styles } from './Chat.sass';
 
@@ -54,7 +53,7 @@ class Chat extends Component {
       return (<ChatMessage key={key} name={data.display_name} message={data.msg} nick={data.nick} />);
     };
 
-    return _.chain(getMapValues(chats))
+    return _.chain([...chats.values()])
             .filter((m) => m.type === 'chat.msg')
             .map(chatMessage)
             .value();
