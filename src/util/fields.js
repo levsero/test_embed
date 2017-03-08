@@ -61,7 +61,7 @@ const getCustomFields = (customFields, formState, disableAutoComplete) => {
       case 'description':
         return <Field {...sharedProps} input={<textarea rows='5' />} />;
       case 'checkbox':
-        return <Field {...sharedProps} label={field.title} type='checkbox' />;
+        return <Field {...sharedProps} label={title} type='checkbox' />;
     }
   });
 
