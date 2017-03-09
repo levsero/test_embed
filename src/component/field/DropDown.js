@@ -38,8 +38,12 @@ export class Dropdown extends Component {
       hovering: false,
       selected: props.value,
       displayedMenu: initialMenu,
-      previousMenu: [],
-      open: false
+      previousMenus: [],
+      nextMenu: null,
+      backMenu: null,
+      open: false,
+      animatingNext: false,
+      animatingBack: false
     };
 
     this.containerClicked = false;
@@ -63,18 +67,6 @@ export class Dropdown extends Component {
 
   handleInputClick = () => {
     this.setState({ open: !this.state.open });
-  }
-
-  handleBackClick = (focusField = false) => {
-    if (this.state.previousMenu.length === 0) return;
-
-    this.setState({ displayedMenu: this.state.previousMenu[0] });
-
-    this.state.previousMenu.shift();
-
-    if (focusField) {
-      setTimeout(() => this.menu.keyDown(keyCodes.DOWN), 0);
-    }
   }
 
   handleContainerClick = () => {
@@ -123,14 +115,48 @@ export class Dropdown extends Component {
     });
   }
 
+  handleBackClick = (focusField = false) => {
+    if (this.state.previousMenus.length === 0) return;
+
+    this.setState({
+      animatingBack: true,
+      backMenu: this.state.previousMenus[0]
+    });
+
+    setTimeout(() => {
+      this.setState({
+        displayedMenu: this.state.previousMenus[0],
+        backMenu: null,
+        animatingBack: false
+      });
+
+      this.state.previousMenus.shift();
+
+      if (focusField) {
+        setTimeout(() => this.menu.keyDown(keyCodes.DOWN), 0);
+      }
+    }, 400);
+  }
+
   updateMenu = (menu, focusField = false) => {
-    this.state.previousMenu.unshift(this.state.displayedMenu);
+    this.state.previousMenus.unshift(this.state.displayedMenu);
 
-    this.setState({ displayedMenu: menu });
+    this.setState({
+      nextMenu: menu,
+      animatingNext: true
+    });
 
-    if (focusField) {
-      setTimeout(() => this.menu.keyDown(keyCodes.DOWN), 0);
-    }
+    setTimeout(() => {
+      this.setState({
+        displayedMenu: menu,
+        animatingNext: false,
+        nextMenu: null
+      });
+
+      if (focusField) {
+        setTimeout(() => this.menu.keyDown(keyCodes.DOWN), 0);
+      }
+    }, 400);
   }
 
   formatDropdownOptions = (optionsProp) => {
@@ -195,6 +221,23 @@ export class Dropdown extends Component {
     );
   }
 
+  renderMenus = () => {
+    if (!this.state.open) return;
+
+    const backClasses = this.state.animatingBack ? styles.menuNeutral : '';
+    const nextClasses = this.state.animatingNext ? styles.menuNeutral : '';
+    const leftClasses = this.state.animatingNext ? styles.menuLeft : '';
+    const rightClasses = this.state.animatingBack ? styles.menuRight : '';
+
+    return (
+      <div className={styles.menuContainer}>
+        <div className={`${styles.menu} ${styles.menuLeft} ${backClasses}`}>{this.state.backMenu}</div>
+        <div className={`${styles.menu} ${leftClasses} ${rightClasses}`}>{this.state.displayedMenu}</div>
+        <div className={`${styles.menu} ${styles.menuLeft} ${nextClasses}`}>{this.state.nextMenu}</div>
+      </div>
+    );
+  }
+
   render = () => {
     const mobileClasses = this.props.fullscreen && !this.props.landscape ? styles.labelMobile : '';
     const landscapeClasses = this.props.landscape ? styles.labelLandscape : '';
@@ -217,11 +260,7 @@ export class Dropdown extends Component {
             onKeyDown={this.handleKeyDown}
             placeholder={this.state.selected.title} />
           {this.renderDropdownArrow()}
-          <div className={styles.menuContainer}>
-            <div className={`${styles.menu} ${styles.menuLeft}`}>{this.state.previousMenu[0]}</div>
-            <div className={styles.menu}>{this.state.displayedMenu}</div>
-          </div>
-          {/*{this.state.open && this.state.displayedMenu}*/}
+          {this.renderMenus()}
         </div>
       </div>
     );
