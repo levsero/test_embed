@@ -18,9 +18,9 @@ describe('embed.ipm', () => {
     mockSettingsValue = {};
     mockApiResponses = {};
 
-    apiGetSpy = jasmine.createSpy('apiGet')
+    apiGetSpy = jasmine.createSpy('api.get')
       .and.callFake((path, query, resolve = noop) => resolve(mockApiResponses[path] || {}));
-    apiPostSpy = jasmine.createSpy('apiPost')
+    apiPostSpy = jasmine.createSpy('api.post')
       .and.callFake((path, query, resolve = noop) => resolve(mockApiResponses[path] || {}));
 
     mockRegistry = initMockRegistry({
@@ -161,7 +161,7 @@ describe('embed.ipm', () => {
   });
 
   describe('ipmSender', () => {
-    it('calls apiPost when called', () => {
+    it('calls api.post when called', () => {
       const params = { foo: 'bar' };
 
       ipm.create('dan');
