@@ -198,9 +198,9 @@ function create(name, config, reduxStore) {
   const locale = i18n.getLocale();
 
   if (!_.isEmpty(ticketForms)) {
-    loadTicketForms(ticketForms, locale);
+    loadTicketForms(name, ticketForms, locale);
   } else if (config.customFields.ids || config.customFields.all) {
-    loadTicketFields(config.customFields, locale);
+    loadTicketFields(name, config.customFields, locale);
     config.customFields = [];
   } else {
     setTimeout(() => {
@@ -346,8 +346,13 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.refreshLocale', () => {
     waitForRootComponent(name, () => {
-      debugger
-      getRootComponent(name).forceUpdate(getRootComponent(name).updateTicketFormState());
+      const { config } = get(name);
+      const ticketForms = getTicketForms(config);
+
+      if (!_.isEmpty(ticketForms)) {
+        loadTicketForms(name, ticketForms, i18n.getLocale());
+        //setTimeout(() => getRootComponent(name).updateTicketFormState(), 0);
+      }
     });
   });
 
@@ -360,7 +365,7 @@ function render(name) {
   });
 }
 
-function loadTicketForms(ticketForms, locale) {
+function loadTicketForms(name, ticketForms, locale) {
   // TODO: Alter this code to return objects with id's once pre-fill is GA'd
   const ticketFormIds = _.map(ticketForms, (ticketForm) => ticketForm.id || ticketForm).join();
   const onDone = (res) => getRootComponent(name).updateTicketForms(res);
@@ -369,7 +374,7 @@ function loadTicketForms(ticketForms, locale) {
   getWithSpinner(name, path, locale, onDone);
 }
 
-function loadTicketFields(customFields, locale) {
+function loadTicketFields(name, customFields, locale) {
   const onDone = (res) => getRootComponent(name).updateTicketFields(res);
   const pathIds = customFields.all ? '' : `field_ids=${customFields.ids.join()}`;
   const path = `/embeddable/ticket_fields?${pathIds}`;

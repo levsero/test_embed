@@ -305,9 +305,11 @@ export class SubmitTicket extends Component {
   }
 
   updateTicketForms = (forms) => {
-    const selectedTicketForm = forms.ticket_forms[0];
+    const selectedTicketForm = forms.ticket_forms.length === 1
+                             ? forms.ticket_forms[0]
+                             : this.state.selectedTicketForm;
     const ticketFormPrefill = this.props.ticketFormSettings[0];
-    const callbackFn = (forms.ticket_forms.length === 1)
+    const callbackFn = (selectedTicketForm)
                      ? () => this.updateSubmitTicketForm(selectedTicketForm, ticketFormPrefill)
                      : () => {};
 
