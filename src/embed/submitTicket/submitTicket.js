@@ -351,7 +351,9 @@ function render(name) {
 
       if (!_.isEmpty(ticketForms)) {
         loadTicketForms(name, ticketForms, i18n.getLocale());
-        //setTimeout(() => getRootComponent(name).updateTicketFormState(), 0);
+        get(name).instance.getChild().showBackButton();
+      } else if (config.customFields.ids || config.customFields.all) {
+        loadTicketFields(name, config.customFields, i18n.getLocale());
       }
     });
   });
