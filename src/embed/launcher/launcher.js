@@ -6,7 +6,7 @@ import { launcherStyles } from './launcherStyles.js';
 import { document,
          getDocumentHost } from 'utility/globals';
 import { Launcher } from 'component/Launcher';
-import { Frame } from 'component/Frame';
+import { Frame } from 'component/frame/Frame';
 import { beacon } from 'service/beacon';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';

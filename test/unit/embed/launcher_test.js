@@ -1,5 +1,7 @@
-describe('embed.launcher', function() {
+fdescribe('embed.launcher', function() {
   let launcher,
+    mockFrame,
+    mockFrameMethods,
     mockRegistry;
   const launcherPath = buildSrcPath('embed/launcher/launcher');
 
@@ -7,6 +9,9 @@ describe('embed.launcher', function() {
     resetDOM();
 
     mockery.enable();
+
+    mockFrame = requireUncached(buildTestPath('unit/mockFrame')).MockFrame;
+    mockFrameMethods = requireUncached(buildTestPath('unit/mockFrame')).mockFrameMethods;
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -53,9 +58,8 @@ describe('embed.launcher', function() {
       './launcherStyles.js': {
         launcherStyles: 'mockCss'
       },
-      'embed/frameFactory': {
-        frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
-        frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
+      'component/frame/Frame': {
+        Frame: mockFrame
       },
       'utility/devices': {
         isMobileBrowser: function() {
@@ -109,73 +113,43 @@ describe('embed.launcher', function() {
         .toEqual('test_label');
     });
 
-    describe('frameFactory', function() {
-      let mockFrameFactory,
-        mockFrameFactoryCall,
-        frameConfig,
-        childFn,
-        params;
+    describe('config', function() {
+      let config,
+        frame,
+        child,
+        alice;
 
       beforeEach(function() {
-        mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
-        frameConfig = {
+        config = {
           onClick: jasmine.createSpy(),
           position: 'test_position',
-          icon: '',
+          icon: 'tick',
           visible: true
         };
-        launcher.create('alice', frameConfig);
-        mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-        childFn = mockFrameFactoryCall[0];
-        params = mockFrameFactoryCall[1];
+        launcher.create('alice', config);
+        alice = launcher.get('alice');
+        frame = alice.component;
+        child = frame.props.children;
       });
 
-      it('should apply the configs', function() {
-        const eventObj = jasmine.createSpyObj('e', ['preventDefault']);
-        const mockMediator = mockRegistry['service/mediator'].mediator;
-        const alice = launcher.get('alice');
-        const payload = childFn({});
-        const onClickHandler = params.extend.onClickHandler;
+      it('applies the position from config to frame', () => {
+        expect(frame.props.position)
+          .toEqual(config.position);
+      });
 
-        expect(payload.props.position)
-          .toEqual(frameConfig.position);
+      it('applies the icon from config to child', () => {
+        expect(child.props.icon)
+          .toEqual(config.icon);
+      });
 
-        expect(payload.props.icon)
-          .toEqual(frameConfig.icon);
-
-        expect(payload.props.label)
+      it('applies the label from config', () => {
+        expect(child.props.label)
           .toEqual(`embeddable_framework.launcher.label.${alice.config.labelKey}`);
-
-        expect(params.fullscreenable)
-          .toEqual(false);
-
-        jasmine.clock().install();
-
-        onClickHandler(eventObj);
-        jasmine.clock().tick(0);
-
-        expect(mockMediator.channel.broadcast)
-          .toHaveBeenCalledWith('alice.onClick');
-        jasmine.clock().uninstall();
       });
 
-      it('passes Launcher correctly into frameFactory', function() {
-        const mockClickHandler = noop;
-        const payload = childFn({
-          onClickHandler: mockClickHandler
-        });
-        const alice = launcher.get('alice');
-
-        expect(payload.props.onClick)
-          .toBe(mockClickHandler);
-
-        expect(payload.props.onTouchEnd)
-          .toBe(mockClickHandler);
-
-        launcher.render('alice');
-
-        expect(alice.instance.onClickHandler)
-          .toBeDefined();
+      it('sets fullscreenable to false', () => {
+        expect(frame.props.fullscreenable)
+          .toEqual(false);
       });
     });
   });
@@ -213,15 +187,9 @@ describe('embed.launcher', function() {
       }).toThrow();
     });
 
-    it('renders a launcher to the document', function() {
+    it('renders a launcher', function() {
       launcher.create('alice');
       launcher.render('alice');
-
-      expect(document.querySelectorAll('body > div > .mock-frame').length)
-        .toBe(1);
-
-      expect(document.querySelectorAll('body > div > .mock-frame > .mock-launcher').length)
-        .toBe(1);
 
       expect(launcher.get('alice').instance)
         .toBeDefined();
@@ -240,14 +208,10 @@ describe('embed.launcher', function() {
     });
 
     it('applies launcher.scss to the frame', function() {
-      const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
-
       launcher.create('alice');
       launcher.render('alice');
 
-      const mockFrameCss = mockFrameFactory.calls.mostRecent().args[1].css;
-
-      expect(mockFrameCss)
+      expect(launcher.get('alice').component.props.css)
         .toContain('mockCss');
     });
 
@@ -270,7 +234,7 @@ describe('embed.launcher', function() {
 
         pluckSubscribeCall(mockMediator, 'alice.hide')();
 
-        expect(alice.instance.hide.__reactBoundMethod)
+        expect(mockFrameMethods.hide)
           .toHaveBeenCalled();
       });
 
@@ -280,7 +244,7 @@ describe('embed.launcher', function() {
 
         pluckSubscribeCall(mockMediator, 'alice.show')();
 
-        expect(alice.instance.show.__reactBoundMethod)
+        expect(mockFrameMethods.show)
           .toHaveBeenCalled();
       });
 

@@ -13,12 +13,10 @@ export class Ipm extends Component {
     closeFrame: PropTypes.func.isRequired,
     ipmSender: PropTypes.func.isRequired,
     mobile: PropTypes.bool.isRequired,
-    setFrameSize: PropTypes.func,
     updateFrameSize: PropTypes.func
   };
 
   static defaultProps = {
-    setFrameSize: () => {},
     updateFrameSize: () => {}
   };
 

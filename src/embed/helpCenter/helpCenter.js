@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { helpCenterStyles } from './helpCenterStyles.js';
 import { HelpCenter } from 'component/helpCenter/HelpCenter';
-import { Frame } from 'component/Frame';
+import { Frame } from 'component/frame/Frame';
 import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
 import { mediator } from 'service/mediator';
@@ -241,7 +241,6 @@ function create(name, config, reduxStore) {
         imagesSender={imagesSenderFn}
         style={containerStyle}
         fullscreen={isMobileBrowser()}
-        updateFrameSize={params.updateFrameSize}
         originalArticleButton={settings.get('helpCenter.originalArticleButton')}
         localeFallbacks={settings.get('helpCenter.localeFallbacks')}
         channelChoice={channelChoice}

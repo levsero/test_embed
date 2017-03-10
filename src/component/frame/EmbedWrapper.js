@@ -101,8 +101,6 @@ export class EmbedWrapper extends Component {
       ref: 'rootComponent'
     });
 
-    setTimeout(() => this.updateFrameSize(), 0);
-
     return (
       <Provider store={this.props.reduxStore}>
         <div>

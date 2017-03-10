@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
-import classNames from 'classnames';
 
-import { EmbedWrapper } from 'component/frameFactory/EmbedWrapper';
+import { locals as styles } from './Frame.sass';
+
+import { EmbedWrapper } from 'component/frame/EmbedWrapper';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
 import { transitionFactory } from 'service/transitionFactory';
@@ -20,25 +21,45 @@ if (!__DEV__) {
 
 const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
+
 const sizingRatio = 12 * getZoomSizingRatio(false, true);
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 const expandedSetting = settings.get('expanded');
 const isSettingsTop = settings.get('position.vertical') === 'top';
 const zIndex = settings.get('zIndex');
-const isPositionTop = isSettingsTop; //|| this.props.name === 'ipm';
+const isPositionTop = isSettingsTop;
 const defaultHideTransition = isPositionTop
                             ? transitionFactory.webWidget.upHide()
                             : transitionFactory.webWidget.downHide();
 const defaultShowTransition = isPositionTop
                             ? transitionFactory.webWidget.downShow()
                             : transitionFactory.webWidget.upShow();
+
 let expanded = expandedSetting;
 
 export class Frame extends Component {
   static propTypes = {
     fullscreen: PropTypes.bool,
     visible: PropTypes.bool,
-    position: PropTypes.string
+    position: PropTypes.string,
+    name: PropTypes.string,
+    frameStyle: PropTypes.object,
+    disableSetOffsetHorizontal: PropTypes.bool,
+    fullscreenable: PropTypes.bool,
+    expandable: PropTypes.bool,
+    expanded: PropTypes.bool,
+    onShow: PropTypes.func,
+    onHide: PropTypes.func,
+    transitions: PropTypes.object,
+    afterShowAnimate: PropTypes.func,
+    preventClose: PropTypes.bool,
+    onClose: PropTypes.func,
+    onBack: PropTypes.func,
+    css: PropTypes.string,
+    extend: PropTypes.object,
+    hideCloseButton: PropTypes.bool,
+    children: PropTypes.node.isRequired,
+    store: PropTypes.object.isRequired
   }
 
   static defaultProps = {
@@ -47,7 +68,7 @@ export class Frame extends Component {
     position: 'right',
     name: '',
     frameStyle: {
-      marginTop: isSettingsTop && !isMobileBrowser() ? '15px' : 0
+      marginTop: isPositionTop && !isMobileBrowser() ? '15px' : 0
     },
     css: '',
     fullscreenable: false,
@@ -66,8 +87,8 @@ export class Frame extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      visible: this.props.visible,
-      frameStyle: this.props.frameStyle,
+      visible: props.visible,
+      frameStyle: props.frameStyle,
       hiddenByZoom: false,
       _rendered: false,
       iframeDimensions: {
@@ -91,10 +112,6 @@ export class Frame extends Component {
     ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this).contentDocument.body);
   }
 
-  getChild = () => {
-    return this.child;
-  }
-
   getRootComponent = () => {
     if (this.child) {
       const rootComponent = this.child.refs.rootComponent;
@@ -105,6 +122,10 @@ export class Frame extends Component {
     }
   }
 
+  getChild = () => {
+    return this.child;
+  }
+
   setOffsetHorizontal = (offsetValue = 0) => {
     if (!this.props.disableSetOffsetHorizontal) {
       ReactDOM.findDOMNode(this).style.marginLeft = `${offsetValue}px`;
@@ -112,6 +133,7 @@ export class Frame extends Component {
     }
   }
 
+  // Only used for NPS mobile
   setFrameSize = (width, height, transparent = true) => {
     const iframe = ReactDOM.findDOMNode(this);
     const frameWin = iframe.contentWindow;
@@ -134,10 +156,9 @@ export class Frame extends Component {
       );
     }
 
-    frameWin.setTimeout(
-      () => this.setState(
-        { iframeDimensions: _.extend(this.state.iframeDimensions, dimensions) }
-      ), 0);
+    frameWin.setTimeout(() => this.setState({
+      iframeDimensions: _.extend(this.state.iframeDimensions, dimensions)
+    }), 0);
   }
 
   updateFrameSize = () => {
@@ -223,7 +244,7 @@ export class Frame extends Component {
       this.getRootComponent().expand(false);
     }
 
-    this.getRootComponent().setState({ x: ''});
+    this.getRootComponent().setState({ x: '' });
 
     setTimeout( () => {
       const existingStyle = frameFirstChild.style;
@@ -266,9 +287,7 @@ export class Frame extends Component {
       clickBusterRegister(ev.touches[0].clientX, ev.touches[0].clientY);
     }
 
-    const transition = isPositionTop
-                      ? 'upHide'
-                      : 'downHide';
+    const transition = isPositionTop ? 'upHide' : 'downHide';
 
     this.hide({ transition });
 
@@ -287,22 +306,16 @@ export class Frame extends Component {
     this.getRootComponent().expand(expanded);
   }
 
-  setHiddenByZoom = (hide) => {
-    this.setState({
-      hiddenByZoom: hide
-    });
-  }
-
-  toggleVisibility = () => {
-    this.setState({ visible: !this.state.visible });
+  setHiddenByZoom = (hiddenByZoom) => {
+    this.setState({ hiddenByZoom });
   }
 
   setHighlightColor = (color) => {
-    this.getChild().setHighlightColor(color);
+    this.child.setHighlightColor(color);
   }
 
   setButtonColor = (color) => {
-    this.getChild().setButtonColor(color);
+    this.child.setButtonColor(color);
   }
 
   computeIframeStyle = () => {
@@ -344,12 +357,8 @@ export class Frame extends Component {
     const position = settings.get('position.horizontal') || this.props.position;
     const cssText = baseCSS + mainCSS + this.props.css + baseFontCSS;
     const fullscreen = this.props.fullscreenable && isMobileBrowser();
-    const positionClasses = classNames({
-      'u-borderTransparent u-posRelative': !fullscreen,
-      'u-pullRight': position === 'right',
-      'u-pullLeft': position === 'left',
-      'u-noPrint': !fullscreen
-    });
+    const desktopClasses = fullscreen ? '' : styles.desktop;
+    const positionClasses = position === 'left' ? styles.left : styles.right;
 
     // 1. Loop over functions in this.props.extend
     // 2. Re-bind them to `this` context
@@ -372,7 +381,7 @@ export class Frame extends Component {
 
     const element = doc.body.appendChild(doc.createElement('div'));
 
-    element.className = positionClasses;
+    element.className = `${positionClasses} ${desktopClasses}`;
 
     const newChild = React.cloneElement(this.props.children, newParams);
 
@@ -421,13 +430,14 @@ export class Frame extends Component {
 
   render = () => {
     const iframeNamespace = 'zEWidget';
-    const iframeClasses = classNames({
-      [`${iframeNamespace}-${this.props.name}`]: true,
-      [`${iframeNamespace}-${this.props.name}--active`]: this.state.visible
-    });
+    const frameClasses = `${iframeNamespace}-${this.props.name}`;
+    const activeClasses = this.state.visible ? `${frameClasses}--active` : '';
 
     return (
-      <iframe style={this.computeIframeStyle()} id={this.props.name} className={iframeClasses} />
+      <iframe
+        style={this.computeIframeStyle()}
+        id={this.props.name}
+        className={`${frameClasses} ${activeClasses}`} />
     );
   }
 }

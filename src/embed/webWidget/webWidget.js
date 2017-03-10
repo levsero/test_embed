@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { webWidgetStyles } from './webWidgetStyles.js';
-import { frameFactory } from 'embed/frameFactory';
+import { WebWidget } from 'component/webWidget/WebWidget';
+import { Frame } from 'component/frame/Frame';
 import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
@@ -178,43 +179,34 @@ function create(name, config = {}, reduxStore = {}) {
     onBack
   };
 
-  const Embed = frameFactory(
-    (params) => {
-      return (
-        <WebWidget
-          ref='rootComponent'
-          attachmentSender={submitTicketSettings.attachmentSender}
-          channelChoice={helpCenterSettings.channelChoice}
-          contextualSearchSender={helpCenterSettings.searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')} // eslint-disable-line
-          fullscreen={isMobileBrowser()}
-          helpCenterAvailable={helpCenterAvailable}
-          helpCenterConfig={helpCenterSettings.config}
-          hideZendeskLogo={globalConfig.hideZendeskLogo}
-          imagesSender={helpCenterSettings.imagesSenderFn}
-          localeFallbacks={settings.get('helpCenter.localeFallbacks')}
-          onArticleClick={helpCenterSettings.onArticleClick}
-          onCancel={submitTicketSettings.onCancel}
-          onSearch={helpCenterSettings.onSearch}
-          onSubmitted={submitTicketSettings.onSubmitted}
-          originalArticleButton={settings.get('helpCenter.originalArticleButton')}
-          position={globalConfig.position}
-          searchSender={helpCenterSettings.searchSenderFn('/api/v2/help_center/search.json')}
-          showBackButton={showBackButton}
-          style={containerStyle}
-          subjectEnabled={settings.get('contactForm.subject')}
-          tags={settings.get('contactForm.tags')}
-          ticketFormSettings={settings.get('contactForm.ticketForms')}
-          ticketFieldSettings={settings.get('contactForm.fields')}
-          submitTicketAvailable={submitTicketAvailable}
-          submitTicketConfig={submitTicketSettings.config}
-          submitTicketSender={submitTicketSettings.submitTicketSender}
-          updateFrameSize={params.updateFrameSize}
-          viaId={settings.get('viaId')}
-          zendeskHost={transport.getZendeskHost()} />
-      );
-    },
-    frameParams,
-    reduxStore
+  const Embed = (
+    <Frame {...frameParams} visible={false} position={config.position} store={reduxStore}>
+      <WebWidget
+        ref='rootComponent'
+        submitTicketConfig={submitTicketSettings.config}
+        submitTicketSender={submitTicketSettings.submitTicketSender}
+        attachmentSender={submitTicketSettings.attachmentSender}
+        onSubmitted={submitTicketSettings.onSubmitted}
+        position={globalConfig.position}
+        style={containerStyle}
+        helpCenterAvailable={helpCenterAvailable}
+        submitTicketAvailable={submitTicketAvailable}
+        showBackButton={showBackButton}
+        subjectEnabled={settings.get('contactForm.subject')}
+        hideZendeskLogo={globalConfig.hideZendeskLogo}
+        onArticleClick={helpCenterSettings.onArticleClick}
+        onSearch={helpCenterSettings.onSearch}
+        onCancel={submitTicketSettings.onCancel}
+        helpCenterConfig={helpCenterSettings.config}
+        searchSender={helpCenterSettings.searchSenderFn('/api/v2/help_center/search.json')}
+        contextualSearchSender={helpCenterSettings.searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')} // eslint-disable-line
+        imagesSender={helpCenterSettings.imagesSenderFn}
+        fullscreen={isMobileBrowser()}
+        originalArticleButton={settings.get('helpCenter.originalArticleButton')}
+        localeFallbacks={settings.get('helpCenter.localeFallbacks')}
+        channelChoice={helpCenterSettings.channelChoice}
+        zendeskHost={transport.getZendeskHost()} />
+    </Frame>
   );
 
   embed = {

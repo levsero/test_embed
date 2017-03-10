@@ -6,7 +6,7 @@ import { submitTicketStyles } from './submitTicketStyles.js';
 import { document,
          getDocumentHost } from 'utility/globals';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
-import { Frame } from 'component/Frame';
+import { Frame } from 'component/frame/Frame';
 import { getZoomSizingRatio,
          isIE,
          isMobileBrowser,
