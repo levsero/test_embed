@@ -6,7 +6,7 @@ import { launcherStyles } from './launcherStyles.js';
 import { document,
          getDocumentHost } from 'utility/globals';
 import { Launcher } from 'component/Launcher';
-import { Frame } from 'embed/frameFactory';
+import { Frame } from 'component/Frame';
 import { beacon } from 'service/beacon';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
@@ -65,7 +65,7 @@ function create(name, config, reduxStore) {
   };
 
   const Embed = (
-    <Frame params={params} visible={config.visible} position={config.position} store={reduxStore}>
+    <Frame {...params} visible={config.visible} position={config.position} store={reduxStore}>
       <Launcher
         onClick={params.extend.onClickHandler}
         //onTouchEnd={params.onClickHandler}

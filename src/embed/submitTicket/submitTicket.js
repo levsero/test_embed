@@ -6,7 +6,7 @@ import { submitTicketStyles } from './submitTicketStyles.js';
 import { document,
          getDocumentHost } from 'utility/globals';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
-import { Frame } from 'embed/frameFactory';
+import { Frame } from 'component/Frame';
 import { getZoomSizingRatio,
          isIE,
          isMobileBrowser,
@@ -257,7 +257,7 @@ function create(name, config, reduxStore) {
   };
 
   const Embed = (
-    <Frame params={params} visible={false} position={config.position} store={reduxStore}>
+    <Frame {...params} visible={false} position={config.position} store={reduxStore}>
       <SubmitTicket
         customFields={config.customFields}
         hideZendeskLogo={config.hideZendeskLogo}
