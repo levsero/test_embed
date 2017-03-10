@@ -1,15 +1,4 @@
-export const mockFrameMethods = {
-  show: jasmine.createSpy('mockFrameShow'),
-  hide: jasmine.createSpy('mockFrameHide'),
-  expand: jasmine.createSpy('mockFrameExpand'),
-  setHighlightColor: jasmine.createSpy('setHighlightColor'),
-  setButtonColor: jasmine.createSpy('setButtonColor'),
-  reRenderCloseButton: jasmine.createSpy('mockReRenderCloseButton'),
-  componentDidUpdate: jasmine.createSpy('mockComponentDidUpdate'),
-  updateFrameSize: jasmine.createSpy('updateFrameSize')
-};
-
-class MockEmbedWrapper extends React.Component {
+class MockEmbedWrapper extends Component {
   setHighlightColor() {
     this.setState({
       css: 'setHighlightColorCSS { background-color: red; }'
@@ -32,13 +21,13 @@ class MockEmbedWrapper extends React.Component {
 export class MockFrame extends Component {
   constructor() {
     super();
-    this.show = mockFrameMethods.show;
-    this.hide = mockFrameMethods.hide;
-    this.expand = mockFrameMethods.expand;
-    this.setHighlightColor = mockFrameMethods.setHighlightColor;
-    this.setButtonColor = mockFrameMethods.setButtonColor;
-    this.updateFrameSize = mockFrameMethods.updateFrameSize;
-    this.componentDidUpdate = mockFrameMethods.componentDidUpdate;
+    this.show = noop;
+    this.hide = noop;
+    this.expand = noop;
+    this.setHighlightColor = noop;
+    this.setButtonColor = noop;
+    this.updateFrameSize = noop;
+    this.componentDidUpdate = noop;
   }
 
   componentDidMount = () => {

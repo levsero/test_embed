@@ -1,9 +1,11 @@
-fdescribe('embed.launcher', function() {
+describe('embed.launcher', function() {
   let launcher,
     mockFrame,
     mockFrameMethods,
     mockRegistry;
   const launcherPath = buildSrcPath('embed/launcher/launcher');
+
+  mockFrameMethods = requireUncached(buildTestPath('unit/mockFrame')).mockFrameMethods;
 
   beforeEach(function() {
     resetDOM();
@@ -11,7 +13,6 @@ fdescribe('embed.launcher', function() {
     mockery.enable();
 
     mockFrame = requireUncached(buildTestPath('unit/mockFrame')).MockFrame;
-    mockFrameMethods = requireUncached(buildTestPath('unit/mockFrame')).mockFrameMethods;
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -180,7 +181,7 @@ fdescribe('embed.launcher', function() {
     });
   });
 
-  describe('render', function() {
+  fdescribe('render', function() {
     it('should throw an exception if launcher does not exist', function() {
       expect(function() {
         launcher.render('non_existent_launcher');
@@ -232,9 +233,11 @@ fdescribe('embed.launcher', function() {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('alice.hide', jasmine.any(Function));
 
+        spyOn(alice.instance, 'hide');
+
         pluckSubscribeCall(mockMediator, 'alice.hide')();
 
-        expect(mockFrameMethods.hide)
+        expect(alice.instance.hide)
           .toHaveBeenCalled();
       });
 
@@ -242,9 +245,11 @@ fdescribe('embed.launcher', function() {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('alice.show', jasmine.any(Function));
 
+        spyOn(alice.instance, 'show');
+
         pluckSubscribeCall(mockMediator, 'alice.show')();
 
-        expect(mockFrameMethods.show)
+        expect(alice.instance.show)
           .toHaveBeenCalled();
       });
 
