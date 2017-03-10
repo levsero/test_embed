@@ -1,5 +1,5 @@
 describe('boot', () => {
-  let getConfig,
+  let boot,
     mockRegistry;
   const bootPath = buildSrcPath('boot');
 
@@ -14,18 +14,25 @@ describe('boot', () => {
 
     mockRegistry = initMockRegistry({
       'service/authentication': registerImportSpy('authentication', 'init'),
-      'service/beacon': registerImportSpy('beacon', 'sendPageView', 'trackSettings', 'sendConfigLoadTime'),
+      'service/beacon': registerImportSpy('beacon', 'setConfig', 'sendPageView', 'trackSettings', 'sendConfigLoadTime'),
       'service/i18n': registerImportSpy('i18n', 'init', 'setLocale'),
       'service/identity': registerImportSpy('identity', 'init'),
       'service/logging': registerImportSpy('logging', 'init', 'error'),
       'service/settings': {
         settings: {
-          get: noop
+          get: noop,
+          getTrackSettings: () => {
+            return {
+              webWidget: {
+                authenticate: true
+              }
+            };
+          }
         }
       },
       'service/transport': registerImportSpy('transport', 'get'),
       'service/mediator': { mediator: registerImportSpy('channel', 'broadcast', 'subscribe')  },
-      'service/renderer': registerImportSpy('renderer', 'init'),
+      'service/renderer': registerImportSpy('renderer', 'init', 'postRenderCallbacks'),
       'utility/devices': {
         appendMetaTag: noop,
         clickBusterHandler: noop,
@@ -38,7 +45,7 @@ describe('boot', () => {
     });
 
     mockery.registerAllowable(bootPath);
-    getConfig = requireUncached(bootPath).getConfig;
+    boot = requireUncached(bootPath).boot;
   });
 
   afterEach(() => {
@@ -46,7 +53,7 @@ describe('boot', () => {
     mockery.disable();
   });
 
-  describe('getConfig', () => {
+  describe('#getConfig', () => {
     let win,
       postRenderQueue,
       transportSpy,
@@ -61,7 +68,7 @@ describe('boot', () => {
     });
 
     it('makes a GET request to /embeddable/config', () => {
-      getConfig(win, postRenderQueue);
+      boot.getConfig(win, postRenderQueue);
 
       const params = {
         method: 'get',
@@ -77,31 +84,97 @@ describe('boot', () => {
     });
 
     describe('when the request succeeds', () => {
-      it('calls beacon.setConfig with the config', () => {
+      let doneHandler,
+        beaconSpy,
+        rendererSpy;
+      const config = {};
 
+      beforeEach(() => {
+        jasmine.clock().install();
+        jasmine.clock().mockDate(new Date());
+
+        spyOn(boot, 'handlePostRenderQueue');
+        boot.getConfig(win, postRenderQueue);
+
+        doneHandler = mockGetCalls.mostRecent().args[0].callbacks.done;
+        beaconSpy = mockRegistry['service/beacon'].beacon;
+        rendererSpy = mockRegistry['service/renderer'].renderer;
+        Math.random = jasmine.createSpy('random').and.returnValue(1);
+
+        doneHandler({ body: config });
+      });
+
+      afterEach(() => {
+        jasmine.clock().uninstall();
+      });
+
+      it('calls beacon.setConfig with the config', () => {
+        expect(beaconSpy.setConfig)
+          .toHaveBeenCalledWith(config);
       });
 
       it('calls beacon.sendPageView', () => {
-
+        expect(beaconSpy.sendPageView)
+          .toHaveBeenCalled();
       });
 
       it('calls renderer.init with the config', () => {
-
+        expect(rendererSpy.init)
+          .toHaveBeenCalled();
       });
 
       it('calls handlePostRenderQueue', () => {
+        expect(boot.handlePostRenderQueue)
+          .toHaveBeenCalledWith(win, postRenderQueue);
+      });
 
+      it('should not call beacon.sendConfigLoadTime', () => {
+        expect(beaconSpy.sendConfigLoadTime)
+          .not.toHaveBeenCalled();
+      });
+
+      describe('when win.zESettings is not defined', () => {
+        beforeEach(() => {
+          win.zESettings = undefined;
+          doneHandler({ body: config });
+        });
+
+        it('should not call beacon.trackSettings', () => {
+          expect(beaconSpy.trackSettings)
+            .not.toHaveBeenCalled();
+        });
       });
 
       describe('when one in ten times', () => {
-        it('should call beacon.sendConfigLoadTime with the load time', () => {
+        beforeEach(() => {
+          // Simulate a 1/10 chance.
+          Math.random = jasmine.createSpy('random').and.returnValue(0.1);
 
+          // Simulate 1 second passing between the call to config, and the response.
+          boot.getConfig(win, postRenderQueue);
+          jasmine.clock().tick(1000);
+          doneHandler({ body: config });
+        });
+
+        it('should call beacon.sendConfigLoadTime with the load time', () => {
+          expect(beaconSpy.sendConfigLoadTime)
+            .toHaveBeenCalledWith(1000);
         });
       });
 
       describe('when win.zESettings is defined', () => {
-        it('should call beacon.trackSettings', () => {
+        beforeEach(() => {
+          win.zESettings = { authenticate: 'boo' };
+          doneHandler({ body: config });
+        });
 
+        it('should call beacon.trackSettings', () => {
+          expect(beaconSpy.trackSettings)
+            .toHaveBeenCalledWith({
+              webWidget: {
+                authenticate: true
+              }
+            });
         });
       });
     });
@@ -111,7 +184,7 @@ describe('boot', () => {
         loggingSpy;
 
       beforeEach(() => {
-        getConfig(win, postRenderQueue);
+        boot.getConfig(win, postRenderQueue);
 
         failHandler = mockGetCalls.mostRecent().args[0].callbacks.fail;
         loggingSpy = mockRegistry['service/logging'].logging;
