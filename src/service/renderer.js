@@ -61,7 +61,9 @@ function parseConfig(config) {
   if (!isMobileBrowser()) {
     rendererConfig.ipm = {
       embed: 'ipm',
-      props: {}
+      props: {
+        anonymousCampaigns: config.ipmAnonymousCampaigns
+      }
     };
   }
 

@@ -7,11 +7,13 @@ import { frameFactory } from 'embed/frameFactory';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { transitionFactory } from 'service/transitionFactory';
-import { transport } from 'service/transport';
 import { isMobileBrowser } from 'utility/devices';
 import { document,
          getDocumentHost,
          location } from 'utility/globals';
+import { transport } from 'service/transport';
+import { identity } from 'service/identity';
+import apiGet from 'embed/ipm/apiGet';
 
 import AvatarStyles from 'component/Avatar.sass';
 
@@ -20,8 +22,11 @@ const ipmCSS = `
   ${require('./ipm.scss')}
 `;
 
+const connectApiPendingCampaignPath = '/connect/api/ipm/pending_campaign.json';
+
 let ipmes = {};
 let hasSeenIpm = false;
+let hasSentIdentify = false;
 
 function create(name, config, reduxStore) {
   let containerStyle;
@@ -112,51 +117,108 @@ function get(name) {
   return ipmes[name];
 }
 
+function waitForRootComponent(name, callback) {
+  const checkForRootComponent = () => {
+    const rootComponent = get(name).instance.getRootComponent();
+
+    if (rootComponent) {
+      callback(rootComponent);
+    } else {
+      setTimeout(checkForRootComponent, 0);
+    }
+  };
+
+  checkForRootComponent();
+}
+
+function setIpm(ipmContent, name, ipm) {
+  const color = ipmContent.message && ipmContent.message.color;
+
+  if (color) {
+    ipmes[name].instance.setHighlightColor(color);
+  }
+
+  if (ipmContent && ipmContent.id) {
+    ipm.setState({
+      ipm: _.extend({}, ipmContent),
+      ipmAvailable: true,
+      url: location.href
+    });
+  } else {
+    ipm.setState({
+      ipmAvailable: false
+    });
+  }
+}
+
+function showIpm(name, ipm) {
+  if (ipm.state.ipmAvailable && !hasSeenIpm) {
+    ipmes[name].instance.show({ transition: 'downShow' });
+  } else if (ipm.state.ipmAvailable === null) {
+    const err = new Error([
+      'An error occurred in your use of the Zendesk Widget API:',
+      'zE.activateIpm()',
+      'No campaigns available. Run zE.identify() first.',
+      'Check out the Developer API docs to make sure you\'re using it correctly',
+      'https://developer.zendesk.com/embeddables/docs/widget/api'
+    ].join('\n\n'));
+
+    err.special = true;
+
+    throw err;
+  }
+}
+
+function checkAnonymousPendingCampaign(resolve) {
+  return (
+    apiGet(connectApiPendingCampaignPath, { anonymousId: identity.getBuid() }, resolve, (err) => {
+      // Ignore 404 errors, as this is the API's way of telling us there are no pending campaigns
+      if (err.message === 'Not Found') {
+        resolve({});
+        return;
+      }
+
+      throw err;
+    })
+  );
+}
+
+function activateIpm(name) {
+  waitForRootComponent(name, (ipm) => {
+    if (hasSentIdentify) {
+      showIpm(name, ipm);
+    } else {
+      const { anonymousCampaigns } = get(name).config;
+
+      if (anonymousCampaigns) {
+        checkAnonymousPendingCampaign(({ pendingCampaign }) => {
+          if (pendingCampaign) {
+            setIpm(pendingCampaign, name, ipm);
+            showIpm(name, ipm);
+          }
+        });
+      }
+    }
+  });
+}
+
 function render(name) {
   const element = getDocumentHost().appendChild(document.createElement('div'));
 
   ipmes[name].instance = ReactDOM.render(ipmes[name].component, element);
 
-  mediator.channel.subscribe('ipm.setIpm', (params) => {
-    const ipm = ipmes[name].instance.getRootComponent();
-    const ipmContent = params.pendingCampaign || {};
-    const color = ipmContent.message && ipmContent.message.color;
-
-    if (color) {
-      ipmes[name].instance.setHighlightColor(color);
-    }
-
-    if (ipmContent && ipmContent.id) {
-      ipm.setState({
-        ipm: _.extend({}, ipmContent),
-        ipmAvailable: true,
-        url: location.href
-      });
-    } else {
-      ipm.setState({
-        ipmAvailable: false
-      });
-    }
+  mediator.channel.subscribe('ipm.identifying', () => {
+    hasSentIdentify = true;
   });
 
-  mediator.channel.subscribe('ipm.activate', function() {
-    const ipm = ipmes[name].instance.getRootComponent();
+  mediator.channel.subscribe('ipm.setIpm', ({ pendingCampaign = {} }) => {
+    waitForRootComponent(name, (ipm) => {
+      setIpm(pendingCampaign, name, ipm);
+    });
+  });
 
-    if (ipm.state.ipmAvailable && !hasSeenIpm) {
-      ipmes[name].instance.show({transition: 'downShow'});
-    } else if (ipm.state.ipmAvailable === null) {
-      const err = new Error([
-        'An error occurred in your use of the Zendesk Widget API:',
-        'zE.activateIpm()',
-        'No campaigns available. Run zE.identify() first.',
-        'Check out the Developer API docs to make sure you\'re using it correctly',
-        'https://developer.zendesk.com/embeddables/docs/widget/api'
-      ].join('\n\n'));
-
-      err.special = true;
-
-      throw err;
-    }
+  mediator.channel.subscribe('ipm.activate', () => {
+    activateIpm(name);
   });
 
   mediator.channel.subscribe('ipm.show', function(options = {}) {
@@ -169,7 +231,12 @@ function render(name) {
 }
 
 export const ipm = {
-  create: create,
-  get: get,
-  render: render
+  create,
+  get,
+  render,
+
+  // for testing
+  connectApiPendingCampaignPath,
+  activateIpm,
+  setIpm
 };
