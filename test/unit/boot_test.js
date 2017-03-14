@@ -1,23 +1,29 @@
 describe('boot', () => {
-  let boot,
-    mockRegistry;
-  const bootPath = buildSrcPath('boot');
+  let boot;
+  const registerImportSpy = (name, ...methods) => {
+    return {
+      [name]: jasmine.createSpyObj(name, methods)
+    };
+  };
+  const bootPath = buildSrcPath('boot'),
+    authenticationSpy = registerImportSpy('authentication', 'init'),
+    beaconSpy = registerImportSpy('beacon', 'setConfig', 'sendPageView', 'trackSettings', 'sendConfigLoadTime'),
+    i18nSpy = registerImportSpy('i18n', 'init', 'setLocale'),
+    identitySpy = registerImportSpy('identity', 'init'),
+    loggingSpy = registerImportSpy('logging', 'init', 'error'),
+    transportSpy = registerImportSpy('transport', 'get'),
+    mediatorSpy = { mediator: registerImportSpy('channel', 'broadcast', 'subscribe') },
+    rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks');
 
   beforeEach(() => {
     mockery.enable();
 
-    const registerImportSpy = (name, ...methods) => {
-      return {
-        [name]: jasmine.createSpyObj(name, methods)
-      };
-    };
-
-    mockRegistry = initMockRegistry({
-      'service/authentication': registerImportSpy('authentication', 'init'),
-      'service/beacon': registerImportSpy('beacon', 'setConfig', 'sendPageView', 'trackSettings', 'sendConfigLoadTime'),
-      'service/i18n': registerImportSpy('i18n', 'init', 'setLocale'),
-      'service/identity': registerImportSpy('identity', 'init'),
-      'service/logging': registerImportSpy('logging', 'init', 'error'),
+    initMockRegistry({
+      'service/authentication': authenticationSpy,
+      'service/beacon': beaconSpy,
+      'service/i18n': i18nSpy,
+      'service/identity': identitySpy,
+      'service/logging': loggingSpy,
       'service/settings': {
         settings: {
           get: noop,
@@ -30,9 +36,9 @@ describe('boot', () => {
           }
         }
       },
-      'service/transport': registerImportSpy('transport', 'get'),
-      'service/mediator': { mediator: registerImportSpy('channel', 'broadcast', 'subscribe')  },
-      'service/renderer': registerImportSpy('renderer', 'init', 'postRenderCallbacks'),
+      'service/transport': transportSpy,
+      'service/mediator': mediatorSpy,
+      'service/renderer': rendererSpy,
       'utility/devices': {
         appendMetaTag: noop,
         clickBusterHandler: noop,
@@ -56,15 +62,13 @@ describe('boot', () => {
   describe('#getConfig', () => {
     let win,
       postRenderQueue,
-      transportSpy,
       mockGetCalls;
 
     beforeEach(() => {
       win = {};
       postRenderQueue = [];
 
-      transportSpy = mockRegistry['service/transport'].transport;
-      mockGetCalls = transportSpy.get.calls;
+      mockGetCalls = transportSpy.transport.get.calls;
     });
 
     it('makes a GET request to /embeddable/config', () => {
@@ -79,14 +83,12 @@ describe('boot', () => {
         }
       };
 
-      expect(transportSpy.get)
+      expect(transportSpy.transport.get)
         .toHaveBeenCalledWith(jasmine.objectContaining(params), false);
     });
 
     describe('when the request succeeds', () => {
-      let doneHandler,
-        beaconSpy,
-        rendererSpy;
+      let doneHandler;
       const config = {};
 
       beforeEach(() => {
@@ -95,10 +97,8 @@ describe('boot', () => {
 
         spyOn(boot, 'handlePostRenderQueue');
         boot.getConfig(win, postRenderQueue);
-
         doneHandler = mockGetCalls.mostRecent().args[0].callbacks.done;
-        beaconSpy = mockRegistry['service/beacon'].beacon;
-        rendererSpy = mockRegistry['service/renderer'].renderer;
+
         Math.random = jasmine.createSpy('random').and.returnValue(1);
 
         doneHandler({ body: config });
@@ -109,17 +109,17 @@ describe('boot', () => {
       });
 
       it('calls beacon.setConfig with the config', () => {
-        expect(beaconSpy.setConfig)
+        expect(beaconSpy.beacon.setConfig)
           .toHaveBeenCalledWith(config);
       });
 
       it('calls beacon.sendPageView', () => {
-        expect(beaconSpy.sendPageView)
+        expect(beaconSpy.beacon.sendPageView)
           .toHaveBeenCalled();
       });
 
       it('calls renderer.init with the config', () => {
-        expect(rendererSpy.init)
+        expect(rendererSpy.renderer.init)
           .toHaveBeenCalled();
       });
 
@@ -129,7 +129,7 @@ describe('boot', () => {
       });
 
       it('should not call beacon.sendConfigLoadTime', () => {
-        expect(beaconSpy.sendConfigLoadTime)
+        expect(beaconSpy.beacon.sendConfigLoadTime)
           .not.toHaveBeenCalled();
       });
 
@@ -140,7 +140,7 @@ describe('boot', () => {
         });
 
         it('should not call beacon.trackSettings', () => {
-          expect(beaconSpy.trackSettings)
+          expect(beaconSpy.beacon.trackSettings)
             .not.toHaveBeenCalled();
         });
       });
@@ -157,7 +157,7 @@ describe('boot', () => {
         });
 
         it('should call beacon.sendConfigLoadTime with the load time', () => {
-          expect(beaconSpy.sendConfigLoadTime)
+          expect(beaconSpy.beacon.sendConfigLoadTime)
             .toHaveBeenCalledWith(1000);
         });
       });
@@ -169,7 +169,7 @@ describe('boot', () => {
         });
 
         it('should call beacon.trackSettings', () => {
-          expect(beaconSpy.trackSettings)
+          expect(beaconSpy.beacon.trackSettings)
             .toHaveBeenCalledWith({
               webWidget: {
                 authenticate: true
@@ -180,14 +180,12 @@ describe('boot', () => {
     });
 
     describe('when the request fails', () => {
-      let failHandler,
-        loggingSpy;
+      let failHandler;
 
       beforeEach(() => {
         boot.getConfig(win, postRenderQueue);
 
         failHandler = mockGetCalls.mostRecent().args[0].callbacks.fail;
-        loggingSpy = mockRegistry['service/logging'].logging;
       });
 
       describe('when the error status code is 404', () => {
@@ -196,7 +194,7 @@ describe('boot', () => {
         });
 
         it('should not call logging.error', () => {
-          expect(loggingSpy.error)
+          expect(loggingSpy.logging.error)
             .not.toHaveBeenCalled();
         });
       });
@@ -210,7 +208,7 @@ describe('boot', () => {
         });
 
         it('should call logging.error', () => {
-          expect(loggingSpy.error)
+          expect(loggingSpy.logging.error)
             .toHaveBeenCalledWith({
               error,
               context: {
