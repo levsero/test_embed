@@ -1,4 +1,4 @@
-import { transform, snakeCase, camelCase, isObject } from 'lodash';
+import { transform, snakeCase, camelCase, isObject, noop } from 'lodash';
 
 import { transport } from 'service/transport';
 
@@ -16,7 +16,7 @@ const decamelizeKeys = (hash) => (
   deepRenameKeys(hash, snakeCase)
 );
 
-export default function apiGet(path, query = {}, resolve, reject) {
+function get(path, query = {}, resolve = noop, reject = noop) {
   transport.get({
     method: 'get',
     path,
@@ -31,3 +31,24 @@ export default function apiGet(path, query = {}, resolve, reject) {
     }
   });
 }
+
+function post(path, params = {}, resolve = noop, reject = noop) {
+  transport.send({
+    method: 'post',
+    path,
+    params: decamelizeKeys(params),
+    callbacks: {
+      done({ body }) {
+        resolve(camelizeKeys(body));
+      },
+      fail(error) {
+        reject(error);
+      }
+    }
+  });
+}
+
+export const api = {
+  get,
+  post
+};

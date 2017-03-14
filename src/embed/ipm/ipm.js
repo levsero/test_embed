@@ -11,9 +11,8 @@ import { isMobileBrowser } from 'utility/devices';
 import { document,
          getDocumentHost,
          location } from 'utility/globals';
-import { transport } from 'service/transport';
 import { identity } from 'service/identity';
-import apiGet from 'embed/ipm/apiGet';
+import { api } from 'embed/ipm/api';
 
 import AvatarStyles from 'component/Avatar.sass';
 
@@ -23,6 +22,7 @@ const ipmCSS = `
 `;
 
 const connectApiPendingCampaignPath = '/connect/api/ipm/pending_campaign.json';
+const connectApiCampaignEventsPath = '/connect/api/ipm/campaign_events.json';
 
 let ipmes = {};
 let hasSeenIpm = false;
@@ -45,13 +45,7 @@ function create(name, config, reduxStore) {
   config = _.extend(configDefaults, config);
 
   const ipmSender = (params) => {
-    const payload = {
-      path: '/embeddable/ipm',
-      method: 'post',
-      params: params
-    };
-
-    transport.send(payload);
+    api.post(connectApiCampaignEventsPath, params);
   };
 
   const onShow = (frame) => {
@@ -171,7 +165,7 @@ function showIpm(name, ipm) {
 
 function checkAnonymousPendingCampaign(resolve) {
   return (
-    apiGet(connectApiPendingCampaignPath, { anonymousId: identity.getBuid() }, resolve, (err) => {
+    api.get(connectApiPendingCampaignPath, { anonymousId: identity.getBuid() }, resolve, (err) => {
       // Ignore 404 errors, as this is the API's way of telling us there are no pending campaigns
       if (err.message === 'Not Found') {
         resolve({});
@@ -237,6 +231,7 @@ export const ipm = {
 
   // for testing
   connectApiPendingCampaignPath,
+  connectApiCampaignEventsPath,
   activateIpm,
   setIpm
 };

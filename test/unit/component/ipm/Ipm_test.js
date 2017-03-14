@@ -1,9 +1,10 @@
-describe('Ipm component', function() {
+describe('Ipm component', () => {
   let Ipm;
   let loggingErrorSpy;
   const ipmPath = buildSrcPath('component/ipm/Ipm');
+  const referrer = 'http://altavista.com';
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable();
@@ -21,11 +22,15 @@ describe('Ipm component', function() {
       },
       'service/identity': {
         identity: {
+          getSuid: () => ({ id: '789789xyz' }),
           getBuid: () => '1357911abc'
         }
       },
       'service/logging': {
         logging: { error: loggingErrorSpy }
+      },
+      'utility/globals': {
+        referrer
       },
       'component/ipm/IpmDesktop': {
         IpmDesktop: class {
@@ -40,59 +45,95 @@ describe('Ipm component', function() {
     Ipm = requireUncached(ipmPath).Ipm;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  it('initializes with state.ipmAvailable set to `null`', function() {
+  it('initializes with state.ipmAvailable set to `null`', () => {
     const ipm = instanceRender(<Ipm ipmSender={noop} />);
 
     expect(ipm.state.ipmAvailable)
       .toEqual(null);
   });
 
-  describe('#ipmSender', function() {
-    beforeEach(function() {
-      this.ipmSenderSpy = jasmine.createSpy();
-      this.component = instanceRender(
-        <Ipm ipmSender={this.ipmSenderSpy} />
+  describe('#ipmSender', () => {
+    let ipmSenderSpy,
+      component;
+
+    beforeEach(() => {
+      ipmSenderSpy = jasmine.createSpy();
+      component = instanceRender(
+        <Ipm ipmSender={ipmSenderSpy} />
       );
     });
 
     describe('when there is a campaign', () => {
-      it('should call the this.props.ipmSender with event details', function() {
-        const ipm = { id: 123, recipientEmail: 'imissryan@zendesk.com' };
+      let ipm;
 
-        this.component.setState({ ipm: ipm, url: 'https://askjeeves.com' });
-        this.component.ipmSender('clicked');
+      describe('when recipient has an email', () => {
+        beforeEach(() => {
+          ipm = { id: 123, recipientEmail: 'imissryan@zendesk.com' };
+          component.setState({ ipm: ipm, url: 'https://askjeeves.com' });
+          component.ipmSender('clicked');
+        });
 
-        expect(this.ipmSenderSpy)
-          .toHaveBeenCalledWith({
-            event: {
+        it('should call the this.props.ipmSender with event details', () => {
+          expect(ipmSenderSpy)
+            .toHaveBeenCalledWith({
               campaignId: ipm.id,
-              email: ipm.recipientEmail,
-              type: 'clicked',
-              url: 'https://askjeeves.com',
-              title: 'Awesome Page',
-              locale: 'un-US',
-              'anonymous_id': '1357911abc'
-            }
-          });
+              recipientEmail: ipm.recipientEmail,
+              anonymousSuid: undefined,
+              event: {
+                anonymousId: '1357911abc',
+                locale: 'un-US',
+                referrer,
+                title: 'Awesome Page',
+                type: 'clicked',
+                url: 'https://askjeeves.com'
+              }
+            });
+        });
+      });
+
+      describe('when recipient does not have an email', () => {
+        beforeEach(() => {
+          const ipm = { id: 123 };
+
+          component.setState({ ipm: ipm, url: 'https://askjeeves.com' });
+          component.ipmSender('clicked');
+        });
+
+        it('should call the this.props.ipmSender with anonymous event details', () => {
+          expect(ipmSenderSpy)
+            .toHaveBeenCalledWith({
+              campaignId: ipm.id,
+              recipientEmail: undefined,
+              anonymousSuid: '789789xyz',
+              event: {
+                anonymousId: '1357911abc',
+                locale: 'un-US',
+                referrer,
+                title: 'Awesome Page',
+                type: 'clicked',
+                url: 'https://askjeeves.com'
+              }
+            });
+        });
       });
     });
 
-    describe('when there is no campaign', function() {
-      beforeEach(function() {
-        this.component.ipmSender('clicked');
+    describe('when there is no campaign', () => {
+      beforeEach(() => {
+        component.ipmSender('clicked');
       });
 
-      it('does not invoke this.props.ipmSender', function() {
-        expect(this.ipmSenderSpy)
+      it('does not invoke this.props.ipmSender', () => {
+        expect(ipmSenderSpy)
           .not.toHaveBeenCalled();
       });
 
-      it('logs error to Airbrake', function() {
+      it('logs error to Airbrake', () => {
         expect(loggingErrorSpy)
           .toHaveBeenCalled();
       });
