@@ -184,13 +184,13 @@ describe('dropdown component', () => {
       });
     });
 
-    describe('should show animating back classes', () => {
+    describe('when animating back', () => {
       beforeEach(() => {
         dropdown = domRender(<Dropdown />);
         dropdown.handleBackClick();
       });
 
-      it('should not show hover classes', () => {
+      it('should show animating back classes', () => {
         expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuBackAnimateClasses'))
           .not.toBeNull();
       });

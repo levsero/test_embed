@@ -6,6 +6,8 @@ import { DropdownMenu } from 'component/field/DropdownMenu';
 import { Icon } from 'component/Icon';
 import { keyCodes } from 'utility/keyboard';
 
+const animationDuration = 200;
+
 export class Dropdown extends Component {
   static propTypes = {
     fullscreen: PropTypes.bool,
@@ -123,15 +125,7 @@ export class Dropdown extends Component {
 
     this.state.previousMenus.shift();
 
-    setTimeout(() => {
-      this.setState({
-        animatingBack: false
-      });
-
-      if (focusField) {
-        setTimeout(() => this.menu.keyDown(keyCodes.DOWN), 0);
-      }
-    }, 200);
+    this.handleAnimationComplete('animatingBack', focusField);
   }
 
   updateMenu = (menu, focusField = false) => {
@@ -142,15 +136,17 @@ export class Dropdown extends Component {
       animatingNext: true
     });
 
+    this.handleAnimationComplete('animatingNext', focusField);
+  }
+
+  handleAnimationComplete = (animatingDirection, focusField) => {
     setTimeout(() => {
-      this.setState({
-        animatingNext: false
-      });
+      this.setState({ [animatingDirection]: false });
 
       if (focusField) {
         setTimeout(() => this.menu.keyDown(keyCodes.DOWN), 0);
       }
-    }, 200);
+    }, animationDuration);
   }
 
   formatDropdownOptions = (optionsProp) => {
