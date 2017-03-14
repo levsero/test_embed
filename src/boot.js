@@ -71,7 +71,7 @@ const setupIframe = (iframe, doc) => {
   // injecting the appropriate meta tags on the iframe.
   // TODO: When main.js refactor is complete, test this.
   if (iframe) {
-    setReferrerMetas(iframe, doc);
+    boot.setReferrerMetas(iframe, doc);
   }
 };
 
@@ -168,7 +168,7 @@ const getConfig = (win, postRenderQueue) => {
     }
 
     renderer.init(config);
-    handlePostRenderQueue(win, postRenderQueue);
+    boot.handlePostRenderQueue(win, postRenderQueue);
   };
   const fail = (error) => {
     if (error.status !== 404) {
@@ -222,24 +222,24 @@ const setupWidgetApi = (win) => {
   };
 };
 
-const boot = (win, doc) => {
-  setupIframe(window.frameElement, doc);
-  setupServices();
+const start = (win, doc) => {
+  boot.setupIframe(window.frameElement, doc);
+  boot.setupServices();
 
   const postRenderQueue = [];
-  const { publicApi, devApi } = setupWidgetQueue(win, postRenderQueue);
+  const { publicApi, devApi } = boot.setupWidgetQueue(win, postRenderQueue);
 
-  setupZopimQueue(win);
+  boot.setupZopimQueue(win);
 
   _.extend(win.zEmbed, publicApi, devApi);
 
-  handleQueue(document.zEQueue);
+  boot.handleQueue(document.zEQueue);
 
   beacon.init();
   win.onunload = identity.unload;
 
-  setupWidgetApi(win);
-  getConfig(win, postRenderQueue);
+  boot.setupWidgetApi(win);
+  boot.getConfig(win, postRenderQueue);
 
   if (isMobileBrowser()) {
     initMobileScaling();
@@ -248,8 +248,8 @@ const boot = (win, doc) => {
   }
 };
 
-export {
-  boot,
+export const boot = {
+  start,
 
   // Exported for testing only.
   handleQueue,
@@ -259,5 +259,6 @@ export {
   setupServices,
   setupWidgetQueue,
   setupZopimQueue,
+  setupWidgetApi,
   getConfig
 };

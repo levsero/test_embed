@@ -1,31 +1,44 @@
 describe('boot', () => {
-  let getConfig,
-    mockRegistry;
-  const bootPath = buildSrcPath('boot');
+  let boot;
+  const registerImportSpy = (name, ...methods) => {
+    return {
+      [name]: jasmine.createSpyObj(name, methods)
+    };
+  };
+  const bootPath = buildSrcPath('boot'),
+    authenticationSpy = registerImportSpy('authentication', 'init'),
+    beaconSpy = registerImportSpy('beacon', 'setConfig', 'sendPageView', 'trackSettings', 'sendConfigLoadTime'),
+    i18nSpy = registerImportSpy('i18n', 'init', 'setLocale'),
+    identitySpy = registerImportSpy('identity', 'init'),
+    loggingSpy = registerImportSpy('logging', 'init', 'error'),
+    transportSpy = registerImportSpy('transport', 'get'),
+    mediatorSpy = { mediator: registerImportSpy('channel', 'broadcast', 'subscribe') },
+    rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks');
 
   beforeEach(() => {
     mockery.enable();
 
-    const registerImportSpy = (name, ...methods) => {
-      return {
-        [name]: jasmine.createSpyObj(name, methods)
-      };
-    };
-
-    mockRegistry = initMockRegistry({
-      'service/authentication': registerImportSpy('authentication', 'init'),
-      'service/beacon': registerImportSpy('beacon', 'sendPageView', 'trackSettings', 'sendConfigLoadTime'),
-      'service/i18n': registerImportSpy('i18n', 'init', 'setLocale'),
-      'service/identity': registerImportSpy('identity', 'init'),
-      'service/logging': registerImportSpy('logging', 'init'),
+    initMockRegistry({
+      'service/authentication': authenticationSpy,
+      'service/beacon': beaconSpy,
+      'service/i18n': i18nSpy,
+      'service/identity': identitySpy,
+      'service/logging': loggingSpy,
       'service/settings': {
         settings: {
-          get: noop
+          get: noop,
+          getTrackSettings: () => {
+            return {
+              webWidget: {
+                authenticate: true
+              }
+            };
+          }
         }
       },
-      'service/transport': registerImportSpy('transport', 'get'),
-      'service/mediator': { mediator: registerImportSpy('channel', 'broadcast', 'subscribe')  },
-      'service/renderer': registerImportSpy('renderer', 'init'),
+      'service/transport': transportSpy,
+      'service/mediator': mediatorSpy,
+      'service/renderer': rendererSpy,
       'utility/devices': {
         appendMetaTag: noop,
         clickBusterHandler: noop,
@@ -38,7 +51,7 @@ describe('boot', () => {
     });
 
     mockery.registerAllowable(bootPath);
-    getConfig = requireUncached(bootPath).getConfig;
+    boot = requireUncached(bootPath).boot;
   });
 
   afterEach(() => {
@@ -46,19 +59,20 @@ describe('boot', () => {
     mockery.disable();
   });
 
-  describe('getConfig', () => {
+  describe('#getConfig', () => {
     let win,
       postRenderQueue,
-      transportSpy;
+      mockGetCalls;
 
     beforeEach(() => {
       win = {};
       postRenderQueue = [];
-      transportSpy = mockRegistry['service/transport'].transport;
+
+      mockGetCalls = transportSpy.transport.get.calls;
     });
 
     it('makes a GET request to /embeddable/config', () => {
-      getConfig(win, postRenderQueue);
+      boot.getConfig(win, postRenderQueue);
 
       const params = {
         method: 'get',
@@ -69,16 +83,140 @@ describe('boot', () => {
         }
       };
 
-      expect(transportSpy.get)
+      expect(transportSpy.transport.get)
         .toHaveBeenCalledWith(jasmine.objectContaining(params), false);
     });
 
     describe('when the request succeeds', () => {
+      let doneHandler;
+      const config = {};
 
+      beforeEach(() => {
+        jasmine.clock().install();
+        jasmine.clock().mockDate(new Date());
+
+        spyOn(boot, 'handlePostRenderQueue');
+        boot.getConfig(win, postRenderQueue);
+        doneHandler = mockGetCalls.mostRecent().args[0].callbacks.done;
+
+        Math.random = jasmine.createSpy('random').and.returnValue(1);
+
+        doneHandler({ body: config });
+      });
+
+      afterEach(() => {
+        jasmine.clock().uninstall();
+      });
+
+      it('calls beacon.setConfig with the config', () => {
+        expect(beaconSpy.beacon.setConfig)
+          .toHaveBeenCalledWith(config);
+      });
+
+      it('calls beacon.sendPageView', () => {
+        expect(beaconSpy.beacon.sendPageView)
+          .toHaveBeenCalled();
+      });
+
+      it('calls renderer.init with the config', () => {
+        expect(rendererSpy.renderer.init)
+          .toHaveBeenCalled();
+      });
+
+      it('calls handlePostRenderQueue with win and postRenderQueue', () => {
+        expect(boot.handlePostRenderQueue)
+          .toHaveBeenCalledWith(win, postRenderQueue);
+      });
+
+      it('should not call beacon.sendConfigLoadTime', () => {
+        expect(beaconSpy.beacon.sendConfigLoadTime)
+          .not.toHaveBeenCalled();
+      });
+
+      describe('when win.zESettings is not defined', () => {
+        beforeEach(() => {
+          win.zESettings = undefined;
+          doneHandler({ body: config });
+        });
+
+        it('should not call beacon.trackSettings', () => {
+          expect(beaconSpy.beacon.trackSettings)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when win.zESettings is defined', () => {
+        beforeEach(() => {
+          win.zESettings = { authenticate: 'boo' };
+          doneHandler({ body: config });
+        });
+
+        it('should call beacon.trackSettings', () => {
+          expect(beaconSpy.beacon.trackSettings)
+            .toHaveBeenCalledWith({
+              webWidget: {
+                authenticate: true
+              }
+            });
+        });
+      });
+
+      describe('when one in ten times', () => {
+        beforeEach(() => {
+          // Simulate a 1/10 chance.
+          Math.random = jasmine.createSpy('random').and.returnValue(0.1);
+
+          // Simulate 1 second passing between the call to config, and the response.
+          boot.getConfig(win, postRenderQueue);
+          jasmine.clock().tick(1000);
+          doneHandler({ body: config });
+        });
+
+        it('should call beacon.sendConfigLoadTime with the load time', () => {
+          expect(beaconSpy.beacon.sendConfigLoadTime)
+            .toHaveBeenCalledWith(1000);
+        });
+      });
     });
 
     describe('when the request fails', () => {
+      let failHandler;
 
+      beforeEach(() => {
+        boot.getConfig(win, postRenderQueue);
+
+        failHandler = mockGetCalls.mostRecent().args[0].callbacks.fail;
+      });
+
+      describe('when the error status code is 404', () => {
+        beforeEach(() => {
+          failHandler({ status: 404 });
+        });
+
+        it('should not call logging.error', () => {
+          expect(loggingSpy.logging.error)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when the error status code is not 404', () => {
+        const error = { status: 500 };
+
+        beforeEach(() => {
+          document.zendeskHost = 'pizza.zendesk.com';
+          failHandler(error);
+        });
+
+        it('should call logging.error', () => {
+          expect(loggingSpy.logging.error)
+            .toHaveBeenCalledWith({
+              error,
+              context: {
+                account: 'pizza.zendesk.com'
+              }
+            });
+        });
+      });
     });
   });
 });
