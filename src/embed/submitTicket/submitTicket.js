@@ -194,6 +194,7 @@ function create(name, config, reduxStore) {
     containerStyle = { width: 342 };
   }
 
+  let customFieldsProp = config.customFields;
   const ticketForms = getTicketForms(config);
   const locale = i18n.getLocale();
 
@@ -201,7 +202,7 @@ function create(name, config, reduxStore) {
     loadTicketForms(name, ticketForms, locale);
   } else if (config.customFields.ids || config.customFields.all) {
     loadTicketFields(name, config.customFields, locale);
-    config.customFields = [];
+    customFieldsProp = [];
   } else {
     setTimeout(() => {
       waitForRootComponent(name, () => {
@@ -217,7 +218,7 @@ function create(name, config, reduxStore) {
           ref='rootComponent'
           attachmentsEnabled={config.attachmentsEnabled}
           attachmentSender={attachmentSender}
-          customFields={config.customFields}
+          customFields={customFieldsProp}
           disableAutoComplete={config.disableAutoComplete}
           formTitleKey={config.formTitleKey}
           hideZendeskLogo={config.hideZendeskLogo}
@@ -379,7 +380,7 @@ function loadTicketForms(name, ticketForms, locale) {
 function loadTicketFields(name, customFields, locale) {
   const onDone = (res) => getRootComponent(name).updateTicketFields(res);
   const pathIds = customFields.all ? '' : `field_ids=${customFields.ids.join()}`;
-  const path = `/embeddable/ticket_fields?${pathIds}`;
+  const path = `/embeddable/ticket_fields?${pathIds}&locale=${locale}`;
 
   getWithSpinner(name, path, locale, onDone);
 }
