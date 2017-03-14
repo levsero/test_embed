@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 
-import { locals as styles } from './DropdownMenu.sass';
-
 import { DropdownOption } from 'component/field/DropdownOption';
 import { i18n } from 'service/i18n';
 import { keyCodes } from 'utility/keyboard';
@@ -107,11 +105,8 @@ export class DropdownMenu extends Component {
   }
 
   render = () => {
-    const mobileClasses = this.props.fullscreen ? styles.fieldMobile : '';
-
     return (
       <div
-        className={`${styles.menu} ${mobileClasses}`}
         ref={(el) => { this.element = el; }}>
         {this.renderBackArrow()}
         {this.renderOptions()}

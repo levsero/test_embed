@@ -13,6 +13,7 @@
   pointer-events: none;
   padding-top: #{4/$font-size}rem;
   padding-left: #{8/$font-size}rem;
+  padding-bottom: #{7/$font-size}rem;
 
   svg {
     pointer-events: none;
@@ -93,14 +94,13 @@
   }
 }
 
+.menuContainerMobile {
+  composes: u-textSize15 from '../../styles/utils.scss';
+  top: #{38/$font-size}rem;
+}
+
 .menu {
   composes: u-hsizeAll from '../../styles/utils.scss';
-
-  overflow: auto;
-  background: white;
-  height: #{200/$font-size}rem;
-
-  transition: all 0.4s ease;
 }
 
 @keyframes menuNext {
@@ -122,13 +122,13 @@
 }
 
 .menuNextAnimate {
-  position: absolute;
+  composes: u-posAbsolute from '../../styles/utils.scss';
 
   animation: menuNext 0.2s linear 0s 1;
 }
 
 .menuBackAnimate {
-  position: absolute;
+  composes: u-posAbsolute from '../../styles/utils.scss';
 
   animation: menuBack 0.2s linear 0s 1;
 }

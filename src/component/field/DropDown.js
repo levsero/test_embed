@@ -121,12 +121,12 @@ export class Dropdown extends Component {
       displayedMenu: this.state.previousMenus[0]
     });
 
+    this.state.previousMenus.shift();
+
     setTimeout(() => {
       this.setState({
         animatingBack: false
       });
-
-      this.state.previousMenus.shift();
 
       if (focusField) {
         setTimeout(() => this.menu.keyDown(keyCodes.DOWN), 0);
@@ -138,7 +138,6 @@ export class Dropdown extends Component {
     this.state.previousMenus.unshift(this.state.displayedMenu);
 
     this.setState({
-      previousMenu: this.state.displayedMenu,
       displayedMenu: menu,
       animatingNext: true
     });
@@ -221,10 +220,13 @@ export class Dropdown extends Component {
 
     const backClasses = this.state.animatingBack ? styles.menuBackAnimate : '';
     const nextClasses = this.state.animatingNext ? styles.menuNextAnimate : '';
+    const mobileClasses = this.props.fullscreen ? styles.menuContainerMobile : '';
 
     return (
-      <div className={styles.menuContainer}>
-        <div className={`${styles.menu} ${nextClasses} ${backClasses}`}>{this.state.displayedMenu}</div>
+      <div className={`${styles.menuContainer} ${mobileClasses}`}>
+        <div className={`${styles.menu} ${nextClasses} ${backClasses}`}>
+          {this.state.displayedMenu}
+        </div>
       </div>
     );
   }
