@@ -6,6 +6,8 @@ import { DropdownMenu } from 'component/field/DropdownMenu';
 import { Icon } from 'component/Icon';
 import { keyCodes } from 'utility/keyboard';
 
+const animationDuration = 200;
+
 export class Dropdown extends Component {
   static propTypes = {
     fullscreen: PropTypes.bool,
@@ -38,8 +40,10 @@ export class Dropdown extends Component {
       hovering: false,
       selected: props.value,
       displayedMenu: initialMenu,
-      previousMenu: [],
-      open: false
+      previousMenus: [],
+      open: false,
+      animatingNext: false,
+      animatingBack: false
     };
 
     this.containerClicked = false;
@@ -63,18 +67,6 @@ export class Dropdown extends Component {
 
   handleInputClick = () => {
     this.setState({ open: !this.state.open });
-  }
-
-  handleBackClick = (focusField = false) => {
-    if (this.state.previousMenu.length === 0) return;
-
-    this.setState({ displayedMenu: this.state.previousMenu[0] });
-
-    this.state.previousMenu.shift();
-
-    if (focusField) {
-      setTimeout(() => this.menu.keyDown(keyCodes.DOWN), 0);
-    }
   }
 
   handleContainerClick = () => {
@@ -123,14 +115,38 @@ export class Dropdown extends Component {
     });
   }
 
+  handleBackClick = (focusField = false) => {
+    if (this.state.previousMenus.length === 0) return;
+
+    this.setState({
+      animatingBack: true,
+      displayedMenu: this.state.previousMenus[0]
+    });
+
+    this.state.previousMenus.shift();
+
+    this.handleAnimationComplete('animatingBack', focusField);
+  }
+
   updateMenu = (menu, focusField = false) => {
-    this.state.previousMenu.unshift(this.state.displayedMenu);
+    this.state.previousMenus.unshift(this.state.displayedMenu);
 
-    this.setState({ displayedMenu: menu });
+    this.setState({
+      displayedMenu: menu,
+      animatingNext: true
+    });
 
-    if (focusField) {
-      setTimeout(() => this.menu.keyDown(keyCodes.DOWN), 0);
-    }
+    this.handleAnimationComplete('animatingNext', focusField);
+  }
+
+  handleAnimationComplete = (animatingDirection, focusField) => {
+    setTimeout(() => {
+      this.setState({ [animatingDirection]: false });
+
+      if (focusField) {
+        setTimeout(() => this.menu.keyDown(keyCodes.DOWN), 0);
+      }
+    }, animationDuration);
   }
 
   formatDropdownOptions = (optionsProp) => {
@@ -195,6 +211,22 @@ export class Dropdown extends Component {
     );
   }
 
+  renderMenus = () => {
+    if (!this.state.open) return;
+
+    const backClasses = this.state.animatingBack ? styles.menuBackAnimate : '';
+    const nextClasses = this.state.animatingNext ? styles.menuNextAnimate : '';
+    const mobileClasses = this.props.fullscreen ? styles.menuContainerMobile : '';
+
+    return (
+      <div className={`${styles.menuContainer} ${mobileClasses}`}>
+        <div className={`${styles.menu} ${nextClasses} ${backClasses}`}>
+          {this.state.displayedMenu}
+        </div>
+      </div>
+    );
+  }
+
   render = () => {
     const mobileClasses = this.props.fullscreen && !this.props.landscape ? styles.labelMobile : '';
     const landscapeClasses = this.props.landscape ? styles.labelLandscape : '';
@@ -217,7 +249,7 @@ export class Dropdown extends Component {
             onKeyDown={this.handleKeyDown}
             placeholder={this.state.selected.title} />
           {this.renderDropdownArrow()}
-          {this.state.open && this.state.displayedMenu}
+          {this.renderMenus()}
         </div>
       </div>
     );

@@ -13,11 +13,13 @@
   pointer-events: none;
   padding-top: #{4/$font-size}rem;
   padding-left: #{8/$font-size}rem;
+  padding-bottom: #{7/$font-size}rem;
 
   svg {
     pointer-events: none;
     fill: $zd-color-silver-sand;
     color: $zd-color-silver-sand;
+    transition: all 0.2s ease;
   }
 }
 
@@ -59,4 +61,74 @@
 
 .labelLandscape {
   composes: u-textSizeSml from '../../styles/utils.scss';
+}
+
+.menuContainer {
+  composes: u-posAbsolute u-border u-hsizeAll u-zIndex1 u-posStart--flush from '../../styles/utils.scss';
+  border-radius: #{4/$font-size}rem;
+  border-color: $zd-color-aluminum;
+  top: #{36/$font-size}rem;
+  left: #{-1/$font-size}rem;
+  height: #{200/$font-size}rem;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-color: $zd-color-white;
+  padding-top: #{3/$font-size}rem;
+  padding-bottom: #{3/$font-size}rem;
+  box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .2);
+
+  /*
+   * Customise scrollbar for safari/chrome
+   */
+  &::-webkit-scrollbar-track {
+    margin: #{5/$font-size}rem;
+    padding-right: #{5/$font-size}rem;
+  }
+  &::-webkit-scrollbar {
+    box-shadow: none;
+    width: #{3/$font-size}rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $base-border-color;
+    border-radius: #{3/$font-size}rem;
+  }
+}
+
+.menuContainerMobile {
+  composes: u-textSize15 from '../../styles/utils.scss';
+  top: #{38/$font-size}rem;
+}
+
+.menu {
+  composes: u-hsizeAll from '../../styles/utils.scss';
+}
+
+@keyframes menuNext {
+  from {
+    left: #{300/$font-size}rem;
+  }
+  to {
+    left: 0;
+  }
+}
+
+@keyframes menuBack {
+  from {
+    right: #{300/$font-size}rem;
+  }
+  to {
+    right: 0;
+  }
+}
+
+.menuNextAnimate {
+  composes: u-posAbsolute from '../../styles/utils.scss';
+
+  animation: menuNext 0.2s linear 0s 1;
+}
+
+.menuBackAnimate {
+  composes: u-posAbsolute from '../../styles/utils.scss';
+
+  animation: menuBack 0.2s linear 0s 1;
 }

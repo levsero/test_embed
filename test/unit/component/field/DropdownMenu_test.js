@@ -74,32 +74,6 @@ describe('dropdownMenu component', () => {
     jasmine.clock().uninstall();
   });
 
-  describe('render', () => {
-    let menu;
-
-    describe('when fullscreen is false', () => {
-      beforeEach(() => {
-        menu = domRender(<DropdownMenu />);
-      });
-
-      it('should not have mobile classes', () => {
-        expect(ReactDOM.findDOMNode(menu).className)
-          .not.toContain('fieldMobileClasses');
-      });
-    });
-
-    describe('when fullscreen is true', () => {
-      beforeEach(() => {
-        menu = domRender(<DropdownMenu fullscreen={true} />);
-      });
-
-      it('should have mobile classes', () => {
-        expect(ReactDOM.findDOMNode(menu).className)
-          .toContain('fieldMobileClasses');
-      });
-    });
-  });
-
   describe('items', () => {
     let menu;
 

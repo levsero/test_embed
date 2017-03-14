@@ -18,6 +18,16 @@ describe('dropdown component', () => {
   const dropdownPath = buildSrcPath('component/field/Dropdown');
   const keyDownSpy = jasmine.createSpy('keydown');
 
+  class MockMenu extends Component {
+    constructor() {
+      super();
+      this.keyDown = keyDownSpy;
+    }
+    render() {
+      return <div>hi</div>;
+    }
+  }
+
   beforeAll(() => {
     resetDOM();
 
@@ -31,19 +41,14 @@ describe('dropdown component', () => {
         locals: {
           labelMobile: 'labelMobileClasses',
           labelLandscape: 'labelLandscapeClasses',
-          arrowHover: 'arrowHoverClasses'
+          arrowHover: 'arrowHoverClasses',
+          menuContainerMobile: 'menuContainerMobileClasses',
+          menuNextAnimate: 'menuNextAnimateClasses',
+          menuBackAnimate: 'menuBackAnimateClasses'
         }
       },
       'component/field/DropdownMenu': {
-        DropdownMenu: class extends Component {
-          constructor() {
-            super();
-            this.keyDown = keyDownSpy;
-          }
-          render() {
-            return <div>hi</div>;
-          }
-        }
+        DropdownMenu: MockMenu
       },
       'component/Icon': {
         Icon: noopReactComponent()
@@ -71,6 +76,126 @@ describe('dropdown component', () => {
   });
 
   let dropdown;
+
+  describe('render', () => {
+    describe('when fullscreen is false', () => {
+      beforeEach(() => {
+        dropdown = domRender(<Dropdown />);
+      });
+
+      it('should not show any mobile classes', () => {
+        expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelMobileClasses'))
+          .toBeNull();
+
+        expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelLandscapeClasses'))
+          .toBeNull();
+      });
+
+      it('should not have mobile classes for the menu', () => {
+        dropdown.setState({ open: true });
+
+        expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuContainerMobileClasses'))
+          .toBeNull();
+      });
+    });
+
+    describe('when fullscreen is true', () => {
+      beforeEach(() => {
+        dropdown = domRender(<Dropdown fullscreen={true} />);
+      });
+
+      it('should not have mobile classes for the menu', () => {
+        dropdown.setState({ open: true });
+
+        expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuContainerMobileClasses'))
+          .not.toBeNull();
+      });
+
+      describe('when landscape is false', () => {
+        it('should have mobile classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelMobileClasses'))
+            .not.toBeNull();
+        });
+
+        it('should not have landscape classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelLandscapeClasses'))
+            .toBeNull();
+        });
+      });
+
+      describe('when landscape is true', () => {
+        beforeEach(() => {
+          dropdown = domRender(<Dropdown fullscreen={true} landscape={true} />);
+        });
+
+        it('should have landscape classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelLandscapeClasses'))
+            .not.toBeNull();
+        });
+
+        it('should not have mobile classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelMobileClasses'))
+            .toBeNull();
+        });
+      });
+    });
+
+    describe('when hovering on input field', () => {
+      beforeEach(() => {
+        dropdown = domRender(<Dropdown />);
+        dropdown.handleMouseEnter();
+      });
+
+      it('should show hover classes', () => {
+        expect(dropdown.renderDropdownArrow().props.className)
+          .toContain('arrowHoverClasses');
+      });
+    });
+
+    describe('when not hovering on input field', () => {
+      beforeEach(() => {
+        dropdown = domRender(<Dropdown />);
+        dropdown.handleMouseLeave();
+      });
+
+      it('should not show hover classes', () => {
+        expect(dropdown.renderDropdownArrow().props.className)
+          .not.toContain('arrowHoverClasses');
+      });
+    });
+
+    it('should not show animating classes', () => {
+      expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuNextAnimateClasses'))
+        .toBeNull();
+
+      expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuBackAnimateClasses'))
+        .toBeNull();
+    });
+
+    describe('when animating next', () => {
+      beforeEach(() => {
+        dropdown = domRender(<Dropdown />);
+        dropdown.updateMenu();
+      });
+
+      it('should show animating next classes', () => {
+        expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuNextAnimateClasses'))
+          .not.toBeNull();
+      });
+    });
+
+    describe('when animating back', () => {
+      beforeEach(() => {
+        dropdown = domRender(<Dropdown />);
+        dropdown.handleBackClick();
+      });
+
+      it('should show animating back classes', () => {
+        expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuBackAnimateClasses'))
+          .not.toBeNull();
+      });
+    });
+  });
 
   describe('handleKeyDown', () => {
     let preventDefaultSpy;
@@ -283,7 +408,7 @@ describe('dropdown component', () => {
 
     describe('when there is no previous menu', () => {
       it('sets does not change the menu state', () => {
-        dropdown.setState({ displayedMenu: { ref: 1 } });
+        dropdown.setState({ displayedMenu: <MockMenu ref={1} /> });
 
         dropdown.handleBackClick();
 
@@ -295,8 +420,8 @@ describe('dropdown component', () => {
     describe('when there is a previous menu', () => {
       beforeEach(() =>  {
         dropdown.setState({
-          previousMenu: [{ ref: 1 }],
-          displayedMenu: { ref: 2 }
+          previousMenus: [<MockMenu ref={1} />],
+          displayedMenu: <MockMenu ref={2} />
         });
 
         dropdown.handleBackClick();
@@ -308,8 +433,20 @@ describe('dropdown component', () => {
       });
 
       it('sets updates the previousMenu state', () => {
-        expect(dropdown.state.previousMenu.length)
+        expect(dropdown.state.previousMenus.length)
           .toEqual(0);
+      });
+
+      it('sets animatingBack to true', () => {
+        expect(dropdown.state.animatingBack)
+          .toEqual(true);
+      });
+
+      it('sets animatingBack to false after 200ms', () => {
+        jasmine.clock().tick(200);
+
+        expect(dropdown.state.animatingBack)
+          .toEqual(false);
       });
     });
   });
@@ -319,11 +456,11 @@ describe('dropdown component', () => {
       dropdown = domRender(<Dropdown />);
 
       dropdown.setState({
-        previousMenu: [],
-        displayedMenu: { ref: 1 }
+        previousMenus: [],
+        displayedMenu: <MockMenu ref={1} />
       });
 
-      dropdown.updateMenu({ ref: 2 });
+      dropdown.updateMenu(<MockMenu ref={2} />);
     });
 
     it('sets displayedMenu to the new menu', () => {
@@ -332,11 +469,23 @@ describe('dropdown component', () => {
     });
 
     it('sets updates the previousMenu state', () => {
-      expect(dropdown.state.previousMenu.length)
+      expect(dropdown.state.previousMenus.length)
         .toEqual(1);
 
-      expect(dropdown.state.previousMenu[0].ref)
+      expect(dropdown.state.previousMenus[0].ref)
         .toEqual(1);
+    });
+
+    it('sets animatingNext to true', () => {
+      expect(dropdown.state.animatingNext)
+        .toEqual(true);
+    });
+
+    it('sets animatingNext to false after 200ms', () => {
+      jasmine.clock().tick(200);
+
+      expect(dropdown.state.animatingNext)
+        .toEqual(false);
     });
   });
 
@@ -355,80 +504,6 @@ describe('dropdown component', () => {
       jasmine.clock().tick(1);
       expect(dropdown.containerClicked)
         .toEqual(false);
-    });
-  });
-
-  describe('render', () => {
-    describe('when fullscreen is false', () => {
-      beforeEach(() => {
-        dropdown = domRender(<Dropdown />);
-      });
-
-      it('should not show any mobile classes', () => {
-        expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelMobileClasses'))
-          .toBeNull();
-
-        expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelLandscapeClasses'))
-          .toBeNull();
-      });
-    });
-
-    describe('when fullscreen is true', () => {
-      beforeEach(() => {
-        dropdown = domRender(<Dropdown fullscreen={true} />);
-      });
-
-      describe('when landscape is false', () => {
-        it('should have mobile classes', () => {
-          expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelMobileClasses'))
-            .not.toBeNull();
-        });
-
-        it('should not have landscape classes', () => {
-          expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelLandscapeClasses'))
-            .toBeNull();
-        });
-      });
-
-      describe('when landscape is true', () => {
-        beforeEach(() => {
-          dropdown = domRender(<Dropdown fullscreen={true} landscape={true} />);
-        });
-
-        it('should have landscape classes', () => {
-          expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelLandscapeClasses'))
-            .not.toBeNull();
-        });
-
-        it('should not have mobile classes', () => {
-          expect(ReactDOM.findDOMNode(dropdown).querySelector('.labelMobileClasses'))
-            .toBeNull();
-        });
-      });
-    });
-
-    describe('when hovering on input field', () => {
-      beforeEach(() => {
-        dropdown = domRender(<Dropdown />);
-        dropdown.handleMouseEnter();
-      });
-
-      it('should show hover classes', () => {
-        expect(dropdown.renderDropdownArrow().props.className)
-          .toContain('arrowHoverClasses');
-      });
-    });
-
-    describe('when not hovering on input field', () => {
-      beforeEach(() => {
-        dropdown = domRender(<Dropdown />);
-        dropdown.handleMouseLeave();
-      });
-
-      it('should not show hover classes', () => {
-        expect(dropdown.renderDropdownArrow().props.className)
-          .not.toContain('arrowHoverClasses');
-      });
     });
   });
 });
