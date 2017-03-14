@@ -39,8 +39,6 @@ export class Dropdown extends Component {
       selected: props.value,
       displayedMenu: initialMenu,
       previousMenus: [],
-      nextMenu: null,
-      backMenu: null,
       open: false,
       animatingNext: false,
       animatingBack: false
@@ -120,13 +118,11 @@ export class Dropdown extends Component {
 
     this.setState({
       animatingBack: true,
-      backMenu: this.state.previousMenus[0]
+      displayedMenu: this.state.previousMenus[0]
     });
 
     setTimeout(() => {
       this.setState({
-        displayedMenu: this.state.previousMenus[0],
-        backMenu: null,
         animatingBack: false
       });
 
@@ -135,28 +131,27 @@ export class Dropdown extends Component {
       if (focusField) {
         setTimeout(() => this.menu.keyDown(keyCodes.DOWN), 0);
       }
-    }, 400);
+    }, 200);
   }
 
   updateMenu = (menu, focusField = false) => {
     this.state.previousMenus.unshift(this.state.displayedMenu);
 
     this.setState({
-      nextMenu: menu,
+      previousMenu: this.state.displayedMenu,
+      displayedMenu: menu,
       animatingNext: true
     });
 
     setTimeout(() => {
       this.setState({
-        displayedMenu: menu,
-        animatingNext: false,
-        nextMenu: null
+        animatingNext: false
       });
 
       if (focusField) {
         setTimeout(() => this.menu.keyDown(keyCodes.DOWN), 0);
       }
-    }, 400);
+    }, 200);
   }
 
   formatDropdownOptions = (optionsProp) => {
@@ -224,16 +219,12 @@ export class Dropdown extends Component {
   renderMenus = () => {
     if (!this.state.open) return;
 
-    const backClasses = this.state.animatingBack ? styles.menuNeutral : '';
-    const nextClasses = this.state.animatingNext ? styles.menuNeutral : '';
-    const leftClasses = this.state.animatingNext ? styles.menuLeft : '';
-    const rightClasses = this.state.animatingBack ? styles.menuRight : '';
+    const backClasses = this.state.animatingBack ? styles.menuBackAnimate : '';
+    const nextClasses = this.state.animatingNext ? styles.menuNextAnimate : '';
 
     return (
       <div className={styles.menuContainer}>
-        <div className={`${styles.menu} ${styles.menuLeft} ${backClasses}`}>{this.state.backMenu}</div>
-        <div className={`${styles.menu} ${leftClasses} ${rightClasses}`}>{this.state.displayedMenu}</div>
-        <div className={`${styles.menu} ${styles.menuLeft} ${nextClasses}`}>{this.state.nextMenu}</div>
+        <div className={`${styles.menu} ${nextClasses} ${backClasses}`}>{this.state.displayedMenu}</div>
       </div>
     );
   }

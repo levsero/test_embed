@@ -103,19 +103,32 @@
   transition: all 0.4s ease;
 }
 
-.menuLeft {
-  position: absolute;
-  top: #{8/$font-size}rem;
-  left: #{300/$font-size}rem;
+@keyframes menuNext {
+  from {
+    left: #{300/$font-size}rem;
+  }
+  to {
+    left: 0;
+  }
 }
 
-.menuRight {
-  position: absolute;
-  top: #{8/$font-size}rem;
-  right: #{300/$font-size}rem;
+@keyframes menuBack {
+  from {
+    right: #{300/$font-size}rem;
+  }
+  to {
+    right: 0;
+  }
 }
 
-.menuNeutral {
-  right: 0;
-  left: 0;
+.menuNextAnimate {
+  position: absolute;
+
+  animation: menuNext 0.2s linear 0s 1;
+}
+
+.menuBackAnimate {
+  position: absolute;
+
+  animation: menuBack 0.2s linear 0s 1;
 }
