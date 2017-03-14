@@ -123,7 +123,7 @@ describe('boot', () => {
           .toHaveBeenCalled();
       });
 
-      it('calls handlePostRenderQueue', () => {
+      it('calls handlePostRenderQueue with win and postRenderQueue', () => {
         expect(boot.handlePostRenderQueue)
           .toHaveBeenCalledWith(win, postRenderQueue);
       });
@@ -145,6 +145,22 @@ describe('boot', () => {
         });
       });
 
+      describe('when win.zESettings is defined', () => {
+        beforeEach(() => {
+          win.zESettings = { authenticate: 'boo' };
+          doneHandler({ body: config });
+        });
+
+        it('should call beacon.trackSettings', () => {
+          expect(beaconSpy.beacon.trackSettings)
+            .toHaveBeenCalledWith({
+              webWidget: {
+                authenticate: true
+              }
+            });
+        });
+      });
+
       describe('when one in ten times', () => {
         beforeEach(() => {
           // Simulate a 1/10 chance.
@@ -159,22 +175,6 @@ describe('boot', () => {
         it('should call beacon.sendConfigLoadTime with the load time', () => {
           expect(beaconSpy.beacon.sendConfigLoadTime)
             .toHaveBeenCalledWith(1000);
-        });
-      });
-
-      describe('when win.zESettings is defined', () => {
-        beforeEach(() => {
-          win.zESettings = { authenticate: 'boo' };
-          doneHandler({ body: config });
-        });
-
-        it('should call beacon.trackSettings', () => {
-          expect(beaconSpy.beacon.trackSettings)
-            .toHaveBeenCalledWith({
-              webWidget: {
-                authenticate: true
-              }
-            });
         });
       });
     });
