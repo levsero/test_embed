@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { locals as styles } from './Dropdown.sass';
@@ -7,6 +8,7 @@ import { Icon } from 'component/Icon';
 import { keyCodes } from 'utility/keyboard';
 
 const animationDuration = 200;
+const posHalfWay = 210;
 
 export class Dropdown extends Component {
   static propTypes = {
@@ -49,6 +51,13 @@ export class Dropdown extends Component {
     this.containerClicked = false;
     this.input = null;
     this.menu = null;
+    this.height = 0;
+  }
+
+  componentDidUpdate = () => {
+    const el = ReactDOM.findDOMNode(this);
+
+    this.height = el.getBoundingClientRect().top;
   }
 
   handleFocus = () => {
@@ -217,9 +226,10 @@ export class Dropdown extends Component {
     const backClasses = this.state.animatingBack ? styles.menuBackAnimate : '';
     const nextClasses = this.state.animatingNext ? styles.menuNextAnimate : '';
     const mobileClasses = this.props.fullscreen ? styles.menuContainerMobile : '';
+    const posClasses = this.height > posHalfWay ? styles.menuUp : '';
 
     return (
-      <div className={`${styles.menuContainer} ${mobileClasses}`}>
+      <div className={`${styles.menuContainer} ${posClasses} ${mobileClasses}`}>
         <div className={`${styles.menu} ${nextClasses} ${backClasses}`}>
           {this.state.displayedMenu}
         </div>

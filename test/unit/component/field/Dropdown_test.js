@@ -44,7 +44,8 @@ describe('dropdown component', () => {
           arrowHover: 'arrowHoverClasses',
           menuContainerMobile: 'menuContainerMobileClasses',
           menuNextAnimate: 'menuNextAnimateClasses',
-          menuBackAnimate: 'menuBackAnimateClasses'
+          menuBackAnimate: 'menuBackAnimateClasses',
+          menuUp: 'menuUpClasses'
         }
       },
       'component/field/DropdownMenu': {
@@ -192,6 +193,31 @@ describe('dropdown component', () => {
 
       it('should show animating back classes', () => {
         expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuBackAnimateClasses'))
+          .not.toBeNull();
+      });
+    });
+
+    describe('when height is < 200', () => {
+      beforeEach(() => {
+        dropdown = domRender(<Dropdown />);
+        dropdown.setState({ open: true });
+      });
+
+      it('should not have menu up classes', () => {
+        expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuUpClasses'))
+          .toBeNull();
+      });
+    });
+
+    describe('when height is > 200', () => {
+      beforeEach(() => {
+        dropdown = domRender(<Dropdown />);
+        dropdown.height = 201;
+        dropdown.setState({ open: true });
+      });
+
+      it('should have menu up classes', () => {
+        expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuUpClasses'))
           .not.toBeNull();
       });
     });
