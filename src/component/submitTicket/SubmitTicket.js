@@ -276,21 +276,6 @@ export class SubmitTicket extends Component {
     this.setState({ formTitleKey });
   }
 
-  updateTicketFormState = () => {
-    /* eslint camelcase:0 */
-    const { ticket_forms } = this.state.ticketForms;
-
-    if (!ticket_forms) {
-      this.updateContactForm();
-    } else if (ticket_forms.length === 1) {
-      this.updateTicketForms(this.state.ticketForms);
-    } else {
-      if (this.state.selectedTicketForm.id) {
-        this.setTicketForm(this.state.selectedTicketForm.id);
-      }
-    }
-  }
-
   updateSubmitTicketForm = (selectedTicketForm, ticketFormPrefill = {}) => {
     const updateFormFn = () => {
       this.refs.submitTicketForm.updateTicketForm(
