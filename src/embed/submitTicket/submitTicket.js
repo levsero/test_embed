@@ -23,7 +23,7 @@ const submitTicketCSS = `${require('./submitTicket.scss')} ${submitTicketStyles}
 let submitTickets = {};
 let backButtonSetByHelpCenter = false;
 
-const getTicketForms = _.memoize((config) => {
+const getTicketFormIds = _.memoize((config) => {
   const settingTicketForms = settings.get('contactForm.ticketForms');
   const rawTicketForms = _.isEmpty(settingTicketForms)
                        ? config.ticketForms
@@ -195,7 +195,7 @@ function create(name, config, reduxStore) {
   }
 
   let customFieldsProp = config.customFields;
-  const ticketForms = getTicketForms(config);
+  const ticketForms = getTicketFormIds(config);
   const locale = i18n.getLocale();
 
   if (!_.isEmpty(ticketForms)) {
@@ -349,7 +349,7 @@ function render(name) {
     waitForRootComponent(name, () => {
       const embed = get(name);
       const { config } = embed;
-      const ticketForms = getTicketForms(config);
+      const ticketForms = getTicketFormIds(config);
 
       if (!_.isEmpty(ticketForms)) {
         submitTicket.loadTicketForms(name, ticketForms, i18n.getLocale());

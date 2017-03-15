@@ -517,7 +517,7 @@ function setUpSubmitTicket(config) {
   const onCancel = () => {
     mediator.channel.broadcast('ticketSubmissionForm.onCancelClick');
   };
-  const getTicketForms = (config) => {
+  const getTicketFormIds = (config) => {
     const settingTicketForms = settings.get('contactForm.ticketForms');
     const rawTicketForms = _.isEmpty(settingTicketForms)
                          ? config.ticketForms
@@ -555,7 +555,7 @@ function setUpSubmitTicket(config) {
   };
 
   const { customFields } = config;
-  const ticketForms = getTicketForms(config);
+  const ticketForms = getTicketFormIds(config);
 
   if (!_.isEmpty(ticketForms)) {
     // TODO: Alter this code to return objects with id's once pre-fill is GA'd
