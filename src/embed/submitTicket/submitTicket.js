@@ -194,15 +194,15 @@ function create(name, config, reduxStore) {
     containerStyle = { width: 342 };
   }
 
-  let customFieldsProp = config.customFields;
+  let { customFields } = config;
   const ticketForms = getTicketFormIds(config);
   const locale = i18n.getLocale();
 
   if (!_.isEmpty(ticketForms)) {
     submitTicket.loadTicketForms(name, ticketForms, locale);
-  } else if (config.customFields.ids || config.customFields.all) {
-    submitTicket.loadTicketFields(name, config.customFields, locale);
-    customFieldsProp = [];
+  } else if (customFields.ids || customFields.all) {
+    submitTicket.loadTicketFields(name, customFields, locale);
+    customFields = [];
   } else {
     setTimeout(() => {
       waitForRootComponent(name, () => {
@@ -218,7 +218,7 @@ function create(name, config, reduxStore) {
           ref='rootComponent'
           attachmentsEnabled={config.attachmentsEnabled}
           attachmentSender={attachmentSender}
-          customFields={customFieldsProp}
+          customFields={customFields}
           disableAutoComplete={config.disableAutoComplete}
           formTitleKey={config.formTitleKey}
           hideZendeskLogo={config.hideZendeskLogo}
