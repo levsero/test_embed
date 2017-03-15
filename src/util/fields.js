@@ -29,6 +29,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
       required: isRequired,
       placeholder: title,
       key: title,
+      frameHeight: options.frameHeight,
       disableAutoComplete: options.disableAutoComplete,
       description: field.description,
       fullscreen: isMobileBrowser(),

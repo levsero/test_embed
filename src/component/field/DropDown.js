@@ -8,11 +8,11 @@ import { Icon } from 'component/Icon';
 import { keyCodes } from 'utility/keyboard';
 
 const animationDuration = 200;
-const posHalfWay = 210;
 
 export class Dropdown extends Component {
   static propTypes = {
     fullscreen: PropTypes.bool,
+    frameHeight: PropTypes.number,
     landscape: PropTypes.bool,
     options: PropTypes.array.isRequired,
     placeholder: PropTypes.string,
@@ -21,6 +21,7 @@ export class Dropdown extends Component {
 
   static defaultProps = {
     fullscreen: false,
+    frameHeight: 500,
     landscape: false,
     options: [],
     placeholder: '',
@@ -226,7 +227,7 @@ export class Dropdown extends Component {
     const backClasses = this.state.animatingBack ? styles.menuBackAnimate : '';
     const nextClasses = this.state.animatingNext ? styles.menuNextAnimate : '';
     const mobileClasses = this.props.fullscreen ? styles.menuContainerMobile : '';
-    const posClasses = this.height > posHalfWay ? styles.menuUp : '';
+    const posClasses = this.height > this.props.frameHeight/2 ? styles.menuUp : '';
 
     return (
       <div className={`${styles.menuContainer} ${posClasses} ${mobileClasses}`}>

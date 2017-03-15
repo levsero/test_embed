@@ -388,6 +388,7 @@ export class SubmitTicket extends Component {
         setFormState={this.setFormState}
         submit={this.handleSubmit}
         ticketForms={this.state.ticketForms}
+        frameHeight={frameDimensions.height}
         previewEnabled={this.props.previewEnabled}>
         {this.renderErrorMessage()}
       </SubmitTicketForm>

@@ -212,7 +212,7 @@ describe('dropdown component', () => {
     describe('when height is > 200', () => {
       beforeEach(() => {
         dropdown = domRender(<Dropdown />);
-        dropdown.height = 201;
+        dropdown.height = 300;
         dropdown.setState({ open: true });
       });
 
