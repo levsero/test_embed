@@ -7,6 +7,7 @@ import { SelectField } from 'component/field/SelectField';
 import { Dropdown } from 'component/field/Dropdown';
 import { isMobileBrowser,
          isLandscape } from 'utility/devices';
+import { document } from 'utility/globals';
 
 const geti18nContent = (field) => {
   const title = _.find(field.variants, (variant) => {
@@ -23,13 +24,16 @@ const getCustomFields = (customFields, formState, options = {}) => {
   const fields = _.map(customFields, (field) => {
     const isRequired = _.isNil(field.required_in_portal) ? field.required : field.required_in_portal;
     const title = field.title_in_portal || field.title;
+    const frameHeight = options.frameHeight === '100%'
+                      ? document.documentElement.clientHeight
+                      : options.frameHeight;
     const sharedProps = {
       name: field.id,
       value: formState[field.id],
       required: isRequired,
       placeholder: title,
       key: title,
-      frameHeight: options.frameHeight,
+      frameHeight,
       disableAutoComplete: options.disableAutoComplete,
       description: field.description,
       fullscreen: isMobileBrowser(),
