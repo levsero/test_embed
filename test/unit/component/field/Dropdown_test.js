@@ -197,9 +197,10 @@ describe('dropdown component', () => {
       });
     });
 
-    describe('when height is < 200', () => {
+    describe('when height is < props.frameHeight / 2', () => {
       beforeEach(() => {
-        dropdown = domRender(<Dropdown />);
+        dropdown = domRender(<Dropdown frameHeight={100} />);
+        dropdown.height = 49;
         dropdown.setState({ open: true });
       });
 
@@ -209,10 +210,10 @@ describe('dropdown component', () => {
       });
     });
 
-    describe('when height is > 200', () => {
+    describe('when height is > props.frameHeight / 2', () => {
       beforeEach(() => {
-        dropdown = domRender(<Dropdown />);
-        dropdown.height = 300;
+        dropdown = domRender(<Dropdown frameHeight={100} />);
+        dropdown.height = 51;
         dropdown.setState({ open: true });
       });
 
