@@ -663,6 +663,54 @@ describe('embed.submitTicket', () => {
           .toHaveBeenCalledWith('bob.refreshLocale', jasmine.any(Function));
       });
 
+      describe('when <name>.refreshLocale is broadcast', () => {
+        describe('when there are ticket forms', () => {
+          const ticketForms = [10000, 10001];
+
+          beforeEach(() => {
+            submitTicket.create('bob', { ticketForms });
+            submitTicket.render('bob');
+
+            spyOn(submitTicket, 'loadTicketForms');
+            spyOn(submitTicket, 'loadTicketFields');
+            pluckSubscribeCall(mockMediator, 'bob.refreshLocale')();
+          });
+
+          it('should call loadTicketForms', () => {
+            expect(submitTicket.loadTicketForms)
+              .toHaveBeenCalledWith('bob', ticketForms, 'fr');
+          });
+
+          it('should not call loadTicketFields', () => {
+            expect(submitTicket.loadTicketFields)
+              .not.toHaveBeenCalled();
+          });
+        });
+
+        describe('when there are custom ticket fields', () => {
+          const customFields = { ids: [10000, 10001] };
+
+          beforeEach(() => {
+            submitTicket.create('bob', { customFields });
+            submitTicket.render('bob');
+
+            spyOn(submitTicket, 'loadTicketForms');
+            spyOn(submitTicket, 'loadTicketFields');
+            pluckSubscribeCall(mockMediator, 'bob.refreshLocale')();
+          });
+
+          it('should call loadTicketFields', () => {
+            expect(submitTicket.loadTicketFields)
+              .toHaveBeenCalledWith('bob', customFields, 'fr');
+          });
+
+          it('should not call loadTicketForms', () => {
+            expect(submitTicket.loadTicketForms)
+              .not.toHaveBeenCalled();
+          });
+        });
+      });
+
       it('should subscribe to <name>.showBackButton', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('bob.showBackButton', jasmine.any(Function));

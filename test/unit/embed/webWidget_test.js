@@ -127,13 +127,13 @@ describe('embed.webWidget', () => {
         }
 
         getRootComponent() {
-          return this.refs.rootComponent;
+          return this.refs.ticketSubmissionForm;
         }
 
         render() {
           return (
             <div className='mock-webWidget'>
-              <WebWidgetChild ref='rootComponent' />
+              <WebWidgetChild ref='ticketSubmissionForm' />
             </div>
           );
         }
@@ -877,6 +877,63 @@ describe('embed.webWidget', () => {
 
       expect(mockMediator.channel.subscribe)
         .toHaveBeenCalledWith(calls, jasmine.any(Function));
+    });
+
+    it('should subscribe to ticketSubmissionForm.refreshLocale', () => {
+      expect(mockMediator.channel.subscribe)
+        .toHaveBeenCalledWith('ticketSubmissionForm.refreshLocale', jasmine.any(Function));
+    });
+
+    describe('when ticketSubmissionForm.refreshLocale is broadcast', () => {
+      let embed;
+
+      describe('when there are ticket forms', () => {
+        const ticketForms = [10000, 10001];
+
+        beforeEach(() => {
+          webWidget.create('faythe', { ticketSubmissionForm: { ticketForms } });
+          embed = webWidget.get('faythe').submitTicketSettings;
+          webWidget.render('faythe');
+
+          embed.loadTicketForms = jasmine.createSpy('loadTicketForms');
+          embed.loadTicketFields = jasmine.createSpy('loadTicketFields');
+          pluckSubscribeCall(mockMediator, 'ticketSubmissionForm.refreshLocale')();
+        });
+
+        it('should call loadTicketForms', () => {
+          expect(embed.loadTicketForms)
+            .toHaveBeenCalledWith(ticketForms, 'fr');
+        });
+
+        it('should not call loadTicketFields', () => {
+          expect(embed.loadTicketFields)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when there are custom ticket fields', () => {
+        const customFields = { ids: [10000, 10001] };
+
+        beforeEach(() => {
+          webWidget.create('faythe', { ticketSubmissionForm: { customFields } });
+          embed = webWidget.get('faythe').submitTicketSettings;
+          webWidget.render('faythe');
+
+          embed.loadTicketForms = jasmine.createSpy('loadTicketForms');
+          embed.loadTicketFields = jasmine.createSpy('loadTicketFields');
+          pluckSubscribeCall(mockMediator, 'ticketSubmissionForm.refreshLocale')();
+        });
+
+        it('should call loadTicketFields', () => {
+          expect(embed.loadTicketFields)
+            .toHaveBeenCalledWith(customFields, 'fr');
+        });
+
+        it('should not call loadTicketForms', () => {
+          expect(embed.loadTicketForms)
+            .not.toHaveBeenCalled();
+        });
+      });
     });
 
     it('should subscribe to ticketSubmissionForm.prefill', () => {

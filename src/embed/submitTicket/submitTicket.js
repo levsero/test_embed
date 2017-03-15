@@ -199,9 +199,9 @@ function create(name, config, reduxStore) {
   const locale = i18n.getLocale();
 
   if (!_.isEmpty(ticketForms)) {
-    loadTicketForms(name, ticketForms, locale);
+    submitTicket.loadTicketForms(name, ticketForms, locale);
   } else if (config.customFields.ids || config.customFields.all) {
-    loadTicketFields(name, config.customFields, locale);
+    submitTicket.loadTicketFields(name, config.customFields, locale);
     customFieldsProp = [];
   } else {
     setTimeout(() => {
@@ -352,10 +352,10 @@ function render(name) {
       const ticketForms = getTicketForms(config);
 
       if (!_.isEmpty(ticketForms)) {
-        loadTicketForms(name, ticketForms, i18n.getLocale());
+        submitTicket.loadTicketForms(name, ticketForms, i18n.getLocale());
         embed.instance.getChild().showBackButton();
       } else if (config.customFields.ids || config.customFields.all) {
-        loadTicketFields(name, config.customFields, i18n.getLocale());
+        submitTicket.loadTicketFields(name, config.customFields, i18n.getLocale());
       }
     });
   });
@@ -424,5 +424,9 @@ export const submitTicket = {
   create: create,
   render: render,
   get: get,
-  list: list
+  list: list,
+
+  // Exported for testing.
+  loadTicketForms,
+  loadTicketFields
 };
