@@ -800,6 +800,44 @@ describe('Submit ticket component', () => {
     });
   });
 
+  describe('updateTicketForms', () => {
+    let submitTicket,
+      mockTicketForms;
+
+    beforeEach(() => {
+      submitTicket = domRender(<SubmitTicket />);
+    });
+
+    describe('when the ticket forms length is 1', () => {
+      beforeEach(() => {
+        mockTicketForms = { ticket_forms: [{ id: 1234567 }] };
+
+        spyOn(submitTicket, 'updateSubmitTicketForm');
+        submitTicket.updateTicketForms(mockTicketForms);
+      });
+
+      it('should call updateSubmitTicketForm with the first ticket form', () => {
+        expect(submitTicket.updateSubmitTicketForm)
+          .toHaveBeenCalledWith({ id: 1234567 }, undefined);
+      });
+    });
+
+    describe('when there is a currently selected ticket form', () => {
+      beforeEach(() => {
+        mockTicketForms = { ticket_forms: [{ id: 1234567 }, { id: 1234568 }] };
+
+        spyOn(submitTicket, 'setTicketForm');
+        submitTicket.updateSubmitTicketForm(mockTicketForms.ticket_forms[1]);
+        submitTicket.updateTicketForms(mockTicketForms);
+      });
+
+      it('should call setTicketForm with the currently selected ticket form id', () => {
+        expect(submitTicket.setTicketForm)
+          .toHaveBeenCalledWith(1234568);
+      });
+    });
+  });
+
   describe('updateTicketFormState', () => {
     let submitTicket,
       mockUpdateContactForm,
