@@ -347,12 +347,13 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.refreshLocale', () => {
     waitForRootComponent(name, () => {
-      const { config } = get(name);
+      const embed = get(name);
+      const { config } = embed;
       const ticketForms = getTicketForms(config);
 
       if (!_.isEmpty(ticketForms)) {
         loadTicketForms(name, ticketForms, i18n.getLocale());
-        get(name).instance.getChild().showBackButton();
+        embed.instance.getChild().showBackButton();
       } else if (config.customFields.ids || config.customFields.all) {
         loadTicketFields(name, config.customFields, i18n.getLocale());
       }
@@ -379,8 +380,8 @@ function loadTicketForms(name, ticketForms, locale) {
 
 function loadTicketFields(name, customFields, locale) {
   const onDone = (res) => getRootComponent(name).updateTicketFields(res);
-  const pathIds = customFields.all ? '' : `field_ids=${customFields.ids.join()}`;
-  const path = `/embeddable/ticket_fields?${pathIds}&locale=${locale}`;
+  const pathIds = customFields.all ? '' : `field_ids=${customFields.ids.join()}&`;
+  const path = `/embeddable/ticket_fields?${pathIds}locale=${locale}`;
 
   getWithSpinner(name, path, locale, onDone);
 }

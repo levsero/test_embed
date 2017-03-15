@@ -869,9 +869,8 @@ describe('embed.webWidget', () => {
         .toHaveBeenCalledWith('zopimChat.setUser', jasmine.any(Function));
     });
 
-    it('subscribes to <any>.refreshLocale and <any>.update together', () => {
+    it('subscribes to helpCenterForm.refreshLocale and <any>.update together', () => {
       const calls = [
-        'ticketSubmissionForm.refreshLocale',
         'ticketSubmissionForm.update',
         'helpCenterForm.refreshLocale'
       ];

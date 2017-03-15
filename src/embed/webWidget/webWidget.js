@@ -248,7 +248,7 @@ function render() {
   setupMediator();
 }
 
-function setupMediator(config) {
+function setupMediator() {
   mediator.channel.subscribe('ticketSubmissionForm.show', (options = {}) => {
     waitForRootComponent(() => {
       getWebWidgetComponent().setComponent('ticketSubmissionForm');
@@ -546,8 +546,8 @@ function setUpSubmitTicket(config) {
   };
   const loadTicketFields = (customFields, locale) => {
     const onDone = (res) => getWebWidgetComponent().refs.ticketSubmissionForm.updateTicketFields(res);
-    const pathIds = customFields.all ? '' : `field_ids=${customFields.ids.join()}`;
-    const path = `/embeddable/ticket_fields?${pathIds}&locale=${locale}`;
+    const pathIds = customFields.all ? '' : `field_ids=${customFields.ids.join()}&`;
+    const path = `/embeddable/ticket_fields?${pathIds}locale=${locale}`;
 
     getWithSpinner(path, locale, onDone);
   };
