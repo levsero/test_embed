@@ -113,14 +113,13 @@ function render() {
 function postRender() {
   const articleId =  getHelpCenterArticleId();
 
-  //if (_.isNaN(articleId)) return;
+  if (_.isNaN(articleId)) return;
 
-  //const authToken = automaticAnswersPersistence.getContext();
+  const authToken = automaticAnswersPersistence.getContext();
 
-  //if (!authToken) return;
+  if (!authToken) return;
 
-  //fetchTicket(authToken);
-  setTimeout(() => embed.instance.show({ transition: 'upShow' }), showFrameDelay);
+  fetchTicket(authToken);
 }
 
 function fetchTicket(authToken) {
