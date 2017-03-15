@@ -299,6 +299,8 @@ function setupMediator() {
       } else if (customFields.ids || customFields.all) {
         loadTicketFields(customFields, i18n.getLocale());
       }
+
+      embed.instance.getChild().forceUpdate();
     });
   });
 

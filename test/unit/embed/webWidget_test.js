@@ -892,21 +892,27 @@ describe('embed.webWidget', () => {
 
         beforeEach(() => {
           webWidget.create('faythe', { ticketSubmissionForm: { ticketForms } });
-          embed = webWidget.get('faythe').submitTicketSettings;
+          embed = webWidget.get('faythe');
           webWidget.render('faythe');
 
-          embed.loadTicketForms = jasmine.createSpy('loadTicketForms');
-          embed.loadTicketFields = jasmine.createSpy('loadTicketFields');
+          embed.submitTicketSettings.loadTicketForms = jasmine.createSpy('loadTicketForms');
+          embed.submitTicketSettings.loadTicketFields = jasmine.createSpy('loadTicketFields');
+          spyOn(embed.instance.getChild(), 'forceUpdate');
           pluckSubscribeCall(mockMediator, 'ticketSubmissionForm.refreshLocale')();
         });
 
         it('should call loadTicketForms', () => {
-          expect(embed.loadTicketForms)
+          expect(embed.submitTicketSettings.loadTicketForms)
             .toHaveBeenCalledWith(ticketForms, 'fr');
         });
 
+        it('should call SubmitTicket.forceUpdate', () => {
+          expect(embed.instance.getChild().forceUpdate)
+            .toHaveBeenCalled();
+        });
+
         it('should not call loadTicketFields', () => {
-          expect(embed.loadTicketFields)
+          expect(embed.submitTicketSettings.loadTicketFields)
             .not.toHaveBeenCalled();
         });
       });
@@ -916,21 +922,27 @@ describe('embed.webWidget', () => {
 
         beforeEach(() => {
           webWidget.create('faythe', { ticketSubmissionForm: { customFields } });
-          embed = webWidget.get('faythe').submitTicketSettings;
+          embed = webWidget.get('faythe');
           webWidget.render('faythe');
 
-          embed.loadTicketForms = jasmine.createSpy('loadTicketForms');
-          embed.loadTicketFields = jasmine.createSpy('loadTicketFields');
+          embed.submitTicketSettings.loadTicketForms = jasmine.createSpy('loadTicketForms');
+          embed.submitTicketSettings.loadTicketFields = jasmine.createSpy('loadTicketFields');
+          spyOn(embed.instance.getChild(), 'forceUpdate');
           pluckSubscribeCall(mockMediator, 'ticketSubmissionForm.refreshLocale')();
         });
 
         it('should call loadTicketFields', () => {
-          expect(embed.loadTicketFields)
+          expect(embed.submitTicketSettings.loadTicketFields)
             .toHaveBeenCalledWith(customFields, 'fr');
         });
 
+        it('should call SubmitTicket.forceUpdate', () => {
+          expect(embed.instance.getChild().forceUpdate)
+            .toHaveBeenCalled();
+        });
+
         it('should not call loadTicketForms', () => {
-          expect(embed.loadTicketForms)
+          expect(embed.submitTicketSettings.loadTicketForms)
             .not.toHaveBeenCalled();
         });
       });

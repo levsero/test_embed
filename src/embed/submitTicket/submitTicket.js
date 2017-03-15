@@ -353,10 +353,11 @@ function render(name) {
 
       if (!_.isEmpty(ticketForms)) {
         submitTicket.loadTicketForms(name, ticketForms, i18n.getLocale());
-        embed.instance.getChild().showBackButton();
       } else if (config.customFields.ids || config.customFields.all) {
         submitTicket.loadTicketFields(name, config.customFields, i18n.getLocale());
       }
+
+      embed.instance.getChild().forceUpdate();
     });
   });
 
