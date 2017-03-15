@@ -62,7 +62,8 @@ function parseConfig(config) {
     rendererConfig.ipm = {
       embed: 'ipm',
       props: {
-        anonymousCampaigns: config.ipmAnonymousCampaigns
+        anonymousCampaigns: config.ipmAnonymousCampaigns,
+        fetchDirectlyFromConnect: config.ipmFetchDirectlyFromConnect
       }
     };
   }

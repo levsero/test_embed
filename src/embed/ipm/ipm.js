@@ -27,6 +27,7 @@ const connectApiCampaignEventsPath = '/connect/api/ipm/campaign_events.json';
 let ipmes = {};
 let hasSeenIpm = false;
 let hasSentIdentify = false;
+let identifiedEmail;
 
 function create(name, config, reduxStore) {
   let containerStyle;
@@ -163,12 +164,18 @@ function showIpm(name, ipm) {
   }
 }
 
-function checkAnonymousPendingCampaign(resolve) {
+function checkPendingCampaign(params, name) {
   return (
-    api.get(connectApiPendingCampaignPath, { anonymousId: identity.getBuid() }, resolve, (err) => {
+    api.get(connectApiPendingCampaignPath, params, ({ pendingCampaign }) => {
+      if (pendingCampaign) {
+        waitForRootComponent(name, (ipm) => {
+          setIpm(pendingCampaign, name, ipm);
+          showIpm(name, ipm);
+        });
+      }
+    }, (err) => {
       // Ignore 404 errors, as this is the API's way of telling us there are no pending campaigns
       if (err.message === 'Not Found') {
-        resolve({});
         return;
       }
 
@@ -177,23 +184,37 @@ function checkAnonymousPendingCampaign(resolve) {
   );
 }
 
-function activateIpm(name) {
-  waitForRootComponent(name, (ipm) => {
-    if (hasSentIdentify) {
-      showIpm(name, ipm);
-    } else {
-      const { anonymousCampaigns } = get(name).config;
+function checkAnonymousPendingCampaign(name) {
+  return checkPendingCampaign({ anonymousId: identity.getBuid() }, name);
+}
 
-      if (anonymousCampaigns) {
-        checkAnonymousPendingCampaign(({ pendingCampaign }) => {
-          if (pendingCampaign) {
-            setIpm(pendingCampaign, name, ipm);
-            showIpm(name, ipm);
-          }
-        });
-      }
+function activateIpm(name) {
+  const { anonymousCampaigns, fetchDirectlyFromConnect } = get(name).config;
+
+  if (fetchDirectlyFromConnect) {
+    if (identifiedEmail) {
+      checkPendingCampaign({ email: identifiedEmail }, name);
+    } else if (anonymousCampaigns) {
+      checkAnonymousPendingCampaign(name);
     }
-  });
+  } else {
+    oldActivateIpm(name);
+  }
+}
+
+// TODO: Delete this once "people_fetch_ipm_directly" is GA'd
+function oldActivateIpm(name) {
+  if (hasSentIdentify) {
+    waitForRootComponent(name, (ipm) => {
+      showIpm(name, ipm);
+    });
+  } else {
+    const { anonymousCampaigns } = get(name).config;
+
+    if (anonymousCampaigns) {
+      checkAnonymousPendingCampaign(name);
+    }
+  }
 }
 
 function render(name) {
@@ -201,8 +222,9 @@ function render(name) {
 
   ipmes[name].instance = ReactDOM.render(ipmes[name].component, element);
 
-  mediator.channel.subscribe('ipm.identifying', () => {
+  mediator.channel.subscribe('ipm.identifying', ({ email }) => {
     hasSentIdentify = true;
+    identifiedEmail = email;
   });
 
   mediator.channel.subscribe('ipm.setIpm', ({ pendingCampaign = {} }) => {

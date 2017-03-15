@@ -148,6 +148,7 @@ describe('mediator', () => {
     ipmSub = jasmine.createSpyObj(
       'ipm',
       ['activate',
+       'identifying',
        'setIpm',
        'show',
        'hide']
@@ -202,6 +203,7 @@ describe('mediator', () => {
       c.subscribe(`${names.nps}.hide`, npsSub.hide);
 
       c.subscribe(`${names.ipm}.activate`, ipmSub.activate);
+      c.subscribe(`${names.ipm}.identifying`, ipmSub.identifying);
       c.subscribe(`${names.ipm}.setIpm`, ipmSub.setIpm);
       c.subscribe(`${names.ipm}.show`, ipmSub.show);
       c.subscribe(`${names.ipm}.hide`, ipmSub.hide);
@@ -222,11 +224,13 @@ describe('mediator', () => {
     const submitTicket = 'ticketSubmissionForm';
     const chat = 'zopimChat';
     const beacon = 'beacon';
+    const ipm = 'ipm';
 
     const names = {
-      submitTicket: submitTicket,
-      chat: chat,
-      beacon: beacon
+      submitTicket,
+      chat,
+      beacon,
+      ipm
     };
 
     beforeEach(() => {
@@ -246,6 +250,11 @@ describe('mediator', () => {
         mockEmailValid = true;
 
         c.broadcast('.onIdentify', params);
+      });
+
+      it('should broadcast ipm.identifying with given params', () => {
+        expect(ipmSub.identifying)
+          .toHaveBeenCalledWith(params);
       });
 
       it('should broadcast beacon.identify with given params', () => {
