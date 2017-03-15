@@ -227,6 +227,8 @@ export class Dropdown extends Component {
     const backClasses = this.state.animatingBack ? styles.menuBackAnimate : '';
     const nextClasses = this.state.animatingNext ? styles.menuNextAnimate : '';
     const mobileClasses = this.props.fullscreen ? styles.menuContainerMobile : '';
+
+    // If the dropdown is below half the height of the frame have it open up.
     const posClasses = this.height > this.props.frameHeight/2 ? styles.menuUp : '';
 
     return (
