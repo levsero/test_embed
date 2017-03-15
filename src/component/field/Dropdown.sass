@@ -1,5 +1,7 @@
 @import '../../styles/_vars.scss';
 
+$menu-height: #{200/$font-size}rem;
+
 .container {
   composes: u-marginBM u-posRelative from '../../styles/utils.scss';
   color: $zd-color-monsoon;
@@ -69,7 +71,7 @@
   border-color: $zd-color-aluminum;
   top: #{36/$font-size}rem;
   left: #{-1/$font-size}rem;
-  height: #{200/$font-size}rem;
+  height: $menu-height;
   overflow-x: hidden;
   overflow-y: scroll;
   background-color: $zd-color-white;
@@ -92,6 +94,10 @@
     background: $base-border-color;
     border-radius: #{3/$font-size}rem;
   }
+}
+
+.menuUp {
+  top: calc(-#{$menu-height} - #{9/$font-size}rem);
 }
 
 .menuContainerMobile {

@@ -35,6 +35,7 @@ export class SubmitTicketForm extends Component {
     customFields: PropTypes.array,
     disableAutoComplete: PropTypes.bool,
     expanded: PropTypes.bool,
+    frameHeight: PropTypes.number,
     formState: PropTypes.object,
     formTitleKey: PropTypes.string.isRequired,
     fullscreen: PropTypes.bool,
@@ -54,6 +55,7 @@ export class SubmitTicketForm extends Component {
     customFields: [],
     disableAutoComplete: false,
     expanded: false,
+    frameHeight: 500,
     formState: {},
     fullscreen: false,
     hide: false,
@@ -361,7 +363,8 @@ export class SubmitTicketForm extends Component {
       this.props.formState,
       {
         disableAutoComplete: this.props.disableAutoComplete,
-        ticketForms: true
+        ticketForms: true,
+        frameHeight: this.props.frameHeight
       }
     );
     const titleMobileClasses = this.props.fullscreen ? styles.ticketFormTitleMobile : '';
@@ -383,7 +386,10 @@ export class SubmitTicketForm extends Component {
     const customFields = getCustomFields(
       this.props.customFields,
       this.props.formState,
-      { disableAutoComplete: this.props.disableAutoComplete }
+      {
+        disableAutoComplete: this.props.disableAutoComplete,
+        frameHeight: this.props.frameHeight
+      }
     );
 
     return (

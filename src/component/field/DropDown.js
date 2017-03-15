@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { locals as styles } from './Dropdown.sass';
@@ -11,6 +12,7 @@ const animationDuration = 200;
 export class Dropdown extends Component {
   static propTypes = {
     fullscreen: PropTypes.bool,
+    frameHeight: PropTypes.number,
     landscape: PropTypes.bool,
     options: PropTypes.array.isRequired,
     placeholder: PropTypes.string,
@@ -19,6 +21,7 @@ export class Dropdown extends Component {
 
   static defaultProps = {
     fullscreen: false,
+    frameHeight: 500,
     landscape: false,
     options: [],
     placeholder: '',
@@ -49,6 +52,13 @@ export class Dropdown extends Component {
     this.containerClicked = false;
     this.input = null;
     this.menu = null;
+    this.height = 0;
+  }
+
+  componentDidUpdate = () => {
+    const el = ReactDOM.findDOMNode(this);
+
+    this.height = el.getBoundingClientRect().top;
   }
 
   handleFocus = () => {
@@ -218,8 +228,11 @@ export class Dropdown extends Component {
     const nextClasses = this.state.animatingNext ? styles.menuNextAnimate : '';
     const mobileClasses = this.props.fullscreen ? styles.menuContainerMobile : '';
 
+    // If the dropdown is below half the height of the frame have it open up.
+    const posClasses = this.height > this.props.frameHeight/2 ? styles.menuUp : '';
+
     return (
-      <div className={`${styles.menuContainer} ${mobileClasses}`}>
+      <div className={`${styles.menuContainer} ${posClasses} ${mobileClasses}`}>
         <div className={`${styles.menu} ${nextClasses} ${backClasses}`}>
           {this.state.displayedMenu}
         </div>
