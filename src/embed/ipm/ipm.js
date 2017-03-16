@@ -24,7 +24,7 @@ const ipmCSS = `
 const connectApiPendingCampaignPath = '/connect/api/ipm/pending_campaign.json';
 const connectApiCampaignEventsPath = '/connect/api/ipm/campaign_events.json';
 
-let ipmes = {};
+let embed;
 let hasSeenIpm = false;
 let hasSentIdentify = false;
 let identifiedEmail;
@@ -65,15 +65,15 @@ function create(name, config, reduxStore) {
     rootComponent.ipmSender(options.eventToEmit || 'dismissed');
   };
 
-  const closeFrame = () => get(name).instance.close(null, { eventToEmit: 'clicked' });
+  const closeFrame = () => get().instance.close(null, { eventToEmit: 'clicked' });
 
   const transitionSet = transitionFactory.ipm;
 
   const frameParams = {
-    frameStyle: frameStyle,
+    frameStyle,
     css: ipmCSS,
     hideCloseButton: false,
-    name: name,
+    name,
     fullscreenable: false,
     onClose,
     onShow,
@@ -102,19 +102,19 @@ function create(name, config, reduxStore) {
     reduxStore
   );
 
-  ipmes[name] = {
+  embed = {
     component: <Embed visible={false} />,
-    config: config
+    config
   };
 }
 
-function get(name) {
-  return ipmes[name];
+function get() {
+  return embed;
 }
 
-function waitForRootComponent(name, callback) {
+function waitForRootComponent(callback) {
   const checkForRootComponent = () => {
-    const rootComponent = get(name).instance.getRootComponent();
+    const rootComponent = get().instance.getRootComponent();
 
     if (rootComponent) {
       callback(rootComponent);
@@ -126,30 +126,30 @@ function waitForRootComponent(name, callback) {
   checkForRootComponent();
 }
 
-function setIpm(ipmContent, name, ipm) {
+function setIpm(ipmContent, ipmComponent) {
   const color = ipmContent.message && ipmContent.message.color;
 
   if (color) {
-    ipmes[name].instance.setHighlightColor(color);
+    get().instance.setHighlightColor(color);
   }
 
   if (ipmContent && ipmContent.id) {
-    ipm.setState({
+    ipmComponent.setState({
       ipm: _.extend({}, ipmContent),
       ipmAvailable: true,
       url: location.href
     });
   } else {
-    ipm.setState({
+    ipmComponent.setState({
       ipmAvailable: false
     });
   }
 }
 
-function showIpm(name, ipm) {
-  if (ipm.state.ipmAvailable && !hasSeenIpm) {
-    ipmes[name].instance.show({ transition: 'downShow' });
-  } else if (ipm.state.ipmAvailable === null) {
+function showIpm(ipmComponent) {
+  if (ipmComponent.state.ipmAvailable && !hasSeenIpm) {
+    get().instance.show({ transition: 'downShow' });
+  } else if (ipmComponent.state.ipmAvailable === null) {
     const err = new Error([
       'An error occurred in your use of the Zendesk Widget API:',
       'zE.activateIpm()',
@@ -164,13 +164,13 @@ function showIpm(name, ipm) {
   }
 }
 
-function checkPendingCampaign(params, name) {
+function checkPendingCampaign(params) {
   return (
     api.get(connectApiPendingCampaignPath, params, ({ pendingCampaign }) => {
       if (pendingCampaign) {
-        waitForRootComponent(name, (ipm) => {
-          setIpm(pendingCampaign, name, ipm);
-          showIpm(name, ipm);
+        waitForRootComponent((ipmComponent) => {
+          setIpm(pendingCampaign, ipmComponent);
+          showIpm(ipmComponent);
         });
       }
     }, (err) => {
@@ -184,43 +184,41 @@ function checkPendingCampaign(params, name) {
   );
 }
 
-function checkAnonymousPendingCampaign(name) {
-  return checkPendingCampaign({ anonymousId: identity.getBuid() }, name);
+function checkAnonymousPendingCampaign() {
+  return checkPendingCampaign({ anonymousId: identity.getBuid() });
 }
 
-function activateIpm(name) {
-  const { anonymousCampaigns, fetchDirectlyFromConnect } = get(name).config;
+function activateIpm() {
+  const { anonymousCampaigns, fetchDirectlyFromConnect } = get().config;
 
   if (fetchDirectlyFromConnect) {
     if (identifiedEmail) {
-      checkPendingCampaign({ email: identifiedEmail }, name);
+      checkPendingCampaign({ email: identifiedEmail });
     } else if (anonymousCampaigns) {
-      checkAnonymousPendingCampaign(name);
+      checkAnonymousPendingCampaign();
     }
   } else {
-    oldActivateIpm(name);
+    oldActivateIpm();
   }
 }
 
 // TODO: Delete this once "people_fetch_ipm_directly" is GA'd
-function oldActivateIpm(name) {
+function oldActivateIpm() {
   if (hasSentIdentify) {
-    waitForRootComponent(name, (ipm) => {
-      showIpm(name, ipm);
-    });
+    waitForRootComponent(showIpm);
   } else {
-    const { anonymousCampaigns } = get(name).config;
+    const { anonymousCampaigns } = get().config;
 
     if (anonymousCampaigns) {
-      checkAnonymousPendingCampaign(name);
+      checkAnonymousPendingCampaign();
     }
   }
 }
 
-function render(name) {
+function render() {
   const element = getDocumentHost().appendChild(document.createElement('div'));
 
-  ipmes[name].instance = ReactDOM.render(ipmes[name].component, element);
+  embed.instance = ReactDOM.render(embed.component, element);
 
   mediator.channel.subscribe('ipm.identifying', ({ email }) => {
     hasSentIdentify = true;
@@ -228,21 +226,21 @@ function render(name) {
   });
 
   mediator.channel.subscribe('ipm.setIpm', ({ pendingCampaign = {} }) => {
-    waitForRootComponent(name, (ipm) => {
-      setIpm(pendingCampaign, name, ipm);
+    waitForRootComponent((ipmComponent) => {
+      setIpm(pendingCampaign, ipmComponent);
     });
   });
 
   mediator.channel.subscribe('ipm.activate', () => {
-    activateIpm(name);
+    activateIpm();
   });
 
   mediator.channel.subscribe('ipm.show', function(options = {}) {
-    ipmes[name].instance.show(options);
+    get().instance.show(options);
   });
 
   mediator.channel.subscribe('ipm.hide', function(options = {}) {
-    ipmes[name].instance.hide(options);
+    get().instance.hide(options);
   });
 }
 

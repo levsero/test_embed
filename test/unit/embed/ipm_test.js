@@ -468,7 +468,7 @@ describe('embed.ipm', () => {
 
     describe('when no ipm is available', () => {
       beforeEach(() => {
-        ipm.setIpm({}, 'dan', danIpm);
+        ipm.setIpm({}, danIpm);
       });
 
       it('should set state.ipmAvailable to false', () => {
@@ -479,7 +479,7 @@ describe('embed.ipm', () => {
 
     describe('when an ipm is available', () => {
       beforeEach(() => {
-        ipm.setIpm(ipmParams, 'dan', danIpm);
+        ipm.setIpm(ipmParams, danIpm);
       });
 
       it('should set the ipm correctly', () => {
