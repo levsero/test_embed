@@ -14,6 +14,8 @@ export class Dropdown extends Component {
     fullscreen: PropTypes.bool,
     frameHeight: PropTypes.number,
     landscape: PropTypes.bool,
+    name: PropTypes.string,
+    onChange: PropTypes.func,
     options: PropTypes.array.isRequired,
     placeholder: PropTypes.string,
     value: PropTypes.object
@@ -23,6 +25,8 @@ export class Dropdown extends Component {
     fullscreen: false,
     frameHeight: 500,
     landscape: false,
+    name: '',
+    onChange: () => {},
     options: [],
     placeholder: '',
     value: {}
@@ -123,6 +127,8 @@ export class Dropdown extends Component {
       selected: { value, title },
       open: false
     });
+
+    this.props.onChange();
   }
 
   handleBackClick = (focusField = false) => {
@@ -260,7 +266,14 @@ export class Dropdown extends Component {
             onMouseLeave={this.handleMouseLeave}
             readOnly={true}
             onKeyDown={this.handleKeyDown}
+            value={this.state.selected.title}
             placeholder={this.state.selected.title} />
+          {/* hidden field with the selected value so that the form grabs it on submit */}
+          <input
+            type='hidden'
+            className='u-isHidden'
+            name={this.props.name}
+            value={this.state.selected.value} />
           {this.renderDropdownArrow()}
           {this.renderMenus()}
         </div>

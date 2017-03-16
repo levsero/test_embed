@@ -364,7 +364,8 @@ export class SubmitTicketForm extends Component {
       {
         disableAutoComplete: this.props.disableAutoComplete,
         ticketForms: true,
-        frameHeight: this.props.frameHeight
+        frameHeight: this.props.frameHeight,
+        onChange: this.updateForm
       }
     );
     const titleMobileClasses = this.props.fullscreen ? styles.ticketFormTitleMobile : '';
@@ -388,7 +389,8 @@ export class SubmitTicketForm extends Component {
       this.props.formState,
       {
         disableAutoComplete: this.props.disableAutoComplete,
-        frameHeight: this.props.frameHeight
+        frameHeight: this.props.frameHeight,
+        onChange: this.updateForm
       }
     );
 
