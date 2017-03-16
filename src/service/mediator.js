@@ -553,9 +553,8 @@ function init(embedsAccessible, params = {}) {
 
 function initMessaging() {
   c.intercept('.onIdentify', (__, params) => {
-    state['identify.pending'] = true;
-
     if (emailValid(params.email)) {
+      state['identify.pending'] = true;
       c.broadcast('ipm.identifying');
       c.broadcast('beacon.identify', params);
       c.broadcast(`${chat}.setUser`, params);
