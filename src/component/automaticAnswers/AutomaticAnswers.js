@@ -170,7 +170,7 @@ export class AutomaticAnswers extends Component {
   handleDismissalContext = () => {
     if (this.state.screen === AutomaticAnswersScreen.markAsIrrelevant) {
       this.setState({
-        screen: AutomaticAnswers.solveTicketQuestion,
+        screen: AutomaticAnswersScreen.solveTicketQuestion,
         errorMessage: ''
       });
     } else {
