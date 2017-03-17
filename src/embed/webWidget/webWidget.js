@@ -37,7 +37,7 @@ let hasAuthenticatedSuccessfully = false;
 let useMouseDistanceContexualSearch = false;
 let cancelTargetHandler = null;
 
-const getWithSpinner = (path, doneFn) => {
+const getWithSpinner = (path, locale, doneFn) => {
   waitForRootComponent(() => {
     getWebWidgetComponent().refs.ticketSubmissionForm.setLoading(true);
   });
@@ -49,7 +49,7 @@ const getWithSpinner = (path, doneFn) => {
     method: 'get',
     path,
     timeout: 20000,
-    locale: i18n.getLocale(),
+    locale,
     callbacks: {
       done(res) {
         setTimeout(() => {
@@ -226,6 +226,7 @@ function create(name, config = {}, reduxStore = {}) {
 
   embed = {
     component: <Embed visible={false} />,
+    submitTicketSettings,
     config: {
       helpCenterForm: helpCenterSettings.config,
       ticketSubmissionForm: submitTicketSettings.config
@@ -244,10 +245,10 @@ function render() {
 
   embed.instance = ReactDOM.render(embed.component, element);
 
-  setUpMediator();
+  setupMediator();
 }
 
-function setUpMediator() {
+function setupMediator() {
   mediator.channel.subscribe('ticketSubmissionForm.show', (options = {}) => {
     waitForRootComponent(() => {
       getWebWidgetComponent().setComponent('ticketSubmissionForm');
@@ -277,11 +278,28 @@ function setUpMediator() {
   });
 
   mediator.channel.subscribe([
-    'ticketSubmissionForm.refreshLocale',
     'ticketSubmissionForm.update',
     'helpCenterForm.refreshLocale'
   ], () => {
     waitForRootComponent(() => {
+      embed.instance.getChild().forceUpdate();
+    });
+  });
+
+  mediator.channel.subscribe('ticketSubmissionForm.refreshLocale', () => {
+    waitForRootComponent(() => {
+      const {
+        ticketForms,
+        customFields,
+        loadTicketForms,
+        loadTicketFields } = embed.submitTicketSettings;
+
+      if (!_.isEmpty(ticketForms)) {
+        loadTicketForms(ticketForms, i18n.getLocale());
+      } else if (customFields.ids || customFields.all) {
+        loadTicketFields(customFields, i18n.getLocale());
+      }
+
       embed.instance.getChild().forceUpdate();
     });
   });
@@ -499,7 +517,7 @@ function setUpSubmitTicket(config) {
   const onCancel = () => {
     mediator.channel.broadcast('ticketSubmissionForm.onCancelClick');
   };
-  const getTicketForms = (config) => {
+  const getTicketFormIds = (config) => {
     const settingTicketForms = settings.get('contactForm.ticketForms');
     const rawTicketForms = _.isEmpty(settingTicketForms)
                          ? config.ticketForms
@@ -520,20 +538,30 @@ function setUpSubmitTicket(config) {
     // Or return an array of numbers
     return _.filter(rawTicketForms, _.isNumber);
   };
-  const ticketForms = getTicketForms(config);
-
-  if (!_.isEmpty(ticketForms)) {
+  const loadTicketForms = (ticketForms, locale) => {
     // TODO: Alter this code to return objects with id's once pre-fill is GA'd
     const ticketFormIds = _.map(ticketForms, (ticketForm) => ticketForm.id || ticketForm).join();
     const onDone = (res) => getWebWidgetComponent().refs.ticketSubmissionForm.updateTicketForms(res);
+    const path = `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`;
 
-    getWithSpinner(`/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`, onDone);
-  } else if (config.customFields.ids || config.customFields.all === true) {
+    getWithSpinner(path, locale, onDone);
+  };
+  const loadTicketFields = (customFields, locale) => {
     const onDone = (res) => getWebWidgetComponent().refs.ticketSubmissionForm.updateTicketFields(res);
-    const pathIds = config.customFields.all ? '' : `field_ids=${config.customFields.ids.join()}&`;
-    const path = `/embeddable/ticket_fields?${pathIds}locale=${i18n.getLocale()}`;
+    const pathIds = customFields.all ? '' : `field_ids=${customFields.ids.join()}&`;
+    const path = `/embeddable/ticket_fields?${pathIds}locale=${locale}`;
 
-    getWithSpinner(path, onDone);
+    getWithSpinner(path, locale, onDone);
+  };
+
+  const { customFields } = config;
+  const ticketForms = getTicketFormIds(config);
+
+  if (!_.isEmpty(ticketForms)) {
+    // TODO: Alter this code to return objects with id's once pre-fill is GA'd
+    loadTicketForms(ticketForms, i18n.getLocale());
+  } else if (customFields.ids || customFields.all === true) {
+    loadTicketFields(customFields, i18n.getLocale());
     config.customFields = [];
   } else {
     setTimeout(() => {
@@ -547,6 +575,10 @@ function setUpSubmitTicket(config) {
 
   return {
     config,
+    ticketForms,
+    customFields,
+    loadTicketForms,
+    loadTicketFields,
     submitTicketSender,
     attachmentSender,
     onSubmitted,

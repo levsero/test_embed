@@ -550,6 +550,10 @@ describe('mediator', () => {
     });
 
     describe('.onActivate', () => {
+      beforeEach(() => {
+        mockEmailValid = true;
+      });
+
       it('should broadcast nps.activate if identify.pending is false', () => {
         c.broadcast('identify.onSuccess', {});
 
