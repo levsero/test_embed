@@ -11,7 +11,8 @@ describe('dropdown component', () => {
       },
       {
         title: 'foo::baz',
-        value: 3
+        value: 3,
+        default: true
       }
     ];
 
@@ -45,7 +46,8 @@ describe('dropdown component', () => {
           menuContainerMobile: 'menuContainerMobileClasses',
           menuNextAnimate: 'menuNextAnimateClasses',
           menuBackAnimate: 'menuBackAnimateClasses',
-          menuUp: 'menuUpClasses'
+          menuUp: 'menuUpClasses',
+          inputError: 'inputErrorClasses'
         }
       },
       'component/field/DropdownMenu': {
@@ -348,6 +350,11 @@ describe('dropdown component', () => {
           .toEqual(['title', 'nestedMenu', 'updateMenu', 'id']);
       });
     });
+
+    it('sets this.selected to the option if it is the default option', () => {
+      expect(dropdown.selected)
+        .toEqual({ title: 'baz', value: 3, default: true });
+    });
   });
 
   describe('handleFocus', () => {
@@ -405,6 +412,34 @@ describe('dropdown component', () => {
 
         expect(inputSpy)
           .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when a option is not selected', () => {
+      describe('when the field is not required', () => {
+        beforeEach(() => {
+          dropdown = domRender(<Dropdown />);
+
+          dropdown.handleBlur();
+        });
+
+        it('should not show input error classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.inputErrorClasses'))
+            .toBeNull();
+        });
+      });
+
+      describe('when the field is required', () => {
+        beforeEach(() => {
+          dropdown = domRender(<Dropdown required={true} />);
+
+          dropdown.handleBlur();
+        });
+
+        it('should not show input error classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.inputErrorClasses'))
+            .not.toBeNull();
+        });
       });
     });
   });
