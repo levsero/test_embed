@@ -218,7 +218,7 @@ function oldActivateIpm() {
 function render() {
   const element = getDocumentHost().appendChild(document.createElement('div'));
 
-  embed.instance = ReactDOM.render(embed.component, element);
+  get().instance = ReactDOM.render(get().component, element);
 
   mediator.channel.subscribe('ipm.identifying', ({ email }) => {
     hasSentIdentify = true;
