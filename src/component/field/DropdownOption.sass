@@ -7,11 +7,11 @@
     background-color: $zd-color-white-smoke;
     color: $zd-color-oil;
 
-    .arrowNext {
+    .arrowRight {
       border-left: #{7/$font-size}rem solid $zd-color-dark-gray;
     }
 
-    .arrowBack {
+    .arrowLeft {
       border-right: #{7/$font-size}rem solid $zd-color-dark-gray;
     }
   }
@@ -21,11 +21,11 @@
   background-color: $zd-color-white-smoke;
   color: $zd-color-oil;
 
-  .arrowNext {
+  .arrowRight {
     border-left: #{7/$font-size}rem solid $zd-color-dark-gray;
   }
 
-  .arrowBack {
+  .arrowLeft {
     border-right: #{7/$font-size}rem solid $zd-color-dark-gray;
   }
 }
@@ -36,7 +36,7 @@
   padding-bottom: #{3/$font-size}rem;
 }
 
-.arrowNext {
+.arrowRight {
   composes: u-pullRight from '../../styles/utils.scss';
 
   width: 0;
@@ -46,9 +46,14 @@
   border-left: #{7/$font-size}rem solid $zd-color-aluminum;
   margin-top: #{2/$font-size}rem;
   margin-right: #{10/$font-size}rem;
+
+  [dir="rtl"] & {
+    margin-right: 0;
+    margin-left: #{10/$font-size}rem;
+  }
 }
 
-.arrowBack {
+.arrowLeft {
   composes: u-pullLeft from '../../styles/utils.scss';
 
   width: 0;
@@ -59,6 +64,11 @@
 
   margin-top: #{2/$font-size}rem;
   margin-right: #{8/$font-size}rem;
+
+  [dir="rtl"] & {
+    margin-right: 0;
+    margin-left: #{8/$font-size}rem;
+  }
 }
 
 .arrowMobile {

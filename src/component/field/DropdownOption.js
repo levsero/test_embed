@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import { locals as styles } from './DropdownOption.sass';
+import { i18n } from 'service/i18n';
 
 export class DropdownOption extends Component {
   static propTypes = {
@@ -57,17 +58,19 @@ export class DropdownOption extends Component {
     if (this.props.nestedMenu === null) return;
 
     const arrowMobileClasses = this.props.fullscreen ? styles.arrowMobile : '';
+    const arrow = i18n.isRTL() ? styles.arrowLeft : styles.arrowRight;
 
-    return <div className={`${styles.arrowNext} ${arrowMobileClasses}`} />;
+    return <div className={`${arrow} ${arrowMobileClasses}`} />;
   }
 
   renderBackArrow = () => {
     if (!this.props.backButton) return;
 
     const arrowMobileClasses = this.props.fullscreen ? styles.arrowMobile : '';
+    const arrow = i18n.isRTL() ? styles.arrowRight : styles.arrowLeft;
 
     return (
-      <div className={`${styles.arrowBack} ${arrowMobileClasses}`} />
+      <div className={`${arrow} ${arrowMobileClasses}`} />
     );
   }
 

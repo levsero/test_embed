@@ -66,10 +66,18 @@ export class DropdownMenu extends Component {
         this.changeFocus(this.focusedFieldIndex-1);
         break;
       case keyCodes.RIGHT:
-        this.items[this.focusedFieldIndex].openNestedMenuFromKeyboard();
+        if (!i18n.isRTL()) {
+          this.items[this.focusedFieldIndex].openNestedMenuFromKeyboard();
+        } else {
+          this.props.handleBackClick(true);
+        }
         break;
       case keyCodes.LEFT:
-        this.props.handleBackClick(true);
+        if (!i18n.isRTL()) {
+          this.props.handleBackClick(true);
+        } else {
+          this.items[this.focusedFieldIndex].openNestedMenuFromKeyboard();
+        }
         break;
       case keyCodes.ENTER:
         this.items[this.focusedFieldIndex].handleDropdownOpen(null, null, true);
