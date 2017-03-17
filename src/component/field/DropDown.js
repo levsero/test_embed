@@ -47,7 +47,7 @@ export class Dropdown extends Component {
 
     this.state = {
       hovering: false,
-      selected: props.value,
+      selected: this.selected || props.value,
       displayedMenu: initialMenu,
       previousMenus: [],
       open: false,
@@ -184,6 +184,10 @@ export class Dropdown extends Component {
         return _.map(group, (option) => {
           // Don't return duplicate fields. ie `one` and `one::two`
           if (!_.includes(_.keys(allGroups), option.title)) {
+            if (option.default) {
+              this.selected = option;
+            }
+
             return {
               title: option.title,
               onClick: this.setValue(option.value, option.title),
