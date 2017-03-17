@@ -1,23 +1,30 @@
 describe('dropdownOption component', () => {
-  let DropdownOption;
+  let DropdownOption, mockIsRTL;
   const dropdownOptionPath = buildSrcPath('component/field/DropdownOption');
 
-  beforeAll(() => {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable({
       warnOnReplace: false
     });
 
+    mockIsRTL = false;
+
     initMockRegistry({
       'React': React,
       './DropdownOption.sass': {
         locals: {
-          arrowBack: 'arrowBackClasses',
-          arrowNext: 'arrowNextClasses',
+          arrowLeft: 'arrowLeftClasses',
+          arrowRight: 'arrowRightClasses',
           arrowMobile: 'arrowMobileClasses',
           fieldBorder: 'fieldBorderClasses',
           fieldFocused: 'fieldFocusedClasses'
+        }
+      },
+      'service/i18n': {
+        i18n: {
+          isRTL: () => mockIsRTL
         }
       }
     });
@@ -27,24 +34,44 @@ describe('dropdownOption component', () => {
     DropdownOption = requireUncached(dropdownOptionPath).DropdownOption;
   });
 
-  afterAll(() => {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
   describe('backArrow', () => {
+    let option;
+
     it('does not display by default', () => {
-      const option = domRender(<DropdownOption />);
+      option = domRender(<DropdownOption />);
 
       expect(ReactDOM.findDOMNode(option).querySelector('.arrowBackClasses'))
         .toBeNull();
     });
 
-    it('shows when backButton is true', () => {
-      const option = domRender(<DropdownOption backButton={true} />);
+    describe('when backButton prop is true', () => {
+      describe('when rtl is false', () => {
+        beforeEach(() => {
+          option = domRender(<DropdownOption backButton={true} />);
+        });
 
-      expect(ReactDOM.findDOMNode(option).querySelector('.arrowBackClasses'))
-        .not.toBeNull();
+        it('shows the left arrow', () => {
+          expect(ReactDOM.findDOMNode(option).querySelector('.arrowLeftClasses'))
+            .not.toBeNull();
+        });
+      });
+
+      describe('when rtl is true', () => {
+        beforeEach(() => {
+          mockIsRTL = true;
+          option = domRender(<DropdownOption backButton={true} />);
+        });
+
+        it('shows the right arrow', () => {
+          expect(ReactDOM.findDOMNode(option).querySelector('.arrowRightClasses'))
+            .not.toBeNull();
+        });
+      });
     });
 
     describe('when fullscreen is true', () => {
@@ -75,43 +102,61 @@ describe('dropdownOption component', () => {
   });
 
   describe('nextArrow', () => {
+    let option;
+
     it('does not display by default', () => {
-      const option = domRender(<DropdownOption />);
+      option = domRender(<DropdownOption />);
 
       expect(ReactDOM.findDOMNode(option).querySelector('.arrowNextClasses'))
         .toBeNull();
     });
 
-    it('shows when nestedMenu is not null', () => {
-      const option = domRender(<DropdownOption nestedMenu={noopReactComponent()} />);
+    describe('when nestedMenu is not null', () => {
+      describe('when rtl is false', () => {
+        beforeEach(() => {
+          option = domRender(<DropdownOption nestedMenu={noopReactComponent()} />);
+        });
 
-      expect(ReactDOM.findDOMNode(option).querySelector('.arrowNextClasses'))
-        .not.toBeNull();
-    });
-
-    describe('when fullscreen is true', () => {
-      let option;
-
-      beforeEach(() => {
-        option = domRender(<DropdownOption nestedMenu={noopReactComponent()} fullscreen={true} />);
+        it('shows the right arrow', () => {
+          expect(ReactDOM.findDOMNode(option).querySelector('.arrowRightClasses'))
+            .not.toBeNull();
+        });
       });
 
-      it('should have mobile classes', () => {
-        expect(ReactDOM.findDOMNode(option).querySelector('.arrowMobileClasses'))
-          .not.toBeNull();
+      describe('when rtl is true', () => {
+        beforeEach(() => {
+          mockIsRTL = true;
+          option = domRender(<DropdownOption nestedMenu={noopReactComponent()} />);
+        });
+
+        it('shows the left arrow', () => {
+          expect(ReactDOM.findDOMNode(option).querySelector('.arrowLeftClasses'))
+            .not.toBeNull();
+        });
       });
-    });
 
-    describe('when fullscreen is true', () => {
-      let option;
+      describe('when fullscreen is true', () => {
+        beforeEach(() => {
+          option = domRender(<DropdownOption nestedMenu={noopReactComponent()} fullscreen={true} />);
+        });
 
-      beforeEach(() => {
-        option = domRender(<DropdownOption nestedMenu={noopReactComponent()} />);
+        it('should have mobile classes', () => {
+          expect(ReactDOM.findDOMNode(option).querySelector('.arrowMobileClasses'))
+            .not.toBeNull();
+        });
       });
 
-      it('should have mobile classes', () => {
-        expect(ReactDOM.findDOMNode(option).querySelector('.arrowMobileClasses'))
-          .toBeNull();
+      describe('when fullscreen is true', () => {
+        let option;
+
+        beforeEach(() => {
+          option = domRender(<DropdownOption nestedMenu={noopReactComponent()} />);
+        });
+
+        it('should have mobile classes', () => {
+          expect(ReactDOM.findDOMNode(option).querySelector('.arrowMobileClasses'))
+            .toBeNull();
+        });
       });
     });
   });

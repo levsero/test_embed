@@ -13,7 +13,8 @@ describe('dropdownMenu component', () => {
         updateMenu: noop,
         id: _.uniqueId('option-')
       }
-    ];
+    ],
+    mockIsRTL;
 
   const dropdownMenuPath = buildSrcPath('component/field/DropdownMenu');
   const openNestedMenuFromKeyboardSpy = jasmine.createSpy('openNestedMenuFromKeyboard');
@@ -26,6 +27,8 @@ describe('dropdownMenu component', () => {
     mockery.enable({
       warnOnReplace: false
     });
+
+    mockIsRTL = false;
 
     initMockRegistry({
       'React': React,
@@ -50,7 +53,10 @@ describe('dropdownMenu component', () => {
         }
       },
       'service/i18n': {
-        i18n: { t: noop }
+        i18n: {
+          t: noop,
+          isRTL: () => mockIsRTL
+        }
       },
       'utility/keyboard': {
         keyCodes: {
@@ -148,24 +154,52 @@ describe('dropdownMenu component', () => {
       });
 
       describe('when keyCode is RIGHT', () => {
-        beforeEach(() => {
-          menu.keyDown(39);
+        describe('when RTL is false', () => {
+          beforeEach(() => {
+            menu.keyDown(39);
+          });
+
+          it('should go back', () => {
+            expect(openNestedMenuFromKeyboardSpy)
+              .toHaveBeenCalled();
+          });
         });
 
-        it('should try to open a nested menu', () => {
-          expect(openNestedMenuFromKeyboardSpy)
-            .toHaveBeenCalled();
+        describe('when RTL is true', () => {
+          beforeEach(() => {
+            mockIsRTL = true;
+            menu.keyDown(39);
+          });
+
+          it('should try to open a nested menu', () => {
+            expect(handleBackClickSpy)
+              .toHaveBeenCalled();
+          });
         });
       });
 
       describe('when keyCode is LEFT', () => {
-        beforeEach(() => {
-          menu.keyDown(37);
+        describe('when RTL is false', () => {
+          beforeEach(() => {
+            menu.keyDown(37);
+          });
+
+          it('should go back', () => {
+            expect(handleBackClickSpy)
+              .toHaveBeenCalled();
+          });
         });
 
-        it('should go back', () => {
-          expect(handleBackClickSpy)
-            .toHaveBeenCalled();
+        describe('when RTL is true', () => {
+          beforeEach(() => {
+            mockIsRTL = true;
+            menu.keyDown(37);
+          });
+
+          it('should try to open a nested menu', () => {
+            expect(openNestedMenuFromKeyboardSpy)
+              .toHaveBeenCalled();
+          });
         });
       });
 

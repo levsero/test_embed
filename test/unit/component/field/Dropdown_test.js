@@ -14,7 +14,8 @@ describe('dropdown component', () => {
         value: 3,
         default: true
       }
-    ];
+    ],
+    mockIsRTL;
 
   const dropdownPath = buildSrcPath('component/field/Dropdown');
   const keyDownSpy = jasmine.createSpy('keydown');
@@ -36,6 +37,8 @@ describe('dropdown component', () => {
       warnOnReplace: false
     });
 
+    mockIsRTL = false;
+
     initMockRegistry({
       'React': React,
       './Dropdown.sass': {
@@ -44,8 +47,8 @@ describe('dropdown component', () => {
           labelLandscape: 'labelLandscapeClasses',
           arrowHover: 'arrowHoverClasses',
           menuContainerMobile: 'menuContainerMobileClasses',
-          menuNextAnimate: 'menuNextAnimateClasses',
-          menuBackAnimate: 'menuBackAnimateClasses',
+          animateRight: 'animateRightClasses',
+          animateLeft: 'animateLeftClasses',
           menuUp: 'menuUpClasses',
           inputError: 'inputErrorClasses'
         }
@@ -55,6 +58,11 @@ describe('dropdown component', () => {
       },
       'component/Icon': {
         Icon: noopReactComponent()
+      },
+      'service/i18n': {
+        i18n: {
+          isRTL: () => mockIsRTL
+        }
       },
       'utility/keyboard': {
         keyCodes: {
@@ -168,10 +176,10 @@ describe('dropdown component', () => {
     });
 
     it('should not show animating classes', () => {
-      expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuNextAnimateClasses'))
+      expect(ReactDOM.findDOMNode(dropdown).querySelector('.animateRightClasses'))
         .toBeNull();
 
-      expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuBackAnimateClasses'))
+      expect(ReactDOM.findDOMNode(dropdown).querySelector('.animateLeftClasses'))
         .toBeNull();
     });
 
@@ -181,9 +189,23 @@ describe('dropdown component', () => {
         dropdown.updateMenu();
       });
 
-      it('should show animating next classes', () => {
-        expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuNextAnimateClasses'))
-          .not.toBeNull();
+      describe('when RTL is false', () => {
+        it('should show animating right classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.animateRightClasses'))
+            .not.toBeNull();
+        });
+      });
+
+      describe('when RTL is true', () => {
+        beforeEach(() => {
+          mockIsRTL = true;
+          dropdown.updateMenu();
+        });
+
+        it('should show animating left classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.animateLeftClasses'))
+            .not.toBeNull();
+        });
       });
     });
 
@@ -193,9 +215,23 @@ describe('dropdown component', () => {
         dropdown.handleBackClick();
       });
 
-      it('should show animating back classes', () => {
-        expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuBackAnimateClasses'))
-          .not.toBeNull();
+      describe('when RTL is false', () => {
+        it('should show animating left classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.animateLeftClasses'))
+            .not.toBeNull();
+        });
+      });
+
+      describe('when RTL is true', () => {
+        beforeEach(() => {
+          mockIsRTL = true;
+          dropdown.handleBackClick();
+        });
+
+        it('should show animating right classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.animateRightClasses'))
+            .not.toBeNull();
+        });
       });
     });
 
