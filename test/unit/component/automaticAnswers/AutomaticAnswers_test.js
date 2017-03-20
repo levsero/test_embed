@@ -534,7 +534,7 @@ describe('AutomaticAnswers component', () => {
 
       it('updates the screen to solveTicketQuestion', () => {
         expect(automaticAnswers.state().screen)
-          .toEqual(AutomaticAnswers.solveTicketQuestion);
+          .toEqual(AutomaticAnswersScreen.solveTicketQuestion);
       });
 
       it('sets the errorMessage to an empty string', () => {
