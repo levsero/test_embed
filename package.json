@@ -36,7 +36,8 @@
     "sanitize-html": "~1.10.0",
     "superagent": "^2.0.0",
     "zd-css-buttons": "git+ssh://git@github.com/zendeskgarden/css-buttons.git",
-    "zd-css-variables": "git+ssh://git@github.com/zendeskgarden/css-variables.git"
+    "zd-css-variables": "git+ssh://git@github.com/zendeskgarden/css-variables.git",
+    "zd-svg-icons": "git+ssh://git@github.com/zendeskgarden/svg-icons.git"
   },
   "devDependencies": {
     "autoprefixer-loader": "~0.1.1",

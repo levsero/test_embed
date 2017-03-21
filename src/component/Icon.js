@@ -8,7 +8,7 @@ const icons = {
   'Icon--article': require('icons/widget-icon_article.svg'),
   'Icon--avatar': require('icons/widget-icon_avatar.svg'),
   'Icon--back': require('icons/widget-icon_back.svg'),
-  'Icon--caret': require('icons/widget-icon_caret.svg'),
+  'Icon--caret': require('zd-svg-icons/src/14-chevron.svg'),
   'Icon--chat': require('icons/widget-icon_chat.svg'),
   'Icon--check': require('icons/widget-icon_checkboxCheck.svg'),
   'Icon--circleTick-large': require('icons/widget-icon_circle_tick_large.svg'),
