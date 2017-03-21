@@ -436,7 +436,7 @@ describe('dropdown component', () => {
           dropdown.handleBlur();
         });
 
-        it('should not show input error classes', () => {
+        it('should show input error classes', () => {
           expect(ReactDOM.findDOMNode(dropdown).querySelector('.inputErrorClasses'))
             .not.toBeNull();
         });

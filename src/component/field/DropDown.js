@@ -80,7 +80,7 @@ export class Dropdown extends Component {
     if (this.containerClicked && !this.props.fullscreen) {
       this.input.focus();
     } else {
-      const valid = !this.props.required || this.state.selected.value;
+      const valid = !this.props.required || !!this.state.selected.value;
 
       this.setState({ valid });
     }
