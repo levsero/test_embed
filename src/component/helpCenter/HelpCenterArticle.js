@@ -183,6 +183,7 @@ export class HelpCenterArticle extends Component {
     const allowedDomains = [
       'youtube',
       'player\.vimeo',
+      'players\.brightcove',
       'fast\.wistia'
     ];
     const hasMatched = _.some(allowedDomains, (domain) => {
