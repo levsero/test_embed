@@ -159,7 +159,7 @@ describe('dropdownMenu component', () => {
             menu.keyDown(39);
           });
 
-          it('should go back', () => {
+          it('should try to open a nested menu', () => {
             expect(openNestedMenuFromKeyboardSpy)
               .toHaveBeenCalled();
           });
@@ -171,7 +171,7 @@ describe('dropdownMenu component', () => {
             menu.keyDown(39);
           });
 
-          it('should try to open a nested menu', () => {
+          it('should go back', () => {
             expect(handleBackClickSpy)
               .toHaveBeenCalled();
           });

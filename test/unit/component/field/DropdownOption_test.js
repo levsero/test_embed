@@ -146,14 +146,14 @@ describe('dropdownOption component', () => {
         });
       });
 
-      describe('when fullscreen is true', () => {
+      describe('when fullscreen is false', () => {
         let option;
 
         beforeEach(() => {
           option = domRender(<DropdownOption nestedMenu={noopReactComponent()} />);
         });
 
-        it('should have mobile classes', () => {
+        it('should not have mobile classes', () => {
           expect(ReactDOM.findDOMNode(option).querySelector('.arrowMobileClasses'))
             .toBeNull();
         });
