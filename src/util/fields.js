@@ -63,8 +63,10 @@ const getCustomFields = (customFields, formState, options = {}) => {
           }
         });
 
+        const defaultOption = _.find(field.options, (option) => option.default) || '';
+
         return options.ticketForms
-             ? <Dropdown {...sharedProps} options={field.options} value={field.options[0]} />
+             ? <Dropdown {...sharedProps} options={field.options} value={defaultOption} />
              : <SelectField {...sharedProps} options={field.options} />;
 
       case 'integer':

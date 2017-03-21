@@ -18,6 +18,7 @@ export class Dropdown extends Component {
     onChange: PropTypes.func,
     options: PropTypes.array.isRequired,
     placeholder: PropTypes.string,
+    required: PropTypes.bool,
     value: PropTypes.object
   }
 
@@ -28,7 +29,8 @@ export class Dropdown extends Component {
     name: '',
     onChange: () => {},
     options: [],
-    placeholder: '',
+    placeholder: '-',
+    required: false,
     value: {}
   }
 
@@ -45,12 +47,13 @@ export class Dropdown extends Component {
 
     this.state = {
       hovering: false,
-      selected: props.value,
+      selected: this.selected || props.value,
       displayedMenu: initialMenu,
       previousMenus: [],
       open: false,
       animatingNext: false,
-      animatingBack: false
+      animatingBack: false,
+      valid: true
     };
 
     this.containerClicked = false;
@@ -76,6 +79,10 @@ export class Dropdown extends Component {
 
     if (this.containerClicked && !this.props.fullscreen) {
       this.input.focus();
+    } else {
+      const valid = !this.props.required || !!this.state.selected.value;
+
+      this.setState({ valid });
     }
   }
 
@@ -177,6 +184,10 @@ export class Dropdown extends Component {
         return _.map(group, (option) => {
           // Don't return duplicate fields. ie `one` and `one::two`
           if (!_.includes(_.keys(allGroups), option.title)) {
+            if (option.default) {
+              this.selected = option;
+            }
+
             return {
               title: option.title,
               onClick: this.setValue(option.value, option.title),
@@ -249,16 +260,19 @@ export class Dropdown extends Component {
   render = () => {
     const mobileClasses = this.props.fullscreen && !this.props.landscape ? styles.labelMobile : '';
     const landscapeClasses = this.props.landscape ? styles.labelLandscape : '';
+    const invalidClasses = !this.state.valid ? styles.inputError : '';
+    const placeholderText = this.state.selected.title || '-';
+    const requiredLabel = this.props.required ? '*' : '';
 
     return (
       <div onMouseDown={this.handleContainerClick}>
         <div className={`${styles.label} ${landscapeClasses} ${mobileClasses}`}>
-          {this.props.placeholder}
+          {this.props.placeholder}{requiredLabel}
         </div>
         <div className={styles.container}>
           <input
             ref={(i) => this.input = i}
-            className={`${styles.input} ${mobileClasses} ${landscapeClasses}`}
+            className={`${styles.input} ${invalidClasses} ${mobileClasses} ${landscapeClasses}`}
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}
             onMouseDown={this.handleInputClick}
@@ -266,8 +280,7 @@ export class Dropdown extends Component {
             onMouseLeave={this.handleMouseLeave}
             readOnly={true}
             onKeyDown={this.handleKeyDown}
-            value={this.state.selected.title}
-            placeholder={this.state.selected.title} />
+            placeholder={placeholderText} />
           {/* hidden field with the selected value so that the form grabs it on submit */}
           <input
             type='hidden'
