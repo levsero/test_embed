@@ -18,15 +18,12 @@ describe('service.automaticAnswersPersistence', () => {
         }
       },
       'utility/pages': {
-        getURLParameterByName: jasmine.createSpy().and.callFake(() => mockUrlJwtToken),
-        getAuthToken: jasmine.createSpy().and.callFake(() => mockUrlJwtToken)
+        getURLParameterByName: jasmine.createSpy().and.callFake(() => mockUrlJwtToken)
       }
     });
 
     mockery.registerAllowable(automaticAnswersPersistencePath);
     automaticAnswersPersistence = requireUncached(automaticAnswersPersistencePath).automaticAnswersPersistence;
-
-    mockUrlJwtToken = '1324b235.2342ccdsc.9a8sdcy9';
   });
 
   afterEach(() => {
@@ -34,7 +31,7 @@ describe('service.automaticAnswersPersistence', () => {
     mockery.disable();
   });
 
-  describe('store', () => {
+  describe('getContext', () => {
     beforeEach(() => {
       store = mockRegistry['service/persistence'].store;
     });
@@ -50,6 +47,11 @@ describe('service.automaticAnswersPersistence', () => {
         expect(store.set)
           .toHaveBeenCalledWith('automaticAnswers', { authToken: mockUrlJwtToken, expiry: Date.now() + 86400000 });
       });
+
+      it('returns the jwt auth_token', () => {
+        expect(automaticAnswersPersistence.getContext())
+          .toEqual(mockUrlJwtToken);
+      });
     });
 
     describe('when auth_token does not exist in the url', () => {
@@ -61,7 +63,7 @@ describe('service.automaticAnswersPersistence', () => {
         describe('when auth_token has not expired', () => {
           beforeEach(() => {
             mockJWTStorageItem = {
-              authToken: '1324b235.2342ccdsc.9a8sdcy9',
+              authToken: '9a8sdcy.92342ccdsc.1324b235',
               expiry: Date.now() + 1
             };
           });
@@ -72,12 +74,17 @@ describe('service.automaticAnswersPersistence', () => {
             expect(store.get)
               .toHaveBeenCalledWith('automaticAnswers');
           });
+
+          it('returns the jwt auth_token', () => {
+            expect(automaticAnswersPersistence.getContext())
+              .toEqual(mockJWTStorageItem.authToken);
+          });
         });
 
         describe('when auth_token has expired', () => {
           beforeEach(() => {
             mockJWTStorageItem = {
-              authToken: '1324b235.2342ccdsc.9a8sdcy9',
+              authToken: '9a8sdcy.92342ccdsc.1324b235',
               expiry: Date.now() - 20
             };
           });
