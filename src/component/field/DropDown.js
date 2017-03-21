@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { locals as styles } from './Dropdown.sass';
 import { DropdownMenu } from 'component/field/DropdownMenu';
 import { Icon } from 'component/Icon';
+import { i18n } from 'service/i18n';
 import { keyCodes } from 'utility/keyboard';
 
 const animationDuration = 200;
@@ -108,6 +109,7 @@ export class Dropdown extends Component {
 
     switch (key) {
       case keyCodes.DOWN:
+      case keyCodes.UP:
         this.setState({ open: true });
         setTimeout(() => this.menu.keyDown(key), 0);
         break;
@@ -241,8 +243,16 @@ export class Dropdown extends Component {
   renderMenus = () => {
     if (!this.state.open) return;
 
-    const backClasses = this.state.animatingBack ? styles.menuBackAnimate : '';
-    const nextClasses = this.state.animatingNext ? styles.menuNextAnimate : '';
+    let backClasses = '', nextClasses = '';
+
+    if (this.state.animatingBack) {
+      backClasses = i18n.isRTL() ? styles.animateRight : styles.animateLeft;
+    }
+
+    if (this.state.animatingNext) {
+      nextClasses = i18n.isRTL() ? styles.animateLeft : styles.animateRight;
+    }
+
     const mobileClasses = this.props.fullscreen ? styles.menuContainerMobile : '';
 
     // If the dropdown is below half the height of the frame have it open up.
