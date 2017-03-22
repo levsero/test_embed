@@ -299,10 +299,14 @@ describe('HelpCenterArticle component', () => {
     });
 
     describe('filterVideoEmbed', () => {
-      it('should return a filtered iframe object for video embeds that are from valid sources', () => {
-        const youtubeUrl = 'https://youtube.com/embed/fooid';
+      describe('when the video source is valid', () => {
+        const validUrls = [
+          'https://player.vimeo.com/video/fooid',
+          '//fast.wistia.net/embed/iframe/0kpsylzz9j',
+          'https://youtube.com/embed/fooid',
+          '//players.brightcove.net/fooid'
+        ];
         let attribs = {
-          src: youtubeUrl,
           allowfullscreen: '',
           width: '480px',
           height: '320px'
@@ -310,44 +314,46 @@ describe('HelpCenterArticle component', () => {
         let returnObj = {
           tagName: 'iframe',
           attribs: {
-            src: youtubeUrl,
             allowfullscreen: ''
           }
         };
 
-        expect(helpCenterArticle.filterVideoEmbed('iframe', attribs))
-          .toEqual(returnObj);
+        it('validUrls should contain elements', () => {
+          expect(validUrls.length)
+            .toBeTruthy();
+        });
 
-        const vimeoUrl = 'https://player.vimeo.com/video/fooid';
+        _.forEach(validUrls, (url) => {
+          beforeEach(() => {
+            attribs.src = returnObj.attribs.src = url;
+          });
 
-        attribs.src = returnObj.attribs.src = vimeoUrl;
-        expect(helpCenterArticle.filterVideoEmbed('iframe', attribs))
-          .toEqual(returnObj);
-
-        const wistiaUrl = '//fast.wistia.net/embed/iframe/0kpsylzz9j';
-
-        attribs.src = returnObj.attribs.src = wistiaUrl;
-        expect(helpCenterArticle.filterVideoEmbed('iframe', attribs))
-          .toEqual(returnObj);
+          it(`should return a filtered frame object for ${url}`, () => {
+            expect(helpCenterArticle.filterVideoEmbed('iframe', attribs))
+              .toEqual(returnObj);
+          });
+        });
       });
 
-      it('should return false for video embeds that are from invalid sources', () => {
-        let url = 'https://yoVutube.com/embed/fooid';
+      describe('when the video source is invalid', () => {
+        const invalidUrls = [
+          'https://yoVutube.com/embed/fooid',
+          '//fast.wiStia.net/embed/iframe/0kpsylzz9j',
+          '.com',
+          'https://player.notvimeo.com/video/fooid'
+        ];
 
-        expect(helpCenterArticle.filterVideoEmbed('iframe', { src: url }))
-          .toBe(false);
+        it('invalidUrls should contain elements', () => {
+          expect(invalidUrls.length)
+            .toBeTruthy();
+        });
 
-        url = '//fast.wiStia.net/embed/iframe/0kpsylzz9j';
-        expect(helpCenterArticle.filterVideoEmbed('iframe', { src: url }))
-          .toBe(false);
-
-        url = '.com';
-        expect(helpCenterArticle.filterVideoEmbed('iframe', { src: url }))
-          .toBe(false);
-
-        url = 'https://player.notvimeo.com/video/fooid';
-        expect(helpCenterArticle.filterVideoEmbed('iframe', { src: url }))
-          .toBe(false);
+        _.forEach(invalidUrls, (url) => {
+          it(`should return false for ${url}`, () => {
+            expect(helpCenterArticle.filterVideoEmbed('iframe', { src: url }))
+            .toBe(false);
+          });
+        });
       });
     });
   });
