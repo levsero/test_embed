@@ -35,6 +35,7 @@ export class SubmitTicketForm extends Component {
     customFields: PropTypes.array,
     disableAutoComplete: PropTypes.bool,
     expanded: PropTypes.bool,
+    frameHeight: PropTypes.number,
     formState: PropTypes.object,
     formTitleKey: PropTypes.string.isRequired,
     fullscreen: PropTypes.bool,
@@ -54,6 +55,7 @@ export class SubmitTicketForm extends Component {
     customFields: [],
     disableAutoComplete: false,
     expanded: false,
+    frameHeight: 500,
     formState: {},
     fullscreen: false,
     hide: false,
@@ -76,8 +78,7 @@ export class SubmitTicketForm extends Component {
   }
 
   componentDidMount = () => {
-    const customFields = getCustomFields(this.props.customFields, this.props.formState, this.props.disableAutoComplete);
-    const showShadow = customFields.fields.length > 0 || this.props.attachmentsEnabled;
+    const showShadow = this.props.customFields.length > 0 || this.props.attachmentsEnabled;
 
     this.refs.scrollContainer.setScrollShadowVisible(showShadow);
   }
@@ -357,7 +358,16 @@ export class SubmitTicketForm extends Component {
     const formTicketFields = _.filter(ticketFormFields, (field) => {
       return ticketForm.ticket_field_ids.indexOf(field.id) > -1;
     });
-    const ticketFieldsElem = getCustomFields(formTicketFields, this.props.formState, this.props.disableAutoComplete);
+    const ticketFieldsElem = getCustomFields(
+      formTicketFields,
+      this.props.formState,
+      {
+        disableAutoComplete: this.props.disableAutoComplete,
+        ticketForms: true,
+        frameHeight: this.props.frameHeight,
+        onChange: this.updateForm
+      }
+    );
     const titleMobileClasses = this.props.fullscreen ? styles.ticketFormTitleMobile : '';
 
     ticketFieldsElem.allFields.unshift([this.renderNameField(), this.renderEmailField()]);
@@ -374,7 +384,15 @@ export class SubmitTicketForm extends Component {
   }
 
   renderFormBody = () => {
-    const customFields = getCustomFields(this.props.customFields, this.props.formState, this.props.disableAutoComplete);
+    const customFields = getCustomFields(
+      this.props.customFields,
+      this.props.formState,
+      {
+        disableAutoComplete: this.props.disableAutoComplete,
+        frameHeight: this.props.frameHeight,
+        onChange: this.updateForm
+      }
+    );
 
     return (
       <div ref='formWrapper'>

@@ -4,6 +4,10 @@ import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { Field } from 'component/field/Field';
 import { SelectField } from 'component/field/SelectField';
+import { Dropdown } from 'component/field/Dropdown';
+import { isMobileBrowser,
+         isLandscape } from 'utility/devices';
+import { document } from 'utility/globals';
 
 const geti18nContent = (field) => {
   const title = _.find(field.variants, (variant) => {
@@ -13,21 +17,27 @@ const geti18nContent = (field) => {
   return title ? title.content : field.title;
 };
 
-const getCustomFields = (customFields, formState, disableAutoComplete) => {
+const getCustomFields = (customFields, formState, options = {}) => {
   const isCheckbox = (field) => {
     return field && field.props && field.props.type === 'checkbox';
   };
   const fields = _.map(customFields, (field) => {
     const isRequired = _.isNil(field.required_in_portal) ? field.required : field.required_in_portal;
     const title = field.title_in_portal || field.title;
+    const frameHeight = options.frameHeight === '100%'
+                      ? document.documentElement.clientHeight
+                      : options.frameHeight;
     const sharedProps = {
       name: field.id,
       value: formState[field.id],
       required: isRequired,
       placeholder: title,
       key: title,
-      disableAutoComplete,
-      description: field.description
+      frameHeight,
+      ...options,
+      description: field.description,
+      fullscreen: isMobileBrowser(),
+      landscape: isLandscape()
     };
 
     if (field.variants) {
@@ -52,7 +62,13 @@ const getCustomFields = (customFields, formState, disableAutoComplete) => {
             option.title = geti18nContent(option);
           }
         });
-        return <SelectField {...sharedProps} options={field.options} />;
+
+        const defaultOption = _.find(field.options, (option) => option.default) || '';
+
+        return options.ticketForms
+             ? <Dropdown {...sharedProps} options={field.options} value={defaultOption} />
+             : <SelectField {...sharedProps} options={field.options} />;
+
       case 'integer':
         return <Field {...sharedProps} pattern='\d+' type='number' />;
       case 'decimal':

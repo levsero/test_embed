@@ -1,0 +1,81 @@
+@import '../../styles/_vars.scss';
+
+.field {
+  composes: u-paddingAS from '../../styles/utils.scss';
+
+  &:hover {
+    background-color: $zd-color-white-smoke;
+    color: $zd-color-oil;
+
+    .arrowRight {
+      border-left: #{7/$font-size}rem solid $zd-color-dark-gray;
+    }
+
+    .arrowLeft {
+      border-right: #{7/$font-size}rem solid $zd-color-dark-gray;
+    }
+  }
+}
+
+.fieldFocused {
+  background-color: $zd-color-white-smoke;
+  color: $zd-color-oil;
+
+  .arrowRight {
+    border-left: #{7/$font-size}rem solid $zd-color-dark-gray;
+  }
+
+  .arrowLeft {
+    border-right: #{7/$font-size}rem solid $zd-color-dark-gray;
+  }
+}
+
+.fieldBorder {
+  composes: u-borderBottom from '../../styles/utils.scss';
+  margin-bottom: #{3/$font-size}rem;
+  padding-bottom: #{3/$font-size}rem;
+}
+
+.arrowRight {
+  composes: u-pullRight from '../../styles/utils.scss';
+
+  width: 0;
+  height: 0;
+  border-top: #{5/$font-size}rem solid transparent;
+  border-bottom: #{5/$font-size}rem solid transparent;
+  border-left: #{7/$font-size}rem solid $zd-color-aluminum;
+  margin-top: #{2/$font-size}rem;
+  margin-right: #{10/$font-size}rem;
+
+  [dir="rtl"] & {
+    margin-right: 0;
+    margin-left: #{10/$font-size}rem;
+  }
+}
+
+.arrowLeft {
+  composes: u-pullLeft from '../../styles/utils.scss';
+
+  width: 0;
+  height: 0;
+  border-top: #{5/$font-size}rem solid transparent;
+  border-bottom: #{5/$font-size}rem solid transparent;
+  border-right: #{7/$font-size}rem solid $zd-color-aluminum;
+
+  margin-top: #{2/$font-size}rem;
+  margin-right: #{8/$font-size}rem;
+
+  [dir="rtl"] & {
+    margin-right: 0;
+    margin-left: #{8/$font-size}rem;
+  }
+}
+
+.arrowMobile {
+  margin-top: #{4/$font-size}rem;
+}
+
+.title {
+  composes: u-inlineBlock from '../../styles/utils.scss';
+  width: 90%;
+}

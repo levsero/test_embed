@@ -135,10 +135,20 @@ describe('fields', () => {
       'component/field/SelectField': {
         SelectField: noopReactComponent()
       },
+      'component/field/Dropdown': {
+        Dropdown: noopReactComponent()
+      },
       'service/i18n': {
         i18n: {
           getLocaleId: () => mockLocaleIdValue
         }
+      },
+      'utility/devices': {
+        isMobileBrowser: noop,
+        isLandscape: noop
+      },
+      'utility/globals': {
+        document: document
       }
     });
 

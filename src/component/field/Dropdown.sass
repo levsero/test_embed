@@ -1,0 +1,150 @@
+@import '../../styles/_vars.scss';
+
+$menu-height: #{200/$font-size}rem;
+
+.container {
+  composes: u-marginBM u-posRelative from '../../styles/utils.scss';
+  color: $zd-color-monsoon;
+}
+
+.arrow {
+  composes: u-pullRight u-posAbsolute from '../../styles/utils.scss';
+  background: $zd-color-white;
+  right: #{10/$font-size}rem;
+  top: #{11/$font-size}rem;
+  pointer-events: none;
+  padding-top: #{4/$font-size}rem;
+  padding-left: #{8/$font-size}rem;
+  padding-bottom: #{7/$font-size}rem;
+
+  [dir="rtl"] & {
+    left: #{10/$font-size}rem;
+    right: initial;
+    padding-right: #{8/$font-size}rem;
+  }
+
+  svg {
+    pointer-events: none;
+    fill: $zd-color-silver-sand;
+    color: $zd-color-silver-sand;
+    transition: all 0.2s ease;
+  }
+}
+
+.arrowOpen {
+  svg {
+    transform: rotate(180deg);
+  }
+}
+
+.arrowHover {
+  svg {
+    fill: $zd-color-dark-gray !important;
+    color: $zd-color-dark-gray !important;
+  }
+}
+
+.label {
+  composes: Form-fieldLabel from '../../styles/components/Form.scss';
+  composes: u-textXHeight from '../../styles/utils.scss';
+}
+
+.input {
+  composes: Form-field from '../../styles/components/Form.scss';
+  composes: u-hsizeAll from '../../styles/utils.scss';
+
+  &::placeholder {
+    color: $zd-color-oil;
+  }
+
+  &:focus {
+    border: $thin-border-size solid $stroke-focused-color;
+    box-shadow: 0 0 0 #{3/$font-size}rem rgba(153,153,153, 0.4);
+  }
+}
+
+.inputError {
+  composes: Form-field--invalid from '../../styles/components/Form.scss';
+}
+
+.labelMobile {
+  composes: u-textSize15 from '../../styles/utils.scss';
+}
+
+.labelLandscape {
+  composes: u-textSizeSml from '../../styles/utils.scss';
+}
+
+.menuContainer {
+  composes: u-posAbsolute u-border u-hsizeAll u-zIndex1 u-posStart--flush from '../../styles/utils.scss';
+  border-radius: #{4/$font-size}rem;
+  border-color: $zd-color-aluminum;
+  top: #{37/$font-size}rem;
+  left: #{-1/$font-size}rem;
+  height: $menu-height;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-color: $zd-color-white;
+  padding-top: #{3/$font-size}rem;
+  padding-bottom: #{3/$font-size}rem;
+  box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .2);
+
+  /*
+   * Customise scrollbar for safari/chrome
+   */
+  &::-webkit-scrollbar-track {
+    margin: #{5/$font-size}rem;
+    padding-right: #{5/$font-size}rem;
+  }
+  &::-webkit-scrollbar {
+    box-shadow: none;
+    width: #{3/$font-size}rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $base-border-color;
+    border-radius: #{3/$font-size}rem;
+  }
+}
+
+.menuUp {
+  top: calc(-#{$menu-height} - #{9/$font-size}rem);
+}
+
+.menuContainerMobile {
+  composes: u-textSize15 from '../../styles/utils.scss';
+  top: #{38/$font-size}rem;
+}
+
+.menu {
+  composes: u-hsizeAll from '../../styles/utils.scss';
+}
+
+@keyframes right {
+  from {
+    left: #{300/$font-size}rem;
+  }
+  to {
+    left: 0;
+  }
+}
+
+@keyframes left {
+  from {
+    right: #{300/$font-size}rem;
+  }
+  to {
+    right: 0;
+  }
+}
+
+.animateRight {
+  composes: u-posAbsolute from '../../styles/utils.scss';
+
+  animation: right 0.2s linear 0s 1;
+}
+
+.animateLeft {
+  composes: u-posAbsolute from '../../styles/utils.scss';
+
+  animation: left 0.2s linear 0s 1;
+}

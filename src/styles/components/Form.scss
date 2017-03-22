@@ -54,15 +54,15 @@ $Form-fontSize: #{13/$font-size}rem;
   background: $base-color;
   border: $thin-border-size solid $stroke-color;
   border-radius: #{4/$font-size}rem;
-  padding: #{9/$font-size}rem $spacing-sml $spacing-sml;
+  padding: #{9.5/$font-size}rem $spacing-sml #{9.5/$font-size}rem;
   color: $secondary-color;
+  font-size: $Form-fontSize;
 
   textarea, input, select {
     border: none;
     background: none;
     resize: none;
     color: $body-color;
-    font-size: $Form-fontSize;
     width: 100%;
     padding: 0;
 
@@ -70,6 +70,10 @@ $Form-fontSize: #{13/$font-size}rem;
       appearance: none;
       outline: none;
     }
+  }
+
+  &:hover {
+    border: $thin-border-size solid $stroke-focused-color;
   }
 
   textarea {
@@ -154,9 +158,9 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .Form-field--focused,
-.Form-field:hover,
 .Form-checkboxInput--focused + .Form-checkbox {
   border: $thin-border-size solid $stroke-focused-color;
+  box-shadow: 0 0 0 #{3/$font-size}rem rgba(153,153,153, 0.4);
 
   > .Icon--search {
     color: $cta-color;
@@ -167,6 +171,11 @@ $Form-fontSize: #{13/$font-size}rem;
 .Form-field--invalid:hover,
 .Form-checkboxInput--invalid + .Form-checkbox {
   @include error-state($thin-border-size);
+}
+
+.Form-field--invalidFocused {
+  @include error-state($thin-border-size);
+  box-shadow: 0 0 0 #{3/$font-size}rem rgba(235,102,81, 0.4);
 }
 
 .Form-field--clean,
