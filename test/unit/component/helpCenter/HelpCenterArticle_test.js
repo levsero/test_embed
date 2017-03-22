@@ -318,16 +318,19 @@ describe('HelpCenterArticle component', () => {
           }
         };
 
-        _.forEach(validUrls, (url) => {
-          describe(url, () => {
-            beforeEach(() => {
-              attribs.src = returnObj.attribs.src = url;
-            });
+        it('validUrls should contain elements', () => {
+          expect(validUrls.length)
+            .toBeTruthy();
+        });
 
-            it('should return a filtered frame object', () => {
-              expect(helpCenterArticle.filterVideoEmbed('iframe', attribs))
-                .toEqual(returnObj);
-            });
+        _.forEach(validUrls, (url) => {
+          beforeEach(() => {
+            attribs.src = returnObj.attribs.src = url;
+          });
+
+          it(`should return a filtered frame object for ${url}`, () => {
+            expect(helpCenterArticle.filterVideoEmbed('iframe', attribs))
+              .toEqual(returnObj);
           });
         });
       });
@@ -340,12 +343,15 @@ describe('HelpCenterArticle component', () => {
           'https://player.notvimeo.com/video/fooid'
         ];
 
+        it('invalidUrls should contain elements', () => {
+          expect(invalidUrls.length)
+            .toBeTruthy();
+        });
+
         _.forEach(invalidUrls, (url) => {
-          describe(url, () => {
-            it('should return a filtered frame object', () => {
-              expect(helpCenterArticle.filterVideoEmbed('iframe', { src: url }))
-              .toBe(false);
-            });
+          it(`should return false for ${url}`, () => {
+            expect(helpCenterArticle.filterVideoEmbed('iframe', { src: url }))
+            .toBe(false);
           });
         });
       });
