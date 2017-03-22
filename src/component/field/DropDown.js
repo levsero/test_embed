@@ -137,7 +137,7 @@ export class Dropdown extends Component {
       open: false
     });
 
-    this.props.onChange();
+    setTimeout(() => this.props.onChange(), 0);
   }
 
   handleBackClick = (focusField = false) => {
@@ -293,9 +293,9 @@ export class Dropdown extends Component {
             placeholder={placeholderText} />
           {/* hidden field with the selected value so that the form grabs it on submit */}
           <input
-            type='hidden'
             className='u-isHidden'
             name={this.props.name}
+            required={this.props.required}
             value={this.state.selected.value} />
           {this.renderDropdownArrow()}
           {this.renderMenus()}
