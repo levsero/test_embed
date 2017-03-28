@@ -103,7 +103,7 @@ zE(function() {
 
 Replaces the default string on the button in the Help Center form that opens the Chat interface.
 
-![example](https://support.zendesk.com/hc/user_images/UZH2vMZVWgnC6woZ_EeihA.png)
+![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/ww_api_chat_btn.png)
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
@@ -135,7 +135,7 @@ window.zESettings = {
 
 Replaces the default string on the launcher button when Chat is enabled and Help Center is not.
 
-![example](https://support.zendesk.com/hc/user_images/XhuqwmDp14XoQqrW8K-t-Q.png)
+![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/ww_api_chat_label.png)
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
@@ -254,7 +254,7 @@ For more examples, see [Limiting search results](https://support.zendesk.com/hc/
 
 Replaces the default string on the launcher button.
 
-![example](https://support.zendesk.com/hc/user_images/jvBVJXA0_vfJ8byykbSyFg.png)
+![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/ww_api_launcher.png)
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
@@ -284,7 +284,7 @@ window.zESettings = {
 
 Replaces the default string on the button in the Help Center form that opens the contact form.
 
-![example](https://support.zendesk.com/hc/user_images/-iPa0eoCPqKuLhkGOgAugw.png)
+![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/ww_api_message_btn.png)
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
@@ -389,7 +389,7 @@ window.zESettings = {
 </script>
 ```
 
-![image](https://support.zendesk.com/hc/user_images/GEzHcw7sQB5dzW30Jpi_dg.png)
+![image](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/ww_api_select_form.png)
 
 
 #### Related topic
@@ -537,7 +537,7 @@ window.zESettings = {
 
 Replaces the default title string with a custom string.
 
-![example](https://support.zendesk.com/hc/user_images/BdjgvaDafRlnbyU09Jny3Q.png)
+![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/ww_api_title.png)
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
