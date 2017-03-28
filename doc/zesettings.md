@@ -25,8 +25,12 @@ The Web Widget has the following general settings:
 The widget's `contactForm` object, which represents the contact form, has the following settings:
 
 * [attachments](#attachments)
+* [fields](#fields)
+* [selectTicketForm](#selectticketform)
 * [subject](#subject)
 * [suppress](#suppress)
+* [tags](#tags)
+* [ticketForms](#ticketforms)
 * [title](#title)
 
 The widget's `helpCenter` object, which represents the Help Center element, has the following settings:
@@ -47,6 +51,7 @@ The widget's `launcher` object, which represents the launcher button, has the fo
 
 * [chatLabel](#chatLabel)
 * [label](#label)
+
 
 ### attachments
 
@@ -89,7 +94,7 @@ Tokens expire after two hours. You can remove them from local storage sooner by 
 
 ```javascript
 zE(function() {
- zE.logout();
+  zE.logout();
 });
 ```
 
@@ -100,7 +105,7 @@ Replaces the default string on the button in the Help Center form that opens the
 
 ![example](https://support.zendesk.com/hc/user_images/UZH2vMZVWgnC6woZ_EeihA.png)
 
-You can use different strings for different locales or use one string for all locales by using an asterisk (`*`) for the locale. You can also use the asterisk locale (`*`) to specify a fallback string in case the browser isn't set to a listed locale.
+You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
 The string can't exceed 25 characters.
 
@@ -132,7 +137,7 @@ Replaces the default string on the launcher button when Chat is enabled and Help
 
 ![example](https://support.zendesk.com/hc/user_images/XhuqwmDp14XoQqrW8K-t-Q.png)
 
-You can use different strings for different locales or use one string for all locales by using an asterisk (`*`) for the locale. You can also use the asterisk locale (`*`) to specify a fallback string in case the browser isn't set to a listed locale.
+You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
 #### Availability
 
@@ -170,6 +175,54 @@ window.zESettings = {
 ```
 
 
+### fields
+
+Pre-populates the value of one or more fields in the contact form.
+
+For a default system field, specify the field name as the field `id`. Example:
+
+```javascript
+fields: [
+  { id: 'description', prefill: { '*': 'My text' } }
+]
+```
+
+For a custom field, specify the custom field's id as the `id`. To get the id, see [List Ticket Fields](https://developer.zendesk.com/rest_api/docs/core/ticket_fields#list-ticket-fields) in the Zendesk API docs. Example:
+
+```javascript
+fields: [
+  { id: 2142225, prefill: { '*': 'My text' } }
+]
+```
+
+You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
+
+#### Availability
+
+* contactForm
+
+#### Example
+
+```javascript
+<script type="text/javascript">
+zESettings = {
+  webWidget: {
+    contactForm: {
+      fields: [
+        { id: 'description', prefill: { '*': 'My field text' } }
+        { id: 2142225, prefill: { '*': 'My custom field text' } }
+      ]
+    }
+  }
+};
+</script>
+```
+
+#### Related topic
+
+* [ticketForms](#ticketforms)
+
+
 ### filter
 
 Limits Help Center search results to a specified category, section, or label. The `filter` property consists of an object with a `category`, `section`, or `label` property.
@@ -196,13 +249,14 @@ window.zESettings = {
 
 For more examples, see [Limiting search results](https://support.zendesk.com/hc/en-us/articles/229167008#topic_usl_bbq_mx) in the Zendesk Support Help Center.
 
+
 ### label
 
 Replaces the default string on the launcher button.
 
 ![example](https://support.zendesk.com/hc/user_images/jvBVJXA0_vfJ8byykbSyFg.png)
 
-You can use different strings for different locales or use one string for all locales by using an asterisk (`*`) for the locale. You can also use the asterisk locale (`*`) to specify a fallback string in case the browser isn't set to a listed locale.
+You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
 #### Availability
 
@@ -232,7 +286,7 @@ Replaces the default string on the button in the Help Center form that opens the
 
 ![example](https://support.zendesk.com/hc/user_images/-iPa0eoCPqKuLhkGOgAugw.png)
 
-You can use different strings for different locales or use one string for all locales by using an asterisk (`*`) for the locale. You can also use the asterisk locale (`*`) to specify a fallback string in case the browser isn't set to a listed locale.
+You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
 The string can't exceed 25 characters.
 
@@ -309,6 +363,39 @@ window.zESettings = {
 </script>
 ```
 
+### selectTicketForm
+
+Replaces the text in the contact form that prompts the end user to select a ticket form when more than one form is available. See [ticketForms](#ticketforms). The default text is "Please select your issue".
+
+You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
+
+#### Availability
+
+* contactForm
+
+#### Example
+
+```javascript
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    contactForm: {
+      selectTicketForm: {
+        '*': 'Please choose:'
+      }
+    }
+  }
+};
+</script>
+```
+
+![image](https://support.zendesk.com/hc/user_images/GEzHcw7sQB5dzW30Jpi_dg.png)
+
+
+#### Related topic
+
+* [ticketForms](#ticketforms)
+
 
 ### subject
 
@@ -361,13 +448,98 @@ window.zESettings = {
 ```
 
 
+### tags
+
+Adds one or more [tags](https://support.zendesk.com/hc/en-us/articles/203662096-Using-tags) to any ticket created with the Web Widget.
+
+Note: The tags are visible in the JavaScript console in the user's browser.
+
+#### Availability
+
+* contactForm
+
+#### Example
+
+```javascript
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    contactForm: {
+      tags: ['website', 'store']
+    }
+  }
+};
+</script>
+```
+
+
+### ticketForms
+
+Specifies one or more [ticket forms](https://support.zendesk.com/hc/en-us/articles/203661636) for the contact form. If you list more than one ticket form, a dropdown menu appears in the contact form prompting the end user to select a form. You can change the text that prompts the end user with the [selectTicketForm](#selectticketform) object.
+
+Ticket forms are listed by id. Example:
+
+```javascript
+ticketForms: [
+  {id: 426353},
+  {id: 429981}
+]
+```
+
+To get a ticket form id, see [List Ticket Forms](https://developer.zendesk.com/rest_api/docs/core/ticket_forms#list-ticket-forms) in the Zendesk API docs.
+
+You can include the [fields](#fields) object to pre-populate one or more fields in one or more ticket forms. Example:
+
+```javascript
+ticketForms: [
+ {
+   id: 426353,
+   fields: [
+     {
+        id: 'description',
+        prefill: {
+          '*': 'My field text'
+        }
+      }
+    ]
+  },
+  ...
+]
+```
+
+#### Availability
+
+* contactForm
+
+#### Example
+
+```javascript
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    contactForm: {
+      ticketForms: [
+        { id: 426353 }
+      ]
+    }
+  }
+};
+</script>
+```
+
+#### Related topics
+
+* [fields](#fields)
+* [selectTicketForm](#selectticketform)
+
+
 ### title
 
 Replaces the default title string with a custom string.
 
 ![example](https://support.zendesk.com/hc/user_images/BdjgvaDafRlnbyU09Jny3Q.png)
 
-You can use different strings for different locales or use one string for all locales by using an asterisk (`*`) for the locale. You can also use the asterisk locale (`*`) to specify a fallback string in case the browser isn't set to a listed locale.
+You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
 #### Availability
 
