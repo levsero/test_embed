@@ -236,7 +236,7 @@ export class Dropdown extends Component {
     const hoveredClasses = this.state.hovering ? styles.arrowHover : '';
 
     return (
-      <Icon type='Icon--caret' className={`${styles.arrow} ${iconOpenClasses} ${hoveredClasses}`} />
+      <Icon type='Icon--chevron' className={`${styles.arrow} ${iconOpenClasses} ${hoveredClasses}`} />
     );
   }
 
