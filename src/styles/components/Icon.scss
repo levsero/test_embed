@@ -203,10 +203,10 @@
 .Icon--chevron {
   svg {
     fill: $secondary-color;
-    min-width: #{7/$font-size}rem; /* 1 */
-    min-height: #{7/$font-size}rem; /* 1 */
-    height: #{7/$font-size}rem;
-    width: #{7/$font-size}rem;
+    min-width: #{12/$font-size}rem; /* 1 */
+    min-height: #{12/$font-size}rem; /* 1 */
+    height: #{12/$font-size}rem;
+    width: #{12/$font-size}rem;
     padding: 0;
   }
 }
