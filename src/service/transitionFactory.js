@@ -37,6 +37,10 @@ const positionWithOffset = (positionStr, offset = webWidetOffset) => {
   return `${position}px`;
 };
 
+const transitionProperties = (...props) => {
+  return `opacity, width, height, ${props}`;
+};
+
 const hiddenState = {
   transitionProperty: 'none',
   transitionDuration: '0',
@@ -46,7 +50,7 @@ const hiddenState = {
 };
 
 const launcherUpShow = {
-  transitionProperty: 'all',
+  transitionProperty: transitionProperties('bottom'),
   transitionDuration: '300ms',
   transitionTimingFunction: 'ease',
   opacity: 1,
@@ -54,7 +58,7 @@ const launcherUpShow = {
 };
 
 const launcherDownHide = {
-  transitionProperty: 'all',
+  transitionProperty: transitionProperties('bottom'),
   transitionTimingFunction: 'linear',
   transitionDuration: '200ms',
   opacity: 0,
@@ -72,7 +76,7 @@ const transitionFactory = {
         bottom: '-300px'
       },
       {
-        transitionProperty: 'all',
+        transitionProperty: transitionProperties('bottom'),
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 1,
@@ -81,7 +85,7 @@ const transitionFactory = {
     ),
     downHide: transitionMaker({},
       {
-        transitionProperty: 'all',
+        transitionProperty: transitionProperties('bottom'),
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-in',
         opacity: 0,
@@ -99,7 +103,7 @@ const transitionFactory = {
         bottom: '-100px'
       },
       {
-        transitionProperty: 'all',
+        transitionProperty: transitionProperties('bottom'),
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 1,
@@ -108,7 +112,7 @@ const transitionFactory = {
     ),
     downHide: transitionMaker({},
       {
-        transitionProperty: 'all',
+        transitionProperty: transitionProperties('bottom'),
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-in',
         opacity: 0,
@@ -126,7 +130,7 @@ const transitionFactory = {
         top: positionWithOffset(-30, ipmOffset)
       },
       {
-        transitionProperty: 'all',
+        transitionProperty: transitionProperties('top'),
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 1,
@@ -135,7 +139,7 @@ const transitionFactory = {
     ),
     upHide: transitionMaker({},
       {
-        transitionProperty: 'all',
+        transitionProperty: transitionProperties('top'),
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 0,
@@ -153,7 +157,7 @@ const transitionFactory = {
         bottom: '-150px'
       },
       {
-        transitionProperty: 'all',
+        transitionProperty: transitionProperties('bottom'),
         transitionDuration: '400ms',
         transitionTimingFunction: 'ease-out',
         opacity: 1,
@@ -162,7 +166,7 @@ const transitionFactory = {
     ),
     downHide: transitionMaker({},
       {
-        transitionProperty: 'all',
+        transitionProperty: transitionProperties('bottom'),
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-in',
         opacity: 0,
@@ -180,7 +184,7 @@ const transitionFactory = {
         bottom: '-200px'
       },
       {
-        transitionProperty: 'all',
+        transitionProperty: transitionProperties('bottom'),
         transitionDuration: '500ms',
         transitionTimingFunction: 'ease-out',
         opacity: 1,
@@ -189,7 +193,7 @@ const transitionFactory = {
     ),
     downHide: transitionMaker({},
       {
-        transitionProperty: 'all',
+        transitionProperty: transitionProperties('bottom'),
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-in',
         opacity: 0,
@@ -209,7 +213,7 @@ const transitionFactory = {
         top: positionWithOffset(-20)
       },
       {
-        transitionProperty: 'all',
+        transitionProperty: transitionProperties('top'),
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease',
         opacity: 1,
@@ -219,7 +223,7 @@ const transitionFactory = {
 
     launcherUpHide: transitionMaker({},
       {
-        transitionProperty: 'all',
+        transitionProperty: transitionProperties('top'),
         transitionTimingFunction: 'linear',
         transitionDuration: '200ms',
         opacity: 0,
@@ -235,7 +239,7 @@ const transitionFactory = {
         bottom: positionWithOffset(400)
       },
       {
-        transitionProperty: 'all',
+        transitionProperty: transitionProperties('bottom'),
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 0,
@@ -251,7 +255,7 @@ const transitionFactory = {
         top: positionWithOffset(-30)
       },
       {
-        transitionProperty: 'all',
+        transitionProperty: transitionProperties('top'),
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 1,
@@ -267,7 +271,7 @@ const transitionFactory = {
         top: positionWithOffset(0)
       },
       {
-        transitionProperty: 'all',
+        transitionProperty: transitionProperties('top'),
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 0,
@@ -283,7 +287,7 @@ const transitionFactory = {
         bottom: positionWithOffset(-30)
       },
       {
-        transitionProperty: 'all',
+        transitionProperty: transitionProperties('bottom'),
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 1,

@@ -99,11 +99,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
           width: 0
         }
       };
-
-      // Use an instance variable here to toggle `display:none` on the
-      // iframe because we don't want to trigger a re-render. Using the regular
-      // react `this.state.visible` will mess with the css animations.
-      this._hideIframe = !this.state.visible;
     }
 
     componentDidMount = () => {
@@ -187,7 +182,8 @@ export const frameFactory = function(childFn, _params, reduxStore) {
           width: '100%',
           maxWidth: fullscreenWidth,
           height: '100%',
-          left: 0,
+          // Ensure the embed iframe is off the screen when not visible.
+          left: this.state.visible ? '0px' : '-9999px',
           background:'#FFF',
           zIndex: zIndex
         };
@@ -242,7 +238,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       const animateFrom = _.extend({}, this.state.frameStyle, transition.start);
       const animateTo = _.extend({}, this.state.frameStyle, transition.end);
 
-      this._hideIframe = false;
       this.setState({ visible: true, frameStyle: animateFrom });
 
       if (expanded && params.expandable) {
@@ -251,7 +246,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
         this.getRootComponent().expand(false);
       }
 
-      setTimeout( () => {
+      setTimeout(() => {
         const existingStyle = frameFirstChild.style;
 
         if (!existingStyle.webkitOverflowScrolling) {
@@ -278,7 +273,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       setTimeout(() => {
         this.setState({ visible: false });
         params.onHide(this);
-        this._hideIframe = true;
       }, cssTimeToMs(transition.end.transitionDuration));
     }
 
@@ -349,9 +343,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
         [verticalPos]: verticalOffset
       };
 
-      // Set the iframe to `display: none` when the embed is no longer visible.
-      const hideIframeRule = this._hideIframe && { display: 'none' };
-
       return _.extend(
         {
           border: 'none',
@@ -364,8 +355,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
         posObj,
         this.state.frameStyle,
         iframeDimensions,
-        visibilityRule,
-        hideIframeRule
+        visibilityRule
       );
     }
 
