@@ -238,46 +238,84 @@ describe('frameFactory', function() {
         .toEqual({ width: 15, height: 15 });
     });
 
-    it('respects the fullscreenable parameter', function() {
+    describe('when fullscreen', () => {
       let frameContainer,
-        frameContainerStyle;
+        frameContainerStyle,
+        instance;
 
-      mockRegistry['utility/devices'].isMobileBrowser = function() {
-        return true;
-      };
-      mockRegistry['utility/globals'].win.innerWidth = 100;
+      beforeEach(() => {
+        mockRegistry['utility/devices'].isMobileBrowser = () => {
+          return true;
+        };
+        mockRegistry['utility/globals'].win.innerWidth = 100;
 
-      frameFactory = requireUncached(frameFactoryPath).frameFactory;
+        frameFactory = requireUncached(frameFactoryPath).frameFactory;
+        jasmine.clock().install();
 
-      jasmine.clock().install();
+        const Embed = frameFactory(mockChildFn, {
+          fullscreenable: true
+        });
 
-      const Embed = frameFactory(mockChildFn, {
-        fullscreenable: true
+        instance = domRender(<Embed />);
+        frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+        frameContainerStyle = frameContainer.style;
       });
 
-      const instance = domRender(<Embed />);
+      it('should set the width to 100%', () => {
+        instance.updateFrameSize();
+        jasmine.clock().tick(10);
 
-      frameContainer = global.document.body.getElementsByTagName('iframe')[0];
-      frameContainerStyle = frameContainer.style;
+        expect(frameContainerStyle.width)
+          .toBe('100%');
+      });
 
-      instance.updateFrameSize();
+      it('should set the max-width to the viewport width', () => {
+        instance.updateFrameSize();
+        jasmine.clock().tick(10);
 
-      jasmine.clock().tick(10);
+        expect(frameContainerStyle.maxWidth)
+          .toBe(`${mockRegistry['utility/globals'].win.innerWidth}px`);
+      });
 
-      expect(frameContainerStyle.width)
-        .toEqual('100%');
+      it('should set the height to 100%', () => {
+        instance.updateFrameSize();
+        jasmine.clock().tick(10);
 
-      expect(frameContainerStyle.maxWidth)
-        .toEqual(`${mockRegistry['utility/globals'].win.innerWidth}px`);
+        expect(frameContainerStyle.height)
+          .toBe('100%');
+      });
 
-      expect(frameContainerStyle.height)
-        .toEqual('100%');
+      it('should set the z-index to a value > 0', () => {
+        instance.updateFrameSize();
+        jasmine.clock().tick(10);
 
-      expect(frameContainerStyle.left)
-        .toEqual('0px');
+        expect(frameContainerStyle.zIndex > 0)
+          .toBe(true);
+      });
 
-      expect(frameContainerStyle.zIndex > 0)
-        .toEqual(true);
+      describe('when state.visible is true', () => {
+        it('should set left to 0px', () => {
+          instance.show();
+          instance.updateFrameSize();
+          jasmine.clock().tick(10);
+
+          expect(frameContainerStyle.left)
+            .toBe('0px');
+        });
+      });
+
+      describe('when state.visible is false', () => {
+        it('should set left to -9999px', () => {
+          instance.hide();
+          jasmine.clock().tick(300);
+
+          instance.updateFrameSize();
+          jasmine.clock().tick(10);
+
+          expect(frameContainerStyle.left)
+            .toBe('-9999px');
+        });
+      });
     });
 
     it('grabs the zIndex from settings', () => {
