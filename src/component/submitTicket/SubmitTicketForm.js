@@ -45,6 +45,7 @@ export class SubmitTicketForm extends Component {
     onCancel: PropTypes.func,
     previewEnabled: PropTypes.bool,
     setFormState: PropTypes.func,
+    showNewDropdown: PropTypes.bool,
     subjectEnabled: PropTypes.bool,
     submit: PropTypes.func.isRequired
   };
@@ -63,6 +64,7 @@ export class SubmitTicketForm extends Component {
     maxFileSize: 5 * 1024 * 1024,
     onCancel: () => {},
     previewEnabled: false,
+    showNewDropdown: false,
     setFormState: () => {},
     subjectEnabled: false
   };
@@ -363,7 +365,7 @@ export class SubmitTicketForm extends Component {
       this.props.formState,
       {
         disableAutoComplete: this.props.disableAutoComplete,
-        ticketForms: true,
+        showNewDropdown: true,
         frameHeight: this.props.frameHeight,
         onChange: this.updateForm
       }
@@ -390,7 +392,8 @@ export class SubmitTicketForm extends Component {
       {
         disableAutoComplete: this.props.disableAutoComplete,
         frameHeight: this.props.frameHeight,
-        onChange: this.updateForm
+        onChange: this.updateForm,
+        showNewDropdown: this.props.showNewDropdown
       }
     );
 
