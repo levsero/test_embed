@@ -161,4 +161,58 @@ describe('transitionFactory', () => {
       });
     });
   });
+
+  describe('#transitionFactory', () => {
+    let transitionFactory,
+      webWidget;
+    const expectedTransitionProps = (position) => {
+      return ['opacity', 'width', 'height', position];
+    };
+    const assertTransitionProps = (props, expected) => {
+      expect(props.split(', ')).toEqual(expected);
+    };
+
+    beforeEach(() => {
+      transitionFactory = requireUncached(transitionFactoryPath).transitionFactory;
+      webWidget = transitionFactory.webWidget;
+    });
+
+    describe('web widget transitions', () => {
+      describe('down hide', () => {
+        it('should have the correct transition properties including bottom', () => {
+          assertTransitionProps(
+            webWidget.downHide().end.transitionProperty,
+            expectedTransitionProps('bottom')
+          );
+        });
+      });
+
+      describe('down show', () => {
+        it('should have the correct transition properties including top', () => {
+          assertTransitionProps(
+            webWidget.downShow().end.transitionProperty,
+            expectedTransitionProps('top')
+          );
+        });
+      });
+
+      describe('up hide', () => {
+        it('should have the correct transition properties including top', () => {
+          assertTransitionProps(
+            webWidget.upHide().end.transitionProperty,
+            expectedTransitionProps('top')
+          );
+        });
+      });
+
+      describe('up show', () => {
+        it('should have the correct transition properties including bottom', () => {
+          assertTransitionProps(
+            webWidget.upShow().end.transitionProperty,
+            expectedTransitionProps('bottom')
+          );
+        });
+      });
+    });
+  });
 });
