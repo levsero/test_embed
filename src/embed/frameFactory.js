@@ -138,7 +138,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       const iframe = ReactDOM.findDOMNode(this);
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
-      // FIXME shouldn't set background & zIndex in a dimensions object
       const dimensions = {
         height: height,
         width: width,
