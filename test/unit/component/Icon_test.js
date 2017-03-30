@@ -22,18 +22,14 @@ describe('Icon component', function() {
       'icons/widget-icon_help.svg': DummyIcon,
       'icons/widget-icon_search.svg': DummyIcon,
       'icons/widget-icon_zendesk.svg': DummyIcon,
-      'icons/widget-icon_icon.svg': DummyIcon,
       'icons/widget-icon_form.svg': DummyIcon,
       'icons/widget-icon_tick.svg': DummyIcon,
       'icons/widget-icon_circle_tick_large.svg': DummyIcon,
       'icons/widget-icon_circle_tick_small.svg': DummyIcon,
       'icons/widget-icon_checkboxCheck.svg': DummyIcon,
-      'icons/widget-icon_caret.svg': DummyIcon,
       'icons/widget-icon_avatar.svg': DummyIcon,
-      'icons/widget-icon_article.svg': DummyIcon,
       'icons/widget-icon_clearInput.svg': DummyIcon,
       'icons/widget-icon_paperclip_small.svg': DummyIcon,
-      'icons/widget-icon_paperclip_medium.svg': DummyIcon,
       'icons/widget-icon_paperclip_large.svg': DummyIcon,
       'icons/attach_pdf.svg': DummyIcon,
       'icons/attach_doc.svg': DummyIcon,
@@ -45,6 +41,7 @@ describe('Icon component', function() {
       'icons/attach_key.svg': DummyIcon,
       'icons/attach_xls.svg': DummyIcon,
       'icons/attach_unknown.svg': DummyIcon,
+      'zd-svg-icons/src/14-chevron.svg': DummyIcon,
       'utility/devices': {
         isMobileBrowser: function() {
           return false;

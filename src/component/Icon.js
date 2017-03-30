@@ -5,10 +5,9 @@ import { isMobileBrowser } from 'utility/devices';
 
 const icons = {
   'Icon': require('icons/widget-icon_help.svg'),
-  'Icon--article': require('icons/widget-icon_article.svg'),
   'Icon--avatar': require('icons/widget-icon_avatar.svg'),
   'Icon--back': require('icons/widget-icon_back.svg'),
-  'Icon--caret': require('icons/widget-icon_caret.svg'),
+  'Icon--chevron': require('zd-svg-icons/src/14-chevron.svg'),
   'Icon--chat': require('icons/widget-icon_chat.svg'),
   'Icon--check': require('icons/widget-icon_checkboxCheck.svg'),
   'Icon--circleTick-large': require('icons/widget-icon_circle_tick_large.svg'),
@@ -16,10 +15,8 @@ const icons = {
   'Icon--clearInput': require('icons/widget-icon_clearInput.svg'),
   'Icon--close': require('icons/widget-icon_close.svg'),
   'Icon--form': require('icons/widget-icon_form.svg'),
-  'Icon--help': require('icons/widget-icon_help.svg'),
   'Icon--link': require('icons/widget-icon_link.svg'),
   'Icon--paperclip-large': require('icons/widget-icon_paperclip_large.svg'),
-  'Icon--paperclip-medium': require('icons/widget-icon_paperclip_medium.svg'),
   'Icon--paperclip-small': require('icons/widget-icon_paperclip_small.svg'),
   'Icon--preview-default': require('icons/attach_unknown.svg'),
   'Icon--preview-doc': require('icons/attach_doc.svg'),
@@ -32,7 +29,6 @@ const icons = {
   'Icon--preview-txt': require('icons/attach_txt.svg'),
   'Icon--preview-xls': require('icons/attach_xls.svg'),
   'Icon--search': require('icons/widget-icon_search.svg'),
-  'Icon--tick-inline': require('icons/widget-icon_tick.svg'),
   'Icon--tick': require('icons/widget-icon_tick.svg'),
   'Icon--zendesk': require('icons/widget-icon_zendesk.svg')
 };

@@ -112,7 +112,7 @@ export class EmbedWrapper extends Component {
           <div className={expandButtonClasses}>
             {this.renderNavButton({
               onClick: this.props.handleExpandClick,
-              icon: 'Icon--caret',
+              icon: 'Icon--chevron',
               position: 'right',
               className: expandClasses
             })}

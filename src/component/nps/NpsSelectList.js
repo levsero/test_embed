@@ -47,7 +47,7 @@ export class NpsSelectList extends Component {
           {optionsList}
         </select>
         <span className='NpsComment-selectlist-icon u-posAbsolute u-posStart--vertFlush'>
-          <Icon type='Icon--caret' />
+          <Icon type='Icon--chevron' />
         </span>
       </div>
     );
