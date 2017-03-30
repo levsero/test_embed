@@ -244,9 +244,7 @@ describe('frameFactory', function() {
         instance;
 
       beforeEach(() => {
-        mockRegistry['utility/devices'].isMobileBrowser = () => {
-          return true;
-        };
+        mockRegistry['utility/devices'].isMobileBrowser = () => true;
         mockRegistry['utility/globals'].win.innerWidth = 100;
 
         frameFactory = requireUncached(frameFactoryPath).frameFactory;
