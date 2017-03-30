@@ -261,36 +261,31 @@ describe('frameFactory', function() {
         frameContainerStyle = frameContainer.style;
       });
 
-      it('should set the width to 100%', () => {
-        instance.updateFrameSize();
-        jasmine.clock().tick(10);
+      describe('setting styles', () => {
+        beforeEach(() => {
+          instance.updateFrameSize();
+          jasmine.clock().tick(10);
+        });
 
-        expect(frameContainerStyle.width)
-          .toBe('100%');
-      });
+        it('should set the width to 100%', () => {
+          expect(frameContainerStyle.width)
+            .toBe('100%');
+        });
 
-      it('should set the max-width to the viewport width', () => {
-        instance.updateFrameSize();
-        jasmine.clock().tick(10);
+        it('should set the max-width to the viewport width', () => {
+          expect(frameContainerStyle.maxWidth)
+            .toBe(`${mockRegistry['utility/globals'].win.innerWidth}px`);
+        });
 
-        expect(frameContainerStyle.maxWidth)
-          .toBe(`${mockRegistry['utility/globals'].win.innerWidth}px`);
-      });
+        it('should set the height to 100%', () => {
+          expect(frameContainerStyle.height)
+            .toBe('100%');
+        });
 
-      it('should set the height to 100%', () => {
-        instance.updateFrameSize();
-        jasmine.clock().tick(10);
-
-        expect(frameContainerStyle.height)
-          .toBe('100%');
-      });
-
-      it('should set the z-index to a value > 0', () => {
-        instance.updateFrameSize();
-        jasmine.clock().tick(10);
-
-        expect(frameContainerStyle.zIndex > 0)
-          .toBe(true);
+        it('should set the z-index to a value > 0', () => {
+          expect(frameContainerStyle.zIndex > 0)
+            .toBe(true);
+        });
       });
 
       describe('when state.visible is true', () => {
