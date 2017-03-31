@@ -179,9 +179,11 @@ export const frameFactory = function(childFn, _params, reduxStore) {
         const fullscreen = params.isMobile && params.fullscreenable;
         // FIXME shouldn't set background & zIndex in a dimensions object
         const fullscreenStyle = {
-          width: fullscreenWidth,
+          width: '100%',
+          maxWidth: fullscreenWidth,
           height: '100%',
-          left: 0,
+          // Ensure the embed iframe is off the screen when not visible.
+          left: this.state.visible ? '0px' : '-9999px',
           background:'#FFF',
           zIndex: zIndex
         };
@@ -206,7 +208,8 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       if (params.fullscreenable && params.isMobile) {
         frameDoc.body.firstChild.setAttribute(
           'style',
-          [`width: ${fullscreenWidth}`,
+          ['width: 100%',
+          `max-width: ${fullscreenWidth}`,
           'height: 100%',
           'overflow-x: hidden'].join(';')
         );
@@ -243,7 +246,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
         this.getRootComponent().expand(false);
       }
 
-      setTimeout( () => {
+      setTimeout(() => {
         const existingStyle = frameFirstChild.style;
 
         if (!existingStyle.webkitOverflowScrolling) {
