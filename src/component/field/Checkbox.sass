@@ -23,7 +23,7 @@
   }
 }
 
-.checkboxCaption {
+.label {
   composes: u-textBold u-nbfc u-pullLeft u-isActionable u-block from '../../styles/utils.scss';
 
   color: $zd-color-monsoon;
@@ -31,6 +31,10 @@
   [dir='rtl'] & {
     float: right !important;
   }
+}
+
+.checkmark {
+  composes: u-isHiddenVisually from '../../styles/utils.scss';
 }
 
 .input {

@@ -40,6 +40,8 @@ export class Checkbox extends Component {
       hasError: false,
       value: 0
     };
+
+    this.field = null;
   }
 
   onFocus = () => {
@@ -47,7 +49,7 @@ export class Checkbox extends Component {
   }
 
   onBlur = () => {
-    const result = ReactDOM.findDOMNode(this.refs.field);
+    const result = ReactDOM.findDOMNode(this.input);
 
     this.setState({
       focused: false,
@@ -57,7 +59,7 @@ export class Checkbox extends Component {
   }
 
   onChange = () => {
-    const result = ReactDOM.findDOMNode(this.refs.field);
+    const result = ReactDOM.findDOMNode(this.input);
     const value = this.state.value === 1 ? 0 : 1;
 
     this.setState({
@@ -67,43 +69,44 @@ export class Checkbox extends Component {
   }
 
   renderInput = () => {
-    let fieldProps = {
-      name: this.props.name,
-      value: this.state.value,
-      required: this.props.required,
-      label: this.props.label,
-      type: this.props.type,
-      disabled: this.props.disabled,
-      onChange: this.onChange,
-      onBlur: this.onBlur,
-      onFocus: this.onFocus,
-      ref: 'field'
-    };
-
-    return <input {...fieldProps} className={styles.input} />;
+    return (
+      <input
+        ref={(el) => this.input = el}
+        name={this.props.name}
+        value={this.state.value}
+        required={this.props.required}
+        label={this.props.label}
+        type={this.props.type}
+        disabled={this.props.disabled}
+        onChange={this.onChange}
+        onBlur={this.onBlur}
+        onFocus={this.onFocus}
+        className={styles.input} />
+    );
   }
 
   renderCheckbox = () => {
-    const focusedClasses = this.state.focused ? styles.focused : '';
-    const errorClasses = this.state.hasError && this.state.blurred ? styles.invalid : '';
-    const checkedClasses = this.state.value ? '' : 'u-isHiddenVisually';
+    const { focused, hasError, blurred, value } = this.state;
+    const focusedClasses = focused ? styles.focused : '';
+    const errorClasses = hasError && blurred ? styles.invalid : '';
+    const checkedClasses = value ? '' : styles.checkmark;
 
     return (
       <div className={`${styles.checkboxContainer}`}>
         <div className={`${styles.checkbox} ${focusedClasses} ${errorClasses}`}>
-          <Icon type='Icon--check' className={`${checkedClasses}`} />
+          <Icon type='Icon--check' className={checkedClasses} />
         </div>
-        {this.renderCheckboxLabel()}
+        {this.renderLabel()}
       </div>
     );
   }
 
-  renderCheckboxLabel = () => {
+  renderLabel = () => {
     const { label, required } = this.props;
     const requiredLabel = required ? '*' : '';
 
     return (
-      <div className={styles.checkboxCaption}>
+      <div className={styles.label}>
         {label}
         {requiredLabel}
       </div>

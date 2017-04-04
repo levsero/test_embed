@@ -16,17 +16,6 @@ describe('Field component', () => {
 
     initMockRegistry({
       'React': React,
-      'component/Icon': {
-        Icon: class extends Component {
-          render() {
-            return (
-              <span>
-                <svg />
-              </span>
-            );
-          }
-        }
-      },
       'utility/devices': {
         isMobileBrowser: function() {
           return mockIsMobileBrowserValue;
@@ -35,16 +24,6 @@ describe('Field component', () => {
         isLandscape: function() {
           return mockIsLandscapeValue;
         }
-      },
-      'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', [
-          'init',
-          'setLocale',
-          'getLocale',
-          't',
-          'isRTL',
-          'getLocaleId'
-        ])
       }
     });
 
@@ -101,17 +80,6 @@ describe('Field component', () => {
 
     expect(fieldNode.querySelector('textarea').name)
       .toEqual('alice');
-  });
-
-  it('should render checkbox with label instead of default input', () => {
-    const field = domRender(<Field label='Agree?' type='checkbox' name='alice' />);
-    const fieldNode = ReactDOM.findDOMNode(field);
-
-    expect(fieldNode.querySelector('input').type)
-      .toEqual('checkbox');
-
-    expect(TestUtils.findRenderedDOMComponentWithClass(field, 'Form-checkboxCaption'))
-      .toBeTruthy();
   });
 
   it('should set focused state on field focus', () => {
