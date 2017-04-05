@@ -35,13 +35,12 @@ export class Checkbox extends Component {
 
     this.state = {
       blurred: false,
-      checked: false,
       focused: false,
       hasError: false,
       value: 0
     };
 
-    this.field = null;
+    this.input = null;
   }
 
   onFocus = () => {
@@ -49,22 +48,19 @@ export class Checkbox extends Component {
   }
 
   onBlur = () => {
-    const result = ReactDOM.findDOMNode(this.input);
-
     this.setState({
       focused: false,
       blurred: true,
-      hasError: !result.validity.valid
+      hasError: !this.input.validity.valid
     });
   }
 
   onChange = () => {
-    const result = ReactDOM.findDOMNode(this.input);
     const value = this.state.value === 1 ? 0 : 1;
 
     this.setState({
       value,
-      hasError: !result.validity.valid
+      hasError: !this.input.validity.valid
     });
   }
 
