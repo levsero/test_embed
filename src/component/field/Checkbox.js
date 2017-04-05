@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 
 import { locals as styles } from './Checkbox.sass';
 import { Icon } from 'component/Icon';
@@ -85,7 +84,7 @@ export class Checkbox extends Component {
     const { focused, hasError, blurred, value } = this.state;
     const focusedClasses = focused ? styles.focused : '';
     const errorClasses = hasError && blurred ? styles.invalid : '';
-    const checkedClasses = value ? '' : styles.checkmark;
+    const checkedClasses = value ? '' : styles.checkmarkUnchecked;
 
     return (
       <div className={`${styles.checkboxContainer}`}>

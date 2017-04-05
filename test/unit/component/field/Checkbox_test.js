@@ -14,7 +14,7 @@ describe('Checkbox component', () => {
       './Checkbox.sass': {
         locals: {
           'checkbox': 'checkboxClasses',
-          'checkmark': 'checkmarkClasses',
+          'checkmarkUnchecked': 'checkmarkUncheckedClasses',
           'description': 'descriptionClasses',
           'focused': 'focusClasses',
           'invalid': 'invalidClasses',
@@ -57,7 +57,7 @@ describe('Checkbox component', () => {
       describe('check icon', () => {
         it('should be hidden when unchecked', () => {
           expect(checkmark.props.className)
-            .toContain('checkmarkClasses');
+            .toContain('checkmarkUncheckedClasses');
         });
 
         it('should be shown when checked', () => {
@@ -65,7 +65,7 @@ describe('Checkbox component', () => {
           checkmark = checkbox.renderCheckbox().props.children[0].props.children;
 
           expect(checkmark.props.className)
-            .not.toContain('checkmarkClasses');
+            .not.toContain('checkmarkUncheckedClasses');
         });
       });
 
@@ -78,7 +78,7 @@ describe('Checkbox component', () => {
       });
 
       describe('when focused', () => {
-        it('should display focused classes', () => {
+        it('should display the focused classes', () => {
           checkbox.setState({ focused: true });
 
           expect(checkboxNode.querySelector('.focusClasses'))
@@ -87,7 +87,7 @@ describe('Checkbox component', () => {
       });
 
       describe('when invalid', () => {
-        it('should display focused classes', () => {
+        it('should display the invalid classes', () => {
           checkbox.setState({ hasError: true, blurred: true });
 
           expect(checkboxNode.querySelector('.invalidClasses'))
@@ -114,7 +114,7 @@ describe('Checkbox component', () => {
       });
 
       describe('description', () => {
-        it('should be added if it is true', () => {
+        it('should be added if the prop is present', () => {
           checkbox = domRender(<Checkbox description='hello' />);
           checkboxNode = ReactDOM.findDOMNode(checkbox);
 
@@ -122,7 +122,7 @@ describe('Checkbox component', () => {
             .toEqual('hello');
         });
 
-        it('should not be added if it is false', () => {
+        it('should not be added if the prop is missing', () => {
           checkbox = domRender(<Checkbox />);
           checkboxNode = ReactDOM.findDOMNode(checkbox);
 
@@ -134,16 +134,12 @@ describe('Checkbox component', () => {
   });
 
   describe('onChange', () => {
-    let checkbox, checkboxNode;
+    let checkbox;
 
     beforeEach(() => {
       checkbox = domRender(<Checkbox />);
-      checkboxNode = ReactDOM.findDOMNode(checkbox);
 
-      // jsdom doesn't support html5 validation api
-      checkboxNode.querySelector('input').validity = {
-        valid: false
-      };
+      checkbox.input.validity = { valid: null };
 
       checkbox.onChange();
     });
@@ -158,30 +154,65 @@ describe('Checkbox component', () => {
         .toEqual(0);
     });
 
-    it('should set the error state correctly', () => {
-      expect(checkbox.state.hasError)
-        .toEqual(true);
+    describe('when input is valid', () => {
+      beforeEach(() => {
+        checkbox.input.validity = { valid: true };
+        checkbox.onChange();
+      });
+
+      it('should set the error state to false', () => {
+        expect(checkbox.state.hasError)
+          .toEqual(false);
+      });
+    });
+
+    describe('when input is invalid', () => {
+      beforeEach(() => {
+        checkbox.input.validity = { valid: false };
+        checkbox.onChange();
+      });
+
+      it('should set the error state to true', () => {
+        expect(checkbox.state.hasError)
+          .toEqual(true);
+      });
     });
   });
 
   describe('onBlur', () => {
-    let checkbox, checkboxNode;
+    let checkbox;
 
     beforeEach(() => {
       checkbox = domRender(<Checkbox />);
-      checkboxNode = ReactDOM.findDOMNode(checkbox);
 
       // jsdom doesn't support html5 validation api
-      checkboxNode.querySelector('input').validity = {
-        valid: false
-      };
+      checkbox.input.validity = { valid: null };
 
       checkbox.onBlur();
     });
 
-    it('should set the error state correctly', () => {
-      expect(checkbox.state.hasError)
-        .toEqual(true);
+    describe('when input is valid', () => {
+      beforeEach(() => {
+        checkbox.input.validity = { valid: true };
+        checkbox.onBlur();
+      });
+
+      it('should set the error state to false', () => {
+        expect(checkbox.state.hasError)
+          .toEqual(false);
+      });
+    });
+
+    describe('when input is invalid', () => {
+      beforeEach(() => {
+        checkbox.input.validity = { valid: false };
+        checkbox.onBlur();
+      });
+
+      it('should set the error state to true', () => {
+        expect(checkbox.state.hasError)
+          .toEqual(true);
+      });
     });
   });
 });

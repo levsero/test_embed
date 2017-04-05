@@ -6,14 +6,13 @@
 }
 
 .checkbox {
-  composes: u-posRelative u-pullLeft u-isActionable from '../../styles/utils.scss';
+  composes: u-posRelative u-pullLeft u-marginRS u-isActionable from '../../styles/utils.scss';
 
   width: #{14/$font-size}rem;
   height: #{14/$font-size}rem;
   background-color: $base-color;
   border: $thin-border-size solid $stroke-color;
   border-radius: #{4/$font-size}rem;
-  margin-right: #{10/$font-size}rem;
   top: #{1/$font-size}rem;
 
   [dir='rtl'] & {
@@ -33,7 +32,7 @@
   }
 }
 
-.checkmark {
+.checkmarkUnchecked {
   composes: u-isHiddenVisually from '../../styles/utils.scss';
 }
 
