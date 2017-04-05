@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { document } from 'utility/globals';
+import { clamp } from 'utility/utils';
 
 let previousEvent = null;
 const listeners = [];
@@ -31,7 +32,7 @@ const target = (element, onHit) => {
 
     // Calculate what the minimum distance should be based on the current mouse speed.
     const cappedSpeed = Math.min(speed, maxSpeed);
-    const minDistance = Math.min(Math.max(minDistanceThreshold, cappedSpeed / maxSpeed), maxDistanceThreshold);
+    const minDistance = clamp(cappedSpeed / maxSpeed, minDistanceThreshold, maxDistanceThreshold);
 
     if (distance < minDistance &&
         isMovingTowards(targetPosNorm, mousePosNorm, mouseVelNorm)) {
