@@ -253,6 +253,39 @@ describe('embed.chat', () => {
         });
       });
 
+      describe('zopim.endpoint', () => {
+        describe('when the config doesnt exist', () => {
+          const chatName = 'bob';
+          const config = { zopimId: '123' };
+
+          beforeEach(() => {
+            chat.create(chatName, config);
+            chat.render(chatName);
+          });
+
+          it('should inject v2.zopim.com into the zopim snippet', () => {
+            expect(document.body.textContent.indexOf('v2.zopim.com'))
+              .not.toEqual(-1);
+          });
+        });
+
+        describe('when the config exists', () => {
+          const chatName = 'Sizuki';
+          const endpoint = 'v2.zopim.org';
+          const config = { endpoint, zopimId: '456' };
+
+          beforeEach(() => {
+            chat.create(chatName, config);
+            chat.render(chatName);
+          });
+
+          it(`should inject ${endpoint} into the zopim snippet`, () => {
+            expect(document.body.textContent.indexOf(endpoint))
+              .not.toEqual(-1);
+          });
+        });
+      });
+
       describe('zopim.onUnreadMsgs', () => {
         it('should broadcast <name>.onUnreadMsgs regardless of count', () => {
           const count = Math.floor(Math.random() * 100);
