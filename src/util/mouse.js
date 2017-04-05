@@ -3,167 +3,98 @@ import _ from 'lodash';
 import { document } from 'utility/globals';
 
 let previousEvent = null;
-
-// TODO: Add more browser events.
-const eventNameMap = {
-  'move': 'mousemove'
-};
-const eventHandlerMap = {
-  'mousemove': handleMouseMove
-};
-const listenersStore = _.reduce(eventHandlerMap, (res, _, key) => {
-  res[key] = [];
-  return res;
-}, {});
+const listeners = [];
 const defaultTargetOptions = {
   speedThreshold: 1.5,
   fastMinDistance: 0.6,
   slowMinDistance: 0.25
 };
 
-function on(event, listener) {
-  const listeners = getListeners(event);
-
-  if (listeners === null) {
-    return;
-  }
-
-  if (listeners.length === 0) {
-    const eventName = eventNameMap[event];
-
-    document.addEventListener(eventName, eventHandlerMap[eventName]);
-  }
-
-  listeners.push(listener);
-}
-
-function once(event, listener) {
-  listener.once = true;
-  on(event, listener);
-}
-
-function off(event, listener) {
-  let listeners = getListeners(event);
-
-  if (listeners === null) {
-    return;
-  }
-
-  const idx = listeners.indexOf(listener);
-
-  if (idx > -1) {
-    listeners = listeners.splice(idx, 1);
-  }
-
-  if (listeners.length === 0) {
-    const eventName = eventNameMap[event];
-
-    document.removeEventListener(eventName, eventHandlerMap[eventName]);
-  }
-}
-
-function target(element, onHit, options = {}) {
-  _.defaults(options, defaultTargetOptions);
+const target = (element, onHit, options) => {
+  options = _.defaults({}, options, defaultTargetOptions);
 
   let previousDistance = 0;
+  const cancelHandler = (listener) => () => removeListener(listener);
   const listener = (props) => {
+    const { x, y, speed } = props;
     const bounds = element.getBoundingClientRect();
 
     // Get the positions in normalized coordinates to make the distance check
     // more simple for different window sizes.
-    const targetCoords = normaliseCoords(bounds.left, bounds.top);
-    const mouseCoords = normaliseCoords(props.x, props.y);
+    const [targetNormX, targetNormY] = normaliseCoords(bounds.left, bounds.top);
+    const [mouseNormX, mouseNormY] = normaliseCoords(x, y);
 
     if (__DEV__) {
-      drawDebugLine(targetCoords, mouseCoords);
+      drawDebugLine(targetNormX, targetNormY, mouseNormX, mouseNormY);
     }
 
     // Check the euclidean distance between the mouse and the widget.
-    const distance = getDistance(targetCoords, mouseCoords);
-    const minDistance = props.speed > options.speedThreshold
+    const distance = getDistance(targetNormX, targetNormY, mouseNormX, mouseNormY);
+    const minDistance = speed > options.speedThreshold
                       ? options.fastMinDistance
                       : options.slowMinDistance;
 
     if (distance < minDistance && previousDistance > distance) {
       onHit();
-      off('move', listener);
+      cancelHandler(listener)();
     }
 
     previousDistance = distance;
   };
-  const cancel = () => {
-    off('move', listener);
-  };
 
-  on('move', listener);
+  addListener(listener);
 
   // Return a handler to the calling code so this event can be cancelled.
-  return cancel;
-}
+  return cancelHandler(listener);
+};
 
-function getListeners(event) {
-  const eventName = eventNameMap[event];
-
-  return eventHandlerMap[eventName]
-       ? listenersStore[eventName]
-       : null;
-}
-
-function remove(event) {
-  const listeners = getListeners(event);
-
-  if (listeners === null) {
-    return;
+function addListener(listener) {
+  if (listeners.length === 0) {
+    document.addEventListener('mousemove', handleMouseMove);
   }
 
-  const eventName = eventNameMap[event];
+  listeners.push(listener);
+}
 
-  listenersStore[eventName] = [];
-  document.removeEventListener(eventName, eventHandlerMap[eventName]);
+function removeListener(listener) {
+  _.pull(listeners, listener);
+
+  if (listeners.length === 0) {
+    document.removeEventListener('mousemove', handleMouseMove);
+  }
 }
 
 function handleMouseMove(event) {
   event.time = Date.now();
 
-  const position = { x: event.clientX, y: event.clientY };
-  const speed = calculateMouseSpeed(position);
-  const listeners = listenersStore.mousemove;
-
-  previousEvent = event;
-
-  callListeners(listeners, {
-    x: position.x,
-    y: position.y,
+  const { clientX: x, clientY: y } = event;
+  const speed = calculateMouseSpeed(x, y);
+  const props = {
+    x,
+    y,
     speed,
     event
-  });
+  };
+
+  previousEvent = event;
+  listeners.forEach((listener) => listener(props));
 }
 
-function callListeners(listeners, props) {
-  _.forEach(listeners, (listener) => {
-    listener(props);
-
-    if (listener.once) {
-      off(event, listener);
-    }
-  });
-}
-
-function calculateMouseSpeed(position) {
+function calculateMouseSpeed(x, y) {
   if (!previousEvent) {
     return 0;
   }
 
-  const lastPos = { x: previousEvent.clientX, y: previousEvent.clientY };
-  const distance = getDistance(lastPos, position);
+  const { clientX: lastX, clientY: lastY } = previousEvent;
+  const distance = getDistance(lastX, lastY, x, y);
   const time = Date.now() - previousEvent.time;
 
   return distance / time;
 }
 
-function getDistance(pointA, pointB) {
-  const lhs = Math.pow(pointA.x - pointB.x, 2);
-  const rhs = Math.pow(pointA.y - pointB.y, 2);
+function getDistance(x1, y1, x2, y2) {
+  const lhs = Math.pow(x1 - x2, 2);
+  const rhs = Math.pow(y1 - y2, 2);
 
   return Math.sqrt(lhs + rhs);
 }
@@ -171,13 +102,13 @@ function getDistance(pointA, pointB) {
 function normaliseCoords(x, y) {
   const docEl = document.documentElement;
 
-  return {
-    x: x / docEl.clientWidth,
-    y: y / docEl.clientHeight
-  };
+  return [
+    x / docEl.clientWidth,
+    y / docEl.clientHeight
+  ];
 }
 
-function drawDebugLine(widgetCoords, mouseCoords) {
+function drawDebugLine(targetX, targetY, mouseX, mouseY) {
   const line = document.getElementById('zeLine');
 
   if (!line) {
@@ -187,19 +118,16 @@ function drawDebugLine(widgetCoords, mouseCoords) {
   const clientWidth = document.documentElement.clientWidth;
   const clientHeight = document.documentElement.clientHeight;
 
-  line.setAttribute('x1', Math.round(mouseCoords.x * clientWidth));
-  line.setAttribute('x2', Math.round(widgetCoords.x * clientWidth));
-  line.setAttribute('y1', Math.round(mouseCoords.y * clientHeight));
-  line.setAttribute('y2', Math.round(widgetCoords.y * clientHeight));
+  line.setAttribute('x1', Math.round(mouseX * clientWidth));
+  line.setAttribute('x2', Math.round(targetX * clientWidth));
+  line.setAttribute('y1', Math.round(mouseY * clientHeight));
+  line.setAttribute('y2', Math.round(targetY * clientHeight));
 }
 
 export const mouse = {
-  on,
-  once,
-  off,
-  remove,
   target,
-  getListeners,
+  addListener,
+  removeListener,
   // The event handlers are exposed because we can't simulate mouse events in our tests.
   handleMouseMove
 };
