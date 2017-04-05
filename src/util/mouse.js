@@ -6,12 +6,20 @@ import { clamp } from 'utility/utils';
 let previousEvent = null;
 const listeners = [];
 const maxSpeed = 5;
-const minDistanceThreshold = 0.25;
-const maxDistanceThreshold = 0.6;
+const targetDefaults = {
+  minHitDistance: 0.25,
+  maxHitDistance: 0.6
+};
 
-const target = (element, onHit) => {
-  const cancelHandler = (listener) => () => removeListener(listener);
-  const listener = (props) => {
+const target = (element, onHit, options = {}) => {
+  if (element._zEId && _.find(listeners, findListenerById(element._zEId))) return;
+  options = _.defaults({}, options, targetDefaults);
+
+  // Attach a unique-id to the target so we can identify it.
+  const id = element._zEId = _.uniqueId();
+  const { minHitDistance, maxHitDistance } = options;
+  const cancelHandler = () => mouse.removeListener(id);
+  const handler = (props) => {
     const { x, y, vx, vy, speed } = props;
     const bounds = element.getBoundingClientRect();
 
@@ -32,36 +40,38 @@ const target = (element, onHit) => {
 
     // Calculate what the minimum distance should be based on the current mouse speed.
     const cappedSpeed = Math.min(speed, maxSpeed);
-    const minDistance = clamp(cappedSpeed / maxSpeed, minDistanceThreshold, maxDistanceThreshold);
+    const threshold = clamp(cappedSpeed / maxSpeed, minHitDistance, maxHitDistance);
 
-    if (distance < minDistance &&
+    if (distance < threshold &&
         isMovingTowards(targetPosNorm, mousePosNorm, mouseVelNorm)) {
       onHit();
-      cancelHandler(listener)();
+      cancelHandler();
     }
   };
 
-  addListener(listener);
+  mouse.addListener(id, handler);
 
   // Return a handler to the calling code so this event can be cancelled.
-  return cancelHandler(listener);
+  return cancelHandler;
 };
 
-const addListener = (listener) => {
+const addListener = (id, handler) => {
   if (listeners.length === 0) {
     document.addEventListener('mousemove', handleMouseMove);
   }
 
-  listeners.push(listener);
+  listeners.push({ id, handler });
 };
 
-const removeListener = (listener) => {
-  _.pull(listeners, listener);
+const removeListener = (id) => {
+  _.remove(listeners, findListenerById(id));
 
   if (listeners.length === 0) {
     document.removeEventListener('mousemove', handleMouseMove);
   }
 };
+
+const findListenerById = (id) => (listener) => listener.id === id;
 
 const handleMouseMove = (event) => {
   event.time = Date.now();
@@ -80,7 +90,7 @@ const handleMouseMove = (event) => {
   };
 
   previousEvent = event;
-  listeners.forEach((listener) => listener(props));
+  listeners.forEach((listener) => listener.handler(props));
 };
 
 const getMouseSpeed = (x, y, now) => {

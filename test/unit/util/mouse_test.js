@@ -17,19 +17,108 @@ describe('mouse', () => {
             clientHeight: 1080
           }
         }
+      },
+      'utility/utils': {
+        clamp
       }
     });
 
     mockery.registerAllowable(mousePath);
     mouse = requireUncached(mousePath).mouse;
-
     mockDocument = mockRegistry['utility/globals'].document;
-    mouse.remove('move');
   });
 
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  fdescribe('#target', () => {
+    let onHitHandler,
+      cancelHandler,
+      target;
+
+    beforeEach(() => {
+      onHitHandler = jasmine.createSpy('onHitHandler');
+      target = document.createElement('div');
+    });
+
+    describe('when there are no existing listeners', () => {
+      beforeEach(() => {
+        spyOn(mouse, 'addListener');
+        cancelHandler = mouse.target(target, onHitHandler);
+      });
+
+      it('should add a _zEId property to the target element', () => {
+        expect(target._zEId)
+          .toBeDefined();
+      });
+
+      it('should call addListener with the _zEId and handler', () => {
+        expect(mouse.addListener)
+          .toHaveBeenCalledWith(target._zEId, jasmine.any(Function));
+      });
+
+      it('should add a document event handler for mousemove', () => {
+        expect(mockDocument.addEventListener)
+          .toHaveBeenCalledWith('mousemove', jasmine.any(Function));
+      });
+    });
+
+    describe('when there are existing listeners', () => {
+      beforeEach(() => {
+        mockDocument.addEventListener.calls.reset();
+      });
+
+      describe('when a listener does not exist for the given target', () => {
+        beforeEach(() => {
+          target = document.createElement('div');
+          mouse.target(target, onHitHandler);
+        });
+
+        it('should not add a document event handler for mousemove', () => {
+          expect(mockDocument.addEventListener)
+            .not.toHaveBeenCalledWith('mousemove', jasmine.any(Function));
+        });
+      });
+
+      describe('when a listener already exists for the given target', () => {
+        beforeEach(() => {
+          spyOn(mouse, 'addListener');
+          mouse.target(target, onHitHandler);
+        });
+
+        it('should not add a _zEId property to the target element', () => {
+          expect(target._zEId)
+            .toBeUndefined();
+        });
+
+        it('should not call addListener', () => {
+          expect(mouse.addListener)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when the cancel handler is called', () => {
+      beforeEach(() => {
+        spyOn(mouse, 'removeListener');
+        cancelHandler();
+      });
+
+      it('should call removeListener', () => {
+        expect(mouse.removeListener)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the minimum distance has not been reached', () => {
+
+    });
+
+    describe('when the minimum distance has been reached', () => {
+
+    });
   });
 
   describe('#on', () => {

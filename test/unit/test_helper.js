@@ -122,4 +122,8 @@ global.mockObjectDifference = (a, b) => {
   return _.transform(a, transformFn, {});
 };
 
+global.clamp = (val, min, max) => {
+  return Math.min(Math.max(min, val), max);
+};
+
 global.__DEV__ = true;
