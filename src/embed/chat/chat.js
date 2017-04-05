@@ -17,7 +17,8 @@ function create(name, config) {
     standalone: false,
     offsetVertical: parseInt(settings.get('offset').vertical), // Zopim api can accept numbers, this trims off the 'px' value
     offsetHorizontal: parseInt(settings.get('offset').horizontal) + settings.get('margin'),
-    size: 'large'
+    size: 'large',
+    endpoint: 'v2.zopim.com'
   };
 
   if (validSettingsColor()) {
@@ -74,10 +75,11 @@ function hide() {
 function render(name) {
   const config = get(name).config;
   const zopimId = config.zopimId;
+  const zopimEndpoint = config.endpoint;
   const snippet = `
     (function(d,s){var z=$zopim,$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
     $.async=!0;$.setAttribute('charset','utf-8');
-    $.src='https://v2.zopim.com/?${zopimId}';
+    $.src='https://${zopimEndpoint}/?${zopimId}';
     z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
   `;
   const scriptTag = document.createElement('script');
