@@ -16,11 +16,9 @@ describe('embed.chat', () => {
 
   beforeEach(() => {
     resetDOM();
-
     mockery.enable();
 
     mockIsMobileBrowserValue = false;
-
     mockSettingsValue = { offset: { horizontal: 0, vertical: 0 } };
 
     mockZopim = (fn) => fn.bind(mockGlobals)();
@@ -184,6 +182,43 @@ describe('embed.chat', () => {
         .toHaveBeenCalled();
     });
 
+    describe('zopim.endpoint', () => {
+      describe('when the config doesnt exist', () => {
+        const chatName = 'bob';
+        const config = { zopimId: '123' };
+
+        beforeEach(() => {
+          chat.create(chatName, config);
+          chat.render(chatName);
+        });
+
+        it('should inject v2.zopim.com into the zopim snippet', () => {
+          const scriptTag = document.querySelector('body > script');
+
+          expect(scriptTag.innerHTML.indexOf('v2.zopim.com'))
+            .not.toEqual(-1);
+        });
+      });
+
+      describe('when the config exists', () => {
+        const chatName = 'Sizuki';
+        const endpoint = 'v2.zopim.org';
+        const config = { endpoint, zopimId: '456' };
+
+        beforeEach(() => {
+          chat.create(chatName, config);
+          chat.render(chatName);
+        });
+
+        it(`should inject ${endpoint} into the zopim snippet`, () => {
+          const scriptTag = document.querySelector('body > script');
+
+          expect(scriptTag.innerHTML.indexOf(endpoint))
+            .not.toEqual(-1);
+        });
+      });
+    });
+
     describe('mediator broadcasts', () => {
       let mockZopim,
         onHideCall,
@@ -249,39 +284,6 @@ describe('embed.chat', () => {
           it('should broadcast <name>.onOffline', () => {
             expect(mockMediator.channel.broadcast)
               .toHaveBeenCalledWith('dave.onOffline');
-          });
-        });
-      });
-
-      describe('zopim.endpoint', () => {
-        describe('when the config doesnt exist', () => {
-          const chatName = 'bob';
-          const config = { zopimId: '123' };
-
-          beforeEach(() => {
-            chat.create(chatName, config);
-            chat.render(chatName);
-          });
-
-          it('should inject v2.zopim.com into the zopim snippet', () => {
-            expect(document.body.textContent.indexOf('v2.zopim.com'))
-              .not.toEqual(-1);
-          });
-        });
-
-        describe('when the config exists', () => {
-          const chatName = 'Sizuki';
-          const endpoint = 'v2.zopim.org';
-          const config = { endpoint, zopimId: '456' };
-
-          beforeEach(() => {
-            chat.create(chatName, config);
-            chat.render(chatName);
-          });
-
-          it(`should inject ${endpoint} into the zopim snippet`, () => {
-            expect(document.body.textContent.indexOf(endpoint))
-              .not.toEqual(-1);
           });
         });
       });
