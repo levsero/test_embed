@@ -33,7 +33,7 @@ export class Checkbox extends Component {
     super(props, context);
 
     this.state = {
-      blurred: false,
+      hasBlurred: false,
       focused: false,
       hasError: false,
       value: 0
@@ -49,7 +49,7 @@ export class Checkbox extends Component {
   onBlur = () => {
     this.setState({
       focused: false,
-      blurred: true,
+      hasBlurred: true,
       hasError: !this.input.validity.valid
     });
   }
@@ -81,9 +81,9 @@ export class Checkbox extends Component {
   }
 
   renderCheckbox = () => {
-    const { focused, hasError, blurred, value } = this.state;
+    const { focused, hasError, hasBlurred, value } = this.state;
     const focusedClasses = focused ? styles.focused : '';
-    const errorClasses = hasError && blurred ? styles.invalid : '';
+    const errorClasses = hasError && hasBlurred ? styles.invalid : '';
     const checkedClasses = value ? '' : styles.checkmarkUnchecked;
 
     return (

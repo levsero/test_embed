@@ -88,7 +88,7 @@ describe('Checkbox component', () => {
 
       describe('when invalid', () => {
         it('should display the invalid classes', () => {
-          checkbox.setState({ hasError: true, blurred: true });
+          checkbox.setState({ hasError: true, hasBlurred: true });
 
           expect(checkboxNode.querySelector('.invalidClasses'))
             .toBeTruthy();
