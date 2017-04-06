@@ -21,11 +21,11 @@ const target = (element, onHit, options = {}) => {
   const cancelHandler = () => removeListener(id);
   const handler = (props) => {
     const { x, y, vx, vy, speed } = props;
-    const bounds = element.getBoundingClientRect();
+    const [targetX, targetY] = getTargetPosition(element);
 
     // Get the positions & velocity in normalised (0..1) form to make the distance check
     // more simple for different window sizes.
-    const targetPosNorm = normalise(bounds.left, bounds.top);
+    const targetPosNorm = normalise(targetX, targetY);
     const mousePosNorm = normalise(x, y);
     const mouseVelNorm = normalise(vx, vy);
 
@@ -34,9 +34,9 @@ const target = (element, onHit, options = {}) => {
     }
 
     // Check the euclidean distance between the mouse and the widget.
-    const [targetX, targetY] = targetPosNorm;
-    const [mouseX, mouseY] = mousePosNorm;
-    const distance = getDistance(targetX, targetY, mouseX, mouseY);
+    const [targetNormX, targetNormY] = targetPosNorm;
+    const [mouseNormX, mouseNormY] = mousePosNorm;
+    const distance = getDistance(targetNormX, targetNormY, mouseNormX, mouseNormY);
 
     // Calculate what the minimum distance should be based on the current mouse speed.
     const cappedSpeed = Math.min(speed, maxSpeed);
@@ -124,6 +124,16 @@ const getDistance = (x1, y1, x2, y2) => {
   const rhs = Math.pow(y2 - y1, 2);
 
   return Math.sqrt(lhs + rhs);
+};
+
+const getTargetPosition = (target) => {
+  const { clientWidth: w, clientHeight: h } = document.documentElement;
+  const { left, right, top, bottom } = target.getBoundingClientRect();
+
+  return [
+    left > w/2 ? left : right,
+    top > h/2 ? top : bottom
+  ];
 };
 
 const normalise = (x, y) => {

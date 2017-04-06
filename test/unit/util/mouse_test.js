@@ -197,7 +197,7 @@ describe('mouse', () => {
     });
   });
 
-  describe('handling events', () => {
+  describe('handling mousemove event', () => {
     let mockEvent,
       mockListener;
 
