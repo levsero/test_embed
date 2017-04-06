@@ -109,13 +109,13 @@ describe('mouse', () => {
     describe('distance check', () => {
       let props,
         handler;
-      const minDistanceInPixels = 215;
+      const minDistanceInPixels = 240;
 
       beforeEach(() => {
         handler = mouse.listeners[0].handler;
         props = {
-          x: targetBounds.right + minDistanceInPixels + 1,
-          y: targetBounds.bottom + minDistanceInPixels + 1,
+          x: targetBounds.right + minDistanceInPixels,
+          y: targetBounds.bottom + minDistanceInPixels,
           vx: -1,
           vy: -1,
           speed: 0.1
@@ -157,8 +157,8 @@ describe('mouse', () => {
 
       describe('when the minimum distance has been reached', () => {
         beforeEach(() => {
-          props.x -= 1; // Move one pixels closer
-          props.y -= 1;
+          props.x -= 10; // Move 10 pixels closer
+          props.y -= 10;
         });
 
         describe('when the mouse is moving away from the target', () => {
@@ -198,67 +198,63 @@ describe('mouse', () => {
   });
 
   describe('handling mousemove event', () => {
-    let mockEvent,
-      mockListener;
+    let event,
+      handler,
+      args;
 
     beforeEach(() => {
-      mockEvent = {
+      event = {
         clientX: 100,
         clientY: 200
       };
-      mockListener = jasmine.createSpy('listener');
+      mouse.target(document.createElement('div'), () => {});
+      handler = mouse.listeners[0].handler = jasmine.createSpy('listener');
 
-      mouse.on('move', mockListener);
-    });
-
-    it('should call that listener on the event with valid params', () => {
-      mouse.handleMouseMove(mockEvent);
-
-      expect(mockListener)
-        .toHaveBeenCalledWith({
-          x: 100,
-          y: 200,
-          speed: 0,
-          event: mockEvent
-        });
-    });
-
-    it('should calculate speed correctly', () => {
       const now = new Date();
 
       // The mouse is initially at is at x: 100, y: 200.
       jasmine.clock().mockDate(now);
-      mouse.handleMouseMove(mockEvent);
+      mouse.handleMouseMove(event);
 
       // Advance the clock by 1 second.
       jasmine.clock().mockDate(new Date(now.getTime() + 1000));
-      mockListener.calls.reset();
+      handler.calls.reset();
 
       // Move the mouse to x: 150, y: 250 to simulate the user moving 50px
       // along the x and y axis in one second.
-      const nextMockEvent =_.merge({}, mockEvent, {
+      const nextEvent =_.merge({}, event, {
         clientX: 150,
         clientY: 250
       });
 
-      mouse.handleMouseMove(nextMockEvent);
+      mouse.handleMouseMove(nextEvent);
+      args = handler.calls.mostRecent().args;
+    });
 
-      expect(mockListener)
+    it('should call the handler', () => {
+      expect(handler)
         .toHaveBeenCalled();
+    });
 
-      const args = mockListener.calls.mostRecent().args;
-
+    it('sets the mouse x and y props', () => {
       expect(args[0].x)
         .toBe(150);
 
       expect(args[0].y)
         .toBe(250);
+    });
 
+    it('sets the mouse speed prop', () => {
       expect(args[0].speed)
         .toBeCloseTo(0.071, 3);
+    });
 
-      expect(args[0].event)
-        .toEqual(nextMockEvent);
+    it('sets the mouse vx and vy props', () => {
+      expect(args[0].vx)
+        .toBe(0.05);
+
+      expect(args[0].vy)
+        .toBe(0.05);
     });
   });
 });
