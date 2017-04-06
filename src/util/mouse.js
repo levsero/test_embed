@@ -18,7 +18,7 @@ const target = (element, onHit, options = {}) => {
   // Attach a unique-id to the target so we can identify it.
   const id = element._zEId = _.uniqueId();
   const { minHitDistance, maxHitDistance } = options;
-  const cancelHandler = () => mouse.removeListener(id);
+  const cancelHandler = () => removeListener(id);
   const handler = (props) => {
     const { x, y, vx, vy, speed } = props;
     const bounds = element.getBoundingClientRect();
@@ -49,7 +49,7 @@ const target = (element, onHit, options = {}) => {
     }
   };
 
-  mouse.addListener(id, handler);
+  addListener(id, handler);
 
   // Return a handler to the calling code so this event can be cancelled.
   return cancelHandler;
@@ -164,8 +164,8 @@ const drawDebugLine = (target, mouse) => {
 
 export const mouse = {
   target,
-  addListener,
-  removeListener,
-  // The event handlers are exposed because we can't simulate mouse events in our tests.
+  // The listeners are exposed to help test the module.
+  listeners,
+  // The window event handler is exposed because we can't simulate mouse events in our tests.
   handleMouseMove
 };

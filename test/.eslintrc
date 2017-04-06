@@ -23,6 +23,7 @@
     "shallow": true,
     "instanceRender": true,
     "mockObjectDifference": true,
+    "clamp": true
   },
   "rules": {
     "max-len": 0,
