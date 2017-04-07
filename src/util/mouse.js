@@ -3,84 +3,76 @@ import _ from 'lodash';
 import { document } from 'utility/globals';
 
 let previousEvent = null;
-const listeners = [];
+let element = null;
+let onHitHandler = () => {};
+
 const maxSpeed = 5;
-const targetDefaults = {
-  minHitDistance: 0.25,
-  maxHitDistance: 0.6
-};
+const minHitDistance = 0.25;
+const maxHitDistance = 0.6;
 
-const target = (element, onHit, options = {}) => {
-  if (element._zEId && _.find(listeners, findListenerById(element._zEId))) return;
+const mouse = {
+  target(domElement, onHit) {
+    if (element) return;
 
-  options = _.defaults({}, options, targetDefaults);
+    element = domElement;
+    onHitHandler = onHit;
+    addListener();
 
-  // Attach a unique-id to the target so we can identify it.
-  const id = element._zEId = _.uniqueId();
-  const { minHitDistance, maxHitDistance } = options;
-  const cancelHandler = () => removeListener(id);
-  const handler = (props) => {
-    const { x, y, vx, vy, speed } = props;
-    const [targetX, targetY] = getTargetPosition(element);
+    // Return a handler to the calling code so this event can be cancelled.
+    return () => removeListener();
+  },
 
-    // Get the positions & velocity in normalised (0..1) form to make the distance check
-    // more simple for different window sizes.
-    const targetPosNorm = normalise(targetX, targetY);
-    const mousePosNorm = normalise(x, y);
-    const mouseVelNorm = normalise(vx, vy);
-
-    if (__DEV__) {
-      drawDebugLine(targetPosNorm, mousePosNorm);
-    }
-
-    // Check the euclidean distance between the mouse and the widget.
-    const [targetNormX, targetNormY] = targetPosNorm;
-    const [mouseNormX, mouseNormY] = mousePosNorm;
-    const distance = getDistance(targetNormX, targetNormY, mouseNormX, mouseNormY);
-
+  hasTargetHit(distance, speed, isMovingTowards) {
     // Calculate what the minimum distance should be based on the current mouse speed.
     const cappedSpeed = Math.min(speed, maxSpeed);
     const threshold = _.clamp(cappedSpeed / maxSpeed, minHitDistance, maxHitDistance);
 
-    if (distance < threshold &&
-        isMovingTowards(targetPosNorm, mousePosNorm, mouseVelNorm)) {
-      onHit();
-      cancelHandler();
-    }
-  };
-
-  addListener(id, handler);
-
-  // Return a handler to the calling code so this event can be cancelled.
-  return cancelHandler;
-};
-
-const addListener = (id, handler) => {
-  if (listeners.length === 0) {
-    document.addEventListener('mousemove', handleMouseMove);
-  }
-
-  listeners.push({ id, handler });
-};
-
-const removeListener = (id) => {
-  _.remove(listeners, findListenerById(id));
-
-  if (listeners.length === 0) {
-    document.removeEventListener('mousemove', handleMouseMove);
+    return distance < threshold && isMovingTowards;
   }
 };
 
-const findListenerById = (id) => (listener) => listener.id === id;
+const addListener = () => {
+  document.addEventListener('mousemove', handleMouseMove);
+};
+
+const removeListener = () => {
+  document.removeEventListener('mousemove', handleMouseMove);
+};
 
 const handleMouseMove = (event) => {
   event.time = Date.now();
 
+  const { x, y, vx, vy, speed } = getMouseProperties(event);
+  const [targetX, targetY] = getTargetPosition(element);
+
+  // Get the positions & velocity in normalised (0..1) form to make the distance check
+  // more simple for different window sizes.
+  const targetPosNorm = normalise(targetX, targetY);
+  const mousePosNorm = normalise(x, y);
+  const mouseVelNorm = normalise(vx, vy);
+
+  // Get the euclidean distance between the mouse and the widget.
+  const distance = getDistanceFromTarget(targetPosNorm, mousePosNorm);
+  const movingTowards = isMovingTowards(targetPosNorm, mousePosNorm, mouseVelNorm);
+
+  if (__DEV__) {
+    drawDebugLine(targetPosNorm, mousePosNorm);
+  }
+
+  previousEvent = event;
+  if (hasTargetHit(distance, speed, movingTowards)) {
+    onHitHandler();
+    removeListener();
+  }
+};
+
+const getMouseProperties = (event) => {
   const { clientX: x, clientY: y } = event;
   const now = Date.now();
   const speed = getMouseSpeed(x, y, now);
   const [vx, vy] = getMouseVelocity(x, y, now);
-  const props = {
+
+  return {
     x,
     y,
     vx,
@@ -88,9 +80,13 @@ const handleMouseMove = (event) => {
     speed,
     event
   };
+};
 
-  previousEvent = event;
-  listeners.forEach((listener) => listener.handler(props));
+const getDistanceFromTarget = (targetPosNorm, mousePosNorm) => {
+  const [targetNormX, targetNormY] = targetPosNorm;
+  const [mouseNormX, mouseNormY] = mousePosNorm;
+
+  return getDistance(targetNormX, targetNormY, mouseNormX, mouseNormY);
 };
 
 const getMouseSpeed = (x, y, now) => {
@@ -174,8 +170,8 @@ const drawDebugLine = (target, mouse) => {
 
 export const mouse = {
   target,
-  // The listeners are exposed to help test the module.
-  listeners,
+  // Exported for easier testing.
+  hasTargetHit,
   // The window event handler is exposed because we can't simulate mouse events in our tests.
   handleMouseMove
 };
