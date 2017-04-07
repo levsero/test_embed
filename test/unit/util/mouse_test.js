@@ -7,6 +7,7 @@ describe('mouse', () => {
     mockery.enable();
 
     const mockRegistry = initMockRegistry({
+      'lodash': _,
       'utility/globals': {
         document: {
           addEventListener: jasmine.createSpy('addEventListener'),
@@ -17,8 +18,7 @@ describe('mouse', () => {
             clientHeight: 1080
           }
         }
-      },
-      'utility/utils': { clamp }
+      }
     });
 
     mockery.registerAllowable(mousePath);
@@ -178,7 +178,7 @@ describe('mouse', () => {
           });
         });
 
-        describe('when the mouse is moving towards from the target', () => {
+        describe('when the mouse is moving towards the target', () => {
           beforeEach(() => {
             handler(props);
           });
@@ -218,7 +218,6 @@ describe('mouse', () => {
 
       // Advance the clock by 1 second.
       jasmine.clock().mockDate(new Date(now.getTime() + 1000));
-      handler.calls.reset();
 
       // Move the mouse to x: 150, y: 250 to simulate the user moving 50px
       // along the x and y axis in one second.
@@ -237,11 +236,13 @@ describe('mouse', () => {
     });
 
     it('sets the mouse x and y props', () => {
-      expect(args[0].x)
-        .toBe(150);
+      const expectation = {
+        x: 150,
+        y: 250
+      };
 
-      expect(args[0].y)
-        .toBe(250);
+      expect(args[0])
+        .toEqual(jasmine.objectContaining(expectation));
     });
 
     it('sets the mouse speed prop', () => {
@@ -250,11 +251,13 @@ describe('mouse', () => {
     });
 
     it('sets the mouse vx and vy props', () => {
-      expect(args[0].vx)
-        .toBe(0.05);
+      const expectation = {
+        vx: 0.05,
+        vy: 0.05
+      };
 
-      expect(args[0].vy)
-        .toBe(0.05);
+      expect(args[0])
+        .toEqual(jasmine.objectContaining(expectation));
     });
   });
 });

@@ -99,10 +99,6 @@ function emailValid(email) {
   return validRegex.test(email);
 }
 
-function clamp(val, min, max) {
-  return Math.min(Math.max(min, val), max);
-}
-
 export {
   getPageKeywords,
   getPageTitle,
@@ -115,6 +111,5 @@ export {
   cssTimeToMs,
   nowInSeconds,
   sha1,
-  emailValid,
-  clamp
+  emailValid
 };
