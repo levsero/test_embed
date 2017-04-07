@@ -12,6 +12,7 @@ const targetDefaults = {
 
 const target = (element, onHit, options = {}) => {
   if (element._zEId && _.find(listeners, findListenerById(element._zEId))) return;
+
   options = _.defaults({}, options, targetDefaults);
 
   // Attach a unique-id to the target so we can identify it.
