@@ -1137,6 +1137,7 @@ describe('embed.webWidget', () => {
               }
             }
           );
+          spyOn(webWidget, 'keywordsSearch');
         });
 
         it('should add the mouse target listener', () => {
@@ -1156,8 +1157,7 @@ describe('embed.webWidget', () => {
 
           describe('before post render', () => {
             beforeEach(() => {
-              spyOn(webWidget, 'keywordsSearch');
-              pluckSubscribeCall(mockMediator, 'helpCenterForm.show')({ viaApi: true });
+              pluckSubscribeCall(mockMediator, 'helpCenterForm.show')({ viaActivate: true });
               webWidget.postRender('faythe');
             });
 
@@ -1173,14 +1173,39 @@ describe('embed.webWidget', () => {
           });
 
           describe('after post render', () => {
-            beforeEach(() => {
-              webWidget.postRender();
-              pluckSubscribeCall(mockMediator, 'helpCenterForm.show')({ viaApi: true });
+            describe('when contextual search options are used', () => {
+              beforeEach(() => {
+                pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')({ search: 'help' });
+                webWidget.postRender('faythe');
+                pluckSubscribeCall(mockMediator, 'helpCenterForm.show')({ viaActivate: true });
+              });
+
+              it('should remove the mouse target listener', () => {
+                expect(targetCancelHandlerSpy)
+                  .toHaveBeenCalled();
+              });
+
+              it('should call keywordsSearch with set options', () => {
+                expect(webWidget.keywordsSearch)
+                  .toHaveBeenCalledWith({ search: 'help' });
+              });
             });
 
-            it('should remove the mouse target listener', () => {
-              expect(targetCancelHandlerSpy)
-                .toHaveBeenCalled();
+            describe('when no contextual search options are used', () => {
+              beforeEach(() => {
+                webWidget.postRender('faythe');
+                pluckSubscribeCall(mockMediator, 'helpCenterForm.show')({ viaActivate: true });
+              });
+
+              it('should remove the mouse target listener', () => {
+                expect(targetCancelHandlerSpy)
+                  .toHaveBeenCalled();
+              });
+
+              it('should call keywordsSearch with url option', () => {
+                expect(webWidget.keywordsSearch)
+                  .toHaveBeenCalledWith({ url: true });
+              });
             });
           });
         });

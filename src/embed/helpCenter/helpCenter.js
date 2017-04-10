@@ -31,6 +31,7 @@ let helpCenters = {};
 let hasManuallySetContextualSuggestions = false;
 let hasAuthenticatedSuccessfully = false;
 let useMouseDistanceContexualSearch = false;
+let contextualSearchOptions = {};
 let cancelTargetHandler = null;
 
 function create(name, config, reduxStore) {
@@ -284,12 +285,14 @@ function render(name) {
   helpCenters[name].instance = ReactDOM.render(helpCenters[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function(options = {}) {
-    if (useMouseDistanceContexualSearch && options.viaApi) {
+    if (useMouseDistanceContexualSearch && options.viaActivate) {
       useMouseDistanceContexualSearch = false;
 
       if (cancelTargetHandler) {
         cancelTargetHandler();
       }
+
+      helpCenter.keywordsSearch(name, contextualSearchOptions);
     }
 
     // Stop stupid host page scrolling
@@ -352,6 +355,8 @@ function render(name) {
 }
 
 function performContextualHelp(name, options) {
+  contextualSearchOptions = options;
+
   const onHitFn = (name, options) => () => {
     keywordsSearch(name, options);
     useMouseDistanceContexualSearch = false;

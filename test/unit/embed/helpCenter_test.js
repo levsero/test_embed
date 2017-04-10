@@ -808,6 +808,7 @@ describe('embed.helpCenter', () => {
         beforeEach(() => {
           targetSpy = mockRegistry['utility/mouse'].mouse.target;
           helpCenter.create('carlos', { contextualHelpEnabled: true, enableMouseDrivenContextualHelp: true });
+          spyOn(helpCenter, 'keywordsSearch');
         });
 
         it('should add the mouse target listener', () => {
@@ -827,8 +828,7 @@ describe('embed.helpCenter', () => {
 
           describe('before post render', () => {
             beforeEach(() => {
-              spyOn(helpCenter, 'keywordsSearch');
-              pluckSubscribeCall(mockMediator, 'carlos.show')({ viaApi: true });
+              pluckSubscribeCall(mockMediator, 'carlos.show')({ viaActivate: true });
               helpCenter.postRender('carlos');
             });
 
@@ -844,14 +844,39 @@ describe('embed.helpCenter', () => {
           });
 
           describe('after post render', () => {
-            beforeEach(() => {
-              helpCenter.postRender('carlos');
-              pluckSubscribeCall(mockMediator, 'carlos.show')({ viaApi: true });
+            describe('when contextual search options are used', () => {
+              beforeEach(() => {
+                pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'help' });
+                helpCenter.postRender('carlos');
+                pluckSubscribeCall(mockMediator, 'carlos.show')({ viaActivate: true });
+              });
+
+              it('should remove the mouse target listener', () => {
+                expect(targetCancelHandlerSpy)
+                  .toHaveBeenCalled();
+              });
+
+              it('should call keywordsSearch with set options', () => {
+                expect(helpCenter.keywordsSearch)
+                  .toHaveBeenCalledWith('carlos', { search: 'help' });
+              });
             });
 
-            it('should remove the mouse target listener', () => {
-              expect(targetCancelHandlerSpy)
-                .toHaveBeenCalled();
+            describe('when no contextual search options are used', () => {
+              beforeEach(() => {
+                helpCenter.postRender('carlos');
+                pluckSubscribeCall(mockMediator, 'carlos.show')({ viaActivate: true });
+              });
+
+              it('should remove the mouse target listener', () => {
+                expect(targetCancelHandlerSpy)
+                  .toHaveBeenCalled();
+              });
+
+              it('should call keywordsSearch with url option', () => {
+                expect(helpCenter.keywordsSearch)
+                  .toHaveBeenCalledWith('carlos', { url: true });
+              });
             });
           });
         });

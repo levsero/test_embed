@@ -35,6 +35,7 @@ let embed = null;
 let hasManuallySetContextualSuggestions = false;
 let hasAuthenticatedSuccessfully = false;
 let useMouseDistanceContexualSearch = false;
+let contextualSearchOptions = {};
 let cancelTargetHandler = null;
 
 const getWithSpinner = (path, locale, doneFn) => {
@@ -323,12 +324,14 @@ function setupMediator() {
   });
 
   mediator.channel.subscribe('helpCenterForm.show', (options = {}) => {
-    if (useMouseDistanceContexualSearch && options.viaApi) {
+    if (useMouseDistanceContexualSearch && options.viaActivate) {
       useMouseDistanceContexualSearch = false;
 
       if (cancelTargetHandler) {
         cancelTargetHandler();
       }
+
+      webWidget.keywordsSearch(contextualSearchOptions);
     }
 
     // Stop stupid host page scrolling
@@ -429,6 +432,8 @@ function keywordsSearch(options) {
 }
 
 function performContextualHelp(options) {
+  contextualSearchOptions = options;
+
   const onHitFn = (options) => () => {
     keywordsSearch(options);
     useMouseDistanceContexualSearch = false;
