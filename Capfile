@@ -10,8 +10,7 @@ set :application, 'zendesk_embeddable_framework'
 set :repository, 'git@github.com:zendesk/embeddable_framework'
 set :ruby_version, File.read('.ruby-version').chomp
 set :email_notification, ['deploys@zendesk.com',
-                          'taipan@zendesk.com',
-                          'engagement@zendesk.flowdock.com']
+                          'taipan@zendesk.com']
 
 set :framework_files,    ['main.js',
                           'npsPreview.js',
@@ -21,6 +20,9 @@ set :framework_files,    ['main.js',
                           'bootstrap.js']
 
 set :branch, ENV['REVISION'] || 'master'
+
+# the old gem gave us `local_head_revision` for free.
+# The new one doesn't so we grab it from git
 set :local_head_revision, `git rev-parse HEAD 2>&-`.strip
 set :build_version,
   (fetch(:tag) && fetch(:tag).gsub(/^v/, '')) || fetch(:branch) || local_head_revision
