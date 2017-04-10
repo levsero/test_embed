@@ -32,66 +32,31 @@ describe('mouse', () => {
   });
 
   describe('#target', () => {
-    let onHitHandler,
-      cancelHandler,
-      target,
-      targetBounds;
+    let cancelHandler;
 
     beforeEach(() => {
-      target = document.createElement('div');
-      targetBounds = { top: 0, left: 0, bottom: 20, right: 20 };
-      target.getBoundingClientRect = () => targetBounds;
-      onHitHandler = jasmine.createSpy('onHitHandler');
-      cancelHandler = mouse.target(target, onHitHandler);
+      cancelHandler = mouse.target(document.createElement('div'), () => {});
     });
 
-    it('should add a _zEId property to the target element', () => {
-      expect(target._zEId)
-        .toBeDefined();
+    it('should add a document event handler for mousemove', () => {
+      expect(mockDocument.addEventListener)
+        .toHaveBeenCalledWith('mousemove', jasmine.any(Function));
     });
 
-    it('should add the listener with the _zEId and handler', () => {
-      expect(mouse.listeners[0].id)
-        .toBe(target._zEId);
-
-      expect(mouse.listeners[0].handler)
+    it('should return a cancel handler function', () => {
+      expect(cancelHandler)
         .toEqual(jasmine.any(Function));
     });
 
-    describe('when there are no existing listeners', () => {
-      it('should add a document event handler for mousemove', () => {
-        expect(mockDocument.addEventListener)
-          .toHaveBeenCalledWith('mousemove', jasmine.any(Function));
-      });
-    });
-
-    describe('when there are existing listeners', () => {
+    describe('when there is an existing target', () => {
       beforeEach(() => {
-        mockDocument.addEventListener.calls.reset();
-        mouse.target(document.createElement('div'), onHitHandler);
+        mouse.target(document.createElement('div'), () => {});
+        mouse.target(document.createElement('div'), () => {});
       });
 
       it('should not add a document event handler for mousemove', () => {
-        expect(mockDocument.addEventListener)
-          .not.toHaveBeenCalledWith('mousemove', jasmine.any(Function));
-      });
-
-      describe('when a listener does not exist for the given target', () => {
-        it('should add the listener', () => {
-          expect(mouse.listeners.length)
-            .toBe(2);
-        });
-      });
-
-      describe('when a listener already exists for the given target', () => {
-        beforeEach(() => {
-          mouse.target(target, onHitHandler);
-        });
-
-        it('should not add the listener', () => {
-          expect(mouse.listeners.length)
-            .toBe(2);
-        });
+        expect(mockDocument.addEventListener.calls.count())
+          .toBe(1);
       });
     });
 
@@ -100,164 +65,119 @@ describe('mouse', () => {
         cancelHandler();
       });
 
-      it('should remove the listener', () => {
-        expect(mouse.listeners.length)
-          .toBe(0);
+      it('should remove the document event handler for mousemove', () => {
+        expect(mockDocument.removeEventListener)
+          .toHaveBeenCalledWith('mousemove', jasmine.any(Function));
       });
     });
+  });
 
-    describe('distance check', () => {
-      let props,
-        handler;
-      const minDistanceInPixels = 240;
+  describe('#_hasTargetHit', () => {
+    let distance,
+      speed,
+      isMovingTowards,
+      result;
 
+    describe('when the minimum distance has not been reached', () => {
       beforeEach(() => {
-        handler = mouse.listeners[0].handler;
-        props = {
-          x: targetBounds.right + minDistanceInPixels,
-          y: targetBounds.bottom + minDistanceInPixels,
-          vx: -1,
-          vy: -1,
-          speed: 0.1
-        };
+        distance = 0.26;
+        speed = 0.1;
       });
 
-      describe('when the minimum distance has not been reached', () => {
+      describe('when the mouse is moving towards the target', () => {
         beforeEach(() => {
-          handler(props);
+          isMovingTowards = true;
+          result = mouse._hasTargetHit(distance, speed, isMovingTowards);
         });
 
-        it('should not call the onHit callback', () => {
-          expect(onHitHandler)
-            .not.toHaveBeenCalled();
-        });
-
-        it('should not remove the listener', () => {
-          expect(mouse.listeners.length)
-            .toBe(1);
+        it('should return false', () => {
+          expect(result)
+            .toBe(false);
         });
       });
 
       describe('when the mouse is moving away from the target', () => {
         beforeEach(() => {
-          props.vx = props.vy = 1;
-          handler(props);
+          isMovingTowards = false;
+          result = mouse._hasTargetHit(distance, speed, isMovingTowards);
         });
 
-        it('should not call the onHit callback', () => {
-          expect(onHitHandler)
-            .not.toHaveBeenCalled();
+        it('should return false', () => {
+          expect(result)
+            .toBe(false);
+        });
+      });
+    });
+
+    describe('when the minimum distance has been reached', () => {
+      beforeEach(() => {
+        distance = 0.24;
+        speed = 0.1;
+      });
+
+      describe('when the mouse is moving towards the target', () => {
+        beforeEach(() => {
+          isMovingTowards = true;
+          result = mouse._hasTargetHit(distance, speed, isMovingTowards);
         });
 
-        it('should not remove the listener', () => {
-          expect(mouse.listeners.length)
-            .toBe(1);
+        it('should return true', () => {
+          expect(result)
+            .toBe(true);
         });
       });
 
-      describe('when the minimum distance has been reached', () => {
+      describe('when the mouse is moving away from the target', () => {
         beforeEach(() => {
-          props.x -= 10; // Move 10 pixels closer
-          props.y -= 10;
+          isMovingTowards = false;
+          result = mouse._hasTargetHit(distance, speed, isMovingTowards);
         });
 
-        describe('when the mouse is moving away from the target', () => {
-          beforeEach(() => {
-            props.vx = props.vy = 1;
-            handler(props);
-          });
-
-          it('should not call the onHit callback', () => {
-            expect(onHitHandler)
-              .not.toHaveBeenCalled();
-          });
-
-          it('should not remove the listener', () => {
-            expect(mouse.listeners.length)
-              .toBe(1);
-          });
-        });
-
-        describe('when the mouse is moving towards the target', () => {
-          beforeEach(() => {
-            handler(props);
-          });
-
-          it('should call the onHit callback', () => {
-            expect(onHitHandler)
-              .toHaveBeenCalled();
-          });
-
-          it('should remove the listener', () => {
-            expect(mouse.listeners.length)
-              .toBe(0);
-          });
+        it('should return false', () => {
+          expect(result)
+            .toBe(false);
         });
       });
     });
   });
 
-  describe('handling mousemove event', () => {
-    let event,
-      handler,
-      args;
+  describe('#_getMouseProperties', () => {
+    let props;
 
-    beforeEach(() => {
-      event = {
-        clientX: 100,
-        clientY: 200
-      };
-      mouse.target(document.createElement('div'), () => {});
-      handler = mouse.listeners[0].handler = jasmine.createSpy('listener');
+    describe('returns an object', () => {
+      beforeEach(() => {
+        const now = new Date();
+        const lastEvent = { clientX: 100, clientY: 200, time: new Date(now.getTime() - 1000) };
+        const event = { clientX: 150, clientY: 250 };
 
-      const now = new Date();
-
-      // The mouse is initially at is at x: 100, y: 200.
-      jasmine.clock().mockDate(now);
-      mouse.handleMouseMove(event);
-
-      // Advance the clock by 1 second.
-      jasmine.clock().mockDate(new Date(now.getTime() + 1000));
-
-      // Move the mouse to x: 150, y: 250 to simulate the user moving 50px
-      // along the x and y axis in one second.
-      const nextEvent =_.merge({}, event, {
-        clientX: 150,
-        clientY: 250
+        jasmine.clock().mockDate(now);
+        props = mouse._getMouseProperties(event, lastEvent);
       });
 
-      mouse.handleMouseMove(nextEvent);
-      args = handler.calls.mostRecent().args;
-    });
+      it('containing correct x and y props', () => {
+        const expectation = {
+          x: 150,
+          y: 250
+        };
 
-    it('should call the handler', () => {
-      expect(handler)
-        .toHaveBeenCalled();
-    });
+        expect(props)
+          .toEqual(jasmine.objectContaining(expectation));
+      });
 
-    it('sets the mouse x and y props', () => {
-      const expectation = {
-        x: 150,
-        y: 250
-      };
+      it('containing correct speed prop', () => {
+        expect(props.speed)
+          .toBeCloseTo(0.071, 3);
+      });
 
-      expect(args[0])
-        .toEqual(jasmine.objectContaining(expectation));
-    });
+      it('containing the correct vx and vy props', () => {
+        const expectation = {
+          vx: 0.05,
+          vy: 0.05
+        };
 
-    it('sets the mouse speed prop', () => {
-      expect(args[0].speed)
-        .toBeCloseTo(0.071, 3);
-    });
-
-    it('sets the mouse vx and vy props', () => {
-      const expectation = {
-        vx: 0.05,
-        vy: 0.05
-      };
-
-      expect(args[0])
-        .toEqual(jasmine.objectContaining(expectation));
+        expect(props)
+          .toEqual(jasmine.objectContaining(expectation));
+      });
     });
   });
 });
