@@ -50,6 +50,7 @@ describe('mouse', () => {
 
     describe('when there is an existing target', () => {
       beforeEach(() => {
+        // We need to call 'target' twice in order to simulate there being an existing target element.
         mouse.target(document.createElement('div'), () => {});
         mouse.target(document.createElement('div'), () => {});
       });
