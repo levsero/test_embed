@@ -178,7 +178,8 @@ export class SubmitTicket extends Component {
       this.props.updateFrameSize();
     };
 
-    this.props.submitTicketSender(formParams, doneCallback, failCallback);
+    //this.props.submitTicketSender(formParams, doneCallback, failCallback);
+    this.clearForm();
   }
 
   findField = (fieldType) => {

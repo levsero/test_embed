@@ -16,7 +16,8 @@ export class Checkbox extends Component {
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
     required: PropTypes.bool,
-    type: PropTypes.string
+    type: PropTypes.string,
+    unchecked: PropTypes.bool
   };
 
   static defaultProps = {
@@ -26,7 +27,8 @@ export class Checkbox extends Component {
     onChange: () => {},
     onFocus: () => {},
     required: false,
-    type: ''
+    type: '',
+    unchecked: false
   };
 
   constructor(props, context) {
@@ -42,6 +44,12 @@ export class Checkbox extends Component {
     this.input = null;
   }
 
+  shouldComponentUpdate = (nextProps, nextState) => {
+    if (nextProps.unchecked && nextState.value === 1) return false;
+
+    return true;
+  }
+
   onFocus = () => {
     this.setState({ focused: true });
   }
@@ -55,12 +63,16 @@ export class Checkbox extends Component {
   }
 
   onChange = () => {
-    const value = this.state.value === 1 ? 0 : 1;
+    const value = this.isChecked() ? 0 : 1;
 
     this.setState({
       value,
       hasError: !this.input.validity.valid
     });
+  }
+
+  isChecked = () => {
+    return this.state.value === 1 && !this.props.unchecked;
   }
 
   renderInput = () => {
@@ -81,10 +93,10 @@ export class Checkbox extends Component {
   }
 
   renderCheckbox = () => {
-    const { focused, hasError, hasBlurred, value } = this.state;
+    const { focused, hasError, hasBlurred } = this.state;
     const focusedClasses = focused ? styles.focused : '';
     const errorClasses = hasError && hasBlurred ? styles.invalid : '';
-    const checkedClasses = value ? '' : styles.checkmarkUnchecked;
+    const checkedClasses = this.isChecked() ? '' : styles.checkmarkUnchecked;
 
     return (
       <div className={`${styles.checkboxContainer}`}>
