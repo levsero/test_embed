@@ -329,31 +329,30 @@ describe('Submit ticket component', () => {
       });
 
       describe('when the form is a user ticket form', () => {
+        let mockTicketFormParams,
+          ticketFields;
+
         beforeEach(() => {
-          const mockTicketFormParams = {
+          ticketFields = [
+            {
+              id: 1,
+              type: 'description',
+              removable: false
+            },
+            {
+              id: 4,
+              type: 'text',
+              removable: true
+            }
+          ];
+          mockTicketFormParams = {
             ticket_forms: [
               {
                 id: 50,
                 ticket_field_ids: [ 1, 2, 4 ]
               }
             ],
-            ticket_fields: [
-              {
-                id: 1,
-                type: 'description',
-                removable: false
-              },
-              {
-                id: 2,
-                type: 'subject',
-                removable: false
-              },
-              {
-                id: 4,
-                type: 'text',
-                removable: true
-              }
-            ]
+            ticket_fields: ticketFields
           };
 
           mockValues = {
@@ -379,12 +378,29 @@ describe('Submit ticket component', () => {
             .toBe('Cheeseburger');
         });
 
-        it('should correctly format the subject field', () => {
-          expect(params.request.fields[2])
-            .not.toBe('Hello');
+        describe('when subject field is not available', () => {
+          it('uses the description as the subject', () => {
+            expect(params.request.subject)
+              .toBe('Just saying Hi');
+          });
+        });
 
-          expect(params.request.subject)
-            .toBe('Hello');
+        describe('when the subject field is available', () => {
+          beforeEach(() => {
+            ticketFields.push({ id: 2, type: 'subject', removable: false });
+
+            submitTicket.updateTicketForms(mockTicketFormParams);
+            submitTicket.setState({ selectedTicketForm: mockTicketFormParams.ticket_forms[0] });
+            params = submitTicket.formatRequestTicketData(mockValues);
+          });
+
+          it('should correctly format the subject field', () => {
+            expect(params.request.fields[2])
+              .not.toBe('Hello');
+
+            expect(params.request.subject)
+              .toBe('Hello');
+          });
         });
 
         it('should correctly format the description field', () => {
