@@ -196,8 +196,9 @@ export class SubmitTicket extends Component {
     const descriptionData = ticketFormsAvailable
                ? data.value[this.findField('description').id]
                : data.value.description;
-    const subjectData = ticketFormsAvailable
-                      ? data.value[this.findField('subject').id]
+    const subjectField = this.findField('subject');
+    const subjectData = ticketFormsAvailable && subjectField
+                      ? data.value[subjectField.id]
                       : data.value.subject;
     const description = `${descriptionData}\n\n------------------\n${submittedFrom}`;
     const uploads = this.refs.submitTicketForm.refs.attachments
