@@ -24,9 +24,9 @@ function target(domElement, onHit) {
 function hasTargetHit(distance, speed, isMovingTowards) {
   // Calculate what the minimum distance should be based on the current mouse speed.
   const cappedSpeed = Math.min(speed, maxSpeed);
-  const threshold = _.clamp(cappedSpeed / maxSpeed, minHitDistance, maxHitDistance);
+  const threshold = _.clamp((cappedSpeed / maxSpeed), minHitDistance, maxHitDistance);
 
-  return distance < threshold && isMovingTowards;
+  return (distance < threshold) && isMovingTowards;
 }
 
 function getMouseProperties(event, previousEvent) {
@@ -125,8 +125,8 @@ function getTargetPosition(target) {
   const { left, right, top, bottom } = target.getBoundingClientRect();
 
   return [
-    left > w/2 ? left : right,
-    top > h/2 ? top : bottom
+    left > (w / 2) ? left : right,
+    top > (h / 2) ? top : bottom
   ];
 }
 
