@@ -214,10 +214,11 @@ describe('SubmitTicketForm component', () => {
     let submitTicketForm;
     const expectedFormState = {
       name: formParams.name,
-      email: formParams.email
+      email: formParams.email,
+      clearCheckboxes: true
     };
 
-    it('should clear all fields other then name and email', () => {
+    beforeEach(() => {
       mockFormState = _.clone(formParams);
       submitTicketForm = domRender(
         <SubmitTicketForm
@@ -227,20 +228,14 @@ describe('SubmitTicketForm component', () => {
       );
 
       submitTicketForm.clear();
+    });
 
+    it('should clear all fields other then name and email', () => {
       expect(mockFormState)
         .toEqual(expectedFormState);
     });
 
     it("should reset the button to it's initial state", () => {
-      submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} />);
-
-      submitTicketForm.setState({
-        buttonMessage: 'embeddable_framework.submitTicket.form.submitButton.label.sending'
-      });
-
-      submitTicketForm.clear();
-
       expect(submitTicketForm.state.buttonMessage)
         .toEqual('embeddable_framework.submitTicket.form.submitButton.label.send');
     });
