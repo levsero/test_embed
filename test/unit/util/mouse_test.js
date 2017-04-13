@@ -7,6 +7,7 @@ describe('mouse', () => {
     mockery.enable();
 
     const mockRegistry = initMockRegistry({
+      'lodash': _,
       'utility/globals': {
         document: {
           addEventListener: jasmine.createSpy('addEventListener'),
@@ -22,9 +23,7 @@ describe('mouse', () => {
 
     mockery.registerAllowable(mousePath);
     mouse = requireUncached(mousePath).mouse;
-
     mockDocument = mockRegistry['utility/globals'].document;
-    mouse.remove('move');
   });
 
   afterEach(() => {
@@ -32,261 +31,154 @@ describe('mouse', () => {
     mockery.disable();
   });
 
-  describe('#on', () => {
-    const listener = () => {};
+  describe('#target', () => {
+    let cancelHandler;
 
     beforeEach(() => {
-      mouse.on('move', listener);
+      cancelHandler = mouse.target(document.createElement('div'), () => {});
     });
 
-    it('should store the listener', () => {
-      expect(mouse.getListeners('move')[0])
-        .toEqual(listener);
+    it('should add a document event handler for mousemove', () => {
+      expect(mockDocument.addEventListener)
+        .toHaveBeenCalledWith('mousemove', jasmine.any(Function));
     });
 
-    describe('when there are no listeners for the event type attached', () => {
-      it('should add the event type handler to the document', () => {
-        expect(mockDocument.addEventListener)
-          .toHaveBeenCalledWith('mousemove', jasmine.any(Function));
-      });
+    it('should return a cancel handler function', () => {
+      expect(cancelHandler)
+        .toEqual(jasmine.any(Function));
     });
 
-    describe('when there are existing listeners for the event type attached', () => {
+    describe('when there is an existing target', () => {
       beforeEach(() => {
-        mockDocument.addEventListener.calls.reset();
-        mouse.on('move', noop);
+        // We need to call 'target' twice in order to simulate there being an existing target element.
+        mouse.target(document.createElement('div'), () => {});
+        mouse.target(document.createElement('div'), () => {});
       });
 
-      it('should not add the event type handler to the document', () => {
-        expect(mockDocument.addEventListener)
-          .not.toHaveBeenCalled();
+      it('should not add a document event handler for mousemove', () => {
+        expect(mockDocument.addEventListener.calls.count())
+          .toBe(1);
       });
     });
-  });
 
-  describe('#off', () => {
-    const listenerA = () => {};
-    const listenerB = () => {};
-
-    beforeEach(() => {
-      mouse.on('move', listenerA);
-      mouse.on('move', listenerB);
-    });
-
-    it('should remove the listener', () => {
-      expect(mouse.getListeners('move')[0])
-        .toEqual(listenerA);
-
-      mouse.off('move', listenerA);
-
-      expect(mouse.getListeners('move')[0])
-        .toBe(listenerB);
-    });
-
-    describe('when the last listener for the event type is to be removed', () => {
+    describe('when the cancel handler is called', () => {
       beforeEach(() => {
-        mouse.off('move', listenerA);
-        mouse.off('move', listenerB);
+        cancelHandler();
       });
 
-      it('should remove the event type handler from the document', () => {
+      it('should remove the document event handler for mousemove', () => {
         expect(mockDocument.removeEventListener)
           .toHaveBeenCalledWith('mousemove', jasmine.any(Function));
       });
     });
   });
 
-  describe('#once', () => {
-    it('should store the listener', () => {
-      const listener = () => {};
-
-      mouse.once('move', listener);
-
-      expect(mouse.getListeners('move')[0])
-        .toEqual(listener);
-    });
-
-    it('should remove the listener once the event is fired', () => {
-      mouse.handleMouseMove({});
-
-      expect(mouse.getListeners('move').length)
-        .toBe(0);
-    });
-  });
-
-  describe('#target', () => {
-    let mockEvent,
-      mockTarget,
-      mockTargetBounds,
-      mockOnHit;
-    const minDistanceInPixels = 303;
-
-    beforeEach(() => {
-      mockEvent = {
-        clientX: 100,
-        clientY: 200
-      };
-      mockOnHit = jasmine.createSpy('mockOnHit');
-      mockTarget = document.createElement('div');
-      mockTargetBounds = { top: 0, left: 0, bottom: 20, right: 20 };
-      mockTarget.getBoundingClientRect = () => mockTargetBounds;
-
-      mouse.target(mockTarget, mockOnHit);
-
-      mockEvent.clientX = mockTargetBounds.right + minDistanceInPixels + 1;
-      mockEvent.clienty = mockTargetBounds.bottom + minDistanceInPixels + 1;
-      mouse.handleMouseMove(mockEvent);
-    });
+  describe('#_hasTargetHit', () => {
+    let distance,
+      speed,
+      isMovingTowards,
+      result;
 
     describe('when the minimum distance has not been reached', () => {
       beforeEach(() => {
-        // Needs to be called again because we check the previousDistance
-        // to see if the mouse is moving away from the element.
-        mockEvent.clientX -= 1; // Move one pixel closer
-        mockEvent.clienty -= 1;
-        mouse.handleMouseMove(mockEvent);
+        distance = 0.26;
+        speed = 0.1;
       });
 
-      it('should not call the onHit callback', () => {
-        expect(mockOnHit)
-          .not.toHaveBeenCalled();
-      });
-
-      it('should not remove the listener', () => {
-        expect(mouse.getListeners('move').length)
-          .toBe(1);
-      });
-    });
-
-    describe('when the minimum distance is reached', () => {
-      beforeEach(() => {
-        // Needs to be called again because we check the previousDistance
-        // to see if the mouse is moving away from the element.
-        mockEvent.clientX -= 2; // Move 2 pixels closer
-        mockEvent.clienty -= 2;
-        mouse.handleMouseMove(mockEvent);
-      });
-
-      it('should call the onHit callback', () => {
-        expect(mockOnHit)
-          .toHaveBeenCalled();
-      });
-
-      it('should remove the listener', () => {
-        expect(mouse.getListeners('move').length)
-          .toBe(0);
-      });
-    });
-  });
-
-  describe('#remove', () => {
-    beforeEach(() => {
-      mouse.once('move', noop);
-      mouse.once('move', noop);
-
-      mouse.remove('move');
-    });
-
-    it('should remove all listeners for the event type', () => {
-      expect(mouse.getListeners('move').length)
-        .toBe(0);
-    });
-
-    it('should remove the event type handler from the document', () => {
-      expect(mockDocument.removeEventListener)
-        .toHaveBeenCalledWith('mousemove', jasmine.any(Function));
-    });
-  });
-
-  describe('#getListeners', () => {
-    describe('when the event type exists', () => {
-      const listenerA = () => {};
-      const listenerB = () => {};
-
-      beforeEach(() => {
-        mouse.on('move', listenerA);
-        mouse.on('move', listenerB);
-      });
-
-      it('should return the array of listeners', () => {
-        expect(mouse.getListeners('move')[0])
-          .toEqual(listenerA);
-
-        expect(mouse.getListeners('move')[1])
-          .toEqual(listenerB);
-      });
-    });
-
-    describe('when the event type does not exist', () => {
-      it('should return null', () => {
-        expect(mouse.getListeners('bort simpson'))
-          .toBe(null);
-      });
-    });
-  });
-
-  describe('handling events', () => {
-    let mockEvent,
-      mockListener;
-
-    beforeEach(() => {
-      mockEvent = {
-        clientX: 100,
-        clientY: 200
-      };
-      mockListener = jasmine.createSpy('listener');
-
-      mouse.on('move', mockListener);
-    });
-
-    it('should call that listener on the event with valid params', () => {
-      mouse.handleMouseMove(mockEvent);
-
-      expect(mockListener)
-        .toHaveBeenCalledWith({
-          x: 100,
-          y: 200,
-          speed: 0,
-          event: mockEvent
+      describe('when the mouse is moving towards the target', () => {
+        beforeEach(() => {
+          isMovingTowards = true;
+          result = mouse._hasTargetHit(distance, speed, isMovingTowards);
         });
-    });
 
-    it('should calculate speed correctly', () => {
-      const now = new Date();
-
-      // The mouse is initially at is at x: 100, y: 200.
-      jasmine.clock().mockDate(now);
-      mouse.handleMouseMove(mockEvent);
-
-      // Advance the clock by 1 second.
-      jasmine.clock().mockDate(new Date(now.getTime() + 1000));
-      mockListener.calls.reset();
-
-      // Move the mouse to x: 150, y: 250 to simulate the user moving 50px
-      // along the x and y axis in one second.
-      const nextMockEvent =_.merge({}, mockEvent, {
-        clientX: 150,
-        clientY: 250
+        it('should return false', () => {
+          expect(result)
+            .toBe(false);
+        });
       });
 
-      mouse.handleMouseMove(nextMockEvent);
+      describe('when the mouse is moving away from the target', () => {
+        beforeEach(() => {
+          isMovingTowards = false;
+          result = mouse._hasTargetHit(distance, speed, isMovingTowards);
+        });
 
-      expect(mockListener)
-        .toHaveBeenCalled();
+        it('should return false', () => {
+          expect(result)
+            .toBe(false);
+        });
+      });
+    });
 
-      const args = mockListener.calls.mostRecent().args;
+    describe('when the minimum distance has been reached', () => {
+      beforeEach(() => {
+        distance = 0.24;
+        speed = 0.1;
+      });
 
-      expect(args[0].x)
-        .toBe(150);
+      describe('when the mouse is moving towards the target', () => {
+        beforeEach(() => {
+          isMovingTowards = true;
+          result = mouse._hasTargetHit(distance, speed, isMovingTowards);
+        });
 
-      expect(args[0].y)
-        .toBe(250);
+        it('should return true', () => {
+          expect(result)
+            .toBe(true);
+        });
+      });
 
-      expect(args[0].speed)
-        .toBeCloseTo(0.071, 3);
+      describe('when the mouse is moving away from the target', () => {
+        beforeEach(() => {
+          isMovingTowards = false;
+          result = mouse._hasTargetHit(distance, speed, isMovingTowards);
+        });
 
-      expect(args[0].event)
-        .toEqual(nextMockEvent);
+        it('should return false', () => {
+          expect(result)
+            .toBe(false);
+        });
+      });
+    });
+  });
+
+  describe('#_getMouseProperties', () => {
+    let props;
+
+    describe('returns an object', () => {
+      beforeEach(() => {
+        const now = new Date();
+        const lastEvent = { clientX: 100, clientY: 200, time: new Date(now.getTime() - 1000) };
+        const event = { clientX: 150, clientY: 250 };
+
+        jasmine.clock().mockDate(now);
+        props = mouse._getMouseProperties(event, lastEvent);
+      });
+
+      it('containing correct x and y props', () => {
+        const expectation = {
+          x: 150,
+          y: 250
+        };
+
+        expect(props)
+          .toEqual(jasmine.objectContaining(expectation));
+      });
+
+      it('containing correct speed prop', () => {
+        expect(props.speed)
+          .toBeCloseTo(0.071, 3);
+      });
+
+      it('containing the correct vx and vy props', () => {
+        const expectation = {
+          vx: 0.05,
+          vy: 0.05
+        };
+
+        expect(props)
+          .toEqual(jasmine.objectContaining(expectation));
+      });
     });
   });
 });
