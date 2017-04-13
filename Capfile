@@ -121,7 +121,6 @@ namespace :embeddable_framework do
       fetch(:framework_files).each do |file|
         upload! "dist/#{file}", "#{framework_deploy_path}/#{fetch(:build_version)}/#{file}"
       end
-      invoke 'embeddable_framework:update_current'
     end
   end
 
@@ -135,7 +134,6 @@ namespace :embeddable_framework do
       fetch(:framework_files).each do |file|
         upload! "dist/#{file}", "#{framework_deploy_path}/#{fetch(:build_version)}/#{file}"
       end
-      invoke 'embeddable_framework:update_current'
     end
   end
 
@@ -174,6 +172,9 @@ before 'embeddable_framework:deploy', 'deploy:setup'
 before 'embeddable_framework:deploy', 'deploy:verify_local_git_status'
 before 'embeddable_framework:deploy', 'embeddable_framework:build_assets'
 after  'embeddable_framework:deploy', 'deploy:notify'
+after  'embeddable_framework:deploy', 'embeddable_framework:update_current'
+
+after  'embeddable_framework:deploy_from_s3', 'embeddable_framework:update_current'
 
 before 'embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
 before 'embeddable_framework:release_to_s3', 'embeddable_framework:build_assets'
