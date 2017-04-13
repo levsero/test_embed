@@ -99,28 +99,6 @@ $Form-fontSize: #{13/$font-size}rem;
   padding: #{7/$font-size}rem;
 }
 
-.Form-checkbox {
-  width: #{14/$font-size}rem;
-  background-color: $base-color;
-  border: $thin-border-size solid $stroke-color;
-  border-radius: #{4/$font-size}rem;
-  margin-right: #{10/$font-size}rem;
-  top: #{1/$font-size}rem;
-
-  .Icon--check {
-    visibility: hidden;
-  }
-}
-
-.Form-checkboxInput {
-  width: #{14/$font-size}rem;
-  height: #{14/$font-size}rem;
-}
-
-.Form-checkboxInput:checked + .Form-checkbox .Icon--check {
-  visibility: visible;
-}
-
 .Form-fieldArrows {
   position: absolute;
   right: #{14/$font-size}rem;
@@ -141,10 +119,6 @@ $Form-fontSize: #{13/$font-size}rem;
   padding: #{11/$font-size}rem $Form-spacing;
   height: #{43/$font-size}rem;
 
-  .Form-checkboxCaption {
-    font-size: #{15/$font-size}rem;
-  }
-
   &.is-mobile {
     input:not([type="checkbox"]), textarea, select {
       width: calc(100% - #{40/$font-size}rem); /* 1 */
@@ -157,8 +131,7 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 }
 
-.Form-field--focused,
-.Form-checkboxInput--focused + .Form-checkbox {
+.Form-field--focused {
   border: $thin-border-size solid $stroke-focused-color;
   box-shadow: 0 0 0 #{3/$font-size}rem rgba(153,153,153, 0.4);
 
@@ -168,8 +141,7 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .Form-field--invalid,
-.Form-field--invalid:hover,
-.Form-checkboxInput--invalid + .Form-checkbox {
+.Form-field--invalid:hover {
   @include error-state($thin-border-size);
 }
 
@@ -186,10 +158,6 @@ $Form-fontSize: #{13/$font-size}rem;
 
 .Form-field--dropdown {
   padding-left: #{12/$font-size}rem;
-}
-
-.Form-checkboxCaption {
-  color: $zd-color-monsoon;
 }
 
 .Form-field--blurred.Form-field--invalid {
