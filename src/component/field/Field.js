@@ -6,9 +6,15 @@ import classNames from 'classnames';
 import { isMobileBrowser,
          isLandscape,
          isIos } from 'utility/devices';
+import { Icon } from 'component/Icon';
 
 export class Field extends Component {
   static propTypes = {
+    label: (props, propName, componentName) => {
+      if (props.type === 'checkbox' && !props[propName]) {
+        return new Error(`${componentName} must have a label prop if type is set to "checkbox"`);
+      }
+    },
     name: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string
@@ -126,13 +132,18 @@ export class Field extends Component {
       ref: 'field',
       value: this.props.value
     };
+    const isCheckbox = (this.props.type === 'checkbox');
     const fieldInputClasses = classNames({
+      'Form-checkboxInput u-isHiddenVisually': isCheckbox,
+      'Form-checkboxInput--focused': this.state.focused && isCheckbox,
+      'Form-checkboxInput--invalid': this.state.hasError && this.state.blurred && isCheckbox,
       'u-textSizeBaseMobile': isMobileBrowser()
     });
     let fieldProps = {
       name: this.props.name,
       value: this.props.value,
       required: this.props.required,
+      label: this.props.label,
       type: this.props.type,
       step: this.props.step,
       disabled: this.props.disabled
@@ -166,17 +177,44 @@ export class Field extends Component {
          : <input {...sharedProps} {...fieldProps} className={fieldInputClasses} />;
   }
 
+  renderCheckbox = () => {
+    if (this.props.type !== 'checkbox') return null;
+
+    return (
+      <div className='Form-checkbox u-pullLeft u-posRelative u-isActionable'>
+        <Icon type='Icon--check' />
+      </div>
+    );
+  }
+
+  renderLabel = () => {
+    const { label, type, required } = this.props;
+
+    if (!label) return null;
+
+    const requiredLabel = (type === 'checkbox' && required) ? '*' : '';
+
+    return (
+      <span className='Form-checkboxCaption u-textBold u-nbfc u-isActionable u-block'>
+        {label}
+        {requiredLabel}
+      </span>
+    );
+  }
+
   render = () => {
     const landscape = (isMobileBrowser() && isLandscape());
     const portrait = (isMobileBrowser() && !isLandscape());
     const isDropdown = this.props.options.length > 0;
-    const isInvalid = this.state.hasError && this.state.blurred;
+    const isCheckbox = this.props.type === 'checkbox';
+    const isInvalid = this.state.hasError && this.state.blurred && !isCheckbox;
     const fieldClasses = classNames({
       'Form-field u-isSelectable u-posRelative': true,
       'Form-field--invalid': isInvalid,
-      'Form-field--focused': this.state.focused,
+      'Form-field--focused': this.state.focused && !isCheckbox,
       'Form-field--invalidFocused': isInvalid && this.state.focused,
       'Form-field--dropdown': isDropdown,
+      'Form-field--clean u-flex u-flexAlignItemsBase': isCheckbox,
       'is-mobile': isMobileBrowser(),
       'Form-field--small': landscape
     });
@@ -193,11 +231,13 @@ export class Field extends Component {
       <div className='Form-fieldContainer'>
         <label className='Form-fieldContainer u-block'>
           <div className={fieldLabelClasses}>
-            {this.props.placeholder}
-            {this.props.required ? '*' : ''}
+            {isCheckbox ? '' : this.props.placeholder}
+            {this.props.required && !isCheckbox ? '*' : ''}
           </div>
           <div className={fieldClasses}>
             {this.renderInput()}
+            {this.renderCheckbox()}
+            {this.renderLabel()}
             {dropdownArrow}
           </div>
         </label>
