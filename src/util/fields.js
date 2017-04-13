@@ -7,6 +7,7 @@ import { SelectField } from 'component/field/SelectField';
 import { Dropdown } from 'component/field/Dropdown';
 import { isMobileBrowser,
          isLandscape } from 'utility/devices';
+import { Checkbox } from 'component/field/Checkbox';
 import { document } from 'utility/globals';
 
 const geti18nContent = (field) => {
@@ -77,7 +78,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
       case 'description':
         return <Field {...sharedProps} input={<textarea rows='5' />} />;
       case 'checkbox':
-        return <Field {...sharedProps} label={title} type='checkbox' />;
+        return <Checkbox {...sharedProps} label={title} type='checkbox' />;
     }
   });
 

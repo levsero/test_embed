@@ -196,7 +196,7 @@
 
   [dir='rtl'] & {
     padding-left: 0;
-    padding-right: $spacing-tny;
+    padding-right: #{2/$font-size}rem;
   }
 }
 
