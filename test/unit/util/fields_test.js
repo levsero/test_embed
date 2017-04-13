@@ -320,19 +320,52 @@ describe('fields', () => {
       });
 
       describe('checkbox field', () => {
-        beforeEach(() => {
-          payload = [checkboxFieldPayload];
-          customFields = getCustomFields(payload, {});
+        let checkboxField;
+
+        describe('when clearCheckboxes option is false', () => {
+          beforeEach(() => {
+            payload = [checkboxFieldPayload];
+            customFields = getCustomFields(payload, {});
+            checkboxField = customFields.allFields[0];
+          });
+
+          it('should assign a type of checkbox', () => {
+            expect(checkboxField.props.type)
+              .toEqual('checkbox');
+          });
+
+          it('should pass through a label', () => {
+            expect(checkboxField.props.label)
+              .toEqual('Can we call you?');
+          });
+
+          it('should pass through the unchecked prop as false', () => {
+            expect(checkboxField.props.unchecked)
+              .toBe(false);
+          });
         });
 
-        it('should assign a type of checkbox', () => {
-          expect(customFields.allFields[0].props.type)
-            .toEqual('checkbox');
-        });
+        describe('when clearCheckboxes option is true', () => {
+          beforeEach(() => {
+            payload = [checkboxFieldPayload];
+            customFields = getCustomFields(payload, { clearCheckboxes: true });
+            checkboxField = customFields.allFields[0];
+          });
 
-        it('should pass through a label', () => {
-          expect(customFields.allFields[0].props.label)
-            .toEqual('Can we call you?');
+          it('should assign a type of checkbox', () => {
+            expect(checkboxField.props.type)
+              .toEqual('checkbox');
+          });
+
+          it('should pass through a label', () => {
+            expect(checkboxField.props.label)
+              .toEqual('Can we call you?');
+          });
+
+          it('should pass through the unchecked prop as true', () => {
+            expect(checkboxField.props.unchecked)
+              .toBe(true);
+          });
         });
       });
     });
