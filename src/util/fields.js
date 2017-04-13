@@ -83,7 +83,6 @@ const getCustomFields = (customFields, formState, options = {}) => {
     }
   });
 
-  console.log(formState);
   return {
     fields: _.reject(fields, isCheckbox),
     checkboxes: _.filter(fields, isCheckbox),
