@@ -144,14 +144,36 @@ describe('Checkbox component', () => {
       checkbox.onChange();
     });
 
-    it('should change the value', () => {
-      expect(checkbox.state.value)
-        .toEqual(1);
+    describe('when props.unchecked is false', () => {
+      it('should change the value', () => {
+        expect(checkbox.state.value)
+          .toEqual(1);
 
-      checkbox.onChange();
+        checkbox.onChange();
 
-      expect(checkbox.state.value)
-        .toEqual(0);
+        expect(checkbox.state.value)
+          .toEqual(0);
+      });
+    });
+
+    describe('when props.unchecked is true', () => {
+      beforeEach(() => {
+        checkbox = domRender(<Checkbox unchecked={true} />);
+
+        checkbox.input.validity = { valid: null };
+
+        checkbox.onChange();
+      });
+
+      it('should change the value', () => {
+        expect(checkbox.state.value)
+          .toEqual(0);
+
+        checkbox.onChange();
+
+        expect(checkbox.state.value)
+          .toEqual(1);
+      });
     });
 
     describe('when input is valid', () => {

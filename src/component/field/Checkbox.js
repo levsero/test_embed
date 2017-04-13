@@ -46,7 +46,7 @@ export class Checkbox extends Component {
 
   componentDidUpdate = (prevProps, prevState) => {
     // After the checkbox is rendered with the 'unchecked' prop as true and it was previously
-    // checked, we need to update the internal `value` state to reflect it's disabled now.
+    // checked, we need to update the internal 'value' state to reflect it's unchecked now.
     if (prevProps.unchecked && prevState.value === 1) {
       this.setState({ value: 0 });
     }
