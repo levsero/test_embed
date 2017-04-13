@@ -138,9 +138,6 @@ describe('fields', () => {
       'component/field/Dropdown': {
         Dropdown: noopReactComponent()
       },
-      'component/field/Checkbox': {
-        Checkbox: noopReactComponent()
-      },
       'service/i18n': {
         i18n: {
           getLocaleId: () => mockLocaleIdValue
