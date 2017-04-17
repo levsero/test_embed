@@ -28,7 +28,7 @@ script:
         ./script/run_sourceclear.sh;
     else
         echo "Running unit or integration tests";
-        "npm run $TASK";
+        npm run $TASK;
     fi
 branches:
   only:
