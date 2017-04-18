@@ -81,15 +81,15 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
         }, {})
         .value();
 
-      var invalidTranslations = checkForMissingTranslations(translations);
+      var missingTranslations = checkForMissingTranslations(translations);
 
-      if (!_.isEmpty(invalidTranslations)) {
-        console.log('\nInvalid translations found:');
+      if (!_.isEmpty(missingTranslations)) {
+        console.log('\nMissing translations found:');
 
-        _.forEach(invalidTranslations, function(translation) {
+        _.forEach(missingTranslations, function(translation) {
           console.log(translation.locale);
           _.forEach(translation.strings, function(string, key) {
-            console.log('    ' + key);
+            console.log('    ' + key + ' : ' + string);
           });
         });
 
