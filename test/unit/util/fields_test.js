@@ -339,8 +339,8 @@ describe('fields', () => {
               .toEqual('Can we call you?');
           });
 
-          it('should pass through the unchecked prop as false', () => {
-            expect(checkboxField.props.unchecked)
+          it('should pass through the uncheck prop as false', () => {
+            expect(checkboxField.props.uncheck)
               .toBe(false);
           });
         });
@@ -362,8 +362,8 @@ describe('fields', () => {
               .toEqual('Can we call you?');
           });
 
-          it('should pass through the unchecked prop as true', () => {
-            expect(checkboxField.props.unchecked)
+          it('should pass through the uncheck prop as true', () => {
+            expect(checkboxField.props.uncheck)
               .toBe(true);
           });
         });

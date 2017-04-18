@@ -79,7 +79,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
       case 'description':
         return <Field {...sharedProps} input={<textarea rows='5' />} />;
       case 'checkbox':
-        return <Checkbox {...sharedProps} unchecked={!!clearCheckboxes} label={title} type='checkbox' />;
+        return <Checkbox {...sharedProps} uncheck={!!clearCheckboxes} label={title} type='checkbox' />;
     }
   });
 

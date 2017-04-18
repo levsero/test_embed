@@ -17,7 +17,7 @@ export class Checkbox extends Component {
     onFocus: PropTypes.func,
     required: PropTypes.bool,
     type: PropTypes.string,
-    unchecked: PropTypes.bool
+    uncheck: PropTypes.bool
   };
 
   static defaultProps = {
@@ -28,7 +28,7 @@ export class Checkbox extends Component {
     onFocus: () => {},
     required: false,
     type: '',
-    unchecked: false
+    uncheck: false
   };
 
   constructor(props, context) {
@@ -45,9 +45,9 @@ export class Checkbox extends Component {
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    // After the checkbox is rendered with the 'unchecked' prop as true and it was previously
+    // After the checkbox is rendered with the 'uncheck' prop as true and it was previously
     // checked, we need to update the internal 'value' state to reflect it's unchecked now.
-    if (prevProps.unchecked && prevState.value === 1) {
+    if (prevProps.uncheck && prevState.value === 1) {
       this.setState({ value: 0 });
     }
   }
@@ -74,7 +74,7 @@ export class Checkbox extends Component {
   }
 
   isChecked = () => {
-    return this.state.value === 1 && !this.props.unchecked;
+    return this.state.value === 1;
   }
 
   renderInput = () => {

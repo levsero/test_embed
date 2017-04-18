@@ -156,9 +156,9 @@ describe('Checkbox component', () => {
       });
     });
 
-    describe('when props.unchecked is true', () => {
+    describe('when props.uncheck is true', () => {
       beforeEach(() => {
-        checkbox = domRender(<Checkbox unchecked={true} />);
+        checkbox = domRender(<Checkbox uncheck={true} />);
 
         checkbox.input.validity = { valid: null };
 
