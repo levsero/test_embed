@@ -434,11 +434,14 @@ describe('transport', () => {
     });
   });
 
-  describe('getImage', () => {
+  fdescribe('getImage', () => {
     let payload,
-      config;
+      config,
+      mockSuperagent,
+      onEndHandler;
 
     beforeEach(() => {
+      mockSuperagent = mockRegistry.superagent;
       payload = {
         method: 'get',
         path: 'https://url.com/image',
@@ -448,41 +451,9 @@ describe('transport', () => {
           fail: noop
         }
       };
-    });
 
-    it('sets the correct http method and url on superagent', () => {
-      const mockSuperagent = mockRegistry.superagent;
-
-      transport.init(config);
-      transport.getImage(payload);
-
-      expect(mockSuperagent)
-        .toHaveBeenCalledWith(
-          'GET',
-          payload.path);
-    });
-
-    it('sets the responseType to `blob`', () => {
       spyOn(mockMethods, 'responseType').and.callThrough();
-
-      transport.init(config);
-      transport.getImage(payload);
-
-      expect(mockMethods.responseType)
-        .toHaveBeenCalledWith('blob');
-    });
-
-    it('sets an authentication header with `Bearer <token>`', () => {
       spyOn(mockMethods, 'set').and.callThrough();
-
-      transport.init(config);
-      transport.getImage(payload);
-
-      expect(mockMethods.set)
-        .toHaveBeenCalledWith('Authorization', payload.authorization);
-    });
-
-    it('triggers the done callback if response is successful', () => {
       spyOn(payload.callbacks, 'done');
       spyOn(payload.callbacks, 'fail');
       spyOn(mockMethods, 'end').and.callThrough();
@@ -490,20 +461,50 @@ describe('transport', () => {
       transport.init(config);
       transport.getImage(payload);
 
-      expect(mockMethods.end)
-        .toHaveBeenCalled();
+      onEndHandler = mockMethods.end.calls.mostRecent().args[0];
+    });
 
-      const recentCall = mockMethods.end.calls.mostRecent();
+    it('sets the correct http method and url on superagent', () => {
+      expect(mockSuperagent)
+        .toHaveBeenCalledWith('get', payload.path);
+    });
 
-      const callback = recentCall.args[0];
+    it('sets the responseType to `blob`', () => {
+      expect(mockMethods.responseType)
+        .toHaveBeenCalledWith('blob');
+    });
 
-      callback(null, {ok: true});
+    it('sets an authentication header with `Bearer <token>`', () => {
+      expect(mockMethods.set)
+        .toHaveBeenCalledWith('Authorization', payload.authorization);
+    });
 
-      expect(payload.callbacks.done)
-        .toHaveBeenCalled();
+    describe('when there is no error', () => {
+      let res;
 
-      expect(payload.callbacks.fail)
-        .not.toHaveBeenCalled();
+      beforeEach(() => {
+        res = { ok: true };
+        onEndHandler(null, res);
+      });
+
+      it('should invoke the done callback', () => {
+        expect(payload.callbacks.done)
+          .toHaveBeenCalledWith(res);
+      });
+    });
+
+    describe('when there is an error', () => {
+      let err;
+
+      beforeEach(() => {
+        err = { message: 'Bloody Rippa' };
+        onEndHandler(err, null);
+      });
+
+      it('should invoke the fail callback', () => {
+        expect(payload.callbacks.fail)
+          .toHaveBeenCalledWith(err, null);
+      });
     });
   });
 

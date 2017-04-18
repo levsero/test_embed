@@ -182,8 +182,7 @@ function getImage(payload) {
     }
   };
 
-  return superagent
-    .get(payload.path)
+  return superagent(payload.method, payload.path)
     .responseType('blob')
     .set('Authorization', payload.authorization)
     .end(onEnd);
