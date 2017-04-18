@@ -16,7 +16,8 @@ export class Checkbox extends Component {
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
     required: PropTypes.bool,
-    type: PropTypes.string
+    type: PropTypes.string,
+    uncheck: PropTypes.bool
   };
 
   static defaultProps = {
@@ -26,7 +27,8 @@ export class Checkbox extends Component {
     onChange: () => {},
     onFocus: () => {},
     required: false,
-    type: ''
+    type: '',
+    uncheck: false
   };
 
   constructor(props, context) {
@@ -42,6 +44,14 @@ export class Checkbox extends Component {
     this.input = null;
   }
 
+  componentDidUpdate = (prevProps, prevState) => {
+    // After the checkbox is rendered with the 'uncheck' prop as true and it was previously
+    // checked, we need to update the internal 'value' state to reflect it's unchecked now.
+    if (prevProps.uncheck && prevState.value === 1) {
+      this.setState({ value: 0 });
+    }
+  }
+
   onFocus = () => {
     this.setState({ focused: true });
   }
@@ -55,12 +65,16 @@ export class Checkbox extends Component {
   }
 
   onChange = () => {
-    const value = this.state.value === 1 ? 0 : 1;
+    const value = this.isChecked() ? 0 : 1;
 
     this.setState({
       value,
       hasError: !this.input.validity.valid
     });
+  }
+
+  isChecked = () => {
+    return this.state.value === 1;
   }
 
   renderInput = () => {
@@ -81,10 +95,10 @@ export class Checkbox extends Component {
   }
 
   renderCheckbox = () => {
-    const { focused, hasError, hasBlurred, value } = this.state;
+    const { focused, hasError, hasBlurred } = this.state;
     const focusedClasses = focused ? styles.focused : '';
     const errorClasses = hasError && hasBlurred ? styles.invalid : '';
-    const checkedClasses = value ? '' : styles.checkmarkUnchecked;
+    const checkedClasses = this.isChecked() ? '' : styles.checkmarkUnchecked;
 
     return (
       <div className={`${styles.checkboxContainer}`}>

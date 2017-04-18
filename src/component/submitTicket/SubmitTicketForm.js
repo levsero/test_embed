@@ -282,11 +282,11 @@ export class SubmitTicketForm extends Component {
   }
 
   clear = () => {
-    const formData = this.props.formState;
+    const { formState } = this.props;
     const form = this.refs.form;
 
     _.forEach(form.elements, (field) => {
-      if (this.props.formState[field.name] && field.type === 'checkbox') {
+      if (formState[field.name] && field.type === 'checkbox') {
         field.checked = false;
       }
     });
@@ -297,8 +297,9 @@ export class SubmitTicketForm extends Component {
 
     this.setState(initialState);
     this.props.setFormState({
-      name: formData.name,
-      email: formData.email
+      name: formState.name,
+      email: formState.email,
+      clearCheckboxes: true
     });
   }
 

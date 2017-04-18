@@ -40,6 +40,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
       fullscreen: isMobileBrowser(),
       landscape: isLandscape()
     };
+    const { clearCheckboxes } = formState;
 
     if (field.variants) {
       sharedProps.placeholder = geti18nContent(field);
@@ -78,7 +79,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
       case 'description':
         return <Field {...sharedProps} input={<textarea rows='5' />} />;
       case 'checkbox':
-        return <Checkbox {...sharedProps} label={title} type='checkbox' />;
+        return <Checkbox {...sharedProps} uncheck={!!clearCheckboxes} label={title} type='checkbox' />;
     }
   });
 
