@@ -259,6 +259,8 @@ export class HelpCenterArticle extends Component {
     };
 
     const imagesQueued = _.transform(imageUrls, (result, url) => {
+      // TODO: When we have more stable error reporting setup with Rollbar,
+      // we could push this error out.
       this.props.imagesSender(url, (res) => handleSuccess(url, res));
       result[url] = '';
     }, {});
