@@ -30,15 +30,15 @@ function generateLocaleIdMap(locales) {
     .value();
 }
 
-function checkForMissingTranslations(translations) {
+function getMissingTranslations(translations) {
   return _.chain(translations)
     .map(function(translation, key) {
       return {
         locale: key,
         strings: _.pickBy(translation, function(string, key) {
-          return key != 'rtl' && string.indexOf(translationMissingMessage) > -1;
+          return key !== 'rtl' && string.indexOf(translationMissingMessage) > -1;
         })
-      }
+      };
     })
     .filter(function(translation) {
       return !_.isEmpty(translation.strings);
@@ -81,7 +81,7 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
         }, {})
         .value();
 
-      var missingTranslations = checkForMissingTranslations(translations);
+      var missingTranslations = getMissingTranslations(translations);
 
       if (!_.isEmpty(missingTranslations)) {
         console.log('\nMissing translations found:');
