@@ -4,7 +4,7 @@ var when = require('when'),
     fs = require('fs'),
     localeIdMapPath = __dirname + "/../src/translation/localeIdMap.json",
     translationsPath = __dirname + "/../src/translation/translations.json",
-    translationMissingMessage = 'Add%20file';//'translation%20missing';
+    translationMissingMessage = 'translation%20missing';
 
 function filterLocales(locales) {
   return _.reject(locales, function(locale) {
