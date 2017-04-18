@@ -7,6 +7,13 @@ import { location } from 'utility/globals';
 import { base64encode } from 'utility/utils';
 
 let config;
+const defaultPayload = {
+  path: '',
+  callbacks: {
+    done: () => {},
+    fail: () => {}
+  }
+};
 
 function init(_config) {
   const defaultConfig = {
@@ -164,17 +171,22 @@ function sendFile(payload) {
 }
 
 function getImage(payload) {
-  superagent(payload.method.toUpperCase(), payload.path)
-    .timeout(60000)
+  payload = _.defaultsDeep({}, payload, defaultPayload);
+
+  const { done, fail } = payload.callbacks;
+  const onEnd = (err, res) => {
+    if (err) {
+      fail(err, res);
+    } else {
+      done(res);
+    }
+  };
+
+  return superagent
+    .get(payload.path)
     .responseType('blob')
     .set('Authorization', payload.authorization)
-    .end(function(err, res) {
-      if (payload.callbacks) {
-        if (_.isFunction(payload.callbacks.done)) {
-          payload.callbacks.done(res);
-        }
-      }
-    });
+    .end(onEnd);
 }
 
 function buildFullUrl(path, forceHttp = false) {
