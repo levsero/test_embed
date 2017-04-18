@@ -434,7 +434,7 @@ describe('transport', () => {
     });
   });
 
-  fdescribe('getImage', () => {
+  describe('getImage', () => {
     let payload,
       config,
       mockSuperagent,
