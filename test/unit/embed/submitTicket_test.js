@@ -177,55 +177,73 @@ describe('embed.submitTicket', () => {
     });
 
     describe('when ticket forms are available', () => {
-      let mockTransport;
+      let mockTransport,
+        componentName;
 
       beforeEach(() => {
         mockTransport = mockRegistry['service/transport'].transport;
+        componentName = 'bob';
       });
 
       it('should call show_many', () => {
-        submitTicket.create('bob', { ticketForms: [{ id: 1 }] } );
+        const expectFn = () => {
+          expect(mockTransport.get.calls.mostRecent().args[0].path)
+            .toEqual('/api/v2/ticket_forms/show_many.json?ids=1&include=ticket_fields');
+        };
 
-        expect(mockTransport.get.calls.mostRecent().args[0].path)
-          .toEqual('/api/v2/ticket_forms/show_many.json?ids=1&include=ticket_fields');
+        submitTicket.create(componentName, { ticketForms: [{ id: 1 }] } );
+        submitTicket.waitForRootComponent(componentName, expectFn);
       });
 
       it('should use the settings value over the config value', () => {
-        mockSettingsValue = [{ id: 212 }]; // emulate settings.get('contactForm.ticketForms')
-        submitTicket.create('bob', { ticketForms: [{ id: 1 }] } );
+        const expectFn = () => {
+          expect(mockTransport.get.calls.mostRecent().args[0].path)
+            .toContain('212');
+        };
 
-        expect(mockTransport.get.calls.mostRecent().args[0].path)
-          .toContain('212');
+        mockSettingsValue = [{ id: 212 }]; // emulate settings.get('contactForm.ticketForms')
+        submitTicket.create(componentName, { ticketForms: [{ id: 1 }] } );
+        submitTicket.waitForRootComponent(componentName, expectFn);
       });
     });
 
     describe('when ticket fields are an array of numbers', () => {
-      let mockTransport;
+      let mockTransport,
+        componentName;
 
       beforeEach(() => {
         mockTransport = mockRegistry['service/transport'].transport;
+        componentName = 'bob';
       });
 
       it('should call embeddable/ticket_fields with the ids', () => {
-        submitTicket.create('bob', { customFields: { ids: [1, 2, 3] } } );
+        const expectFn = () => {
+          expect(mockTransport.get.calls.mostRecent().args[0].path)
+            .toEqual('/embeddable/ticket_fields?field_ids=1,2,3&locale=fr');
+        };
 
-        expect(mockTransport.get.calls.mostRecent().args[0].path)
-          .toEqual('/embeddable/ticket_fields?field_ids=1,2,3&locale=fr');
+        submitTicket.create(componentName, { customFields: { ids: [1, 2, 3] } } );
+        submitTicket.waitForRootComponent(componentName, expectFn);
       });
     });
 
     describe('when ticket fields specify all', () => {
-      let mockTransport;
+      let mockTransport,
+        componentName;
 
       beforeEach(() => {
         mockTransport = mockRegistry['service/transport'].transport;
+        componentName = 'bob';
       });
 
       it('should call embeddable/ticket_fields with the ids', () => {
-        submitTicket.create('bob', { customFields: { all: true } } );
+        const expectFn = () => {
+          expect(mockTransport.get.calls.mostRecent().args[0].path)
+            .toEqual('/embeddable/ticket_fields?locale=fr');
+        };
 
-        expect(mockTransport.get.calls.mostRecent().args[0].path)
-          .toEqual('/embeddable/ticket_fields?locale=fr');
+        submitTicket.create(componentName, { customFields: { all: true } } );
+        submitTicket.waitForRootComponent(componentName, expectFn);
       });
     });
 

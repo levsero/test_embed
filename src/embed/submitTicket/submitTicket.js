@@ -420,5 +420,6 @@ export const submitTicket = {
 
   // Exported for testing.
   loadTicketForms,
-  loadTicketFields
+  loadTicketFields,
+  waitForRootComponent
 };
