@@ -58,11 +58,12 @@ const getWithSpinner = (name, path, locale, doneFn) => {
   };
 
   waitForRootComponent(name, () => {
+    getRootComponent(name).setLoading(true);
+
     // For setTimeout and invocation of waitForRootComponent,
     // defer and wait for rootComponent before processing statements
     // in order execute after setLoading is completed
     setTimeout(() => {
-      getRootComponent(name).setLoading(true);
       transport.get(transportData, false);
     }, 0);
   });
