@@ -120,16 +120,16 @@ function send(payload, addType = true) {
 }
 
 function sendWithMeta(payload, useBase64 = false) {
-  const urlParam = store.get('noReferrer', true) ? {} : { url: location.href };
-  let commonParams = {
+  const urlParam = store.get('noReferrer', 'session') ? {} : { url: location.href };
+  const commonParams = {
     buid: identity.getBuid(),
     suid: identity.getSuid().id || null,
     version: config.version,
     timestamp: (new Date()).toISOString()
   };
 
-  commonParams = _.extend(urlParam, commonParams);
-  payload.params = _.extend(commonParams, payload.params);
+  _.extend(commonParams, urlParam);
+  _.extend(payload.params, commonParams);
 
   if (useBase64) {
     payload.query = { data: base64encode(JSON.stringify(payload.params)) };

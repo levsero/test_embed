@@ -4,39 +4,31 @@ import { win } from 'utility/globals';
 
 const prefix = 'ZD-';
 
-const store = {
-  get: get,
-  set: set,
-  remove: remove,
-  clear: clear
-};
+// TODOD: find a better way to differentiate between localStorage
+// and sessionStorage, and refactor everywhere it is used
 
-function storage(session) {
-  const type = session ? 'session' : 'local';
+const storage = (type) => win[`${type}Storage`];
 
-  return win[type + 'Storage'];
-}
-
-function get(name, session) {
+function get(name, type = 'local') {
   try {
-    return deserialize(storage(session).getItem(prefix + name));
+    return deserialize(storage(type).getItem(prefix + name));
   } catch (e) {}
 }
 
-function set(name, data, session) {
+function set(name, data, type = 'local') {
   try {
-    storage(session).setItem(prefix + name, serialize(data));
+    storage(type).setItem(prefix + name, serialize(data));
   } catch (e) {}
 
   return data;
 }
 
-function remove(name, session) {
-  storage(session).removeItem(prefix + name);
+function remove (name, type = 'local') {
+  storage(type).removeItem(prefix + name);
 }
 
-function clear(session) {
-  const backend = storage(session);
+function clear(type = 'local') {
+  const backend = storage(type);
   const keys = _.chain(_.keys(backend))
                 .filter((key) => {
                   return key.indexOf(prefix) === 0;
@@ -63,4 +55,9 @@ function deserialize(data) {
   }
 }
 
-export { store };
+export const store = {
+  get: get,
+  set: set,
+  remove: remove,
+  clear: clear
+};

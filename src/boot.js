@@ -56,9 +56,9 @@ const setReferrerMetas = (iframe, doc) => {
   _.forEach(referrerMetas, (content) => appendMetaTag(iframeDoc, 'referrer', content));
 
   if (referrerMetas.length > 0) {
-    store.set('noReferrer', true, true);
+    store.set('noReferrer', true, 'session');
   } else {
-    store.remove('noReferrer', true);
+    store.remove('noReferrer', 'session');
   }
 };
 

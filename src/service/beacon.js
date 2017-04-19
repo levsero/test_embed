@@ -38,12 +38,12 @@ const sendPageView = () => {
 
   const now = Date.now();
   const referrer = parseUrl(doc.referrer);
-  const previousTime = store.get('currentTime', true) || 0;
+  const previousTime = store.get('currentTime', 'session') || 0;
   const url = win.location.origin;
   const timeOnLastPage = () => {
     return referrer.origin === url && previousTime ? (now - previousTime) : 0;
   };
-  const pageViewReferrer = store.get('noReferrer', true) ? {} : { referrer: referrer.href };
+  const pageViewReferrer = store.get('noReferrer', 'session') ? {} : { referrer: referrer.href };
   const pageView = {
     time: timeOnLastPage(),
     loadTime: getFrameworkLoadTime(),
@@ -77,7 +77,7 @@ function setConfig(_config) {
 function init() {
   const now = Date.now();
 
-  store.set('currentTime', now, true);
+  store.set('currentTime', now, 'session');
 
   mediator.channel.subscribe('beacon.identify', identify);
   mediator.channel.subscribe('beacon.trackUserAction', trackUserAction);
