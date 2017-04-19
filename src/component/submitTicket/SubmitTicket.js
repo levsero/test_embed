@@ -258,6 +258,8 @@ export class SubmitTicket extends Component {
       ticketFields: fields,
       loading: false
     });
+
+    this.updateContactForm();
   }
 
   handleDragEnter = () => {

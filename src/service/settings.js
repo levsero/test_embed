@@ -43,7 +43,6 @@ const optionWhitelist = {
 };
 const customizationsWhitelist = [
   'channelChoice',
-  'contactForm.fields',
   'helpCenter.localeFallbacks'
 ];
 const webWidgetStoreDefaults = {
