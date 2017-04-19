@@ -1,8 +1,9 @@
 import _          from 'lodash';
 import superagent from 'superagent';
 
-import { settings } from 'service/settings';
 import { identity } from 'service/identity';
+import { store } from 'service/persistence';
+import { settings } from 'service/settings';
 import { location } from 'utility/globals';
 import { base64encode } from 'utility/utils';
 
@@ -119,14 +120,15 @@ function send(payload, addType = true) {
 }
 
 function sendWithMeta(payload, useBase64 = false) {
-  const commonParams = {
-    url: location.href,
+  const urlParam = store.get('noReferrer', true) ? {} : { url: location.href };
+  let commonParams = {
     buid: identity.getBuid(),
     suid: identity.getSuid().id || null,
     version: config.version,
     timestamp: (new Date()).toISOString()
   };
 
+  commonParams = _.extend(urlParam, commonParams);
   payload.params = _.extend(commonParams, payload.params);
 
   if (useBase64) {

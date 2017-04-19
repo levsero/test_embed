@@ -6,6 +6,7 @@ import { i18n } from 'service/i18n';
 import { identity } from 'service/identity';
 import { logging } from 'service/logging';
 import { mediator } from 'service/mediator';
+import { store } from 'service/persistence';
 import { renderer } from 'service/renderer';
 import { settings } from 'service/settings';
 import { transport } from 'service/transport';
@@ -53,6 +54,12 @@ const setReferrerMetas = (iframe, doc) => {
   const iframeDoc = iframe.contentDocument;
 
   _.forEach(referrerMetas, (content) => appendMetaTag(iframeDoc, 'referrer', content));
+
+  if (referrerMetas.length > 0) {
+    store.set('noReferrer', true, true);
+  } else {
+    store.remove('noReferrer', true);
+  }
 };
 
 const setupIframe = (iframe, doc) => {

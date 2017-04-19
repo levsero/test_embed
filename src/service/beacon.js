@@ -43,21 +43,21 @@ const sendPageView = () => {
   const timeOnLastPage = () => {
     return referrer.origin === url && previousTime ? (now - previousTime) : 0;
   };
-  const params = {
-    pageView: {
-      referrer: referrer.href,
-      time: timeOnLastPage(),
-      loadTime: getFrameworkLoadTime(),
-      navigatorLanguage: navigator.language,
-      pageTitle: doc.title,
-      userAgent: navigator.userAgent,
-      helpCenterDedup: isOnHelpCenterPage()
-    }
+  const pageViewReferrer = store.get('noReferrer', true) ? {} : { referrer: referrer.href };
+  const pageView = {
+    time: timeOnLastPage(),
+    loadTime: getFrameworkLoadTime(),
+    navigatorLanguage: navigator.language,
+    pageTitle: doc.title,
+    userAgent: navigator.userAgent,
+    helpCenterDedup: isOnHelpCenterPage()
   };
   const payload = {
     method: config.method,
     path: config.endpoint,
-    params: params
+    params: {
+      pageView: _.extend(pageViewReferrer, pageView)
+    }
   };
 
   transport.sendWithMeta(payload, config.useBase64);

@@ -1,6 +1,7 @@
 describe('transport', () => {
   let transport,
     mockMethods,
+    mockNoReferrerValue,
     mockRegistry;
 
   const transportPath = buildSrcPath('service/transport');
@@ -18,6 +19,7 @@ describe('transport', () => {
       on: () => mockMethods,
       end: () => mockMethods
     };
+    mockNoReferrerValue = false;
     mockRegistry = initMockRegistry({
       'superagent': jasmine.createSpy().and.callFake(() => {
         return mockMethods;
@@ -37,6 +39,11 @@ describe('transport', () => {
         identity: {
           getBuid: jasmine.createSpy('getBuid').and.returnValue('abc123'),
           getSuid: jasmine.createSpy('getBuid').and.returnValue('123abc')
+        }
+      },
+      'service/persistence': {
+        store: {
+          get: () => mockNoReferrerValue
         }
       },
       'service/settings': {
@@ -418,6 +425,24 @@ describe('transport', () => {
 
       expect(params.user)
         .toEqual(payload.params.user);
+    });
+
+    describe('when noReferrer value is stored in session storage', () => {
+      beforeEach(() => {
+        mockNoReferrerValue = true;
+
+        spyOn(mockMethods, 'send').and.callThrough();
+
+        transport.init(config);
+        transport.sendWithMeta(payload);
+      });
+
+      it('does not send a url param', () =>{
+        const params = mockMethods.send.calls.mostRecent().args[0];
+
+        expect(params.url)
+          .toBeUndefined();
+      });
     });
 
     describe('with base64 encoding for blips', () => {
