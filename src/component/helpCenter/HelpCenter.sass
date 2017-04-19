@@ -1,0 +1,14 @@
+@import '../../styles/_vars.scss';
+
+.loadingSpinnerContainer {
+  composes: u-paddingTN u-posRelative from '../../styles/utils.scss';
+  height: #{128/$font-size}rem;
+}
+
+.loadingSpinner {
+  composes: u-flex u-posFill u-posAbsolute u-flexAlignItemsCenter u-flexJustifyCenter from '../../styles/utils.scss';
+}
+
+.loadingSpinnerIE {
+  composes: u-paddingBXL u-paddingRXL from '../../styles/utils.scss';
+}

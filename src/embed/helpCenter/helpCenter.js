@@ -256,23 +256,15 @@ function setChatOnline(name, chatOnline) {
 }
 
 function keywordsSearch(name, options) {
-  const contextualSearchFn = () => {
-    const rootComponent = getRootComponent(name);
-    const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
+  const rootComponent = getRootComponent(name);
 
-    if (isAuthenticated && rootComponent) {
-      if (options.url) {
-        options.pageKeywords = getPageKeywords();
-      }
-
-      rootComponent.contextualSearch(options);
-      return true;
+  if (rootComponent) {
+    if (options.url) {
+      options.pageKeywords = getPageKeywords();
     }
 
-    return false;
-  };
-
-  cappedIntervalCall(contextualSearchFn, 500, 10);
+    rootComponent.contextualSearch(options);
+  }
 }
 
 function render(name) {
@@ -281,6 +273,7 @@ function render(name) {
   }
 
   const element = getDocumentHost().appendChild(document.createElement('div'));
+  const config = helpCenters[name].config;
 
   helpCenters[name].instance = ReactDOM.render(helpCenters[name].component, element);
 
@@ -340,7 +333,10 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.setHelpCenterSuggestions', function(options) {
     hasManuallySetContextualSuggestions = true;
-    performContextualHelp(name, options);
+
+    if (hasAuthenticatedSuccessfully) {
+      performContextualHelp(name, options);
+    }
   });
 
   mediator.channel.subscribe(name + '.refreshLocale', () => {
@@ -350,7 +346,21 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.isAuthenticated', function() {
-    hasAuthenticatedSuccessfully = true;
+    if (!hasAuthenticatedSuccessfully) {
+      hasAuthenticatedSuccessfully = true;
+
+      if (config.contextualHelpEnabled &&
+          !hasManuallySetContextualSuggestions &&
+          !isOnHelpCenterPage()) {
+        const options = { url: true };
+
+        performContextualHelp(name, options);
+      }
+
+      waitForRootComponent(name, () => {
+        getRootComponent(name).setLoading(false);
+      });
+    }
   });
 }
 
@@ -375,20 +385,18 @@ function postRender(name) {
   const config = get(name).config;
   const authSetting = settings.get('authenticate');
 
-  if (config.contextualHelpEnabled &&
-      !hasManuallySetContextualSuggestions &&
-      !isOnHelpCenterPage()) {
-    const options = { url: true };
-
-    performContextualHelp(name, options);
-  }
-
   if (config.tokensRevokedAt) {
     authentication.revoke(config.tokensRevokedAt);
   }
 
   if (authSetting && authSetting.jwt) {
     authentication.authenticate(authSetting.jwt);
+
+    if (!hasAuthenticatedSuccessfully) {
+      waitForRootComponent(name, () => {
+        getRootComponent(name).setLoading(true);
+      });
+    }
   }
 }
 
