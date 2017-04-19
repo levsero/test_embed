@@ -1,4 +1,4 @@
-import SortedMap from 'collections/sorted-map';
+import { Map } from '../../../../src/vendor/es6-map.js';
 
 describe('Chat component', () => {
   let Chat;
@@ -51,7 +51,7 @@ describe('Chat component', () => {
 
     describe('when there are no messages', () => {
       beforeEach(() => {
-        const chats = new SortedMap();
+        const chats = new Map();
         const chatProp = { chats: chats };
 
         component = domRender(<Chat chat={chatProp} />);
@@ -65,10 +65,10 @@ describe('Chat component', () => {
 
     describe('when there are messages', () => {
       beforeEach(() => {
-        const chats = new SortedMap();
+        const chats = new Map();
 
-        chats.add({ timestamp: 123, type: 'chat.msg' }, 123);
-        chats.add({ timestamp: 124, type: 'chat.msg' }, 124);
+        chats.set(123, { timestamp: 123, type: 'chat.msg' });
+        chats.set(124, { timestamp: 124, type: 'chat.msg' });
 
         const chatProp = { chats: chats };
 
@@ -86,7 +86,7 @@ describe('Chat component', () => {
     let component, chatProp;
 
     beforeEach(() => {
-      const chats = new SortedMap();
+      const chats = new Map();
 
       chatProp = { chats };
     });
@@ -104,7 +104,7 @@ describe('Chat component', () => {
 
     describe('when is_chatting is true', () => {
       beforeEach(() => {
-        chatProp.chats.add({ timestamp: 123, type: 'chat.msg' }, 123);
+        chatProp.chats.set(123, { timestamp: 123, type: 'chat.msg' });
         chatProp.is_chatting = true; // eslint-disable-line camelcase
 
         component = domRender(<Chat chat={chatProp} />);
@@ -118,7 +118,7 @@ describe('Chat component', () => {
 
     describe('when is_chatting is false', () => {
       beforeEach(() => {
-        chatProp.chats.add({ timestamp: 123, type: 'chat.msg' }, 123);
+        chatProp.chats.set(123, { timestamp: 123, type: 'chat.msg' });
         chatProp.is_chatting = false; // eslint-disable-line camelcase
 
         component = domRender(<Chat chat={chatProp} />);
