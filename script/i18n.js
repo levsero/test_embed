@@ -1,9 +1,10 @@
-var when  = require('when'),
-    rest  = require('rest'),
-    _     = require('lodash'),
-    fs    = require('fs'),
+var when = require('when'),
+    rest = require('rest'),
+    _ = require('lodash'),
+    fs = require('fs'),
     localeIdMapPath = __dirname + "/../src/translation/localeIdMap.json",
-    translationsPath = __dirname + "/../src/translation/translations.json";
+    translationsPath = __dirname + "/../src/translation/translations.json",
+    translationMissingMessage = 'translation%20missing';
 
 function filterLocales(locales) {
   return _.reject(locales, function(locale) {
@@ -26,6 +27,22 @@ function generateLocaleIdMap(locales) {
       res[el.locale] = el.id;
       return res;
     }, {})
+    .value();
+}
+
+function getMissingTranslations(translations) {
+  return _.chain(translations)
+    .map(function(translation, key) {
+      return {
+        locale: key,
+        strings: _.pickBy(translation, function(string, key) {
+          return key !== 'rtl' && string.indexOf(translationMissingMessage) > -1;
+        })
+      };
+    })
+    .filter(function(translation) {
+      return !_.isEmpty(translation.strings);
+    })
     .value();
 }
 
@@ -64,11 +81,26 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
         }, {})
         .value();
 
-      console.log('\nWriting to ' + translationsPath);
+      var missingTranslations = getMissingTranslations(translations);
 
-      fs.writeFile(
-        translationsPath,
-        JSON.stringify(translations, null, 2)
-      );
+      if (!_.isEmpty(missingTranslations)) {
+        console.log('\nMissing translations found:');
+
+        _.forEach(missingTranslations, function(translation) {
+          console.log(translation.locale);
+          _.forEach(translation.strings, function(string, key) {
+            console.log('    ' + key + ' : ' + string);
+          });
+        });
+
+        process.exit(1);
+      } else {
+        console.log('\nWriting to ' + translationsPath);
+
+        fs.writeFile(
+          translationsPath,
+          JSON.stringify(translations, null, 2)
+        );
+      }
     });
   });
