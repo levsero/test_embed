@@ -853,4 +853,19 @@ describe('Submit ticket component', () => {
       });
     });
   });
+
+  describe('updateTicketFields', () => {
+    let submitTicket;
+
+    beforeEach(() => {
+      submitTicket = domRender(<SubmitTicket />);
+      spyOn(submitTicket, 'updateContactForm');
+      submitTicket.updateTicketFields({});
+    });
+
+    it('should call updateContactForm', () => {
+      expect(submitTicket.updateContactForm)
+        .toHaveBeenCalled();
+    });
+  });
 });
