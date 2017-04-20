@@ -99,7 +99,7 @@ function emailValid(email) {
   return validRegex.test(email);
 }
 
-function referralPolicyUrl(policy, url) {
+function referrerPolicyUrl(policy, url) {
   switch(policy) {
     case 'no-referrer':
     case 'same-origin':
@@ -127,5 +127,5 @@ export {
   nowInSeconds,
   sha1,
   emailValid,
-  referralPolicyUrl
+  referrerPolicyUrl
 };

@@ -10,7 +10,7 @@ import { win,
 import { isOnHelpCenterPage } from 'utility/pages';
 import { nowInSeconds,
          parseUrl,
-         referralPolicyUrl,
+         referrerPolicyUrl,
          sha1 } from 'utility/utils';
 
 let config = {
@@ -44,6 +44,9 @@ const sendPageView = () => {
   const timeOnLastPage = () => {
     return referrer.origin === url && previousTime ? (now - previousTime) : 0;
   };
+  const referrerPolicy = store.get('referrerPolicy', 'session');
+  const referrerUrl = referrerPolicy ? referrerPolicyUrl(referrerPolicy, referrer.href): referrer.href;
+  const pageViewParams = referrerUrl ? { referrer: referrerUrl } : {};
   const pageView = {
     time: timeOnLastPage(),
     loadTime: getFrameworkLoadTime(),
@@ -56,19 +59,12 @@ const sendPageView = () => {
     method: config.method,
     path: config.endpoint,
     params: {
-      pageView: _.extend(pageViewReferrer(referrer), pageView)
+      pageView: _.extend(pageViewParams, pageView)
     }
   };
 
   transport.sendWithMeta(payload, config.useBase64);
 };
-
-function pageViewReferrer(referrer) {
-  const referrerPolicy = store.get('referrerPolicy', 'session');
-  const referrerUrl = referralPolicyUrl(referrerPolicy, referrer.href);
-
-  return referrerUrl ? { referrer: referrerUrl } : {};
-}
 
 function setConfig(_config) {
   const newBlips = !!_config.newBlips;

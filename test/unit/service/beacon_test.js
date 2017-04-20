@@ -2,6 +2,7 @@ describe('beacon', () => {
   let beacon,
     mockRegistry,
     mockTime,
+    mockReferrerUrl,
     mockSha1String,
     mockStore;
 
@@ -14,6 +15,7 @@ describe('beacon', () => {
     mockStore = null;
     mockTime = Math.floor(Date.now() / 1000);
     mockSha1String = '';
+    mockReferrerUrl = 'http://window.location.href';
 
     mockRegistry = initMockRegistry({
       'service/transport': {
@@ -66,6 +68,7 @@ describe('beacon', () => {
           };
         },
         nowInSeconds: () => mockTime,
+        referrerPolicyUrl: () => mockReferrerUrl,
         sha1: () => mockSha1String
       },
       'utility/pages': {
@@ -306,23 +309,45 @@ describe('beacon', () => {
       });
     });
 
-    describe('when noReferrer value is stored in session storage', () => {
+    describe('when a referrerPolicy value is stored in session storage', () => {
       let params,
         payload;
 
-      beforeEach(() => {
-        const mockTransport = mockRegistry['service/transport'];
+      describe('that is a no-referrer type', () => {
+        beforeEach(() => {
+          const mockTransport = mockRegistry['service/transport'];
 
-        mockStore = true;
-        beacon.sendPageView();
+          mockStore = true;
+          mockReferrerUrl = null;
 
-        payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
-        params = payload.params;
+          beacon.sendPageView();
+
+          payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+          params = payload.params;
+        });
+
+        it('does not include a referrer param in the payload', () => {
+          expect(params.pageView.referrer)
+            .toBeUndefined();
+        });
       });
 
-      it('does not include a referrer param in the payload', () => {
-        expect(params.pageView.referrer)
-          .toBeUndefined();
+      describe('that is not a no-referrer type', () => {
+        beforeEach(() => {
+          const mockTransport = mockRegistry['service/transport'];
+
+          mockStore = true;
+
+          beacon.sendPageView();
+
+          payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+          params = payload.params;
+        });
+
+        it('includes a referrer param in the payload', () => {
+          expect(params.pageView.referrer)
+            .toBeDefined();
+        });
       });
     });
   });

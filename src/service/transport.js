@@ -6,7 +6,7 @@ import { store } from 'service/persistence';
 import { settings } from 'service/settings';
 import { location } from 'utility/globals';
 import { base64encode,
-         referralPolicyUrl } from 'utility/utils';
+         referrerPolicyUrl } from 'utility/utils';
 
 let config;
 const defaultPayload = {
@@ -128,13 +128,10 @@ function sendWithMeta(payload, useBase64 = false) {
     timestamp: (new Date()).toISOString()
   };
   const referrerPolicy = store.get('referrerPolicy', 'session');
-  const url = referralPolicyUrl(referrerPolicy, location.href);
+  const url = referrerPolicy ? referrerPolicyUrl(referrerPolicy, location.href) : location.href;
+  const urlParams = url ? { url } : {};
 
-  if (url) {
-    _.extend(commonParams, { url });
-  }
-
-  _.extend(payload.params, commonParams);
+  _.extend(payload.params, commonParams, urlParams);
 
   if (useBase64) {
     payload.query = { data: base64encode(JSON.stringify(payload.params)) };

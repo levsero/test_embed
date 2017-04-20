@@ -2,6 +2,7 @@ describe('transport', () => {
   let transport,
     mockMethods,
     mockNoReferrerValue,
+    mockReferrerUrl,
     mockRegistry;
 
   const transportPath = buildSrcPath('service/transport');
@@ -20,6 +21,7 @@ describe('transport', () => {
       end: () => mockMethods
     };
     mockNoReferrerValue = false;
+    mockReferrerUrl = 'http://window.location.href';
     mockRegistry = initMockRegistry({
       'superagent': jasmine.createSpy().and.callFake(() => {
         return mockMethods;
@@ -33,7 +35,8 @@ describe('transport', () => {
       },
       'utility/utils': {
         base64encode: jasmine.createSpy('base64encode')
-          .and.returnValue('MOCKBASE64')
+          .and.returnValue('MOCKBASE64'),
+        referrerPolicyUrl: () => mockReferrerUrl
       },
       'service/identity': {
         identity: {
@@ -427,21 +430,44 @@ describe('transport', () => {
         .toEqual(payload.params.user);
     });
 
-    describe('when noReferrer value is stored in session storage', () => {
-      beforeEach(() => {
-        mockNoReferrerValue = true;
+    describe('when a referrerPolicy value is stored in session storage', () => {
+      let params;
 
-        spyOn(mockMethods, 'send').and.callThrough();
+      describe('that is a no-referrer type', () => {
+        beforeEach(() => {
+          mockNoReferrerValue = 'no-referrer';
+          mockReferrerUrl = null;
 
-        transport.init(config);
-        transport.sendWithMeta(payload);
+          spyOn(mockMethods, 'send').and.callThrough();
+
+          transport.init(config);
+          transport.sendWithMeta(payload);
+
+          params = mockMethods.send.calls.mostRecent().args[0];
+        });
+
+        it('does not send a url param', () =>{
+          expect(params.url)
+            .toBeUndefined();
+        });
       });
 
-      it('does not send a url param', () =>{
-        const params = mockMethods.send.calls.mostRecent().args[0];
+      describe('that is not a no-referrer type', () => {
+        beforeEach(() => {
+          mockNoReferrerValue = 'origin';
 
-        expect(params.url)
-          .toBeUndefined();
+          spyOn(mockMethods, 'send').and.callThrough();
+
+          transport.init(config);
+          transport.sendWithMeta(payload);
+
+          params = mockMethods.send.calls.mostRecent().args[0];
+        });
+
+        it('sends a url param', () =>{
+          expect(params.url)
+            .toBeDefined();
+        });
       });
     });
 
