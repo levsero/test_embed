@@ -39,35 +39,27 @@ let contextualSearchOptions = {};
 let cancelTargetHandler = null;
 
 const getWithSpinner = (path, locale, doneFn) => {
-  waitForRootComponent(() => {
-    getWebWidgetComponent().refs.ticketSubmissionForm.setLoading(true);
-  });
-
-  // For setTimeout and invocation of waitForRootComponent,
-  // defer and wait for rootComponent before processing statements
-  // in order execute after setLoading is completed
-  transport.get({
+  const transportData = {
     method: 'get',
     path,
     timeout: 20000,
     locale,
     callbacks: {
-      done(res) {
-        setTimeout(() => {
-          waitForRootComponent(() => {
-            doneFn(JSON.parse(res.text));
-          });
-        }, 0);
-      },
-      fail() {
-        setTimeout(() => {
-          waitForRootComponent(() => {
-            getRootComponent().setLoading(false);
-          });
-        }, 0);
-      }
+      done(res) { doneFn(JSON.parse(res.text)); },
+      fail() { getRootComponent().setLoading(false); }
     }
-  }, false);
+  };
+
+  waitForRootComponent(() => {
+    getWebWidgetComponent().refs.ticketSubmissionForm.setLoading(true);
+
+    // For setTimeout and invocation of waitForRootComponent,
+    // defer and wait for rootComponent before processing statements
+    // in order execute after setLoading is completed
+    setTimeout(() => {
+      transport.get(transportData, false);
+    }, 0);
+  });
 };
 const showBackButton = (show = true) => {
   embed.instance.getChild().showBackButton(show);
@@ -690,5 +682,8 @@ export const webWidget = {
   render: render,
   get: get,
   postRender: postRender,
-  keywordsSearch: keywordsSearch
+  keywordsSearch: keywordsSearch,
+
+  // Exported for testing.
+  waitForRootComponent
 };

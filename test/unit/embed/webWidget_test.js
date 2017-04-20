@@ -352,18 +352,24 @@ describe('embed.webWidget', () => {
         });
 
         it('should call show_many', () => {
-          webWidget.create('faythe', { ticketSubmissionForm: { ticketForms: [{ id:1 }] } } );
+          const expectFn = () => {
+            expect(mockTransport.get.calls.mostRecent().args[0].path)
+              .toEqual('/api/v2/ticket_forms/show_many.json?ids=1&include=ticket_fields');
+          };
 
-          expect(mockTransport.get.calls.mostRecent().args[0].path)
-            .toEqual('/api/v2/ticket_forms/show_many.json?ids=1&include=ticket_fields');
+          webWidget.create('faythe', { ticketSubmissionForm: { ticketForms: [{ id:1 }] } } );
+          webWidget.waitForRootComponent(expectFn);
         });
 
         it('should use the settings value over the config value', () => {
+          const expectFn = () => {
+            expect(mockTransport.get.calls.mostRecent().args[0].path)
+              .toContain('212');
+          };
+
           mockSettingsValue = [{ id: 212 }]; // emulate settings.get('contactForm.ticketForms')
           webWidget.create('faythe', { ticketSubmissionForm: { ticketForms: [{ id: 121 }] } } );
-
-          expect(mockTransport.get.calls.mostRecent().args[0].path)
-            .toContain('212');
+          webWidget.waitForRootComponent(expectFn);
         });
       });
 
@@ -375,10 +381,13 @@ describe('embed.webWidget', () => {
         });
 
         it('should call embeddable/ticket_fields with the ids', () => {
-          webWidget.create('faythe', { ticketSubmissionForm: { customFields: { ids: [1, 2, 3] } } } );
+          const expectFn = () => {
+            expect(mockTransport.get.calls.mostRecent().args[0].path)
+              .toEqual('/embeddable/ticket_fields?field_ids=1,2,3&locale=fr');
+          };
 
-          expect(mockTransport.get.calls.mostRecent().args[0].path)
-            .toEqual('/embeddable/ticket_fields?field_ids=1,2,3&locale=fr');
+          webWidget.create('faythe', { ticketSubmissionForm: { customFields: { ids: [1, 2, 3] } } } );
+          webWidget.waitForRootComponent(expectFn);
         });
       });
 
@@ -390,10 +399,13 @@ describe('embed.webWidget', () => {
         });
 
         it('should call embeddable/ticket_fields with the ids', () => {
-          webWidget.create('faythe', { ticketSubmissionForm: { customFields: { all: true } } } );
+          const expectFn = () => {
+            expect(mockTransport.get.calls.mostRecent().args[0].path)
+              .toEqual('/embeddable/ticket_fields?locale=fr');
+          };
 
-          expect(mockTransport.get.calls.mostRecent().args[0].path)
-            .toEqual('/embeddable/ticket_fields?locale=fr');
+          webWidget.create('faythe', { ticketSubmissionForm: { customFields: { all: true } } } );
+          webWidget.waitForRootComponent(expectFn);
         });
       });
     });
