@@ -4,7 +4,7 @@ import { win } from 'utility/globals';
 
 const prefix = 'ZD-';
 
-// TODOD: find a better way to differentiate between localStorage
+// TODO: find a better way to differentiate between localStorage
 // and sessionStorage, and refactor everywhere it is used
 
 const storage = (type) => win[`${type}Storage`];
