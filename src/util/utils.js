@@ -100,7 +100,7 @@ function emailValid(email) {
 }
 
 function referrerPolicyUrl(policy, url) {
-  switch(policy) {
+  switch (policy) {
     case 'no-referrer':
     case 'same-origin':
       return null;
