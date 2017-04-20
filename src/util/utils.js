@@ -99,6 +99,21 @@ function emailValid(email) {
   return validRegex.test(email);
 }
 
+function referralPolicyUrl(policy, url) {
+  switch(policy) {
+    case 'no-referrer':
+    case 'same-origin':
+      return null;
+    case 'origin':
+    case 'origin-when-cross-origin':
+    case 'strict-origin':
+    case 'strict-origin-when-cross-origin':
+      return parseUrl(url).origin;
+    default:
+      return url;
+  }
+}
+
 export {
   getPageKeywords,
   getPageTitle,
@@ -111,5 +126,6 @@ export {
   cssTimeToMs,
   nowInSeconds,
   sha1,
-  emailValid
+  emailValid,
+  referralPolicyUrl
 };

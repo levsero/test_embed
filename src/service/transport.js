@@ -5,7 +5,8 @@ import { identity } from 'service/identity';
 import { store } from 'service/persistence';
 import { settings } from 'service/settings';
 import { location } from 'utility/globals';
-import { base64encode } from 'utility/utils';
+import { base64encode,
+         referralPolicyUrl } from 'utility/utils';
 
 let config;
 const defaultPayload = {
@@ -120,15 +121,19 @@ function send(payload, addType = true) {
 }
 
 function sendWithMeta(payload, useBase64 = false) {
-  const urlParam = store.get('noReferrer', 'session') ? {} : { url: location.href };
   const commonParams = {
     buid: identity.getBuid(),
     suid: identity.getSuid().id || null,
     version: config.version,
     timestamp: (new Date()).toISOString()
   };
+  const referrerPolicy = store.get('referrerPolicy', 'session');
+  const url = referralPolicyUrl(referrerPolicy, location.href);
 
-  _.extend(commonParams, urlParam);
+  if (url) {
+    _.extend(commonParams, { url });
+  }
+
   _.extend(payload.params, commonParams);
 
   if (useBase64) {

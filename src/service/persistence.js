@@ -23,7 +23,7 @@ function set(name, data, type = 'local') {
   return data;
 }
 
-function remove (name, type = 'local') {
+function remove(name, type = 'local') {
   storage(type).removeItem(prefix + name);
 }
 

@@ -53,12 +53,14 @@ const setReferrerMetas = (iframe, doc) => {
   const referrerMetas = _.map(metaElements, (meta) => meta.content);
   const iframeDoc = iframe.contentDocument;
 
-  _.forEach(referrerMetas, (content) => appendMetaTag(iframeDoc, 'referrer', content));
+  _.forEach(referrerMetas, (content) => {
+    appendMetaTag(iframeDoc, 'referrer', content);
+  });
 
   if (referrerMetas.length > 0) {
-    store.set('noReferrer', true, 'session');
+    store.set('referrerPolicy', _.last(referrerMetas), 'session');
   } else {
-    store.remove('noReferrer', 'session');
+    store.remove('referrerPolicy', 'session');
   }
 };
 
