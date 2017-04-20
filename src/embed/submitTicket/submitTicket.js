@@ -46,35 +46,27 @@ const getTicketFormIds = _.memoize((config) => {
 });
 
 const getWithSpinner = (name, path, locale, doneFn) => {
-  waitForRootComponent(name, () => {
-    getRootComponent(name).setLoading(true);
-  });
-
-  // For setTimeout and invocation of waitForRootComponent,
-  // defer and wait for rootComponent before processing statements
-  // in order execute after setLoading is completed
-  transport.get({
+  const transportData = {
     method: 'get',
     path,
     timeout: 20000,
     locale,
     callbacks: {
-      done(res) {
-        setTimeout(() => {
-          waitForRootComponent(name, () => {
-            doneFn(JSON.parse(res.text));
-          });
-        }, 0);
-      },
-      fail() {
-        setTimeout(() => {
-          waitForRootComponent(name, () => {
-            getRootComponent(name).setLoading(false);
-          });
-        }, 0);
-      }
+      done(res) { doneFn(JSON.parse(res.text)); },
+      fail() { getRootComponent(name).setLoading(false); }
     }
-  }, false);
+  };
+
+  waitForRootComponent(name, () => {
+    getRootComponent(name).setLoading(true);
+
+    // For setTimeout and invocation of waitForRootComponent,
+    // defer and wait for rootComponent before processing statements
+    // in order execute after setLoading is completed
+    setTimeout(() => {
+      transport.get(transportData, false);
+    }, 0);
+  });
 };
 
 function create(name, config, reduxStore) {
@@ -429,5 +421,6 @@ export const submitTicket = {
 
   // Exported for testing.
   loadTicketForms,
-  loadTicketFields
+  loadTicketFields,
+  waitForRootComponent
 };

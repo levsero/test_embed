@@ -139,16 +139,18 @@ describe('embed.submitTicket', () => {
   });
 
   describe('create', () => {
+    const componentName = 'bob';
+
     it('show add a new submit ticket form to the submitTicket array', () => {
       expect(_.keys(submitTicket.list()).length)
         .toEqual(0);
 
-      submitTicket.create('bob');
+      submitTicket.create(componentName);
 
       expect(_.keys(submitTicket.list()).length)
         .toEqual(1);
 
-      const bob = submitTicket.get('bob');
+      const bob = submitTicket.get(componentName);
 
       expect(bob)
         .toBeDefined();
@@ -158,9 +160,9 @@ describe('embed.submitTicket', () => {
     });
 
     it('changes config.formTitleKey if formTitleKey is set', () => {
-      submitTicket.create('bob', { formTitleKey: 'test_title' } );
+      submitTicket.create(componentName, { formTitleKey: 'test_title' } );
 
-      const bob = submitTicket.get('bob');
+      const bob = submitTicket.get(componentName);
 
       expect(bob.config.formTitleKey)
         .toEqual('test_title');
@@ -168,9 +170,9 @@ describe('embed.submitTicket', () => {
 
     it('changes config.attachmentsEnabled if zESettings.contactForm.attachments is false', () => {
       mockSettingsValue = false; // emulate settings.get('contactForm.attachments')
-      submitTicket.create('bob', { attachmentsEnabled: true } );
+      submitTicket.create(componentName, { attachmentsEnabled: true } );
 
-      const bob = submitTicket.get('bob');
+      const bob = submitTicket.get(componentName);
 
       expect(bob.config.attachmentsEnabled)
         .toEqual(false);
@@ -184,18 +186,24 @@ describe('embed.submitTicket', () => {
       });
 
       it('should call show_many', () => {
-        submitTicket.create('bob', { ticketForms: [{ id: 1 }] } );
+        const expectFn = () => {
+          expect(mockTransport.get.calls.mostRecent().args[0].path)
+            .toEqual('/api/v2/ticket_forms/show_many.json?ids=1&include=ticket_fields');
+        };
 
-        expect(mockTransport.get.calls.mostRecent().args[0].path)
-          .toEqual('/api/v2/ticket_forms/show_many.json?ids=1&include=ticket_fields');
+        submitTicket.create(componentName, { ticketForms: [{ id: 1 }] } );
+        submitTicket.waitForRootComponent(componentName, expectFn);
       });
 
       it('should use the settings value over the config value', () => {
-        mockSettingsValue = [{ id: 212 }]; // emulate settings.get('contactForm.ticketForms')
-        submitTicket.create('bob', { ticketForms: [{ id: 1 }] } );
+        const expectFn = () => {
+          expect(mockTransport.get.calls.mostRecent().args[0].path)
+            .toContain('212');
+        };
 
-        expect(mockTransport.get.calls.mostRecent().args[0].path)
-          .toContain('212');
+        mockSettingsValue = [{ id: 212 }]; // emulate settings.get('contactForm.ticketForms')
+        submitTicket.create(componentName, { ticketForms: [{ id: 1 }] } );
+        submitTicket.waitForRootComponent(componentName, expectFn);
       });
     });
 
@@ -207,10 +215,13 @@ describe('embed.submitTicket', () => {
       });
 
       it('should call embeddable/ticket_fields with the ids', () => {
-        submitTicket.create('bob', { customFields: { ids: [1, 2, 3] } } );
+        const expectFn = () => {
+          expect(mockTransport.get.calls.mostRecent().args[0].path)
+            .toEqual('/embeddable/ticket_fields?field_ids=1,2,3&locale=fr');
+        };
 
-        expect(mockTransport.get.calls.mostRecent().args[0].path)
-          .toEqual('/embeddable/ticket_fields?field_ids=1,2,3&locale=fr');
+        submitTicket.create(componentName, { customFields: { ids: [1, 2, 3] } } );
+        submitTicket.waitForRootComponent(componentName, expectFn);
       });
     });
 
@@ -221,11 +232,14 @@ describe('embed.submitTicket', () => {
         mockTransport = mockRegistry['service/transport'].transport;
       });
 
-      it('should call embeddable/ticket_fields with the ids', () => {
-        submitTicket.create('bob', { customFields: { all: true } } );
+      it('should call embeddable/ticket_fields without the ids', () => {
+        const expectFn = () => {
+          expect(mockTransport.get.calls.mostRecent().args[0].path)
+            .toEqual('/embeddable/ticket_fields?locale=fr');
+        };
 
-        expect(mockTransport.get.calls.mostRecent().args[0].path)
-          .toEqual('/embeddable/ticket_fields?locale=fr');
+        submitTicket.create(componentName, { customFields: { all: true } } );
+        submitTicket.waitForRootComponent(componentName, expectFn);
       });
     });
 
@@ -242,18 +256,18 @@ describe('embed.submitTicket', () => {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
         mockMediator = mockRegistry['service/mediator'].mediator;
 
-        submitTicket.create('bob', frameConfig);
-        submitTicket.render('bob');
+        submitTicket.create(componentName, frameConfig);
+        submitTicket.render(componentName);
 
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         childFn = mockFrameFactoryCall[0];
         params = mockFrameFactoryCall[1];
-        embed = submitTicket.get('bob').instance.getRootComponent();
-        submitTicketFrame = submitTicket.get('bob').instance;
+        embed = submitTicket.get(componentName).instance.getRootComponent();
+        submitTicketFrame = submitTicket.get(componentName).instance;
       });
 
       it('should apply the configs', () => {
-        const bob = submitTicket.get('bob');
+        const bob = submitTicket.get(componentName);
         const payload = childFn({});
 
         expect(payload.props.formTitleKey)
@@ -274,10 +288,10 @@ describe('embed.submitTicket', () => {
         mockIsIEValue = true;
 
         submitTicket = requireUncached(submitTicketPath).submitTicket;
-        submitTicket.create('bob', frameConfig);
-        submitTicket.render('bob');
+        submitTicket.create(componentName, frameConfig);
+        submitTicket.render(componentName);
 
-        submitTicketFrame = submitTicket.get('bob').instance;
+        submitTicketFrame = submitTicket.get(componentName).instance;
 
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
@@ -294,10 +308,10 @@ describe('embed.submitTicket', () => {
         mockIsMobileBrowserValue = true;
 
         submitTicket = requireUncached(submitTicketPath).submitTicket;
-        submitTicket.create('bob', frameConfig);
-        submitTicket.render('bob');
+        submitTicket.create(componentName, frameConfig);
+        submitTicket.render(componentName);
 
-        submitTicketFrame = submitTicket.get('bob').instance;
+        submitTicketFrame = submitTicket.get(componentName).instance;
 
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
@@ -329,10 +343,10 @@ describe('embed.submitTicket', () => {
         mockIsMobileBrowserValue = true;
 
         submitTicket = requireUncached(submitTicketPath).submitTicket;
-        submitTicket.create('bob', frameConfig);
-        submitTicket.render('bob');
+        submitTicket.create(componentName, frameConfig);
+        submitTicket.render(componentName);
 
-        submitTicketFrame = submitTicket.get('bob').instance;
+        submitTicketFrame = submitTicket.get(componentName).instance;
 
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
@@ -387,7 +401,7 @@ describe('embed.submitTicket', () => {
         mockIsMobileBrowserValue = true;
 
         submitTicket = requireUncached(submitTicketPath).submitTicket;
-        submitTicket.create('bob');
+        submitTicket.create(componentName);
 
         const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         const iframeStyle = mockFrameFactoryCall[1].frameStyle;
@@ -408,7 +422,7 @@ describe('embed.submitTicket', () => {
         mockIsMobileBrowserValue = true;
 
         submitTicket = requireUncached(submitTicketPath).submitTicket;
-        submitTicket.create('bob');
+        submitTicket.create(componentName);
 
         const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         const payload = mockFrameFactoryCall[0](childFnParams);
@@ -460,7 +474,7 @@ describe('embed.submitTicket', () => {
             };
 
             mockSettingsValue = true;
-            submitTicket.create('bob', { attachmentsEnabled: true });
+            submitTicket.create(componentName, { attachmentsEnabled: true });
 
             mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
             payload = mockFrameFactoryCall[0](childFnParams);
@@ -475,7 +489,7 @@ describe('embed.submitTicket', () => {
               payload.props.onSubmitted(params);
 
               expect(mockBeacon.trackUserAction)
-                .toHaveBeenCalledWith('submitTicket', 'send', 'bob', value);
+                .toHaveBeenCalledWith('submitTicket', 'send', componentName, value);
 
               expect(mockMediator.channel.broadcast)
                 .toHaveBeenCalledWith('bob.onFormSubmitted');
@@ -487,7 +501,7 @@ describe('embed.submitTicket', () => {
               payload.props.onSubmitted(params);
 
               expect(mockBeacon.trackUserAction)
-                .toHaveBeenCalledWith('submitTicket', 'send', 'bob', value);
+                .toHaveBeenCalledWith('submitTicket', 'send', componentName, value);
 
               expect(mockMediator.channel.broadcast)
                 .toHaveBeenCalledWith('bob.onFormSubmitted');
@@ -499,10 +513,12 @@ describe('embed.submitTicket', () => {
   });
 
   describe('get', () => {
-    it('should return the correct submitTicket form', () => {
-      submitTicket.create('bob');
+    const componentName = 'bob';
 
-      expect(submitTicket.get('bob'))
+    it('should return the correct submitTicket form', () => {
+      submitTicket.create(componentName);
+
+      expect(submitTicket.get(componentName))
         .toBeDefined();
     });
   });
@@ -511,6 +527,7 @@ describe('embed.submitTicket', () => {
     let formParams,
       mockTransport,
       embed;
+    const componentName = 'bob';
 
     beforeEach(() => {
       mockTransport = mockRegistry['service/transport'].transport;
@@ -521,10 +538,10 @@ describe('embed.submitTicket', () => {
         'email': 'mock@email.com',
         'description': 'Mock Description'
       };
-      submitTicket.create('bob');
-      submitTicket.render('bob');
+      submitTicket.create(componentName);
+      submitTicket.render(componentName);
 
-      embed = submitTicket.get('bob').instance.getRootComponent();
+      embed = submitTicket.get(componentName).instance.getRootComponent();
       embed.props.submitTicketSender(formParams, null, null);
     });
 
@@ -543,6 +560,7 @@ describe('embed.submitTicket', () => {
     let file,
       mockTransport,
       embed;
+    const componentName = 'bob';
 
     beforeEach(() => {
       mockTransport = mockRegistry['service/transport'].transport;
@@ -550,10 +568,10 @@ describe('embed.submitTicket', () => {
         name: 'foo.bar'
       };
 
-      submitTicket.create('bob');
-      submitTicket.render('bob');
+      submitTicket.create(componentName);
+      submitTicket.render(componentName);
 
-      embed = submitTicket.get('bob').instance.getRootComponent();
+      embed = submitTicket.get(componentName).instance.getRootComponent();
       embed.props.attachmentSender(file, null, null, null);
     });
 
@@ -569,14 +587,16 @@ describe('embed.submitTicket', () => {
   });
 
   describe('render', () => {
+    const componentName = 'bob';
+
     it('should throw an exception if SubmitTicket does not exist', () => {
       expect(() => submitTicket.render('non_existent_submitTicket'))
         .toThrow();
     });
 
     it('renders a submitTicket form to the document', () => {
-      submitTicket.create('bob');
-      submitTicket.render('bob');
+      submitTicket.create(componentName);
+      submitTicket.render(componentName);
 
       expect(document.querySelectorAll( '.mock-frame').length)
         .toEqual(1);
@@ -584,17 +604,17 @@ describe('embed.submitTicket', () => {
       expect(document.querySelectorAll( '.mock-frame .mock-submitTicket').length)
         .toEqual(1);
 
-      expect(TestUtils.isCompositeComponent(submitTicket.get('bob').instance))
+      expect(TestUtils.isCompositeComponent(submitTicket.get(componentName).instance))
         .toEqual(true);
     });
 
     it('should only be allowed to render an submitTicket form once', () => {
-      submitTicket.create('bob');
+      submitTicket.create(componentName);
 
-      expect(() => submitTicket.render('bob'))
+      expect(() => submitTicket.render(componentName))
         .not.toThrow();
 
-      expect(() => submitTicket.render('bob'))
+      expect(() => submitTicket.render(componentName))
         .toThrow();
     });
 
@@ -602,8 +622,8 @@ describe('embed.submitTicket', () => {
       const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
       const mockCss = mockRegistry['./submitTicket.scss'];
 
-      submitTicket.create('bob');
-      submitTicket.render('bob');
+      submitTicket.create(componentName);
+      submitTicket.render(componentName);
 
       const mockFrameFactoryCss = mockFrameFactory.calls.mostRecent().args[1].css;
 
@@ -619,9 +639,9 @@ describe('embed.submitTicket', () => {
 
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
-        submitTicket.create('bob');
-        submitTicket.render('bob');
-        bob = submitTicket.get('bob');
+        submitTicket.create(componentName);
+        submitTicket.render(componentName);
+        bob = submitTicket.get(componentName);
         bobFrame = bob.instance.getChild();
         bobSubmitTicket = bobFrame.refs.rootComponent;
       });
@@ -670,9 +690,9 @@ describe('embed.submitTicket', () => {
           const ticketForms = [10000, 10001];
 
           beforeEach(() => {
-            submitTicket.create('bob', { ticketForms });
-            submitTicket.render('bob');
-            embed = submitTicket.get('bob');
+            submitTicket.create(componentName, { ticketForms });
+            submitTicket.render(componentName);
+            embed = submitTicket.get(componentName);
 
             spyOn(submitTicket, 'loadTicketForms');
             spyOn(submitTicket, 'loadTicketFields');
@@ -682,7 +702,7 @@ describe('embed.submitTicket', () => {
 
           it('should call loadTicketForms', () => {
             expect(submitTicket.loadTicketForms)
-              .toHaveBeenCalledWith('bob', ticketForms, 'fr');
+              .toHaveBeenCalledWith(componentName, ticketForms, 'fr');
           });
 
           it('should call SubmitTicket.forceUpdate', () => {
@@ -700,9 +720,9 @@ describe('embed.submitTicket', () => {
           const customFields = { ids: [10000, 10001] };
 
           beforeEach(() => {
-            submitTicket.create('bob', { customFields });
-            submitTicket.render('bob');
-            embed = submitTicket.get('bob');
+            submitTicket.create(componentName, { customFields });
+            submitTicket.render(componentName);
+            embed = submitTicket.get(componentName);
 
             spyOn(submitTicket, 'loadTicketForms');
             spyOn(submitTicket, 'loadTicketFields');
@@ -712,7 +732,7 @@ describe('embed.submitTicket', () => {
 
           it('should call loadTicketFields', () => {
             expect(submitTicket.loadTicketFields)
-              .toHaveBeenCalledWith('bob', customFields, 'fr');
+              .toHaveBeenCalledWith(componentName, customFields, 'fr');
           });
 
           it('should call SubmitTicket.forceUpdate', () => {

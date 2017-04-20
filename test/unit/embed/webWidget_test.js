@@ -211,6 +211,7 @@ describe('embed.webWidget', () => {
 
   describe('create', () => {
     let faythe;
+    const componentName = 'faythe';
 
     it('should create the embed component', () => {
       webWidget.create();
@@ -231,7 +232,7 @@ describe('embed.webWidget', () => {
       beforeEach(() => {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
         mockIsMobileBrowser = true;
-        webWidget.create('faythe');
+        webWidget.create(componentName);
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
       });
 
@@ -267,9 +268,9 @@ describe('embed.webWidget', () => {
             attachmentsEnabled: true
           };
 
-          webWidget.create('faythe', { ticketSubmissionForm: submitTicketConfig });
+          webWidget.create(componentName, { ticketSubmissionForm: submitTicketConfig });
 
-          faythe = webWidget.get('faythe');
+          faythe = webWidget.get(componentName);
         });
 
         it('changes config.formTitleKey if formTitleKey is set', () => {
@@ -352,18 +353,24 @@ describe('embed.webWidget', () => {
         });
 
         it('should call show_many', () => {
-          webWidget.create('faythe', { ticketSubmissionForm: { ticketForms: [{ id:1 }] } } );
+          const expectFn = () => {
+            expect(mockTransport.get.calls.mostRecent().args[0].path)
+              .toEqual('/api/v2/ticket_forms/show_many.json?ids=1&include=ticket_fields');
+          };
 
-          expect(mockTransport.get.calls.mostRecent().args[0].path)
-            .toEqual('/api/v2/ticket_forms/show_many.json?ids=1&include=ticket_fields');
+          webWidget.create(componentName, { ticketSubmissionForm: { ticketForms: [{ id:1 }] } } );
+          webWidget.waitForRootComponent(expectFn);
         });
 
         it('should use the settings value over the config value', () => {
-          mockSettingsValue = [{ id: 212 }]; // emulate settings.get('contactForm.ticketForms')
-          webWidget.create('faythe', { ticketSubmissionForm: { ticketForms: [{ id: 121 }] } } );
+          const expectFn = () => {
+            expect(mockTransport.get.calls.mostRecent().args[0].path)
+              .toContain('212');
+          };
 
-          expect(mockTransport.get.calls.mostRecent().args[0].path)
-            .toContain('212');
+          mockSettingsValue = [{ id: 212 }]; // emulate settings.get('contactForm.ticketForms')
+          webWidget.create(componentName, { ticketSubmissionForm: { ticketForms: [{ id: 121 }] } } );
+          webWidget.waitForRootComponent(expectFn);
         });
       });
 
@@ -375,10 +382,13 @@ describe('embed.webWidget', () => {
         });
 
         it('should call embeddable/ticket_fields with the ids', () => {
-          webWidget.create('faythe', { ticketSubmissionForm: { customFields: { ids: [1, 2, 3] } } } );
+          const expectFn = () => {
+            expect(mockTransport.get.calls.mostRecent().args[0].path)
+              .toEqual('/embeddable/ticket_fields?field_ids=1,2,3&locale=fr');
+          };
 
-          expect(mockTransport.get.calls.mostRecent().args[0].path)
-            .toEqual('/embeddable/ticket_fields?field_ids=1,2,3&locale=fr');
+          webWidget.create(componentName, { ticketSubmissionForm: { customFields: { ids: [1, 2, 3] } } } );
+          webWidget.waitForRootComponent(expectFn);
         });
       });
 
@@ -389,11 +399,14 @@ describe('embed.webWidget', () => {
           mockTransport = mockRegistry['service/transport'].transport;
         });
 
-        it('should call embeddable/ticket_fields with the ids', () => {
-          webWidget.create('faythe', { ticketSubmissionForm: { customFields: { all: true } } } );
+        it('should call embeddable/ticket_fields without the ids', () => {
+          const expectFn = () => {
+            expect(mockTransport.get.calls.mostRecent().args[0].path)
+              .toEqual('/embeddable/ticket_fields?locale=fr');
+          };
 
-          expect(mockTransport.get.calls.mostRecent().args[0].path)
-            .toEqual('/embeddable/ticket_fields?locale=fr');
+          webWidget.create(componentName, { ticketSubmissionForm: { customFields: { all: true } } } );
+          webWidget.waitForRootComponent(expectFn);
         });
       });
     });
@@ -402,9 +415,9 @@ describe('embed.webWidget', () => {
       beforeEach(() => {
         const chatConfig = { zopimId: '123abc' };
 
-        webWidget.create('faythe', { zopimChat: chatConfig });
+        webWidget.create(componentName, { zopimChat: chatConfig });
 
-        faythe = webWidget.get('faythe');
+        faythe = webWidget.get(componentName);
       });
 
       it('calls zChat init with the chat key', () => {
@@ -429,9 +442,9 @@ describe('embed.webWidget', () => {
             viewMoreEnabled: true
           };
 
-          webWidget.create('faythe', { helpCenterForm: helpCenterConfig });
+          webWidget.create(componentName, { helpCenterForm: helpCenterConfig });
 
-          faythe = webWidget.get('faythe');
+          faythe = webWidget.get(componentName);
         });
 
         it('changes config.buttonLabelKey if buttonLabelKey is set', () => {
@@ -452,9 +465,9 @@ describe('embed.webWidget', () => {
         it('does not change config.viewMoreEnabled if config.viewMoreEnabled is false', () => {
           mockSettingsValue = true;
 
-          webWidget.create('faythe', { helpCenterForm: { viewMoreEnabled: false } });
+          webWidget.create(componentName, { helpCenterForm: { viewMoreEnabled: false } });
 
-          faythe = webWidget.get('faythe');
+          faythe = webWidget.get(componentName);
 
           expect(faythe.config.helpCenterForm.viewMoreEnabled)
             .toEqual(false);
@@ -468,7 +481,7 @@ describe('embed.webWidget', () => {
         beforeEach(() => {
           mockTransport = mockRegistry['service/transport'].transport;
 
-          webWidget.create('faythe');
+          webWidget.create(componentName);
           webWidget.render();
 
           embed = webWidget.get().instance.getRootComponent();
@@ -616,13 +629,13 @@ describe('embed.webWidget', () => {
         mockSetScaleLock = mockRegistry['utility/devices'].setScaleLock;
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
 
-        webWidget.create('faythe', frameConfig);
+        webWidget.create(componentName, frameConfig);
         webWidget.render();
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-        webWidgetFrame = webWidget.get('faythe').instance;
+        webWidgetFrame = webWidget.get(componentName).instance;
         childFn = mockFrameFactoryCall[0];
         params = mockFrameFactoryCall[1];
-        faythe = webWidget.get('faythe');
+        faythe = webWidget.get(componentName);
         payload = childFn({});
       });
 
@@ -754,7 +767,7 @@ describe('embed.webWidget', () => {
             };
 
             mockSettingsValue = true;
-            webWidget.create('faythe', { ticketSubmissionForm: { attachmentsEnabled: true } });
+            webWidget.create(componentName, { ticketSubmissionForm: { attachmentsEnabled: true } });
 
             mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
             payload = mockFrameFactoryCall[0](childFnParams);
@@ -793,9 +806,11 @@ describe('embed.webWidget', () => {
   });
 
   describe('render', () => {
+    const componentName = 'faythe';
+
     it('renders a webWidget form to the document', () => {
-      webWidget.create('faythe');
-      webWidget.render('faythe');
+      webWidget.create(componentName);
+      webWidget.render(componentName);
 
       expect(document.querySelectorAll('.mock-frame').length)
         .toEqual(1);
@@ -808,20 +823,20 @@ describe('embed.webWidget', () => {
     });
 
     it('should only be allowed to render an webWidget form once', () => {
-      webWidget.create('faythe');
+      webWidget.create(componentName);
 
-      expect(() => webWidget.render('faythe'))
+      expect(() => webWidget.render(componentName))
         .not.toThrow();
 
-      expect(() => webWidget.render('faythe'))
+      expect(() => webWidget.render(componentName))
         .toThrow();
     });
 
     it('applies webWidget.scss to the frame factory', () => {
       const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
 
-      webWidget.create('faythe');
-      webWidget.render('faythe');
+      webWidget.create(componentName);
+      webWidget.render(componentName);
 
       const mockFrameFactoryCss = mockFrameFactory.calls.mostRecent().args[1].css;
 
@@ -832,6 +847,7 @@ describe('embed.webWidget', () => {
 
   describe('setUpMediator', () => {
     let mockMediator;
+    const componentName = 'faythe';
 
     beforeEach(() => {
       mockMediator = mockRegistry['service/mediator'].mediator;
@@ -891,9 +907,9 @@ describe('embed.webWidget', () => {
         const ticketForms = [10000, 10001];
 
         beforeEach(() => {
-          webWidget.create('faythe', { ticketSubmissionForm: { ticketForms } });
-          embed = webWidget.get('faythe');
-          webWidget.render('faythe');
+          webWidget.create(componentName, { ticketSubmissionForm: { ticketForms } });
+          embed = webWidget.get(componentName);
+          webWidget.render(componentName);
 
           embed.submitTicketSettings.loadTicketForms = jasmine.createSpy('loadTicketForms');
           embed.submitTicketSettings.loadTicketFields = jasmine.createSpy('loadTicketFields');
@@ -921,9 +937,9 @@ describe('embed.webWidget', () => {
         const customFields = { ids: [10000, 10001] };
 
         beforeEach(() => {
-          webWidget.create('faythe', { ticketSubmissionForm: { customFields } });
-          embed = webWidget.get('faythe');
-          webWidget.render('faythe');
+          webWidget.create(componentName, { ticketSubmissionForm: { customFields } });
+          embed = webWidget.get(componentName);
+          webWidget.render(componentName);
 
           embed.submitTicketSettings.loadTicketForms = jasmine.createSpy('loadTicketForms');
           embed.submitTicketSettings.loadTicketFields = jasmine.createSpy('loadTicketFields');
@@ -965,8 +981,8 @@ describe('embed.webWidget', () => {
         beforeEach(() => {
           targetListener = mockRegistry['utility/mouse'].mouse.target;
 
-          webWidget.create('faythe', { helpCenterForm: { enableMouseDrivenContextualHelp: true } });
-          webWidget.render('faythe');
+          webWidget.create(componentName, { helpCenterForm: { enableMouseDrivenContextualHelp: true } });
+          webWidget.render(componentName);
         });
 
         it('should add the mouse target listener', () => {
@@ -1006,6 +1022,7 @@ describe('embed.webWidget', () => {
 
   describe('keywordsSearch', () => {
     let contextualSearchSpy;
+    const componentName = 'faythe';
 
     beforeEach(() => {
       contextualSearchSpy = jasmine.createSpy('contextualSearch');
@@ -1013,7 +1030,7 @@ describe('embed.webWidget', () => {
 
     describe('without authenticated help center', () => {
       beforeEach(() => {
-        webWidget.create('faythe', { helpCenterForm: { contextualHelpEnabled: true } });
+        webWidget.create(componentName, { helpCenterForm: { contextualHelpEnabled: true } });
         webWidget.get().instance = {
           getRootComponent: () => {
             return {
@@ -1049,7 +1066,7 @@ describe('embed.webWidget', () => {
 
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
-        webWidget.create('faythe',
+        webWidget.create(componentName,
           {
             helpCenterForm: {
               contextualHelpEnabled: true,
@@ -1057,7 +1074,7 @@ describe('embed.webWidget', () => {
             }
           }
         );
-        webWidget.render('faythe');
+        webWidget.render(componentName);
 
         webWidget.get().instance = {
           getRootComponent: () => {
@@ -1094,9 +1111,11 @@ describe('embed.webWidget', () => {
   });
 
   describe('postRender', () => {
+    const componentName = 'faythe';
+
     describe('authentication', () => {
       it('should call authentication.revoke if there is a tokensRevokedAt property in the config', () => {
-        webWidget.create('faythe', {
+        webWidget.create(componentName, {
           helpCenterForm: {
             tokensRevokedAt: Math.floor(Date.now() / 1000)
           }
@@ -1121,7 +1140,7 @@ describe('embed.webWidget', () => {
 
     describe('contextual help', () => {
       beforeEach(() => {
-        webWidget.create('faythe', { helpCenterForm: { contextualHelpEnabled: true } });
+        webWidget.create(componentName, { helpCenterForm: { contextualHelpEnabled: true } });
       });
 
       describe('when mouse driven contextual help is enabled', () => {
@@ -1129,7 +1148,7 @@ describe('embed.webWidget', () => {
 
         beforeEach(() => {
           targetSpy = mockRegistry['utility/mouse'].mouse.target;
-          webWidget.create('faythe',
+          webWidget.create(componentName,
             {
               helpCenterForm: {
                 contextualHelpEnabled: true,
@@ -1152,13 +1171,13 @@ describe('embed.webWidget', () => {
 
           beforeEach(() => {
             mockMediator = mockRegistry['service/mediator'].mediator;
-            webWidget.render('faythe');
+            webWidget.render(componentName);
           });
 
           describe('before post render', () => {
             beforeEach(() => {
               pluckSubscribeCall(mockMediator, 'helpCenterForm.show')({ viaActivate: true });
-              webWidget.postRender('faythe');
+              webWidget.postRender(componentName);
             });
 
             it('should not add the mouse target listener', () => {
@@ -1176,7 +1195,7 @@ describe('embed.webWidget', () => {
             describe('when contextual search options are used', () => {
               beforeEach(() => {
                 pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')({ search: 'help' });
-                webWidget.postRender('faythe');
+                webWidget.postRender(componentName);
                 pluckSubscribeCall(mockMediator, 'helpCenterForm.show')({ viaActivate: true });
               });
 
@@ -1193,7 +1212,7 @@ describe('embed.webWidget', () => {
 
             describe('when no contextual search options are used', () => {
               beforeEach(() => {
-                webWidget.postRender('faythe');
+                webWidget.postRender(componentName);
                 pluckSubscribeCall(mockMediator, 'helpCenterForm.show')({ viaActivate: true });
               });
 
@@ -1214,7 +1233,7 @@ describe('embed.webWidget', () => {
           beforeEach(() => {
             const mockMediator = mockRegistry['service/mediator'].mediator;
 
-            webWidget.render('faythe');
+            webWidget.render(componentName);
             pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')(['foo']);
 
             targetSpy.calls.reset();
@@ -1258,7 +1277,7 @@ describe('embed.webWidget', () => {
           beforeEach(() => {
             const mockMediator = mockRegistry['service/mediator'].mediator;
 
-            webWidget.render('faythe');
+            webWidget.render(componentName);
             pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')(['foo']);
 
             webWidget.keywordsSearch.calls.reset();
