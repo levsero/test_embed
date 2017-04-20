@@ -1,4 +1,4 @@
-import { Map } from '../../../../src/vendor/es6-map.js';
+const Map = require(buildSrcPath('vendor/es6-map.js')).Map;
 
 describe('Chat component', () => {
   let Chat;
