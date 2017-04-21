@@ -24,7 +24,6 @@ const mainCSS = require('mainCSS');
 
 const sizingRatio = 12 * getZoomSizingRatio(false, true);
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
-const expandedSetting = settings.get('expanded');
 const isSettingsTop = settings.get('position.vertical') === 'top';
 const zIndex = settings.get('zIndex');
 const isPositionTop = isSettingsTop;
@@ -35,8 +34,6 @@ const defaultShowTransition = isPositionTop
                             ? transitionFactory.webWidget.downShow()
                             : transitionFactory.webWidget.upShow();
 
-let expanded = expandedSetting;
-
 export class Frame extends Component {
   static propTypes = {
     fullscreen: PropTypes.bool,
@@ -46,8 +43,6 @@ export class Frame extends Component {
     frameStyle: PropTypes.object,
     disableSetOffsetHorizontal: PropTypes.bool,
     fullscreenable: PropTypes.bool,
-    expandable: PropTypes.bool,
-    expanded: PropTypes.bool,
     onShow: PropTypes.func,
     onHide: PropTypes.func,
     transitions: PropTypes.object,
@@ -133,34 +128,6 @@ export class Frame extends Component {
     }
   }
 
-  // Only used for NPS mobile
-  setFrameSize = (width, height, transparent = true) => {
-    const iframe = ReactDOM.findDOMNode(this);
-    const frameWin = iframe.contentWindow;
-    const frameDoc = iframe.contentDocument;
-    // FIXME shouldn't set background & zIndex in a dimensions object
-    const dimensions = {
-      height: height,
-      width: width,
-      zIndex: zIndex,
-      // FIXME addresses combination of dropshadow & margin & white background on iframe
-      background: transparent ? 'linear-gradient(transparent, #FFFFFF)' : '#fff'
-    };
-
-    if (this.props.fullscreenable) {
-      frameDoc.body.firstChild.setAttribute(
-        'style',
-        ['width: 100%',
-        'height: 100%',
-        'overflow-x: hidden'].join(';')
-      );
-    }
-
-    frameWin.setTimeout(() => this.setState({
-      iframeDimensions: _.extend(this.state.iframeDimensions, dimensions)
-    }), 0);
-  }
-
   updateFrameSize = () => {
     const iframe = ReactDOM.findDOMNode(this);
     const frameWin = iframe.contentWindow;
@@ -180,9 +147,10 @@ export class Frame extends Component {
       const fullscreen = isMobileBrowser() && that.props.fullscreenable;
       // FIXME shouldn't set background & zIndex in a dimensions object
       const fullscreenStyle = {
-        width: fullscreenWidth,
+        width: '100%',
+        maxWidth: fullscreenWidth,
         height: '100%',
-        left: 0,
+        left: this.state.visible ? '0px' : '-9999px',
         background:'#FFF',
         zIndex: zIndex
       };
@@ -215,10 +183,6 @@ export class Frame extends Component {
 
     const dimensions = getDimensions();
 
-    if (expanded && this.props.expandable || this.props.expanded) {
-      dimensions.height = '100%';
-    }
-
     frameWin.setTimeout(() => this.setState({ iframeDimensions: dimensions }), 0);
     return dimensions;
   }
@@ -237,12 +201,6 @@ export class Frame extends Component {
     const animateTo = _.extend({}, this.state.frameStyle, transition.end);
 
     this.setState({ visible: true, frameStyle: animateFrom });
-
-    if (expanded && this.props.expandable) {
-      this.getRootComponent().expand(true);
-    } else if (this.props.expandable) {
-      this.getRootComponent().expand(false);
-    }
 
     this.getRootComponent().setState({ x: '' });
 
@@ -297,13 +255,6 @@ export class Frame extends Component {
   back = (ev) => {
     ev.preventDefault();
     this.props.onBack(this);
-  }
-
-  expand = (e) => {
-    e.preventDefault();
-
-    expanded = !expanded;
-    this.getRootComponent().expand(expanded);
   }
 
   setHiddenByZoom = (hiddenByZoom) => {
@@ -391,9 +342,7 @@ export class Frame extends Component {
         reduxStore={this.props.store}
         handleBackClick={this.back}
         handleCloseClick={this.close}
-        handleExpandClick={this.expand}
         updateFrameSize={this.updateFrameSize}
-        showExpandButton={this.props.expandable && !expandedSetting}
         hideCloseButton={this.props.hideCloseButton}
         name={this.props.name}
         fullscreen={fullscreen}>

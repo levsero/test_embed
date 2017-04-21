@@ -181,7 +181,7 @@ describe('embed.launcher', function() {
     });
   });
 
-  fdescribe('render', function() {
+  describe('render', function() {
     it('should throw an exception if launcher does not exist', function() {
       expect(function() {
         launcher.render('non_existent_launcher');
