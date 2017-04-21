@@ -437,7 +437,7 @@ describe('transport', () => {
     describe('when a referrerPolicy value is stored in session storage', () => {
       let params;
 
-      describe('that is a no-referrer type', () => {
+      describe('that is of no-referrer type', () => {
         beforeEach(() => {
           mockStore = 'no-referrer';
 
@@ -455,7 +455,7 @@ describe('transport', () => {
         });
       });
 
-      describe('that is not a no-referrer type', () => {
+      describe('that is not of no-referrer type', () => {
         beforeEach(() => {
           mockStore = 'origin';
 

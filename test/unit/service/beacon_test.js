@@ -315,7 +315,7 @@ describe('beacon', () => {
       let params,
         payload;
 
-      describe('that is a no-referrer type', () => {
+      describe('that is of no-referrer type', () => {
         beforeEach(() => {
           const mockTransport = mockRegistry['service/transport'].transport;
 
@@ -333,7 +333,7 @@ describe('beacon', () => {
         });
       });
 
-      describe('that is not a no-referrer type', () => {
+      describe('that is not of no-referrer type', () => {
         beforeEach(() => {
           const mockTransport = mockRegistry['service/transport'].transport;
 
