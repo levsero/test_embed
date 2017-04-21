@@ -169,7 +169,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       const frameDoc = iframe.contentDocument;
       const fullscreenWidth = `${win.innerWidth}px`;
 
-
       if (!frameDoc.firstChild) {
         return false;
       }
@@ -186,9 +185,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
           height: '100%',
           // Ensure the embed iframe is off the screen when not visible.
           left: this.state.visible ? '0px' : '-9999px',
-          width: fullscreenWidth,
-          height: '100%',
-          left: 0,
           background:'#FFF',
           zIndex: zIndex
         };
@@ -196,7 +192,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
           width: (_.isFinite(width) ? width : 0) + params.offsetWidth,
           height: (_.isFinite(height) ? height : 0) + params.offsetHeight
         };
-
 
         // Set a full width frame with a dynamic height
         if (params.fullWidth) {
@@ -214,7 +209,8 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       if (params.fullscreenable && params.isMobile) {
         frameDoc.body.firstChild.setAttribute(
           'style',
-          [`width: ${fullscreenWidth}`,
+          ['width: 100%',
+          `max-width: ${fullscreenWidth}`,
           'height: 100%',
           'overflow-x: hidden'].join(';')
         );
@@ -251,8 +247,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
         this.getRootComponent().expand(false);
       }
 
-
-      setTimeout( () => {
+      setTimeout(() => {
         const existingStyle = frameFirstChild.style;
 
         if (!existingStyle.webkitOverflowScrolling) {
