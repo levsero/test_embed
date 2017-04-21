@@ -1,14 +1,15 @@
 describe('transport', () => {
   let transport,
+    mockStore,
     mockMethods,
-    mockNoReferrerValue,
-    mockReferrerUrl,
     mockRegistry;
 
   const transportPath = buildSrcPath('service/transport');
 
   beforeEach(() => {
     mockery.enable();
+
+    mockStore = false;
     mockMethods = {
       type: () => mockMethods,
       send: () => mockMethods,
@@ -20,23 +21,26 @@ describe('transport', () => {
       on: () => mockMethods,
       end: () => mockMethods
     };
-    mockNoReferrerValue = false;
-    mockReferrerUrl = 'http://window.location.href';
     mockRegistry = initMockRegistry({
       'superagent': jasmine.createSpy().and.callFake(() => {
         return mockMethods;
       }),
       'lodash': _,
       'utility/globals': {
+        document: document,
         location: {
-          href: 'http://window.location.href',
+          href: 'http://www.example.com/page.html',
           hostname: 'helpme.mofo.io'
         }
       },
       'utility/utils': {
         base64encode: jasmine.createSpy('base64encode')
           .and.returnValue('MOCKBASE64'),
-        referrerPolicyUrl: () => mockReferrerUrl
+        referrerPolicyUrl: (policy, url) => {
+          if (policy === 'no-referrer') return null;
+          else if (policy === 'origin') return 'http://www.example.com';
+          else return url;
+        }
       },
       'service/identity': {
         identity: {
@@ -46,7 +50,7 @@ describe('transport', () => {
       },
       'service/persistence': {
         store: {
-          get: () => mockNoReferrerValue
+          get: () => mockStore
         }
       },
       'service/settings': {
@@ -435,8 +439,7 @@ describe('transport', () => {
 
       describe('that is a no-referrer type', () => {
         beforeEach(() => {
-          mockNoReferrerValue = 'no-referrer';
-          mockReferrerUrl = null;
+          mockStore = 'no-referrer';
 
           spyOn(mockMethods, 'send').and.callThrough();
 
@@ -454,7 +457,7 @@ describe('transport', () => {
 
       describe('that is not a no-referrer type', () => {
         beforeEach(() => {
-          mockNoReferrerValue = 'origin';
+          mockStore = 'origin';
 
           spyOn(mockMethods, 'send').and.callThrough();
 
@@ -464,9 +467,9 @@ describe('transport', () => {
           params = mockMethods.send.calls.mostRecent().args[0];
         });
 
-        it('sends a url param', () =>{
+        it('sends a url param with the path name excluded', () =>{
           expect(params.url)
-            .toBeDefined();
+            .toEqual('http://www.example.com');
         });
       });
     });

@@ -45,7 +45,7 @@ const sendPageView = () => {
     return referrer.origin === url && previousTime ? (now - previousTime) : 0;
   };
   const referrerPolicy = store.get('referrerPolicy', 'session');
-  const referrerUrl = referrerPolicy ? referrerPolicyUrl(referrerPolicy, referrer.href): referrer.href;
+  const referrerUrl = referrerPolicy ? referrerPolicyUrl(referrerPolicy, referrer.href) : referrer.href;
   const pageViewParams = referrerUrl ? { referrer: referrerUrl } : {};
   const pageView = {
     time: timeOnLastPage(),

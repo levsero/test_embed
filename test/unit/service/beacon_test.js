@@ -2,7 +2,6 @@ describe('beacon', () => {
   let beacon,
     mockRegistry,
     mockTime,
-    mockReferrerUrl,
     mockSha1String,
     mockStore;
 
@@ -15,7 +14,6 @@ describe('beacon', () => {
     mockStore = null;
     mockTime = Math.floor(Date.now() / 1000);
     mockSha1String = '';
-    mockReferrerUrl = 'http://window.location.href';
 
     mockRegistry = initMockRegistry({
       'service/transport': {
@@ -35,7 +33,7 @@ describe('beacon', () => {
           zESettings: null
         },
         document: {
-          referrer: 'http://document.referrer',
+          referrer: 'http://document.referrer/page.html',
           title: 'Document Title',
           readyState: 'complete',
           addEventListener: noop
@@ -64,11 +62,15 @@ describe('beacon', () => {
       'utility/utils': {
         parseUrl: () => {
           return {
-            href: 'http://document.referrer'
+            href: 'http://document.referrer/page.html'
           };
         },
         nowInSeconds: () => mockTime,
-        referrerPolicyUrl: () => mockReferrerUrl,
+        referrerPolicyUrl: (policy, url) => {
+          if (policy === 'no-referrer') return null;
+          else if (policy === 'origin') return 'http://document.referrer';
+          else return url;
+        },
         sha1: () => mockSha1String
       },
       'utility/pages': {
@@ -315,14 +317,13 @@ describe('beacon', () => {
 
       describe('that is a no-referrer type', () => {
         beforeEach(() => {
-          const mockTransport = mockRegistry['service/transport'];
+          const mockTransport = mockRegistry['service/transport'].transport;
 
-          mockStore = true;
-          mockReferrerUrl = null;
+          mockStore = 'no-referrer';
 
           beacon.sendPageView();
 
-          payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+          payload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
           params = payload.params;
         });
 
@@ -334,19 +335,19 @@ describe('beacon', () => {
 
       describe('that is not a no-referrer type', () => {
         beforeEach(() => {
-          const mockTransport = mockRegistry['service/transport'];
+          const mockTransport = mockRegistry['service/transport'].transport;
 
-          mockStore = true;
+          mockStore = 'origin';
 
           beacon.sendPageView();
 
-          payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+          payload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
           params = payload.params;
         });
 
-        it('includes a referrer param in the payload', () => {
+        it('includes a referrer param in the payload with the path omitted', () => {
           expect(params.pageView.referrer)
-            .toBeDefined();
+            .toEqual('http://document.referrer');
         });
       });
     });
