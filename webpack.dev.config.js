@@ -2,17 +2,17 @@ var config = require('./webpack.config');
 var path = require('path');
 var webpack = require('webpack');
 var DashboardPlugin = require('webpack-dashboard/plugin');
+var root = config.root;
 
-config.debug = true;
-config.devtool = 'source-map';
+root.devtool = 'cheap-module-eval-source-map';
 
-config.devServer = {
+root.devServer = {
   port: 1337,
-  contentBase: path.join(__dirname, 'example'),
+  contentBase: 'example',
   publicPath: '/dist/'
 };
 
-config.plugins = [
+root.plugins = [
   new webpack.DefinePlugin({
     __EMBEDDABLE_VERSION__: JSON.stringify(config.version),
     __DEV__: JSON.stringify(true)
@@ -21,8 +21,11 @@ config.plugins = [
     path.resolve(__dirname, './node_modules/'),
     path.resolve(__dirname, './test/')
   ]),
-  new webpack.NoErrorsPlugin(),
+  new webpack.LoaderOptionsPlugin({
+    debug: true
+  }),
+  new webpack.NoEmitOnErrorsPlugin(),
   new DashboardPlugin()
 ];
 
-module.exports = config;
+module.exports = root;

@@ -8,9 +8,7 @@ var svgoConfig = JSON.stringify({
   ]
 });
 
-module.exports = {
-  version: String(fs.readFileSync('dist/VERSION_HASH')).trim(),
-  cache: true,
+var config = {
   entry: {
     main: path.join(prefix, '/src/main.js'),
     npsPreview: path.join(prefix, '/src/npsPreview.js'),
@@ -21,35 +19,34 @@ module.exports = {
     filename: '[name].js'
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /(node_modules)/,
-        loader: 'babel'
+        loader: 'babel-loader'
       },
       {
         test: /\.scss$/,
-        loader: [
-          'css',
-          '!autoprefixer?browsers=last 2 versions, Firefox ESR, ie >= 9',
-          '!sass?includePaths[]=src/styles/components/'
-        ].join('')
+        use: [
+          'css-loader',
+          'postcss-loader',
+          'sass-loader?includePaths[]=src/styles/components/'
+        ]
       },
       {
         test: /\.sass$/,
-        loaders: [
-          'css?modules&importLoaders=2&localIdentName=[path][name]-[local]',
-          'autoprefixer?browsers=last 2 versions, Firefox ESR, ie >= 9',
-          'sass'
+        use: [
+          'css-loader?modules&importLoaders=2&localIdentName=[path][name]-[local]',
+          'postcss-loader',
+          'sass-loader'
         ]
       },
-      { test: /base\.css$/, loader: 'css', minimize: true },
-      { test: /lodash/, loader: 'imports?define=>false' },
-      { test: /\.json$/, loader: 'json' },
+      { test: /base\.css$/, loader: 'css-loader' },
+      { test: /lodash/, loader: 'imports-loader?define=>false' },
       {
         test: /\.svg$/,
-        loaders: [
-          'raw',
+        use: [
+          'raw-loader',
           'svgo-loader?' + svgoConfig
         ]
       }
@@ -72,6 +69,11 @@ module.exports = {
       mainCSS: path.join(prefix + '/src/styles/main.scss'),
       icons: path.join(prefix + '/src/asset/icons')
     },
-    modulesDirectories: ['node_modules']
+    modules: ['node_modules']
   }
+};
+
+module.exports = {
+  root: config,
+  version: String(fs.readFileSync('dist/VERSION_HASH')).trim()
 };
