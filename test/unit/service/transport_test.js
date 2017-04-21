@@ -1,5 +1,6 @@
 describe('transport', () => {
   let transport,
+    mockStore,
     mockMethods,
     mockRegistry;
 
@@ -7,6 +8,8 @@ describe('transport', () => {
 
   beforeEach(() => {
     mockery.enable();
+
+    mockStore = false;
     mockMethods = {
       type: () => mockMethods,
       send: () => mockMethods,
@@ -24,19 +27,30 @@ describe('transport', () => {
       }),
       'lodash': _,
       'utility/globals': {
+        document: document,
         location: {
-          href: 'http://window.location.href',
+          href: 'http://www.example.com/page.html',
           hostname: 'helpme.mofo.io'
         }
       },
       'utility/utils': {
         base64encode: jasmine.createSpy('base64encode')
-          .and.returnValue('MOCKBASE64')
+          .and.returnValue('MOCKBASE64'),
+        referrerPolicyUrl: (policy, url) => {
+          if (policy === 'no-referrer') return null;
+          else if (policy === 'origin') return 'http://www.example.com';
+          else return url;
+        }
       },
       'service/identity': {
         identity: {
           getBuid: jasmine.createSpy('getBuid').and.returnValue('abc123'),
           getSuid: jasmine.createSpy('getBuid').and.returnValue('123abc')
+        }
+      },
+      'service/persistence': {
+        store: {
+          get: () => mockStore
         }
       },
       'service/settings': {
@@ -418,6 +432,46 @@ describe('transport', () => {
 
       expect(params.user)
         .toEqual(payload.params.user);
+    });
+
+    describe('when a referrerPolicy value is stored in session storage', () => {
+      let params;
+
+      describe('that is of no-referrer type', () => {
+        beforeEach(() => {
+          mockStore = 'no-referrer';
+
+          spyOn(mockMethods, 'send').and.callThrough();
+
+          transport.init(config);
+          transport.sendWithMeta(payload);
+
+          params = mockMethods.send.calls.mostRecent().args[0];
+        });
+
+        it('does not send a url param', () =>{
+          expect(params.url)
+            .toBeUndefined();
+        });
+      });
+
+      describe('that is not of no-referrer type', () => {
+        beforeEach(() => {
+          mockStore = 'origin';
+
+          spyOn(mockMethods, 'send').and.callThrough();
+
+          transport.init(config);
+          transport.sendWithMeta(payload);
+
+          params = mockMethods.send.calls.mostRecent().args[0];
+        });
+
+        it('sends a url param with the path name excluded', () =>{
+          expect(params.url)
+            .toEqual('http://www.example.com');
+        });
+      });
     });
 
     describe('with base64 encoding for blips', () => {

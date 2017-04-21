@@ -33,7 +33,7 @@ describe('beacon', () => {
           zESettings: null
         },
         document: {
-          referrer: 'http://document.referrer',
+          referrer: 'http://document.referrer/page.html',
           title: 'Document Title',
           readyState: 'complete',
           addEventListener: noop
@@ -62,10 +62,15 @@ describe('beacon', () => {
       'utility/utils': {
         parseUrl: () => {
           return {
-            href: 'http://document.referrer'
+            href: 'http://document.referrer/page.html'
           };
         },
         nowInSeconds: () => mockTime,
+        referrerPolicyUrl: (policy, url) => {
+          if (policy === 'no-referrer') return null;
+          else if (policy === 'origin') return 'http://document.referrer';
+          else return url;
+        },
         sha1: () => mockSha1String
       },
       'utility/pages': {
@@ -303,6 +308,47 @@ describe('beacon', () => {
 
         expect(useBase64)
           .toBe(true);
+      });
+    });
+
+    describe('when a referrerPolicy value is stored in session storage', () => {
+      let params,
+        payload;
+
+      describe('that is of no-referrer type', () => {
+        beforeEach(() => {
+          const mockTransport = mockRegistry['service/transport'].transport;
+
+          mockStore = 'no-referrer';
+
+          beacon.sendPageView();
+
+          payload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
+          params = payload.params;
+        });
+
+        it('does not include a referrer param in the payload', () => {
+          expect(params.pageView.referrer)
+            .toBeUndefined();
+        });
+      });
+
+      describe('that is not of no-referrer type', () => {
+        beforeEach(() => {
+          const mockTransport = mockRegistry['service/transport'].transport;
+
+          mockStore = 'origin';
+
+          beacon.sendPageView();
+
+          payload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
+          params = payload.params;
+        });
+
+        it('includes a referrer param in the payload with the path omitted', () => {
+          expect(params.pageView.referrer)
+            .toEqual('http://document.referrer');
+        });
       });
     });
   });

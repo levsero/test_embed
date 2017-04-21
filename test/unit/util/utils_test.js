@@ -6,7 +6,8 @@ describe('utils', () => {
     objectDifference,
     cssTimeToMs,
     base64encode,
-    emailValid;
+    emailValid,
+    referrerPolicyUrl;
 
   const mockGlobals = {
     win: {},
@@ -45,6 +46,7 @@ describe('utils', () => {
     nowInSeconds = require(utilPath).nowInSeconds;
     base64encode = require(utilPath).base64encode;
     emailValid = require(utilPath).emailValid;
+    referrerPolicyUrl = require(utilPath).referrerPolicyUrl;
   });
 
   afterEach(() => {
@@ -294,5 +296,58 @@ describe('utils', () => {
       expect(emailValid(email))
         .toEqual(false);
     }));
+  });
+
+  describe('referrerPolicyUrl', () => {
+    const url = 'http://www.example.com/path/page.html';
+
+    describe('when referrerPolicy is false', () => {
+      it('returns the url', () => {
+        expect(referrerPolicyUrl(false, url))
+          .toEqual(url);
+      });
+    });
+
+    describe("when referrerPolicy is 'no-referrer'", () => {
+      it('returns null', () => {
+        expect(referrerPolicyUrl('no-referrer', url))
+          .toEqual(null);
+      });
+    });
+
+    describe("when referrerPolicy is 'same-origin'", () => {
+      it('returns null', () => {
+        expect(referrerPolicyUrl('same-origin', url))
+          .toEqual(null);
+      });
+    });
+
+    describe("when referrerPolicy is 'origin'", () => {
+      it('returns the url origin', () => {
+        expect(referrerPolicyUrl('origin', url))
+          .toEqual('http://www.example.com');
+      });
+    });
+
+    describe("when referrerPolicy is 'origin-when-cross-origin'", () => {
+      it('returns the url origin', () => {
+        expect(referrerPolicyUrl('origin-when-cross-origin', url))
+          .toEqual('http://www.example.com');
+      });
+    });
+
+    describe("when referrerPolicy is 'strict-origin'", () => {
+      it('returns the url origin', () => {
+        expect(referrerPolicyUrl('strict-origin', url))
+          .toEqual('http://www.example.com');
+      });
+    });
+
+    describe("when referrerPolicy is 'strict-origin-when-cross-origin'", () => {
+      it('returns the url origin', () => {
+        expect(referrerPolicyUrl('strict-origin-when-cross-origin', url))
+          .toEqual('http://www.example.com');
+      });
+    });
   });
 });

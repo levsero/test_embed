@@ -1,10 +1,12 @@
 import _          from 'lodash';
 import superagent from 'superagent';
 
-import { settings } from 'service/settings';
 import { identity } from 'service/identity';
+import { store } from 'service/persistence';
+import { settings } from 'service/settings';
 import { location } from 'utility/globals';
-import { base64encode } from 'utility/utils';
+import { base64encode,
+         referrerPolicyUrl } from 'utility/utils';
 
 let config;
 const defaultPayload = {
@@ -120,14 +122,16 @@ function send(payload, addType = true) {
 
 function sendWithMeta(payload, useBase64 = false) {
   const commonParams = {
-    url: location.href,
     buid: identity.getBuid(),
     suid: identity.getSuid().id || null,
     version: config.version,
     timestamp: (new Date()).toISOString()
   };
+  const referrerPolicy = store.get('referrerPolicy', 'session');
+  const url = referrerPolicy ? referrerPolicyUrl(referrerPolicy, location.href) : location.href;
+  const urlParams = url ? { url } : {};
 
-  payload.params = _.extend(commonParams, payload.params);
+  _.extend(payload.params, commonParams, urlParams);
 
   if (useBase64) {
     payload.query = { data: base64encode(JSON.stringify(payload.params)) };

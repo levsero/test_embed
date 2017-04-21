@@ -11,6 +11,7 @@ describe('boot', () => {
     i18nSpy = registerImportSpy('i18n', 'init', 'setLocale'),
     identitySpy = registerImportSpy('identity', 'init'),
     loggingSpy = registerImportSpy('logging', 'init', 'error'),
+    persistenceSpy = registerImportSpy('persistence', 'store'),
     transportSpy = registerImportSpy('transport', 'get'),
     mediatorSpy = { mediator: registerImportSpy('channel', 'broadcast', 'subscribe') },
     rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks');
@@ -24,6 +25,7 @@ describe('boot', () => {
       'service/i18n': i18nSpy,
       'service/identity': identitySpy,
       'service/logging': loggingSpy,
+      'service/persistence': persistenceSpy,
       'service/settings': {
         settings: {
           get: noop,

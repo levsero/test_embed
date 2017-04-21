@@ -10,6 +10,7 @@ import { win,
 import { isOnHelpCenterPage } from 'utility/pages';
 import { nowInSeconds,
          parseUrl,
+         referrerPolicyUrl,
          sha1 } from 'utility/utils';
 
 let config = {
@@ -38,26 +39,28 @@ const sendPageView = () => {
 
   const now = Date.now();
   const referrer = parseUrl(doc.referrer);
-  const previousTime = store.get('currentTime', true) || 0;
+  const previousTime = store.get('currentTime', 'session') || 0;
   const url = win.location.origin;
   const timeOnLastPage = () => {
     return referrer.origin === url && previousTime ? (now - previousTime) : 0;
   };
-  const params = {
-    pageView: {
-      referrer: referrer.href,
-      time: timeOnLastPage(),
-      loadTime: getFrameworkLoadTime(),
-      navigatorLanguage: navigator.language,
-      pageTitle: doc.title,
-      userAgent: navigator.userAgent,
-      helpCenterDedup: isOnHelpCenterPage()
-    }
+  const referrerPolicy = store.get('referrerPolicy', 'session');
+  const referrerUrl = referrerPolicy ? referrerPolicyUrl(referrerPolicy, referrer.href) : referrer.href;
+  const pageViewParams = referrerUrl ? { referrer: referrerUrl } : {};
+  const pageView = {
+    time: timeOnLastPage(),
+    loadTime: getFrameworkLoadTime(),
+    navigatorLanguage: navigator.language,
+    pageTitle: doc.title,
+    userAgent: navigator.userAgent,
+    helpCenterDedup: isOnHelpCenterPage()
   };
   const payload = {
     method: config.method,
     path: config.endpoint,
-    params: params
+    params: {
+      pageView: _.extend(pageViewParams, pageView)
+    }
   };
 
   transport.sendWithMeta(payload, config.useBase64);
@@ -77,7 +80,7 @@ function setConfig(_config) {
 function init() {
   const now = Date.now();
 
-  store.set('currentTime', now, true);
+  store.set('currentTime', now, 'session');
 
   mediator.channel.subscribe('beacon.identify', identify);
   mediator.channel.subscribe('beacon.trackUserAction', trackUserAction);
