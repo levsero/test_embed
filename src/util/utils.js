@@ -100,6 +100,8 @@ function emailValid(email) {
 }
 
 function referrerPolicyUrl(policy, url) {
+  // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy#Examples
+  // for reference on why each case does what it does
   switch (policy) {
     case 'no-referrer':
     case 'same-origin':
