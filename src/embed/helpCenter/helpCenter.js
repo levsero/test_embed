@@ -117,7 +117,13 @@ function create(name, config, reduxStore) {
   };
 
   const searchSenderFn = (url) => (query, doneFn, failFn) => {
-    const payload = senderPayload(url)(query, doneFn, failFn);
+    const done = (res) => {
+      waitForRootComponent(name, () => {
+        getRootComponent(name).setLoading(false);
+        doneFn(res);
+      });
+    };
+    const payload = senderPayload(url)(query, done, failFn);
 
     transport.send(payload);
   };
@@ -145,6 +151,33 @@ function create(name, config, reduxStore) {
       marginRight: margin
     });
     containerStyle = { width: 342 };
+  }
+
+  const authSetting = settings.get('authenticate');
+
+  if (config.tokensRevokedAt) {
+    authentication.revoke(config.tokensRevokedAt);
+  }
+
+  if (authSetting && authSetting.jwt) {
+    setTimeout(() => mediator.channel.broadcast(`${name}.isAuthenticated`), 5000);
+    //authentication.authenticate(authSetting.jwt);
+
+    if (!hasAuthenticatedSuccessfully && config.signInRequired) {
+      waitForRootComponent(name, () => {
+        getRootComponent(name).setLoading(true);
+      });
+    }
+  } else if (shouldPerformDefaultContextualHelp(config)) {
+    waitForRootComponent(name, () => {
+      getRootComponent(name).setLoading(true);
+
+      setTimeout(() => {
+        const options = { url: true };
+
+        performContextualHelp(name, options);
+      }, 0);
+    });
   }
 
   const Embed = frameFactory(
@@ -240,7 +273,7 @@ function getRootComponent(name) {
 }
 
 function waitForRootComponent(name, callback) {
-  if (getRootComponent(name)) {
+  if (get(name) && get(name).instance && getRootComponent(name)) {
     callback();
   } else {
     setTimeout(() => {
@@ -333,10 +366,7 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.setHelpCenterSuggestions', function(options) {
     hasManuallySetContextualSuggestions = true;
-
-    if (hasAuthenticatedSuccessfully) {
-      performContextualHelp(name, options);
-    }
+    performContextualHelp(name, options);
   });
 
   mediator.channel.subscribe(name + '.refreshLocale', () => {
@@ -349,19 +379,23 @@ function render(name) {
     if (!hasAuthenticatedSuccessfully) {
       hasAuthenticatedSuccessfully = true;
 
-      if (config.contextualHelpEnabled &&
-          !hasManuallySetContextualSuggestions &&
-          !isOnHelpCenterPage()) {
+      if (shouldPerformDefaultContextualHelp(config)) {
         const options = { url: true };
 
         performContextualHelp(name, options);
+      } else {
+        waitForRootComponent(name, () => {
+          getRootComponent(name).setLoading(false);
+        });
       }
-
-      waitForRootComponent(name, () => {
-        getRootComponent(name).setLoading(false);
-      });
     }
   });
+}
+
+function shouldPerformDefaultContextualHelp(config) {
+  return config.contextualHelpEnabled &&
+        !hasManuallySetContextualSuggestions &&
+        !isOnHelpCenterPage();
 }
 
 function performContextualHelp(name, options) {
@@ -381,30 +415,10 @@ function performContextualHelp(name, options) {
   }
 }
 
-function postRender(name) {
-  const config = get(name).config;
-  const authSetting = settings.get('authenticate');
-
-  if (config.tokensRevokedAt) {
-    authentication.revoke(config.tokensRevokedAt);
-  }
-
-  if (authSetting && authSetting.jwt) {
-    authentication.authenticate(authSetting.jwt);
-
-    if (!hasAuthenticatedSuccessfully) {
-      waitForRootComponent(name, () => {
-        getRootComponent(name).setLoading(true);
-      });
-    }
-  }
-}
-
 export const helpCenter = {
   create: create,
   list: list,
   get: get,
   keywordsSearch: keywordsSearch,
-  render: render,
-  postRender: postRender
+  render: render
 };
