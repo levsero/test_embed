@@ -35,7 +35,7 @@ function send(payload, addType = true) {
     //
     // MOCK RESPONSES FOR PROTOTYPE TESTING
     //
-    if (payload.path === '/embeddable/identify') {
+    if (payload.path.includes('/connect/api/ipm/pending_campaign')) {
       /* eslint no-console:0 */
       console.log(payload.params, payload.method, payload.path);
       setTimeout(function() {
@@ -84,7 +84,7 @@ function send(payload, addType = true) {
     }
 
     // no need to actually send IPM results back in dev
-    if (payload.path === '/embeddable/ipm') {
+    if (payload.path.includes('/connect/api/ipm/campaign_events')) {
       console.log('Stubbing IPM request', payload);
       return;
     }
