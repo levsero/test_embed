@@ -8,7 +8,6 @@ src/translation/*
 vendor/bundle
 .bundle
 webdrivercss/
-.node-version
 .idea
 npm-debug.log
 REVISION
