@@ -15,7 +15,7 @@ env:
   - TASK=build:ac
 
 install:
-  - npm install
+  - npm set progress=false && npm install
   - ./script/fetch_i18n
   - npm run build-setup:prod
 
