@@ -180,9 +180,9 @@ $Button-nudge: 5;
   border-color: $zd-color-gainsboro;
 
   &:hover, &:active {
-    color: $zd-color-dark-gray;
-    border-color: $zd-color-iron;
-    background: $zd-color-white-smoke;
+    color: $zd-color-dark-gray !important;
+    border-color: $zd-color-iron !important;
+    background: $zd-color-white-smoke !important;
   }
 }
 
