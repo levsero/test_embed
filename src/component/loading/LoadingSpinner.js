@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { locals as styles } from './LoadingSpinner.sass';
 
 export class LoadingSpinner extends Component {

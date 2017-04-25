@@ -314,7 +314,8 @@ import { isMobileBrowser } from 'utility/devices';
 Define components using ES7 Classes that extend from `React.Component`.
 
 ```javascript
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class NewComponent extends Component {
   ...
