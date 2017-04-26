@@ -20,7 +20,7 @@ install:
   - ./script/fetch_i18n
   - npm run build-setup:prod
 
-script: 
+script:
   - |
     if [[ "$SECURITYSCAN" == "srcclr" ]]
     then
@@ -34,6 +34,7 @@ branches:
   only:
     - master
     - /^feature.*$/
+    - imran/sourceclear
 
 notifications:
   email: false
