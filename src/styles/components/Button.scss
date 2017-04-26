@@ -177,11 +177,10 @@ $Button-nudge: 5;
 
 .c-btn--secondary {
   color: $zd-color-aluminum;
-  border-color: $zd-color-gainsboro;
+  border-color: $zd-color-gainsboro !important;
 
   &:hover, &:active {
     color: $zd-color-dark-gray !important;
-    border-color: $zd-color-iron !important;
     background: $zd-color-white-smoke !important;
   }
 }
