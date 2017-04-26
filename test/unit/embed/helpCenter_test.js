@@ -265,6 +265,22 @@ describe('embed.helpCenter', () => {
           .toEqual(false);
       });
 
+      describe('when contextual help is enabled', () => {
+        it('should call rootComponent.setLoading with true', () => {
+
+        });
+      });
+
+      describe('when authenticate setting is present', () => {
+        describe('when config.signInRequired is true', () => {
+
+        });
+
+        describe('when config.signInRequired is false', () => {
+
+        });
+      });
+
       describe('mediator broadcasts', () => {
         let mockMediator;
 
