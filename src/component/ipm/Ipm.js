@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { IpmDesktop } from 'component/ipm/IpmDesktop';
 import { i18n } from 'service/i18n';

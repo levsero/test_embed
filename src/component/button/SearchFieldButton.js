@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { IconFieldButton } from 'component/button/IconFieldButton';
@@ -7,7 +8,7 @@ export class SearchFieldButton extends Component {
   static propTypes = {
     onClick: PropTypes.func,
     onTouch: PropTypes.func,
-    searchTerm: React.PropTypes.string
+    searchTerm: PropTypes.string
   };
 
   static defaultProps = {
