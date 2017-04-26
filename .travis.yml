@@ -34,7 +34,6 @@ branches:
   only:
     - master
     - /^feature.*$/
-    - imran/sourceclear
 
 notifications:
   email: false
