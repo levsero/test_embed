@@ -4,6 +4,7 @@ describe('HelpCenter component', () => {
     mockPageKeywords,
     trackSearch,
     updateResults,
+    mockIsIEValue,
     search;
 
   const helpCenterPath = buildSrcPath('component/helpCenter/HelpCenter');
@@ -31,9 +32,20 @@ describe('HelpCenter component', () => {
     mockery.enable();
 
     mockPageKeywords = 'billy bob thorton';
+    mockIsIEValue = false;
 
     mockRegistry = initMockRegistry({
       'React': React,
+      './HelpCenter.sass': {
+        locals: {
+          loadingSpinnerIE: 'loadingSpinnerIEClasses',
+          loadingSpinner: 'loadingSpinnerClasses',
+          loadingSpinnerContainer: 'loadingSpinnterContainerClasses'
+        }
+      },
+      'utility/devices': {
+        isIE: () => mockIsIEValue
+      },
       'component/helpCenter/HelpCenterArticle': {
         HelpCenterArticle: class extends Component {
           render() {
@@ -80,6 +92,16 @@ describe('HelpCenter component', () => {
             return <div>{this.props.children}</div>;
           }
         }
+      },
+      'component/container/ScrollContainer': {
+        ScrollContainer: class extends Component {
+          render() {
+            return <div>{this.props.children}</div>;
+          }
+        }
+      },
+      'component/loading/LoadingSpinner': {
+        LoadingSpinner: noopReactComponent()
       },
       'service/i18n': {
         i18n: {
@@ -129,7 +151,31 @@ describe('HelpCenter component', () => {
 
   describe('render', () => {
     let helpCenter,
+      helpCenterNode,
       buttonLabelKey = 'contact';
+
+    beforeEach(() => {
+      helpCenter = domRender(<HelpCenter />);
+      helpCenterNode = ReactDOM.findDOMNode(helpCenter);
+    });
+
+    describe('when state.loadingSpinnerActive is true', () => {
+      beforeEach(() => {
+        helpCenter.setLoading(true);
+      });
+
+      it('should render the loading spinner', () => {
+        expect(helpCenterNode.querySelectorAll('.loadingSpinnerClasses').length)
+          .toBe(1);
+      });
+    });
+
+    describe('when state.loadingSpinnerActive is false', () => {
+      it('should not render the loading spinner', () => {
+        expect(helpCenterNode.querySelectorAll('.loadingSpinnerClasses').length)
+          .toBe(0);
+      });
+    });
 
     describe('when channel choice is on', () => {
       beforeEach(() => {
@@ -143,7 +189,7 @@ describe('HelpCenter component', () => {
       });
     });
 
-    describe('when channelchoice is off', () => {
+    describe('when channel choice is off', () => {
       beforeEach(() => {
         helpCenter = instanceRender(<HelpCenter buttonLabelKey={buttonLabelKey} channelChoice={false} />);
       });

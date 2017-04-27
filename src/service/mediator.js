@@ -576,11 +576,6 @@ function initMessaging(params) {
   });
 
   c.intercept('authentication.onSuccess', () => {
-    state[`${helpCenter}.isAccessible`] = true;
-    if (!embedVisible(state) && state[`${helpCenter}.isAccessible`]) {
-      resetActiveEmbed();
-    }
-
     c.broadcast(`${helpCenter}.isAuthenticated`);
   });
 
