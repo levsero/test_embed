@@ -16,6 +16,7 @@ export class Dropdown extends Component {
     fullscreen: PropTypes.bool,
     frameHeight: PropTypes.number,
     landscape: PropTypes.bool,
+    description: PropTypes.string,
     name: PropTypes.string,
     onChange: PropTypes.func,
     options: PropTypes.array.isRequired,
@@ -28,6 +29,7 @@ export class Dropdown extends Component {
     fullscreen: false,
     frameHeight: 500,
     landscape: false,
+    description: '',
     name: '',
     onChange: () => {},
     options: [],
@@ -292,6 +294,7 @@ export class Dropdown extends Component {
             readOnly={true}
             onKeyDown={this.handleKeyDown}
             placeholder={placeholderText} />
+          <div className={styles.description}>{this.props.description}</div>
           {/* hidden field with the selected value so that the form grabs it on submit */}
           <input
             className='u-isHidden'
