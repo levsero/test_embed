@@ -401,7 +401,7 @@ function performContextualHelp(name, options) {
 
     cancelTargetHandler = mouse.target(launcherElement, onHitFn(name, options));
   } else {
-    waitForRootComponent(name, () => helpCenter.keywordsSearch(name, options), 0);
+    helpCenter.keywordsSearch(name, options);
   }
 }
 

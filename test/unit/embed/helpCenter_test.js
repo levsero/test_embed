@@ -225,7 +225,7 @@ describe('embed.helpCenter', () => {
         beforeEach(() => {
           helpCenter.create('carlos', { contextualHelpEnabled: true });
           helpCenter.render('carlos');
-          jasmine.clock().tick(1);
+          jasmine.clock().tick(0);
         });
 
         it('should call rootComponent.setLoading with true', () => {
@@ -238,7 +238,7 @@ describe('embed.helpCenter', () => {
         beforeEach(() => {
           helpCenter.create('carlos', { contextualHelpEnabled: false });
           helpCenter.render('carlos');
-          jasmine.clock().tick(1);
+          jasmine.clock().tick(0);
         });
 
         it('should not call rootComponent.setLoading', () => {
@@ -256,7 +256,7 @@ describe('embed.helpCenter', () => {
           beforeEach(() => {
             helpCenter.create('carlos', { signInRequired: true });
             helpCenter.render('carlos');
-            jasmine.clock().tick(1);
+            jasmine.clock().tick(0);
           });
 
           it('should call rootComponent.setLoading with true', () => {
@@ -269,7 +269,7 @@ describe('embed.helpCenter', () => {
           beforeEach(() => {
             helpCenter.create('carlos', { signInRequired: false });
             helpCenter.render('carlos');
-            jasmine.clock().tick(1);
+            jasmine.clock().tick(0);
           });
 
           it('should not call rootComponent.setLoading', () => {
@@ -557,7 +557,7 @@ describe('embed.helpCenter', () => {
             query: query,
             authorization: '',
             callbacks: {
-              done: doneFn,
+              done: jasmine.any(Function),
               fail: failFn
             }
           });
@@ -792,19 +792,33 @@ describe('embed.helpCenter', () => {
 
             helpCenter.create('carlos', { enableMouseDrivenContextualHelp: true });
             helpCenter.render('carlos');
+
+            pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
+            jasmine.clock().tick(0);
           });
 
           describe('when its the initial contextual search', () => {
-
+            it('should call rootComponent.setLoading with true', () => {
+              expect(setLoading)
+                .toHaveBeenCalledWith(true);
+            });
           });
 
           describe('when its not the initial contextual search', () => {
+            beforeEach(() => {
+              // Simulate a second call to zE.setHelpCenterSuggestions.
+              setLoading.calls.reset();
+              pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
+              jasmine.clock().tick(0);
+            });
 
+            it('should not call rootComponent.setLoading', () => {
+              expect(setLoading)
+                .not.toHaveBeenCalled();
+            });
           });
 
           it('should add the mouse target listener', () => {
-            pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
-
             expect(targetListener)
               .toHaveBeenCalled();
           });
@@ -813,7 +827,9 @@ describe('embed.helpCenter', () => {
             beforeEach(() => {
               mockIsMobileBrowser = true;
               spyOn(helpCenter, 'keywordsSearch');
+
               pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
+              jasmine.clock().tick(0);
             });
 
             it('should call keywordsSearch', () => {
@@ -835,11 +851,6 @@ describe('embed.helpCenter', () => {
               expect(setLoading)
                 .toHaveBeenCalledWith(true);
             });
-
-            it('should call keywordsSearch', () => {
-              expect(helpCenter.keywordsSearch)
-                .toHaveBeenCalledWith('carlos', { search: 'foo' });
-            });
           });
 
           describe('when its not the initial contextual search', () => {
@@ -853,11 +864,6 @@ describe('embed.helpCenter', () => {
             it('should not call rootComponent.setLoading', () => {
               expect(setLoading)
                 .not.toHaveBeenCalled();
-            });
-
-            it('should call keywordsSearch', () => {
-              expect(helpCenter.keywordsSearch)
-                .toHaveBeenCalledWith('carlos', { search: 'foo' });
             });
           });
 
@@ -882,7 +888,8 @@ describe('embed.helpCenter', () => {
           helpCenter.get('carlos').instance = {
             getRootComponent: () => {
               return {
-                contextualSearch: contextualSearchSpy
+                contextualSearch: contextualSearchSpy,
+                setLoading
               };
             }
           };
@@ -898,7 +905,7 @@ describe('embed.helpCenter', () => {
         });
 
         describe('when url option is true', () => {
-          it('should skip mouse distance check and call contextual search with correct options', () => {
+          it('should call contextual search with correct options', () => {
             helpCenter.keywordsSearch('carlos', { url: true });
 
             expect(contextualSearchSpy)
@@ -918,7 +925,8 @@ describe('embed.helpCenter', () => {
           helpCenter.get('carlos').instance = {
             getRootComponent: () => {
               return {
-                contextualSearch: contextualSearchSpy
+                contextualSearch: contextualSearchSpy,
+                setLoading
               };
             }
           };
@@ -929,10 +937,7 @@ describe('embed.helpCenter', () => {
         it('should wait until authenticate is true before searching', () => {
           // Simulate the page load contextual request that is sent when mouse distance
           // is less than minimum.
-          helpCenter.keywordsSearch('carlos', { url: true }, {
-            distance: 0.24,
-            speed: 0
-          });
+          helpCenter.keywordsSearch('carlos', { url: true });
           jasmine.clock().tick();
 
           expect(contextualSearchSpy)
@@ -951,7 +956,12 @@ describe('embed.helpCenter', () => {
 
     describe('postRender contextual help', () => {
       beforeEach(() => {
+        jasmine.clock().install();
         helpCenter.create('carlos', { contextualHelpEnabled: true });
+      });
+
+      afterEach(() => {
+        jasmine.clock().uninstall();
       });
 
       describe('when mouse driven contextual help is enabled', () => {
@@ -999,6 +1009,7 @@ describe('embed.helpCenter', () => {
             describe('when contextual search options are used', () => {
               beforeEach(() => {
                 pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'help' });
+                jasmine.clock().tick(0);
                 helpCenter.postRender('carlos');
                 pluckSubscribeCall(mockMediator, 'carlos.show')({ viaActivate: true });
               });

@@ -84,7 +84,7 @@ export class HelpCenter extends Component {
       showNextButton: this.props.showNextButton,
       showViewMore: true,
       viewMoreActive: false,
-      loading: false
+      loadingSpinnerActive: false
     };
   }
 
@@ -114,8 +114,8 @@ export class HelpCenter extends Component {
     this.setState({ expanded });
   }
 
-  setLoading = (loading) => {
-    this.setState({ loading });
+  setLoading = (loadingSpinnerActive) => {
+    this.setState({ loadingSpinnerActive });
   }
 
   setArticleView = (articleViewActive) => {
@@ -519,7 +519,9 @@ export class HelpCenter extends Component {
     const helpCenter = (this.props.fullscreen)
                      ? this.renderHelpCenterMobile(buttonLabel)
                      : this.renderHelpCenterDesktop(buttonLabel);
-    const display = this.state.loading ? this.renderLoadingSpinner() : helpCenter;
+    const display = this.state.loadingSpinnerActive
+                  ? this.renderLoadingSpinner()
+                  : helpCenter;
 
     setTimeout(() => this.props.updateFrameSize(), 0);
 
