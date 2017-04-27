@@ -9,6 +9,7 @@ describe('embed.helpCenter', () => {
     mockGetTokenValue,
     mockIsMobileBrowser,
     targetCancelHandlerSpy,
+    setLoading,
     mockIsIE;
   const helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
   const resetState = jasmine.createSpy();
@@ -32,6 +33,7 @@ describe('embed.helpCenter', () => {
 
     targetCancelHandlerSpy = jasmine.createSpy();
     focusField = jasmine.createSpy();
+    setLoading = jasmine.createSpy('setLoading');
 
     resetDOM();
 
@@ -75,6 +77,7 @@ describe('embed.helpCenter', () => {
             this.focusField = focusField;
             this.setChatOnline = setChatOnline;
             this.getHelpCenterComponent = getHelpCenterComponent;
+            this.setLoading = setLoading,
             this.state = {
               topics: [],
               searchCount: 0,
@@ -209,6 +212,87 @@ describe('embed.helpCenter', () => {
         .toEqual(false);
     });
 
+    describe('initial loading spinner', () => {
+      beforeEach(() => {
+        jasmine.clock().install();
+      });
+
+      afterEach(() => {
+        jasmine.clock().uninstall();
+      });
+
+      describe('when contextual help is enabled', () => {
+        beforeEach(() => {
+          helpCenter.create('carlos', { contextualHelpEnabled: true });
+          helpCenter.render('carlos');
+          jasmine.clock().tick(1);
+        });
+
+        it('should call rootComponent.setLoading with true', () => {
+          expect(setLoading)
+            .toHaveBeenCalledWith(true);
+        });
+      });
+
+      describe('when contextual help is disabled', () => {
+        beforeEach(() => {
+          helpCenter.create('carlos', { contextualHelpEnabled: false });
+          helpCenter.render('carlos');
+          jasmine.clock().tick(1);
+        });
+
+        it('should not call rootComponent.setLoading', () => {
+          expect(setLoading)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when authenticate setting is present', () => {
+        beforeEach(() => {
+          mockSettingsValue = { jwt: 'abc' };
+        });
+
+        describe('when config.signInRequired is true', () => {
+          beforeEach(() => {
+            helpCenter.create('carlos', { signInRequired: true });
+            helpCenter.render('carlos');
+            jasmine.clock().tick(1);
+          });
+
+          it('should call rootComponent.setLoading with true', () => {
+            expect(setLoading)
+              .toHaveBeenCalledWith(true);
+          });
+        });
+
+        describe('when config.signInRequired is false', () => {
+          beforeEach(() => {
+            helpCenter.create('carlos', { signInRequired: false });
+            helpCenter.render('carlos');
+            jasmine.clock().tick(1);
+          });
+
+          it('should not call rootComponent.setLoading', () => {
+            expect(setLoading)
+              .not.toHaveBeenCalled();
+          });
+        });
+      });
+
+      describe('when authenticate setting is not present', () => {
+        beforeEach(() => {
+          helpCenter.create('carlos');
+          helpCenter.render('carlos');
+          jasmine.clock().tick(1);
+        });
+
+        it('should not call rootComponent.setLoading', () => {
+          expect(setLoading)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
     describe('frameFactory', () => {
       let mockFrameFactory,
         mockFrameFactoryCall,
@@ -263,22 +347,6 @@ describe('embed.helpCenter', () => {
 
         expect(mockSetStateArgs[0].showBackButton)
           .toEqual(false);
-      });
-
-      describe('when contextual help is enabled', () => {
-        it('should call rootComponent.setLoading with true', () => {
-
-        });
-      });
-
-      describe('when authenticate setting is present', () => {
-        describe('when config.signInRequired is true', () => {
-
-        });
-
-        describe('when config.signInRequired is false', () => {
-
-        });
       });
 
       describe('mediator broadcasts', () => {
@@ -558,13 +626,39 @@ describe('embed.helpCenter', () => {
     });
 
     describe('contextualSearchSender', () => {
+      let args,
+        mockDoneFn,
+        mockResponse;
+
+      beforeEach(() => {
+        mockDoneFn = jasmine.createSpy('mockDoneFn');
+        mockResponse = { body: 'abc' };
+
+        jasmine.clock().install();
+        embed.props.contextualSearchSender(null, mockDoneFn);
+        jasmine.clock().tick(0);
+
+        args = mockTransport.send.calls.mostRecent().args[0];
+        args.callbacks.done(mockResponse);
+      });
+
+      afterEach(() => {
+        jasmine.clock().uninstall();
+      });
+
       it('calls transport.send with contextual search endpoint when called', () => {
-        embed.props.contextualSearchSender();
-
-        const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
-
-        expect(recentCallArgs.path)
+        expect(args.path)
           .toEqual('/api/v2/help_center/articles/embeddable_search.json');
+      });
+
+      it('should call setLoading with false', () => {
+        expect(setLoading)
+          .toHaveBeenCalledWith(false);
+      });
+
+      it('should call the passed in doneFn', () => {
+        expect(mockDoneFn)
+          .toHaveBeenCalledWith(mockResponse);
       });
     });
 
@@ -628,23 +722,25 @@ describe('embed.helpCenter', () => {
       let mockMediator;
 
       beforeEach(() => {
+        jasmine.clock().install();
         mockMediator = mockRegistry['service/mediator'].mediator;
         helpCenter.create('carlos');
         helpCenter.render('carlos');
+      });
+
+      afterEach(() => {
+        jasmine.clock().uninstall();
       });
 
       it('should subscribe to <name>.show', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('carlos.show', jasmine.any(Function));
 
-        jasmine.clock().install();
         pluckSubscribeCall(mockMediator, 'carlos.show')();
         jasmine.clock().tick(1);
 
         expect(helpCenter.get('carlos').instance.show.__reactBoundMethod)
           .toHaveBeenCalled();
-
-        jasmine.clock().uninstall();
       });
 
       it('should subscribe to <name>.hide', () => {
@@ -698,6 +794,14 @@ describe('embed.helpCenter', () => {
             helpCenter.render('carlos');
           });
 
+          describe('when its the initial contextual search', () => {
+
+          });
+
+          describe('when its not the initial contextual search', () => {
+
+          });
+
           it('should add the mouse target listener', () => {
             pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
 
@@ -723,6 +827,38 @@ describe('embed.helpCenter', () => {
           beforeEach(() => {
             spyOn(helpCenter, 'keywordsSearch');
             pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
+            jasmine.clock().tick(0);
+          });
+
+          describe('when its the initial contextual search', () => {
+            it('should call rootComponent.setLoading with true', () => {
+              expect(setLoading)
+                .toHaveBeenCalledWith(true);
+            });
+
+            it('should call keywordsSearch', () => {
+              expect(helpCenter.keywordsSearch)
+                .toHaveBeenCalledWith('carlos', { search: 'foo' });
+            });
+          });
+
+          describe('when its not the initial contextual search', () => {
+            beforeEach(() => {
+              // Simulate a second call to zE.setHelpCenterSuggestions.
+              setLoading.calls.reset();
+              pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
+              jasmine.clock().tick(0);
+            });
+
+            it('should not call rootComponent.setLoading', () => {
+              expect(setLoading)
+                .not.toHaveBeenCalled();
+            });
+
+            it('should call keywordsSearch', () => {
+              expect(helpCenter.keywordsSearch)
+                .toHaveBeenCalledWith('carlos', { search: 'foo' });
+            });
           });
 
           it('should call keywordsSearch', () => {
