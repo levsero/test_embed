@@ -12,6 +12,7 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
+import { store } from 'service/persistence';
 import { isMobileBrowser,
          isIE } from 'utility/devices';
 import { location } from 'utility/globals';
@@ -201,7 +202,9 @@ export class SubmitTicket extends Component {
     const subjectData = ticketFormsAvailable && subjectField
                       ? data.value[subjectField.id]
                       : data.value.subject;
-    const description = `${descriptionData}\n\n------------------\n${submittedFrom}`;
+    const referrerPolicy = store.get('referrerPolicy', 'session');
+    const descriptionUrlStr = `\n\n------------------\n${submittedFrom}`;
+    const description = referrerPolicy ? descriptionData : `${descriptionData}${descriptionUrlStr}`;
     const uploads = this.refs.submitTicketForm.refs.attachments
                   ? this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
                   : null;
