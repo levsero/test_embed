@@ -305,7 +305,7 @@ describe('Submit ticket component', () => {
           .toEqual('this text is longer then 50 characters xxxxxxxxxxx...');
       });
 
-      describe('when stores refererrPolicy is false', () => {
+      describe('when stores referrerPolicy is false', () => {
         it('adds submitted from to the description', () => {
           const label = 'embeddable_framework.submitTicket.form.submittedFrom.label';
 
@@ -314,7 +314,7 @@ describe('Submit ticket component', () => {
         });
       });
 
-      describe('when stores refererrPolicy is true', () => {
+      describe('when stores referrerPolicy is true', () => {
         it('adds submitted from to the description', () => {
           mockStoreValue = true;
 
