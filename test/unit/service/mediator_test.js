@@ -2443,36 +2443,6 @@ describe('mediator', () => {
       expect(revertWindowScroll.calls.count())
         .toEqual(1);
     });
-
-    it('should not set helpCenterForm to available if sign in is required', () => {
-      mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
-
-      jasmine.clock().install();
-      c.broadcast(`${launcher}.onClick`);
-      jasmine.clock().tick(0);
-
-      expect(submitTicketSub.show.calls.count())
-        .toEqual(1);
-
-      expect(helpCenterSub.show.calls.count())
-        .toEqual(0);
-    });
-
-    it('should set helpCenterForm to available if sign in is required and is on a hc page', () => {
-      mockOnHelpCenterPageValue = true;
-
-      mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
-
-      jasmine.clock().install();
-      c.broadcast(`${launcher}.onClick`);
-      jasmine.clock().tick(0);
-
-      expect(submitTicketSub.show.calls.count())
-        .toEqual(0);
-
-      expect(helpCenterSub.show.calls.count())
-        .toEqual(1);
-    });
   });
 
  /* ****************************************** *
