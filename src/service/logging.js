@@ -1,13 +1,14 @@
 import airbrakeJs from 'airbrake-js';
+import Rollbar from 'vendor/rollbar.umd.nojson.min.js'
 import _ from 'lodash';
 
 let airbrake;
+const errorMessageBlacklist = [
+  'Access-Control-Allow-Origin',
+  'timeout of [0-9]+ms exceeded'
+];
 
 const errorFilter = (notice) => {
-  const errorMessageBlacklist = [
-    'Access-Control-Allow-Origin',
-    'timeout of [0-9]+ms exceeded'
-  ];
   const errorMessageRegex = new RegExp(errorMessageBlacklist.join('|'));
 
   notice.errors = _.filter(notice.errors, (error) => {
@@ -34,6 +35,27 @@ function init() {
     projectKey: '8191392d5f8c97c8297a08521aab9189'
   });
   airbrake.addFilter(errorFilter);
+
+  const rollbarConfig = {
+    // hostWhiteList: ['assets.zendesk.com'],
+    accessToken: '656217fa4a6e4ad797e525cfd8c129cf',
+    // endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
+    // accessToken: '94eb0137fdc14471b21b34c5a04f9359',
+    maxItems: 100,
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+    ignoredMessages: errorMessageBlacklist,
+    payload: {
+      environment: 'production',
+      client: {
+        javascript: {
+          code_version: __EMBEDDABLE_VERSION__
+        }
+      }
+    }
+  };
+
+  Rollbar.init(rollbarConfig);
 }
 
 function error(err) {

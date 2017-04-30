@@ -99,7 +99,7 @@ const initStore = (settings, options, defaults) => {
           .value();
 };
 
-function init() {
+const init = () => {
   const settings = _.assign({}, win.zESettings);
 
   // for backwards compatibility with authenticate.
@@ -118,7 +118,7 @@ function init() {
                                                      maxLocaleFallbacks);
 }
 
-function get(path, store = 'webWidget') {
+const get = (path, store = 'webWidget') => {
   // TODO: Remove this check when web widget customizations are out of beta.
   if (customizationsWhitelist.indexOf(path) > -1 &&
       !webWidgetCustomizations) {
@@ -129,7 +129,7 @@ function get(path, store = 'webWidget') {
                                : _.get(ipmStore, path, null);
 }
 
-function getTranslations() {
+const getTranslations = () => {
   const translations = {
     launcherLabel: webWidgetStore.launcher.label,
     launcherChatLabel: webWidgetStore.launcher.chatLabel,
@@ -144,7 +144,7 @@ function getTranslations() {
   return _.omitBy(translations, _.isUndefined);
 }
 
-function getTrackSettings() {
+const getTrackSettings = () => {
   const blacklist = ['margin', 'viaId'];
   const userSettings = _.omit(webWidgetStore, blacklist);
   const defaults = _.omit(webWidgetStoreDefaults, blacklist);
@@ -167,7 +167,7 @@ function getTrackSettings() {
   }, _.isEmpty);
 }
 
-function enableCustomizations() {
+const enableCustomizations = () => {
   webWidgetCustomizations = true;
 }
 
