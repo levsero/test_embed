@@ -119,7 +119,7 @@ function create(name, config, reduxStore) {
   const searchSenderFn = (url) => (query, doneFn, failFn) => {
     const done = (res) => {
       waitForRootComponent(name, (rootComponent) => {
-        rootComponent.setLoading(false);
+        setTimeout(() => rootComponent.setLoading(false), 0);
         doneFn(res);
       });
     };

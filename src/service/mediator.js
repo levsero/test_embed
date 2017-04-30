@@ -7,7 +7,6 @@ import { isMobileBrowser } from 'utility/devices';
 import { setScrollKiller,
          setWindowScroll,
          revertWindowScroll } from 'utility/scrollHacks';
-import { isOnHelpCenterPage } from 'utility/pages';
 import { emailValid } from 'utility/utils';
 
 const c = new airwaves.Channel();
@@ -142,7 +141,7 @@ function init(embedsAccessible, params = {}) {
   state['.hasHidden'] = params.hideLauncher;
   state[`${launcher}.userHidden`] = params.hideLauncher;
   state[`${submitTicket}.isAccessible`] = embedsAccessible.submitTicket;
-  state[`${helpCenter}.isAccessible`] = embedsAccessible.helpCenter && !isOnHelpCenterPage();
+  state[`${helpCenter}.isAccessible`] = embedsAccessible.helpCenter;
   state[`${channelChoice}.isAccessible`] = embedsAccessible.channelChoice;
   state[`${chat}.isAccessible`] = embedsAccessible.chat;
   state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppress');

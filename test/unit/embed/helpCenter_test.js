@@ -652,6 +652,8 @@ describe('embed.helpCenter', () => {
       });
 
       it('should call setLoading with false', () => {
+        jasmine.clock().tick(0);
+
         expect(setLoading)
           .toHaveBeenCalledWith(false);
       });
