@@ -36,9 +36,9 @@
     "redux-thunk": "^2.1.0",
     "sanitize-html": "~1.10.0",
     "superagent": "^2.0.0",
-    "zd-css-buttons": "git+ssh://git@github.com/zendeskgarden/css-buttons.git",
-    "zd-css-variables": "git+ssh://git@github.com/zendeskgarden/css-variables.git",
-    "zd-svg-icons": "git+ssh://git@github.com/zendeskgarden/svg-icons.git"
+    "zd-css-buttons": "git+ssh://git@github.com/zendeskgarden/css-buttons.git#2.2.0",
+    "zd-css-variables": "git+ssh://git@github.com/zendeskgarden/css-variables.git#0.11.0",
+    "zd-svg-icons": "git+ssh://git@github.com/zendeskgarden/svg-icons.git#1.4.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.7",
