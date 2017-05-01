@@ -13,8 +13,9 @@ import { Provider } from 'react-redux';
 export class EmbedWrapper extends Component {
   static propTypes = {
     baseCSS: PropTypes.string,
-    childFn: PropTypes.func.isRequired,
+    childFn: PropTypes.func,
     childParams: PropTypes.object,
+    children: PropTypes.object,
     fullscreen: PropTypes.bool,
     handleBackClick: PropTypes.func,
     handleCloseClick: PropTypes.func,
@@ -26,7 +27,9 @@ export class EmbedWrapper extends Component {
 
   static defaultProps = {
     baseCSS: '',
+    childFn: null,
     childParams: {},
+    children: null,
     fullscreen: false,
     handleBackClick: () => {},
     handleCloseClick: () => {},
@@ -97,9 +100,16 @@ export class EmbedWrapper extends Component {
     const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />;
     const expandClasses = i18n.isRTL() ? 'u-posStartL' : 'u-posEndL';
-    const newChild = React.cloneElement(this.props.children, {
-      ref: 'rootComponent'
-    });
+
+    let newChild;
+
+    if (this.props.children) {
+      newChild = React.cloneElement(this.props.children, {
+        ref: 'rootComponent'
+      });
+    } else {
+      newChild = this.props.childFn(this.props.childParams);
+    }
 
     return (
       <Provider store={this.props.reduxStore}>
