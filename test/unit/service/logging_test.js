@@ -1,62 +1,103 @@
-describe('logging', function() {
+fdescribe('logging', () => {
   let logging,
     airbrakeInitSpy,
     airbrakeAddFilterSpy,
-    airbrakeWrapSpy,
-    airbrakeNotifySpy;
+    airbrakeNotifySpy,
+    rollbarInitSpy,
+    rollbarErrorSpy;
   const loggingPath = buildSrcPath('service/logging');
 
-  beforeEach(function() {
+  beforeEach(() => {
     mockery.enable();
 
-    airbrakeInitSpy = jasmine.createSpy('init');
+    airbrakeInitSpy = jasmine.createSpy('airbrakeInit');
     airbrakeAddFilterSpy = jasmine.createSpy('addFilter');
-    airbrakeWrapSpy = jasmine.createSpy('wrap');
     airbrakeNotifySpy = jasmine.createSpy('notify');
+
+    rollbarInitSpy = jasmine.createSpy('rollbarInit');
+    rollbarErrorSpy = jasmine.createSpy('rollbarError');
 
     initMockRegistry({
       'airbrake-js': (opts) => {
         airbrakeInitSpy(opts);
+
         return {
           addFilter: airbrakeAddFilterSpy,
-          wrap: airbrakeWrapSpy,
           notify: airbrakeNotifySpy
         };
+      },
+      'vendor/rollbar.umd.nojson.min.js': {
+        init: (params) => {
+          rollbarInitSpy(params);
+
+          return { error: rollbarErrorSpy };
+        }
       }
     });
 
     mockery.registerAllowable(loggingPath);
     logging = requireUncached(loggingPath).logging;
-    logging.init();
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('#init', function() {
-    let expectedOptions;
+  describe('#init', () => {
+    describe('when Rollbar is enabled', () => {
+      beforeEach(() => {
+        logging.init(true);
+      });
 
-    beforeEach(function() {
-      expectedOptions = {
-        projectId: '124081',
-        projectKey: '8191392d5f8c97c8297a08521aab9189'
-      };
+      it('should initialize Rollbar with an expected config', () => {
+        const expectedParam = {
+          accessToken: '656217fa4a6e4ad797e525cfd8c129cf',
+          maxItems: 100,
+          captureUncaught: true,
+          captureUnhandledRejections: true,
+          ignoredMessages: [
+            'Access-Control-Allow-Origin',
+            'timeout of [0-9]+ms exceeded'
+          ],
+          payload: {
+            environment: 'production',
+            client: {
+              javascript: {
+                code_version: __EMBEDDABLE_VERSION__ // eslint-disable-line camelcase
+              }
+            }
+          }
+        };
+
+        expect(rollbarInitSpy)
+          .toHaveBeenCalledWith(expectedParam);
+      });
     });
 
-    it('should register Airbrake id and key', function() {
-      expect(airbrakeInitSpy)
-        .toHaveBeenCalledWith(expectedOptions);
-    });
+    describe('when Rollbar is not enabled', () => {
+      beforeEach(() => {
+        logging.init();
+      });
 
-    it('should add a filter event handler', () => {
-      expect(airbrakeAddFilterSpy)
-        .toHaveBeenCalled();
+      it('should register Airbrake id and key', () => {
+        const expectedOptions = {
+          projectId: '124081',
+          projectKey: '8191392d5f8c97c8297a08521aab9189'
+        };
+
+        expect(airbrakeInitSpy)
+          .toHaveBeenCalledWith(expectedOptions);
+      });
+
+      it('should add a filter event handler', () => {
+        expect(airbrakeAddFilterSpy)
+          .toHaveBeenCalled();
+      });
     });
   });
 
-  describe('#error', function() {
+  describe('#error', () => {
     /* eslint no-console:0 */
     const errPayload = {
       error: {
@@ -64,49 +105,69 @@ describe('logging', function() {
       }
     };
 
-    beforeEach(function() {
-      global.__DEV__ = false;
+    beforeEach(() => {
       spyOn(console, 'error');
       spyOn(logging, 'error').and.callThrough();
     });
 
-    it('should call Airbrake.notify', function() {
-      logging.error(errPayload);
+    describe('when environment is in dev mode', () => {
+      beforeEach(() => {
+        global.__DEV__ = true;
+      });
 
-      expect(airbrakeNotifySpy)
-        .toHaveBeenCalledWith(errPayload);
+      it('should call console.error in dev environment', () => {
+        logging.error(errPayload);
+
+        expect(console.error)
+          .toHaveBeenCalledWith(errPayload.error.message);
+      });
     });
 
-    it('should call console.error in dev environment', function() {
-      global.__DEV__ = true;
-      logging.error(errPayload);
+    describe('when environment is not dev mode', () => {
+      beforeEach(() => {
+        global.__DEV__ = false;
+      });
 
-      expect(console.error)
-        .toHaveBeenCalledWith(errPayload.error.message);
-    });
+      describe('when special flag is set on error object', () => {
+        afterEach(() => {
+          errPayload.error.special = false;
+        });
 
-    it('should throw when special flag is set on error object', function() {
-      const err = errPayload;
+        it('should throw', () => {
+          errPayload.error.special = true;
 
-      err.error.special = true;
+          expect(logging.error.bind(this, errPayload))
+            .toThrow();
+        });
+      });
 
-      expect(logging.error.bind(this, err))
-        .toThrow();
+      describe('when Rollbar is enabled', () => {
+        beforeEach(() => {
+          logging.init(true);
+          logging.error(errPayload);
+        });
+
+        it('should call Rollbar.error', () => {
+          expect(rollbarErrorSpy)
+            .toHaveBeenCalledWith(errPayload);
+        });
+      });
+
+      describe('when Rollbar is not enabled', () => {
+        beforeEach(() => {
+          logging.init();
+          logging.error(errPayload);
+        });
+
+        it('should call Airbrake.notify', () => {
+          expect(airbrakeNotifySpy)
+            .toHaveBeenCalledWith(errPayload);
+        });
+      });
     });
   });
 
-  describe('wrap', function() {
-    it('should call airbrake.wrap() with the passed in callback', function() {
-      const fn = () => {};
-
-      logging.wrap(fn);
-
-      expect(airbrakeWrapSpy)
-        .toHaveBeenCalledWith(fn);
-    });
-  });
-
-  describe('errorFilter', () => {
+  describe('#errorFilter', () => {
     let notice;
     let errorA, errorB;
 
@@ -181,6 +242,26 @@ describe('logging', function() {
 
         expect(logging.errorFilter(notice).errors)
           .not.toContain(errorA);
+      });
+    });
+  });
+
+  describe('#warn', () => {
+    beforeEach(() => {
+      spyOn(console, 'warn');
+    });
+
+    it('should call warn', () => {
+      const subjects = [
+        [{ bob: 1 }, { fred: 2 }],
+        'Ohmygerd Airbrake'
+      ];
+
+      subjects.forEach((subject) => {
+        logging.warn(subject);
+
+        expect(console.warn)
+          .toHaveBeenCalledWith(subject);
       });
     });
   });

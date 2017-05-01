@@ -122,3 +122,4 @@ global.mockObjectDifference = (a, b) => {
 };
 
 global.__DEV__ = true;
+global.__EMBEDDABLE_VERSION__ = 'bob1337';
