@@ -116,14 +116,23 @@ function create(name, config, reduxStore) {
     };
   };
 
-  const searchSenderFn = (url) => (query, doneFn, failFn) => {
+  const searchSenderFn = (url) => (query, doneFn = () => {}, failFn = () => {}) => {
+    const stopLoadingSpinner = (rootComponent) => {
+      setTimeout(() => rootComponent.setLoading(false), 0);
+    };
     const done = (res) => {
       waitForRootComponent(name, (rootComponent) => {
-        setTimeout(() => rootComponent.setLoading(false), 0);
+        stopLoadingSpinner(rootComponent);
         doneFn(res);
       });
     };
-    const payload = senderPayload(url)(query, done, failFn);
+    const fail = () => {
+      waitForRootComponent(name, (rootComponent) => {
+        stopLoadingSpinner(rootComponent);
+        failFn();
+      });
+    };
+    const payload = senderPayload(url)(query, done, fail);
 
     transport.send(payload);
   };
@@ -155,7 +164,7 @@ function create(name, config, reduxStore) {
 
   const authSetting = settings.get('authenticate');
 
-  if (config.contextualHelpEnabled
+  if (shouldPerformDefaultContextualHelp(config)
      || authenticationRequired(authSetting, config)) {
     setLoading(name, true);
   }
@@ -381,9 +390,9 @@ function keywordsSearch(name, options) {
 }
 
 function shouldPerformDefaultContextualHelp(config) {
-  return config.contextualHelpEnabled &&
-        !hasManuallySetContextualSuggestions &&
-        !isOnHelpCenterPage();
+  return config.contextualHelpEnabled
+       && !hasManuallySetContextualSuggestions
+       && !isOnHelpCenterPage();
 }
 
 function performContextualHelp(name, options) {

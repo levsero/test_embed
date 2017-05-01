@@ -234,6 +234,20 @@ describe('embed.helpCenter', () => {
         });
       });
 
+      describe('when on a help center page', () => {
+        beforeEach(() => {
+          mockIsOnHelpCenterPageValue = true;
+          helpCenter.create('carlos', { contextualHelpEnabled: true });
+          helpCenter.render('carlos');
+          jasmine.clock().tick(0);
+        });
+
+        it('should not call rootComponent.setLoading', () => {
+          expect(setLoading)
+            .not.toHaveBeenCalled();
+        });
+      });
+
       describe('when contextual help is disabled', () => {
         beforeEach(() => {
           helpCenter.create('carlos', { contextualHelpEnabled: false });
@@ -558,7 +572,7 @@ describe('embed.helpCenter', () => {
             authorization: '',
             callbacks: {
               done: jasmine.any(Function),
-              fail: failFn
+              fail: jasmine.any(Function)
             }
           });
       });
@@ -628,18 +642,19 @@ describe('embed.helpCenter', () => {
     describe('contextualSearchSender', () => {
       let args,
         mockDoneFn,
+        mockFailFn,
         mockResponse;
 
       beforeEach(() => {
         mockDoneFn = jasmine.createSpy('mockDoneFn');
+        mockFailFn = jasmine.createSpy('mockFailFn');
         mockResponse = { body: 'abc' };
 
         jasmine.clock().install();
-        embed.props.contextualSearchSender(null, mockDoneFn);
+        embed.props.contextualSearchSender(null, mockDoneFn, mockFailFn);
         jasmine.clock().tick(0);
 
         args = mockTransport.send.calls.mostRecent().args[0];
-        args.callbacks.done(mockResponse);
       });
 
       afterEach(() => {
@@ -651,16 +666,40 @@ describe('embed.helpCenter', () => {
           .toEqual('/api/v2/help_center/articles/embeddable_search.json');
       });
 
-      it('should call setLoading with false', () => {
-        jasmine.clock().tick(0);
+      describe('when there is no error', () => {
+        beforeEach(() => {
+          args.callbacks.done(mockResponse);
+        });
 
-        expect(setLoading)
-          .toHaveBeenCalledWith(false);
+        it('should call setLoading with false', () => {
+          jasmine.clock().tick(0);
+
+          expect(setLoading)
+            .toHaveBeenCalledWith(false);
+        });
+
+        it('should call the passed in doneFn', () => {
+          expect(mockDoneFn)
+            .toHaveBeenCalledWith(mockResponse);
+        });
       });
 
-      it('should call the passed in doneFn', () => {
-        expect(mockDoneFn)
-          .toHaveBeenCalledWith(mockResponse);
+      describe('when there is an error', () => {
+        beforeEach(() => {
+          args.callbacks.fail();
+        });
+
+        it('should call setLoading with false', () => {
+          jasmine.clock().tick(0);
+
+          expect(setLoading)
+            .toHaveBeenCalledWith(false);
+        });
+
+        it('should call the passed in failFn', () => {
+          expect(mockFailFn)
+            .toHaveBeenCalled();
+        });
       });
     });
 
