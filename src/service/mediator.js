@@ -7,7 +7,6 @@ import { isMobileBrowser } from 'utility/devices';
 import { setScrollKiller,
          setWindowScroll,
          revertWindowScroll } from 'utility/scrollHacks';
-import { isOnHelpCenterPage } from 'utility/pages';
 import { emailValid } from 'utility/utils';
 
 const c = new airwaves.Channel();
@@ -142,8 +141,7 @@ function init(embedsAccessible, params = {}) {
   state['.hasHidden'] = params.hideLauncher;
   state[`${launcher}.userHidden`] = params.hideLauncher;
   state[`${submitTicket}.isAccessible`] = embedsAccessible.submitTicket;
-  state[`${helpCenter}.isAccessible`] = embedsAccessible.helpCenter &&
-    (!params.helpCenterSignInRequired || isOnHelpCenterPage());
+  state[`${helpCenter}.isAccessible`] = embedsAccessible.helpCenter;
   state[`${channelChoice}.isAccessible`] = embedsAccessible.channelChoice;
   state[`${chat}.isAccessible`] = embedsAccessible.chat;
   state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppress');
@@ -548,41 +546,48 @@ function init(embedsAccessible, params = {}) {
     c.subscribe(`${launcher}.show`, updateLauncherLabel);
   }
 
-  initMessaging();
+  initMessaging(params);
 }
 
-function initMessaging() {
-  c.intercept('.onIdentify', (__, params) => {
-    if (emailValid(params.email)) {
+function initMessaging(params) {
+  c.intercept('.onIdentify', (__, options) => {
+    if (emailValid(options.email)) {
       state['identify.pending'] = true;
-      c.broadcast('ipm.identifying', params);
-      c.broadcast('beacon.identify', params);
-      c.broadcast(`${chat}.setUser`, params);
-      c.broadcast(`${submitTicket}.prefill`, params);
+      c.broadcast('ipm.identifying', options);
+      c.broadcast('beacon.identify', options);
+      c.broadcast(`${chat}.setUser`, options);
+      c.broadcast(`${submitTicket}.prefill`, options);
     } else {
-      logging.warn('invalid params passed into zE.identify', params);
+      logging.warn('invalid params passed into zE.identify', options);
 
-      if (_.isString(params.name)) {
-        c.broadcast(`${chat}.setUser`, { name: params.name });
-        c.broadcast(`${submitTicket}.prefill`, { name: params.name });
+      if (_.isString(options.name)) {
+        c.broadcast(`${chat}.setUser`, { name: options.name });
+        c.broadcast(`${submitTicket}.prefill`, { name: options.name });
       }
     }
   });
 
-  c.intercept('identify.onSuccess', (__, params) => {
+  c.intercept('identify.onSuccess', (__, options) => {
     state['identify.pending'] = false;
 
-    c.broadcast('ipm.setIpm', params);
-    c.broadcast('nps.setSurvey', params);
+    c.broadcast('ipm.setIpm', options);
+    c.broadcast('nps.setSurvey', options);
   });
 
   c.intercept('authentication.onSuccess', () => {
-    state[`${helpCenter}.isAccessible`] = true;
-    if (!embedVisible(state) && state[`${helpCenter}.isAccessible`]) {
-      resetActiveEmbed();
-    }
-
     c.broadcast(`${helpCenter}.isAuthenticated`);
+  });
+
+  c.intercept('authentication.onFailure', () => {
+    if (!params.helpCenterSignInRequired) return;
+
+    state[`${helpCenter}.isAccessible`] = false;
+    resetActiveEmbed();
+
+    if (embedVisible(state)) {
+      c.broadcast(`${helpCenter}.hide`);
+      c.broadcast(`${state.activeEmbed}.show`);
+    }
   });
 
   c.intercept('nps.onActivate', () => {

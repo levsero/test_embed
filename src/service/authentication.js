@@ -63,7 +63,8 @@ function requestOAuthToken(jwt) {
     path: '/embeddable/authenticate',
     params: { body: jwt },
     callbacks: {
-      done: (res) => onRequestSuccess(res, id)
+      done: (res) => onRequestSuccess(res, id),
+      fail: onRequestFailure
     }
   };
 
@@ -84,7 +85,8 @@ function renewOAuthToken(token) {
     path: '/embeddable/authenticate/renew',
     params: params,
     callbacks: {
-      done: (res) => onRequestSuccess(res, id)
+      done: (res) => onRequestSuccess(res, id),
+      fail: onRequestFailure
     }
   };
 
@@ -104,6 +106,10 @@ function onRequestSuccess(res, id) {
     );
     mediator.channel.broadcast('authentication.onSuccess');
   }
+}
+
+function onRequestFailure() {
+  mediator.channel.broadcast('authentication.onFailure');
 }
 
 function isValid(token) {
