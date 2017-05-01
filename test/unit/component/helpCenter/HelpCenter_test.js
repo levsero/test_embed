@@ -39,8 +39,7 @@ describe('HelpCenter component', () => {
       './HelpCenter.sass': {
         locals: {
           loadingSpinnerIE: 'loadingSpinnerIEClasses',
-          loadingSpinner: 'loadingSpinnerClasses',
-          loadingSpinnerContainer: 'loadingSpinnterContainerClasses'
+          loadingSpinner: 'loadingSpinnerClasses'
         }
       },
       'utility/devices': {
@@ -167,6 +166,21 @@ describe('HelpCenter component', () => {
       it('should render the loading spinner', () => {
         expect(helpCenterNode.querySelectorAll('.loadingSpinnerClasses').length)
           .toBe(1);
+      });
+
+      describe('when on IE', () => {
+        beforeEach(() => {
+          mockIsIEValue = true;
+
+          helpCenter = domRender(<HelpCenter />);
+          helpCenterNode = ReactDOM.findDOMNode(helpCenter);
+          helpCenter.setLoading(true);
+        });
+
+        it('should have extra padding', () => {
+          expect(helpCenterNode.querySelectorAll('.loadingSpinnerIEClasses').length)
+            .toBe(1);
+        });
       });
     });
 

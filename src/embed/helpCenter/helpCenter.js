@@ -392,8 +392,8 @@ function performContextualHelp(name, options) {
   contextualSearchOptions = options;
 
   const onHitFn = (name, options) => () => {
-    keywordsSearch(name, options);
     useMouseDistanceContexualSearch = false;
+    keywordsSearch(name, options);
   };
 
   if (!isMobileBrowser() && useMouseDistanceContexualSearch) {
