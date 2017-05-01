@@ -8,6 +8,11 @@ import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop';
 import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile';
 import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
+import { LoadingSpinner } from 'component/loading/LoadingSpinner';
+import { ScrollContainer } from 'component/container/ScrollContainer';
+import { isIE } from 'utility/devices';
+
+import { locals as styles } from './HelpCenter.sass';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
@@ -79,7 +84,8 @@ export class HelpCenter extends Component {
       searchTracked: false,
       showNextButton: this.props.showNextButton,
       showViewMore: true,
-      viewMoreActive: false
+      viewMoreActive: false,
+      loadingSpinnerActive: false
     };
   }
 
@@ -107,6 +113,10 @@ export class HelpCenter extends Component {
 
   expand = (expanded) => {
     this.setState({ expanded });
+  }
+
+  setLoading = (loadingSpinnerActive) => {
+    this.setState({ loadingSpinnerActive });
   }
 
   setArticleView = (articleViewActive) => {
@@ -381,6 +391,22 @@ export class HelpCenter extends Component {
     });
   }
 
+  renderLoadingSpinner = () => {
+    const spinnerIEClasses = isIE() ? styles.loadingSpinnerIE : '';
+
+    return (
+      <ScrollContainer
+        title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
+        fullscreen={this.state.fullscreen}
+        contentExpanded={this.state.expanded}
+        containerClasses={styles.loadingSpinnerContainer}>
+        <div className={`${styles.loadingSpinner} ${spinnerIEClasses}`}>
+          <LoadingSpinner className={styles.loadingSpinnerSvg} />
+        </div>
+      </ScrollContainer>
+    );
+  }
+
   renderResults = () => {
     const hasSearched = this.state.hasSearched || this.state.hasContextualSearched;
 
@@ -494,6 +520,9 @@ export class HelpCenter extends Component {
     const helpCenter = (this.props.fullscreen)
                      ? this.renderHelpCenterMobile(buttonLabel)
                      : this.renderHelpCenterDesktop(buttonLabel);
+    const display = this.state.loadingSpinnerActive
+                  ? this.renderLoadingSpinner()
+                  : helpCenter;
 
     setTimeout(() => this.props.updateFrameSize(), 0);
 
@@ -503,7 +532,7 @@ export class HelpCenter extends Component {
         onClick={this.onContainerClick}
         expanded={this.state.expanded}
         fullscreen={this.props.fullscreen}>
-        {helpCenter}
+        {display}
       </Container>
     );
   }
