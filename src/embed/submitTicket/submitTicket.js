@@ -6,7 +6,7 @@ import { submitTicketStyles } from './submitTicketStyles.js';
 import { document,
          getDocumentHost } from 'utility/globals';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
-import { Frame } from 'component/frame/Frame';
+import { frameFactory } from 'embed/frameFactory';
 import { getZoomSizingRatio,
          isIE,
          isMobileBrowser,
@@ -203,82 +203,92 @@ function create(name, config, reduxStore) {
     }, 0);
   }
 
-
-  const params = {
-    frameStyle: frameStyle,
-    css: submitTicketCSS + generateUserCSS(config.color),
-    position: config.position,
-    fullscreenable: true,
-    expandable: config.expandable,
-    transitions: {
-      upClose: transitionFactory.webWidget.upHide(),
-      downClose: transitionFactory.webWidget.downHide(),
-      close: transitionFactory.webWidget.downHide(),
-      downShow: transitionFactory.webWidget.downShow(),
-      downHide: transitionFactory.webWidget.downHide(),
-      upShow: transitionFactory.webWidget.upShow()
+  const Embed = frameFactory(
+    (params) => {
+      return (
+        <SubmitTicket
+          ref='rootComponent'
+          attachmentsEnabled={config.attachmentsEnabled}
+          attachmentSender={attachmentSender}
+          customFields={customFields}
+          disableAutoComplete={config.disableAutoComplete}
+          formTitleKey={config.formTitleKey}
+          hideZendeskLogo={config.hideZendeskLogo}
+          maxFileCount={config.maxFileCount}
+          maxFileSize={config.maxFileSize}
+          onCancel={onCancel}
+          onSubmitted={onSubmitted}
+          position={config.position}
+          showBackButton={showBackButton}
+          style={containerStyle}
+          subjectEnabled={settings.get('contactForm.subject')}
+          submitTicketSender={submitTicketSender}
+          ticketFormSettings={settings.get('contactForm.ticketForms')}
+          ticketFieldSettings={settings.get('contactForm.fields')}
+          updateFrameSize={params.updateFrameSize}
+          tags={settings.get('contactForm.tags')}
+          viaId={settings.get('viaId')} />
+      );
     },
-    onShow,
-    name: name,
-    afterShowAnimate(frame) {
-      const rootComponent = frame.getRootComponent();
+    {
+      frameStyle: frameStyle,
+      css: submitTicketCSS + generateUserCSS(config.color),
+      position: config.position,
+      fullscreenable: true,
+      expandable: config.expandable,
+      transitions: {
+        upClose: transitionFactory.webWidget.upHide(),
+        downClose: transitionFactory.webWidget.downHide(),
+        close: transitionFactory.webWidget.downHide(),
+        downShow: transitionFactory.webWidget.downShow(),
+        downHide: transitionFactory.webWidget.downHide(),
+        upShow: transitionFactory.webWidget.upShow()
+      },
+      onShow,
+      name: name,
+      afterShowAnimate(frame) {
+        const rootComponent = frame.getRootComponent();
 
-      if (rootComponent && isIE()) {
-        if (rootComponent.refs.submitTicketForm) {
-          rootComponent.refs.submitTicketForm.focusField();
-        }
-      }
-    },
-    onHide(frame) {
-      const rootComponent = frame.getRootComponent();
-
-      if (rootComponent) {
-        if (isMobileBrowser()) {
-          setScaleLock(false);
+        if (rootComponent && isIE()) {
           if (rootComponent.refs.submitTicketForm) {
-            rootComponent.refs.submitTicketForm.hideVirtualKeyboard();
+            rootComponent.refs.submitTicketForm.focusField();
           }
         }
-        rootComponent.clearNotification();
-      }
-    },
-    onClose() {
-      mediator.channel.broadcast(name + '.onClose');
-    },
-    onBack() {
-      if (getRootComponent(name).state.selectedTicketForm) {
-        showBackButton(backButtonSetByHelpCenter);
-        getRootComponent(name).clearForm();
-      } else {
-        mediator.channel.broadcast(name + '.onBackClick');
-      }
-    },
-    extend: {}
-  };
+      },
+      onHide(frame) {
+        const rootComponent = frame.getRootComponent();
 
-  const Embed = (
-    <Frame {...params} visible={false} position={config.position} store={reduxStore}>
-      <SubmitTicket
-        customFields={config.customFields}
-        hideZendeskLogo={config.hideZendeskLogo}
-        onCancel={onCancel}
-        submitTicketSender={submitTicketSender}
-        attachmentSender={attachmentSender}
-        onSubmitted={onSubmitted}
-        position={config.position}
-        formTitleKey={config.formTitleKey}
-        style={containerStyle}
-        showBackButton={showBackButton}
-        attachmentsEnabled={config.attachmentsEnabled}
-        subjectEnabled={settings.get('contactForm.subject')}
-        maxFileCount={config.maxFileCount}
-        maxFileSize={config.maxFileSize}
-        disableAutoComplete={config.disableAutoComplete} />
-    </Frame>
+        if (rootComponent) {
+          if (isMobileBrowser()) {
+            setScaleLock(false);
+            if (rootComponent.refs.submitTicketForm) {
+              rootComponent.refs.submitTicketForm.hideVirtualKeyboard();
+            }
+          }
+          rootComponent.clearNotification();
+        }
+      },
+      onClose() {
+        mediator.channel.broadcast(name + '.onClose');
+      },
+      onBack() {
+        const { selectedTicketForm, ticketForms } = getRootComponent(name).state;
+        const ticketFormsList = ticketForms && ticketForms.ticket_forms || [];
+
+        if (!selectedTicketForm || ticketFormsList.length === 1) {
+          mediator.channel.broadcast(name + '.onBackClick');
+        } else {
+          showBackButton(backButtonSetByHelpCenter);
+          getRootComponent(name).clearForm();
+        }
+      },
+      extend: {}
+    },
+    reduxStore
   );
 
   submitTickets[name] = {
-    component: Embed,
+    component: <Embed visible={false} />,
     config: config
   };
 

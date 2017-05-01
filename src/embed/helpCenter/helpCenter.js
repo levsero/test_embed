@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { helpCenterStyles } from './helpCenterStyles.js';
 import { HelpCenter } from 'component/helpCenter/HelpCenter';
-import { Frame } from 'component/frame/Frame';
+import { frameFactory } from 'embed/frameFactory';
 import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
 import { mediator } from 'service/mediator';
@@ -197,61 +197,52 @@ function create(name, config, reduxStore) {
           zendeskHost={transport.getZendeskHost()} />
       );
     },
-    afterShowAnimate(frame) {
-      const rootComponent = frame.getRootComponent();
+    {
+      frameStyle: frameStyle,
+      position: config.position,
+      css: helpCenterCSS + generateUserCSS(config.color),
+      name: name,
+      fullscreenable: true,
+      expandable: config.expandable,
+      transitions: {
+        upClose: transitionFactory.webWidget.upHide(),
+        downClose: transitionFactory.webWidget.downHide(),
+        upHide: transitionFactory.webWidget.upHide(),
+        upShow: transitionFactory.webWidget.upShow(),
+        downHide: transitionFactory.webWidget.downHide(),
+        downShow: transitionFactory.webWidget.downShow()
+      },
+      afterShowAnimate(frame) {
+        const rootComponent = frame.getRootComponent();
 
-      if (rootComponent && isIE()) {
-        rootComponent.focusField();
-      }
+        if (rootComponent && isIE()) {
+          rootComponent.focusField();
+        }
+      },
+      onHide,
+      onShow,
+      onClose() {
+        mediator.channel.broadcast(name + '.onClose');
+      },
+      onBack(frame) {
+        const rootComponent = frame.getRootComponent();
+
+        if (rootComponent) {
+          rootComponent.setState({
+            articleViewActive: false
+          });
+          frame.getChild().setState({
+            showBackButton: false
+          });
+        }
+      },
+      extend: {}
     },
-    onHide,
-    onShow,
-    onClose() {
-      mediator.channel.broadcast(name + '.onClose');
-    },
-    onBack(frame) {
-      const rootComponent = frame.getRootComponent();
-
-      if (rootComponent) {
-        rootComponent.setState({
-          articleViewActive: false
-        });
-        frame.getChild().setState({
-          showBackButton: false
-        });
-      }
-    }
-  };
-
-  const Embed = (
-    <Frame {...params} visible={false} position={config.position} store={reduxStore}>
-      <HelpCenter
-        ref='rootComponent'
-        hideZendeskLogo={config.hideZendeskLogo}
-        onNextClick={onNextClick}
-        onArticleClick={onArticleClick}
-        onViewOriginalArticleClick={onViewOriginalArticleClick}
-        onSearch={onSearch}
-        position={config.position}
-        buttonLabelKey={config.buttonLabelKey}
-        formTitleKey={config.formTitleKey}
-        showBackButton={showBackButton}
-        searchSender={searchSenderFn('/api/v2/help_center/search.json')}
-        contextualSearchSender={searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')}
-        imagesSender={imagesSenderFn}
-        style={containerStyle}
-        fullscreen={isMobileBrowser()}
-        originalArticleButton={settings.get('helpCenter.originalArticleButton')}
-        localeFallbacks={settings.get('helpCenter.localeFallbacks')}
-        channelChoice={channelChoice}
-        disableAutoComplete={config.disableAutoComplete}
-        viewMoreEnabled={viewMoreEnabled}
-        zendeskHost={transport.getZendeskHost()} />
-    </Frame>
+    reduxStore
   );
 
   helpCenters[name] = {
-    component: Embed,
+    component: <Embed visible={false} />,
     config: config
   };
 
