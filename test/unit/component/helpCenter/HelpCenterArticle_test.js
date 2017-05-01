@@ -56,6 +56,7 @@ describe('HelpCenterArticle component', () => {
       body: `
         <h1 id="foo">Foobar</h1>
         <a href="#foo" name="foo">inpage link</a>
+        <a href="#1" name="1">inpage link 2</a>
         <a class="relative" href="/relative/link">relative link</a>
         <div id="preserved" style="bad styles not allowed">
           This text contains a sub-note<sub>1</sub>
@@ -85,7 +86,7 @@ describe('HelpCenterArticle component', () => {
 
     it('should inject html string on componentDidUpdate', () => {
       expect(content.children.length)
-        .toEqual(5);
+        .toEqual(6);
 
       expect(content.querySelector('div').style.cssText)
         .toEqual('');
@@ -199,9 +200,11 @@ describe('HelpCenterArticle component', () => {
     });
 
     describe('when an anchor is present', () => {
-      it('should hijack inpage anchor clicks and call scrollIntoView on correct element', () => {
+      let oldQuerySelector;
+
+      beforeEach(() => {
         // save old version of query selector FIXME
-        const oldQuerySelector = global.document.querySelector;
+        oldQuerySelector = global.document.querySelector;
 
         global.document.querySelector = () => {
           return {
@@ -222,12 +225,36 @@ describe('HelpCenterArticle component', () => {
             }
           }
         });
+      });
 
-        expect(scrollIntoView)
-          .toHaveBeenCalled();
-
+      afterEach(() => {
         // reset querySelector to the previous, not spy, version.
         global.document.querySelector = oldQuerySelector;
+      });
+
+      it('should hijack inpage anchor clicks and call scrollIntoView on correct element', () => {
+        expect(scrollIntoView)
+          .toHaveBeenCalled();
+      });
+
+      describe('when the link is a number', () => {
+        beforeEach(() => {
+          TestUtils.Simulate.click(helpCenterArticle.refs.article, {
+            target: {
+              nodeName: 'A',
+              href: global.document.zendeskHost + '#1',
+              ownerDocument: global.document,
+              getAttribute: () => {
+                return '#1';
+              }
+            }
+          });
+        });
+
+        it('should still scroll correctly', () => {
+          expect(scrollIntoView)
+            .toHaveBeenCalled();
+        });
       });
 
       describe('when clicking an external link', () => {
