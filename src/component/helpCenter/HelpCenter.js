@@ -400,7 +400,7 @@ export class HelpCenter extends Component {
         contentExpanded={this.state.expanded}
         containerClasses={styles.loadingSpinnerContainer}>
         <div className={`${styles.loadingSpinner} ${spinnerIEClasses}`}>
-          <LoadingSpinner />
+          <LoadingSpinner className={styles.loadingSpinnerSvg} />
         </div>
       </ScrollContainer>
     );
