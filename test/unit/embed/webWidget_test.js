@@ -997,7 +997,7 @@ describe('embed.webWidget', () => {
           .toEqual(params.name);
       });
 
-      it('should set the form name', () => {
+      it('should set the form email', () => {
         expect(submitTicket.state.formState.email)
           .toEqual(params.email);
       });

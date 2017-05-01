@@ -843,7 +843,7 @@ describe('embed.submitTicket', () => {
             .toEqual(params.name);
         });
 
-        it('should set the form name', () => {
+        it('should set the form email', () => {
           expect(bobSubmitTicket.state.formState.email)
             .toEqual(params.email);
         });
