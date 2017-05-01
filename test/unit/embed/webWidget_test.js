@@ -438,8 +438,7 @@ describe('embed.webWidget', () => {
 
           const helpCenterConfig = {
             buttonLabelKey: 'test_label',
-            formTitleKey: 'test_title',
-            viewMoreEnabled: true
+            formTitleKey: 'test_title'
           };
 
           webWidget.create(componentName, { helpCenterForm: helpCenterConfig });
