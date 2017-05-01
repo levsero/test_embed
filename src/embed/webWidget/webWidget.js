@@ -51,7 +51,7 @@ const getWithSpinner = (path, locale, doneFn) => {
   };
 
   waitForRootComponent(() => {
-    getWebWidgetComponent().refs.ticketSubmissionForm.setLoading(true);
+    getWebWidgetComponent().getSubmitTicketComponent().setLoading(true);
 
     // For setTimeout and invocation of waitForRootComponent,
     // defer and wait for rootComponent before processing statements
@@ -299,17 +299,18 @@ function setupMediator() {
 
   mediator.channel.subscribe('ticketSubmissionForm.prefill', (user) => {
     waitForRootComponent(() => {
-      const submitTicketForm = getWebWidgetComponent().refs.ticketSubmissionForm;
+      const submitTicketForm = getWebWidgetComponent().getSubmitTicketComponent();
+      const formData = _.pickBy(_.pick(user, ['name', 'email']), _.isString);
 
       submitTicketForm.setState({
-        formState: _.pick(user, ['name', 'email'])
+        formState: _.extend({}, submitTicketForm.state.formState, formData)
       });
     });
   });
 
   mediator.channel.subscribe('zopimChat.setUser', (user) => {
     waitForRootComponent(() => {
-      const chat = getWebWidgetComponent().refs.chat.refs.wrappedInstance;
+      const chat = getWebWidgetComponent().getChatComponent();
 
       chat.updateUser(_.pick(user, ['name', 'email']));
     });
@@ -538,13 +539,13 @@ function setUpSubmitTicket(config) {
   const loadTicketForms = (ticketForms, locale) => {
     // TODO: Alter this code to return objects with id's once pre-fill is GA'd
     const ticketFormIds = _.map(ticketForms, (ticketForm) => ticketForm.id || ticketForm).join();
-    const onDone = (res) => getWebWidgetComponent().refs.ticketSubmissionForm.updateTicketForms(res);
+    const onDone = (res) => getWebWidgetComponent().getSubmitTicketComponent().updateTicketForms(res);
     const path = `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`;
 
     getWithSpinner(path, locale, onDone);
   };
   const loadTicketFields = (customFields, locale) => {
-    const onDone = (res) => getWebWidgetComponent().refs.ticketSubmissionForm.updateTicketFields(res);
+    const onDone = (res) => getWebWidgetComponent().getSubmitTicketComponent().updateTicketFields(res);
     const pathIds = customFields.all ? '' : `field_ids=${customFields.ids.join()}&`;
     const path = `/embeddable/ticket_fields?${pathIds}locale=${locale}`;
 
@@ -564,7 +565,7 @@ function setUpSubmitTicket(config) {
     setTimeout(() => {
       waitForRootComponent(() => {
         if (getRootComponent().updateContactForm) {
-          getWebWidgetComponent().refs.ticketSubmissionForm.updateContactForm();
+          getWebWidgetComponent().getSubmitTicketComponent().updateContactForm();
         }
       });
     }, 0);

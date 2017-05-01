@@ -102,6 +102,14 @@ class WebWidget extends Component {
     return this.refs[this.state.activeComponent];
   }
 
+  getSubmitTicketComponent = () => {
+    return this.refs[submitTicket];
+  }
+
+  getChatComponent = () => {
+    return this.refs[chat].refs.wrappedInstance;
+  }
+
   showHelpCenter = () => {
     this.setState({ activeComponent: helpCenter });
     this.props.showBackButton(!!this.getRootComponent().state.articleViewActive);

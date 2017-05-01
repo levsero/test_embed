@@ -820,21 +820,38 @@ describe('embed.submitTicket', () => {
       });
 
       it('should subscribe to <name>.prefill', () => {
-        const params = {
-          name: 'James Dean',
-          email: 'james@dean.com'
-        };
-
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('bob.prefill', jasmine.any(Function));
+      });
 
-        pluckSubscribeCall(mockMediator, 'bob.prefill')(params);
+      describe('when prefill is broadcast', () => {
+        let params;
 
-        expect(bobSubmitTicket.state.formState.name)
-          .toEqual(params.name);
+        beforeEach(() => {
+          params = {
+            name: 'James Dean',
+            email: 'james@dean.com'
+          };
 
-        expect(bobSubmitTicket.state.formState.email)
-          .toEqual(params.email);
+          bobSubmitTicket.setState({ formState: { description:'hello' } });
+
+          pluckSubscribeCall(mockMediator, 'bob.prefill')(params);
+        });
+
+        it('should set the form name', () => {
+          expect(bobSubmitTicket.state.formState.name)
+            .toEqual(params.name);
+        });
+
+        it('should set the form name', () => {
+          expect(bobSubmitTicket.state.formState.email)
+            .toEqual(params.email);
+        });
+
+        it('should not override the other state values', () => {
+          expect(bobSubmitTicket.state.formState.description)
+            .toEqual('hello');
+        });
       });
     });
   });
