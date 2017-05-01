@@ -116,7 +116,7 @@ const init = () => {
   // Limit number of fallback locales.
   webWidgetStore.helpCenter.localeFallbacks = _.take(webWidgetStore.helpCenter.localeFallbacks,
                                                      maxLocaleFallbacks);
-}
+};
 
 const get = (path, store = 'webWidget') => {
   // TODO: Remove this check when web widget customizations are out of beta.
@@ -127,7 +127,7 @@ const get = (path, store = 'webWidget') => {
 
   return store === 'webWidget' ? _.get(webWidgetStore, path, null)
                                : _.get(ipmStore, path, null);
-}
+};
 
 const getTranslations = () => {
   const translations = {
@@ -142,7 +142,7 @@ const getTranslations = () => {
   };
 
   return _.omitBy(translations, _.isUndefined);
-}
+};
 
 const getTrackSettings = () => {
   const blacklist = ['margin', 'viaId'];
@@ -165,11 +165,11 @@ const getTrackSettings = () => {
     webWidget: widgetSettings,
     ipm: ipmSettings
   }, _.isEmpty);
-}
+};
 
 const enableCustomizations = () => {
   webWidgetCustomizations = true;
-}
+};
 
 export const settings = {
   init: init,

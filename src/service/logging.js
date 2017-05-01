@@ -81,7 +81,6 @@ function warn(...warning) {
 export const logging = {
   init,
   error,
-  wrap,
   errorFilter,
   warn
 };

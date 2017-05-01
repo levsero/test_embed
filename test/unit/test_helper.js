@@ -43,7 +43,6 @@ global.Component = React.Component;
 global.ReactDOM = ReactDOM;
 global.TestUtils = TestUtils;
 global.Enzyme = Enzyme;
-
 global.shallow = Enzyme.shallow;
 
 global.noopReactComponent = () => class extends Component {
