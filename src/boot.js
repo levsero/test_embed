@@ -84,7 +84,6 @@ const setupIframe = (iframe, doc) => {
 
 const setupServices = () => {
   identity.init();
-  logging.init();
 
   transport.init({
     zendeskHost: document.zendeskHost,
@@ -175,6 +174,8 @@ const getConfig = (win, postRenderQueue) => {
     }
 
     renderer.init(config);
+    logging.init(config.useRollbar);
+
     boot.handlePostRenderQueue(win, postRenderQueue);
   };
   const fail = (error) => {
