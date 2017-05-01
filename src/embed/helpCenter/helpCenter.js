@@ -349,9 +349,7 @@ function waitForRootComponent(name, callback) {
   if (rootComponent) {
     callback(rootComponent);
   } else {
-    setTimeout(() => {
-      waitForRootComponent(name, callback);
-    }, 0);
+    setTimeout(() => waitForRootComponent(name, callback), 0);
   }
 }
 
