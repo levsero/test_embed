@@ -185,7 +185,8 @@ export class HelpCenterArticle extends Component {
       'youtube',
       'player\.vimeo',
       'players\.brightcove',
-      'fast\.wistia'
+      'fast\.wistia',
+      'content\.jwplatform'
     ];
     const hasMatched = _.some(allowedDomains, (domain) => {
       const validDomainTest = `^(.*?)\/\/(?:www\.)?${domain}(?:-nocookie)?(\.com|\.net)\/`;
@@ -194,7 +195,7 @@ export class HelpCenterArticle extends Component {
     });
 
     return hasMatched
-         ? { tagName: 'iframe', attribs: allowedAttribs }
+         ? { tagName, attribs: allowedAttribs }
          : false;
   }
 
