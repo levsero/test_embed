@@ -28,7 +28,7 @@ const helpCenterCSS = `${require('./helpCenter.scss')} ${helpCenterStyles}`;
 
 let helpCenters = {};
 let hasManuallySetContextualSuggestions = false;
-let initialContextualSearch = true;
+let hasContextualSearched = false;
 let hasAuthenticatedSuccessfully = false;
 let useMouseDistanceContexualSearch = false;
 let contextualSearchOptions = {};
@@ -305,11 +305,11 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setHelpCenterSuggestions', (options) => {
-    hasManuallySetContextualSuggestions = true;
+    if (!hasContextualSearched) {
+      hasManuallySetContextualSuggestions = true;
 
-    if (initialContextualSearch) {
       setLoading(name, true);
-      initialContextualSearch = false;
+      hasContextualSearched = true;
     }
 
     setTimeout(() => performContextualHelp(name, options), 0);
