@@ -438,12 +438,9 @@ describe('embed.webWidget', () => {
     describe('setUpHelpCenter', () => {
       describe('config', () => {
         beforeEach(() => {
-          mockSettingsValue = false;
-
           const helpCenterConfig = {
             buttonLabelKey: 'test_label',
-            formTitleKey: 'test_title',
-            viewMoreEnabled: true
+            formTitleKey: 'test_title'
           };
 
           webWidget.create(componentName, { helpCenterForm: helpCenterConfig });
@@ -461,20 +458,32 @@ describe('embed.webWidget', () => {
             .toEqual('test_title');
         });
 
-        it('changes config.viewMoreEnabled if viewMore setting is available', () => {
-          expect(faythe.config.helpCenterForm.viewMoreEnabled)
-            .toEqual(false);
+        describe('when viewMore setting is true', () => {
+          beforeEach(() => {
+            mockSettingsValue = true;
+
+            webWidget.create(componentName, { helpCenterForm: {} });
+            faythe = webWidget.get(componentName);
+          });
+
+          it('sets config.viewMoreEnabled to true', () => {
+            expect(faythe.config.helpCenterForm.viewMoreEnabled)
+              .toEqual(true);
+          });
         });
 
-        it('does not change config.viewMoreEnabled if config.viewMoreEnabled is false', () => {
-          mockSettingsValue = true;
+        describe('when viewMore setting is false', () => {
+          beforeEach(() => {
+            mockSettingsValue = false;
 
-          webWidget.create(componentName, { helpCenterForm: { viewMoreEnabled: false } });
+            webWidget.create(componentName, { helpCenterForm: {} });
+            faythe = webWidget.get(componentName);
+          });
 
-          faythe = webWidget.get(componentName);
-
-          expect(faythe.config.helpCenterForm.viewMoreEnabled)
-            .toEqual(false);
+          it('sets config.viewMoreEnabled to false', () => {
+            expect(faythe.config.helpCenterForm.viewMoreEnabled)
+              .toEqual(false);
+          });
         });
       });
 

@@ -606,6 +606,7 @@ function setUpChat(config, store) {
 
 function setUpHelpCenter(config) {
   const channelChoice = settings.get('channelChoice') && !settings.get('contactForm.suppress');
+  const viewMoreEnabled = !!settings.get('helpCenter.viewMore');
   const helpCenterConfigDefaults = {
     position: 'right',
     contextualHelpEnabled: false,
@@ -616,18 +617,16 @@ function setUpHelpCenter(config) {
     expandable: false,
     disableAutoComplete: false,
     enableMouseDrivenContextualHelp: false,
-    viewMoreEnabled: false,
     color: '#659700'
   };
 
-  const onArticleClick = function(trackPayload) {
+  const onArticleClick = (trackPayload) => {
     beacon.trackUserAction('helpCenter', 'click', 'helpCenterForm', trackPayload);
   };
-  const onSearch = function(params) {
+  const onSearch = (params) => {
     beacon.trackUserAction('helpCenter', 'search', 'helpCenterForm', params.searchTerm);
     mediator.channel.broadcast('helpCenterForm.onSearch', params);
   };
-
   const senderPayload = (url) => (query, doneFn, failFn) => {
     const token = authentication.getToken();
     const forceHttp = isOnHostMappedDomain() && location.protocol === 'http:';
@@ -645,26 +644,18 @@ function setUpHelpCenter(config) {
       }
     };
   };
-
   const searchSenderFn = (url) => (query, doneFn, failFn) => {
     const payload = senderPayload(url)(query, doneFn, failFn);
 
     transport.send(payload);
   };
-
   const imagesSenderFn = (url, doneFn) => {
     const payload = senderPayload(url)(null, doneFn);
 
     transport.getImage(payload);
   };
 
-  config = _.extend({}, helpCenterConfigDefaults, config);
-
-  const viewMoreSetting = settings.get('helpCenter.viewMore');
-
-  if (viewMoreSetting !== null && config.viewMoreEnabled) {
-    config.viewMoreEnabled = viewMoreSetting;
-  }
+  config = _.extend({}, helpCenterConfigDefaults, { viewMoreEnabled }, config);
 
   useMouseDistanceContexualSearch = config.enableMouseDrivenContextualHelp;
 
