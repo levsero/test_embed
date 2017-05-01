@@ -304,7 +304,8 @@ describe('HelpCenterArticle component', () => {
           'https://player.vimeo.com/video/fooid',
           '//fast.wistia.net/embed/iframe/0kpsylzz9j',
           'https://youtube.com/embed/fooid',
-          '//players.brightcove.net/fooid'
+          '//players.brightcove.net/fooid',
+          '//content.jwplatform.com/players/fooid.html'
         ];
         let attribs = {
           allowfullscreen: '',
@@ -340,7 +341,8 @@ describe('HelpCenterArticle component', () => {
           'https://yoVutube.com/embed/fooid',
           '//fast.wiStia.net/embed/iframe/0kpsylzz9j',
           '.com',
-          'https://player.notvimeo.com/video/fooid'
+          'https://player.notvimeo.com/video/fooid',
+          'https://content.jpmorgan.com/players/fooid.html'
         ];
 
         it('invalidUrls should contain elements', () => {
