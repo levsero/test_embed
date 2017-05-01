@@ -134,7 +134,6 @@ describe('mediator', () => {
        'showNextButton',
        'setNextToChat',
        'setNextToSubmitTicket',
-       'isAuthenticated',
        'refreshLocale']
     );
 
@@ -196,7 +195,6 @@ describe('mediator', () => {
       c.subscribe(`${names.helpCenter}.showNextButton`, helpCenterSub.showNextButton);
       c.subscribe(`${names.helpCenter}.setNextToChat`, helpCenterSub.setNextToChat);
       c.subscribe(`${names.helpCenter}.setNextToSubmitTicket`, helpCenterSub.setNextToSubmitTicket);
-      c.subscribe(`${names.helpCenter}.isAuthenticated`, helpCenterSub.isAuthenticated);
       c.subscribe(`${names.helpCenter}.refreshLocale`, helpCenterSub.refreshLocale);
 
       c.subscribe(`${names.nps}.activate`, npsSub.activate);
@@ -413,115 +411,29 @@ describe('mediator', () => {
     };
 
     beforeEach(() => {
-      jasmine.clock().install();
       initSubscriptionSpies(names);
-      mediator.init({ submitTicket: true, helpCenter: true });
+      mediator.init({ submitTicket: true, helpCenter: false });
     });
 
     describe('onSuccess', () => {
-      beforeEach(() => {
+      it('should set helpCenterForm to available if sign in required is passed in', () => {
+        mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
+
+        jasmine.clock().install();
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(0);
+
+        c.broadcast(`${submitTicket}.onClose`);
         c.broadcast('authentication.onSuccess');
-      });
 
-      it('should broadcast helpCenter.isAuthenticated', () => {
-        expect(helpCenterSub.isAuthenticated)
-          .toHaveBeenCalled();
-      });
-    });
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
 
-    describe('onFailure', () => {
-      describe('when helpCenterSignInRequired is false', () => {
-        describe('when help center is visible', () => {
-          beforeEach(() => {
-            c.broadcast(`${launcher}.onClick`);
-            jasmine.clock().tick(0);
-            c.broadcast('authentication.onFailure');
-          });
-
-          it('should not hide help center', () => {
-            expect(helpCenterSub.hide)
-              .not.toHaveBeenCalled();
-          });
-
-          it('should not show the next active embed', () => {
-            expect(submitTicketSub.show)
-              .not.toHaveBeenCalled();
-          });
-        });
-
-        describe('when help center is not visible', () => {
-          beforeEach(() => {
-            c.broadcast(`${launcher}.onClick`);
-            jasmine.clock().tick(0);
-            c.broadcast('authentication.onFailure');
-          });
-
-          describe('when launcher clicked', () => {
-            it('should show help center', () => {
-              expect(helpCenterSub.show)
-                .toHaveBeenCalled();
-            });
-          });
-        });
-      });
-
-      describe('when helpCenterSignInRequired is true', () => {
-        beforeEach(() => {
-          // We need to re-require the mediator service here because calling
-          // mediator.init multiple times does not reset the functions passed
-          // to channel.intercept.
-          mediator = requireUncached(mediatorPath).mediator;
-          c = mediator.channel;
-          initSubscriptionSpies(names);
-          mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
-        });
-
-        describe('when help center visible', () => {
-          beforeEach(() => {
-            c.broadcast(`${launcher}.onClick`);
-            jasmine.clock().tick(0);
-            c.broadcast('authentication.onFailure');
-          });
-
-          it('should hide help center', () => {
-            expect(helpCenterSub.hide)
-              .toHaveBeenCalled();
-          });
-
-          it('should show the next active embed', () => {
-            expect(submitTicketSub.show)
-              .toHaveBeenCalled();
-          });
-        });
-
-        describe('when help center is not visible', () => {
-          beforeEach(() => {
-            c.broadcast('authentication.onFailure');
-          });
-
-          it('should not hide help center', () => {
-            expect(helpCenterSub.hide)
-              .not.toHaveBeenCalled();
-          });
-
-          it('should not show the next active embed', () => {
-            expect(submitTicketSub.show)
-              .not.toHaveBeenCalled();
-          });
-
-          describe('when launcher clicked', () => {
-            beforeEach(() => {
-              c.broadcast(`${launcher}.onClick`);
-              jasmine.clock().tick(0);
-              c.broadcast('authentication.onFailure');
-            });
-
-            it('should show the next active embed', () => {
-              expect(submitTicketSub.show)
-                .toHaveBeenCalled();
-            });
-          });
-        });
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(1);
       });
     });
   });
@@ -2441,6 +2353,36 @@ describe('mediator', () => {
         .toEqual(1);
 
       expect(revertWindowScroll.calls.count())
+        .toEqual(1);
+    });
+
+    it('should not set helpCenterForm to available if sign in is required', () => {
+      mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+
+      expect(helpCenterSub.show.calls.count())
+        .toEqual(0);
+    });
+
+    it('should set helpCenterForm to available if sign in is required and is on a hc page', () => {
+      mockOnHelpCenterPageValue = true;
+
+      mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(0);
+
+      expect(helpCenterSub.show.calls.count())
         .toEqual(1);
     });
   });
