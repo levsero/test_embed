@@ -1,4 +1,4 @@
-fdescribe('logging', () => {
+describe('logging', () => {
   let logging,
     airbrakeInitSpy,
     airbrakeAddFilterSpy,
@@ -52,7 +52,9 @@ fdescribe('logging', () => {
 
       it('should initialize Rollbar with an expected config', () => {
         const expectedParam = {
-          accessToken: '656217fa4a6e4ad797e525cfd8c129cf',
+          hostWhiteList: ['assets.zendesk.com'],
+          endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
+          accessToken: '94eb0137fdc14471b21b34c5a04f9359',
           maxItems: 100,
           captureUncaught: true,
           captureUnhandledRejections: true,

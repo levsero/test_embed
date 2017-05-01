@@ -34,10 +34,9 @@ function init(configRollbar = false) {
 
   if (useRollbar) {
     const rollbarConfig = {
-      // hostWhiteList: ['assets.zendesk.com'],
-      accessToken: '656217fa4a6e4ad797e525cfd8c129cf',
-      // endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
-      // accessToken: '94eb0137fdc14471b21b34c5a04f9359',
+      hostWhiteList: ['assets.zendesk.com'],
+      endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
+      accessToken: '94eb0137fdc14471b21b34c5a04f9359',
       maxItems: 100,
       captureUncaught: true,
       captureUnhandledRejections: true,
