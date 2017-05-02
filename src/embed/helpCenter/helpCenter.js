@@ -94,8 +94,8 @@ function create(name, config, reduxStore) {
         rootComponent.resetState();
       }
 
-      frame.getRootComponent().backtrackSearch();
-      frame.getRootComponent().pauseAllVideos();
+      rootComponent.backtrackSearch();
+      rootComponent.pauseAllVideos();
     }
   };
 

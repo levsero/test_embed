@@ -319,23 +319,23 @@ describe('HelpCenter component', () => {
   });
 
   describe('pauseAllVideos', () => {
-    let helpCenter;
+    let helpCenter,
+      videoList;
 
     beforeEach(() => {
       helpCenter = domRender(<HelpCenter />);
       helpCenter.setState({ articleViewActive: true });
-    });
-
-    it('should invoke pause on each video', () => {
-      const helpCenterNode = ReactDOM.findDOMNode(helpCenter);
-      const videoList = helpCenterNode.getElementsByTagName('video');
+      videoList = ReactDOM.findDOMNode(helpCenter)
+                          .getElementsByTagName('video');
 
       _.forEach(videoList, (video) => {
         spyOn(video, 'pause');
       });
 
       helpCenter.pauseAllVideos();
+    });
 
+    it('should invoke pause on each video', () => {
       _.forEach(videoList, (video) => {
         expect(video.pause)
           .toHaveBeenCalled();
