@@ -386,7 +386,7 @@ function prefillForm(name, user) {
     const formData = _.pickBy(_.pick(user, ['name', 'email']), _.isString);
 
     submitTicket.setState({
-      formState: formData
+      formState: _.extend({}, submitTicket.state.formState, formData)
     });
   });
 }

@@ -13,14 +13,23 @@ env:
   - TASK=test
   - TASK=build:prod
   - TASK=build:ac
+  - TASK=securityscan SECURITYSCAN=srcclr
 
 install:
   - npm set progress=false && npm install
   - ./script/fetch_i18n
   - npm run build-setup:prod
 
-script: "npm run $TASK"
-
+script:
+  - |
+    if [[ "$SECURITYSCAN" == "srcclr" ]]
+    then
+        echo "Starting Source clear scan ...";
+        ./script/run_sourceclear.sh;
+    else
+        echo "Running unit or integration tests";
+        npm run $TASK;
+    fi
 branches:
   only:
     - master

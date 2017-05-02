@@ -22,13 +22,13 @@ import { document,
 import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage,
          isOnHostMappedDomain } from 'utility/pages';
-import { cappedIntervalCall,
-         getPageKeywords } from 'utility/utils';
+import { getPageKeywords } from 'utility/utils';
 
 const helpCenterCSS = `${require('./helpCenter.scss')} ${helpCenterStyles}`;
 
 let helpCenters = {};
 let hasManuallySetContextualSuggestions = false;
+let hasContextualSearched = false;
 let hasAuthenticatedSuccessfully = false;
 let useMouseDistanceContexualSearch = false;
 let contextualSearchOptions = {};
@@ -94,7 +94,8 @@ function create(name, config, reduxStore) {
         rootComponent.resetState();
       }
 
-      frame.getRootComponent().backtrackSearch();
+      rootComponent.backtrackSearch();
+      rootComponent.pauseAllVideos();
     }
   };
 
@@ -116,8 +117,24 @@ function create(name, config, reduxStore) {
     };
   };
 
-  const searchSenderFn = (url) => (query, doneFn, failFn) => {
-    const payload = senderPayload(url)(query, doneFn, failFn);
+  const searchSenderFn = (url) => (query, doneFn = () => {}, failFn = () => {}) => {
+    const stopLoadingSpinner = (arg) => (rootComponent, fn) => {
+      setTimeout(() => {
+        rootComponent.setLoading(false);
+        fn(arg);
+      }, 0);
+    };
+    const done = (res) => {
+      waitForRootComponent(name, (rootComponent) => {
+        stopLoadingSpinner(res)(rootComponent, doneFn);
+      });
+    };
+    const fail = (err) => {
+      waitForRootComponent(name, (rootComponent) => {
+        stopLoadingSpinner(err)(rootComponent, failFn);
+      });
+    };
+    const payload = senderPayload(url)(query, done, fail);
 
     transport.send(payload);
   };
@@ -145,6 +162,13 @@ function create(name, config, reduxStore) {
       marginRight: margin
     });
     containerStyle = { width: 342 };
+  }
+
+  const authSetting = settings.get('authenticate');
+
+  if (shouldPerformDefaultContextualHelp(config)
+     || authenticationRequired(authSetting, config)) {
+    setLoading(name, true);
   }
 
   const Embed = frameFactory(
@@ -227,6 +251,97 @@ function create(name, config, reduxStore) {
   return this;
 }
 
+function render(name) {
+  if (helpCenters[name] && helpCenters[name].instance) {
+    throw new Error(`HelpCenter ${name} has already been rendered.`);
+  }
+
+  const element = getDocumentHost().appendChild(document.createElement('div'));
+  const config = helpCenters[name].config;
+
+  helpCenters[name].instance = ReactDOM.render(helpCenters[name].component, element);
+
+  mediator.channel.subscribe(name + '.show', (options = {}) => {
+    if (useMouseDistanceContexualSearch) {
+      useMouseDistanceContexualSearch = false;
+
+      if (cancelTargetHandler) {
+        cancelTargetHandler();
+      }
+
+      helpCenter.keywordsSearch(name, contextualSearchOptions);
+    }
+
+    // Stop stupid host page scrolling
+    // when trying to focus HelpCenter's search field.
+    setTimeout(() => {
+      waitForRootComponent(name, () => {
+        get(name).instance.show(options);
+      });
+    }, 0);
+  });
+
+  mediator.channel.subscribe(name + '.hide', (options = {}) => {
+    waitForRootComponent(name, () => {
+      get(name).instance.hide(options);
+    });
+  });
+
+  mediator.channel.subscribe(name + '.setNextToChat', () => {
+    waitForRootComponent(name, (rootComponent) => {
+      rootComponent.setChatOnline(true);
+    });
+
+    setChatOnline(name, true);
+  });
+
+  mediator.channel.subscribe(name + '.setNextToSubmitTicket', () => {
+    waitForRootComponent(name, (rootComponent) => {
+      rootComponent.setChatOnline(false);
+    });
+
+    setChatOnline(name, false);
+  });
+
+  mediator.channel.subscribe(name + '.showNextButton', (nextButton = true) => {
+    waitForRootComponent(name, (rootComponent) => {
+      rootComponent.showNextButton(nextButton);
+    });
+  });
+
+  mediator.channel.subscribe(name + '.showBackButton', () => {
+    get(name).instance.getChild().setState({
+      showBackButton: true
+    });
+  });
+
+  mediator.channel.subscribe(name + '.setHelpCenterSuggestions', (options) => {
+    if (!hasContextualSearched) {
+      hasManuallySetContextualSuggestions = true;
+
+      setLoading(name, true);
+      hasContextualSearched = true;
+    }
+
+    setTimeout(() => performContextualHelp(name, options), 0);
+  });
+
+  mediator.channel.subscribe(name + '.refreshLocale', () => {
+    waitForRootComponent(name, (rootComponent) => {
+      rootComponent.forceUpdate();
+    });
+  });
+
+  mediator.channel.subscribe(name + '.isAuthenticated', () => {
+    hasAuthenticatedSuccessfully = true;
+
+    if (!(config.contextualHelpEnabled
+         || hasManuallySetContextualSuggestions)) {
+      setLoading(name, false);
+    }
+  });
+}
+
 function list() {
   return helpCenters;
 }
@@ -240,126 +355,54 @@ function getRootComponent(name) {
 }
 
 function waitForRootComponent(name, callback) {
-  if (getRootComponent(name)) {
-    callback();
+  const rootComponent = get(name) && get(name).instance && getRootComponent(name);
+
+  if (rootComponent) {
+    callback(rootComponent);
   } else {
-    setTimeout(() => {
-      waitForRootComponent(name, callback);
-    }, 0);
+    setTimeout(() => waitForRootComponent(name, callback), 0);
   }
 }
 
 function setChatOnline(name, chatOnline) {
-  waitForRootComponent(name, () => {
-    getRootComponent(name).setChatOnline(chatOnline);
+  waitForRootComponent(name, (rootComponent) => {
+    rootComponent.setChatOnline(chatOnline);
+  });
+}
+
+function setLoading(name, loading) {
+  waitForRootComponent(name, (rootComponent) => {
+    rootComponent.setLoading(loading);
   });
 }
 
 function keywordsSearch(name, options) {
-  const contextualSearchFn = () => {
-    const rootComponent = getRootComponent(name);
-    const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
+  const rootComponent = getRootComponent(name);
+  const isAuthenticated = !get(name).config.signInRequired || hasAuthenticatedSuccessfully;
 
-    if (isAuthenticated && rootComponent) {
-      if (options.url) {
-        options.pageKeywords = getPageKeywords();
-      }
-
-      rootComponent.contextualSearch(options);
-      return true;
+  if (isAuthenticated && rootComponent) {
+    if (options.url) {
+      options.pageKeywords = getPageKeywords();
     }
 
-    return false;
-  };
-
-  cappedIntervalCall(contextualSearchFn, 500, 10);
+    rootComponent.contextualSearch(options);
+  } else {
+    setTimeout(() => keywordsSearch(name, options), 0);
+  }
 }
 
-function render(name) {
-  if (helpCenters[name] && helpCenters[name].instance) {
-    throw new Error(`HelpCenter ${name} has already been rendered.`);
-  }
-
-  const element = getDocumentHost().appendChild(document.createElement('div'));
-
-  helpCenters[name].instance = ReactDOM.render(helpCenters[name].component, element);
-
-  mediator.channel.subscribe(name + '.show', function(options = {}) {
-    if (useMouseDistanceContexualSearch && options.viaActivate) {
-      useMouseDistanceContexualSearch = false;
-
-      if (cancelTargetHandler) {
-        cancelTargetHandler();
-      }
-
-      helpCenter.keywordsSearch(name, contextualSearchOptions);
-    }
-
-    // Stop stupid host page scrolling
-    // when trying to focus HelpCenter's search field.
-    setTimeout(function() {
-      waitForRootComponent(name, () => {
-        get(name).instance.show(options);
-      });
-    }, 0);
-  });
-
-  mediator.channel.subscribe(name + '.hide', function(options = {}) {
-    waitForRootComponent(name, () => {
-      get(name).instance.hide(options);
-    });
-  });
-
-  mediator.channel.subscribe(name + '.setNextToChat', function() {
-    waitForRootComponent(name, () => {
-      getRootComponent(name).setChatOnline(true);
-    });
-
-    setChatOnline(name, true);
-  });
-
-  mediator.channel.subscribe(name + '.setNextToSubmitTicket', function() {
-    waitForRootComponent(name, () => {
-      getRootComponent(name).setChatOnline(false);
-    });
-
-    setChatOnline(name, false);
-  });
-
-  mediator.channel.subscribe(name + '.showNextButton', function(nextButton = true) {
-    waitForRootComponent(name, () => {
-      getRootComponent(name).showNextButton(nextButton);
-    });
-  });
-
-  mediator.channel.subscribe(name + '.showBackButton', function() {
-    get(name).instance.getChild().setState({
-      showBackButton: true
-    });
-  });
-
-  mediator.channel.subscribe(name + '.setHelpCenterSuggestions', function(options) {
-    hasManuallySetContextualSuggestions = true;
-    performContextualHelp(name, options);
-  });
-
-  mediator.channel.subscribe(name + '.refreshLocale', () => {
-    waitForRootComponent(name, () => {
-      getRootComponent(name).forceUpdate();
-    });
-  });
-
-  mediator.channel.subscribe(name + '.isAuthenticated', function() {
-    hasAuthenticatedSuccessfully = true;
-  });
+function shouldPerformDefaultContextualHelp(config) {
+  return config.contextualHelpEnabled
+       && !hasManuallySetContextualSuggestions
+       && !isOnHelpCenterPage();
 }
 
 function performContextualHelp(name, options) {
   contextualSearchOptions = options;
 
   const onHitFn = (name, options) => () => {
-    keywordsSearch(name, options);
     useMouseDistanceContexualSearch = false;
+    keywordsSearch(name, options);
   };
 
   if (!isMobileBrowser() && useMouseDistanceContexualSearch) {
@@ -371,16 +414,18 @@ function performContextualHelp(name, options) {
   }
 }
 
+function authenticationRequired(authSettings, config) {
+  return authSettings
+       && authSettings.jwt
+       && config.signInRequired;
+}
+
 function postRender(name) {
   const config = get(name).config;
   const authSetting = settings.get('authenticate');
 
-  if (config.contextualHelpEnabled &&
-      !hasManuallySetContextualSuggestions &&
-      !isOnHelpCenterPage()) {
-    const options = { url: true };
-
-    performContextualHelp(name, options);
+  if (shouldPerformDefaultContextualHelp(config)) {
+    performContextualHelp(name, { url: true });
   }
 
   if (config.tokensRevokedAt) {
@@ -393,10 +438,10 @@ function postRender(name) {
 }
 
 export const helpCenter = {
-  create: create,
-  list: list,
-  get: get,
-  keywordsSearch: keywordsSearch,
-  render: render,
-  postRender: postRender
+  create,
+  list,
+  get,
+  keywordsSearch,
+  render,
+  postRender
 };

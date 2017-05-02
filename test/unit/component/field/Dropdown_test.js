@@ -50,7 +50,8 @@ describe('dropdown component', () => {
           animateRight: 'animateRightClasses',
           animateLeft: 'animateLeftClasses',
           menuUp: 'menuUpClasses',
-          inputError: 'inputErrorClasses'
+          inputError: 'inputErrorClasses',
+          description: 'descriptionClasses'
         }
       },
       'component/field/DropdownMenu': {
@@ -258,6 +259,24 @@ describe('dropdown component', () => {
       it('should have menu up classes', () => {
         expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuUpClasses'))
           .not.toBeNull();
+      });
+    });
+
+    describe('description', () => {
+      it('should be added if it is passed in as a prop', () => {
+        const dropdown = domRender(<Dropdown description='hello' />);
+        const dropdownNode = ReactDOM.findDOMNode(dropdown);
+
+        expect(dropdownNode.querySelector('.descriptionClasses').innerHTML)
+          .toEqual('hello');
+      });
+
+      it('should not be added if it is not passed in as a prop', () => {
+        const dropdown = domRender(<Dropdown />);
+        const dropdownNode = ReactDOM.findDOMNode(dropdown);
+
+        expect(dropdownNode.querySelector('.descriptionClasses').innerHTML)
+          .toEqual('');
       });
     });
   });

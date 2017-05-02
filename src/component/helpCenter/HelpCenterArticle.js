@@ -66,7 +66,7 @@ export class HelpCenterArticle extends Component {
         'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'span',
         'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'hr', 'br', 'div',
         'sup', 'sub', 'img', 'iframe', 'table', 'thead', 'tfoot', 'tbody', 'tr',
-        'th', 'td', 'pre'
+        'th', 'td', 'pre', 'video', 'source'
       ],
       transformTags: { 'iframe': this.filterVideoEmbed },
       allowedSchemes: ['http', 'https', 'mailto', 'blob'],
@@ -89,7 +89,9 @@ export class HelpCenterArticle extends Component {
         'td': ['id', 'colspan'],
         'th': ['id', 'colspan'],
         'ol': ['id', 'start', 'reversed'],
-        'p': ['id']
+        'p': ['id'],
+        'video': ['height', 'width', 'controls'],
+        'source': ['src', 'type']
       },
       allowedClasses: {
         'span': [
@@ -163,8 +165,10 @@ export class HelpCenterArticle extends Component {
     }
 
     if (nodeName === 'A' && href.indexOf('#') === 0) {
+      const target = href.slice(1);
+
       // You can deep link via an id or name attribute, handle both in the selector
-      let inPageElem = doc.querySelector(`${href},[name="${href.slice(1)}"]`);
+      const inPageElem = doc.querySelector(`[id="${target}"],[name="${target}"]`);
 
       if (inPageElem) {
         inPageElem.scrollIntoView();
@@ -185,7 +189,8 @@ export class HelpCenterArticle extends Component {
       'youtube',
       'player\.vimeo',
       'players\.brightcove',
-      'fast\.wistia'
+      'fast\.wistia',
+      'content\.jwplatform'
     ];
     const hasMatched = _.some(allowedDomains, (domain) => {
       const validDomainTest = `^(.*?)\/\/(?:www\.)?${domain}(?:-nocookie)?(\.com|\.net)\/`;
@@ -194,7 +199,7 @@ export class HelpCenterArticle extends Component {
     });
 
     return hasMatched
-         ? { tagName: 'iframe', attribs: allowedAttribs }
+         ? { tagName, attribs: allowedAttribs }
          : false;
   }
 

@@ -1,5 +1,6 @@
 describe('Submit ticket component', () => {
   let SubmitTicket,
+    mockStoreValue,
     mockIsIEValue,
     mockIsMobileBrowserValue,
     mockUpdateContactForm;
@@ -48,6 +49,7 @@ describe('Submit ticket component', () => {
 
     mockIsMobileBrowserValue = false;
     mockIsIEValue = false;
+    mockStoreValue = false;
 
     mockery.enable();
 
@@ -151,6 +153,11 @@ describe('Submit ticket component', () => {
       'service/settings': {
         settings: {
           get: () => 48
+        }
+      },
+      'service/persistence': {
+        store: {
+          get: () => mockStoreValue
         }
       },
       'component/Icon': {
@@ -298,11 +305,26 @@ describe('Submit ticket component', () => {
           .toEqual('this text is longer then 50 characters xxxxxxxxxxx...');
       });
 
-      it('adds submitted from to the description', () => {
-        const label = 'embeddable_framework.submitTicket.form.submittedFrom.label';
+      describe('when stores referrerPolicy is false', () => {
+        it('adds submitted from to the description', () => {
+          const label = 'embeddable_framework.submitTicket.form.submittedFrom.label';
 
-        expect(params.request.comment.body)
-          .toBe(`${payload.params.description}\n\n------------------\n${label}`);
+          expect(params.request.comment.body)
+            .toBe(`${payload.params.description}\n\n------------------\n${label}`);
+        });
+      });
+
+      describe('when stores referrerPolicy is true', () => {
+        it('adds submitted from to the description', () => {
+          mockStoreValue = true;
+
+          submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
+
+          params = mockSubmitTicketSender.calls.mostRecent().args[0];
+
+          expect(params.request.comment.body)
+            .toBe(payload.params.description);
+        });
       });
 
       describe('when the form has custom ticket fields', () => {

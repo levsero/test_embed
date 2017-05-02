@@ -119,6 +119,11 @@ $menu-height: #{200/$font-size}rem;
   composes: u-hsizeAll from '../../styles/utils.scss';
 }
 
+.description {
+  composes: Form-description from '../../styles/components/Form.scss';
+  composes: u-textAluminum from '../../styles/utils.scss';
+}
+
 @keyframes right {
   from {
     left: #{300/$font-size}rem;
