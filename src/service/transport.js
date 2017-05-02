@@ -135,7 +135,7 @@ function sendWithMeta(payload, useBase64 = true) {
 
   if (useBase64) {
     payload.query = { data: base64encode(JSON.stringify(payload.params)) };
-    send({ method: 'get', path: payload.path, query: payload.query}, false);
+    send({ method: 'get', path: payload.path, query: payload.query }, false);
   } else {
     send(payload);
   }
