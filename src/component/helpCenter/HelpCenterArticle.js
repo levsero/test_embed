@@ -166,7 +166,7 @@ export class HelpCenterArticle extends Component {
       const target = href.slice(1);
 
       // You can deep link via an id or name attribute, handle both in the selector
-      let inPageElem = doc.querySelector(`[id="${target}"],[name="${target}"]`);
+      const inPageElem = doc.querySelector(`[id="${target}"],[name="${target}"]`);
 
       if (inPageElem) {
         inPageElem.scrollIntoView();

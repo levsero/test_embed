@@ -56,9 +56,9 @@ describe('HelpCenterArticle component', () => {
       body: `
         <h1 id="foo">Foobar</h1>
         <h2 name="1">Baz</h2>
-        <a href="#foo" name="foo">inpage link</a>
+        <a href="#foo">inpage link</a>
         <a href="#1">inpage link 2</a>
-        <a class="relative" href="/relative/link">relative link</a>
+        <a class="relative" name="bar" href="/relative/link">relative link</a>
         <div id="preserved" style="bad styles not allowed">
           This text contains a sub-note<sub>1</sub>
         </div>
@@ -102,7 +102,7 @@ describe('HelpCenterArticle component', () => {
     });
 
     it('should preserve name attribute on anchors', () => {
-      expect(content.querySelector('a[name="foo"]'))
+      expect(content.querySelector('a[name="bar"]'))
         .not.toBeNull();
     });
 
@@ -222,7 +222,7 @@ describe('HelpCenterArticle component', () => {
         global.document.querySelector = oldQuerySelector;
       });
 
-      describe('when the link has an associated id', () => {
+      describe('when the link refers to an element with a matching id attribute', () => {
         beforeEach(() => {
           TestUtils.Simulate.click(helpCenterArticle.refs.article, {
             target: {
@@ -242,7 +242,7 @@ describe('HelpCenterArticle component', () => {
         });
       });
 
-      describe('when the link has an associated name', () => {
+      describe('when the link refers to an element with a matching name attribute', () => {
         beforeEach(() => {
           TestUtils.Simulate.click(helpCenterArticle.refs.article, {
             target: {
