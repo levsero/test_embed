@@ -164,12 +164,9 @@ export class HelpCenterArticle extends Component {
 
     if (nodeName === 'A' && href.indexOf('#') === 0) {
       const target = href.slice(1);
-      const searchQuery = _.isNaN(parseInt(target))
-                        ? `${href},[name="${target}"]`
-                        : `[name="${target}"]`;
 
       // You can deep link via an id or name attribute, handle both in the selector
-      let inPageElem = doc.querySelector(searchQuery);
+      let inPageElem = doc.querySelector(`[id="${target}"],[name="${target}"]`);
 
       if (inPageElem) {
         inPageElem.scrollIntoView();

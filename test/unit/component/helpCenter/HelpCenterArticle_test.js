@@ -55,8 +55,9 @@ describe('HelpCenterArticle component', () => {
       id: 1,
       body: `
         <h1 id="foo">Foobar</h1>
+        <h2 name="1">Baz</h2>
         <a href="#foo" name="foo">inpage link</a>
-        <a href="#1" name="1">inpage link 2</a>
+        <a href="#1">inpage link 2</a>
         <a class="relative" href="/relative/link">relative link</a>
         <div id="preserved" style="bad styles not allowed">
           This text contains a sub-note<sub>1</sub>
@@ -86,7 +87,7 @@ describe('HelpCenterArticle component', () => {
 
     it('should inject html string on componentDidUpdate', () => {
       expect(content.children.length)
-        .toEqual(6);
+        .toEqual(7);
 
       expect(content.querySelector('div').style.cssText)
         .toEqual('');
@@ -214,17 +215,6 @@ describe('HelpCenterArticle component', () => {
 
         // componentdidupdate only fires after setState not on initial render
         helpCenterArticle.setState({ foo: 'bar' });
-
-        TestUtils.Simulate.click(helpCenterArticle.refs.article, {
-          target: {
-            nodeName: 'A',
-            href: global.document.zendeskHost + '#foo',
-            ownerDocument: global.document,
-            getAttribute: () => {
-              return '#foo';
-            }
-          }
-        });
       });
 
       afterEach(() => {
@@ -232,12 +222,27 @@ describe('HelpCenterArticle component', () => {
         global.document.querySelector = oldQuerySelector;
       });
 
-      it('should hijack inpage anchor clicks and call scrollIntoView on correct element', () => {
-        expect(scrollIntoView)
-          .toHaveBeenCalled();
+      describe('when the link has an associated id', () => {
+        beforeEach(() => {
+          TestUtils.Simulate.click(helpCenterArticle.refs.article, {
+            target: {
+              nodeName: 'A',
+              href: global.document.zendeskHost + '#foo',
+              ownerDocument: global.document,
+              getAttribute: () => {
+                return '#foo';
+              }
+            }
+          });
+        });
+
+        it('should call scrollIntoView', () => {
+          expect(scrollIntoView)
+            .toHaveBeenCalled();
+        });
       });
 
-      describe('when the link is a number', () => {
+      describe('when the link has an associated name', () => {
         beforeEach(() => {
           TestUtils.Simulate.click(helpCenterArticle.refs.article, {
             target: {
@@ -251,7 +256,7 @@ describe('HelpCenterArticle component', () => {
           });
         });
 
-        it('should still scroll correctly', () => {
+        it('should call scrollIntoView', () => {
           expect(scrollIntoView)
             .toHaveBeenCalled();
         });
