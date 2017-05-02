@@ -9,7 +9,8 @@ root.devtool = 'cheap-module-eval-source-map';
 root.devServer = {
   port: 1337,
   contentBase: 'example',
-  publicPath: '/dist/'
+  publicPath: '/dist/',
+  disableHostCheck: true
 };
 
 root.plugins = [
