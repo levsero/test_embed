@@ -10,6 +10,7 @@ const errorMessageBlacklist = [
   'timeout of [0-9]+ms exceeded'
 ];
 
+// Remove this code once Rollbar is GA'd
 const errorFilter = (notice) => {
   const errorMessageRegex = new RegExp(errorMessageBlacklist.join('|'));
 
@@ -53,6 +54,7 @@ function init(configRollbar = false) {
 
     rollbar = Rollbar.init(rollbarConfig);
   } else {
+    // Remove this code once Rollbar is GA'd
     airbrake = new airbrakeJs({
       projectId: '124081',
       projectKey: '8191392d5f8c97c8297a08521aab9189'
@@ -69,6 +71,7 @@ function error(err) {
     if (err.error.special) {
       throw err.error.message;
     } else {
+      // Remove this code once Rollbar is GA'd
       (useRollbar)
         ? rollbar.error(err)
         : airbrake.notify(err);

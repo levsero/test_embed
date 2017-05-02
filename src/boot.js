@@ -174,6 +174,8 @@ const getConfig = (win, postRenderQueue) => {
     }
 
     renderer.init(config);
+
+    // Once Rollbar is GA'd, shift this into setupServices
     logging.init(config.useRollbar);
 
     boot.handlePostRenderQueue(win, postRenderQueue);
