@@ -30,29 +30,31 @@ const errorFilter = (notice) => {
   return notice.errors.length > 0 ? notice : null;
 };
 
+const getRollbarConfig = () => {
+  return {
+    accessToken: '94eb0137fdc14471b21b34c5a04f9359',
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+    endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
+    hostWhiteList: ['assets.zendesk.com'],
+    ignoredMessages: errorMessageBlacklist,
+    maxItems: 100,
+    payload: {
+      environment: 'production',
+      client: {
+        javascript: {
+          code_version: __EMBEDDABLE_VERSION__ // eslint-disable-line camelcase
+        }
+      }
+    }
+  };
+};
+
 function init(configRollbar = false) {
   useRollbar = configRollbar;
 
   if (useRollbar) {
-    const rollbarConfig = {
-      hostWhiteList: ['assets.zendesk.com'],
-      endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
-      accessToken: '94eb0137fdc14471b21b34c5a04f9359',
-      maxItems: 100,
-      captureUncaught: true,
-      captureUnhandledRejections: true,
-      ignoredMessages: errorMessageBlacklist,
-      payload: {
-        environment: 'production',
-        client: {
-          javascript: {
-            code_version: __EMBEDDABLE_VERSION__ // eslint-disable-line camelcase
-          }
-        }
-      }
-    };
-
-    rollbar = Rollbar.init(rollbarConfig);
+    rollbar = Rollbar.init(getRollbarConfig());
   } else {
     // Remove this code once Rollbar is GA'd
     airbrake = new airbrakeJs({
@@ -90,5 +92,8 @@ export const logging = {
   init,
   error,
   errorFilter,
-  warn
+  warn,
+
+  // Exported for testing
+  getRollbarConfig
 };
