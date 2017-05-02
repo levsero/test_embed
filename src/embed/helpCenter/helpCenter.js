@@ -95,6 +95,7 @@ function create(name, config, reduxStore) {
       }
 
       frame.getRootComponent().backtrackSearch();
+      frame.getRootComponent().pauseAllVideos();
     }
   };
 

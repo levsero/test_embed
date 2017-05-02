@@ -14,6 +14,7 @@ describe('embed.helpCenter', () => {
   const helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
   const resetState = jasmine.createSpy();
   const backtrackSearch = jasmine.createSpy();
+  const pauseAllVideos = jasmine.createSpy();
   const performSearch = jasmine.createSpy();
   const contextualSearch = jasmine.createSpy();
   const authenticateSpy = jasmine.createSpy();
@@ -72,6 +73,7 @@ describe('embed.helpCenter', () => {
             super();
             this.resetState = resetState;
             this.backtrackSearch = backtrackSearch;
+            this.pauseAllVideos = pauseAllVideos;
             this.contextualSearch = contextualSearch;
             this.performSearch = performSearch;
             this.focusField = focusField;
@@ -431,20 +433,29 @@ describe('embed.helpCenter', () => {
             .toHaveBeenCalled();
         });
 
-        it('should back track search on hide', () => {
-          helpCenter = require(helpCenterPath).helpCenter;
-          helpCenter.create('carlos', frameConfig);
-          helpCenter.render('carlos');
+        describe('when onHide is invoked', () => {
+          beforeEach(() => {
+            helpCenter = require(helpCenterPath).helpCenter;
+            helpCenter.create('carlos', frameConfig);
+            helpCenter.render('carlos');
 
-          const helpCenterFrame = helpCenter.get('carlos').instance;
+            const helpCenterFrame = helpCenter.get('carlos').instance;
 
-          mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-          params = mockFrameFactoryCall[1];
+            mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+            params = mockFrameFactoryCall[1];
 
-          params.onHide(helpCenterFrame);
+            params.onHide(helpCenterFrame);
+          });
 
-          expect(backtrackSearch)
-            .toHaveBeenCalled();
+          it('should invoke backTrackSearch', () => {
+            expect(backtrackSearch)
+              .toHaveBeenCalled();
+          });
+
+          it('should invoke pauseAllVideos', () => {
+            expect(pauseAllVideos)
+              .toHaveBeenCalled();
+          });
         });
       });
 
