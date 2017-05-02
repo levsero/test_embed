@@ -103,6 +103,9 @@ const onHide = () => {
     if (rootComponent.backtrackSearch) {
       rootComponent.backtrackSearch();
     }
+    if (rootComponent.pauseAllVideos) {
+      rootComponent.pauseAllVideos();
+    }
   }
 };
 const onBack = () => {
