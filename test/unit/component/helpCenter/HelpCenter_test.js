@@ -328,7 +328,7 @@ describe('HelpCenter component', () => {
 
     it('should invoke pause on each video', () => {
       const helpCenterNode = ReactDOM.findDOMNode(helpCenter);
-      const videoList = helpCenterNode.querySelectorAll('video');
+      const videoList = helpCenterNode.getElementsByTagName('video');
 
       _.forEach(videoList, (video) => {
         spyOn(video, 'pause');

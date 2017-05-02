@@ -92,7 +92,7 @@ export class HelpCenter extends Component {
 
   pauseAllVideos = () => {
     const componentNode = ReactDOM.findDOMNode(this);
-    const videoList = componentNode.querySelectorAll('video');
+    const videoList = componentNode.getElementsByTagName('video');
 
     _.forEach(videoList, (videoElem) => {
       videoElem.pause();
