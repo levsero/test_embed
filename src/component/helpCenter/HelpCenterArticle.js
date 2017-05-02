@@ -66,7 +66,7 @@ export class HelpCenterArticle extends Component {
         'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'span',
         'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'hr', 'br', 'div',
         'sup', 'sub', 'img', 'iframe', 'table', 'thead', 'tfoot', 'tbody', 'tr',
-        'th', 'td', 'pre'
+        'th', 'td', 'pre', 'video', 'source'
       ],
       transformTags: { 'iframe': this.filterVideoEmbed },
       allowedSchemes: ['http', 'https', 'mailto', 'blob'],
@@ -89,7 +89,9 @@ export class HelpCenterArticle extends Component {
         'td': ['id', 'colspan'],
         'th': ['id', 'colspan'],
         'ol': ['id', 'start', 'reversed'],
-        'p': ['id']
+        'p': ['id'],
+        'video': ['height', 'width', 'controls'],
+        'source': ['src', 'type']
       },
       allowedClasses: {
         'span': [

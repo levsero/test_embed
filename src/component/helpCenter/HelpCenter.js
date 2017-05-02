@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
@@ -74,6 +75,7 @@ export class HelpCenter extends Component {
       expanded: props.expanded,
       hasContextualSearched: false,
       hasSearched: false,
+      loadingSpinnerActive: false,
       previousSearchTerm: '',
       resultsCount: 0,
       resultsPerPage: minimumSearchResults,
@@ -84,9 +86,17 @@ export class HelpCenter extends Component {
       searchTracked: false,
       showNextButton: this.props.showNextButton,
       showViewMore: true,
-      viewMoreActive: false,
-      loadingSpinnerActive: false
+      viewMoreActive: false
     };
+  }
+
+  pauseAllVideos = () => {
+    const componentNode = ReactDOM.findDOMNode(this);
+    const videoList = componentNode.getElementsByTagName('video');
+
+    _.forEach(videoList, (videoElem) => {
+      videoElem.pause();
+    });
   }
 
   getHelpCenterComponent = () => {

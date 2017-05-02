@@ -48,7 +48,12 @@ describe('HelpCenter component', () => {
       'component/helpCenter/HelpCenterArticle': {
         HelpCenterArticle: class extends Component {
           render() {
-            return <div className='UserContent' />;
+            return (
+              <div className='UserContent'>
+                <video src='sizuki' />
+                <video src='not-tay-tay' />
+              </div>
+            );
           }
         }
       },
@@ -310,6 +315,33 @@ describe('HelpCenter component', () => {
 
       expect(helpCenter.state.searchFailed)
         .toBeTruthy();
+    });
+  });
+
+  describe('pauseAllVideos', () => {
+    let helpCenter,
+      videoList;
+
+    beforeEach(() => {
+      helpCenter = domRender(<HelpCenter />);
+      helpCenter.setState({ articleViewActive: true });
+
+      const helpCenterNode = ReactDOM.findDOMNode(helpCenter);
+
+      videoList = helpCenterNode.getElementsByTagName('video');
+
+      _.forEach(videoList, (video) => {
+        spyOn(video, 'pause');
+      });
+
+      helpCenter.pauseAllVideos();
+    });
+
+    it('should invoke pause on each video', () => {
+      _.forEach(videoList, (video) => {
+        expect(video.pause)
+          .toHaveBeenCalled();
+      });
     });
   });
 
