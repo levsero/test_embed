@@ -325,8 +325,10 @@ describe('HelpCenter component', () => {
     beforeEach(() => {
       helpCenter = domRender(<HelpCenter />);
       helpCenter.setState({ articleViewActive: true });
-      videoList = ReactDOM.findDOMNode(helpCenter)
-                          .getElementsByTagName('video');
+
+      const helpCenterNode = ReactDOM.findDOMNode(helpCenter);
+
+      videoList = helpCenterNode.getElementsByTagName('video');
 
       _.forEach(videoList, (video) => {
         spyOn(video, 'pause');
