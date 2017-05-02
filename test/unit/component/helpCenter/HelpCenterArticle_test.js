@@ -55,8 +55,10 @@ describe('HelpCenterArticle component', () => {
       id: 1,
       body: `
         <h1 id="foo">Foobar</h1>
-        <a href="#foo" name="foo">inpage link</a>
-        <a class="relative" href="/relative/link">relative link</a>
+        <h2 name="1">Baz</h2>
+        <a href="#foo">inpage link</a>
+        <a href="#1">inpage link 2</a>
+        <a class="relative" name="bar" href="/relative/link">relative link</a>
         <div id="preserved" style="bad styles not allowed">
           This text contains a sub-note<sub>1</sub>
         </div>
@@ -85,7 +87,7 @@ describe('HelpCenterArticle component', () => {
 
     it('should inject html string on componentDidUpdate', () => {
       expect(content.children.length)
-        .toEqual(5);
+        .toEqual(7);
 
       expect(content.querySelector('div').style.cssText)
         .toEqual('');
@@ -100,7 +102,7 @@ describe('HelpCenterArticle component', () => {
     });
 
     it('should preserve name attribute on anchors', () => {
-      expect(content.querySelector('a[name="foo"]'))
+      expect(content.querySelector('a[name="bar"]'))
         .not.toBeNull();
     });
 
@@ -199,9 +201,11 @@ describe('HelpCenterArticle component', () => {
     });
 
     describe('when an anchor is present', () => {
-      it('should hijack inpage anchor clicks and call scrollIntoView on correct element', () => {
+      let oldQuerySelector;
+
+      beforeEach(() => {
         // save old version of query selector FIXME
-        const oldQuerySelector = global.document.querySelector;
+        oldQuerySelector = global.document.querySelector;
 
         global.document.querySelector = () => {
           return {
@@ -211,23 +215,51 @@ describe('HelpCenterArticle component', () => {
 
         // componentdidupdate only fires after setState not on initial render
         helpCenterArticle.setState({ foo: 'bar' });
+      });
 
-        TestUtils.Simulate.click(helpCenterArticle.refs.article, {
-          target: {
-            nodeName: 'A',
-            href: global.document.zendeskHost + '#foo',
-            ownerDocument: global.document,
-            getAttribute: () => {
-              return '#foo';
-            }
-          }
-        });
-
-        expect(scrollIntoView)
-          .toHaveBeenCalled();
-
+      afterEach(() => {
         // reset querySelector to the previous, not spy, version.
         global.document.querySelector = oldQuerySelector;
+      });
+
+      describe('when the link refers to an element with a matching id attribute', () => {
+        beforeEach(() => {
+          TestUtils.Simulate.click(helpCenterArticle.refs.article, {
+            target: {
+              nodeName: 'A',
+              href: global.document.zendeskHost + '#foo',
+              ownerDocument: global.document,
+              getAttribute: () => {
+                return '#foo';
+              }
+            }
+          });
+        });
+
+        it('should call scrollIntoView', () => {
+          expect(scrollIntoView)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when the link refers to an element with a matching name attribute', () => {
+        beforeEach(() => {
+          TestUtils.Simulate.click(helpCenterArticle.refs.article, {
+            target: {
+              nodeName: 'A',
+              href: global.document.zendeskHost + '#1',
+              ownerDocument: global.document,
+              getAttribute: () => {
+                return '#1';
+              }
+            }
+          });
+        });
+
+        it('should call scrollIntoView', () => {
+          expect(scrollIntoView)
+            .toHaveBeenCalled();
+        });
       });
 
       describe('when clicking an external link', () => {
