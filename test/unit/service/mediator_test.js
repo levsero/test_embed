@@ -17,6 +17,7 @@ describe('mediator', () => {
     mockOnHelpCenterPageValue,
     mockPositionValue,
     mockEmailValid,
+    mockAuthenticateValue,
     initSubscriptionSpies;
 
   const reset = function(spy) {
@@ -32,6 +33,7 @@ describe('mediator', () => {
     mockHelpCenterSuppressedValue = false;
     mockContactFormSuppressedValue = false;
     mockOnHelpCenterPageValue = false;
+    mockAuthenticateValue = undefined;
     mockPositionValue = { horizontal: 'right', vertical: 'bottom' };
 
     mockRegistry = initMockRegistry({
@@ -44,6 +46,7 @@ describe('mediator', () => {
         settings : {
           get: (value) => {
             return _.get({
+              authenticate: mockAuthenticateValue,
               chat: { suppress: mockChatSuppressedValue },
               helpCenter: { suppress: mockHelpCenterSuppressedValue },
               contactForm: { suppress: mockContactFormSuppressedValue },
@@ -2442,6 +2445,43 @@ describe('mediator', () => {
 
       expect(revertWindowScroll.calls.count())
         .toEqual(1);
+    });
+
+    describe('when sign in required is true', () => {
+      beforeEach(() => {
+        jasmine.clock().install();
+      });
+
+      afterEach(() => {
+        jasmine.clock().uninstall();
+      });
+
+      describe('when there is an authenticate setting on page', () => {
+        beforeEach(() => {
+          mockAuthenticateValue = { jwt: 'abc' };
+          mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
+          c.broadcast(`${launcher}.onClick`);
+          jasmine.clock().tick(0);
+        });
+
+        it('should show help center', () => {
+          expect(helpCenterSub.show)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when there is no authenticate setting on page', () => {
+        beforeEach(() => {
+          mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
+          c.broadcast(`${launcher}.onClick`);
+          jasmine.clock().tick(0);
+        });
+
+        it('should show the contact form', () => {
+          expect(submitTicketSub.show)
+            .toHaveBeenCalled();
+        });
+      });
     });
   });
 
