@@ -126,7 +126,7 @@ const isHelpCenterAccessible = (signInRequired) => {
   if (signInRequired) {
     const authSettings = settings.get('authenticate');
 
-    return !!(authSettings && authSettings.jwt)
+    return !!(authSettings && authSettings.jwt);
   }
 
   return true;
