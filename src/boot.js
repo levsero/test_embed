@@ -93,9 +93,6 @@ const setupServices = () => {
   settings.init();
   authentication.init();
   logging.init();
-
-  // Remove this code once Rollbar is GA'd
-  if (config.useRollbar) logging.enableRollbar();
 };
 
 const setupWidgetQueue = (win, postRenderQueue) => {
@@ -180,6 +177,9 @@ const getConfig = (win, postRenderQueue) => {
 
     renderer.init(config);
     boot.handlePostRenderQueue(win, postRenderQueue);
+
+    // Remove this code once Rollbar is GA'd
+    if (config.useRollbar) logging.enableRollbar();
   };
   const fail = (error) => {
     if (error.status !== 404) {

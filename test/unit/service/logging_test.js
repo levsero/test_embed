@@ -86,6 +86,20 @@ describe('logging', () => {
     });
   });
 
+  describe('#enableRollbar', () => {
+    beforeEach(() => {
+      spyOn(logging, 'enableRollbar');
+      logging.enableRollbar();
+    });
+
+    describe('when enableRollbar is invoked', () => {
+      it('should have been called', () => {
+        expect(logging.enableRollbar)
+          .toHaveBeenCalled();
+      });
+    });
+  });
+
   describe('#init', () => {
     beforeEach(() => {
       logging.init();
