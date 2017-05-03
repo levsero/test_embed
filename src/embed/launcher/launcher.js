@@ -38,46 +38,48 @@ function create(name, config, reduxStore) {
 
   config = _.extend(configDefaults, config);
 
+  const onClick = (e) => {
+    e.preventDefault();
+
+    beacon.trackUserAction('launcher', 'click', name);
+    mediator.channel.broadcast(name + '.onClick');
+  };
+
   const params = {
-    frameStyle: frameStyle,
-    position: config.position,
     css: launcherCSS + generateUserCSS(config.color),
+    frameDimensions: {
+      offsetWidth: 5,
+      offsetHeight: 1
+    },
+    frameStyle: frameStyle,
     name: name,
-    hideCloseButton: true,
-    expandable: false,
-    fullscreenable: false,
-    offsetWidth: 5,
-    offsetHeight: 1,
+    options: {
+      fullscreenable: false,
+      position: config.position,
+      visible: config.visible
+    },
+    toggles: {
+      hideCloseButton: true
+    },
     transitions: {
       upShow: transitionFactory.webWidget.launcherUpShow(),
       downHide: transitionFactory.webWidget.launcherDownHide(),
       downShow: transitionFactory.webWidget.launcherDownShow(),
       upHide: transitionFactory.webWidget.launcherUpHide()
-    },
-    extend: {
-      onClickHandler: (e) => {
-        e.preventDefault();
-
-        beacon.trackUserAction('launcher', 'click', name);
-        mediator.channel.broadcast(name + '.onClick');
-      }
     }
   };
 
-  const Embed = (
-    <Frame {...params} visible={config.visible} position={config.position} store={reduxStore}>
+  const component = (
+    <Frame {...params} store={reduxStore}>
       <Launcher
-        onClick={params.extend.onClickHandler}
-        //onTouchEnd={params.onClickHandler}
-        //updateFrameSize={params.updateFrameSize}
-        position={config.position}
+        onClick={onClick}
         label={`embeddable_framework.launcher.label.${config.labelKey}`}
         icon={config.icon} />
     </Frame>
   );
 
   launchers[name] = {
-    component: Embed,
+    component: component,
     config: config
   };
 }

@@ -27,9 +27,9 @@ export class EmbedWrapper extends Component {
 
   static defaultProps = {
     baseCSS: '',
-    childFn: null,
+    childFn: undefined,
     childParams: {},
-    children: null,
+    children: undefined,
     fullscreen: false,
     handleBackClick: () => {},
     handleCloseClick: () => {},
@@ -101,15 +101,10 @@ export class EmbedWrapper extends Component {
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />;
     const expandClasses = i18n.isRTL() ? 'u-posStartL' : 'u-posEndL';
 
-    let newChild;
-
-    if (this.props.children) {
-      newChild = React.cloneElement(this.props.children, {
-        ref: 'rootComponent'
-      });
-    } else {
-      newChild = this.props.childFn(this.props.childParams);
-    }
+    // childFn is from frameFactory and children is from Frame component
+    const newChild = (typeof this.props.children !== 'undefined')
+                   ? React.cloneElement(this.props.children, { ref: 'rootComponent' })
+                   : this.props.childFn(this.props.childParams);
 
     return (
       <Provider store={this.props.reduxStore}>

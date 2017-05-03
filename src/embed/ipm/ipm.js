@@ -90,7 +90,6 @@ function create(name, config, reduxStore) {
       return (
         <Ipm
           ref='rootComponent'
-          setFrameSize={params.setFrameSize}
           updateFrameSize={params.updateFrameSize}
           ipmSender={ipmSender}
           closeFrame={closeFrame}
