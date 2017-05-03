@@ -90,7 +90,7 @@ export class HelpCenterArticle extends Component {
         'th': ['id', 'colspan'],
         'ol': ['id', 'start', 'reversed'],
         'p': ['id'],
-        'video': ['height', 'width', 'controls'],
+        'video': ['src', 'height', 'width', 'controls'],
         'source': ['src', 'type']
       },
       allowedClasses: {
