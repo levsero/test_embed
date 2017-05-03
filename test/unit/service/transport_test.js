@@ -408,68 +408,70 @@ describe('transport', () => {
       };
     });
 
-    it('augments payload.params with blip metadata', () => {
-      const mockGlobals = mockRegistry['utility/globals'];
+    describe('without base64 encoding for blips', () => {
+      it('augments payload.params with blip metadata', () => {
+        const mockGlobals = mockRegistry['utility/globals'];
 
-      spyOn(mockMethods, 'send').and.callThrough();
+        spyOn(mockMethods, 'send').and.callThrough();
 
-      transport.init(config);
-      transport.sendWithMeta(payload);
+        transport.init(config);
+        transport.sendWithMeta(payload, false);
 
-      const params = mockMethods.send.calls.mostRecent().args[0];
+        const params = mockMethods.send.calls.mostRecent().args[0];
 
-      expect(params.buid)
-        .toBe('abc123');
+        expect(params.buid)
+          .toBe('abc123');
 
-      expect(params.url)
-        .toBe(mockGlobals.location.href);
+        expect(params.url)
+          .toBe(mockGlobals.location.href);
 
-      expect(typeof params.timestamp)
-        .toBe('string');
+        expect(typeof params.timestamp)
+          .toBe('string');
 
-      expect(params.timestamp)
-        .toBe((new Date(Date.parse(params.timestamp))).toISOString());
+        expect(params.timestamp)
+          .toBe((new Date(Date.parse(params.timestamp))).toISOString());
 
-      expect(params.user)
-        .toEqual(payload.params.user);
-    });
-
-    describe('when a referrerPolicy value is stored in session storage', () => {
-      let params;
-
-      describe('that is of no-referrer type', () => {
-        beforeEach(() => {
-          mockStore = 'no-referrer';
-
-          spyOn(mockMethods, 'send').and.callThrough();
-
-          transport.init(config);
-          transport.sendWithMeta(payload);
-
-          params = mockMethods.send.calls.mostRecent().args[0];
-        });
-
-        it('does not send a url param', () =>{
-          expect(params.url)
-            .toBeUndefined();
-        });
+        expect(params.user)
+          .toEqual(payload.params.user);
       });
 
-      describe('that is not of no-referrer type', () => {
-        beforeEach(() => {
-          mockStore = 'origin';
+      describe('when a referrerPolicy value is stored in session storage', () => {
+        let params;
 
-          spyOn(mockMethods, 'send').and.callThrough();
+        describe('that is of no-referrer type', () => {
+          beforeEach(() => {
+            mockStore = 'no-referrer';
 
-          transport.init(config);
-          transport.sendWithMeta(payload);
+            spyOn(mockMethods, 'send').and.callThrough();
 
-          params = mockMethods.send.calls.mostRecent().args[0];
+            transport.init(config);
+            transport.sendWithMeta(payload, false);
+
+            params = mockMethods.send.calls.mostRecent().args[0];
+          });
+
+          it('does not send a url param', () =>{
+            expect(params.url)
+              .toBeUndefined();
+          });
         });
 
-        it('sends a url param with the path name excluded', () =>{
-          expect(params.url)
-            .toEqual('http://www.example.com');
+        describe('that is not of no-referrer type', () => {
+          beforeEach(() => {
+            mockStore = 'origin';
+
+            spyOn(mockMethods, 'send').and.callThrough();
+
+            transport.init(config);
+            transport.sendWithMeta(payload, false);
+
+            params = mockMethods.send.calls.mostRecent().args[0];
+          });
+
+          it('sends a url param with the path name excluded', () =>{
+            expect(params.url)
+              .toEqual('http://www.example.com');
+          });
         });
       });
     });
@@ -481,7 +483,7 @@ describe('transport', () => {
       });
 
       it('encodes the data and sends it as a query string', () =>{
-        transport.sendWithMeta(payload, true);
+        transport.sendWithMeta(payload);
 
         expect(payload.query).toEqual({ data: 'MOCKBASE64' });
       });

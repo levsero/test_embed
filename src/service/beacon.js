@@ -14,9 +14,10 @@ import { nowInSeconds,
          sha1 } from 'utility/utils';
 
 let config = {
-  useBase64: false,
-  method: 'POST',
-  endpoint: '/embeddable/blips'
+  method: 'GET',
+  endpoint: '/embeddable_blip',
+  reduceBlipping: false,
+  newIdentify: false
 };
 
 const sendPageViewWhenReady = () => {
@@ -63,18 +64,14 @@ const sendPageView = () => {
     }
   };
 
-  transport.sendWithMeta(payload, config.useBase64);
+  transport.sendWithMeta(payload);
 };
 
 function setConfig(_config) {
-  const newBlips = !!_config.newBlips;
-
-  config = {
-    useBase64: newBlips,
-    method: newBlips ? 'GET' : 'POST',
-    endpoint: newBlips ? '/embeddable_blip' : '/embeddable/blips',
-    reduceBlipping: _config.reduceBlipping
-  };
+  _.merge(config, {
+    reduceBlipping: !!_config.reduceBlipping,
+    newIdentify: !!_config.newIdentify
+  });
 }
 
 function init() {
@@ -98,7 +95,7 @@ function sendConfigLoadTime(time) {
     params: params
   };
 
-  transport.sendWithMeta(payload, config.useBase64);
+  transport.sendWithMeta(payload);
 }
 
 function trackUserAction(category, action, label = null, value = null) {
@@ -118,7 +115,7 @@ function trackUserAction(category, action, label = null, value = null) {
     params: { userAction }
   };
 
-  transport.sendWithMeta(payload, config.useBase64);
+  transport.sendWithMeta(payload);
 }
 
 function trackSettings(settings) {
@@ -141,7 +138,7 @@ function trackSettings(settings) {
   };
 
   if (!_.find(validSettings, (s) => s[0] === encoded)) {
-    transport.sendWithMeta(payload, config.useBase64);
+    transport.sendWithMeta(payload);
   } else {
     // Clear any expired settings that exist from other pages
     // on the customers domain.
@@ -150,12 +147,12 @@ function trackSettings(settings) {
 }
 
 function identify(user) {
-  user.localeId = i18n.getLocaleId();
+  const { newIdentify, method, endpoint } = config;
   const payload = {
-    method: 'POST',
-    path: '/embeddable/identify',
+    method: newIdentify ? method : 'POST',
+    path: newIdentify ? endpoint : '/embeddable/identify',
     params:  {
-      user: user,
+      user: { ...user, localeId: i18n.getLocaleId() },
       userAgent: navigator.userAgent
     },
     callbacks: {
@@ -165,7 +162,7 @@ function identify(user) {
     }
   };
 
-  transport.sendWithMeta(payload);
+  transport.sendWithMeta(payload, newIdentify);
 }
 
 function getFrameworkLoadTime() {

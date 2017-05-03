@@ -120,7 +120,7 @@ function send(payload, addType = true) {
   });
 }
 
-function sendWithMeta(payload, useBase64 = false) {
+function sendWithMeta(payload, useBase64 = true) {
   const commonParams = {
     buid: identity.getBuid(),
     suid: identity.getSuid().id || null,
@@ -135,7 +135,7 @@ function sendWithMeta(payload, useBase64 = false) {
 
   if (useBase64) {
     payload.query = { data: base64encode(JSON.stringify(payload.params)) };
-    send({ method: 'get', path: payload.path, query: payload.query}, false);
+    send(_.pick(payload, ['method', 'path', 'query']), false);
   } else {
     send(payload);
   }
