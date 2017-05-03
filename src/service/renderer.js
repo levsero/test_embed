@@ -76,6 +76,7 @@ function init(config) {
     if (config.webWidgetCustomizations) {
       settings.enableCustomizations();
     }
+
     i18n.setCustomTranslations();
     i18n.setLocale(config.locale);
 

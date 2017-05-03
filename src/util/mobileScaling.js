@@ -5,7 +5,6 @@ import { win,
 import { renderer } from 'service/renderer';
 import { getDeviceZoom,
          getZoomSizingRatio } from 'utility/devices';
-import { logging } from 'service/logging';
 import { mediator } from 'service/mediator';
 import { setScrollKiller } from 'utility/scrollHacks';
 import { cappedIntervalCall } from 'utility/utils';
@@ -65,21 +64,21 @@ const zoomMonitor = (() => {
 })();
 
 function initMobileScaling() {
-  win.addEventListener('touchstart', logging.wrap((e) => {
+  win.addEventListener('touchstart', (e) => {
     if (e.touches.length === 2) {
       renderer.hideByZoom(true);
     }
     zoomMonitor();
-  }));
+  });
 
-  win.addEventListener('touchmove', logging.wrap((e) => {
+  win.addEventListener('touchmove', (e) => {
     if (e.touches.length === 2) {
       renderer.hideByZoom(true);
     }
     zoomMonitor();
-  }));
+  });
 
-  win.addEventListener('touchend', logging.wrap((e) => {
+  win.addEventListener('touchend', (e) => {
     const now = e.timeStamp;
 
     // If touchend's fire within 250ms of each other,
@@ -91,7 +90,7 @@ function initMobileScaling() {
     lastTouchEnd = now;
 
     zoomMonitor();
-  }));
+  });
 
   // Recalc ratio when user focus on field
   // delay by 500ms so browser zoom is done
