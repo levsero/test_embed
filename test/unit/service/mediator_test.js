@@ -1365,12 +1365,15 @@ describe('mediator', () => {
     });
 
     describe('with authenticated help center', () => {
-      it('broadcasts authentication.renew when onClick is called', () => {
+      beforeEach(() => {
+        mockAuthenticateValue = { jwt: 'abc' };
         mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
 
         c.broadcast('authentication.onSuccess');
         c.broadcast(`${launcher}.onClick`);
+      });
 
+      it('broadcasts authentication.renew when onClick is called', () => {
         expect(authenticationSub.renew)
           .toHaveBeenCalled();
       });
@@ -2466,7 +2469,7 @@ describe('mediator', () => {
         });
       });
 
-      fdescribe('when there is no authenticate setting on page', () => {
+      describe('when there is no authenticate setting on page', () => {
         describe('when contact form is enabled', () => {
           beforeEach(() => {
             mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
@@ -2482,11 +2485,11 @@ describe('mediator', () => {
 
         describe('when chat is enabled', () => {
           beforeEach(() => {
-            mediator.init({ chat: true, helpCenter: true }, { helpCenterSignInRequired: true });
+            mediator.init({ submitTicket: true, chat: true, helpCenter: true }, { helpCenterSignInRequired: true });
+
             c.broadcast(`${chat}.onOnline`);
-            jasmine.clock().tick(0);
             c.broadcast(`${launcher}.onClick`);
-            jasmine.clock().tick(0);
+            jasmine.clock().tick(1);
           });
 
           it('should show chat', () => {
