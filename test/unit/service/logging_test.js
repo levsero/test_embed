@@ -44,48 +44,6 @@ describe('logging', () => {
     mockery.disable();
   });
 
-  describe('rollbarConfig', () => {
-    let rollbarConfig;
-
-    beforeEach(() => {
-      rollbarConfig = logging.rollbarConfig;
-    });
-
-    const testDataList = [
-      { key: 'accessToken', expect: '94eb0137fdc14471b21b34c5a04f9359' },
-      { key: 'captureUncaught', expect: true },
-      { key: 'captureUnhandledRejections', expect: true },
-      { key: 'endpoint', expect: 'https://rollbar-eu.zendesk.com/api/1/' },
-      { key: 'hostWhiteList', expect: ['assets.zendesk.com'] },
-      { key: 'ignoredMessages', expect: ['Access-Control-Allow-Origin', 'timeout of [0-9]+ms exceeded'] },
-      { key: 'maxItems', expect: 100 }
-    ];
-
-    it('should contain more than 0 items to test', () => {
-      expect(testDataList.length)
-        .not.toEqual(0);
-    });
-
-    _.forEach(testDataList, (testData) => {
-      it(`should have the right value(s) for ${testData.key}`, () => {
-        expect(rollbarConfig[testData.key])
-          .toEqual(testData.expect);
-      });
-    });
-
-    describe('for payload attribute in config', () => {
-      it('should have the right value(s) for environment', () => {
-        expect(rollbarConfig.payload.environment)
-          .toEqual('production');
-      });
-
-      it('should have the right value(s) for code_version', () => {
-        expect(rollbarConfig.payload.client.javascript.code_version)
-          .toEqual(__EMBEDDABLE_VERSION__);
-      });
-    });
-  });
-
   describe('#enableRollbar', () => {
     beforeEach(() => {
       spyOn(logging, 'enableRollbar');
@@ -106,8 +64,14 @@ describe('logging', () => {
     });
 
     it('should call init on Rollbar', () => {
+      const expectation = {
+        accessToken: '94eb0137fdc14471b21b34c5a04f9359',
+        endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
+        hostWhiteList: ['assets.zendesk.com']
+      };
+
       expect(rollbarInitSpy)
-        .toHaveBeenCalled();
+        .toHaveBeenCalledWith(jasmine.objectContaining(expectation));
     });
 
     it('should register Airbrake id and key', () => {

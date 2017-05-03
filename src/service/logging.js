@@ -93,6 +93,5 @@ export const logging = {
   warn,
 
   // Exported for testing
-  rollbarConfig,
   enableRollbar
 };
