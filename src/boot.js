@@ -92,6 +92,10 @@ const setupServices = () => {
 
   settings.init();
   authentication.init();
+  logging.init();
+
+  // Remove this code once Rollbar is GA'd
+  if (config.useRollbar) logging.enableRollbar();
 };
 
 const setupWidgetQueue = (win, postRenderQueue) => {
@@ -169,15 +173,12 @@ const getConfig = (win, postRenderQueue) => {
     }
 
     beacon.sendPageView();
+
     if (win.zESettings) {
       beacon.trackSettings(settings.getTrackSettings());
     }
 
     renderer.init(config);
-
-    // Once Rollbar is GA'd, shift this into setupServices
-    logging.init(config.useRollbar);
-
     boot.handlePostRenderQueue(win, postRenderQueue);
   };
   const fail = (error) => {

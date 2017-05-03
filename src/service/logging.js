@@ -9,6 +9,23 @@ const errorMessageBlacklist = [
   'Access-Control-Allow-Origin',
   'timeout of [0-9]+ms exceeded'
 ];
+const rollbarConfig =  {
+  accessToken: '94eb0137fdc14471b21b34c5a04f9359',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+  endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
+  hostWhiteList: ['assets.zendesk.com'],
+  ignoredMessages: errorMessageBlacklist,
+  maxItems: 100,
+  payload: {
+    environment: 'production',
+    client: {
+      javascript: {
+        code_version: __EMBEDDABLE_VERSION__ // eslint-disable-line camelcase
+      }
+    }
+  }
+};
 
 // Remove this code once Rollbar is GA'd
 const errorFilter = (notice) => {
@@ -30,39 +47,15 @@ const errorFilter = (notice) => {
   return notice.errors.length > 0 ? notice : null;
 };
 
-const getRollbarConfig = () => {
-  return {
-    accessToken: '94eb0137fdc14471b21b34c5a04f9359',
-    captureUncaught: true,
-    captureUnhandledRejections: true,
-    endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
-    hostWhiteList: ['assets.zendesk.com'],
-    ignoredMessages: errorMessageBlacklist,
-    maxItems: 100,
-    payload: {
-      environment: 'production',
-      client: {
-        javascript: {
-          code_version: __EMBEDDABLE_VERSION__ // eslint-disable-line camelcase
-        }
-      }
-    }
-  };
-};
+function init() {
+  rollbar = Rollbar.init(rollbarConfig);
 
-function init(configRollbar = false) {
-  useRollbar = configRollbar;
-
-  if (useRollbar) {
-    rollbar = Rollbar.init(getRollbarConfig());
-  } else {
-    // Remove this code once Rollbar is GA'd
-    airbrake = new airbrakeJs({
-      projectId: '124081',
-      projectKey: '8191392d5f8c97c8297a08521aab9189'
-    });
-    airbrake.addFilter(errorFilter);
-  }
+  // Remove this code once Rollbar is GA'd
+  airbrake = new airbrakeJs({
+    projectId: '124081',
+    projectKey: '8191392d5f8c97c8297a08521aab9189'
+  });
+  airbrake.addFilter(errorFilter);
 }
 
 function error(err) {
@@ -88,6 +81,11 @@ function warn(...warning) {
   warn(...warning);
 }
 
+// Remove this code once Rollbar is GA'd
+function enableRollbar() {
+  useRollbar = true;
+}
+
 export const logging = {
   init,
   error,
@@ -95,5 +93,6 @@ export const logging = {
   warn,
 
   // Exported for testing
-  getRollbarConfig
+  rollbarConfig,
+  enableRollbar
 };

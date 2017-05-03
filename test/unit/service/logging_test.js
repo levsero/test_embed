@@ -44,11 +44,11 @@ describe('logging', () => {
     mockery.disable();
   });
 
-  describe('#getRollbarConfig', () => {
+  describe('rollbarConfig', () => {
     let rollbarConfig;
 
     beforeEach(() => {
-      rollbarConfig = logging.getRollbarConfig();
+      rollbarConfig = logging.rollbarConfig;
     });
 
     const testDataList = [
@@ -87,36 +87,28 @@ describe('logging', () => {
   });
 
   describe('#init', () => {
-    describe('when Rollbar is enabled', () => {
-      beforeEach(() => {
-        logging.init(true);
-      });
-
-      it('should call init on Rollbar', () => {
-        expect(rollbarInitSpy)
-          .toHaveBeenCalled();
-      });
+    beforeEach(() => {
+      logging.init();
     });
 
-    describe('when Rollbar is not enabled', () => {
-      beforeEach(() => {
-        logging.init();
-      });
+    it('should call init on Rollbar', () => {
+      expect(rollbarInitSpy)
+        .toHaveBeenCalled();
+    });
 
-      it('should register Airbrake id and key', () => {
-        const expectedOptions = {
-          projectId: '124081',
-          projectKey: '8191392d5f8c97c8297a08521aab9189'
-        };
+    it('should register Airbrake id and key', () => {
+      const expectedOptions = {
+        projectId: '124081',
+        projectKey: '8191392d5f8c97c8297a08521aab9189'
+      };
 
-        expect(airbrakeInitSpy)
-          .toHaveBeenCalledWith(expectedOptions);
-      });
+      expect(airbrakeInitSpy)
+        .toHaveBeenCalledWith(expectedOptions);
+    });
 
-      it('should add a filter event handler', () => {
-        expect(airbrakeAddFilterSpy)
-          .toHaveBeenCalled();
-      });
+    it('should add a filter event handler', () => {
+      expect(airbrakeAddFilterSpy)
+        .toHaveBeenCalled();
     });
   });
 
@@ -166,7 +158,8 @@ describe('logging', () => {
 
       describe('when Rollbar is enabled', () => {
         beforeEach(() => {
-          logging.init(true);
+          logging.init();
+          logging.enableRollbar();
           logging.error(errPayload);
         });
 
