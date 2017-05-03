@@ -147,10 +147,10 @@ function trackSettings(settings) {
 }
 
 function identify(user) {
-  const newIdentify = config.newIdentify;
+  const { newIdentify, method, endpoint } = config;
   const payload = {
-    method: newIdentify ? config.method : 'POST',
-    path: newIdentify ? config.endpoint : '/embeddable/identify',
+    method: newIdentify ? method : 'POST',
+    path: newIdentify ? endpoint : '/embeddable/identify',
     params:  {
       user: { ...user, localeId: i18n.getLocaleId() },
       userAgent: navigator.userAgent
