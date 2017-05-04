@@ -53,15 +53,15 @@ export class Frame extends Component {
     }),
     frameStyle: PropTypes.object,
     name: PropTypes.string,
-    options: {
+    options: PropTypes.shape({
       fullscreenable: PropTypes.bool,
       position: PropTypes.string,
       visible: PropTypes.bool
-    },
-    toggles: {
+    }),
+    toggles: PropTypes.shape({
       hideCloseButton: PropTypes.bool,
       preventClose: PropTypes.bool
-    },
+    }),
     transitions: PropTypes.object
   }
 
@@ -110,6 +110,7 @@ export class Frame extends Component {
     };
 
     this.child = null;
+    this.iframe = null;
   }
 
   componentDidMount = () => {
@@ -125,15 +126,15 @@ export class Frame extends Component {
   }
 
   getContentDocument = () => {
-    return ReactDOM.findDOMNode(this).contentDocument;
+    return this.iframe.contentDocument;
   }
 
   getContentWindow = () => {
-    return ReactDOM.findDOMNode(this).contentWindow;
+    return this.iframe.contentWindow;
   }
 
   getRootComponentElement = () => {
-    return this.getContentDocument().querySelector('#Embed').firstChild;
+    return this.getContentDocument().getElementById('Embed').firstChild;
   }
 
   getRootComponent = () => {
@@ -151,7 +152,6 @@ export class Frame extends Component {
   }
 
   updateFrameSize = () => {
-    const frameWin = this.getContentWindow();
     const frameDoc = this.getContentDocument();
     const fullscreenWidth = `${win.innerWidth}px`;
 
@@ -160,10 +160,11 @@ export class Frame extends Component {
     }
 
     const getDimensions = () => {
+      const { frameDimensions, options } = this.props;
       const el = this.getRootComponentElement();
       const width  = Math.max(el.clientWidth, el.offsetWidth);
       const height = Math.max(el.clientHeight, el.offsetHeight);
-      const fullscreen = isMobileBrowser() && this.props.options.fullscreenable;
+      const fullscreen = isMobileBrowser() && options.fullscreenable;
       // FIXME shouldn't set background & zIndex in a dimensions object
       const fullscreenStyle = {
         width: '100%',
@@ -174,15 +175,15 @@ export class Frame extends Component {
         zIndex: zIndex
       };
       const popoverStyle = {
-        width: (_.isFinite(width) ? width : 0) + this.props.frameDimensions.offsetWidth,
-        height: (_.isFinite(height) ? height : 0) + this.props.frameDimensions.offsetHeight
+        width: (_.isFinite(width) ? width : 0) + frameDimensions.offsetWidth,
+        height: (_.isFinite(height) ? height : 0) + frameDimensions.offsetHeight
       };
 
       // Set a full width frame with a dynamic height
-      if (this.props.frameDimensions.fullWidth) {
+      if (frameDimensions.fullWidth) {
         return {
           width: '100%',
-          height: (_.isFinite(height) ? height : 0) + this.props.frameDimensions.offsetHeight
+          height: (_.isFinite(height) ? height : 0) + frameDimensions.offsetHeight
         };
       }
 
@@ -201,6 +202,7 @@ export class Frame extends Component {
     }
 
     const dimensions = getDimensions();
+    const frameWin = this.getContentWindow();
 
     frameWin.setTimeout(() => this.setState({ iframeDimensions: dimensions }), 0);
     return dimensions;
@@ -300,8 +302,9 @@ export class Frame extends Component {
 
     // Position
     const offset = settings.get('offset');
-    const horizontalOffset = (isMobileBrowser() || !offset) ? 0 : offset.horizontal;
-    const verticalOffset = (isMobileBrowser() || !offset) ? 0 : offset.vertical;
+    const isMobile = isMobileBrowser();
+    const horizontalOffset = (isMobile || !offset) ? 0 : offset.horizontal;
+    const verticalOffset = (isMobile || !offset) ? 0 : offset.vertical;
     const horizontalPos = settings.get('position.horizontal') || this.props.options.position;
     const verticalPos = isPositionTop ? 'top' : 'bottom';
     const posObj = {
@@ -319,7 +322,7 @@ export class Frame extends Component {
   }
 
   injectEmbedIntoFrame = (embed) => {
-    const doc = this.getContentWindow().document;
+    const doc = this.getContentDocument();
 
     // element within the iframe to inject the embed into
     const element = doc.body.appendChild(doc.createElement('div'));
@@ -333,20 +336,18 @@ export class Frame extends Component {
     element.className = `${positionClasses} ${desktopClasses}`;
 
     this.child = ReactDOM.render(embed, element);
-
     this.setState({ _rendered: true });
   }
 
   constructEmbed = () => {
-    const cssText = baseCSS + mainCSS + this.props.css + baseFontCSS;
-
     // Pass down updateFrameSize to children
     const newChild = React.cloneElement(this.props.children, {
       updateFrameSize: this.updateFrameSize
     });
+
     const wrapper = (
       <EmbedWrapper
-        baseCSS={cssText}
+        baseCSS={`${baseCSS} ${mainCSS} ${this.props.css} ${baseFontCSS}`}
         reduxStore={this.props.store}
         handleBackClick={this.back}
         handleCloseClick={this.close}
@@ -391,6 +392,7 @@ export class Frame extends Component {
     return (
       <iframe
         style={this.computeIframeStyle()}
+        ref={(el) => { this.iframe = el; }}
         id={this.props.name}
         className={`${frameClasses} ${activeClasses}`} />
     );

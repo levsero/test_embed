@@ -1,11 +1,8 @@
 describe('embed.launcher', function() {
   let launcher,
     mockFrame,
-    mockFrameMethods,
     mockRegistry;
   const launcherPath = buildSrcPath('embed/launcher/launcher');
-
-  mockFrameMethods = requireUncached(buildTestPath('unit/mockFrame')).mockFrameMethods;
 
   beforeEach(function() {
     resetDOM();
