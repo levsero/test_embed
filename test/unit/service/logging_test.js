@@ -32,6 +32,9 @@ describe('logging', () => {
 
           return { error: rollbarErrorSpy };
         }
+      },
+      'utility/globals': {
+        document: document
       }
     });
 

@@ -2,9 +2,18 @@ import airbrakeJs from 'airbrake-js';
 import Rollbar from 'vendor/rollbar.umd.nojson.min.js';
 import _ from 'lodash';
 
+import { document } from 'utility/globals';
+
 let airbrake;
 let rollbar;
 let useRollbar;
+const getEnvironment = () => {
+  const url = document.URL || '';
+
+  return (url.match('zd-staging'))
+    ? 'staging'
+    : 'production';
+};
 const errorMessageBlacklist = [
   'Access-Control-Allow-Origin',
   'timeout of [0-9]+ms exceeded'
@@ -18,7 +27,7 @@ const rollbarConfig =  {
   ignoredMessages: errorMessageBlacklist,
   maxItems: 100,
   payload: {
-    environment: 'production',
+    environment: getEnvironment(),
     client: {
       javascript: {
         code_version: __EMBEDDABLE_VERSION__ // eslint-disable-line camelcase
