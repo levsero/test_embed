@@ -1,4 +1,4 @@
-fdescribe('Frame', () => {
+describe('Frame', () => {
   let Frame,
     mockRegistryMocks,
     mockIsMobileBrowserValue,
@@ -126,6 +126,7 @@ fdescribe('Frame', () => {
 
     mockChild = (<MockChildComponent
           className='mock-component'
+          style={{width: '100px', height: '100px'}}
           />);
 
     Frame = requireUncached(FramePath).Frame;
@@ -161,55 +162,71 @@ fdescribe('Frame', () => {
     });
   });
 
-  describe('setOffsetHorizontal', () => {
-    describe('when disableSetOffsetHorizontal is false', () => {
-      beforeEach(() => {
-        frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
-
-        frame.setOffsetHorizontal(72);
-      });
-
-      it('should set the margin of the component', () => {
-        expect(ReactDOM.findDOMNode(frame).style.marginLeft)
-          .toEqual('72px');
-        expect(ReactDOM.findDOMNode(frame).style.marginRight)
-          .toEqual('72px');
-      });
-    });
-
-    describe('when disableSetOffsetHorizontal is true', () => {
-      beforeEach(() => {
-        frame = domRender(<Frame disableSetOffsetHorizontal={true} store={{}}>{mockChild}</Frame>);
-
-        frame.setOffsetHorizontal(72);
-      });
-
-      it('should not set the margin of the component', () => {
-        expect(ReactDOM.findDOMNode(frame).style.marginLeft)
-          .not.toEqual('72px');
-        expect(ReactDOM.findDOMNode(frame).style.marginRight)
-          .not.toEqual('72px');
-      });
-    });
-  });
-
   describe('updateFrameSize', () => {
-    let frame;
+    let dimensions;
+    const mockObject = {
+      clientHeight: 80,
+      offsetHeight: 50,
+      clientWidth: 90,
+      offsetWidth: 100
+    };
+    const defaultOffset = 15;
 
     beforeEach(() => {
+      frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
 
+      spyOn(frame, 'getRootComponentElement').and.returnValue(mockObject);
+
+      dimensions = frame.updateFrameSize();
+    });
+
+    describe('setting styles', () => {
+      it('should set the height value to the higher width value + the default offset', () => {
+        expect(dimensions.height)
+          .toBe(mockObject.clientHeight + defaultOffset);
+      });
+
+      it('should set the width value to the higher width value + the default offset', () => {
+        expect(dimensions.width)
+          .toBe(mockObject.offsetWidth + defaultOffset);
+      });
+
+      describe('when the offsets are different', () => {
+        const offsetWidth = 50;
+        const offsetHeight = 20;
+
+        beforeEach(() => {
+          frame = domRender(
+            <Frame frameDimensions={{ offsetWidth, offsetHeight }} store={{}}>{mockChild}</Frame>
+          );
+
+          dimensions = frame.updateFrameSize();
+        });
+
+        it('should change the height value using the offset prop', () => {
+          expect(mockObject.clientHeight + offsetHeight)
+            .toBe(100);
+        });
+
+        it('should set the width value to the higher width value + the default offset', () => {
+          expect(mockObject.offsetWidth + offsetWidth)
+            .toBe(150);
+        });
+      });
     });
 
     describe('when fullscreen', () => {
-      let dimensions;
-
       beforeEach(() => {
         mockIsMobileBrowserValue = true;
         window.innerWidth = 100;
 
         Frame = requireUncached(FramePath).Frame;
+        frame = domRender(
+          <Frame options={{ fullscreenable: true }} store={{}}>
+            {mockChild}
+          </Frame>
+        );
 
-        frame = domRender(<Frame fullscreenable={true} store={{}}>{mockChild}</Frame>);
         dimensions = frame.updateFrameSize();
       });
 
@@ -229,7 +246,7 @@ fdescribe('Frame', () => {
             .toBe('100%');
         });
 
-        it('should set the z-index to a the default value', () => {
+        it('should set the zIndex to a the default value', () => {
           expect(dimensions.zIndex)
             .toBe(999999);
         });
@@ -240,7 +257,11 @@ fdescribe('Frame', () => {
 
             Frame = requireUncached(FramePath).Frame;
 
-            frame = domRender(<Frame fullscreenable={true} store={{}}>{mockChild}</Frame>);
+            frame = domRender(
+              <Frame options={{ fullscreenable: true }} store={{}}>
+                {mockChild}
+              </Frame>
+            );
             dimensions = frame.updateFrameSize();
           });
 
@@ -276,12 +297,105 @@ fdescribe('Frame', () => {
   });
 
   describe('show', () => {
-    beforeEach(() => {
+    let mockOnShow, mockFrameParams, mockAfterShowAnimate;
 
+    beforeEach(() => {
+      mockOnShow = jasmine.createSpy('onShow');
+      mockAfterShowAnimate = jasmine.createSpy('afterShowAnimate');
+
+      mockFrameParams = {
+        transitions: {
+          upShow: {
+            start: { transitionDuration: '300ms' },
+            end: { transitionDuration: '300ms' }
+          }
+        },
+        callbacks: {
+          onShow: mockOnShow,
+          afterShowAnimate: mockAfterShowAnimate
+        }
+      };
+
+      jasmine.clock().install();
+
+      frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+
+      frame.show();
     });
 
-    it('should blah', () => {
+    afterEach(() => {
+      jasmine.clock().uninstall();
+    });
 
+    it('sets `visible` state to true', () => {
+      expect(frame.state.visible)
+        .toEqual(true);
+    });
+
+    it('triggers onShow callback', () => {
+      expect(mockOnShow)
+        .toHaveBeenCalled();
+    });
+
+    it('uses the default show animation', () => {
+      jasmine.clock().tick(300);
+
+      expect(mockShowTransition)
+        .toHaveBeenCalled();
+    });
+
+    it('should call afterShowAnimate', function() {
+      jasmine.clock().tick(300);
+
+      expect(mockAfterShowAnimate)
+        .toHaveBeenCalled();
+    });
+
+    describe('with animation props passed in', function() {
+      beforeEach(function() {
+        mockOnShow = jasmine.createSpy('onShow');
+
+        mockFrameParams = {
+          transitions: {
+            upShow: {
+              start: { top: '-1337px', transitionDuration: '9999s' },
+              end: { top: '466px', transitionDuration: '7777s' }
+            }
+          }
+        };
+
+        frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+        frame.show({ transition: 'upShow' });
+      });
+
+      it('applies animation styles to the frame', function() {
+        expect(_.keys(frame.state.frameStyle))
+          .toEqual(['marginTop', 'transitionDuration', 'top']);
+      });
+
+      it('should set the frames style values', function() {
+        expect(frame.state.frameStyle.top)
+          .toEqual('-1337px');
+
+        expect(frame.state.frameStyle.transitionDuration)
+          .toEqual('9999s');
+      });
+    });
+
+    it('applies webkitOverflowScrolling when not set', function() {
+      const frameContainer = frame.getRootComponentElement();
+
+      frame.show();
+
+      jasmine.clock().tick(50);
+
+      // Get the style AFTER the ticks
+      const frameContainerStyle = frameContainer.style;
+
+      expect(frameContainerStyle.WebkitOverflowScrolling)
+        .toEqual('touch');
+
+      jasmine.clock().uninstall();
     });
   });
 

@@ -74,7 +74,7 @@ export class Frame extends Component {
       onHide: () => {},
       onShow: () => {}
     },
-    dimensions: {
+    frameDimensions: {
       fullWidth: 0,
       offsetWidth: 15,
       offsetHeight: 15
