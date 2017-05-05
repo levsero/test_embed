@@ -84,11 +84,11 @@ describe('Frame', () => {
       },
       'utility/color': {},
       'utility/devices': {
-        getZoomSizingRatio: function() {
+        getZoomSizingRatio: () => {
           return 1;
         },
         isMobileBrowser: () => mockIsMobileBrowserValue,
-        isFirefox: function() {
+        isFirefox: () => {
           return false;
         },
         clickBusterRegister: mockClickBusterRegister
@@ -340,15 +340,15 @@ describe('Frame', () => {
         .toHaveBeenCalled();
     });
 
-    it('should call afterShowAnimate', function() {
+    it('should call afterShowAnimate', () => {
       jasmine.clock().tick(300);
 
       expect(mockAfterShowAnimate)
         .toHaveBeenCalled();
     });
 
-    describe('with animation props passed in', function() {
-      beforeEach(function() {
+    describe('with animation props passed in', () => {
+      beforeEach(() => {
         mockOnShow = jasmine.createSpy('onShow');
 
         mockFrameParams = {
@@ -364,12 +364,12 @@ describe('Frame', () => {
         frame.show({ transition: 'upShow' });
       });
 
-      it('applies animation styles to the frame', function() {
+      it('applies animation styles to the frame', () => {
         expect(_.keys(frame.state.frameStyle))
           .toEqual(['marginTop', 'transitionDuration', 'top']);
       });
 
-      it('should set the frames style values', function() {
+      it('should set the frames style values', () => {
         expect(frame.state.frameStyle.top)
           .toEqual('-1337px');
 
@@ -378,7 +378,7 @@ describe('Frame', () => {
       });
     });
 
-    it('applies webkitOverflowScrolling when not set', function() {
+    it('applies webkitOverflowScrolling when not set', () => {
       const frameContainer = frame.getRootComponentElement();
 
       frame.show();
@@ -396,42 +396,353 @@ describe('Frame', () => {
   });
 
   describe('hide', () => {
-    beforeEach(() => {
+    let mockOnHide, mockFrameParams;
 
+    beforeEach(() => {
+      mockOnHide = jasmine.createSpy('onHide');
+
+      mockFrameParams = {
+        callbacks: {
+          onHide: mockOnHide
+        }
+      };
+
+      frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+
+      jasmine.clock().install();
+
+      frame.setState({ visible: true });
+      frame.hide();
+
+      jasmine.clock().tick(300);
     });
 
-    it('should blah', () => {
+    afterEach(() => {
+      jasmine.clock().uninstall();
+    });
 
+    it('sets `visible` state to false', () => {
+      expect(frame.state.visible)
+        .toEqual(false);
+    });
+
+    it('triggers props.callbacks.onHide if set', () => {
+      expect(mockOnHide)
+        .toHaveBeenCalled();
+    });
+
+    it('does not apply the animation if it does not exist', () => {
+      expect(mockHideTransition)
+        .toHaveBeenCalled();
+    });
+
+    describe('with animation', () => {
+      beforeEach(() => {
+        mockFrameParams = {
+          transitions: {
+            downHide: {
+              start: { top: '566px', transitionDuration: 0 },
+              end: { top: '789px', transitionDuration: '7777s' }
+            }
+          }
+        };
+
+        frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+
+        frame.hide({ transition: 'downHide' });
+      });
+
+      it('applies animation styles to the frame', () => {
+        expect(_.keys(frame.state.frameStyle))
+          .toEqual(['marginTop', 'transitionDuration', 'top']);
+      });
+
+      it('should set the frames style values', () => {
+        expect(frame.state.frameStyle.top)
+          .toEqual('789px');
+
+        expect(frame.state.frameStyle.transitionDuration)
+          .toEqual('7777s');
+      });
     });
   });
 
   describe('close', () => {
-    beforeEach(() => {
+    let mockOnClose, mockFrameParams;
 
+    beforeEach(() => {
+      mockOnClose = jasmine.createSpy('onClose');
     });
 
-    it('should blah', () => {
+    describe('when preventClose option is false', () => {
+      describe('when on desktop', () => {
+        beforeEach(() => {
+          mockFrameParams = {
+            callbacks: {
+              onClose: mockOnClose
+            }
+          };
 
+          frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+
+          frame.close();
+        });
+
+        it('should call the onClose prop', () => {
+          expect(mockOnClose)
+            .toHaveBeenCalled();
+        });
+
+        describe('when vertical position is bottom', () => {
+          beforeEach(() => {
+            spyOn(frame, 'hide');
+
+            frame.close();
+          });
+
+          it('should call hide with `downHide` transition', () => {
+            expect(frame.hide)
+              .toHaveBeenCalledWith({ transition: 'downHide' });
+          });
+        });
+
+        describe('when vertical position is top', () => {
+          beforeEach(() => {
+            mockSettingsValue.position.vertical = 'top';
+
+            Frame = requireUncached(FramePath).Frame;
+            frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+
+            spyOn(frame, 'hide');
+
+            frame.close();
+          });
+
+          it('should call hide with `upHide` transition', () => {
+            expect(frame.hide)
+              .toHaveBeenCalledWith({ transition: 'upHide' });
+          });
+        });
+      });
+
+      describe('when on mobile', () => {
+        let mockEvent;
+
+        beforeEach(() => {
+          mockFrameParams = {
+            callbacks: {
+              onClose: mockOnClose
+            },
+            options: {
+              fullscreenable: true
+            }
+          };
+
+          mockIsMobileBrowserValue = true;
+
+          frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+
+          spyOn(frame, 'hide');
+          frame.close({});
+        });
+
+        it('should call hide without the close transition', () => {
+          expect(frame.hide)
+            .toHaveBeenCalled();
+        });
+
+        it('should call the onClose handler', () => {
+          expect(mockOnClose)
+            .toHaveBeenCalled();
+        });
+
+        it('should not call clickBusterRegister', () => {
+          expect(mockClickBusterRegister)
+            .not.toHaveBeenCalledWith();
+        });
+
+        describe('when there is a touch event', () => {
+          beforeEach(() => {
+            mockEvent = {
+              touches: [{ clientX: 1, clientY: 1 }]
+            };
+
+            frame.close(mockEvent);
+          });
+
+          it('should call clickBusterRegister', () => {
+            expect(mockClickBusterRegister)
+              .toHaveBeenCalledWith(1, 1);
+          });
+        });
+      });
+    });
+
+    describe('when preventClose option is true', () => {
+      beforeEach(() => {
+        mockFrameParams = {
+          toggles: {
+            preventClose: true
+          }
+        };
+        frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+
+        spyOn(frame, 'hide');
+        frame.close();
+      });
+
+      it('should not call hide', () => {
+        expect(frame.hide)
+          .not.toHaveBeenCalled();
+      });
+
+      it('should not call the onClose handler', () => {
+        expect(mockOnClose)
+          .not.toHaveBeenCalled();
+      });
     });
   });
 
   describe('back', () => {
-    beforeEach(() => {
+    let mockOnBack;
 
+    beforeEach(() => {
+      mockOnBack = jasmine.createSpy('onBack');
+
+      const mockFrameParams = {
+        callbacks: {
+          onBack: mockOnBack
+        }
+      };
+
+      frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+
+      frame.back({ preventDefault: noop });
     });
 
-    it('should blah', () => {
-
+    it('should call props.callbacks.onBack', () => {
+      expect(mockOnBack)
+        .toHaveBeenCalled();
     });
   });
 
   describe('computeIframeStyle', () => {
-    beforeEach(() => {
+    describe('visibility', () => {
+      beforeEach(() => {
+        frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+      });
 
+      it('should not visibile classes if state.visible is true', () => {
+        frame.setState({ visible: true });
+
+        expect(frame.computeIframeStyle().top)
+          .not.toEqual('-9999px');
+      });
+
+      it('should not have visibile classes if state.visible is false', () => {
+        frame.setState({ visible: false });
+
+        expect(frame.computeIframeStyle().top)
+          .toEqual('-9999px');
+      });
+
+      it('should not have visibile classes if state.hiddenByZoom is true', () => {
+        frame.setState({ hiddenByZoom: true });
+
+        expect(frame.computeIframeStyle().top)
+          .toEqual('-9999px');
+      });
     });
 
-    it('should blah', () => {
+    describe('position', () => {
+      describe('vertical', () => {
+        beforeEach(() => {
+          frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+        });
 
+        it('should have bottom classes by default', () => {
+          expect(frame.computeIframeStyle().bottom)
+            .toBeDefined();
+
+          expect(frame.computeIframeStyle().top)
+            .toBeUndefined();
+        });
+
+        describe('when settings sets position to top', () => {
+          beforeEach(() => {
+            mockSettingsValue = { position: { vertical: 'top'} };
+            Frame = requireUncached(FramePath).Frame;
+
+            frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+          });
+
+          it('should have top classes', () => {
+            expect(frame.computeIframeStyle().top)
+              .toBeDefined();
+
+            expect(frame.computeIframeStyle().bottom)
+              .toBeUndefined();
+          });
+        });
+      });
+
+      describe('horizontal', () => {
+        beforeEach(() => {
+          frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+        });
+
+        it('should have right classes by default', () => {
+          expect(frame.computeIframeStyle().right)
+            .toBeDefined();
+
+          expect(frame.computeIframeStyle().left)
+            .toBeUndefined();
+        });
+
+        it('can be changed by the position prop', () => {
+          frame = domRender(<Frame options={{ position: 'left' }} store={{}}>{mockChild}</Frame>);
+
+          expect(frame.computeIframeStyle().left)
+            .toBeDefined();
+
+          expect(frame.computeIframeStyle().right)
+            .toBeUndefined();
+        });
+
+        describe('when settings sets position', () => {
+          beforeEach(() => {
+            mockSettingsValue = { position: { horizontal: 'left'} };
+            Frame = requireUncached(FramePath).Frame;
+
+            frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+          });
+
+          it('uses that setting over the prop', () => {
+            expect(frame.computeIframeStyle().left)
+              .toBeDefined();
+
+            expect(frame.computeIframeStyle().right)
+              .toBeUndefined();
+          });
+        });
+      });
+    });
+
+    describe('offset', () => {
+      beforeEach(() => {
+        mockSettingsValue = { offset: { vertical: 31, horizontal: 52 } };
+        Frame = requireUncached(FramePath).Frame;
+
+        frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+      });
+
+      it('should apply the offsets', () => {
+        expect(frame.computeIframeStyle().bottom)
+          .toBe(31);
+
+        expect(frame.computeIframeStyle().right)
+          .toBe(52);
+      });
     });
   });
 
