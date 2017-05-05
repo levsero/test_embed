@@ -8,7 +8,8 @@ describe('Frame', () => {
     mockHideTransition,
     mockHiddenStateTransition,
     mockClickBusterRegister,
-    frame;
+    mockIsRTLValue,
+    mockLocaleValue;
 
   const FramePath = buildSrcPath('component/frame/Frame');
 
@@ -48,6 +49,8 @@ describe('Frame', () => {
     mockery.enable();
 
     mockIsMobileBrowserValue = false;
+    mockIsRTLValue = false;
+    mockLocaleValue = 'en-US';
 
     mockShowTransition = jasmine.createSpy().and.returnValue({
       start: { transitionDuration: '9999ms' },
@@ -94,7 +97,11 @@ describe('Frame', () => {
         clickBusterRegister: mockClickBusterRegister
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['t', 'isRTL', 'getLocale'])
+        i18n: {
+          t: noop,
+          isRTL: () => mockIsRTLValue,
+          getLocale: () => mockLocaleValue
+        }
       },
       'service/settings': {
         settings: {
@@ -137,6 +144,8 @@ describe('Frame', () => {
   });
 
   describe('getRootComponent', () => {
+    let frame;
+
     beforeEach(() => {
       frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
     });
@@ -148,6 +157,8 @@ describe('Frame', () => {
   });
 
   describe('getChild', () => {
+    let frame;
+
     beforeEach(() => {
       frame = domRender(<Frame store={{}} name='Nick'>{mockChild}</Frame>);
     });
@@ -159,7 +170,7 @@ describe('Frame', () => {
   });
 
   describe('updateFrameSize', () => {
-    let dimensions;
+    let frame, dimensions;
     const mockObject = {
       clientHeight: 80,
       offsetHeight: 50,
@@ -293,7 +304,7 @@ describe('Frame', () => {
   });
 
   describe('show', () => {
-    let mockOnShow, mockFrameParams, mockAfterShowAnimate;
+    let frame, mockOnShow, mockFrameParams, mockAfterShowAnimate;
 
     beforeEach(() => {
       mockOnShow = jasmine.createSpy('onShow');
@@ -317,10 +328,6 @@ describe('Frame', () => {
       frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
 
       frame.show();
-    });
-
-    afterEach(() => {
-      jasmine.clock().uninstall();
     });
 
     it('sets `visible` state to true', () => {
@@ -396,7 +403,7 @@ describe('Frame', () => {
   });
 
   describe('hide', () => {
-    let mockOnHide, mockFrameParams;
+    let frame, mockOnHide, mockFrameParams;
 
     beforeEach(() => {
       mockOnHide = jasmine.createSpy('onHide');
@@ -415,10 +422,6 @@ describe('Frame', () => {
       frame.hide();
 
       jasmine.clock().tick(300);
-    });
-
-    afterEach(() => {
-      jasmine.clock().uninstall();
     });
 
     it('sets `visible` state to false', () => {
@@ -468,7 +471,7 @@ describe('Frame', () => {
   });
 
   describe('close', () => {
-    let mockOnClose, mockFrameParams;
+    let frame, mockOnClose, mockFrameParams;
 
     beforeEach(() => {
       mockOnClose = jasmine.createSpy('onClose');
@@ -604,7 +607,7 @@ describe('Frame', () => {
   });
 
   describe('back', () => {
-    let mockOnBack;
+    let frame, mockOnBack;
 
     beforeEach(() => {
       mockOnBack = jasmine.createSpy('onBack');
@@ -627,6 +630,8 @@ describe('Frame', () => {
   });
 
   describe('computeIframeStyle', () => {
+    let frame;
+
     describe('visibility', () => {
       beforeEach(() => {
         frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
@@ -729,6 +734,8 @@ describe('Frame', () => {
     });
 
     describe('offset', () => {
+      let frame;
+
       beforeEach(() => {
         mockSettingsValue = { offset: { vertical: 31, horizontal: 52 } };
         Frame = requireUncached(FramePath).Frame;
@@ -744,35 +751,85 @@ describe('Frame', () => {
           .toBe(52);
       });
     });
-  });
 
-  describe('contructEmbed', () => {
-    beforeEach(() => {
+    describe('zIndex', () => {
+      let frame;
 
-    });
+      beforeEach(() => {
+        mockSettingsValue = { zIndex: 10001 };
+        Frame = requireUncached(FramePath).Frame;
 
-    it('should blah', () => {
+        frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+      });
 
-    });
-  });
-
-  describe('renderFrameContent', () => {
-    beforeEach(() => {
-
-    });
-
-    it('should blah', () => {
-
+      it('uses the value from settings if it exists', () => {
+        expect(frame.computeIframeStyle().zIndex)
+          .toBe(10001);
+      });
     });
   });
 
   describe('render', () => {
-    beforeEach(() => {
+    let frame;
 
+    beforeEach(() => {
+      frame = domRender(<Frame name='foo' store={{}}>{mockChild}</Frame>);
     });
 
-    it('should blah', () => {
+    it('should render an iframe', () => {
+      expect(frame.iframe)
+        .toBeDefined();
+    });
 
+    it('should assign the correct classes', () => {
+      expect(frame.iframe.className)
+        .toContain('foo');
+    });
+  });
+
+  describe('renderFrameContent', () => {
+    let frame;
+
+    beforeEach(() => {
+      mockLocaleValue = 'fr';
+      mockIsRTLValue = true;
+      Frame = requireUncached(FramePath).Frame;
+
+      frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+    });
+
+    it('sets rtl and lang attr on the frame', () => {
+      expect(frame.getContentDocument().documentElement.lang)
+        .toBe('fr');
+
+      expect(frame.getContentDocument().documentElement.dir)
+        .toBe('rtl');
+    });
+
+    it('should sets the state _rendered to true', () => {
+      expect(frame.state._rendered)
+        .toEqual(true);
+    });
+
+    describe('contructEmbed', () => {
+      beforeEach(() => {
+        frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+      });
+
+      it('should add updateFrameSize to the child component', () => {
+        expect(frame.getRootComponent().updateFrameSize)
+          .toBeDefined();
+      });
+    });
+
+    describe('injectEmbedIntoFrame', () => {
+      beforeEach(() => {
+        frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+      });
+
+      it('fuck this', () => {
+
+      });
     });
   });
 });
