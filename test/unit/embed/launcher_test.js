@@ -1,10 +1,10 @@
-describe('embed.launcher', function() {
+describe('embed.launcher', () => {
   let launcher,
     mockFrame,
     mockRegistry;
   const launcherPath = buildSrcPath('embed/launcher/launcher');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable();
@@ -15,7 +15,7 @@ describe('embed.launcher', function() {
       'React': React,
       'utility/globals': {
         document: global.document,
-        getDocumentHost: function() {
+        getDocumentHost: () => {
           return document.body;
         }
       },
@@ -60,7 +60,7 @@ describe('embed.launcher', function() {
         Frame: mockFrame
       },
       'utility/devices': {
-        isMobileBrowser: function() {
+        isMobileBrowser: () => {
           return false;
         }
       },
@@ -74,14 +74,14 @@ describe('embed.launcher', function() {
     launcher = requireUncached(launcherPath).launcher;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('create', function() {
-    it('should add a new launcher to the internal list', function() {
+  describe('create', () => {
+    it('should add a new launcher to the internal list', () => {
       expect(_.keys(launcher.list()).length)
         .toBe(0);
 
@@ -102,7 +102,7 @@ describe('embed.launcher', function() {
         .toBeDefined();
     });
 
-    it('changes config.labelKey if labelKey is set', function() {
+    it('changes config.labelKey if labelKey is set', () => {
       launcher.create('alice', { labelKey: 'test_label' });
 
       const alice = launcher.get('alice');
@@ -111,13 +111,13 @@ describe('embed.launcher', function() {
         .toEqual('test_label');
     });
 
-    describe('config', function() {
+    describe('config', () => {
       let config,
         frame,
         child,
         alice;
 
-      beforeEach(function() {
+      beforeEach(() => {
         config = {
           onClick: jasmine.createSpy(),
           position: 'test_position',
@@ -152,11 +152,11 @@ describe('embed.launcher', function() {
     });
   });
 
-  describe('get', function() {
-    it('should return the correct launcher', function() {
+  describe('get', () => {
+    it('should return the correct launcher', () => {
       const config = {
         position: 'test_alice_position',
-        onClick: function() { return 'alice'; },
+        onClick: () => 'alice',
         icon: '',
         visible: true
       };
@@ -178,14 +178,14 @@ describe('embed.launcher', function() {
     });
   });
 
-  describe('render', function() {
-    it('should throw an exception if launcher does not exist', function() {
-      expect(function() {
+  describe('render', () => {
+    it('should throw an exception if launcher does not exist', () => {
+      expect(() => {
         launcher.render('non_existent_launcher');
       }).toThrow();
     });
 
-    it('renders a launcher', function() {
+    it('renders a launcher', () => {
       launcher.create('alice');
       launcher.render('alice');
 
@@ -193,19 +193,19 @@ describe('embed.launcher', function() {
         .toBeDefined();
     });
 
-    it('should only be allowed to render an launcher once', function() {
+    it('should only be allowed to render an launcher once', () => {
       launcher.create('alice');
 
-      expect(function() {
+      expect(() => {
         launcher.render('alice');
       }).not.toThrow();
 
-      expect(function() {
+      expect(() => {
         launcher.render('alice');
       }).toThrow();
     });
 
-    it('applies launcher.scss to the frame', function() {
+    it('applies launcher.scss to the frame', () => {
       launcher.create('alice');
       launcher.render('alice');
 
@@ -213,12 +213,12 @@ describe('embed.launcher', function() {
         .toContain('mockCss');
     });
 
-    describe('mediator subscriptions', function() {
+    describe('mediator subscriptions', () => {
       let mockMediator,
         alice,
         aliceLauncher;
 
-      beforeEach(function() {
+      beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
         launcher.create('alice', { labelKey: 'test_label' });
         launcher.render('alice');
@@ -226,7 +226,7 @@ describe('embed.launcher', function() {
         aliceLauncher = alice.instance.getChild().refs.rootComponent;
       });
 
-      it('should subscribe to <name>.hide', function() {
+      it('should subscribe to <name>.hide', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('alice.hide', jasmine.any(Function));
 
@@ -238,7 +238,7 @@ describe('embed.launcher', function() {
           .toHaveBeenCalled();
       });
 
-      it('should subscribe to <name>.show', function() {
+      it('should subscribe to <name>.show', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('alice.show', jasmine.any(Function));
 
@@ -255,7 +255,7 @@ describe('embed.launcher', function() {
           .toHaveBeenCalledWith('alice.refreshLocale', jasmine.any(Function));
       });
 
-      it('should subscribe to <name>.setLabelHelp', function() {
+      it('should subscribe to <name>.setLabelHelp', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('alice.setLabelHelp', jasmine.any(Function));
 
@@ -268,7 +268,7 @@ describe('embed.launcher', function() {
           .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label', {});
       });
 
-      it('should subscribe to <name>.setLabelChat', function() {
+      it('should subscribe to <name>.setLabelChat', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('alice.setLabelChat', jasmine.any(Function));
 
@@ -281,7 +281,7 @@ describe('embed.launcher', function() {
           .toHaveBeenCalled();
       });
 
-      it('should subscribe to <name>.setLabelChatHelp', function() {
+      it('should subscribe to <name>.setLabelChatHelp', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('alice.setLabelChatHelp', jasmine.any(Function));
 

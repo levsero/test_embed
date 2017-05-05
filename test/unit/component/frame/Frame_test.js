@@ -7,7 +7,8 @@ describe('Frame', () => {
     mockShowTransition,
     mockHideTransition,
     mockHiddenStateTransition,
-    mockClickBusterRegister;
+    mockClickBusterRegister,
+    frame;
 
   const FramePath = buildSrcPath('component/frame/Frame');
 
@@ -124,10 +125,7 @@ describe('Frame', () => {
 
     initMockRegistry(mockRegistryMocks);
 
-    mockChild = (<MockChildComponent
-          className='mock-component'
-          style={{width: '100px', height: '100px'}}
-          />);
+    mockChild = (<MockChildComponent className='mock-component' />);
 
     Frame = requireUncached(FramePath).Frame;
   });
@@ -137,8 +135,6 @@ describe('Frame', () => {
     mockery.deregisterAll();
     mockery.disable();
   });
-
-  let frame;
 
   describe('getRootComponent', () => {
     beforeEach(() => {
