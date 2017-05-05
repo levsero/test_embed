@@ -8,7 +8,7 @@ let airbrake;
 let rollbar;
 let useRollbar;
 const getEnvironment = () => {
-  const url = document.URL || '';
+  const url = document.zendeskAssetUrl || '';
 
   return (url.match('zd-staging'))
     ? 'staging'
