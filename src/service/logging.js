@@ -8,7 +8,8 @@ let airbrake;
 let rollbar;
 let useRollbar;
 const getEnvironment = () => {
-  const url = document.zendeskAssetUrl || '';
+  const mainScript = document.getElementById('js-iframe-async') || {};
+  const url = mainScript.src || '';
 
   return (url.match('zd-staging'))
     ? 'staging'
