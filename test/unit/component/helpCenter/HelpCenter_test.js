@@ -471,14 +471,14 @@ describe('HelpCenter component', () => {
       });
 
       invalidSearchOptions.forEach((options) => {
-        it('shouldn\'t call contextualSearchSender', () => {
+        it(`shouldn\'t call contextualSearchSender using search options ${options}`, () => {
           helpCenter.contextualSearch(options);
 
           expect(mockContextualSearchSender)
             .not.toHaveBeenCalled();
         });
 
-        it('should call setLoading with false', () => {
+        it(`should call setLoading with false using search options ${options}`, () => {
           helpCenter.contextualSearch(options);
 
           expect(helpCenter.setLoading)
