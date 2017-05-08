@@ -37,69 +37,51 @@ export class Frame extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     store: PropTypes.object.isRequired,
-    callbacks: PropTypes.shape({
-      afterShowAnimate: PropTypes.func,
-      onBack: PropTypes.func,
-      onClose: PropTypes.func,
-      onHide: PropTypes.func,
-      onShow: PropTypes.func
-    }),
+    afterShowAnimate: PropTypes.func,
     css: PropTypes.string,
-    extend: PropTypes.object,
-    frameDimensions: PropTypes.shape({
-      fullWidth: PropTypes.number,
-      offsetWidth: PropTypes.number,
-      offsetHeight: PropTypes.number
-    }),
     frameStyle: PropTypes.object,
+    fullscreenable: PropTypes.bool,
+    frameFullWidth: PropTypes.number,
+    frameOffsetWidth: PropTypes.number,
+    frameOffsetHeight: PropTypes.number,
+    hideCloseButton: PropTypes.bool,
+    onBack: PropTypes.func,
+    onClose: PropTypes.func,
+    onHide: PropTypes.func,
+    onShow: PropTypes.func,
     name: PropTypes.string,
-    options: PropTypes.shape({
-      fullscreenable: PropTypes.bool,
-      position: PropTypes.string,
-      visible: PropTypes.bool
-    }),
-    toggles: PropTypes.shape({
-      hideCloseButton: PropTypes.bool,
-      preventClose: PropTypes.bool
-    }),
-    transitions: PropTypes.object
+    position: PropTypes.string,
+    preventClose: PropTypes.bool,
+    transitions: PropTypes.object,
+    visible: PropTypes.bool
   }
 
   static defaultProps = {
+    afterShowAnimate: () => {},
     css: '',
-    callbacks: {
-      afterShowAnimate: () => {},
-      onBack: () => {},
-      onClose: () => {},
-      onHide: () => {},
-      onShow: () => {}
-    },
-    frameDimensions: {
-      fullWidth: 0,
-      offsetWidth: 15,
-      offsetHeight: 15
-    },
+    frameFullWidth: 0,
+    frameOffsetWidth: 15,
+    frameOffsetHeight: 15,
     frameStyle: {
       marginTop: isPositionTop && !isMobileBrowser() ? '15px' : 0
     },
+    fullscreenable: false,
+    hideCloseButton: false,
     name: '',
-    options: {
-      fullscreenable: false,
-      position: 'right',
-      visible: true
-    },
-    toggles: {
-      disableSetOffsetHorizontal: false,
-      hideCloseButton: false,
-      preventClose: false
-    },
-    transitions: {}
+    onBack: () => {},
+    onClose: () => {},
+    onHide: () => {},
+    onShow: () => {},
+    position: 'right',
+    preventClose: false,
+    transitions: {},
+    visible: true
   }
 
   constructor(props, context) {
     super(props, context);
     this.state = {
-      visible: props.options.visible,
+      visible: props.visible,
       frameStyle: props.frameStyle,
       hiddenByZoom: false,
       _rendered: false,
@@ -160,11 +142,11 @@ export class Frame extends Component {
     }
 
     const getDimensions = () => {
-      const { frameDimensions, options } = this.props;
+      const { frameFullWidth, frameOffsetHeight, frameOffsetWidth, fullscreenable } = this.props;
       const el = this.getRootComponentElement();
       const width  = Math.max(el.clientWidth, el.offsetWidth);
       const height = Math.max(el.clientHeight, el.offsetHeight);
-      const fullscreen = isMobileBrowser() && options.fullscreenable;
+      const fullscreen = isMobileBrowser() && fullscreenable;
       // FIXME shouldn't set background & zIndex in a dimensions object
       const fullscreenStyle = {
         width: '100%',
@@ -175,15 +157,15 @@ export class Frame extends Component {
         zIndex: zIndex
       };
       const popoverStyle = {
-        width: (_.isFinite(width) ? width : 0) + frameDimensions.offsetWidth,
-        height: (_.isFinite(height) ? height : 0) + frameDimensions.offsetHeight
+        width: (_.isFinite(width) ? width : 0) + frameOffsetWidth,
+        height: (_.isFinite(height) ? height : 0) + frameOffsetHeight
       };
 
       // Set a full width frame with a dynamic height
-      if (frameDimensions.fullWidth) {
+      if (frameFullWidth) {
         return {
           width: '100%',
-          height: (_.isFinite(height) ? height : 0) + frameDimensions.offsetHeight
+          height: (_.isFinite(height) ? height : 0) + frameOffsetHeight
         };
       }
 
@@ -192,7 +174,7 @@ export class Frame extends Component {
             : popoverStyle;
     };
 
-    if (this.props.options.fullscreenable && isMobileBrowser()) {
+    if (this.props.fullscreenable && isMobileBrowser()) {
       frameDoc.body.firstChild.setAttribute(
         'style',
         [`width: ${fullscreenWidth}`,
@@ -222,7 +204,7 @@ export class Frame extends Component {
 
     this.setState({ visible: true, frameStyle: animateFrom });
 
-    setTimeout( () => {
+    setTimeout(() => {
       const existingStyle = frameFirstChild.style;
 
       if (!existingStyle.webkitOverflowScrolling) {
@@ -233,15 +215,15 @@ export class Frame extends Component {
     setTimeout(() => this.setState({ frameStyle: animateTo }), 0);
 
     setTimeout(
-      () => this.props.callbacks.afterShowAnimate(this),
+      () => this.props.afterShowAnimate(this),
       cssTimeToMs(transition.end.transitionDuration)
     );
 
-    this.props.callbacks.onShow(this);
+    this.props.onShow(this);
   }
 
   hide = (options = {}) => {
-    const { callbacks, transitions } = this.props;
+    const { onHide, transitions } = this.props;
     const transition = transitions[options.transition] || defaultHideTransition;
     const frameStyle = _.extend({}, this.state.frameStyle, transition.end);
 
@@ -249,12 +231,12 @@ export class Frame extends Component {
 
     setTimeout(() => {
       this.setState({ visible: false });
-      callbacks.onHide(this);
+      onHide(this);
     }, cssTimeToMs(transition.end.transitionDuration));
   }
 
   close = (e, options = {}) => {
-    if (this.props.toggles.preventClose) return;
+    if (this.props.preventClose) return;
 
     // e.touches added for automation testing mobile browsers
     // which is firing 'click' event on iframe close
@@ -266,12 +248,12 @@ export class Frame extends Component {
 
     this.hide({ transition });
 
-    this.props.callbacks.onClose(this, options);
+    this.props.onClose(this, options);
   }
 
   back = (e) => {
     e.preventDefault();
-    this.props.callbacks.onBack(this);
+    this.props.onBack(this);
   }
 
   setHiddenByZoom = (hiddenByZoom) => {
@@ -306,7 +288,7 @@ export class Frame extends Component {
     const isMobile = isMobileBrowser();
     const horizontalOffset = (isMobile || !offset) ? 0 : offset.horizontal;
     const verticalOffset = (isMobile || !offset) ? 0 : offset.vertical;
-    const horizontalPos = settings.get('position.horizontal') || this.props.options.position;
+    const horizontalPos = settings.get('position.horizontal') || this.props.position;
     const verticalPos = isPositionTop ? 'top' : 'bottom';
     const posObj = {
       [horizontalPos]: horizontalOffset,
@@ -329,8 +311,8 @@ export class Frame extends Component {
     const element = doc.body.appendChild(doc.createElement('div'));
 
     // element styles
-    const fullscreen = this.props.options.fullscreenable && isMobileBrowser();
-    const position = settings.get('position.horizontal') || this.props.options.position;
+    const fullscreen = this.props.fullscreenable && isMobileBrowser();
+    const position = settings.get('position.horizontal') || this.props.position;
     const desktopClasses = fullscreen ? '' : styles.desktop;
     const positionClasses = position === 'left' ? styles.left : styles.right;
 
@@ -353,9 +335,9 @@ export class Frame extends Component {
         handleBackClick={this.back}
         handleCloseClick={this.close}
         updateFrameSize={this.updateFrameSize}
-        hideCloseButton={this.props.toggles.hideCloseButton}
+        hideCloseButton={this.props.hideCloseButton}
         name={this.props.name}
-        fullscreen={this.props.options.fullscreenable && isMobileBrowser()}>
+        fullscreen={this.props.fullscreenable && isMobileBrowser()}>
         {newChild}
       </EmbedWrapper>
     );

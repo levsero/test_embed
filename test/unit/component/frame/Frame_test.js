@@ -20,9 +20,7 @@ describe('Frame', () => {
       });
 
       return (
-        <div id='Embed'>
-          {newChild}
-        </div>
+        <div id='Embed'>{newChild}</div>
       );
     }
   }
@@ -126,8 +124,8 @@ describe('Frame', () => {
       'component/Icon': {
         Icon: noop
       },
-      'baseCSS': '.base-css-file {}',
-      'mainCSS': '.main-css-file {}'
+      'baseCSS': 'base-css-file',
+      'mainCSS': 'main-css-file'
     };
 
     initMockRegistry(mockRegistryMocks);
@@ -147,7 +145,7 @@ describe('Frame', () => {
     let frame;
 
     beforeEach(() => {
-      frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+      frame = domRender(<Frame>{mockChild}</Frame>);
     });
 
     it('should return the child component when called', () => {
@@ -160,7 +158,7 @@ describe('Frame', () => {
     let frame;
 
     beforeEach(() => {
-      frame = domRender(<Frame store={{}} name='Nick'>{mockChild}</Frame>);
+      frame = domRender(<Frame name='Nick'>{mockChild}</Frame>);
     });
 
     it('should return a react component with the name passed in', () => {
@@ -180,7 +178,7 @@ describe('Frame', () => {
     const defaultOffset = 15;
 
     beforeEach(() => {
-      frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+      frame = domRender(<Frame>{mockChild}</Frame>);
 
       spyOn(frame, 'getRootComponentElement').and.returnValue(mockObject);
 
@@ -204,7 +202,7 @@ describe('Frame', () => {
 
         beforeEach(() => {
           frame = domRender(
-            <Frame frameDimensions={{ offsetWidth, offsetHeight }} store={{}}>{mockChild}</Frame>
+            <Frame frameOffsetWidth={offsetWidth} frameOffsetHeight={offsetHeight}>{mockChild}</Frame>
           );
 
           dimensions = frame.updateFrameSize();
@@ -228,11 +226,7 @@ describe('Frame', () => {
         window.innerWidth = 100;
 
         Frame = requireUncached(FramePath).Frame;
-        frame = domRender(
-          <Frame options={{ fullscreenable: true }} store={{}}>
-            {mockChild}
-          </Frame>
-        );
+        frame = domRender(<Frame fullscreenable={true}>{mockChild}</Frame>);
 
         dimensions = frame.updateFrameSize();
       });
@@ -264,11 +258,7 @@ describe('Frame', () => {
 
             Frame = requireUncached(FramePath).Frame;
 
-            frame = domRender(
-              <Frame options={{ fullscreenable: true }} store={{}}>
-                {mockChild}
-              </Frame>
-            );
+            frame = domRender(<Frame fullscreenable={true}>{mockChild}</Frame>);
             dimensions = frame.updateFrameSize();
           });
 
@@ -304,28 +294,26 @@ describe('Frame', () => {
   });
 
   describe('show', () => {
-    let frame, mockOnShow, mockFrameParams, mockAfterShowAnimate;
+    let frame, mockOnShow, frameProps, mockAfterShowAnimate;
 
     beforeEach(() => {
       mockOnShow = jasmine.createSpy('onShow');
       mockAfterShowAnimate = jasmine.createSpy('afterShowAnimate');
 
-      mockFrameParams = {
+      frameProps = {
         transitions: {
           upShow: {
             start: { transitionDuration: '300ms' },
             end: { transitionDuration: '300ms' }
           }
         },
-        callbacks: {
-          onShow: mockOnShow,
-          afterShowAnimate: mockAfterShowAnimate
-        }
+        onShow: mockOnShow,
+        afterShowAnimate: mockAfterShowAnimate
       };
 
       jasmine.clock().install();
 
-      frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+      frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>);
 
       frame.show();
     });
@@ -358,7 +346,7 @@ describe('Frame', () => {
       beforeEach(() => {
         mockOnShow = jasmine.createSpy('onShow');
 
-        mockFrameParams = {
+        frameProps = {
           transitions: {
             upShow: {
               start: { top: '-1337px', transitionDuration: '9999s' },
@@ -367,7 +355,7 @@ describe('Frame', () => {
           }
         };
 
-        frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+        frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>);
         frame.show({ transition: 'upShow' });
       });
 
@@ -403,18 +391,12 @@ describe('Frame', () => {
   });
 
   describe('hide', () => {
-    let frame, mockOnHide, mockFrameParams;
+    let frame, mockOnHide, frameProps;
 
     beforeEach(() => {
       mockOnHide = jasmine.createSpy('onHide');
 
-      mockFrameParams = {
-        callbacks: {
-          onHide: mockOnHide
-        }
-      };
-
-      frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+      frame = domRender(<Frame onHide={mockOnHide}>{mockChild}</Frame>);
 
       jasmine.clock().install();
 
@@ -441,7 +423,7 @@ describe('Frame', () => {
 
     describe('with animation', () => {
       beforeEach(() => {
-        mockFrameParams = {
+        frameProps = {
           transitions: {
             downHide: {
               start: { top: '566px', transitionDuration: 0 },
@@ -450,7 +432,7 @@ describe('Frame', () => {
           }
         };
 
-        frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+        frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>);
 
         frame.hide({ transition: 'downHide' });
       });
@@ -471,7 +453,7 @@ describe('Frame', () => {
   });
 
   describe('close', () => {
-    let frame, mockOnClose, mockFrameParams;
+    let frame, mockOnClose;
 
     beforeEach(() => {
       mockOnClose = jasmine.createSpy('onClose');
@@ -480,13 +462,7 @@ describe('Frame', () => {
     describe('when preventClose option is false', () => {
       describe('when on desktop', () => {
         beforeEach(() => {
-          mockFrameParams = {
-            callbacks: {
-              onClose: mockOnClose
-            }
-          };
-
-          frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+          frame = domRender(<Frame onClose={mockOnClose}>{mockChild}</Frame>);
 
           frame.close();
         });
@@ -514,7 +490,7 @@ describe('Frame', () => {
             mockSettingsValue.position.vertical = 'top';
 
             Frame = requireUncached(FramePath).Frame;
-            frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+            frame = domRender(<Frame onClose={mockOnClose}>{mockChild}</Frame>);
 
             spyOn(frame, 'hide');
 
@@ -532,18 +508,9 @@ describe('Frame', () => {
         let mockEvent;
 
         beforeEach(() => {
-          mockFrameParams = {
-            callbacks: {
-              onClose: mockOnClose
-            },
-            options: {
-              fullscreenable: true
-            }
-          };
-
           mockIsMobileBrowserValue = true;
 
-          frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+          frame = domRender(<Frame onClose={mockOnClose} fullscreenable={true}>{mockChild}</Frame>);
 
           spyOn(frame, 'hide');
           frame.close({});
@@ -583,12 +550,7 @@ describe('Frame', () => {
 
     describe('when preventClose option is true', () => {
       beforeEach(() => {
-        mockFrameParams = {
-          toggles: {
-            preventClose: true
-          }
-        };
-        frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+        frame = domRender(<Frame onClose={mockOnClose} preventClose={true}>{mockChild}</Frame>);
 
         spyOn(frame, 'hide');
         frame.close();
@@ -612,13 +574,7 @@ describe('Frame', () => {
     beforeEach(() => {
       mockOnBack = jasmine.createSpy('onBack');
 
-      const mockFrameParams = {
-        callbacks: {
-          onBack: mockOnBack
-        }
-      };
-
-      frame = domRender(<Frame {...mockFrameParams} store={{}}>{mockChild}</Frame>);
+      frame = domRender(<Frame onBack={mockOnBack}>{mockChild}</Frame>);
 
       frame.back({ preventDefault: noop });
     });
@@ -634,7 +590,7 @@ describe('Frame', () => {
 
     describe('visibility', () => {
       beforeEach(() => {
-        frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+        frame = domRender(<Frame>{mockChild}</Frame>);
       });
 
       it('should not visibile classes if state.visible is true', () => {
@@ -662,7 +618,7 @@ describe('Frame', () => {
     describe('position', () => {
       describe('vertical', () => {
         beforeEach(() => {
-          frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+          frame = domRender(<Frame>{mockChild}</Frame>);
         });
 
         it('should have bottom classes by default', () => {
@@ -678,7 +634,7 @@ describe('Frame', () => {
             mockSettingsValue = { position: { vertical: 'top'} };
             Frame = requireUncached(FramePath).Frame;
 
-            frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+            frame = domRender(<Frame>{mockChild}</Frame>);
           });
 
           it('should have top classes', () => {
@@ -693,7 +649,7 @@ describe('Frame', () => {
 
       describe('horizontal', () => {
         beforeEach(() => {
-          frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+          frame = domRender(<Frame>{mockChild}</Frame>);
         });
 
         it('should have right classes by default', () => {
@@ -705,7 +661,7 @@ describe('Frame', () => {
         });
 
         it('can be changed by the position prop', () => {
-          frame = domRender(<Frame options={{ position: 'left' }} store={{}}>{mockChild}</Frame>);
+          frame = domRender(<Frame position='left'>{mockChild}</Frame>);
 
           expect(frame.computeIframeStyle().left)
             .toBeDefined();
@@ -719,7 +675,7 @@ describe('Frame', () => {
             mockSettingsValue = { position: { horizontal: 'left'} };
             Frame = requireUncached(FramePath).Frame;
 
-            frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+            frame = domRender(<Frame>{mockChild}</Frame>);
           });
 
           it('uses that setting over the prop', () => {
@@ -740,7 +696,7 @@ describe('Frame', () => {
         mockSettingsValue = { offset: { vertical: 31, horizontal: 52 } };
         Frame = requireUncached(FramePath).Frame;
 
-        frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+        frame = domRender(<Frame>{mockChild}</Frame>);
       });
 
       it('should apply the offsets', () => {
@@ -759,7 +715,7 @@ describe('Frame', () => {
         mockSettingsValue = { zIndex: 10001 };
         Frame = requireUncached(FramePath).Frame;
 
-        frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+        frame = domRender(<Frame>{mockChild}</Frame>);
       });
 
       it('uses the value from settings if it exists', () => {
@@ -773,7 +729,7 @@ describe('Frame', () => {
     let frame;
 
     beforeEach(() => {
-      frame = domRender(<Frame name='foo' store={{}}>{mockChild}</Frame>);
+      frame = domRender(<Frame name='foo'>{mockChild}</Frame>);
     });
 
     it('should render an iframe', () => {
@@ -795,7 +751,7 @@ describe('Frame', () => {
       mockIsRTLValue = true;
       Frame = requireUncached(FramePath).Frame;
 
-      frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
+      frame = domRender(<Frame css='css-prop'>{mockChild}</Frame>);
     });
 
     it('sets rtl and lang attr on the frame', () => {
@@ -812,23 +768,20 @@ describe('Frame', () => {
     });
 
     describe('contructEmbed', () => {
-      beforeEach(() => {
-        frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
-      });
-
       it('should add updateFrameSize to the child component', () => {
         expect(frame.getRootComponent().updateFrameSize)
           .toBeDefined();
       });
-    });
 
-    describe('injectEmbedIntoFrame', () => {
-      beforeEach(() => {
-        frame = domRender(<Frame store={{}}>{mockChild}</Frame>);
-      });
+      it('should add css styles to the element', () => {
+        expect(frame.getChild().props.baseCSS)
+          .toContain('base-css-file');
 
-      it('fuck this', () => {
+        expect(frame.getChild().props.baseCSS)
+          .toContain('main-css-file');
 
+        expect(frame.getChild().props.baseCSS)
+          .toContain('css-prop');
       });
     });
   });

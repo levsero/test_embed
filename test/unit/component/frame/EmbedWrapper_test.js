@@ -1,7 +1,7 @@
 describe('EmbedWrapper', () => {
   let EmbedWrapper;
 
-  const EmbedWrapperPath = buildSrcPath('component/frameFactory/EmbedWrapper');
+  const EmbedWrapperPath = buildSrcPath('component/frame/EmbedWrapper');
 
   beforeEach(() => {
     resetDOM();

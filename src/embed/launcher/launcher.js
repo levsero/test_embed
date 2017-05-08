@@ -47,26 +47,20 @@ function create(name, config, reduxStore) {
 
   const params = {
     css: launcherCSS + generateUserCSS(config.color),
-    frameDimensions: {
-      offsetWidth: 5,
-      offsetHeight: 1
-    },
+    frameOffsetWidth: 5,
+    frameOffsetHeight: 1,
     frameStyle: frameStyle,
+    fullscreenable: false,
+    hideCloseButton: true,
     name: name,
-    options: {
-      fullscreenable: false,
-      position: config.position,
-      visible: config.visible
-    },
-    toggles: {
-      hideCloseButton: true
-    },
+    position: config.position,
     transitions: {
       upShow: transitionFactory.webWidget.launcherUpShow(),
       downHide: transitionFactory.webWidget.launcherDownHide(),
       downShow: transitionFactory.webWidget.launcherDownShow(),
       upHide: transitionFactory.webWidget.launcherUpHide()
-    }
+    },
+    visible: config.visible
   };
 
   const component = (
