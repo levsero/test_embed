@@ -2,6 +2,8 @@ import airbrakeJs from 'airbrake-js';
 import Rollbar from 'vendor/rollbar.umd.nojson.min.js';
 import _ from 'lodash';
 
+import { getEnvironment } from 'utility/utils';
+
 let airbrake;
 let rollbar;
 let useRollbar;
@@ -14,11 +16,11 @@ const rollbarConfig =  {
   captureUncaught: true,
   captureUnhandledRejections: true,
   endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
-  hostWhiteList: ['assets.zendesk.com'],
+  hostWhiteList: ['assets.zd-staging.com', 'assets.zendesk.com'],
   ignoredMessages: errorMessageBlacklist,
   maxItems: 100,
   payload: {
-    environment: 'production',
+    environment: getEnvironment(),
     client: {
       javascript: {
         code_version: __EMBEDDABLE_VERSION__ // eslint-disable-line camelcase
