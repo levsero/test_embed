@@ -561,7 +561,7 @@ u-overflowAuto {
  */
 
 .u-flex {
-  display: flex;
+  display: flex !important;
 }
 
 .u-flexJustifyCenter {
@@ -576,12 +576,12 @@ u-overflowAuto {
   align-items: center !important;
 }
 
-.u-displayInherit {
-  display: inherit;
-}
-
 .u-flexAlignItemsBase {
   align-items: baseline !important;
+}
+
+.u-displayInherit {
+  display: inherit;
 }
 
 /**
