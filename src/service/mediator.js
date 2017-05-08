@@ -122,6 +122,16 @@ const showEmbed = (_state, viaActivate = false) => {
   }
 };
 
+const isHelpCenterAccessible = (signInRequired) => {
+  if (signInRequired) {
+    const authSettings = settings.get('authenticate');
+
+    return !!(authSettings && authSettings.jwt);
+  }
+
+  return true;
+};
+
 function init(embedsAccessible, params = {}) {
   const updateLauncherLabel = () => {
     if (chatAvailable()) {
@@ -138,10 +148,13 @@ function init(embedsAccessible, params = {}) {
     }
   };
 
+  const helpCenterAccessible = embedsAccessible.helpCenter
+                               && isHelpCenterAccessible(params.helpCenterSignInRequired);
+
   state['.hasHidden'] = params.hideLauncher;
   state[`${launcher}.userHidden`] = params.hideLauncher;
   state[`${submitTicket}.isAccessible`] = embedsAccessible.submitTicket;
-  state[`${helpCenter}.isAccessible`] = embedsAccessible.helpCenter;
+  state[`${helpCenter}.isAccessible`] = helpCenterAccessible;
   state[`${channelChoice}.isAccessible`] = embedsAccessible.channelChoice;
   state[`${chat}.isAccessible`] = embedsAccessible.chat;
   state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppress');

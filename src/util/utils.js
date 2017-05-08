@@ -4,6 +4,8 @@ import crypto from 'crypto';
 import { document as doc,
          location } from 'utility/globals';
 
+const zendeskStagingDomain = 'zd-staging';
+
 function parseUrl(url) {
   const anchor = document.createElement('a');
 
@@ -116,6 +118,19 @@ function referrerPolicyUrl(policy, url) {
   }
 }
 
+function getEnvironment() {
+  try {
+    const mainScript = document.getElementById('js-iframe-async') || {};
+    const url = mainScript.src || '';
+
+    return (url.match(zendeskStagingDomain))
+      ? 'staging'
+      : 'production';
+  } catch (e) {
+    return 'production';
+  }
+}
+
 export {
   getPageKeywords,
   getPageTitle,
@@ -129,5 +144,6 @@ export {
   nowInSeconds,
   sha1,
   emailValid,
-  referrerPolicyUrl
+  referrerPolicyUrl,
+  getEnvironment
 };

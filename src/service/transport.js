@@ -35,7 +35,7 @@ function send(payload, addType = true) {
     //
     // MOCK RESPONSES FOR PROTOTYPE TESTING
     //
-    if (payload.path.includes('/connect/api/ipm/pending_campaign')) {
+    if (_.includes(payload.path, '/connect/api/ipm/pending_campaign')) {
       /* eslint no-console:0 */
       console.log(payload.params, payload.method, payload.path);
       setTimeout(function() {
@@ -84,7 +84,7 @@ function send(payload, addType = true) {
     }
 
     // no need to actually send IPM results back in dev
-    if (payload.path.includes('/connect/api/ipm/campaign_events')) {
+    if (_.includes(payload.path, '/connect/api/ipm/campaign_events')) {
       console.log('Stubbing IPM request', payload);
       return;
     }
@@ -120,7 +120,7 @@ function send(payload, addType = true) {
   });
 }
 
-function sendWithMeta(payload, useBase64 = false) {
+function sendWithMeta(payload, useBase64 = true) {
   const commonParams = {
     buid: identity.getBuid(),
     suid: identity.getSuid().id || null,
@@ -135,7 +135,7 @@ function sendWithMeta(payload, useBase64 = false) {
 
   if (useBase64) {
     payload.query = { data: base64encode(JSON.stringify(payload.params)) };
-    send({ method: 'get', path: payload.path, query: payload.query}, false);
+    send(_.pick(payload, ['method', 'path', 'query']), false);
   } else {
     send(payload);
   }
