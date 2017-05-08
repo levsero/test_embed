@@ -52,17 +52,17 @@ Adding a source to the header's `script-src` directive is not enough to whitelis
 
 ### Whitelisting the Web Widget when Chat is enabled
 
-If Zendesk Chat is [enabled](https://support.zendesk.com/hc/en-us/articles/203908456#topic_j1f_4gd_bq) for the Web Widget, the whitelisting solution described in the previous section won't work. The Widget's embed code tries to load additional, chat-related resources from "*.zopim" sources. To give the browser permission to load these resources, you must specify the following 3 sources in the `default-src` directive: 
+If Zendesk Chat is [enabled](https://support.zendesk.com/hc/en-us/articles/203908456#topic_j1f_4gd_bq) for the Web Widget, the whitelisting solution described in the previous section won't work. The Widget's embed code tries to load additional, chat-related resources from "*.zopim" sources. To give the browser permission to load these resources, you must specify the following 3 sources in the `default-src` directive:
 * `https://*.zopim.com`
-* `https://*.zopim.io` 
+* `https://*.zopim.io`
 * `wss://*.zopim.com`
 
-You must also relax your policy for CSS styles in the `style-src `directive by specifying `unsafe-inline` instead of a Zendesk source for CSS files.
+You must also relax your policy for inline scripts and CSS styles by specifying `'unsafe-inline'` in both the `script-src` and `style-src ` directives. This is because a snippet and styles for chat are injected into the host page at runtime.
 
 Example header:
 
 ```
-Content-Security-Policy: default-src 'self' https://*.zopim.com wss://*.zopim.com https://*.zopim.io; style-src 'unsafe-inline'
+Content-Security-Policy: script-src 'self' https://assets.zendesk.com https://*.zopim.com wss://*.zopim.com https://*.zopim.io 'unsafe-'inline'; style-src 'unsafe-inline'
 ```
 
 For more information, see the discussion named [Content Security Policy](https://chat.zendesk.com/hc/en-us/community/posts/210316137/comments/211646308) in the Zendesk Chat community.
