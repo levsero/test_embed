@@ -4,6 +4,8 @@ import crypto from 'crypto';
 import { document as doc,
          location } from 'utility/globals';
 
+const zendeskStagingDomain = 'zd-staging';
+
 function parseUrl(url) {
   const anchor = document.createElement('a');
 
@@ -121,7 +123,7 @@ function getEnvironment() {
     const mainScript = document.getElementById('js-iframe-async') || {};
     const url = mainScript.src || '';
 
-    return (url.match('zd-staging'))
+    return (url.match(zendeskStagingDomain))
       ? 'staging'
       : 'production';
   } catch (e) {

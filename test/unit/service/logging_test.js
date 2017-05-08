@@ -34,9 +34,7 @@ describe('logging', () => {
         }
       },
       'utility/utils': {
-        getEnvironment: () => {
-          return 'production';
-        }
+        getEnvironment: () => 'production'
       }
     });
 
