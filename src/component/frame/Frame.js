@@ -116,7 +116,7 @@ export class Frame extends Component {
   }
 
   getRootComponentElement = () => {
-    return this.getContentDocument().getElementById('Embed').firstChild;
+    return this.child.embed;
   }
 
   getRootComponent = () => {

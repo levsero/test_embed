@@ -46,6 +46,8 @@ export class EmbedWrapper extends Component {
       isMobile: false,
       showBackButton: false
     };
+
+    this.embed = null;
   }
 
   showBackButton = (show = true) => {
@@ -133,7 +135,7 @@ export class EmbedWrapper extends Component {
               position: 'right'
             })}
           </div>
-          <div id='Embed'>
+          <div id='Embed' ref={(el) => {this.embed = el;}}>
             {newChild}
           </div>
         </div>

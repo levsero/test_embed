@@ -3,6 +3,15 @@ describe('EmbedWrapper', () => {
 
   const EmbedWrapperPath = buildSrcPath('component/frame/EmbedWrapper');
 
+  class MockChildComponent extends Component {
+    constructor(props) {
+      super(props);
+    }
+    render() {
+      return <div className='mock-component' />;
+    }
+  }
+
   beforeEach(() => {
     resetDOM();
 
@@ -41,5 +50,40 @@ describe('EmbedWrapper', () => {
 
     expect(styleBlock.innerHTML.indexOf('.base-css-file {}') >= 0)
       .toBeTruthy();
+  });
+
+  describe('when a child prop is passed into it', () => {
+    let instance;
+
+    beforeEach(() => {
+      instance = domRender(
+        <EmbedWrapper><MockChildComponent /></EmbedWrapper>
+      );
+    });
+
+    it('renders the child in the wrapper', () => {
+      expect(instance.embed.firstChild.className)
+        .toBe('mock-component');
+    });
+
+    it('renders adds the rootComponent ref to that child', () => {
+      expect(instance.refs.rootComponent)
+        .toBeDefined();
+    });
+  });
+
+  describe('when a childFn prop is passed into it', () => {
+    let instance;
+
+    beforeEach(() => {
+      instance = domRender(
+        <EmbedWrapper childFn={() => <MockChildComponent />} />
+      );
+    });
+
+    it('renders the childFn in the wrapper', () => {
+      expect(instance.embed.firstChild.className)
+        .toBe('mock-component');
+    });
   });
 });

@@ -14,13 +14,17 @@ describe('Frame', () => {
   const FramePath = buildSrcPath('component/frame/Frame');
 
   class MockEmbedWrapper extends Component {
+    constructor(props, context) {
+      super(props, context);
+      this.embed = null;
+    }
     render() {
       const newChild = React.cloneElement(this.props.children, {
         ref: 'rootComponent'
       });
 
       return (
-        <div id='Embed'>{newChild}</div>
+        <div id='Embed' ref={(el) => {this.embed = el;}}>{newChild}</div>
       );
     }
   }
@@ -35,9 +39,7 @@ describe('Frame', () => {
     }
     componentWillUnmount() {}
     render() {
-      return (
-        <div className='mock-component' refs='rootComponent' />
-      );
+      return <div className='mock-component' refs='rootComponent' />;
     }
   }
 
