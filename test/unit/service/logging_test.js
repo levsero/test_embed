@@ -33,8 +33,10 @@ describe('logging', () => {
           return { error: rollbarErrorSpy };
         }
       },
-      'utility/globals': {
-        document: document
+      'utility/utils': {
+        getEnvironment: () => {
+          return 'production';
+        }
       }
     });
 
