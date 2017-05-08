@@ -456,57 +456,54 @@ describe('HelpCenter component', () => {
         }));
     });
 
-    it('shouldn\'t call contextualSearchSender if no valid search options were passed', () => {
-      let searchOptions = { foo: 'bar' };
+    describe('when no valid searchOptions were passed', () => {
+      const invalidSearchOptions = [
+        { foo: 'bar' },
+        5,
+        false,
+        'foo bar',
+        { labels: [] },
+        { search: '' }
+      ];
 
-      helpCenter.contextualSearch(searchOptions);
+      beforeEach(() => {
+        spyOn(helpCenter, 'setLoading');
+      });
 
-      expect(mockContextualSearchSender)
-        .not.toHaveBeenCalled();
+      invalidSearchOptions.forEach((options) => {
+        it(`shouldn\'t call contextualSearchSender using search options ${options}`, () => {
+          helpCenter.contextualSearch(options);
 
-      searchOptions = 5;
+          expect(mockContextualSearchSender)
+            .not.toHaveBeenCalled();
+        });
 
-      helpCenter.contextualSearch(searchOptions);
+        it(`should call setLoading with false using search options ${options}`, () => {
+          helpCenter.contextualSearch(options);
 
-      expect(mockContextualSearchSender)
-        .not.toHaveBeenCalled();
-
-      searchOptions = false;
-
-      helpCenter.contextualSearch(searchOptions);
-
-      expect(mockContextualSearchSender)
-        .not.toHaveBeenCalled();
-
-      searchOptions = 'foo bar';
-
-      helpCenter.contextualSearch(searchOptions);
-
-      expect(mockContextualSearchSender)
-        .not.toHaveBeenCalled();
-
-      searchOptions = { labels: [] };
-
-      helpCenter.contextualSearch(searchOptions);
-
-      expect(mockContextualSearchSender)
-        .not.toHaveBeenCalled();
-
-      searchOptions = { search: '' };
-
-      helpCenter.contextualSearch(searchOptions);
-
-      expect(mockContextualSearchSender)
-        .not.toHaveBeenCalled();
+          expect(helpCenter.setLoading)
+            .toHaveBeenCalledWith(false);
+        });
+      });
     });
 
-    it('shouldn\'t call contextualSearchSender if url keywords are empty', () => {
-      let searchOptions = { url: true, pageKeywords: '' };
+    describe('when url keywords are empty', () => {
+      beforeEach(() => {
+        const searchOptions = { url: true, pageKeywords: '' };
 
-      helpCenter.contextualSearch(searchOptions);
+        spyOn(helpCenter, 'setLoading');
+        helpCenter.contextualSearch(searchOptions);
+      });
 
-      expect(mockContextualSearchSender)
-        .not.toHaveBeenCalled();
+      it('shouldn\'t call contextualSearchSender if url keywords are empty', () => {
+        expect(mockContextualSearchSender)
+          .not.toHaveBeenCalled();
+      });
+
+      it('should call setLoading with false', () => {
+        expect(helpCenter.setLoading)
+          .toHaveBeenCalledWith(false);
+      });
     });
 
     it('shouldn\'t call updateResults if no results', () => {
