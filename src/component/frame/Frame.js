@@ -22,6 +22,7 @@ if (!__DEV__) {
   _.noConflict();
 }
 
+const scrollingStyleDelay = 50; // small delay so that safari has finished rendering
 const sizingRatio = 12 * getZoomSizingRatio(false, true);
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 const zIndex = settings.get('zIndex');
@@ -210,7 +211,7 @@ export class Frame extends Component {
       if (!existingStyle.webkitOverflowScrolling) {
         existingStyle.webkitOverflowScrolling = 'touch';
       }
-    }, 50);
+    }, scrollingStyleDelay);
 
     setTimeout(() => this.setState({ frameStyle: animateTo }), 0);
 

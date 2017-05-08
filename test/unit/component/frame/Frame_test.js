@@ -376,19 +376,12 @@ describe('Frame', () => {
     });
 
     it('applies webkitOverflowScrolling when not set', () => {
-      const frameContainer = frame.getRootComponentElement();
-
-      frame.show();
-
       jasmine.clock().tick(50);
 
-      // Get the style AFTER the ticks
-      const frameContainerStyle = frameContainer.style;
+      const frameContainerStyle = frame.getRootComponentElement().style;
 
       expect(frameContainerStyle.WebkitOverflowScrolling)
         .toEqual('touch');
-
-      jasmine.clock().uninstall();
     });
   });
 
