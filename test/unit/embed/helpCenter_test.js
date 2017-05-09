@@ -680,34 +680,36 @@ describe('embed.helpCenter', () => {
       describe('when there is no error', () => {
         beforeEach(() => {
           args.callbacks.done(mockResponse);
+        });
+
+        it('should call setLoading with false', () => {
           jasmine.clock().tick(0);
+
+          expect(setLoading)
+            .toHaveBeenCalledWith(false);
         });
 
         it('should call the passed in doneFn', () => {
           expect(mockDoneFn)
             .toHaveBeenCalledWith(mockResponse);
         });
-
-        it('should call setLoading with false', () => {
-          expect(setLoading)
-            .toHaveBeenCalledWith(false);
-        });
       });
 
       describe('when there is an error', () => {
         beforeEach(() => {
           args.callbacks.fail();
+        });
+
+        it('should call setLoading with false', () => {
           jasmine.clock().tick(0);
+
+          expect(setLoading)
+            .toHaveBeenCalledWith(false);
         });
 
         it('should call the passed in failFn', () => {
           expect(mockFailFn)
             .toHaveBeenCalled();
-        });
-
-        it('should call setLoading with false', () => {
-          expect(setLoading)
-            .toHaveBeenCalledWith(false);
         });
       });
     });

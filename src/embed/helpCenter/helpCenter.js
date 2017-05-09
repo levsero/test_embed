@@ -118,20 +118,19 @@ function create(name, config, reduxStore) {
   };
 
   const searchSenderFn = (url) => (query, doneFn = () => {}, failFn = () => {}) => {
-    const stopLoadingSpinner = (arg) => (rootComponent, fn) => {
-      setTimeout(() => {
-        rootComponent.setLoading(false);
-        fn(arg);
-      }, 0);
+    const stopLoadingSpinner = (rootComponent) => {
+      setTimeout(() => rootComponent.setLoading(false), 0);
     };
     const done = (res) => {
       waitForRootComponent(name, (rootComponent) => {
-        stopLoadingSpinner(res)(rootComponent, doneFn);
+        stopLoadingSpinner(rootComponent);
+        doneFn(res);
       });
     };
-    const fail = (err) => {
+    const fail = () => {
       waitForRootComponent(name, (rootComponent) => {
-        stopLoadingSpinner(err)(rootComponent, failFn);
+        stopLoadingSpinner(rootComponent);
+        failFn();
       });
     };
     const payload = senderPayload(url)(query, done, fail);
