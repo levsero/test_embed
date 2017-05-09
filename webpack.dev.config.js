@@ -6,6 +6,9 @@ var root = config.root;
 
 root.devtool = 'cheap-module-eval-source-map';
 
+// Uncomment the line below for testing CSP.
+// root.devtool = 'source-map';
+
 root.devServer = {
   port: 1337,
   contentBase: 'example',

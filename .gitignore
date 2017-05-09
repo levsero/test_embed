@@ -1,6 +1,7 @@
 node_modules/
 dist/
 example/*
+!example/csp.js
 !example/*-template.html
 build/
 src/translation/*
