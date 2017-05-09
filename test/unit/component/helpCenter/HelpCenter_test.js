@@ -4,7 +4,6 @@ describe('HelpCenter component', () => {
     mockPageKeywords,
     trackSearch,
     updateResults,
-    mockIsIEValue,
     search;
 
   const helpCenterPath = buildSrcPath('component/helpCenter/HelpCenter');
@@ -32,19 +31,9 @@ describe('HelpCenter component', () => {
     mockery.enable();
 
     mockPageKeywords = 'billy bob thorton';
-    mockIsIEValue = false;
 
     mockRegistry = initMockRegistry({
       'React': React,
-      './HelpCenter.sass': {
-        locals: {
-          loadingSpinnerIE: 'loadingSpinnerIEClasses',
-          loadingSpinner: 'loadingSpinnerClasses'
-        }
-      },
-      'utility/devices': {
-        isIE: () => mockIsIEValue
-      },
       'component/helpCenter/HelpCenterArticle': {
         HelpCenterArticle: class extends Component {
           render() {
@@ -97,16 +86,6 @@ describe('HelpCenter component', () => {
           }
         }
       },
-      'component/container/ScrollContainer': {
-        ScrollContainer: class extends Component {
-          render() {
-            return <div>{this.props.children}</div>;
-          }
-        }
-      },
-      'component/loading/LoadingSpinner': {
-        LoadingSpinner: noopReactComponent()
-      },
       'service/i18n': {
         i18n: {
           init: jasmine.createSpy(),
@@ -155,46 +134,7 @@ describe('HelpCenter component', () => {
 
   describe('render', () => {
     let helpCenter,
-      helpCenterNode,
       buttonLabelKey = 'contact';
-
-    beforeEach(() => {
-      helpCenter = domRender(<HelpCenter />);
-      helpCenterNode = ReactDOM.findDOMNode(helpCenter);
-    });
-
-    describe('when state.loadingSpinnerActive is true', () => {
-      beforeEach(() => {
-        helpCenter.setLoading(true);
-      });
-
-      it('should render the loading spinner', () => {
-        expect(helpCenterNode.querySelectorAll('.loadingSpinnerClasses').length)
-          .toBe(1);
-      });
-
-      describe('when on IE', () => {
-        beforeEach(() => {
-          mockIsIEValue = true;
-
-          helpCenter = domRender(<HelpCenter />);
-          helpCenterNode = ReactDOM.findDOMNode(helpCenter);
-          helpCenter.setLoading(true);
-        });
-
-        it('should have extra padding', () => {
-          expect(helpCenterNode.querySelectorAll('.loadingSpinnerIEClasses').length)
-            .toBe(1);
-        });
-      });
-    });
-
-    describe('when state.loadingSpinnerActive is false', () => {
-      it('should not render the loading spinner', () => {
-        expect(helpCenterNode.querySelectorAll('.loadingSpinnerClasses').length)
-          .toBe(0);
-      });
-    });
 
     describe('when channel choice is on', () => {
       beforeEach(() => {
@@ -208,7 +148,7 @@ describe('HelpCenter component', () => {
       });
     });
 
-    describe('when channel choice is off', () => {
+    describe('when channelchoice is off', () => {
       beforeEach(() => {
         helpCenter = instanceRender(<HelpCenter buttonLabelKey={buttonLabelKey} channelChoice={false} />);
       });
@@ -456,54 +396,57 @@ describe('HelpCenter component', () => {
         }));
     });
 
-    describe('when no valid searchOptions were passed', () => {
-      const invalidSearchOptions = [
-        { foo: 'bar' },
-        5,
-        false,
-        'foo bar',
-        { labels: [] },
-        { search: '' }
-      ];
+    it('shouldn\'t call contextualSearchSender if no valid search options were passed', () => {
+      let searchOptions = { foo: 'bar' };
 
-      beforeEach(() => {
-        spyOn(helpCenter, 'setLoading');
-      });
+      helpCenter.contextualSearch(searchOptions);
 
-      invalidSearchOptions.forEach((options) => {
-        it(`shouldn\'t call contextualSearchSender using search options ${options}`, () => {
-          helpCenter.contextualSearch(options);
+      expect(mockContextualSearchSender)
+        .not.toHaveBeenCalled();
 
-          expect(mockContextualSearchSender)
-            .not.toHaveBeenCalled();
-        });
+      searchOptions = 5;
 
-        it(`should call setLoading with false using search options ${options}`, () => {
-          helpCenter.contextualSearch(options);
+      helpCenter.contextualSearch(searchOptions);
 
-          expect(helpCenter.setLoading)
-            .toHaveBeenCalledWith(false);
-        });
-      });
+      expect(mockContextualSearchSender)
+        .not.toHaveBeenCalled();
+
+      searchOptions = false;
+
+      helpCenter.contextualSearch(searchOptions);
+
+      expect(mockContextualSearchSender)
+        .not.toHaveBeenCalled();
+
+      searchOptions = 'foo bar';
+
+      helpCenter.contextualSearch(searchOptions);
+
+      expect(mockContextualSearchSender)
+        .not.toHaveBeenCalled();
+
+      searchOptions = { labels: [] };
+
+      helpCenter.contextualSearch(searchOptions);
+
+      expect(mockContextualSearchSender)
+        .not.toHaveBeenCalled();
+
+      searchOptions = { search: '' };
+
+      helpCenter.contextualSearch(searchOptions);
+
+      expect(mockContextualSearchSender)
+        .not.toHaveBeenCalled();
     });
 
-    describe('when url keywords are empty', () => {
-      beforeEach(() => {
-        const searchOptions = { url: true, pageKeywords: '' };
+    it('shouldn\'t call contextualSearchSender if url keywords are empty', () => {
+      let searchOptions = { url: true, pageKeywords: '' };
 
-        spyOn(helpCenter, 'setLoading');
-        helpCenter.contextualSearch(searchOptions);
-      });
+      helpCenter.contextualSearch(searchOptions);
 
-      it('shouldn\'t call contextualSearchSender if url keywords are empty', () => {
-        expect(mockContextualSearchSender)
-          .not.toHaveBeenCalled();
-      });
-
-      it('should call setLoading with false', () => {
-        expect(helpCenter.setLoading)
-          .toHaveBeenCalledWith(false);
-      });
+      expect(mockContextualSearchSender)
+        .not.toHaveBeenCalled();
     });
 
     it('shouldn\'t call updateResults if no results', () => {
