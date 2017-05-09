@@ -6,7 +6,7 @@ var root = config.root;
 
 root.devtool = 'cheap-module-eval-source-map';
 
-// Enable this for testing CSP.
+// Uncomment the line below for testing CSP.
 // root.devtool = 'source-map';
 
 root.devServer = {
