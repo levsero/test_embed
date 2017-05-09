@@ -17,7 +17,6 @@ describe('mediator', () => {
     mockOnHelpCenterPageValue,
     mockPositionValue,
     mockEmailValid,
-    mockAuthenticateValue,
     initSubscriptionSpies;
 
   const reset = function(spy) {
@@ -33,7 +32,6 @@ describe('mediator', () => {
     mockHelpCenterSuppressedValue = false;
     mockContactFormSuppressedValue = false;
     mockOnHelpCenterPageValue = false;
-    mockAuthenticateValue = undefined;
     mockPositionValue = { horizontal: 'right', vertical: 'bottom' };
 
     mockRegistry = initMockRegistry({
@@ -46,7 +44,6 @@ describe('mediator', () => {
         settings : {
           get: (value) => {
             return _.get({
-              authenticate: mockAuthenticateValue,
               chat: { suppress: mockChatSuppressedValue },
               helpCenter: { suppress: mockHelpCenterSuppressedValue },
               contactForm: { suppress: mockContactFormSuppressedValue },
@@ -1365,15 +1362,12 @@ describe('mediator', () => {
     });
 
     describe('with authenticated help center', () => {
-      beforeEach(() => {
-        mockAuthenticateValue = { jwt: 'abc' };
+      it('broadcasts authentication.renew when onClick is called', () => {
         mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
 
         c.broadcast('authentication.onSuccess');
         c.broadcast(`${launcher}.onClick`);
-      });
 
-      it('broadcasts authentication.renew when onClick is called', () => {
         expect(authenticationSub.renew)
           .toHaveBeenCalled();
       });
@@ -2448,56 +2442,6 @@ describe('mediator', () => {
 
       expect(revertWindowScroll.calls.count())
         .toEqual(1);
-    });
-
-    describe('when sign in required is true', () => {
-      beforeEach(() => {
-        jasmine.clock().install();
-      });
-
-      describe('when there is an authenticate setting on page', () => {
-        beforeEach(() => {
-          mockAuthenticateValue = { jwt: 'abc' };
-          mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
-          c.broadcast(`${launcher}.onClick`);
-          jasmine.clock().tick(0);
-        });
-
-        it('should show help center', () => {
-          expect(helpCenterSub.show)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when there is no authenticate setting on page', () => {
-        describe('when contact form is enabled', () => {
-          beforeEach(() => {
-            mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
-            c.broadcast(`${launcher}.onClick`);
-            jasmine.clock().tick(0);
-          });
-
-          it('should show the contact form', () => {
-            expect(submitTicketSub.show)
-              .toHaveBeenCalled();
-          });
-        });
-
-        describe('when chat is enabled', () => {
-          beforeEach(() => {
-            mediator.init({ submitTicket: true, chat: true, helpCenter: true }, { helpCenterSignInRequired: true });
-
-            c.broadcast(`${chat}.onOnline`);
-            c.broadcast(`${launcher}.onClick`);
-            jasmine.clock().tick(1);
-          });
-
-          it('should show chat', () => {
-            expect(chatSub.show)
-              .toHaveBeenCalled();
-          });
-        });
-      });
     });
   });
 
