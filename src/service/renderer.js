@@ -85,7 +85,7 @@ function init(config) {
       embedsMap.channelChoice.render('channelChoice');
     }
 
-    const singleIframe = settings.get('expanded') && config.expandable;
+    const singleIframe = config.singleIframe;
     let parsedConfig = parseConfig(config);
 
     if (singleIframe) {

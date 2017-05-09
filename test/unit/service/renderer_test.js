@@ -10,7 +10,6 @@ describe('renderer', () => {
     mockIpm,
     mockAutomaticAnswers,
     mockChannelChoiceValue,
-    mockExpandedValue,
     mockWebWidget;
   const updateBaseFontSize = jasmine.createSpy();
   const updateFrameSize = jasmine.createSpy();
@@ -49,8 +48,6 @@ describe('renderer', () => {
     mockIpm = embedMocker('mockIpm');
     mockAutomaticAnswers = embedMocker('mockAutomaticAnswers');
     mockWebWidget = embedMocker('mockWebWidget');
-
-    mockExpandedValue = false;
 
     mockRegistry = initMockRegistry({
       'embed/submitTicket/submitTicket': {
@@ -100,8 +97,7 @@ describe('renderer', () => {
           enableCustomizations: jasmine.createSpy(),
           getTrackSettings: jasmine.createSpy().and.returnValue(mockTrackSettings),
           get: (value) => _.get({
-            channelChoice: mockChannelChoiceValue,
-            expanded: mockExpandedValue
+            channelChoice: mockChannelChoiceValue
           }, value, null)
         }
       },
@@ -328,10 +324,9 @@ describe('renderer', () => {
       });
     });
 
-    describe('when expanded setting and expandable is true', () => {
+    describe('when singleIframe is true', () => {
       beforeEach(() => {
-        mockExpandedValue = true;
-        configJSON.expandable = true;
+        configJSON.singleIframe = true;
 
         renderer.init(configJSON);
       });
