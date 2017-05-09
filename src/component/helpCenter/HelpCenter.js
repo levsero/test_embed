@@ -174,7 +174,6 @@ export class HelpCenter extends Component {
     } else if (options.url && options.pageKeywords && options.pageKeywords.length > 0) {
       searchTerm = query.query = options.pageKeywords;
     } else {
-      this.setLoading(false);
       return;
     }
 
