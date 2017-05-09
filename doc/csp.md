@@ -1,13 +1,22 @@
-## Web Widget CSP support
+## Content Security Policy (CSP) support
 
-The Web Widget will not support the [Content-Security-Policy][csp-link] (CSP) header by default.
+The HTTP [Content-Security-Policy](http://www.html5rocks.com/en/tutorials/security/content-security-policy/) response header helps guard against cross-site scripting attacks. The header specifies a whitelist that controls the resources the browser is allowed to load when rendering the page. This section describes how to add the Web Widget to the whitelist.
 
-### How to add support
+<p class="alert alert-warning" style="margin-top:20px;"><strong>Note</strong>: If Zendesk Chat is enabled for the widget, see <a href="#whitelisting-the-web-widget-when-chat-is-enabled">Whitelisting the Web Widget when Chat is enabled</a> below.</p>
 
-To avoid adding the `unsafe-inline` and `unsafe-eval` directives follow these instructions:
+### Whitelisting the Web Widget
 
-1. Add `assets.zendesk.com` to your `script-src` whitelist directive.
-2. You must create a JavaScript file containing the following:
+Adding a source to the header's `script-src` directive is not enough to whitelist the Web Widget. You must also include some supporting JavaScript in your site.
+
+**To whitelist the Web Widget**
+
+1. Add `assets.zendesk.com` to the header's `script-src` directive. Example:
+
+    ```
+    Content-Security-Policy: script-src 'self' https://assets.zendesk.com
+    ```
+
+2. Create a JavaScript file containing the following script and save it in your domain.
 
     ```js
     window.zEmbed||(function(){
@@ -17,20 +26,43 @@ To avoid adding the `unsafe-inline` and `unsafe-eval` directives follow these in
         queue.push(arguments);
       }
       window.zE = window.zE || window.zEmbed;
-      document.zendeskHost = '{{zendeskSubdomain}}';
+      document.zendeskHost = 'your_subdomain.zendesk.com';
       document.zEQueue = queue;
     }());
     ```
 
-    Where `{{zendeskSubdomain}}` is replaced by your host e.g. `subdomain.zendesk.com`.
+    Replace `your_subdomain` with your Zendesk Support subdomain.
 
-    This can be minified and bundled into a single JavaScript file but must appear before the `<script>` tag detailed in the next step.
-3. Add the following script to to your site:
+3. Add the script to your site. Example:
+
+    ```html
+    <script type="text/javascript" src="webwidget_csp.js"></script>
+    ```
+
+    The link must appear before the `<script>` tag detailed in the next step.
+
+4. Add the following script _after_ the script in step 3:
 
     ```html
     <script src="//assets.zendesk.com/embeddable_framework/main.js" data-ze-csp="true" async defer></script>
     ```
 
-    **Note**: Please preserve the extra attribute as they're needed for CSP support to function correctly.
+    **Note**: The additional attributes are required.
 
-[csp-link]: http://www.html5rocks.com/en/tutorials/security/content-security-policy/
+
+### Whitelisting the Web Widget when Chat is enabled
+
+If Zendesk Chat is [enabled](https://support.zendesk.com/hc/en-us/articles/203908456#topic_j1f_4gd_bq) for the Web Widget, the whitelisting solution described in the previous section won't work. The Widget's embed code tries to load additional, chat-related resources from "*.zopim" sources. To give the browser permission to load these resources, you must specify the following 3 sources in the `default-src` directive:
+* `https://*.zopim.com`
+* `https://*.zopim.io`
+* `wss://*.zopim.com`
+
+You must also relax your policy for inline scripts and CSS styles by specifying `'unsafe-inline'` in both the `script-src` and `style-src ` directives. This is because a snippet and styles for chat are injected into the host page at runtime.
+
+Example header:
+
+```
+Content-Security-Policy: script-src 'self' https://assets.zendesk.com https://*.zopim.com wss://*.zopim.com https://*.zopim.io 'unsafe-'inline'; style-src 'unsafe-inline'
+```
+
+For more information, see the discussion named [Content Security Policy](https://chat.zendesk.com/hc/en-us/community/posts/210316137/comments/211646308) in the Zendesk Chat community.
