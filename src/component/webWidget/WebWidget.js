@@ -6,13 +6,19 @@ import classNames from 'classnames';
 import Chat from 'component/chat/Chat';
 import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
+import { updateActiveEmbed,
+         updateEmbedAccessible } from 'src/redux/modules/base';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
 const chat = 'chat';
 
 const mapStateToProps = (state) => {
-  return { chat: state.chat };
+  return {
+    activeEmbed: state.base.activeEmbed,
+    embeds: state.base.embeds,
+    chat: state.chat
+  };
 };
 
 class WebWidget extends Component {
@@ -256,4 +262,9 @@ class WebWidget extends Component {
   }
 }
 
-export default connect(mapStateToProps, {}, null, { withRef: true })(WebWidget);
+const actionCreators = {
+  updateActiveEmbed,
+  updateEmbedAccessible
+};
+
+export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);
