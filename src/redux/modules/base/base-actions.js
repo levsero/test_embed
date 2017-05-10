@@ -1,0 +1,31 @@
+import {
+  UPDATE_ACTIVE_EMBED,
+  UPDATE_EMBED
+} from './base-action-types';
+
+export const updateActiveEmbed = (embedName) => {
+  return {
+    type: UPDATE_ACTIVE_EMBED,
+    payload: embedName
+  };
+};
+
+export const updateEmbed = (name, params) => {
+  return {
+    type: UPDATE_EMBED,
+    payload: {
+      name,
+      ...params
+    }
+  };
+};
+
+export const updateEmbedAccessible = (name, accessible) => {
+  return {
+    type: UPDATE_EMBED,
+    payload: {
+      name,
+      accessible
+    }
+  };
+};
