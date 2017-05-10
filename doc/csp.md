@@ -52,7 +52,8 @@ Adding a source to the header's `script-src` directive is not enough to whitelis
 
 ### Whitelisting the Web Widget when Chat is enabled
 
-If Zendesk Chat is [enabled](https://support.zendesk.com/hc/en-us/articles/203908456#topic_j1f_4gd_bq) for the Web Widget, the whitelisting solution described in the previous section won't work. The Widget's embed code tries to load additional, chat-related resources from "*.zopim" sources. To give the browser permission to load these resources, you must specify the following 3 sources in the `default-src` directive:
+If Zendesk Chat is [enabled](https://support.zendesk.com/hc/en-us/articles/203908456#topic_j1f_4gd_bq) for the Web Widget, the whitelisting solution described in the previous section won't work. The Widget's embed code tries to load additional, chat-related resources from "\*.zopim" sources. To give the browser permission to load these resources, you must specify the following 3 sources in the `default-src` directive:
+
 * `https://*.zopim.com`
 * `https://*.zopim.io`
 * `wss://*.zopim.com`
