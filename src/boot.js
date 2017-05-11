@@ -178,9 +178,7 @@ const getConfig = (win, postRenderQueue) => {
     boot.handlePostRenderQueue(win, postRenderQueue);
 
     // Remove this code once Rollbar is GA'd
-    if (config.useRollbar) logging.enableRollbar();
-
-    logging.init();
+    logging.init(config.useRollbar);
   };
   const fail = (error) => {
     if (error.status !== 404) {

@@ -49,7 +49,9 @@ const errorFilter = (notice) => {
   return notice.errors.length > 0 ? notice : null;
 };
 
-function init() {
+function init(shouldUseRollbar) {
+  useRollbar = shouldUseRollbar;
+
   if (useRollbar) {
     rollbar = Rollbar.init(rollbarConfig);
   } else {
@@ -85,17 +87,9 @@ function warn(...warning) {
   warn(...warning);
 }
 
-// Remove this code once Rollbar is GA'd
-function enableRollbar() {
-  useRollbar = true;
-}
-
 export const logging = {
   init,
   error,
   errorFilter,
-  warn,
-
-  // Exported for testing
-  enableRollbar
+  warn
 };
