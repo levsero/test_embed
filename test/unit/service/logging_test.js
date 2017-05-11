@@ -62,34 +62,53 @@ describe('logging', () => {
   });
 
   describe('#init', () => {
-    beforeEach(() => {
-      logging.init();
+    describe('when useRollbar is true', () => {
+      beforeEach(() => {
+        logging.enableRollbar();
+        logging.init();
+      });
+
+      it('should call init on Rollbar', () => {
+        const expectation = {
+          accessToken: '94eb0137fdc14471b21b34c5a04f9359',
+          endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
+          hostWhiteList: ['assets.zd-staging.com', 'assets.zendesk.com']
+        };
+
+        expect(rollbarInitSpy)
+          .toHaveBeenCalledWith(jasmine.objectContaining(expectation));
+      });
+
+      it('should not init Airbrake', () => {
+        expect(airbrakeInitSpy)
+          .not.toHaveBeenCalled();
+      });
     });
 
-    it('should call init on Rollbar', () => {
-      const expectation = {
-        accessToken: '94eb0137fdc14471b21b34c5a04f9359',
-        endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
-        hostWhiteList: ['assets.zd-staging.com', 'assets.zendesk.com']
-      };
+    describe('when useRollbar is false', () => {
+      beforeEach(() => {
+        logging.init();
+      });
 
-      expect(rollbarInitSpy)
-        .toHaveBeenCalledWith(jasmine.objectContaining(expectation));
-    });
+      it('should register Airbrake id and key', () => {
+        const expectedOptions = {
+          projectId: '124081',
+          projectKey: '8191392d5f8c97c8297a08521aab9189'
+        };
 
-    it('should register Airbrake id and key', () => {
-      const expectedOptions = {
-        projectId: '124081',
-        projectKey: '8191392d5f8c97c8297a08521aab9189'
-      };
+        expect(airbrakeInitSpy)
+          .toHaveBeenCalledWith(expectedOptions);
+      });
 
-      expect(airbrakeInitSpy)
-        .toHaveBeenCalledWith(expectedOptions);
-    });
+      it('should add a filter event handler', () => {
+        expect(airbrakeAddFilterSpy)
+          .toHaveBeenCalled();
+      });
 
-    it('should add a filter event handler', () => {
-      expect(airbrakeAddFilterSpy)
-        .toHaveBeenCalled();
+      it('should not init Rollbar', () => {
+        expect(rollbarInitSpy)
+          .not.toHaveBeenCalled();
+      });
     });
   });
 
@@ -139,8 +158,8 @@ describe('logging', () => {
 
       describe('when Rollbar is enabled', () => {
         beforeEach(() => {
-          logging.init();
           logging.enableRollbar();
+          logging.init();
           logging.error(errPayload);
         });
 
