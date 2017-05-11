@@ -49,7 +49,7 @@ const errorFilter = (notice) => {
   return notice.errors.length > 0 ? notice : null;
 };
 
-function init(shouldUseRollbar) {
+function init(shouldUseRollbar = false) {
   useRollbar = shouldUseRollbar;
 
   if (useRollbar) {
