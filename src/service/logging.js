@@ -50,14 +50,16 @@ const errorFilter = (notice) => {
 };
 
 function init() {
-  rollbar = Rollbar.init(rollbarConfig);
-
-  // Remove this code once Rollbar is GA'd
-  airbrake = new airbrakeJs({
-    projectId: '124081',
-    projectKey: '8191392d5f8c97c8297a08521aab9189'
-  });
-  airbrake.addFilter(errorFilter);
+  if (useRollbar) {
+    rollbar = Rollbar.init(rollbarConfig);
+  } else {
+    // Remove this code once Rollbar is GA'd
+    airbrake = new airbrakeJs({
+      projectId: '124081',
+      projectKey: '8191392d5f8c97c8297a08521aab9189'
+    });
+    airbrake.addFilter(errorFilter);
+  }
 }
 
 function error(err) {
