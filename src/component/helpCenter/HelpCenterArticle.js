@@ -205,29 +205,25 @@ export class HelpCenterArticle extends Component {
 
   replaceArticleImages = (activeArticle, lastActiveArticleId) => {
     const { storedImages } = this.props;
-    const articleDomain = parseUrl(activeArticle.url).hostname;
+    const { locale, url, body } = activeArticle;
+    const domain = parseUrl(url).hostname;
     const parseHtmlString = (htmlStr) => {
       const el = document.createElement('html');
 
       el.innerHTML = htmlStr;
       return el;
     };
-    const helpCenterImages = (imgEls) => {
-      const srcPattern = new RegExp(`(${this.props.zendeskHost}|${articleDomain})/hc/`);
-
-      return _.filter(imgEls, (img) => srcPattern.test(img.src));
-    };
 
     // In some cases there will be images with relative paths to the lotus/classic attachments.
     // We rewrite these to be absolute to the article domain to avoid 404 requests to parent domain.
     const pattern = /src="\/attachments\//g;
-    const articleBody = activeArticle.body.replace(pattern, `src="//${articleDomain}/attachments/`);
+    const articleBody = body.replace(pattern, `src="//${domain}/attachments/`);
 
     const htmlEl = parseHtmlString(articleBody);
-    const imgEls = helpCenterImages(htmlEl.getElementsByTagName('img'));
+    const imgEls = this.getArticleImages(htmlEl, domain, locale);
 
     if (imgEls.length === 0 || !authentication.getToken()) {
-      return articleBody;
+      return body;
     }
 
     // If the image has not already been downloaded, then queue up
@@ -274,6 +270,30 @@ export class HelpCenterArticle extends Component {
     this.setState({
       queuedImages: _.extend({}, this.state.queuedImages, imagesQueued)
     });
+  }
+
+  getArticleImages(htmlEl, domain, locale) {
+    const filterHcImages = (img) => {
+      const pattern = new RegExp(`(${this.props.zendeskHost}|${domain})/hc/`);
+
+      return pattern.test(img.src);
+    };
+    const addLocaleToPath = (img) => {
+      // Due to HC ommiting the locale for agent only image attachments. We must
+      // check if the locale is missing from the URL. If it is, then we manually
+      // add it in, otherwise we leave it.
+      const localePattern = /\/hc\/[a-z]{2}-[A-Z]{2}\//gi;
+
+      if (!localePattern.test(img.src)) {
+        img.src = img.src.replace('/hc/', `/hc/${locale}/`);
+      }
+      return img;
+    };
+
+    return _.chain(htmlEl.getElementsByTagName('img'))
+            .filter(filterHcImages)
+            .map(addLocaleToPath)
+            .value();
   }
 
   renderOriginalArticleButton = () => {
