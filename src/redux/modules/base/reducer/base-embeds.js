@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { UPDATE_EMBED } from '../base-action-types';
 
 const initialState = [];
@@ -7,13 +9,19 @@ const embeds = (state = initialState, action) => {
 
   switch (type) {
     case UPDATE_EMBED:
-      return {
+      const detailName = (_.has(payload, 'detail.name'))
+        ? { [payload.detail.name]: { ...state[payload.detail.name], ...payload.detail } }
+        : null;
+      const newState = {
         ...state,
-        [payload.detail.name]: {
-          ...state[payload.detail.name],
-          ...payload.detail
+        [payload.name]: {
+          ...state[payload.name],
+          name: payload.name,
+          accessible: payload.accessible
         }
       };
+
+      return _.assign(newState, detailName);
     default:
       return state;
   }

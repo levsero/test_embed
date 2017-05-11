@@ -43,6 +43,10 @@ describe('WebWidget component', () => {
       },
       'component/submitTicket/SubmitTicket': {
         SubmitTicket: MockSubmitTicket
+      },
+      'src/redux/modules/base': {
+        updateActiveEmbed: noop,
+        updateEmbedAccessible: noop
       }
     });
 
