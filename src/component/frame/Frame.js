@@ -82,14 +82,14 @@ export class Frame extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      visible: props.visible,
+      childRendered: false,
       frameStyle: props.frameStyle,
       hiddenByZoom: false,
-      _rendered: false,
       iframeDimensions: {
         height: 0,
         width: 0
-      }
+      },
+      visible: props.visible
     };
 
     this.child = null;
@@ -171,8 +171,8 @@ export class Frame extends Component {
       }
 
       return fullscreen
-            ? fullscreenStyle
-            : popoverStyle;
+           ? fullscreenStyle
+           : popoverStyle;
     };
 
     if (this.props.fullscreenable && isMobileBrowser()) {
@@ -320,7 +320,7 @@ export class Frame extends Component {
     element.className = `${positionClasses} ${desktopClasses}`;
 
     this.child = ReactDOM.render(embed, element);
-    this.setState({ _rendered: true });
+    this.setState({ childRendered: true });
   }
 
   constructEmbed = () => {
@@ -347,7 +347,7 @@ export class Frame extends Component {
   }
 
   renderFrameContent = () => {
-    if (this.state._rendered) {
+    if (this.state.childRendered) {
       return false;
     }
 

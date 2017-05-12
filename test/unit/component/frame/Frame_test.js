@@ -758,8 +758,8 @@ describe('Frame', () => {
         .toBe('rtl');
     });
 
-    it('should sets the state _rendered to true', () => {
-      expect(frame.state._rendered)
+    it('should sets the state childRendered to true', () => {
+      expect(frame.state.childRendered)
         .toEqual(true);
     });
 
