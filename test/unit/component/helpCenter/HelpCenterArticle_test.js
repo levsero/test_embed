@@ -607,6 +607,74 @@ describe('HelpCenterArticle component', () => {
     });
   });
 
+  describe('getArticleImages', () => {
+    let helpCenterArticle,
+      parsedArticleBody,
+      articleImages;
+    const mockZendeskHost = 'dev.zd-dev.com';
+    const parseHtml = (html) => {
+      const el = document.createElement('html');
+
+      el.innerHTML = html;
+      return el;
+    };
+
+    beforeEach(() => {
+      helpCenterArticle = domRender(
+        <HelpCenterArticle
+          activeArticle={mockArticle}
+          zendeskHost={mockZendeskHost} />
+      );
+    });
+
+    describe('when there are valid /hc/ image attachments', () => {
+      describe('when an image url is missing the locale', () => {
+        beforeEach(() => {
+          mockArticle.body += `<img src="https://${mockZendeskHost}/hc/article_attachments/img1.png" />`;
+          parsedArticleBody = parseHtml(mockArticle.body);
+
+          articleImages = helpCenterArticle.getArticleImages(parsedArticleBody, mockZendeskHost, mockArticle.locale);
+        });
+
+        it('should patch in the locale', () => {
+          expect(articleImages[0].src)
+            .toBe(`https://${mockZendeskHost}/hc/en-us/article_attachments/img1.png`);
+        });
+      });
+
+      describe('when an image url has a locale', () => {
+        beforeEach(() => {
+          mockArticle.body += `<img src="https://${mockZendeskHost}/hc/en-au/article_attachments/img1.png" />`;
+          parsedArticleBody = parseHtml(mockArticle.body);
+
+          articleImages = helpCenterArticle.getArticleImages(parsedArticleBody, mockZendeskHost, mockArticle.locale);
+        });
+
+        it('should leave the existing locale', () => {
+          expect(articleImages[0].src)
+            .toBe(`https://${mockZendeskHost}/hc/en-au/article_attachments/img1.png`);
+        });
+      });
+    });
+
+    describe('when there are no valid /hc/ image attachments', () => {
+      beforeEach(() => {
+        mockArticle.body += `
+          <img src="https://cdn.com/id/img.png" />
+          <img src="/attachments/token/abc/?name=img.png" />
+        `;
+        parsedArticleBody = parseHtml(mockArticle.body);
+
+        articleImages = helpCenterArticle.getArticleImages(parsedArticleBody, mockZendeskHost, mockArticle.locale);
+      });
+
+      it('should return an empty array', () => {
+        expect(articleImages.length)
+          .toBe(0);
+      });
+    });
+  });
+
   describe('view original article button', () => {
     it('is visible by default', () => {
       const helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
