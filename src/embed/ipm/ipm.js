@@ -92,9 +92,7 @@ function create(name, config, reduxStore) {
           ref='rootComponent'
           updateFrameSize={params.updateFrameSize}
           ipmSender={ipmSender}
-          closeFrame={closeFrame}
-          mobile={isMobileBrowser()}
-          style={containerStyle} />
+          closeFrame={closeFrame} />
       );
     },
     frameParams,

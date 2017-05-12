@@ -205,7 +205,7 @@ describe('embed.launcher', () => {
       }).toThrow();
     });
 
-    it('applies launcher.scss to the frame', () => {
+    it('applies launcher styles to the frame', () => {
       launcher.create('alice');
       launcher.render('alice');
 

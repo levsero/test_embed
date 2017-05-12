@@ -12,7 +12,6 @@ export class Ipm extends Component {
   static propTypes = {
     closeFrame: PropTypes.func.isRequired,
     ipmSender: PropTypes.func.isRequired,
-    mobile: PropTypes.bool.isRequired,
     updateFrameSize: PropTypes.func
   };
 
@@ -32,7 +31,6 @@ export class Ipm extends Component {
         type: ''
       },
       ipmAvailable: null,
-      isMobile: props.mobile,
       url: ''
     };
   }

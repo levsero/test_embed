@@ -28,7 +28,7 @@ describe('EmbedWrapper', () => {
       },
       'lodash': _,
       'component/Icon': {
-        Icon: noop
+        Icon: noopReactComponent()
       }
     });
 
@@ -66,7 +66,7 @@ describe('EmbedWrapper', () => {
         .toBe('mock-component');
     });
 
-    it('renders adds the rootComponent ref to that child', () => {
+    it('adds a rootComponent ref to that child', () => {
       expect(instance.refs.rootComponent)
         .toBeDefined();
     });
@@ -84,6 +84,11 @@ describe('EmbedWrapper', () => {
     it('renders the childFn in the wrapper', () => {
       expect(instance.embed.firstChild.className)
         .toBe('mock-component');
+    });
+
+    it('does not add a rootComponent ref to that child', () => {
+      expect(instance.refs.rootComponent)
+        .toBeUndefined();
     });
   });
 });
