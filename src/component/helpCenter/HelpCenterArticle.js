@@ -223,7 +223,7 @@ export class HelpCenterArticle extends Component {
     const imgEls = this.getArticleImages(htmlEl, domain, locale);
 
     if (imgEls.length === 0 || !authentication.getToken()) {
-      return body;
+      return articleBody;
     }
 
     // If the image has not already been downloaded, then queue up
@@ -282,7 +282,7 @@ export class HelpCenterArticle extends Component {
       // Due to HC ommiting the locale for agent only image attachments. We must
       // check if the locale is missing from the URL. If it is, then we manually
       // add it in, otherwise we leave it.
-      const localePattern = /\/hc\/[a-z]{2}-[A-Z]{2}\//gi;
+      const localePattern = /\/hc\/[a-z]{2}-[a-z]{2}\//gi;
 
       if (!localePattern.test(img.src)) {
         img.src = img.src.replace('/hc/', `/hc/${locale}/`);
