@@ -360,11 +360,15 @@ export class Frame extends Component {
     }
 
     // In order for iframe to correctly render in some browsers
-    // we need to do it on nextTick
+    // we need to wait for readyState to be complete
     if (doc.readyState === 'complete') {
       this.constructEmbed();
     } else {
-      setTimeout(this.renderFrameContent, 0);
+      doc.onReadyStateChange = () => {
+        if (doc.readyState === 'complete') {
+          this.constructEmbed();
+        }
+      };
     }
   }
 

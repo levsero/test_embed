@@ -188,7 +188,7 @@ describe('Frame', () => {
     });
 
     describe('setting styles', () => {
-      it('should set the height value to the higher width value + the default offset', () => {
+      it('should set the height value to the higher height value + the default offset', () => {
         expect(dimensions.height)
           .toBe(mockObject.clientHeight + defaultOffset);
       });
@@ -215,7 +215,7 @@ describe('Frame', () => {
             .toBe(100);
         });
 
-        it('should set the width value to the higher width value + the default offset', () => {
+        it('should set the width value to the higher width value + the offset prop', () => {
           expect(mockObject.offsetWidth + offsetWidth)
             .toBe(150);
         });
@@ -249,7 +249,7 @@ describe('Frame', () => {
             .toBe('100%');
         });
 
-        it('should set the zIndex to a the default value', () => {
+        it('should set the zIndex to the default value of 999999', () => {
           expect(dimensions.zIndex)
             .toBe(999999);
         });
@@ -297,6 +297,7 @@ describe('Frame', () => {
 
   describe('show', () => {
     let frame, mockOnShow, frameProps, mockAfterShowAnimate;
+    const animationDuration = 300;
 
     beforeEach(() => {
       mockOnShow = jasmine.createSpy('onShow');
@@ -305,8 +306,8 @@ describe('Frame', () => {
       frameProps = {
         transitions: {
           upShow: {
-            start: { transitionDuration: '300ms' },
-            end: { transitionDuration: '300ms' }
+            start: { transitionDuration: `${animationDuration}ms` },
+            end: { transitionDuration: `${animationDuration}ms` }
           }
         },
         onShow: mockOnShow,
@@ -331,14 +332,14 @@ describe('Frame', () => {
     });
 
     it('uses the default show animation', () => {
-      jasmine.clock().tick(300);
+      jasmine.clock().tick(animationDuration);
 
       expect(mockShowTransition)
         .toHaveBeenCalled();
     });
 
     it('should call afterShowAnimate', () => {
-      jasmine.clock().tick(300);
+      jasmine.clock().tick(animationDuration);
 
       expect(mockAfterShowAnimate)
         .toHaveBeenCalled();
@@ -588,7 +589,7 @@ describe('Frame', () => {
         frame = domRender(<Frame>{mockChild}</Frame>);
       });
 
-      it('should not visibile classes if state.visible is true', () => {
+      it('should have visibile classes if state.visible is true', () => {
         frame.setState({ visible: true });
 
         expect(frame.computeIframeStyle().top)
