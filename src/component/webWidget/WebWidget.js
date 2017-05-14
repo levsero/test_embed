@@ -122,7 +122,7 @@ class WebWidget extends Component {
   }
 
   onNextClick = () => {
-    if (this.props.chat.account_status !== 'offline') {
+    if (this.props.chat.account_status === 'online') {
       this.setState({ activeComponent: chat });
       // TODO: track chat started
       this.props.showBackButton(true);
