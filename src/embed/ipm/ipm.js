@@ -7,7 +7,6 @@ import { frameFactory } from 'embed/frameFactory';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { transitionFactory } from 'service/transitionFactory';
-import { isMobileBrowser } from 'utility/devices';
 import { document,
          getDocumentHost,
          location } from 'utility/globals';
@@ -30,7 +29,6 @@ let hasSentIdentify = false;
 let identifiedEmail;
 
 function create(name, config, reduxStore) {
-  let containerStyle;
   let frameStyle = {
     position: 'fixed',
     top: settings.get('offset.vertical', 'ipm'),
