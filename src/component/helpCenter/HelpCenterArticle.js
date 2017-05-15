@@ -216,8 +216,7 @@ export class HelpCenterArticle extends Component {
 
     // In some cases there will be images with relative paths to the lotus/classic attachments.
     // We rewrite these to be absolute to the article domain to avoid 404 requests to parent domain.
-    const pattern = /src="\/attachments\//g;
-    const articleBody = body.replace(pattern, `src="//${domain}/attachments/`);
+    const articleBody = body.replace(/src="\/attachments\//g, `src="//${domain}/attachments/`);
 
     const htmlEl = parseHtmlString(articleBody);
     const imgEls = this.getArticleImages(htmlEl, domain, locale);
@@ -282,7 +281,7 @@ export class HelpCenterArticle extends Component {
       // Due to HC ommiting the locale for agent only image attachments. We must
       // check if the locale is missing from the URL. If it is, then we manually
       // add it in, otherwise we leave it.
-      const localePattern = /\/hc\/[a-z]{2}-[a-z]{2}\//gi;
+      const localePattern = /\/hc\/([a-z]{2}|[a-z]{2}-[a-z]{2})\//i;
 
       if (!localePattern.test(img.src)) {
         img.src = img.src.replace('/hc/', `/hc/${locale}/`);

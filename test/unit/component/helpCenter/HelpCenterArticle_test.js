@@ -499,7 +499,7 @@ describe('HelpCenterArticle component', () => {
       describe('when the img urls are not missing the locale', () => {
         beforeEach(() => {
           mockArticle.body += `<img src="https://${mockZendeskHost}/hc/en-au/article_attachments/img0.png" />
-                               <img src="https://${mockZendeskHost}/hc/en-au/article_attachments/img1.png" />`;
+                               <img src="https://${mockZendeskHost}/hc/en/article_attachments/img1.png" />`;
         });
 
         describe('when there are no images stored or already queued', () => {
@@ -519,7 +519,7 @@ describe('HelpCenterArticle component', () => {
               .toBe(`https://${mockZendeskHost}/hc/en-au/article_attachments/img0.png`);
 
             expect(mockImagesSender.calls.argsFor(3)[0])
-              .toBe(`https://${mockZendeskHost}/hc/en-au/article_attachments/img1.png`);
+              .toBe(`https://${mockZendeskHost}/hc/en/article_attachments/img1.png`);
           });
         });
       });
@@ -644,7 +644,10 @@ describe('HelpCenterArticle component', () => {
 
       describe('when an image url has a locale', () => {
         beforeEach(() => {
-          mockArticle.body += `<img src="https://${mockZendeskHost}/hc/en-au/article_attachments/img1.png" />`;
+          mockArticle.body += `
+            <img src="https://${mockZendeskHost}/hc/en-au/article_attachments/img1.png" />
+            <img src="https://${mockZendeskHost}/hc/fr/article_attachments/img1.png" />
+          `;
           parsedArticleBody = parseHtml(mockArticle.body);
 
           articleImages = helpCenterArticle.getArticleImages(parsedArticleBody, mockZendeskHost, mockArticle.locale);
@@ -653,6 +656,9 @@ describe('HelpCenterArticle component', () => {
         it('should leave the existing locale', () => {
           expect(articleImages[0].src)
             .toBe(`https://${mockZendeskHost}/hc/en-au/article_attachments/img1.png`);
+
+          expect(articleImages[1].src)
+            .toBe(`https://${mockZendeskHost}/hc/fr/article_attachments/img1.png`);
         });
       });
     });
