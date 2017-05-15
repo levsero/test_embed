@@ -469,57 +469,58 @@ describe('HelpCenterArticle component', () => {
       });
 
       describe('when the img urls are missing the locale', () => {
+        let calls;
+        const expectedCallCount = 4;
+
         beforeEach(() => {
-          mockArticle.body += `<img src="https://${mockZendeskHost}/hc/article_attachments/img0.png" />
-                               <img src="https://${mockZendeskHost}/hc/article_attachments/img1.png" />`;
+          mockArticle.body += `<img src="https://${mockZendeskHost}/hc/article_attachments/img2.png" />
+                               <img src="https://${mockZendeskHost}/hc/article_attachments/img3.png" />`;
+
+          helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
+          calls = mockImagesSender.calls;
         });
 
         describe('when there are no images stored or already queued', () => {
           it('should queue the images for download with patched in locale', () => {
-            helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
+            expect(calls.count())
+              .toBe(expectedCallCount);
 
-            expect(mockImagesSender.calls.count())
-              .toBe(4);
-
-            expect(mockImagesSender.calls.argsFor(0)[0])
-              .toBe(`https://${mockZendeskHost}/hc/en-us/article_attachments/img0.png`);
-
-            expect(mockImagesSender.calls.argsFor(1)[0])
-              .toBe(`https://${mockZendeskHost}/hc/en-us/article_attachments/img1.png`);
-
-            expect(mockImagesSender.calls.argsFor(2)[0])
-              .toBe(`https://${mockZendeskHost}/hc/en-us/article_attachments/img0.png`);
-
-            expect(mockImagesSender.calls.argsFor(3)[0])
-              .toBe(`https://${mockZendeskHost}/hc/en-us/article_attachments/img1.png`);
+            for (let i = 0; i < expectedCallCount; i++) {
+              expect(calls.argsFor(i)[0])
+                .toBe(`https://${mockZendeskHost}/hc/en-us/article_attachments/img${i}.png`);
+            }
           });
         });
       });
 
       describe('when the img urls are not missing the locale', () => {
+        let calls;
+        const expectedCallCount = 4;
+
         beforeEach(() => {
-          mockArticle.body += `<img src="https://${mockZendeskHost}/hc/en-au/article_attachments/img0.png" />
-                               <img src="https://${mockZendeskHost}/hc/en/article_attachments/img1.png" />`;
+          mockArticle.body += `<img src="https://${mockZendeskHost}/hc/en-au/article_attachments/img2.png" />
+                               <img src="https://${mockZendeskHost}/hc/en/article_attachments/img3.png" />`;
+
+          helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
+          calls = mockImagesSender.calls;
         });
 
         describe('when there are no images stored or already queued', () => {
           it('should queue the images for download with existing locale', () => {
-            helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
-
             expect(mockImagesSender.calls.count())
-              .toBe(4);
+              .toBe(expectedCallCount);
 
-            expect(mockImagesSender.calls.argsFor(0)[0])
+            expect(calls.argsFor(0)[0])
               .toBe(`https://${mockZendeskHost}/hc/en-us/article_attachments/img0.png`);
 
-            expect(mockImagesSender.calls.argsFor(1)[0])
+            expect(calls.argsFor(1)[0])
               .toBe(`https://${mockZendeskHost}/hc/en-us/article_attachments/img1.png`);
 
-            expect(mockImagesSender.calls.argsFor(2)[0])
-              .toBe(`https://${mockZendeskHost}/hc/en-au/article_attachments/img0.png`);
+            expect(calls.argsFor(2)[0])
+              .toBe(`https://${mockZendeskHost}/hc/en-au/article_attachments/img2.png`);
 
-            expect(mockImagesSender.calls.argsFor(3)[0])
-              .toBe(`https://${mockZendeskHost}/hc/en/article_attachments/img1.png`);
+            expect(calls.argsFor(3)[0])
+              .toBe(`https://${mockZendeskHost}/hc/en/article_attachments/img3.png`);
           });
         });
       });
