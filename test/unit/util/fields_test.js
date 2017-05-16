@@ -3,6 +3,7 @@ describe('fields', () => {
     mockLocaleIdValue;
 
   const fieldsPath = buildSrcPath('util/fields');
+  /* eslint-disable camelcase */
   const textFieldPayload = {
     id: '22660514',
     type: 'text',
@@ -17,7 +18,9 @@ describe('fields', () => {
         localeId: 16,
         content: 'FrenchField'
       }
-    ]
+    ],
+    visible_in_portal: true,
+    editable_in_portal: true
   };
   const nestedDropdownFieldPayload = {
     id: 10006,
@@ -37,7 +40,9 @@ describe('fields', () => {
         title: 'Option1::Part2',
         value: 'option1__part2'
       }
-    ]
+    ],
+    visible_in_portal: true,
+    editable_in_portal: true
   };
   const variantDropdownFieldPayload = {
     id: '22666574',
@@ -73,40 +78,51 @@ describe('fields', () => {
         value: 2
       }
     ],
+    visible_in_portal: true,
+    editable_in_portal: true,
     required: true
   };
   const textareaFieldPayload = {
     id: '22660524',
     type: 'textarea',
     title: 'Order Details',
-    required: true
+    required: true,
+    visible_in_portal: true,
+    editable_in_portal: true
   };
   const integerFieldPayload = {
     id: '22823250',
     type: 'integer',
     title: 'Age',
-    required: true
+    required: true,
+    visible_in_portal: true,
+    editable_in_portal: true
   };
   const decimalFieldPayload = {
     id: '22823260',
     type: 'decimal',
     title: 'Total Cost',
-    required: false
+    required: false,
+    visible_in_portal: true,
+    editable_in_portal: true
   };
   const checkboxFieldPayload = {
     id: '22823270',
     type: 'checkbox',
     title: 'Can we call you?',
-    required: false
+    required: false,
+    visible_in_portal: true,
+    editable_in_portal: true
   };
-  /* eslint-disable camelcase */
   const descriptionFieldPayload = {
     id: '2284527',
     type: 'description',
     title: 'description',
     title_in_portal: 'How can we help?',
     required: true,
-    required_in_portal: false
+    required_in_portal: false,
+    visible_in_portal: true,
+    editable_in_portal: true
   };
   const subjectFieldPayload = {
     id: '2284528',
@@ -114,7 +130,9 @@ describe('fields', () => {
     title: 'subject',
     title_in_portal: 'What is your query about?',
     required: true,
-    required_in_portal: true
+    required_in_portal: true,
+    visible_in_portal: true,
+    editable_in_portal: true
   };
   /* eslint-enable camelcase */
 
@@ -206,6 +224,53 @@ describe('fields', () => {
       expect(customFields.allFields.length)
         .toEqual(9);
     });
+
+    /* eslint-disable camelcase */
+    describe('when a field is both visible and editable', () => {
+      beforeEach(() => {
+        subjectFieldPayload.visible_in_portal = true;
+        subjectFieldPayload.editable_in_portal = true;
+
+        payload = [subjectFieldPayload];
+        customFields = getCustomFields(payload, {});
+      });
+
+      it('should return the field', () => {
+        expect(customFields.allFields[0].props.placeholder)
+          .toBe('What is your query about?');
+      });
+    });
+
+    describe('when a field is visible but not editable', () => {
+      beforeEach(() => {
+        subjectFieldPayload.visible_in_portal = true;
+        subjectFieldPayload.editable_in_portal = false;
+
+        payload = [subjectFieldPayload];
+        customFields = getCustomFields(payload, {});
+      });
+
+      it('should not return the field', () => {
+        expect(customFields.allFields.length)
+          .toBe(0);
+      });
+    });
+
+    describe('when a field is not both visible and editable', () => {
+      beforeEach(() => {
+        subjectFieldPayload.visible_in_portal = false;
+        subjectFieldPayload.editable_in_portal = false;
+
+        payload = [subjectFieldPayload];
+        customFields = getCustomFields(payload, {});
+      });
+
+      it('should not return the field', () => {
+        expect(customFields.allFields.length)
+          .toBe(0);
+      });
+    });
+    /* eslint-enable camelcase */
 
     describe('props', () => {
       it('should pass through the id to name', () => {
