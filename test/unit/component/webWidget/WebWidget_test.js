@@ -1,5 +1,6 @@
 describe('WebWidget component', () => {
-  let WebWidget;
+  let WebWidget,
+    mockUpdateActiveEmbed;
   const setArticleViewSpy = jasmine.createSpy();
   const clearFormSpy = jasmine.createSpy();
   const webWidgetPath = buildSrcPath('component/webWidget/WebWidget');
@@ -8,6 +9,8 @@ describe('WebWidget component', () => {
     resetDOM();
 
     mockery.enable();
+
+    mockUpdateActiveEmbed = jasmine.createSpy('updateActiveEmbed');
 
     class MockHelpCenter extends Component {
       constructor() {
@@ -35,9 +38,19 @@ describe('WebWidget component', () => {
       }
     }
 
+    class MockChat extends Component {
+      constructor() {
+        super();
+        this.state = {};
+      };
+      render() {
+        return <div />;
+      }
+    }
+
     initMockRegistry({
       'React': React,
-      'component/chat/Chat': noopReactComponent(),
+      'component/chat/Chat': MockChat,
       'component/helpCenter/HelpCenter': {
         HelpCenter: MockHelpCenter
       },
@@ -218,7 +231,9 @@ describe('WebWidget component', () => {
     beforeEach(() => {
       showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
       webWidget = domRender(
-        <WebWidget helpCenterAvailable={true} showBackButton={showBackButtonSpy} />
+        <WebWidget
+          helpCenterAvailable={true}
+          showBackButton={showBackButtonSpy} />
       );
     });
 
@@ -238,26 +253,9 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when chat is the active component', () => {
-      beforeEach(() => {
-        webWidget.setComponent('chat');
-        webWidget.onBackClick();
-      });
-
-      it('should call showBackButton prop', () => {
-        expect(showBackButtonSpy)
-          .toHaveBeenCalled();
-      });
-
-      it('shows help center', () => {
-        expect(webWidget.renderHelpCenter().props.className)
-          .not.toContain('u-isHidden');
-      });
-    });
-
     describe('when submit ticket is the active component', () => {
       beforeEach(() => {
-        webWidget.setComponent('ticketSubmissionForm');
+        webWidget.setState({ activeEmbed: 'ticketSubmissionForm' });
       });
 
       describe('and it has a ticket form selected', () => {
@@ -276,21 +274,23 @@ describe('WebWidget component', () => {
             .toHaveBeenCalled();
         });
       });
+    });
 
-      describe('and it does not have a ticket form selected', () => {
-        beforeEach(() => {
-          webWidget.onBackClick();
-        });
+    describe('when chat is the active component', () => {
+      beforeEach(() => {
+        spyOn(webWidget, 'showHelpCenter');
+        webWidget.setState({ activeEmbed: 'chat' });
+        webWidget.onBackClick();
+      });
 
-        it('should call showBackButton prop', () => {
-          expect(showBackButtonSpy)
-            .toHaveBeenCalled();
-        });
+      it('should invoke showHelpCenter', () => {
+        expect(webWidget.showHelpCenter)
+          .toHaveBeenCalled();
+      });
 
-        it('shows help center', () => {
-          expect(webWidget.renderHelpCenter().props.className)
-            .not.toContain('u-isHidden');
-        });
+      it('should call showBackButton prop', () => {
+        expect(showBackButtonSpy)
+          .toHaveBeenCalled();
       });
     });
   });
@@ -301,30 +301,31 @@ describe('WebWidget component', () => {
     describe('when help center is available', () => {
       beforeEach(() => {
         webWidget = domRender(<WebWidget helpCenterAvailable={true} />);
-
+        spyOn(webWidget, 'showHelpCenter');
         webWidget.activate();
       });
 
-      it('shows helpCenter', () => {
-        expect(webWidget.renderHelpCenter().props.className)
-          .not.toContain('u-isHidden');
-        expect(webWidget.renderSubmitTicket().props.className)
-          .toContain('u-isHidden');
+      it('invokes showHelpCenter', () => {
+        expect(webWidget.showHelpCenter)
+          .toHaveBeenCalled();
       });
     });
 
     describe('when help center is not available', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget helpCenterAvailable={false} />);
-
+        webWidget = domRender(
+          <WebWidget
+            updateActiveEmbed={mockUpdateActiveEmbed}
+            helpCenterAvailable={false} />
+        );
         webWidget.activate();
       });
 
-      it('shows SubmitTicket', () => {
-        expect(webWidget.renderSubmitTicket().props.className)
-          .not.toContain('u-isHidden');
-        expect(webWidget.renderHelpCenter().props.className)
-          .toContain('u-isHidden');
+      it('invokes updateActiveEmbed with expected param', () => {
+        const expectedParam = 'ticketSubmissionForm';
+
+        expect(mockUpdateActiveEmbed)
+          .toHaveBeenCalledWith(expectedParam);
       });
     });
   });
