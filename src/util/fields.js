@@ -22,7 +22,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
   const isCheckbox = (field) => {
     return field && field.props && field.props.type === 'checkbox';
   };
-  const fields = _.map(customFields, (field) => {
+  const mapFields = (field) => {
     const isRequired = _.isNil(field.required_in_portal) ? field.required : field.required_in_portal;
     const title = field.title_in_portal || field.title;
     const frameHeight = options.frameHeight === '100%'
@@ -41,6 +41,11 @@ const getCustomFields = (customFields, formState, options = {}) => {
       landscape: isLandscape()
     };
     const { clearCheckboxes } = formState;
+    const { visible_in_portal: visible, editable_in_portal: editable } = field; // eslint-disable-line camelcase
+
+    if (!(editable && visible)) {
+      return null;
+    }
 
     if (field.variants) {
       sharedProps.placeholder = geti18nContent(field);
@@ -81,7 +86,12 @@ const getCustomFields = (customFields, formState, options = {}) => {
       case 'checkbox':
         return <Checkbox {...sharedProps} uncheck={!!clearCheckboxes} label={title} type='checkbox' />;
     }
-  });
+  };
+
+  const fields = _.chain(customFields)
+                  .map(mapFields)
+                  .compact()
+                  .value();
 
   return {
     fields: _.reject(fields, isCheckbox),
