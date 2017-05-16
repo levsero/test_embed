@@ -42,7 +42,7 @@ describe('WebWidget component', () => {
       constructor() {
         super();
         this.state = {};
-      };
+      }
       render() {
         return <div />;
       }

@@ -52,7 +52,8 @@ class WebWidget extends Component {
     ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
     viaId: PropTypes.number.isRequired,
-    zendeskHost: PropTypes.string.isRequired
+    zendeskHost: PropTypes.string.isRequired,
+    updateActiveEmbed: PropTypes.func.isRequired
   };
 
   static defaultProps = {

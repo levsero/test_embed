@@ -21,14 +21,6 @@ const mapStateToProps = (state) => {
 };
 
 class Chat extends Component {
-  constructor(props) {
-    super(props);
-
-    // Guard against WebWidget from accessing random
-    // state attributes when state is not defined
-    this.state = {};
-  };
-
   static propTypes = {
     chat: PropTypes.object.isRequired,
     endChat: PropTypes.func.isRequired,
@@ -45,6 +37,14 @@ class Chat extends Component {
     style: null,
     updateFrameSize: () => {}
   };
+
+  constructor(props) {
+    super(props);
+
+    // Guard against WebWidget from accessing random
+    // state attributes when state is not defined
+    this.state = {};
+  }
 
   updateUser = (user) => {
     this.props.setVisitorInfo({
