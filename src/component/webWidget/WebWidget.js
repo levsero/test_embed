@@ -85,7 +85,9 @@ class WebWidget extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.props.updateActiveEmbed(helpCenter);
+    this.state = {
+      activeEmbed: helpCenter
+    };
   }
 
   expand = () => {
@@ -144,13 +146,12 @@ class WebWidget extends Component {
     if (this.state.activeEmbed === helpCenter) {
       rootComponent.setArticleView(false);
       this.props.showBackButton(false);
-    } else if (this.state.activeEmbed === chat) {
-      this.showHelpCenter();
     } else if (rootComponent.state.selectedTicketForm) {
       this.props.showBackButton(this.state.helpCenterAvailable);
       rootComponent.clearForm();
     } else {
       this.showHelpCenter();
+      this.props.showBackButton(false);
     }
   }
 
@@ -158,7 +159,6 @@ class WebWidget extends Component {
     if (this.props.helpCenterAvailable) {
       this.showHelpCenter();
     } else {
-      this.setState({ activeComponent: submitTicket });
       this.props.updateActiveEmbed(submitTicket);
     }
   }
