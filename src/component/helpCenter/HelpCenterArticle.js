@@ -14,7 +14,7 @@ const sanitizeHtml = require('sanitize-html');
 
 const allowedIframeAttribs = [
   'src', 'allowfullscreen', 'mozallowfullscreen', 'webkitallowfullscreen',
-  'oallowfullscreen', 'msallowfullscreen'
+  'oallowfullscreen', 'msallowfullscreen', 'name'
 ];
 
 export class HelpCenterArticle extends Component {
@@ -78,7 +78,7 @@ export class HelpCenterArticle extends Component {
         'a': ['id', 'href', 'target', 'title', 'name'],
         'span': ['id', 'name'],
         'div': ['id'],
-        'img': ['id', 'src', 'alt'],
+        'img': ['id', 'src', 'alt', 'name'],
         'h1': ['id'],
         'h2': ['id'],
         'h3': ['id'],
