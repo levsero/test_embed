@@ -5,6 +5,7 @@ require 'zendesk/deployment/tasks/environment_selector'
 
 require 'aws-sdk'
 require 'yaml'
+require 'fileutils'
 
 set :application, 'zendesk_embeddable_framework'
 set :repository, 'git@github.com:zendesk/embeddable_framework'
@@ -128,11 +129,15 @@ namespace :embeddable_framework do
   task :deploy do
     logger.info 'Uploading assets'
     framework_deploy_path = fetch(:framework_deploy_path)
+    timestamp = Time.now
 
     on release_roles(:all) do
       execute "mkdir -p #{framework_deploy_path}/#{fetch(:build_version)}"
       fetch(:framework_files).each do |file|
-        upload! "dist/#{file}", "#{framework_deploy_path}/#{fetch(:build_version)}/#{file}"
+        file_path = "#{framework_deploy_path}/#{fetch(:build_version)}/#{file}"
+
+        upload! "dist/#{file}", file_path
+        FileUtils.touch file_path, timestamp
       end
     end
   end
