@@ -2,14 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>main.js loader</title>
-    <style>
-      p { line-height:200%; }
-    </style>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://assets.zendesk.com">
+
+    <!-- Use this CSP meta tag when chat is enabled -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://assets.zendesk.com https://*.zopim.com wss://*.zopim.com https://*.zopim.io 'unsafe-inline'; style-src 'unsafe-inline'"> -->
+    <title>CSP Demo</title>
   </head>
 
-  <body style='background-color:#fff'>
-    <h1>Single Iframe boom</h1>
+  <body>
+    <h1>main.js loader boom</h1>
 
     <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique quis nisi a lobortis. Proin et malesuada orci, ut malesuada risus. Etiam eget tellus in est viverra aliquam vitae non felis. Vivamus vestibulum elit arcu. Vivamus a vehicula leo, id venenatis massa. Sed eget mi ultricies, ultricies sapien semper, porta nisl. Fusce accumsan risus a diam fermentum, ac consectetur erat pulvinar. Nulla vitae purus ac erat mollis feugiat.
@@ -27,50 +28,11 @@
       Aliquam varius ante magna, a adipiscing sapien vehicula ut. Phasellus mattis, ligula sed faucibus vehicula, nunc mi pharetra elit, ac aliquet arcu risus in diam. Vestibulum bibendum feugiat felis, a venenatis risus auctor vitae. Nulla nisl massa, fringilla non tempor et, aliquet vel mi. Nunc volutpat purus nulla, ut fermentum diam suscipit vel. Mauris et libero eget lectus dapibus interdum. Nam vel diam enim.
     </p>
 
-    <script src="/dist/bootstrap.js" inline></script>
+    <fieldset>
+      <input>
+    </fieldset>
 
-    <script>
-      zE(function() {
-        zE.devRender({
-          webWidgetCustomizations: true,
-          singleIframe: true,
-          embeds: {
-            "helpCenterForm": {
-              "embed": "helpCenter",
-              "props": {
-                "position": "right"
-              }
-            },
-            "launcher": {
-              "embed": "launcher",
-              "props": {
-                "position": "right"
-              }
-            },
-            "zopimChat": {
-              "embed": "chat",
-              "props": {
-                "zopimId": "2EkTn0An31opxOLXuGgRCy5nPnSNmpe6"
-              }
-            },
-            "ticketSubmissionForm": {
-              "embed": "submitTicket",
-              "props": {
-                "attachmentsEnabled": true,
-                "position": "right"
-              }
-            }
-          }
-        });
-      });
-
-      zESettings = {
-        webWidget: {
-          expanded: true
-        }
-      };
-    </script>
-
+    <script src="csp.js"></script>
+    <script src="/dist/main.js" data-ze-csp="true" async defer></script>
   </body>
 </html>
-

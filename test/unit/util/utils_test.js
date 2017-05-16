@@ -7,7 +7,8 @@ describe('utils', () => {
     cssTimeToMs,
     base64encode,
     emailValid,
-    referrerPolicyUrl;
+    referrerPolicyUrl,
+    getEnvironment;
 
   const mockGlobals = {
     win: {},
@@ -47,6 +48,7 @@ describe('utils', () => {
     base64encode = require(utilPath).base64encode;
     emailValid = require(utilPath).emailValid;
     referrerPolicyUrl = require(utilPath).referrerPolicyUrl;
+    getEnvironment = require(utilPath).getEnvironment;
   });
 
   afterEach(() => {
@@ -347,6 +349,43 @@ describe('utils', () => {
       it('returns the url origin', () => {
         expect(referrerPolicyUrl('strict-origin-when-cross-origin', url))
           .toEqual('http://www.example.com');
+      });
+    });
+  });
+
+  describe('#getEnvironment', () => {
+    describe('when main.js is injected onto the document', () => {
+      describe('when the asset source does not include zd-staging', () => {
+        beforeEach(() => {
+          document.write(`<script
+            id="js-iframe-async"
+            src="assets.zendesk.com"></script>`);
+        });
+
+        it('should return production', () => {
+          expect(getEnvironment())
+            .toEqual('production');
+        });
+      });
+
+      describe('when the asset source includes zd-staging', () => {
+        beforeEach(() => {
+          document.write(`<script
+            id="js-iframe-async"
+            src="assets.zd-staging.com"></script>`);
+        });
+
+        it('should return staging', () => {
+          expect(getEnvironment())
+            .toEqual('staging');
+        });
+      });
+    });
+
+    describe('when main.js is not injected', () => {
+      it('should return production', () => {
+        expect(getEnvironment())
+          .toEqual('production');
       });
     });
   });
