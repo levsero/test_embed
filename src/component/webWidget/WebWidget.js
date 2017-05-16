@@ -85,9 +85,7 @@ class WebWidget extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.state = {
-      activeComponent: helpCenter
-    };
+    this.props.updateActiveEmbed(helpCenter);
   }
 
   expand = () => {
@@ -97,15 +95,15 @@ class WebWidget extends Component {
   }
 
   setComponent = (activeComponent) => {
-    this.setState({ activeComponent });
+    this.props.updateActiveEmbed(activeComponent);
   }
 
   getActiveComponent = () => {
-    return this.state.activeComponent;
+    return this.state.activeEmbed;
   }
 
   getRootComponent = () => {
-    return this.refs[this.state.activeComponent];
+    return this.refs[this.state.activeEmbed];
   }
 
   getSubmitTicketComponent = () => {
@@ -117,17 +115,17 @@ class WebWidget extends Component {
   }
 
   showHelpCenter = () => {
-    this.setState({ activeComponent: helpCenter });
+    this.props.updateActiveEmbed(helpCenter);
     this.props.showBackButton(!!this.getRootComponent().state.articleViewActive);
   }
 
   onNextClick = () => {
     if (this.props.chat.account_status === 'online') {
-      this.setState({ activeComponent: chat });
+      this.props.updateActiveEmbed(chat);
       // TODO: track chat started
       this.props.showBackButton(true);
     } else {
-      this.setState({ activeComponent: submitTicket });
+      this.props.updateActiveEmbed(submitTicket);
       this.props.showBackButton(true);
     }
   }
@@ -143,10 +141,10 @@ class WebWidget extends Component {
   onBackClick = () => {
     const rootComponent = this.getRootComponent();
 
-    if (this.state.activeComponent === helpCenter) {
+    if (this.state.activeEmbed === helpCenter) {
       rootComponent.setArticleView(false);
       this.props.showBackButton(false);
-    } else if (this.state.activeComponent === chat) {
+    } else if (this.state.activeEmbed === chat) {
       this.showHelpCenter();
     } else if (rootComponent.state.selectedTicketForm) {
       this.props.showBackButton(this.state.helpCenterAvailable);
@@ -161,11 +159,12 @@ class WebWidget extends Component {
       this.showHelpCenter();
     } else {
       this.setState({ activeComponent: submitTicket });
+      this.props.updateActiveEmbed(submitTicket);
     }
   }
 
   renderChat = () => {
-    const classes = this.state.activeComponent !== chat ? 'u-isHidden' : '';
+    const classes = this.state.activeEmbed !== chat ? 'u-isHidden' : '';
 
     return (
       <div className={classes}>
@@ -181,7 +180,7 @@ class WebWidget extends Component {
   renderHelpCenter = () => {
     const { helpCenterConfig } = this.props;
     const classes = classNames({
-      'u-isHidden': this.state.activeComponent !== helpCenter
+      'u-isHidden': this.state.activeEmbed !== helpCenter
     });
 
     return (
@@ -217,7 +216,7 @@ class WebWidget extends Component {
   renderSubmitTicket = () => {
     const { submitTicketConfig } = this.props;
     const classes = classNames({
-      'u-isHidden': this.state.activeComponent !== submitTicket
+      'u-isHidden': this.state.activeEmbed !== submitTicket
     });
 
     return (

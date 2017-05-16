@@ -3,9 +3,11 @@ import { UPDATE_ACTIVE_EMBED } from '../base-action-types';
 const initialState = '';
 
 const activeEmbed = (state = initialState, action) => {
-  switch (action.type) {
+  const { type, payload } = action;
+
+  switch (type) {
     case UPDATE_ACTIVE_EMBED:
-      return action.payload.detail;
+      return payload;
     default:
       return state;
   }

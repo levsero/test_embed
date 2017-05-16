@@ -21,7 +21,7 @@ const embeds = (state = initialState, action) => {
         }
       };
 
-      return _.assign(newState, detailName);
+      return _.assign({}, newState, detailName);
     default:
       return state;
   }
