@@ -181,21 +181,22 @@ describe('WebWidget component', () => {
 
         webWidget = domRender(
           <WebWidget
-            helpCenterAvailable={true}
             chat={chatProp}
-            showBackButton={showBackButtonSpy} />
+            helpCenterAvailable={true}
+            showBackButton={showBackButtonSpy}
+            updateActiveEmbed={mockUpdateActiveEmbed} />
         );
         webWidget.onNextClick();
       });
 
-      it('shows chat', () => {
-        expect(webWidget.renderChat().props.className)
-          .not.toContain('u-isHidden');
+      it('should call updateActiveEmbed with chat', () => {
+        expect(mockUpdateActiveEmbed)
+          .toHaveBeenCalledWith('chat');
       });
 
-      it('should call onBackClick prop', () => {
+      it('should call showBackButton with true', () => {
         expect(showBackButtonSpy)
-          .toHaveBeenCalled();
+          .toHaveBeenCalledWith(true);
       });
     });
 
@@ -205,21 +206,22 @@ describe('WebWidget component', () => {
 
         webWidget = domRender(
           <WebWidget
+            chat={chatProp}
             helpCenterAvailable={true}
             showBackButton={showBackButtonSpy}
-            chat={chatProp} />
+            updateActiveEmbed={mockUpdateActiveEmbed} />
         );
         webWidget.onNextClick();
       });
 
-      it('shows submit ticket', () => {
-        expect(webWidget.renderSubmitTicket().props.className)
-          .not.toContain('u-isHidden');
+      it('should call updateActiveEmbed with ticketSubmissionForm', () => {
+        expect(mockUpdateActiveEmbed)
+          .toHaveBeenCalledWith('ticketSubmissionForm');
       });
 
-      it('should call onBackClick prop', () => {
+      it('should call showBackButton with true', () => {
         expect(showBackButtonSpy)
-          .toHaveBeenCalled();
+          .toHaveBeenCalledWith(true);
       });
     });
   });
@@ -283,7 +285,7 @@ describe('WebWidget component', () => {
         webWidget.onBackClick();
       });
 
-      it('should invoke showHelpCenter', () => {
+      it('should call showHelpCenter', () => {
         expect(webWidget.showHelpCenter)
           .toHaveBeenCalled();
       });
