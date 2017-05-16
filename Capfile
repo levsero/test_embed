@@ -127,9 +127,9 @@ namespace :embeddable_framework do
 
   desc 'Deploy to a given stage'
   task :deploy do
-    logger.info 'Uploading assets'
-    framework_deploy_path = fetch(:framework_deploy_path)
     timestamp = Time.now
+    logger.info "Uploading assets with timestamp: #{timestamp}"
+    framework_deploy_path = fetch(:framework_deploy_path)
 
     on release_roles(:all) do
       execute "mkdir -p #{framework_deploy_path}/#{fetch(:build_version)}"
