@@ -92,7 +92,7 @@ describe('WebWidget component', () => {
 
     describe('when component is set to submitTicket', () => {
       beforeEach(() => {
-        webWidget.setComponent('ticketSubmissionForm');
+        webWidget.setState({ activeEmbed: 'ticketSubmissionForm' });
       });
 
       it('should show submit ticket component', () => {
@@ -109,7 +109,7 @@ describe('WebWidget component', () => {
 
     describe('when component is set to chat', () => {
       beforeEach(() => {
-        webWidget.setComponent('chat');
+        webWidget.setState({ activeEmbed: 'chat' });
       });
 
       it('should show chat component', () => {
@@ -129,23 +129,14 @@ describe('WebWidget component', () => {
     let webWidget;
 
     describe('when helpCenter is available', () => {
-      let showBackButtonSpy;
-
       beforeEach(() => {
-        showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
-        webWidget = domRender(
-          <WebWidget helpCenterAvailable={true} showBackButton={showBackButtonSpy} />
-        );
+        webWidget = domRender(<WebWidget helpCenterAvailable={true} />);
+        spyOn(webWidget, 'showHelpCenter');
         webWidget.onCancelClick();
       });
 
-      it('shows help center', () => {
-        expect(webWidget.renderHelpCenter().props.className)
-          .not.toContain('u-isHidden');
-      });
-
-      it('calls showBackButton prop', () => {
-        expect(showBackButtonSpy)
+      it('calls showHelpCenter', () => {
+        expect(webWidget.showHelpCenter)
           .toHaveBeenCalled();
       });
     });
@@ -155,9 +146,7 @@ describe('WebWidget component', () => {
 
       beforeEach(() => {
         onCancelSpy = jasmine.createSpy('onCancelSpy');
-        webWidget = domRender(
-          <WebWidget onCancel={onCancelSpy} />
-        );
+        webWidget = domRender(<WebWidget onCancel={onCancelSpy} />);
         webWidget.onCancelClick();
       });
 
