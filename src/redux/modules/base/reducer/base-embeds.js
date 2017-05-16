@@ -12,16 +12,11 @@ const embeds = (state = initialState, action) => {
       const detailName = (_.has(payload, 'detail.name'))
         ? { [payload.detail.name]: { ...state[payload.detail.name], ...payload.detail } }
         : null;
-      const newState = {
-        ...state,
-        [payload.name]: {
-          ...state[payload.name],
-          name: payload.name,
-          accessible: payload.accessible
-        }
-      };
+      const embedData = (_.has(payload, 'name'))
+        ? { [payload.name]: { name: payload.name, accessible: payload.accessible } }
+        : null;
 
-      return _.assign({}, newState, detailName);
+      return _.assign({}, state, embedData, detailName);
     default:
       return state;
   }

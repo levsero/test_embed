@@ -10,7 +10,6 @@ describe('renderer', () => {
     mockIpm,
     mockAutomaticAnswers,
     mockChannelChoiceValue,
-    mockExpandedValue,
     mockWebWidget,
     mockUpdateEmbedAccessible;
   const updateBaseFontSize = jasmine.createSpy();

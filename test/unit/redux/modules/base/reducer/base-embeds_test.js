@@ -47,35 +47,59 @@ describe('base reducer embeds', () => {
       });
     });
 
-    describe('when the embed is not present', () => {
-      beforeEach(() => {
-        newState = reducer(state, {
-          type: actionTypes.UPDATE_EMBED,
-          payload: {
-            detail: _.extend({}, payload.detail, { name: 'helpCenter' })
-          }
+    describe('when payload.detail is present', () => {
+      describe('when the embed is not present', () => {
+        beforeEach(() => {
+          newState = reducer(state, {
+            type: actionTypes.UPDATE_EMBED,
+            payload: {
+              detail: _.extend({}, payload.detail, { name: 'helpCenter' })
+            }
+          });
+        });
+
+        it('adds an embed with the payload data', () => {
+          expect(newState[payload.detail.name])
+            .toEqual(payload.detail);
         });
       });
 
-      it('adds an embed with the payload data', () => {
-        expect(newState[payload.detail.name])
-          .toEqual(payload.detail);
+      describe('when the embed is present', () => {
+        beforeEach(() => {
+          newState = reducer(state, {
+            type: actionTypes.UPDATE_EMBED,
+            payload: {
+              detail: _.extend({}, payload.detail, { accessible: false })
+            }
+          });
+        });
+
+        it('updates the embed with the payload data', () => {
+          expect(newState[payload.detail.name].accessible)
+            .toEqual(false);
+        });
       });
     });
 
-    describe('when the embed is present', () => {
+    describe('when payload.detail is not present', () => {
       beforeEach(() => {
         newState = reducer(state, {
           type: actionTypes.UPDATE_EMBED,
           payload: {
-            detail: _.extend({}, payload.detail, { accessible: false })
+            name: 'chat',
+            accessible: true
           }
         });
       });
 
-      it('updates the embed with the payload data', () => {
-        expect(newState[payload.detail.name].accessible)
-          .toEqual(false);
+      it('should set other payload data', () => {
+        const expectation = {
+          name: 'chat',
+          accessible: true
+        };
+
+        expect(newState.chat)
+          .toEqual(expectation);
       });
     });
   });
