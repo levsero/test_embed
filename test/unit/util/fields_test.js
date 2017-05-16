@@ -270,6 +270,21 @@ describe('fields', () => {
           .toBe(0);
       });
     });
+
+    describe('when a fields visible and edtiable properties are undefined', () => {
+      beforeEach(() => {
+        subjectFieldPayload.visible_in_portal = undefined;
+        subjectFieldPayload.editable_in_portal = undefined;
+
+        payload = [subjectFieldPayload];
+        customFields = getCustomFields(payload, {});
+      });
+
+      it('should return the field', () => {
+        expect(customFields.allFields[0].props.placeholder)
+          .toBe('What is your query about?');
+      });
+    });
     /* eslint-enable camelcase */
 
     describe('props', () => {
