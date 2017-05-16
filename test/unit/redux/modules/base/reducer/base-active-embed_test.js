@@ -37,13 +37,11 @@ describe('base reducer activeEmbed', () => {
 
       state = reducer(initialState, {
         type: actionTypes.UPDATE_ACTIVE_EMBED,
-        payload: {
-          detail: activeEmbed
-        }
+        payload: activeEmbed
       });
     });
 
-    it('sets the action payload.detail as the state', () => {
+    it('sets the action payload as the state', () => {
       expect(state)
         .toEqual(activeEmbed);
     });
