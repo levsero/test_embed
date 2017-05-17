@@ -83,14 +83,6 @@ class WebWidget extends Component {
     updateFrameSize: () => {}
   };
 
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = {
-      activeEmbed: helpCenter
-    };
-  }
-
   expand = () => {
     if (this.getRootComponent().expand) {
       this.getRootComponent().expand(true);
@@ -102,11 +94,11 @@ class WebWidget extends Component {
   }
 
   getActiveComponent = () => {
-    return this.state.activeEmbed;
+    return this.props.activeEmbed;
   }
 
   getRootComponent = () => {
-    return this.refs[this.state.activeEmbed];
+    return this.refs[this.props.activeEmbed];
   }
 
   getSubmitTicketComponent = () => {
@@ -144,7 +136,7 @@ class WebWidget extends Component {
   onBackClick = () => {
     const rootComponent = this.getRootComponent();
 
-    if (this.state.activeEmbed === helpCenter) {
+    if (this.props.activeEmbed === helpCenter) {
       rootComponent.setArticleView(false);
       this.props.showBackButton(false);
     } else if (rootComponent.state.selectedTicketForm) {
@@ -165,7 +157,7 @@ class WebWidget extends Component {
   }
 
   renderChat = () => {
-    const classes = this.state.activeEmbed !== chat ? 'u-isHidden' : '';
+    const classes = this.props.activeEmbed !== chat ? 'u-isHidden' : '';
 
     return (
       <div className={classes}>
@@ -181,7 +173,7 @@ class WebWidget extends Component {
   renderHelpCenter = () => {
     const { helpCenterConfig } = this.props;
     const classes = classNames({
-      'u-isHidden': this.state.activeEmbed !== helpCenter
+      'u-isHidden': this.props.activeEmbed !== helpCenter
     });
 
     return (
@@ -217,7 +209,7 @@ class WebWidget extends Component {
   renderSubmitTicket = () => {
     const { submitTicketConfig } = this.props;
     const classes = classNames({
-      'u-isHidden': this.state.activeEmbed !== submitTicket
+      'u-isHidden': this.props.activeEmbed !== submitTicket
     });
 
     return (

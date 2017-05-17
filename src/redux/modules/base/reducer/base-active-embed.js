@@ -1,6 +1,6 @@
 import { UPDATE_ACTIVE_EMBED } from '../base-action-types';
 
-const initialState = '';
+const initialState = 'helpCenterForm';
 
 const activeEmbed = (state = initialState, action) => {
   const { type, payload } = action;
