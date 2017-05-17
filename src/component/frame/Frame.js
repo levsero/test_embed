@@ -33,6 +33,7 @@ const defaultHideTransition = isPositionTop
 const defaultShowTransition = isPositionTop
                             ? transitionFactory.webWidget.downShow()
                             : transitionFactory.webWidget.upShow();
+const defaultMarginTop = isPositionTop && !isMobileBrowser() ? '15px' : 0;
 
 export class Frame extends Component {
   static propTypes = {
@@ -40,17 +41,17 @@ export class Frame extends Component {
     store: PropTypes.object.isRequired,
     afterShowAnimate: PropTypes.func,
     css: PropTypes.string,
-    frameStyle: PropTypes.object,
-    fullscreenable: PropTypes.bool,
     frameFullWidth: PropTypes.number,
     frameOffsetWidth: PropTypes.number,
     frameOffsetHeight: PropTypes.number,
+    frameStyle: PropTypes.object,
+    fullscreenable: PropTypes.bool,
     hideCloseButton: PropTypes.bool,
+    name: PropTypes.string,
     onBack: PropTypes.func,
     onClose: PropTypes.func,
     onHide: PropTypes.func,
     onShow: PropTypes.func,
-    name: PropTypes.string,
     position: PropTypes.string,
     preventClose: PropTypes.bool,
     transitions: PropTypes.object,
@@ -63,9 +64,7 @@ export class Frame extends Component {
     frameFullWidth: 0,
     frameOffsetWidth: 15,
     frameOffsetHeight: 15,
-    frameStyle: {
-      marginTop: isPositionTop && !isMobileBrowser() ? '15px' : 0
-    },
+    frameStyle: { marginTop: defaultMarginTop },
     fullscreenable: false,
     hideCloseButton: false,
     name: '',
@@ -125,8 +124,8 @@ export class Frame extends Component {
       const rootComponent = this.child.refs.rootComponent;
 
       return rootComponent.getWrappedInstance
-            ? rootComponent.getWrappedInstance()
-            : rootComponent;
+           ? rootComponent.getWrappedInstance()
+           : rootComponent;
     }
   }
 
@@ -176,12 +175,13 @@ export class Frame extends Component {
     };
 
     if (this.props.fullscreenable && isMobileBrowser()) {
-      frameDoc.body.firstChild.setAttribute(
-        'style',
-        [`width: ${fullscreenWidth}`,
+      const fullscreenStyles = [
+        `width: ${fullscreenWidth}`,
         'height: 100%',
-        'overflow-x: hidden'].join(';')
-      );
+        'overflow-x: hidden'
+      ].join(';');
+
+      frameDoc.body.firstChild.setAttribute('style', fullscreenStyles);
     }
 
     const dimensions = getDimensions();

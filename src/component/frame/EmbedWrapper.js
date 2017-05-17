@@ -135,7 +135,7 @@ export class EmbedWrapper extends Component {
               position: 'right'
             })}
           </div>
-          <div id='Embed' ref={(el) => {this.embed = el;}}>
+          <div id='Embed' ref={(el) => { this.embed = el; }}>
             {newChild}
           </div>
         </div>
