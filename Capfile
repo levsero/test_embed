@@ -115,12 +115,16 @@ namespace :embeddable_framework do
       )
     end
 
-    logger.info 'Uploading assets'
+    timestamp = Time.now
+    logger.info "Uploading assets with timestamp: #{timestamp}"
 
     on release_roles(:all) do
       execute "mkdir -p #{framework_deploy_path}/#{fetch(:build_version)}"
       fetch(:framework_files).each do |file|
-        upload! "dist/#{file}", "#{framework_deploy_path}/#{fetch(:build_version)}/#{file}"
+        file_path = "#{framework_deploy_path}/#{fetch(:build_version)}/#{file}"
+
+        upload! "dist/#{file}", file_path
+        FileUtils.touch file_path, timestamp
       end
     end
   end
