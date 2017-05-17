@@ -53,7 +53,8 @@ class WebWidget extends Component {
     updateFrameSize: PropTypes.func,
     viaId: PropTypes.number.isRequired,
     zendeskHost: PropTypes.string.isRequired,
-    updateActiveEmbed: PropTypes.func.isRequired
+    updateActiveEmbed: PropTypes.func.isRequired,
+    activeEmbed: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -139,10 +140,11 @@ class WebWidget extends Component {
 
     if (activeEmbed === helpCenter) {
       rootComponent.setArticleView(false);
+      showBackButton();
     } else if (rootComponent.state.selectedTicketForm && helpCenterAvailable) {
       rootComponent.clearForm();
       this.showHelpCenter();
-      showBackButton(true);
+      showBackButton();
     } else {
       this.showHelpCenter();
       showBackButton(false);

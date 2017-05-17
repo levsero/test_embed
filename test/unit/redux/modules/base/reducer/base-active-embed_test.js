@@ -22,9 +22,9 @@ describe('base reducer activeEmbed', () => {
   });
 
   describe('initial state', () => {
-    it('is set to an empty string', () => {
+    it('is set to an helpCenterForm', () => {
       expect(initialState)
-        .toEqual('');
+        .toEqual('helpCenterForm');
     });
   });
 

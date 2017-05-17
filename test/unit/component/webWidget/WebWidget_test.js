@@ -76,7 +76,7 @@ describe('WebWidget component', () => {
     let webWidget;
 
     beforeEach(() => {
-      webWidget = domRender(<WebWidget />);
+      webWidget = domRender(<WebWidget activeEmbed='helpCenterForm' />);
     });
 
     it('should show help center component by default', () => {
@@ -92,7 +92,7 @@ describe('WebWidget component', () => {
 
     describe('when component is set to submitTicket', () => {
       beforeEach(() => {
-        webWidget.setState({ activeEmbed: 'ticketSubmissionForm' });
+        webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' />);
       });
 
       it('should show submit ticket component', () => {
@@ -109,7 +109,7 @@ describe('WebWidget component', () => {
 
     describe('when component is set to chat', () => {
       beforeEach(() => {
-        webWidget.setState({ activeEmbed: 'chat' });
+        webWidget = domRender(<WebWidget activeEmbed='chat' />);
       });
 
       it('should show chat component', () => {
@@ -221,15 +221,16 @@ describe('WebWidget component', () => {
 
     beforeEach(() => {
       showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
-      webWidget = domRender(
-        <WebWidget
-          helpCenterAvailable={true}
-          showBackButton={showBackButtonSpy} />
-      );
     });
 
     describe('when help center is the active component', () => {
       beforeEach(() => {
+        webWidget = domRender(
+          <WebWidget
+            activeEmbed='helpCenterForm'
+            helpCenterAvailable={true}
+            showBackButton={showBackButtonSpy} />
+        );
         webWidget.onBackClick();
       });
 
@@ -245,12 +246,15 @@ describe('WebWidget component', () => {
     });
 
     describe('when submit ticket is the active component', () => {
-      beforeEach(() => {
-        webWidget.setState({ activeEmbed: 'ticketSubmissionForm' });
-      });
-
       describe('and it has a ticket form selected', () => {
         beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              updateActiveEmbed={() => {}}
+              activeEmbed='ticketSubmissionForm'
+              helpCenterAvailable={true}
+              showBackButton={showBackButtonSpy} />
+          );
           webWidget.getRootComponent().setState({ selectedTicketForm: { id: '1' } });
           webWidget.onBackClick();
         });
@@ -269,8 +273,14 @@ describe('WebWidget component', () => {
 
     describe('when chat is the active component', () => {
       beforeEach(() => {
+        webWidget = domRender(
+          <WebWidget
+            updateActiveEmbed={() => {}}
+            activeEmbed='chat'
+            helpCenterAvailable={true}
+            showBackButton={showBackButtonSpy} />
+        );
         spyOn(webWidget, 'showHelpCenter');
-        webWidget.setState({ activeEmbed: 'chat' });
         webWidget.onBackClick();
       });
 
