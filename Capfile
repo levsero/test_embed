@@ -124,7 +124,7 @@ namespace :embeddable_framework do
         file_path = "#{framework_deploy_path}/#{fetch(:build_version)}/#{file}"
 
         upload! "dist/#{file}", file_path
-        FileUtils.touch file_path, timestamp
+        FileUtils.touch file_path, :mtime => timestamp
       end
     end
   end
@@ -141,7 +141,7 @@ namespace :embeddable_framework do
         file_path = "#{framework_deploy_path}/#{fetch(:build_version)}/#{file}"
 
         upload! "dist/#{file}", file_path
-        FileUtils.touch file_path, timestamp
+        FileUtils.touch file_path, :mtime => timestamp
       end
     end
   end
