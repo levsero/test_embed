@@ -246,7 +246,7 @@ describe('WebWidget component', () => {
     });
 
     describe('when submit ticket is the active component', () => {
-      describe('and it has a ticket form selected', () => {
+      describe('and it has a ticket form selected with > 1 ticket forms', () => {
         beforeEach(() => {
           webWidget = domRender(
             <WebWidget
@@ -255,7 +255,10 @@ describe('WebWidget component', () => {
               helpCenterAvailable={true}
               showBackButton={showBackButtonSpy} />
           );
-          webWidget.getRootComponent().setState({ selectedTicketForm: { id: '1' } });
+          webWidget.getRootComponent().setState({
+            selectedTicketForm: { id: '1' },
+            ticketForms: [{ id: '1' }, { id: '2' }]
+          });
           webWidget.onBackClick();
         });
 

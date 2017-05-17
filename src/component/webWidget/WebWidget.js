@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import _ from 'lodash';
 
 import Chat from 'component/chat/Chat';
 import { HelpCenter } from 'component/helpCenter/HelpCenter';
@@ -135,18 +136,19 @@ class WebWidget extends Component {
   }
 
   onBackClick = () => {
-    const { activeEmbed, helpCenterAvailable, showBackButton } = this.props;
     const rootComponent = this.getRootComponent();
+    const { activeEmbed, helpCenterAvailable, showBackButton } = this.props;
+    const { selectedTicketForm, ticketForms } = rootComponent.state;
 
     if (activeEmbed === helpCenter) {
       rootComponent.setArticleView(false);
       showBackButton();
-    } else if (rootComponent.state.selectedTicketForm && helpCenterAvailable) {
+    } else if (selectedTicketForm && _.size(ticketForms) > 1) {
       rootComponent.clearForm();
-      this.showHelpCenter();
-      showBackButton();
+      showBackButton(helpCenterAvailable);
     } else {
       this.showHelpCenter();
+      // TODO: Identify the appropriate default for this state
       showBackButton(false);
     }
   }
