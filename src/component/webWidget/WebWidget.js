@@ -134,17 +134,18 @@ class WebWidget extends Component {
   }
 
   onBackClick = () => {
+    const { activeEmbed, helpCenterAvailable, showBackButton } = this.props;
     const rootComponent = this.getRootComponent();
 
-    if (this.props.activeEmbed === helpCenter) {
+    if (activeEmbed === helpCenter) {
       rootComponent.setArticleView(false);
-      this.props.showBackButton(false);
-    } else if (rootComponent.state.selectedTicketForm) {
-      this.props.showBackButton(this.state.helpCenterAvailable);
+    } else if (rootComponent.state.selectedTicketForm && helpCenterAvailable) {
       rootComponent.clearForm();
+      this.showHelpCenter();
+      showBackButton(true);
     } else {
       this.showHelpCenter();
-      this.props.showBackButton(false);
+      showBackButton(false);
     }
   }
 
