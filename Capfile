@@ -115,7 +115,7 @@ namespace :embeddable_framework do
       )
     end
 
-    timestamp = Time.now.strftime('%Y%m%d%H%M.%S')
+    timestamp = Time.new(1994,1,7, 13,30,0, "+09:00").strftime('%Y%m%d%H%M.%S')
     logger.info "Uploading assets with timestamp: #{timestamp}"
 
     on release_roles(:all) do
