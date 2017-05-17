@@ -29,76 +29,57 @@ describe('base reducer embeds', () => {
   });
 
   describe('when an UPDATE_EMBED action is dispatched', () => {
-    let payload,
+    let action,
       state,
+      newAction,
       newState;
 
     beforeEach(() => {
-      payload = {
-        detail: {
-          name: 'submitTicket',
-          accessible: true
+      action = {
+        type: actionTypes.UPDATE_EMBED,
+        payload: {
+          name: 'ticketSubmissionForm'
         }
       };
 
-      state = reducer(initialState, {
-        type: actionTypes.UPDATE_EMBED,
-        payload: payload
-      });
+      state = reducer(initialState, action);
     });
 
-    describe('when payload.detail is present', () => {
-      describe('when the embed is not present', () => {
-        beforeEach(() => {
-          newState = reducer(state, {
-            type: actionTypes.UPDATE_EMBED,
-            payload: {
-              detail: _.extend({}, payload.detail, { name: 'helpCenter' })
-            }
-          });
-        });
-
-        it('adds an embed with the payload data', () => {
-          expect(newState[payload.detail.name])
-            .toEqual(payload.detail);
-        });
-      });
-
-      describe('when the embed is present', () => {
-        beforeEach(() => {
-          newState = reducer(state, {
-            type: actionTypes.UPDATE_EMBED,
-            payload: {
-              detail: _.extend({}, payload.detail, { accessible: false })
-            }
-          });
-        });
-
-        it('updates the embed with the payload data', () => {
-          expect(newState[payload.detail.name].accessible)
-            .toEqual(false);
-        });
-      });
-    });
-
-    describe('when payload.detail is not present', () => {
+    describe('when payload contains accessible', () => {
       beforeEach(() => {
-        newState = reducer(state, {
+        newAction = {
           type: actionTypes.UPDATE_EMBED,
           payload: {
             name: 'chat',
             accessible: true
           }
-        });
-      });
-
-      it('should set other payload data', () => {
-        const expectation = {
-          name: 'chat',
-          accessible: true
         };
 
+        newState = reducer(state, newAction);
+      });
+
+      it('should return new state for the associated embed', () => {
+        const expectation = { accessible: true };
+
         expect(newState.chat)
+          .toEqual(expectation);
+      });
+    });
+
+    describe('when payload does not contain accessible', () => {
+      beforeEach(() => {
+        newAction = {
+          type: actionTypes.UPDATE_EMBED,
+          payload: { name: 'helpCenterForm' }
+        };
+
+        newState = reducer(state, newAction);
+      });
+
+      it('should return new state with accessible defaulted as false', () => {
+        const expectation = { accessible: false };
+
+        expect(newState.helpCenterForm)
           .toEqual(expectation);
       });
     });
