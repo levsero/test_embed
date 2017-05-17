@@ -95,7 +95,7 @@ function init(config) {
                                .mapValues('props')
                                .value();
 
-      parsedConfig = _.omit(parsedConfig, ['ticketSubmissionForm', 'helpCenterForm']);
+      parsedConfig = _.omit(parsedConfig, webWidgetEmbeds);
 
       parsedConfig.webWidget = {
         embed: 'webWidget',
@@ -105,7 +105,7 @@ function init(config) {
 
     _.forEach(parsedConfig, (configItem, embedName) => {
       try {
-        configItem.props.visible = !hideLauncher && config.embeds && !config.embeds.zopimChat;
+        configItem.props.visible = !hideLauncher && config.embeds && (!config.embeds.zopimChat || singleIframe);
         configItem.props.hideZendeskLogo = config.hideZendeskLogo;
         configItem.props.disableAutoComplete = config.disableAutoComplete;
         configItem.props.expandable = config.expandable;
