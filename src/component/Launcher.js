@@ -11,8 +11,6 @@ const mapStateToProps = (state) => {
   return { chatStatus: state.chat.account_status };
 };
 
-const chatLabel = 'embeddable_framework.launcher.label.chat';
-
 class Launcher extends Component {
   static propTypes = {
     chatStatus: PropTypes.string,
@@ -39,33 +37,19 @@ class Launcher extends Component {
     };
   }
 
-  componentDidUpdate = (prevProps) => {
-    // This is temporary while we're transitioning over to single iframe
-    // so that we have a single source for the label and icon rather then
-    // handling both in render. Once we're migrated over to redux and removed
-    // mediator this can be removed from state and handled in render.
-    if (this.props.chatStatus === 'online' && prevProps.chatStatus !== 'online') {
+  setLabel = (label, labelOptions = {}) => {
+    if (this.props.chatStatus !== 'online') {
       this.setState({
-        label: chatLabel,
-        icon: 'Icon--chat'
-      });
-    } else if (this.props.chatStatus === 'offline' && prevProps.chatStatus !== 'offline') {
-      this.setState({
-        label: this.props.label,
-        icon: 'Icon'
+        label: label,
+        labelOptions: labelOptions
       });
     }
   }
 
-  setLabel = (label, labelOptions = {}) => {
-    this.setState({
-      label: label,
-      labelOptions: labelOptions
-    });
-  }
-
   setIcon = (icon) => {
-    this.setState({ icon });
+    if (this.props.chatStatus !== 'online') {
+      this.setState({ icon });
+    }
   }
 
   render = () => {
@@ -74,16 +58,21 @@ class Launcher extends Component {
     const labelMobileClasses = showMobileClasses ? styles.labelMobile : '';
     const buttonMobileClasses = isMobileBrowser() ? styles.wrapperMobile : '';
 
-    const label = i18n.t(this.state.label, this.state.labelOptions);
+    const label = this.props.chatStatus !== 'online'
+                ? i18n.t(this.state.label, this.state.labelOptions)
+                : i18n.t('embeddable_framework.launcher.label.chat');
+    const icon = this.props.chatStatus !== 'online'
+               ? this.state.icon
+               : 'Icon--chat';
 
-    setTimeout( () => this.props.updateFrameSize(5, 0), 0);
+    setTimeout(() => this.props.updateFrameSize(5, 0), 0);
 
     return (
       <div className={`u-userBackgroundColor ${styles.wrapper} ${buttonMobileClasses}`}
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>
         <Icon
-          type={this.state.icon}
+          type={icon}
           className={`${styles.icon} ${iconMobileClasses}`} />
         <span className={`${styles.label} ${labelMobileClasses}`}>{label}</span>
       </div>
