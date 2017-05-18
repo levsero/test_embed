@@ -26,7 +26,7 @@ describe('Launcher component', () => {
       }
     });
 
-    Launcher = requireUncached(launcherPath).Launcher;
+    Launcher = requireUncached(launcherPath).default.WrappedComponent;
     jasmine.clock().install();
   });
 
@@ -71,6 +71,42 @@ describe('Launcher component', () => {
 
       expect(launcher.state.labelOptions)
         .toEqual({ some: 'thing' });
+    });
+
+    describe('when chat web SDK is initialized', () => {
+      describe('when chat status goes online', () => {
+        beforeEach(() => {
+          launcher = domRender(<Launcher label='help' chatStatus='online' />);
+        });
+
+        it('should update the label to chat label', () => {
+          expect(launcher.state.label)
+            .toEqual('help');
+
+          launcher.componentDidUpdate({ chatStatus: 'offline' });
+
+          expect(launcher.state.label)
+            .toContain('chat');
+        });
+      });
+
+      describe('when chat status goes offline', () => {
+        beforeEach(() => {
+          launcher = domRender(<Launcher label='help' chatStatus='offline' />);
+
+          launcher.setLabel('chat');
+        });
+
+        it('should update the label to chat label', () => {
+          expect(launcher.state.label)
+            .toEqual('chat');
+
+          launcher.componentDidUpdate({ chatStatus: 'online' });
+
+          expect(launcher.state.label)
+            .toEqual('help');
+        });
+      });
     });
   });
 

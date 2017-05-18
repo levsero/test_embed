@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { connect } from 'react-redux';
 import { locals as styles } from './Launcher.sass';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
 
-export class Launcher extends Component {
+const mapStateToProps = (state) => {
+  return { chatStatus: state.chat.account_status };
+};
+
+const chatLabel = 'embeddable_framework.launcher.label.chat';
+
+class Launcher extends Component {
   static propTypes = {
+    chatStatus: PropTypes.string,
     icon: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
@@ -17,6 +24,7 @@ export class Launcher extends Component {
   };
 
   static defaultProps = {
+    chatStatus: '',
     updateFrameSize: () => {}
   };
 
@@ -31,6 +39,24 @@ export class Launcher extends Component {
     };
   }
 
+  componentDidUpdate = (prevProps) => {
+    // This is temporary while we're transitioning over to single iframe
+    // so that we have a single source for the label and icon rather then
+    // handling both in render. Once we're migrated over to redux and removed
+    // mediator this can be removed from state and handled in render.
+    if (this.props.chatStatus === 'online' && prevProps.chatStatus !== 'online') {
+      this.setState({
+        label: chatLabel,
+        icon: 'Icon--chat'
+      });
+    } else if (this.props.chatStatus === 'offline' && prevProps.chatStatus !== 'offline') {
+      this.setState({
+        label: this.props.label,
+        icon: 'Icon'
+      });
+    }
+  }
+
   setLabel = (label, labelOptions = {}) => {
     this.setState({
       label: label,
@@ -43,32 +69,26 @@ export class Launcher extends Component {
   }
 
   render = () => {
-    const buttonClasses = classNames({
-      [`${styles.wrapper}`]: true,
-      'u-userBackgroundColor': true,
-      [`${styles.wrapperMobile}`]: isMobileBrowser()
-    });
-    const iconClasses = classNames({
-      [`${styles.icon}`]: true,
-      [`${styles.iconMobile}`]: isMobileBrowser() && !this.state.hasUnreadMessages
-    });
-    const labelClasses = classNames({
-      [`${styles.label}`]: true,
-      [`${styles.labelMobile}`]: isMobileBrowser() && !this.state.hasUnreadMessages
-    });
+    const showMobileClasses = isMobileBrowser() && !this.state.hasUnreadMessages;
+    const iconMobileClasses = showMobileClasses ? styles.iconMobile : '';
+    const labelMobileClasses = showMobileClasses ? styles.labelMobile : '';
+    const buttonMobileClasses = isMobileBrowser() ? styles.wrapperMobile : '';
+
     const label = i18n.t(this.state.label, this.state.labelOptions);
 
     setTimeout( () => this.props.updateFrameSize(5, 0), 0);
 
     return (
-      <div className={buttonClasses}
+      <div className={`u-userBackgroundColor ${styles.wrapper} ${buttonMobileClasses}`}
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>
         <Icon
           type={this.state.icon}
-          className={iconClasses} />
-        <span className={labelClasses}>{label}</span>
+          className={`${styles.icon} ${iconMobileClasses}`} />
+        <span className={`${styles.label} ${labelMobileClasses}`}>{label}</span>
       </div>
     );
   }
 }
+
+export default connect(mapStateToProps, {}, null, { withRef: true })(Launcher);
