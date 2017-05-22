@@ -50,34 +50,6 @@ describe('base redux actions', () => {
     });
   });
 
-  describe('updateEmbed', () => {
-    let embed,
-      params,
-      action;
-
-    beforeEach(() => {
-      embed = 'helpCenter';
-      params = { accessible: true };
-      mockStore.dispatch(actions.updateEmbed(embed, params));
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches an action of type UPDATE_EMBED', () => {
-      expect(action.type)
-        .toEqual(actionTypes.UPDATE_EMBED);
-    });
-
-    it('has the embed name in the payload', () => {
-      expect(action.payload)
-        .toEqual(jasmine.objectContaining({ name: embed }));
-    });
-
-    it('has the params in the payload', () => {
-      expect(action.payload)
-        .toEqual(jasmine.objectContaining(params));
-    });
-  });
-
   describe('updateEmbedAccessible', () => {
     let embed,
       accessible,

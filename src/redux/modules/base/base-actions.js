@@ -10,16 +10,6 @@ export const updateActiveEmbed = (embedName) => {
   };
 };
 
-export const updateEmbed = (name, params) => {
-  return {
-    type: UPDATE_EMBED,
-    payload: {
-      name,
-      ...params
-    }
-  };
-};
-
 export const updateEmbedAccessible = (name, accessible) => {
   return {
     type: UPDATE_EMBED,
