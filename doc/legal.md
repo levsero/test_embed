@@ -1,3 +1,5 @@
+## Legal notices
+
 This software may contain the following third party software and/or libraries, subject to the below licenses:
 
 ### Airbrake-js
