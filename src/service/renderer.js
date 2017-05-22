@@ -105,7 +105,9 @@ function init(config) {
 
     _.forEach(parsedConfig, (configItem, embedName) => {
       try {
-        configItem.props.visible = !hideLauncher && config.embeds && (!config.embeds.zopimChat || singleIframe);
+        const zopimRendered = config.embeds.zopimChat && !singleIframe;
+
+        configItem.props.visible = !hideLauncher && config.embeds && !zopimRendered;
         configItem.props.hideZendeskLogo = config.hideZendeskLogo;
         configItem.props.disableAutoComplete = config.disableAutoComplete;
         configItem.props.expandable = config.expandable;

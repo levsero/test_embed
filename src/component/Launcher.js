@@ -39,10 +39,7 @@ class Launcher extends Component {
 
   setLabel = (label, labelOptions = {}) => {
     if (this.props.chatStatus !== 'online') {
-      this.setState({
-        label: label,
-        labelOptions: labelOptions
-      });
+      this.setState({ label, labelOptions });
     }
   }
 
@@ -59,12 +56,13 @@ class Launcher extends Component {
     const iconMobileClasses = shouldShowMobileClasses ? styles.iconMobile : '';
     const labelMobileClasses = shouldShowMobileClasses ? styles.labelMobile : '';
 
-    const label = this.props.chatStatus !== 'online'
-                ? i18n.t(this.state.label, this.state.labelOptions)
-                : i18n.t('embeddable_framework.launcher.label.chat');
-    const icon = this.props.chatStatus !== 'online'
-               ? this.state.icon
-               : 'Icon--chat';
+    const chatOnline = this.props.chatStatus === 'online';
+    const label = chatOnline
+                ? i18n.t('embeddable_framework.launcher.label.chat')
+                : i18n.t(this.state.label, this.state.labelOptions);
+    const icon = chatOnline
+               ? 'Icon--chat'
+               : this.state.icon;
 
     setTimeout(() => this.props.updateFrameSize(5, 0), 0);
 

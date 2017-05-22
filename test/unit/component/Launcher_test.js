@@ -83,14 +83,15 @@ describe('Launcher component', () => {
 
   describe('render', () => {
     const mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
-    let launcher;
+    let launcher, launcherNode;
 
     beforeEach(() => {
       launcher = domRender(<Launcher updateFrameSize={mockUpdateFrameSize} />);
+      launcherNode = ReactDOM.findDOMNode(launcher);
     });
 
     it('should call the updateFrameSize prop on render if it exists', () => {
-      jasmine.clock().tick(10);
+      jasmine.clock().tick(0);
 
       expect(mockUpdateFrameSize).toHaveBeenCalled();
     });
@@ -98,14 +99,14 @@ describe('Launcher component', () => {
     it('should set the label based on the state', () => {
       launcher.setState({ label: 'foo' });
 
-      expect(ReactDOM.findDOMNode(launcher).querySelector('.labelClasses').innerHTML)
+      expect(launcherNode.querySelector('.labelClasses').innerHTML)
         .toEqual('foo');
     });
 
     it('should set the icon based on the state', () => {
       launcher.setState({ icon: 'bar' });
 
-      expect(ReactDOM.findDOMNode(launcher).querySelector('.iconClasses').innerHTML)
+      expect(launcherNode.querySelector('.iconClasses').innerHTML)
         .toEqual('bar');
     });
 
