@@ -95,14 +95,14 @@ describe('Launcher component', () => {
       expect(mockUpdateFrameSize).toHaveBeenCalled();
     });
 
-    it('should set the label to based on the state', () => {
+    it('should set the label based on the state', () => {
       launcher.setState({ label: 'foo' });
 
       expect(ReactDOM.findDOMNode(launcher).querySelector('.labelClasses').innerHTML)
         .toEqual('foo');
     });
 
-    it('should set the icon to based on the state', () => {
+    it('should set the icon based on the state', () => {
       launcher.setState({ icon: 'bar' });
 
       expect(ReactDOM.findDOMNode(launcher).querySelector('.iconClasses').innerHTML)

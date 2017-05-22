@@ -53,10 +53,11 @@ class Launcher extends Component {
   }
 
   render = () => {
-    const showMobileClasses = isMobileBrowser() && !this.state.hasUnreadMessages;
-    const iconMobileClasses = showMobileClasses ? styles.iconMobile : '';
-    const labelMobileClasses = showMobileClasses ? styles.labelMobile : '';
-    const buttonMobileClasses = isMobileBrowser() ? styles.wrapperMobile : '';
+    const mobile = isMobileBrowser();
+    const baseMobileClasses = mobile ? styles.wrapperMobile : '';
+    const shouldShowMobileClasses = mobile && !this.state.hasUnreadMessages;
+    const iconMobileClasses = shouldShowMobileClasses ? styles.iconMobile : '';
+    const labelMobileClasses = shouldShowMobileClasses ? styles.labelMobile : '';
 
     const label = this.props.chatStatus !== 'online'
                 ? i18n.t(this.state.label, this.state.labelOptions)
@@ -68,7 +69,7 @@ class Launcher extends Component {
     setTimeout(() => this.props.updateFrameSize(5, 0), 0);
 
     return (
-      <div className={`u-userBackgroundColor ${styles.wrapper} ${buttonMobileClasses}`}
+      <div className={`u-userBackgroundColor ${styles.wrapper} ${baseMobileClasses}`}
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>
         <Icon
