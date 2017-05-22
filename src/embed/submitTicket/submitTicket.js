@@ -343,6 +343,8 @@ function render(name) {
       const { config } = embed;
       const ticketForms = getTicketFormIds(config);
 
+      embed.instance.updateFrameLocale();
+
       if (!_.isEmpty(ticketForms)) {
         submitTicket.loadTicketForms(name, ticketForms, i18n.getLocale());
       } else if (config.customFields.ids || config.customFields.all) {

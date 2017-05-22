@@ -412,6 +412,15 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       this.setState({ _rendered: true });
     }
 
+    updateFrameLocale = () => {
+      const iframe = ReactDOM.findDOMNode(this);
+      const html = iframe.contentDocument.documentElement;
+      const direction = i18n.isRTL() ? 'rtl' : 'ltr';
+
+      html.setAttribute('lang', i18n.getLocale());
+      html.setAttribute('dir', direction);
+    }
+
     renderFrameContent = () => {
       if (this.state._rendered) {
         return false;
@@ -421,10 +430,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       const html = iframe.contentDocument.documentElement;
       const doc = iframe.contentWindow.document;
 
-      if (i18n.isRTL()) {
-        html.setAttribute('lang', i18n.getLocale());
-        html.setAttribute('dir', 'rtl');
-      }
+      this.updateFrameLocale();
 
       // In order for iframe to correctly render in some browsers
       // we need to do it on nextTick
