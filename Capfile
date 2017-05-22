@@ -114,25 +114,33 @@ namespace :embeddable_framework do
       )
     end
 
-    logger.info 'Uploading assets'
+    timestamp = Time.now.strftime('%Y%m%d%H%M.%S')
+    logger.info "Uploading assets with timestamp: #{timestamp}"
 
     on release_roles(:all) do
       execute "mkdir -p #{framework_deploy_path}/#{fetch(:build_version)}"
       fetch(:framework_files).each do |file|
-        upload! "dist/#{file}", "#{framework_deploy_path}/#{fetch(:build_version)}/#{file}"
+        file_path = "#{framework_deploy_path}/#{fetch(:build_version)}/#{file}"
+
+        upload! "dist/#{file}", file_path
+        execute "touch -t #{timestamp} #{file_path}"
       end
     end
   end
 
   desc 'Deploy to a given stage'
   task :deploy do
-    logger.info 'Uploading assets'
+    timestamp = Time.now.strftime('%Y%m%d%H%M.%S')
+    logger.info "Uploading assets with timestamp: #{timestamp}"
     framework_deploy_path = fetch(:framework_deploy_path)
 
     on release_roles(:all) do
       execute "mkdir -p #{framework_deploy_path}/#{fetch(:build_version)}"
       fetch(:framework_files).each do |file|
-        upload! "dist/#{file}", "#{framework_deploy_path}/#{fetch(:build_version)}/#{file}"
+        file_path = "#{framework_deploy_path}/#{fetch(:build_version)}/#{file}"
+
+        upload! "dist/#{file}", file_path
+        execute "touch -t #{timestamp} #{file_path}"
       end
     end
   end

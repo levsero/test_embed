@@ -96,7 +96,7 @@ function init(config) {
                                .mapValues('props')
                                .value();
 
-      parsedConfig = _.omit(parsedConfig, ['ticketSubmissionForm', 'helpCenterForm']);
+      parsedConfig = _.omit(parsedConfig, webWidgetEmbeds);
 
       parsedConfig.webWidget = {
         embed: 'webWidget',
@@ -106,6 +106,8 @@ function init(config) {
 
     _.forEach(parsedConfig, (configItem, embedName) => {
       try {
+        const zopimRendered = config.embeds.zopimChat && !singleIframe;
+
         reduxStore.dispatch(updateEmbedAccessible(embedName, true));
         configItem.props.visible = !hideLauncher && config.embeds && !config.embeds.zopimChat;
         configItem.props.hideZendeskLogo = config.hideZendeskLogo;

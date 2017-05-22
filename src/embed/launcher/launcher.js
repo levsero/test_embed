@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { launcherStyles } from './launcherStyles.js';
 import { document,
          getDocumentHost } from 'utility/globals';
-import { Launcher } from 'component/Launcher';
+import Launcher from 'component/Launcher';
 import { frameFactory } from 'embed/frameFactory';
 import { beacon } from 'service/beacon';
 import { mediator } from 'service/mediator';
