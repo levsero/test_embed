@@ -10,8 +10,9 @@ const embeds = (state = initialState, action) => {
       return {
         ...state,
         [payload.name]: {
-          ...payload.params,
-          accessible: !!payload.accessible
+          accessible: false,
+          ...state[payload.name],
+          ...payload.params
         }
       };
     default:

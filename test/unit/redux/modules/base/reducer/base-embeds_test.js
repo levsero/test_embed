@@ -51,7 +51,7 @@ describe('base reducer embeds', () => {
           type: actionTypes.UPDATE_EMBED,
           payload: {
             name: 'chat',
-            accessible: true
+            params: { accessible: true }
           }
         };
 
@@ -70,7 +70,7 @@ describe('base reducer embeds', () => {
       beforeEach(() => {
         newAction = {
           type: actionTypes.UPDATE_EMBED,
-          payload: { name: 'helpCenterForm' }
+          payload: { name: 'helpCenterForm', params: {} }
         };
 
         newState = reducer(state, newAction);

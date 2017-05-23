@@ -15,7 +15,7 @@ export const updateEmbedAccessible = (name, accessible) => {
     type: UPDATE_EMBED,
     payload: {
       name,
-      accessible
+      params: { accessible }
     }
   };
 };
