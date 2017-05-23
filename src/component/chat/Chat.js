@@ -38,6 +38,14 @@ class Chat extends Component {
     updateFrameSize: () => {}
   };
 
+  constructor(props) {
+    super(props);
+
+    // Guard against WebWidget from accessing random
+    // state attributes when state is not defined
+    this.state = {};
+  }
+
   updateUser = (user) => {
     this.props.setVisitorInfo({
       display_name: user.name || '', // eslint-disable-line camelcase

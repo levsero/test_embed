@@ -15,6 +15,7 @@ import { logging } from 'service/logging';
 import { settings } from 'service/settings';
 import { isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
+import { updateEmbedAccessible } from 'src/redux/modules/base';
 
 import createStore from 'src/redux/createStore';
 
@@ -107,6 +108,7 @@ function init(config) {
       try {
         const zopimRendered = config.embeds.zopimChat && !singleIframe;
 
+        reduxStore.dispatch(updateEmbedAccessible(embedName, true));
         configItem.props.visible = !hideLauncher && config.embeds && !zopimRendered;
         configItem.props.hideZendeskLogo = config.hideZendeskLogo;
         configItem.props.disableAutoComplete = config.disableAutoComplete;
