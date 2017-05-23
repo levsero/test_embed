@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import { locals as styles } from './EmbedWrapper.sass';
 import { ButtonNav } from 'component/button/ButtonNav';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
@@ -53,7 +54,7 @@ export class EmbedWrapper extends Component {
     const css = generateNpsCSS({ color: color });
 
     if (css) {
-      this.setState({ css: css });
+      this.setState({ css });
     }
   }
 
@@ -61,11 +62,13 @@ export class EmbedWrapper extends Component {
     const css = generateWebWidgetPreviewCSS(color);
 
     if (css) {
-      this.setState({ css: css });
+      this.setState({ css });
     }
   }
 
   renderNavButton = (options = {}) => {
+    if (options.isHidden) return;
+
     return (
       <ButtonNav
         onClick={options.onClick}
@@ -83,46 +86,43 @@ export class EmbedWrapper extends Component {
   }
 
   render = () => {
-    const backButtonClasses = classNames({
-      'u-isHidden': !this.state.showBackButton
-    });
-    const closeButtonClasses = classNames({
-      'closeButton': true,
-      'u-isHidden': this.props.hideCloseButton
-    });
-    const expandButtonClasses = classNames({
-      'closeButton': true,
-      'u-isHidden': !this.props.showExpandButton
-    });
+    const isRTL = i18n.isRTL();
     const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />;
-    const expandClasses = i18n.isRTL() ? 'u-posStartL' : 'u-posEndL';
+    const expandClasses = isRTL ? 'u-posStartL' : 'u-posEndL';
+    const closeClasses = isRTL ? styles.closeBtn : '';
+    const backClasses = isRTL ? styles.backBtn : '';
 
     return (
       <Provider store={this.props.reduxStore}>
         <div>
           {css}
           {styleTag}
-          <div className={backButtonClasses}>
+          <div>
             {this.renderNavButton({
               onClick: this.props.handleBackClick,
               icon: 'Icon--back',
-              position: 'left'
+              position: isRTL ? 'right' : 'left',
+              className: backClasses,
+              isHidden: !this.state.showBackButton
             })}
           </div>
-          <div className={expandButtonClasses}>
+          <div>
             {this.renderNavButton({
               onClick: this.props.handleExpandClick,
               icon: 'Icon--chevron',
               position: 'right',
-              className: expandClasses
+              className: expandClasses,
+              isHidden: !this.props.showExpandButton
             })}
           </div>
-          <div className={closeButtonClasses}>
+          <div>
             {this.renderNavButton({
               onClick: this.props.handleCloseClick,
               icon: 'Icon--close',
-              position: 'right'
+              position: isRTL ? 'left' : 'right',
+              className: closeClasses,
+              isHidden: this.props.hideCloseButton
             })}
           </div>
           <div id='Embed'>
