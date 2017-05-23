@@ -109,7 +109,7 @@ function init(config) {
         const zopimRendered = config.embeds.zopimChat && !singleIframe;
 
         reduxStore.dispatch(updateEmbedAccessible(embedName, true));
-        configItem.props.visible = !hideLauncher && config.embeds && !config.embeds.zopimChat;
+        configItem.props.visible = !hideLauncher && config.embeds && !zopimRendered;
         configItem.props.hideZendeskLogo = config.hideZendeskLogo;
         configItem.props.disableAutoComplete = config.disableAutoComplete;
         configItem.props.expandable = config.expandable;
