@@ -74,7 +74,7 @@ describe('base redux actions', () => {
 
     it('has an accessible property in the payload', () => {
       expect(action.payload)
-        .toEqual(jasmine.objectContaining({ accessible: accessible }));
+        .toEqual(jasmine.objectContaining({ params: { accessible } }));
     });
   });
 });
