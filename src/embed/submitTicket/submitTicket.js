@@ -27,13 +27,13 @@ const getTicketForms = _.memoize((config) => {
   const settingTicketForms = settings.get('contactForm.ticketForms');
 
   if (_.isEmpty(settingTicketForms)) {
-    return _.filter(config.ticketForms, _.isInteger);
-  } else {
-    return _.chain(settingTicketForms)
-            .map((ticketForm) => ticketForm.id)
-            .without(undefined)
-            .value();
+    return config.ticketForms;
   }
+
+  return _.chain(settingTicketForms)
+          .map((ticketForm) => ticketForm.id)
+          .without(undefined)
+          .value();
 });
 
 const getWithSpinner = (name, path, locale, doneFn) => {
