@@ -111,6 +111,10 @@ class WebWidget extends Component {
     return this.refs[chat].refs.wrappedInstance;
   }
 
+  getHelpCenterComponent = () => {
+    return this.refs[helpCenter];
+  }
+
   show = () => {
     if (this.props.activeEmbed !== '') {
       return;
@@ -149,19 +153,21 @@ class WebWidget extends Component {
 
   onBackClick = () => {
     const rootComponent = this.getRootComponent();
+    const helpCenterComponent = this.getHelpCenterComponent();
+    const submitTicketComponent = this.getSubmitTicketComponent();
     const { activeEmbed, helpCenterAvailable, showBackButton } = this.props;
-    const { selectedTicketForm, ticketForms } = rootComponent.state;
+    const { selectedTicketForm, ticketForms } = submitTicketComponent.state;
+    const { articleViewActive } = helpCenterComponent.state;
 
     if (activeEmbed === helpCenter) {
       rootComponent.setArticleView(false);
-      showBackButton();
+      showBackButton(false);
     } else if (selectedTicketForm && _.size(ticketForms) > 1) {
       rootComponent.clearForm();
       showBackButton(helpCenterAvailable);
     } else {
       this.showHelpCenter();
-      // TODO: Identify the appropriate default for this state
-      showBackButton(false);
+      showBackButton(articleViewActive);
     }
   }
 

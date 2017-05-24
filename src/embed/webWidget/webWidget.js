@@ -139,6 +139,7 @@ function create(name, config = {}, reduxStore = {}) {
   };
   const helpCenterAvailable = !!config.helpCenterForm;
   const submitTicketAvailable = !!config.ticketSubmissionForm;
+  const chatAvaliable = !!config.zopimChat;
   const submitTicketSettings = submitTicketAvailable
                              ? setUpSubmitTicket(config.ticketSubmissionForm)
                              : {};
@@ -147,7 +148,9 @@ function create(name, config = {}, reduxStore = {}) {
                            : {};
   const globalConfig = _.extend(configDefaults, helpCenterSettings.config);
 
-  setUpChat(config.zopimChat, reduxStore);
+  if (chatAvaliable) {
+    setUpChat(config.zopimChat, reduxStore);
+  }
 
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
