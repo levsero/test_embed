@@ -26,7 +26,6 @@ export class SubmitTicket extends Component {
   static propTypes = {
     attachmentsEnabled: PropTypes.bool,
     attachmentSender: PropTypes.func.isRequired,
-    customFields: PropTypes.array,
     disableAutoComplete: PropTypes.bool,
     expanded: PropTypes.bool,
     formTitleKey: PropTypes.string.isRequired,
@@ -50,7 +49,6 @@ export class SubmitTicket extends Component {
 
   static defaultProps = {
     attachmentsEnabled: false,
-    customFields: [],
     disableAutoComplete: false,
     expanded: false,
     hideZendeskLogo: false,
@@ -227,8 +225,7 @@ export class SubmitTicket extends Component {
       'ticket_form_id': ticketFormsAvailable ? this.state.selectedTicketForm.id : null
     };
 
-    return this.props.customFields.length > 0
-           || this.state.ticketFields.length > 0
+    return this.state.ticketFields.length > 0
            || ticketFormsAvailable
          ? { request: _.extend(params, this.formatTicketFieldData(data)) }
          : { request: params };
@@ -359,20 +356,14 @@ export class SubmitTicket extends Component {
   }
 
   renderForm = () => {
-    // TODO: When ticket fields are all sent down via the api we can
-    // remove the customFields prop and always send down the state.
-    const fields = this.props.customFields.length === 0
-                 ? this.state.ticketFields
-                 : this.props.customFields;
-
     return (
       <SubmitTicketForm
+        ref='submitTicketForm'
         onCancel={this.props.onCancel}
         fullscreen={this.state.fullscreen}
-        ref='submitTicketForm'
         hide={this.state.showNotification}
         expanded={this.state.expanded}
-        customFields={fields}
+        customFields={this.state.ticketFields}
         disableAutoComplete={this.props.disableAutoComplete}
         formTitleKey={this.state.formTitleKey}
         attachmentSender={this.props.attachmentSender}
