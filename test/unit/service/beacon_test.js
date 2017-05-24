@@ -231,64 +231,6 @@ describe('beacon', () => {
         expect(mockTransport.sendWithMeta)
           .not.toHaveBeenCalled();
       });
-    });
-
-    describe('with the base64-based newBlips not turned on', () => {
-      it('sends correct payload using transport.send', () => {
-        const mockTransport = mockRegistry['service/transport'];
-        const mockGlobals = mockRegistry['utility/globals'];
-        const mockUtils = mockRegistry['utility/utils'];
-        const mockPages = mockRegistry['utility/pages'];
-
-        beacon.sendPageView();
-
-        expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
-
-        const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
-        const useBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
-
-        expect(payload.method)
-          .toBe('POST');
-
-        expect(payload.path)
-          .toBe('/embeddable/blips');
-
-        const params = payload.params;
-
-        expect(params.pageView.userAgent)
-          .toBe(mockGlobals.navigator.userAgent);
-
-        expect(params.pageView.referrer)
-          .toBe(mockUtils.parseUrl().href);
-
-        expect(params.pageView.navigatorLanguage)
-          .toBe(mockGlobals.navigator.language);
-
-        expect(params.pageView.pageTitle)
-          .toBe(mockGlobals.document.title);
-
-        expect(params.pageView.time)
-          .toBeDefined();
-
-        expect(params.pageView.loadTime)
-          .toBe(1000);
-
-        expect(params.pageView.helpCenterDedup)
-          .toBe(mockPages.isOnHelpCenterPage());
-
-        expect(useBase64)
-          .not.toBe(true);
-      });
-    });
-
-    describe('with base64-based newBlips turned on', () => {
-      beforeEach(() => {
-        beacon.setConfig({ newBlips: true });
-      });
-
-      afterEach(() => {
-        beacon.setConfig({});
-      });
 
       it('sends correct payload using transport.send', () => {
         const mockTransport = mockRegistry['service/transport'];
@@ -298,16 +240,12 @@ describe('beacon', () => {
         expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
 
         const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
-        const useBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
 
         expect(payload.method)
           .toBe('GET');
 
         expect(payload.path)
           .toBe('/embeddable_blip');
-
-        expect(useBase64)
-          .toBe(true);
       });
     });
 
@@ -395,50 +333,15 @@ describe('beacon', () => {
       const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
 
       expect(payload.method)
-        .toBe('POST');
+        .toBe('GET');
 
       expect(payload.path)
-        .toBe('/embeddable/blips');
+        .toBe('/embeddable_blip');
 
       const params = payload.params;
 
       expect(params.userAction)
         .toEqual(userActionParams);
-    });
-
-    describe('with base64-based newBlips turned on', () => {
-      beforeEach(() => {
-        beacon.setConfig({ newBlips: true });
-      });
-
-      afterEach(() => {
-        beacon.setConfig({});
-      });
-
-      it('sends correct payload using transport.send', () => {
-        const mockTransport = mockRegistry['service/transport'];
-
-        beacon.trackUserAction(
-          userActionParams.category,
-          userActionParams.action,
-          userActionParams.label,
-          userActionParams.value
-        );
-
-        expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
-
-        const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
-        const useBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
-
-        expect(payload.method)
-          .toBe('GET');
-
-        expect(payload.path)
-          .toBe('/embeddable_blip');
-
-        expect(useBase64)
-          .toBe(true);
-      });
     });
   });
 
@@ -596,37 +499,6 @@ describe('beacon', () => {
         });
       });
     });
-
-    describe('with base64-based newBlips turned on', () => {
-      beforeEach(() => {
-        beacon.setConfig({ newBlips: true });
-        mockTransport = mockRegistry['service/transport'].transport;
-        mockRegistry['utility/globals'].win.zESettings = mockSettings;
-        beacon.trackSettings(mockSettings);
-      });
-
-      afterEach(() => {
-        beacon.setConfig({});
-      });
-
-      it('sends correct payload using transport.send', () => {
-        const mockTransport = mockRegistry['service/transport'];
-
-        expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
-
-        const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
-        const useBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
-
-        expect(payload.method)
-          .toBe('GET');
-
-        expect(payload.path)
-          .toBe('/embeddable_blip');
-
-        expect(useBase64)
-          .toBe(true);
-      });
-    });
   });
 
   describe('identify', () => {
@@ -641,34 +513,71 @@ describe('beacon', () => {
       mockGlobals = mockRegistry['utility/globals'];
 
       beacon.init(true);
-      beacon.identify({ name: name, email: email });
     });
 
-    it('sends the correct payload', () => {
-      expect(mockTransport.transport.sendWithMeta)
-        .toHaveBeenCalled();
+    describe('with newIdentify turned off', () => {
+      beforeEach(() => {
+        beacon.identify({ name: name, email: email });
+      });
 
-      const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+      it('sends the correct payload', () => {
+        expect(mockTransport.transport.sendWithMeta)
+          .toHaveBeenCalled();
 
-      expect(payload.method)
-        .toBe('POST');
+        const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+        const useBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
 
-      expect(payload.path)
-        .toBe('/embeddable/identify');
+        expect(payload.method)
+          .toBe('POST');
 
-      const params = payload.params;
+        expect(payload.path)
+          .toBe('/embeddable/identify');
 
-      expect(params.user.name)
-        .toEqual(name);
+        expect(useBase64)
+          .toBe(false);
 
-      expect(params.user.email)
-        .toEqual(email);
+        const params = payload.params;
 
-      expect(params.user.localeId)
-        .toEqual(localeId);
+        expect(params.user.name)
+          .toEqual(name);
 
-      expect(params.userAgent)
-        .toEqual(mockGlobals.navigator.userAgent);
+        expect(params.user.email)
+          .toEqual(email);
+
+        expect(params.user.localeId)
+          .toEqual(localeId);
+
+        expect(params.userAgent)
+          .toEqual(mockGlobals.navigator.userAgent);
+      });
+    });
+
+    describe('with newIdentify turned on', () => {
+      beforeEach(() => {
+        beacon.setConfig({ newIdentify: true });
+        beacon.identify({ name: name, email: email });
+      });
+
+      afterEach(() => {
+        beacon.setConfig({});
+      });
+
+      it('sends correct payload using transport.send', () => {
+        expect(mockTransport.transport.sendWithMeta)
+          .toHaveBeenCalled();
+
+        const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+        const useBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
+
+        expect(payload.method)
+          .toBe('GET');
+
+        expect(payload.path)
+          .toBe('/embeddable_blip');
+
+        expect(useBase64)
+          .toBe(true);
+      });
     });
   });
 

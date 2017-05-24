@@ -5,7 +5,7 @@ GEM
     airbrake (4.0.0)
       builder
       multi_json
-    airbrussh (1.1.2)
+    airbrussh (1.2.0)
       sshkit (>= 1.6.1, != 1.7.0)
     aws-sdk (2.2.14)
       aws-sdk-resources (= 2.2.14)
@@ -23,7 +23,7 @@ GEM
     sshkit (1.13.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    zendesk_deployment (3.5.0)
+    zendesk_deployment (3.5.5)
       airbrussh
       rake (>= 0.9.3)
       sshkit (~> 1.9)
@@ -37,4 +37,4 @@ DEPENDENCIES
   zendesk_deployment (~> 3.4)!
 
 BUNDLED WITH
-   1.13.6
+   1.14.6

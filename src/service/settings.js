@@ -7,38 +7,38 @@ const optionWhitelist = {
   webWidget: [
     'authenticate',
     'channelChoice',
+    'channelChoice',
     'chat.suppress',
     'color',
     'contactForm.attachments',
     'contactForm.fields',
+    'contactForm.selectTicketForm',
     'contactForm.subject',
     'contactForm.suppress',
     'contactForm.tags',
     'contactForm.ticketForms',
     'contactForm.title',
-    'contactForm.selectTicketForm',
     'expanded',
     'helpCenter.chatButton',
+    'helpCenter.filter',
+    'helpCenter.localeFallbacks',
     'helpCenter.messageButton',
     'helpCenter.originalArticleButton',
-    'helpCenter.viewMore',
+    'helpCenter.searchPlaceholder',
     'helpCenter.suppress',
     'helpCenter.title',
-    'helpCenter.localeFallbacks',
-    'helpCenter.filter',
-    'helpCenter.searchPlaceholder',
+    'helpCenter.viewMore',
     'launcher.chatLabel',
     'launcher.label',
-    'offset.vertical',
     'offset.horizontal',
-    'zIndex',
-    'channelChoice',
+    'offset.vertical',
+    'position.horizontal',
     'position.vertical',
-    'position.horizontal'
+    'zIndex'
   ],
   ipm: [
-    'offset.vertical',
-    'offset.horizontal'
+    'offset.horizontal',
+    'offset.vertical'
   ]
 };
 const customizationsWhitelist = [
@@ -47,12 +47,12 @@ const customizationsWhitelist = [
 ];
 const webWidgetStoreDefaults = {
   contactForm: {
-    subject: false,
     attachments: true,
-    suppress: false,
     fields: [],
-    ticketForms: [],
-    tags: []
+    subject: false,
+    suppress: false,
+    tags: [],
+    ticketForms: []
   },
   channelChoice: false,
   helpCenter: {
@@ -131,14 +131,14 @@ function get(path, store = 'webWidget') {
 
 function getTranslations() {
   const translations = {
-    launcherLabel: webWidgetStore.launcher.label,
-    launcherChatLabel: webWidgetStore.launcher.chatLabel,
-    helpCenterTitle: webWidgetStore.helpCenter.title,
-    helpCenterMessageButton: webWidgetStore.helpCenter.messageButton,
-    helpCenterChatButton: webWidgetStore.helpCenter.chatButton,
-    helpCenterSearchPlaceholder: webWidgetStore.helpCenter.searchPlaceholder,
+    contactFormSelectTicketForm: webWidgetStore.contactForm.selectTicketForm,
     contactFormTitle: webWidgetStore.contactForm.title,
-    contactFormSelectTicketForm: webWidgetStore.contactForm.selectTicketForm
+    helpCenterChatButton: webWidgetStore.helpCenter.chatButton,
+    helpCenterMessageButton: webWidgetStore.helpCenter.messageButton,
+    helpCenterSearchPlaceholder: webWidgetStore.helpCenter.searchPlaceholder,
+    helpCenterTitle: webWidgetStore.helpCenter.title,
+    launcherChatLabel: webWidgetStore.launcher.chatLabel,
+    launcherLabel: webWidgetStore.launcher.label
   };
 
   return _.omitBy(translations, _.isUndefined);
@@ -150,12 +150,6 @@ function getTrackSettings() {
   const defaults = _.omit(webWidgetStoreDefaults, blacklist);
   const widgetSettings = objectDifference(userSettings, defaults);
   const ipmSettings = objectDifference(ipmStore, ipmStoreDefaults);
-
-  if (widgetSettings.contactForm && widgetSettings.contactForm.ticketForms) {
-    const ticketFormsLength = _.size(widgetSettings.contactForm.ticketForms);
-
-    widgetSettings.contactForm.ticketForms = ticketFormsLength;
-  }
 
   if (widgetSettings.authenticate) {
     widgetSettings.authenticate = true;
@@ -172,8 +166,8 @@ function enableCustomizations() {
 }
 
 export const settings = {
-  init: init,
-  get: get,
+  init,
+  get,
   getTranslations,
   getTrackSettings,
   enableCustomizations

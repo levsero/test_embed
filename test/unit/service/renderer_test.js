@@ -10,8 +10,8 @@ describe('renderer', () => {
     mockIpm,
     mockAutomaticAnswers,
     mockChannelChoiceValue,
-    mockExpandedValue,
-    mockWebWidget;
+    mockWebWidget,
+    mockUpdateEmbedAccessible;
   const updateBaseFontSize = jasmine.createSpy();
   const updateFrameSize = jasmine.createSpy();
   const rendererPath = buildSrcPath('service/renderer');
@@ -40,6 +40,8 @@ describe('renderer', () => {
   beforeEach(() => {
     mockery.enable();
 
+    mockUpdateEmbedAccessible = jasmine.createSpy();
+
     mockSubmitTicket = embedMocker('mockSubmitTicket');
     mockLauncher = embedMocker('mockLauncher');
     mockHelpCenter = embedMocker('mockHelpCenter');
@@ -49,8 +51,6 @@ describe('renderer', () => {
     mockIpm = embedMocker('mockIpm');
     mockAutomaticAnswers = embedMocker('mockAutomaticAnswers');
     mockWebWidget = embedMocker('mockWebWidget');
-
-    mockExpandedValue = false;
 
     mockRegistry = initMockRegistry({
       'embed/submitTicket/submitTicket': {
@@ -100,19 +100,21 @@ describe('renderer', () => {
           enableCustomizations: jasmine.createSpy(),
           getTrackSettings: jasmine.createSpy().and.returnValue(mockTrackSettings),
           get: (value) => _.get({
-            channelChoice: mockChannelChoiceValue,
-            expanded: mockExpandedValue
+            channelChoice: mockChannelChoiceValue
           }, value, null)
         }
       },
-      'src/redux/createStore': () => {
-        return {};
-      },
+      'src/redux/createStore': () => ({
+        dispatch: noop
+      }),
       'utility/globals': {
         win: global.window
       },
       'utility/devices':  {
         isMobileBrowser: jasmine.createSpy()
+      },
+      'src/redux/modules/base': {
+        updateEmbedAccessible: mockUpdateEmbedAccessible
       }
     });
 
@@ -166,6 +168,9 @@ describe('renderer', () => {
       renderer.init(configJSON);
 
       const mockLauncherRecentCall = mockLauncher.create.calls.mostRecent();
+
+      expect(mockUpdateEmbedAccessible)
+        .toHaveBeenCalledWith(jasmine.any(String), true);
 
       expect(mockSubmitTicket.create)
         .toHaveBeenCalledWith('ticketSubmissionForm', jasmine.any(Object), jasmine.any(Object));
@@ -328,10 +333,9 @@ describe('renderer', () => {
       });
     });
 
-    describe('when expanded setting and expandable is true', () => {
+    describe('when singleIframe is true', () => {
       beforeEach(() => {
-        mockExpandedValue = true;
-        configJSON.expandable = true;
+        configJSON.singleIframe = true;
 
         renderer.init(configJSON);
       });

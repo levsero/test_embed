@@ -99,6 +99,10 @@ node ./script/generate-jwt.js <shared_secret>
 
 *`<shared_secret>` = a generated shared secret (e.g `4fcd8ac941baf1b9cf1bf0b8272d5bcf`)*
 
+## Testing CSP
+
+See the **CSP.md** document for instructions on how to test CSP with the Web Widget.
+
 ## NPM tasks
 
 Run each task like this: ```npm run taskname```

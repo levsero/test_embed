@@ -1,5 +1,6 @@
 describe('WebWidget component', () => {
-  let WebWidget;
+  let WebWidget,
+    mockUpdateActiveEmbed;
   const setArticleViewSpy = jasmine.createSpy();
   const clearFormSpy = jasmine.createSpy();
   const webWidgetPath = buildSrcPath('component/webWidget/WebWidget');
@@ -8,6 +9,8 @@ describe('WebWidget component', () => {
     resetDOM();
 
     mockery.enable();
+
+    mockUpdateActiveEmbed = jasmine.createSpy('updateActiveEmbed');
 
     class MockHelpCenter extends Component {
       constructor() {
@@ -35,14 +38,28 @@ describe('WebWidget component', () => {
       }
     }
 
+    class MockChat extends Component {
+      constructor() {
+        super();
+        this.state = {};
+      }
+      render() {
+        return <div />;
+      }
+    }
+
     initMockRegistry({
       'React': React,
-      'component/chat/Chat': noopReactComponent(),
+      'component/chat/Chat': MockChat,
       'component/helpCenter/HelpCenter': {
         HelpCenter: MockHelpCenter
       },
       'component/submitTicket/SubmitTicket': {
         SubmitTicket: MockSubmitTicket
+      },
+      'src/redux/modules/base': {
+        updateActiveEmbed: noop,
+        updateEmbedAccessible: noop
       }
     });
 
@@ -59,7 +76,7 @@ describe('WebWidget component', () => {
     let webWidget;
 
     beforeEach(() => {
-      webWidget = domRender(<WebWidget />);
+      webWidget = domRender(<WebWidget activeEmbed='helpCenterForm' />);
     });
 
     it('should show help center component by default', () => {
@@ -75,7 +92,7 @@ describe('WebWidget component', () => {
 
     describe('when component is set to submitTicket', () => {
       beforeEach(() => {
-        webWidget.setComponent('ticketSubmissionForm');
+        webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' />);
       });
 
       it('should show submit ticket component', () => {
@@ -92,7 +109,7 @@ describe('WebWidget component', () => {
 
     describe('when component is set to chat', () => {
       beforeEach(() => {
-        webWidget.setComponent('chat');
+        webWidget = domRender(<WebWidget activeEmbed='chat' />);
       });
 
       it('should show chat component', () => {
@@ -112,23 +129,14 @@ describe('WebWidget component', () => {
     let webWidget;
 
     describe('when helpCenter is available', () => {
-      let showBackButtonSpy;
-
       beforeEach(() => {
-        showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
-        webWidget = domRender(
-          <WebWidget helpCenterAvailable={true} showBackButton={showBackButtonSpy} />
-        );
+        webWidget = domRender(<WebWidget helpCenterAvailable={true} />);
+        spyOn(webWidget, 'showHelpCenter');
         webWidget.onCancelClick();
       });
 
-      it('shows help center', () => {
-        expect(webWidget.renderHelpCenter().props.className)
-          .not.toContain('u-isHidden');
-      });
-
-      it('calls showBackButton prop', () => {
-        expect(showBackButtonSpy)
+      it('calls showHelpCenter', () => {
+        expect(webWidget.showHelpCenter)
           .toHaveBeenCalled();
       });
     });
@@ -138,9 +146,7 @@ describe('WebWidget component', () => {
 
       beforeEach(() => {
         onCancelSpy = jasmine.createSpy('onCancelSpy');
-        webWidget = domRender(
-          <WebWidget onCancel={onCancelSpy} />
-        );
+        webWidget = domRender(<WebWidget onCancel={onCancelSpy} />);
         webWidget.onCancelClick();
       });
 
@@ -164,21 +170,22 @@ describe('WebWidget component', () => {
 
         webWidget = domRender(
           <WebWidget
-            helpCenterAvailable={true}
             chat={chatProp}
-            showBackButton={showBackButtonSpy} />
+            helpCenterAvailable={true}
+            showBackButton={showBackButtonSpy}
+            updateActiveEmbed={mockUpdateActiveEmbed} />
         );
         webWidget.onNextClick();
       });
 
-      it('shows chat', () => {
-        expect(webWidget.renderChat().props.className)
-          .not.toContain('u-isHidden');
+      it('should call updateActiveEmbed with chat', () => {
+        expect(mockUpdateActiveEmbed)
+          .toHaveBeenCalledWith('chat');
       });
 
-      it('should call onBackClick prop', () => {
+      it('should call showBackButton with true', () => {
         expect(showBackButtonSpy)
-          .toHaveBeenCalled();
+          .toHaveBeenCalledWith(true);
       });
     });
 
@@ -188,21 +195,22 @@ describe('WebWidget component', () => {
 
         webWidget = domRender(
           <WebWidget
+            chat={chatProp}
             helpCenterAvailable={true}
             showBackButton={showBackButtonSpy}
-            chat={chatProp} />
+            updateActiveEmbed={mockUpdateActiveEmbed} />
         );
         webWidget.onNextClick();
       });
 
-      it('shows submit ticket', () => {
-        expect(webWidget.renderSubmitTicket().props.className)
-          .not.toContain('u-isHidden');
+      it('should call updateActiveEmbed with ticketSubmissionForm', () => {
+        expect(mockUpdateActiveEmbed)
+          .toHaveBeenCalledWith('ticketSubmissionForm');
       });
 
-      it('should call onBackClick prop', () => {
+      it('should call showBackButton with true', () => {
         expect(showBackButtonSpy)
-          .toHaveBeenCalled();
+          .toHaveBeenCalledWith(true);
       });
     });
   });
@@ -213,13 +221,16 @@ describe('WebWidget component', () => {
 
     beforeEach(() => {
       showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
-      webWidget = domRender(
-        <WebWidget helpCenterAvailable={true} showBackButton={showBackButtonSpy} />
-      );
     });
 
     describe('when help center is the active component', () => {
       beforeEach(() => {
+        webWidget = domRender(
+          <WebWidget
+            activeEmbed='helpCenterForm'
+            helpCenterAvailable={true}
+            showBackButton={showBackButtonSpy} />
+        );
         webWidget.onBackClick();
       });
 
@@ -234,31 +245,20 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when chat is the active component', () => {
-      beforeEach(() => {
-        webWidget.setComponent('chat');
-        webWidget.onBackClick();
-      });
-
-      it('should call showBackButton prop', () => {
-        expect(showBackButtonSpy)
-          .toHaveBeenCalled();
-      });
-
-      it('shows help center', () => {
-        expect(webWidget.renderHelpCenter().props.className)
-          .not.toContain('u-isHidden');
-      });
-    });
-
     describe('when submit ticket is the active component', () => {
-      beforeEach(() => {
-        webWidget.setComponent('ticketSubmissionForm');
-      });
-
-      describe('and it has a ticket form selected', () => {
+      describe('and it has a ticket form selected with > 1 ticket forms', () => {
         beforeEach(() => {
-          webWidget.getRootComponent().setState({ selectedTicketForm: { id: '1' } });
+          webWidget = domRender(
+            <WebWidget
+              updateActiveEmbed={() => {}}
+              activeEmbed='ticketSubmissionForm'
+              helpCenterAvailable={true}
+              showBackButton={showBackButtonSpy} />
+          );
+          webWidget.getRootComponent().setState({
+            selectedTicketForm: { id: '1' },
+            ticketForms: [{ id: '1' }, { id: '2' }]
+          });
           webWidget.onBackClick();
         });
 
@@ -272,21 +272,29 @@ describe('WebWidget component', () => {
             .toHaveBeenCalled();
         });
       });
+    });
 
-      describe('and it does not have a ticket form selected', () => {
-        beforeEach(() => {
-          webWidget.onBackClick();
-        });
+    describe('when chat is the active component', () => {
+      beforeEach(() => {
+        webWidget = domRender(
+          <WebWidget
+            updateActiveEmbed={() => {}}
+            activeEmbed='chat'
+            helpCenterAvailable={true}
+            showBackButton={showBackButtonSpy} />
+        );
+        spyOn(webWidget, 'showHelpCenter');
+        webWidget.onBackClick();
+      });
 
-        it('should call showBackButton prop', () => {
-          expect(showBackButtonSpy)
-            .toHaveBeenCalled();
-        });
+      it('should call showHelpCenter', () => {
+        expect(webWidget.showHelpCenter)
+          .toHaveBeenCalled();
+      });
 
-        it('shows help center', () => {
-          expect(webWidget.renderHelpCenter().props.className)
-            .not.toContain('u-isHidden');
-        });
+      it('should call showBackButton prop', () => {
+        expect(showBackButtonSpy)
+          .toHaveBeenCalled();
       });
     });
   });
@@ -297,30 +305,31 @@ describe('WebWidget component', () => {
     describe('when help center is available', () => {
       beforeEach(() => {
         webWidget = domRender(<WebWidget helpCenterAvailable={true} />);
-
+        spyOn(webWidget, 'showHelpCenter');
         webWidget.activate();
       });
 
-      it('shows helpCenter', () => {
-        expect(webWidget.renderHelpCenter().props.className)
-          .not.toContain('u-isHidden');
-        expect(webWidget.renderSubmitTicket().props.className)
-          .toContain('u-isHidden');
+      it('invokes showHelpCenter', () => {
+        expect(webWidget.showHelpCenter)
+          .toHaveBeenCalled();
       });
     });
 
     describe('when help center is not available', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget helpCenterAvailable={false} />);
-
+        webWidget = domRender(
+          <WebWidget
+            updateActiveEmbed={mockUpdateActiveEmbed}
+            helpCenterAvailable={false} />
+        );
         webWidget.activate();
       });
 
-      it('shows SubmitTicket', () => {
-        expect(webWidget.renderSubmitTicket().props.className)
-          .not.toContain('u-isHidden');
-        expect(webWidget.renderHelpCenter().props.className)
-          .toContain('u-isHidden');
+      it('invokes updateActiveEmbed with expected param', () => {
+        const expectedParam = 'ticketSubmissionForm';
+
+        expect(mockUpdateActiveEmbed)
+          .toHaveBeenCalledWith(expectedParam);
       });
     });
   });

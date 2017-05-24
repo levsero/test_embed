@@ -12,7 +12,7 @@
     "prebuild:ac": "cp manifest.json dist",
     "build:prod": "webpack -p --config=./webpack.prod.config.js",
     "build:ac": "webpack -p --config=./webpack.ac.config.js",
-    "watch": "webpack-dashboard -- webpack-dev-server --inline=false --config=./webpack.dev.config.js",
+    "watch": "webpack-dashboard -- webpack-dev-server --config=./webpack.dev.config.js",
     "build": "npm run build-setup:prod && concurrently \"npm run build:prod\" \"npm run build:ac\"",
     "test": "node script/jasmine-runner.js",
     "test:debug": "node debug script/jasmine-runner.js",

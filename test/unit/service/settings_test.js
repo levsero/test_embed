@@ -328,8 +328,7 @@ describe('settings', () => {
         webWidget: {
           authenticate: { jwt: 'abc' },
           contactForm: {
-            attachments: true,
-            ticketForms: [1, 2, 3]
+            attachments: true
           },
           helpCenter: { originalArticleButton: false }
         },
@@ -364,14 +363,13 @@ describe('settings', () => {
     });
 
     it('should filter out default values from the store', () => {
-      expect(settings.getTrackSettings().webWidget.contactForm.attachments)
+      expect(settings.getTrackSettings().webWidget.contactForm)
         .toBeUndefined();
     });
 
     it('should not filter out custom values from the store', () => {
       userSettings.webWidget.authenticate = true;
-      userSettings.webWidget.contactForm.ticketForms = 3;
-      _.unset(userSettings, 'webWidget.contactForm.attachments');
+      _.unset(userSettings, 'webWidget.contactForm');
 
       expect(settings.getTrackSettings())
         .toEqual(userSettings);

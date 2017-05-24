@@ -1,4 +1,4 @@
-## Web Widget Google Tag Manager support
+## Google Tag Manager support
 
 Some browsers may experience difficulty loading the Web Widget via [Google Tag Manager][gtm-link] (GTM) using the standard Web Widget code snippet. We recommend using a modified version of the code snippet if you wish to embed the Web Widget via Google Tag Manager.
 

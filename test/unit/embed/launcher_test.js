@@ -22,21 +22,19 @@ describe('embed.launcher', () => {
       'utility/color': {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
-      'component/Launcher': {
-        Launcher: class extends Component {
-          constructor() {
-            super();
-            this.changeIcon = jasmine.createSpy('changeIcon');
-            this.setActive = jasmine.createSpy('setActive');
-            this.setIcon = jasmine.createSpy('setIcon');
-            this.setLabel = jasmine.createSpy('setLabel');
-            this.setLabelOptions = jasmine.createSpy('setLabelOptions');
-          }
-          render() {
-            return (
-              <div className='mock-launcher' />
-            );
-          }
+      'component/Launcher': class extends Component {
+        constructor() {
+          super();
+          this.changeIcon = jasmine.createSpy('changeIcon');
+          this.setActive = jasmine.createSpy('setActive');
+          this.setIcon = jasmine.createSpy('setIcon');
+          this.setLabel = jasmine.createSpy('setLabel');
+          this.setLabelOptions = jasmine.createSpy('setLabelOptions');
+        }
+        render() {
+          return (
+            <div className='mock-launcher' />
+          );
         }
       },
       'service/beacon': {

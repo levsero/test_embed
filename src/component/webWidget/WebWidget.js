@@ -2,17 +2,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import _ from 'lodash';
 
 import Chat from 'component/chat/Chat';
 import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
+import { updateActiveEmbed,
+         updateEmbedAccessible } from 'src/redux/modules/base';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
 const chat = 'chat';
 
 const mapStateToProps = (state) => {
-  return { chat: state.chat };
+  return {
+    activeEmbed: state.base.activeEmbed,
+    embeds: state.base.embeds,
+    chat: state.chat
+  };
 };
 
 class WebWidget extends Component {
@@ -46,7 +53,9 @@ class WebWidget extends Component {
     ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
     viaId: PropTypes.number.isRequired,
-    zendeskHost: PropTypes.string.isRequired
+    zendeskHost: PropTypes.string.isRequired,
+    updateActiveEmbed: PropTypes.func.isRequired,
+    activeEmbed: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -76,14 +85,6 @@ class WebWidget extends Component {
     updateFrameSize: () => {}
   };
 
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = {
-      activeComponent: helpCenter
-    };
-  }
-
   expand = () => {
     if (this.getRootComponent().expand) {
       this.getRootComponent().expand(true);
@@ -91,15 +92,15 @@ class WebWidget extends Component {
   }
 
   setComponent = (activeComponent) => {
-    this.setState({ activeComponent });
+    this.props.updateActiveEmbed(activeComponent);
   }
 
   getActiveComponent = () => {
-    return this.state.activeComponent;
+    return this.props.activeEmbed;
   }
 
   getRootComponent = () => {
-    return this.refs[this.state.activeComponent];
+    return this.refs[this.props.activeEmbed];
   }
 
   getSubmitTicketComponent = () => {
@@ -111,17 +112,17 @@ class WebWidget extends Component {
   }
 
   showHelpCenter = () => {
-    this.setState({ activeComponent: helpCenter });
+    this.props.updateActiveEmbed(helpCenter);
     this.props.showBackButton(!!this.getRootComponent().state.articleViewActive);
   }
 
   onNextClick = () => {
-    if (this.props.chat.account_status !== 'offline') {
-      this.setState({ activeComponent: chat });
+    if (this.props.chat.account_status === 'online') {
+      this.props.updateActiveEmbed(chat);
       // TODO: track chat started
       this.props.showBackButton(true);
     } else {
-      this.setState({ activeComponent: submitTicket });
+      this.props.updateActiveEmbed(submitTicket);
       this.props.showBackButton(true);
     }
   }
@@ -136,17 +137,19 @@ class WebWidget extends Component {
 
   onBackClick = () => {
     const rootComponent = this.getRootComponent();
+    const { activeEmbed, helpCenterAvailable, showBackButton } = this.props;
+    const { selectedTicketForm, ticketForms } = rootComponent.state;
 
-    if (this.state.activeComponent === helpCenter) {
+    if (activeEmbed === helpCenter) {
       rootComponent.setArticleView(false);
-      this.props.showBackButton(false);
-    } else if (this.state.activeComponent === chat) {
-      this.showHelpCenter();
-    } else if (rootComponent.state.selectedTicketForm) {
-      this.props.showBackButton(this.state.helpCenterAvailable);
+      showBackButton();
+    } else if (selectedTicketForm && _.size(ticketForms) > 1) {
       rootComponent.clearForm();
+      showBackButton(helpCenterAvailable);
     } else {
       this.showHelpCenter();
+      // TODO: Identify the appropriate default for this state
+      showBackButton(false);
     }
   }
 
@@ -154,12 +157,12 @@ class WebWidget extends Component {
     if (this.props.helpCenterAvailable) {
       this.showHelpCenter();
     } else {
-      this.setState({ activeComponent: submitTicket });
+      this.props.updateActiveEmbed(submitTicket);
     }
   }
 
   renderChat = () => {
-    const classes = this.state.activeComponent !== chat ? 'u-isHidden' : '';
+    const classes = this.props.activeEmbed !== chat ? 'u-isHidden' : '';
 
     return (
       <div className={classes}>
@@ -175,7 +178,7 @@ class WebWidget extends Component {
   renderHelpCenter = () => {
     const { helpCenterConfig } = this.props;
     const classes = classNames({
-      'u-isHidden': this.state.activeComponent !== helpCenter
+      'u-isHidden': this.props.activeEmbed !== helpCenter
     });
 
     return (
@@ -211,7 +214,7 @@ class WebWidget extends Component {
   renderSubmitTicket = () => {
     const { submitTicketConfig } = this.props;
     const classes = classNames({
-      'u-isHidden': this.state.activeComponent !== submitTicket
+      'u-isHidden': this.props.activeEmbed !== submitTicket
     });
 
     return (
@@ -256,4 +259,9 @@ class WebWidget extends Component {
   }
 }
 
-export default connect(mapStateToProps, {}, null, { withRef: true })(WebWidget);
+const actionCreators = {
+  updateActiveEmbed,
+  updateEmbedAccessible
+};
+
+export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);

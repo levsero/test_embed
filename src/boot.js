@@ -84,7 +84,6 @@ const setupIframe = (iframe, doc) => {
 
 const setupServices = () => {
   identity.init();
-  logging.init();
 
   transport.init({
     zendeskHost: document.zendeskHost,
@@ -170,12 +169,16 @@ const getConfig = (win, postRenderQueue) => {
     }
 
     beacon.sendPageView();
+
     if (win.zESettings) {
       beacon.trackSettings(settings.getTrackSettings());
     }
 
     renderer.init(config);
     boot.handlePostRenderQueue(win, postRenderQueue);
+
+    // Remove this code once Rollbar is GA'd
+    logging.init(config.useRollbar);
   };
   const fail = (error) => {
     if (error.status !== 404) {
