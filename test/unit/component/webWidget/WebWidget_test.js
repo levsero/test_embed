@@ -16,7 +16,7 @@ describe('WebWidget component', () => {
       constructor() {
         super();
         this.state = {
-          activateArticleView: false
+          articleViewActive: false
         };
         this.setArticleView = setArticleViewSpy;
       }
@@ -239,9 +239,9 @@ describe('WebWidget component', () => {
           .toHaveBeenCalled();
       });
 
-      it('should call showBackButton prop', () => {
+      it('should call showBackButton prop with false', () => {
         expect(showBackButtonSpy)
-          .toHaveBeenCalled();
+          .toHaveBeenCalledWith(false);
       });
     });
 
@@ -270,6 +270,53 @@ describe('WebWidget component', () => {
         it('should call clear form on the rootComponent', () => {
           expect(clearFormSpy)
             .toHaveBeenCalled();
+        });
+      });
+
+      describe('when it does not have a ticket form selected', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              updateActiveEmbed={() => {}}
+              activeEmbed='ticketSubmissionForm'
+              helpCenterAvailable={true}
+              showBackButton={showBackButtonSpy} />
+          );
+          spyOn(webWidget, 'showHelpCenter');
+          webWidget.onBackClick();
+        });
+
+        it('should call showHelpCenter', () => {
+          expect(webWidget.showHelpCenter)
+            .toHaveBeenCalled();
+        });
+
+        describe('when an article is not active', () => {
+          beforeEach(() => {
+            webWidget.getHelpCenterComponent().setState({
+              articleViewActive: false
+            });
+            webWidget.onBackClick();
+          });
+
+          it('should call showBackButton prop with false', () => {
+            expect(showBackButtonSpy)
+              .toHaveBeenCalledWith(false);
+          });
+        });
+
+        describe('when an article is active', () => {
+          beforeEach(() => {
+            webWidget.refs.helpCenterForm.setState({
+              articleViewActive: true
+            });
+            webWidget.onBackClick();
+          });
+
+          it('should call showBackButton prop with true', () => {
+            expect(showBackButtonSpy)
+              .toHaveBeenCalledWith(true);
+          });
         });
       });
     });
