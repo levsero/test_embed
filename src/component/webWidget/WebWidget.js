@@ -111,6 +111,18 @@ class WebWidget extends Component {
     return this.refs[chat].refs.wrappedInstance;
   }
 
+  show = () => {
+    if (this.props.activeEmbed !== '') {
+      return;
+    } else if (this.props.helpCenterAvailable) {
+      this.props.updateActiveEmbed(helpCenter);
+    } else if (this.props.chat.account_status === 'online') {
+      this.props.updateActiveEmbed(chat);
+    } else {
+      this.props.updateActiveEmbed(submitTicket);
+    }
+  }
+
   showHelpCenter = () => {
     this.props.updateActiveEmbed(helpCenter);
     this.props.showBackButton(!!this.getRootComponent().state.articleViewActive);

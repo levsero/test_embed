@@ -124,7 +124,7 @@ const afterShowAnimate = () => {
   }
 };
 const onClose = () => {
-  mediator.channel.broadcast(`${getWebWidgetComponent().getActiveComponent()}.onClose`);
+  mediator.channel.broadcast('webWidget.onClose');
 };
 
 function create(name, config = {}, reduxStore = {}) {
@@ -139,8 +139,12 @@ function create(name, config = {}, reduxStore = {}) {
   };
   const helpCenterAvailable = !!config.helpCenterForm;
   const submitTicketAvailable = !!config.ticketSubmissionForm;
-  const submitTicketSettings = setUpSubmitTicket(config.ticketSubmissionForm);
-  const helpCenterSettings = setUpHelpCenter(config.helpCenterForm);
+  const submitTicketSettings = submitTicketAvailable
+                             ? setUpSubmitTicket(config.ticketSubmissionForm)
+                             : {};
+  const helpCenterSettings = helpCenterAvailable
+                           ? setUpHelpCenter(config.helpCenterForm)
+                           : {};
   const globalConfig = _.extend(configDefaults, helpCenterSettings.config);
 
   setUpChat(config.zopimChat, reduxStore);
@@ -151,6 +155,7 @@ function create(name, config = {}, reduxStore = {}) {
     const margin = settings.get('margin');
 
     frameStyle = _.extend({}, frameStyle, {
+      height: 500,
       width: 342,
       marginLeft: margin,
       marginRight: margin
@@ -188,7 +193,7 @@ function create(name, config = {}, reduxStore = {}) {
           ref='rootComponent'
           attachmentSender={submitTicketSettings.attachmentSender}
           channelChoice={helpCenterSettings.channelChoice}
-          contextualSearchSender={helpCenterSettings.searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')} // eslint-disable-line
+          contextualSearchSender={helpCenterSettings.contextualSearchSender}
           fullscreen={isMobileBrowser()}
           helpCenterAvailable={helpCenterAvailable}
           helpCenterConfig={helpCenterSettings.config}
@@ -201,7 +206,7 @@ function create(name, config = {}, reduxStore = {}) {
           onSubmitted={submitTicketSettings.onSubmitted}
           originalArticleButton={settings.get('helpCenter.originalArticleButton')}
           position={globalConfig.position}
-          searchSender={helpCenterSettings.searchSenderFn('/api/v2/help_center/search.json')}
+          searchSender={helpCenterSettings.searchSender}
           showBackButton={showBackButton}
           style={containerStyle}
           subjectEnabled={settings.get('contactForm.subject')}
@@ -245,17 +250,28 @@ function render() {
 }
 
 function setupMediator() {
-  mediator.channel.subscribe('ticketSubmissionForm.show', (options = {}) => {
+  mediator.channel.subscribe('webWidget.show', (options = {}) => {
     waitForRootComponent(() => {
-      getWebWidgetComponent().setComponent('ticketSubmissionForm');
-
+      // Stop stupid host page scrolling
+      // when trying to focus HelpCenter's search field.
       setTimeout(() => {
+        getWebWidgetComponent().show();
         embed.instance.show(options);
       }, 0);
+
+      if (useMouseDistanceContexualSearch && options.viaActivate && embed.config.helpCenterForm) {
+        useMouseDistanceContexualSearch = false;
+
+        if (cancelTargetHandler) {
+          cancelTargetHandler();
+        }
+
+        webWidget.keywordsSearch(contextualSearchOptions);
+      }
     });
   });
 
-  mediator.channel.subscribe('ticketSubmissionForm.hide', (options = {}) => {
+  mediator.channel.subscribe('webWidget.hide', (options = {}) => {
     waitForRootComponent(() => {
       const rootComponent = getRootComponent();
 
@@ -319,32 +335,6 @@ function setupMediator() {
     });
   });
 
-  mediator.channel.subscribe('helpCenterForm.show', (options = {}) => {
-    if (useMouseDistanceContexualSearch && options.viaActivate) {
-      useMouseDistanceContexualSearch = false;
-
-      if (cancelTargetHandler) {
-        cancelTargetHandler();
-      }
-
-      webWidget.keywordsSearch(contextualSearchOptions);
-    }
-
-    // Stop stupid host page scrolling
-    // when trying to focus HelpCenter's search field.
-    setTimeout(() => {
-      waitForRootComponent(() => {
-        embed.instance.show(options);
-      });
-    }, 0);
-  });
-
-  mediator.channel.subscribe('helpCenterForm.hide', (options = {}) => {
-    waitForRootComponent(() => {
-      embed.instance.hide(options);
-    });
-  });
-
   mediator.channel.subscribe('helpCenterForm.setHelpCenterSuggestions', (options) => {
     hasManuallySetContextualSuggestions = true;
     performContextualHelp(options);
@@ -377,7 +367,7 @@ function getWebWidgetComponent() {
 }
 
 function waitForRootComponent(callback) {
-  if (embed && embed.instance && getRootComponent()) {
+  if (embed && embed.instance && getWebWidgetComponent()) {
     callback();
   } else {
     setTimeout(() => {
@@ -387,23 +377,25 @@ function waitForRootComponent(callback) {
 }
 
 function postRender() {
-  const config = embed.config.helpCenterForm;
-  const authSetting = settings.get('authenticate');
+  if (embed.config.helpCenterForm) {
+    const config = embed.config.helpCenterForm;
+    const authSetting = settings.get('authenticate');
 
-  if (config.contextualHelpEnabled &&
-      !hasManuallySetContextualSuggestions &&
-      !isOnHelpCenterPage()) {
-    const options = { url: true };
+    if (config.contextualHelpEnabled &&
+        !hasManuallySetContextualSuggestions &&
+        !isOnHelpCenterPage()) {
+      const options = { url: true };
 
-    performContextualHelp(options);
-  }
+      performContextualHelp(options);
+    }
 
-  if (config.tokensRevokedAt) {
-    authentication.revoke(config.tokensRevokedAt);
-  }
+    if (config.tokensRevokedAt) {
+      authentication.revoke(config.tokensRevokedAt);
+    }
 
-  if (authSetting && authSetting.jwt) {
-    authentication.authenticate(authSetting.jwt);
+    if (authSetting && authSetting.jwt) {
+      authentication.authenticate(authSetting.jwt);
+    }
   }
 }
 
@@ -662,13 +654,18 @@ function setUpHelpCenter(config) {
 
   useMouseDistanceContexualSearch = config.enableMouseDrivenContextualHelp;
 
+  const contextualSearchSender = searchSenderFn('/api/v2/help_center/articles/embeddable_search.json');
+  const searchSender = searchSenderFn('/api/v2/help_center/search.json');
+
   return {
     config,
     onArticleClick,
     onSearch,
-    searchSenderFn,
+    searchSender,
     imagesSenderFn,
-    channelChoice
+    channelChoice,
+    contextualSearchSender
+
   };
 }
 
