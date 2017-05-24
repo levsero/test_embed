@@ -48,8 +48,8 @@ describe('EmbedWrapper', () => {
     );
     const styleBlock = ReactDOM.findDOMNode(instance).getElementsByTagName('style')[0];
 
-    expect(styleBlock.innerHTML.indexOf('.base-css-file {}') >= 0)
-      .toBeTruthy();
+    expect(styleBlock.innerHTML.indexOf('.base-css-file {}'))
+      .toBeGreaterThan(-1);
   });
 
   describe('when a child prop is passed into it', () => {
