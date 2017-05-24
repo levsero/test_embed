@@ -17,7 +17,6 @@ class Launcher extends Component {
     icon: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
-    position: PropTypes.string.isRequired,
     updateFrameSize: PropTypes.func
   };
 

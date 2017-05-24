@@ -98,7 +98,7 @@ describe('frameFactory', function() {
           get: (name) => _.get(mockSettingsValue, name, null)
         }
       },
-      'component/frameFactory/EmbedWrapper': {
+      'component/frame/EmbedWrapper': {
         EmbedWrapper: MockEmbedWrapper
       },
       'service/transitionFactory': {
