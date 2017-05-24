@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import { locals as styles } from './EmbedWrapper.sass';
 import { ButtonNav } from 'component/button/ButtonNav';
 import { Icon } from 'component/Icon';
-import { i18n } from 'service/i18n';
 import { generateNpsCSS,
          generateWebWidgetPreviewCSS } from 'utility/color';
 
@@ -13,6 +12,7 @@ import { Provider } from 'react-redux';
 
 export class EmbedWrapper extends Component {
   static propTypes = {
+    isRTL: PropTypes.bool.isRequired,
     baseCSS: PropTypes.string,
     childFn: PropTypes.func.isRequired,
     childParams: PropTypes.object,
@@ -51,7 +51,7 @@ export class EmbedWrapper extends Component {
   }
 
   setHighlightColor = (color) => {
-    const css = generateNpsCSS({ color: color });
+    const css = generateNpsCSS({ color });
 
     if (css) {
       this.setState({ css });
@@ -78,7 +78,7 @@ export class EmbedWrapper extends Component {
             className='u-textInheritColor'
             isMobile={this.state.isMobile} />
         }
-        rtl={i18n.isRTL()}
+        rtl={this.props.isRTL}
         position={options.position}
         className={options.className}
         fullscreen={this.props.fullscreen || this.state.isMobile} />
@@ -86,7 +86,7 @@ export class EmbedWrapper extends Component {
   }
 
   render = () => {
-    const isRTL = i18n.isRTL();
+    const { isRTL } = this.props;
     const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />;
     const expandClasses = isRTL ? 'u-posStartL' : 'u-posEndL';
