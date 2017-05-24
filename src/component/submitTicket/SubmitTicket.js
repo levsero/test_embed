@@ -375,7 +375,6 @@ export class SubmitTicket extends Component {
         setFormState={this.setFormState}
         submit={this.handleSubmit}
         ticketForms={this.state.ticketForms}
-        showNewDropdown={this.state.ticketFields.length > 0}
         frameHeight={frameDimensions.height}
         previewEnabled={this.props.previewEnabled}>
         {this.renderErrorMessage()}
