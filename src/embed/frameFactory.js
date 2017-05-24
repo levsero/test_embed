@@ -396,7 +396,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
 
       child = ReactDOM.render(
         <EmbedWrapper
-          isRTL={i18n.isRTL()}
           baseCSS={cssText}
           reduxStore={reduxStore}
           handleBackClick={this.back}

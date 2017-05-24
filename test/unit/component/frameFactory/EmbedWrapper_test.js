@@ -1,5 +1,6 @@
 describe('EmbedWrapper', () => {
-  let EmbedWrapper;
+  let EmbedWrapper,
+    mockIsRTL;
 
   const EmbedWrapperPath = buildSrcPath('component/frameFactory/EmbedWrapper');
 
@@ -7,6 +8,8 @@ describe('EmbedWrapper', () => {
     resetDOM();
 
     mockery.enable();
+
+    mockIsRTL = false;
 
     initMockRegistry({
       'React': React,
@@ -18,6 +21,11 @@ describe('EmbedWrapper', () => {
           }
         }
       },
+      'service/i18n': {
+        i18n: {
+          isRTL: () => mockIsRTL
+        }
+      },
       'lodash': _,
       'component/Icon': {
         Icon: noop
@@ -25,7 +33,9 @@ describe('EmbedWrapper', () => {
       './EmbedWrapper.sass': {
         locals: {
           'closeBtn': 'closeBtn',
-          'backBtn': 'backBtn'
+          'closeBtnMobile': 'closeBtnMobile',
+          'backBtn': 'backBtn',
+          'backBtnMobile': 'backBtnMobile'
         }
       }
     });
@@ -56,10 +66,10 @@ describe('EmbedWrapper', () => {
 
     describe('when i18n locale is RTL', () => {
       beforeEach(() => {
+        mockIsRTL = true;
+
         const embedWrapper = domRender(
-          <EmbedWrapper
-            childFn={noop}
-            isRTL={true} />
+          <EmbedWrapper childFn={noop} />
         );
         embedWrapper.showBackButton(true);
         embedWrapperNode = ReactDOM.findDOMNode(embedWrapper);
@@ -78,8 +88,6 @@ describe('EmbedWrapper', () => {
         it('should contain closeBtn styles', () => {
           result = embedWrapperNode.querySelector('.closeBtn');
 
-
-
           expect(result)
             .toBeTruthy();
         });
@@ -88,6 +96,8 @@ describe('EmbedWrapper', () => {
 
     describe('when i18n locale is LTR', () => {
       beforeEach(() => {
+        mockIsRTL = false;
+
         const embedWrapper = domRender(
           <EmbedWrapper
             childFn={noop}
@@ -112,6 +122,70 @@ describe('EmbedWrapper', () => {
 
           expect(result)
             .toBeFalsy();
+        });
+      });
+    });
+
+    describe('when fullscreen is true', () => {
+      beforeEach(() => {
+        mockIsRTL = true;
+
+        const embedWrapper = domRender(
+          <EmbedWrapper
+            childFn={noop}
+            fullscreen={true} />
+        );
+        embedWrapper.showBackButton(true);
+        embedWrapperNode = ReactDOM.findDOMNode(embedWrapper);
+      });
+
+      describe('back navButton', () => {
+        it('should contain mobile styles', () => {
+          result = embedWrapperNode.querySelector('.backBtnMobile');
+
+          expect(result)
+            .toBeTruthy();
+        });
+      });
+
+      describe('close navButton', () => {
+        it('should contain mobile styles', () => {
+          result = embedWrapperNode.querySelector('.closeBtnMobile');
+
+          expect(result)
+            .toBeTruthy();
+        });
+      });
+    });
+
+    describe('when fullscreen is false', () => {
+      beforeEach(() => {
+        mockIsRTL = true;
+
+        const embedWrapper = domRender(
+          <EmbedWrapper
+            childFn={noop}
+            fullscreen={false} />
+        );
+        embedWrapper.showBackButton(true);
+        embedWrapperNode = ReactDOM.findDOMNode(embedWrapper);
+      });
+
+      describe('back navButton', () => {
+        it('should contain desktop styles', () => {
+          result = embedWrapperNode.querySelector('.backBtn');
+
+          expect(result)
+            .toBeTruthy();
+        });
+      });
+
+      describe('close navButton', () => {
+        it('should contain desktop styles', () => {
+          result = embedWrapperNode.querySelector('.closeBtn');
+
+          expect(result)
+            .toBeTruthy();
         });
       });
     });

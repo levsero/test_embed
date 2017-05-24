@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { locals as styles } from './EmbedWrapper.sass';
+import { i18n } from 'service/i18n';
 import { ButtonNav } from 'component/button/ButtonNav';
 import { Icon } from 'component/Icon';
 import { generateNpsCSS,
@@ -12,7 +13,6 @@ import { Provider } from 'react-redux';
 
 export class EmbedWrapper extends Component {
   static propTypes = {
-    isRTL: PropTypes.bool.isRequired,
     baseCSS: PropTypes.string,
     childFn: PropTypes.func.isRequired,
     childParams: PropTypes.object,
@@ -78,7 +78,7 @@ export class EmbedWrapper extends Component {
             className='u-textInheritColor'
             isMobile={this.state.isMobile} />
         }
-        rtl={this.props.isRTL}
+        rtl={i18n.isRTL()}
         position={options.position}
         className={options.className}
         fullscreen={this.props.fullscreen || this.state.isMobile} />
@@ -86,12 +86,13 @@ export class EmbedWrapper extends Component {
   }
 
   render = () => {
-    const { isRTL } = this.props;
+    const { fullscreen } = this.props;
+    const isRTL = i18n.isRTL();
     const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />;
     const expandClasses = isRTL ? 'u-posStartL' : 'u-posEndL';
-    const closeClasses = isRTL ? styles.closeBtn : '';
-    const backClasses = isRTL ? styles.backBtn : '';
+    const closeClasses = fullscreen ? styles.closeBtnMobile : styles.closeBtn;
+    const backClasses = fullscreen ? styles.backBtnMobile : styles.backBtn;
 
     return (
       <Provider store={this.props.reduxStore}>
@@ -103,7 +104,7 @@ export class EmbedWrapper extends Component {
               onClick: this.props.handleBackClick,
               icon: 'Icon--back',
               position: isRTL ? 'right' : 'left',
-              className: backClasses,
+              className: isRTL ? backClasses : '',
               isHidden: !this.state.showBackButton
             })}
           </div>
@@ -121,7 +122,7 @@ export class EmbedWrapper extends Component {
               onClick: this.props.handleCloseClick,
               icon: 'Icon--close',
               position: isRTL ? 'left' : 'right',
-              className: closeClasses,
+              className: isRTL ? closeClasses : '',
               isHidden: this.props.hideCloseButton
             })}
           </div>
