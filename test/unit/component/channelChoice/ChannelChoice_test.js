@@ -8,8 +8,11 @@ describe('ChannelChoice component', () => {
     mockery.enable();
 
     initMockRegistry({
-      'component/button/Button': {
-        Button: noopReactComponent()
+      './ChannelChoice.sass': {
+        locals: {}
+      },
+      'component/button/ButtonIcon': {
+        ButtonIcon: noopReactComponent()
       },
       'component/container/Container': {
         Container: noopReactComponent()

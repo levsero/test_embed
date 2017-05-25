@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Button } from 'component/button/Button';
+import { locals as styles } from './ChannelChoice.sass';
+
+import { ButtonIcon } from 'component/button/ButtonIcon';
 import { Container } from 'component/container/Container';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
@@ -36,26 +38,21 @@ export class ChannelChoice extends Component {
 
   renderBody = () => {
     return (
-      <div>
-        <p>{i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket')}</p>
-        <div>
-          <Button
-            fullscreen={false}
-            label={i18n.t(
-              'embeddable_framework.channelChoice.button.label.chat',
-              { fallback: 'Live chat' }
-            )}
-            onClick={this.handleClick('chat')} />
-          <br />
-          <Button
-            fullscreen={false}
-            label={i18n.t(
-              'embeddable_framework.channelChoice.button.label.submitTicket',
-              { fallback: 'Leave a message' }
-            )}
-            onClick={this.handleClick('submitTicket')} />
-        </div>
-        <hr />
+      <div className={styles.container}>
+        <ButtonIcon
+          icon='Icon--chat'
+          label={i18n.t(
+            'embeddable_framework.channelChoice.button.label.chat',
+            { fallback: 'Live chat' }
+          )}
+          onClick={this.handleClick('chat')} />
+        <ButtonIcon
+          icon='Icon--form'
+          label={i18n.t(
+            'embeddable_framework.channelChoice.button.label.submitTicket',
+            { fallback: 'Leave a message' }
+          )}
+          onClick={this.handleClick('submitTicket')} />
       </div>
     );
   }

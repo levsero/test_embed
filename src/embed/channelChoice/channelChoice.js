@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
+import { channelChoiceStyles } from './channelChoiceStyles.js';
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
 import { frameFactory } from 'embed/frameFactory';
 import { mediator } from 'service/mediator';
@@ -13,7 +14,7 @@ import { document,
          getDocumentHost } from 'utility/globals';
 
 const channelChoices = {};
-const channelChoiceCSS = require('./channelChoice.scss').toString();
+const channelChoiceCSS = `${require('./channelChoice.scss')} ${channelChoiceStyles}`;
 
 function create(name, config, reduxStore) {
   let containerStyle;
