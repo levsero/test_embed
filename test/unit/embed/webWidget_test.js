@@ -302,7 +302,7 @@ describe('embed.webWidget', () => {
             'email': 'mock@email.com',
             'description': 'Mock Description'
           };
-          webWidget.create();
+          webWidget.create('', { ticketSubmissionForm: {} });
           webWidget.render();
 
           embed = webWidget.get().instance.getRootComponent();
@@ -331,7 +331,7 @@ describe('embed.webWidget', () => {
             name: 'foo.bar'
           };
 
-          webWidget.create();
+          webWidget.create('', { ticketSubmissionForm: {} });
           webWidget.render();
 
           embed = webWidget.get().instance.getRootComponent();
@@ -494,7 +494,7 @@ describe('embed.webWidget', () => {
         beforeEach(() => {
           mockTransport = mockRegistry['service/transport'].transport;
 
-          webWidget.create(componentName);
+          webWidget.create(componentName, { helpCenterForm: {} });
           webWidget.render();
 
           embed = webWidget.get().instance.getRootComponent();
@@ -636,7 +636,9 @@ describe('embed.webWidget', () => {
         frameConfig = {
           onShow: jasmine.createSpy('onShow'),
           onHide: jasmine.createSpy('onHide'),
-          afterShowAnimate: jasmine.createSpy('afterShowAnimate')
+          afterShowAnimate: jasmine.createSpy('afterShowAnimate'),
+          helpCenterForm: {},
+          ticketSubmissionForm: {}
         };
 
         mockSetScaleLock = mockRegistry['utility/devices'].setScaleLock;
@@ -868,24 +870,14 @@ describe('embed.webWidget', () => {
       webWidget.render();
     });
 
-    it('should subscribe to helpCenterForm.show', () => {
+    it('should subscribe to webWidget.show', () => {
       expect(mockMediator.channel.subscribe)
-        .toHaveBeenCalledWith('helpCenterForm.show', jasmine.any(Function));
+        .toHaveBeenCalledWith('webWidget.show', jasmine.any(Function));
     });
 
-    it('should subscribe to ticketSubmissionForm.show', () => {
+    it('should subscribe to webWidget.hide', () => {
       expect(mockMediator.channel.subscribe)
-        .toHaveBeenCalledWith('ticketSubmissionForm.show', jasmine.any(Function));
-    });
-
-    it('should subscribe to helpCenterForm.hide', () => {
-      expect(mockMediator.channel.subscribe)
-        .toHaveBeenCalledWith('helpCenterForm.hide', jasmine.any(Function));
-    });
-
-    it('should subscribe to ticketSubmissionForm.hide', () => {
-      expect(mockMediator.channel.subscribe)
-        .toHaveBeenCalledWith('ticketSubmissionForm.hide', jasmine.any(Function));
+        .toHaveBeenCalledWith('webWidget.hide', jasmine.any(Function));
     });
 
     it('should subscribe to webWidget.activate', () => {
@@ -1175,7 +1167,7 @@ describe('embed.webWidget', () => {
       });
 
       it('should call authentication.authenticate if there is a jwt token in settings', () => {
-        webWidget.create();
+        webWidget.create(componentName, { helpCenterForm: {} });
 
         mockSettingsValue = { jwt: 'token' };
 
@@ -1224,7 +1216,7 @@ describe('embed.webWidget', () => {
 
           describe('before post render', () => {
             beforeEach(() => {
-              pluckSubscribeCall(mockMediator, 'helpCenterForm.show')({ viaActivate: true });
+              pluckSubscribeCall(mockMediator, 'webWidget.show')({ viaActivate: true });
               webWidget.postRender(componentName);
             });
 
@@ -1244,7 +1236,7 @@ describe('embed.webWidget', () => {
               beforeEach(() => {
                 pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')({ search: 'help' });
                 webWidget.postRender(componentName);
-                pluckSubscribeCall(mockMediator, 'helpCenterForm.show')({ viaActivate: true });
+                pluckSubscribeCall(mockMediator, 'webWidget.show')({ viaActivate: true });
               });
 
               it('should remove the mouse target listener', () => {
@@ -1261,7 +1253,7 @@ describe('embed.webWidget', () => {
             describe('when no contextual search options are used', () => {
               beforeEach(() => {
                 webWidget.postRender(componentName);
-                pluckSubscribeCall(mockMediator, 'helpCenterForm.show')({ viaActivate: true });
+                pluckSubscribeCall(mockMediator, 'webWidget.show')({ viaActivate: true });
               });
 
               it('should remove the mouse target listener', () => {

@@ -5,6 +5,7 @@ describe('mediator', () => {
     authenticationSub,
     beaconSub,
     launcherSub,
+    webWidgetSub,
     submitTicketSub,
     channelChoiceSub,
     chatSub,
@@ -154,6 +155,12 @@ describe('mediator', () => {
        'hide']
     );
 
+    webWidgetSub = jasmine.createSpyObj(
+      'webWidget',
+      ['show',
+       'hide']
+    );
+
     initSubscriptionSpies = function(names) {
       c.subscribe(`${names.beacon}.identify`, beaconSub.identify);
       c.subscribe(`${names.beacon}.trackUserAction`, beaconSub.trackUserAction);
@@ -207,6 +214,9 @@ describe('mediator', () => {
       c.subscribe(`${names.ipm}.setIpm`, ipmSub.setIpm);
       c.subscribe(`${names.ipm}.show`, ipmSub.show);
       c.subscribe(`${names.ipm}.hide`, ipmSub.hide);
+
+      c.subscribe(`${names.webWidget}.hide`, webWidgetSub.hide);
+      c.subscribe(`${names.webWidget}.show`, webWidgetSub.show);
     };
   });
 
@@ -2383,6 +2393,55 @@ describe('mediator', () => {
         .toEqual(0);
 
       expect(helpCenterSub.show.calls.count())
+        .toEqual(1);
+    });
+  });
+
+  /* ****************************************** *
+  *                  WEB WIDGET                 *
+  * ****************************************** */
+
+  describe('Web Widget', () => {
+    const launcher = 'launcher';
+    const webWidget = 'webWidget';
+    const names = {
+      launcher: launcher,
+      webWidget: webWidget
+    };
+
+    beforeEach(() => {
+      initSubscriptionSpies(names);
+      mediator.init({ submitTicket: true, helpCenter: true });
+      jasmine.clock().install();
+    });
+
+    it('hides when a hide call is made', () => {
+      c.broadcast('.hide');
+
+      expect(webWidgetSub.hide.calls.count())
+        .toEqual(1);
+    });
+
+    it('shows when a show call is made', () => {
+      c.broadcast('.show');
+
+      expect(webWidgetSub.show.calls.count())
+        .toEqual(1);
+    });
+
+    it('shows when a launcherClick call is made', () => {
+      c.broadcast(`${launcher}.onClick`);
+
+      jasmine.clock().tick(0);
+
+      expect(webWidgetSub.show.calls.count())
+        .toEqual(1);
+    });
+
+    it('shows when a activate call is made', () => {
+      c.broadcast('.activate');
+
+      expect(webWidgetSub.show.calls.count())
         .toEqual(1);
     });
   });
