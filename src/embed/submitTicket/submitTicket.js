@@ -32,7 +32,7 @@ const getTicketForms = _.memoize((config) => {
 
   return _.chain(settingTicketForms)
           .map((ticketForm) => ticketForm.id)
-          .without(undefined)
+          .compact()
           .value();
 });
 

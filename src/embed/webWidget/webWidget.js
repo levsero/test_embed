@@ -527,7 +527,7 @@ function setUpSubmitTicket(config) {
 
     return _.chain(settingTicketForms)
             .map((ticketForm) => ticketForm.id)
-            .without(undefined)
+            .compact()
             .value();
   });
   const loadTicketForms = (ticketForms, locale) => {
