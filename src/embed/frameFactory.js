@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { EmbedWrapper } from 'component/frameFactory/EmbedWrapper';
+import { EmbedWrapper } from 'component/frame/EmbedWrapper';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
 import { transitionFactory } from 'service/transitionFactory';

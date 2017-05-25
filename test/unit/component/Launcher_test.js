@@ -14,10 +14,17 @@ describe('Launcher component', () => {
         }
       },
       'component/Icon': {
-        Icon: noopReactComponent()
+        Icon: class extends Component {
+          render() {
+            return <div className={this.props.className}>{this.props.type}</div>;
+          }
+        }
       },
       './Launcher.sass': {
-        locals: ''
+        locals: {
+          label: 'labelClasses',
+          icon: 'iconClasses'
+        }
       },
       'service/i18n': {
         i18n: {
@@ -26,7 +33,7 @@ describe('Launcher component', () => {
       }
     });
 
-    Launcher = requireUncached(launcherPath).Launcher;
+    Launcher = requireUncached(launcherPath).default.WrappedComponent;
     jasmine.clock().install();
   });
 
@@ -74,12 +81,53 @@ describe('Launcher component', () => {
     });
   });
 
-  it('should call the updateFrameSize prop on render if it exists', () => {
+  describe('render', () => {
     const mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
+    let launcher, launcherNode;
 
-    shallowRender(<Launcher updateFrameSize={mockUpdateFrameSize} />);
-    jasmine.clock().tick(10);
+    beforeEach(() => {
+      launcher = domRender(<Launcher updateFrameSize={mockUpdateFrameSize} />);
+      launcherNode = ReactDOM.findDOMNode(launcher);
+    });
 
-    expect(mockUpdateFrameSize).toHaveBeenCalled();
+    it('should call the updateFrameSize prop on render if it exists', () => {
+      jasmine.clock().tick(0);
+
+      expect(mockUpdateFrameSize).toHaveBeenCalled();
+    });
+
+    it('should set the label based on the state', () => {
+      launcher.setState({ label: 'foo' });
+
+      expect(launcherNode.querySelector('.labelClasses').innerHTML)
+        .toEqual('foo');
+    });
+
+    it('should set the icon based on the state', () => {
+      launcher.setState({ icon: 'bar' });
+
+      expect(launcherNode.querySelector('.iconClasses').innerHTML)
+        .toEqual('bar');
+    });
+
+    describe('when props.chatStatus is online', () => {
+      beforeEach(() => {
+        launcher = domRender(<Launcher chatStatus='online' />);
+      });
+
+      it('should ignore state and set label to online', () => {
+        launcher.setState({ label: 'foo' });
+
+        expect(ReactDOM.findDOMNode(launcher).querySelector('.labelClasses').innerHTML)
+          .toContain('chat');
+      });
+
+      it('should ignore state and set label to Icon--chat', () => {
+        launcher.setState({ icon: 'bar' });
+
+        expect(ReactDOM.findDOMNode(launcher).querySelector('.iconClasses').innerHTML)
+          .toEqual('Icon--chat');
+      });
+    });
   });
 });

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import { locals as styles } from './EmbedWrapper.sass';
 import { i18n } from 'service/i18n';
@@ -14,8 +13,9 @@ import { Provider } from 'react-redux';
 export class EmbedWrapper extends Component {
   static propTypes = {
     baseCSS: PropTypes.string,
-    childFn: PropTypes.func.isRequired,
+    childFn: PropTypes.func,
     childParams: PropTypes.object,
+    children: PropTypes.object,
     fullscreen: PropTypes.bool,
     handleBackClick: PropTypes.func,
     handleCloseClick: PropTypes.func,
@@ -27,7 +27,9 @@ export class EmbedWrapper extends Component {
 
   static defaultProps = {
     baseCSS: '',
+    childFn: undefined,
     childParams: {},
+    children: undefined,
     fullscreen: false,
     handleBackClick: () => {},
     handleCloseClick: () => {},
@@ -44,6 +46,8 @@ export class EmbedWrapper extends Component {
       isMobile: false,
       showBackButton: false
     };
+
+    this.embed = null;
   }
 
   showBackButton = (show = true) => {
@@ -94,6 +98,11 @@ export class EmbedWrapper extends Component {
     const closeClasses = fullscreen ? styles.closeBtnMobile : styles.closeBtn;
     const backClasses = fullscreen ? styles.backBtnMobile : styles.backBtn;
 
+    // childFn is from frameFactory and children is from Frame component
+    const newChild = (typeof this.props.children !== 'undefined')
+                   ? React.cloneElement(this.props.children, { ref: 'rootComponent' })
+                   : this.props.childFn(this.props.childParams);
+
     return (
       <Provider store={this.props.reduxStore}>
         <div>
@@ -126,8 +135,8 @@ export class EmbedWrapper extends Component {
               isHidden: this.props.hideCloseButton
             })}
           </div>
-          <div id='Embed'>
-            {this.props.childFn(this.props.childParams)}
+          <div id='Embed' ref={(el) => { this.embed = el; }}>
+            {newChild}
           </div>
         </div>
       </Provider>

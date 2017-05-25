@@ -525,30 +525,20 @@ function setUpSubmitTicket(config) {
   const onCancel = () => {
     mediator.channel.broadcast('ticketSubmissionForm.onCancelClick');
   };
-  const getTicketFormIds = (config) => {
+  const getTicketForms = _.memoize((config) => {
     const settingTicketForms = settings.get('contactForm.ticketForms');
-    const rawTicketForms = _.isEmpty(settingTicketForms)
-                         ? config.ticketForms
-                         : settingTicketForms;
 
-    // TODO: Alter this code that accepts an array of objects or integers.
-    //       This is to be done once pre-fill feature has been GA'd.
-    //       We should expect an array of objects in the future.
-    const firstElement = rawTicketForms[0];
-
-    // Either return an array of Objects
-    if (_.isObject(firstElement)) {
-      return _.filter(rawTicketForms, (ticketForm) => {
-        return _.isObjectLike(ticketForm) && ticketForm.id;
-      });
+    if (_.isEmpty(settingTicketForms)) {
+      return config.ticketForms;
     }
 
-    // Or return an array of numbers
-    return _.filter(rawTicketForms, _.isNumber);
-  };
+    return _.chain(settingTicketForms)
+            .map((ticketForm) => ticketForm.id)
+            .compact()
+            .value();
+  });
   const loadTicketForms = (ticketForms, locale) => {
-    // TODO: Alter this code to return objects with id's once pre-fill is GA'd
-    const ticketFormIds = _.map(ticketForms, (ticketForm) => ticketForm.id || ticketForm).join();
+    const ticketFormIds = _.toString(ticketForms);
     const onDone = (res) => getWebWidgetComponent().getSubmitTicketComponent().updateTicketForms(res);
     const path = `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`;
 
@@ -556,14 +546,14 @@ function setUpSubmitTicket(config) {
   };
   const loadTicketFields = (customFields, locale) => {
     const onDone = (res) => getWebWidgetComponent().getSubmitTicketComponent().updateTicketFields(res);
-    const pathIds = customFields.all ? '' : `field_ids=${customFields.ids.join()}&`;
+    const pathIds = customFields.all ? '' : `field_ids=${_.toString(customFields.ids)}&`;
     const path = `/embeddable/ticket_fields?${pathIds}locale=${locale}`;
 
     getWithSpinner(path, locale, onDone);
   };
 
   const { customFields } = config;
-  const ticketForms = getTicketFormIds(config);
+  const ticketForms = getTicketForms(config);
 
   if (!_.isEmpty(ticketForms)) {
     // TODO: Alter this code to return objects with id's once pre-fill is GA'd

@@ -5,8 +5,8 @@ import _ from 'lodash';
 import { launcherStyles } from './launcherStyles.js';
 import { document,
          getDocumentHost } from 'utility/globals';
-import { Launcher } from 'component/Launcher';
-import { frameFactory } from 'embed/frameFactory';
+import { Frame } from 'component/frame/Frame';
+import Launcher from 'component/Launcher';
 import { beacon } from 'service/beacon';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
@@ -38,49 +38,42 @@ function create(name, config, reduxStore) {
 
   config = _.extend(configDefaults, config);
 
-  const Embed = frameFactory(
-    (params) => {
-      return (
-        <Launcher
-          ref='rootComponent'
-          onClick={params.onClickHandler}
-          onTouchEnd={params.onClickHandler}
-          updateFrameSize={params.updateFrameSize}
-          position={config.position}
-          label={`embeddable_framework.launcher.label.${config.labelKey}`}
-          icon={config.icon} />
-      );
-    },
-    {
-      frameStyle: frameStyle,
-      position: config.position,
-      css: launcherCSS + generateUserCSS(config.color),
-      name: name,
-      hideCloseButton: true,
-      expandable: false,
-      fullscreenable: false,
-      offsetWidth: 5,
-      offsetHeight: 1,
-      transitions: {
-        upShow: transitionFactory.webWidget.launcherUpShow(),
-        downHide: transitionFactory.webWidget.launcherDownHide(),
-        downShow: transitionFactory.webWidget.launcherDownShow(),
-        upHide: transitionFactory.webWidget.launcherUpHide()
-      },
-      extend: {
-        onClickHandler: (e) => {
-          e.preventDefault();
+  const onClick = (e) => {
+    e.preventDefault();
 
-          beacon.trackUserAction('launcher', 'click', name);
-          mediator.channel.broadcast(name + '.onClick');
-        }
-      }
+    beacon.trackUserAction('launcher', 'click', name);
+    mediator.channel.broadcast(name + '.onClick');
+  };
+
+  const params = {
+    css: launcherCSS + generateUserCSS(config.color),
+    frameOffsetWidth: 5,
+    frameOffsetHeight: 1,
+    frameStyle: frameStyle,
+    fullscreenable: false,
+    hideCloseButton: true,
+    name: name,
+    position: config.position,
+    transitions: {
+      upShow: transitionFactory.webWidget.launcherUpShow(),
+      downHide: transitionFactory.webWidget.launcherDownHide(),
+      downShow: transitionFactory.webWidget.launcherDownShow(),
+      upHide: transitionFactory.webWidget.launcherUpHide()
     },
-    reduxStore
+    visible: config.visible
+  };
+
+  const component = (
+    <Frame {...params} store={reduxStore}>
+      <Launcher
+        onClick={onClick}
+        label={`embeddable_framework.launcher.label.${config.labelKey}`}
+        icon={config.icon} />
+    </Frame>
   );
 
   launchers[name] = {
-    component: <Embed visible={config.visible} position={config.position} />,
+    component: component,
     config: config
   };
 }

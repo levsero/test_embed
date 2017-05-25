@@ -2,7 +2,16 @@ describe('EmbedWrapper', () => {
   let EmbedWrapper,
     mockIsRTL;
 
-  const EmbedWrapperPath = buildSrcPath('component/frameFactory/EmbedWrapper');
+  const EmbedWrapperPath = buildSrcPath('component/frame/EmbedWrapper');
+
+  class MockChildComponent extends Component {
+    constructor(props) {
+      super(props);
+    }
+    render() {
+      return <div className='mock-component' />;
+    }
+  }
 
   beforeEach(() => {
     resetDOM();
@@ -17,7 +26,7 @@ describe('EmbedWrapper', () => {
       'component/button/ButtonNav': {
         ButtonNav: class extends Component {
           render() {
-            return <div className={this.props.className} />
+            return <div className={this.props.className} />;
           }
         }
       },
@@ -28,7 +37,7 @@ describe('EmbedWrapper', () => {
       },
       'lodash': _,
       'component/Icon': {
-        Icon: noop
+        Icon: noopReactComponent()
       },
       './EmbedWrapper.sass': {
         locals: {
@@ -48,21 +57,63 @@ describe('EmbedWrapper', () => {
     mockery.disable();
   });
 
-  describe('styles', () => {
-    let embedWrapperNode,
-      result;
-
+  describe('render', () => {
     it('adds a <style> block to the iframe document', () => {
-      const embedWrapper = domRender(
+      const instance = domRender(
         <EmbedWrapper
           childFn={noop}
           baseCSS='.base-css-file {}' />
       );
-      const styleBlock = ReactDOM.findDOMNode(embedWrapper).getElementsByTagName('style')[0];
+      const styleBlock = ReactDOM.findDOMNode(instance).getElementsByTagName('style')[0];
 
-      expect(styleBlock.innerHTML.indexOf('.base-css-file {}') >= 0)
-        .toBeTruthy();
+      expect(styleBlock.innerHTML.indexOf('.base-css-file {}'))
+        .toBeGreaterThan(-1);
     });
+
+    describe('when a child prop is passed into it', () => {
+      let instance;
+
+      beforeEach(() => {
+        instance = domRender(
+          <EmbedWrapper><MockChildComponent /></EmbedWrapper>
+        );
+      });
+
+      it('renders the child in the wrapper', () => {
+        expect(instance.embed.firstChild.className)
+          .toBe('mock-component');
+      });
+
+      it('adds a rootComponent ref to that child', () => {
+        expect(instance.refs.rootComponent)
+          .toBeDefined();
+      });
+    });
+
+    describe('when a childFn prop is passed into it', () => {
+      let instance;
+
+      beforeEach(() => {
+        instance = domRender(
+          <EmbedWrapper childFn={() => <MockChildComponent />} />
+        );
+      });
+
+      it('renders the childFn in the wrapper', () => {
+        expect(instance.embed.firstChild.className)
+          .toBe('mock-component');
+      });
+
+      it('does not add a rootComponent ref to that child', () => {
+        expect(instance.refs.rootComponent)
+          .toBeUndefined();
+      });
+    });
+  });
+
+  describe('styles', () => {
+    let embedWrapperNode,
+      result;
 
     describe('when i18n locale is RTL', () => {
       beforeEach(() => {
@@ -71,6 +122,7 @@ describe('EmbedWrapper', () => {
         const embedWrapper = domRender(
           <EmbedWrapper childFn={noop} />
         );
+
         embedWrapper.showBackButton(true);
         embedWrapperNode = ReactDOM.findDOMNode(embedWrapper);
       });
@@ -103,6 +155,7 @@ describe('EmbedWrapper', () => {
             childFn={noop}
             isRTL={false} />
         );
+
         embedWrapper.showBackButton(true);
         embedWrapperNode = ReactDOM.findDOMNode(embedWrapper);
       });
@@ -135,6 +188,7 @@ describe('EmbedWrapper', () => {
             childFn={noop}
             fullscreen={true} />
         );
+
         embedWrapper.showBackButton(true);
         embedWrapperNode = ReactDOM.findDOMNode(embedWrapper);
       });
@@ -167,6 +221,7 @@ describe('EmbedWrapper', () => {
             childFn={noop}
             fullscreen={false} />
         );
+
         embedWrapper.showBackButton(true);
         embedWrapperNode = ReactDOM.findDOMNode(embedWrapper);
       });
