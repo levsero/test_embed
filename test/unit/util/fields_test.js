@@ -7,26 +7,16 @@ describe('fields', () => {
   const textFieldPayload = {
     id: '22660514',
     type: 'text',
-    title: 'Text',
-    required: true,
-    variants: [
-      {
-        localeId: 1,
-        content: 'Option 1'
-      },
-      {
-        localeId: 16,
-        content: 'FrenchField'
-      }
-    ],
+    title_in_portal: 'Text',
+    required_in_portal: true,
     visible_in_portal: true,
     editable_in_portal: true
   };
   const nestedDropdownFieldPayload = {
     id: 10006,
     type: 'tagger',
-    title: 'Nested Drop Down',
-    required: false,
+    title_in_portal: 'Nested Drop Down',
+    required_in_portal: false,
     options: [
       {
         title: 'Option1::Part1',
@@ -44,82 +34,60 @@ describe('fields', () => {
     visible_in_portal: true,
     editable_in_portal: true
   };
-  const variantDropdownFieldPayload = {
+  const dropdownFieldPayload = {
     id: '22666574',
     type: 'tagger',
-    title: 'Department',
-    variants: [
-      {
-        localeId: 1,
-        content: 'Drop Down English'
-      },
-      {
-        localeId: 16,
-        content: 'Drop Down français'
-      }
-    ],
+    title_in_portal: 'Department',
     options: [
       {
-        name: 'Sales',
-        value: 1,
-        variants: [
-          {
-            localeId: 1,
-            content: 'English'
-          },
-          {
-            localeId: 16,
-            content: 'French'
-          }
-        ]
+        title: 'Sales',
+        value: 1
       },
       {
-        name: 'Support',
+        title: 'Support',
         value: 2
       }
     ],
     visible_in_portal: true,
     editable_in_portal: true,
-    required: true
+    required_in_portal: true
   };
   const textareaFieldPayload = {
     id: '22660524',
     type: 'textarea',
-    title: 'Order Details',
-    required: true,
+    title_in_portal: 'Order Details',
+    required_in_portal: true,
     visible_in_portal: true,
     editable_in_portal: true
   };
   const integerFieldPayload = {
     id: '22823250',
     type: 'integer',
-    title: 'Age',
-    required: true,
+    title_in_portal: 'Age',
+    required_in_portal: true,
     visible_in_portal: true,
     editable_in_portal: true
   };
   const decimalFieldPayload = {
     id: '22823260',
     type: 'decimal',
-    title: 'Total Cost',
-    required: false,
+    title_in_portal: 'Total Cost',
+    required_in_portal: false,
     visible_in_portal: true,
     editable_in_portal: true
   };
   const checkboxFieldPayload = {
     id: '22823270',
     type: 'checkbox',
-    title: 'Can we call you?',
-    required: false,
+    title_in_portal: 'Can we call you?',
+    required_in_portal: false,
     visible_in_portal: true,
     editable_in_portal: true
   };
   const descriptionFieldPayload = {
     id: '2284527',
     type: 'description',
-    title: 'description',
     title_in_portal: 'How can we help?',
-    required: true,
     required_in_portal: false,
     visible_in_portal: true,
     editable_in_portal: true
@@ -127,9 +95,7 @@ describe('fields', () => {
   const subjectFieldPayload = {
     id: '2284528',
     type: 'subject',
-    title: 'subject',
     title_in_portal: 'What is your query about?',
-    required: true,
     required_in_portal: true,
     visible_in_portal: true,
     editable_in_portal: true
@@ -191,7 +157,7 @@ describe('fields', () => {
       payload = [
         textFieldPayload,
         nestedDropdownFieldPayload,
-        variantDropdownFieldPayload,
+        dropdownFieldPayload,
         textareaFieldPayload,
         integerFieldPayload,
         decimalFieldPayload,
@@ -328,24 +294,11 @@ describe('fields', () => {
           expect(customFields.allFields[1].props.placeholder)
             .toEqual('How can we help?');
         });
-
-        describe('with variants', () => {
-          beforeEach(() => {
-            payload = [textFieldPayload];
-            mockLocaleIdValue = 16;
-            customFields = getCustomFields(payload, {});
-          });
-
-          it('should use the correct value for the current localeId', () => {
-            expect(customFields.allFields[0].props.placeholder)
-              .toEqual('FrenchField');
-          });
-        });
       });
 
       describe('tagger field', () => {
         beforeEach(() => {
-          payload = [nestedDropdownFieldPayload, variantDropdownFieldPayload];
+          payload = [nestedDropdownFieldPayload, dropdownFieldPayload];
           customFields = getCustomFields(payload, {});
         });
 
