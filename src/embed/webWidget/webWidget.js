@@ -351,7 +351,7 @@ function setupMediator() {
     if (embed.instance.state.visible) return;
 
     waitForRootComponent(() => {
-      getWebWidgetComponent().activate();
+      getWebWidgetComponent().show(true);
       embed.instance.show();
     });
   });

@@ -346,37 +346,98 @@ describe('WebWidget component', () => {
     });
   });
 
-  describe('#activate', () => {
-    let webWidget;
+  describe('#show', () => {
+    let webWidget, updateActiveEmbedSpy;
 
-    describe('when help center is available', () => {
+    beforeEach(() => {
+      updateActiveEmbedSpy = jasmine.createSpy();
+    });
+
+    describe('when there is an active embed', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget helpCenterAvailable={true} />);
-        spyOn(webWidget, 'showHelpCenter');
-        webWidget.activate();
+        webWidget = domRender(
+          <WebWidget updateActiveEmbed={updateActiveEmbedSpy} activeEmbed='chat' />
+        );
+        webWidget.show();
       });
 
-      it('invokes showHelpCenter', () => {
-        expect(webWidget.showHelpCenter)
-          .toHaveBeenCalled();
+      it('should not call updateActiveEmbed', () => {
+        expect(updateActiveEmbedSpy)
+          .not.toHaveBeenCalled();
+      });
+
+      describe('when viaActivate is true', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              helpCenterAvailable={true}
+              updateActiveEmbed={updateActiveEmbedSpy}
+              activeEmbed='chat' />
+          );
+          webWidget.show(true);
+        });
+
+        it('should reset the state and call updateActiveEmbed with help center', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('helpCenterForm');
+        });
       });
     });
 
-    describe('when help center is not available', () => {
-      beforeEach(() => {
-        webWidget = domRender(
-          <WebWidget
-            updateActiveEmbed={mockUpdateActiveEmbed}
-            helpCenterAvailable={false} />
-        );
-        webWidget.activate();
+    describe('when there is not an active embed', () => {
+      describe('when help center is available', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              helpCenterAvailable={true}
+              updateActiveEmbed={updateActiveEmbedSpy}
+              activeEmbed='' />
+          );
+          webWidget.show();
+        });
+
+        it('calls updateActiveEmbed with help center', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('helpCenterForm');
+        });
       });
 
-      it('invokes updateActiveEmbed with expected param', () => {
-        const expectedParam = 'ticketSubmissionForm';
+      describe('when help center is not available', () => {
+        describe('when chat is online', () => {
+          beforeEach(() => {
+            webWidget = domRender(
+              <WebWidget
+                activeEmbed=''
+                chat={{ account_status: 'online' }} // eslint-disable-line camelcase
+                updateActiveEmbed={updateActiveEmbedSpy}
+                helpCenterAvailable={false} />
+            );
+            webWidget.show();
+          });
 
-        expect(mockUpdateActiveEmbed)
-          .toHaveBeenCalledWith(expectedParam);
+          it('calls updateActiveEmbed with chat', () => {
+            expect(updateActiveEmbedSpy)
+              .toHaveBeenCalledWith('chat');
+          });
+        });
+
+        describe('when chat is offline', () => {
+          beforeEach(() => {
+            webWidget = domRender(
+              <WebWidget
+                activeEmbed=''
+                chat={{ account_status: 'offline' }} // eslint-disable-line camelcase
+                updateActiveEmbed={updateActiveEmbedSpy}
+                helpCenterAvailable={false} />
+            );
+            webWidget.show();
+          });
+
+          it('calls updateActiveEmbed with submit ticket', () => {
+            expect(updateActiveEmbedSpy)
+              .toHaveBeenCalledWith('ticketSubmissionForm');
+          });
+        });
       });
     });
   });

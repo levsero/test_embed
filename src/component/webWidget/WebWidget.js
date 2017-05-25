@@ -115,8 +115,8 @@ class WebWidget extends Component {
     return this.refs[helpCenter];
   }
 
-  show = () => {
-    if (this.props.activeEmbed !== '') {
+  show = (viaActivate = false) => {
+    if (this.props.activeEmbed !== '' && !viaActivate) {
       return;
     } else if (this.props.helpCenterAvailable) {
       this.props.updateActiveEmbed(helpCenter);
@@ -125,6 +125,7 @@ class WebWidget extends Component {
     } else {
       this.props.updateActiveEmbed(submitTicket);
     }
+    this.props.showBackButton(false);
   }
 
   showHelpCenter = () => {
@@ -168,14 +169,6 @@ class WebWidget extends Component {
     } else {
       this.showHelpCenter();
       showBackButton(articleViewActive);
-    }
-  }
-
-  activate = () => {
-    if (this.props.helpCenterAvailable) {
-      this.showHelpCenter();
-    } else {
-      this.props.updateActiveEmbed(submitTicket);
     }
   }
 
