@@ -18,6 +18,8 @@ describe('Icon component', function() {
       'icons/widget-icon_link.svg': DummyIcon,
       'icons/widget-icon_back.svg': DummyIcon,
       'icons/widget-icon_close.svg': DummyIcon,
+      'icons/widget-icon_channelChoice-chat.svg': DummyIcon,
+      'icons/widget-icon_channelChoice-contactForm.svg': DummyIcon,
       'icons/widget-icon_chat.svg': DummyIcon,
       'icons/widget-icon_help.svg': DummyIcon,
       'icons/widget-icon_search.svg': DummyIcon,

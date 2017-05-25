@@ -97,16 +97,17 @@ $Button-nudge: 5;
   color: $zd-color-dark-gray;
   padding: #{10/$font-size}rem;
 
-  .Icon svg path {
-    fill: $zd-color-monsoon;
+  .Icon svg path, .Icon svg g {
+    stroke: $zd-color-monsoon;
   }
 
   &:hover, &:focus, &:active {
     background: $zd-color-anti-flash-white;
     border-radius: #{4/$font-size}rem;
+    color: $zd-color-oil;
 
-    .Icon svg path {
-      fill: $zd-color-dark-gray;
+    .Icon svg path, .Icon svg g {
+      stroke: $zd-color-dark-gray;
     }
   }
 }

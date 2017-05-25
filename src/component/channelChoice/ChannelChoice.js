@@ -38,21 +38,22 @@ export class ChannelChoice extends Component {
 
   renderBody = () => {
     return (
-      <div className={styles.container}>
+      <div className={styles.inner}>
         <ButtonIcon
-          icon='Icon--chat'
+          icon='Icon--channelChoice-chat'
           label={i18n.t(
             'embeddable_framework.channelChoice.button.label.chat',
             { fallback: 'Live chat' }
           )}
           onClick={this.handleClick('chat')} />
         <ButtonIcon
-          icon='Icon--form'
+          icon='Icon--channelChoice-contactForm'
           label={i18n.t(
             'embeddable_framework.channelChoice.button.label.submitTicket',
             { fallback: 'Leave a message' }
           )}
           onClick={this.handleClick('submitTicket')} />
+        <hr className={styles.hr} />
       </div>
     );
   }
@@ -64,6 +65,7 @@ export class ChannelChoice extends Component {
       <Container style={this.props.style}>
         <ScrollContainer
           ref='scrollContainer'
+          containerClasses={styles.container}
           hideZendeskLogo={this.props.hideZendeskLogo}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}>
           {this.renderBody()}

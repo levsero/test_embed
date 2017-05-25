@@ -1,6 +1,18 @@
 @import '../../styles/_vars.scss';
 
+.hr {
+  composes: u-paddingN u-marginTS u-marginBN u-marginHS u-borderNone from '../../styles/utils.scss';
+  height: #{1/$font-size}rem;
+  border-bottom: #{1/$font-size}rem solid $zd-color-gainsboro !important;
+}
+
+.inner {
+  composes: u-marginBL from '../../styles/utils.scss';
+}
+
 .container {
-  composes: u-marginBL u-paddingBL from '../../styles/utils.scss';
-  border-bottom: #{1/$font-size}rem solid $zd-color-gainsboro;
+  // need to specifically override these rather than compose u-paddingHN
+  // so that it overrides correctly
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
