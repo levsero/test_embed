@@ -2,15 +2,15 @@ describe('dropdown component', () => {
   let Dropdown,
     options = [
       {
-        title: 'one',
+        name: 'one',
         value: 1
       },
       {
-        title: 'two',
+        name: 'two',
         value: 2
       },
       {
-        title: 'foo::baz',
+        name: 'foo::baz',
         value: 3,
         default: true
       }
@@ -384,7 +384,7 @@ describe('dropdown component', () => {
 
       it('should return them in the correct format', () => {
         expect(_.keys(filteredItems[0]))
-          .toEqual(['title', 'onClick', 'value', 'id']);
+          .toEqual(['name', 'onClick', 'value', 'id']);
       });
     });
 
@@ -402,13 +402,13 @@ describe('dropdown component', () => {
 
       it('should return them in the correct format', () => {
         expect(_.keys(filteredItems[0]))
-          .toEqual(['title', 'nestedMenu', 'updateMenu', 'id']);
+          .toEqual(['name', 'nestedMenu', 'updateMenu', 'id']);
       });
     });
 
     it('sets this.selected to the option if it is the default option', () => {
       expect(dropdown.selected)
-        .toEqual({ title: 'baz', value: 3, default: true });
+        .toEqual({ name: 'baz', value: 3, default: true });
     });
   });
 

@@ -44,12 +44,9 @@ const getCustomFields = (customFields, formState, options = {}) => {
       case 'subject':
         return <Field {...sharedProps} />;
       case 'tagger':
-        const defaultOption = _.find(
-          field.options,
-          (option) => option.default
-        ) || '';
+        const defaultOption = _.find(field.custom_field_options, (option) => option.default);
 
-        return <Dropdown {...sharedProps} options={field.options} value={defaultOption} />;
+        return <Dropdown {...sharedProps} options={field.custom_field_options} value={defaultOption} />;
 
       case 'integer':
         return <Field {...sharedProps} pattern='\d+' type='number' />;

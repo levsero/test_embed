@@ -94,7 +94,7 @@ export class DropdownMenu extends Component {
         backButton={true}
         fullscreen={this.props.fullscreen}
         onClick={this.props.handleBackClick}
-        title={i18n.t('embeddable_framework.navigation.back')} />
+        name={i18n.t('embeddable_framework.navigation.back')} />
     );
   }
 
@@ -103,8 +103,8 @@ export class DropdownMenu extends Component {
       return (
         <DropdownOption
           ref={(opt) => { if (opt !== null) this.items.push(opt); }}
-          title={option.title}
-          key={option.title}
+          name={option.name}
+          key={option.name}
           onClick={option.onClick}
           fullscreen={this.props.fullscreen}
           nestedMenu={option.nestedMenu}
