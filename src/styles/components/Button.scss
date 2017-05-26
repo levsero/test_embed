@@ -97,8 +97,8 @@ $Button-nudge: 5;
   color: $zd-color-dark-gray;
   padding: #{10/$font-size}rem;
 
-  .Icon svg path, .Icon svg g {
-    stroke: $zd-color-monsoon;
+  .Icon svg path {
+    fill: $zd-color-monsoon;
   }
 
   &:hover, &:focus, &:active {
@@ -106,8 +106,8 @@ $Button-nudge: 5;
     border-radius: #{4/$font-size}rem;
     color: $zd-color-oil;
 
-    .Icon svg path, .Icon svg g {
-      stroke: $zd-color-dark-gray;
+    .Icon svg path {
+      fill: $zd-color-dark-gray;
     }
   }
 }
