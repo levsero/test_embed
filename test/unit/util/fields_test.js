@@ -17,17 +17,17 @@ describe('fields', () => {
     type: 'tagger',
     title_in_portal: 'Nested Drop Down',
     required_in_portal: false,
-    options: [
+    custom_field_options: [
       {
-        title: 'Option1::Part1',
+        name: 'Option1::Part1',
         value: 'option1__part1'
       },
       {
-        title: 'Option2::Part2',
+        name: 'Option2::Part2',
         value: 'option2__part2'
       },
       {
-        title: 'Option1::Part2',
+        name: 'Option1::Part2',
         value: 'option1__part2'
       }
     ],
@@ -38,13 +38,13 @@ describe('fields', () => {
     id: '22666574',
     type: 'tagger',
     title_in_portal: 'Department',
-    options: [
+    custom_field_options: [
       {
-        title: 'Sales',
+        name: 'Sales',
         value: 1
       },
       {
-        title: 'Support',
+        name: 'Support',
         value: 2
       }
     ],
@@ -304,12 +304,7 @@ describe('fields', () => {
 
         it('should pass through options', () => {
           expect(customFields.allFields[0].props.options)
-            .toEqual(nestedDropdownFieldPayload.options);
-        });
-
-        it('should change name to title if it has that format', () => {
-          expect(customFields.allFields[1].props.options[0].title)
-            .toBeTruthy();
+            .toEqual(nestedDropdownFieldPayload.custom_field_options);
         });
       });
 
