@@ -13,11 +13,14 @@ const animationDuration = 200;
 
 export class Dropdown extends Component {
   static propTypes = {
+    name: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
+    ]).isRequired,
     fullscreen: PropTypes.bool,
     frameHeight: PropTypes.number,
     landscape: PropTypes.bool,
     description: PropTypes.string,
-    name: PropTypes.string,
     onChange: PropTypes.func,
     options: PropTypes.array.isRequired,
     placeholder: PropTypes.string,
@@ -30,7 +33,6 @@ export class Dropdown extends Component {
     frameHeight: 500,
     landscape: false,
     description: '',
-    name: '',
     onChange: () => {},
     options: [],
     placeholder: '-',
@@ -134,9 +136,9 @@ export class Dropdown extends Component {
     this.setState({ hovering: false });
   }
 
-  setValue = (value, title) => () => {
+  setValue = (value, name) => () => {
     this.setState({
-      selected: { value, title },
+      selected: { value, name },
       open: false
     });
 
@@ -180,31 +182,31 @@ export class Dropdown extends Component {
   formatDropdownOptions = (optionsProp) => {
     const options = _.cloneDeep(optionsProp);
     const groupByFn = (option) => {
-      return (option.title.indexOf('::') > -1)
-           ? option.title.split('::')[0]
+      return (option.name.indexOf('::') > -1)
+           ? option.name.split('::')[0]
            : '';
     };
     const mapFn = (group, key, allGroups) => {
       if (_.isEmpty(key)) {
         return _.map(group, (option) => {
           // Don't return duplicate fields. ie `one` and `one::two`
-          if (!_.includes(_.keys(allGroups), option.title)) {
+          if (!_.includes(_.keys(allGroups), option.name)) {
             if (option.default) {
               this.selected = option;
             }
 
             return {
-              title: option.title,
-              onClick: this.setValue(option.value, option.title),
+              name: option.name,
+              onClick: this.setValue(option.value, option.name),
               value: option.value,
               id: _.uniqueId('option-')
             };
           }
         });
       } else {
-        // Remove the groups name from the title value.
+        // Remove the groups name from the name value.
         _.forEach(group, (item) => {
-          item.title = item.title.substring(item.title.indexOf('::') + 2);
+          item.name = item.name.substring(item.name.indexOf('::') + 2);
         });
 
         // And look for further nesting
@@ -219,7 +221,7 @@ export class Dropdown extends Component {
         );
 
         return {
-          title: key,
+          name: key,
           nestedMenu: menu,
           updateMenu: this.updateMenu,
           id: _.uniqueId('option-')
@@ -228,10 +230,10 @@ export class Dropdown extends Component {
     };
 
     return _.chain(options)
-          .groupBy(groupByFn)
-          .flatMap(mapFn)
-          .compact()
-          .value();
+            .groupBy(groupByFn)
+            .flatMap(mapFn)
+            .compact()
+            .value();
   }
 
   renderDropdownArrow = () => {
@@ -274,7 +276,7 @@ export class Dropdown extends Component {
     const mobileClasses = this.props.fullscreen && !this.props.landscape ? styles.labelMobile : '';
     const landscapeClasses = this.props.landscape ? styles.labelLandscape : '';
     const invalidClasses = !this.state.valid ? styles.inputError : '';
-    const placeholderText = this.state.selected.title || '-';
+    const placeholderText = this.state.selected.name || '-';
     const requiredLabel = this.props.required ? '*' : '';
 
     return (
@@ -298,7 +300,7 @@ export class Dropdown extends Component {
           {/* hidden field with the selected value so that the form grabs it on submit */}
           <input
             className='u-isHidden'
-            name={this.props.name}
+            name={_.toString(this.props.name)}
             required={this.props.required}
             value={this.state.selected.value} />
           {this.renderDropdownArrow()}

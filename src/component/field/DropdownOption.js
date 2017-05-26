@@ -8,7 +8,7 @@ export class DropdownOption extends Component {
   static propTypes = {
     backButton: PropTypes.bool,
     fullscreen: PropTypes.bool,
-    title: PropTypes.string,
+    name: PropTypes.string,
     nestedMenu: PropTypes.object,
     onClick: PropTypes.func,
     updateMenu: PropTypes.func
@@ -18,7 +18,7 @@ export class DropdownOption extends Component {
     backButton: false,
     fullscreen: false,
     nestedMenu: null,
-    title: '',
+    name: '',
     onClick: () => {},
     updateScreen: () => {}
   }
@@ -83,12 +83,12 @@ export class DropdownOption extends Component {
       <div
         ref={(el) => { this.element = el; }}
         className={borderClasses}
-        key={this.props.title}
+        key={this.props.name}
         onClick={this.handleDropdownOpen}>
         <div className={`${styles.field} ${focusedClasses}`}>
           {this.renderBackArrow()}
-          <div className={styles.title}>
-            {this.props.title}
+          <div className={styles.name}>
+            {this.props.name}
           </div>
           {this.renderNextArrow()}
         </div>
