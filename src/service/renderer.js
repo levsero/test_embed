@@ -82,6 +82,7 @@ function init(config) {
     i18n.setLocale(config.locale);
 
     if (settings.get('channelChoice')) {
+      // TODO: do this differently when channelChoice is part of single iframe
       const hasLauncherConfig = config.embeds && config.embeds.launcher;
       const ccConfig = {
         hideZendeskLogo: config.hideZendeskLogo,

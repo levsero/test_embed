@@ -39,7 +39,7 @@ export class ChannelChoice extends Component {
   renderBody = () => {
     const { hideZendeskLogo } = this.props;
     const divider = !hideZendeskLogo ? <hr className={styles.hr} /> : null;
-    const containerStyle = !hideZendeskLogo ? styles.inner : null;
+    const containerStyle = !hideZendeskLogo ? styles.inner : '';
 
     return (
       <div className={containerStyle}>
@@ -57,7 +57,7 @@ export class ChannelChoice extends Component {
   }
 
   render = () => {
-    const footerClasses = this.props.hideZendeskLogo ? styles.footerNoLogo : null;
+    const footerClasses = this.props.hideZendeskLogo ? styles.footerNoLogo : '';
 
     setTimeout(() => this.props.updateFrameSize(), 0);
 
