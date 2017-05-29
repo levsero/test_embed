@@ -8,16 +8,14 @@ import reducer from 'src/redux/modules/reducer';
 
 export default function() {
   const enableLogging = __DEV__ || getEnvironment() === 'staging';
-
-  const logger = enableLogging ? createLogger() : () => (a) => a;
-  const devToolsExtension = enableLogging && window.parent.devToolsExtension
+  const logger = createLogger();
+  const devToolsExtension = window.parent.devToolsExtension
                           ? window.parent.devToolsExtension()
                           : (a) => a;
 
-  const storeEnhancers = [
-    applyMiddleware(thunk, logger),
-    devToolsExtension
-  ];
+  const storeEnhancers = enableLogging
+                       ? [applyMiddleware(thunk, logger), devToolsExtension]
+                       : [applyMiddleware(thunk)];
 
   return compose(...storeEnhancers)(createStore)(reducer);
 }
