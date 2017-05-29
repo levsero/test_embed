@@ -39,22 +39,20 @@ export class ChannelChoice extends Component {
   renderBody = () => {
     const { hideZendeskLogo } = this.props;
     const divider = !hideZendeskLogo ? <hr className={styles.hr} /> : null;
-    const containerStyle = !hideZendeskLogo ? styles.inner : '';
+    const containerStyle = !hideZendeskLogo ? styles.inner : null;
 
     return (
       <div className={containerStyle}>
         <ButtonIcon
           icon='Icon--channelChoice-chat'
           label={i18n.t(
-            'embeddable_framework.channelChoice.button.label.chat',
-            { fallback: 'Live chat' }
+            'embeddable_framework.channelChoice.button.label.chat'
           )}
           onClick={this.handleClick('chat')} />
         <ButtonIcon
           icon='Icon--channelChoice-contactForm'
           label={i18n.t(
-            'embeddable_framework.channelChoice.button.label.submitTicket',
-            { fallback: 'Leave a message' }
+            'embeddable_framework.channelChoice.button.label.submitTicket'
           )}
           onClick={this.handleClick('submitTicket')} />
           {divider}

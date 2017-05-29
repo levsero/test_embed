@@ -82,13 +82,14 @@ function init(config) {
     i18n.setLocale(config.locale);
 
     if (settings.get('channelChoice')) {
-      const channelChoiceConfig = {
+      const hasLauncherConfig = config.embeds && config.embeds.launcher;
+      const ccConfig = {
         hideZendeskLogo: config.hideZendeskLogo,
-        color: config.embeds.launcher.props.color,
-        formTitleKey: config.embeds.launcher.props.labelKey
-      }
+        color: hasLauncherConfig ? config.embeds.launcher.props.color : null,
+        formTitleKey: hasLauncherConfig ? config.embeds.launcher.props.labelKey : null
+      };
 
-      embedsMap.channelChoice.create('channelChoice', channelChoiceConfig, reduxStore);
+      embedsMap.channelChoice.create('channelChoice', ccConfig, reduxStore);
       embedsMap.channelChoice.render('channelChoice');
     }
 
