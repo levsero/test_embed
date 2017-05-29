@@ -45,15 +45,11 @@ export class ChannelChoice extends Component {
       <div className={containerStyle}>
         <ButtonIcon
           icon='Icon--channelChoice-chat'
-          label={i18n.t(
-            'embeddable_framework.channelChoice.button.label.chat'
-          )}
+          label={i18n.t('embeddable_framework.channelChoice.button.label.chat')}
           onClick={this.handleClick('chat')} />
         <ButtonIcon
           icon='Icon--channelChoice-contactForm'
-          label={i18n.t(
-            'embeddable_framework.channelChoice.button.label.submitTicket'
-          )}
+          label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
           onClick={this.handleClick('submitTicket')} />
           {divider}
       </div>

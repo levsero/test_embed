@@ -17,7 +17,6 @@ const icons = {
   'Icon--circleTick-small': require('icons/widget-icon_circle_tick_small.svg'),
   'Icon--clearInput': require('icons/widget-icon_clearInput.svg'),
   'Icon--close': require('icons/widget-icon_close.svg'),
-  'Icon--form': require('icons/widget-icon_form.svg'),
   'Icon--link': require('icons/widget-icon_link.svg'),
   'Icon--paperclip-large': require('icons/widget-icon_paperclip_large.svg'),
   'Icon--paperclip-small': require('icons/widget-icon_paperclip_small.svg'),
