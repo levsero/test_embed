@@ -200,6 +200,7 @@ export class HelpCenterMobile extends Component {
           <Button
             fullscreen={true}
             label={this.props.buttonLabel}
+            onTouchStartDisabled={true}
             onClick={this.props.handleNextClick} />
         </ButtonGroup>
       </div>
