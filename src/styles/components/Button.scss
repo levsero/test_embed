@@ -94,12 +94,21 @@ $Button-nudge: 5;
 }
 
 .Button--icon {
-  color: $zd-color-aluminum;
+  color: $zd-color-dark-gray;
   padding: #{10/$font-size}rem;
 
+  .Icon svg path {
+    fill: $zd-color-monsoon;
+  }
+
   &:hover, &:focus, &:active {
-    color: $zd-color-dark-gray;
     background: $zd-color-anti-flash-white;
+    border-radius: #{4/$font-size}rem;
+    color: $zd-color-oil;
+
+    .Icon svg path {
+      fill: $zd-color-dark-gray;
+    }
   }
 }
 

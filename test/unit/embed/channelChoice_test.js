@@ -20,6 +20,9 @@ describe('embed.channelChoice', () => {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
+      'component/channelChoice/ChannelChoice.sass': {
+        locals: {}
+      },
       'component/channelChoice/ChannelChoice': {
         ChannelChoice: class extends Component {
           render() {
@@ -30,6 +33,9 @@ describe('embed.channelChoice', () => {
         }
       },
       './channelChoice.scss': '',
+      './channelChoiceStyles.js': {
+        channelChoiceStyles: 'mockCss'
+      },
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
@@ -190,7 +196,6 @@ describe('embed.channelChoice', () => {
 
     it('applies channelChoice.scss to the frame', () => {
       const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
-      const mockCss = mockRegistry['./channelChoice.scss'];
 
       channelChoice.create('erin');
       channelChoice.render('erin');
@@ -198,7 +203,7 @@ describe('embed.channelChoice', () => {
       const mockFrameFactoryCss = mockFrameFactory.calls.mostRecent().args[1].css;
 
       expect(mockFrameFactoryCss)
-        .toEqual(mockCss);
+        .toContain('mockCss');
     });
 
     describe('mediator subscription', () => {

@@ -82,7 +82,15 @@ function init(config) {
     i18n.setLocale(config.locale);
 
     if (settings.get('channelChoice')) {
-      embedsMap.channelChoice.create('channelChoice', {}, reduxStore);
+      // TODO: do this differently when channelChoice is part of single iframe
+      const hasLauncherConfig = config.embeds && config.embeds.launcher;
+      const ccConfig = {
+        hideZendeskLogo: config.hideZendeskLogo,
+        color: hasLauncherConfig ? config.embeds.launcher.props.color : null,
+        formTitleKey: hasLauncherConfig ? config.embeds.launcher.props.labelKey : null
+      };
+
+      embedsMap.channelChoice.create('channelChoice', ccConfig, reduxStore);
       embedsMap.channelChoice.render('channelChoice');
     }
 

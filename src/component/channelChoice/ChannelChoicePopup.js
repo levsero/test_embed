@@ -19,11 +19,11 @@ export class ChannelChoicePopup extends Component {
         <ButtonIcon
           onClick={this.handleClick('chat')}
           label={i18n.t('embeddable_framework.channelChoice.button.label.chat')}
-          icon='Icon--chat' />
+          icon='Icon--channelChoice-chat' />
         <ButtonIcon
           onClick={this.handleClick('submitTicket')}
           label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
-          icon='Icon--form' />
+          icon='Icon--channelChoice-contactForm' />
       </div>
     );
   }
