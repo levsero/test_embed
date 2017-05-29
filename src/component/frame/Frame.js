@@ -134,6 +134,16 @@ export class Frame extends Component {
     return this.child;
   }
 
+  updateFrameLocale = () => {
+    const html = this.getContentDocument().documentElement;
+    const direction = i18n.isRTL() ? 'rtl' : 'ltr';
+
+    html.setAttribute('lang', i18n.getLocale());
+    html.setAttribute('dir', direction);
+
+    if (this.child) this.child.forceUpdate();
+  }
+
   updateFrameSize = () => {
     const frameDoc = this.getContentDocument();
     const fullscreenWidth = `${win.innerWidth}px`;
