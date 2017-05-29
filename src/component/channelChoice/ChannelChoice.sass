@@ -1,3 +1,9 @@
+/**
+ * 1. Composes classes on Container and ScrollContainer come
+ *    later in the class atrribute, so they will override
+ *    composed classes defined here.
+ */
+
 @import '../../styles/_vars.scss';
 
 .hr {
@@ -11,14 +17,12 @@
 }
 
 .footerNoLogo {
-  padding-top: #{10/$font-size}rem !important;
-  padding-bottom: 0 !important;
+  padding-top: #{10/$font-size}rem !important; /* 1 */
+  padding-bottom: 0 !important; /* 1 */
 }
 
 .container {
-  // need to specifically override these rather than compose u-paddingHN
-  // so that it overrides correctly
-  padding-top: #{10/$font-size}rem !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+  padding-top: #{10/$font-size}rem !important; /* 1 */
+  padding-left: 0 !important; /* 1 */
+  padding-right: 0 !important; /* 1 */
 }
