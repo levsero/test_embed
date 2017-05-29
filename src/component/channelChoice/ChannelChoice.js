@@ -37,8 +37,12 @@ export class ChannelChoice extends Component {
   }
 
   renderBody = () => {
+    const { hideZendeskLogo } = this.props;
+    const divider = !hideZendeskLogo ? <hr className={styles.hr} /> : null;
+    const containerStyle = !hideZendeskLogo ? styles.inner : '';
+
     return (
-      <div className={styles.inner}>
+      <div className={containerStyle}>
         <ButtonIcon
           icon='Icon--channelChoice-chat'
           label={i18n.t(
@@ -53,12 +57,14 @@ export class ChannelChoice extends Component {
             { fallback: 'Leave a message' }
           )}
           onClick={this.handleClick('submitTicket')} />
-        <hr className={styles.hr} />
+          {divider}
       </div>
     );
   }
 
   render = () => {
+    const footerClasses = this.props.hideZendeskLogo ? styles.footerNoLogo : '';
+
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     return (
@@ -66,8 +72,9 @@ export class ChannelChoice extends Component {
         <ScrollContainer
           ref='scrollContainer'
           containerClasses={styles.container}
+          footerClasses={footerClasses}
           hideZendeskLogo={this.props.hideZendeskLogo}
-          title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}>
+          title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitleKey}`)}>
           {this.renderBody()}
         </ScrollContainer>
         {this.renderZendeskLogo()}
