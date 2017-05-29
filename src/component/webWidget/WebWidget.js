@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import Chat from 'component/chat/Chat';
+import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
 import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
@@ -13,6 +14,7 @@ import { updateActiveEmbed,
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
 const chat = 'chat';
+const channelChoice = 'channelChoice';
 
 const mapStateToProps = (state) => {
   return {
@@ -121,7 +123,11 @@ class WebWidget extends Component {
     if (helpCenterAvailable) {
       updateActiveEmbed(helpCenter);
     } else if (this.props.chat.account_status === 'online') {
-      updateActiveEmbed(chat);
+      if (this.props.channelChoice) {
+        updateActiveEmbed(channelChoice);
+      } else {
+        updateActiveEmbed(chat);
+      }
     } else {
       updateActiveEmbed(submitTicket);
     }
@@ -258,6 +264,21 @@ class WebWidget extends Component {
     );
   }
 
+  renderChannelChoice = () => {
+    const classes = classNames({
+      'u-isHidden': this.props.activeEmbed !== channelChoice
+    });
+
+    return (
+      <div className={classes}>
+        <ChannelChoice
+          ref={channelChoice}
+          onNextClick={this.setComponent}
+           />
+      </div>
+    );
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
@@ -266,6 +287,7 @@ class WebWidget extends Component {
         {this.renderSubmitTicket()}
         {this.renderChat()}
         {this.renderHelpCenter()}
+        {this.renderChannelChoice()}
       </div>
     );
   }

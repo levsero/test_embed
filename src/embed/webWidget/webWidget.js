@@ -125,6 +125,7 @@ const afterShowAnimate = () => {
 };
 const onClose = () => {
   mediator.channel.broadcast('webWidget.onClose');
+  getWebWidgetComponent().onClose();
 };
 
 function create(name, config = {}, reduxStore = {}) {

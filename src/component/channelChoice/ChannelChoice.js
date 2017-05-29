@@ -36,6 +36,8 @@ export class ChannelChoice extends Component {
       : null;
   }
 
+  expand = () => {}
+
   renderBody = () => {
     const { hideZendeskLogo } = this.props;
     const divider = !hideZendeskLogo ? <hr className={styles.hr} /> : null;
@@ -50,7 +52,7 @@ export class ChannelChoice extends Component {
         <ButtonIcon
           icon='Icon--channelChoice-contactForm'
           label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
-          onClick={this.handleClick('submitTicket')} />
+          onClick={this.handleClick('ticketSubmissionForm')} />
           {divider}
       </div>
     );
