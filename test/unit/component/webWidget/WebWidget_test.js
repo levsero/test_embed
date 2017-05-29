@@ -277,7 +277,7 @@ describe('WebWidget component', () => {
         beforeEach(() => {
           webWidget = domRender(
             <WebWidget
-              updateActiveEmbed={() => {}}
+              updateActiveEmbed={noop}
               activeEmbed='ticketSubmissionForm'
               helpCenterAvailable={true}
               showBackButton={showBackButtonSpy} />

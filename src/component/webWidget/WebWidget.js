@@ -116,49 +116,60 @@ class WebWidget extends Component {
   }
 
   show = (viaActivate = false) => {
-    if (this.props.activeEmbed !== '' && !viaActivate) {
-      return;
-    } else if (this.props.helpCenterAvailable) {
-      this.props.updateActiveEmbed(helpCenter);
-    } else if (this.props.chat.account_status === 'online') {
-      this.props.updateActiveEmbed(chat);
+    const {
+      activeEmbed,
+      updateActiveEmbed,
+      chat,
+      helpCenterAvailable,
+      showBackButton } = this.props;
+
+    if (activeEmbed !== '' && !viaActivate) return;
+
+    if (helpCenterAvailable) {
+      updateActiveEmbed(helpCenter);
+    } else if (chat.account_status === 'online') {
+      updateActiveEmbed(chat);
     } else {
-      this.props.updateActiveEmbed(submitTicket);
+      updateActiveEmbed(submitTicket);
     }
-    this.props.showBackButton(false);
+    showBackButton(false);
   }
 
   showHelpCenter = () => {
+    const helpCenterComponent = this.getHelpCenterComponent();
+    const { articleViewActive } = helpCenterComponent.state;
+
     this.props.updateActiveEmbed(helpCenter);
-    this.props.showBackButton(!!this.getRootComponent().state.articleViewActive);
+    this.props.showBackButton(articleViewActive);
   }
 
   onNextClick = () => {
-    if (this.props.chat.account_status === 'online') {
-      this.props.updateActiveEmbed(chat);
+    const { showBackButton, updateActiveEmbed, chat } = this.props;
+
+    if (chat.account_status === 'online') {
+      updateActiveEmbed(chat);
       // TODO: track chat started
-      this.props.showBackButton(true);
+      showBackButton(true);
     } else {
-      this.props.updateActiveEmbed(submitTicket);
-      this.props.showBackButton(true);
+      updateActiveEmbed(submitTicket);
+      showBackButton(true);
     }
   }
 
   onCancelClick = () => {
-    if (this.props.helpCenterAvailable) {
+    const { helpCenterAvailable, onCancel } = this.props;
+
+    if (helpCenterAvailable) {
       this.showHelpCenter();
     } else {
-      this.props.onCancel();
+      onCancel();
     }
   }
 
   onBackClick = () => {
     const rootComponent = this.getRootComponent();
-    const helpCenterComponent = this.getHelpCenterComponent();
-    const submitTicketComponent = this.getSubmitTicketComponent();
     const { activeEmbed, helpCenterAvailable, showBackButton } = this.props;
-    const { selectedTicketForm, ticketForms } = submitTicketComponent.state;
-    const { articleViewActive } = helpCenterComponent.state;
+    const { selectedTicketForm, ticketForms } = this.getSubmitTicketComponent().state;
 
     if (activeEmbed === helpCenter) {
       rootComponent.setArticleView(false);
@@ -168,7 +179,6 @@ class WebWidget extends Component {
       showBackButton(helpCenterAvailable);
     } else {
       this.showHelpCenter();
-      showBackButton(articleViewActive);
     }
   }
 

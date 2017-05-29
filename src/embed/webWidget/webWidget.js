@@ -139,7 +139,7 @@ function create(name, config = {}, reduxStore = {}) {
   };
   const helpCenterAvailable = !!config.helpCenterForm;
   const submitTicketAvailable = !!config.ticketSubmissionForm;
-  const chatAvaliable = !!config.zopimChat;
+  const chatAvailable = !!config.zopimChat;
   const submitTicketSettings = submitTicketAvailable
                              ? setUpSubmitTicket(config.ticketSubmissionForm)
                              : {};
@@ -148,7 +148,7 @@ function create(name, config = {}, reduxStore = {}) {
                            : {};
   const globalConfig = _.extend(configDefaults, helpCenterSettings.config);
 
-  if (chatAvaliable) {
+  if (chatAvailable) {
     setUpChat(config.zopimChat, reduxStore);
   }
 
@@ -158,7 +158,6 @@ function create(name, config = {}, reduxStore = {}) {
     const margin = settings.get('margin');
 
     frameStyle = _.extend({}, frameStyle, {
-      height: 500,
       width: 342,
       marginLeft: margin,
       marginRight: margin
@@ -380,25 +379,25 @@ function waitForRootComponent(callback) {
 }
 
 function postRender() {
-  if (embed.config.helpCenterForm) {
-    const config = embed.config.helpCenterForm;
-    const authSetting = settings.get('authenticate');
+  if (!embed.config.helpCenterForm) return;
 
-    if (config.contextualHelpEnabled &&
-        !hasManuallySetContextualSuggestions &&
-        !isOnHelpCenterPage()) {
-      const options = { url: true };
+  const config = embed.config.helpCenterForm;
+  const authSetting = settings.get('authenticate');
 
-      performContextualHelp(options);
-    }
+  if (config.contextualHelpEnabled &&
+      !hasManuallySetContextualSuggestions &&
+      !isOnHelpCenterPage()) {
+    const options = { url: true };
 
-    if (config.tokensRevokedAt) {
-      authentication.revoke(config.tokensRevokedAt);
-    }
+    performContextualHelp(options);
+  }
 
-    if (authSetting && authSetting.jwt) {
-      authentication.authenticate(authSetting.jwt);
-    }
+  if (config.tokensRevokedAt) {
+    authentication.revoke(config.tokensRevokedAt);
+  }
+
+  if (authSetting && authSetting.jwt) {
+    authentication.authenticate(authSetting.jwt);
   }
 }
 
@@ -668,7 +667,6 @@ function setUpHelpCenter(config) {
     imagesSenderFn,
     channelChoice,
     contextualSearchSender
-
   };
 }
 
