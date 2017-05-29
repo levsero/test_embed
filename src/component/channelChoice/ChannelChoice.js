@@ -57,7 +57,7 @@ export class ChannelChoice extends Component {
   }
 
   render = () => {
-    const footerClasses = this.props.hideZendeskLogo ? styles.footerNoLogo : '';
+    const footerClasses = this.props.hideZendeskLogo ? styles.footerNoLogo : null;
 
     setTimeout(() => this.props.updateFrameSize(), 0);
 
