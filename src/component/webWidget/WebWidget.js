@@ -111,7 +111,7 @@ class WebWidget extends Component {
     return this.refs[helpCenter];
   }
 
-  channelChoiceAvaliable = () => {
+  channelChoiceAvailable = () => {
     const chatOnline = this.props.chat.account_status === 'online';
 
     return this.props.channelChoice && chatOnline && this.props.submitTicketAvailable;
@@ -128,7 +128,7 @@ class WebWidget extends Component {
 
     if (helpCenterAvailable) {
       updateActiveEmbed(helpCenter);
-    } else if (this.channelChoiceAvaliable()) {
+    } else if (this.channelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
     } else if (this.props.chat.account_status === 'online') {
       updateActiveEmbed(chat);
@@ -164,7 +164,7 @@ class WebWidget extends Component {
 
     if (helpCenterAvailable) {
       this.showHelpCenter();
-    } else if (this.channelChoiceAvaliable()) {
+    } else if (this.channelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
       showBackButton(false);
     } else {

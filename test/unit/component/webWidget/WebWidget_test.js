@@ -1,4 +1,4 @@
-describe('WebWidget component', () => {
+fdescribe('WebWidget component', () => {
   let WebWidget,
     mockUpdateActiveEmbed;
   const setArticleViewSpy = jasmine.createSpy();
@@ -56,6 +56,9 @@ describe('WebWidget component', () => {
       },
       'component/submitTicket/SubmitTicket': {
         SubmitTicket: MockSubmitTicket
+      },
+      'component/channelChoice/ChannelChoice': {
+        ChannelChoice: noopReactComponent()
       },
       'src/redux/modules/base': {
         updateActiveEmbed: noop,
@@ -142,17 +145,35 @@ describe('WebWidget component', () => {
     });
 
     describe('when help center is not available', () => {
-      let onCancelSpy;
+      describe('when channel choice is available', () => {
+        beforeEach(() => {
+          webWidget = domRender(<WebWidget updateActiveEmbed={mockUpdateActiveEmbed} />);
 
-      beforeEach(() => {
-        onCancelSpy = jasmine.createSpy('onCancelSpy');
-        webWidget = domRender(<WebWidget onCancel={onCancelSpy} />);
-        webWidget.onCancelClick();
+          spyOn(webWidget, 'channelChoiceAvailable').and.returnValue(true);
+          webWidget.onCancelClick();
+        });
+
+        it('should call updateActiveEmbed with channelChoice', () => {
+          expect(mockUpdateActiveEmbed)
+            .toHaveBeenCalledWith('channelChoice');
+        });
       });
 
-      it('should call onCancel prop', () => {
-        expect(onCancelSpy)
-          .toHaveBeenCalled();
+      describe('when channel choice is not available', () => {
+        let onCancelSpy;
+
+        beforeEach(() => {
+          onCancelSpy = jasmine.createSpy('onCancelSpy');
+          webWidget = domRender(<WebWidget onCancel={onCancelSpy} />);
+
+          spyOn(webWidget, 'channelChoiceAvailable').and.returnValue(false);
+          webWidget.onCancelClick();
+        });
+
+        it('should call onCancel prop', () => {
+          expect(onCancelSpy)
+            .toHaveBeenCalled();
+        });
       });
     });
   });
@@ -403,6 +424,26 @@ describe('WebWidget component', () => {
       });
 
       describe('when help center is not available', () => {
+        describe('when channelChoice is available', () => {
+          beforeEach(() => {
+            webWidget = domRender(
+              <WebWidget
+                activeEmbed=''
+                chat={{ account_status: 'online' }} // eslint-disable-line camelcase
+                channelChoice={true}
+                submitTicketAvailable={true}
+                updateActiveEmbed={updateActiveEmbedSpy}
+                helpCenterAvailable={false} />
+            );
+            webWidget.show();
+          });
+
+          it('calls updateActiveEmbed with channelChoice', () => {
+            expect(updateActiveEmbedSpy)
+              .toHaveBeenCalledWith('channelChoice');
+          });
+        });
+
         describe('when chat is online', () => {
           beforeEach(() => {
             webWidget = domRender(
@@ -410,6 +451,7 @@ describe('WebWidget component', () => {
                 activeEmbed=''
                 chat={{ account_status: 'online' }} // eslint-disable-line camelcase
                 updateActiveEmbed={updateActiveEmbedSpy}
+                channelChoice={false}
                 helpCenterAvailable={false} />
             );
             webWidget.show();
