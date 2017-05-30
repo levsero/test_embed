@@ -100,7 +100,7 @@ describe('renderer', () => {
           enableCustomizations: jasmine.createSpy(),
           getTrackSettings: jasmine.createSpy().and.returnValue(mockTrackSettings),
           get: (value) => _.get({
-            channelChoice: mockChannelChoiceValue
+            contactOptions: mockChannelChoiceValue
           }, value, null)
         }
       },
