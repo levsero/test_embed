@@ -119,7 +119,6 @@ class WebWidget extends Component {
     const {
       activeEmbed,
       updateActiveEmbed,
-      chat,
       helpCenterAvailable,
       showBackButton } = this.props;
 
@@ -127,7 +126,7 @@ class WebWidget extends Component {
 
     if (helpCenterAvailable) {
       updateActiveEmbed(helpCenter);
-    } else if (chat.account_status === 'online') {
+    } else if (this.props.chat.account_status === 'online') {
       updateActiveEmbed(chat);
     } else {
       updateActiveEmbed(submitTicket);
@@ -144,9 +143,9 @@ class WebWidget extends Component {
   }
 
   onNextClick = () => {
-    const { showBackButton, updateActiveEmbed, chat } = this.props;
+    const { showBackButton, updateActiveEmbed } = this.props;
 
-    if (chat.account_status === 'online') {
+    if (this.props.chat.account_status === 'online') {
       updateActiveEmbed(chat);
       // TODO: track chat started
       showBackButton(true);

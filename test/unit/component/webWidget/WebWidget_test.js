@@ -282,7 +282,7 @@ describe('WebWidget component', () => {
               helpCenterAvailable={true}
               showBackButton={showBackButtonSpy} />
           );
-          spyOn(webWidget, 'showHelpCenter');
+          spyOn(webWidget, 'showHelpCenter').and.callThrough();
           webWidget.onBackClick();
         });
 
@@ -330,7 +330,7 @@ describe('WebWidget component', () => {
             helpCenterAvailable={true}
             showBackButton={showBackButtonSpy} />
         );
-        spyOn(webWidget, 'showHelpCenter');
+        spyOn(webWidget, 'showHelpCenter').and.callThrough();
         webWidget.onBackClick();
       });
 
