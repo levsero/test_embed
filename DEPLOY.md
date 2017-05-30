@@ -36,7 +36,7 @@ The rest of the stages aren't often used, specifically the `From Source` stages.
 
 ## Deployment Process
 
-Pull Requests are merged into `master` branch after receiving two 👍s.
+Pull Requests are merged into `master` branch after receiving two 👍s. At lease one of these must come from a member of [#team-taipan](https://zendesk.slack.com/messages/C0R1EJ3UP/).
 
 ### Release Bucket
 
@@ -68,7 +68,7 @@ https://assets.zendesk.com/embeddable_framework/main.js
 
 In production the assets are served via the EdgeCast CDN, which uses our hosts on POD7 as the origin.
 
-The Web Widgets `main.js` uses `Cache-Control` headers for smart cache invalidation. Specifically
+The Web Widget's `main.js` uses `Cache-Control` headers for smart cache invalidation. Specifically
 
 ```
 cache-control:public, max-age=60, s-maxage=60
