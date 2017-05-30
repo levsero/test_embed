@@ -365,10 +365,7 @@ export class Frame extends Component {
     const html = this.getContentDocument().documentElement;
     const doc = this.getContentWindow().document;
 
-    if (i18n.isRTL()) {
-      html.setAttribute('lang', i18n.getLocale());
-      html.setAttribute('dir', 'rtl');
-    }
+    this.updateFrameLocale();
 
     // In order for iframe to correctly render in some browsers
     // we need to wait for readyState to be complete
