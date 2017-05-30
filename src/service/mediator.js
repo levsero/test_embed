@@ -109,6 +109,7 @@ const showEmbed = (_state, viaActivate = false) => {
 
   _state[`${_state.activeEmbed}.isVisible`] = true;
   c.broadcast(`${_state.activeEmbed}.show`, options);
+  c.broadcast('webWidget.show');
 
   if (isMobileBrowser()) {
     /**
@@ -168,6 +169,7 @@ function init(embedsAccessible, params = {}) {
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${helpCenter}.hide`);
     c.broadcast(`${launcher}.hide`);
+    c.broadcast('webWidget.hide');
   });
 
   c.intercept(`.show, ${chat}.onError`, () => {
@@ -183,6 +185,7 @@ function init(embedsAccessible, params = {}) {
     c.broadcast(`${channelChoice}.hide`);
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${helpCenter}.hide`);
+    c.broadcast('webWidget.show');
 
     if (embedAvailable()) {
       c.broadcast(`${launcher}.show`);
@@ -458,6 +461,7 @@ function init(embedsAccessible, params = {}) {
   c.subscribe(
     [`${helpCenter}.onClose`,
      `${channelChoice}.onClose`,
+     'webWidget.onClose',
      `${chat}.onHide`,
      `${submitTicket}.onClose`].join(','),
     () => {

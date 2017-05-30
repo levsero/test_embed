@@ -111,53 +111,73 @@ class WebWidget extends Component {
     return this.refs[chat].refs.wrappedInstance;
   }
 
+  getHelpCenterComponent = () => {
+    return this.refs[helpCenter];
+  }
+
+  show = (viaActivate = false) => {
+    const {
+      activeEmbed,
+      updateActiveEmbed,
+      helpCenterAvailable,
+      showBackButton } = this.props;
+
+    if (activeEmbed !== '' && !viaActivate) return;
+
+    if (helpCenterAvailable) {
+      updateActiveEmbed(helpCenter);
+    } else if (this.props.chat.account_status === 'online') {
+      updateActiveEmbed(chat);
+    } else {
+      updateActiveEmbed(submitTicket);
+    }
+    showBackButton(false);
+  }
+
   showHelpCenter = () => {
+    const helpCenterComponent = this.getHelpCenterComponent();
+    const { articleViewActive } = helpCenterComponent.state;
+
     this.props.updateActiveEmbed(helpCenter);
-    this.props.showBackButton(!!this.getRootComponent().state.articleViewActive);
+    this.props.showBackButton(articleViewActive);
   }
 
   onNextClick = () => {
+    const { showBackButton, updateActiveEmbed } = this.props;
+
     if (this.props.chat.account_status === 'online') {
-      this.props.updateActiveEmbed(chat);
+      updateActiveEmbed(chat);
       // TODO: track chat started
-      this.props.showBackButton(true);
+      showBackButton(true);
     } else {
-      this.props.updateActiveEmbed(submitTicket);
-      this.props.showBackButton(true);
+      updateActiveEmbed(submitTicket);
+      showBackButton(true);
     }
   }
 
   onCancelClick = () => {
-    if (this.props.helpCenterAvailable) {
+    const { helpCenterAvailable, onCancel } = this.props;
+
+    if (helpCenterAvailable) {
       this.showHelpCenter();
     } else {
-      this.props.onCancel();
+      onCancel();
     }
   }
 
   onBackClick = () => {
     const rootComponent = this.getRootComponent();
     const { activeEmbed, helpCenterAvailable, showBackButton } = this.props;
-    const { selectedTicketForm, ticketForms } = rootComponent.state;
+    const { selectedTicketForm, ticketForms } = this.getSubmitTicketComponent().state;
 
     if (activeEmbed === helpCenter) {
       rootComponent.setArticleView(false);
-      showBackButton();
+      showBackButton(false);
     } else if (selectedTicketForm && _.size(ticketForms) > 1) {
       rootComponent.clearForm();
       showBackButton(helpCenterAvailable);
     } else {
       this.showHelpCenter();
-      // TODO: Identify the appropriate default for this state
-      showBackButton(false);
-    }
-  }
-
-  activate = () => {
-    if (this.props.helpCenterAvailable) {
-      this.showHelpCenter();
-    } else {
-      this.props.updateActiveEmbed(submitTicket);
     }
   }
 
