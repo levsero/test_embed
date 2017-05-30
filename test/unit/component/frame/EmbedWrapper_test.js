@@ -42,9 +42,7 @@ describe('EmbedWrapper', () => {
       './EmbedWrapper.sass': {
         locals: {
           'closeBtn': 'closeBtn',
-          'closeBtnMobile': 'closeBtnMobile',
-          'backBtn': 'backBtn',
-          'backBtnMobile': 'backBtnMobile'
+          'backBtn': 'backBtn'
         }
       }
     });
@@ -194,20 +192,20 @@ describe('EmbedWrapper', () => {
       });
 
       describe('back navButton', () => {
-        it('should contain mobile styles', () => {
-          result = embedWrapperNode.querySelector('.backBtnMobile');
+        it('should not contain styles', () => {
+          result = embedWrapperNode.querySelector('.backBtn');
 
           expect(result)
-            .toBeTruthy();
+            .toBeFalsy();
         });
       });
 
       describe('close navButton', () => {
-        it('should contain mobile styles', () => {
-          result = embedWrapperNode.querySelector('.closeBtnMobile');
+        it('should not contain styles', () => {
+          result = embedWrapperNode.querySelector('.closeBtn');
 
           expect(result)
-            .toBeTruthy();
+            .toBeFalsy();
         });
       });
     });

@@ -95,8 +95,8 @@ export class EmbedWrapper extends Component {
     const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />;
     const expandClasses = isRTL ? 'u-posStartL' : 'u-posEndL';
-    const closeClasses = fullscreen ? styles.closeBtnMobile : styles.closeBtn;
-    const backClasses = fullscreen ? styles.backBtnMobile : styles.backBtn;
+    const closeClasses = !fullscreen && isRTL ? styles.closeBtn : '';
+    const backClasses = !fullscreen && isRTL ? styles.backBtn : '';
 
     // childFn is from frameFactory and children is from Frame component
     const newChild = (typeof this.props.children !== 'undefined')
@@ -113,7 +113,7 @@ export class EmbedWrapper extends Component {
               onClick: this.props.handleBackClick,
               icon: 'Icon--back',
               position: isRTL ? 'right' : 'left',
-              className: isRTL ? backClasses : '',
+              className: backClasses,
               isHidden: !this.state.showBackButton
             })}
           </div>
@@ -131,7 +131,7 @@ export class EmbedWrapper extends Component {
               onClick: this.props.handleCloseClick,
               icon: 'Icon--close',
               position: isRTL ? 'left' : 'right',
-              className: isRTL ? closeClasses : '',
+              className: closeClasses,
               isHidden: this.props.hideCloseButton
             })}
           </div>
