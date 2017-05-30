@@ -36,8 +36,6 @@ export class ChannelChoice extends Component {
       : null;
   }
 
-  expand = () => {}
-
   renderBody = () => {
     const { hideZendeskLogo } = this.props;
     const divider = !hideZendeskLogo ? <hr className={styles.hr} /> : null;
