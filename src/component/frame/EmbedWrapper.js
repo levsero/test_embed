@@ -18,10 +18,8 @@ export class EmbedWrapper extends Component {
     fullscreen: PropTypes.bool,
     handleBackClick: PropTypes.func,
     handleCloseClick: PropTypes.func,
-    handleExpandClick: PropTypes.func,
     hideCloseButton: PropTypes.bool,
-    reduxStore: PropTypes.object.isRequired,
-    showExpandButton: PropTypes.bool
+    reduxStore: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -32,9 +30,7 @@ export class EmbedWrapper extends Component {
     fullscreen: false,
     handleBackClick: () => {},
     handleCloseClick: () => {},
-    handleExpandClick: () => {},
-    hideCloseButton: false,
-    showExpandButton: false
+    hideCloseButton: false
   };
 
   constructor(props, context) {
@@ -92,7 +88,6 @@ export class EmbedWrapper extends Component {
     const isRTL = i18n.isRTL();
     const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />;
-    const expandClasses = isRTL ? 'u-posStartL' : 'u-posEndL';
 
     // childFn is from frameFactory and children is from Frame component
     const newChild = (typeof this.props.children !== 'undefined')
@@ -110,15 +105,6 @@ export class EmbedWrapper extends Component {
               icon: 'Icon--back',
               position: isRTL ? 'right' : 'left',
               isHidden: !this.state.showBackButton
-            })}
-          </div>
-          <div>
-            {this.renderNavButton({
-              onClick: this.props.handleExpandClick,
-              icon: 'Icon--chevron',
-              position: 'right',
-              className: expandClasses,
-              isHidden: !this.props.showExpandButton
             })}
           </div>
           <div>

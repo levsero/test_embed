@@ -85,12 +85,6 @@ class WebWidget extends Component {
     updateFrameSize: () => {}
   };
 
-  expand = () => {
-    if (this.getRootComponent().expand) {
-      this.getRootComponent().expand(true);
-    }
-  }
-
   setComponent = (activeComponent) => {
     this.props.updateActiveEmbed(activeComponent);
   }
@@ -225,7 +219,6 @@ class WebWidget extends Component {
           localeFallbacks={this.props.localeFallbacks}
           channelChoice={this.props.channelChoice}
           viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
-          expanded={true}
           zendeskHost={this.props.zendeskHost} />
       </div>
     );
@@ -245,7 +238,6 @@ class WebWidget extends Component {
           attachmentSender={this.props.attachmentSender}
           customFields={submitTicketConfig.customFields}
           disableAutoComplete={submitTicketConfig.disableAutoComplete}
-          expanded={true}
           formTitleKey={submitTicketConfig.formTitleKey}
           hideZendeskLogo={this.props.hideZendeskLogo}
           maxFileCount={submitTicketConfig.maxFileCount}

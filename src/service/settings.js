@@ -17,7 +17,6 @@ const optionWhitelist = {
     'contactForm.tags',
     'contactForm.ticketForms',
     'contactForm.title',
-    'expanded',
     'helpCenter.chatButton',
     'helpCenter.filter',
     'helpCenter.localeFallbacks',
@@ -63,7 +62,6 @@ const webWidgetStoreDefaults = {
   chat: {
     suppress: false
   },
-  expanded: false,
   launcher: {},
   margin: 15,
   offset: {

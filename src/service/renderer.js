@@ -120,7 +120,6 @@ function init(config) {
         configItem.props.visible = !hideLauncher && config.embeds && !zopimRendered;
         configItem.props.hideZendeskLogo = config.hideZendeskLogo;
         configItem.props.disableAutoComplete = config.disableAutoComplete;
-        configItem.props.expandable = config.expandable;
         configItem.props.brand = config.brand;
         embedsMap[configItem.embed].create(embedName, configItem.props, reduxStore);
         embedsMap[configItem.embed].render(embedName);

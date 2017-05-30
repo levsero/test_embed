@@ -86,8 +86,7 @@ class Chat extends Component {
     return (
       <Container
         style={this.props.style}
-        position={this.props.position}
-        expanded={true}>
+        position={this.props.position}>
         <ScrollContainer
           title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
           headerContent={<ChatHeader agents={chat.agents} endChat={this.props.endChat} />}
@@ -98,8 +97,7 @@ class Chat extends Component {
             <ChatBox
               currentMessage={chat.currentMessage}
               sendMsg={this.props.sendMsg}
-              updateCurrentMsg={this.props.updateCurrentMsg} />}
-          contentExpanded={true}>
+              updateCurrentMsg={this.props.updateCurrentMsg} />}>
           <div className={styles.messages}>
             {this.renderChatLog()}
             {this.renderChatEnded()}

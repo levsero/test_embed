@@ -25,7 +25,6 @@ describe('settings', () => {
         tags: []
       },
       contactOptions: false,
-      expanded: false,
       helpCenter: {
         originalArticleButton: true,
         localeFallbacks: []
@@ -89,11 +88,6 @@ describe('settings', () => {
       it('has the correct value for contactOptions', () => {
         expect(settings.get('contactOptions'))
           .toEqual(defaults.contactOptions);
-      });
-
-      it('has the correct value for expanded', () => {
-        expect(settings.get('expanded'))
-          .toEqual(defaults.expanded);
       });
 
       it('has the correct value for zIndex', () => {

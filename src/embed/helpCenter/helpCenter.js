@@ -46,7 +46,6 @@ function create(name, config, reduxStore) {
     formTitleKey: 'help',
     hideZendeskLogo: false,
     signInRequired: false,
-    expandable: false,
     disableAutoComplete: false,
     enableMouseDrivenContextualHelp: false,
     color: '#659700'
@@ -182,7 +181,6 @@ function create(name, config, reduxStore) {
       css: helpCenterCSS + generateUserCSS(config.color),
       name: name,
       fullscreenable: true,
-      expandable: config.expandable,
       transitions: {
         upClose: transitionFactory.webWidget.upHide(),
         downClose: transitionFactory.webWidget.downHide(),
