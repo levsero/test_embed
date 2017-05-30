@@ -11,7 +11,7 @@
 
 - Notify [#team-taipan](https://zendesk.slack.com/messages/C0R1EJ3UP/) before deploying or for help.
 - Taipan is located in Melbourne (AEST). Try to avoid [off hour](https://www.timeanddate.com/worldclock/australia/melbourne) deployments
-- We don't have a strict schedule, but try to avoid deploying after 3pm our time.
+- We don't have a strict schedule, but try to avoid deploying after 3PM our time.
 - A Deploy Buddy is required for all deploys to production.
 - Don't deploy if any [staging status](https://jenkins.zende.sk/view/StagingStatus/) tests are red without an exemption.
 - Any PRs deployed must meet the [Contributing guidelines](https://github.com/zendesk/embeddable_framework/blob/master/CONTRIBUTING.md)
