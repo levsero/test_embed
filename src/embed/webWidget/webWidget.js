@@ -291,10 +291,15 @@ function setupMediator() {
     });
   });
 
-  mediator.channel.subscribe([
-    'ticketSubmissionForm.update',
-    'helpCenterForm.refreshLocale'
-  ], () => {
+  mediator.channel.subscribe('helpCenterForm.refreshLocale', () => {
+    embed.instance.updateFrameLocale();
+
+    waitForRootComponent(() => {
+      embed.instance.getChild().forceUpdate();
+    });
+  });
+
+  mediator.channel.subscribe('ticketSubmissionForm.update', () => {
     waitForRootComponent(() => {
       embed.instance.getChild().forceUpdate();
     });
@@ -307,6 +312,8 @@ function setupMediator() {
         customFields,
         loadTicketForms,
         loadTicketFields } = embed.submitTicketSettings;
+
+      embed.instance.updateFrameLocale();
 
       if (!_.isEmpty(ticketForms)) {
         loadTicketForms(ticketForms, i18n.getLocale());

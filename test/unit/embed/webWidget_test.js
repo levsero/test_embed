@@ -890,14 +890,14 @@ describe('embed.webWidget', () => {
         .toHaveBeenCalledWith('zopimChat.setUser', jasmine.any(Function));
     });
 
-    it('subscribes to helpCenterForm.refreshLocale and <any>.update together', () => {
-      const calls = [
-        'ticketSubmissionForm.update',
-        'helpCenterForm.refreshLocale'
-      ];
-
+    it('should subscribe to ticketSubmissionForm.update', () => {
       expect(mockMediator.channel.subscribe)
-        .toHaveBeenCalledWith(calls, jasmine.any(Function));
+        .toHaveBeenCalledWith('ticketSubmissionForm.update', jasmine.any(Function));
+    });
+
+    it('should subscribe to helpCenterForm.refreshLocale', () => {
+      expect(mockMediator.channel.subscribe)
+        .toHaveBeenCalledWith('helpCenterForm.refreshLocale', jasmine.any(Function));
     });
 
     it('should subscribe to ticketSubmissionForm.refreshLocale', () => {

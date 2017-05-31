@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import { ButtonNav } from 'component/button/ButtonNav';
-import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
+import { Icon } from 'component/Icon';
 import { generateNpsCSS,
          generateWebWidgetPreviewCSS } from 'utility/color';
 
@@ -55,10 +54,10 @@ export class EmbedWrapper extends Component {
   }
 
   setHighlightColor = (color) => {
-    const css = generateNpsCSS({ color: color });
+    const css = generateNpsCSS({ color });
 
     if (css) {
-      this.setState({ css: css });
+      this.setState({ css });
     }
   }
 
@@ -66,11 +65,13 @@ export class EmbedWrapper extends Component {
     const css = generateWebWidgetPreviewCSS(color);
 
     if (css) {
-      this.setState({ css: css });
+      this.setState({ css });
     }
   }
 
   renderNavButton = (options = {}) => {
+    if (options.isHidden) return;
+
     return (
       <ButtonNav
         onClick={options.onClick}
@@ -88,20 +89,10 @@ export class EmbedWrapper extends Component {
   }
 
   render = () => {
-    const backButtonClasses = classNames({
-      'u-isHidden': !this.state.showBackButton
-    });
-    const closeButtonClasses = classNames({
-      'closeButton': true,
-      'u-isHidden': this.props.hideCloseButton
-    });
-    const expandButtonClasses = classNames({
-      'closeButton': true,
-      'u-isHidden': !this.props.showExpandButton
-    });
+    const isRTL = i18n.isRTL();
     const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />;
-    const expandClasses = i18n.isRTL() ? 'u-posStartL' : 'u-posEndL';
+    const expandClasses = isRTL ? 'u-posStartL' : 'u-posEndL';
 
     // childFn is from frameFactory and children is from Frame component
     const newChild = (typeof this.props.children !== 'undefined')
@@ -113,26 +104,29 @@ export class EmbedWrapper extends Component {
         <div>
           {css}
           {styleTag}
-          <div className={backButtonClasses}>
+          <div>
             {this.renderNavButton({
               onClick: this.props.handleBackClick,
               icon: 'Icon--back',
-              position: 'left'
+              position: isRTL ? 'right' : 'left',
+              isHidden: !this.state.showBackButton
             })}
           </div>
-          <div className={expandButtonClasses}>
+          <div>
             {this.renderNavButton({
               onClick: this.props.handleExpandClick,
               icon: 'Icon--chevron',
               position: 'right',
-              className: expandClasses
+              className: expandClasses,
+              isHidden: !this.props.showExpandButton
             })}
           </div>
-          <div className={closeButtonClasses}>
+          <div>
             {this.renderNavButton({
               onClick: this.props.handleCloseClick,
               icon: 'Icon--close',
-              position: 'right'
+              position: isRTL ? 'left' : 'right',
+              isHidden: this.props.hideCloseButton
             })}
           </div>
           <div id='Embed' ref={(el) => { this.embed = el; }}>

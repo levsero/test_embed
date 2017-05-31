@@ -6,7 +6,8 @@ const mockFrameMethods = {
   setButtonColor: jasmine.createSpy('setButtonColor'),
   reRenderCloseButton: jasmine.createSpy('mockReRenderCloseButton'),
   componentDidUpdate: jasmine.createSpy('mockComponentDidUpdate'),
-  updateFrameSize: jasmine.createSpy('updateFrameSize')
+  updateFrameSize: jasmine.createSpy('updateFrameSize'),
+  updateFrameLocale: jasmine.createSpy('updateFrameLocale')
 };
 
 exports.mockFrameMethods = mockFrameMethods;
@@ -45,6 +46,7 @@ const mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
         setHighlightColor: mockFrameMethods.setHighlightColor,
         setButtonColor: mockFrameMethods.setButtonColor,
         updateFrameSize: mockFrameMethods.updateFrameSize,
+        updateFrameLocale: mockFrameMethods.updateFrameLocale,
         componentDidUpdate: mockFrameMethods.componentDidUpdate,
         close(options = {}) {
           params.onClose(this, options);

@@ -1,5 +1,6 @@
 describe('EmbedWrapper', () => {
-  let EmbedWrapper;
+  let EmbedWrapper,
+    mockIsRTL;
 
   const EmbedWrapperPath = buildSrcPath('component/frame/EmbedWrapper');
 
@@ -17,14 +18,22 @@ describe('EmbedWrapper', () => {
 
     mockery.enable();
 
+    mockIsRTL = false;
+
     initMockRegistry({
       'React': React,
       'utility/color': {},
-      'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['t', 'isRTL', 'getLocale'])
-      },
       'component/button/ButtonNav': {
-        ButtonNav: noopReactComponent()
+        ButtonNav: class extends Component {
+          render() {
+            return <div className={this.props.className} />;
+          }
+        }
+      },
+      'service/i18n': {
+        i18n: {
+          isRTL: () => mockIsRTL
+        }
       },
       'lodash': _,
       'component/Icon': {
@@ -40,55 +49,57 @@ describe('EmbedWrapper', () => {
     mockery.disable();
   });
 
-  it('adds a <style> block to the iframe document', () => {
-    const instance = domRender(
-      <EmbedWrapper
-        childFn={noop}
-        baseCSS='.base-css-file {}' />
-    );
-    const styleBlock = ReactDOM.findDOMNode(instance).getElementsByTagName('style')[0];
-
-    expect(styleBlock.innerHTML.indexOf('.base-css-file {}'))
-      .toBeGreaterThan(-1);
-  });
-
-  describe('when a child prop is passed into it', () => {
-    let instance;
-
-    beforeEach(() => {
-      instance = domRender(
-        <EmbedWrapper><MockChildComponent /></EmbedWrapper>
+  describe('render', () => {
+    it('adds a <style> block to the iframe document', () => {
+      const instance = domRender(
+        <EmbedWrapper
+          childFn={noop}
+          baseCSS='.base-css-file {}' />
       );
+      const styleBlock = ReactDOM.findDOMNode(instance).getElementsByTagName('style')[0];
+
+      expect(styleBlock.innerHTML)
+        .toContain('.base-css-file {}');
     });
 
-    it('renders the child in the wrapper', () => {
-      expect(instance.embed.firstChild.className)
-        .toBe('mock-component');
+    describe('when a child prop is passed into it', () => {
+      let instance;
+
+      beforeEach(() => {
+        instance = domRender(
+          <EmbedWrapper><MockChildComponent /></EmbedWrapper>
+        );
+      });
+
+      it('renders the child in the wrapper', () => {
+        expect(instance.embed.firstChild.className)
+          .toBe('mock-component');
+      });
+
+      it('adds a rootComponent ref to that child', () => {
+        expect(instance.refs.rootComponent)
+          .toBeDefined();
+      });
     });
 
-    it('adds a rootComponent ref to that child', () => {
-      expect(instance.refs.rootComponent)
-        .toBeDefined();
-    });
-  });
+    describe('when a childFn prop is passed into it', () => {
+      let instance;
 
-  describe('when a childFn prop is passed into it', () => {
-    let instance;
+      beforeEach(() => {
+        instance = domRender(
+          <EmbedWrapper childFn={() => <MockChildComponent />} />
+        );
+      });
 
-    beforeEach(() => {
-      instance = domRender(
-        <EmbedWrapper childFn={() => <MockChildComponent />} />
-      );
-    });
+      it('renders the childFn in the wrapper', () => {
+        expect(instance.embed.firstChild.className)
+          .toBe('mock-component');
+      });
 
-    it('renders the childFn in the wrapper', () => {
-      expect(instance.embed.firstChild.className)
-        .toBe('mock-component');
-    });
-
-    it('does not add a rootComponent ref to that child', () => {
-      expect(instance.refs.rootComponent)
-        .toBeUndefined();
+      it('does not add a rootComponent ref to that child', () => {
+        expect(instance.refs.rootComponent)
+          .toBeUndefined();
+      });
     });
   });
 });

@@ -169,6 +169,66 @@ describe('Frame', () => {
     });
   });
 
+  describe('updateFrameLocale', () => {
+    let frame,
+      documentElem;
+
+    describe('when frame child exists', () => {
+      beforeEach(() => {
+        frame = domRender(<Frame>{mockChild}</Frame>);
+        spyOn(frame.getChild(), 'forceUpdate');
+        frame.updateFrameLocale();
+      });
+
+      it('should call forceUpdate', () => {
+        expect(frame.getChild().forceUpdate)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the locale is RTL', () => {
+      beforeEach(() => {
+        mockIsRTLValue = true;
+        mockLocaleValue = 'ar';
+
+        frame = domRender(<Frame>{mockChild}</Frame>);
+        frame.updateFrameLocale();
+        documentElem = frame.getContentDocument().documentElement;
+      });
+
+      it('should update html lang attribute', () => {
+        expect(documentElem.lang)
+          .toEqual(mockLocaleValue);
+      });
+
+      it('should update html dir attribute to rtl', () => {
+        expect(documentElem.dir)
+          .toEqual('rtl');
+      });
+    });
+
+    describe('when the locale is LTR', () => {
+      beforeEach(() => {
+        mockIsRTLValue = false;
+        mockLocaleValue = 'en-GB';
+
+        frame = domRender(<Frame>{mockChild}</Frame>);
+        frame.updateFrameLocale();
+        documentElem = frame.getContentDocument().documentElement;
+      });
+
+      it('should update html lang attribute', () => {
+        expect(documentElem.lang)
+          .toEqual(mockLocaleValue);
+      });
+
+      it('should update html dir attribute to ltr', () => {
+        expect(documentElem.dir)
+          .toEqual('ltr');
+      });
+    });
+  });
+
   describe('updateFrameSize', () => {
     let frame, dimensions;
     const mockObject = {
