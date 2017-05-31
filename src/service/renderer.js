@@ -165,7 +165,7 @@ function initMediator(config) {
     const embedsAccessible = {
       submitTicket: !!embeds.ticketSubmissionForm,
       helpCenter: !!embeds.helpCenterForm,
-      channelChoice: settings.get('channelChoice'),
+      channelChoice: settings.get('contactOptions'),
       chat: !!embeds.zopimChat
     };
 
