@@ -599,7 +599,7 @@ function setUpChat(config, store) {
 }
 
 function setUpHelpCenter(config) {
-  const channelChoice = settings.get('channelChoice') && !settings.get('contactForm.suppress');
+  const channelChoice = settings.get('contactOptions') && !settings.get('contactForm.suppress');
   const viewMoreEnabled = !!settings.get('helpCenter.viewMore');
   const helpCenterConfigDefaults = {
     position: 'right',

@@ -6,8 +6,7 @@ import { objectDifference } from 'utility/utils';
 const optionWhitelist = {
   webWidget: [
     'authenticate',
-    'channelChoice',
-    'channelChoice',
+    'contactOptions',
     'chat.suppress',
     'color',
     'contactForm.attachments',
@@ -42,7 +41,7 @@ const optionWhitelist = {
   ]
 };
 const customizationsWhitelist = [
-  'channelChoice',
+  'contactOptions',
   'helpCenter.localeFallbacks'
 ];
 const webWidgetStoreDefaults = {
@@ -54,7 +53,7 @@ const webWidgetStoreDefaults = {
     tags: [],
     ticketForms: []
   },
-  channelChoice: false,
+  contactOptions: false,
   helpCenter: {
     originalArticleButton: true,
     localeFallbacks: [],

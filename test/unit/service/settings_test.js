@@ -24,7 +24,7 @@ describe('settings', () => {
         ticketForms: [],
         tags: []
       },
-      channelChoice: false,
+      contactOptions: false,
       expanded: false,
       helpCenter: {
         originalArticleButton: true,
@@ -86,9 +86,9 @@ describe('settings', () => {
           .toEqual(defaults.contactForm.ticketForms);
       });
 
-      it('has the correct value for channelChoice', () => {
-        expect(settings.get('channelChoice'))
-          .toEqual(defaults.channelChoice);
+      it('has the correct value for contactOptions', () => {
+        expect(settings.get('contactOptions'))
+          .toEqual(defaults.contactOptions);
       });
 
       it('has the correct value for expanded', () => {
@@ -170,7 +170,7 @@ describe('settings', () => {
           contactForm: {
             subject: true
           },
-          channelChoice: true,
+          contactOptions: true,
           helpCenter: {
             originalArticleButton: false,
             suppress: true,
@@ -216,8 +216,8 @@ describe('settings', () => {
         settings.init();
         settings.enableCustomizations();
       });
-      it('should return user setting for channelChoice', () => {
-        expect(settings.get('channelChoice'))
+      it('should return user setting for contactOptions', () => {
+        expect(settings.get('contactOptions'))
           .toBe(true);
       });
 
@@ -228,9 +228,9 @@ describe('settings', () => {
     });
 
     describe('when web widget customisations are disabled', () => {
-      it('should return default setting for channelChoice', () => {
-        expect(settings.get('channelChoice'))
-          .toBe(defaults.channelChoice);
+      it('should return default setting for contactOptions', () => {
+        expect(settings.get('contactOptions'))
+          .toBe(defaults.contactOptions);
       });
 
       it('should return user default for helpCenter.localeFallbacks', () => {
