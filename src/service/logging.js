@@ -9,7 +9,8 @@ let rollbar;
 let useRollbar;
 const errorMessageBlacklist = [
   'Access-Control-Allow-Origin',
-  'timeout of [0-9]+ms exceeded'
+  'timeout of [0-9]+ms exceeded',
+  '^(\(unknown\): )?(Script error).?$'
 ];
 const rollbarConfig =  {
   accessToken: '94eb0137fdc14471b21b34c5a04f9359',
