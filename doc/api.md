@@ -147,7 +147,7 @@ The method enhances the contextual help provided by the Web Widget.
 
 * `zE.setHelpCenterSuggestions({ search: 'search string' })` - Searches the Help Center for the specified search string. If results are found, displays the results as top suggestions when users click the Web Widget.
 
-* `zE.setHelpCenterSuggestions({ labels: ['label1'] })` -  For Professional and Enterprise customers who use Help Center labels, searches the Help Center for articles with the given labels. If results are found, displays the results as top suggestions when users click the Web Widget.
+* `zE.setHelpCenterSuggestions({ labels: ['label1'] })` -  For Guide Professional customers who use Help Center labels, searches the Help Center for articles with the given labels. If results are found, displays the results as top suggestions when users click the Web Widget.
 
 **Note**: If you pass both search strings and labels, the labels are ignored.
 
