@@ -74,9 +74,13 @@ To debug in tests, run the `test:debug` task: `npm run test:debug`. This task us
 ## Contribute
 All pull requests need two :+1:'s to be merged, *at least one from a Taipan team member*. Please also include a `/cc` to **@zendesk/taipan**. If a Taipan team member hasn't reviewed your PR in a reasonable amount of time, feel free to ping us on Slack in `#taipan-team` and do a group mention using `@taipan`.
 
-See the **STYLE.md** document for more information on code style.
+See [STYLE.md](https://github.com/zendesk/embeddable_framework/blob/master/STYLE.md) for more information on code style.
 
 *Note: There is a pull request template (PULL_REQUEST_TEMPLATE.md) for auto completing the description. If you have the Zendesk chrome dev tools installed this will cause a conflict so disable the dev tools before opening a PR.*
+
+## Deploying
+
+Please see our [Deploy guidelines](https://github.com/zendesk/embeddable_framework/blob/master/DEPLOY.md) for more information.
 
 ## Bugs
 Bugs are tracked in JIRA under the Customer Engagement project (`CE`) with the component *Web Widget*. Bugs should always have clear reproduction steps, some notion of urgency/scope and relevant references.
