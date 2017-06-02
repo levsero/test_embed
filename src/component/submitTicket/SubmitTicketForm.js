@@ -35,7 +35,6 @@ export class SubmitTicketForm extends Component {
     children: PropTypes.element.isRequired,
     customFields: PropTypes.array,
     disableAutoComplete: PropTypes.bool,
-    expanded: PropTypes.bool,
     frameHeight: PropTypes.number,
     formState: PropTypes.object,
     formTitleKey: PropTypes.string.isRequired,
@@ -55,7 +54,6 @@ export class SubmitTicketForm extends Component {
     children: <span />,
     customFields: [],
     disableAutoComplete: false,
-    expanded: false,
     frameHeight: 500,
     formState: {},
     fullscreen: false,
@@ -454,7 +452,6 @@ export class SubmitTicketForm extends Component {
         <ScrollContainer
           ref='scrollContainer'
           title={i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)}
-          contentExpanded={this.props.expanded}
           containerClasses={`${styles.container} ${containerClasses}`}
           footerContent={
             <ButtonGroup rtl={i18n.isRTL()}>

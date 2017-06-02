@@ -7,7 +7,6 @@ export class Container extends Component {
     card: PropTypes.bool,
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
-    expanded: PropTypes.bool,
     fullscreen: PropTypes.bool,
     onClick: PropTypes.func,
     onDragEnter: PropTypes.func,
@@ -17,7 +16,6 @@ export class Container extends Component {
   static defaultProps = {
     card: false,
     className: '',
-    expanded: false,
     fullscreen: false,
     onClick: () => {},
     onDragEnter: () => {},
@@ -29,8 +27,7 @@ export class Container extends Component {
       [`Container u-posRelative ${this.props.className}`]: true,
       'Container--popover': !this.props.fullscreen,
       'Container--fullscreen': this.props.fullscreen,
-      'Container--card': this.props.card,
-      'Container--expanded u-marginVM': this.props.expanded && !this.props.fullscreen
+      'Container--card': this.props.card
     });
 
     return (

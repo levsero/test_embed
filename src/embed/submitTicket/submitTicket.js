@@ -69,7 +69,6 @@ function create(name, config, reduxStore) {
     customFields: [],
     hideZendeskLogo: false,
     formTitleKey: 'message',
-    expandable: false,
     attachmentsEnabled: false,
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024, // 5 MB
@@ -226,7 +225,6 @@ function create(name, config, reduxStore) {
       css: submitTicketCSS + generateUserCSS(config.color),
       position: config.position,
       fullscreenable: true,
-      expandable: config.expandable,
       transitions: {
         upClose: transitionFactory.webWidget.upHide(),
         downClose: transitionFactory.webWidget.downHide(),

@@ -82,24 +82,23 @@ class Chat extends Component {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     const { chat } = this.props;
+    const chatBox = (
+      <ChatBox
+        currentMessage={chat.currentMessage}
+        sendMsg={this.props.sendMsg}
+        updateCurrentMsg={this.props.updateCurrentMsg} />);
 
     return (
       <Container
         style={this.props.style}
-        position={this.props.position}
-        expanded={true}>
+        position={this.props.position}>
         <ScrollContainer
           title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
           headerContent={<ChatHeader agents={chat.agents} endChat={this.props.endChat} />}
           headerClasses={styles.header}
           contentClasses={styles.content}
           footerClasses={styles.footer}
-          footerContent={
-            <ChatBox
-              currentMessage={chat.currentMessage}
-              sendMsg={this.props.sendMsg}
-              updateCurrentMsg={this.props.updateCurrentMsg} />}
-          contentExpanded={true}>
+          footerContent={chatBox}>
           <div className={styles.messages}>
             {this.renderChatLog()}
             {this.renderChatEnded()}

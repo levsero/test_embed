@@ -247,7 +247,6 @@ describe('renderer', () => {
           visible: true,
           hideZendeskLogo: undefined,
           disableAutoComplete: undefined,
-          expandable: undefined,
           brand: undefined
         }, jasmine.any(Object));
 

@@ -134,7 +134,6 @@ function create(name, config = {}, reduxStore = {}) {
   const configDefaults = {
     position: 'right',
     hideZendeskLogo: false,
-    expandable: false,
     color: '#659700'
   };
   const helpCenterAvailable = !!config.helpCenterForm;
@@ -170,8 +169,6 @@ function create(name, config = {}, reduxStore = {}) {
     css: webWidgetCSS + generateUserCSS(globalConfig.color),
     position: globalConfig.position,
     fullscreenable: true,
-    expandable: true,
-    expanded: true,
     transitions: {
       upClose: transitionFactory.webWidget.upHide(),
       downClose: transitionFactory.webWidget.downHide(),
@@ -451,7 +448,6 @@ function setUpSubmitTicket(config) {
     customFields: [],
     hideZendeskLogo: false,
     formTitleKey: 'message',
-    expandable: false,
     attachmentsEnabled: false,
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024, // 5 MB
@@ -608,7 +604,6 @@ function setUpHelpCenter(config) {
     formTitleKey: 'help',
     hideZendeskLogo: false,
     signInRequired: false,
-    expandable: false,
     disableAutoComplete: false,
     enableMouseDrivenContextualHelp: false,
     color: '#659700'

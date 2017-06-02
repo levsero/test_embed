@@ -11,7 +11,6 @@ describe('frameFactory', function() {
     mockClickBusterRegister;
 
   const frameFactoryPath = buildSrcPath('embed/frameFactory');
-  const expandSpy = jasmine.createSpy('expand');
 
   class MockEmbedWrapper extends Component {
     render() {
@@ -26,7 +25,6 @@ describe('frameFactory', function() {
   MockChildComponent = class extends Component {
     constructor(props) {
       super(props);
-      this.expand = expandSpy;
       this.onClick = props.onClickHandler;
       this.onSubmit = props.onSubmitHandler;
       this.updateFrameSize = props.updateFrameSize;
@@ -326,24 +324,6 @@ describe('frameFactory', function() {
       expect(frameContainerStyle.zIndex)
         .toEqual('100');
     });
-
-    it('sets the height to 100% if the widget is expandable and expanded is true', () => {
-      const Embed = frameFactory(mockChildFn, {
-        expandable: true
-      });
-      const instance = domRender(<Embed />);
-      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
-      const frameContainerStyle = frameContainer.style;
-
-      instance.expand({ preventDefault: noop });
-
-      jasmine.clock().install();
-      instance.updateFrameSize();
-      jasmine.clock().tick(10);
-
-      expect(frameContainerStyle.height)
-        .toEqual('100%');
-    });
   });
 
   describe('updateFrameSize fullWidth behaviour', () => {
@@ -436,34 +416,6 @@ describe('frameFactory', function() {
 
       expect(mockOnShow)
         .toHaveBeenCalled();
-    });
-
-    describe('when expandable is true', () => {
-      beforeEach(() => {
-        mockFrameParams.expandable = true;
-
-        const Embed = frameFactory(mockChildFn, mockFrameParams);
-
-        instance = domRender(<Embed />);
-        instance.show();
-      });
-
-      describe('when in a non expanded state', () => {
-        it('should call expand with false on the root component', () => {
-          expect(expandSpy)
-            .toHaveBeenCalledWith(false);
-        });
-      });
-
-      describe('when in a expanded state', () => {
-        it('should call expand with true on the root component', () => {
-          instance.expand({ preventDefault: noop });
-          instance.show();
-
-          expect(expandSpy)
-            .toHaveBeenCalledWith(true);
-        });
-      });
     });
 
     describe('without animation', function() {

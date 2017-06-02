@@ -27,7 +27,6 @@ export class SubmitTicket extends Component {
     attachmentsEnabled: PropTypes.bool,
     attachmentSender: PropTypes.func.isRequired,
     disableAutoComplete: PropTypes.bool,
-    expanded: PropTypes.bool,
     formTitleKey: PropTypes.string.isRequired,
     hideZendeskLogo: PropTypes.bool,
     maxFileCount: PropTypes.number,
@@ -50,7 +49,6 @@ export class SubmitTicket extends Component {
   static defaultProps = {
     attachmentsEnabled: false,
     disableAutoComplete: false,
-    expanded: false,
     hideZendeskLogo: false,
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024,
@@ -72,7 +70,6 @@ export class SubmitTicket extends Component {
 
     this.state = {
       errorMessage: null,
-      expanded: props.expanded,
       formState: {},
       formTitleKey: props.formTitleKey,
       fullscreen: isMobileBrowser(),
@@ -106,10 +103,6 @@ export class SubmitTicket extends Component {
 
   setLoading = (loading) => {
     this.setState({ loading });
-  }
-
-  expand = (expanded) => {
-    this.setState({ expanded });
   }
 
   setFormState = (formState) => {
@@ -336,7 +329,6 @@ export class SubmitTicket extends Component {
       <ScrollContainer
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         fullscreen={this.state.fullscreen}
-        contentExpanded={this.state.expanded}
         containerClasses={styles.ticketFormsContainer}>
         <div className={`${styles.loadingSpinner} ${spinnerIEClasses}`}>
           <LoadingSpinner />
@@ -362,7 +354,6 @@ export class SubmitTicket extends Component {
         onCancel={this.props.onCancel}
         fullscreen={this.state.fullscreen}
         hide={this.state.showNotification}
-        expanded={this.state.expanded}
         customFields={this.state.ticketFields}
         disableAutoComplete={this.props.disableAutoComplete}
         formTitleKey={this.state.formTitleKey}
@@ -427,7 +418,6 @@ export class SubmitTicket extends Component {
       <ScrollContainer
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         ref='ticketFormSelector'
-        contentExpanded={this.state.expanded}
         fullscreen={fullscreen}
         scrollShadowVisible={!fullscreen}
         containerClasses={containerClasses}
@@ -478,7 +468,6 @@ export class SubmitTicket extends Component {
         fullscreen={this.state.fullscreen}
         position={this.props.position}
         onDragEnter={this.handleDragEnter}
-        expanded={this.state.expanded}
         key={this.state.uid}>
         {this.renderAttachmentBox()}
         {this.renderNotifications()}

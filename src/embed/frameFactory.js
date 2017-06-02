@@ -23,9 +23,6 @@ const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
 const sizingRatio = 12 * getZoomSizingRatio(false, true);
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
-const expandedSetting = settings.get('expanded');
-
-let expanded = expandedSetting;
 
 function validateChildFn(childFn, params) {
   if (!_.isFunction(childFn)) {
@@ -218,10 +215,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
 
       const dimensions = getDimensions();
 
-      if (expanded && params.expandable || params.expanded) {
-        dimensions.height = '100%';
-      }
-
       frameWin.setTimeout(() => this.setState({ iframeDimensions: dimensions }), 0);
       return dimensions;
     }
@@ -240,12 +233,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       const animateTo = _.extend({}, this.state.frameStyle, transition.end);
 
       this.setState({ visible: true, frameStyle: animateFrom });
-
-      if (expanded && params.expandable) {
-        this.getRootComponent().expand(true);
-      } else if (params.expandable) {
-        this.getRootComponent().expand(false);
-      }
 
       setTimeout(() => {
         const existingStyle = frameFirstChild.style;
@@ -298,13 +285,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
     back = (ev) => {
       ev.preventDefault();
       params.onBack(this);
-    }
-
-    expand = (e) => {
-      e.preventDefault();
-
-      expanded = !expanded;
-      this.getRootComponent().expand(expanded);
     }
 
     setHiddenByZoom = (hide) => {
@@ -400,8 +380,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
           reduxStore={reduxStore}
           handleBackClick={this.back}
           handleCloseClick={this.close}
-          handleExpandClick={this.expand}
-          showExpandButton={params.expandable && !expandedSetting}
           hideCloseButton={params.hideCloseButton}
           childFn={childFn}
           childParams={childParams}

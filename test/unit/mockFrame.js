@@ -23,7 +23,6 @@ export class MockFrame extends Component {
     super();
     this.show = noop;
     this.hide = noop;
-    this.expand = noop;
     this.setHighlightColor = noop;
     this.setButtonColor = noop;
     this.updateFrameSize = noop;

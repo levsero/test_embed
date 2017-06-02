@@ -1,7 +1,6 @@
 const mockFrameMethods = {
   show: jasmine.createSpy('mockFrameShow'),
   hide: jasmine.createSpy('mockFrameHide'),
-  expand: jasmine.createSpy('mockFrameExpand'),
   setHighlightColor: jasmine.createSpy('setHighlightColor'),
   setButtonColor: jasmine.createSpy('setButtonColor'),
   reRenderCloseButton: jasmine.createSpy('mockReRenderCloseButton'),
@@ -42,7 +41,6 @@ const mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
       _.extend({
         show: mockFrameMethods.show,
         hide: mockFrameMethods.hide,
-        expand: mockFrameMethods.expand,
         setHighlightColor: mockFrameMethods.setHighlightColor,
         setButtonColor: mockFrameMethods.setButtonColor,
         updateFrameSize: mockFrameMethods.updateFrameSize,

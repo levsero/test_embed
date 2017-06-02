@@ -19,7 +19,6 @@ export class HelpCenter extends Component {
     channelChoice: PropTypes.bool,
     contextualSearchSender: PropTypes.func.isRequired,
     disableAutoComplete: PropTypes.bool,
-    expanded: PropTypes.bool,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
@@ -43,7 +42,6 @@ export class HelpCenter extends Component {
     buttonLabelKey: 'message',
     channelChoice: false,
     disableAutoComplete: false,
-    expanded: false,
     formTitleKey: 'help',
     hideZendeskLogo: false,
     localeFallbacks: [],
@@ -67,7 +65,6 @@ export class HelpCenter extends Component {
       articles: [],
       articleViewActive: false,
       chatOnline: false,
-      expanded: props.expanded,
       hasContextualSearched: false,
       hasSearched: false,
       loadingSpinnerActive: false,
@@ -114,10 +111,6 @@ export class HelpCenter extends Component {
       searchFailed: false,
       searchResultClicked: false
     }, state);
-  }
-
-  expand = (expanded) => {
-    this.setState({ expanded });
   }
 
   setArticleView = (articleViewActive) => {
@@ -458,7 +451,6 @@ export class HelpCenter extends Component {
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
         buttonLabel={buttonLabel}
-        expanded={this.state.expanded}
         formTitleKey={this.props.formTitleKey}
         searchFieldValue={this.state.searchFieldValue}
         shadowVisible={shadowVisible}
@@ -512,7 +504,6 @@ export class HelpCenter extends Component {
       <Container
         style={this.props.style}
         onClick={this.onContainerClick}
-        expanded={this.state.expanded}
         fullscreen={this.props.fullscreen}>
         {helpCenter}
       </Container>

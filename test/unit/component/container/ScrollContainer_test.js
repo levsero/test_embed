@@ -15,7 +15,6 @@ describe('ScrollContainer component', () => {
           footer: 'footerClasses',
           footerShadow: 'footerShadowClasses',
           content: 'contentClasses',
-          expanded: 'expandedClasses',
           contentBigheader: 'contentBigheaderClasses'
         }
       }
@@ -89,13 +88,6 @@ describe('ScrollContainer component', () => {
 
     expect(ReactDOM.findDOMNode(container).querySelector('.footerClasses').className)
       .toContain('footerShadowClasses');
-  });
-
-  it('should contain expanded classes when `contentExpanded` prop is true', () => {
-    const container = domRender(<ScrollContainer contentExpanded={true} />);
-
-    expect(ReactDOM.findDOMNode(container).querySelector('.contentClasses').className)
-      .toContain('expandedClasses');
   });
 
   describe('props', () => {
