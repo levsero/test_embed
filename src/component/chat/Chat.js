@@ -82,6 +82,11 @@ class Chat extends Component {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     const { chat } = this.props;
+    const chatBox = (
+      <ChatBox
+        currentMessage={chat.currentMessage}
+        sendMsg={this.props.sendMsg}
+        updateCurrentMsg={this.props.updateCurrentMsg} />);
 
     return (
       <Container
@@ -93,11 +98,7 @@ class Chat extends Component {
           headerClasses={styles.header}
           contentClasses={styles.content}
           footerClasses={styles.footer}
-          footerContent={
-            <ChatBox
-              currentMessage={chat.currentMessage}
-              sendMsg={this.props.sendMsg}
-              updateCurrentMsg={this.props.updateCurrentMsg} />}>
+          footerContent={chatBox}>
           <div className={styles.messages}>
             {this.renderChatLog()}
             {this.renderChatEnded()}
