@@ -272,9 +272,7 @@ class WebWidget extends Component {
   }
 
   renderChannelChoice = () => {
-    const classes = classNames({
-      'u-isHidden': this.props.activeEmbed !== channelChoice
-    });
+    if (this.props.activeEmbed !== channelChoice) return null;
 
     return (
       <div className={classes}>

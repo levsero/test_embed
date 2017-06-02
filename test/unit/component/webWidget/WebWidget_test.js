@@ -1,4 +1,4 @@
-fdescribe('WebWidget component', () => {
+describe('WebWidget component', () => {
   let WebWidget,
     mockUpdateActiveEmbed;
   const setArticleViewSpy = jasmine.createSpy();

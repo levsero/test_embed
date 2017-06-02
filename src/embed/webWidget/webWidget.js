@@ -125,7 +125,6 @@ const afterShowAnimate = () => {
 };
 const onClose = () => {
   mediator.channel.broadcast('webWidget.onClose');
-  getWebWidgetComponent().onClose();
 };
 
 function create(name, config = {}, reduxStore = {}) {
@@ -555,8 +554,10 @@ function setUpSubmitTicket(config) {
   } else {
     setTimeout(() => {
       waitForRootComponent(() => {
-        if (getRootComponent().updateContactForm) {
-          getWebWidgetComponent().getSubmitTicketComponent().updateContactForm();
+        const submitTicketForm = getWebWidgetComponent().getSubmitTicketComponent();
+
+        if (submitTicketForm) {
+          submitTicketForm.updateContactForm();
         }
       });
     }, 0);
