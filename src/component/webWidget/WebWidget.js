@@ -275,12 +275,10 @@ class WebWidget extends Component {
     if (this.props.activeEmbed !== channelChoice) return null;
 
     return (
-      <div className={classes}>
-        <ChannelChoice
-          ref={channelChoice}
-          style={this.props.style}
-          onNextClick={this.setComponent}/>
-      </div>
+      <ChannelChoice
+        ref={channelChoice}
+        style={this.props.style}
+        onNextClick={this.setComponent}/>
     );
   }
 
