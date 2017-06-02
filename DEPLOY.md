@@ -44,6 +44,8 @@ In order to deploy changes to staging or production once a PR is merged, you wil
 
 This stage will perform a production build of embeddable framework producing a number of static javascript files. These files will then be uploaded to an S3 bucket in a directory named after the release (`V<release_num>`). This allows us to perform the slow build portion of deployment once for each release, and then deploy to staging or production hosts very quickly by simply copying static assets. If a roll-back is required, we can target an earlier release and very quickly deploy it to production.
 
+You can view the contents of the bucket at https://console.aws.amazon.com/s3/buckets/zendesk-embeddable-framework/?region=us-west-1&tab=overview. Note that you will need DevOps privileges to access the bucket via the aws console.
+
 ### Master
 
 Once a release is deployed to `Release Bucket`, it will automatically be deployed to `Master (from Release Bucket)` by Samson.
