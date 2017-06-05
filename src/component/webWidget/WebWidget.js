@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import Chat from 'component/chat/Chat';
+import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
 import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
@@ -13,6 +14,7 @@ import { updateActiveEmbed,
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
 const chat = 'chat';
+const channelChoice = 'channelChoice';
 
 const mapStateToProps = (state) => {
   return {
@@ -89,25 +91,19 @@ class WebWidget extends Component {
     this.props.updateActiveEmbed(activeComponent);
   }
 
-  getActiveComponent = () => {
-    return this.props.activeEmbed;
-  }
+  getActiveComponent = () => this.props.activeEmbed;
 
-  getRootComponent = () => {
-    return this.refs[this.props.activeEmbed];
-  }
+  getRootComponent = () => this.refs[this.props.activeEmbed];
 
-  getSubmitTicketComponent = () => {
-    return this.refs[submitTicket];
-  }
+  getSubmitTicketComponent = () => this.refs[submitTicket];
 
-  getChatComponent = () => {
-    return this.refs[chat].refs.wrappedInstance;
-  }
+  getChatComponent = () => this.refs[chat].refs.wrappedInstance;
 
-  getHelpCenterComponent = () => {
-    return this.refs[helpCenter];
-  }
+  getHelpCenterComponent = () => this.refs[helpCenter];
+
+  channelChoiceAvailable = () => this.props.channelChoice && this.chatOnline() && this.props.submitTicketAvailable;
+
+  chatOnline = () => this.props.chat.account_status === 'online';
 
   show = (viaActivate = false) => {
     const {
@@ -120,7 +116,9 @@ class WebWidget extends Component {
 
     if (helpCenterAvailable) {
       updateActiveEmbed(helpCenter);
-    } else if (this.props.chat.account_status === 'online') {
+    } else if (this.channelChoiceAvailable()) {
+      updateActiveEmbed(channelChoice);
+    } else if (this.chatOnline()) {
       updateActiveEmbed(chat);
     } else {
       updateActiveEmbed(submitTicket);
@@ -139,7 +137,7 @@ class WebWidget extends Component {
   onNextClick = () => {
     const { showBackButton, updateActiveEmbed } = this.props;
 
-    if (this.props.chat.account_status === 'online') {
+    if (this.chatOnline()) {
       updateActiveEmbed(chat);
       // TODO: track chat started
       showBackButton(true);
@@ -150,10 +148,13 @@ class WebWidget extends Component {
   }
 
   onCancelClick = () => {
-    const { helpCenterAvailable, onCancel } = this.props;
+    const { helpCenterAvailable, updateActiveEmbed, onCancel, showBackButton } = this.props;
 
     if (helpCenterAvailable) {
       this.showHelpCenter();
+    } else if (this.channelChoiceAvailable()) {
+      updateActiveEmbed(channelChoice);
+      showBackButton(false);
     } else {
       onCancel();
     }
@@ -258,6 +259,17 @@ class WebWidget extends Component {
     );
   }
 
+  renderChannelChoice = () => {
+    if (this.props.activeEmbed !== channelChoice) return null;
+
+    return (
+      <ChannelChoice
+        ref={channelChoice}
+        style={this.props.style}
+        onNextClick={this.setComponent}/>
+    );
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
@@ -266,6 +278,7 @@ class WebWidget extends Component {
         {this.renderSubmitTicket()}
         {this.renderChat()}
         {this.renderHelpCenter()}
+        {this.renderChannelChoice()}
       </div>
     );
   }

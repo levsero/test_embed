@@ -554,8 +554,10 @@ function setUpSubmitTicket(config) {
   } else {
     setTimeout(() => {
       waitForRootComponent(() => {
-        if (getRootComponent().updateContactForm) {
-          getWebWidgetComponent().getSubmitTicketComponent().updateContactForm();
+        const submitTicketForm = getWebWidgetComponent().getSubmitTicketComponent();
+
+        if (submitTicketForm) {
+          submitTicketForm.updateContactForm();
         }
       });
     }, 0);
