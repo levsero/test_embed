@@ -94,11 +94,17 @@ function init(config) {
       embedsMap.channelChoice.render('channelChoice');
     }
 
-    const singleIframe = config.singleIframe;
+    const { singleIframe, newChat } = config;
     let parsedConfig = parseConfig(config);
 
     if (singleIframe) {
-      const webWidgetEmbeds = ['ticketSubmissionForm', 'zopimChat', 'helpCenterForm'];
+      const webWidgetEmbeds = ['ticketSubmissionForm', 'helpCenterForm'];
+
+      // Only send chat to WebWidget if new chat is on. Otherwise use old one.
+      if (newChat) {
+        webWidgetEmbeds.push('zopimChat');
+      }
+
       const webWidgetConfig = _.chain(parsedConfig)
                                .pick(webWidgetEmbeds)
                                .mapValues('props')
@@ -114,7 +120,7 @@ function init(config) {
 
     _.forEach(parsedConfig, (configItem, embedName) => {
       try {
-        const zopimRendered = config.embeds.zopimChat && !singleIframe;
+        const zopimRendered = config.embeds.zopimChat && !newChat;
 
         reduxStore.dispatch(updateEmbedAccessible(embedName, true));
         configItem.props.visible = !hideLauncher && config.embeds && !zopimRendered;
