@@ -33,6 +33,8 @@ export class MockFrame extends Component {
     this.renderFrameContent();
   }
 
+  updateFrameLocale() {}
+
   getChild() {
     return this.child;
   }

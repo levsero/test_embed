@@ -248,11 +248,6 @@ describe('embed.launcher', () => {
           .toHaveBeenCalled();
       });
 
-      it('subscribes to <name>.refreshLocale', () => {
-        expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('alice.refreshLocale', jasmine.any(Function));
-      });
-
       it('should subscribe to <name>.setLabelHelp', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('alice.setLabelHelp', jasmine.any(Function));
@@ -290,6 +285,30 @@ describe('embed.launcher', () => {
 
         expect(aliceLauncher.setLabel)
           .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label', {});
+      });
+
+      describe('<name>.refreshLocale', () => {
+        beforeEach(() => {
+          spyOn(alice.instance, 'updateFrameLocale');
+          spyOn(aliceLauncher, 'forceUpdate');
+
+          pluckSubscribeCall(mockMediator, 'alice.refreshLocale')();
+        });
+
+        it('subscribes to <name>.refreshLocale', () => {
+          expect(mockMediator.channel.subscribe)
+            .toHaveBeenCalledWith('alice.refreshLocale', jasmine.any(Function));
+        });
+
+        it('should call setLabel', () => {
+          expect(alice.instance.updateFrameLocale)
+            .toHaveBeenCalled();
+        });
+
+        it('should call forceUpdate', () => {
+          expect(aliceLauncher.forceUpdate)
+            .toHaveBeenCalled();
+        });
       });
 
       describe('<name>.setLabelUnreadMsgs', () => {

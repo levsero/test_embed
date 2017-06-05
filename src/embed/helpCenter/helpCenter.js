@@ -343,9 +343,8 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.refreshLocale', () => {
-    get(name).instance.updateFrameLocale();
-
     waitForRootComponent(name, () => {
+      get(name).instance.updateFrameLocale();
       getRootComponent(name).forceUpdate();
     });
   });
