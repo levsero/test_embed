@@ -620,12 +620,16 @@ describe('embed.helpCenter', () => {
     });
 
     describe('mediator subscriptions', () => {
-      let mockMediator;
+      let mockMediator,
+        carlos,
+        carlosHelpCenter;
 
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
         helpCenter.create('carlos');
         helpCenter.render('carlos');
+        carlos = helpCenter.get('carlos');
+        carlosHelpCenter = carlos.instance.getChild().refs.rootComponent;
       });
 
       it('should subscribe to <name>.show', () => {
@@ -650,11 +654,6 @@ describe('embed.helpCenter', () => {
 
         expect(helpCenter.get('carlos').instance.hide.__reactBoundMethod)
           .toHaveBeenCalled();
-      });
-
-      it('subscribes to <name>.refreshLocale', () => {
-        expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('carlos.refreshLocale', jasmine.any(Function));
       });
 
       it('should subscribe to <name>.setNextToChat', () => {
@@ -724,6 +723,30 @@ describe('embed.helpCenter', () => {
             expect(helpCenter.keywordsSearch)
               .toHaveBeenCalledWith('carlos', { search: 'foo' });
           });
+        });
+      });
+
+      describe('<name>.refreshLocale', () => {
+        beforeEach(() => {
+          spyOn(carlos.instance, 'updateFrameLocale');
+          spyOn(carlosHelpCenter, 'forceUpdate');
+
+          pluckSubscribeCall(mockMediator, 'carlos.refreshLocale')();
+        });
+
+        it('subscribes to <name>.refreshLocale', () => {
+          expect(mockMediator.channel.subscribe)
+            .toHaveBeenCalledWith('carlos.refreshLocale', jasmine.any(Function));
+        });
+
+        it('should call updateFrameLocale', () => {
+          expect(carlos.instance.updateFrameLocale)
+            .toHaveBeenCalled();
+        });
+
+        it('should call forceUpdate', () => {
+          expect(carlosHelpCenter.forceUpdate)
+            .toHaveBeenCalled();
         });
       });
     });

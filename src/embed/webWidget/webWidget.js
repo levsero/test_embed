@@ -290,9 +290,8 @@ function setupMediator() {
   });
 
   mediator.channel.subscribe('helpCenterForm.refreshLocale', () => {
-    embed.instance.updateFrameLocale();
-
     waitForRootComponent(() => {
+      embed.instance.updateFrameLocale();
       embed.instance.getChild().forceUpdate();
     });
   });

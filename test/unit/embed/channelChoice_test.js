@@ -208,13 +208,15 @@ describe('embed.channelChoice', () => {
 
     describe('mediator subscription', () => {
       let mockMediator,
-        erin;
+        erin,
+        erinChannelChoice;
 
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
         channelChoice.create('erin');
         channelChoice.render('erin');
         erin = channelChoice.get('erin');
+        erinChannelChoice = erin.instance.getChild().refs.rootComponent;
       });
 
       it('should subscribe to <name>.show', () => {
@@ -237,9 +239,28 @@ describe('embed.channelChoice', () => {
           .toHaveBeenCalled();
       });
 
-      it('subscribes to <name>.refreshLocale', () => {
-        expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('erin.refreshLocale', jasmine.any(Function));
+      describe('<name>.refreshLocale', () => {
+        beforeEach(() => {
+          spyOn(erin.instance, 'updateFrameLocale');
+          spyOn(erinChannelChoice, 'forceUpdate');
+
+          pluckSubscribeCall(mockMediator, 'erin.refreshLocale')();
+        });
+
+        it('subscribes to <name>.refreshLocale', () => {
+          expect(mockMediator.channel.subscribe)
+            .toHaveBeenCalledWith('erin.refreshLocale', jasmine.any(Function));
+        });
+
+        it('should call updateFrameLocale', () => {
+          expect(erin.instance.updateFrameLocale)
+            .toHaveBeenCalled();
+        });
+
+        it('should call forceUpdate', () => {
+          expect(erinChannelChoice.forceUpdate)
+            .toHaveBeenCalled();
+        });
       });
     });
   });

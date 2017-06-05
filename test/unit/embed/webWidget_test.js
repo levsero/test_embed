@@ -895,14 +895,36 @@ describe('embed.webWidget', () => {
         .toHaveBeenCalledWith('ticketSubmissionForm.update', jasmine.any(Function));
     });
 
-    it('should subscribe to helpCenterForm.refreshLocale', () => {
-      expect(mockMediator.channel.subscribe)
-        .toHaveBeenCalledWith('helpCenterForm.refreshLocale', jasmine.any(Function));
-    });
-
     it('should subscribe to ticketSubmissionForm.refreshLocale', () => {
       expect(mockMediator.channel.subscribe)
         .toHaveBeenCalledWith('ticketSubmissionForm.refreshLocale', jasmine.any(Function));
+    });
+
+    describe('helpCenterForm.refreshLocale', () => {
+      let embed;
+
+      beforeEach(() => {
+        embed = webWidget.get(componentName);
+
+        spyOn(embed.instance, 'updateFrameLocale');
+        spyOn(embed.instance.getChild(), 'forceUpdate');
+        pluckSubscribeCall(mockMediator, 'helpCenterForm.refreshLocale')();
+      });
+
+      it('should subscribe to helpCenterForm.refreshLocale', () => {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('helpCenterForm.refreshLocale', jasmine.any(Function));
+      });
+
+      it('should call updateFrameLocale', () => {
+        expect(embed.instance.updateFrameLocale)
+          .toHaveBeenCalled();
+      });
+
+      it('should call HelpCenter.forceUpdate', () => {
+        expect(embed.instance.getChild().forceUpdate)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('when ticketSubmissionForm.refreshLocale is broadcast', () => {
@@ -918,6 +940,7 @@ describe('embed.webWidget', () => {
 
           embed.submitTicketSettings.loadTicketForms = jasmine.createSpy('loadTicketForms');
           embed.submitTicketSettings.loadTicketFields = jasmine.createSpy('loadTicketFields');
+          spyOn(embed.instance, 'updateFrameLocale');
           spyOn(embed.instance.getChild(), 'forceUpdate');
           pluckSubscribeCall(mockMediator, 'ticketSubmissionForm.refreshLocale')();
         });
@@ -925,6 +948,11 @@ describe('embed.webWidget', () => {
         it('should call loadTicketForms', () => {
           expect(embed.submitTicketSettings.loadTicketForms)
             .toHaveBeenCalledWith(ticketForms, 'fr');
+        });
+
+        it('should call updateFrameLocale', () => {
+          expect(embed.instance.updateFrameLocale)
+            .toHaveBeenCalled();
         });
 
         it('should call SubmitTicket.forceUpdate', () => {
