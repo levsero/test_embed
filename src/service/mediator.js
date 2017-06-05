@@ -514,6 +514,7 @@ function init(embedsAccessible, params = {}) {
   c.intercept(`${submitTicket}.onCancelClick`, () => {
     state[`${submitTicket}.isVisible`] = false;
     c.broadcast(`${submitTicket}.hide`, { transition: getHideAnimation() });
+    c.broadcast('webWidget.hide', { transition: getHideAnimation() });
 
     if (helpCenterAvailable()) {
       state[`${helpCenter}.isVisible`] = true;
