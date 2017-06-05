@@ -125,6 +125,7 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.refreshLocale', () => {
     waitForRootComponent(name, () => {
+      get(name).instance.updateFrameLocale();
       getRootComponent(name).forceUpdate();
     });
   });
