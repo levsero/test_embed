@@ -112,9 +112,11 @@ class WebWidget extends Component {
   }
 
   channelChoiceAvailable = () => {
-    const chatOnline = this.props.chat.account_status === 'online';
+    return this.props.channelChoice && this.chatOnline() && this.props.submitTicketAvailable;
+  }
 
-    return this.props.channelChoice && chatOnline && this.props.submitTicketAvailable;
+  chatOnline = () => {
+    return this.props.chat.account_status === 'online';
   }
 
   show = (viaActivate = false) => {
@@ -130,7 +132,7 @@ class WebWidget extends Component {
       updateActiveEmbed(helpCenter);
     } else if (this.channelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
-    } else if (this.props.chat.account_status === 'online') {
+    } else if (this.chatOnline()) {
       updateActiveEmbed(chat);
     } else {
       updateActiveEmbed(submitTicket);
@@ -149,7 +151,7 @@ class WebWidget extends Component {
   onNextClick = () => {
     const { showBackButton, updateActiveEmbed } = this.props;
 
-    if (this.props.chat.account_status === 'online') {
+    if (this.chatOnline()) {
       updateActiveEmbed(chat);
       // TODO: track chat started
       showBackButton(true);
