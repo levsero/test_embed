@@ -47,6 +47,90 @@ describe('logging', () => {
     mockery.disable();
   });
 
+  describe('errorMessageBlacklist', () => {
+    let patternList;
+
+    const accessControl = {
+      name: 'Access-Control-Allow-Origin',
+      pattern: /Access-Control-Allow-Origin/,
+      validMatches: ['Access-Control-Allow-Origin'],
+      invalidMatches: [
+        'access-control-allow-origin',
+        123
+      ]
+    };
+    const timeoutExceeded = {
+      name: 'timeout of [0-9]+ms exceeded',
+      pattern: /timeout of [0-9]+ms exceeded/,
+      validMatches: [
+        'timeout of 312ms exceeded',
+        'timeout of 901ms exceeded'
+      ],
+      invalidMatches: [
+        'timeout of ms exceeded',
+        'timeout of -1ms exceeded'
+      ]
+    };
+    const scriptError = {
+      name: '^(\(unknown\): )?(Script error).?$',
+      pattern: /^(\(unknown\): )?(Script error).?$/,
+      validMatches: [
+        '(unknown): Script error',
+        '(unknown): Script error.',
+        'Script error.',
+        'Script error'
+      ],
+      invalidMatches: [
+        '(unknown): ',
+        '(unknown): .',
+        'script error'
+      ]
+    };
+    const subjects = [accessControl, timeoutExceeded, scriptError];
+
+    const patternExistSpec = (patternName) => {
+      it('should exist in pattern list', () => {
+        expect(patternList.indexOf(patternName))
+          .not.toEqual(-1);
+      });
+    };
+    const patternValidatorSpec = (pattern, strings, expectation) => {
+      const validatorType = expectation ? 'valid' : 'invalid';
+
+      it(`should test ${expectation} for all ${validatorType} strings`, () => {
+        const regExpObj = new RegExp(pattern);
+
+        _.forEach(strings, (string) => {
+          expect(regExpObj.test(string))
+            .toEqual(expectation);
+        });
+      });
+    };
+    const suiteIteratorFn = (subject) => {
+      describe(`${subject.name}`, () => {
+        patternExistSpec(subject.name);
+        patternValidatorSpec(subject.pattern, subject.validMatches, true);
+        patternValidatorSpec(subject.pattern, subject.invalidMatches, false);
+      });
+    };
+    const testIteratorFn = (subjects) => {
+      beforeEach(() => {
+        patternList = logging.errorMessageBlacklist;
+      });
+
+      _.forEach(subjects, (subject) => {
+        suiteIteratorFn(subject);
+      });
+    };
+
+    it('should test at least 1 element', () => {
+      expect(_.size(subjects))
+        .toBeGreaterThan(0);
+    });
+
+    testIteratorFn(subjects);
+  });
+
   describe('#init', () => {
     describe('when useRollbar is true', () => {
       beforeEach(() => {

@@ -92,5 +92,8 @@ export const logging = {
   init,
   error,
   errorFilter,
-  warn
+  warn,
+
+  // Exported for testing
+  errorMessageBlacklist
 };
