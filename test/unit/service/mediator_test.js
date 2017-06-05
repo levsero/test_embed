@@ -1306,12 +1306,14 @@ describe('mediator', () => {
     const channelChoice = 'channelChoice';
     const chat = 'zopimChat';
     const helpCenter = 'helpCenterForm';
+    const webWidget = 'webWidget';
     const names = {
       launcher: launcher,
       submitTicket: submitTicket,
       channelChoice: channelChoice,
       chat: chat,
-      helpCenter: helpCenter
+      helpCenter: helpCenter,
+      webWidget: webWidget
     };
 
     beforeEach(() => {
@@ -1456,6 +1458,13 @@ describe('mediator', () => {
           c.broadcast(`${submitTicket}.onCancelClick`);
 
           expect(channelChoiceSub.show.calls.count())
+            .toEqual(1);
+        });
+
+        it('broadcasts webWidget.hide', () => {
+          c.broadcast(`${submitTicket}.onCancelClick`);
+
+          expect(webWidgetSub.hide.calls.count())
             .toEqual(1);
         });
       });
