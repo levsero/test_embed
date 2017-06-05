@@ -91,33 +91,19 @@ class WebWidget extends Component {
     this.props.updateActiveEmbed(activeComponent);
   }
 
-  getActiveComponent = () => {
-    return this.props.activeEmbed;
-  }
+  getActiveComponent = () => this.props.activeEmbed;
 
-  getRootComponent = () => {
-    return this.refs[this.props.activeEmbed];
-  }
+  getRootComponent = () => this.refs[this.props.activeEmbed];
 
-  getSubmitTicketComponent = () => {
-    return this.refs[submitTicket];
-  }
+  getSubmitTicketComponent = () => this.refs[submitTicket];
 
-  getChatComponent = () => {
-    return this.refs[chat].refs.wrappedInstance;
-  }
+  getChatComponent = () => this.refs[chat].refs.wrappedInstance;
 
-  getHelpCenterComponent = () => {
-    return this.refs[helpCenter];
-  }
+  getHelpCenterComponent = () => this.refs[helpCenter];
 
-  channelChoiceAvailable = () => {
-    return this.props.channelChoice && this.chatOnline() && this.props.submitTicketAvailable;
-  }
+  channelChoiceAvailable = () => this.props.channelChoice && this.chatOnline() && this.props.submitTicketAvailable;
 
-  chatOnline = () => {
-    return this.props.chat.account_status === 'online';
-  }
+  chatOnline = () => this.props.chat.account_status === 'online';
 
   show = (viaActivate = false) => {
     const {
