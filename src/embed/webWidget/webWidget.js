@@ -295,21 +295,12 @@ function setupMediator() {
   mediator.channel.subscribe('webWidget.zopimOnline', () => {
     waitForRootComponent(() => {
       getWebWidgetComponent().setState({ zopimOnline: true });
-      console.log(embed.instance.state);
-
-      if (!embed.instance.state.visible) {
-        getWebWidgetComponent().setComponent('');
-      }
     });
   });
 
   mediator.channel.subscribe('webWidget.zopimOffline', () => {
     waitForRootComponent(() => {
       getWebWidgetComponent().setState({ zopimOnline: false });
-
-      if (!embed.instance.state.visible) {
-        getWebWidgetComponent().setComponent('');
-      }
     });
   });
 
@@ -322,7 +313,9 @@ function setupMediator() {
 
   mediator.channel.subscribe('webWidget.zopimChatStarted', () => {
     waitForRootComponent(() => {
-      getWebWidgetComponent().setComponent('zopimChat');
+      if (!embed.instance.state.visible) {
+        getWebWidgetComponent().setComponent('zopimChat');
+      }
     });
   });
 

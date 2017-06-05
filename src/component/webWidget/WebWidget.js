@@ -125,14 +125,11 @@ class WebWidget extends Component {
     }
   }
 
-  show = (viaActivate = false) => {
+  resetActiveEmbed = () => {
     const {
-      activeEmbed,
       updateActiveEmbed,
       helpCenterAvailable,
       showBackButton } = this.props;
-
-    if (activeEmbed !== '' && !viaActivate) return;
 
     if (helpCenterAvailable) {
       updateActiveEmbed(helpCenter);
@@ -144,6 +141,25 @@ class WebWidget extends Component {
       updateActiveEmbed(submitTicket);
     }
     showBackButton(false);
+  }
+
+  show = (viaActivate = false) => {
+    const {
+      activeEmbed,
+      updateActiveEmbed } = this.props;
+
+    // If chat came online when contact form was open it should
+    // replace it when it's next opened.
+    if (activeEmbed === submitTicket && this.chatOnline()) {
+      updateActiveEmbed('');
+      this.showChat();
+      return;
+    }
+
+    // If zopim has gone offline we will need to reset
+    const chatGone = activeEmbed === oldChat && !this.chatOnline();
+
+    if (activeEmbed === '' || viaActivate || chatGone) this.resetActiveEmbed();
   }
 
   showHelpCenter = () => {
