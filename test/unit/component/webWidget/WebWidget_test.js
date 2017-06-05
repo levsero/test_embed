@@ -133,7 +133,7 @@ describe('WebWidget component', () => {
 
     describe('when helpCenter is available', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget helpCenterAvailable={true} />);
+        webWidget = instanceRender(<WebWidget helpCenterAvailable={true} />);
         spyOn(webWidget, 'showHelpCenter');
         webWidget.onCancelClick();
       });
@@ -147,7 +147,7 @@ describe('WebWidget component', () => {
     describe('when help center is not available', () => {
       describe('when channel choice is available', () => {
         beforeEach(() => {
-          webWidget = domRender(<WebWidget updateActiveEmbed={mockUpdateActiveEmbed} />);
+          webWidget = instanceRender(<WebWidget updateActiveEmbed={mockUpdateActiveEmbed} />);
 
           spyOn(webWidget, 'channelChoiceAvailable').and.returnValue(true);
           webWidget.onCancelClick();
@@ -164,7 +164,7 @@ describe('WebWidget component', () => {
 
         beforeEach(() => {
           onCancelSpy = jasmine.createSpy('onCancelSpy');
-          webWidget = domRender(<WebWidget onCancel={onCancelSpy} />);
+          webWidget = instanceRender(<WebWidget onCancel={onCancelSpy} />);
 
           spyOn(webWidget, 'channelChoiceAvailable').and.returnValue(false);
           webWidget.onCancelClick();
@@ -189,7 +189,7 @@ describe('WebWidget component', () => {
       beforeEach(() => {
         const chatProp = { account_status: 'online' }; // eslint-disable-line camelcase
 
-        webWidget = domRender(
+        webWidget = instanceRender(
           <WebWidget
             chat={chatProp}
             helpCenterAvailable={true}
@@ -214,7 +214,7 @@ describe('WebWidget component', () => {
       beforeEach(() => {
         const chatProp = { account_status: 'offline' }; // eslint-disable-line camelcase
 
-        webWidget = domRender(
+        webWidget = instanceRender(
           <WebWidget
             chat={chatProp}
             helpCenterAvailable={true}
@@ -426,7 +426,7 @@ describe('WebWidget component', () => {
       describe('when help center is not available', () => {
         describe('when channelChoice is available', () => {
           beforeEach(() => {
-            webWidget = domRender(
+            webWidget = instanceRender(
               <WebWidget
                 activeEmbed=''
                 chat={{ account_status: 'online' }} // eslint-disable-line camelcase
@@ -446,7 +446,7 @@ describe('WebWidget component', () => {
 
         describe('when chat is online', () => {
           beforeEach(() => {
-            webWidget = domRender(
+            webWidget = instanceRender(
               <WebWidget
                 activeEmbed=''
                 chat={{ account_status: 'online' }} // eslint-disable-line camelcase
