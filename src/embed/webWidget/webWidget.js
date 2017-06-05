@@ -126,6 +126,10 @@ const afterShowAnimate = () => {
 const onClose = () => {
   mediator.channel.broadcast('webWidget.onClose');
 };
+const onNextZopim = () => {
+  mediator.channel.broadcast('helpCenterForm.onNextClick'); // To go to Chat
+  hide();
+};
 
 function create(name, config = {}, reduxStore = {}) {
   let containerStyle;
@@ -202,6 +206,7 @@ function create(name, config = {}, reduxStore = {}) {
           localeFallbacks={settings.get('helpCenter.localeFallbacks')}
           onArticleClick={helpCenterSettings.onArticleClick}
           onCancel={submitTicketSettings.onCancel}
+          onNextZopim={onNextZopim}
           onSearch={helpCenterSettings.onSearch}
           onSubmitted={submitTicketSettings.onSubmitted}
           originalArticleButton={settings.get('helpCenter.originalArticleButton')}
@@ -249,6 +254,18 @@ function render() {
   setupMediator();
 }
 
+function hide(options) {
+  waitForRootComponent(() => {
+    const rootComponent = getRootComponent();
+
+    embed.instance.hide(options);
+
+    if (rootComponent && rootComponent.state.showNotification) {
+      rootComponent.clearNotification();
+    }
+  });
+}
+
 function setupMediator() {
   mediator.channel.subscribe('webWidget.show', (options = {}) => {
     waitForRootComponent(() => {
@@ -272,14 +289,40 @@ function setupMediator() {
   });
 
   mediator.channel.subscribe('webWidget.hide', (options = {}) => {
+    hide(options);
+  });
+
+  mediator.channel.subscribe('webWidget.zopimOnline', () => {
     waitForRootComponent(() => {
-      const rootComponent = getRootComponent();
+      getWebWidgetComponent().setState({ zopimOnline: true });
+      console.log(embed.instance.state);
 
-      embed.instance.hide(options);
-
-      if (rootComponent.state.showNotification) {
-        rootComponent.clearNotification();
+      if (!embed.instance.state.visible) {
+        getWebWidgetComponent().setComponent('');
       }
+    });
+  });
+
+  mediator.channel.subscribe('webWidget.zopimOffline', () => {
+    waitForRootComponent(() => {
+      getWebWidgetComponent().setState({ zopimOnline: false });
+
+      if (!embed.instance.state.visible) {
+        getWebWidgetComponent().setComponent('');
+      }
+    });
+  });
+
+  mediator.channel.subscribe('webWidget.zopimChatEnded', () => {
+    waitForRootComponent(() => {
+      // Reset the active component state
+      getWebWidgetComponent().setComponent('');
+    });
+  });
+
+  mediator.channel.subscribe('webWidget.zopimChatStarted', () => {
+    waitForRootComponent(() => {
+      getWebWidgetComponent().setComponent('zopimChat');
     });
   });
 

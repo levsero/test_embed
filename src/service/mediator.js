@@ -256,6 +256,8 @@ function init(embedsAccessible, params = {}) {
       return;
     }
 
+    c.broadcast('webWidget.zopimOnline');
+
     if (!submitTicketAvailable()) {
       c.broadcast(`${helpCenter}.showNextButton`, true);
     }
@@ -297,6 +299,8 @@ function init(embedsAccessible, params = {}) {
       if (state.activeEmbed === chat || state.activeEmbed === channelChoice) {
         resetActiveEmbed();
       }
+
+      c.broadcast('webWidget.zopimOffline');
 
       c.broadcast(`${launcher}.setLabelHelp`);
       c.broadcast(`${helpCenter}.setNextToSubmitTicket`);
@@ -346,6 +350,7 @@ function init(embedsAccessible, params = {}) {
       state.activeEmbed = chat;
       state[`${chat}.isVisible`] = true;
       c.broadcast(`${chat}.show`);
+      c.broadcast('webWidget.zopimChatStarted');
       state[`${chat}.isSuppressed`] = false;
       c.broadcast(`${launcher}.hide`);
     }
@@ -447,6 +452,8 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept(`${chat}.onChatEnd`, () => {
     state[`${chat}.chatEnded`] = true;
+
+    c.broadcast('webWidget.zopimChatEnded');
 
     if (state[`${helpCenter}.isAccessible`]) {
       state.activeEmbed = helpCenter;

@@ -14,6 +14,7 @@ import { updateActiveEmbed,
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
 const chat = 'chat';
+const oldChat = 'zopimChat';
 const channelChoice = 'channelChoice';
 
 const mapStateToProps = (state) => {
@@ -87,6 +88,13 @@ class WebWidget extends Component {
     updateFrameSize: () => {}
   };
 
+  constructor(props) {
+    super(props);
+
+    // temporary for old Zopim chat
+    this.state = { zopimOnline: false };
+  }
+
   setComponent = (activeComponent) => {
     this.props.updateActiveEmbed(activeComponent);
   }
@@ -103,7 +111,19 @@ class WebWidget extends Component {
 
   channelChoiceAvailable = () => this.props.channelChoice && this.chatOnline() && this.props.submitTicketAvailable;
 
-  chatOnline = () => this.props.chat.account_status === 'online';
+  chatOnline = () => this.props.chat.account_status === 'online' || this.state.zopimOnline;
+
+  showChat = () => {
+    // old zopim chat
+    if (this.state.zopimOnline) {
+      if (this.props.activeEmbed !== '') {
+        this.props.onNextZopim();
+      }
+      this.props.updateActiveEmbed(oldChat);
+    } else {
+      this.props.updateActiveEmbed(chat);
+    }
+  }
 
   show = (viaActivate = false) => {
     const {
@@ -119,7 +139,7 @@ class WebWidget extends Component {
     } else if (this.channelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
     } else if (this.chatOnline()) {
-      updateActiveEmbed(chat);
+      this.showChat();
     } else {
       updateActiveEmbed(submitTicket);
     }
@@ -138,9 +158,11 @@ class WebWidget extends Component {
     const { showBackButton, updateActiveEmbed } = this.props;
 
     if (this.chatOnline()) {
-      updateActiveEmbed(chat);
+      this.showChat();
       // TODO: track chat started
-      showBackButton(true);
+      if (!this.state.zopimOnline) {
+        showBackButton(true);
+      }
     } else {
       updateActiveEmbed(submitTicket);
       showBackButton(true);
@@ -200,6 +222,7 @@ class WebWidget extends Component {
       <div className={classes}>
         <HelpCenter
           ref={helpCenter}
+          chatOnline={this.chatOnline()}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}
           onArticleClick={this.props.onArticleClick}

@@ -17,6 +17,7 @@ export class HelpCenter extends Component {
   static propTypes = {
     buttonLabelKey: PropTypes.string,
     channelChoice: PropTypes.bool,
+    chatOnline: PropTypes.bool,
     contextualSearchSender: PropTypes.func.isRequired,
     disableAutoComplete: PropTypes.bool,
     formTitleKey: PropTypes.string,
@@ -41,6 +42,7 @@ export class HelpCenter extends Component {
   static defaultProps = {
     buttonLabelKey: 'message',
     channelChoice: false,
+    chatOnline: false,
     disableAutoComplete: false,
     formTitleKey: 'help',
     hideZendeskLogo: false,
@@ -435,6 +437,7 @@ export class HelpCenter extends Component {
   renderHelpCenterDesktop = (buttonLabel) => {
     const shadowVisible = this.state.articleViewActive ||
                           this.state.articles.length > minimumSearchResults;
+    const chatOnline = this.state.chatOnline || this.props.chatOnline;
 
     return (
       <HelpCenterDesktop
@@ -447,7 +450,7 @@ export class HelpCenter extends Component {
         disableAutoComplete={this.props.disableAutoComplete}
         isLoading={this.state.isLoading}
         onNextClick={this.props.onNextClick}
-        channelChoice={this.props.channelChoice && this.state.chatOnline}
+        channelChoice={this.props.channelChoice && chatOnline}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
         buttonLabel={buttonLabel}
@@ -470,7 +473,7 @@ export class HelpCenter extends Component {
         search={this.search}
         isLoading={this.state.isLoading}
         showNextButton={this.state.showNextButton}
-        chatOnline={this.state.chatOnline}
+        chatOnline={this.state.chatOnline || this.props.chatOnline}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
         searchFieldValue={this.state.searchFieldValue}
@@ -488,7 +491,7 @@ export class HelpCenter extends Component {
 
     if (this.props.channelChoice) {
       buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
-    } else if (this.state.chatOnline) {
+    } else if (this.state.chatOnline || this.props.chatOnline) {
       buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
     } else {
       buttonLabel = i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`); // eslint-disable-line
