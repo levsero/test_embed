@@ -136,6 +136,7 @@ function create(name, config = {}, reduxStore = {}) {
     hideZendeskLogo: false,
     color: '#659700'
   };
+  const channelChoice = settings.get('contactOptions') && !settings.get('contactForm.suppress');
   const helpCenterAvailable = !!config.helpCenterForm;
   const submitTicketAvailable = !!config.ticketSubmissionForm;
   const chatAvailable = !!config.zopimChat;
@@ -191,7 +192,7 @@ function create(name, config = {}, reduxStore = {}) {
         <WebWidget
           ref='rootComponent'
           attachmentSender={submitTicketSettings.attachmentSender}
-          channelChoice={helpCenterSettings.channelChoice}
+          channelChoice={channelChoice}
           contextualSearchSender={helpCenterSettings.contextualSearchSender}
           fullscreen={isMobileBrowser()}
           helpCenterAvailable={helpCenterAvailable}
@@ -597,7 +598,6 @@ function setUpChat(config, store) {
 }
 
 function setUpHelpCenter(config) {
-  const channelChoice = settings.get('contactOptions') && !settings.get('contactForm.suppress');
   const viewMoreEnabled = !!settings.get('helpCenter.viewMore');
   const helpCenterConfigDefaults = {
     position: 'right',
@@ -659,7 +659,6 @@ function setUpHelpCenter(config) {
     onSearch,
     searchSender,
     imagesSenderFn,
-    channelChoice,
     contextualSearchSender
   };
 }
