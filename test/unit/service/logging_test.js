@@ -51,8 +51,7 @@ describe('logging', () => {
     let patternList;
 
     const accessControl = {
-      name: 'Access-Control-Allow-Origin',
-      pattern: /Access-Control-Allow-Origin/,
+      pattern: 'Access-Control-Allow-Origin',
       validStrings: [
         'Access-Control-Allow-Origin',
         '\'Access-Control-Allow-Origin\' header is present on the requested resource. ' +
@@ -64,8 +63,7 @@ describe('logging', () => {
       ]
     };
     const timeoutExceeded = {
-      name: 'timeout of [0-9]+ms exceeded',
-      pattern: /timeout of [0-9]+ms exceeded/,
+      pattern: 'timeout of [0-9]+ms exceeded',
       validStrings: [
         'timeout of 312ms exceeded',
         'timeout of 9001ms exceeded',
@@ -77,7 +75,6 @@ describe('logging', () => {
       ]
     };
     const scriptError = {
-      name: '^(\(unknown\): )?(Script error).?$',
       pattern: /^(\(unknown\): )?(Script error).?$/,
       validStrings: [
         '(unknown): Script error',
@@ -93,9 +90,15 @@ describe('logging', () => {
     };
     const blacklistedErrors = [accessControl, timeoutExceeded, scriptError];
 
-    const patternExistSpec = (patternName) => {
+    const patternExistSpec = (pattern) => {
       it('should exist in pattern list', () => {
-        expect(patternList.indexOf(patternName))
+        const mapFn = (pattern) => pattern.toString();
+        const result = _.chain(patternList)
+                        .map(mapFn)
+                        .indexOf(pattern.toString())
+                        .value();
+
+        expect(result)
           .not.toEqual(-1);
       });
     };
@@ -120,10 +123,10 @@ describe('logging', () => {
     });
 
     blacklistedErrors.forEach((blacklistedError) => {
-      const { name, pattern, validStrings, invalidStrings } = blacklistedError;
+      const { pattern, validStrings, invalidStrings } = blacklistedError;
 
-      describe(name, () => {
-        patternExistSpec(name);
+      describe(pattern, () => {
+        patternExistSpec(pattern);
 
         describe('when error strings are valid', () => {
           patternValidatorSpec(pattern, validStrings, true);
