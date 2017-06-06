@@ -47,6 +47,95 @@ describe('logging', () => {
     mockery.disable();
   });
 
+  describe('errorMessageBlacklist', () => {
+    let patternList;
+
+    const accessControl = {
+      name: 'Access-Control-Allow-Origin',
+      pattern: /Access-Control-Allow-Origin/,
+      validStrings: [
+        'Access-Control-Allow-Origin',
+        '\'Access-Control-Allow-Origin\' header is present on the requested resource. ' +
+        'Origin \'foo.com\' is therefore not allowed access'
+      ],
+      invalidStrings: [
+        'access-control-allow-origin',
+        123
+      ]
+    };
+    const timeoutExceeded = {
+      name: 'timeout of [0-9]+ms exceeded',
+      pattern: /timeout of [0-9]+ms exceeded/,
+      validStrings: [
+        'timeout of 312ms exceeded',
+        'timeout of 9001ms exceeded',
+        'timeout of 1ms exceeded'
+      ],
+      invalidStrings: [
+        'timeout of ms exceeded',
+        'timeout of -1ms exceeded'
+      ]
+    };
+    const scriptError = {
+      name: '^(\(unknown\): )?(Script error).?$',
+      pattern: /^(\(unknown\): )?(Script error).?$/,
+      validStrings: [
+        '(unknown): Script error',
+        '(unknown): Script error.',
+        'Script error.',
+        'Script error'
+      ],
+      invalidStrings: [
+        '(unknown): ',
+        '(unknown): .',
+        'script error'
+      ]
+    };
+    const blacklistedErrors = [accessControl, timeoutExceeded, scriptError];
+
+    const patternExistSpec = (patternName) => {
+      it('should exist in pattern list', () => {
+        expect(patternList.indexOf(patternName))
+          .not.toEqual(-1);
+      });
+    };
+    const patternValidatorSpec = (pattern, strings, expectation = true) => {
+      const regexp = new RegExp(pattern);
+
+      strings.forEach((string) => {
+        it(`should return ${expectation}`, () => {
+          expect(regexp.test(string))
+            .toBe(expectation);
+        });
+      });
+    };
+
+    beforeEach(() => {
+      patternList = logging.errorMessageBlacklist;
+    });
+
+    it('should test at least 1 element', () => {
+      expect(_.size(blacklistedErrors))
+        .toBeGreaterThan(0);
+    });
+
+    blacklistedErrors.forEach((blacklistedError) => {
+      const { name, pattern, validStrings, invalidStrings } = blacklistedError;
+
+      describe(name, () => {
+        patternExistSpec(name);
+
+        describe('when error strings are valid', () => {
+          patternValidatorSpec(pattern, validStrings, true);
+        });
+
+        describe('when error strings are invalid', () => {
+          patternValidatorSpec(pattern, invalidStrings, false);
+        });
+      });
+    });
+  });
+
   describe('#init', () => {
     describe('when useRollbar is true', () => {
       beforeEach(() => {
