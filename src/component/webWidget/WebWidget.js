@@ -95,11 +95,9 @@ class WebWidget extends Component {
   };
 
   setComponent = (activeComponent) => {
-    if (activeComponent === chat) {
-      this.showChat();
-    } else {
-      this.props.updateActiveEmbed(activeComponent);
-    }
+    activeComponent === chat
+      ? this.showChat()
+      : this.props.updateActiveEmbed(activeComponent);
   }
 
   getActiveComponent = () => this.props.activeEmbed;
@@ -120,7 +118,7 @@ class WebWidget extends Component {
     const { activeEmbed, updateActiveEmbed, zopimOnline, zopimOnNext } = this.props;
 
     if (zopimOnline) {
-      if (activeEmbed === helpCenter || activeEmbed === channelChoice) zopimOnNext();
+      if (_.includes([helpCenter, channelChoice], activeEmbed)) zopimOnNext();
 
       updateActiveEmbed(zopimChat);
     } else {
