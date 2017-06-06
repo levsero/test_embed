@@ -25,6 +25,7 @@ import { isOnHelpCenterPage,
          isOnHostMappedDomain } from 'utility/pages';
 import { cappedIntervalCall,
          getPageKeywords } from 'utility/utils';
+import { updateZopimOnline } from 'src/redux/modules/base';
 
 import WebWidget from 'component/webWidget/WebWidget';
 import zChat from 'vendor/web-sdk';
@@ -126,8 +127,8 @@ const afterShowAnimate = () => {
 const onClose = () => {
   mediator.channel.broadcast('webWidget.onClose');
 };
-const onNextZopim = () => {
-  mediator.channel.broadcast('helpCenterForm.onNextClick'); // To go to Chat
+const zopimOnNext = () => {
+  mediator.channel.broadcast('helpCenterForm.onNextClick');
   hide();
 };
 
@@ -206,7 +207,6 @@ function create(name, config = {}, reduxStore = {}) {
           localeFallbacks={settings.get('helpCenter.localeFallbacks')}
           onArticleClick={helpCenterSettings.onArticleClick}
           onCancel={submitTicketSettings.onCancel}
-          onNextZopim={onNextZopim}
           onSearch={helpCenterSettings.onSearch}
           onSubmitted={submitTicketSettings.onSubmitted}
           originalArticleButton={settings.get('helpCenter.originalArticleButton')}
@@ -223,7 +223,8 @@ function create(name, config = {}, reduxStore = {}) {
           submitTicketSender={submitTicketSettings.submitTicketSender}
           updateFrameSize={params.updateFrameSize}
           viaId={settings.get('viaId')}
-          zendeskHost={transport.getZendeskHost()} />
+          zendeskHost={transport.getZendeskHost()}
+          zopimOnNext={zopimOnNext} />
       );
     },
     frameParams,
@@ -236,7 +237,8 @@ function create(name, config = {}, reduxStore = {}) {
     config: {
       helpCenterForm: helpCenterSettings.config,
       ticketSubmissionForm: submitTicketSettings.config
-    }
+    },
+    store: reduxStore
   };
 
   return this;
@@ -260,7 +262,7 @@ function hide(options) {
 
     embed.instance.hide(options);
 
-    if (rootComponent && rootComponent.state.showNotification) {
+    if (rootComponent && rootComponent.state && rootComponent.state.showNotification) {
       rootComponent.clearNotification();
     }
   });
@@ -294,13 +296,13 @@ function setupMediator() {
 
   mediator.channel.subscribe('webWidget.zopimOnline', () => {
     waitForRootComponent(() => {
-      getWebWidgetComponent().setState({ zopimOnline: true });
+      embed.store.dispatch(updateZopimOnline(true));
     });
   });
 
   mediator.channel.subscribe('webWidget.zopimOffline', () => {
     waitForRootComponent(() => {
-      getWebWidgetComponent().setState({ zopimOnline: false });
+      embed.store.dispatch(updateZopimOnline(false));
     });
   });
 

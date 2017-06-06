@@ -85,18 +85,17 @@ class WebWidget extends Component {
     tags: [],
     ticketFieldSettings: [],
     ticketFormSettings: [],
-    updateFrameSize: () => {}
+    updateFrameSize: () => {},
+    zopimOnline: false,
+    zopimOnNext: () => {}
   };
 
-  constructor(props) {
-    super(props);
-
-    // temporary for old Zopim chat
-    this.state = { zopimOnline: false };
-  }
-
   setComponent = (activeComponent) => {
-    this.props.updateActiveEmbed(activeComponent);
+    if (activeComponent === chat) {
+      this.showChat();
+    } else {
+      this.props.updateActiveEmbed(activeComponent);
+    }
   }
 
   getActiveComponent = () => this.props.activeEmbed;
