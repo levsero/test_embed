@@ -25,7 +25,8 @@ export class HelpCenterMobile extends Component {
     isLoading: PropTypes.bool,
     search: PropTypes.func.isRequired,
     searchFieldValue: PropTypes.string,
-    showNextButton: PropTypes.bool
+    showNextButton: PropTypes.bool,
+    channelChoice: PropTypes.bool
   };
 
   static defaultProps = {
@@ -36,7 +37,8 @@ export class HelpCenterMobile extends Component {
     hideZendeskLogo: false,
     isLoading: false,
     searchFieldValue: '',
-    showNextButton: true
+    showNextButton: true,
+    channelChoice: false
   };
 
   constructor(props, context) {

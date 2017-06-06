@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Button } from 'component/button/Button';
 import { ButtonGroup } from 'component/button/ButtonGroup';
-import { ChannelChoicePopup } from 'component/channelChoice/ChannelChoicePopup';
+import { ChannelChoicePopupDesktop } from 'component/channelChoice/ChannelChoicePopupDesktop';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
@@ -139,7 +139,7 @@ export class HelpCenterDesktop extends Component {
 
   renderChannelChoice = () => {
     return this.state.channelChoiceShown
-         ? <ChannelChoicePopup onNextClick={this.props.onNextClick} />
+         ? <ChannelChoicePopupDesktop onNextClick={this.props.onNextClick} />
          : null;
   }
 
