@@ -53,7 +53,11 @@ describe('logging', () => {
     const accessControl = {
       name: 'Access-Control-Allow-Origin',
       pattern: /Access-Control-Allow-Origin/,
-      validMatches: ['Access-Control-Allow-Origin'],
+      validMatches: [
+        'Access-Control-Allow-Origin',
+        '\'Access-Control-Allow-Origin\' header is present on the requested resource. ' +
+        'Origin \'foo.com\' is therefore not allowed access'
+      ],
       invalidMatches: [
         'access-control-allow-origin',
         123
@@ -64,7 +68,8 @@ describe('logging', () => {
       pattern: /timeout of [0-9]+ms exceeded/,
       validMatches: [
         'timeout of 312ms exceeded',
-        'timeout of 901ms exceeded'
+        'timeout of 9001ms exceeded',
+        'timeout of 1ms exceeded'
       ],
       invalidMatches: [
         'timeout of ms exceeded',
@@ -86,7 +91,7 @@ describe('logging', () => {
         'script error'
       ]
     };
-    const subjects = [accessControl, timeoutExceeded, scriptError];
+    const blacklistedErrors = [accessControl, timeoutExceeded, scriptError];
 
     const patternExistSpec = (patternName) => {
       it('should exist in pattern list', () => {
@@ -94,41 +99,41 @@ describe('logging', () => {
           .not.toEqual(-1);
       });
     };
-    const patternValidatorSpec = (pattern, strings, expectation) => {
-      const validatorType = expectation ? 'valid' : 'invalid';
+    const patternValidatorSpec = (pattern, errorStrings, expectation = true) => {
+      const regexp = new RegExp(pattern);
 
-      it(`should test ${expectation} for all ${validatorType} strings`, () => {
-        const regExpObj = new RegExp(pattern);
-
-        _.forEach(strings, (string) => {
-          expect(regExpObj.test(string))
-            .toEqual(expectation);
+      errorStrings.forEach((errorString) => {
+        it(`should return ${expectation}`, () => {
+          expect(regexp.test(errorString))
+            .toBe(expectation);
         });
       });
     };
-    const suiteIteratorFn = (subject) => {
-      describe(`${subject.name}`, () => {
-        patternExistSpec(subject.name);
-        patternValidatorSpec(subject.pattern, subject.validMatches, true);
-        patternValidatorSpec(subject.pattern, subject.invalidMatches, false);
-      });
-    };
-    const testIteratorFn = (subjects) => {
-      beforeEach(() => {
-        patternList = logging.errorMessageBlacklist;
-      });
 
-      _.forEach(subjects, (subject) => {
-        suiteIteratorFn(subject);
-      });
-    };
+    beforeEach(() => {
+      patternList = logging.errorMessageBlacklist;
+    });
 
     it('should test at least 1 element', () => {
-      expect(_.size(subjects))
+      expect(_.size(blacklistedErrors))
         .toBeGreaterThan(0);
     });
 
-    testIteratorFn(subjects);
+    blacklistedErrors.forEach((blacklistedError) => {
+      const { name, pattern, validMatches, invalidMatches } = blacklistedError;
+
+      describe(name, () => {
+        patternExistSpec(name);
+
+        describe('when error strings are valid', () => {
+          patternValidatorSpec(pattern, validMatches, true);
+        });
+
+        describe('when error strings are invalid', () => {
+          patternValidatorSpec(pattern, invalidMatches, false);
+        });
+      });
+    });
   });
 
   describe('#init', () => {
