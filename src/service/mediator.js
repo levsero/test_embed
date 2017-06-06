@@ -457,6 +457,8 @@ function init(embedsAccessible, params = {}) {
 
     if (state[`${helpCenter}.isAccessible`]) {
       state.activeEmbed = helpCenter;
+    } else if (channelChoiceAvailable()) {
+      state.activeEmbed = channelChoice;
     }
   });
 

@@ -21,7 +21,7 @@ export class ChannelChoicePopup extends Component {
           label={i18n.t('embeddable_framework.channelChoice.button.label.chat')}
           icon='Icon--channelChoice-chat' />
         <ButtonIcon
-          onClick={this.handleClick('submitTicket')}
+          onClick={this.handleClick('ticketSubmissionForm')}
           label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
           icon='Icon--channelChoice-contactForm' />
       </div>
