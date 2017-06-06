@@ -318,7 +318,8 @@ class WebWidget extends Component {
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
         onCancelClick={this.props.closeFrame}
-        showCloseButton={this.props.showCloseButton} />
+        showCloseButton={this.props.showCloseButton}
+        hideZendeskLogo={this.props.hideZendeskLogo} />
     );
   }
 

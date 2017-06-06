@@ -6,12 +6,10 @@ import { locals as styles } from './ChannelChoiceMobile.sass';
 import { Button } from 'component/button/Button';
 import { ButtonGroup } from 'component/button/ButtonGroup';
 import { ButtonIcon } from 'component/button/ButtonIcon';
-import { Container } from 'component/container/Container';
 import { i18n } from 'service/i18n';
 
 export class ChannelChoiceMobile extends Component {
   static propTypes = {
-    containerStyle: PropTypes.object.isRequired,
     handleNextClick: PropTypes.func.isRequired,
     handleCancelClick: PropTypes.func.isRequired,
     showCloseButton: PropTypes.func.isRequired,
@@ -56,14 +54,14 @@ export class ChannelChoiceMobile extends Component {
   }
 
   render = () => {
-    const { containerStyle, renderZendeskLogo } = this.props;
+    const { renderZendeskLogo } = this.props;
 
     return (
-      <Container style={containerStyle}>
+      <div>
         {this.renderBody()}
         {this.renderCancelButton()}
-        {renderZendeskLogo()}
-      </Container>
+        {renderZendeskLogo(true)}
+      </div>
     );
   }
 }

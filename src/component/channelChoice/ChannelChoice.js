@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { locals as styles } from './ChannelChoice.sass';
-
-import { ButtonIcon } from 'component/button/ButtonIcon';
-import { ChannelChoiceMobile } from 'component/channelChoice/ChannelChoiceMobile';
 import { Container } from 'component/container/Container';
-import { ScrollContainer } from 'component/container/ScrollContainer';
+import { ChannelChoiceDesktop } from 'component/channelChoice/ChannelChoiceDesktop';
+import { ChannelChoiceMobile } from 'component/channelChoice/ChannelChoiceMobile';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 
@@ -38,68 +35,50 @@ export class ChannelChoice extends Component {
     };
   }
 
-  renderZendeskLogo = () => {
+  renderZendeskLogo = (fullscreen) => {
     return !this.props.hideZendeskLogo
-      ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />
+      ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={fullscreen} />
       : null;
   }
 
-  renderBody = () => {
-    const { hideZendeskLogo } = this.props;
-    const divider = !hideZendeskLogo ? <hr className={styles.hr} /> : null;
-    const containerStyle = !hideZendeskLogo ? styles.inner : '';
-
-    return (
-      <div className={containerStyle}>
-        <ButtonIcon
-          icon='Icon--channelChoice-chat'
-          label={i18n.t('embeddable_framework.channelChoice.button.label.chat')}
-          onClick={this.handleNextClick('chat')} />
-        <ButtonIcon
-          icon='Icon--channelChoice-contactForm'
-          label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
-          onClick={this.handleNextClick('ticketSubmissionForm')} />
-          {divider}
-      </div>
-    );
-  }
-
-  renderMobile = () => {
+  renderMobile = (onCancelClick, showCloseButton) => {
     return (
       <ChannelChoiceMobile
-        containerStyle={this.props.style}
         handleNextClick={this.handleNextClick}
-        handleCancelClick={this.props.onCancelClick}
-        showCloseButton={this.props.showCloseButton}
+        handleCancelClick={onCancelClick}
+        showCloseButton={showCloseButton}
         renderZendeskLogo={this.renderZendeskLogo} />
     );
   }
 
   renderDesktop = (hideZendeskLogo, formTitleKey) => {
-    const footerClasses = hideZendeskLogo ? styles.footerNoLogo : '';
-
     return (
-      <Container style={this.props.style}>
-        <ScrollContainer
-          ref='scrollContainer'
-          containerClasses={styles.container}
-          footerClasses={footerClasses}
-          hideZendeskLogo={hideZendeskLogo}
-          title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}>
-          {this.renderBody()}
-        </ScrollContainer>
-        {this.renderZendeskLogo()}
-      </Container>
+      <ChannelChoiceDesktop
+        formTitleKey={formTitleKey}
+        handleNextClick={this.handleNextClick}
+        hideZendeskLogo={hideZendeskLogo}
+        renderZendeskLogo={this.renderZendeskLogo} />
     );
   }
 
   render = () => {
-    const { isMobile, hideZendeskLogo, formTitleKey } = this.props;
-
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    return isMobile
-         ? this.renderMobile()
-         : this.renderDesktop(hideZendeskLogo, formTitleKey);
+    const {
+      style,
+      isMobile,
+      hideZendeskLogo,
+      formTitleKey,
+      onCancelClick,
+      showCloseButton } = this.props;
+    const channelChoice = isMobile
+                        ? this.renderMobile(onCancelClick, showCloseButton)
+                        : this.renderDesktop(hideZendeskLogo, formTitleKey);
+
+    return (
+      <Container style={style}>
+        {channelChoice}
+      </Container>
+    );
   }
 }
