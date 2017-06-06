@@ -53,12 +53,12 @@ describe('logging', () => {
     const accessControl = {
       name: 'Access-Control-Allow-Origin',
       pattern: /Access-Control-Allow-Origin/,
-      validMatches: [
+      validStrings: [
         'Access-Control-Allow-Origin',
         '\'Access-Control-Allow-Origin\' header is present on the requested resource. ' +
         'Origin \'foo.com\' is therefore not allowed access'
       ],
-      invalidMatches: [
+      invalidStrings: [
         'access-control-allow-origin',
         123
       ]
@@ -66,12 +66,12 @@ describe('logging', () => {
     const timeoutExceeded = {
       name: 'timeout of [0-9]+ms exceeded',
       pattern: /timeout of [0-9]+ms exceeded/,
-      validMatches: [
+      validStrings: [
         'timeout of 312ms exceeded',
         'timeout of 9001ms exceeded',
         'timeout of 1ms exceeded'
       ],
-      invalidMatches: [
+      invalidStrings: [
         'timeout of ms exceeded',
         'timeout of -1ms exceeded'
       ]
@@ -79,13 +79,13 @@ describe('logging', () => {
     const scriptError = {
       name: '^(\(unknown\): )?(Script error).?$',
       pattern: /^(\(unknown\): )?(Script error).?$/,
-      validMatches: [
+      validStrings: [
         '(unknown): Script error',
         '(unknown): Script error.',
         'Script error.',
         'Script error'
       ],
-      invalidMatches: [
+      invalidStrings: [
         '(unknown): ',
         '(unknown): .',
         'script error'
@@ -99,12 +99,12 @@ describe('logging', () => {
           .not.toEqual(-1);
       });
     };
-    const patternValidatorSpec = (pattern, errorStrings, expectation = true) => {
+    const patternValidatorSpec = (pattern, strings, expectation = true) => {
       const regexp = new RegExp(pattern);
 
-      errorStrings.forEach((errorString) => {
+      strings.forEach((string) => {
         it(`should return ${expectation}`, () => {
-          expect(regexp.test(errorString))
+          expect(regexp.test(string))
             .toBe(expectation);
         });
       });
@@ -120,17 +120,17 @@ describe('logging', () => {
     });
 
     blacklistedErrors.forEach((blacklistedError) => {
-      const { name, pattern, validMatches, invalidMatches } = blacklistedError;
+      const { name, pattern, validStrings, invalidStrings } = blacklistedError;
 
       describe(name, () => {
         patternExistSpec(name);
 
         describe('when error strings are valid', () => {
-          patternValidatorSpec(pattern, validMatches, true);
+          patternValidatorSpec(pattern, validStrings, true);
         });
 
         describe('when error strings are invalid', () => {
-          patternValidatorSpec(pattern, invalidMatches, false);
+          patternValidatorSpec(pattern, invalidStrings, false);
         });
       });
     });
