@@ -256,7 +256,7 @@ function init(embedsAccessible, params = {}) {
       return;
     }
 
-    c.broadcast('webWidget.zopimOnline');
+    c.broadcast('webWidget.setZopimOnline', true);
 
     if (!submitTicketAvailable()) {
       c.broadcast(`${helpCenter}.showNextButton`, true);
@@ -300,7 +300,7 @@ function init(embedsAccessible, params = {}) {
         resetActiveEmbed();
       }
 
-      c.broadcast('webWidget.zopimOffline');
+      c.broadcast('webWidget.setZopimOnline', false);
 
       c.broadcast(`${launcher}.setLabelHelp`);
       c.broadcast(`${helpCenter}.setNextToSubmitTicket`);

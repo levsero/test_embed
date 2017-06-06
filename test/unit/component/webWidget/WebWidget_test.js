@@ -185,6 +185,35 @@ describe('WebWidget component', () => {
       showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
     });
 
+    describe('when a param is passed in', () => {
+      beforeEach(() => {
+        webWidget = instanceRender(
+          <WebWidget
+            zopimOnline={true}
+            helpCenterAvailable={true}
+            showBackButton={showBackButtonSpy}
+            updateActiveEmbed={mockUpdateActiveEmbed} />
+        );
+        webWidget.onNextClick('foo');
+      });
+
+      it('should call updateActiveEmbed with that param', () => {
+        expect(mockUpdateActiveEmbed)
+          .toHaveBeenCalledWith('foo');
+      });
+
+      describe('when that param is chat and zopim is online', () => {
+        beforeEach(() => {
+          webWidget.onNextClick('chat');
+        });
+
+        it('should call updateActiveEmbed with that zopims variable', () => {
+          expect(mockUpdateActiveEmbed)
+            .toHaveBeenCalledWith('zopimChat');
+        });
+      });
+    });
+
     describe('when chat is online', () => {
       beforeEach(() => {
         const chatProp = { account_status: 'online' }; // eslint-disable-line camelcase
@@ -403,83 +432,216 @@ describe('WebWidget component', () => {
             .toHaveBeenCalledWith('helpCenterForm');
         });
       });
-    });
 
-    describe('when there is not an active embed', () => {
-      describe('when help center is available', () => {
+      describe('when the activeEmbed is submit ticket and chat is online', () => {
         beforeEach(() => {
           webWidget = domRender(
             <WebWidget
-              helpCenterAvailable={true}
+              submitTicketAvailable={true}
               updateActiveEmbed={updateActiveEmbedSpy}
-              activeEmbed='' />
+              zopimOnline={true}
+              activeEmbed='ticketSubmissionForm' />
           );
           webWidget.show();
         });
 
-        it('calls updateActiveEmbed with help center', () => {
+        it('should set the activeEmbed to chat', () => {
           expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('helpCenterForm');
+            .toHaveBeenCalledWith('zopimChat');
         });
       });
 
-      describe('when help center is not available', () => {
-        describe('when channelChoice is available', () => {
-          beforeEach(() => {
-            webWidget = instanceRender(
-              <WebWidget
-                activeEmbed=''
-                chat={{ account_status: 'online' }} // eslint-disable-line camelcase
-                channelChoice={true}
-                submitTicketAvailable={true}
-                updateActiveEmbed={updateActiveEmbedSpy}
-                helpCenterAvailable={false} />
-            );
-            webWidget.show();
-          });
-
-          it('calls updateActiveEmbed with channelChoice', () => {
-            expect(updateActiveEmbedSpy)
-              .toHaveBeenCalledWith('channelChoice');
-          });
+      describe('when the activeEmbed is chat and chat is offline', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              submitTicketAvailable={true}
+              updateActiveEmbed={updateActiveEmbedSpy}
+              zopimOnline={false}
+              activeEmbed='zopimChat' />
+          );
+          webWidget.show();
         });
 
-        describe('when chat is online', () => {
-          beforeEach(() => {
-            webWidget = instanceRender(
-              <WebWidget
-                activeEmbed=''
-                chat={{ account_status: 'online' }} // eslint-disable-line camelcase
-                updateActiveEmbed={updateActiveEmbedSpy}
-                channelChoice={false}
-                helpCenterAvailable={false} />
-            );
-            webWidget.show();
-          });
+        it('should reset the state', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('ticketSubmissionForm');
+        });
+      });
+    });
 
-          it('calls updateActiveEmbed with chat', () => {
-            expect(updateActiveEmbedSpy)
-              .toHaveBeenCalledWith('chat');
-          });
+    describe('when there is not an active embed', () => {
+      beforeEach(() => {
+        webWidget = domRender(
+          <WebWidget updateActiveEmbed={updateActiveEmbedSpy} activeEmbed='' />
+        );
+        webWidget.show();
+      });
+
+      it('should call updateActiveEmbed', () => {
+        expect(updateActiveEmbedSpy)
+          .toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('#resetActiveEmbed', () => {
+    let webWidget, updateActiveEmbedSpy;
+
+    beforeEach(() => {
+      updateActiveEmbedSpy = jasmine.createSpy();
+    });
+
+    describe('when help center is available', () => {
+      beforeEach(() => {
+        webWidget = domRender(
+          <WebWidget
+            helpCenterAvailable={true}
+            updateActiveEmbed={updateActiveEmbedSpy}
+            activeEmbed='' />
+        );
+        webWidget.resetActiveEmbed();
+      });
+
+      it('calls updateActiveEmbed with help center', () => {
+        expect(updateActiveEmbedSpy)
+          .toHaveBeenCalledWith('helpCenterForm');
+      });
+    });
+
+    describe('when help center is not available', () => {
+      describe('when channelChoice is available', () => {
+        beforeEach(() => {
+          webWidget = instanceRender(
+            <WebWidget
+              activeEmbed=''
+              chat={{ account_status: 'online' }} // eslint-disable-line camelcase
+              channelChoice={true}
+              submitTicketAvailable={true}
+              updateActiveEmbed={updateActiveEmbedSpy}
+              helpCenterAvailable={false} />
+          );
+          webWidget.resetActiveEmbed();
         });
 
-        describe('when chat is offline', () => {
-          beforeEach(() => {
-            webWidget = domRender(
-              <WebWidget
-                activeEmbed=''
-                chat={{ account_status: 'offline' }} // eslint-disable-line camelcase
-                updateActiveEmbed={updateActiveEmbedSpy}
-                helpCenterAvailable={false} />
-            );
-            webWidget.show();
-          });
-
-          it('calls updateActiveEmbed with submit ticket', () => {
-            expect(updateActiveEmbedSpy)
-              .toHaveBeenCalledWith('ticketSubmissionForm');
-          });
+        it('calls updateActiveEmbed with channelChoice', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('channelChoice');
         });
+      });
+
+      describe('when chat is online', () => {
+        beforeEach(() => {
+          webWidget = instanceRender(
+            <WebWidget
+              activeEmbed=''
+              chat={{ account_status: 'online' }} // eslint-disable-line camelcase
+              updateActiveEmbed={updateActiveEmbedSpy}
+              channelChoice={false}
+              helpCenterAvailable={false} />
+          );
+          webWidget.resetActiveEmbed();
+        });
+
+        it('calls updateActiveEmbed with chat', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('chat');
+        });
+      });
+
+      describe('when chat is offline', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              activeEmbed=''
+              chat={{ account_status: 'offline' }} // eslint-disable-line camelcase
+              updateActiveEmbed={updateActiveEmbedSpy}
+              helpCenterAvailable={false} />
+          );
+          webWidget.resetActiveEmbed();
+        });
+
+        it('calls updateActiveEmbed with submit ticket', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('ticketSubmissionForm');
+        });
+      });
+    });
+  });
+
+  describe('#showChat', () => {
+    let webWidget, updateActiveEmbedSpy, zopimOnNextSpy;
+
+    beforeEach(() => {
+      updateActiveEmbedSpy = jasmine.createSpy();
+      zopimOnNextSpy = jasmine.createSpy();
+    });
+
+    describe('when zopimOnline is true', () => {
+      beforeEach(() => {
+        webWidget = instanceRender(
+          <WebWidget
+            zopimOnline={true}
+            updateActiveEmbed={updateActiveEmbedSpy} />
+        );
+        webWidget.showChat();
+      });
+
+      it('should call updateActiveEmbed with zopimChat', () => {
+        expect(updateActiveEmbedSpy)
+          .toHaveBeenCalledWith('zopimChat');
+      });
+
+      describe('when helpCenter is the active embed', () => {
+        beforeEach(() => {
+          webWidget = instanceRender(
+            <WebWidget
+              zopimOnline={true}
+              activeEmbed='helpCenterForm'
+              zopimOnNext={zopimOnNextSpy}
+              updateActiveEmbed={updateActiveEmbedSpy} />
+          );
+          webWidget.showChat();
+        });
+
+        it('should call zopimOnNext', () => {
+          expect(zopimOnNextSpy)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when channelChoice is the active embed', () => {
+        beforeEach(() => {
+          webWidget = instanceRender(
+            <WebWidget
+              zopimOnline={true}
+              activeEmbed='channelChoice'
+              zopimOnNext={zopimOnNextSpy}
+              updateActiveEmbed={updateActiveEmbedSpy} />
+          );
+          webWidget.showChat();
+        });
+
+        it('should call zopimOnNext', () => {
+          expect(zopimOnNextSpy)
+            .toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when zopimOnline is false', () => {
+      beforeEach(() => {
+        webWidget = instanceRender(
+          <WebWidget
+            zopimOnline={false}
+            updateActiveEmbed={updateActiveEmbedSpy} />
+        );
+        webWidget.showChat();
+      });
+
+      it('should call updateActiveEmbed with chat', () => {
+        expect(updateActiveEmbedSpy)
+          .toHaveBeenCalledWith('chat');
       });
     });
   });

@@ -158,7 +158,10 @@ describe('mediator', () => {
     webWidgetSub = jasmine.createSpyObj(
       'webWidget',
       ['show',
-       'hide']
+       'hide',
+       'setZopimOnline',
+       'zopimChatStarted',
+       'zopimChatEnded']
     );
 
     initSubscriptionSpies = function(names) {
@@ -217,6 +220,9 @@ describe('mediator', () => {
 
       c.subscribe(`${names.webWidget}.hide`, webWidgetSub.hide);
       c.subscribe(`${names.webWidget}.show`, webWidgetSub.show);
+      c.subscribe(`${names.webWidget}.setZopimOnline`, webWidgetSub.setZopimOnline);
+      c.subscribe(`${names.webWidget}.zopimChatStarted`, webWidgetSub.zopimChatStarted);
+      c.subscribe(`${names.webWidget}.zopimChatEnded`, webWidgetSub.zopimChatEnded);
     };
   });
 
@@ -2413,8 +2419,10 @@ describe('mediator', () => {
   describe('Web Widget', () => {
     const launcher = 'launcher';
     const webWidget = 'webWidget';
+    const chat = 'zopimChat';
     const names = {
       launcher: launcher,
+      chat: chat,
       webWidget: webWidget
     };
 
@@ -2452,6 +2460,36 @@ describe('mediator', () => {
 
       expect(webWidgetSub.show.calls.count())
         .toEqual(1);
+    });
+
+    it('broadcasts webWidget.zopimChatStarted when zopimChat.onUnreadMsg is recieved', () => {
+      c.broadcast('zopimChat.onOnline');
+      c.broadcast('zopimChat.onUnreadMsgs', 1);
+
+      expect(webWidgetSub.zopimChatStarted)
+        .toHaveBeenCalled();
+    });
+
+    it('broadcasts webWidget.zopimChatEnded when zopimChat.onChatEnd is recieved', () => {
+      c.broadcast('zopimChat.onChatEnd');
+
+      expect(webWidgetSub.zopimChatEnded)
+        .toHaveBeenCalled();
+    });
+
+    it('broadcasts webWidget.setZopimOnline with false when zopimChat.onOffline is recieved', () => {
+      c.broadcast('zopimChat.onOnline');
+      c.broadcast('zopimChat.onOffline');
+
+      expect(webWidgetSub.setZopimOnline)
+        .toHaveBeenCalledWith(false);
+    });
+
+    it('broadcasts webWidget.setZopimOnline with true when zopimChat.onOnline is recieved', () => {
+      c.broadcast('zopimChat.onOnline');
+
+      expect(webWidgetSub.setZopimOnline)
+        .toHaveBeenCalledWith(true);
     });
   });
 

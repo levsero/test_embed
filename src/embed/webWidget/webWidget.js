@@ -294,15 +294,9 @@ function setupMediator() {
     hide(options);
   });
 
-  mediator.channel.subscribe('webWidget.zopimOnline', () => {
+  mediator.channel.subscribe('webWidget.setZopimOnline', (online) => {
     waitForRootComponent(() => {
-      embed.store.dispatch(updateZopimOnline(true));
-    });
-  });
-
-  mediator.channel.subscribe('webWidget.zopimOffline', () => {
-    waitForRootComponent(() => {
-      embed.store.dispatch(updateZopimOnline(false));
+      embed.store.dispatch(updateZopimOnline(online));
     });
   });
 

@@ -18,6 +18,7 @@ describe('embed.webWidget', () => {
   const contextualSearch = jasmine.createSpy();
   const authenticateSpy = jasmine.createSpy();
   const revokeSpy = jasmine.createSpy();
+  const updateZopimOnlineSpy = jasmine.createSpy();
   const zChatInitSpy = jasmine.createSpy();
   const zChatFirehoseSpy = jasmine.createSpy().and.callThrough();
 
@@ -148,6 +149,9 @@ describe('embed.webWidget', () => {
       },
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory
+      },
+      'src/redux/modules/base': {
+        updateZopimOnline: updateZopimOnlineSpy
       },
       'vendor/web-sdk': {
         init: zChatInitSpy,
@@ -861,12 +865,13 @@ describe('embed.webWidget', () => {
   });
 
   describe('setUpMediator', () => {
-    let mockMediator;
+    let mockMediator, mockStoreDispatch;
     const componentName = 'faythe';
 
     beforeEach(() => {
+      mockStoreDispatch = jasmine.createSpy();
       mockMediator = mockRegistry['service/mediator'].mediator;
-      webWidget.create();
+      webWidget.create(componentName, {}, { dispatch: mockStoreDispatch });
       webWidget.render();
     });
 
@@ -883,6 +888,32 @@ describe('embed.webWidget', () => {
     it('should subscribe to webWidget.activate', () => {
       expect(mockMediator.channel.subscribe)
         .toHaveBeenCalledWith('webWidget.activate', jasmine.any(Function));
+    });
+
+    it('should subscribe to webWidget.setZopimOnline', () => {
+      expect(mockMediator.channel.subscribe)
+        .toHaveBeenCalledWith('webWidget.setZopimOnline', jasmine.any(Function));
+    });
+
+    describe('when webWidget.setZopimOnline is broadcast', () => {
+      beforeEach(() => {
+        pluckSubscribeCall(mockMediator, 'webWidget.setZopimOnline')();
+      });
+
+      it('should dispatch the value to the store', () => {
+        expect(webWidget.get().store.dispatch)
+          .toHaveBeenCalled();
+      });
+    });
+
+    it('should subscribe to webWidget.zopimChatEnded', () => {
+      expect(mockMediator.channel.subscribe)
+        .toHaveBeenCalledWith('webWidget.zopimChatEnded', jasmine.any(Function));
+    });
+
+    it('should subscribe to webWidget.zopimChatStarted', () => {
+      expect(mockMediator.channel.subscribe)
+        .toHaveBeenCalledWith('webWidget.zopimChatStarted', jasmine.any(Function));
     });
 
     it('should subscribe to zopimChat.setUser', () => {

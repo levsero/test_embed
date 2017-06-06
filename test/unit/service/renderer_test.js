@@ -4,12 +4,10 @@ describe('renderer', () => {
     mockSubmitTicket,
     mockLauncher,
     mockHelpCenter,
-    mockChannelChoice,
     mockChat,
     mockNps,
     mockIpm,
     mockAutomaticAnswers,
-    mockChannelChoiceValue,
     mockWebWidget,
     mockUpdateEmbedAccessible;
   const updateBaseFontSize = jasmine.createSpy();
@@ -45,7 +43,6 @@ describe('renderer', () => {
     mockSubmitTicket = embedMocker('mockSubmitTicket');
     mockLauncher = embedMocker('mockLauncher');
     mockHelpCenter = embedMocker('mockHelpCenter');
-    mockChannelChoice = embedMocker('mockChannelChoice');
     mockChat = embedMocker('mockChat');
     mockNps = embedMocker('mockNps');
     mockIpm = embedMocker('mockIpm');
@@ -61,9 +58,6 @@ describe('renderer', () => {
       },
       'embed/helpCenter/helpCenter': {
         helpCenter: mockHelpCenter
-      },
-      'embed/channelChoice/channelChoice': {
-        channelChoice: mockChannelChoice
       },
       'embed/chat/chat': {
         chat: mockChat
@@ -99,9 +93,7 @@ describe('renderer', () => {
         settings: {
           enableCustomizations: jasmine.createSpy(),
           getTrackSettings: jasmine.createSpy().and.returnValue(mockTrackSettings),
-          get: (value) => _.get({
-            contactOptions: mockChannelChoiceValue
-          }, value, null)
+          get: noop
         }
       },
       'src/redux/createStore': () => ({
@@ -306,32 +298,6 @@ describe('renderer', () => {
         .toEqual(1);
     });
 
-    describe('when channelChoice setting is false', () => {
-      beforeEach(() => {
-        mockChannelChoiceValue = false;
-
-        renderer.init(configJSON);
-      });
-
-      it('should not create a channelChoice embed', () => {
-        expect(mockChannelChoice.create)
-          .not.toHaveBeenCalled();
-      });
-    });
-
-    describe('when channelChoice setting is true', () => {
-      beforeEach(() => {
-        mockChannelChoiceValue = true;
-
-        renderer.init(configJSON);
-      });
-
-      it('should create a channelChoice embed', () => {
-        expect(mockChannelChoice.create)
-          .toHaveBeenCalledWith('channelChoice', jasmine.any(Object), jasmine.any(Object));
-      });
-    });
-
     describe('when singleIframe is true', () => {
       beforeEach(() => {
         configJSON.singleIframe = true;
@@ -356,10 +322,28 @@ describe('renderer', () => {
 
       it('should not create submitTicket and helpCenter', () => {
         expect(mockSubmitTicket.create)
-          .not.toHaveBeenCalledWith();
+          .not.toHaveBeenCalled();
 
         expect(mockHelpCenter.create)
-          .not.toHaveBeenCalledWith();
+          .not.toHaveBeenCalled();
+      });
+
+      it('should still create zopimChat', () => {
+        expect(mockChat.create)
+          .toHaveBeenCalled();
+      });
+
+      describe('when newChat is true', () => {
+        beforeEach(() => {
+          configJSON.newChat = true;
+
+          renderer.init(configJSON);
+        });
+
+        it('should not create zopimChat', () => {
+          expect(mockChat.create)
+            .not.toHaveBeenCalledWith();
+        });
       });
     });
 

@@ -66,7 +66,8 @@ class WebWidget extends Component {
 
   static defaultProps = {
     buttonLabelKey: '',
-    channelChoice: true,
+    channelChoice: false,
+    chat: { account_status: 'offline' }, // eslint-disable-line camelcase
     formTitleKey: '',
     fullscreen: true,
     helpCenterAvailable: false,
@@ -116,14 +117,14 @@ class WebWidget extends Component {
   chatOnline = () => this.props.chat.account_status === 'online' || this.props.zopimOnline;
 
   showChat = () => {
-    if (this.props.zopimOnline) {
-      if (this.props.activeEmbed !== submitTicket) {
-        this.props.zopimOnNext();
-      }
+    const { activeEmbed, updateActiveEmbed, zopimOnline, zopimOnNext } = this.props;
 
-      this.props.updateActiveEmbed(zopimChat);
+    if (zopimOnline) {
+      if (activeEmbed === helpCenter || activeEmbed === channelChoice) zopimOnNext();
+
+      updateActiveEmbed(zopimChat);
     } else {
-      this.props.updateActiveEmbed(chat);
+      updateActiveEmbed(chat);
     }
   }
 
@@ -156,9 +157,9 @@ class WebWidget extends Component {
     }
 
     // If zopim has gone offline we will need to reset the embed
-    const chatGone = activeEmbed === zopimChat && !this.chatOnline();
+    const chatOffline = activeEmbed === zopimChat && !this.chatOnline();
 
-    if (activeEmbed === '' || viaActivate || chatGone) this.resetActiveEmbed();
+    if (activeEmbed === '' || viaActivate || chatOffline) this.resetActiveEmbed();
   }
 
   showHelpCenter = () => {

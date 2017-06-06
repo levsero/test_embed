@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import { automaticAnswers } from 'embed/automaticAnswers/automaticAnswers';
-import { channelChoice } from 'embed/channelChoice/channelChoice';
 import { chat } from 'embed/chat/chat';
 import { helpCenter } from 'embed/helpCenter/helpCenter';
 import { ipm } from 'embed/ipm/ipm';
@@ -27,7 +26,6 @@ const embedsMap = {
   'nps': nps,
   'ipm': ipm,
   'chat': chat,
-  'channelChoice': channelChoice,
   'automaticAnswers': automaticAnswers,
   'launcher': launcher,
   'webWidget': webWidget
