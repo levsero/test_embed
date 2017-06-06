@@ -65,6 +65,9 @@ const getWithSpinner = (path, locale, doneFn) => {
 const showBackButton = (show = true) => {
   embed.instance.getChild().showBackButton(show);
 };
+const showCloseButton = (show = true) => {
+  embed.instance.getChild().showCloseButton(show);
+};
 const onShow = () => {
   const rootComponent = getRootComponent();
 
@@ -207,12 +210,14 @@ function create(name, config = {}, reduxStore = {}) {
           localeFallbacks={settings.get('helpCenter.localeFallbacks')}
           onArticleClick={helpCenterSettings.onArticleClick}
           onCancel={submitTicketSettings.onCancel}
+          closeFrame={params.closeFrame}
           onSearch={helpCenterSettings.onSearch}
           onSubmitted={submitTicketSettings.onSubmitted}
           originalArticleButton={settings.get('helpCenter.originalArticleButton')}
           position={globalConfig.position}
           searchSender={helpCenterSettings.searchSender}
           showBackButton={showBackButton}
+          showCloseButton={showCloseButton}
           style={containerStyle}
           subjectEnabled={settings.get('contactForm.subject')}
           tags={settings.get('contactForm.tags')}

@@ -47,6 +47,7 @@ class WebWidget extends Component {
     position: PropTypes.string,
     searchSender: PropTypes.func,
     showBackButton: PropTypes.func,
+    showCloseButton: PropTypes.func,
     style: PropTypes.object,
     subjectEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
@@ -58,6 +59,7 @@ class WebWidget extends Component {
     updateFrameSize: PropTypes.func,
     zopimOnline: PropTypes.bool,
     zopimOnNext: PropTypes.func,
+    closeFrame: PropTypes.func,
     viaId: PropTypes.number.isRequired,
     zendeskHost: PropTypes.string.isRequired,
     updateActiveEmbed: PropTypes.func.isRequired,
@@ -83,6 +85,7 @@ class WebWidget extends Component {
     position: 'right',
     searchSender: () => {},
     showBackButton: () => {},
+    showCloseButton: () => {},
     style: null,
     submitTicketAvailable: true,
     submitTicketConfig: {},
@@ -91,7 +94,8 @@ class WebWidget extends Component {
     ticketFormSettings: [],
     updateFrameSize: () => {},
     zopimOnline: false,
-    zopimOnNext: () => {}
+    zopimOnNext: () => {},
+    closeFrame: () => {}
   };
 
   setComponent = (activeComponent) => {
@@ -311,7 +315,10 @@ class WebWidget extends Component {
       <ChannelChoice
         ref={channelChoice}
         style={this.props.style}
-        onNextClick={this.setComponent}/>
+        isMobile={this.props.fullscreen}
+        onNextClick={this.setComponent}
+        onCancelClick={this.props.closeFrame}
+        showCloseButton={this.props.showCloseButton} />
     );
   }
 

@@ -24,7 +24,8 @@ export class ButtonIcon extends Component {
     const buttonClasses = classNames({
       'Button--icon u-isActionable': true,
       'u-flex': !isIE(),
-      'u-paddingBXL': isIE()
+      'u-paddingBXL': isIE(),
+      [this.props.className]: true
     });
 
     return (
