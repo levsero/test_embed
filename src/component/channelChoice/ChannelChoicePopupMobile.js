@@ -21,11 +21,13 @@ export class ChannelChoicePopupMobile extends Component {
       <div className={styles.inner}>
         <ButtonIcon
           className={styles.innerItem}
+          labelClassName={styles.innerItemLabel}
           icon='Icon--channelChoice-chat'
           label={i18n.t('embeddable_framework.channelChoice.button.label.chat')}
           onClick={handleNextClick('chat')} />
         <ButtonIcon
           className={styles.innerItem}
+          labelClassName={styles.innerItemLabel}
           icon='Icon--channelChoice-contactForm'
           label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
           onClick={handleNextClick('ticketSubmissionForm')} />

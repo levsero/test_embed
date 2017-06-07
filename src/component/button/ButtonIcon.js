@@ -8,6 +8,7 @@ import { isIE } from 'utility/devices';
 export class ButtonIcon extends Component {
   static propTypes = {
     className: PropTypes.string,
+    labelClassName: PropTypes.string,
     icon: PropTypes.string,
     label: PropTypes.string,
     onClick: PropTypes.func
@@ -15,6 +16,7 @@ export class ButtonIcon extends Component {
 
   static defaultProps = {
     className: '',
+    labelClassName: '',
     icon: '',
     label: '',
     onClick: () => {}
@@ -27,6 +29,7 @@ export class ButtonIcon extends Component {
       'u-paddingBXL': isIE(),
       [this.props.className]: true
     });
+    const labelClasses = `u-pullLeft u-textSizeNml ${this.props.labelClassName}`;
 
     return (
       <div
@@ -36,7 +39,7 @@ export class ButtonIcon extends Component {
         <Icon
           className='Icon--form Arrange-sizeFit u-pullLeft u-paddingRM'
           type={this.props.icon} />
-        <span className='u-pullLeft u-textSizeNml'>
+        <span className={labelClasses}>
           {this.props.label}
         </span>
       </div>

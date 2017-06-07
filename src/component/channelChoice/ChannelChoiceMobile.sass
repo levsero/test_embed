@@ -8,10 +8,15 @@
   padding-bottom: #{13/$font-size}rem !important;
 }
 
+.innerItemLabel {
+  composes: u-textSizeMed from '../../styles/utils.scss' !important;
+}
+
 .buttonContainer {
   composes: u-posRelative from '../../styles/utils.scss';
-  padding-left: #{10/$font-size}rem;
-  padding-right: #{10/$font-size}rem;
+  margin-top: #{5/$font-size}rem;
+  padding-left: #{15/$font-size}rem;
+  padding-right: #{15/$font-size}rem;
 }
 
 .cancelButton {
