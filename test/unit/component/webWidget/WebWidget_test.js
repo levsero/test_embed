@@ -455,7 +455,7 @@ describe('WebWidget component', () => {
         });
       });
 
-      describe('when the activeEmbed is chat and chat is offline', () => {
+      describe('when the activeEmbed is zopimChat and zopimChat is offline', () => {
         beforeEach(() => {
           webWidget = domRender(
             <WebWidget

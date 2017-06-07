@@ -21,7 +21,7 @@ describe('base reducer zopim', () => {
   });
 
   describe('initial state', () => {
-    it('is is set to false', () => {
+    it('is set to false', () => {
       expect(initialState)
         .toEqual(false);
     });
