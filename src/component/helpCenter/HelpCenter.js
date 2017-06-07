@@ -84,6 +84,10 @@ export class HelpCenter extends Component {
     };
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    this.setState({ showNextButton: nextProps.showNextButton });
+  }
+
   pauseAllVideos = () => {
     const componentNode = ReactDOM.findDOMNode(this);
     const videoList = componentNode.getElementsByTagName('video');

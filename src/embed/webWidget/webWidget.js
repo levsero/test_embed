@@ -141,10 +141,10 @@ function create(name, config = {}, reduxStore = {}) {
     hideZendeskLogo: false,
     color: '#659700'
   };
-  const channelChoice = settings.get('contactOptions') && !settings.get('contactForm.suppress');
-  const helpCenterAvailable = !!config.helpCenterForm;
-  const submitTicketAvailable = !!config.ticketSubmissionForm;
-  const chatAvailable = !!config.zopimChat;
+  const helpCenterAvailable = !!config.helpCenterForm && !settings.get('helpCenter.suppress');
+  const submitTicketAvailable = !!config.ticketSubmissionForm && !settings.get('contactForm.suppress');
+  const chatAvailable = !!config.zopimChat && !settings.get('chat.suppress');
+  const channelChoice = settings.get('contactOptions') && submitTicketAvailable;
   const submitTicketSettings = submitTicketAvailable
                              ? setUpSubmitTicket(config.ticketSubmissionForm)
                              : {};
