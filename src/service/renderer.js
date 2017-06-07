@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import { automaticAnswers } from 'embed/automaticAnswers/automaticAnswers';
-import { channelChoice } from 'embed/channelChoice/channelChoice';
 import { chat } from 'embed/chat/chat';
 import { helpCenter } from 'embed/helpCenter/helpCenter';
 import { ipm } from 'embed/ipm/ipm';
@@ -27,7 +26,6 @@ const embedsMap = {
   'nps': nps,
   'ipm': ipm,
   'chat': chat,
-  'channelChoice': channelChoice,
   'automaticAnswers': automaticAnswers,
   'launcher': launcher,
   'webWidget': webWidget
@@ -81,24 +79,15 @@ function init(config) {
     i18n.setCustomTranslations();
     i18n.setLocale(config.locale);
 
-    if (settings.get('contactOptions')) {
-      // TODO: do this differently when channelChoice is part of single iframe
-      const hasLauncherConfig = config.embeds && config.embeds.launcher;
-      const ccConfig = {
-        hideZendeskLogo: config.hideZendeskLogo,
-        color: hasLauncherConfig ? config.embeds.launcher.props.color : null,
-        formTitleKey: hasLauncherConfig ? config.embeds.launcher.props.labelKey : null
-      };
-
-      embedsMap.channelChoice.create('channelChoice', ccConfig, reduxStore);
-      embedsMap.channelChoice.render('channelChoice');
-    }
-
-    const singleIframe = config.singleIframe;
+    const { singleIframe, newChat } = config;
     let parsedConfig = parseConfig(config);
 
     if (singleIframe) {
-      const webWidgetEmbeds = ['ticketSubmissionForm', 'zopimChat', 'helpCenterForm'];
+      const webWidgetEmbeds = ['ticketSubmissionForm', 'helpCenterForm'];
+
+      // Only send chat to WebWidget if new chat is on. Otherwise use old one.
+      if (newChat) webWidgetEmbeds.push('zopimChat');
+
       const webWidgetConfig = _.chain(parsedConfig)
                                .pick(webWidgetEmbeds)
                                .mapValues('props')
@@ -114,7 +103,7 @@ function init(config) {
 
     _.forEach(parsedConfig, (configItem, embedName) => {
       try {
-        const zopimRendered = config.embeds.zopimChat && !singleIframe;
+        const zopimRendered = config.embeds.zopimChat && !newChat;
 
         reduxStore.dispatch(updateEmbedAccessible(embedName, true));
         configItem.props.visible = !hideLauncher && config.embeds && !zopimRendered;

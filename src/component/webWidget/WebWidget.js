@@ -14,13 +14,15 @@ import { updateActiveEmbed,
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
 const chat = 'chat';
+const zopimChat = 'zopimChat';
 const channelChoice = 'channelChoice';
 
 const mapStateToProps = (state) => {
   return {
     activeEmbed: state.base.activeEmbed,
     embeds: state.base.embeds,
-    chat: state.chat
+    chat: state.chat,
+    zopimOnline: state.base.zopim
   };
 };
 
@@ -54,6 +56,8 @@ class WebWidget extends Component {
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
+    zopimOnline: PropTypes.bool,
+    zopimOnNext: PropTypes.func,
     viaId: PropTypes.number.isRequired,
     zendeskHost: PropTypes.string.isRequired,
     updateActiveEmbed: PropTypes.func.isRequired,
@@ -62,7 +66,8 @@ class WebWidget extends Component {
 
   static defaultProps = {
     buttonLabelKey: '',
-    channelChoice: true,
+    channelChoice: false,
+    chat: { account_status: 'offline' }, // eslint-disable-line camelcase
     formTitleKey: '',
     fullscreen: true,
     helpCenterAvailable: false,
@@ -84,11 +89,17 @@ class WebWidget extends Component {
     tags: [],
     ticketFieldSettings: [],
     ticketFormSettings: [],
-    updateFrameSize: () => {}
+    updateFrameSize: () => {},
+    zopimOnline: false,
+    zopimOnNext: () => {}
   };
 
   setComponent = (activeComponent) => {
-    this.props.updateActiveEmbed(activeComponent);
+    if (activeComponent === chat) {
+      this.showChat();
+    } else {
+      this.props.updateActiveEmbed(activeComponent);
+    }
   }
 
   getActiveComponent = () => this.props.activeEmbed;
@@ -103,27 +114,56 @@ class WebWidget extends Component {
 
   channelChoiceAvailable = () => this.props.channelChoice && this.chatOnline() && this.props.submitTicketAvailable;
 
-  chatOnline = () => this.props.chat.account_status === 'online';
+  chatOnline = () => this.props.chat.account_status === 'online' || this.props.zopimOnline;
 
-  show = (viaActivate = false) => {
+  noActiveEmbed = () => this.props.activeEmbed === '';
+
+  showChat = () => {
+    const { activeEmbed, updateActiveEmbed, zopimOnline, zopimOnNext } = this.props;
+
+    if (zopimOnline) {
+      if (activeEmbed === helpCenter || activeEmbed === channelChoice) {
+        zopimOnNext();
+      }
+
+      updateActiveEmbed(zopimChat);
+    } else {
+      updateActiveEmbed(chat);
+    }
+  }
+
+  resetActiveEmbed = () => {
     const {
-      activeEmbed,
       updateActiveEmbed,
       helpCenterAvailable,
       showBackButton } = this.props;
-
-    if (activeEmbed !== '' && !viaActivate) return;
 
     if (helpCenterAvailable) {
       updateActiveEmbed(helpCenter);
     } else if (this.channelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
     } else if (this.chatOnline()) {
-      updateActiveEmbed(chat);
+      this.showChat();
     } else {
       updateActiveEmbed(submitTicket);
     }
     showBackButton(false);
+  }
+
+  show = (viaActivate = false) => {
+    const { activeEmbed } = this.props;
+
+    // If chat came online when contact form was open it should
+    // replace it when it's next opened.
+    if (activeEmbed === submitTicket && this.chatOnline() && !this.channelChoiceAvailable()) {
+      this.showChat();
+      return;
+    }
+
+    // If zopim has gone offline we will need to reset the embed
+    const chatOffline = activeEmbed === zopimChat && !this.chatOnline();
+
+    if (this.noActiveEmbed() || viaActivate || chatOffline) this.resetActiveEmbed();
   }
 
   showHelpCenter = () => {
@@ -134,13 +174,17 @@ class WebWidget extends Component {
     this.props.showBackButton(articleViewActive);
   }
 
-  onNextClick = () => {
-    const { showBackButton, updateActiveEmbed } = this.props;
+  onNextClick = (embed) => {
+    const { showBackButton, updateActiveEmbed, zopimOnline } = this.props;
 
-    if (this.chatOnline()) {
-      updateActiveEmbed(chat);
+    if (embed) {
+      this.setComponent(embed, true);
+    } else if (this.chatOnline()) {
+      this.showChat();
       // TODO: track chat started
-      showBackButton(true);
+      if (!zopimOnline) {
+        showBackButton(true);
+      }
     } else {
       updateActiveEmbed(submitTicket);
       showBackButton(true);
@@ -200,6 +244,7 @@ class WebWidget extends Component {
       <div className={classes}>
         <HelpCenter
           ref={helpCenter}
+          chatOnline={this.chatOnline()}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}
           onArticleClick={this.props.onArticleClick}

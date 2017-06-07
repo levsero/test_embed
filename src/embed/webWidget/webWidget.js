@@ -25,6 +25,7 @@ import { isOnHelpCenterPage,
          isOnHostMappedDomain } from 'utility/pages';
 import { cappedIntervalCall,
          getPageKeywords } from 'utility/utils';
+import { updateZopimOnline } from 'src/redux/modules/base';
 
 import WebWidget from 'component/webWidget/WebWidget';
 import zChat from 'vendor/web-sdk';
@@ -126,6 +127,10 @@ const afterShowAnimate = () => {
 const onClose = () => {
   mediator.channel.broadcast('webWidget.onClose');
 };
+const zopimOnNext = () => {
+  mediator.channel.broadcast('helpCenterForm.onNextClick');
+  hide();
+};
 
 function create(name, config = {}, reduxStore = {}) {
   let containerStyle;
@@ -218,7 +223,8 @@ function create(name, config = {}, reduxStore = {}) {
           submitTicketSender={submitTicketSettings.submitTicketSender}
           updateFrameSize={params.updateFrameSize}
           viaId={settings.get('viaId')}
-          zendeskHost={transport.getZendeskHost()} />
+          zendeskHost={transport.getZendeskHost()}
+          zopimOnNext={zopimOnNext} />
       );
     },
     frameParams,
@@ -231,7 +237,8 @@ function create(name, config = {}, reduxStore = {}) {
     config: {
       helpCenterForm: helpCenterSettings.config,
       ticketSubmissionForm: submitTicketSettings.config
-    }
+    },
+    store: reduxStore
   };
 
   return this;
@@ -247,6 +254,18 @@ function render() {
   embed.instance = ReactDOM.render(embed.component, element);
 
   setupMediator();
+}
+
+function hide(options) {
+  waitForRootComponent(() => {
+    const rootComponent = getRootComponent();
+
+    embed.instance.hide(options);
+
+    if (rootComponent && rootComponent.state && rootComponent.state.showNotification) {
+      rootComponent.clearNotification();
+    }
+  });
 }
 
 function setupMediator() {
@@ -272,13 +291,26 @@ function setupMediator() {
   });
 
   mediator.channel.subscribe('webWidget.hide', (options = {}) => {
+    hide(options);
+  });
+
+  mediator.channel.subscribe('webWidget.setZopimOnline', (online) => {
     waitForRootComponent(() => {
-      const rootComponent = getRootComponent();
+      embed.store.dispatch(updateZopimOnline(online));
+    });
+  });
 
-      embed.instance.hide(options);
+  mediator.channel.subscribe('webWidget.zopimChatEnded', () => {
+    waitForRootComponent(() => {
+      // Reset the active component state
+      getWebWidgetComponent().setComponent('');
+    });
+  });
 
-      if (rootComponent.state.showNotification) {
-        rootComponent.clearNotification();
+  mediator.channel.subscribe('webWidget.zopimChatStarted', () => {
+    waitForRootComponent(() => {
+      if (!embed.instance.state.visible) {
+        getWebWidgetComponent().setComponent('zopimChat');
       }
     });
   });

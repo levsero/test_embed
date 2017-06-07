@@ -1,6 +1,7 @@
 import {
   UPDATE_ACTIVE_EMBED,
-  UPDATE_EMBED
+  UPDATE_EMBED,
+  UPDATE_ZOPIM_ONLINE
 } from './base-action-types';
 
 export const updateActiveEmbed = (embedName) => {
@@ -17,5 +18,12 @@ export const updateEmbedAccessible = (name, accessible) => {
       name,
       params: { accessible }
     }
+  };
+};
+
+export const updateZopimOnline = (online) => {
+  return {
+    type: UPDATE_ZOPIM_ONLINE,
+    payload: online
   };
 };
