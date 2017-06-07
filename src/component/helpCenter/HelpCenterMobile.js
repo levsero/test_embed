@@ -21,13 +21,15 @@ export class HelpCenterMobile extends Component {
     formTitleKey: PropTypes.string,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
+    onNextClick: PropTypes.func,
     hasSearched: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     isLoading: PropTypes.bool,
     search: PropTypes.func.isRequired,
     searchFieldValue: PropTypes.string,
     showNextButton: PropTypes.bool,
-    channelChoice: PropTypes.bool
+    channelChoice: PropTypes.bool,
+    setChannelChoiceShown: PropTypes.func
   };
 
   static defaultProps = {
@@ -39,7 +41,9 @@ export class HelpCenterMobile extends Component {
     isLoading: false,
     searchFieldValue: '',
     showNextButton: true,
-    channelChoice: false
+    channelChoice: false,
+    setChannelChoiceShown: () => {},
+    onNextClick: () => {}
   };
 
   constructor(props, context) {
@@ -113,13 +117,13 @@ export class HelpCenterMobile extends Component {
   }
 
   renderChannelChoice = () => {
-    return (
-      <div className={styles.channelChoiceContainer}>
-        <ChannelChoicePopupMobile
-          handleNextClick={() => {}}
-          handleCancelClick={() => {}} />
-      </div>
-    );
+    return this.props.channelChoice
+         ? <div className={styles.channelChoiceContainer}>
+            <ChannelChoicePopupMobile
+              handleNextClick={this.props.onNextClick}
+              handleCancelClick={() => this.props.setChannelChoiceShown(false)} />
+          </div>
+         : null;
   }
 
   renderSearchField = () => {

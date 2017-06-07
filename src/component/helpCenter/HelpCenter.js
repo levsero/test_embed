@@ -80,7 +80,8 @@ export class HelpCenter extends Component {
       searchTracked: false,
       showNextButton: this.props.showNextButton,
       showViewMore: true,
-      viewMoreActive: false
+      viewMoreActive: false,
+      channelChoiceShown: false
     };
   }
 
@@ -125,6 +126,10 @@ export class HelpCenter extends Component {
 
   setChatOnline = (state) => {
     this.setState({ chatOnline: state });
+  }
+
+  setChannelChoiceShown = (channelChoiceShown) => {
+    this.setState({ channelChoiceShown });
   }
 
   interactiveSearchSuccessFn = (res, query) => {
@@ -301,7 +306,13 @@ export class HelpCenter extends Component {
 
   handleNextClick = (e) => {
     e.preventDefault();
-    this.props.onNextClick();
+
+    if (this.props.channelChoice) {
+      // this.setState({ channelChoiceShown: true });
+      setTimeout(() => this.setChannelChoiceShown(true), 0);
+    } else {
+      this.props.onNextClick();
+    }
   }
 
   handleOnChangeValue = (value) => {
@@ -381,7 +392,7 @@ export class HelpCenter extends Component {
 
   onContainerClick = () => {
     if (this.refs.helpCenterDesktop) {
-      this.refs.helpCenterDesktop.hideChannelChoice();
+      this.setChannelChoiceShown(false);
     }
   }
 
@@ -454,7 +465,7 @@ export class HelpCenter extends Component {
         disableAutoComplete={this.props.disableAutoComplete}
         isLoading={this.state.isLoading}
         onNextClick={this.props.onNextClick}
-        channelChoice={this.props.channelChoice && chatOnline}
+        channelChoice={this.state.channelChoiceShown && chatOnline}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
         buttonLabel={buttonLabel}
@@ -469,6 +480,8 @@ export class HelpCenter extends Component {
   }
 
   renderHelpCenterMobile = (buttonLabel) => {
+    const chatOnline = this.state.chatOnline || this.props.chatOnline;
+
     return (
       <HelpCenterMobile
         ref='helpCenterMobile'
@@ -476,14 +489,17 @@ export class HelpCenter extends Component {
         handleNextClick={this.handleNextClick}
         search={this.search}
         isLoading={this.state.isLoading}
+        onNextClick={this.props.onNextClick}
         showNextButton={this.state.showNextButton}
-        chatOnline={this.state.chatOnline || this.props.chatOnline}
+        chatOnline={chatOnline}
+        channelChoice={this.state.channelChoiceShown && chatOnline}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
         searchFieldValue={this.state.searchFieldValue}
         hideZendeskLogo={this.props.hideZendeskLogo}
         buttonLabel={buttonLabel}
-        formTitleKey={this.props.formTitleKey}>
+        formTitleKey={this.props.formTitleKey}
+        setChannelChoiceShown={this.setChannelChoiceShown}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterMobile>

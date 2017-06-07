@@ -49,8 +49,6 @@ export class HelpCenterDesktop extends Component {
 
   constructor(props, context) {
     super(props, context);
-
-    this.state = { channelChoiceShown: false };
   }
 
   componentDidUpdate = () => {
@@ -83,20 +81,6 @@ export class HelpCenterDesktop extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.search();
-  }
-
-  handleNextButtonClick = (e) => {
-    e.preventDefault();
-
-    if (this.props.channelChoice) {
-      setTimeout(() => this.setState({ channelChoiceShown: true }), 0);
-    } else {
-      this.props.onNextClick();
-    }
-  }
-
-  hideChannelChoice = () => {
-    this.setState({ channelChoiceShown: false });
   }
 
   renderForm = () => {
@@ -138,7 +122,7 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderChannelChoice = () => {
-    return this.state.channelChoiceShown
+    return this.props.channelChoice
          ? <ChannelChoicePopupDesktop onNextClick={this.props.onNextClick} />
          : null;
   }
@@ -152,7 +136,7 @@ export class HelpCenterDesktop extends Component {
           <Button
             fullscreen={false}
             label={this.props.buttonLabel}
-            onClick={this.handleNextButtonClick} />
+            onClick={this.props.handleNextClick} />
         </ButtonGroup>
         {this.renderChannelChoice()}
       </div>
