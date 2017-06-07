@@ -406,13 +406,15 @@ describe('WebWidget component', () => {
     describe('when there is an active embed', () => {
       beforeEach(() => {
         webWidget = domRender(
-          <WebWidget updateActiveEmbed={updateActiveEmbedSpy} activeEmbed='chat' />
+          <WebWidget updateActiveEmbed={noop} activeEmbed='chat' />
         );
+
+        spyOn(webWidget, 'resetActiveEmbed');
         webWidget.show();
       });
 
-      it('should not call updateActiveEmbed', () => {
-        expect(updateActiveEmbedSpy)
+      it('should not call resetActiveEmbed', () => {
+        expect(webWidget.resetActiveEmbed)
           .not.toHaveBeenCalled();
       });
 
@@ -421,15 +423,16 @@ describe('WebWidget component', () => {
           webWidget = domRender(
             <WebWidget
               helpCenterAvailable={true}
-              updateActiveEmbed={updateActiveEmbedSpy}
+              updateActiveEmbed={noop}
               activeEmbed='chat' />
           );
+
           webWidget.show(true);
         });
 
-        it('should reset the state and call updateActiveEmbed with help center', () => {
-          expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('helpCenterForm');
+        it('should call resetActiveEmbed', () => {
+          expect(webWidget.resetActiveEmbed)
+            .toHaveBeenCalled();
         });
       });
 
@@ -442,6 +445,7 @@ describe('WebWidget component', () => {
               zopimOnline={true}
               activeEmbed='ticketSubmissionForm' />
           );
+
           webWidget.show();
         });
 
@@ -456,16 +460,17 @@ describe('WebWidget component', () => {
           webWidget = domRender(
             <WebWidget
               submitTicketAvailable={true}
-              updateActiveEmbed={updateActiveEmbedSpy}
+              updateActiveEmbed={noop}
               zopimOnline={false}
               activeEmbed='zopimChat' />
           );
+
           webWidget.show();
         });
 
-        it('should reset the state', () => {
-          expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('ticketSubmissionForm');
+        it('should call resetActiveEmbed', () => {
+          expect(webWidget.resetActiveEmbed)
+            .toHaveBeenCalled();
         });
       });
     });
@@ -475,11 +480,13 @@ describe('WebWidget component', () => {
         webWidget = domRender(
           <WebWidget updateActiveEmbed={updateActiveEmbedSpy} activeEmbed='' />
         );
+
+        spyOn(webWidget, 'resetActiveEmbed');
         webWidget.show();
       });
 
-      it('should call updateActiveEmbed', () => {
-        expect(updateActiveEmbedSpy)
+      it('should call resetActiveEmbed', () => {
+        expect(webWidget.resetActiveEmbed)
           .toHaveBeenCalled();
       });
     });
