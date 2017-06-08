@@ -14,10 +14,9 @@ import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.sass
 
 import { sharedStyles } from 'embed/sharedStyles.js';
 
-// TODO: find a way to stop the duplication of composed classes
-
 export const webWidgetStyles = `
   ${sharedStyles}
+  ${ChannelChoiceStyles}
   ${ChatBoxStyles}
   ${ChatHeaderStyles}
   ${ChatStyles}
@@ -30,9 +29,4 @@ export const webWidgetStyles = `
   ${MessageBubbleStyles}
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
-  ${ChannelChoiceStyles}
 `;
-
-// ChannelChoiceStyles needs to be at the bottom otherwise composes classes
-// from anything added later override the overrides we've needed to add
-
