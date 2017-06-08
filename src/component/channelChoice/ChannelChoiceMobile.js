@@ -8,7 +8,6 @@ export class ChannelChoiceMobile extends Component {
     handleNextClick: PropTypes.func.isRequired,
     handleCancelClick: PropTypes.func.isRequired,
     showCloseButton: PropTypes.func.isRequired,
-    renderZendeskLogo: PropTypes.func.isRequired
   };
 
   componentDidMount = () => {
@@ -16,14 +15,13 @@ export class ChannelChoiceMobile extends Component {
   }
 
   render = () => {
-    const { handleNextClick, handleCancelClick, renderZendeskLogo } = this.props;
+    const { handleNextClick, handleCancelClick } = this.props;
 
     return (
       <div>
         <ChannelChoicePopupMobile
           onNextClick={handleNextClick}
           onCancelClick={handleCancelClick} />
-        {renderZendeskLogo(true)}
       </div>
     );
   }

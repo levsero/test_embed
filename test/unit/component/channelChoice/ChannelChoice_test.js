@@ -1,5 +1,6 @@
 describe('ChannelChoice component', () => {
-  let ChannelChoice;
+  let ChannelChoice,
+    channelChoice;
   const channelChoicePath = buildSrcPath('component/channelChoice/ChannelChoice');
 
   beforeEach(() => {
@@ -8,16 +9,6 @@ describe('ChannelChoice component', () => {
     mockery.enable();
 
     initMockRegistry({
-      './ChannelChoice.sass': {
-        locals: {
-          hr: 'hr',
-          inner: 'inner',
-          footerNoLogo: 'footerNoLogo'
-        }
-      },
-      'component/button/ButtonIcon': {
-        ButtonIcon: noopReactComponent()
-      },
       'component/container/Container': {
         Container: class extends Component {
           render() {
@@ -27,17 +18,8 @@ describe('ChannelChoice component', () => {
           }
         }
       },
-      'component/container/ScrollContainer': {
-        ScrollContainer: class extends Component {
-          render() {
-            return (
-              <div className={this.props.footerClasses}>
-                {this.props.children}
-              </div>
-            );
-          }
-        }
-      },
+      'component/channelChoice/ChannelChoiceDesktop': { ChannelChoiceDesktop: noopReactComponent() },
+      'component/channelChoice/ChannelChoiceMobile': { ChannelChoiceMobile: noopReactComponent() },
       'component/ZendeskLogo': {
         ZendeskLogo: class extends Component {
           render() {
@@ -68,71 +50,81 @@ describe('ChannelChoice component', () => {
   });
 
   describe('render', () => {
-    let channelChoice, channelChoiceComponent;
-
-    describe('default props', () => {
+    describe('when on desktop', () => {
       beforeEach(() => {
-        channelChoice = domRender(<ChannelChoice />);
-        channelChoiceComponent = ReactDOM.findDOMNode(channelChoice);
+        channelChoice = domRender(<ChannelChoice isMobile={false} />);
       });
 
-      it('has an inner container class', () => {
-        expect(channelChoiceComponent.querySelector('.inner'))
-          .not.toBeNull();
-      });
-
-      it('shows the divider', () => {
-        expect(channelChoiceComponent.querySelector('.hr'))
-          .not.toBeNull();
-      });
-
-      it('renders the zendesk logo component', () => {
-        expect(channelChoiceComponent.querySelector('.zendeskLogo'))
-          .not.toBeNull();
-      });
-
-      it('does not pass the footerNoLogo class to ScrollContainer', () => {
-        expect(channelChoiceComponent.querySelector('.footerNoLogo'))
-          .toBeNull();
+      it('should render the ChannelChoiceDesktop component', () => {
+        expect(channelChoice.refs.channelChoiceDesktop)
+          .toBeDefined();
       });
     });
 
-    describe('when hideZendeskLogo is true', () => {
+    describe('when on mobile', () => {
       beforeEach(() => {
-        channelChoice = domRender(<ChannelChoice hideZendeskLogo={true} />);
-        channelChoiceComponent = ReactDOM.findDOMNode(channelChoice);
+        channelChoice = domRender(<ChannelChoice isMobile={true} />);
       });
 
-      it('does not have an inner container class', () => {
-        expect(channelChoiceComponent.querySelector('.inner'))
-          .toBeNull();
+      it('should render the ChannelChoiceMobile component', () => {
+        expect(channelChoice.refs.channelChoiceMobile)
+          .toBeDefined();
+      });
+    });
+
+    describe('zendeskLogo', () => {
+      let channelChoiceComponent;
+
+      describe('when props.hideZendeskLogo is false', () => {
+        beforeEach(() => {
+          channelChoice = domRender(<ChannelChoice hideZendeskLogo={false} />);
+          channelChoiceComponent = ReactDOM.findDOMNode(channelChoice);
+        });
+
+        it('should render the zendesk logo', () => {
+          expect(channelChoiceComponent.querySelector('.zendeskLogo'))
+            .not.toBeNull();
+        });
       });
 
-      it('does not show the divider', () => {
-        expect(channelChoiceComponent.querySelector('.hr'))
-          .toBeNull();
-      });
+      describe('when props.hideZendeskLogo is true', () => {
+        beforeEach(() => {
+          channelChoice = domRender(<ChannelChoice hideZendeskLogo={true} />);
+          channelChoiceComponent = ReactDOM.findDOMNode(channelChoice);
+        });
 
-      it('does not render the zendesk logo component', () => {
-        expect(channelChoiceComponent.querySelector('.zendeskLogo'))
-          .toBeNull();
-      });
-
-      it('passes the footerNoLogo class to ScrollContainer', () => {
-        expect(channelChoiceComponent.querySelector('.footerNoLogo'))
-          .not.toBeNull();
+        it('should not render the zendesk logo', () => {
+          expect(channelChoiceComponent.querySelector('.zendeskLogo'))
+            .toBeNull();
+        });
       });
     });
   });
 
-  describe('handleClick', () => {
-    it('calls this.props.onClick with the correct params', () => {
-      const channelChoice = domRender(<ChannelChoice onNextClick={jasmine.createSpy()} />);
+  describe('handleNextClick', () => {
+    let onNextClickSpy,
+      showCloseButtonSpy;
 
-      channelChoice.handleClick('chat')();
+    beforeEach(() => {
+      onNextClickSpy = jasmine.createSpy('onNextClick');
+      showCloseButtonSpy = jasmine.createSpy('showCloseButton');
+      channelChoice = domRender(
+        <ChannelChoice
+          onNextClick={onNextClickSpy}
+          showCloseButton={showCloseButtonSpy} />
+      );
 
-      expect(channelChoice.props.onNextClick)
+      channelChoice.handleNextClick('chat');
+    });
+
+    it('should call props.onNextClick with embed param', () => {
+      expect(onNextClickSpy)
         .toHaveBeenCalledWith('chat');
+    });
+
+    it('should call props.showCloseButton', () => {
+      expect(showCloseButtonSpy)
+        .toHaveBeenCalled();
     });
   });
 });

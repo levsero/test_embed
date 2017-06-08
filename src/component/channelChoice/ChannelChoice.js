@@ -42,20 +42,20 @@ export class ChannelChoice extends Component {
   renderMobile = (onCancelClick, showCloseButton) => {
     return (
       <ChannelChoiceMobile
+        ref='channelChoiceMobile'
         handleNextClick={this.handleNextClick}
         handleCancelClick={onCancelClick}
-        showCloseButton={showCloseButton}
-        renderZendeskLogo={this.renderZendeskLogo} />
+        showCloseButton={showCloseButton} />
     );
   }
 
   renderDesktop = (hideZendeskLogo, formTitleKey) => {
     return (
       <ChannelChoiceDesktop
+        ref='channelChoiceDesktop'
         formTitleKey={formTitleKey}
         handleNextClick={this.handleNextClick}
-        hideZendeskLogo={hideZendeskLogo}
-        renderZendeskLogo={this.renderZendeskLogo} />
+        hideZendeskLogo={hideZendeskLogo} />
     );
   }
 
@@ -76,6 +76,7 @@ export class ChannelChoice extends Component {
     return (
       <Container style={style}>
         {channelChoice}
+        {this.renderZendeskLogo(this.props.isMobile)}
       </Container>
     );
   }

@@ -11,7 +11,6 @@ export class ChannelChoiceDesktop extends Component {
   static propTypes = {
     formTitleKey: PropTypes.string.isRequired,
     handleNextClick: PropTypes.func.isRequired,
-    renderZendeskLogo: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool
   };
 
@@ -44,7 +43,7 @@ export class ChannelChoiceDesktop extends Component {
   }
 
   render = () => {
-    const { formTitleKey, hideZendeskLogo, renderZendeskLogo } = this.props;
+    const { formTitleKey, hideZendeskLogo } = this.props;
     const footerClasses = hideZendeskLogo ? styles.footerNoLogo : '';
 
     return (
@@ -57,7 +56,6 @@ export class ChannelChoiceDesktop extends Component {
           title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}>
           {this.renderBody()}
         </ScrollContainer>
-        {renderZendeskLogo(false)}
       </div>
     );
   }
