@@ -7,28 +7,28 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: u-nbfc from '../../styles/utils.scss';
+  composes: u-nbfc from global;
   border-radius: #{8/$font-size}rem;
   box-sizing: border-box;
 }
 
 .header {
-  composes: u-paddingVM u-paddingHL from '../../styles/utils.scss';
+  composes: u-paddingVM u-paddingHL from global;
   background: $form-cta-color;
   border-bottom: $thin-border-size solid $header-stroke;
   color: $zd-color-dark-gray;
 }
 
 .title {
-  composes: u-textSizeMed u-textBold u-textCenter u-textXHeight from '../../styles/utils.scss';
+  composes: u-textSizeMed u-textBold u-textCenter u-textXHeight from global;
 }
 
 .titleMobile {
-  composes: u-textSizeBaseMobile from '../../styles/utils.scss';
+  composes: u-textSizeBaseMobile from global;
 }
 
 .content {
-  composes: u-paddingHS u-marginHS u-paddingTM from '../../styles/utils.scss';
+  composes: u-paddingHS u-marginHS u-paddingTM from global;
   overflow-y: auto;
   overflow-x: hidden;
   max-height: #{350/$font-size}rem;
@@ -52,7 +52,7 @@
 
 .contentMobile {
   -webkit-overflow-scrolling: touch;
-  composes: u-overflowAuto from '../../styles/utils.scss';
+  composes: u-overflowAuto from global;
   box-sizing: border-box;
   height: calc(100% - #{114/$font-size}rem);
   max-height: initial;
@@ -68,7 +68,7 @@
 }
 
 .footer {
-  composes: u-paddingHL u-posRelative u-paddingVM from '../../styles/utils.scss';
+  composes: u-paddingHL u-posRelative u-paddingVM from global;
 }
 
 .footerShadow {

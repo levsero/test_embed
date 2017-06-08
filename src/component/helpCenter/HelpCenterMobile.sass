@@ -7,31 +7,31 @@
 @import '../../styles/mixins.scss';
 
 .form {
-  composes: u-cf from '../../styles/utils.scss';
+  composes: u-cf from global;
   composes: Form from '../../styles/components/Form.scss';
 }
 
 .buttonContainer {
-  composes: u-posRelative from '../../styles/utils.scss';
+  composes: u-posRelative from global;
 }
 
 .searchTitle {
-  composes: u-textSizeBaseMobile u-marginTM u-textCenter from '../../styles/utils.scss';
+  composes: u-textSizeBaseMobile u-marginTM u-textCenter from global;
   composes: Container--fullscreen-center-vert from '../../styles/components/Container.scss';
 }
 
 .link {
-  composes: u-block u-userTextColor u-textNoWrap from '../../styles/utils.scss';
+  composes: u-block u-userTextColor u-textNoWrap from global;
   margin: 0 auto;
   @include text-limit(80%);
 }
 
 .linkContext {
-  composes: u-marginBN from '../../styles/utils.scss';
+  composes: u-marginBN from global;
 }
 
 .linkContainer {
-  composes: u-textSizeBaseMobile u-textCenter u-marginTL from '../../styles/utils.scss';
+  composes: u-textSizeBaseMobile u-textCenter u-marginTL from global;
 }
 
 .container {

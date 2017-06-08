@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
 .field {
-  composes: u-paddingAS from '../../styles/utils.scss';
+  composes: u-paddingAS from global;
 
   &:hover {
     background-color: $zd-color-white-smoke;
@@ -31,13 +31,13 @@
 }
 
 .fieldBorder {
-  composes: u-borderBottom from '../../styles/utils.scss';
+  composes: u-borderBottom from global;
   margin-bottom: #{3/$font-size}rem;
   padding-bottom: #{3/$font-size}rem;
 }
 
 .arrowRight {
-  composes: u-pullRight from '../../styles/utils.scss';
+  composes: u-pullRight from global;
 
   width: 0;
   height: 0;
@@ -54,7 +54,7 @@
 }
 
 .arrowLeft {
-  composes: u-pullLeft from '../../styles/utils.scss';
+  composes: u-pullLeft from global;
 
   width: 0;
   height: 0;
@@ -76,6 +76,6 @@
 }
 
 .name {
-  composes: u-inlineBlock from '../../styles/utils.scss';
+  composes: u-inlineBlock from global;
   width: 90%;
 }

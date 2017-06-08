@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: u-flex u-flexAlignItemsCenter u-posStart--flush u-posAbsolute u-hsizeAll from '../../styles/utils.scss';
+  composes: u-flex u-flexAlignItemsCenter u-posStart--flush u-posAbsolute u-hsizeAll from global;
   background-color: $base-color;
   border-bottom: #{1/$font-size}rem solid $zd-color-gainsboro;
   box-sizing: border-box;
@@ -17,7 +17,7 @@
 }
 
 .title {
-  composes: u-textBold from '../../styles/utils.scss';
+  composes: u-textBold from global;
   color: $zd-color-pelorous;
 }
 
