@@ -3,12 +3,12 @@
 $menu-height: #{200/$font-size}rem;
 
 .container {
-  composes: u-marginBM u-posRelative from '../../styles/utils.scss';
+  composes: u-marginBM u-posRelative from global;
   color: $zd-color-monsoon;
 }
 
 .arrow {
-  composes: u-pullRight u-posAbsolute from '../../styles/utils.scss';
+  composes: u-pullRight u-posAbsolute from global;
   background: $zd-color-white;
   right: #{10/$font-size}rem;
   top: #{8/$font-size}rem;
@@ -46,12 +46,12 @@ $menu-height: #{200/$font-size}rem;
 
 .label {
   composes: Form-fieldLabel from '../../styles/components/Form.scss';
-  composes: u-textXHeight from '../../styles/utils.scss';
+  composes: u-textXHeight from global;
 }
 
 .input {
   composes: Form-field from '../../styles/components/Form.scss';
-  composes: u-hsizeAll from '../../styles/utils.scss';
+  composes: u-hsizeAll from global;
 
   &::placeholder {
     color: $zd-color-oil;
@@ -68,15 +68,15 @@ $menu-height: #{200/$font-size}rem;
 }
 
 .labelMobile {
-  composes: u-textSize15 from '../../styles/utils.scss';
+  composes: u-textSize15 from global;
 }
 
 .labelLandscape {
-  composes: u-textSizeSml from '../../styles/utils.scss';
+  composes: u-textSizeSml from global;
 }
 
 .menuContainer {
-  composes: u-posAbsolute u-border u-hsizeAll u-zIndex1 u-posStart--flush from '../../styles/utils.scss';
+  composes: u-posAbsolute u-border u-hsizeAll u-zIndex1 u-posStart--flush from global;
   border-radius: #{4/$font-size}rem;
   border-color: $zd-color-aluminum;
   top: #{37/$font-size}rem;
@@ -111,17 +111,17 @@ $menu-height: #{200/$font-size}rem;
 }
 
 .menuContainerMobile {
-  composes: u-textSize15 from '../../styles/utils.scss';
+  composes: u-textSize15 from global;
   top: #{38/$font-size}rem;
 }
 
 .menu {
-  composes: u-hsizeAll from '../../styles/utils.scss';
+  composes: u-hsizeAll from global;
 }
 
 .description {
   composes: Form-description from '../../styles/components/Form.scss';
-  composes: u-textAluminum from '../../styles/utils.scss';
+  composes: u-textAluminum from global;
 }
 
 @keyframes right {
@@ -143,13 +143,13 @@ $menu-height: #{200/$font-size}rem;
 }
 
 .animateRight {
-  composes: u-posAbsolute from '../../styles/utils.scss';
+  composes: u-posAbsolute from global;
 
   animation: right 0.2s linear 0s 1;
 }
 
 .animateLeft {
-  composes: u-posAbsolute from '../../styles/utils.scss';
+  composes: u-posAbsolute from global;
 
   animation: left 0.2s linear 0s 1;
 }

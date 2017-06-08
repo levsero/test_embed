@@ -7,13 +7,13 @@
 @import '../../styles/_vars.scss';
 
 .hr {
-  composes: u-paddingN u-marginTS u-marginBN u-marginHS u-borderNone from '../../styles/utils.scss';
+  composes: u-paddingN u-marginTS u-marginBN u-marginHS u-borderNone from global;
   height: #{1/$font-size}rem;
   border-bottom: #{1/$font-size}rem solid $zd-color-gainsboro !important;
 }
 
 .inner {
-  composes: u-marginBL from '../../styles/utils.scss';
+  composes: u-marginBL from global;
 }
 
 .footerNoLogo {

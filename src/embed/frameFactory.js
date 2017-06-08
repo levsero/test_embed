@@ -19,7 +19,6 @@ if (!__DEV__) {
   _.noConflict();
 }
 
-const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
 const sizingRatio = 12 * getZoomSizingRatio(false, true);
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
@@ -342,7 +341,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
 
     constructEmbed = (html, doc) => {
       const position = settings.get('position.horizontal') || this.props.position;
-      const cssText = baseCSS + mainCSS + params.css + baseFontCSS;
+      const cssText = mainCSS + params.css + baseFontCSS;
       const fullscreen = params.fullscreenable && params.isMobile;
       const positionClasses = classNames({
         'u-borderTransparent u-posRelative': !fullscreen,

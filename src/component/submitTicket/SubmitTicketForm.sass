@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
 .form {
-  composes: u-cf from '../../styles/utils.scss';
+  composes: u-cf from global;
   composes: Form from '../../styles/components/Form.scss';
 }
 
@@ -10,18 +10,18 @@
 }
 
 .hidden {
-  composes: u-isHidden from '../../styles/utils.scss';
+  composes: u-isHidden from global;
 }
 
 .ticketFormTitle {
   composes: ticketFormsListTitle from './SubmitTicket.sass';
-  composes: u-marginBM from '../../styles/utils.scss';
+  composes: u-marginBM from global;
 }
 
 .ticketFormTitleMobile {
-  composes: u-textSize15 from '../../styles/utils.scss';
+  composes: u-textSize15 from global;
 }
 
 .ticketFormContainer {
-  composes: u-paddingTN from '../../styles/utils.scss';
+  composes: u-paddingTN from global;
 }

@@ -8,7 +8,7 @@ $Button-baseFontSize: #{14/$font-size}rem;
 $Button-nudge: 5;
 
 .wrapper {
-  composes: u-isActionable u-textLeft u-inlineBlock u-borderNone u-textBold u-textNoWrap Arrange Arrange--middle from '../styles/utils.scss';
+  composes: u-isActionable u-textLeft u-inlineBlock u-borderNone u-textBold u-textNoWrap Arrange Arrange--middle from global;
   font-size: $Button-baseFontSize;
   color: $base-color;
   fill: $base-color;
@@ -25,7 +25,7 @@ $Button-nudge: 5;
 }
 
 .icon {
-  composes: Arrange-sizeFit u-textInheritColor u-inlineBlock from '../styles/utils.scss';
+  composes: Arrange-sizeFit u-textInheritColor u-inlineBlock from global;
   padding-right: #{8/$font-size}rem;
 
   [dir='rtl'] & {
@@ -35,13 +35,13 @@ $Button-nudge: 5;
 }
 
 .iconMobile {
-  composes: u-paddingHN from '../styles/utils.scss';
+  composes: u-paddingHN from global;
 }
 
 .label {
-  composes: Arrange-sizeFit u-textInheritColor u-inlineBlock from '../styles/utils.scss';
+  composes: Arrange-sizeFit u-textInheritColor u-inlineBlock from global;
 }
 
 .labelMobile {
-  composes: u-isHidden from '../styles/utils.scss';
+  composes: u-isHidden from global;
 }

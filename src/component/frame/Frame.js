@@ -15,7 +15,6 @@ import { clickBusterRegister,
 import { win } from 'utility/globals';
 import { cssTimeToMs } from 'utility/utils';
 
-const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
 
 // Unregister lodash from window._
@@ -342,7 +341,7 @@ export class Frame extends Component {
 
     const wrapper = (
       <EmbedWrapper
-        baseCSS={`${baseCSS} ${mainCSS} ${this.props.css} ${baseFontCSS}`}
+        baseCSS={`${mainCSS} ${this.props.css} ${baseFontCSS}`}
         reduxStore={this.props.store}
         handleBackClick={this.back}
         handleCloseClick={this.close}

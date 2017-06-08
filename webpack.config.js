@@ -64,7 +64,6 @@ var config = {
       translation: path.join(prefix + '/src/translation'),
       vendor: path.join(prefix + '/src/vendor'),
       // CSS Components
-      baseCSS: path.join(prefix + '/src/styles/base.css'),
       componentCSS: path.join(prefix + '/src/styles/components'),
       mainCSS: path.join(prefix + '/src/styles/main.scss'),
       icons: path.join(prefix + '/src/asset/icons')

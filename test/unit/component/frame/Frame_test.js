@@ -126,7 +126,6 @@ describe('Frame', () => {
       'component/Icon': {
         Icon: noop
       },
-      'baseCSS': 'base-css-file',
       'mainCSS': 'main-css-file'
     };
 
@@ -830,9 +829,6 @@ describe('Frame', () => {
       });
 
       it('should add css styles to the element', () => {
-        expect(frame.getChild().props.baseCSS)
-          .toContain('base-css-file');
-
         expect(frame.getChild().props.baseCSS)
           .toContain('main-css-file');
 

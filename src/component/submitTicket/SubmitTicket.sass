@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
 .ticketFormsList {
-  composes: u-borderBottom u-isActionable u-paddingHN from '../../styles/utils.scss';
+  composes: u-borderBottom u-isActionable u-paddingHN from global;
   padding-top: #{18/$font-size}rem;
   padding-bottom: #{18/$font-size}rem;
   line-height: #{18/$font-size};
@@ -16,7 +16,7 @@
 }
 
 .ticketFormsListMobile {
-  composes: u-paddingHL u-textSize15 from '../../styles/utils.scss';
+  composes: u-paddingHL u-textSize15 from global;
   padding-top: #{24/$font-size}rem;
   padding-bottom: #{24/$font-size}rem;
 
@@ -26,14 +26,14 @@
 }
 
 .ticketFormsListTitle {
-  composes: u-borderBottom u-textBold u-paddingHN from '../../styles/utils.scss';
+  composes: u-borderBottom u-textBold u-paddingHN from global;
   padding-top: #{16/$font-size}rem;
   padding-bottom: #{16/$font-size}rem;
   color: $zd-color-dark-gray;
 }
 
 .ticketFormsContainer {
-  composes: u-paddingTN u-posRelative from '../../styles/utils.scss';
+  composes: u-paddingTN u-posRelative from global;
   min-height: #{357/$font-size}rem;
 }
 
@@ -46,26 +46,26 @@
 }
 
 .ticketFormsContainerMobile {
-  composes: u-paddingHN u-marginHN u-paddingTN from '../../styles/utils.scss';
+  composes: u-paddingHN u-marginHN u-paddingTN from global;
 }
 
 .notify {
-  composes: u-textCenter from '../../styles/utils.scss';
+  composes: u-textCenter from global;
 }
 
 .notifyIcon {
-  composes: u-inlineBlock u-posRelative u-marginTL from '../../styles/utils.scss';
+  composes: u-inlineBlock u-posRelative u-marginTL from global;
 }
 
 .error {
-  composes: u-marginTL from '../../styles/utils.scss';
+  composes: u-marginTL from global;
   composes: Error from '../../styles/components/Error.scss';
 }
 
 .loadingSpinner {
-  composes: u-flex u-posFill u-posAbsolute u-flexAlignItemsCenter u-flexJustifyCenter from '../../styles/utils.scss';
+  composes: u-flex u-posFill u-posAbsolute u-flexAlignItemsCenter u-flexJustifyCenter from global;
 }
 
 .loadingSpinnerIE {
-  composes: u-paddingBXL u-paddingRXL from '../../styles/utils.scss';
+  composes: u-paddingBXL u-paddingRXL from global;
 }
