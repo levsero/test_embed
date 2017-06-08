@@ -8,8 +8,10 @@
 
 .hr {
   composes: u-paddingN u-marginTS u-marginBN u-marginHS u-borderNone from global;
-  height: #{1/$font-size}rem;
   border-bottom: #{1/$font-size}rem solid $zd-color-gainsboro !important;
+  // ie hacks
+  color: $zd-color-gainsboro;
+  min-height: 0px;
 }
 
 .inner {
