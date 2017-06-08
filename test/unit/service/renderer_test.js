@@ -337,6 +337,8 @@ describe('renderer', () => {
         beforeEach(() => {
           configJSON.newChat = true;
 
+          mockChat.create.calls.reset();
+
           renderer.init(configJSON);
         });
 

@@ -79,7 +79,7 @@ function init(config) {
     i18n.setCustomTranslations();
     i18n.setLocale(config.locale);
 
-    const { singleIframe, newChat, embeds } = config;
+    const { singleIframe, newChat, embeds = {} } = config;
     const useNewChatEmbed = (embeds.zopimChat && newChat);
     const hasSingleIframeEmbeds = embeds.ticketSubmissionForm || embeds.helpCenterForm || useNewChatEmbed;
     let parsedConfig = parseConfig(config);
