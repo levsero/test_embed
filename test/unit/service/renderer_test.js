@@ -342,7 +342,30 @@ describe('renderer', () => {
 
         it('should not create zopimChat', () => {
           expect(mockChat.create)
-            .not.toHaveBeenCalledWith();
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when the config is naked zopim and newChat is false', () => {
+        beforeEach(() => {
+          const config = {
+            singleIframe: true,
+            zopimChat: {}
+          };
+
+          mockWebWidget.create.calls.reset();
+
+          renderer.init(config);
+        });
+
+        it('should create zopimChat', () => {
+          expect(mockChat.create)
+            .toHaveBeenCalled();
+        });
+
+        it('should not create webWidget embed', () => {
+          expect(mockWebWidget.create)
+            .not.toHaveBeenCalled();
         });
       });
     });
