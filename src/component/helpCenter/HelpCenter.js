@@ -308,7 +308,6 @@ export class HelpCenter extends Component {
     e.preventDefault();
 
     if (this.props.channelChoice) {
-      // this.setState({ channelChoiceShown: true });
       setTimeout(() => this.setChannelChoiceShown(true), 0);
     } else {
       this.props.onNextClick();

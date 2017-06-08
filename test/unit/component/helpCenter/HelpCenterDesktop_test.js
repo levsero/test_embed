@@ -10,8 +10,12 @@ describe('HelpCenterDesktop component', () => {
 
     initMockRegistry({
       'React': React,
-      'component/channelChoice/ChannelChoicePopup': {
-        ChannelChoicePopup: noopReactComponent()
+      'component/channelChoice/ChannelChoicePopupDesktop': {
+        ChannelChoicePopupDesktop: class extends Component {
+          render() {
+            return <div className='ChannelChoicePopupDesktop' />;
+          }
+        }
       },
       'component/field/SearchField': {
         SearchField: class extends Component {
@@ -146,48 +150,42 @@ describe('HelpCenterDesktop component', () => {
     });
   });
 
-  describe('handleNextButtonClick', () => {
-    let helpCenterDesktop;
-
-    beforeEach(() => {
-      helpCenterDesktop = domRender(<HelpCenterDesktop onNextClick={jasmine.createSpy()} />);
-    });
-
-    it('should call this.props.onNextClick', () => {
-      helpCenterDesktop.handleNextButtonClick({ preventDefault: noop });
-
-      expect(helpCenterDesktop.props.onNextClick)
-        .toHaveBeenCalled();
-    });
-
-    it('should show ChannelChoicePopup if channelChoice prop is true', () => {
-      helpCenterDesktop = domRender(
-        <HelpCenterDesktop
-          onNextClick={jasmine.createSpy()}
-          channelChoice={true} />
-      );
-
-      helpCenterDesktop.handleNextButtonClick({ preventDefault: noop });
-      jasmine.clock().tick();
-
-      expect(helpCenterDesktop.state.channelChoiceShown)
-        .toBe(true);
-
-      expect(helpCenterDesktop.props.onNextClick)
-        .not.toHaveBeenCalled();
-    });
-  });
-
   describe('channelChoice', () => {
-    let helpCenterDesktop;
+    let helpCenterDesktop,
+      helpCenterDesktopComponent;
 
-    beforeEach(() => {
-      helpCenterDesktop = domRender(<HelpCenterDesktop channelChoice={true} />);
+    describe('when props.channelChoice is true', () => {
+      beforeEach(() => {
+        helpCenterDesktop = domRender(
+          <HelpCenterDesktop
+            hasSearched={true}
+            showNextButton={true}
+            channelChoice={true} />
+        );
+        helpCenterDesktopComponent = ReactDOM.findDOMNode(helpCenterDesktop);
+      });
+
+      it('should render the ChannelChoicePopupDesktop component', () => {
+        expect(helpCenterDesktopComponent.querySelector('.ChannelChoicePopupDesktop'))
+          .not.toBeNull();
+      });
     });
 
-    it('should be hidden by default', () => {
-      expect(helpCenterDesktop.state.channelChoiceShown)
-        .toBe(false);
+    describe('when props.channelChoice is false', () => {
+      beforeEach(() => {
+        helpCenterDesktop = domRender(
+          <HelpCenterDesktop
+            hasSearched={true}
+            showNextButton={true}
+            channelChoice={false} />
+        );
+        helpCenterDesktopComponent = ReactDOM.findDOMNode(helpCenterDesktop);
+      });
+
+      it('should not render the ChannelChoicePopupDesktop component', () => {
+        expect(helpCenterDesktopComponent.querySelector('.ChannelChoicePopupDesktop'))
+          .toBeNull();
+      });
     });
   });
 

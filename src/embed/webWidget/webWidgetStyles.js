@@ -1,5 +1,5 @@
 import ChannelChoiceDesktopStyles from 'component/channelChoice/ChannelChoiceDesktop.sass';
-import ChannelChoiceMobileStyles from 'component/channelChoice/ChannelChoiceMobilePopup.sass';
+import ChannelChoiceMobileStyles from 'component/channelChoice/ChannelChoicePopupMobile.sass';
 import ChatBoxStyles from 'component/chat/ChatBox.sass';
 import ChatHeaderStyles from 'component/chat/ChatHeader.sass';
 import ChatStyles from 'component/chat/Chat.sass';

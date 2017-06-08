@@ -1196,4 +1196,39 @@ describe('HelpCenter component', () => {
         .toHaveBeenCalled();
     });
   });
+
+  describe('handleNextClick', () => {
+    let helpCenter;
+
+    describe('when props.channelChoice is true', () => {
+      beforeEach(() => {
+        helpCenter = domRender(<HelpCenter channelChoice={true} />);
+
+        spyOn(helpCenter, 'setChannelChoiceShown');
+        helpCenter.handleNextClick({ preventDefault: noop });
+        jasmine.clock().tick(0);
+      });
+
+      it('should call setChannelChoiceShown on the next tick', () => {
+        expect(helpCenter.setChannelChoiceShown)
+          .toHaveBeenCalledWith(true);
+      });
+    });
+
+    describe('when props.channelChoice is false', () => {
+      let onNextClickSpy;
+
+      beforeEach(() => {
+        onNextClickSpy = jasmine.createSpy('onNextClick');
+
+        helpCenter = domRender(<HelpCenter channelChoice={false} onNextClick={onNextClickSpy} />);
+        helpCenter.handleNextClick({ preventDefault: noop });
+      });
+
+      it('should call props.onNextClick', () => {
+        expect(onNextClickSpy)
+          .toHaveBeenCalled();
+      });
+    });
+  });
 });
