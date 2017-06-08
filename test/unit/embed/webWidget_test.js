@@ -1,12 +1,19 @@
 describe('embed.webWidget', () => {
   let webWidget,
     mockRegistry,
-    mockSettingsValue,
     focusField,
     mockIsOnHelpCenterPageValue,
     mockIsOnHostMappedDomainValue,
     mockGetTokenValue,
     mockIsMobileBrowser,
+    mockChatSuppressedValue,
+    mockHelpCenterSuppressedValue,
+    mockContactFormSuppressedValue,
+    mockViewMoreValue,
+    mockTicketFormsValue,
+    mockAttachmentsEnabledValue,
+    mockAuthenticateValue,
+    mockFiltersValue,
     targetCancelHandlerSpy,
     mockIsIE;
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
@@ -23,12 +30,19 @@ describe('embed.webWidget', () => {
   const zChatFirehoseSpy = jasmine.createSpy().and.callThrough();
 
   beforeEach(() => {
-    mockSettingsValue = '';
     mockIsOnHelpCenterPageValue = false;
     mockIsOnHostMappedDomainValue = false;
     mockGetTokenValue = null;
     mockIsMobileBrowser = false;
     mockIsIE = false;
+    mockChatSuppressedValue = false;
+    mockHelpCenterSuppressedValue = false;
+    mockContactFormSuppressedValue = false;
+    mockTicketFormsValue = [],
+    mockFiltersValue = [],
+    mockAttachmentsEnabledValue = false,
+    mockViewMoreValue = false;
+    mockAuthenticateValue = null;
 
     targetCancelHandlerSpy = jasmine.createSpy();
     focusField = jasmine.createSpy();
@@ -102,7 +116,22 @@ describe('embed.webWidget', () => {
       },
       'service/settings': {
         settings: {
-          get: () => { return mockSettingsValue; }
+          get: (value) => {
+            return _.get({
+              authenticate: mockAuthenticateValue,
+              chat: { suppress: mockChatSuppressedValue },
+              helpCenter: {
+                suppress: mockHelpCenterSuppressedValue,
+                viewMore: mockViewMoreValue,
+                filter: mockFiltersValue
+              },
+              contactForm: {
+                suppress: mockContactFormSuppressedValue,
+                ticketForms: mockTicketFormsValue,
+                attachments: mockAttachmentsEnabledValue
+              }
+            }, value, null);
+          }
         }
       },
       'service/mediator': {
@@ -233,6 +262,145 @@ describe('embed.webWidget', () => {
         .toBeDefined();
     });
 
+    describe('when no embeds are part of config', () => {
+      beforeEach(() => {
+        webWidget.create('', {});
+        webWidget.render();
+
+        faythe = webWidget.get().instance.getRootComponent();
+      });
+
+      it('should assign submitTicketAvailable to false', () => {
+        expect(faythe.props.submitTicketAvailable)
+          .toBeFalsy();
+      });
+
+      it('should assign helpCenterAvailable to false', () => {
+        expect(faythe.props.helpCenterAvailable)
+          .toBeFalsy();
+      });
+
+      it('should not apply props from setUpSubmitTicket to the embed', () => {
+        expect(faythe.props.attachmentSender)
+          .toBeFalsy();
+      });
+
+      it('should not apply props from setUpHelpCenter to the embed', () => {
+        expect(faythe.props.contextualSearchSender)
+          .toBeFalsy();
+      });
+
+      it('does not call zChat init', () => {
+        expect(zChatInitSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when ticketSubmissionForm is part of config', () => {
+      beforeEach(() => {
+        webWidget.create('', { ticketSubmissionForm: {} });
+        webWidget.render();
+
+        faythe = webWidget.get().instance.getRootComponent();
+      });
+
+      it('should assign submitTicketAvailable to true', () => {
+        expect(faythe.props.submitTicketAvailable)
+          .toBeTruthy();
+      });
+
+      it('should apply props from setUpSubmitTicket to the embed', () => {
+        expect(faythe.props.attachmentSender)
+          .toBeTruthy();
+      });
+
+      describe('when contact form is suppressed', () => {
+        beforeEach(() => {
+          mockContactFormSuppressedValue = true;
+
+          webWidget.create('', { ticketSubmissionForm: {} });
+          webWidget.render();
+
+          faythe = webWidget.get().instance.getRootComponent();
+        });
+
+        it('should assign submitTicketAvailable to false', () => {
+          expect(faythe.props.submitTicketAvailable)
+            .toBeFalsy();
+        });
+
+        it('should not apply props from setUpSubmitTicket to the embed', () => {
+          expect(faythe.props.attachmentSender)
+            .toBeFalsy();
+        });
+      });
+    });
+
+    describe('when helpCenterForm is part of config', () => {
+      beforeEach(() => {
+        webWidget.create('', { helpCenterForm: {} });
+        webWidget.render();
+
+        faythe = webWidget.get().instance.getRootComponent();
+      });
+
+      it('should assign helpCenterAvailable to true', () => {
+        expect(faythe.props.helpCenterAvailable)
+          .toBeTruthy();
+      });
+
+      it('should apply props from setUpHelpCenter to the embed', () => {
+        expect(faythe.props.contextualSearchSender)
+          .toBeTruthy();
+      });
+
+      describe('when help center is suppressed', () => {
+        beforeEach(() => {
+          mockHelpCenterSuppressedValue = true;
+
+          webWidget.create('', { helpCenterConfig: {} });
+          webWidget.render();
+
+          faythe = webWidget.get().instance.getRootComponent();
+        });
+
+        it('should assign helpCenterAvailable to false', () => {
+          expect(faythe.props.helpCenterAvailable)
+            .toBeFalsy();
+        });
+
+        it('should not apply props from setUpHelpCenter to the embed', () => {
+          expect(faythe.props.contextualSearchSender)
+            .toBeFalsy();
+        });
+      });
+    });
+
+    describe('when zopimChat is part of config', () => {
+      beforeEach(() => {
+        webWidget.create(componentName, { zopimChat: {} });
+      });
+
+      it('calls zChat init', () => {
+        expect(zChatInitSpy)
+          .toHaveBeenCalled();
+      });
+
+      describe('when chat is suppressed', () => {
+        beforeEach(() => {
+          mockChatSuppressedValue = true;
+          zChatInitSpy.calls.reset();
+
+          webWidget.create('', { zopimChat: {} });
+        });
+
+        it('does not call zChat init', () => {
+          expect(zChatInitSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
     describe('mobile', () => {
       let mockFrameFactory,
         mockFrameFactoryCall;
@@ -269,7 +437,7 @@ describe('embed.webWidget', () => {
     describe('setUpSubmitTicket', () => {
       describe('config', () => {
         beforeEach(() => {
-          mockSettingsValue = false;
+          mockViewMoreValue = false;
 
           const submitTicketConfig = {
             formTitleKey: 'test_title',
@@ -376,7 +544,7 @@ describe('embed.webWidget', () => {
               .toContain('212');
           };
 
-          mockSettingsValue = [{ id: 212 }]; // emulate settings.get('contactForm.ticketForms')
+          mockTicketFormsValue = [{ id: 212 }];
           webWidget.create(componentName, { ticketSubmissionForm: { ticketForms: [{ id: 121 }] } } );
           webWidget.waitForRootComponent(expectFn);
         });
@@ -464,7 +632,7 @@ describe('embed.webWidget', () => {
 
         describe('when viewMore setting is true', () => {
           beforeEach(() => {
-            mockSettingsValue = true;
+            mockViewMoreValue = true;
 
             webWidget.create(componentName, { helpCenterForm: {} });
             faythe = webWidget.get(componentName);
@@ -478,7 +646,7 @@ describe('embed.webWidget', () => {
 
         describe('when viewMore setting is false', () => {
           beforeEach(() => {
-            mockSettingsValue = false;
+            mockViewMoreValue = false;
 
             webWidget.create(componentName, { helpCenterForm: {} });
             faythe = webWidget.get(componentName);
@@ -538,7 +706,7 @@ describe('embed.webWidget', () => {
           });
 
           it('should add any filters to the query', () => {
-            mockSettingsValue = {
+            mockFiltersValue = {
               category: 'burgers',
               section: 'beef'
             };
@@ -785,7 +953,7 @@ describe('embed.webWidget', () => {
               attachmentTypes: ['image/gif', 'image/png']
             };
 
-            mockSettingsValue = true;
+            mockAttachmentsEnabledValue = true;
             webWidget.create(componentName, { ticketSubmissionForm: { attachmentsEnabled: true } });
 
             mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
@@ -1228,7 +1396,7 @@ describe('embed.webWidget', () => {
       it('should call authentication.authenticate if there is a jwt token in settings', () => {
         webWidget.create(componentName, { helpCenterForm: {} });
 
-        mockSettingsValue = { jwt: 'token' };
+        mockAuthenticateValue = { jwt: 'token' };
 
         webWidget.postRender();
 
