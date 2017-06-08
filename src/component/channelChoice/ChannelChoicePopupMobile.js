@@ -10,13 +10,15 @@ import { i18n } from 'service/i18n';
 
 export class ChannelChoicePopupMobile extends Component {
   static propTypes = {
-    handleNextClick: PropTypes.func.isRequired,
-    handleCancelClick: PropTypes.func.isRequired
+    onNextClick: PropTypes.func.isRequired,
+    onCancelClick: PropTypes.func.isRequired
   };
 
-  renderBody = () => {
-    const { handleNextClick } = this.props;
+  handleNextClick = (embed) => {
+    return () => this.props.onNextClick(embed);
+  }
 
+  renderBody = () => {
     return (
       <div className={styles.inner}>
         <ButtonIcon
@@ -24,13 +26,13 @@ export class ChannelChoicePopupMobile extends Component {
           labelClassName={styles.innerItemLabel}
           icon='Icon--channelChoice-chat'
           label={i18n.t('embeddable_framework.channelChoice.button.label.chat')}
-          onClick={() => handleNextClick('chat')} />
+          onClick={this.handleNextClick('chat')} />
         <ButtonIcon
           className={styles.innerItem}
           labelClassName={styles.innerItemLabel}
           icon='Icon--channelChoice-contactForm'
           label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
-          onClick={() => handleNextClick('ticketSubmissionForm')} />
+          onClick={this.handleNextClick('ticketSubmissionForm')} />
       </div>
     );
   }
@@ -44,7 +46,7 @@ export class ChannelChoicePopupMobile extends Component {
             fullscreen={true}
             label={'Cancel'}
             onTouchStartDisabled={true}
-            onClick={this.props.handleCancelClick} />
+            onClick={this.props.onCancelClick} />
         </ButtonGroup>
       </div>
     );

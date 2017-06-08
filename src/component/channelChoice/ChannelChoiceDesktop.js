@@ -19,8 +19,12 @@ export class ChannelChoiceDesktop extends Component {
     hideZendeskLogo: false
   };
 
+  handleNextClick = (embed) => {
+    return () => this.props.handleNextClick(embed);
+  }
+
   renderBody = () => {
-    const { hideZendeskLogo, handleNextClick } = this.props;
+    const { hideZendeskLogo } = this.props;
     const divider = !hideZendeskLogo ? <hr className={styles.hr} /> : null;
     const containerStyle = !hideZendeskLogo ? styles.inner : '';
 
@@ -29,11 +33,11 @@ export class ChannelChoiceDesktop extends Component {
         <ButtonIcon
           icon='Icon--channelChoice-chat'
           label={i18n.t('embeddable_framework.channelChoice.button.label.chat')}
-          onClick={handleNextClick('chat')} />
+          onClick={this.handleNextClick('chat')} />
         <ButtonIcon
           icon='Icon--channelChoice-contactForm'
           label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
-          onClick={handleNextClick('ticketSubmissionForm')} />
+          onClick={this.handleNextClick('ticketSubmissionForm')} />
           {divider}
       </div>
     );

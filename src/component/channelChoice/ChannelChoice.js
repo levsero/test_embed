@@ -29,10 +29,8 @@ export class ChannelChoice extends Component {
   };
 
   handleNextClick = (embed) => {
-    return () => {
-      this.props.onNextClick(embed);
-      this.props.showCloseButton();
-    };
+    this.props.onNextClick(embed);
+    this.props.showCloseButton();
   }
 
   renderZendeskLogo = (fullscreen) => {

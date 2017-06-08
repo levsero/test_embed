@@ -21,8 +21,8 @@ export class ChannelChoiceMobile extends Component {
     return (
       <div>
         <ChannelChoicePopupMobile
-          handleNextClick={handleNextClick}
-          handleCancelClick={handleCancelClick} />
+          onNextClick={handleNextClick}
+          onCancelClick={handleCancelClick} />
         {renderZendeskLogo(true)}
       </div>
     );
