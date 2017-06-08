@@ -7,7 +7,7 @@ export class ChannelChoiceMobile extends Component {
   static propTypes = {
     handleNextClick: PropTypes.func.isRequired,
     handleCancelClick: PropTypes.func.isRequired,
-    showCloseButton: PropTypes.func.isRequired,
+    showCloseButton: PropTypes.func.isRequired
   };
 
   componentDidMount = () => {
