@@ -20,8 +20,8 @@ describe('ButtonIcon', () => {
       },
       './ButtonIcon.sass': {
         locals: {
-          'container--actionable': 'container--actionable',
-          'container--ie': 'container--ie'
+          'containerActionable': 'containerActionable',
+          'containerIE': 'containerIE'
         }
       }
     });
@@ -49,7 +49,7 @@ describe('ButtonIcon', () => {
 
       it('should have IE classes', () => {
         expect(buttonNode.className)
-          .toContain('container--ie');
+          .toContain('containerIE');
       });
     });
 
@@ -63,7 +63,7 @@ describe('ButtonIcon', () => {
 
       it('should not have IE classes', () => {
         expect(buttonNode.className)
-          .not.toContain('container--ie');
+          .not.toContain('containerIE');
       });
     });
 
@@ -76,7 +76,7 @@ describe('ButtonIcon', () => {
 
       it('should have actionable class', () => {
         expect(buttonNode.className)
-          .toContain('container--actionable');
+          .toContain('containerActionable');
       });
     });
 
@@ -89,7 +89,7 @@ describe('ButtonIcon', () => {
 
       it('should not have actionable class', () => {
         expect(buttonNode.className)
-          .not.toContain('container--actionable');
+          .not.toContain('containerActionable');
       });
     });
   });

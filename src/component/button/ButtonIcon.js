@@ -26,15 +26,13 @@ export class ButtonIcon extends Component {
 
   render = () => {
     const { actionable, onClick, className, labelClassName, icon, label } = this.props;
-    let buttonClasses = `${styles.container}`;
-
-    if (actionable) {
-      buttonClasses = `${buttonClasses} ${styles['container--actionable']}`;
-    }
-
-    if (isIE()) {
-      buttonClasses = `${buttonClasses} ${styles['container--ie']}`;
-    }
+    const actionableStyles = actionable ? styles.containerActionable : '';
+    const ieStyles = isIE() ? styles.containerIE : '';
+    const buttonClasses = `
+      ${styles.container}
+      ${actionableStyles}
+      ${ieStyles}
+    `;
 
     return (
       <div
