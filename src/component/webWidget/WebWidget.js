@@ -328,7 +328,8 @@ class WebWidget extends Component {
 
     // TODO: Once single iframe is GA'd the containers for each child can be moved
     // here and this won't be needed to fix dodgy animation.
-    const style = { width: '342px' };
+    const width = this.props.fullscreen ? '100%' : '342px';
+    const style = { width };
 
     return (
       <div style={style}>
