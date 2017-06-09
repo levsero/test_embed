@@ -185,7 +185,7 @@ function init(embedsAccessible, params = {}) {
     c.broadcast(`${channelChoice}.hide`);
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${helpCenter}.hide`);
-    c.broadcast('webWidget.show');
+    c.broadcast('webWidget.hide');
 
     if (embedAvailable()) {
       c.broadcast(`${launcher}.show`);
@@ -193,12 +193,11 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept('.activate', (__, options = {}) => {
-    c.broadcast('webWidget.activate');
-
     if (!embedVisible(state)) {
       resetActiveEmbed();
 
       c.broadcast(`${launcher}.hide`);
+      c.broadcast('webWidget.activate');
       state['.hideOnClose'] = !!options.hideOnClose;
 
       if (embedAvailable()) {
@@ -464,6 +463,12 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept(`${submitTicket}.onClose`, (_broadcast) => {
     state[`${submitTicket}.isVisible`] = false;
+    _broadcast();
+  });
+
+  c.intercept('webWidget.onClose', (_broadcast) => {
+    state[`${submitTicket}.isVisible`] = false;
+    state[`${helpCenter}.isVisible`] = false;
     _broadcast();
   });
 

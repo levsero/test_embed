@@ -2439,10 +2439,10 @@ describe('mediator', () => {
         .toEqual(1);
     });
 
-    it('shows when a show call is made', () => {
+    it('hides when a show call is made', () => {
       c.broadcast('.show');
 
-      expect(webWidgetSub.show.calls.count())
+      expect(webWidgetSub.hide.calls.count())
         .toEqual(1);
     });
 
