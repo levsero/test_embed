@@ -20,6 +20,14 @@ export class ChannelChoiceDesktop extends Component {
     hideZendeskLogo: false
   };
 
+  handleChatClick = () => {
+    if (this.props.chatOnline) {
+      return this.handleNextClick('chat');
+    }
+
+    return () => {};
+  }
+
   handleNextClick = (embed) => {
     return () => this.props.handleNextClick(embed);
   }
@@ -29,7 +37,6 @@ export class ChannelChoiceDesktop extends Component {
     const divider = !hideZendeskLogo ? <hr className={styles.hr} /> : null;
     const containerStyle = !hideZendeskLogo ? styles.inner : '';
     const chatBtnStyle = !chatOnline ? commonStyles.chatBtnDisabled : '';
-    const chatOnClick = chatOnline ? this.handleNextClick('chat') : () => {};
     const chatLabel = (chatOnline)
                     ? i18n.t('embeddable_framework.channelChoice.button.label.chat')
                     : i18n.t('embeddable_framework.channelChoice.chat.offline');
@@ -41,7 +48,7 @@ export class ChannelChoiceDesktop extends Component {
           actionable={chatOnline}
           icon='Icon--channelChoice-chat'
           label={chatLabel}
-          onClick={chatOnClick} />
+          onClick={this.handleChatClick()} />
         <ButtonIcon
           icon='Icon--channelChoice-contactForm'
           label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}

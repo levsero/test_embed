@@ -1,5 +1,6 @@
 describe('ChannelChoicePopupDesktop component', () => {
-  let ChannelChoicePopupDesktop;
+  let ChannelChoicePopupDesktop,
+    channelChoicePopup;
   const channelChoicePath = buildSrcPath('component/channelChoice/ChannelChoicePopupDesktop');
 
   beforeEach(() => {
@@ -36,12 +37,50 @@ describe('ChannelChoicePopupDesktop component', () => {
 
   describe('handleClick', () => {
     it('calls this.props.onClick with the correct params', () => {
-      const channelChoicePopup = domRender(<ChannelChoicePopupDesktop onNextClick={jasmine.createSpy()} />);
+      channelChoicePopup = domRender(<ChannelChoicePopupDesktop onNextClick={jasmine.createSpy()} />);
 
       channelChoicePopup.handleClick('chat')();
 
       expect(channelChoicePopup.props.onNextClick)
         .toHaveBeenCalledWith('chat');
+    });
+  });
+
+  describe('handleChatClick', () => {
+    describe('when chat is online', () => {
+      beforeEach(() => {
+        channelChoicePopup = domRender(
+          <ChannelChoicePopupDesktop
+            chatOnline={true}
+            onNextClick={noop} />
+        );
+        spyOn(channelChoicePopup, 'handleClick');
+      });
+
+      it('should call handleClick with \'chat\'', () => {
+        channelChoicePopup.handleChatClick();
+
+        expect(channelChoicePopup.handleClick)
+          .toHaveBeenCalledWith('chat');
+      });
+    });
+
+    describe('when chat is offline', () => {
+      beforeEach(() => {
+        channelChoicePopup = domRender(
+          <ChannelChoicePopupDesktop
+            chatOnline={false}
+            onNextClick={noop} />
+        );
+        spyOn(channelChoicePopup, 'handleClick');
+      });
+
+      it('should not call handleClick', () => {
+        channelChoicePopup.handleChatClick();
+
+        expect(channelChoicePopup.handleClick)
+          .not.toHaveBeenCalled();
+      });
     });
   });
 });

@@ -11,6 +11,16 @@ export class ChannelChoicePopupDesktop extends Component {
     chatOnline: PropTypes.bool.isRequired
   };
 
+  handleChatClick = () => {
+    if (this.props.chatOnline) {
+      return this.handleClick('chat');
+    }
+
+    // Stop onClick from propagating if selection is disabled
+    // Stopping onClick will prevent container from hiding channelChoice
+    return (e) => e.stopPropagation();
+  }
+
   handleClick = (embed) => {
     return () => this.props.onNextClick(embed);
   }
@@ -21,18 +31,13 @@ export class ChannelChoicePopupDesktop extends Component {
     const chatLabel = (chatOnline)
                     ? i18n.t('embeddable_framework.channelChoice.button.label.chat')
                     : i18n.t('embeddable_framework.channelChoice.chat.offline');
-    // Stop onClick from propagating if selection is disabled
-    // Stopping onClick will prevent container from hiding channelChoice
-    const chatOnClick = chatOnline
-                      ? this.handleClick('chat')
-                      : (e) => e.stopPropagation();
 
     return (
       <div className='u-posAbsolute Container--channelChoicePopup'>
         <ButtonIcon
           actionable={chatOnline}
           className={chatBtnStyle}
-          onClick={chatOnClick}
+          onClick={this.handleChatClick()}
           label={chatLabel}
           icon='Icon--channelChoice-chat' />
         <ButtonIcon
