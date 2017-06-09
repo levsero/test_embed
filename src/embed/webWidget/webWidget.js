@@ -243,6 +243,11 @@ function create(name, config = {}, reduxStore = {}) {
       helpCenterForm: helpCenterSettings.config,
       ticketSubmissionForm: submitTicketSettings.config
     },
+    embedsAvailable: {
+      helpCenterForm: submitTicketAvailable,
+      ticketSubmissionForm: helpCenterAvailable,
+      chat: chatAvailable
+    },
     store: reduxStore
   };
 
@@ -372,9 +377,11 @@ function setupMediator() {
 
   mediator.channel.subscribe('zopimChat.setUser', (user) => {
     waitForRootComponent(() => {
-      const chat = getWebWidgetComponent().getChatComponent();
+      if (embed.embedsAvailable.chat) {
+        const chat = getWebWidgetComponent().getChatComponent();
 
-      chat.updateUser(_.pick(user, ['name', 'email']));
+        chat.updateUser(_.pick(user, ['name', 'email']));
+      }
     });
   });
 

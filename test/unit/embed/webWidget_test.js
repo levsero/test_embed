@@ -26,6 +26,7 @@ describe('embed.webWidget', () => {
   const authenticateSpy = jasmine.createSpy();
   const revokeSpy = jasmine.createSpy();
   const updateZopimOnlineSpy = jasmine.createSpy();
+  const updateUser = jasmine.createSpy();
   const zChatInitSpy = jasmine.createSpy();
   const zChatFirehoseSpy = jasmine.createSpy().and.callThrough();
 
@@ -76,6 +77,7 @@ describe('embed.webWidget', () => {
         this.performSearch = performSearch;
         this.focusField = focusField;
         this.hideVirtualKeyboard = hideVirtualKeyboard;
+        this.updateUser = updateUser;
         this.state = {
           topics: [],
           searchCount: 0,
@@ -157,17 +159,21 @@ describe('embed.webWidget', () => {
         }
 
         getRootComponent() {
-          return this.refs.ticketSubmissionForm;
+          return this.refs.mockChild;
         }
 
         getSubmitTicketComponent() {
-          return this.refs.ticketSubmissionForm;
+          return this.refs.mockChild;
+        }
+
+        getChatComponent() {
+          return this.refs.mockChild;
         }
 
         render() {
           return (
             <div className='mock-webWidget'>
-              <WebWidgetChild ref='ticketSubmissionForm' />
+              <WebWidgetChild ref='mockChild' />
             </div>
           );
         }
@@ -1084,9 +1090,45 @@ describe('embed.webWidget', () => {
         .toHaveBeenCalledWith('webWidget.zopimChatStarted', jasmine.any(Function));
     });
 
-    it('should subscribe to zopimChat.setUser', () => {
-      expect(mockMediator.channel.subscribe)
-        .toHaveBeenCalledWith('zopimChat.setUser', jasmine.any(Function));
+    describe('zopimChat.setUser', () => {
+      beforeEach(() => {
+        pluckSubscribeCall(mockMediator, 'zopimChat.setUser')();
+      });
+
+      it('should subscribe to zopimChat.setUser', () => {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('zopimChat.setUser', jasmine.any(Function));
+      });
+
+      describe('when chat is rendered', () => {
+        beforeEach(() => {
+          webWidget.create(componentName, { zopimChat: {} });
+          webWidget.render();
+
+          pluckSubscribeCall(mockMediator, 'zopimChat.setUser')();
+        });
+
+        it('should call updateUser on the child', () => {
+          expect(updateUser)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when chat is not rendered', () => {
+        beforeEach(() => {
+          webWidget.create(componentName, {});
+          webWidget.render();
+
+          updateUser.calls.reset();
+
+          pluckSubscribeCall(mockMediator, 'zopimChat.setUser')();
+        });
+
+        it('should not call updateUser on the child', () => {
+          expect(updateUser)
+            .not.toHaveBeenCalled();
+        });
+      });
     });
 
     it('should subscribe to ticketSubmissionForm.update', () => {

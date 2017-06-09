@@ -571,8 +571,8 @@ function initMessaging() {
       state['identify.pending'] = true;
       c.broadcast('ipm.identifying', params);
       c.broadcast('beacon.identify', params);
-      c.broadcast(`${chat}.setUser`, params);
       c.broadcast(`${submitTicket}.prefill`, params);
+      c.broadcast(`${chat}.setUser`, params);
     } else {
       logging.warn('invalid params passed into zE.identify', params);
 
