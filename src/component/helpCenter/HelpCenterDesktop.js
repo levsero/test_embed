@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Button } from 'component/button/Button';
 import { ButtonGroup } from 'component/button/ButtonGroup';
-import { ChannelChoicePopup } from 'component/channelChoice/ChannelChoicePopup';
+import { ChannelChoicePopupDesktop } from 'component/channelChoice/ChannelChoicePopupDesktop';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
@@ -49,8 +49,6 @@ export class HelpCenterDesktop extends Component {
 
   constructor(props, context) {
     super(props, context);
-
-    this.state = { channelChoiceShown: false };
   }
 
   componentDidUpdate = () => {
@@ -83,20 +81,6 @@ export class HelpCenterDesktop extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.search();
-  }
-
-  handleNextButtonClick = (e) => {
-    e.preventDefault();
-
-    if (this.props.channelChoice) {
-      setTimeout(() => this.setState({ channelChoiceShown: true }), 0);
-    } else {
-      this.props.onNextClick();
-    }
-  }
-
-  hideChannelChoice = () => {
-    this.setState({ channelChoiceShown: false });
   }
 
   renderForm = () => {
@@ -138,8 +122,8 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderChannelChoice = () => {
-    return this.state.channelChoiceShown
-         ? <ChannelChoicePopup onNextClick={this.props.onNextClick} />
+    return this.props.channelChoice
+         ? <ChannelChoicePopupDesktop onNextClick={this.props.onNextClick} />
          : null;
   }
 
@@ -152,7 +136,7 @@ export class HelpCenterDesktop extends Component {
           <Button
             fullscreen={false}
             label={this.props.buttonLabel}
-            onClick={this.handleNextButtonClick} />
+            onClick={this.props.handleNextClick} />
         </ButtonGroup>
         {this.renderChannelChoice()}
       </div>

@@ -26,7 +26,11 @@ describe('EmbedWrapper', () => {
       'component/button/ButtonNav': {
         ButtonNav: class extends Component {
           render() {
-            return <div className={this.props.className} />;
+            return (
+              <div className={this.props.className}>
+                {this.props.label}
+              </div>
+            );
           }
         }
       },
@@ -37,7 +41,11 @@ describe('EmbedWrapper', () => {
       },
       'lodash': _,
       'component/Icon': {
-        Icon: noopReactComponent()
+        Icon: class extends Component {
+          render() {
+            return <div className={this.props.type} />;
+          }
+        }
       }
     });
 
@@ -99,6 +107,40 @@ describe('EmbedWrapper', () => {
       it('does not add a rootComponent ref to that child', () => {
         expect(instance.refs.rootComponent)
           .toBeUndefined();
+      });
+    });
+
+    describe('close button', () => {
+      let embedWrapper,
+        embedWrapperComponent;
+
+      beforeEach(() => {
+        embedWrapper = domRender(
+          <EmbedWrapper childFn={() => <MockChildComponent />} />
+        );
+        embedWrapperComponent = ReactDOM.findDOMNode(embedWrapper);
+      });
+
+      describe('when state.showCloseButton is true', () => {
+        beforeEach(() => {
+          embedWrapper.showCloseButton(true);
+        });
+
+        it('should render the close button', () => {
+          expect(embedWrapperComponent.querySelector('.Icon--close'))
+            .not.toBeNull();
+        });
+      });
+
+      describe('when state.showCloseButton is false', () => {
+        beforeEach(() => {
+          embedWrapper.showCloseButton(false);
+        });
+
+        it('should not render the close button', () => {
+          expect(embedWrapperComponent.querySelector('.Icon--close'))
+            .toBeNull();
+        });
       });
     });
   });

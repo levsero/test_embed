@@ -1,6 +1,6 @@
-describe('ChannelChoicePopup component', () => {
-  let ChannelChoicePopup;
-  const channelChoicePath = buildSrcPath('component/channelChoice/ChannelChoicePopup');
+describe('ChannelChoicePopupDesktop component', () => {
+  let ChannelChoicePopupDesktop;
+  const channelChoicePath = buildSrcPath('component/channelChoice/ChannelChoicePopupDesktop');
 
   beforeEach(() => {
     resetDOM();
@@ -21,7 +21,7 @@ describe('ChannelChoicePopup component', () => {
       }
     });
 
-    ChannelChoicePopup = requireUncached(channelChoicePath).ChannelChoicePopup;
+    ChannelChoicePopupDesktop = requireUncached(channelChoicePath).ChannelChoicePopupDesktop;
     jasmine.clock().install();
   });
 
@@ -33,7 +33,7 @@ describe('ChannelChoicePopup component', () => {
 
   describe('handleClick', () => {
     it('calls this.props.onClick with the correct params', () => {
-      const channelChoicePopup = domRender(<ChannelChoicePopup onNextClick={jasmine.createSpy()} />);
+      const channelChoicePopup = domRender(<ChannelChoicePopupDesktop onNextClick={jasmine.createSpy()} />);
 
       channelChoicePopup.handleClick('chat')();
 

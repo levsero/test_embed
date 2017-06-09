@@ -10,6 +10,13 @@ describe('HelpCenterMobile component', () => {
 
     initMockRegistry({
       'React': React,
+      'component/channelChoice/ChannelChoicePopupMobile': {
+        ChannelChoicePopupMobile: class extends Component {
+          render() {
+            return <div className='ChannelChoicePopupMobile' />;
+          }
+        }
+      },
       'component/field/SearchField': {
         SearchField: class extends Component {
           focus() {}
@@ -53,7 +60,8 @@ describe('HelpCenterMobile component', () => {
       },
       './HelpCenterMobile.sass': {
         locals: {
-          container: 'containerClasses'
+          container: 'containerClasses',
+          channelChoiceContainer: 'channelChoiceContainer'
         }
       },
       'service/i18n': {
@@ -168,6 +176,7 @@ describe('HelpCenterMobile component', () => {
 
   describe('render', () => {
     let helpCenterMobile,
+      helpCenterMobileComponent,
       containerClasses;
 
     describe('when props.showNextButton is false', () => {
@@ -225,6 +234,35 @@ describe('HelpCenterMobile component', () => {
       it('should not pass the container class to ScrollContainer', () => {
         expect(containerClasses)
           .toBe('');
+      });
+    });
+
+    describe('when props.channelChoice is true', () => {
+      beforeEach(() => {
+        helpCenterMobile = domRender(<HelpCenterMobile channelChoice={true} />);
+        helpCenterMobileComponent = ReactDOM.findDOMNode(helpCenterMobile);
+      });
+
+      it('should render the ChannelChoicePopupDesktop component', () => {
+        expect(helpCenterMobileComponent.querySelector('.ChannelChoicePopupMobile'))
+          .not.toBeNull();
+      });
+
+      it('should have the channehChoiceContainer class on the container div', () => {
+        expect(helpCenterMobileComponent.querySelector('.ChannelChoiceContainer'))
+          .not.toBeNull();
+      });
+    });
+
+    describe('when props.channelChoice is false', () => {
+      beforeEach(() => {
+        helpCenterMobile = domRender(<HelpCenterMobile channelChoice={false} />);
+        helpCenterMobileComponent = ReactDOM.findDOMNode(helpCenterMobile);
+      });
+
+      it('should not render the ChannelChoicePopupMobile component', () => {
+        expect(helpCenterMobileComponent.querySelector('.ChannelChoicePopupMobile'))
+          .toBeNull();
       });
     });
   });

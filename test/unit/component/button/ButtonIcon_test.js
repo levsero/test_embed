@@ -1,5 +1,6 @@
 describe('ButtonIcon', () => {
   let ButtonIcon,
+    button,
     mockIsIeValue;
   const buttonIconPath = buildSrcPath('component/button/ButtonIcon');
 
@@ -30,23 +31,46 @@ describe('ButtonIcon', () => {
     mockery.disable();
   });
 
-  it('should not have IE classes when isIE is false', () => {
-    const button = shallowRender(<ButtonIcon />);
+  describe('when isIE is true', () => {
+    beforeEach(() => {
+      mockIsIeValue = true;
+      button = shallowRender(<ButtonIcon />);
+    });
 
-    expect(button.props.className)
-      .toMatch('u-flex');
-    expect(button.props.className)
-      .not.toMatch('u-paddingBXL');
+    it('should have IE classes', () => {
+      expect(button.props.className)
+        .not.toContain('u-flex');
+
+      expect(button.props.className)
+        .toContain('u-paddingBXL');
+    });
   });
 
-  it('should have IE classes when isIE is true', () => {
-    mockIsIeValue = true;
+  describe('when isIE is false', () => {
+    beforeEach(() => {
+      mockIsIeValue = false;
+      button = shallowRender(<ButtonIcon />);
+    });
 
-    const button = shallowRender(<ButtonIcon />);
+    it('should not have IE classes', () => {
+      expect(button.props.className)
+        .toContain('u-flex');
 
-    expect(button.props.className)
-      .not.toMatch('u-flex');
-    expect(button.props.className)
-      .toMatch('u-paddingBXL');
+      expect(button.props.className)
+        .not.toContain('u-paddingBXL');
+    });
+  });
+
+  describe('when there is a custom className prop', () => {
+    const className = 'someClass';
+
+    beforeEach(() => {
+      button = shallowRender(<ButtonIcon className={className} />);
+    });
+
+    it('should have custom classes', () => {
+      expect(button.props.className)
+        .toContain(className);
+    });
   });
 });

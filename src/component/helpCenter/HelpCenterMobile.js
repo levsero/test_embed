@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Button } from 'component/button/Button';
 import { ButtonGroup } from 'component/button/ButtonGroup';
+import { ChannelChoicePopupMobile } from 'component/channelChoice/ChannelChoicePopupMobile';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { SearchFieldButton } from 'component/button/SearchFieldButton';
@@ -20,12 +21,15 @@ export class HelpCenterMobile extends Component {
     formTitleKey: PropTypes.string,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
+    onNextClick: PropTypes.func,
     hasSearched: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     isLoading: PropTypes.bool,
     search: PropTypes.func.isRequired,
     searchFieldValue: PropTypes.string,
-    showNextButton: PropTypes.bool
+    showNextButton: PropTypes.bool,
+    channelChoice: PropTypes.bool,
+    setChannelChoiceShown: PropTypes.func
   };
 
   static defaultProps = {
@@ -36,7 +40,10 @@ export class HelpCenterMobile extends Component {
     hideZendeskLogo: false,
     isLoading: false,
     searchFieldValue: '',
-    showNextButton: true
+    showNextButton: true,
+    channelChoice: false,
+    setChannelChoiceShown: () => {},
+    onNextClick: () => {}
   };
 
   constructor(props, context) {
@@ -107,6 +114,16 @@ export class HelpCenterMobile extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.search();
+  }
+
+  renderChannelChoice = () => {
+    return this.props.channelChoice
+         ? <div className={styles.channelChoiceContainer}>
+             <ChannelChoicePopupMobile
+               onNextClick={this.props.onNextClick}
+               onCancelClick={() => this.props.setChannelChoiceShown(false)} />
+           </div>
+         : null;
   }
 
   renderSearchField = () => {
@@ -234,6 +251,7 @@ export class HelpCenterMobile extends Component {
           {this.props.children}
         </ScrollContainer>
         {this.renderZendeskLogo(hideZendeskLogo)}
+        {this.renderChannelChoice()}
       </div>
     );
   }

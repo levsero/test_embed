@@ -366,7 +366,8 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       childParams = _.extend(childParams, {
         updateFrameSize: this.updateFrameSize,
         setFrameSize: this.setFrameSize,
-        setOffsetHorizontal: this.setOffsetHorizontal
+        setOffsetHorizontal: this.setOffsetHorizontal,
+        closeFrame: this.close
       });
 
       const element = doc.body.appendChild(doc.createElement('div'));

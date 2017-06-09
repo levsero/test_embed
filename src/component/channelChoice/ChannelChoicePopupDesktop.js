@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { i18n } from 'service/i18n';
 import { ButtonIcon } from 'component/button/ButtonIcon';
 
-export class ChannelChoicePopup extends Component {
+export class ChannelChoicePopupDesktop extends Component {
   static propTypes = {
     onNextClick: PropTypes.func.isRequired
   };

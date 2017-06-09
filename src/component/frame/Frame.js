@@ -336,7 +336,8 @@ export class Frame extends Component {
   constructEmbed = () => {
     // Pass down updateFrameSize to children
     const newChild = React.cloneElement(this.props.children, {
-      updateFrameSize: this.updateFrameSize
+      updateFrameSize: this.updateFrameSize,
+      closeFrame: this.close
     });
 
     const wrapper = (

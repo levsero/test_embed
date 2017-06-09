@@ -1,4 +1,5 @@
-import ChannelChoiceStyles from 'component/channelChoice/ChannelChoice.sass';
+import ChannelChoiceDesktopStyles from 'component/channelChoice/ChannelChoiceDesktop.sass';
+import ChannelChoiceMobileStyles from 'component/channelChoice/ChannelChoicePopupMobile.sass';
 import ChatBoxStyles from 'component/chat/ChatBox.sass';
 import ChatHeaderStyles from 'component/chat/ChatHeader.sass';
 import ChatStyles from 'component/chat/Chat.sass';
@@ -16,7 +17,8 @@ import { sharedStyles } from 'embed/sharedStyles.js';
 
 export const webWidgetStyles = `
   ${sharedStyles}
-  ${ChannelChoiceStyles}
+  ${ChannelChoiceDesktopStyles}
+  ${ChannelChoiceMobileStyles}
   ${ChatBoxStyles}
   ${ChatHeaderStyles}
   ${ChatStyles}

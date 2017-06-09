@@ -39,7 +39,8 @@ export class EmbedWrapper extends Component {
     this.state = {
       css: '',
       isMobile: false,
-      showBackButton: false
+      showBackButton: false,
+      showCloseButton: !props.hideCloseButton
     };
 
     this.embed = null;
@@ -47,6 +48,10 @@ export class EmbedWrapper extends Component {
 
   showBackButton = (show = true) => {
     this.setState({ showBackButton: show });
+  }
+
+  showCloseButton = (show = true) => {
+    this.setState({ showCloseButton: show });
   }
 
   setHighlightColor = (color) => {
@@ -112,7 +117,7 @@ export class EmbedWrapper extends Component {
               onClick: this.props.handleCloseClick,
               icon: 'Icon--close',
               position: isRTL ? 'left' : 'right',
-              isHidden: this.props.hideCloseButton
+              isHidden: !this.state.showCloseButton
             })}
           </div>
           <div id='Embed' ref={(el) => { this.embed = el; }}>

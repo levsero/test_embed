@@ -38,3 +38,10 @@
   /* 1 */
   height: calc(100% - #{60/$font-size}rem);
 }
+
+.channelChoiceContainer {
+  composes: u-posAbsolute u-hsizeAll from global;
+  bottom: 0;
+  box-shadow: 0 #{-2/$font-size}rem #{4/$font-size}rem 0 rgba(51,51,51,0.33);
+  background-color: $zd-color-white;
+}
