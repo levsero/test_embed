@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
 .inner {
-  padding: #{10/$font-size}rem #{15/$font-size}rem;
+  composes: u-paddingVS u-paddingHM from '../../styles/utils.scss';
 }
 
 .innerItem {
@@ -13,11 +13,7 @@
 }
 
 .buttonContainer {
-  composes: u-posRelative from '../../styles/utils.scss';
-  margin-top: #{5/$font-size}rem;
-  padding-left: #{15/$font-size}rem;
-  padding-right: #{15/$font-size}rem;
-  padding-bottom: #{15/$font-size}rem;
+  composes: u-posRelative u-marginTT u-paddingHM u-paddingBM from '../../styles/utils.scss';
 }
 
 .cancelButton {
