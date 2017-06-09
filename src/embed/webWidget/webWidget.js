@@ -47,7 +47,7 @@ const getWithSpinner = (path, locale, doneFn) => {
     locale,
     callbacks: {
       done(res) { doneFn(JSON.parse(res.text)); },
-      fail() { getRootComponent().setLoading(false); }
+      fail() { getWebWidgetComponent().getSubmitTicketComponent().setLoading(false); }
     }
   };
 
@@ -348,7 +348,7 @@ function setupMediator() {
 
   mediator.channel.subscribe('ticketSubmissionForm.setLastSearch', (params) => {
     waitForRootComponent(() => {
-      getRootComponent().setState(_.pick(params, ['searchTerm', 'searchLocale']));
+      getWebWidgetComponent().getSubmitTicketComponent().setState(_.pick(params, ['searchTerm', 'searchLocale']));
     });
   });
 
@@ -445,15 +445,15 @@ function postRender() {
 
 function keywordsSearch(options) {
   const contextualSearchFn = () => {
-    const rootComponent = getRootComponent();
+    const helpCenterComponent = getWebWidgetComponent().getHelpCenterComponent();
     const isAuthenticated = embed.config.helpCenterForm.signInRequired === false || hasAuthenticatedSuccessfully;
 
-    if (isAuthenticated && rootComponent) {
+    if (isAuthenticated && helpCenterComponent) {
       if (options.url) {
         options.pageKeywords = getPageKeywords();
       }
 
-      rootComponent.contextualSearch(options);
+      helpCenterComponent.contextualSearch(options);
       return true;
     }
 

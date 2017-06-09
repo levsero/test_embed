@@ -170,6 +170,10 @@ describe('embed.webWidget', () => {
           return this.refs.mockChild;
         }
 
+        getHelpCenterComponent() {
+          return this.refs.mockChild;
+        }
+
         render() {
           return (
             <div className='mock-webWidget'>
@@ -1311,7 +1315,7 @@ describe('embed.webWidget', () => {
         webWidget.get().instance = {
           getRootComponent: () => {
             return {
-              getRootComponent: () => {
+              getHelpCenterComponent: () => {
                 return { contextualSearch: contextualSearchSpy };
               }
             };
@@ -1356,7 +1360,7 @@ describe('embed.webWidget', () => {
         webWidget.get().instance = {
           getRootComponent: () => {
             return {
-              getRootComponent: () => {
+              getHelpCenterComponent: () => {
                 return { contextualSearch: contextualSearchSpy };
               }
             };
