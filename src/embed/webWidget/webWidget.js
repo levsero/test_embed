@@ -154,7 +154,7 @@ function create(name, config = {}, reduxStore = {}) {
   const helpCenterSettings = helpCenterAvailable
                            ? setUpHelpCenter(config.helpCenterForm)
                            : {};
-  const globalConfig = _.extend(configDefaults, helpCenterSettings.config);
+  const globalConfig = _.extend(configDefaults, submitTicketSettings.config, helpCenterSettings.config);
 
   if (chatAvailable) {
     setUpChat(config.zopimChat, reduxStore);
