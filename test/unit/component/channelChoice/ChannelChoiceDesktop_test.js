@@ -17,7 +17,20 @@ describe('ChannelChoiceDesktop component', () => {
           footerNoLogo: 'footerNoLogo'
         }
       },
-      'component/button/ButtonIcon': { ButtonIcon: noopReactComponent() },
+      './ChannelChoice.sass': {
+        locals: {
+          chatBtnDisabled: 'chatBtnDisabled'
+        }
+      },
+      'component/button/ButtonIcon': {
+        ButtonIcon: class extends Component {
+          render() {
+            return (
+              <div className={this.props.className} />
+            );
+          }
+        }
+      },
       'component/container/ScrollContainer': {
         ScrollContainer: class extends Component {
           render() {
@@ -99,6 +112,23 @@ describe('ChannelChoiceDesktop component', () => {
 
       it('passes the footerNoLogo class to ScrollContainer', () => {
         expect(channelChoiceComponent.querySelector('.footerNoLogo'))
+          .not.toBeNull();
+      });
+    });
+
+    describe('when chatOnline is false', () => {
+      beforeEach(() => {
+        channelChoiceDesktop = domRender(
+          <ChannelChoiceDesktop
+            chatOnline={false}
+            formTitleKey='key'
+            handleNextClick={noop} />
+        );
+        channelChoiceComponent = ReactDOM.findDOMNode(channelChoiceDesktop);
+      });
+
+      it('should have chat disabled styles', () => {
+        expect(channelChoiceComponent.querySelector('.chatBtnDisabled'))
           .not.toBeNull();
       });
     });
