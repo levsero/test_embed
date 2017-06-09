@@ -299,75 +299,103 @@ describe('renderer', () => {
     });
 
     describe('when singleIframe is true', () => {
-      beforeEach(() => {
-        configJSON.singleIframe = true;
-
-        renderer.init(configJSON);
-      });
-
-      it('should create a webWidget embed', () => {
-        expect(mockWebWidget.create)
-          .toHaveBeenCalledWith('webWidget', jasmine.any(Object), jasmine.any(Object));
-      });
-
-      it('should pass through the ticketSubmissionForm and helpCenterForm config', () => {
-        const config = mockWebWidget.create.calls.mostRecent().args[1];
-
-        expect(config.ticketSubmissionForm)
-          .toBeTruthy();
-
-        expect(config.helpCenterForm)
-          .toBeTruthy();
-      });
-
-      it('should not create submitTicket and helpCenter', () => {
-        expect(mockSubmitTicket.create)
-          .not.toHaveBeenCalled();
-
-        expect(mockHelpCenter.create)
-          .not.toHaveBeenCalled();
-      });
-
-      it('should still create zopimChat', () => {
-        expect(mockChat.create)
-          .toHaveBeenCalled();
-      });
-
-      describe('when newChat is true', () => {
+      describe('when config is not naked zopim', () => {
         beforeEach(() => {
-          configJSON.newChat = true;
-
-          mockChat.create.calls.reset();
+          configJSON.singleIframe = true;
 
           renderer.init(configJSON);
         });
 
-        it('should not create zopimChat', () => {
-          expect(mockChat.create)
+        it('should create a webWidget embed', () => {
+          expect(mockWebWidget.create)
+            .toHaveBeenCalledWith('webWidget', jasmine.any(Object), jasmine.any(Object));
+        });
+
+        it('should pass through the ticketSubmissionForm and helpCenterForm config', () => {
+          const config = mockWebWidget.create.calls.mostRecent().args[1];
+
+          expect(config.ticketSubmissionForm)
+            .toBeTruthy();
+
+          expect(config.helpCenterForm)
+            .toBeTruthy();
+        });
+
+        it('should not create submitTicket and helpCenter', () => {
+          expect(mockSubmitTicket.create)
+            .not.toHaveBeenCalled();
+
+          expect(mockHelpCenter.create)
             .not.toHaveBeenCalled();
         });
-      });
 
-      describe('when the config is naked zopim and newChat is false', () => {
-        beforeEach(() => {
-          const config = {
-            singleIframe: true,
-            zopimChat: {}
-          };
-
-          mockWebWidget.create.calls.reset();
-
-          renderer.init(config);
-        });
-
-        it('should create zopimChat', () => {
+        it('should still create zopimChat', () => {
           expect(mockChat.create)
             .toHaveBeenCalled();
         });
 
-        it('should not create webWidget embed', () => {
-          expect(mockWebWidget.create)
-            .not.toHaveBeenCalled();
+        describe('when newChat is true', () => {
+          beforeEach(() => {
+            configJSON.newChat = true;
+
+            mockChat.create.calls.reset();
+
+            renderer.init(configJSON);
+          });
+
+          it('should not create zopimChat', () => {
+            expect(mockChat.create)
+              .not.toHaveBeenCalled();
+          });
+        });
+      });
+
+      describe('when the config is naked zopim', () => {
+        describe('newChat is false', () => {
+          beforeEach(() => {
+            const config = {
+              singleIframe: true,
+              embeds: { zopimChat: { embed: 'chat' }}
+            };
+
+            mockWebWidget.create.calls.reset();
+
+            renderer.init(config);
+          });
+
+          it('should not create webWidget embed', () => {
+            expect(mockWebWidget.create)
+              .not.toHaveBeenCalled();
+          });
+
+          it('should create zopimChat', () => {
+            expect(mockChat.create)
+              .toHaveBeenCalled();
+          });
+        });
+
+        describe('newChat is true', () => {
+          beforeEach(() => {
+            const config = {
+              singleIframe: true,
+              newChat: true,
+              embeds: { zopimChat: { embed: 'chat' }}
+            };
+
+            mockWebWidget.create.calls.reset();
+
+            renderer.init(config);
+          });
+
+          it('should not create zopimChat', () => {
+            expect(mockChat.create)
+              .not.toHaveBeenCalled();
+          });
+
+          it('should create webWidget embed', () => {
+            expect(mockWebWidget.create)
+              .toHaveBeenCalled();
+          });
         });
       });
     });

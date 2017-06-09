@@ -80,8 +80,8 @@ function init(config) {
     i18n.setLocale(config.locale);
 
     const { singleIframe, newChat, embeds = {} } = config;
-    const useNewChatEmbed = (embeds.zopimChat && newChat);
-    const hasSingleIframeEmbeds = embeds.ticketSubmissionForm || embeds.helpCenterForm || useNewChatEmbed;
+    const useNewChatEmbed = !!embeds.zopimChat && newChat;
+    const hasSingleIframeEmbeds = !!embeds.ticketSubmissionForm || !!embeds.helpCenterForm || useNewChatEmbed;
     let parsedConfig = parseConfig(config);
 
     if (singleIframe && hasSingleIframeEmbeds) {
