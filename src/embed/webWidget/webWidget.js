@@ -38,7 +38,6 @@ let hasAuthenticatedSuccessfully = false;
 let useMouseDistanceContexualSearch = false;
 let contextualSearchOptions = {};
 let cancelTargetHandler = null;
-let chatSetup = false;
 
 const getWithSpinner = (path, locale, doneFn) => {
   const transportData = {
@@ -244,6 +243,11 @@ function create(name, config = {}, reduxStore = {}) {
       helpCenterForm: helpCenterSettings.config,
       ticketSubmissionForm: submitTicketSettings.config
     },
+    embedsAvailable: {
+      helpCenterForm: submitTicketAvailable,
+      ticketSubmissionForm: helpCenterAvailable,
+      chat: chatAvailable
+    },
     store: reduxStore
   };
 
@@ -373,7 +377,7 @@ function setupMediator() {
 
   mediator.channel.subscribe('zopimChat.setUser', (user) => {
     waitForRootComponent(() => {
-      if (chatSetup) {
+      if (embed.embedsAvailable.chat) {
         const chat = getWebWidgetComponent().getChatComponent();
 
         chat.updateUser(_.pick(user, ['name', 'email']));
@@ -634,8 +638,6 @@ function setUpChat(config, store) {
 
     store.dispatch({ type: actionType, payload: data });
   });
-
-  chatSetup = true;
 }
 
 function setUpHelpCenter(config) {
