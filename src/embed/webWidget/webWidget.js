@@ -38,6 +38,7 @@ let hasAuthenticatedSuccessfully = false;
 let useMouseDistanceContexualSearch = false;
 let contextualSearchOptions = {};
 let cancelTargetHandler = null;
+let chatSetup = false;
 
 const getWithSpinner = (path, locale, doneFn) => {
   const transportData = {
@@ -372,9 +373,11 @@ function setupMediator() {
 
   mediator.channel.subscribe('zopimChat.setUser', (user) => {
     waitForRootComponent(() => {
-      const chat = getWebWidgetComponent().getChatComponent();
+      if (chatSetup) {
+        const chat = getWebWidgetComponent().getChatComponent();
 
-      chat.updateUser(_.pick(user, ['name', 'email']));
+        chat.updateUser(_.pick(user, ['name', 'email']));
+      }
     });
   });
 
@@ -631,6 +634,8 @@ function setUpChat(config, store) {
 
     store.dispatch({ type: actionType, payload: data });
   });
+
+  chatSetup = true;
 }
 
 function setUpHelpCenter(config) {
