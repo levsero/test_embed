@@ -9,6 +9,7 @@ import { i18n } from 'service/i18n';
 
 export class ChannelChoice extends Component {
   static propTypes = {
+    chatOnline: PropTypes.bool.isRequired,
     showCloseButton: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
     formTitleKey: PropTypes.string,
@@ -59,6 +60,7 @@ export class ChannelChoice extends Component {
     return (
       <ChannelChoiceDesktop
         ref='channelChoiceDesktop'
+        chatOnline={this.props.chatOnline}
         formTitleKey={formTitleKey}
         handleNextClick={this.handleNextClick}
         hideZendeskLogo={hideZendeskLogo} />

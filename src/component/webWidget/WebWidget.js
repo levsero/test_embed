@@ -315,6 +315,7 @@ class WebWidget extends Component {
       <ChannelChoice
         ref={channelChoice}
         style={this.props.style}
+        chatOnline={this.chatOnline()}
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
         onCancelClick={this.props.closeFrame}

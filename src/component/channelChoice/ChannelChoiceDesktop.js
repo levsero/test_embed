@@ -9,6 +9,7 @@ import { i18n } from 'service/i18n';
 
 export class ChannelChoiceDesktop extends Component {
   static propTypes = {
+    chatOnline: PropTypes.bool.isRequired,
     formTitleKey: PropTypes.string.isRequired,
     handleNextClick: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool
@@ -23,15 +24,20 @@ export class ChannelChoiceDesktop extends Component {
   }
 
   renderBody = () => {
-    const { hideZendeskLogo } = this.props;
+    const { hideZendeskLogo, chatOnline } = this.props;
     const divider = !hideZendeskLogo ? <hr className={styles.hr} /> : null;
     const containerStyle = !hideZendeskLogo ? styles.inner : '';
+    const chatOnClick = chatOnline ? this.handleNextClick('chat') : () => {};
+    const chatLabel = (chatOnline)
+                    ? i18n.t('embeddable_framework.channelChoice.button.label.chat')
+                    : i18n.t('embeddable_framework.channelChoice.chat.offline');
 
     return (
       <div className={containerStyle}>
         <ButtonIcon
+          actionable={chatOnline}
           icon='Icon--channelChoice-chat'
-          label={i18n.t('embeddable_framework.channelChoice.button.label.chat')}
+          label={chatLabel}
           onClick={this.handleNextClick('chat')} />
         <ButtonIcon
           icon='Icon--channelChoice-contactForm'

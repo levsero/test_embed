@@ -124,10 +124,6 @@ export class HelpCenter extends Component {
     this.setState({ articleViewActive });
   }
 
-  setChatOnline = (state) => {
-    this.setState({ chatOnline: state });
-  }
-
   setChannelChoiceShown = (channelChoiceShown) => {
     this.setState({ channelChoiceShown });
   }
@@ -456,6 +452,7 @@ export class HelpCenter extends Component {
     return (
       <HelpCenterDesktop
         ref='helpCenterDesktop'
+        chatOnline={chatOnline}
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
         search={this.search}
@@ -464,7 +461,7 @@ export class HelpCenter extends Component {
         disableAutoComplete={this.props.disableAutoComplete}
         isLoading={this.state.isLoading}
         onNextClick={this.props.onNextClick}
-        channelChoice={this.state.channelChoiceShown && chatOnline}
+        channelChoice={this.state.channelChoiceShown}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
         buttonLabel={buttonLabel}

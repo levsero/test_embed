@@ -16,6 +16,7 @@ export class HelpCenterDesktop extends Component {
     articleViewActive: PropTypes.bool,
     buttonLabel: PropTypes.string.isRequired,
     channelChoice: PropTypes.bool,
+    chatOnline: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
     disableAutoComplete: PropTypes.bool,
     formTitleKey: PropTypes.string,
@@ -123,7 +124,9 @@ export class HelpCenterDesktop extends Component {
 
   renderChannelChoice = () => {
     return this.props.channelChoice
-         ? <ChannelChoicePopupDesktop onNextClick={this.props.onNextClick} />
+         ? <ChannelChoicePopupDesktop
+             chatOnline={this.props.chatOnline}
+             onNextClick={this.props.onNextClick} />
          : null;
   }
 

@@ -4,9 +4,11 @@ import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
 import { isIE } from 'utility/devices';
+import { locals as styles } from './ButtonIcon.sass'
 
 export class ButtonIcon extends Component {
   static propTypes = {
+    actionable: PropTypes.bool,
     className: PropTypes.string,
     labelClassName: PropTypes.string,
     icon: PropTypes.string,
@@ -15,6 +17,7 @@ export class ButtonIcon extends Component {
   };
 
   static defaultProps = {
+    actionable: true,
     className: '',
     labelClassName: '',
     icon: '',
@@ -23,24 +26,29 @@ export class ButtonIcon extends Component {
   };
 
   render = () => {
-    const buttonClasses = classNames({
-      'Button--icon u-isActionable': true,
-      'u-flex': !isIE(),
-      'u-paddingBXL': isIE(),
-      [this.props.className]: true
-    });
-    const labelClasses = `u-pullLeft u-textSizeNml ${this.props.labelClassName}`;
+    const { actionable, onClick, className, labelClassName, icon, label } = this.props;
+    let buttonClasses = `${styles.container}`;
+
+    if (actionable) {
+      buttonClasses = `${buttonClasses} ${styles['container--actionable']}`;
+    }
+
+    if (isIE()) {
+      buttonClasses = `${buttonClasses} ${styles['container--ie']}`;
+    }
+
+    console.log(className);
 
     return (
       <div
-        onClick={this.props.onClick}
-        onTouchStart={this.props.onClick}
-        className={buttonClasses}>
+        onClick={onClick}
+        onTouchStart={onClick}
+        className={`${buttonClasses} ${className}`}>
         <Icon
-          className='Icon--form Arrange-sizeFit u-pullLeft u-paddingRM'
-          type={this.props.icon} />
-        <span className={labelClasses}>
-          {this.props.label}
+          className={styles.icon}
+          type={icon} />
+        <span className={`${styles.label} ${labelClassName}`}>
+          {label}
         </span>
       </div>
     );
