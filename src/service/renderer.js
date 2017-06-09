@@ -79,10 +79,12 @@ function init(config) {
     i18n.setCustomTranslations();
     i18n.setLocale(config.locale);
 
-    const { singleIframe, newChat } = config;
+    const { singleIframe, newChat, embeds = {} } = config;
+    const useNewChatEmbed = !!embeds.zopimChat && newChat;
+    const hasSingleIframeEmbeds = !!embeds.ticketSubmissionForm || !!embeds.helpCenterForm || useNewChatEmbed;
     let parsedConfig = parseConfig(config);
 
-    if (singleIframe) {
+    if (singleIframe && hasSingleIframeEmbeds) {
       const webWidgetEmbeds = ['ticketSubmissionForm', 'helpCenterForm'];
 
       // Only send chat to WebWidget if new chat is on. Otherwise use old one.
