@@ -119,9 +119,9 @@ export class HelpCenterMobile extends Component {
   renderChannelChoice = () => {
     return this.props.channelChoice
          ? <div className={styles.channelChoiceContainer}>
-            <ChannelChoicePopupMobile
-              onNextClick={this.props.onNextClick}
-              onCancelClick={() => this.props.setChannelChoiceShown(false)} />
+             <ChannelChoicePopupMobile
+               onNextClick={this.props.onNextClick}
+               onCancelClick={() => this.props.setChannelChoiceShown(false)} />
            </div>
          : null;
   }

@@ -44,7 +44,7 @@ export class ChannelChoicePopupMobile extends Component {
           <Button
             className={styles.cancelButton}
             fullscreen={true}
-            label={'Cancel'}
+            label={i18n.t('embeddable_framework.submitTicket.form.cancelButton.label.cancel')}
             onTouchStartDisabled={true}
             onClick={this.props.onCancelClick} />
         </ButtonGroup>
