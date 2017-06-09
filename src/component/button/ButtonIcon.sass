@@ -1,0 +1,36 @@
+@import '../../styles/_vars.scss';
+
+.container {
+  composes: Button--icon from '../../styles/components/Button.scss';
+  composes: u-flex u-isDisabled from global;
+
+  &:hover, &:focus, &:active {
+    color: $zd-color-oil;
+
+    svg path {
+      fill: $zd-color-dark-gray;
+    }
+  }
+}
+
+.container--ie {
+  composes: u-paddingBXL from global;
+}
+
+.container--actionable {
+  composes: u-isActionable from global;
+}
+
+.icon {
+  composes: Icon--form from '../../styles/components/Icon.scss';
+  composes: Arrange-sizeFit u-pullLeft u-paddingRM from global;
+
+  svg path {
+    fill: $zd-color-monsoon;
+  }
+}
+
+.label {
+  composes: u-pullLeft u-textSizeNml from global;
+  padding-top: #{1/$font-size}rem;
+}
