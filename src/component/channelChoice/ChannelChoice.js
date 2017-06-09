@@ -33,13 +33,17 @@ export class ChannelChoice extends Component {
     this.props.showCloseButton();
   }
 
-  renderZendeskLogo = (fullscreen) => {
-    return !this.props.hideZendeskLogo
-      ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={fullscreen} />
-      : null;
+  renderZendeskLogo = () => {
+    const { hideZendeskLogo, isMobile } = this.props;
+
+    return !hideZendeskLogo
+         ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={isMobile} />
+         : null;
   }
 
-  renderMobile = (onCancelClick, showCloseButton) => {
+  renderMobile = () => {
+    const { onCancelClick, showCloseButton } = this.props;
+
     return (
       <ChannelChoiceMobile
         ref='channelChoiceMobile'
@@ -49,7 +53,9 @@ export class ChannelChoice extends Component {
     );
   }
 
-  renderDesktop = (hideZendeskLogo, formTitleKey) => {
+  renderDesktop = () => {
+    const { formTitleKey, hideZendeskLogo } = this.props;
+
     return (
       <ChannelChoiceDesktop
         ref='channelChoiceDesktop'
@@ -62,21 +68,15 @@ export class ChannelChoice extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const {
-      style,
-      isMobile,
-      hideZendeskLogo,
-      formTitleKey,
-      onCancelClick,
-      showCloseButton } = this.props;
+    const { style, isMobile } = this.props;
     const channelChoice = isMobile
-                        ? this.renderMobile(onCancelClick, showCloseButton)
-                        : this.renderDesktop(hideZendeskLogo, formTitleKey);
+                        ? this.renderMobile()
+                        : this.renderDesktop();
 
     return (
       <Container style={style}>
         {channelChoice}
-        {this.renderZendeskLogo(this.props.isMobile)}
+        {this.renderZendeskLogo()}
       </Container>
     );
   }
