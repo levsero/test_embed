@@ -315,34 +315,16 @@ function setupMediator() {
     });
   });
 
-  mediator.channel.subscribe('ticketSubmissionForm.setLastSearch', (params) => {
-    waitForRootComponent(() => {
-      getRootComponent().setState(_.pick(params, ['searchTerm', 'searchLocale']));
-    });
-  });
-
-  mediator.channel.subscribe('helpCenterForm.refreshLocale', () => {
-    waitForRootComponent(() => {
-      embed.instance.updateFrameLocale();
-      embed.instance.getChild().forceUpdate();
-    });
-  });
-
-  mediator.channel.subscribe('ticketSubmissionForm.update', () => {
-    waitForRootComponent(() => {
-      embed.instance.getChild().forceUpdate();
-    });
-  });
-
-  mediator.channel.subscribe('ticketSubmissionForm.refreshLocale', () => {
+  mediator.channel.subscribe('webWidget.refreshLocale', () => {
     waitForRootComponent(() => {
       const {
         ticketForms,
-        customFields,
+        customFields = {},
         loadTicketForms,
         loadTicketFields } = embed.submitTicketSettings;
 
       embed.instance.updateFrameLocale();
+      getWebWidgetComponent().forceUpdate();
 
       if (!_.isEmpty(ticketForms)) {
         loadTicketForms(ticketForms, i18n.getLocale());
@@ -350,6 +332,18 @@ function setupMediator() {
         loadTicketFields(customFields, i18n.getLocale());
       }
 
+      embed.instance.getChild().forceUpdate();
+    });
+  });
+
+  mediator.channel.subscribe('ticketSubmissionForm.setLastSearch', (params) => {
+    waitForRootComponent(() => {
+      getRootComponent().setState(_.pick(params, ['searchTerm', 'searchLocale']));
+    });
+  });
+
+  mediator.channel.subscribe('ticketSubmissionForm.update', () => {
+    waitForRootComponent(() => {
       embed.instance.getChild().forceUpdate();
     });
   });

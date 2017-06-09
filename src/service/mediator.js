@@ -561,6 +561,7 @@ function init(embedsAccessible, params = {}) {
     c.broadcast(`${helpCenter}.refreshLocale`);
     c.broadcast(`${launcher}.refreshLocale`);
     c.broadcast(`${submitTicket}.refreshLocale`);
+    c.broadcast('webWidget.refreshLocale');
   });
 
   if (embedAvailable()) {

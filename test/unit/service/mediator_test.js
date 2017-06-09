@@ -159,6 +159,7 @@ describe('mediator', () => {
       'webWidget',
       ['show',
        'hide',
+       'refreshLocale',
        'setZopimOnline',
        'zopimChatStarted',
        'zopimChatEnded']
@@ -220,6 +221,7 @@ describe('mediator', () => {
 
       c.subscribe(`${names.webWidget}.hide`, webWidgetSub.hide);
       c.subscribe(`${names.webWidget}.show`, webWidgetSub.show);
+      c.subscribe(`${names.webWidget}.refreshLocale`, webWidgetSub.refreshLocale);
       c.subscribe(`${names.webWidget}.setZopimOnline`, webWidgetSub.setZopimOnline);
       c.subscribe(`${names.webWidget}.zopimChatStarted`, webWidgetSub.zopimChatStarted);
       c.subscribe(`${names.webWidget}.zopimChatEnded`, webWidgetSub.zopimChatEnded);
@@ -517,27 +519,27 @@ describe('mediator', () => {
 
     it('should broadcast launcher.refreshLocale', () => {
       expect(launcherSub.refreshLocale)
-        .toHaveBeenCalledWith();
+        .toHaveBeenCalled();
     });
 
     it('should broadcast helpCenter.refreshLocale', () => {
       expect(helpCenterSub.refreshLocale)
-        .toHaveBeenCalledWith();
+        .toHaveBeenCalled();
     });
 
     it('should broadcast submitTicket.refreshLocale', () => {
       expect(submitTicketSub.refreshLocale)
-        .toHaveBeenCalledWith();
+        .toHaveBeenCalled();
     });
 
     it('should broadcast channelChoice.refreshLocale', () => {
       expect(channelChoiceSub.refreshLocale)
-        .toHaveBeenCalledWith();
+        .toHaveBeenCalled();
     });
 
     it('should broadcast zopimChat.refreshLocale', () => {
       expect(chatSub.refreshLocale)
-        .toHaveBeenCalledWith();
+        .toHaveBeenCalled();
     });
   });
 
@@ -2490,6 +2492,13 @@ describe('mediator', () => {
 
       expect(webWidgetSub.setZopimOnline)
         .toHaveBeenCalledWith(true);
+    });
+
+    it('should broadcast webWidget.refreshLocale when onSetLocale is recieved', () => {
+      c.broadcast('.onSetLocale');
+
+      expect(webWidgetSub.refreshLocale)
+        .toHaveBeenCalled();
     });
   });
 
