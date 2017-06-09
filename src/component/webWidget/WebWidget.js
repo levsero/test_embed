@@ -326,8 +326,12 @@ class WebWidget extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
+    // TODO: Once single iframe is GA'd the containers for each child can be moved
+    // here and this won't be needed to fix dodgy animation.
+    const style = { width: '342px' };
+
     return (
-      <div>
+      <div style={style}>
         {this.renderSubmitTicket()}
         {this.renderChat()}
         {this.renderHelpCenter()}
