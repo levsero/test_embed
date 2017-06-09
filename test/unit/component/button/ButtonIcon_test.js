@@ -1,6 +1,5 @@
 describe('ButtonIcon', () => {
   let ButtonIcon,
-    button,
     mockIsIeValue;
   const buttonIconPath = buildSrcPath('component/button/ButtonIcon');
 

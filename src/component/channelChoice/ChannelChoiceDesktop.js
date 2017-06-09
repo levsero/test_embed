@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { locals as commonStyles } from './ChannelChoice.sass';
 import { locals as styles } from './ChannelChoiceDesktop.sass';
 
 import { ButtonIcon } from 'component/button/ButtonIcon';
@@ -27,6 +28,7 @@ export class ChannelChoiceDesktop extends Component {
     const { hideZendeskLogo, chatOnline } = this.props;
     const divider = !hideZendeskLogo ? <hr className={styles.hr} /> : null;
     const containerStyle = !hideZendeskLogo ? styles.inner : '';
+    const chatBtnStyle = !chatOnline ? commonStyles.chatBtnDisabled : '';
     const chatOnClick = chatOnline ? this.handleNextClick('chat') : () => {};
     const chatLabel = (chatOnline)
                     ? i18n.t('embeddable_framework.channelChoice.button.label.chat')
@@ -35,10 +37,11 @@ export class ChannelChoiceDesktop extends Component {
     return (
       <div className={containerStyle}>
         <ButtonIcon
+          className={chatBtnStyle}
           actionable={chatOnline}
           icon='Icon--channelChoice-chat'
           label={chatLabel}
-          onClick={this.handleNextClick('chat')} />
+          onClick={chatOnClick} />
         <ButtonIcon
           icon='Icon--channelChoice-contactForm'
           label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
 import { isIE } from 'utility/devices';
-import { locals as styles } from './ButtonIcon.sass'
+import { locals as styles } from './ButtonIcon.sass';
 
 export class ButtonIcon extends Component {
   static propTypes = {
@@ -36,8 +35,6 @@ export class ButtonIcon extends Component {
     if (isIE()) {
       buttonClasses = `${buttonClasses} ${styles['container--ie']}`;
     }
-
-    console.log(className);
 
     return (
       <div
