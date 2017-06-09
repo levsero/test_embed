@@ -38,7 +38,7 @@ function create(name, config, reduxStore) {
   let containerStyle;
   let frameStyle = {};
 
-  const channelChoice = settings.get('contactOptions') && !settings.get('contactForm.suppress');
+  const channelChoice = settings.get('contactOptions').enabled && !settings.get('contactForm.suppress');
   const configDefaults = {
     position: 'right',
     contextualHelpEnabled: false,

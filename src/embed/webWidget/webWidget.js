@@ -147,7 +147,7 @@ function create(name, config = {}, reduxStore = {}) {
   const helpCenterAvailable = !!config.helpCenterForm && !settings.get('helpCenter.suppress');
   const submitTicketAvailable = !!config.ticketSubmissionForm && !settings.get('contactForm.suppress');
   const chatAvailable = !!config.zopimChat && !settings.get('chat.suppress');
-  const channelChoice = settings.get('contactOptions') && submitTicketAvailable;
+  const channelChoice = settings.get('contactOptions').enabled && submitTicketAvailable;
   const submitTicketSettings = submitTicketAvailable
                              ? setUpSubmitTicket(config.ticketSubmissionForm)
                              : {};

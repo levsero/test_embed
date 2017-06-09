@@ -120,6 +120,7 @@ describe('embed.webWidget', () => {
             return _.get({
               authenticate: mockAuthenticateValue,
               chat: { suppress: mockChatSuppressedValue },
+              contactOptions: { enabled: false },
               helpCenter: {
                 suppress: mockHelpCenterSuppressedValue,
                 viewMore: mockViewMoreValue,

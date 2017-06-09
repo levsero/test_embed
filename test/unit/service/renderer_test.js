@@ -93,7 +93,7 @@ describe('renderer', () => {
         settings: {
           enableCustomizations: jasmine.createSpy(),
           getTrackSettings: jasmine.createSpy().and.returnValue(mockTrackSettings),
-          get: noop
+          get: (value) => _.get({ contactOptions: { enabled: false } }, value, null)
         }
       },
       'src/redux/createStore': () => ({
