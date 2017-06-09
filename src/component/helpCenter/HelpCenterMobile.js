@@ -122,7 +122,7 @@ export class HelpCenterMobile extends Component {
             <ChannelChoicePopupMobile
               onNextClick={this.props.onNextClick}
               onCancelClick={() => this.props.setChannelChoiceShown(false)} />
-          </div>
+           </div>
          : null;
   }
 

@@ -37,7 +37,7 @@ export class ChannelChoiceDesktop extends Component {
           icon='Icon--channelChoice-contactForm'
           label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
           onClick={this.handleNextClick('ticketSubmissionForm')} />
-          {divider}
+        {divider}
       </div>
     );
   }
