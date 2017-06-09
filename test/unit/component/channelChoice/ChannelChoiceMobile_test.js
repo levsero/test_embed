@@ -30,14 +30,25 @@ describe('ChannelChoiceMobile component', () => {
   });
 
   describe('render', () => {
+    let showCloseButtonSpy;
+
     beforeEach(() => {
+      showCloseButtonSpy = jasmine.createSpy('showCloseButton');
+
       channelChoiceMobile = domRender(
         <ChannelChoiceMobile
           handleNextClick={noop}
           handleCancelClick={noop}
-          showCloseButton={noop} />
+          showCloseButton={showCloseButtonSpy} />
       );
       channelChoiceComponent = ReactDOM.findDOMNode(channelChoiceMobile);
+    });
+
+    describe('when component is mounted', () => {
+      it('should call props.showCloseButton with false', () => {
+        expect(showCloseButtonSpy)
+          .toHaveBeenCalledWith(false);
+      });
     });
 
     it('renders the ChannelChoiceMobilePopup component', () => {
