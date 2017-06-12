@@ -19,6 +19,9 @@ describe('ChannelChoicePopupMobile component', () => {
           cancelButton: 'cancelButton'
         }
       },
+      './ChannelChoice.sass': {
+        locals: {}
+      },
       'component/button/Button': {
         Button: class extends Component {
           render() {
@@ -109,6 +112,46 @@ describe('ChannelChoicePopupMobile component', () => {
       it('has a cancelButton class', () => {
         expect(channelChoicePopupComponent.querySelector('.cancelButton'))
           .not.toBeNull();
+      });
+    });
+
+    describe('handleChatClick', () => {
+      describe('when chat is online', () => {
+        beforeEach(() => {
+          channelChoicePopupMobile = domRender(
+            <ChannelChoicePopupMobile
+              chatOnline={true}
+              onCancelClick={noop}
+              handleNextClick={noop} />
+          );
+          spyOn(channelChoicePopupMobile, 'handleNextClick');
+        });
+
+        it('should call handleNextClick with `chat`', () => {
+          channelChoicePopupMobile.handleChatClick();
+
+          expect(channelChoicePopupMobile.handleNextClick)
+            .toHaveBeenCalledWith('chat');
+        });
+      });
+
+      describe('when chat is offline', () => {
+        beforeEach(() => {
+          channelChoicePopupMobile = domRender(
+            <ChannelChoicePopupMobile
+              chatOnline={false}
+              onCancelClick={noop}
+              handleNextClick={noop} />
+          );
+          spyOn(channelChoicePopupMobile, 'handleNextClick');
+        });
+
+        it('should not call handleNextClick', () => {
+          channelChoicePopupMobile.handleChatClick();
+
+          expect(channelChoicePopupMobile.handleNextClick)
+            .not.toHaveBeenCalled();
+        });
       });
     });
   });

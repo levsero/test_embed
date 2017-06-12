@@ -57,7 +57,7 @@ describe('ChannelChoicePopupDesktop component', () => {
         spyOn(channelChoicePopup, 'handleClick');
       });
 
-      it('should call handleClick with \'chat\'', () => {
+      it('should call handleClick with `chat`', () => {
         channelChoicePopup.handleChatClick();
 
         expect(channelChoicePopup.handleClick)

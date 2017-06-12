@@ -43,11 +43,12 @@ export class ChannelChoice extends Component {
   }
 
   renderMobile = () => {
-    const { onCancelClick, showCloseButton } = this.props;
+    const { onCancelClick, showCloseButton, chatOnline } = this.props;
 
     return (
       <ChannelChoiceMobile
         ref='channelChoiceMobile'
+        chatOnline={chatOnline}
         handleNextClick={this.handleNextClick}
         handleCancelClick={onCancelClick}
         showCloseButton={showCloseButton} />
