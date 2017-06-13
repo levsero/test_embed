@@ -393,6 +393,34 @@ describe('WebWidget component', () => {
         expect(showBackButtonSpy)
           .toHaveBeenCalled();
       });
+
+      describe('when help center is not available and channel choice is', () => {
+        let updateActiveEmbedSpy;
+
+        beforeEach(() => {
+          updateActiveEmbedSpy = jasmine.createSpy();
+
+          webWidget = domRender(
+            <WebWidget
+              updateActiveEmbed={updateActiveEmbedSpy}
+              activeEmbed='chat'
+              helpCenterAvailable={false}
+              channelChoice={true}
+              showBackButton={showBackButtonSpy} />
+          );
+          webWidget.onBackClick();
+        });
+
+        it('should call showHelpCenter', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('channelChoice');
+        });
+
+        it('should call showBackButton prop with false', () => {
+          expect(showBackButtonSpy)
+            .toHaveBeenCalledWith(false);
+        });
+      });
     });
   });
 
