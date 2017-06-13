@@ -1198,7 +1198,12 @@ describe('HelpCenter component', () => {
   });
 
   describe('handleNextClick', () => {
-    let helpCenter;
+    let helpCenter,
+      onNextClickSpy;
+
+    beforeEach(() => {
+      onNextClickSpy = jasmine.createSpy('onNextClick');
+    });
 
     describe('when chat is online', () => {
       describe('when props.channelChoice is true', () => {
@@ -1217,11 +1222,7 @@ describe('HelpCenter component', () => {
       });
 
       describe('when props.channelChoice is false', () => {
-        let onNextClickSpy;
-
         beforeEach(() => {
-          onNextClickSpy = jasmine.createSpy('onNextClick');
-
           helpCenter = domRender(
             <HelpCenter
               chatOnline={true}
@@ -1239,11 +1240,8 @@ describe('HelpCenter component', () => {
     });
 
     describe('when chat is offline', () => {
-      let onNextClickSpy;
-
       describe('when props.channelChoice is true', () => {
         beforeEach(() => {
-          onNextClickSpy = jasmine.createSpy('onNextClick');
           helpCenter = domRender(
             <HelpCenter
               channelChoice={true}
@@ -1260,7 +1258,6 @@ describe('HelpCenter component', () => {
 
       describe('when props.channelChoice is false', () => {
         beforeEach(() => {
-          onNextClickSpy = jasmine.createSpy('onNextClick');
           helpCenter = domRender(
             <HelpCenter
               channelChoice={false}
