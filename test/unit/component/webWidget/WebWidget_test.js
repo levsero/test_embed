@@ -314,12 +314,58 @@ describe('WebWidget component', () => {
 
         it('should call showBackButton prop', () => {
           expect(showBackButtonSpy)
-            .toHaveBeenCalled();
+            .toHaveBeenCalledWith(true);
         });
 
         it('should call clear form on the rootComponent', () => {
           expect(clearFormSpy)
             .toHaveBeenCalled();
+        });
+
+        describe('when helpCenter is not available and channel choice is', () => {
+          beforeEach(() => {
+            webWidget = domRender(
+              <WebWidget
+                updateActiveEmbed={() => {}}
+                activeEmbed='ticketSubmissionForm'
+                helpCenterAvailable={false}
+                channelChoice={true}
+                showBackButton={showBackButtonSpy} />
+            );
+            webWidget.getRootComponent().setState({
+              selectedTicketForm: { id: '1' },
+              ticketForms: [{ id: '1' }, { id: '2' }]
+            });
+            webWidget.onBackClick();
+          });
+
+          it('should still call showBackButton prop with true', () => {
+            expect(showBackButtonSpy)
+              .toHaveBeenCalledWith(true);
+          });
+        });
+
+        describe('when helpCenter and channel choice is not available', () => {
+          beforeEach(() => {
+            webWidget = domRender(
+              <WebWidget
+                updateActiveEmbed={() => {}}
+                activeEmbed='ticketSubmissionForm'
+                helpCenterAvailable={false}
+                channelChoice={false}
+                showBackButton={showBackButtonSpy} />
+            );
+            webWidget.getRootComponent().setState({
+              selectedTicketForm: { id: '1' },
+              ticketForms: [{ id: '1' }, { id: '2' }]
+            });
+            webWidget.onBackClick();
+          });
+
+          it('should call showBackButton prop with false', () => {
+            expect(showBackButtonSpy)
+              .toHaveBeenCalledWith(false);
+          });
         });
       });
 
