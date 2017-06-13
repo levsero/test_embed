@@ -95,5 +95,5 @@ We have a [runbook](https://zendesk.atlassian.net/wiki/display/rb/Embeddable+Run
 ## Verification
 
 - Test your changes on a production account.
-- Keep an eye on our [health dashboards](https://app.datadoghq.com/screen/156652/taipan-health-dashboard) to make sure nothing is out of the ordinary.
+- Keep an eye on our [health dashboards](https://app.datadoghq.com/screen/156652/taipan-health-dashboard) to make sure nothing is out of the ordinary. This dashboard shows anomaly data on metrics when they are below or above the regular thresholds. Note that it is normal to see occasional spikes in certain metrics that will appear as anomaly data, however, if any metrics are consistently abnormal it may be related to a recent deploy.
 - Make sure our [Production Smoke tests](https://jenkins.zende.sk/view/Embeddables/job/widget_production_smoke_test/) pass.
