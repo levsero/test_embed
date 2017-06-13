@@ -345,7 +345,7 @@ describe('WebWidget component', () => {
           });
         });
 
-        describe('when helpCenter and channel choice is not available', () => {
+        describe('when helpCenter and channel choice are not available', () => {
           beforeEach(() => {
             webWidget = domRender(
               <WebWidget
