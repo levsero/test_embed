@@ -310,18 +310,10 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setNextToChat', function() {
-    waitForRootComponent(name, () => {
-      getRootComponent(name).setChatOnline(true);
-    });
-
     setChatOnline(name, true);
   });
 
   mediator.channel.subscribe(name + '.setNextToSubmitTicket', function() {
-    waitForRootComponent(name, () => {
-      getRootComponent(name).setChatOnline(false);
-    });
-
     setChatOnline(name, false);
   });
 

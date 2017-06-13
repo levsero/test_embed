@@ -7,7 +7,8 @@ export class ChannelChoiceMobile extends Component {
   static propTypes = {
     handleNextClick: PropTypes.func.isRequired,
     handleCancelClick: PropTypes.func.isRequired,
-    showCloseButton: PropTypes.func.isRequired
+    showCloseButton: PropTypes.func.isRequired,
+    chatOnline: PropTypes.bool.isRequired
   };
 
   componentDidMount = () => {
@@ -15,11 +16,12 @@ export class ChannelChoiceMobile extends Component {
   }
 
   render = () => {
-    const { handleNextClick, handleCancelClick } = this.props;
+    const { handleNextClick, handleCancelClick, chatOnline } = this.props;
 
     return (
       <div>
         <ChannelChoicePopupMobile
+          chatOnline={chatOnline}
           onNextClick={handleNextClick}
           onCancelClick={handleCancelClick} />
       </div>

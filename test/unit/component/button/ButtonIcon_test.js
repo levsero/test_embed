@@ -1,6 +1,5 @@
 describe('ButtonIcon', () => {
   let ButtonIcon,
-    button,
     mockIsIeValue;
   const buttonIconPath = buildSrcPath('component/button/ButtonIcon');
 
@@ -18,6 +17,12 @@ describe('ButtonIcon', () => {
       },
       'utility/devices': {
         isIE: () => mockIsIeValue
+      },
+      './ButtonIcon.sass': {
+        locals: {
+          'containerActionable': 'containerActionable',
+          'containerIE': 'containerIE'
+        }
       }
     });
 
@@ -31,46 +36,61 @@ describe('ButtonIcon', () => {
     mockery.disable();
   });
 
-  describe('when isIE is true', () => {
-    beforeEach(() => {
-      mockIsIeValue = true;
-      button = shallowRender(<ButtonIcon />);
+  describe('render', () => {
+    let buttonNode;
+
+    describe('when isIE is true', () => {
+      beforeEach(() => {
+        mockIsIeValue = true;
+        const button = domRender(<ButtonIcon />);
+
+        buttonNode = ReactDOM.findDOMNode(button);
+      });
+
+      it('should have IE classes', () => {
+        expect(buttonNode.className)
+          .toContain('containerIE');
+      });
     });
 
-    it('should have IE classes', () => {
-      expect(button.props.className)
-        .not.toContain('u-flex');
+    describe('when isIE is false', () => {
+      beforeEach(() => {
+        mockIsIeValue = false;
+        const button = domRender(<ButtonIcon />);
 
-      expect(button.props.className)
-        .toContain('u-paddingBXL');
-    });
-  });
+        buttonNode = ReactDOM.findDOMNode(button);
+      });
 
-  describe('when isIE is false', () => {
-    beforeEach(() => {
-      mockIsIeValue = false;
-      button = shallowRender(<ButtonIcon />);
-    });
-
-    it('should not have IE classes', () => {
-      expect(button.props.className)
-        .toContain('u-flex');
-
-      expect(button.props.className)
-        .not.toContain('u-paddingBXL');
-    });
-  });
-
-  describe('when there is a custom className prop', () => {
-    const className = 'someClass';
-
-    beforeEach(() => {
-      button = shallowRender(<ButtonIcon className={className} />);
+      it('should not have IE classes', () => {
+        expect(buttonNode.className)
+          .not.toContain('containerIE');
+      });
     });
 
-    it('should have custom classes', () => {
-      expect(button.props.className)
-        .toContain(className);
+    describe('when props actionable is true', () => {
+      beforeEach(() => {
+        const button = domRender(<ButtonIcon actionable={true} />);
+
+        buttonNode = ReactDOM.findDOMNode(button);
+      });
+
+      it('should have actionable class', () => {
+        expect(buttonNode.className)
+          .toContain('containerActionable');
+      });
+    });
+
+    describe('when props actionable is false', () => {
+      beforeEach(() => {
+        const button = domRender(<ButtonIcon actionable={false} />);
+
+        buttonNode = ReactDOM.findDOMNode(button);
+      });
+
+      it('should not have actionable class', () => {
+        expect(buttonNode.className)
+          .not.toContain('containerActionable');
+      });
     });
   });
 });
