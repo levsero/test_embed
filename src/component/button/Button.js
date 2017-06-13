@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { locals as styles } from './Button.sass';
 
 export class Button extends Component {
   static propTypes = {
@@ -28,14 +28,9 @@ export class Button extends Component {
   };
 
   render = () => {
-    const buttonClasses = classNames({
-      'c-btn c-btn--medium': true,
-      'c-btn--primary u-borderTransparent u-userBackgroundColor': this.props.primary,
-      'u-userBorderColor': !this.props.primary,
-      'Anim-color u-textNoWrap': true,
-      'is-mobile u-sizeFull u-textSizeBaseMobile': this.props.fullscreen,
-      [this.props.className]: true
-    });
+    const { className } = this.props;
+    const primaryClasses = this.props.primary ? styles.primary : styles.notPrimary;
+    const mobileClasses = this.props.fullscreen ? styles.mobile : '';
     const allowedTypes = /^(submit|button)$/i;
     const type = allowedTypes.test(this.props.type)
                ? this.props.type
@@ -49,7 +44,7 @@ export class Button extends Component {
         onTouchStart={this.props.onTouchStartDisabled ? null : this.props.onClick}
         disabled={this.props.disabled}
         style={this.props.style}
-        className={buttonClasses} />
+        className={`${styles.button} ${className} ${primaryClasses} ${mobileClasses}`} />
     );
   }
 }

@@ -1,0 +1,17 @@
+@import '../../styles/_vars.scss';
+
+.button {
+  composes: c-btn c-btn--medium Anim-color u-textNoWrap from global;
+}
+
+.primary {
+  composes: c-btn--primary u-borderTransparent u-userBackgroundColor from global;
+}
+
+.notPrimary {
+  composes: u-userBorderColor from global;
+}
+
+.mobile {
+  composes: is-mobile u-sizeFull u-textSizeBaseMobile from global;
+}
