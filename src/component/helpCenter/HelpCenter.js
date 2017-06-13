@@ -32,7 +32,9 @@ export class HelpCenter extends Component {
     originalArticleButton: PropTypes.bool,
     searchSender: PropTypes.func.isRequired,
     showBackButton: PropTypes.func,
+    // TODO: make this a single prop when single iframe is GA'd
     showNextButton: PropTypes.bool,
+    showNextButtonSingleIframe: PropTypes.bool,
     style: PropTypes.object,
     updateFrameSize: PropTypes.func,
     viewMoreEnabled: PropTypes.bool,
@@ -54,6 +56,7 @@ export class HelpCenter extends Component {
     originalArticleButton: true,
     showBackButton: () => {},
     showNextButton: true,
+    showNextButtonSingleIframe: false,
     style: null,
     updateFrameSize: () => {},
     viewMoreEnabled: false
@@ -83,10 +86,6 @@ export class HelpCenter extends Component {
       viewMoreActive: false,
       channelChoiceShown: false
     };
-  }
-
-  componentWillReceiveProps = (nextProps) => {
-    this.setState({ showNextButton: nextProps.showNextButton });
   }
 
   pauseAllVideos = () => {
@@ -346,6 +345,8 @@ export class HelpCenter extends Component {
     this.setState({ showNextButton: value });
   }
 
+  shouldShowNextButton = () => this.state.showNextButton || this.props.showNextButtonSingleIframe;
+
   setChatOnline = (chatOnline) => {
     this.setState({ chatOnline });
   }
@@ -410,8 +411,8 @@ export class HelpCenter extends Component {
                          this.state.showViewMore &&
                          this.state.resultsCount > minimumSearchResults;
     const showBottomBorder = !this.props.fullscreen &&
-                             !(!this.state.showNextButton && this.props.hideZendeskLogo);
-    const applyPadding = !this.state.showNextButton && !this.props.hideZendeskLogo;
+                             !(!this.shouldShowNextButton() && this.props.hideZendeskLogo);
+    const applyPadding = !this.shouldShowNextButton() && !this.props.hideZendeskLogo;
 
     return (
       <HelpCenterResults
@@ -425,7 +426,7 @@ export class HelpCenter extends Component {
         handleArticleClick={this.handleArticleClick}
         handleViewMoreClick={this.handleViewMoreClick}
         hasContextualSearched={this.state.hasContextualSearched}
-        showContactButton={this.state.showNextButton} />
+        showContactButton={this.shouldShowNextButton()} />
     );
   }
 
@@ -458,7 +459,7 @@ export class HelpCenter extends Component {
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
         search={this.search}
-        showNextButton={this.state.showNextButton}
+        showNextButton={this.shouldShowNextButton()}
         hideZendeskLogo={this.props.hideZendeskLogo}
         disableAutoComplete={this.props.disableAutoComplete}
         isLoading={this.state.isLoading}
@@ -488,7 +489,7 @@ export class HelpCenter extends Component {
         search={this.search}
         isLoading={this.state.isLoading}
         onNextClick={this.props.onNextClick}
-        showNextButton={this.state.showNextButton}
+        showNextButton={this.shouldShowNextButton()}
         chatOnline={chatOnline}
         channelChoice={this.state.channelChoiceShown}
         articleViewActive={this.state.articleViewActive}
