@@ -37,7 +37,6 @@ export class ButtonIcon extends Component {
     return (
       <div
         onClick={onClick}
-        onTouchStart={onClick}
         className={`${buttonClasses} ${className}`}>
         <Icon
           className={styles.icon}
