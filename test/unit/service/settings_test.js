@@ -24,7 +24,7 @@ describe('settings', () => {
         ticketForms: [],
         tags: []
       },
-      contactOptions: false,
+      contactOptions: { enabled: false },
       helpCenter: {
         originalArticleButton: true,
         localeFallbacks: []
@@ -164,7 +164,7 @@ describe('settings', () => {
           contactForm: {
             subject: true
           },
-          contactOptions: true,
+          contactOptions: { enabled: true },
           helpCenter: {
             originalArticleButton: false,
             suppress: true,
@@ -212,7 +212,7 @@ describe('settings', () => {
       });
       it('should return user setting for contactOptions', () => {
         expect(settings.get('contactOptions'))
-          .toBe(true);
+          .toEqual({ enabled: true });
       });
 
       it('should return user setting for helpCenter.localeFallbacks', () => {
@@ -224,7 +224,7 @@ describe('settings', () => {
     describe('when web widget customisations are disabled', () => {
       it('should return default setting for contactOptions', () => {
         expect(settings.get('contactOptions'))
-          .toBe(defaults.contactOptions);
+          .toEqual(defaults.contactOptions);
       });
 
       it('should return user default for helpCenter.localeFallbacks', () => {

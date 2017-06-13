@@ -52,7 +52,9 @@ const webWidgetStoreDefaults = {
     tags: [],
     ticketForms: []
   },
-  contactOptions: false,
+  contactOptions: {
+    enabled: false
+  },
   helpCenter: {
     originalArticleButton: true,
     localeFallbacks: [],
