@@ -103,6 +103,7 @@ class WebWidget extends Component {
       this.showChat();
     } else {
       this.props.updateActiveEmbed(activeComponent);
+      this.props.showBackButton(true);
     }
   }
 
@@ -182,7 +183,7 @@ class WebWidget extends Component {
     const { showBackButton, updateActiveEmbed, zopimOnline } = this.props;
 
     if (embed) {
-      this.setComponent(embed, true);
+      this.setComponent(embed);
     } else if (this.chatOnline()) {
       this.showChat();
       // TODO: track chat started
@@ -210,7 +211,7 @@ class WebWidget extends Component {
 
   onBackClick = () => {
     const rootComponent = this.getRootComponent();
-    const { activeEmbed, helpCenterAvailable, showBackButton } = this.props;
+    const { activeEmbed, helpCenterAvailable, showBackButton, updateActiveEmbed } = this.props;
     const { selectedTicketForm, ticketForms } = this.getSubmitTicketComponent().state;
 
     if (activeEmbed === helpCenter) {
@@ -218,9 +219,12 @@ class WebWidget extends Component {
       showBackButton(false);
     } else if (selectedTicketForm && _.size(ticketForms) > 1) {
       rootComponent.clearForm();
-      showBackButton(helpCenterAvailable);
-    } else {
+      showBackButton(helpCenterAvailable || this.props.channelChoice);
+    } else if (helpCenterAvailable) {
       this.showHelpCenter();
+    } else if (this.props.channelChoice) {
+      updateActiveEmbed(channelChoice);
+      showBackButton(false);
     }
   }
 

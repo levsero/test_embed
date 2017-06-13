@@ -314,12 +314,58 @@ describe('WebWidget component', () => {
 
         it('should call showBackButton prop', () => {
           expect(showBackButtonSpy)
-            .toHaveBeenCalled();
+            .toHaveBeenCalledWith(true);
         });
 
         it('should call clear form on the rootComponent', () => {
           expect(clearFormSpy)
             .toHaveBeenCalled();
+        });
+
+        describe('when helpCenter is not available and channel choice is', () => {
+          beforeEach(() => {
+            webWidget = domRender(
+              <WebWidget
+                updateActiveEmbed={() => {}}
+                activeEmbed='ticketSubmissionForm'
+                helpCenterAvailable={false}
+                channelChoice={true}
+                showBackButton={showBackButtonSpy} />
+            );
+            webWidget.getRootComponent().setState({
+              selectedTicketForm: { id: '1' },
+              ticketForms: [{ id: '1' }, { id: '2' }]
+            });
+            webWidget.onBackClick();
+          });
+
+          it('should still call showBackButton prop with true', () => {
+            expect(showBackButtonSpy)
+              .toHaveBeenCalledWith(true);
+          });
+        });
+
+        describe('when helpCenter and channel choice are not available', () => {
+          beforeEach(() => {
+            webWidget = domRender(
+              <WebWidget
+                updateActiveEmbed={() => {}}
+                activeEmbed='ticketSubmissionForm'
+                helpCenterAvailable={false}
+                channelChoice={false}
+                showBackButton={showBackButtonSpy} />
+            );
+            webWidget.getRootComponent().setState({
+              selectedTicketForm: { id: '1' },
+              ticketForms: [{ id: '1' }, { id: '2' }]
+            });
+            webWidget.onBackClick();
+          });
+
+          it('should call showBackButton prop with false', () => {
+            expect(showBackButtonSpy)
+              .toHaveBeenCalledWith(false);
+          });
         });
       });
 
@@ -392,6 +438,34 @@ describe('WebWidget component', () => {
       it('should call showBackButton prop', () => {
         expect(showBackButtonSpy)
           .toHaveBeenCalled();
+      });
+
+      describe('when help center is not available and channel choice is', () => {
+        let updateActiveEmbedSpy;
+
+        beforeEach(() => {
+          updateActiveEmbedSpy = jasmine.createSpy();
+
+          webWidget = domRender(
+            <WebWidget
+              updateActiveEmbed={updateActiveEmbedSpy}
+              activeEmbed='chat'
+              helpCenterAvailable={false}
+              channelChoice={true}
+              showBackButton={showBackButtonSpy} />
+          );
+          webWidget.onBackClick();
+        });
+
+        it('should call call updateActiveEmbed with channelChoice', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('channelChoice');
+        });
+
+        it('should call showBackButton prop with false', () => {
+          expect(showBackButtonSpy)
+            .toHaveBeenCalledWith(false);
+        });
       });
     });
   });

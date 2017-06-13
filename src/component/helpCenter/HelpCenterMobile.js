@@ -109,6 +109,7 @@ export class HelpCenterMobile extends Component {
 
   handleOnFocus = () => {
     this.setState({ searchFieldFocused: true });
+    this.props.setChannelChoiceShown(false);
   }
 
   handleSubmit = (e) => {
