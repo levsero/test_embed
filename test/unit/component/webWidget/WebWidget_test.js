@@ -411,7 +411,7 @@ describe('WebWidget component', () => {
           webWidget.onBackClick();
         });
 
-        it('should call showHelpCenter', () => {
+        it('should call call updateActiveEmbed with channelChoice', () => {
           expect(updateActiveEmbedSpy)
             .toHaveBeenCalledWith('channelChoice');
         });
