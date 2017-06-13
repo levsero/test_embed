@@ -1200,34 +1200,79 @@ describe('HelpCenter component', () => {
   describe('handleNextClick', () => {
     let helpCenter;
 
-    describe('when props.channelChoice is true', () => {
-      beforeEach(() => {
-        helpCenter = domRender(<HelpCenter channelChoice={true} />);
+    describe('when chat is online', () => {
+      describe('when props.channelChoice is true', () => {
+        beforeEach(() => {
+          helpCenter = domRender(<HelpCenter chatOnline={true} channelChoice={true} />);
 
-        spyOn(helpCenter, 'setChannelChoiceShown');
-        helpCenter.handleNextClick({ preventDefault: noop });
-        jasmine.clock().tick(0);
+          spyOn(helpCenter, 'setChannelChoiceShown');
+          helpCenter.handleNextClick({ preventDefault: noop });
+          jasmine.clock().tick(0);
+        });
+
+        it('should call setChannelChoiceShown on the next tick', () => {
+          expect(helpCenter.setChannelChoiceShown)
+            .toHaveBeenCalledWith(true);
+        });
       });
 
-      it('should call setChannelChoiceShown on the next tick', () => {
-        expect(helpCenter.setChannelChoiceShown)
-          .toHaveBeenCalledWith(true);
+      describe('when props.channelChoice is false', () => {
+        let onNextClickSpy;
+
+        beforeEach(() => {
+          onNextClickSpy = jasmine.createSpy('onNextClick');
+
+          helpCenter = domRender(
+            <HelpCenter
+              chatOnline={true}
+              channelChoice={false}
+              onNextClick={onNextClickSpy} />
+          );
+          helpCenter.handleNextClick({ preventDefault: noop });
+        });
+
+        it('should call props.onNextClick', () => {
+          expect(onNextClickSpy)
+            .toHaveBeenCalled();
+        });
       });
     });
 
-    describe('when props.channelChoice is false', () => {
+    describe('when chat is offline', () => {
       let onNextClickSpy;
 
-      beforeEach(() => {
-        onNextClickSpy = jasmine.createSpy('onNextClick');
+      describe('when props.channelChoice is true', () => {
+        beforeEach(() => {
+          onNextClickSpy = jasmine.createSpy('onNextClick');
+          helpCenter = domRender(
+            <HelpCenter
+              channelChoice={true}
+              onNextClick={onNextClickSpy} />
+          );
+          helpCenter.handleNextClick({ preventDefault: noop });
+        });
 
-        helpCenter = domRender(<HelpCenter channelChoice={false} onNextClick={onNextClickSpy} />);
-        helpCenter.handleNextClick({ preventDefault: noop });
+        it('should call props.onNextClick', () => {
+          expect(onNextClickSpy)
+            .toHaveBeenCalled();
+        });
       });
 
-      it('should call props.onNextClick', () => {
-        expect(onNextClickSpy)
-          .toHaveBeenCalled();
+      describe('when props.channelChoice is false', () => {
+        beforeEach(() => {
+          onNextClickSpy = jasmine.createSpy('onNextClick');
+          helpCenter = domRender(
+            <HelpCenter
+              channelChoice={false}
+              onNextClick={onNextClickSpy} />
+          );
+          helpCenter.handleNextClick({ preventDefault: noop });
+        });
+
+        it('should call props.onNextClick', () => {
+          expect(onNextClickSpy)
+            .toHaveBeenCalled();
+        });
       });
     });
   });

@@ -301,9 +301,11 @@ export class HelpCenter extends Component {
   }
 
   handleNextClick = (e) => {
+    const chatOnline = this.state.chatOnline || this.props.chatOnline;
+
     e.preventDefault();
 
-    if (this.props.channelChoice) {
+    if (this.props.channelChoice && chatOnline) {
       setTimeout(() => this.setChannelChoiceShown(true), 0);
     } else {
       this.props.onNextClick();
@@ -488,7 +490,7 @@ export class HelpCenter extends Component {
         onNextClick={this.props.onNextClick}
         showNextButton={this.state.showNextButton}
         chatOnline={chatOnline}
-        channelChoice={this.state.channelChoiceShown && chatOnline}
+        channelChoice={this.state.channelChoiceShown}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
         searchFieldValue={this.state.searchFieldValue}
