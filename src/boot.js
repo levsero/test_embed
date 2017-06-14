@@ -161,6 +161,9 @@ const getConfig = (win, postRenderQueue) => {
   const done = (res) => {
     const config = res.body;
 
+    // Remove this code once Rollbar is GA'd
+    logging.init(config.useRollbar);
+
     beacon.setConfig(config);
 
     // Only send 1/10 times
@@ -176,9 +179,6 @@ const getConfig = (win, postRenderQueue) => {
 
     renderer.init(config);
     boot.handlePostRenderQueue(win, postRenderQueue);
-
-    // Remove this code once Rollbar is GA'd
-    logging.init(config.useRollbar);
   };
   const fail = (error) => {
     if (error.status !== 404) {

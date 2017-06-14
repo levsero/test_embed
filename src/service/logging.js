@@ -6,7 +6,8 @@ import { getEnvironment } from 'utility/utils';
 
 let airbrake;
 let rollbar;
-let useRollbar;
+let useRollbar = false;
+let errorServiceInitialised = false;
 const errorMessageBlacklist = [
   'Access-Control-Allow-Origin',
   'timeout of [0-9]+ms exceeded',
@@ -63,6 +64,8 @@ function init(shouldUseRollbar = false) {
     });
     airbrake.addFilter(errorFilter);
   }
+
+  errorServiceInitialised = true;
 }
 
 function error(err) {
@@ -72,11 +75,8 @@ function error(err) {
   } else {
     if (err.error.special) {
       throw err.error.message;
-    } else {
-      // Remove this code once Rollbar is GA'd
-      (useRollbar)
-        ? rollbar.error(err)
-        : airbrake.notify(err);
+    } else if (errorServiceInitialised) {
+      pushError(err);
     }
   }
 }
@@ -86,6 +86,11 @@ function warn(...warning) {
   const warn = console.warn; // eslint-disable-line no-console
 
   warn(...warning);
+}
+
+function pushError(err) {
+  // Remove this code once Rollbar is GA'd
+  useRollbar ? rollbar.error(err) : airbrake.notify(err);
 }
 
 export const logging = {
