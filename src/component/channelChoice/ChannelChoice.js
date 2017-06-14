@@ -37,18 +37,19 @@ export class ChannelChoice extends Component {
   renderZendeskLogo = () => {
     const { hideZendeskLogo, isMobile } = this.props;
 
-    return !hideZendeskLogo
+    return !hideZendeskLogo && !isMobile
          ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={isMobile} />
          : null;
   }
 
   renderMobile = () => {
-    const { onCancelClick, showCloseButton, chatOnline } = this.props;
+    const { onCancelClick, showCloseButton, chatOnline, formTitleKey } = this.props;
 
     return (
       <ChannelChoiceMobile
         ref='channelChoiceMobile'
         chatOnline={chatOnline}
+        formTitleKey={formTitleKey}
         handleNextClick={this.handleNextClick}
         handleCancelClick={onCancelClick}
         showCloseButton={showCloseButton} />
