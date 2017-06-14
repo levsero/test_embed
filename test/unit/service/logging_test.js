@@ -233,27 +233,45 @@ describe('logging', () => {
         });
       });
 
-      describe('when Rollbar is enabled', () => {
+      describe('when logging service is not initialised', () => {
         beforeEach(() => {
-          logging.init(true);
           logging.error(errPayload);
         });
 
-        it('should call Rollbar.error', () => {
+        it('should not call rollbar.error', () => {
           expect(rollbarErrorSpy)
-            .toHaveBeenCalledWith(errPayload);
+            .not.toHaveBeenCalled();
+        });
+
+        it('should not call airbrake.notify', () => {
+          expect(airbrakeNotifySpy)
+            .not.toHaveBeenCalled();
         });
       });
 
-      describe('when Rollbar is not enabled', () => {
-        beforeEach(() => {
-          logging.init();
-          logging.error(errPayload);
+      describe('when logging service is initialised', () => {
+        describe('when Rollbar is enabled', () => {
+          beforeEach(() => {
+            logging.init(true);
+            logging.error(errPayload);
+          });
+
+          it('should call Rollbar.error', () => {
+            expect(rollbarErrorSpy)
+              .toHaveBeenCalledWith(errPayload);
+          });
         });
 
-        it('should call Airbrake.notify', () => {
-          expect(airbrakeNotifySpy)
-            .toHaveBeenCalledWith(errPayload);
+        describe('when Rollbar is not enabled', () => {
+          beforeEach(() => {
+            logging.init();
+            logging.error(errPayload);
+          });
+
+          it('should call Airbrake.notify', () => {
+            expect(airbrakeNotifySpy)
+              .toHaveBeenCalledWith(errPayload);
+          });
         });
       });
     });
