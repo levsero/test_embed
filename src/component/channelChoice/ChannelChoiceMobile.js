@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 import { locals as styles } from './ChannelChoiceMobile.sass';
 
+import { Button } from 'component/button/Button';
 import { ChannelChoicePopupMobile } from 'component/channelChoice/ChannelChoicePopupMobile';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
-import { Button } from 'component/button/Button';
 
 export class ChannelChoiceMobile extends Component {
   static propTypes = {
@@ -36,7 +36,6 @@ export class ChannelChoiceMobile extends Component {
         fullscreen={true}
         containerClasses={styles.container}
         footerContent={this.renderCancelButton()}
-        footerClasses={styles.footer}
         title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}>
         <ChannelChoicePopupMobile
           chatOnline={chatOnline}
