@@ -7,14 +7,15 @@ describe('AutomaticAnswersMobile component', () => {
 
   const automaticAnswersPath = buildSrcPath('component/automaticAnswers/AutomaticAnswers');
   const automaticAnswersMobilePath = buildSrcPath('component/automaticAnswers/AutomaticAnswersMobile');
-  const buttonPath = buildSrcPath('component/button/Button');
 
   beforeEach(() => {
     resetDOM();
 
     mockery.enable();
 
-    Button = requireUncached(buttonPath).Button;
+    Button = class extends Component {
+      render() { return <div className={this.props.className} />; }
+    };
 
     initMockRegistry({
       'React': React,

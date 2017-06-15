@@ -8,7 +8,14 @@ describe('Button', () => {
     mockery.enable();
 
     initMockRegistry({
-      'React': React
+      'React': React,
+      './Button.sass': {
+        locals: {
+          mobile: 'mobileClasses',
+          primary: 'primaryClasses',
+          notPrimary: 'notPrimaryClasses'
+        }
+      }
     });
 
     mockery.registerAllowable(buttonPath);
@@ -25,14 +32,14 @@ describe('Button', () => {
     const button = shallowRender(<Button />);
 
     expect(button.props.className)
-      .not.toMatch('u-sizeFull');
+      .not.toMatch('mobileClasses');
   });
 
   it('should have fullscreen classes when fullscreen prop is true', () => {
     const button = shallowRender(<Button fullscreen={true} />);
 
     expect(button.props.className)
-      .toMatch('u-sizeFull');
+      .toMatch('mobileClasses');
   });
 
   it('should apply className prop to the underlying element', () => {
@@ -86,19 +93,9 @@ describe('Button', () => {
         button = shallowRender(<Button />);
       });
 
-      it("includes the 'c-btn--primary' class", () => {
+      it('includes the primary classes', () => {
         expect(button.props.className)
-          .toMatch('c-btn--primary');
-      });
-
-      it("includes the 'u-borderTransparent' class", () => {
-        expect(button.props.className)
-          .toMatch('u-borderTransparent');
-      });
-
-      it("includes the 'u-userBackgroundColor' class", () => {
-        expect(button.props.className)
-          .toMatch('u-userBackgroundColor');
+          .toMatch('primaryClasses');
       });
     });
 
@@ -107,9 +104,9 @@ describe('Button', () => {
         button = shallowRender(<Button primary={false} />);
       });
 
-      it("includes the 'u-userBorderColor' class", () => {
+      it('includes the notPrimary classes', () => {
         expect(button.props.className)
-          .toMatch('u-userBorderColor');
+          .toMatch('notPrimaryClasses');
       });
     });
   });

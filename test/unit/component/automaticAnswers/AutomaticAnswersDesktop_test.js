@@ -8,14 +8,15 @@ describe('AutomaticAnswersDesktop component', () => {
 
   const automaticAnswersPath = buildSrcPath('component/automaticAnswers/AutomaticAnswers');
   const automaticAnswersDesktopPath = buildSrcPath('component/automaticAnswers/AutomaticAnswersDesktop');
-  const buttonPath = buildSrcPath('component/button/Button');
 
   beforeEach(() => {
     resetDOM();
 
     mockery.enable();
 
-    Button = requireUncached(buttonPath).Button;
+    Button = class extends Component {
+      render() { return <div className={this.props.className} />; }
+    };
     Icon = class extends Component {
       render() { return <div className={this.props.className} />; }
     };

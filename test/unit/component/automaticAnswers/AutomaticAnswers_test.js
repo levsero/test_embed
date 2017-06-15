@@ -4,22 +4,18 @@ describe('AutomaticAnswers component', () => {
     AutomaticAnswers,
     automaticAnswers,
     AutomaticAnswersScreen,
-    Button,
     mockJwtToken,
     mockUrlArticleId;
   const automaticAnswersPath = buildSrcPath('component/automaticAnswers/AutomaticAnswers');
-  const buttonPath = buildSrcPath('component/button/Button');
 
   beforeEach(() => {
     resetDOM();
 
     mockery.enable();
 
-    Button = requireUncached(buttonPath).Button;
-
     initMockRegistry({
       'component/button/Button': {
-        Button: Button
+        Button: noopReactComponent()
       },
       'service/i18n': {
         i18n: {
