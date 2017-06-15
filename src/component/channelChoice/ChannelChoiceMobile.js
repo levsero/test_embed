@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { locals as commonStyles } from './ChannelChoice.sass';
 import { locals as styles } from './ChannelChoiceMobile.sass';
 
 import { ChannelChoicePopupMobile } from 'component/channelChoice/ChannelChoicePopupMobile';
@@ -17,10 +16,6 @@ export class ChannelChoiceMobile extends Component {
     showCloseButton: PropTypes.func.isRequired,
     chatOnline: PropTypes.bool.isRequired
   };
-
-  componentDidMount = () => {
-    this.props.showCloseButton(false);
-  }
 
   renderCancelButton = () => {
     return (
@@ -39,14 +34,15 @@ export class ChannelChoiceMobile extends Component {
       <ScrollContainer
         hideZendeskLogo={true}
         fullscreen={true}
-        containerClasses={commonStyles.container}
+        containerClasses={styles.container}
         footerContent={this.renderCancelButton()}
+        footerClasses={styles.footer}
         title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}>
         <ChannelChoicePopupMobile
           chatOnline={chatOnline}
           onNextClick={handleNextClick}
           onCancelClick={handleCancelClick}
-          classes={commonStyles.container}
+          classes={styles.container}
           showCancelButton={false} />
       </ScrollContainer>
     );

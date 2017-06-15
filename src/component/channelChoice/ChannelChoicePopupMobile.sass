@@ -1,11 +1,17 @@
 @import '../../styles/_vars.scss';
 
 .inner {
-  composes: u-paddingVS u-paddingHM from global;
+  composes: u-paddingBS u-paddingHM from global;
 }
 
 .innerItem {
-  padding-bottom: #{13/$font-size}rem !important;
+  &:hover, &:focus, &:active {
+    color: $zd-color-oil;
+
+    svg path {
+      fill: $zd-color-dark-gray;
+    }
+  }
 }
 
 .innerItemLabel {
