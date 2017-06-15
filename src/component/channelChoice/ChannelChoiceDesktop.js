@@ -6,6 +6,7 @@ import { locals as styles } from './ChannelChoiceDesktop.sass';
 
 import { ButtonIcon } from 'component/button/ButtonIcon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
+import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 
 export class ChannelChoiceDesktop extends Component {
@@ -30,6 +31,14 @@ export class ChannelChoiceDesktop extends Component {
 
   handleNextClick = (embed) => {
     return () => this.props.handleNextClick(embed);
+  }
+
+  renderZendeskLogo = () => {
+    const { hideZendeskLogo } = this.props;
+
+    return !hideZendeskLogo
+         ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />
+         : null;
   }
 
   renderBody = () => {
@@ -67,6 +76,7 @@ export class ChannelChoiceDesktop extends Component {
         <ScrollContainer
           ref='scrollContainer'
           containerClasses={styles.container}
+          footerContent={this.renderZendeskLogo()}
           footerClasses={footerClasses}
           hideZendeskLogo={hideZendeskLogo}
           title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}>

@@ -37,7 +37,17 @@ describe('ChannelChoiceDesktop component', () => {
             return (
               <div className={this.props.footerClasses}>
                 {this.props.children}
+                {this.props.footerContent}
               </div>
+            );
+          }
+        }
+      },
+      'component/ZendeskLogo': {
+        ZendeskLogo: class extends Component {
+          render() {
+            return (
+              <div className='zendeskLogo' />
             );
           }
         }
@@ -87,6 +97,11 @@ describe('ChannelChoiceDesktop component', () => {
         expect(channelChoiceComponent.querySelector('.footerNoLogo'))
           .toBeNull();
       });
+
+      it('should render the zendesk logo', () => {
+        expect(channelChoiceComponent.querySelector('.zendeskLogo'))
+          .not.toBeNull();
+      });
     });
 
     describe('when hideZendeskLogo is true', () => {
@@ -113,6 +128,11 @@ describe('ChannelChoiceDesktop component', () => {
       it('passes the footerNoLogo class to ScrollContainer', () => {
         expect(channelChoiceComponent.querySelector('.footerNoLogo'))
           .not.toBeNull();
+      });
+
+      it('should not render the zendesk logo', () => {
+        expect(channelChoiceComponent.querySelector('.zendeskLogo'))
+          .toBeNull();
       });
     });
 
