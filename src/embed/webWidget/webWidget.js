@@ -141,6 +141,8 @@ function create(name, config = {}, reduxStore = {}) {
 
   const configDefaults = {
     position: 'right',
+    hideZendeskLogo: false,
+    disableAutoComplete: false,
     color: '#659700'
   };
   const helpCenterAvailable = !!config.helpCenterForm && !settings.get('helpCenter.suppress');
@@ -153,7 +155,7 @@ function create(name, config = {}, reduxStore = {}) {
   const helpCenterSettings = helpCenterAvailable
                            ? setUpHelpCenter(config.helpCenterForm)
                            : {};
-  const globalConfig = _.extend(configDefaults, submitTicketSettings.config, helpCenterSettings.config);
+  const globalConfig = _.extend(configDefaults, config, submitTicketSettings.config, helpCenterSettings.config);
 
   if (chatAvailable) {
     setUpChat(config.zopimChat, reduxStore);
@@ -201,10 +203,11 @@ function create(name, config = {}, reduxStore = {}) {
           attachmentSender={submitTicketSettings.attachmentSender}
           channelChoice={channelChoice}
           contextualSearchSender={helpCenterSettings.contextualSearchSender}
+          disableAutoComplete={globalConfig.disableAutoComplete}
           fullscreen={isMobileBrowser()}
           helpCenterAvailable={helpCenterAvailable}
           helpCenterConfig={helpCenterSettings.config}
-          hideZendeskLogo={config.hideZendeskLogo}
+          hideZendeskLogo={globalConfig.hideZendeskLogo}
           imagesSender={helpCenterSettings.imagesSenderFn}
           localeFallbacks={settings.get('helpCenter.localeFallbacks')}
           onArticleClick={helpCenterSettings.onArticleClick}
@@ -488,7 +491,6 @@ function setUpSubmitTicket(config) {
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024, // 5 MB
     ticketForms: [],
-    disableAutoComplete: false,
     color: '#659700'
   };
   const attachmentsSetting = settings.get('contactForm.attachments');
@@ -640,7 +642,6 @@ function setUpHelpCenter(config) {
     buttonLabelKey: 'message',
     formTitleKey: 'help',
     signInRequired: false,
-    disableAutoComplete: false,
     enableMouseDrivenContextualHelp: false,
     color: '#659700'
   };
