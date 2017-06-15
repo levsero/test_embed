@@ -141,7 +141,6 @@ function create(name, config = {}, reduxStore = {}) {
 
   const configDefaults = {
     position: 'right',
-    hideZendeskLogo: false,
     color: '#659700'
   };
   const helpCenterAvailable = !!config.helpCenterForm && !settings.get('helpCenter.suppress');
@@ -205,7 +204,7 @@ function create(name, config = {}, reduxStore = {}) {
           fullscreen={isMobileBrowser()}
           helpCenterAvailable={helpCenterAvailable}
           helpCenterConfig={helpCenterSettings.config}
-          hideZendeskLogo={globalConfig.hideZendeskLogo}
+          hideZendeskLogo={config.hideZendeskLogo}
           imagesSender={helpCenterSettings.imagesSenderFn}
           localeFallbacks={settings.get('helpCenter.localeFallbacks')}
           onArticleClick={helpCenterSettings.onArticleClick}
@@ -484,7 +483,6 @@ function setUpSubmitTicket(config) {
   const submitTicketConfigDefaults = {
     position: 'right',
     customFields: [],
-    hideZendeskLogo: false,
     formTitleKey: 'message',
     attachmentsEnabled: false,
     maxFileCount: 5,
@@ -641,7 +639,6 @@ function setUpHelpCenter(config) {
     contextualHelpEnabled: false,
     buttonLabelKey: 'message',
     formTitleKey: 'help',
-    hideZendeskLogo: false,
     signInRequired: false,
     disableAutoComplete: false,
     enableMouseDrivenContextualHelp: false,
