@@ -14,11 +14,13 @@ export class ChannelChoicePopupMobile extends Component {
     onNextClick: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
     chatOnline: PropTypes.bool.isRequired,
-    showCancelButton: PropTypes.bool
+    showCancelButton: PropTypes.bool,
+    classes: PropTypes.string
   };
 
   static defaultProps = {
-    showCancelButton: true
+    showCancelButton: true,
+    classes: ''
   };
 
   handleChatClick = () => {
