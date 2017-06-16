@@ -41,7 +41,7 @@ export class ChannelChoiceDesktop extends Component {
                     ? i18n.t('embeddable_framework.channelChoice.button.label.chat')
                     : i18n.t(
                         'embeddable_framework.channelChoice.button.label.chat.offline',
-                        { fallback: 'Live chat is offline' }
+                        { fallback: 'Live Chat is offline' }
                       );
 
     return (

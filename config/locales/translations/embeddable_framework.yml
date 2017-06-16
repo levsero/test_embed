@@ -149,7 +149,7 @@ parts:
   - translation:
       key: "embeddable_framework.channelChoice.button.label.chat.offline"
       title: "A notification that appears when a user enters live chat but all agents become unavailable."
-      value: "Live chat is offline"
+      value: "Live Chat is offline"
   - translation:
       key: "embeddable_framework.channelChoice.chat.offline"
       title: "A notification that appears when a user enters live chat but all agents become unavailable."
