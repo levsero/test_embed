@@ -248,12 +248,12 @@ function create(name, config = {}, reduxStore = {}) {
     component: <Embed visible={false} />,
     submitTicketSettings,
     config: {
-      helpCenterForm: helpCenterSettings.config,
-      ticketSubmissionForm: submitTicketSettings.config
+      global: globalConfig,
+      helpCenterForm: helpCenterSettings.config
     },
     embedsAvailable: {
-      helpCenterForm: submitTicketAvailable,
-      ticketSubmissionForm: helpCenterAvailable,
+      helpCenterForm: helpCenterAvailable,
+      ticketSubmissionForm: submitTicketAvailable,
       chat: chatAvailable
     },
     store: reduxStore

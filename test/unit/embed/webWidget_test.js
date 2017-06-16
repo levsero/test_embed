@@ -273,6 +273,46 @@ describe('embed.webWidget', () => {
         .toBeDefined();
     });
 
+    describe('global config', () => {
+      beforeEach(() => {
+        const config = {
+          root: true,
+          baz: 2,
+          ticketSubmissionForm: {
+            foo: true,
+            baz: 1
+          },
+          helpCenterForm: {
+            bar: true
+          }
+        };
+        webWidget.create('', config);
+        webWidget.render();
+
+        faythe = webWidget.get();
+      });
+
+      it('has ticketSubmissionForm values', () => {
+        expect(faythe.config.global.foo)
+          .toBeTruthy();
+      });
+
+      it('has helpCenterForm values', () => {
+        expect(faythe.config.global.bar)
+          .toBeTruthy();
+      });
+
+      it('has the default values', () => {
+        expect(faythe.config.global.hideZendeskLogo)
+          .toBe(false);
+      });
+
+      it('uses root level values before embed values', () => {
+        expect(faythe.config.global.baz)
+          .toBe(2);
+      });
+    });
+
     describe('when no embeds are part of config', () => {
       beforeEach(() => {
         webWidget.create('', {});
