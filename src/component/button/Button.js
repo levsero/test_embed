@@ -28,7 +28,7 @@ export class Button extends Component {
   };
 
   render = () => {
-    const primaryClasses = this.props.primary ? styles.filled : styles.outline;
+    const primaryClasses = this.props.primary ? styles.filled : styles.outlined;
     const mobileClasses = this.props.fullscreen ? styles.mobile : '';
     const allowedTypes = /^(submit|button)$/i;
     const type = allowedTypes.test(this.props.type)

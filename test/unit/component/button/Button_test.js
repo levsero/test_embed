@@ -13,7 +13,7 @@ describe('Button', () => {
         locals: {
           mobile: 'mobileClasses',
           filled: 'filledClasses',
-          outline: 'outlineClasses'
+          outlined: 'outlinedClasses'
         }
       }
     });
@@ -104,9 +104,9 @@ describe('Button', () => {
         button = shallowRender(<Button primary={false} />);
       });
 
-      it('includes the outline classes', () => {
+      it('includes the outlined classes', () => {
         expect(button.props.className)
-          .toMatch('outlineClasses');
+          .toMatch('outlinedClasses');
       });
     });
   });
