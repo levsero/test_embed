@@ -34,11 +34,9 @@ export class ChannelChoiceDesktop extends Component {
   }
 
   renderZendeskLogo = () => {
-    const { hideZendeskLogo } = this.props;
+    if (this.props.hideZendeskLogo) return null;
 
-    return !hideZendeskLogo
-         ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />
-         : null;
+    return <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />;
   }
 
   renderBody = () => {

@@ -41,7 +41,7 @@ export class ChannelChoiceMobile extends Component {
           chatOnline={chatOnline}
           onNextClick={handleNextClick}
           onCancelClick={handleCancelClick}
-          classes={styles.container}
+          className={styles.container}
           showCancelButton={false} />
       </ScrollContainer>
     );

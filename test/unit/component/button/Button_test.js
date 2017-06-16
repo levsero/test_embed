@@ -12,8 +12,8 @@ describe('Button', () => {
       './Button.sass': {
         locals: {
           mobile: 'mobileClasses',
-          primary: 'primaryClasses',
-          notPrimary: 'notPrimaryClasses'
+          filled: 'filledClasses',
+          outline: 'outlineClasses'
         }
       }
     });
@@ -93,9 +93,9 @@ describe('Button', () => {
         button = shallowRender(<Button />);
       });
 
-      it('includes the primary classes', () => {
+      it('includes the filled classes', () => {
         expect(button.props.className)
-          .toMatch('primaryClasses');
+          .toMatch('filledClasses');
       });
     });
 
@@ -104,9 +104,9 @@ describe('Button', () => {
         button = shallowRender(<Button primary={false} />);
       });
 
-      it('includes the notPrimary classes', () => {
+      it('includes the outline classes', () => {
         expect(button.props.className)
-          .toMatch('notPrimaryClasses');
+          .toMatch('outlineClasses');
       });
     });
   });

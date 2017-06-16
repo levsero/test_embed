@@ -15,12 +15,12 @@ export class ChannelChoicePopupMobile extends Component {
     onCancelClick: PropTypes.func.isRequired,
     chatOnline: PropTypes.bool.isRequired,
     showCancelButton: PropTypes.bool,
-    classes: PropTypes.string
+    className: PropTypes.string
   };
 
   static defaultProps = {
     showCancelButton: true,
-    classes: ''
+    className: ''
   };
 
   handleChatClick = () => {
@@ -36,14 +36,14 @@ export class ChannelChoicePopupMobile extends Component {
   }
 
   renderBody = () => {
-    const { chatOnline, classes } = this.props;
+    const { chatOnline, className } = this.props;
     const chatDisabledStyle = !chatOnline ? commonStyles.chatBtnDisabled : '';
     const chatLabel = (chatOnline)
                     ? i18n.t('embeddable_framework.channelChoice.button.label.chat')
                     : i18n.t('embeddable_framework.channelChoice.chat.offline');
 
     return (
-      <div className={`${styles.inner} ${classes}`}>
+      <div className={`${styles.inner} ${className}`}>
         <ButtonIcon
           className={`${styles.innerItem} ${chatDisabledStyle}`}
           labelClassName={styles.innerItemLabel}
