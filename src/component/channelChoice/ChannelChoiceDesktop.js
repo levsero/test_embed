@@ -46,7 +46,10 @@ export class ChannelChoiceDesktop extends Component {
     const chatBtnStyle = !chatOnline ? commonStyles.chatBtnDisabled : '';
     const chatLabel = (chatOnline)
                     ? i18n.t('embeddable_framework.channelChoice.button.label.chat')
-                    : i18n.t('embeddable_framework.channelChoice.chat.offline');
+                    : i18n.t(
+                        'embeddable_framework.channelChoice.button.label.chat.offline',
+                        { fallback: 'Live Chat is offline' }
+                      );
 
     return (
       <div className={containerStyle}>
