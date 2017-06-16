@@ -149,7 +149,7 @@ parts:
   - translation:
       key: "embeddable_framework.channelChoice.button.label.chat.offline"
       title: "A notification that appears when a user enters live chat but all agents become unavailable."
-      screenshot: "https://user-images.githubusercontent.com/10393846/27208090-e50b2406-5286-11e7-9489-242439cbb44d.png"
+      screenshot: "https://zendesk.box.com/s/x2o3nb0yedt4y600n1ge6agmvavdisd4"
       value: "Live Chat is offline"
   - translation:
       key: "embeddable_framework.channelChoice.chat.offline"
