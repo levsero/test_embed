@@ -148,7 +148,8 @@ parts:
       value: "Live Chat"
   - translation:
       key: "embeddable_framework.channelChoice.button.label.chat.offline"
-      title: "A notification that appears when a user enters live chat but all agents become unavailable. (https://user-images.githubusercontent.com/10393846/27208090-e50b2406-5286-11e7-9489-242439cbb44d.png), (https://user-images.githubusercontent.com/10393846/27208092-e7d817de-5286-11e7-896d-bad4472c0d70.png)"
+      title: "A notification that appears when a user enters live chat but all agents become unavailable."
+      screenshot: "https://user-images.githubusercontent.com/10393846/27208090-e50b2406-5286-11e7-9489-242439cbb44d.png"
       value: "Live Chat is offline"
   - translation:
       key: "embeddable_framework.channelChoice.chat.offline"
