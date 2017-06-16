@@ -274,6 +274,8 @@ describe('embed.webWidget', () => {
     });
 
     describe('global config', () => {
+      let globalConf;
+
       beforeEach(() => {
         const config = {
           root: true,
@@ -291,25 +293,26 @@ describe('embed.webWidget', () => {
         webWidget.render();
 
         faythe = webWidget.get();
+        globalConf = faythe.config.global;
       });
 
       it('has ticketSubmissionForm values', () => {
-        expect(faythe.config.global.foo)
+        expect(globalConf.foo)
           .toBeTruthy();
       });
 
       it('has helpCenterForm values', () => {
-        expect(faythe.config.global.bar)
+        expect(globalConf.bar)
           .toBeTruthy();
       });
 
       it('has the default values', () => {
-        expect(faythe.config.global.hideZendeskLogo)
+        expect(globalConf.hideZendeskLogo)
           .toBe(false);
       });
 
       it('uses root level values before embed values', () => {
-        expect(faythe.config.global.baz)
+        expect(globalConf.baz)
           .toBe(2);
       });
     });
