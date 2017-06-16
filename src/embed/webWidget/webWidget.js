@@ -249,7 +249,8 @@ function create(name, config = {}, reduxStore = {}) {
     submitTicketSettings,
     config: {
       global: globalConfig,
-      helpCenterForm: helpCenterSettings.config
+      helpCenterForm: helpCenterSettings.config,
+      ticketSubmissionForm: submitTicketSettings.config
     },
     embedsAvailable: {
       helpCenterForm: helpCenterAvailable,

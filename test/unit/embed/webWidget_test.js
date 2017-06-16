@@ -286,6 +286,7 @@ describe('embed.webWidget', () => {
             bar: true
           }
         };
+
         webWidget.create('', config);
         webWidget.render();
 
