@@ -5,7 +5,16 @@
 }
 
 .innerItem {
-  padding-bottom: #{13/$font-size}rem !important;
+  padding-top: #{8/$font-size}rem;
+  padding-bottom: #{8/$font-size}rem;
+
+  &:hover, &:focus, &:active {
+    color: $zd-color-oil;
+
+    svg path {
+      fill: $zd-color-dark-gray;
+    }
+  }
 }
 
 .innerItemLabel {

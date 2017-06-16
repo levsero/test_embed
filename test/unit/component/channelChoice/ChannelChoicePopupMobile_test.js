@@ -113,6 +113,22 @@ describe('ChannelChoicePopupMobile component', () => {
         expect(channelChoicePopupComponent.querySelector('.cancelButton'))
           .not.toBeNull();
       });
+
+      describe('when showCancelButton prop is false', () => {
+        beforeEach(() => {
+          channelChoicePopupMobile = domRender(
+            <ChannelChoicePopupMobile
+              showCancelButton={false}
+              onNextClick={noop}
+              onCancelClick={noop} />
+          );
+        });
+
+        it('should not have cancelButton class', () => {
+          expect(channelChoicePopupComponent.querySelector('.cancelButton'))
+            .toBeNull();
+        });
+      });
     });
 
     describe('handleChatClick', () => {

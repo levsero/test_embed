@@ -1,0 +1,24 @@
+/**
+ * 1. Need to specify again to override c-btn-primary
+ */
+
+@import '../../styles/_vars.scss';
+
+.button {
+  composes: c-btn c-btn--medium Anim-color u-textNoWrap from global;
+}
+
+.filled {
+  composes: c-btn--primary u-borderTransparent u-userBackgroundColor from global;
+}
+
+.outlined {
+  composes: u-userBorderColor from global;
+}
+
+.mobile {
+  composes: u-sizeFull u-textSizeBaseMobile u-textTruncate from global;
+
+  line-height: 2.5;
+  max-width: 100%; /* 1 */
+}

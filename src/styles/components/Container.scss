@@ -92,6 +92,7 @@ $Container-spacing: 25/$font-size;
   background-color: $base-color;
   bottom: #{42/$font-size}rem;
   right: 0;
+  min-width: #{158/$font-size}rem;
   max-width: #{300/$font-size}rem;
   padding: #{5/$font-size}rem;
   border-radius: #{4/$font-size}rem;

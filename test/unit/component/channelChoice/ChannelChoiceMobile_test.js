@@ -10,11 +10,29 @@ describe('ChannelChoiceMobile component', () => {
     mockery.enable();
 
     initMockRegistry({
+      './ChannelChoiceMobile.sass': {
+        locals: {}
+      },
       'component/channelChoice/ChannelChoicePopupMobile': {
         ChannelChoicePopupMobile: class extends Component {
           render() {
             return <div className='ChannelChoicePopupMobile' />;
           }
+        }
+      },
+      'component/button/Button': {
+        Button: noopReactComponent()
+      },
+      'component/container/ScrollContainer': {
+        ScrollContainer: class extends Component {
+          render() {
+            return <div>{this.props.children}</div>;
+          }
+        }
+      },
+      'service/i18n': {
+        i18n: {
+          t: _.identity
         }
       }
     });
@@ -42,13 +60,6 @@ describe('ChannelChoiceMobile component', () => {
           showCloseButton={showCloseButtonSpy} />
       );
       channelChoiceComponent = ReactDOM.findDOMNode(channelChoiceMobile);
-    });
-
-    describe('when component is mounted', () => {
-      it('should call props.showCloseButton with false', () => {
-        expect(showCloseButtonSpy)
-          .toHaveBeenCalledWith(false);
-      });
     });
 
     it('renders the ChannelChoiceMobilePopup component', () => {

@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import { Container } from 'component/container/Container';
 import { ChannelChoiceDesktop } from 'component/channelChoice/ChannelChoiceDesktop';
 import { ChannelChoiceMobile } from 'component/channelChoice/ChannelChoiceMobile';
-import { ZendeskLogo } from 'component/ZendeskLogo';
-import { i18n } from 'service/i18n';
 
 export class ChannelChoice extends Component {
   static propTypes = {
@@ -34,21 +32,14 @@ export class ChannelChoice extends Component {
     this.props.showCloseButton();
   }
 
-  renderZendeskLogo = () => {
-    const { hideZendeskLogo, isMobile } = this.props;
-
-    return !hideZendeskLogo
-         ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={isMobile} />
-         : null;
-  }
-
   renderMobile = () => {
-    const { onCancelClick, showCloseButton, chatOnline } = this.props;
+    const { onCancelClick, showCloseButton, chatOnline, formTitleKey } = this.props;
 
     return (
       <ChannelChoiceMobile
         ref='channelChoiceMobile'
         chatOnline={chatOnline}
+        formTitleKey={formTitleKey}
         handleNextClick={this.handleNextClick}
         handleCancelClick={onCancelClick}
         showCloseButton={showCloseButton} />
@@ -79,7 +70,6 @@ export class ChannelChoice extends Component {
     return (
       <Container style={style}>
         {channelChoice}
-        {this.renderZendeskLogo()}
       </Container>
     );
   }

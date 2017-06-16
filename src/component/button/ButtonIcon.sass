@@ -2,7 +2,7 @@
 
 .container {
   composes: Button--icon from '../../styles/components/Button.scss';
-  composes: u-flex u-isDisabled from global;
+  composes: u-flex u-flexAlignItemsCenter u-isDisabled from global;
 
   &:hover, &:focus, &:active {
     color: $zd-color-oil;
@@ -27,6 +27,11 @@
 
   svg path {
     fill: $zd-color-monsoon;
+  }
+
+  [dir='rtl'] & {
+    padding-right: 0 !important;
+    padding-left: #{15/$font-size}rem !important;
   }
 }
 
