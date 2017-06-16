@@ -47,7 +47,7 @@ const helpCenterAvailable = () => {
 
 const channelChoiceAvailable = () => {
   return state[`${channelChoice}.isAccessible`]
-    && !state[`${helpCenter}.isAccessible`]
+    && !helpCenterAvailable()
     && chatAvailable()
     && submitTicketAvailable();
 };
