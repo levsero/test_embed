@@ -32,6 +32,7 @@ class WebWidget extends Component {
     buttonLabelKey: PropTypes.string,
     channelChoice: PropTypes.bool,
     chat: PropTypes.object.isRequired,
+    disableAutoComplete: PropTypes.bool,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
     helpCenterAvailable: PropTypes.bool,
@@ -70,6 +71,7 @@ class WebWidget extends Component {
     buttonLabelKey: '',
     channelChoice: false,
     chat: { account_status: 'offline' }, // eslint-disable-line camelcase
+    disableAutoComplete: false,
     formTitleKey: '',
     fullscreen: true,
     helpCenterAvailable: false,
@@ -269,7 +271,7 @@ class WebWidget extends Component {
           style={this.props.style}
           fullscreen={this.props.fullscreen}
           updateFrameSize={this.props.updateFrameSize}
-          disableAutoComplete={helpCenterConfig.disableAutoComplete}
+          disableAutoComplete={this.props.disableAutoComplete}
           originalArticleButton={this.props.originalArticleButton}
           localeFallbacks={this.props.localeFallbacks}
           channelChoice={this.props.channelChoice}
@@ -292,7 +294,7 @@ class WebWidget extends Component {
           attachmentsEnabled={submitTicketConfig.attachmentsEnabled}
           attachmentSender={this.props.attachmentSender}
           customFields={submitTicketConfig.customFields}
-          disableAutoComplete={submitTicketConfig.disableAutoComplete}
+          disableAutoComplete={this.props.disableAutoComplete}
           formTitleKey={submitTicketConfig.formTitleKey}
           hideZendeskLogo={this.props.hideZendeskLogo}
           maxFileCount={submitTicketConfig.maxFileCount}

@@ -142,6 +142,7 @@ function create(name, config = {}, reduxStore = {}) {
   const configDefaults = {
     position: 'right',
     hideZendeskLogo: false,
+    disableAutoComplete: false,
     color: '#659700'
   };
   const helpCenterAvailable = !!config.helpCenterForm && !settings.get('helpCenter.suppress');
@@ -154,7 +155,13 @@ function create(name, config = {}, reduxStore = {}) {
   const helpCenterSettings = helpCenterAvailable
                            ? setUpHelpCenter(config.helpCenterForm)
                            : {};
-  const globalConfig = _.extend(configDefaults, submitTicketSettings.config, helpCenterSettings.config);
+  const rootConfig = _.omit(config, ['ticketSubmissionForm', 'helpCenterForm', 'zopimChat']);
+  const globalConfig = _.extend(
+    configDefaults,
+    submitTicketSettings.config,
+    helpCenterSettings.config,
+    rootConfig
+  );
 
   if (chatAvailable) {
     setUpChat(config.zopimChat, reduxStore);
@@ -202,6 +209,7 @@ function create(name, config = {}, reduxStore = {}) {
           attachmentSender={submitTicketSettings.attachmentSender}
           channelChoice={channelChoice}
           contextualSearchSender={helpCenterSettings.contextualSearchSender}
+          disableAutoComplete={globalConfig.disableAutoComplete}
           fullscreen={isMobileBrowser()}
           helpCenterAvailable={helpCenterAvailable}
           helpCenterConfig={helpCenterSettings.config}
@@ -240,12 +248,13 @@ function create(name, config = {}, reduxStore = {}) {
     component: <Embed visible={false} />,
     submitTicketSettings,
     config: {
+      global: globalConfig,
       helpCenterForm: helpCenterSettings.config,
       ticketSubmissionForm: submitTicketSettings.config
     },
     embedsAvailable: {
-      helpCenterForm: submitTicketAvailable,
-      ticketSubmissionForm: helpCenterAvailable,
+      helpCenterForm: helpCenterAvailable,
+      ticketSubmissionForm: submitTicketAvailable,
       chat: chatAvailable
     },
     store: reduxStore
@@ -484,13 +493,11 @@ function setUpSubmitTicket(config) {
   const submitTicketConfigDefaults = {
     position: 'right',
     customFields: [],
-    hideZendeskLogo: false,
     formTitleKey: 'message',
     attachmentsEnabled: false,
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024, // 5 MB
     ticketForms: [],
-    disableAutoComplete: false,
     color: '#659700'
   };
   const attachmentsSetting = settings.get('contactForm.attachments');
@@ -641,9 +648,7 @@ function setUpHelpCenter(config) {
     contextualHelpEnabled: false,
     buttonLabelKey: 'message',
     formTitleKey: 'help',
-    hideZendeskLogo: false,
     signInRequired: false,
-    disableAutoComplete: false,
     enableMouseDrivenContextualHelp: false,
     color: '#659700'
   };
