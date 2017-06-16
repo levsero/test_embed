@@ -146,6 +146,15 @@ parts:
       title: "The label for the live chat option in the list. The same text as embeddable_framework.helpCenter.submitButton.label.chat"
       screenshot: "https://zendesk.box.com/s/cybiy7gshwetcw9y8yd0o40ddixfdjj6"
       value: "Live Chat"
+  - translation:
+      key: "embeddable_framework.channelChoice.button.label.chat.offline"
+      title: "A notification that appears when a user enters live chat but all agents become unavailable."
+      value: "Live chat is offline"
+  - translation:
+      key: "embeddable_framework.channelChoice.chat.offline"
+      title: "A notification that appears when a user enters live chat but all agents become unavailable."
+      value: "Live chat is offline."
+      obsolete: "2017-06-16"
 
   # Help Center component
   - translation:
@@ -459,12 +468,6 @@ parts:
       title: "Confirmation text once irrelevant article feedback has been submitted. DO NOT user possessive (your feedback)"
       screenshot: "https://zendesk.box.com/s/ucnotxaimioe7714iu6n7ttgpa0zqp1d"
       value: "Thanks for your feedback"
-
-  # Channel Choice
-  - translation:
-      key: "embeddable_framework.channelChoice.chat.offline"
-      title: "A notification that appears when a user enters live chat but all agents become unavailable."
-      value: "Live chat is offline."
 
   # ZendeskLogo component
   - translation:
