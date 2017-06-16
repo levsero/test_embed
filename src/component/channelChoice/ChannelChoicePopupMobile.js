@@ -40,10 +40,7 @@ export class ChannelChoicePopupMobile extends Component {
     const chatDisabledStyle = !chatOnline ? commonStyles.chatBtnDisabled : '';
     const chatLabel = (chatOnline)
                     ? i18n.t('embeddable_framework.channelChoice.button.label.chat')
-                    : i18n.t(
-                        'embeddable_framework.channelChoice.button.label.chat.offline',
-                        { fallback: 'Live Chat is offline' }
-                      );
+                    : i18n.t('embeddable_framework.channelChoice.chat.offline');
 
     return (
       <div className={`${styles.inner} ${className}`}>
