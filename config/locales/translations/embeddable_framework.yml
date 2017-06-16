@@ -155,7 +155,7 @@ parts:
       key: "embeddable_framework.channelChoice.chat.offline"
       title: "A notification that appears when a user enters live chat but all agents become unavailable."
       value: "Live chat is offline."
-      obsolete: "2017-06-16"
+      obsolete: "2017-08-16"
 
   # Help Center component
   - translation:
