@@ -143,11 +143,11 @@ parts:
       value: "Leave a message"
   - translation:
       key: "embeddable_framework.channelChoice.button.label.chat"
-      title: "The label for the live chat option in the list. The same text as embeddable_framework.helpCenter.submitButton.label.chat"
+      title: "The label for the live chat option in the list (not product name, just general chat). The same text as embeddable_framework.helpCenter.submitButton.label.chat"
       screenshot: "https://zendesk.box.com/s/cybiy7gshwetcw9y8yd0o40ddixfdjj6"
       value: "Live Chat"
   - translation:
-      key: "embeddable_framework.channelChoice.button.label.chat.offline"
+      key: "embeddable_framework.channelChoice.button.label.chat_offline"
       title: "A notification that appears when a user enters live chat but all agents become unavailable."
       screenshot: "https://zendesk.box.com/s/x2o3nb0yedt4y600n1ge6agmvavdisd4"
       value: "Live Chat is offline"
