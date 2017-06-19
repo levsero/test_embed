@@ -97,11 +97,7 @@ $Container-spacing: 25/$font-size;
   padding: #{5/$font-size}rem;
   border-radius: #{4/$font-size}rem;
   box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .2);
-
-  //transition: all 100ms ease-in-out;
-  animation-name: example;
-  animation-duration: 100ms;
-  animation-timing-function: ease-in-out;
+  animation: channelChoiceAppear 100ms ease-in-out;
 
   [dir='rtl'] & {
     right: auto;
@@ -109,7 +105,11 @@ $Container-spacing: 25/$font-size;
   }
 }
 
-@keyframes example {
-    from {opacity: 0;}
-    to {opacity: 1;}
+@keyframes channelChoiceAppear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
