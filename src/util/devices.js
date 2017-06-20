@@ -27,9 +27,9 @@ function getDeviceZoom() {
 function getZoomSizingRatio() {
   const ratio = 1 / getDeviceZoom();
 
-  return (ratio > 1)
-    ? Math.max(0, ratio)
-    : 1;
+  return (isMobileBrowser())
+       ? Math.max(0, ratio)
+       : 1;
 }
 
 function isIos() {
