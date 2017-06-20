@@ -185,18 +185,42 @@ describe('devices', () => {
     });
 
     describe('getZoomSizingRatio', () => {
-      it('should return the correct ratio with no mobile device meta tags', () => {
-        win.innerWidth = 980;
+      let originalUserAgent;
 
-        expect(getZoomSizingRatio())
-          .toBeCloseTo(3.0625, 4);
+      describe('when it is desktop', () => {
+        it('should return zoom ratio of 1 regardless of innerWidth value', () => {
+          for (let i = 0; i < 5; i++) {
+            win.innerWidth = Math.random() * 9999;
+
+            expect(getZoomSizingRatio())
+              .toEqual(1);
+          }
+        });
       });
 
-      it('should return the correct ratio with mobile device meta tags forcing width', () => {
-        win.innerWidth = 640;
+      describe('when it is mobile', () => {
+        beforeEach(() => {
+          originalUserAgent = mockGlobals.navigator.userAgent;
+          mockGlobals.navigator.userAgent = 'phone';
+        });
 
-        expect(getZoomSizingRatio())
-          .toBeCloseTo(2, 4);
+        afterEach(() => {
+          mockGlobals.navigator.userAgent = originalUserAgent;
+        });
+
+        it('should return the correct ratio with no mobile device meta tags', () => {
+          win.innerWidth = 980;
+
+          expect(getZoomSizingRatio())
+            .toBeCloseTo(3.0625, 4);
+        });
+
+        it('should return the correct ratio with mobile device meta tags forcing width', () => {
+          win.innerWidth = 640;
+
+          expect(getZoomSizingRatio())
+            .toBeCloseTo(2, 4);
+        });
       });
     });
   });
