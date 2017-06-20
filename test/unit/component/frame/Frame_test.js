@@ -9,7 +9,8 @@ describe('Frame', () => {
     mockHiddenStateTransition,
     mockClickBusterRegister,
     mockIsRTLValue,
-    mockLocaleValue;
+    mockLocaleValue,
+    mockZoomSizingRatioValue;
 
   const FramePath = buildSrcPath('component/frame/Frame');
 
@@ -51,6 +52,7 @@ describe('Frame', () => {
     mockIsMobileBrowserValue = false;
     mockIsRTLValue = false;
     mockLocaleValue = 'en-US';
+    mockZoomSizingRatioValue = 1;
 
     mockShowTransition = jasmine.createSpy().and.returnValue({
       start: { transitionDuration: '9999ms' },
@@ -88,7 +90,7 @@ describe('Frame', () => {
       'utility/color': {},
       'utility/devices': {
         getZoomSizingRatio: () => {
-          return 1;
+          return mockZoomSizingRatioValue;
         },
         isMobileBrowser: () => mockIsMobileBrowserValue,
         isFirefox: () => {
@@ -834,6 +836,72 @@ describe('Frame', () => {
 
         expect(frame.getChild().props.baseCSS)
           .toContain('css-prop');
+      });
+    });
+  });
+
+  describe('getAdjustedMarginStyles', () => {
+    let frame;
+
+    beforeEach(() => {
+      frame = domRender(<Frame name='foo'>{mockChild}</Frame>);
+      mockZoomSizingRatioValue = Math.random();
+    });
+
+    afterEach(() => {
+      mockZoomSizingRatioValue = 1;
+    });
+
+    it('should not return unexpected attributes', () => {
+      const unexpectedAttrs = ['width', 'height', 'zIndex'];
+      const frameStyle = {
+        width: '10px',
+        height: '10px',
+        marginTop: '10px',
+        zIndex: '999999'
+      };
+      const result = frame.getAdjustedMarginStyles(frameStyle);
+
+      expect(unexpectedAttrs.length)
+        .toBeGreaterThan(0);
+
+      unexpectedAttrs.forEach((subject) => {
+        expect(_.has(result, subject))
+          .toEqual(false);
+      });
+    });
+
+    describe('when frameStyle contains 4 valid properties', () => {
+      let result;
+      const frameStyle = {
+        marginTop: '10px',
+        marginBottom: '15px',
+        marginLeft: '20px',
+        marginRight: '25px'
+      };
+
+      beforeEach(() => {
+        result = frame.getAdjustedMarginStyles(frameStyle);
+      });
+
+      it('should return with 4 properties', () => {
+        expect(_.keys(result).length)
+          .toEqual(4);
+      });
+
+      it('should adjust valid properties accordingly', () => {
+        const getMargin = (value) => {
+          return Math.round(value * mockZoomSizingRatioValue) + 'px';
+        };
+        const expected = {
+          marginTop: getMargin(10),
+          marginBottom: getMargin(15),
+          marginLeft: getMargin(20),
+          marginRight: getMargin(25)
+        };
+
+        expect(result)
+          .toEqual(expected);
       });
     });
   });

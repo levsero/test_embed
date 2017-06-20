@@ -279,8 +279,23 @@ export class Frame extends Component {
     this.child.setButtonColor(color);
   }
 
+  getAdjustedMarginStyles = (frameStyle) => {
+    const zoomRatio = getZoomSizingRatio();
+    const adjustMargin = (s) => {
+      const intValue = _.toInteger(_.replace(s, 'px', ''));
+
+      return Math.round(intValue * zoomRatio) + 'px';
+    };
+
+    return _.chain(frameStyle)
+            .pick(['marginTop', 'marginBottom', 'marginLeft', 'marginRight'])
+            .mapValues(adjustMargin)
+            .value();
+  }
+
   computeIframeStyle = () => {
     const { iframeDimensions, visible, hiddenByZoom, frameStyle } = this.state;
+    const marginStyles = this.getAdjustedMarginStyles(frameStyle);
     const baseStyles = {
       border: 'none',
       background: 'transparent',
@@ -310,6 +325,7 @@ export class Frame extends Component {
       baseStyles,
       posObj,
       frameStyle,
+      marginStyles,
       iframeDimensions,
       visibilityStyles
     );
