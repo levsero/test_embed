@@ -12,6 +12,8 @@ import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { generateUserCSS } from 'utility/color';
 import { transitionFactory } from 'service/transitionFactory';
+import { isMobileBrowser,
+         getZoomSizingRatio } from 'utility/devices';
 
 const launcherCSS = `${require('./launcher.scss')} ${launcherStyles}`;
 
@@ -44,9 +46,25 @@ function create(name, config, reduxStore) {
     beacon.trackUserAction('launcher', 'click', name);
     mediator.channel.broadcast(name + '.onClick');
   };
+  const getAdjustedMarginStyles = (frameStyle) => {
+    const zoomRatio = getZoomSizingRatio();
+    const adjustMargin = (s) => {
+      const intValue = _.toInteger(_.replace(s, 'px', ''));
+
+      return Math.round(intValue * zoomRatio) + 'px';
+    };
+
+    const result = _.chain(frameStyle)
+                    .pick(['marginTop', 'marginBottom', 'marginLeft', 'marginRight'])
+                    .mapValues(adjustMargin)
+                    .value();
+
+    return _.extend({}, frameStyle, result);
+  };
 
   const params = {
     css: launcherCSS + generateUserCSS(config.color),
+    frameStyleModifier: isMobileBrowser() ? getAdjustedMarginStyles : () => {},
     frameOffsetWidth: 5,
     frameOffsetHeight: 1,
     frameStyle: frameStyle,

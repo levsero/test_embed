@@ -41,6 +41,7 @@ export class Frame extends Component {
     store: PropTypes.object.isRequired,
     afterShowAnimate: PropTypes.func,
     css: PropTypes.string,
+    frameStyleModifier: PropTypes.func,
     frameFullWidth: PropTypes.number,
     frameOffsetWidth: PropTypes.number,
     frameOffsetHeight: PropTypes.number,
@@ -61,6 +62,7 @@ export class Frame extends Component {
   static defaultProps = {
     afterShowAnimate: () => {},
     css: '',
+    frameStyleModifier: () => {},
     frameFullWidth: 0,
     frameOffsetWidth: 15,
     frameOffsetHeight: 15,
@@ -279,20 +281,6 @@ export class Frame extends Component {
     this.child.setButtonColor(color);
   }
 
-  getAdjustedMarginStyles = (frameStyle) => {
-    const zoomRatio = getZoomSizingRatio();
-    const adjustMargin = (s) => {
-      const intValue = _.toInteger(_.replace(s, 'px', ''));
-
-      return Math.round(intValue * zoomRatio) + 'px';
-    };
-
-    return _.chain(frameStyle)
-            .pick(['marginTop', 'marginBottom', 'marginLeft', 'marginRight'])
-            .mapValues(adjustMargin)
-            .value();
-  }
-
   computeIframeStyle = () => {
     let frameStyle = this.state.frameStyle;
     const { iframeDimensions, visible, hiddenByZoom } = this.state;
@@ -321,10 +309,7 @@ export class Frame extends Component {
       [verticalPos]: verticalOffset
     };
 
-    // Launcher
-    if (isMobile && this.props.name === 'launcher') {
-      frameStyle = _.extend(frameStyle, this.getAdjustedMarginStyles(frameStyle));
-    }
+    frameStyle = this.props.frameStyleModifier(frameStyle) || frameStyle;
 
     return _.extend(
       baseStyles,
