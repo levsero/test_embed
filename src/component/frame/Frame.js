@@ -294,8 +294,8 @@ export class Frame extends Component {
   }
 
   computeIframeStyle = () => {
-    const { iframeDimensions, visible, hiddenByZoom, frameStyle } = this.state;
-    const marginStyles = this.getAdjustedMarginStyles(frameStyle);
+    let frameStyle = this.state.frameStyle;
+    const { iframeDimensions, visible, hiddenByZoom } = this.state;
     const baseStyles = {
       border: 'none',
       background: 'transparent',
@@ -321,11 +321,15 @@ export class Frame extends Component {
       [verticalPos]: verticalOffset
     };
 
+    // Launcher
+    if (isMobile && this.props.name === 'launcher') {
+      frameStyle = _.extend(frameStyle, this.getAdjustedMarginStyles(frameStyle));
+    }
+
     return _.extend(
       baseStyles,
       posObj,
       frameStyle,
-      marginStyles,
       iframeDimensions,
       visibilityStyles
     );
