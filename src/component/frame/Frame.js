@@ -282,8 +282,8 @@ export class Frame extends Component {
   }
 
   computeIframeStyle = () => {
-    let frameStyle = this.state.frameStyle;
-    const { iframeDimensions, visible, hiddenByZoom } = this.state;
+    const { iframeDimensions, visible, hiddenByZoom, frameStyle } = this.state;
+    const modifiedStyles = this.props.frameStyleModifier(frameStyle) || frameStyle;
     const baseStyles = {
       border: 'none',
       background: 'transparent',
@@ -309,12 +309,11 @@ export class Frame extends Component {
       [verticalPos]: verticalOffset
     };
 
-    frameStyle = this.props.frameStyleModifier(frameStyle) || frameStyle;
-
     return _.extend(
       baseStyles,
       posObj,
       frameStyle,
+      modifiedStyles,
       iframeDimensions,
       visibilityStyles
     );

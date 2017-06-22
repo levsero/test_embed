@@ -188,13 +188,20 @@ describe('devices', () => {
       let originalUserAgent;
 
       describe('when it is desktop', () => {
+        const innerWithArray = [2000, 900, 640, 320, 1];
+
+        it('innerWidth array should contain at least 1 element', () => {
+          expect(innerWithArray.length)
+            .toBeGreaterThan(0);
+        });
+
         it('should return zoom ratio of 1 regardless of innerWidth value', () => {
-          for (let i = 0; i < 5; i++) {
-            win.innerWidth = Math.random() * 9999;
+          _.forEach(innerWithArray, (innerWidth) => {
+            win.innerWidth = innerWidth;
 
             expect(getZoomSizingRatio())
               .toEqual(1);
-          }
+          });
         });
       });
 

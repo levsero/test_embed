@@ -48,10 +48,10 @@ function create(name, config, reduxStore) {
   };
   const getAdjustedMarginStyles = (frameStyle) => {
     const zoomRatio = getZoomSizingRatio();
-    const adjustMargin = (s) => {
-      const intValue = _.toInteger(_.replace(s, 'px', ''));
+    const adjustMargin = (margin) => {
+      const adjustedMargin = Math.round(parseInt(margin, 10) * zoomRatio);
 
-      return Math.round(intValue * zoomRatio) + 'px';
+      return `${adjustedMargin}px`;
     };
 
     const result = _.chain(frameStyle)

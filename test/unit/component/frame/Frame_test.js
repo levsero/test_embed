@@ -646,17 +646,50 @@ describe('Frame', () => {
     let frame;
 
     describe('props.frameStyleModifier', () => {
-      let frameStyleModifierSpy;
-
-      beforeEach(() => {
-        frameStyleModifierSpy = jasmine.createSpy('frameStyleModifier');
-        frame = domRender(<Frame frameStyleModifier={frameStyleModifierSpy}>{mockChild}</Frame>);
-      });
+      let frameStyleModifierSpy,
+        result;
 
       describe('when frameStyleModifier exists', () => {
-        it('should be called', () => {
-          expect(frameStyleModifierSpy)
-            .toHaveBeenCalledWith(frame.props.frameStyle);
+        const modifiedFrameStyle = { marginTop: '10px', marginLeft: '55px' };
+
+        beforeEach(() => {
+          frameStyleModifierSpy = jasmine.createSpy('frameStyleModifier').and.returnValue(modifiedFrameStyle);
+          frame = domRender(<Frame frameStyleModifier={frameStyleModifierSpy}>{mockChild}</Frame>);
+          result = frame.computeIframeStyle();
+        });
+
+        it('modified frameStyle should contain at least 1 property', () => {
+          expect(_.keys(modifiedFrameStyle).length)
+            .toBeGreaterThan(0);
+        });
+
+        it('computeIframeStyle should contain styles from the modification', () => {
+          _.forEach(modifiedFrameStyle, (val, key) => {
+            expect(result[key])
+              .toEqual(val);
+          });
+        });
+      });
+
+      describe('when frameStyleModifier does not exist', () => {
+        const frameStyle = { marginRight: '22px', marginLeft: '10px', marginTop: '66px' };
+
+        beforeEach(() => {
+          frameStyleModifierSpy = jasmine.createSpy('frameStyleModifier').and.returnValue(undefined);
+          frame = domRender(<Frame frameStyle={frameStyle}>{mockChild}</Frame>);
+          result = frame.computeIframeStyle();
+        });
+
+        it('frameStyleModifier should return undefined', () => {
+          expect(frameStyleModifierSpy())
+            .toBeUndefined();
+        });
+
+        it('computeIframeStyle should contain styles from frameStyle', () => {
+          _.forEach(frameStyle, (val, key) => {
+            expect(result[key])
+              .toEqual(val);
+          });
         });
       });
     });
