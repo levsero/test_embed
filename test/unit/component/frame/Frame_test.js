@@ -680,15 +680,10 @@ describe('Frame', () => {
           result = frame.computeIframeStyle();
         });
 
-        it('frameStyleModifier should return undefined', () => {
-          expect(frameStyleModifierSpy())
-            .toBeUndefined();
-        });
-
         it('computeIframeStyle should contain styles from frameStyle', () => {
           _.forEach(frameStyle, (val, key) => {
-            expect(result[key])
-              .toEqual(val);
+            expect(result)
+              .toEqual(jasmine.objectContaining(frameStyle));
           });
         });
       });

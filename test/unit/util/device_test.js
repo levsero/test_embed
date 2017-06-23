@@ -219,14 +219,14 @@ describe('devices', () => {
           win.innerWidth = 980;
 
           expect(getZoomSizingRatio())
-            .toBeCloseTo(3.0625, 4);
+            .toBeCloseTo(3.0625);
         });
 
         it('should return the correct ratio with mobile device meta tags forcing width', () => {
           win.innerWidth = 640;
 
           expect(getZoomSizingRatio())
-            .toBeCloseTo(2, 4);
+            .toBeCloseTo(2);
         });
       });
     });
