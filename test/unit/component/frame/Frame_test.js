@@ -664,10 +664,8 @@ describe('Frame', () => {
         });
 
         it('computeIframeStyle should contain styles from the modification', () => {
-          _.forEach(modifiedFrameStyle, (val, key) => {
-            expect(result[key])
-              .toEqual(val);
-          });
+          expect(result)
+            .toEqual(jasmine.objectContaining(modifiedFrameStyle));
         });
       });
 
@@ -681,10 +679,8 @@ describe('Frame', () => {
         });
 
         it('computeIframeStyle should contain styles from frameStyle', () => {
-          _.forEach(frameStyle, () => {
-            expect(result)
-              .toEqual(jasmine.objectContaining(frameStyle));
-          });
+          expect(result)
+            .toEqual(jasmine.objectContaining(frameStyle));
         });
       });
     });
