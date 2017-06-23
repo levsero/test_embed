@@ -1,11 +1,16 @@
 describe('embed.launcher', () => {
   let launcher,
     mockFrame,
-    mockRegistry;
+    mockRegistry,
+    mockIsMobileBrowser,
+    mockZoomSizingRatioValue;
   const launcherPath = buildSrcPath('embed/launcher/launcher');
 
   beforeEach(() => {
     resetDOM();
+
+    mockIsMobileBrowser = false;
+    mockZoomSizingRatioValue = 1;
 
     mockery.enable();
 
@@ -58,9 +63,8 @@ describe('embed.launcher', () => {
         Frame: mockFrame
       },
       'utility/devices': {
-        isMobileBrowser: () => {
-          return false;
-        }
+        isMobileBrowser: () => mockIsMobileBrowser,
+        getZoomSizingRatio: () => mockZoomSizingRatioValue
       },
       'lodash': _,
       'service/transitionFactory' : {
@@ -340,6 +344,55 @@ describe('embed.launcher', () => {
             expect(aliceLauncher.setLabel)
               .toHaveBeenCalledWith('embeddable_framework.chat.notification_multiple', { count: 2 });
           });
+        });
+      });
+
+      describe('getAdjustedMarginStyles', () => {
+        let result;
+        const frameStyleProperties = ['width', 'height', 'marginBottom', 'marginRight', 'zIndex'];
+        const frameStyle = {
+          width: '10px',
+          height: '10px',
+          marginBottom: '15px',
+          marginRight: '25px',
+          zIndex: '999999'
+        };
+
+        beforeEach(() => {
+          mockIsMobileBrowser = true;
+          mockZoomSizingRatioValue = Math.random();
+          launcher.create('alice');
+          launcher.render('alice');
+
+          const alice = launcher.get('alice').instance;
+          const frameStyleModifier = alice.props.frameStyleModifier;
+
+          result = frameStyleModifier(frameStyle);
+        });
+
+        afterEach(() => {
+          mockIsMobileBrowser = false;
+          mockZoomSizingRatioValue = 1;
+        });
+
+        it('should not omit properties from frameStyle', () => {
+          frameStyleProperties.forEach((subject) => {
+            expect(_.has(result, subject))
+              .toEqual(true);
+          });
+        });
+
+        it('should adjust valid properties accordingly', () => {
+          const getMargin = (value) => {
+            return Math.round(value * mockZoomSizingRatioValue) + 'px';
+          };
+          const expected = {
+            marginBottom: getMargin(15),
+            marginRight: getMargin(25)
+          };
+
+          expect(result)
+            .toEqual(jasmine.objectContaining(expected));
         });
       });
     });

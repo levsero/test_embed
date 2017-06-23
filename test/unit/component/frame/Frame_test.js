@@ -9,7 +9,8 @@ describe('Frame', () => {
     mockHiddenStateTransition,
     mockClickBusterRegister,
     mockIsRTLValue,
-    mockLocaleValue;
+    mockLocaleValue,
+    mockZoomSizingRatioValue;
 
   const FramePath = buildSrcPath('component/frame/Frame');
 
@@ -51,6 +52,7 @@ describe('Frame', () => {
     mockIsMobileBrowserValue = false;
     mockIsRTLValue = false;
     mockLocaleValue = 'en-US';
+    mockZoomSizingRatioValue = 1;
 
     mockShowTransition = jasmine.createSpy().and.returnValue({
       start: { transitionDuration: '9999ms' },
@@ -88,7 +90,7 @@ describe('Frame', () => {
       'utility/color': {},
       'utility/devices': {
         getZoomSizingRatio: () => {
-          return 1;
+          return mockZoomSizingRatioValue;
         },
         isMobileBrowser: () => mockIsMobileBrowserValue,
         isFirefox: () => {
@@ -642,6 +644,46 @@ describe('Frame', () => {
 
   describe('computeIframeStyle', () => {
     let frame;
+
+    describe('props.frameStyleModifier', () => {
+      let frameStyleModifierSpy,
+        result;
+
+      describe('when frameStyleModifier exists', () => {
+        const modifiedFrameStyle = { marginTop: '10px', marginLeft: '55px' };
+
+        beforeEach(() => {
+          frameStyleModifierSpy = jasmine.createSpy('frameStyleModifier').and.returnValue(modifiedFrameStyle);
+          frame = domRender(<Frame frameStyleModifier={frameStyleModifierSpy}>{mockChild}</Frame>);
+          result = frame.computeIframeStyle();
+        });
+
+        it('modified frameStyle should contain at least 1 property', () => {
+          expect(_.keys(modifiedFrameStyle).length)
+            .toBeGreaterThan(0);
+        });
+
+        it('computeIframeStyle should contain styles from the modification', () => {
+          expect(result)
+            .toEqual(jasmine.objectContaining(modifiedFrameStyle));
+        });
+      });
+
+      describe('when frameStyleModifier does not exist', () => {
+        const frameStyle = { marginRight: '22px', marginLeft: '10px', marginTop: '66px' };
+
+        beforeEach(() => {
+          frameStyleModifierSpy = jasmine.createSpy('frameStyleModifier').and.returnValue(undefined);
+          frame = domRender(<Frame frameStyle={frameStyle}>{mockChild}</Frame>);
+          result = frame.computeIframeStyle();
+        });
+
+        it('computeIframeStyle should contain styles from frameStyle', () => {
+          expect(result)
+            .toEqual(jasmine.objectContaining(frameStyle));
+        });
+      });
+    });
 
     describe('visibility', () => {
       beforeEach(() => {

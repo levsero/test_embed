@@ -41,6 +41,7 @@ export class Frame extends Component {
     store: PropTypes.object.isRequired,
     afterShowAnimate: PropTypes.func,
     css: PropTypes.string,
+    frameStyleModifier: PropTypes.func,
     frameFullWidth: PropTypes.number,
     frameOffsetWidth: PropTypes.number,
     frameOffsetHeight: PropTypes.number,
@@ -61,6 +62,7 @@ export class Frame extends Component {
   static defaultProps = {
     afterShowAnimate: () => {},
     css: '',
+    frameStyleModifier: () => {},
     frameFullWidth: 0,
     frameOffsetWidth: 15,
     frameOffsetHeight: 15,
@@ -281,6 +283,7 @@ export class Frame extends Component {
 
   computeIframeStyle = () => {
     const { iframeDimensions, visible, hiddenByZoom, frameStyle } = this.state;
+    const modifiedStyles = this.props.frameStyleModifier(frameStyle) || frameStyle;
     const baseStyles = {
       border: 'none',
       background: 'transparent',
@@ -310,6 +313,7 @@ export class Frame extends Component {
       baseStyles,
       posObj,
       frameStyle,
+      modifiedStyles,
       iframeDimensions,
       visibilityStyles
     );

@@ -185,18 +185,49 @@ describe('devices', () => {
     });
 
     describe('getZoomSizingRatio', () => {
-      it('should return the correct ratio with no mobile device meta tags', () => {
-        win.innerWidth = 980;
+      let originalUserAgent;
 
-        expect(getZoomSizingRatio())
-          .toBeCloseTo(3.0625, 4);
+      describe('when it is desktop', () => {
+        const innerWithArray = [2000, 900, 640, 320, 1];
+
+        it('innerWidth array should contain at least 1 element', () => {
+          expect(innerWithArray.length)
+            .toBeGreaterThan(0);
+        });
+
+        it('should return zoom ratio of 1 regardless of innerWidth value', () => {
+          _.forEach(innerWithArray, (innerWidth) => {
+            win.innerWidth = innerWidth;
+
+            expect(getZoomSizingRatio())
+              .toEqual(1);
+          });
+        });
       });
 
-      it('should return the correct ratio with mobile device meta tags forcing width', () => {
-        win.innerWidth = 640;
+      describe('when it is mobile', () => {
+        beforeEach(() => {
+          originalUserAgent = mockGlobals.navigator.userAgent;
+          mockGlobals.navigator.userAgent = 'phone';
+        });
 
-        expect(getZoomSizingRatio())
-          .toBeCloseTo(2, 4);
+        afterEach(() => {
+          mockGlobals.navigator.userAgent = originalUserAgent;
+        });
+
+        it('should return the correct ratio with no mobile device meta tags', () => {
+          win.innerWidth = 980;
+
+          expect(getZoomSizingRatio())
+            .toBeCloseTo(3.0625);
+        });
+
+        it('should return the correct ratio with mobile device meta tags forcing width', () => {
+          win.innerWidth = 640;
+
+          expect(getZoomSizingRatio())
+            .toBeCloseTo(2);
+        });
       });
     });
   });
