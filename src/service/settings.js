@@ -6,7 +6,11 @@ import { objectDifference } from 'utility/utils';
 const optionWhitelist = {
   webWidget: [
     'authenticate',
-    'contactOptions',
+    'contactOptions.enabled',
+    'contactOptions.contactButton',
+    'contactOptions.chatLabelOnline',
+    'contactOptions.chatLabelOffline',
+    'contactOptions.contactFormLabel',
     'chat.suppress',
     'color',
     'contactForm.attachments',
@@ -52,9 +56,7 @@ const webWidgetStoreDefaults = {
     tags: [],
     ticketForms: []
   },
-  contactOptions: {
-    enabled: false
-  },
+  contactOptions: { enabled: false },
   helpCenter: {
     originalArticleButton: true,
     localeFallbacks: [],
@@ -134,10 +136,14 @@ function getTranslations() {
     contactFormTitle: webWidgetStore.contactForm.title,
     helpCenterChatButton: webWidgetStore.helpCenter.chatButton,
     helpCenterMessageButton: webWidgetStore.helpCenter.messageButton,
+    helpCenterContactButton: webWidgetStore.contactOptions.contactButton,
     helpCenterSearchPlaceholder: webWidgetStore.helpCenter.searchPlaceholder,
     helpCenterTitle: webWidgetStore.helpCenter.title,
     launcherChatLabel: webWidgetStore.launcher.chatLabel,
-    launcherLabel: webWidgetStore.launcher.label
+    launcherLabel: webWidgetStore.launcher.label,
+    contactOptionsChatLabelOnline: webWidgetStore.contactOptions.chatLabelOnline,
+    contactOptionsChatLabelOffline: webWidgetStore.contactOptions.chatLabelOffline,
+    contactOptionsContactFormLabel: webWidgetStore.contactOptions.contactFormLabel
   };
 
   return _.omitBy(translations, _.isUndefined);

@@ -59,7 +59,21 @@
 
       zESettings = {
         webWidget: {
-          contactOptions: { enabled: true }
+          contactOptions: {
+            enabled: true,
+            contactButton: {
+              '*': 'Do contact us',
+              'en-US': 'Holla at me, yo'
+            },
+            chatLabelOnline: {
+              '*': 'The chatter is IN',
+              'en-US': 'Dr. Dre is at the do\''
+            },
+            chatLabelOffline: {
+              '*': 'Thank you, come again',
+              'en-US': 'No way, Jose'
+            }
+          }
         }
       };
     </script>
