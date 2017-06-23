@@ -355,24 +355,4 @@ describe('logging', () => {
       });
     });
   });
-
-  describe('#warn', () => {
-    beforeEach(() => {
-      spyOn(console, 'warn');
-    });
-
-    it('should call warn', () => {
-      const subjects = [
-        [{ bob: 1 }, { fred: 2 }],
-        'Ohmygerd Airbrake'
-      ];
-
-      subjects.forEach((subject) => {
-        logging.warn(subject);
-
-        expect(console.warn)
-          .toHaveBeenCalledWith(subject);
-      });
-    });
-  });
 });
