@@ -46,7 +46,7 @@ function create(name, config, reduxStore) {
     beacon.trackUserAction('launcher', 'click', name);
     mediator.channel.broadcast(name + '.onClick');
   };
-  const getAdjustedMarginStyles = (frameStyle) => {
+  const adjustFrameStyleMargins = (frameStyle) => {
     const zoomRatio = getZoomSizingRatio();
     const adjustMargin = (margin) => {
       const adjustedMargin = Math.round(parseInt(margin, 10) * zoomRatio);
@@ -64,7 +64,7 @@ function create(name, config, reduxStore) {
 
   const params = {
     css: launcherCSS + generateUserCSS(config.color),
-    frameStyleModifier: isMobileBrowser() ? getAdjustedMarginStyles : () => {},
+    frameStyleModifier: isMobileBrowser() ? adjustFrameStyleMargins : () => {},
     frameOffsetWidth: 5,
     frameOffsetHeight: 1,
     frameStyle: frameStyle,

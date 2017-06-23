@@ -681,7 +681,7 @@ describe('Frame', () => {
         });
 
         it('computeIframeStyle should contain styles from frameStyle', () => {
-          _.forEach(frameStyle, (val, key) => {
+          _.forEach(frameStyle, () => {
             expect(result)
               .toEqual(jasmine.objectContaining(frameStyle));
           });
