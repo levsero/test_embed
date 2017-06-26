@@ -129,8 +129,7 @@ function mappedTranslationsForLocale(localeOverride, translationKey) {
     'embeddable_framework.helpCenter.search.label.how_can_we_help': 'helpCenterSearchPlaceholder',
     'embeddable_framework.channelChoice.button.label.submitTicket': 'contactOptionsContactFormLabel',
     'embeddable_framework.channelChoice.button.label.chat': 'contactOptionsChatLabelOnline',
-    'embeddable_framework.channelChoice.button.label.chat_offline': 'contactOptionsChatLabelOffline',
-    'embeddable_framework.channelChoice.chat.offline': 'contactOptionsChatLabelOffline' // Deprecated. To be removed by CE-2938
+    'embeddable_framework.channelChoice.button.label.chat_offline': 'contactOptionsChatLabelOffline'
   };
 
   return _.chain(keyLookupTable)
