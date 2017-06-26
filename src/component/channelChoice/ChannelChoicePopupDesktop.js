@@ -30,7 +30,7 @@ export class ChannelChoicePopupDesktop extends Component {
     const chatBtnStyle = !chatOnline ? styles.chatBtnDisabled : '';
     const chatLabel = (chatOnline)
                     ? i18n.t('embeddable_framework.channelChoice.button.label.chat')
-                    : i18n.t('embeddable_framework.channelChoice.chat.offline');
+                    : i18n.t('embeddable_framework.channelChoice.button.label.chat_offline');
 
     return (
       <div className='u-posAbsolute Container--channelChoicePopup'>
