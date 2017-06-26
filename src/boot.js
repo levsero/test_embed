@@ -156,10 +156,21 @@ const setupZopimQueue = (win) => {
   }
 };
 
+const displayOssAttribution = () => {
+  const message = 'Our embeddable contains third-party, open source software and/or libraries. ' +
+                  'To view them and their license terms, go to http://goto.zendesk.com/embeddable-legal-notices';
+
+  console.info(message); // eslint-disable-line no-console
+};
+
 const getConfig = (win, postRenderQueue) => {
   const configLoadStart = Date.now();
   const done = (res) => {
     const config = res.body;
+
+    if (config.showOssAttribution) {
+      displayOssAttribution();
+    }
 
     // Remove this code once Rollbar is GA'd
     logging.init(config.useRollbar);

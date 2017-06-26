@@ -81,13 +81,6 @@ function error(err) {
   }
 }
 
-function warn(...warning) {
-  // Make this a variable so that it doesn't get stripped by webpack.
-  const warn = console.warn; // eslint-disable-line no-console
-
-  warn(...warning);
-}
-
 function pushError(err) {
   // Remove this code once Rollbar is GA'd
   useRollbar ? rollbar.error(err) : airbrake.notify(err);
@@ -97,7 +90,6 @@ export const logging = {
   init,
   error,
   errorFilter,
-  warn,
 
   // Exported for testing
   errorMessageBlacklist

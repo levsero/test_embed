@@ -13,7 +13,6 @@ root.plugins = [
   }),
   new webpack.optimize.UglifyJsPlugin({
     compress: {
-      'drop_console': true,
       'drop_debugger': true,
       'warnings': false
     }

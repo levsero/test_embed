@@ -2,7 +2,6 @@ import airwaves from 'airwaves';
 import _ from 'lodash';
 
 import { settings } from 'service/settings';
-import { logging } from 'service/logging';
 import { isMobileBrowser } from 'utility/devices';
 import { setScrollKiller,
          setWindowScroll,
@@ -580,7 +579,7 @@ function initMessaging() {
       c.broadcast(`${submitTicket}.prefill`, params);
       c.broadcast(`${chat}.setUser`, params);
     } else {
-      logging.warn('invalid params passed into zE.identify', params);
+      console.warn('invalid params passed into zE.identify', params); // eslint-disable-line no-console
 
       if (_.isString(params.name)) {
         c.broadcast(`${chat}.setUser`, { name: params.name });

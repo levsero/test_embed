@@ -24,7 +24,6 @@ describe('mediator', () => {
     spy.calls.reset();
   };
   const mediatorPath = buildSrcPath('service/mediator');
-  const loggingWarnSpy = jasmine.createSpy('warn');
 
   beforeEach(() => {
     mockery.enable();
@@ -36,11 +35,6 @@ describe('mediator', () => {
     mockPositionValue = { horizontal: 'right', vertical: 'bottom' };
 
     mockRegistry = initMockRegistry({
-      'service/logging': {
-        logging: {
-          warn: loggingWarnSpy
-        }
-      },
       'service/settings': {
         settings : {
           get: (value) => {
@@ -295,6 +289,8 @@ describe('mediator', () => {
       let params;
 
       beforeEach(() => {
+        spyOn(console, 'warn');
+
         params = {
           name: 'James Dean',
           email: 'james@dean'
@@ -311,7 +307,7 @@ describe('mediator', () => {
       });
 
       it('should show a warning', () => {
-        expect(loggingWarnSpy)
+        expect(console.warn) // eslint-disable-line no-console
           .toHaveBeenCalled();
       });
 
