@@ -164,7 +164,14 @@ describe('settings', () => {
           contactForm: {
             subject: true
           },
-          contactOptions: { enabled: true },
+          contactOptions: {
+            enabled: true,
+            contactButton: {
+              '*': 'Yo, contact us!',
+              'es-ES': '¿Dónde está la biblioteca?'
+            },
+            aNonSanctionedOption: 'wawaweewa!'
+          },
           helpCenter: {
             originalArticleButton: false,
             suppress: true,
@@ -212,7 +219,13 @@ describe('settings', () => {
       });
       it('should return user setting for contactOptions', () => {
         expect(settings.get('contactOptions'))
-          .toEqual({ enabled: true });
+          .toEqual({
+            enabled: true,
+            contactButton: {
+              '*': 'Yo, contact us!',
+              'es-ES': '¿Dónde está la biblioteca?'
+            }
+          });
       });
 
       it('should return user setting for helpCenter.localeFallbacks', () => {
