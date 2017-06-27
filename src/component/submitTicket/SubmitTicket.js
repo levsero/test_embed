@@ -317,7 +317,7 @@ export class SubmitTicket extends Component {
   }
 
   handleTicketFormsListClick = (e) => {
-    const ticketFormId = e && e.target.dataset.id;
+    const ticketFormId = e && e.target.getAttribute('data-id');
 
     this.setTicketForm(ticketFormId);
   }
