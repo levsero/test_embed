@@ -82,7 +82,7 @@ describe('ChannelChoicePopupDesktop component', () => {
         handler = channelChoicePopup.handleChatClick();
       });
 
-      it('should not call handleNextClick', () => {
+      it('does not call handleClick', () => {
         expect(channelChoicePopup.handleClick)
           .not.toHaveBeenCalled();
       });
