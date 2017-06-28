@@ -342,7 +342,8 @@ class WebWidget extends Component {
     const style = { width };
 
     return (
-      <div style={style}>
+      // data-embed is needed for our intergration tests
+      <div style={style} data-embed={this.props.activeEmbed}>
         {this.renderSubmitTicket()}
         {this.renderChat()}
         {this.renderHelpCenter()}
