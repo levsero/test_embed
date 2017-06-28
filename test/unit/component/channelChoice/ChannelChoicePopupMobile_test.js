@@ -152,23 +152,54 @@ describe('ChannelChoicePopupMobile component', () => {
       });
 
       describe('when chat is offline', () => {
+        let handler,
+          stopPropagationSpy;
+
         beforeEach(() => {
-          channelChoicePopupMobile = domRender(
+          channelChoicePopupMobile = instanceRender(
             <ChannelChoicePopupMobile
               chatOnline={false}
               onCancelClick={noop}
               handleNextClick={noop} />
           );
+          stopPropagationSpy = jasmine.createSpy('stopPropagation');
           spyOn(channelChoicePopupMobile, 'handleNextClick');
+
+          handler = channelChoicePopupMobile.handleChatClick();
         });
 
         it('should not call handleNextClick', () => {
-          channelChoicePopupMobile.handleChatClick();
-
           expect(channelChoicePopupMobile.handleNextClick)
             .not.toHaveBeenCalled();
         });
+
+        it('returns an anonymous function that calls e.stopPropagation', () => {
+          handler({ stopPropagation: stopPropagationSpy });
+
+          expect(stopPropagationSpy)
+            .toHaveBeenCalled();
+        });
       });
+    });
+  });
+
+  describe('handleContainerClick', () => {
+    let stopPropagationSpy;
+
+    beforeEach(() => {
+      stopPropagationSpy = jasmine.createSpy('stopPropagation');
+      channelChoicePopupMobile = instanceRender(
+        <ChannelChoicePopupMobile
+          chatOnline={false}
+          onCancelClick={noop}
+          handleNextClick={noop} />
+      );
+      channelChoicePopupMobile.handleContainerClick({ stopPropagation: stopPropagationSpy });
+    });
+
+    it('calls e.stopPropagation', () => {
+      expect(stopPropagationSpy)
+        .toHaveBeenCalled();
     });
   });
 });

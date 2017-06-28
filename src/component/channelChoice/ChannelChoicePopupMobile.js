@@ -28,19 +28,23 @@ export class ChannelChoicePopupMobile extends Component {
       return this.handleNextClick('chat');
     }
 
-    return () => {};
+    // Stop onClick from propagating if selection is disabled
+    // Stopping onClick will prevent container from hiding channelChoice
+    return (e) => e.stopPropagation();
   }
 
   handleNextClick = (embed) => {
     return () => this.props.onNextClick(embed);
   }
 
+  handleContainerClick = (e) => e.stopPropagation();
+
   renderBody = () => {
     const { chatOnline, className } = this.props;
     const chatDisabledStyle = !chatOnline ? commonStyles.chatBtnDisabled : '';
     const chatLabel = (chatOnline)
                     ? i18n.t('embeddable_framework.channelChoice.button.label.chat')
-                    : i18n.t('embeddable_framework.channelChoice.chat.offline');
+                    : i18n.t('embeddable_framework.channelChoice.button.label.chat_offline');
 
     return (
       <div className={`${styles.inner} ${className}`}>
@@ -79,7 +83,7 @@ export class ChannelChoicePopupMobile extends Component {
 
   render = () => {
     return (
-      <div>
+      <div onClick={this.handleContainerClick}>
         {this.renderBody()}
         {this.renderCancelButton()}
       </div>

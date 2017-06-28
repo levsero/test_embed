@@ -32,6 +32,7 @@ class WebWidget extends Component {
     buttonLabelKey: PropTypes.string,
     channelChoice: PropTypes.bool,
     chat: PropTypes.object.isRequired,
+    contextualSearchSender: PropTypes.func,
     disableAutoComplete: PropTypes.bool,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
@@ -71,6 +72,7 @@ class WebWidget extends Component {
     buttonLabelKey: '',
     channelChoice: false,
     chat: { account_status: 'offline' }, // eslint-disable-line camelcase
+    contextualSearchSender: () => {},
     disableAutoComplete: false,
     formTitleKey: '',
     fullscreen: true,
@@ -266,7 +268,7 @@ class WebWidget extends Component {
           showNextButton={false}
           showNextButtonSingleIframe={this.props.submitTicketAvailable || this.chatOnline()}
           searchSender={this.props.searchSender}
-          contextualSearchSender={this.props.searchSender}
+          contextualSearchSender={this.props.contextualSearchSender}
           imagesSender={this.props.imagesSender}
           style={this.props.style}
           fullscreen={this.props.fullscreen}
@@ -340,7 +342,8 @@ class WebWidget extends Component {
     const style = { width };
 
     return (
-      <div style={style}>
+      // data-embed is needed for our intergration tests
+      <div style={style} data-embed={this.props.activeEmbed}>
         {this.renderSubmitTicket()}
         {this.renderChat()}
         {this.renderHelpCenter()}
