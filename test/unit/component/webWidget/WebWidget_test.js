@@ -82,6 +82,11 @@ describe('WebWidget component', () => {
       webWidget = domRender(<WebWidget activeEmbed='helpCenterForm' />);
     });
 
+    it('should have a data-embed value', () => {
+      expect(ReactDOM.findDOMNode(webWidget).attributes['data-embed'])
+        .toBeTruthy();
+    });
+
     it('should show help center component by default', () => {
       expect(webWidget.renderHelpCenter().props.className)
         .not.toContain('u-isHidden');
