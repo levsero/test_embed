@@ -14,7 +14,8 @@ root.devServer = {
   port: 1337,
   contentBase: 'example',
   publicPath: '/dist/',
-  disableHostCheck: true
+  disableHostCheck: true,
+  headers: { 'Cache-Control': 'no-cache, no-store' }
 };
 
 root.plugins = [
