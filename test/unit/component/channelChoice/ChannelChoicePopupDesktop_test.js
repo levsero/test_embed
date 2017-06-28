@@ -66,20 +66,32 @@ describe('ChannelChoicePopupDesktop component', () => {
     });
 
     describe('when chat is offline', () => {
+      let handler,
+        stopPropagationSpy;
+
       beforeEach(() => {
-        channelChoicePopup = domRender(
+        channelChoicePopup = instanceRender(
           <ChannelChoicePopupDesktop
             chatOnline={false}
-            onNextClick={noop} />
+            onCancelClick={noop}
+            handleNextClick={noop} />
         );
+        stopPropagationSpy = jasmine.createSpy('stopPropagation');
         spyOn(channelChoicePopup, 'handleClick');
+
+        handler = channelChoicePopup.handleChatClick();
       });
 
-      it('should not call handleClick', () => {
-        channelChoicePopup.handleChatClick();
-
+      it('does not call handleClick', () => {
         expect(channelChoicePopup.handleClick)
           .not.toHaveBeenCalled();
+      });
+
+      it('returns an anonymous function that calls e.stopPropagation', () => {
+        handler({ stopPropagation: stopPropagationSpy });
+
+        expect(stopPropagationSpy)
+          .toHaveBeenCalled();
       });
     });
   });

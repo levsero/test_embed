@@ -1273,4 +1273,18 @@ describe('HelpCenter component', () => {
       });
     });
   });
+
+  describe('onContainerClick', () => {
+    let helpCenter;
+
+    beforeEach(() => {
+      helpCenter = instanceRender(<HelpCenter channelChoice={true} />);
+      helpCenter.onContainerClick();
+    });
+
+    it('calls setChannelChoiceShown with false', () => {
+      expect(helpCenter.state.channelChoiceShown)
+        .toBe(false);
+    });
+  });
 });

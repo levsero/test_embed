@@ -389,9 +389,7 @@ export class HelpCenter extends Component {
   }
 
   onContainerClick = () => {
-    if (this.refs.helpCenterDesktop) {
-      this.setChannelChoiceShown(false);
-    }
+    this.setChannelChoiceShown(false);
   }
 
   updateImages = (img) => {
