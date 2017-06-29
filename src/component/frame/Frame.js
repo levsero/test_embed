@@ -23,7 +23,7 @@ if (!__DEV__) {
 }
 
 const scrollingStyleDelay = 50; // small delay so that safari has finished rendering
-const sizingRatio = 12 * getZoomSizingRatio(false, true);
+const sizingRatio = 12 * getZoomSizingRatio();
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 const zIndex = settings.get('zIndex');
 const isPositionTop = settings.get('position.vertical') === 'top';

@@ -20,7 +20,7 @@ if (!__DEV__) {
 }
 
 const mainCSS = require('mainCSS');
-const sizingRatio = 12 * getZoomSizingRatio(false, true);
+const sizingRatio = 12 * getZoomSizingRatio();
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 
 function validateChildFn(childFn, params) {
