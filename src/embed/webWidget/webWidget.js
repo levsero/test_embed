@@ -453,23 +453,18 @@ function postRender() {
 }
 
 function keywordsSearch(options) {
-  const contextualSearchFn = () => {
-    const helpCenterComponent = getWebWidgetComponent().getHelpCenterComponent();
-    const isAuthenticated = embed.config.helpCenterForm.signInRequired === false || hasAuthenticatedSuccessfully;
+  const helpCenterComponent = getWebWidgetComponent().getHelpCenterComponent();
+  const isAuthenticated = embed.config.helpCenterForm.signInRequired === false || hasAuthenticatedSuccessfully;
 
-    if (isAuthenticated && helpCenterComponent) {
-      if (options.url) {
-        options.pageKeywords = getPageKeywords();
-      }
-
-      helpCenterComponent.contextualSearch(options);
-      return true;
+  if (isAuthenticated && helpCenterComponent) {
+    if (options.url) {
+      options.pageKeywords = getPageKeywords();
     }
 
-    return false;
-  };
-
-  cappedIntervalCall(contextualSearchFn, 500, 10);
+    helpCenterComponent.contextualSearch(options);
+  } else {
+    setTimeout(() => keywordsSearch(options), 0);
+  }
 }
 
 function performContextualHelp(options) {
