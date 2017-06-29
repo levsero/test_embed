@@ -23,8 +23,7 @@ import { document,
 import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage,
          isOnHostMappedDomain } from 'utility/pages';
-import { cappedIntervalCall,
-         getPageKeywords } from 'utility/utils';
+import { getPageKeywords } from 'utility/utils';
 import { updateZopimOnline } from 'src/redux/modules/base';
 
 import WebWidget from 'component/webWidget/WebWidget';
