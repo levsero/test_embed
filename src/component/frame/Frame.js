@@ -139,10 +139,8 @@ export class Frame extends Component {
     const html = this.getContentDocument().documentElement;
     const direction = i18n.isRTL() ? 'rtl' : 'ltr';
 
-    if (html && html.setAttribute) {
-      html.setAttribute('lang', i18n.getLocale());
-      html.setAttribute('dir', direction);
-    }
+    html.setAttribute('lang', i18n.getLocale());
+    html.setAttribute('dir', direction);
 
     if (this.child) this.child.forceUpdate();
   }
@@ -371,11 +369,10 @@ export class Frame extends Component {
     const html = this.getContentDocument().documentElement;
     const doc = this.getContentWindow().document;
 
-    this.updateFrameLocale();
-
     // In order for iframe to correctly render in some browsers
     // we need to wait for readyState to be complete
     if (doc.readyState === 'complete') {
+      this.updateFrameLocale();
       this.constructEmbed(html, doc);
     } else {
       setTimeout(this.renderFrameContent, 0);
