@@ -169,7 +169,11 @@ describe('WebWidget component', () => {
 
         beforeEach(() => {
           onCancelSpy = jasmine.createSpy('onCancelSpy');
-          webWidget = instanceRender(<WebWidget onCancel={onCancelSpy} />);
+          webWidget = instanceRender(
+            <WebWidget
+              onCancel={onCancelSpy}
+              updateActiveEmbed={mockUpdateActiveEmbed} />
+          );
 
           spyOn(webWidget, 'channelChoiceAvailable').and.returnValue(false);
           webWidget.onCancelClick();
@@ -178,6 +182,11 @@ describe('WebWidget component', () => {
         it('should call onCancel prop', () => {
           expect(onCancelSpy)
             .toHaveBeenCalled();
+        });
+
+        it('should call updateActiveEmbed with an empty string', () => {
+          expect(mockUpdateActiveEmbed)
+            .toHaveBeenCalledWith('');
         });
       });
     });
