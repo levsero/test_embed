@@ -330,6 +330,7 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept(`${chat}.onIsChatting`, () => {
     state.activeEmbed = chat;
+    c.broadcast('webWidget.zopimChatStarted');
     state[`${chat}.isSuppressed`] = false;
   });
 
