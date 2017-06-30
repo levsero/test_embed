@@ -2496,6 +2496,13 @@ describe('mediator', () => {
       expect(webWidgetSub.refreshLocale)
         .toHaveBeenCalled();
     });
+
+    it('broadcasts webWidget.zopimChatStarted with true when zopimChat.onIsChatting is recieved', () => {
+      c.broadcast('zopimChat.onIsChatting');
+
+      expect(webWidgetSub.zopimChatStarted)
+        .toHaveBeenCalled();
+    });
   });
 
  /* ****************************************** *
