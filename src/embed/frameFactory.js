@@ -131,34 +131,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       }
     }
 
-    setFrameSize = (width, height, transparent = true) => {
-      const iframe = ReactDOM.findDOMNode(this);
-      const frameWin = iframe.contentWindow;
-      const frameDoc = iframe.contentDocument;
-      // FIXME shouldn't set background & zIndex in a dimensions object
-      const dimensions = {
-        height: height,
-        width: width,
-        zIndex: zIndex,
-        // FIXME addresses combination of dropshadow & margin & white background on iframe
-        background: transparent ? 'linear-gradient(transparent, #FFFFFF)' : '#fff'
-      };
-
-      if (params.fullscreenable) {
-        frameDoc.body.firstChild.setAttribute(
-          'style',
-          ['width: 100%',
-          'height: 100%',
-          'overflow-x: hidden'].join(';')
-        );
-      }
-
-      frameWin.setTimeout(
-        () => this.setState(
-          { iframeDimensions: _.extend(this.state.iframeDimensions, dimensions) }
-        ), 0);
-    }
-
     updateFrameSize = () => {
       const iframe = ReactDOM.findDOMNode(this);
       const frameWin = iframe.contentWindow;
@@ -365,7 +337,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       // Callbacks to be passed down to child component
       childParams = _.extend(childParams, {
         updateFrameSize: this.updateFrameSize,
-        setFrameSize: this.setFrameSize,
         setOffsetHorizontal: this.setOffsetHorizontal,
         closeFrame: this.close
       });
