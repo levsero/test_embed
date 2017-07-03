@@ -4,23 +4,7 @@ import classNames from 'classnames';
 
 import { isDevice } from 'utility/devices';
 
-class LoadingSpinner extends Component {
-  static propTypes = {
-    className: PropTypes.string
-  };
-
-  static defaultProps = {
-    className: ''
-  };
-
-  render = () => {
-    return (
-      <div className={`LoadingSpinner u-userTextColorConstrast ${this.props.className}`} />
-    );
-  }
-}
-
-class LoadingEllipses extends Component {
+export class LoadingEllipses extends Component {
   static propTypes = {
     className: PropTypes.string
   };
@@ -48,5 +32,3 @@ class LoadingEllipses extends Component {
     );
   }
 }
-
-export { LoadingSpinner, LoadingEllipses };
