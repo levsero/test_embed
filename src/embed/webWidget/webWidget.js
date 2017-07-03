@@ -469,7 +469,7 @@ function keywordsSearch(options) {
     return false;
   };
 
-  cappedTimeoutCall(contextualSearchFn, 500, 10);
+  cappedTimeoutCall(contextualSearchFn, 500, 20);
 }
 
 function performContextualHelp(options) {
