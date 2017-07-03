@@ -7,7 +7,7 @@ import { getDeviceZoom,
          getZoomSizingRatio } from 'utility/devices';
 import { mediator } from 'service/mediator';
 import { setScrollKiller } from 'utility/scrollHacks';
-import { cappedIntervalCall } from 'utility/utils';
+import { cappedTimeoutCall } from 'utility/utils';
 
 let lastTouchEnd = 0;
 
@@ -114,7 +114,7 @@ function initMobileScaling() {
     propagateFontRatioChange();
   }, false);
 
-  cappedIntervalCall(propagateFontRatioChange, 500, 10);
+  cappedTimeoutCall(propagateFontRatioChange, 500, 10);
 }
 
 export {

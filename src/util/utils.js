@@ -39,7 +39,7 @@ function getPageTitle() {
   return doc.title || '';
 }
 
-function cappedIntervalCall(callback, delay = 50, repetitionCap = 1) {
+function cappedTimeoutCall(callback, delay = 50, repetitionCap = 1) {
   // Do not implement using setInterval
   // There were past issues with IE10 when a function's closure variables
   // were getting snapshotted. The evaluated result would always be the
@@ -143,7 +143,7 @@ export {
   getPageKeywords,
   getPageTitle,
   parseUrl,
-  cappedIntervalCall,
+  cappedTimeoutCall,
   splitPath,
   base64decode,
   base64encode,

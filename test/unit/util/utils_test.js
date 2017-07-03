@@ -9,7 +9,7 @@ describe('utils', () => {
     emailValid,
     referrerPolicyUrl,
     getEnvironment,
-    cappedIntervalCall;
+    cappedTimeoutCall;
 
   const mockGlobals = {
     win: {},
@@ -50,7 +50,7 @@ describe('utils', () => {
     emailValid = require(utilPath).emailValid;
     referrerPolicyUrl = require(utilPath).referrerPolicyUrl;
     getEnvironment = require(utilPath).getEnvironment;
-    cappedIntervalCall = require(utilPath).cappedIntervalCall;
+    cappedTimeoutCall = require(utilPath).cappedTimeoutCall;
   });
 
   afterEach(() => {
@@ -393,7 +393,7 @@ describe('utils', () => {
     });
   });
 
-  describe('cappedIntervalCall', () => {
+  describe('#cappedTimeoutCall', () => {
     let callback;
     const delay = 10;
     const repetitions = 10;
@@ -406,7 +406,7 @@ describe('utils', () => {
       beforeEach(() => {
         callback = jasmine.createSpy().and.returnValue(true);
 
-        cappedIntervalCall(callback, delay, repetitions);
+        cappedTimeoutCall(callback, delay, repetitions);
         jasmine.clock().tick(100);
       });
 
@@ -420,7 +420,7 @@ describe('utils', () => {
       beforeEach(() => {
         callback = jasmine.createSpy().and.returnValue(false);
 
-        cappedIntervalCall(callback, delay, repetitions);
+        cappedTimeoutCall(callback, delay, repetitions);
         jasmine.clock().tick(100);
       });
 

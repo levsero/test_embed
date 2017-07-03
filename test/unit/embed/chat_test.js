@@ -82,7 +82,7 @@ describe('embed.chat', () => {
       },
       'utility/globals': mockGlobals,
       'utility/utils': {
-        cappedIntervalCall: () => {}
+        cappedTimeoutCall: () => {}
       },
       'utility/color': {
         validSettingsColor: () => {}
