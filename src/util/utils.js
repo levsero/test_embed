@@ -46,7 +46,9 @@ function cappedIntervalCall(callback, delay = 50, repetitionCap = 1) {
   // same, potentially generating an infinite loop.
   let repCount = 0;
   const recurseFn = () => {
-    if (callback() || ++repCount >= repetitionCap) return;
+    repCount = repCount + 1;
+
+    if (callback() || repCount >= repetitionCap) return;
 
     setTimeout(() => recurseFn(), delay);
   };
