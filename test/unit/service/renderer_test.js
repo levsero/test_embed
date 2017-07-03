@@ -446,7 +446,6 @@ describe('renderer', () => {
       expect(updateBaseFontSize)
         .toHaveBeenCalledWith('24px');
 
-      // The two embeds above and IPM and NPS
       expect(updateBaseFontSize.calls.count())
         .toEqual(3);
 
