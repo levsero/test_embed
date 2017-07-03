@@ -20,7 +20,7 @@ if (!__DEV__) {
 }
 
 const mainCSS = require('mainCSS');
-const sizingRatio = 12 * getZoomSizingRatio(false, true);
+const sizingRatio = 12 * getZoomSizingRatio();
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 
 function validateChildFn(childFn, params) {
@@ -396,10 +396,8 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       const direction = i18n.isRTL() ? 'rtl' : 'ltr';
       const child = this.getChild();
 
-      if (html && html.setAttribute) {
-        html.setAttribute('lang', i18n.getLocale());
-        html.setAttribute('dir', direction);
-      }
+      html.setAttribute('lang', i18n.getLocale());
+      html.setAttribute('dir', direction);
 
       if (child) child.forceUpdate();
     }
@@ -413,11 +411,10 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       const html = iframe.contentDocument.documentElement;
       const doc = iframe.contentWindow.document;
 
-      this.updateFrameLocale();
-
       // In order for iframe to correctly render in some browsers
       // we need to do it on nextTick
       if (doc.readyState === 'complete') {
+        this.updateFrameLocale();
         this.constructEmbed(html, doc);
       } else {
         setTimeout(this.renderFrameContent, 0);

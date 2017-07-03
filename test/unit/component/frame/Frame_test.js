@@ -841,14 +841,47 @@ describe('Frame', () => {
   });
 
   describe('renderFrameContent', () => {
-    let frame;
+    let frame,
+      doc;
 
     beforeEach(() => {
+      jasmine.clock().install();
+
       mockLocaleValue = 'fr';
       mockIsRTLValue = true;
       Frame = requireUncached(FramePath).Frame;
-
       frame = domRender(<Frame css='css-prop'>{mockChild}</Frame>);
+      doc = frame.getContentWindow().document;
+
+      spyOn(frame, 'updateFrameLocale');
+    });
+
+    describe(`when the iframe's document is ready`, () => {
+      beforeEach(() => {
+        jasmine.clock().tick(0);
+
+        doc.readyState = 'complete';
+        frame.setState({ childRendered: false });
+      });
+
+      it('should call updateFrameLocale ', () => {
+        expect(frame.updateFrameLocale)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe(`when the iframe's document is not ready`, () => {
+      beforeEach(() => {
+        jasmine.clock().tick(0);
+
+        doc.readyState = 'loading';
+        frame.setState({ childRendered: false });
+      });
+
+      it('should not call updateFrameLocale ', () => {
+        expect(frame.updateFrameLocale)
+          .not.toHaveBeenCalled();
+      });
     });
 
     it('sets rtl and lang attr on the frame', () => {

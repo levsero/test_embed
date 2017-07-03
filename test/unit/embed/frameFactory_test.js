@@ -8,7 +8,9 @@ describe('frameFactory', function() {
     mockShowTransition,
     mockHideTransition,
     mockHiddenStateTransition,
-    mockClickBusterRegister;
+    mockClickBusterRegister,
+    mockIsRTL,
+    mockGetLocale;
 
   const frameFactoryPath = buildSrcPath('embed/frameFactory');
 
@@ -44,6 +46,9 @@ describe('frameFactory', function() {
     resetDOM();
 
     mockery.enable();
+
+    mockIsRTL = false;
+    mockGetLocale = 'en-US';
 
     mockShowTransition = jasmine.createSpy().and.returnValue({
       start: { transitionDuration: '9999ms' },
@@ -89,7 +94,10 @@ describe('frameFactory', function() {
         clickBusterRegister: mockClickBusterRegister
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['t', 'isRTL', 'getLocale'])
+        i18n: {
+          isRTL: () => mockIsRTL,
+          getLocale: () => mockGetLocale
+        }
       },
       'service/settings': {
         settings: {
@@ -852,12 +860,27 @@ describe('frameFactory', function() {
     });
   });
 
-  describe('renderFrameContent', function() {
-    it('injects params.extend functions into the child component', function() {
+  describe('renderFrameContent', () => {
+    let instance,
+      doc,
+      docElem;
+
+    beforeEach(() => {
+      jasmine.clock().install();
+
+      const Embed = frameFactory(mockChildFn);
+
+      instance = domRender(<Embed />);
+      doc = ReactDOM.findDOMNode(instance).contentWindow.document;
+
+      spyOn(instance, 'updateFrameLocale');
+    });
+
+    it('injects params.extend functions into the child component', () => {
       const mockClickHandler = jasmine.createSpy('mockClickHandler');
       const mockSubmitHandler = jasmine.createSpy('mockSubmitHandler');
       const Embed = frameFactory(
-        function(params) {
+        (params) => {
           return (
             <MockChildComponent
               ref='rootComponent'
@@ -886,10 +909,10 @@ describe('frameFactory', function() {
         .toHaveBeenCalledWith('submit param');
     });
 
-    it('injects the internal updateFrameSize into the child component', function() {
+    it('injects the internal updateFrameSize into the child component', () => {
       const mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
       const Embed = frameFactory(
-        function(params) {
+        (params) => {
           return (
             <MockChildComponent
               ref='rootComponent'
@@ -904,8 +927,6 @@ describe('frameFactory', function() {
       );
       const instance = domRender(<Embed />);
       const child = instance.getRootComponent();
-
-      jasmine.clock().install();
 
       // setup "dirty" state
       instance.setState({
@@ -926,9 +947,9 @@ describe('frameFactory', function() {
         .not.toHaveBeenCalled();
     });
 
-    it('setOffsetHorizontal sets the widgets left and right margin', function() {
+    it('setOffsetHorizontal sets the widgets left and right margin', () => {
       const Embed = frameFactory(
-        function(params) {
+        (params) => {
           return (
             <MockChildComponent
               ref='rootComponent'
@@ -943,48 +964,85 @@ describe('frameFactory', function() {
 
       expect(ReactDOM.findDOMNode(instance).style.marginLeft)
         .toEqual('72px');
+
       expect(ReactDOM.findDOMNode(instance).style.marginRight)
         .toEqual('72px');
     });
 
-    it('renders the child component to the document', function() {
-      const Embed = frameFactory(mockChildFn);
-      const instance = domRender(<Embed />);
-
+    it('renders the child component to the document', () => {
       expect(instance.getChild().refs.rootComponent)
         .toBeDefined();
     });
 
-    it('updates `state._rendered` at the end', function() {
-      const Embed = frameFactory(mockChildFn);
-      const instance = domRender(<Embed />);
-
+    it('updates `state._rendered` at the end', () => {
       expect(instance.state._rendered)
         .toEqual(true);
     });
 
-    it('adds dir & lang attributes to html element for RTL languages', function() {
-      mockRegistry['service/i18n'].i18n.isRTL = function() {
-        return true;
-      };
-      mockRegistry['service/i18n'].i18n.getLocale = function() {
-        return 'ar';
-      };
+    describe('when it is RTL mode', () => {
+      beforeEach(() => {
+        mockIsRTL = true;
+        mockGetLocale = 'ar';
 
-      frameFactory = requireUncached(frameFactoryPath).frameFactory;
+        const Embed = frameFactory(mockChildFn);
+        const instance = domRender(<Embed />);
 
-      const Embed = frameFactory(mockChildFn);
+        docElem = ReactDOM.findDOMNode(instance).contentDocument.documentElement;
+      });
 
-      domRender(<Embed />);
+      it('should set dir attribute to rtl', () => {
+        expect(docElem.getAttribute('dir'))
+          .toEqual('rtl');
+      });
 
-      const iframe = global.document.body.getElementsByTagName('iframe')[0];
-      const htmlElem = iframe.contentDocument.documentElement;
+      it('should set lang attribute to ar', () => {
+        expect(docElem.getAttribute('lang'))
+          .toEqual('ar');
+      });
+    });
 
-      expect(htmlElem.getAttribute('dir'))
-        .toEqual('rtl');
+    describe('when it is LTR mode', () => {
+      beforeEach(() => {
+        docElem = doc.documentElement;
+      });
 
-      expect(htmlElem.getAttribute('lang'))
-        .toEqual('ar');
+      it('should set dir attribute to ltr', () => {
+        expect(docElem.getAttribute('dir'))
+          .toEqual('ltr');
+      });
+
+      it('should set lang attribute to en-US', () => {
+        expect(docElem.getAttribute('lang'))
+          .toEqual('en-US');
+      });
+    });
+
+    describe(`when the iframe's document is ready`, () => {
+      beforeEach(() => {
+        jasmine.clock().tick(0);
+
+        doc.readyState = 'complete';
+        instance.setState({ _rendered: false });
+      });
+
+      it('should call updateFrameLocale ', () => {
+        expect(instance.updateFrameLocale)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe(`when the iframe's document is not ready`, () => {
+      beforeEach(() => {
+        jasmine.clock().tick(0);
+
+        doc.readyState = 'loading';
+        instance.setState({ _rendered: false });
+      });
+
+      it('should not call updateFrameLocale ', () => {
+        expect(instance.updateFrameLocale)
+          .not.toHaveBeenCalled();
+      });
     });
   });
 });

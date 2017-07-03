@@ -22,7 +22,7 @@ import { document,
 import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage,
          isOnHostMappedDomain } from 'utility/pages';
-import { cappedIntervalCall,
+import { cappedTimeoutCall,
          getPageKeywords } from 'utility/utils';
 
 const helpCenterCSS = `${require('./helpCenter.scss')} ${helpCenterStyles}`;
@@ -271,7 +271,7 @@ function keywordsSearch(name, options) {
     return false;
   };
 
-  cappedIntervalCall(contextualSearchFn, 500, 10);
+  cappedTimeoutCall(contextualSearchFn, 500, 20);
 }
 
 function render(name) {

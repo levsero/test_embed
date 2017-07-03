@@ -217,7 +217,7 @@ describe('embed.webWidget', () => {
       },
       'utility/utils': {
         getPageKeywords: jasmine.createSpy().and.returnValue('foo bar'),
-        cappedIntervalCall: (callback) => { callback(); }
+        cappedTimeoutCall: (callback) => { callback(); }
       },
       'utility/pages': {
         isOnHelpCenterPage: () => mockIsOnHelpCenterPageValue,

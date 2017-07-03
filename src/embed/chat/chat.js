@@ -5,7 +5,7 @@ import { mediator } from 'service/mediator';
 import { validSettingsColor } from 'utility/color';
 import { document, win,
          getDocumentHost } from 'utility/globals';
-import { cappedIntervalCall } from 'utility/utils';
+import { cappedTimeoutCall } from 'utility/utils';
 
 let chats = {};
 const styleTag = document.createElement('style');
@@ -185,7 +185,7 @@ function init(name) {
     const zopimLive = win.$zopim.livechat;
     const zopimWin = zopimLive.window;
 
-    cappedIntervalCall(() => {
+    cappedTimeoutCall(() => {
       if (zopimWin.getDisplay() || zopimLive.isChatting()) {
         mediator.channel.broadcast(`${name}.onIsChatting`);
         return true;

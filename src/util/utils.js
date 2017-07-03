@@ -39,13 +39,21 @@ function getPageTitle() {
   return doc.title || '';
 }
 
-function cappedIntervalCall(callback, delay, repetitions = 1) {
+function cappedTimeoutCall(callback, delay = 50, repetitionCap = 1) {
+  // Do not implement using setInterval
+  // There were past issues with IE10 when a function's closure variables
+  // were getting snapshotted. The evaluated result would always be the
+  // same, potentially generating an infinite loop.
   let repCount = 0;
-  const intervalId = setInterval(() => {
-    if (callback() || ++repCount === repetitions) {
-      clearInterval(intervalId);
-    }
-  }, delay);
+  const recurseFn = () => {
+    repCount = repCount + 1;
+
+    if (callback() || repCount >= repetitionCap) return;
+
+    setTimeout(() => recurseFn(), delay);
+  };
+
+  recurseFn();
 }
 
 function base64decode(string) {
@@ -135,7 +143,7 @@ export {
   getPageKeywords,
   getPageTitle,
   parseUrl,
-  cappedIntervalCall,
+  cappedTimeoutCall,
   splitPath,
   base64decode,
   base64encode,

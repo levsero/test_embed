@@ -23,7 +23,7 @@ import { document,
 import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage,
          isOnHostMappedDomain } from 'utility/pages';
-import { cappedIntervalCall,
+import { cappedTimeoutCall,
          getPageKeywords } from 'utility/utils';
 import { updateZopimOnline } from 'src/redux/modules/base';
 
@@ -469,7 +469,7 @@ function keywordsSearch(options) {
     return false;
   };
 
-  cappedIntervalCall(contextualSearchFn, 500, 10);
+  cappedTimeoutCall(contextualSearchFn, 500, 20);
 }
 
 function performContextualHelp(options) {

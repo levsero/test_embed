@@ -62,6 +62,7 @@ function requestOAuthToken(jwt) {
     method: 'POST',
     path: '/embeddable/authenticate',
     params: { body: jwt },
+    timeout: 10000,
     callbacks: {
       done: (res) => onRequestSuccess(res, id)
     }
