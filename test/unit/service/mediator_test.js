@@ -517,6 +517,7 @@ describe('mediator', () => {
     };
 
     beforeEach(() => {
+      mockEmailValid = true;
       initSubscriptionSpies(names);
       mediator.init({ submitTicket: true, helpCenter: true });
     });
