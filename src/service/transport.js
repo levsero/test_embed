@@ -56,7 +56,6 @@ function send(payload, addType = true) {
           }
         };
 
-
         payload.callbacks.done({
           body: ipm
         });
