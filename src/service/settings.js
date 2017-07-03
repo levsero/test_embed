@@ -44,7 +44,6 @@ const optionWhitelist = {
   ]
 };
 const customizationsWhitelist = [
-  'contactOptions',
   'helpCenter.localeFallbacks'
 ];
 const webWidgetStoreDefaults = {
