@@ -39,13 +39,20 @@ function getPageTitle() {
   return doc.title || '';
 }
 
-function cappedIntervalCall(callback, delay, repetitions = 1) {
+function cappedIntervalCall(callback, delay = 50, repetitions = 1) {
+  /* Do not implement using setInterval
+     There were past issues with passing a function and closure variables
+     getting snapshotted where the evaluated result would always be the
+     same, potentially generating an infinite loop.
+  */
   let repCount = 0;
-  const intervalId = setInterval(() => {
-    if (callback() || ++repCount === repetitions) {
-      clearInterval(intervalId);
-    }
-  }, delay);
+  const recurseFn = () => {
+    if (callback() || ++repCount >= repetitions) return;
+
+    setTimeout(() => recurseFn(), delay);
+  };
+
+  recurseFn();
 }
 
 function base64decode(string) {

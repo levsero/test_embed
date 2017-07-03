@@ -8,7 +8,8 @@ describe('utils', () => {
     base64encode,
     emailValid,
     referrerPolicyUrl,
-    getEnvironment;
+    getEnvironment,
+    cappedIntervalCall;
 
   const mockGlobals = {
     win: {},
@@ -49,9 +50,11 @@ describe('utils', () => {
     emailValid = require(utilPath).emailValid;
     referrerPolicyUrl = require(utilPath).referrerPolicyUrl;
     getEnvironment = require(utilPath).getEnvironment;
+    cappedIntervalCall = require(utilPath).cappedIntervalCall;
   });
 
   afterEach(() => {
+    jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });
@@ -386,6 +389,44 @@ describe('utils', () => {
       it('should return production', () => {
         expect(getEnvironment())
           .toEqual('production');
+      });
+    });
+  });
+
+  describe('cappedIntervalCall', () => {
+    let callback;
+    const delay = 10;
+    const repetitions = 10;
+
+    beforeEach(() => {
+      jasmine.clock().install();
+    });
+
+    describe('when callback returns true', () => {
+      beforeEach(() => {
+        callback = jasmine.createSpy().and.returnValue(true);
+
+        cappedIntervalCall(callback, delay, repetitions);
+        jasmine.clock().tick(100);
+      });
+
+      it('should call callback once', () => {
+        expect(callback.calls.count())
+          .toEqual(1);
+      });
+    });
+
+    describe('when callback returns false', () => {
+      beforeEach(() => {
+        callback = jasmine.createSpy().and.returnValue(false);
+
+        cappedIntervalCall(callback, delay, repetitions);
+        jasmine.clock().tick(100);
+      });
+
+      it(`should call callback after ${repetitions} times`, () => {
+        expect(callback.calls.count())
+          .toEqual(10);
       });
     });
   });
