@@ -424,9 +424,9 @@ describe('utils', () => {
         jasmine.clock().tick(100);
       });
 
-      it(`should call callback after ${repetitions} times`, () => {
+      it(`should keep calling callback until ${repetitions} repetitions`, () => {
         expect(callback.calls.count())
-          .toEqual(10);
+          .toEqual(repetitions);
       });
     });
   });

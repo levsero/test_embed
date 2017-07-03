@@ -23,7 +23,8 @@ import { document,
 import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage,
          isOnHostMappedDomain } from 'utility/pages';
-import { getPageKeywords } from 'utility/utils';
+import { cappedTimeoutCall,
+         getPageKeywords } from 'utility/utils';
 import { updateZopimOnline } from 'src/redux/modules/base';
 
 import WebWidget from 'component/webWidget/WebWidget';
@@ -452,18 +453,23 @@ function postRender() {
 }
 
 function keywordsSearch(options) {
-  const helpCenterComponent = getWebWidgetComponent().getHelpCenterComponent();
-  const isAuthenticated = embed.config.helpCenterForm.signInRequired === false || hasAuthenticatedSuccessfully;
+  const contextualSearchFn = () => {
+    const helpCenterComponent = getWebWidgetComponent().getHelpCenterComponent();
+    const isAuthenticated = embed.config.helpCenterForm.signInRequired === false || hasAuthenticatedSuccessfully;
 
-  if (isAuthenticated && helpCenterComponent) {
-    if (options.url) {
-      options.pageKeywords = getPageKeywords();
+    if (isAuthenticated && helpCenterComponent) {
+      if (options.url) {
+        options.pageKeywords = getPageKeywords();
+      }
+
+      helpCenterComponent.contextualSearch(options);
+      return true;
     }
 
-    helpCenterComponent.contextualSearch(options);
-  } else {
-    setTimeout(() => keywordsSearch(options), 0);
-  }
+    return false;
+  };
+
+  cappedTimeoutCall(contextualSearchFn, 500, 10);
 }
 
 function performContextualHelp(options) {
