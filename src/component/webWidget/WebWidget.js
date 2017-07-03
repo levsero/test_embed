@@ -222,7 +222,7 @@ class WebWidget extends Component {
     if (activeEmbed === helpCenter) {
       rootComponent.setArticleView(false);
       showBackButton(false);
-    } else if (selectedTicketForm && _.size(ticketForms) > 1) {
+    } else if (selectedTicketForm && _.size(ticketForms.ticket_forms) > 1) {
       rootComponent.clearForm();
       showBackButton(helpCenterAvailable || this.props.channelChoice);
     } else if (helpCenterAvailable) {

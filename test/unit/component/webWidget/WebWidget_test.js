@@ -310,6 +310,11 @@ describe('WebWidget component', () => {
     });
 
     describe('when submit ticket is the active component', () => {
+      const ticketFormsState = {
+        selectedTicketForm: { id: '1' },
+        ticketForms: { ticket_forms: [{ id: '1' }, { id: '2' }] } // eslint-disable-line camelcase
+      };
+
       describe('and it has a ticket form selected with > 1 ticket forms', () => {
         beforeEach(() => {
           webWidget = domRender(
@@ -319,10 +324,7 @@ describe('WebWidget component', () => {
               helpCenterAvailable={true}
               showBackButton={showBackButtonSpy} />
           );
-          webWidget.getRootComponent().setState({
-            selectedTicketForm: { id: '1' },
-            ticketForms: [{ id: '1' }, { id: '2' }]
-          });
+          webWidget.getRootComponent().setState(ticketFormsState);
           webWidget.onBackClick();
         });
 
@@ -346,10 +348,7 @@ describe('WebWidget component', () => {
                 channelChoice={true}
                 showBackButton={showBackButtonSpy} />
             );
-            webWidget.getRootComponent().setState({
-              selectedTicketForm: { id: '1' },
-              ticketForms: [{ id: '1' }, { id: '2' }]
-            });
+            webWidget.getRootComponent().setState(ticketFormsState);
             webWidget.onBackClick();
           });
 
@@ -369,10 +368,7 @@ describe('WebWidget component', () => {
                 channelChoice={false}
                 showBackButton={showBackButtonSpy} />
             );
-            webWidget.getRootComponent().setState({
-              selectedTicketForm: { id: '1' },
-              ticketForms: [{ id: '1' }, { id: '2' }]
-            });
+            webWidget.getRootComponent().setState(ticketFormsState);
             webWidget.onBackClick();
           });
 
