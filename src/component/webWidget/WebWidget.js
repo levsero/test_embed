@@ -209,6 +209,7 @@ class WebWidget extends Component {
       updateActiveEmbed(channelChoice);
       showBackButton(false);
     } else {
+      updateActiveEmbed('');
       onCancel();
     }
   }
