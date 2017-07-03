@@ -217,16 +217,6 @@ describe('settings', () => {
         settings.init();
         settings.enableCustomizations();
       });
-      it('should return user setting for contactOptions', () => {
-        expect(settings.get('contactOptions'))
-          .toEqual({
-            enabled: true,
-            contactButton: {
-              '*': 'Yo, contact us!',
-              'es-ES': '¿Dónde está la biblioteca?'
-            }
-          });
-      });
 
       it('should return user setting for helpCenter.localeFallbacks', () => {
         expect(settings.get('helpCenter.localeFallbacks'))
@@ -235,11 +225,6 @@ describe('settings', () => {
     });
 
     describe('when web widget customisations are disabled', () => {
-      it('should return default setting for contactOptions', () => {
-        expect(settings.get('contactOptions'))
-          .toEqual(defaults.contactOptions);
-      });
-
       it('should return user default for helpCenter.localeFallbacks', () => {
         expect(settings.get('helpCenter.localeFallbacks'))
           .toEqual(defaults.helpCenter.localeFallbacks);
