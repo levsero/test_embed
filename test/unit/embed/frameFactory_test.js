@@ -826,9 +826,11 @@ describe('frameFactory', function() {
         .not.toContain('bottom:auto');
     });
 
-    it('should set the tab index to -1 when visible', () => {
+    it('should set the tab index to 0 when visible', () => {
+      instance.setState({ visible: true });
+
       expect(frame.attributes.tabindex.value)
-        .toEqual('-1');
+        .toEqual('0');
     });
 
     it('should set the tab index to -1 when not visible', () => {

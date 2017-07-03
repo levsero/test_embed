@@ -856,7 +856,7 @@ describe('Frame', () => {
         frame.setState({ visible: false });
       });
 
-      it('should have `--active` in classes', () => {
+      it('should not have `--active` in classes', () => {
         expect(frame.iframe.className)
           .not.toContain('--active');
       });
