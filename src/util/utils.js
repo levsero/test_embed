@@ -41,8 +41,8 @@ function getPageTitle() {
 
 function cappedIntervalCall(callback, delay = 50, repetitionCap = 1) {
   // Do not implement using setInterval
-  // There were past issues with passing a function and closure variables
-  // getting snapshotted where the evaluated result would always be the
+  // There were past issues with IE10 when a function's closure variables
+  // were getting snapshotted. The evaluated result would always be the
   // same, potentially generating an infinite loop.
   let repCount = 0;
   const recurseFn = () => {
