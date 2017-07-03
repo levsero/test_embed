@@ -275,10 +275,6 @@ export class Frame extends Component {
     this.setState({ hiddenByZoom });
   }
 
-  setHighlightColor = (color) => {
-    this.child.setHighlightColor(color);
-  }
-
   setButtonColor = (color) => {
     this.child.setButtonColor(color);
   }

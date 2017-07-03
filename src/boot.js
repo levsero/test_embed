@@ -111,7 +111,6 @@ const setupWidgetQueue = (win, postRenderQueue) => {
     identify: postRenderQueueCallback.bind('identify'),
     logout: postRenderQueueCallback.bind('logout'),
     activate: postRenderQueueCallback.bind('activate'),
-    activateNps: postRenderQueueCallback.bind('activateNps'),
     activateIpm: postRenderQueueCallback.bind('activateIpm')
   };
 
@@ -224,9 +223,6 @@ const setupWidgetApi = (win) => {
   };
   win.zE.activate = (options) => {
     mediator.channel.broadcast('.activate', options);
-  };
-  win.zE.activateNps = (options) => {
-    mediator.channel.broadcast('nps.onActivate', options);
   };
   win.zE.activateIpm = (options) => {
     mediator.channel.broadcast('ipm.onActivate', options);

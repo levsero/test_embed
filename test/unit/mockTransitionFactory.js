@@ -1,6 +1,4 @@
 const mockTransitionFactory = {
-  npsMobile: jasmine.createSpyObj('npsMobile', ['upShow', 'downHide']),
-  npsDesktop: jasmine.createSpyObj('npsDesktop', ['upShow', 'downHide']),
   ipm: jasmine.createSpyObj('ipm', ['upHide', 'downShow']),
   automaticAnswersMobile: jasmine.createSpyObj('automaticAnswersMobile', ['upShow', 'downHide']),
   automaticAnswersDesktop: jasmine.createSpyObj('automaticAnswersDesktop', ['upShow', 'downHide']),

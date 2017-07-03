@@ -10,7 +10,6 @@ describe('mediator', () => {
     channelChoiceSub,
     chatSub,
     helpCenterSub,
-    npsSub,
     ipmSub,
     mockChatSuppressedValue,
     mockHelpCenterSuppressedValue,
@@ -132,14 +131,6 @@ describe('mediator', () => {
        'refreshLocale']
     );
 
-    npsSub = jasmine.createSpyObj(
-      'nps',
-      ['activate',
-       'setSurvey',
-       'show',
-       'hide']
-    );
-
     ipmSub = jasmine.createSpyObj(
       'ipm',
       ['activate',
@@ -201,11 +192,6 @@ describe('mediator', () => {
       c.subscribe(`${names.helpCenter}.setNextToChat`, helpCenterSub.setNextToChat);
       c.subscribe(`${names.helpCenter}.setNextToSubmitTicket`, helpCenterSub.setNextToSubmitTicket);
       c.subscribe(`${names.helpCenter}.refreshLocale`, helpCenterSub.refreshLocale);
-
-      c.subscribe(`${names.nps}.activate`, npsSub.activate);
-      c.subscribe(`${names.nps}.setSurvey`, npsSub.setSurvey);
-      c.subscribe(`${names.nps}.show`, npsSub.show);
-      c.subscribe(`${names.nps}.hide`, npsSub.hide);
 
       c.subscribe(`${names.ipm}.activate`, ipmSub.activate);
       c.subscribe(`${names.ipm}.identifying`, ipmSub.identifying);
@@ -351,34 +337,6 @@ describe('mediator', () => {
   });
 
   describe('identify.onSuccess', () => {
-    describe('nps', () => {
-      const nps = 'nps';
-      const names = {
-        nps: nps
-      };
-
-      it('should broadcast nps.setSurvey with params', () => {
-        initSubscriptionSpies(names);
-        mediator.init({ submitTicket: true, helpCenter: false });
-
-        const survey = {
-          npsSurvey: {
-            id: 199
-          }
-        };
-
-        c.broadcast('identify.onSuccess', survey);
-
-        expect(npsSub.setSurvey)
-          .toHaveBeenCalled();
-
-        const params = npsSub.setSurvey.calls.mostRecent().args[0];
-
-        expect(params.npsSurvey.id)
-          .toEqual(199);
-      });
-    });
-
     describe('ipm', () => {
       const ipm = 'ipm';
       const names = {
@@ -536,151 +494,6 @@ describe('mediator', () => {
     it('should broadcast zopimChat.refreshLocale', () => {
       expect(chatSub.refreshLocale)
         .toHaveBeenCalled();
-    });
-  });
-
- /* ****************************************** *
-  *                     NPS                    *
-  * ****************************************** */
-
-  describe('nps', () => {
-    const nps = 'nps';
-    const launcher = 'launcher';
-    const submitTicket = 'ticketSubmissionForm';
-    const chat = 'zopimChat';
-    const helpCenter = 'helpCenterForm';
-
-    const names = {
-      launcher: launcher,
-      submitTicket: submitTicket,
-      chat: chat,
-      helpCenter: helpCenter,
-      nps: nps
-    };
-
-    beforeEach(() => {
-      initSubscriptionSpies(names);
-      mediator.init({ submitTicket: true, helpCenter: true });
-    });
-
-    describe('.onActivate', () => {
-      beforeEach(() => {
-        mockEmailValid = true;
-      });
-
-      it('should broadcast nps.activate if identify.pending is false', () => {
-        c.broadcast('identify.onSuccess', {});
-
-        reset(npsSub.activate);
-
-        jasmine.clock().install();
-        c.broadcast('nps.onActivate');
-        jasmine.clock().tick(2000);
-
-        expect(npsSub.activate)
-          .toHaveBeenCalled();
-      });
-
-      it('should not broadcast nps.activate if identify.pending is true', () => {
-        c.broadcast('.onIdentify', {});
-
-        reset(npsSub.activate);
-
-        jasmine.clock().install();
-        c.broadcast('nps.onActivate');
-        jasmine.clock().tick(2000);
-
-        expect(npsSub.activate)
-          .not.toHaveBeenCalled();
-      });
-
-      it('should not broadcast nps.activate if an embed is visible', () => {
-        c.broadcast('.onIdentify', {});
-
-        // identify success, identify.pending => false
-        c.broadcast('identify.onSuccess', {});
-
-        // open helpCenter embed
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(0);
-
-        reset(npsSub.activate);
-
-        c.broadcast('nps.onActivate');
-        jasmine.clock().tick(2000);
-
-        expect(npsSub.activate)
-          .not.toHaveBeenCalled();
-      });
-
-      it('should broadcast nps.activate if an embed is not visible', () => {
-        c.broadcast('.onIdentify', {});
-
-        // identify success, identify.pending => false
-        c.broadcast('identify.onSuccess', {});
-
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${helpCenter}.onNextClick`);
-        c.broadcast(`${submitTicket}.onClose`);
-
-        reset(npsSub.activate);
-
-        jasmine.clock().install();
-        c.broadcast('nps.onActivate');
-        jasmine.clock().tick(2000);
-
-        expect(npsSub.activate)
-          .toHaveBeenCalled();
-      });
-
-      it('should not broadcast nps.activate if an embed was activated while identify.pending', () => {
-        c.broadcast('.onIdentify', {});
-
-        // identify still in-flight
-        jasmine.clock().install();
-        c.broadcast('nps.onActivate');
-
-        expect(npsSub.activate)
-          .not.toHaveBeenCalled();
-
-        jasmine.clock().tick(1000);
-
-        // embed visible while identify still inflight
-        c.broadcast(`${launcher}.onClick`);
-
-        jasmine.clock().tick(1000);
-
-        // identify completed
-        c.broadcast('identify.onSuccess', {});
-
-        jasmine.clock().tick(1000);
-
-        expect(npsSub.activate)
-          .not.toHaveBeenCalled();
-      });
-    });
-
-    describe('.onClose', () => {
-      it('should broadcast launcher.show', () => {
-        reset(launcherSub.show);
-
-        c.broadcast('nps.onClose');
-
-        expect(launcherSub.show)
-          .toHaveBeenCalled();
-      });
-    });
-
-    describe('.onShow', () => {
-      it('should broadcast launcher.hide', () => {
-        reset(launcherSub.hide);
-
-        c.broadcast('nps.onShow');
-
-        expect(launcherSub.hide)
-          .toHaveBeenCalled();
-      });
     });
   });
 
