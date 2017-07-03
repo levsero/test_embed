@@ -838,6 +838,34 @@ describe('Frame', () => {
       expect(frame.iframe.className)
         .toContain('foo');
     });
+
+    describe('when visible', () => {
+      it('should have `--active` in classes', () => {
+        expect(frame.iframe.className)
+          .toContain('--active');
+      });
+
+      it('should set the tab index to 0', () => {
+        expect(frame.iframe.attributes.tabindex.value)
+          .toEqual('0');
+      });
+    });
+
+    describe('when not visible', () => {
+      beforeEach(() => {
+        frame.setState({ visible: false });
+      });
+
+      it('should have `--active` in classes', () => {
+        expect(frame.iframe.className)
+          .not.toContain('--active');
+      });
+
+      it('should set the tab index to -1', () => {
+        expect(frame.iframe.attributes.tabindex.value)
+          .toEqual('-1');
+      });
+    });
   });
 
   describe('renderFrameContent', () => {
