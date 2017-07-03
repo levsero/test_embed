@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import { ButtonNav } from 'component/button/ButtonNav';
 import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
-import { generateNpsCSS,
-         generateWebWidgetPreviewCSS } from 'utility/color';
+import { generateWebWidgetPreviewCSS } from 'utility/color';
 
 import { Provider } from 'react-redux';
 
@@ -52,14 +51,6 @@ export class EmbedWrapper extends Component {
 
   showCloseButton = (show = true) => {
     this.setState({ showCloseButton: show });
-  }
-
-  setHighlightColor = (color) => {
-    const css = generateNpsCSS({ color });
-
-    if (css) {
-      this.setState({ css });
-    }
   }
 
   setButtonColor = (color) => {

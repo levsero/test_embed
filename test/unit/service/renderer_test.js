@@ -5,7 +5,6 @@ describe('renderer', () => {
     mockLauncher,
     mockHelpCenter,
     mockChat,
-    mockNps,
     mockIpm,
     mockAutomaticAnswers,
     mockWebWidget,
@@ -44,7 +43,6 @@ describe('renderer', () => {
     mockLauncher = embedMocker('mockLauncher');
     mockHelpCenter = embedMocker('mockHelpCenter');
     mockChat = embedMocker('mockChat');
-    mockNps = embedMocker('mockNps');
     mockIpm = embedMocker('mockIpm');
     mockAutomaticAnswers = embedMocker('mockAutomaticAnswers');
     mockWebWidget = embedMocker('mockWebWidget');
@@ -61,9 +59,6 @@ describe('renderer', () => {
       },
       'embed/chat/chat': {
         chat: mockChat
-      },
-      'embed/nps/nps': {
-        nps: mockNps
       },
       'embed/ipm/ipm': {
         ipm: mockIpm
@@ -451,15 +446,14 @@ describe('renderer', () => {
       expect(updateBaseFontSize)
         .toHaveBeenCalledWith('24px');
 
-      // The two embeds above and IPM and NPS
       expect(updateBaseFontSize.calls.count())
-        .toEqual(4);
+        .toEqual(3);
 
       expect(updateFrameSize)
         .toHaveBeenCalled();
 
       expect(updateFrameSize.calls.count())
-        .toEqual(4);
+        .toEqual(3);
     });
 
     it('should trigger propagateFontRatio call on orientationchange', () => {

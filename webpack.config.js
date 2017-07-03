@@ -11,7 +11,6 @@ var svgoConfig = JSON.stringify({
 var config = {
   entry: {
     main: path.join(prefix, '/src/main.js'),
-    npsPreview: path.join(prefix, '/src/npsPreview.js'),
     webWidgetPreview: path.join(prefix, '/src/webWidgetPreview.js')
   },
   output: {

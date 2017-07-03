@@ -59,48 +59,6 @@ function generateUserCSS(color = defaultColor) {
   `);
 }
 
-function generateNpsCSS(params) {
-  if (params.color) {
-    const highlightColor = generateHighlightColor(params.color);
-    const constrastColor = generateContrastColor(params.color);
-
-    return (`
-      .u-userFillColor:not([disabled]) svg {
-        fill: ${params.color} !important;
-      }
-      .u-userFillColorContrast:not([disabled]) svg {
-        fill: ${constrastColor} !important;
-      }
-      .u-userTextColor:not([disabled]) {
-        color: ${params.color} !important;
-        fill: ${params.color} !important;
-      }
-      .u-userTextColorConstrast:not([disabled]) {
-        color: ${constrastColor} !important;
-        fill: ${constrastColor} !important;
-      }
-      .u-userBackgroundColor:not([disabled]) {
-        background-color: ${params.color} !important;
-      }
-      .u-userBackgroundColor:not([disabled]):hover,
-      .u-userBackgroundColor:not([disabled]):active,
-      .u-userBackgroundColor:not([disabled]):focus {
-        background-color: ${highlightColor} !important;
-      }
-      .u-userBorderColor:not([disabled]) {
-        border-color: ${params.color} !important;
-      }
-      .u-userBorderColor:not([disabled]):hover,
-      .u-userBorderColor:not([disabled]):active,
-      .u-userBorderColor:not([disabled]):focus {
-        border-color: ${highlightColor} !important;
-      }
-    `);
-  } else {
-    return '';
-  }
-}
-
 function generateWebWidgetPreviewCSS(color) {
   if (validSettingsColor()) {
     color = validSettingsColor();
@@ -159,7 +117,6 @@ function generateHighlightColor(colorStr) {
 }
 
 export {
-  generateNpsCSS,
   generateUserCSS,
   generateWebWidgetPreviewCSS,
   validSettingsColor

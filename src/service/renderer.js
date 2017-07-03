@@ -5,7 +5,6 @@ import { chat } from 'embed/chat/chat';
 import { helpCenter } from 'embed/helpCenter/helpCenter';
 import { ipm } from 'embed/ipm/ipm';
 import { launcher } from 'embed/launcher/launcher';
-import { nps } from 'embed/nps/nps';
 import { submitTicket } from 'embed/submitTicket/submitTicket';
 import { webWidget } from 'embed/webWidget/webWidget';
 import { i18n } from 'service/i18n';
@@ -23,7 +22,6 @@ const reduxStore = createStore();
 const embedsMap = {
   'submitTicket': submitTicket,
   'helpCenter': helpCenter,
-  'nps': nps,
   'ipm': ipm,
   'chat': chat,
   'automaticAnswers': automaticAnswers,
@@ -51,11 +49,6 @@ function parseConfig(config) {
   if (!rendererConfig.ticketSubmissionForm && rendererConfig.helpCenterForm) {
     rendererConfig.helpCenterForm.props.showNextButton = false;
   }
-
-  rendererConfig.nps = {
-    embed: 'nps',
-    props: {}
-  };
 
   if (!isMobileBrowser()) {
     rendererConfig.ipm = {

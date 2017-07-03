@@ -39,22 +39,6 @@ function send(payload, addType = true) {
       /* eslint no-console:0 */
       console.log(payload.params, payload.method, payload.path);
       setTimeout(function() {
-        const npsSurvey = {
-          npsSurvey: {
-            commentsQuestion: 'Can you tell us why?',
-            highlightColor: '#77a500',
-            id: 10017,
-            logoUrl: null,
-            question: 'How likely are you to recommend Embeddable Nps to someone you know?',
-            recipientId: 10035,
-            thankYou: 'Thank You',
-            youRated: 'You rated us a',
-            likelyLabel: '10 = Extremely likely',
-            notLikelyLabel: '0 = Not at all likely',
-            feedbackPlaceholder: 'Write your comments here...'
-          }
-        };
-
         const ipm = {
           pendingCampaign: {
             id: 712,
@@ -72,11 +56,8 @@ function send(payload, addType = true) {
           }
         };
 
-        const loadNPS = location.hash === '#zd-testNps';
-
-        // change body to npsSurvey to test eNPS
         payload.callbacks.done({
-          body: loadNPS ? npsSurvey : ipm
+          body: ipm
         });
       }, 3000);
 

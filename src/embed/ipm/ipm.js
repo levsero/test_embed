@@ -122,12 +122,6 @@ function waitForRootComponent(callback) {
 }
 
 function setIpm(ipmContent, ipmComponent) {
-  const color = ipmContent.message && ipmContent.message.color;
-
-  if (color) {
-    get().instance.setHighlightColor(color);
-  }
-
   if (ipmContent && ipmContent.id) {
     ipmComponent.setState({
       ipm: _.extend({}, ipmContent),

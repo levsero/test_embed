@@ -66,60 +66,6 @@ const launcherDownHide = {
 };
 
 const transitionFactory = {
-  npsMobile: {
-    upShow: transitionMaker(
-      {
-        transitionProperty: 'none',
-        transitionDuration: '0',
-        transitionTimingFunction: 'unset',
-        opacity: 0,
-        bottom: '-300px'
-      },
-      {
-        transitionProperty: transitionProperties('bottom'),
-        transitionDuration: '300ms',
-        transitionTimingFunction: 'ease-out',
-        opacity: 1,
-        bottom: 0
-      }
-    ),
-    downHide: transitionMaker({},
-      {
-        transitionProperty: transitionProperties('bottom'),
-        transitionDuration: '300ms',
-        transitionTimingFunction: 'ease-in',
-        opacity: 0,
-        bottom: '-300px'
-      }
-    )
-  },
-  npsDesktop: {
-    upShow: transitionMaker(
-      {
-        transitionProperty: 'none',
-        transitionDuration: '0',
-        transitionTimingFunction: 'unset',
-        opacity: 0,
-        bottom: '-100px'
-      },
-      {
-        transitionProperty: transitionProperties('bottom'),
-        transitionDuration: '300ms',
-        transitionTimingFunction: 'ease-out',
-        opacity: 1,
-        bottom: 0
-      }
-    ),
-    downHide: transitionMaker({},
-      {
-        transitionProperty: transitionProperties('bottom'),
-        transitionDuration: '300ms',
-        transitionTimingFunction: 'ease-in',
-        opacity: 0,
-        bottom: '-100px'
-      }
-    )
-  },
   ipm: {
     downShow: transitionMaker(
       {
