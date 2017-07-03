@@ -448,13 +448,13 @@ describe('renderer', () => {
 
       // The two embeds above and IPM and NPS
       expect(updateBaseFontSize.calls.count())
-        .toEqual(4);
+        .toEqual(3);
 
       expect(updateFrameSize)
         .toHaveBeenCalled();
 
       expect(updateFrameSize.calls.count())
-        .toEqual(4);
+        .toEqual(3);
     });
 
     it('should trigger propagateFontRatio call on orientationchange', () => {
