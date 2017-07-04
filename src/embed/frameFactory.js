@@ -427,9 +427,10 @@ export const frameFactory = function(childFn, _params, reduxStore) {
         [`${iframeNamespace}-${params.name}`]: true,
         [`${iframeNamespace}-${params.name}--active`]: this.state.visible
       });
+      const tabIndex = this.state.visible ? '0' : '-1';
 
       return (
-        <iframe style={this.computeIframeStyle()} id={params.name} className={iframeClasses} />
+        <iframe style={this.computeIframeStyle()} id={params.name} className={iframeClasses} tabIndex={tabIndex} />
       );
     }
   }

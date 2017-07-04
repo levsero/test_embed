@@ -780,7 +780,7 @@ describe('frameFactory', function() {
   });
 
   describe('render', function() {
-    let instance;
+    let instance, frame;
 
     beforeEach(function() {
       mockSettingsValue = { offset: { vertical: 31, horizontal: 52 } };
@@ -791,15 +791,16 @@ describe('frameFactory', function() {
       });
 
       instance = domRender(<Embed visible={false} />);
+      frame = global.document.body.getElementsByTagName('iframe')[0];
     });
 
     it('renders an iframe to the document', function() {
-      expect(global.document.body.getElementsByTagName('iframe').length)
-        .toEqual(1);
+      expect(frame)
+        .toBeDefined();
     });
 
     it('uses `state.visible` to determine its css `display` rule', function() {
-      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+      const frameContainer = frame;
       const frameContainerStyle = frameContainer.style;
 
       expect(frameContainerStyle.cssText)
@@ -825,15 +826,29 @@ describe('frameFactory', function() {
         .not.toContain('bottom:auto');
     });
 
+    it('should set the tab index to 0 when visible', () => {
+      instance.setState({ visible: true });
+
+      expect(frame.attributes.tabindex.value)
+        .toEqual('0');
+    });
+
+    it('should set the tab index to -1 when not visible', () => {
+      instance.setState({ visible: false });
+
+      expect(frame.attributes.tabindex.value)
+        .toEqual('-1');
+    });
+
     it('has `border` css rule set to none', function() {
-      const iframe = global.document.body.getElementsByTagName('iframe')[0];
+      const iframe = frame;
 
       expect(iframe.style.border)
         .toEqual('');
     });
 
     it('merges in css rules from params.style with correct precedence', function() {
-      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+      const frameContainer = frame;
       const frameContainerStyle = frameContainer.style;
 
       expect(frameContainerStyle.backgroundColor)
@@ -847,7 +862,7 @@ describe('frameFactory', function() {
     });
 
     it('gets the settings values to determine the offset', function() {
-      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+      const frameContainer = frame;
       const frameContainerStyle = frameContainer.style;
 
       instance.setState({ visible: true });

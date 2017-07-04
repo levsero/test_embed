@@ -379,12 +379,14 @@ export class Frame extends Component {
     const iframeNamespace = 'zEWidget';
     const frameClasses = `${iframeNamespace}-${this.props.name}`;
     const activeClasses = this.state.visible ? `${frameClasses}--active` : '';
+    const tabIndex = this.state.visible ? '0' : '-1';
 
     return (
       <iframe
         style={this.computeIframeStyle()}
         ref={(el) => { this.iframe = el; }}
         id={this.props.name}
+        tabIndex={tabIndex}
         className={`${frameClasses} ${activeClasses}`} />
     );
   }
