@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
@@ -68,22 +67,22 @@ export class Attachment extends Component {
   render = () => {
     const { file, errorMessage, uploading } = this.props;
     const hasError = !!errorMessage;
-    const containerClasses = classNames({
-      'Attachment-container': true,
-      'Form-field--display-preview': true,
-      'u-marginTT u-posRelative': true,
-      'Attachment--uploading': uploading,
-      'Attachment-container--error u-borderError': hasError
-    });
-    const secondaryTextClasses = classNames({
-      'u-pullLeft u-clearLeft': true,
-      'Attachment-error u-textError': hasError
-    });
-    const titleClasses = classNames({
-      'u-pullLeft': true,
-      'Attachment-title': !hasError,
-      'u-hsizeAll': hasError
-    });
+    const containerUploadingStyles = uploading
+      ? 'Attachment--uploading'
+      : '';
+    const containerErrorStyles = hasError
+      ? 'Attachment-container--error u-borderError'
+      : '';
+    const containerStyles = `
+      Attachment-container Form-field--display-preview u-marginTT u-posRelative
+      ${containerUploadingStyles}
+      ${containerErrorStyles}
+    `;
+    const secondaryTextErrorStyles = hasError
+      ? 'u-textError'
+      : '';
+    const secondaryTextStyles = `u-pullLeft u-clearLeft ${secondaryTextErrorStyles}`;
+    const titleStyles = 'Attachment-title u-pullLeft';
     const progressBar = uploading && !hasError
                       ? this.renderProgressBar()
                       : null;
@@ -92,17 +91,17 @@ export class Attachment extends Component {
     const secondaryText = (hasError) ? errorMessage : this.formatAttachmentSize(file.size);
 
     return (
-      <div className={containerClasses}>
+      <div className={containerStyles}>
         <div className='Attachment-preview u-posRelative u-hsizeAll'>
           <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />
-          <div className={titleClasses}>
+          <div className={titleStyles}>
             <div className='Attachment-preview-name u-alignTop u-pullLeft u-textTruncate u-textBody'>
               {nameStart}
             </div>
             <div className='u-pullLeft u-textBody'>
               {nameEnd}
             </div>
-            <div className={secondaryTextClasses}>
+            <div className={secondaryTextStyles}>
               {secondaryText}
             </div>
           </div>
