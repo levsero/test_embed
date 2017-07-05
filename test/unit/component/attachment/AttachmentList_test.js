@@ -67,7 +67,7 @@ describe('AttachmentList component', () => {
     mockery.disable();
   });
 
-  it('initializes with an empty object for state.attachments', function() {
+  it('initializes with an empty object for state.attachments', () => {
     expect(component.state.attachments)
       .toEqual({});
   });
@@ -134,7 +134,7 @@ describe('AttachmentList component', () => {
   });
 
   describe('#renderAttachments', () => {
-    it('renders Attachment components with the attachment objects', function() {
+    it('renders Attachment components with the attachment objects', () => {
       const attachments = [{ name: 'test.foo.txt' }];
 
       component.handleOnDrop(attachments);
@@ -145,11 +145,12 @@ describe('AttachmentList component', () => {
 
       expect(previews[0].props.file)
         .toEqual(attachments[0]);
+
       expect(previews[0].props.icon)
-        .toEqual('Icon--preview-txt');
+        .toEqual('Icon--preview-document');
     });
 
-    it('maps pdfs correctly', function() {
+    it('maps pdfs correctly', () => {
       const attachments = [{ name: 'test.pdf' }];
 
       component.handleOnDrop(attachments);
@@ -162,8 +163,32 @@ describe('AttachmentList component', () => {
         .toEqual('Icon--preview-pdf');
     });
 
-    it('maps keynotes correctly', function() {
-      const attachments = [{ name: 'test.key' }];
+    it('maps presentations correctly', () => {
+      const attachments = [
+        { name: 'test.ppt' },
+        { name: 'test.pptx' },
+        { name: 'test.key' }
+      ];
+
+      component.handleOnDrop(attachments);
+
+      jasmine.clock().tick(1);
+
+      const previews = component.renderAttachments();
+
+      previews.forEach((preview) => {
+        expect(preview.props.icon)
+          .toEqual('Icon--preview-presentation');
+      });
+    });
+
+    it('maps spreadsheets correctly', () => {
+      const attachments = [
+        { name: 'test.xls' },
+        { name: 'test.xlsx' },
+        { name: 'test.csv' },
+        { name: 'test.numbers' }
+      ];
 
       component.handleOnDrop(attachments);
 
@@ -172,11 +197,18 @@ describe('AttachmentList component', () => {
       const previews = component.renderAttachments();
 
       expect(previews[0].props.icon)
-        .toEqual('Icon--preview-key');
+        .toEqual('Icon--preview-spreadsheet');
     });
 
-    it('maps numbers correctly', function() {
-      const attachments = [{ name: 'test.numbers' }];
+    it('maps documents correctly', () => {
+      const attachments = [
+        { name: 'test.doc' },
+        { name: 'test.docx' },
+        { name: 'test.pag' },
+        { name: 'test.pages' },
+        { name: 'test.txt' },
+        { name: 'test.rtf' }
+      ];
 
       component.handleOnDrop(attachments);
 
@@ -184,24 +216,13 @@ describe('AttachmentList component', () => {
 
       const previews = component.renderAttachments();
 
-      expect(previews[0].props.icon)
-        .toEqual('Icon--preview-num');
+      previews.forEach((preview) => {
+        expect(preview.props.icon)
+          .toEqual('Icon--preview-document');
+      });
     });
 
-    it('maps pages correctly', function() {
-      const attachments = [{ name: 'test.pages' }];
-
-      component.handleOnDrop(attachments);
-
-      jasmine.clock().tick(1);
-
-      const previews = component.renderAttachments();
-
-      expect(previews[0].props.icon)
-        .toEqual('Icon--preview-pag');
-    });
-
-    it('maps imgs correctly', function() {
+    it('maps images correctly', () => {
       const attachments = [
         { name: 'test.img' },
         { name: 'test.png' },
@@ -216,16 +237,16 @@ describe('AttachmentList component', () => {
 
       const previews = component.renderAttachments();
 
-      previews.forEach(function(preview) {
+      previews.forEach((preview) => {
         expect(preview.props.icon)
-          .toEqual('Icon--preview-img');
+          .toEqual('Icon--preview-image');
       });
     });
 
-    it('maps documents correctly', function() {
+    it('maps zips correctly', () => {
       const attachments = [
-        { name: 'test.doc' },
-        { name: 'test.docx' }
+        { name: 'test.zip' },
+        { name: 'test.rar' }
       ];
 
       component.handleOnDrop(attachments);
@@ -234,17 +255,14 @@ describe('AttachmentList component', () => {
 
       const previews = component.renderAttachments();
 
-      previews.forEach(function(preview) {
+      previews.forEach((preview) => {
         expect(preview.props.icon)
-          .toEqual('Icon--preview-doc');
+          .toEqual('Icon--preview-zip');
       });
     });
 
-    it('maps powerpoints correctly', function() {
-      const attachments = [
-        { name: 'test.ppt' },
-        { name: 'test.pptx' }
-      ];
+    it('maps error correctly', () => {
+      const attachments = [{ name: 'test.doc', size: maxFileSize + 1 }];
 
       component.handleOnDrop(attachments);
 
@@ -252,49 +270,11 @@ describe('AttachmentList component', () => {
 
       const previews = component.renderAttachments();
 
-      previews.forEach(function(preview) {
-        expect(preview.props.icon)
-          .toEqual('Icon--preview-ppt');
-      });
+      expect(previews[0].props.icon)
+        .toEqual('Icon--preview-error');
     });
 
-    it('maps text files correctly', function() {
-      const attachments = [
-        { name: 'test.txt' },
-        { name: 'test.rtf' }
-      ];
-
-      component.handleOnDrop(attachments);
-
-      jasmine.clock().tick(1);
-
-      const previews = component.renderAttachments();
-
-      previews.forEach(function(preview) {
-        expect(preview.props.icon)
-          .toEqual('Icon--preview-txt');
-      });
-    });
-
-    it('maps spreadsheets correctly', function() {
-      const attachments = [
-        { name: 'test.xls' },
-        { name: 'test.xlsx' }
-      ];
-
-      component.handleOnDrop(attachments);
-
-      jasmine.clock().tick(1);
-
-      const previews = component.renderAttachments();
-
-      previews.forEach(function(preview) {
-        expect(preview.props.icon)
-          .toEqual('Icon--preview-xls');
-      });
-    });
-
-    it('falls back to default icon if it is not recognised', function() {
+    it('falls back to default icon if it is not recognised', () => {
       const attachments = [
         { name: 'test.svg' },
         { name: 'test.mp4' },
@@ -307,7 +287,7 @@ describe('AttachmentList component', () => {
 
       const previews = component.renderAttachments();
 
-      previews.forEach(function(preview) {
+      previews.forEach((preview) => {
         expect(preview.props.icon)
           .toEqual('Icon--preview-default');
       });
@@ -342,7 +322,7 @@ describe('AttachmentList component', () => {
     });
 
     describe('when the attachment has an error', () => {
-      beforeEach(function() {
+      beforeEach(() => {
         const attachmentToRemoveId = keys[1];
 
         component.handleRemoveAttachment(attachmentToRemoveId);
@@ -360,7 +340,7 @@ describe('AttachmentList component', () => {
   describe('handleOnDrop', () => {
     let attachments;
 
-    beforeEach(function() {
+    beforeEach(() => {
       attachments = [
         { name: 'foo', size: 1024 },
         { name: 'bar', size: 1024 }
@@ -484,7 +464,7 @@ describe('AttachmentList component', () => {
     let file;
 
     describe('when there is no attachment error', () => {
-      beforeEach(function() {
+      beforeEach(() => {
         file = { name: 'bob.gif', size: 1024 };
 
         component.handleOnDrop([file]);
@@ -519,7 +499,7 @@ describe('AttachmentList component', () => {
     });
 
     describe('when there is an attachment error', () => {
-      beforeEach(function() {
+      beforeEach(() => {
         file = { name: 'bob.gif', size: maxFileSize + 1024 };
 
         component.createAttachment(file, 'Some error');
@@ -604,7 +584,7 @@ describe('AttachmentList component', () => {
         .toBe(false);
     });
 
-    it('should return false if there are uploading attachments', function() {
+    it('should return false if there are uploading attachments', () => {
       component.handleOnDrop([
         { name: 'jim.png', size: 1024 },
         { name: 'bar.png', size: 1024 }
@@ -657,14 +637,14 @@ describe('AttachmentList component', () => {
   describe('attachment event handling', () => {
     let attachmentId;
 
-    beforeEach(function() {
+    beforeEach(() => {
       component.handleOnDrop([{ name: 'bob.gif', size: 1024 }]);
       jasmine.clock().tick(1);
       attachmentId = _.keys(component.state.attachments)[0];
     });
 
     describe('when an attachment is successfully uploaded', () => {
-      beforeEach(function() {
+      beforeEach(() => {
         const upload = JSON.stringify({ upload: { token: '12345' } });
         const response = { text: upload };
 
@@ -690,7 +670,7 @@ describe('AttachmentList component', () => {
     });
 
     describe('when an attachment is not successfully uploaded', () => {
-      beforeEach(function() {
+      beforeEach(() => {
         const response = { message: 'Some error' };
 
         mockAttachmentSender.calls.mostRecent().args[2](response);

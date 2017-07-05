@@ -84,14 +84,9 @@ export class Attachment extends Component {
       'Attachment-title': !hasError,
       'u-hsizeAll': hasError
     });
-
-    const icon = hasError
-               ? null
-               : <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />;
     const progressBar = uploading && !hasError
                       ? this.renderProgressBar()
                       : null;
-
     const nameStart = file.name.slice(0, -7);
     const nameEnd = file.name.slice(-7);
     const secondaryText = (hasError) ? errorMessage : this.formatAttachmentSize(file.size);
@@ -99,7 +94,7 @@ export class Attachment extends Component {
     return (
       <div className={containerClasses}>
         <div className='Attachment-preview u-posRelative u-hsizeAll'>
-          {icon}
+          <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />
           <div className={titleClasses}>
             <div className='Attachment-preview-name u-alignTop u-pullLeft u-textTruncate u-textBody'>
               {nameStart}

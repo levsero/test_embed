@@ -289,3 +289,45 @@
     width: #{7/$font-size}rem;
   }
 }
+
+.Icon--preview-default {
+  path {
+    fill: $zd-color-algae;
+  }
+}
+
+.Icon--preview-pdf {
+  path {
+    fill: $zd-color-razzmatazz;
+  }
+}
+.Icon--preview-presentation {
+  path {
+    fill: $zd-color-orange-peel;
+  }
+}
+.Icon--preview-spreadsheet {
+  path {
+    fill: $zd-color-chateau-green;
+  }
+}
+.Icon--preview-document {
+  path {
+    fill: $zd-color-cool-blue;
+  }
+}
+.Icon--preview-image {
+  path {
+    fill: $zd-color-persian-green;
+  }
+}
+.Icon--preview-zip {
+  path {
+    fill: $zd-color-algae;
+  }
+}
+.Icon--preview-error {
+  path {
+    fill: $zd-color-iron;
+  }
+}

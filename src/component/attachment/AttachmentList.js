@@ -7,23 +7,27 @@ import { ButtonDropzone } from 'component/button/ButtonDropzone';
 import { i18n } from 'service/i18n';
 
 const iconMapper = {
-  'doc': 'Icon--preview-doc',
-  'docx': 'Icon--preview-doc',
-  'gif': 'Icon--preview-img',
-  'img': 'Icon--preview-img',
-  'jpeg': 'Icon--preview-img',
-  'jpg': 'Icon--preview-img',
-  'key': 'Icon--preview-key',
-  'numbers': 'Icon--preview-num',
-  'pages': 'Icon--preview-pag',
   'pdf': 'Icon--preview-pdf',
-  'png': 'Icon--preview-img',
-  'ppt': 'Icon--preview-ppt',
-  'pptx': 'Icon--preview-ppt',
-  'rtf': 'Icon--preview-txt',
-  'txt': 'Icon--preview-txt',
-  'xls': 'Icon--preview-xls',
-  'xlsx': 'Icon--preview-xls'
+  'ppt': 'Icon--preview-presentation',
+  'pptx': 'Icon--preview-presentation',
+  'key': 'Icon--preview-presentation',
+  'xls': 'Icon--preview-spreadsheet',
+  'xlsx': 'Icon--preview-spreadsheet',
+  'numbers': 'Icon--preview-spreadsheet',
+  'csv': 'Icon--preview-spreadsheet',
+  'pages': 'Icon--preview-document',
+  'doc': 'Icon--preview-document',
+  'docx': 'Icon--preview-document',
+  'pag': 'Icon--preview-document',
+  'rtf': 'Icon--preview-document',
+  'txt': 'Icon--preview-document',
+  'gif': 'Icon--preview-image',
+  'img': 'Icon--preview-image',
+  'jpeg': 'Icon--preview-image',
+  'jpg': 'Icon--preview-image',
+  'png': 'Icon--preview-image',
+  'rar': 'Icon--preview-zip',
+  'zip': 'Icon--preview-zip'
 };
 
 export class AttachmentList extends Component {
@@ -207,7 +211,9 @@ export class AttachmentList extends Component {
 
       if (file && file.name) {
         const extension = file.name.split('.').pop();
-        const icon = iconMapper[extension] || 'Icon--preview-default';
+        const icon = attachment.errorMessage
+                   ? 'Icon--preview-error'
+                   : iconMapper[extension] || 'Icon--preview-default';
 
         return (
           <Attachment
