@@ -6,7 +6,7 @@ import { Attachment } from 'component/attachment/Attachment';
 import { ButtonDropzone } from 'component/button/ButtonDropzone';
 import { i18n } from 'service/i18n';
 
-const iconMapper = {
+const iconMap = {
   'pdf': 'Icon--preview-pdf',
   'ppt': 'Icon--preview-presentation',
   'pptx': 'Icon--preview-presentation',
@@ -213,7 +213,7 @@ export class AttachmentList extends Component {
         const extension = file.name.split('.').pop();
         const icon = attachment.errorMessage
                    ? 'Icon--preview-error'
-                   : iconMapper[extension] || 'Icon--preview-default';
+                   : iconMap[extension] || 'Icon--preview-default';
 
         return (
           <Attachment
