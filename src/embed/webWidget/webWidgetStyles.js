@@ -1,3 +1,5 @@
+import AttachmentStyles from 'component/attachment/Attachment.sass';
+import AttachmentBoxStyles from 'component/attachment/AttachmentBox.sass';
 import ButtonIconStyles from 'component/button/ButtonIcon.sass';
 import ChannelChoiceStyles from 'component/channelChoice/ChannelChoice.sass';
 import ChannelChoiceDesktopStyles from 'component/channelChoice/ChannelChoiceDesktop.sass';
@@ -20,6 +22,8 @@ import { sharedStyles } from 'embed/sharedStyles.js';
 
 export const webWidgetStyles = `
   ${sharedStyles}
+  ${AttachmentStyles}
+  ${AttachmentBoxStyles}
   ${ButtonIconStyles}
   ${ChannelChoiceStyles}
   ${ChannelChoiceDesktopStyles}
