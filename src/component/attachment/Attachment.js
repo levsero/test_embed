@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
+import { locals as styles } from './Attachment.sass';
 
 export class Attachment extends Component {
   static propTypes = {
@@ -57,48 +58,33 @@ export class Attachment extends Component {
   }
 
   renderProgressBar = () => {
-    return (
-      <div
-        className='Attachment-progress u-vsizeAll u-posAbsolute u-posStart--flush u-posStart--vertFlush'
-        ref='progressBar' />
-    );
+    return <div className={styles.progress} ref='progressBar' />;
   }
 
   render = () => {
     const { file, errorMessage, uploading } = this.props;
     const hasError = !!errorMessage;
-    const containerUploadingStyles = uploading
-      ? 'Attachment--uploading'
-      : '';
-    const containerErrorStyles = hasError
-      ? 'Attachment-container--error u-borderError'
-      : '';
-    const containerStyles = `
-      Attachment-container Form-field--display-preview u-marginTT u-posRelative
-      ${containerUploadingStyles}
-      ${containerErrorStyles}
-    `;
-    const secondaryTextErrorStyles = hasError
-      ? 'u-textError'
-      : '';
-    const secondaryTextStyles = `u-pullLeft u-clearLeft ${secondaryTextErrorStyles}`;
-    const titleStyles = 'Attachment-title u-pullLeft';
+    const containerUploadingStyles = uploading ? styles.uploading : '';
+    const containerErrorStyles = hasError ? styles.containerError : '';
+    const containerStyles = `${styles.container} ${containerUploadingStyles} ${containerErrorStyles}`;
+    const secondaryTextErrorStyles = hasError ? styles.secondaryTextError : '';
+    const secondaryTextStyles = `${styles.secondaryText} ${secondaryTextErrorStyles}`;
     const progressBar = uploading && !hasError
                       ? this.renderProgressBar()
                       : null;
     const nameStart = file.name.slice(0, -7);
     const nameEnd = file.name.slice(-7);
-    const secondaryText = (hasError) ? errorMessage : this.formatAttachmentSize(file.size);
+    const secondaryText = hasError ? errorMessage : this.formatAttachmentSize(file.size);
 
     return (
       <div className={containerStyles}>
-        <div className='Attachment-preview u-posRelative u-hsizeAll'>
-          <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />
-          <div className={titleStyles}>
-            <div className='Attachment-preview-name u-alignTop u-pullLeft u-textTruncate u-textBody'>
+        <div className={styles.preview}>
+          <Icon type={this.props.icon} className={styles.iconPreview} />
+          <div className={styles.title}>
+            <div className={styles.previewNameLeft}>
               {nameStart}
             </div>
-            <div className='u-pullLeft u-textBody'>
+            <div className={styles.previewNameRight}>
               {nameEnd}
             </div>
             <div className={secondaryTextStyles}>
@@ -107,7 +93,7 @@ export class Attachment extends Component {
           </div>
           <Icon
             onClick={this.handleIconClick}
-            className='Icon--preview-close u-isActionable u-pullRight Button--nav'
+            className={styles.icon}
             type='Icon--close' />
         </div>
         {progressBar}

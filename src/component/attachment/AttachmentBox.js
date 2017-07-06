@@ -4,6 +4,7 @@ import { Dropzone } from 'component/Dropzone';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
+import { locals as styles } from './AttachmentBox.sass';
 
 const dropzoneMargin = 38; // the frames border and padding
 
@@ -26,20 +27,18 @@ export class AttachmentBox extends Component {
     };
 
     return (
-      <div className='AttachmentBox u-posRelative'>
+      <div className={styles.container}>
         <Dropzone
           onDrop={this.props.onDrop}
-          className='Container--dashed u-posAbsolute u-marginAS'
-          activeClassName='Anim-color u-textBold u-userFillColor'
+          className={styles.dropzone}
+          activeClassName={styles.dropzoneActive}
           style={style}
           onDragLeave={this.props.onDragLeave}
           disableClick={true}>
-          <div className='u-textCenter u-posRelative u-posCenter--vert u-textSizeMed'>
+          <div className={styles.dropzoneChild}>
             <Icon type='Icon--paperclip-large' />
-            <p className='Form-fieldLabel u-marginTS'>
-              {i18n.t('embeddable_framework.submitTicket.attachments.box.label',
-                { fallback: 'Drop to attach' }
-              )}
+            <p className={styles.dropzoneChildLabel}>
+              {i18n.t('embeddable_framework.submitTicket.attachments.box.label')}
             </p>
           </div>
         </Dropzone>

@@ -1,0 +1,26 @@
+@import '../../styles/_vars.scss';
+
+.container {
+  composes: u-posRelative from global;
+
+  z-index: 100;
+}
+
+.dropzone {
+  composes: u-posAbsolute u-marginAS from global;
+  composes: Container--dashed from '../../styles/components/Container.scss';
+}
+
+.dropzoneActive {
+  composes: u-textBold u-userFillColor from global;
+  composes: Anim-color from '../../styles/components/Animation.scss';
+}
+
+.dropzoneChild {
+  composes: u-textCenter u-posRelative u-posCenter--vert u-textSizeMed from global;
+}
+
+.dropzoneChildLabel {
+  composes: Form-fieldLabel from '../../styles/components/Form.scss';
+  composes: u-marginTS from global;
+}
