@@ -1,0 +1,24 @@
+@import '../../styles/_vars.scss';
+
+.dropzone {
+  composes: u-isActionable u-marginTS from global;
+  composes: Button--dropzone from '../../styles/components/Button.scss';
+  composes: Container--dashed from '../../styles/components/Container.scss';
+}
+
+.dropzoneActive {
+  composes: u-userTextColor u-textBold from global;
+  composes: Anim-color from '../../styles/components/Animation.scss';
+}
+
+.dropzoneChild {
+  composes: u-textCenter from global;
+}
+
+.dropzoneChildLabel {
+  composes: u-inlineBlock u-alignTop from global;
+}
+
+.icon {
+  composes: u-inlineBlock u-userTextColor from global;
+}
