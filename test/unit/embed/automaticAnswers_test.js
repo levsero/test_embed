@@ -24,8 +24,8 @@ describe('embed.automaticAnswers', () => {
       'React': React,
       './automaticAnswers.scss': '',
       'embed/frameFactory': {
-        frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
-        frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
+        frameFactory: requireUncached(buildTestPath('unit/mocks/mockFrameFactory')).mockFrameFactory,
+        frameMethods: requireUncached(buildTestPath('unit/mocks/mockFrameFactory')).mockFrameMethods
       },
       'component/automaticAnswers/AutomaticAnswers': {
         AutomaticAnswersScreen: {
@@ -63,7 +63,7 @@ describe('embed.automaticAnswers', () => {
         isMobileBrowser: () => mockIsMobileBrowserValue
       },
       'service/transitionFactory' : {
-        transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
+        transitionFactory: requireUncached(buildTestPath('unit/mocks/mockTransitionFactory')).mockTransitionFactory
       },
       'service/automaticAnswersPersistence' : {
         automaticAnswersPersistence: {

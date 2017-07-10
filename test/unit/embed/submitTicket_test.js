@@ -86,8 +86,8 @@ describe('embed.submitTicket', () => {
         submitTicketStyles: 'mockCss'
       },
       'embed/frameFactory': {
-        frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
-        frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
+        frameFactory: requireUncached(buildTestPath('unit/mocks/mockFrameFactory')).mockFrameFactory,
+        frameMethods: requireUncached(buildTestPath('unit/mocks/mockFrameFactory')).mockFrameMethods
       },
       'utility/utils': {
         setScrollKiller: jasmine.createSpy(),
@@ -115,7 +115,7 @@ describe('embed.submitTicket', () => {
         }
       },
       'service/transitionFactory' : {
-        transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
+        transitionFactory: requireUncached(buildTestPath('unit/mocks/mockTransitionFactory')).mockTransitionFactory
       },
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['get', 'send', 'sendFile'])

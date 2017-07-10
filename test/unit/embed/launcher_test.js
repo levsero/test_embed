@@ -14,7 +14,7 @@ describe('embed.launcher', () => {
 
     mockery.enable();
 
-    mockFrame = requireUncached(buildTestPath('unit/mockFrame')).MockFrame;
+    mockFrame = requireUncached(buildTestPath('unit/mocks/mockFrame')).MockFrame;
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -68,7 +68,7 @@ describe('embed.launcher', () => {
       },
       'lodash': _,
       'service/transitionFactory' : {
-        transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
+        transitionFactory: requireUncached(buildTestPath('unit/mocks/mockTransitionFactory')).mockTransitionFactory
       }
     });
 

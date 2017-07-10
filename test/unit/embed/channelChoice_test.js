@@ -17,8 +17,8 @@ describe('embed.channelChoice', () => {
     mockRegistry = initMockRegistry({
       'React': React,
       'embed/frameFactory': {
-        frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
-        frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
+        frameFactory: requireUncached(buildTestPath('unit/mocks/mockFrameFactory')).mockFrameFactory,
+        frameMethods: requireUncached(buildTestPath('unit/mocks/mockFrameFactory')).mockFrameMethods
       },
       'component/channelChoice/ChannelChoice.sass': {
         locals: {}
@@ -47,7 +47,7 @@ describe('embed.channelChoice', () => {
         }
       },
       'service/transitionFactory' : {
-        transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
+        transitionFactory: requireUncached(buildTestPath('unit/mocks/mockTransitionFactory')).mockTransitionFactory
       },
       'utility/color': {
         generateUserCSS: jasmine.createSpy().and.returnValue('')

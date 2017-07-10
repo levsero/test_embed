@@ -33,8 +33,8 @@ describe('embed.ipm', () => {
       './ipm.scss': '',
       'component/Avatar.sass': '',
       'embed/frameFactory': {
-        frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
-        frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
+        frameFactory: requireUncached(buildTestPath('unit/mocks/mockFrameFactory')).mockFrameFactory,
+        frameMethods: requireUncached(buildTestPath('unit/mocks/mockFrameFactory')).mockFrameMethods
       },
       'embed/ipm/api': {
         api: {
@@ -95,7 +95,7 @@ describe('embed.ipm', () => {
         revertWindowScroll: noop
       },
       'service/transitionFactory' : {
-        transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
+        transitionFactory: requireUncached(buildTestPath('unit/mocks/mockTransitionFactory')).mockTransitionFactory
       }
     });
 

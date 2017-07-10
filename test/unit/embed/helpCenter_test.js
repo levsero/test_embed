@@ -100,7 +100,7 @@ describe('embed.helpCenter', () => {
         helpCenterStyles: 'mockCss'
       },
       'embed/frameFactory': {
-        frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory
+        frameFactory: requireUncached(buildTestPath('unit/mocks/mockFrameFactory')).mockFrameFactory
       },
       'utility/devices': {
         setScaleLock: noop,
@@ -141,7 +141,7 @@ describe('embed.helpCenter', () => {
         }
       },
       'service/transitionFactory' : {
-        transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
+        transitionFactory: requireUncached(buildTestPath('unit/mocks/mockTransitionFactory')).mockTransitionFactory
       },
       'lodash': _
     });
