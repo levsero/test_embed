@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { webWidgetStyles } from './webWidgetStyles.js';
-import { frameFactory } from 'embed/frameFactory';
+import { Frame } from 'component/frame/Frame';
 import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
@@ -193,6 +193,8 @@ function create(name, config = {}, reduxStore = {}) {
       downHide: transitionFactory.webWidget.downHide(),
       upShow: transitionFactory.webWidget.upShow()
     },
+    store: reduxStore,
+    visible: false,
     onShow,
     name: name,
     afterShowAnimate,
@@ -201,51 +203,44 @@ function create(name, config = {}, reduxStore = {}) {
     onBack
   };
 
-  const Embed = frameFactory(
-    (params) => {
-      return (
-        <WebWidget
-          ref='rootComponent'
-          attachmentSender={submitTicketSettings.attachmentSender}
-          channelChoice={channelChoice}
-          contextualSearchSender={helpCenterSettings.contextualSearchSender}
-          disableAutoComplete={globalConfig.disableAutoComplete}
-          fullscreen={isMobileBrowser()}
-          helpCenterAvailable={helpCenterAvailable}
-          helpCenterConfig={helpCenterSettings.config}
-          hideZendeskLogo={globalConfig.hideZendeskLogo}
-          imagesSender={helpCenterSettings.imagesSenderFn}
-          localeFallbacks={settings.get('helpCenter.localeFallbacks')}
-          onArticleClick={helpCenterSettings.onArticleClick}
-          onCancel={submitTicketSettings.onCancel}
-          closeFrame={params.closeFrame}
-          onSearch={helpCenterSettings.onSearch}
-          onSubmitted={submitTicketSettings.onSubmitted}
-          originalArticleButton={settings.get('helpCenter.originalArticleButton')}
-          position={globalConfig.position}
-          searchSender={helpCenterSettings.searchSender}
-          showBackButton={showBackButton}
-          showCloseButton={showCloseButton}
-          style={containerStyle}
-          subjectEnabled={settings.get('contactForm.subject')}
-          tags={settings.get('contactForm.tags')}
-          ticketFormSettings={settings.get('contactForm.ticketForms')}
-          ticketFieldSettings={settings.get('contactForm.fields')}
-          submitTicketAvailable={submitTicketAvailable}
-          submitTicketConfig={submitTicketSettings.config}
-          submitTicketSender={submitTicketSettings.submitTicketSender}
-          updateFrameSize={params.updateFrameSize}
-          viaId={settings.get('viaId')}
-          zendeskHost={transport.getZendeskHost()}
-          zopimOnNext={zopimOnNext} />
-      );
-    },
-    frameParams,
-    reduxStore
+  const component = (
+    <Frame {...frameParams}>
+      <WebWidget
+        attachmentSender={submitTicketSettings.attachmentSender}
+        channelChoice={channelChoice}
+        contextualSearchSender={helpCenterSettings.contextualSearchSender}
+        disableAutoComplete={globalConfig.disableAutoComplete}
+        fullscreen={isMobileBrowser()}
+        helpCenterAvailable={helpCenterAvailable}
+        helpCenterConfig={helpCenterSettings.config}
+        hideZendeskLogo={globalConfig.hideZendeskLogo}
+        imagesSender={helpCenterSettings.imagesSenderFn}
+        localeFallbacks={settings.get('helpCenter.localeFallbacks')}
+        onArticleClick={helpCenterSettings.onArticleClick}
+        onCancel={submitTicketSettings.onCancel}
+        onSearch={helpCenterSettings.onSearch}
+        onSubmitted={submitTicketSettings.onSubmitted}
+        originalArticleButton={settings.get('helpCenter.originalArticleButton')}
+        position={globalConfig.position}
+        searchSender={helpCenterSettings.searchSender}
+        showBackButton={showBackButton}
+        showCloseButton={showCloseButton}
+        style={containerStyle}
+        subjectEnabled={settings.get('contactForm.subject')}
+        tags={settings.get('contactForm.tags')}
+        ticketFormSettings={settings.get('contactForm.ticketForms')}
+        ticketFieldSettings={settings.get('contactForm.fields')}
+        submitTicketAvailable={submitTicketAvailable}
+        submitTicketConfig={submitTicketSettings.config}
+        submitTicketSender={submitTicketSettings.submitTicketSender}
+        viaId={settings.get('viaId')}
+        zendeskHost={transport.getZendeskHost()}
+        zopimOnNext={zopimOnNext} />
+    </Frame>
   );
 
   embed = {
-    component: <Embed visible={false} />,
+    component,
     submitTicketSettings,
     config: {
       global: globalConfig,
