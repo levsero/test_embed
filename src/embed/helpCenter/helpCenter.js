@@ -257,7 +257,8 @@ function setChatOnline(name, chatOnline) {
 function keywordsSearch(name, options) {
   const contextualSearchFn = () => {
     const rootComponent = getRootComponent(name);
-    const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
+    const hcConfig = get(name).config || {};
+    const isAuthenticated = hcConfig.signInRequired === false || hasAuthenticatedSuccessfully;
 
     if (isAuthenticated && rootComponent) {
       if (options.url) {

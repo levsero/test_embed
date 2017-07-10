@@ -455,7 +455,8 @@ function postRender() {
 function keywordsSearch(options) {
   const contextualSearchFn = () => {
     const helpCenterComponent = getWebWidgetComponent().getHelpCenterComponent();
-    const isAuthenticated = embed.config.helpCenterForm.signInRequired === false || hasAuthenticatedSuccessfully;
+    const hcConfig = embed.config.helpCenterForm || {};
+    const isAuthenticated = hcConfig.signInRequired === false || hasAuthenticatedSuccessfully;
 
     if (isAuthenticated && helpCenterComponent) {
       if (options.url) {

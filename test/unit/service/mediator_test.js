@@ -128,7 +128,8 @@ describe('mediator', () => {
        'showNextButton',
        'setNextToChat',
        'setNextToSubmitTicket',
-       'refreshLocale']
+       'refreshLocale',
+       'setHelpCenterSuggestions']
     );
 
     ipmSub = jasmine.createSpyObj(
@@ -192,6 +193,7 @@ describe('mediator', () => {
       c.subscribe(`${names.helpCenter}.setNextToChat`, helpCenterSub.setNextToChat);
       c.subscribe(`${names.helpCenter}.setNextToSubmitTicket`, helpCenterSub.setNextToSubmitTicket);
       c.subscribe(`${names.helpCenter}.refreshLocale`, helpCenterSub.refreshLocale);
+      c.subscribe(`${names.helpCenter}.setHelpCenterSuggestions`, helpCenterSub.setHelpCenterSuggestions);
 
       c.subscribe(`${names.ipm}.activate`, ipmSub.activate);
       c.subscribe(`${names.ipm}.identifying`, ipmSub.identifying);
@@ -1967,6 +1969,37 @@ describe('mediator', () => {
     beforeEach(() => {
       initSubscriptionSpies(names);
       mediator.init({ submitTicket: true, helpCenter: true });
+    });
+
+    describe('when it is available', () => {
+      beforeEach(() => {
+        mediator.init({ helpCenter: true });
+        jasmine.clock().install();
+      });
+
+      it('should broadcast setHelpCenterSuggestions', () => {
+        c.broadcast('.onSetHelpCenterSuggestions');
+        jasmine.clock().tick(0);
+
+        expect(helpCenterSub.setHelpCenterSuggestions.calls.count())
+          .toEqual(1);
+      });
+    });
+
+    describe('when it is suppressed', () => {
+      beforeEach(() => {
+        mockHelpCenterSuppressedValue = true;
+        mediator.init({ helpCenter: true });
+        jasmine.clock().install();
+      });
+
+      it('should not broadcast setHelpCenterSuggestions', () => {
+        c.broadcast('.onSetHelpCenterSuggestions');
+        jasmine.clock().tick(0);
+
+        expect(helpCenterSub.setHelpCenterSuggestions.calls.count())
+          .toEqual(0);
+      });
     });
 
     describe('standalone', () => {
