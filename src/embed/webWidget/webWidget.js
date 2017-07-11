@@ -249,8 +249,8 @@ function create(name, config = {}, reduxStore = {}) {
     submitTicketSettings,
     config: {
       global: globalConfig,
-      helpCenterForm: helpCenterSettings.config,
-      ticketSubmissionForm: submitTicketSettings.config
+      helpCenterForm: helpCenterSettings.config || {},
+      ticketSubmissionForm: submitTicketSettings.config || {}
     },
     embedsAvailable: {
       helpCenterForm: helpCenterAvailable,
@@ -455,8 +455,7 @@ function postRender() {
 function keywordsSearch(options) {
   const contextualSearchFn = () => {
     const helpCenterComponent = getWebWidgetComponent().getHelpCenterComponent();
-    const hcConfig = embed.config.helpCenterForm || {};
-    const isAuthenticated = hcConfig.signInRequired === false || hasAuthenticatedSuccessfully;
+    const isAuthenticated = embed.config.helpCenterForm.signInRequired === false || hasAuthenticatedSuccessfully;
 
     if (isAuthenticated && helpCenterComponent) {
       if (options.url) {
