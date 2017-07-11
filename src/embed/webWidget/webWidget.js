@@ -389,8 +389,12 @@ function setupMediator() {
   });
 
   mediator.channel.subscribe('helpCenterForm.setHelpCenterSuggestions', (options) => {
-    hasManuallySetContextualSuggestions = true;
-    performContextualHelp(options);
+    waitForRootComponent(() => {
+      if (embed.embedsAvailable.helpCenterForm) {
+        hasManuallySetContextualSuggestions = true;
+        performContextualHelp(options);
+      }
+    });
   });
 
   mediator.channel.subscribe('helpCenterForm.isAuthenticated', () => {
