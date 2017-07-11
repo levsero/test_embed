@@ -549,9 +549,7 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept('.onSetHelpCenterSuggestions', (__, params) => {
-    if (!state[`${helpCenter}.isSuppressed`]) {
-      c.broadcast(`${helpCenter}.setHelpCenterSuggestions`, params);
-    }
+    c.broadcast(`${helpCenter}.setHelpCenterSuggestions`, params);
   });
 
   c.intercept('.onSetLocale', () => {

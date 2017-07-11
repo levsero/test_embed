@@ -249,8 +249,8 @@ function create(name, config = {}, reduxStore = {}) {
     submitTicketSettings,
     config: {
       global: globalConfig,
-      helpCenterForm: helpCenterSettings.config || {},
-      ticketSubmissionForm: submitTicketSettings.config || {}
+      helpCenterForm: helpCenterSettings.config,
+      ticketSubmissionForm: submitTicketSettings.config
     },
     embedsAvailable: {
       helpCenterForm: helpCenterAvailable,
@@ -389,8 +389,12 @@ function setupMediator() {
   });
 
   mediator.channel.subscribe('helpCenterForm.setHelpCenterSuggestions', (options) => {
-    hasManuallySetContextualSuggestions = true;
-    performContextualHelp(options);
+    waitForRootComponent(() => {
+      if (embed.embedsAvailable.helpCenterForm) {
+        hasManuallySetContextualSuggestions = true;
+        performContextualHelp(options);
+      }
+    });
   });
 
   mediator.channel.subscribe('helpCenterForm.isAuthenticated', () => {
