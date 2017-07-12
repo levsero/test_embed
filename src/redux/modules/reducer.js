@@ -1,9 +1,17 @@
 import { combineReducers } from 'redux';
+import rootReducer from './root/reducer/root';
 
 import base from './base/reducer';
 import chat from './chat/reducer';
 
-export default combineReducers({
+const combinedReducers = combineReducers({
   base,
   chat
 });
+
+export default function reducer(state, action) {
+  const initialState = combinedReducers(state, action);
+  const finalState = rootReducer(initialState, action);
+
+  return finalState;
+}
