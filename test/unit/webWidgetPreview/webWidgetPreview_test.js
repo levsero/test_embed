@@ -24,8 +24,8 @@ describe('webWidgetPreview entry file', () => {
       'react/addons': React,
       'lodash': _,
       'embed/frameFactory': {
-        frameFactory: require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
-        frameMethods: require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
+        frameFactory: require(buildTestPath('unit/mocks/mockFrameFactory')).mockFrameFactory,
+        frameMethods: require(buildTestPath('unit/mocks/mockFrameFactory')).mockFrameMethods
       },
       'component/submitTicket/SubmitTicket': {
         SubmitTicket: class SubmitTicket extends Component {
