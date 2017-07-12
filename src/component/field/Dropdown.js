@@ -7,6 +7,7 @@ import { locals as styles } from './Dropdown.sass';
 import { DropdownMenu } from 'component/field/DropdownMenu';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
+import { document } from 'utility/globals';
 import { keyCodes } from 'utility/keyboard';
 
 const animationDuration = 200;
@@ -264,7 +265,10 @@ export class Dropdown extends Component {
 
     // If the dropdown is below half the height of the frame have it open up.
     const frameHeight = this.props.getFrameDimensions().height;
-    const posClasses = this.height > frameHeight/2 ? styles.menuUp : '';
+    const height = frameHeight === '100%'
+                 ? document.documentElement.clientHeight
+                 : frameHeight;
+    const posClasses = this.height > height/2 ? styles.menuUp : '';
 
     return (
       <div className={`${styles.menuContainer} ${posClasses} ${mobileClasses}`}>

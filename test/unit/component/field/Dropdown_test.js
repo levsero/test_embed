@@ -65,6 +65,13 @@ describe('dropdown component', () => {
           isRTL: () => mockIsRTL
         }
       },
+      'utility/globals': {
+        document: {
+          documentElement: {
+            clientHeight: 100
+          }
+        }
+      },
       'utility/keyboard': {
         keyCodes: {
           'DOWN': 40,
@@ -236,7 +243,7 @@ describe('dropdown component', () => {
       });
     });
 
-    describe('when height is < props.frameHeight / 2', () => {
+    describe('when height is < frameHeight / 2', () => {
       beforeEach(() => {
         const getFrameDimensions = () => { return { height: 100 }; };
 
@@ -251,7 +258,7 @@ describe('dropdown component', () => {
       });
     });
 
-    describe('when height is > props.frameHeight / 2', () => {
+    describe('when height is > frameHeight / 2', () => {
       beforeEach(() => {
         const getFrameDimensions = () => { return { height: 100 }; };
 
@@ -261,6 +268,21 @@ describe('dropdown component', () => {
       });
 
       it('should have menu up classes', () => {
+        expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuUpClasses'))
+          .not.toBeNull();
+      });
+    });
+
+    describe('when frameHeight is 100%', () => {
+      beforeEach(() => {
+        const getFrameDimensions = () => { return { height: '100%' }; };
+
+        dropdown = domRender(<Dropdown getFrameDimensions={getFrameDimensions} />);
+        dropdown.height = 51;
+        dropdown.setState({ open: true });
+      });
+
+      it('should use the client height vaue and have menu down classes', () => {
         expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuUpClasses'))
           .not.toBeNull();
       });
