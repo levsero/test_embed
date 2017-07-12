@@ -1,4 +1,4 @@
-describe('Attachment component', function() {
+describe('Attachment component', () => {
   let Attachment,
     component,
     attachment,
@@ -9,7 +9,7 @@ describe('Attachment component', function() {
     mocki18nTranslate;
   const attachmentPath = buildSrcPath('component/attachment/Attachment');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable();
@@ -24,6 +24,14 @@ describe('Attachment component', function() {
       'service/i18n': {
         i18n: {
           t: mocki18nTranslate
+        }
+      },
+      './Attachment.sass': {
+        locals: {
+          progress: 'progress',
+          containerError: 'containerError',
+          secondaryTextError: 'secondaryTextError',
+          iconPreview: 'iconPreview'
         }
       }
     });
@@ -44,7 +52,7 @@ describe('Attachment component', function() {
     jasmine.clock().install();
   });
 
-  afterEach(function() {
+  afterEach(() => {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
@@ -52,7 +60,7 @@ describe('Attachment component', function() {
 
   describe('handleIconClick', () => {
     describe('when the attachment is still uploading', () => {
-      beforeEach(function() {
+      beforeEach(() => {
         component = instanceRender(
           <Attachment
             attachmentId='1'
@@ -78,7 +86,7 @@ describe('Attachment component', function() {
     });
 
     describe('when the attachment is not uploading', () => {
-      beforeEach(function() {
+      beforeEach(() => {
         component = instanceRender(
           <Attachment
             attachmentId='1'
@@ -105,7 +113,9 @@ describe('Attachment component', function() {
   });
 
   describe('when there is an initial attachment error', () => {
-    beforeEach(function() {
+    let componentNode;
+
+    beforeEach(() => {
       attachment = {
         file: { name: 'foo.bar' },
         error: { message: 'Some error' }
@@ -118,28 +128,29 @@ describe('Attachment component', function() {
           errorMessage={attachment.error.message}
           icon={icon} />
       );
+      componentNode = ReactDOM.findDOMNode(component);
     });
 
     it('should not render the icon', () => {
-      expect(() => TestUtils.findRenderedDOMComponentWithClass(component, 'Icon--preview'))
-        .toThrow();
+      expect(componentNode.querySelector('.iconPreview'))
+        .toBeNull();
     });
 
     it('should not render the progress bar', () => {
-      expect(() => TestUtils.findRenderedDOMComponentWithClass(component, 'Attachment-progress'))
-        .toThrow();
+      expect(componentNode.querySelector('.progress'))
+        .toBeNull();
     });
 
     it('should set error classes', () => {
-      expect(TestUtils.findRenderedDOMComponentWithClass(component, 'u-borderError'))
-        .toBeTruthy();
+      expect(componentNode.className)
+        .toContain('containerError');
 
-      expect(TestUtils.findRenderedDOMComponentWithClass(component, 'u-textError'))
+      expect(componentNode.querySelector('.secondaryTextError'))
         .toBeTruthy();
     });
 
     it('should set the text body to the error message', () => {
-      const secondaryText = TestUtils.findRenderedDOMComponentWithClass(component, 'u-textError').textContent;
+      const secondaryText = componentNode.querySelector('.secondaryTextError').textContent;
 
       expect(secondaryText)
         .toBe('Some error');
@@ -147,7 +158,7 @@ describe('Attachment component', function() {
   });
 
   describe('formatAttachmentSize', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       component = instanceRender(
         <Attachment
           attachmentId='1'

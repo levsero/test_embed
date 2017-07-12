@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Dropzone } from 'component/Dropzone';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
+import { locals as styles } from './ButtonDropzone.sass';
 
 export class ButtonDropzone extends Component {
   static propTypes = {
@@ -18,19 +19,17 @@ export class ButtonDropzone extends Component {
 
   render = () => {
     const label = this.props.isMobile
-                ? i18n.t('embeddable_framework.submitTicket.attachments.button.label_mobile',
-                  { fallback: 'Add file from device' })
-                : i18n.t('embeddable_framework.submitTicket.attachments.button.label',
-                  { fallback: 'Add file or drop here' });
+                ? i18n.t('embeddable_framework.submitTicket.attachments.button.label_mobile')
+                : i18n.t('embeddable_framework.submitTicket.attachments.button.label');
 
     return (
       <Dropzone
         onDrop={this.props.onDrop}
-        activeClassName='Anim-color u-userTextColor u-textBold'
-        className='Button--dropzone Container--dashed u-isActionable u-marginTS'>
-        <div className='u-textCenter'>
-          <Icon type='Icon--paperclip-small' className='u-inlineBlock u-userFillColor' />
-          <div className='u-inlineBlock u-alignTop'>{label}</div>
+        activeClassName={styles.dropzoneActive}
+        className={styles.dropzone}>
+        <div className={styles.dropzoneChild}>
+          <Icon type='Icon--paperclip-small' className={styles.icon} />
+          <div className={styles.dropzoneChildLabel}>{label}</div>
         </div>
       </Dropzone>
     );

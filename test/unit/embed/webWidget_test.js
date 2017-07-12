@@ -1188,26 +1188,56 @@ describe('embed.webWidget', () => {
           .toHaveBeenCalledWith('helpCenterForm.setHelpCenterSuggestions', jasmine.any(Function));
       });
 
-      describe('when mouse driven contextual search is enabled', () => {
-        let targetListener;
-
+      describe('when helpCenterForm is not available', () => {
         beforeEach(() => {
-          targetListener = mockRegistry['utility/mouse'].mouse.target;
-
-          webWidget.create('', { helpCenterForm: { enableMouseDrivenContextualHelp: true } });
+          webWidget.create('', {});
           webWidget.render();
-        });
-
-        it('should add the mouse target listener', () => {
+          spyOn(webWidget, 'keywordsSearch');
           pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')({ search: 'foo' });
-
-          expect(targetListener)
-            .toHaveBeenCalled();
         });
 
-        describe('when user is on mobile', () => {
+        it('should not call keywordsSearch', () => {
+          expect(webWidget.keywordsSearch)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when helpCenterForm is available', () => {
+        describe('when mouse driven contextual search is enabled', () => {
+          let targetListener;
+
           beforeEach(() => {
-            mockIsMobileBrowser = true;
+            targetListener = mockRegistry['utility/mouse'].mouse.target;
+
+            webWidget.create('', { helpCenterForm: { enableMouseDrivenContextualHelp: true } });
+            webWidget.render('');
+          });
+
+          it('should add the mouse target listener', () => {
+            pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')({ search: 'foo' });
+
+            expect(targetListener)
+              .toHaveBeenCalled();
+          });
+
+          describe('when user is on mobile', () => {
+            beforeEach(() => {
+              mockIsMobileBrowser = true;
+              spyOn(webWidget, 'keywordsSearch');
+              pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')({ search: 'foo' });
+            });
+
+            it('should call keywordsSearch', () => {
+              expect(webWidget.keywordsSearch)
+                .toHaveBeenCalledWith({ search: 'foo' });
+            });
+          });
+        });
+
+        describe('when mouse driven contextual search is disabled', () => {
+          beforeEach(() => {
+            webWidget.create('', { helpCenterForm: {} });
+            webWidget.render();
             spyOn(webWidget, 'keywordsSearch');
             pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')({ search: 'foo' });
           });
@@ -1216,18 +1246,6 @@ describe('embed.webWidget', () => {
             expect(webWidget.keywordsSearch)
               .toHaveBeenCalledWith({ search: 'foo' });
           });
-        });
-      });
-
-      describe('when mouse driven contextual search is disabled', () => {
-        beforeEach(() => {
-          spyOn(webWidget, 'keywordsSearch');
-          pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')({ search: 'foo' });
-        });
-
-        it('should call keywordsSearch', () => {
-          expect(webWidget.keywordsSearch)
-            .toHaveBeenCalledWith({ search: 'foo' });
         });
       });
     });

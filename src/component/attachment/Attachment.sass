@@ -1,0 +1,70 @@
+@import '../../styles/_vars.scss';
+
+.container {
+  composes: u-marginTT u-posRelative from global;
+  composes: Form-field--display-preview from '../../styles/components/Form.scss';
+
+  background-color: $zd-color-anti-flash-white !important;
+}
+
+.containerError {
+  composes: u-borderError from global;
+
+  background-color: $zd-color-white !important;
+}
+
+.uploading {
+  background-color: transparent;
+  border: #{1/$font-size}rem dashed $zd-color-iron;
+}
+
+.preview {
+  composes: u-posRelative u-hsizeAll from global;
+
+  overflow: auto;
+  min-height: #{32/$font-size}rem;
+  height: auto;
+  z-index: 2;
+}
+
+.previewNameLeft {
+  composes: u-alignTop u-pullLeft u-textTruncate u-textBody from global;
+
+  max-width: 62%;
+}
+
+.previewNameRight {
+  composes: u-pullLeft u-textBody from global;
+}
+
+.progress {
+  composes: u-zIndex1 u-vsizeAll u-posAbsolute u-posStart--flush u-posStart--vertFlush from global;
+
+  border-radius: #{4/$font-size}rem;
+  background-color: rgba($zd-color-shamrock, 0.15);
+}
+
+.title {
+  composes: u-pullLeft from global;
+
+  width: 85%;
+}
+
+.secondaryText {
+  composes: u-pullLeft u-clearLeft from global;
+}
+
+.secondaryTextError {
+  composes: u-textError from global;
+}
+
+.icon {
+  composes: u-isActionable u-pullRight from global;
+  composes: Button--nav from '../../styles/components/Button.scss';
+  composes: Icon--preview-close from '../../styles/components/Icon.scss';
+}
+
+.iconPreview {
+  composes: u-pullLeft from global;
+  composes: Icon--preview from '../../styles/components/Icon.scss';
+}
