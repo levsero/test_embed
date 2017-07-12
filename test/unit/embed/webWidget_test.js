@@ -267,6 +267,7 @@ describe('embed.webWidget', () => {
         });
 
         it('should not call focusField for non-IE browser', () => {
+          mockIsIE = false;
           frame.props.afterShowAnimate(frame);
 
           expect(child.focusField)
