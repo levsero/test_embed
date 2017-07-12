@@ -238,7 +238,9 @@ describe('dropdown component', () => {
 
     describe('when height is < props.frameHeight / 2', () => {
       beforeEach(() => {
-        dropdown = domRender(<Dropdown frameHeight={100} />);
+        const getFrameDimensions = () => { return { height: 100 }; };
+
+        dropdown = domRender(<Dropdown getFrameDimensions={getFrameDimensions} />);
         dropdown.height = 49;
         dropdown.setState({ open: true });
       });
@@ -251,7 +253,9 @@ describe('dropdown component', () => {
 
     describe('when height is > props.frameHeight / 2', () => {
       beforeEach(() => {
-        dropdown = domRender(<Dropdown frameHeight={100} />);
+        const getFrameDimensions = () => { return { height: 100 }; };
+
+        dropdown = domRender(<Dropdown getFrameDimensions={getFrameDimensions} />);
         dropdown.height = 51;
         dropdown.setState({ open: true });
       });

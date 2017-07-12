@@ -35,7 +35,7 @@ export class SubmitTicketForm extends Component {
     children: PropTypes.element.isRequired,
     customFields: PropTypes.array,
     disableAutoComplete: PropTypes.bool,
-    frameHeight: PropTypes.number,
+    getFrameDimensions: PropTypes.func,
     formState: PropTypes.object,
     formTitleKey: PropTypes.string.isRequired,
     fullscreen: PropTypes.bool,
@@ -54,7 +54,7 @@ export class SubmitTicketForm extends Component {
     children: <span />,
     customFields: [],
     disableAutoComplete: false,
-    frameHeight: 500,
+    frameHeight: () => {},
     formState: {},
     fullscreen: false,
     hide: false,
@@ -363,7 +363,7 @@ export class SubmitTicketForm extends Component {
       this.props.formState,
       {
         disableAutoComplete: this.props.disableAutoComplete,
-        frameHeight: this.props.frameHeight,
+        getFrameDimensions: this.props.getFrameDimensions,
         onChange: this.updateForm
       }
     );
@@ -388,7 +388,7 @@ export class SubmitTicketForm extends Component {
       this.props.formState,
       {
         disableAutoComplete: this.props.disableAutoComplete,
-        frameHeight: this.props.frameHeight,
+        getFrameDimensions: this.props.getFrameDimensions,
         onChange: this.updateForm
       }
     );

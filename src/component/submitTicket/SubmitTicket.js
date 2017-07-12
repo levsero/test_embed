@@ -17,17 +17,13 @@ import { isMobileBrowser,
          isIE } from 'utility/devices';
 import { location } from 'utility/globals';
 
-let frameDimensions = {
-  height: 0,
-  width: 0
-};
-
 export class SubmitTicket extends Component {
   static propTypes = {
     attachmentsEnabled: PropTypes.bool,
     attachmentSender: PropTypes.func.isRequired,
     disableAutoComplete: PropTypes.bool,
     formTitleKey: PropTypes.string.isRequired,
+    getFrameDimensions: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
     maxFileCount: PropTypes.number,
     maxFileSize: PropTypes.number,
@@ -49,6 +45,9 @@ export class SubmitTicket extends Component {
   static defaultProps = {
     attachmentsEnabled: false,
     disableAutoComplete: false,
+    getFrameDimensions: () => {
+      return { height: 500, width: 500 };
+    },
     hideZendeskLogo: false,
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024,
@@ -366,7 +365,7 @@ export class SubmitTicket extends Component {
         setFormState={this.setFormState}
         submit={this.handleSubmit}
         ticketForms={this.state.ticketForms}
-        frameHeight={frameDimensions.height}
+        getFrameDimensions={this.props.getFrameDimensions}
         previewEnabled={this.props.previewEnabled}>
         {this.renderErrorMessage()}
       </SubmitTicketForm>
@@ -445,16 +444,12 @@ export class SubmitTicket extends Component {
     return this.state.isDragActive && this.props.attachmentsEnabled
          ? <AttachmentBox
              onDragLeave={this.handleDragLeave}
-             dimensions={frameDimensions}
+             dimensions={this.props.getFrameDimensions()}
              onDrop={this.handleOnDrop} />
          : null;
   }
 
   render = () => {
-    setTimeout(() => {
-      frameDimensions = this.props.updateFrameSize() || frameDimensions;
-    }, 0);
-
     const content = (_.isEmpty(this.state.ticketForms) || this.state.selectedTicketForm)
                   ? this.renderForm()
                   : this.renderTicketFormList();

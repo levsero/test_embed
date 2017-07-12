@@ -18,7 +18,7 @@ export class Dropdown extends Component {
       PropTypes.string
     ]).isRequired,
     fullscreen: PropTypes.bool,
-    frameHeight: PropTypes.number,
+    getFrameDimensions: PropTypes.func,
     landscape: PropTypes.bool,
     description: PropTypes.string,
     onChange: PropTypes.func,
@@ -30,7 +30,9 @@ export class Dropdown extends Component {
 
   static defaultProps = {
     fullscreen: false,
-    frameHeight: 500,
+    getFrameDimensions: () => {
+      return { height: 500, width: 500 };
+    },
     landscape: false,
     description: '',
     onChange: () => {},
@@ -261,7 +263,8 @@ export class Dropdown extends Component {
     const mobileClasses = this.props.fullscreen ? styles.menuContainerMobile : '';
 
     // If the dropdown is below half the height of the frame have it open up.
-    const posClasses = this.height > this.props.frameHeight/2 ? styles.menuUp : '';
+    const frameHeight = this.props.getFrameDimensions().height;
+    const posClasses = this.height > frameHeight/2 ? styles.menuUp : '';
 
     return (
       <div className={`${styles.menuContainer} ${posClasses} ${mobileClasses}`}>
