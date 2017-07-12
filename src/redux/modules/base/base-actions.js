@@ -1,7 +1,8 @@
 import {
   UPDATE_ACTIVE_EMBED,
   UPDATE_EMBED,
-  UPDATE_ZOPIM_ONLINE
+  UPDATE_ZOPIM_ONLINE,
+  UPDATE_BACK_BUTTON_VISIBILITY
 } from './base-action-types';
 
 export const updateActiveEmbed = (embedName) => {
@@ -25,5 +26,12 @@ export const updateZopimOnline = (online) => {
   return {
     type: UPDATE_ZOPIM_ONLINE,
     payload: online
+  };
+};
+
+export const updateBackButtonVisibility = (visible) => {
+  return {
+    type: UPDATE_BACK_BUTTON_VISIBILITY,
+    payload: visible
   };
 };

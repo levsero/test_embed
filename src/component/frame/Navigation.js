@@ -5,10 +5,11 @@ import { connect } from 'react-redux';
 import { ButtonNav } from 'component/button/ButtonNav';
 import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
+import { updateBackButtonVisibility } from 'src/redux/modules/base';
 
 const mapStateToProps = (state) => {
   return {
-    activeEmbed: state.base.activeEmbed
+    backButtonVisible: state.base.backButton.visible
   };
 };
 
@@ -17,21 +18,25 @@ class Navigation extends Component {
     fullscreen: PropTypes.bool,
     handleBackClick: PropTypes.func,
     handleCloseClick: PropTypes.func,
-    hideCloseButton: PropTypes.bool
+    hideCloseButton: PropTypes.bool,
+    backButtonVisible: PropTypes.bool,
+    updateBackButtonVisibility: PropTypes.func
+
   };
 
   static defaultProps = {
     fullscreen: false,
     handleBackClick: () => {},
     handleCloseClick: () => {},
-    hideCloseButton: false
+    hideCloseButton: false,
+    backButtonVisible: false,
+    updateBackButtonVisibility: () => {}
   };
 
   constructor(props, context) {
     super(props, context);
 
     this.state = {
-      showBackButton: false,
       showCloseButton: !props.hideCloseButton
     };
 
@@ -40,7 +45,7 @@ class Navigation extends Component {
 
   // For backwards compatibility
   showBackButton = (show = true) => {
-    this.setState({ showBackButton: show });
+    this.props.updateBackButtonVisibility(show);
   }
 
   showCloseButton = (show = true) => {
@@ -74,7 +79,7 @@ class Navigation extends Component {
             onClick: this.props.handleBackClick,
             icon: 'Icon--back',
             position: 'left',
-            isHidden: !this.state.showBackButton
+            isHidden: !this.props.backButtonVisible
           })}
         </div>
         <div>
@@ -90,4 +95,8 @@ class Navigation extends Component {
   }
 }
 
-export default connect(mapStateToProps, {}, null, { withRef: true })(Navigation);
+const actionCreators = {
+  updateBackButtonVisibility
+};
+
+export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Navigation);
