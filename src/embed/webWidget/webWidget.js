@@ -62,9 +62,6 @@ const getWithSpinner = (path, locale, doneFn) => {
     }, 0);
   });
 };
-const showBackButton = (show = true) => {
-  embed.instance.getChild().showBackButton(show);
-};
 const showCloseButton = (show = true) => {
   embed.instance.getChild().showCloseButton(show);
 };
@@ -223,7 +220,6 @@ function create(name, config = {}, reduxStore = {}) {
         originalArticleButton={settings.get('helpCenter.originalArticleButton')}
         position={globalConfig.position}
         searchSender={helpCenterSettings.searchSender}
-        showBackButton={showBackButton}
         showCloseButton={showCloseButton}
         style={containerStyle}
         subjectEnabled={settings.get('contactForm.subject')}

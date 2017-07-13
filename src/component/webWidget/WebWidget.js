@@ -9,7 +9,8 @@ import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
 import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
-         updateEmbedAccessible } from 'src/redux/modules/base';
+         updateEmbedAccessible,
+         updateBackButtonVisibility } from 'src/redux/modules/base';
 import { onBackClick } from 'src/redux/modules/root';
 
 const submitTicket = 'ticketSubmissionForm';
@@ -49,7 +50,6 @@ class WebWidget extends Component {
     originalArticleButton: PropTypes.bool,
     position: PropTypes.string,
     searchSender: PropTypes.func,
-    showBackButton: PropTypes.func,
     showCloseButton: PropTypes.func,
     style: PropTypes.object,
     subjectEnabled: PropTypes.bool,
@@ -66,6 +66,7 @@ class WebWidget extends Component {
     viaId: PropTypes.number.isRequired,
     zendeskHost: PropTypes.string.isRequired,
     updateActiveEmbed: PropTypes.func.isRequired,
+    updateBackButtonVisibility: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired
   };
 
@@ -89,7 +90,6 @@ class WebWidget extends Component {
     originalArticleButton: true,
     position: 'right',
     searchSender: () => {},
-    showBackButton: () => {},
     showCloseButton: () => {},
     style: null,
     submitTicketAvailable: true,
@@ -108,7 +108,7 @@ class WebWidget extends Component {
       this.showChat();
     } else {
       this.props.updateActiveEmbed(activeComponent);
-      this.props.showBackButton(true);
+      this.props.updateBackButtonVisibility(true);
     }
   }
 
@@ -146,7 +146,7 @@ class WebWidget extends Component {
     const {
       updateActiveEmbed,
       helpCenterAvailable,
-      showBackButton } = this.props;
+      updateBackButtonVisibility } = this.props;
 
     if (helpCenterAvailable) {
       updateActiveEmbed(helpCenter);
@@ -157,7 +157,7 @@ class WebWidget extends Component {
     } else {
       updateActiveEmbed(submitTicket);
     }
-    showBackButton(false);
+    updateBackButtonVisibility(false);
   }
 
   show = (viaActivate = false) => {
@@ -181,11 +181,11 @@ class WebWidget extends Component {
     const { articleViewActive } = helpCenterComponent.state;
 
     this.props.updateActiveEmbed(helpCenter);
-    this.props.showBackButton(articleViewActive);
+    this.props.updateBackButtonVisibility(articleViewActive);
   }
 
   onNextClick = (embed) => {
-    const { showBackButton, updateActiveEmbed, zopimOnline } = this.props;
+    const { updateBackButtonVisibility, updateActiveEmbed, zopimOnline } = this.props;
 
     if (embed) {
       this.setComponent(embed);
@@ -193,22 +193,22 @@ class WebWidget extends Component {
       this.showChat();
       // TODO: track chat started
       if (!zopimOnline) {
-        showBackButton(true);
+        updateBackButtonVisibility(true);
       }
     } else {
       updateActiveEmbed(submitTicket);
-      showBackButton(true);
+      updateBackButtonVisibility(true);
     }
   }
 
   onCancelClick = () => {
-    const { helpCenterAvailable, updateActiveEmbed, onCancel, showBackButton } = this.props;
+    const { helpCenterAvailable, updateActiveEmbed, onCancel, updateBackButtonVisibility } = this.props;
 
     if (helpCenterAvailable) {
       this.showHelpCenter();
     } else if (this.channelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
-      showBackButton(false);
+      updateBackButtonVisibility(false);
     } else {
       updateActiveEmbed('');
       onCancel();
@@ -217,22 +217,22 @@ class WebWidget extends Component {
 
   onBackClick = () => {
     const rootComponent = this.getRootComponent();
-    const { activeEmbed, helpCenterAvailable, showBackButton, updateActiveEmbed } = this.props;
+    const { activeEmbed, helpCenterAvailable, updateBackButtonVisibility, updateActiveEmbed } = this.props;
     const { selectedTicketForm, ticketForms } = this.getSubmitTicketComponent().state;
 
     this.props.onBackClick();
 
     if (activeEmbed === helpCenter) {
       rootComponent.setArticleView(false);
-      showBackButton(false);
+      updateBackButtonVisibility(false);
     } else if (selectedTicketForm && _.size(ticketForms.ticket_forms) > 1) {
       rootComponent.clearForm();
-      showBackButton(helpCenterAvailable || this.props.channelChoice);
+      updateBackButtonVisibility(helpCenterAvailable || this.props.channelChoice);
     } else if (helpCenterAvailable) {
       this.showHelpCenter();
     } else if (this.props.channelChoice) {
       updateActiveEmbed(channelChoice);
-      showBackButton(false);
+      updateBackButtonVisibility(false);
     }
   }
 
@@ -268,7 +268,7 @@ class WebWidget extends Component {
           position={this.props.position}
           buttonLabelKey={helpCenterConfig.buttonLabelKey}
           formTitleKey={helpCenterConfig.formTitleKey}
-          showBackButton={this.props.showBackButton}
+          showBackButton={this.props.updateBackButtonVisibility}
           showNextButton={false}
           showNextButtonSingleIframe={this.props.submitTicketAvailable || this.chatOnline()}
           searchSender={this.props.searchSender}
@@ -308,7 +308,7 @@ class WebWidget extends Component {
           onCancel={this.onCancelClick}
           onSubmitted={this.props.onSubmitted}
           position={submitTicketConfig.position}
-          showBackButton={this.props.showBackButton}
+          showBackButton={this.props.updateBackButtonVisibility}
           style={this.props.style}
           subjectEnabled={this.props.subjectEnabled}
           submitTicketSender={this.props.submitTicketSender}
@@ -360,6 +360,7 @@ class WebWidget extends Component {
 const actionCreators = {
   updateActiveEmbed,
   updateEmbedAccessible,
+  updateBackButtonVisibility,
   onBackClick
 };
 

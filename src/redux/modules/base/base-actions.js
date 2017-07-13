@@ -29,7 +29,7 @@ export const updateZopimOnline = (online) => {
   };
 };
 
-export const updateBackButtonVisibility = (visible) => {
+export const updateBackButtonVisibility = (visible = true) => {
   return {
     type: UPDATE_BACK_BUTTON_VISIBILITY,
     payload: visible

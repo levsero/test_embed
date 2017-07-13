@@ -74,22 +74,18 @@ class Navigation extends Component {
   render = () => {
     return (
       <div>
-        <div>
-          {this.renderNavButton({
-            onClick: this.props.handleBackClick,
-            icon: 'Icon--back',
-            position: 'left',
-            isHidden: !this.props.backButtonVisible
-          })}
-        </div>
-        <div>
-          {this.renderNavButton({
-            onClick: this.props.handleCloseClick,
-            icon: 'Icon--close',
-            position: 'right',
-            isHidden: !this.state.showCloseButton
-          })}
-        </div>
+        {this.renderNavButton({
+          onClick: this.props.handleBackClick,
+          icon: 'Icon--back',
+          position: 'left',
+          isHidden: !this.props.backButtonVisible
+        })}
+        {this.renderNavButton({
+          onClick: this.props.handleCloseClick,
+          icon: 'Icon--close',
+          position: 'right',
+          isHidden: !this.state.showCloseButton
+        })}
       </div>
     );
   }
