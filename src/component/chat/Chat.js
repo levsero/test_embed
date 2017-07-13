@@ -12,7 +12,8 @@ import { i18n } from 'service/i18n';
 import { endChat,
          sendMsg,
          setVisitorInfo,
-         updateCurrentMsg } from 'src/redux/modules/chat';
+         updateCurrentMsg,
+         sendChatRating } from 'src/redux/modules/chat';
 
 import { locals as styles } from './Chat.sass';
 
@@ -29,7 +30,8 @@ class Chat extends Component {
     setVisitorInfo: PropTypes.func.isRequired,
     style: PropTypes.object,
     updateCurrentMsg: PropTypes.func.isRequired,
-    updateFrameSize: PropTypes.func
+    updateFrameSize: PropTypes.func,
+    sendChatRating: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -87,6 +89,12 @@ class Chat extends Component {
         currentMessage={chat.currentMessage}
         sendMsg={this.props.sendMsg}
         updateCurrentMsg={this.props.updateCurrentMsg} />);
+    const chatHeader = (
+      <ChatHeader
+        rating={this.props.chat.rating}
+        updateRating={this.props.sendChatRating}
+        agents={chat.agents}
+        endChat={this.props.endChat} />);
 
     return (
       <Container
@@ -94,7 +102,7 @@ class Chat extends Component {
         position={this.props.position}>
         <ScrollContainer
           title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-          headerContent={<ChatHeader agents={chat.agents} endChat={this.props.endChat} />}
+          headerContent={chatHeader}
           headerClasses={styles.header}
           contentClasses={styles.content}
           footerClasses={styles.footer}
@@ -113,7 +121,8 @@ const actionCreators = {
   sendMsg,
   updateCurrentMsg,
   endChat,
-  setVisitorInfo
+  setVisitorInfo,
+  sendChatRating
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);
