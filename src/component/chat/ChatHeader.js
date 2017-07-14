@@ -22,9 +22,7 @@ export class ChatHeader extends Component {
   };
 
   ratingClickedHandler = (value) => {
-    const rating = this.props.rating === value
-                 ? null
-                 : value;
+    const rating = this.props.rating === value ? null : value;
 
     this.props.updateRating(rating);
   }
