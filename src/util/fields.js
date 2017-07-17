@@ -6,7 +6,6 @@ import { Dropdown } from 'component/field/Dropdown';
 import { isMobileBrowser,
          isLandscape } from 'utility/devices';
 import { Checkbox } from 'component/field/Checkbox';
-import { document } from 'utility/globals';
 
 const getCustomFields = (customFields, formState, options = {}) => {
   const isCheckbox = (field) => {
@@ -14,12 +13,9 @@ const getCustomFields = (customFields, formState, options = {}) => {
   };
   const mapFields = (field) => {
     const title = field.title_in_portal || '';
-    const frameHeight = options.frameHeight === '100%'
-                      ? document.documentElement.clientHeight
-                      : options.frameHeight;
     const sharedProps = {
       ...options,
-      frameHeight,
+      getFrameDimensions: options.getFrameDimensions,
       description: field.description,
       fullscreen: isMobileBrowser(),
       key: title,

@@ -36,6 +36,7 @@ class WebWidget extends Component {
     disableAutoComplete: PropTypes.bool,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
+    getFrameDimensions: PropTypes.func.isRequired,
     helpCenterAvailable: PropTypes.bool,
     helpCenterConfig: PropTypes.object,
     hideZendeskLogo: PropTypes.bool,
@@ -299,6 +300,7 @@ class WebWidget extends Component {
           customFields={submitTicketConfig.customFields}
           disableAutoComplete={this.props.disableAutoComplete}
           formTitleKey={submitTicketConfig.formTitleKey}
+          getFrameDimensions={this.props.getFrameDimensions}
           hideZendeskLogo={this.props.hideZendeskLogo}
           maxFileCount={submitTicketConfig.maxFileCount}
           maxFileSize={submitTicketConfig.maxFileSize}

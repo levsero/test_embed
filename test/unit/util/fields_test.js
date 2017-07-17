@@ -133,9 +133,6 @@ describe('fields', () => {
       'utility/devices': {
         isMobileBrowser: noop,
         isLandscape: noop
-      },
-      'utility/globals': {
-        document: document
       }
     });
 

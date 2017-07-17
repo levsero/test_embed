@@ -135,6 +135,10 @@ export class Frame extends Component {
     return this.child;
   }
 
+  getFrameDimensions = () => {
+    return this.state.iframeDimensions;
+  }
+
   updateFrameLocale = () => {
     const html = this.getContentDocument().documentElement;
     const direction = i18n.isRTL() ? 'rtl' : 'ltr';
@@ -337,7 +341,8 @@ export class Frame extends Component {
     // Pass down updateFrameSize to children
     const newChild = React.cloneElement(this.props.children, {
       updateFrameSize: this.updateFrameSize,
-      closeFrame: this.close
+      closeFrame: this.close,
+      getFrameDimensions: this.getFrameDimensions
     });
 
     const wrapper = (

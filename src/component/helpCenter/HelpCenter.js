@@ -518,8 +518,6 @@ export class HelpCenter extends Component {
                      ? this.renderHelpCenterMobile(buttonLabel)
                      : this.renderHelpCenterDesktop(buttonLabel);
 
-    setTimeout(() => this.props.updateFrameSize(), 0);
-
     return (
       <Container
         style={this.props.style}
