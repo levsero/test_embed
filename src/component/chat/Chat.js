@@ -12,7 +12,8 @@ import { i18n } from 'service/i18n';
 import { endChat,
          sendMsg,
          setVisitorInfo,
-         updateCurrentMsg } from 'src/redux/modules/chat';
+         updateCurrentMsg,
+         sendChatRating } from 'src/redux/modules/chat';
 
 import { locals as styles } from './Chat.sass';
 
@@ -29,7 +30,8 @@ class Chat extends Component {
     setVisitorInfo: PropTypes.func.isRequired,
     style: PropTypes.object,
     updateCurrentMsg: PropTypes.func.isRequired,
-    updateFrameSize: PropTypes.func
+    updateFrameSize: PropTypes.func,
+    sendChatRating: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -78,15 +80,31 @@ class Chat extends Component {
     );
   }
 
-  render = () => {
-    setTimeout(() => this.props.updateFrameSize(), 0);
+  renderChatBox = () => {
+    const { chat, sendMsg, updateCurrentMsg } = this.props;
 
-    const { chat } = this.props;
-    const chatBox = (
+    return (
       <ChatBox
         currentMessage={chat.currentMessage}
-        sendMsg={this.props.sendMsg}
-        updateCurrentMsg={this.props.updateCurrentMsg} />);
+        sendMsg={sendMsg}
+        updateCurrentMsg={updateCurrentMsg} />
+    );
+  }
+
+  renderChatHeader = () => {
+    const { chat, sendChatRating, endChat } = this.props;
+
+    return (
+      <ChatHeader
+        rating={chat.rating}
+        updateRating={sendChatRating}
+        agents={chat.agents}
+        endChat={endChat} />
+    );
+  }
+
+  render = () => {
+    setTimeout(() => this.props.updateFrameSize(), 0);
 
     return (
       <Container
@@ -94,11 +112,11 @@ class Chat extends Component {
         position={this.props.position}>
         <ScrollContainer
           title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-          headerContent={<ChatHeader agents={chat.agents} endChat={this.props.endChat} />}
+          headerContent={this.renderChatHeader()}
           headerClasses={styles.header}
           contentClasses={styles.content}
           footerClasses={styles.footer}
-          footerContent={chatBox}>
+          footerContent={this.renderChatBox()}>
           <div className={styles.messages}>
             {this.renderChatLog()}
             {this.renderChatEnded()}
@@ -113,7 +131,8 @@ const actionCreators = {
   sendMsg,
   updateCurrentMsg,
   endChat,
-  setVisitorInfo
+  setVisitorInfo,
+  sendChatRating
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);
