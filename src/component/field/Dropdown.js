@@ -19,7 +19,7 @@ export class Dropdown extends Component {
       PropTypes.string
     ]).isRequired,
     fullscreen: PropTypes.bool,
-    getFrameDimensions: PropTypes.func,
+    getFrameDimensions: PropTypes.func.isRequired,
     landscape: PropTypes.bool,
     description: PropTypes.string,
     onChange: PropTypes.func,
@@ -32,7 +32,7 @@ export class Dropdown extends Component {
   static defaultProps = {
     fullscreen: false,
     getFrameDimensions: () => {
-      return { height: 500, width: 500 };
+      return { height: 500, width: 342 };
     },
     landscape: false,
     description: '',
