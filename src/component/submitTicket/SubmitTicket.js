@@ -23,7 +23,7 @@ export class SubmitTicket extends Component {
     attachmentSender: PropTypes.func.isRequired,
     disableAutoComplete: PropTypes.bool,
     formTitleKey: PropTypes.string.isRequired,
-    getFrameDimensions: PropTypes.func,
+    getFrameDimensions: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
     maxFileCount: PropTypes.number,
     maxFileSize: PropTypes.number,
@@ -45,9 +45,6 @@ export class SubmitTicket extends Component {
   static defaultProps = {
     attachmentsEnabled: false,
     disableAutoComplete: false,
-    getFrameDimensions: () => {
-      return { height: 500, width: 500 };
-    },
     hideZendeskLogo: false,
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024,

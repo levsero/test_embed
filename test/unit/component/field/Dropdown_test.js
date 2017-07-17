@@ -243,7 +243,7 @@ describe('dropdown component', () => {
       });
     });
 
-    describe('when height is < frameHeight / 2', () => {
+    describe('when height is less that half of the frame height', () => {
       beforeEach(() => {
         const getFrameDimensions = () => { return { height: 100 }; };
 
@@ -258,7 +258,7 @@ describe('dropdown component', () => {
       });
     });
 
-    describe('when height is > frameHeight / 2', () => {
+    describe('when height is greater than half the frame height', () => {
       beforeEach(() => {
         const getFrameDimensions = () => { return { height: 100 }; };
 
@@ -273,7 +273,7 @@ describe('dropdown component', () => {
       });
     });
 
-    describe('when frameHeight is 100%', () => {
+    describe('when the frame height is 100%', () => {
       beforeEach(() => {
         const getFrameDimensions = () => { return { height: '100%' }; };
 
@@ -282,7 +282,7 @@ describe('dropdown component', () => {
         dropdown.setState({ open: true });
       });
 
-      it('should use the client height vaue and have menu down classes', () => {
+      it('should use the client height vaue and have menu up classes', () => {
         expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuUpClasses'))
           .not.toBeNull();
       });

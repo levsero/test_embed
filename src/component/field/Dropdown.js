@@ -264,11 +264,11 @@ export class Dropdown extends Component {
     const mobileClasses = this.props.fullscreen ? styles.menuContainerMobile : '';
 
     // If the dropdown is below half the height of the frame have it open up.
-    const frameHeight = this.props.getFrameDimensions().height;
-    const height = frameHeight === '100%'
+    const frameDimensions = this.props.getFrameDimensions();
+    const frameHeight = frameDimensions.height === '100%'
                  ? document.documentElement.clientHeight
-                 : frameHeight;
-    const posClasses = this.height > height/2 ? styles.menuUp : '';
+                 : frameDimensions.height;
+    const posClasses = this.height > frameHeight/2 ? styles.menuUp : '';
 
     return (
       <div className={`${styles.menuContainer} ${posClasses} ${mobileClasses}`}>
