@@ -631,7 +631,8 @@ function setUpChat(config, store) {
 
   config = _.extend({}, chatConfigDefaults, config);
 
-  zChat.init({ account_key: config.zopimId }); // eslint-disable-line camelcase
+  // zChat.init({ account_key: config.zopimId, override_proxy: 'us902.zopim.org' }); // eslint-disable-line camelcase
+  zChat.init({ override_proxy: 'us902.zopim.org', account_key: config.zopimId }); // eslint-disable-line camelcase
 
   zChat.getFirehose().on('data', (data) => {
     const actionType = data.detail.type ? `websdk/${data.detail.type}` : `websdk/${data.type}`;
