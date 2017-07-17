@@ -17,7 +17,6 @@ export class ChatHeader extends Component {
 
   static defaultProps = {
     agents: {},
-    endChat: () => {},
     rating: null
   };
 

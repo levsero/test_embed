@@ -21,10 +21,6 @@ describe('ChatHeader component', () => {
       },
       'component/button/ButtonIcon': {
         ButtonIcon: class extends Component {
-          constructor(props) {
-            super(props);
-          }
-
           render = () => {
             return (
               <div className={`${this.props.icon} ${this.props.className}`} />
