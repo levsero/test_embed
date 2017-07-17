@@ -192,6 +192,7 @@ function create(name, config = {}, reduxStore = {}) {
     },
     store: reduxStore,
     visible: false,
+    useBackButton: true,
     onShow,
     name: name,
     afterShowAnimate,

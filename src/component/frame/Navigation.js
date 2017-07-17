@@ -20,8 +20,8 @@ class Navigation extends Component {
     handleCloseClick: PropTypes.func,
     hideCloseButton: PropTypes.bool,
     backButtonVisible: PropTypes.bool,
+    useBackButton: PropTypes.bool,
     updateBackButtonVisibility: PropTypes.func
-
   };
 
   static defaultProps = {
@@ -30,6 +30,7 @@ class Navigation extends Component {
     handleCloseClick: () => {},
     hideCloseButton: false,
     backButtonVisible: false,
+    useBackButton: false,
     updateBackButtonVisibility: () => {}
   };
 
@@ -78,7 +79,7 @@ class Navigation extends Component {
           onClick: this.props.handleBackClick,
           icon: 'Icon--back',
           position: 'left',
-          isHidden: !this.props.backButtonVisible
+          isHidden: !this.props.backButtonVisible || !this.props.useBackButton
         })}
         {this.renderNavButton({
           onClick: this.props.handleCloseClick,

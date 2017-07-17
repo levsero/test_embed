@@ -11,7 +11,6 @@ import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
          updateEmbedAccessible,
          updateBackButtonVisibility } from 'src/redux/modules/base';
-import { onBackClick } from 'src/redux/modules/root';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
@@ -220,8 +219,6 @@ class WebWidget extends Component {
     const { activeEmbed, helpCenterAvailable, updateBackButtonVisibility, updateActiveEmbed } = this.props;
     const { selectedTicketForm, ticketForms } = this.getSubmitTicketComponent().state;
 
-    this.props.onBackClick();
-
     if (activeEmbed === helpCenter) {
       rootComponent.setArticleView(false);
       updateBackButtonVisibility(false);
@@ -360,8 +357,7 @@ class WebWidget extends Component {
 const actionCreators = {
   updateActiveEmbed,
   updateEmbedAccessible,
-  updateBackButtonVisibility,
-  onBackClick
+  updateBackButtonVisibility
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);

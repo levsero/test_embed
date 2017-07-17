@@ -55,6 +55,7 @@ export class Frame extends Component {
     onShow: PropTypes.func,
     position: PropTypes.string,
     preventClose: PropTypes.bool,
+    useBackButton: PropTypes.bool,
     transitions: PropTypes.object,
     visible: PropTypes.bool
   }
@@ -76,6 +77,7 @@ export class Frame extends Component {
     onShow: () => {},
     position: 'right',
     preventClose: false,
+    useBackButton: false,
     transitions: {},
     visible: true
   }
@@ -346,6 +348,7 @@ export class Frame extends Component {
         reduxStore={this.props.store}
         handleBackClick={this.back}
         handleCloseClick={this.close}
+        useBackButton={this.props.useBackButton}
         updateFrameSize={this.updateFrameSize}
         hideCloseButton={this.props.hideCloseButton}
         name={this.props.name}
