@@ -159,7 +159,7 @@ parts:
       key: "embeddable_framework.chat.chatLog.isTyping"
       title: "An application notifier that signifies that an X person is typing a message"
       screenshot: "https://zendesk.box.com/s/wfm8pdh37ft1kpil1jaaghuo8om5w5wl"
-      value: "is typing..."
+      value: "{{agent}} is typing..."
   - translation:
       key: "embeddable_framework.chat.chatLog.resend"
       title: "A text displayed on a link or a button that allows the user to resend an unsent message due to disconnection or other circumstances"
@@ -254,7 +254,7 @@ parts:
       key: "embeddable_framework.chat.button.manyMessages"
       title: "A button that displays a variable amount of new messages as a notification. When clicked it brings the user to a chat session in another window"
       screenshot: "https://zendesk.box.com/s/6ygpe29dvmecfxtrdki787km6yywl3ff"
-      value: "New Messages"
+      value: "{{plural_number}} New Messages"
   - translation:
       key: "embeddable_framework.chat.chatBox.placeholder.typeMessageHere"
       title: "A placeholder text that is displayed in the chat box when there is no content"
@@ -264,7 +264,7 @@ parts:
       key: "embeddable_framework.chat.agentList.button.backToChat"
       title: "A button that is presented at the bottom of the window when the user wants to go back to chatting"
       screenshot: "https://zendesk.box.com/s/7py8p1xvv56q7bc053rsnvs6id1rraet"
-      value: "Back to Chat"
+      value: "Back to chat"
 
   # Submit Ticket component
   - translation:
