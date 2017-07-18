@@ -70,7 +70,7 @@ window.zESettings = {
 
 ### Contact options settings
 
-The widget's `contactOptions` object, which represents an element that lets the user choose between starting a chat or submitting a ticket, has the following settings:
+The widget's `contactOptions` object, which represents a component that lets the user choose between starting a chat or submitting a ticket, has the following settings:
 
 * enabled (Boolean)
 * [contactButton](#contactbutton)
@@ -98,7 +98,7 @@ window.zESettings = {
 
 ### Help Center settings
 
-The widget's `helpCenter` object, which represents the Help Center element, has the following settings:
+The widget's `helpCenter` object, which represents the Help Center component, has the following settings:
 
 * [chatButton](#chatbutton)
 * [filter](#filter)
@@ -129,7 +129,7 @@ window.zESettings = {
 
 ### Chat settings
 
-The widget's `chat` object, which represents the Chat element, has the following setting:
+The widget's `chat` object, which represents the Chat component, has the following setting:
 
 * [suppress](#suppress)
 
@@ -333,7 +333,7 @@ window.zESettings = {
 
 #### chatLabelOffline
 
-Replaces the default string that informs the user that chat is unavailable when the user is given the options of starting a chat or submitting a ticket.
+Replaces the default string that informs the user that chat is unavailable when [contactOptions](#contact-options-settings) is enabled.
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
@@ -366,7 +366,7 @@ window.zESettings = {
 
 #### chatLabelOnline
 
-Replaces the default string of the link that lets a user start a chat when the user is given the options of starting a chat or submitting a ticket.
+Replaces the default string of the link that lets a user start a chat when [contactOptions](#contact-options-settings) is enabled.
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
@@ -419,7 +419,7 @@ window.zESettings = {
 
 #### contactButton
 
-Replaces the default string on the button that opens the contact options element, which lets the user choose between starting a chat or submitting a ticket.
+Replaces the default string on the button that opens the contact options component, which lets the user choose between starting a chat or submitting a ticket.
 
 ![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_contact_options.png)
 
@@ -453,7 +453,7 @@ window.zESettings = {
 
 #### contactFormLabel
 
-Replaces the default string of the link that lets the user submit a ticket when the user is given the options of starting a chat or submitting a ticket.
+Replaces the default string of the link that lets the user submit a ticket when [contactOptions](#contact-options-settings) is enabled.
 
 You can use different strings for different locales or use one string for all locales by using an asterisk (\*) for the locale. You can also use the asterisk to specify a fallback string in case the browser isn't set to a listed locale.
 
