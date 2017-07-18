@@ -1,11 +1,20 @@
 @import '../../styles/_vars.scss';
 
 .input {
-  composes: u-inlineBlock u-marginRS u-alignBottom from global;
-  width: #{210/$font-size}rem;
+  composes: u-alignBottom from global;
+
+  textarea {
+    height: #{33/$font-size}rem;
+
+    &:focus::placeholder {
+      color: $zd-color-gainsboro;
+    }
+    &::placeholder {
+      color: darken($zd-color-gainsboro, 20%);
+    }
+  }
 }
 
 .button {
   composes: u-inlineBlock from global;
 }
-

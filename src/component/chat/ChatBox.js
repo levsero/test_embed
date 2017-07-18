@@ -23,10 +23,28 @@ export class ChatBox extends Component {
     this.props.updateCurrentMsg('');
   }
 
+  handleKeyPress = (e) => {
+    if(e.key == 'Enter') {
+      this.handleSendClick();
+      e.preventDefault();
+    }
+  }
+
   handleChange = (e) => {
     const { value } = e.target;
 
     this.props.updateCurrentMsg(value);
+  }
+
+  chatBoxTextarea = () => {
+    const placeholder = i18n.t('embeddable_framework.chat.chatBox.placeholder.typeMessageHere', {
+      fallback: 'Type a message here…'
+    });
+
+    return <textarea
+      onKeyPress={this.handleKeyPress}
+      placeholder={placeholder}
+      rows="3" />
   }
 
   render = () => {
@@ -34,14 +52,11 @@ export class ChatBox extends Component {
       <div>
         <div className={styles.input}>
           <Field
+            input={this.chatBoxTextarea()}
             onChange={this.handleChange}
             name='chatBox'
             value={this.props.currentMessage} />
         </div>
-        <ButtonSecondary
-          onClick={this.handleSendClick}
-          className={styles.button}
-          label={i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')} />
       </div>
     );
   }
