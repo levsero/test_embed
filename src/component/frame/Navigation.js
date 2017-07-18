@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { ButtonNav } from 'component/button/ButtonNav';
 import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
-import { updateBackButtonVisibility } from 'src/redux/modules/base';
 
 const mapStateToProps = (state) => {
   return {
@@ -20,8 +19,7 @@ class Navigation extends Component {
     handleCloseClick: PropTypes.func,
     hideCloseButton: PropTypes.bool,
     backButtonVisible: PropTypes.bool,
-    useBackButton: PropTypes.bool,
-    updateBackButtonVisibility: PropTypes.func
+    useBackButton: PropTypes.bool
   };
 
   static defaultProps = {
@@ -30,8 +28,7 @@ class Navigation extends Component {
     handleCloseClick: () => {},
     hideCloseButton: false,
     backButtonVisible: false,
-    useBackButton: false,
-    updateBackButtonVisibility: () => {}
+    useBackButton: false
   };
 
   constructor(props, context) {
@@ -44,17 +41,12 @@ class Navigation extends Component {
     this.embed = null;
   }
 
-  // For backwards compatibility
-  showBackButton = (show = true) => {
-    this.props.updateBackButtonVisibility(show);
-  }
-
   showCloseButton = (show = true) => {
     this.setState({ showCloseButton: show });
   }
 
   renderNavButton = (options = {}) => {
-    if (options.isHidden) return;
+    if (!options.isVisible) return;
 
     return (
       <ButtonNav
@@ -79,21 +71,17 @@ class Navigation extends Component {
           onClick: this.props.handleBackClick,
           icon: 'Icon--back',
           position: 'left',
-          isHidden: !this.props.backButtonVisible || !this.props.useBackButton
+          isVisible: this.props.backButtonVisible && this.props.useBackButton
         })}
         {this.renderNavButton({
           onClick: this.props.handleCloseClick,
           icon: 'Icon--close',
           position: 'right',
-          isHidden: !this.state.showCloseButton
+          isVisible: this.state.showCloseButton
         })}
       </div>
     );
   }
 }
 
-const actionCreators = {
-  updateBackButtonVisibility
-};
-
-export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Navigation);
+export default connect(mapStateToProps, {}, null, { withRef: true })(Navigation);
