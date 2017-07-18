@@ -1,6 +1,5 @@
 describe('Navigation', () => {
-  let Navigation,
-    mockIsRTL;
+  let Navigation;
 
   const navigationPath = buildSrcPath('component/frame/Navigation');
 
@@ -8,8 +7,6 @@ describe('Navigation', () => {
     resetDOM();
 
     mockery.enable();
-
-    mockIsRTL = false;
 
     initMockRegistry({
       'React': React,
@@ -26,7 +23,7 @@ describe('Navigation', () => {
       },
       'service/i18n': {
         i18n: {
-          isRTL: () => mockIsRTL
+          isRTL: () => false
         }
       },
       'component/Icon': {
