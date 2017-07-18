@@ -478,6 +478,27 @@ describe('Frame', () => {
         .toHaveBeenCalled();
     });
 
+    describe('without animation', () => {
+      beforeEach(() => {
+        mockOnHide = jasmine.createSpy('onHide');
+
+        frame = domRender(<Frame onHide={mockOnHide}>{mockChild}</Frame>);
+
+        frame.setState({ visible: true });
+        frame.hide({ transition: 'none' });
+      });
+
+      it('sets `visible` state to false right away', () => {
+        expect(frame.state.visible)
+          .toEqual(false);
+      });
+
+      it('triggers props.onHide right away', () => {
+        expect(mockOnHide)
+          .toHaveBeenCalled();
+      });
+    });
+
     describe('with animation', () => {
       beforeEach(() => {
         frameProps = {
