@@ -87,7 +87,7 @@ const resetActiveEmbed = () => {
   } else if (submitTicketAvailable()) {
     state.activeEmbed = submitTicket;
   } else {
-    c.broadcast(`${launcher}.hide`);
+    c.broadcast(`${launcher}.hide`, { transition: 'none' });
   }
 };
 
@@ -596,6 +596,7 @@ function initMessaging() {
     state[`${helpCenter}.isAccessible`] = true;
     if (!embedVisible(state) && state[`${helpCenter}.isAccessible`]) {
       resetActiveEmbed();
+      c.broadcast(`${launcher}.show`);
     }
 
     c.broadcast(`${helpCenter}.isAuthenticated`);
