@@ -5,6 +5,18 @@ packages:
   - enduser_widget
 
 parts:
+  # Common
+  - translation:
+      key: "embeddable_framework.common.button.cancel"
+      title: "A generic label to describe the button's action to cancel something. e.g cancel a form, action, etc"
+      screenshot: "https://zendesk.box.com/s/3514kju8pwjj7mz5i4qq92obfr1vq88j"
+      value: "Cancel"
+  - translation:
+      key: "embeddable_framework.common.button.send"
+      title: "A generic label to describe the button's action to send something. e.g send a form (not submit), action, etc"
+      screenshot: "https://zendesk.box.com/s/d01wl1cw7rjr4f3euac0wh8jnlrgn82w"
+      value: "Send"
+
   # Launcher embed
   - translation:
       key: "embeddable_framework.launcher.label.help"
@@ -80,11 +92,6 @@ parts:
       title: "A greyed-out placeholder text that is displayed on the email field when the user has not typed anything"
       screenshot: "https://zendesk.box.com/s/wsbiu5y46j43s2hcoecx5moys7ijohvy"
       value: "Email"
-  - translation:
-      key: "embeddable_framework.chat.form.editContact.button.cancel"
-      title: "A text that is shown on a button when the user would like to cancel editing the current form"
-      screenshot: "https://zendesk.box.com/s/3514kju8pwjj7mz5i4qq92obfr1vq88j"
-      value: "Cancel"
   - translation:
       key: "embeddable_framework.chat.preChat.online.button.startChat"
       title: "A button in the pre-chat form that is enabled once the user has filled in the required chat details"
@@ -211,11 +218,6 @@ parts:
       screenshot: "https://zendesk.box.com/s/h92r7wfca8hvcp38f8pebx4eec50d5vl"
       value: "Skip"
   - translation:
-      key: "embeddable_framework.chat.postChat.rating.button.send"
-      title: "A text that is displayed on a button that provides the user with the option to send the rating form"
-      screenshot: "https://zendesk.box.com/s/d01wl1cw7rjr4f3euac0wh8jnlrgn82w"
-      value: "Send"
-  - translation:
       key: "embeddable_framework.chat.postChat.button.startNewChat"
       title: "A button that is presented once the user has previously ended chat but they are still present in the chat window"
       screenshot: "https://zendesk.box.com/s/ld5xaqrpejbmyy9bfv8le2gk9o23m6zd"
@@ -225,16 +227,6 @@ parts:
       title: "The title of the form modal that is shown when the user would like to email chat transcript"
       screenshot: "https://zendesk.box.com/s/tauvmgi9m45o25lpxd339vbvj88fm5oo"
       value: "Email chat transcript"
-  - translation:
-      key: "embeddable_framework.chat.form.emailTranscript.button.cancel"
-      title: "A text that is displayed on a button. When clicked it will exit the current form which will then show the full chat window."
-      screenshot: "https://zendesk.box.com/s/pwcg31a9sgsbb0norbcwo9evw0uys0lu"
-      value: "Cancel"
-  - translation:
-      key: "embeddable_framework.chat.form.emailTranscript.button.send"
-      title: "A text that is displayed on a button. When clicked it will save the current form which will then show the full chat window."
-      screenshot: "https://zendesk.box.com/s/is23dhcskwly4qsvtvg9wwggqelsr0jg"
-      value: "Send"
   - translation:
       key: "embeddable_framework.chat.popup.button.dismiss"
       title: "A text that is displayed on a button that provides the user to dismiss the current chat popup notification"
