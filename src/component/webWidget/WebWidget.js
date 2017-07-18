@@ -96,6 +96,7 @@ class WebWidget extends Component {
     tags: [],
     ticketFieldSettings: [],
     ticketFormSettings: [],
+    updateBackButtonVisibility: () => {},
     updateFrameSize: () => {},
     zopimOnline: false,
     zopimOnNext: () => {},
