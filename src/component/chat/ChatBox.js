@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { ButtonSecondary } from 'component/button/ButtonSecondary';
 import { Field } from 'component/field/Field';
 import { i18n } from 'service/i18n';
+import { keyCodes } from 'utility/keyboard';
 
 import { locals as styles } from './ChatBox.sass';
 
@@ -23,8 +24,8 @@ export class ChatBox extends Component {
     this.props.updateCurrentMsg('');
   }
 
-  handleKeyPress = (e) => {
-    if(e.key == 'Enter') {
+  handleKeyDown = (e) => {
+    if(e.keyCode == keyCodes.ENTER && !e.shiftKey) {
       this.handleSendClick();
       e.preventDefault();
     }
@@ -42,7 +43,7 @@ export class ChatBox extends Component {
     });
 
     return <textarea
-      onKeyPress={this.handleKeyPress}
+      onKeyDown={this.handleKeyDown}
       placeholder={placeholder}
       rows="3" />
   }
