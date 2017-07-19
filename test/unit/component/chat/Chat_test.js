@@ -34,6 +34,9 @@ describe('Chat component', () => {
       },
       'service/i18n': {
         i18n: { t: noop }
+      },
+      'utility/devices': {
+        isMobileBrowser: () => true
       }
     });
 
