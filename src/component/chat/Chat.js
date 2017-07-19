@@ -7,6 +7,7 @@ import { ChatBox } from 'component/chat/ChatBox';
 import { ChatFooter } from 'component/chat/ChatFooter';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ChatMessage } from 'component/chat/ChatMessage';
+import { ChatMenu } from 'component/chat/ChatMenu';
 import { Container } from 'component/container/Container';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
@@ -47,7 +48,9 @@ class Chat extends Component {
 
     // Guard against WebWidget from accessing random
     // state attributes when state is not defined
-    this.state = {};
+    this.state = {
+      showMenu: false
+    };
   }
 
   updateUser = (user) => {
@@ -55,6 +58,14 @@ class Chat extends Component {
       display_name: user.name || '', // eslint-disable-line camelcase
       email: user.email || ''
     });
+  }
+
+  showMenu = (showMenu = true) => {
+    this.setState({ showMenu });
+  }
+
+  onContainerClick = () => {
+    this.showMenu(false);
   }
 
   renderChatLog = () => {
@@ -82,7 +93,14 @@ class Chat extends Component {
     );
   }
 
-  renderChatBox = () => {
+  renderChatMenu = () => {
+    if (!this.state.showMenu) return;
+
+    return (
+      <ChatMenu />
+    );
+  }
+
   renderChatFooter = () => {
     const { chat, sendMsg, updateCurrentMsg } = this.props;
 
@@ -120,6 +138,7 @@ class Chat extends Component {
 
     return (
       <Container
+        onClick={this.onContainerClick}
         style={this.props.style}
         position={this.props.position}>
         <ScrollContainer
@@ -134,6 +153,7 @@ class Chat extends Component {
             {this.renderChatEnded()}
           </div>
         </ScrollContainer>
+        {this.renderChatMenu()}
       </Container>
     );
   }
