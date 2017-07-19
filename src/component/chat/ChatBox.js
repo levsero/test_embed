@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { ButtonSecondary } from 'component/button/ButtonSecondary';
 import { Field } from 'component/field/Field';
 import { i18n } from 'service/i18n';
 import { keyCodes } from 'utility/keyboard';
@@ -25,7 +24,7 @@ export class ChatBox extends Component {
   }
 
   handleKeyDown = (e) => {
-    if(e.keyCode == keyCodes.ENTER && !e.shiftKey) {
+    if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
       this.handleSendClick();
       e.preventDefault();
     }
@@ -42,10 +41,10 @@ export class ChatBox extends Component {
       fallback: 'Type a message here…'
     });
 
-    return <textarea
+    return (<textarea
       onKeyDown={this.handleKeyDown}
       placeholder={placeholder}
-      rows="3" />
+      rows="3" />);
   }
 
   render = () => {

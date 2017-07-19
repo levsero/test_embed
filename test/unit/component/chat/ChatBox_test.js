@@ -81,7 +81,7 @@ describe('ChatBox component', () => {
 
   describe('handleKeyDown', () => {
     let component, updateCurrentMsgSpy, sendMsgSpy;
-    let event = { keyCode: 13, preventDefault: () => { return false }}
+    let event = { keyCode: 13, preventDefault: () => { return false; }};
 
     beforeEach(() => {
       updateCurrentMsgSpy = jasmine.createSpy();
