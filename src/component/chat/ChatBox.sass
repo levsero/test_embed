@@ -11,11 +11,18 @@
   textarea { /* 1 */
     height: #{33/$font-size}rem;
 
-    &:focus::placeholder {
+    &::placeholder {
       color: $zd-color-gainsboro;
     }
-    &::placeholder {
-      color: darken($zd-color-gainsboro, 20%);
+
+    &::-webkit-scrollbar {
+      margin-right: 2px;
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $base-border-color;
+      border-radius: 2px;
     }
   }
 }
