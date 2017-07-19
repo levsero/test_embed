@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { ChatBox } from 'component/chat/ChatBox';
+import { ChatFooter } from 'component/chat/ChatFooter';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ChatMessage } from 'component/chat/ChatMessage';
 import { Container } from 'component/container/Container';
@@ -82,13 +83,17 @@ class Chat extends Component {
   }
 
   renderChatBox = () => {
+  renderChatFooter = () => {
     const { chat, sendMsg, updateCurrentMsg } = this.props;
 
     return (
-      <ChatBox
-        currentMessage={chat.currentMessage}
-        sendMsg={sendMsg}
-        updateCurrentMsg={updateCurrentMsg} />
+      <ChatFooter
+        showMenu={this.showMenu}>
+        <ChatBox
+          currentMessage={chat.currentMessage}
+          sendMsg={sendMsg}
+          updateCurrentMsg={updateCurrentMsg} />
+      </ChatFooter>
     );
   }
 
@@ -123,7 +128,7 @@ class Chat extends Component {
           headerClasses={styles.header}
           containerClasses={this.containerClasses()}
           footerClasses={styles.footer}
-          footerContent={this.renderChatBox()}>
+          footerContent={this.renderChatFooter()}>
           <div className={styles.messages}>
             {this.renderChatLog()}
             {this.renderChatEnded()}
