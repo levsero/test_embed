@@ -110,7 +110,7 @@ describe('base redux actions', () => {
         .toEqual(actionTypes.UPDATE_BACK_BUTTON_VISIBILITY);
     });
 
-    it('has the value in the payload', () => {
+    it('has the value of true in the payload', () => {
       expect(action.payload)
         .toEqual(true);
     });

@@ -40,12 +40,8 @@ export class EmbedWrapper extends Component {
     this.nav = null;
   }
 
-  showBackButton = (show = true) => {
-    this.nav.getWrappedInstance().showBackButton(show);
-  }
-
   showCloseButton = (show = true) => {
-    this.nav.getWrappedInstance().showBackButton(show);
+    this.nav.getWrappedInstance().showCloseButton(show);
   }
 
   setButtonColor = (color) => {

@@ -21,7 +21,7 @@ describe('base reducer back button', () => {
   });
 
   describe('initial state', () => {
-    it('is set to false', () => {
+    it('has a visible property set to false', () => {
       expect(initialState)
         .toEqual({ visible: false });
     });
@@ -37,7 +37,7 @@ describe('base reducer back button', () => {
       });
     });
 
-    it('sets the action payload as the state', () => {
+    it('sets the action payload as the state of the visible property', () => {
       expect(state)
         .toEqual({ visible: true });
     });

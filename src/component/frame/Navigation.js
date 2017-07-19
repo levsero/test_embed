@@ -31,8 +31,8 @@ class Navigation extends Component {
     useBackButton: false
   };
 
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
     this.state = {
       showCloseButton: !props.hideCloseButton
