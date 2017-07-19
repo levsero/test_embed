@@ -45,7 +45,7 @@ export class ChatBox extends Component {
       <textarea
         onKeyDown={this.handleKeyDown}
         placeholder={placeholder}
-        rows="3" />);
+        rows='3' />);
   }
 
   render = () => {
