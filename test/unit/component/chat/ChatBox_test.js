@@ -80,8 +80,9 @@ describe('ChatBox component', () => {
   });
 
   describe('handleKeyDown', () => {
+    const keyCodes = { enter: 13, a: 65 };
     let component, updateCurrentMsgSpy, sendMsgSpy;
-    let event = { keyCode: 13, preventDefault: () => { return false; }};
+    let event = { keyCode: keyCodes.enter, preventDefault: () => false };
 
     beforeEach(() => {
       updateCurrentMsgSpy = jasmine.createSpy();
@@ -116,7 +117,7 @@ describe('ChatBox component', () => {
 
     describe('when the user presses any other key', () =>{
       it('does not send the message', () => {
-        event = _.merge(event, { keyCode: 65 });
+        event = _.merge(event, { keyCode: keyCodes.a });
         component.handleKeyDown(event);
 
         expect(sendMsgSpy)

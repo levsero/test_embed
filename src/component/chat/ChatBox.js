@@ -41,10 +41,11 @@ export class ChatBox extends Component {
       fallback: 'Type a message here…'
     });
 
-    return (<textarea
-      onKeyDown={this.handleKeyDown}
-      placeholder={placeholder}
-      rows="3" />);
+    return (
+      <textarea
+        onKeyDown={this.handleKeyDown}
+        placeholder={placeholder}
+        rows="3" />);
   }
 
   render = () => {
