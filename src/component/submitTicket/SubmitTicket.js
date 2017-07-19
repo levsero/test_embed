@@ -447,6 +447,8 @@ export class SubmitTicket extends Component {
   }
 
   render = () => {
+    setTimeout(() => this.props.updateFrameSize(), 0);
+
     const content = (_.isEmpty(this.state.ticketForms) || this.state.selectedTicketForm)
                   ? this.renderForm()
                   : this.renderTicketFormList();
