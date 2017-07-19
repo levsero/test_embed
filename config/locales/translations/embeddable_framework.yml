@@ -193,11 +193,6 @@ parts:
       screenshot: "https://zendesk.box.com/s/pkzhz6n8nzte7jnu20j8ry0vaadpk9qp"
       value: "End"
   - translation:
-      key: "embeddable_framework.chat.form.endChat.button.cancel"
-      title: "A text that is shown on a button when the user would like to cancel the option to end the current chat"
-      screenshot: "https://zendesk.box.com/s/0zt5z8d9st5z3rajay79tw934h8pjaey"
-      value: "Cancel"
-  - translation:
       key: "embeddable_framework.chat.postChat.rating.title"
       title: "A title text describing the intent of the following section, it asks if the user would like to rate the prior chat session"
       screenshot: "https://zendesk.box.com/s/v26vtuxkv2uvlr0edh6qxs1aetrttny8"
@@ -445,7 +440,7 @@ parts:
   - translation:
       key: "embeddable_framework.helpCenter.results.button.backToChat"
       title: "A button that is displayed at the bottom when the user has chatted prior viewing the current helpcenter article"
-      screenshot: "https://zendesk.box.com/s/hwnj05oekio3nty673xmgs87w072n27d"
+      screenshot: "https://zendesk.box.com/s/bgy6121lonubzyv7yj3xvbvrelc5om15"
       value: "Back to Chat"
 
   # Mobile
