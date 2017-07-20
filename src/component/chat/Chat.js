@@ -104,11 +104,14 @@ class Chat extends Component {
     );
   }
 
+  containerClasses = () => {
+    return isMobileBrowser()
+           ? styles.containerMobile
+           : styles.container;
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
-    const containerClasses = isMobileBrowser()
-                           ? styles.containerMobile
-                           : styles.container;
 
     return (
       <Container
@@ -118,7 +121,7 @@ class Chat extends Component {
           title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
           headerContent={this.renderChatHeader()}
           headerClasses={styles.header}
-          containerClasses={containerClasses}
+          containerClasses={this.containerClasses()}
           footerClasses={styles.footer}
           footerContent={this.renderChatBox()}>
           <div className={styles.messages}>

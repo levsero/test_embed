@@ -1,16 +1,21 @@
 const Map = require(buildSrcPath('vendor/es6-map.js')).Map;
 
 describe('Chat component', () => {
-  let Chat;
+  let Chat, mockIsMobileBrowserValue;
+
   const chatPath = buildSrcPath('component/chat/Chat');
 
   beforeEach(() => {
     resetDOM();
     mockery.enable();
 
+    mockIsMobileBrowserValue = true;
+
     initMockRegistry({
       './Chat.sass': {
-        locals: {}
+        locals: {
+          containerMobile: 'containerMobileClasses'
+        }
       },
       'component/chat/ChatBox': {
         ChatBox: noopReactComponent()
@@ -36,7 +41,7 @@ describe('Chat component', () => {
         i18n: { t: noop }
       },
       'utility/devices': {
-        isMobileBrowser: () => true
+        isMobileBrowser: () => mockIsMobileBrowserValue
       }
     });
 
@@ -130,6 +135,28 @@ describe('Chat component', () => {
       it('should display chat end message', () => {
         expect(component.renderChatEnded())
           .not.toBeUndefined();
+      });
+    });
+
+    describe('Chat styles', () => {
+      describe('for mobile devices', () => {
+        it('it adds a class specific to it', () => {
+          mockIsMobileBrowserValue = true;
+          component = domRender(<Chat chat={chatProp} />);
+
+          expect(component.containerClasses())
+            .toEqual('containerMobileClasses');
+        });
+      });
+
+      describe('for desktop devices', () => {
+        it('does not add a class specific to it', () => {
+          mockIsMobileBrowserValue = false;
+          component = domRender(<Chat chat={chatProp} />);
+
+          expect(component.containerClasses())
+            .toBeUndefined();
+        });
       });
     });
   });
