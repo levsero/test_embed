@@ -19,7 +19,7 @@ const icons = {
   'Icon--circleTick-small': require('icons/widget-icon_circle_tick_small.svg'),
   'Icon--clearInput': require('icons/widget-icon_clearInput.svg'),
   'Icon--close': require('icons/widget-icon_close.svg'),
-  'Icon--ellipsis': require('icons/widget-ellipses.svg'),
+  'Icon--ellipsis': require('icons/widget-icon_ellipsis.svg'),
   'Icon--link': require('icons/widget-icon_link.svg'),
   'Icon--paperclip-large': require('zd-svg-icons/src/14-attachment.svg'),
   'Icon--paperclip-small': require('zd-svg-icons/src/14-attachment.svg'),

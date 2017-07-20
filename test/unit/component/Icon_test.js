@@ -15,6 +15,7 @@ describe('Icon component', function() {
 
     initMockRegistry({
       'React': React,
+      'icons/widget-icon_ellipsis.svg': DummyIcon,
       'icons/widget-icon_concierge.svg': DummyIcon,
       'icons/widget-icon_back.svg': DummyIcon,
       'icons/widget-icon_channelChoice-chat.svg': DummyIcon,
