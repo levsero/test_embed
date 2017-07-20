@@ -59,6 +59,7 @@ class WebWidget extends Component {
     tags: PropTypes.array,
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
+    userColor: PropTypes.string.isRequired,
     updateFrameSize: PropTypes.func,
     zopimOnline: PropTypes.bool,
     zopimOnNext: PropTypes.func,
@@ -241,6 +242,7 @@ class WebWidget extends Component {
       <div className={classes}>
         <Chat
           ref={chat}
+          userColor={this.props.userColor}
           style={this.props.style}
           updateFrameSize={this.props.updateFrameSize}
           position={this.props.position} />

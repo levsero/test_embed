@@ -11,7 +11,7 @@ export class MessageBubble extends Component {
 
   static defaultProps = {
     backgroundColor: '#30AABC',
-    color: 'white',
+    color: '#FFFFFF',
     message: ''
   };
 

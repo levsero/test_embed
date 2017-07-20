@@ -227,6 +227,7 @@ function create(name, config = {}, reduxStore = {}) {
         tags={settings.get('contactForm.tags')}
         ticketFormSettings={settings.get('contactForm.ticketForms')}
         ticketFieldSettings={settings.get('contactForm.fields')}
+        userColor={globalConfig.color}
         submitTicketAvailable={submitTicketAvailable}
         submitTicketConfig={submitTicketSettings.config}
         submitTicketSender={submitTicketSettings.submitTicketSender}

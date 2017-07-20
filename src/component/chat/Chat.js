@@ -34,6 +34,7 @@ class Chat extends Component {
     style: PropTypes.object,
     updateCurrentMsg: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
+    userColor: PropTypes.string.isRequired,
     sendChatRating: PropTypes.func.isRequired
   };
 
@@ -72,7 +73,13 @@ class Chat extends Component {
     if (chats.size <= 0) return;
 
     const chatMessage = (data, key) => {
-      return (<ChatMessage key={key} name={data.display_name} message={data.msg} nick={data.nick} />);
+      return (
+        <ChatMessage
+          userColor={this.props.userColor}
+          key={key}
+          name={data.display_name}
+          message={data.msg}
+          nick={data.nick} />);
     };
 
     return _.chain([...chats.values()])
