@@ -488,12 +488,12 @@ describe('Frame', () => {
         frame.hide({ transition: 'none' });
       });
 
-      it('sets `visible` state to false right away', () => {
+      it('sets `visible` state to false without a delay', () => {
         expect(frame.state.visible)
           .toEqual(false);
       });
 
-      it('triggers props.onHide right away', () => {
+      it('triggers props.onHide without a delay', () => {
         expect(mockOnHide)
           .toHaveBeenCalled();
       });
