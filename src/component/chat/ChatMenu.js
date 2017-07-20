@@ -1,22 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatMenu.sass';
 
 export class ChatMenu extends Component {
-  static propTypes = {
-    nick: PropTypes.string,
-    name: PropTypes.string,
-    message: PropTypes.string
-  };
-
-  static defaultProps = {
-    nick: '',
-    name: '',
-    message: ''
-  };
-
   render() {
     return (
       <div className={styles.container}>
