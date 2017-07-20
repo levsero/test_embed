@@ -28,7 +28,7 @@ const mapStateToProps = (state) => {
 
 class WebWidget extends Component {
   static propTypes = {
-    attachmentSender: PropTypes.func.isRequired,
+    attachmentSender: PropTypes.func,
     buttonLabelKey: PropTypes.string,
     channelChoice: PropTypes.bool,
     chat: PropTypes.object.isRequired,
@@ -55,7 +55,7 @@ class WebWidget extends Component {
     subjectEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     submitTicketConfig: PropTypes.object,
-    submitTicketSender: PropTypes.func.isRequired,
+    submitTicketSender: PropTypes.func,
     tags: PropTypes.array,
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
@@ -286,6 +286,8 @@ class WebWidget extends Component {
   }
 
   renderSubmitTicket = () => {
+    if (!this.props.submitTicketAvailable) return;
+
     const { submitTicketConfig } = this.props;
     const classes = classNames({
       'u-isHidden': this.props.activeEmbed !== submitTicket

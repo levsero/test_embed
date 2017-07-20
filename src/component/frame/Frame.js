@@ -241,15 +241,21 @@ export class Frame extends Component {
 
   hide = (options = {}) => {
     const { onHide, transitions } = this.props;
-    const transition = transitions[options.transition] || defaultHideTransition;
-    const frameStyle = _.extend({}, this.state.frameStyle, transition.end);
 
-    this.setState({ frameStyle });
-
-    setTimeout(() => {
+    if (options.transition === 'none') {
       this.setState({ visible: false });
       onHide(this);
-    }, cssTimeToMs(transition.end.transitionDuration));
+    } else {
+      const transition = transitions[options.transition] || defaultHideTransition;
+      const frameStyle = _.extend({}, this.state.frameStyle, transition.end);
+
+      this.setState({ frameStyle });
+
+      setTimeout(() => {
+        this.setState({ visible: false });
+        onHide(this);
+      }, cssTimeToMs(transition.end.transitionDuration));
+    }
   }
 
   close = (e, options = {}) => {
