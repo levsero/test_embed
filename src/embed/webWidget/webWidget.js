@@ -439,7 +439,7 @@ function postRender() {
       !isOnHelpCenterPage()) {
     const options = { url: true };
 
-    performContextualHelp(options);
+    waitForRootComponent(() => performContextualHelp(options));
   }
 
   if (config.tokensRevokedAt) {
