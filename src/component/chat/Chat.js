@@ -9,6 +9,7 @@ import { ChatMessage } from 'component/chat/ChatMessage';
 import { Container } from 'component/container/Container';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
+import { isMobileBrowser } from 'utility/devices';
 import { endChat,
          sendMsg,
          setVisitorInfo,
@@ -103,6 +104,12 @@ class Chat extends Component {
     );
   }
 
+  containerClasses = () => {
+    return isMobileBrowser()
+           ? styles.containerMobile
+           : styles.container;
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
@@ -114,7 +121,7 @@ class Chat extends Component {
           title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
           headerContent={this.renderChatHeader()}
           headerClasses={styles.header}
-          contentClasses={styles.content}
+          containerClasses={this.containerClasses()}
           footerClasses={styles.footer}
           footerContent={this.renderChatBox()}>
           <div className={styles.messages}>
