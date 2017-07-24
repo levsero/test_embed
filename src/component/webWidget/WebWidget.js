@@ -122,6 +122,8 @@ class WebWidget extends Component {
 
   getHelpCenterComponent = () => this.refs[helpCenter];
 
+  articleViewActive = () => this.getHelpCenterComponent().state.articleViewActive;
+
   channelChoiceAvailable = () => this.props.channelChoice && this.chatOnline() && this.props.submitTicketAvailable;
 
   chatOnline = () => this.props.chat.account_status === 'online' || this.props.zopimOnline;
@@ -147,9 +149,11 @@ class WebWidget extends Component {
       updateActiveEmbed,
       helpCenterAvailable,
       showBackButton } = this.props;
+    let backButton = false;
 
     if (helpCenterAvailable) {
       updateActiveEmbed(helpCenter);
+      backButton = this.articleViewActive();
     } else if (this.channelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
     } else if (this.chatOnline()) {
@@ -157,7 +161,7 @@ class WebWidget extends Component {
     } else {
       updateActiveEmbed(submitTicket);
     }
-    showBackButton(false);
+    showBackButton(backButton);
   }
 
   show = (viaActivate = false) => {
@@ -177,11 +181,8 @@ class WebWidget extends Component {
   }
 
   showHelpCenter = () => {
-    const helpCenterComponent = this.getHelpCenterComponent();
-    const { articleViewActive } = helpCenterComponent.state;
-
     this.props.updateActiveEmbed(helpCenter);
-    this.props.showBackButton(articleViewActive);
+    this.props.showBackButton(this.articleViewActive());
   }
 
   onNextClick = (embed) => {
