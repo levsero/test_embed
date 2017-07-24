@@ -12,6 +12,7 @@ export class ChatMenu extends Component {
             fallback: 'Sound'
           })}
         </div>
+        <div className={styles.itemLine} />
         <div className={styles.item}>
           {i18n.t('embeddable_framework.chat.options.emailTranscript', {
             fallback: 'Email transcript'
@@ -22,6 +23,7 @@ export class ChatMenu extends Component {
             fallback: 'Edit contact details'
           })}
         </div>
+        <div className={styles.itemLine} />
         <div className={styles.item}>
           {i18n.t('embeddable_framework.chat.options.endChat', {
             fallback: 'End chat'
