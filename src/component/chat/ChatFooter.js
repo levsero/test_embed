@@ -9,7 +9,7 @@ export class ChatFooter extends Component {
   static propTypes = {
     children: PropTypes.element.isRequired,
     showMenu: PropTypes.func
-  };
+  }
 
   static defaultProps = {
     showMenu: () => {}
