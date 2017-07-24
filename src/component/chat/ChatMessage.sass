@@ -5,7 +5,7 @@
 }
 
 .message {
-  composes: u-paddingS u-marginBS from global;
+  composes: u-paddingS u-marginBT from global;
 }
 
 .messageUser {
@@ -18,20 +18,36 @@
 }
 
 .name {
-  margin-left: #{40/$font-size}rem;
+  composes: marginBT marginTT from global;
+  margin-left: #{50/$font-size}rem;
   color: $zd-color-aluminum !important;
 }
 
 .avatar {
   display: inline-block !important;
-  height: #{35/$font-size}rem;
-  width: #{35/$font-size}rem;
+  height: #{31/$font-size}rem;
+  width: #{31/$font-size}rem;
+
+  svg {
+    padding-left: #{0.5/$font-size}rem;
+    min-width: #{13/$font-size}rem;
+    min-height: #{13/$font-size}rem;
+    max-width: #{13/$font-size}rem;
+    max-height: #{13/$font-size}rem;
+  }
+}
+
+.avatarDefault {
+  composes: avatar;
+  height: #{32/$font-size}rem;
+  width: #{32/$font-size}rem;
 }
 
 .messageBubble {
-  margin-left: #{40/$font-size}rem;
+  margin-left: #{38/$font-size}rem;
 }
 
 .messageBubbleAvatar {
-  composes: u-marginLT u-alignTop from global;
+  composes: marginBT u-alignTop from global;
+  margin-left: #{7/$font-size}rem;
 }

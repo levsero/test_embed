@@ -1,9 +1,10 @@
 @import '../../styles/_vars.scss';
 
 .messageBubble {
-  composes: u-paddingAS u-inlineBlock from global;
-
+  composes: u-textBreak u-inlineBlock from global;
+  white-space: pre-wrap;
   border-radius: #{16/$font-size}rem;
-  line-height: 1.5;
+  line-height: 1.4;
   max-width: #{230/$font-size}rem;
+  padding: #{8/$font-size}rem #{10/$font-size}rem;
 }

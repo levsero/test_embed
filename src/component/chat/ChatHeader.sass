@@ -2,15 +2,12 @@
 
 .container {
   composes: u-flex u-flexAlignItemsCenter u-posStart--flush u-posAbsolute u-hsizeAll from global;
-
   background-color: $base-color;
   border-bottom: #{1/$font-size}rem solid $zd-color-gainsboro;
   box-sizing: border-box;
   height: #{58/$font-size}rem;
-  opacity: 0.8;
   padding: #{5/$font-size}rem #{17/$font-size}rem;
   top: #{43/$font-size}rem;
-  margin-top: #{3/$font-size}rem;
 }
 
 .textContainer {
@@ -33,7 +30,6 @@
 
 .ratingIcon {
   composes: u-borderTransparent from global;
-
   display: inline-block !important;
   padding: #{6/$font-size}rem;
   height: #{16/$font-size}rem;
@@ -46,7 +42,6 @@
 
 .thumbDownIcon {
   composes: ratingIcon;
-
   padding-top: #{7/$font-size}rem;
   padding-bottom: #{5/$font-size}rem;
 }

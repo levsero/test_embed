@@ -81,8 +81,8 @@ class Chat extends Component {
 
   containerClasses = () => {
     return isMobileBrowser()
-           ? styles.containerMobile
-           : styles.container;
+         ? styles.containerMobile
+         : styles.container;
   }
 
   renderChatLog = () => {

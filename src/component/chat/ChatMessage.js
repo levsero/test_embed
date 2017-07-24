@@ -36,12 +36,13 @@ export class ChatMessage extends Component {
 
   renderAvatar = () => {
     const { showAvatar, avatarPath } = this.props;
+    const avatarStyles = avatarPath
+                       ? styles.avatar
+                       : styles.avatarDefault;
 
-    if (!showAvatar) return null;
-
-    return (
-      <Avatar className={styles.avatar} src={avatarPath} />
-    );
+    return showAvatar
+         ? <Avatar className={avatarStyles} src={avatarPath} />
+         : null;
   }
 
   render() {
