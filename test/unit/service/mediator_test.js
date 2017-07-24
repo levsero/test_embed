@@ -408,13 +408,23 @@ describe('mediator', () => {
           .toEqual(1);
       });
 
-      it('should set call launcher show if there is no embed visible', () => {
+      it('should call launcher show if there is no embed visible', () => {
         mediator.init({ submitTicket: false, helpCenter: true }, { helpCenterSignInRequired: true });
 
         c.broadcast('authentication.onSuccess');
 
         expect(launcherSub.show.calls.count())
           .toEqual(1);
+      });
+
+      it('should not call launcher show if isHidden is true', () => {
+        mediator.init({ submitTicket: false, helpCenter: true }, { helpCenterSignInRequired: true });
+
+        c.broadcast('.hide');
+        c.broadcast('authentication.onSuccess');
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
       });
     });
   });

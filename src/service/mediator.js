@@ -596,7 +596,9 @@ function initMessaging() {
     state[`${helpCenter}.isAccessible`] = true;
     if (!embedVisible(state) && state[`${helpCenter}.isAccessible`]) {
       resetActiveEmbed();
-      c.broadcast(`${launcher}.show`);
+      if (!state['.hasHidden']) {
+        c.broadcast(`${launcher}.show`);
+      }
     }
 
     c.broadcast(`${helpCenter}.isAuthenticated`);
