@@ -85,27 +85,6 @@ class Chat extends Component {
          : styles.container;
   }
 
-  renderChatLog = () => {
-    const { chats } = this.props.chat;
-
-    if (chats.size <= 0) return;
-
-    const chatMessage = (data, key) => {
-      return (
-        <ChatMessage
-          userColor={this.props.userColor}
-          key={key}
-          name={data.display_name}
-          message={data.msg}
-          nick={data.nick} />);
-    };
-
-    return _.chain([...chats.values()])
-            .filter((m) => m.type === 'chat.msg')
-            .map(chatMessage)
-            .value();
-  }
-
   renderChatEnded = () => {
     if (this.props.chat.chats.size <= 0 || this.props.chat.is_chatting) return;
 
