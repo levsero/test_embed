@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import { ChatBox } from 'component/chat/ChatBox';
 import { ChatFooter } from 'component/chat/ChatFooter';
+import { ChatLog } from 'component/chat/ChatLog';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ChatMessage } from 'component/chat/ChatMessage';
 import { ChatMenu } from 'component/chat/ChatMenu';
@@ -65,6 +66,12 @@ class Chat extends Component {
 
   onContainerClick = () => {
     this.setState({ showMenu: false });
+  }
+
+  containerClasses = () => {
+    return isMobileBrowser()
+           ? styles.containerMobile
+           : styles.container;
   }
 
   renderChatLog = () => {
@@ -132,10 +139,13 @@ class Chat extends Component {
     );
   }
 
-  containerClasses = () => {
-    return isMobileBrowser()
-           ? styles.containerMobile
-           : styles.container;
+  renderChatLog = () => {
+    const { chat, userColor } = this.props;
+    const { chats, agents } = chat;
+
+    return (
+      <ChatLog agents={agents} chats={chats} userColor={userColor} />
+    );
   }
 
   render = () => {

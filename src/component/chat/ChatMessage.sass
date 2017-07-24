@@ -18,5 +18,20 @@
 }
 
 .name {
+  margin-left: #{40/$font-size}rem;
   color: $zd-color-aluminum !important;
+}
+
+.avatar {
+  display: inline-block !important;
+  height: #{35/$font-size}rem;
+  width: #{35/$font-size}rem;
+}
+
+.messageBubble {
+  margin-left: #{40/$font-size}rem;
+}
+
+.messageBubbleAvatar {
+  composes: u-marginLT u-alignTop from global;
 }

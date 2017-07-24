@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import { MessageBubble } from 'component/chat/MessageBubble';
+import { Avatar } from 'component/Avatar';
 
 import { locals as styles } from './ChatMessage.sass';
 
@@ -13,34 +15,52 @@ export class ChatMessage extends Component {
     nick: PropTypes.string,
     name: PropTypes.string,
     message: PropTypes.string,
-    userColor: PropTypes.string.isRequired
+    userColor: PropTypes.string.isRequired,
+    showAvatar: PropTypes.bool
   };
 
   static defaultProps = {
     nick: '',
     name: '',
-    message: ''
+    message: '',
+    showAvatar: false
   };
 
   renderName = (isAgent) => {
-    return isAgent
-         ? <div className={styles.name}>{this.props.name}</div>
+    const { name } = this.props;
+
+    return isAgent && !_.isEmpty(name)
+         ? <div className={styles.name}>{name}</div>
          : null;
   }
 
+  renderAvatar = () => {
+    const { showAvatar, avatarPath } = this.props;
+
+    if (!showAvatar) return null;
+
+    return (
+      <Avatar className={styles.avatar} src={avatarPath} />
+    );
+  }
+
   render() {
-    const isAgent = this.props.nick.indexOf('agent') > -1;
-    const backgroundColor = isAgent ? AgentBackgroundColor : this.props.userColor;
+    const { nick, showAvatar, userColor, message } = this.props;
+    const isAgent = nick.indexOf('agent') > -1;
+    const backgroundColor = isAgent ? AgentBackgroundColor : userColor;
     const userClasses = isAgent ? styles.messageAgent : styles.messageUser;
     const messageColor = isAgent ? '#000000' : '#FFFFFF';
+    const messageBubbleStyle = showAvatar ? styles.messageBubbleAvatar : styles.messageBubble;
 
     return (
       <div className={styles.wrapper}>
         <div className={`${styles.message} ${userClasses}`}>
           {this.renderName(isAgent)}
+          {this.renderAvatar()}
           <MessageBubble
+            className={messageBubbleStyle}
             color={messageColor}
-            message={this.props.message}
+            message={message}
             backgroundColor={backgroundColor} />
         </div>
       </div>
