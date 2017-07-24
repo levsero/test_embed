@@ -51,6 +51,17 @@ class Chat extends Component {
     this.state = {
       showMenu: false
     };
+    this.scrollContainer = null;
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    const { chat } = this.props;
+
+    if (!chat || !nextProps.chat) return;
+
+    if (chat.chats.size !== nextProps.chat.chats.size) {
+      setTimeout(() => this.scrollContainer.scrollToBottom(), 0);
+    }
   }
 
   updateUser = (user) => {
@@ -157,6 +168,7 @@ class Chat extends Component {
         style={this.props.style}
         position={this.props.position}>
         <ScrollContainer
+          ref={(e) => { this.scrollContainer = e; }}
           title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
           headerContent={this.renderChatHeader()}
           headerClasses={styles.header}
