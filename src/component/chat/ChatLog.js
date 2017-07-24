@@ -32,7 +32,7 @@ export class ChatLog extends Component {
           const nextChat = chatList[range];
 
         // Iterate and compare the first two sets in the collection and drop the next display_name
-          if (chat.nick === nextChat.nick) nextChat.display_name = '';
+          if (chat.nick === nextChat.nick) nextChat.display_name = ''; // eslint-disable-line camelcase
         }
       });
     }
@@ -64,7 +64,7 @@ export class ChatLog extends Component {
   }
 
   render() {
-    const { chats, userColor } = this.props;
+    const { chats } = this.props;
 
     if (chats.size <= 0) return null;
 
@@ -79,6 +79,6 @@ export class ChatLog extends Component {
     chatList = this.keepFirstName(chatList);
     chatList = this.applyAvatarFlag(chatList);
 
-    return <span>{_.map(chatList, this.renderChatMessage)}</span>
+    return <span>{_.map(chatList, this.renderChatMessage)}</span>;
   }
 }

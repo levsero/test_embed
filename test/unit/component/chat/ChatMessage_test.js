@@ -10,11 +10,22 @@ describe('ChatMessage component', () => {
       './ChatMessage.sass': {
         locals: {
           messageUser: 'messageUserClasses',
-          messageAgent: 'messageAgentClasses'
+          messageAgent: 'messageAgentClasses',
+          messageBubbleAvatar: 'messageBubbleAvatar',
+          messageBubble: 'messageBubble',
+          avatar: 'avatar',
+          avatarDefault: 'avatarDefault'
         }
       },
       'component/chat/MessageBubble': {
-        MessageBubble: noopReactComponent()
+        MessageBubble: class extends Component {
+          render = () => <div className={this.props.className} />;
+        }
+      },
+      'component/Avatar': {
+        Avatar: class extends Component {
+          render = () => <div />;
+        }
       }
     });
 
@@ -28,33 +39,155 @@ describe('ChatMessage component', () => {
   });
 
   describe('#render', () => {
-    let component;
+    let chatMessageNode;
 
-    describe('when the nick shows the message is from a agent', () => {
-      beforeEach(() => {
-        component = domRender(<ChatMessage nick='agent:xxx' />);
+    describe('messageBubbleStyle', () => {
+      describe('when avatar should show', () => {
+        beforeEach(() => {
+          const component = domRender(<ChatMessage showAvatar={true} />);
+
+          chatMessageNode = ReactDOM.findDOMNode(component);
+        });
+
+        it('uses messageBubbleAvatar style', () => {
+          expect(chatMessageNode.querySelector('.messageBubbleAvatar'))
+            .toBeTruthy();
+        });
       });
 
-      it('uses the correct styles', () => {
-        expect(ReactDOM.findDOMNode(component).querySelector('.messageAgentClasses'))
-          .toBeTruthy();
+      describe('when avatar should not show', () => {
+        beforeEach(() => {
+          const component = domRender(<ChatMessage showAvatar={false} />);
 
-        expect(ReactDOM.findDOMNode(component).querySelector('.messageUserClasses'))
-          .toBeFalsy();
+          chatMessageNode = ReactDOM.findDOMNode(component);
+        });
+
+        it('uses messageBubble style', () => {
+          expect(chatMessageNode.querySelector('.messageBubble'))
+            .toBeTruthy();
+        });
       });
     });
 
-    describe('when the nick shows the message is not from a agent', () => {
-      beforeEach(() => {
-        component = domRender(<ChatMessage nick='user:xxx' />);
+    describe('userClasses', () => {
+      describe('when the nick shows the message is from a agent', () => {
+        beforeEach(() => {
+          const component = domRender(<ChatMessage nick='agent:xxx' />);
+
+          chatMessageNode = ReactDOM.findDOMNode(component);
+        });
+
+        it('uses the correct styles', () => {
+          expect(chatMessageNode.querySelector('.messageAgentClasses'))
+            .toBeTruthy();
+
+          expect(chatMessageNode.querySelector('.messageUserClasses'))
+            .toBeFalsy();
+        });
       });
 
-      it('uses the correct styles', () => {
-        expect(ReactDOM.findDOMNode(component).querySelector('.messageUserClasses'))
-          .toBeTruthy();
+      describe('when the nick shows the message is not from a agent', () => {
+        beforeEach(() => {
+          const component = domRender(<ChatMessage nick='user:xxx' />);
 
-        expect(ReactDOM.findDOMNode(component).querySelector('.messageAgentClasses'))
-          .toBeFalsy();
+          chatMessageNode = ReactDOM.findDOMNode(component);
+        });
+
+        it('uses the correct styles', () => {
+          expect(chatMessageNode.querySelector('.messageUserClasses'))
+            .toBeTruthy();
+
+          expect(chatMessageNode.querySelector('.messageAgentClasses'))
+            .toBeFalsy();
+        });
+      });
+    });
+  });
+
+  describe('renderName', () => {
+    let component;
+
+    describe('when it is an agent and name is not empty', () => {
+      beforeEach(() => {
+        component = domRender(<ChatMessage name='Smith' />);
+      });
+
+      it('returns an Avatar component', () => {
+        expect(component.renderName(true))
+          .not.toBeNull();
+      });
+    });
+
+    describe('for situations where it should not render name', () => {
+      const subjects = [
+        { name: '', isAgent: true },
+        { name: 'bob', isAgent: false },
+        { name: '', isAgent: false }
+      ];
+
+      _.each(subjects, (subject) => {
+        beforeEach(() => {
+          component = domRender(<ChatMessage name={subject.name} />);
+        });
+
+        it(`should return null for name: ${subject.name}, isAgent: ${subject.isAgent}`, () => {
+          expect(component.renderName(subject.isAgent))
+            .toBeNull();
+        });
+      });
+    });
+  });
+
+  describe('renderAvatar', () => {
+    let component;
+
+    describe('when showAvatar is true', () => {
+      beforeEach(() => {
+        component = domRender(<ChatMessage showAvatar={true} />);
+      });
+
+      it('returns an Avatar component', () => {
+        expect(component.renderAvatar())
+          .not.toBeNull();
+      });
+    });
+
+    describe('when showAvatar is false', () => {
+      beforeEach(() => {
+        component = domRender(<ChatMessage showAvatar={false} />);
+      });
+
+      it('returns null', () => {
+        expect(component.renderAvatar())
+          .toBeNull();
+      });
+    });
+
+    describe('when avatarPath exists', () => {
+      const imageUrl = 'https://www.fakesite.com/img/blah.jpg';
+
+      beforeEach(() => {
+        component = domRender(<ChatMessage showAvatar={true} avatarPath={imageUrl} />);
+      });
+
+      it('should render Avatar with avatar style', () => {
+        const avatarComponent = component.renderAvatar();
+
+        expect(avatarComponent.props.className)
+          .toEqual('avatar');
+      });
+    });
+
+    describe('when avatarPath does not exist', () => {
+      beforeEach(() => {
+        component = domRender(<ChatMessage showAvatar={true} />);
+      });
+
+      it('should render Avatar with avatarDefault style', () => {
+        const avatarComponent = component.renderAvatar();
+
+        expect(avatarComponent.props.className)
+          .toEqual('avatarDefault');
       });
     });
   });

@@ -8,7 +8,6 @@ import { Avatar } from 'component/Avatar';
 import { locals as styles } from './ChatMessage.sass';
 
 const AgentBackgroundColor = '#f3f3f3';
-const UserBackgroundColor = '#30AABC';
 
 export class ChatMessage extends Component {
   static propTypes = {
@@ -16,14 +15,16 @@ export class ChatMessage extends Component {
     name: PropTypes.string,
     message: PropTypes.string,
     userColor: PropTypes.string.isRequired,
-    showAvatar: PropTypes.bool
+    showAvatar: PropTypes.bool,
+    avatarPath: PropTypes.string
   };
 
   static defaultProps = {
     nick: '',
     name: '',
     message: '',
-    showAvatar: false
+    showAvatar: false,
+    avatarPath: ''
   };
 
   renderName = (isAgent) => {
