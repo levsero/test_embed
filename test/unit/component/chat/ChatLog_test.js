@@ -1,4 +1,4 @@
-fdescribe('ChatLog component', () => {
+describe('ChatLog component', () => {
   let ChatLog,
     mockChats,
     mockAgents;
@@ -121,19 +121,11 @@ fdescribe('ChatLog component', () => {
       );
     });
 
-    it('should apply a avatar flag to the last group message of an agent', () => {
-      const expectation = [
-        undefined,
-        mockAgents['agent:2454047'].avatarPath,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        mockAgents['agent:2454047'].avatarPath
-      ];
+    it('should apply an avatar flag to the last group message of an agent', () => {
+      const expectation = [false, true, false, true, false, false, true];
 
       _.each([...mockChats.values()], (chat, key) => {
-        expect(chat.avatar_path)
+        expect(!!chat.showAvatar)
           .toEqual(expectation[key]);
       });
     });

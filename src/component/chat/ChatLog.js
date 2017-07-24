@@ -24,18 +24,16 @@ export class ChatLog extends Component {
   }
 
   keepFirstName = (chatList) => {
-    if (chatList.length > 1) {
-      _.each(chatList, (chat, key) => {
-        const range = key + 1;
+    _.each(chatList, (chat, key) => {
+      const range = key + 1;
 
-        if (chat.nick !== 'visitor' && range < chatList.length) {
-          const nextChat = chatList[range];
+      if (chat.nick !== 'visitor' && range < chatList.length) {
+        const nextChat = chatList[range];
 
-          // Iterate and compare the first two sets in the collection and drop the next display_name
-          if (chat.nick === nextChat.nick) nextChat.display_name = ''; // eslint-disable-line camelcase
-        }
-      });
-    }
+        // Iterate and compare the first two sets in the collection and drop the next display_name
+        if (chat.nick === nextChat.nick) nextChat.display_name = ''; // eslint-disable-line camelcase
+      }
+    });
 
     return chatList;
   }
