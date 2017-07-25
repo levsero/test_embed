@@ -56,26 +56,50 @@ describe('ChatBox component', () => {
     let component, updateCurrentMsgSpy, sendMsgSpy;
 
     beforeEach(() => {
-      updateCurrentMsgSpy = jasmine.createSpy();
-      sendMsgSpy = jasmine.createSpy();
-      component = domRender(
-        <ChatBox
-          currentMessage='Hello!'
-          updateCurrentMsg={updateCurrentMsgSpy}
-          sendMsg={sendMsgSpy} />);
-
-      component.handleChange({ target: { value: 'Hello!' } });
-      component.handleSendClick();
+      updateCurrentMsgSpy = jasmine.createSpy('updateCurrentMsg');
+      sendMsgSpy = jasmine.createSpy('sendMsg');
     });
 
-    it('clears updateCurrentMsg prop', () => {
-      expect(updateCurrentMsgSpy)
-        .toHaveBeenCalledWith('');
+    describe('when currentMessage is empty', () => {
+      beforeEach(() => {
+        component = domRender(
+          <ChatBox
+            currentMessage=''
+            updateCurrentMsg={updateCurrentMsgSpy}
+            sendMsg={sendMsgSpy} />);
+        component.handleSendClick();
+      });
+
+      it('does not call updateCurrentMsg prop', () => {
+        expect(updateCurrentMsgSpy)
+          .not.toHaveBeenCalled();
+      });
+
+      it('does not call sendMsg prop', () => {
+        expect(sendMsgSpy)
+          .not.toHaveBeenCalled();
+      });
     });
 
-    it('calls sendMsg prop', () => {
-      expect(sendMsgSpy)
-        .toHaveBeenCalledWith('Hello!');
+    describe('when currentMessage is not empty', () => {
+      beforeEach(() => {
+        component = domRender(
+          <ChatBox
+            currentMessage='Hello!'
+            updateCurrentMsg={updateCurrentMsgSpy}
+            sendMsg={sendMsgSpy} />);
+        component.handleSendClick();
+      });
+
+      it('clears updateCurrentMsg prop', () => {
+        expect(updateCurrentMsgSpy)
+          .toHaveBeenCalledWith('');
+      });
+
+      it('calls sendMsg prop', () => {
+        expect(sendMsgSpy)
+          .toHaveBeenCalledWith('Hello!');
+      });
     });
   });
 

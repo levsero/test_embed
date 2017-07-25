@@ -56,10 +56,10 @@ describe('ChatLog component', () => {
             userColor='#FFFFFF' />);
       });
 
-      // it('should not render anything', () => {
-      //   expect(component)
-      //     .toBeNull();
-      // });
+      it('should not render anything', () => {
+        expect(component.render())
+          .toBeNull();
+      });
     });
 
     describe('when chats contain at least a single message', () => {
