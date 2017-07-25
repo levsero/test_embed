@@ -8,7 +8,7 @@ export class ChatMenu extends Component {
     return (
       <div className={styles.container}>
         <div className={styles.item}>
-          {i18n.t('embeddable_framework.chat.options.soun', {
+          {i18n.t('embeddable_framework.chat.options.sound', {
             fallback: 'Sound'
           })}
         </div>

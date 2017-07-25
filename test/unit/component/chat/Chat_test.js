@@ -172,7 +172,7 @@ describe('Chat component', () => {
       describe('when state.showMenu is false', () => {
         beforeEach(() => {
           component = domRender(<Chat chat={chatProp} />);
-          component.showMenu(false);
+          component.setState({ showMenu: false });
         });
 
         it('should not return anything', () => {
@@ -184,7 +184,7 @@ describe('Chat component', () => {
       describe('when state.showMenu is true', () => {
         beforeEach(() => {
           component = domRender(<Chat chat={chatProp} />);
-          component.showMenu();
+          component.setState({ showMenu: true });
         });
 
         it('should return the chat menu', () => {

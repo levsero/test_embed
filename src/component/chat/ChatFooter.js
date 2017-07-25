@@ -7,17 +7,17 @@ import { Icon } from 'component/Icon';
 
 export class ChatFooter extends Component {
   static propTypes = {
-    children: PropTypes.element.isRequired,
-    showMenu: PropTypes.func
+    children: PropTypes.node.isRequired,
+    toggleMenu: PropTypes.func
   }
 
   static defaultProps = {
-    showMenu: () => {}
+    toggleMenu: () => {}
   }
 
   menuIconClick = (e) => {
     e.stopPropagation();
-    this.props.showMenu();
+    this.props.toggleMenu();
   }
 
   render() {

@@ -25,13 +25,13 @@ describe('ChatFooter component', () => {
   });
 
   describe('menuIconClick', () => {
-    let component, stopPropagationSpy, showMenuSpy;
+    let component, stopPropagationSpy, toggleMenuSpy;
 
     beforeEach(() => {
       stopPropagationSpy = jasmine.createSpy();
-      showMenuSpy = jasmine.createSpy();
+      toggleMenuSpy = jasmine.createSpy();
 
-      component = domRender(<ChatFooter showMenu={showMenuSpy} />);
+      component = domRender(<ChatFooter toggleMenu={toggleMenuSpy} />);
       component.menuIconClick({ stopPropagation: stopPropagationSpy });
     });
 
@@ -40,8 +40,8 @@ describe('ChatFooter component', () => {
         .toHaveBeenCalled();
     });
 
-    it('should stop call props.showMenu', () => {
-      expect(showMenuSpy)
+    it('should stop call props.toggleMenu', () => {
+      expect(toggleMenuSpy)
         .toHaveBeenCalled();
     });
   });

@@ -46,8 +46,6 @@ class Chat extends Component {
   constructor(props) {
     super(props);
 
-    // Guard against WebWidget from accessing random
-    // state attributes when state is not defined
     this.state = {
       showMenu: false
     };
@@ -60,12 +58,12 @@ class Chat extends Component {
     });
   }
 
-  showMenu = (showMenu = true) => {
-    this.setState({ showMenu });
+  toggleMenu = () => {
+    this.setState({ showMenu: !this.state.showMenu });
   }
 
   onContainerClick = () => {
-    this.showMenu(false);
+    this.setState({ showMenu: false });
   }
 
   renderChatLog = () => {
@@ -106,7 +104,7 @@ class Chat extends Component {
 
     return (
       <ChatFooter
-        showMenu={this.showMenu}>
+        toggleMenu={this.toggleMenu}>
         <ChatBox
           currentMessage={chat.currentMessage}
           sendMsg={sendMsg}
