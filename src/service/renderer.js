@@ -137,7 +137,7 @@ function init(config) {
 function initMediator(config) {
   const embeds = config.embeds;
 
-  if (embeds.zopimChat && embeds.zopimChat.props.standalone) {
+  if (embeds && embeds.zopimChat && embeds.zopimChat.props.standalone) {
     mediator.initZopimStandalone();
   } else if (embeds) {
     const signInRequired = embeds.helpCenterForm
