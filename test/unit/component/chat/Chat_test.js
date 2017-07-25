@@ -26,6 +26,12 @@ describe('Chat component', () => {
       'component/chat/ChatMessage': {
         ChatMessage: noopReactComponent()
       },
+      'component/chat/ChatFooter': {
+        ChatFooter: noopReactComponent()
+      },
+      'component/chat/ChatMenu': {
+        ChatMenu: noopReactComponent()
+      },
       'component/container/Container': {
         Container: noopReactComponent()
       },
@@ -156,6 +162,34 @@ describe('Chat component', () => {
 
           expect(component.containerClasses())
             .toBeUndefined();
+        });
+      });
+    });
+
+    describe('renderChatMenu', () => {
+      let component;
+
+      describe('when state.showMenu is false', () => {
+        beforeEach(() => {
+          component = domRender(<Chat chat={chatProp} />);
+          component.setState({ showMenu: false });
+        });
+
+        it('should not return anything', () => {
+          expect(component.renderChatMenu())
+            .toBeFalsy();
+        });
+      });
+
+      describe('when state.showMenu is true', () => {
+        beforeEach(() => {
+          component = domRender(<Chat chat={chatProp} />);
+          component.setState({ showMenu: true });
+        });
+
+        it('should return the chat menu', () => {
+          expect(component.renderChatMenu())
+            .not.toBeFalsy();
         });
       });
     });

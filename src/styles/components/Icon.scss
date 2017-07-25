@@ -260,6 +260,32 @@
   }
 }
 
+.Icon--ellipsis {
+  padding-right: 0;
+
+  svg {
+    padding: #{5/$font-size}rem;
+    border-radius: #{4/$font-size}rem;
+
+    min-width: #{14/$font-size}rem;
+    min-height: #{14/$font-size}rem;
+    width: #{14/$font-size}rem;
+    height: #{14/$font-size}rem;
+
+    g {
+      fill: $zd-color-aluminum !important;
+    }
+
+    &:hover, &:active, &:focus {
+      background: $zd-color-platinum;
+
+      g {
+        fill: $zd-color-dark-gray !important;
+      }
+    }
+  }
+}
+
 .Icon--preview {
   padding-right: #{8/$font-size}rem;
   margin-top: #{4/$font-size}rem;

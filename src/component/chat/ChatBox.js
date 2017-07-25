@@ -50,14 +50,12 @@ export class ChatBox extends Component {
 
   render = () => {
     return (
-      <div>
-        <div className={styles.input}>
-          <Field
-            input={this.chatBoxTextarea()}
-            onChange={this.handleChange}
-            name='chatBox'
-            value={this.props.currentMessage} />
-        </div>
+      <div className={styles.input}>
+        <Field
+          input={this.chatBoxTextarea()}
+          onChange={this.handleChange}
+          name='chatBox'
+          value={this.props.currentMessage} />
       </div>
     );
   }
