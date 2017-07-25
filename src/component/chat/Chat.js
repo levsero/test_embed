@@ -79,8 +79,8 @@ class Chat extends Component {
 
   containerClasses = () => {
     return isMobileBrowser()
-         ? styles.containerMobile
-         : styles.container;
+         ? styles.scrollContainerMobile
+         : styles.scrollContainer;
   }
 
   renderChatEnded = () => {
@@ -142,6 +142,7 @@ class Chat extends Component {
     return (
       <Container
         onClick={this.onContainerClick}
+        className={styles.container}
         style={this.props.style}
         position={this.props.position}>
         <ScrollContainer

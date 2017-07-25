@@ -14,7 +14,7 @@ describe('Chat component', () => {
     initMockRegistry({
       './Chat.sass': {
         locals: {
-          containerMobile: 'containerMobileClasses'
+          scrollContainerMobile: 'scrollContainerMobileClasses'
         }
       },
       'component/chat/ChatBox': {
@@ -118,7 +118,7 @@ describe('Chat component', () => {
           component = domRender(<Chat chat={chatProp} />);
 
           expect(component.containerClasses())
-            .toEqual('containerMobileClasses');
+            .toEqual('scrollContainerMobileClasses');
         });
       });
 
