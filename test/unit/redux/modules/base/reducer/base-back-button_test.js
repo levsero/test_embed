@@ -6,7 +6,7 @@ describe('base reducer back button', () => {
   beforeAll(() => {
     mockery.enable();
 
-    const reducerPath = buildSrcPath('redux/modules/base/reducer/back-button');
+    const reducerPath = buildSrcPath('redux/modules/base/reducer/back-button-visibility');
     const actionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
 
     reducer = requireUncached(reducerPath).default;
@@ -21,9 +21,9 @@ describe('base reducer back button', () => {
   });
 
   describe('initial state', () => {
-    it('has a visible property set to false', () => {
+    it('is set to false', () => {
       expect(initialState)
-        .toEqual({ visible: false });
+        .toEqual(false);
     });
   });
 
@@ -37,9 +37,9 @@ describe('base reducer back button', () => {
       });
     });
 
-    it('sets the action payload as the state of the visible property', () => {
+    it('sets the action payload as the state', () => {
       expect(state)
-        .toEqual({ visible: true });
+        .toEqual(true);
     });
   });
 });

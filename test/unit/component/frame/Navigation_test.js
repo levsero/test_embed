@@ -53,7 +53,7 @@ describe('Navigation', () => {
 
     describe('when state.showCloseButton is true', () => {
       beforeEach(() => {
-        navigation.showCloseButton(true);
+        navigation.setState({ showCloseButton: true });
       });
 
       it('should render the close button', () => {
@@ -64,7 +64,7 @@ describe('Navigation', () => {
 
     describe('when state.showCloseButton is false', () => {
       beforeEach(() => {
-        navigation.showCloseButton(false);
+        navigation.setState({ showCloseButton: false });
       });
 
       it('should not render the close button', () => {

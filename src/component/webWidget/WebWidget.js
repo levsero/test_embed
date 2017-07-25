@@ -143,10 +143,7 @@ class WebWidget extends Component {
   }
 
   resetActiveEmbed = () => {
-    const {
-      updateActiveEmbed,
-      helpCenterAvailable,
-      updateBackButtonVisibility } = this.props;
+    const { updateActiveEmbed, helpCenterAvailable, updateBackButtonVisibility } = this.props;
 
     if (helpCenterAvailable) {
       updateActiveEmbed(helpCenter);

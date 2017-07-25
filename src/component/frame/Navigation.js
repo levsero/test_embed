@@ -8,7 +8,7 @@ import { Icon } from 'component/Icon';
 
 const mapStateToProps = (state) => {
   return {
-    backButtonVisible: state.base.backButton.visible
+    backButtonVisible: state.base.backButtonVisible
   };
 };
 

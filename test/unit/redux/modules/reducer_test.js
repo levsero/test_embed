@@ -49,7 +49,7 @@ describe('root reducer', () => {
       newState = reducer({}, {});
     });
 
-    it("runs through the root reducer and applies it's state changes", () => {
+    it('runs through the root reducer and applies its state changes', () => {
       expect(newState.root)
         .toBe(true);
     });

@@ -1,21 +1,16 @@
 import { UPDATE_BACK_BUTTON_VISIBILITY } from '../base-action-types';
 
-const initialState = {
-  visible: false
-};
+const initialState = false;
 
-const backButton = (state = initialState, action) => {
+const backButtonVisible = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
     case UPDATE_BACK_BUTTON_VISIBILITY:
-      return {
-        ...state,
-        visible: payload
-      };
+      return payload;
     default:
       return state;
   }
 };
 
-export default backButton;
+export default backButtonVisible;
