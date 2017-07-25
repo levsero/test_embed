@@ -137,7 +137,9 @@ function init(config) {
 function initMediator(config) {
   const embeds = config.embeds;
 
-  if (embeds) {
+  if (embeds.zopimChat && embeds.zopimChat.props.standalone) {
+    mediator.initZopimStandalone();
+  } else if (embeds) {
     const signInRequired = embeds.helpCenterForm
                          ? embeds.helpCenterForm.props.signInRequired
                          : false;
@@ -153,9 +155,6 @@ function initMediator(config) {
     };
 
     mediator.init(embedsAccessible, params);
-    // naked zopim
-  } else if (embeds && embeds.zopimChat) {
-    mediator.initZopimStandalone();
   } else if (_.isEmpty(embeds)) {
     // No embeds
     mediator.initMessaging();

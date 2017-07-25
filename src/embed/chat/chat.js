@@ -38,12 +38,12 @@ function get(name) {
   return chats[name];
 }
 
-function show(name) {
+function show(name, showWindow = false) {
   const zopim = win.$zopim;
 
   zopim(() => {
     if (get(name).config.standalone) {
-      if (zopim.livechat.window.getDisplay()) {
+      if (showWindow) {
         zopim.livechat.window.show();
       } else {
         zopim.livechat.button.show();
@@ -103,7 +103,7 @@ function render(name) {
 
   mediator.channel.subscribe(`${name}.show`, () => show(name));
   mediator.channel.subscribe(`${name}.hide`, () => hide());
-  mediator.channel.subscribe(`${name}.activate`, () => show(name));
+  mediator.channel.subscribe(`${name}.activate`, () => show(name, true));
 
   mediator.channel.subscribe(`${name}.refreshLocale`, () => {
     win.$zopim && win.$zopim(() => {
