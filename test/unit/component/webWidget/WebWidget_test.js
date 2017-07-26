@@ -577,10 +577,11 @@ describe('WebWidget component', () => {
   });
 
   describe('#resetActiveEmbed', () => {
-    let webWidget, updateActiveEmbedSpy;
+    let webWidget, updateActiveEmbedSpy, showBackButtonSpy;
 
     beforeEach(() => {
       updateActiveEmbedSpy = jasmine.createSpy();
+      showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
     });
 
     describe('when help center is available', () => {
@@ -589,6 +590,7 @@ describe('WebWidget component', () => {
           <WebWidget
             helpCenterAvailable={true}
             updateActiveEmbed={updateActiveEmbedSpy}
+            showBackButton={showBackButtonSpy}
             activeEmbed='' />
         );
         webWidget.resetActiveEmbed();
@@ -597,6 +599,34 @@ describe('WebWidget component', () => {
       it('calls updateActiveEmbed with help center', () => {
         expect(updateActiveEmbedSpy)
           .toHaveBeenCalledWith('helpCenterForm');
+      });
+
+      describe('when the article view is active', () => {
+        beforeEach(() => {
+          webWidget.getHelpCenterComponent().setState({
+            articleViewActive: true
+          });
+          webWidget.resetActiveEmbed();
+        });
+
+        it('sets showBackButton to true', () => {
+          expect(showBackButtonSpy)
+            .toHaveBeenCalledWith(true);
+        });
+      });
+
+      describe('when the article view is active', () => {
+        beforeEach(() => {
+          webWidget.getHelpCenterComponent().setState({
+            articleViewActive: false
+          });
+          webWidget.resetActiveEmbed();
+        });
+
+        it('sets showBackButton to false', () => {
+          expect(showBackButtonSpy)
+            .toHaveBeenCalledWith(false);
+        });
       });
     });
 
