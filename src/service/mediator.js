@@ -597,11 +597,8 @@ function initMessaging() {
     if (!embedVisible(state) && helpCenterAvailable()) {
       resetActiveEmbed();
 
-      const connectionPending = state[`${chat}.isAccessible`] && state[`${chat}.connectionPending`];
-
       if (!state[`${launcher}.userHidden`] &&
-        !connectionPending &&
-        !state[`${launcher}.isVisible`] &&
+        !state[`${chat}.isAccessible`] &&
         !state['ipm.isVisible']) {
         c.broadcast(`${launcher}.show`);
       }
