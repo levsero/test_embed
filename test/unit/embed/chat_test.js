@@ -359,21 +359,12 @@ describe('embed.chat', () => {
       });
 
       describe('<name>.show', () => {
-        it('should call zopim.button.show() if livechat window has not been opened and it is standalone', () => {
+        it('should call zopim.button.show()', () => {
           chat.create('dave', { zopimId: zopimId, standalone: true });
 
           pluckSubscribeCall(mockMediator, 'dave.show')();
 
           expect(mockZopim.livechat.button.show)
-            .toHaveBeenCalled();
-        });
-
-        it('should call zopim.window.show() if livechat window is open', () => {
-          mockZopim.livechat.window.show();
-
-          pluckSubscribeCall(mockMediator, 'dave.show')();
-
-          expect(mockZopim.livechat.window.show)
             .toHaveBeenCalled();
         });
 
