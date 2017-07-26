@@ -24,39 +24,51 @@ export class ChatLog extends Component {
   }
 
   keepFirstName = (chatList) => {
-    _.each(chatList, (chat, key) => {
-      const range = key + 1;
+    const lastIndex = chatList.length - 1;
+    const previousIndex = lastIndex - 1;
 
-      if (chat.nick !== 'visitor' && range < chatList.length) {
-        const nextChat = chatList[range];
-
-        // Iterate and compare the first two sets in the collection and drop the next display_name
-        if (chat.nick === nextChat.nick) nextChat.display_name = ''; // eslint-disable-line camelcase
+    if (chatList.length > 1) {
+      if (chatList[lastIndex].nick === chatList[previousIndex].nick) {
+        chatList[lastIndex].display_name = '';
       }
-    });
+    }
 
     return chatList;
   }
 
   applyAvatarFlag = (chatList) => {
     const { agents } = this.props;
+    const lastIndex = chatList.length - 1;
+    const previousIndex = lastIndex - 1;
+    const currentAgent = _.get(chatList, lastIndex, {});
+    const previousAgent = _.get(chatList, previousIndex, {});
 
-    _.each(chatList, (chat, key) => {
-      const range = key + 1;
+    const setAgentDetails = (agent, showAvatar, avatarPath) => {
+      agent.showAvatar = showAvatar;
+      agent.avatarPath = avatarPath || '';
+    };
 
-      if (chat.nick !== 'visitor' && range <= chatList.length) {
-        const nextChat = chatList[range];
+    console.log('applyAvatarFlag');
 
-        // If it's the last element OR
-        // The current chat is not the same as as the next then we know it is the last chat group for that agent
-        if (range === chatList.length || chat.nick !== nextChat.nick) {
-          chat.showAvatar = true;
-          chat.avatarPath = agents[chat.nick].avatar_path || '';
-        } else {
-          chat.showAvatar = false;
-        }
+    if (chatList.length > 1 || lastIndex === 0) {
+      console.log('currentAgent = true');
+      setAgentDetails(currentAgent, true, agents[currentAgent.nick].avatar_path);
+
+      if (currentAgent.nick === previousAgent.nick) {
+        setAgentDetails(previousAgent, false);
       }
-    });
+    }
+
+    return chatList;
+  }
+
+  processChatList = (chatList) => {
+    const lastIndex = chatList.length - 1;
+
+    if (lastIndex >= 0 && chatList[lastIndex].nick !== 'visitor') {
+      chatList = this.keepFirstName(chatList);
+      chatList = this.applyAvatarFlag(chatList);
+    }
 
     return chatList;
   }
@@ -70,15 +82,9 @@ export class ChatLog extends Component {
                     .filter((m) => m.type === 'chat.msg')
                     .value();
 
-    // Possible performance issue in the future with concurrent chats
-    // due to multiple collection op per chat message. May slow down
-    // with large chat logs.
-    chatList = this.keepFirstName(chatList);
-    chatList = this.applyAvatarFlag(chatList);
-
     return (
       <span>
-        {_.map(chatList, this.renderChatMessage)}
+        {_.map(this.processChatList(chatList), this.renderChatMessage)}
       </span>
     );
   }
