@@ -397,6 +397,10 @@ function setupMediator() {
 
   mediator.channel.subscribe('helpCenterForm.isAuthenticated', () => {
     hasAuthenticatedSuccessfully = true;
+
+    waitForRootComponent(() => {
+      getWebWidgetComponent().setHelpCenterAuth(hasAuthenticatedSuccessfully);
+    });
   });
 
   mediator.channel.subscribe('webWidget.activate', () => {

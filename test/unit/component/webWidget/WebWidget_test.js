@@ -134,6 +134,24 @@ describe('WebWidget component', () => {
     });
   });
 
+  describe('setHelpCenterAuth', () => {
+    let webWidget,
+      updateHelpCenterAuthSpy;
+
+    beforeEach(() => {
+      updateHelpCenterAuthSpy = jasmine.createSpy('updateHelpCenterAuth');
+      webWidget = instanceRender(<WebWidget updateHelpCenterAuth={updateHelpCenterAuthSpy} />);
+      webWidget.setHelpCenterAuth(true);
+    });
+
+    it('should call updateHelpCenterAuth with params', () => {
+      const expected = ['helpCenterForm', true];
+
+      expect(updateHelpCenterAuthSpy)
+        .toHaveBeenCalledWith(...expected);
+    });
+  });
+
   describe('#onCancelClick', () => {
     let webWidget;
 

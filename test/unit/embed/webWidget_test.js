@@ -1293,9 +1293,11 @@ describe('embed.webWidget', () => {
     });
 
     describe('with authenticated help center', () => {
-      let mockMediator;
+      let mockMediator,
+        setHelpCenterAuthSpy;
 
       beforeEach(() => {
+        setHelpCenterAuthSpy = jasmine.createSpy('setHelpCenterAuth');
         mockMediator = mockRegistry['service/mediator'].mediator;
         webWidget.create('',
           {
@@ -1312,7 +1314,8 @@ describe('embed.webWidget', () => {
             return {
               getHelpCenterComponent: () => {
                 return { contextualSearch: contextualSearchSpy };
-              }
+              },
+              setHelpCenterAuth: setHelpCenterAuthSpy
             };
           }
         };
@@ -1337,6 +1340,9 @@ describe('embed.webWidget', () => {
 
         expect(contextualSearchSpy)
           .toHaveBeenCalledWith({ url: true, pageKeywords: 'foo bar' });
+
+        expect(setHelpCenterAuthSpy)
+          .toHaveBeenCalledWith(true);
       });
     });
   });

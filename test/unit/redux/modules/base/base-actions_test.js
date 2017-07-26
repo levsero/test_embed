@@ -78,6 +78,34 @@ describe('base redux actions', () => {
     });
   });
 
+  describe('updateHelpCenterAuth', () => {
+    let embed,
+      bool,
+      action;
+
+    beforeEach(() => {
+      embed = 'helpCenter';
+      bool = true;
+      mockStore.dispatch(actions.updateHelpCenterAuth(embed, bool));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_EMBED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_EMBED);
+    });
+
+    it('has a name property in the payload', () => {
+      expect(action.payload)
+        .toEqual(jasmine.objectContaining({ name: embed }));
+    });
+
+    it('has an authenticated property in the payload', () => {
+      expect(action.payload)
+        .toEqual(jasmine.objectContaining({ params: { authenticated: bool } }));
+    });
+  });
+
   describe('updateZopimOnline', () => {
     let action;
 

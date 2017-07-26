@@ -34,4 +34,14 @@ export const updateBackButtonVisibility = (visible = true) => {
     type: UPDATE_BACK_BUTTON_VISIBILITY,
     payload: visible
   };
+}
+
+export const updateHelpCenterAuth = (name, bool) => {
+  return {
+    type: UPDATE_EMBED,
+    payload: {
+      name,
+      params: { authenticated: bool }
+    }
+  };
 };

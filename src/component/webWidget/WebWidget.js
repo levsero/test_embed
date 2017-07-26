@@ -10,6 +10,7 @@ import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
          updateEmbedAccessible,
+         updateHelpCenterAuth,
          updateBackButtonVisibility } from 'src/redux/modules/base';
 
 const submitTicket = 'ticketSubmissionForm';
@@ -67,7 +68,9 @@ class WebWidget extends Component {
     zendeskHost: PropTypes.string.isRequired,
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
-    activeEmbed: PropTypes.string.isRequired
+    updateHelpCenterAuth: PropTypes.func.isRequired,
+    activeEmbed: PropTypes.string.isRequired,
+    embeds: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -145,11 +148,25 @@ class WebWidget extends Component {
     }
   }
 
+  setHelpCenterAuth = (bool) => {
+    const { updateHelpCenterAuth } = this.props;
+
+    updateHelpCenterAuth(helpCenter, bool);
+  }
+
   resetActiveEmbed = () => {
-    const { updateActiveEmbed, helpCenterAvailable, updateBackButtonVisibility } = this.props;
+    const {
+      embeds,
+      updateActiveEmbed,
+      helpCenterConfig,
+      helpCenterAvailable,
+      showBackButton,
+      updateBackButtonVisibility } = this.props;
+    const { signInRequired } = helpCenterConfig;
+    const helpCenterAuth = _.get(embeds, `${helpCenter}.authenticated`, false);
     let backButton = false;
 
-    if (helpCenterAvailable) {
+    if (helpCenterAvailable && (!signInRequired || helpCenterAuth)) {
       updateActiveEmbed(helpCenter);
       backButton = this.articleViewActive();
     } else if (this.channelChoiceAvailable()) {
@@ -359,7 +376,8 @@ class WebWidget extends Component {
 const actionCreators = {
   updateActiveEmbed,
   updateEmbedAccessible,
-  updateBackButtonVisibility
+  updateBackButtonVisibility,
+  updateHelpCenterAuth
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);
