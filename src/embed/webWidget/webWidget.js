@@ -640,11 +640,13 @@ function makeChatConfig(config) {
   };
 
   config = _.extend({}, chatConfigDefaults, config);
-  const overrideProxyObject = config.overrideProxy ?
-                              { override_proxy: config.overrideProxy } : // eslint-disable-line camelcase
-                              {};
+  /* eslint-disable camelcase */
+  const overrideProxyObject = config.overrideProxy
+                              ? { override_proxy: config.overrideProxy }
+                              : {};
 
-  return _.extend({}, { account_key: config.zopimId }, overrideProxyObject); // eslint-disable-line camelcase
+  return _.extend({}, { account_key: config.zopimId }, overrideProxyObject);
+  /* eslint-enable camelcase */
 }
 
 function setUpHelpCenter(config) {
