@@ -122,7 +122,7 @@ class WebWidget extends Component {
 
   getHelpCenterComponent = () => this.refs[helpCenter];
 
-  articleViewActive = () => this.getHelpCenterComponent().state.articleViewActive;
+  articleViewActive = () => _.get(this.getHelpCenterComponent(), 'state.articleViewActive', false);
 
   channelChoiceAvailable = () => this.props.channelChoice && this.chatOnline() && this.props.submitTicketAvailable;
 
