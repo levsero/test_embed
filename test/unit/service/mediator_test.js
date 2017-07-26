@@ -417,10 +417,31 @@ describe('mediator', () => {
           .toEqual(1);
       });
 
-      it('should not call launcher show if isHidden is true', () => {
-        mediator.init({ submitTicket: false, helpCenter: true }, { helpCenterSignInRequired: true });
+      it('should not call launcher show if launcher.userHidden is true', () => {
+        mediator.init(
+          { submitTicket: false, helpCenter: true },
+          { helpCenterSignInRequired: true, hideLauncher: true }
+        );
 
-        c.broadcast('.hide');
+        c.broadcast('authentication.onSuccess');
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
+      });
+
+      it('should not call launcher show if chat.connectionPending is true', () => {
+        mediator.init({ chat: true, helpCenter: true }, { helpCenterSignInRequired: true });
+
+        c.broadcast('authentication.onSuccess');
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
+      });
+
+      it('should not call launcher show if ipm.isVisible is true', () => {
+        mediator.init({ helpCenter: true }, { helpCenterSignInRequired: true });
+
+        c.broadcast('ipm.onShow');
         c.broadcast('authentication.onSuccess');
 
         expect(launcherSub.show.calls.count())

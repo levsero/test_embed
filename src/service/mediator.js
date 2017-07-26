@@ -594,9 +594,15 @@ function initMessaging() {
 
   c.intercept('authentication.onSuccess', () => {
     state[`${helpCenter}.isAccessible`] = true;
-    if (!embedVisible(state) && state[`${helpCenter}.isAccessible`]) {
+    if (!embedVisible(state) && helpCenterAvailable()) {
       resetActiveEmbed();
-      if (!state['.hasHidden']) {
+
+      const connectionPending = state[`${chat}.isAccessible`] && state[`${chat}.connectionPending`];
+
+      if (!state[`${launcher}.userHidden`] &&
+        !connectionPending &&
+        !state[`${launcher}.isVisible`] &&
+        !state['ipm.isVisible']) {
         c.broadcast(`${launcher}.show`);
       }
     }
