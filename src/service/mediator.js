@@ -594,9 +594,12 @@ function initMessaging() {
 
   c.intercept('authentication.onSuccess', () => {
     state[`${helpCenter}.isAccessible`] = true;
-    if (!embedVisible(state) && state[`${helpCenter}.isAccessible`]) {
+    if (!embedVisible(state) && helpCenterAvailable()) {
       resetActiveEmbed();
-      if (!state['.hasHidden']) {
+
+      if (!state[`${launcher}.userHidden`] &&
+        !state[`${chat}.isAccessible`] &&
+        !state['ipm.isVisible']) {
         c.broadcast(`${launcher}.show`);
       }
     }
