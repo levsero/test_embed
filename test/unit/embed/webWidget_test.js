@@ -775,7 +775,7 @@ describe('embed.webWidget', () => {
 
         it('calls zChat init with the chat key and the override_proxy key', () => {
           expect(zChatInitSpy)
-            .toHaveBeenCalledWith({ account_key: '123abc', override_proxy: 'hades.zopim.org'}); // eslint-disable-line camelcase
+            .toHaveBeenCalledWith({ account_key: '123abc', override_proxy: 'hades.zopim.org'});
         });
       });
       /* eslint-enable camelcase */
