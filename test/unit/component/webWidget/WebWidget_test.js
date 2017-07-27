@@ -147,7 +147,7 @@ describe('WebWidget component', () => {
       webWidget.setHelpCenterAuth(true);
     });
 
-    it('should call updateHelpCenterAuth with a boolean value', () => {
+    it('should call props.updateHelpCenterAuth with a boolean value', () => {
       expect(updateHelpCenterAuthSpy)
         .toHaveBeenCalledWith(true);
     });
