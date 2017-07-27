@@ -2,7 +2,6 @@ import {
   UPDATE_ACTIVE_EMBED,
   UPDATE_EMBED,
   UPDATE_BACK_BUTTON_VISIBILITY,
-  UPDATE_HELP_CENTER_EMBED,
   UPDATE_ZOPIM_ONLINE
 } from './base-action-types';
 
@@ -34,12 +33,5 @@ export const updateBackButtonVisibility = (visible = true) => {
   return {
     type: UPDATE_BACK_BUTTON_VISIBILITY,
     payload: visible
-  };
-};
-
-export const updateHelpCenterAuth = (bool) => {
-  return {
-    type: UPDATE_HELP_CENTER_EMBED,
-    payload: { authenticated: bool }
   };
 };

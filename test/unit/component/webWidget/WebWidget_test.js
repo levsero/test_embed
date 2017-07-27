@@ -64,6 +64,9 @@ describe('WebWidget component', () => {
         updateActiveEmbed: noop,
         updateEmbedAccessible: noop,
         updateBackButtonVisibility: noop
+      },
+      'src/redux/modules/helpCenter': {
+        updateHelpCenterAuth: noop
       }
     });
 

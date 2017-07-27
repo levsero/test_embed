@@ -10,8 +10,8 @@ import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
          updateEmbedAccessible,
-         updateHelpCenterAuth,
          updateBackButtonVisibility } from 'src/redux/modules/base';
+import { updateHelpCenterAuth } from 'src/redux/modules/helpCenter';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
@@ -20,13 +20,13 @@ const zopimChat = 'zopimChat';
 const channelChoice = 'channelChoice';
 
 const mapStateToProps = (state) => {
-  const { base, chat } = state;
+  const { base, chat, helpCenter } = state;
 
   return {
+    chat,
     activeEmbed: base.activeEmbed,
-    chat: chat,
     zopimOnline: base.zopim,
-    helpCenterAuth: _.get(base, `embeds.${helpCenter}.authenticated`, false)
+    helpCenterAuth: helpCenter.authenticated
   };
 };
 
