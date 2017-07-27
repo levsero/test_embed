@@ -8,7 +8,9 @@ import {
   SENT_CHAT_MSG_FAILURE,
   UPDATE_CURRENT_MSG,
   UPDATE_VISITOR_INFO_SUCCESS,
-  UPDATE_VISITOR_INFO_FAILURE
+  UPDATE_VISITOR_INFO_FAILURE,
+  SEND_CHAT_RATING_SUCCESS,
+  SEND_CHAT_RATING_FAILURE
 } from './chat-action-types';
 
 const chatTypingTimeout = 2000;
@@ -89,6 +91,21 @@ export function setVisitorInfo(visitor) {
         });
       } else {
         dispatch({ type: UPDATE_VISITOR_INFO_FAILURE });
+      }
+    });
+  };
+}
+
+export function sendChatRating(rating = null) {
+  return (dispatch) => {
+    zChat.sendChatRating(rating, (err) => {
+      if (!err) {
+        dispatch({
+          type: SEND_CHAT_RATING_SUCCESS,
+          payload: rating
+        });
+      } else {
+        dispatch({ type: SEND_CHAT_RATING_FAILURE });
       }
     });
   };

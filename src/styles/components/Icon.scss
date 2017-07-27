@@ -231,18 +231,15 @@
   box-sizing: border-box;
 
   svg {
-    fill: $cta-color;
+    fill: $zd-color-monsoon;
     color: #999;
-    min-width: #{26/$font-size}rem; /* 1 */
-    min-height: #{26/$font-size}rem; /* 1 */
-    height: #{26/$font-size}rem;
-    width: #{26/$font-size}rem;
-    padding: 0;
+    min-width: #{15/$font-size}rem; /* 1 */
+    min-height: #{15/$font-size}rem; /* 1 */
+    height: #{15/$font-size}rem;
+    width: #{15/$font-size}rem;
+    padding: #{7/$font-size}rem 0 0;
     display: inline-block;
     position: relative;
-    top: 50%;
-    margin-top: -#{14/$font-size}rem;
-    margin-left: -#{1/$font-size}rem;
   }
 }
 
@@ -260,6 +257,32 @@
 
   [dir='rtl'] & {
     padding-left: 0;
+  }
+}
+
+.Icon--ellipsis {
+  padding-right: 0;
+
+  svg {
+    padding: #{5/$font-size}rem;
+    border-radius: #{4/$font-size}rem;
+
+    min-width: #{14/$font-size}rem;
+    min-height: #{14/$font-size}rem;
+    width: #{14/$font-size}rem;
+    height: #{14/$font-size}rem;
+
+    g {
+      fill: $zd-color-aluminum !important;
+    }
+
+    &:hover, &:active, &:focus {
+      background: $zd-color-platinum;
+
+      g {
+        fill: $zd-color-dark-gray !important;
+      }
+    }
   }
 }
 

@@ -65,6 +65,13 @@ describe('dropdown component', () => {
           isRTL: () => mockIsRTL
         }
       },
+      'utility/globals': {
+        document: {
+          documentElement: {
+            clientHeight: 100
+          }
+        }
+      },
       'utility/keyboard': {
         keyCodes: {
           'DOWN': 40,
@@ -236,9 +243,11 @@ describe('dropdown component', () => {
       });
     });
 
-    describe('when height is < props.frameHeight / 2', () => {
+    describe('when height is less that half of the frame height', () => {
       beforeEach(() => {
-        dropdown = domRender(<Dropdown frameHeight={100} />);
+        const getFrameDimensions = () => { return { height: 100 }; };
+
+        dropdown = domRender(<Dropdown getFrameDimensions={getFrameDimensions} />);
         dropdown.height = 49;
         dropdown.setState({ open: true });
       });
@@ -249,14 +258,31 @@ describe('dropdown component', () => {
       });
     });
 
-    describe('when height is > props.frameHeight / 2', () => {
+    describe('when height is greater than half the frame height', () => {
       beforeEach(() => {
-        dropdown = domRender(<Dropdown frameHeight={100} />);
+        const getFrameDimensions = () => { return { height: 100 }; };
+
+        dropdown = domRender(<Dropdown getFrameDimensions={getFrameDimensions} />);
         dropdown.height = 51;
         dropdown.setState({ open: true });
       });
 
       it('should have menu up classes', () => {
+        expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuUpClasses'))
+          .not.toBeNull();
+      });
+    });
+
+    describe('when the frame height is 100%', () => {
+      beforeEach(() => {
+        const getFrameDimensions = () => { return { height: '100%' }; };
+
+        dropdown = domRender(<Dropdown getFrameDimensions={getFrameDimensions} />);
+        dropdown.height = 51;
+        dropdown.setState({ open: true });
+      });
+
+      it('should use the client height vaue and have menu up classes', () => {
         expect(ReactDOM.findDOMNode(dropdown).querySelector('.menuUpClasses'))
           .not.toBeNull();
       });

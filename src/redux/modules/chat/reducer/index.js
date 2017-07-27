@@ -8,6 +8,7 @@ import currentMessage from './chat-current-message';
 import departments from './chat-departments';
 import isChatting from './chat-is-chatting';
 import visitor from './chat-visitor';
+import rating from './chat-rating';
 
 export default combineReducers({
   account_status: accountStatus,
@@ -17,6 +18,7 @@ export default combineReducers({
   currentMessage,
   departments,
   is_chatting: isChatting,
-  visitor
+  visitor,
+  rating
 });
 

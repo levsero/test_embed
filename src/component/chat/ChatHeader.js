@@ -5,18 +5,45 @@ import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatHeader.sass';
 
 import { Avatar } from 'component/Avatar';
-import { ButtonSecondary } from 'component/button/ButtonSecondary';
+import { ButtonIcon } from 'component/button/ButtonIcon';
 
 export class ChatHeader extends Component {
   static propTypes = {
     agents: PropTypes.object,
-    endChat: PropTypes.func
+    endChat: PropTypes.func,
+    updateRating: PropTypes.func.isRequired,
+    rating: PropTypes.string
   };
 
   static defaultProps = {
     agents: {},
-    endChat: () => {}
+    rating: null
   };
+
+  ratingClickedHandler = (value) => {
+    const rating = this.props.rating === value ? null : value;
+
+    this.props.updateRating(rating);
+  }
+
+  renderRatingButton = () => {
+    const { rating } = this.props;
+    const thumbUpActiveStyle = rating === 'good' ? styles.ratingIconActive : '';
+    const thumbDownActiveStyle = rating === 'bad' ? styles.ratingIconActive : '';
+
+    return (
+      <div className={styles.ratingContainer}>
+        <ButtonIcon
+          className={`${styles.ratingIcon} ${thumbUpActiveStyle}`}
+          icon='Icon--thumbUp'
+          onClick={() => this.ratingClickedHandler('good')} />
+        <ButtonIcon
+          className={`${styles.thumbDownIcon} ${thumbDownActiveStyle}`}
+          icon='Icon--thumbDown'
+          onClick={() => this.ratingClickedHandler('bad')} />
+      </div>
+    );
+  }
 
   render = () => {
     const { agents } = this.props;
@@ -36,10 +63,7 @@ export class ChatHeader extends Component {
           <div className={styles.title}>{title}</div>
           <div>{subText}</div>
         </div>
-        <ButtonSecondary
-          onClick={this.props.endChat}
-          className={styles.button}
-          label={i18n.t('embeddable_framework.chat.end.label', { fallback: 'End' })} />
+        {this.renderRatingButton()}
       </div>
     );
   }

@@ -12,6 +12,8 @@ describe('renderer', () => {
   const updateBaseFontSize = jasmine.createSpy();
   const updateFrameSize = jasmine.createSpy();
   const rendererPath = buildSrcPath('service/renderer');
+  const mediatorInitZopimStandaloneSpy = jasmine.createSpy('mediator.initZopimStandalone');
+  const mediatorInitSpy = jasmine.createSpy('mediator.init');
   const mockTrackSettings = { webWidget: 'foo' };
 
   const embedMocker = (name) => {
@@ -75,9 +77,9 @@ describe('renderer', () => {
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe']),
-          init: jasmine.createSpy(),
+          init: mediatorInitSpy,
           initMessaging: jasmine.createSpy(),
-          initZopimStandalone: jasmine.createSpy()
+          initZopimStandalone: mediatorInitZopimStandaloneSpy
         }
       },
       'lodash': _,
@@ -291,6 +293,40 @@ describe('renderer', () => {
 
       expect(mockLauncher.render.calls.count())
         .toEqual(1);
+    });
+
+    describe('zopimStandalone', () => {
+      let configJSON;
+
+      beforeEach(() => {
+        configJSON = {
+          embeds: {
+            'zopimChat': {
+              'embed': 'chat',
+              'props': {
+                'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
+                'position': 'br',
+                'standalone': true
+              }
+            }
+          }
+        };
+
+        mediatorInitSpy.calls.reset();
+        mediatorInitZopimStandaloneSpy.calls.reset();
+
+        renderer.init(configJSON);
+      });
+
+      it('should call mediator.initZopimStandalone', () => {
+        expect(mediatorInitZopimStandaloneSpy)
+          .toHaveBeenCalled();
+      });
+
+      it('should not call mediator.init', () => {
+        expect(mediatorInitSpy)
+          .not.toHaveBeenCalled();
+      });
     });
 
     describe('when singleIframe is true', () => {

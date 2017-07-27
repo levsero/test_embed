@@ -7,6 +7,7 @@ import { locals as styles } from './Dropdown.sass';
 import { DropdownMenu } from 'component/field/DropdownMenu';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
+import { document } from 'utility/globals';
 import { keyCodes } from 'utility/keyboard';
 
 const animationDuration = 200;
@@ -18,7 +19,7 @@ export class Dropdown extends Component {
       PropTypes.string
     ]).isRequired,
     fullscreen: PropTypes.bool,
-    frameHeight: PropTypes.number,
+    getFrameDimensions: PropTypes.func,
     landscape: PropTypes.bool,
     description: PropTypes.string,
     onChange: PropTypes.func,
@@ -30,7 +31,9 @@ export class Dropdown extends Component {
 
   static defaultProps = {
     fullscreen: false,
-    frameHeight: 500,
+    getFrameDimensions: () => {
+      return { height: 500, width: 342 };
+    },
     landscape: false,
     description: '',
     onChange: () => {},
@@ -261,7 +264,11 @@ export class Dropdown extends Component {
     const mobileClasses = this.props.fullscreen ? styles.menuContainerMobile : '';
 
     // If the dropdown is below half the height of the frame have it open up.
-    const posClasses = this.height > this.props.frameHeight/2 ? styles.menuUp : '';
+    const frameHeightValue = this.props.getFrameDimensions().height;
+    const frameHeight = frameHeightValue === '100%' || !frameHeightValue
+                 ? document.documentElement.clientHeight
+                 : frameHeightValue;
+    const posClasses = this.height > frameHeight/2 ? styles.menuUp : '';
 
     return (
       <div className={`${styles.menuContainer} ${posClasses} ${mobileClasses}`}>

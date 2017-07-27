@@ -1385,6 +1385,7 @@ describe('embed.webWidget', () => {
               }
             }
           );
+          webWidget.render();
           spyOn(webWidget, 'keywordsSearch');
         });
 
@@ -1400,7 +1401,6 @@ describe('embed.webWidget', () => {
 
           beforeEach(() => {
             mockMediator = mockRegistry['service/mediator'].mediator;
-            webWidget.render();
           });
 
           describe('before post render', () => {
@@ -1462,7 +1462,6 @@ describe('embed.webWidget', () => {
           beforeEach(() => {
             const mockMediator = mockRegistry['service/mediator'].mediator;
 
-            webWidget.render();
             pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')(['foo']);
 
             targetSpy.calls.reset();

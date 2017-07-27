@@ -8,7 +8,8 @@ let actions,
   mockSendChatMsg = jasmine.createSpy('sendChatMsg'),
   mockSendTyping = jasmine.createSpy('sendTyping'),
   mockSetVisitorInfo = jasmine.createSpy('mockSetVisitorInfo'),
-  mockEndChat = jasmine.createSpy('endChat');
+  mockEndChat = jasmine.createSpy('endChat'),
+  mockSendChatRating = jasmine.createSpy('sendChatRating');
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -22,7 +23,8 @@ describe('chat redux actions', () => {
         sendChatMsg: mockSendChatMsg,
         sendTyping: mockSendTyping,
         endChat: mockEndChat,
-        setVisitorInfo: mockSetVisitorInfo
+        setVisitorInfo: mockSetVisitorInfo,
+        sendChatRating: mockSendChatRating
       }
     });
 
@@ -72,12 +74,12 @@ describe('chat redux actions', () => {
         .toEqual(message);
     });
 
-    it('calls sendTyping(true) on the web sdk', () => {
+    it('calls sendTyping(true) on the Web SDK', () => {
       expect(mockSendTyping)
         .toHaveBeenCalledWith(true);
     });
 
-    it('calls sendTyping(false) on the web sdk after 2 seconds', () => {
+    it('calls sendTyping(false) on the Web SDK after 2 seconds', () => {
       jasmine.clock().tick(2000);
 
       expect(mockSendTyping)
@@ -93,7 +95,7 @@ describe('chat redux actions', () => {
       mockStore.dispatch(actions.sendMsg(message));
     });
 
-    it('calls sendChatMsg on the web sdk', () => {
+    it('calls sendChatMsg on the Web SDK', () => {
       expect(mockSendChatMsg)
         .toHaveBeenCalled();
     });
@@ -160,7 +162,7 @@ describe('chat redux actions', () => {
       mockStore.dispatch(actions.endChat());
     });
 
-    it('calls sendChatMsg on the web sdk', () => {
+    it('calls sendChatMsg on the Web SDK', () => {
       expect(mockEndChat)
         .toHaveBeenCalled();
     });
@@ -209,7 +211,7 @@ describe('chat redux actions', () => {
       mockStore.dispatch(actions.setVisitorInfo(info));
     });
 
-    it('calls setVisitorInfo on the web sdk', () => {
+    it('calls setVisitorInfo on the Web SDK', () => {
       expect(mockSetVisitorInfo)
         .toHaveBeenCalled();
     });
@@ -246,6 +248,56 @@ describe('chat redux actions', () => {
           expect(mockStore.getActions())
             .toContain({
               type: actionTypes.UPDATE_VISITOR_INFO_FAILURE
+            });
+        });
+      });
+    });
+  });
+
+  describe('sendChatRating', () => {
+    beforeEach(() => {
+      const rating = 'good';
+
+      mockStore.dispatch(actions.sendChatRating(rating));
+    });
+
+    it('calls sendChatRating on the Web SDK', () => {
+      expect(mockSendChatRating)
+        .toHaveBeenCalled();
+    });
+
+    describe('Web SDK callback', () => {
+      let callbackFn;
+
+      beforeEach(() => {
+        const sendChatRatingCalls = mockSendChatRating.calls.mostRecent().args;
+
+        callbackFn = sendChatRatingCalls[1];
+      });
+
+      describe('when there are no errors', () => {
+        beforeEach(() => {
+          callbackFn();
+        });
+
+        it('dispatches a SEND_CHAT_RATING_SUCCESS action with the correct payload', () => {
+          expect(mockStore.getActions())
+            .toContain({
+              type: actionTypes.SEND_CHAT_RATING_SUCCESS,
+              payload: 'good'
+            });
+        });
+      });
+
+      describe('when there are errors', () => {
+        beforeEach(() => {
+          callbackFn(['error!']);
+        });
+
+        it('dispatches a SEND_CHAT_RATING_FAILURE action', () => {
+          expect(mockStore.getActions())
+            .toContain({
+              type: actionTypes.SEND_CHAT_RATING_FAILURE
             });
         });
       });

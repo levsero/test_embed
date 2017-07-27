@@ -19,6 +19,15 @@ describe('ChatHeader component', () => {
       'component/button/ButtonSecondary': {
         ButtonSecondary: noopReactComponent()
       },
+      'component/button/ButtonIcon': {
+        ButtonIcon: class extends Component {
+          render = () => {
+            return (
+              <div className={`${this.props.icon} ${this.props.className}`} />
+            );
+          }
+        }
+      },
       'service/i18n': {
         i18n: {
           t: noop
@@ -27,7 +36,8 @@ describe('ChatHeader component', () => {
       './ChatHeader.sass': {
         locals: {
           container: 'container',
-          textContainer: 'textContainer'
+          textContainer: 'textContainer',
+          ratingIconActive: 'ratingIconActive'
         }
       }
     });
@@ -81,6 +91,123 @@ describe('ChatHeader component', () => {
 
         expect(avatar.props.src)
           .toEqual('https://example.com/snake');
+      });
+    });
+  });
+
+  describe('renderRatingButton', () => {
+    let chatHeaderNode;
+
+    describe('when the rating value is good', () => {
+      beforeEach(() => {
+        const component = domRender(<ChatHeader rating='good' />);
+
+        chatHeaderNode = ReactDOM.findDOMNode(component);
+      });
+
+      it('should render active styles for thumbUp button', () => {
+        const buttonIconNode = chatHeaderNode.querySelector('.Icon--thumbUp');
+
+        expect(buttonIconNode.className)
+          .toContain('ratingIconActive');
+      });
+
+      it('should not render active styles for thumbDown button', () => {
+        const buttonIconNode = chatHeaderNode.querySelector('.Icon--thumbDown');
+
+        expect(buttonIconNode.className)
+          .not.toContain('ratingIconActive');
+      });
+    });
+
+    describe('when the rating value is bad', () => {
+      beforeEach(() => {
+        const component = domRender(<ChatHeader rating='bad' />);
+
+        chatHeaderNode = ReactDOM.findDOMNode(component);
+      });
+
+      it('should render active styles for thumbDown button', () => {
+        const buttonIconNode = chatHeaderNode.querySelector('.Icon--thumbDown');
+
+        expect(buttonIconNode.className)
+          .toContain('ratingIconActive');
+      });
+
+      it('should not render active styles for thumbDown button', () => {
+        const buttonIconNode = chatHeaderNode.querySelector('.Icon--thumbUp');
+
+        expect(buttonIconNode.className)
+          .not.toContain('ratingIconActive');
+      });
+    });
+
+    describe('when the rating value is falsy', () => {
+      let thumbUpNode,
+        thumbDownNode;
+
+      beforeEach(() => {
+        const component = domRender(<ChatHeader />);
+
+        chatHeaderNode = ReactDOM.findDOMNode(component);
+        thumbUpNode = chatHeaderNode.querySelector('.Icon--thumbUp');
+        thumbDownNode = chatHeaderNode.querySelector('.Icon--thumbDown');
+      });
+
+      it('should render both buttons without active styles', () => {
+        expect(thumbUpNode)
+          .not.toContain('ratingIconActive');
+
+        expect(thumbDownNode)
+          .not.toContain('ratingIconActive');
+      });
+    });
+  });
+
+  describe('ratingClickedHandler', () => {
+    let component,
+      mockUpdateRating,
+      mockRating;
+
+    describe('when an existing rating does not exist', () => {
+      beforeEach(() => {
+        mockUpdateRating = jasmine.createSpy('updateRating');
+        mockRating = 'good';
+
+        component = instanceRender(<ChatHeader updateRating={mockUpdateRating} />);
+        component.ratingClickedHandler(mockRating);
+      });
+
+      it('should call updateRating with the new rating', () => {
+        expect(mockUpdateRating)
+          .toHaveBeenCalledWith(mockRating);
+      });
+    });
+
+    describe('when an existing rating exists', () => {
+      beforeEach(() => {
+        mockUpdateRating = jasmine.createSpy('updateRating');
+        mockRating = 'good';
+
+        component = instanceRender(
+          <ChatHeader
+            rating={mockRating}
+            updateRating={mockUpdateRating} />
+        );
+      });
+
+      it('should call updateRating with the new rating for a different', () => {
+        component.ratingClickedHandler('bad');
+
+        expect(mockUpdateRating)
+          .toHaveBeenCalledWith('bad');
+      });
+
+      it('should call updateRating with null for the same rating', () => {
+        component.ratingClickedHandler(mockRating);
+
+        expect(mockUpdateRating)
+          .toHaveBeenCalledWith(null);
       });
     });
   });

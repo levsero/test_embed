@@ -2,6 +2,7 @@
 
 .container {
   composes: u-flex u-flexAlignItemsCenter u-posStart--flush u-posAbsolute u-hsizeAll from global;
+
   background-color: $base-color;
   border-bottom: #{1/$font-size}rem solid $zd-color-gainsboro;
   box-sizing: border-box;
@@ -13,14 +14,53 @@
 }
 
 .textContainer {
-  padding-left: #{8/$font-size}rem;
+  composes: u-paddingLS from global;
 }
 
 .title {
   composes: u-textBold from global;
-  color: $zd-color-pelorous;
+
+  color: $zd-color-oil;
 }
 
 .button {
   margin-left: auto;
+}
+
+.ratingContainer {
+  margin-left: auto;
+}
+
+.ratingIcon {
+  composes: u-borderTransparent from global;
+
+  display: inline-block !important;
+  padding: #{6/$font-size}rem;
+  height: #{16/$font-size}rem;
+  width: #{16/$font-size}rem;
+
+  &:hover, &:focus, &:active {
+    background-color: $zd-color-white;
+  }
+}
+
+.thumbDownIcon {
+  composes: ratingIcon;
+
+  padding-top: #{7/$font-size}rem;
+  padding-bottom: #{5/$font-size}rem;
+}
+
+.ratingIconActive {
+  border: #{1/$font-size}rem solid $zd-color-gainsboro !important;
+  border-radius: #{4/$font-size}rem;
+  background-color: $zd-color-platinum;
+
+  svg > path {
+    fill: $zd-color-dark-gray;
+  }
+
+  &:hover, &:focus, &:active {
+    background-color: $zd-color-platinum;
+  }
 }

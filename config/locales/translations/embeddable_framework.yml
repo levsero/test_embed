@@ -5,6 +5,18 @@ packages:
   - enduser_widget
 
 parts:
+  # Common
+  - translation:
+      key: "embeddable_framework.common.button.cancel"
+      title: "A generic label to describe the button's action to cancel something. e.g cancel a form, action, etc"
+      screenshot: "https://zendesk.box.com/s/3514kju8pwjj7mz5i4qq92obfr1vq88j"
+      value: "Cancel"
+  - translation:
+      key: "embeddable_framework.common.button.send"
+      title: "A generic label to describe the button's action to send something. e.g send a form (not submit), action, etc"
+      screenshot: "https://zendesk.box.com/s/d01wl1cw7rjr4f3euac0wh8jnlrgn82w"
+      value: "Send"
+
   # Launcher embed
   - translation:
       key: "embeddable_framework.launcher.label.help"
@@ -58,6 +70,188 @@ parts:
       title: "The label that displays once chat has ended"
       value: "Chat ended"
       wip: true
+
+  # Chat Web SDK
+  - translation:
+      key: "embeddable_framework.chat.form.editContact.title"
+      title: "The title of the form modal that is shown when the user edits the contact details in chat"
+      screenshot: "https://zendesk.box.com/s/mtl15a783261tdd42rb5tt8i3ptw1hpp"
+      value: "Edit contact details"
+  - translation:
+      key: "embeddable_framework.chat.form.editContact.button.save"
+      title: "A button to confirm and save all details placed in a form modal of Edit contact Details"
+      screenshot: "https://zendesk.box.com/s/e8rnqew6iwbgu945kln1nkangupp8vbs"
+      value: "Save"
+  - translation:
+      key: "embeddable_framework.chat.form.editContact.placeholder.name"
+      title: "A greyed-out placeholder text that is displayed on the name field when the user has not typed anything"
+      screenshot: "https://zendesk.box.com/s/yg3s47evfnczdwaxfhdqn3yx3je9qtk1"
+      value: "Name"
+  - translation:
+      key: "embeddable_framework.chat.form.editContact.placeholder.email"
+      title: "A greyed-out placeholder text that is displayed on the email field when the user has not typed anything"
+      screenshot: "https://zendesk.box.com/s/wsbiu5y46j43s2hcoecx5moys7ijohvy"
+      value: "Email"
+  - translation:
+      key: "embeddable_framework.chat.preChat.online.button.startChat"
+      title: "A button in the pre-chat form that is enabled once the user has filled in the required chat details"
+      screenshot: "https://zendesk.box.com/s/ydey48r6d48boxx7m8f231td6rha3mzz"
+      value: "Start chat"
+  - translation:
+      key: "embeddable_framework.chat.preChat.offline.button.sendMessage"
+      title: "A submit button in the pre-chat form that becomes available once the user has filled in chat details"
+      screenshot: "https://zendesk.box.com/s/o5wnlsojizy84zf6b5cnn0ho0x2tj41y"
+      value: "Send message"
+  - translation:
+      key: "embeddable_framework.chat.preChat.offline.greeting"
+      title: "A description that is displayed on the offline form when there are no Chat agents online to attend to the user"
+      screenshot: "https://zendesk.box.com/s/qawwqamv9lhpzjjg8mfrfwz4vmp0twbp"
+      value: "Sorry, we aren't online at the moment. Leave a message and we'll get back to you."
+  - translation:
+      key: "embeddable_framework.chat.options.editContactDetails"
+      title: "One of the options that is presented in chat when the user clicks on the ellipses icon"
+      screenshot: "https://zendesk.box.com/s/9sae07rivufhpmr8kf3rv5tmhjalohio"
+      value: "Edit contact details"
+  - translation:
+      key: "embeddable_framework.chat.options.emailTranscript"
+      title: "One of the options that is presented in chat when the user clicks on the ellipses icon"
+      screenshot: "https://zendesk.box.com/s/dctjnojgjq4n9y0gwg72fy9lygmzttul"
+      value: "Email transcript"
+  - translation:
+      key: "embeddable_framework.chat.options.endChat"
+      title: "One of the options that is presented in chat when the user clicks on the ellipses icon"
+      screenshot: "https://zendesk.box.com/s/fgsufv4rj3okcxpabowyvu5ig54ebd2i"
+      value: "End chat"
+  - translation:
+      key: "embeddable_framework.chat.options.sound"
+      title: "One of the options that is presented in chat when the user clicks on the ellipses icon"
+      screenshot: "https://zendesk.box.com/s/9g7xdqxolq9tfc9k27tofi1rbuk8oks8"
+      value: "Sound"
+  - translation:
+      key: "embeddable_framework.chat.options.about"
+      title: "One of the options that is presented in chat when the user clicks on the ellipses icon"
+      screenshot: "https://zendesk.box.com/s/1hzxsd0sbrcmjohme1jl9t5hkasokj8p"
+      value: "About"
+  - translation:
+      key: "embeddable_framework.chat.icon.endChat.hover.label"
+      title: "A text popup that is displayed when the user's cursor is hovered above the end chat icon"
+      screenshot: "https://zendesk.box.com/s/an3d6l0vxyk0lsch5xdd1jjzw0ibdibg"
+      value: "End chat"
+  - translation:
+      key: "embeddable_framework.chat.chatLog.rating.description"
+      title: "A template text to describe the user's rating of the chat followed by a value e.g. Good/Bad"
+      screenshot: "https://zendesk.box.com/s/6217lsbb6xpx9islgzrtg65o6ozma3zz"
+      value: "You rated the chat"
+  - translation:
+      key: "embeddable_framework.chat.chatLog.rating.good"
+      title: "A rating value that is displayed once the user clicks on thumbs up icon"
+      screenshot: "https://zendesk.box.com/s/78c2btcx77ly5d1a4bdaekugzdldoiay"
+      value: "Good"
+  - translation:
+      key: "embeddable_framework.chat.chatLog.rating.bad"
+      title: "A rating value that is displayed once the user clicks on thumbs down icon"
+      screenshot: "https://zendesk.box.com/s/cr65lbpqkg0sutj587wajfukzu58a9kg"
+      value: "Bad"
+  - translation:
+      key: "embeddable_framework.chat.chatLog.chatStarted"
+      title: "An application message that is displayed on the chat log when the user enters into a chat with a Chat agent"
+      screenshot: "https://zendesk.box.com/s/2qm6ess3wmdt3glsjhrmemwqosxgxidf"
+      value: "Chat started"
+  - translation:
+      key: "embeddable_framework.chat.chatLog.button.leaveComment"
+      title: "A text that is displayed on a button that provides the user with the ability to navigate to a rating form"
+      screenshot: "https://zendesk.box.com/s/bawjetlh45rha525gnoy1042n78s9hv5"
+      value: "Leave a comment"
+  - translation:
+      key: "embeddable_framework.chat.chatLog.isTyping"
+      title: "An application notifier that signifies that an X person is typing a message"
+      screenshot: "https://zendesk.box.com/s/wfm8pdh37ft1kpil1jaaghuo8om5w5wl"
+      value: "{{agent}} is typing..."
+  - translation:
+      key: "embeddable_framework.chat.chatLog.resend"
+      title: "A text displayed on a link or a button that allows the user to resend an unsent message due to disconnection or other circumstances"
+      screenshot: "https://zendesk.box.com/s/jgvtmzdm11ubgnj5ritsx6wuikaveldd"
+      value: "Resend"
+  - translation:
+      key: "embeddable_framework.chat.chatLog.reconnecting"
+      title: "A text displayed on a persistent popup notification when the user's chat session has disconnected. It goes away after successful reconnection"
+      screenshot: "https://zendesk.box.com/s/2953g3t145nd7u5fngbpoqrhnp5pmx14"
+      value: "Reconnecting"
+  - translation:
+      key: "embeddable_framework.chat.chatLog.sending"
+      title: "A text that is displayed at the bottom of an attachment signifying that its in the process of being sent to the server."
+      screenshot: "https://zendesk.box.com/s/m25eokdc7fwux7rhkyu6mi6eef9noedc"
+      value: "Sending..."
+  - translation:
+      key: "embeddable_framework.chat.form.endChat.description"
+      title: "A description that is displayed on a form modal to notify the users if they want to quit the current chat"
+      screenshot: "https://zendesk.box.com/s/hsnutdne9ixb8b6ygperw3exb0j2m8uw"
+      value: "Are you sure you want to end this chat?"
+  - translation:
+      key: "embeddable_framework.chat.form.endChat.button.end"
+      title: "A text that is shown on a button when the user would like to end the current chat"
+      screenshot: "https://zendesk.box.com/s/pkzhz6n8nzte7jnu20j8ry0vaadpk9qp"
+      value: "End"
+  - translation:
+      key: "embeddable_framework.chat.postChat.rating.title"
+      title: "A title text describing the intent of the following section, it asks if the user would like to rate the prior chat session"
+      screenshot: "https://zendesk.box.com/s/v26vtuxkv2uvlr0edh6qxs1aetrttny8"
+      value: "Would you like to rate this chat?"
+  - translation:
+      key: "embeddable_framework.chat.postChat.rating.description"
+      title: "A text that describes the intent of the following element. It points the user to leave a comment in the textarea"
+      screenshot: "https://zendesk.box.com/s/ony1lhy6951mebjnw0ujx2sbo1fokuf9"
+      value: "Leave a comment"
+  - translation:
+      key: "embeddable_framework.chat.postChat.rating.placeholder.optional"
+      title: "A greyed-out text that is displayed in a textarea to signify that entering text into it is optional"
+      screenshot: "https://zendesk.box.com/s/iccte733qnja3ez1qhnyj80dhzyanzz5"
+      value: "(optional)"
+  - translation:
+      key: "embeddable_framework.chat.postChat.rating.button.skip"
+      title: "A text that is displayed on a button that provides the user with the option to skip the rating form"
+      screenshot: "https://zendesk.box.com/s/h92r7wfca8hvcp38f8pebx4eec50d5vl"
+      value: "Skip"
+  - translation:
+      key: "embeddable_framework.chat.postChat.button.startNewChat"
+      title: "A button that is presented once the user has previously ended chat but they are still present in the chat window"
+      screenshot: "https://zendesk.box.com/s/ld5xaqrpejbmyy9bfv8le2gk9o23m6zd"
+      value: "Start a new chat"
+  - translation:
+      key: "embeddable_framework.chat.form.emailTranscript.title"
+      title: "The title of the form modal that is shown when the user would like to email chat transcript"
+      screenshot: "https://zendesk.box.com/s/tauvmgi9m45o25lpxd339vbvj88fm5oo"
+      value: "Email chat transcript"
+  - translation:
+      key: "embeddable_framework.chat.popup.button.dismiss"
+      title: "A text that is displayed on a button that provides the user to dismiss the current chat popup notification"
+      screenshot: "https://zendesk.box.com/s/qn0ntbcxo4zr8fwahzf3czadezhsd7ts"
+      value: "Dismiss"
+  - translation:
+      key: "embeddable_framework.chat.popup.button.reply"
+      title: "A text that is displayed on a button that provides the user to navigate to their established chat session in another window"
+      screenshot: "https://zendesk.box.com/s/b1slvax56z1lz1u11d1b3duforg9ygti"
+      value: "Reply"
+  - translation:
+      key: "embeddable_framework.chat.button.oneMessage"
+      title: "A button that displays a new message notification. When clicked it brings the user to a chat session in another window"
+      screenshot: "https://zendesk.box.com/s/634qfi899tj7f2akkpvlq9pzbvveflyp"
+      value: "1 New Message"
+  - translation:
+      key: "embeddable_framework.chat.button.manyMessages"
+      title: "A button that displays a variable amount of new messages as a notification. When clicked it brings the user to a chat session in another window"
+      screenshot: "https://zendesk.box.com/s/6ygpe29dvmecfxtrdki787km6yywl3ff"
+      value: "{{plural_number}} New Messages"
+  - translation:
+      key: "embeddable_framework.chat.chatBox.placeholder.typeMessageHere"
+      title: "A placeholder text that is displayed in the chat box when there is no content"
+      screenshot: "https://zendesk.box.com/s/qz684sm4avuiwz0z6ggvc5impq1e7v0m"
+      value: "Type a message here.."
+  - translation:
+      key: "embeddable_framework.chat.agentList.button.backToChat"
+      title: "A button that is presented at the bottom of the window when the user wants to go back to chatting"
+      screenshot: "https://zendesk.box.com/s/7py8p1xvv56q7bc053rsnvs6id1rraet"
+      value: "Back to chat"
 
   # Submit Ticket component
   - translation:
@@ -243,6 +437,11 @@ parts:
       title: "The button that is displayed after user has searched and there are more then 3 results. Clicking it loads more results."
       screenshot: "https://zendesk.box.com/s/m8r7h3g7b8nzgz87m3xpah3tzhdqpqqb"
       value: "View more"
+  - translation:
+      key: "embeddable_framework.helpCenter.results.button.backToChat"
+      title: "A button that is displayed at the bottom when the user has chatted prior viewing the current helpcenter article"
+      screenshot: "https://zendesk.box.com/s/bgy6121lonubzyv7yj3xvbvrelc5om15"
+      value: "Back to chat"
 
   # Mobile
   - translation:

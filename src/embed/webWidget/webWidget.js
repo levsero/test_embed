@@ -349,7 +349,11 @@ function setupMediator() {
 
   mediator.channel.subscribe('ticketSubmissionForm.setLastSearch', (params) => {
     waitForRootComponent(() => {
-      getWebWidgetComponent().getSubmitTicketComponent().setState(_.pick(params, ['searchTerm', 'searchLocale']));
+      const submitTicket = getWebWidgetComponent().getSubmitTicketComponent();
+
+      if (submitTicket) {
+        submitTicket.setState(_.pick(params, ['searchTerm', 'searchLocale']));
+      }
     });
   });
 
@@ -364,9 +368,11 @@ function setupMediator() {
       const submitTicketForm = getWebWidgetComponent().getSubmitTicketComponent();
       const formData = _.pickBy(_.pick(user, ['name', 'email']), _.isString);
 
-      submitTicketForm.setState({
-        formState: _.extend({}, submitTicketForm.state.formState, formData)
-      });
+      if (submitTicketForm) {
+        submitTicketForm.setState({
+          formState: _.extend({}, submitTicketForm.state.formState, formData)
+        });
+      }
     });
   });
 
@@ -436,7 +442,7 @@ function postRender() {
       !isOnHelpCenterPage()) {
     const options = { url: true };
 
-    performContextualHelp(options);
+    waitForRootComponent(() => performContextualHelp(options));
   }
 
   if (config.tokensRevokedAt) {

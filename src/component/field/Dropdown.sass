@@ -1,3 +1,8 @@
+/**
+ * 1. This needs to be 3 so that it sits on top of the preview icons
+ *    which have a zIndex of 2.
+ */
+
 @import '../../styles/_vars.scss';
 
 $menu-height: #{200/$font-size}rem;
@@ -76,7 +81,8 @@ $menu-height: #{200/$font-size}rem;
 }
 
 .menuContainer {
-  composes: u-posAbsolute u-border u-hsizeAll u-zIndex1 u-posStart--flush from global;
+  composes: u-posAbsolute u-border u-hsizeAll u-posStart--flush from global;
+  z-index: 3; /* 1 */
   border-radius: #{4/$font-size}rem;
   border-color: $zd-color-aluminum;
   top: #{37/$font-size}rem;

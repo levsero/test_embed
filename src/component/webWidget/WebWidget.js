@@ -29,7 +29,7 @@ const mapStateToProps = (state) => {
 
 class WebWidget extends Component {
   static propTypes = {
-    attachmentSender: PropTypes.func.isRequired,
+    attachmentSender: PropTypes.func,
     buttonLabelKey: PropTypes.string,
     channelChoice: PropTypes.bool,
     chat: PropTypes.object.isRequired,
@@ -37,6 +37,7 @@ class WebWidget extends Component {
     disableAutoComplete: PropTypes.bool,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
+    getFrameDimensions: PropTypes.func.isRequired,
     helpCenterAvailable: PropTypes.bool,
     helpCenterConfig: PropTypes.object,
     hideZendeskLogo: PropTypes.bool,
@@ -54,7 +55,7 @@ class WebWidget extends Component {
     subjectEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     submitTicketConfig: PropTypes.object,
-    submitTicketSender: PropTypes.func.isRequired,
+    submitTicketSender: PropTypes.func,
     tags: PropTypes.array,
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
@@ -122,6 +123,8 @@ class WebWidget extends Component {
 
   getHelpCenterComponent = () => this.refs[helpCenter];
 
+  articleViewActive = () => _.get(this.getHelpCenterComponent(), 'state.articleViewActive', false);
+
   channelChoiceAvailable = () => this.props.channelChoice && this.chatOnline() && this.props.submitTicketAvailable;
 
   chatOnline = () => this.props.chat.account_status === 'online' || this.props.zopimOnline;
@@ -144,9 +147,11 @@ class WebWidget extends Component {
 
   resetActiveEmbed = () => {
     const { updateActiveEmbed, helpCenterAvailable, updateBackButtonVisibility } = this.props;
+    let backButton = false;
 
     if (helpCenterAvailable) {
       updateActiveEmbed(helpCenter);
+      backButton = this.articleViewActive();
     } else if (this.channelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
     } else if (this.chatOnline()) {
@@ -154,7 +159,8 @@ class WebWidget extends Component {
     } else {
       updateActiveEmbed(submitTicket);
     }
-    updateBackButtonVisibility(false);
+
+    updateBackButtonVisibility(backButton);
   }
 
   show = (viaActivate = false) => {
@@ -174,11 +180,8 @@ class WebWidget extends Component {
   }
 
   showHelpCenter = () => {
-    const helpCenterComponent = this.getHelpCenterComponent();
-    const { articleViewActive } = helpCenterComponent.state;
-
     this.props.updateActiveEmbed(helpCenter);
-    this.props.updateBackButtonVisibility(articleViewActive);
+    this.props.updateBackButtonVisibility(this.articleViewActive());
   }
 
   onNextClick = (embed) => {
@@ -297,6 +300,7 @@ class WebWidget extends Component {
           customFields={submitTicketConfig.customFields}
           disableAutoComplete={this.props.disableAutoComplete}
           formTitleKey={submitTicketConfig.formTitleKey}
+          getFrameDimensions={this.props.getFrameDimensions}
           hideZendeskLogo={this.props.hideZendeskLogo}
           maxFileCount={submitTicketConfig.maxFileCount}
           maxFileSize={submitTicketConfig.maxFileSize}

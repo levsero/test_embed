@@ -407,6 +407,46 @@ describe('mediator', () => {
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
       });
+
+      it('should call launcher show if there is no embed visible', () => {
+        mediator.init({ submitTicket: false, helpCenter: true }, { helpCenterSignInRequired: true });
+
+        c.broadcast('authentication.onSuccess');
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('should not call launcher show if launcher.userHidden is true', () => {
+        mediator.init(
+          { submitTicket: false, helpCenter: true },
+          { helpCenterSignInRequired: true, hideLauncher: true }
+        );
+
+        c.broadcast('authentication.onSuccess');
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
+      });
+
+      it('should not call launcher show if chat.connectionPending is true', () => {
+        mediator.init({ chat: true, helpCenter: true }, { helpCenterSignInRequired: true });
+
+        c.broadcast('authentication.onSuccess');
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
+      });
+
+      it('should not call launcher show if ipm.isVisible is true', () => {
+        mediator.init({ helpCenter: true }, { helpCenterSignInRequired: true });
+
+        c.broadcast('ipm.onShow');
+        c.broadcast('authentication.onSuccess');
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
+      });
     });
   });
 

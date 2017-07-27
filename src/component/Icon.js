@@ -6,7 +6,9 @@ import { isMobileBrowser } from 'utility/devices';
 
 const icons = {
   'Icon': require('icons/widget-icon_help.svg'),
-  'Icon--avatar': require('icons/widget-icon_avatar.svg'),
+  'Icon--thumbUp': require('icons/widget-icon_thumb-up.svg'),
+  'Icon--thumbDown': require('icons/widget-icon_thumb-down.svg'),
+  'Icon--avatar': require('icons/widget-icon_concierge.svg'),
   'Icon--back': require('icons/widget-icon_back.svg'),
   'Icon--chevron': require('zd-svg-icons/src/14-chevron.svg'),
   'Icon--channelChoice-chat': require('icons/widget-icon_channelChoice-chat.svg'),
@@ -17,6 +19,7 @@ const icons = {
   'Icon--circleTick-small': require('icons/widget-icon_circle_tick_small.svg'),
   'Icon--clearInput': require('icons/widget-icon_clearInput.svg'),
   'Icon--close': require('icons/widget-icon_close.svg'),
+  'Icon--ellipsis': require('icons/widget-icon_ellipsis.svg'),
   'Icon--link': require('icons/widget-icon_link.svg'),
   'Icon--paperclip-large': require('zd-svg-icons/src/14-attachment.svg'),
   'Icon--paperclip-small': require('zd-svg-icons/src/14-attachment.svg'),
