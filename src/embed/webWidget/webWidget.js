@@ -626,6 +626,16 @@ function setUpSubmitTicket(config) {
 function setUpChat(config, store) {
   win.zChat = zChat;
 
+  zChat.init(makeChatConfig(config));
+
+  zChat.getFirehose().on('data', (data) => {
+    const actionType = data.detail.type ? `websdk/${data.detail.type}` : `websdk/${data.type}`;
+
+    store.dispatch({ type: actionType, payload: data });
+  });
+}
+
+function makeChatConfig(config) {
   const chatConfigDefaults = {
     position: 'right',
     color: '#659700',
@@ -633,14 +643,13 @@ function setUpChat(config, store) {
   };
 
   config = _.extend({}, chatConfigDefaults, config);
+  /* eslint-disable camelcase */
+  const overrideProxyObject = config.overrideProxy
+                            ? { override_proxy: config.overrideProxy }
+                            : {};
 
-  zChat.init({ account_key: config.zopimId }); // eslint-disable-line camelcase
-
-  zChat.getFirehose().on('data', (data) => {
-    const actionType = data.detail.type ? `websdk/${data.detail.type}` : `websdk/${data.type}`;
-
-    store.dispatch({ type: actionType, payload: data });
-  });
+  return _.extend({}, { account_key: config.zopimId }, overrideProxyObject);
+  /* eslint-enable camelcase */
 }
 
 function setUpHelpCenter(config) {
