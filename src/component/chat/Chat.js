@@ -8,6 +8,7 @@ import { ChatFooter } from 'component/chat/ChatFooter';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ChatMessage } from 'component/chat/ChatMessage';
 import { ChatMenu } from 'component/chat/ChatMenu';
+import { ChatPrechatForm } from 'component/chat/ChatPrechatForm';
 import { Container } from 'component/container/Container';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
@@ -47,7 +48,8 @@ class Chat extends Component {
     super(props);
 
     this.state = {
-      showMenu: false
+      showMenu: false,
+      screen: 'prechat'
     };
   }
 
@@ -56,6 +58,10 @@ class Chat extends Component {
       display_name: user.name || '', // eslint-disable-line camelcase
       email: user.email || ''
     });
+  }
+
+  updateScreen = (screen = 'chatting') => {
+    this.setState({ screen });
   }
 
   toggleMenu = () => {
@@ -125,6 +131,37 @@ class Chat extends Component {
     );
   }
 
+  renderPrechatScreen = () => {
+    if (this.state.screen !== 'prechat') return;
+
+    return (
+      <ScrollContainer
+        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
+        <ChatPrechatForm
+          onFormCompleted={() => this.updateScreen('chatting')} />
+      </ScrollContainer>
+    );
+  }
+
+  renderChatScreen = () => {
+    if (this.state.screen !== 'chatting') return;
+
+    return (
+      <ScrollContainer
+        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+        headerContent={this.renderChatHeader()}
+        headerClasses={styles.header}
+        containerClasses={this.containerClasses()}
+        footerClasses={styles.footer}
+        footerContent={this.renderChatFooter()}>
+        <div className={styles.messages}>
+          {this.renderChatLog()}
+          {this.renderChatEnded()}
+        </div>
+      </ScrollContainer>
+    );
+  }
+
   containerClasses = () => {
     return isMobileBrowser()
            ? styles.containerMobile
@@ -139,18 +176,8 @@ class Chat extends Component {
         onClick={this.onContainerClick}
         style={this.props.style}
         position={this.props.position}>
-        <ScrollContainer
-          title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-          headerContent={this.renderChatHeader()}
-          headerClasses={styles.header}
-          containerClasses={this.containerClasses()}
-          footerClasses={styles.footer}
-          footerContent={this.renderChatFooter()}>
-          <div className={styles.messages}>
-            {this.renderChatLog()}
-            {this.renderChatEnded()}
-          </div>
-        </ScrollContainer>
+        {this.renderPrechatScreen()}
+        {this.renderChatScreen()}
         {this.renderChatMenu()}
       </Container>
     );
