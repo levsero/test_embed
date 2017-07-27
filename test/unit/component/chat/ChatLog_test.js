@@ -1,28 +1,20 @@
 describe('ChatLog component', () => {
-  let ChatLog,
-    mockChats,
-    mockAgents;
+  let ChatLog;
   const chatLogPath = buildSrcPath('component/chat/ChatLog');
+
+  /* eslint-disable camelcase */
+  const createAgentChat = () => ({ display_name: 'weil ecneret', nick: 'agent:2454047' });
+  const createAgentChatTwo = () => ({ display_name: 'bob', nick: 'agent:1337' });
+  const createVisitorChat = () => ({ display_name: 'Terry', nick: 'visitor' });
+  const mockAgents = {
+    'agent:2454047': { avatar_path: 'https://www.fakeSite.com/img/weilEcneret.jpg' },
+    'agent:1337`': {}
+  };
+  /* eslint-enable camelcase */
 
   beforeEach(() => {
     resetDOM();
     mockery.enable();
-
-    mockChats = new Map();
-    /* eslint-disable camelcase */
-    mockChats.set(0, { display_name: 'Visitor 24382671', nick: 'visitor', type: 'chat.msg' });
-    mockChats.set(1, { display_name: 'weil ecneret', nick: 'agent:2454047', type: 'chat.msg' });
-    mockChats.set(2, { display_name: 'Visitor 24382671', nick: 'visitor', type: 'chat.msg' });
-    mockChats.set(3, { display_name: 'bob', nick: 'agent:1221212', type: 'chat.msg' });
-    mockChats.set(4, { display_name: 'Visitor 24382671', nick: 'visitor', type: 'chat.msg' });
-    mockChats.set(5, { display_name: 'weil ecneret', nick: 'agent:2454047', type: 'chat.msg' });
-    mockChats.set(6, { display_name: 'weil ecneret', nick: 'agent:2454047', type: 'chat.msg' });
-
-    mockAgents = {
-      'agent:2454047': { avatar_path: 'https://www.fakeSite.com/img/weilEcneret.jpg' },
-      'agent:1221212': {}
-    };
-    /* eslint-enable camelcase */
 
     initMockRegistry({
       './ChatLog.sass': {
@@ -49,11 +41,8 @@ describe('ChatLog component', () => {
 
     describe('when chats contain no messages', () => {
       beforeEach(() => {
-        component = domRender(
-          <ChatLog
-            agents={mockAgents}
-            chats={new Map()}
-            userColor='#FFFFFF' />);
+        component = instanceRender(
+          <ChatLog chats={new Map()} />);
       });
 
       it('should not render anything', () => {
@@ -64,69 +53,204 @@ describe('ChatLog component', () => {
 
     describe('when chats contain at least a single message', () => {
       beforeEach(() => {
-        component = domRender(
-          <ChatLog
-            agents={mockAgents}
-            chats={mockChats}
-            userColor='#FFFFFF' />);
+        let mockChats = new Map();
+
+        mockChats.set(0, { nick: 'visitor' });
+        component = instanceRender(
+          <ChatLog chats={mockChats} />);
       });
 
       it('should render the component', () => {
-        expect(component)
-          .toBeTruthy();
+        expect(component.render())
+          .not.toBeNull();
       });
     });
   });
 
-  it('should contain at least 1 element for mockChats', () => {
-    expect(mockChats.size)
-      .toBeGreaterThan(0);
-  });
-
   describe('keepFirstName', () => {
+    let component;
+    const mockChats = new Map();
+    const subjects = [
+      { data: createAgentChat(), expectation: 'weil ecneret' },
+      { data: createAgentChatTwo(), expectation: 'bob' },
+      { data: createAgentChat(), expectation: 'weil ecneret' },
+      { data: createAgentChat(), expectation: '' },
+      { data: createAgentChatTwo(), expectation: 'bob' },
+      { data: createAgentChatTwo(), expectation: '' }
+    ];
+
     beforeEach(() => {
-      instanceRender(
-        <ChatLog
-          agents={mockAgents}
-          chats={mockChats}
-          userColor='#FFFFFF' />
+      component = instanceRender(
+        <ChatLog userColor='#FFFFFF' />
       );
     });
 
-    it('should keep the display_name for the first message of agent', () => {
-      const expectation = [
-        'Visitor 24382671',
-        'weil ecneret',
-        'Visitor 24382671',
-        'bob',
-        'Visitor 24382671',
-        'weil ecneret',
-        ''
-      ];
+    it('should test at least 1 element in the array', () => {
+      expect(subjects.length)
+        .toBeGreaterThan(0);
+    });
 
-      _.each([...mockChats.values()], (chat, key) => {
-        expect(chat.display_name)
-          .toEqual(expectation[key]);
+    _.each(subjects, (subject, key) => {
+      it(`should set display name to '${subject.expectation}' at index ${key}`, () => {
+        mockChats.set(key, subject.data);
+
+        const chatList = component.keepFirstName([...mockChats.values()]);
+
+        expect(chatList[key].display_name)
+          .toEqual(subject.expectation);
       });
     });
   });
 
   describe('applyAvatarFlag', () => {
+    let component,
+      chatList;
+    const processChat = (map, key, data) => {
+      map.set(key, data);
+      chatList = [...map.values()];
+      chatList = component.applyAvatarFlag(chatList);
+    };
+
     beforeEach(() => {
-      instanceRender(
+      component = instanceRender(
         <ChatLog
           agents={mockAgents}
-          chats={mockChats}
           userColor='#FFFFFF' />
       );
     });
 
-    it('should apply an avatar flag to the last group message of an agent', () => {
-      const expectation = [false, true, false, true, false, false, true];
+    describe('when there is a single message', () => {
+      beforeEach(() => {
+        const chats = new Map();
 
-      _.each([...mockChats.values()], (chat, key) => {
-        expect(!!chat.showAvatar)
-          .toEqual(expectation[key]);
+        processChat(chats, 0, createAgentChat());
+      });
+
+      it('should set showAvatar to true for that message', () => {
+        expect(chatList[0].showAvatar)
+          .toEqual(true);
+      });
+    });
+
+    describe('when there are multiple message from the same agent', () => {
+      beforeEach(() => {
+        const chats = new Map();
+
+        processChat(chats, 0, createAgentChat());
+        processChat(chats, 1, createAgentChat());
+        processChat(chats, 2, createAgentChat());
+      });
+
+      it('should only set showAvatar to true for the last message', () => {
+        expect(chatList[0].showAvatar)
+          .toEqual(false);
+
+        expect(chatList[1].showAvatar)
+          .toEqual(false);
+
+        expect(chatList[2].showAvatar)
+          .toEqual(true);
+      });
+    });
+
+    describe(`when multiple agents are sending messages`, () => {
+      beforeEach(() => {
+        const chats = new Map();
+
+        processChat(chats, 0, createAgentChat());
+        processChat(chats, 1, createAgentChatTwo());
+        processChat(chats, 2, createAgentChatTwo());
+        processChat(chats, 3, createAgentChat());
+        processChat(chats, 5, createAgentChat());
+      });
+
+      it('should only set showAvatar to true their last message', () => {
+        expect(chatList[0].showAvatar)
+          .toEqual(true);
+
+        expect(chatList[1].showAvatar)
+          .toEqual(false);
+
+        expect(chatList[2].showAvatar)
+          .toEqual(true);
+
+        expect(chatList[3].showAvatar)
+          .toEqual(false);
+
+        expect(chatList[4].showAvatar)
+          .toEqual(true);
+      });
+    });
+  });
+
+  describe('processChatList', () => {
+    let component,
+      chatList;
+    const processChat = (map, key, data) => {
+      map.set(key, data);
+      chatList = [...map.values()];
+      component.processChatList(chatList);
+    };
+
+    beforeEach(() => {
+      component = instanceRender(
+        <ChatLog
+          agents={mockAgents}
+          userColor='#FFFFFF' />
+      );
+      spyOn(component, 'keepFirstName');
+      spyOn(component, 'applyAvatarFlag');
+    });
+
+    describe('when that last chatMessage is a visitor', () => {
+      beforeEach(() => {
+        const chats = new Map();
+
+        processChat(chats, 0, createVisitorChat());
+      });
+
+      it('should not call keepFirstName', () => {
+        expect(component.keepFirstName)
+          .not.toHaveBeenCalled();
+      });
+
+      it('should not call applyAvatarFlag', () => {
+        expect(component.applyAvatarFlag)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when there are no messages', () => {
+      beforeEach(() => {
+        component.processChatList([]);
+      });
+
+      it('should not call keepFirstName', () => {
+        expect(component.keepFirstName)
+          .not.toHaveBeenCalled();
+      });
+
+      it('should not call applyAvatarFlag', () => {
+        expect(component.applyAvatarFlag)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when that last chatMessage is an agent', () => {
+      beforeEach(() => {
+        const chats = new Map();
+
+        processChat(chats, 0, createAgentChat());
+      });
+
+      it('should call keepFirstName', () => {
+        expect(component.keepFirstName)
+          .toHaveBeenCalled();
+      });
+
+      it('should call applyAvatarFlag', () => {
+        expect(component.applyAvatarFlag)
+          .toHaveBeenCalled();
       });
     });
   });

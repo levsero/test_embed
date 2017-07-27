@@ -29,7 +29,7 @@ export class ChatLog extends Component {
 
     if (chatList.length > 1) {
       if (chatList[lastIndex].nick === chatList[previousIndex].nick) {
-        chatList[lastIndex].display_name = '';
+        chatList[lastIndex].display_name = ''; // eslint-disable-line camelcase
       }
     }
 
@@ -48,11 +48,8 @@ export class ChatLog extends Component {
       agent.avatarPath = avatarPath || '';
     };
 
-    console.log('applyAvatarFlag');
-
     if (chatList.length > 1 || lastIndex === 0) {
-      console.log('currentAgent = true');
-      setAgentDetails(currentAgent, true, agents[currentAgent.nick].avatar_path);
+      setAgentDetails(currentAgent, true, _.get(agents, 'currentAgent.nick.avatar_path', ''));
 
       if (currentAgent.nick === previousAgent.nick) {
         setAgentDetails(previousAgent, false);
@@ -78,9 +75,9 @@ export class ChatLog extends Component {
 
     if (!chats || chats.size <= 0) return null;
 
-    let chatList = _.chain([...chats.values()])
-                    .filter((m) => m.type === 'chat.msg')
-                    .value();
+    const chatList = _.chain([...chats.values()])
+                      .filter((m) => m.type === 'chat.msg')
+                      .value();
 
     return (
       <span>
