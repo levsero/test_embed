@@ -1,6 +1,5 @@
 describe('EmbedWrapper', () => {
-  let EmbedWrapper,
-    mockIsRTL;
+  let EmbedWrapper;
 
   const EmbedWrapperPath = buildSrcPath('component/frame/EmbedWrapper');
 
@@ -18,35 +17,11 @@ describe('EmbedWrapper', () => {
 
     mockery.enable();
 
-    mockIsRTL = false;
-
     initMockRegistry({
       'React': React,
       'utility/color': {},
-      'component/button/ButtonNav': {
-        ButtonNav: class extends Component {
-          render() {
-            return (
-              <div className={this.props.className}>
-                {this.props.label}
-              </div>
-            );
-          }
-        }
-      },
-      'service/i18n': {
-        i18n: {
-          isRTL: () => mockIsRTL
-        }
-      },
-      'lodash': _,
-      'component/Icon': {
-        Icon: class extends Component {
-          render() {
-            return <div className={this.props.type} />;
-          }
-        }
-      }
+      'component/frame/Navigation': noopReactComponent(),
+      'lodash': _
     });
 
     EmbedWrapper = requireUncached(EmbedWrapperPath).EmbedWrapper;
@@ -107,40 +82,6 @@ describe('EmbedWrapper', () => {
       it('does not add a rootComponent ref to that child', () => {
         expect(instance.refs.rootComponent)
           .toBeUndefined();
-      });
-    });
-
-    describe('close button', () => {
-      let embedWrapper,
-        embedWrapperComponent;
-
-      beforeEach(() => {
-        embedWrapper = domRender(
-          <EmbedWrapper childFn={() => <MockChildComponent />} />
-        );
-        embedWrapperComponent = ReactDOM.findDOMNode(embedWrapper);
-      });
-
-      describe('when state.showCloseButton is true', () => {
-        beforeEach(() => {
-          embedWrapper.showCloseButton(true);
-        });
-
-        it('should render the close button', () => {
-          expect(embedWrapperComponent.querySelector('.Icon--close'))
-            .not.toBeNull();
-        });
-      });
-
-      describe('when state.showCloseButton is false', () => {
-        beforeEach(() => {
-          embedWrapper.showCloseButton(false);
-        });
-
-        it('should not render the close button', () => {
-          expect(embedWrapperComponent.querySelector('.Icon--close'))
-            .toBeNull();
-        });
       });
     });
   });

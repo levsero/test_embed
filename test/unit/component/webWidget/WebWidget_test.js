@@ -62,7 +62,8 @@ describe('WebWidget component', () => {
       },
       'src/redux/modules/base': {
         updateActiveEmbed: noop,
-        updateEmbedAccessible: noop
+        updateEmbedAccessible: noop,
+        updateBackButtonVisibility: noop
       }
     });
 
@@ -193,10 +194,10 @@ describe('WebWidget component', () => {
   });
 
   describe('#onNextClick', () => {
-    let webWidget, showBackButtonSpy;
+    let webWidget, updateBackButtonVisibilitySpy;
 
     beforeEach(() => {
-      showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
+      updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibilitySpy');
     });
 
     describe('when a param is passed in', () => {
@@ -205,7 +206,7 @@ describe('WebWidget component', () => {
           <WebWidget
             zopimOnline={true}
             helpCenterAvailable={true}
-            showBackButton={showBackButtonSpy}
+            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
         webWidget.onNextClick('foo');
@@ -236,7 +237,7 @@ describe('WebWidget component', () => {
           <WebWidget
             chat={chatProp}
             helpCenterAvailable={true}
-            showBackButton={showBackButtonSpy}
+            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
         webWidget.onNextClick();
@@ -247,8 +248,8 @@ describe('WebWidget component', () => {
           .toHaveBeenCalledWith('chat');
       });
 
-      it('should call showBackButton with true', () => {
-        expect(showBackButtonSpy)
+      it('should call updateBackButtonVisibility with true', () => {
+        expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(true);
       });
     });
@@ -261,7 +262,7 @@ describe('WebWidget component', () => {
           <WebWidget
             chat={chatProp}
             helpCenterAvailable={true}
-            showBackButton={showBackButtonSpy}
+            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
         webWidget.onNextClick();
@@ -272,8 +273,8 @@ describe('WebWidget component', () => {
           .toHaveBeenCalledWith('ticketSubmissionForm');
       });
 
-      it('should call showBackButton with true', () => {
-        expect(showBackButtonSpy)
+      it('should call updateBackButtonVisibility with true', () => {
+        expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(true);
       });
     });
@@ -281,10 +282,10 @@ describe('WebWidget component', () => {
 
   describe('#onBackClick', () => {
     let webWidget,
-      showBackButtonSpy;
+      updateBackButtonVisibilitySpy;
 
     beforeEach(() => {
-      showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
+      updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibilitySpy');
     });
 
     describe('when help center is the active component', () => {
@@ -293,7 +294,7 @@ describe('WebWidget component', () => {
           <WebWidget
             activeEmbed='helpCenterForm'
             helpCenterAvailable={true}
-            showBackButton={showBackButtonSpy} />
+            updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
         );
         webWidget.onBackClick();
       });
@@ -303,8 +304,8 @@ describe('WebWidget component', () => {
           .toHaveBeenCalled();
       });
 
-      it('should call showBackButton prop with false', () => {
-        expect(showBackButtonSpy)
+      it('should call updateBackButtonVisibility prop with false', () => {
+        expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(false);
       });
     });
@@ -322,14 +323,14 @@ describe('WebWidget component', () => {
               updateActiveEmbed={() => {}}
               activeEmbed='ticketSubmissionForm'
               helpCenterAvailable={true}
-              showBackButton={showBackButtonSpy} />
+              updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
           );
           webWidget.getRootComponent().setState(ticketFormsState);
           webWidget.onBackClick();
         });
 
-        it('should call showBackButton prop', () => {
-          expect(showBackButtonSpy)
+        it('should call updateBackButtonVisibility prop', () => {
+          expect(updateBackButtonVisibilitySpy)
             .toHaveBeenCalledWith(true);
         });
 
@@ -346,14 +347,14 @@ describe('WebWidget component', () => {
                 activeEmbed='ticketSubmissionForm'
                 helpCenterAvailable={false}
                 channelChoice={true}
-                showBackButton={showBackButtonSpy} />
+                updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
             );
             webWidget.getRootComponent().setState(ticketFormsState);
             webWidget.onBackClick();
           });
 
-          it('should still call showBackButton prop with true', () => {
-            expect(showBackButtonSpy)
+          it('should still call updateBackButtonVisibility prop with true', () => {
+            expect(updateBackButtonVisibilitySpy)
               .toHaveBeenCalledWith(true);
           });
         });
@@ -366,14 +367,14 @@ describe('WebWidget component', () => {
                 activeEmbed='ticketSubmissionForm'
                 helpCenterAvailable={false}
                 channelChoice={false}
-                showBackButton={showBackButtonSpy} />
+                updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
             );
             webWidget.getRootComponent().setState(ticketFormsState);
             webWidget.onBackClick();
           });
 
-          it('should call showBackButton prop with false', () => {
-            expect(showBackButtonSpy)
+          it('should call updateBackButtonVisibility prop with false', () => {
+            expect(updateBackButtonVisibilitySpy)
               .toHaveBeenCalledWith(false);
           });
         });
@@ -386,7 +387,7 @@ describe('WebWidget component', () => {
               updateActiveEmbed={noop}
               activeEmbed='ticketSubmissionForm'
               helpCenterAvailable={true}
-              showBackButton={showBackButtonSpy} />
+              updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
           );
           spyOn(webWidget, 'showHelpCenter').and.callThrough();
           webWidget.onBackClick();
@@ -405,8 +406,8 @@ describe('WebWidget component', () => {
             webWidget.onBackClick();
           });
 
-          it('should call showBackButton prop with false', () => {
-            expect(showBackButtonSpy)
+          it('should call updateBackButtonVisibility prop with false', () => {
+            expect(updateBackButtonVisibilitySpy)
               .toHaveBeenCalledWith(false);
           });
         });
@@ -419,8 +420,8 @@ describe('WebWidget component', () => {
             webWidget.onBackClick();
           });
 
-          it('should call showBackButton prop with true', () => {
-            expect(showBackButtonSpy)
+          it('should call updateBackButtonVisibility prop with true', () => {
+            expect(updateBackButtonVisibilitySpy)
               .toHaveBeenCalledWith(true);
           });
         });
@@ -434,7 +435,7 @@ describe('WebWidget component', () => {
             updateActiveEmbed={() => {}}
             activeEmbed='chat'
             helpCenterAvailable={true}
-            showBackButton={showBackButtonSpy} />
+            updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
         );
         spyOn(webWidget, 'showHelpCenter').and.callThrough();
         webWidget.onBackClick();
@@ -445,8 +446,8 @@ describe('WebWidget component', () => {
           .toHaveBeenCalled();
       });
 
-      it('should call showBackButton prop', () => {
-        expect(showBackButtonSpy)
+      it('should call updateBackButtonVisibility prop', () => {
+        expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalled();
       });
 
@@ -462,7 +463,7 @@ describe('WebWidget component', () => {
               activeEmbed='chat'
               helpCenterAvailable={false}
               channelChoice={true}
-              showBackButton={showBackButtonSpy} />
+              updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
           );
           webWidget.onBackClick();
         });
@@ -472,8 +473,8 @@ describe('WebWidget component', () => {
             .toHaveBeenCalledWith('channelChoice');
         });
 
-        it('should call showBackButton prop with false', () => {
-          expect(showBackButtonSpy)
+        it('should call updateBackButtonVisibility prop with false', () => {
+          expect(updateBackButtonVisibilitySpy)
             .toHaveBeenCalledWith(false);
         });
       });
@@ -577,11 +578,11 @@ describe('WebWidget component', () => {
   });
 
   describe('#resetActiveEmbed', () => {
-    let webWidget, updateActiveEmbedSpy, showBackButtonSpy;
+    let webWidget, updateActiveEmbedSpy, updateBackButtonVisibilitySpy;
 
     beforeEach(() => {
       updateActiveEmbedSpy = jasmine.createSpy();
-      showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
+      updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibilitySpy');
     });
 
     describe('when help center is available', () => {
@@ -590,7 +591,7 @@ describe('WebWidget component', () => {
           <WebWidget
             helpCenterAvailable={true}
             updateActiveEmbed={updateActiveEmbedSpy}
-            showBackButton={showBackButtonSpy}
+            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             activeEmbed='' />
         );
         webWidget.resetActiveEmbed();
@@ -609,8 +610,8 @@ describe('WebWidget component', () => {
           webWidget.resetActiveEmbed();
         });
 
-        it('sets showBackButton to true', () => {
-          expect(showBackButtonSpy)
+        it('calls updateBackButtonVisibility woth true', () => {
+          expect(updateBackButtonVisibilitySpy)
             .toHaveBeenCalledWith(true);
         });
       });
@@ -623,8 +624,8 @@ describe('WebWidget component', () => {
           webWidget.resetActiveEmbed();
         });
 
-        it('sets showBackButton to false', () => {
-          expect(showBackButtonSpy)
+        it('calls updateBackButtonVisibility with false', () => {
+          expect(updateBackButtonVisibilitySpy)
             .toHaveBeenCalledWith(false);
         });
       });

@@ -1,10 +1,23 @@
 describe('root reducer', () => {
   let reducer;
 
+  const combinedReducers = [
+    'chat',
+    'base'
+  ];
+
   beforeAll(() => {
     mockery.enable();
 
     const reducerPath = buildSrcPath('redux/modules/reducer');
+
+    const mockReducer = (state) => { return {...state}; };
+
+    initMockRegistry({
+      './base/reducer': mockReducer,
+      './chat/reducer': mockReducer,
+      './root/reducer/root': (state) => { return {...state, root: true}; }
+    });
 
     reducer = requireUncached(reducerPath).default;
   });
@@ -14,19 +27,35 @@ describe('root reducer', () => {
     mockery.deregisterAll();
   });
 
-  describe('nested reducers', () => {
+  describe('combined reducers', () => {
     let newState;
-
-    const nestedReducers = [
-      'chat'
-    ];
 
     beforeEach(() => {
       newState = reducer({}, {});
     });
 
-    nestedReducers.forEach((key) => {
+    combinedReducers.forEach((key) => {
       it(`has a ${key} key`, () => {
+        expect(newState[key])
+          .toBeDefined();
+      });
+    });
+  });
+
+  describe('root reducer', () => {
+    let newState;
+
+    beforeEach(() => {
+      newState = reducer({}, {});
+    });
+
+    it('runs through the root reducer and applies its state changes', () => {
+      expect(newState.root)
+        .toBe(true);
+    });
+
+    it('still contains the combinedReducers state', () => {
+      combinedReducers.forEach((key) => {
         expect(newState[key])
           .toBeDefined();
       });

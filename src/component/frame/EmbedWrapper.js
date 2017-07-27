@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import { ButtonNav } from 'component/button/ButtonNav';
-import { i18n } from 'service/i18n';
-import { Icon } from 'component/Icon';
-import { generateWebWidgetPreviewCSS } from 'utility/color';
-
 import { Provider } from 'react-redux';
+
+import Navigation from 'component/frame/Navigation';
+import { generateWebWidgetPreviewCSS } from 'utility/color';
 
 export class EmbedWrapper extends Component {
   static propTypes = {
@@ -18,7 +15,8 @@ export class EmbedWrapper extends Component {
     handleBackClick: PropTypes.func,
     handleCloseClick: PropTypes.func,
     hideCloseButton: PropTypes.bool,
-    reduxStore: PropTypes.object.isRequired
+    reduxStore: PropTypes.object.isRequired,
+    useBackButton: PropTypes.bool
   };
 
   static defaultProps = {
@@ -29,28 +27,21 @@ export class EmbedWrapper extends Component {
     fullscreen: false,
     handleBackClick: () => {},
     handleCloseClick: () => {},
-    hideCloseButton: false
+    hideCloseButton: false,
+    useBackButton: false
   };
 
   constructor(props, context) {
     super(props, context);
 
-    this.state = {
-      css: '',
-      isMobile: false,
-      showBackButton: false,
-      showCloseButton: !props.hideCloseButton
-    };
+    this.state = { css: '' };
 
     this.embed = null;
-  }
-
-  showBackButton = (show = true) => {
-    this.setState({ showBackButton: show });
+    this.nav = null;
   }
 
   showCloseButton = (show = true) => {
-    this.setState({ showCloseButton: show });
+    this.nav.getWrappedInstance().showCloseButton(show);
   }
 
   setButtonColor = (color) => {
@@ -61,27 +52,7 @@ export class EmbedWrapper extends Component {
     }
   }
 
-  renderNavButton = (options = {}) => {
-    if (options.isHidden) return;
-
-    return (
-      <ButtonNav
-        onClick={options.onClick}
-        label={
-          <Icon
-            type={options.icon}
-            className='u-textInheritColor'
-            isMobile={this.state.isMobile} />
-        }
-        rtl={i18n.isRTL()}
-        position={options.position}
-        className={options.className}
-        fullscreen={this.props.fullscreen || this.state.isMobile} />
-    );
-  }
-
   render = () => {
-    const isRTL = i18n.isRTL();
     const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />;
 
@@ -95,22 +66,13 @@ export class EmbedWrapper extends Component {
         <div>
           {css}
           {styleTag}
-          <div>
-            {this.renderNavButton({
-              onClick: this.props.handleBackClick,
-              icon: 'Icon--back',
-              position: isRTL ? 'right' : 'left',
-              isHidden: !this.state.showBackButton
-            })}
-          </div>
-          <div>
-            {this.renderNavButton({
-              onClick: this.props.handleCloseClick,
-              icon: 'Icon--close',
-              position: isRTL ? 'left' : 'right',
-              isHidden: !this.state.showCloseButton
-            })}
-          </div>
+          <Navigation
+            ref={(el) => { this.nav = el; }}
+            handleBackClick={this.props.handleBackClick}
+            handleCloseClick={this.props.handleCloseClick}
+            fullscreen={this.props.fullscreen}
+            useBackButton={this.props.useBackButton}
+            hideCloseButton={this.props.hideCloseButton} />
           <div id='Embed' ref={(el) => { this.embed = el; }}>
             {newChild}
           </div>

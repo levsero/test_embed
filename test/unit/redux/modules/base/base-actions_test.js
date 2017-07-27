@@ -96,4 +96,23 @@ describe('base redux actions', () => {
         .toEqual(true);
     });
   });
+
+  describe('updateBackButtonVisibility', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateBackButtonVisibility(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_BACK_BUTTON_VISIBILITY', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_BACK_BUTTON_VISIBILITY);
+    });
+
+    it('has the value of true in the payload', () => {
+      expect(action.payload)
+        .toEqual(true);
+    });
+  });
 });
