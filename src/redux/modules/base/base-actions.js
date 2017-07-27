@@ -1,8 +1,8 @@
 import {
   UPDATE_ACTIVE_EMBED,
   UPDATE_EMBED,
-  UPDATE_ZOPIM_ONLINE,
-  UPDATE_BACK_BUTTON_VISIBILITY
+  UPDATE_BACK_BUTTON_VISIBILITY,
+  UPDATE_HELP_CENTER_EMBED
 } from './base-action-types';
 
 export const updateActiveEmbed = (embedName) => {
@@ -36,12 +36,9 @@ export const updateBackButtonVisibility = (visible = true) => {
   };
 }
 
-export const updateHelpCenterAuth = (name, bool) => {
+export const updateHelpCenterAuth = (bool) => {
   return {
-    type: UPDATE_EMBED,
-    payload: {
-      name,
-      params: { authenticated: bool }
-    }
+    type: UPDATE_HELP_CENTER_EMBED,
+    payload: { authenticated: bool }
   };
 };

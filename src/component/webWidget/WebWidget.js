@@ -149,16 +149,12 @@ class WebWidget extends Component {
   }
 
   setHelpCenterAuth = (bool) => {
-    const { updateHelpCenterAuth } = this.props;
-
-    updateHelpCenterAuth(helpCenter, bool);
+    this.props.updateHelpCenterAuth(bool);
   }
 
   resetActiveEmbed = () => {
     const {
-      embeds,
       updateActiveEmbed,
-      helpCenterConfig,
       helpCenterAvailable,
       showBackButton,
       updateBackButtonVisibility } = this.props;

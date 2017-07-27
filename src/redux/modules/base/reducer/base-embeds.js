@@ -1,6 +1,12 @@
-import { UPDATE_EMBED } from '../base-action-types';
+import {
+  UPDATE_EMBED,
+  UPDATE_HELP_CENTER_EMBED } from '../base-action-types';
 
 const initialState = [];
+const helpCenterDefaults = {
+  accessible: false,
+  authenticated: false
+};
 
 const embeds = (state = initialState, action) => {
   const { type, payload } = action;
@@ -13,6 +19,15 @@ const embeds = (state = initialState, action) => {
           accessible: false,
           ...state[payload.name],
           ...payload.params
+        }
+      };
+    case UPDATE_HELP_CENTER_EMBED:
+      return {
+        ...state,
+        'helpCenterForm': {
+          ...helpCenterDefaults,
+          ...state.helpCenterForm,
+          ...payload
         }
       };
     default:

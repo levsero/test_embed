@@ -28,6 +28,38 @@ describe('base reducer embeds', () => {
     });
   });
 
+  describe('when an UPDATE_HELP_CENTER_EMBED is dispatched', () => {
+    let action,
+      state,
+      newAction,
+      newState;
+
+    beforeEach(() => {
+      action = {
+        type: actionTypes.UPDATE_EMBED,
+        payload: { authenticated: false }
+      };
+
+      state = reducer(initialState, action);
+    });
+
+    describe('when payload contains accessible', () => {
+      beforeEach(() => {
+        newAction = {
+          type: actionTypes.UPDATE_HELP_CENTER_EMBED,
+          payload: { authenticated: true }
+        };
+
+        newState = reducer(state, newAction);
+      });
+
+      it('should return new state for the associated embed', () => {
+        expect(newState.helpCenterForm.authenticated)
+          .toEqual(true);
+      });
+    });
+  });
+
   describe('when an UPDATE_EMBED action is dispatched', () => {
     let action,
       state,

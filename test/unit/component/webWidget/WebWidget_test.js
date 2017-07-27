@@ -144,11 +144,9 @@ describe('WebWidget component', () => {
       webWidget.setHelpCenterAuth(true);
     });
 
-    it('should call updateHelpCenterAuth with params', () => {
-      const expected = ['helpCenterForm', true];
-
+    it('should call updateHelpCenterAuth with a boolean value', () => {
       expect(updateHelpCenterAuthSpy)
-        .toHaveBeenCalledWith(...expected);
+        .toHaveBeenCalledWith(true);
     });
   });
 

@@ -79,30 +79,23 @@ describe('base redux actions', () => {
   });
 
   describe('updateHelpCenterAuth', () => {
-    let embed,
-      bool,
+    let bool,
       action;
 
     beforeEach(() => {
-      embed = 'helpCenter';
       bool = true;
-      mockStore.dispatch(actions.updateHelpCenterAuth(embed, bool));
+      mockStore.dispatch(actions.updateHelpCenterAuth(bool));
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type UPDATE_EMBED', () => {
+    it('dispatches an action of type UPDATE_HELP_CENTER_EMBED', () => {
       expect(action.type)
-        .toEqual(actionTypes.UPDATE_EMBED);
-    });
-
-    it('has a name property in the payload', () => {
-      expect(action.payload)
-        .toEqual(jasmine.objectContaining({ name: embed }));
+        .toEqual(actionTypes.UPDATE_HELP_CENTER_EMBED);
     });
 
     it('has an authenticated property in the payload', () => {
       expect(action.payload)
-        .toEqual(jasmine.objectContaining({ params: { authenticated: bool } }));
+        .toEqual(jasmine.objectContaining({ authenticated: bool }));
     });
   });
 
