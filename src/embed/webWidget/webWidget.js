@@ -642,8 +642,8 @@ function makeChatConfig(config) {
   config = _.extend({}, chatConfigDefaults, config);
   /* eslint-disable camelcase */
   const overrideProxyObject = config.overrideProxy
-                              ? { override_proxy: config.overrideProxy }
-                              : {};
+                            ? { override_proxy: config.overrideProxy }
+                            : {};
 
   return _.extend({}, { account_key: config.zopimId }, overrideProxyObject);
   /* eslint-enable camelcase */

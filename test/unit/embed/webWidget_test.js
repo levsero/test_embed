@@ -740,6 +740,7 @@ describe('embed.webWidget', () => {
     });
 
     describe('setUpChat', () => {
+      /* eslint-disable camelcase */
       beforeEach(() => {
         const chatConfig = { zopimId: '123abc' };
 
@@ -750,12 +751,12 @@ describe('embed.webWidget', () => {
 
       it('calls zChat init with the chat key', () => {
         expect(zChatInitSpy)
-          .toHaveBeenCalledWith({ account_key: '123abc' }); // eslint-disable-line camelcase
+          .toHaveBeenCalledWith({ account_key: '123abc' });
       });
 
       it('calls zChat init without the override_proxy key', () => {
         expect(zChatInitSpy)
-          .not.toHaveBeenCalledWith({ override_proxy: jasmine.any(String) }); // eslint-disable-line camelcase
+          .not.toHaveBeenCalledWith({ override_proxy: jasmine.any(String) });
       });
 
       it('sets up firehose data', () => {
@@ -777,6 +778,7 @@ describe('embed.webWidget', () => {
             .toHaveBeenCalledWith({ account_key: '123abc', override_proxy: 'hades.zopim.org'}); // eslint-disable-line camelcase
         });
       });
+      /* eslint-enable camelcase */
     });
 
     describe('setUpHelpCenter', () => {
