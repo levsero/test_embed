@@ -20,11 +20,13 @@ const zopimChat = 'zopimChat';
 const channelChoice = 'channelChoice';
 
 const mapStateToProps = (state) => {
+  const { base, chat } = state;
+
   return {
-    activeEmbed: state.base.activeEmbed,
-    embeds: state.base.embeds,
-    chat: state.chat,
-    zopimOnline: state.base.zopim
+    activeEmbed: base.activeEmbed,
+    chat: chat,
+    zopimOnline: base.zopim,
+    helpCenterAuth: _.get(base, `embeds.${helpCenter}.authenticated`, false)
   };
 };
 
@@ -70,7 +72,7 @@ class WebWidget extends Component {
     updateBackButtonVisibility: PropTypes.func.isRequired,
     updateHelpCenterAuth: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
-    embeds: PropTypes.object.isRequired
+    helpCenterAuth: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -148,18 +150,17 @@ class WebWidget extends Component {
     }
   }
 
-  setHelpCenterAuth = (bool) => {
-    this.props.updateHelpCenterAuth(bool);
-  }
+  setHelpCenterAuth = (bool) => this.props.updateHelpCenterAuth(bool);
 
   resetActiveEmbed = () => {
     const {
       updateActiveEmbed,
       helpCenterAvailable,
-      showBackButton,
-      updateBackButtonVisibility } = this.props;
-    const { signInRequired } = helpCenterConfig;
-    const helpCenterAuth = _.get(embeds, `${helpCenter}.authenticated`, false);
+      updateBackButtonVisibility,
+      helpCenterConfig,
+      helpCenterAuth } = this.props;
+
+    const signInRequired = _.get(helpCenterConfig, 'signInRequired', false);
     let backButton = false;
 
     if (helpCenterAvailable && (!signInRequired || helpCenterAuth)) {
