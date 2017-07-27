@@ -578,11 +578,11 @@ describe('WebWidget component', () => {
   });
 
   describe('#resetActiveEmbed', () => {
-    let webWidget, updateActiveEmbedSpy, showBackButtonSpy;
+    let webWidget, updateActiveEmbedSpy, updateBackButtonVisibilitySpy;
 
     beforeEach(() => {
       updateActiveEmbedSpy = jasmine.createSpy();
-      showBackButtonSpy = jasmine.createSpy('showBackButtonSpy');
+      updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibilitySpy');
     });
 
     describe('when help center is available', () => {
@@ -591,7 +591,7 @@ describe('WebWidget component', () => {
           <WebWidget
             helpCenterAvailable={true}
             updateActiveEmbed={updateActiveEmbedSpy}
-            showBackButton={showBackButtonSpy}
+            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             activeEmbed='' />
         );
         webWidget.resetActiveEmbed();
@@ -610,8 +610,8 @@ describe('WebWidget component', () => {
           webWidget.resetActiveEmbed();
         });
 
-        it('sets showBackButton to true', () => {
-          expect(showBackButtonSpy)
+        it('calls updateBackButtonVisibility woth true', () => {
+          expect(updateBackButtonVisibilitySpy)
             .toHaveBeenCalledWith(true);
         });
       });
@@ -624,8 +624,8 @@ describe('WebWidget component', () => {
           webWidget.resetActiveEmbed();
         });
 
-        it('sets showBackButton to false', () => {
-          expect(showBackButtonSpy)
+        it('calls updateBackButtonVisibility with false', () => {
+          expect(updateBackButtonVisibilitySpy)
             .toHaveBeenCalledWith(false);
         });
       });
