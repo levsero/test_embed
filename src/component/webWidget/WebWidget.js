@@ -10,7 +10,8 @@ import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
          updateEmbedAccessible,
-         updateBackButtonVisibility } from 'src/redux/modules/base';
+         updateBackButtonVisibility,
+         updateAuthenticated } from 'src/redux/modules/base';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
@@ -19,11 +20,13 @@ const zopimChat = 'zopimChat';
 const channelChoice = 'channelChoice';
 
 const mapStateToProps = (state) => {
+  const { base, chat } = state;
+
   return {
-    activeEmbed: state.base.activeEmbed,
-    embeds: state.base.embeds,
-    chat: state.chat,
-    zopimOnline: state.base.zopim
+    chat,
+    activeEmbed: base.activeEmbed,
+    zopimOnline: base.zopim,
+    authenticated: base.authenticated
   };
 };
 
@@ -67,7 +70,9 @@ class WebWidget extends Component {
     zendeskHost: PropTypes.string.isRequired,
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
-    activeEmbed: PropTypes.string.isRequired
+    updateAuthenticated: PropTypes.func.isRequired,
+    activeEmbed: PropTypes.string.isRequired,
+    authenticated: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -145,11 +150,21 @@ class WebWidget extends Component {
     }
   }
 
+  setAuthenticated = (bool) => this.props.updateAuthenticated(bool);
+
   resetActiveEmbed = () => {
-    const { updateActiveEmbed, helpCenterAvailable, updateBackButtonVisibility } = this.props;
+    const {
+      updateActiveEmbed,
+      helpCenterAvailable,
+      updateBackButtonVisibility,
+      helpCenterConfig,
+      authenticated } = this.props;
+
+    const signInRequired = _.get(helpCenterConfig, 'signInRequired', false);
+    const helpCenterAccessible = !signInRequired || authenticated;
     let backButton = false;
 
-    if (helpCenterAvailable) {
+    if (helpCenterAvailable && helpCenterAccessible) {
       updateActiveEmbed(helpCenter);
       backButton = this.articleViewActive();
     } else if (this.channelChoiceAvailable()) {
@@ -359,7 +374,8 @@ class WebWidget extends Component {
 const actionCreators = {
   updateActiveEmbed,
   updateEmbedAccessible,
-  updateBackButtonVisibility
+  updateBackButtonVisibility,
+  updateAuthenticated
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);
