@@ -12,62 +12,18 @@ export class ChatLog extends Component {
   };
 
   renderChatMessage = (data, key) => {
+    const avatarPath = _.get(this.props.agents, `${data.nick}.avatar_path`, '');
+    const showAvatar = data.nick === 'visitor' ? false : true;
+
     return (
       <ChatMessage
         userColor={this.props.userColor}
         key={key}
         name={data.display_name}
         message={data.msg}
-        showAvatar={data.showAvatar}
-        avatarPath={data.avatarPath}
+        showAvatar={showAvatar}
+        avatarPath={avatarPath}
         nick={data.nick} />);
-  }
-
-  keepFirstName = (chatList) => {
-    const lastIndex = chatList.length - 1;
-    const previousIndex = lastIndex - 1;
-
-    if (chatList.length > 1) {
-      if (chatList[lastIndex].nick === chatList[previousIndex].nick) {
-        chatList[lastIndex].display_name = ''; // eslint-disable-line camelcase
-      }
-    }
-
-    return chatList;
-  }
-
-  applyAvatarFlag = (chatList) => {
-    const { agents } = this.props;
-    const lastIndex = chatList.length - 1;
-    const previousIndex = lastIndex - 1;
-    const currentAgent = _.get(chatList, lastIndex, {});
-    const previousAgent = _.get(chatList, previousIndex, {});
-
-    const setAgentDetails = (agent, showAvatar, avatarPath) => {
-      agent.showAvatar = showAvatar;
-      agent.avatarPath = avatarPath || '';
-    };
-
-    if (chatList.length > 1 || lastIndex === 0) {
-      setAgentDetails(currentAgent, true, _.get(agents, 'currentAgent.nick.avatar_path', ''));
-
-      if (currentAgent.nick === previousAgent.nick) {
-        setAgentDetails(previousAgent, false);
-      }
-    }
-
-    return chatList;
-  }
-
-  processChatList = (chatList) => {
-    const lastIndex = chatList.length - 1;
-
-    if (lastIndex >= 0 && chatList[lastIndex].nick !== 'visitor') {
-      chatList = this.keepFirstName(chatList);
-      chatList = this.applyAvatarFlag(chatList);
-    }
-
-    return chatList;
   }
 
   render() {
@@ -77,12 +33,11 @@ export class ChatLog extends Component {
 
     const chatList = _.chain([...chats.values()])
                       .filter((m) => m.type === 'chat.msg')
+                      .map(this.renderChatMessage)
                       .value();
 
     return (
-      <span>
-        {_.map(this.processChatList(chatList), this.renderChatMessage)}
-      </span>
+      <span>{chatList}</span>
     );
   }
 }
