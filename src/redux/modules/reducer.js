@@ -3,12 +3,10 @@ import rootReducer from './root/reducer/root';
 
 import base from './base/reducer';
 import chat from './chat/reducer';
-import helpCenter from './helpCenter/reducer';
 
 const combinedReducers = combineReducers({
   base,
-  chat,
-  helpCenter
+  chat
 });
 
 export default function reducer(state, action) {

@@ -115,4 +115,23 @@ describe('base redux actions', () => {
         .toEqual(true);
     });
   });
+
+  describe('updateAuthenticated', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateAuthenticated(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_AUTHENTICATED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_AUTHENTICATED);
+    });
+
+    it('has the value of true in the payload', () => {
+      expect(action.payload)
+        .toEqual(true);
+    });
+  });
 });

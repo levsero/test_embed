@@ -63,10 +63,8 @@ describe('WebWidget component', () => {
       'src/redux/modules/base': {
         updateActiveEmbed: noop,
         updateEmbedAccessible: noop,
-        updateBackButtonVisibility: noop
-      },
-      'src/redux/modules/helpCenter': {
-        updateHelpCenterAuth: noop
+        updateBackButtonVisibility: noop,
+        updateAuthenticated: noop
       }
     });
 
@@ -137,18 +135,18 @@ describe('WebWidget component', () => {
     });
   });
 
-  describe('setHelpCenterAuth', () => {
+  describe('setAuthenticated', () => {
     let webWidget,
-      updateHelpCenterAuthSpy;
+      updateAuthenticatedSpy;
 
     beforeEach(() => {
-      updateHelpCenterAuthSpy = jasmine.createSpy('updateHelpCenterAuth');
-      webWidget = instanceRender(<WebWidget updateHelpCenterAuth={updateHelpCenterAuthSpy} />);
-      webWidget.setHelpCenterAuth(true);
+      updateAuthenticatedSpy = jasmine.createSpy('updateAuthenticated');
+      webWidget = instanceRender(<WebWidget updateAuthenticated={updateAuthenticatedSpy} />);
+      webWidget.setAuthenticated(true);
     });
 
-    it('should call props.updateHelpCenterAuth with a boolean value', () => {
-      expect(updateHelpCenterAuthSpy)
+    it('should call props.updateAuthenticated with a boolean value', () => {
+      expect(updateAuthenticatedSpy)
         .toHaveBeenCalledWith(true);
     });
   });

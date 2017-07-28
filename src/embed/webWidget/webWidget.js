@@ -399,7 +399,7 @@ function setupMediator() {
     hasAuthenticatedSuccessfully = true;
 
     waitForRootComponent(() => {
-      getWebWidgetComponent().setHelpCenterAuth(hasAuthenticatedSuccessfully);
+      getWebWidgetComponent().setAuthenticated(hasAuthenticatedSuccessfully);
     });
   });
 

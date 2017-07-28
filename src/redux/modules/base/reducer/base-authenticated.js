@@ -1,12 +1,12 @@
-import { UPDATE_HELP_CENTER_AUTHENTICATED } from '../helpCenter-action-types';
+import { UPDATE_AUTHENTICATED } from '../base-action-types';
 
 const initialState = false;
 
 const authenticated = (state = initialState, action) => {
-  const { payload } = action;
+  const { type, payload } = action;
 
-  switch (action.type) {
-    case UPDATE_HELP_CENTER_AUTHENTICATED:
+  switch (type) {
+    case UPDATE_AUTHENTICATED:
       return payload;
     default:
       return state;

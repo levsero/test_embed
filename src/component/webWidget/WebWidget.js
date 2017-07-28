@@ -10,8 +10,8 @@ import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
          updateEmbedAccessible,
-         updateBackButtonVisibility } from 'src/redux/modules/base';
-import { updateHelpCenterAuth } from 'src/redux/modules/helpCenter';
+         updateBackButtonVisibility,
+         updateAuthenticated } from 'src/redux/modules/base';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
@@ -20,7 +20,7 @@ const zopimChat = 'zopimChat';
 const channelChoice = 'channelChoice';
 
 const mapStateToProps = (state) => {
-  const { base, chat, helpCenter } = state;
+  const { base, chat } = state;
 
   return {
     chat,
@@ -70,7 +70,7 @@ class WebWidget extends Component {
     zendeskHost: PropTypes.string.isRequired,
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
-    updateAuthentication: PropTypes.func.isRequired,
+    updateAuthenticated: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired
   };
@@ -150,7 +150,7 @@ class WebWidget extends Component {
     }
   }
 
-  setAuthentication = (bool) => this.props.updateAuthentication(bool);
+  setAuthenticated = (bool) => this.props.updateAuthenticated(bool);
 
   resetActiveEmbed = () => {
     const {
@@ -158,12 +158,13 @@ class WebWidget extends Component {
       helpCenterAvailable,
       updateBackButtonVisibility,
       helpCenterConfig,
-      helpCenterAuth } = this.props;
+      authenticated } = this.props;
 
     const signInRequired = _.get(helpCenterConfig, 'signInRequired', false);
+    const helpCenterAccessible = !signInRequired || authenticated;
     let backButton = false;
 
-    if (helpCenterAvailable && (!signInRequired || helpCenterAuth)) {
+    if (helpCenterAvailable && helpCenterAccessible) {
       updateActiveEmbed(helpCenter);
       backButton = this.articleViewActive();
     } else if (this.channelChoiceAvailable()) {
@@ -374,7 +375,7 @@ const actionCreators = {
   updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility,
-  updateAuthentication
+  updateAuthenticated
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);
