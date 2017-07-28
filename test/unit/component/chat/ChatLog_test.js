@@ -78,7 +78,7 @@ describe('ChatLog component', () => {
 
       beforeEach(() => {
         agentChat = { nick: 'TerryWhy?' };
-        agents = { [agentChat.nick]: { avatar_path: 'trollolol.jpg' } };
+        agents = { [agentChat.nick]: { avatar_path: 'trollolol.jpg' } }; // eslint-disable-line camelcase
 
         component = instanceRender(<ChatLog agents={agents} />);
         chatMessage = component.renderChatMessage(agentChat, 0);
