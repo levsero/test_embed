@@ -84,7 +84,7 @@ describe('ChatLog component', () => {
         chatMessage = component.renderChatMessage(agentChat, 0);
       });
 
-      it('should avatarPath should not be empty', () => {
+      it('should not be empty for the avatarPath', () => {
         const expected = agents[agentChat.nick].avatar_path;
 
         expect(chatMessage.props.avatarPath)

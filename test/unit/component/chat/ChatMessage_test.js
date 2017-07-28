@@ -70,9 +70,9 @@ describe('ChatMessage component', () => {
     });
 
     describe('userClasses', () => {
-      describe('when the nick shows the message is from a agent', () => {
+      describe('when the message is from a agent', () => {
         beforeEach(() => {
-          const component = domRender(<ChatMessage nick='agent:xxx' />);
+          const component = domRender(<ChatMessage isAgent={true} />);
 
           chatMessageNode = ReactDOM.findDOMNode(component);
         });
@@ -86,9 +86,9 @@ describe('ChatMessage component', () => {
         });
       });
 
-      describe('when the nick shows the message is not from a agent', () => {
+      describe('when the message is not from a agent', () => {
         beforeEach(() => {
-          const component = domRender(<ChatMessage nick='user:xxx' />);
+          const component = domRender(<ChatMessage isAgent={false} />);
 
           chatMessageNode = ReactDOM.findDOMNode(component);
         });
@@ -109,11 +109,11 @@ describe('ChatMessage component', () => {
 
     describe('when it is an agent and name is not empty', () => {
       beforeEach(() => {
-        component = domRender(<ChatMessage name='Smith' />);
+        component = domRender(<ChatMessage isAgent={true} name='Smith' />);
       });
 
       it('returns an Avatar component', () => {
-        expect(component.renderName(true))
+        expect(component.renderName())
           .not.toBeNull();
       });
     });
@@ -127,11 +127,11 @@ describe('ChatMessage component', () => {
 
       _.each(subjects, (subject) => {
         beforeEach(() => {
-          component = domRender(<ChatMessage name={subject.name} />);
+          component = domRender(<ChatMessage name={subject.name} isAgent={subject.isAgent} />);
         });
 
         it(`should return null for name: ${subject.name}, isAgent: ${subject.isAgent}`, () => {
-          expect(component.renderName(subject.isAgent))
+          expect(component.renderName())
             .toBeNull();
         });
       });

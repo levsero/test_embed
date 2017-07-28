@@ -49,6 +49,7 @@ class Chat extends Component {
     this.state = {
       showMenu: false
     };
+
     this.scrollContainer = null;
   }
 
@@ -146,7 +147,7 @@ class Chat extends Component {
         style={this.props.style}
         position={this.props.position}>
         <ScrollContainer
-          ref={(e) => { this.scrollContainer = e; }}
+          ref={(el) => { this.scrollContainer = el; }}
           title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
           headerContent={this.renderChatHeader()}
           headerClasses={styles.header}

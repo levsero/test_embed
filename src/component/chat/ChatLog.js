@@ -12,18 +12,19 @@ export class ChatLog extends Component {
   };
 
   renderChatMessage = (data, key) => {
+    const isAgent = data.nick === 'visitor' ? false : true;
     const avatarPath = _.get(this.props.agents, `${data.nick}.avatar_path`, '');
-    const showAvatar = data.nick === 'visitor' ? false : true;
+    const showAvatar = isAgent ? true : false;
 
     return (
       <ChatMessage
+        isAgent={isAgent}
         userColor={this.props.userColor}
         key={key}
         name={data.display_name}
         message={data.msg}
         showAvatar={showAvatar}
-        avatarPath={avatarPath}
-        nick={data.nick} />);
+        avatarPath={avatarPath} />);
   }
 
   render() {

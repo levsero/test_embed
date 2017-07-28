@@ -11,7 +11,7 @@ const AgentBackgroundColor = '#f3f3f3';
 
 export class ChatMessage extends Component {
   static propTypes = {
-    nick: PropTypes.string,
+    isAgent: PropTypes.bool.isRequired,
     name: PropTypes.string,
     message: PropTypes.string,
     userColor: PropTypes.string.isRequired,
@@ -20,15 +20,14 @@ export class ChatMessage extends Component {
   };
 
   static defaultProps = {
-    nick: '',
     name: '',
     message: '',
     showAvatar: false,
     avatarPath: ''
   };
 
-  renderName = (isAgent) => {
-    const { name } = this.props;
+  renderName = () => {
+    const { name, isAgent } = this.props;
 
     return isAgent && !_.isEmpty(name)
          ? <div className={styles.name}>{name}</div>
@@ -47,8 +46,7 @@ export class ChatMessage extends Component {
   }
 
   render() {
-    const { nick, showAvatar, userColor, message } = this.props;
-    const isAgent = nick.indexOf('agent') > -1;
+    const { showAvatar, userColor, message, isAgent } = this.props;
     const backgroundColor = isAgent ? AgentBackgroundColor : userColor;
     const userClasses = isAgent ? styles.messageAgent : styles.messageUser;
     const messageColor = isAgent ? '#000000' : '#FFFFFF';
@@ -57,7 +55,7 @@ export class ChatMessage extends Component {
     return (
       <div className={styles.wrapper}>
         <div className={`${styles.message} ${userClasses}`}>
-          {this.renderName(isAgent)}
+          {this.renderName()}
           {this.renderAvatar()}
           <MessageBubble
             className={messageBubbleStyle}
