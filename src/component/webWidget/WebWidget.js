@@ -26,7 +26,7 @@ const mapStateToProps = (state) => {
     chat,
     activeEmbed: base.activeEmbed,
     zopimOnline: base.zopim,
-    helpCenterAuth: helpCenter.authenticated
+    authenticated: base.authenticated
   };
 };
 
@@ -70,9 +70,9 @@ class WebWidget extends Component {
     zendeskHost: PropTypes.string.isRequired,
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
-    updateHelpCenterAuth: PropTypes.func.isRequired,
+    updateAuthentication: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
-    helpCenterAuth: PropTypes.bool.isRequired
+    authenticated: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -150,7 +150,7 @@ class WebWidget extends Component {
     }
   }
 
-  setHelpCenterAuth = (bool) => this.props.updateHelpCenterAuth(bool);
+  setAuthentication = (bool) => this.props.updateAuthentication(bool);
 
   resetActiveEmbed = () => {
     const {
@@ -374,7 +374,7 @@ const actionCreators = {
   updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility,
-  updateHelpCenterAuth
+  updateAuthentication
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);

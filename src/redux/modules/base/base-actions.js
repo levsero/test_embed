@@ -1,8 +1,8 @@
 import {
   UPDATE_ACTIVE_EMBED,
   UPDATE_EMBED,
-  UPDATE_BACK_BUTTON_VISIBILITY,
-  UPDATE_ZOPIM_ONLINE
+  UPDATE_ZOPIM_ONLINE,
+  UPDATE_BACK_BUTTON_VISIBILITY
 } from './base-action-types';
 
 export const updateActiveEmbed = (embedName) => {
