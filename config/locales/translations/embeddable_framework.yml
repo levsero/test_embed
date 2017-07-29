@@ -236,12 +236,12 @@ parts:
       key: "embeddable_framework.chat.button.oneMessage"
       title: "A button that displays a new message notification. When clicked it brings the user to a chat session in another window"
       screenshot: "https://zendesk.box.com/s/634qfi899tj7f2akkpvlq9pzbvveflyp"
-      value: "1 New Message"
+      value: "1 New message"
   - translation:
       key: "embeddable_framework.chat.button.manyMessages"
       title: "A button that displays a variable amount of new messages as a notification. When clicked it brings the user to a chat session in another window"
       screenshot: "https://zendesk.box.com/s/6ygpe29dvmecfxtrdki787km6yywl3ff"
-      value: "{{plural_number}} New Messages"
+      value: "{{plural_number}} New messages"
   - translation:
       key: "embeddable_framework.chat.chatBox.placeholder.typeMessageHere"
       title: "A placeholder text that is displayed in the chat box when there is no content"
@@ -265,7 +265,7 @@ parts:
   - translation:
       key: "embeddable_framework.submitTicket.notify.message.error"
       title: "Error message that displays after a user tries to send a ticket and something goes wrong. It will be a generic catch all error message. Text will wrap as needed. This error message will be displayed in red above the send button (tinyurl.com/ou8qp9g)"
-      value: "There was an error processing your request. Please try again later"
+      value: "There was an error processing your request. Please try again later."
   - translation:
       key: "embeddable_framework.submitTicket.marketing.message"
       title: "Message to customers that displays after submit ticket is sent. Translate this as 'If you own a business, you can add this widget to your website or product'"
