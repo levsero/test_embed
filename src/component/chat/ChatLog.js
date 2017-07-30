@@ -7,8 +7,7 @@ import { ChatMessage } from 'component/chat/ChatMessage';
 export class ChatLog extends Component {
   static propTypes = {
     agents: PropTypes.object.isRequired,
-    chats: PropTypes.object.isRequired,
-    userColor: PropTypes.string.isRequired
+    chats: PropTypes.object.isRequired
   };
 
   renderChatMessage = (data, key) => {
@@ -19,7 +18,6 @@ export class ChatLog extends Component {
     return (
       <ChatMessage
         isAgent={isAgent}
-        userColor={this.props.userColor}
         key={key}
         name={data.display_name}
         message={data.msg}
@@ -29,16 +27,13 @@ export class ChatLog extends Component {
 
   render() {
     const { chats } = this.props;
-
-    if (!chats || chats.size <= 0) return null;
-
     const chatList = _.chain([...chats.values()])
                       .filter((m) => m.type === 'chat.msg')
                       .map(this.renderChatMessage)
                       .value();
 
     return (
-      <span>{chatList}</span>
+      <div>{chatList}</div>
     );
   }
 }

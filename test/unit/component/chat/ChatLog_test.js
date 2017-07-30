@@ -1,10 +1,14 @@
 describe('ChatLog component', () => {
-  let ChatLog;
+  let ChatLog,
+    mockChats;
   const chatLogPath = buildSrcPath('component/chat/ChatLog');
 
   beforeEach(() => {
     resetDOM();
     mockery.enable();
+
+    mockChats = new Map();
+    mockChats.set(0, { nick: 'visitor', type: 'chat.msg' });
 
     initMockRegistry({
       './ChatLog.sass': {
@@ -27,31 +31,30 @@ describe('ChatLog component', () => {
   });
 
   describe('render', () => {
-    let component;
+    let component,
+      result;
 
     describe('when chats contain no messages', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatLog />);
+        component = instanceRender(<ChatLog chats={new Map()} />);
+        result = component.render();
       });
 
-      it('should not render anything', () => {
-        expect(component.render())
-          .toBeNull();
+      it('should not render any children', () => {
+        expect(result.props.children.length)
+          .toEqual(0);
       });
     });
 
     describe('when chats contain at least a single message', () => {
       beforeEach(() => {
-        let mockChats = new Map();
-
-        mockChats.set(0, { nick: 'visitor' });
-        component = instanceRender(
-          <ChatLog chats={mockChats} />);
+        component = instanceRender(<ChatLog chats={mockChats} />);
+        result = component.render();
       });
 
-      it('should render the component', () => {
-        expect(component.render())
-          .not.toBeNull();
+      it('should render ChatMessages as children', () => {
+        expect(result.props.children.length)
+          .toBeGreaterThan(0);
       });
     });
   });
@@ -62,7 +65,7 @@ describe('ChatLog component', () => {
 
     describe(`when agent's avatar does not exist`, () => {
       beforeEach(() => {
-        component = instanceRender(<ChatLog />);
+        component = instanceRender(<ChatLog chats={mockChats} />);
         chatMessage = component.renderChatMessage({}, 0);
       });
 
@@ -80,7 +83,7 @@ describe('ChatLog component', () => {
         agentChat = { nick: 'TerryWhy?' };
         agents = { [agentChat.nick]: { avatar_path: 'trollolol.jpg' } }; // eslint-disable-line camelcase
 
-        component = instanceRender(<ChatLog agents={agents} />);
+        component = instanceRender(<ChatLog chats={mockChats} agents={agents} />);
         chatMessage = component.renderChatMessage(agentChat, 0);
       });
 
@@ -94,7 +97,7 @@ describe('ChatLog component', () => {
 
     describe(`when the user is an agent`, () => {
       beforeEach(() => {
-        component = instanceRender(<ChatLog />);
+        component = instanceRender(<ChatLog chats={mockChats} isAgent={true} />);
         chatMessage = component.renderChatMessage({ nick: 'agent:smith' }, 0);
       });
 
@@ -106,7 +109,7 @@ describe('ChatLog component', () => {
 
     describe(`when the user is a visitor`, () => {
       beforeEach(() => {
-        component = instanceRender(<ChatLog />);
+        component = instanceRender(<ChatLog chats={mockChats} isAgent={false} />);
         chatMessage = component.renderChatMessage({ nick: 'visitor' }, 0);
       });
 

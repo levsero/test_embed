@@ -33,7 +33,6 @@ class Chat extends Component {
     style: PropTypes.object,
     updateCurrentMsg: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
-    userColor: PropTypes.string.isRequired,
     sendChatRating: PropTypes.func.isRequired
   };
 
@@ -129,11 +128,11 @@ class Chat extends Component {
   }
 
   renderChatLog = () => {
-    const { chat, userColor } = this.props;
+    const { chat } = this.props;
     const { chats, agents } = chat;
 
     return (
-      <ChatLog agents={agents} chats={chats} userColor={userColor} />
+      <ChatLog agents={agents} chats={chats} />
     );
   }
 

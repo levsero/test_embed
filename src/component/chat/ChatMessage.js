@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import { MessageBubble } from 'component/chat/MessageBubble';
 import { Avatar } from 'component/Avatar';
 
 import { locals as styles } from './ChatMessage.sass';
 
-const AgentBackgroundColor = '#f3f3f3';
-
 export class ChatMessage extends Component {
   static propTypes = {
     isAgent: PropTypes.bool.isRequired,
     name: PropTypes.string,
     message: PropTypes.string,
-    userColor: PropTypes.string.isRequired,
     showAvatar: PropTypes.bool,
     avatarPath: PropTypes.string
   };
@@ -29,39 +25,41 @@ export class ChatMessage extends Component {
   renderName = () => {
     const { name, isAgent } = this.props;
 
-    return isAgent && !_.isEmpty(name)
+    return isAgent && name !== ''
          ? <div className={styles.name}>{name}</div>
          : null;
   }
 
   renderAvatar = () => {
     const { showAvatar, avatarPath } = this.props;
-    const avatarStyles = avatarPath
-                       ? styles.avatar
-                       : styles.avatarDefault;
+    const avatarStyles = avatarPath ? styles.avatar : styles.avatarDefault;
 
     return showAvatar
          ? <Avatar className={avatarStyles} src={avatarPath} />
          : null;
   }
 
-  render() {
-    const { showAvatar, userColor, message, isAgent } = this.props;
-    const backgroundColor = isAgent ? AgentBackgroundColor : userColor;
-    const userClasses = isAgent ? styles.messageAgent : styles.messageUser;
-    const messageColor = isAgent ? '#000000' : '#FFFFFF';
+  renderMessageBubble = () => {
+    const { showAvatar, message, isAgent } = this.props;
+    const userBackgroundStyle = isAgent ? styles.agentBackground : styles.userBackground;
     const messageBubbleStyle = showAvatar ? styles.messageBubbleAvatar : styles.messageBubble;
+
+    return (
+      <MessageBubble
+        className={`${messageBubbleStyle} ${userBackgroundStyle}`}
+        message={message} />
+    );
+  }
+
+  render() {
+    const userClasses = this.props.isAgent ? styles.messageAgent : styles.messageUser;
 
     return (
       <div className={styles.wrapper}>
         <div className={`${styles.message} ${userClasses}`}>
           {this.renderName()}
           {this.renderAvatar()}
-          <MessageBubble
-            className={messageBubbleStyle}
-            color={messageColor}
-            message={message}
-            backgroundColor={backgroundColor} />
+          {this.renderMessageBubble()}
         </div>
       </div>
     );
