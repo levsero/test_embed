@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { ChatMessage } from 'component/chat/ChatMessage';
+import { ChatGroup } from 'component/chat/ChatGroup';
 
 export class ChatLog extends Component {
   static propTypes = {
@@ -10,29 +10,44 @@ export class ChatLog extends Component {
     chats: PropTypes.object.isRequired
   };
 
-  renderChatMessage = (data, key) => {
-    const isAgent = (data.nick !== 'visitor');
-    const avatarPath = _.get(this.props.agents, `${data.nick}.avatar_path`, '');
+  constructor() {
+    super();
+    this.previousUser = null;
+    this.groupCount = 0;
+  }
+
+  renderChatGroup = (chatGroup, key) => {
+    const firstUserNick = _.get(chatGroup, '0.nick', '');
+    const isAgent = firstUserNick !== 'visitor';
+    const avatarPath = _.get(this.props.agents, `${firstUserNick}.avatar_path`, '');
 
     return (
-      <ChatMessage
-        isAgent={isAgent}
+      <ChatGroup
         key={key}
-        name={data.display_name}
-        message={data.msg}
-        showAvatar={isAgent}
+        isAgent={isAgent}
+        children={chatGroup}
         avatarPath={avatarPath} />);
+  }
+
+  processChatGroup = (chat) => {
+    if (chat.nick !== this.previousUser) {
+      this.previousUser = chat.nick;
+      this.groupCount += 1;
+    }
+
+    return this.groupCount;
   }
 
   render() {
     const { chats } = this.props;
-    const chatList = _.chain([...chats.values()])
-                      .filter((m) => m.type === 'chat.msg')
-                      .map(this.renderChatMessage)
-                      .value();
+    const chatGroups = _.chain([...chats.values()])
+                        .filter((m) => m.type === 'chat.msg')
+                        .groupBy(this.processChatGroup)
+                        .map(this.renderChatGroup)
+                        .value();
 
     return (
-      <div>{chatList}</div>
+      <div>{chatGroups}</div>
     );
   }
 }
