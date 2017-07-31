@@ -16,16 +16,16 @@ export class ChatGroup extends Component {
     avatarPath: ''
   };
 
-  renderChatMessage = (data, key) => {
+  renderChatMessage = (data, index) => {
     const { isAgent, children } = this.props;
-    const isLastIndex = children.length === (key + 1);
-    const showAvatar = isLastIndex && isAgent ? true : false;
-    const avatarPath = isLastIndex && isAgent ? this.props.avatarPath : '';
-    const name = (key === 0 && isAgent) ? data.display_name : '';
+    const isLastIndex = index === (children.length - 1);
+    const showAvatar = (isLastIndex && isAgent);
+    const avatarPath = (isLastIndex && isAgent) ? this.props.avatarPath : '';
+    const name = (index === 0 && isAgent) ? data.display_name : '';
 
     return (
       <ChatMessage
-        key={key}
+        key={index}
         name={name}
         isAgent={isAgent}
         message={data.msg}

@@ -67,28 +67,24 @@ describe('ChatLog component', () => {
 
   describe('renderChatGroup', () => {
     let component,
-      agents,
       mockChat,
-      result;
-
-    beforeEach(() => {
-      agents = { 'agent:1234': { avatar_path: 'www.fakeSite.com/bob.jpg' } }; // eslint-disable-line camelcase
-    });
+      chatGroup;
+    const agents = { 'agent:1234': { avatar_path: 'www.fakeSite.com/bob.jpg' } }; // eslint-disable-line camelcase
 
     describe('when chat group is of agent type', () => {
       beforeEach(() => {
         mockChat = { nick: 'agent:1234' };
         component = instanceRender(<ChatLog agents={agents} chats={new Map()} />);
-        result = component.renderChatGroup([mockChat], 0);
+        chatGroup = component.renderChatGroup([mockChat], 0);
       });
 
       it('passes isAgent as true', () => {
-        expect(result.props.isAgent)
+        expect(chatGroup.props.isAgent)
           .toEqual(true);
       });
 
       it(`passes the agent's avatarPath`, () => {
-        expect(result.props.avatarPath)
+        expect(chatGroup.props.avatarPath)
           .toEqual(agents[mockChat.nick].avatar_path);
       });
     });
@@ -97,16 +93,16 @@ describe('ChatLog component', () => {
       beforeEach(() => {
         mockChat = { nick: 'visitor' };
         component = instanceRender(<ChatLog agents={agents} chats={new Map()} />);
-        result = component.renderChatGroup([mockChat], 0);
+        chatGroup = component.renderChatGroup([mockChat], 0);
       });
 
       it('passes isAgent as false', () => {
-        expect(result.props.isAgent)
+        expect(chatGroup.props.isAgent)
           .toEqual(false);
       });
 
       it(`does not pass the avatarPath`, () => {
-        expect(result.props.avatarPath)
+        expect(chatGroup.props.avatarPath)
           .toEqual('');
       });
     });
@@ -114,29 +110,29 @@ describe('ChatLog component', () => {
 
   describe('processChatGroup', () => {
     let component,
-      previousUser,
-      groupCount,
+      oldPreviousUser,
+      oldGroupCount,
       userData;
 
     describe('when current user is not the previous user', () => {
       beforeAll(() => {
         userData = { nick: 'visitor' };
         component = instanceRender(<ChatLog chats={new Map()} />);
-        previousUser = component.previousUser;
-        groupCount = component.groupCount;
+        oldPreviousUser = component.previousUser;
+        oldGroupCount = component.groupCount;
         component.processChatGroup(userData);
       });
 
       it('assigns current user as the new previous user', () => {
         expect(component.previousUser)
-          .not.toEqual(previousUser);
+          .not.toEqual(oldPreviousUser);
 
         expect(component.previousUser)
           .toEqual(userData.nick);
       });
 
       it('increments the group counter by 1', () => {
-        const expected = groupCount + 1;
+        const expected = oldGroupCount + 1;
 
         expect(component.groupCount)
           .toEqual(expected);
@@ -147,19 +143,19 @@ describe('ChatLog component', () => {
       beforeAll(() => {
         userData = { nick: 'visitor' };
         component = instanceRender(<ChatLog chats={mockChats} />);
-        previousUser = component.previousUser;
-        groupCount = component.groupCount;
+        oldPreviousUser = component.previousUser;
+        oldGroupCount = component.groupCount;
         component.processChatGroup(userData);
       });
 
       it('does not reassign the previous user', () => {
         expect(component.previousUser)
-          .toEqual(previousUser);
+          .toEqual(oldPreviousUser);
       });
 
       it('does not increment the group counter by 1', () => {
         expect(component.groupCount)
-          .toEqual(groupCount);
+          .toEqual(oldGroupCount);
       });
     });
   });

@@ -28,7 +28,7 @@ describe('ChatGroup component', () => {
 
   describe('renderChatMessage', () => {
     let component,
-      result;
+      chatMessage;
     const chatData = { display_name: 'bob', avatar_path: 'bobbalicious.jpg' }; // eslint-disable-line camelcase
     const children = [chatData, chatData, chatData];
 
@@ -43,61 +43,63 @@ describe('ChatGroup component', () => {
 
       describe('when the message is the first', () => {
         beforeEach(() => {
-          result = component.renderChatMessage(chatData, 0);
+          chatMessage = component.renderChatMessage(chatData, 0);
         });
 
-        it(`should pass the agent's name`, () => {
-          expect(result.props.name)
+        it(`passes the agent's name`, () => {
+          expect(chatMessage.props.name)
             .toEqual(chatData.display_name);
         });
 
-        it('should pass showAvatar as false', () => {
-          expect(result.props.showAvatar)
+        it('passes showAvatar as false', () => {
+          expect(chatMessage.props.showAvatar)
             .toEqual(false);
         });
 
-        it('should pass an empty avatarPath', () => {
-          expect(result.props.avatarPath)
+        it('passes an empty avatarPath', () => {
+          expect(chatMessage.props.avatarPath)
             .toEqual('');
         });
       });
 
       describe('when the message is the last', () => {
         beforeEach(() => {
-          result = component.renderChatMessage(chatData, 2);
+          chatMessage = component.renderChatMessage(chatData, 2);
         });
-        it('should pass an empty name', () => {
-          expect(result.props.name)
+
+        it('passes an empty name', () => {
+          expect(chatMessage.props.name)
             .toEqual('');
         });
 
-        it('should pass showAvatar as true', () => {
-          expect(result.props.showAvatar)
+        it('passes showAvatar as true', () => {
+          expect(chatMessage.props.showAvatar)
             .toEqual(true);
         });
 
-        it(`should pass the agent's avatarPath`, () => {
-          expect(result.props.avatarPath)
+        it(`passes the agent's avatarPath`, () => {
+          expect(chatMessage.props.avatarPath)
             .toEqual(chatData.avatar_path);
         });
       });
 
       describe('when the message neither first or last', () => {
         beforeEach(() => {
-          result = component.renderChatMessage(chatData, 1);
+          chatMessage = component.renderChatMessage(chatData, 1);
         });
-        it('should pass an empty name', () => {
-          expect(result.props.name)
+
+        it('passes an empty name', () => {
+          expect(chatMessage.props.name)
             .toEqual('');
         });
 
-        it('should pass showAvatar as false', () => {
-          expect(result.props.showAvatar)
+        it('passes showAvatar as false', () => {
+          expect(chatMessage.props.showAvatar)
             .toEqual(false);
         });
 
-        it('should pass an empty avatarPath', () => {
-          expect(result.props.avatarPath)
+        it('passes an empty avatarPath', () => {
+          expect(chatMessage.props.avatarPath)
             .toEqual('');
         });
       });

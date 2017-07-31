@@ -12,6 +12,9 @@ export class ChatLog extends Component {
 
   constructor() {
     super();
+
+    // The following instance variables are purposely not assigned as state.
+    // This is due to us wanting to update the values without triggering a re-render.
     this.previousUser = null;
     this.groupCount = 0;
   }

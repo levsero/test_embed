@@ -23,9 +23,9 @@ export class ChatMessage extends Component {
   };
 
   renderName = () => {
-    const { name, isAgent } = this.props;
+    const { name } = this.props;
 
-    return isAgent && (name !== '')
+    return (name !== '')
          ? <div className={styles.name}>{name}</div>
          : null;
   }
