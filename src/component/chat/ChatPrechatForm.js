@@ -11,7 +11,8 @@ import { locals as styles } from './ChatBox.sass';
 
 export class ChatPrechatForm extends Component {
   static propTypes = {
-    onFormCompleted: PropTypes.func
+    onFormCompleted: PropTypes.func,
+    visitor: PropTypes.object
   };
 
   static defaultProps = {
@@ -22,29 +23,48 @@ export class ChatPrechatForm extends Component {
     super(props);
 
     this.state = {
-      valid: false
+      valid: false,
+      formState: {}
     };
 
     this.form = null;
   }
 
+  componentWillReceiveProps = (props) => {
+    if (props.visitor.email) {
+      const formState = _.merge({}, props.visitor, this.state.formState);
+
+      this.setState({ formState });
+    }
+  }
+
   handleFormSubmit = (e) => {
     e.preventDefault();
 
-    const values = _.chain(this.form.elements)
-      .reject((field) => field.type === 'submit')
-      .reduce((result, field) => {
-        result[field.name] = field.value;
-
-        return result;
-      },{})
-      .value();
-
-    this.props.onFormCompleted(values);
+    this.props.onFormCompleted(this.state.formState);
   }
 
   handleFormChange = () => {
-    this.setState({ valid: this.form.checkValidity() });
+    const reduceNames = (result, field) => {
+      result[field.name] = field.value;
+
+      return result;
+    };
+    const values = _.chain(this.form.elements)
+                    .reject((field) => field.type === 'submit')
+                    .reduce(reduceNames ,{})
+                    .value();
+
+    this.setState({
+      valid: this.form.checkValidity(),
+      formState: values
+    });
+  }
+
+  updateVisitorDetails = (formState) => {
+    this.setState({
+      formState
+    });
   }
 
   render = () => {
@@ -58,20 +78,24 @@ export class ChatPrechatForm extends Component {
         <Field
           placeholder={i18n.t('embeddable_framework.common.textLabel.name', { fallback: 'Your name' })}
           required={true}
-          name='name' />
+          value={this.state.formState.display_name}
+          name='display_name' />
         <Field
           placeholder={i18n.t('embeddable_framework.common.textLabel.email', { fallback: 'Email' })}
           required={true}
+          value={this.state.formState.email}
           pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
           name='email' />
         <Field
           placeholder={i18n.t('embeddable_framework.common.textLabel.phoneNumber', { fallback: 'Phone Number' })}
           required={true}
           type='number'
+          value={this.state.formState.phone}
           name='phone' />
         <Field
           placeholder={i18n.t('embeddable_framework.common.textLabel.message', { fallback: 'Message' })}
           required={true}
+          value={this.state.formState.message}
           input={<textarea rows='3' />}
           name='message' />
         <Button
