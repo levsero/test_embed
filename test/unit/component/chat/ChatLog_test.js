@@ -32,16 +32,16 @@ describe('ChatLog component', () => {
 
   describe('render', () => {
     let component,
-      result;
+      chatLog;
 
     describe('when chats contain no messages', () => {
       beforeEach(() => {
         component = instanceRender(<ChatLog chats={new Map()} />);
-        result = component.render();
+        chatLog = component.render();
       });
 
       it('should not render any children', () => {
-        expect(result.props.children.length)
+        expect(chatLog.props.children.length)
           .toEqual(0);
       });
     });
@@ -49,11 +49,11 @@ describe('ChatLog component', () => {
     describe('when chats contain at least a single message', () => {
       beforeEach(() => {
         component = instanceRender(<ChatLog chats={mockChats} />);
-        result = component.render();
+        chatLog = component.render();
       });
 
       it('should render ChatMessages as children', () => {
-        expect(result.props.children.length)
+        expect(chatLog.props.children.length)
           .toBeGreaterThan(0);
       });
     });

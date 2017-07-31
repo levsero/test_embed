@@ -79,18 +79,23 @@ describe('ChatMessage component', () => {
   });
 
   describe('renderName', () => {
-    let result;
+    let nameElement;
 
     describe('when it is an agent and name is not empty', () => {
       beforeEach(() => {
-        const component = domRender(<ChatMessage isAgent={true} name='Smith' />);
+        const component = instanceRender(<ChatMessage isAgent={true} name='Smith' />);
 
-        result = component.renderName();
+        nameElement = component.renderName();
       });
 
-      it('returns an Avatar component', () => {
-        expect(result)
+      it('returns a div element', () => {
+        expect(nameElement)
           .not.toBeNull();
+      });
+
+      it('returns a div element', () => {
+        expect(nameElement.props.children)
+          .toEqual('Smith');
       });
     });
 
@@ -103,13 +108,13 @@ describe('ChatMessage component', () => {
 
       _.each(subjects, (subject) => {
         beforeEach(() => {
-          const component = domRender(<ChatMessage name={subject.name} isAgent={subject.isAgent} />);
+          const component = instanceRender(<ChatMessage name={subject.name} isAgent={subject.isAgent} />);
 
-          result = component.renderName();
+          nameElement = component.renderName();
         });
 
         it(`should return null for name: '${subject.name}', isAgent: ${subject.isAgent}`, () => {
-          expect(result)
+          expect(nameElement)
             .toBeNull();
         });
       });
@@ -117,17 +122,17 @@ describe('ChatMessage component', () => {
   });
 
   describe('renderAvatar', () => {
-    let result;
+    let avatarElement;
 
     describe('when showAvatar is true', () => {
       beforeEach(() => {
         const component = instanceRender(<ChatMessage showAvatar={true} />);
 
-        result = component.renderAvatar();
+        avatarElement = component.renderAvatar();
       });
 
       it('returns an Avatar component', () => {
-        expect(result)
+        expect(avatarElement)
           .not.toBeNull();
       });
     });
@@ -136,11 +141,11 @@ describe('ChatMessage component', () => {
       beforeEach(() => {
         const component = instanceRender(<ChatMessage showAvatar={false} />);
 
-        result = component.renderAvatar();
+        avatarElement = component.renderAvatar();
       });
 
       it('returns null', () => {
-        expect(result)
+        expect(avatarElement)
           .toBeNull();
       });
     });
@@ -151,11 +156,11 @@ describe('ChatMessage component', () => {
       beforeEach(() => {
         const component = instanceRender(<ChatMessage showAvatar={true} avatarPath={imageUrl} />);
 
-        result = component.renderAvatar();
+        avatarElement = component.renderAvatar();
       });
 
       it('should render Avatar with avatar style', () => {
-        expect(result.props.className)
+        expect(avatarElement.props.className)
           .toContain('avatar');
       });
     });
@@ -164,28 +169,28 @@ describe('ChatMessage component', () => {
       beforeEach(() => {
         const component = instanceRender(<ChatMessage showAvatar={true} />);
 
-        result = component.renderAvatar();
+        avatarElement = component.renderAvatar();
       });
 
       it('should render Avatar with avatarDefault style', () => {
-        expect(result.props.className)
+        expect(avatarElement.props.className)
           .toContain('avatarDefault');
       });
     });
   });
 
   describe('renderMessageBubble', () => {
-    let result;
+    let messageBubbleElement;
 
     describe('when the user is an agent', () => {
       beforeEach(() => {
         const component = instanceRender(<ChatMessage isAgent={true} />);
 
-        result = component.renderMessageBubble();
+        messageBubbleElement = component.renderMessageBubble();
       });
 
       it('should receive agent background styles', () => {
-        expect(result.props.className)
+        expect(messageBubbleElement.props.className)
           .toContain('agentBackground');
       });
     });
@@ -194,11 +199,11 @@ describe('ChatMessage component', () => {
       beforeEach(() => {
         const component = instanceRender(<ChatMessage isAgent={false} />);
 
-        result = component.renderMessageBubble();
+        messageBubbleElement = component.renderMessageBubble();
       });
 
       it('should receive user background styles', () => {
-        expect(result.props.className)
+        expect(messageBubbleElement.props.className)
           .toContain('userBackground');
       });
     });
@@ -207,11 +212,11 @@ describe('ChatMessage component', () => {
       beforeEach(() => {
         const component = instanceRender(<ChatMessage showAvatar={true} />);
 
-        result = component.renderMessageBubble();
+        messageBubbleElement = component.renderMessageBubble();
       });
 
       it('should receive avatar modified styles', () => {
-        expect(result.props.className)
+        expect(messageBubbleElement.props.className)
           .toContain('messageBubbleAvatar');
       });
     });
@@ -220,11 +225,11 @@ describe('ChatMessage component', () => {
       beforeEach(() => {
         const component = instanceRender(<ChatMessage showAvatar={false} />);
 
-        result = component.renderMessageBubble();
+        messageBubbleElement = component.renderMessageBubble();
       });
 
       it('should receive default messageBubble styles', () => {
-        expect(result.props.className)
+        expect(messageBubbleElement.props.className)
           .toContain('messageBubble');
       });
     });

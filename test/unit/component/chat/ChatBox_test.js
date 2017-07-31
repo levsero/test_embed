@@ -67,6 +67,7 @@ describe('ChatBox component', () => {
             currentMessage=''
             updateCurrentMsg={updateCurrentMsgSpy}
             sendMsg={sendMsgSpy} />);
+
         component.handleSendClick();
       });
 
@@ -88,6 +89,7 @@ describe('ChatBox component', () => {
             currentMessage='Hello!'
             updateCurrentMsg={updateCurrentMsgSpy}
             sendMsg={sendMsgSpy} />);
+
         component.handleSendClick();
       });
 
