@@ -69,18 +69,15 @@ describe('ChatLog component', () => {
     let component,
       agents,
       mockChat,
-      mockChats,
       result;
 
     beforeEach(() => {
-      mockChats = new Map();
-      agents = { 'agent:1234': { avatar_path: 'www.fakeSite.com/bob.jpg' } };
+      agents = { 'agent:1234': { avatar_path: 'www.fakeSite.com/bob.jpg' } }; // eslint-disable-line camelcase
     });
 
     describe('when chat group is of agent type', () => {
       beforeEach(() => {
         mockChat = { nick: 'agent:1234' };
-        mockChats.set(0, mockChat)
         component = instanceRender(<ChatLog agents={agents} chats={new Map()} />);
         result = component.renderChatGroup([mockChat], 0);
       });
@@ -99,7 +96,6 @@ describe('ChatLog component', () => {
     describe('when chat group is of visitor type', () => {
       beforeEach(() => {
         mockChat = { nick: 'visitor' };
-        mockChats.set(0, mockChat)
         component = instanceRender(<ChatLog agents={agents} chats={new Map()} />);
         result = component.renderChatGroup([mockChat], 0);
       });
