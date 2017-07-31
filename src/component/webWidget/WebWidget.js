@@ -135,7 +135,7 @@ class WebWidget extends Component {
     const signInRequired = _.get(helpCenterConfig, 'signInRequired', false);
     const helpCenterAccessible = (!signInRequired || isOnHelpCenterPage) || authenticated;
 
-    return helpCenterAvailable && helpCenterAccessible;
+    return helpCenterAvailable && !!helpCenterAccessible;
   }
 
   articleViewActive = () => _.get(this.getHelpCenterComponent(), 'state.articleViewActive', false);
