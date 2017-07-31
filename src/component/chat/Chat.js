@@ -72,6 +72,13 @@ class Chat extends Component {
     this.setState({ showMenu: false });
   }
 
+  onPrechatFormComplete = (info) => {
+    this.props.setVisitorInfo(_.pick(info, ['name', 'email', 'phone']));
+    this.props.sendMsg(info.message);
+
+    this.updateScreen('chatting');
+  }
+
   renderChatLog = () => {
     const { chats } = this.props.chat;
 
@@ -138,7 +145,7 @@ class Chat extends Component {
       <ScrollContainer
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
         <ChatPrechatForm
-          onFormCompleted={() => this.updateScreen('chatting')} />
+          onFormCompleted={this.onPrechatFormComplete} />
       </ScrollContainer>
     );
   }

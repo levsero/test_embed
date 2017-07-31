@@ -120,19 +120,20 @@ export class Field extends Component {
   }
 
   renderInput = () => {
+    const value = this.props.value === '' ? this.state.value : this.props.value;
     const sharedProps = {
       onChange: this.onChange,
       onBlur: this.onBlur,
       onFocus: this.onFocus,
       ref: 'field',
-      value: this.props.value
+      value: value
     };
     const fieldInputClasses = classNames({
       'u-textSizeBaseMobile': isMobileBrowser()
     });
     let fieldProps = {
       name: this.props.name,
-      value: this.props.value,
+      value: value,
       required: this.props.required,
       type: this.props.type,
       step: this.props.step,

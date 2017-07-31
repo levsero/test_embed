@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import { Field } from 'component/field/Field';
 import { Button } from 'component/button/Button';
@@ -17,16 +18,42 @@ export class ChatPrechatForm extends Component {
     onFormCompleted: () => {}
   };
 
-  handleButtonClick = (e) => {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      valid: false
+    };
+
+    this.form = null;
+  }
+
+  handleFormSubmit = (e) => {
     e.preventDefault();
 
-    this.props.onFormCompleted();
+    const values = _.chain(this.form.elements)
+      .reject((field) => field.type === 'submit')
+      .reduce((result, field) => {
+        result[field.name] = field.value;
+
+        return result;
+      },{})
+      .value();
+
+    this.props.onFormCompleted(values);
+  }
+
+  handleFormChange = () => {
+    this.setState({ valid: this.form.checkValidity() });
   }
 
   render = () => {
     return (
       <form
         noValidate={true}
+        onSubmit={this.handleFormSubmit}
+        onChange={this.handleFormChange}
+        ref={(el) => { this.form = el; }}
         className={`${styles.form}`}>
         <Field
           placeholder={i18n.t('embeddable_framework.common.textLabel.name', { fallback: 'Your name' })}
