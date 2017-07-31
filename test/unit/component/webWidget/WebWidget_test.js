@@ -175,7 +175,7 @@ describe('WebWidget component', () => {
           webWidget = instanceRender(<WebWidget updateActiveEmbed={mockUpdateActiveEmbed} />);
 
           spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
-          spyOn(webWidget, 'channelChoiceAvailable').and.returnValue(true);
+          spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(true);
           webWidget.onCancelClick();
         });
 
@@ -197,7 +197,7 @@ describe('WebWidget component', () => {
           );
 
           spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
-          spyOn(webWidget, 'channelChoiceAvailable').and.returnValue(false);
+          spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(false);
           webWidget.onCancelClick();
         });
 
@@ -808,6 +808,11 @@ describe('WebWidget component', () => {
     });
 
     describe('when props.helpCenterAvailable is true', () => {
+      it('returns false', () => {
+        expect(webWidget.isHelpCenterAvailable())
+          .toBe(false);
+      });
+
       describe('when hc is not sign-in required', () => {
         beforeEach(() => {
           webWidget = instanceRender(<WebWidget helpCenterAvailable={true} />);
@@ -856,11 +861,6 @@ describe('WebWidget component', () => {
             expect(webWidget.isHelpCenterAvailable())
               .toBe(true);
           });
-        });
-
-        it('returns false', () => {
-          expect(webWidget.isHelpCenterAvailable())
-            .toBe(false);
         });
       });
     });

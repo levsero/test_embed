@@ -130,6 +130,8 @@ class WebWidget extends Component {
 
   getHelpCenterComponent = () => this.refs[helpCenter];
 
+  articleViewActive = () => _.get(this.getHelpCenterComponent(), 'state.articleViewActive', false);
+
   isHelpCenterAvailable = () => {
     const { helpCenterAvailable, helpCenterConfig, authenticated, isOnHelpCenterPage } = this.props;
     const signInRequired = _.get(helpCenterConfig, 'signInRequired', false);
@@ -138,11 +140,9 @@ class WebWidget extends Component {
     return helpCenterAvailable && !!helpCenterAccessible;
   }
 
-  articleViewActive = () => _.get(this.getHelpCenterComponent(), 'state.articleViewActive', false);
+  isChannelChoiceAvailable = () => this.props.channelChoice && this.isChatOnline() && this.props.submitTicketAvailable;
 
-  channelChoiceAvailable = () => this.props.channelChoice && this.chatOnline() && this.props.submitTicketAvailable;
-
-  chatOnline = () => this.props.chat.account_status === 'online' || this.props.zopimOnline;
+  isChatOnline = () => this.props.chat.account_status === 'online' || this.props.zopimOnline;
 
   noActiveEmbed = () => this.props.activeEmbed === '';
 
@@ -169,9 +169,9 @@ class WebWidget extends Component {
     if (this.isHelpCenterAvailable()) {
       updateActiveEmbed(helpCenter);
       backButton = this.articleViewActive();
-    } else if (this.channelChoiceAvailable()) {
+    } else if (this.isChannelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
-    } else if (this.chatOnline()) {
+    } else if (this.isChatOnline()) {
       this.showChat();
     } else {
       updateActiveEmbed(submitTicket);
@@ -182,16 +182,17 @@ class WebWidget extends Component {
 
   show = (viaActivate = false) => {
     const { activeEmbed } = this.props;
+    const chatOnline = this.isChatOnline();
 
     // If chat came online when contact form was open it should
     // replace it when it's next opened.
-    if (activeEmbed === submitTicket && this.chatOnline() && !this.channelChoiceAvailable()) {
+    if (activeEmbed === submitTicket && chatOnline && !this.isChannelChoiceAvailable()) {
       this.showChat();
       return;
     }
 
     // If zopim has gone offline we will need to reset the embed
-    const chatOffline = activeEmbed === zopimChat && !this.chatOnline();
+    const chatOffline = activeEmbed === zopimChat && !chatOnline;
 
     if (this.noActiveEmbed() || viaActivate || chatOffline) this.resetActiveEmbed();
   }
@@ -206,7 +207,7 @@ class WebWidget extends Component {
 
     if (embed) {
       this.setComponent(embed);
-    } else if (this.chatOnline()) {
+    } else if (this.isChatOnline()) {
       this.showChat();
       // TODO: track chat started
       if (!zopimOnline) {
@@ -223,7 +224,7 @@ class WebWidget extends Component {
 
     if (this.isHelpCenterAvailable()) {
       this.showHelpCenter();
-    } else if (this.channelChoiceAvailable()) {
+    } else if (this.isChannelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
       updateBackButtonVisibility(false);
     } else {
@@ -271,12 +272,13 @@ class WebWidget extends Component {
     const classes = classNames({
       'u-isHidden': this.props.activeEmbed !== helpCenter
     });
+    const chatOnline = this.isChatOnline();
 
     return (
       <div className={classes}>
         <HelpCenter
           ref={helpCenter}
-          chatOnline={this.chatOnline()}
+          chatOnline={chatOnline}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}
           onArticleClick={this.props.onArticleClick}
@@ -286,7 +288,7 @@ class WebWidget extends Component {
           formTitleKey={helpCenterConfig.formTitleKey}
           showBackButton={this.props.updateBackButtonVisibility}
           showNextButton={false}
-          showNextButtonSingleIframe={this.props.submitTicketAvailable || this.chatOnline()}
+          showNextButtonSingleIframe={this.props.submitTicketAvailable || chatOnline}
           searchSender={this.props.searchSender}
           contextualSearchSender={this.props.contextualSearchSender}
           imagesSender={this.props.imagesSender}
@@ -345,7 +347,7 @@ class WebWidget extends Component {
       <ChannelChoice
         ref={channelChoice}
         style={this.props.style}
-        chatOnline={this.chatOnline()}
+        chatOnline={this.isChatOnline()}
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
         onCancelClick={this.props.closeFrame}
