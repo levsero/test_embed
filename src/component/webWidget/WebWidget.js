@@ -43,6 +43,7 @@ class WebWidget extends Component {
     getFrameDimensions: PropTypes.func.isRequired,
     helpCenterAvailable: PropTypes.bool,
     helpCenterConfig: PropTypes.object,
+    isOnHelpCenterPage: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     imagesSender: PropTypes.func,
     localeFallbacks: PropTypes.array,
@@ -85,6 +86,7 @@ class WebWidget extends Component {
     fullscreen: true,
     helpCenterAvailable: false,
     helpCenterConfig: {},
+    isOnHelpCenterPage: false,
     hideZendeskLogo: false,
     imagesSender: () => {},
     localeFallbacks: [],
@@ -128,6 +130,14 @@ class WebWidget extends Component {
 
   getHelpCenterComponent = () => this.refs[helpCenter];
 
+  isHelpCenterAvailable = () => {
+    const { helpCenterAvailable, helpCenterConfig, authenticated, isOnHelpCenterPage } = this.props;
+    const signInRequired = _.get(helpCenterConfig, 'signInRequired', false);
+    const helpCenterAccessible = (!signInRequired || isOnHelpCenterPage) || authenticated;
+
+    return helpCenterAvailable && helpCenterAccessible;
+  }
+
   articleViewActive = () => _.get(this.getHelpCenterComponent(), 'state.articleViewActive', false);
 
   channelChoiceAvailable = () => this.props.channelChoice && this.chatOnline() && this.props.submitTicketAvailable;
@@ -153,18 +163,10 @@ class WebWidget extends Component {
   setAuthenticated = (bool) => this.props.updateAuthenticated(bool);
 
   resetActiveEmbed = () => {
-    const {
-      updateActiveEmbed,
-      helpCenterAvailable,
-      updateBackButtonVisibility,
-      helpCenterConfig,
-      authenticated } = this.props;
-
-    const signInRequired = _.get(helpCenterConfig, 'signInRequired', false);
-    const helpCenterAccessible = !signInRequired || authenticated;
+    const { updateActiveEmbed, updateBackButtonVisibility } = this.props;
     let backButton = false;
 
-    if (helpCenterAvailable && helpCenterAccessible) {
+    if (this.isHelpCenterAvailable()) {
       updateActiveEmbed(helpCenter);
       backButton = this.articleViewActive();
     } else if (this.channelChoiceAvailable()) {
@@ -217,9 +219,9 @@ class WebWidget extends Component {
   }
 
   onCancelClick = () => {
-    const { helpCenterAvailable, updateActiveEmbed, onCancel, updateBackButtonVisibility } = this.props;
+    const { updateActiveEmbed, onCancel, updateBackButtonVisibility } = this.props;
 
-    if (helpCenterAvailable) {
+    if (this.isHelpCenterAvailable()) {
       this.showHelpCenter();
     } else if (this.channelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
@@ -232,7 +234,8 @@ class WebWidget extends Component {
 
   onBackClick = () => {
     const rootComponent = this.getRootComponent();
-    const { activeEmbed, helpCenterAvailable, updateBackButtonVisibility, updateActiveEmbed } = this.props;
+    const { activeEmbed, updateBackButtonVisibility, updateActiveEmbed } = this.props;
+    const helpCenterAvailable = this.isHelpCenterAvailable();
     const { selectedTicketForm, ticketForms } = this.getSubmitTicketComponent().state;
 
     if (activeEmbed === helpCenter) {
