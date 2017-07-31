@@ -93,7 +93,7 @@ describe('ChatMessage component', () => {
           .not.toBeNull();
       });
 
-      it('returns a div element', () => {
+      it('contains a name prop', () => {
         expect(nameElement.props.children)
           .toEqual('Smith');
       });
