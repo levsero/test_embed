@@ -56,7 +56,7 @@ describe('ChatPrechatForm component', () => {
 
   describe('componentWillReceiveProps', () => {
     let component;
-    const visitor = { display_name: 'Arya Stark', email: 'no@name.x' };
+    const visitor = { display_name: 'Arya Stark', email: 'no@name.x' };  // eslint-disable-line camelcase
 
     beforeEach(() => {
       component = domRender(<ChatPrechatForm />);
@@ -91,7 +91,7 @@ describe('ChatPrechatForm component', () => {
     describe('state.formState', () => {
       it('should be set with the form elements name mapped to the value', () => {
         expect(component.state.formState)
-          .toEqual({ display_name: 'John Snow', email: 'j@l.r' });
+          .toEqual({ display_name: 'John Snow', email: 'j@l.r' });  // eslint-disable-line camelcase
       });
 
       it('should not contain elements with type submit', () => {
