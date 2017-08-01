@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import zChat from 'vendor/web-sdk';
 
 import { ChatBox } from 'component/chat/ChatBox';
 import { ChatFooter } from 'component/chat/ChatFooter';
@@ -49,6 +50,8 @@ class Chat extends Component {
     this.state = {
       showMenu: false
     };
+
+    this.accountSettings = zChat._getAccountSettings();
   }
 
   updateUser = (user) => {
@@ -115,12 +118,15 @@ class Chat extends Component {
 
   renderChatHeader = () => {
     const { chat, sendChatRating, endChat } = this.props;
+    const { avatar_path, display_name, title } = this.accountSettings.concierge;
 
     return (
       <ChatHeader
         rating={chat.rating}
         updateRating={sendChatRating}
-        agents={chat.agents}
+        avatar={avatar_path}
+        title={title}
+        byline={display_name}
         endChat={endChat} />
     );
   }
