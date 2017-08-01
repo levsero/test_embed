@@ -154,12 +154,14 @@ class Chat extends Component {
   renderChatScreen = () => {
     if (this.state.screen !== 'chatting') return;
 
+    const containerClasses = isMobileBrowser() ? styles.containerMobile : styles.container;
+
     return (
       <ScrollContainer
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
         headerContent={this.renderChatHeader()}
         headerClasses={styles.header}
-        containerClasses={this.containerClasses()}
+        containerClasses={containerClasses}
         footerClasses={styles.footer}
         footerContent={this.renderChatFooter()}>
         <div className={styles.messages}>
@@ -168,12 +170,6 @@ class Chat extends Component {
         </div>
       </ScrollContainer>
     );
-  }
-
-  containerClasses = () => {
-    return isMobileBrowser()
-           ? styles.containerMobile
-           : styles.container;
   }
 
   render = () => {

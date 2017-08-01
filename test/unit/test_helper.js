@@ -47,7 +47,29 @@ global.shallow = Enzyme.shallow;
 
 global.noopReactComponent = () => class extends Component {
   render() {
-    return <div />;
+    return (
+      <div className={this.props.className}>
+        {this.props.children}
+      </div>
+    );
+  }
+};
+
+global.scrollContainerComponent = () => class extends Component {
+  render() {
+    return (
+      <div>
+        <div className={this.props.headerClasses}>
+          {this.props.headerContent}
+        </div>
+        <div className={this.props.containerClasses}>
+          {this.props.children}
+        </div>
+        <div className={this.props.footerClasses}>
+          {this.props.footerContent}
+        </div>
+      </div>
+    );
   }
 };
 
