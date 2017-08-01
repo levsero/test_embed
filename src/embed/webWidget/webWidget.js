@@ -211,6 +211,7 @@ function create(name, config = {}, reduxStore = {}) {
         fullscreen={isMobileBrowser()}
         helpCenterAvailable={helpCenterAvailable}
         helpCenterConfig={helpCenterSettings.config}
+        isOnHelpCenterPage={isOnHelpCenterPage()}
         hideZendeskLogo={globalConfig.hideZendeskLogo}
         imagesSender={helpCenterSettings.imagesSenderFn}
         localeFallbacks={settings.get('helpCenter.localeFallbacks')}
