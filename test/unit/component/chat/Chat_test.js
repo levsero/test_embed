@@ -1,7 +1,7 @@
 const Map = require(buildSrcPath('vendor/es6-map.js')).Map;
 
 describe('Chat component', () => {
-  let Chat, mockIsMobileBrowserValue;
+  let Chat, mockIsMobileBrowserValue, chats, chatProp;
 
   const chatPath = buildSrcPath('component/chat/Chat');
 
@@ -10,6 +10,8 @@ describe('Chat component', () => {
     mockery.enable();
 
     mockIsMobileBrowserValue = true;
+    chats = new Map();
+    chatProp = { chats: chats };
 
     initMockRegistry({
       './Chat.sass': {
@@ -25,6 +27,9 @@ describe('Chat component', () => {
       },
       'component/chat/ChatMessage': {
         ChatMessage: noopReactComponent()
+      },
+      'component/chat/ChatPrechatForm': {
+        ChatPrechatForm: noopReactComponent()
       },
       'component/chat/ChatFooter': {
         ChatFooter: noopReactComponent()
@@ -60,14 +65,51 @@ describe('Chat component', () => {
     mockery.disable();
   });
 
+  describe('onPrechatFormComplete', () => {
+    let component, setVisitorInfoSpy, sendMsgSpy;
+    const formInfo = {
+      display_name: 'Daneries Targarian', // eslint-disable-line camelcase
+      email: 'mother@of.dragons',
+      phone: '87654321',
+      message: 'bend the knee'
+    };
+
+    beforeEach(() => {
+      setVisitorInfoSpy = jasmine.createSpy('setVisitorInfo');
+      sendMsgSpy = jasmine.createSpy('sendMsg');
+
+      component = domRender(
+        <Chat setVisitorInfo={setVisitorInfoSpy} sendMsg={sendMsgSpy} chat={chatProp} />
+      );
+
+      spyOn(component, 'updateScreen');
+
+      component.onPrechatFormComplete(formInfo);
+    });
+
+    it('should call setVisitorInfo with the display_name, email and phone', () => {
+      const visitorInfo = _.omit(formInfo, ['message']);
+
+      expect(setVisitorInfoSpy)
+        .toHaveBeenCalledWith(visitorInfo);
+    });
+
+    it('should call sendMsg with the message', () => {
+      expect(sendMsgSpy)
+        .toHaveBeenCalledWith(formInfo.message);
+    });
+
+    it('should call sendMsg with the message', () => {
+      expect(component.updateScreen)
+        .toHaveBeenCalledWith('chatting');
+    });
+  });
+
   describe('renderChatLog', () => {
     let component;
 
     describe('when there are no messages', () => {
       beforeEach(() => {
-        const chats = new Map();
-        const chatProp = { chats: chats };
-
         component = domRender(<Chat chat={chatProp} />);
       });
 
@@ -79,12 +121,12 @@ describe('Chat component', () => {
 
     describe('when there are messages', () => {
       beforeEach(() => {
-        const chats = new Map();
+        chats = new Map();
 
         chats.set(123, { timestamp: 123, type: 'chat.msg' });
         chats.set(124, { timestamp: 124, type: 'chat.msg' });
 
-        const chatProp = { chats: chats };
+        chatProp = { chats: chats };
 
         component = domRender(<Chat chat={chatProp} />);
       });
@@ -97,13 +139,7 @@ describe('Chat component', () => {
   });
 
   describe('renderChatEnded', () => {
-    let component, chatProp;
-
-    beforeEach(() => {
-      const chats = new Map();
-
-      chatProp = { chats };
-    });
+    let component;
 
     describe('when there are no messages', () => {
       beforeEach(() => {

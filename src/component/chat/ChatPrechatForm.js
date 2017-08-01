@@ -61,12 +61,6 @@ export class ChatPrechatForm extends Component {
     });
   }
 
-  updateVisitorDetails = (formState) => {
-    this.setState({
-      formState
-    });
-  }
-
   render = () => {
     return (
       <form
