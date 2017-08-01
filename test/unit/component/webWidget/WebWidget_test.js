@@ -808,11 +808,6 @@ describe('WebWidget component', () => {
     });
 
     describe('when props.helpCenterAvailable is true', () => {
-      it('returns false', () => {
-        expect(webWidget.isHelpCenterAvailable())
-          .toBe(false);
-      });
-
       describe('when hc is not sign-in required', () => {
         beforeEach(() => {
           webWidget = instanceRender(<WebWidget helpCenterAvailable={true} />);
@@ -828,7 +823,17 @@ describe('WebWidget component', () => {
         const config = { signInRequired: true };
 
         beforeEach(() => {
-          webWidget = instanceRender(<WebWidget helpCenterAvailable={true} helpCenterConfig={config} />);
+          webWidget = instanceRender(
+            <WebWidget
+              helpCenterAvailable={true}
+              authenticated={false}
+              helpCenterConfig={config} />
+          );
+        });
+
+        it('returns false', () => {
+          expect(webWidget.isHelpCenterAvailable())
+            .toBe(false);
         });
 
         describe('when hc is authenticated', () => {
@@ -853,6 +858,7 @@ describe('WebWidget component', () => {
               <WebWidget
                 helpCenterAvailable={true}
                 helpCenterConfig={config}
+                authenticated={false}
                 isOnHelpCenterPage={true} />
             );
           });

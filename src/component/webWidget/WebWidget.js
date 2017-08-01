@@ -137,7 +137,7 @@ class WebWidget extends Component {
     const signInRequired = _.get(helpCenterConfig, 'signInRequired', false);
     const helpCenterAccessible = (!signInRequired || isOnHelpCenterPage) || authenticated;
 
-    return helpCenterAvailable && !!helpCenterAccessible;
+    return helpCenterAvailable && helpCenterAccessible;
   }
 
   isChannelChoiceAvailable = () => this.props.channelChoice && this.isChatOnline() && this.props.submitTicketAvailable;
