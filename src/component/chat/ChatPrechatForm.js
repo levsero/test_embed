@@ -7,7 +7,7 @@ import { Button } from 'component/button/Button';
 
 import { i18n } from 'service/i18n';
 
-import { locals as styles } from './ChatBox.sass';
+import { locals as styles } from './ChatPrechatForm.sass';
 
 export class ChatPrechatForm extends Component {
   static propTypes = {
@@ -101,6 +101,7 @@ export class ChatPrechatForm extends Component {
         <Button
           label={i18n.t('embeddable_framework.chat.preChat.online.button.startChat')}
           disabled={!this.state.valid}
+          className={styles.button}
           type='submit' />
       </form>
     );
