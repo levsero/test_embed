@@ -51,7 +51,25 @@ class Chat extends Component {
       showMenu: false
     };
 
+    // populates agentSettings with the defaults
     this.accountSettings = zChat._getAccountSettings();
+  }
+
+  componentDidMount = () => {
+    this.setUpSettings();
+  }
+
+  setUpSettings = () => {
+    // populates agentSettings with the correct settings once they're connected
+    setTimeout(() => {
+      const status = zChat.getConnectionStatus();
+
+      if (status && status !== 'connecting') {
+        this.accountSettings = zChat._getAccountSettings();
+      } else {
+        this.setUpSettings();
+      }
+    }, 10);
   }
 
   updateUser = (user) => {
