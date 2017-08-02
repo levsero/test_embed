@@ -54,7 +54,9 @@ class Chat extends Component {
     isMobile: false,
     position: 'right',
     style: null,
-    updateFrameSize: () => {}
+    updateFrameSize: () => {},
+    updateAccountSettings: () => {},
+    accountSettings: { concierge: {} }
   };
 
   constructor(props) {

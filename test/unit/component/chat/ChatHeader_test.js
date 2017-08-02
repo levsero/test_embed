@@ -55,15 +55,13 @@ describe('ChatHeader component', () => {
     let component;
 
     beforeEach(() => {
-      const agents = {
-        'agent:111': {
-          'avatar_path': 'https://example.com/snake',
-          'display_name': 'Luke Skywalker',
-          'title': 'Jedi'
-        }
+      const props = {
+        avatar: 'https://example.com/snake',
+        title: 'Luke Skywalker',
+        byline: 'Jedi'
       };
 
-      component = domRender(<ChatHeader agents={agents} />);
+      component = domRender(<ChatHeader {...props} />);
     });
 
     it('should render an Avatar', () => {
@@ -71,7 +69,7 @@ describe('ChatHeader component', () => {
         .not.toThrow();
     });
 
-    describe('agents prop', () => {
+    describe('props', () => {
       it('should use the agents name as the title', () => {
         const titleElem = document.querySelector('.textContainer').firstChild;
 
