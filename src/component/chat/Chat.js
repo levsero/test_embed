@@ -37,6 +37,7 @@ class Chat extends Component {
   static propTypes = {
     accountSettings: PropTypes.object.isRequired,
     chat: PropTypes.object.isRequired,
+    connection: PropTypes.string.isRequired,
     endChat: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
     position: PropTypes.string,
@@ -67,6 +68,11 @@ class Chat extends Component {
     this.scrollContainer = null;
   }
 
+  componentDidMount = () => {
+    // populates agentSettings with the defaults for the account
+    this.props.updateAccountSettings();
+  }
+
   componentWillReceiveProps = (nextProps) => {
     const { chat } = this.props;
 
@@ -75,11 +81,6 @@ class Chat extends Component {
     if (chat.chats.size !== nextProps.chat.chats.size) {
       setTimeout(() => this.scrollContainer.scrollToBottom(), 0);
     }
-  }
-
-  componentDidMount = () => {
-    // populates agentSettings with the defaults for the account
-    this.props.updateAccountSettings();
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -91,7 +92,7 @@ class Chat extends Component {
 
   updateUser = (user) => {
     this.props.setVisitorInfo({
-      display_name: user.name || '', // eslint-disable-line camelcase
+      display_name: user.name || '',
       email: user.email || ''
     });
   }
@@ -155,9 +156,9 @@ class Chat extends Component {
       <ChatHeader
         rating={chat.rating}
         updateRating={sendChatRating}
-        avatar={avatar_path}
+        avatar={avatar_path} // eslint-disable-line
         title={title}
-        byline={display_name}
+        byline={display_name} // eslint-disable-line
         endChat={endChat} />
     );
   }

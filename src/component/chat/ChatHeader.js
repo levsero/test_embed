@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatHeader.sass';
 
@@ -9,14 +8,17 @@ import { ButtonIcon } from 'component/button/ButtonIcon';
 
 export class ChatHeader extends Component {
   static propTypes = {
-    agents: PropTypes.object,
-    endChat: PropTypes.func,
+    avatar: PropTypes.string,
+    title: PropTypes.string,
+    byline: PropTypes.string,
     updateRating: PropTypes.func.isRequired,
     rating: PropTypes.string
   };
 
   static defaultProps = {
-    agents: {},
+    avatar: '',
+    title: '',
+    byline: '',
     rating: null
   };
 
