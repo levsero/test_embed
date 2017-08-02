@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import { Field } from 'component/field/Field';
 import { i18n } from 'service/i18n';
@@ -19,8 +20,12 @@ export class ChatBox extends Component {
   };
 
   handleSendClick = () => {
-    this.props.sendMsg(this.props.currentMessage);
-    this.props.updateCurrentMsg('');
+    const { currentMessage, sendMsg, updateCurrentMsg } = this.props;
+
+    if (!_.isEmpty(currentMessage)) {
+      sendMsg(currentMessage);
+      updateCurrentMsg('');
+    }
   }
 
   handleKeyDown = (e) => {

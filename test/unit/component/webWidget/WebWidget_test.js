@@ -63,7 +63,8 @@ describe('WebWidget component', () => {
       'src/redux/modules/base': {
         updateActiveEmbed: noop,
         updateEmbedAccessible: noop,
-        updateBackButtonVisibility: noop
+        updateBackButtonVisibility: noop,
+        updateAuthenticated: noop
       }
     });
 
@@ -134,12 +135,30 @@ describe('WebWidget component', () => {
     });
   });
 
+  describe('setAuthenticated', () => {
+    let webWidget,
+      updateAuthenticatedSpy;
+
+    beforeEach(() => {
+      updateAuthenticatedSpy = jasmine.createSpy('updateAuthenticated');
+      webWidget = instanceRender(<WebWidget updateAuthenticated={updateAuthenticatedSpy} />);
+      webWidget.setAuthenticated(true);
+    });
+
+    it('should call props.updateAuthenticated with a boolean value', () => {
+      expect(updateAuthenticatedSpy)
+        .toHaveBeenCalledWith(true);
+    });
+  });
+
   describe('#onCancelClick', () => {
     let webWidget;
 
     describe('when helpCenter is available', () => {
       beforeEach(() => {
-        webWidget = instanceRender(<WebWidget helpCenterAvailable={true} />);
+        webWidget = instanceRender(<WebWidget />);
+
+        spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(true);
         spyOn(webWidget, 'showHelpCenter');
         webWidget.onCancelClick();
       });
@@ -155,7 +174,8 @@ describe('WebWidget component', () => {
         beforeEach(() => {
           webWidget = instanceRender(<WebWidget updateActiveEmbed={mockUpdateActiveEmbed} />);
 
-          spyOn(webWidget, 'channelChoiceAvailable').and.returnValue(true);
+          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
+          spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(true);
           webWidget.onCancelClick();
         });
 
@@ -176,7 +196,8 @@ describe('WebWidget component', () => {
               updateActiveEmbed={mockUpdateActiveEmbed} />
           );
 
-          spyOn(webWidget, 'channelChoiceAvailable').and.returnValue(false);
+          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
+          spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(false);
           webWidget.onCancelClick();
         });
 
@@ -589,11 +610,12 @@ describe('WebWidget component', () => {
       beforeEach(() => {
         webWidget = domRender(
           <WebWidget
-            helpCenterAvailable={true}
             updateActiveEmbed={updateActiveEmbedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             activeEmbed='' />
         );
+
+        spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(true);
         webWidget.resetActiveEmbed();
       });
 
@@ -640,9 +662,10 @@ describe('WebWidget component', () => {
               chat={{ account_status: 'online' }} // eslint-disable-line camelcase
               channelChoice={true}
               submitTicketAvailable={true}
-              updateActiveEmbed={updateActiveEmbedSpy}
-              helpCenterAvailable={false} />
+              updateActiveEmbed={updateActiveEmbedSpy} />
           );
+
+          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
           webWidget.resetActiveEmbed();
         });
 
@@ -659,9 +682,10 @@ describe('WebWidget component', () => {
               activeEmbed=''
               chat={{ account_status: 'online' }} // eslint-disable-line camelcase
               updateActiveEmbed={updateActiveEmbedSpy}
-              channelChoice={false}
-              helpCenterAvailable={false} />
+              channelChoice={false} />
           );
+
+          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
           webWidget.resetActiveEmbed();
         });
 
@@ -677,9 +701,10 @@ describe('WebWidget component', () => {
             <WebWidget
               activeEmbed=''
               chat={{ account_status: 'offline' }} // eslint-disable-line camelcase
-              updateActiveEmbed={updateActiveEmbedSpy}
-              helpCenterAvailable={false} />
+              updateActiveEmbed={updateActiveEmbedSpy} />
           );
+
+          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
           webWidget.resetActiveEmbed();
         });
 
@@ -764,6 +789,85 @@ describe('WebWidget component', () => {
       it('should call updateActiveEmbed with chat', () => {
         expect(updateActiveEmbedSpy)
           .toHaveBeenCalledWith('chat');
+      });
+    });
+  });
+
+  describe('#isHelpCenterAvailable', () => {
+    let webWidget;
+
+    describe('when props.helpCenterAvailable is false', () => {
+      beforeEach(() => {
+        webWidget = instanceRender(<WebWidget helpCenterAvailable={false} />);
+      });
+
+      it('returns false', () => {
+        expect(webWidget.isHelpCenterAvailable())
+          .toBe(false);
+      });
+    });
+
+    describe('when props.helpCenterAvailable is true', () => {
+      describe('when hc is not sign-in required', () => {
+        beforeEach(() => {
+          webWidget = instanceRender(<WebWidget helpCenterAvailable={true} />);
+        });
+
+        it('returns true', () => {
+          expect(webWidget.isHelpCenterAvailable())
+            .toBe(true);
+        });
+      });
+
+      describe('when hc is sign-in required', () => {
+        const config = { signInRequired: true };
+
+        beforeEach(() => {
+          webWidget = instanceRender(
+            <WebWidget
+              helpCenterAvailable={true}
+              authenticated={false}
+              helpCenterConfig={config} />
+          );
+        });
+
+        it('returns false', () => {
+          expect(webWidget.isHelpCenterAvailable())
+            .toBe(false);
+        });
+
+        describe('when hc is authenticated', () => {
+          beforeEach(() => {
+            webWidget = instanceRender(
+              <WebWidget
+                helpCenterAvailable={true}
+                helpCenterConfig={config}
+                authenticated={true} />
+            );
+          });
+
+          it('returns true', () => {
+            expect(webWidget.isHelpCenterAvailable())
+              .toBe(true);
+          });
+        });
+
+        describe('when embedded on a help center', () => {
+          beforeEach(() => {
+            webWidget = instanceRender(
+              <WebWidget
+                helpCenterAvailable={true}
+                helpCenterConfig={config}
+                authenticated={false}
+                isOnHelpCenterPage={true} />
+            );
+          });
+
+          it('returns true', () => {
+            expect(webWidget.isHelpCenterAvailable())
+              .toBe(true);
+          });
+        });
       });
     });
   });

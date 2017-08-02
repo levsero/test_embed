@@ -17,7 +17,8 @@ describe('Chat component', () => {
       './Chat.sass': {
         locals: {
           container: 'containerClasses',
-          containerMobile: 'containerMobileClasses'
+          containerMobile: 'containerMobileClasses',
+          scrollContainerMobile: 'scrollContainerMobileClasses'
         }
       },
       'component/chat/ChatBox': {
@@ -37,6 +38,9 @@ describe('Chat component', () => {
       },
       'component/chat/ChatMenu': {
         ChatMenu: noopReactComponent()
+      },
+      'component/chat/ChatLog': {
+        ChatLog: noopReactComponent()
       },
       'component/container/Container': {
         Container: noopReactComponent()

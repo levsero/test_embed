@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 
 import { ChatBox } from 'component/chat/ChatBox';
 import { ChatFooter } from 'component/chat/ChatFooter';
+import { ChatLog } from 'component/chat/ChatLog';
 import { ChatHeader } from 'component/chat/ChatHeader';
-import { ChatMessage } from 'component/chat/ChatMessage';
 import { ChatMenu } from 'component/chat/ChatMenu';
 import { ChatPrechatForm } from 'component/chat/ChatPrechatForm';
 import { Container } from 'component/container/Container';
@@ -55,6 +54,18 @@ class Chat extends Component {
       showMenu: false,
       screen: screens.prechat
     };
+
+    this.scrollContainer = null;
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    const { chat } = this.props;
+
+    if (!chat || !nextProps.chat) return;
+
+    if (chat.chats.size !== nextProps.chat.chats.size) {
+      setTimeout(() => this.scrollContainer.scrollToBottom(), 0);
+    }
   }
 
   updateUser = (user) => {
@@ -81,21 +92,6 @@ class Chat extends Component {
     this.props.sendMsg(info.message);
 
     this.updateScreen(screens.chatting);
-  }
-
-  renderChatLog = () => {
-    const { chats } = this.props.chat;
-
-    if (chats.size <= 0) return;
-
-    const chatMessage = (data, key) => {
-      return (<ChatMessage key={key} name={data.display_name} message={data.msg} nick={data.nick} />);
-    };
-
-    return _.chain([...chats.values()])
-            .filter((m) => m.type === 'chat.msg')
-            .map(chatMessage)
-            .value();
   }
 
   renderChatEnded = () => {
@@ -176,12 +172,22 @@ class Chat extends Component {
     );
   }
 
+  renderChatLog = () => {
+    const { chat } = this.props;
+    const { chats, agents } = chat;
+
+    return (
+      <ChatLog agents={agents} chats={chats} />
+    );
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     return (
       <Container
         onClick={this.onContainerClick}
+        className={styles.container}
         style={this.props.style}
         position={this.props.position}>
         {this.renderPrechatScreen()}
