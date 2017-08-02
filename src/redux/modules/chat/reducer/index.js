@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 
+import accountSettings from './chat-account-settings';
 import accountStatus from './chat-account-status';
 import agents from './chat-agents';
 import chats from './chat-chats';
@@ -11,6 +12,7 @@ import visitor from './chat-visitor';
 import rating from './chat-rating';
 
 export default combineReducers({
+  accountSettings,
   account_status: accountStatus,
   agents,
   chats,

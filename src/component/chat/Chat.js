@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import zChat from 'vendor/web-sdk';
 
 import { ChatBox } from 'component/chat/ChatBox';
 import { ChatFooter } from 'component/chat/ChatFooter';
@@ -16,17 +15,23 @@ import { isMobileBrowser } from 'utility/devices';
 import { endChat,
          sendMsg,
          setVisitorInfo,
+         updateAccountSettings,
          updateCurrentMsg,
          sendChatRating } from 'src/redux/modules/chat';
 
 import { locals as styles } from './Chat.sass';
 
 const mapStateToProps = (state) => {
-  return { chat: state.chat };
+  return {
+    chat: state.chat,
+    connection: state.chat.connection,
+    accountSettings: state.chat.accountSettings
+  };
 };
 
 class Chat extends Component {
   static propTypes = {
+    accountSettings: PropTypes.object.isRequired,
     chat: PropTypes.object.isRequired,
     endChat: PropTypes.func.isRequired,
     position: PropTypes.string,
@@ -35,6 +40,7 @@ class Chat extends Component {
     style: PropTypes.object,
     updateCurrentMsg: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
+    updateAccountSettings: PropTypes.func.isRequired,
     sendChatRating: PropTypes.func.isRequired
   };
 
@@ -50,26 +56,18 @@ class Chat extends Component {
     this.state = {
       showMenu: false
     };
-
-    // populates agentSettings with the defaults
-    this.accountSettings = zChat._getAccountSettings();
   }
 
   componentDidMount = () => {
-    this.setUpSettings();
+    // populates agentSettings with the defaults for the account
+    this.props.updateAccountSettings();
   }
 
-  setUpSettings = () => {
+  componentWillReceiveProps = (nextProps, props) => {
     // populates agentSettings with the correct settings once they're connected
-    setTimeout(() => {
-      const status = zChat.getConnectionStatus();
-
-      if (status && status !== 'connecting') {
-        this.accountSettings = zChat._getAccountSettings();
-      } else {
-        this.setUpSettings();
-      }
-    }, 10);
+    if (props.connection === 'connecting' && nextProps.connection !== 'connecting') {
+      this.props.updateAccountSettings();
+    }
   }
 
   updateUser = (user) => {
@@ -135,8 +133,8 @@ class Chat extends Component {
   }
 
   renderChatHeader = () => {
-    const { chat, sendChatRating, endChat } = this.props;
-    const { avatar_path, display_name, title } = this.accountSettings.concierge;
+    const { chat, sendChatRating, endChat, accountSettings } = this.props;
+    const { avatar_path, display_name, title } = accountSettings.concierge;
 
     return (
       <ChatHeader
@@ -184,6 +182,7 @@ class Chat extends Component {
 const actionCreators = {
   sendMsg,
   updateCurrentMsg,
+  updateAccountSettings,
   endChat,
   setVisitorInfo,
   sendChatRating
