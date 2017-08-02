@@ -82,9 +82,9 @@ class Chat extends Component {
     this.props.updateAccountSettings();
   }
 
-  componentWillReceiveProps = (nextProps, props) => {
+  componentWillReceiveProps = (nextProps) => {
     // populates agentSettings with the correct settings once they're connected
-    if (props.connection === 'connecting' && nextProps.connection !== 'connecting') {
+    if (this.props.connection === 'connecting' && nextProps.connection !== 'connecting') {
       this.props.updateAccountSettings();
     }
   }
