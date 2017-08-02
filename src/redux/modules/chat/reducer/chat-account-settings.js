@@ -1,8 +1,6 @@
 import { UPDATE_ACCOUNT_SETTINGS } from '../chat-action-types';
 
-const initialState = {
-  concierge: {}
-};
+const initialState = {};
 
 const accountSettings = (state = initialState, action) => {
   switch (action.type) {

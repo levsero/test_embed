@@ -5,6 +5,7 @@ let actions,
   actionTypes,
   mockStore,
   mockVisitor,
+  mockAccountSettings,
   mockSendChatMsg = jasmine.createSpy('sendChatMsg'),
   mockSendTyping = jasmine.createSpy('sendTyping'),
   mockSetVisitorInfo = jasmine.createSpy('mockSetVisitorInfo'),
@@ -24,7 +25,8 @@ describe('chat redux actions', () => {
         sendTyping: mockSendTyping,
         endChat: mockEndChat,
         setVisitorInfo: mockSetVisitorInfo,
-        sendChatRating: mockSendChatRating
+        sendChatRating: mockSendChatRating,
+        _getAccountSettings: () => mockAccountSettings
       }
     });
 
@@ -301,6 +303,26 @@ describe('chat redux actions', () => {
             });
         });
       });
+    });
+  });
+
+  describe('updateAccountSettings', () => {
+    let action;
+
+    beforeEach(() => {
+      mockAccountSettings = { foo: 'bar' };
+      mockStore.dispatch(actions.updateAccountSettings());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_ACCOUNT_SETTINGS', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_ACCOUNT_SETTINGS);
+    });
+
+    it('has the value returned from zChat._getAccountSettings() in the payload', () => {
+      expect(action.payload)
+        .toEqual(mockAccountSettings);
     });
   });
 });

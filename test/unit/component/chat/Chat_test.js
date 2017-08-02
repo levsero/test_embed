@@ -1,6 +1,6 @@
 const Map = require(buildSrcPath('vendor/es6-map.js')).Map;
 
-fdescribe('Chat component', () => {
+describe('Chat component', () => {
   let Chat, chats, chatProp;
 
   const chatPath = buildSrcPath('component/chat/Chat');
