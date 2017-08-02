@@ -1,5 +1,9 @@
 @import '../../styles/_vars.scss';
 
+.container {
+  composes: u-posRelative from global;
+}
+
 .wrapper {
   composes: u-cf u-block from global;
 }
@@ -33,6 +37,8 @@
 }
 
 .avatar {
+  composes: u-posAbsolute from global;
+  bottom: #{4/$font-size}rem;
   display: inline-block !important;
   height: #{30/$font-size}rem;
   width: #{30/$font-size}rem;
@@ -54,9 +60,4 @@
 
 .messageBubble {
   margin-left: #{40/$font-size}rem;
-}
-
-.messageBubbleAvatar {
-  composes: u-marginBT u-alignTop from global;
-  margin-left: #{7/$font-size}rem;
 }

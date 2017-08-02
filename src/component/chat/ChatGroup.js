@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { ChatMessage } from 'component/chat/ChatMessage';
+import { MessageBubble } from 'component/chat/MessageBubble';
+import { Avatar } from 'component/Avatar';
+
+import { locals as styles } from './ChatGroup.sass';
 
 export class ChatGroup extends Component {
   static propTypes = {
@@ -16,26 +19,49 @@ export class ChatGroup extends Component {
     avatarPath: ''
   };
 
-  renderChatMessage = (data, index) => {
-    const { isAgent, children } = this.props;
-    const isLastIndex = index === (children.length - 1);
-    const showAvatar = (isLastIndex && isAgent);
-    const avatarPath = (isLastIndex && isAgent) ? this.props.avatarPath : '';
-    const name = (index === 0 && isAgent) ? data.display_name : '';
+  renderName = () => {
+    const { isAgent } = this.props;
+    const name = _.get(this.props.children, '0.display_name', '');
+
+    return (isAgent && name !== '')
+         ? <div className={styles.name}>{name}</div>
+         : null;
+  }
+
+  renderAvatar = () => {
+    const { isAgent, avatarPath } = this.props;
+    const avatarStyles = avatarPath ? styles.avatar : styles.avatarDefault;
+
+    if (!isAgent) return null;
 
     return (
-      <ChatMessage
-        key={index}
-        name={name}
-        isAgent={isAgent}
-        message={data.msg}
-        showAvatar={showAvatar}
-        avatarPath={avatarPath} />);
+      <Avatar className={avatarStyles} src={avatarPath} />
+    );
+  }
+
+  renderChatMessage = (data = {}, index) => {
+    const { isAgent } = this.props;
+    const userClasses = isAgent ? styles.messageAgent : styles.messageUser;
+    const userBackgroundStyle = isAgent ? styles.agentBackground : styles.userBackground;
+
+    return (
+      <div key={index} className={styles.wrapper}>
+        <div className={`${styles.message} ${userClasses}`}>
+          <MessageBubble
+            className={`${styles.messageBubble} ${userBackgroundStyle}`}
+            message={data.msg} />
+        </div>
+      </div>
+    );
   }
 
   render() {
     return (
-      <div>{_.map(this.props.children, this.renderChatMessage)}</div>
+      <div className={styles.container}>
+        {this.renderName()}
+        {_.map(this.props.children, this.renderChatMessage)}
+        {this.renderAvatar()}
+      </div>
     );
   }
 }

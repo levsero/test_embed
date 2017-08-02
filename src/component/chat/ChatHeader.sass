@@ -1,3 +1,7 @@
+/**
+ * 1. ChatLog's messages flow above ChatHeader's content,
+      this lifts ChatHeader's content to a higher index to prevent that behaviour.
+ */
 @import '../../styles/_vars.scss';
 
 .avatar {
@@ -14,6 +18,7 @@
   height: #{58/$font-size}rem;
   padding: #{5/$font-size}rem #{17/$font-size}rem;
   top: #{43/$font-size}rem;
+  z-index: 1; /* 1 */
 }
 
 .textContainer {

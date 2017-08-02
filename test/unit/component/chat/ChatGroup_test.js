@@ -1,6 +1,8 @@
 describe('ChatGroup component', () => {
   let ChatGroup;
   const chatGroupPath = buildSrcPath('component/chat/ChatGroup');
+  const chatData = { msg: 'Hmm why did I forget the actual plan for implementing ChatGroup?', display_name: 'bob' }; // eslint-disable-line camelcase
+  const children = [chatData];
 
   beforeEach(() => {
     resetDOM();
@@ -8,10 +10,22 @@ describe('ChatGroup component', () => {
 
     initMockRegistry({
       './ChatGroup.sass': {
-        locals: {}
+        locals: {
+          messageAgent: 'messageAgent',
+          messageUser: 'messageUser',
+          agentBackground: 'agentBackground',
+          userBackground: 'userBackground',
+          avatar: 'avatar',
+          avatarDefault: 'avatarDefault'
+        }
       },
-      'component/chat/ChatMessage': {
-        ChatMessage: class extends Component {
+      'component/chat/MessageBubble': {
+        MessageBubble: class extends Component {
+          render = () => <div id='messageBubble' className={this.props.className}>{this.props.message}</div>;
+        }
+      },
+      'component/Avatar': {
+        Avatar: class extends Component {
           render = () => <div />;
         }
       }
@@ -26,82 +40,162 @@ describe('ChatGroup component', () => {
     mockery.disable();
   });
 
+  describe('renderName', () => {
+    let nameElement;
+
+    describe('when it is an agent and name is not empty', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatGroup isAgent={true} children={children} />);
+
+        nameElement = component.renderName();
+      });
+
+      it('returns a div element', () => {
+        expect(nameElement)
+          .not.toBeNull();
+      });
+
+      it('contains a name prop', () => {
+        expect(nameElement.props.children)
+          .toEqual('bob');
+      });
+    });
+
+    describe('when the user is a visitor', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatGroup isAgent={false} children={children} />);
+
+        nameElement = component.renderName();
+      });
+
+      it('returns null', () => {
+        expect(nameElement)
+          .toBeNull();
+      });
+    });
+
+    describe('when the name is empty', () => {
+      beforeEach(() => {
+        const children = [{ display_name: '' }]; // eslint-disable-line camelcase
+        const component = instanceRender(<ChatGroup isAgent={false} children={children} />);
+
+        nameElement = component.renderName();
+      });
+
+      it('returns null', () => {
+        expect(nameElement)
+          .toBeNull();
+      });
+    });
+  });
+
+  describe('renderAvatar', () => {
+    let avatarElement;
+
+    describe('when isAgent is true', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatGroup isAgent={true} />);
+
+        avatarElement = component.renderAvatar();
+      });
+
+      it('returns an Avatar component', () => {
+        expect(avatarElement)
+          .not.toBeNull();
+      });
+    });
+
+    describe('when isAgent is false', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatGroup isAgent={false} />);
+
+        avatarElement = component.renderAvatar();
+      });
+
+      it('returns null', () => {
+        expect(avatarElement)
+          .toBeNull();
+      });
+    });
+
+    describe('when avatarPath exists', () => {
+      const imageUrl = 'https://www.fakesite.com/img/blah.jpg';
+
+      beforeEach(() => {
+        const component = instanceRender(<ChatGroup isAgent={true} avatarPath={imageUrl} />);
+
+        avatarElement = component.renderAvatar();
+      });
+
+      it('should render Avatar with avatar style', () => {
+        expect(avatarElement.props.className)
+          .toContain('avatar');
+      });
+    });
+
+    describe('when avatarPath does not exist', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatGroup isAgent={true} />);
+
+        avatarElement = component.renderAvatar();
+      });
+
+      it('should render Avatar with avatarDefault style', () => {
+        expect(avatarElement.props.className)
+          .toContain('avatarDefault');
+      });
+    });
+  });
+
   describe('renderChatMessage', () => {
-    let component,
-      chatMessage;
-    const chatData = { display_name: 'bob', avatar_path: 'bobbalicious.jpg' }; // eslint-disable-line camelcase
-    const children = [chatData, chatData, chatData];
+    let chatGroupNode;
+
+    describe('normal conditions', () => {
+      beforeEach(() => {
+        const component = domRender(<ChatGroup children={children} />);
+
+        chatGroupNode = ReactDOM.findDOMNode(component);
+      });
+
+      it('renders messageBubble with a name', () => {
+        expect(chatGroupNode.querySelector('#messageBubble').textContent)
+          .toEqual(chatData.msg);
+      });
+    });
 
     describe('when user is agent', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <ChatGroup
-            avatarPath={chatData.avatar_path}
-            isAgent={true}
-            children={children} />);
+        const component = domRender(<ChatGroup isAgent={true} children={children} />);
+
+        chatGroupNode = ReactDOM.findDOMNode(component);
       });
 
-      describe('when the message is the first', () => {
-        beforeEach(() => {
-          chatMessage = component.renderChatMessage(chatData, 0);
-        });
-
-        it(`passes the agent's name`, () => {
-          expect(chatMessage.props.name)
-            .toEqual(chatData.display_name);
-        });
-
-        it('passes showAvatar as false', () => {
-          expect(chatMessage.props.showAvatar)
-            .toEqual(false);
-        });
-
-        it('passes an empty avatarPath', () => {
-          expect(chatMessage.props.avatarPath)
-            .toEqual('');
-        });
+      it('renders with agent styles', () => {
+        expect(chatGroupNode.querySelector('.messageAgent'))
+          .toBeTruthy();
       });
 
-      describe('when the message is the last', () => {
-        beforeEach(() => {
-          chatMessage = component.renderChatMessage(chatData, 2);
-        });
+      it('renders with agent background styles', () => {
+        expect(chatGroupNode.querySelector('.agentBackground'))
+          .toBeTruthy();
+      });
+    });
 
-        it('passes an empty name', () => {
-          expect(chatMessage.props.name)
-            .toEqual('');
-        });
+    describe('when user is visitor', () => {
+      beforeEach(() => {
+        const component = domRender(<ChatGroup isAgent={false} children={children} />);
 
-        it('passes showAvatar as true', () => {
-          expect(chatMessage.props.showAvatar)
-            .toEqual(true);
-        });
-
-        it(`passes the agent's avatarPath`, () => {
-          expect(chatMessage.props.avatarPath)
-            .toEqual(chatData.avatar_path);
-        });
+        chatGroupNode = ReactDOM.findDOMNode(component);
       });
 
-      describe('when the message neither first or last', () => {
-        beforeEach(() => {
-          chatMessage = component.renderChatMessage(chatData, 1);
-        });
+      it('renders with visitor styles', () => {
+        expect(chatGroupNode.querySelector('.messageUser'))
+          .toBeTruthy();
+      });
 
-        it('passes an empty name', () => {
-          expect(chatMessage.props.name)
-            .toEqual('');
-        });
-
-        it('passes showAvatar as false', () => {
-          expect(chatMessage.props.showAvatar)
-            .toEqual(false);
-        });
-
-        it('passes an empty avatarPath', () => {
-          expect(chatMessage.props.avatarPath)
-            .toEqual('');
-        });
+      it('renders with visitor background styles', () => {
+        expect(chatGroupNode.querySelector('.userBackground'))
+          .toBeTruthy();
       });
     });
   });

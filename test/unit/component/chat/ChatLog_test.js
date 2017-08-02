@@ -58,7 +58,7 @@ describe('ChatLog component', () => {
         chatLog = component.render();
       });
 
-      it('should render ChatMessages as children', () => {
+      it('should render a ChatGroup as children', () => {
         expect(chatLog.props.children.length)
           .toBeGreaterThan(0);
       });
