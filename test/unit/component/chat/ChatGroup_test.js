@@ -15,7 +15,7 @@ describe('ChatGroup component', () => {
           messageUser: 'messageUser',
           agentBackground: 'agentBackground',
           userBackground: 'userBackground',
-          avatar: 'avatar',
+          avatarWithSrc: 'avatarWithSrc',
           avatarDefault: 'avatarDefault'
         }
       },
@@ -25,9 +25,7 @@ describe('ChatGroup component', () => {
         }
       },
       'component/Avatar': {
-        Avatar: class extends Component {
-          render = () => <div />;
-        }
+        Avatar: noopReactComponent()
       }
     });
 
@@ -153,8 +151,8 @@ describe('ChatGroup component', () => {
     beforeEach(() => {
       const component = domRender(<ChatGroup messages={messagesData} />);
 
-        chatGroupNode = ReactDOM.findDOMNode(component);
-      });
+      chatGroupNode = ReactDOM.findDOMNode(component);
+    });
 
     it('renders messageBubble with a name', () => {
       expect(chatGroupNode.querySelector('#messageBubble').textContent)

@@ -71,7 +71,7 @@ describe('ChatLog component', () => {
       chatGroup;
     const agents = { 'agent:1234': { avatar_path: 'www.fakeSite.com/bob.jpg' } }; // eslint-disable-line camelcase
 
-    describe('when chat group is of agent type', () => {
+    describe('when the messages are from an agent', () => {
       beforeEach(() => {
         mockChat = { nick: 'agent:1234' };
         component = instanceRender(<ChatLog agents={agents} chats={new Map()} />);
@@ -89,7 +89,7 @@ describe('ChatLog component', () => {
       });
     });
 
-    describe('when chat group is of visitor type', () => {
+    describe('when the messages are from a visitor', () => {
       beforeEach(() => {
         mockChat = { nick: 'visitor' };
         component = instanceRender(<ChatLog agents={agents} chats={new Map()} />);
@@ -114,7 +114,7 @@ describe('ChatLog component', () => {
       oldGroupCount,
       userData;
 
-    describe('when current user is not the previous user', () => {
+    describe('when the message is from a different user than the last', () => {
       beforeAll(() => {
         userData = { nick: 'visitor' };
         component = instanceRender(<ChatLog chats={new Map()} />);
@@ -139,7 +139,7 @@ describe('ChatLog component', () => {
       });
     });
 
-    describe('when current user is the previous user', () => {
+    describe('when the message is from the same user as the last', () => {
       beforeAll(() => {
         userData = { nick: 'visitor' };
         component = instanceRender(<ChatLog chats={mockChats} />);

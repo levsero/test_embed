@@ -39,9 +39,6 @@
 .avatar {
   composes: u-posAbsolute from global;
   bottom: #{4/$font-size}rem;
-  display: inline-block !important;
-  height: #{30/$font-size}rem;
-  width: #{30/$font-size}rem;
 
   svg {
     padding-top: #{8/$font-size}rem;
@@ -56,6 +53,12 @@
   composes: avatar;
   height: #{32/$font-size}rem;
   width: #{32/$font-size}rem;
+}
+
+.avatarWithSrc {
+  composes: avatar;
+  height: #{30/$font-size}rem;
+  width: #{30/$font-size}rem;
 }
 
 .messageBubble {

@@ -19,6 +19,15 @@ export class ChatLog extends Component {
     this.groupCount = 0;
   }
 
+  processChatGroup = (chat) => {
+    if (chat.nick !== this.previousUser) {
+      this.previousUser = chat.nick;
+      this.groupCount += 1;
+    }
+
+    return this.groupCount;
+  }
+
   renderChatGroup = (chatGroup, key) => {
     const firstUserNick = _.get(chatGroup, '0.nick', '');
     const isAgent = firstUserNick !== 'visitor';
@@ -32,19 +41,10 @@ export class ChatLog extends Component {
         avatarPath={avatarPath} />);
   }
 
-  processChatGroup = (chat) => {
-    if (chat.nick !== this.previousUser) {
-      this.previousUser = chat.nick;
-      this.groupCount += 1;
-    }
-
-    return this.groupCount;
-  }
-
   render() {
     const { chats } = this.props;
     const chatGroups = _.chain([...chats.values()])
-                        .filter((m) => m.type === 'chat.msg')
+                        .filter((chat) => chat.type === 'chat.msg')
                         .groupBy(this.processChatGroup)
                         .map(this.renderChatGroup)
                         .value();
