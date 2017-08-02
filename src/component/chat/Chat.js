@@ -162,6 +162,7 @@ class Chat extends Component {
 
     return (
       <ScrollContainer
+        ref={(el) => { this.scrollContainer = el; }}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
         headerContent={this.renderChatHeader()}
         headerClasses={styles.header}
