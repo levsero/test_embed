@@ -1,7 +1,7 @@
 const Map = require(buildSrcPath('vendor/es6-map.js')).Map;
 
 describe('Chat component', () => {
-  let Chat, mockIsMobileBrowserValue, chats, chatProp;
+  let Chat, chats, chatProp;
 
   const chatPath = buildSrcPath('component/chat/Chat');
 
@@ -9,13 +9,13 @@ describe('Chat component', () => {
     resetDOM();
     mockery.enable();
 
-    mockIsMobileBrowserValue = true;
     chats = new Map();
     chatProp = { chats: chats };
 
     initMockRegistry({
       './Chat.sass': {
         locals: {
+          scrollContainer: 'scrollContainerClasses',
           scrollContainerMobile: 'scrollContainerMobileClasses'
         }
       },
@@ -53,9 +53,6 @@ describe('Chat component', () => {
       },
       'service/i18n': {
         i18n: { t: noop }
-      },
-      'utility/devices': {
-        isMobileBrowser: () => mockIsMobileBrowserValue
       }
     });
 
@@ -90,19 +87,19 @@ describe('Chat component', () => {
       component.onPrechatFormComplete(formInfo);
     });
 
-    it('should call setVisitorInfo with the display_name, email and phone', () => {
+    it('calls setVisitorInfo with the display_name, email and phone', () => {
       const visitorInfo = _.omit(formInfo, ['message']);
 
       expect(setVisitorInfoSpy)
         .toHaveBeenCalledWith(visitorInfo);
     });
 
-    it('should call sendMsg with the message', () => {
+    it('calls sendMsg with the message', () => {
       expect(sendMsgSpy)
         .toHaveBeenCalledWith(formInfo.message);
     });
 
-    it('should call sendMsg with the message', () => {
+    it('calls updateScreen with `chatting`', () => {
       expect(component.updateScreen)
         .toHaveBeenCalledWith('chatting');
     });
@@ -120,7 +117,7 @@ describe('Chat component', () => {
         component.setState({ screen: 'notPrechat' });
       });
 
-      it('should not return anything', () => {
+      it('does not return anything', () => {
         expect(component.renderPrechatScreen())
           .toBeFalsy();
       });
@@ -131,7 +128,7 @@ describe('Chat component', () => {
         component.setState({ screen: 'prechat' });
       });
 
-      it('should not return a component', () => {
+      it('returns a component', () => {
         expect(component.renderPrechatScreen())
           .toBeTruthy();
       });
@@ -150,7 +147,7 @@ describe('Chat component', () => {
         component.setState({ screen: 'notChatting' });
       });
 
-      it('should not return anything', () => {
+      it('does not return anything', () => {
         expect(component.renderChatScreen())
           .toBeFalsy();
       });
@@ -161,7 +158,7 @@ describe('Chat component', () => {
         component.setState({ screen: 'chatting' });
       });
 
-      it('should not return a component', () => {
+      it('returns a component', () => {
         expect(component.renderChatScreen())
           .toBeTruthy();
       });
@@ -176,7 +173,7 @@ describe('Chat component', () => {
         component = domRender(<Chat chat={chatProp} />);
       });
 
-      it('should not display', () => {
+      it('does not display', () => {
         expect(component.renderChatEnded())
           .toBeUndefined();
       });
@@ -190,7 +187,7 @@ describe('Chat component', () => {
         component = domRender(<Chat chat={chatProp} />);
       });
 
-      it('should not display chat end message', () => {
+      it('displays chat end message', () => {
         expect(component.renderChatEnded())
           .toBeUndefined();
       });
@@ -204,7 +201,7 @@ describe('Chat component', () => {
         component = domRender(<Chat chat={chatProp} />);
       });
 
-      it('should display chat end message', () => {
+      it('displays chat end message', () => {
         expect(component.renderChatEnded())
           .not.toBeUndefined();
       });
@@ -213,17 +210,37 @@ describe('Chat component', () => {
     describe('renderChatScreen', () => {
       let component;
 
-      describe('for mobile devices', () => {
+      describe('for non mobile devices', () => {
         beforeEach(() => {
-          mockIsMobileBrowserValue = true;
-
           component = domRender(<Chat chat={chatProp} />);
           component.setState({ screen: 'chatting' });
         });
 
-        it('it adds a mobile container classes to it', () => {
+        it('adds container classes to it', () => {
           expect(component.renderChatScreen().props.containerClasses)
-            .toEqual('scrollContainerMobileClasses');
+            .toContain('scrollContainerClasses');
+        });
+
+        it('does not add mobile container classes to it', () => {
+          expect(component.renderChatScreen().props.containerClasses)
+            .not.toContain('scrollContainerMobileClasses');
+        });
+      });
+
+      describe('for mobile devices', () => {
+        beforeEach(() => {
+          component = domRender(<Chat chat={chatProp} isMobile={true} />);
+          component.setState({ screen: 'chatting' });
+        });
+
+        it('adds mobile container classes to it', () => {
+          expect(component.renderChatScreen().props.containerClasses)
+            .toContain('scrollContainerMobileClasses');
+        });
+
+        it('does not add container classes to it', () => {
+          expect(component.renderChatScreen().props.containerClasses)
+            .not.toContain('scrollContainerClasses');
         });
       });
     });
@@ -237,7 +254,7 @@ describe('Chat component', () => {
           component.setState({ showMenu: false });
         });
 
-        it('should not return anything', () => {
+        it('does not return anything', () => {
           expect(component.renderChatMenu())
             .toBeFalsy();
         });
@@ -249,7 +266,7 @@ describe('Chat component', () => {
           component.setState({ showMenu: true });
         });
 
-        it('should return the chat menu', () => {
+        it('returns the chat menu', () => {
           expect(component.renderChatMenu())
             .not.toBeFalsy();
         });

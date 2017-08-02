@@ -22,7 +22,7 @@ describe('ChatPrechatForm component', () => {
       },
       'service/i18n': {
         i18n: {
-          t: () => {}
+          t: noop
         }
       }
     });
@@ -103,18 +103,18 @@ describe('ChatPrechatForm component', () => {
     });
 
     describe('state.formState', () => {
-      it('should be set with the form elements name mapped to the value', () => {
+      it('equals the form elements name mapped to the value', () => {
         expect(component.state.formState)
           .toEqual({ display_name: 'John Snow', email: 'j@l.r' });  // eslint-disable-line camelcase
       });
 
-      it('should not contain elements with type submit', () => {
+      it('does not contain elements with type submit', () => {
         expect(component.state.formState.button)
           .toBeUndefined();
       });
     });
 
-    it('should set valid state with the formValidity value', () => {
+    it('sets valid state with the formValidity value', () => {
       expect(component.state.valid)
         .toEqual(true);
     });
@@ -131,7 +131,7 @@ describe('ChatPrechatForm component', () => {
       component.handleFormSubmit({ preventDefault: noop });
     });
 
-    it('should call onFormCompleted spy with state.formState', () => {
+    it('calls onFormCompleted spy with state.formState', () => {
       expect(onFormCompletedSpy)
         .toHaveBeenCalledWith('mockFormState');
     });

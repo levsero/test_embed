@@ -19,8 +19,8 @@ export class ChatPrechatForm extends Component {
     onFormCompleted: () => {}
   };
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
       valid: false,

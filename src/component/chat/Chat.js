@@ -12,7 +12,6 @@ import { ChatPrechatForm } from 'component/chat/ChatPrechatForm';
 import { Container } from 'component/container/Container';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
-import { isMobileBrowser } from 'utility/devices';
 import { endChat,
          sendMsg,
          setVisitorInfo,
@@ -33,6 +32,7 @@ class Chat extends Component {
   static propTypes = {
     chat: PropTypes.object.isRequired,
     endChat: PropTypes.func.isRequired,
+    isMobile: PropTypes.bool,
     position: PropTypes.string,
     sendMsg: PropTypes.func.isRequired,
     setVisitorInfo: PropTypes.func.isRequired,
@@ -43,6 +43,7 @@ class Chat extends Component {
   };
 
   static defaultProps = {
+    isMobile: false,
     position: 'right',
     style: null,
     updateFrameSize: () => {}
@@ -156,7 +157,7 @@ class Chat extends Component {
   renderChatScreen = () => {
     if (this.state.screen !== screens.chatting) return;
 
-    const containerClasses = isMobileBrowser()
+    const containerClasses = this.props.isMobile
                            ? styles.scrollContainerMobile
                            : styles.scrollContainer;
 
