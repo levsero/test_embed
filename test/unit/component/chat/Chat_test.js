@@ -14,7 +14,7 @@ describe('Chat component', () => {
     initMockRegistry({
       './Chat.sass': {
         locals: {
-          containerMobile: 'containerMobileClasses'
+          scrollContainerMobile: 'scrollContainerMobileClasses'
         }
       },
       'component/chat/ChatBox': {
@@ -31,6 +31,9 @@ describe('Chat component', () => {
       },
       'component/chat/ChatMenu': {
         ChatMenu: noopReactComponent()
+      },
+      'component/chat/ChatLog': {
+        ChatLog: noopReactComponent()
       },
       'component/container/Container': {
         Container: noopReactComponent()
@@ -58,42 +61,6 @@ describe('Chat component', () => {
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
-  });
-
-  describe('renderChatLog', () => {
-    let component;
-
-    describe('when there are no messages', () => {
-      beforeEach(() => {
-        const chats = new Map();
-        const chatProp = { chats: chats };
-
-        component = domRender(<Chat chat={chatProp} />);
-      });
-
-      it('should not return anything', () => {
-        expect(component.renderChatLog())
-          .toBeFalsy();
-      });
-    });
-
-    describe('when there are messages', () => {
-      beforeEach(() => {
-        const chats = new Map();
-
-        chats.set(123, { timestamp: 123, type: 'chat.msg' });
-        chats.set(124, { timestamp: 124, type: 'chat.msg' });
-
-        const chatProp = { chats: chats };
-
-        component = domRender(<Chat chat={chatProp} />);
-      });
-
-      it('should return the chat messages', () => {
-        expect(component.renderChatLog().length)
-          .toBe(2);
-      });
-    });
   });
 
   describe('renderChatEnded', () => {
@@ -151,7 +118,7 @@ describe('Chat component', () => {
           component = domRender(<Chat chat={chatProp} />);
 
           expect(component.containerClasses())
-            .toEqual('containerMobileClasses');
+            .toEqual('scrollContainerMobileClasses');
         });
       });
 

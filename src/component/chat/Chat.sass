@@ -1,6 +1,15 @@
 @import '../../styles/_vars.scss';
 
-.containerMobile {
+.container {
+  height: #{500/$font-size}rem;
+  max-height: #{500/$font-size}rem;
+}
+
+.scrollContainer {
+  height: calc(100% - #{130/$font-size}rem);
+}
+
+.scrollContainerMobile {
   height: calc(100% - #{150/$font-size}rem);
   max-height: #{480/$font-size}rem;
 }

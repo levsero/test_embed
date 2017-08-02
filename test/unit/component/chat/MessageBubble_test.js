@@ -29,18 +29,8 @@ describe('MessageBubble component', () => {
 
     describe('Component props', () => {
       beforeEach(() => {
-        component = domRender(
-          <MessageBubble
-            message="Test Message"
-            backgroundColor="red"
-            color="purple" />
-        );
+        component = domRender(<MessageBubble message='Test Message' className='bob'/>);
         domNode = ReactDOM.findDOMNode(component);
-      });
-
-      it('sets the color', () => {
-        expect(domNode.style.color)
-          .toEqual('purple');
       });
 
       it('sets the text content', () => {
@@ -48,9 +38,9 @@ describe('MessageBubble component', () => {
           .toEqual('Test Message');
       });
 
-      it('sets the background color', () => {
-        expect(domNode.style.backgroundColor)
-          .toEqual('red');
+      it('sets the className', () => {
+        expect(domNode.className)
+          .toContain('bob');
       });
     });
   });

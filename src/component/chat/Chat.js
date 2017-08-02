@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 
 import { ChatBox } from 'component/chat/ChatBox';
 import { ChatFooter } from 'component/chat/ChatFooter';
+import { ChatLog } from 'component/chat/ChatLog';
 import { ChatHeader } from 'component/chat/ChatHeader';
-import { ChatMessage } from 'component/chat/ChatMessage';
 import { ChatMenu } from 'component/chat/ChatMenu';
 import { Container } from 'component/container/Container';
 import { ScrollContainer } from 'component/container/ScrollContainer';
@@ -49,6 +48,18 @@ class Chat extends Component {
     this.state = {
       showMenu: false
     };
+
+    this.scrollContainer = null;
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    const { chat } = this.props;
+
+    if (!chat || !nextProps.chat) return;
+
+    if (chat.chats.size !== nextProps.chat.chats.size) {
+      setTimeout(() => this.scrollContainer.scrollToBottom(), 0);
+    }
   }
 
   updateUser = (user) => {
@@ -66,19 +77,10 @@ class Chat extends Component {
     this.setState({ showMenu: false });
   }
 
-  renderChatLog = () => {
-    const { chats } = this.props.chat;
-
-    if (chats.size <= 0) return;
-
-    const chatMessage = (data, key) => {
-      return (<ChatMessage key={key} name={data.display_name} message={data.msg} nick={data.nick} />);
-    };
-
-    return _.chain([...chats.values()])
-            .filter((m) => m.type === 'chat.msg')
-            .map(chatMessage)
-            .value();
+  containerClasses = () => {
+    return isMobileBrowser()
+         ? styles.scrollContainerMobile
+         : styles.scrollContainer;
   }
 
   renderChatEnded = () => {
@@ -125,10 +127,13 @@ class Chat extends Component {
     );
   }
 
-  containerClasses = () => {
-    return isMobileBrowser()
-           ? styles.containerMobile
-           : styles.container;
+  renderChatLog = () => {
+    const { chat } = this.props;
+    const { chats, agents } = chat;
+
+    return (
+      <ChatLog agents={agents} chats={chats} />
+    );
   }
 
   render = () => {
@@ -137,9 +142,11 @@ class Chat extends Component {
     return (
       <Container
         onClick={this.onContainerClick}
+        className={styles.container}
         style={this.props.style}
         position={this.props.position}>
         <ScrollContainer
+          ref={(el) => { this.scrollContainer = el; }}
           title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
           headerContent={this.renderChatHeader()}
           headerClasses={styles.header}
