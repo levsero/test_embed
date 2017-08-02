@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { ChatBox } from 'component/chat/ChatBox';
 import { ChatFooter } from 'component/chat/ChatFooter';
@@ -143,6 +144,7 @@ class Chat extends Component {
 
     return (
       <ScrollContainer
+        containerClasses={styles.prechatContainer}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
         <ChatPrechatForm
           visitor={this.props.chat.visitor}
@@ -154,7 +156,9 @@ class Chat extends Component {
   renderChatScreen = () => {
     if (this.state.screen !== screens.chatting) return;
 
-    const containerClasses = isMobileBrowser() ? styles.containerMobile : styles.container;
+    const containerClasses = isMobileBrowser()
+                           ? styles.scrollContainerMobile
+                           : styles.scrollContainer;
 
     return (
       <ScrollContainer

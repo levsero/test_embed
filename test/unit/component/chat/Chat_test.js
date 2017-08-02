@@ -16,8 +16,6 @@ describe('Chat component', () => {
     initMockRegistry({
       './Chat.sass': {
         locals: {
-          container: 'containerClasses',
-          containerMobile: 'containerMobileClasses',
           scrollContainerMobile: 'scrollContainerMobileClasses'
         }
       },
@@ -170,39 +168,6 @@ describe('Chat component', () => {
     });
   });
 
-  describe('renderChatLog', () => {
-    let component;
-
-    describe('when there are no messages', () => {
-      beforeEach(() => {
-        component = domRender(<Chat chat={chatProp} />);
-      });
-
-      it('should not return anything', () => {
-        expect(component.renderChatLog())
-          .toBeFalsy();
-      });
-    });
-
-    describe('when there are messages', () => {
-      beforeEach(() => {
-        chats = new Map();
-
-        chats.set(123, { timestamp: 123, type: 'chat.msg' });
-        chats.set(124, { timestamp: 124, type: 'chat.msg' });
-
-        chatProp = { chats: chats };
-
-        component = domRender(<Chat chat={chatProp} />);
-      });
-
-      it('should return the chat messages', () => {
-        expect(component.renderChatLog().length)
-          .toBe(2);
-      });
-    });
-  });
-
   describe('renderChatEnded', () => {
     let component;
 
@@ -258,7 +223,7 @@ describe('Chat component', () => {
 
         it('it adds a mobile container classes to it', () => {
           expect(component.renderChatScreen().props.containerClasses)
-            .toEqual('containerMobileClasses');
+            .toEqual('scrollContainerMobileClasses');
         });
       });
     });
