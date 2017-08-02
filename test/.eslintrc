@@ -13,6 +13,7 @@
     "mockery": true,
     "noop": true,
     "noopReactComponent": true,
+    "scrollContainerComponent": true,
     "pluckSubscribeCall": true,
     "React": true,
     "TestUtils": true,

@@ -131,11 +131,6 @@ describe('Attachment component', () => {
       componentNode = ReactDOM.findDOMNode(component);
     });
 
-    it('should not render the icon', () => {
-      expect(componentNode.querySelector('.iconPreview'))
-        .toBeNull();
-    });
-
     it('should not render the progress bar', () => {
       expect(componentNode.querySelector('.progress'))
         .toBeNull();

@@ -8,6 +8,7 @@ import ChannelChoiceMobileStyles from 'component/channelChoice/ChannelChoiceMobi
 import ChatBoxStyles from 'component/chat/ChatBox.sass';
 import ChatHeaderStyles from 'component/chat/ChatHeader.sass';
 import ChatFooterStyles from 'component/chat/ChatFooter.sass';
+import ChatPrechatFormStyles from 'component/chat/ChatPrechatForm.sass';
 import ChatMenuStyles from 'component/chat/ChatMenu.sass';
 import ChatMessageStyles from 'component/chat/ChatMessage.sass';
 import ChatStyles from 'component/chat/Chat.sass';
@@ -35,6 +36,7 @@ export const webWidgetStyles = `
   ${ChatBoxStyles}
   ${ChatHeaderStyles}
   ${ChatFooterStyles}
+  ${ChatPrechatFormStyles}
   ${ChatMenuStyles}
   ${ChatMessageStyles}
   ${ChatStyles}

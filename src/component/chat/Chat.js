@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { ChatBox } from 'component/chat/ChatBox';
 import { ChatFooter } from 'component/chat/ChatFooter';
 import { ChatLog } from 'component/chat/ChatLog';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ChatMenu } from 'component/chat/ChatMenu';
+import { ChatPrechatForm } from 'component/chat/ChatPrechatForm';
 import { Container } from 'component/container/Container';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
-import { isMobileBrowser } from 'utility/devices';
 import { endChat,
          sendMsg,
          setVisitorInfo,
@@ -22,11 +23,16 @@ import { locals as styles } from './Chat.sass';
 const mapStateToProps = (state) => {
   return { chat: state.chat };
 };
+const screens = {
+  prechat: 'prechat',
+  chatting: 'chatting'
+};
 
 class Chat extends Component {
   static propTypes = {
     chat: PropTypes.object.isRequired,
     endChat: PropTypes.func.isRequired,
+    isMobile: PropTypes.bool,
     position: PropTypes.string,
     sendMsg: PropTypes.func.isRequired,
     setVisitorInfo: PropTypes.func.isRequired,
@@ -37,6 +43,7 @@ class Chat extends Component {
   };
 
   static defaultProps = {
+    isMobile: false,
     position: 'right',
     style: null,
     updateFrameSize: () => {}
@@ -46,7 +53,8 @@ class Chat extends Component {
     super(props);
 
     this.state = {
-      showMenu: false
+      showMenu: false,
+      screen: screens.prechat
     };
 
     this.scrollContainer = null;
@@ -69,6 +77,10 @@ class Chat extends Component {
     });
   }
 
+  updateScreen = (screen = screens.chatting) => {
+    this.setState({ screen });
+  }
+
   toggleMenu = () => {
     this.setState({ showMenu: !this.state.showMenu });
   }
@@ -77,10 +89,11 @@ class Chat extends Component {
     this.setState({ showMenu: false });
   }
 
-  containerClasses = () => {
-    return isMobileBrowser()
-         ? styles.scrollContainerMobile
-         : styles.scrollContainer;
+  onPrechatFormComplete = (info) => {
+    this.props.setVisitorInfo(_.pick(info, ['display_name', 'email', 'phone']));
+    this.props.sendMsg(info.message);
+
+    this.updateScreen(screens.chatting);
   }
 
   renderChatEnded = () => {
@@ -127,6 +140,44 @@ class Chat extends Component {
     );
   }
 
+  renderPrechatScreen = () => {
+    if (this.state.screen !== screens.prechat) return;
+
+    return (
+      <ScrollContainer
+        containerClasses={styles.prechatContainer}
+        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
+        <ChatPrechatForm
+          visitor={this.props.chat.visitor}
+          onFormCompleted={this.onPrechatFormComplete} />
+      </ScrollContainer>
+    );
+  }
+
+  renderChatScreen = () => {
+    if (this.state.screen !== screens.chatting) return;
+
+    const containerClasses = this.props.isMobile
+                           ? styles.scrollContainerMobile
+                           : styles.scrollContainer;
+
+    return (
+      <ScrollContainer
+        ref={(el) => { this.scrollContainer = el; }}
+        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+        headerContent={this.renderChatHeader()}
+        headerClasses={styles.header}
+        containerClasses={containerClasses}
+        footerClasses={styles.footer}
+        footerContent={this.renderChatFooter()}>
+        <div className={styles.messages}>
+          {this.renderChatLog()}
+          {this.renderChatEnded()}
+        </div>
+      </ScrollContainer>
+    );
+  }
+
   renderChatLog = () => {
     const { chat } = this.props;
     const { chats, agents } = chat;
@@ -145,19 +196,8 @@ class Chat extends Component {
         className={styles.container}
         style={this.props.style}
         position={this.props.position}>
-        <ScrollContainer
-          ref={(el) => { this.scrollContainer = el; }}
-          title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-          headerContent={this.renderChatHeader()}
-          headerClasses={styles.header}
-          containerClasses={this.containerClasses()}
-          footerClasses={styles.footer}
-          footerContent={this.renderChatFooter()}>
-          <div className={styles.messages}>
-            {this.renderChatLog()}
-            {this.renderChatEnded()}
-          </div>
-        </ScrollContainer>
+        {this.renderPrechatScreen()}
+        {this.renderChatScreen()}
         {this.renderChatMenu()}
       </Container>
     );
