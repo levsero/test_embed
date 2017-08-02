@@ -27,19 +27,18 @@
 }
 
 .name {
-  composes: marginBT marginTT from global;
+  composes: u-marginBT u-marginTT from global;
   margin-left: #{50/$font-size}rem;
   color: $zd-color-aluminum !important;
 }
 
 .avatar {
   display: inline-block !important;
-  height: #{31/$font-size}rem;
-  width: #{31/$font-size}rem;
+  height: #{30/$font-size}rem;
+  width: #{30/$font-size}rem;
 
   svg {
     padding-top: #{8/$font-size}rem;
-    padding-left: #{0.5/$font-size}rem;
     min-width: #{13/$font-size}rem;
     min-height: #{13/$font-size}rem;
     max-width: #{13/$font-size}rem;
@@ -58,6 +57,6 @@
 }
 
 .messageBubbleAvatar {
-  composes: marginBT u-alignTop from global;
+  composes: u-marginBT u-alignTop from global;
   margin-left: #{7/$font-size}rem;
 }

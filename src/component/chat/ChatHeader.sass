@@ -1,5 +1,11 @@
 @import '../../styles/_vars.scss';
 
+.avatar {
+  svg {
+    padding-left: #{1/$font-size}rem;
+  }
+}
+
 .container {
   composes: u-flex u-flexAlignItemsCenter u-posStart--flush u-posAbsolute u-hsizeAll from global;
   background-color: $base-color;

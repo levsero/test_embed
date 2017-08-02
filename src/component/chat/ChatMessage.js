@@ -25,7 +25,7 @@ export class ChatMessage extends Component {
   renderName = () => {
     const { name, isAgent } = this.props;
 
-    return isAgent && name !== ''
+    return isAgent && (name !== '')
          ? <div className={styles.name}>{name}</div>
          : null;
   }
@@ -34,9 +34,11 @@ export class ChatMessage extends Component {
     const { showAvatar, avatarPath } = this.props;
     const avatarStyles = avatarPath ? styles.avatar : styles.avatarDefault;
 
-    return showAvatar
-         ? <Avatar className={avatarStyles} src={avatarPath} />
-         : null;
+    if (!showAvatar) return null;
+
+    return (
+      <Avatar className={avatarStyles} src={avatarPath} />
+    );
   }
 
   renderMessageBubble = () => {
