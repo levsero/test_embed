@@ -59,21 +59,35 @@ describe('ChatPrechatForm component', () => {
     const visitor = { display_name: 'Arya Stark', email: 'no@name.x' };  // eslint-disable-line camelcase
 
     beforeEach(() => {
-      component = domRender(<ChatPrechatForm />);
-
+      component = instanceRender(<ChatPrechatForm />);
       component.setState({ formState: { phone: '1234' } });
-
-      component.componentWillReceiveProps({ visitor });
     });
 
-    it('sets the name and email when it gets a valid email', () => {
-      expect(component.state.formState)
-        .toEqual(jasmine.objectContaining(visitor));
+    describe('when it gets a truthy email', () => {
+      beforeEach(() => {
+        component.componentWillReceiveProps({ visitor });
+      });
+
+      it('sets the name and email', () => {
+        expect(component.state.formState)
+          .toEqual(jasmine.objectContaining(visitor));
+      });
+
+      it('does not override the other form fields', () => {
+        expect(component.state.formState.phone)
+          .toEqual('1234');
+      });
     });
 
-    it('does not override the other form fields', () => {
-      expect(component.state.formState.phone)
-        .toEqual('1234');
+    describe('when it gets a falsy email', () => {
+      beforeEach(() => {
+        component.componentWillReceiveProps({ visitor: {} });
+      });
+
+      it('does not set the name and email', () => {
+        expect(component.state.formState)
+          .not.toEqual(jasmine.objectContaining(visitor));
+      });
     });
   });
 
@@ -81,7 +95,7 @@ describe('ChatPrechatForm component', () => {
     let component;
 
     beforeEach(() => {
-      component = domRender(<ChatPrechatForm />);
+      component = instanceRender(<ChatPrechatForm />);
       mockFormValidity = true;
       component.form = mockForm;
 
@@ -111,7 +125,7 @@ describe('ChatPrechatForm component', () => {
 
     beforeEach(() => {
       onFormCompletedSpy = jasmine.createSpy('onFormCompleted');
-      component = domRender(<ChatPrechatForm onFormCompleted={onFormCompletedSpy} />);
+      component = instanceRender(<ChatPrechatForm onFormCompleted={onFormCompletedSpy} />);
 
       component.setState({ formState: 'mockFormState' });
       component.handleFormSubmit({ preventDefault: noop });

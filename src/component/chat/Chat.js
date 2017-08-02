@@ -24,6 +24,10 @@ import { locals as styles } from './Chat.sass';
 const mapStateToProps = (state) => {
   return { chat: state.chat };
 };
+const screens = {
+  prechat: 'prechat',
+  chatting: 'chatting'
+};
 
 class Chat extends Component {
   static propTypes = {
@@ -49,7 +53,7 @@ class Chat extends Component {
 
     this.state = {
       showMenu: false,
-      screen: 'prechat'
+      screen: screens.prechat
     };
   }
 
@@ -60,7 +64,7 @@ class Chat extends Component {
     });
   }
 
-  updateScreen = (screen = 'chatting') => {
+  updateScreen = (screen = screens.chatting) => {
     this.setState({ screen });
   }
 
@@ -76,7 +80,7 @@ class Chat extends Component {
     this.props.setVisitorInfo(_.pick(info, ['display_name', 'email', 'phone']));
     this.props.sendMsg(info.message);
 
-    this.updateScreen('chatting');
+    this.updateScreen(screens.chatting);
   }
 
   renderChatLog = () => {
@@ -139,7 +143,7 @@ class Chat extends Component {
   }
 
   renderPrechatScreen = () => {
-    if (this.state.screen !== 'prechat') return;
+    if (this.state.screen !== screens.prechat) return;
 
     return (
       <ScrollContainer
@@ -152,7 +156,7 @@ class Chat extends Component {
   }
 
   renderChatScreen = () => {
-    if (this.state.screen !== 'chatting') return;
+    if (this.state.screen !== screens.chatting) return;
 
     const containerClasses = isMobileBrowser() ? styles.containerMobile : styles.container;
 

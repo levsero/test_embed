@@ -32,9 +32,9 @@ export class ChatPrechatForm extends Component {
 
   componentWillReceiveProps = (props) => {
     if (props.visitor.email) {
-      const formState = _.merge({}, props.visitor, this.state.formState);
-
-      this.setState({ formState });
+      this.setState({
+        formState: _.merge({}, props.visitor, this.state.formState)
+      });
     }
   }
 
@@ -52,7 +52,7 @@ export class ChatPrechatForm extends Component {
     };
     const values = _.chain(this.form.elements)
                     .reject((field) => field.type === 'submit')
-                    .reduce(reduceNames ,{})
+                    .reduce(reduceNames, {})
                     .value();
 
     this.setState({
