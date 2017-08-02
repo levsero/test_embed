@@ -9,19 +9,19 @@ import { locals as styles } from './ChatGroup.sass';
 
 export class ChatGroup extends Component {
   static propTypes = {
-    children: PropTypes.array,
+    messages: PropTypes.array,
     isAgent: PropTypes.bool.isRequired,
     avatarPath: PropTypes.string
   };
 
   static defaultProps = {
-    children: [],
+    messages: [],
     avatarPath: ''
   };
 
   renderName = () => {
     const { isAgent } = this.props;
-    const name = _.get(this.props.children, '0.display_name', '');
+    const name = _.get(this.props.messages, '0.display_name', '');
 
     return (isAgent && name !== '')
          ? <div className={styles.name}>{name}</div>
@@ -39,7 +39,7 @@ export class ChatGroup extends Component {
     );
   }
 
-  renderChatMessage = (data = {}, index) => {
+  renderChatMessage = (chat = {}, index) => {
     const { isAgent } = this.props;
     const userClasses = isAgent ? styles.messageAgent : styles.messageUser;
     const userBackgroundStyle = isAgent ? styles.agentBackground : styles.userBackground;
@@ -49,7 +49,7 @@ export class ChatGroup extends Component {
         <div className={`${styles.message} ${userClasses}`}>
           <MessageBubble
             className={`${styles.messageBubble} ${userBackgroundStyle}`}
-            message={data.msg} />
+            message={chat.msg} />
         </div>
       </div>
     );
@@ -59,7 +59,7 @@ export class ChatGroup extends Component {
     return (
       <div className={styles.container}>
         {this.renderName()}
-        {_.map(this.props.children, this.renderChatMessage)}
+        {_.map(this.props.messages, this.renderChatMessage)}
         {this.renderAvatar()}
       </div>
     );

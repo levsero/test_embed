@@ -28,7 +28,7 @@ export class ChatLog extends Component {
       <ChatGroup
         key={key}
         isAgent={isAgent}
-        children={chatGroup}
+        messages={chatGroup}
         avatarPath={avatarPath} />);
   }
 

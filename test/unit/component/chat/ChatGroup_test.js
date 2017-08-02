@@ -1,8 +1,8 @@
 describe('ChatGroup component', () => {
   let ChatGroup;
   const chatGroupPath = buildSrcPath('component/chat/ChatGroup');
-  const chatData = { msg: 'Hmm why did I forget the actual plan for implementing ChatGroup?', display_name: 'bob' }; // eslint-disable-line camelcase
-  const children = [chatData];
+  const messageData = { msg: 'Hmm why did I forget the actual plan for implementing ChatGroup?', display_name: 'bob' }; // eslint-disable-line camelcase
+  const messagesData = [messageData];
 
   beforeEach(() => {
     resetDOM();
@@ -45,7 +45,7 @@ describe('ChatGroup component', () => {
 
     describe('when it is an agent and name is not empty', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChatGroup isAgent={true} children={children} />);
+        const component = instanceRender(<ChatGroup isAgent={true} messages={messagesData} />);
 
         nameElement = component.renderName();
       });
@@ -63,7 +63,7 @@ describe('ChatGroup component', () => {
 
     describe('when the user is a visitor', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChatGroup isAgent={false} children={children} />);
+        const component = instanceRender(<ChatGroup isAgent={false} messages={messagesData} />);
 
         nameElement = component.renderName();
       });
@@ -76,8 +76,8 @@ describe('ChatGroup component', () => {
 
     describe('when the name is empty', () => {
       beforeEach(() => {
-        const children = [{ display_name: '' }]; // eslint-disable-line camelcase
-        const component = instanceRender(<ChatGroup isAgent={false} children={children} />);
+        const messagesData = [{ display_name: '' }]; // eslint-disable-line camelcase
+        const component = instanceRender(<ChatGroup isAgent={false} messages={messagesData} />);
 
         nameElement = component.renderName();
       });
@@ -150,22 +150,20 @@ describe('ChatGroup component', () => {
   describe('renderChatMessage', () => {
     let chatGroupNode;
 
-    describe('normal conditions', () => {
-      beforeEach(() => {
-        const component = domRender(<ChatGroup children={children} />);
+    beforeEach(() => {
+      const component = domRender(<ChatGroup messages={messagesData} />);
 
         chatGroupNode = ReactDOM.findDOMNode(component);
       });
 
-      it('renders messageBubble with a name', () => {
-        expect(chatGroupNode.querySelector('#messageBubble').textContent)
-          .toEqual(chatData.msg);
-      });
+    it('renders messageBubble with a name', () => {
+      expect(chatGroupNode.querySelector('#messageBubble').textContent)
+        .toEqual(messageData.msg);
     });
 
     describe('when user is agent', () => {
       beforeEach(() => {
-        const component = domRender(<ChatGroup isAgent={true} children={children} />);
+        const component = domRender(<ChatGroup isAgent={true} messages={messagesData} />);
 
         chatGroupNode = ReactDOM.findDOMNode(component);
       });
@@ -183,7 +181,7 @@ describe('ChatGroup component', () => {
 
     describe('when user is visitor', () => {
       beforeEach(() => {
-        const component = domRender(<ChatGroup isAgent={false} children={children} />);
+        const component = domRender(<ChatGroup isAgent={false} messages={messagesData} />);
 
         chatGroupNode = ReactDOM.findDOMNode(component);
       });
