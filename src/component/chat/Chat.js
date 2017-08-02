@@ -5,13 +5,13 @@ import _ from 'lodash';
 
 import { ChatBox } from 'component/chat/ChatBox';
 import { ChatFooter } from 'component/chat/ChatFooter';
+import { ChatLog } from 'component/chat/ChatLog';
 import { ChatHeader } from 'component/chat/ChatHeader';
-import { ChatMessage } from 'component/chat/ChatMessage';
 import { ChatMenu } from 'component/chat/ChatMenu';
+import { ChatPrechatForm } from 'component/chat/ChatPrechatForm';
 import { Container } from 'component/container/Container';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
-import { isMobileBrowser } from 'utility/devices';
 import { endChat,
          sendMsg,
          setVisitorInfo,
@@ -28,12 +28,17 @@ const mapStateToProps = (state) => {
     accountSettings: state.chat.accountSettings
   };
 };
+const screens = {
+  prechat: 'prechat',
+  chatting: 'chatting'
+};
 
 class Chat extends Component {
   static propTypes = {
     accountSettings: PropTypes.object.isRequired,
     chat: PropTypes.object.isRequired,
     endChat: PropTypes.func.isRequired,
+    isMobile: PropTypes.bool,
     position: PropTypes.string,
     sendMsg: PropTypes.func.isRequired,
     setVisitorInfo: PropTypes.func.isRequired,
@@ -45,6 +50,7 @@ class Chat extends Component {
   };
 
   static defaultProps = {
+    isMobile: false,
     position: 'right',
     style: null,
     updateFrameSize: () => {}
@@ -54,8 +60,21 @@ class Chat extends Component {
     super(props);
 
     this.state = {
-      showMenu: false
+      showMenu: false,
+      screen: screens.prechat
     };
+
+    this.scrollContainer = null;
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    const { chat } = this.props;
+
+    if (!chat || !nextProps.chat) return;
+
+    if (chat.chats.size !== nextProps.chat.chats.size) {
+      setTimeout(() => this.scrollContainer.scrollToBottom(), 0);
+    }
   }
 
   componentDidMount = () => {
@@ -77,6 +96,10 @@ class Chat extends Component {
     });
   }
 
+  updateScreen = (screen = screens.chatting) => {
+    this.setState({ screen });
+  }
+
   toggleMenu = () => {
     this.setState({ showMenu: !this.state.showMenu });
   }
@@ -85,19 +108,11 @@ class Chat extends Component {
     this.setState({ showMenu: false });
   }
 
-  renderChatLog = () => {
-    const { chats } = this.props.chat;
+  onPrechatFormComplete = (info) => {
+    this.props.setVisitorInfo(_.pick(info, ['display_name', 'email', 'phone']));
+    this.props.sendMsg(info.message);
 
-    if (chats.size <= 0) return;
-
-    const chatMessage = (data, key) => {
-      return (<ChatMessage key={key} name={data.display_name} message={data.msg} nick={data.nick} />);
-    };
-
-    return _.chain([...chats.values()])
-            .filter((m) => m.type === 'chat.msg')
-            .map(chatMessage)
-            .value();
+    this.updateScreen(screens.chatting);
   }
 
   renderChatEnded = () => {
@@ -147,10 +162,51 @@ class Chat extends Component {
     );
   }
 
-  containerClasses = () => {
-    return isMobileBrowser()
-           ? styles.containerMobile
-           : styles.container;
+  renderPrechatScreen = () => {
+    if (this.state.screen !== screens.prechat) return;
+
+    return (
+      <ScrollContainer
+        containerClasses={styles.prechatContainer}
+        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
+        <ChatPrechatForm
+          visitor={this.props.chat.visitor}
+          onFormCompleted={this.onPrechatFormComplete} />
+      </ScrollContainer>
+    );
+  }
+
+  renderChatScreen = () => {
+    if (this.state.screen !== screens.chatting) return;
+
+    const containerClasses = this.props.isMobile
+                           ? styles.scrollContainerMobile
+                           : styles.scrollContainer;
+
+    return (
+      <ScrollContainer
+        ref={(el) => { this.scrollContainer = el; }}
+        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+        headerContent={this.renderChatHeader()}
+        headerClasses={styles.header}
+        containerClasses={containerClasses}
+        footerClasses={styles.footer}
+        footerContent={this.renderChatFooter()}>
+        <div className={styles.messages}>
+          {this.renderChatLog()}
+          {this.renderChatEnded()}
+        </div>
+      </ScrollContainer>
+    );
+  }
+
+  renderChatLog = () => {
+    const { chat } = this.props;
+    const { chats, agents } = chat;
+
+    return (
+      <ChatLog agents={agents} chats={chats} />
+    );
   }
 
   render = () => {
@@ -159,20 +215,11 @@ class Chat extends Component {
     return (
       <Container
         onClick={this.onContainerClick}
+        className={styles.container}
         style={this.props.style}
         position={this.props.position}>
-        <ScrollContainer
-          title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-          headerContent={this.renderChatHeader()}
-          headerClasses={styles.header}
-          containerClasses={this.containerClasses()}
-          footerClasses={styles.footer}
-          footerContent={this.renderChatFooter()}>
-          <div className={styles.messages}>
-            {this.renderChatLog()}
-            {this.renderChatEnded()}
-          </div>
-        </ScrollContainer>
+        {this.renderPrechatScreen()}
+        {this.renderChatScreen()}
         {this.renderChatMenu()}
       </Container>
     );

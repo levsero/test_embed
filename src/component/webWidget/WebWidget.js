@@ -261,6 +261,7 @@ class WebWidget extends Component {
         <Chat
           ref={chat}
           style={this.props.style}
+          isMobile={this.props.fullscreen}
           updateFrameSize={this.props.updateFrameSize}
           position={this.props.position} />
       </div>
