@@ -34,9 +34,9 @@ state[`${chat}.isAccessible`] = false;
 state[`${chat}.unreadMsgs`] = 0;
 state[`${chat}.userClosed`] = false;
 state[`${chat}.chatEnded`] = false;
+state['ipm.isVisible'] = false;
 state['.hideOnClose'] = false;
 state['.hasHidden'] = false;
-state['identify.pending'] = false;
 
 const helpCenterAvailable = () => {
   return state[`${helpCenter}.isAccessible`] && !state[`${helpCenter}.isSuppressed`];
@@ -279,7 +279,7 @@ function init(embedsAccessible, params = {}) {
 
       if (!state[`${launcher}.userHidden`] &&
           !embedVisible(state) &&
-          !state['identify.pending']) {
+          !state['ipm.isVisible']) {
         c.broadcast(`${launcher}.show`);
       }
     }
@@ -309,7 +309,7 @@ function init(embedsAccessible, params = {}) {
 
       setTimeout(() => {
         if (!state[`${launcher}.userHidden`] &&
-            !state['identify.pending'] &&
+            !state['ipm.isVisible'] &&
             embedAvailable()) {
           c.broadcast(`${launcher}.show`);
         }
@@ -568,7 +568,6 @@ function init(embedsAccessible, params = {}) {
 function initMessaging() {
   c.intercept('.onIdentify', (__, params) => {
     if (emailValid(params.email)) {
-      state['identify.pending'] = true;
       c.broadcast('ipm.identifying', params);
       c.broadcast('beacon.identify', params);
       c.broadcast(`${submitTicket}.prefill`, params);
@@ -583,17 +582,14 @@ function initMessaging() {
     }
   });
 
-  c.intercept('identify.onComplete', () => {
-    state['identify.pending'] = false;
-  });
-
   c.intercept('authentication.onSuccess', () => {
     state[`${helpCenter}.isAccessible`] = true;
     if (!embedVisible(state) && helpCenterAvailable()) {
       resetActiveEmbed();
 
       if (!state[`${launcher}.userHidden`] &&
-        !state[`${chat}.isAccessible`]) {
+        !state[`${chat}.isAccessible`] &&
+        !state['ipm.isVisible']) {
         c.broadcast(`${launcher}.show`);
       }
     }
@@ -606,7 +602,7 @@ function initMessaging() {
     let retries = 0;
 
     const fn = () => {
-      if (!state['identify.pending'] && !embedVisible(state)) {
+      if (!embedVisible(state)) {
         c.broadcast('ipm.activate');
       } else if (retries < maxRetries) {
         retries++;
@@ -618,12 +614,16 @@ function initMessaging() {
   });
 
   c.intercept('ipm.onClose', () => {
+    state['ipm.isVisible'] = false;
+
     if (!state['.hideOnClose'] && !state[`${launcher}.userHidden`]) {
       c.broadcast(`${launcher}.show`, { transition: 'upShow' });
     }
   });
 
   c.intercept('ipm.onShow', () => {
+    state['ipm.isVisible'] = true;
+
     c.broadcast(`${launcher}.hide`);
   });
 }
