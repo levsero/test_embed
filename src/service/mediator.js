@@ -100,7 +100,6 @@ const showEmbed = (_state, viaActivate = false) => {
     trackChatStarted();
   }
 
-
   if (_state.activeEmbed === chat && isMobileBrowser()) {
     c.broadcast(`${chat}.show`);
   } else {
@@ -214,7 +213,6 @@ function init(embedsAccessible, params = {}) {
         } else {
           showEmbed(state, true);
         }
-
       }
     }
   });

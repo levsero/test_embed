@@ -403,15 +403,6 @@ function setupMediator() {
       getWebWidgetComponent().setAuthenticated(hasAuthenticatedSuccessfully);
     });
   });
-
-  mediator.channel.subscribe('webWidget.activate', () => {
-    if (embed.instance.state.visible) return;
-
-    waitForRootComponent(() => {
-      getWebWidgetComponent().show(true);
-      embed.instance.show();
-    });
-  });
 }
 
 function get() {

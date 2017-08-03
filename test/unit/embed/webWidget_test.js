@@ -1011,11 +1011,6 @@ describe('embed.webWidget', () => {
         .toHaveBeenCalledWith('webWidget.hide', jasmine.any(Function));
     });
 
-    it('should subscribe to webWidget.activate', () => {
-      expect(mockMediator.channel.subscribe)
-        .toHaveBeenCalledWith('webWidget.activate', jasmine.any(Function));
-    });
-
     it('should subscribe to webWidget.setZopimOnline', () => {
       expect(mockMediator.channel.subscribe)
         .toHaveBeenCalledWith('webWidget.setZopimOnline', jasmine.any(Function));
