@@ -764,12 +764,15 @@ describe('mediator', () => {
       describe('when onClick is called', () => {
         beforeEach(() => {
           launcherSub.hide.calls.reset();
+          jasmine.clock().install();
         });
 
         describe('when position is top', () => {
           it('calls hide with `upHide` transition', () => {
             mockPositionValue.vertical = 'top';
             c.broadcast(`${launcher}.onClick`);
+
+            jasmine.clock().tick(0);
 
             const calls = launcherSub.hide.calls;
 
@@ -786,6 +789,8 @@ describe('mediator', () => {
             mockPositionValue.vertical = 'bottom';
             c.broadcast(`${launcher}.onClick`);
 
+            jasmine.clock().tick(0);
+
             const calls = launcherSub.hide.calls;
 
             expect(calls.mostRecent().args[0])
@@ -801,7 +806,11 @@ describe('mediator', () => {
         mockRegistry['utility/devices'].isMobileBrowser
           .and.returnValue(true);
 
+        jasmine.clock().install();
+
         c.broadcast(`${launcher}.onClick`);
+
+        jasmine.clock().tick(0);
 
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
@@ -1867,6 +1876,24 @@ describe('mediator', () => {
                 .toBe(1);
             });
           });
+
+          describe('when it is mobile and time to connect is not too long', () => {
+            beforeEach(() => {
+              mockRegistry['utility/devices'].isMobileBrowser
+                .and.returnValue(true);
+
+              c.broadcast('.activate');
+              jasmine.clock().tick(1000);
+
+              c.broadcast(`${chat}.onOnline`);
+              jasmine.clock().tick(2000);
+            });
+
+            it('shows launcher', () => {
+              expect(launcherSub.show.calls.count())
+                .toBe(1);
+            });
+          });
         });
       });
     });
@@ -2729,32 +2756,12 @@ describe('mediator', () => {
       initSubscriptionSpies(names);
       mediator.init({ submitTicket: true, helpCenter: false });
       beaconSub.trackUserAction.calls.reset();
+      c.broadcast('.activate');
     });
 
-    describe('when no embed is visible', () => {
-      beforeEach(() => {
-        c.broadcast('.activate');
-      });
-
-      it('should send an activate blip', () => {
-        expect(beaconSub.trackUserAction)
-          .toHaveBeenCalledWith('api', 'activate');
-      });
-    });
-
-    describe('when an embed is visible', () => {
-      beforeEach(() => {
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(0);
-
-        c.broadcast('.activate');
-      });
-
-      it('should not send an activate blip', () => {
-        expect(beaconSub.trackUserAction)
-          .not.toHaveBeenCalled();
-      });
+    it('should send an activate blip', () => {
+      expect(beaconSub.trackUserAction)
+        .toHaveBeenCalledWith('api', 'activate');
     });
   });
 });
