@@ -34,7 +34,6 @@ state[`${chat}.isAccessible`] = false;
 state[`${chat}.unreadMsgs`] = 0;
 state[`${chat}.userClosed`] = false;
 state[`${chat}.chatEnded`] = false;
-state['ipm.isVisible'] = false;
 state['.hideOnClose'] = false;
 state['.hasHidden'] = false;
 state['identify.pending'] = false;
@@ -280,8 +279,7 @@ function init(embedsAccessible, params = {}) {
 
       if (!state[`${launcher}.userHidden`] &&
           !embedVisible(state) &&
-          !state['identify.pending'] &&
-          !state['ipm.isVisible']) {
+          !state['identify.pending']) {
         c.broadcast(`${launcher}.show`);
       }
     }
@@ -312,7 +310,6 @@ function init(embedsAccessible, params = {}) {
       setTimeout(() => {
         if (!state[`${launcher}.userHidden`] &&
             !state['identify.pending'] &&
-            !state['ipm.isVisible'] &&
             embedAvailable()) {
           c.broadcast(`${launcher}.show`);
         }
@@ -596,8 +593,7 @@ function initMessaging() {
       resetActiveEmbed();
 
       if (!state[`${launcher}.userHidden`] &&
-        !state[`${chat}.isAccessible`] &&
-        !state['ipm.isVisible']) {
+        !state[`${chat}.isAccessible`]) {
         c.broadcast(`${launcher}.show`);
       }
     }
@@ -622,16 +618,12 @@ function initMessaging() {
   });
 
   c.intercept('ipm.onClose', () => {
-    state['ipm.isVisible'] = false;
-
     if (!state['.hideOnClose'] && !state[`${launcher}.userHidden`]) {
       c.broadcast(`${launcher}.show`, { transition: 'upShow' });
     }
   });
 
   c.intercept('ipm.onShow', () => {
-    state['ipm.isVisible'] = true;
-
     c.broadcast(`${launcher}.hide`);
   });
 }

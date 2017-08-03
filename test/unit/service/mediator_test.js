@@ -407,16 +407,6 @@ describe('mediator', () => {
         expect(launcherSub.show.calls.count())
           .toEqual(0);
       });
-
-      it('should not call launcher show if ipm.isVisible is true', () => {
-        mediator.init({ helpCenter: true }, { helpCenterSignInRequired: true });
-
-        c.broadcast('ipm.onShow');
-        c.broadcast('authentication.onSuccess');
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(0);
-      });
     });
   });
 
