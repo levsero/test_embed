@@ -121,6 +121,7 @@ function sendWithMeta(payload, useBase64 = true) {
   if (useBase64) {
     payload.query = { data: base64encode(JSON.stringify(payload.params)) };
     const base64Payload = _.pick(payload, ['method', 'path', 'query', 'callbacks']);
+
     send(base64Payload, false);
   } else {
     send(payload);

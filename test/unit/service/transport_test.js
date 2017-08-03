@@ -298,7 +298,6 @@ describe('transport', () => {
         expect(payload.callbacks.done)
           .not.toHaveBeenCalled();
       });
-
     });
 
     it('will not die if callbacks object is not present', () => {
