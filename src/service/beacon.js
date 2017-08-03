@@ -156,8 +156,8 @@ function identify(user) {
       userAgent: navigator.userAgent
     },
     callbacks: {
-      done: (res) => {
-        mediator.channel.broadcast('identify.onSuccess', res.body);
+      always: () => {
+        mediator.channel.broadcast('identify.onComplete');
       }
     }
   };

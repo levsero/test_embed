@@ -586,10 +586,8 @@ function initMessaging() {
     }
   });
 
-  c.intercept('identify.onSuccess', (__, params) => {
+  c.intercept('identify.onComplete', () => {
     state['identify.pending'] = false;
-
-    c.broadcast('ipm.setIpm', params);
   });
 
   c.intercept('authentication.onSuccess', () => {

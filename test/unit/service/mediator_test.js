@@ -336,36 +336,6 @@ describe('mediator', () => {
     });
   });
 
-  describe('identify.onSuccess', () => {
-    describe('ipm', () => {
-      const ipm = 'ipm';
-      const names = {
-        ipm: ipm
-      };
-
-      it('should broadcast ipm.setIpm with params', () => {
-        initSubscriptionSpies(names);
-        mediator.init({ submitTicket: true, helpCenter: false });
-
-        const response = {
-          pendingCampaign: {
-            id: 199
-          }
-        };
-
-        c.broadcast('identify.onSuccess', response);
-
-        expect(ipmSub.setIpm)
-          .toHaveBeenCalled();
-
-        const params = ipmSub.setIpm.calls.mostRecent().args[0];
-
-        expect(params.pendingCampaign.id)
-          .toEqual(199);
-      });
-    });
-  });
-
  /* ****************************************** *
   *                 AUTHENTICATE               *
   * ****************************************** */
@@ -564,7 +534,7 @@ describe('mediator', () => {
 
     describe('.onActivate', () => {
       it('should broadcast ipm.activate if identify.pending is false', () => {
-        c.broadcast('identify.onSuccess', {});
+        c.broadcast('identify.onComplete', {});
 
         reset(ipmSub.activate);
 
@@ -593,7 +563,7 @@ describe('mediator', () => {
         c.broadcast('.onIdentify', {});
 
         // identify success, identify.pending => false
-        c.broadcast('identify.onSuccess', {});
+        c.broadcast('identify.onComplete', {});
 
         // open helpCenter embed
         jasmine.clock().install();
@@ -613,7 +583,7 @@ describe('mediator', () => {
         c.broadcast('.onIdentify', {});
 
         // identify success, identify.pending => false
-        c.broadcast('identify.onSuccess', {});
+        c.broadcast('identify.onComplete', {});
 
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
@@ -647,7 +617,7 @@ describe('mediator', () => {
         jasmine.clock().tick(1000);
 
         // identify completed
-        c.broadcast('identify.onSuccess', {});
+        c.broadcast('identify.onComplete', {});
 
         jasmine.clock().tick(1000);
 
