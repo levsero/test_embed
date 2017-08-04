@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: u-posRelative from global;
+  composes: u-posRelative u-marginBT from global;
 }
 
 .wrapper {
@@ -9,7 +9,8 @@
 }
 
 .message {
-  composes: u-paddingS u-marginBT from global;
+  composes: u-paddingS from global;
+  margin-bottom: #{7/$font-size}rem;
 }
 
 .messageUser {
@@ -28,6 +29,7 @@
 
 .agentBackground {
   background: $zd-color-anti-flash-white;
+  max-width: #{219/$font-size}rem !important;
 }
 
 .name {
