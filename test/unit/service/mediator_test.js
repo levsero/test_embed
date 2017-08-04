@@ -336,36 +336,6 @@ describe('mediator', () => {
     });
   });
 
-  describe('identify.onSuccess', () => {
-    describe('ipm', () => {
-      const ipm = 'ipm';
-      const names = {
-        ipm: ipm
-      };
-
-      it('should broadcast ipm.setIpm with params', () => {
-        initSubscriptionSpies(names);
-        mediator.init({ submitTicket: true, helpCenter: false });
-
-        const response = {
-          pendingCampaign: {
-            id: 199
-          }
-        };
-
-        c.broadcast('identify.onSuccess', response);
-
-        expect(ipmSub.setIpm)
-          .toHaveBeenCalled();
-
-        const params = ipmSub.setIpm.calls.mostRecent().args[0];
-
-        expect(params.pendingCampaign.id)
-          .toEqual(199);
-      });
-    });
-  });
-
  /* ****************************************** *
   *                 AUTHENTICATE               *
   * ****************************************** */
@@ -563,37 +533,11 @@ describe('mediator', () => {
     });
 
     describe('.onActivate', () => {
-      it('should broadcast ipm.activate if identify.pending is false', () => {
-        c.broadcast('identify.onSuccess', {});
-
-        reset(ipmSub.activate);
-
-        jasmine.clock().install();
-        c.broadcast('ipm.onActivate');
-        jasmine.clock().tick(2000);
-
-        expect(ipmSub.activate)
-          .toHaveBeenCalled();
-      });
-
-      it('should not broadcast ipm.activate if identify.pending is true', () => {
-        c.broadcast('.onIdentify', {});
-
-        reset(ipmSub.activate);
-
-        jasmine.clock().install();
-        c.broadcast('ipm.onActivate');
-        jasmine.clock().tick(2000);
-
-        expect(ipmSub.activate)
-          .not.toHaveBeenCalled();
-      });
-
       it('should not broadcast ipm.activate if an embed is visible', () => {
         c.broadcast('.onIdentify', {});
 
-        // identify success, identify.pending => false
-        c.broadcast('identify.onSuccess', {});
+        // identify success
+        c.broadcast('identify.onComplete', {});
 
         // open helpCenter embed
         jasmine.clock().install();
@@ -612,8 +556,8 @@ describe('mediator', () => {
       it('should broadcast ipm.activate if an embed is not visible', () => {
         c.broadcast('.onIdentify', {});
 
-        // identify success, identify.pending => false
-        c.broadcast('identify.onSuccess', {});
+        // identify success
+        c.broadcast('identify.onComplete', {});
 
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
@@ -627,32 +571,6 @@ describe('mediator', () => {
 
         expect(ipmSub.activate)
           .toHaveBeenCalled();
-      });
-
-      it('should not broadcast ipm.activate if an embed was activated while identify.pending', () => {
-        c.broadcast('.onIdentify', {});
-
-        // identify still in-flight
-        jasmine.clock().install();
-        c.broadcast('ipm.onActivate');
-
-        expect(ipmSub.activate)
-          .not.toHaveBeenCalled();
-
-        jasmine.clock().tick(1000);
-
-        // embed visible while identify still inflight
-        c.broadcast(`${launcher}.onClick`);
-
-        jasmine.clock().tick(1000);
-
-        // identify completed
-        c.broadcast('identify.onSuccess', {});
-
-        jasmine.clock().tick(1000);
-
-        expect(ipmSub.activate)
-          .not.toHaveBeenCalled();
       });
     });
 

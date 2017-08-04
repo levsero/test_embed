@@ -37,7 +37,6 @@ state[`${chat}.chatEnded`] = false;
 state['ipm.isVisible'] = false;
 state['.hideOnClose'] = false;
 state['.hasHidden'] = false;
-state['identify.pending'] = false;
 
 const helpCenterAvailable = () => {
   return state[`${helpCenter}.isAccessible`] && !state[`${helpCenter}.isSuppressed`];
@@ -280,7 +279,6 @@ function init(embedsAccessible, params = {}) {
 
       if (!state[`${launcher}.userHidden`] &&
           !embedVisible(state) &&
-          !state['identify.pending'] &&
           !state['ipm.isVisible']) {
         c.broadcast(`${launcher}.show`);
       }
@@ -311,7 +309,6 @@ function init(embedsAccessible, params = {}) {
 
       setTimeout(() => {
         if (!state[`${launcher}.userHidden`] &&
-            !state['identify.pending'] &&
             !state['ipm.isVisible'] &&
             embedAvailable()) {
           c.broadcast(`${launcher}.show`);
@@ -571,7 +568,6 @@ function init(embedsAccessible, params = {}) {
 function initMessaging() {
   c.intercept('.onIdentify', (__, params) => {
     if (emailValid(params.email)) {
-      state['identify.pending'] = true;
       c.broadcast('ipm.identifying', params);
       c.broadcast('beacon.identify', params);
       c.broadcast(`${submitTicket}.prefill`, params);
@@ -584,12 +580,6 @@ function initMessaging() {
         c.broadcast(`${submitTicket}.prefill`, { name: params.name });
       }
     }
-  });
-
-  c.intercept('identify.onSuccess', (__, params) => {
-    state['identify.pending'] = false;
-
-    c.broadcast('ipm.setIpm', params);
   });
 
   c.intercept('authentication.onSuccess', () => {
@@ -612,7 +602,7 @@ function initMessaging() {
     let retries = 0;
 
     const fn = () => {
-      if (!state['identify.pending'] && !embedVisible(state)) {
+      if (!embedVisible(state)) {
         c.broadcast('ipm.activate');
       } else if (retries < maxRetries) {
         retries++;
