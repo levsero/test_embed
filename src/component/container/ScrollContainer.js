@@ -33,6 +33,23 @@ export class ScrollContainer extends Component {
     super(props, context);
 
     this.state = { scrollShadowVisible: false };
+    this.scrollTop = 0;
+  }
+
+  componentWillUpdate = () => {
+    const container = this.getContentContainer();
+
+    if (!container) return;
+
+    this.scrollTop = container.scrollTop;
+  }
+
+  componentDidUpdate = () => {
+    const container = this.getContentContainer();
+
+    if (!container) return;
+
+    container.scrollTop = this.scrollTop;
   }
 
   getContentContainer = () => {

@@ -70,7 +70,7 @@ describe('ScrollContainer component', () => {
   });
 
   it('should change component state when calling `this.setScrollShadowVisible`', () => {
-    const container = instanceRender(<ScrollContainer fullscreen={true} />);
+    const container = domRender(<ScrollContainer fullscreen={true} />);
 
     expect(container.state.scrollShadowVisible)
       .toEqual(false);
