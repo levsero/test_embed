@@ -125,5 +125,32 @@ describe('ScrollContainer component', () => {
       });
     });
   });
+
+  describe('re-render', () => {
+    let container,
+      component,
+      mockScrollTop;
+
+    describe('when the component re-renders', () => {
+      beforeEach(() => {
+        mockScrollTop = 150;
+        component = domRender(<ScrollContainer />);
+        container = component.getContentContainer();
+        container.scrollTop = mockScrollTop;
+
+        component.componentWillUpdate();
+      });
+
+      it('reinstates the old scrollTop value', () => {
+        expect(container.scrollTop)
+          .toEqual(mockScrollTop);
+
+        component.componentDidUpdate();
+
+        expect(container.scrollTop)
+          .toEqual(mockScrollTop);
+      });
+    });
+  });
 });
 
