@@ -85,13 +85,6 @@ class Chat extends Component {
     }
   }
 
-  componentWillReceiveProps = (nextProps) => {
-    // populates agentSettings with the correct settings once they're connected
-    if (this.props.connection === 'connecting' && nextProps.connection !== 'connecting') {
-      this.props.updateAccountSettings();
-    }
-  }
-
   updateUser = (user) => {
     this.props.setVisitorInfo({
       display_name: user.name || '',
