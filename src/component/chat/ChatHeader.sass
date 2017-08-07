@@ -11,14 +11,13 @@
 }
 
 .container {
-  composes: u-flex u-flexAlignItemsCenter u-posStart--flush u-posAbsolute u-hsizeAll from global;
+  composes: u-zIndex1 u-flex u-flexAlignItemsCenter u-posStart--flush u-posAbsolute u-hsizeAll from global; /* 1 for u-zIndex */
   background-color: $base-color;
   border-bottom: #{1/$font-size}rem solid $zd-color-gainsboro;
   box-sizing: border-box;
   height: #{58/$font-size}rem;
   padding: #{5/$font-size}rem #{17/$font-size}rem;
   top: #{43/$font-size}rem;
-  z-index: 1; /* 1 */
 }
 
 .textContainer {
