@@ -36,6 +36,8 @@ export class ScrollContainer extends Component {
     this.scrollTop = 0;
   }
 
+  // FIXME
+  // Retains the old value of the scrollTop
   componentWillUpdate = () => {
     const container = this.getContentContainer();
 
@@ -44,6 +46,10 @@ export class ScrollContainer extends Component {
     this.scrollTop = container.scrollTop;
   }
 
+  // FIXME
+  // Reinstate the old scrollTop value, this is because everytime the component
+  // re-renders it fails to capture and retain its child DOM node attribute.
+  // Perhaps this is due to it being re-rendered three times per state change.
   componentDidUpdate = () => {
     const container = this.getContentContainer();
 
