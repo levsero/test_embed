@@ -42,7 +42,7 @@ describe('chat reducer accountSettings', () => {
         });
       });
 
-      it('sets the action payload.detail as the state', () => {
+      it('sets the action payload as the state', () => {
         expect(state)
           .toEqual(settings);
       });
