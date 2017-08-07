@@ -9,6 +9,7 @@ import {
   UPDATE_CURRENT_MSG,
   UPDATE_VISITOR_INFO_SUCCESS,
   UPDATE_VISITOR_INFO_FAILURE,
+  UPDATE_ACCOUNT_SETTINGS,
   SEND_CHAT_RATING_SUCCESS,
   SEND_CHAT_RATING_FAILURE
 } from './chat-action-types';
@@ -108,5 +109,12 @@ export function sendChatRating(rating = null) {
         dispatch({ type: SEND_CHAT_RATING_FAILURE });
       }
     });
+  };
+}
+
+export function updateAccountSettings() {
+  return {
+    type: UPDATE_ACCOUNT_SETTINGS,
+    payload: zChat._getAccountSettings()
   };
 }

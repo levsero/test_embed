@@ -65,7 +65,7 @@ describe('Chat component', () => {
   describe('onPrechatFormComplete', () => {
     let component, setVisitorInfoSpy, sendMsgSpy;
     const formInfo = {
-      display_name: 'Daenerys Targaryen', // eslint-disable-line camelcase
+      display_name: 'Daenerys Targaryen',
       email: 'mother@of.dragons',
       phone: '87654321',
       message: 'bend the knee'
@@ -179,7 +179,7 @@ describe('Chat component', () => {
     describe('when is_chatting is true', () => {
       beforeEach(() => {
         chatProp.chats.set(123, { timestamp: 123, type: 'chat.msg' });
-        chatProp.is_chatting = true; // eslint-disable-line camelcase
+        chatProp.is_chatting = true;
 
         component = domRender(<Chat chat={chatProp} />);
       });
@@ -193,7 +193,7 @@ describe('Chat component', () => {
     describe('when is_chatting is false', () => {
       beforeEach(() => {
         chatProp.chats.set(123, { timestamp: 123, type: 'chat.msg' });
-        chatProp.is_chatting = false; // eslint-disable-line camelcase
+        chatProp.is_chatting = false;
 
         component = domRender(<Chat chat={chatProp} />);
       });

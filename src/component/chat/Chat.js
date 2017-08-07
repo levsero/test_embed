@@ -15,13 +15,18 @@ import { i18n } from 'service/i18n';
 import { endChat,
          sendMsg,
          setVisitorInfo,
+         updateAccountSettings,
          updateCurrentMsg,
          sendChatRating } from 'src/redux/modules/chat';
 
 import { locals as styles } from './Chat.sass';
 
 const mapStateToProps = (state) => {
-  return { chat: state.chat };
+  return {
+    chat: state.chat,
+    connection: state.chat.connection,
+    accountSettings: state.chat.accountSettings
+  };
 };
 const screens = {
   prechat: 'prechat',
@@ -30,7 +35,9 @@ const screens = {
 
 class Chat extends Component {
   static propTypes = {
+    accountSettings: PropTypes.object.isRequired,
     chat: PropTypes.object.isRequired,
+    connection: PropTypes.string.isRequired,
     endChat: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
     position: PropTypes.string,
@@ -39,6 +46,7 @@ class Chat extends Component {
     style: PropTypes.object,
     updateCurrentMsg: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
+    updateAccountSettings: PropTypes.func.isRequired,
     sendChatRating: PropTypes.func.isRequired
   };
 
@@ -46,7 +54,9 @@ class Chat extends Component {
     isMobile: false,
     position: 'right',
     style: null,
-    updateFrameSize: () => {}
+    updateFrameSize: () => {},
+    updateAccountSettings: () => {},
+    accountSettings: { concierge: {} }
   };
 
   constructor(props) {
@@ -58,6 +68,11 @@ class Chat extends Component {
     };
 
     this.scrollContainer = null;
+  }
+
+  componentDidMount = () => {
+    // populates agentSettings with the defaults for the account
+    this.props.updateAccountSettings();
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -72,7 +87,7 @@ class Chat extends Component {
 
   updateUser = (user) => {
     this.props.setVisitorInfo({
-      display_name: user.name || '', // eslint-disable-line camelcase
+      display_name: user.name || '',
       email: user.email || ''
     });
   }
@@ -129,13 +144,16 @@ class Chat extends Component {
   }
 
   renderChatHeader = () => {
-    const { chat, sendChatRating, endChat } = this.props;
+    const { chat, sendChatRating, endChat, accountSettings } = this.props;
+    const { avatar_path, display_name, title } = accountSettings.concierge;
 
     return (
       <ChatHeader
         rating={chat.rating}
         updateRating={sendChatRating}
-        agents={chat.agents}
+        avatar={avatar_path} // eslint-disable-line
+        title={title}
+        byline={display_name} // eslint-disable-line
         endChat={endChat} />
     );
   }
@@ -207,6 +225,7 @@ class Chat extends Component {
 const actionCreators = {
   sendMsg,
   updateCurrentMsg,
+  updateAccountSettings,
   endChat,
   setVisitorInfo,
   sendChatRating
