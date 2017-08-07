@@ -142,13 +142,16 @@ describe('ScrollContainer component', () => {
       });
 
       it('reinstates the old scrollTop value', () => {
+        const newScrollTopValue = 1337;
+
         expect(container.scrollTop)
           .toEqual(mockScrollTop);
 
+        component.scrollTop = newScrollTopValue;
         component.componentDidUpdate();
 
         expect(container.scrollTop)
-          .toEqual(mockScrollTop);
+          .toEqual(newScrollTopValue);
       });
     });
   });
