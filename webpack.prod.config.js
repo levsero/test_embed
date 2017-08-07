@@ -7,18 +7,23 @@ root.plugins = [
   new webpack.DefinePlugin({
     __EMBEDDABLE_VERSION__: JSON.stringify(config.version),
     __DEV__: JSON.stringify(false),
-    'process.env': {
-      'NODE_ENV': JSON.stringify('production')
-    }
+    'process.env.NODE_ENV': JSON.stringify('production')
   }),
   new webpack.optimize.UglifyJsPlugin({
+    beautify: false,
+    mangle: {
+      screw_ie8: true
+    },
     compress: {
-      'drop_debugger': true,
-      'warnings': false
-    }
+      drop_debugger: true,
+      warnings: false,
+      screw_ie8: true
+    },
+    comments: false
   }),
   new webpack.LoaderOptionsPlugin({
-    minimize: true
+    minimize: true,
+    debug: false
   }),
   new Visualizer()
 ];

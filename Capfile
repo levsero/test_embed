@@ -18,6 +18,10 @@ set :framework_files,    ['main.js',
                           'manifest.json',
                           'bootstrap.js']
 
+set :s3_release_directory_ac, ''
+set :s3_bucket_name_ac, ''
+set :framework_files_ac, ['web_widget.js', 'manifest.json']
+
 set :branch, ENV['REVISION'] || 'master'
 
 # the old gem gave us `local_head_revision` for free.
@@ -39,6 +43,26 @@ def sh(command)
   result = `#{command}`
   abort "COMMAND FAILED #{command}\n#{result}" unless $CHILD_STATUS.success?
   result
+end
+
+def update_s3_config(region, credentials)
+  Aws.config.update(region: region, credentials: credentials)
+end
+
+def s3_bucket(name)
+  Aws::S3::Resource.new.bucket(name)
+end
+
+def release_to_s3(bucket, release_directory, files)
+  bucket.put_object(key: "#{release_directory}/", server_side_encryption: 'AES256')
+  files.each do |file|
+    logger.info "put_object #{release_directory}/#{file}"
+    bucket.put_object(key: "#{release_directory}/#{file}", server_side_encryption: 'AES256')
+
+    logger.info "upload_file dist/#{file}"
+    bucket.object("#{release_directory}/#{file}")
+      .upload_file("dist/#{file}", server_side_encryption: 'AES256')
+  end
 end
 
 namespace :embeddable_framework do
@@ -79,6 +103,14 @@ namespace :embeddable_framework do
       bucket.object("#{s3_release_directory}/#{file}")
         .upload_file("dist/#{file}", server_side_encryption: 'AES256')
     end
+  end
+
+  desc 'Release to Amazon S3 for asset composer'
+  task :release_to_s3_ac do
+    update_s3_config(fetch(:aws_region), fetch(:aws_credentials))
+
+    bucket = s3_bucket(fetch(:s3_bucket_name_ac))
+    release_to_s3(bucket, fetch(:s3_release_directory_ac), fetch(:framework_files_ac))
   end
 
   desc 'Deploy from Amazon S3'
