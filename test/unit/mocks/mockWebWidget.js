@@ -31,6 +31,8 @@ export default class MockWebWidget extends Component {
     return this.refs.mockChild;
   }
 
+  show() {}
+
   render() {
     return (
       <div className='mock-webWidget'>

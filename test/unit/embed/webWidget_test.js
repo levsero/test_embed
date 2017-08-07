@@ -42,8 +42,6 @@ describe('embed.webWidget', () => {
 
     targetCancelHandlerSpy = jasmine.createSpy();
 
-    // const webWidgetTestPath = requireUncached(buildTestPath('unit/mocks/mockWebWidget'));
-
     mockFrame = requireUncached(buildTestPath('unit/mocks/mockFrame')).MockFrame;
     mockWebWidget = requireUncached(buildTestPath('unit/mocks/mockWebWidget'));
 
@@ -992,7 +990,10 @@ describe('embed.webWidget', () => {
   });
 
   describe('setUpMediator', () => {
-    let mockMediator, mockStoreDispatch;
+    let mockMediator,
+      mockStoreDispatch,
+      frame,
+      component;
 
     beforeEach(() => {
       mockStoreDispatch = jasmine.createSpy();
@@ -1006,14 +1007,73 @@ describe('embed.webWidget', () => {
         .toHaveBeenCalledWith('webWidget.show', jasmine.any(Function));
     });
 
+    describe('when webWidget.show is dispatched', () => {
+      beforeEach(() => {
+        frame = webWidget.get().instance;
+        component = frame.getRootComponent();
+
+        spyOn(frame, 'show');
+        spyOn(component, 'show');
+      });
+
+      describe('when the embed is visible and called via activate', () => {
+        beforeEach(() => {
+          frame.setState({ visible: true });
+          pluckSubscribeCall(mockMediator, 'webWidget.show')({ viaActivate: true });
+          jasmine.clock().tick(0);
+        });
+
+        it('does not call show on webWidget', () => {
+          expect(component.show)
+            .not.toHaveBeenCalled();
+        });
+
+        it('does not call show on Frame', () => {
+          expect(frame.show)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when the embed is visible', () => {
+        beforeEach(() => {
+          frame.setState({ visible: true });
+          pluckSubscribeCall(mockMediator, 'webWidget.show')({ viaActivate: false });
+          jasmine.clock().tick(0);
+        });
+
+        it('calls show on webWidget with false', () => {
+          expect(component.show)
+            .toHaveBeenCalledWith(false);
+        });
+
+        it('calls show on Frame with an options of viaActivate of false', () => {
+          expect(frame.show)
+            .toHaveBeenCalledWith({ viaActivate: false });
+        });
+      });
+
+      describe('when it is called with activate', () => {
+        beforeEach(() => {
+          frame.setState({ visible: false });
+          pluckSubscribeCall(mockMediator, 'webWidget.show')({ viaActivate: true });
+          jasmine.clock().tick(0);
+        });
+
+        it('calls show on webWidget with true', () => {
+          expect(component.show)
+            .toHaveBeenCalledWith(true);
+        });
+
+        it('calls show on Frame with an options of viaActivate of true', () => {
+          expect(frame.show)
+            .toHaveBeenCalledWith({ viaActivate: true });
+        });
+      });
+    });
+
     it('should subscribe to webWidget.hide', () => {
       expect(mockMediator.channel.subscribe)
         .toHaveBeenCalledWith('webWidget.hide', jasmine.any(Function));
-    });
-
-    it('should subscribe to webWidget.activate', () => {
-      expect(mockMediator.channel.subscribe)
-        .toHaveBeenCalledWith('webWidget.activate', jasmine.any(Function));
     });
 
     it('should subscribe to webWidget.setZopimOnline', () => {
