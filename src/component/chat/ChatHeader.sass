@@ -1,3 +1,7 @@
+/**
+ * 1. ChatLog's messages flow above ChatHeader's content,
+      this lifts ChatHeader's content to a higher index to prevent that behaviour.
+ */
 @import '../../styles/_vars.scss';
 
 .avatar {
@@ -7,7 +11,7 @@
 }
 
 .container {
-  composes: u-flex u-flexAlignItemsCenter u-posStart--flush u-posAbsolute u-hsizeAll from global;
+  composes: u-zIndex1 u-flex u-flexAlignItemsCenter u-posStart--flush u-posAbsolute u-hsizeAll from global; /* 1 for u-zIndex */
   background-color: $base-color;
   border-bottom: #{1/$font-size}rem solid $zd-color-gainsboro;
   box-sizing: border-box;
