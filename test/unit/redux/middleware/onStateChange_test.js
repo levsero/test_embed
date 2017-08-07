@@ -42,7 +42,7 @@ describe('onStateChange middleware', () => {
         });
       });
 
-      describe('when chat has not connected', () => {
+      describe('when chat has connected', () => {
         beforeEach(() => {
           stateChangeFn(connectingState, connectedState, {}, dispatchSpy);
         });

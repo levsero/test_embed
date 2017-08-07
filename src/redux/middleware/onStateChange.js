@@ -1,7 +1,7 @@
 import { updateAccountSettings } from 'src/redux/modules/chat';
 
 const onChatConnected = (prevState, nextState, dispatch) => {
-  if (nextState.chat.connection !== 'connecting' && prevState.chat.connection === 'connecting') {
+  if (prevState.chat.connection === 'connecting' && nextState.chat.connection !== 'connecting') {
     dispatch(updateAccountSettings());
   }
 };
