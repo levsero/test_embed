@@ -37,6 +37,7 @@ state[`${chat}.chatEnded`] = false;
 state['ipm.isVisible'] = false;
 state['.hideOnClose'] = false;
 state['.hasHidden'] = false;
+state['.activatePending'] = false;
 
 const helpCenterAvailable = () => {
   return state[`${helpCenter}.isAccessible`] && !state[`${helpCenter}.isSuppressed`];
@@ -202,13 +203,12 @@ function init(embedsAccessible, params = {}) {
 
       state['.hideOnClose'] = !!options.hideOnClose;
 
-      if (embedAvailable()) {
+      if (embedAvailable() || (!embedAvailable() && state[`${chat}.isAccessible`])) {
         // When boot time zE.activate() is used with contact form & chat,
         // delay showing the embed so that chat has time to come online.
-        if (state.activeEmbed === submitTicket &&
-            state[`${chat}.connectionPending`] &&
+        if (state[`${chat}.connectionPending`] &&
             state[`${chat}.isAccessible`]) {
-          setTimeout(() => showEmbed(state, true), 3000);
+          state['.activatePending'] = true;
         } else {
           showEmbed(state, true);
         }
@@ -273,18 +273,20 @@ function init(embedsAccessible, params = {}) {
 
     c.broadcast(`${helpCenter}.setNextToChat`);
 
-    if (!submitTicketAvailable() && !helpCenterAvailable()) {
+    if (!submitTicketAvailable() && !helpCenterAvailable() && !state[`${chat}.connectionPending`]) {
       c.broadcast(`${launcher}.show`);
     }
+  });
 
-    if (state[`${chat}.connectionPending`]) {
-      state[`${chat}.connectionPending`] = false;
+  c.intercept(`${chat}.onConnected`, () => {
+    state[`${chat}.connectionPending`] = false;
 
-      if (!state[`${launcher}.userHidden`] &&
-          !embedVisible(state) &&
-          !state['ipm.isVisible']) {
-        c.broadcast(`${launcher}.show`);
-      }
+    if (!embedAvailable() || state['ipm.isVisible'] || embedVisible(state)) return;
+
+    if (state['.activatePending']) {
+      showEmbed(state, true);
+    } else if (!state[`${launcher}.userHidden`]) {
+      c.broadcast(`${launcher}.show`);
     }
   });
 
@@ -305,18 +307,6 @@ function init(embedsAccessible, params = {}) {
 
     if (!submitTicketAvailable()) {
       c.broadcast(`${helpCenter}.showNextButton`, false);
-    }
-
-    if (state[`${chat}.connectionPending`]) {
-      state[`${chat}.connectionPending`] = false;
-
-      setTimeout(() => {
-        if (!state[`${launcher}.userHidden`] &&
-            !state['ipm.isVisible'] &&
-            embedAvailable()) {
-          c.broadcast(`${launcher}.show`);
-        }
-      }, 3000);
     }
   });
 
