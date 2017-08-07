@@ -25,9 +25,6 @@ describe('Chat component', () => {
       'component/chat/ChatHeader': {
         ChatHeader: noopReactComponent()
       },
-      'component/chat/ChatMessage': {
-        ChatMessage: noopReactComponent()
-      },
       'component/chat/ChatPrechatForm': {
         ChatPrechatForm: noopReactComponent()
       },

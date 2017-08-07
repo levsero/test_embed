@@ -111,7 +111,8 @@ describe('transport', () => {
         },
         callbacks: {
           done: noop,
-          fail: noop
+          fail: noop,
+          always: noop
         }
       };
 
@@ -239,52 +240,64 @@ describe('transport', () => {
       });
     });
 
-    it('triggers the done callback if response is successful', () => {
-      spyOn(payload.callbacks, 'done');
-      spyOn(payload.callbacks, 'fail');
-      spyOn(mockMethods, 'end').and.callThrough();
+    describe('if response is successful', () => {
+      it('triggers the done and always callbacks', () => {
+        spyOn(payload.callbacks, 'done');
+        spyOn(payload.callbacks, 'fail');
+        spyOn(payload.callbacks, 'always');
+        spyOn(mockMethods, 'end').and.callThrough();
 
-      transport.init(config);
-      transport.send(payload);
+        transport.init(config);
+        transport.send(payload);
 
-      expect(mockMethods.end)
-        .toHaveBeenCalled();
+        expect(mockMethods.end)
+          .toHaveBeenCalled();
 
-      const recentCall = mockMethods.end.calls.mostRecent();
+        const recentCall = mockMethods.end.calls.mostRecent();
 
-      const callback = recentCall.args[0];
+        const callback = recentCall.args[0];
 
-      callback(null, {ok: true});
+        callback(null, {ok: true});
 
-      expect(payload.callbacks.done)
-        .toHaveBeenCalled();
+        expect(payload.callbacks.done)
+          .toHaveBeenCalled();
 
-      expect(payload.callbacks.fail)
-        .not.toHaveBeenCalled();
+        expect(payload.callbacks.always)
+          .toHaveBeenCalled();
+
+        expect(payload.callbacks.fail)
+          .not.toHaveBeenCalled();
+      });
     });
 
-    it('triggers the fail callback if response is unsuccessful', () => {
-      spyOn(payload.callbacks, 'fail');
-      spyOn(payload.callbacks, 'done');
-      spyOn(mockMethods, 'end').and.callThrough();
+    describe('if response is unsuccessful', () => {
+      it('triggers the fail and always callbacks', () => {
+        spyOn(payload.callbacks, 'fail');
+        spyOn(payload.callbacks, 'done');
+        spyOn(payload.callbacks, 'always');
+        spyOn(mockMethods, 'end').and.callThrough();
 
-      transport.init(config);
-      transport.send(payload);
+        transport.init(config);
+        transport.send(payload);
 
-      expect(mockMethods.end)
-        .toHaveBeenCalled();
+        expect(mockMethods.end)
+          .toHaveBeenCalled();
 
-      const recentCall = mockMethods.end.calls.mostRecent();
+        const recentCall = mockMethods.end.calls.mostRecent();
 
-      const callback = recentCall.args[0];
+        const callback = recentCall.args[0];
 
-      callback({error: true}, undefined);
+        callback({error: true}, undefined);
 
-      expect(payload.callbacks.fail)
-        .toHaveBeenCalled();
+        expect(payload.callbacks.fail)
+          .toHaveBeenCalled();
 
-      expect(payload.callbacks.done)
-        .not.toHaveBeenCalled();
+        expect(payload.callbacks.always)
+          .toHaveBeenCalled();
+
+        expect(payload.callbacks.done)
+          .not.toHaveBeenCalled();
+      });
     });
 
     it('will not die if callbacks object is not present', () => {

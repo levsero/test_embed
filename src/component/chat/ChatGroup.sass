@@ -1,11 +1,16 @@
 @import '../../styles/_vars.scss';
 
+.container {
+  composes: u-posRelative u-marginBT from global;
+}
+
 .wrapper {
   composes: u-cf u-block from global;
 }
 
 .message {
-  composes: u-paddingS u-marginBT from global;
+  composes: u-paddingS from global;
+  margin-bottom: #{7/$font-size}rem;
 }
 
 .messageUser {
@@ -24,6 +29,7 @@
 
 .agentBackground {
   background: $zd-color-anti-flash-white;
+  max-width: #{219/$font-size}rem !important;
 }
 
 .name {
@@ -33,9 +39,8 @@
 }
 
 .avatar {
-  display: inline-block !important;
-  height: #{30/$font-size}rem;
-  width: #{30/$font-size}rem;
+  composes: u-posAbsolute from global;
+  bottom: #{4/$font-size}rem;
 
   svg {
     padding-top: #{8/$font-size}rem;
@@ -52,11 +57,12 @@
   width: #{32/$font-size}rem;
 }
 
-.messageBubble {
-  margin-left: #{40/$font-size}rem;
+.avatarWithSrc {
+  composes: avatar;
+  height: #{30/$font-size}rem;
+  width: #{30/$font-size}rem;
 }
 
-.messageBubbleAvatar {
-  composes: u-marginBT u-alignTop from global;
-  margin-left: #{7/$font-size}rem;
+.messageBubble {
+  margin-left: #{40/$font-size}rem;
 }

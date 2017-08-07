@@ -30,8 +30,8 @@ export class ChatBox extends Component {
 
   handleKeyDown = (e) => {
     if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
-      this.handleSendClick();
       e.preventDefault();
+      this.handleSendClick();
     }
   }
 

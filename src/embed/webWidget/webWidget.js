@@ -283,10 +283,13 @@ function hide(options) {
 function setupMediator() {
   mediator.channel.subscribe('webWidget.show', (options = {}) => {
     waitForRootComponent(() => {
+      // If the embed is already opened don't try to reset the state with activate
+      if (embed.instance.state.visible && options.viaActivate) return;
+
       // Stop stupid host page scrolling
       // when trying to focus HelpCenter's search field.
       setTimeout(() => {
-        getWebWidgetComponent().show();
+        getWebWidgetComponent().show(options.viaActivate);
         embed.instance.show(options);
       }, 0);
 
@@ -401,15 +404,6 @@ function setupMediator() {
 
     waitForRootComponent(() => {
       getWebWidgetComponent().setAuthenticated(hasAuthenticatedSuccessfully);
-    });
-  });
-
-  mediator.channel.subscribe('webWidget.activate', () => {
-    if (embed.instance.state.visible) return;
-
-    waitForRootComponent(() => {
-      getWebWidgetComponent().show(true);
-      embed.instance.show();
     });
   });
 }

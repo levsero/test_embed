@@ -70,7 +70,7 @@ describe('ScrollContainer component', () => {
   });
 
   it('should change component state when calling `this.setScrollShadowVisible`', () => {
-    const container = instanceRender(<ScrollContainer fullscreen={true} />);
+    const container = domRender(<ScrollContainer fullscreen={true} />);
 
     expect(container.state.scrollShadowVisible)
       .toEqual(false);
@@ -122,6 +122,36 @@ describe('ScrollContainer component', () => {
       it('should not apply them to the container', () => {
         expect(ReactDOM.findDOMNode(container).querySelector('.contentClasses').className)
           .not.toMatch('baz');
+      });
+    });
+  });
+
+  describe('re-render', () => {
+    let container,
+      component,
+      mockScrollTop;
+
+    describe('when the component re-renders', () => {
+      beforeEach(() => {
+        mockScrollTop = 150;
+        component = domRender(<ScrollContainer />);
+        container = component.getContentContainer();
+        container.scrollTop = mockScrollTop;
+
+        component.componentWillUpdate();
+      });
+
+      it('reinstates the old scrollTop value', () => {
+        const newScrollTopValue = 1337;
+
+        expect(container.scrollTop)
+          .toEqual(mockScrollTop);
+
+        component.scrollTop = newScrollTopValue;
+        component.componentDidUpdate();
+
+        expect(container.scrollTop)
+          .toEqual(newScrollTopValue);
       });
     });
   });

@@ -37,7 +37,6 @@ state[`${chat}.chatEnded`] = false;
 state['ipm.isVisible'] = false;
 state['.hideOnClose'] = false;
 state['.hasHidden'] = false;
-state['identify.pending'] = false;
 
 const helpCenterAvailable = () => {
   return state[`${helpCenter}.isAccessible`] && !state[`${helpCenter}.isSuppressed`];
@@ -100,16 +99,21 @@ const showEmbed = (_state, viaActivate = false) => {
     trackChatStarted();
   }
 
-  const options = {
-    transition: getShowAnimation(),
-    viaActivate
-  };
+  if (_state.activeEmbed === chat && isMobileBrowser()) {
+    c.broadcast(`${chat}.show`);
+  } else {
+    const options = {
+      transition: getShowAnimation(),
+      viaActivate
+    };
 
-  _state[`${_state.activeEmbed}.isVisible`] = true;
-  c.broadcast(`${_state.activeEmbed}.show`, options);
-  c.broadcast('webWidget.show');
+    _state[`${_state.activeEmbed}.isVisible`] = true;
+    c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
+    c.broadcast(`${_state.activeEmbed}.show`, options);
+    c.broadcast('webWidget.show', options);
+  }
 
-  if (isMobileBrowser()) {
+  if (isMobileBrowser() && _state.activeEmbed !== chat) {
     /**
      * This timeout ensures the embed is displayed
      * before the scrolling happens on the host page
@@ -191,11 +195,11 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept('.activate', (__, options = {}) => {
+    c.broadcast('beacon.trackUserAction', 'api', 'activate');
+
     if (!embedVisible(state)) {
       resetActiveEmbed();
 
-      c.broadcast(`${launcher}.hide`);
-      c.broadcast('webWidget.activate');
       state['.hideOnClose'] = !!options.hideOnClose;
 
       if (embedAvailable()) {
@@ -208,8 +212,6 @@ function init(embedsAccessible, params = {}) {
         } else {
           showEmbed(state, true);
         }
-
-        c.broadcast('beacon.trackUserAction', 'api', 'activate');
       }
     }
   });
@@ -280,7 +282,6 @@ function init(embedsAccessible, params = {}) {
 
       if (!state[`${launcher}.userHidden`] &&
           !embedVisible(state) &&
-          !state['identify.pending'] &&
           !state['ipm.isVisible']) {
         c.broadcast(`${launcher}.show`);
       }
@@ -311,7 +312,6 @@ function init(embedsAccessible, params = {}) {
 
       setTimeout(() => {
         if (!state[`${launcher}.userHidden`] &&
-            !state['identify.pending'] &&
             !state['ipm.isVisible'] &&
             embedAvailable()) {
           c.broadcast(`${launcher}.show`);
@@ -410,22 +410,16 @@ function init(embedsAccessible, params = {}) {
     // Because zopim can open in a new tab, we need to make sure we don't make a call to `setScrollKiller`.
     // If we do the host page will be frozen when the user exits the zopim chat tab.
     // Note: `showEmbed` will invoke `setScrollKiller`.
-    if (state.activeEmbed === chat && isMobileBrowser()) {
-      c.broadcast(`${chat}.show`);
-    } else if (chatAvailable() && state[`${chat}.unreadMsgs`]) {
+    if (chatAvailable() && state[`${chat}.unreadMsgs`]) {
       state[`${chat}.unreadMsgs`] = 0;
-      state.activeEmbed = chat;
-      c.broadcast(`${chat}.show`);
-    } else {
-      c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
-
-      /**
-       * This timeout mitigates the Ghost Click produced when the launcher
-       * button is on the left, using a mobile device with small screen
-       * e.g. iPhone4. It's not a bulletproof solution, but it helps
-       */
-      setTimeout(() => showEmbed(state), 0);
     }
+
+    /**
+     * This timeout mitigates the Ghost Click produced when the launcher
+     * button is on the left, using a mobile device with small screen
+     * e.g. iPhone4. It's not a bulletproof solution, but it helps
+     */
+    setTimeout(() => showEmbed(state), 0);
   });
 
   c.intercept(`${helpCenter}.onClose`, (_broadcast) => {
@@ -571,7 +565,6 @@ function init(embedsAccessible, params = {}) {
 function initMessaging() {
   c.intercept('.onIdentify', (__, params) => {
     if (emailValid(params.email)) {
-      state['identify.pending'] = true;
       c.broadcast('ipm.identifying', params);
       c.broadcast('beacon.identify', params);
       c.broadcast(`${submitTicket}.prefill`, params);
@@ -584,12 +577,6 @@ function initMessaging() {
         c.broadcast(`${submitTicket}.prefill`, { name: params.name });
       }
     }
-  });
-
-  c.intercept('identify.onSuccess', (__, params) => {
-    state['identify.pending'] = false;
-
-    c.broadcast('ipm.setIpm', params);
   });
 
   c.intercept('authentication.onSuccess', () => {
@@ -612,7 +599,7 @@ function initMessaging() {
     let retries = 0;
 
     const fn = () => {
-      if (!state['identify.pending'] && !embedVisible(state)) {
+      if (!embedVisible(state)) {
         c.broadcast('ipm.activate');
       } else if (retries < maxRetries) {
         retries++;

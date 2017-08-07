@@ -13,7 +13,8 @@ const defaultPayload = {
   path: '',
   callbacks: {
     done: () => {},
-    fail: () => {}
+    fail: () => {},
+    always: () => {}
   }
 };
 
@@ -97,6 +98,9 @@ function send(payload, addType = true) {
           payload.callbacks.done(res);
         }
       }
+      if (_.isFunction(payload.callbacks.always)) {
+        payload.callbacks.always();
+      }
     }
   });
 }
@@ -116,7 +120,9 @@ function sendWithMeta(payload, useBase64 = true) {
 
   if (useBase64) {
     payload.query = { data: base64encode(JSON.stringify(payload.params)) };
-    send(_.pick(payload, ['method', 'path', 'query']), false);
+    const base64Payload = _.pick(payload, ['method', 'path', 'query', 'callbacks']);
+
+    send(base64Payload, false);
   } else {
     send(payload);
   }

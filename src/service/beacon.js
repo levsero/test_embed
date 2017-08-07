@@ -154,11 +154,6 @@ function identify(user) {
     params:  {
       user: { ...user, localeId: i18n.getLocaleId() },
       userAgent: navigator.userAgent
-    },
-    callbacks: {
-      done: (res) => {
-        mediator.channel.broadcast('identify.onSuccess', res.body);
-      }
     }
   };
 

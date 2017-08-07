@@ -336,36 +336,6 @@ describe('mediator', () => {
     });
   });
 
-  describe('identify.onSuccess', () => {
-    describe('ipm', () => {
-      const ipm = 'ipm';
-      const names = {
-        ipm: ipm
-      };
-
-      it('should broadcast ipm.setIpm with params', () => {
-        initSubscriptionSpies(names);
-        mediator.init({ submitTicket: true, helpCenter: false });
-
-        const response = {
-          pendingCampaign: {
-            id: 199
-          }
-        };
-
-        c.broadcast('identify.onSuccess', response);
-
-        expect(ipmSub.setIpm)
-          .toHaveBeenCalled();
-
-        const params = ipmSub.setIpm.calls.mostRecent().args[0];
-
-        expect(params.pendingCampaign.id)
-          .toEqual(199);
-      });
-    });
-  });
-
  /* ****************************************** *
   *                 AUTHENTICATE               *
   * ****************************************** */
@@ -563,37 +533,11 @@ describe('mediator', () => {
     });
 
     describe('.onActivate', () => {
-      it('should broadcast ipm.activate if identify.pending is false', () => {
-        c.broadcast('identify.onSuccess', {});
-
-        reset(ipmSub.activate);
-
-        jasmine.clock().install();
-        c.broadcast('ipm.onActivate');
-        jasmine.clock().tick(2000);
-
-        expect(ipmSub.activate)
-          .toHaveBeenCalled();
-      });
-
-      it('should not broadcast ipm.activate if identify.pending is true', () => {
-        c.broadcast('.onIdentify', {});
-
-        reset(ipmSub.activate);
-
-        jasmine.clock().install();
-        c.broadcast('ipm.onActivate');
-        jasmine.clock().tick(2000);
-
-        expect(ipmSub.activate)
-          .not.toHaveBeenCalled();
-      });
-
       it('should not broadcast ipm.activate if an embed is visible', () => {
         c.broadcast('.onIdentify', {});
 
-        // identify success, identify.pending => false
-        c.broadcast('identify.onSuccess', {});
+        // identify success
+        c.broadcast('identify.onComplete', {});
 
         // open helpCenter embed
         jasmine.clock().install();
@@ -612,8 +556,8 @@ describe('mediator', () => {
       it('should broadcast ipm.activate if an embed is not visible', () => {
         c.broadcast('.onIdentify', {});
 
-        // identify success, identify.pending => false
-        c.broadcast('identify.onSuccess', {});
+        // identify success
+        c.broadcast('identify.onComplete', {});
 
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
@@ -627,32 +571,6 @@ describe('mediator', () => {
 
         expect(ipmSub.activate)
           .toHaveBeenCalled();
-      });
-
-      it('should not broadcast ipm.activate if an embed was activated while identify.pending', () => {
-        c.broadcast('.onIdentify', {});
-
-        // identify still in-flight
-        jasmine.clock().install();
-        c.broadcast('ipm.onActivate');
-
-        expect(ipmSub.activate)
-          .not.toHaveBeenCalled();
-
-        jasmine.clock().tick(1000);
-
-        // embed visible while identify still inflight
-        c.broadcast(`${launcher}.onClick`);
-
-        jasmine.clock().tick(1000);
-
-        // identify completed
-        c.broadcast('identify.onSuccess', {});
-
-        jasmine.clock().tick(1000);
-
-        expect(ipmSub.activate)
-          .not.toHaveBeenCalled();
       });
     });
 
@@ -764,12 +682,15 @@ describe('mediator', () => {
       describe('when onClick is called', () => {
         beforeEach(() => {
           launcherSub.hide.calls.reset();
+          jasmine.clock().install();
         });
 
         describe('when position is top', () => {
           it('calls hide with `upHide` transition', () => {
             mockPositionValue.vertical = 'top';
             c.broadcast(`${launcher}.onClick`);
+
+            jasmine.clock().tick(0);
 
             const calls = launcherSub.hide.calls;
 
@@ -786,6 +707,8 @@ describe('mediator', () => {
             mockPositionValue.vertical = 'bottom';
             c.broadcast(`${launcher}.onClick`);
 
+            jasmine.clock().tick(0);
+
             const calls = launcherSub.hide.calls;
 
             expect(calls.mostRecent().args[0])
@@ -801,7 +724,11 @@ describe('mediator', () => {
         mockRegistry['utility/devices'].isMobileBrowser
           .and.returnValue(true);
 
+        jasmine.clock().install();
+
         c.broadcast(`${launcher}.onClick`);
+
+        jasmine.clock().tick(0);
 
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
@@ -1867,6 +1794,24 @@ describe('mediator', () => {
                 .toBe(1);
             });
           });
+
+          describe('when it is mobile and time to connect is not too long', () => {
+            beforeEach(() => {
+              mockRegistry['utility/devices'].isMobileBrowser
+                .and.returnValue(true);
+
+              c.broadcast('.activate');
+              jasmine.clock().tick(1000);
+
+              c.broadcast(`${chat}.onOnline`);
+              jasmine.clock().tick(2000);
+            });
+
+            it('shows launcher', () => {
+              expect(launcherSub.show.calls.count())
+                .toBe(1);
+            });
+          });
         });
       });
     });
@@ -2729,32 +2674,12 @@ describe('mediator', () => {
       initSubscriptionSpies(names);
       mediator.init({ submitTicket: true, helpCenter: false });
       beaconSub.trackUserAction.calls.reset();
+      c.broadcast('.activate');
     });
 
-    describe('when no embed is visible', () => {
-      beforeEach(() => {
-        c.broadcast('.activate');
-      });
-
-      it('should send an activate blip', () => {
-        expect(beaconSub.trackUserAction)
-          .toHaveBeenCalledWith('api', 'activate');
-      });
-    });
-
-    describe('when an embed is visible', () => {
-      beforeEach(() => {
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(0);
-
-        c.broadcast('.activate');
-      });
-
-      it('should not send an activate blip', () => {
-        expect(beaconSub.trackUserAction)
-          .not.toHaveBeenCalled();
-      });
+    it('should send an activate blip', () => {
+      expect(beaconSub.trackUserAction)
+        .toHaveBeenCalledWith('api', 'activate');
     });
   });
 });
