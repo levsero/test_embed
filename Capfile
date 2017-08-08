@@ -18,10 +18,8 @@ set :framework_files,    ['main.js',
                           'web_widget.js',
                           'manifest.json',
                           'bootstrap.js']
-
-set :s3_release_directory_ac, ''
-set :s3_bucket_name_ac, ''
 set :framework_files_ac, ['web_widget.js', 'manifest.json']
+
 
 set :branch, ENV['REVISION'] || 'master'
 
@@ -38,6 +36,12 @@ set :aws_credentials, Aws::Credentials.new(ENV['AWS_RW_ACCESS_KEY'], ENV['AWS_RW
 set :aws_region, 'us-east-1'
 set :s3_bucket_name, 'zendesk-embeddable-framework'
 set :s3_release_directory, "releases/#{(fetch(:tag) || fetch(:build_version))}"
+
+set :aws_credentials_ac, nil
+set :aws_region_ac, 'us-east-1'
+set :s3_release_directory_ac, ''
+set :s3_bucket_name_ac, ''
+
 
 def sh(command)
   logger.trace "executing locally: #{command.inspect}" if logger
@@ -89,8 +93,8 @@ namespace :embeddable_framework do
   desc 'Release to Amazon S3 for asset composer'
   task :release_to_s3_ac do
     credentials = {
-      region: fetch(:aws_region),
-      credentials: fetch(:aws_credentials)
+      region: fetch(:aws_region_ac),
+      credentials: fetch(:aws_credentials_ac)
     }
     bucket_name = fetch(:s3_bucket_name_ac)
     release_directory = fetch(:s3_release_directory_ac)
