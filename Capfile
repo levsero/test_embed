@@ -2,6 +2,7 @@
 
 require 'zendesk/deployment'
 require 'zendesk/deployment/tasks/environment_selector'
+require './deploy/s3_deployer'
 
 require 'aws-sdk'
 require 'yaml'
@@ -43,26 +44,6 @@ def sh(command)
   result = `#{command}`
   abort "COMMAND FAILED #{command}\n#{result}" unless $CHILD_STATUS.success?
   result
-end
-
-def update_s3_config(region, credentials)
-  Aws.config.update(region: region, credentials: credentials)
-end
-
-def s3_bucket(name)
-  Aws::S3::Resource.new.bucket(name)
-end
-
-def release_to_s3(bucket, release_directory, files)
-  bucket.put_object(key: "#{release_directory}/", server_side_encryption: 'AES256')
-  files.each do |file|
-    logger.info "put_object #{release_directory}/#{file}"
-    bucket.put_object(key: "#{release_directory}/#{file}", server_side_encryption: 'AES256')
-
-    logger.info "upload_file dist/#{file}"
-    bucket.object("#{release_directory}/#{file}")
-      .upload_file("dist/#{file}", server_side_encryption: 'AES256')
-  end
 end
 
 namespace :embeddable_framework do
@@ -107,10 +88,16 @@ namespace :embeddable_framework do
 
   desc 'Release to Amazon S3 for asset composer'
   task :release_to_s3_ac do
-    update_s3_config(fetch(:aws_region), fetch(:aws_credentials))
+    credentials = {
+      region: fetch(:aws_region),
+      credentials: fetch(:aws_credentials)
+    }
+    bucket_name = fetch(:s3_bucket_name_ac)
+    release_directory = fetch(:s3_release_directory_ac)
+    files = fetch(:framework_files_ac)
 
-    bucket = s3_bucket(fetch(:s3_bucket_name_ac))
-    release_to_s3(bucket, fetch(:s3_release_directory_ac), fetch(:framework_files_ac))
+    deployer = S3Deployer.new(credentials, bucket_name, logger)
+    deployer.deploy('dist', release_directory, files)
   end
 
   desc 'Deploy from Amazon S3'
