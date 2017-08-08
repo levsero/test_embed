@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import accountSettings from './chat-account-settings';
+import accountSettings from './account-settings/';
 import accountStatus from './chat-account-status';
 import agents from './chat-agents';
 import chats from './chat-chats';

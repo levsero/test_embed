@@ -21,6 +21,11 @@ describe('chat root reducer', () => {
       state = reducer({}, { type: '' });
     });
 
+    it('has the accountSettings sub state', () => {
+      expect(state.accountSettings)
+        .toBeDefined();
+    });
+
     it('has the account_status sub state', () => {
       expect(state.account_status)
         .toBeDefined();

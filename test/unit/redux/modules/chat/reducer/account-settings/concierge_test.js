@@ -1,4 +1,4 @@
-describe('chat reducer accountSettings', () => {
+describe('chat reducer accountSettings concierge', () => {
   let reducer,
     actionTypes,
     initialState;
@@ -6,7 +6,7 @@ describe('chat reducer accountSettings', () => {
   beforeAll(() => {
     mockery.enable();
 
-    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-account-settings');
+    const reducerPath = buildSrcPath('redux/modules/chat/reducer/account-settings/concierge');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
 
     reducer = requireUncached(reducerPath).default;
@@ -24,9 +24,19 @@ describe('chat reducer accountSettings', () => {
     let state;
 
     describe('initial state', () => {
-      it('is set to an empty object', () => {
-        expect(initialState)
-          .toEqual({});
+      it('avatar_path is set to an empty string', () => {
+        expect(initialState.avatar_path)
+          .toEqual('');
+      });
+
+      it('display_name is set to an empty string', () => {
+        expect(initialState.display_name)
+          .toEqual('');
+      });
+
+      it('title is set to an empty string', () => {
+        expect(initialState.title)
+          .toEqual('');
       });
     });
 
@@ -34,7 +44,13 @@ describe('chat reducer accountSettings', () => {
       let settings;
 
       beforeEach(() => {
-        settings = { foo: 'bar' };
+        settings = {
+          concierge: {
+            avatar_path: 'r.m',
+            display_name: 'Rick',
+            title: 'Rickiest Rick'
+          }
+        };
 
         state = reducer(initialState, {
           type: actionTypes.UPDATE_ACCOUNT_SETTINGS,
@@ -44,7 +60,7 @@ describe('chat reducer accountSettings', () => {
 
       it('sets the action payload as the state', () => {
         expect(state)
-          .toEqual(settings);
+          .toEqual(settings.concierge);
       });
     });
   });
