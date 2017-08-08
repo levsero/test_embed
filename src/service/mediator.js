@@ -285,6 +285,9 @@ function init(embedsAccessible, params = {}) {
 
     if (state['.activatePending']) {
       showEmbed(state, true);
+      if (isMobileBrowser()) {
+        c.broadcast(`${launcher}.show`);
+      }
     } else if (!state[`${launcher}.userHidden`]) {
       c.broadcast(`${launcher}.show`);
     }
