@@ -70,11 +70,6 @@ class Chat extends Component {
     this.scrollContainer = null;
   }
 
-  componentDidMount = () => {
-    // populates agentSettings with the defaults for the account
-    this.props.updateAccountSettings();
-  }
-
   componentWillReceiveProps = (nextProps) => {
     const { chat } = this.props;
 
