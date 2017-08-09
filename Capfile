@@ -2,7 +2,6 @@
 
 require 'zendesk/deployment'
 require 'zendesk/deployment/tasks/environment_selector'
-require './deploy/s3_deployer'
 
 require 'aws-sdk'
 require 'yaml'
@@ -18,8 +17,6 @@ set :framework_files,    ['main.js',
                           'web_widget.js',
                           'manifest.json',
                           'bootstrap.js']
-set :framework_files_ac, ['web_widget.js', 'manifest.json']
-
 
 set :branch, ENV['REVISION'] || 'master'
 
@@ -36,12 +33,6 @@ set :aws_credentials, Aws::Credentials.new(ENV['AWS_RW_ACCESS_KEY'], ENV['AWS_RW
 set :aws_region, 'us-east-1'
 set :s3_bucket_name, 'zendesk-embeddable-framework'
 set :s3_release_directory, "releases/#{(fetch(:tag) || fetch(:build_version))}"
-
-set :aws_credentials_ac, nil
-set :aws_region_ac, 'us-east-1'
-set :s3_release_directory_ac, ''
-set :s3_bucket_name_ac, ''
-
 
 def sh(command)
   logger.trace "executing locally: #{command.inspect}" if logger
@@ -88,20 +79,6 @@ namespace :embeddable_framework do
       bucket.object("#{s3_release_directory}/#{file}")
         .upload_file("dist/#{file}", server_side_encryption: 'AES256')
     end
-  end
-
-  desc 'Release to Amazon S3 for asset composer'
-  task :release_to_s3_ac do
-    credentials = {
-      region: fetch(:aws_region_ac),
-      credentials: fetch(:aws_credentials_ac)
-    }
-    bucket_name = fetch(:s3_bucket_name_ac)
-    release_directory = fetch(:s3_release_directory_ac)
-    files = fetch(:framework_files_ac)
-
-    deployer = S3Deployer.new(credentials, bucket_name, logger)
-    deployer.deploy('dist', release_directory, files)
   end
 
   desc 'Deploy from Amazon S3'
@@ -197,6 +174,8 @@ namespace :deploy do
     end
   end
 end
+
+load 'config/deploy/deploy_ac'
 
 before 'embeddable_framework:deploy', 'deploy:setup'
 before 'embeddable_framework:deploy', 'deploy:verify_local_git_status'

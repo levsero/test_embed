@@ -7,7 +7,7 @@ class S3Deployer
     @logger = logger
   end
 
-  def deploy(local_directory, remote_directory, files)
+  def upload_files(local_directory, remote_directory, files)
     put_object("#{remote_directory}/")
 
     files.each do |file|
