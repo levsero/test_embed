@@ -701,6 +701,7 @@ describe('WebWidget component', () => {
             <WebWidget
               activeEmbed=''
               chat={{ account_status: 'offline' }} // eslint-disable-line camelcase
+              updateBackButtonVisibility={updateBackButtonVisibilitySpy}
               updateActiveEmbed={updateActiveEmbedSpy} />
           );
 
@@ -711,6 +712,30 @@ describe('WebWidget component', () => {
         it('calls updateActiveEmbed with submit ticket', () => {
           expect(updateActiveEmbedSpy)
             .toHaveBeenCalledWith('ticketSubmissionForm');
+        });
+
+        describe('when shouldShowTicketFormBackButton is false', () => {
+          beforeEach(() => {
+            spyOn(webWidget, 'shouldShowTicketFormBackButton').and.returnValue(false);
+            webWidget.resetActiveEmbed();
+          });
+
+          it('does not show the back button', () => {
+            expect(updateBackButtonVisibilitySpy)
+              .toHaveBeenCalledWith(false);
+          });
+        });
+
+        describe('when shouldShowTicketFormBackButton is true', () => {
+          beforeEach(() => {
+            spyOn(webWidget, 'shouldShowTicketFormBackButton').and.returnValue(true);
+            webWidget.resetActiveEmbed();
+          });
+
+          it('shows the back button', () => {
+            expect(updateBackButtonVisibilitySpy)
+              .toHaveBeenCalledWith(true);
+          });
         });
       });
     });

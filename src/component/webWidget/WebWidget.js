@@ -132,6 +132,12 @@ class WebWidget extends Component {
 
   articleViewActive = () => _.get(this.getHelpCenterComponent(), 'state.articleViewActive', false);
 
+  shouldShowTicketFormBackButton = () => {
+    const { selectedTicketForm, ticketForms } = this.getSubmitTicketComponent().state;
+
+    return selectedTicketForm && _.size(ticketForms.ticket_forms) > 1;
+  }
+
   isHelpCenterAvailable = () => {
     const { helpCenterAvailable, helpCenterConfig, authenticated, isOnHelpCenterPage } = this.props;
     const signInRequired = _.get(helpCenterConfig, 'signInRequired', false);
@@ -175,6 +181,7 @@ class WebWidget extends Component {
       this.showChat();
     } else {
       updateActiveEmbed(submitTicket);
+      backButton = this.shouldShowTicketFormBackButton();
     }
 
     updateBackButtonVisibility(backButton);
@@ -237,12 +244,11 @@ class WebWidget extends Component {
     const rootComponent = this.getRootComponent();
     const { activeEmbed, updateBackButtonVisibility, updateActiveEmbed } = this.props;
     const helpCenterAvailable = this.isHelpCenterAvailable();
-    const { selectedTicketForm, ticketForms } = this.getSubmitTicketComponent().state;
 
     if (activeEmbed === helpCenter) {
       rootComponent.setArticleView(false);
       updateBackButtonVisibility(false);
-    } else if (selectedTicketForm && _.size(ticketForms.ticket_forms) > 1) {
+    } else if (this.shouldShowTicketFormBackButton()) {
       rootComponent.clearForm();
       updateBackButtonVisibility(helpCenterAvailable || this.props.channelChoice);
     } else if (helpCenterAvailable) {
