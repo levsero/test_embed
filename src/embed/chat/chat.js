@@ -148,22 +148,12 @@ function init(name) {
     }
   };
 
-  const broadcastStatus = () => {
-    if (chat.online && chat.connected) {
-      mediator.channel.broadcast(`${name}.onOnline`);
-    } else {
-      mediator.channel.broadcast(`${name}.onOffline`);
-    }
-  };
   const onStatus = (status) => {
-    chat.online = (status !== 'offline');
-    broadcastStatus();
-
-    overwriteZopimApi();
-  };
-  const onConnect = () => {
-    chat.connected = true;
-    broadcastStatus();
+    if (status === 'offline') {
+      mediator.channel.broadcast(`${name}.onOffline`);
+    } else {
+      mediator.channel.broadcast(`${name}.onOnline`);
+    }
   };
   const onUnreadMsgs = (unreadMessageCount) => {
     mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount);
@@ -175,9 +165,10 @@ function init(name) {
     mediator.channel.broadcast(`${name}.onHide`);
     win.$zopim(() => win.$zopim.livechat.hideAll());
   };
-
-  chat.online = false;
-  chat.connected = false;
+  const onConnected = () => {
+    mediator.channel.broadcast(`${name}.onConnected`);
+    overwriteZopimApi();
+  };
 
   zopim.onError = () => mediator.channel.broadcast(`${name}.onError`);
 
@@ -196,7 +187,7 @@ function init(name) {
 
     zopimWin.onHide(onHide);
     zopimLive.setLanguage(i18n.getLocale());
-    zopimLive.setOnConnected(onConnect);
+    zopimLive.setOnConnected(onConnected);
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
     zopimLive.setOnChatEnd(onChatEnd);

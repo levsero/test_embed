@@ -933,6 +933,7 @@ describe('mediator', () => {
 
       it('shows unread messages on launcher.show if chat is online with unread messages', () => {
         c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
         reset(launcherSub.setLabelUnreadMsgs);
 
@@ -1000,6 +1001,7 @@ describe('mediator', () => {
 
       it('launches chat if chat is online and there are unread messages', () => {
         c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
         c.broadcast(`${launcher}.onClick`);
 
         // help center is open at this point
@@ -1024,6 +1026,7 @@ describe('mediator', () => {
 
       it('launches help center if chat is offline and there are unread messages', () => {
         c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onHide`);
 
@@ -1547,8 +1550,8 @@ describe('mediator', () => {
       });
 
       it('should hide the launcher if chat goes offline', () => {
-        c.broadcast(`${chat}.onOffline`);
         c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
 
         expect(launcherSub.show.calls.count())
           .toEqual(1);
@@ -1568,6 +1571,7 @@ describe('mediator', () => {
 
       it('updates launcher with unread message count if chat is online', () => {
         c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
         c.broadcast(`${chat}.onUnreadMsgs`, 5);
 
         expect(launcherSub.setLabelUnreadMsgs.calls.count())
@@ -1578,6 +1582,7 @@ describe('mediator', () => {
 
       it('resets launcher label to Chat when unread message count is 0', () => {
         c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
         c.broadcast(`${chat}.onUnreadMsgs`, 5);
 
         reset(launcherSub.setLabelUnreadMsgs);
@@ -1592,7 +1597,7 @@ describe('mediator', () => {
       });
 
       it('hides the launcher when chat pops open from proactive chat', () => {
-        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
 
         expect(launcherSub.hide.calls.count())
@@ -1601,6 +1606,7 @@ describe('mediator', () => {
 
       it('doesn\'t close when chat is ended', () => {
         c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
         c.broadcast(`${launcher}.onClick`);
 
         reset(chatSub.hide);
@@ -1617,6 +1623,7 @@ describe('mediator', () => {
 
       it('pops open proactive chat if user has not closed chat before', () => {
         c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
 
         expect(launcherSub.hide.calls.count())
@@ -1636,6 +1643,7 @@ describe('mediator', () => {
 
       it('does not pop open chat if user has closed chat', () => {
         c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
 
         // chat is open at this point
@@ -1652,6 +1660,7 @@ describe('mediator', () => {
 
       it('pops open proactive chat after chat ends and user closes it', () => {
         c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
 
         // chat is open at this point
@@ -1675,6 +1684,7 @@ describe('mediator', () => {
         // ticket submission is open at this point
 
         c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
 
         reset(chatSub.show);
 
@@ -1703,6 +1713,7 @@ describe('mediator', () => {
 
       it('shows after activate is called and chat is online', () => {
         c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
 
         c.broadcast('.hide');
 
@@ -1718,6 +1729,7 @@ describe('mediator', () => {
         mediator.init({ submitTicket: false, helpCenter: false });
 
         c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
 
         c.broadcast('.hide');
 
@@ -1763,52 +1775,28 @@ describe('mediator', () => {
             jasmine.clock().install();
           });
 
-          describe('when time to connect is too long', () => {
+          describe('when chat is offline', () => {
             beforeEach(() => {
               c.broadcast('.activate');
-              jasmine.clock().tick(3000);
+              c.broadcast(`${chat}.onOffline`);
+              c.broadcast(`${chat}.onConnected`);
             });
 
-            it('should show contact form', () => {
+            it('shows contact form when chat connects', () => {
               expect(submitTicketSub.show.calls.count())
                 .toBe(1);
             });
           });
 
-          describe('when time to connect is not too long', () => {
+          describe('when chat is online', () => {
             beforeEach(() => {
               c.broadcast('.activate');
-              jasmine.clock().tick(1000);
-
               c.broadcast(`${chat}.onOnline`);
-              jasmine.clock().tick(2000);
+              c.broadcast(`${chat}.onConnected`);
             });
 
-            it('should not show contact form', () => {
-              expect(submitTicketSub.show.calls.count())
-                .toBe(0);
-            });
-
-            it('should show chat', () => {
+            it('shows chat when chat connects', () => {
               expect(chatSub.show.calls.count())
-                .toBe(1);
-            });
-          });
-
-          describe('when it is mobile and time to connect is not too long', () => {
-            beforeEach(() => {
-              mockRegistry['utility/devices'].isMobileBrowser
-                .and.returnValue(true);
-
-              c.broadcast('.activate');
-              jasmine.clock().tick(1000);
-
-              c.broadcast(`${chat}.onOnline`);
-              jasmine.clock().tick(2000);
-            });
-
-            it('shows launcher', () => {
-              expect(launcherSub.show.calls.count())
                 .toBe(1);
             });
           });
@@ -1823,6 +1811,7 @@ describe('mediator', () => {
 
       it('resets launcher label to ChatHelp when unread message count is 0', () => {
         c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
         c.broadcast(`${chat}.onUnreadMsgs`, 5);
 
         reset(launcherSub.setLabelUnreadMsgs);
@@ -1890,6 +1879,7 @@ describe('mediator', () => {
 
       it('pops open proactive chat after chat ends and user closes it', () => {
         c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
 
         // chat is open at this point
@@ -1907,6 +1897,7 @@ describe('mediator', () => {
 
       it('does not pop open if help center embed is visible', () => {
         c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
 
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
@@ -2260,7 +2251,7 @@ describe('mediator', () => {
     });
 
     it('broadcasts webWidget.zopimChatStarted when zopimChat.onUnreadMsg is recieved', () => {
-      c.broadcast('zopimChat.onOnline');
+      c.broadcast('zopimChat.onConnected');
       c.broadcast('zopimChat.onUnreadMsgs', 1);
 
       expect(webWidgetSub.zopimChatStarted)
@@ -2365,8 +2356,8 @@ describe('mediator', () => {
         });
 
         it('should hide the launcher if chat goes offline', () => {
-          c.broadcast(`${chat}.onOffline`);
           c.broadcast(`${chat}.onOnline`);
+          c.broadcast(`${chat}.onConnected`);
 
           expect(launcherSub.show.calls.count())
             .toEqual(1);
@@ -2462,6 +2453,7 @@ describe('mediator', () => {
 
       describe('there is a proactive chat', () => {
         it('should disable suppression', () => {
+          c.broadcast(`${chat}.onConnected`);
           c.broadcast(`${chat}.onUnreadMsgs`, 1);
 
           reset(chatSub.show);
@@ -2565,18 +2557,8 @@ describe('mediator', () => {
           mediator.init({ submitTicket: true, helpCenter: false });
         });
 
-        it('shows launcher when chat is online', () => {
-          c.broadcast(`${chat}.onOnline`);
-
-          expect(launcherSub.show.calls.count())
-            .toEqual(1);
-        });
-
-        it('shows launcher after 3000ms if chat is offline', () => {
-          jasmine.clock().install();
-          c.broadcast(`${chat}.onOnline`);
-          c.broadcast(`${chat}.onOffline`);
-          jasmine.clock().tick(3000);
+        it('shows launcher when chat is connected', () => {
+          c.broadcast(`${chat}.onConnected`);
 
           expect(launcherSub.show.calls.count())
             .toEqual(1);
@@ -2589,16 +2571,7 @@ describe('mediator', () => {
         });
 
         it('does not show launcher when chat is online', () => {
-          c.broadcast(`${chat}.onOnline`);
-
-          expect(launcherSub.show.calls.count())
-            .toEqual(0);
-        });
-
-        it('does not show launcher after 3000ms when chat is offline', () => {
-          jasmine.clock().install();
-          c.broadcast(`${chat}.onOffline`);
-          jasmine.clock().tick(3000);
+          c.broadcast(`${chat}.onConnected`);
 
           expect(launcherSub.show.calls.count())
             .toEqual(0);
