@@ -6,7 +6,16 @@ set :aws_region, 'us-east-1'
 set :s3_release_directory, ''
 set :s3_bucket_name, ''
 
-namespace :embeddable_framework do
+namespace :embeddable_framework_ac do
+  desc 'Build framework ac assets'
+  task :build_assets do
+    logger.info 'Building ac assets'
+
+    sh 'npm set progress=false && npm install'
+    sh 'script/fetch_i18n'
+    sh 'npm run build-ac'
+  end
+
   desc 'Release to Amazon S3 for asset composer'
   task :release_to_s3 do
     credentials = {
@@ -21,3 +30,6 @@ namespace :embeddable_framework do
     deployer.upload_files('dist', release_directory, files)
   end
 end
+
+before 'embeddable_framework_ac:release_to_s3', 'deploy:verify_local_git_status'
+before 'embeddable_framework_ac:release_to_s3', 'embeddable_framework_ac:build_assets'
