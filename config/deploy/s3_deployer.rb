@@ -1,8 +1,13 @@
-class S3Deployer
-  ENCRYPTION_TYPE = 'AES265'.freeze
+require 'aws-sdk'
 
-  def initalize(credentials, bucket_name, logger)
-    Aws.config.update(credentials[:region], credentials[:credentials])
+class S3Deployer
+  ENCRYPTION_TYPE = 'AES256'.freeze
+
+  def initialize(credentials, bucket_name, logger)
+    Aws.config.update(
+      region: credentials[:region],
+      credentials: credentials[:credentials]
+    )
     @bucket_name = bucket_name
     @logger = logger
   end
