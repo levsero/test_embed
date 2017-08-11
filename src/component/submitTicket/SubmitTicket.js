@@ -177,6 +177,12 @@ export class SubmitTicket extends Component {
   }
 
   formatRequestTicketData = (data) => {
+    const formatNameFromEmail = (email) => {
+      const localPart = email.split('@', 2)[0];
+      const newName = localPart.split(/[._]/);
+
+      return _.map(newName, _.capitalize).join(' ');
+    };
     const ticketFormsAvailable = !!this.state.ticketForms.ticket_forms;
     const submittedFrom = i18n.t(
       'embeddable_framework.submitTicket.form.submittedFrom.label',
@@ -198,6 +204,7 @@ export class SubmitTicket extends Component {
     const subject = (this.props.subjectEnabled || ticketFormsAvailable) && !_.isEmpty(subjectData)
                   ? subjectData
                   : (descriptionData.length <= 50) ? descriptionData : `${descriptionData.slice(0,50)}...`;
+    const name = data.value.name ? data.value.name : formatNameFromEmail(data.value.email);
     const params = {
       'subject': subject,
       'tags': ['web_widget'].concat(this.props.tags),
@@ -207,7 +214,7 @@ export class SubmitTicket extends Component {
         'uploads': uploads
       },
       'requester': {
-        'name': data.value.name,
+        'name': name,
         'email': data.value.email,
         'locale_id': i18n.getLocaleId()
       },
