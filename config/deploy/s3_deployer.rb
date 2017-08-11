@@ -33,12 +33,12 @@ class S3Deployer
   attr_reader :logger
 
   def put_object(key)
-    logger.info "put_object #{key}"
+    logger.info "put_object #{key} on #{bucket_name}"
     bucket.put_object(key: key, server_side_encryption: ENCRYPTION_TYPE)
   end
 
   def upload_file(object_key, file)
-    logger.info "upload_file #{file}"
+    logger.info "upload_file #{file} to #{object_key} on #{bucket_name}"
     bucket.object(object_key)
       .upload_file(file, server_side_encryption: ENCRYPTION_TYPE)
   end
