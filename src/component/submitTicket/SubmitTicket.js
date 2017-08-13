@@ -396,9 +396,9 @@ export class SubmitTicket extends Component {
     const { ticketForms, fullscreen } = this.state;
     const mobileClasses = fullscreen ? styles.ticketFormsListMobile : '';
 
-    return _.map(ticketForms.ticket_forms, (form) => {
+    return _.map(ticketForms.ticket_forms, (form, key) => {
       return (
-        <div data-id={form.id} className={`${styles.ticketFormsList} u-userTextColor ${mobileClasses}`}>
+        <div key={key} data-id={form.id} className={`${styles.ticketFormsList} u-userTextColor ${mobileClasses}`}>
           {form.display_name}
         </div>
       );
