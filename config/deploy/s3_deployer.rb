@@ -29,8 +29,7 @@ class S3Deployer
 
   private
 
-  attr_reader :bucket_name
-  attr_reader :logger
+  attr_reader :bucket_name, :logger
 
   def put_object(key)
     logger.info "put_object #{key} on #{bucket_name}"
