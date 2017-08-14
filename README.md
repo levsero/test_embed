@@ -41,7 +41,7 @@ The bootstrap file will do the following:
 * Set Node version
 * Install selenium-server globally
 * Run `npm install` to get all dependencies
-* Run `npm build:debug` to generate snippet, framework and example files
+* Run `npm run build` to generate snippet, framework and example files
 * Download rosetta translation into `src/translation/translation.json`
 * Download graphicsmagick, imagemagick & cairo using brew
 * Run npm install webdriverio & webdrivercss (these depend on the above)
@@ -109,10 +109,9 @@ See the **CSP.md** document for instructions on how to test CSP with the Web Wid
 
 ## NPM tasks
 
-Run each task like this: ```npm run taskname```
+Run each task like this: ```npm run <taskname>```
 
-* **build:debug** - Generates snippet, framework and example files in development mode. This means the final source and assets are not optimised and sourcemaps are generated for debugging.
 * **build** - Generates snippet and framework in production mode. This means the final source and assets are optimised and no sourcemaps are generated.
-* **watch** - Runs build:debug and launches a local server that automatically rebuilds the source and refreshes the browser on any changes. Navigate to http://localhost:1337/example/
+* **watch** - Runs webpack-dashboard and launches a local server that automatically rebuilds the source and refreshes the browser on any changes. Navigate to http://localhost:1337/webpack-dev-server
 * **test** - Runs all the jasmine unit tests.
 * **lint** - Runs eslint on the *src* and *test* directories.

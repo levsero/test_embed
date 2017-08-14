@@ -37,7 +37,7 @@ try() {
 }
 
 try "Installing npm packages" "npm install --quiet > /dev/null"
-try "Building Engagement Framework" "npm run build:debug > /dev/null"
+try "Building Engagement Framework" "npm run build"
 try "Downloading translations" "script/fetch_i18n"
 bold "Installing UI Regression Tooling"
 
