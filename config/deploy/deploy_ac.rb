@@ -1,11 +1,11 @@
 require_relative './s3_deployer'
 
 set :version, fetch(:branch) || fetch(:local_head_revision)
-set :framework_files, ['web_widget.js', 'manifest.json']
-set :aws_credentials, Aws::Credentials.new(ENV['AC_AWS_RW_ACCESS_KEY'], ENV['AC_AWS_RW_SECRET_KEY'])
-set :aws_region, ENV['AC_AWS_REGION']
-set :s3_release_directory, "web_widget/#{fetch(:version)}"
-set :s3_bucket_name, ENV['AC_AWS_BUCKET_NAME']
+set :framework_files_ac, ['web_widget.js', 'manifest.json']
+set :aws_credentials_ac, Aws::Credentials.new(ENV['AC_AWS_RW_ACCESS_KEY'], ENV['AC_AWS_RW_SECRET_KEY'])
+set :aws_region_ac, ENV['AC_AWS_REGION']
+set :s3_release_directory_ac, "web_widget/#{fetch(:version)}"
+set :s3_bucket_name_ac, ENV['AC_AWS_BUCKET_NAME']
 
 namespace :embeddable_framework_ac do
   desc 'Build framework ac assets'
@@ -20,12 +20,12 @@ namespace :embeddable_framework_ac do
   desc 'Release to Amazon S3 for asset composer'
   task :release_to_s3 do
     credentials = {
-      region: fetch(:aws_region),
-      credentials: fetch(:aws_credentials)
+      region: fetch(:aws_region_ac),
+      credentials: fetch(:aws_credentials_ac)
     }
-    bucket_name = fetch(:s3_bucket_name)
-    release_directory = fetch(:s3_release_directory)
-    files = fetch(:framework_files)
+    bucket_name = fetch(:s3_bucket_name_ac)
+    release_directory = fetch(:s3_release_directory_ac)
+    files = fetch(:framework_files_ac)
 
     deployer = S3Deployer.new(credentials, bucket_name, logger)
     deployer.upload_files('dist', release_directory, files)
