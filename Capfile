@@ -14,8 +14,6 @@ set :email_notification, ['deploys@zendesk.com',
 
 set :framework_files,    ['main.js',
                           'webWidgetPreview.js',
-                          'web_widget.js',
-                          'manifest.json',
                           'bootstrap.js']
 
 set :branch, ENV['REVISION'] || 'master'
@@ -175,7 +173,7 @@ namespace :deploy do
   end
 end
 
-load 'config/deploy/deploy_ac.rb'
+load 'config/deploy/ac_deploy.rb'
 
 before 'embeddable_framework:deploy', 'deploy:setup'
 before 'embeddable_framework:deploy', 'deploy:verify_local_git_status'
