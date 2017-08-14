@@ -175,6 +175,8 @@ namespace :deploy do
   end
 end
 
+load 'config/deploy/deploy_ac.rb'
+
 before 'embeddable_framework:deploy', 'deploy:setup'
 before 'embeddable_framework:deploy', 'deploy:verify_local_git_status'
 before 'embeddable_framework:deploy', 'embeddable_framework:build_assets'
