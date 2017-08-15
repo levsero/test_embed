@@ -48,6 +48,10 @@ var config = {
           'raw-loader',
           'svgo-loader?' + svgoConfig
         ]
+      },
+      {
+        test: /chat-web-sdk/,
+        use: ['source-map-loader']
       }
     ]
   },
