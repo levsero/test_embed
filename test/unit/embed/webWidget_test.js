@@ -109,7 +109,7 @@ describe('embed.webWidget', () => {
       'src/redux/modules/base': {
         updateZopimOnline: updateZopimOnlineSpy
       },
-      'vendor/web-sdk': {
+      'chat-web-sdk': {
         init: zChatInitSpy,
         getFirehose: () => {
           return {

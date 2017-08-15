@@ -28,7 +28,7 @@ import { cappedTimeoutCall,
 import { updateZopimOnline } from 'src/redux/modules/base';
 
 import WebWidget from 'component/webWidget/WebWidget';
-import zChat from 'vendor/web-sdk';
+import zChat from 'chat-web-sdk';
 
 const webWidgetCSS = `${require('./webWidget.scss')} ${webWidgetStyles}`;
 
