@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 group :deployment do
   gem 'aws-sdk'
-  gem "airbrake"
 end
 
 source 'https://gem.zdsys.com/gems/' do
