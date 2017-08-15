@@ -177,6 +177,13 @@ export class SubmitTicket extends Component {
   }
 
   formatRequestTicketData = (data) => {
+    const { name, email } = data.value;
+    const formatNameFromEmail = (email) => {
+      const localPart = email.split('@', 2)[0];
+      const newName = localPart.split(/[._]/);
+
+      return _.map(newName, _.capitalize).join(' ');
+    };
     const ticketFormsAvailable = !!this.state.ticketForms.ticket_forms;
     const submittedFrom = i18n.t(
       'embeddable_framework.submitTicket.form.submittedFrom.label',
@@ -207,8 +214,8 @@ export class SubmitTicket extends Component {
         'uploads': uploads
       },
       'requester': {
-        'name': data.value.name,
-        'email': data.value.email,
+        'name': name || formatNameFromEmail(email),
+        'email': email,
         'locale_id': i18n.getLocaleId()
       },
       'ticket_form_id': ticketFormsAvailable ? this.state.selectedTicketForm.id : null

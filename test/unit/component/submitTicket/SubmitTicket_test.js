@@ -290,6 +290,43 @@ describe('Submit ticket component', () => {
           });
       });
 
+      describe('when name field is empty', () => {
+        const values = [
+          {
+            email: 'harry.j.potter@hogwarts.com',
+            expected: 'Harry J Potter'
+          },
+          {
+            email: 'ron_b.weasley@hogwarts.com',
+            expected: 'Ron B Weasley'
+          },
+          {
+            email: 'hermione_granger@hogwarts.com',
+            expected: 'Hermione Granger'
+          },
+          {
+            email: 'dracomalfoy@hogwarts.com',
+            expected: 'Dracomalfoy'
+          }
+        ];
+
+        const testNames = (email, expected) => {
+          it(`formats the name correct based on the email ${email}`, () => {
+            mockValues.value.name = '';
+            mockValues.value.email = email;
+            submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
+            params = mockSubmitTicketSender.calls.mostRecent().args[0];
+
+            expect(params.request.requester.name)
+              .toEqual(expected);
+          });
+        };
+
+        _.forEach(values, (value) => {
+          testNames(value.email, value.expected);
+        });
+      });
+
       it('uses the description as the subject', () => {
         expect(params.request.subject)
           .toEqual(formParams.description);
