@@ -6,11 +6,9 @@ import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { frameFactory } from 'embed/frameFactory';
 import { i18n } from 'service/i18n';
 
-import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.sass';
-import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.sass';
-import ScrollContainerStyles from 'component/container/ScrollContainer.sass';
-
 import createStore from 'src/redux/createStore';
+
+import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles.js';
 
 const defaultOptions = {
   locale: 'en-US',
@@ -23,13 +21,6 @@ const defaultOptions = {
     marginRight: '16px'
   }
 };
-
-const submitTicketCSS = `
-  ${require('embed/submitTicket/submitTicket.scss')}
-  ${SubmitTicketStyles}
-  ${SubmitTicketFormStyles}
-  ${ScrollContainerStyles}
-`;
 
 const renderWebWidgetPreview = (options) => {
   options = _.defaultsDeep({}, options, defaultOptions);
@@ -48,7 +39,7 @@ const renderWebWidgetPreview = (options) => {
     width: frameStyle.width
   };
   const frameParams = {
-    css: submitTicketCSS,
+    css: `${require('embed/webWidget/webWidget.scss')} ${webWidgetStyles}`,
     name: 'webWidgetPreview',
     frameStyle,
     disableOffsetHorizontal: true,

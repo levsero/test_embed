@@ -2,10 +2,8 @@ import _ from 'lodash';
 
 import { automaticAnswers } from 'embed/automaticAnswers/automaticAnswers';
 import { chat } from 'embed/chat/chat';
-import { helpCenter } from 'embed/helpCenter/helpCenter';
 import { ipm } from 'embed/ipm/ipm';
 import { launcher } from 'embed/launcher/launcher';
-import { submitTicket } from 'embed/submitTicket/submitTicket';
 import { webWidget } from 'embed/webWidget/webWidget';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
@@ -20,8 +18,6 @@ import createStore from 'src/redux/createStore';
 const reduxStore = createStore();
 
 const embedsMap = {
-  'submitTicket': submitTicket,
-  'helpCenter': helpCenter,
   'ipm': ipm,
   'chat': chat,
   'automaticAnswers': automaticAnswers,
@@ -72,12 +68,12 @@ function init(config) {
     i18n.setCustomTranslations();
     i18n.setLocale(config.locale);
 
-    const { singleIframe, newChat, embeds = {} } = config;
+    const { newChat, embeds = {} } = config;
     const useNewChatEmbed = !!embeds.zopimChat && newChat;
     const hasSingleIframeEmbeds = !!embeds.ticketSubmissionForm || !!embeds.helpCenterForm || useNewChatEmbed;
     let parsedConfig = parseConfig(config);
 
-    if (singleIframe && hasSingleIframeEmbeds) {
+    if (hasSingleIframeEmbeds) {
       const webWidgetEmbeds = ['ticketSubmissionForm', 'helpCenterForm'];
 
       // Only send chat to WebWidget if new chat is on. Otherwise use old one.
@@ -193,14 +189,14 @@ function postRenderCallbacks() {
 function propagateFontRatio(ratio) {
   const fontSize = (12 * ratio.toFixed(2)) + 'px';
 
-  renderedEmbedsApply(function(embed) {
+  renderedEmbedsApply((embed) => {
     embed.updateBaseFontSize(fontSize);
     embed.updateFrameSize();
   });
 }
 
 function hideByZoom(hide) {
-  renderedEmbedsApply(function(embed) {
+  renderedEmbedsApply((embed) => {
     embed.setHiddenByZoom(hide);
   });
 }
