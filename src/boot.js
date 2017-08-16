@@ -171,6 +171,7 @@ const getConfig = (win, postRenderQueue) => {
         }
       }
     });
+    boot.handlePostRenderQueue(win, postRenderQueue);
     return;
   }
 
