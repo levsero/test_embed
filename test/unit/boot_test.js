@@ -73,6 +73,29 @@ describe('boot', () => {
       mockGetCalls = transportSpy.transport.get.calls;
     });
 
+    describe('when win.zESkipWebWidget is true', () => {
+      beforeEach(() => {
+        win.zESkipWebWidget = true;
+        boot.getConfig(win, postRenderQueue);
+      });
+
+      it('does not call /embeddable/config', () => {
+        expect(transportSpy.transport.get)
+          .not.toHaveBeenCalled();
+      });
+
+      it('should call renderer.init with automatic answers only', () => {
+        expect(rendererSpy.renderer.init)
+          .toHaveBeenCalledWith(jasmine.objectContaining({
+            embeds: {
+              automaticAnswers: {
+                embed: 'automaticAnswers'
+              }
+            }
+          }));
+      });
+    });
+
     it('makes a GET request to /embeddable/config', () => {
       boot.getConfig(win, postRenderQueue);
 
