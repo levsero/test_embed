@@ -37,8 +37,8 @@ try() {
 }
 
 try "Installing npm packages" "npm install --quiet > /dev/null"
-try "Building Engagement Framework" "npm run build"
 try "Downloading translations" "script/fetch_i18n"
+try "Building Engagement Framework" "npm run build"
 bold "Installing UI Regression Tooling"
 
 for pkg in ${webDriverBrewPackages[@]}; do
