@@ -20,7 +20,7 @@ describe('chat redux actions', () => {
     mockery.enable();
 
     initMockRegistry({
-      'vendor/web-sdk': {
+      'chat-web-sdk': {
         sendChatMsg: mockSendChatMsg,
         sendTyping: mockSendTyping,
         endChat: mockEndChat,

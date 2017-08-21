@@ -1,4 +1,4 @@
-import zChat from 'vendor/web-sdk';
+import zChat from 'chat-web-sdk';
 
 import {
   END_CHAT_SUCCESS,
