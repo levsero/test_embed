@@ -47,9 +47,9 @@ function getMissingTranslations(translations) {
 }
 
 function transformTranslations(translations) {
-  var strings = {};
-
   return _.reduce(translations, function(result, translation, locale) {
+    var strings = {};
+
     _.forEach(translation, function(val, key) {
       if (!strings[val]) {
         strings[val] = _.parseInt(_.uniqueId(), 10);
