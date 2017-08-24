@@ -46,6 +46,22 @@ function getMissingTranslations(translations) {
     .value();
 }
 
+function transformTranslations(translations) {
+  var strings = {};
+
+  return _.reduce(translations, function(result, translation, locale) {
+    _.forEach(translation, function(val, key) {
+      if (!strings[val]) {
+        strings[val] = _.parseInt(_.uniqueId(), 10);
+      }
+
+      _.set(result, [key, locale].join('.'), val);
+    });
+
+    return result;
+  }, {});
+}
+
 console.log('Downloading https://support.zendesk.com/api/v2/rosetta/locales/public.json');
 
 rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
@@ -73,7 +89,14 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
         })
         .reduce(function(result, el) {
           result[el.locale] = _.reduce(el.translations, function(res, el, key) {
-            res[key] = encodeURIComponent(el);
+            // TODO: There was once issues with the encoding of translations for certain
+            // locales that caused strange characters to render in the widget. The workaround
+            // for this was to encode all strings in a URI format. This makes the translations file
+            // size bigger and may not be needed. If i18n and QA find no issues, we can remove this comment
+            // and go forward with storing the strings in plain text.
+            // PR: https://github.com/zendesk/embeddable_framework/pull/255
+            // res[key] = encodeURIComponent(el);
+            res[key] = el;
             return res;
           }, {});
           result[el.locale].rtl = el.rtl;
@@ -95,11 +118,14 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
 
         process.exit(1);
       } else {
+        var locales = _.transform(_.keys(translations), (res, val) => res[val] = val, {});
+        var transformed = _.extend({}, transformTranslations(translations), { locale_map: locales });
+
         console.log('\nWriting to ' + translationsPath);
 
         fs.writeFile(
           translationsPath,
-          JSON.stringify(translations, null, 2)
+          JSON.stringify(transformed, null, 2)
         );
       }
     });
