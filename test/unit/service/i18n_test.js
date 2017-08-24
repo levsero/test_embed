@@ -46,7 +46,7 @@ describe('i18n', () => {
           'fil': false,
           'he': true
         },
-        locale_map: {
+        'locale_map': {
           'en-US': 'en-US',
           'en-au': 'en-au',
           'de': 'de',

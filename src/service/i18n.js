@@ -29,7 +29,7 @@ const keyLookupTable = {
   contactOptionsContactFormLabel: ['embeddable_framework.channelChoice.button.label.submitTicket'],
   contactOptionsChatLabelOnline: ['embeddable_framework.channelChoice.button.label.chat'],
   contactOptionsChatLabelOffline: ['embeddable_framework.channelChoice.button.label.chat_offline']
- };
+};
 
 let currentLocale;
 
@@ -45,7 +45,7 @@ function translate(key, params = {}) {
   const keyForLocale = `${key}.${currentLocale}`;
   const translation = _.get(translations, keyForLocale);
 
-  if (translation == null) {
+  if (!translation) {
     return params.fallback
          ? params.fallback
          : getMissingTranslationString(key, currentLocale);
