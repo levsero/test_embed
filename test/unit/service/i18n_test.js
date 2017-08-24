@@ -10,44 +10,65 @@ describe('i18n', () => {
         'settings': { getTranslations: noop }
       },
       'translation/translations.json': {
-        'en-US': {
-          'launcher.label.hello': 'Hello',
-          'embeddable_framework.launcher.label.help': 'Help'
+        'embeddable_framework': {
+          'launcher': {
+            'label': {
+              'help': {
+                'en-US': 'Help',
+                'en-au': 'Help',
+                'de': 'Hilfe',
+                'zh-CN': '帮帮我',
+                'pt-BR': 'Ajuda',
+                'no': 'Hjelp',
+                'fil': 'Tulong',
+                'he': 'עֶזרָה'
+              },
+              'hello': {
+                'en-US': 'Hello',
+                'en-au': 'Hello',
+                'de': 'Hallo',
+                'zh-CN': '你好',
+                'pt-BR': 'Olá',
+                'no': 'Hallo',
+                'fil': 'Kumsta',
+                'he': 'שלום'
+              }
+            }
+          }
         },
-        'en-au': {
-          'launcher.label.hello': 'Hello',
-          'embeddable_framework.launcher.label.help': 'Help'
+        rtl: {
+          'en-US': false,
+          'en-au': false,
+          'de': false,
+          'zh-CN': false,
+          'pt-BR': false,
+          'no': false,
+          'fil': false,
+          'he': true
         },
-        'de': {
-          'launcher.label.hello': 'Hallo',
-          'embeddable_framework.launcher.label.help': 'Hilfe'
-        },
-        'zh-CN': {
-          'launcher.label.hello': '你好',
-          'embeddable_framework.launcher.label.help': '%E5%B8%AE%E5%8A%A9'
-        },
-        'pt-BR': {
-          'launcher.label.hello': 'Olá',
-          'embeddable_framework.launcher.label.help': 'Ajuda'
-        },
-        'no': {
-          'launcher.label.hello': 'Hallo',
-          'embeddable_framework.launcher.label.help': 'Hjelp'
-        },
-        'fil': {
-          'launcher.label.hello': 'Kumusta',
-          'embeddable_framework.launcher.label.help': 'Tulong'
+        locale_map: {
+          'en-US': 'en-US',
+          'en-au': 'en-au',
+          'de': 'de',
+          'zh-CN': 'zh-CN',
+          'pt-BR': 'pt-BR',
+          'no': 'no',
+          'fil': 'fil',
+          'he': 'he'
         }
       },
       'translation/localeIdMap.json': {
         'en-US': 1,
+        'en-au': 1277,
         'de': 8,
         'zh-CN': 10,
         'pt-BR': 19,
         'no': 34,
-        'fil': 47
+        'fil': 47,
+        'he': 30
       },
-      'lodash': _
+      'lodash': _,
+      'sprintf-js': require('sprintf-js')
     });
 
     mockery.registerAllowable(i18nPath);
@@ -57,6 +78,110 @@ describe('i18n', () => {
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('#translate', () => {
+    let mockTranslations;
+
+    beforeEach(() => {
+      i18n.setLocale('en-US');
+      mockTranslations = mockRegistry['translation/translations.json'].embeddable_framework;
+    });
+
+    describe('when the key is valid', () => {
+      describe('when the string does not contain variables', () => {
+        const testLocales = (translationMap, label) => {
+          _.forEach(translationMap, (result, locale) => {
+            i18n.setLocale(locale, true);
+
+            expect(i18n.t(`embeddable_framework.launcher.label.${label}`))
+              .toBe(result);
+          });
+        };
+
+        it('returns the translated string', () => {
+          testLocales(mockTranslations.launcher.label.help, 'help');
+          testLocales(mockTranslations.launcher.label.hello, 'hello');
+        });
+      });
+
+      describe('when the string contains variables', () => {
+        let args;
+
+        beforeEach(() => {
+          mockTranslations.launcher.label.help['en-US'] = 'Hello %(name)s';
+        });
+
+        describe('when the correct variable args are passed in', () => {
+          beforeEach(() => {
+            args = { name: 'Anthony' };
+          });
+
+          it('returns the interpolated string', () => {
+            expect(i18n.t('embeddable_framework.launcher.label.help', args))
+              .toBe('Hello Anthony');
+          });
+        });
+
+        describe('when incorrect variable args are passed in', () => {
+          beforeEach(() => {
+            args = { foo: 'Anthony' };
+          });
+
+          it('returns the raw string', () => {
+            expect(i18n.t('embeddable_framework.launcher.label.help', args))
+              .toBe('Hello %(name)s');
+          });
+        });
+      });
+    });
+
+    describe('when the key is invalid', () => {
+      const key = 'embeddable_framework.launcher.label.unknown';
+      let params;
+
+      describe('when there is no fallback param', () => {
+        it('returns the missing translation string', () => {
+          expect(i18n.t(key, params))
+            .toBe(`Missing translation (en-US): ${key}`);
+        });
+      });
+
+      describe('when there is a fallback param', () => {
+        beforeEach(() => {
+          params = { fallback: 'emacs 4lyf' };
+        });
+
+        it('returns the fallback string', () => {
+          expect(i18n.t(key, params))
+            .toBe('emacs 4lyf');
+        });
+      });
+    });
+  });
+
+  describe('#isRTL', () => {
+    describe('when the language is not rtl', () => {
+      beforeEach(() => {
+        i18n.setLocale('de');
+      });
+
+      it('returns false', () => {
+        expect(i18n.isRTL())
+          .toBe(false);
+      });
+    });
+
+    describe('when the language is rtl', () => {
+      beforeEach(() => {
+        i18n.setLocale('he');
+      });
+
+      it('returns true', () => {
+        expect(i18n.isRTL())
+          .toBe(true);
+      });
+    });
   });
 
   describe('#setCustomTranslations', () => {
@@ -128,14 +253,14 @@ describe('i18n', () => {
     it('should default setLocale to en-US', () => {
       i18n.setLocale();
 
-      expect(i18n.t('launcher.label.hello'))
+      expect(i18n.t('embeddable_framework.launcher.label.hello'))
         .toEqual('Hello');
     });
 
     it('should grab the german strings when locale is changed', () => {
       i18n.setLocale('de');
 
-      expect(i18n.t('launcher.label.hello'))
+      expect(i18n.t('embeddable_framework.launcher.label.hello'))
         .toEqual('Hallo');
     });
 

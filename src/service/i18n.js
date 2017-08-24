@@ -81,7 +81,11 @@ function getMissingTranslationString(key, locale) {
 }
 
 function interpolateTranslation(translation, args) {
-  return sprintf(translation, args);
+  try {
+    return sprintf(translation, args);
+  } catch (_) {
+    return translation;
+  }
 }
 
 function regulateLocaleStringCase(locale) {
