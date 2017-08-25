@@ -1,6 +1,6 @@
 var config = require('./webpack.config');
 var webpack = require('webpack');
-var Visualizer = require('webpack-visualizer-plugin');
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var root = config.root;
 
 root.plugins = [
@@ -25,7 +25,7 @@ root.plugins = [
     minimize: true,
     debug: false
   }),
-  new Visualizer()
+  new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false })
 ];
 
 module.exports = root;

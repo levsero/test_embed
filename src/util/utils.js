@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import crypto from 'crypto';
+import jsSha1 from 'sha1';
 
 import { document as doc,
          location } from 'utility/globals';
@@ -72,7 +72,7 @@ function base64encode(string) {
 }
 
 function sha1(string) {
-  return crypto.createHash('sha1').update(string).digest('hex');
+  return jsSha1(string);
 }
 
 function objectDifference(a, b) {
