@@ -30,6 +30,28 @@ namespace :ac_embeddable_framework do
     deployer = S3Deployer.new(credentials, bucket_name, logger)
     deployer.upload_files('dist', release_directory, files)
   end
+
+  desc 'Release the current version for Staging'
+  task :release_to_staging do
+    url = 'ekr-internet-load-balancer-1568683846.us-west-2.elb.amazonaws.com/embed_key_registry/release'
+    release_to_ekr(url)
+  end
+
+  desc 'Release the current version for Production'
+  task :release_to_production do
+
+  end
+end
+
+def release_to_ekr(url)
+  params = {
+    'product' => {
+      'name' => 'web_widget',
+      'version' => fetch(:version)
+    }
+  }
+
+  sh %(curl -v -H "Content-Type: application/json" -X POST -d "#{params}" "#{url}")
 end
 
 before 'ac_embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
