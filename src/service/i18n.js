@@ -46,9 +46,7 @@ function translate(key, params = {}) {
   const translation = _.get(translations, keyForLocale);
 
   if (!translation) {
-    return params.fallback
-         ? params.fallback
-         : getMissingTranslationString(key, currentLocale);
+    return params.fallback || getMissingTranslationString(key, currentLocale);
   }
 
   return interpolateTranslation(translation, params);
@@ -71,7 +69,7 @@ function getLocaleId() {
 }
 
 function isRTL() {
-  return translations.locale_map[currentLocale] && translations.rtl[currentLocale];
+  return !!translations.rtl[currentLocale];
 }
 
 // private
@@ -98,18 +96,18 @@ function regulateLocaleStringCase(locale) {
 }
 
 function parseLocale(str) {
-  const locales = translations.locale_map;
+  const locales = translations.locales;
   const locale = regulateLocaleStringCase(str);
   const lowercaseLocale = locale.toLowerCase();
   const extractLang = (locale) => {
     return locale.substring(0, locale.indexOf('-'));
   };
 
-  if (locales[locale]) {
+  if (_.includes(locales, locale)) {
     return locale;
-  } else if (locales[lowercaseLocale]) {
+  } else if (_.includes(locales, lowercaseLocale)) {
     return lowercaseLocale;
-  } else if (locales[extractLang(locale)]) {
+  } else if (_.includes(locales, extractLang(locale))) {
     return extractLang(locale);
   } else if (str === 'zh') {
     return 'zh-CN';

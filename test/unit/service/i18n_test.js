@@ -46,16 +46,16 @@ describe('i18n', () => {
           'fil': false,
           'he': true
         },
-        'locale_map': {
-          'en-US': 'en-US',
-          'en-au': 'en-au',
-          'de': 'de',
-          'zh-CN': 'zh-CN',
-          'pt-BR': 'pt-BR',
-          'no': 'no',
-          'fil': 'fil',
-          'he': 'he'
-        }
+        'locales': [
+          'en-US',
+          'en-au',
+          'de',
+          'zh-CN',
+          'pt-BR',
+          'no',
+          'fil',
+          'he'
+        ]
       },
       'translation/localeIdMap.json': {
         'en-US': 1,

@@ -48,13 +48,7 @@ function getMissingTranslations(translations) {
 
 function transformTranslations(translations) {
   return _.reduce(translations, function(result, translation, locale) {
-    var strings = {};
-
     _.forEach(translation, function(val, key) {
-      if (!strings[val]) {
-        strings[val] = _.parseInt(_.uniqueId(), 10);
-      }
-
       _.set(result, [key, locale].join('.'), val);
     });
 
@@ -118,8 +112,8 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
 
         process.exit(1);
       } else {
-        var locales = _.transform(_.keys(translations), (res, val) => res[val] = val, {});
-        var transformed = _.extend({}, transformTranslations(translations), { locale_map: locales });
+        var locales = _.keys(translations);
+        var transformed = _.extend({}, transformTranslations(translations), { locales: locales });
 
         console.log('\nWriting to ' + translationsPath);
 
