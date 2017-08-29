@@ -1,3 +1,4 @@
+require 'json'
 require_relative './s3_deployer'
 
 set :version, fetch(:branch) || fetch(:local_head_revision)
@@ -39,19 +40,19 @@ namespace :ac_embeddable_framework do
 
   desc 'Release the current version for Production'
   task :release_to_production do
-
+    # TODO: When production url is ready, fill this in.
   end
 end
 
 def release_to_ekr(url)
   params = {
-    'product' => {
-      'name' => 'web_widget',
-      'version' => fetch(:version)
+    product: {
+      name: 'web_widget',
+      version: fetch(:version)
     }
-  }
+  }.to_json
 
-  sh %(curl -v -H "Content-Type: application/json" -X POST -d "#{params}" "#{url}")
+  sh %(curl -v -H "Content-Type: application/json" -X POST -d '#{params}' #{url})
 end
 
 before 'ac_embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
