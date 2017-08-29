@@ -110,7 +110,7 @@ describe('dropdown component', () => {
 
     describe('when a value is selected', () => {
       beforeEach(() => {
-        const selected = { name: 'orange', value: 'orange' };
+        const selected = { name: 'orange', value: 'an orange fruit' };
 
         dropdown = domRender(<Dropdown />);
         dropdown.setState({ selected });
