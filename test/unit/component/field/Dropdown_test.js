@@ -97,6 +97,35 @@ describe('dropdown component', () => {
   let dropdown;
 
   describe('render', () => {
+    describe('when a value is not yet selected', () => {
+      beforeEach(() => {
+        dropdown = domRender(<Dropdown />);
+      });
+
+      it('renders a default value', () => {
+        expect(dropdown.input.textContent)
+          .toEqual('-');
+      });
+    });
+
+    describe('when a value is selected', () => {
+      beforeEach(() => {
+        const selected = { name: 'orange', value: 'an orange fruit' };
+
+        dropdown = domRender(<Dropdown />);
+        dropdown.setState({ selected });
+      });
+
+      afterEach(() => {
+        dropdown.setState({ selected: {} });
+      });
+
+      it('renders the selected value', () => {
+        expect(dropdown.input.textContent)
+          .toEqual('orange');
+      });
+    });
+
     describe('when fullscreen is false', () => {
       beforeEach(() => {
         dropdown = domRender(<Dropdown />);

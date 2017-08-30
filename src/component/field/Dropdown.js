@@ -283,7 +283,7 @@ export class Dropdown extends Component {
     const mobileClasses = this.props.fullscreen && !this.props.landscape ? styles.labelMobile : '';
     const landscapeClasses = this.props.landscape ? styles.labelLandscape : '';
     const invalidClasses = !this.state.valid ? styles.inputError : '';
-    const placeholderText = this.state.selected.name || '-';
+    const selectionText = this.state.selected.name || '-';
     const requiredLabel = this.props.required ? '*' : '';
 
     return (
@@ -292,20 +292,22 @@ export class Dropdown extends Component {
           {this.props.placeholder}{requiredLabel}
         </div>
         <div className={styles.container}>
-          <input
+          <div
             ref={(i) => this.input = i}
             className={`${styles.input} ${invalidClasses} ${mobileClasses} ${landscapeClasses}`}
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}
+            onKeyDown={this.handleKeyDown}
             onMouseDown={this.handleInputClick}
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
-            readOnly={true}
-            onKeyDown={this.handleKeyDown}
-            placeholder={placeholderText} />
+            tabIndex='0'>
+            {selectionText}
+          </div>
           <div className={styles.description}>{this.props.description}</div>
           {/* hidden field with the selected value so that the form grabs it on submit */}
           <input
+            readOnly={true}
             className='u-isHidden'
             name={_.toString(this.props.name)}
             required={this.props.required}
