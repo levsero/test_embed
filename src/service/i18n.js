@@ -43,9 +43,9 @@ function setLocale(str = 'en-US', force = false) {
 
 function translate(key, params = {}) {
   const keyForLocale = `${key}.${currentLocale}`;
-  const translation = _.get(translations, keyForLocale, null);
+  const translation = _.get(translations, keyForLocale);
 
-  if (translation === null) {
+  if (_.isUndefined(translation)) {
     return params.fallback || getMissingTranslationString(key, currentLocale);
   }
 
