@@ -102,7 +102,7 @@ describe('dropdown component', () => {
         dropdown = domRender(<Dropdown />);
       });
 
-      it(`renders a default value of '-'`, () => {
+      it('renders a default value', () => {
         expect(dropdown.input.textContent)
           .toEqual('-');
       });
@@ -120,7 +120,7 @@ describe('dropdown component', () => {
         dropdown.setState({ selected: {} });
       });
 
-      it(`renders the selected value as 'orange'`, () => {
+      it('renders the selected value', () => {
         expect(dropdown.input.textContent)
           .toEqual('orange');
       });
