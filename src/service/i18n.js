@@ -45,7 +45,7 @@ function translate(key, params = {}) {
   const keyForLocale = `${key}.${currentLocale}`;
   const translation = _.get(translations, keyForLocale);
 
-  if (!translation) {
+  if (_.isUndefined(translation)) {
     return params.fallback || getMissingTranslationString(key, currentLocale);
   }
 
