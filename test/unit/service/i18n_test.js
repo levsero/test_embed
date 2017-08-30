@@ -158,6 +158,17 @@ describe('i18n', () => {
         });
       });
     });
+
+    describe('when the translation is an empty string', () => {
+      beforeEach(() => {
+        mockTranslations.launcher.label.help['en-US'] = '';
+      });
+
+      it('returns the empty string', () => {
+        expect(i18n.t('embeddable_framework.launcher.label.help'))
+          .toBe('');
+      });
+    });
   });
 
   describe('#isRTL', () => {
