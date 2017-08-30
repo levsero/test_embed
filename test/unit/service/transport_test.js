@@ -403,6 +403,7 @@ describe('transport', () => {
     beforeEach(() => {
       payload = {
         method: 'post',
+        type: 'user',
         path: '/test/path',
         params: {
           user: {
@@ -493,12 +494,16 @@ describe('transport', () => {
       beforeEach(() => {
         spyOn(mockMethods, 'send').and.callThrough();
         transport.init(config);
+
+        transport.sendWithMeta(payload);
       });
 
       it('encodes the data and sends it as a query string', () =>{
-        transport.sendWithMeta(payload);
+        expect(payload.query.data).toEqual('MOCKBASE64');
+      });
 
-        expect(payload.query).toEqual({ data: 'MOCKBASE64' });
+      it('sends through the type as a query string', () => {
+        expect(payload.query.type).toEqual('user');
       });
     });
   });

@@ -57,6 +57,7 @@ const sendPageView = () => {
     helpCenterDedup: isOnHelpCenterPage()
   };
   const payload = {
+    type: 'pageView',
     method: config.method,
     path: config.endpoint,
     params: {
@@ -90,6 +91,7 @@ function sendConfigLoadTime(time) {
     performance: { configLoadTime: time }
   };
   const payload = {
+    type: 'performance',
     method: config.method,
     path: config.endpoint,
     params: params
@@ -110,6 +112,7 @@ function trackUserAction(category, action, label = null, value = null) {
     value: value
   };
   const payload = {
+    type: 'userAction',
     method: config.method,
     path: config.endpoint,
     params: { userAction }
@@ -131,6 +134,7 @@ function trackSettings(settings) {
   };
 
   const payload = {
+    type: 'settings',
     method: config.method,
     path: config.endpoint,
     params: { settings },
@@ -149,6 +153,7 @@ function trackSettings(settings) {
 function identify(user) {
   const { newIdentify, method, endpoint } = config;
   const payload = {
+    type: 'user',
     method: newIdentify ? method : 'POST',
     path: newIdentify ? endpoint : '/embeddable/identify',
     params:  {
