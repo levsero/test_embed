@@ -1,36 +1,55 @@
 import _ from 'lodash';
+import { sprintf } from 'sprintf-js';
 
 import { settings } from 'service/settings';
 
-const translate = require('counterpart');
 const translations = require('translation/translations.json');
 const localeIdMap = require('translation/localeIdMap.json');
+const keyLookupTable = {
+  launcherLabel: [
+    'embeddable_framework.launcher.label.help',
+    'embeddable_framework.launcher.label.support',
+    'embeddable_framework.launcher.label.feedback'
+  ],
+  launcherChatLabel: ['embeddable_framework.launcher.label.chat'],
+  helpCenterTitle: [
+    'embeddable_framework.helpCenter.form.title.help',
+    'embeddable_framework.helpCenter.form.title.support',
+    'embeddable_framework.helpCenter.form.title.feedback'
+  ],
+  helpCenterMessageButton: ['embeddable_framework.helpCenter.submitButton.label.submitTicket.message'],
+  helpCenterContactButton: ['embeddable_framework.helpCenter.submitButton.label.submitTicket.contact'],
+  helpCenterChatButton: ['embeddable_framework.helpCenter.submitButton.label.chat'],
+  contactFormTitle: [
+    'embeddable_framework.submitTicket.form.title.message',
+    'embeddable_framework.submitTicket.form.title.contact'
+  ],
+  contactFormSelectTicketForm: ['embeddable_framework.submitTicket.ticketForms.title'],
+  helpCenterSearchPlaceholder: ['embeddable_framework.helpCenter.search.label.how_can_we_help'],
+  contactOptionsContactFormLabel: ['embeddable_framework.channelChoice.button.label.submitTicket'],
+  contactOptionsChatLabelOnline: ['embeddable_framework.channelChoice.button.label.chat'],
+  contactOptionsChatLabelOffline: ['embeddable_framework.channelChoice.button.label.chat_offline']
+};
 
 let currentLocale;
-
-// Setting to something other than (.) as our translation hash
-// is a flat structure and counterpart tries to look in object.
-translate.setSeparator('*');
 
 // The force argument is for post-render setLocale function so that
 // it can override the locale if it has previously been set.
 function setLocale(str = 'en-US', force = false) {
   if (!currentLocale || force) {
     currentLocale = parseLocale(str);
-    translate.setLocale(currentLocale);
-    setTranslations();
   }
 }
 
-function setTranslations() {
-  // To avoid weird encoding issues we deliver the strings uri encoded
-  // when setting the strings we then decode them in memory.
-  const decodedStrings = _.reduce(translations[currentLocale], function(res, el, key) {
-    res[key] = decodeURIComponent(el);
-    return res;
-  }, {});
+function translate(key, params = {}) {
+  const keyForLocale = `${key}.${currentLocale}`;
+  const translation = _.get(translations, keyForLocale);
 
-  translate.registerTranslations(currentLocale, decodedStrings);
+  if (!translation) {
+    return params.fallback || getMissingTranslationString(key, currentLocale);
+  }
+
+  return interpolateTranslation(translation, params);
 }
 
 function setCustomTranslations() {
@@ -38,12 +57,11 @@ function setCustomTranslations() {
 
   if (!_.isEmpty(customerTranslations)) {
     overrideTranslations(customerTranslations);
-    setTranslations();
   }
 }
 
 function getLocale() {
-  return translate.getLocale();
+  return currentLocale;
 }
 
 function getLocaleId() {
@@ -51,10 +69,22 @@ function getLocaleId() {
 }
 
 function isRTL() {
-  return translations[getLocale()] && translations[getLocale()].rtl;
+  return !!translations.rtl[currentLocale];
 }
 
 // private
+
+function getMissingTranslationString(key, locale) {
+  return `Missing translation (${locale}): ${key}`;
+}
+
+function interpolateTranslation(translation, args) {
+  try {
+    return sprintf(translation, args);
+  } catch (_) {
+    return translation;
+  }
+}
 
 function regulateLocaleStringCase(locale) {
   const dashIndex = locale.indexOf('-');
@@ -66,17 +96,18 @@ function regulateLocaleStringCase(locale) {
 }
 
 function parseLocale(str) {
+  const locales = translations.locales;
   const locale = regulateLocaleStringCase(str);
   const lowercaseLocale = locale.toLowerCase();
   const extractLang = (locale) => {
     return locale.substring(0, locale.indexOf('-'));
   };
 
-  if (translations[locale]) {
+  if (_.includes(locales, locale)) {
     return locale;
-  } else if (translations[lowercaseLocale]) {
+  } else if (_.includes(locales, lowercaseLocale)) {
     return lowercaseLocale;
-  } else if (translations[extractLang(locale)]) {
+  } else if (_.includes(locales, extractLang(locale))) {
     return extractLang(locale);
   } else if (str === 'zh') {
     return 'zh-CN';
@@ -92,55 +123,25 @@ function parseLocale(str) {
 function overrideTranslations(newTranslations) {
   // Override all locales if there are wild card translations.
   _.forEach(newTranslations, (newTranslation, translationKey) => {
-    if (newTranslation.hasOwnProperty('*')) {
-      const globalOverrides = mappedTranslationsForLocale(newTranslation['*'], translationKey);
+    const keys = keyLookupTable[translationKey];
 
-      for (let locale in translations) {
-        _.merge(translations[locale], globalOverrides);
-      }
+    if (newTranslation.hasOwnProperty('*')) {
+      _.forEach(keys, (key) => {
+        const overridenStrings = _.mapValues(_.get(translations, key), () => newTranslation['*']);
+
+        _.set(translations, key, overridenStrings);
+      });
     }
 
     // Overrride any other specified locales.
     for (let locale in newTranslation) {
       if (locale === '*') continue;
 
-      const localeOverrides = mappedTranslationsForLocale(newTranslation[locale], translationKey);
-
-      _.merge(translations[locale], localeOverrides);
+      _.forEach(keys, (key) => {
+        _.set(translations, `${key}.${locale}`, newTranslation[locale]);
+      });
     }
   });
-}
-
-function mappedTranslationsForLocale(localeOverride, translationKey) {
-  const keyLookupTable = {
-    'embeddable_framework.launcher.label.help': 'launcherLabel',
-    'embeddable_framework.launcher.label.support': 'launcherLabel',
-    'embeddable_framework.launcher.label.feedback': 'launcherLabel',
-    'embeddable_framework.launcher.label.chat': 'launcherChatLabel',
-    'embeddable_framework.helpCenter.form.title.help': 'helpCenterTitle',
-    'embeddable_framework.helpCenter.form.title.support': 'helpCenterTitle',
-    'embeddable_framework.helpCenter.form.title.feedback': 'helpCenterTitle',
-    'embeddable_framework.helpCenter.submitButton.label.submitTicket.message': 'helpCenterMessageButton',
-    'embeddable_framework.helpCenter.submitButton.label.submitTicket.contact': 'helpCenterContactButton',
-    'embeddable_framework.helpCenter.submitButton.label.chat': 'helpCenterChatButton',
-    'embeddable_framework.submitTicket.form.title.message': 'contactFormTitle',
-    'embeddable_framework.submitTicket.form.title.contact': 'contactFormTitle',
-    'embeddable_framework.submitTicket.ticketForms.title': 'contactFormSelectTicketForm',
-    'embeddable_framework.helpCenter.search.label.how_can_we_help': 'helpCenterSearchPlaceholder',
-    'embeddable_framework.channelChoice.button.label.submitTicket': 'contactOptionsContactFormLabel',
-    'embeddable_framework.channelChoice.button.label.chat': 'contactOptionsChatLabelOnline',
-    'embeddable_framework.channelChoice.button.label.chat_offline': 'contactOptionsChatLabelOffline'
-  };
-
-  return _.chain(keyLookupTable)
-    .map((value, key) => {
-      if (value === translationKey) return key;
-    })
-    .compact()
-    .reduce((obj, key) => {
-      return _.merge(obj, { [key]: localeOverride });
-    }, {})
-    .value();
 }
 
 export const i18n = {
