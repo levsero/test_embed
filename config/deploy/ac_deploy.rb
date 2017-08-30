@@ -8,6 +8,9 @@ set :ac_aws_region, ENV['AC_AWS_REGION']
 set :ac_s3_release_directory, "web_widget/#{fetch(:version)}"
 set :ac_s3_bucket_name, ENV['AC_AWS_BUCKET_NAME']
 
+STAGING_URL = 'ekr-internet-load-balancer-1568683846.us-west-2.elb.amazonaws.com/embed_key_registry/release'.freeze
+PRODUCTION_URL = ''.freeze # TODO: When production url is ready, fill this in.
+
 namespace :ac_embeddable_framework do
   desc 'Build framework ac assets'
   task :build_assets do
@@ -34,13 +37,12 @@ namespace :ac_embeddable_framework do
 
   desc 'Release the current version for Staging'
   task :release_to_staging do
-    url = 'ekr-internet-load-balancer-1568683846.us-west-2.elb.amazonaws.com/embed_key_registry/release'
-    release_to_ekr(url)
+    release_to_ekr(STAGING_URL)
   end
 
   desc 'Release the current version for Production'
   task :release_to_production do
-    # TODO: When production url is ready, fill this in.
+    release_to_ekr(PRODUCTION_URL)
   end
 end
 
