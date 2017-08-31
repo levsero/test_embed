@@ -17,6 +17,7 @@ namespace :ac_embeddable_framework do
     logger.info 'Building ac assets'
 
     sh 'npm set progress=false && npm install'
+    sh 'npm run validate-manifest'
     sh 'script/fetch_i18n'
     sh 'npm run build-ac'
   end

@@ -1,7 +1,6 @@
 // This script verifies that the dependencies present in manifest.json
 // match the versions in the projects package.json.
 
-const _ = require('lodash');
 const semver = require('semver');
 const chalk = require('chalk');
 const manifest = require('../manifest.json');
@@ -11,10 +10,10 @@ const writeLog = (msg) => console.log(chalk.green(msg));
 const writeError = (msg) => console.error(chalk.red(msg));
 
 const validateDependencies = () => {
-  const deps = _.reject(manifest.dependencies, (dep) => dep.internal);
+  const deps = manifest.externals;
   const packageDeps = packageJson.dependencies;
 
-  _.each(deps, (dep) => {
+  deps.forEach((dep) => {
     const version = packageDeps[dep.name];
 
     if (!version) {
