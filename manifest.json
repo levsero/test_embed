@@ -1,5 +1,5 @@
 {
-  "dependencies": [
+  "externals": [
     {
       "name": "react",
       "version": "15.4.1",
@@ -19,11 +19,11 @@
       "name": "superagent",
       "version": "2.0.0",
       "url": "https://cdnjs.cloudflare.com/ajax/libs/superagent/2.0.0/superagent.min.js"
-    },
+    }
+  ],
+  "internals": [
     {
-      "name": "web_widget",
-      "internal": true,
-      "url": "/embeddable_framework/web_widget.js"
+      "name": "web_widget"
     }
   ]
 }
