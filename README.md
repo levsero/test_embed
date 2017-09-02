@@ -48,6 +48,26 @@ The bootstrap file will do the following:
 
 To run the embeddables locally type `npm run watch` in this folder for it to kick off. This creates a dist folder with `main.js`, `boostrap.js` files and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/webpack-dev-server/](http://localhost:1337/webpack-dev-server/) to test live examples.
 
+## Getting Started with Asset Composer
+
+First ensure that the project is bootstrap by following the instructions above.
+
+Start the `embed_key_registry` application. If the image is not found, zdi will automatically pull it down.
+
+```bash
+zdi embed_key_registry start
+```
+
+Note: You can also run this application in development mode `zdi embed_key_registry -d start` if you wish to debug the `asset_composer.js` script. This will require you cloning and setting up Embed Key Registry. Instructions can be found in the `README.md` on the Github [repositiory](https://github.com/zendesk/embed_key_registry).
+
+Then run the `watch:ac` npm task
+
+```bash
+npm run watch:ac
+```
+
+Finally navigate to [http://localhost:1337/webpack-dev-server/asset-composer.html](http://localhost:1337/webpack-dev-server/asset-composer.html). The Asset Composer version of the Web Widget should load on the page using the local Embed Key Registry application running in Docker.
+
 ## Running in Docker
 
 - Follow above to get `npm run watch` running.
