@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Asset Composer Test</title>
+  <script>
+    const domain = 'dev.zd-dev.com';
+    const key = 'a1b2c3';
+
+		window.zE || (function(doc, script) {
+			// Create the zE global object. At this point
+			// zE acts as a queue of functions to be invoked once the web widget
+			// has completed loading.
+			var z = zE = zEmbed = function() {
+				z._.push(arguments);
+			};
+
+			// Create a new script tag for the asset_composer.js and grab a
+			// reference to the first script element on the host page.
+			var $ = z.s = doc.createElement(script);
+			var el = doc.getElementsByTagName(script)[0];
+
+			z.set = function(o) {
+				z.set._.push(o)
+			};
+			z._ = [];
+			z.set._ = [];
+
+			// Set the properties for the script to load asset_composer.js.
+			$.async = false;
+			$.setAttribute("charset", "utf-8");
+			$.src = "https://" + domain + "/embed_key_registry/asset_composer.js?key=" + key;
+			z.t = +new Date;
+			$.type = "text/javascript";
+
+			// Insert the asset composer script so it is evaluated first.
+			el.parentNode.insertBefore($, el)
+	})(document, "script");
+  </script>
+
+  <script>
+    zE(function() {
+      zE.devRender({
+        singleIframe: true,
+        embeds: {
+          "helpCenterForm": {
+            "embed": "helpCenter",
+            "props": {
+              "position": "right"
+            }
+          },
+          "launcher": {
+            "embed": "launcher",
+            "props": {
+              "position": "right"
+            }
+          },
+          "ticketSubmissionForm": {
+            "embed": "submitTicket",
+            "props": {
+              "attachmentsEnabled": true,
+              "position": "right"
+            }
+          }
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+</body>
+</html>
