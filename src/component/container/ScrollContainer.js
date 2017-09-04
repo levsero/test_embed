@@ -105,6 +105,7 @@ export class ScrollContainer extends Component {
             ${styles.content}
             ${containerClasses}
             ${mobileContentClasses}
+            ${expandableStyles}
             ${bigHeaderClasses}`
           }>
           {this.props.children}
