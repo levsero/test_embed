@@ -192,9 +192,12 @@ describe('Frame', () => {
         mockIsRTLValue = true;
         mockLocaleValue = 'ar';
 
+        jasmine.clock().install();
         frame = domRender(<Frame>{mockChild}</Frame>);
         frame.updateFrameLocale();
         documentElem = frame.getContentDocument().documentElement;
+
+        jasmine.clock().tick();
       });
 
       it('should update html lang attribute', () => {
@@ -213,9 +216,12 @@ describe('Frame', () => {
         mockIsRTLValue = false;
         mockLocaleValue = 'en-GB';
 
+        jasmine.clock().install();
         frame = domRender(<Frame>{mockChild}</Frame>);
         frame.updateFrameLocale();
         documentElem = frame.getContentDocument().documentElement;
+
+        jasmine.clock().tick();
       });
 
       it('should update html lang attribute', () => {
@@ -934,6 +940,8 @@ describe('Frame', () => {
     });
 
     it('sets rtl and lang attr on the frame', () => {
+      jasmine.clock().tick();
+
       expect(frame.getContentDocument().documentElement.lang)
         .toBe('fr');
 

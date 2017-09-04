@@ -1002,6 +1002,8 @@ describe('frameFactory', function() {
         const Embed = frameFactory(mockChildFn);
         const instance = domRender(<Embed />);
 
+        jasmine.clock().tick();
+
         docElem = ReactDOM.findDOMNode(instance).contentDocument.documentElement;
       });
 
@@ -1018,6 +1020,8 @@ describe('frameFactory', function() {
 
     describe('when it is LTR mode', () => {
       beforeEach(() => {
+        jasmine.clock().tick();
+
         docElem = doc.documentElement;
       });
 
