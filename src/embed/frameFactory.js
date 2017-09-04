@@ -367,8 +367,10 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       const direction = i18n.isRTL() ? 'rtl' : 'ltr';
       const child = this.getChild();
 
-      html.setAttribute('lang', i18n.getLocale());
-      html.setAttribute('dir', direction);
+      setTimeout(() => {
+        html.setAttribute('lang', i18n.getLocale());
+        html.setAttribute('dir', direction);
+      }, 0);
 
       if (child) child.forceUpdate();
     }
