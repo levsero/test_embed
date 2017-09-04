@@ -145,7 +145,7 @@ export class Frame extends Component {
     const html = this.getContentDocument().documentElement;
     const direction = i18n.isRTL() ? 'rtl' : 'ltr';
 
-    // Need to defer to the next tick because Firefox sucks
+    // Need to defer to the next tick because Firefox renders differently
     setTimeout(() => {
       html.setAttribute('lang', i18n.getLocale());
       html.setAttribute('dir', direction);
