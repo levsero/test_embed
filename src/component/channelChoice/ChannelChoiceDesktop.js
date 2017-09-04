@@ -53,7 +53,7 @@ export class ChannelChoiceDesktop extends Component {
         <ButtonIcon
           className={chatBtnStyle}
           actionable={chatOnline}
-          icon='Icon--channelChoice-chat'
+          icon='Icon--chat'
           label={chatLabel}
           onClick={this.handleChatClick()} />
         <ButtonIcon

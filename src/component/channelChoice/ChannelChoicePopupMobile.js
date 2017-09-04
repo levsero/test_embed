@@ -51,7 +51,7 @@ export class ChannelChoicePopupMobile extends Component {
         <ButtonIcon
           className={`${styles.innerItem} ${chatDisabledStyle}`}
           labelClassName={styles.innerItemLabel}
-          icon='Icon--channelChoice-chat'
+          icon='Icon--chat'
           label={chatLabel}
           onClick={this.handleChatClick()} />
         <ButtonIcon
