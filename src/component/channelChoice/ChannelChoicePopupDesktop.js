@@ -39,7 +39,7 @@ export class ChannelChoicePopupDesktop extends Component {
           className={chatBtnStyle}
           onClick={this.handleChatClick()}
           label={chatLabel}
-          icon='Icon--channelChoice-chat' />
+          icon='Icon--chat' />
         <ButtonIcon
           onClick={this.handleClick('ticketSubmissionForm')}
           label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}

@@ -11,7 +11,6 @@ const icons = {
   'Icon--avatar': require('icons/widget-icon_concierge.svg'),
   'Icon--back': require('icons/widget-icon_back.svg'),
   'Icon--chevron': require('zd-svg-icons/src/14-chevron.svg'),
-  'Icon--channelChoice-chat': require('icons/widget-icon_channelChoice-chat.svg'),
   'Icon--channelChoice-contactForm': require('icons/widget-icon_channelChoice-contactForm.svg'),
   'Icon--chat': require('icons/widget-icon_chat.svg'),
   'Icon--check': require('icons/widget-icon_checkboxCheck.svg'),
