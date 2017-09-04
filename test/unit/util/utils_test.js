@@ -189,6 +189,16 @@ describe('utils', () => {
           });
       });
     });
+
+    describe('when there are arrays', () => {
+      it('should return the complement of the two objects without changing the arrays', () => {
+        a.arr = [1, 2];
+        b.arr = [2, 3];
+
+        expect(objectDifference(a, b))
+          .toEqual({ hello: 'world', arr: [1, 2] });
+      });
+    });
   });
 
   describe('cssTimeToMs()', () => {

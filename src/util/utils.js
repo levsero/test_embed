@@ -77,7 +77,9 @@ function sha1(string) {
 
 function objectDifference(a, b) {
   const transformFn = (res, val, key) => {
-    if (_.isObject(val) && _.has(b, key)) {
+    // Arrays are objects so we need to check that it's not an array
+    // so that it doesn't coerce it into an object
+    if (_.isObject(val) && !_.isArray(val) && _.has(b, key)) {
       const diff = objectDifference(val, b[key]);
 
       if (!_.isEmpty(diff)) {
