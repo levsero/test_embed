@@ -145,8 +145,11 @@ export class Frame extends Component {
     const html = this.getContentDocument().documentElement;
     const direction = i18n.isRTL() ? 'rtl' : 'ltr';
 
-    html.setAttribute('lang', i18n.getLocale());
-    html.setAttribute('dir', direction);
+    // Need to defer to the next tick because Firefox sucks
+    setTimeout(() => {
+      html.setAttribute('lang', i18n.getLocale());
+      html.setAttribute('dir', direction);
+    }, 0);
 
     if (this.child) this.child.forceUpdate();
   }
