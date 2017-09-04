@@ -151,7 +151,10 @@ export class Frame extends Component {
       html.setAttribute('dir', direction);
     }, 0);
 
-    if (this.child) this.child.forceUpdate();
+    if (this.child) {
+      this.child.forceUpdate();
+      this.child.nav.forceUpdate();
+    }
   }
 
   updateFrameSize = () => {

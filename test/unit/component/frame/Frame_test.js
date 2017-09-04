@@ -18,15 +18,16 @@ describe('Frame', () => {
     constructor(props, context) {
       super(props, context);
       this.embed = null;
+      this.nav = {
+        forceUpdate: noop
+      };
     }
     render() {
       const newChild = React.cloneElement(this.props.children, {
         ref: 'rootComponent'
       });
 
-      return (
-        <div id='Embed' ref={(el) => {this.embed = el;}}>{newChild}</div>
-      );
+      return <div id='Embed' ref={(el) => {this.embed = el;}}>{newChild}</div>;
     }
   }
 
@@ -178,11 +179,17 @@ describe('Frame', () => {
       beforeEach(() => {
         frame = domRender(<Frame>{mockChild}</Frame>);
         spyOn(frame.getChild(), 'forceUpdate');
+        spyOn(frame.getChild().nav, 'forceUpdate');
         frame.updateFrameLocale();
       });
 
-      it('should call forceUpdate', () => {
+      it('calls forceUpdate on the child', () => {
         expect(frame.getChild().forceUpdate)
+          .toHaveBeenCalled();
+      });
+
+      it('calls forceUpdate on the child nav', () => {
+        expect(frame.getChild().nav.forceUpdate)
           .toHaveBeenCalled();
       });
     });
