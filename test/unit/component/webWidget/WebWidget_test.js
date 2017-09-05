@@ -50,6 +50,22 @@ describe('WebWidget component', () => {
 
     initMockRegistry({
       'React': React,
+      'component/container/Container': {
+        Container: class extends Component {
+          render() {
+            return (
+              <div>{this.props.children}</div>
+            );
+          }
+        }
+      },
+      'component/chat/Chat.sass': {
+        locals: {
+          container: 'container',
+          scrollContainer: 'scrollContainerClasses',
+          scrollContainerMobile: 'scrollContainerMobileClasses'
+        }
+      },
       'component/chat/Chat': MockChat,
       'component/helpCenter/HelpCenter': {
         HelpCenter: MockHelpCenter

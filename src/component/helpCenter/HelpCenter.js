@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { Container } from 'component/container/Container';
 import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle';
 import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop';
 import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile';
@@ -519,12 +518,9 @@ export class HelpCenter extends Component {
                      : this.renderHelpCenterDesktop(buttonLabel);
 
     return (
-      <Container
-        style={this.props.style}
-        onClick={this.onContainerClick}
-        fullscreen={this.props.fullscreen}>
+      <div>
         {helpCenter}
-      </Container>
+      </div>
     );
   }
 }

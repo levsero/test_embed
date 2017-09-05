@@ -13,12 +13,6 @@ describe('Chat component', () => {
     chatProp = { chats: chats };
 
     initMockRegistry({
-      './Chat.sass': {
-        locals: {
-          scrollContainer: 'scrollContainerClasses',
-          scrollContainerMobile: 'scrollContainerMobileClasses'
-        }
-      },
       'component/chat/ChatBox': {
         ChatBox: noopReactComponent()
       },
@@ -206,10 +200,14 @@ describe('Chat component', () => {
 
     describe('renderChatScreen', () => {
       let component;
+      const styles = {
+        scrollContainer: 'scrollContainerClasses',
+        scrollContainerMobile: 'scrollContainerMobileClasses'
+      };
 
       describe('for non mobile devices', () => {
         beforeEach(() => {
-          component = domRender(<Chat chat={chatProp} />);
+          component = domRender(<Chat chat={chatProp} styles={styles} />);
           component.setState({ screen: 'chatting' });
         });
 
@@ -226,7 +224,7 @@ describe('Chat component', () => {
 
       describe('for mobile devices', () => {
         beforeEach(() => {
-          component = domRender(<Chat chat={chatProp} isMobile={true} />);
+          component = domRender(<Chat chat={chatProp} isMobile={true} styles={styles} />);
           component.setState({ screen: 'chatting' });
         });
 

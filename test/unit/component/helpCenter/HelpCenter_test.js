@@ -79,13 +79,6 @@ describe('HelpCenter component', () => {
           }
         }
       },
-      'component/container/Container': {
-        Container: class extends Component {
-          render() {
-            return <div>{this.props.children}</div>;
-          }
-        }
-      },
       'service/i18n': {
         i18n: {
           init: jasmine.createSpy(),

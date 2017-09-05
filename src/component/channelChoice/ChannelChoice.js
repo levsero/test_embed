@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Container } from 'component/container/Container';
 import { ChannelChoiceDesktop } from 'component/channelChoice/ChannelChoiceDesktop';
 import { ChannelChoiceMobile } from 'component/channelChoice/ChannelChoiceMobile';
 
@@ -62,15 +61,14 @@ export class ChannelChoice extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const { style, isMobile } = this.props;
-    const channelChoice = isMobile
+    const channelChoice = this.props.isMobile
                         ? this.renderMobile()
                         : this.renderDesktop();
 
     return (
-      <Container style={style}>
+      <div>
         {channelChoice}
-      </Container>
+      </div>
     );
   }
 }
