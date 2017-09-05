@@ -15,7 +15,6 @@ const submitTicket = 'ticketSubmissionForm';
 const launcher = 'launcher';
 const chat = 'zopimChat';
 const helpCenter = 'helpCenterForm';
-const channelChoice = 'channelChoice';
 const state = {};
 
 state[`${chat}.connectionPending`] = true;
@@ -26,8 +25,6 @@ state[`${chat}.isVisible`] = false;
 state[`${helpCenter}.isVisible`] = false;
 state[`${helpCenter}.isAccessible`] = false;
 state[`${helpCenter}.isSuppressed`] = false;
-state[`${channelChoice}.isVisible`] = false;
-state[`${channelChoice}.isAccessible`] = false;
 state[`${chat}.isOnline`] = false;
 state[`${chat}.isSuppressed`] = false;
 state[`${chat}.isAccessible`] = false;
@@ -41,13 +38,6 @@ state['.activatePending'] = false;
 
 const helpCenterAvailable = () => {
   return state[`${helpCenter}.isAccessible`] && !state[`${helpCenter}.isSuppressed`];
-};
-
-const channelChoiceAvailable = () => {
-  return state[`${channelChoice}.isAccessible`]
-    && !helpCenterAvailable()
-    && chatAvailable()
-    && submitTicketAvailable();
 };
 
 const chatAvailable = () => {
@@ -72,7 +62,6 @@ const getHideAnimation = _.memoize(
 
 const embedVisible = (_state) => _.some([
   _state[`${helpCenter}.isVisible`],
-  _state[`${channelChoice}.isVisible`],
   _state[`${chat}.isVisible`],
   _state[`${submitTicket}.isVisible`]
 ]);
@@ -80,8 +69,6 @@ const embedVisible = (_state) => _.some([
 const resetActiveEmbed = () => {
   if (helpCenterAvailable()) {
     state.activeEmbed = helpCenter;
-  } else if (channelChoiceAvailable()) {
-    state.activeEmbed = channelChoice;
   } else if (chatAvailable()) {
     state.activeEmbed = chat;
   } else if (submitTicketAvailable()) {
@@ -133,7 +120,7 @@ function init(embedsAccessible, params = {}) {
       if (state[`${chat}.unreadMsgs`]) {
         c.broadcast(`${launcher}.setLabelUnreadMsgs`, state[`${chat}.unreadMsgs`]);
       }
-      else if (helpCenterAvailable() || channelChoiceAvailable()) {
+      else if (helpCenterAvailable()) {
         c.broadcast(`${launcher}.setLabelChatHelp`);
       } else {
         c.broadcast(`${launcher}.setLabelChat`);
@@ -148,7 +135,6 @@ function init(embedsAccessible, params = {}) {
   state[`${submitTicket}.isAccessible`] = embedsAccessible.submitTicket;
   state[`${helpCenter}.isAccessible`] = embedsAccessible.helpCenter &&
     (!params.helpCenterSignInRequired || isOnHelpCenterPage());
-  state[`${channelChoice}.isAccessible`] = embedsAccessible.channelChoice;
   state[`${chat}.isAccessible`] = embedsAccessible.chat;
   state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppress');
   state[`${chat}.isSuppressed`] = settings.get('chat.suppress');
@@ -162,13 +148,11 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept('.hide', () => {
     state[`${submitTicket}.isVisible`] = false;
-    state[`${channelChoice}.isVisible`] = false;
     state[`${chat}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = false;
     state['.hasHidden'] = true;
 
     c.broadcast(`${submitTicket}.hide`);
-    c.broadcast(`${channelChoice}.hide`);
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${helpCenter}.hide`);
     c.broadcast(`${launcher}.hide`);
@@ -177,7 +161,6 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept(`.show, ${chat}.onError`, () => {
     state[`${submitTicket}.isVisible`] = false;
-    state[`${channelChoice}.isVisible`] = false;
     state[`${chat}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = false;
     state['.hasHidden'] = false;
@@ -185,7 +168,6 @@ function init(embedsAccessible, params = {}) {
     resetActiveEmbed();
 
     c.broadcast(`${submitTicket}.hide`);
-    c.broadcast(`${channelChoice}.hide`);
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${helpCenter}.hide`);
     c.broadcast('webWidget.hide');
@@ -243,11 +225,6 @@ function init(embedsAccessible, params = {}) {
     resetActiveEmbed();
   });
 
-  c.intercept(`${channelChoice}.onClose`, (_broadcast) => {
-    state[`${channelChoice}.isVisible`] = false;
-    _broadcast();
-  });
-
   c.intercept(`${chat}.onOnline`, () => {
     state[`${chat}.isOnline`] = true;
 
@@ -262,10 +239,10 @@ function init(embedsAccessible, params = {}) {
     }
 
     if ((state.activeEmbed === submitTicket || !state.activeEmbed) && !helpCenterAvailable()) {
-      state.activeEmbed = channelChoiceAvailable() ? channelChoice : chat;
+      state.activeEmbed = chat;
     }
 
-    if (helpCenterAvailable() || channelChoiceAvailable()) {
+    if (helpCenterAvailable()) {
       c.broadcast(`${launcher}.setLabelChatHelp`);
     } else {
       c.broadcast(`${launcher}.setLabelChat`);
@@ -298,7 +275,7 @@ function init(embedsAccessible, params = {}) {
     // about when chat comes offline after being online
     if (state[`${chat}.isOnline`]) {
       state[`${chat}.isOnline`] = false;
-      if (state.activeEmbed === chat || state.activeEmbed === channelChoice) {
+      if (state.activeEmbed === chat) {
         resetActiveEmbed();
       }
 
@@ -347,45 +324,19 @@ function init(embedsAccessible, params = {}) {
     updateLauncherLabel();
   });
 
-  c.intercept(
-    [`${helpCenter}.onNextClick`,
-     `${channelChoice}.onNextClick`].join(','),
-    (__, embed) => {
-      const currentEmbed = state.activeEmbed;
-
-      if (embed === 'chat' || (!embed && chatAvailable())) {
-        if (!isMobileBrowser()) {
-          state[`${chat}.isVisible`] = true;
-          c.broadcast(`${launcher}.hide`);
-        } else {
-          c.broadcast(`${launcher}.show`);
-          setScrollKiller(false);
-        }
-
-        trackChatStarted();
-
-        state.activeEmbed = chat;
-        c.broadcast(`${chat}.show`);
-      } else {
-        state[`${submitTicket}.isVisible`] = true;
-        state.activeEmbed = submitTicket;
-
-        // Run this on a seperate `tick` from helpCenter.hide
-        // to mitigate ghost-clicking
-        setTimeout(() => {
-          c.broadcast(`${submitTicket}.show`, { transition: getShowAnimation() });
-        }, 0);
-      }
-
-      state[`${currentEmbed}.isVisible`] = false;
-
-      // Run this on a separate `tick` from submitTicket.show
-      setTimeout(() => {
-        c.broadcast(`${currentEmbed}.hide`, { transition: getHideAnimation() });
-        c.broadcast(`${submitTicket}.showBackButton`);
-      }, 0);
+  c.intercept(`${helpCenter}.onNextClick`, () => {
+    if (!isMobileBrowser()) {
+      state[`${chat}.isVisible`] = true;
+    } else {
+      c.broadcast(`${launcher}.show`);
+      setScrollKiller(false);
     }
-  );
+
+    trackChatStarted();
+
+    state.activeEmbed = chat;
+    c.broadcast(`${chat}.show`);
+  });
 
   c.intercept(`${helpCenter}.onSearch`, (__, params) => {
     c.broadcast(`${submitTicket}.setLastSearch`, params);
@@ -440,8 +391,6 @@ function init(embedsAccessible, params = {}) {
 
     if (state[`${helpCenter}.isAccessible`]) {
       state.activeEmbed = helpCenter;
-    } else if (channelChoiceAvailable()) {
-      state.activeEmbed = channelChoice;
     }
   });
 
@@ -458,7 +407,6 @@ function init(embedsAccessible, params = {}) {
 
   c.subscribe(
     [`${helpCenter}.onClose`,
-     `${channelChoice}.onClose`,
      'webWidget.onClose',
      `${chat}.onHide`,
      `${submitTicket}.onClose`].join(','),
@@ -491,42 +439,6 @@ function init(embedsAccessible, params = {}) {
     }
   );
 
-  c.intercept(`${submitTicket}.onBackClick`, () => {
-    const activeEmbed = helpCenterAvailable() ? helpCenter : channelChoice;
-
-    state[`${submitTicket}.isVisible`] = false;
-    state[`${activeEmbed}.isVisible`] = true;
-    state.activeEmbed = activeEmbed;
-
-    // Run these two broadcasts on a seperate `ticks`
-    // to mitigate ghost-clicking
-    setTimeout(() => {
-      c.broadcast(`${submitTicket}.hide`);
-    }, 10); // delay hiding so we don't see host page flashing
-
-    setTimeout(() => {
-      c.broadcast(`${activeEmbed}.show`);
-    }, 0);
-  });
-
-  c.intercept(`${submitTicket}.onCancelClick`, () => {
-    state[`${submitTicket}.isVisible`] = false;
-    c.broadcast(`${submitTicket}.hide`, { transition: getHideAnimation() });
-    c.broadcast('webWidget.hide', { transition: getHideAnimation() });
-
-    if (helpCenterAvailable()) {
-      state[`${helpCenter}.isVisible`] = true;
-      state.activeEmbed = helpCenter;
-      c.broadcast(`${helpCenter}.show`, { transition: getShowAnimation() });
-    } else if (channelChoiceAvailable()) {
-      state[`${channelChoice}.isVisible`] = true;
-      state.activeEmbed = channelChoice;
-      c.broadcast(`${channelChoice}.show`, { transition: getShowAnimation() });
-    } else if (!state['.hideOnClose']) {
-      c.broadcast(`${launcher}.show`, { transition: getShowAnimation() });
-    }
-  });
-
   c.intercept(`${submitTicket}.onFormSubmitted`, () => {
     resetActiveEmbed();
   });
@@ -540,7 +452,6 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept('.onSetLocale', () => {
-    c.broadcast(`${channelChoice}.refreshLocale`);
     c.broadcast(`${chat}.refreshLocale`);
     c.broadcast(`${helpCenter}.refreshLocale`);
     c.broadcast(`${launcher}.refreshLocale`);
