@@ -13,6 +13,7 @@
     "build:prod": "webpack --config=./webpack.prod.config.js --progress",
     "build:ac": "webpack --config=./webpack.ac.config.js --progress",
     "watch": "webpack-dashboard -- webpack-dev-server --config=./webpack.dev.config.js",
+    "watch:ac": "./script/start-ac-dev && webpack-dashboard -- webpack-dev-server --config=./webpack.ac.dev.config.js",
     "build": "npm run build-setup:prod && npm run build:prod",
     "build-ac": "npm run build-setup:prod && npm run build:ac",
     "test": "node script/jasmine-runner.js",
