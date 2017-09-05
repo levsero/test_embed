@@ -20,6 +20,9 @@ describe('WebWidget component', () => {
         };
         this.setArticleView = setArticleViewSpy;
       }
+      onContainerClick() {
+        return 'helpCenterOnContainerClick';
+      }
       render() {
         return <div />;
       }
@@ -33,6 +36,9 @@ describe('WebWidget component', () => {
         };
         this.clearForm = clearFormSpy;
       }
+      handleDragEnter() {
+        return 'submitTicketHandleDragEnter';
+      }
       render() {
         return <div />;
       }
@@ -42,6 +48,9 @@ describe('WebWidget component', () => {
       constructor() {
         super();
         this.state = {};
+      }
+      onContainerClick() {
+        return 'chatOnContainerClick';
       }
       render() {
         return <div />;
@@ -61,7 +70,7 @@ describe('WebWidget component', () => {
       },
       'component/chat/Chat.sass': {
         locals: {
-          container: 'container',
+          container: 'containerClasses',
           scrollContainer: 'scrollContainerClasses',
           scrollContainerMobile: 'scrollContainerMobileClasses'
         }
@@ -909,6 +918,137 @@ describe('WebWidget component', () => {
               .toBe(true);
           });
         });
+      });
+    });
+  });
+
+  describe('#getContainerOnClickHandler', () => {
+    let webWidget, onClickHandler;
+
+    describe('when the activeEmbed is chat', () => {
+      beforeEach(() => {
+        webWidget = domRender(<WebWidget activeEmbed='chat' />);
+        onClickHandler = webWidget.getContainerOnClickHandler();
+      });
+
+      it('returns the chat container onClick handler', () => {
+        // expect(onClickHandler())
+          // .toEqual('chatOnContainerClick');
+      });
+    });
+
+    describe('when the activeEmbed is helpCenter', () => {
+      beforeEach(() => {
+        webWidget = domRender(<WebWidget activeEmbed='helpCenterForm' />);
+        onClickHandler = webWidget.getContainerOnClickHandler();
+      });
+
+      it('returns the helpCenter container onClick handler', () => {
+        expect(onClickHandler())
+          .toEqual('helpCenterOnContainerClick');
+      });
+    });
+
+    describe('when the activeEmbed is neither chat or helpCenter', () => {
+      beforeEach(() => {
+        webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' />);
+        onClickHandler = webWidget.getContainerOnClickHandler();
+      });
+
+      it('returns a noop function', () => {
+        expect(onClickHandler())
+          .toBeUndefined();
+      });
+    });
+  });
+
+  describe('#getContainerProps', () => {
+    let webWidget, props;
+    const style = { width: '100px' };
+    const commonPropsTestFn = (props) => {
+      expect(props)
+        .toEqual(jasmine.objectContaining({
+          position: 'left',
+          fullscreen: false,
+          style: style,
+          onClick: jasmine.any(Function),
+          onDragEnter: jasmine.any(Function)
+        }));
+    };
+
+    describe('when the activeEmbed is chat', () => {
+      beforeEach(() => {
+        webWidget = domRender(
+          <WebWidget
+            activeEmbed='chat'
+            position='left'
+            fullscreen={false}
+            style={style} />
+        );
+        props = webWidget.getContainerProps();
+      });
+
+      it('returns the correct common props', () => {
+        commonPropsTestFn(props);
+      });
+
+      it('returns the correct className prop', () => {
+        expect(props.className)
+          .toBe('containerClasses');
+      });
+
+      it('returns the correct onClick prop', () => {
+        expect(props.onClick())
+          .toBe('chatOnContainerClick');
+      });
+    });
+
+    describe('when the activeEmbed is helpCenter', () => {
+      beforeEach(() => {
+        webWidget = domRender(
+          <WebWidget
+            activeEmbed='helpCenterForm'
+            position='left'
+            fullscreen={false}
+            style={style} />
+        );
+        props = webWidget.getContainerProps();
+      });
+
+      it('returns the correct common props', () => {
+        commonPropsTestFn(props);
+      });
+
+      it('returns the correct onClick prop', () => {
+        expect(props.onClick())
+          .toBe('helpCenterOnContainerClick');
+      });
+    });
+
+    describe('when the activeEmbed is submitTicket', () => {
+      beforeEach(() => {
+        webWidget = domRender(
+          <WebWidget
+            activeEmbed='ticketSubmissionForm'
+            position='left'
+            fullscreen={false}
+            style={style} />
+        );
+        props = webWidget.getContainerProps();
+      });
+
+      it('returns the correct common props', () => {
+        commonPropsTestFn(props);
+      });
+
+      it('returns the correct key prop', () => {
+        expect(_.includes(props.key, 'submitTicketForm_'))
+          .toBe(true);
+      });
+
+      it('returns the correct onDragEnter prop', () => {
+        expect(props.onDragEnter())
+          .toBe('submitTicketHandleDragEnter');
       });
     });
   });
