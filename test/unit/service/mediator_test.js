@@ -116,9 +116,6 @@ describe('mediator', () => {
       ['show',
        'showWithAnimation',
        'hide',
-       'showNextButton',
-       'setNextToChat',
-       'setNextToSubmitTicket',
        'refreshLocale']
     );
 
@@ -135,6 +132,7 @@ describe('mediator', () => {
       'webWidget',
       ['show',
        'hide',
+       'update',
        'refreshLocale',
        'setZopimOnline',
        'zopimChatStarted',
@@ -174,9 +172,6 @@ describe('mediator', () => {
       c.subscribe(`${names.helpCenter}.show`, helpCenterSub.show);
       c.subscribe(`${names.helpCenter}.showWithAnimation`, helpCenterSub.show);
       c.subscribe(`${names.helpCenter}.hide`, helpCenterSub.hide);
-      c.subscribe(`${names.helpCenter}.showNextButton`, helpCenterSub.showNextButton);
-      c.subscribe(`${names.helpCenter}.setNextToChat`, helpCenterSub.setNextToChat);
-      c.subscribe(`${names.helpCenter}.setNextToSubmitTicket`, helpCenterSub.setNextToSubmitTicket);
       c.subscribe(`${names.helpCenter}.refreshLocale`, helpCenterSub.refreshLocale);
 
       c.subscribe(`${names.ipm}.activate`, ipmSub.activate);
@@ -187,6 +182,7 @@ describe('mediator', () => {
 
       c.subscribe(`${names.webWidget}.hide`, webWidgetSub.hide);
       c.subscribe(`${names.webWidget}.show`, webWidgetSub.show);
+      c.subscribe(`${names.webWidget}.update`, webWidgetSub.update);
       c.subscribe(`${names.webWidget}.refreshLocale`, webWidgetSub.refreshLocale);
       c.subscribe(`${names.webWidget}.setZopimOnline`, webWidgetSub.setZopimOnline);
       c.subscribe(`${names.webWidget}.zopimChatStarted`, webWidgetSub.zopimChatStarted);
@@ -354,7 +350,7 @@ describe('mediator', () => {
         expect(helpCenterSub.show.calls.count())
           .toEqual(0);
 
-        c.broadcast(`${submitTicket}.onClose`);
+        c.broadcast('webWidget.onClose');
         c.broadcast('authentication.onSuccess');
 
         c.broadcast(`${launcher}.onClick`);
@@ -470,16 +466,6 @@ describe('mediator', () => {
         .toHaveBeenCalled();
     });
 
-    it('should broadcast helpCenter.refreshLocale', () => {
-      expect(helpCenterSub.refreshLocale)
-        .toHaveBeenCalled();
-    });
-
-    it('should broadcast submitTicket.refreshLocale', () => {
-      expect(submitTicketSub.refreshLocale)
-        .toHaveBeenCalled();
-    });
-
     it('should broadcast zopimChat.refreshLocale', () => {
       expect(chatSub.refreshLocale)
         .toHaveBeenCalled();
@@ -539,7 +525,7 @@ describe('mediator', () => {
         c.broadcast('identify.onComplete', {});
 
         c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${helpCenter}.onClose`);
+        c.broadcast('webWidget.onClose');
 
         reset(ipmSub.activate);
 
@@ -966,7 +952,7 @@ describe('mediator', () => {
         c.broadcast(`${helpCenter}.onNextClick`);
 
         reset(helpCenterSub.show);
-        c.broadcast(`${helpCenter}.onClose`); // close
+        c.broadcast('webWidget.onClose'); // close
         c.broadcast(`${chat}.onOffline`);
 
         jasmine.clock().install();
@@ -1087,17 +1073,10 @@ describe('mediator', () => {
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
 
-        c.broadcast(`${submitTicket}.onClose`);
+        c.broadcast('webWidget.onClose');
         jasmine.clock().tick(0);
 
         expect(launcherSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('hides when a hide call is made', () => {
-        c.broadcast('.hide');
-
-        expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
       });
 
@@ -1113,7 +1092,7 @@ describe('mediator', () => {
         reset(setScrollKiller);
         reset(revertWindowScroll);
 
-        c.broadcast(`${submitTicket}.onClose`);
+        c.broadcast('webWidget.onClose');
 
         expect(setScrollKiller)
           .toHaveBeenCalledWith(false);
@@ -1173,14 +1152,6 @@ describe('mediator', () => {
           .toEqual(0);
       });
 
-      it('hides after show is called', () => {
-        reset(submitTicketSub.hide);
-        c.broadcast('.show');
-
-        expect(submitTicketSub.hide.calls.count())
-          .toEqual(1);
-      });
-
       describe('when activate is called', () => {
         beforeEach(() => {
           c.broadcast(`${chat}.onOffline`);
@@ -1225,7 +1196,7 @@ describe('mediator', () => {
         it('calls update on submitTicket', () => {
           c.broadcast('.orientationChange');
 
-          expect(submitTicketSub.update)
+          expect(webWidgetSub.update)
             .toHaveBeenCalled();
         });
       });
@@ -1268,7 +1239,7 @@ describe('mediator', () => {
 
         reset(helpCenterSub.show);
 
-        c.broadcast(`${submitTicket}.onClose`); // close
+        c.broadcast('webWidget.onClose'); // close
 
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
@@ -1724,11 +1695,6 @@ describe('mediator', () => {
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
       });
-
-      it('should broadcast to help center to remove next button', () => {
-        expect(helpCenterSub.showNextButton)
-          .toHaveBeenCalledWith(false);
-      });
     });
 
     describe('with chat and without ticket submission', () => {
@@ -1744,49 +1710,6 @@ describe('mediator', () => {
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
       });
-
-      it('should show next button if chat is online', () => {
-        c.broadcast(`${chat}.onOffline`);
-        c.broadcast(`${chat}.onOnline`);
-
-        expect(helpCenterSub.showNextButton)
-          .toHaveBeenCalledWith(true);
-      });
-
-      it('should not show next button if chat is offline', () => {
-        c.broadcast(`${chat}.onOffline`);
-
-        expect(helpCenterSub.showNextButton)
-          .toHaveBeenCalledWith(false);
-      });
-
-      it('should hide the next button if chat goes offline', () => {
-        c.broadcast(`${chat}.onOffline`);
-        c.broadcast(`${chat}.onOnline`);
-
-        expect(helpCenterSub.showNextButton)
-          .toHaveBeenCalledWith(true);
-
-        c.broadcast(`${chat}.onOffline`);
-
-        expect(helpCenterSub.showNextButton)
-          .toHaveBeenCalledWith(false);
-      });
-    });
-
-    it('displays "Live Chat" if chat is online', () => {
-      c.broadcast(`${chat}.onOnline`);
-
-      expect(helpCenterSub.setNextToChat.calls.count())
-        .toEqual(1);
-    });
-
-    it('displays "Leave A Message" if chat is offline', () => {
-      c.broadcast(`${chat}.onOnline`);
-      c.broadcast(`${chat}.onOffline`);
-
-      expect(helpCenterSub.setNextToSubmitTicket.calls.count())
-        .toEqual(1);
     });
 
     it('triggers Ticket Submission setLastSearch with last search params', () => {
@@ -1804,21 +1727,6 @@ describe('mediator', () => {
 
       expect(submitTicketSub.setLastSearch)
         .toHaveBeenCalledWith(params);
-    });
-
-    it('hides when a hide call is made', () => {
-      c.broadcast('.hide');
-
-      expect(helpCenterSub.hide.calls.count())
-        .toEqual(1);
-    });
-
-    it('hides after show is called', () => {
-      reset(helpCenterSub.hide);
-      c.broadcast('.show');
-
-      expect(helpCenterSub.hide.calls.count())
-        .toEqual(1);
     });
 
     describe('when activate is called', () => {
@@ -1881,7 +1789,7 @@ describe('mediator', () => {
       reset(setScrollKiller);
       reset(revertWindowScroll);
 
-      c.broadcast(`${helpCenter}.onClose`);
+      c.broadcast('webWidget.onClose');
 
       expect(setScrollKiller)
         .toHaveBeenCalledWith(false);
@@ -2106,11 +2014,6 @@ describe('mediator', () => {
           expect(helpCenterSub.show.calls.count())
             .toEqual(1);
         });
-
-        it('should broadcast to help center to remove next button', () => {
-          expect(helpCenterSub.showNextButton)
-            .toHaveBeenCalledWith(false);
-        });
       });
 
       describe('when chat and help center are available', () => {
@@ -2124,34 +2027,6 @@ describe('mediator', () => {
 
           expect(helpCenterSub.show.calls.count())
             .toEqual(1);
-        });
-
-        it('should show next button if chat is online', () => {
-          c.broadcast(`${chat}.onOffline`);
-          c.broadcast(`${chat}.onOnline`);
-
-          expect(helpCenterSub.showNextButton)
-            .toHaveBeenCalledWith(true);
-        });
-
-        it('should not show next button if chat is offline', () => {
-          c.broadcast(`${chat}.onOffline`);
-
-          expect(helpCenterSub.showNextButton)
-            .toHaveBeenCalledWith(false);
-        });
-
-        it('should hide the next button if chat goes offline', () => {
-          c.broadcast(`${chat}.onOffline`);
-          c.broadcast(`${chat}.onOnline`);
-
-          expect(helpCenterSub.showNextButton)
-            .toHaveBeenCalledWith(true);
-
-          c.broadcast(`${chat}.onOffline`);
-
-          expect(helpCenterSub.showNextButton)
-            .toHaveBeenCalledWith(false);
         });
       });
     });

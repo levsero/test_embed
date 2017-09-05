@@ -362,7 +362,7 @@ function setupMediator() {
     });
   });
 
-  mediator.channel.subscribe('ticketSubmissionForm.update', () => {
+  mediator.channel.subscribe('webWidget.update', () => {
     waitForRootComponent(() => {
       embed.instance.getChild().forceUpdate();
     });

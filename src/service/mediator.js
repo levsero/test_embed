@@ -140,10 +140,6 @@ function init(embedsAccessible, params = {}) {
   state[`${chat}.isSuppressed`] = settings.get('chat.suppress');
   state[`${submitTicket}.isSuppressed`] = settings.get('contactForm.suppress');
 
-  if (!submitTicketAvailable()) {
-    c.broadcast(`${helpCenter}.showNextButton`, false);
-  }
-
   resetActiveEmbed();
 
   c.intercept('.hide', () => {
@@ -152,9 +148,7 @@ function init(embedsAccessible, params = {}) {
     state[`${helpCenter}.isVisible`] = false;
     state['.hasHidden'] = true;
 
-    c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${chat}.hide`);
-    c.broadcast(`${helpCenter}.hide`);
     c.broadcast(`${launcher}.hide`);
     c.broadcast('webWidget.hide');
   });
@@ -167,9 +161,7 @@ function init(embedsAccessible, params = {}) {
 
     resetActiveEmbed();
 
-    c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${chat}.hide`);
-    c.broadcast(`${helpCenter}.hide`);
     c.broadcast('webWidget.hide');
 
     if (embedAvailable()) {
@@ -203,8 +195,7 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept('.zopimShow', () => {
-    c.broadcast(`${submitTicket}.hide`);
-    c.broadcast(`${helpCenter}.hide`);
+    c.broadcast('webWidget.hide');
 
     /*
       zopim opens up in a seperate tab on mobile,
@@ -234,10 +225,6 @@ function init(embedsAccessible, params = {}) {
 
     c.broadcast('webWidget.setZopimOnline', true);
 
-    if (!submitTicketAvailable()) {
-      c.broadcast(`${helpCenter}.showNextButton`, true);
-    }
-
     if ((state.activeEmbed === submitTicket || !state.activeEmbed) && !helpCenterAvailable()) {
       state.activeEmbed = chat;
     }
@@ -247,8 +234,6 @@ function init(embedsAccessible, params = {}) {
     } else {
       c.broadcast(`${launcher}.setLabelChat`);
     }
-
-    c.broadcast(`${helpCenter}.setNextToChat`);
 
     if (!submitTicketAvailable() && !helpCenterAvailable() && !state[`${chat}.connectionPending`]) {
       c.broadcast(`${launcher}.show`);
@@ -282,11 +267,6 @@ function init(embedsAccessible, params = {}) {
       c.broadcast('webWidget.setZopimOnline', false);
 
       c.broadcast(`${launcher}.setLabelHelp`);
-      c.broadcast(`${helpCenter}.setNextToSubmitTicket`);
-    }
-
-    if (!submitTicketAvailable()) {
-      c.broadcast(`${helpCenter}.showNextButton`, false);
     }
   });
 
@@ -366,11 +346,6 @@ function init(embedsAccessible, params = {}) {
     setTimeout(() => showEmbed(state), 0);
   });
 
-  c.intercept(`${helpCenter}.onClose`, (_broadcast) => {
-    state[`${helpCenter}.isVisible`] = false;
-    _broadcast();
-  });
-
   c.intercept(`${chat}.onHide`, (_broadcast) => {
     state[`${chat}.isVisible`] = false;
     state[`${chat}.unreadMsgs`] = 0;
@@ -394,11 +369,6 @@ function init(embedsAccessible, params = {}) {
     }
   });
 
-  c.intercept(`${submitTicket}.onClose`, (_broadcast) => {
-    state[`${submitTicket}.isVisible`] = false;
-    _broadcast();
-  });
-
   c.intercept('webWidget.onClose', (_broadcast) => {
     state[`${submitTicket}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = false;
@@ -406,10 +376,8 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.subscribe(
-    [`${helpCenter}.onClose`,
-     'webWidget.onClose',
-     `${chat}.onHide`,
-     `${submitTicket}.onClose`].join(','),
+    ['webWidget.onClose',
+     `${chat}.onHide`].join(','),
     () => {
       if (isMobileBrowser()) {
         setScrollKiller(false);
@@ -444,7 +412,7 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept('.orientationChange', () => {
-    c.broadcast(`${submitTicket}.update`);
+    c.broadcast('webWidget.update');
   });
 
   c.intercept('.onSetHelpCenterSuggestions', (__, params) => {
@@ -453,9 +421,7 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept('.onSetLocale', () => {
     c.broadcast(`${chat}.refreshLocale`);
-    c.broadcast(`${helpCenter}.refreshLocale`);
     c.broadcast(`${launcher}.refreshLocale`);
-    c.broadcast(`${submitTicket}.refreshLocale`);
     c.broadcast('webWidget.refreshLocale');
   });
 
