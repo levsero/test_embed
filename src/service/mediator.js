@@ -318,6 +318,15 @@ function init(embedsAccessible, params = {}) {
     c.broadcast(`${chat}.show`);
   });
 
+  c.intercept(`${submitTicket}.onCancelClick`, () => {
+    state[`${submitTicket}.isVisible`] = false;
+    c.broadcast('webWidget.hide', { transition: getHideAnimation() });
+
+    if (!state['.hideOnClose']) {
+      c.broadcast(`${launcher}.show`, { transition: getShowAnimation() });
+    }
+  });
+
   c.intercept(`${helpCenter}.onSearch`, (__, params) => {
     c.broadcast(`${submitTicket}.setLastSearch`, params);
   });

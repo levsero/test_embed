@@ -1175,9 +1175,9 @@ describe('embed.webWidget', () => {
       });
     });
 
-    it('should subscribe to ticketSubmissionForm.update', () => {
+    it('should subscribe to webWidget.update', () => {
       expect(mockMediator.channel.subscribe)
-        .toHaveBeenCalledWith('ticketSubmissionForm.update', jasmine.any(Function));
+        .toHaveBeenCalledWith('webWidget.update', jasmine.any(Function));
     });
 
     describe('when webWidget.refreshLocale is broadcast', () => {

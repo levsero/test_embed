@@ -115,8 +115,7 @@ describe('mediator', () => {
       'helpCenter',
       ['show',
        'showWithAnimation',
-       'hide',
-       'refreshLocale']
+       'hide']
     );
 
     ipmSub = jasmine.createSpyObj(
@@ -160,7 +159,6 @@ describe('mediator', () => {
       c.subscribe(`${names.submitTicket}.setLastSearch`, submitTicketSub.setLastSearch);
       c.subscribe(`${names.submitTicket}.prefill`, submitTicketSub.prefill);
       c.subscribe(`${names.submitTicket}.update`, submitTicketSub.update);
-      c.subscribe(`${names.submitTicket}.refreshLocale`, submitTicketSub.refreshLocale);
 
       c.subscribe(`${names.chat}.show`, chatSub.show);
       c.subscribe(`${names.chat}.showWithAnimation`, chatSub.show);
@@ -172,7 +170,6 @@ describe('mediator', () => {
       c.subscribe(`${names.helpCenter}.show`, helpCenterSub.show);
       c.subscribe(`${names.helpCenter}.showWithAnimation`, helpCenterSub.show);
       c.subscribe(`${names.helpCenter}.hide`, helpCenterSub.hide);
-      c.subscribe(`${names.helpCenter}.refreshLocale`, helpCenterSub.refreshLocale);
 
       c.subscribe(`${names.ipm}.activate`, ipmSub.activate);
       c.subscribe(`${names.ipm}.identifying`, ipmSub.identifying);
