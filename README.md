@@ -52,6 +52,8 @@ To run the embeddables locally type `npm run watch` in this folder for it to kic
 
 First ensure that the project is bootstrap by following the instructions above.
 
+You will need to setup docker-images. Instructions can be found here: https://github.com/zendesk/docker-images#installation.
+
 Start the `embed_key_registry` application. If the image is not found, zdi will automatically pull it down.
 
 ```bash
