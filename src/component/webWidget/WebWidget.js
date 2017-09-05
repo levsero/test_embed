@@ -133,6 +133,38 @@ class WebWidget extends Component {
 
   getHelpCenterComponent = () => this.refs[helpCenter];
 
+  getContainerOnClickHandler = () => {
+    const { activeEmbed } = this.props;
+
+    if (activeEmbed === chat) {
+      return () => this.getChatComponent().onContainerClick();
+    } else if (activeEmbed === helpCenter) {
+      return () => this.getRootComponent().onContainerClick();
+    }
+
+    return () => {};
+  };
+
+  getContainerProps = () => {
+    const { activeEmbed, style, fullscreen, position }= this.props;
+    const onClick = this.getContainerOnClickHandler();
+    const onDragEnter = activeEmbed === submitTicket
+                      ? () => this.getRootComponent().handleDragEnter()
+                      : () => {};
+    const key = activeEmbed === submitTicket ? _.uniqueId('submitTicketForm_') : null;
+    const className = activeEmbed === chat ? chatStyles.container : null;
+
+    return {
+      style,
+      fullscreen,
+      position,
+      className,
+      key,
+      onClick,
+      onDragEnter
+    };
+  };
+
   articleViewActive = () => _.get(this.getHelpCenterComponent(), 'state.articleViewActive', false);
 
   shouldShowTicketFormBackButton = () => {
@@ -264,22 +296,15 @@ class WebWidget extends Component {
 
   renderChat = () => {
     const classes = this.props.activeEmbed !== chat ? 'u-isHidden' : '';
-    const handleOnClick = () => this.getChatComponent().onContainerClick();
 
     return (
       <div className={classes}>
-        <Container
-          onClick={handleOnClick}
-          className={chatStyles.container}
-          style={this.props.style}
-          position={this.props.position}>
-          <Chat
-            ref={chat}
-            styles={chatStyles}
-            isMobile={this.props.fullscreen}
-            updateFrameSize={this.props.updateFrameSize}
-            position={this.props.position} />
-        </Container>
+        <Chat
+          ref={chat}
+          styles={chatStyles}
+          isMobile={this.props.fullscreen}
+          updateFrameSize={this.props.updateFrameSize}
+          position={this.props.position} />
       </div>
     );
   }
@@ -290,40 +315,34 @@ class WebWidget extends Component {
       'u-isHidden': this.props.activeEmbed !== helpCenter
     });
     const chatOnline = this.isChatOnline();
-    const handleOnClick = () => this.getRootComponent().onContainerClick();
 
     return (
       <div className={classes}>
-        <Container
+        <HelpCenter
+          ref={helpCenter}
+          chatOnline={chatOnline}
+          hideZendeskLogo={this.props.hideZendeskLogo}
+          onNextClick={this.onNextClick}
+          onArticleClick={this.props.onArticleClick}
+          onSearch={this.props.onSearch}
+          position={this.props.position}
+          buttonLabelKey={helpCenterConfig.buttonLabelKey}
+          formTitleKey={helpCenterConfig.formTitleKey}
+          showBackButton={this.props.updateBackButtonVisibility}
+          showNextButton={false}
+          showNextButtonSingleIframe={this.props.submitTicketAvailable || chatOnline}
+          searchSender={this.props.searchSender}
+          contextualSearchSender={this.props.contextualSearchSender}
+          imagesSender={this.props.imagesSender}
           style={this.props.style}
-          onClick={handleOnClick}
-          fullscreen={this.props.fullscreen}>
-          <HelpCenter
-            ref={helpCenter}
-            chatOnline={chatOnline}
-            hideZendeskLogo={this.props.hideZendeskLogo}
-            onNextClick={this.onNextClick}
-            onArticleClick={this.props.onArticleClick}
-            onSearch={this.props.onSearch}
-            position={this.props.position}
-            buttonLabelKey={helpCenterConfig.buttonLabelKey}
-            formTitleKey={helpCenterConfig.formTitleKey}
-            showBackButton={this.props.updateBackButtonVisibility}
-            showNextButton={false}
-            showNextButtonSingleIframe={this.props.submitTicketAvailable || chatOnline}
-            searchSender={this.props.searchSender}
-            contextualSearchSender={this.props.contextualSearchSender}
-            imagesSender={this.props.imagesSender}
-            style={this.props.style}
-            fullscreen={this.props.fullscreen}
-            updateFrameSize={this.props.updateFrameSize}
-            disableAutoComplete={this.props.disableAutoComplete}
-            originalArticleButton={this.props.originalArticleButton}
-            localeFallbacks={this.props.localeFallbacks}
-            channelChoice={this.props.channelChoice}
-            viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
-            zendeskHost={this.props.zendeskHost} />
-        </Container>
+          fullscreen={this.props.fullscreen}
+          updateFrameSize={this.props.updateFrameSize}
+          disableAutoComplete={this.props.disableAutoComplete}
+          originalArticleButton={this.props.originalArticleButton}
+          localeFallbacks={this.props.localeFallbacks}
+          channelChoice={this.props.channelChoice}
+          viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
+          zendeskHost={this.props.zendeskHost} />
       </div>
     );
   }
@@ -334,40 +353,32 @@ class WebWidget extends Component {
     const classes = classNames({
       'u-isHidden': !isActiveEmbed
     });
-    const handleDragEnter = () => this.getRootComponent().handleDragEnter();
 
     return (
       <div className={classes}>
-        <Container
-          style={this.props.style}
-          fullscreen={this.props.fullscreen}
+        <SubmitTicket
+          ref={submitTicket}
+          attachmentsEnabled={submitTicketConfig.attachmentsEnabled}
+          attachmentSender={this.props.attachmentSender}
+          customFields={submitTicketConfig.customFields}
+          disableAutoComplete={this.props.disableAutoComplete}
+          formTitleKey={submitTicketConfig.formTitleKey}
+          getFrameDimensions={this.props.getFrameDimensions}
+          hideZendeskLogo={this.props.hideZendeskLogo}
+          maxFileCount={submitTicketConfig.maxFileCount}
+          maxFileSize={submitTicketConfig.maxFileSize}
+          onCancel={this.onCancelClick}
+          onSubmitted={this.props.onSubmitted}
           position={submitTicketConfig.position}
-          onDragEnter={handleDragEnter}
-          key={_.uniqueId('submitTicketForm_')}>
-          <SubmitTicket
-            ref={submitTicket}
-            attachmentsEnabled={submitTicketConfig.attachmentsEnabled}
-            attachmentSender={this.props.attachmentSender}
-            customFields={submitTicketConfig.customFields}
-            disableAutoComplete={this.props.disableAutoComplete}
-            formTitleKey={submitTicketConfig.formTitleKey}
-            getFrameDimensions={this.props.getFrameDimensions}
-            hideZendeskLogo={this.props.hideZendeskLogo}
-            maxFileCount={submitTicketConfig.maxFileCount}
-            maxFileSize={submitTicketConfig.maxFileSize}
-            onCancel={this.onCancelClick}
-            onSubmitted={this.props.onSubmitted}
-            position={submitTicketConfig.position}
-            showBackButton={this.props.updateBackButtonVisibility}
-            style={this.props.style}
-            subjectEnabled={this.props.subjectEnabled}
-            submitTicketSender={this.props.submitTicketSender}
-            tags={this.props.tags}
-            ticketFieldSettings={this.props.ticketFieldSettings}
-            ticketFormSettings={this.props.ticketFormSettings}
-            updateFrameSize={this.props.updateFrameSize}
-            viaId={this.props.viaId} />
-        </Container>
+          showBackButton={this.props.updateBackButtonVisibility}
+          style={this.props.style}
+          subjectEnabled={this.props.subjectEnabled}
+          submitTicketSender={this.props.submitTicketSender}
+          tags={this.props.tags}
+          ticketFieldSettings={this.props.ticketFieldSettings}
+          ticketFormSettings={this.props.ticketFormSettings}
+          updateFrameSize={this.props.updateFrameSize}
+          viaId={this.props.viaId} />
       </div>
     );
   }
@@ -376,17 +387,15 @@ class WebWidget extends Component {
     if (this.props.activeEmbed !== channelChoice) return null;
 
     return (
-      <Container style={this.props.style}>
-        <ChannelChoice
-          ref={channelChoice}
-          style={this.props.style}
-          chatOnline={this.isChatOnline()}
-          isMobile={this.props.fullscreen}
-          onNextClick={this.setComponent}
-          onCancelClick={this.props.closeFrame}
-          showCloseButton={this.props.showCloseButton}
-          hideZendeskLogo={this.props.hideZendeskLogo} />
-      </Container>
+      <ChannelChoice
+        ref={channelChoice}
+        style={this.props.style}
+        chatOnline={this.isChatOnline()}
+        isMobile={this.props.fullscreen}
+        onNextClick={this.setComponent}
+        onCancelClick={this.props.closeFrame}
+        showCloseButton={this.props.showCloseButton}
+        hideZendeskLogo={this.props.hideZendeskLogo} />
     );
   }
 
@@ -401,10 +410,12 @@ class WebWidget extends Component {
     return (
       // data-embed is needed for our intergration tests
       <div style={style} data-embed={this.props.activeEmbed}>
-        {this.renderSubmitTicket()}
-        {this.renderChat()}
-        {this.renderHelpCenter()}
-        {this.renderChannelChoice()}
+        <Container {...this.getContainerProps()}>
+          {this.renderSubmitTicket()}
+          {this.renderChat()}
+          {this.renderHelpCenter()}
+          {this.renderChannelChoice()}
+        </Container>
       </div>
     );
   }
