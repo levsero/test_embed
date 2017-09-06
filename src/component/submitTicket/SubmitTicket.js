@@ -425,6 +425,7 @@ export class SubmitTicket extends Component {
         fullscreen={fullscreen}
         scrollShadowVisible={!fullscreen}
         containerClasses={containerClasses}
+        newDesign={this.props.newDesign}
         footerClasses={footerClasses}>
         <div className={`${styles.ticketFormsListTitle} ${titleMobileClasses}`}>
           {i18n.t('embeddable_framework.submitTicket.ticketForms.title')}

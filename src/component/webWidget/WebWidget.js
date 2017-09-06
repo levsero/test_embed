@@ -296,6 +296,7 @@ class WebWidget extends Component {
           ref={chat}
           styles={chatStyles}
           isMobile={this.props.fullscreen}
+          newDesign={this.props.newDesign}
           updateFrameSize={this.props.updateFrameSize}
           position={this.props.position} />
       </div>
@@ -356,6 +357,7 @@ class WebWidget extends Component {
           customFields={submitTicketConfig.customFields}
           disableAutoComplete={this.props.disableAutoComplete}
           formTitleKey={submitTicketConfig.formTitleKey}
+          newDesign={this.props.newDesign}
           getFrameDimensions={this.props.getFrameDimensions}
           hideZendeskLogo={this.props.hideZendeskLogo}
           maxFileCount={submitTicketConfig.maxFileCount}
