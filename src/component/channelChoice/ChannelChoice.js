@@ -9,6 +9,7 @@ export class ChannelChoice extends Component {
     chatOnline: PropTypes.bool.isRequired,
     showCloseButton: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
+    newDesign: PropTypes.bool,
     formTitleKey: PropTypes.string,
     hideZendeskLogo: PropTypes.bool,
     onNextClick: PropTypes.func,
@@ -23,6 +24,7 @@ export class ChannelChoice extends Component {
     onNextClick: () => {},
     style: {},
     isMobile: false,
+    newDesign: false,
     updateFrameSize: () => {}
   };
 
@@ -41,6 +43,7 @@ export class ChannelChoice extends Component {
         formTitleKey={formTitleKey}
         handleNextClick={this.handleNextClick}
         handleCancelClick={onCancelClick}
+        newDesign={this.props.newDesign}
         showCloseButton={showCloseButton} />
     );
   }
@@ -54,6 +57,7 @@ export class ChannelChoice extends Component {
         chatOnline={this.props.chatOnline}
         formTitleKey={formTitleKey}
         handleNextClick={this.handleNextClick}
+        newDesign={this.props.newDesign}
         hideZendeskLogo={hideZendeskLogo} />
     );
   }

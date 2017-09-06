@@ -41,6 +41,7 @@ class WebWidget extends Component {
     chat: PropTypes.object.isRequired,
     contextualSearchSender: PropTypes.func,
     disableAutoComplete: PropTypes.bool,
+    newDesign: PropTypes.bool,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
     getFrameDimensions: PropTypes.func.isRequired,
@@ -85,6 +86,7 @@ class WebWidget extends Component {
     chat: { account_status: 'offline' }, // eslint-disable-line camelcase
     contextualSearchSender: () => {},
     disableAutoComplete: false,
+    newDesign: false,
     formTitleKey: '',
     fullscreen: true,
     helpCenterAvailable: false,
@@ -314,6 +316,7 @@ class WebWidget extends Component {
           chatOnline={chatOnline}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}
+          newDesign={this.props.newDesign}
           onArticleClick={this.props.onArticleClick}
           onSearch={this.props.onSearch}
           position={this.props.position}

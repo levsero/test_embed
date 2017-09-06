@@ -14,11 +14,13 @@ export class ChannelChoiceDesktop extends Component {
     chatOnline: PropTypes.bool.isRequired,
     formTitleKey: PropTypes.string.isRequired,
     handleNextClick: PropTypes.func.isRequired,
-    hideZendeskLogo: PropTypes.bool
+    hideZendeskLogo: PropTypes.bool,
+    newDesign: PropTypes.bool
   };
 
   static defaultProps = {
-    hideZendeskLogo: false
+    hideZendeskLogo: false,
+    newDesign: false
   };
 
   handleChatClick = () => {
@@ -77,6 +79,7 @@ export class ChannelChoiceDesktop extends Component {
           footerContent={this.renderZendeskLogo()}
           footerClasses={footerClasses}
           hideZendeskLogo={hideZendeskLogo}
+          newDesign={this.props.newDesign}
           title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}>
           {this.renderBody()}
         </ScrollContainer>
