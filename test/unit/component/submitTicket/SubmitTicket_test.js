@@ -120,13 +120,6 @@ describe('Submit ticket component', () => {
       'component/loading/LoadingSpinner': {
         LoadingSpinner: noopReactComponent()
       },
-      'component/container/Container': {
-        Container: class extends Component {
-          render() {
-            return <div>{this.props.children}</div>;
-          }
-        }
-      },
       'component/container/ScrollContainer': {
         ScrollContainer: class extends Component {
           render() {

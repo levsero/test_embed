@@ -6,12 +6,15 @@ import _ from 'lodash';
 
 import Chat from 'component/chat/Chat';
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
+import { Container } from 'component/container/Container';
 import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
          updateEmbedAccessible,
          updateBackButtonVisibility,
          updateAuthenticated } from 'src/redux/modules/base';
+
+import { locals as chatStyles } from 'component/chat/Chat.sass';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
@@ -259,6 +262,29 @@ class WebWidget extends Component {
     }
   }
 
+  onContainerClick = () => {
+    const { activeEmbed } = this.props;
+
+    // TODO:
+    // Once the other embed components are within a wrappedInstance,
+    // getting a reference to the instance of the Chat component will no
+    // longer need to be in a seperate method. We can then remove this if-else
+    // logic and replace it with something like:
+    // if (this.getRootComponent().onContainerClick)
+    //   this.getRootComponent().onContainerClick()
+    if (activeEmbed === chat) {
+      this.getChatComponent().onContainerClick();
+    } else if (activeEmbed === helpCenter) {
+      this.getRootComponent().onContainerClick();
+    }
+  };
+
+  onContainerDragEnter = () => {
+    if (this.props.activeEmbed === submitTicket) {
+      this.getRootComponent().handleDragEnter();
+    }
+  }
+
   renderChat = () => {
     const classes = this.props.activeEmbed !== chat ? 'u-isHidden' : '';
 
@@ -266,7 +292,7 @@ class WebWidget extends Component {
       <div className={classes}>
         <Chat
           ref={chat}
-          style={this.props.style}
+          styles={chatStyles}
           isMobile={this.props.fullscreen}
           updateFrameSize={this.props.updateFrameSize}
           position={this.props.position} />
@@ -370,14 +396,22 @@ class WebWidget extends Component {
     // here and this won't be needed to fix dodgy animation.
     const width = this.props.fullscreen ? '100%' : '342px';
     const style = { width };
+    const className = this.props.activeEmbed === chat ? chatStyles.container : '';
 
     return (
       // data-embed is needed for our intergration tests
       <div style={style} data-embed={this.props.activeEmbed}>
-        {this.renderSubmitTicket()}
-        {this.renderChat()}
-        {this.renderHelpCenter()}
-        {this.renderChannelChoice()}
+        <Container
+          style={this.props.style}
+          position={this.props.position}
+          className={className}
+          onClick={this.onContainerClick}
+          onDragEnter={this.onContainerDragEnter}>
+          {this.renderSubmitTicket()}
+          {this.renderChat()}
+          {this.renderHelpCenter()}
+          {this.renderChannelChoice()}
+        </Container>
       </div>
     );
   }
