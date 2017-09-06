@@ -333,9 +333,8 @@ class WebWidget extends Component {
 
   renderSubmitTicket = () => {
     const { submitTicketConfig } = this.props;
-    const isActiveEmbed = this.props.activeEmbed === submitTicket;
     const classes = classNames({
-      'u-isHidden': !isActiveEmbed
+      'u-isHidden': this.props.activeEmbed !== submitTicket
     });
 
     return (

@@ -58,7 +58,7 @@ describe('WebWidget component', () => {
       }
     }
 
-    class MockRedux extends Component {
+    class MockChatReduxWrapper extends Component {
       constructor() {
         super();
         this.state = {};
@@ -90,7 +90,7 @@ describe('WebWidget component', () => {
           scrollContainerMobile: 'scrollContainerMobileClasses'
         }
       },
-      'component/chat/Chat': MockRedux,
+      'component/chat/Chat': MockChatReduxWrapper,
       'component/helpCenter/HelpCenter': {
         HelpCenter: MockHelpCenter
       },
