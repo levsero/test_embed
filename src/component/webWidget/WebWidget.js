@@ -133,38 +133,6 @@ class WebWidget extends Component {
 
   getHelpCenterComponent = () => this.refs[helpCenter];
 
-  getContainerOnClickHandler = () => {
-    const { activeEmbed } = this.props;
-
-    if (activeEmbed === chat) {
-      return () => this.getChatComponent().onContainerClick();
-    } else if (activeEmbed === helpCenter) {
-      return () => this.getRootComponent().onContainerClick();
-    }
-
-    return () => {};
-  };
-
-  getContainerProps = () => {
-    const { activeEmbed, style, fullscreen, position }= this.props;
-    const onClick = this.getContainerOnClickHandler();
-    const onDragEnter = activeEmbed === submitTicket
-                      ? () => this.getRootComponent().handleDragEnter()
-                      : () => {};
-    const key = activeEmbed === submitTicket ? _.uniqueId('submitTicketForm_') : null;
-    const className = activeEmbed === chat ? chatStyles.container : null;
-
-    return {
-      style,
-      fullscreen,
-      position,
-      className,
-      key,
-      onClick,
-      onDragEnter
-    };
-  };
-
   articleViewActive = () => _.get(this.getHelpCenterComponent(), 'state.articleViewActive', false);
 
   shouldShowTicketFormBackButton = () => {
@@ -294,6 +262,22 @@ class WebWidget extends Component {
     }
   }
 
+  onContainerClick = () => {
+    const { activeEmbed } = this.props;
+
+    if (activeEmbed === chat) {
+      this.getChatComponent().onContainerClick();
+    } else if (activeEmbed === helpCenter) {
+      this.getRootComponent().onContainerClick();
+    }
+  };
+
+  onContainerDragEnter = () => {
+    if (this.props.activeEmbed === submitTicket) {
+      this.getRootComponent().handleDragEnter();
+    }
+  }
+
   renderChat = () => {
     const classes = this.props.activeEmbed !== chat ? 'u-isHidden' : '';
 
@@ -406,11 +390,17 @@ class WebWidget extends Component {
     // here and this won't be needed to fix dodgy animation.
     const width = this.props.fullscreen ? '100%' : '342px';
     const style = { width };
+    const className = this.props.activeEmbed === chat ? chatStyles.container : '';
 
     return (
       // data-embed is needed for our intergration tests
       <div style={style} data-embed={this.props.activeEmbed}>
-        <Container {...this.getContainerProps()}>
+        <Container
+          style={this.props.style}
+          position={this.props.position}
+          className={className}
+          onClick={this.onContainerClick}
+          onDragEnter={this.onContainerDragEnter}>
           {this.renderSubmitTicket()}
           {this.renderChat()}
           {this.renderHelpCenter()}
