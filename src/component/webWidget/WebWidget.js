@@ -265,6 +265,13 @@ class WebWidget extends Component {
   onContainerClick = () => {
     const { activeEmbed } = this.props;
 
+    // TODO:
+    // Once the other embed components are within a wrappedInstance,
+    // getting a reference to the instance of the Chat component will no
+    // longer need to be in a seperate method. We can then remove this if-else
+    // logic and replace it with something like:
+    // if (this.getRootComponent().onContainerClick)
+    //   this.getRootComponent().onContainerClick()
     if (activeEmbed === chat) {
       this.getChatComponent().onContainerClick();
     } else if (activeEmbed === helpCenter) {
