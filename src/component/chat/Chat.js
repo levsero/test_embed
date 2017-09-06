@@ -9,7 +9,6 @@ import { ChatLog } from 'component/chat/ChatLog';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ChatMenu } from 'component/chat/ChatMenu';
 import { ChatPrechatForm } from 'component/chat/ChatPrechatForm';
-import { Container } from 'component/container/Container';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
 import { endChat,
@@ -18,8 +17,6 @@ import { endChat,
          updateAccountSettings,
          updateCurrentMsg,
          sendChatRating } from 'src/redux/modules/chat';
-
-import { locals as styles } from './Chat.sass';
 
 const mapStateToProps = (state) => {
   return {
@@ -41,9 +38,9 @@ class Chat extends Component {
     endChat: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
     position: PropTypes.string,
+    styles: PropTypes.object,
     sendMsg: PropTypes.func.isRequired,
     setVisitorInfo: PropTypes.func.isRequired,
-    style: PropTypes.object,
     updateCurrentMsg: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
     updateAccountSettings: PropTypes.func.isRequired,
@@ -53,7 +50,7 @@ class Chat extends Component {
   static defaultProps = {
     isMobile: false,
     position: 'right',
-    style: null,
+    styles: {},
     updateFrameSize: () => {},
     updateAccountSettings: () => {},
     accountSettings: { concierge: {} }
@@ -110,7 +107,7 @@ class Chat extends Component {
     if (this.props.chat.chats.size <= 0 || this.props.chat.is_chatting) return;
 
     return (
-      <div className={styles.chatEnd}>
+      <div className={this.props.styles.chatEnd}>
         {i18n.t('embeddable_framework.chat.ended.label', { fallback: 'Chat Ended' })}
       </div>
     );
@@ -159,7 +156,7 @@ class Chat extends Component {
 
     return (
       <ScrollContainer
-        containerClasses={styles.prechatContainer}
+        containerClasses={this.props.styles.prechatContainer}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
         <ChatPrechatForm
           visitor={this.props.chat.visitor}
@@ -170,8 +167,9 @@ class Chat extends Component {
 
   renderChatScreen = () => {
     if (this.state.screen !== screens.chatting) return;
+    const { styles, isMobile } = this.props;
 
-    const containerClasses = this.props.isMobile
+    const containerClasses = isMobile
                            ? styles.scrollContainerMobile
                            : styles.scrollContainer;
 
@@ -205,15 +203,11 @@ class Chat extends Component {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     return (
-      <Container
-        onClick={this.onContainerClick}
-        className={styles.container}
-        style={this.props.style}
-        position={this.props.position}>
+      <div>
         {this.renderPrechatScreen()}
         {this.renderChatScreen()}
         {this.renderChatMenu()}
-      </Container>
+      </div>
     );
   }
 }

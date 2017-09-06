@@ -17,7 +17,10 @@ const keyLookupTable = {
     'embeddable_framework.helpCenter.form.title.support',
     'embeddable_framework.helpCenter.form.title.feedback'
   ],
-  helpCenterMessageButton: ['embeddable_framework.helpCenter.submitButton.label.submitTicket.message'],
+  helpCenterMessageButton: [
+    'embeddable_framework.helpCenter.submitButton.label.submitTicket.message',
+    'embeddable_framework.helpCenter.submitButton.label.submitTicket.contact'
+  ],
   helpCenterContactButton: ['embeddable_framework.helpCenter.submitButton.label.submitTicket.contact'],
   helpCenterChatButton: ['embeddable_framework.helpCenter.submitButton.label.chat'],
   contactFormTitle: [

@@ -5,7 +5,6 @@ import _ from 'lodash';
 import { locals as styles } from './SubmitTicket.sass';
 
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
-import { Container } from 'component/container/Container';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
@@ -77,8 +76,7 @@ export class SubmitTicket extends Component {
       selectedTicketForm: null,
       showNotification: false,
       ticketFields: [],
-      ticketForms: {},
-      uid: _.uniqueId('submitTicketForm_')
+      ticketForms: {}
     };
   }
 
@@ -464,17 +462,12 @@ export class SubmitTicket extends Component {
                   : content;
 
     return (
-      <Container
-        style={this.props.style}
-        fullscreen={this.state.fullscreen}
-        position={this.props.position}
-        onDragEnter={this.handleDragEnter}
-        key={this.state.uid}>
+      <div>
         {this.renderAttachmentBox()}
         {this.renderNotifications()}
         {display}
         {this.renderZendeskLogo()}
-      </Container>
+      </div>
     );
   }
 }

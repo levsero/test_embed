@@ -9,15 +9,6 @@ describe('ChannelChoice component', () => {
     mockery.enable();
 
     initMockRegistry({
-      'component/container/Container': {
-        Container: class extends Component {
-          render() {
-            return (
-              <div>{this.props.children}</div>
-            );
-          }
-        }
-      },
       'component/channelChoice/ChannelChoiceDesktop': { ChannelChoiceDesktop: noopReactComponent() },
       'component/channelChoice/ChannelChoiceMobile': { ChannelChoiceMobile: noopReactComponent() }
     });

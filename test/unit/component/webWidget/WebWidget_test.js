@@ -1,5 +1,8 @@
 describe('WebWidget component', () => {
   let WebWidget,
+    chatOnContainerClickSpy,
+    helpCenterOnContainerClickSpy,
+    submitTicketOnDragEnterSpy,
     mockUpdateActiveEmbed;
   const setArticleViewSpy = jasmine.createSpy();
   const clearFormSpy = jasmine.createSpy();
@@ -12,6 +15,10 @@ describe('WebWidget component', () => {
 
     mockUpdateActiveEmbed = jasmine.createSpy('updateActiveEmbed');
 
+    chatOnContainerClickSpy = jasmine.createSpy('chatOnContainerClick');
+    helpCenterOnContainerClickSpy = jasmine.createSpy('helpCenterOnContainerClick');
+    submitTicketOnDragEnterSpy = jasmine.createSpy('submitTicketOnDragEnter');
+
     class MockHelpCenter extends Component {
       constructor() {
         super();
@@ -19,6 +26,7 @@ describe('WebWidget component', () => {
           articleViewActive: false
         };
         this.setArticleView = setArticleViewSpy;
+        this.onContainerClick = helpCenterOnContainerClickSpy;
       }
       render() {
         return <div />;
@@ -32,6 +40,7 @@ describe('WebWidget component', () => {
           selectedTicketForm: null
         };
         this.clearForm = clearFormSpy;
+        this.handleDragEnter = submitTicketOnDragEnterSpy;
       }
       render() {
         return <div />;
@@ -42,15 +51,46 @@ describe('WebWidget component', () => {
       constructor() {
         super();
         this.state = {};
+        this.onContainerClick = chatOnContainerClickSpy;
       }
       render() {
-        return <div />;
+        return <div ref='chat' />;
+      }
+    }
+
+    class MockChatReduxWrapper extends Component {
+      constructor() {
+        super();
+        this.state = {};
+      }
+      render() {
+        return (
+          <div>
+            <MockChat ref='wrappedInstance' />
+          </div>
+        );
       }
     }
 
     initMockRegistry({
       'React': React,
-      'component/chat/Chat': MockChat,
+      'component/container/Container': {
+        Container: class extends Component {
+          render() {
+            return (
+              <div>{this.props.children}</div>
+            );
+          }
+        }
+      },
+      'component/chat/Chat.sass': {
+        locals: {
+          container: 'containerClasses',
+          scrollContainer: 'scrollContainerClasses',
+          scrollContainerMobile: 'scrollContainerMobileClasses'
+        }
+      },
+      'component/chat/Chat': MockChatReduxWrapper,
       'component/helpCenter/HelpCenter': {
         HelpCenter: MockHelpCenter
       },
@@ -893,6 +933,79 @@ describe('WebWidget component', () => {
               .toBe(true);
           });
         });
+      });
+    });
+  });
+
+  describe('#onContainerClick', () => {
+    let webWidget;
+
+    describe('when the activeEmbed is chat', () => {
+      beforeEach(() => {
+        webWidget = domRender(<WebWidget activeEmbed='chat' />);
+        webWidget.onContainerClick();
+      });
+
+      it('calls the chat onContainerClick handler', () => {
+        expect(chatOnContainerClickSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the activeEmbed is helpCenter', () => {
+      beforeEach(() => {
+        webWidget = domRender(<WebWidget activeEmbed='helpCenterForm' />);
+        webWidget.onContainerClick();
+      });
+
+      it('calls the helpCenter onContainerClick handler', () => {
+        expect(helpCenterOnContainerClickSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the activeEmbed is not chat or helpCenter', () => {
+      beforeEach(() => {
+        webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' />);
+        webWidget.onContainerClick();
+      });
+
+      it('does not call the chat onContainerClick handler', () => {
+        expect(chatOnContainerClickSpy)
+          .not.toHaveBeenCalled();
+      });
+
+      it('does not call the helpCenter onContainerClick handler', () => {
+        expect(helpCenterOnContainerClickSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('#onContainerDragEnter', () => {
+    let webWidget;
+
+    describe('when the activeEmbed is submitTicket', () => {
+      beforeEach(() => {
+        webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' />);
+        webWidget.onContainerDragEnter();
+      });
+
+      it('calls the submitTicket onDragEnter handler', () => {
+        expect(submitTicketOnDragEnterSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the activeEmbed is not submitTicket', () => {
+      beforeEach(() => {
+        webWidget = domRender(<WebWidget activeEmbed='helpCenter' />);
+        webWidget.onContainerDragEnter();
+      });
+
+      it('does not call the submitTicket onDragEnter handler', () => {
+        expect(submitTicketOnDragEnterSpy)
+          .not.toHaveBeenCalled();
       });
     });
   });
