@@ -1,9 +1,7 @@
 describe('renderer', () => {
   let renderer,
     mockRegistry,
-    mockSubmitTicket,
     mockLauncher,
-    mockHelpCenter,
     mockChat,
     mockIpm,
     mockAutomaticAnswers,
@@ -41,23 +39,15 @@ describe('renderer', () => {
 
     mockUpdateEmbedAccessible = jasmine.createSpy();
 
-    mockSubmitTicket = embedMocker('mockSubmitTicket');
     mockLauncher = embedMocker('mockLauncher');
-    mockHelpCenter = embedMocker('mockHelpCenter');
     mockChat = embedMocker('mockChat');
     mockIpm = embedMocker('mockIpm');
     mockAutomaticAnswers = embedMocker('mockAutomaticAnswers');
     mockWebWidget = embedMocker('mockWebWidget');
 
     mockRegistry = initMockRegistry({
-      'embed/submitTicket/submitTicket': {
-        submitTicket: mockSubmitTicket
-      },
       'embed/launcher/launcher': {
         launcher: mockLauncher
-      },
-      'embed/helpCenter/helpCenter': {
-        helpCenter: mockHelpCenter
       },
       'embed/chat/chat': {
         chat: mockChat
@@ -161,12 +151,6 @@ describe('renderer', () => {
       expect(mockUpdateEmbedAccessible)
         .toHaveBeenCalledWith(jasmine.any(String), true);
 
-      expect(mockSubmitTicket.create)
-        .toHaveBeenCalledWith('ticketSubmissionForm', jasmine.any(Object), jasmine.any(Object));
-
-      expect(mockHelpCenter.create)
-        .toHaveBeenCalledWith('helpCenterForm', jasmine.any(Object), jasmine.any(Object));
-
       expect(mockChat.create)
         .toHaveBeenCalledWith('zopimChat', jasmine.any(Object), jasmine.any(Object));
 
@@ -175,12 +159,6 @@ describe('renderer', () => {
 
       expect(mockLauncherRecentCall.args[1].position)
         .toEqual(launcherProps.position);
-
-      expect(mockSubmitTicket.render)
-        .toHaveBeenCalledWith('ticketSubmissionForm');
-
-      expect(mockHelpCenter.render)
-        .toHaveBeenCalledWith('helpCenterForm');
 
       expect(mockMediator.init)
         .toHaveBeenCalled();
@@ -230,14 +208,6 @@ describe('renderer', () => {
 
       expect(mockLauncher.create)
         .toHaveBeenCalledWith('thingLauncher', jasmine.any(Object), jasmine.any(Object));
-
-      expect(mockSubmitTicket.create)
-        .toHaveBeenCalledWith('thing', {
-          visible: true,
-          hideZendeskLogo: undefined,
-          disableAutoComplete: undefined,
-          brand: undefined
-        }, jasmine.any(Object));
 
       expect(mockLauncher.render)
         .toHaveBeenCalledWith('aSubmissionForm');
@@ -329,104 +299,90 @@ describe('renderer', () => {
       });
     });
 
-    describe('when singleIframe is true', () => {
-      describe('when config is not naked zopim', () => {
+    describe('when config is not naked zopim', () => {
+      beforeEach(() => {
+        renderer.init(configJSON);
+      });
+
+      it('should create a webWidget embed', () => {
+        expect(mockWebWidget.create)
+          .toHaveBeenCalledWith('webWidget', jasmine.any(Object), jasmine.any(Object));
+      });
+
+      it('should pass through the ticketSubmissionForm and helpCenterForm config', () => {
+        const config = mockWebWidget.create.calls.mostRecent().args[1];
+
+        expect(config.ticketSubmissionForm)
+          .toBeTruthy();
+
+        expect(config.helpCenterForm)
+          .toBeTruthy();
+      });
+
+      it('should still create zopimChat', () => {
+        expect(mockChat.create)
+          .toHaveBeenCalled();
+      });
+
+      describe('when newChat is true', () => {
         beforeEach(() => {
-          configJSON.singleIframe = true;
+          configJSON.newChat = true;
+
+          mockChat.create.calls.reset();
 
           renderer.init(configJSON);
         });
 
-        it('should create a webWidget embed', () => {
+        it('should not create zopimChat', () => {
+          expect(mockChat.create)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when the config is naked zopim', () => {
+      describe('newChat is false', () => {
+        beforeEach(() => {
+          const config = {
+            embeds: { zopimChat: { embed: 'chat' }}
+          };
+
+          mockWebWidget.create.calls.reset();
+
+          renderer.init(config);
+        });
+
+        it('should not create webWidget embed', () => {
           expect(mockWebWidget.create)
-            .toHaveBeenCalledWith('webWidget', jasmine.any(Object), jasmine.any(Object));
-        });
-
-        it('should pass through the ticketSubmissionForm and helpCenterForm config', () => {
-          const config = mockWebWidget.create.calls.mostRecent().args[1];
-
-          expect(config.ticketSubmissionForm)
-            .toBeTruthy();
-
-          expect(config.helpCenterForm)
-            .toBeTruthy();
-        });
-
-        it('should not create submitTicket and helpCenter', () => {
-          expect(mockSubmitTicket.create)
-            .not.toHaveBeenCalled();
-
-          expect(mockHelpCenter.create)
             .not.toHaveBeenCalled();
         });
 
-        it('should still create zopimChat', () => {
+        it('should create zopimChat', () => {
           expect(mockChat.create)
             .toHaveBeenCalled();
         });
-
-        describe('when newChat is true', () => {
-          beforeEach(() => {
-            configJSON.newChat = true;
-
-            mockChat.create.calls.reset();
-
-            renderer.init(configJSON);
-          });
-
-          it('should not create zopimChat', () => {
-            expect(mockChat.create)
-              .not.toHaveBeenCalled();
-          });
-        });
       });
 
-      describe('when the config is naked zopim', () => {
-        describe('newChat is false', () => {
-          beforeEach(() => {
-            const config = {
-              singleIframe: true,
-              embeds: { zopimChat: { embed: 'chat' }}
-            };
+      describe('newChat is true', () => {
+        beforeEach(() => {
+          const config = {
+            newChat: true,
+            embeds: { zopimChat: { embed: 'chat' }}
+          };
 
-            mockWebWidget.create.calls.reset();
+          mockWebWidget.create.calls.reset();
 
-            renderer.init(config);
-          });
-
-          it('should not create webWidget embed', () => {
-            expect(mockWebWidget.create)
-              .not.toHaveBeenCalled();
-          });
-
-          it('should create zopimChat', () => {
-            expect(mockChat.create)
-              .toHaveBeenCalled();
-          });
+          renderer.init(config);
         });
 
-        describe('newChat is true', () => {
-          beforeEach(() => {
-            const config = {
-              singleIframe: true,
-              newChat: true,
-              embeds: { zopimChat: { embed: 'chat' }}
-            };
+        it('should not create zopimChat', () => {
+          expect(mockChat.create)
+            .not.toHaveBeenCalled();
+        });
 
-            mockWebWidget.create.calls.reset();
-
-            renderer.init(config);
-          });
-
-          it('should not create zopimChat', () => {
-            expect(mockChat.create)
-              .not.toHaveBeenCalled();
-          });
-
-          it('should create webWidget embed', () => {
-            expect(mockWebWidget.create)
-              .toHaveBeenCalled();
-          });
+        it('should create webWidget embed', () => {
+          expect(mockWebWidget.create)
+            .toHaveBeenCalled();
         });
       });
     });
@@ -459,11 +415,11 @@ describe('renderer', () => {
   });
 
   describe('#propagateFontRatio', () => {
-    it('should loop over all rendered embeds and update base font-size based on ratio', () => {
+    beforeEach(() => {
       renderer.init({
         embeds: {
-          'thing': {
-            'embed': 'submitTicket'
+          'ticketSubmissionForm': {
+            'embed': 'ticketSubmissionForm'
           },
           'thingLauncher': {
             'embed': 'launcher',
@@ -476,7 +432,9 @@ describe('renderer', () => {
           }
         }
       });
+    });
 
+    it('should loop over all rendered embeds and update base font-size based on ratio', () => {
       renderer.propagateFontRatio(2);
 
       expect(updateBaseFontSize)
@@ -493,23 +451,6 @@ describe('renderer', () => {
     });
 
     it('should trigger propagateFontRatio call on orientationchange', () => {
-      renderer.init({
-        embeds: {
-          'thing': {
-            'embed': 'submitTicket'
-          },
-          'thingLauncher': {
-            'embed': 'launcher',
-            'props': {
-              'onDoubleClick': {
-                'name': 'thing',
-                'method': 'show'
-              }
-            }
-          }
-        }
-      });
-
       jasmine.clock().install();
 
       dispatchEvent('orientationchange', window);
@@ -524,23 +465,6 @@ describe('renderer', () => {
     });
 
     it('should trigger propagateFontRatio call on pinch zoom gesture', () => {
-      renderer.init({
-        embeds: {
-          'thing': {
-            'embed': 'submitTicket'
-          },
-          'thingLauncher': {
-            'embed': 'launcher',
-            'props': {
-              'onDoubleClick': {
-                'name': 'thing',
-                'method': 'show'
-              }
-            }
-          }
-        }
-      });
-
       jasmine.clock().install();
 
       dispatchEvent('touchend', window);
@@ -555,23 +479,6 @@ describe('renderer', () => {
     });
 
     it('should trigger propagateFontRatio call on window load', () => {
-      renderer.init({
-        embeds: {
-          'thing': {
-            'embed': 'submitTicket'
-          },
-          'thingLauncher': {
-            'embed': 'launcher',
-            'props': {
-              'onDoubleClick': {
-                'name': 'thing',
-                'method': 'show'
-              }
-            }
-          }
-        }
-      });
-
       dispatchEvent('load', window);
 
       expect(updateBaseFontSize)
@@ -582,23 +489,6 @@ describe('renderer', () => {
     });
 
     it('should trigger propagateFontRatio call on dom content loaded', () => {
-      renderer.init({
-        embeds: {
-          'thing': {
-            'embed': 'submitTicket'
-          },
-          'thingLauncher': {
-            'embed': 'launcher',
-            'props': {
-              'onDoubleClick': {
-                'name': 'thing',
-                'method': 'show'
-              }
-            }
-          }
-        }
-      });
-
       dispatchEvent('DOMContentLoaded', document);
 
       expect(updateBaseFontSize)
