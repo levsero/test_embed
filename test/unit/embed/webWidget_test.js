@@ -285,7 +285,7 @@ describe('embed.webWidget', () => {
     describe('new design', () => {
       describe('when new chat is on', () => {
         it('passes the `newDesign` with a value of true', () => {
-          const zopim = { zopimChat: { embed: 'chat', props: { zopimId: 'abcde' } } }
+          const zopim = { zopimChat: { embed: 'chat', props: { zopimId: 'abcde' } } };
 
           webWidget.create('', zopim);
           faythe = webWidget.get().component.props.children;
