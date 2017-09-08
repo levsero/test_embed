@@ -573,7 +573,7 @@ describe('beacon', () => {
           .toBe('GET');
 
         expect(payload.path)
-          .toBe('/embeddable_blip');
+          .toBe('/embeddable_identify');
 
         expect(useBase64)
           .toBe(true);
