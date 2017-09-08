@@ -16,6 +16,7 @@ import { nowInSeconds,
 let config = {
   method: 'GET',
   endpoint: '/embeddable_blip',
+  identifyEndpoint: '/embeddable_identify',
   reduceBlipping: false,
   newIdentify: false
 };
@@ -151,11 +152,11 @@ function trackSettings(settings) {
 }
 
 function identify(user) {
-  const { newIdentify, method, endpoint } = config;
+  const { newIdentify, method, identifyEndpoint } = config;
   const payload = {
     type: 'user',
     method: newIdentify ? method : 'POST',
-    path: newIdentify ? endpoint : '/embeddable/identify',
+    path: newIdentify ? identifyEndpoint : '/embeddable/identify',
     params:  {
       user: { ...user, localeId: i18n.getLocaleId() },
       userAgent: navigator.userAgent
