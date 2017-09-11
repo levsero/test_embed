@@ -28,6 +28,12 @@ export class ChatPopup extends Component {
     respondFn: () => {}
   };
 
+  constructor() {
+    super();
+
+    this.agentMessageRef = null;
+  }
+
   renderCta = () => {
     const { showCta, dismissFn, respondFn } = this.props;
 
@@ -49,16 +55,22 @@ export class ChatPopup extends Component {
   renderAgentName = () => {
     const { showCta, agentName } = this.props;
 
-    return showCta && agentName !== ''
+    return showCta && (agentName !== '')
       ? <strong>{agentName}</strong>
       : null;
   }
 
-  renderEllipses = (el) => {
-    // If overflow height is greater than visible height
-    if (el.scrollHeight > el.clientHeight) {
-      el.className += ` ${styles.agentMessageOverflow}`;
-    }
+  renderAgentMessage = () => {
+    const { scrollHeight, clientHeight } = this.agentMessageRef || {};
+    const className = this.agentMessageRef && (scrollHeight > clientHeight)
+      ? `${styles.agentMessage} ${styles.agentMessageOverflow}`
+      : styles.agentMessage;
+
+    return (
+      <div ref={(ref) => this.agentMessageRef = ref} className={className}>
+        {this.props.message}
+      </div>
+    );
   }
 
   render = () => {
@@ -73,7 +85,7 @@ export class ChatPopup extends Component {
             <Avatar src={this.props.avatarPath} className={styles.avatar} />
             <div className={styles.agentContainer}>
               {this.renderAgentName()}
-              <div ref={this.renderEllipses} className={styles.agentMessage}>{this.props.message}</div>
+              {this.renderAgentMessage()}
             </div>
           </div>
           {this.renderCta()}
