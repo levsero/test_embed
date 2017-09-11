@@ -27,6 +27,7 @@ export class HelpCenter extends Component {
     onArticleClick: PropTypes.func,
     onViewOriginalArticleClick: PropTypes.func,
     onNextClick: PropTypes.func,
+    newDesign: PropTypes.bool,
     onSearch: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     searchSender: PropTypes.func.isRequired,
@@ -52,6 +53,7 @@ export class HelpCenter extends Component {
     onViewOriginalArticleClick: () => {},
     onNextClick: () => {},
     onSearch: () => {},
+    newDesign: false,
     originalArticleButton: true,
     showBackButton: () => {},
     showNextButton: true,
@@ -461,6 +463,7 @@ export class HelpCenter extends Component {
         disableAutoComplete={this.props.disableAutoComplete}
         isLoading={this.state.isLoading}
         onNextClick={this.props.onNextClick}
+        newDesign={this.props.newDesign}
         channelChoice={this.state.channelChoiceShown}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
@@ -486,6 +489,7 @@ export class HelpCenter extends Component {
         search={this.search}
         isLoading={this.state.isLoading}
         onNextClick={this.props.onNextClick}
+        newDesign={this.props.newDesign}
         showNextButton={this.shouldShowNextButton()}
         chatOnline={chatOnline}
         channelChoice={this.state.channelChoiceShown}

@@ -23,6 +23,7 @@ export class HelpCenterDesktop extends Component {
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
     hasSearched: PropTypes.bool,
+    newDesign: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     isLoading: PropTypes.bool,
     onNextClick: PropTypes.func,
@@ -39,6 +40,7 @@ export class HelpCenterDesktop extends Component {
     disableAutoComplete: false,
     formTitleKey: 'help',
     hasSearched: false,
+    newDesign: false,
     hideZendeskLogo: false,
     isLoading: false,
     onNextClick: () => {},
@@ -166,6 +168,7 @@ export class HelpCenterDesktop extends Component {
           hideZendeskLogo={this.props.hideZendeskLogo}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
           footerClasses={footerClasses}
+          newDesign={this.props.newDesign}
           headerContent={this.renderHeaderContent()}
           footerContent={this.renderFooterContent()}>
           {this.renderBodyForm()}

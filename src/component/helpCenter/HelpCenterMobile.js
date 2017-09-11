@@ -24,6 +24,7 @@ export class HelpCenterMobile extends Component {
     onNextClick: PropTypes.func,
     hasSearched: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
+    newDesign: PropTypes.bool,
     isLoading: PropTypes.bool,
     search: PropTypes.func.isRequired,
     searchFieldValue: PropTypes.string,
@@ -38,6 +39,7 @@ export class HelpCenterMobile extends Component {
     formTitleKey: 'help',
     hasSearched: false,
     hideZendeskLogo: false,
+    newDesign: false,
     isLoading: false,
     searchFieldValue: '',
     showNextButton: true,
@@ -246,6 +248,7 @@ export class HelpCenterMobile extends Component {
           headerContent={this.renderHeaderContent()}
           footerContent={this.renderFooterContent()}
           fullscreen={true}
+          newDesign={this.props.newDesign}
           containerClasses={containerClasses}
           isVirtualKeyboardOpen={this.state.searchFieldFocused}>
           {this.renderFormContainer()}

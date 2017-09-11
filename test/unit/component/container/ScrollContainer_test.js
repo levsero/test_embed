@@ -15,7 +15,8 @@ describe('ScrollContainer component', () => {
           footer: 'footerClasses',
           footerShadow: 'footerShadowClasses',
           content: 'contentClasses',
-          contentBigheader: 'contentBigheaderClasses'
+          contentBigheader: 'contentBigheaderClasses',
+          userHeader: 'userHeaderClassesYo'
         }
       }
     });
@@ -53,6 +54,24 @@ describe('ScrollContainer component', () => {
 
         expect(container.props.children[1].props.className)
           .not.toMatch('contentBigheaderClasses');
+      });
+    });
+
+    describe('when newDesign is true', () => {
+      it('has `userHeader` classes', () => {
+        const container = shallowRender(<ScrollContainer newDesign={true} headerContent={<div />} />);
+
+        expect(container.props.children[0].props.className)
+          .toMatch('userHeaderClassesYo');
+      });
+    });
+
+    describe('when newDesign is false', () => {
+      it('does not have `userHeader` classes', () => {
+        const container = shallowRender(<ScrollContainer newDesign={false} headerContent={<div />} />);
+
+        expect(container.props.children[0].props.className)
+          .not.toMatch('userHeaderClassesYo');
       });
     });
   });
