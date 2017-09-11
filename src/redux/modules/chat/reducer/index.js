@@ -10,6 +10,7 @@ import departments from './chat-departments';
 import isChatting from './chat-is-chatting';
 import visitor from './chat-visitor';
 import rating from './chat-rating';
+import notification from './chat-notification';
 
 export default combineReducers({
   accountSettings,
@@ -21,6 +22,6 @@ export default combineReducers({
   departments,
   is_chatting: isChatting,
   visitor,
-  rating
+  rating,
+  notification
 });
-

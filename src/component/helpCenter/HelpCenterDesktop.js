@@ -7,6 +7,7 @@ import { ChannelChoicePopupDesktop } from 'component/channelChoice/ChannelChoice
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
+import { ChatPopup } from 'component/chat/ChatPopup';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './HelpCenterDesktop.sass';
@@ -31,7 +32,8 @@ export class HelpCenterDesktop extends Component {
     searchFieldValue: PropTypes.string,
     shadowVisible: PropTypes.bool,
     showNextButton: PropTypes.bool,
-    updateFrameSize: PropTypes.func
+    updateFrameSize: PropTypes.func,
+    notification: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -52,6 +54,16 @@ export class HelpCenterDesktop extends Component {
 
   constructor(props, context) {
     super(props, context);
+
+    this.state = {
+      showNotification: false
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.notification.msg !== nextProps.notification.msg) {
+      this.setState({ showNotification: true });
+    }
   }
 
   componentDidUpdate = () => {
@@ -148,10 +160,33 @@ export class HelpCenterDesktop extends Component {
     );
   }
 
+  renderChatNotification = () => {
+    const { showNotification } = this.state;
+    const { notification } = this.props;
+    const isProactive = notification.nick === 'agent:trigger';
+
+    if (!isProactive && notification.show && showNotification) {
+      setTimeout(() => { this.setState({ showNotification: false }) }, 4000);
+    }
+
+    return showNotification && notification.show
+      ? <ChatPopup
+          showCta={isProactive}
+          className={styles.ongoingNotification}
+          agentName={this.props.notification.display_name}
+          message={this.props.notification.msg}
+          avatarPath={this.props.notification.avatar_path} />
+      : null;
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     let footerClasses = '';
+    const chatPopup = this.props.articleViewActive
+      ? this.renderChatNotification()
+      : null;
+
 
     if (!this.props.showNextButton && this.props.hasSearched) {
       if (this.props.articleViewActive && this.props.hideZendeskLogo) {
@@ -174,6 +209,7 @@ export class HelpCenterDesktop extends Component {
           {this.renderBodyForm()}
           {this.props.children}
         </ScrollContainer>
+        {chatPopup}
         {this.renderZendeskLogo()}
       </div>
     );

@@ -25,6 +25,14 @@ const channelChoice = 'channelChoice';
 const mapStateToProps = (state) => {
   const { base, chat } = state;
 
+  // Hacky merge, use selectors instead
+  _.merge(chat.notification, chat.agents[chat.notification.nick]);
+
+  // Stop showing notification if they visited Chat embed
+  if (base.activeEmbed === chat || base.activeEmbed === zopimChat) {
+    chat.notification.show = false;
+  }
+
   return {
     chat,
     activeEmbed: base.activeEmbed,
@@ -314,6 +322,7 @@ class WebWidget extends Component {
       <div className={classes}>
         <HelpCenter
           ref={helpCenter}
+          notification={this.props.chat.notification}
           chatOnline={chatOnline}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}

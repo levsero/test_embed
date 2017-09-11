@@ -38,7 +38,8 @@ export class HelpCenter extends Component {
     style: PropTypes.object,
     updateFrameSize: PropTypes.func,
     viewMoreEnabled: PropTypes.bool,
-    zendeskHost: PropTypes.string.isRequired
+    zendeskHost: PropTypes.string.isRequired,
+    notification: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -454,6 +455,7 @@ export class HelpCenter extends Component {
     return (
       <HelpCenterDesktop
         ref='helpCenterDesktop'
+        notification={this.props.notification}
         chatOnline={chatOnline}
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
