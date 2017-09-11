@@ -79,7 +79,7 @@ export class ChatPopup extends Component {
       : null;
 
     return (
-      <div className={styles.containerWrapper}>
+      <div className={`${this.props.className} ${styles.containerWrapper}`}>
         <div className={styles.container}>
           <div className={styles.topContainer} onClick={topContainerClickHandler}>
             <Avatar src={this.props.avatarPath} className={styles.avatar} />
