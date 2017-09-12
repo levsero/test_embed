@@ -13,6 +13,8 @@ import { updateActiveEmbed,
          updateEmbedAccessible,
          updateBackButtonVisibility,
          updateAuthenticated } from 'src/redux/modules/base';
+import { hideChatNotification } from 'src/redux/modules/chat';
+import { getChatNotification } from 'src/redux/modules/chat/selectors';
 
 import { locals as chatStyles } from 'component/chat/Chat.sass';
 
@@ -25,16 +27,9 @@ const channelChoice = 'channelChoice';
 const mapStateToProps = (state) => {
   const { base, chat } = state;
 
-  // Hacky merge, use selectors instead
-  _.merge(chat.notification, chat.agents[chat.notification.nick]);
-
-  // Stop showing notification if they visited Chat embed
-  if (base.activeEmbed === chat || base.activeEmbed === zopimChat) {
-    chat.notification.show = false;
-  }
-
   return {
     chat,
+    chatNotification: getChatNotification(state),
     activeEmbed: base.activeEmbed,
     zopimOnline: base.zopim,
     authenticated: base.authenticated
@@ -47,6 +42,7 @@ class WebWidget extends Component {
     buttonLabelKey: PropTypes.string,
     channelChoice: PropTypes.bool,
     chat: PropTypes.object.isRequired,
+    chatNotification: PropTypes.object.isRequired,
     contextualSearchSender: PropTypes.func,
     disableAutoComplete: PropTypes.bool,
     newDesign: PropTypes.bool,
@@ -84,6 +80,7 @@ class WebWidget extends Component {
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
     updateAuthenticated: PropTypes.func.isRequired,
+    hideChatNotification: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired
   };
@@ -322,7 +319,7 @@ class WebWidget extends Component {
       <div className={classes}>
         <HelpCenter
           ref={helpCenter}
-          notification={this.props.chat.notification}
+          notification={this.props.chatNotification}
           chatOnline={chatOnline}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}
@@ -346,7 +343,8 @@ class WebWidget extends Component {
           localeFallbacks={this.props.localeFallbacks}
           channelChoice={this.props.channelChoice}
           viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
-          zendeskHost={this.props.zendeskHost} />
+          zendeskHost={this.props.zendeskHost}
+          hideChatNotification={this.props.hideChatNotification}/>
       </div>
     );
   }
@@ -435,7 +433,8 @@ const actionCreators = {
   updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility,
-  updateAuthenticated
+  updateAuthenticated,
+  hideChatNotification
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);

@@ -1,6 +1,4 @@
-import {
-  SDK_CHAT_MSG,
-} from '../chat-action-types';
+import { SDK_CHAT_MSG, HIDE_CHAT_NOTIFICATION } from '../chat-action-types';
 
 const initialState = {
   nick: '',
@@ -10,17 +8,18 @@ const initialState = {
 };
 
 const notification = (state = initialState, action) => {
-
   switch (action.type) {
     case SDK_CHAT_MSG:
-      const agentDetails = action.payload.detail;
+      const { nick, display_name, msg } = action.payload.detail;
 
       return {
-        nick: agentDetails.nick,
-        display_name: agentDetails.display_name,
-        msg: agentDetails.msg,
+        nick,
+        display_name,
+        msg,
         show: true
       };
+    case HIDE_CHAT_NOTIFICATION:
+      return { ...state, show: false };
     default:
       return state;
   }

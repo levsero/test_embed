@@ -12,6 +12,8 @@ import { i18n } from 'service/i18n';
 
 import { locals as styles } from './HelpCenterDesktop.sass';
 
+const chatNotificationHideDelay = 4000;
+
 export class HelpCenterDesktop extends Component {
   static propTypes = {
     articleViewActive: PropTypes.bool,
@@ -33,7 +35,8 @@ export class HelpCenterDesktop extends Component {
     shadowVisible: PropTypes.bool,
     showNextButton: PropTypes.bool,
     updateFrameSize: PropTypes.func,
-    notification: PropTypes.object.isRequired
+    notification: PropTypes.object.isRequired,
+    hideChatNotification: PropTypes.func
   };
 
   static defaultProps = {
@@ -49,21 +52,12 @@ export class HelpCenterDesktop extends Component {
     searchFieldValue: '',
     shadowVisible: false,
     showNextButton: true,
-    updateFrameSize: () => {}
+    updateFrameSize: () => {},
+    hideChatNotification: () => {}
   };
 
   constructor(props, context) {
     super(props, context);
-
-    this.state = {
-      showNotification: false
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.notification.msg !== nextProps.notification.msg) {
-      this.setState({ showNotification: true });
-    }
   }
 
   componentDidUpdate = () => {
@@ -161,22 +155,24 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderChatNotification = () => {
-    const { showNotification } = this.state;
-    const { notification } = this.props;
-    const isProactive = notification.nick === 'agent:trigger';
+    const { notification, hideChatNotification } = this.props;
 
-    if (!isProactive && notification.show && showNotification) {
-      setTimeout(() => { this.setState({ showNotification: false }) }, 4000);
+    if (notification.show) {
+      //setTimeout(() => hideChatNotification(), chatNotificationHideDelay);
+
+      return (
+        <ChatPopup
+          // TODO: Handle proactive chat messages.
+          showCta={false}
+          className={styles.ongoingNotification}
+          agentName={notification.display_name}
+          message={notification.msg}
+          avatarPath={notification.avatar_path}
+          respondFn={this.props.handleNextClick} />
+      );
     }
 
-    return showNotification && notification.show
-      ? <ChatPopup
-          showCta={isProactive}
-          className={styles.ongoingNotification}
-          agentName={this.props.notification.display_name}
-          message={this.props.notification.msg}
-          avatarPath={this.props.notification.avatar_path} />
-      : null;
+    return null;
   }
 
   render = () => {
@@ -186,7 +182,6 @@ export class HelpCenterDesktop extends Component {
     const chatPopup = this.props.articleViewActive
       ? this.renderChatNotification()
       : null;
-
 
     if (!this.props.showNextButton && this.props.hasSearched) {
       if (this.props.articleViewActive && this.props.hideZendeskLogo) {

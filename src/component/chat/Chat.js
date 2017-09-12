@@ -75,7 +75,11 @@ class Chat extends Component {
     if (!chat || !nextProps.chat) return;
 
     if (chat.chats.size !== nextProps.chat.chats.size) {
-      setTimeout(() => this.scrollContainer.scrollToBottom(), 0);
+      setTimeout(() => {
+        if (this.scrollContainer) {
+          this.scrollContainer.scrollToBottom();
+        }
+      }, 0);
     }
   }
 

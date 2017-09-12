@@ -37,6 +37,7 @@ export class HelpCenter extends Component {
     showNextButtonSingleIframe: PropTypes.bool,
     style: PropTypes.object,
     updateFrameSize: PropTypes.func,
+    hideChatNotification: PropTypes.func,
     viewMoreEnabled: PropTypes.bool,
     zendeskHost: PropTypes.string.isRequired,
     notification: PropTypes.object.isRequired
@@ -61,6 +62,7 @@ export class HelpCenter extends Component {
     showNextButtonSingleIframe: false,
     style: null,
     updateFrameSize: () => {},
+    hideChatNotification: () => {},
     viewMoreEnabled: false
   };
 
@@ -473,7 +475,8 @@ export class HelpCenter extends Component {
         formTitleKey={this.props.formTitleKey}
         searchFieldValue={this.state.searchFieldValue}
         shadowVisible={shadowVisible}
-        updateFrameSize={this.props.updateFrameSize}>
+        updateFrameSize={this.props.updateFrameSize}
+        hideChatNotification={this.props.hideChatNotification}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterDesktop>

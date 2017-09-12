@@ -11,7 +11,8 @@ import {
   UPDATE_VISITOR_INFO_FAILURE,
   UPDATE_ACCOUNT_SETTINGS,
   SEND_CHAT_RATING_SUCCESS,
-  SEND_CHAT_RATING_FAILURE
+  SEND_CHAT_RATING_FAILURE,
+  HIDE_CHAT_NOTIFICATION
 } from './chat-action-types';
 
 const chatTypingTimeout = 2000;
@@ -117,4 +118,8 @@ export function updateAccountSettings() {
     type: UPDATE_ACCOUNT_SETTINGS,
     payload: zChat._getAccountSettings()
   };
+}
+
+export function hideChatNotification() {
+  return { type: HIDE_CHAT_NOTIFICATION };
 }
