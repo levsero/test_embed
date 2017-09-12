@@ -138,33 +138,22 @@ export class HelpCenterArticle extends Component {
   }
 
   handleClick = (e) => {
-    const target = e.target;
-    let nodeName = target.nodeName;
+    let target = e.target;
     let href = target.getAttribute('href');
     const doc = target.ownerDocument;
     const isMailLink = href && (href.indexOf('mailto://') > -1);
+    const isInternalLink = href && (href.indexOf('#') === 0);
 
-    // Traverse upwards to find a parent anchor link
-    if (nodeName !== 'A') {
-      // Element.closest is currently not supported in IE & Edge
-      if (document.documentMode || /Edge/.test(navigator.userAgent)) {
+    // Find parent anchor link
+    if (target.nodeName !== 'A') {
+      // Element.closest is currently not supported in IE
+      if (document.documentMode || !(target = target.closest('a'))) {
         e.preventDefault();
         return;
       }
-
-      const targetParent = target.closest('a');
-
-      if (targetParent) {
-        if (nodeName === 'IMG') {
-          targetParent.setAttribute('target', '_blank');
-        } else {
-          nodeName = targetParent.nodeName;
-          href = targetParent.getAttribute('href');
-        }
-      }
     }
 
-    if (nodeName === 'A' && href.indexOf('#') === 0) {
+    if (isInternalLink) {
       const target = href.slice(1);
 
       // You can deep link via an id or name attribute, handle both in the selector
@@ -174,7 +163,7 @@ export class HelpCenterArticle extends Component {
         inPageElem.scrollIntoView();
       }
       e.preventDefault();
-    } else if (nodeName === 'A' && !isMailLink) {
+    } else if (!isMailLink) {
       target.setAttribute('target', '_blank');
       target.setAttribute('rel', 'noopener noreferrer');
     }
