@@ -13,6 +13,7 @@ import { i18n } from 'service/i18n';
 import { locals as styles } from './HelpCenterDesktop.sass';
 
 const chatNotificationHideDelay = 4000;
+const proactiveChatNotificationDelay = 8000;
 
 export class HelpCenterDesktop extends Component {
   static propTypes = {
@@ -158,12 +159,14 @@ export class HelpCenterDesktop extends Component {
     const { notification, hideChatNotification } = this.props;
 
     if (notification.show) {
-      //setTimeout(() => hideChatNotification(), chatNotificationHideDelay);
+      const { proactive } = notification;
+      const delay = proactive ? proactiveChatNotificationDelay : chatNotificationHideDelay;
+
+      setTimeout(() => hideChatNotification(), delay);
 
       return (
         <ChatPopup
-          // TODO: Handle proactive chat messages.
-          showCta={false}
+          showCta={proactive}
           className={styles.ongoingNotification}
           agentName={notification.display_name}
           message={notification.msg}
