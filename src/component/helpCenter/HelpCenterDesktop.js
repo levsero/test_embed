@@ -108,7 +108,6 @@ export class HelpCenterDesktop extends Component {
         noValidate={true}
         className={styles.form}
         onSubmit={this.handleSubmit}>
-
         <SearchField
           ref='searchField'
           fullscreen={false}
@@ -179,7 +178,8 @@ export class HelpCenterDesktop extends Component {
           agentName={notification.display_name}
           message={notification.msg}
           avatarPath={notification.avatar_path}
-          respondFn={this.handleChatPopupRespond} />
+          respondFn={this.handleChatPopupRespond}
+          dismissFn={hideChatNotification} />
       );
     }
 

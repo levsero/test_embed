@@ -169,7 +169,6 @@ class Chat extends Component {
   }
 
   renderChatScreen = () => {
-    debugger
     if (this.props.screen !== CHATTING_SCREEN) return;
     const { styles, isMobile } = this.props;
 
