@@ -1,0 +1,17 @@
+@import '../../styles/_vars.scss';
+
+.container {
+  composes: Container u-posRelative from global;
+}
+
+.desktop {
+  composes: Container--popover from global;
+}
+
+.mobile {
+  composes: Container--fullscreen from global;
+}
+
+.card {
+  composes: Container--card from global;
+}
