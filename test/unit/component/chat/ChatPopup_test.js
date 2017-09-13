@@ -123,13 +123,6 @@ describe('ChatPopup component', () => {
           expect(respondFnSpy)
             .toHaveBeenCalled();
         });
-
-        it('calls dismissFn when topContainer is clicked', () => {
-          componentNode.querySelector('.topContainer').click();
-
-          expect(respondFnSpy)
-            .not.toHaveBeenCalled();
-        });
       });
 
       describe('when cta is not shown', () => {
@@ -146,7 +139,7 @@ describe('ChatPopup component', () => {
             .toBeNull();
         });
 
-        it('calls dismissFn when topContainer is clicked', () => {
+        it('calls respondFn when topContainer is clicked', () => {
           componentNode.querySelector('.topContainer').click();
 
           expect(respondFnSpy)

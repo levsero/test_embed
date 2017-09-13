@@ -203,6 +203,7 @@ describe('HelpCenterDesktop component', () => {
   });
 
   describe('render', () => {
+    const mockNotification = { show: false };
     let helpCenterDesktop,
       footerClasses;
 
@@ -211,6 +212,7 @@ describe('HelpCenterDesktop component', () => {
         beforeEach(() => {
           helpCenterDesktop = domRender(
             <HelpCenterDesktop
+              notification={mockNotification}
               showNextButton={false}
               hasSearched={true}
               articleViewActive={true}
@@ -229,6 +231,7 @@ describe('HelpCenterDesktop component', () => {
         beforeEach(() => {
           helpCenterDesktop = domRender(
             <HelpCenterDesktop
+              notification={mockNotification}
               showNextButton={false}
               hasSearched={true}
               articleViewActive={false}
@@ -247,6 +250,7 @@ describe('HelpCenterDesktop component', () => {
         beforeEach(() => {
           helpCenterDesktop = domRender(
             <HelpCenterDesktop
+              notification={mockNotification}
               showNextButton={false}
               hasSearched={true}
               articleViewActive={true}
