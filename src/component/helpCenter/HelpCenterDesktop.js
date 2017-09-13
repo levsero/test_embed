@@ -96,7 +96,7 @@ export class HelpCenterDesktop extends Component {
     this.props.search();
   }
 
-  handleChatPopupRespond = (e) => {
+  handleChatNotificationRespond = (e) => {
     this.props.updateChatScreen(CHATTING_SCREEN);
     this.props.handleNextClick(e);
   }
@@ -178,7 +178,7 @@ export class HelpCenterDesktop extends Component {
           agentName={notification.display_name}
           message={notification.msg}
           avatarPath={notification.avatar_path}
-          respondFn={this.handleChatPopupRespond}
+          respondFn={this.handleChatNotificationRespond}
           dismissFn={hideChatNotification} />
       );
     }
