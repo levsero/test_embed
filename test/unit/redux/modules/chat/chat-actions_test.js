@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 
 let actions,
   actionTypes,
+  screenTypes,
   mockStore,
   mockVisitor,
   mockAccountSettings,
@@ -32,12 +33,15 @@ describe('chat redux actions', () => {
 
     const actionsPath = buildSrcPath('redux/modules/chat');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
+    const screenTypesPath = buildSrcPath('redux/modules/chat/reducer/chat-screen-types');
 
     mockery.registerAllowable(actionsPath);
     mockery.registerAllowable(actionTypesPath);
+    mockery.registerAllowable(screenTypesPath);
 
     actions = requireUncached(actionsPath);
     actionTypes = requireUncached(actionTypesPath);
+    screenTypes = requireUncached(screenTypesPath);
 
     mockVisitor = { display_name: 'Visitor 123', nick: 'visitor' };
     mockStore = createMockStore({
@@ -323,6 +327,41 @@ describe('chat redux actions', () => {
     it('has the value returned from zChat._getAccountSettings() in the payload', () => {
       expect(action.payload)
         .toEqual(mockAccountSettings);
+    });
+  });
+
+  describe('hideChatNotification', () => {
+    let action;
+
+    beforeEach(() => {
+      mockAccountSettings = { foo: 'bar' };
+      mockStore.dispatch(actions.hideChatNotification());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type HIDE_CHAT_NOTIFICATION', () => {
+      expect(action.type)
+        .toEqual(actionTypes.HIDE_CHAT_NOTIFICATION);
+    });
+  });
+
+  describe('updateChatScreen', () => {
+    let action;
+
+    beforeEach(() => {
+      mockAccountSettings = { foo: 'bar' };
+      mockStore.dispatch(actions.updateChatScreen(screenTypes.CHATTING_SCREEN));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_CHAT_SCREEN ', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_CHAT_SCREEN);
+    });
+
+    it('has the updated screen in the payload', () => {
+      expect(action.payload.screen)
+        .toBe(screenTypes.CHATTING_SCREEN);
     });
   });
 });
