@@ -38,6 +38,7 @@ export class HelpCenter extends Component {
     style: PropTypes.object,
     updateFrameSize: PropTypes.func,
     hideChatNotification: PropTypes.func,
+    updateChatScreen: PropTypes.func,
     viewMoreEnabled: PropTypes.bool,
     zendeskHost: PropTypes.string.isRequired,
     notification: PropTypes.object.isRequired
@@ -63,6 +64,7 @@ export class HelpCenter extends Component {
     style: null,
     updateFrameSize: () => {},
     hideChatNotification: () => {},
+    updateChatScreen: () => {},
     viewMoreEnabled: false
   };
 
@@ -476,7 +478,8 @@ export class HelpCenter extends Component {
         searchFieldValue={this.state.searchFieldValue}
         shadowVisible={shadowVisible}
         updateFrameSize={this.props.updateFrameSize}
-        hideChatNotification={this.props.hideChatNotification}>
+        hideChatNotification={this.props.hideChatNotification}
+        updateChatScreen={this.props.updateChatScreen}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterDesktop>

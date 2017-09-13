@@ -9,6 +9,7 @@ import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { i18n } from 'service/i18n';
+import { CHATTING_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
 
 import { locals as styles } from './HelpCenterDesktop.sass';
 
@@ -37,7 +38,8 @@ export class HelpCenterDesktop extends Component {
     showNextButton: PropTypes.bool,
     updateFrameSize: PropTypes.func,
     notification: PropTypes.object.isRequired,
-    hideChatNotification: PropTypes.func
+    hideChatNotification: PropTypes.func,
+    updateChatScreen: PropTypes.func
   };
 
   static defaultProps = {
@@ -54,7 +56,8 @@ export class HelpCenterDesktop extends Component {
     shadowVisible: false,
     showNextButton: true,
     updateFrameSize: () => {},
-    hideChatNotification: () => {}
+    hideChatNotification: () => {},
+    updateChatScreen: () => {}
   };
 
   constructor(props, context) {
@@ -91,6 +94,11 @@ export class HelpCenterDesktop extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.search();
+  }
+
+  handleChatPopupRespond = (e) => {
+    this.props.updateChatScreen(CHATTING_SCREEN);
+    this.props.handleNextClick(e);
   }
 
   renderForm = () => {
@@ -171,7 +179,7 @@ export class HelpCenterDesktop extends Component {
           agentName={notification.display_name}
           message={notification.msg}
           avatarPath={notification.avatar_path}
-          respondFn={this.props.handleNextClick} />
+          respondFn={this.handleChatPopupRespond} />
       );
     }
 
