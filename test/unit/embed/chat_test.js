@@ -259,7 +259,7 @@ describe('embed.chat', () => {
             onStatusCall.args[0]('online');
           });
 
-          it('should broadcast <name>.onOnline', () => {
+          it('broadcasts <name>.onOnline', () => {
             expect(mockMediator.channel.broadcast)
               .toHaveBeenCalledWith('dave.onOnline');
           });
@@ -270,7 +270,7 @@ describe('embed.chat', () => {
             onStatusCall.args[0]('away');
           });
 
-          it('should broadcast <name>.onOnline', () => {
+          it('broadcasts <name>.onOnline', () => {
             expect(mockMediator.channel.broadcast)
               .toHaveBeenCalledWith('dave.onOnline');
           });
@@ -281,7 +281,18 @@ describe('embed.chat', () => {
             onStatusCall.args[0]('offline');
           });
 
-          it('should broadcast <name>.onOffline', () => {
+          it('broadcasts <name>.onOffline', () => {
+            expect(mockMediator.channel.broadcast)
+              .toHaveBeenCalledWith('dave.onOffline');
+          });
+        });
+
+        describe('when status is something unexpected', () => {
+          beforeEach(() => {
+            onStatusCall.args[0](undefined);
+          });
+
+          it('broadcasts <name>.onOffline', () => {
             expect(mockMediator.channel.broadcast)
               .toHaveBeenCalledWith('dave.onOffline');
           });
