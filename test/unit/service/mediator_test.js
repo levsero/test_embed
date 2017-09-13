@@ -1010,7 +1010,7 @@ describe('mediator', () => {
          .toEqual(0);
       });
 
-      it('onNextClick opens to chat always', () => {
+      it('causes onNextClick to open to chat always', () => {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
@@ -1260,7 +1260,6 @@ describe('mediator', () => {
       });
     });
   });
-
 
  /* ****************************************** *
   *                   CHAT                     *
