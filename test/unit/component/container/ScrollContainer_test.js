@@ -79,12 +79,11 @@ describe('ScrollContainer component', () => {
   it('should set scrollTop to scrollHeight value when calling `this.scrollToBottom`', () => {
     const scrollContainer = domRender(<ScrollContainer fullscreen={true} />);
 
-    spyOn(scrollContainer, 'getContentContainer')
-      .and.returnValue({ scrollHeight: 100, scrollTop: 0 });
+    scrollContainer.content.scrollHeight = 100;
 
     scrollContainer.scrollToBottom();
 
-    expect(scrollContainer.getContentContainer().scrollTop)
+    expect(scrollContainer.content.scrollTop)
       .toEqual(100);
   });
 
@@ -154,7 +153,7 @@ describe('ScrollContainer component', () => {
       beforeEach(() => {
         mockScrollTop = 150;
         component = domRender(<ScrollContainer />);
-        container = component.getContentContainer();
+        container = component.content;
         container.scrollTop = mockScrollTop;
 
         component.componentWillUpdate();

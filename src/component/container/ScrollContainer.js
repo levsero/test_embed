@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 
 import { locals as styles } from './ScrollContainer.sass';
 
@@ -36,12 +35,15 @@ export class ScrollContainer extends Component {
 
     this.state = { scrollShadowVisible: false };
     this.scrollTop = 0;
+    this.content = null;
+    this.header = null;
+    this.footer = null;
   }
 
   // FIXME
   // Retains the old value of the scrollTop
   componentWillUpdate = () => {
-    const container = this.getContentContainer();
+    const container = this.content;
 
     if (!container) return;
 
@@ -53,21 +55,15 @@ export class ScrollContainer extends Component {
   // re-renders it fails to capture and retain its child DOM node attribute.
   // Perhaps this is due to it being re-rendered three times per state change.
   componentDidUpdate = () => {
-    const container = this.getContentContainer();
+    const container = this.content;
 
     if (!container) return;
 
     container.scrollTop = this.scrollTop;
   }
 
-  getContentContainer = () => {
-    const elem = ReactDOM.findDOMNode(this);
-
-    return elem.querySelector('#content');
-  }
-
   scrollToBottom = () => {
-    const container = this.getContentContainer();
+    const container = this.content;
 
     container.scrollTop = container.scrollHeight;
   }
@@ -93,14 +89,16 @@ export class ScrollContainer extends Component {
 
     return (
       <div className={styles.container}>
-        <header className={`${styles.header} ${userHeaderClasses}`}>
+        <header ref={(el) => {this.header = el;}}
+          className={`${styles.header} ${userHeaderClasses}`}>
           <div className={`${styles.title} ${mobileTitleClasses}`}>
             {this.props.title}
           </div>
           {this.props.headerContent}
         </header>
         <div
-          id='content'
+          ref={(el) => {this.content = el;}}
+          style={{}}
           className={`
             ${styles.content}
             ${containerClasses}
@@ -111,6 +109,7 @@ export class ScrollContainer extends Component {
           {this.props.children}
         </div>
         <footer
+          ref={(el) => {this.footer = el;}}
           className={`${styles.footer} ${footerClasses} ${footerShadowClasses}`}>
           {this.props.footerContent}
         </footer>
