@@ -450,6 +450,76 @@ describe('embed.automaticAnswers', () => {
     });
   });
 
+  describe('cancelSolve', () => {
+    let cancelSolve,
+      mostRecent,
+      formData;
+    const callbacks = {
+      done: () => {},
+      fail: () => {}
+    };
+
+    const renderAndCancelSolve = () => {
+      renderAutomaticAnswers();
+
+      cancelSolve = automaticAnswers.get().instance.getRootComponent().props.cancelSolve;
+      cancelSolve(mockJwtToken, callbacks);
+
+      mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
+      formData = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[1];
+    };
+
+    describe('payload configuration and callbacks', () => {
+      beforeEach(() => {
+        renderAndCancelSolve();
+      });
+
+      it('sends a correctly configured payload to automaticAnswersApiRequest', () => {
+        expect(mostRecent.path)
+          .toBe('/requests/automatic-answers/embed/ticket/cancel_solve');
+
+        expect(mostRecent.method)
+          .toEqual('post');
+      });
+
+      it('sends correctly configured form data', () => {
+        expect(formData.auth_token)
+          .toBe(mockJwtToken);
+      });
+
+      it('triggers the supplied callbacks', () => {
+        expect(mostRecent.callbacks.done)
+          .toEqual(callbacks.done);
+
+        expect(mostRecent.callbacks.fail)
+          .toEqual(callbacks.fail);
+      });
+    });
+
+    describe('query params for device tracking', () => {
+      beforeEach(() => {
+        renderAndCancelSolve();
+      });
+
+      it('includes the source=embed query param', () => {
+        expect(mostRecent.queryParams.source)
+          .toEqual('embed');
+      });
+
+      describe('when the device is a mobile browser', () => {
+        beforeEach(() => {
+          mockIsMobileBrowserValue = true;
+          renderAndCancelSolve();
+        });
+
+        it('includes the mobile=true query param', () => {
+          expect(mostRecent.queryParams.mobile)
+            .toBe(true);
+        });
+      });
+    });
+  });
+
   describe('markArticleIrrelevant', () => {
     let mostRecent,
       formData;
