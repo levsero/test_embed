@@ -56,6 +56,10 @@ function generateUserCSS(color = defaultColor) {
     .u-userStrokeColor {
       stroke: ${color} !important;
     }
+    .u-userHeaderColor {
+      background: ${color} !important;
+      color: ${constrastColor} !important;
+    }
   `);
 }
 

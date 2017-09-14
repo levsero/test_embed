@@ -6,6 +6,7 @@ import ChannelChoiceDesktopStyles from 'component/channelChoice/ChannelChoiceDes
 import ChannelChoicePopupMobileStyles from 'component/channelChoice/ChannelChoicePopupMobile.sass';
 import ChannelChoiceMobileStyles from 'component/channelChoice/ChannelChoiceMobile.sass';
 import ChatBoxStyles from 'component/chat/ChatBox.sass';
+import ChatPopupStyles from 'component/chat/ChatPopup.sass';
 import ChatHeaderStyles from 'component/chat/ChatHeader.sass';
 import ChatFooterStyles from 'component/chat/ChatFooter.sass';
 import ChatPrechatFormStyles from 'component/chat/ChatPrechatForm.sass';
@@ -34,6 +35,7 @@ export const webWidgetStyles = `
   ${ChannelChoiceMobileStyles}
   ${ChannelChoicePopupMobileStyles}
   ${ChatBoxStyles}
+  ${ChatPopupStyles}
   ${ChatHeaderStyles}
   ${ChatFooterStyles}
   ${ChatPrechatFormStyles}

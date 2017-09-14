@@ -12,6 +12,7 @@ export class ScrollContainer extends Component {
     ]),
     children: PropTypes.node.isRequired,
     containerClasses: PropTypes.string,
+    newDesign: PropTypes.bool,
     footerClasses: PropTypes.string,
     fullscreen: PropTypes.bool,
     headerContent: PropTypes.element,
@@ -22,6 +23,7 @@ export class ScrollContainer extends Component {
   static defaultProps = {
     children: <span />,
     containerClasses: '',
+    newDesign: false,
     footerClasses: '',
     footerContent: [],
     fullscreen: false,
@@ -80,16 +82,18 @@ export class ScrollContainer extends Component {
       headerContent,
       containerClasses,
       footerClasses,
-      scrollShadowVisible
+      scrollShadowVisible,
+      newDesign
     } = this.props;
     const mobileContentClasses = fullscreen ? styles.contentMobile : '';
     const footerShadowClasses = this.state.scrollShadowVisible || scrollShadowVisible ? styles.footerShadow : '';
     const mobileTitleClasses = fullscreen ? styles.titleMobile : '';
     const bigHeaderClasses = headerContent && fullscreen ? styles.contentBigheader : '';
+    const userHeaderClasses = newDesign ? styles.userHeader : '';
 
     return (
       <div className={styles.container}>
-        <header className={styles.header}>
+        <header className={`${styles.header} ${userHeaderClasses}`}>
           <div className={`${styles.title} ${mobileTitleClasses}`}>
             {this.props.title}
           </div>

@@ -28,6 +28,7 @@ export class SubmitTicket extends Component {
     maxFileSize: PropTypes.number,
     onCancel: PropTypes.func,
     onSubmitted: PropTypes.func,
+    newDesign: PropTypes.bool,
     position: PropTypes.string,
     previewEnabled: PropTypes.bool,
     showBackButton: PropTypes.func,
@@ -49,6 +50,7 @@ export class SubmitTicket extends Component {
     maxFileSize: 5 * 1024 * 1024,
     onCancel: () => {},
     onSubmitted: () => {},
+    newDesign: false,
     position: 'right',
     previewEnabled: false,
     showBackButton: () => {},
@@ -366,6 +368,7 @@ export class SubmitTicket extends Component {
         formState={this.state.formState}
         setFormState={this.setFormState}
         submit={this.handleSubmit}
+        newDesign={this.props.newDesign}
         ticketForms={this.state.ticketForms}
         getFrameDimensions={this.props.getFrameDimensions}
         previewEnabled={this.props.previewEnabled}>
@@ -422,6 +425,7 @@ export class SubmitTicket extends Component {
         fullscreen={fullscreen}
         scrollShadowVisible={!fullscreen}
         containerClasses={containerClasses}
+        newDesign={this.props.newDesign}
         footerClasses={footerClasses}>
         <div className={`${styles.ticketFormsListTitle} ${titleMobileClasses}`}>
           {i18n.t('embeddable_framework.submitTicket.ticketForms.title')}

@@ -208,6 +208,7 @@ function create(name, config = {}, reduxStore = {}) {
         channelChoice={channelChoice}
         contextualSearchSender={helpCenterSettings.contextualSearchSender}
         disableAutoComplete={globalConfig.disableAutoComplete}
+        newDesign={!!config.zopimChat}
         fullscreen={isMobileBrowser()}
         helpCenterAvailable={helpCenterAvailable}
         helpCenterConfig={helpCenterSettings.config}
@@ -361,7 +362,7 @@ function setupMediator() {
     });
   });
 
-  mediator.channel.subscribe('ticketSubmissionForm.update', () => {
+  mediator.channel.subscribe('webWidget.update', () => {
     waitForRootComponent(() => {
       embed.instance.getChild().forceUpdate();
     });
