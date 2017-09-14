@@ -719,7 +719,7 @@ describe('HelpCenterArticle component', () => {
           preventDefaultSpy = jasmine.createSpy('preventDefault');
           mockEvent = {
             target: {
-              nodeName: 'span',
+              nodeName: 'SPAN',
               getAttribute: noop
             },
             preventDefault: preventDefaultSpy
@@ -747,7 +747,7 @@ describe('HelpCenterArticle component', () => {
           mockClosest = jasmine.createSpy().and.returnValue(null);
           mockEvent = {
             target: {
-              nodeName: 'span',
+              nodeName: 'SPAN',
               closest: mockClosest,
               getAttribute: noop
             },
@@ -767,11 +767,11 @@ describe('HelpCenterArticle component', () => {
       describe(`when the browser isn't IE and a parent anchor link is found`, () => {
         beforeEach(() => {
           preventDefaultSpy = jasmine.createSpy('preventDefault');
-          mockClosestAnchor = { setAttribute: noop };
+          mockClosestAnchor = { setAttribute: noop, getAttribute: noop };
           mockClosest = jasmine.createSpy().and.returnValue(mockClosestAnchor);
           mockEvent = {
             target: {
-              nodeName: 'span',
+              nodeName: 'SPAN',
               closest: mockClosest,
               getAttribute: noop
             },

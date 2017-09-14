@@ -141,8 +141,8 @@ export class HelpCenterArticle extends Component {
     let target = e.target;
     let href = target.getAttribute('href');
     const doc = target.ownerDocument;
-    const isMailLink = href && (href.indexOf('mailto://') > -1);
-    const isInternalLink = href && (href.indexOf('#') === 0);
+    const isMailLink = () => href && (href.indexOf('mailto://') > -1);
+    const isInternalLink = () => href && (href.indexOf('#') === 0);
 
     // Find parent anchor link
     if (target.nodeName !== 'A') {
@@ -151,9 +151,11 @@ export class HelpCenterArticle extends Component {
         e.preventDefault();
         return;
       }
+
+      href = target.getAttribute('href');
     }
 
-    if (isInternalLink) {
+    if (isInternalLink()) {
       const target = href.slice(1);
 
       // You can deep link via an id or name attribute, handle both in the selector
@@ -163,7 +165,7 @@ export class HelpCenterArticle extends Component {
         inPageElem.scrollIntoView();
       }
       e.preventDefault();
-    } else if (!isMailLink) {
+    } else if (!isMailLink()) {
       target.setAttribute('target', '_blank');
       target.setAttribute('rel', 'noopener noreferrer');
     }
