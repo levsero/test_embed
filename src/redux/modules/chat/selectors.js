@@ -17,7 +17,7 @@ export const getChatNotification = createSelector(
   (notification, agents, chats) => {
     const { nick } = notification;
     const agentChats = chats[nick];
-    const proactive = agentChats && agentChats.length === 1;
+    const proactive = !!(agentChats && agentChats.length === 1);
 
     return {
       ...notification,
