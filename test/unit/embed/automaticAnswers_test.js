@@ -9,6 +9,11 @@ describe('embed.automaticAnswers', () => {
 
   const automaticAnswersPath = buildSrcPath('embed/automaticAnswers/automaticAnswers');
   const mockScreenState = 'IRRELEVANT_SCREEN';
+  const renderAutomaticAnswers = () => {
+    mockTransport = mockRegistry['service/transport'].transport;
+    automaticAnswers.create('automaticAnswers');
+    automaticAnswers.render();
+  };
 
   beforeEach(() => {
     resetDOM();
@@ -148,9 +153,7 @@ describe('embed.automaticAnswers', () => {
 
   describe('postRender', () => {
     beforeEach(() => {
-      mockTransport = mockRegistry['service/transport'].transport;
-      automaticAnswers.create('automaticAnswers');
-      automaticAnswers.render();
+      renderAutomaticAnswers();
     });
 
     describe('when the JWT is available', () => {
@@ -196,9 +199,7 @@ describe('embed.automaticAnswers', () => {
   describe('fetchTicket', () => {
     let mostRecent;
     const fetchTicket = () => {
-      mockTransport = mockRegistry['service/transport'].transport;
-      automaticAnswers.create('automaticAnswers');
-      automaticAnswers.render();
+      renderAutomaticAnswers();
       automaticAnswers.fetchTicket(mockJwtToken);
       mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
     };
@@ -250,10 +251,7 @@ describe('embed.automaticAnswers', () => {
     const statusSolved = 3;
 
     beforeEach(() => {
-      mockTransport = mockRegistry['service/transport'].transport;
-
-      automaticAnswers.create('automaticAnswers');
-      automaticAnswers.render();
+      renderAutomaticAnswers();
       instance = automaticAnswers.get().instance;
     });
 
@@ -389,9 +387,7 @@ describe('embed.automaticAnswers', () => {
     };
 
     const renderAndSolveTicket = () => {
-      mockTransport = mockRegistry['service/transport'].transport;
-      automaticAnswers.create('automaticAnswers');
-      automaticAnswers.render();
+      renderAutomaticAnswers();
 
       solveTicket = automaticAnswers.get().instance.getRootComponent().props.solveTicket;
       solveTicket(mockJwtToken, mockArticleIdInUrl, callbacks);
