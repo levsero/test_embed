@@ -14,6 +14,7 @@ describe('embed.automaticAnswers', () => {
     automaticAnswers.create('automaticAnswers');
     automaticAnswers.render();
   };
+  const mostRecentApiRequest = () => mockTransport.automaticAnswersApiRequest.calls.mostRecent();
 
   beforeEach(() => {
     resetDOM();
@@ -452,7 +453,7 @@ describe('embed.automaticAnswers', () => {
 
   describe('cancelSolve', () => {
     let cancelSolve,
-      mostRecent,
+      payload,
       formData;
     const callbacks = {
       done: () => {},
@@ -465,8 +466,8 @@ describe('embed.automaticAnswers', () => {
       cancelSolve = automaticAnswers.get().instance.getRootComponent().props.cancelSolve;
       cancelSolve(mockJwtToken, callbacks);
 
-      mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
-      formData = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[1];
+      payload = mostRecentApiRequest().args[0];
+      formData = mostRecentApiRequest().args[1];
     };
 
     describe('payload configuration and callbacks', () => {
@@ -475,10 +476,10 @@ describe('embed.automaticAnswers', () => {
       });
 
       it('sends a correctly configured payload to automaticAnswersApiRequest', () => {
-        expect(mostRecent.path)
+        expect(payload.path)
           .toBe('/requests/automatic-answers/embed/ticket/cancel_solve');
 
-        expect(mostRecent.method)
+        expect(payload.method)
           .toEqual('post');
       });
 
@@ -488,10 +489,10 @@ describe('embed.automaticAnswers', () => {
       });
 
       it('triggers the supplied callbacks', () => {
-        expect(mostRecent.callbacks.done)
+        expect(payload.callbacks.done)
           .toEqual(callbacks.done);
 
-        expect(mostRecent.callbacks.fail)
+        expect(payload.callbacks.fail)
           .toEqual(callbacks.fail);
       });
     });
@@ -502,7 +503,7 @@ describe('embed.automaticAnswers', () => {
       });
 
       it('includes the source=embed query param', () => {
-        expect(mostRecent.queryParams.source)
+        expect(payload.queryParams.source)
           .toEqual('embed');
       });
 
@@ -513,7 +514,7 @@ describe('embed.automaticAnswers', () => {
         });
 
         it('includes the mobile=true query param', () => {
-          expect(mostRecent.queryParams.mobile)
+          expect(payload.queryParams.mobile)
             .toBe(true);
         });
       });
