@@ -169,6 +169,7 @@ export class HelpCenterDesktop extends Component {
       const { proactive } = notification;
       const delay = proactive ? proactiveChatNotificationDelay : chatNotificationHideDelay;
 
+      // TODO: Handle hiding of the notification within the ChatPopup component itself.
       setTimeout(() => hideChatNotification(), delay);
 
       return (
