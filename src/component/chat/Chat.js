@@ -36,6 +36,7 @@ class Chat extends Component {
     connection: PropTypes.string.isRequired,
     endChat: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
+    getFrameDimensions: PropTypes.func,
     isMobile: PropTypes.bool,
     newDesign: PropTypes.bool,
     position: PropTypes.string,
@@ -50,6 +51,7 @@ class Chat extends Component {
   };
 
   static defaultProps = {
+    getFrameDimensions: () => {},
     isMobile: false,
     newDesign: false,
     position: 'right',
@@ -159,6 +161,7 @@ class Chat extends Component {
     return (
       <ScrollContainer
         containerClasses={this.props.styles.prechatContainer}
+        getFrameDimensions={this.props.getFrameDimensions}
         newDesign={this.props.newDesign}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
         <ChatPrechatForm
@@ -183,6 +186,7 @@ class Chat extends Component {
         headerContent={this.renderChatHeader()}
         headerClasses={styles.header}
         containerClasses={containerClasses}
+        getFrameDimensions={this.props.getFrameDimensions}
         footerClasses={styles.footer}
         newDesign={this.props.newDesign}
         footerContent={this.renderChatFooter()}>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { win } from 'utility/globals';
+
 import { locals as styles } from './ScrollContainer.sass';
 
 export class ScrollContainer extends Component {
@@ -12,6 +14,7 @@ export class ScrollContainer extends Component {
     children: PropTypes.node.isRequired,
     containerClasses: PropTypes.string,
     newDesign: PropTypes.bool,
+    getFrameDimensions: PropTypes.func.isRequired,
     footerClasses: PropTypes.string,
     fullscreen: PropTypes.bool,
     headerContent: PropTypes.element,
@@ -23,6 +26,7 @@ export class ScrollContainer extends Component {
     children: <span />,
     containerClasses: '',
     newDesign: false,
+    getFrameDimensions: () => {},
     footerClasses: '',
     footerContent: [],
     fullscreen: false,
@@ -35,6 +39,8 @@ export class ScrollContainer extends Component {
 
     this.state = { scrollShadowVisible: false };
     this.scrollTop = 0;
+
+    this.height = 0;
     this.content = null;
     this.header = null;
     this.footer = null;
@@ -56,6 +62,18 @@ export class ScrollContainer extends Component {
   // Perhaps this is due to it being re-rendered three times per state change.
   componentDidUpdate = () => {
     const container = this.content;
+
+    // header content height + footer content height + frame margin + frame border
+    const offsetHeight = this.header.clientHeight + this.footer.clientHeight + 15 + 2;
+    const windowHeight = win.innerHeight*0.9;
+    const height = windowHeight - offsetHeight;
+
+    const contentHeight = this.props.getFrameDimensions().height - offsetHeight;
+
+    if (offsetHeight > 0) {
+      container.style.maxHeight = `${height}px`;
+      container.style.minHeight = `${contentHeight}px`;
+    }
 
     if (!container) return;
 
@@ -103,7 +121,6 @@ export class ScrollContainer extends Component {
             ${styles.content}
             ${containerClasses}
             ${mobileContentClasses}
-            ${expandableStyles}
             ${bigHeaderClasses}`
           }>
           {this.props.children}

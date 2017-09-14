@@ -160,6 +160,7 @@ export class Frame extends Component {
   updateFrameSize = () => {
     const frameDoc = this.getContentDocument();
     const fullscreenWidth = `${win.innerWidth}px`;
+    const windowHeight = win.innerHeight*0.9;
 
     if (!frameDoc.firstChild) {
       return false;
@@ -169,7 +170,7 @@ export class Frame extends Component {
       const { frameFullWidth, frameOffsetHeight, frameOffsetWidth, fullscreenable } = this.props;
       const el = this.getRootComponentElement();
       const width  = Math.max(el.clientWidth, el.offsetWidth);
-      const height = Math.max(el.clientHeight, el.offsetHeight);
+      let height = Math.max(el.clientHeight, el.offsetHeight);
       const fullscreen = isMobileBrowser() && fullscreenable;
       // FIXME shouldn't set background & zIndex in a dimensions object
       const fullscreenStyle = {
@@ -178,8 +179,12 @@ export class Frame extends Component {
         height: '100%',
         left: this.state.visible ? '0px' : '-9999px',
         background:'#FFF',
-        zIndex: zIndex
+        zIndex: zIndex,
+        backgroundColor: 'red'
       };
+
+      if (height > windowHeight) height = windowHeight;
+
       const popoverStyle = {
         width: (_.isFinite(width) ? width : 0) + frameOffsetWidth,
         height: (_.isFinite(height) ? height : 0) + frameOffsetHeight
@@ -210,6 +215,10 @@ export class Frame extends Component {
 
     const dimensions = getDimensions();
     const frameWin = this.getContentWindow();
+
+    if (this.state.iframeDimensions.height > dimensions.height) {
+      dimensions.height = this.state.iframeDimensions.height;
+    }
 
     frameWin.setTimeout(() => this.setState({ iframeDimensions: dimensions }), 0);
     return dimensions;

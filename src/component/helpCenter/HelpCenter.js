@@ -20,6 +20,7 @@ export class HelpCenter extends Component {
     contextualSearchSender: PropTypes.func.isRequired,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool.isRequired,
+    getFrameDimensions: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
     imagesSender: PropTypes.func.isRequired,
     localeFallbacks: PropTypes.array,
@@ -49,6 +50,7 @@ export class HelpCenter extends Component {
     chatOnline: false,
     formTitleKey: 'help',
     hideZendeskLogo: false,
+    getFrameDimensions: () => {},
     localeFallbacks: [],
     onArticleClick: () => {},
     onViewOriginalArticleClick: () => {},
@@ -459,6 +461,7 @@ export class HelpCenter extends Component {
         ref='helpCenterDesktop'
         notification={this.props.notification}
         chatOnline={chatOnline}
+        getFrameDimensions={this.props.getFrameDimensions}
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
         search={this.search}

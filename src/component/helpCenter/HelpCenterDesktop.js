@@ -26,6 +26,7 @@ export class HelpCenterDesktop extends Component {
     formTitleKey: PropTypes.string,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
+    getFrameDimensions: PropTypes.func,
     hasSearched: PropTypes.bool,
     newDesign: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
@@ -44,6 +45,7 @@ export class HelpCenterDesktop extends Component {
   static defaultProps = {
     articleViewActive: false,
     channelChoice: false,
+    getFrameDimensions: () => {},
     formTitleKey: 'help',
     hasSearched: false,
     newDesign: false,
@@ -206,6 +208,7 @@ export class HelpCenterDesktop extends Component {
         <ScrollContainer
           ref='scrollContainer'
           hideZendeskLogo={this.props.hideZendeskLogo}
+          getFrameDimensions={this.props.getFrameDimensions}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
           footerClasses={footerClasses}
           newDesign={this.props.newDesign}
