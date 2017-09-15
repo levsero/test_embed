@@ -37,8 +37,11 @@ export class HelpCenter extends Component {
     showNextButtonSingleIframe: PropTypes.bool,
     style: PropTypes.object,
     updateFrameSize: PropTypes.func,
+    hideChatNotification: PropTypes.func,
+    updateChatScreen: PropTypes.func,
     viewMoreEnabled: PropTypes.bool,
-    zendeskHost: PropTypes.string.isRequired
+    zendeskHost: PropTypes.string.isRequired,
+    notification: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -60,6 +63,8 @@ export class HelpCenter extends Component {
     showNextButtonSingleIframe: false,
     style: null,
     updateFrameSize: () => {},
+    hideChatNotification: () => {},
+    updateChatScreen: () => {},
     viewMoreEnabled: false
   };
 
@@ -454,6 +459,7 @@ export class HelpCenter extends Component {
     return (
       <HelpCenterDesktop
         ref='helpCenterDesktop'
+        notification={this.props.notification}
         chatOnline={chatOnline}
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
@@ -471,7 +477,9 @@ export class HelpCenter extends Component {
         formTitleKey={this.props.formTitleKey}
         searchFieldValue={this.state.searchFieldValue}
         shadowVisible={shadowVisible}
-        updateFrameSize={this.props.updateFrameSize}>
+        updateFrameSize={this.props.updateFrameSize}
+        hideChatNotification={this.props.hideChatNotification}
+        updateChatScreen={this.props.updateChatScreen}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterDesktop>

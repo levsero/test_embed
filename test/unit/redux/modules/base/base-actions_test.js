@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 
 let actions,
   actionTypes,
+  hideChatNotificationSpy,
   mockStore;
 
 const middlewares = [thunk];
@@ -11,6 +12,14 @@ const createMockStore = configureMockStore(middlewares);
 describe('base redux actions', () => {
   beforeEach(() => {
     mockery.enable();
+
+    hideChatNotificationSpy = jasmine.createSpy('hideChatNotification')
+      .and
+      .returnValue({ type: 'widget/chat/HIDE_CHAT_NOTIFICATION' });
+
+    initMockRegistry({
+      'src/redux/modules/chat': { hideChatNotification: hideChatNotificationSpy }
+    });
 
     const actionsPath = buildSrcPath('redux/modules/base');
     const actionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
@@ -33,20 +42,50 @@ describe('base redux actions', () => {
     let embed,
       action;
 
-    beforeEach(() => {
-      embed = 'helpCenter';
-      mockStore.dispatch(actions.updateActiveEmbed(embed));
-      action = mockStore.getActions()[0];
+    describe('when the new active embed is chat', () => {
+      beforeEach(() => {
+        embed = 'chat';
+        mockStore.dispatch(actions.updateActiveEmbed(embed));
+        action = mockStore.getActions()[1];
+      });
+
+      it('calls hideChatNotification()', () => {
+        expect(hideChatNotificationSpy)
+          .toHaveBeenCalled();
+      });
+
+      it('dispatches an action of type UPDATE_ACTIVE_EMBED', () => {
+        expect(action.type)
+          .toEqual(actionTypes.UPDATE_ACTIVE_EMBED);
+      });
+
+      it('has the embed in the payload', () => {
+        expect(action.payload)
+          .toEqual(embed);
+      });
     });
 
-    it('dispatches an action of type UPDATE_ACTIVE_EMBED', () => {
-      expect(action.type)
-        .toEqual(actionTypes.UPDATE_ACTIVE_EMBED);
-    });
+    describe('when the new active embed is not chat', () => {
+      beforeEach(() => {
+        embed = 'helpCenter';
+        mockStore.dispatch(actions.updateActiveEmbed(embed));
+        action = mockStore.getActions()[0];
+      });
 
-    it('has the embed in the payload', () => {
-      expect(action.payload)
-        .toEqual(embed);
+      it('does not call hideChatNotification()', () => {
+        expect(hideChatNotificationSpy)
+          .not.toHaveBeenCalled();
+      });
+
+      it('dispatches an action of type UPDATE_ACTIVE_EMBED', () => {
+        expect(action.type)
+          .toEqual(actionTypes.UPDATE_ACTIVE_EMBED);
+      });
+
+      it('has the embed in the payload', () => {
+        expect(action.payload)
+          .toEqual(embed);
+      });
     });
   });
 

@@ -16,18 +16,17 @@ import { endChat,
          setVisitorInfo,
          updateAccountSettings,
          updateCurrentMsg,
-         sendChatRating } from 'src/redux/modules/chat';
+         sendChatRating,
+         updateChatScreen } from 'src/redux/modules/chat';
+import { PRECHAT_SCREEN, CHATTING_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
 
 const mapStateToProps = (state) => {
   return {
     chat: state.chat,
+    screen: state.chat.screen,
     connection: state.chat.connection,
     accountSettings: state.chat.accountSettings
   };
-};
-const screens = {
-  prechat: 'prechat',
-  chatting: 'chatting'
 };
 
 class Chat extends Component {
@@ -36,6 +35,7 @@ class Chat extends Component {
     chat: PropTypes.object.isRequired,
     connection: PropTypes.string.isRequired,
     endChat: PropTypes.func.isRequired,
+    screen: PropTypes.string.isRequired,
     isMobile: PropTypes.bool,
     newDesign: PropTypes.bool,
     position: PropTypes.string,
@@ -45,7 +45,8 @@ class Chat extends Component {
     updateCurrentMsg: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
     updateAccountSettings: PropTypes.func.isRequired,
-    sendChatRating: PropTypes.func.isRequired
+    sendChatRating: PropTypes.func.isRequired,
+    updateChatScreen: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -62,8 +63,7 @@ class Chat extends Component {
     super(props);
 
     this.state = {
-      showMenu: false,
-      screen: screens.prechat
+      showMenu: false
     };
 
     this.scrollContainer = null;
@@ -75,7 +75,11 @@ class Chat extends Component {
     if (!chat || !nextProps.chat) return;
 
     if (chat.chats.size !== nextProps.chat.chats.size) {
-      setTimeout(() => this.scrollContainer.scrollToBottom(), 0);
+      setTimeout(() => {
+        if (this.scrollContainer) {
+          this.scrollContainer.scrollToBottom();
+        }
+      }, 0);
     }
   }
 
@@ -84,10 +88,6 @@ class Chat extends Component {
       display_name: user.name || '',
       email: user.email || ''
     });
-  }
-
-  updateScreen = (screen = screens.chatting) => {
-    this.setState({ screen });
   }
 
   toggleMenu = () => {
@@ -102,7 +102,7 @@ class Chat extends Component {
     this.props.setVisitorInfo(_.pick(info, ['display_name', 'email', 'phone']));
     this.props.sendMsg(info.message);
 
-    this.updateScreen(screens.chatting);
+    this.props.updateChatScreen(CHATTING_SCREEN);
   }
 
   renderChatEnded = () => {
@@ -154,7 +154,7 @@ class Chat extends Component {
   }
 
   renderPrechatScreen = () => {
-    if (this.state.screen !== screens.prechat) return;
+    if (this.props.screen !== PRECHAT_SCREEN) return;
 
     return (
       <ScrollContainer
@@ -169,7 +169,7 @@ class Chat extends Component {
   }
 
   renderChatScreen = () => {
-    if (this.state.screen !== screens.chatting) return;
+    if (this.props.screen !== CHATTING_SCREEN) return;
     const { styles, isMobile } = this.props;
 
     const containerClasses = isMobile
@@ -222,7 +222,8 @@ const actionCreators = {
   updateAccountSettings,
   endChat,
   setVisitorInfo,
-  sendChatRating
+  sendChatRating,
+  updateChatScreen
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);

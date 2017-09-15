@@ -105,6 +105,13 @@ describe('WebWidget component', () => {
         updateEmbedAccessible: noop,
         updateBackButtonVisibility: noop,
         updateAuthenticated: noop
+      },
+      'src/redux/modules/chat': {
+        hideChatNotification: noop,
+        updateChatScreen: noop
+      },
+      'src/redux/modules/chat/selectors': {
+        getChatNotification: noop
       }
     });
 
