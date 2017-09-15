@@ -46,12 +46,16 @@ export class ScrollContainer extends Component {
     this.footer = null;
   }
 
+  componentDidMount = () => {
+    this.setHeight();
+  }
+
   // FIXME
   // Retains the old value of the scrollTop
   componentWillUpdate = () => {
     const container = this.content;
 
-    if (!container) return;
+    this.setHeight();
 
     this.scrollTop = container.scrollTop;
   }
@@ -63,6 +67,15 @@ export class ScrollContainer extends Component {
   componentDidUpdate = () => {
     const container = this.content;
 
+    this.setHeight();
+
+    container.scrollTop = this.scrollTop;
+  }
+
+  setHeight = () => {
+    if (!this.props.newDesign) return;
+
+    const container = this.content;
     // header content height + footer content height + frame margin + frame border
     const offsetHeight = this.header.clientHeight + this.footer.clientHeight + 15 + 2;
     const windowHeight = win.innerHeight*0.9;
@@ -70,14 +83,8 @@ export class ScrollContainer extends Component {
 
     const contentHeight = this.props.getFrameDimensions().height - offsetHeight;
 
-    if (offsetHeight > 0) {
-      container.style.maxHeight = `${height}px`;
-      container.style.minHeight = `${contentHeight}px`;
-    }
-
-    if (!container) return;
-
-    container.scrollTop = this.scrollTop;
+    container.style.minHeight = `${contentHeight}px`;
+    container.style.maxHeight = `${height}px`;
   }
 
   scrollToBottom = () => {

@@ -292,20 +292,18 @@ class WebWidget extends Component {
   }
 
   renderChat = () => {
-    const classes = this.props.activeEmbed !== chat ? 'u-isHidden' : '';
+    if (this.props.activeEmbed !== chat) return;
 
     return (
-      <div className={classes}>
-        <Chat
-          ref={chat}
-          styles={chatStyles}
-          getFrameDimensions={this.props.getFrameDimensions}
-          isMobile={this.props.fullscreen}
-          newDesign={this.props.newDesign}
-          updateFrameSize={this.props.updateFrameSize}
-          updateChatScreen={this.props.updateChatScreen}
-          position={this.props.position} />
-      </div>
+      <Chat
+        ref={chat}
+        styles={chatStyles}
+        getFrameDimensions={this.props.getFrameDimensions}
+        isMobile={this.props.fullscreen}
+        newDesign={this.props.newDesign}
+        updateFrameSize={this.props.updateFrameSize}
+        updateChatScreen={this.props.updateChatScreen}
+        position={this.props.position} />
     );
   }
 
@@ -410,7 +408,6 @@ class WebWidget extends Component {
     // here and this won't be needed to fix dodgy animation.
     const width = this.props.fullscreen ? '100%' : '342px';
     const style = { width };
-    const className = this.props.activeEmbed === chat ? chatStyles.container : '';
 
     return (
       // data-embed is needed for our intergration tests
@@ -418,7 +415,6 @@ class WebWidget extends Component {
         <Container
           style={this.props.style}
           position={this.props.position}
-          className={className}
           onClick={this.onContainerClick}
           onDragEnter={this.onContainerDragEnter}>
           {this.renderSubmitTicket()}

@@ -30,7 +30,7 @@ export class Container extends Component {
     return (
       <div
         onClick={this.props.onClick}
-        className={`${styles.container} ${this.props.className} ${platformClasses} ${styleClasses} ${styles.expandable}`}
+        className={`${styles.container} ${this.props.className} ${platformClasses} ${styleClasses}`}
         onDragEnter={this.props.onDragEnter}
         style={this.props.style}>
         {this.props.children}
