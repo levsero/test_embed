@@ -76,7 +76,7 @@ describe('chat selectors', () => {
       });
     });
 
-    describe('when more messages are received from the same agent', () => {A
+    describe('when more messages are received from the same agent', () => {
       beforeEach(() => {
         mockAgents = { 'agent:007': { avatar_path: '/path/' } };
         mockChats = [

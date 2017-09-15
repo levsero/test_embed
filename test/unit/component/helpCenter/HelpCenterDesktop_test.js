@@ -60,7 +60,7 @@ describe('HelpCenterDesktop component', () => {
       'component/chat/ChatPopup': {
         ChatPopup: class extends Component {
           render() {
-            return <div className='ChatPopup' />;
+            return <div className={`${this.props.className} ChatPopup`} />;
           }
         }
       },
@@ -72,7 +72,9 @@ describe('HelpCenterDesktop component', () => {
         locals: {
           footer: 'footerClasses',
           footerArticleView: 'footerArticleViewClasses',
-          footerLogo: 'footerLogoClasses'
+          footerLogo: 'footerLogoClasses',
+          ongoingNotificationCta: 'ongoingNotificationCtaClasses',
+          ongoingNotification: 'ongoingNotificationClasses'
         }
       },
       'service/i18n': {
@@ -331,6 +333,12 @@ describe('HelpCenterDesktop component', () => {
                 articleViewActive={true}
                 hideChatNotification={hideChatNotificationSpy} />
             );
+            helpCenterDesktopComponent = ReactDOM.findDOMNode(helpCenterDesktop);
+          });
+
+          it('applies the ongoingNotificationCta class', () => {
+            expect(helpCenterDesktopComponent.querySelector('.ChatPopup').className)
+              .toContain('ongoingNotificationCtaClasses');
           });
 
           it('does not call this.props.hideChatNotification immediately', () => {
@@ -354,6 +362,11 @@ describe('HelpCenterDesktop component', () => {
           it('does not call this.props.hideChatNotification immediately', () => {
             expect(hideChatNotificationSpy)
               .not.toHaveBeenCalled();
+          });
+
+          it('applies the ongoingNotificationCta class', () => {
+            expect(helpCenterDesktopComponent.querySelector('.ChatPopup').className)
+              .toContain('ongoingNotificationClasses');
           });
 
           describe('when 4 seconds has passed', () => {

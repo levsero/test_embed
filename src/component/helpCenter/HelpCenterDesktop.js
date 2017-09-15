@@ -168,6 +168,7 @@ export class HelpCenterDesktop extends Component {
     if (notification.show) {
       const { proactive } = notification;
       const delay = proactive ? proactiveChatNotificationDelay : chatNotificationHideDelay;
+      const className = proactive ? styles.ongoingNotificationCta : styles.ongoingNotification;
 
       // TODO: Handle hiding of the notification within the ChatPopup component itself.
       setTimeout(() => hideChatNotification(), delay);
@@ -175,7 +176,7 @@ export class HelpCenterDesktop extends Component {
       return (
         <ChatPopup
           showCta={proactive}
-          className={styles.ongoingNotification}
+          className={className}
           agentName={notification.display_name}
           message={notification.msg}
           avatarPath={notification.avatar_path}
@@ -216,8 +217,8 @@ export class HelpCenterDesktop extends Component {
           {this.renderBodyForm()}
           {this.props.children}
         </ScrollContainer>
-        {chatPopup}
         {this.renderZendeskLogo()}
+        {chatPopup}
       </div>
     );
   }

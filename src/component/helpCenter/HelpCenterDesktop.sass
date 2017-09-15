@@ -1,3 +1,5 @@
+@import '../../styles/_vars.scss';
+
 .form {
   composes: u-cf from global;
   composes: Form from '../../styles/components/Form.scss';
@@ -19,6 +21,10 @@
   composes: u-paddingTT from global;
 }
 
+.ongoingNotificationCta {
+  bottom: #{15/$font-size}rem;
+}
+
 .ongoingNotification {
-  bottom: 80;
+  bottom: #{80/$font-size}rem;
 }
