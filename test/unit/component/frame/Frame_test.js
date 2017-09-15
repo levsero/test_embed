@@ -1,5 +1,6 @@
 describe('Frame', () => {
   let Frame,
+    mockWindowHeight,
     mockRegistryMocks,
     mockIsMobileBrowserValue,
     mockChild,
@@ -54,6 +55,7 @@ describe('Frame', () => {
     mockIsRTLValue = false;
     mockLocaleValue = 'en-US';
     mockZoomSizingRatioValue = 1;
+    mockWindowHeight = 1000;
 
     mockShowTransition = jasmine.createSpy().and.returnValue({
       start: { transitionDuration: '9999ms' },
@@ -86,7 +88,10 @@ describe('Frame', () => {
         cssTimeToMs: () => 300
       },
       'utility/globals': {
-        win: window
+        win: {
+          innerWidth: 100,
+          innerHeight: mockWindowHeight
+        }
       },
       'utility/color': {},
       'utility/devices': {
@@ -365,6 +370,34 @@ describe('Frame', () => {
           expect(dimensions.left)
             .toBe('-9999px');
         });
+      });
+    });
+
+    describe('when props.newChat is true', () => {
+      beforeEach(() => {
+        frame = domRender(<Frame newChat={true}>{mockChild}</Frame>);
+
+        mockObject.clientHeight = 950;
+
+        dimensions = frame.updateFrameSize();
+      });
+
+      it('does not set height above 90% of the window height', () => {
+        expect(dimensions.height)
+          .toEqual(mockWindowHeight*0.9);
+      });
+
+      it('does not reduce the height of the frame', () => {
+        mockObject.clientHeight = 100;
+
+        // jasmine.clock() does not want to work in this test
+        // and throws a bunch of errors.
+        setTimeout(() => {
+          const newDimensions = frame.updateFrameSize();
+
+          expect(newDimensions.height)
+            .toEqual(dimensions.height);
+        }, 0);
       });
     });
   });

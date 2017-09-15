@@ -49,6 +49,7 @@ export class Frame extends Component {
     fullscreenable: PropTypes.bool,
     hideCloseButton: PropTypes.bool,
     name: PropTypes.string,
+    newChat: PropTypes.bool,
     onBack: PropTypes.func,
     onClose: PropTypes.func,
     onHide: PropTypes.func,
@@ -71,6 +72,7 @@ export class Frame extends Component {
     fullscreenable: false,
     hideCloseButton: false,
     name: '',
+    newChat: false,
     onBack: () => {},
     onClose: () => {},
     onHide: () => {},
@@ -160,7 +162,7 @@ export class Frame extends Component {
   updateFrameSize = () => {
     const frameDoc = this.getContentDocument();
     const fullscreenWidth = `${win.innerWidth}px`;
-    const windowHeight = win.innerHeight*0.9;
+    const maxFrameHeight = win.innerHeight*0.9;
 
     if (!frameDoc.firstChild) {
       return false;
@@ -170,7 +172,7 @@ export class Frame extends Component {
       const { frameFullWidth, frameOffsetHeight, frameOffsetWidth, fullscreenable } = this.props;
       const el = this.getRootComponentElement();
       const width  = Math.max(el.clientWidth, el.offsetWidth);
-      let height = Math.max(el.clientHeight, el.offsetHeight);
+      const height = Math.max(el.clientHeight, el.offsetHeight);
       const fullscreen = isMobileBrowser() && fullscreenable;
       // FIXME shouldn't set background & zIndex in a dimensions object
       const fullscreenStyle = {
@@ -182,8 +184,6 @@ export class Frame extends Component {
         zIndex: zIndex,
         backgroundColor: 'red'
       };
-
-      if (height > windowHeight) height = windowHeight;
 
       const popoverStyle = {
         width: (_.isFinite(width) ? width : 0) + frameOffsetWidth,
@@ -216,8 +216,16 @@ export class Frame extends Component {
     const dimensions = getDimensions();
     const frameWin = this.getContentWindow();
 
-    if (this.state.iframeDimensions.height > dimensions.height) {
-      dimensions.height = this.state.iframeDimensions.height;
+    if (this.props.newChat) {
+      const { iframeDimensions } = this.state;
+
+      // Don't shrink back down
+      if (iframeDimensions.height > dimensions.height) {
+        dimensions.height = iframeDimensions.height;
+      // Stop growing at 90% of window height
+      } else if (dimensions.height > maxFrameHeight) {
+        dimensions.height = maxFrameHeight;
+      }
     }
 
     frameWin.setTimeout(() => this.setState({ iframeDimensions: dimensions }), 0);

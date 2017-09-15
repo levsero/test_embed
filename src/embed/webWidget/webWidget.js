@@ -189,6 +189,7 @@ function create(name, config = {}, reduxStore = {}) {
       downHide: transitionFactory.webWidget.downHide(),
       upShow: transitionFactory.webWidget.upShow()
     },
+    newChat: !!config.zopimChat,
     store: reduxStore,
     visible: false,
     useBackButton: true,
