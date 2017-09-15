@@ -44,7 +44,6 @@ class WebWidget extends Component {
     chat: PropTypes.object.isRequired,
     chatNotification: PropTypes.object.isRequired,
     contextualSearchSender: PropTypes.func,
-    disableAutoComplete: PropTypes.bool,
     newDesign: PropTypes.bool,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
@@ -91,7 +90,6 @@ class WebWidget extends Component {
     channelChoice: false,
     chat: { account_status: 'offline' }, // eslint-disable-line camelcase
     contextualSearchSender: () => {},
-    disableAutoComplete: false,
     newDesign: false,
     formTitleKey: '',
     fullscreen: true,
@@ -340,7 +338,6 @@ class WebWidget extends Component {
           style={this.props.style}
           fullscreen={this.props.fullscreen}
           updateFrameSize={this.props.updateFrameSize}
-          disableAutoComplete={this.props.disableAutoComplete}
           originalArticleButton={this.props.originalArticleButton}
           localeFallbacks={this.props.localeFallbacks}
           channelChoice={this.props.channelChoice}
@@ -365,7 +362,6 @@ class WebWidget extends Component {
           attachmentsEnabled={submitTicketConfig.attachmentsEnabled}
           attachmentSender={this.props.attachmentSender}
           customFields={submitTicketConfig.customFields}
-          disableAutoComplete={this.props.disableAutoComplete}
           formTitleKey={submitTicketConfig.formTitleKey}
           newDesign={this.props.newDesign}
           getFrameDimensions={this.props.getFrameDimensions}

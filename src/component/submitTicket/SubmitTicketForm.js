@@ -34,7 +34,6 @@ export class SubmitTicketForm extends Component {
     attachmentSender: PropTypes.func.isRequired,
     children: PropTypes.element.isRequired,
     customFields: PropTypes.array,
-    disableAutoComplete: PropTypes.bool,
     getFrameDimensions: PropTypes.func.isRequired,
     newDesign: PropTypes.bool,
     formState: PropTypes.object,
@@ -54,7 +53,6 @@ export class SubmitTicketForm extends Component {
     attachmentsEnabled: false,
     children: <span />,
     customFields: [],
-    disableAutoComplete: false,
     newDesign: false,
     formState: {},
     fullscreen: false,
@@ -311,7 +309,6 @@ export class SubmitTicketForm extends Component {
          : <Field
             placeholder={placeholder}
             value={this.props.formState.subject}
-            disableAutoComplete={this.props.disableAutoComplete}
             name='subject'
             disabled={this.props.previewEnabled} />;
   }
@@ -322,7 +319,6 @@ export class SubmitTicketForm extends Component {
         placeholder={i18n.t('embeddable_framework.form.field.email.label')}
         type='email'
         required={true}
-        disableAutoComplete={this.props.disableAutoComplete}
         pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
         value={this.props.formState.email}
         name='email'
@@ -336,7 +332,6 @@ export class SubmitTicketForm extends Component {
         placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
         value={this.props.formState.name}
         name='name'
-        disableAutoComplete={this.props.disableAutoComplete}
         disabled={this.props.previewEnabled} />
     );
   }
@@ -348,7 +343,6 @@ export class SubmitTicketForm extends Component {
         required={true}
         value={this.props.formState.description}
         name='description'
-        disableAutoComplete={this.props.disableAutoComplete}
         input={<textarea rows='5' />}
         disabled={this.props.previewEnabled} />
     );
@@ -363,7 +357,6 @@ export class SubmitTicketForm extends Component {
       formTicketFields,
       this.props.formState,
       {
-        disableAutoComplete: this.props.disableAutoComplete,
         getFrameDimensions: this.props.getFrameDimensions,
         onChange: this.updateForm
       }
@@ -388,7 +381,6 @@ export class SubmitTicketForm extends Component {
       this.props.customFields,
       this.props.formState,
       {
-        disableAutoComplete: this.props.disableAutoComplete,
         getFrameDimensions: this.props.getFrameDimensions,
         onChange: this.updateForm
       }

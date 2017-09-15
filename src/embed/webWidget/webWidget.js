@@ -139,7 +139,6 @@ function create(name, config = {}, reduxStore = {}) {
   const configDefaults = {
     position: 'right',
     hideZendeskLogo: false,
-    disableAutoComplete: false,
     color: '#659700'
   };
   const helpCenterAvailable = !!config.helpCenterForm && !settings.get('helpCenter.suppress');
@@ -207,7 +206,6 @@ function create(name, config = {}, reduxStore = {}) {
         attachmentSender={submitTicketSettings.attachmentSender}
         channelChoice={channelChoice}
         contextualSearchSender={helpCenterSettings.contextualSearchSender}
-        disableAutoComplete={globalConfig.disableAutoComplete}
         newDesign={!!config.zopimChat}
         fullscreen={isMobileBrowser()}
         helpCenterAvailable={helpCenterAvailable}
