@@ -83,13 +83,6 @@ describe('WebWidget component', () => {
           }
         }
       },
-      'component/chat/Chat.sass': {
-        locals: {
-          container: 'containerClasses',
-          scrollContainer: 'scrollContainerClasses',
-          scrollContainerMobile: 'scrollContainerMobileClasses'
-        }
-      },
       'component/chat/Chat': MockChatReduxWrapper,
       'component/helpCenter/HelpCenter': {
         HelpCenter: MockHelpCenter
@@ -143,8 +136,8 @@ describe('WebWidget component', () => {
       expect(webWidget.renderSubmitTicket().props.className)
         .toContain('u-isHidden');
 
-      expect(webWidget.renderChat().props.className)
-        .toContain('u-isHidden');
+      expect(webWidget.renderChat())
+        .toBeFalsy();
     });
 
     describe('when component is set to submitTicket', () => {
@@ -159,8 +152,8 @@ describe('WebWidget component', () => {
         expect(webWidget.renderSubmitTicket().props.className)
           .not.toContain('u-isHidden');
 
-        expect(webWidget.renderChat().props.className)
-          .toContain('u-isHidden');
+        expect(webWidget.renderChat())
+          .toBeFalsy();
       });
     });
 
@@ -176,8 +169,8 @@ describe('WebWidget component', () => {
         expect(webWidget.renderSubmitTicket().props.className)
           .toContain('u-isHidden');
 
-        expect(webWidget.renderChat().props.className)
-          .not.toContain('u-isHidden');
+        expect(webWidget.renderChat())
+          .toBeTruthy();
       });
     });
   });

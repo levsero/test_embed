@@ -16,8 +16,6 @@ import { updateActiveEmbed,
 import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
 import { getChatNotification } from 'src/redux/modules/chat/selectors';
 
-import { locals as chatStyles } from 'component/chat/Chat.sass';
-
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
 const chat = 'chat';
@@ -297,7 +295,6 @@ class WebWidget extends Component {
     return (
       <Chat
         ref={chat}
-        styles={chatStyles}
         getFrameDimensions={this.props.getFrameDimensions}
         isMobile={this.props.fullscreen}
         newDesign={this.props.newDesign}

@@ -19,6 +19,11 @@ describe('Chat component', () => {
     chatProp = { chats: chats };
 
     initMockRegistry({
+      './Chat.sass': {
+        locals: {
+          scrollContainerMobile: 'scrollContainerMobileClasses'
+        }
+      },
       'component/chat/ChatBox': {
         ChatBox: noopReactComponent()
       },
@@ -205,19 +210,15 @@ describe('Chat component', () => {
 
     describe('renderChatScreen', () => {
       let component;
-      const styles = {
-        scrollContainer: 'scrollContainerClasses',
-        scrollContainerMobile: 'scrollContainerMobileClasses'
-      };
 
       describe('for non mobile devices', () => {
         beforeEach(() => {
-          component = domRender(<Chat chat={chatProp} styles={styles} screen={chattingScreen} />);
+          component = domRender(<Chat chat={chatProp} screen={chattingScreen} />);
         });
 
-        it('adds container classes to it', () => {
+        it('does not add classes to it', () => {
           expect(component.renderChatScreen().props.containerClasses)
-            .toContain('scrollContainerClasses');
+            .toBe('');
         });
 
         it('does not add mobile container classes to it', () => {
@@ -228,7 +229,7 @@ describe('Chat component', () => {
 
       describe('for mobile devices', () => {
         beforeEach(() => {
-          component = domRender(<Chat chat={chatProp} isMobile={true} styles={styles} screen={chattingScreen} />);
+          component = domRender(<Chat chat={chatProp} isMobile={true} screen={chattingScreen} />);
         });
 
         it('adds mobile container classes to it', () => {
@@ -236,9 +237,9 @@ describe('Chat component', () => {
             .toContain('scrollContainerMobileClasses');
         });
 
-        it('does not add container classes to it', () => {
+        it('does not add classes to it', () => {
           expect(component.renderChatScreen().props.containerClasses)
-            .not.toContain('scrollContainerClasses');
+            .not.toBe('');
         });
       });
     });
