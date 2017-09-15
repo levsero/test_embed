@@ -1,6 +1,7 @@
 describe('ScrollContainer component', () => {
   let ScrollContainer;
   const containerPath = buildSrcPath('component/container/ScrollContainer');
+  const windowHeight = 500;
 
   beforeEach(() => {
     resetDOM();
@@ -17,6 +18,11 @@ describe('ScrollContainer component', () => {
           content: 'contentClasses',
           contentBigheader: 'contentBigheaderClasses',
           userHeader: 'userHeaderClassesYo'
+        }
+      },
+      'utility/globals': {
+        win: {
+          innerHeight: windowHeight
         }
       }
     });
@@ -170,6 +176,60 @@ describe('ScrollContainer component', () => {
 
         expect(container.scrollTop)
           .toEqual(newScrollTopValue);
+      });
+    });
+  });
+
+  describe('setHeight', () => {
+    let component, offsetHeight;
+    const headerHeight = 50;
+    const footerHeight = 30;
+    const frameHeight = 200;
+
+    describe('when props.newDesign is true', () => {
+      beforeEach(() => {
+        const mockGetFrameDimensions = () => { return { height: frameHeight };};
+
+        component = domRender(<ScrollContainer newDesign={true} getFrameDimensions={mockGetFrameDimensions} />);
+        component.header.clientHeight = headerHeight;
+        component.footer.clientHeight = footerHeight;
+
+        // 17 is 15 for the frame margin and 2 for the frame border
+        offsetHeight = headerHeight + footerHeight + 17;
+
+        component.setHeight();
+      });
+
+      it('sets the maxHeight to 90% of the window height minus the offset height', () => {
+        const maxHeight = windowHeight*0.9 - offsetHeight;
+
+        expect(component.content.style.maxHeight)
+          .toEqual(`${maxHeight}px`);
+      });
+
+      it('sets the minHeight to the frameHeight minus the offset height', () => {
+        const minHeight = frameHeight - offsetHeight;
+
+        expect(component.content.style.minHeight)
+          .toEqual(`${minHeight}px`);
+      });
+    });
+
+    describe('when props.newDesign is false', () => {
+      beforeEach(() => {
+        component = domRender(<ScrollContainer newDesign={false} />);
+
+        component.setHeight();
+      });
+
+      it('does not set the maxHeight', () => {
+        expect(component.content.style.maxHeight)
+          .toBeFalsy();
+      });
+
+      it('does not set the minHeight', () => {
+        expect(component.content.style.minHeight)
+          .toBeFalsy();
       });
     });
   });

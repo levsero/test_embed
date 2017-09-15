@@ -78,13 +78,15 @@ export class ScrollContainer extends Component {
     const container = this.content;
     // header content height + footer content height + frame margin + frame border
     const offsetHeight = this.header.clientHeight + this.footer.clientHeight + 15 + 2;
-    const windowHeight = win.innerHeight*0.9;
-    const height = windowHeight - offsetHeight;
+    const windowHeight = win.innerHeight;
+    const maxContentHeight = (windowHeight*0.9) - offsetHeight;
 
     const contentHeight = this.props.getFrameDimensions().height - offsetHeight;
 
+    // Min height is needed so that it doesn't sit above the page
     container.style.minHeight = `${contentHeight}px`;
-    container.style.maxHeight = `${height}px`;
+    // Max height is needed to make sure it doesn't go beyond the bottom of the page
+    container.style.maxHeight = `${maxContentHeight}px`;
   }
 
   scrollToBottom = () => {
