@@ -56,7 +56,7 @@ describe('chat selectors', () => {
       });
     });
 
-    describe('when there are no existing agent messages', () => {
+    describe('when the first message is received from an agent', () => {
       beforeEach(() => {
         mockAgents = { 'agent:007': { avatar_path: '/path/' } };
         mockChats = [{ nick: 'agent:007', type: 'chat.msg', msg: 'how are you' }];
@@ -76,7 +76,7 @@ describe('chat selectors', () => {
       });
     });
 
-    describe('when there are existing agent messages', () => {
+    describe('when more messages are received from the same agent', () => {A
       beforeEach(() => {
         mockAgents = { 'agent:007': { avatar_path: '/path/' } };
         mockChats = [
@@ -99,7 +99,7 @@ describe('chat selectors', () => {
       });
     });
 
-    describe('when there are existing agent messages for a different agent', () => {
+    describe('when more messages are received from a different agent', () => {
       beforeEach(() => {
         mockAgents = { 'agent:007': { avatar_path: '/path/' } };
         mockChats = [
