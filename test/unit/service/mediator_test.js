@@ -1018,6 +1018,31 @@ describe('mediator', () => {
         expect(chatSub.show.calls.count())
           .toEqual(1);
       });
+
+      describe('onNextClick', () => {
+        it('shows launcher on mobile', () => {
+          mockRegistry['utility/devices'].isMobileBrowser
+            .and.returnValue(true);
+
+          c.broadcast(`${chat}.onOnline`);
+          c.broadcast(`${helpCenter}.onNextClick`);
+
+          expect(launcherSub.show.calls.count())
+            .toEqual(1);
+        });
+
+        it('does not show launcher on mobile if it was hidden', () => {
+          mockRegistry['utility/devices'].isMobileBrowser
+            .and.returnValue(true);
+
+          c.broadcast(`.hide`);
+          c.broadcast(`${chat}.onOnline`);
+          c.broadcast(`${helpCenter}.onNextClick`);
+
+          expect(launcherSub.show.calls.count())
+            .toEqual(1);
+        });
+      });
     });
 
     describe('with authenticated help center', () => {
