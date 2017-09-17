@@ -80,6 +80,7 @@ function create(name, config, reduxStore) {
         <ComponentType
           ref='rootComponent'
           solveTicket={solveTicket}
+          cancelSolve={cancelSolve}
           markArticleIrrelevant={markArticleIrrelevant}
           updateFrameSize={params.updateFrameSize}
           mobile={isMobileBrowser()}
@@ -171,6 +172,21 @@ function solveTicket(authToken, articleId, callbacks) {
     'auth_token' : authToken,
     'article_id' : articleId
   };
+
+  transport.automaticAnswersApiRequest(payload, formData);
+}
+
+function cancelSolve(authToken, callbacks) {
+  const payload = {
+    path: '/requests/automatic-answers/embed/ticket/cancel_solve',
+    queryParams: {
+      source: 'embed',
+      mobile: isMobileBrowser()
+    },
+    method: 'post',
+    callbacks: callbacks
+  };
+  const formData = { 'auth_token' : authToken };
 
   transport.automaticAnswersApiRequest(payload, formData);
 }

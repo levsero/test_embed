@@ -9,6 +9,12 @@ describe('embed.automaticAnswers', () => {
 
   const automaticAnswersPath = buildSrcPath('embed/automaticAnswers/automaticAnswers');
   const mockScreenState = 'IRRELEVANT_SCREEN';
+  const renderAutomaticAnswers = () => {
+    mockTransport = mockRegistry['service/transport'].transport;
+    automaticAnswers.create('automaticAnswers');
+    automaticAnswers.render();
+  };
+  const mostRecentApiRequest = () => mockTransport.automaticAnswersApiRequest.calls.mostRecent();
 
   beforeEach(() => {
     resetDOM();
@@ -148,9 +154,7 @@ describe('embed.automaticAnswers', () => {
 
   describe('postRender', () => {
     beforeEach(() => {
-      mockTransport = mockRegistry['service/transport'].transport;
-      automaticAnswers.create('automaticAnswers');
-      automaticAnswers.render();
+      renderAutomaticAnswers();
     });
 
     describe('when the JWT is available', () => {
@@ -196,9 +200,7 @@ describe('embed.automaticAnswers', () => {
   describe('fetchTicket', () => {
     let mostRecent;
     const fetchTicket = () => {
-      mockTransport = mockRegistry['service/transport'].transport;
-      automaticAnswers.create('automaticAnswers');
-      automaticAnswers.render();
+      renderAutomaticAnswers();
       automaticAnswers.fetchTicket(mockJwtToken);
       mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
     };
@@ -250,10 +252,7 @@ describe('embed.automaticAnswers', () => {
     const statusSolved = 3;
 
     beforeEach(() => {
-      mockTransport = mockRegistry['service/transport'].transport;
-
-      automaticAnswers.create('automaticAnswers');
-      automaticAnswers.render();
+      renderAutomaticAnswers();
       instance = automaticAnswers.get().instance;
     });
 
@@ -389,9 +388,7 @@ describe('embed.automaticAnswers', () => {
     };
 
     const renderAndSolveTicket = () => {
-      mockTransport = mockRegistry['service/transport'].transport;
-      automaticAnswers.create('automaticAnswers');
-      automaticAnswers.render();
+      renderAutomaticAnswers();
 
       solveTicket = automaticAnswers.get().instance.getRootComponent().props.solveTicket;
       solveTicket(mockJwtToken, mockArticleIdInUrl, callbacks);
@@ -448,6 +445,76 @@ describe('embed.automaticAnswers', () => {
 
         it('includes the mobile=true query param', () => {
           expect(mostRecent.queryParams.mobile)
+            .toBe(true);
+        });
+      });
+    });
+  });
+
+  describe('cancelSolve', () => {
+    let cancelSolve,
+      payload,
+      formData;
+    const callbacks = {
+      done: () => {},
+      fail: () => {}
+    };
+
+    const renderAndCancelSolve = () => {
+      renderAutomaticAnswers();
+
+      cancelSolve = automaticAnswers.get().instance.getRootComponent().props.cancelSolve;
+      cancelSolve(mockJwtToken, callbacks);
+
+      payload = mostRecentApiRequest().args[0];
+      formData = mostRecentApiRequest().args[1];
+    };
+
+    describe('payload configuration and callbacks', () => {
+      beforeEach(() => {
+        renderAndCancelSolve();
+      });
+
+      it('sends a correctly configured payload to automaticAnswersApiRequest', () => {
+        expect(payload.path)
+          .toBe('/requests/automatic-answers/embed/ticket/cancel_solve');
+
+        expect(payload.method)
+          .toEqual('post');
+      });
+
+      it('sends correctly configured form data', () => {
+        expect(formData.auth_token)
+          .toBe(mockJwtToken);
+      });
+
+      it('triggers the supplied callbacks', () => {
+        expect(payload.callbacks.done)
+          .toEqual(callbacks.done);
+
+        expect(payload.callbacks.fail)
+          .toEqual(callbacks.fail);
+      });
+    });
+
+    describe('query params for device tracking', () => {
+      beforeEach(() => {
+        renderAndCancelSolve();
+      });
+
+      it('includes the source=embed query param', () => {
+        expect(payload.queryParams.source)
+          .toEqual('embed');
+      });
+
+      describe('when the device is a mobile browser', () => {
+        beforeEach(() => {
+          mockIsMobileBrowserValue = true;
+          renderAndCancelSolve();
+        });
+
+        it('includes the mobile=true query param', () => {
+          expect(payload.queryParams.mobile)
             .toBe(true);
         });
       });
