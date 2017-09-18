@@ -1,3 +1,5 @@
+require('./polyfills');
+
 import { boot } from './boot';
 import { logging } from 'service/logging';
 import { isBlacklisted } from 'utility/devices';

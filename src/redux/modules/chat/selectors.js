@@ -4,10 +4,10 @@ import { createSelector } from 'reselect';
 const getNotification = (state) => state.chat.notification;
 const getAgents = (state) => state.chat.agents;
 const getChats = (state) => {
-  return [...state.chat.chats._c.values()].filter((e) => e.type === 'chat.msg');
+  return _.filter([...state.chat.chats.values()], (e) => e.type === 'chat.msg');
 };
 const getChatsByAgent = (state) => {
-  const chats = getChats(state).filter((chat) => _.includes(chat.nick, 'agent'));
+  const chats = _.filter(getChats(state), (chat) => _.includes(chat.nick, 'agent'));
 
   return _.groupBy(chats, (chat) => chat.nick);
 };
