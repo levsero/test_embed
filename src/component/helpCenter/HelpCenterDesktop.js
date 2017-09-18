@@ -23,7 +23,6 @@ export class HelpCenterDesktop extends Component {
     channelChoice: PropTypes.bool,
     chatOnline: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
-    disableAutoComplete: PropTypes.bool,
     formTitleKey: PropTypes.string,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
@@ -45,7 +44,6 @@ export class HelpCenterDesktop extends Component {
   static defaultProps = {
     articleViewActive: false,
     channelChoice: false,
-    disableAutoComplete: false,
     formTitleKey: 'help',
     hasSearched: false,
     newDesign: false,
@@ -111,7 +109,6 @@ export class HelpCenterDesktop extends Component {
         <SearchField
           ref='searchField'
           fullscreen={false}
-          disableAutoComplete={this.props.disableAutoComplete}
           onChangeValue={this.props.handleOnChangeValue}
           hasSearched={this.props.hasSearched}
           onSearchIconClick={this.handleSubmit}

@@ -9,7 +9,6 @@ import { isIos } from 'utility/devices';
 
 export class SearchInput extends Component {
   static propTypes = {
-    disableAutoComplete: PropTypes.bool,
     fullscreen: PropTypes.bool,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
@@ -18,7 +17,6 @@ export class SearchInput extends Component {
   };
 
   static defaultProps = {
-    disableAutoComplete: false,
     fullscreen: false,
     onBlur: () => {},
     onChange: () => {},
@@ -41,19 +39,15 @@ export class SearchInput extends Component {
     const attribs = {
       autoCapitalize: 'off',
       placeholder: placeholder,
-      type: 'search'
+      type: 'search',
+      autoComplete: 'off'
     };
 
     if (isIos()) {
       _.extend(attribs, {
         autoCorrect: 'off',
-        autoComplete: 'off',
         spellCheck: 'false'
       });
-    }
-
-    if (this.props.disableAutoComplete) {
-      _.extend(attribs, { autoComplete: 'off' });
     }
 
     return (
