@@ -179,10 +179,6 @@ const getConfig = (win, postRenderQueue) => {
   const done = (res) => {
     const config = res.body;
 
-    if (config.showOssAttribution) {
-      displayOssAttribution();
-    }
-
     // Remove this code once Rollbar is GA'd
     logging.init(config.useRollbar);
 
@@ -269,6 +265,8 @@ const start = (win, doc) => {
 
   boot.setupWidgetApi(win);
   boot.getConfig(win, postRenderQueue);
+
+  displayOssAttribution();
 
   if (isMobileBrowser()) {
     initMobileScaling();
