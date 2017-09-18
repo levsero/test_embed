@@ -40,7 +40,7 @@ export class Dropdown extends Component {
     options: [],
     placeholder: '-',
     required: false,
-    value: {}
+    value: { value: '' }
   }
 
   constructor (props) {
@@ -307,7 +307,7 @@ export class Dropdown extends Component {
           <div className={styles.description}>{this.props.description}</div>
           {/* hidden field with the selected value so that the form grabs it on submit */}
           <input
-            readOnly={true}
+            onChange={_.noop} // Prevents console errors describing readOnly like usage
             className='u-isHidden'
             name={_.toString(this.props.name)}
             required={this.props.required}
