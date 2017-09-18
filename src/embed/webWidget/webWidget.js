@@ -455,7 +455,8 @@ function postRender() {
 function keywordsSearch(options) {
   const contextualSearchFn = () => {
     const helpCenterComponent = getWebWidgetComponent().getHelpCenterComponent();
-    const isAuthenticated = embed.config.helpCenterForm.signInRequired === false || hasAuthenticatedSuccessfully;
+    const signInNotRequired = embed.config.helpCenterForm.signInRequired === false;
+    const isAuthenticated = signInNotRequired || hasAuthenticatedSuccessfully || isOnHelpCenterPage();
 
     if (isAuthenticated && helpCenterComponent) {
       if (options.url) {
@@ -463,6 +464,7 @@ function keywordsSearch(options) {
       }
 
       helpCenterComponent.contextualSearch(options);
+
       return true;
     }
 

@@ -1368,7 +1368,7 @@ describe('embed.webWidget', () => {
 
     describe('without authenticated help center', () => {
       beforeEach(() => {
-        webWidget.create('', { helpCenterForm: { contextualHelpEnabled: true } });
+        webWidget.create('', { helpCenterForm: { signInRequired: true } });
         webWidget.get().instance = {
           getRootComponent: () => {
             return {
@@ -1382,25 +1382,17 @@ describe('embed.webWidget', () => {
         webWidget.postRender();
       });
 
-      it('calls contextual search with correct options', () => {
+      it('does not call contextual search', () => {
         webWidget.keywordsSearch({ search: 'foo' });
 
         expect(contextualSearchSpy)
-          .toHaveBeenCalledWith({ search: 'foo' });
-      });
-
-      describe('when url option is true', () => {
-        it('should skip mouse distance check and call contextual search with correct options', () => {
-          webWidget.keywordsSearch({ url: true });
-
-          expect(contextualSearchSpy)
-            .toHaveBeenCalledWith({ url: true, pageKeywords: 'foo bar' });
-        });
+          .not.toHaveBeenCalled();
       });
     });
 
     describe('with authenticated help center', () => {
       let mockMediator,
+        mockOptions,
         setAuthenticatedSpy;
 
       beforeEach(() => {
@@ -1450,6 +1442,80 @@ describe('embed.webWidget', () => {
 
         expect(setAuthenticatedSpy)
           .toHaveBeenCalledWith(true);
+      });
+
+      describe('when sign-in is not required', () => {
+        beforeEach(() => {
+          mockOptions = { mock: 'options' };
+
+          webWidget.create('', { helpCenterForm: { signInRequired: false } });
+          webWidget.render();
+          webWidget.get().instance = {
+            getRootComponent: () => {
+              return {
+                getHelpCenterComponent: () => ({ contextualSearch: contextualSearchSpy })
+              };
+            }
+          };
+
+          webWidget.keywordsSearch(mockOptions);
+        });
+
+        it('calls contextualSearch with options', () => {
+          expect(contextualSearchSpy)
+            .toHaveBeenCalledWith(mockOptions);
+        });
+      });
+
+      describe('when HelpCenter has successfully authenticated', () => {
+        beforeEach(() => {
+          mockOptions = { mock: 'options' };
+
+          webWidget.create('', { helpCenterForm: { signInRequired: true } });
+          webWidget.render();
+          webWidget.get().instance = {
+            getRootComponent: () => {
+              return {
+                getHelpCenterComponent: () => {
+                  return { contextualSearch: contextualSearchSpy };
+                },
+                setAuthenticated: noop
+              };
+            }
+          };
+
+          pluckSubscribeCall(mockMediator, 'helpCenterForm.isAuthenticated')();
+          webWidget.keywordsSearch(mockOptions);
+        });
+
+        it('calls contextualSearch with options', () => {
+          expect(contextualSearchSpy)
+            .toHaveBeenCalledWith(mockOptions);
+        });
+      });
+
+      describe('when the user is in a HelpCenter page', () => {
+        beforeEach(() => {
+          mockOptions = { mock: 'options' };
+          mockIsOnHelpCenterPageValue = true;
+
+          webWidget.create('', { helpCenterForm: { signInRequired: true } });
+          webWidget.render();
+          webWidget.get().instance = {
+            getRootComponent: () => {
+              return {
+                getHelpCenterComponent: () => ({ contextualSearch: contextualSearchSpy })
+              };
+            }
+          };
+
+          webWidget.keywordsSearch(mockOptions);
+        });
+
+        it('calls contextualSearch with options', () => {
+          expect(contextualSearchSpy)
+            .toHaveBeenCalledWith(mockOptions);
+        });
       });
     });
   });
