@@ -30,6 +30,7 @@ const icons = {
   'Icon--preview-image': require('zd-svg-icons/src/26-file-image.svg'),
   'Icon--preview-zip': require('zd-svg-icons/src/26-file-zip.svg'),
   'Icon--preview-error': require('zd-svg-icons/src/26-file-error.svg'),
+  'Icon--reopened-large': require('icons/widget-icon_reopened.svg'),
   'Icon--search': require('icons/widget-icon_search.svg'),
   'Icon--tick': require('icons/widget-icon_tick.svg'),
   'Icon--zendesk': require('icons/widget-icon_zendesk.svg')

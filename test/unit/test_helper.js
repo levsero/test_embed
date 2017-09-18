@@ -44,6 +44,7 @@ global.ReactDOM = ReactDOM;
 global.TestUtils = TestUtils;
 global.Enzyme = Enzyme;
 global.shallow = Enzyme.shallow;
+global.mount = Enzyme.mount;
 
 global.noopReactComponent = () => class extends Component {
   render() {

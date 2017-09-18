@@ -354,3 +354,10 @@
     fill: $zd-color-iron;
   }
 }
+
+.Icon--reopened-large {
+  svg {
+    width: #{48/$font-size}rem;
+    height: #{48/$font-size}rem;
+  }
+}

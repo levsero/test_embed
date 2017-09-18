@@ -19,14 +19,17 @@ const automaticAnswersCSS = require('./automaticAnswers.scss').toString();
 // Anything less than 500 causes an animation bug.
 const showFrameDelay = 500;
 const showSolvedFrameDelay = 500;
+const defaultCloseFrameDelay = 30000;
+
 // 0 = New, 1 = Open, 2 = Pending, 6 = Hold
 const unsolvedStatusIds = [0, 1, 2, 6];
 // 3 = Solved, 4 = Closed
 const solvedStatusIds = [3, 4];
 
 let embed;
+let closeTimeoutId;
 
-function create(name, config, reduxStore) {
+function create(name, config = {}, reduxStore) {
   let frameStyle = {
     position: 'fixed',
     bottom: 0,
@@ -70,9 +73,9 @@ function create(name, config, reduxStore) {
     }
   };
 
-  const closeFrame = () => embed.instance.close({});
-
   const ComponentType = (isMobileBrowser()) ? AutomaticAnswersMobile : AutomaticAnswersDesktop;
+
+  const canUndo = config.canUndo || false;
 
   const Embed = frameFactory(
     (params) => {
@@ -85,8 +88,10 @@ function create(name, config, reduxStore) {
           updateFrameSize={params.updateFrameSize}
           mobile={isMobileBrowser()}
           closeFrame={closeFrame}
+          closeFrameAfterDelay={closeFrameAfterDelay}
           initialScreen={getInitialScreen()}
-          />
+          canUndo={canUndo}
+        />
       );
     },
     frameParams,
@@ -121,6 +126,17 @@ function postRender() {
   if (!authToken) return;
 
   fetchTicket(authToken);
+}
+
+function closeFrame() {
+  if (closeTimeoutId) {
+    closeTimeoutId = clearTimeout(closeTimeoutId);
+  }
+  embed.instance.close({});
+}
+
+function closeFrameAfterDelay(closeFrameDelay = defaultCloseFrameDelay) {
+  closeTimeoutId = setTimeout(closeFrame, closeFrameDelay);
 }
 
 function fetchTicket(authToken) {
@@ -221,6 +237,8 @@ export const automaticAnswers = {
   get: get,
   render: render,
   postRender: postRender,
+  closeFrame: closeFrame,
+  closeFrameAfterDelay: closeFrameAfterDelay,
   markArticleIrrelevant: markArticleIrrelevant,
   fetchTicket: fetchTicket,
   getInitialScreen: getInitialScreen

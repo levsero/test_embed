@@ -12,7 +12,8 @@
     "addCustomCommands": true,
     "webdrivercss": true,
     "webdriverio": true,
-    "Component": true
+    "Component": true,
+    "mount": true
   },
   "rules": {
     "no-var": 0,

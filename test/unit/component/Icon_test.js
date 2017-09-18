@@ -27,6 +27,7 @@ describe('Icon component', function() {
       'icons/widget-icon_close.svg': DummyIcon,
       'icons/widget-icon_help.svg': DummyIcon,
       'icons/widget-icon_link.svg': DummyIcon,
+      'icons/widget-icon_reopened.svg': DummyIcon,
       'icons/widget-icon_search.svg': DummyIcon,
       'icons/widget-icon_thumb-down.svg': DummyIcon,
       'icons/widget-icon_thumb-up.svg': DummyIcon,

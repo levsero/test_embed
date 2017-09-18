@@ -9,6 +9,9 @@ import { getHelpCenterArticleId } from 'utility/pages';
 export const AutomaticAnswersScreen = {
   solveTicketQuestion: 'SOLVE_TICKET_QUESTION',
   ticketClosed: 'TICKET_CLOSED',
+  closedWithUndo: 'CLOSED_WITH_UNDO',
+  reopened: 'REOPENED',
+  undoError: 'UNDO_ERROR',
   thanksForFeedback: 'THANKS_FOR_FEEDBACK',
   markAsIrrelevant: 'MARK_AS_IRRELEVANT'
 };
@@ -16,11 +19,14 @@ export const AutomaticAnswersScreen = {
 export class AutomaticAnswers extends Component {
   static propTypes = {
     solveTicket: PropTypes.func.isRequired,
+    cancelSolve: PropTypes.func.isRequired,
     markArticleIrrelevant: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
     mobile: PropTypes.bool.isRequired,
     closeFrame: PropTypes.func.isRequired,
-    initialScreen: PropTypes.string
+    closeFrameWithDelay: PropTypes.func,
+    initialScreen: PropTypes.string,
+    canUndo: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -103,8 +109,12 @@ export class AutomaticAnswers extends Component {
   }
 
   solveTicketDone = () => {
+    const doneScreen = (this.props.canUndo)
+      ? AutomaticAnswersScreen.closedWithUndo
+      : AutomaticAnswersScreen.ticketClosed;
+
     this.setState({
-      screen: AutomaticAnswersScreen.ticketClosed,
+      screen: doneScreen,
       isSubmitting: false,
       errorMessage: ''
     });
@@ -119,6 +129,14 @@ export class AutomaticAnswers extends Component {
       }),
       isSubmitting: false,
       optionReasonClicked: null
+    });
+  }
+
+  undoError = () => {
+    this.setState({
+      screen: AutomaticAnswersScreen.undoError,
+      isSubmitting: false,
+      errorMessage: ''
     });
   }
 
@@ -168,6 +186,32 @@ export class AutomaticAnswers extends Component {
     return options.slice(order).concat(options.slice(0, order));
   }
 
+  handleUndo = (e) => {
+    e.preventDefault();
+    const authToken = automaticAnswersPersistence.getContext();
+
+    if (!authToken) return this.undoError();
+
+    const callbacks = {
+      done: this.reopened,
+      fail: this.undoError
+    };
+
+    this.setState({
+      isSubmitting: true
+    });
+
+    this.props.cancelSolve(authToken, callbacks);
+  }
+
+  reopened = () => {
+    this.setState({
+      screen: AutomaticAnswersScreen.reopened,
+      isSubmitting: false,
+      errorMessage: ''
+    });
+  }
+
   handleDismissalContext = () => {
     if (this.state.screen === AutomaticAnswersScreen.markAsIrrelevant) {
       this.setState({
@@ -201,12 +245,25 @@ export class AutomaticAnswers extends Component {
     switch (this.state.screen) {
       case AutomaticAnswersScreen.solveTicketQuestion:
         return this.renderTicketContent();
+
       case AutomaticAnswersScreen.ticketClosed:
         return this.renderSuccessContent();
+
+      case AutomaticAnswersScreen.closedWithUndo:
+        return this.renderClosedWithUndo();
+
+      case AutomaticAnswersScreen.undoError:
+        return this.renderUndoError();
+
+      case AutomaticAnswersScreen.reopened:
+        return this.renderReopened();
+
       case AutomaticAnswersScreen.markAsIrrelevant:
         return this.renderIrrelevantContent();
-      case AutomaticAnswersScreen.thanksForFeedback :
+
+      case AutomaticAnswersScreen.thanksForFeedback:
         return this.renderThanksForFeedbackContent();
+
       default:
         return this.renderTicketContent();
     }
