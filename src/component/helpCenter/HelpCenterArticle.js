@@ -144,10 +144,12 @@ export class HelpCenterArticle extends Component {
     const doc = target.ownerDocument;
     const isMailLink = href && (href.indexOf('mailto://') > -1);
 
-    // Traverse upwards to find a parent anchor link
-    if (nodeName !== 'A') {
-      // Element.closest is currently not supported in IE & Edge
-      if (document.documentMode || /Edge/.test(navigator.userAgent)) {
+    // Find parent anchor link
+    if (target.nodeName !== 'A') {
+      target = target.closest('a');
+
+      // Element.closest is currently not supported in IE
+      if (document.documentMode || target === null) {
         e.preventDefault();
         return;
       }
@@ -164,11 +166,11 @@ export class HelpCenterArticle extends Component {
       }
     }
 
-    if (nodeName === 'A' && href.indexOf('#') === 0) {
-      const target = href.slice(1);
+    if (isInternalLink()) {
+      const anchorId = href.slice(1);
 
       // You can deep link via an id or name attribute, handle both in the selector
-      const inPageElem = doc.querySelector(`[id="${target}"],[name="${target}"]`);
+      const inPageElem = doc.querySelector(`[id="${anchorId}"],[name="${anchorId}"]`);
 
       if (inPageElem) {
         inPageElem.scrollIntoView();
