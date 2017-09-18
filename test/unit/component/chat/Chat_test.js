@@ -1,4 +1,4 @@
-const Map = require(buildSrcPath('vendor/es6-map.js')).Map;
+const Map = require('core-js/library/es6/map');
 
 let updateChatScreenSpy;
 const prechatScreen = 'widget/chat/PRECHAT_SCREEN';
