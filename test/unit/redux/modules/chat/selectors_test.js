@@ -30,7 +30,7 @@ describe('chat selectors', () => {
           chat: {
             notification: mockNotification,
             agents: mockAgents,
-            chats: { _c: { values: () => mockChats } }
+            chats: { values: () => mockChats }
           }
         });
       });
@@ -65,7 +65,7 @@ describe('chat selectors', () => {
           chat: {
             notification: mockNotification,
             agents: mockAgents,
-            chats: { _c: { values: () => mockChats } }
+            chats: { values: () => mockChats }
           }
         });
       });
@@ -88,7 +88,7 @@ describe('chat selectors', () => {
           chat: {
             notification: mockNotification,
             agents: mockAgents,
-            chats: { _c: { values: () => mockChats } }
+            chats: { values: () => mockChats }
           }
         });
       });
@@ -111,7 +111,7 @@ describe('chat selectors', () => {
           chat: {
             notification: mockNotification,
             agents: mockAgents,
-            chats: { _c: { values: () => mockChats } }
+            chats: { values: () => mockChats }
           }
         });
       });

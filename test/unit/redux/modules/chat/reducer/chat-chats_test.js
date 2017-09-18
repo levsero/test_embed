@@ -8,10 +8,6 @@ describe('chat reducer chats', () => {
   beforeAll(() => {
     mockery.enable();
 
-    initMockRegistry({
-      'vendor/es6-map': require(buildSrcPath('vendor/es6-map'))
-    });
-
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-chats');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
 
