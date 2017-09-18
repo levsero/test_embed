@@ -46,7 +46,6 @@ export class SearchInput extends Component {
     if (isIos()) {
       _.extend(attribs, {
         autoCorrect: 'off',
-        autoComplete: 'off',
         spellCheck: 'false'
       });
     }

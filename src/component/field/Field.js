@@ -141,7 +141,6 @@ export class Field extends Component {
     if (isIos()) {
       fieldProps = _.extend(fieldProps, {
         autoCorrect: 'off',
-        autoComplete: 'off',
         spellCheck: 'false'
       });
     }
