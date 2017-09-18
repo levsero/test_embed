@@ -720,6 +720,7 @@ describe('HelpCenterArticle component', () => {
           mockEvent = {
             target: {
               nodeName: 'SPAN',
+              closest: noop,
               getAttribute: noop
             },
             preventDefault: preventDefaultSpy

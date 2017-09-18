@@ -146,8 +146,10 @@ export class HelpCenterArticle extends Component {
 
     // Find parent anchor link
     if (target.nodeName !== 'A') {
+      target = target.closest('a');
+
       // Element.closest is currently not supported in IE
-      if (document.documentMode || !(target = target.closest('a'))) {
+      if (document.documentMode || target === null) {
         e.preventDefault();
         return;
       }
@@ -156,10 +158,10 @@ export class HelpCenterArticle extends Component {
     }
 
     if (isInternalLink()) {
-      const target = href.slice(1);
+      const anchorId = href.slice(1);
 
       // You can deep link via an id or name attribute, handle both in the selector
-      const inPageElem = doc.querySelector(`[id="${target}"],[name="${target}"]`);
+      const inPageElem = doc.querySelector(`[id="${anchorId}"],[name="${anchorId}"]`);
 
       if (inPageElem) {
         inPageElem.scrollIntoView();
