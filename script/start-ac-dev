@@ -1,4 +1,5 @@
 #!/bin/sh
 
 cp manifest.json dist/web_widget/dev
+cp src/translation/*.js dist/web_widget/dev
 curl -H "Content-Type: application/json" -X POST -d '{ "product": { "name": "web_widget", "version": "dev", "base_url": "localhost:1337/dist" } }' dev.zd-dev.com/embed_key_registry/release
