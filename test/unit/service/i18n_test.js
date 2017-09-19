@@ -9,7 +9,7 @@ describe('i18n', () => {
       'service/settings': {
         'settings': { getTranslations: noop }
       },
-      'translation/translations.json': {
+      'translation/ze_translations': {
         'embeddable_framework': {
           'launcher': {
             'label': {
@@ -57,7 +57,7 @@ describe('i18n', () => {
           'he'
         ]
       },
-      'translation/localeIdMap.json': {
+      'translation/ze_localeIdMap': {
         'en-US': 1,
         'en-au': 1277,
         'de': 8,
@@ -85,7 +85,7 @@ describe('i18n', () => {
 
     beforeEach(() => {
       i18n.setLocale('en-US');
-      mockTranslations = mockRegistry['translation/translations.json'].embeddable_framework;
+      mockTranslations = mockRegistry['translation/ze_translations'].embeddable_framework;
     });
 
     describe('when the key is valid', () => {
@@ -335,7 +335,7 @@ describe('i18n', () => {
     let localeIdMap;
 
     beforeEach(() => {
-      localeIdMap = mockRegistry['translation/localeIdMap.json'];
+      localeIdMap = mockRegistry['translation/ze_localeIdMap'];
     });
 
     it('should return the correct locale_id for en-US', () => {
