@@ -55,7 +55,7 @@ describe('Container component', () => {
       .toMatch('cardClasses');
   });
 
-  it('has does not have cardClasses when props.card is false', () => {
+  it('does not have cardClasses when props.card is false', () => {
     const container = shallowRender(<Container />);
 
     expect(container.props.className)

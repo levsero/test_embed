@@ -5,6 +5,9 @@ import { win } from 'utility/globals';
 
 import { locals as styles } from './ScrollContainer.sass';
 
+const frameMargin = 15;
+const frameBorder = 2;
+
 export class ScrollContainer extends Component {
   static propTypes = {
     footerContent: PropTypes.oneOfType([
@@ -26,7 +29,7 @@ export class ScrollContainer extends Component {
     children: <span />,
     containerClasses: '',
     newDesign: false,
-    getFrameDimensions: () => {},
+    getFrameDimensions: () => {{ height: 0; }},
     footerClasses: '',
     footerContent: [],
     fullscreen: false,
@@ -76,10 +79,10 @@ export class ScrollContainer extends Component {
     if (!this.props.newDesign) return;
 
     const container = this.content;
-    // header content height + footer content height + frame margin + frame border
-    const offsetHeight = this.header.clientHeight + this.footer.clientHeight + 15 + 2;
+    const offsetHeight = this.header.clientHeight + this.footer.clientHeight + frameMargin + frameBorder;
     const windowHeight = win.innerHeight;
-    const maxContentHeight = (windowHeight*0.9) - offsetHeight;
+    const maxWindowHeight = windowHeight*0.9;
+    const maxContentHeight = maxWindowHeight - offsetHeight;
 
     const contentHeight = this.props.getFrameDimensions().height - offsetHeight;
 
@@ -125,7 +128,6 @@ export class ScrollContainer extends Component {
         </header>
         <div
           ref={(el) => {this.content = el;}}
-          style={{}}
           className={`
             ${styles.content}
             ${containerClasses}

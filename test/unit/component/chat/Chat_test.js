@@ -220,11 +220,6 @@ describe('Chat component', () => {
           expect(component.renderChatScreen().props.containerClasses)
             .toBe('');
         });
-
-        it('does not add mobile container classes to it', () => {
-          expect(component.renderChatScreen().props.containerClasses)
-            .not.toContain('scrollContainerMobileClasses');
-        });
       });
 
       describe('for mobile devices', () => {
@@ -235,11 +230,6 @@ describe('Chat component', () => {
         it('adds mobile container classes to it', () => {
           expect(component.renderChatScreen().props.containerClasses)
             .toContain('scrollContainerMobileClasses');
-        });
-
-        it('does not add classes to it', () => {
-          expect(component.renderChatScreen().props.containerClasses)
-            .not.toBe('');
         });
       });
     });

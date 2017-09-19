@@ -181,8 +181,7 @@ export class Frame extends Component {
         height: '100%',
         left: this.state.visible ? '0px' : '-9999px',
         background:'#FFF',
-        zIndex: zIndex,
-        backgroundColor: 'red'
+        zIndex: zIndex
       };
 
       const popoverStyle = {
