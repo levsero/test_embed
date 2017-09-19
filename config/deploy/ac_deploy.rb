@@ -2,7 +2,12 @@ require 'json'
 require_relative './s3_deployer'
 
 set :version, fetch(:branch) || fetch(:local_head_revision)
-set :ac_framework_files, ['web_widget.js', 'manifest.json']
+set :ac_framework_files, [
+  'web_widget.js',
+  'manifest.json',
+  'ze_translations.js',
+  'ze_localeIdMap.js'
+]
 set :ac_aws_credentials, Aws::Credentials.new(ENV['AC_AWS_RW_ACCESS_KEY'], ENV['AC_AWS_RW_SECRET_KEY'])
 set :ac_aws_region, ENV['AC_AWS_REGION']
 set :ac_s3_release_directory, "web_widget/#{fetch(:version)}"
