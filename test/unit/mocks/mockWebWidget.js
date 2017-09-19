@@ -6,6 +6,7 @@ export default class MockWebWidget extends Component {
     this.contextualSearch = noop;
     this.performSearch = noop;
     this.focusField = noop;
+    this.setAuthenticated = noop;
     this.state = {
       topics: [],
       searchCount: 0,
@@ -53,6 +54,8 @@ class MockWebWidgetChild extends Component {
     this.focusField = noop;
     this.hideVirtualKeyboard = noop;
     this.updateUser = noop;
+    this.updateContactForm = noop;
+    this.setLoading = noop;
     this.state = {
       topics: [],
       searchCount: 0,
@@ -61,9 +64,6 @@ class MockWebWidgetChild extends Component {
       showIntroScreen: false
     };
   }
-  setLoading() {}
-  updateContactForm() {}
-
   getChild() {
     return this.refs.submitTicketForm;
   }
