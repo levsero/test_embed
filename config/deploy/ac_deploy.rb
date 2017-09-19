@@ -13,6 +13,7 @@ set :ac_aws_region, ENV['AC_AWS_REGION']
 set :ac_s3_release_directory, "web_widget/#{fetch(:version)}"
 set :ac_s3_bucket_name, ENV['AC_AWS_BUCKET_NAME']
 
+BUCKET_DOMAIN = 'd2fu7i775blqyh.cloudfront.net'.freeze
 STAGING_URL = 'ekr-internet-load-balancer-1568683846.us-west-2.elb.amazonaws.com/embed_key_registry/release'.freeze
 PRODUCTION_URL = ''.freeze # TODO: When production url is ready, fill this in.
 
@@ -56,7 +57,8 @@ def release_to_ekr(url)
   params = {
     product: {
       name: 'web_widget',
-      version: fetch(:version)
+      version: fetch(:version),
+      base_url: BUCKET_DOMAIN
     }
   }.to_json
 
