@@ -15,6 +15,8 @@ export default class MockWebWidget extends Component {
     };
   }
 
+  setAuthenticated() {}
+
   getRootComponent() {
     return this.refs.mockChild;
   }
@@ -62,7 +64,12 @@ class MockWebWidgetChild extends Component {
     };
   }
   setLoading() {}
+
+  // SubmitTicket/Form
   updateContactForm() {}
+
+  // HelpCenter
+  contextualSearch() {}
 
   getChild() {
     return this.refs.submitTicketForm;

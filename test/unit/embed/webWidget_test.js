@@ -1360,43 +1360,33 @@ describe('embed.webWidget', () => {
   });
 
   describe('keywordsSearch', () => {
-    let contextualSearchSpy;
-
-    beforeEach(() => {
-      contextualSearchSpy = jasmine.createSpy('contextualSearch');
-    });
+    let webWidgetComponent,
+      childComponent;
 
     describe('without authenticated help center', () => {
       beforeEach(() => {
         webWidget.create('', { helpCenterForm: { signInRequired: true } });
-        webWidget.get().instance = {
-          getRootComponent: () => {
-            return {
-              getHelpCenterComponent: () => {
-                return { contextualSearch: contextualSearchSpy };
-              }
-            };
-          }
-        };
+        webWidget.render();
 
-        webWidget.postRender();
+        const webWidgetComponent = webWidget.get().instance.getRootComponent();
+
+        childComponent = webWidgetComponent.getHelpCenterComponent();
+
+        spyOn(childComponent, 'contextualSearch');
+        webWidget.keywordsSearch({ search: 'foo' });
       });
 
       it('does not call contextual search', () => {
-        webWidget.keywordsSearch({ search: 'foo' });
-
-        expect(contextualSearchSpy)
+        expect(childComponent.contextualSearch)
           .not.toHaveBeenCalled();
       });
     });
 
     describe('with authenticated help center', () => {
       let mockMediator,
-        mockOptions,
-        setAuthenticatedSpy;
+        mockOptions;
 
       beforeEach(() => {
-        setAuthenticatedSpy = jasmine.createSpy('setAuthenticated');
         mockMediator = mockRegistry['service/mediator'].mediator;
         webWidget.create('',
           {
@@ -1408,16 +1398,11 @@ describe('embed.webWidget', () => {
         );
         webWidget.render();
 
-        webWidget.get().instance = {
-          getRootComponent: () => {
-            return {
-              getHelpCenterComponent: () => {
-                return { contextualSearch: contextualSearchSpy };
-              },
-              setAuthenticated: setAuthenticatedSpy
-            };
-          }
-        };
+        webWidgetComponent = webWidget.get().instance.getRootComponent();
+        childComponent = webWidgetComponent.getRootComponent();
+
+        spyOn(webWidgetComponent, 'setAuthenticated');
+        spyOn(childComponent, 'contextualSearch');
       });
 
       it('should wait until authenticate is true before searching', () => {
@@ -1429,7 +1414,7 @@ describe('embed.webWidget', () => {
         });
         jasmine.clock().tick();
 
-        expect(contextualSearchSpy)
+        expect(childComponent.contextualSearch)
           .not.toHaveBeenCalled();
 
         pluckSubscribeCall(mockMediator, 'helpCenterForm.isAuthenticated')();
@@ -1437,10 +1422,10 @@ describe('embed.webWidget', () => {
         webWidget.keywordsSearch({ url: true });
         jasmine.clock().tick();
 
-        expect(contextualSearchSpy)
+        expect(childComponent.contextualSearch)
           .toHaveBeenCalledWith({ url: true, pageKeywords: 'foo bar' });
 
-        expect(setAuthenticatedSpy)
+        expect(webWidgetComponent.setAuthenticated)
           .toHaveBeenCalledWith(true);
       });
 
@@ -1450,19 +1435,17 @@ describe('embed.webWidget', () => {
 
           webWidget.create('', { helpCenterForm: { signInRequired: false } });
           webWidget.render();
-          webWidget.get().instance = {
-            getRootComponent: () => {
-              return {
-                getHelpCenterComponent: () => ({ contextualSearch: contextualSearchSpy })
-              };
-            }
-          };
 
+          const webWidgetComponent = webWidget.get().instance.getRootComponent();
+
+          childComponent = webWidgetComponent.getHelpCenterComponent();
+
+          spyOn(childComponent, 'contextualSearch');
           webWidget.keywordsSearch(mockOptions);
         });
 
         it('calls contextualSearch with options', () => {
-          expect(contextualSearchSpy)
+          expect(childComponent.contextualSearch)
             .toHaveBeenCalledWith(mockOptions);
         });
       });
@@ -1473,23 +1456,18 @@ describe('embed.webWidget', () => {
 
           webWidget.create('', { helpCenterForm: { signInRequired: true } });
           webWidget.render();
-          webWidget.get().instance = {
-            getRootComponent: () => {
-              return {
-                getHelpCenterComponent: () => {
-                  return { contextualSearch: contextualSearchSpy };
-                },
-                setAuthenticated: noop
-              };
-            }
-          };
 
+          const webWidgetComponent = webWidget.get().instance.getRootComponent();
+
+          childComponent = webWidgetComponent.getHelpCenterComponent();
+
+          spyOn(childComponent, 'contextualSearch');
           pluckSubscribeCall(mockMediator, 'helpCenterForm.isAuthenticated')();
           webWidget.keywordsSearch(mockOptions);
         });
 
         it('calls contextualSearch with options', () => {
-          expect(contextualSearchSpy)
+          expect(childComponent.contextualSearch)
             .toHaveBeenCalledWith(mockOptions);
         });
       });
@@ -1501,19 +1479,17 @@ describe('embed.webWidget', () => {
 
           webWidget.create('', { helpCenterForm: { signInRequired: true } });
           webWidget.render();
-          webWidget.get().instance = {
-            getRootComponent: () => {
-              return {
-                getHelpCenterComponent: () => ({ contextualSearch: contextualSearchSpy })
-              };
-            }
-          };
 
+          const webWidgetComponent = webWidget.get().instance.getRootComponent();
+
+          childComponent = webWidgetComponent.getHelpCenterComponent();
+
+          spyOn(childComponent, 'contextualSearch');
           webWidget.keywordsSearch(mockOptions);
         });
 
         it('calls contextualSearch with options', () => {
-          expect(contextualSearchSpy)
+          expect(childComponent.contextualSearch)
             .toHaveBeenCalledWith(mockOptions);
         });
       });
