@@ -7,9 +7,14 @@ import { ChannelChoicePopupDesktop } from 'component/channelChoice/ChannelChoice
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
+import { ChatPopup } from 'component/chat/ChatPopup';
 import { i18n } from 'service/i18n';
+import { CHATTING_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
 
 import { locals as styles } from './HelpCenterDesktop.sass';
+
+const chatNotificationHideDelay = 4000;
+const proactiveChatNotificationDelay = 8000;
 
 export class HelpCenterDesktop extends Component {
   static propTypes = {
@@ -18,7 +23,6 @@ export class HelpCenterDesktop extends Component {
     channelChoice: PropTypes.bool,
     chatOnline: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
-    disableAutoComplete: PropTypes.bool,
     formTitleKey: PropTypes.string,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
@@ -31,13 +35,15 @@ export class HelpCenterDesktop extends Component {
     searchFieldValue: PropTypes.string,
     shadowVisible: PropTypes.bool,
     showNextButton: PropTypes.bool,
-    updateFrameSize: PropTypes.func
+    updateFrameSize: PropTypes.func,
+    notification: PropTypes.object.isRequired,
+    hideChatNotification: PropTypes.func,
+    updateChatScreen: PropTypes.func
   };
 
   static defaultProps = {
     articleViewActive: false,
     channelChoice: false,
-    disableAutoComplete: false,
     formTitleKey: 'help',
     hasSearched: false,
     newDesign: false,
@@ -47,7 +53,9 @@ export class HelpCenterDesktop extends Component {
     searchFieldValue: '',
     shadowVisible: false,
     showNextButton: true,
-    updateFrameSize: () => {}
+    updateFrameSize: () => {},
+    hideChatNotification: () => {},
+    updateChatScreen: () => {}
   };
 
   constructor(props, context) {
@@ -86,6 +94,11 @@ export class HelpCenterDesktop extends Component {
     this.props.search();
   }
 
+  handleChatNotificationRespond = (e) => {
+    this.props.updateChatScreen(CHATTING_SCREEN);
+    this.props.handleNextClick(e);
+  }
+
   renderForm = () => {
     return (
       <form
@@ -93,11 +106,9 @@ export class HelpCenterDesktop extends Component {
         noValidate={true}
         className={styles.form}
         onSubmit={this.handleSubmit}>
-
         <SearchField
           ref='searchField'
           fullscreen={false}
-          disableAutoComplete={this.props.disableAutoComplete}
           onChangeValue={this.props.handleOnChangeValue}
           hasSearched={this.props.hasSearched}
           onSearchIconClick={this.handleSubmit}
@@ -148,10 +159,39 @@ export class HelpCenterDesktop extends Component {
     );
   }
 
+  renderChatNotification = () => {
+    const { notification, hideChatNotification } = this.props;
+
+    if (notification.show) {
+      const { proactive } = notification;
+      const delay = proactive ? proactiveChatNotificationDelay : chatNotificationHideDelay;
+      const className = proactive ? styles.ongoingNotificationCta : styles.ongoingNotification;
+
+      // TODO: Handle hiding of the notification within the ChatPopup component itself.
+      setTimeout(() => hideChatNotification(), delay);
+
+      return (
+        <ChatPopup
+          showCta={proactive}
+          className={className}
+          agentName={notification.display_name}
+          message={notification.msg}
+          avatarPath={notification.avatar_path}
+          respondFn={this.handleChatNotificationRespond}
+          dismissFn={hideChatNotification} />
+      );
+    }
+
+    return null;
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     let footerClasses = '';
+    const chatPopup = this.props.articleViewActive
+      ? this.renderChatNotification()
+      : null;
 
     if (!this.props.showNextButton && this.props.hasSearched) {
       if (this.props.articleViewActive && this.props.hideZendeskLogo) {
@@ -175,6 +215,7 @@ export class HelpCenterDesktop extends Component {
           {this.props.children}
         </ScrollContainer>
         {this.renderZendeskLogo()}
+        {chatPopup}
       </div>
     );
   }

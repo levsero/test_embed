@@ -181,22 +181,12 @@ describe('Field component', () => {
     });
   });
 
-  describe('disableAutoComplete', () => {
-    it('should be added if it is true', () => {
-      const field = domRender(<Field disableAutoComplete={true} />);
-      const fieldNode = ReactDOM.findDOMNode(field);
+  it('has autoComplete attribute set to false', () => {
+    const field = domRender(<Field />);
+    const fieldNode = ReactDOM.findDOMNode(field);
 
-      expect(fieldNode.querySelector('input').getAttribute('autoComplete'))
-        .toEqual('off');
-    });
-
-    it('should not be added if it is false', () => {
-      const field = domRender(<Field />);
-      const fieldNode = ReactDOM.findDOMNode(field);
-
-      expect(fieldNode.querySelector('input').getAttribute('autoComplete'))
-        .toBeFalsy();
-    });
+    expect(fieldNode.querySelector('input').getAttribute('autoComplete'))
+      .toEqual('off');
   });
 
   describe('description', () => {

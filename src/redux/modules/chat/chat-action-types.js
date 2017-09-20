@@ -9,6 +9,8 @@ export const UPDATE_VISITOR_INFO_FAILURE = 'widget/chat/UPDATE_VISITOR_INFO_FAIL
 export const UPDATE_ACCOUNT_SETTINGS = 'widget/chat/UPDATE_ACCOUNT_SETTINGS';
 export const SEND_CHAT_RATING_SUCCESS = 'widget/chat/SEND_CHAT_RATING_SUCCESS';
 export const SEND_CHAT_RATING_FAILURE = 'widget/chat/SEND_CHAT_RATING_FAILURE';
+export const HIDE_CHAT_NOTIFICATION = 'widget/chat/HIDE_CHAT_NOTIFICATION';
+export const UPDATE_CHAT_SCREEN = 'widget/chat/UPDATE_CHAT_SCREEN';
 
 export const SDK_CHAT_MSG = 'websdk/chat.msg';
 export const SDK_CHAT_FILE = 'websdk/chat.file';

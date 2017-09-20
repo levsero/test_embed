@@ -1,9 +1,15 @@
-const Map = require(buildSrcPath('vendor/es6-map.js')).Map;
+const Map = require('core-js/library/es6/map');
+
+let updateChatScreenSpy;
+const prechatScreen = 'widget/chat/PRECHAT_SCREEN';
+const chattingScreen = 'widget/chat/CHATTING_SCREEN';
 
 describe('Chat component', () => {
   let Chat, chats, chatProp;
 
   const chatPath = buildSrcPath('component/chat/Chat');
+
+  updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
 
   beforeEach(() => {
     resetDOM();
@@ -40,7 +46,12 @@ describe('Chat component', () => {
       'src/redux/modules/chat': {
         sendMsg: noop,
         updateCurrentMsg: noop,
-        setVisitorInfo: noop
+        setVisitorInfo: noop,
+        updateChatScreen: updateChatScreenSpy
+      },
+      'src/redux/modules/chat/reducer/chat-screen-types': {
+        PRECHAT_SCREEN: prechatScreen,
+        CHATTING_SCREEN: chattingScreen
       },
       'service/i18n': {
         i18n: { t: noop }
@@ -70,10 +81,12 @@ describe('Chat component', () => {
       sendMsgSpy = jasmine.createSpy('sendMsg');
 
       component = domRender(
-        <Chat setVisitorInfo={setVisitorInfoSpy} sendMsg={sendMsgSpy} chat={chatProp} />
+        <Chat
+          setVisitorInfo={setVisitorInfoSpy}
+          sendMsg={sendMsgSpy}
+          chat={chatProp}
+          updateChatScreen={updateChatScreenSpy} />
       );
-
-      spyOn(component, 'updateScreen');
 
       component.onPrechatFormComplete(formInfo);
     });
@@ -90,22 +103,18 @@ describe('Chat component', () => {
         .toHaveBeenCalledWith(formInfo.message);
     });
 
-    it('calls updateScreen with `chatting`', () => {
-      expect(component.updateScreen)
-        .toHaveBeenCalledWith('chatting');
+    it('calls updateChatScreen with `chatting`', () => {
+      expect(updateChatScreenSpy)
+        .toHaveBeenCalledWith(chattingScreen);
     });
   });
 
   describe('renderPrechatScreen', () => {
     let component;
 
-    beforeEach(() => {
-      component = domRender(<Chat chat={chatProp} />);
-    });
-
     describe('when state.screen is not `prechat`', () => {
       beforeEach(() => {
-        component.setState({ screen: 'notPrechat' });
+        component = domRender(<Chat chat={chatProp} screen={chattingScreen} />);
       });
 
       it('does not return anything', () => {
@@ -116,7 +125,7 @@ describe('Chat component', () => {
 
     describe('when state.screen is `prechat`', () => {
       beforeEach(() => {
-        component.setState({ screen: 'prechat' });
+        component = domRender(<Chat chat={chatProp} screen={prechatScreen} />);
       });
 
       it('returns a component', () => {
@@ -129,13 +138,9 @@ describe('Chat component', () => {
   describe('renderChatScreen', () => {
     let component;
 
-    beforeEach(() => {
-      component = domRender(<Chat chat={chatProp} />);
-    });
-
     describe('when state.screen is not `chatting`', () => {
       beforeEach(() => {
-        component.setState({ screen: 'notChatting' });
+        component = domRender(<Chat chat={chatProp} screen={prechatScreen} />);
       });
 
       it('does not return anything', () => {
@@ -146,7 +151,7 @@ describe('Chat component', () => {
 
     describe('when state.screen is `chatting`', () => {
       beforeEach(() => {
-        component.setState({ screen: 'chatting' });
+        component = domRender(<Chat chat={chatProp} screen={chattingScreen} />);
       });
 
       it('returns a component', () => {
@@ -207,8 +212,7 @@ describe('Chat component', () => {
 
       describe('for non mobile devices', () => {
         beforeEach(() => {
-          component = domRender(<Chat chat={chatProp} styles={styles} />);
-          component.setState({ screen: 'chatting' });
+          component = domRender(<Chat chat={chatProp} styles={styles} screen={chattingScreen} />);
         });
 
         it('adds container classes to it', () => {
@@ -224,8 +228,7 @@ describe('Chat component', () => {
 
       describe('for mobile devices', () => {
         beforeEach(() => {
-          component = domRender(<Chat chat={chatProp} isMobile={true} styles={styles} />);
-          component.setState({ screen: 'chatting' });
+          component = domRender(<Chat chat={chatProp} isMobile={true} styles={styles} screen={chattingScreen} />);
         });
 
         it('adds mobile container classes to it', () => {

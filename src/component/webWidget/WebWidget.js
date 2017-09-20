@@ -13,6 +13,8 @@ import { updateActiveEmbed,
          updateEmbedAccessible,
          updateBackButtonVisibility,
          updateAuthenticated } from 'src/redux/modules/base';
+import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
+import { getChatNotification } from 'src/redux/modules/chat/selectors';
 
 import { locals as chatStyles } from 'component/chat/Chat.sass';
 
@@ -27,6 +29,7 @@ const mapStateToProps = (state) => {
 
   return {
     chat,
+    chatNotification: getChatNotification(state),
     activeEmbed: base.activeEmbed,
     zopimOnline: base.zopim,
     authenticated: base.authenticated
@@ -39,8 +42,8 @@ class WebWidget extends Component {
     buttonLabelKey: PropTypes.string,
     channelChoice: PropTypes.bool,
     chat: PropTypes.object.isRequired,
+    chatNotification: PropTypes.object.isRequired,
     contextualSearchSender: PropTypes.func,
-    disableAutoComplete: PropTypes.bool,
     newDesign: PropTypes.bool,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
@@ -76,6 +79,8 @@ class WebWidget extends Component {
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
     updateAuthenticated: PropTypes.func.isRequired,
+    hideChatNotification: PropTypes.func.isRequired,
+    updateChatScreen: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired
   };
@@ -85,7 +90,6 @@ class WebWidget extends Component {
     channelChoice: false,
     chat: { account_status: 'offline' }, // eslint-disable-line camelcase
     contextualSearchSender: () => {},
-    disableAutoComplete: false,
     newDesign: false,
     formTitleKey: '',
     fullscreen: true,
@@ -298,6 +302,7 @@ class WebWidget extends Component {
           isMobile={this.props.fullscreen}
           newDesign={this.props.newDesign}
           updateFrameSize={this.props.updateFrameSize}
+          updateChatScreen={this.props.updateChatScreen}
           position={this.props.position} />
       </div>
     );
@@ -314,6 +319,7 @@ class WebWidget extends Component {
       <div className={classes}>
         <HelpCenter
           ref={helpCenter}
+          notification={this.props.chatNotification}
           chatOnline={chatOnline}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}
@@ -332,12 +338,13 @@ class WebWidget extends Component {
           style={this.props.style}
           fullscreen={this.props.fullscreen}
           updateFrameSize={this.props.updateFrameSize}
-          disableAutoComplete={this.props.disableAutoComplete}
           originalArticleButton={this.props.originalArticleButton}
           localeFallbacks={this.props.localeFallbacks}
           channelChoice={this.props.channelChoice}
           viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
-          zendeskHost={this.props.zendeskHost} />
+          zendeskHost={this.props.zendeskHost}
+          hideChatNotification={this.props.hideChatNotification}
+          updateChatScreen={this.props.updateChatScreen} />
       </div>
     );
   }
@@ -355,7 +362,6 @@ class WebWidget extends Component {
           attachmentsEnabled={submitTicketConfig.attachmentsEnabled}
           attachmentSender={this.props.attachmentSender}
           customFields={submitTicketConfig.customFields}
-          disableAutoComplete={this.props.disableAutoComplete}
           formTitleKey={submitTicketConfig.formTitleKey}
           newDesign={this.props.newDesign}
           getFrameDimensions={this.props.getFrameDimensions}
@@ -426,7 +432,9 @@ const actionCreators = {
   updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility,
-  updateAuthenticated
+  updateAuthenticated,
+  hideChatNotification,
+  updateChatScreen
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);

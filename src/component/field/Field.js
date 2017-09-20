@@ -19,7 +19,6 @@ export class Field extends Component {
       PropTypes.string
     ]),
     description: PropTypes.string,
-    disableAutoComplete: PropTypes.bool,
     disabled: PropTypes.bool,
     hasSearched: PropTypes.bool,
     input: PropTypes.element,
@@ -37,7 +36,6 @@ export class Field extends Component {
 
   static defaultProps = {
     description: '',
-    disableAutoComplete: false,
     disabled: false,
     hasSearched: false,
     input: null,
@@ -136,20 +134,14 @@ export class Field extends Component {
       required: this.props.required,
       type: this.props.type,
       step: this.props.step,
-      disabled: this.props.disabled
+      disabled: this.props.disabled,
+      autoComplete: 'off'
     };
 
     if (isIos()) {
       fieldProps = _.extend(fieldProps, {
         autoCorrect: 'off',
-        autoComplete: 'off',
         spellCheck: 'false'
-      });
-    }
-
-    if (this.props.disableAutoComplete) {
-      fieldProps = _.extend(fieldProps, {
-        autoComplete: 'off'
       });
     }
 

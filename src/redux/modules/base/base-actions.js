@@ -5,11 +5,18 @@ import {
   UPDATE_BACK_BUTTON_VISIBILITY,
   UPDATE_AUTHENTICATED
 } from './base-action-types';
+import { hideChatNotification } from 'src/redux/modules/chat';
 
 export const updateActiveEmbed = (embedName) => {
-  return {
-    type: UPDATE_ACTIVE_EMBED,
-    payload: embedName
+  return (dispatch) => {
+    if (embedName === 'chat') {
+      dispatch(hideChatNotification());
+    }
+
+    dispatch({
+      type: UPDATE_ACTIVE_EMBED,
+      payload: embedName
+    });
   };
 };
 

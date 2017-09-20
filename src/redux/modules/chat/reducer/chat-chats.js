@@ -1,4 +1,4 @@
-import { Map } from 'vendor/es6-map';
+import Map from 'core-js/library/es6/map';
 
 import {
   SENT_CHAT_MSG_SUCCESS,

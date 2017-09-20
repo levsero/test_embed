@@ -627,6 +627,27 @@ parts:
       screenshot: "https://zendesk.box.com/s/0dynx26jv0bx87ji3g3nf0sp2riw2m10"
       value: "Nice! Your request has been closed."
   - translation:
+      key: "embeddable_framework.automaticAnswers.desktop.solve.undo"
+      title: "Option for the user to undo previous solve ticket action"
+      screenshot: "https://zendesk.box.com/s/ygwy0xadcv3hm9ekhtuswh0km8sugpcu"
+      value: "Undo"
+  - translation:
+      key: "embeddable_framework.automaticAnswers.desktop.solve.re_opened"
+      title: "Confirmation message when request successfully re-opened."
+      screenshot: "https://zendesk.box.com/s/ygwy0xadcv3hm9ekhtuswh0km8sugpcu"
+      value: "Your request has been re-opened"
+  - translation:
+      key: "embeddable_framework.automaticAnswers.label.error_re_open_line1"
+      title: "Error message on failed undo of previous solve ticket action."
+      screenshot: "https://zendesk.box.com/s/sz5u3z3a3jqu0irva7p9xhoyqlyh57d8"
+      value: "There was a problem re-opening your request"
+  - translation:
+      key: "embeddable_framework.automaticAnswers.label.error_re_open_line2"
+      title: "Error message on failed undo of previous solve ticket action."
+      screenshot: "https://zendesk.box.com/s/sz5u3z3a3jqu0irva7p9xhoyqlyh57d8"
+      value: "Please contact us to re-open your request"
+
+  - translation:
       key: "embeddable_framework.automaticAnswers.desktop.irrelevant.question"
       title: "Ask the user for feedback on why the article didn't answer their question. Do not use YOUR question but THE question (or similar) to avoid formal/informal issues."
       screenshot: "https://zendesk.box.com/s/5hmtud5zlowalr7puxgvra9ur170sgtp"

@@ -324,7 +324,9 @@ function init(embedsAccessible, params = {}) {
     if (!isMobileBrowser()) {
       state[`${chat}.isVisible`] = true;
     } else {
-      c.broadcast(`${launcher}.show`);
+      if (!state[`${launcher}.userHidden`]) {
+        c.broadcast(`${launcher}.show`);
+      }
       setScrollKiller(false);
     }
 

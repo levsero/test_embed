@@ -18,7 +18,6 @@ export class HelpCenter extends Component {
     channelChoice: PropTypes.bool,
     chatOnline: PropTypes.bool,
     contextualSearchSender: PropTypes.func.isRequired,
-    disableAutoComplete: PropTypes.bool,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
@@ -37,15 +36,17 @@ export class HelpCenter extends Component {
     showNextButtonSingleIframe: PropTypes.bool,
     style: PropTypes.object,
     updateFrameSize: PropTypes.func,
+    hideChatNotification: PropTypes.func,
+    updateChatScreen: PropTypes.func,
     viewMoreEnabled: PropTypes.bool,
-    zendeskHost: PropTypes.string.isRequired
+    zendeskHost: PropTypes.string.isRequired,
+    notification: PropTypes.object.isRequired
   };
 
   static defaultProps = {
     buttonLabelKey: 'message',
     channelChoice: false,
     chatOnline: false,
-    disableAutoComplete: false,
     formTitleKey: 'help',
     hideZendeskLogo: false,
     localeFallbacks: [],
@@ -60,6 +61,8 @@ export class HelpCenter extends Component {
     showNextButtonSingleIframe: false,
     style: null,
     updateFrameSize: () => {},
+    hideChatNotification: () => {},
+    updateChatScreen: () => {},
     viewMoreEnabled: false
   };
 
@@ -454,13 +457,13 @@ export class HelpCenter extends Component {
     return (
       <HelpCenterDesktop
         ref='helpCenterDesktop'
+        notification={this.props.notification}
         chatOnline={chatOnline}
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
         search={this.search}
         showNextButton={this.shouldShowNextButton()}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        disableAutoComplete={this.props.disableAutoComplete}
         isLoading={this.state.isLoading}
         onNextClick={this.props.onNextClick}
         newDesign={this.props.newDesign}
@@ -471,7 +474,9 @@ export class HelpCenter extends Component {
         formTitleKey={this.props.formTitleKey}
         searchFieldValue={this.state.searchFieldValue}
         shadowVisible={shadowVisible}
-        updateFrameSize={this.props.updateFrameSize}>
+        updateFrameSize={this.props.updateFrameSize}
+        hideChatNotification={this.props.hideChatNotification}
+        updateChatScreen={this.props.updateChatScreen}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterDesktop>

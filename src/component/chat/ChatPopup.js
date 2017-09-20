@@ -74,14 +74,10 @@ export class ChatPopup extends Component {
   }
 
   render = () => {
-    const topContainerClickHandler = !this.props.showCta
-      ? this.props.respondFn
-      : null;
-
     return (
       <div className={`${this.props.className} ${styles.containerWrapper}`}>
         <div className={styles.container}>
-          <div className={styles.topContainer} onClick={topContainerClickHandler}>
+          <div className={styles.topContainer} onClick={this.props.respondFn}>
             <Avatar src={this.props.avatarPath} className={styles.avatar} />
             <div className={styles.agentContainer}>
               {this.renderAgentName()}
