@@ -1043,12 +1043,14 @@ describe('mediator', () => {
           mockRegistry['utility/devices'].isMobileBrowser
             .and.returnValue(true);
 
+          reset(launcherSub.show);
+
           c.broadcast(`.hide`);
           c.broadcast(`${chat}.onOnline`);
           c.broadcast(`${helpCenter}.onNextClick`);
 
           expect(launcherSub.show.calls.count())
-            .toEqual(1);
+            .toEqual(0);
         });
       });
     });

@@ -33,7 +33,6 @@ state[`${chat}.userClosed`] = false;
 state[`${chat}.chatEnded`] = false;
 state['ipm.isVisible'] = false;
 state['.hideOnClose'] = false;
-state['.hasHidden'] = false;
 state['.activatePending'] = false;
 
 const helpCenterAvailable = () => {
@@ -141,7 +140,6 @@ function init(embedsAccessible, params = {}) {
     }
   };
 
-  state['.hasHidden'] = params.hideLauncher;
   state[`${launcher}.userHidden`] = params.hideLauncher;
   state[`${submitTicket}.isAccessible`] = embedsAccessible.submitTicket;
   state[`${helpCenter}.isAccessible`] = embedsAccessible.helpCenter &&
@@ -169,7 +167,7 @@ function init(embedsAccessible, params = {}) {
     state[`${submitTicket}.isVisible`] = false;
     state[`${chat}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = false;
-    state['.hasHidden'] = true;
+    state[`${launcher}.userHidden`] = true;
 
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${launcher}.hide`);
@@ -180,7 +178,7 @@ function init(embedsAccessible, params = {}) {
     state[`${submitTicket}.isVisible`] = false;
     state[`${chat}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = false;
-    state['.hasHidden'] = false;
+    state[`${launcher}.userHidden`] = false;
 
     resetActiveEmbed();
 
@@ -425,7 +423,7 @@ function init(embedsAccessible, params = {}) {
 
       // Fix for when a pro-active message is recieved which opens the zopim window but the launcher
       // was previously hidden with zE.hide()
-      if (!state['.hideOnClose'] && !state['.hasHidden']) {
+      if (!state['.hideOnClose'] && !state[`${launcher}.userHidden`]) {
         setTimeout(
           () => c.broadcast(`${launcher}.show`, { transition: getShowAnimation() }),
           isMobileBrowser() ? 200 : 0
