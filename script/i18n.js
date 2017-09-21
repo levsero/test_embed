@@ -2,6 +2,7 @@ var when = require('when'),
     rest = require('rest'),
     _ = require('lodash'),
     fs = require('fs'),
+    isAssetComposerBuild = process.argv[2] === 'ac',
     localeIdMapGlobal = 'zELocaleIdMap',
     translationsGlobal = 'zETranslations',
     localeIdMapPath = __dirname + "/../src/translation/ze_localeIdMap.js",
@@ -58,11 +59,17 @@ function transformTranslations(translations) {
   }, {});
 }
 
-function writeJsonToModuleFile(globalName, path, json) {
+function writeJsonToGlobalFile(globalName, path, json) {
   var contents = 'window.'
                + globalName
                + ' = '
                + JSON.stringify(json, null, 2);
+
+  fs.writeFile(path, contents);
+}
+
+function writeJsonToModuleFile(path, json) {
+  var contents = 'export default ' + JSON.stringify(json, null, 2);
 
   fs.writeFile(path, contents);
 }
@@ -76,7 +83,11 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
 
     console.log('\nWriting to ' + localeIdMapPath);
 
-    writeJsonToModuleFile(localeIdMapGlobal, localeIdMapPath, generateLocaleIdMap(locales));
+    if (isAssetComposerBuild) {
+      writeJsonToGlobalFile(localeIdMapGlobal, localeIdMapPath, generateLocaleIdMap(locales));
+    } else {
+      writeJsonToModuleFile(localeIdMapPath, generateLocaleIdMap(locales));
+    }
 
     console.log('Downloading individual locales');
 
@@ -125,7 +136,11 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
 
         console.log('\nWriting to ' + translationsPath);
 
-        writeJsonToModuleFile(translationsGlobal, translationsPath, transformed);
+        if (isAssetComposerBuild) {
+          writeJsonToGlobalFile(translationsGlobal, translationsPath, transformed);
+        } else {
+          writeJsonToModuleFile(translationsPath, transformed);
+        }
       }
     });
   });
