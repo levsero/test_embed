@@ -751,8 +751,7 @@ describe('mediator', () => {
 
     describe('with Ticket Submission and Chat', () => {
       beforeEach(() => {
-        jasmine.clock().install();
-        mediator.init({ submitTicket: true, helpCenter: false, chat: true });
+        mediator.init({ submitTicket: true, helpCenter: false });
       });
 
       it('shows label "Chat" if chat is online', () => {
@@ -790,19 +789,10 @@ describe('mediator', () => {
           .toEqual(1);
       });
 
-      it('shows after 3000ms if chat does not connect', () => {
-        expect(launcherSub.show.calls.count())
-          .toEqual(0);
-
-        jasmine.clock().tick(3000);
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(1);
-      });
-
       it('launches Ticket Submission if chat is offline', () => {
         c.broadcast(`${chat}.onOffline`);
 
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
 
@@ -818,6 +808,7 @@ describe('mediator', () => {
         beforeEach(() => {
           c.broadcast(`${chat}.onOnline`);
 
+          jasmine.clock().install();
           c.broadcast(`${launcher}.onClick`);
           jasmine.clock().tick(0);
         });
@@ -852,6 +843,7 @@ describe('mediator', () => {
 
         c.broadcast(`${chat}.onOnline`);
 
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
 
@@ -1318,7 +1310,7 @@ describe('mediator', () => {
 
     describe('standalone', () => {
       beforeEach(() => {
-        mediator.init({ submitTicket: false, helpCenter: false, chat: true });
+        mediator.init({ submitTicket: false, helpCenter: false });
         jasmine.clock().install();
       });
 
@@ -1597,7 +1589,7 @@ describe('mediator', () => {
 
     describe('with Help Center', () => {
       beforeEach(() => {
-        mediator.init({ submitTicket: true, helpCenter: true, chat: true });
+        mediator.init({ submitTicket: true, helpCenter: true });
       });
 
       it('resets launcher label to ChatHelp when unread message count is 0', () => {
@@ -1997,7 +1989,7 @@ describe('mediator', () => {
 
       describe('when chat is available', () => {
         beforeEach(() => {
-          mediator.init({ submitTicket: true, helpCenter: false, chat: true });
+          mediator.init({ submitTicket: true, helpCenter: false });
         });
 
         it('should open to chat if it is online', () => {
@@ -2049,7 +2041,7 @@ describe('mediator', () => {
 
       describe('when chat and help center are available', () => {
         beforeEach(() => {
-          mediator.init({ submitTicket: true, helpCenter: true, chat: true });
+          mediator.init({ submitTicket: true, helpCenter: true });
         });
 
         it('should open to help center', () => {
