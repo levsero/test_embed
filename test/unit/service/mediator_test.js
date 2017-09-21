@@ -800,6 +800,18 @@ describe('mediator', () => {
           .toEqual(1);
       });
 
+      it('does not show after 3000ms if newChat is true', () => {
+        mediator.init({ submitTicket: true, helpCenter: false, chat: true }, { newChat: true });
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
+
+        jasmine.clock().tick(3000);
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
+      });
+
       it('launches Ticket Submission if chat is offline', () => {
         c.broadcast(`${chat}.onOffline`);
 

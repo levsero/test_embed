@@ -139,8 +139,9 @@ function initMediator(config) {
                          ? embeds.helpCenterForm.props.signInRequired
                          : false;
     const params = {
-      'hideLauncher': hideLauncher,
-      'helpCenterSignInRequired': signInRequired
+      hideLauncher: hideLauncher,
+      helpCenterSignInRequired: signInRequired,
+      newChat: !!config.newChat
     };
     const embedsAccessible = {
       submitTicket: !!embeds.ticketSubmissionForm,

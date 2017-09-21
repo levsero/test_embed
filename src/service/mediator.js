@@ -148,7 +148,7 @@ function init(embedsAccessible, params = {}) {
   state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppress');
   state[`${chat}.isSuppressed`] = settings.get('chat.suppress');
   state[`${submitTicket}.isSuppressed`] = settings.get('contactForm.suppress');
-  state[`${chat}.connectionPending`] = embedsAccessible.chat;
+  state[`${chat}.connectionPending`] = embedsAccessible.chat && !params.newChat;
 
   resetActiveEmbed();
 
