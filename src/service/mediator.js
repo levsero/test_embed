@@ -81,17 +81,6 @@ const trackChatStarted = () => {
   c.broadcast('beacon.trackUserAction', 'chat', 'opened', chat);
 };
 
-const show = (_state) => {
-  if (_state['.activatePending']) {
-    showEmbed(_state, true);
-    if (isMobileBrowser()) {
-      c.broadcast(`${launcher}.show`);
-    }
-  } else if (!_state[`${launcher}.userHidden`]) {
-    c.broadcast(`${launcher}.show`);
-  }
-};
-
 const showEmbed = (_state, viaActivate = false) => {
   if (_state.activeEmbed === chat) {
     trackChatStarted();
@@ -148,20 +137,8 @@ function init(embedsAccessible, params = {}) {
   state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppress');
   state[`${chat}.isSuppressed`] = settings.get('chat.suppress');
   state[`${submitTicket}.isSuppressed`] = settings.get('contactForm.suppress');
-  state[`${chat}.connectionPending`] = embedsAccessible.chat;
 
   resetActiveEmbed();
-
-  if (state[`${chat}.connectionPending`]) {
-    // This is to handle zopim errors where onConnected or onError
-    // both don't fire for some reason after chat connects and
-    // connectionPending state just hangs.
-    setTimeout(() => {
-      if (state[`${chat}.connectionPending`] && embedAvailable()) {
-        show(state);
-      }
-    }, 3000);
-  }
 
   c.intercept('.hide', () => {
     state[`${submitTicket}.isVisible`] = false;
@@ -266,7 +243,14 @@ function init(embedsAccessible, params = {}) {
 
     if (!embedAvailable() || state['ipm.isVisible'] || embedVisible(state)) return;
 
-    show(state);
+    if (state['.activatePending']) {
+      showEmbed(state, true);
+      if (isMobileBrowser()) {
+        c.broadcast(`${launcher}.show`);
+      }
+    } else if (!state[`${launcher}.userHidden`]) {
+      c.broadcast(`${launcher}.show`);
+    }
   });
 
   c.intercept(`${chat}.onOffline`, () => {
