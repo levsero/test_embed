@@ -9,7 +9,7 @@ export class ChannelChoice extends Component {
     chatOnline: PropTypes.bool.isRequired,
     showCloseButton: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
-    getFrameDimensions: PropTypes.func,
+    getFrameDimensions: PropTypes.func.isRequired,
     newDesign: PropTypes.bool,
     formTitleKey: PropTypes.string,
     hideZendeskLogo: PropTypes.bool,

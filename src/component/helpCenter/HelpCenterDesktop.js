@@ -26,7 +26,7 @@ export class HelpCenterDesktop extends Component {
     formTitleKey: PropTypes.string,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
-    getFrameDimensions: PropTypes.func,
+    getFrameDimensions: PropTypes.func.isRequired,
     hasSearched: PropTypes.bool,
     newDesign: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,

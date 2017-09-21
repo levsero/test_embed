@@ -20,7 +20,7 @@ export class HelpCenter extends Component {
     contextualSearchSender: PropTypes.func.isRequired,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool.isRequired,
-    getFrameDimensions: PropTypes.func,
+    getFrameDimensions: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
     imagesSender: PropTypes.func.isRequired,
     localeFallbacks: PropTypes.array,

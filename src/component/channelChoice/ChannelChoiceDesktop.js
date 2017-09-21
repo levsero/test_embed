@@ -15,7 +15,7 @@ export class ChannelChoiceDesktop extends Component {
     formTitleKey: PropTypes.string.isRequired,
     handleNextClick: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
-    getFrameDimensions: PropTypes.func
+    getFrameDimensions: PropTypes.func.isRequired
   };
 
   static defaultProps = {

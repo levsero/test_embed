@@ -38,7 +38,7 @@ class Chat extends Component {
     connection: PropTypes.string.isRequired,
     endChat: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
-    getFrameDimensions: PropTypes.func,
+    getFrameDimensions: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
     newDesign: PropTypes.bool,
     position: PropTypes.string,
