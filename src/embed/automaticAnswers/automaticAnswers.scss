@@ -105,7 +105,7 @@
   }
 
   .Icon {
-    top: #{5/$font-size}rem;
+    top: #{7/$font-size}rem;
   }
 }
 
@@ -136,6 +136,16 @@
 
   .Icon--close:hover {
     opacity: 0.4;
+  }
+
+  .AutomaticAnswersAnchor {
+    display: block;
+    padding-top: #{5/$font-size}rem;
+  }
+
+  .AutomaticAnswersCallout--error {
+    background: none;
+    padding-left: 0;
   }
 }
 

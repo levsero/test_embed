@@ -7,6 +7,10 @@ import { Container } from 'component/container/Container';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
+import ClosedWithUndo from './Mobile/ClosedWithUndo';
+import Reopened from './Mobile/Reopened';
+import UndoError from './Mobile/UndoError';
+
 export class AutomaticAnswersMobile extends AutomaticAnswers {
   renderTicketContent = () => {
     return (
@@ -107,6 +111,20 @@ export class AutomaticAnswersMobile extends AutomaticAnswers {
       </p>
     );
   }
+
+  renderClosedWithUndo = () => {
+    return (
+      <ClosedWithUndo
+        isSubmitting={this.state.isSubmitting}
+        handleUndo={this.handleUndo}
+        closeFrameAfterDelay={this.props.closeFrameAfterDelay}
+      />
+    );
+  }
+
+  renderReopened  = () => <Reopened />;
+
+  renderUndoError = () => <UndoError />;
 
   renderThanksForFeedbackContent = () => {
     const feedbackMessage = i18n.t('embeddable_framework.automaticAnswers.desktop.irrelevant.thanks_for_feedback_v2', {

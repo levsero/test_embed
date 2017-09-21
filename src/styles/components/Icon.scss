@@ -183,6 +183,13 @@
   }
 }
 
+.Icon--circleTick-small {
+  svg {
+    width: #{24/$font-size}rem;
+    height: #{24/$font-size}rem;
+  }
+}
+
 .Icon--check {
   svg {
     fill: $secondary-color;
@@ -359,5 +366,12 @@
   svg {
     width: #{48/$font-size}rem;
     height: #{48/$font-size}rem;
+  }
+}
+
+.Icon--reopened-small {
+  svg {
+    width: #{24/$font-size}rem;
+    height: #{24/$font-size}rem;
   }
 }

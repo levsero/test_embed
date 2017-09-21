@@ -1,8 +1,9 @@
-describe('Desktop/ClosedWithUndo component', () => {
-  let ClosedWithUndo,
-    component;
+describe('Mobile/ClosedWithUndo component', () => {
+  let ClosedWithUndo, component;
 
-  const ClosedWithUndoPath = buildSrcPath('component/automaticAnswers/Desktop/ClosedWithUndo');
+  const ClosedWithUndoPath = buildSrcPath(
+    'component/automaticAnswers/Mobile/ClosedWithUndo'
+  );
 
   beforeEach(() => {
     resetDOM();
@@ -10,7 +11,7 @@ describe('Desktop/ClosedWithUndo component', () => {
     mockery.enable();
 
     initMockRegistry({
-      'React': React,
+      React: React,
       'service/i18n': {
         i18n: {
           t: _.identity
@@ -46,13 +47,11 @@ describe('Desktop/ClosedWithUndo component', () => {
       it('the link is enabled', () => {
         const className = component.find('a').props().className;
 
-        expect(className)
-          .not.toContain('AutomaticAnswersAnchor--disabled');
+        expect(className).not.toContain('AutomaticAnswersAnchor--disabled');
       });
 
       it('closes the frame after a delay', () => {
-        expect(closeFrameAfterDelay)
-          .toHaveBeenCalled();
+        expect(closeFrameAfterDelay).toHaveBeenCalled();
       });
     });
 
@@ -71,8 +70,7 @@ describe('Desktop/ClosedWithUndo component', () => {
       });
 
       it('handleUndo is called', () => {
-        expect(handleUndo)
-          .toHaveBeenCalled();
+        expect(handleUndo).toHaveBeenCalled();
       });
     });
 
@@ -90,8 +88,7 @@ describe('Desktop/ClosedWithUndo component', () => {
       it('the link is disabled', () => {
         const className = component.find('a').props().className;
 
-        expect(className)
-          .toContain('AutomaticAnswersAnchor--disabled');
+        expect(className).toContain('AutomaticAnswersAnchor--disabled');
       });
     });
   });

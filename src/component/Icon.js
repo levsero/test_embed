@@ -14,8 +14,8 @@ const icons = {
   'Icon--channelChoice-contactForm': require('icons/widget-icon_channelChoice-contactForm.svg'),
   'Icon--chat': require('icons/widget-icon_chat.svg'),
   'Icon--check': require('icons/widget-icon_checkboxCheck.svg'),
-  'Icon--circleTick-large': require('icons/widget-icon_circle_tick_large.svg'),
-  'Icon--circleTick-small': require('icons/widget-icon_circle_tick_small.svg'),
+  'Icon--circleTick-large': require('icons/widget-icon_circle_tick.svg'),
+  'Icon--circleTick-small': require('icons/widget-icon_circle_tick.svg'),
   'Icon--clearInput': require('icons/widget-icon_clearInput.svg'),
   'Icon--close': require('icons/widget-icon_close.svg'),
   'Icon--ellipsis': require('icons/widget-icon_ellipsis.svg'),
@@ -31,6 +31,7 @@ const icons = {
   'Icon--preview-zip': require('zd-svg-icons/src/26-file-zip.svg'),
   'Icon--preview-error': require('zd-svg-icons/src/26-file-error.svg'),
   'Icon--reopened-large': require('icons/widget-icon_reopened.svg'),
+  'Icon--reopened-small': require('icons/widget-icon_reopened.svg'),
   'Icon--search': require('icons/widget-icon_search.svg'),
   'Icon--tick': require('icons/widget-icon_tick.svg'),
   'Icon--zendesk': require('icons/widget-icon_zendesk.svg')
