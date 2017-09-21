@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+
+import { locals as styles } from './Container.sass';
 
 export class Container extends Component {
   static propTypes = {
@@ -23,17 +24,13 @@ export class Container extends Component {
   };
 
   render = () => {
-    const containerClasses = classNames({
-      [`Container u-posRelative ${this.props.className}`]: true,
-      'Container--popover': !this.props.fullscreen,
-      'Container--fullscreen': this.props.fullscreen,
-      'Container--card': this.props.card
-    });
+    const platformClasses = this.props.fullscreen ? styles.mobile : styles.desktop;
+    const styleClasses = this.props.card ? styles.card : '';
 
     return (
       <div
         onClick={this.props.onClick}
-        className={containerClasses}
+        className={`${styles.container} ${this.props.className} ${platformClasses} ${styleClasses}`}
         onDragEnter={this.props.onDragEnter}
         style={this.props.style}>
         {this.props.children}

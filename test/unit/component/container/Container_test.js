@@ -8,7 +8,14 @@ describe('Container component', () => {
     mockery.enable();
 
     initMockRegistry({
-      'React': React
+      'React': React,
+      './Container.sass': {
+        locals: {
+          'desktop': 'desktopClasses',
+          'mobile': 'mobileClasses',
+          'card': 'cardClasses'
+        }
+      }
     });
 
     mockery.registerAllowable(containerPath);
@@ -21,23 +28,37 @@ describe('Container component', () => {
     mockery.disable();
   });
 
-  it('should have the `fullscreen` classnames when fullscreen is true', () => {
+  it('has mobileClasses when props.fullscreen is true', () => {
     const container = shallowRender(<Container fullscreen={true} />);
 
     expect(container.props.className)
-      .toMatch('Container--fullscreen');
+      .toMatch('mobileClasses');
 
     expect(container.props.className)
-      .not.toMatch('Container--popover');
+      .not.toMatch('desktopClasses');
   });
 
-  it('should have the `popover` classnames when fullscreen is false', () => {
+  it('has desktopClasses when props.fullscreen is false', () => {
     const container = shallowRender(<Container />);
 
     expect(container.props.className)
-      .toMatch('Container--popover');
+      .toMatch('desktopClasses');
 
     expect(container.props.className)
-      .not.toMatch('Container--fullscreen');
+      .not.toMatch('mobileClasses');
+  });
+
+  it('has cardClasses when props.card is true', () => {
+    const container = shallowRender(<Container card={true} />);
+
+    expect(container.props.className)
+      .toMatch('cardClasses');
+  });
+
+  it('does not have cardClasses when props.card is false', () => {
+    const container = shallowRender(<Container />);
+
+    expect(container.props.className)
+      .not.toMatch('cardClasses');
   });
 });

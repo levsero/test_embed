@@ -13,6 +13,7 @@ import ChatPrechatFormStyles from 'component/chat/ChatPrechatForm.sass';
 import ChatMenuStyles from 'component/chat/ChatMenu.sass';
 import ChatGroupStyles from 'component/chat/ChatGroup.sass';
 import ChatStyles from 'component/chat/Chat.sass';
+import ContainerStyles from 'component/container/Container.sass';
 import DropdownStyles from 'component/field/Dropdown.sass';
 import DropdownOptionStyles from 'component/field/DropdownOption.sass';
 import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.sass';
@@ -42,6 +43,7 @@ export const webWidgetStyles = `
   ${ChatMenuStyles}
   ${ChatGroupStyles}
   ${ChatStyles}
+  ${ContainerStyles}
   ${DropdownStyles}
   ${DropdownOptionStyles}
   ${HelpCenterArticleStyles}

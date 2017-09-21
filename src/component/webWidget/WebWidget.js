@@ -16,8 +16,6 @@ import { updateActiveEmbed,
 import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
 import { getChatNotification } from 'src/redux/modules/chat/selectors';
 
-import { locals as chatStyles } from 'component/chat/Chat.sass';
-
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
 const chat = 'chat';
@@ -292,19 +290,17 @@ class WebWidget extends Component {
   }
 
   renderChat = () => {
-    const classes = this.props.activeEmbed !== chat ? 'u-isHidden' : '';
+    if (this.props.activeEmbed !== chat) return;
 
     return (
-      <div className={classes}>
-        <Chat
-          ref={chat}
-          styles={chatStyles}
-          isMobile={this.props.fullscreen}
-          newDesign={this.props.newDesign}
-          updateFrameSize={this.props.updateFrameSize}
-          updateChatScreen={this.props.updateChatScreen}
-          position={this.props.position} />
-      </div>
+      <Chat
+        ref={chat}
+        getFrameDimensions={this.props.getFrameDimensions}
+        isMobile={this.props.fullscreen}
+        newDesign={this.props.newDesign}
+        updateFrameSize={this.props.updateFrameSize}
+        updateChatScreen={this.props.updateChatScreen}
+        position={this.props.position} />
     );
   }
 
@@ -327,6 +323,7 @@ class WebWidget extends Component {
           onArticleClick={this.props.onArticleClick}
           onSearch={this.props.onSearch}
           position={this.props.position}
+          getFrameDimensions={this.props.getFrameDimensions}
           buttonLabelKey={helpCenterConfig.buttonLabelKey}
           formTitleKey={helpCenterConfig.formTitleKey}
           showBackButton={this.props.updateBackButtonVisibility}
@@ -394,6 +391,7 @@ class WebWidget extends Component {
         chatOnline={this.isChatOnline()}
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
+        getFrameDimensions={this.props.getFrameDimensions}
         onCancelClick={this.props.closeFrame}
         showCloseButton={this.props.showCloseButton}
         hideZendeskLogo={this.props.hideZendeskLogo} />
@@ -407,7 +405,6 @@ class WebWidget extends Component {
     // here and this won't be needed to fix dodgy animation.
     const width = this.props.fullscreen ? '100%' : '342px';
     const style = { width };
-    const className = this.props.activeEmbed === chat ? chatStyles.container : '';
 
     return (
       // data-embed is needed for our intergration tests
@@ -415,7 +412,6 @@ class WebWidget extends Component {
         <Container
           style={this.props.style}
           position={this.props.position}
-          className={className}
           onClick={this.onContainerClick}
           onDragEnter={this.onContainerDragEnter}>
           {this.renderSubmitTicket()}

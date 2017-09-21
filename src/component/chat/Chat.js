@@ -20,6 +20,8 @@ import { endChat,
          updateChatScreen } from 'src/redux/modules/chat';
 import { PRECHAT_SCREEN, CHATTING_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
 
+import { locals as styles } from './Chat.sass';
+
 const mapStateToProps = (state) => {
   return {
     chat: state.chat,
@@ -36,10 +38,10 @@ class Chat extends Component {
     connection: PropTypes.string.isRequired,
     endChat: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
+    getFrameDimensions: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
     newDesign: PropTypes.bool,
     position: PropTypes.string,
-    styles: PropTypes.object,
     sendMsg: PropTypes.func.isRequired,
     setVisitorInfo: PropTypes.func.isRequired,
     updateCurrentMsg: PropTypes.func.isRequired,
@@ -50,10 +52,10 @@ class Chat extends Component {
   };
 
   static defaultProps = {
+    getFrameDimensions: () => {},
     isMobile: false,
     newDesign: false,
     position: 'right',
-    styles: {},
     updateFrameSize: () => {},
     updateAccountSettings: () => {},
     accountSettings: { concierge: {} }
@@ -109,7 +111,7 @@ class Chat extends Component {
     if (this.props.chat.chats.size <= 0 || this.props.chat.is_chatting) return;
 
     return (
-      <div className={this.props.styles.chatEnd}>
+      <div className={styles.chatEnd}>
         {i18n.t('embeddable_framework.chat.ended.label', { fallback: 'Chat Ended' })}
       </div>
     );
@@ -158,7 +160,7 @@ class Chat extends Component {
 
     return (
       <ScrollContainer
-        containerClasses={this.props.styles.prechatContainer}
+        getFrameDimensions={this.props.getFrameDimensions}
         newDesign={this.props.newDesign}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
         <ChatPrechatForm
@@ -170,11 +172,11 @@ class Chat extends Component {
 
   renderChatScreen = () => {
     if (this.props.screen !== CHATTING_SCREEN) return;
-    const { styles, isMobile } = this.props;
+    const { isMobile } = this.props;
 
     const containerClasses = isMobile
                            ? styles.scrollContainerMobile
-                           : styles.scrollContainer;
+                           : '';
 
     return (
       <ScrollContainer
@@ -183,6 +185,7 @@ class Chat extends Component {
         headerContent={this.renderChatHeader()}
         headerClasses={styles.header}
         containerClasses={containerClasses}
+        getFrameDimensions={this.props.getFrameDimensions}
         footerClasses={styles.footer}
         newDesign={this.props.newDesign}
         footerContent={this.renderChatFooter()}>

@@ -330,6 +330,7 @@ export class SubmitTicket extends Component {
       <ScrollContainer
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         fullscreen={this.state.fullscreen}
+        getFrameDimensions={this.props.getFrameDimensions}
         containerClasses={styles.ticketFormsContainer}>
         <div className={`${styles.loadingSpinner} ${spinnerIEClasses}`}>
           <LoadingSpinner />
@@ -381,7 +382,7 @@ export class SubmitTicket extends Component {
 
     return (
       <div className={styles.notify} ref='notification'>
-        <ScrollContainer title={this.state.message}>
+        <ScrollContainer getFrameDimensions={this.props.getFrameDimensions} title={this.state.message}>
           <Icon
             type='Icon--tick'
             className={iconClasses} />
@@ -420,6 +421,7 @@ export class SubmitTicket extends Component {
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         ref='ticketFormSelector'
         fullscreen={fullscreen}
+        getFrameDimensions={this.props.getFrameDimensions}
         scrollShadowVisible={!fullscreen}
         containerClasses={containerClasses}
         newDesign={this.props.newDesign}

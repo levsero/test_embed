@@ -446,6 +446,7 @@ export class SubmitTicketForm extends Component {
           ref='scrollContainer'
           title={i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)}
           containerClasses={`${styles.container} ${containerClasses}`}
+          getFrameDimensions={this.props.getFrameDimensions}
           newDesign={this.props.newDesign}
           footerContent={
             <ButtonGroup rtl={i18n.isRTL()}>

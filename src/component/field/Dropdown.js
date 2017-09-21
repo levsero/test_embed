@@ -19,7 +19,7 @@ export class Dropdown extends Component {
       PropTypes.string
     ]).isRequired,
     fullscreen: PropTypes.bool,
-    getFrameDimensions: PropTypes.func,
+    getFrameDimensions: PropTypes.func.isRequired,
     landscape: PropTypes.bool,
     description: PropTypes.string,
     onChange: PropTypes.func,
