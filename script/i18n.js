@@ -74,6 +74,14 @@ function writeJsonToModuleFile(path, json) {
   fs.writeFile(path, contents);
 }
 
+function writeJson(path, json, globalName) {
+  if (isAssetComposerBuild) {
+    writeJsonToGlobalFile(globalName, path, json);
+  } else {
+    writeJsonToModuleFile(path, json);
+  }
+}
+
 console.log('Downloading https://support.zendesk.com/api/v2/rosetta/locales/public.json');
 
 rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
@@ -83,11 +91,7 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
 
     console.log('\nWriting to ' + localeIdMapPath);
 
-    if (isAssetComposerBuild) {
-      writeJsonToGlobalFile(localeIdMapGlobal, localeIdMapPath, generateLocaleIdMap(locales));
-    } else {
-      writeJsonToModuleFile(localeIdMapPath, generateLocaleIdMap(locales));
-    }
+    writeJson(localeIdMapPath, generateLocaleIdMap(locales), localeIdMapGlobal);
 
     console.log('Downloading individual locales');
 
@@ -136,11 +140,7 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
 
         console.log('\nWriting to ' + translationsPath);
 
-        if (isAssetComposerBuild) {
-          writeJsonToGlobalFile(translationsGlobal, translationsPath, transformed);
-        } else {
-          writeJsonToModuleFile(translationsPath, transformed);
-        }
+        writeJson(translationsPath, transformed, translationsGlobal);
       }
     });
   });
