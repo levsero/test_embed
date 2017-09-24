@@ -2,9 +2,9 @@ import _ from 'lodash';
 import { sprintf } from 'sprintf-js';
 
 import { settings } from 'service/settings';
+import zETranslations from 'translation/ze_translations';
+import zELocaleIdMap from 'translation/ze_localeIdMap';
 
-const translations = require('translation/translations.json');
-const localeIdMap = require('translation/localeIdMap.json');
 const keyLookupTable = {
   launcherLabel: [
     'embeddable_framework.launcher.label.help',
@@ -46,7 +46,7 @@ function setLocale(str = 'en-US', force = false) {
 
 function translate(key, params = {}) {
   const keyForLocale = `${key}.${currentLocale}`;
-  const translation = _.get(translations, keyForLocale);
+  const translation = _.get(zETranslations, keyForLocale);
 
   if (_.isUndefined(translation)) {
     return params.fallback || getMissingTranslationString(key, currentLocale);
@@ -68,11 +68,11 @@ function getLocale() {
 }
 
 function getLocaleId() {
-  return localeIdMap[currentLocale];
+  return zELocaleIdMap[currentLocale];
 }
 
 function isRTL() {
-  return !!translations.rtl[currentLocale];
+  return !!zETranslations.rtl[currentLocale];
 }
 
 // private
@@ -99,7 +99,7 @@ function regulateLocaleStringCase(locale) {
 }
 
 function parseLocale(str) {
-  const locales = translations.locales;
+  const locales = zETranslations.locales;
   const locale = regulateLocaleStringCase(str);
   const lowercaseLocale = locale.toLowerCase();
   const extractLang = (locale) => {
@@ -130,9 +130,9 @@ function overrideTranslations(newTranslations) {
 
     if (newTranslation.hasOwnProperty('*')) {
       _.forEach(keys, (key) => {
-        const overridenStrings = _.mapValues(_.get(translations, key), () => newTranslation['*']);
+        const overridenStrings = _.mapValues(_.get(zETranslations, key), () => newTranslation['*']);
 
-        _.set(translations, key, overridenStrings);
+        _.set(zETranslations, key, overridenStrings);
       });
     }
 
@@ -141,7 +141,7 @@ function overrideTranslations(newTranslations) {
       if (locale === '*') continue;
 
       _.forEach(keys, (key) => {
-        _.set(translations, `${key}.${locale}`, newTranslation[locale]);
+        _.set(zETranslations, `${key}.${locale}`, newTranslation[locale]);
       });
     }
   });

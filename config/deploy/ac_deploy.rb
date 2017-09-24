@@ -2,12 +2,18 @@ require 'json'
 require_relative './s3_deployer'
 
 set :version, fetch(:branch) || fetch(:local_head_revision)
-set :ac_framework_files, ['web_widget.js', 'manifest.json']
+set :ac_framework_files, [
+  'web_widget.js',
+  'manifest.json',
+  'ze_translations.js',
+  'ze_localeIdMap.js'
+]
 set :ac_aws_credentials, Aws::Credentials.new(ENV['AC_AWS_RW_ACCESS_KEY'], ENV['AC_AWS_RW_SECRET_KEY'])
 set :ac_aws_region, ENV['AC_AWS_REGION']
 set :ac_s3_release_directory, "web_widget/#{fetch(:version)}"
 set :ac_s3_bucket_name, ENV['AC_AWS_BUCKET_NAME']
 
+BUCKET_DOMAIN = 'd2fu7i775blqyh.cloudfront.net'.freeze
 STAGING_URL = 'ekr-internet-load-balancer-1568683846.us-west-2.elb.amazonaws.com/embed_key_registry/release'.freeze
 PRODUCTION_URL = ''.freeze # TODO: When production url is ready, fill this in.
 
@@ -18,7 +24,6 @@ namespace :ac_embeddable_framework do
 
     sh 'npm set progress=false && npm install'
     sh 'npm run validate-manifest'
-    sh 'script/fetch_i18n'
     sh 'npm run build-ac'
   end
 
@@ -51,7 +56,8 @@ def release_to_ekr(url)
   params = {
     product: {
       name: 'web_widget',
-      version: fetch(:version)
+      version: fetch(:version),
+      base_url: BUCKET_DOMAIN
     }
   }.to_json
 
