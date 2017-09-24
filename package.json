@@ -12,7 +12,7 @@
     "build:ze_translations": "uglifyjs -c -m -o dist/ze_translations.js -- src/translation/ze_translations.js",
     "build:ze_localeIdMap": "uglifyjs -c -m -o dist/ze_localeIdMap.js -- src/translation/ze_localeIdMap.js",
     "prebuild:ac": "script/ac_fetch_i18n && cp manifest.json dist && npm run build:ze_translations && npm run build:ze_localeIdMap",
-    "build:prod": "script/fetch_i18n webpack --config=./webpack/webpack.prod.config.js --progress",
+    "build:prod": "script/fetch_i18n && webpack --config=./webpack/webpack.prod.config.js --progress",
     "build:ac": "webpack --config=./webpack/webpack.ac.config.js --progress",
     "watch": "webpack-dashboard -- webpack-dev-server --config=./webpack/webpack.dev.config.js",
     "watch:ac": "./script/start-ac-dev && webpack-dashboard -- webpack-dev-server --config=./webpack/webpack.ac.dev.config.js",
