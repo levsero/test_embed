@@ -2,8 +2,11 @@ var when = require('when'),
     rest = require('rest'),
     _ = require('lodash'),
     fs = require('fs'),
-    localeIdMapPath = __dirname + "/../src/translation/localeIdMap.json",
-    translationsPath = __dirname + "/../src/translation/translations.json",
+    isAssetComposerBuild = process.argv[2] === 'ac',
+    localeIdMapGlobal = 'zELocaleIdMap',
+    translationsGlobal = 'zETranslations',
+    localeIdMapPath = __dirname + "/../src/translation/ze_localeIdMap.js",
+    translationsPath = __dirname + "/../src/translation/ze_translations.js",
     translationMissingMessage = 'translation%20missing';
 
 function filterLocales(locales) {
@@ -56,6 +59,29 @@ function transformTranslations(translations) {
   }, {});
 }
 
+function writeJsonToGlobalFile(globalName, path, json) {
+  var contents = 'window.'
+               + globalName
+               + ' = '
+               + JSON.stringify(json, null, 2);
+
+  fs.writeFile(path, contents);
+}
+
+function writeJsonToModuleFile(path, json) {
+  var contents = 'export default ' + JSON.stringify(json, null, 2);
+
+  fs.writeFile(path, contents);
+}
+
+function writeJson(path, json, globalName) {
+  if (isAssetComposerBuild) {
+    writeJsonToGlobalFile(globalName, path, json);
+  } else {
+    writeJsonToModuleFile(path, json);
+  }
+}
+
 console.log('Downloading https://support.zendesk.com/api/v2/rosetta/locales/public.json');
 
 rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
@@ -65,10 +91,7 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
 
     console.log('\nWriting to ' + localeIdMapPath);
 
-    fs.writeFile(
-      localeIdMapPath,
-      JSON.stringify(generateLocaleIdMap(locales), null, 2)
-    );
+    writeJson(localeIdMapPath, generateLocaleIdMap(locales), localeIdMapGlobal);
 
     console.log('Downloading individual locales');
 
@@ -117,10 +140,7 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
 
         console.log('\nWriting to ' + translationsPath);
 
-        fs.writeFile(
-          translationsPath,
-          JSON.stringify(transformed, null, 2)
-        );
+        writeJson(translationsPath, transformed, translationsGlobal);
       }
     });
   });

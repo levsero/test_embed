@@ -45,7 +45,6 @@ namespace :embeddable_framework do
     logger.info 'Building assets'
 
     sh 'npm set progress=false && npm install'
-    sh 'script/fetch_i18n'
     sh 'npm run build'
   end
 

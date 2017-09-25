@@ -21,9 +21,8 @@
       "url": "https://cdnjs.cloudflare.com/ajax/libs/superagent/2.0.0/superagent.min.js"
     }
   ],
-  "internals": [
-    {
-      "name": "web_widget"
-    }
-  ]
+  "internal": {
+    "index": "web_widget.js",
+    "scripts": ["ze_translations.js", "ze_localeIdMap.js"]
+  }
 }
