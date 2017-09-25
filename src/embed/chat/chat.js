@@ -149,10 +149,10 @@ function init(name) {
   };
 
   const onStatus = (status) => {
-    if (status === 'offline') {
-      mediator.channel.broadcast(`${name}.onOffline`);
-    } else {
+    if (status === 'online' || status === 'away') {
       mediator.channel.broadcast(`${name}.onOnline`);
+    } else {
+      mediator.channel.broadcast(`${name}.onOffline`);
     }
   };
   const onUnreadMsgs = (unreadMessageCount) => {
