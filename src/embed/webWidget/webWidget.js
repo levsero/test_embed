@@ -38,6 +38,7 @@ let hasAuthenticatedSuccessfully = false;
 let useMouseDistanceContexualSearch = false;
 let contextualSearchOptions = {};
 let cancelTargetHandler = null;
+let resetEmbed = false;
 
 const getWithSpinner = (path, locale, doneFn) => {
   const transportData = {
@@ -289,8 +290,9 @@ function setupMediator() {
       // Stop stupid host page scrolling
       // when trying to focus HelpCenter's search field.
       setTimeout(() => {
-        getWebWidgetComponent().show(options.viaActivate);
+        getWebWidgetComponent().show(options.viaActivate || resetEmbed);
         embed.instance.show(options);
+        resetEmbed = false;
       }, 0);
 
       if (useMouseDistanceContexualSearch && options.viaActivate && embed.config.helpCenterForm) {
@@ -559,6 +561,7 @@ function setUpSubmitTicket(config) {
 
     beacon.trackUserAction('submitTicket', 'send', 'ticketSubmissionForm', userActionPayload);
     mediator.channel.broadcast('ticketSubmissionForm.onFormSubmitted');
+    resetEmbed = true;
   };
   const onCancel = () => {
     mediator.channel.broadcast('ticketSubmissionForm.onCancelClick');
