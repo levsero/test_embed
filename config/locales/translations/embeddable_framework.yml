@@ -18,7 +18,7 @@ parts:
       value: "Send"
   - translation:
       key: "embeddable_framework.common.button.chat"
-      title: "The label for the live chat option in the list (not product name, just general chat). The same text as embeddable_framework.helpCenter.submitButton.label.chat"
+      title: "The label for the live chat option used in both help center and channel choice."
       screenshot: "https://zendesk.box.com/s/cybiy7gshwetcw9y8yd0o40ddixfdjj6"
       value: "Live chat"
 
