@@ -16,6 +16,11 @@ parts:
       title: "A generic label to describe the button's action to send something. e.g send a form (not submit), action, etc"
       screenshot: "https://zendesk.box.com/s/d01wl1cw7rjr4f3euac0wh8jnlrgn82w"
       value: "Send"
+  - translation:
+      key: "embeddable_framework.common.button.chat"
+      title: "The label for the live chat option used in both help center and channel choice."
+      screenshot: "https://zendesk.box.com/s/cybiy7gshwetcw9y8yd0o40ddixfdjj6"
+      value: "Live chat"
 
   # Launcher embed
   - translation:
@@ -40,6 +45,7 @@ parts:
       key: "embeddable_framework.chat.title"
       title: "The name of the live chat window provided by Zopim that the Widget serves when chat agents are online. If text exceeds widget width, text will be cut off and the characters ... appended (tinyurl.com/nbhwvcc)"
       value: "Live Chat"
+      obselete: "2017-11-26"
   - translation:
       key: "embeddable_framework.chat.notification"
       title: "The notification message that appears on the launcher button when a new message is received in chat. This is for a singular incoming chat notification"
@@ -340,16 +346,18 @@ parts:
       title: "The label for the live chat option in the list (not product name, just general chat). The same text as embeddable_framework.helpCenter.submitButton.label.chat"
       screenshot: "https://zendesk.box.com/s/cybiy7gshwetcw9y8yd0o40ddixfdjj6"
       value: "Live Chat"
+      obselete: "2017-11-26"
   - translation:
       key: "embeddable_framework.channelChoice.button.label.chat_offline"
       title: "A notification that appears when a user enters live chat but all agents become unavailable."
       screenshot: "https://zendesk.box.com/s/x2o3nb0yedt4y600n1ge6agmvavdisd4"
       value: "Live Chat is offline"
+      obselete: "2017-11-26"
   - translation:
-      key: "embeddable_framework.channelChoice.chat.offline"
+      key: "embeddable_framework.channelChoice.button.label.chat_offline_v2"
       title: "A notification that appears when a user enters live chat but all agents become unavailable."
-      value: "Live chat is offline."
-      obsolete: "2017-08-16"
+      screenshot: "https://zendesk.box.com/s/x2o3nb0yedt4y600n1ge6agmvavdisd4"
+      value: "Live chat is offline"
 
   # Help Center component
   - translation:
@@ -403,6 +411,7 @@ parts:
       key: "embeddable_framework.helpCenter.submitButton.label.chat"
       title: "The label on the button in help center widget when a chat agent is online to let customers know that if they click it they will go to live chat. Will wrap if needed (tinyurl.com/kf8gpbb)"
       value: "Live chat"
+      obselete: "2017-11-26"
   - translation:
       key: "embeddable_framework.helpCenter.submitButton.label.submitTicket.message"
       title: "The label on the button in help center when no chat agents are online to let customers know that if they click it they will go to the submit ticket form. Will wrap if needed"
