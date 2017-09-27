@@ -1,3 +1,5 @@
+import Color from 'color';
+
 describe('color', () => {
   let generateUserCSS,
     generateWebWidgetPreviewCSS,
@@ -5,6 +7,12 @@ describe('color', () => {
     mockSettingsValue;
 
   const colorPath = buildSrcPath('util/color');
+  const trimWhitespace = (str) => {
+    return _.chain(str.split('\n'))
+            .map(_.trim)
+            .toString()
+            .value();
+  };
 
   beforeEach(() => {
     resetDOM();
@@ -19,7 +27,7 @@ describe('color', () => {
           get: () => mockSettingsValue
         }
       },
-      'lodash': _
+      'color': Color
     });
 
     generateUserCSS = require(colorPath).generateUserCSS;
@@ -52,6 +60,176 @@ describe('color', () => {
 
       expect(cssString)
         .toMatch('#aaaaaa');
+    });
+
+    describe('if the color is light', () => {
+      let css;
+
+      beforeEach(() => {
+        css = generateUserCSS('#ffffff');
+      });
+
+      describe('u-userTextColor', () => {
+        const expectedCss = `
+        .u-userTextColor:not([disabled]) {
+          color: rgb(138, 138, 138) !important;
+          fill: rgb(138, 138, 138) !important;
+        }
+        .u-userTextColor:not([disabled]):hover,
+        .u-userTextColor:not([disabled]):active,
+        .u-userTextColor:not([disabled]):focus {
+          color: rgb(0, 0, 0) !important;
+          fill: rgb(0, 0, 0) !important;
+        }`;
+
+        it('is calculated correctly', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
+
+      describe('u-userBackgroundColor', () => {
+        const expectedCss = `
+        .u-userBackgroundColor:not([disabled]) {
+          background-color: #ffffff !important;
+          color: rgb(110, 110, 110) !important;
+          fill: rgb(110, 110, 110) !important;
+          border: 1px solid rgb(184, 184, 184) !important;
+          svg {
+            color: rgb(110, 110, 110) !important;
+            fill: rgb(110, 110, 110) !important;
+          }
+        }
+        .u-userBackgroundColor:not([disabled]):hover,
+        .u-userBackgroundColor:not([disabled]):active,
+        .u-userBackgroundColor:not([disabled]):focus {
+          background-color: rgb(230, 230, 230) !important;
+        }`;
+
+        it('is calculated correctly', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
+
+      describe('u-userBorderColor', () => {
+        const expectedCss = `
+        .u-userBorderColor:not([disabled]) {
+          color: rgb(110, 110, 110) !important;
+          background-color: transparent !important;
+          border-color: rgb(110, 110, 110) !important;
+        }
+        .u-userBorderColor:not([disabled]):hover,
+        .u-userBorderColor:not([disabled]):active,
+        .u-userBorderColor:not([disabled]):focus {
+          color: black !important;
+          background-color: rgb(0, 0, 0) !important;
+          border-color: rgb(0, 0, 0) !important;
+        }`;
+
+        it('is calculated correctly', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
+
+      describe('u-userHeaderColor', () => {
+        const expectedCss = `
+        .u-userHeaderColor {
+          background: #ffffff !important;
+          color: rgb(110, 110, 110) !important;
+        }`;
+
+        it('is calculated correctly', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
+    });
+
+    describe('if the color is not light', () => {
+      let css;
+
+      beforeEach(() => {
+        css = generateUserCSS('#283646');
+      });
+
+      describe('u-userTextColor', () => {
+        const expectedCss = `
+        .u-userTextColor:not([disabled]) {
+          color: #283646 !important;
+          fill: #283646 !important;
+        }
+        .u-userTextColor:not([disabled]):hover,
+        .u-userTextColor:not([disabled]):active,
+        .u-userTextColor:not([disabled]):focus {
+          color: rgb(0, 0, 0) !important;
+          fill: rgb(0, 0, 0) !important;
+        }`;
+
+        it('is calculated correctly', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
+
+      describe('u-userBackgroundColor', () => {
+        const expectedCss = `
+        .u-userBackgroundColor:not([disabled]) {
+          background-color: #283646 !important;
+          color: white !important;
+          fill: white !important;
+          border: none !important;
+          svg {
+            color: white !important;
+            fill: white !important;
+          }
+        }
+        .u-userBackgroundColor:not([disabled]):hover,
+        .u-userBackgroundColor:not([disabled]):active,
+        .u-userBackgroundColor:not([disabled]):focus {
+          background-color: rgb(37, 50, 65) !important;
+        }`;
+
+        it('is calculated correctly', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
+
+      describe('u-userBorderColor', () => {
+        const expectedCss = `
+        .u-userBorderColor:not([disabled]) {
+          color: white !important;
+          background-color: transparent !important;
+          border-color: white !important;
+        }
+        .u-userBorderColor:not([disabled]):hover,
+        .u-userBorderColor:not([disabled]):active,
+        .u-userBorderColor:not([disabled]):focus {
+          color: black !important;
+          background-color: rgb(0, 0, 0) !important;
+          border-color: rgb(0, 0, 0) !important;
+        }`;
+
+        it('is calculated correctly', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
+
+      describe('u-userHeaderColor', () => {
+        const expectedCss = `
+        .u-userHeaderColor {
+          background: #283646 !important;
+          color: white !important;
+        }`;
+
+        it('is calculated correctly', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
     });
   });
 
