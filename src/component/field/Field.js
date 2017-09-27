@@ -159,6 +159,12 @@ export class Field extends Component {
          : <input {...sharedProps} {...fieldProps} className={fieldInputClasses} />;
   }
 
+  renderDescription = () => {
+    return (this.props.description !== '')
+         ? <div className='Form-description u-textAluminum'>{this.props.description}</div>
+         : null;
+  }
+
   render = () => {
     const landscape = (isMobileBrowser() && isLandscape());
     const portrait = (isMobileBrowser() && !isLandscape());
@@ -194,7 +200,7 @@ export class Field extends Component {
             {dropdownArrow}
           </div>
         </label>
-        <div className='Form-description u-textAluminum'>{this.props.description}</div>
+        {this.renderDescription()}
       </div>
     );
   }

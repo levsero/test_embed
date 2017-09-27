@@ -21,7 +21,8 @@ describe('Chat component', () => {
     initMockRegistry({
       './Chat.sass': {
         locals: {
-          scrollContainerMobile: 'scrollContainerMobileClasses'
+          scrollContainerMobile: 'scrollContainerMobileClasses',
+          footer: 'footer'
         }
       },
       'component/chat/ChatBox': {
@@ -141,7 +142,21 @@ describe('Chat component', () => {
   });
 
   describe('renderChatScreen', () => {
-    let component;
+    let component,
+      componentNode;
+
+    describe('render', () => {
+      beforeEach(() => {
+        const component = domRender(<Chat chat={chatProp} screen={chattingScreen} />);
+
+        componentNode = ReactDOM.findDOMNode(component);
+      });
+
+      it('renders the chat screen with footer styles', () => {
+        expect(componentNode.querySelector('.footer'))
+          .toBeTruthy();
+      });
+    });
 
     describe('when state.screen is not `chatting`', () => {
       beforeEach(() => {
