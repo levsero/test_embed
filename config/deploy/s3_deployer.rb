@@ -39,6 +39,23 @@ class S3Deployer
   def upload_file(object_key, file)
     logger.info "upload_file #{file} to #{object_key} on #{bucket_name}"
     bucket.object(object_key)
-      .upload_file(file, server_side_encryption: ENCRYPTION_TYPE)
+          .upload_file(
+            file,
+            server_side_encryption: ENCRYPTION_TYPE,
+            cache_control: 'max-age=31536000',
+            content_type: "#{content_type_header(file)} charset=utf-8"
+          )
+  end
+
+  def content_type_header(file)
+    extension = file.split('.')[1]
+
+    if extension == 'js'
+      'application/javascript;'
+    elsif extension == 'json'
+      'application/json;'
+    else
+      ''
+    end
   end
 end
