@@ -159,6 +159,91 @@ describe('AutomaticAnswers component', () => {
     });
   });
 
+  describe('handleUndo', () => {
+    const e = { preventDefault: () => {} };
+    let mockCancelSolve;
+
+    beforeEach(() => {
+      mockCancelSolve = jasmine.createSpy('mockSolveTicket');
+      automaticAnswers = instanceRender(
+        <AutomaticAnswers cancelSolve={mockCancelSolve} />
+      );
+    });
+
+    describe('when valid auth token', () => {
+      beforeEach(() => {
+        automaticAnswers.handleUndo(e);
+      });
+
+      it('calls cancelSolve with correct authToken', () => {
+        const authToken = mockCancelSolve.calls.mostRecent().args[0];
+
+        expect(authToken).toEqual(mockJwtToken);
+      });
+
+      it('calls cancelSolve with correct callbacks', () => {
+        const callbacks = mockCancelSolve.calls.mostRecent().args[1];
+
+        expect(callbacks.done)
+          .toEqual(automaticAnswers.reopened);
+
+        expect(callbacks.fail)
+          .toEqual(automaticAnswers.undoError);
+      });
+    });
+
+    describe('when invalid auth token', () => {
+      beforeEach(() => {
+        mockJwtToken = null;
+
+        automaticAnswers.handleUndo(e);
+      });
+
+      it('sets screen state', () => {
+        expect(automaticAnswers.state.screen)
+          .toBe(AutomaticAnswersScreen.undoError);
+      });
+
+      it('sets isSubmitting state', () => {
+        expect(automaticAnswers.state.isSubmitting)
+          .toBe(false);
+      });
+
+      it('sets errorMessage state', () => {
+        expect(automaticAnswers.state.errorMessage)
+          .toBe('');
+      });
+
+      it('does not make a call to cancel solve', () => {
+        expect(mockCancelSolve)
+          .not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('reopened', () => {
+    beforeEach(() => {
+      mockJwtToken = null;
+
+      automaticAnswers.reopened();
+    });
+
+    it('sets screen state', () => {
+      expect(automaticAnswers.state.screen)
+        .toBe(AutomaticAnswersScreen.reopened);
+    });
+
+    it('sets isSubmitting state', () => {
+      expect(automaticAnswers.state.isSubmitting)
+        .toBe(false);
+    });
+
+    it('sets errorMessage state', () => {
+      expect(automaticAnswers.state.errorMessage)
+        .toBe('');
+    });
+  });
+
   describe('handleSolveTicket', () => {
     const e = { preventDefault: () => {} };
 
@@ -255,48 +340,103 @@ describe('AutomaticAnswers component', () => {
   });
 
   describe('sending a request to solve a ticket', () => {
-    beforeEach(() => {
-      mockSolveTicket = jasmine.createSpy('mockSolveTicket');
-      automaticAnswers = domRender(
-         <AutomaticAnswers
-           solveTicket={mockSolveTicket}
-           closeFrame={() => {}} />);
+    describe('when the undo feature is disabled', () => {
+      beforeEach(() => {
+        mockSolveTicket = jasmine.createSpy('mockSolveTicket');
+        automaticAnswers = domRender(
+           <AutomaticAnswers
+             solveTicket={mockSolveTicket}
+             closeFrame={() => {}}
+             canUndo={false}
+           />
+        );
+      });
+
+      describe('and the request is successful', () => {
+        beforeEach(() => {
+          automaticAnswers.solveTicketDone();
+        });
+
+        it('sets screen to ticketClosed', () => {
+          expect(automaticAnswers.state.screen)
+            .toBe(AutomaticAnswersScreen.ticketClosed);
+        });
+
+        it('sets isSubmitting to false', () => {
+          expect(automaticAnswers.state.isSubmitting)
+            .toBe(false);
+        });
+
+        it('sets errorMessage to an empty string', () => {
+          expect(automaticAnswers.state.errorMessage)
+            .toBe('');
+        });
+      });
+
+      describe('and the request fails', () => {
+        beforeEach(() => {
+          automaticAnswers.requestFailed();
+        });
+
+        it('sets errorMessage to the correct tanslation string', () => {
+          expect(automaticAnswers.state.errorMessage)
+            .toBe('embeddable_framework.automaticAnswers.label.error_mobile');
+        });
+
+        it('sets isSubmitting to false', () => {
+          expect(automaticAnswers.state.isSubmitting)
+            .toBe(false);
+        });
+      });
     });
 
-    describe('when the request is successful', () => {
+    describe('when the undo feature is enabled', () => {
       beforeEach(() => {
-        automaticAnswers.solveTicketDone();
+        mockSolveTicket = jasmine.createSpy('mockSolveTicket');
+        automaticAnswers = domRender(
+           <AutomaticAnswers
+             solveTicket={mockSolveTicket}
+             closeFrame={() => {}}
+             canUndo={true}
+           />
+        );
       });
 
-      it('sets screen to ticketClosed', () => {
-        expect(automaticAnswers.state.screen)
-          .toBe(AutomaticAnswersScreen.ticketClosed);
+      describe('and the request is successful', () => {
+        beforeEach(() => {
+          automaticAnswers.solveTicketDone();
+        });
+
+        it('sets screen to closedWithUndo', () => {
+          expect(automaticAnswers.state.screen)
+            .toBe(AutomaticAnswersScreen.closedWithUndo);
+        });
+
+        it('sets isSubmitting to false', () => {
+          expect(automaticAnswers.state.isSubmitting)
+            .toBe(false);
+        });
+
+        it('sets errorMessage to an empty string', () => {
+          expect(automaticAnswers.state.errorMessage)
+            .toBe('');
+        });
       });
 
-      it('sets isSubmitting to false', () => {
-        expect(automaticAnswers.state.isSubmitting)
-          .toBe(false);
-      });
+      describe('and the request fails', () => {
+        beforeEach(() => {
+          automaticAnswers.requestFailed();
+        });
 
-      it('sets errorMessage to an empty string', () => {
-        expect(automaticAnswers.state.errorMessage)
-          .toBe('');
-      });
-    });
+        it('sets errorMessage to the correct tanslation string', () => {
+          expect(automaticAnswers.state.errorMessage)
+            .toBe('embeddable_framework.automaticAnswers.label.error_mobile');
+        });
 
-    describe('when the request fails', () => {
-      beforeEach(() => {
-        automaticAnswers.requestFailed();
-      });
-
-      it('sets errorMessage to the correct tanslation string', () => {
-        expect(automaticAnswers.state.errorMessage)
-          .toBe('embeddable_framework.automaticAnswers.label.error_mobile');
-      });
-
-      it('sets isSubmitting to false', () => {
-        expect(automaticAnswers.state.isSubmitting)
-          .toBe(false);
+        it('sets isSubmitting to false', () => {
+          expect(automaticAnswers.state.isSubmitting)
+            .toBe(false);
+        });
       });
     });
   });

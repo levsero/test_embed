@@ -7,6 +7,10 @@ import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { AutomaticAnswers } from 'component/automaticAnswers/AutomaticAnswers';
 
+import ClosedWithUndo from './Desktop/ClosedWithUndo';
+import Reopened from './Desktop/Reopened';
+import UndoError from './Desktop/UndoError';
+
 export class AutomaticAnswersDesktop extends AutomaticAnswers {
   renderTicketContent = () => {
     return (
@@ -32,7 +36,8 @@ export class AutomaticAnswersDesktop extends AutomaticAnswers {
     });
     const solveQuestionSubtext = i18n.t('embeddable_framework.automaticAnswers.desktop.solve.subtext_v2', {
       fallback: 'If it does, we can close your recent request %(requestLink)s',
-      requestLink: `<a target="_blank" href="${requestUrl}">#${this.state.ticket.niceId}</a>`
+      requestLink:
+        `<a class="AutomaticAnswersAnchor" target="_blank" href="${requestUrl}">#${this.state.ticket.niceId}</a>`
     });
 
     return (
@@ -117,6 +122,20 @@ export class AutomaticAnswersDesktop extends AutomaticAnswers {
       </p>
     );
   }
+
+  renderClosedWithUndo = () => {
+    return (
+      <ClosedWithUndo
+        isSubmitting={this.state.isSubmitting}
+        handleUndo={this.handleUndo}
+        closeFrameAfterDelay={this.props.closeFrameAfterDelay}
+      />
+    );
+  }
+
+  renderReopened = () => <Reopened />;
+
+  renderUndoError = () => <UndoError />;
 
   renderThanksForFeedbackContent = () => {
     const feedbackMessage = i18n.t('embeddable_framework.automaticAnswers.desktop.irrelevant.thanks_for_feedback_v2', {

@@ -1,5 +1,6 @@
 describe('embed.automaticAnswers', () => {
   let automaticAnswers,
+    config,
     mockRegistry,
     mockTransport,
     mockJwtToken,
@@ -11,7 +12,7 @@ describe('embed.automaticAnswers', () => {
   const mockScreenState = 'IRRELEVANT_SCREEN';
   const renderAutomaticAnswers = () => {
     mockTransport = mockRegistry['service/transport'].transport;
-    automaticAnswers.create('automaticAnswers');
+    automaticAnswers.create('automaticAnswers', config);
     automaticAnswers.render();
   };
   const mostRecentApiRequest = () => mockTransport.automaticAnswersApiRequest.calls.mostRecent();
@@ -99,15 +100,14 @@ describe('embed.automaticAnswers', () => {
   });
 
   describe('create', () => {
-    let result, config;
+    let result;
 
     beforeEach(() => {
       config = {
         test: 'cool',
         thing: 'bananas'
       };
-      automaticAnswers.create('derp', config);
-
+      renderAutomaticAnswers();
       result = automaticAnswers.get('derp');
     });
 
@@ -128,8 +128,7 @@ describe('embed.automaticAnswers', () => {
   describe('render', () => {
     describe('when isMobileDevice is false', () => {
       beforeEach(() => {
-        automaticAnswers.create('zomg');
-        automaticAnswers.render('zomg');
+        renderAutomaticAnswers();
       });
 
       it('renders the AutomaticAnswersDesktop component', function() {
@@ -141,8 +140,7 @@ describe('embed.automaticAnswers', () => {
     describe('when isMobileDevice is true', () => {
       beforeEach(() => {
         mockIsMobileBrowserValue = true;
-        automaticAnswers.create('zomg');
-        automaticAnswers.render('zomg');
+        renderAutomaticAnswers();
       });
 
       it('renders the AutomaticAnswersMobile component', function() {
@@ -194,6 +192,45 @@ describe('embed.automaticAnswers', () => {
         expect(instance.show.__reactBoundMethod)
           .not.toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('closeFrame', () => {
+    let instance;
+
+    beforeEach(() => {
+      renderAutomaticAnswers();
+      instance = automaticAnswers.get().instance;
+      spyOn(instance, 'close');
+    });
+
+    it('closes embed iframe', () => {
+      automaticAnswers.closeFrame();
+
+      expect(instance.close).toHaveBeenCalled();
+    });
+  });
+
+  describe('closeFrameAfterDelay', () => {
+    let instance;
+    const closeFrameDelay = 30000;
+
+    beforeEach(() => {
+      jasmine.clock().install();
+      renderAutomaticAnswers();
+      instance = automaticAnswers.get().instance;
+      spyOn(instance, 'close');
+    });
+
+    afterEach(() => {
+      jasmine.clock().uninstall();
+    });
+
+    it('closes embed iframe after certain delay', () => {
+      automaticAnswers.closeFrameAfterDelay();
+      jasmine.clock().tick(closeFrameDelay);
+
+      expect(instance.close).toHaveBeenCalled();
     });
   });
 
@@ -610,8 +647,7 @@ describe('embed.automaticAnswers', () => {
 
       describe('component initialScreen props', () => {
         beforeEach(() => {
-          automaticAnswers.create('automaticAnswers');
-          automaticAnswers.render();
+          renderAutomaticAnswers();
           instance = automaticAnswers.get().instance;
         });
 
@@ -632,8 +668,7 @@ describe('embed.automaticAnswers', () => {
 
       describe('component initialScreen props', () => {
         beforeEach(() => {
-          automaticAnswers.create('automaticAnswers');
-          automaticAnswers.render();
+          renderAutomaticAnswers();
           instance = automaticAnswers.get().instance;
         });
 
