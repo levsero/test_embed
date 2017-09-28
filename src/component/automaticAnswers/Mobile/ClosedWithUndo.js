@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
+import { i18n } from 'service/i18n';
 
 class ClosedWithUndo extends Component {
   componentDidMount() {
@@ -28,19 +28,21 @@ class ClosedWithUndo extends Component {
     });
 
     return (
-      <p className='AutomaticAnswersDesktop-message u-textCenter u-marginVL'>
-        <Icon type='Icon--circleTick-large' className='u-paddingAN u-isSuccessful u-paddingBS'/>
+      <p className='AutomaticAnswersMobile-message u-textCenter u-posRelative u-marginVM'>
+        <Icon
+          type='Icon--circleTick-small'
+          className='u-paddingAN u-posRelative u-marginRS u-inlineBlock u-isSuccessful' />
         <span>
           {successMessage + ' '}
           <a
             className={undoClasses}
-            onClick={(e) => handleUndo(e)}>
+            onClick={e => handleUndo(e)}>
             {undo}
           </a>
         </span>
       </p>
     );
-  }
+  };
 }
 
 ClosedWithUndo.propTypes = {
