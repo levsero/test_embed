@@ -1041,6 +1041,38 @@ describe('embed.webWidget', () => {
         spyOn(component, 'show');
       });
 
+      describe('when a ticket has recently been submitted', () => {
+        const config = { ticketSubmissionForm: { arbitrary: 'data' } };
+        const params = {
+          searchTerm: 'blah',
+          searchLocale: 'en-US',
+          email: 'bob@bob.com',
+          attachmentsCount: 1,
+          attachmentTypes: ['file'],
+          res: { body: { request: { id: 1 } } }
+        };
+
+        beforeEach(() => {
+          webWidget.create('', config);
+          webWidget.render();
+
+          const frame = webWidget.get().instance;
+
+          component = frame.getRootComponent();
+          component.props.onSubmitted(params);
+
+          spyOn(component, 'show');
+
+          pluckSubscribeCall(mockMediator, 'webWidget.show')();
+          jasmine.clock().tick(0);
+        });
+
+        it('calls show with true on the component', () => {
+          expect(component.show)
+            .toHaveBeenCalledWith(true);
+        });
+      });
+
       describe('when the embed is visible and called via activate', () => {
         beforeEach(() => {
           frame.setState({ visible: true });
