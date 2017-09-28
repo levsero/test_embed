@@ -1,6 +1,6 @@
 import Color from 'color';
 
-fdescribe('color', () => {
+describe('color', () => {
   let generateUserCSS,
     generateWebWidgetPreviewCSS,
     validSettingsColor,
