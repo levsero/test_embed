@@ -6,20 +6,20 @@ const defaultColor = '#78A300';
 
 // Color manipulation and checks using color library
 const darkenAndMixColor = (mixAmount, darkenAmount, mixColor = 'gray') => (color) => {
-  return color.mix(Color(mixColor), mixAmount).darken(darkenAmount).rgbString();
+  return color.mix(Color(mixColor), mixAmount).darken(darkenAmount).hexString();
 };
-const darkenColor = (amount) => (color) => color.darken(amount).rgbString();
-const lightenColor = (amount) => (color) => color.darken(amount).rgbString();
-const getLuminosity = (amount) => (color) => color.luminosity() > amount;
+const darkenColor = (amount) => (color) => color.darken(amount).hexString();
+const lightenColor = (amount) => (color) => color.lighten(amount).hexString();
+const isColorLightLuminosity = (amount) => (color) => color.luminosity() > amount;
 
 // Color checks
-const isColorLight = (colorStr) => {
+const isColorLight = (colorStr, threshold = 178) => {
   const color = Color(colorStr);
   // YIQ equation from http://24ways.org/2010/calculating-color-contrast
   const rgb = color.rgb();
   const yiq = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
 
-  return yiq > 178;
+  return yiq > threshold;
 };
 const getLightOrDark = (colorStr, light, dark, isLight = isColorLight(colorStr)) => {
   const color = Color(colorStr);
@@ -28,20 +28,23 @@ const getLightOrDark = (colorStr, light, dark, isLight = isColorLight(colorStr))
 };
 
 // Color calculations
+const buttonColor = (color) => getLightOrDark(color, () => color, darkenColor(0.2), isColorLight(color, 240));
 const buttonTextColor = (color) => getLightOrDark(color, () => 'white', darkenAndMixColor(0.3, 0.5));
-const listColor = (color) => getLightOrDark(color, () => color, darkenAndMixColor(0.2, 0.4));
-const highlightColor = (color) => getLightOrDark(color, lightenColor(0.15), darkenColor(0.1), getLuminosity(0.15));
-const constrastColor = (color) => getLightOrDark(color, () => 'white', () => 'black', getLuminosity(0.65));
-const border = (color) => getLightOrDark(color, () => 'none', (c) => `1px solid ${darkenAndMixColor(0.2, 0.2)(c)}`);
+const listColor = (color) => getLightOrDark(color, () => color, darkenAndMixColor(0.2, 0.5));
+const highlightColor = (color) => {
+  return getLightOrDark(color, lightenColor(0.15), darkenColor(0.1), isColorLightLuminosity(0.15));
+};
+const constrastColor = (color) => getLightOrDark(color, () => 'white', () => 'black', isColorLightLuminosity(0.65));
 
 function generateUserCSS(color = defaultColor) {
   if (validSettingsColor()) {
     color = validSettingsColor();
   }
 
+  const buttonColorStr = buttonColor(color);
   const listColorStr = listColor(color);
-  const listHighlightColorStr = highlightColor(listColor);
-  const buttonTextColorStr = buttonTextColor(color);
+  const listHighlightColorStr = highlightColor(listColorStr);
+  const buttonTextColorStr = buttonTextColor(buttonColorStr);
 
   return (`
     .rf-CheckboxGroup__checkbox:checked + span:before,
@@ -62,18 +65,24 @@ function generateUserCSS(color = defaultColor) {
       fill: ${color} !important;
     }
     .u-userBackgroundColor:not([disabled]) {
+      background-color: ${buttonColorStr} !important;
+      color: ${buttonTextColorStr} !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: ${highlightColor(color)} !important;
+    }
+    .u-userLauncherColor:not([disabled]) {
       background-color: ${color} !important;
       color: ${buttonTextColorStr} !important;
       fill: ${buttonTextColorStr} !important;
-      border: ${border(color)} !important;
       svg {
         color: ${buttonTextColorStr} !important;
         fill: ${buttonTextColorStr} !important;
       }
     }
-    .u-userBackgroundColor:not([disabled]):hover,
-    .u-userBackgroundColor:not([disabled]):active,
-    .u-userBackgroundColor:not([disabled]):focus {
+    .u-launcherColor:not([disabled]):hover {
       background-color: ${highlightColor(color)} !important;
     }
     .u-userBorderColor:not([disabled]) {
@@ -89,7 +98,7 @@ function generateUserCSS(color = defaultColor) {
       border-color: ${listHighlightColorStr} !important;
     }
     .u-userLinkColor a {
-      color: ${color} !important;
+      color: ${listColorStr} !important;
     }
     .u-userStrokeColor {
       stroke: ${color} !important;

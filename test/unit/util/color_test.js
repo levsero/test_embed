@@ -1,6 +1,6 @@
 import Color from 'color';
 
-describe('color', () => {
+fdescribe('color', () => {
   let generateUserCSS,
     generateWebWidgetPreviewCSS,
     validSettingsColor,
@@ -66,20 +66,20 @@ describe('color', () => {
       let css;
 
       beforeEach(() => {
-        css = generateUserCSS('#ffffff');
+        css = generateUserCSS('#58F9F7');
       });
 
       describe('u-userTextColor', () => {
         const expectedCss = `
         .u-userTextColor:not([disabled]) {
-          color: rgb(138, 138, 138) !important;
-          fill: rgb(138, 138, 138) !important;
+          color: #1A8987 !important;
+          fill: #1A8987 !important;
         }
         .u-userTextColor:not([disabled]):hover,
         .u-userTextColor:not([disabled]):active,
         .u-userTextColor:not([disabled]):focus {
-          color: rgb(0, 0, 0) !important;
-          fill: rgb(0, 0, 0) !important;
+          color: #187C7B !important;
+          fill: #187C7B !important;
         }`;
 
         it('is calculated correctly', () => {
@@ -91,19 +91,13 @@ describe('color', () => {
       describe('u-userBackgroundColor', () => {
         const expectedCss = `
         .u-userBackgroundColor:not([disabled]) {
-          background-color: #ffffff !important;
-          color: rgb(110, 110, 110) !important;
-          fill: rgb(110, 110, 110) !important;
-          border: 1px solid rgb(184, 184, 184) !important;
-          svg {
-            color: rgb(110, 110, 110) !important;
-            fill: rgb(110, 110, 110) !important;
-          }
+          background-color: #58F9F7 !important;
+          color: #227C7B !important;
         }
         .u-userBackgroundColor:not([disabled]):hover,
         .u-userBackgroundColor:not([disabled]):active,
         .u-userBackgroundColor:not([disabled]):focus {
-          background-color: rgb(230, 230, 230) !important;
+          background-color: #35F8F4 !important;
         }`;
 
         it('is calculated correctly', () => {
@@ -115,16 +109,16 @@ describe('color', () => {
       describe('u-userBorderColor', () => {
         const expectedCss = `
         .u-userBorderColor:not([disabled]) {
-          color: rgb(110, 110, 110) !important;
+          color: #227C7B !important;
           background-color: transparent !important;
-          border-color: rgb(110, 110, 110) !important;
+          border-color: #227C7B !important;
         }
         .u-userBorderColor:not([disabled]):hover,
         .u-userBorderColor:not([disabled]):active,
         .u-userBorderColor:not([disabled]):focus {
           color: black !important;
-          background-color: rgb(0, 0, 0) !important;
-          border-color: rgb(0, 0, 0) !important;
+          background-color: #187C7B !important;
+          border-color: #187C7B !important;
         }`;
 
         it('is calculated correctly', () => {
@@ -136,8 +130,8 @@ describe('color', () => {
       describe('u-userHeaderColor', () => {
         const expectedCss = `
         .u-userHeaderColor {
-          background: #ffffff !important;
-          color: rgb(110, 110, 110) !important;
+          background: #58F9F7 !important;
+          color: #227C7B !important;
         }`;
 
         it('is calculated correctly', () => {
@@ -163,8 +157,8 @@ describe('color', () => {
         .u-userTextColor:not([disabled]):hover,
         .u-userTextColor:not([disabled]):active,
         .u-userTextColor:not([disabled]):focus {
-          color: rgb(0, 0, 0) !important;
-          fill: rgb(0, 0, 0) !important;
+          color: #253241 !important;
+          fill: #253241 !important;
         }`;
 
         it('is calculated correctly', () => {
@@ -178,17 +172,11 @@ describe('color', () => {
         .u-userBackgroundColor:not([disabled]) {
           background-color: #283646 !important;
           color: white !important;
-          fill: white !important;
-          border: none !important;
-          svg {
-            color: white !important;
-            fill: white !important;
-          }
         }
         .u-userBackgroundColor:not([disabled]):hover,
         .u-userBackgroundColor:not([disabled]):active,
         .u-userBackgroundColor:not([disabled]):focus {
-          background-color: rgb(37, 50, 65) !important;
+          background-color: #253241 !important;
         }`;
 
         it('is calculated correctly', () => {
@@ -208,8 +196,8 @@ describe('color', () => {
         .u-userBorderColor:not([disabled]):active,
         .u-userBorderColor:not([disabled]):focus {
           color: black !important;
-          background-color: rgb(0, 0, 0) !important;
-          border-color: rgb(0, 0, 0) !important;
+          background-color: #253241 !important;
+          border-color: #253241 !important;
         }`;
 
         it('is calculated correctly', () => {
