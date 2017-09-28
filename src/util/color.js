@@ -28,13 +28,16 @@ const getLightOrDark = (colorStr, light, dark, isLight = isColorLight(colorStr))
 };
 
 // Color calculations
-const buttonColor = (color) => getLightOrDark(color, () => color, darkenColor(0.2), isColorLight(color, 240));
+const buttonColor = (color) => getLightOrDark(color, () => color, () => '#777', isColorLight(color, 240));
 const buttonTextColor = (color) => getLightOrDark(color, () => 'white', darkenAndMixColor(0.3, 0.5));
 const listColor = (color) => getLightOrDark(color, () => color, darkenAndMixColor(0.2, 0.5));
 const highlightColor = (color) => {
   return getLightOrDark(color, lightenColor(0.15), darkenColor(0.1), isColorLightLuminosity(0.15));
 };
 const constrastColor = (color) => getLightOrDark(color, () => 'white', () => 'black', isColorLightLuminosity(0.65));
+const almostWhiteButtonTextColor = (color) => {
+  return getLightOrDark(color, () => buttonTextColor(color), () => 'white', isColorLight(color, 240));
+};
 
 function generateUserCSS(color = defaultColor) {
   if (validSettingsColor()) {
@@ -44,7 +47,8 @@ function generateUserCSS(color = defaultColor) {
   const buttonColorStr = buttonColor(color);
   const listColorStr = listColor(color);
   const listHighlightColorStr = highlightColor(listColorStr);
-  const buttonTextColorStr = buttonTextColor(buttonColorStr);
+  const buttonTextColorStr = almostWhiteButtonTextColor(color);
+  const launcherTextColorStr = buttonTextColor(color);
 
   return (`
     .rf-CheckboxGroup__checkbox:checked + span:before,
@@ -59,10 +63,10 @@ function generateUserCSS(color = defaultColor) {
       fill: ${listHighlightColorStr} !important;
     }
     .u-userFillColor:not([disabled]) svg {
-      fill: ${color} !important;
+      fill: ${listColorStr} !important;
     }
     .u-userFillColor:not([disabled]) svg path {
-      fill: ${color} !important;
+      fill: ${listColorStr} !important;
     }
     .u-userBackgroundColor:not([disabled]) {
       background-color: ${buttonColorStr} !important;
@@ -71,22 +75,22 @@ function generateUserCSS(color = defaultColor) {
     .u-userBackgroundColor:not([disabled]):hover,
     .u-userBackgroundColor:not([disabled]):active,
     .u-userBackgroundColor:not([disabled]):focus {
-      background-color: ${highlightColor(color)} !important;
+      background-color: ${highlightColor(buttonColorStr)} !important;
     }
     .u-userLauncherColor:not([disabled]) {
       background-color: ${color} !important;
-      color: ${buttonTextColorStr} !important;
-      fill: ${buttonTextColorStr} !important;
+      color: ${launcherTextColorStr} !important;
+      fill: ${launcherTextColorStr} !important;
       svg {
-        color: ${buttonTextColorStr} !important;
-        fill: ${buttonTextColorStr} !important;
+        color: ${launcherTextColorStr} !important;
+        fill: ${launcherTextColorStr} !important;
       }
     }
     .u-launcherColor:not([disabled]):hover {
       background-color: ${highlightColor(color)} !important;
     }
     .u-userBorderColor:not([disabled]) {
-      color: ${buttonTextColorStr} !important;
+      color: ${launcherTextColorStr} !important;
       background-color: transparent !important;
       border-color: ${buttonTextColorStr} !important;
     }
@@ -105,7 +109,7 @@ function generateUserCSS(color = defaultColor) {
     }
     .u-userHeaderColor {
       background: ${color} !important;
-      color: ${buttonTextColorStr} !important;
+      color: ${launcherTextColorStr} !important;
     }
   `);
 }
