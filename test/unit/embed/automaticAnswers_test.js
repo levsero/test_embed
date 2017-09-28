@@ -285,7 +285,7 @@ describe('embed.automaticAnswers', () => {
   describe('when a request to fetch ticket data is received', () => {
     let instance,
       mostRecent;
-    const statusPending = 2;
+    const statusOpen = 1;
     const statusSolved = 3;
 
     beforeEach(() => {
@@ -293,18 +293,20 @@ describe('embed.automaticAnswers', () => {
       instance = automaticAnswers.get().instance;
     });
 
-    describe('when the request is successful', () => {
-      let callback;
+    describe('and the request is successful', () => {
+      let callback, statusId;
       const showFrameDelay = 500;
       const showSolvedFrameDelay = 500;
-      const resSuccess = (statusId) => {
+      let isSolvedPending = false;
+      const resSuccess = (statusId, isSolvedPending) => {
         return {
           'statusCode': 200,
           'body': {
             'ticket': {
               'nice_id': 8765,
               'status_id': statusId,
-              'title': 'Dude. What does mine say?'
+              'title': 'Dude. What does mine say?',
+              'is_solved_pending': isSolvedPending
             }
           }
         };
@@ -323,80 +325,117 @@ describe('embed.automaticAnswers', () => {
         jasmine.clock().uninstall();
       });
 
-      describe('given the ticket status is one of open, new, pending or hold', () => {
-        it('passes ticket data to the AutomaticAnswers component', () => {
-          callback(resSuccess(statusPending));
-
-          expect(instance.getRootComponent().updateTicket)
-            .toHaveBeenCalledWith(resSuccess(statusPending).body.ticket);
+      describe('and the ticket status is one of solved or closed', () => {
+        beforeEach(() => {
+          statusId = statusSolved;
+          isSolvedPending = false;
+          mockURLParameter = '1';
         });
 
-        it('shows the embed after a short delay', () => {
-          callback(resSuccess(statusPending));
-          jasmine.clock().tick(showFrameDelay);
+        it('updates the component to show the ticket closed screen', () => {
+          callback(resSuccess(statusId, isSolvedPending));
 
-          expect(instance.show.__reactBoundMethod)
+          expect(instance.getRootComponent().solveTicketDone)
             .toHaveBeenCalled();
+        });
+
+        it('shows the embed solved screen after a short delay', () => {
+          callback(resSuccess(statusId, isSolvedPending));
+          jasmine.clock().tick(showSolvedFrameDelay);
+
+          expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
         });
       });
 
-      describe('given the ticket status is one of solved or closed', () => {
-        describe('and a solve parameter equal to "1" exists in the url', () => {
-          beforeEach(() => {
-            mockURLParameter = '1';
-          });
-
-          it('updates the component to show the ticket closed screen', () => {
-            callback(resSuccess(statusSolved));
-
-            expect(instance.getRootComponent().solveTicketDone)
-              .toHaveBeenCalled();
-          });
-
-          it('shows the embed solved screen after a short delay', () => {
-            callback(resSuccess(statusSolved));
-            jasmine.clock().tick(showSolvedFrameDelay);
-
-            expect(instance.show.__reactBoundMethod)
-              .toHaveBeenCalled();
-          });
+      describe('and an open ticket in solved pending state', () => {
+        beforeEach(() => {
+          statusId = statusOpen;
+          isSolvedPending = true;
+          mockURLParameter = '1';
         });
 
-        describe('and a solve parameter other than "1" exists in the url', () => {
-          beforeEach(() => {
-            mockURLParameter = '0';
-          });
+        it('updates the component to show the ticket closed screen', () => {
+          callback(resSuccess(statusId, isSolvedPending));
 
-          it('does nothing', () => {
-            callback(resSuccess(statusSolved));
-
-            expect(instance.getRootComponent().solveTicketDone)
-              .not.toHaveBeenCalled();
-
-            expect(instance.show.__reactBoundMethod)
-              .not.toHaveBeenCalled();
-          });
+          expect(instance.getRootComponent().solveTicketDone)
+            .toHaveBeenCalled();
         });
 
-        describe('and no solve parameter exists in the url', () => {
-          beforeEach(() => {
-            mockURLParameter = null;
-          });
+        it('shows the embed solved screen after a short delay', () => {
+          callback(resSuccess(statusId, isSolvedPending));
+          jasmine.clock().tick(showSolvedFrameDelay);
 
-          it('does nothing', () => {
-            callback(resSuccess(statusSolved));
+          expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
+        });
+      });
 
-            expect(instance.getRootComponent().solveTicketDone)
-              .not.toHaveBeenCalled();
+      describe('and the ticket is not either solved or solved pending', () => {
+        beforeEach(() => {
+          statusId = statusOpen;
+          isSolvedPending = false;
+        });
 
-            expect(instance.show.__reactBoundMethod)
-              .not.toHaveBeenCalled();
-          });
+        it('updates the component to show the update ticket screen', () => {
+          callback(resSuccess(statusId, isSolvedPending));
+
+          expect(instance.getRootComponent().updateTicket)
+            .toHaveBeenCalled();
+        });
+
+        it('shows the embed update ticket screen after a short delay', () => {
+          callback(resSuccess(statusId, isSolvedPending));
+          jasmine.clock().tick(showSolvedFrameDelay);
+
+          expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
+        });
+      });
+
+      describe('and a solve parameter other than "1" exists in the url', () => {
+        beforeEach(() => {
+          statusId = statusSolved;
+          isSolvedPending = true;
+          mockURLParameter = '0';
+        });
+
+        it('updates the component to show the update ticket screen', () => {
+          callback(resSuccess(statusId, isSolvedPending));
+
+          expect(instance.getRootComponent().updateTicket)
+            .toHaveBeenCalled();
+        });
+
+        it('shows the embed update ticket screen after a short delay', () => {
+          callback(resSuccess(statusId, isSolvedPending));
+          jasmine.clock().tick(showSolvedFrameDelay);
+
+          expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
+        });
+      });
+
+      describe('and no solve parameter exists in the url', () => {
+        beforeEach(() => {
+          statusId = statusSolved;
+          isSolvedPending = true;
+          mockURLParameter = null;
+        });
+
+        it('updates the component to show the update ticket screen', () => {
+          callback(resSuccess(statusId, isSolvedPending));
+
+          expect(instance.getRootComponent().updateTicket)
+            .toHaveBeenCalled();
+        });
+
+        it('shows the embed update ticket screen after a short delay', () => {
+          callback(resSuccess(statusId, isSolvedPending));
+          jasmine.clock().tick(showSolvedFrameDelay);
+
+          expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
         });
       });
     });
 
-    describe('when the request is unsuccessful', () => {
+    describe('and the request is unsuccessful', () => {
       let callback;
 
       beforeEach(() => {
