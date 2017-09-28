@@ -24,7 +24,8 @@ describe('embed.automaticAnswers', () => {
 
     class AutomaticAnswers extends Component {
       updateTicket() {}
-      solveTicketDone() {}
+      ticketClosed() {}
+      closedWithUndo() {}
     }
 
     mockRegistry = initMockRegistry({
@@ -59,7 +60,7 @@ describe('embed.automaticAnswers', () => {
       },
       'utility/globals': {
         document: global.document,
-        getDocumentHost: function() {
+        getDocumentHost: () => {
           return document.body;
         }
       },
@@ -131,7 +132,7 @@ describe('embed.automaticAnswers', () => {
         renderAutomaticAnswers();
       });
 
-      it('renders the AutomaticAnswersDesktop component', function() {
+      it('renders the AutomaticAnswersDesktop component', () => {
         expect(document.querySelectorAll('.mock-frame .mock-automaticAnswersDesktop').length)
            .toEqual(1);
       });
@@ -143,7 +144,7 @@ describe('embed.automaticAnswers', () => {
         renderAutomaticAnswers();
       });
 
-      it('renders the AutomaticAnswersMobile component', function() {
+      it('renders the AutomaticAnswersMobile component', () => {
         expect(document.querySelectorAll('.mock-frame .mock-automaticAnswersMobile').length)
            .toEqual(1);
       });
@@ -249,7 +250,7 @@ describe('embed.automaticAnswers', () => {
 
       it('contains the correct URL path', () => {
         expect(mostRecent.path)
-          .toContain(`/requests/automatic-answers/embed/ticket/fetch`);
+          .toContain('/requests/automatic-answers/embed/ticket/fetch');
       });
 
       it('uses a GET method', () => {
@@ -283,21 +284,28 @@ describe('embed.automaticAnswers', () => {
   });
 
   describe('when a request to fetch ticket data is received', () => {
-    let instance,
-      mostRecent;
-    const statusOpen = 1;
-    const statusSolved = 3;
+    let instance, mostRecent, callback;
 
-    beforeEach(() => {
+    const fetchTicket = () => {
       renderAutomaticAnswers();
       instance = automaticAnswers.get().instance;
-    });
+
+      automaticAnswers.fetchTicket(mockJwtToken);
+      mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent();
+      callback = mostRecent.args[0].callbacks.done;
+      spyOn(instance.getRootComponent(), 'updateTicket');
+      spyOn(instance.getRootComponent(), 'ticketClosed');
+      spyOn(instance.getRootComponent(), 'closedWithUndo');
+    };
 
     describe('and the request is successful', () => {
-      let callback, statusId;
+      let statusId;
+      let isSolvedPending = false;
+
+      const statusOpen = 1;
+      const statusSolved = 3;
       const showFrameDelay = 500;
       const showSolvedFrameDelay = 500;
-      let isSolvedPending = false;
       const resSuccess = (statusId, isSolvedPending) => {
         return {
           'statusCode': 200,
@@ -314,11 +322,6 @@ describe('embed.automaticAnswers', () => {
 
       beforeEach(() => {
         jasmine.clock().install();
-        automaticAnswers.postRender();
-        mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent();
-        callback = mostRecent.args[0].callbacks.done;
-        spyOn(instance.getRootComponent(), 'updateTicket');
-        spyOn(instance.getRootComponent(), 'solveTicketDone');
       });
 
       afterEach(() => {
@@ -328,19 +331,21 @@ describe('embed.automaticAnswers', () => {
       describe('and the ticket status is one of solved or closed', () => {
         beforeEach(() => {
           statusId = statusSolved;
-          isSolvedPending = false;
           mockURLParameter = '1';
         });
 
         it('updates the component to show the ticket closed screen', () => {
-          callback(resSuccess(statusId, isSolvedPending));
+          fetchTicket();
 
-          expect(instance.getRootComponent().solveTicketDone)
-            .toHaveBeenCalled();
+          callback(resSuccess(statusId));
+
+          expect(instance.getRootComponent().ticketClosed).toHaveBeenCalled();
         });
 
         it('shows the embed solved screen after a short delay', () => {
-          callback(resSuccess(statusId, isSolvedPending));
+          fetchTicket();
+
+          callback(resSuccess(statusId));
           jasmine.clock().tick(showSolvedFrameDelay);
 
           expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
@@ -354,37 +359,72 @@ describe('embed.automaticAnswers', () => {
           mockURLParameter = '1';
         });
 
-        it('updates the component to show the ticket closed screen', () => {
-          callback(resSuccess(statusId, isSolvedPending));
+        describe('and canUndo is enabled', () => {
+          beforeEach(() => {
+            config = { canUndo: true };
+          });
 
-          expect(instance.getRootComponent().solveTicketDone)
-            .toHaveBeenCalled();
+          it('updates the component to show the ticket closed screen', () => {
+            fetchTicket();
+
+            callback(resSuccess(statusId, isSolvedPending));
+
+            expect(instance.getRootComponent().closedWithUndo).toHaveBeenCalled();
+          });
+
+          it('shows the embed solved screen after a short delay', () => {
+            fetchTicket();
+
+            callback(resSuccess(statusId, isSolvedPending));
+            jasmine.clock().tick(showSolvedFrameDelay);
+
+            expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
+          });
         });
 
-        it('shows the embed solved screen after a short delay', () => {
-          callback(resSuccess(statusId, isSolvedPending));
-          jasmine.clock().tick(showSolvedFrameDelay);
+        describe('and canUndo is disabled', () => {
+          beforeEach(() => {
+            config = { canUndo: false };
+          });
 
-          expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
+          it('updates the component to show the update ticket screen', () => {
+            fetchTicket();
+
+            callback(resSuccess(statusId, isSolvedPending));
+
+            expect(instance.getRootComponent().updateTicket).toHaveBeenCalled();
+          });
+
+          it('shows the embed update ticket screen after a short delay', () => {
+            fetchTicket();
+
+            callback(resSuccess(statusId, isSolvedPending));
+            jasmine.clock().tick(showFrameDelay);
+
+            expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
+          });
         });
       });
 
-      describe('and the ticket is not either solved or solved pending', () => {
+      describe('and the ticket is neither solved nor solved pending', () => {
         beforeEach(() => {
           statusId = statusOpen;
           isSolvedPending = false;
         });
 
         it('updates the component to show the update ticket screen', () => {
+          fetchTicket();
+
           callback(resSuccess(statusId, isSolvedPending));
 
-          expect(instance.getRootComponent().updateTicket)
-            .toHaveBeenCalled();
+          expect(instance.getRootComponent().updateTicket).toHaveBeenCalled();
         });
 
         it('shows the embed update ticket screen after a short delay', () => {
+          fetchTicket();
+
           callback(resSuccess(statusId, isSolvedPending));
-          jasmine.clock().tick(showSolvedFrameDelay);
+          jasmine.clock().tick(showFrameDelay);
 
           expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
         });
@@ -398,15 +438,18 @@ describe('embed.automaticAnswers', () => {
         });
 
         it('updates the component to show the update ticket screen', () => {
+          fetchTicket();
+
           callback(resSuccess(statusId, isSolvedPending));
 
-          expect(instance.getRootComponent().updateTicket)
-            .toHaveBeenCalled();
+          expect(instance.getRootComponent().updateTicket).toHaveBeenCalled();
         });
 
         it('shows the embed update ticket screen after a short delay', () => {
+          fetchTicket();
+
           callback(resSuccess(statusId, isSolvedPending));
-          jasmine.clock().tick(showSolvedFrameDelay);
+          jasmine.clock().tick(showFrameDelay);
 
           expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
         });
@@ -420,15 +463,18 @@ describe('embed.automaticAnswers', () => {
         });
 
         it('updates the component to show the update ticket screen', () => {
+          fetchTicket();
+
           callback(resSuccess(statusId, isSolvedPending));
 
-          expect(instance.getRootComponent().updateTicket)
-            .toHaveBeenCalled();
+          expect(instance.getRootComponent().updateTicket).toHaveBeenCalled();
         });
 
         it('shows the embed update ticket screen after a short delay', () => {
+          fetchTicket();
+
           callback(resSuccess(statusId, isSolvedPending));
-          jasmine.clock().tick(showSolvedFrameDelay);
+          jasmine.clock().tick(showFrameDelay);
 
           expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
         });
@@ -436,19 +482,21 @@ describe('embed.automaticAnswers', () => {
     });
 
     describe('and the request is unsuccessful', () => {
-      let callback;
+      const fetchTicket = () => {
+        renderAutomaticAnswers();
+        instance = automaticAnswers.get().instance;
 
-      beforeEach(() => {
-        automaticAnswers.postRender();
+        automaticAnswers.fetchTicket(mockJwtToken);
         mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent();
         callback = mostRecent.args[0].callbacks.fail;
-      });
+      };
 
       it('hides the embed', () => {
+        fetchTicket();
+
         callback();
 
-        expect(instance.hide.__reactBoundMethod)
-          .toHaveBeenCalled();
+        expect(instance.hide.__reactBoundMethod).toHaveBeenCalled();
       });
     });
   });
