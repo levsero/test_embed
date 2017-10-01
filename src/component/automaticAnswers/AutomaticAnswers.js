@@ -109,12 +109,22 @@ export class AutomaticAnswers extends Component {
   }
 
   solveTicketDone = () => {
-    const doneScreen = (this.props.canUndo)
-      ? AutomaticAnswersScreen.closedWithUndo
-      : AutomaticAnswersScreen.ticketClosed;
+    (this.props.canUndo)
+      ? this.closedWithUndo()
+      : this.ticketClosed();
+  }
 
+  closedWithUndo = () => {
     this.setState({
-      screen: doneScreen,
+      screen: AutomaticAnswersScreen.closedWithUndo,
+      isSubmitting: false,
+      errorMessage: ''
+    });
+  }
+
+  ticketClosed = () => {
+    this.setState({
+      screen: AutomaticAnswersScreen.ticketClosed,
       isSubmitting: false,
       errorMessage: ''
     });

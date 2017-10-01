@@ -21,8 +21,6 @@ const showFrameDelay = 500;
 const showSolvedFrameDelay = 500;
 const defaultCloseFrameDelay = 30000;
 
-// 0 = New, 1 = Open, 2 = Pending, 6 = Hold
-const unsolvedStatusIds = [0, 1, 2, 6];
 // 3 = Solved, 4 = Closed
 const solvedStatusIds = [3, 4];
 
@@ -142,19 +140,23 @@ function closeFrameAfterDelay(closeFrameDelay = defaultCloseFrameDelay) {
 function fetchTicket(authToken) {
   const fetchTicketDone = (res) => {
     const ticket = res.body.ticket;
-    const ticketUnsolved = _.includes(unsolvedStatusIds, ticket.status_id);
     const ticketSolved = _.includes(solvedStatusIds, ticket.status_id);
+    const isSolvedPending = ticket.is_solved_pending || false;
     const solvedUrlParameter = !!parseInt(getURLParameterByName('solved'));
+    const canUndo = embed.config.canUndo || false;
 
-    if (ticketUnsolved) {
-      embed.instance.getRootComponent().updateTicket(ticket);
-
-      setTimeout(() => embed.instance.show({ transition: 'upShow' }), showFrameDelay);
-    } else if (ticketSolved && solvedUrlParameter) {
-      embed.instance.getRootComponent().solveTicketDone();
-
-      setTimeout(() => embed.instance.show({ transition: 'upShow' }), showSolvedFrameDelay);
+    if (ticketSolved && solvedUrlParameter) {
+      embed.instance.getRootComponent().ticketClosed();
+      return setTimeout(() => embed.instance.show({ transition: 'upShow' }), showSolvedFrameDelay);
     }
+
+    if (isSolvedPending && canUndo && solvedUrlParameter) {
+      embed.instance.getRootComponent().closedWithUndo();
+      return setTimeout(() => embed.instance.show({ transition: 'upShow' }), showSolvedFrameDelay);
+    }
+
+    embed.instance.getRootComponent().updateTicket(ticket);
+    setTimeout(() => embed.instance.show({ transition: 'upShow' }), showFrameDelay);
   };
 
   const payload = {
