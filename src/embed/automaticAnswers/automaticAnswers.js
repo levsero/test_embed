@@ -142,17 +142,25 @@ function fetchTicket(authToken) {
     const ticket = res.body.ticket;
     const ticketSolved = _.includes(solvedStatusIds, ticket.status_id);
     const isSolvedPending = ticket.is_solved_pending || false;
-    const solvedUrlParameter = !!parseInt(getURLParameterByName('solved'));
+    const solvedUrlParameter = !!getURLParameterByName('solved');
     const canUndo = embed.config.canUndo || false;
 
-    if (ticketSolved && solvedUrlParameter) {
-      embed.instance.getRootComponent().ticketClosed();
-      return setTimeout(() => embed.instance.show({ transition: 'upShow' }), showSolvedFrameDelay);
+    if (ticketSolved) {
+      if (solvedUrlParameter) {
+        embed.instance.getRootComponent().ticketClosed();
+        return setTimeout(() => embed.instance.show({ transition: 'upShow' }), showSolvedFrameDelay);
+      } else {
+        return;
+      }
     }
 
-    if (isSolvedPending && canUndo && solvedUrlParameter) {
-      embed.instance.getRootComponent().closedWithUndo();
-      return setTimeout(() => embed.instance.show({ transition: 'upShow' }), showSolvedFrameDelay);
+    if (isSolvedPending && canUndo) {
+      if (solvedUrlParameter) {
+        embed.instance.getRootComponent().closedWithUndo();
+        return setTimeout(() => embed.instance.show({ transition: 'upShow' }), showSolvedFrameDelay);
+      } else {
+        return;
+      }
     }
 
     embed.instance.getRootComponent().updateTicket(ticket);
