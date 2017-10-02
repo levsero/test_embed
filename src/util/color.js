@@ -1,42 +1,49 @@
-import Color from 'color';
+import generateColor from 'color';
 
 import { settings } from 'service/settings';
 
 const defaultColor = '#78A300';
+const defaultLightYIQ = 178;
+const almostWhiteYIQ = 240;
 
 // Color manipulation and checks using color library
 const darkenAndMixColor = (mixAmount, darkenAmount, mixColor = 'gray') => (color) => {
-  return color.mix(Color(mixColor), mixAmount).darken(darkenAmount).hexString();
+  return color.mix(generateColor(mixColor), mixAmount).darken(darkenAmount).hexString();
 };
 const darkenColor = (amount) => (color) => color.darken(amount).hexString();
 const lightenColor = (amount) => (color) => color.lighten(amount).hexString();
-const isColorLightLuminosity = (amount) => (color) => color.luminosity() > amount;
+const isLuminosityGreaterThan = (amount) => (color) => color.luminosity() > amount;
 
 // Color checks
-const isColorLight = (colorStr, threshold = 178) => {
-  const color = Color(colorStr);
+const isColorLight = (colorStr, threshold = defaultLightYIQ) => {
+  const color = generateColor(colorStr);
   // YIQ equation from http://24ways.org/2010/calculating-color-contrast
   const rgb = color.rgb();
-  const yiq = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
+  const redChannel = rgb.r * 299;
+  const greenChannel = rgb.g * 587;
+  const blueChannel = rgb.b * 114;
+  const yiq = (redChannel + greenChannel + blueChannel) / 1000;
 
   return yiq > threshold;
 };
-const getLightOrDark = (colorStr, light, dark, isLight = isColorLight(colorStr)) => {
-  const color = Color(colorStr);
+const getContrastColor = (colorStr, lightFn, darkFn, isLight = isColorLight(colorStr)) => {
+  const color = generateColor(colorStr);
 
-  return isLight ? dark(color) : light(color);
+  return isLight ? darkFn(color) : lightFn(color);
 };
 
 // Color calculations
-const buttonColor = (color) => getLightOrDark(color, () => color, () => '#777', isColorLight(color, 240));
-const buttonTextColor = (color) => getLightOrDark(color, () => 'white', darkenAndMixColor(0.3, 0.5));
-const listColor = (color) => getLightOrDark(color, () => color, darkenAndMixColor(0.2, 0.5));
-const highlightColor = (color) => {
-  return getLightOrDark(color, lightenColor(0.15), darkenColor(0.1), isColorLightLuminosity(0.15));
+const buttonColor = (color) => {
+  return getContrastColor(color, () => color, () => '#777', isColorLight(color, almostWhiteYIQ));
 };
-const constrastColor = (color) => getLightOrDark(color, () => 'white', () => 'black', isColorLightLuminosity(0.65));
+const buttonTextColor = (color) => getContrastColor(color, () => 'white', darkenAndMixColor(0.3, 0.5));
+const listColor = (color) => getContrastColor(color, () => color, darkenAndMixColor(0.2, 0.5));
+const highlightColor = (color) => {
+  return getContrastColor(color, lightenColor(0.15), darkenColor(0.1), isLuminosityGreaterThan(0.15));
+};
+const borderColor = (color) => getContrastColor(color, () => 'white', () => 'black', isLuminosityGreaterThan(0.65));
 const almostWhiteButtonTextColor = (color) => {
-  return getLightOrDark(color, () => buttonTextColor(color), () => 'white', isColorLight(color, 240));
+  return getContrastColor(color, () => buttonTextColor(color), () => 'white', isColorLight(color, almostWhiteYIQ));
 };
 
 function generateUserCSS(color = defaultColor) {
@@ -97,7 +104,7 @@ function generateUserCSS(color = defaultColor) {
     .u-userBorderColor:not([disabled]):hover,
     .u-userBorderColor:not([disabled]):active,
     .u-userBorderColor:not([disabled]):focus {
-      color: ${constrastColor(color)} !important;
+      color: ${borderColor(color)} !important;
       background-color: ${listHighlightColorStr} !important;
       border-color: ${listHighlightColorStr} !important;
     }
