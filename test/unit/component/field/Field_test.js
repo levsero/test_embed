@@ -198,7 +198,7 @@ describe('Field component', () => {
         .toEqual('hello');
     });
 
-    it('should not be rendered if description isnt provided', () => {
+    it('is not rendered if description is not provided', () => {
       const field = domRender(<Field />);
       const fieldNode = ReactDOM.findDOMNode(field);
 

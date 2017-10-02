@@ -22,7 +22,7 @@ describe('Chat component', () => {
       './Chat.sass': {
         locals: {
           scrollContainerMobile: 'scrollContainerMobileClasses',
-          footer: 'footer'
+          footer: 'footerClasses'
         }
       },
       'component/chat/ChatBox': {
@@ -153,7 +153,7 @@ describe('Chat component', () => {
       });
 
       it('renders the chat screen with footer styles', () => {
-        expect(componentNode.querySelector('.footer'))
+        expect(componentNode.querySelector('.footerClasses'))
           .toBeTruthy();
       });
     });

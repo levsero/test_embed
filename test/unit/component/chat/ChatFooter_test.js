@@ -9,7 +9,7 @@ describe('ChatFooter component', () => {
     initMockRegistry({
       './ChatFooter.sass': {
         locals: {
-          icons: 'icons'
+          icons: 'iconsClasses'
         }
       },
       'component/Icon': {
@@ -36,7 +36,7 @@ describe('ChatFooter component', () => {
     });
 
     it('renders the chat footer with styled icons', () => {
-      expect(componentNode.querySelector('.icons'))
+      expect(componentNode.querySelector('.iconsClasses'))
         .toBeTruthy();
     });
   });
