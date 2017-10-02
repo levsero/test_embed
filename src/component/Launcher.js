@@ -66,7 +66,7 @@ class Launcher extends Component {
     setTimeout(() => this.props.updateFrameSize(5, 0), 0);
 
     return (
-      <div className={`u-userBackgroundColor ${styles.wrapper} ${baseMobileClasses}`}
+      <div className={`${styles.wrapper} ${baseMobileClasses}`}
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>
         <Icon
