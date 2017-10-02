@@ -38,10 +38,10 @@ const buttonColor = (color) => {
 };
 const buttonTextColor = (color) => getContrastColor(color, () => 'white', darkenAndMixColor(0.3, 0.5));
 const listColor = (color) => getContrastColor(color, () => color, darkenAndMixColor(0.2, 0.5));
+const borderColor = (color) => getContrastColor(color, () => 'white', () => 'black', isLuminosityGreaterThan(0.65));
 const highlightColor = (color) => {
   return getContrastColor(color, lightenColor(0.15), darkenColor(0.1), isLuminosityGreaterThan(0.15));
 };
-const borderColor = (color) => getContrastColor(color, () => 'white', () => 'black', isLuminosityGreaterThan(0.65));
 const almostWhiteButtonTextColor = (color) => {
   return getContrastColor(color, () => buttonTextColor(color), () => 'white', isColorLight(color, almostWhiteYIQ));
 };
