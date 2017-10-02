@@ -8,7 +8,9 @@ describe('ChatFooter component', () => {
 
     initMockRegistry({
       './ChatFooter.sass': {
-        locals: {}
+        locals: {
+          icons: 'iconsClasses'
+        }
       },
       'component/Icon': {
         Icon: noopReactComponent()
@@ -22,6 +24,21 @@ describe('ChatFooter component', () => {
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('render', () => {
+    let componentNode;
+
+    beforeEach(() => {
+      const component = domRender(<ChatFooter />);
+
+      componentNode = ReactDOM.findDOMNode(component);
+    });
+
+    it('renders the chat footer with styled icons', () => {
+      expect(componentNode.querySelector('.iconsClasses'))
+        .toBeTruthy();
+    });
   });
 
   describe('menuIconClick', () => {

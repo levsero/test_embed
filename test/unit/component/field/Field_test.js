@@ -198,12 +198,12 @@ describe('Field component', () => {
         .toEqual('hello');
     });
 
-    it('should not be added if it is false', () => {
+    it('is not rendered if description is not provided', () => {
       const field = domRender(<Field />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
-      expect(fieldNode.children[1].innerHTML)
-        .toEqual('');
+      expect(fieldNode.children[1])
+        .toBeFalsy();
     });
   });
 });

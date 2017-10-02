@@ -186,8 +186,8 @@ class Chat extends Component {
         headerClasses={styles.header}
         containerClasses={containerClasses}
         getFrameDimensions={this.props.getFrameDimensions}
-        footerClasses={styles.footer}
         newDesign={this.props.newDesign}
+        footerClasses={styles.footer}
         footerContent={this.renderChatFooter()}>
         <div className={styles.messages}>
           {this.renderChatLog()}

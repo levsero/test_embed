@@ -22,7 +22,7 @@ export class ChatFooter extends Component {
 
   render() {
     return (
-      <div className={styles.container}>
+      <div>
         {this.props.children}
         <div className={styles.icons}>
           <Icon type='Icon--ellipsis' onClick={this.menuIconClick} />
