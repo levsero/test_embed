@@ -138,38 +138,43 @@ export class HelpCenterArticle extends Component {
   }
 
   handleClick = (e) => {
-    let target = e.target;
+    const target = e.target;
+    let nodeName = target.nodeName;
     let href = target.getAttribute('href');
     const doc = target.ownerDocument;
-    const isMailLink = () => href && (href.indexOf('mailto://') > -1);
-    const isInternalLink = () => href && (href.indexOf('#') === 0);
+    const isMailLink = href && (href.indexOf('mailto://') > -1);
 
-    // Find parent anchor link
-    if (target.nodeName !== 'A') {
-      if (target.closest) {
-        target = target.closest('a');
-      }
-
-      // Element.closest is currently not supported in IE
-      if (document.documentMode || target === null) {
+    // Traverse upwards to find a parent anchor link
+    if (nodeName !== 'A') {
+      // Element.closest is currently not supported in IE & Edge
+      if (document.documentMode || /Edge/.test(navigator.userAgent)) {
         e.preventDefault();
         return;
       }
 
-      href = target.getAttribute('href');
+      const targetParent = target.closest('a');
+
+      if (targetParent) {
+        if (nodeName === 'IMG') {
+          targetParent.setAttribute('target', '_blank');
+        } else {
+          nodeName = targetParent.nodeName;
+          href = targetParent.getAttribute('href');
+        }
+      }
     }
 
-    if (isInternalLink()) {
-      const anchorId = href.slice(1);
+    if (nodeName === 'A' && href.indexOf('#') === 0) {
+      const target = href.slice(1);
 
       // You can deep link via an id or name attribute, handle both in the selector
-      const inPageElem = doc.querySelector(`[id="${anchorId}"],[name="${anchorId}"]`);
+      const inPageElem = doc.querySelector(`[id="${target}"],[name="${target}"]`);
 
       if (inPageElem) {
         inPageElem.scrollIntoView();
       }
       e.preventDefault();
-    } else if (!isMailLink()) {
+    } else if (nodeName === 'A' && !isMailLink) {
       target.setAttribute('target', '_blank');
       target.setAttribute('rel', 'noopener noreferrer');
     }

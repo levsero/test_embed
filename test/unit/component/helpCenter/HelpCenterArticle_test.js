@@ -702,190 +702,53 @@ describe('HelpCenterArticle component', () => {
   });
 
   describe('handleClick', () => {
-    let helpCenterArticle,
-      oldQuerySelector,
-      scrollIntoViewSpy,
-      preventDefaultSpy,
-      querySelectorSpy,
-      setAttributeSpy,
-      mockClosestAnchor,
-      mockClosest,
-      mockEvent,
-      mockHref;
+    describe('when article contains <a> with nested children', () => {
+      let helpCenterArticle;
+      let mockClosest;
+      let mockGetAttribute;
+      let mockSetAttribute;
+      let mockEvent;
 
-    describe('when the initial target is not an anchor link', () => {
-      describe('when the browser is IE', () => {
-        beforeEach(() => {
-          preventDefaultSpy = jasmine.createSpy('preventDefault');
-          mockEvent = {
-            target: {
-              nodeName: 'SPAN',
-              closest: noop,
-              getAttribute: noop
-            },
-            preventDefault: preventDefaultSpy
-          };
-
-          document.documentMode = 'This signifies that it is IE';
-
-          helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle}/>);
-          helpCenterArticle.handleClick(mockEvent);
-        });
-
-        afterEach(() => {
-          _.unset(document, 'documentMode');
-        });
-
-        it('calls preventDefault', () => {
-          expect(preventDefaultSpy)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when a parent anchor link cannot be found', () => {
-        beforeEach(() => {
-          preventDefaultSpy = jasmine.createSpy('preventDefault');
-          mockClosest = jasmine.createSpy().and.returnValue(null);
-          mockEvent = {
-            target: {
-              nodeName: 'SPAN',
-              closest: mockClosest,
-              getAttribute: noop
-            },
-            preventDefault: preventDefaultSpy
-          };
-
-          helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle}/>);
-          helpCenterArticle.handleClick(mockEvent);
-        });
-
-        it('calls preventDefault', () => {
-          expect(preventDefaultSpy)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe(`when the browser isn't IE and a parent anchor link is found`, () => {
-        beforeEach(() => {
-          preventDefaultSpy = jasmine.createSpy('preventDefault');
-          mockClosestAnchor = { setAttribute: noop, getAttribute: noop };
-          mockClosest = jasmine.createSpy().and.returnValue(mockClosestAnchor);
-          mockEvent = {
-            target: {
-              nodeName: 'SPAN',
-              closest: mockClosest,
-              getAttribute: noop
-            },
-            preventDefault: preventDefaultSpy
-          };
-
-          helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle}/>);
-          helpCenterArticle.handleClick(mockEvent);
-        });
-
-        it('does not call preventDefault', () => {
-          expect(preventDefaultSpy)
-            .not.toHaveBeenCalled();
-        });
-      });
-    });
-
-    describe(`when the href refers to the article's body`, () => {
       beforeEach(() => {
-        preventDefaultSpy = jasmine.createSpy('preventDefault');
-        scrollIntoViewSpy = jasmine.createSpy('scrollIntoView');
-        querySelectorSpy = jasmine.createSpy().and.returnValue({ scrollIntoView: scrollIntoViewSpy });
-        mockHref = '#documentSummary';
-        mockArticle.body = `<a href="${mockHref}"><span>bar</span></a>`;
+        mockGetAttribute = jasmine.createSpy();
+        mockSetAttribute = jasmine.createSpy();
+        mockClosest = jasmine.createSpy().and.returnValue({
+          getAttribute: mockGetAttribute,
+          setAttribute: mockSetAttribute
+        });
+        mockArticle.body = '<a href="foo"><span>bar</span></a>';
         mockEvent = {
           target: {
-            nodeName: 'A',
-            getAttribute: jasmine.createSpy().and.returnValue(mockHref),
-            ownerDocument: document
-          },
-          preventDefault: preventDefaultSpy
-        };
-
-        oldQuerySelector = document.querySelector;
-        document.querySelector = querySelectorSpy;
-
-        helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle}/>);
-        helpCenterArticle.handleClick(mockEvent);
-      });
-
-      afterEach(() => {
-        document.querySelector = oldQuerySelector;
-      });
-
-      it('calls document.querySelector with an expected argument', () => {
-        const hrefId = mockHref.slice(1);
-        const expected = `[id="${hrefId}"],[name="${hrefId}"]`;
-
-        expect(querySelectorSpy)
-          .toHaveBeenCalledWith(expected);
-      });
-
-      it('scrolls the article into view', () => {
-        expect(scrollIntoViewSpy)
-          .toHaveBeenCalled();
-      });
-
-      it('prevents the link from opening relatively to a new tab', () => {
-        expect(preventDefaultSpy)
-          .toHaveBeenCalled();
-      });
-    });
-
-    describe('when the href has a mailing address pattern', () => {
-      beforeEach(() => {
-        setAttributeSpy = jasmine.createSpy('setAttribute');
-        mockHref = 'mailto://terence@fakeEmail.com';
-        mockArticle.body = `<a href="${mockHref}"><span>bar</span></a>`;
-        mockEvent = {
-          target: {
-            nodeName: 'A',
-            getAttribute: jasmine.createSpy().and.returnValue(mockHref),
-            ownerDocument: document,
-            setAttribute: setAttributeSpy
+            nodeName: 'span',
+            closest: mockClosest,
+            getAttribute: mockGetAttribute
           }
         };
-
         helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle}/>);
+
         helpCenterArticle.handleClick(mockEvent);
       });
 
-      it('does not call setAttribute', () => {
-        expect(setAttributeSpy)
-          .not.toHaveBeenCalled();
-      });
-    });
-
-    describe('when the href is not a mailing address', () => {
-      beforeEach(() => {
-        setAttributeSpy = jasmine.createSpy('setAttribute');
-        mockHref = '/hc/en-us/articles/12345683274';
-        mockArticle.body = `<a href="${mockHref}"><span>bar</span></a>`;
-        mockEvent = {
-          target: {
-            nodeName: 'A',
-            getAttribute: jasmine.createSpy().and.returnValue(mockHref),
-            ownerDocument: document,
-            setAttribute: setAttributeSpy
-          }
-        };
-
-        helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle}/>);
-        helpCenterArticle.handleClick(mockEvent);
+      it('calls the closest with `a` element', () => {
+        expect(mockClosest)
+          .toHaveBeenCalledWith('a');
       });
 
-      it(`calls setAttribute with target '_blank'`, () => {
-        expect(setAttributeSpy)
-          .toHaveBeenCalledWith('target', '_blank');
+      it('calls the getAttribute with `href` element', () => {
+        expect(mockGetAttribute)
+          .toHaveBeenCalledWith('href');
       });
 
-      it(`calls setAttribute with rel 'noopener noreferrer'`, () => {
-        expect(setAttributeSpy)
-          .toHaveBeenCalledWith('rel', 'noopener noreferrer');
+      describe('when the nested children are img tags', () => {
+        beforeEach(() => {
+          mockEvent.target.nodeName = 'IMG';
+          helpCenterArticle.handleClick(mockEvent);
+        });
+
+        it('adds target="_blank" to the closest `a` element', () => {
+          expect(mockSetAttribute)
+            .toHaveBeenCalledWith('target', '_blank');
+        });
       });
     });
   });
