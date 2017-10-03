@@ -25,8 +25,7 @@ export class AutomaticAnswers extends Component {
     mobile: PropTypes.bool.isRequired,
     closeFrame: PropTypes.func.isRequired,
     closeFrameWithDelay: PropTypes.func,
-    initialScreen: PropTypes.string,
-    canUndo: PropTypes.bool.isRequired
+    initialScreen: PropTypes.string
   };
 
   static defaultProps = {
@@ -93,7 +92,7 @@ export class AutomaticAnswers extends Component {
 
     const articleId = getHelpCenterArticleId();
     const callbacks = {
-      done: this.solveTicketDone,
+      done: this.closedWithUndo,
       fail: this.requestFailed
     };
 
@@ -106,12 +105,6 @@ export class AutomaticAnswers extends Component {
     } else {
       this.requestFailed();
     }
-  }
-
-  solveTicketDone = () => {
-    (this.props.canUndo)
-      ? this.closedWithUndo()
-      : this.ticketClosed();
   }
 
   closedWithUndo = () => {

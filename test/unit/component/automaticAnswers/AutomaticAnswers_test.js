@@ -1,4 +1,4 @@
-describe('AutomaticAnswers component', () => {
+fdescribe('AutomaticAnswers component', () => {
   let mockSolveTicket,
     mockMarkArticleIrrelevant,
     AutomaticAnswers,
@@ -269,7 +269,7 @@ describe('AutomaticAnswers component', () => {
 
       it('defines callback behaviour for the solve ticket request', () => {
         expect(callbacks.done)
-          .toEqual(automaticAnswers.solveTicketDone);
+          .toEqual(automaticAnswers.closedWithUndo);
 
         expect(callbacks.fail)
           .toEqual(automaticAnswers.requestFailed);
@@ -340,103 +340,50 @@ describe('AutomaticAnswers component', () => {
   });
 
   describe('sending a request to solve a ticket', () => {
-    describe('when the undo feature is disabled', () => {
+    beforeEach(() => {
+      mockSolveTicket = jasmine.createSpy('mockSolveTicket');
+      automaticAnswers = domRender(
+        <AutomaticAnswers
+          solveTicket={mockSolveTicket}
+          closeFrame={() => {}}
+        />
+      );
+    });
+
+    describe('and the request is successful', () => {
       beforeEach(() => {
-        mockSolveTicket = jasmine.createSpy('mockSolveTicket');
-        automaticAnswers = domRender(
-           <AutomaticAnswers
-             solveTicket={mockSolveTicket}
-             closeFrame={() => {}}
-             canUndo={false}
-           />
-        );
+        automaticAnswers.closedWithUndo();
       });
 
-      describe('and the request is successful', () => {
-        beforeEach(() => {
-          automaticAnswers.solveTicketDone();
-        });
-
-        it('sets screen to ticketClosed', () => {
-          expect(automaticAnswers.state.screen)
-            .toBe(AutomaticAnswersScreen.ticketClosed);
-        });
-
-        it('sets isSubmitting to false', () => {
-          expect(automaticAnswers.state.isSubmitting)
-            .toBe(false);
-        });
-
-        it('sets errorMessage to an empty string', () => {
-          expect(automaticAnswers.state.errorMessage)
-            .toBe('');
-        });
+      it('sets screen to closedWithUndo', () => {
+        expect(automaticAnswers.state.screen)
+          .toBe(AutomaticAnswersScreen.closedWithUndo);
       });
 
-      describe('and the request fails', () => {
-        beforeEach(() => {
-          automaticAnswers.requestFailed();
-        });
+      it('sets isSubmitting to false', () => {
+        expect(automaticAnswers.state.isSubmitting)
+          .toBe(false);
+      });
 
-        it('sets errorMessage to the correct tanslation string', () => {
-          expect(automaticAnswers.state.errorMessage)
-            .toBe('embeddable_framework.automaticAnswers.label.error_mobile');
-        });
-
-        it('sets isSubmitting to false', () => {
-          expect(automaticAnswers.state.isSubmitting)
-            .toBe(false);
-        });
+      it('sets errorMessage to an empty string', () => {
+        expect(automaticAnswers.state.errorMessage)
+          .toBe('');
       });
     });
 
-    describe('when the undo feature is enabled', () => {
+    describe('and the request fails', () => {
       beforeEach(() => {
-        mockSolveTicket = jasmine.createSpy('mockSolveTicket');
-        automaticAnswers = domRender(
-           <AutomaticAnswers
-             solveTicket={mockSolveTicket}
-             closeFrame={() => {}}
-             canUndo={true}
-           />
-        );
+        automaticAnswers.requestFailed();
       });
 
-      describe('and the request is successful', () => {
-        beforeEach(() => {
-          automaticAnswers.solveTicketDone();
-        });
-
-        it('sets screen to closedWithUndo', () => {
-          expect(automaticAnswers.state.screen)
-            .toBe(AutomaticAnswersScreen.closedWithUndo);
-        });
-
-        it('sets isSubmitting to false', () => {
-          expect(automaticAnswers.state.isSubmitting)
-            .toBe(false);
-        });
-
-        it('sets errorMessage to an empty string', () => {
-          expect(automaticAnswers.state.errorMessage)
-            .toBe('');
-        });
+      it('sets errorMessage to the correct tanslation string', () => {
+        expect(automaticAnswers.state.errorMessage)
+          .toBe('embeddable_framework.automaticAnswers.label.error_mobile');
       });
 
-      describe('and the request fails', () => {
-        beforeEach(() => {
-          automaticAnswers.requestFailed();
-        });
-
-        it('sets errorMessage to the correct tanslation string', () => {
-          expect(automaticAnswers.state.errorMessage)
-            .toBe('embeddable_framework.automaticAnswers.label.error_mobile');
-        });
-
-        it('sets isSubmitting to false', () => {
-          expect(automaticAnswers.state.isSubmitting)
-            .toBe(false);
-        });
+      it('sets isSubmitting to false', () => {
+        expect(automaticAnswers.state.isSubmitting)
+          .toBe(false);
       });
     });
   });
