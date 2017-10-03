@@ -1,4 +1,4 @@
-fdescribe('AutomaticAnswers component', () => {
+describe('AutomaticAnswers component', () => {
   let mockSolveTicket,
     mockMarkArticleIrrelevant,
     AutomaticAnswers,
