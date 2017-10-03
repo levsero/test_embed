@@ -380,71 +380,42 @@ describe('embed.automaticAnswers', () => {
           isSolvedPending = true;
         });
 
-        describe('and canUndo is enabled', () => {
+        describe('and query params contains `solved`', () => {
           beforeEach(() => {
-            config = { canUndo: true };
+            mockURLParameter = '1';
           });
 
-          describe('and query params contains `solved`', () => {
-            beforeEach(() => {
-              mockURLParameter = '1';
-            });
+          it('updates the component to show the ticket closed with undo screen', () => {
+            fetchTicket();
 
-            it('updates the component to show the ticket closed with undo screen', () => {
-              fetchTicket();
+            callback(resSuccess(statusId, isSolvedPending));
 
-              callback(resSuccess(statusId, isSolvedPending));
-
-              expect(instance.getRootComponent().closedWithUndo).toHaveBeenCalled();
-            });
-
-            it('shows the embed solved screen after a short delay', () => {
-              fetchTicket();
-
-              callback(resSuccess(statusId, isSolvedPending));
-              jasmine.clock().tick(showSolvedFrameDelay);
-
-              expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
-            });
+            expect(instance.getRootComponent().closedWithUndo).toHaveBeenCalled();
           });
 
-          describe('and query params does not contain `solved`', () => {
-            beforeEach(() => {
-              mockURLParameter = null;
-            });
+          it('shows the embed solved screen after a short delay', () => {
+            fetchTicket();
 
-            it('does not show embeddable widget', () => {
-              fetchTicket();
+            callback(resSuccess(statusId, isSolvedPending));
+            jasmine.clock().tick(showSolvedFrameDelay);
 
-              callback(resSuccess(statusId, isSolvedPending));
-
-              expect(instance.getRootComponent().ticketClosed).not.toHaveBeenCalled();
-              expect(instance.getRootComponent().updateTicket).not.toHaveBeenCalled();
-              expect(instance.getRootComponent().closedWithUndo).not.toHaveBeenCalled();
-            });
+            expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
           });
         });
 
-        describe('and canUndo is disabled', () => {
+        describe('and query params does not contain `solved`', () => {
           beforeEach(() => {
-            config = { canUndo: false };
+            mockURLParameter = null;
           });
 
-          it('updates the component to show the update ticket screen', () => {
+          it('does not show embeddable widget', () => {
             fetchTicket();
 
             callback(resSuccess(statusId, isSolvedPending));
 
-            expect(instance.getRootComponent().updateTicket).toHaveBeenCalled();
-          });
-
-          it('shows the embed update ticket screen after a short delay', () => {
-            fetchTicket();
-
-            callback(resSuccess(statusId, isSolvedPending));
-            jasmine.clock().tick(showFrameDelay);
-
-            expect(instance.show.__reactBoundMethod).toHaveBeenCalled();
+            expect(instance.getRootComponent().ticketClosed).not.toHaveBeenCalled();
+            expect(instance.getRootComponent().updateTicket).not.toHaveBeenCalled();
+            expect(instance.getRootComponent().closedWithUndo).not.toHaveBeenCalled();
           });
         });
       });

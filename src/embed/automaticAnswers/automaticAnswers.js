@@ -73,8 +73,6 @@ function create(name, config = {}, reduxStore) {
 
   const ComponentType = (isMobileBrowser()) ? AutomaticAnswersMobile : AutomaticAnswersDesktop;
 
-  const canUndo = config.canUndo || false;
-
   const Embed = frameFactory(
     (params) => {
       return (
@@ -88,7 +86,6 @@ function create(name, config = {}, reduxStore) {
           closeFrame={closeFrame}
           closeFrameAfterDelay={closeFrameAfterDelay}
           initialScreen={getInitialScreen()}
-          canUndo={canUndo}
         />
       );
     },
@@ -141,9 +138,8 @@ function fetchTicket(authToken) {
   const fetchTicketDone = (res) => {
     const ticket = res.body.ticket;
     const ticketSolved = _.includes(solvedStatusIds, ticket.status_id);
-    const isSolvedPending = ticket.is_solved_pending || false;
+    const ticketSolvedPending = ticket.is_solved_pending || false;
     const solvedUrlParameter = !!getURLParameterByName('solved');
-    const canUndo = embed.config.canUndo || false;
 
     if (ticketSolved) {
       if (solvedUrlParameter) {
@@ -154,7 +150,7 @@ function fetchTicket(authToken) {
       }
     }
 
-    if (isSolvedPending && canUndo) {
+    if (ticketSolvedPending) {
       if (solvedUrlParameter) {
         embed.instance.getRootComponent().closedWithUndo();
         return setTimeout(() => embed.instance.show({ transition: 'upShow' }), showSolvedFrameDelay);
