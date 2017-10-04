@@ -7,6 +7,7 @@ describe('color', () => {
     mockSettingsValue;
 
   const colorPath = buildSrcPath('util/color');
+  const defaultColor = '#78A300';
   const trimWhitespace = (str) => {
     return _.chain(str.split('\n'))
             .map(_.trim)
@@ -43,7 +44,7 @@ describe('color', () => {
   describe('generateUserCSS', () => {
     it('uses the default value if nothing is passed in', () => {
       expect(generateUserCSS())
-        .toMatch('#78A300');
+        .toMatch(defaultColor);
     });
 
     it('uses the value passed into the function if it exists', () => {
@@ -60,6 +61,29 @@ describe('color', () => {
 
       expect(cssString)
         .toMatch('#aaaaaa');
+    });
+
+    describe('when the color passed by config is missing the hash', () => {
+      describe('when it is otherwise valid', () => {
+        it('identifies it as valid and normalises it', () => {
+          const cssString = generateUserCSS('abcdef');
+
+          expect(cssString)
+            .toMatch('#abcdef');
+        });
+      });
+
+      describe('when something other than the hash is invalid', () => {
+        it('returns the default colour', () => {
+          const cssString = generateUserCSS('a12hyn');
+
+          expect(cssString)
+            .not.toMatch('a12hyn');
+
+          expect(cssString)
+            .toMatch(defaultColor);
+        });
+      });
     });
 
     describe('when the color is light', () => {

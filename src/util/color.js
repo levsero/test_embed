@@ -49,6 +49,8 @@ const almostWhiteButtonTextColor = (color) => {
 function generateUserCSS(color = defaultColor) {
   if (validSettingsColor()) {
     color = validSettingsColor();
+  } else {
+    color = isValidHex(color) ? color : normalize(color);
   }
 
   const buttonColorStr = buttonColor(color);
@@ -150,6 +152,12 @@ function isValidHex(color) {
   const validRegex = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i;
 
   return validRegex.test(color);
+}
+
+function normalize(color) {
+  const hashlessValidRegex = /(^[0-9A-F]{6}$)|(^[0-9A-F]{3}$)/i;
+
+  return hashlessValidRegex.test(color) ? `#${color}` : defaultColor;
 }
 
 export {
