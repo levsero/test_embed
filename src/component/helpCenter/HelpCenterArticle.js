@@ -146,7 +146,9 @@ export class HelpCenterArticle extends Component {
 
     // Find parent anchor link
     if (target.nodeName !== 'A') {
-      target = target.closest('a');
+      if (target.closest) {
+        target = target.closest('a');
+      }
 
       // Element.closest is currently not supported in IE
       if (document.documentMode || target === null) {
@@ -324,8 +326,7 @@ export class HelpCenterArticle extends Component {
         <div
           ref='article'
           className={styles.article}
-          onClick={this.handleClick}
-          onTouchStart={this.handleClick} />
+          onClick={this.handleClick} />
           {this.renderOriginalArticleButton()}
       </div>
     );
