@@ -148,6 +148,8 @@ export class HelpCenterArticle extends Component {
     if (target.nodeName !== 'A') {
       if (target.closest) {
         target = target.closest('a');
+      } else {
+        target = null;
       }
 
       // Element.closest is currently not supported in IE
