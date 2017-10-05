@@ -7,7 +7,6 @@ import { IconFieldButton } from 'component/button/IconFieldButton';
 export class SearchFieldButton extends Component {
   static propTypes = {
     onClick: PropTypes.func,
-    onTouch: PropTypes.func,
     searchTerm: PropTypes.string
   };
 
@@ -37,8 +36,7 @@ export class SearchFieldButton extends Component {
       <div className='u-cf u-paddingHN u-paddingBN Form-cta--barFullscreen'>
         <div
           className={fieldClasses}
-          onClick={this.props.onClick}
-          onTouch={this.props.onTouch}>
+          onClick={this.props.onClick}>
           {searchTerm}
           {icon}
         </div>
