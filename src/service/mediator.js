@@ -15,6 +15,7 @@ const submitTicket = 'ticketSubmissionForm';
 const launcher = 'launcher';
 const chat = 'zopimChat';
 const helpCenter = 'helpCenterForm';
+const channelChoice = 'channelChoice';
 const state = {};
 
 state[`${chat}.connectionPending`] = true;
@@ -25,6 +26,8 @@ state[`${chat}.isVisible`] = false;
 state[`${helpCenter}.isVisible`] = false;
 state[`${helpCenter}.isAccessible`] = false;
 state[`${helpCenter}.isSuppressed`] = false;
+state[`${channelChoice}.isVisible`] = false;
+state[`${channelChoice}.isAccessible`] = false;
 state[`${chat}.isOnline`] = false;
 state[`${chat}.isSuppressed`] = false;
 state[`${chat}.isAccessible`] = false;
@@ -45,6 +48,13 @@ const chatAvailable = () => {
 
 const submitTicketAvailable = () => {
   return state[`${submitTicket}.isAccessible`] && !state[`${submitTicket}.isSuppressed`];
+};
+
+const channelChoiceAvailable = () => {
+  return state[`${channelChoice}.isAccessible`]
+    && !helpCenterAvailable()
+    && chatAvailable()
+    && submitTicketAvailable();
 };
 
 const embedAvailable = () => {
@@ -146,6 +156,7 @@ function init(embedsAccessible, params = {}) {
     (!params.helpCenterSignInRequired || isOnHelpCenterPage());
   state[`${chat}.isAccessible`] = embedsAccessible.chat;
   state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppress');
+  state[`${channelChoice}.isAccessible`] = embedsAccessible.channelChoice;
   state[`${chat}.isSuppressed`] = settings.get('chat.suppress');
   state[`${submitTicket}.isSuppressed`] = settings.get('contactForm.suppress');
   state[`${chat}.connectionPending`] = embedsAccessible.chat && !params.newChat;
@@ -247,7 +258,9 @@ function init(embedsAccessible, params = {}) {
     c.broadcast('webWidget.setZopimOnline', true);
 
     if ((state.activeEmbed === submitTicket || !state.activeEmbed) && !helpCenterAvailable()) {
-      state.activeEmbed = chat;
+      if (!channelChoiceAvailable()) {
+        state.activeEmbed = chat;
+      }
     }
 
     if (helpCenterAvailable()) {
