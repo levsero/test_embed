@@ -29,7 +29,7 @@ export class ScrollContainer extends Component {
     children: <span />,
     containerClasses: '',
     newDesign: false,
-    getFrameDimensions: () => {{ height: 0; }},
+    getFrameDimensions: () => ({ height: 0, width: 0 }),
     footerClasses: '',
     footerContent: [],
     fullscreen: false,
