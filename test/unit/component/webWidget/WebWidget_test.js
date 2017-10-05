@@ -619,6 +619,25 @@ describe('WebWidget component', () => {
             .toHaveBeenCalled();
         });
       });
+
+      describe('when the activeEmbed is channelChoice and zopimChat is offline', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              submitTicketAvailable={true}
+              updateActiveEmbed={noop}
+              zopimOnline={false}
+              activeEmbed='channelChoice' />
+          );
+
+          webWidget.show();
+        });
+
+        it('should call resetActiveEmbed', () => {
+          expect(webWidget.resetActiveEmbed)
+            .toHaveBeenCalled();
+        });
+      });
     });
 
     describe('when there is not an active embed', () => {
