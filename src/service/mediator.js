@@ -78,6 +78,8 @@ const embedVisible = (_state) => _.some([
 const resetActiveEmbed = () => {
   if (helpCenterAvailable()) {
     state.activeEmbed = helpCenter;
+  } else if (channelChoiceAvailable()) {
+    state.activeEmbed = channelChoice;
   } else if (chatAvailable()) {
     state.activeEmbed = chat;
   } else if (submitTicketAvailable()) {
@@ -115,7 +117,10 @@ const showEmbed = (_state, viaActivate = false) => {
       viaActivate
     };
 
-    _state[`${_state.activeEmbed}.isVisible`] = true;
+    if (_state.activeEmbed === chat) {
+      _state[`${chat}.isVisible`] = true;
+    }
+
     c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
     c.broadcast(`${_state.activeEmbed}.show`, options);
     c.broadcast('webWidget.show', options);
@@ -258,9 +263,7 @@ function init(embedsAccessible, params = {}) {
     c.broadcast('webWidget.setZopimOnline', true);
 
     if ((state.activeEmbed === submitTicket || !state.activeEmbed) && !helpCenterAvailable()) {
-      if (!channelChoiceAvailable()) {
-        state.activeEmbed = chat;
-      }
+      state.activeEmbed = channelChoiceAvailable() ? channelChoice : chat;
     }
 
     if (helpCenterAvailable()) {
