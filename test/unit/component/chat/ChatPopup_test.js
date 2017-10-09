@@ -9,10 +9,9 @@ describe('ChatPopup component', () => {
     initMockRegistry({
       './ChatPopup.sass': {
         locals: {
-          'agentMessage': 'agentMessage',
-          'topContainer': 'topContainer',
-          'dismissBtn': 'dismissBtn',
-          'viewBtn': 'viewBtn'
+          'leftCtaBtn': 'leftCtaBtnClasses',
+          'rightCtaBtn': 'rightCtaBtnClasses',
+          'container': 'containerClasses'
         }
       },
       'component/Avatar': {
@@ -43,108 +42,136 @@ describe('ChatPopup component', () => {
     mockery.disable();
   });
 
-  describe('render', () => {
+  describe('props', () => {
     let componentNode,
-      agentName,
-      message;
+      leftCtaFnSpy,
+      rightCtaFnSpy;
 
-    beforeEach(() => {
-      agentName = 'Granny Smith';
-      message = 'I use weaponized apples';
+    describe('leftCtaFn', () => {
+      describe('when cta is shown', () => {
+        beforeEach(() => {
+          leftCtaFnSpy = jasmine.createSpy('leftCtaFn');
 
-      const component = domRender(<ChatPopup showCta={true} agentName={agentName} message={message} />);
+          const component = domRender(<ChatPopup showCta={true} leftCtaFn={leftCtaFnSpy} />);
 
-      componentNode = ReactDOM.findDOMNode(component);
+          componentNode = ReactDOM.findDOMNode(component);
+        });
+
+        it('calls leftCtaFn when ctaBtn is clicked', () => {
+          componentNode.querySelector('.leftCtaBtnClasses').click();
+
+          expect(leftCtaFnSpy)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when cta is not shown', () => {
+        beforeEach(() => {
+          leftCtaFnSpy = jasmine.createSpy('leftCtaFn');
+
+          const component = domRender(<ChatPopup showCta={false} leftCtaFn={leftCtaFnSpy} />);
+
+          componentNode = ReactDOM.findDOMNode(component);
+        });
+
+        it('does not render the cta element', () => {
+          expect(componentNode.querySelector('.leftCtaBtnClasses'))
+            .toBeNull();
+        });
+      });
     });
 
-    it(`renders the agent's name`, () => {
-      expect(componentNode.getElementsByTagName('strong')[0].textContent)
-        .toEqual(agentName);
+    describe('rightCtaFn', () => {
+      describe('when cta is shown', () => {
+        beforeEach(() => {
+          rightCtaFnSpy = jasmine.createSpy('rightCtaFnSpy');
+
+          const component = domRender(<ChatPopup showCta={true} rightCtaFn={rightCtaFnSpy} />);
+
+          componentNode = ReactDOM.findDOMNode(component);
+        });
+
+        it('calls leftCtaFn when ctaBtn is clicked', () => {
+          componentNode.querySelector('.rightCtaBtnClasses').click();
+
+          expect(rightCtaFnSpy)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when cta is not shown', () => {
+        beforeEach(() => {
+          rightCtaFnSpy = jasmine.createSpy('rightCtaFnSpy');
+
+          const component = domRender(<ChatPopup showCta={false} rightCtaFn={rightCtaFnSpy} />);
+
+          componentNode = ReactDOM.findDOMNode(component);
+        });
+
+        it('does not render the cta element', () => {
+          expect(componentNode.querySelector('.rightCtaBtnClasses'))
+            .toBeNull();
+        });
+      });
     });
 
-    it(`renders the agent's message`, () => {
-      expect(componentNode.querySelector('.agentMessage').textContent)
-        .toEqual(message);
+    describe('childrenOnClick', () => {
+      let childrenOnClickSpy;
+
+      describe('when the container of child content has been clicked', () => {
+        beforeEach(() => {
+          childrenOnClickSpy = jasmine.createSpy();
+
+          const component = domRender(<ChatPopup childrenOnClick={childrenOnClickSpy} />);
+
+          componentNode = ReactDOM.findDOMNode(component);
+        });
+
+        it('calls childrenOnClick', () => {
+          const childrenContainer = componentNode.querySelector('.containerClasses').firstChild;
+
+          childrenContainer.click();
+
+          expect(childrenOnClickSpy)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when the container of child content has not been clicked', () => {
+        beforeEach(() => {
+          childrenOnClickSpy = jasmine.createSpy();
+
+          const component = domRender(<ChatPopup childrenOnClick={childrenOnClickSpy} />);
+
+          componentNode = ReactDOM.findDOMNode(component);
+        });
+
+        it('does not call childrenOnClick', () => {
+          expect(childrenOnClickSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
     });
   });
 
-  describe('props', () => {
-    let componentNode,
-      dismissFnSpy,
-      respondFnSpy;
+  describe('isButtonPrimary', () => {
+    let component;
 
-    describe('dismissFn', () => {
-      describe('when cta is shown', () => {
-        beforeEach(() => {
-          dismissFnSpy = jasmine.createSpy('dismissFn');
+    beforeEach(() => {
+      component = instanceRender(<ChatPopup />);
+    });
 
-          const component = domRender(<ChatPopup showCta={true} dismissFn={dismissFnSpy} />);
-
-          componentNode = ReactDOM.findDOMNode(component);
-        });
-
-        it('calls dismissFn when ctaBtn is clicked', () => {
-          componentNode.querySelector('.dismissBtn').click();
-
-          expect(dismissFnSpy)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when cta is not shown', () => {
-        beforeEach(() => {
-          dismissFnSpy = jasmine.createSpy('dismissFn');
-
-          const component = domRender(<ChatPopup showCta={false} dismissFn={dismissFnSpy} />);
-
-          componentNode = ReactDOM.findDOMNode(component);
-        });
-
-        it('does not render the cta element', () => {
-          expect(componentNode.querySelector('.dismissBtn'))
-            .toBeNull();
-        });
+    describe('when the button type is primary button', () => {
+      it('returns true', () => {
+        expect(component.isButtonPrimary('primary'))
+          .toEqual(true);
       });
     });
 
-    describe('respondFnSpy', () => {
-      describe('when cta is shown', () => {
-        beforeEach(() => {
-          respondFnSpy = jasmine.createSpy('respondFnSpy');
-
-          const component = domRender(<ChatPopup showCta={true} respondFn={respondFnSpy} />);
-
-          componentNode = ReactDOM.findDOMNode(component);
-        });
-
-        it('calls dismissFn when ctaBtn is clicked', () => {
-          componentNode.querySelector('.viewBtn').click();
-
-          expect(respondFnSpy)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when cta is not shown', () => {
-        beforeEach(() => {
-          respondFnSpy = jasmine.createSpy('respondFnSpy');
-
-          const component = domRender(<ChatPopup showCta={false} respondFn={respondFnSpy} />);
-
-          componentNode = ReactDOM.findDOMNode(component);
-        });
-
-        it('does not render the cta element', () => {
-          expect(componentNode.querySelector('.viewBtn'))
-            .toBeNull();
-        });
-
-        it('calls respondFn when topContainer is clicked', () => {
-          componentNode.querySelector('.topContainer').click();
-
-          expect(respondFnSpy)
-            .toHaveBeenCalled();
-        });
+    describe('when the button type is anything else', () => {
+      it('returns false', () => {
+        expect(component.isButtonPrimary('secondary'))
+          .toEqual(false);
       });
     });
   });
@@ -170,32 +197,6 @@ describe('ChatPopup component', () => {
 
       it('does not render the cta element', () => {
         expect(component.renderCta())
-          .toBeNull();
-      });
-    });
-  });
-
-  describe('renderAgentName', () => {
-    let component;
-
-    describe('when showCta is true and agent name is not empty', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatPopup showCta={true} agentName='bobby' />);
-      });
-
-      it(`renders the element containing the agent's name`, () => {
-        expect(component.renderAgentName())
-          .not.toBeNull();
-      });
-    });
-
-    describe('when showCta is false or agent name is empty', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatPopup showCta={false} agentName='' />);
-      });
-
-      it(`does not render the element containing the agent's name`, () => {
-        expect(component.renderAgentName())
           .toBeNull();
       });
     });

@@ -1,89 +1,74 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { i18n } from 'service/i18n';
-import { Avatar } from 'component/Avatar';
 import { Button } from 'component/button/Button';
 
 import { locals as styles } from './ChatPopup.sass';
 
+const buttonTypePrimary = 'primary';
+const buttonTypeSecondary = 'secondary';
+
 export class ChatPopup extends Component {
   static propTypes = {
     className: PropTypes.string,
-    agentName: PropTypes.string,
-    avatarPath: PropTypes.string,
-    message: PropTypes.string,
     showCta: PropTypes.bool,
-    dismissFn: PropTypes.func,
-    respondFn: PropTypes.func
+    leftCtaFn: PropTypes.func,
+    rightCtaFn: PropTypes.func,
+    leftCtaType: PropTypes.string,
+    rightCtaType: PropTypes.string,
+    leftCtaLabel: PropTypes.string,
+    rightCtaLabel: PropTypes.string,
+    childrenOnClick: PropTypes.func,
+    children: PropTypes.node
   };
 
   static defaultProps = {
     className: '',
-    showCta: false,
-    agentName: '',
-    avatarPath: '',
-    message: '',
-    dismissFn: () => {},
-    respondFn: () => {}
+    showCta: true,
+    leftCtaFn: () => {},
+    rightCtaFn: () => {},
+    leftCtaType: buttonTypeSecondary,
+    rightCtaType: buttonTypePrimary,
+    leftCtaLabel: '',
+    rightCtaLabel: '',
+    childrenOnClick: () => {},
+    children: null
   };
 
-  constructor() {
-    super();
-
-    this.agentMessageRef = null;
+  isButtonPrimary = (type) => {
+    return (type === buttonTypePrimary) ? true : false;
   }
 
   renderCta = () => {
-    const { showCta, dismissFn, respondFn } = this.props;
+    const {
+      showCta, leftCtaFn, rightCtaFn,
+      leftCtaType, rightCtaType,
+      leftCtaLabel, rightCtaLabel
+    } = this.props;
 
-    return showCta
+    return (showCta)
       ? <div className={styles.ctaContainer}>
           <Button
-            label={i18n.t('embeddable_framework.chat.popup.button.dismiss')}
-            className={styles.dismissBtn}
-            primary={false}
-            onClick={dismissFn} />
+            label={leftCtaLabel}
+            className={styles.leftCtaBtn}
+            primary={this.isButtonPrimary(leftCtaType)}
+            onClick={leftCtaFn} />
           <Button
-            label={i18n.t('embeddable_framework.chat.popup.button.reply')}
-            className={styles.viewBtn}
-            onClick={respondFn} />
+            label={rightCtaLabel}
+            className={styles.rightCtaBtn}
+            primary={this.isButtonPrimary(rightCtaType)}
+            onClick={rightCtaFn} />
         </div>
       : null;
   }
 
-  renderAgentName = () => {
-    const { showCta, agentName } = this.props;
-
-    return showCta && (agentName !== '')
-      ? <strong>{agentName}</strong>
-      : null;
-  }
-
-  renderAgentMessage = () => {
-    const { scrollHeight, clientHeight } = this.agentMessageRef || {};
-    const className = this.agentMessageRef && (scrollHeight > clientHeight)
-      ? `${styles.agentMessage} ${styles.agentMessageOverflow}`
-      : styles.agentMessage;
-
-    return (
-      <div ref={(ref) => this.agentMessageRef = ref} className={className}>
-        {this.props.message}
-      </div>
-    );
-  }
-
   render = () => {
+    const { className, childrenOnClick, children } = this.props;
+
     return (
-      <div className={`${this.props.className} ${styles.containerWrapper}`}>
+      <div className={`${className} ${styles.containerWrapper}`}>
         <div className={styles.container}>
-          <div className={styles.topContainer} onClick={this.props.respondFn}>
-            <Avatar src={this.props.avatarPath} className={styles.avatar} />
-            <div className={styles.agentContainer}>
-              {this.renderAgentName()}
-              {this.renderAgentMessage()}
-            </div>
-          </div>
+          <div onClick={childrenOnClick}>{children}</div>
           {this.renderCta()}
         </div>
       </div>

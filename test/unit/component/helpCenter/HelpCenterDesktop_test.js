@@ -34,6 +34,9 @@ describe('HelpCenterDesktop component', () => {
           }
         }
       },
+      'component/Avatar': {
+        Avatar: noopReactComponent()
+      },
       'component/ZendeskLogo': {
         ZendeskLogo: noopReactComponent()
       },

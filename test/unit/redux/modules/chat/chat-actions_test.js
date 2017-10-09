@@ -60,6 +60,53 @@ describe('chat redux actions', () => {
     jasmine.clock().uninstall();
   });
 
+  describe('showEndChatNotification', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.showEndChatNotification());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type SHOW_END_CHAT_NOTIFICATION', () => {
+      expect(action.type)
+        .toEqual(actionTypes.SHOW_END_CHAT_NOTIFICATION);
+    });
+  });
+
+  describe('hideEndChatNotification', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.hideEndChatNotification());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type HIDE_END_CHAT_NOTIFICATION', () => {
+      expect(action.type)
+        .toEqual(actionTypes.HIDE_END_CHAT_NOTIFICATION);
+    });
+  });
+
+  describe('acceptEndChatNotification', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.acceptEndChatNotification());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type HIDE_END_CHAT_NOTIFICATION', () => {
+      expect(action.type)
+        .toEqual(actionTypes.HIDE_END_CHAT_NOTIFICATION);
+    });
+
+    it('calls endChat on the Web SDK', () => {
+      expect(mockEndChat)
+        .toHaveBeenCalled();
+    });
+  });
+
   describe('updateCurrentMsg', () => {
     let message,
       action;
@@ -168,7 +215,7 @@ describe('chat redux actions', () => {
       mockStore.dispatch(actions.endChat());
     });
 
-    it('calls sendChatMsg on the Web SDK', () => {
+    it('calls endChat on the Web SDK', () => {
       expect(mockEndChat)
         .toHaveBeenCalled();
     });
