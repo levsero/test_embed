@@ -3,7 +3,7 @@ import generateColor from 'color';
 import { settings } from 'service/settings';
 
 const defaultColor = '#78A300';
-const defaultLightYIQ = 178;
+const defaultLightYIQ = 190;
 const almostWhiteYIQ = 240;
 
 // Color manipulation and checks using color library
