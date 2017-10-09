@@ -206,7 +206,7 @@ class WebWidget extends Component {
     }
 
     // If zopim has gone offline we will need to reset the embed
-    const chatOffline = (activeEmbed === zopimChat || activeEmbed === channelChoice) && !chatOnline;
+    const chatOffline = _.includes([zopimChat, channelChoice], activeEmbed) && !chatOnline;
 
     if (this.noActiveEmbed() || viaActivate || chatOffline) this.resetActiveEmbed();
   }

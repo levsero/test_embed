@@ -139,6 +139,10 @@ function initMediator(config) {
                          ? embeds.helpCenterForm.props.signInRequired
                          : false;
     const submitTicketAccessible = !!embeds.ticketSubmissionForm;
+    const zopimChatAccessible = !!embeds.zopimChat;
+    const channelChoiceAccessible = settings.get('contactOptions').enabled
+                                  && submitTicketAccessible
+                                  && zopimChatAccessible;
     const params = {
       hideLauncher: hideLauncher,
       helpCenterSignInRequired: signInRequired,
@@ -147,8 +151,8 @@ function initMediator(config) {
     const embedsAccessible = {
       submitTicket: submitTicketAccessible,
       helpCenter: !!embeds.helpCenterForm,
-      chat: !!embeds.zopimChat,
-      channelChoice: settings.get('contactOptions').enabled && submitTicketAccessible
+      chat: zopimChatAccessible,
+      channelChoice: channelChoiceAccessible
     };
 
     mediator.init(embedsAccessible, params);
