@@ -559,7 +559,7 @@ describe('WebWidget component', () => {
         webWidget.show();
       });
 
-      it('should not call resetActiveEmbed', () => {
+      it('does not call resetActiveEmbed', () => {
         expect(webWidget.resetActiveEmbed)
           .not.toHaveBeenCalled();
       });
@@ -576,7 +576,7 @@ describe('WebWidget component', () => {
           webWidget.show(true);
         });
 
-        it('should call resetActiveEmbed', () => {
+        it('calls resetActiveEmbed', () => {
           expect(webWidget.resetActiveEmbed)
             .toHaveBeenCalled();
         });
@@ -595,7 +595,7 @@ describe('WebWidget component', () => {
           webWidget.show();
         });
 
-        it('should set the activeEmbed to chat', () => {
+        it('sets the activeEmbed to chat', () => {
           expect(updateActiveEmbedSpy)
             .toHaveBeenCalledWith('zopimChat');
         });
@@ -614,7 +614,26 @@ describe('WebWidget component', () => {
           webWidget.show();
         });
 
-        it('should call resetActiveEmbed', () => {
+        it('calls resetActiveEmbed', () => {
+          expect(webWidget.resetActiveEmbed)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when the activeEmbed is channelChoice and zopimChat is offline', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              submitTicketAvailable={true}
+              updateActiveEmbed={noop}
+              zopimOnline={false}
+              activeEmbed='channelChoice' />
+          );
+
+          webWidget.show();
+        });
+
+        it('calls resetActiveEmbed', () => {
           expect(webWidget.resetActiveEmbed)
             .toHaveBeenCalled();
         });
@@ -631,7 +650,7 @@ describe('WebWidget component', () => {
         webWidget.show();
       });
 
-      it('should call resetActiveEmbed', () => {
+      it('calls resetActiveEmbed', () => {
         expect(webWidget.resetActiveEmbed)
           .toHaveBeenCalled();
       });

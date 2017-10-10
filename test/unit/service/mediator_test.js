@@ -9,6 +9,7 @@ describe('mediator', () => {
     submitTicketSub,
     chatSub,
     helpCenterSub,
+    channelChoiceSub,
     ipmSub,
     mockChatSuppressedValue,
     mockHelpCenterSuppressedValue,
@@ -118,6 +119,11 @@ describe('mediator', () => {
        'hide']
     );
 
+    channelChoiceSub = jasmine.createSpyObj(
+      'channelChoice',
+      ['show']
+    );
+
     ipmSub = jasmine.createSpyObj(
       'ipm',
       ['activate',
@@ -170,6 +176,8 @@ describe('mediator', () => {
       c.subscribe(`${names.helpCenter}.show`, helpCenterSub.show);
       c.subscribe(`${names.helpCenter}.showWithAnimation`, helpCenterSub.show);
       c.subscribe(`${names.helpCenter}.hide`, helpCenterSub.hide);
+
+      c.subscribe(`${names.channelChoice}.show`, channelChoiceSub.show);
 
       c.subscribe(`${names.ipm}.activate`, ipmSub.activate);
       c.subscribe(`${names.ipm}.identifying`, ipmSub.identifying);
@@ -1317,11 +1325,13 @@ describe('mediator', () => {
     const submitTicket = 'ticketSubmissionForm';
     const chat = 'zopimChat';
     const helpCenter = 'helpCenterForm';
+    const channelChoice = 'channelChoice';
     const names = {
       launcher: launcher,
       submitTicket: submitTicket,
       chat: chat,
-      helpCenter: helpCenter
+      helpCenter: helpCenter,
+      channelChoice
     };
 
     beforeEach(() => {
@@ -1569,6 +1579,55 @@ describe('mediator', () => {
 
           expect(launcherSub.show.calls.count())
             .toBe(1);
+        });
+      });
+
+      describe('when chat comes online', () => {
+        beforeEach(() => {
+          jasmine.clock().install();
+        });
+
+        afterEach(() => {
+          jasmine.clock().uninstall();
+        });
+
+        describe('when channel choice is available', () => {
+          beforeEach(() => {
+            mediator.init({
+              chat: true,
+              submitTicket: true,
+              channelChoice: true,
+              helpCenter: false
+            });
+
+            c.broadcast(`${chat}.onOnline`);
+            c.broadcast(`${launcher}.onClick`);
+            jasmine.clock().tick(1);
+          });
+
+          it('sets the active embed to channel choice', () => {
+            expect(chatSub.show.calls.count())
+              .toBe(0);
+
+            expect(channelChoiceSub.show.calls.count())
+              .toBe(1);
+          });
+        });
+
+        describe('when channel choice is not available', () => {
+          beforeEach(() => {
+            c.broadcast(`${chat}.onOnline`);
+            c.broadcast(`${launcher}.onClick`);
+            jasmine.clock().tick(1);
+          });
+
+          it('sets the active embed to chat', () => {
+            expect(channelChoiceSub.show.calls.count())
+              .toBe(0);
+
+            expect(chatSub.show.calls.count())
+              .toBe(1);
+          });
         });
       });
 
