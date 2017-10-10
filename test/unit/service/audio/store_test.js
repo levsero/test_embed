@@ -105,7 +105,7 @@ describe('audio-store', () => {
     });
 
     describe('when the sound does not exist in the store', () => {
-      it('returns the sound object', () => {
+      it('returns undefined', () => {
         expect(getSound('unknown'))
           .toBeUndefined();
       });
