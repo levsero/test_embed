@@ -4,7 +4,8 @@ const initialState = {
   nick: '',
   display_name: '',
   msg: '',
-  show: false
+  show: false,
+  playSound: false
 };
 
 const notification = (state = initialState, action) => {
@@ -16,12 +17,13 @@ const notification = (state = initialState, action) => {
         nick,
         display_name,
         msg,
-        show: true
+        show: true,
+        playSound: true
       };
     case HIDE_CHAT_NOTIFICATION:
       return { ...state, show: false };
     default:
-      return state;
+      return { ...state, playSound: false };
   }
 };
 

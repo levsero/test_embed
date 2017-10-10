@@ -3,6 +3,7 @@ describe('WebWidget component', () => {
     chatOnContainerClickSpy,
     helpCenterOnContainerClickSpy,
     submitTicketOnDragEnterSpy,
+    playSoundSpy,
     mockUpdateActiveEmbed;
   const setArticleViewSpy = jasmine.createSpy();
   const clearFormSpy = jasmine.createSpy();
@@ -18,6 +19,7 @@ describe('WebWidget component', () => {
     chatOnContainerClickSpy = jasmine.createSpy('chatOnContainerClick');
     helpCenterOnContainerClickSpy = jasmine.createSpy('helpCenterOnContainerClick');
     submitTicketOnDragEnterSpy = jasmine.createSpy('submitTicketOnDragEnter');
+    playSoundSpy = jasmine.createSpy('playSound');
 
     class MockHelpCenter extends Component {
       constructor() {
@@ -105,6 +107,9 @@ describe('WebWidget component', () => {
       },
       'src/redux/modules/chat/selectors': {
         getChatNotification: noop
+      },
+      'service/audio': {
+        audio: { playSound: playSoundSpy }
       }
     });
 
@@ -171,6 +176,40 @@ describe('WebWidget component', () => {
 
         expect(webWidget.renderChat())
           .toBeTruthy();
+      });
+    });
+
+    describe('when props.chatNotification.playSound is true', () => {
+      beforeEach(() => {
+        const chatNotification = { playSound: true };
+
+        webWidget = instanceRender(
+          <WebWidget
+            activeEmbed='chat'
+            chatNotification={chatNotification} />
+          );
+      });
+
+      it('plays the incoming_message sound', () => {
+        expect(playSoundSpy)
+          .toHaveBeenCalledWith('incoming_message');
+      });
+    });
+
+    describe('when props.chatNotification.playSound is false', () => {
+      beforeEach(() => {
+        const chatNotification = { playSound: false };
+
+        webWidget = instanceRender(
+          <WebWidget
+            activeEmbed='chat'
+            chatNotification={chatNotification} />
+          );
+      });
+
+      it('does not play the incoming_message sound', () => {
+        expect(playSoundSpy)
+          .not.toHaveBeenCalled();
       });
     });
   });
