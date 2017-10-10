@@ -1,4 +1,4 @@
-describe('store', () => {
+describe('audio-store', () => {
   let loadSound,
     playSound,
     getSound,
