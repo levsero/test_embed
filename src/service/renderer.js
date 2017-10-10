@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { load } from 'service/audio';
+import { audio } from 'service/audio';
 import { automaticAnswers } from 'embed/automaticAnswers/automaticAnswers';
 import { chat } from 'embed/chat/chat';
 import { ipm } from 'embed/ipm/ipm';
@@ -65,7 +65,7 @@ const loadAudio = (config) => {
 
   if (newChat) {
     try {
-      load('incoming_message', 'https://v2.zopim.com/widget/sounds/triad_gbd');
+      audio.loadSound('incoming_message', 'https://v2.zopim.com/widget/sounds/triad_gbd');
     } catch (_) { }
   }
 };

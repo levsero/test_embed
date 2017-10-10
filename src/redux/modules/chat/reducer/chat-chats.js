@@ -1,6 +1,6 @@
 import Map from 'core-js/library/es6/map';
 
-import { play } from 'service/audio';
+import { audio } from 'service/audio';
 import {
   SENT_CHAT_MSG_SUCCESS,
   SDK_CHAT_MSG,
@@ -31,7 +31,7 @@ const chats = (state = initialState, action) => {
     case SDK_CHAT_RATING:
     case SDK_CHAT_COMMENT:
     case SDK_CHAT_MSG:
-      play('incoming_message');
+      audio.playSound('incoming_message');
       return concatChat(state, action.payload.detail);
     case SDK_CHAT_MEMBER_JOIN:
     case SDK_CHAT_MEMBER_LEAVE:
