@@ -143,14 +143,16 @@ class Chat extends Component {
     const { chat, sendChatRating, endChat, accountSettings } = this.props;
     // Title in chat refers to the byline and display_name refers to the display title
     const { avatar_path, display_name, title } = accountSettings.concierge;
+    const displayName = _.has(display_name, 'toString') ? display_name.toString() : display_name; // eslint-disable-line camelcase
+    const byline = _.has(title, 'toString') ? title.toString() : title;
 
     return (
       <ChatHeader
         rating={chat.rating}
         updateRating={sendChatRating}
-        avatar={avatar_path} // eslint-disable-line
-        title={display_name} // eslint-disable-line
-        byline={title}
+        avatar={avatar_path} // eslint-disable-line camelcase
+        title={displayName}
+        byline={byline}
         endChat={endChat} />
     );
   }
