@@ -60,31 +60,22 @@ describe('chat redux actions', () => {
     jasmine.clock().uninstall();
   });
 
-  describe('showEndChatNotification', () => {
+  describe('toggleEndChatNotification', () => {
     let action;
 
     beforeEach(() => {
-      mockStore.dispatch(actions.showEndChatNotification());
+      mockStore.dispatch(actions.toggleEndChatNotification(true));
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type SHOW_END_CHAT_NOTIFICATION', () => {
+    it('dispatches an action of type TOGGLE_END_CHAT_NOTIFICATION', () => {
       expect(action.type)
-        .toEqual(actionTypes.SHOW_END_CHAT_NOTIFICATION);
-    });
-  });
-
-  describe('hideEndChatNotification', () => {
-    let action;
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.hideEndChatNotification());
-      action = mockStore.getActions()[0];
+        .toEqual(actionTypes.TOGGLE_END_CHAT_NOTIFICATION);
     });
 
-    it('dispatches an action of type HIDE_END_CHAT_NOTIFICATION', () => {
-      expect(action.type)
-        .toEqual(actionTypes.HIDE_END_CHAT_NOTIFICATION);
+    it('dispatches an action with payload of true', () => {
+      expect(action.payload)
+        .toEqual(true);
     });
   });
 
@@ -96,9 +87,9 @@ describe('chat redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type HIDE_END_CHAT_NOTIFICATION', () => {
+    it('dispatches an action of type TOGGLE_END_CHAT_NOTIFICATION', () => {
       expect(action.type)
-        .toEqual(actionTypes.HIDE_END_CHAT_NOTIFICATION);
+        .toEqual(actionTypes.TOGGLE_END_CHAT_NOTIFICATION);
     });
 
     it('calls endChat on the Web SDK', () => {

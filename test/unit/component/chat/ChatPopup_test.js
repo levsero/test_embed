@@ -154,28 +154,6 @@ describe('ChatPopup component', () => {
     });
   });
 
-  describe('isButtonPrimary', () => {
-    let component;
-
-    beforeEach(() => {
-      component = instanceRender(<ChatPopup />);
-    });
-
-    describe('when the button type is primary button', () => {
-      it('returns true', () => {
-        expect(component.isButtonPrimary('primary'))
-          .toEqual(true);
-      });
-    });
-
-    describe('when the button type is anything else', () => {
-      it('returns false', () => {
-        expect(component.isButtonPrimary('secondary'))
-          .toEqual(false);
-      });
-    });
-  });
-
   describe('renderCta', () => {
     let component;
 

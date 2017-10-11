@@ -1,13 +1,13 @@
-import { SHOW_END_CHAT_NOTIFICATION, HIDE_END_CHAT_NOTIFICATION } from '../chat-action-types';
+import { TOGGLE_END_CHAT_NOTIFICATION } from '../chat-action-types';
 
 const initialState = false;
 
 const showEndChatNotification = (state = initialState, action) => {
-  switch (action.type) {
-    case SHOW_END_CHAT_NOTIFICATION:
-      return true;
-    case HIDE_END_CHAT_NOTIFICATION:
-      return false;
+  const { type, payload } = action;
+
+  switch (type) {
+    case TOGGLE_END_CHAT_NOTIFICATION:
+      return payload;
     default:
       return state;
   }

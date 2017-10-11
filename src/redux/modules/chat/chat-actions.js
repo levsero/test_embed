@@ -14,8 +14,7 @@ import {
   SEND_CHAT_RATING_FAILURE,
   HIDE_CHAT_NOTIFICATION,
   UPDATE_CHAT_SCREEN,
-  SHOW_END_CHAT_NOTIFICATION,
-  HIDE_END_CHAT_NOTIFICATION
+  TOGGLE_END_CHAT_NOTIFICATION
 } from './chat-action-types';
 
 const chatTypingTimeout = 2000;
@@ -58,8 +57,11 @@ export const endChat = () => {
   };
 };
 
-export const hideEndChatNotification = () => {
-  return { type: HIDE_END_CHAT_NOTIFICATION };
+export const toggleEndChatNotification = (bool) => {
+  return {
+    type: TOGGLE_END_CHAT_NOTIFICATION,
+    payload: bool
+  };
 };
 
 export function sendMsg(msg) {
@@ -138,13 +140,9 @@ export function updateChatScreen(screen) {
   };
 }
 
-export function showEndChatNotification() {
-  return { type: SHOW_END_CHAT_NOTIFICATION };
-}
-
 export function acceptEndChatNotification() {
   return (dispatch) => {
-    dispatch(hideEndChatNotification());
+    dispatch(toggleEndChatNotification(false));
     dispatch(endChat());
   };
 }

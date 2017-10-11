@@ -19,8 +19,7 @@ import { endChat,
          updateCurrentMsg,
          sendChatRating,
          updateChatScreen,
-         showEndChatNotification,
-         hideEndChatNotification,
+         toggleEndChatNotification,
          acceptEndChatNotification } from 'src/redux/modules/chat';
 import { PRECHAT_SCREEN, CHATTING_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
 
@@ -55,8 +54,7 @@ class Chat extends Component {
     sendChatRating: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
     showEndNotification: PropTypes.bool.isRequired,
-    showEndChatNotification: PropTypes.func.isRequired,
-    hideEndChatNotification: PropTypes.func.isRequired,
+    toggleEndChatNotification: PropTypes.func.isRequired,
     acceptEndChatNotification: PropTypes.func.isRequired
   };
 
@@ -129,8 +127,10 @@ class Chat extends Component {
   renderChatMenu = () => {
     if (!this.state.showMenu) return;
 
+    const showChatEndFn = () => this.props.toggleEndChatNotification(true);
+
     return (
-      <ChatMenu endChatOnClick={this.props.showEndChatNotification} />
+      <ChatMenu endChatOnClick={showChatEndFn} />
     );
   }
 
@@ -220,10 +220,12 @@ class Chat extends Component {
   renderChatEndPopup = () => {
     if (!this.props.showEndNotification) return null;
 
+    const hideChatEndFn = () => this.props.toggleEndChatNotification(false);
+
     return (
       <ChatPopup
         className={styles.chatEndPopup}
-        leftCtaFn={this.props.hideEndChatNotification}
+        leftCtaFn={hideChatEndFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
         rightCtaFn={this.props.acceptEndChatNotification}
         rightCtaLabel={i18n.t('embeddable_framework.chat.form.endChat.button.end')}>
@@ -249,8 +251,7 @@ class Chat extends Component {
 }
 
 const actionCreators = {
-  showEndChatNotification,
-  hideEndChatNotification,
+  toggleEndChatNotification,
   acceptEndChatNotification,
   sendMsg,
   updateCurrentMsg,
