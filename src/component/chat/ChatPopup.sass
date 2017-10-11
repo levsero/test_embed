@@ -13,7 +13,8 @@
 }
 
 .ctaContainer {
-  composes: u-paddingBS u-flexJustifyCenter u-flex from global;
+  composes: u-flexJustifyCenter u-flex from global;
+  padding-bottom: #{16/$font-size}rem !important;
 }
 
 .ctaButton {
@@ -24,7 +25,7 @@
 .leftCtaBtn {
   composes: u-marginLL from global;
   composes: ctaButton;
-  margin-right: #{7/$font-size}rem !important;
+  margin-right: #{12/$font-size}rem !important;
 }
 
 .rightCtaBtn {

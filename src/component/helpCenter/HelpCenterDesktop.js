@@ -166,7 +166,7 @@ export class HelpCenterDesktop extends Component {
 
   renderAgentName = (agentName) => {
     return (agentName !== '')
-      ? <strong>{agentName}</strong>
+      ? <div className={styles.agentName}>{agentName}</div>
       : null;
   }
 
@@ -186,10 +186,11 @@ export class HelpCenterDesktop extends Component {
   renderProactiveContent = () => {
     const { avatar_path: avatarPath, display_name, proactive, msg } = this.props.notification; // eslint-disable-line camelcase
     const agentName = proactive ? display_name : ''; // eslint-disable-line camelcase
+    const avatarClasses = proactive ? styles.proactiveAvatar : styles.avatar;
 
     return (
       <div className={styles.proactiveContainer}>
-        <Avatar src={avatarPath} className={styles.avatar} />
+        <Avatar className={avatarClasses} src={avatarPath} />
         <div className={styles.agentContainer}>
           {this.renderAgentName(agentName)}
           {this.renderAgentMessage(msg)}

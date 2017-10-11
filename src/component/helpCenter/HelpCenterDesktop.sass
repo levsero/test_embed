@@ -38,6 +38,11 @@
   width: #{230/$font-size}rem;
 }
 
+.agentName {
+  composes: u-textBold from global;
+  padding-bottom: #{2/$font-size}rem;
+}
+
 .agentMessage {
   composes: u-posRelative u-nbfc from global;
   max-height: #{33/$font-size}rem;
@@ -70,16 +75,24 @@
 }
 
 .avatar {
-  composes: u-marginTM u-marginBS u-marginLL u-inlineBlock from global;
+  composes: u-paddingLN u-marginLM u-inlineBlock from global;
+  margin-top: #{11/$font-size}rem;
+  margin-bottom: #{11/$font-size}rem;
   margin-right: #{12/$font-size}rem;
-  height: #{40/$font-size}rem;
-  width: #{40/$font-size}rem;
+  height: #{36/$font-size}rem;
+  width: #{36/$font-size}rem;
 
   svg {
-    min-height: #{18/$font-size}rem;
-    min-width: #{18/$font-size}rem;
-    height: #{18/$font-size}rem;
-    width: #{18/$font-size}rem;
-    padding: #{9/$font-size}rem 0 0 #{1.5/$font-size}rem;
+    min-height: #{15/$font-size}rem;
+    min-width: #{15/$font-size}rem;
+    height: #{15/$font-size}rem;
+    width: #{15/$font-size}rem;
+    padding-top: #{8/$font-size}rem;
+    padding-left: #{0.5/$font-size}rem;
   }
+}
+
+.proactiveAvatar {
+  composes: u-marginVL from global;
+  composes: avatar;
 }
