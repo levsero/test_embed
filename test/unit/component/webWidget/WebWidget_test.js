@@ -109,7 +109,7 @@ describe('WebWidget component', () => {
         getChatNotification: noop
       },
       'service/audio': {
-        audio: { playSound: playSoundSpy }
+        audio: { play: playSoundSpy }
       }
     });
 

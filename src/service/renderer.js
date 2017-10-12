@@ -65,7 +65,7 @@ const loadAudio = (config) => {
 
   if (newChat) {
     try {
-      audio.loadSound('incoming_message', 'https://v2.zopim.com/widget/sounds/triad_gbd');
+      audio.load('incoming_message', 'https://v2.zopim.com/widget/sounds/triad_gbd');
     } catch (_) { }
   }
 };

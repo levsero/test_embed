@@ -409,7 +409,7 @@ class WebWidget extends Component {
     const style = { width };
 
     if (this.props.chatNotification.playSound) {
-      audio.playSound('incoming_message');
+      audio.play('incoming_message');
     }
 
     return (

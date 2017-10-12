@@ -76,7 +76,7 @@ describe('renderer', () => {
       },
       'lodash': _,
       'service/audio': {
-        audio: { loadSound: loadSoundSpy }
+        audio: { load: loadSoundSpy }
       },
       'service/logging': {
         logging: jasmine.createSpyObj('logging', ['init', 'error'])
