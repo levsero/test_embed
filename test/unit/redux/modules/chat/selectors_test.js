@@ -18,7 +18,8 @@ describe('chat selectors', () => {
       nick: 'agent:007',
       display_name: 'bond',
       msg: 'how are you',
-      show: true
+      show: true,
+      playSound: true
     };
 
     describe('returns an object', () => {
@@ -41,7 +42,8 @@ describe('chat selectors', () => {
             nick: 'agent:007',
             display_name: 'bond',
             msg: 'how are you',
-            show: true
+            show: true,
+            playSound: true
           }));
       });
 

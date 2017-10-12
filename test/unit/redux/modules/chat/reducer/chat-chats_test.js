@@ -61,22 +61,21 @@ describe('chat reducer chats', () => {
     });
 
     describe('chat SDK actions', () => {
+      let state,
+        detail;
       const sdkActionTypes = [
         chatActionTypes.SDK_CHAT_FILE,
         chatActionTypes.SDK_CHAT_WAIT_QUEUE,
         chatActionTypes.SDK_CHAT_REQUEST_RATING,
+        chatActionTypes.SDK_CHAT_MSG,
         chatActionTypes.SDK_CHAT_RATING,
         chatActionTypes.SDK_CHAT_COMMENT,
-        chatActionTypes.SDK_CHAT_MSG,
         chatActionTypes.SDK_CHAT_MEMBER_JOIN,
         chatActionTypes.SDK_CHAT_MEMBER_LEAVE
       ];
 
       sdkActionTypes.forEach((actionType) => {
         describe(`when a ${actionType} action is dispatched`, () => {
-          let state,
-            detail;
-
           beforeEach(() => {
             detail = {
               timestamp: Date.now(),

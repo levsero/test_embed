@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { audio } from 'service/audio';
 import { automaticAnswers } from 'embed/automaticAnswers/automaticAnswers';
 import { chat } from 'embed/chat/chat';
 import { ipm } from 'embed/ipm/ipm';
@@ -59,6 +60,16 @@ function parseConfig(config) {
   return rendererConfig;
 }
 
+const loadAudio = (config) => {
+  const { newChat } = config;
+
+  if (newChat) {
+    try {
+      audio.load('incoming_message', 'https://v2.zopim.com/widget/sounds/triad_gbd');
+    } catch (_) { }
+  }
+};
+
 function init(config) {
   if (!initialised) {
     if (config.webWidgetCustomizations) {
@@ -67,6 +78,7 @@ function init(config) {
 
     i18n.setCustomTranslations();
     i18n.setLocale(config.locale);
+    loadAudio(config);
 
     const { newChat, embeds = {} } = config;
     const useNewChatEmbed = !!embeds.zopimChat && newChat;
