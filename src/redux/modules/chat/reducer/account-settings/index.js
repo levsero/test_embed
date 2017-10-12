@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 
 import concierge from './concierge';
-import preChatForm from './prechat-form';
+import prechatForm from './prechat-form';
 
 export default combineReducers({
   concierge,
-  preChatForm
+  prechatForm
 });
 

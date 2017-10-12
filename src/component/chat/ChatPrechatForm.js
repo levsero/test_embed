@@ -11,11 +11,16 @@ import { locals as styles } from './ChatPrechatForm.sass';
 
 export class ChatPrechatForm extends Component {
   static propTypes = {
-    onFormCompleted: PropTypes.func,
-    visitor: PropTypes.object
+    form: PropTypes.object,
+    greetingMessage: PropTypes.string,
+    visitor: PropTypes.object,
+    onFormCompleted: PropTypes.func
   };
 
   static defaultProps = {
+    form: {},
+    greetingMessage: '',
+    visitor: {},
     onFormCompleted: () => {}
   };
 
@@ -61,6 +66,57 @@ export class ChatPrechatForm extends Component {
     });
   }
 
+  renderNameField = () => {
+    const nameData = this.props.form.name;
+
+    return nameData
+         ? <Field
+            placeholder={i18n.t('embeddable_framework.common.textLabel.name', { fallback: 'Your name' })}
+            required={nameData.required}
+            value={this.state.formState.name}
+            name={nameData.name} />
+         : null;
+  }
+
+  renderEmailField = () => {
+    const emailData = this.props.form.email;
+
+    return emailData
+         ? <Field
+            placeholder={i18n.t('embeddable_framework.common.textLabel.email', { fallback: 'Email' })}
+            required={emailData.required}
+            value={this.state.formState.email}
+            pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
+            name={emailData.name} />
+         : null;
+  }
+
+  renderPhoneField = () => {
+    const phoneData = this.props.form.phone;
+
+    return phoneData
+         ? <Field
+            placeholder={i18n.t('embeddable_framework.common.textLabel.phoneNumber', { fallback: 'Phone Number' })}
+            required={phoneData.required}
+            type='number'
+            value={this.state.formState.phone}
+            name={phoneData.name} />
+         : null;
+  }
+
+  renderMessageField = () => {
+    const messageData = this.props.form.message;
+
+    return messageData
+         ? <Field
+            placeholder={i18n.t('embeddable_framework.common.textLabel.message', { fallback: 'Message' })}
+            required={messageData.required}
+            value={this.state.formState.message}
+            input={<textarea rows='3' />}
+            name={messageData.name} />
+         : null;
+  }
+
   render = () => {
     return (
       <form
@@ -69,29 +125,10 @@ export class ChatPrechatForm extends Component {
         onChange={this.handleFormChange}
         ref={(el) => { this.form = el; }}
         className={`${styles.form}`}>
-        <Field
-          placeholder={i18n.t('embeddable_framework.common.textLabel.name', { fallback: 'Your name' })}
-          required={true}
-          value={this.state.formState.display_name}
-          name='display_name' />
-        <Field
-          placeholder={i18n.t('embeddable_framework.common.textLabel.email', { fallback: 'Email' })}
-          required={true}
-          value={this.state.formState.email}
-          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
-          name='email' />
-        <Field
-          placeholder={i18n.t('embeddable_framework.common.textLabel.phoneNumber', { fallback: 'Phone Number' })}
-          required={true}
-          type='number'
-          value={this.state.formState.phone}
-          name='phone' />
-        <Field
-          placeholder={i18n.t('embeddable_framework.common.textLabel.message', { fallback: 'Message' })}
-          required={true}
-          value={this.state.formState.message}
-          input={<textarea rows='3' />}
-          name='message' />
+        {this.renderNameField()}
+        {this.renderEmailField()}
+        {this.renderPhoneField()}
+        {this.renderMessageField()}
         <Button
           label={i18n.t('embeddable_framework.chat.preChat.online.button.startChat')}
           disabled={!this.state.valid}

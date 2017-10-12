@@ -22,17 +22,23 @@ import { endChat,
          toggleEndChatNotification,
          acceptEndChatNotification } from 'src/redux/modules/chat';
 import { PRECHAT_SCREEN, CHATTING_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
+import { getPrechatFormFields } from 'src/redux/modules/chat/selectors';
 
 import { locals as styles } from './Chat.sass';
 
 const mapStateToProps = (state) => {
+  const { chat } = state;
+  const { accountSettings } = chat;
+  const { prechatForm } = chat.accountSettings;
+  const prechatFormFields = getPrechatFormFields(state);
+
   return {
-    chat: state.chat,
-    screen: state.chat.screen,
-    connection: state.chat.connection,
-    accountSettings: state.chat.accountSettings,
-    showEndNotification: state.chat.showEndNotification
-  };
+    chat: chat,
+    screen: chat.screen,
+    connection: chat.connection,
+    accountSettings: accountSettings,
+    prechatFormSettings: { ...prechatForm, form: prechatFormFields },
+    showEndNotification: chat.showEndNotification
 };
 
 class Chat extends Component {
@@ -42,6 +48,7 @@ class Chat extends Component {
     connection: PropTypes.string.isRequired,
     endChat: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
+    prechatFormSettings: PropTypes.object.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
     newDesign: PropTypes.bool,
@@ -169,12 +176,16 @@ class Chat extends Component {
   renderPrechatScreen = () => {
     if (this.props.screen !== PRECHAT_SCREEN) return;
 
+    const { form, message } = this.props.prechatFormSettings;
+
     return (
       <ScrollContainer
         getFrameDimensions={this.props.getFrameDimensions}
         newDesign={this.props.newDesign}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
         <ChatPrechatForm
+          form={form}
+          greetingMessage={message}
           visitor={this.props.chat.visitor}
           onFormCompleted={this.onPrechatFormComplete} />
       </ScrollContainer>

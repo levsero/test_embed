@@ -11,6 +11,7 @@ const getChatsByAgent = (state) => {
 
   return _.groupBy(chats, (chat) => chat.nick);
 };
+const getPrechatSettings = (state) => state.chat.accountSettings.prechatForm;
 
 export const getChatNotification = createSelector(
   [getNotification, getAgents, getChatsByAgent],
@@ -24,5 +25,14 @@ export const getChatNotification = createSelector(
       ...agents[notification.nick],
       proactive
     };
+  }
+);
+
+export const getPrechatFormFields = createSelector(
+  [getPrechatSettings],
+  (prechatSettings) => {
+    const { form } = prechatSettings;
+
+    return _.keyBy(_.values(form), 'name');
   }
 );
