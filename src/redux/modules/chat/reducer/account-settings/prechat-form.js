@@ -4,7 +4,7 @@ const initialState = {
   form: {},
   message: '',
   profile_required: false,
-  required: true
+  required: false
 };
 
 const prechatForm = (state = initialState, action) => {
