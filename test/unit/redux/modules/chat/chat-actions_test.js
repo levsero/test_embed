@@ -60,6 +60,44 @@ describe('chat redux actions', () => {
     jasmine.clock().uninstall();
   });
 
+  describe('toggleEndChatNotification', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.toggleEndChatNotification(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type TOGGLE_END_CHAT_NOTIFICATION', () => {
+      expect(action.type)
+        .toEqual(actionTypes.TOGGLE_END_CHAT_NOTIFICATION);
+    });
+
+    it('dispatches an action with payload of true', () => {
+      expect(action.payload)
+        .toEqual(true);
+    });
+  });
+
+  describe('acceptEndChatNotification', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.acceptEndChatNotification());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type TOGGLE_END_CHAT_NOTIFICATION', () => {
+      expect(action.type)
+        .toEqual(actionTypes.TOGGLE_END_CHAT_NOTIFICATION);
+    });
+
+    it('calls endChat on the Web SDK', () => {
+      expect(mockEndChat)
+        .toHaveBeenCalled();
+    });
+  });
+
   describe('updateCurrentMsg', () => {
     let message,
       action;
@@ -168,7 +206,7 @@ describe('chat redux actions', () => {
       mockStore.dispatch(actions.endChat());
     });
 
-    it('calls sendChatMsg on the Web SDK', () => {
+    it('calls endChat on the Web SDK', () => {
       expect(mockEndChat)
         .toHaveBeenCalled();
     });

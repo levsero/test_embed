@@ -13,7 +13,8 @@ import {
   SEND_CHAT_RATING_SUCCESS,
   SEND_CHAT_RATING_FAILURE,
   HIDE_CHAT_NOTIFICATION,
-  UPDATE_CHAT_SCREEN
+  UPDATE_CHAT_SCREEN,
+  TOGGLE_END_CHAT_NOTIFICATION
 } from './chat-action-types';
 
 const chatTypingTimeout = 2000;
@@ -44,7 +45,26 @@ const sendMsgFailure = (err) => {
   };
 };
 
-export const sendMsg = (msg) => {
+export const endChat = () => {
+  return (dispatch) => {
+    zChat.endChat((err) => {
+      if (!err) {
+        dispatch({ type: END_CHAT_SUCCESS });
+      } else {
+        dispatch({ type: END_CHAT_FAILURE });
+      }
+    });
+  };
+};
+
+export const toggleEndChatNotification = (bool) => {
+  return {
+    type: TOGGLE_END_CHAT_NOTIFICATION,
+    payload: bool
+  };
+};
+
+export function sendMsg(msg) {
   return (dispatch, getState) => {
     dispatch(sendMsgRequest());
 
@@ -58,9 +78,9 @@ export const sendMsg = (msg) => {
       }
     });
   };
-};
+}
 
-export const updateCurrentMsg = (msg) => {
+export function updateCurrentMsg(msg) {
   return dispatch => {
     dispatch({
       type: UPDATE_CURRENT_MSG,
@@ -69,18 +89,6 @@ export const updateCurrentMsg = (msg) => {
 
     zChat.sendTyping(true);
     setTimeout(() => zChat.sendTyping(false), chatTypingTimeout);
-  };
-};
-
-export function endChat() {
-  return (dispatch) => {
-    zChat.endChat((err) => {
-      if (!err) {
-        dispatch({ type: END_CHAT_SUCCESS });
-      } else {
-        dispatch({ type: END_CHAT_FAILURE });
-      }
-    });
   };
 }
 
@@ -129,5 +137,12 @@ export function updateChatScreen(screen) {
   return {
     type: UPDATE_CHAT_SCREEN,
     payload: { screen }
+  };
+}
+
+export function acceptEndChatNotification() {
+  return (dispatch) => {
+    dispatch(toggleEndChatNotification(false));
+    dispatch(endChat());
   };
 }

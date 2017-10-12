@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { Avatar } from 'component/Avatar';
 import { Button } from 'component/button/Button';
 import { ButtonGroup } from 'component/button/ButtonGroup';
 import { ChannelChoicePopupDesktop } from 'component/channelChoice/ChannelChoicePopupDesktop';
@@ -62,6 +63,8 @@ export class HelpCenterDesktop extends Component {
 
   constructor(props, context) {
     super(props, context);
+
+    this.agentMessage = null;
   }
 
   componentDidUpdate = () => {
@@ -161,6 +164,41 @@ export class HelpCenterDesktop extends Component {
     );
   }
 
+  renderAgentName = (agentName) => {
+    return (agentName !== '')
+      ? <div className={styles.agentName}>{agentName}</div>
+      : null;
+  }
+
+  renderAgentMessage = (message) => {
+    const { scrollHeight, clientHeight } = this.agentMessage || {};
+    const className = this.agentMessage && (scrollHeight > clientHeight)
+      ? `${styles.agentMessage} ${styles.agentMessageOverflow}`
+      : styles.agentMessage;
+
+    return (
+      <div ref={(el) => this.agentMessage = el} className={className}>
+        {message}
+      </div>
+    );
+  }
+
+  renderProactiveContent = () => {
+    const { avatar_path: avatarPath, display_name, proactive, msg } = this.props.notification; // eslint-disable-line camelcase
+    const agentName = proactive ? display_name : ''; // eslint-disable-line camelcase
+    const avatarClasses = proactive ? styles.proactiveAvatar : styles.avatar;
+
+    return (
+      <div className={styles.proactiveContainer}>
+        <Avatar className={avatarClasses} src={avatarPath} />
+        <div className={styles.agentContainer}>
+          {this.renderAgentName(agentName)}
+          {this.renderAgentMessage(msg)}
+        </div>
+      </div>
+    );
+  }
+
   renderChatNotification = () => {
     const { notification, hideChatNotification } = this.props;
 
@@ -176,11 +214,13 @@ export class HelpCenterDesktop extends Component {
         <ChatPopup
           showCta={proactive}
           className={className}
-          agentName={notification.display_name}
-          message={notification.msg}
-          avatarPath={notification.avatar_path}
-          respondFn={this.handleChatNotificationRespond}
-          dismissFn={hideChatNotification} />
+          leftCtaLabel={i18n.t('embeddable_framework.chat.popup.button.dismiss')}
+          leftCtaFn={hideChatNotification}
+          rightCtaLabel={i18n.t('embeddable_framework.chat.popup.button.reply')}
+          rightCtaFn={this.handleChatNotificationRespond}
+          childrenOnClick={this.handleChatNotificationRespond}>
+          {this.renderProactiveContent()}
+        </ChatPopup>
       );
     }
 

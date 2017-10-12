@@ -9,6 +9,7 @@ import { ChatLog } from 'component/chat/ChatLog';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ChatMenu } from 'component/chat/ChatMenu';
 import { ChatPrechatForm } from 'component/chat/ChatPrechatForm';
+import { ChatPopup } from 'component/chat/ChatPopup';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
 import { endChat,
@@ -17,7 +18,9 @@ import { endChat,
          updateAccountSettings,
          updateCurrentMsg,
          sendChatRating,
-         updateChatScreen } from 'src/redux/modules/chat';
+         updateChatScreen,
+         toggleEndChatNotification,
+         acceptEndChatNotification } from 'src/redux/modules/chat';
 import { PRECHAT_SCREEN, CHATTING_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
 
 import { locals as styles } from './Chat.sass';
@@ -27,7 +30,8 @@ const mapStateToProps = (state) => {
     chat: state.chat,
     screen: state.chat.screen,
     connection: state.chat.connection,
-    accountSettings: state.chat.accountSettings
+    accountSettings: state.chat.accountSettings,
+    showEndNotification: state.chat.showEndNotification
   };
 };
 
@@ -48,7 +52,10 @@ class Chat extends Component {
     updateFrameSize: PropTypes.func,
     updateAccountSettings: PropTypes.func.isRequired,
     sendChatRating: PropTypes.func.isRequired,
-    updateChatScreen: PropTypes.func.isRequired
+    updateChatScreen: PropTypes.func.isRequired,
+    showEndNotification: PropTypes.bool.isRequired,
+    toggleEndChatNotification: PropTypes.func.isRequired,
+    acceptEndChatNotification: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -120,8 +127,10 @@ class Chat extends Component {
   renderChatMenu = () => {
     if (!this.state.showMenu) return;
 
+    const showChatEndFn = () => this.props.toggleEndChatNotification(true);
+
     return (
-      <ChatMenu />
+      <ChatMenu endChatOnClick={showChatEndFn} />
     );
   }
 
@@ -208,6 +217,25 @@ class Chat extends Component {
     );
   }
 
+  renderChatEndPopup = () => {
+    if (!this.props.showEndNotification) return null;
+
+    const hideChatEndFn = () => this.props.toggleEndChatNotification(false);
+
+    return (
+      <ChatPopup
+        className={styles.chatEndPopup}
+        leftCtaFn={hideChatEndFn}
+        leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
+        rightCtaFn={this.props.acceptEndChatNotification}
+        rightCtaLabel={i18n.t('embeddable_framework.chat.form.endChat.button.end')}>
+        <div className={styles.chatEndPopupDescription}>
+          {i18n.t('embeddable_framework.chat.form.endChat.description')}
+        </div>
+      </ChatPopup>
+    );
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
@@ -216,12 +244,15 @@ class Chat extends Component {
         {this.renderPrechatScreen()}
         {this.renderChatScreen()}
         {this.renderChatMenu()}
+        {this.renderChatEndPopup()}
       </div>
     );
   }
 }
 
 const actionCreators = {
+  toggleEndChatNotification,
+  acceptEndChatNotification,
   sendMsg,
   updateCurrentMsg,
   updateAccountSettings,

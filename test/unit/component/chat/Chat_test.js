@@ -46,6 +46,9 @@ describe('Chat component', () => {
       'component/container/Container': {
         Container: noopReactComponent()
       },
+      'component/chat/ChatPopup': {
+        ChatPopup: noopReactComponent()
+      },
       'component/container/ScrollContainer': {
         ScrollContainer: scrollContainerComponent()
       },
@@ -273,6 +276,32 @@ describe('Chat component', () => {
         it('returns the chat menu', () => {
           expect(component.renderChatMenu())
             .not.toBeFalsy();
+        });
+      });
+    });
+
+    describe('renderChatEndPopup', () => {
+      let component;
+
+      describe('when the notification should be shown', () => {
+        beforeEach(() => {
+          component = domRender(<Chat showEndNotification={true} />);
+        });
+
+        it('shows the chat end notification component', () => {
+          expect(component.renderChatEndPopup())
+            .not.toBeNull();
+        });
+      });
+
+      describe('when the notification should not be shown', () => {
+        beforeEach(() => {
+          component = domRender(<Chat />);
+        });
+
+        it('shows the chat end notification component', () => {
+          expect(component.renderChatEndPopup())
+            .toBeNull();
         });
       });
     });
