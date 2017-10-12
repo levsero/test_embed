@@ -40,7 +40,7 @@ describe('audio-store', () => {
       });
     });
 
-    describe('when a sound with the same key does not already exist', () => {
+    describe('when a sound with a key that does not already exist', () => {
       describe('when the browser supports any of the available audio types', () => {
         let audio;
 
