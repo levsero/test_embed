@@ -1,7 +1,7 @@
 import { UPDATE_CHAT_SCREEN } from '../chat-action-types';
-import { PRECHAT_SCREEN } from './chat-screen-types';
+import { CHATTING_SCREEN } from './chat-screen-types';
 
-const initialState = PRECHAT_SCREEN;
+const initialState = CHATTING_SCREEN;
 
 const screen = (state = initialState, action) => {
   switch (action.type) {

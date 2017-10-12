@@ -16,6 +16,7 @@ import {
   UPDATE_CHAT_SCREEN,
   TOGGLE_END_CHAT_NOTIFICATION
 } from './chat-action-types';
+import { PRECHAT_SCREEN } from './reducer/chat-screen-types';
 
 const chatTypingTimeout = 2000;
 
@@ -123,9 +124,17 @@ export function sendChatRating(rating = null) {
 }
 
 export function updateAccountSettings() {
-  return {
-    type: UPDATE_ACCOUNT_SETTINGS,
-    payload: zChat._getAccountSettings()
+  const accountSettings = zChat._getAccountSettings();
+
+  return (dispatch) => {
+    if (accountSettings.forms.pre_chat_form.required) {
+      dispatch(updateChatScreen(PRECHAT_SCREEN));
+    }
+
+    dispatch({
+      type: UPDATE_ACCOUNT_SETTINGS,
+      payload: accountSettings
+    });
   };
 }
 

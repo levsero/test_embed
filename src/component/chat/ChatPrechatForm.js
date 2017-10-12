@@ -66,6 +66,14 @@ export class ChatPrechatForm extends Component {
     });
   }
 
+  renderGreetingMessage = () => {
+    const { greetingMessage } = this.props;
+
+    return greetingMessage !== ''
+         ? <div className={styles.greetingMessage}>{greetingMessage}</div>
+         : null;
+  }
+
   renderNameField = () => {
     const nameData = this.props.form.name;
 
@@ -125,6 +133,7 @@ export class ChatPrechatForm extends Component {
         onChange={this.handleFormChange}
         ref={(el) => { this.form = el; }}
         className={`${styles.form}`}>
+        {this.renderGreetingMessage()}
         {this.renderNameField()}
         {this.renderEmailField()}
         {this.renderPhoneField()}
