@@ -91,7 +91,7 @@ describe('ChatPopup component', () => {
           componentNode = ReactDOM.findDOMNode(component);
         });
 
-        it('calls leftCtaFn when ctaBtn is clicked', () => {
+        it('calls rightCtaFn when ctaBtn is clicked', () => {
           componentNode.querySelector('.rightCtaBtnClasses').click();
 
           expect(rightCtaFnSpy)
