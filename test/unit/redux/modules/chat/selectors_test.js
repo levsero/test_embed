@@ -1,5 +1,6 @@
 describe('chat selectors', () => {
-  let getChatNotification;
+  let getChatNotification,
+    getPrechatFormFields;
 
   beforeEach(() => {
     mockery.enable();
@@ -7,7 +8,11 @@ describe('chat selectors', () => {
     const chatSelectorsPath = buildSrcPath('redux/modules/chat/selectors');
 
     mockery.registerAllowable(chatSelectorsPath);
-    getChatNotification = requireUncached(chatSelectorsPath).getChatNotification;
+
+    const selectors = requireUncached(chatSelectorsPath);
+
+    getChatNotification = selectors.getChatNotification;
+    getPrechatFormFields = selectors.getPrechatFormFields;
   });
 
   describe('getChatNotification', () => {
@@ -122,6 +127,37 @@ describe('chat selectors', () => {
         expect(result.proactive)
           .toBe(true);
       });
+    });
+  });
+
+  describe('getPrechatFormFields', () => {
+    let result;
+    const mockAccountSettings = {
+      prechatForm: {
+        form: {
+          0: { name: 'name', required: true },
+          1: { name: 'email', required: true },
+          2: { name: 'phone', label: 'Phone Number', required: false }
+        }
+      }
+    };
+    const expectedResult = {
+      name: { name: 'name', required: true },
+      email: { name: 'email', required: true },
+      phone: { name: 'phone', label: 'Phone Number', required: false }
+    };
+
+    beforeEach(() => {
+      result = getPrechatFormFields({
+        chat: {
+          accountSettings: mockAccountSettings
+        }
+      });
+    });
+
+    it('returns prechat fields grouped by their name', () => {
+      expect(result)
+        .toEqual(expectedResult);
     });
   });
 });
