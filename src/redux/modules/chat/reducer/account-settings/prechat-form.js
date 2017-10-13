@@ -1,7 +1,13 @@
 import { UPDATE_ACCOUNT_SETTINGS } from '../../chat-action-types';
 
+const initialFieldProps = { name: '', required: false };
 const initialState = {
-  form: {},
+  form: {
+    name: initialFieldProps,
+    email: initialFieldProps,
+    phone: initialFieldProps,
+    message: initialFieldProps
+  },
   message: '',
   profile_required: false,
   required: false

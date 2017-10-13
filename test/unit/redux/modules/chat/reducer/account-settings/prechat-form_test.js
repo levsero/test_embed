@@ -24,9 +24,16 @@ describe('chat reducer accountSettings prechatForm', () => {
     let state;
 
     describe('initial state', () => {
-      it('form is set to an empty object', () => {
+      const defaultFieldProps = { name: '', required: false };
+
+      it('form is set to an object with default field props', () => {
         expect(initialState.form)
-          .toEqual({});
+          .toEqual({
+            name: defaultFieldProps,
+            email: defaultFieldProps,
+            phone: defaultFieldProps,
+            message: defaultFieldProps
+          });
       });
 
       it('message is set to an empty string', () => {

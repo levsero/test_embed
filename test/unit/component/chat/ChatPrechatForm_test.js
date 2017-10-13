@@ -1,7 +1,8 @@
 describe('ChatPrechatForm component', () => {
   let ChatPrechatForm,
     mockForm,
-    mockFormValidity;
+    mockFormValidity,
+    mockFormProp;
   const ChatPrechatFormPath = buildSrcPath('component/chat/ChatPrechatForm');
 
   beforeEach(() => {
@@ -18,7 +19,17 @@ describe('ChatPrechatForm component', () => {
         Button: noopReactComponent()
       },
       'component/field/Field': {
-        Field: noopReactComponent()
+        Field: class extends Component {
+          render() {
+            return this.props.input
+                 ? React.cloneElement(this.props.input, _.extend({}, this.props))
+                 : <input
+                    name={this.props.name}
+                    required={this.props.required}
+                    pattern={this.props.pattern}
+                    type={this.props.type} />;
+          }
+        }
       },
       'service/i18n': {
         i18n: {
@@ -26,6 +37,13 @@ describe('ChatPrechatForm component', () => {
         }
       }
     });
+
+    mockFormProp = {
+      name: { name: 'name', required: true },
+      email: { name: 'email', required: true },
+      phone: { name: 'phone', label: 'Phone Number', required: false },
+      message: { name: 'message', label: 'Message', required: false }
+    };
 
     mockForm = {
       checkValidity: () => mockFormValidity,
@@ -59,7 +77,7 @@ describe('ChatPrechatForm component', () => {
     const visitor = { display_name: 'Arya Stark', email: 'no@name.x' };
 
     beforeEach(() => {
-      component = instanceRender(<ChatPrechatForm />);
+      component = instanceRender(<ChatPrechatForm form={mockFormProp} />);
       component.setState({ formState: { phone: '1234' } });
     });
 
@@ -95,7 +113,7 @@ describe('ChatPrechatForm component', () => {
     let component;
 
     beforeEach(() => {
-      component = instanceRender(<ChatPrechatForm />);
+      component = instanceRender(<ChatPrechatForm form={mockFormProp} />);
       mockFormValidity = true;
       component.form = mockForm;
 
@@ -125,7 +143,7 @@ describe('ChatPrechatForm component', () => {
 
     beforeEach(() => {
       onFormCompletedSpy = jasmine.createSpy('onFormCompleted');
-      component = instanceRender(<ChatPrechatForm onFormCompleted={onFormCompletedSpy} />);
+      component = instanceRender(<ChatPrechatForm form={mockFormProp} onFormCompleted={onFormCompletedSpy} />);
 
       component.setState({ formState: 'mockFormState' });
       component.handleFormSubmit({ preventDefault: noop });
@@ -134,6 +152,94 @@ describe('ChatPrechatForm component', () => {
     it('calls onFormCompleted spy with state.formState', () => {
       expect(onFormCompletedSpy)
         .toHaveBeenCalledWith('mockFormState');
+    });
+  });
+
+  describe('renders a form', () => {
+    let component, node, field;
+
+    beforeEach(() => {
+      component = domRender(<ChatPrechatForm form={mockFormProp} />);
+      node = ReactDOM.findDOMNode(component);
+    });
+
+    describe('with a name field', () => {
+      beforeEach(() => {
+        field = node.querySelector('input[name="name"]');
+      });
+
+      it('sets the name attribute', () => {
+        expect(field.name)
+          .toBe('name');
+      });
+
+      it('sets the required attribute', () => {
+        expect(field.hasAttribute('required'))
+          .toBe(true);
+      });
+    });
+
+    describe('with an email field', () => {
+      beforeEach(() => {
+        field = node.querySelector('input[name="email"]');
+      });
+
+      it('sets the name attribute', () => {
+        expect(field.name)
+          .toBe('email');
+      });
+
+      it('sets the required attribute', () => {
+        expect(field.hasAttribute('required'))
+          .toBe(true);
+      });
+
+      it('sets the pattern attribute', () => {
+        expect(field.hasAttribute('pattern'))
+          .toBe(true);
+      });
+    });
+
+    describe('with a phone field', () => {
+      beforeEach(() => {
+        field = node.querySelector('input[name="phone"]');
+      });
+
+      it('sets the name attribute', () => {
+        expect(field.name)
+          .toBe('phone');
+      });
+
+      it('sets the required attribute', () => {
+        expect(field.hasAttribute('required'))
+          .toBe(false);
+      });
+
+      it('sets the type attribute', () => {
+        expect(field.type)
+          .toBe('number');
+      });
+    });
+
+    describe('with a message field', () => {
+      beforeEach(() => {
+        field = node.querySelector('textarea[name="message"]');
+      });
+
+      it('sets the name attribute', () => {
+        expect(field.name)
+          .toBe('message');
+      });
+
+      it('sets the required attribute', () => {
+        expect(field.hasAttribute('required'))
+          .toBe(false);
+      });
+
+      it('sets the input attribute', () => {
+        expect(field.rows)
+          .toBe(3);
+      });
     });
   });
 });

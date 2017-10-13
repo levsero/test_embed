@@ -77,52 +77,52 @@ export class ChatPrechatForm extends Component {
   renderNameField = () => {
     const nameData = this.props.form.name;
 
-    return nameData
-         ? <Field
-            placeholder={i18n.t('embeddable_framework.common.textLabel.name', { fallback: 'Your name' })}
-            required={nameData.required}
-            value={this.state.formState.name}
-            name={nameData.name} />
-         : null;
+    return (
+      <Field
+        placeholder={i18n.t('embeddable_framework.common.textLabel.name', { fallback: 'Your name' })}
+        required={nameData.required}
+        value={this.state.formState.name}
+        name={nameData.name} />
+    );
   }
 
   renderEmailField = () => {
     const emailData = this.props.form.email;
 
-    return emailData
-         ? <Field
-            placeholder={i18n.t('embeddable_framework.common.textLabel.email', { fallback: 'Email' })}
-            required={emailData.required}
-            value={this.state.formState.email}
-            pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
-            name={emailData.name} />
-         : null;
+    return (
+      <Field
+        placeholder={i18n.t('embeddable_framework.common.textLabel.email', { fallback: 'Email' })}
+        required={emailData.required}
+        value={this.state.formState.email}
+        pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
+        name={emailData.name} />
+    );
   }
 
   renderPhoneField = () => {
     const phoneData = this.props.form.phone;
 
-    return phoneData
-         ? <Field
-            placeholder={i18n.t('embeddable_framework.common.textLabel.phoneNumber', { fallback: 'Phone Number' })}
-            required={phoneData.required}
-            type='number'
-            value={this.state.formState.phone}
-            name={phoneData.name} />
-         : null;
+    return (
+      <Field
+        placeholder={i18n.t('embeddable_framework.common.textLabel.phoneNumber', { fallback: 'Phone Number' })}
+        required={phoneData.required}
+        type='number'
+        value={this.state.formState.phone}
+        name={phoneData.name} />
+    );
   }
 
   renderMessageField = () => {
     const messageData = this.props.form.message;
 
-    return messageData
-         ? <Field
-            placeholder={i18n.t('embeddable_framework.common.textLabel.message', { fallback: 'Message' })}
-            required={messageData.required}
-            value={this.state.formState.message}
-            input={<textarea rows='3' />}
-            name={messageData.name} />
-         : null;
+    return (
+      <Field
+        placeholder={i18n.t('embeddable_framework.common.textLabel.message', { fallback: 'Message' })}
+        required={messageData.required}
+        value={this.state.formState.message}
+        input={<textarea rows='3' />}
+        name={messageData.name} />
+    );
   }
 
   render = () => {

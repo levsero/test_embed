@@ -39,6 +39,7 @@ const mapStateToProps = (state) => {
     accountSettings: accountSettings,
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
     showEndNotification: chat.showEndNotification
+  };
 };
 
 class Chat extends Component {
