@@ -5,7 +5,7 @@ const prechatScreen = 'widget/chat/PRECHAT_SCREEN';
 const chattingScreen = 'widget/chat/CHATTING_SCREEN';
 
 describe('Chat component', () => {
-  let Chat, chats, chatProp;
+  let Chat, chats, chatProp, prechatFormSettingsProp;
 
   const chatPath = buildSrcPath('component/chat/Chat');
 
@@ -16,6 +16,7 @@ describe('Chat component', () => {
     mockery.enable();
 
     chats = new Map();
+    prechatFormSettingsProp = { form: {}, required: false };
     chatProp = { chats: chats };
 
     initMockRegistry({
@@ -57,6 +58,9 @@ describe('Chat component', () => {
         updateCurrentMsg: noop,
         setVisitorInfo: noop,
         updateChatScreen: updateChatScreenSpy
+      },
+      'src/redux/modules/chat/selectors': {
+        getPrechatFormFields: noop
       },
       'src/redux/modules/chat/reducer/chat-screen-types': {
         PRECHAT_SCREEN: prechatScreen,
@@ -123,7 +127,12 @@ describe('Chat component', () => {
 
     describe('when state.screen is not `prechat`', () => {
       beforeEach(() => {
-        component = domRender(<Chat chat={chatProp} screen={chattingScreen} />);
+        component = domRender(
+          <Chat
+            chat={chatProp}
+            screen={chattingScreen}
+            prechatFormSettings={prechatFormSettingsProp} />
+        );
       });
 
       it('does not return anything', () => {
@@ -134,7 +143,12 @@ describe('Chat component', () => {
 
     describe('when state.screen is `prechat`', () => {
       beforeEach(() => {
-        component = domRender(<Chat chat={chatProp} screen={prechatScreen} />);
+        component = domRender(
+          <Chat
+            chat={chatProp}
+            screen={prechatScreen}
+            prechatFormSettings={prechatFormSettingsProp} />
+        );
       });
 
       it('returns a component', () => {
@@ -163,7 +177,12 @@ describe('Chat component', () => {
 
     describe('when state.screen is not `chatting`', () => {
       beforeEach(() => {
-        component = domRender(<Chat chat={chatProp} screen={prechatScreen} />);
+        component = domRender(
+          <Chat
+            chat={chatProp}
+            screen={prechatScreen}
+            prechatFormSettings={prechatFormSettingsProp} />
+        );
       });
 
       it('does not return anything', () => {
@@ -174,7 +193,12 @@ describe('Chat component', () => {
 
     describe('when state.screen is `chatting`', () => {
       beforeEach(() => {
-        component = domRender(<Chat chat={chatProp} screen={chattingScreen} />);
+        component = domRender(
+          <Chat
+            chat={chatProp}
+            screen={chattingScreen}
+            prechatFormSettings={prechatFormSettingsProp} />
+        );
       });
 
       it('returns a component', () => {

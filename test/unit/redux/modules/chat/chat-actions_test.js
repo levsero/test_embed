@@ -351,20 +351,52 @@ describe('chat redux actions', () => {
   describe('updateAccountSettings', () => {
     let action;
 
-    beforeEach(() => {
-      mockAccountSettings = { foo: 'bar' };
-      mockStore.dispatch(actions.updateAccountSettings());
-      action = mockStore.getActions()[0];
+    describe('when the prechat form is required', () => {
+      let updateScreenAction;
+
+      beforeEach(() => {
+        mockAccountSettings = { forms: { pre_chat_form: { required: true } } };
+        mockStore.dispatch(actions.updateAccountSettings());
+
+        updateScreenAction = mockStore.getActions()[0];
+        action = mockStore.getActions()[1];
+      });
+
+      it('dispatches updateChatScreen action with the prechat screen', () => {
+        expect(updateScreenAction)
+          .toEqual({
+            type: actionTypes.UPDATE_CHAT_SCREEN,
+            payload: { screen: screenTypes.PRECHAT_SCREEN }
+          });
+      });
+
+      it('dispatches an action of type UPDATE_ACCOUNT_SETTINGS', () => {
+        expect(action.type)
+          .toBe(actionTypes.UPDATE_ACCOUNT_SETTINGS);
+      });
+
+      it('has the value returned from zChat._getAccountSettings() in the payload', () => {
+        expect(action.payload)
+          .toEqual(mockAccountSettings);
+      });
     });
 
-    it('dispatches an action of type UPDATE_ACCOUNT_SETTINGS', () => {
-      expect(action.type)
-        .toEqual(actionTypes.UPDATE_ACCOUNT_SETTINGS);
-    });
+    describe('when the prechat form is not required', () => {
+      beforeEach(() => {
+        mockAccountSettings = { forms: { pre_chat_form: { required: false } } };
+        mockStore.dispatch(actions.updateAccountSettings());
+        action = mockStore.getActions()[0];
+      });
 
-    it('has the value returned from zChat._getAccountSettings() in the payload', () => {
-      expect(action.payload)
-        .toEqual(mockAccountSettings);
+      it('dispatches an action of type UPDATE_ACCOUNT_SETTINGS', () => {
+        expect(action.type)
+          .toEqual(actionTypes.UPDATE_ACCOUNT_SETTINGS);
+      });
+
+      it('has the value returned from zChat._getAccountSettings() in the payload', () => {
+        expect(action.payload)
+          .toEqual(mockAccountSettings);
+      });
     });
   });
 
