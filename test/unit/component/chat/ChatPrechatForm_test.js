@@ -41,7 +41,7 @@ describe('ChatPrechatForm component', () => {
     mockFormProp = {
       name: { name: 'name', required: true },
       email: { name: 'email', required: true },
-      phone: { name: 'phone', label: 'Phone Number', required: false },
+      phone: { name: 'phone', label: 'Phone Number', required: false, hidden: false },
       message: { name: 'message', label: 'Message', required: false }
     };
 
@@ -200,24 +200,41 @@ describe('ChatPrechatForm component', () => {
       });
     });
 
-    describe('with a phone field', () => {
+    describe('when the phone field is hidden', () => {
       beforeEach(() => {
+        mockFormProp.phone.hidden = true;
+
+        component = domRender(<ChatPrechatForm form={mockFormProp} />);
+        node = ReactDOM.findDOMNode(component);
         field = node.querySelector('input[name="phone"]');
       });
 
-      it('sets the name attribute', () => {
-        expect(field.name)
-          .toBe('phone');
+      it('does not render the phone field', () => {
+        expect(field)
+          .toBe(null);
       });
+    });
 
-      it('sets the required attribute', () => {
-        expect(field.hasAttribute('required'))
-          .toBe(false);
-      });
+    describe('when the phone field is not hidden', () => {
+      describe('with a phone field', () => {
+        beforeEach(() => {
+          field = node.querySelector('input[name="phone"]');
+        });
 
-      it('sets the type attribute', () => {
-        expect(field.type)
-          .toBe('number');
+        it('sets the name attribute', () => {
+          expect(field.name)
+            .toBe('phone');
+        });
+
+        it('sets the required attribute', () => {
+          expect(field.hasAttribute('required'))
+            .toBe(false);
+        });
+
+        it('sets the type attribute', () => {
+          expect(field.type)
+            .toBe('number');
+        });
       });
     });
 
@@ -240,6 +257,21 @@ describe('ChatPrechatForm component', () => {
         expect(field.rows)
           .toBe(3);
       });
+    });
+  });
+
+  describe('when the component is mounted', () => {
+    let component;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatPrechatForm form={mockFormProp} />);
+      spyOn(component, 'handleFormChange');
+      component.componentDidMount();
+    });
+
+    it('calls handleFormChange', () => {
+      expect(component.handleFormChange)
+        .toHaveBeenCalled();
     });
   });
 });
