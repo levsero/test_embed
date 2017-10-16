@@ -67,7 +67,7 @@ export class ChatPrechatForm extends Component {
     // The `checkValidity` is not available on the form dom element created
     // by jsdom during unit testing. This sanity check allows our unit tests to pass.
     // See this Github issue: https://github.com/tmpvar/jsdom/issues/544
-    const valid = this.form.checkValidity && this.form.checkValidity();
+    const valid = !!(this.form.checkValidity && this.form.checkValidity());
 
     this.setState({
       valid,
