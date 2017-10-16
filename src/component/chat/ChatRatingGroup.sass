@@ -1,0 +1,37 @@
+@import '../../styles/_vars.scss';
+
+.container {
+  margin-left: auto;
+}
+
+.ratingIconActive {
+  border: #{1/$font-size}rem solid $zd-color-gainsboro !important;
+  border-radius: #{4/$font-size}rem;
+  background-color: $zd-color-platinum;
+
+  svg > path {
+    fill: $zd-color-dark-gray;
+  }
+
+  &:hover, &:focus, &:active {
+    background-color: $zd-color-platinum;
+  }
+}
+
+.ratingIcon {
+  composes: u-borderTransparent from global;
+  display: inline-block !important;
+  padding: #{6/$font-size}rem;
+  height: #{16/$font-size}rem;
+  width: #{16/$font-size}rem;
+
+  &:hover, &:focus, &:active {
+    background-color: $zd-color-white;
+  }
+}
+
+.thumbDownIcon {
+  composes: ratingIcon;
+  padding-top: #{7/$font-size}rem;
+  padding-bottom: #{5/$font-size}rem;
+}

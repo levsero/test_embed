@@ -11,7 +11,8 @@ let actions,
   mockSendTyping = jasmine.createSpy('sendTyping'),
   mockSetVisitorInfo = jasmine.createSpy('mockSetVisitorInfo'),
   mockEndChat = jasmine.createSpy('endChat'),
-  mockSendChatRating = jasmine.createSpy('sendChatRating');
+  mockSendChatRating = jasmine.createSpy('sendChatRating'),
+  mockSendChatComment = jasmine.createSpy('sendChatComment');
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -27,6 +28,7 @@ describe('chat redux actions', () => {
         endChat: mockEndChat,
         setVisitorInfo: mockSetVisitorInfo,
         sendChatRating: mockSendChatRating,
+        sendChatComment: mockSendChatComment,
         _getAccountSettings: () => mockAccountSettings
       }
     });
@@ -343,6 +345,66 @@ describe('chat redux actions', () => {
             .toContain({
               type: actionTypes.SEND_CHAT_RATING_FAILURE
             });
+        });
+      });
+    });
+  });
+
+  describe('sendChatComment', () => {
+    const rating = 'The product was faulty and foobard';
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.sendChatComment(rating));
+    });
+
+    it('calls sendChatComment on the Web SDK', () => {
+      expect(mockSendChatComment)
+        .toHaveBeenCalled();
+    });
+
+    describe('Web SDK callback', () => {
+      let callbackFn;
+
+      beforeEach(() => {
+        callbackFn = mockSendChatComment.calls.mostRecent().args[1];
+      });
+
+      describe('when there are no errors', () => {
+        beforeEach(() => {
+          mockEndChat.calls.reset();
+          callbackFn();
+        });
+
+        it('dispatches a SEND_CHAT_RATING_SUCCESS action with the correct payload', () => {
+          expect(mockStore.getActions())
+            .toContain({
+              type: actionTypes.SEND_CHAT_COMMENT_SUCCESS,
+              payload: rating
+            });
+        });
+
+        it('calls endChat', () => {
+          expect(mockEndChat)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when there are errors', () => {
+        beforeEach(() => {
+          mockEndChat.calls.reset();
+          callbackFn(['error!']);
+        });
+
+        it('dispatches a SEND_CHAT_RATING_FAILURE action', () => {
+          expect(mockStore.getActions())
+            .toContain({
+              type: actionTypes.SEND_CHAT_COMMENT_FAILURE
+            });
+        });
+
+        it('does not call endChat', () => {
+          expect(mockEndChat)
+            .not.toHaveBeenCalled();
         });
       });
     });

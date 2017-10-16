@@ -50,6 +50,9 @@ describe('Chat component', () => {
       'component/chat/ChatPopup': {
         ChatPopup: noopReactComponent()
       },
+      'component/chat/ChatFeedbackForm': {
+        ChatFeedbackForm: noopReactComponent()
+      },
       'component/container/ScrollContainer': {
         ScrollContainer: scrollContainerComponent()
       },
@@ -95,6 +98,7 @@ describe('Chat component', () => {
 
       component = domRender(
         <Chat
+          postChatFormSettings={{ header: 'foo' }}
           setVisitorInfo={setVisitorInfoSpy}
           sendMsg={sendMsgSpy}
           chat={chatProp}
@@ -213,7 +217,7 @@ describe('Chat component', () => {
 
     describe('when there are no messages', () => {
       beforeEach(() => {
-        component = domRender(<Chat chat={chatProp} />);
+        component = domRender(<Chat postChatFormSettings={{ header: 'foo' }} chat={chatProp} />);
       });
 
       it('does not display', () => {
@@ -227,7 +231,7 @@ describe('Chat component', () => {
         chatProp.chats.set(123, { timestamp: 123, type: 'chat.msg' });
         chatProp.is_chatting = true;
 
-        component = domRender(<Chat chat={chatProp} />);
+        component = domRender(<Chat postChatFormSettings={{ header: 'foo' }} chat={chatProp} />);
       });
 
       it('displays chat end message', () => {
@@ -241,7 +245,7 @@ describe('Chat component', () => {
         chatProp.chats.set(123, { timestamp: 123, type: 'chat.msg' });
         chatProp.is_chatting = false;
 
-        component = domRender(<Chat chat={chatProp} />);
+        component = domRender(<Chat postChatFormSettings={{ header: 'foo' }} chat={chatProp} />);
       });
 
       it('displays chat end message', () => {
@@ -281,7 +285,7 @@ describe('Chat component', () => {
 
       describe('when state.showMenu is false', () => {
         beforeEach(() => {
-          component = domRender(<Chat chat={chatProp} />);
+          component = domRender(<Chat postChatFormSettings={{ header: 'foo' }} chat={chatProp} />);
           component.setState({ showMenu: false });
         });
 
@@ -293,7 +297,7 @@ describe('Chat component', () => {
 
       describe('when state.showMenu is true', () => {
         beforeEach(() => {
-          component = domRender(<Chat chat={chatProp} />);
+          component = domRender(<Chat postChatFormSettings={{ header: 'foo' }} chat={chatProp} />);
           component.setState({ showMenu: true });
         });
 
@@ -309,7 +313,12 @@ describe('Chat component', () => {
 
       describe('when the notification should be shown', () => {
         beforeEach(() => {
-          component = domRender(<Chat showEndNotification={true} />);
+          component = domRender(
+            <Chat
+              chat={{ rating: null }}
+              postChatFormSettings={{ header: 'foo' }}
+              showEndNotification={true} />
+          );
         });
 
         it('shows the chat end notification component', () => {
@@ -320,7 +329,11 @@ describe('Chat component', () => {
 
       describe('when the notification should not be shown', () => {
         beforeEach(() => {
-          component = domRender(<Chat />);
+          component = domRender(
+            <Chat
+              chat={{ rating: null }}
+              postChatFormSettings={{ header: 'foo' }} />
+          );
         });
 
         it('shows the chat end notification component', () => {

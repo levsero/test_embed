@@ -9,10 +9,12 @@ import ChatBoxStyles from 'component/chat/ChatBox.sass';
 import ChatPopupStyles from 'component/chat/ChatPopup.sass';
 import ChatHeaderStyles from 'component/chat/ChatHeader.sass';
 import ChatFooterStyles from 'component/chat/ChatFooter.sass';
+import ChatRatingGroupStyles from 'component/chat/ChatRatingGroup.sass';
 import ChatPrechatFormStyles from 'component/chat/ChatPrechatForm.sass';
 import ChatMenuStyles from 'component/chat/ChatMenu.sass';
 import ChatGroupStyles from 'component/chat/ChatGroup.sass';
 import ChatReconnectionBubbleStyles from 'component/chat/ChatReconnectionBubble.sass';
+import ChatFeedbackForm from 'component/chat/ChatFeedbackForm.sass';
 import ChatStyles from 'component/chat/Chat.sass';
 import ContainerStyles from 'component/container/Container.sass';
 import DropdownStyles from 'component/field/Dropdown.sass';
@@ -40,10 +42,12 @@ export const webWidgetStyles = `
   ${ChatPopupStyles}
   ${ChatHeaderStyles}
   ${ChatFooterStyles}
+  ${ChatRatingGroupStyles}
   ${ChatPrechatFormStyles}
   ${ChatMenuStyles}
   ${ChatGroupStyles}
   ${ChatReconnectionBubbleStyles}
+  ${ChatFeedbackForm}
   ${ChatStyles}
   ${ContainerStyles}
   ${DropdownStyles}

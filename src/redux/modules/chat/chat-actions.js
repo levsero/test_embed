@@ -14,9 +14,11 @@ import {
   SEND_CHAT_RATING_FAILURE,
   HIDE_CHAT_NOTIFICATION,
   UPDATE_CHAT_SCREEN,
-  TOGGLE_END_CHAT_NOTIFICATION
+  TOGGLE_END_CHAT_NOTIFICATION,
+  SEND_CHAT_COMMENT_SUCCESS,
+  SEND_CHAT_COMMENT_FAILURE
 } from './chat-action-types';
-import { PRECHAT_SCREEN } from './reducer/chat-screen-types';
+import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './reducer/chat-screen-types';
 
 const chatTypingTimeout = 2000;
 
@@ -62,6 +64,13 @@ export const toggleEndChatNotification = (bool) => {
   return {
     type: TOGGLE_END_CHAT_NOTIFICATION,
     payload: bool
+  };
+};
+
+export const updateChatScreen = (screen) => {
+  return {
+    type: UPDATE_CHAT_SCREEN,
+    payload: { screen }
   };
 };
 
@@ -123,6 +132,22 @@ export function sendChatRating(rating = null) {
   };
 }
 
+export function sendChatComment(comment = '') {
+  return (dispatch) => {
+    zChat.sendChatComment(comment, (err) => {
+      if (!err) {
+        dispatch({
+          type: SEND_CHAT_COMMENT_SUCCESS,
+          payload: comment
+        });
+        endChat()(dispatch);
+      } else {
+        dispatch({ type: SEND_CHAT_COMMENT_FAILURE });
+      }
+    });
+  };
+}
+
 export function updateAccountSettings() {
   const accountSettings = zChat._getAccountSettings();
 
@@ -142,16 +167,16 @@ export function hideChatNotification() {
   return { type: HIDE_CHAT_NOTIFICATION };
 }
 
-export function updateChatScreen(screen) {
-  return {
-    type: UPDATE_CHAT_SCREEN,
-    payload: { screen }
-  };
-}
-
 export function acceptEndChatNotification() {
-  return (dispatch) => {
+  return (dispatch, getStateFn) => {
+    const state = getStateFn();
+
     dispatch(toggleEndChatNotification(false));
-    dispatch(endChat());
+
+    if (state.chat.rating === null) {
+      dispatch(updateChatScreen(FEEDBACK_SCREEN));
+    } else {
+      dispatch(endChat());
+    }
   };
 }

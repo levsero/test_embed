@@ -9,6 +9,7 @@ import { ChatLog } from 'component/chat/ChatLog';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ChatMenu } from 'component/chat/ChatMenu';
 import { ChatPrechatForm } from 'component/chat/ChatPrechatForm';
+import { ChatFeedbackForm } from 'component/chat/ChatFeedbackForm';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
@@ -18,10 +19,11 @@ import { endChat,
          updateAccountSettings,
          updateCurrentMsg,
          sendChatRating,
+         sendChatComment,
          updateChatScreen,
          toggleEndChatNotification,
          acceptEndChatNotification } from 'src/redux/modules/chat';
-import { PRECHAT_SCREEN, CHATTING_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
+import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
 import { getPrechatFormFields, getIsChatting } from 'src/redux/modules/chat/selectors';
 
 import { locals as styles } from './Chat.sass';
@@ -29,7 +31,7 @@ import { locals as styles } from './Chat.sass';
 const mapStateToProps = (state) => {
   const { chat } = state;
   const { accountSettings } = chat;
-  const { prechatForm } = chat.accountSettings;
+  const { prechatForm, postchatForm } = chat.accountSettings;
   const prechatFormFields = getPrechatFormFields(state);
 
   return {
@@ -38,6 +40,7 @@ const mapStateToProps = (state) => {
     connection: chat.connection,
     accountSettings: accountSettings,
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
+    postChatFormSettings: postchatForm,
     showEndNotification: chat.showEndNotification,
     isChatting: getIsChatting(state)
   };
@@ -51,6 +54,7 @@ class Chat extends Component {
     endChat: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
     prechatFormSettings: PropTypes.object.isRequired,
+    postChatFormSettings: PropTypes.object.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
     newDesign: PropTypes.bool,
@@ -61,6 +65,7 @@ class Chat extends Component {
     updateFrameSize: PropTypes.func,
     updateAccountSettings: PropTypes.func.isRequired,
     sendChatRating: PropTypes.func.isRequired,
+    sendChatComment: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
     showEndNotification: PropTypes.bool.isRequired,
     toggleEndChatNotification: PropTypes.func.isRequired,
@@ -163,7 +168,7 @@ class Chat extends Component {
   }
 
   renderChatHeader = () => {
-    const { chat, sendChatRating, endChat, accountSettings } = this.props;
+    const { chat, sendChatRating, accountSettings } = this.props;
     // Title in chat refers to the byline and display_name refers to the display title
     const { avatar_path, display_name, title } = accountSettings.concierge;
     const displayName = _.has(display_name, 'toString') ? display_name.toString() : display_name; // eslint-disable-line camelcase
@@ -171,12 +176,12 @@ class Chat extends Component {
 
     return (
       <ChatHeader
+        showRating={true}
         rating={chat.rating}
         updateRating={sendChatRating}
         avatar={avatar_path} // eslint-disable-line camelcase
         title={displayName}
-        byline={byline}
-        endChat={endChat} />
+        byline={byline} />
     );
   }
 
@@ -254,6 +259,35 @@ class Chat extends Component {
     );
   }
 
+  renderPostchatScreen = () => {
+    if (this.props.screen !== FEEDBACK_SCREEN) return null;
+
+    const { avatar_path, display_name } = this.props.accountSettings.concierge;
+    const { header, message } = this.props.postChatFormSettings;
+    const skipClickFn = () => {
+      this.props.updateChatScreen(CHATTING_SCREEN);
+      this.props.endChat();
+    };
+    const sendClickFn = (text = '') => {
+      this.props.sendChatComment(text);
+      this.props.updateChatScreen(CHATTING_SCREEN);
+    };
+
+    return (
+      <ChatFeedbackForm
+        avatar={avatar_path} // eslint-disable-line camelcase
+        title={display_name} // eslint-disable-line camelcase
+        byline={header}
+        feedbackMessage={message}
+        newDesign={this.props.newDesign}
+        rating={this.props.chat.rating}
+        updateRating={this.props.sendChatRating}
+        getFrameDimensions={this.props.getFrameDimensions}
+        skipClickFn={skipClickFn}
+        sendClickFn={sendClickFn} />
+    );
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
@@ -261,6 +295,7 @@ class Chat extends Component {
       <div>
         {this.renderPrechatScreen()}
         {this.renderChatScreen()}
+        {this.renderPostchatScreen()}
         {this.renderChatMenu()}
         {this.renderChatEndPopup()}
       </div>
@@ -277,6 +312,7 @@ const actionCreators = {
   endChat,
   setVisitorInfo,
   sendChatRating,
+  sendChatComment,
   updateChatScreen
 };
 
