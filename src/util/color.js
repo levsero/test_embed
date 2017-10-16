@@ -38,7 +38,6 @@ const buttonColor = (color) => {
 };
 const buttonTextColor = (color) => getContrastColor(color, () => 'white', darkenAndMixColor(0.3, 0.5));
 const listColor = (color) => getContrastColor(color, () => color, darkenAndMixColor(0.2, 0.5));
-const borderColor = (color) => getContrastColor(color, () => 'white', () => 'black', isLuminosityGreaterThan(0.65));
 const highlightColor = (color) => {
   return getContrastColor(color, lightenColor(0.15), darkenColor(0.1), isLuminosityGreaterThan(0.15));
 };
@@ -99,16 +98,16 @@ function generateUserCSS(color = defaultColor) {
       background-color: ${highlightColor(color)} !important;
     }
     .u-userBorderColor:not([disabled]) {
-      color: ${launcherTextColorStr} !important;
+      color: ${buttonColorStr} !important;
       background-color: transparent !important;
-      border-color: ${buttonTextColorStr} !important;
+      border-color: ${buttonColorStr} !important;
     }
     .u-userBorderColor:not([disabled]):hover,
     .u-userBorderColor:not([disabled]):active,
     .u-userBorderColor:not([disabled]):focus {
-      color: ${borderColor(color)} !important;
-      background-color: ${listHighlightColorStr} !important;
-      border-color: ${listHighlightColorStr} !important;
+      color: ${buttonTextColorStr} !important;
+      background-color: ${buttonColorStr} !important;
+      border-color: ${buttonColorStr} !important;
     }
     .u-userLinkColor a {
       color: ${listColorStr} !important;
