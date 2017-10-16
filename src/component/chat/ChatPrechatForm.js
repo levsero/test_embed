@@ -35,6 +35,10 @@ export class ChatPrechatForm extends Component {
     this.form = null;
   }
 
+  componentDidMount = () => {
+    this.handleFormChange();
+  }
+
   componentWillReceiveProps = (props) => {
     if (props.visitor.email) {
       this.setState({
@@ -60,8 +64,13 @@ export class ChatPrechatForm extends Component {
                     .reduce(reduceNames, {})
                     .value();
 
+    // The `checkValidity` is not available on the form dom element created
+    // by jsdom during unit testing. This sanity check allows our unit tests to pass.
+    // See this Github issue: https://github.com/tmpvar/jsdom/issues/544
+    const valid = !!(this.form.checkValidity && this.form.checkValidity());
+
     this.setState({
-      valid: this.form.checkValidity(),
+      valid,
       formState: values
     });
   }
@@ -102,14 +111,14 @@ export class ChatPrechatForm extends Component {
   renderPhoneField = () => {
     const phoneData = this.props.form.phone;
 
-    return (
-      <Field
-        placeholder={i18n.t('embeddable_framework.common.textLabel.phoneNumber', { fallback: 'Phone Number' })}
-        required={phoneData.required}
-        type='number'
-        value={this.state.formState.phone}
-        name={phoneData.name} />
-    );
+    return !phoneData.hidden
+         ? <Field
+            placeholder={i18n.t('embeddable_framework.common.textLabel.phoneNumber', { fallback: 'Phone Number' })}
+            required={phoneData.required}
+            type='number'
+            value={this.state.formState.phone}
+            name={phoneData.name} />
+         : null;
   }
 
   renderMessageField = () => {
