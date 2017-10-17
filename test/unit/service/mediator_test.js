@@ -820,18 +820,39 @@ describe('mediator', () => {
           .toEqual(0);
       });
 
-      it('launches Ticket Submission if chat is offline', () => {
-        c.broadcast(`${chat}.onOffline`);
+      describe('when chat is offline', () => {
+        describe('when there is not an active chat', () => {
+          it('launches Ticket Submission', () => {
+            c.broadcast(`${chat}.onOffline`);
 
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(0);
+            c.broadcast(`${launcher}.onClick`);
+            jasmine.clock().tick(0);
 
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(1);
-        expect(chatSub.show.calls.count())
-          .toEqual(0);
+            expect(launcherSub.hide.calls.count())
+              .toEqual(1);
+            expect(submitTicketSub.show.calls.count())
+              .toEqual(1);
+            expect(chatSub.show.calls.count())
+              .toEqual(0);
+          });
+        });
+
+        describe('when there is an active chat', () => {
+          it('launches Chat', () => {
+            c.broadcast(`${chat}.onIsChatting`);
+            c.broadcast(`${chat}.onOffline`);
+
+            c.broadcast(`${launcher}.onClick`);
+            jasmine.clock().tick(0);
+
+            expect(launcherSub.hide.calls.count())
+              .toEqual(1);
+            expect(submitTicketSub.show.calls.count())
+              .toEqual(0);
+            expect(chatSub.show.calls.count())
+              .toEqual(1);
+          });
+        });
       });
 
       describe('when chat is online', () => {
@@ -1259,22 +1280,47 @@ describe('mediator', () => {
         mediator.init({ submitTicket: true, helpCenter: false });
       });
 
-      it('shows ticket submission if chat goes offline', () => {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onOffline`);
+      describe('if chat goes offline', () => {
+        describe('and there is not an active chat', () => {
+          it('shows ticket submission', () => {
+            c.broadcast(`${chat}.onOnline`);
+            c.broadcast(`${chat}.onOffline`);
 
-        reset(submitTicketSub.show);
-        reset(chatSub.show);
+            reset(submitTicketSub.show);
+            reset(chatSub.show);
 
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(10);
+            jasmine.clock().install();
+            c.broadcast(`${launcher}.onClick`);
+            jasmine.clock().tick(10);
 
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(1);
+            expect(submitTicketSub.show.calls.count())
+              .toEqual(1);
 
-        expect(chatSub.show.calls.count())
-          .toEqual(0);
+            expect(chatSub.show.calls.count())
+              .toEqual(0);
+          });
+        });
+
+        describe('and there is an active chat', () => {
+          it('still shows chat', () => {
+            c.broadcast(`${chat}.onOnline`);
+            c.broadcast(`${chat}.onIsChatting`);
+            c.broadcast(`${chat}.onOffline`);
+
+            reset(submitTicketSub.show);
+            reset(chatSub.show);
+
+            jasmine.clock().install();
+            c.broadcast(`${launcher}.onClick`);
+            jasmine.clock().tick(10);
+
+            expect(submitTicketSub.show.calls.count())
+              .toEqual(0);
+
+            expect(chatSub.show.calls.count())
+              .toEqual(1);
+          });
+        });
       });
     });
 
@@ -2170,7 +2216,7 @@ describe('mediator', () => {
       });
 
       describe('there is an ongoing chat', () => {
-        it('should disable suppression', () => {
+        it('disables suppression', () => {
           c.broadcast(`${chat}.onIsChatting`);
 
           reset(chatSub.show);
@@ -2182,6 +2228,21 @@ describe('mediator', () => {
 
           expect(chatSub.show.calls.count())
             .toEqual(1);
+        });
+
+        describe('and the agent marks him or herself invisible', () => {
+          it('still disables suppression', () => {
+            c.broadcast(`${chat}.onIsChatting`);
+            c.broadcast(`${chat}.onOffline`);
+
+            c.broadcast(`${chat}.onHide`); // close
+
+            c.broadcast(`${launcher}.onClick`); // open
+            jasmine.clock().tick(0);
+
+            expect(chatSub.show.calls.count())
+              .toEqual(1);
+          });
         });
       });
     });
