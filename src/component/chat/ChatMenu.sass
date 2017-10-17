@@ -12,12 +12,20 @@
 }
 
 .item {
+  composes: u-hsizeAll u-textLeft u-borderNone from global;
+  background: none;
+  outline: none;
   color: $zd-color-monsoon;
   padding: #{8/$font-size}rem #{15/$font-size}rem;
 
   &:hover, &:active, &:focus {
     color: $zd-color-oil;
     background: $zd-color-white-smoke;
+  }
+
+  &:disabled {
+    color: $zd-color-iron;
+    background: $zd-color-white;
   }
 }
 
