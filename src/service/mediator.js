@@ -286,18 +286,15 @@ function init(embedsAccessible, params = {}) {
   c.intercept(`${chat}.onOffline`, () => {
     // On offline fires initially when chat is being set up. We only care
     // about when chat comes offline after being online
-
-    if (!state[`${chat}.isChatting`]) {
-      if (state[`${chat}.isOnline`]) {
-        state[`${chat}.isOnline`] = false;
-        if (state.activeEmbed === chat) {
-          resetActiveEmbed();
-        }
-
-        c.broadcast('webWidget.setZopimOnline', false);
-
-        c.broadcast(`${launcher}.setLabelHelp`);
+    if (!state[`${chat}.isChatting`] && state[`${chat}.isOnline`]) {
+      state[`${chat}.isOnline`] = false;
+      if (state.activeEmbed === chat) {
+        resetActiveEmbed();
       }
+
+      c.broadcast('webWidget.setZopimOnline', false);
+
+      c.broadcast(`${launcher}.setLabelHelp`);
     }
   });
 
