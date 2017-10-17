@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
+import { Container } from 'component/container/Container';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { frameFactory } from 'embed/frameFactory';
 import { i18n } from 'service/i18n';
@@ -49,13 +50,16 @@ const renderWebWidgetPreview = (options) => {
   const Embed = frameFactory(
     () => {
       return (
-        <SubmitTicket
+        <Container
           ref="rootComponent"
-          previewEnabled={true}
-          formTitleKey={options.titleKey}
-          submitTicketSender={() => {}}
-          attachmentSender={() => {}}
-          style={containerStyle} />
+          style={containerStyle}>
+          <SubmitTicket
+            previewEnabled={true}
+            formTitleKey={options.titleKey}
+            submitTicketSender={() => {}}
+            attachmentSender={() => {}}
+            style={containerStyle} />
+        </Container>
       );
     },
     frameParams,
