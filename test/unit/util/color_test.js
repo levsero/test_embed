@@ -154,16 +154,16 @@ describe('color', () => {
       describe('u-userBorderColor', () => {
         const expectedCss = `
         .u-userBorderColor:not([disabled]) {
-          color: #227C7B !important;
+          color: #58F9F7 !important;
           background-color: transparent !important;
-          border-color: #227C7B !important;
+          border-color: #58F9F7 !important;
         }
         .u-userBorderColor:not([disabled]):hover,
         .u-userBorderColor:not([disabled]):active,
         .u-userBorderColor:not([disabled]):focus {
-          color: black !important;
-          background-color: #187C7B !important;
-          border-color: #187C7B !important;
+          color: #227C7B !important;
+          background-color: #58F9F7 !important;
+          border-color: #58F9F7 !important;
         }`;
 
         it('is calculated to a darker color', () => {
@@ -254,16 +254,16 @@ describe('color', () => {
       describe('u-userBorderColor', () => {
         const expectedCss = `
         .u-userBorderColor:not([disabled]) {
-          color: white !important;
+          color: #283646 !important;
           background-color: transparent !important;
-          border-color: white !important;
+          border-color: #283646 !important;
         }
         .u-userBorderColor:not([disabled]):hover,
         .u-userBorderColor:not([disabled]):active,
         .u-userBorderColor:not([disabled]):focus {
-          color: black !important;
-          background-color: #253241 !important;
-          border-color: #253241 !important;
+          color: white !important;
+          background-color: #283646 !important;
+          border-color: #283646 !important;
         }`;
 
         it('is calculated to white with a highlight', () => {
@@ -355,16 +355,16 @@ describe('color', () => {
     describe('u-userBorderColor', () => {
       const expectedCss = `
       .u-userBorderColor:not([disabled]) {
-        color: #6E6E6E !important;
+        color: #777 !important;
         background-color: transparent !important;
-        border-color: white !important;
+        border-color: #777 !important;
       }
       .u-userBorderColor:not([disabled]):hover,
       .u-userBorderColor:not([disabled]):active,
       .u-userBorderColor:not([disabled]):focus {
-        color: black !important;
-        background-color: #696969 !important;
-        border-color: #696969 !important;
+        color: white !important;
+        background-color: #777 !important;
+        border-color: #777 !important;
       }`;
 
       it('is calculated to a darker color', () => {

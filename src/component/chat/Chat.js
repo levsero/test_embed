@@ -22,7 +22,7 @@ import { endChat,
          toggleEndChatNotification,
          acceptEndChatNotification } from 'src/redux/modules/chat';
 import { PRECHAT_SCREEN, CHATTING_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
-import { getPrechatFormFields } from 'src/redux/modules/chat/selectors';
+import { getPrechatFormFields, getIsChatting } from 'src/redux/modules/chat/selectors';
 
 import { locals as styles } from './Chat.sass';
 
@@ -38,7 +38,8 @@ const mapStateToProps = (state) => {
     connection: chat.connection,
     accountSettings: accountSettings,
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
-    showEndNotification: chat.showEndNotification
+    showEndNotification: chat.showEndNotification,
+    isChatting: getIsChatting(state)
   };
 };
 
@@ -63,7 +64,8 @@ class Chat extends Component {
     updateChatScreen: PropTypes.func.isRequired,
     showEndNotification: PropTypes.bool.isRequired,
     toggleEndChatNotification: PropTypes.func.isRequired,
-    acceptEndChatNotification: PropTypes.func.isRequired
+    acceptEndChatNotification: PropTypes.func.isRequired,
+    isChatting: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -138,7 +140,7 @@ class Chat extends Component {
     const showChatEndFn = () => this.props.toggleEndChatNotification(true);
 
     return (
-      <ChatMenu endChatOnClick={showChatEndFn} />
+      <ChatMenu disableEndChat={!this.props.isChatting} endChatOnClick={showChatEndFn} />
     );
   }
 

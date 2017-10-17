@@ -6,6 +6,7 @@ import { locals as styles } from './ChatMenu.sass';
 
 export class ChatMenu extends Component {
   static propTypes = {
+    disableEndChat: PropTypes.bool.isRequired,
     endChatOnClick: PropTypes.func
   };
 
@@ -16,28 +17,28 @@ export class ChatMenu extends Component {
   render() {
     return (
       <div className={styles.container}>
-        <div className={styles.item}>
+        <button className={styles.item}>
           {i18n.t('embeddable_framework.chat.options.sound', {
             fallback: 'Sound'
           })}
-        </div>
+        </button>
         <div className={styles.itemLine} />
-        <div className={styles.item}>
+        <button className={styles.item}>
           {i18n.t('embeddable_framework.chat.options.emailTranscript', {
             fallback: 'Email transcript'
           })}
-        </div>
-        <div className={styles.item}>
+        </button>
+        <button className={styles.item}>
           {i18n.t('embeddable_framework.chat.options.editContactDetails', {
             fallback: 'Edit contact details'
           })}
-        </div>
+        </button>
         <div className={styles.itemLine} />
-        <div className={styles.item} onClick={this.props.endChatOnClick}>
+        <button className={styles.item} onClick={this.props.endChatOnClick} disabled={this.props.disableEndChat}>
           {i18n.t('embeddable_framework.chat.options.endChat', {
             fallback: 'End chat'
           })}
-        </div>
+        </button>
       </div>
     );
   }

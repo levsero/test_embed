@@ -1,6 +1,7 @@
 describe('chat selectors', () => {
   let getChatNotification,
-    getPrechatFormFields;
+    getPrechatFormFields,
+    getIsChatting;
 
   beforeEach(() => {
     mockery.enable();
@@ -13,6 +14,7 @@ describe('chat selectors', () => {
 
     getChatNotification = selectors.getChatNotification;
     getPrechatFormFields = selectors.getPrechatFormFields;
+    getIsChatting = selectors.getIsChatting;
   });
 
   describe('getChatNotification', () => {
@@ -158,6 +160,24 @@ describe('chat selectors', () => {
     it('returns prechat fields grouped by their name', () => {
       expect(result)
         .toEqual(expectedResult);
+    });
+  });
+
+  describe('getIsChatting', () => {
+    let result;
+    const mockChatSettings = {
+      chat: {
+        is_chatting: true
+      }
+    };
+
+    beforeEach(() => {
+      result = getIsChatting(mockChatSettings);
+    });
+
+    it('returns the current state of is_chatting', () => {
+      expect(result)
+        .toEqual(true);
     });
   });
 });
