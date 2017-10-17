@@ -36,3 +36,8 @@ export const getPrechatFormFields = createSelector(
     return _.keyBy(_.values(form), 'name');
   }
 );
+
+export const getIsChatting = createSelector(
+  [(state) => state.chat.is_chatting],
+  _.identity
+);

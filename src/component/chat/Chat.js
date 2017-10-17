@@ -22,7 +22,7 @@ import { endChat,
          toggleEndChatNotification,
          acceptEndChatNotification } from 'src/redux/modules/chat';
 import { PRECHAT_SCREEN, CHATTING_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
-import { getPrechatFormFields } from 'src/redux/modules/chat/selectors';
+import { getPrechatFormFields, getIsChatting } from 'src/redux/modules/chat/selectors';
 
 import { locals as styles } from './Chat.sass';
 
@@ -39,7 +39,7 @@ const mapStateToProps = (state) => {
     accountSettings: accountSettings,
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
     showEndNotification: chat.showEndNotification,
-    isChatting: chat.is_chatting
+    isChatting: getIsChatting(state)
   };
 };
 
