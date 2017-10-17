@@ -27,6 +27,9 @@ describe('webWidgetPreview entry file', () => {
         frameFactory: require(buildTestPath('unit/mocks/mockFrameFactory')).mockFrameFactory,
         frameMethods: require(buildTestPath('unit/mocks/mockFrameFactory')).mockFrameMethods
       },
+      'component/container/Container': {
+        Container: noopReactComponent()
+      },
       'component/submitTicket/SubmitTicket': {
         SubmitTicket: class SubmitTicket extends Component {
           constructor() {
