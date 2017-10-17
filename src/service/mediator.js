@@ -404,6 +404,7 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept(`${chat}.onChatEnd`, () => {
     state[`${chat}.chatEnded`] = true;
+    state[`${chat}.isChatting`] = false;
 
     c.broadcast('webWidget.zopimChatEnded');
 
