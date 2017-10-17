@@ -27,6 +27,38 @@ describe('ChatMenu component', () => {
   });
 
   describe('props', () => {
+    describe('disableEndChat', () => {
+      let endChatButton;
+
+      describe('when disable endChat is true', () => {
+        beforeEach(() => {
+          const component = domRender(<ChatMenu disableEndChat={true} />);
+          const componentNode = ReactDOM.findDOMNode(component);
+
+          endChatButton = componentNode.lastChild;
+        });
+
+        it('disables the end chat button', () => {
+          expect(endChatButton.disabled)
+            .toEqual(true);
+        });
+      });
+
+      describe('when disable endChat is false', () => {
+        beforeEach(() => {
+          const component = domRender(<ChatMenu disableEndChat={false} />);
+          const componentNode = ReactDOM.findDOMNode(component);
+
+          endChatButton = componentNode.lastChild;
+        });
+
+        it('does not disable the end chat button', () => {
+          expect(endChatButton.disabled)
+            .toEqual(false);
+        });
+      });
+    });
+
     describe('endChatOnClick', () => {
       let endChatOnClickSpy;
 
