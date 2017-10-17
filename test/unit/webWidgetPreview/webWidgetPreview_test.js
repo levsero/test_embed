@@ -28,7 +28,11 @@ describe('webWidgetPreview entry file', () => {
         frameMethods: require(buildTestPath('unit/mocks/mockFrameFactory')).mockFrameMethods
       },
       'component/container/Container': {
-        Container: noopReactComponent()
+        Container: class extends Component {
+          render() {
+            return <div className='rootComponent' style={this.props.style} />;
+          }
+        }
       },
       'component/submitTicket/SubmitTicket': {
         SubmitTicket: class SubmitTicket extends Component {
@@ -137,31 +141,45 @@ describe('webWidgetPreview entry file', () => {
 
       describe('setting the styles', () => {
         describe('when a styles object is passed in', () => {
-          it('should call frameFactory with custom styles', () => {
-            const styles = {
-              float: 'left',
-              marginTop: '32px',
-              marginLeft: '32px',
-              width: 1
-            };
+          const styles = {
+            float: 'left',
+            marginTop: '32px',
+            marginLeft: '32px',
+            width: 1
+          };
 
+          beforeEach(() => {
             window.zE.renderWebWidgetPreview({ element, styles });
+          });
 
+          it('calls frameFactory with custom styles', () => {
             const args = mockFrameFactory.calls.mostRecent().args[1];
 
             expect(args.frameStyle)
               .toEqual(jasmine.objectContaining(styles));
           });
+
+          it('applies the correct custom container styles', () => {
+            expect(element.querySelector('.rootComponent').style.cssText)
+              .toContain('width: 1px');
+          });
         });
 
         describe('when no styles object is passed in', () => {
-          it('should call frameFactory with default styles', () => {
+          beforeEach(() => {
             window.zE.renderWebWidgetPreview({ element });
+          });
 
+          it('calls frameFactory with default styles', () => {
             const args = mockFrameFactory.calls.mostRecent().args[1];
 
             expect(args.frameStyle)
               .toEqual(jasmine.objectContaining(defaultOptions.styles));
+          });
+
+          it('applies the correct default container styles', () => {
+            expect(element.querySelector('.rootComponent').style.cssText)
+              .toContain('width: 342px');
           });
         });
       });
