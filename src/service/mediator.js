@@ -29,6 +29,7 @@ state[`${helpCenter}.isSuppressed`] = false;
 state[`${channelChoice}.isVisible`] = false;
 state[`${channelChoice}.isAccessible`] = false;
 state[`${chat}.isOnline`] = false;
+state[`${chat}.isChatting`] = false;
 state[`${chat}.isSuppressed`] = false;
 state[`${chat}.isAccessible`] = false;
 state[`${chat}.unreadMsgs`] = 0;
@@ -285,7 +286,7 @@ function init(embedsAccessible, params = {}) {
   c.intercept(`${chat}.onOffline`, () => {
     // On offline fires initially when chat is being set up. We only care
     // about when chat comes offline after being online
-    if (state[`${chat}.isOnline`]) {
+    if (!state[`${chat}.isChatting`] && state[`${chat}.isOnline`]) {
       state[`${chat}.isOnline`] = false;
       if (state.activeEmbed === chat) {
         resetActiveEmbed();
@@ -305,6 +306,7 @@ function init(embedsAccessible, params = {}) {
   c.intercept(`${chat}.onIsChatting`, () => {
     state.activeEmbed = chat;
     c.broadcast('webWidget.zopimChatStarted');
+    state[`${chat}.isChatting`] = true;
     state[`${chat}.isSuppressed`] = false;
   });
 
@@ -399,6 +401,7 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept(`${chat}.onChatEnd`, () => {
     state[`${chat}.chatEnded`] = true;
+    state[`${chat}.isChatting`] = false;
 
     c.broadcast('webWidget.zopimChatEnded');
 
