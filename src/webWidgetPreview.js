@@ -11,6 +11,7 @@ import createStore from 'src/redux/createStore';
 
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles.js';
 
+let submitTicketComponent = null;
 const defaultOptions = {
   locale: 'en-US',
   color: '#659700',
@@ -54,6 +55,7 @@ const renderWebWidgetPreview = (options) => {
           ref="rootComponent"
           style={containerStyle}>
           <SubmitTicket
+            ref={(submitTicket) => submitTicketComponent = submitTicket}
             previewEnabled={true}
             formTitleKey={options.titleKey}
             submitTicketSender={() => {}}
@@ -76,12 +78,12 @@ const renderWebWidgetPreview = (options) => {
   };
 
   const setTitle = (titleKey = defaultOptions.titleKey) => {
-    waitForRootComponent(preview, (rootComponent) => {
-      rootComponent.setFormTitleKey(titleKey);
+    waitForSubmitTicketComponent((component) => {
+      component.setFormTitleKey(titleKey);
     });
   };
 
-  waitForRootComponent(preview, () => {
+  waitForSubmitTicketComponent(() => {
     preview.updateFrameSize();
     setColor(options.color);
   });
@@ -92,17 +94,17 @@ const renderWebWidgetPreview = (options) => {
   };
 };
 
-const getRootComponent = (preview) => {
-  return preview.getRootComponent();
+const getSubmitTicketComponent = () => {
+  return submitTicketComponent;
 };
 
-const waitForRootComponent = (preview, callback) => {
-  const rootComponent = getRootComponent(preview);
+const waitForSubmitTicketComponent = (callback) => {
+  const component = getSubmitTicketComponent();
 
-  if (rootComponent) {
-    callback(rootComponent);
+  if (component !== null) {
+    callback(component);
   } else {
-    setTimeout(() => waitForRootComponent(preview, callback), 0);
+    setTimeout(() => waitForSubmitTicketComponent(callback), 0);
   }
 };
 
