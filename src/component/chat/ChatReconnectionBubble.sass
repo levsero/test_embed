@@ -1,0 +1,12 @@
+@import '../../styles/_vars.scss';
+
+.container {
+  composes: u-flex u-posFill u-posAbsolute u-flexAlignItemsCenter u-flexJustifyCenter from global;
+}
+
+.bubble {
+  opacity: 0.9;
+  border-radius: #{4/$font-size}rem !important;
+  background-color: white;
+  box-shadow: 0 #{1/$font-size}rem #{10/$font-size}rem 0 rgba(0, 0, 0, 0.2);
+}
