@@ -30,18 +30,24 @@ describe('webWidgetPreview entry file', () => {
       'component/container/Container': {
         Container: class extends Component {
           render() {
-            return <div className='rootComponent' style={this.props.style} />;
+            return (
+              <div
+                className='rootComponent'
+                style={this.props.style}>
+                {this.props.children}
+              </div>
+            );
           }
         }
       },
       'component/submitTicket/SubmitTicket': {
-        SubmitTicket: class SubmitTicket extends Component {
+        SubmitTicket: class extends Component {
           constructor() {
             super();
             this.setFormTitleKey = mockSetFormTitleKey;
           }
           render() {
-            return <div className='webWidgetPreview'></div>;
+            return <div />;
           }
         }
       },
@@ -200,8 +206,8 @@ describe('webWidgetPreview entry file', () => {
       it('writes the preview to the parent element', () => {
         window.zE.renderWebWidgetPreview({ element });
 
-        expect(element.querySelectorAll('.webWidgetPreview').length)
-          .toEqual(1);
+        expect(element.querySelector('.rootComponent'))
+          .toBeDefined();
       });
     });
 
@@ -248,7 +254,7 @@ describe('webWidgetPreview entry file', () => {
       });
 
       describe('when a titleKey parameter is supplied', () => {
-        it('should call setFormTitleKey with that titleKey value', () => {
+        it('calls setFormTitleKey with that titleKey value', () => {
           preview.setTitle('contact');
 
           expect(mockSetFormTitleKey)
@@ -257,7 +263,7 @@ describe('webWidgetPreview entry file', () => {
       });
 
       describe('when no titleKey parameter is supplied', () => {
-        it('should call setFormTitleKey with the default titleKey value', () => {
+        it('calls setFormTitleKey with the default titleKey value', () => {
           preview.setTitle();
 
           expect(mockSetFormTitleKey)
