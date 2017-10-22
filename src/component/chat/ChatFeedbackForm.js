@@ -6,7 +6,6 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ChatRatingGroup } from 'component/chat/ChatRatingGroup';
 import { Button } from 'component/button/Button';
-import { ButtonGroup } from 'component/button/ButtonGroup';
 
 import { locals as styles } from './ChatFeedbackForm.sass';
 
@@ -49,9 +48,11 @@ export class ChatFeedbackForm extends Component {
     );
   }
 
-  renderCtaButtons = () => {
+  renderActionButtons = () => {
+    const shouldDisable = this.props.rating === null;
+
     return (
-      <ButtonGroup className={styles.buttonGroup}>
+      <div className={styles.buttonGroup}>
         <Button
           className={styles.button}
           primary={false}
@@ -59,9 +60,10 @@ export class ChatFeedbackForm extends Component {
           onClick={this.props.skipClickFn} />
         <Button
           className={styles.rightButton}
+          disabled={shouldDisable}
           label={i18n.t('embeddable_framework.common.button.send')}
           onClick={() => this.props.sendClickFn(this.textarea.value)} />
-      </ButtonGroup>
+      </div>
     );
   }
 
@@ -75,7 +77,7 @@ export class ChatFeedbackForm extends Component {
         newDesign={newDesign}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
         <label className={styles.feedbackMessage}>{feedbackMessage}</label>
-        <ChatRatingGroup rating={rating} updateRating={updateRating} />
+        <ChatRatingGroup className={styles.chatRatingGroup} rating={rating} updateRating={updateRating} />
         <label className={styles.feedbackDescription}>
           {i18n.t('embeddable_framework.chat.postChat.rating.description')}
         </label>
@@ -84,7 +86,7 @@ export class ChatFeedbackForm extends Component {
           className={styles.textarea}
           placeholder={i18n.t('embeddable_framework.chat.postChat.rating.placeholder.optional')}
           rows={6} />
-        {this.renderCtaButtons()}
+        {this.renderActionButtons()}
       </ScrollContainer>
     );
   }

@@ -8,11 +8,13 @@ import { locals as styles } from './ChatRatingGroup.sass';
 export class ChatRatingGroup extends Component {
   static propTypes = {
     updateRating: PropTypes.func.isRequired,
-    rating: PropTypes.string
+    rating: PropTypes.string,
+    className: PropTypes.string
   }
 
   static defaultProps = {
-    rating: null
+    rating: null,
+    className: ''
   }
 
   ratingClickedHandler = (value) => {
@@ -27,13 +29,13 @@ export class ChatRatingGroup extends Component {
     const thumbDownActiveStyle = rating === 'bad' ? styles.ratingIconActive : '';
 
     return (
-      <div className={styles.container}>
+      <div className={`${styles.container} ${this.props.className}`}>
         <ButtonIcon
-          className={`${styles.ratingIcon} ${thumbUpActiveStyle}`}
+          className={`${styles.leftRatingIcon} ${thumbUpActiveStyle}`}
           icon='Icon--thumbUp'
           onClick={() => this.ratingClickedHandler('good')} />
         <ButtonIcon
-          className={`${styles.thumbDownIcon} ${thumbDownActiveStyle}`}
+          className={`${styles.ratingIcon} ${thumbDownActiveStyle}`}
           icon='Icon--thumbDown'
           onClick={() => this.ratingClickedHandler('bad')} />
       </div>

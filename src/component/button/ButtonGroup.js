@@ -1,33 +1,32 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import { locals as styles } from './ButtonGroup.sass';
+import classNames from 'classnames';
 
 export class ButtonGroup extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     fullscreen: PropTypes.bool,
     rtl: PropTypes.bool,
-    className: PropTypes.string
+    style: PropTypes.element
   };
 
   static defaultProps = {
     fullscreen: false,
     rtl: false,
-    className: ''
+    style: null
   };
 
   render = () => {
-    const directionalStyle = (this.props.rtl) ? styles.rtl : styles.ltr;
-    const applyDirectionalStyle = (!this.props.fullscreen) ? directionalStyle : '';
-    const buttonClasses = `
-      ButtonGroup
-      ${this.props.className}
-      ${applyDirectionalStyle}
-    `;
+    const buttonClasses = classNames({
+      'ButtonGroup': true,
+      'u-textRight': !this.props.fullscreen && !this.props.rtl,
+      'u-textLeft': !this.props.fullscreen && this.props.rtl
+    });
 
     return (
-      <div className={buttonClasses}>
+      <div
+        style={this.props.style}
+        className={buttonClasses}>
         {this.props.children}
       </div>
     );

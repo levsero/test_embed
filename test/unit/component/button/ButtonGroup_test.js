@@ -8,16 +8,11 @@ describe('ButtonGroup component', () => {
     mockery.enable();
 
     initMockRegistry({
-      'React': React,
-      './ButtonGroup.sass': {
-        locals: {
-          rtl: 'rtlClasses',
-          ltr: 'ltrClasses'
-        }
-      }
+      'React': React
     });
 
     mockery.registerAllowable(buttonPath);
+
     ButtonGroup = requireUncached(buttonPath).ButtonGroup;
   });
 
@@ -30,20 +25,20 @@ describe('ButtonGroup component', () => {
     const buttonGroup = shallowRender(<ButtonGroup />);
 
     expect(buttonGroup.props.className)
-      .toMatch('ltrClasses');
+      .toMatch('u-textRight');
 
     expect(buttonGroup.props.className)
-      .not.toMatch('rtlClasses');
+      .not.toMatch('u-textLeft');
   });
 
   it('should have rtl classes when rtl prop is true', () => {
     const buttonGroup = shallowRender(<ButtonGroup rtl={true} />);
 
     expect(buttonGroup.props.className)
-      .toMatch('rtlClasses');
+      .toMatch('u-textLeft');
 
     expect(buttonGroup.props.className)
-      .not.toMatch('ltrClasses');
+      .not.toMatch('u-textRight');
   });
 });
 
