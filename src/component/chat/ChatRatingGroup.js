@@ -5,6 +5,12 @@ import { ButtonIcon } from 'component/button/ButtonIcon';
 
 import { locals as styles } from './ChatRatingGroup.sass';
 
+export const ChatRatings = {
+  GOOD: 'good',
+  BAD: 'bad',
+  NOT_SET: null
+};
+
 export class ChatRatingGroup extends Component {
   static propTypes = {
     updateRating: PropTypes.func.isRequired,
@@ -13,20 +19,22 @@ export class ChatRatingGroup extends Component {
   }
 
   static defaultProps = {
-    rating: null,
+    rating: ChatRatings.NOT_SET,
     className: ''
   }
 
   ratingClickedHandler = (value) => {
-    const rating = this.props.rating === value ? null : value;
+    const rating = this.props.rating === value ? ChatRatings.NOT_SET : value;
 
     this.props.updateRating(rating);
   }
 
   render = () => {
     const { rating } = this.props;
-    const thumbUpActiveStyle = rating === 'good' ? styles.ratingIconActive : '';
-    const thumbDownActiveStyle = rating === 'bad' ? styles.ratingIconActive : '';
+    const thumbUpActiveStyle = rating === ChatRatings.GOOD ? styles.ratingIconActive : '';
+    const thumbDownActiveStyle = rating === ChatRatings.BAD ? styles.ratingIconActive : '';
+
+    debugger;
 
     return (
       <div className={`${styles.container} ${this.props.className}`}>

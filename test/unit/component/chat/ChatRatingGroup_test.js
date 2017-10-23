@@ -45,14 +45,14 @@ describe('ChatRatingGroup component', () => {
         chatratingGroupNode = ReactDOM.findDOMNode(component);
       });
 
-      it('should render active styles for thumbUp button', () => {
+      it('renders active styles for thumbUp button', () => {
         const buttonIconNode = chatratingGroupNode.querySelector('.Icon--thumbUp');
 
         expect(buttonIconNode.className)
           .toContain('ratingIconActive');
       });
 
-      it('should not render active styles for thumbDown button', () => {
+      it('does not render active styles for thumbDown button', () => {
         const buttonIconNode = chatratingGroupNode.querySelector('.Icon--thumbDown');
 
         expect(buttonIconNode.className)
@@ -67,14 +67,14 @@ describe('ChatRatingGroup component', () => {
         chatratingGroupNode = ReactDOM.findDOMNode(component);
       });
 
-      it('should render active styles for thumbDown button', () => {
+      it('renders active styles for thumbDown button', () => {
         const buttonIconNode = chatratingGroupNode.querySelector('.Icon--thumbDown');
 
         expect(buttonIconNode.className)
           .toContain('ratingIconActive');
       });
 
-      it('should not render active styles for thumbDown button', () => {
+      it('does not render active styles for thumbDown button', () => {
         const buttonIconNode = chatratingGroupNode.querySelector('.Icon--thumbUp');
 
         expect(buttonIconNode.className)
@@ -94,7 +94,7 @@ describe('ChatRatingGroup component', () => {
         thumbDownNode = chatratingGroupNode.querySelector('.Icon--thumbDown');
       });
 
-      it('should render both buttons without active styles', () => {
+      it('renders both buttons without active styles', () => {
         expect(thumbUpNode)
           .not.toContain('ratingIconActive');
 
@@ -118,7 +118,7 @@ describe('ChatRatingGroup component', () => {
         component.ratingClickedHandler(mockRating);
       });
 
-      it('should call updateRating with the new rating', () => {
+      it('calls updateRating with the new rating', () => {
         expect(mockUpdateRating)
           .toHaveBeenCalledWith(mockRating);
       });
@@ -136,14 +136,14 @@ describe('ChatRatingGroup component', () => {
         );
       });
 
-      it('should call updateRating with the new rating for a different', () => {
+      it('calls updateRating with the new rating for a different', () => {
         component.ratingClickedHandler('bad');
 
         expect(mockUpdateRating)
           .toHaveBeenCalledWith('bad');
       });
 
-      it('should call updateRating with null for the same rating', () => {
+      it('calls updateRating with null for the same rating', () => {
         component.ratingClickedHandler(mockRating);
 
         expect(mockUpdateRating)

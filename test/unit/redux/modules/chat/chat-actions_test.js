@@ -375,7 +375,7 @@ describe('chat redux actions', () => {
           callbackFn();
         });
 
-        it('dispatches a SEND_CHAT_RATING_SUCCESS action with the correct payload', () => {
+        it('dispatches a SEND_CHAT_COMMENT_SUCCESS action with the correct payload', () => {
           expect(mockStore.getActions())
             .toContain({
               type: actionTypes.SEND_CHAT_COMMENT_SUCCESS,
@@ -395,7 +395,7 @@ describe('chat redux actions', () => {
           callbackFn(['error!']);
         });
 
-        it('dispatches a SEND_CHAT_RATING_FAILURE action', () => {
+        it('dispatches a SEND_CHAT_COMMENT_FAILURE action', () => {
           expect(mockStore.getActions())
             .toContain({
               type: actionTypes.SEND_CHAT_COMMENT_FAILURE

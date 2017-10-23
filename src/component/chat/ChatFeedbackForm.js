@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { i18n } from 'service/i18n';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ChatHeader } from 'component/chat/ChatHeader';
-import { ChatRatingGroup } from 'component/chat/ChatRatingGroup';
+import { ChatRatingGroup, ChatRatings } from 'component/chat/ChatRatingGroup';
 import { Button } from 'component/button/Button';
 
 import { locals as styles } from './ChatFeedbackForm.sass';
@@ -49,7 +49,8 @@ export class ChatFeedbackForm extends Component {
   }
 
   renderActionButtons = () => {
-    const shouldDisable = this.props.rating === null;
+    const { rating } = this.props;
+    const shouldDisable = rating === ChatRatings.NOT_SET;
 
     return (
       <div className={styles.buttonGroup}>
