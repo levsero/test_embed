@@ -76,6 +76,11 @@ parts:
       title: "The label that displays once chat has ended"
       value: "Chat ended"
       wip: true
+  - translation:
+      key: "embeddable_framework.chat.reconnecting.label"
+      title: "The title that displays in the chat reconneting message bubble"
+      value: "Reconnecting"
+      wip: true
 
   # Chat Web SDK
   - translation:
