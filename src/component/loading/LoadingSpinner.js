@@ -4,22 +4,26 @@ import { locals as styles } from './LoadingSpinner.sass';
 
 export class LoadingSpinner extends Component {
   static propTypes = {
+    className: PropTypes.string,
+    circleClasses: PropTypes.string,
     height: PropTypes.number,
     width: PropTypes.number
   };
 
   static defaultProps = {
+    className: '',
+    circleClasses: '',
     height: 180,
     width: 180
   };
 
   render = () => {
-    const { width, height } = this.props;
-    const circleStyles = `u-userStrokeColor ${styles.circle}`;
+    const { className, circleClasses, width, height } = this.props;
+    const circleStyles = `u-userStrokeColor ${styles.circle} ${circleClasses}`;
 
     return (
       <svg
-        className={styles.spinner}
+        className={`${styles.spinner} ${className}`}
         width={width}
         height={height}
         viewBox={`0 0 ${width} ${height}`}>
