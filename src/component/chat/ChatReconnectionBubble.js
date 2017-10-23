@@ -8,7 +8,7 @@ import { locals as styles } from './ChatReconnectionBubble.sass';
 export class ChatReconnectionBubble extends Component {
   render = () => {
     const message = i18n.t(
-      'embeddable_framework.chat.reconnecting.label',
+      'embeddable_framework.chat.reconnecting.title',
       { fallback: 'Reconnecting' }
     );
 
