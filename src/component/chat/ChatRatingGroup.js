@@ -34,18 +34,16 @@ export class ChatRatingGroup extends Component {
     const thumbUpActiveStyle = rating === ChatRatings.GOOD ? styles.ratingIconActive : '';
     const thumbDownActiveStyle = rating === ChatRatings.BAD ? styles.ratingIconActive : '';
 
-    debugger;
-
     return (
       <div className={`${styles.container} ${this.props.className}`}>
         <ButtonIcon
           className={`${styles.leftRatingIcon} ${thumbUpActiveStyle}`}
           icon='Icon--thumbUp'
-          onClick={() => this.ratingClickedHandler('good')} />
+          onClick={() => this.ratingClickedHandler(ChatRatings.GOOD)} />
         <ButtonIcon
           className={`${styles.ratingIcon} ${thumbDownActiveStyle}`}
           icon='Icon--thumbDown'
-          onClick={() => this.ratingClickedHandler('bad')} />
+          onClick={() => this.ratingClickedHandler(ChatRatings.BAD)} />
       </div>
     );
   }

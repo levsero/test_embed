@@ -1,5 +1,6 @@
 describe('ChatRatingGroup component', () => {
-  let ChatRatingGroup;
+  let ChatRatingGroup,
+    ChatRatings;
   const chatRatingGroupPath = buildSrcPath('component/chat/ChatRatingGroup');
 
   beforeEach(() => {
@@ -28,6 +29,7 @@ describe('ChatRatingGroup component', () => {
 
     mockery.registerAllowable(chatRatingGroupPath);
     ChatRatingGroup = requireUncached(chatRatingGroupPath).ChatRatingGroup;
+    ChatRatings = requireUncached(chatRatingGroupPath).ChatRatings;
   });
 
   afterEach(() => {
@@ -40,7 +42,7 @@ describe('ChatRatingGroup component', () => {
 
     describe('when the rating value is good', () => {
       beforeEach(() => {
-        const component = domRender(<ChatRatingGroup rating='good' />);
+        const component = domRender(<ChatRatingGroup rating={ChatRatings.GOOD} />);
 
         chatratingGroupNode = ReactDOM.findDOMNode(component);
       });
@@ -62,7 +64,7 @@ describe('ChatRatingGroup component', () => {
 
     describe('when the rating value is bad', () => {
       beforeEach(() => {
-        const component = domRender(<ChatRatingGroup rating='bad' />);
+        const component = domRender(<ChatRatingGroup rating={ChatRatings.BAD} />);
 
         chatratingGroupNode = ReactDOM.findDOMNode(component);
       });
@@ -112,7 +114,7 @@ describe('ChatRatingGroup component', () => {
     describe('when an existing rating does not exist', () => {
       beforeEach(() => {
         mockUpdateRating = jasmine.createSpy('updateRating');
-        mockRating = 'good';
+        mockRating = ChatRatings.GOOD;
 
         component = instanceRender(<ChatRatingGroup updateRating={mockUpdateRating} />);
         component.ratingClickedHandler(mockRating);
@@ -127,7 +129,7 @@ describe('ChatRatingGroup component', () => {
     describe('when an existing rating exists', () => {
       beforeEach(() => {
         mockUpdateRating = jasmine.createSpy('updateRating');
-        mockRating = 'good';
+        mockRating = ChatRatings.GOOD;
 
         component = instanceRender(
           <ChatRatingGroup
@@ -137,10 +139,10 @@ describe('ChatRatingGroup component', () => {
       });
 
       it('calls updateRating with the new rating for a different', () => {
-        component.ratingClickedHandler('bad');
+        component.ratingClickedHandler(ChatRatings.BAD);
 
         expect(mockUpdateRating)
-          .toHaveBeenCalledWith('bad');
+          .toHaveBeenCalledWith(ChatRatings.BAD);
       });
 
       it('calls updateRating with null for the same rating', () => {
