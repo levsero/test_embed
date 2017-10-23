@@ -11,6 +11,7 @@ import { ChatMenu } from 'component/chat/ChatMenu';
 import { ChatPrechatForm } from 'component/chat/ChatPrechatForm';
 import { ChatFeedbackForm } from 'component/chat/ChatFeedbackForm';
 import { ChatPopup } from 'component/chat/ChatPopup';
+import { ChatRatings } from 'component/chat/ChatRatingGroup';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
 import { endChat,
@@ -24,14 +25,14 @@ import { endChat,
          toggleEndChatNotification,
          acceptEndChatNotification } from 'src/redux/modules/chat';
 import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
-import { getPrechatFormFields, getIsChatting } from 'src/redux/modules/chat/selectors';
+import { getPrechatFormFields, getIsChatting, getPostchatFormSettings } from 'src/redux/modules/chat/selectors';
 
 import { locals as styles } from './Chat.sass';
 
 const mapStateToProps = (state) => {
   const { chat } = state;
   const { accountSettings } = chat;
-  const { prechatForm, postchatForm } = chat.accountSettings;
+  const { prechatForm } = chat.accountSettings;
   const prechatFormFields = getPrechatFormFields(state);
 
   return {
@@ -40,7 +41,7 @@ const mapStateToProps = (state) => {
     connection: chat.connection,
     accountSettings: accountSettings,
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
-    postChatFormSettings: postchatForm,
+    postChatFormSettings: getPostchatFormSettings(state),
     showEndNotification: chat.showEndNotification,
     isChatting: getIsChatting(state)
   };
@@ -265,6 +266,7 @@ class Chat extends Component {
     const { avatar_path, display_name } = this.props.accountSettings.concierge;
     const { header, message } = this.props.postChatFormSettings;
     const skipClickFn = () => {
+      this.props.sendChatRating(ChatRatings.NOT_SET);
       this.props.updateChatScreen(CHATTING_SCREEN);
       this.props.endChat();
     };
@@ -272,19 +274,28 @@ class Chat extends Component {
       this.props.sendChatComment(text);
       this.props.updateChatScreen(CHATTING_SCREEN);
     };
+    const renderHeader = () => {
+      return (
+        <ChatHeader
+          avatar={avatar_path} // eslint-disable-line camelcase
+          title={display_name} // eslint-disable-line camelcase
+          byline={header} />
+      );
+    };
 
     return (
-      <ChatFeedbackForm
-        avatar={avatar_path} // eslint-disable-line camelcase
-        title={display_name} // eslint-disable-line camelcase
-        byline={header}
-        feedbackMessage={message}
+      <ScrollContainer
+        headerContent={renderHeader()}
         newDesign={this.props.newDesign}
-        rating={this.props.chat.rating}
-        updateRating={this.props.sendChatRating}
         getFrameDimensions={this.props.getFrameDimensions}
-        skipClickFn={skipClickFn}
-        sendClickFn={sendClickFn} />
+        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
+        <ChatFeedbackForm
+          feedbackMessage={message}
+          rating={this.props.chat.rating}
+          updateRating={this.props.sendChatRating}
+          skipClickFn={skipClickFn}
+          sendClickFn={sendClickFn} />
+      </ScrollContainer>
     );
   }
 

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { i18n } from 'service/i18n';
-import { ScrollContainer } from 'component/container/ScrollContainer';
-import { ChatHeader } from 'component/chat/ChatHeader';
 import { ChatRatingGroup, ChatRatings } from 'component/chat/ChatRatingGroup';
 import { Button } from 'component/button/Button';
 
@@ -11,23 +9,14 @@ import { locals as styles } from './ChatFeedbackForm.sass';
 
 export class ChatFeedbackForm extends Component {
   static propTypes = {
-    getFrameDimensions: PropTypes.func.isRequired,
     updateRating: PropTypes.func.isRequired,
     skipClickFn: PropTypes.func.isRequired,
     sendClickFn: PropTypes.func.isRequired,
-    newDesign: PropTypes.bool,
-    avatar: PropTypes.string,
-    title: PropTypes.string,
-    byline: PropTypes.string,
     feedbackMessage: PropTypes.string,
     rating: PropTypes.string
   }
 
   static defaultProps = {
-    newDesign: false,
-    avatar: '',
-    title: '',
-    byline: '',
     feedbackMessage: '',
     rating: null
   }
@@ -36,16 +25,6 @@ export class ChatFeedbackForm extends Component {
     super(props);
 
     this.textarea = null;
-  }
-
-  renderChatHeader = () => {
-    return (
-      <ChatHeader
-        avatar={this.props.avatar}
-        title={this.props.title}
-        byline={this.props.byline}
-      />
-    );
   }
 
   renderActionButtons = () => {
@@ -69,14 +48,10 @@ export class ChatFeedbackForm extends Component {
   }
 
   render() {
-    const { rating, updateRating, newDesign, feedbackMessage } = this.props;
+    const { rating, updateRating, feedbackMessage } = this.props;
 
     return (
-      <ScrollContainer
-        getFrameDimensions={this.props.getFrameDimensions}
-        headerContent={this.renderChatHeader()}
-        newDesign={newDesign}
-        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
+      <div>
         <label className={styles.feedbackMessage}>{feedbackMessage}</label>
         <ChatRatingGroup className={styles.chatRatingGroup} rating={rating} updateRating={updateRating} />
         <label className={styles.feedbackDescription}>
@@ -88,7 +63,7 @@ export class ChatFeedbackForm extends Component {
           placeholder={i18n.t('embeddable_framework.chat.postChat.rating.placeholder.optional')}
           rows={6} />
         {this.renderActionButtons()}
-      </ScrollContainer>
+      </div>
     );
   }
 }

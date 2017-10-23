@@ -53,6 +53,9 @@ describe('Chat component', () => {
       'component/chat/ChatFeedbackForm': {
         ChatFeedbackForm: noopReactComponent()
       },
+      'component/chat/ChatRatingGroup': {
+        ChatRatings: {}
+      },
       'component/container/ScrollContainer': {
         ScrollContainer: scrollContainerComponent()
       },

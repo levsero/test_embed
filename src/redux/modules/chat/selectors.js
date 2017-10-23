@@ -12,6 +12,7 @@ const getChatsByAgent = (state) => {
   return _.groupBy(chats, (chat) => chat.nick);
 };
 const getPrechatSettings = (state) => state.chat.accountSettings.prechatForm;
+const getPostchatSettings = (state) => state.chat.accountSettings.postchatForm;
 
 export const getChatNotification = createSelector(
   [getNotification, getAgents, getChatsByAgent],
@@ -39,5 +40,10 @@ export const getPrechatFormFields = createSelector(
 
 export const getIsChatting = createSelector(
   [(state) => state.chat.is_chatting],
+  _.identity
+);
+
+export const getPostchatFormSettings = createSelector(
+  [getPostchatSettings],
   _.identity
 );

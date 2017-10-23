@@ -1,6 +1,7 @@
 describe('chat selectors', () => {
   let getChatNotification,
     getPrechatFormFields,
+    getPostchatFormSettings,
     getIsChatting;
 
   beforeEach(() => {
@@ -14,6 +15,7 @@ describe('chat selectors', () => {
 
     getChatNotification = selectors.getChatNotification;
     getPrechatFormFields = selectors.getPrechatFormFields;
+    getPostchatFormSettings = selectors.getPostchatFormSettings;
     getIsChatting = selectors.getIsChatting;
   });
 
@@ -178,6 +180,34 @@ describe('chat selectors', () => {
     it('returns the current state of is_chatting', () => {
       expect(result)
         .toEqual(true);
+    });
+  });
+
+  describe('getPostchatFormSettings', () => {
+    let result;
+    const mockHeader = 'Nice chatting with you!';
+    const mockMessage = 'How would you rate the chat experience you just had?';
+    const mockAccountSettings = {
+      postchatForm: {
+        header: mockHeader,
+        message: mockMessage
+      }
+    };
+
+    beforeEach(() => {
+      result = getPostchatFormSettings({
+        chat: { accountSettings: mockAccountSettings }
+      });
+    });
+
+    it('returns the current state of header', () => {
+      expect(result.header)
+        .toEqual(mockHeader);
+    });
+
+    it('returns the current state of message', () => {
+      expect(result.message)
+        .toEqual(mockMessage);
     });
   });
 });
