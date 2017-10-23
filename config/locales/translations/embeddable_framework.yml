@@ -78,7 +78,7 @@ parts:
       wip: true
   - translation:
       key: "embeddable_framework.chat.reconnecting.title"
-      title: "The title that displays in the chat reconneting message bubble"
+      title: "The title that displays in the chat reconnecting message bubble"
       value: "Reconnecting"
       wip: true
 
