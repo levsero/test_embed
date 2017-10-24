@@ -25,7 +25,7 @@ import { endChat,
          toggleEndChatNotification,
          acceptEndChatNotification } from 'src/redux/modules/chat';
 import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
-import { getPrechatFormFields, getIsChatting, getPostchatFormSettings } from 'src/redux/modules/chat/selectors';
+import { getPrechatFormFields, getIsChatting, getAgents, getPostchatFormSettings } from 'src/redux/modules/chat/selectors';
 
 import { locals as styles } from './Chat.sass';
 
@@ -43,7 +43,8 @@ const mapStateToProps = (state) => {
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
     postChatFormSettings: getPostchatFormSettings(state),
     showEndNotification: chat.showEndNotification,
-    isChatting: getIsChatting(state)
+    isChatting: getIsChatting(state),
+    agents: getAgents(state)
   };
 };
 
@@ -71,7 +72,8 @@ class Chat extends Component {
     showEndNotification: PropTypes.bool.isRequired,
     toggleEndChatNotification: PropTypes.func.isRequired,
     acceptEndChatNotification: PropTypes.func.isRequired,
-    isChatting: PropTypes.bool.isRequired
+    isChatting: PropTypes.bool.isRequired,
+    agents: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -206,12 +208,49 @@ class Chat extends Component {
     );
   }
 
+  renderAgentTyping = () => {
+    // const agentList = _.filter(this.props.agents, (agent) => agent.typing === true);
+    let typingNotification;
+
+    const agentList = [
+      { display_name: "Terence", typing: true },
+      { display_name: "Bob", typing: true }
+    ];
+
+    switch (agentList.length) {
+      case 0: return null;
+      case 1:
+        const agentName = agentList[0].display_name;
+
+        typingNotification = i18n.t(
+          'embeddable_framework.chat.chatLog.isTyping',
+          { agent: agentName, fallback: `${agentName} is typing...` });
+        break;
+      case 2:
+        const agentName1 = agentList[0].display_name,
+          agentName2 = agentList[1].display_name;
+
+        typingNotification = i18n.t(
+          'embeddable_framework.chat.chatLog.isTyping.two',
+          { agent1: agentName1, agent2: agentName2, fallback: `${agentName1} and ${agentName2} are typing...` });
+        break;
+      default:
+        typingNotification = i18n.t(
+          'embeddable_framework.chat.chatLog.isTyping.multiple',
+          { fallback: 'Multiple agents are typing...' }
+        );
+    }
+
+    return (
+      <div className={styles.agentTyping}>{typingNotification}</div>
+    );
+  }
+
   renderChatScreen = () => {
     if (this.props.screen !== CHATTING_SCREEN) return;
 
-    const { isMobile } = this.props;
     const showRating = true;
-    const containerClasses = isMobile ? styles.scrollContainerMobile : '';
+    const containerClasses = this.props.isMobile ? styles.scrollContainerMobile : '';
 
     return (
       <ScrollContainer
@@ -227,6 +266,7 @@ class Chat extends Component {
         <div className={styles.messages}>
           {this.renderChatLog()}
           {this.renderChatEnded()}
+          {this.renderAgentTyping()}
         </div>
       </ScrollContainer>
     );

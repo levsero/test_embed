@@ -7,6 +7,7 @@
 
 .messages {
   margin-top: #{70/$font-size}rem;
+  margin-bottom: #{24/$font-size}rem;
 }
 
 .header {
@@ -28,4 +29,12 @@
 
 .chatEndPopupDescription {
   composes: u-paddingVL u-paddingLL from global;
+}
+
+.agentTyping {
+  composes: u-posAbsolute u-paddingTS from global;
+  bottom: #{103/$font-size}rem;
+  color: $zd-color-monsoon;
+  width: #{301/$font-size}rem;
+  background: linear-gradient(to bottom, rgba($zd-color-white, 0), rgba($zd-color-white, 0.8));
 }

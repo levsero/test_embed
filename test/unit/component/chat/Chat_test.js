@@ -23,7 +23,8 @@ describe('Chat component', () => {
       './Chat.sass': {
         locals: {
           scrollContainerMobile: 'scrollContainerMobileClasses',
-          footer: 'footerClasses'
+          footer: 'footerClasses',
+          agentTyping: 'agentTypingClasses'
         }
       },
       'component/chat/ChatBox': {
@@ -73,7 +74,7 @@ describe('Chat component', () => {
         CHATTING_SCREEN: chattingScreen
       },
       'service/i18n': {
-        i18n: { t: noop }
+        i18n: { t: _.identity }
       }
     });
 
@@ -337,6 +338,97 @@ describe('Chat component', () => {
         it('shows the chat end notification component', () => {
           expect(component.renderChatEndPopup())
             .toBeNull();
+        });
+      });
+    });
+
+    describe('renderAgentTyping', () => {
+      let agentTypingComponent,
+        mockAgents;
+
+      describe('when no agents are typing a message', () => {
+        beforeEach(() => {
+          mockAgents = [
+            { display_name: 'Wayne', typing: false }
+          ];
+
+          const component = instanceRender(<Chat agents={mockAgents} />);
+
+          agentTypingComponent = component.renderAgentTyping();
+        });
+
+        it('renders nothing', () => {
+          expect(agentTypingComponent)
+            .toBeNull();
+        });
+      });
+
+      describe('when there is an agent typing a message', () => {
+        beforeEach(() => {
+          mockAgents = [
+            { display_name: 'Wayne', typing: true }
+          ];
+
+          const component = instanceRender(<Chat agents={mockAgents} />);
+
+          agentTypingComponent = component.renderAgentTyping();
+        });
+
+        it('renders the notification style', () => {
+          expect(agentTypingComponent.props.className)
+            .toEqual('agentTypingClasses');
+        });
+
+        it('renders a notification that signifies a single agent typing', () => {
+          expect(agentTypingComponent.props.children)
+            .toEqual('embeddable_framework.chat.chatLog.isTyping');
+        });
+      });
+
+      describe('when two agents are typing a message', () => {
+        beforeEach(() => {
+          mockAgents = [
+            { display_name: 'Wayne', typing: true },
+            { display_name: 'Terence', typing: true }
+          ];
+
+          const component = instanceRender(<Chat agents={mockAgents} />);
+
+          agentTypingComponent = component.renderAgentTyping();
+        });
+
+        it('renders the notification style', () => {
+          expect(agentTypingComponent.props.className)
+            .toEqual('agentTypingClasses');
+        });
+
+        it('renders a notification that signifies two agents typing', () => {
+          expect(agentTypingComponent.props.children)
+            .toEqual('embeddable_framework.chat.chatLog.isTyping.two');
+        });
+      });
+
+      describe('when more than two agents are typing a message', () => {
+        beforeEach(() => {
+          mockAgents = [
+            { display_name: 'Wayne', typing: true },
+            { display_name: 'Terence', typing: true },
+            { display_name: 'IHateMandy', typing: true }
+          ];
+
+          const component = instanceRender(<Chat agents={mockAgents} />);
+
+          agentTypingComponent = component.renderAgentTyping();
+        });
+
+        it('renders the notification style', () => {
+          expect(agentTypingComponent.props.className)
+            .toEqual('agentTypingClasses');
+        });
+
+        it('renders a notification that signifies multiple agents typing', () => {
+          expect(agentTypingComponent.props.children)
+            .toEqual('embeddable_framework.chat.chatLog.isTyping.multiple');
         });
       });
     });
