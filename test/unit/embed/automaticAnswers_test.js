@@ -168,6 +168,11 @@ describe('embed.automaticAnswers', () => {
         expect(mostRecent.queryParams.auth_token)
           .toEqual('abcdef');
       });
+
+      it('passes article id to fetchTicket', () => {
+        expect(mostRecent.queryParams.article_id)
+          .toEqual(mockArticleIdInUrl);
+      });
     });
 
     describe('when the JWT is unavailable', () => {
@@ -237,9 +242,10 @@ describe('embed.automaticAnswers', () => {
 
   describe('fetchTicket', () => {
     let mostRecent;
+    const mockArticleId = 11112222;
     const fetchTicket = () => {
       renderAutomaticAnswers();
-      automaticAnswers.fetchTicket(mockJwtToken);
+      automaticAnswers.fetchTicket(mockJwtToken, mockArticleId);
       mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
     };
 
@@ -267,6 +273,11 @@ describe('embed.automaticAnswers', () => {
       it('includes the source=embed query param', () => {
         expect(mostRecent.queryParams.source)
           .toEqual('embed');
+      });
+
+      it('includes article id in query param', () => {
+        expect(mostRecent.queryParams.article_id)
+          .toEqual(mockArticleId);
       });
 
       describe('when the device is a mobile browser', () => {

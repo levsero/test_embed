@@ -112,7 +112,7 @@ function render() {
 }
 
 function postRender() {
-  const articleId =  getHelpCenterArticleId();
+  const articleId = getHelpCenterArticleId();
 
   if (_.isNaN(articleId)) return;
 
@@ -120,7 +120,7 @@ function postRender() {
 
   if (!authToken) return;
 
-  fetchTicket(authToken);
+  fetchTicket(authToken, articleId);
 }
 
 function closeFrame() {
@@ -134,7 +134,7 @@ function closeFrameAfterDelay(closeFrameDelay = defaultCloseFrameDelay) {
   closeTimeoutId = setTimeout(closeFrame, closeFrameDelay);
 }
 
-function fetchTicket(authToken) {
+function fetchTicket(authToken, articleId) {
   const fetchTicketDone = (res) => {
     const ticket = res.body.ticket;
     const ticketSolved = _.includes(solvedStatusIds, ticket.status_id);
@@ -168,7 +168,8 @@ function fetchTicket(authToken) {
     queryParams: {
       'auth_token': authToken,
       source: 'embed',
-      mobile: isMobileBrowser()
+      mobile: isMobileBrowser(),
+      'article_id': articleId
     },
     method: 'get',
     callbacks: {
