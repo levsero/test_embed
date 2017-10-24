@@ -147,8 +147,11 @@ class Chat extends Component {
   renderChatFooter = () => {
     const { chat, sendMsg, updateCurrentMsg } = this.props;
 
+    const showChatEndFn = () => this.props.toggleEndChatNotification(true);
+
     return (
       <ChatFooter
+        endChat={showChatEndFn}
         toggleMenu={this.toggleMenu}>
         <ChatBox
           currentMessage={chat.currentMessage}
