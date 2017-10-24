@@ -9,3 +9,19 @@
 .iconEndChat {
   composes: Icon--ellipsis u-marginLS from global;
 }
+
+.iconDisabled {
+  svg {
+    g {
+      fill: $zd-color-aluminum !important;
+    }
+
+    &:hover, &:active, &:focus {
+      background: none;
+
+      g {
+        fill: $zd-color-aluminum !important;
+      }
+    }
+  }
+}
