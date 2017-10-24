@@ -152,6 +152,7 @@ class Chat extends Component {
     return (
       <ChatFooter
         endChat={showChatEndFn}
+        showIcons={this.props.isChatting}
         toggleMenu={this.toggleMenu}>
         <ChatBox
           currentMessage={chat.currentMessage}

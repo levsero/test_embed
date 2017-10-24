@@ -30,7 +30,7 @@ describe('ChatFooter component', () => {
     let componentNode;
 
     beforeEach(() => {
-      const component = domRender(<ChatFooter />);
+      const component = domRender(<ChatFooter showIcons={true} />);
 
       componentNode = ReactDOM.findDOMNode(component);
     });
@@ -41,6 +41,32 @@ describe('ChatFooter component', () => {
     });
   });
 
+  describe('renderIcons', () => {
+    let component;
+
+    describe('when props.showIcons is false', () => {
+      beforeEach(() => {
+        component = domRender(<ChatFooter showIcons={false} />);
+      });
+
+      it('returns null', () => {
+        expect(component.renderIcons())
+          .toBeNull();
+      });
+    });
+
+    describe('when props.showIcons is true', () => {
+      beforeEach(() => {
+        component = domRender(<ChatFooter showIcons={true} />);
+      });
+
+      it('returns a component', () => {
+        expect(component.renderIcons())
+          .toBeTruthy();
+      });
+    });
+  });
+
   describe('menuIconClick', () => {
     let component, stopPropagationSpy, toggleMenuSpy;
 
@@ -48,7 +74,7 @@ describe('ChatFooter component', () => {
       stopPropagationSpy = jasmine.createSpy();
       toggleMenuSpy = jasmine.createSpy();
 
-      component = domRender(<ChatFooter toggleMenu={toggleMenuSpy} />);
+      component = domRender(<ChatFooter showIcons={true} toggleMenu={toggleMenuSpy} />);
       component.menuIconClick({ stopPropagation: stopPropagationSpy });
     });
 

@@ -8,13 +8,15 @@ import { Icon } from 'component/Icon';
 export class ChatFooter extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
+    endChat: PropTypes.func,
     toggleMenu: PropTypes.func,
-    endChat: PropTypes.func
+    showIcons: PropTypes.bool
   }
 
   static defaultProps = {
+    endChat: () => {},
     toggleMenu: () => {},
-    endChat: () => {}
+    showIcons: false
   }
 
   menuIconClick = (e) => {
@@ -22,14 +24,22 @@ export class ChatFooter extends Component {
     this.props.toggleMenu();
   }
 
+  renderIcons = () => {
+    if (!this.props.showIcons) return null;
+
+    return (
+      <div className={styles.icons}>
+        <Icon type='Icon--endChat' className={styles.iconEndChat} onClick={this.props.endChat} />
+        <Icon type='Icon--ellipsis' onClick={this.menuIconClick} />
+      </div>
+    );
+  }
+
   render() {
     return (
       <div>
         {this.props.children}
-        <div className={styles.icons}>
-          <Icon type='Icon--endChat' className={styles.iconEndChat} onClick={this.props.endChat} />
-          <Icon type='Icon--ellipsis' onClick={this.menuIconClick} />
-        </div>
+        {this.renderIcons()}
       </div>
     );
   }
