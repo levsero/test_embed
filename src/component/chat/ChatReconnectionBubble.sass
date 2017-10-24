@@ -5,9 +5,9 @@
 }
 
 .bubble {
+  composes: u-backgroundWhite from global;
   opacity: 0.9;
   border-radius: #{4/$font-size}rem !important;
-  background-color: white;
   box-shadow: 0 #{1/$font-size}rem #{10/$font-size}rem 0 rgba(0, 0, 0, 0.2);
   width: #{127/$font-size}rem;
   height: #{34/$font-size}rem;
@@ -15,20 +15,19 @@
 }
 
 .contentContainer {
-  text-align: center;
+  composes: u-textCenter from global;
 }
 
 .loadingSpinner {
+  composes: u-alignMiddle from global;
   width: #{16/$font-size}rem;
   height: #{16/$font-size}rem;
-  vertical-align: middle;
   stroke-width: #{8/$font-size}rem;
 }
 
 .title {
-  display: inline-block;
+  composes: u-inlineBlock u-alignMiddle from global;
   margin-right: #{7/$font-size}rem;
-  vertical-align: middle;
 }
 
 .circle {
