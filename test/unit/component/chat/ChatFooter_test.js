@@ -9,7 +9,8 @@ describe('ChatFooter component', () => {
     initMockRegistry({
       './ChatFooter.sass': {
         locals: {
-          icons: 'iconsClasses'
+          icons: 'iconsClasses',
+          iconDisabled: 'iconDisabledClasses'
         }
       },
       'component/Icon': {
@@ -30,7 +31,7 @@ describe('ChatFooter component', () => {
     let componentNode;
 
     beforeEach(() => {
-      const component = domRender(<ChatFooter />);
+      const component = domRender(<ChatFooter showIcons={true} />);
 
       componentNode = ReactDOM.findDOMNode(component);
     });
@@ -38,6 +39,36 @@ describe('ChatFooter component', () => {
     it('renders the chat footer with styled icons', () => {
       expect(componentNode.querySelector('.iconsClasses'))
         .toBeTruthy();
+    });
+
+    describe('end chat icon', () => {
+      let componentNode;
+
+      describe('when props.isChatting is false', () => {
+        beforeEach(() => {
+          const component = domRender(<ChatFooter isChatting={false} />);
+
+          componentNode = ReactDOM.findDOMNode(component);
+        });
+
+        it('has disabled classes', () => {
+          expect(componentNode.querySelector('.iconDisabledClasses'))
+            .toBeTruthy();
+        });
+      });
+
+      describe('when props.isChatting is true', () => {
+        beforeEach(() => {
+          const component = domRender(<ChatFooter isChatting={true} />);
+
+          componentNode = ReactDOM.findDOMNode(component);
+        });
+
+        it('does not have disabled classes', () => {
+          expect(componentNode.querySelector('.iconDisabledClasses'))
+            .toBeFalsy();
+        });
+      });
     });
   });
 
@@ -48,18 +79,52 @@ describe('ChatFooter component', () => {
       stopPropagationSpy = jasmine.createSpy();
       toggleMenuSpy = jasmine.createSpy();
 
-      component = domRender(<ChatFooter toggleMenu={toggleMenuSpy} />);
+      component = domRender(<ChatFooter showIcons={true} toggleMenu={toggleMenuSpy} />);
       component.menuIconClick({ stopPropagation: stopPropagationSpy });
     });
 
-    it('should stop call stopPropagation on the event', () => {
+    it('calls stopPropagation on the event', () => {
       expect(stopPropagationSpy)
         .toHaveBeenCalled();
     });
 
-    it('should stop call props.toggleMenu', () => {
+    it('calls props.toggleMenu', () => {
       expect(toggleMenuSpy)
         .toHaveBeenCalled();
+    });
+  });
+
+  describe('handleEndChatClick', () => {
+    let component, endChatSpy;
+
+    beforeEach(() => {
+      endChatSpy = jasmine.createSpy();
+    });
+
+    describe('when props.isChatting is false', () => {
+      beforeEach(() => {
+        component = domRender(<ChatFooter isChatting={false} endChat={endChatSpy} />);
+
+        component.handleEndChatClick();
+      });
+
+      it('does not call props.endChat', () => {
+        expect(endChatSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when props.isChatting is true', () => {
+      beforeEach(() => {
+        component = domRender(<ChatFooter isChatting={true} endChat={endChatSpy} />);
+
+        component.handleEndChatClick();
+      });
+
+      it('calls props.endChat', () => {
+        expect(endChatSpy)
+          .toHaveBeenCalled();
+      });
     });
   });
 });

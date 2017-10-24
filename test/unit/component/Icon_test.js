@@ -24,6 +24,7 @@ describe('Icon component', function() {
       'icons/widget-icon_circle_tick.svg': DummyIcon,
       'icons/widget-icon_clearInput.svg': DummyIcon,
       'icons/widget-icon_close.svg': DummyIcon,
+      'icons/widget-icon_endChat.svg': DummyIcon,
       'icons/widget-icon_help.svg': DummyIcon,
       'icons/widget-icon_link.svg': DummyIcon,
       'icons/widget-icon_reopened.svg': DummyIcon,
