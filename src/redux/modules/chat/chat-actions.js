@@ -15,8 +15,8 @@ import {
   HIDE_CHAT_NOTIFICATION,
   UPDATE_CHAT_SCREEN,
   TOGGLE_END_CHAT_NOTIFICATION,
-  SEND_CHAT_COMMENT_SUCCESS,
-  SEND_CHAT_COMMENT_FAILURE
+  SEND_CHAT_RATING_COMMENT_SUCCESS,
+  SEND_CHAT_RATING_COMMENT_FAILURE
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './reducer/chat-screen-types';
 
@@ -137,12 +137,12 @@ export function sendChatComment(comment = '') {
     zChat.sendChatComment(comment, (err) => {
       if (!err) {
         dispatch({
-          type: SEND_CHAT_COMMENT_SUCCESS,
+          type: SEND_CHAT_RATING_COMMENT_SUCCESS,
           payload: comment
         });
         endChat()(dispatch);
       } else {
-        dispatch({ type: SEND_CHAT_COMMENT_FAILURE });
+        dispatch({ type: SEND_CHAT_RATING_COMMENT_FAILURE });
       }
     });
   };

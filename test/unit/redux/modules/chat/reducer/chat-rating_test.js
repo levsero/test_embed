@@ -6,6 +6,16 @@ describe('chat reducer agents', () => {
   beforeAll(() => {
     mockery.enable();
 
+    initMockRegistry({
+      'component/chat/ChatRatingGroup': {
+        ChatRatings: {
+          GOOD: 'good',
+          BAD: 'bad',
+          NOT_SET: null
+        }
+      }
+    });
+
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-rating');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
 

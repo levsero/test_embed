@@ -81,7 +81,8 @@ class Chat extends Component {
     position: 'right',
     updateFrameSize: () => {},
     updateAccountSettings: () => {},
-    accountSettings: { concierge: {} }
+    accountSettings: { concierge: {} },
+    postChatFormSettings: {}
   };
 
   constructor(props) {
@@ -168,7 +169,7 @@ class Chat extends Component {
     );
   }
 
-  renderChatHeader = () => {
+  renderChatHeader = (showRating = false) => {
     const { chat, sendChatRating, accountSettings } = this.props;
     // Title in chat refers to the byline and display_name refers to the display title
     const { avatar_path, display_name, title } = accountSettings.concierge;
@@ -177,7 +178,7 @@ class Chat extends Component {
 
     return (
       <ChatHeader
-        showRating={true}
+        showRating={showRating}
         rating={chat.rating}
         updateRating={sendChatRating}
         avatar={avatar_path} // eslint-disable-line camelcase
@@ -207,17 +208,16 @@ class Chat extends Component {
 
   renderChatScreen = () => {
     if (this.props.screen !== CHATTING_SCREEN) return;
-    const { isMobile } = this.props;
 
-    const containerClasses = isMobile
-                           ? styles.scrollContainerMobile
-                           : '';
+    const { isMobile } = this.props;
+    const showRating = true;
+    const containerClasses = isMobile ? styles.scrollContainerMobile : '';
 
     return (
       <ScrollContainer
         ref={(el) => { this.scrollContainer = el; }}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-        headerContent={this.renderChatHeader()}
+        headerContent={this.renderChatHeader(showRating)}
         headerClasses={styles.header}
         containerClasses={containerClasses}
         getFrameDimensions={this.props.getFrameDimensions}
@@ -263,8 +263,7 @@ class Chat extends Component {
   renderPostchatScreen = () => {
     if (this.props.screen !== FEEDBACK_SCREEN) return null;
 
-    const { avatar_path, display_name } = this.props.accountSettings.concierge;
-    const { header, message } = this.props.postChatFormSettings;
+    const { message } = this.props.postChatFormSettings;
     const skipClickFn = () => {
       this.props.sendChatRating(ChatRatings.NOT_SET);
       this.props.updateChatScreen(CHATTING_SCREEN);
@@ -274,18 +273,10 @@ class Chat extends Component {
       this.props.sendChatComment(text);
       this.props.updateChatScreen(CHATTING_SCREEN);
     };
-    const renderHeader = () => {
-      return (
-        <ChatHeader
-          avatar={avatar_path} // eslint-disable-line camelcase
-          title={display_name} // eslint-disable-line camelcase
-          byline={header} />
-      );
-    };
 
     return (
       <ScrollContainer
-        headerContent={renderHeader()}
+        headerContent={this.renderChatHeader()}
         newDesign={this.props.newDesign}
         getFrameDimensions={this.props.getFrameDimensions}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>

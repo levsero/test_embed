@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { i18n } from 'service/i18n';
-import { locals as styles } from './ChatHeader.sass';
 
+import { i18n } from 'service/i18n';
 import { Avatar } from 'component/Avatar';
 import { ChatRatingGroup } from 'component/chat/ChatRatingGroup';
+
+import { locals as styles } from './ChatHeader.sass';
 
 export class ChatHeader extends Component {
   static propTypes = {

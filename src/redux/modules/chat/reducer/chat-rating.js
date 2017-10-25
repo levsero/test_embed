@@ -1,5 +1,5 @@
 import { SEND_CHAT_RATING_SUCCESS } from '../chat-action-types';
-import { ChatRatings } from '../../../../../src/component/chat/ChatRatingGroup';
+import { ChatRatings } from 'component/chat/ChatRatingGroup';
 
 const initialState = ChatRatings.NOT_SET;
 
