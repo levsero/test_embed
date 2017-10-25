@@ -26,6 +26,7 @@ import { isOnHelpCenterPage,
 import { cappedTimeoutCall,
          getPageKeywords } from 'utility/utils';
 import { updateZopimOnline } from 'src/redux/modules/base';
+import { setVisitorInfo } from 'src/redux/modules/chat';
 
 import WebWidget from 'component/webWidget/WebWidget';
 import zChat from 'chat-web-sdk';
@@ -254,7 +255,7 @@ function create(name, config = {}, reduxStore = {}) {
   return this;
 }
 
-function render() {
+function render(_, reduxStore) {
   if (embed && embed.instance) {
     throw new Error(`WebWidget has already been rendered.`);
   }
@@ -263,7 +264,7 @@ function render() {
 
   embed.instance = ReactDOM.render(embed.component, element);
 
-  setupMediator();
+  setupMediator(reduxStore);
 }
 
 function hide(options) {
@@ -278,7 +279,7 @@ function hide(options) {
   });
 }
 
-function setupMediator() {
+function setupMediator(reduxStore) {
   mediator.channel.subscribe('webWidget.show', (options = {}) => {
     waitForRootComponent(() => {
       // If the embed is already opened don't try to reset the state with activate
@@ -382,9 +383,9 @@ function setupMediator() {
   mediator.channel.subscribe('zopimChat.setUser', (user) => {
     waitForRootComponent(() => {
       if (embed.embedsAvailable.chat) {
-        const chat = getWebWidgetComponent().getChatComponent();
+        const { name, email } = user;
 
-        chat.updateUser(_.pick(user, ['name', 'email']));
+        reduxStore.dispatch(setVisitorInfo({ display_name: name, email }));
       }
     });
   });

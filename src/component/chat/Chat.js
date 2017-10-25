@@ -130,13 +130,6 @@ class Chat extends Component {
     }
   }
 
-  updateUser = (user) => {
-    this.props.setVisitorInfo({
-      display_name: user.name || '',
-      email: user.email || ''
-    });
-  }
-
   toggleMenu = () => {
     this.setState({ showMenu: !this.state.showMenu });
   }
