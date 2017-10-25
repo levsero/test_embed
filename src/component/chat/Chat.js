@@ -34,7 +34,9 @@ import { getPrechatFormFields,
          getIsChatting,
          getAgents,
          getPlaySound,
-         getPostchatFormSettings } from 'src/redux/modules/chat/selectors';
+         getPostchatFormSettings,
+         acceptEndChatNotification,
+         saveContactDetails } from 'src/redux/modules/chat';
 
 import { locals as styles } from './Chat.sass';
 
@@ -89,7 +91,8 @@ class Chat extends Component {
     toggleChatSound: PropTypes.func.isRequired,
     isChatting: PropTypes.bool.isRequired,
     agents: PropTypes.object.isRequired,
-    playSound: PropTypes.bool.isRequired
+    playSound: PropTypes.bool.isRequired,
+    saveContactDetails: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -371,7 +374,8 @@ class Chat extends Component {
     return (
       <ChatContactDetailsPopup
         className={styles.bottomPopup}
-        leftCtaFn={hideContactDetailsFn} />
+        leftCtaFn={hideContactDetailsFn}
+        rightCtaFn={this.props.saveContactDetails} />
     );
   }
 
@@ -396,6 +400,7 @@ const actionCreators = {
   toggleEndChatNotification,
   toggleContactDetailsNotification,
   acceptEndChatNotification,
+  saveContactDetails,
   sendMsg,
   updateCurrentMsg,
   updateAccountSettings,

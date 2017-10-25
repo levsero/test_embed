@@ -31,10 +31,10 @@ export class ChatContactDetailsPopup extends Component {
     this.form = null;
   }
 
-  handleFormSubmit = (e) => {
-    e.preventDefault();
+  handleSave = () => {
+    const { name, email } = this.state.formState;
 
-    this.props.rightCtaFn();
+    this.props.rightCtaFn(name, email);
   }
 
   handleFormChange = (e) => {
@@ -87,7 +87,6 @@ export class ChatContactDetailsPopup extends Component {
         ref={(element) => this.form = element}
         className={styles.form}
         noValidate={true}
-        onSubmit={this.handleFormSubmit}
         onChange={this.handleFormChange}>
         {this.renderTitle()}
         {this.renderNameField()}
@@ -97,7 +96,7 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   render = () => {
-    const { className, leftCtaFn, rightCtaFn } = this.props;
+    const { className, leftCtaFn } = this.props;
 
     return (
       <ChatPopup
@@ -105,7 +104,7 @@ export class ChatContactDetailsPopup extends Component {
         childrenContainerClasses={styles.popupChildrenContainer}
         leftCtaFn={leftCtaFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
-        rightCtaFn={rightCtaFn}
+        rightCtaFn={this.handleSave}
         rightCtaLabel={i18n.t('embeddable_framework.common.button.save', { fallback: 'Save' })}
         rightCtaDisabled={!this.state.valid}>
         <div className={styles.popupChildrenContainer}>
