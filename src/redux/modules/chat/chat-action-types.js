@@ -16,6 +16,7 @@ export const SEND_CHAT_RATING_COMMENT_SUCCESS = 'widget/chat/SEND_CHAT_RATING_CO
 export const SEND_CHAT_RATING_COMMENT_FAILURE = 'widget/chat/SEND_CHAT_RATING_COMMENT_FAILURE';
 export const SEND_FILE_SUCCESS = 'widget/chat/SEND_FILE_SUCCESS';
 export const SEND_FILE_FAILURE = 'widget/chat/SEND_FILE_FAILURE';
+export const SEND_FILE = 'widget/chat/SEND_FILE';
 
 export const SDK_CHAT_MSG = 'websdk/chat.msg';
 export const SDK_CHAT_FILE = 'websdk/chat.file';

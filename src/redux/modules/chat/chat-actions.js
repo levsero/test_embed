@@ -18,6 +18,7 @@ import {
   TOGGLE_END_CHAT_NOTIFICATION,
   SEND_CHAT_RATING_COMMENT_SUCCESS,
   SEND_CHAT_RATING_COMMENT_FAILURE,
+  SEND_FILE,
   SEND_FILE_SUCCESS,
   SEND_FILE_FAILURE
 } from './chat-action-types';
@@ -185,13 +186,35 @@ export function acceptEndChatNotification() {
 }
 
 export function sendAttachments(attachments) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const { visitor } = getState().chat;
+
     _.forEach(attachments, (file) => {
+      const time = Date.now();
+
+      dispatch({
+        type: SEND_FILE,
+        payload: {
+          type: 'chat.file',
+          nick: visitor.nick,
+          display_name: visitor.display_name,
+          timestamp: time,
+          uploading: true
+        }
+      });
+
       zChat.sendFile(file, (err, data) => {
         if (!err) {
           dispatch({
             type: SEND_FILE_SUCCESS,
-            payload: { file: data.url }
+            payload: {
+              type: 'chat.file',
+              attachment: data.url,
+              nick: visitor.nick,
+              display_name: visitor.display_name,
+              timestamp: time,
+              uploading: false
+            }
           });
         } else {
           dispatch({ type: SEND_FILE_FAILURE });
