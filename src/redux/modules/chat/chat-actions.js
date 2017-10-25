@@ -1,4 +1,5 @@
 import zChat from 'chat-web-sdk';
+import _ from 'lodash';
 
 import {
   END_CHAT_SUCCESS,
@@ -16,7 +17,9 @@ import {
   UPDATE_CHAT_SCREEN,
   TOGGLE_END_CHAT_NOTIFICATION,
   SEND_CHAT_RATING_COMMENT_SUCCESS,
-  SEND_CHAT_RATING_COMMENT_FAILURE
+  SEND_CHAT_RATING_COMMENT_FAILURE,
+  SEND_FILE_SUCCESS,
+  SEND_FILE_FAILURE
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './reducer/chat-screen-types';
 
@@ -178,5 +181,22 @@ export function acceptEndChatNotification() {
     } else {
       dispatch(endChat());
     }
+  };
+}
+
+export function sendAttachments(attachments) {
+  return (dispatch) => {
+    _.forEach(attachments, (file) => {
+      zChat.sendFile(file, (err, data) => {
+        if (!err) {
+          dispatch({
+            type: SEND_FILE_SUCCESS,
+            payload: { file: data.url }
+          });
+        } else {
+          dispatch({ type: SEND_FILE_FAILURE });
+        }
+      });
+    });
   };
 }

@@ -13,6 +13,9 @@ describe('ChatFooter component', () => {
           iconDisabled: 'iconDisabledClasses'
         }
       },
+      'component/Dropzone': {
+        Dropzone: noopReactComponent()
+      },
       'component/Icon': {
         Icon: noopReactComponent()
       }
