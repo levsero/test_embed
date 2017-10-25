@@ -209,13 +209,8 @@ class Chat extends Component {
   }
 
   renderAgentTyping = () => {
-    // const agentList = _.filter(this.props.agents, (agent) => agent.typing === true);
+    const agentList = _.filter(this.props.agents, (agent) => agent.typing === true);
     let typingNotification;
-
-    const agentList = [
-      { display_name: "Terence", typing: true },
-      { display_name: "Bob", typing: true }
-    ];
 
     switch (agentList.length) {
       case 0: return null;
@@ -224,7 +219,7 @@ class Chat extends Component {
 
         typingNotification = i18n.t(
           'embeddable_framework.chat.chatLog.isTyping',
-          { agent: agentName, fallback: `${agentName} is typing...` });
+          { agent: agentName, fallback: `${agentName} is typing` });
         break;
       case 2:
         const agentName1 = agentList[0].display_name,
@@ -232,12 +227,12 @@ class Chat extends Component {
 
         typingNotification = i18n.t(
           'embeddable_framework.chat.chatLog.isTyping.two',
-          { agent1: agentName1, agent2: agentName2, fallback: `${agentName1} and ${agentName2} are typing...` });
+          { agent1: agentName1, agent2: agentName2, fallback: `${agentName1} and ${agentName2} are typing` });
         break;
       default:
         typingNotification = i18n.t(
           'embeddable_framework.chat.chatLog.isTyping.multiple',
-          { fallback: 'Multiple agents are typing...' }
+          { fallback: 'Multiple agents are typing' }
         );
     }
 

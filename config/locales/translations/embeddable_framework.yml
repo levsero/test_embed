@@ -177,17 +177,17 @@ parts:
       key: "embeddable_framework.chat.chatLog.isTyping"
       title: "An application notifier that signifies that an X person is typing a message"
       screenshot: "https://zendesk.box.com/s/wfm8pdh37ft1kpil1jaaghuo8om5w5wl"
-      value: "%(agent)s is typing..."
+      value: "%(agent)s is typing"
   - translation:
       key: "embeddable_framework.chat.chatLog.isTyping.two"
       title: "An application notifier that signifies that two agents are typing a message"
-      screenshot: "https://zendesk.box.com/s/wfm8pdh37ft1kpil1jaaghuo8om5w5wl"
-      value: "%(agent1)s & %(agent2)s are typing..."
+      screenshot: "https://zendesk.box.com/s/emcoootsrmdb36wxh91d19imxdsgu1yr"
+      value: "%(agent1)s & %(agent2)s are typing"
   - translation:
       key: "embeddable_framework.chat.chatLog.isTyping.multiple"
       title: "An application notifier that signifies that more than two agents are typing a message"
-      screenshot: "https://zendesk.box.com/s/wfm8pdh37ft1kpil1jaaghuo8om5w5wl"
-      value: "Multiple agents are typing..."
+      screenshot: "https://zendesk.box.com/s/4gy8p6a8wwd9bwexaafrmxhv2g1w89de"
+      value: "Multiple agents are typing"
   - translation:
       key: "embeddable_framework.chat.chatLog.resend"
       title: "A text displayed on a link or a button that allows the user to resend an unsent message due to disconnection or other circumstances"
@@ -260,9 +260,9 @@ parts:
       value: "1 New message"
   - translation:
       key: "embeddable_framework.chat.button.manyMessages"
-      title: "A button that displays a variable amount of new messages as a notification. When clicked it brings the user to a chat session in another window. If your language has more than one plural use New messages: {{plural_number}}"
+      title: "A button that displays a variable amount of new messages as a notification. When clicked it brings the user to a chat session in another window. If your language has more than one plural use New messages: %(plural_number)s"
       screenshot: "https://zendesk.box.com/s/6ygpe29dvmecfxtrdki787km6yywl3ff"
-      value: "{{plural_number}} New messages"
+      value: "%(plural_number)s New messages"
   - translation:
       key: "embeddable_framework.chat.chatBox.placeholder.typeMessageHere"
       title: "A placeholder text that is displayed in the chat box when there is no content"
