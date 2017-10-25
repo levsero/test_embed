@@ -74,36 +74,6 @@ describe('ChatFooter component', () => {
         });
       });
     });
-
-    describe('attachments icon', () => {
-      let componentNode;
-
-      describe('when props.isChatting is false', () => {
-        beforeEach(() => {
-          const component = domRender(<ChatFooter isChatting={false} />);
-
-          componentNode = ReactDOM.findDOMNode(component);
-        });
-
-        it('has disabled classes', () => {
-          expect(componentNode.querySelector('.iconAttachmentDisabledClasses'))
-            .toBeTruthy();
-        });
-      });
-
-      describe('when props.isChatting is true', () => {
-        beforeEach(() => {
-          const component = domRender(<ChatFooter isChatting={true} />);
-
-          componentNode = ReactDOM.findDOMNode(component);
-        });
-
-        it('does not have disabled classes', () => {
-          expect(componentNode.querySelector('.iconAttachmentDisabledClasses'))
-            .toBeFalsy();
-        });
-      });
-    });
   });
 
   describe('menuIconClick', () => {

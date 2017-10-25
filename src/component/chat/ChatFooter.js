@@ -35,7 +35,6 @@ export class ChatFooter extends Component {
 
   render() {
     const endChatDisabledClasses = this.props.isChatting ? '' : styles.iconDisabled;
-    const attachmentsDisabledClasses = this.props.isChatting ? '' : styles.iconAttachmentDisabled;
 
     return (
       <div>
@@ -46,11 +45,10 @@ export class ChatFooter extends Component {
             className={`${styles.icon} ${endChatDisabledClasses}`}
             onClick={this.handleEndChatClick} />
           <Dropzone
-            disableClick={!this.props.isChatting}
             onDrop={this.props.handleAttachments}>
             <Icon
               type='Icon--paperclip-small'
-              className={`${styles.iconAttachment} ${attachmentsDisabledClasses}`} />
+              className={styles.iconAttachment} />
           </Dropzone>
           <Icon type='Icon--ellipsis' onClick={this.menuIconClick} />
         </div>
