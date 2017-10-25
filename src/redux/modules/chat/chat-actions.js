@@ -16,6 +16,7 @@ import {
   HIDE_CHAT_NOTIFICATION,
   UPDATE_CHAT_SCREEN,
   TOGGLE_END_CHAT_NOTIFICATION,
+  TOGGLE_CONTACT_DETAILS_NOTIFICATION,
   SEND_CHAT_RATING_COMMENT_SUCCESS,
   SEND_CHAT_RATING_COMMENT_FAILURE,
   SEND_CHAT_FILE,
@@ -77,6 +78,13 @@ export const updateChatScreen = (screen) => {
   return {
     type: UPDATE_CHAT_SCREEN,
     payload: { screen }
+  };
+};
+
+export const toggleContactDetailsNotification = (bool) => {
+  return {
+    type: TOGGLE_CONTACT_DETAILS_NOTIFICATION,
+    payload: bool
   };
 };
 
