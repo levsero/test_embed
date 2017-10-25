@@ -263,15 +263,16 @@ class Chat extends Component {
   renderPostchatScreen = () => {
     if (this.props.screen !== FEEDBACK_SCREEN) return null;
 
+    const { sendChatRating, updateChatScreen, endChat, sendChatComment } = this.props;
     const { message } = this.props.postChatFormSettings;
     const skipClickFn = () => {
-      this.props.sendChatRating(ChatRatings.NOT_SET);
-      this.props.updateChatScreen(CHATTING_SCREEN);
-      this.props.endChat();
+      sendChatRating(ChatRatings.NOT_SET);
+      updateChatScreen(CHATTING_SCREEN);
+      endChat();
     };
     const sendClickFn = (text = '') => {
-      this.props.sendChatComment(text);
-      this.props.updateChatScreen(CHATTING_SCREEN);
+      sendChatComment(text);
+      updateChatScreen(CHATTING_SCREEN);
     };
 
     return (
@@ -283,7 +284,7 @@ class Chat extends Component {
         <ChatFeedbackForm
           feedbackMessage={message}
           rating={this.props.chat.rating}
-          updateRating={this.props.sendChatRating}
+          updateRating={sendChatRating}
           skipClickFn={skipClickFn}
           sendClickFn={sendClickFn} />
       </ScrollContainer>

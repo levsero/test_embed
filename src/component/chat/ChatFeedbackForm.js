@@ -29,7 +29,7 @@ export class ChatFeedbackForm extends Component {
 
   renderActionButtons = () => {
     const { rating } = this.props;
-    const shouldDisable = rating === ChatRatings.NOT_SET;
+    const disabled = rating === ChatRatings.NOT_SET;
 
     return (
       <div className={styles.buttonGroup}>
@@ -40,7 +40,7 @@ export class ChatFeedbackForm extends Component {
           onClick={this.props.skipClickFn} />
         <Button
           className={styles.rightButton}
-          disabled={shouldDisable}
+          disabled={disabled}
           label={i18n.t('embeddable_framework.common.button.send')}
           onClick={() => this.props.sendClickFn(this.textarea.value)} />
       </div>
@@ -54,10 +54,11 @@ export class ChatFeedbackForm extends Component {
       <div>
         <label className={styles.feedbackMessage}>{feedbackMessage}</label>
         <ChatRatingGroup className={styles.chatRatingGroup} rating={rating} updateRating={updateRating} />
-        <label className={styles.feedbackDescription}>
+        <label htmlFor='feedbackTextarea' className={styles.feedbackDescription}>
           {i18n.t('embeddable_framework.chat.postChat.rating.description')}
         </label>
         <textarea
+          id='feedbackTextarea'
           ref={(el) => { this.textarea = el; }}
           className={styles.textarea}
           placeholder={i18n.t('embeddable_framework.chat.postChat.rating.placeholder.optional')}
