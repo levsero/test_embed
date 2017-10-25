@@ -13,6 +13,7 @@ export class ChatPopup extends Component {
     rightCtaFn: PropTypes.func,
     leftCtaLabel: PropTypes.string,
     rightCtaLabel: PropTypes.string,
+    rightCtaDisabled: PropTypes.bool,
     childrenOnClick: PropTypes.func,
     children: PropTypes.node
   };
@@ -24,6 +25,7 @@ export class ChatPopup extends Component {
     rightCtaFn: () => {},
     leftCtaLabel: '',
     rightCtaLabel: '',
+    rightCtaDisabled: false,
     childrenOnClick: () => {},
     children: null
   };
@@ -31,7 +33,7 @@ export class ChatPopup extends Component {
   renderCta = () => {
     const {
       showCta, leftCtaFn, rightCtaFn,
-      leftCtaLabel, rightCtaLabel
+      leftCtaLabel, rightCtaLabel, rightCtaDisabled
     } = this.props;
 
     return (showCta)
@@ -45,6 +47,7 @@ export class ChatPopup extends Component {
             label={rightCtaLabel}
             className={styles.rightCtaBtn}
             primary={true}
+            disabled={rightCtaDisabled}
             onClick={rightCtaFn} />
         </div>
       : null;
