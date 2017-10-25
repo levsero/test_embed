@@ -1,6 +1,7 @@
 import { SEND_CHAT_RATING_SUCCESS } from '../chat-action-types';
+import { ChatRatings } from 'component/chat/ChatRatingGroup';
 
-const initialState = null;
+const initialState = ChatRatings.NOT_SET;
 
 const rating = (state = initialState, action = {}) => {
   const { type, payload } = action;

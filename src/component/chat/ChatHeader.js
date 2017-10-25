@@ -1,57 +1,45 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { i18n } from 'service/i18n';
-import { locals as styles } from './ChatHeader.sass';
 
+import { i18n } from 'service/i18n';
 import { Avatar } from 'component/Avatar';
-import { ButtonIcon } from 'component/button/ButtonIcon';
+import { ChatRatingGroup } from 'component/chat/ChatRatingGroup';
+
+import { locals as styles } from './ChatHeader.sass';
 
 export class ChatHeader extends Component {
   static propTypes = {
     avatar: PropTypes.string,
     title: PropTypes.string,
     byline: PropTypes.string,
-    updateRating: PropTypes.func.isRequired,
-    rating: PropTypes.string
+    updateRating: PropTypes.func,
+    rating: PropTypes.string,
+    showRating: PropTypes.bool
   };
 
   static defaultProps = {
     avatar: '',
     title: '',
     byline: '',
-    rating: null
+    updateRating: () => {},
+    rating: null,
+    showRating: false
   };
 
-  ratingClickedHandler = (value) => {
-    const rating = this.props.rating === value ? null : value;
-
-    this.props.updateRating(rating);
-  }
-
-  renderRatingButton = () => {
-    const { rating } = this.props;
-    const thumbUpActiveStyle = rating === 'good' ? styles.ratingIconActive : '';
-    const thumbDownActiveStyle = rating === 'bad' ? styles.ratingIconActive : '';
-
+  renderRatingButtons = () => {
     return (
-      <div className={styles.ratingContainer}>
-        <ButtonIcon
-          className={`${styles.ratingIcon} ${thumbUpActiveStyle}`}
-          icon='Icon--thumbUp'
-          onClick={() => this.ratingClickedHandler('good')} />
-        <ButtonIcon
-          className={`${styles.thumbDownIcon} ${thumbDownActiveStyle}`}
-          icon='Icon--thumbDown'
-          onClick={() => this.ratingClickedHandler('bad')} />
-      </div>
+      <ChatRatingGroup
+        updateRating={this.props.updateRating}
+        rating={this.props.rating} />
     );
   }
 
   render = () => {
-    const { avatar, title, byline } = this.props;
+    const { avatar, title, byline, showRating } = this.props;
     const avatarPath = avatar ? avatar : '';
     const titleText = title ? title : i18n.t('embeddable_framework.chat.header.title');
     const subText = byline ? byline : i18n.t('embeddable_framework.chat.header.subText');
+    const ratingButtons = showRating ? this.renderRatingButtons() : null;
 
     return (
       <div className={styles.container}>
@@ -60,7 +48,7 @@ export class ChatHeader extends Component {
           <div className={styles.title}>{titleText}</div>
           <div>{subText}</div>
         </div>
-        {this.renderRatingButton()}
+        {ratingButtons}
       </div>
     );
   }

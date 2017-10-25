@@ -6,6 +6,12 @@ describe('chat root reducer', () => {
 
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/index');
 
+    initMockRegistry({
+      'component/chat/ChatRatingGroup': {
+        ChatRatings: { NOT_SET: null }
+      }
+    });
+
     reducer = requireUncached(reducerPath).default;
   });
 

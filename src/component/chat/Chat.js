@@ -9,7 +9,9 @@ import { ChatLog } from 'component/chat/ChatLog';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ChatMenu } from 'component/chat/ChatMenu';
 import { ChatPrechatForm } from 'component/chat/ChatPrechatForm';
+import { ChatFeedbackForm } from 'component/chat/ChatFeedbackForm';
 import { ChatPopup } from 'component/chat/ChatPopup';
+import { ChatRatings } from 'component/chat/ChatRatingGroup';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { i18n } from 'service/i18n';
 import { endChat,
@@ -18,11 +20,12 @@ import { endChat,
          updateAccountSettings,
          updateCurrentMsg,
          sendChatRating,
+         sendChatComment,
          updateChatScreen,
          toggleEndChatNotification,
          acceptEndChatNotification } from 'src/redux/modules/chat';
-import { PRECHAT_SCREEN, CHATTING_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
-import { getPrechatFormFields, getIsChatting } from 'src/redux/modules/chat/selectors';
+import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
+import { getPrechatFormFields, getIsChatting, getPostchatFormSettings } from 'src/redux/modules/chat/selectors';
 
 import { locals as styles } from './Chat.sass';
 
@@ -38,6 +41,7 @@ const mapStateToProps = (state) => {
     connection: chat.connection,
     accountSettings: accountSettings,
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
+    postChatFormSettings: getPostchatFormSettings(state),
     showEndNotification: chat.showEndNotification,
     isChatting: getIsChatting(state)
   };
@@ -51,6 +55,7 @@ class Chat extends Component {
     endChat: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
     prechatFormSettings: PropTypes.object.isRequired,
+    postChatFormSettings: PropTypes.object.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
     newDesign: PropTypes.bool,
@@ -61,6 +66,7 @@ class Chat extends Component {
     updateFrameSize: PropTypes.func,
     updateAccountSettings: PropTypes.func.isRequired,
     sendChatRating: PropTypes.func.isRequired,
+    sendChatComment: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
     showEndNotification: PropTypes.bool.isRequired,
     toggleEndChatNotification: PropTypes.func.isRequired,
@@ -75,7 +81,8 @@ class Chat extends Component {
     position: 'right',
     updateFrameSize: () => {},
     updateAccountSettings: () => {},
-    accountSettings: { concierge: {} }
+    accountSettings: { concierge: {} },
+    postChatFormSettings: {}
   };
 
   constructor(props) {
@@ -162,8 +169,8 @@ class Chat extends Component {
     );
   }
 
-  renderChatHeader = () => {
-    const { chat, sendChatRating, endChat, accountSettings } = this.props;
+  renderChatHeader = (showRating = false) => {
+    const { chat, sendChatRating, accountSettings } = this.props;
     // Title in chat refers to the byline and display_name refers to the display title
     const { avatar_path, display_name, title } = accountSettings.concierge;
     const displayName = _.has(display_name, 'toString') ? display_name.toString() : display_name; // eslint-disable-line camelcase
@@ -171,12 +178,12 @@ class Chat extends Component {
 
     return (
       <ChatHeader
+        showRating={showRating}
         rating={chat.rating}
         updateRating={sendChatRating}
         avatar={avatar_path} // eslint-disable-line camelcase
         title={displayName}
-        byline={byline}
-        endChat={endChat} />
+        byline={byline} />
     );
   }
 
@@ -201,17 +208,16 @@ class Chat extends Component {
 
   renderChatScreen = () => {
     if (this.props.screen !== CHATTING_SCREEN) return;
-    const { isMobile } = this.props;
 
-    const containerClasses = isMobile
-                           ? styles.scrollContainerMobile
-                           : '';
+    const { isMobile } = this.props;
+    const showRating = true;
+    const containerClasses = isMobile ? styles.scrollContainerMobile : '';
 
     return (
       <ScrollContainer
         ref={(el) => { this.scrollContainer = el; }}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-        headerContent={this.renderChatHeader()}
+        headerContent={this.renderChatHeader(showRating)}
         headerClasses={styles.header}
         containerClasses={containerClasses}
         getFrameDimensions={this.props.getFrameDimensions}
@@ -254,6 +260,37 @@ class Chat extends Component {
     );
   }
 
+  renderPostchatScreen = () => {
+    if (this.props.screen !== FEEDBACK_SCREEN) return null;
+
+    const { sendChatRating, updateChatScreen, endChat, sendChatComment } = this.props;
+    const { message } = this.props.postChatFormSettings;
+    const skipClickFn = () => {
+      sendChatRating(ChatRatings.NOT_SET);
+      updateChatScreen(CHATTING_SCREEN);
+      endChat();
+    };
+    const sendClickFn = (text = '') => {
+      sendChatComment(text);
+      updateChatScreen(CHATTING_SCREEN);
+    };
+
+    return (
+      <ScrollContainer
+        headerContent={this.renderChatHeader()}
+        newDesign={this.props.newDesign}
+        getFrameDimensions={this.props.getFrameDimensions}
+        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
+        <ChatFeedbackForm
+          feedbackMessage={message}
+          rating={this.props.chat.rating}
+          updateRating={sendChatRating}
+          skipClickFn={skipClickFn}
+          sendClickFn={sendClickFn} />
+      </ScrollContainer>
+    );
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
@@ -261,6 +298,7 @@ class Chat extends Component {
       <div>
         {this.renderPrechatScreen()}
         {this.renderChatScreen()}
+        {this.renderPostchatScreen()}
         {this.renderChatMenu()}
         {this.renderChatEndPopup()}
       </div>
@@ -277,6 +315,7 @@ const actionCreators = {
   endChat,
   setVisitorInfo,
   sendChatRating,
+  sendChatComment,
   updateChatScreen
 };
 

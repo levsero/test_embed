@@ -50,6 +50,12 @@ describe('Chat component', () => {
       'component/chat/ChatPopup': {
         ChatPopup: noopReactComponent()
       },
+      'component/chat/ChatFeedbackForm': {
+        ChatFeedbackForm: noopReactComponent()
+      },
+      'component/chat/ChatRatingGroup': {
+        ChatRatings: {}
+      },
       'component/container/ScrollContainer': {
         ScrollContainer: scrollContainerComponent()
       },
@@ -95,6 +101,7 @@ describe('Chat component', () => {
 
       component = domRender(
         <Chat
+          postChatFormSettings={{ header: 'foo' }}
           setVisitorInfo={setVisitorInfoSpy}
           sendMsg={sendMsgSpy}
           chat={chatProp}
@@ -309,7 +316,11 @@ describe('Chat component', () => {
 
       describe('when the notification should be shown', () => {
         beforeEach(() => {
-          component = domRender(<Chat showEndNotification={true} />);
+          component = domRender(
+            <Chat
+              chat={{ rating: null }}
+              showEndNotification={true} />
+          );
         });
 
         it('shows the chat end notification component', () => {
@@ -320,7 +331,7 @@ describe('Chat component', () => {
 
       describe('when the notification should not be shown', () => {
         beforeEach(() => {
-          component = domRender(<Chat />);
+          component = domRender(<Chat chat={{ rating: null }} />);
         });
 
         it('shows the chat end notification component', () => {

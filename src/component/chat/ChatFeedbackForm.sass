@@ -1,0 +1,34 @@
+@import '../../styles/_vars.scss';
+
+.feedbackMessage {
+  composes: u-block u-textBold from global;
+  margin-top: #{60/$font-size}rem;
+}
+
+.buttonGroup {
+  composes: u-flex from global;
+}
+
+.button {
+  flex-grow: 1;
+}
+
+.rightButton {
+  composes: button;
+  margin-left: #{7/$font-size}rem !important;
+}
+
+.textarea {
+  composes: u-marginBM u-hsizeAll u-paddingTS u-paddingHS from global;
+  border-radius: #{4/$font-size}rem;
+  resize: none;
+  outline: none;
+}
+
+.feedbackDescription {
+  composes: u-marginBS u-block from global;
+}
+
+.chatRatingGroup {
+  composes: u-marginBS u-marginTT from global;
+}
