@@ -21,7 +21,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
       key: title,
       landscape: isLandscape(),
       name: field.id,
-      placeholder: title,
+      label: title,
       required: !!field.required_in_portal,
       value: formState[field.id]
     };

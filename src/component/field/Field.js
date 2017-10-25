@@ -22,12 +22,15 @@ export class Field extends Component {
     disabled: PropTypes.bool,
     hasSearched: PropTypes.bool,
     input: PropTypes.element,
+    fieldContainerClasses: PropTypes.string,
     labelClasses: PropTypes.string,
+    fieldClasses: PropTypes.string,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
     options: PropTypes.array,
     pattern: PropTypes.string,
+    label: PropTypes.string,
     placeholder: PropTypes.string,
     required: PropTypes.bool,
     step: PropTypes.string,
@@ -39,12 +42,15 @@ export class Field extends Component {
     disabled: false,
     hasSearched: false,
     input: null,
+    fieldContainerClasses: '',
     labelClasses: '',
+    fieldClasses: '',
     onBlur: () => {},
     onChange: () => {},
     onFocus: () => {},
     options: [],
     pattern: '',
+    label: '',
     placeholder: '',
     required: false,
     step: '',
@@ -135,6 +141,7 @@ export class Field extends Component {
       type: this.props.type,
       step: this.props.step,
       disabled: this.props.disabled,
+      placeholder: this.props.placeholder,
       autoComplete: 'off'
     };
 
@@ -187,15 +194,18 @@ export class Field extends Component {
     });
 
     const dropdownArrow = isDropdown ? this.renderDropdownArrow() : null;
+    const requiredLabel = this.props.required && !_.isEmpty(this.props.label)
+                        ? '*'
+                        : '';
 
     return (
-      <div className='Form-fieldContainer'>
+      <div className={`Form-fieldContainer ${this.props.fieldContainerClasses}`}>
         <label className='Form-fieldContainer u-block'>
           <div className={fieldLabelClasses}>
-            {this.props.placeholder}
-            {this.props.required ? '*' : ''}
+            {this.props.label}
+            {requiredLabel}
           </div>
-          <div className={fieldClasses}>
+          <div className={`${fieldClasses} ${this.props.fieldClasses}`}>
             {this.renderInput()}
             {dropdownArrow}
           </div>
