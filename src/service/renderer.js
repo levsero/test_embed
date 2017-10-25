@@ -117,7 +117,7 @@ function init(config) {
         configItem.props.brand = config.brand;
 
         embedsMap[configItem.embed].create(embedName, configItem.props, reduxStore);
-        embedsMap[configItem.embed].render(embedName);
+        embedsMap[configItem.embed].render(embedName, reduxStore);
       } catch (err) {
         logging.error({
           error: err,

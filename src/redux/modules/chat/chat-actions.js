@@ -242,3 +242,10 @@ export function sendAttachments(attachments) {
     });
   };
 }
+
+export function saveContactDetails(name, email) {
+  return (dispatch) => {
+    dispatch(toggleContactDetailsNotification(false));
+    dispatch(setVisitorInfo({ display_name: name, email }));
+  };
+}
