@@ -242,7 +242,10 @@ class Chat extends Component {
 
     return (
       <div className={styles.agentTyping}>
-        <LoadingEllipses useUserColor={false} className={styles.loadingEllipses} itemClassName={styles.loadingEllipsesItem} />
+        <LoadingEllipses
+          useUserColor={false}
+          className={styles.loadingEllipses}
+          itemClassName={styles.loadingEllipsesItem} />
         {typingNotification}
       </div>
     );
