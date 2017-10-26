@@ -25,7 +25,10 @@ import { endChat,
          toggleEndChatNotification,
          acceptEndChatNotification } from 'src/redux/modules/chat';
 import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
-import { getPrechatFormFields, getIsChatting, getAgents, getPostchatFormSettings } from 'src/redux/modules/chat/selectors';
+import { getPrechatFormFields,
+         getIsChatting,
+         getAgents,
+         getPostchatFormSettings } from 'src/redux/modules/chat/selectors';
 
 import { locals as styles } from './Chat.sass';
 
@@ -215,19 +218,19 @@ class Chat extends Component {
     switch (agentList.length) {
       case 0: return null;
       case 1:
-        const agentName = agentList[0].display_name;
+        const agent = agentList[0].display_name;
 
         typingNotification = i18n.t(
           'embeddable_framework.chat.chatLog.isTyping',
-          { agent: agentName, fallback: `${agentName} is typing` });
+          { agent, fallback: `${agent} is typing` });
         break;
       case 2:
-        const agentName1 = agentList[0].display_name,
-          agentName2 = agentList[1].display_name;
+        const agent1 = agentList[0].display_name,
+          agent2 = agentList[1].display_name;
 
         typingNotification = i18n.t(
           'embeddable_framework.chat.chatLog.isTyping.two',
-          { agent1: agentName1, agent2: agentName2, fallback: `${agentName1} and ${agentName2} are typing` });
+          { agent1, agent2, fallback: `${agent1} and ${agent2} are typing` });
         break;
       default:
         typingNotification = i18n.t(

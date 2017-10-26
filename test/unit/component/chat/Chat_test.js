@@ -318,9 +318,7 @@ describe('Chat component', () => {
       describe('when the notification should be shown', () => {
         beforeEach(() => {
           component = domRender(
-            <Chat
-              chat={{ rating: null }}
-              showEndNotification={true} />
+            <Chat chat={{ rating: null }} showEndNotification={true} />
           );
         });
 
@@ -352,7 +350,7 @@ describe('Chat component', () => {
             { display_name: 'Wayne', typing: false }
           ];
 
-          const component = instanceRender(<Chat agents={mockAgents} />);
+          const component = instanceRender(<Chat chat={{ rating: null }} agents={mockAgents} />);
 
           agentTypingComponent = component.renderAgentTyping();
         });
@@ -369,7 +367,7 @@ describe('Chat component', () => {
             { display_name: 'Wayne', typing: true }
           ];
 
-          const component = instanceRender(<Chat agents={mockAgents} />);
+          const component = instanceRender(<Chat chat={{ rating: null }} agents={mockAgents} />);
 
           agentTypingComponent = component.renderAgentTyping();
         });
@@ -392,7 +390,7 @@ describe('Chat component', () => {
             { display_name: 'Terence', typing: true }
           ];
 
-          const component = instanceRender(<Chat agents={mockAgents} />);
+          const component = instanceRender(<Chat chat={{ rating: null }} agents={mockAgents} />);
 
           agentTypingComponent = component.renderAgentTyping();
         });
@@ -413,10 +411,10 @@ describe('Chat component', () => {
           mockAgents = [
             { display_name: 'Wayne', typing: true },
             { display_name: 'Terence', typing: true },
-            { display_name: 'IHateMandy', typing: true }
+            { display_name: 'Mandy', typing: true }
           ];
 
-          const component = instanceRender(<Chat agents={mockAgents} />);
+          const component = instanceRender(<Chat chat={{ rating: null }} agents={mockAgents} />);
 
           agentTypingComponent = component.renderAgentTyping();
         });
