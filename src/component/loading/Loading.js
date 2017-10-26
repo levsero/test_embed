@@ -6,11 +6,15 @@ import { isDevice } from 'utility/devices';
 
 export class LoadingEllipses extends Component {
   static propTypes = {
-    className: PropTypes.string
+    className: PropTypes.string,
+    itemClassName: PropTypes.string,
+    useUserColor: PropTypes.bool
   };
 
   static defaultProps = {
-    className: ''
+    className: '',
+    itemClassName: '',
+    useUserColor: true
   };
 
   render = () => {
@@ -20,7 +24,9 @@ export class LoadingEllipses extends Component {
     const loadingEllipsesItemClasses = classNames({
       'LoadingEllipses-item--bounce': !isIos8,
       'LoadingEllipses-item--fade': isIos8,
-      'LoadingEllipses-item u-userBackgroundColor u-inlineBlock': true
+      [this.props.itemClassName]: true,
+      'u-userBackgroundColor': this.props.useUserColor,
+      'LoadingEllipses-item u-inlineBlock': true
     });
 
     return (

@@ -44,5 +44,19 @@ describe('Loading component', function() {
       expect(ellipses.props.children[0].props.className)
         .toMatch('LoadingEllipses-item--fade');
     });
+
+    it('should have the class `u-userBackgroundColor` by default', function() {
+      const ellipses = shallowRender(<LoadingEllipses />);
+
+      expect(ellipses.props.children[0].props.className)
+        .toMatch('u-userBackgroundColor');
+    });
+
+    it('should be able to disable the background color class', function() {
+      const ellipses = shallowRender(<LoadingEllipses useUserColor={false} />);
+
+      expect(ellipses.props.children[0].props.className)
+        .not.toMatch('u-userBackgroundColor');
+    });
   });
 });
