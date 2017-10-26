@@ -48,3 +48,8 @@ export const getPostchatFormSettings = createSelector(
   [getPostchatSettings],
   _.identity
 );
+
+export const getChatVisitor = createSelector(
+  [(state) => state.chat.visitor],
+  _.identity
+);

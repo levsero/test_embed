@@ -32,6 +32,9 @@ describe('chat redux actions', () => {
         sendChatComment: mockSendChatComment,
         sendFile: mockSendFile,
         _getAccountSettings: () => mockAccountSettings
+      },
+      'src/redux/modules/chat/selectors': {
+        getChatVisitor: () => 'Batman'
       }
     });
 
@@ -500,11 +503,13 @@ describe('chat redux actions', () => {
   });
 
   describe('sendAttachments', () => {
-    let files;
+    let files, action;
 
     beforeEach(() => {
       files = { name: 'testFile.jpg' };
       mockStore.dispatch(actions.sendAttachments(files));
+
+      action = mockStore.getActions()[0];
     });
 
     it('calls sendFile on the Web SDK', () => {
@@ -512,15 +517,15 @@ describe('chat redux actions', () => {
         .toHaveBeenCalled();
     });
 
-    it('dispatches a SEND_FILE action with uploading true in the payload', () => {
-      expect(mockStore.getActions()[0])
+    it('dispatches a SEND_CHAT_FILE action', () => {
+      expect(action)
         .toEqual(jasmine.objectContaining({
-          type: actionTypes.SEND_FILE
+          type: actionTypes.SEND_CHAT_FILE
         }));
     });
 
     it('has the correct params in the payload', () => {
-      expect(mockStore.getActions()[0].payload)
+      expect(action.payload)
         .toEqual(jasmine.objectContaining({
           type: 'chat.file',
           uploading: true
@@ -541,17 +546,19 @@ describe('chat redux actions', () => {
       describe('when there are no errors', () => {
         beforeEach(() => {
           callbackFn(false, endpointData);
+
+          action = mockStore.getActions()[1];
         });
 
-        it('dispatches a SEND_FILE_SUCCESS action with uploading false in payload', () => {
-          expect(mockStore.getActions()[1])
+        it('dispatches a SEND_CHAT_FILE_SUCCESS action', () => {
+          expect(action)
             .toEqual(jasmine.objectContaining({
-              type: actionTypes.SEND_FILE_SUCCESS
+              type: actionTypes.SEND_CHAT_FILE_SUCCESS
             }));
         });
 
         it('has the correct params in the payload', () => {
-          expect(mockStore.getActions()[1].payload)
+          expect(action.payload)
             .toEqual(jasmine.objectContaining({
               type: 'chat.file',
               uploading: false,
@@ -565,10 +572,10 @@ describe('chat redux actions', () => {
           callbackFn(true);
         });
 
-        it('dispatches a SEND_FILE_FAILURE action', () => {
+        it('dispatches a SEND_CHAT_FILE_FAILURE action', () => {
           expect(mockStore.getActions()[1])
             .toEqual(jasmine.objectContaining({
-              type: actionTypes.SEND_FILE_FAILURE
+              type: actionTypes.SEND_CHAT_FILE_FAILURE
             }));
         });
       });
