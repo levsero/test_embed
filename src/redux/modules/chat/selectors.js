@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { createSelector } from 'reselect';
 
 const getNotification = (state) => state.chat.notification;
-const getAgents = (state) => state.chat.agents;
 const getChats = (state) => {
   return _.filter([...state.chat.chats.values()], (e) => e.type === 'chat.msg');
 };
@@ -13,6 +12,8 @@ const getChatsByAgent = (state) => {
 };
 const getPrechatSettings = (state) => state.chat.accountSettings.prechatForm;
 const getPostchatSettings = (state) => state.chat.accountSettings.postchatForm;
+
+export const getAgents = (state) => state.chat.agents;
 
 export const getChatNotification = createSelector(
   [getNotification, getAgents, getChatsByAgent],
