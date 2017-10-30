@@ -62,10 +62,10 @@ describe('chat reducer chats', () => {
 
     describe('when a SEND_CHAT_FILE action is dispatched', () => {
       let state,
-        payload;
+        sendPayload;
 
       beforeEach(() => {
-        payload = {
+        sendPayload = {
           timestamp: Date.now(),
           uploading: true,
           nick: 'visitor',
@@ -74,7 +74,7 @@ describe('chat reducer chats', () => {
 
         state = reducer(initialState, {
           type: actionTypes.SEND_CHAT_FILE,
-          payload: payload
+          payload: sendPayload
         });
       });
 
@@ -82,41 +82,43 @@ describe('chat reducer chats', () => {
         expect(state.size)
           .toEqual(1);
 
-        expect(state.get(payload.timestamp))
+        expect(state.get(sendPayload.timestamp))
           .toEqual(jasmine.objectContaining({
-            timestamp: payload.timestamp,
-            uploading: payload.uploading
+            timestamp: sendPayload.timestamp,
+            uploading: sendPayload.uploading
           }));
       });
 
       describe('when a SEND_CHAT_FILE_SUCCESS action is dispatched', () => {
-        let newState,
-          newPayload;
+        let successPayload;
 
         beforeEach(() => {
-          newPayload = {
-            timestamp: payload.timestamp,
+          successPayload = {
+            timestamp: sendPayload.timestamp,
             uploading: false,
             attachment: { name: 'bunpun.png' },
             nick: 'visitor',
             display_name: 'Visitor 123'
           };
-
-          newState = reducer(state, {
-            type: actionTypes.SEND_CHAT_FILE_SUCCESS,
-            payload: newPayload
-          });
         });
 
-        it('overrides the previous attachment message', () => {
-          expect(newState.size)
+        it('overrides the SEND_CHAT_FILE state', () => {
+          expect(state.size)
             .toEqual(1);
 
-          expect(newState.get(newPayload.timestamp))
+          state = reducer(state, {
+            type: actionTypes.SEND_CHAT_FILE_SUCCESS,
+            payload: successPayload
+          });
+
+          expect(state.size)
+            .toEqual(1);
+
+          expect(state.get(successPayload.timestamp))
             .toEqual(jasmine.objectContaining({
-              timestamp: newPayload.timestamp,
-              uploading: newPayload.uploading,
-              attachment: newPayload.attachment
+              timestamp: successPayload.timestamp,
+              uploading: successPayload.uploading,
+              attachment: successPayload.attachment
             }));
         });
       });
