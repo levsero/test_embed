@@ -57,6 +57,9 @@ describe('Chat component', () => {
       'component/chat/ChatRatingGroup': {
         ChatRatings: {}
       },
+      'component/loading/Loading': {
+        LoadingEllipses: noopReactComponent()
+      },
       'component/container/ScrollContainer': {
         ScrollContainer: scrollContainerComponent()
       },
@@ -378,7 +381,7 @@ describe('Chat component', () => {
         });
 
         it('renders a notification that signifies a single agent typing', () => {
-          expect(agentTypingComponent.props.children)
+          expect(agentTypingComponent.props.children[1])
             .toEqual('embeddable_framework.chat.chatLog.isTyping');
         });
       });
@@ -401,7 +404,7 @@ describe('Chat component', () => {
         });
 
         it('renders a notification that signifies two agents typing', () => {
-          expect(agentTypingComponent.props.children)
+          expect(agentTypingComponent.props.children[1])
             .toEqual('embeddable_framework.chat.chatLog.isTyping.two');
         });
       });
@@ -425,7 +428,7 @@ describe('Chat component', () => {
         });
 
         it('renders a notification that signifies multiple agents typing', () => {
-          expect(agentTypingComponent.props.children)
+          expect(agentTypingComponent.props.children[1])
             .toEqual('embeddable_framework.chat.chatLog.isTyping.multiple');
         });
       });
