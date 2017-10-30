@@ -4,5 +4,6 @@ module.exports = {
   lodash: '_',
   superagent: 'superagent',
   'translation/ze_translations': 'zETranslations',
-  'translation/ze_localeIdMap': 'zELocaleIdMap'
+  'translation/ze_localeIdMap': 'zELocaleIdMap',
+  'chat-web-sdk': 'zChat'
 };
