@@ -20,7 +20,8 @@ import {
   SEND_CHAT_RATING_COMMENT_FAILURE,
   SEND_CHAT_FILE,
   SEND_CHAT_FILE_SUCCESS,
-  SEND_CHAT_FILE_FAILURE
+  SEND_CHAT_FILE_FAILURE,
+  TOGGLE_CHAT_NOTIFICATION_SOUND
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './reducer/chat-screen-types';
 import { getChatVisitor } from 'src/redux/modules/chat/selectors';
@@ -76,6 +77,13 @@ export const updateChatScreen = (screen) => {
   return {
     type: UPDATE_CHAT_SCREEN,
     payload: { screen }
+  };
+};
+
+export const toggleChatSound = (bool) => {
+  return {
+    type: TOGGLE_CHAT_NOTIFICATION_SOUND,
+    payload: bool
   };
 };
 
@@ -160,6 +168,8 @@ export function updateAccountSettings() {
     if (accountSettings.forms.pre_chat_form.required) {
       dispatch(updateChatScreen(PRECHAT_SCREEN));
     }
+
+    dispatch(toggleChatSound(!accountSettings.sound.disabled));
 
     dispatch({
       type: UPDATE_ACCOUNT_SETTINGS,

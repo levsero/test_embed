@@ -18,7 +18,7 @@ let actions,
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
 
-describe('chat redux actions', () => {
+fdescribe('chat redux actions', () => {
   beforeEach(() => {
     mockery.enable();
 
@@ -416,17 +416,23 @@ describe('chat redux actions', () => {
   });
 
   describe('updateAccountSettings', () => {
-    let action;
+    let action1,
+      action2,
+      soundDisabled;
 
     describe('when the prechat form is required', () => {
       let updateScreenAction;
 
       beforeEach(() => {
-        mockAccountSettings = { forms: { pre_chat_form: { required: true } } };
+        soundDisabled = false;
+        mockAccountSettings = {
+          forms: { pre_chat_form: { required: true } },
+          sound: { disabled: soundDisabled }
+        };
         mockStore.dispatch(actions.updateAccountSettings());
-
         updateScreenAction = mockStore.getActions()[0];
-        action = mockStore.getActions()[1];
+        action1 = mockStore.getActions()[1];
+        action2 = mockStore.getActions()[2];
       });
 
       it('dispatches updateChatScreen action with the prechat screen', () => {
@@ -437,31 +443,56 @@ describe('chat redux actions', () => {
           });
       });
 
+      it('dispatches an action of type TOGGLE_CHAT_NOTIFICATION_SOUND', () => {
+        expect(action1.type)
+          .toBe(actionTypes.TOGGLE_CHAT_NOTIFICATION_SOUND);
+      });
+
+      it('has the inverted value of sound settings in the payload', () => {
+        expect(action1.payload)
+          .toEqual(!soundDisabled);
+      });
+
       it('dispatches an action of type UPDATE_ACCOUNT_SETTINGS', () => {
-        expect(action.type)
+        expect(action2.type)
           .toBe(actionTypes.UPDATE_ACCOUNT_SETTINGS);
       });
 
       it('has the value returned from zChat._getAccountSettings() in the payload', () => {
-        expect(action.payload)
+        expect(action2.payload)
           .toEqual(mockAccountSettings);
       });
     });
 
     describe('when the prechat form is not required', () => {
       beforeEach(() => {
-        mockAccountSettings = { forms: { pre_chat_form: { required: false } } };
+        soundDisabled = true;
+        mockAccountSettings = {
+          forms: { pre_chat_form: { required: false } },
+          sound: { disabled: soundDisabled }
+        };
         mockStore.dispatch(actions.updateAccountSettings());
-        action = mockStore.getActions()[0];
+        action1 = mockStore.getActions()[0];
+        action2 = mockStore.getActions()[1];
+      });
+
+      it('dispatches an action of type TOGGLE_CHAT_NOTIFICATION_SOUND', () => {
+        expect(action1.type)
+          .toBe(actionTypes.TOGGLE_CHAT_NOTIFICATION_SOUND);
+      });
+
+      it('has the inverted value of sound settings in the payload', () => {
+        expect(action1.payload)
+          .toEqual(!soundDisabled);
       });
 
       it('dispatches an action of type UPDATE_ACCOUNT_SETTINGS', () => {
-        expect(action.type)
+        expect(action2.type)
           .toEqual(actionTypes.UPDATE_ACCOUNT_SETTINGS);
       });
 
       it('has the value returned from zChat._getAccountSettings() in the payload', () => {
-        expect(action.payload)
+        expect(action2.payload)
           .toEqual(mockAccountSettings);
       });
     });
@@ -581,6 +612,27 @@ describe('chat redux actions', () => {
             }));
         });
       });
+    });
+  });
+
+  describe('toggleChatSound', () => {
+    let action,
+      bool;
+
+    beforeEach(() => {
+      bool = true;
+      mockStore.dispatch(actions.toggleChatSound(bool));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type TOGGLE_CHAT_NOTIFICATION_SOUND ', () => {
+      expect(action.type)
+        .toEqual(actionTypes.TOGGLE_CHAT_NOTIFICATION_SOUND);
+    });
+
+    it('has the updated screen in the payload', () => {
+      expect(action.payload)
+        .toBe(bool);
     });
   });
 });

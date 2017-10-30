@@ -25,11 +25,13 @@ import { endChat,
          sendChatComment,
          updateChatScreen,
          toggleEndChatNotification,
-         acceptEndChatNotification } from 'src/redux/modules/chat';
+         acceptEndChatNotification,
+         toggleChatSound } from 'src/redux/modules/chat';
 import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
 import { getPrechatFormFields,
          getIsChatting,
          getAgents,
+         getPlaySound,
          getPostchatFormSettings } from 'src/redux/modules/chat/selectors';
 
 import { locals as styles } from './Chat.sass';
@@ -49,7 +51,8 @@ const mapStateToProps = (state) => {
     postChatFormSettings: getPostchatFormSettings(state),
     showEndNotification: chat.showEndNotification,
     isChatting: getIsChatting(state),
-    agents: getAgents(state)
+    agents: getAgents(state),
+    playSound: getPlaySound(state)
   };
 };
 
@@ -78,8 +81,10 @@ class Chat extends Component {
     showEndNotification: PropTypes.bool.isRequired,
     toggleEndChatNotification: PropTypes.func.isRequired,
     acceptEndChatNotification: PropTypes.func.isRequired,
+    toggleChatSound: PropTypes.func.isRequired,
     isChatting: PropTypes.bool.isRequired,
-    agents: PropTypes.object.isRequired
+    agents: PropTypes.object.isRequired,
+    playSound: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -152,10 +157,16 @@ class Chat extends Component {
   renderChatMenu = () => {
     if (!this.state.showMenu) return;
 
-    const showChatEndFn = () => this.props.toggleEndChatNotification(true);
+    const { playSound, isChatting, toggleEndChatNotification, toggleChatSound } = this.props;
+    const showChatEndFn = () => toggleEndChatNotification(true);
+    const invertSoundFn = () => toggleChatSound(!playSound);
 
     return (
-      <ChatMenu disableEndChat={!this.props.isChatting} endChatOnClick={showChatEndFn} />
+      <ChatMenu
+        playSound={playSound}
+        disableEndChat={!isChatting}
+        endChatOnClick={showChatEndFn}
+        soundOnClick={invertSoundFn} />
     );
   }
 
@@ -355,6 +366,7 @@ class Chat extends Component {
 }
 
 const actionCreators = {
+  toggleChatSound,
   toggleEndChatNotification,
   acceptEndChatNotification,
   sendMsg,
