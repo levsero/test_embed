@@ -60,7 +60,7 @@ describe('chat reducer chats', () => {
       });
     });
 
-    describe('when a SEND_FILE action is dispatched', () => {
+    describe('when a SEND_CHAT_FILE action is dispatched', () => {
       let state,
         payload;
 
@@ -73,12 +73,12 @@ describe('chat reducer chats', () => {
         };
 
         state = reducer(initialState, {
-          type: actionTypes.SEND_FILE,
+          type: actionTypes.SEND_CHAT_FILE,
           payload: payload
         });
       });
 
-      it('adds the attachments message to the chats collection', () => {
+      it('adds the attachment message to the chats collection', () => {
         expect(state.size)
           .toEqual(1);
 
@@ -89,7 +89,7 @@ describe('chat reducer chats', () => {
           }));
       });
 
-      describe('when a SEND_FILE_SUCCESS action is dispatched', () => {
+      describe('when a SEND_CHAT_FILE_SUCCESS action is dispatched', () => {
         let newState,
           newPayload;
 
@@ -103,12 +103,12 @@ describe('chat reducer chats', () => {
           };
 
           newState = reducer(state, {
-            type: actionTypes.SEND_FILE_SUCCESS,
+            type: actionTypes.SEND_CHAT_FILE_SUCCESS,
             payload: newPayload
           });
         });
 
-        it('overrides the previous attachments message', () => {
+        it('overrides the previous attachment message', () => {
           expect(newState.size)
             .toEqual(1);
 

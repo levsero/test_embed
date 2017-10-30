@@ -187,9 +187,10 @@ describe('chat selectors', () => {
 
   describe('getChatVisitor', () => {
     let result;
+    const visitor = 'Batman';
     const mockChatSettings = {
       chat: {
-        visitor: 'Batman'
+        visitor
       }
     };
 
@@ -199,7 +200,7 @@ describe('chat selectors', () => {
 
     it('returns the current state of chat.visitor', () => {
       expect(result)
-        .toEqual('Batman');
+        .toEqual(visitor);
     });
   });
 

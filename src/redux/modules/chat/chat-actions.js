@@ -18,11 +18,12 @@ import {
   TOGGLE_END_CHAT_NOTIFICATION,
   SEND_CHAT_RATING_COMMENT_SUCCESS,
   SEND_CHAT_RATING_COMMENT_FAILURE,
-  SEND_FILE,
-  SEND_FILE_SUCCESS,
-  SEND_FILE_FAILURE
+  SEND_CHAT_FILE,
+  SEND_CHAT_FILE_SUCCESS,
+  SEND_CHAT_FILE_FAILURE
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './reducer/chat-screen-types';
+import { getChatVisitor } from 'src/redux/modules/chat/selectors';
 
 const chatTypingTimeout = 2000;
 
@@ -187,13 +188,13 @@ export function acceptEndChatNotification() {
 
 export function sendAttachments(attachments) {
   return (dispatch, getState) => {
-    const { visitor } = getState().chat;
+    const visitor = getChatVisitor(getState());
 
     _.forEach(attachments, (file) => {
       const time = Date.now();
 
       dispatch({
-        type: SEND_FILE,
+        type: SEND_CHAT_FILE,
         payload: {
           type: 'chat.file',
           nick: visitor.nick,
@@ -206,7 +207,7 @@ export function sendAttachments(attachments) {
       zChat.sendFile(file, (err, data) => {
         if (!err) {
           dispatch({
-            type: SEND_FILE_SUCCESS,
+            type: SEND_CHAT_FILE_SUCCESS,
             payload: {
               type: 'chat.file',
               attachment: data.url,
@@ -217,7 +218,7 @@ export function sendAttachments(attachments) {
             }
           });
         } else {
-          dispatch({ type: SEND_FILE_FAILURE });
+          dispatch({ type: SEND_CHAT_FILE_FAILURE });
         }
       });
     });

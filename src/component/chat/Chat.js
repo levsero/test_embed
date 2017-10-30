@@ -168,7 +168,7 @@ class Chat extends Component {
       <ChatFooter
         endChat={showChatEndFn}
         isChatting={this.props.isChatting}
-        handleAttachments={this.props.sendAttachments}
+        handleAttachmentDrop={this.props.sendAttachments}
         toggleMenu={this.toggleMenu}>
         <ChatBox
           currentMessage={chat.currentMessage}

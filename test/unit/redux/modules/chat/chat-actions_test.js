@@ -570,10 +570,12 @@ describe('chat redux actions', () => {
       describe('when there are errors', () => {
         beforeEach(() => {
           callbackFn(true);
+
+          action = mockStore.getActions()[1];
         });
 
         it('dispatches a SEND_CHAT_FILE_FAILURE action', () => {
-          expect(mockStore.getActions()[1])
+          expect(action)
             .toEqual(jasmine.objectContaining({
               type: actionTypes.SEND_CHAT_FILE_FAILURE
             }));

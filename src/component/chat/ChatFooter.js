@@ -10,14 +10,14 @@ export class ChatFooter extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     endChat: PropTypes.func,
-    handleAttachments: PropTypes.func,
+    handleAttachmentDrop: PropTypes.func,
     isChatting: PropTypes.bool,
     toggleMenu: PropTypes.func
   }
 
   static defaultProps = {
     endChat: () => {},
-    handleAttachments: () => {},
+    handleAttachmentDrop: () => {},
     isChatting: false,
     toggleMenu: () => {}
   }
@@ -45,7 +45,7 @@ export class ChatFooter extends Component {
             className={`${styles.icon} ${endChatDisabledClasses}`}
             onClick={this.handleEndChatClick} />
           <Dropzone
-            onDrop={this.props.handleAttachments}>
+            onDrop={this.props.handleAttachmentDrop}>
             <Icon
               type='Icon--paperclip-small'
               className={styles.iconAttachment} />
