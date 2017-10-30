@@ -8,13 +8,20 @@ const packageJson = require('../package.json');
 
 const writeLog = (msg) => console.log(chalk.green(msg));
 const writeError = (msg) => console.error(chalk.red(msg));
+const getVersion = (versionStr) => {
+  if (versionStr.includes('git+ssh')) {
+    return versionStr.split('#')[1];
+  }
+
+  return versionStr;
+};
 
 const validateDependencies = () => {
   const deps = manifest.externals;
   const packageDeps = packageJson.dependencies;
 
   deps.forEach((dep) => {
-    const version = packageDeps[dep.name];
+    const version = getVersion(packageDeps[dep.name]);
 
     if (!version) {
       writeError(`${dep.name} not present in package dependencies`);
