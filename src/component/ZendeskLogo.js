@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
@@ -25,22 +24,28 @@ export class ZendeskLogo extends Component {
   };
 
   render = () => {
-    const { fullscreen, rtl, formSuccess } = this.props;
-    const logoClasses = classNames({
-      'u-linkClean': true,
-      'u-posAbsolute u-posEnd--vert': !fullscreen || formSuccess,
-      'u-posRelative': fullscreen,
-      'u-posStart': !rtl,
-      'u-posEnd': rtl,
-      [this.props.className]: true
-    });
+    const { fullscreen, rtl, formSuccess, className, logoLink, utm } = this.props;
+    let logoClasses = 'u-linkClean';
+
+    if (!fullscreen || formSuccess) {
+      logoClasses += ' u-posAbsolute u-posEnd--vert';
+    }
+    if (fullscreen) {
+      logoClasses += ' u-posRelative';
+    }
+    if (rtl) {
+      logoClasses += ' u-posEnd';
+    } else {
+      logoClasses += ' u-posStart';
+    }
+    logoClasses += ` ${className}`;
 
     const logoUrl = [
       i18n.t(
-        `embeddable_framework.zendeskLogo.powered_by_url.${this.props.logoLink}`,
-        { fallback: `https://www.zendesk.com/${this.props.logoLink}/` }
+        `embeddable_framework.zendeskLogo.powered_by_url.${logoLink}`,
+        { fallback: `https://www.zendesk.com/${logoLink}/` }
       ),
-      `?utm_source=${this.props.utm}&utm_medium=poweredbyzendesk&utm_campaign=image`
+      `?utm_source=${utm}&utm_medium=poweredbyzendesk&utm_campaign=image`
     ].join('');
 
     return (
