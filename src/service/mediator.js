@@ -16,6 +16,7 @@ const launcher = 'launcher';
 const chat = 'zopimChat';
 const helpCenter = 'helpCenterForm';
 const channelChoice = 'channelChoice';
+const talk = 'talk';
 const state = {};
 
 state[`${chat}.connectionPending`] = true;
@@ -35,9 +36,15 @@ state[`${chat}.isAccessible`] = false;
 state[`${chat}.unreadMsgs`] = 0;
 state[`${chat}.userClosed`] = false;
 state[`${chat}.chatEnded`] = false;
+state[`${talk}.isAccessible`] = false;
 state['ipm.isVisible'] = false;
 state['.hideOnClose'] = false;
 state['.activatePending'] = false;
+
+const talkAvailable = () => {
+  // TODO: Add suppressed condition here when implementing it
+  return state[`${talk}.isAccessible`];
+};
 
 const helpCenterAvailable = () => {
   return state[`${helpCenter}.isAccessible`] && !state[`${helpCenter}.isSuppressed`];
@@ -81,6 +88,8 @@ const resetActiveEmbed = () => {
     state.activeEmbed = helpCenter;
   } else if (channelChoiceAvailable()) {
     state.activeEmbed = channelChoice;
+  } else if (talkAvailable()) {
+    state.activeEmbed = talk;
   } else if (chatAvailable()) {
     state.activeEmbed = chat;
   } else if (submitTicketAvailable()) {
@@ -163,6 +172,7 @@ function init(embedsAccessible, params = {}) {
   state[`${chat}.isSuppressed`] = settings.get('chat.suppress');
   state[`${submitTicket}.isSuppressed`] = settings.get('contactForm.suppress');
   state[`${chat}.connectionPending`] = embedsAccessible.chat && !params.newChat;
+  state[`${talk}.isAccessible`] = embedsAccessible.talk;
 
   resetActiveEmbed();
 

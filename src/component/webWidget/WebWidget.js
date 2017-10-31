@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import Chat from 'component/chat/Chat';
+import { Talk } from 'component/talk/Talk';
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
 import { Container } from 'component/container/Container';
 import { HelpCenter } from 'component/helpCenter/HelpCenter';
@@ -21,6 +22,7 @@ const helpCenter = 'helpCenterForm';
 const chat = 'chat';
 const zopimChat = 'zopimChat';
 const channelChoice = 'channelChoice';
+const talk = 'talk';
 
 const mapStateToProps = (state) => {
   const { base, chat } = state;
@@ -80,7 +82,8 @@ class WebWidget extends Component {
     hideChatNotification: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
-    authenticated: PropTypes.bool.isRequired
+    authenticated: PropTypes.bool.isRequired,
+    talkAvailable: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -156,6 +159,8 @@ class WebWidget extends Component {
 
   isChannelChoiceAvailable = () => this.props.channelChoice && this.isChatOnline() && this.props.submitTicketAvailable;
 
+  isTalkAvailable = () => this.props.talkAvailable;
+
   isChatOnline = () => this.props.chat.account_status === 'online' || this.props.zopimOnline;
 
   noActiveEmbed = () => this.props.activeEmbed === '';
@@ -185,6 +190,8 @@ class WebWidget extends Component {
       backButton = this.articleViewActive();
     } else if (this.isChannelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
+    } else if (this.isTalkAvailable()) {
+      updateActiveEmbed(talk);
     } else if (this.isChatOnline()) {
       this.showChat();
     } else {
@@ -395,6 +402,20 @@ class WebWidget extends Component {
     );
   }
 
+  renderTalk = () => {
+    if (this.props.activeEmbed !== talk) return null;
+
+    return (
+      <Talk
+        ref={talk}
+        hideZendeskLogo={this.props.hideZendeskLogo}
+        getFrameDimensions={this.props.getFrameDimensions}
+        style={this.props.style}
+        fullscreen={this.props.fullscreen}
+        updateFrameSize={this.props.updateFrameSize} />
+    );
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
@@ -419,6 +440,7 @@ class WebWidget extends Component {
           {this.renderChat()}
           {this.renderHelpCenter()}
           {this.renderChannelChoice()}
+          {this.renderTalk()}
         </Container>
       </div>
     );

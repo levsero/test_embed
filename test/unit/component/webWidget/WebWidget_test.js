@@ -60,6 +60,16 @@ describe('WebWidget component', () => {
       }
     }
 
+    class MockTalk extends Component {
+      constructor() {
+        super();
+        this.state = {};
+      }
+      render() {
+        return <div ref='talk' />;
+      }
+    }
+
     class MockChatReduxWrapper extends Component {
       constructor() {
         super();
@@ -91,6 +101,9 @@ describe('WebWidget component', () => {
       },
       'component/submitTicket/SubmitTicket': {
         SubmitTicket: MockSubmitTicket
+      },
+      'component/talk/Talk': {
+        Talk: MockTalk
       },
       'component/channelChoice/ChannelChoice': {
         ChannelChoice: noopReactComponent()
@@ -175,6 +188,17 @@ describe('WebWidget component', () => {
           .toContain('u-isHidden');
 
         expect(webWidget.renderChat())
+          .toBeTruthy();
+      });
+    });
+
+    describe('when component is set to talk', () => {
+      beforeEach(() => {
+        webWidget = domRender(<WebWidget activeEmbed='talk' />);
+      });
+
+      it('should show talk component', () => {
+        expect(webWidget.renderTalk())
           .toBeTruthy();
       });
     });
@@ -702,6 +726,117 @@ describe('WebWidget component', () => {
     beforeEach(() => {
       updateActiveEmbedSpy = jasmine.createSpy();
       updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibilitySpy');
+    });
+
+    describe('when Talk is available', () => {
+      describe('when HelpCenter is available', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              talkAvailable={true}
+              updateActiveEmbed={updateActiveEmbedSpy}
+              activeEmbed='' />
+          );
+
+          spyOn(webWidget, 'articleViewActive');
+
+          webWidget.isHelpCenterAvailable = () => true;
+          webWidget.resetActiveEmbed();
+        });
+
+        it('calls articleViewActive', () => {
+          expect(webWidget.articleViewActive)
+            .toHaveBeenCalled();
+        });
+
+        it('calls updateActiveEmbed with helpCenterForm', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('helpCenterForm');
+        });
+      });
+
+      describe('when ChannelChoice is available', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              talkAvailable={true}
+              updateActiveEmbed={updateActiveEmbedSpy}
+              activeEmbed='' />
+          );
+
+          webWidget.isChannelChoiceAvailable = () => true;
+          webWidget.resetActiveEmbed();
+        });
+
+        it('calls updateActiveEmbed with channelChoice', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('channelChoice');
+        });
+      });
+
+      describe('when neither HelpCenter or ChannelChoice is available', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              talkAvailable={true}
+              updateActiveEmbed={updateActiveEmbedSpy}
+              activeEmbed='' />
+          );
+
+          webWidget.resetActiveEmbed();
+        });
+
+        it('calls updateActiveEmbed with talk', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('talk');
+        });
+      });
+    });
+
+    describe('when Talk is not available', () => {
+      describe('when Chat is available', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              updateActiveEmbed={updateActiveEmbedSpy}
+              activeEmbed='' />
+          );
+
+          spyOn(webWidget, 'showChat');
+
+          webWidget.isChatOnline = () => true;
+          webWidget.resetActiveEmbed();
+        });
+
+        it('calls showChat', () => {
+          expect(webWidget.showChat)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when there are no embeds available apart from contactForm', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              updateActiveEmbed={updateActiveEmbedSpy}
+              activeEmbed='' />
+          );
+
+          spyOn(webWidget, 'shouldShowTicketFormBackButton');
+
+          webWidget.resetActiveEmbed();
+        });
+
+        it('calls shouldShowTicketFormBackButton', () => {
+          expect(webWidget.shouldShowTicketFormBackButton)
+            .toHaveBeenCalled();
+        });
+
+        it('calls updateActiveEmbed with ticketSubmissionForm', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('ticketSubmissionForm');
+        });
+      });
     });
 
     describe('when help center is available', () => {
