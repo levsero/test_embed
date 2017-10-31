@@ -6,8 +6,24 @@
   padding-top: #{8/$font-size}rem;
 }
 
-.iconEndChat {
-  composes: Icon--ellipsis u-marginLS from global;
+.icon {
+  composes: Icon--ellipsis u-paddingLN from global;
+
+  padding-right: #{3/$font-size}rem;
+}
+
+.iconAttachment {
+  composes: icon;
+
+  path {
+    stroke: $zd-color-aluminum !important;
+  }
+
+  &:hover, &:active, &:focus {
+    path {
+      stroke: $zd-color-dark-gray !important;
+    }
+  }
 }
 
 .iconDisabled {

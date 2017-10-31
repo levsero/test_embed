@@ -10,8 +10,12 @@ describe('ChatFooter component', () => {
       './ChatFooter.sass': {
         locals: {
           icons: 'iconsClasses',
-          iconDisabled: 'iconDisabledClasses'
+          iconDisabled: 'iconDisabledClasses',
+          iconAttachmentDisabled: 'iconAttachmentDisabledClasses'
         }
+      },
+      'component/Dropzone': {
+        Dropzone: noopReactComponent()
       },
       'component/Icon': {
         Icon: noopReactComponent()

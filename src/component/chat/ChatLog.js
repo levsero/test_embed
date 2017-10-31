@@ -44,7 +44,7 @@ export class ChatLog extends Component {
   render() {
     const { chats } = this.props;
     const chatGroups = _.chain([...chats.values()])
-                        .filter((chat) => chat.type === 'chat.msg')
+                        .filter((chat) => chat.type === 'chat.msg' || chat.type === 'chat.file')
                         .groupBy(this.processChatGroup)
                         .map(this.renderChatGroup)
                         .value();

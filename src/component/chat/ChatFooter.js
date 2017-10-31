@@ -4,17 +4,20 @@ import PropTypes from 'prop-types';
 import { locals as styles } from './ChatFooter.sass';
 
 import { Icon } from 'component/Icon';
+import { Dropzone } from 'component/Dropzone';
 
 export class ChatFooter extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     endChat: PropTypes.func,
+    handleAttachmentDrop: PropTypes.func,
     isChatting: PropTypes.bool,
     toggleMenu: PropTypes.func
   }
 
   static defaultProps = {
     endChat: () => {},
+    handleAttachmentDrop: () => {},
     isChatting: false,
     toggleMenu: () => {}
   }
@@ -39,8 +42,14 @@ export class ChatFooter extends Component {
         <div className={styles.icons}>
           <Icon
             type='Icon--endChat'
-            className={`${styles.iconEndChat} ${endChatDisabledClasses}`}
+            className={`${styles.icon} ${endChatDisabledClasses}`}
             onClick={this.handleEndChatClick} />
+          <Dropzone
+            onDrop={this.props.handleAttachmentDrop}>
+            <Icon
+              type='Icon--paperclip-small'
+              className={styles.iconAttachment} />
+          </Dropzone>
           <Icon type='Icon--ellipsis' onClick={this.menuIconClick} />
         </div>
       </div>

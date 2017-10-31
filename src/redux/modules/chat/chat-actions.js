@@ -1,4 +1,5 @@
 import zChat from 'chat-web-sdk';
+import _ from 'lodash';
 
 import {
   END_CHAT_SUCCESS,
@@ -16,9 +17,13 @@ import {
   UPDATE_CHAT_SCREEN,
   TOGGLE_END_CHAT_NOTIFICATION,
   SEND_CHAT_RATING_COMMENT_SUCCESS,
-  SEND_CHAT_RATING_COMMENT_FAILURE
+  SEND_CHAT_RATING_COMMENT_FAILURE,
+  SEND_CHAT_FILE,
+  SEND_CHAT_FILE_SUCCESS,
+  SEND_CHAT_FILE_FAILURE
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './reducer/chat-screen-types';
+import { getChatVisitor } from 'src/redux/modules/chat/selectors';
 
 const chatTypingTimeout = 2000;
 
@@ -178,5 +183,44 @@ export function acceptEndChatNotification() {
     } else {
       dispatch(endChat());
     }
+  };
+}
+
+export function sendAttachments(attachments) {
+  return (dispatch, getState) => {
+    const visitor = getChatVisitor(getState());
+
+    _.forEach(attachments, (file) => {
+      const time = Date.now();
+
+      dispatch({
+        type: SEND_CHAT_FILE,
+        payload: {
+          type: 'chat.file',
+          nick: visitor.nick,
+          display_name: visitor.display_name,
+          timestamp: time,
+          uploading: true
+        }
+      });
+
+      zChat.sendFile(file, (err, data) => {
+        if (!err) {
+          dispatch({
+            type: SEND_CHAT_FILE_SUCCESS,
+            payload: {
+              type: 'chat.file',
+              attachment: data.url,
+              nick: visitor.nick,
+              display_name: visitor.display_name,
+              timestamp: time,
+              uploading: false
+            }
+          });
+        } else {
+          dispatch({ type: SEND_CHAT_FILE_FAILURE });
+        }
+      });
+    });
   };
 }

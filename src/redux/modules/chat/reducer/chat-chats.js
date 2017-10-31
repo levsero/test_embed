@@ -9,7 +9,9 @@ import {
   SDK_CHAT_MEMBER_LEAVE,
   SDK_CHAT_REQUEST_RATING,
   SDK_CHAT_RATING,
-  SDK_CHAT_COMMENT
+  SDK_CHAT_COMMENT,
+  SEND_CHAT_FILE_SUCCESS,
+  SEND_CHAT_FILE
 } from '../chat-action-types';
 
 const initialState = new Map();
@@ -23,6 +25,8 @@ const concatChat = (chats, chat) => {
 const chats = (state = initialState, action) => {
   switch (action.type) {
     case SENT_CHAT_MSG_SUCCESS:
+    case SEND_CHAT_FILE_SUCCESS:
+    case SEND_CHAT_FILE:
       return concatChat(state, action.payload);
     case SDK_CHAT_FILE:
     case SDK_CHAT_WAIT_QUEUE:

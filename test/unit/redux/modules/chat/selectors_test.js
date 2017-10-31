@@ -2,7 +2,8 @@ describe('chat selectors', () => {
   let getChatNotification,
     getPrechatFormFields,
     getPostchatFormSettings,
-    getIsChatting;
+    getIsChatting,
+    getChatVisitor;
 
   beforeEach(() => {
     mockery.enable();
@@ -17,6 +18,7 @@ describe('chat selectors', () => {
     getPrechatFormFields = selectors.getPrechatFormFields;
     getPostchatFormSettings = selectors.getPostchatFormSettings;
     getIsChatting = selectors.getIsChatting;
+    getChatVisitor = selectors.getChatVisitor;
   });
 
   describe('getChatNotification', () => {
@@ -180,6 +182,25 @@ describe('chat selectors', () => {
     it('returns the current state of is_chatting', () => {
       expect(result)
         .toEqual(true);
+    });
+  });
+
+  describe('getChatVisitor', () => {
+    let result;
+    const visitor = 'Batman';
+    const mockChatSettings = {
+      chat: {
+        visitor
+      }
+    };
+
+    beforeEach(() => {
+      result = getChatVisitor(mockChatSettings);
+    });
+
+    it('returns the current state of chat.visitor', () => {
+      expect(result)
+        .toEqual(visitor);
     });
   });
 

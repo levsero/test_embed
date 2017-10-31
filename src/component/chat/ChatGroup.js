@@ -45,13 +45,15 @@ export class ChatGroup extends Component {
     const { isAgent } = this.props;
     const userClasses = isAgent ? styles.messageAgent : styles.messageUser;
     const userBackgroundStyle = isAgent ? styles.agentBackground : styles.userBackground;
+    // temporary so we have a visual representation of attachments uploaded, will be replaced
+    const msg = chat.msg ? chat.msg : (chat.uploading ? 'uploading' : 'uploaded');
 
     return (
       <div key={key} className={styles.wrapper}>
         <div className={`${styles.message} ${userClasses}`}>
           <MessageBubble
             className={`${styles.messageBubble} ${userBackgroundStyle}`}
-            message={chat.msg} />
+            message={msg} />
         </div>
       </div>
     );

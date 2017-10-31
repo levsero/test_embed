@@ -12,7 +12,8 @@ let actions,
   mockSetVisitorInfo = jasmine.createSpy('mockSetVisitorInfo'),
   mockEndChat = jasmine.createSpy('endChat'),
   mockSendChatRating = jasmine.createSpy('sendChatRating'),
-  mockSendChatComment = jasmine.createSpy('sendChatComment');
+  mockSendChatComment = jasmine.createSpy('sendChatComment'),
+  mockSendFile = jasmine.createSpy('sendFile');
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -29,7 +30,11 @@ describe('chat redux actions', () => {
         setVisitorInfo: mockSetVisitorInfo,
         sendChatRating: mockSendChatRating,
         sendChatComment: mockSendChatComment,
+        sendFile: mockSendFile,
         _getAccountSettings: () => mockAccountSettings
+      },
+      'src/redux/modules/chat/selectors': {
+        getChatVisitor: () => 'Batman'
       }
     });
 
@@ -494,6 +499,88 @@ describe('chat redux actions', () => {
     it('has the updated screen in the payload', () => {
       expect(action.payload.screen)
         .toBe(screenTypes.CHATTING_SCREEN);
+    });
+  });
+
+  describe('sendAttachments', () => {
+    let files, action;
+
+    beforeEach(() => {
+      files = { name: 'testFile.jpg' };
+      mockStore.dispatch(actions.sendAttachments(files));
+
+      action = mockStore.getActions()[0];
+    });
+
+    it('calls sendFile on the Web SDK', () => {
+      expect(mockSendFile)
+        .toHaveBeenCalled();
+    });
+
+    it('dispatches a SEND_CHAT_FILE action', () => {
+      expect(action)
+        .toEqual(jasmine.objectContaining({
+          type: actionTypes.SEND_CHAT_FILE
+        }));
+    });
+
+    it('has the correct params in the payload', () => {
+      expect(action.payload)
+        .toEqual(jasmine.objectContaining({
+          type: 'chat.file',
+          uploading: true
+        }));
+    });
+
+    describe('Web SDK callback', () => {
+      let callbackFn, endpointData;
+
+      beforeEach(() => {
+        const sendFileCall = mockSendFile.calls.mostRecent().args;
+
+        endpointData = { url: 'something.com/46278rfa' };
+
+        callbackFn = sendFileCall[1];
+      });
+
+      describe('when there are no errors', () => {
+        beforeEach(() => {
+          callbackFn(false, endpointData);
+
+          action = mockStore.getActions()[1];
+        });
+
+        it('dispatches a SEND_CHAT_FILE_SUCCESS action', () => {
+          expect(action)
+            .toEqual(jasmine.objectContaining({
+              type: actionTypes.SEND_CHAT_FILE_SUCCESS
+            }));
+        });
+
+        it('has the correct params in the payload', () => {
+          expect(action.payload)
+            .toEqual(jasmine.objectContaining({
+              type: 'chat.file',
+              uploading: false,
+              attachment: endpointData.url
+            }));
+        });
+      });
+
+      describe('when there are errors', () => {
+        beforeEach(() => {
+          callbackFn(true);
+
+          action = mockStore.getActions()[1];
+        });
+
+        it('dispatches a SEND_CHAT_FILE_FAILURE action', () => {
+          expect(action)
+            .toEqual(jasmine.objectContaining({
+              type: actionTypes.SEND_CHAT_FILE_FAILURE
+            }));
+        });
+      });
     });
   });
 });

@@ -17,6 +17,7 @@ import { LoadingEllipses } from 'component/loading/Loading';
 import { i18n } from 'service/i18n';
 import { endChat,
          sendMsg,
+         sendAttachments,
          setVisitorInfo,
          updateAccountSettings,
          updateCurrentMsg,
@@ -59,6 +60,7 @@ class Chat extends Component {
     connection: PropTypes.string.isRequired,
     endChat: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
+    sendAttachments: PropTypes.func.isRequired,
     prechatFormSettings: PropTypes.object.isRequired,
     postChatFormSettings: PropTypes.object.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
@@ -166,6 +168,7 @@ class Chat extends Component {
       <ChatFooter
         endChat={showChatEndFn}
         isChatting={this.props.isChatting}
+        handleAttachmentDrop={this.props.sendAttachments}
         toggleMenu={this.toggleMenu}>
         <ChatBox
           currentMessage={chat.currentMessage}
@@ -361,7 +364,8 @@ const actionCreators = {
   setVisitorInfo,
   sendChatRating,
   sendChatComment,
-  updateChatScreen
+  updateChatScreen,
+  sendAttachments
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);

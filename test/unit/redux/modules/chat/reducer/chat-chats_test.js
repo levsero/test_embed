@@ -60,6 +60,70 @@ describe('chat reducer chats', () => {
       });
     });
 
+    describe('when a SEND_CHAT_FILE action is dispatched', () => {
+      let state,
+        sendPayload;
+
+      beforeEach(() => {
+        sendPayload = {
+          timestamp: Date.now(),
+          uploading: true,
+          nick: 'visitor',
+          display_name: 'Visitor 123'
+        };
+
+        state = reducer(initialState, {
+          type: actionTypes.SEND_CHAT_FILE,
+          payload: sendPayload
+        });
+      });
+
+      it('adds the attachment message to the chats collection', () => {
+        expect(state.size)
+          .toEqual(1);
+
+        expect(state.get(sendPayload.timestamp))
+          .toEqual(jasmine.objectContaining({
+            timestamp: sendPayload.timestamp,
+            uploading: sendPayload.uploading
+          }));
+      });
+
+      describe('when a SEND_CHAT_FILE_SUCCESS action is dispatched', () => {
+        let successPayload;
+
+        beforeEach(() => {
+          successPayload = {
+            timestamp: sendPayload.timestamp,
+            uploading: false,
+            attachment: { name: 'bunpun.png' },
+            nick: 'visitor',
+            display_name: 'Visitor 123'
+          };
+        });
+
+        it('overrides the SEND_CHAT_FILE state', () => {
+          expect(state.size)
+            .toEqual(1);
+
+          state = reducer(state, {
+            type: actionTypes.SEND_CHAT_FILE_SUCCESS,
+            payload: successPayload
+          });
+
+          expect(state.size)
+            .toEqual(1);
+
+          expect(state.get(successPayload.timestamp))
+            .toEqual(jasmine.objectContaining({
+              timestamp: successPayload.timestamp,
+              uploading: successPayload.uploading,
+              attachment: successPayload.attachment
+            }));
+        });
+      });
+    });
+
     describe('chat SDK actions', () => {
       let state,
         detail;
