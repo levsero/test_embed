@@ -8,7 +8,12 @@ describe('ButtonSecondary', () => {
     mockery.enable();
 
     initMockRegistry({
-      'React': React
+      'React': React,
+      './ButtonSecondary.sass': {
+        locals: {
+          button: 'btn'
+        }
+      }
     });
 
     mockery.registerAllowable(buttonSecondaryPath);
@@ -43,7 +48,7 @@ describe('ButtonSecondary', () => {
 
     domRender(<ButtonSecondary disabled={false} onClick={onClickMock} />);
 
-    TestUtils.Simulate.click(document.querySelector('.c-btn--secondary'));
+    TestUtils.Simulate.click(document.querySelector('.btn'));
 
     expect(onClickMock)
       .toHaveBeenCalled();
@@ -54,7 +59,7 @@ describe('ButtonSecondary', () => {
 
     domRender(<ButtonSecondary disabled={true} onClick={onClickMock} />);
 
-    TestUtils.Simulate.click(document.querySelector('.c-btn--secondary'));
+    TestUtils.Simulate.click(document.querySelector('.btn'));
 
     expect(onClickMock)
       .not.toHaveBeenCalled();

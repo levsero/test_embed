@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { locals as styles } from './ButtonPill.sass';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
@@ -20,12 +20,13 @@ export class ButtonPill extends Component {
   };
 
   render = () => {
-    const buttonClasses = classNames({
-      'c-btn c-btn--secondary c-btn--pill': true,
-      'u-textNormal': true,
-      'u-sizeFull u-textSizeBaseMobile is-mobile': this.props.fullscreen,
-      'u-textNoWrap': i18n.isRTL()
-    });
+    const screenStyle = this.props.fullscreen ? styles.fullscreen : '';
+    const directionStyle = i18n.isRTL() ? styles.rtl : '';
+    const buttonClasses = `
+      ${styles.pill}
+      ${screenStyle}
+      ${directionStyle}
+    `;
     const icon = this.props.showIcon ? <Icon type='Icon--link' /> : null;
 
     return (

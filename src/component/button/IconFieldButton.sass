@@ -1,0 +1,25 @@
+@import '../../styles/_vars.scss';
+
+.button {
+  composes: Button--field u-borderTransparent u-marginLS from global;
+}
+
+.focused {
+  composes: u-fillAluminum from global;
+}
+
+.notFocused {
+  composes: u-fillGainsboro from global;
+}
+
+.fullscreen {
+  composes: Button--fieldMobile Anim-color from global;
+}
+
+.hovering {
+  composes: u-userFillColor from global;
+}
+
+.icon {
+  composes: u-paddingLN from global;
+}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { locals as styles } from './IconFieldButton.sass';
 
 import { Icon } from 'component/Icon';
 
@@ -36,15 +36,18 @@ export class IconFieldButton extends Component {
   }
 
   render = () => {
-    const { fullscreen, focused } = this.props;
-    const buttonClasses = classNames({
-      'Button--field u-borderTransparent u-marginLS': true,
-      'u-userFillColor': this.state.hovering && !fullscreen,
-      'u-fillAluminum': focused && !fullscreen,
-      'u-fillGainsboro': !focused && !fullscreen,
-      'Button--fieldMobile Anim-color': fullscreen,
-      [`${this.props.className}`]: true
-    });
+    const { fullscreen, focused, className } = this.props;
+    const userFillColorStyle = this.state.hovering && !fullscreen ? styles.hovering : '';
+    const fullScreenStyle = fullscreen ? styles.fullscreen : '';
+    const focusedStyle = focused ? styles.focused : styles.notFocused;
+    const notFullScreenStyle = !fullscreen ? focusedStyle : '';
+    const buttonClasses = `
+      ${styles.button}
+      ${userFillColorStyle}
+      ${notFullScreenStyle}
+      ${fullScreenStyle}
+      ${className}
+    `;
 
     return (
       <div
@@ -53,7 +56,7 @@ export class IconFieldButton extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className={buttonClasses}>
-        <Icon type={this.props.icon} className='u-paddingLN' />
+        <Icon type={this.props.icon} className={styles.icon} />
       </div>
     );
   }

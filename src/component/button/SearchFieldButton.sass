@@ -1,0 +1,13 @@
+@import '../../styles/_vars.scss';
+
+.field {
+  composes: Arrange Arrange--middle Form-field Form-field--search u-isSelectable is-mobile u-paddingRN u-paddingVN from global;
+}
+
+.searchTerm {
+  composes: Arrange-sizeFit u-textSizeBaseMobile u-hsizeAll u-textBody from global;
+}
+
+.container {
+  composes: u-cf u-paddingHN u-paddingBN Form-cta--barFullscreen from global;
+}

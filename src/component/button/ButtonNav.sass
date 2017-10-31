@@ -1,0 +1,33 @@
+@import '../../styles/_vars.scss';
+
+.container {
+  composes: u-posRelative u-zIndex1 from global;
+}
+
+.button {
+  composes: Button Button--nav u-posAbsolute u-posStart--vertFlush from global;
+}
+
+.left {
+  composes: u-posStart--flush u-paddingL from global;
+}
+
+.leftRtl {
+  composes: u-posEnd--flush from global;
+}
+
+.fullscreen {
+  composes: u-isActionable u-textSizeBaseMobile from global;
+}
+
+.right {
+  composes: u-posEnd--flush u-paddingR from global;
+}
+
+.rightRtl {
+  composes: u-posStart--flush from global;
+}
+
+.rtl {
+  composes: u-flipText from global;
+}

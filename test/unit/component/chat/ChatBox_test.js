@@ -10,9 +10,6 @@ describe('ChatBox component', () => {
       './ChatBox.sass': {
         locals: {}
       },
-      'component/button/ButtonSecondary': {
-        ButtonSecondary: noopReactComponent()
-      },
       'component/field/Field': {
         Field: noopReactComponent()
       },

@@ -15,6 +15,11 @@ describe('SearchFieldButton component', () => {
       },
       'component/button/IconFieldButton': {
         IconFieldButton: noopReactComponent()
+      },
+      './SearchFieldButton.sass': {
+        locals: {
+          field: 'fld'
+        }
       }
     });
 
@@ -35,7 +40,7 @@ describe('SearchFieldButton component', () => {
     const searchFieldButtonNode = ReactDOM.findDOMNode(searchFieldButton);
 
     TestUtils.Simulate.click(
-      searchFieldButtonNode.querySelector('.Form-field--search'));
+      searchFieldButtonNode.querySelector('.fld'));
 
     expect(onClick)
       .toHaveBeenCalled();

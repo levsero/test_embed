@@ -16,6 +16,11 @@ describe('ButtonPill component', () => {
         i18n: {
           isRTL: noop
         }
+      },
+      './ButtonPill.sass': {
+        locals: {
+          fullscreen: 'fullscreen'
+        }
       }
     });
 
@@ -33,13 +38,13 @@ describe('ButtonPill component', () => {
     const button = shallowRender(<ButtonPill />);
 
     expect(button.props.className)
-      .not.toMatch('is-mobile');
+      .not.toMatch('fullscreen');
   });
 
-  it('should have is-mobile class when fullscreen is true', () => {
+  it('should have fullscreen class when fullscreen is true', () => {
     const button = shallowRender(<ButtonPill fullscreen={true} />);
 
     expect(button.props.className)
-      .toMatch('is-mobile');
+      .toMatch('fullscreen');
   });
 });

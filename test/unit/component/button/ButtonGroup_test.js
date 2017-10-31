@@ -8,7 +8,13 @@ describe('ButtonGroup component', () => {
     mockery.enable();
 
     initMockRegistry({
-      'React': React
+      'React': React,
+      './ButtonGroup.sass': {
+        locals: {
+          buttonLeft: 'left',
+          buttonRight: 'right'
+        }
+      }
     });
 
     mockery.registerAllowable(buttonPath);
@@ -25,20 +31,19 @@ describe('ButtonGroup component', () => {
     const buttonGroup = shallowRender(<ButtonGroup />);
 
     expect(buttonGroup.props.className)
-      .toMatch('u-textRight');
+      .toMatch('right');
 
     expect(buttonGroup.props.className)
-      .not.toMatch('u-textLeft');
+      .not.toMatch('left');
   });
 
   it('should have rtl classes when rtl prop is true', () => {
     const buttonGroup = shallowRender(<ButtonGroup rtl={true} />);
 
     expect(buttonGroup.props.className)
-      .toMatch('u-textLeft');
+      .toMatch('left');
 
     expect(buttonGroup.props.className)
-      .not.toMatch('u-textRight');
+      .not.toMatch('right');
   });
 });
-
