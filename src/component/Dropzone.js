@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 export class Dropzone extends Component {
   static propTypes = {
@@ -75,10 +74,11 @@ export class Dropzone extends Component {
   }
 
   render = () => {
-    const dropzoneClasses = classNames({
-      [this.props.className]: true,
-      [this.props.activeClassName]: this.state.isDragActive
-    });
+    const activeStyle = this.state.isDragActive ? this.props.activeClassName : '';
+    const dropzoneClasses = `
+      ${this.props.className}
+      ${activeStyle}
+    `;
     const inputStyle = { display: 'none' };
 
     return (
