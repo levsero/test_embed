@@ -75,10 +75,7 @@ export class Dropzone extends Component {
 
   render = () => {
     const activeStyle = this.state.isDragActive ? this.props.activeClassName : '';
-    const dropzoneClasses = `
-      ${this.props.className}
-      ${activeStyle}
-    `;
+    const dropzoneClasses = `${this.props.className} ${activeStyle}`;
     const inputStyle = { display: 'none' };
 
     return (
