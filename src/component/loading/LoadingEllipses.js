@@ -23,18 +23,20 @@ export class LoadingEllipses extends Component {
     const isIos8 = isDevice('iPhone', 'OS 8');
     const { className, useUserColor, itemClassName } = this.props;
     const containerClass = `${styles.container} ${className}`;
-    let itemClasses = `${styles.circle} ${itemClassName}`;
-
-    itemClasses += ` ${isIos8 ? styles.fade : styles.bounce}`;
-    if (useUserColor) {
-      itemClasses += ' u-userBackgroundColor';
-    }
+    const itemClasses = `${styles.circle} ${itemClassName}`;
+    const animationStyle = (isIos8) ? styles.fade : styles.bounce;
+    const userColorStyle = (useUserColor) ? 'u-userBackgroundColor' : '';
+    const ellipsesItemClasses = `
+      ${itemClasses}
+      ${animationStyle}
+      ${userColorStyle}
+    `;
 
     return (
       <div className={containerClass}>
-        <div className={itemClasses} />
-        <div className={itemClasses} />
-        <div className={itemClasses} />
+        <div className={ellipsesItemClasses} />
+        <div className={ellipsesItemClasses} />
+        <div className={ellipsesItemClasses} />
       </div>
     );
   }

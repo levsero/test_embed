@@ -13,7 +13,7 @@ describe('LoadingEllipses component', () => {
     initMockRegistry({
       'React': React,
       'utility/devices': {
-        isDevice: function() {
+        isDevice: () => {
           return mockIsDeviceValue;
         }
       },
