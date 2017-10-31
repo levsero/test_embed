@@ -192,8 +192,7 @@ export class HelpCenter extends Component {
 
     _.extend(query, {
       locale: i18n.getLocale(),
-      per_page: this.state.resultsPerPage,
-      origin: null
+      per_page: this.state.resultsPerPage
     });
 
     this.performContextualSearch(query, successFn);

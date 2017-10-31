@@ -484,8 +484,7 @@ describe('HelpCenter component', () => {
       expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
           query: searchOptions.search,
-          locale: undefined,
-          origin: null
+          locale: undefined
         }));
 
       mockContextualSearchSender.calls.mostRecent().args[1](responsePayloadResults);
@@ -516,7 +515,6 @@ describe('HelpCenter component', () => {
 
       expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
-          origin: null,
           locale: undefined,
           label_names: searchOptions.labels.join(',')
         }));
