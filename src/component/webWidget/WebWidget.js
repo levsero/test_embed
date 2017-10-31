@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import _ from 'lodash';
 
 import Chat from 'component/chat/Chat';
@@ -308,9 +307,7 @@ class WebWidget extends Component {
 
   renderHelpCenter = () => {
     const { helpCenterConfig } = this.props;
-    const classes = classNames({
-      'u-isHidden': this.props.activeEmbed !== helpCenter
-    });
+    const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : '';
     const chatOnline = this.isChatOnline();
 
     return (
@@ -350,9 +347,7 @@ class WebWidget extends Component {
 
   renderSubmitTicket = () => {
     const { submitTicketConfig } = this.props;
-    const classes = classNames({
-      'u-isHidden': this.props.activeEmbed !== submitTicket
-    });
+    const classes = this.props.activeEmbed !== submitTicket ? 'u-isHidden' : '';
 
     return (
       <div className={classes}>
