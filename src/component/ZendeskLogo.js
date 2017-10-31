@@ -25,20 +25,16 @@ export class ZendeskLogo extends Component {
 
   render = () => {
     const { fullscreen, rtl, formSuccess, className, logoLink, utm } = this.props;
-    let logoClasses = 'u-linkClean';
-
-    if (!fullscreen || formSuccess) {
-      logoClasses += ' u-posAbsolute u-posEnd--vert';
-    }
-    if (fullscreen) {
-      logoClasses += ' u-posRelative';
-    }
-    if (rtl) {
-      logoClasses += ' u-posEnd';
-    } else {
-      logoClasses += ' u-posStart';
-    }
-    logoClasses += ` ${className}`;
+    const screenPosition = (!fullscreen || formSuccess) ? 'u-posAbsolute u-posEnd--vert' : '';
+    const position = (fullscreen) ? 'u-posRelative' : '';
+    const direction = (rtl) ? 'u-posEnd' : 'u-posStart';
+    const logoClasses = `
+      u-linkClean
+      ${screenPosition}
+      ${position}
+      ${direction}
+      ${className}
+    `;
 
     const logoUrl = [
       i18n.t(
