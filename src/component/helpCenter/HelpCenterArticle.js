@@ -89,6 +89,7 @@ export class HelpCenterArticle extends Component {
         'td': ['id', 'colspan'],
         'th': ['id', 'colspan'],
         'ol': ['id', 'start', 'reversed'],
+        'li': ['id'],
         'p': ['id'],
         'video': ['src', 'height', 'width', 'controls'],
         'source': ['src', 'type']
