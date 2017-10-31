@@ -179,12 +179,12 @@ parts:
       screenshot: "https://zendesk.box.com/s/wfm8pdh37ft1kpil1jaaghuo8om5w5wl"
       value: "%(agent)s is typing"
   - translation:
-      key: "embeddable_framework.chat.chatLog.isTyping.two"
+      key: "embeddable_framework.chat.chatLog.isTyping_two"
       title: "An application notifier that signifies that two agents are typing a message"
       screenshot: "https://zendesk.box.com/s/emcoootsrmdb36wxh91d19imxdsgu1yr"
       value: "%(agent1)s and %(agent2)s are typing"
   - translation:
-      key: "embeddable_framework.chat.chatLog.isTyping.multiple"
+      key: "embeddable_framework.chat.chatLog.isTyping_multiple"
       title: "An application notifier that signifies that more than two agents are typing a message"
       screenshot: "https://zendesk.box.com/s/4gy8p6a8wwd9bwexaafrmxhv2g1w89de"
       value: "Multiple agents are typing"

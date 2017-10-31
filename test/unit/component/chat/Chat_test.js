@@ -405,7 +405,7 @@ describe('Chat component', () => {
 
         it('renders a notification that signifies two agents typing', () => {
           expect(agentTypingComponent.props.children[1])
-            .toEqual('embeddable_framework.chat.chatLog.isTyping.two');
+            .toEqual('embeddable_framework.chat.chatLog.isTyping_two');
         });
       });
 
@@ -429,7 +429,7 @@ describe('Chat component', () => {
 
         it('renders a notification that signifies multiple agents typing', () => {
           expect(agentTypingComponent.props.children[1])
-            .toEqual('embeddable_framework.chat.chatLog.isTyping.multiple');
+            .toEqual('embeddable_framework.chat.chatLog.isTyping_multiple');
         });
       });
     });
