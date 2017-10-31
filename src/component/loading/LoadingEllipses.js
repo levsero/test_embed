@@ -19,7 +19,7 @@ export class LoadingEllipses extends Component {
 
   render = () => {
     // On IOS8 iphone the scale animation crashes the webpage so
-    // we need to animation differently.
+    // we need to animate differently.
     const isIos8 = isDevice('iPhone', 'OS 8');
     const { className, useUserColor, itemClassName } = this.props;
     const containerClass = `${styles.container} ${className}`;
