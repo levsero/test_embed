@@ -30,9 +30,7 @@ describe('SearchField component', () => {
         LoadingEllipses: class extends Component {
           render() {
             return (
-              <div className={`LoadingEllipses ${this.props.className}`}>
-                <div className='Loading-item'></div>
-              </div>
+              <div className={`ellipses ${this.props.className}`} />
             );
           }
         }
@@ -66,7 +64,7 @@ describe('SearchField component', () => {
   describe('SearchField', () => {
     it('should display `LoadingEllipses` component when `this.props.isLoading` is truthy', () => {
       const searchField = domRender(<SearchField isLoading={true} />);
-      const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'LoadingEllipses');
+      const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'ellipses');
 
       expect(searchField.props.isLoading)
         .toEqual(true);
@@ -77,7 +75,7 @@ describe('SearchField component', () => {
 
     it('should not display `LoadingEllipses` component when `this.props.isLoading` is falsy', () => {
       const searchField = domRender(<SearchField isLoading={false} />);
-      const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'LoadingEllipses');
+      const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'ellipses');
 
       expect(searchField.props.isLoading)
         .toEqual(false);
