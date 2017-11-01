@@ -206,4 +206,61 @@ describe('Field component', () => {
         .toBeFalsy();
     });
   });
+
+  describe('required label', () => {
+    let field,
+      label;
+
+    describe('when the field has a label', () => {
+      describe('when the field is required', () => {
+        beforeEach(() => {
+          field = domRender(<Field label={'name'} required={true} />);
+          label = TestUtils.findRenderedDOMComponentWithClass(field, 'Form-fieldLabel');
+        });
+
+        it('renders a required `*` next to the label', () => {
+          expect(label.textContent)
+            .toBe('name*');
+        });
+      });
+
+      describe('when the field is not required', () => {
+        beforeEach(() => {
+          field = domRender(<Field label={'name'} required={false} />);
+          label = TestUtils.findRenderedDOMComponentWithClass(field, 'Form-fieldLabel');
+        });
+
+        it('does not render a required `*` next to the label', () => {
+          expect(label.textContent)
+            .toBe('name');
+        });
+      });
+    });
+
+    describe('when the field does not have a label', () => {
+      describe('when the field is required', () => {
+        beforeEach(() => {
+          field = domRender(<Field required={true} />);
+          label = TestUtils.findRenderedDOMComponentWithClass(field, 'Form-fieldLabel');
+        });
+
+        it('does not render a required `*` next to the label', () => {
+          expect(label.textContent)
+            .toBe('');
+        });
+      });
+
+      describe('when the field is not required', () => {
+        beforeEach(() => {
+          field = domRender(<Field required={false} />);
+          label = TestUtils.findRenderedDOMComponentWithClass(field, 'Form-fieldLabel');
+        });
+
+        it('does not render a required `*` next to the label', () => {
+          expect(label.textContent)
+            .toBe('');
+        });
+      });
+    });
+  });
 });
