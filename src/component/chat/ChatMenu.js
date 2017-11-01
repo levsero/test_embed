@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { i18n } from 'service/i18n';
+import { Icon } from 'component/Icon';
+
 import { locals as styles } from './ChatMenu.sass';
 
 export class ChatMenu extends Component {
   static propTypes = {
     disableEndChat: PropTypes.bool.isRequired,
+    playSound: PropTypes.bool.isRequired,
+    soundOnClick: PropTypes.func.isRequired,
     endChatOnClick: PropTypes.func
   };
 
@@ -14,14 +18,21 @@ export class ChatMenu extends Component {
     endChatOnClick: () => {}
   };
 
+  renderSoundButton = () => {
+    const iconType = this.props.playSound ? 'Icon--sound-on' : 'Icon--sound-off';
+
+    return (
+      <button className={styles.item} onClick={this.props.soundOnClick}>
+        {i18n.t('embeddable_framework.chat.options.sound', { fallback: 'Sound' })}
+        <Icon className={styles.soundIcon} type={iconType} />
+      </button>
+    );
+  }
+
   render() {
     return (
       <div className={styles.container}>
-        <button className={styles.item}>
-          {i18n.t('embeddable_framework.chat.options.sound', {
-            fallback: 'Sound'
-          })}
-        </button>
+        {this.renderSoundButton()}
         <div className={styles.itemLine} />
         <button className={styles.item}>
           {i18n.t('embeddable_framework.chat.options.emailTranscript', {

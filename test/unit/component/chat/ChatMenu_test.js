@@ -10,6 +10,9 @@ describe('ChatMenu component', () => {
       './ChatMenu.sass': {
         locals: {}
       },
+      'component/Icon': {
+        Icon: noopReactComponent()
+      },
       'service/i18n': {
         i18n: {
           t: (_, { fallback }) => fallback
