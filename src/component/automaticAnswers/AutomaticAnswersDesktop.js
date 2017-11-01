@@ -30,14 +30,9 @@ export class AutomaticAnswersDesktop extends AutomaticAnswers {
     const solveQuestion = i18n.t('embeddable_framework.automaticAnswers.desktop.solve.question', {
       fallback: 'Does this article answer your question?'
     });
-    const requestUrl = i18n.t('embeddable_framework.automaticAnswers.desktop.request_url', {
-      fallback: `/hc/requests/%(requestId)s`,
-      requestId: this.state.ticket.niceId
-    });
     const solveQuestionSubtext = i18n.t('embeddable_framework.automaticAnswers.desktop.solve.subtext_v2', {
       fallback: 'If it does, we can close your recent request %(requestLink)s',
-      requestLink:
-        `<a class="AutomaticAnswersAnchor" target="_blank" href="${requestUrl}">#${this.state.ticket.niceId}</a>`
+      requestLink: `#${this.state.ticket.niceId}`
     });
 
     return (
