@@ -23,6 +23,7 @@ import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.sass
 import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.sass';
 import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.sass';
 import HelpCenterResultsStyles from 'component/helpCenter/HelpCenterResults.sass';
+import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.sass';
 import MessageBubbleStyles from 'component/chat/MessageBubble.sass';
 import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.sass';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.sass';
@@ -56,6 +57,7 @@ export const webWidgetStyles = `
   ${HelpCenterDesktopStyles}
   ${HelpCenterMobileStyles}
   ${HelpCenterResultsStyles}
+  ${LoadingEllipsesStyles}
   ${MessageBubbleStyles}
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}

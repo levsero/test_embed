@@ -57,7 +57,7 @@ describe('Chat component', () => {
       'component/chat/ChatRatingGroup': {
         ChatRatings: {}
       },
-      'component/loading/Loading': {
+      'component/loading/LoadingEllipses': {
         LoadingEllipses: noopReactComponent()
       },
       'component/container/ScrollContainer': {

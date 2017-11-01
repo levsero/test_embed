@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import { IconFieldButton } from 'component/button/IconFieldButton';
 import { SearchInput } from 'component/field/SearchInput';
-import { LoadingEllipses } from 'component/loading/Loading';
+import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { Icon } from 'component/Icon';
 
 export class SearchField extends Component {

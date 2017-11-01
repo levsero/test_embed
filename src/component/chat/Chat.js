@@ -13,7 +13,7 @@ import { ChatFeedbackForm } from 'component/chat/ChatFeedbackForm';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { ChatRatings } from 'component/chat/ChatRatingGroup';
 import { ScrollContainer } from 'component/container/ScrollContainer';
-import { LoadingEllipses } from 'component/loading/Loading';
+import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { i18n } from 'service/i18n';
 import { endChat,
          sendMsg,
