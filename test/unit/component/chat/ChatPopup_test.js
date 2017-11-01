@@ -20,8 +20,10 @@ describe('ChatPopup component', () => {
       'component/button/Button': {
         Button: class extends Component {
           render() {
+            const { className, disabled, onClick } = this.props;
+
             return (
-              <div className={this.props.className} onClick={this.props.onClick} />
+              <input className={className} disabled={disabled} onClick={onClick} />
             );
           }
         }
@@ -176,6 +178,35 @@ describe('ChatPopup component', () => {
       it('does not render the cta element', () => {
         expect(component.renderCta())
           .toBeNull();
+      });
+    });
+  });
+
+  describe('cta disable', () => {
+    let component,
+      componentNode;
+
+    describe('when rightCtaDisabled is true', () => {
+      beforeEach(() => {
+        component = domRender(<ChatPopup rightCtaDisabled={true} />);
+        componentNode = ReactDOM.findDOMNode(component);
+      });
+
+      it('renders the right cta button with disabled true', () => {
+        expect(componentNode.querySelector('.rightCtaBtnClasses').disabled)
+          .toBe(true);
+      });
+    });
+
+    describe('when rightCtaDisabled is false', () => {
+      beforeEach(() => {
+        component = domRender(<ChatPopup rightCtaDisabled={false} />);
+        componentNode = ReactDOM.findDOMNode(component);
+      });
+
+      it('renders the right cta button with disabled false', () => {
+        expect(componentNode.querySelector('.rightCtaBtnClasses').disabled)
+          .toBe(false);
       });
     });
   });
