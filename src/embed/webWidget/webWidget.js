@@ -255,7 +255,7 @@ function create(name, config = {}, reduxStore = {}) {
   return this;
 }
 
-function render(_, reduxStore) {
+function render() {
   if (embed && embed.instance) {
     throw new Error(`WebWidget has already been rendered.`);
   }
@@ -264,7 +264,7 @@ function render(_, reduxStore) {
 
   embed.instance = ReactDOM.render(embed.component, element);
 
-  setupMediator(reduxStore);
+  setupMediator();
 }
 
 function hide(options) {
@@ -279,7 +279,7 @@ function hide(options) {
   });
 }
 
-function setupMediator(reduxStore) {
+function setupMediator() {
   mediator.channel.subscribe('webWidget.show', (options = {}) => {
     waitForRootComponent(() => {
       // If the embed is already opened don't try to reset the state with activate
@@ -385,7 +385,7 @@ function setupMediator(reduxStore) {
       if (embed.embedsAvailable.chat) {
         const { name, email } = user;
 
-        reduxStore.dispatch(setVisitorInfo({ display_name: name, email }));
+        embed.store.dispatch(setVisitorInfo({ display_name: name, email })); // eslint-disable-line camelcase
       }
     });
   });
