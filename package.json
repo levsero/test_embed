@@ -43,6 +43,7 @@
     "reselect": "^3.0.1",
     "sanitize-html": "~1.11.4",
     "sha1": "^1.1.1",
+    "socket.io-client": "^2.0.4",
     "sprintf-js": "^1.1.1",
     "superagent": "^2.0.0",
     "zd-css-buttons": "git+ssh://git@github.com/zendeskgarden/css-buttons.git#2.2.0",
