@@ -49,6 +49,12 @@ describe('Icon component', function() {
         isMobileBrowser: function() {
           return false;
         }
+      },
+      './Icon.sass': {
+        locals: {
+          mobile: 'is-mobile',
+          icon: 'my-generated-icon'
+        }
       }
     });
 
@@ -66,14 +72,14 @@ describe('Icon component', function() {
     const icon = shallowRender(<Icon type="Icon--zendesk" />);
 
     expect(icon.props.className)
-      .toMatch('Icon Icon--zendesk');
+      .toMatch('my-generated-icon');
   });
 
   it('should not have mobile classes when isMobileBrowser is false', function() {
     const icon = shallowRender(<Icon type="Icon--zendesk" />);
 
     expect(icon.props.className)
-      .toMatch('Icon Icon--zendesk');
+      .toMatch('my-generated-icon');
 
     expect(icon.props.className)
       .not.toMatch('is-mobile');
@@ -91,7 +97,7 @@ describe('Icon component', function() {
     const icon = shallowRender(<Icon type="Icon--zendesk" />);
 
     expect(icon.props.className)
-      .toMatch('Icon Icon--zendesk');
+      .toMatch('my-generated-icon');
 
     expect(icon.props.className)
       .toMatch('is-mobile');
