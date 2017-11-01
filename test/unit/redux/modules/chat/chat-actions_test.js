@@ -654,4 +654,33 @@ describe('chat redux actions', () => {
         .toBe(bool);
     });
   });
+
+  describe('saveContactDetails', () => {
+    let toggleContactDetailsAction,
+      name,
+      email;
+
+    beforeEach(() => {
+      name = 'bob';
+      email = 'bob.zd.com';
+
+      mockStore.dispatch(actions.saveContactDetails(name, email));
+      toggleContactDetailsAction = mockStore.getActions()[0];
+    });
+
+    it('toggles the contact details notifiction to hidden', () => {
+      expect(toggleContactDetailsAction)
+        .toEqual({
+          type: actionTypes.TOGGLE_CONTACT_DETAILS_NOTIFICATION,
+          payload: false
+        });
+    });
+
+    it('dispatches the setVisitorInfo action with name and email', () => {
+      const args = mockSetVisitorInfo.calls.mostRecent().args[0];
+
+      expect(args)
+        .toEqual({ display_name: name, email });
+    });
+  });
 });
