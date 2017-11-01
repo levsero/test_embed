@@ -16,6 +16,13 @@ describe('ZendeskLogo component', () => {
         i18n: {
           t: _.identity
         }
+      },
+      './ZendeskLogo.sass': {
+        locals: {
+          rtl: 'rtl',
+          ltr: 'ltr',
+          formSuccess: 'formsuccess'
+        }
       }
     });
     mockery.registerAllowable('utility/globals');
@@ -29,35 +36,35 @@ describe('ZendeskLogo component', () => {
       const logo = shallowRender(<ZendeskLogo fullscreen={true} />);
 
       expect(logo.props.className)
-        .not.toMatch('u-posAbsolute');
+        .not.toMatch('formsuccess');
     });
 
     it('should have the positional classnames when mobile browser is false', () => {
       const logo = shallowRender(<ZendeskLogo />);
 
       expect(logo.props.className)
-        .toMatch('u-posAbsolute');
+        .toMatch('formsuccess');
     });
 
     it('has the positional classnames for mobile browser and formSuccess is true', () => {
       const logo = shallowRender(<ZendeskLogo formSuccess={true} fullscreen={true} />);
 
       expect(logo.props.className)
-        .toMatch('u-posAbsolute');
+        .toMatch('formsuccess');
     });
 
     it('does not has the rtl classnames when rtl language is false', () => {
       const logo = shallowRender(<ZendeskLogo formSuccess={true} rtl={false} />);
 
       expect(logo.props.className)
-        .toMatch('u-posStart');
+        .toMatch('ltr');
     });
 
     it('has the rtl classnames when rtl language is true', () => {
       const logo = shallowRender(<ZendeskLogo formSuccess={true} rtl={true} />);
 
       expect(logo.props.className)
-        .not.toMatch('u-posStart');
+        .toMatch('rtl');
     });
   });
 });
