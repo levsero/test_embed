@@ -38,7 +38,12 @@ describe('AttachmentList component', () => {
           t: _.identity
         }
       },
-      'lodash': _
+      'lodash': _,
+      './AttachmentList.sass': {
+        locals: {
+          label: 'label'
+        }
+      }
     });
 
     mockery.registerAllowable(attachmentListPath);
@@ -86,7 +91,7 @@ describe('AttachmentList component', () => {
 
     describe('when there are no attachments', () => {
       it('has a label that with the embeddable_framework.submitTicket.attachments.title string', () => {
-        const label = document.querySelector('label.Form-fieldLabel').innerHTML;
+        const label = document.querySelector('label.label').innerHTML;
 
         expect(label)
           .toEqual('embeddable_framework.submitTicket.attachments.title');
@@ -97,7 +102,7 @@ describe('AttachmentList component', () => {
       it('has a label with the embeddable_framework.submitTicket.attachments.title string', () => {
         component.handleOnDrop([{ name: 'bob.gif', size: maxFileSize + 1024 }]);
 
-        let label = document.querySelector('label.Form-fieldLabel').innerHTML;
+        let label = document.querySelector('label.label').innerHTML;
 
         expect(label)
           .toEqual('embeddable_framework.submitTicket.attachments.title');
@@ -108,7 +113,7 @@ describe('AttachmentList component', () => {
 
         mockAttachmentSender.calls.mostRecent().args[2]({ message: 'Some error' });
 
-        label = document.querySelector('label.Form-fieldLabel').innerHTML;
+        label = document.querySelector('label.label').innerHTML;
 
         expect(label)
           .toEqual('embeddable_framework.submitTicket.attachments.title');
@@ -125,7 +130,7 @@ describe('AttachmentList component', () => {
 
         mockAttachmentSender.calls.mostRecent().args[1]({ text: upload });
 
-        const label = document.querySelector('label.Form-fieldLabel').innerHTML;
+        const label = document.querySelector('label.label').innerHTML;
 
         expect(label)
           .toEqual('embeddable_framework.submitTicket.attachments.title_withCount');
