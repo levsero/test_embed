@@ -25,6 +25,7 @@ import { endChat,
          sendChatRating,
          sendChatComment,
          updateChatScreen,
+         saveContactDetails,
          toggleEndChatNotification,
          acceptEndChatNotification,
          toggleContactDetailsNotification,
@@ -34,9 +35,7 @@ import { getPrechatFormFields,
          getIsChatting,
          getAgents,
          getPlaySound,
-         getPostchatFormSettings,
-         acceptEndChatNotification,
-         saveContactDetails } from 'src/redux/modules/chat';
+         getPostchatFormSettings } from 'src/redux/modules/chat/selectors';
 
 import { locals as styles } from './Chat.sass';
 
