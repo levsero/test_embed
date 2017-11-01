@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { locals as styles } from './ZendeskLogo.sass';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
@@ -25,11 +26,11 @@ export class ZendeskLogo extends Component {
 
   render = () => {
     const { fullscreen, rtl, formSuccess, className, logoLink, utm } = this.props;
-    const screenPosition = (!fullscreen || formSuccess) ? 'u-posAbsolute u-posEnd--vert' : '';
-    const position = (fullscreen) ? 'u-posRelative' : '';
-    const direction = (rtl) ? 'u-posEnd' : 'u-posStart';
+    const screenPosition = (!fullscreen || formSuccess) ? styles.formSuccess : '';
+    const position = (fullscreen) ? styles.fullscreen : '';
+    const direction = (rtl) ? styles.rtl : styles.ltr;
     const logoClasses = `
-      u-linkClean
+      ${styles.logo}
       ${screenPosition}
       ${position}
       ${direction}
@@ -46,8 +47,8 @@ export class ZendeskLogo extends Component {
 
     return (
       <a href={logoUrl} target='_blank' className={logoClasses}>
-        <Icon type='Icon--zendesk' className='u-posRelative' />
-        <span className='u-isHiddenVisually'>zendesk</span>
+        <Icon type='Icon--zendesk' className={styles.icon} />
+        <span className={styles.hidden}>zendesk</span>
       </a>
     );
   }
