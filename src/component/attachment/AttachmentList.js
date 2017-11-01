@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { Attachment } from 'component/attachment/Attachment';
 import { ButtonDropzone } from 'component/button/ButtonDropzone';
 import { i18n } from 'service/i18n';
+import { locals as styles } from './AttachmentList.sass';
 
 const iconMap = {
   'pdf': 'Icon--preview-pdf',
@@ -233,7 +234,7 @@ export class AttachmentList extends Component {
 
   renderErrorMessage = () => {
     return (
-      <div className='Error u-textError u-marginVS'>
+      <div className={styles.error}>
         {this.state.errorMessage}
       </div>
     );
@@ -251,8 +252,8 @@ export class AttachmentList extends Component {
 
     return (
       <div>
-        <div className='Form-fieldContainer u-block u-marginTM u-marginBS'>
-          <label className='Form-fieldLabel u-textXHeight'>
+        <div className={styles.container}>
+          <label className={styles.label}>
             {title}
           </label>
           {attachmentComponents}
