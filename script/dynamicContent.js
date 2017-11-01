@@ -1,4 +1,4 @@
-const http = require('http');
+const https = require('https');
 const _ = require('lodash');
 
 const numberToCreate = 50;
@@ -13,7 +13,8 @@ const options = {
   method: 'POST',
   auth: 'admin@zendesk.com:123456',
   json: true,
-  headers: { 'content-type': 'application/json' }
+  headers: { 'content-type': 'application/json' },
+  timeout: 0 // For Staging and Prod we need to add a slight timeout so it doesn't think it's being DoS attacked
 };
 
 function createDynamicContent() {
@@ -22,23 +23,27 @@ function createDynamicContent() {
   const idSeed = Math.random();
 
   for (let i = 0; i < numberToCreate; i++) {
-    const dynamicContentReq = http.request(options, (res) => {
-      res.setEncoding('utf8');
-      res.on('data', (data) => {
-        if (!data.err) {
-          console.log(`STATUS: ${res.statusCode}, number: ${i} of ${numberToCreate}`);
-        } else {
-          console.log('error making request');
-        }
+    const dcFn = () => {
+      const dynamicContentReq = https.request(options, (res) => {
+        res.setEncoding('utf8');
+        res.on('data', (data) => {
+          if (!data.err) {
+            console.log(`STATUS: ${res.statusCode}, number: ${i} of ${numberToCreate}`);
+          } else {
+            console.log('error making request');
+          }
+        });
       });
-    });
 
-    dynamicContentReq.on('error', (e) => {
-      console.log(`problem with dynamic content request: ${e.message}`);
-    });
+      dynamicContentReq.on('error', (e) => {
+        console.log(`problem with dynamic content request: ${e.message}`);
+      });
 
-    dynamicContentReq.write(formatDc(_.uniqueId(idSeed), _.uniqueId('varient')));
-    dynamicContentReq.end();
+      dynamicContentReq.write(formatDc(_.uniqueId(idSeed), _.uniqueId('variant')));
+      dynamicContentReq.end();
+    };
+
+    setTimeout(dcFn, options.timeout);
   }
 }
 
