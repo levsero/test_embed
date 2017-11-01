@@ -51,6 +51,9 @@ describe('Chat component', () => {
       'component/chat/ChatPopup': {
         ChatPopup: noopReactComponent()
       },
+      'component/chat/ChatContactDetailsPopup': {
+        ChatContactDetailsPopup: noopReactComponent()
+      },
       'component/chat/ChatFeedbackForm': {
         ChatFeedbackForm: noopReactComponent()
       },
@@ -338,6 +341,34 @@ describe('Chat component', () => {
 
         it('does not show the chat end notification component', () => {
           expect(component.renderChatEndPopup())
+            .toBeNull();
+        });
+      });
+    });
+
+    describe('renderChatContactDetailsPopup', () => {
+      let component;
+
+      describe('when the popup should be shown', () => {
+        beforeEach(() => {
+          component = domRender(
+            <Chat chat={{ rating: null }} showContactDetailsNotification={true} />
+          );
+        });
+
+        it('shows the chat contact details popup component', () => {
+          expect(component.renderChatContactDetailsPopup())
+            .not.toBeNull();
+        });
+      });
+
+      describe('when the popup should not be shown', () => {
+        beforeEach(() => {
+          component = domRender(<Chat chat={{ rating: null }} />);
+        });
+
+        it('does not show the chat contact details popup component', () => {
+          expect(component.renderChatContactDetailsPopup())
             .toBeNull();
         });
       });
