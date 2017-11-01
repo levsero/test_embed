@@ -64,7 +64,7 @@ describe('ZendeskLogo component', () => {
       const logo = shallowRender(<ZendeskLogo formSuccess={true} rtl={true} />);
 
       expect(logo.props.className)
-        .not.toMatch('ltr');
+        .toMatch('rtl');
     });
   });
 });
