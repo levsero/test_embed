@@ -533,6 +533,25 @@ describe('chat redux actions', () => {
     });
   });
 
+  describe('toggleContactDetailsNotification', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.toggleContactDetailsNotification(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type TOGGLE_CONTACT_DETAILS_NOTIFICATION', () => {
+      expect(action.type)
+        .toEqual(actionTypes.TOGGLE_CONTACT_DETAILS_NOTIFICATION);
+    });
+
+    it('has the toggle bool in the payload', () => {
+      expect(action.payload)
+        .toBe(true);
+    });
+  });
+
   describe('sendAttachments', () => {
     let files, action;
 
