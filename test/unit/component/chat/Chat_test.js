@@ -336,7 +336,7 @@ describe('Chat component', () => {
           component = domRender(<Chat chat={{ rating: null }} />);
         });
 
-        it('shows the chat end notification component', () => {
+        it('does not show the chat end notification component', () => {
           expect(component.renderChatEndPopup())
             .toBeNull();
         });
