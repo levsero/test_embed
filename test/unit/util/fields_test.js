@@ -199,7 +199,7 @@ describe('fields', () => {
       });
 
       it('should return the field', () => {
-        expect(customFields.allFields[0].props.placeholder)
+        expect(customFields.allFields[0].props.label)
           .toBe('What is your query about?');
       });
     });
@@ -244,7 +244,7 @@ describe('fields', () => {
       });
 
       it('should return the field', () => {
-        expect(customFields.allFields[0].props.placeholder)
+        expect(customFields.allFields[0].props.label)
           .toBe('What is your query about?');
       });
     });
@@ -283,12 +283,12 @@ describe('fields', () => {
         });
 
         it('should pass through the title', () => {
-          expect(customFields.allFields[0].props.placeholder)
+          expect(customFields.allFields[0].props.label)
             .toEqual('Order Details');
         });
 
         it('should pass through the `title_in_portal` instead of `title` if it exists', () => {
-          expect(customFields.allFields[1].props.placeholder)
+          expect(customFields.allFields[1].props.label)
             .toEqual('How can we help?');
         });
       });
