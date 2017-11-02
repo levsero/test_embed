@@ -232,7 +232,7 @@ const setupWidgetApi = (win) => {
   win.zE.activate = (options) => {
     mediator.channel.broadcast('.activate', options);
   };
-  win.zE.activateIpm = () => { }; // no-op until rest of connect code is removed
+  win.zE.activateIpm = () => {}; // no-op until rest of connect code is removed
   win.zE.hide = () => {
     mediator.channel.broadcast('.hide');
   };
