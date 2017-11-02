@@ -32,7 +32,7 @@ export class AutomaticAnswersDesktop extends AutomaticAnswers {
     });
     const solveQuestionSubtext = i18n.t('embeddable_framework.automaticAnswers.desktop.solve.subtext_v2', {
       fallback: 'If it does, we can close your recent request %(requestLink)s',
-      requestLink: `#${this.state.ticket.niceId}`
+      requestLink: `<strong>#${this.state.ticket.niceId}</strong>`
     });
 
     return (
