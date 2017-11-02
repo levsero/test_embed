@@ -194,16 +194,14 @@ export class Field extends Component {
     });
 
     const dropdownArrow = isDropdown ? this.renderDropdownArrow() : null;
-    const requiredLabel = this.props.required && !_.isEmpty(this.props.label)
-                        ? '*'
-                        : '';
+    const showRequiredLabel = this.props.required && !_.isEmpty(this.props.label);
 
     return (
       <div className={`Form-fieldContainer ${this.props.fieldContainerClasses}`}>
         <label className='Form-fieldContainer u-block'>
           <div className={fieldLabelClasses}>
             {this.props.label}
-            {requiredLabel}
+            {showRequiredLabel ? '*' : ''}
           </div>
           <div className={`${fieldClasses} ${this.props.fieldClasses}`}>
             {this.renderInput()}
