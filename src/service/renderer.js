@@ -82,11 +82,14 @@ function init(config) {
 
     const { newChat, embeds = {} } = config;
     const useNewChatEmbed = !!embeds.zopimChat && newChat;
-    const hasSingleIframeEmbeds = !!embeds.ticketSubmissionForm || !!embeds.helpCenterForm || useNewChatEmbed;
+    const hasSingleIframeEmbeds = !!embeds.ticketSubmissionForm
+      || !!embeds.helpCenterForm
+      || !!embeds.talk
+      || useNewChatEmbed;
     let parsedConfig = parseConfig(config);
 
     if (hasSingleIframeEmbeds) {
-      const webWidgetEmbeds = ['ticketSubmissionForm', 'helpCenterForm'];
+      const webWidgetEmbeds = ['ticketSubmissionForm', 'helpCenterForm', 'talk'];
 
       // Only send chat to WebWidget if new chat is on. Otherwise use old one.
       if (newChat) webWidgetEmbeds.push('zopimChat');
@@ -112,6 +115,7 @@ function init(config) {
         configItem.props.visible = !hideLauncher && config.embeds && !zopimRendered;
         configItem.props.hideZendeskLogo = config.hideZendeskLogo;
         configItem.props.brand = config.brand;
+
         embedsMap[configItem.embed].create(embedName, configItem.props, reduxStore);
         embedsMap[configItem.embed].render(embedName);
       } catch (err) {
@@ -164,7 +168,8 @@ function initMediator(config) {
       submitTicket: submitTicketAccessible,
       helpCenter: !!embeds.helpCenterForm,
       chat: zopimChatAccessible,
-      channelChoice: channelChoiceAccessible
+      channelChoice: channelChoiceAccessible,
+      talk: !!embeds.talk
     };
 
     mediator.init(embedsAccessible, params);

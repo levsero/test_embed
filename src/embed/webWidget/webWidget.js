@@ -142,6 +142,7 @@ function create(name, config = {}, reduxStore = {}) {
     hideZendeskLogo: false,
     color: '#659700'
   };
+  const talkAvailable = !!config.talk;
   const helpCenterAvailable = !!config.helpCenterForm && !settings.get('helpCenter.suppress');
   const submitTicketAvailable = !!config.ticketSubmissionForm && !settings.get('contactForm.suppress');
   const chatAvailable = !!config.zopimChat && !settings.get('chat.suppress');
@@ -152,7 +153,7 @@ function create(name, config = {}, reduxStore = {}) {
   const helpCenterSettings = helpCenterAvailable
                            ? setUpHelpCenter(config.helpCenterForm)
                            : {};
-  const rootConfig = _.omit(config, ['ticketSubmissionForm', 'helpCenterForm', 'zopimChat']);
+  const rootConfig = _.omit(config, ['ticketSubmissionForm', 'helpCenterForm', 'zopimChat', 'talk']);
   const globalConfig = _.extend(
     configDefaults,
     submitTicketSettings.config,
@@ -211,6 +212,7 @@ function create(name, config = {}, reduxStore = {}) {
         newDesign={!!config.zopimChat}
         fullscreen={isMobileBrowser()}
         helpCenterAvailable={helpCenterAvailable}
+        talkAvailable={talkAvailable}
         helpCenterConfig={helpCenterSettings.config}
         isOnHelpCenterPage={isOnHelpCenterPage()}
         hideZendeskLogo={globalConfig.hideZendeskLogo}
@@ -249,7 +251,8 @@ function create(name, config = {}, reduxStore = {}) {
     embedsAvailable: {
       helpCenterForm: helpCenterAvailable,
       ticketSubmissionForm: submitTicketAvailable,
-      chat: chatAvailable
+      chat: chatAvailable,
+      talk: talkAvailable
     },
     store: reduxStore
   };
