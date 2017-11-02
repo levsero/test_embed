@@ -2,6 +2,7 @@ import CheckboxStyles from 'component/field/Checkbox.sass';
 import LoadingSpinnerStyles from 'component/loading/LoadingSpinner.sass';
 import ScrollContainerStyles from 'component/container/ScrollContainer.sass';
 import AvatarStyles from 'component/Avatar.sass';
+import IconStyles from 'component/Icon.sass';
 import ButtonStyles from 'component/button/Button.sass';
 import ZendeskLogoStyles from 'component/ZendeskLogo.sass';
 
@@ -12,4 +13,5 @@ export const sharedStyles = `
   ${AvatarStyles}
   ${ButtonStyles}
   ${ZendeskLogoStyles}
+  ${IconStyles}
 `;
