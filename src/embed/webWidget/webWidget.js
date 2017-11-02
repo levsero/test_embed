@@ -10,7 +10,7 @@ import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { transitionFactory } from 'service/transitionFactory';
-import { http } from 'service/transport';
+import { http, socketio } from 'service/transport';
 import { generateUserCSS } from 'utility/color';
 import { getZoomSizingRatio,
          isIE,
@@ -141,6 +141,7 @@ function create(name, config = {}, reduxStore = {}) {
   const helpCenterAvailable = !!config.helpCenterForm && !settings.get('helpCenter.suppress');
   const submitTicketAvailable = !!config.ticketSubmissionForm && !settings.get('contactForm.suppress');
   const chatAvailable = !!config.zopimChat && !settings.get('chat.suppress');
+  const talkAvailable = !!config.talk;
   const channelChoice = settings.get('contactOptions').enabled && submitTicketAvailable;
   const submitTicketSettings = submitTicketAvailable
                              ? setUpSubmitTicket(config.ticketSubmissionForm)
@@ -157,7 +158,11 @@ function create(name, config = {}, reduxStore = {}) {
   );
 
   if (chatAvailable) {
-    setUpChat(config.zopimChat, reduxStore);
+    setupChat(config.zopimChat, reduxStore);
+  }
+
+  if (talkAvailable) {
+    setupTalk(config.zendeskHost, config.talk, reduxStore);
   }
 
   if (isMobileBrowser()) {
@@ -624,7 +629,7 @@ function setUpSubmitTicket(config) {
   };
 }
 
-function setUpChat(config, store) {
+function setupChat(config, store) {
   win.zChat = zChat;
 
   zChat.init(makeChatConfig(config));
@@ -634,6 +639,12 @@ function setUpChat(config, store) {
 
     store.dispatch({ type: actionType, payload: data });
   });
+}
+
+function setupTalk(zendeskHost, config, store) {
+  const socket = socketio.connect(0, zendeskHost);
+
+  socketio.mapEventsToActions(socket, store);
 }
 
 function makeChatConfig(config) {
