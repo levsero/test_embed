@@ -111,7 +111,7 @@ const setupWidgetQueue = (win, postRenderQueue) => {
     identify: postRenderQueueCallback.bind('identify'),
     logout: postRenderQueueCallback.bind('logout'),
     activate: postRenderQueueCallback.bind('activate'),
-    activateIpm: postRenderQueueCallback.bind('activateIpm')
+    activateIpm: () => {} // no-op until rest of connect code is removed
   };
 
   if (__DEV__) {
