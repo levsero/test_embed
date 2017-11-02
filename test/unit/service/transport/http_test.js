@@ -1,10 +1,10 @@
-describe('transport', () => {
-  let transport,
+describe('http', () => {
+  let http,
     mockStore,
     mockMethods,
     mockRegistry;
 
-  const transportPath = buildSrcPath('service/transport');
+  const httpPath = buildSrcPath('service/transport/http');
 
   beforeEach(() => {
     mockery.enable();
@@ -60,8 +60,8 @@ describe('transport', () => {
       }
     });
 
-    mockery.registerAllowable(transportPath);
-    transport = requireUncached(transportPath).transport;
+    mockery.registerAllowable(httpPath);
+    http = requireUncached(httpPath).http;
   });
 
   afterEach(() => {
@@ -75,7 +75,7 @@ describe('transport', () => {
     });
 
     it('makes use of default config values', () => {
-      transport.init();
+      http.init();
 
       const recentCall = _.extend.calls.mostRecent();
 
@@ -89,7 +89,7 @@ describe('transport', () => {
         test: 'config'
       };
 
-      transport.init(testConfig);
+      http.init(testConfig);
 
       const recentCall = _.extend.calls.mostRecent();
 
@@ -129,8 +129,8 @@ describe('transport', () => {
 
         spyOn(mockMethods, 'send').and.callThrough();
 
-        transport.init(config);
-        transport.send(payload);
+        http.init(config);
+        http.send(payload);
 
         const recentCall = mockMethods.send.calls.mostRecent();
 
@@ -146,8 +146,8 @@ describe('transport', () => {
 
         spyOn(mockMethods, 'send').and.callThrough();
 
-        transport.init(config);
-        transport.send(payload);
+        http.init(config);
+        http.send(payload);
 
         const recentCall = mockMethods.send.calls.mostRecent();
 
@@ -162,8 +162,8 @@ describe('transport', () => {
 
         spyOn(mockMethods, 'query').and.callThrough();
 
-        transport.init(config);
-        transport.send(payload);
+        http.init(config);
+        http.send(payload);
 
         expect(mockMethods.query)
           .toHaveBeenCalledWith(payload.query);
@@ -172,8 +172,8 @@ describe('transport', () => {
       it('does not send a query string if the payload does not contain it', () => {
         spyOn(mockMethods, 'query').and.callThrough();
 
-        transport.init(config);
-        transport.send(payload);
+        http.init(config);
+        http.send(payload);
 
         expect(mockMethods.query)
           .not.toHaveBeenCalled();
@@ -187,8 +187,8 @@ describe('transport', () => {
 
         spyOn(mockMethods, 'set').and.callThrough();
 
-        transport.init(config);
-        transport.send(payload);
+        http.init(config);
+        http.send(payload);
       });
 
       it('sends the Accept-Language if payload contains a locale', () => {
@@ -198,10 +198,10 @@ describe('transport', () => {
     });
 
     it('should throw an exception if zendeskHost is not set in config', () => {
-      transport.init();
+      http.init();
 
       expect(() => {
-        transport.send(payload);
+        http.send(payload);
       })
         .toThrow();
     });
@@ -209,8 +209,8 @@ describe('transport', () => {
     it('sets the correct http method and url on superagent', () => {
       const mockSuperagent = mockRegistry.superagent;
 
-      transport.init(config);
-      transport.send(payload);
+      http.init(config);
+      http.send(payload);
 
       expect(mockSuperagent)
         .toHaveBeenCalledWith(
@@ -222,8 +222,8 @@ describe('transport', () => {
       it('sets the json type by default', () => {
         spyOn(mockMethods, 'type').and.callThrough();
 
-        transport.init(config);
-        transport.send(payload);
+        http.init(config);
+        http.send(payload);
 
         expect(mockMethods.type)
           .toHaveBeenCalledWith('json');
@@ -232,8 +232,8 @@ describe('transport', () => {
       it('does not send a json type if explicitly omitted', () => {
         spyOn(mockMethods, 'type').and.callThrough();
 
-        transport.init(config);
-        transport.send(payload, false);
+        http.init(config);
+        http.send(payload, false);
 
         expect(mockMethods.type)
           .not.toHaveBeenCalled();
@@ -247,8 +247,8 @@ describe('transport', () => {
         spyOn(payload.callbacks, 'always');
         spyOn(mockMethods, 'end').and.callThrough();
 
-        transport.init(config);
-        transport.send(payload);
+        http.init(config);
+        http.send(payload);
 
         expect(mockMethods.end)
           .toHaveBeenCalled();
@@ -277,8 +277,8 @@ describe('transport', () => {
         spyOn(payload.callbacks, 'always');
         spyOn(mockMethods, 'end').and.callThrough();
 
-        transport.init(config);
-        transport.send(payload);
+        http.init(config);
+        http.send(payload);
 
         expect(mockMethods.end)
           .toHaveBeenCalled();
@@ -305,8 +305,8 @@ describe('transport', () => {
 
       delete payload.callbacks;
 
-      transport.init(config);
-      transport.send(payload);
+      http.init(config);
+      http.send(payload);
 
       const recentCall = mockMethods.end.calls.mostRecent();
 
@@ -322,8 +322,8 @@ describe('transport', () => {
 
       delete payload.callbacks.done;
 
-      transport.init(config);
-      transport.send(payload);
+      http.init(config);
+      http.send(payload);
 
       const recentCall = mockMethods.end.calls.mostRecent();
 
@@ -339,8 +339,8 @@ describe('transport', () => {
 
       delete payload.callbacks.fail;
 
-      transport.init(config);
-      transport.send(payload);
+      http.init(config);
+      http.send(payload);
 
       const recentCall = mockMethods.end.calls.mostRecent();
 
@@ -355,8 +355,8 @@ describe('transport', () => {
       let urlArg;
 
       beforeEach(() => {
-        transport.init(config);
-        transport.send(payload);
+        http.init(config);
+        http.send(payload);
 
         urlArg = mockRegistry.superagent.calls.mostRecent().args[1];
       });
@@ -378,8 +378,8 @@ describe('transport', () => {
       beforeEach(() => {
         payload.forceHttp = true;
 
-        transport.init(config);
-        transport.send(payload);
+        http.init(config);
+        http.send(payload);
 
         urlArg = mockRegistry.superagent.calls.mostRecent().args[1];
       });
@@ -428,8 +428,8 @@ describe('transport', () => {
 
         spyOn(mockMethods, 'send').and.callThrough();
 
-        transport.init(config);
-        transport.sendWithMeta(payload, false);
+        http.init(config);
+        http.sendWithMeta(payload, false);
 
         const params = mockMethods.send.calls.mostRecent().args[0];
 
@@ -458,8 +458,8 @@ describe('transport', () => {
 
             spyOn(mockMethods, 'send').and.callThrough();
 
-            transport.init(config);
-            transport.sendWithMeta(payload, false);
+            http.init(config);
+            http.sendWithMeta(payload, false);
 
             params = mockMethods.send.calls.mostRecent().args[0];
           });
@@ -476,8 +476,8 @@ describe('transport', () => {
 
             spyOn(mockMethods, 'send').and.callThrough();
 
-            transport.init(config);
-            transport.sendWithMeta(payload, false);
+            http.init(config);
+            http.sendWithMeta(payload, false);
 
             params = mockMethods.send.calls.mostRecent().args[0];
           });
@@ -493,9 +493,9 @@ describe('transport', () => {
     describe('with base64 encoding for blips', () => {
       beforeEach(() => {
         spyOn(mockMethods, 'send').and.callThrough();
-        transport.init(config);
+        http.init(config);
 
-        transport.sendWithMeta(payload);
+        http.sendWithMeta(payload);
       });
 
       it('encodes the data and sends it as a query string', () =>{
@@ -532,8 +532,8 @@ describe('transport', () => {
       spyOn(payload.callbacks, 'fail');
       spyOn(mockMethods, 'end').and.callThrough();
 
-      transport.init(config);
-      transport.getImage(payload);
+      http.init(config);
+      http.getImage(payload);
 
       onEndHandler = mockMethods.end.calls.mostRecent().args[0];
     });
@@ -608,11 +608,11 @@ describe('transport', () => {
 
     describe('when zendeskHost is not set in config', () => {
       beforeEach(() => {
-        transport.init();
+        http.init();
       });
 
       it('should throw an exception', () => {
-        expect(() => transport.send(payload))
+        expect(() => http.send(payload))
           .toThrow();
       });
     });
@@ -632,12 +632,12 @@ describe('transport', () => {
 
         mockSuperagent = mockRegistry.superagent;
 
-        transport.init(config);
+        http.init(config);
       });
 
       describe('when callbacks are present', () => {
         beforeEach(() => {
-          transport.sendFile(payload);
+          http.sendFile(payload);
         });
 
         it('sets the correct http method and path', () => {
@@ -700,7 +700,7 @@ describe('transport', () => {
         beforeEach(() => {
           delete payload.callbacks;
 
-          transport.sendFile(payload);
+          http.sendFile(payload);
         });
 
         it('will not die', () => {
@@ -716,7 +716,7 @@ describe('transport', () => {
         beforeEach(() => {
           delete payload.callbacks.done;
 
-          transport.sendFile(payload);
+          http.sendFile(payload);
         });
 
         it('will not die', () => {
@@ -732,7 +732,7 @@ describe('transport', () => {
         beforeEach(() => {
           delete payload.callbacks.fail;
 
-          transport.sendFile(payload);
+          http.sendFile(payload);
         });
 
         it('will not die', () => {
@@ -748,7 +748,7 @@ describe('transport', () => {
         beforeEach(() => {
           delete payload.callbacks.progress;
 
-          transport.sendFile(payload);
+          http.sendFile(payload);
         });
 
         it('will not die', () => {
@@ -779,18 +779,18 @@ describe('transport', () => {
 
     describe('when zendeskHost is not set in config', () => {
       beforeEach(() => {
-        transport.init();
+        http.init();
       });
 
       it('should throw an exception', () => {
-        expect(() => transport.automaticAnswersApiRequest(payload))
+        expect(() => http.automaticAnswersApiRequest(payload))
           .toThrow();
       });
     });
 
     describe('when zendeskHost is set in config', () => {
       beforeEach(() => {
-        transport.init(config);
+        http.init(config);
         payload = {
           method: 'get',
           path: `/test/fetch?auth_token=${authToken}`,
@@ -821,7 +821,7 @@ describe('transport', () => {
             'auth_token' : authToken,
             'article_id' : articleId
           };
-          transport.automaticAnswersApiRequest(payload, formData);
+          http.automaticAnswersApiRequest(payload, formData);
         });
 
         it('sets the correct http method and path', () => {
@@ -849,7 +849,7 @@ describe('transport', () => {
 
       describe('when sending a GET request', () => {
         beforeEach(() => {
-          transport.automaticAnswersApiRequest(payload);
+          http.automaticAnswersApiRequest(payload);
         });
 
         it('sets the correct http method and path', () => {
@@ -870,7 +870,7 @@ describe('transport', () => {
           callback;
 
         beforeEach(() => {
-          transport.automaticAnswersApiRequest(payload);
+          http.automaticAnswersApiRequest(payload);
           expect(mockMethods.end)
             .toHaveBeenCalled();
 
