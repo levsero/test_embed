@@ -77,12 +77,6 @@ const onShow = () => {
       setTimeout(() => {
         mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
       }, 0);
-    } else {
-      if (submitTicketForm) {
-        submitTicketForm.focusField();
-      } else if (rootComponent.focusField) {
-        rootComponent.focusField();
-      }
     }
     if (submitTicketForm) {
       submitTicketForm.resetTicketFormVisibility();
@@ -120,9 +114,9 @@ const afterShowAnimate = () => {
     if (rootComponent.refs.submitTicketForm) {
       rootComponent.refs.submitTicketForm.focusField();
     }
-    if (rootComponent.focusField) {
-      rootComponent.focusField();
-    }
+  }
+  if (rootComponent.focusField) {
+    rootComponent.focusField();
   }
 };
 const onClose = () => {

@@ -264,16 +264,7 @@ describe('embed.webWidget', () => {
           spyOn(child, 'focusField');
         });
 
-        it('should not call focusField for non-IE browser', () => {
-          mockIsIE = false;
-          frame.props.afterShowAnimate(frame);
-
-          expect(child.focusField)
-            .not.toHaveBeenCalled();
-        });
-
-        it('should call focusField for IE browser', () => {
-          mockIsIE = true;
+        it('should call focusField', () => {
           frame.props.afterShowAnimate(frame);
 
           expect(child.focusField)

@@ -38,6 +38,7 @@ export class SearchField extends Component {
       focused: false,
       searchInputVal: ''
     };
+    this.searchField = null;
   }
 
   onFocus = (e) => {
@@ -69,7 +70,7 @@ export class SearchField extends Component {
   }
 
   getSearchField = () => {
-    return this.refs.searchFieldInput.getInput();
+    return this.searchField.getInput();
   }
 
   getValue = () => {
@@ -106,7 +107,8 @@ export class SearchField extends Component {
         onBlur={this.onBlur}
         searchInputVal={this.state.searchInputVal}
         onFocus={this.onFocus}
-        ref='searchFieldInput' />
+        ref={(elem) => { this.searchField = elem; }}
+      />
     );
   }
 
