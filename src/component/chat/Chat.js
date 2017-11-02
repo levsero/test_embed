@@ -244,12 +244,12 @@ class Chat extends Component {
           agent2 = agentList[1].display_name;
 
         typingNotification = i18n.t(
-          'embeddable_framework.chat.chatLog.isTyping.two',
+          'embeddable_framework.chat.chatLog.isTyping_two',
           { agent1, agent2, fallback: `${agent1} and ${agent2} are typing` });
         break;
       default:
         typingNotification = i18n.t(
-          'embeddable_framework.chat.chatLog.isTyping.multiple',
+          'embeddable_framework.chat.chatLog.isTyping_multiple',
           { fallback: 'Multiple agents are typing' }
         );
     }
