@@ -1,5 +1,6 @@
 import { updateAccountSettings } from 'src/redux/modules/chat';
 import { audio } from 'service/audio';
+import { getUserSoundSettings } from 'src/redux/modules/chat/selectors';
 
 const onChatConnected = (prevState, nextState, dispatch) => {
   if (prevState.chat.connection === 'connecting' && nextState.chat.connection !== 'connecting') {
@@ -8,6 +9,8 @@ const onChatConnected = (prevState, nextState, dispatch) => {
 };
 
 const onNewChatMessage = (prevState, nextState) => {
+  if (!getUserSoundSettings(nextState)) return;
+
   const prevSize = prevState.chat.chats.size;
   const nextSize = nextState.chat.chats.size;
 

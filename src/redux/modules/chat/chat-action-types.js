@@ -18,7 +18,7 @@ export const SEND_CHAT_RATING_COMMENT_FAILURE = 'widget/chat/SEND_CHAT_RATING_CO
 export const SEND_CHAT_FILE_SUCCESS = 'widget/chat/SEND_CHAT_FILE_SUCCESS';
 export const SEND_CHAT_FILE_FAILURE = 'widget/chat/SEND_CHAT_FILE_FAILURE';
 export const SEND_CHAT_FILE = 'widget/chat/SEND_CHAT_FILE';
-export const TOGGLE_CHAT_NOTIFICATION_SOUND = 'widget/chat/TOGGLE_CHAT_NOTIFICATION_SOUND';
+export const UPDATE_USER_SETTINGS = 'widget/chat/UPDATE_USER_SETTINGS';
 
 export const SDK_CHAT_MSG = 'websdk/chat.msg';
 export const SDK_CHAT_FILE = 'websdk/chat.file';

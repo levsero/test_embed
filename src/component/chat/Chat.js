@@ -29,12 +29,12 @@ import { endChat,
          toggleEndChatNotification,
          acceptEndChatNotification,
          toggleContactDetailsNotification,
-         toggleChatSound } from 'src/redux/modules/chat';
+         updateUserSettings } from 'src/redux/modules/chat';
 import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
 import { getPrechatFormFields,
          getIsChatting,
          getAgents,
-         getPlaySound,
+         getUserSoundSettings,
          getPostchatFormSettings } from 'src/redux/modules/chat/selectors';
 
 import { locals as styles } from './Chat.sass';
@@ -56,7 +56,7 @@ const mapStateToProps = (state) => {
     showContactDetailsNotification: chat.showContactDetailsNotification,
     isChatting: getIsChatting(state),
     agents: getAgents(state),
-    playSound: getPlaySound(state)
+    userSoundSettings: getUserSoundSettings(state)
   };
 };
 
@@ -87,11 +87,12 @@ class Chat extends Component {
     toggleEndChatNotification: PropTypes.func.isRequired,
     toggleContactDetailsNotification: PropTypes.func.isRequired,
     acceptEndChatNotification: PropTypes.func.isRequired,
-    toggleChatSound: PropTypes.func.isRequired,
     isChatting: PropTypes.bool.isRequired,
     agents: PropTypes.object.isRequired,
     playSound: PropTypes.bool.isRequired,
-    saveContactDetails: PropTypes.func.isRequired
+    saveContactDetails: PropTypes.func.isRequired,
+    updateUserSettings: PropTypes.func.isRequired,
+    userSoundSettings: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -102,7 +103,9 @@ class Chat extends Component {
     updateFrameSize: () => {},
     updateAccountSettings: () => {},
     accountSettings: { concierge: {} },
-    postChatFormSettings: {}
+    postChatFormSettings: {},
+    updateUserSettings: () => {},
+    userSoundSettings: true
   };
 
   constructor(props) {
@@ -158,19 +161,19 @@ class Chat extends Component {
     if (!this.state.showMenu) return;
 
     const {
-      playSound,
+      userSoundSettings,
       isChatting,
       toggleEndChatNotification,
       toggleContactDetailsNotification,
-      toggleChatSound
+      updateUserSettings
     } = this.props;
     const showChatEndFn = () => toggleEndChatNotification(true);
     const showContactDetailsFn = () => toggleContactDetailsNotification(true);
-    const invertSoundFn = () => toggleChatSound(!playSound);
+    const invertSoundFn = () => updateUserSettings({ sound: !userSoundSettings });
 
     return (
       <ChatMenu
-        playSound={playSound}
+        playSound={userSoundSettings}
         disableEndChat={!isChatting}
         endChatOnClick={showChatEndFn}
         contactDetailsOnClick={showContactDetailsFn}
@@ -388,7 +391,6 @@ class Chat extends Component {
 }
 
 const actionCreators = {
-  toggleChatSound,
   toggleEndChatNotification,
   toggleContactDetailsNotification,
   acceptEndChatNotification,
@@ -401,7 +403,8 @@ const actionCreators = {
   sendChatRating,
   sendChatComment,
   updateChatScreen,
-  sendAttachments
+  sendAttachments,
+  updateUserSettings
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);

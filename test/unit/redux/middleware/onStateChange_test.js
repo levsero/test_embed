@@ -10,6 +10,12 @@ describe('onStateChange middleware', () => {
     initMockRegistry({
       'src/redux/modules/chat': {
         updateAccountSettings: updateAccountSettingsSpy
+      },
+      'service/audio': {
+        audio: {}
+      },
+      'src/redux/modules/chat/selectors': {
+        getUserSoundSettings: noop
       }
     });
 

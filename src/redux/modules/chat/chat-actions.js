@@ -22,7 +22,7 @@ import {
   SEND_CHAT_FILE,
   SEND_CHAT_FILE_SUCCESS,
   SEND_CHAT_FILE_FAILURE,
-  TOGGLE_CHAT_NOTIFICATION_SOUND
+  UPDATE_USER_SETTINGS
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './reducer/chat-screen-types';
 import { getChatVisitor } from 'src/redux/modules/chat/selectors';
@@ -88,10 +88,10 @@ export const toggleContactDetailsNotification = (bool) => {
   };
 };
 
-export const toggleChatSound = (bool) => {
+export const updateUserSettings = (settings) => {
   return {
-    type: TOGGLE_CHAT_NOTIFICATION_SOUND,
-    payload: bool
+    type: UPDATE_USER_SETTINGS,
+    payload: settings
   };
 };
 
@@ -177,7 +177,7 @@ export function updateAccountSettings() {
       dispatch(updateChatScreen(PRECHAT_SCREEN));
     }
 
-    dispatch(toggleChatSound(!accountSettings.sound.disabled));
+    dispatch(updateUserSettings({ sound: !accountSettings.sound.disabled }));
 
     dispatch({
       type: UPDATE_ACCOUNT_SETTINGS,

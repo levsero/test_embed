@@ -416,8 +416,8 @@ describe('chat redux actions', () => {
   });
 
   describe('updateAccountSettings', () => {
-    let toggleChatSoundAction,
-      updateAccountSettingsAction,
+    let updateAccountSettingsAction,
+      updateUserSettingsAction,
       soundDisabled;
 
     describe('when the prechat form is required', () => {
@@ -431,7 +431,7 @@ describe('chat redux actions', () => {
         };
         mockStore.dispatch(actions.updateAccountSettings());
         updateScreenAction = mockStore.getActions()[0];
-        toggleChatSoundAction = mockStore.getActions()[1];
+        updateUserSettingsAction = mockStore.getActions()[1];
         updateAccountSettingsAction = mockStore.getActions()[2];
       });
 
@@ -443,14 +443,14 @@ describe('chat redux actions', () => {
           });
       });
 
-      it('dispatches an action of type TOGGLE_CHAT_NOTIFICATION_SOUND', () => {
-        expect(toggleChatSoundAction.type)
-          .toBe(actionTypes.TOGGLE_CHAT_NOTIFICATION_SOUND);
+      it('dispatches an action of type UPDATE_USER_SETTINGS', () => {
+        expect(updateUserSettingsAction.type)
+          .toBe(actionTypes.UPDATE_USER_SETTINGS);
       });
 
       it('has the inverted value of sound settings in the payload', () => {
-        expect(toggleChatSoundAction.payload)
-          .toEqual(!soundDisabled);
+        expect(updateUserSettingsAction.payload)
+          .toEqual({ sound: !soundDisabled });
       });
 
       it('dispatches an action of type UPDATE_ACCOUNT_SETTINGS', () => {
@@ -472,18 +472,18 @@ describe('chat redux actions', () => {
           sound: { disabled: soundDisabled }
         };
         mockStore.dispatch(actions.updateAccountSettings());
-        toggleChatSoundAction = mockStore.getActions()[0];
+        updateUserSettingsAction = mockStore.getActions()[0];
         updateAccountSettingsAction = mockStore.getActions()[1];
       });
 
-      it('dispatches an action of type TOGGLE_CHAT_NOTIFICATION_SOUND', () => {
-        expect(toggleChatSoundAction.type)
-          .toBe(actionTypes.TOGGLE_CHAT_NOTIFICATION_SOUND);
+      it('dispatches an action of type UPDATE_USER_SETTINGS', () => {
+        expect(updateUserSettingsAction.type)
+          .toBe(actionTypes.UPDATE_USER_SETTINGS);
       });
 
       it('has the inverted value of sound settings in the payload', () => {
-        expect(toggleChatSoundAction.payload)
-          .toEqual(!soundDisabled);
+        expect(updateUserSettingsAction.payload)
+          .toEqual({ sound: !soundDisabled });
       });
 
       it('dispatches an action of type UPDATE_ACCOUNT_SETTINGS', () => {
@@ -631,27 +631,6 @@ describe('chat redux actions', () => {
             }));
         });
       });
-    });
-  });
-
-  describe('toggleChatSound', () => {
-    let action,
-      bool;
-
-    beforeEach(() => {
-      bool = true;
-      mockStore.dispatch(actions.toggleChatSound(bool));
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches an action of type TOGGLE_CHAT_NOTIFICATION_SOUND ', () => {
-      expect(action.type)
-        .toEqual(actionTypes.TOGGLE_CHAT_NOTIFICATION_SOUND);
-    });
-
-    it('has updated the sound toggle in the payload', () => {
-      expect(action.payload)
-        .toBe(bool);
     });
   });
 

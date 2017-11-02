@@ -14,7 +14,7 @@ const getPrechatSettings = (state) => state.chat.accountSettings.prechatForm;
 const getPostchatSettings = (state) => state.chat.accountSettings.postchatForm;
 
 export const getAgents = (state) => state.chat.agents;
-export const getPlaySound = (state) => state.chat.notification.playSound;
+export const getUserSoundSettings = (state) => state.chat.userSettings.sound;
 
 export const getChatNotification = createSelector(
   [getNotification, getAgents, getChatsByAgent],
