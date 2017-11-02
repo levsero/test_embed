@@ -8,12 +8,12 @@ describe('embed.ipm.api', () => {
   beforeEach(() => {
     mockery.enable();
 
-    transportGetSpy = jasmine.createSpy('transport.get');
-    transportSendSpy = jasmine.createSpy('transport.send');
+    transportGetSpy = jasmine.createSpy('http.get');
+    transportSendSpy = jasmine.createSpy('http.send');
 
     initMockRegistry({
       'service/transport': {
-        transport: {
+        http: {
           get: transportGetSpy,
           send: transportSendSpy
         }

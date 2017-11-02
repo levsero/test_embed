@@ -21,7 +21,7 @@ describe('authentication', function() {
         }
       },
       'service/transport': {
-        transport: jasmine.createSpyObj('transport', ['send'])
+        http: jasmine.createSpyObj('http', ['send'])
       },
       'service/persistence': {
         store: {
@@ -69,7 +69,7 @@ describe('authentication', function() {
       jwt;
 
     beforeEach(function() {
-      mockTransport = mockRegistry['service/transport'].transport;
+      mockTransport = mockRegistry['service/transport'].http;
       mockStore = mockRegistry['service/persistence'].store;
 
       mockStore.get = function() {
@@ -222,7 +222,7 @@ describe('authentication', function() {
         expiry: Math.floor(Date.now() / 1000) + (20 * 60),
         createdAt: Math.floor(Date.now() / 1000) - (1.6 * 60 * 60)
       };
-      mockTransport = mockRegistry['service/transport'].transport;
+      mockTransport = mockRegistry['service/transport'].http;
       mockStore = mockRegistry['service/persistence'].store;
       mockSettings = mockRegistry['service/settings'].settings;
       renewPayload = {

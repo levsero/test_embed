@@ -11,7 +11,7 @@ describe('embed.automaticAnswers', () => {
   const automaticAnswersPath = buildSrcPath('embed/automaticAnswers/automaticAnswers');
   const mockScreenState = 'IRRELEVANT_SCREEN';
   const renderAutomaticAnswers = () => {
-    mockTransport = mockRegistry['service/transport'].transport;
+    mockTransport = mockRegistry['service/transport'].http;
     automaticAnswers.create('automaticAnswers', config);
     automaticAnswers.render();
   };
@@ -79,7 +79,7 @@ describe('embed.automaticAnswers', () => {
         }
       },
       'service/transport': {
-        transport: jasmine.createSpyObj('transport', ['automaticAnswersApiRequest'])
+        http: jasmine.createSpyObj('http', ['automaticAnswersApiRequest'])
       },
       'utility/pages': {
         getURLParameterByName: jasmine.createSpy().and.callFake(() => mockURLParameter),
@@ -631,7 +631,7 @@ describe('embed.automaticAnswers', () => {
     };
 
     const markArticleIrrelevant = () => {
-      mockTransport = mockRegistry['service/transport'].transport;
+      mockTransport = mockRegistry['service/transport'].http;
       automaticAnswers.markArticleIrrelevant(mockJwtToken, mockArticleIdInUrl, mockReason, callbacks);
       mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
       formData = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[1];

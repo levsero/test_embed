@@ -12,7 +12,7 @@ describe('boot', () => {
     identitySpy = registerImportSpy('identity', 'init'),
     loggingSpy = registerImportSpy('logging', 'init', 'error'),
     persistenceSpy = registerImportSpy('persistence', 'store'),
-    transportSpy = registerImportSpy('transport', 'get'),
+    transportSpy = registerImportSpy('http', 'get'),
     mediatorSpy = { mediator: registerImportSpy('channel', 'broadcast', 'subscribe') },
     rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks');
 
@@ -70,7 +70,7 @@ describe('boot', () => {
       win = {};
       postRenderQueue = [];
 
-      mockGetCalls = transportSpy.transport.get.calls;
+      mockGetCalls = transportSpy.http.get.calls;
     });
 
     describe('when win.zESkipWebWidget is true', () => {
@@ -80,7 +80,7 @@ describe('boot', () => {
       });
 
       it('does not call /embeddable/config', () => {
-        expect(transportSpy.transport.get)
+        expect(transportSpy.http.get)
           .not.toHaveBeenCalled();
       });
 
@@ -108,7 +108,7 @@ describe('boot', () => {
         }
       };
 
-      expect(transportSpy.transport.get)
+      expect(transportSpy.http.get)
         .toHaveBeenCalledWith(jasmine.objectContaining(params), false);
     });
 

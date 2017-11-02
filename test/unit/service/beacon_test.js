@@ -17,7 +17,7 @@ describe('beacon', () => {
 
     mockRegistry = initMockRegistry({
       'service/transport': {
-        transport: jasmine.createSpyObj('transport', ['send', 'sendWithMeta'])
+        http: jasmine.createSpyObj('http', ['send', 'sendWithMeta'])
       },
       'service/mediator': {
         mediator: {
@@ -92,7 +92,7 @@ describe('beacon', () => {
     let mockTransport;
 
     beforeEach(() => {
-      mockTransport = mockRegistry['service/transport'].transport;
+      mockTransport = mockRegistry['service/transport'].http;
     });
 
     it('Saves the currentTime', () => {
@@ -185,7 +185,7 @@ describe('beacon', () => {
     beforeEach(() => {
       jasmine.clock().mockDate(now);
       document.t = now - 1000;
-      mockTransport = mockRegistry['service/transport'].transport;
+      mockTransport = mockRegistry['service/transport'].http;
     });
 
     describe('sending a page view blip', () => {
@@ -237,9 +237,9 @@ describe('beacon', () => {
 
         beacon.sendPageView();
 
-        expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
+        expect(mockTransport.http.sendWithMeta).toHaveBeenCalled();
 
-        const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+        const payload = mockTransport.http.sendWithMeta.calls.mostRecent().args[0];
 
         expect(payload.method)
           .toBe('GET');
@@ -255,7 +255,7 @@ describe('beacon', () => {
 
       describe('that is of no-referrer type', () => {
         beforeEach(() => {
-          const mockTransport = mockRegistry['service/transport'].transport;
+          const mockTransport = mockRegistry['service/transport'].http;
 
           mockStore = 'no-referrer';
 
@@ -273,7 +273,7 @@ describe('beacon', () => {
 
       describe('that is not of no-referrer type', () => {
         beforeEach(() => {
-          const mockTransport = mockRegistry['service/transport'].transport;
+          const mockTransport = mockRegistry['service/transport'].http;
 
           mockStore = 'origin';
 
@@ -311,7 +311,7 @@ describe('beacon', () => {
       beacon.trackUserAction(null, 'only second param');
       beacon.trackUserAction(null, null, 'label');
 
-      expect(mockTransport.transport.send)
+      expect(mockTransport.http.send)
         .not.toHaveBeenCalled();
     });
 
@@ -327,10 +327,10 @@ describe('beacon', () => {
         userActionParams.value
       );
 
-      expect(mockTransport.transport.sendWithMeta)
+      expect(mockTransport.http.sendWithMeta)
         .toHaveBeenCalled();
 
-      const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+      const payload = mockTransport.http.sendWithMeta.calls.mostRecent().args[0];
 
       expect(payload.method)
         .toBe('GET');
@@ -351,7 +351,7 @@ describe('beacon', () => {
       mockPersistence;
 
     beforeEach(() => {
-      mockTransport = mockRegistry['service/transport'].transport;
+      mockTransport = mockRegistry['service/transport'].http;
       mockPersistence = mockRegistry['service/persistence'];
     });
 
@@ -521,11 +521,11 @@ describe('beacon', () => {
       });
 
       it('sends the correct payload', () => {
-        expect(mockTransport.transport.sendWithMeta)
+        expect(mockTransport.http.sendWithMeta)
           .toHaveBeenCalled();
 
-        const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
-        const useBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
+        const payload = mockTransport.http.sendWithMeta.calls.mostRecent().args[0];
+        const useBase64 = mockTransport.http.sendWithMeta.calls.mostRecent().args[1];
 
         expect(payload.method)
           .toBe('POST');
@@ -563,11 +563,11 @@ describe('beacon', () => {
       });
 
       it('sends correct payload using transport.send', () => {
-        expect(mockTransport.transport.sendWithMeta)
+        expect(mockTransport.http.sendWithMeta)
           .toHaveBeenCalled();
 
-        const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
-        const useBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
+        const payload = mockTransport.http.sendWithMeta.calls.mostRecent().args[0];
+        const useBase64 = mockTransport.http.sendWithMeta.calls.mostRecent().args[1];
 
         expect(payload.method)
           .toBe('GET');
@@ -586,7 +586,7 @@ describe('beacon', () => {
 
     beforeEach(() => {
       beacon.setConfig({ reduceBlipping: true });
-      mockTransport = mockRegistry['service/transport'].transport;
+      mockTransport = mockRegistry['service/transport'].http;
     });
 
     afterEach(() => {
