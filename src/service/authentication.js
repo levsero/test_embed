@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
 import { settings } from 'service/settings';
-import { transport } from 'service/transport';
+import { http } from 'service/transport';
 import { base64decode,
          sha1 } from 'utility/utils';
 
@@ -68,7 +68,7 @@ function requestOAuthToken(jwt) {
     }
   };
 
-  transport.send(payload);
+  http.send(payload);
 }
 
 function renewOAuthToken(token) {
@@ -89,7 +89,7 @@ function renewOAuthToken(token) {
     }
   };
 
-  transport.send(payload);
+  http.send(payload);
 }
 
 function onRequestSuccess(res, id) {

@@ -10,7 +10,7 @@ import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { transitionFactory } from 'service/transitionFactory';
-import { transport } from 'service/transport';
+import { http } from 'service/transport';
 import { generateUserCSS } from 'utility/color';
 import { getZoomSizingRatio,
          isIE,
@@ -41,7 +41,7 @@ let cancelTargetHandler = null;
 let resetEmbedOnShow = false;
 
 const getWithSpinner = (path, locale, doneFn) => {
-  const transportData = {
+  const httpData = {
     method: 'get',
     path,
     timeout: 20000,
@@ -59,7 +59,7 @@ const getWithSpinner = (path, locale, doneFn) => {
     // defer and wait for rootComponent before processing statements
     // in order execute after setLoading is completed
     setTimeout(() => {
-      transport.get(transportData, false);
+      http.get(httpData, false);
     }, 0);
   });
 };
@@ -233,7 +233,7 @@ function create(name, config = {}, reduxStore = {}) {
         submitTicketConfig={submitTicketSettings.config}
         submitTicketSender={submitTicketSettings.submitTicketSender}
         viaId={settings.get('viaId')}
-        zendeskHost={transport.getZendeskHost()}
+        zendeskHost={http.getZendeskHost()}
         zopimOnNext={zopimOnNext} />
     </Frame>
   );
@@ -524,7 +524,7 @@ function setUpSubmitTicket(config) {
       }
     };
 
-    transport.send(payload);
+    http.send(payload);
   };
   const attachmentSender = (file, doneFn, failFn, progressFn) => {
     const payload = {
@@ -538,7 +538,7 @@ function setUpSubmitTicket(config) {
       }
     };
 
-    return transport.sendFile(payload);
+    return http.sendFile(payload);
   };
   const createUserActionPayload = (payload, params) => {
     const body = params.res.body;
@@ -694,12 +694,12 @@ function setUpHelpCenter(config) {
   const searchSenderFn = (url) => (query, doneFn, failFn) => {
     const payload = senderPayload(url)(query, doneFn, failFn);
 
-    transport.send(payload);
+    http.send(payload);
   };
   const imagesSenderFn = (url, doneFn) => {
     const payload = senderPayload(url)(null, doneFn);
 
-    transport.getImage(payload);
+    http.getImage(payload);
   };
 
   config = _.extend({}, helpCenterConfigDefaults, { viewMoreEnabled }, config);
