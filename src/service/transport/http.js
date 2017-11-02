@@ -217,7 +217,7 @@ function automaticAnswersApiRequest(payload, formData = {}) {
     });
 }
 
-export const transport = {
+export const http = {
   init: init,
   send: send,
   sendWithMeta: sendWithMeta,

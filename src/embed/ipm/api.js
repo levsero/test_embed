@@ -1,6 +1,6 @@
 import { transform, snakeCase, camelCase, isObject, noop } from 'lodash';
 
-import { transport } from 'service/transport';
+import { http } from 'service/transport';
 
 const deepRenameKeys = (hash, fn) => (
   transform(hash, (result, value, key) => {
@@ -17,7 +17,7 @@ const decamelizeKeys = (hash) => (
 );
 
 function get(path, query = {}, resolve = noop, reject = noop) {
-  transport.get({
+  http.get({
     method: 'get',
     path,
     query: decamelizeKeys(query),
@@ -33,7 +33,7 @@ function get(path, query = {}, resolve = noop, reject = noop) {
 }
 
 function post(path, params = {}, resolve = noop, reject = noop) {
-  transport.send({
+  http.send({
     method: 'post',
     path,
     params: decamelizeKeys(params),

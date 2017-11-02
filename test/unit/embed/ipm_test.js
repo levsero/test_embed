@@ -72,8 +72,8 @@ describe('embed.ipm', () => {
         }
       },
       'service/transport': {
-        transport: {
-          send: jasmine.createSpy('transport.send'),
+        http: {
+          send: jasmine.createSpy('http.send'),
           getZendeskHost: () => 'test.zd-dev.com'
         }
       },

@@ -62,11 +62,11 @@ describe('embed.webWidget', () => {
         }
       },
       'service/transport': {
-        transport: {
-          get: jasmine.createSpy('transport.get'),
-          send: jasmine.createSpy('transport.send'),
-          sendFile: jasmine.createSpy('transport.sendFile'),
-          getImage: jasmine.createSpy('transport.getImage'),
+        http: {
+          get: jasmine.createSpy('http.get'),
+          send: jasmine.createSpy('http.send'),
+          sendFile: jasmine.createSpy('http.sendFile'),
+          getImage: jasmine.createSpy('http.getImage'),
           getZendeskHost: () => {
             return 'zendesk.host';
           }
@@ -641,7 +641,7 @@ describe('embed.webWidget', () => {
           embed;
 
         beforeEach(() => {
-          mockTransport = mockRegistry['service/transport'].transport;
+          mockTransport = mockRegistry['service/transport'].http;
           formParams = {
             'set_tags': 'web_widget',
             'via_id': 48,
@@ -673,7 +673,7 @@ describe('embed.webWidget', () => {
           embed;
 
         beforeEach(() => {
-          mockTransport = mockRegistry['service/transport'].transport;
+          mockTransport = mockRegistry['service/transport'].http;
           file = {
             name: 'foo.bar'
           };
@@ -700,7 +700,7 @@ describe('embed.webWidget', () => {
         let mockTransport;
 
         beforeEach(() => {
-          mockTransport = mockRegistry['service/transport'].transport;
+          mockTransport = mockRegistry['service/transport'].http;
         });
 
         it('should call show_many', () => {
@@ -729,7 +729,7 @@ describe('embed.webWidget', () => {
         let mockTransport;
 
         beforeEach(() => {
-          mockTransport = mockRegistry['service/transport'].transport;
+          mockTransport = mockRegistry['service/transport'].http;
         });
 
         it('should call embeddable/ticket_fields with the ids', () => {
@@ -747,7 +747,7 @@ describe('embed.webWidget', () => {
         let mockTransport;
 
         beforeEach(() => {
-          mockTransport = mockRegistry['service/transport'].transport;
+          mockTransport = mockRegistry['service/transport'].http;
         });
 
         it('should call embeddable/ticket_fields without the ids', () => {
@@ -861,7 +861,7 @@ describe('embed.webWidget', () => {
           embed;
 
         beforeEach(() => {
-          mockTransport = mockRegistry['service/transport'].transport;
+          mockTransport = mockRegistry['service/transport'].http;
 
           webWidget.create('', { helpCenterForm: {} });
           webWidget.render();

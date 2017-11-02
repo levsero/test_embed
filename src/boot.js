@@ -9,7 +9,7 @@ import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
 import { renderer } from 'service/renderer';
 import { settings } from 'service/settings';
-import { transport } from 'service/transport';
+import { http } from 'service/transport';
 import { appendMetaTag,
          clickBusterHandler,
          getMetaTagsByName,
@@ -85,7 +85,7 @@ const setupIframe = (iframe, doc) => {
 const setupServices = () => {
   identity.init();
 
-  transport.init({
+  http.init({
     zendeskHost: document.zendeskHost,
     version: __EMBEDDABLE_VERSION__
   });
@@ -209,7 +209,7 @@ const getConfig = (win, postRenderQueue) => {
     }
   };
 
-  transport.get({
+  http.get({
     method: 'get',
     path: '/embeddable/config',
     callbacks: {

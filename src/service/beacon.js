@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
-import { transport } from 'service/transport';
+import { http } from 'service/transport';
 import { win,
          document as doc,
          navigator } from 'utility/globals';
@@ -66,7 +66,7 @@ const sendPageView = () => {
     }
   };
 
-  transport.sendWithMeta(payload);
+  http.sendWithMeta(payload);
 };
 
 function setConfig(_config) {
@@ -98,7 +98,7 @@ function sendConfigLoadTime(time) {
     params: params
   };
 
-  transport.sendWithMeta(payload);
+  http.sendWithMeta(payload);
 }
 
 function trackUserAction(category, action, label = null, value = null) {
@@ -119,7 +119,7 @@ function trackUserAction(category, action, label = null, value = null) {
     params: { userAction }
   };
 
-  transport.sendWithMeta(payload);
+  http.sendWithMeta(payload);
 }
 
 function trackSettings(settings) {
@@ -143,7 +143,7 @@ function trackSettings(settings) {
   };
 
   if (!_.find(validSettings, (s) => s[0] === encoded)) {
-    transport.sendWithMeta(payload);
+    http.sendWithMeta(payload);
   } else {
     // Clear any expired settings that exist from other pages
     // on the customers domain.
@@ -163,7 +163,7 @@ function identify(user) {
     }
   };
 
-  transport.sendWithMeta(payload, newIdentify);
+  http.sendWithMeta(payload, newIdentify);
 }
 
 function getFrameworkLoadTime() {

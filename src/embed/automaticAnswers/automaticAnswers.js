@@ -8,7 +8,7 @@ import { AutomaticAnswersMobile } from 'component/automaticAnswers/AutomaticAnsw
 import { frameFactory } from 'embed/frameFactory';
 import { automaticAnswersPersistence  } from 'service/automaticAnswersPersistence';
 import { transitionFactory } from 'service/transitionFactory';
-import { transport } from 'service/transport';
+import { http } from 'service/transport';
 import { generateUserCSS } from 'utility/color';
 import { isMobileBrowser } from 'utility/devices';
 import { getDocumentHost } from 'utility/globals';
@@ -178,7 +178,7 @@ function fetchTicket(authToken, articleId) {
     }
   };
 
-  transport.automaticAnswersApiRequest(payload);
+  http.automaticAnswersApiRequest(payload);
 }
 
 function solveTicket(authToken, articleId, callbacks) {
@@ -196,7 +196,7 @@ function solveTicket(authToken, articleId, callbacks) {
     'article_id' : articleId
   };
 
-  transport.automaticAnswersApiRequest(payload, formData);
+  http.automaticAnswersApiRequest(payload, formData);
 }
 
 function cancelSolve(authToken, callbacks) {
@@ -211,7 +211,7 @@ function cancelSolve(authToken, callbacks) {
   };
   const formData = { 'auth_token' : authToken };
 
-  transport.automaticAnswersApiRequest(payload, formData);
+  http.automaticAnswersApiRequest(payload, formData);
 }
 
 function markArticleIrrelevant(authToken, articleId, reason, callbacks) {
@@ -230,7 +230,7 @@ function markArticleIrrelevant(authToken, articleId, reason, callbacks) {
     'reason' : reason
   };
 
-  transport.automaticAnswersApiRequest(payload, formData);
+  http.automaticAnswersApiRequest(payload, formData);
 }
 
 function getInitialScreen() {
