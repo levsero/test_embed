@@ -174,7 +174,7 @@ class Chat extends Component {
         disableEndChat={!isChatting}
         endChatOnClick={showChatEndFn}
         contactDetailsOnClick={showContactDetailsFn}
-        soundOnClick={invertSoundFn} />
+        handleSoundClick={invertSoundFn} />
     );
   }
 
