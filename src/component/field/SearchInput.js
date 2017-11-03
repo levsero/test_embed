@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';
 
@@ -23,8 +22,13 @@ export class SearchInput extends Component {
     onFocus: () => {}
   };
 
+  constructor() {
+    super();
+    this.input = null;
+  }
+
   getInput = () => {
-    return ReactDOM.findDOMNode(this.refs.input);
+    return this.input;
   }
 
   render = () => {
@@ -58,7 +62,7 @@ export class SearchInput extends Component {
           value={searchInputVal}
           onFocus={onFocus}
           onBlur={onBlur}
-          ref='input'
+          ref={(elem) => { this.input = elem; }}
           {...attribs} />
       </div>
     );
