@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
-import classNames from 'classnames';
 
+import { locals as styles } from './Field.sass';
 import { isMobileBrowser,
          isLandscape,
          isIos } from 'utility/devices';
@@ -116,9 +116,8 @@ export class Field extends Component {
       ref: 'field',
       value: this.props.value
     };
-    const fieldInputClasses = classNames({
-      'u-textSizeBaseMobile': isMobileBrowser()
-    });
+    const deviceStyle = isMobileBrowser() ? styles.fieldInputMobile : '';
+    const fieldInputClasses = deviceStyle;
     let fieldProps = {
       name: this.props.name,
       value: this.props.value,
@@ -159,28 +158,32 @@ export class Field extends Component {
 
   render = () => {
     const landscape = (isMobileBrowser() && isLandscape());
-    const portrait = (isMobileBrowser() && !isLandscape());
     const isInvalid = this.state.hasError && this.state.blurred;
-    const fieldClasses = classNames({
-      'Form-field u-isSelectable u-posRelative': true,
-      'Form-field--invalid': isInvalid,
-      'Form-field--focused': this.state.focused,
-      'Form-field--invalidFocused': isInvalid && this.state.focused,
-      'is-mobile': isMobileBrowser(),
-      'Form-field--small': landscape
-    });
-    const fieldLabelClasses = classNames({
-      'Form-fieldLabel u-textXHeight': true,
-      'u-textSize15': portrait,
-      'u-textSizeSml': landscape,
-      [this.props.labelClasses]: true
-    });
+    const orientationStyle = landscape ? styles.landscape : '';
+    const invalidStyle = isInvalid ? styles.invalid : '';
+    const focusedStyle = this.state.focused ? styles.focused : '';
+    const invalidFocusedStyle = isInvalid && this.state.focused ? styles.invalidFocused : '';
+    const deviceStyle = isMobileBrowser() ? styles.mobile : '';
+    const fieldClasses = `
+      ${styles.field}
+      ${invalidStyle}
+      ${focusedStyle}
+      ${invalidFocusedStyle}
+      ${deviceStyle}
+      ${orientationStyle}
+    `;
+    const labelOrientationStyle = landscape ? styles.labelLandscape : styles.labelPortrait;
+    const fieldLabelClasses = `
+      ${styles.label}
+      ${labelOrientationStyle}
+      ${this.props.labelClasses}
+    `;
 
     const showRequiredLabel = this.props.required && !_.isEmpty(this.props.label);
 
     return (
-      <div className={`Form-fieldContainer ${this.props.fieldContainerClasses}`}>
-        <label className='Form-fieldContainer u-block'>
+      <div className={`${styles.container} ${this.props.fieldContainerClasses}`}>
+        <label className={styles.labelContainer}>
           <div className={fieldLabelClasses}>
             {this.props.label}
             {showRequiredLabel ? '*' : ''}

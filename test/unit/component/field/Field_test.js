@@ -24,6 +24,16 @@ describe('Field component', () => {
         isLandscape: function() {
           return mockIsLandscapeValue;
         }
+      },
+      './Field.sass': {
+        locals: {
+          focused: 'field-focused',
+          landscape: 'landscape',
+          mobile: 'mobie',
+          invalid: 'field-invalid',
+          labelPortrait: 'label-portrait',
+          labelLandscape: 'label-landscape'
+        }
       }
     });
 
@@ -93,7 +103,7 @@ describe('Field component', () => {
     expect(field.state.focused)
       .toBe(true);
 
-    expect(TestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--focused'))
+    expect(TestUtils.findRenderedDOMComponentWithClass(field, 'field-focused'))
       .toBeTruthy();
   });
 
@@ -110,7 +120,7 @@ describe('Field component', () => {
     expect(field.state.hasError)
       .toBe(false);
 
-    expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--invalid'))
+    expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'field-invalid'))
       .toThrow();
 
     field.onFocus();
@@ -125,7 +135,7 @@ describe('Field component', () => {
     expect(field.state.blurred)
       .toBe(true);
 
-    expect(TestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--invalid'))
+    expect(TestUtils.findRenderedDOMComponentWithClass(field, 'field-invalid'))
       .toBeTruthy();
   });
 
@@ -135,10 +145,10 @@ describe('Field component', () => {
 
       const field = domRender(<Field />);
 
-      expect(TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSize15'))
+      expect(TestUtils.findRenderedDOMComponentWithClass(field, 'label-portrait'))
         .toBeTruthy();
 
-      expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSizeSml'))
+      expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'label-landscape'))
         .toThrow();
     });
 
@@ -148,17 +158,17 @@ describe('Field component', () => {
 
       const field = domRender(<Field />);
 
-      expect(TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSizeSml'))
+      expect(TestUtils.findRenderedDOMComponentWithClass(field, 'landscape'))
         .toBeTruthy();
 
-      expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSize15'))
+      expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'mobile'))
         .toThrow();
     });
 
     it('should not have mobile classes when isMobileBrowser is false', () => {
       const field = domRender(<Field />);
 
-      expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSize15'))
+      expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'mobile'))
         .toThrow();
     });
   });
