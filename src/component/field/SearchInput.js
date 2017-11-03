@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import _ from 'lodash';
 
 import { i18n } from 'service/i18n';
 import { isIos } from 'utility/devices';
+import { locals as styles } from './SearchInput.sass';
 
 export class SearchInput extends Component {
   static propTypes = {
@@ -33,10 +33,8 @@ export class SearchInput extends Component {
 
   render = () => {
     const { fullscreen, onChange, onFocus, onBlur, searchInputVal } = this.props;
-    const searchInputFieldClasses = classNames({
-      'Arrange-sizeFill u-paddingHT Form-placeholder': true,
-      'u-textSizeBaseMobile': fullscreen
-    });
+    const screenStyle = fullscreen ? styles.fullscreen : '';
+    const searchInputFieldClasses = `${styles.searchInput} ${screenStyle}`;
     const placeholder = i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help');
     const attribs = {
       autoCapitalize: 'off',
@@ -53,7 +51,7 @@ export class SearchInput extends Component {
     }
 
     return (
-      <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
+      <div className={styles.container}>
         <input
           className={searchInputFieldClasses}
           onChange={onChange}
