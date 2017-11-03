@@ -108,21 +108,6 @@ export class Field extends Component {
     }
   }
 
-  renderDropdownArrow = () => {
-    const landscape = (isMobileBrowser() && isLandscape());
-    const dropdownClasses = classNames({
-      'Form-fieldArrows': true,
-      'Form-fieldArrows--small': landscape
-    });
-
-    return (
-      <div className={dropdownClasses}>
-        <i className='Icon--dropdownArrow' />
-        <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />
-      </div>
-    );
-  }
-
   renderInput = () => {
     const sharedProps = {
       onChange: this.onChange,
@@ -175,14 +160,12 @@ export class Field extends Component {
   render = () => {
     const landscape = (isMobileBrowser() && isLandscape());
     const portrait = (isMobileBrowser() && !isLandscape());
-    const isDropdown = this.props.options.length > 0;
     const isInvalid = this.state.hasError && this.state.blurred;
     const fieldClasses = classNames({
       'Form-field u-isSelectable u-posRelative': true,
       'Form-field--invalid': isInvalid,
       'Form-field--focused': this.state.focused,
       'Form-field--invalidFocused': isInvalid && this.state.focused,
-      'Form-field--dropdown': isDropdown,
       'is-mobile': isMobileBrowser(),
       'Form-field--small': landscape
     });
@@ -193,7 +176,6 @@ export class Field extends Component {
       [this.props.labelClasses]: true
     });
 
-    const dropdownArrow = isDropdown ? this.renderDropdownArrow() : null;
     const showRequiredLabel = this.props.required && !_.isEmpty(this.props.label);
 
     return (
@@ -205,7 +187,6 @@ export class Field extends Component {
           </div>
           <div className={`${fieldClasses} ${this.props.fieldClasses}`}>
             {this.renderInput()}
-            {dropdownArrow}
           </div>
         </label>
         {this.renderDescription()}
