@@ -34,6 +34,7 @@ import IconFieldButtonStyles from 'component/button/IconFieldButton.sass';
 import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.sass';
 import MessageBubbleStyles from 'component/chat/MessageBubble.sass';
 import SearchFieldButtonStyles from 'component/button/SearchFieldButton.sass';
+import SearchFieldStyles from 'component/field/SearchField.sass';
 import SearchInputStyles from 'component/field/SearchInput.sass';
 import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.sass';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.sass';
@@ -78,8 +79,12 @@ export const webWidgetStyles = `
   ${LoadingEllipsesStyles}
   ${MessageBubbleStyles}
 <<<<<<< HEAD
+<<<<<<< HEAD
   ${SearchFieldButtonStyles}
 =======
+=======
+  ${SearchFieldStyles}
+>>>>>>> Move SearchField to CSS modules
   ${SearchInputStyles}
 >>>>>>> Move SearchInput to CSS modules
   ${SubmitTicketStyles}
