@@ -115,7 +115,7 @@ const afterShowAnimate = () => {
       rootComponent.refs.submitTicketForm.focusField();
     }
   }
-  if (rootComponent.focusField) {
+  if (rootComponent && rootComponent.focusField) {
     rootComponent.focusField();
   }
 };
