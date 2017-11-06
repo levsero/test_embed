@@ -498,6 +498,27 @@ describe('chat redux actions', () => {
     });
   });
 
+  describe('updateUserSettings', () => {
+    let action,
+      setting;
+
+    beforeEach(() => {
+      setting = { sound: true };
+      mockStore.dispatch(actions.updateUserSettings(setting));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_USER_SETTINGS ', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_USER_SETTINGS);
+    });
+
+    it('has the settings in the payload', () => {
+      expect(action.payload)
+        .toBe(setting);
+    });
+  });
+
   describe('hideChatNotification', () => {
     let action;
 
