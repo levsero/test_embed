@@ -95,19 +95,6 @@ describe('settings', () => {
           .toEqual(defaults.zIndex);
       });
     });
-
-    describe('ipm defaults', () => {
-      beforeEach(() => {
-        settings.init();
-      });
-
-      it('has the correct value for offset', () => {
-        settings.init();
-
-        expect(settings.get('offset', 'ipm'))
-          .toEqual({ horizontal: 0, vertical: 0 });
-      });
-    });
   });
 
   describe('#init', () => {
@@ -251,30 +238,6 @@ describe('settings', () => {
       expect(settings.get('contactForm.attachments'))
         .toEqual('foo');
     });
-
-    it('should be able to get things from different stores', () => {
-      mockRegistry['utility/globals'].win.zESettings = {
-        ipm: {
-          offset: {
-            horizontal: 10,
-            vertical: 10
-          }
-        },
-        webWidget: {
-          offset: {
-            horizontal: 20,
-            vertical: 20
-          }
-        }
-      };
-      settings.init();
-      settings.enableCustomizations();
-
-      expect(settings.get('offset', 'ipm'))
-        .toEqual({ horizontal: 10, vertical: 10 });
-      expect(settings.get('offset', 'webWidget'))
-        .toEqual({ horizontal: 20, vertical: 20 });
-    });
   });
 
   describe('#getTranslations', () => {
@@ -323,12 +286,6 @@ describe('settings', () => {
             attachments: true
           },
           helpCenter: { originalArticleButton: false }
-        },
-        ipm: {
-          offset: {
-            horizontal: 1,
-            vertical: 1
-          }
         }
       };
 
@@ -338,11 +295,6 @@ describe('settings', () => {
 
     it('should return a web Widget Object', () => {
       expect(settings.getTrackSettings().webWidget)
-        .toBeDefined();
-    });
-
-    it('should return a ipm Object', () => {
-      expect(settings.getTrackSettings().ipm)
         .toBeDefined();
     });
 
@@ -368,10 +320,10 @@ describe('settings', () => {
     });
 
     it('should filter out empty objects', () => {
-      mockRegistry['utility/globals'].win.zESettings.ipm = {};
+      mockRegistry['utility/globals'].win.zESettings.emptyThing = {};
       settings.init();
 
-      expect(settings.getTrackSettings().ipm)
+      expect(settings.getTrackSettings().emptyThing)
         .toBeUndefined();
     });
   });

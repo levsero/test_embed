@@ -37,7 +37,6 @@ state[`${chat}.unreadMsgs`] = 0;
 state[`${chat}.userClosed`] = false;
 state[`${chat}.chatEnded`] = false;
 state[`${talk}.isAccessible`] = false;
-state['ipm.isVisible'] = false;
 state['.hideOnClose'] = false;
 state['.activatePending'] = false;
 
@@ -288,7 +287,7 @@ function init(embedsAccessible, params = {}) {
   c.intercept(`${chat}.onConnected`, () => {
     state[`${chat}.connectionPending`] = false;
 
-    if (!embedAvailable() || state['ipm.isVisible'] || embedVisible(state)) return;
+    if (!embedAvailable() || embedVisible(state)) return;
 
     show(state);
   });
@@ -487,7 +486,6 @@ function init(embedsAccessible, params = {}) {
 function initMessaging() {
   c.intercept('.onIdentify', (__, params) => {
     if (emailValid(params.email)) {
-      c.broadcast('ipm.identifying', params);
       c.broadcast('beacon.identify', params);
       c.broadcast(`${submitTicket}.prefill`, params);
       c.broadcast(`${chat}.setUser`, params);
@@ -506,44 +504,12 @@ function initMessaging() {
     if (!embedVisible(state) && helpCenterAvailable()) {
       resetActiveEmbed();
 
-      if (!state[`${launcher}.userHidden`] &&
-        !state[`${chat}.isAccessible`] &&
-        !state['ipm.isVisible']) {
+      if (!state[`${launcher}.userHidden`] && !state[`${chat}.isAccessible`])  {
         c.broadcast(`${launcher}.show`);
       }
     }
 
     c.broadcast(`${helpCenter}.isAuthenticated`);
-  });
-
-  c.intercept('ipm.onActivate', () => {
-    const maxRetries = 100;
-    let retries = 0;
-
-    const fn = () => {
-      if (!embedVisible(state)) {
-        c.broadcast('ipm.activate');
-      } else if (retries < maxRetries) {
-        retries++;
-        setTimeout(fn, 300);
-      }
-    };
-
-    fn();
-  });
-
-  c.intercept('ipm.onClose', () => {
-    state['ipm.isVisible'] = false;
-
-    if (!state['.hideOnClose'] && !state[`${launcher}.userHidden`]) {
-      c.broadcast(`${launcher}.show`, { transition: 'upShow' });
-    }
-  });
-
-  c.intercept('ipm.onShow', () => {
-    state['ipm.isVisible'] = true;
-
-    c.broadcast(`${launcher}.hide`);
   });
 }
 

@@ -32,46 +32,6 @@ function send(payload, addType = true) {
     throw 'Missing zendeskHost config param.';
   }
 
-  if (__DEV__) {
-    //
-    // MOCK RESPONSES FOR PROTOTYPE TESTING
-    //
-    if (_.includes(payload.path, '/connect/api/ipm/pending_campaign')) {
-      /* eslint no-console:0 */
-      console.log(payload.params, payload.method, payload.path);
-      setTimeout(function() {
-        const ipm = {
-          pendingCampaign: {
-            id: 712,
-            name: 'Campaign 712',
-            type: 'ipm',
-            recipientEmail: 'ryan@foo.com',
-            message: {
-              secondaryText: 'Ryan from Zendesk',
-              body: 'Hi Deborah, we just launched a new product called People. Would you like to try it?',
-              avatarUrl: 'https://avatars3.githubusercontent.com/u/143402?v=3&s=96',
-              buttonUrl: 'http://www.example.com',
-              buttonText: 'Take a look!',
-              color: '#1393d0'
-            }
-          }
-        };
-
-        payload.callbacks.done({
-          body: ipm
-        });
-      }, 3000);
-
-      return;
-    }
-
-    // no need to actually send IPM results back in dev
-    if (_.includes(payload.path, '/connect/api/ipm/campaign_events')) {
-      console.log('Stubbing IPM request', payload);
-      return;
-    }
-  }
-
   const request = superagent(payload.method.toUpperCase(),
     buildFullUrl(payload.path, payload.forceHttp))
     .timeout(payload.timeout || 60000)

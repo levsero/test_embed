@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { audio } from 'service/audio';
 import { automaticAnswers } from 'embed/automaticAnswers/automaticAnswers';
 import { chat } from 'embed/chat/chat';
-import { ipm } from 'embed/ipm/ipm';
 import { launcher } from 'embed/launcher/launcher';
 import { webWidget } from 'embed/webWidget/webWidget';
 import { i18n } from 'service/i18n';
@@ -19,7 +18,6 @@ import createStore from 'src/redux/createStore';
 const reduxStore = createStore();
 
 const embedsMap = {
-  'ipm': ipm,
   'chat': chat,
   'automaticAnswers': automaticAnswers,
   'launcher': launcher,
@@ -45,16 +43,6 @@ function parseConfig(config) {
 
   if (!rendererConfig.ticketSubmissionForm && rendererConfig.helpCenterForm) {
     rendererConfig.helpCenterForm.props.showNextButton = false;
-  }
-
-  if (!isMobileBrowser()) {
-    rendererConfig.ipm = {
-      embed: 'ipm',
-      props: {
-        anonymousCampaigns: config.ipmAnonymousCampaigns,
-        fetchDirectlyFromConnect: config.ipmFetchDirectlyFromConnect
-      }
-    };
   }
 
   return rendererConfig;

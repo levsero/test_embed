@@ -3,7 +3,6 @@ describe('renderer', () => {
     mockRegistry,
     mockLauncher,
     mockChat,
-    mockIpm,
     mockAutomaticAnswers,
     mockWebWidget,
     mockUpdateEmbedAccessible,
@@ -42,7 +41,6 @@ describe('renderer', () => {
 
     mockLauncher = embedMocker('mockLauncher');
     mockChat = embedMocker('mockChat');
-    mockIpm = embedMocker('mockIpm');
     mockAutomaticAnswers = embedMocker('mockAutomaticAnswers');
     mockWebWidget = embedMocker('mockWebWidget');
     loadSoundSpy = jasmine.createSpy('loadSound');
@@ -53,9 +51,6 @@ describe('renderer', () => {
       },
       'embed/chat/chat': {
         chat: mockChat
-      },
-      'embed/ipm/ipm': {
-        ipm: mockIpm
       },
       'embed/automaticAnswers/automaticAnswers': {
         automaticAnswers: mockAutomaticAnswers
@@ -480,13 +475,13 @@ describe('renderer', () => {
         .toHaveBeenCalledWith('24px');
 
       expect(updateBaseFontSize.calls.count())
-        .toEqual(3);
+        .toEqual(2);
 
       expect(updateFrameSize)
         .toHaveBeenCalled();
 
       expect(updateFrameSize.calls.count())
-        .toEqual(3);
+        .toEqual(2);
     });
 
     it('should trigger propagateFontRatio call on orientationchange', () => {

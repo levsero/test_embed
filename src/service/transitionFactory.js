@@ -5,7 +5,6 @@ import { settings } from 'service/settings';
 settings.init();
 
 const webWidetOffset = settings.get('offset.vertical');
-const ipmOffset = settings.get('offset.vertical', 'ipm');
 const applyHiddenState = (frameHeight, isTop = false) => {
   let topPosition = {};
   const verticalOffset = parseInt(settings.get('offset.vertical'));
@@ -66,33 +65,6 @@ const launcherDownHide = {
 };
 
 const transitionFactory = {
-  ipm: {
-    downShow: transitionMaker(
-      {
-        transitionProperty: 'none',
-        transitionDuration: '0',
-        transitionTimingFunction: 'unset',
-        opacity: 0,
-        top: positionWithOffset(-30, ipmOffset)
-      },
-      {
-        transitionProperty: transitionProperties('top'),
-        transitionDuration: '300ms',
-        transitionTimingFunction: 'ease-out',
-        opacity: 1,
-        top: positionWithOffset(0, ipmOffset)
-      }
-    ),
-    upHide: transitionMaker({},
-      {
-        transitionProperty: transitionProperties('top'),
-        transitionDuration: '300ms',
-        transitionTimingFunction: 'ease-out',
-        opacity: 0,
-        top: positionWithOffset(-30, ipmOffset)
-      }
-    )
-  },
   automaticAnswersMobile: {
     upShow: transitionMaker(
       {
