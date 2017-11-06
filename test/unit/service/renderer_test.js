@@ -89,9 +89,6 @@ describe('renderer', () => {
       'utility/globals': {
         win: global.window
       },
-      'utility/devices':  {
-        isMobileBrowser: jasmine.createSpy()
-      },
       'src/redux/modules/base': {
         updateEmbedAccessible: mockUpdateEmbedAccessible
       }

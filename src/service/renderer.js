@@ -9,7 +9,6 @@ import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { logging } from 'service/logging';
 import { settings } from 'service/settings';
-import { isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
 import { updateEmbedAccessible } from 'src/redux/modules/base';
 
