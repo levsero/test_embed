@@ -28,7 +28,6 @@ export class Field extends Component {
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
-    options: PropTypes.array,
     pattern: PropTypes.string,
     label: PropTypes.string,
     placeholder: PropTypes.string,
@@ -48,7 +47,6 @@ export class Field extends Component {
     onBlur: () => {},
     onChange: () => {},
     onFocus: () => {},
-    options: [],
     pattern: '',
     label: '',
     placeholder: '',
@@ -116,8 +114,7 @@ export class Field extends Component {
       ref: 'field',
       value: this.props.value
     };
-    const deviceStyle = isMobileBrowser() ? styles.fieldInputMobile : '';
-    const fieldInputClasses = deviceStyle;
+    const fieldInputClasses = isMobileBrowser() ? styles.fieldInputMobile : '';
     let fieldProps = {
       name: this.props.name,
       value: this.props.value,
@@ -158,6 +155,7 @@ export class Field extends Component {
 
   render = () => {
     const landscape = (isMobileBrowser() && isLandscape());
+    const portrait = (isMobileBrowser() && !isLandscape());
     const isInvalid = this.state.hasError && this.state.blurred;
     const orientationStyle = landscape ? styles.landscape : '';
     const invalidStyle = isInvalid ? styles.invalid : '';
@@ -172,7 +170,10 @@ export class Field extends Component {
       ${deviceStyle}
       ${orientationStyle}
     `;
-    const labelOrientationStyle = landscape ? styles.labelLandscape : styles.labelPortrait;
+    let labelOrientationStyle = landscape ? styles.labelLandscape : '';
+
+    labelOrientationStyle = portrait ? styles.labelPortrait : '';
+
     const fieldLabelClasses = `
       ${styles.label}
       ${labelOrientationStyle}

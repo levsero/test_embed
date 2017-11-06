@@ -21,7 +21,8 @@
 }
 
 .clearInput {
-  composes: Icon Icon--clearInput u-isActionable u-textCenter u-marginRS from global;
+  composes: u-isActionable u-textCenter u-marginRS from global;
+  composes: Icon Icon--clearInput from '../../styles/components/Icon.scss';
 }
 
 .clearInputContainer {
@@ -53,9 +54,10 @@
 }
 
 .searchInput {
-  composes: Arrange Arrange--middle Form-field Form-field--search u-isSelectable u-paddingVN u-paddingRN from global;
+  composes: Arrange Arrange--middle u-isSelectable u-paddingVN u-paddingRN from global;
+  composes: Form-field Form-field--search from '../../styles/components/Form.scss';
 }
 
 .focused {
-  composes: Form-field--focused from global;
+  composes: Form-field--focused from '../../styles/components/Form.scss';
 }

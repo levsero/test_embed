@@ -1,23 +1,24 @@
 @import '../../styles/_vars.scss';
 
 .field {
-  composes: Form-field u-isSelectable u-posRelative from global;
+  composes: u-isSelectable u-posRelative from global;
+  composes: Form-field from '../../styles/components/Form.scss';
 }
 
 .focused {
-  composes: Form-field--focused from global;
+  composes: Form-field--focused from '../../styles/components/Form.scss';
 }
 
 .landscape {
-  composes: Form-field--small from global;
+  composes: Form-field--small from '../../styles/components/Form.scss';
 }
 
 .invalid {
-  composes: Form-field--invalid from global;
+  composes: Form-field--invalid from '../../styles/components/Form.scss';
 }
 
 .invalidFocused {
-  composes: Form-field--invalidFocused from global;
+  composes: Form-field--invalidFocused from '../../styles/components/Form.scss';
 }
 
 .mobile {
@@ -25,7 +26,8 @@
 }
 
 .label {
-  composes: Form-fieldLabel u-textXHeight from global;
+  composes: u-textXHeight from global;
+  composes: Form-fieldLabel from '../../styles/components/Form.scss';
 }
 
 .labelPortrait {
@@ -37,11 +39,12 @@
 }
 
 .container {
-  composes: Form-fieldContainer from global;
+  composes: Form-fieldContainer from '../../styles/components/Form.scss';
 }
 
 .labelContainer {
-  composes: Form-fieldContainer u-block from global;
+  composes: u-block from global;
+  composes: Form-fieldContainer from '../../styles/components/Form.scss';
 }
 
 .fieldInputMobile {

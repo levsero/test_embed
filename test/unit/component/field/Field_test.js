@@ -31,6 +31,7 @@ describe('Field component', () => {
           landscape: 'landscape',
           mobile: 'mobie',
           invalid: 'field-invalid',
+          label: 'field-label',
           labelPortrait: 'label-portrait',
           labelLandscape: 'label-landscape'
         }
@@ -225,7 +226,7 @@ describe('Field component', () => {
       describe('when the field is required', () => {
         beforeEach(() => {
           field = domRender(<Field label={'name'} required={true} />);
-          label = TestUtils.findRenderedDOMComponentWithClass(field, 'Form-fieldLabel');
+          label = TestUtils.findRenderedDOMComponentWithClass(field, 'field-label');
         });
 
         it('renders a required `*` next to the label', () => {
@@ -237,7 +238,7 @@ describe('Field component', () => {
       describe('when the field is not required', () => {
         beforeEach(() => {
           field = domRender(<Field label={'name'} required={false} />);
-          label = TestUtils.findRenderedDOMComponentWithClass(field, 'Form-fieldLabel');
+          label = TestUtils.findRenderedDOMComponentWithClass(field, 'field-label');
         });
 
         it('does not render a required `*` next to the label', () => {
@@ -251,7 +252,7 @@ describe('Field component', () => {
       describe('when the field is required', () => {
         beforeEach(() => {
           field = domRender(<Field required={true} />);
-          label = TestUtils.findRenderedDOMComponentWithClass(field, 'Form-fieldLabel');
+          label = TestUtils.findRenderedDOMComponentWithClass(field, 'field-label');
         });
 
         it('does not render a required `*` next to the label', () => {
@@ -263,7 +264,7 @@ describe('Field component', () => {
       describe('when the field is not required', () => {
         beforeEach(() => {
           field = domRender(<Field required={false} />);
-          label = TestUtils.findRenderedDOMComponentWithClass(field, 'Form-fieldLabel');
+          label = TestUtils.findRenderedDOMComponentWithClass(field, 'field-label');
         });
 
         it('does not render a required `*` next to the label', () => {

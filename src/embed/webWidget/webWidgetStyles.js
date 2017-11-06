@@ -78,15 +78,9 @@ export const webWidgetStyles = `
   ${IconFieldButtonStyles}
   ${LoadingEllipsesStyles}
   ${MessageBubbleStyles}
-<<<<<<< HEAD
-<<<<<<< HEAD
   ${SearchFieldButtonStyles}
-=======
-=======
   ${SearchFieldStyles}
->>>>>>> Move SearchField to CSS modules
   ${SearchInputStyles}
->>>>>>> Move SearchInput to CSS modules
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
 `;
