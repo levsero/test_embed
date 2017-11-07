@@ -345,6 +345,7 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept(`${helpCenter}.onNextClick`, () => {
     if (!isMobileBrowser()) {
+      state[`${helpCenter}.isVisible`] = false;
       state[`${chat}.isVisible`] = true;
     } else {
       if (!state[`${launcher}.userHidden`]) {

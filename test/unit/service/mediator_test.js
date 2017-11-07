@@ -983,6 +983,24 @@ describe('mediator', () => {
           .toEqual(0);
       });
 
+      it('can still activate embed after switching to chat from help center and minimizing chat', () => {
+        jasmine.clock().install();
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);  // open
+        jasmine.clock().tick(0);
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        reset(helpCenterSub.show);
+
+        c.broadcast(`${chat}.onHide`); // close
+
+        c.broadcast(`.activate`); // open
+        jasmine.clock().tick(0);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(1);
+      });
+
       it('sends a `chat launch` user action blip on next click to open chat', () => {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${launcher}.onClick`);  // open
