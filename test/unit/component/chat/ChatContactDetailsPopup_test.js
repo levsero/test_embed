@@ -95,12 +95,12 @@ describe('ChatContactDetailsPopup component', () => {
       component.handleFormChange({ target: { name: 'name', value: 'bob' } });
     });
 
-    it('sets state.valid', () => {
+    it('sets state.valid using form.checkValidity()', () => {
       expect(component.state.valid)
         .toBe(true);
     });
 
-    it('sets state.formState', () => {
+    it('sets state.formState for target field', () => {
       expect(component.state.formState)
         .toEqual({ name: 'bob' });
     });
