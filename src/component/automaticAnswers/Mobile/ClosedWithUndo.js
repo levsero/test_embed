@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
@@ -21,11 +20,8 @@ class ClosedWithUndo extends Component {
       fallback: 'UNDO'
     });
 
-    const undoClasses = classNames({
-      'AutomaticAnswersAnchor': true,
-      'AutomaticAnswersAnchor--disabled': isSubmitting,
-      'u-textUppercase': true
-    });
+    const submittingStyles = isSubmitting ? `AutomaticAnswersAnchor--disabled` : '';
+    const undoClasses = `AutomaticAnswersAnchor ${submittingStyles} u-textUppercase `;
 
     return (
       <p className='AutomaticAnswersMobile-message u-textCenter u-posRelative u-marginVM'>

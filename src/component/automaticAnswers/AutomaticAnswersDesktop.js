@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import { Button } from 'component/button/Button';
 import { Container } from 'component/container/Container';
@@ -23,10 +22,14 @@ export class AutomaticAnswersDesktop extends AutomaticAnswers {
   }
 
   renderSolveQuestion = () => {
-    const messageClasses = classNames({
-      'AutomaticAnswersDesktop-message AutomaticAnswersDesktop-solve u-paddingBM u-marginBN': true,
-      'u-borderBottom': !this.state.errorMessage
-    });
+    const borderStyles = (!this.state.errorMessage) ? 'u-borderBottom' : '';
+    const messageClasses = `
+      AutomaticAnswersDesktop-message
+      AutomaticAnswersDesktop-solve
+      u-paddingBM
+      u-marginBN
+      ${borderStyles}
+    `;
     const solveQuestion = i18n.t('embeddable_framework.automaticAnswers.desktop.solve.question', {
       fallback: 'Does this article answer your question?'
     });
@@ -44,10 +47,8 @@ export class AutomaticAnswersDesktop extends AutomaticAnswers {
   }
 
   renderErrorMessage = (classes = '') => {
-    const errorClasses = classNames({
-      'Error': true,
-      'u-isHidden': !this.state.errorMessage
-    }) + ` ${classes}`;
+    const visibilityStyles = !this.state.errorMessage ? 'u-isHidden' : '';
+    const errorClasses = `Error ${visibilityStyles} ${classes}`;
 
     return (
       <p className={errorClasses}>

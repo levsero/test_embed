@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import { AutomaticAnswers } from 'component/automaticAnswers/AutomaticAnswers';
 import { Button } from 'component/button/Button';
@@ -37,10 +36,8 @@ export class AutomaticAnswersMobile extends AutomaticAnswers {
   }
 
   renderErrorMessage = () => {
-    const errorClasses = classNames({
-      'Error': true,
-      'u-isHidden': !this.state.errorMessage
-    });
+    const visibilityStyles = !this.state.errorMessage ? 'u-isHidden' : '';
+    const errorClasses = `Error ${visibilityStyles}`;
 
     return (
       <p className={errorClasses}>
