@@ -11,6 +11,7 @@ export class ButtonIcon extends Component {
     className: PropTypes.string,
     labelClassName: PropTypes.string,
     icon: PropTypes.string,
+    iconClasses: PropTypes.string,
     label: PropTypes.string,
     onClick: PropTypes.func
   };
@@ -20,6 +21,7 @@ export class ButtonIcon extends Component {
     className: '',
     labelClassName: '',
     icon: '',
+    iconClasses: '',
     label: '',
     onClick: () => {}
   };
@@ -39,7 +41,7 @@ export class ButtonIcon extends Component {
         onClick={onClick}
         className={`${buttonClasses} ${className}`}>
         <Icon
-          className={styles.icon}
+          className={`${styles.icon} ${this.props.iconClasses}`}
           type={icon} />
         <span className={`${styles.label} ${labelClassName}`}>
           {label}

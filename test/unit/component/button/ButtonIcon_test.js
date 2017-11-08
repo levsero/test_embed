@@ -92,5 +92,18 @@ describe('ButtonIcon', () => {
           .not.toContain('containerActionable');
       });
     });
+
+    describe('when props.iconClasses are passed in', () => {
+      beforeEach(() => {
+        const button = domRender(<ButtonIcon iconClasses='iconClasses' />);
+
+        buttonNode = ReactDOM.findDOMNode(button);
+      });
+
+      it('should add them to the icon', () => {
+        expect(buttonNode.querySelector('.iconClasses'))
+          .not.toBeNull();
+      });
+    });
   });
 });

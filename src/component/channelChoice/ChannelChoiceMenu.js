@@ -32,6 +32,23 @@ export class ChannelChoiceMenu extends Component {
     return () => this.props.onNextClick(embed);
   }
 
+  renderTalkButton = () => {
+    const talkLabel = i18n.t(
+      'embeddable_framework.channelChoice.button.label.clickToCall',
+      { fallback: 'Click to call' }
+    );
+
+    return (
+      <ButtonIcon
+        className={`${this.props.buttonClasses} ${styles.buttonTalk}`}
+        labelClassName={this.props.labelClasses}
+        onClick={this.handleNextClick('talk')}
+        iconClasses={styles.iconTalk}
+        label={talkLabel}
+        icon='Icon--talk' />
+    );
+  }
+
   render = () => {
     const { chatOnline, buttonClasses, labelClasses } = this.props;
     const chatBtnStyle = !chatOnline ? styles.chatBtnDisabled : '';
@@ -41,6 +58,7 @@ export class ChannelChoiceMenu extends Component {
 
     return (
       <div>
+        {this.renderTalkButton()}
         <ButtonIcon
           actionable={chatOnline}
           className={`${chatBtnStyle} ${buttonClasses}`}
