@@ -174,3 +174,11 @@ $Form-fontSize: #{13/$font-size}rem;
 .Form-description {
   margin-top: #{7/$font-size}rem;
 }
+
+.Form-placeholder {
+  color: $zd-color-gainsboro;
+
+  &::placeholder {
+    color: $zd-color-gainsboro;
+  }
+}

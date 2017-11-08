@@ -34,12 +34,10 @@ export class SearchInput extends Component {
   render = () => {
     const { fullscreen, onChange, onFocus, onBlur, searchInputVal } = this.props;
     const searchInputFieldClasses = classNames({
-      'Arrange-sizeFill u-paddingR Form-placeholder': true,
+      'Arrange-sizeFill u-paddingHT Form-placeholder': true,
       'u-textSizeBaseMobile': fullscreen
     });
-    const placeholder = (fullscreen)
-                      ? ''
-                      : i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help');
+    const placeholder = i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help');
     const attribs = {
       autoCapitalize: 'off',
       placeholder: placeholder,
