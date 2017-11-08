@@ -5,9 +5,9 @@ import { talkEmbedableConfigEventToAction } from './events';
 const talkServiceUrl = 'http://talkintegration-pod999.zendesk-staging.com';
 const talkServicePath = '/talk_embeddables_service/socket.io';
 
-function connect(accountId, subdomain) {
+function connect(subdomain) {
   return io(talkServiceUrl, {
-    query: `accountId=${accountId}&subdomain=${subdomain}`,
+    query: `subdomain=${subdomain}`,
     path: talkServicePath
   });
 }
