@@ -14,12 +14,14 @@ export class ChannelChoiceDesktop extends Component {
     formTitleKey: PropTypes.string.isRequired,
     handleNextClick: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
-    getFrameDimensions: PropTypes.func.isRequired
+    getFrameDimensions: PropTypes.func.isRequired,
+    talkAvailable: PropTypes.bool
   };
 
   static defaultProps = {
     hideZendeskLogo: false,
-    getFrameDimensions: () => {}
+    getFrameDimensions: () => {},
+    talkAvailable: false
   };
 
   renderZendeskLogo = () => {
@@ -29,13 +31,14 @@ export class ChannelChoiceDesktop extends Component {
   }
 
   renderBody = () => {
-    const { hideZendeskLogo, chatOnline, handleNextClick } = this.props;
+    const { hideZendeskLogo, chatOnline, handleNextClick, talkAvailable } = this.props;
     const divider = !hideZendeskLogo ? <hr className={styles.hr} /> : null;
     const containerStyle = !hideZendeskLogo ? styles.inner : '';
 
     return (
       <div className={containerStyle}>
         <ChannelChoiceMenu
+          talkAvailable={talkAvailable}
           onNextClick={handleNextClick}
           chatOnline={chatOnline} />
         {divider}

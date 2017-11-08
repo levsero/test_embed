@@ -30,7 +30,8 @@ export class HelpCenterMobile extends Component {
     searchFieldValue: PropTypes.string,
     showNextButton: PropTypes.bool,
     channelChoice: PropTypes.bool,
-    setChannelChoiceShown: PropTypes.func
+    setChannelChoiceShown: PropTypes.func,
+    talkAvailable: PropTypes.bool
   };
 
   static defaultProps = {
@@ -45,7 +46,8 @@ export class HelpCenterMobile extends Component {
     showNextButton: true,
     channelChoice: false,
     setChannelChoiceShown: () => {},
-    onNextClick: () => {}
+    onNextClick: () => {},
+    talkAvailable: false
   };
 
   constructor(props, context) {
@@ -122,6 +124,7 @@ export class HelpCenterMobile extends Component {
     return this.props.channelChoice
          ? <div className={styles.channelChoiceContainer}>
              <ChannelChoicePopupMobile
+               talkAvailable={this.props.talkAvailable}
                chatOnline={this.props.chatOnline}
                onNextClick={this.props.onNextClick}
                onCancelClick={() => this.props.setChannelChoiceShown(false)} />

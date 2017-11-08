@@ -83,6 +83,38 @@ describe('ChannelChoiceMenu component', () => {
     });
   });
 
+  describe('renderTalkButton', () => {
+    let component;
+
+    describe('when talk is available', () => {
+      beforeEach(() => {
+        component = domRender(
+          <ChannelChoiceMenu
+            talkAvailable={true} />
+        );
+      });
+
+      it('returns a component', () => {
+        expect(component.renderTalkButton())
+          .not.toBeNull();
+      });
+    });
+
+    describe('when talk is not available', () => {
+      beforeEach(() => {
+        component = domRender(
+          <ChannelChoiceMenu
+            talkAvailable={false} />
+        );
+      });
+
+      it('returns null', () => {
+        expect(component.renderTalkButton())
+          .toBeNull();
+      });
+    });
+  });
+
   describe('handleChatClick', () => {
     let component;
 

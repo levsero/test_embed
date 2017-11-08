@@ -36,6 +36,7 @@ export class HelpCenter extends Component {
     showNextButton: PropTypes.bool,
     showNextButtonSingleIframe: PropTypes.bool,
     style: PropTypes.object,
+    talkAvailable: PropTypes.bool,
     updateFrameSize: PropTypes.func,
     hideChatNotification: PropTypes.func,
     updateChatScreen: PropTypes.func,
@@ -62,6 +63,7 @@ export class HelpCenter extends Component {
     showNextButton: true,
     showNextButtonSingleIframe: false,
     style: null,
+    talkAvailable: false,
     updateFrameSize: () => {},
     hideChatNotification: () => {},
     updateChatScreen: () => {},
@@ -470,6 +472,7 @@ export class HelpCenter extends Component {
         onNextClick={this.props.onNextClick}
         newDesign={this.props.newDesign}
         channelChoice={this.state.channelChoiceShown}
+        talkAvailable={this.props.talkAvailable}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
         buttonLabel={buttonLabel}
@@ -500,6 +503,7 @@ export class HelpCenter extends Component {
         showNextButton={this.shouldShowNextButton()}
         chatOnline={chatOnline}
         channelChoice={this.state.channelChoiceShown}
+        talkAvailable={this.props.talkAvailable}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
         searchFieldValue={this.state.searchFieldValue}

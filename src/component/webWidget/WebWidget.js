@@ -343,6 +343,7 @@ class WebWidget extends Component {
           originalArticleButton={this.props.originalArticleButton}
           localeFallbacks={this.props.localeFallbacks}
           channelChoice={this.props.channelChoice}
+          talkAvailable={this.isTalkAvailable()}
           viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
           zendeskHost={this.props.zendeskHost}
           hideChatNotification={this.props.hideChatNotification}
@@ -392,6 +393,7 @@ class WebWidget extends Component {
         ref={channelChoice}
         style={this.props.style}
         chatOnline={this.isChatOnline()}
+        talkAvailable={this.isTalkAvailable()}
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
         getFrameDimensions={this.props.getFrameDimensions}

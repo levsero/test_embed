@@ -37,6 +37,7 @@ export class HelpCenterDesktop extends Component {
     searchFieldValue: PropTypes.string,
     shadowVisible: PropTypes.bool,
     showNextButton: PropTypes.bool,
+    talkAvailable: PropTypes.bool,
     updateFrameSize: PropTypes.func,
     notification: PropTypes.object.isRequired,
     hideChatNotification: PropTypes.func,
@@ -56,6 +57,7 @@ export class HelpCenterDesktop extends Component {
     searchFieldValue: '',
     shadowVisible: false,
     showNextButton: true,
+    talkAvailable: false,
     updateFrameSize: () => {},
     hideChatNotification: () => {},
     updateChatScreen: () => {}
@@ -143,6 +145,7 @@ export class HelpCenterDesktop extends Component {
   renderChannelChoice = () => {
     return this.props.channelChoice
          ? <ChannelChoicePopupDesktop
+             talkAvailable={this.props.talkAvailable}
              chatOnline={this.props.chatOnline}
              onNextClick={this.props.onNextClick} />
          : null;

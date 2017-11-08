@@ -10,12 +10,14 @@ export class ChannelChoiceMenu extends Component {
     onNextClick: PropTypes.func.isRequired,
     chatOnline: PropTypes.bool.isRequired,
     buttonClasses: PropTypes.string,
-    labelClasses: PropTypes.string
+    labelClasses: PropTypes.string,
+    talkAvailable: PropTypes.bool
   };
 
   static defaultProps = {
     buttonClasses: '',
-    labelClasses: ''
+    labelClasses: '',
+    talkAvailable: false
   };
 
   handleChatClick = () => {
@@ -33,6 +35,8 @@ export class ChannelChoiceMenu extends Component {
   }
 
   renderTalkButton = () => {
+    if (!this.props.talkAvailable) return null;
+
     const talkLabel = i18n.t(
       'embeddable_framework.channelChoice.button.label.clickToCall',
       { fallback: 'Click to call' }
