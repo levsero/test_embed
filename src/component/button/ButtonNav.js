@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { locals as styles } from './ButtonNav.sass';
 
 export class ButtonNav extends Component {
   static propTypes = {
@@ -21,22 +21,30 @@ export class ButtonNav extends Component {
   };
 
   render = () => {
-    const { fullscreen, position, rtl } = this.props;
+    const { className, fullscreen, position, rtl } = this.props;
     const isLeft = (position === 'left');
     const isRight = (position === 'right');
-    const buttonClasses = classNames({
-      'Button Button--nav u-posAbsolute u-posStart--vertFlush': true,
-      'u-posStart--flush u-paddingL': isLeft && !rtl,
-      'u-posEnd--flush': isLeft && rtl,
-      'u-isActionable u-textSizeBaseMobile': fullscreen,
-      'u-posEnd--flush u-paddingR': isRight && !rtl,
-      'u-posStart--flush': isRight && rtl,
-      'u-flipText': rtl,
-      [this.props.className]: true
-    });
+    const fullscreenStyles = (fullscreen) ? styles.fullscreen : '';
+    const directionStyles = (rtl) ? styles.rtl : '';
+    let positionStyles;
+
+    if (isLeft) {
+      positionStyles = (rtl) ? styles.leftRtl : styles.left;
+    }
+    if (isRight) {
+      positionStyles = (rtl) ? styles.rightRtl : styles.right;
+    }
+
+    const buttonClasses = `
+      ${styles.button}
+      ${fullscreenStyles}
+      ${positionStyles}
+      ${directionStyles}
+      ${className}
+    `;
 
     return (
-      <div className='u-posRelative u-zIndex1'>
+      <div className={styles.container}>
         <div
           onClick={this.props.onClick}
           onTouchStart={this.props.onClick}

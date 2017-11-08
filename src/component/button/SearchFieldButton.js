@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { locals as styles } from './SearchFieldButton.sass';
 
 import { IconFieldButton } from 'component/button/IconFieldButton';
 
@@ -17,12 +17,9 @@ export class SearchFieldButton extends Component {
   };
 
   render = () => {
-    const fieldClasses = classNames({
-      'Arrange Arrange--middle Form-field Form-field--search u-isSelectable is-mobile': true,
-      'u-paddingRN u-paddingVN': true
-    });
+    const fieldClasses = styles.field;
     const searchTerm = (
-      <span className='Arrange-sizeFit u-textSizeBaseMobile u-hsizeAll u-textBody'>
+      <span className={styles.searchTerm}>
         {this.props.searchTerm}
       </span>
     );
@@ -33,7 +30,7 @@ export class SearchFieldButton extends Component {
     );
 
     return (
-      <div className='u-cf u-paddingHN u-paddingBN Form-cta--barFullscreen'>
+      <div className={styles.container}>
         <div
           className={fieldClasses}
           onClick={this.props.onClick}>

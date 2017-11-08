@@ -1,0 +1,14 @@
+@import '../../styles/_vars.scss';
+
+.pill {
+  composes: u-textNormal from global;
+  composes: c-btn c-btn--secondary c-btn--pill from '../../styles/components/Button.scss';
+}
+
+.fullscreen {
+  composes: u-sizeFull u-textSizeBaseMobile is-mobile from global;
+}
+
+.rtl {
+  composes: u-textNoWrap is-mobile from global;
+}

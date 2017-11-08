@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { locals as styles } from './ButtonSecondary.sass';
 
 export class ButtonSecondary extends Component {
   static propTypes = {
@@ -22,10 +22,7 @@ export class ButtonSecondary extends Component {
   };
 
   render = () => {
-    const buttonClasses = classNames({
-      'c-btn c-btn--medium c-btn--secondary': true,
-      [this.props.className]: true
-    });
+    const buttonClasses = `${styles.button} ${this.props.className}`;
 
     return (this.props.disabled)
          ? <div

@@ -12,6 +12,14 @@ describe('IconFieldButton component', () => {
       'React': React,
       'component/Icon': {
         Icon: noopReactComponent()
+      },
+      './IconFieldButton.sass': {
+        locals: {
+          focused: 'isFocused',
+          notFocused: 'notFocused',
+          hovering: 'hovering',
+          fullscreen: 'fullscreen'
+        }
       }
     });
 
@@ -29,30 +37,30 @@ describe('IconFieldButton component', () => {
     const button = shallowRender(<IconFieldButton fullscreen={false} />);
 
     expect(button.props.className)
-      .toMatch('u-fillGainsboro');
+      .toMatch('notFocused');
 
     expect(button.props.className)
-      .not.toMatch('Button--fieldMobile');
+      .not.toMatch('fullscreen');
   });
 
   it('should display the correct classes when fullscreen', () => {
     const button = shallowRender(<IconFieldButton fullscreen={true} />);
 
     expect(button.props.className)
-      .toMatch('Button--fieldMobile');
+      .toMatch('fullscreen');
 
     expect(button.props.className)
-      .not.toMatch('u-fillGainsboro');
+      .not.toMatch('notFocused');
   });
 
   it('should display the correct classes when focus is true', () => {
     const button = shallowRender(<IconFieldButton focused={true} />);
 
     expect(button.props.className)
-      .toMatch('u-fillAluminum');
+      .toMatch('isFocused');
 
     expect(button.props.className)
-      .not.toMatch('u-fillGainsboro');
+      .not.toMatch('notFocused');
   });
 
   it('should display the correct classes on mouse enter and leave', () => {
@@ -60,12 +68,12 @@ describe('IconFieldButton component', () => {
 
     button.handleMouseEnter();
 
-    expect(() => TestUtils.findRenderedDOMComponentWithClass(button, 'u-userFillColor'))
+    expect(() => TestUtils.findRenderedDOMComponentWithClass(button, 'hovering'))
       .toBeTruthy();
 
     button.handleMouseLeave();
 
-    expect(() => TestUtils.findRenderedDOMComponentWithClass(button, 'u-userFillColor'))
+    expect(() => TestUtils.findRenderedDOMComponentWithClass(button, 'hovering'))
       .toThrow();
   });
 });

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { locals as styles } from './ButtonGroup.sass';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 export class ButtonGroup extends Component {
   static propTypes = {
@@ -17,11 +17,11 @@ export class ButtonGroup extends Component {
   };
 
   render = () => {
-    const buttonClasses = classNames({
-      'ButtonGroup': true,
-      'u-textRight': !this.props.fullscreen && !this.props.rtl,
-      'u-textLeft': !this.props.fullscreen && this.props.rtl
-    });
+    const { rtl, fullscreen } = this.props;
+    const directionStyles = (rtl) ? styles.buttonLeft : styles.buttonRight;
+    const buttonDirectionStyles = (!fullscreen) ? directionStyles : '';
+
+    const buttonClasses = `${styles.container} ${buttonDirectionStyles}`;
 
     return (
       <div

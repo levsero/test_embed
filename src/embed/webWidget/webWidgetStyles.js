@@ -2,6 +2,9 @@ import AttachmentStyles from 'component/attachment/Attachment.sass';
 import AttachmentBoxStyles from 'component/attachment/AttachmentBox.sass';
 import AttachmentListStyles from 'component/attachment/AttachmentList.sass';
 import ButtonIconStyles from 'component/button/ButtonIcon.sass';
+import ButtonGroupStyles from 'component/button/ButtonGroup.sass';
+import ButtonPillStyles from 'component/button/ButtonPill.sass';
+import ButtonSecondaryStyles from 'component/button/ButtonSecondary.sass';
 import ChannelChoiceStyles from 'component/channelChoice/ChannelChoice.sass';
 import ChannelChoiceDesktopStyles from 'component/channelChoice/ChannelChoiceDesktop.sass';
 import ChannelChoicePopupMobileStyles from 'component/channelChoice/ChannelChoicePopupMobile.sass';
@@ -25,8 +28,10 @@ import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.sass
 import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.sass';
 import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.sass';
 import HelpCenterResultsStyles from 'component/helpCenter/HelpCenterResults.sass';
+import IconFieldButtonStyles from 'component/button/IconFieldButton.sass';
 import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.sass';
 import MessageBubbleStyles from 'component/chat/MessageBubble.sass';
+import SearchFieldButtonStyles from 'component/button/SearchFieldButton.sass';
 import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.sass';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.sass';
 
@@ -38,6 +43,9 @@ export const webWidgetStyles = `
   ${AttachmentBoxStyles}
   ${AttachmentListStyles}
   ${ButtonIconStyles}
+  ${ButtonGroupStyles}
+  ${ButtonPillStyles}
+  ${ButtonSecondaryStyles}
   ${ChannelChoiceStyles}
   ${ChannelChoiceDesktopStyles}
   ${ChannelChoiceMobileStyles}
@@ -61,8 +69,10 @@ export const webWidgetStyles = `
   ${HelpCenterDesktopStyles}
   ${HelpCenterMobileStyles}
   ${HelpCenterResultsStyles}
+  ${IconFieldButtonStyles}
   ${LoadingEllipsesStyles}
   ${MessageBubbleStyles}
+  ${SearchFieldButtonStyles}
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
 `;

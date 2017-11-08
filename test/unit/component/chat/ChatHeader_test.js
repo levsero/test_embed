@@ -19,9 +19,6 @@ describe('ChatHeader component', () => {
       'component/chat/ChatRatingGroup': {
         ChatRatingGroup: noopReactComponent()
       },
-      'component/button/ButtonSecondary': {
-        ButtonSecondary: noopReactComponent()
-      },
       'component/button/ButtonIcon': {
         ButtonIcon: class extends Component {
           render = () => {
