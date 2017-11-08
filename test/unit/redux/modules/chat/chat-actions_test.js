@@ -662,7 +662,7 @@ describe('chat redux actions', () => {
 
     beforeEach(() => {
       name = 'bob';
-      email = 'bob.zd.com';
+      email = 'bob@zd.com';
 
       mockStore.dispatch(actions.saveContactDetails(name, email));
       toggleContactDetailsAction = mockStore.getActions()[0];

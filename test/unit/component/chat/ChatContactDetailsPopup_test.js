@@ -48,11 +48,11 @@ describe('ChatContactDetailsPopup component', () => {
       elements: [
         {
           name: 'name',
-          value: 'John Snow'
+          value: 'Jon Snow'
         },
         {
           name: 'email',
-          value: 'j@l.r'
+          value: 'jsnow@nightswatch.org'
         }
       ]
     };
