@@ -1,7 +1,8 @@
 @import '../../styles/_vars.scss';
 
 .field {
-  composes: Arrange Arrange--middle Form-field Form-field--search u-isSelectable is-mobile u-paddingRN u-paddingVN from global;
+  composes: Arrange Arrange--middle u-isSelectable is-mobile u-paddingRN u-paddingVN from global;
+  composes: Form-field Form-field--search from '../../styles/components/Form.scss'
 }
 
 .searchTerm {
@@ -9,5 +10,6 @@
 }
 
 .container {
-  composes: u-cf u-paddingHN u-paddingBN Form-cta--barFullscreen from global;
+  composes: u-cf u-paddingHN u-paddingBN from global;
+  composes: Form-cta--barFullscreen  from '../../styles/components/Form.scss'
 }

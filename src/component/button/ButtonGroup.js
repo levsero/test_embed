@@ -18,10 +18,10 @@ export class ButtonGroup extends Component {
 
   render = () => {
     const { rtl, fullscreen } = this.props;
-    const directionStyle = (rtl) ? styles.buttonLeft : styles.buttonRight;
-    const buttonDirectionStyle = (!fullscreen) ? directionStyle : '';
+    const directionStyles = (rtl) ? styles.buttonLeft : styles.buttonRight;
+    const buttonDirectionStyles = (!fullscreen) ? directionStyles : '';
 
-    const buttonClasses = `${styles.container} ${buttonDirectionStyle}`;
+    const buttonClasses = `${styles.container} ${buttonDirectionStyles}`;
 
     return (
       <div

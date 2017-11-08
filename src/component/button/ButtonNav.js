@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { locals as styles } from './ButtonIcon.sass';
+import { locals as styles } from './ButtonNav.sass';
 
 export class ButtonNav extends Component {
   static propTypes = {
@@ -24,22 +24,22 @@ export class ButtonNav extends Component {
     const { className, fullscreen, position, rtl } = this.props;
     const isLeft = (position === 'left');
     const isRight = (position === 'right');
-    const fullscreenStyle = (fullscreen) ? styles.fullscreen : '';
-    const directionStyle = (rtl) ? styles.rtl : '';
-    let positionStyle;
+    const fullscreenStyles = (fullscreen) ? styles.fullscreen : '';
+    const directionStyles = (rtl) ? styles.rtl : '';
+    let positionStyles;
 
     if (isLeft) {
-      positionStyle = (rtl) ? styles.leftRtl : styles.left;
+      positionStyles = (rtl) ? styles.leftRtl : styles.left;
     }
     if (isRight) {
-      positionStyle = (rtl) ? styles.rightRtl : styles.right;
+      positionStyles = (rtl) ? styles.rightRtl : styles.right;
     }
 
     const buttonClasses = `
       ${styles.button}
-      ${fullscreenStyle}
-      ${positionStyle}
-      ${directionStyle}
+      ${fullscreenStyles}
+      ${positionStyles}
+      ${directionStyles}
       ${className}
     `;
 

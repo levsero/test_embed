@@ -37,15 +37,15 @@ export class IconFieldButton extends Component {
 
   render = () => {
     const { fullscreen, focused, className } = this.props;
-    const userFillColorStyle = this.state.hovering && !fullscreen ? styles.hovering : '';
-    const fullScreenStyle = fullscreen ? styles.fullscreen : '';
-    const focusedStyle = focused ? styles.focused : styles.notFocused;
-    const notFullScreenStyle = !fullscreen ? focusedStyle : '';
+    const userFillColorStyles = this.state.hovering && !fullscreen ? styles.hovering : '';
+    const fullScreenStyles = fullscreen ? styles.fullscreen : '';
+    const focusedStyles = focused ? styles.focused : styles.notFocused;
+    const notFullScreenStyles = !fullscreen ? focusedStyles : '';
     const buttonClasses = `
       ${styles.button}
-      ${userFillColorStyle}
-      ${notFullScreenStyle}
-      ${fullScreenStyle}
+      ${userFillColorStyles}
+      ${notFullScreenStyles}
+      ${fullScreenStyles}
       ${className}
     `;
 

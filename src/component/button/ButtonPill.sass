@@ -1,7 +1,8 @@
 @import '../../styles/_vars.scss';
 
 .pill {
-  composes: c-btn c-btn--secondary c-btn--pill u-textNormal from global;
+  composes: u-textNormal from global;
+  composes: c-btn c-btn--secondary c-btn--pill from '../../styles/components/Button.scss';
 }
 
 .fullscreen {

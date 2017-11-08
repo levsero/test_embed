@@ -20,12 +20,12 @@ export class ButtonPill extends Component {
   };
 
   render = () => {
-    const screenStyle = this.props.fullscreen ? styles.fullscreen : '';
-    const directionStyle = i18n.isRTL() ? styles.rtl : '';
+    const screenStyles = this.props.fullscreen ? styles.fullscreen : '';
+    const directionStyles = i18n.isRTL() ? styles.rtl : '';
     const buttonClasses = `
       ${styles.pill}
-      ${screenStyle}
-      ${directionStyle}
+      ${screenStyles}
+      ${directionStyles}
     `;
     const icon = this.props.showIcon ? <Icon type='Icon--link' /> : null;
 
