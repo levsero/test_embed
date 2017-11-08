@@ -11,7 +11,7 @@ export class ChatMenu extends Component {
     disableEndChat: PropTypes.bool.isRequired,
     playSound: PropTypes.bool.isRequired,
     contactDetailsOnClick: PropTypes.func,
-    handleSoundClick: PropTypes.func.isRequired,
+    onSoundClick: PropTypes.func.isRequired,
     endChatOnClick: PropTypes.func
   };
 
@@ -20,16 +20,16 @@ export class ChatMenu extends Component {
     contactDetailsOnClick: () => {}
   };
 
-  onSoundClick = (e) => {
+  handleSoundClick = (e) => {
     e.stopPropagation();
-    this.props.handleSoundClick();
+    this.props.onSoundClick();
   }
 
   renderSoundButton = () => {
     const iconType = this.props.playSound ? 'Icon--sound-on' : 'Icon--sound-off';
 
     return (
-      <button className={styles.item} onClick={this.onSoundClick}>
+      <button className={styles.item} onClick={this.handleSoundClick}>
         {i18n.t('embeddable_framework.chat.options.sound', { fallback: 'Sound' })}
         <Icon className={styles.soundIcon} type={iconType} />
       </button>

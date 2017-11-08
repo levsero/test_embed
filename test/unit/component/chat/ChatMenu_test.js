@@ -29,16 +29,16 @@ describe('ChatMenu component', () => {
     mockery.disable();
   });
 
-  describe('onSoundClick', () => {
-    let stopPropagationSpy, handleSoundClickSpy;
+  describe('handleSoundClick', () => {
+    let stopPropagationSpy, onSoundClickSpy;
 
     beforeEach(() => {
-      handleSoundClickSpy = jasmine.createSpy('handleSoundClick');
+      onSoundClickSpy = jasmine.createSpy('handleSoundClick');
       stopPropagationSpy = jasmine.createSpy('stopPropagation');
 
-      const component = domRender(<ChatMenu handleSoundClick={handleSoundClickSpy} />);
+      const component = domRender(<ChatMenu onSoundClick={onSoundClickSpy} />);
 
-      component.onSoundClick({ stopPropagation: stopPropagationSpy });
+      component.handleSoundClick({ stopPropagation: stopPropagationSpy });
     });
 
     it('calls stopPropagation on the event', () => {
@@ -46,8 +46,8 @@ describe('ChatMenu component', () => {
         .toHaveBeenCalled();
     });
 
-    it('calls props.handleSoundClick on the event', () => {
-      expect(handleSoundClickSpy)
+    it('calls props.onSoundClick', () => {
+      expect(onSoundClickSpy)
         .toHaveBeenCalled();
     });
   });

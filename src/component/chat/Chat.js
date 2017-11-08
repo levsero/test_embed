@@ -169,7 +169,7 @@ class Chat extends Component {
     } = this.props;
     const showChatEndFn = () => toggleEndChatNotification(true);
     const showContactDetailsFn = () => toggleContactDetailsNotification(true);
-    const invertSoundFn = () => updateUserSettings({ sound: !userSoundSettings });
+    const toggleSoundFn = () => updateUserSettings({ sound: !userSoundSettings });
 
     return (
       <ChatMenu
@@ -177,7 +177,7 @@ class Chat extends Component {
         disableEndChat={!isChatting}
         endChatOnClick={showChatEndFn}
         contactDetailsOnClick={showContactDetailsFn}
-        handleSoundClick={invertSoundFn} />
+        onSoundClick={toggleSoundFn} />
     );
   }
 
