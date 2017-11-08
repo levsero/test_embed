@@ -24,7 +24,7 @@ export class Dropdown extends Component {
     description: PropTypes.string,
     onChange: PropTypes.func,
     options: PropTypes.array.isRequired,
-    placeholder: PropTypes.string,
+    label: PropTypes.string,
     required: PropTypes.bool,
     value: PropTypes.object
   }
@@ -38,7 +38,7 @@ export class Dropdown extends Component {
     description: '',
     onChange: () => {},
     options: [],
-    placeholder: '-',
+    label: '-',
     required: false,
     value: { value: '' }
   }
@@ -289,7 +289,7 @@ export class Dropdown extends Component {
     return (
       <div onMouseDown={this.handleContainerClick}>
         <div className={`${styles.label} ${landscapeClasses} ${mobileClasses}`}>
-          {this.props.placeholder}{requiredLabel}
+          {this.props.label}{requiredLabel}
         </div>
         <div className={styles.container}>
           <div

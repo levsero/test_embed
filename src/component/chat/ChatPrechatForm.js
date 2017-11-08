@@ -113,7 +113,7 @@ export class ChatPrechatForm extends Component {
 
     return !phoneData.hidden
          ? <Field
-            placeholder={i18n.t('embeddable_framework.common.textLabel.phoneNumber', { fallback: 'Phone Number' })}
+            label={i18n.t('embeddable_framework.common.textLabel.phoneNumber', { fallback: 'Phone Number' })}
             required={phoneData.required}
             type='number'
             value={this.state.formState.phone}
@@ -126,7 +126,7 @@ export class ChatPrechatForm extends Component {
 
     return (
       <Field
-        placeholder={i18n.t('embeddable_framework.common.textLabel.message', { fallback: 'Message' })}
+        label={i18n.t('embeddable_framework.common.textLabel.message', { fallback: 'Message' })}
         required={messageData.required}
         value={this.state.formState.message}
         input={<textarea rows='3' />}
