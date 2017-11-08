@@ -88,7 +88,7 @@ export class ChatPrechatForm extends Component {
 
     return (
       <Field
-        placeholder={i18n.t('embeddable_framework.common.textLabel.name', { fallback: 'Your name' })}
+        label={i18n.t('embeddable_framework.common.textLabel.name', { fallback: 'Your name' })}
         required={nameData.required}
         value={this.state.formState.name}
         name={nameData.name} />
@@ -100,7 +100,7 @@ export class ChatPrechatForm extends Component {
 
     return (
       <Field
-        placeholder={i18n.t('embeddable_framework.common.textLabel.email', { fallback: 'Email' })}
+        label={i18n.t('embeddable_framework.common.textLabel.email', { fallback: 'Email' })}
         required={emailData.required}
         value={this.state.formState.email}
         pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line

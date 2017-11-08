@@ -12,6 +12,7 @@ import { ChatPrechatForm } from 'component/chat/ChatPrechatForm';
 import { ChatFeedbackForm } from 'component/chat/ChatFeedbackForm';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { ChatRatings } from 'component/chat/ChatRatingGroup';
+import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { i18n } from 'service/i18n';
@@ -24,8 +25,10 @@ import { endChat,
          sendChatRating,
          sendChatComment,
          updateChatScreen,
+         saveContactDetails,
          toggleEndChatNotification,
          acceptEndChatNotification,
+         toggleContactDetailsNotification,
          toggleChatSound } from 'src/redux/modules/chat';
 import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
 import { getPrechatFormFields,
@@ -50,6 +53,7 @@ const mapStateToProps = (state) => {
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
     postChatFormSettings: getPostchatFormSettings(state),
     showEndNotification: chat.showEndNotification,
+    showContactDetailsNotification: chat.showContactDetailsNotification,
     isChatting: getIsChatting(state),
     agents: getAgents(state),
     playSound: getPlaySound(state)
@@ -79,12 +83,15 @@ class Chat extends Component {
     sendChatComment: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
     showEndNotification: PropTypes.bool.isRequired,
+    showContactDetailsNotification: PropTypes.bool.isRequired,
     toggleEndChatNotification: PropTypes.func.isRequired,
+    toggleContactDetailsNotification: PropTypes.func.isRequired,
     acceptEndChatNotification: PropTypes.func.isRequired,
     toggleChatSound: PropTypes.func.isRequired,
     isChatting: PropTypes.bool.isRequired,
     agents: PropTypes.object.isRequired,
-    playSound: PropTypes.bool.isRequired
+    playSound: PropTypes.bool.isRequired,
+    saveContactDetails: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -122,13 +129,6 @@ class Chat extends Component {
     }
   }
 
-  updateUser = (user) => {
-    this.props.setVisitorInfo({
-      display_name: user.name || '',
-      email: user.email || ''
-    });
-  }
-
   toggleMenu = () => {
     this.setState({ showMenu: !this.state.showMenu });
   }
@@ -157,8 +157,15 @@ class Chat extends Component {
   renderChatMenu = () => {
     if (!this.state.showMenu) return;
 
-    const { playSound, isChatting, toggleEndChatNotification, toggleChatSound } = this.props;
+    const {
+      playSound,
+      isChatting,
+      toggleEndChatNotification,
+      toggleContactDetailsNotification,
+      toggleChatSound
+    } = this.props;
     const showChatEndFn = () => toggleEndChatNotification(true);
+    const showContactDetailsFn = () => toggleContactDetailsNotification(true);
     const invertSoundFn = () => toggleChatSound(!playSound);
 
     return (
@@ -166,6 +173,7 @@ class Chat extends Component {
         playSound={playSound}
         disableEndChat={!isChatting}
         endChatOnClick={showChatEndFn}
+        contactDetailsOnClick={showContactDetailsFn}
         soundOnClick={invertSoundFn} />
     );
   }
@@ -307,7 +315,7 @@ class Chat extends Component {
 
     return (
       <ChatPopup
-        className={styles.chatEndPopup}
+        className={styles.bottomPopup}
         leftCtaFn={hideChatEndFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
         rightCtaFn={this.props.acceptEndChatNotification}
@@ -350,6 +358,19 @@ class Chat extends Component {
     );
   }
 
+  renderChatContactDetailsPopup = () => {
+    if (!this.props.showContactDetailsNotification) return null;
+
+    const hideContactDetailsFn = () => this.props.toggleContactDetailsNotification(false);
+
+    return (
+      <ChatContactDetailsPopup
+        className={styles.bottomPopup}
+        leftCtaFn={hideContactDetailsFn}
+        rightCtaFn={this.props.saveContactDetails} />
+    );
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
@@ -360,6 +381,7 @@ class Chat extends Component {
         {this.renderPostchatScreen()}
         {this.renderChatMenu()}
         {this.renderChatEndPopup()}
+        {this.renderChatContactDetailsPopup()}
       </div>
     );
   }
@@ -368,7 +390,9 @@ class Chat extends Component {
 const actionCreators = {
   toggleChatSound,
   toggleEndChatNotification,
+  toggleContactDetailsNotification,
   acceptEndChatNotification,
+  saveContactDetails,
   sendMsg,
   updateCurrentMsg,
   updateAccountSettings,

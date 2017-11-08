@@ -300,14 +300,14 @@ export class SubmitTicketForm extends Component {
   }
 
   renderSubjectField = () => {
-    const placeholder = i18n.t('embeddable_framework.submitTicket.field.subject.label', {
+    const label = i18n.t('embeddable_framework.submitTicket.field.subject.label', {
       fallback: 'Subject'
     });
 
     return !this.props.subjectEnabled
          ? null
          : <Field
-            placeholder={placeholder}
+            label={label}
             value={this.props.formState.subject}
             name='subject'
             disabled={this.props.previewEnabled} />;
@@ -316,7 +316,7 @@ export class SubmitTicketForm extends Component {
   renderEmailField = () => {
     return (
       <Field
-        placeholder={i18n.t('embeddable_framework.form.field.email.label')}
+        label={i18n.t('embeddable_framework.form.field.email.label')}
         type='email'
         required={true}
         pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
@@ -329,7 +329,7 @@ export class SubmitTicketForm extends Component {
   renderNameField = () => {
     return (
       <Field
-        placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
+        label={i18n.t('embeddable_framework.submitTicket.field.name.label')}
         value={this.props.formState.name}
         name='name'
         disabled={this.props.previewEnabled} />
@@ -339,7 +339,7 @@ export class SubmitTicketForm extends Component {
   renderDescriptionField = () => {
     return (
       <Field
-        placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
+        label={i18n.t('embeddable_framework.submitTicket.field.description.label')}
         required={true}
         value={this.props.formState.description}
         name='description'

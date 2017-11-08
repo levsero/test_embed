@@ -11,11 +11,13 @@ export class ChatMenu extends Component {
     disableEndChat: PropTypes.bool.isRequired,
     playSound: PropTypes.bool.isRequired,
     soundOnClick: PropTypes.func.isRequired,
-    endChatOnClick: PropTypes.func
+    endChatOnClick: PropTypes.func,
+    contactDetailsOnClick: PropTypes.func
   };
 
   static defaultProps = {
-    endChatOnClick: () => {}
+    endChatOnClick: () => {},
+    contactDetailsOnClick: () => {}
   };
 
   renderSoundButton = () => {
@@ -39,7 +41,7 @@ export class ChatMenu extends Component {
             fallback: 'Email transcript'
           })}
         </button>
-        <button className={styles.item}>
+        <button className={styles.item} onClick={this.props.contactDetailsOnClick}>
           {i18n.t('embeddable_framework.chat.options.editContactDetails', {
             fallback: 'Edit contact details'
           })}

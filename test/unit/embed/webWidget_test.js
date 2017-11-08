@@ -21,7 +21,6 @@ describe('embed.webWidget', () => {
   const authenticateSpy = jasmine.createSpy();
   const revokeSpy = jasmine.createSpy();
   const updateZopimOnlineSpy = jasmine.createSpy();
-  const updateUser = jasmine.createSpy();
   const zChatInitSpy = jasmine.createSpy();
   const zChatFirehoseSpy = jasmine.createSpy().and.callThrough();
 
@@ -108,6 +107,9 @@ describe('embed.webWidget', () => {
       },
       'src/redux/modules/base': {
         updateZopimOnline: updateZopimOnlineSpy
+      },
+      'src/redux/modules/chat': {
+        setVisitorInfo: (user) => user
       },
       'chat-web-sdk': {
         init: zChatInitSpy,
@@ -1170,8 +1172,11 @@ describe('embed.webWidget', () => {
     });
 
     describe('zopimChat.setUser', () => {
+      let user;
+
       beforeEach(() => {
-        pluckSubscribeCall(mockMediator, 'zopimChat.setUser')();
+        user = { name: 'bob', email: 'bob@zd.com' };
+        pluckSubscribeCall(mockMediator, 'zopimChat.setUser')(user);
       });
 
       it('should subscribe to zopimChat.setUser', () => {
@@ -1179,39 +1184,25 @@ describe('embed.webWidget', () => {
           .toHaveBeenCalledWith('zopimChat.setUser', jasmine.any(Function));
       });
 
-      describe('when chat is rendered', () => {
-        let child, faythe;
-
+      describe('when chat is available', () => {
         beforeEach(() => {
-          webWidget.create('', { zopimChat: {} });
+          webWidget.create('', { zopimChat: {} }, { dispatch: mockStoreDispatch });
           webWidget.render();
-
-          faythe = webWidget.get().instance.getRootComponent();
-          child = faythe.getRootComponent();
-
-          spyOn(child, 'updateUser');
-
-          pluckSubscribeCall(mockMediator, 'zopimChat.setUser')();
+          pluckSubscribeCall(mockMediator, 'zopimChat.setUser')(user);
         });
 
-        it('should call updateUser on the child', () => {
-          expect(child.updateUser)
-            .toHaveBeenCalled();
+        it('dispatches the setVisitorInfo action', () => {
+          expect(webWidget.get().store.dispatch)
+            .toHaveBeenCalledWith({
+              display_name: user.name, // eslint-disable-line camelcase
+              email: user.email
+            });
         });
       });
 
-      describe('when chat is not rendered', () => {
-        beforeEach(() => {
-          webWidget.create('', {});
-          webWidget.render();
-
-          updateUser.calls.reset();
-
-          pluckSubscribeCall(mockMediator, 'zopimChat.setUser')();
-        });
-
-        it('should not call updateUser on the child', () => {
-          expect(updateUser)
+      describe('when chat is not available', () => {
+        it('does not dispatch the setVisitorInfo action', () => {
+          expect(webWidget.get().store.dispatch)
             .not.toHaveBeenCalled();
         });
       });

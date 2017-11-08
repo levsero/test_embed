@@ -26,6 +26,7 @@ import { isOnHelpCenterPage,
 import { cappedTimeoutCall,
          getPageKeywords } from 'utility/utils';
 import { updateZopimOnline } from 'src/redux/modules/base';
+import { setVisitorInfo } from 'src/redux/modules/chat';
 
 import WebWidget from 'component/webWidget/WebWidget';
 import zChat from 'chat-web-sdk';
@@ -382,9 +383,9 @@ function setupMediator() {
   mediator.channel.subscribe('zopimChat.setUser', (user) => {
     waitForRootComponent(() => {
       if (embed.embedsAvailable.chat) {
-        const chat = getWebWidgetComponent().getChatComponent();
+        const { name, email } = user;
 
-        chat.updateUser(_.pick(user, ['name', 'email']));
+        embed.store.dispatch(setVisitorInfo({ display_name: name, email })); // eslint-disable-line camelcase
       }
     });
   });

@@ -13,6 +13,7 @@ import rating from './chat-rating';
 import notification from './chat-notification';
 import screen from './chat-screen';
 import showEndNotification from './chat-show-end-notification';
+import showContactDetailsNotification from './chat-show-contact-details-notification';
 
 export default combineReducers({
   accountSettings,
@@ -27,5 +28,6 @@ export default combineReducers({
   rating,
   notification,
   screen,
-  showEndNotification
+  showEndNotification,
+  showContactDetailsNotification
 });
