@@ -20,8 +20,8 @@ class ClosedWithUndo extends Component {
       fallback: 'UNDO'
     });
 
-    const submittingStyle = isSubmitting ? `AutomaticAnswersAnchor--disabled` : '';
-    const undoClasses = `AutomaticAnswersAnchor ${submittingStyle} u-textUppercase `;
+    const submittingStyles = isSubmitting ? `AutomaticAnswersAnchor--disabled` : '';
+    const undoClasses = `AutomaticAnswersAnchor ${submittingStyles} u-textUppercase `;
 
     return (
       <p className='AutomaticAnswersDesktop-message u-textCenter u-marginVL'>

@@ -36,8 +36,8 @@ export class AutomaticAnswersMobile extends AutomaticAnswers {
   }
 
   renderErrorMessage = () => {
-    const visibilityStyle = !this.state.errorMessage ? 'u-isHidden' : '';
-    const errorClasses = `Error ${visibilityStyle}`;
+    const visibilityStyles = !this.state.errorMessage ? 'u-isHidden' : '';
+    const errorClasses = `Error ${visibilityStyles}`;
 
     return (
       <p className={errorClasses}>

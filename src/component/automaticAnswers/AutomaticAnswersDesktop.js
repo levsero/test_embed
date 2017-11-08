@@ -22,13 +22,13 @@ export class AutomaticAnswersDesktop extends AutomaticAnswers {
   }
 
   renderSolveQuestion = () => {
-    const borderStyle = (!this.state.errorMessage) ? 'u-borderBottom' : '';
+    const borderStyles = (!this.state.errorMessage) ? 'u-borderBottom' : '';
     const messageClasses = `
       AutomaticAnswersDesktop-message
       AutomaticAnswersDesktop-solve
       u-paddingBM
       u-marginBN
-      ${borderStyle}
+      ${borderStyles}
     `;
     const solveQuestion = i18n.t('embeddable_framework.automaticAnswers.desktop.solve.question', {
       fallback: 'Does this article answer your question?'
@@ -47,8 +47,8 @@ export class AutomaticAnswersDesktop extends AutomaticAnswers {
   }
 
   renderErrorMessage = (classes = '') => {
-    const visibilityStyle = !this.state.errorMessage ? 'u-isHidden' : '';
-    const errorClasses = `Error ${visibilityStyle} ${classes}`;
+    const visibilityStyles = !this.state.errorMessage ? 'u-isHidden' : '';
+    const errorClasses = `Error ${visibilityStyles} ${classes}`;
 
     return (
       <p className={errorClasses}>
