@@ -29,6 +29,29 @@ describe('ChatMenu component', () => {
     mockery.disable();
   });
 
+  describe('handleSoundClick', () => {
+    let stopPropagationSpy, onSoundClickSpy;
+
+    beforeEach(() => {
+      onSoundClickSpy = jasmine.createSpy('handleSoundClick');
+      stopPropagationSpy = jasmine.createSpy('stopPropagation');
+
+      const component = domRender(<ChatMenu onSoundClick={onSoundClickSpy} />);
+
+      component.handleSoundClick({ stopPropagation: stopPropagationSpy });
+    });
+
+    it('calls stopPropagation on the event', () => {
+      expect(stopPropagationSpy)
+        .toHaveBeenCalled();
+    });
+
+    it('calls props.onSoundClick', () => {
+      expect(onSoundClickSpy)
+        .toHaveBeenCalled();
+    });
+  });
+
   describe('props', () => {
     describe('disableEndChat', () => {
       let endChatButton;

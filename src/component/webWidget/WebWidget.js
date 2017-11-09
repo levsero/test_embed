@@ -15,7 +15,6 @@ import { updateActiveEmbed,
          updateAuthenticated } from 'src/redux/modules/base';
 import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
 import { getChatNotification } from 'src/redux/modules/chat/selectors';
-import { audio } from 'service/audio';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
@@ -423,10 +422,6 @@ class WebWidget extends Component {
     // here and this won't be needed to fix dodgy animation.
     const width = this.props.fullscreen ? '100%' : '342px';
     const style = { width };
-
-    if (this.props.chatNotification.playSound) {
-      audio.play('incoming_message');
-    }
 
     return (
       // data-embed is needed for our intergration tests

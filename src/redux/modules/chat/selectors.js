@@ -5,19 +5,24 @@ const getNotification = (state) => state.chat.notification;
 const getChats = (state) => {
   return _.filter([...state.chat.chats.values()], (e) => e.type === 'chat.msg');
 };
-const getChatsByAgent = (state) => {
-  const chats = _.filter(getChats(state), (chat) => _.includes(chat.nick, 'agent'));
+const groupChatsByAgent = (state) => {
+  const agentMsgs = getChatsByAgent(state);
 
-  return _.groupBy(chats, (chat) => chat.nick);
+  return _.groupBy(agentMsgs, (chat) => chat.nick);
 };
+
 const getPrechatSettings = (state) => state.chat.accountSettings.prechatForm;
 const getPostchatSettings = (state) => state.chat.accountSettings.postchatForm;
 
 export const getAgents = (state) => state.chat.agents;
-export const getPlaySound = (state) => state.chat.notification.playSound;
+export const getConnection = (state) => state.chat.connection;
+export const getUserSoundSettings = (state) => state.chat.userSettings.sound;
+export const getChatsByAgent = (state) => {
+  return _.filter(getChats(state), (chat) => _.includes(chat.nick, 'agent'));
+};
 
 export const getChatNotification = createSelector(
-  [getNotification, getAgents, getChatsByAgent],
+  [getNotification, getAgents, groupChatsByAgent],
   (notification, agents, chats) => {
     const { nick } = notification;
     const agentChats = chats[nick];

@@ -1,11 +1,10 @@
-import { SDK_CHAT_MSG, HIDE_CHAT_NOTIFICATION, TOGGLE_CHAT_NOTIFICATION_SOUND } from '../chat-action-types';
+import { SDK_CHAT_MSG, HIDE_CHAT_NOTIFICATION } from '../chat-action-types';
 
 const initialState = {
   nick: '',
   display_name: '',
   msg: '',
-  show: false,
-  playSound: false
+  show: false
 };
 
 const notification = (state = initialState, action) => {
@@ -22,8 +21,6 @@ const notification = (state = initialState, action) => {
       };
     case HIDE_CHAT_NOTIFICATION:
       return { ...state, show: false };
-    case TOGGLE_CHAT_NOTIFICATION_SOUND:
-      return { ...state, playSound: action.payload };
     default:
       return state;
   }

@@ -3,7 +3,10 @@ describe('chat selectors', () => {
     getPrechatFormFields,
     getPostchatFormSettings,
     getIsChatting,
-    getChatVisitor;
+    getChatVisitor,
+    getUserSoundSettings,
+    getConnection,
+    getChatsByAgent;
 
   beforeEach(() => {
     mockery.enable();
@@ -19,6 +22,9 @@ describe('chat selectors', () => {
     getPostchatFormSettings = selectors.getPostchatFormSettings;
     getIsChatting = selectors.getIsChatting;
     getChatVisitor = selectors.getChatVisitor;
+    getUserSoundSettings = selectors.getUserSoundSettings;
+    getConnection = selectors.getConnection;
+    getChatsByAgent = selectors.getChatsByAgent;
   });
 
   describe('getChatNotification', () => {
@@ -229,6 +235,67 @@ describe('chat selectors', () => {
     it('returns the current state of message', () => {
       expect(result.message)
         .toEqual(mockMessage);
+    });
+  });
+
+  describe('getConnection', () => {
+    let result;
+    const mockChatSettings = {
+      chat: {
+        connection: 'connected'
+      }
+    };
+
+    beforeEach(() => {
+      result = getConnection(mockChatSettings);
+    });
+
+    it('returns the current state of is_chatting', () => {
+      expect(result)
+        .toEqual('connected');
+    });
+  });
+
+  describe('getUserSoundSettings', () => {
+    let result;
+    const mockChatSettings = {
+      chat: {
+        userSettings: { sound: true }
+      }
+    };
+
+    beforeEach(() => {
+      result = getUserSoundSettings(mockChatSettings);
+    });
+
+    it('returns the current state of is_chatting', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('getChatsByAgent', () => {
+    let result;
+    const mockChats = [
+      { nick: 'agent', type: 'chat.msg' },
+      { nick: 'user', type: 'chat.msg' }
+    ];
+    const mockChatSettings = {
+      chat: {
+        chats: { values: () => mockChats }
+      }
+    };
+
+    beforeEach(() => {
+      result = getChatsByAgent(mockChatSettings);
+    });
+
+    it('returns the chats from only agents', () => {
+      expect(result.length)
+        .toEqual(1);
+
+      expect(result[0].nick)
+        .toEqual('agent');
     });
   });
 });

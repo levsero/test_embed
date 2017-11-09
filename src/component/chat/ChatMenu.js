@@ -10,9 +10,9 @@ export class ChatMenu extends Component {
   static propTypes = {
     disableEndChat: PropTypes.bool.isRequired,
     playSound: PropTypes.bool.isRequired,
-    soundOnClick: PropTypes.func.isRequired,
-    endChatOnClick: PropTypes.func,
-    contactDetailsOnClick: PropTypes.func
+    contactDetailsOnClick: PropTypes.func,
+    onSoundClick: PropTypes.func.isRequired,
+    endChatOnClick: PropTypes.func
   };
 
   static defaultProps = {
@@ -20,11 +20,16 @@ export class ChatMenu extends Component {
     contactDetailsOnClick: () => {}
   };
 
+  handleSoundClick = (e) => {
+    e.stopPropagation();
+    this.props.onSoundClick();
+  }
+
   renderSoundButton = () => {
     const iconType = this.props.playSound ? 'Icon--sound-on' : 'Icon--sound-off';
 
     return (
-      <button className={styles.item} onClick={this.props.soundOnClick}>
+      <button className={styles.item} onClick={this.handleSoundClick}>
         {i18n.t('embeddable_framework.chat.options.sound', { fallback: 'Sound' })}
         <Icon className={styles.soundIcon} type={iconType} />
       </button>

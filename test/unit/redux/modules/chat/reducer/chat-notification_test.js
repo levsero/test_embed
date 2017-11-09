@@ -26,8 +26,7 @@ describe('chat reducer notification', () => {
       nick: '',
       display_name: '',
       msg: '',
-      show: false,
-      playSound: false
+      show: false
     };
 
     describe('initial state', () => {
@@ -77,28 +76,6 @@ describe('chat reducer notification', () => {
 
       it('updates the state with payload', () => {
         const expected = _.merge({}, mockInitialState, { show: false });
-
-        expect(state)
-          .toEqual(expected);
-      });
-    });
-
-    describe('when a TOGGLE_CHAT_NOTIFICATION_SOUND action is dispatched', () => {
-      let bool;
-
-      beforeEach(() => {
-        bool = true;
-
-        const action = {
-          type: actionTypes.TOGGLE_CHAT_NOTIFICATION_SOUND,
-          payload: bool
-        };
-
-        state = reducer(initialState, action);
-      });
-
-      it('updates the state with payload', () => {
-        const expected = _.merge({}, mockInitialState, { playSound: bool });
 
         expect(state)
           .toEqual(expected);

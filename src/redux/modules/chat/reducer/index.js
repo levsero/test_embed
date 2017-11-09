@@ -14,6 +14,7 @@ import notification from './chat-notification';
 import screen from './chat-screen';
 import showEndNotification from './chat-show-end-notification';
 import showContactDetailsNotification from './chat-show-contact-details-notification';
+import userSettings from './user-settings/';
 
 export default combineReducers({
   accountSettings,
@@ -29,5 +30,6 @@ export default combineReducers({
   notification,
   screen,
   showEndNotification,
-  showContactDetailsNotification
+  showContactDetailsNotification,
+  userSettings
 });
