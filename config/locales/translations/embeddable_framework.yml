@@ -729,3 +729,4 @@ parts:
       value: "https://www.zendesk.com/connect/"
       screenshot: "https://zendesk.box.com/s/gbj1x0hjotrzqboq01kslqrhqq523rbk"
       hidden: true
+      obsolete: "2017-11-06"

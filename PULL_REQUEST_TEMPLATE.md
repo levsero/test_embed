@@ -15,7 +15,6 @@ If you have anything else relevant to your PR add it to the list.
  - [ ] Chat online
  - [ ] Chat offline
  - [ ] Help Center
- - [ ] IPM
  - [ ] Automatic Answers
  - [ ] Web Widget
  - [ ] Web Widget Preview

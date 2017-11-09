@@ -37,10 +37,6 @@ const optionWhitelist = {
     'position.horizontal',
     'position.vertical',
     'zIndex'
-  ],
-  ipm: [
-    'offset.horizontal',
-    'offset.vertical'
   ]
 };
 const customizationsWhitelist = [
@@ -74,15 +70,8 @@ const webWidgetStoreDefaults = {
   viaId: 48,
   zIndex: 999999
 };
-const ipmStoreDefaults = {
-  offset: {
-    horizontal: 0,
-    vertical: 0
-  }
-};
 const maxLocaleFallbacks = 3;
 let webWidgetStore = {};
-let ipmStore = {};
 let webWidgetCustomizations = false;
 
 const initStore = (settings, options, defaults) => {
@@ -111,22 +100,20 @@ function init() {
   }
 
   webWidgetStore = initStore(settings.webWidget, optionWhitelist.webWidget, webWidgetStoreDefaults);
-  ipmStore = initStore(settings.ipm, optionWhitelist.ipm, ipmStoreDefaults);
 
   // Limit number of fallback locales.
   webWidgetStore.helpCenter.localeFallbacks = _.take(webWidgetStore.helpCenter.localeFallbacks,
                                                      maxLocaleFallbacks);
 }
 
-function get(path, store = 'webWidget') {
+function get(path) {
   // TODO: Remove this check when web widget customizations are out of beta.
   if (customizationsWhitelist.indexOf(path) > -1 &&
       !webWidgetCustomizations) {
     return _.get(webWidgetStoreDefaults, path, null);
   }
 
-  return store === 'webWidget' ? _.get(webWidgetStore, path, null)
-                               : _.get(ipmStore, path, null);
+  return _.get(webWidgetStore, path, null);
 }
 
 function getTranslations() {
@@ -153,15 +140,13 @@ function getTrackSettings() {
   const userSettings = _.omit(webWidgetStore, blacklist);
   const defaults = _.omit(webWidgetStoreDefaults, blacklist);
   const widgetSettings = objectDifference(userSettings, defaults);
-  const ipmSettings = objectDifference(ipmStore, ipmStoreDefaults);
 
   if (widgetSettings.authenticate) {
     widgetSettings.authenticate = true;
   }
 
   return _.omitBy({
-    webWidget: widgetSettings,
-    ipm: ipmSettings
+    webWidget: widgetSettings
   }, _.isEmpty);
 }
 

@@ -10,7 +10,6 @@ describe('mediator', () => {
     chatSub,
     helpCenterSub,
     channelChoiceSub,
-    ipmSub,
     mockChatSuppressedValue,
     mockHelpCenterSuppressedValue,
     mockContactFormSuppressedValue,
@@ -124,15 +123,6 @@ describe('mediator', () => {
       ['show']
     );
 
-    ipmSub = jasmine.createSpyObj(
-      'ipm',
-      ['activate',
-       'identifying',
-       'setIpm',
-       'show',
-       'hide']
-    );
-
     webWidgetSub = jasmine.createSpyObj(
       'webWidget',
       ['show',
@@ -179,12 +169,6 @@ describe('mediator', () => {
 
       c.subscribe(`${names.channelChoice}.show`, channelChoiceSub.show);
 
-      c.subscribe(`${names.ipm}.activate`, ipmSub.activate);
-      c.subscribe(`${names.ipm}.identifying`, ipmSub.identifying);
-      c.subscribe(`${names.ipm}.setIpm`, ipmSub.setIpm);
-      c.subscribe(`${names.ipm}.show`, ipmSub.show);
-      c.subscribe(`${names.ipm}.hide`, ipmSub.hide);
-
       c.subscribe(`${names.webWidget}.hide`, webWidgetSub.hide);
       c.subscribe(`${names.webWidget}.show`, webWidgetSub.show);
       c.subscribe(`${names.webWidget}.update`, webWidgetSub.update);
@@ -209,13 +193,11 @@ describe('mediator', () => {
     const submitTicket = 'ticketSubmissionForm';
     const chat = 'zopimChat';
     const beacon = 'beacon';
-    const ipm = 'ipm';
 
     const names = {
       submitTicket,
       chat,
-      beacon,
-      ipm
+      beacon
     };
 
     beforeEach(() => {
@@ -235,11 +217,6 @@ describe('mediator', () => {
         mockEmailValid = true;
 
         c.broadcast('.onIdentify', params);
-      });
-
-      it('should broadcast ipm.identifying with given params', () => {
-        expect(ipmSub.identifying)
-          .toHaveBeenCalledWith(params);
       });
 
       it('should broadcast beacon.identify with given params', () => {
@@ -394,16 +371,6 @@ describe('mediator', () => {
         expect(launcherSub.show.calls.count())
           .toEqual(0);
       });
-
-      it('should not call launcher show if ipm.isVisible is true', () => {
-        mediator.init({ helpCenter: true }, { helpCenterSignInRequired: true });
-
-        c.broadcast('ipm.onShow');
-        c.broadcast('authentication.onSuccess');
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(0);
-      });
     });
   });
 
@@ -474,117 +441,6 @@ describe('mediator', () => {
     it('should broadcast zopimChat.refreshLocale', () => {
       expect(chatSub.refreshLocale)
         .toHaveBeenCalled();
-    });
-  });
-
- /* ****************************************** *
-  *                     IPM                    *
-  * ****************************************** */
-
-  describe('ipm', () => {
-    const ipm = 'ipm';
-    const launcher = 'launcher';
-    const submitTicket = 'ticketSubmissionForm';
-    const chat = 'zopimChat';
-    const helpCenter = 'helpCenterForm';
-
-    const names = {
-      launcher: launcher,
-      submitTicket: submitTicket,
-      chat: chat,
-      helpCenter: helpCenter,
-      ipm: ipm
-    };
-
-    beforeEach(() => {
-      mockEmailValid = true;
-      initSubscriptionSpies(names);
-      mediator.init({ submitTicket: true, helpCenter: true });
-    });
-
-    describe('.onActivate', () => {
-      it('should not broadcast ipm.activate if an embed is visible', () => {
-        c.broadcast('.onIdentify', {});
-
-        // identify success
-        c.broadcast('identify.onComplete', {});
-
-        // open helpCenter embed
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(0);
-
-        reset(ipmSub.activate);
-
-        c.broadcast('ipm.onActivate');
-        jasmine.clock().tick(2000);
-
-        expect(ipmSub.activate)
-          .not.toHaveBeenCalled();
-      });
-
-      it('should broadcast ipm.activate if an embed is not visible', () => {
-        c.broadcast('.onIdentify', {});
-
-        // identify success
-        c.broadcast('identify.onComplete', {});
-
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast('webWidget.onClose');
-
-        reset(ipmSub.activate);
-
-        jasmine.clock().install();
-        c.broadcast('ipm.onActivate');
-        jasmine.clock().tick(2000);
-
-        expect(ipmSub.activate)
-          .toHaveBeenCalled();
-      });
-    });
-
-    describe('.onClose', () => {
-      it('should broadcast launcher.show', () => {
-        reset(launcherSub.show);
-
-        c.broadcast('ipm.onClose');
-
-        expect(launcherSub.show)
-          .toHaveBeenCalled();
-      });
-
-      describe('when `hideOnClose` option is true', () => {
-        it('should not broadcast launcher.show', () => {
-          c.broadcast('.activate', { hideOnClose: true });
-
-          c.broadcast('ipm.onClose');
-
-          expect(launcherSub.show)
-            .not.toHaveBeenCalled();
-        });
-      });
-
-      describe('when zE.hide() has been called', () => {
-        it('should not broadcast launcher.show', () => {
-          mediator.init({ submitTicket: true, helpCenter: true }, { hideLauncher: true });
-
-          c.broadcast('ipm.onClose');
-
-          expect(launcherSub.show)
-            .not.toHaveBeenCalled();
-        });
-      });
-    });
-
-    describe('.onShow', () => {
-      it('should broadcast launcher.hide', () => {
-        reset(launcherSub.hide);
-
-        c.broadcast('ipm.onShow');
-
-        expect(launcherSub.hide)
-          .toHaveBeenCalled();
-      });
     });
   });
 

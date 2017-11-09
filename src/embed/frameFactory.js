@@ -70,7 +70,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
     preventClose: false
   };
   const params = _.defaultsDeep({}, _params, defaultParams);
-  const isPositionTop = isSettingsTop || params.name === 'ipm';
+  const isPositionTop = isSettingsTop;
   const zIndex = settings.get('zIndex');
   const defaultHideTransition = isPositionTop
                               ? transitionFactory.webWidget.upHide()
