@@ -106,14 +106,14 @@ function init() {
                                                      maxLocaleFallbacks);
 }
 
-function get(path, store = 'webWidget') {
+function get(path) {
   // TODO: Remove this check when web widget customizations are out of beta.
   if (customizationsWhitelist.indexOf(path) > -1 &&
       !webWidgetCustomizations) {
     return _.get(webWidgetStoreDefaults, path, null);
   }
 
-  return store === 'webWidget' ? _.get(webWidgetStore, path, null) : {};
+  return _.get(webWidgetStore, path, null);
 }
 
 function getTranslations() {
