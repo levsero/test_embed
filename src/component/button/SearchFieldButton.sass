@@ -6,10 +6,14 @@
 }
 
 .searchTerm {
-  composes: Arrange-sizeFit u-textSizeBaseMobile u-hsizeAll u-textBody from global;
+  composes: Arrange-sizeFit u-textSizeBaseMobile u-hsizeAll u-textBody u-paddingHT from global;
 }
 
 .container {
   composes: u-cf u-paddingHN u-paddingBN from global;
-  composes: Form-cta--barFullscreen  from '../../styles/components/Form.scss'
+  composes: Form-cta--barFullscreen from '../../styles/components/Form.scss'
+}
+
+.placeholder {
+  composes: Form-placeholder from '../../styles/components/Form.scss'
 }

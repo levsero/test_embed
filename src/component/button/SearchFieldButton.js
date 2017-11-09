@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { locals as styles } from './SearchFieldButton.sass';
 
+import { i18n } from 'service/i18n';
 import { IconFieldButton } from 'component/button/IconFieldButton';
 
 export class SearchFieldButton extends Component {
@@ -18,9 +19,12 @@ export class SearchFieldButton extends Component {
 
   render = () => {
     const fieldClasses = styles.field;
-    const searchTerm = (
-      <span className={styles.searchTerm}>
-        {this.props.searchTerm}
+    const { searchTerm, onClick } = this.props;
+    const displayStyles = searchTerm ? '' : styles.placeholder;
+    const fieldValue = searchTerm || i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help');
+    const searchField = (
+      <span className={`${styles.searchTerm} ${displayStyles}`}>
+        {fieldValue}
       </span>
     );
     const icon = (
@@ -33,8 +37,8 @@ export class SearchFieldButton extends Component {
       <div className={styles.container}>
         <div
           className={fieldClasses}
-          onClick={this.props.onClick}>
-          {searchTerm}
+          onClick={onClick}>
+          {searchField}
           {icon}
         </div>
       </div>
