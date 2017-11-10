@@ -51,9 +51,9 @@ export const webWidgetStyles = `
   ${ChannelChoiceStyles}
   ${ChannelChoiceMenuStyles}
   ${ChannelChoiceDesktopStyles}
+  ${ChannelChoicePopupDesktopStyles}
   ${ChannelChoiceMobileStyles}
   ${ChannelChoicePopupMobileStyles}
-  ${ChannelChoicePopupDesktopStyles}
   ${ChatBoxStyles}
   ${ChatPopupStyles}
   ${ChatContactDetailsPopup}
