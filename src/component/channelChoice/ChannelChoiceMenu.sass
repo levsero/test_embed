@@ -1,0 +1,35 @@
+@import '../../styles/_vars.scss';
+
+.chatBtnDisabled {
+  background-color: $zd-color-white !important;
+  color: $zd-color-aluminum !important;
+
+  svg path {
+    fill: $zd-color-iron !important;
+  }
+}
+
+.iconTalk {
+  padding-right: #{13/$font-size}rem !important;
+
+  svg {
+    height: #{18/$font-size}rem !important;
+    width: #{18/$font-size}rem !important;
+
+    path {
+      stroke: $zd-color-monsoon;
+      fill: none;
+    }
+  }
+}
+
+.buttonTalk {
+  padding-left: #{9/$font-size}rem !important;
+
+  &:hover, &:focus, &:active {
+    svg path {
+      fill: none;
+      stroke: $zd-color-dark-gray;
+    }
+  }
+}

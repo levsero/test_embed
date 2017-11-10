@@ -16,6 +16,7 @@ export class ChannelChoice extends Component {
     onNextClick: PropTypes.func,
     style: PropTypes.object,
     isMobile: PropTypes.bool,
+    talkAvailable: PropTypes.bool,
     updateFrameSize: PropTypes.func
   };
 
@@ -27,6 +28,7 @@ export class ChannelChoice extends Component {
     style: {},
     isMobile: false,
     newDesign: false,
+    talkAvailable: false,
     updateFrameSize: () => {}
   };
 
@@ -43,6 +45,7 @@ export class ChannelChoice extends Component {
         ref='channelChoiceMobile'
         chatOnline={chatOnline}
         formTitleKey={formTitleKey}
+        talkAvailable={this.props.talkAvailable}
         handleNextClick={this.handleNextClick}
         handleCancelClick={onCancelClick}
         newDesign={this.props.newDesign}
@@ -59,6 +62,7 @@ export class ChannelChoice extends Component {
         getFrameDimensions={getFrameDimensions}
         chatOnline={this.props.chatOnline}
         formTitleKey={formTitleKey}
+        talkAvailable={this.props.talkAvailable}
         handleNextClick={this.handleNextClick}
         newDesign={this.props.newDesign}
         hideZendeskLogo={hideZendeskLogo} />

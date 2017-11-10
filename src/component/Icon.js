@@ -34,6 +34,7 @@ const icons = {
   'Icon--reopened-large': require('icons/widget-icon_reopened.svg'),
   'Icon--reopened-small': require('icons/widget-icon_reopened.svg'),
   'Icon--search': require('icons/widget-icon_search.svg'),
+  'Icon--talk': require('icons/widget-icon_channelChoice-talk.svg'),
   'Icon--tick': require('icons/widget-icon_tick.svg'),
   'Icon--zendesk': require('icons/widget-icon_zendesk.svg'),
   'Icon--sound-on': require('icons/widget-icon_sound_on.svg'),
