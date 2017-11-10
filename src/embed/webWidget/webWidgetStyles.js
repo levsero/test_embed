@@ -5,7 +5,6 @@ import ButtonIconStyles from 'component/button/ButtonIcon.sass';
 import ButtonGroupStyles from 'component/button/ButtonGroup.sass';
 import ButtonPillStyles from 'component/button/ButtonPill.sass';
 import ButtonSecondaryStyles from 'component/button/ButtonSecondary.sass';
-import ChannelChoiceStyles from 'component/channelChoice/ChannelChoice.sass';
 import ChannelChoiceMenuStyles from 'component/channelChoice/ChannelChoiceMenu.sass';
 import ChannelChoiceDesktopStyles from 'component/channelChoice/ChannelChoiceDesktop.sass';
 import ChannelChoicePopupMobileStyles from 'component/channelChoice/ChannelChoicePopupMobile.sass';
@@ -48,7 +47,6 @@ export const webWidgetStyles = `
   ${ButtonGroupStyles}
   ${ButtonPillStyles}
   ${ButtonSecondaryStyles}
-  ${ChannelChoiceStyles}
   ${ChannelChoiceMenuStyles}
   ${ChannelChoiceDesktopStyles}
   ${ChannelChoicePopupDesktopStyles}

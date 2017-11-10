@@ -21,13 +21,9 @@ export class ChannelChoiceMenu extends Component {
   };
 
   handleChatClick = () => {
-    if (this.props.chatOnline) {
-      return this.handleNextClick('chat');
-    }
-
-    // Stop onClick from propagating if selection is disabled
-    // Stopping onClick will prevent container from hiding channelChoice
-    return (e) => e.stopPropagation();
+    return this.props.chatOnline
+         ? this.handleNextClick('chat')
+         : (e) => e.stopPropagation(); // prevent container from hiding channelChoice
   }
 
   handleNextClick = (embed) => {

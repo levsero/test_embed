@@ -24,21 +24,14 @@ describe('ChannelChoiceMenu component', () => {
         }
       },
       'service/i18n': {
-        i18n: {
-          init: noop,
-          setLocale: noop,
-          isRTL: noop,
-          t: _.identity
-        }
+        i18n: { t: _.identity }
       }
     });
 
     ChannelChoiceMenu = requireUncached(channelChoiceMenuPath).ChannelChoiceMenu;
-    jasmine.clock().install();
   });
 
   afterEach(() => {
-    jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });
@@ -76,9 +69,25 @@ describe('ChannelChoiceMenu component', () => {
         componentNode = ReactDOM.findDOMNode(component);
       });
 
-      it('should have chat disabled styles', () => {
+      it('has chat disabled styles', () => {
         expect(componentNode.querySelector('.chatBtnDisabled'))
           .not.toBeNull();
+      });
+    });
+
+    describe('when chatOnline is true', () => {
+      beforeEach(() => {
+        component = domRender(
+          <ChannelChoiceMenu
+            chatOnline={true} />
+        );
+
+        componentNode = ReactDOM.findDOMNode(component);
+      });
+
+      it('does not have chat disabled styles', () => {
+        expect(componentNode.querySelector('.chatBtnDisabled'))
+          .toBeNull();
       });
     });
   });
@@ -129,7 +138,7 @@ describe('ChannelChoiceMenu component', () => {
         component.handleChatClick();
       });
 
-      it('should call handleNextClick with `chat`', () => {
+      it('calls handleNextClick with `chat`', () => {
         expect(component.handleNextClick)
           .toHaveBeenCalledWith('chat');
       });
@@ -150,13 +159,15 @@ describe('ChannelChoiceMenu component', () => {
         handler = component.handleChatClick();
       });
 
-      it('should not call handleNextClick', () => {
+      it('does not call handleNextClick', () => {
         expect(component.handleNextClick)
           .not.toHaveBeenCalled();
       });
 
       it('returns an anonymous function that calls e.stopPropagation', () => {
-        handler({ stopPropagation: stopPropagationSpy });
+        const mockEvent = { stopPropagation: stopPropagationSpy };
+
+        handler(mockEvent);
 
         expect(stopPropagationSpy)
           .toHaveBeenCalled();

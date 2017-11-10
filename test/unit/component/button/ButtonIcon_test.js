@@ -47,7 +47,7 @@ describe('ButtonIcon', () => {
         buttonNode = ReactDOM.findDOMNode(button);
       });
 
-      it('should have IE classes', () => {
+      it('has IE classes', () => {
         expect(buttonNode.className)
           .toContain('containerIE');
       });
@@ -61,7 +61,7 @@ describe('ButtonIcon', () => {
         buttonNode = ReactDOM.findDOMNode(button);
       });
 
-      it('should not have IE classes', () => {
+      it('does not have IE classes', () => {
         expect(buttonNode.className)
           .not.toContain('containerIE');
       });
@@ -74,7 +74,7 @@ describe('ButtonIcon', () => {
         buttonNode = ReactDOM.findDOMNode(button);
       });
 
-      it('should have actionable class', () => {
+      it('has actionable class', () => {
         expect(buttonNode.className)
           .toContain('containerActionable');
       });
@@ -87,7 +87,7 @@ describe('ButtonIcon', () => {
         buttonNode = ReactDOM.findDOMNode(button);
       });
 
-      it('should not have actionable class', () => {
+      it('has actionable class', () => {
         expect(buttonNode.className)
           .not.toContain('containerActionable');
       });
@@ -100,7 +100,7 @@ describe('ButtonIcon', () => {
         buttonNode = ReactDOM.findDOMNode(button);
       });
 
-      it('should add them to the icon', () => {
+      it('adds them to the icon', () => {
         expect(buttonNode.querySelector('.iconClasses'))
           .not.toBeNull();
       });

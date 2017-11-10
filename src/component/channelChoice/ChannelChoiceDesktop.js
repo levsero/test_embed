@@ -20,7 +20,6 @@ export class ChannelChoiceDesktop extends Component {
 
   static defaultProps = {
     hideZendeskLogo: false,
-    getFrameDimensions: () => {},
     talkAvailable: false
   };
 
