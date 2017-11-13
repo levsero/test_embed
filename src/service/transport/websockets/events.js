@@ -1,9 +1,22 @@
+import _ from 'lodash';
+
 const socketTalkEmbeddableConfigEvent = 'socket.embeddableConfig';
+const socketTalkAgentAvailability = 'socket.agentAvailability';
 
 export function talkEmbedableConfigEventToAction(socket, reduxStore) {
   socket.on(socketTalkEmbeddableConfigEvent, (embeddableConfig) => {
-    const actionType = `talk/${socketTalkEmbeddableConfigEvent}`;
+    const configActionType = `talk/${socketTalkEmbeddableConfigEvent}`;
+    const availabilityActionType = `talk/${socketTalkAgentAvailability}`;
 
-    reduxStore.dispatch({ type: actionType, payload: embeddableConfig });
+    reduxStore.dispatch({ type: configActionType, payload: _.omit(embeddableConfig, 'agentAvailability') });
+    reduxStore.dispatch({ type: availabilityActionType, payload: embeddableConfig.agentAvailability });
+  });
+}
+
+export function talkAgentAvailability(socket, reduxStore) {
+  socket.on(socketTalkAgentAvailability, (availability) => {
+    const type = `talk/${socketTalkAgentAvailability}`;
+
+    reduxStore.dispatch({ type, payload: availability.agentAvailability });
   });
 }
