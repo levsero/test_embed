@@ -641,7 +641,7 @@ function setupChat(config, store) {
 }
 
 function setupTalk(zendeskSubdomain, config, store) {
-  const socket = socketio.connect(zendeskSubdomain, config.group);
+  const socket = socketio.connect(config.serviceUrl, zendeskSubdomain, config.group);
 
   socketio.mapEventsToActions(socket, store);
 }

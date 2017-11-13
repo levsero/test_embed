@@ -34,17 +34,15 @@ describe('socketio', () => {
 
   describe('connect', () => {
     let args, socket;
-    const subdomain = 'foocustomer';
-    const keyword = 'Support';
 
     beforeEach(() => {
-      socket = socketio.connect(subdomain, keyword);
+      socket = socketio.connect('talk.com', 'foocustomer', 'Support');
       args = ioSpy.calls.mostRecent().args;
     });
 
-    it('calls io with the correct url', () => {
+    it('calls io with the correct service url', () => {
       expect(args[0])
-        .toBe('http://talkintegration-pod999.zendesk-staging.com');
+        .toBe('talk.com');
     });
 
     it('calls io with the correct options', () => {

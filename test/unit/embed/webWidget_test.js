@@ -855,16 +855,16 @@ describe('embed.webWidget', () => {
 
     describe('setupTalk', () => {
       beforeEach(() => {
-        const talkConfig = { group: 'Support' };
+        const talkConfig = { serviceUrl: 'talk.com', group: 'Support' };
 
         webWidget.create('', { talk: talkConfig }, 'reduxStore');
 
         faythe = webWidget.get();
       });
 
-      it('calls socketio.connect with subdomain and group', () => {
+      it('calls socketio.connect with serviceUrl, subdomain and group', () => {
         expect(socketioConnectSpy)
-          .toHaveBeenCalledWith('customerfoo', 'Support');
+          .toHaveBeenCalledWith('talk.com', 'customerfoo', 'Support');
       });
 
       it('calls socketio.mapEventsToActions with the socket and redux store', () => {
