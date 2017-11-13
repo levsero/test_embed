@@ -396,6 +396,17 @@ describe('http', () => {
     });
   });
 
+  describe('#getZendeskSubdomain', () => {
+    beforeEach(() => {
+      http.init({ zendeskHost: 'foocustomer.zendesk.com' });
+    });
+
+    it('returns the zendesk subdomain', () => {
+      expect(http.getZendeskSubdomain())
+        .toBe('foocustomer');
+    });
+  });
+
   describe('#sendWithMeta', () => {
     let payload,
       config;
