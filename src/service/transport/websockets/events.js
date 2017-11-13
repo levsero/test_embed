@@ -13,7 +13,7 @@ export function talkEmbedableConfigEventToAction(socket, reduxStore) {
   });
 }
 
-export function talkAgentAvailability(socket, reduxStore) {
+export function talkAgentAvailabilityEventToAction(socket, reduxStore) {
   socket.on(socketTalkAgentAvailability, (availability) => {
     const type = `talk/${socketTalkAgentAvailability}`;
 
