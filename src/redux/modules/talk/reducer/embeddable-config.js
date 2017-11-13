@@ -4,7 +4,7 @@ const initialState = {
   averageWaitTimeSetting: null,
   capability: '0',
   enabled: 'false',
-  groupName: 'Support',
+  groupName: '',
   keywords: '',
   phoneNumber: ''
 };

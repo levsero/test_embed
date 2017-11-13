@@ -1,8 +1,6 @@
 import { TALK_AGENT_AVAILABILITY } from '../talk-action-types';
 
-const initialState = {
-  available: false
-};
+const initialState = false;
 
 const agentAvailbility = (state = initialState, action) => {
   switch (action.type) {
