@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 const socketTalkEmbeddableConfigEvent = 'socket.embeddableConfig';
-const socketTalkAgentAvailability = 'socket.agentAvailability';
+const socketTalkAgentAvailability = 'socket.availability';
 
 export function talkEmbedableConfigEventToAction(socket, reduxStore) {
   socket.on(socketTalkEmbeddableConfigEvent, (embeddableConfig) => {

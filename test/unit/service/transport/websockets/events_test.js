@@ -64,7 +64,7 @@ describe('events', () => {
       it('dispatches an agent availability action', () => {
         expect(mockReduxStore.dispatch.calls.argsFor(1)[0])
           .toEqual({
-            type: 'talk/socket.agentAvailability',
+            type: 'talk/socket.availability',
             payload: false
           });
       });
@@ -78,7 +78,7 @@ describe('events', () => {
 
     it('calls socket.on with the event name and a callback', () => {
       expect(mockSocket.on)
-        .toHaveBeenCalledWith('socket.agentAvailability', jasmine.any(Function));
+        .toHaveBeenCalledWith('socket.availability', jasmine.any(Function));
     });
 
     describe('when the event is fired', () => {
@@ -93,7 +93,7 @@ describe('events', () => {
       it('dispatches an agent availability action', () => {
         expect(mockReduxStore.dispatch)
           .toHaveBeenCalledWith({
-            type: 'talk/socket.agentAvailability',
+            type: 'talk/socket.availability',
             payload: true
           });
       });
