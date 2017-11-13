@@ -7,7 +7,7 @@ const talkServicePath = '/talk_embeddables_service/socket.io';
 
 function connect(subdomain) {
   return io(talkServiceUrl, {
-    query: `subdomain=${subdomain}`,
+    query: `subdomain=${subdomain}&keyword=Support`,
     path: talkServicePath
   });
 }

@@ -153,6 +153,10 @@ function getZendeskHost() {
   return config.zendeskHost;
 }
 
+function getZendeskSubdomain() {
+  return config.zendeskHost.split('.')[0];
+}
+
 function automaticAnswersApiRequest(payload, formData = {}) {
   if (!config.zendeskHost) {
     throw 'Missing zendeskHost config param.';
@@ -185,5 +189,6 @@ export const http = {
   getImage: getImage,
   get: send,
   getZendeskHost: getZendeskHost,
+  getZendeskSubdomain,
   automaticAnswersApiRequest: automaticAnswersApiRequest
 };

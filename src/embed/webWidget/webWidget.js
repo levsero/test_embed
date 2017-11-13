@@ -155,14 +155,13 @@ function create(name, config = {}, reduxStore = {}) {
     helpCenterSettings.config,
     rootConfig
   );
-  const zendeskHost = http.getZendeskHost();
 
   if (chatAvailable) {
     setupChat(config.zopimChat, reduxStore);
   }
 
   if (talkAvailable) {
-    setupTalk(zendeskHost, config.talk, reduxStore);
+    setupTalk(http.getZendeskSubdomain(), config.talk, reduxStore);
   }
 
   if (isMobileBrowser()) {
@@ -235,7 +234,7 @@ function create(name, config = {}, reduxStore = {}) {
         submitTicketConfig={submitTicketSettings.config}
         submitTicketSender={submitTicketSettings.submitTicketSender}
         viaId={settings.get('viaId')}
-        zendeskHost={zendeskHost}
+        zendeskHost={http.getZendeskHost()}
         zopimOnNext={zopimOnNext} />
     </Frame>
   );
@@ -641,8 +640,8 @@ function setupChat(config, store) {
   });
 }
 
-function setupTalk(zendeskHost, config, store) {
-  const socket = socketio.connect(zendeskHost.split('.zendesk')[0]);
+function setupTalk(zendeskSubdomain, config, store) {
+  const socket = socketio.connect(zendeskSubdomain);
 
   socketio.mapEventsToActions(socket, store);
 }

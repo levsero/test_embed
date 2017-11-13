@@ -1,6 +1,13 @@
 import { TALK_EMBEDDABLE_CONFIG } from '../talk-action-types';
 
-const initialState = {};
+const initialState = {
+  averageWaitTimeSetting: null,
+  capability: '0',
+  enabled: 'false',
+  groupName: 'Support',
+  keywords: '',
+  phoneNumber: ''
+};
 
 const embeddableConfig = (state = initialState, action) => {
   switch (action.type) {
