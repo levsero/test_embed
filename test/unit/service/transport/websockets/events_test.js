@@ -1,5 +1,5 @@
 describe('events', () => {
-  let talkEmbedableConfigEventToAction,
+  let talkEmbeddableConfigEventToAction,
     talkAgentAvailabilityEventToAction,
     mockSocket,
     mockReduxStore;
@@ -17,7 +17,7 @@ describe('events', () => {
     });
 
     mockery.registerAllowable(eventsPath);
-    talkEmbedableConfigEventToAction = requireUncached(eventsPath).talkEmbedableConfigEventToAction;
+    talkEmbeddableConfigEventToAction = requireUncached(eventsPath).talkEmbeddableConfigEventToAction;
     talkAgentAvailabilityEventToAction = requireUncached(eventsPath).talkAgentAvailabilityEventToAction;
   });
 
@@ -26,9 +26,9 @@ describe('events', () => {
     mockery.disable();
   });
 
-  describe('talkEmbedableConfigEventToAction', () => {
+  describe('talkEmbeddableConfigEventToAction', () => {
     beforeEach(() => {
-      talkEmbedableConfigEventToAction(mockSocket, mockReduxStore);
+      talkEmbeddableConfigEventToAction(mockSocket, mockReduxStore);
     });
 
     it('calls socket.on with the event name and a callback', () => {

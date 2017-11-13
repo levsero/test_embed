@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 
-import { talkEmbedableConfigEventToAction,
+import { talkEmbeddableConfigEventToAction,
          talkAgentAvailabilityEventToAction } from './events';
 
 const talkServiceUrl = 'http://talkintegration-pod999.zendesk-staging.com';
@@ -14,7 +14,7 @@ function connect(subdomain, keyword) {
 }
 
 function mapEventsToActions(socket, reduxStore) {
-  talkEmbedableConfigEventToAction(socket, reduxStore);
+  talkEmbeddableConfigEventToAction(socket, reduxStore);
   talkAgentAvailabilityEventToAction(socket, reduxStore);
 }
 

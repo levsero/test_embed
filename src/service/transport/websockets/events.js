@@ -3,7 +3,7 @@ import _ from 'lodash';
 const socketTalkEmbeddableConfigEvent = 'socket.embeddableConfig';
 const socketTalkAgentAvailability = 'socket.availability';
 
-export function talkEmbedableConfigEventToAction(socket, reduxStore) {
+export function talkEmbeddableConfigEventToAction(socket, reduxStore) {
   socket.on(socketTalkEmbeddableConfigEvent, (embeddableConfig) => {
     const configActionType = `talk/${socketTalkEmbeddableConfigEvent}`;
     const availabilityActionType = `talk/${socketTalkAgentAvailability}`;

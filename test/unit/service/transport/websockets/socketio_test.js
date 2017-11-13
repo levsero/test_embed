@@ -2,7 +2,7 @@ describe('socketio', () => {
   let socketio,
     ioSpy,
     mockIoReturnValue,
-    talkEmbedableConfigEventToActionSpy,
+    talkEmbeddableConfigEventToActionSpy,
     talkAgentAvailabilityEventToActionSpy;
 
   const socketioPath = buildSrcPath('service/transport/websockets/socketio');
@@ -12,13 +12,13 @@ describe('socketio', () => {
 
     mockIoReturnValue = 'socket';
     ioSpy = jasmine.createSpy('io').and.returnValue(mockIoReturnValue);
-    talkEmbedableConfigEventToActionSpy = jasmine.createSpy('talkEmbedableConfigEventToAction');
+    talkEmbeddableConfigEventToActionSpy = jasmine.createSpy('talkEmbeddableConfigEventToAction');
     talkAgentAvailabilityEventToActionSpy = jasmine.createSpy('talkAgentAvailabilityEventToAction');
 
     initMockRegistry({
       'socket.io-client': ioSpy,
       './events': {
-        talkEmbedableConfigEventToAction: talkEmbedableConfigEventToActionSpy,
+        talkEmbeddableConfigEventToAction: talkEmbeddableConfigEventToActionSpy,
         talkAgentAvailabilityEventToAction: talkAgentAvailabilityEventToActionSpy
       }
     });
@@ -69,8 +69,8 @@ describe('socketio', () => {
       socketio.mapEventsToActions(socket, reduxStore);
     });
 
-    it('calls talkEmbedableConfigEventToAction with socket and reduxStore', () => {
-      expect(talkEmbedableConfigEventToActionSpy)
+    it('calls talkEmbeddableConfigEventToAction with socket and reduxStore', () => {
+      expect(talkEmbeddableConfigEventToActionSpy)
         .toHaveBeenCalledWith(socket, reduxStore);
     });
 
