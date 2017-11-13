@@ -3,10 +3,12 @@ import rootReducer from './root/reducer/root';
 
 import base from './base/reducer';
 import chat from './chat/reducer';
+import talk from './talk/reducer';
 
 const combinedReducers = combineReducers({
   base,
-  chat
+  chat,
+  talk
 });
 
 export default function reducer(state, action) {
