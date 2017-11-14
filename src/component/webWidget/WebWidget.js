@@ -135,11 +135,15 @@ class WebWidget extends Component {
 
   getActiveComponent = () => this.props.activeEmbed;
 
-  getRootComponent = () => this.refs[this.props.activeEmbed];
+  getRootComponent = () => {
+    const component = this.refs[this.props.activeEmbed];
+
+    return component.getWrappedInstance ? component.getWrappedInstance() : component;
+  };
 
   getSubmitTicketComponent = () => this.refs[submitTicket];
 
-  getChatComponent = () => this.refs[chat].refs.wrappedInstance;
+  getChatComponent = () => this.refs[chat].getWrappedInstance();
 
   getHelpCenterComponent = () => this.refs[helpCenter];
 
