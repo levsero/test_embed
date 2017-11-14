@@ -25,6 +25,7 @@ import ChatStyles from 'component/chat/Chat.sass';
 import ContainerStyles from 'component/container/Container.sass';
 import DropdownStyles from 'component/field/Dropdown.sass';
 import DropdownOptionStyles from 'component/field/DropdownOption.sass';
+import FieldStyles from 'component/field/Field.sass';
 import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.sass';
 import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.sass';
 import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.sass';
@@ -33,6 +34,8 @@ import IconFieldButtonStyles from 'component/button/IconFieldButton.sass';
 import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.sass';
 import MessageBubbleStyles from 'component/chat/MessageBubble.sass';
 import SearchFieldButtonStyles from 'component/button/SearchFieldButton.sass';
+import SearchFieldStyles from 'component/field/SearchField.sass';
+import SearchInputStyles from 'component/field/SearchInput.sass';
 import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.sass';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.sass';
 
@@ -67,6 +70,7 @@ export const webWidgetStyles = `
   ${ContainerStyles}
   ${DropdownStyles}
   ${DropdownOptionStyles}
+  ${FieldStyles}
   ${HelpCenterArticleStyles}
   ${HelpCenterDesktopStyles}
   ${HelpCenterMobileStyles}
@@ -75,6 +79,8 @@ export const webWidgetStyles = `
   ${LoadingEllipsesStyles}
   ${MessageBubbleStyles}
   ${SearchFieldButtonStyles}
+  ${SearchFieldStyles}
+  ${SearchInputStyles}
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
 `;

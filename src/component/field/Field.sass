@@ -1,0 +1,52 @@
+@import '../../styles/_vars.scss';
+
+.field {
+  composes: u-isSelectable u-posRelative from global;
+  composes: Form-field from '../../styles/components/Form.scss';
+}
+
+.focused {
+  composes: Form-field--focused from '../../styles/components/Form.scss';
+}
+
+.landscape {
+  composes: Form-field--small from '../../styles/components/Form.scss';
+}
+
+.invalid {
+  composes: Form-field--invalid from '../../styles/components/Form.scss';
+}
+
+.invalidFocused {
+  composes: Form-field--invalidFocused from '../../styles/components/Form.scss';
+}
+
+.mobile {
+  composes: is-mobile from global;
+}
+
+.label {
+  composes: u-textXHeight from global;
+  composes: Form-fieldLabel from '../../styles/components/Form.scss';
+}
+
+.labelPortrait {
+  composes: u-textSize15 from global;
+}
+
+.labelLandscape {
+  composes: u-textSizeSml from global;
+}
+
+.container {
+  composes: Form-fieldContainer from '../../styles/components/Form.scss';
+}
+
+.labelContainer {
+  composes: u-block from global;
+  composes: Form-fieldContainer from '../../styles/components/Form.scss';
+}
+
+.fieldInputMobile {
+  composes: u-textSizeBaseMobile from global;
+}

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import { IconFieldButton } from 'component/button/IconFieldButton';
 import { SearchInput } from 'component/field/SearchInput';
 import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { Icon } from 'component/Icon';
+import { locals as styles } from './SearchField.sass';
 
 export class SearchField extends Component {
   static propTypes = {
@@ -113,10 +113,8 @@ export class SearchField extends Component {
   }
 
   renderSearchIcon = () => {
-    const searchInputFieldIconClasses = classNames({
-      'Arrange-sizeFit u-isActionable u-paddingHN': true,
-      'u-userTextColor u-userFillColor': this.state.focused
-    });
+    const focusedStyle = this.state.focused ? styles.searchIconFocused : '';
+    const searchInputFieldIconClasses = `${styles.searchIcon} ${focusedStyle}`;
 
     return (
       <Icon
@@ -128,16 +126,12 @@ export class SearchField extends Component {
 
   renderSearchLoadingIcon = () => {
     const { isLoading } = this.props;
-    const loadingClasses = classNames({
-      'u-paddingRS': true,
-      'u-isHidden': !isLoading
-    });
-    const searchInputFieldIconClasses = classNames({
-      'u-isHidden': isLoading
-    });
+    const visibilityStyle = !isLoading ? styles.hidden : '';
+    const loadingClasses = `${styles.searchLoadingIcon} ${visibilityStyle}`;
+    const searchInputFieldIconClasses = isLoading ? styles.hidden : '';
 
     return (
-      <div className='Arrange-sizeFit u-isActionable'>
+      <div className={styles.searchLoadingIconContainer}>
         <LoadingEllipses className={loadingClasses} />
         <IconFieldButton
           className={searchInputFieldIconClasses}
@@ -150,17 +144,12 @@ export class SearchField extends Component {
 
   renderSearchClear = () => {
     const { fullscreen, isLoading } = this.props;
-    const loadingClasses = classNames({
-      'u-isHidden': !isLoading
-    });
-    const clearInputClasses = classNames({
-      'Icon Icon--clearInput': true,
-      'u-isActionable u-textCenter u-marginRS': true,
-      'u-isHidden': !(fullscreen && !isLoading && this.state.searchInputVal)
-    });
+    const loadingClasses = !isLoading ? styles.hidden : '';
+    const visibilityStyle = !(fullscreen && !isLoading && this.state.searchInputVal) ? styles.hidden : '';
+    const clearInputClasses = `${styles.clearInput} ${visibilityStyle}`;
 
     return (
-      <div className='Arrange-sizeFit u-isActionable'>
+      <div className={styles.clearInputContainer}>
         <LoadingEllipses className={loadingClasses} />
         <Icon
           onClick={this.clearInput}
@@ -173,7 +162,7 @@ export class SearchField extends Component {
 
   renderMobileIcons = () => {
     return (
-      <div className="u-displayInherit">
+      <div className={styles.mobileIconsContainer}>
         {this.renderSearchClear()}
         {this.renderSearchIconButton()}
       </div>
@@ -182,18 +171,20 @@ export class SearchField extends Component {
 
   render = () => {
     const { fullscreen, hasSearched } = this.props;
-    const searchContainerClasses = classNames({
-      'u-cf': true,
-      'u-paddingTM': hasSearched,
-      'u-marginBL': !hasSearched,
-      'u-paddingHN u-paddingBN Form-cta--barFullscreen': fullscreen
-    });
-    const searchInputClasses = classNames({
-      'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
-      'u-paddingVN u-paddingRN': true,
-      'Form-field--focused': this.state.focused,
-      'is-mobile': fullscreen
-    });
+    const fullscreenStyle = fullscreen ? styles.fullscreen : '';
+    const searchedStyle = hasSearched ? styles.searched : styles.notSearched;
+    const searchContainerClasses = `
+      ${styles.searchContainer}
+      ${searchedStyle}
+      ${fullscreenStyle}
+    `;
+    const inputFullscreenStyle = fullscreen ? styles.searchInputFullscreen : '';
+    const focusedStyle = this.state.focused ? styles.focused : '';
+    const searchInputClasses = `
+      ${styles.searchInput}
+      ${focusedStyle}
+      ${inputFullscreenStyle}
+    `;
 
     const searchIcons = fullscreen
                       ? this.renderMobileIcons()

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
-import classNames from 'classnames';
 
+import { locals as styles } from './Field.sass';
 import { isMobileBrowser,
          isLandscape,
          isIos } from 'utility/devices';
@@ -28,7 +28,6 @@ export class Field extends Component {
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
-    options: PropTypes.array,
     pattern: PropTypes.string,
     label: PropTypes.string,
     placeholder: PropTypes.string,
@@ -48,7 +47,6 @@ export class Field extends Component {
     onBlur: () => {},
     onChange: () => {},
     onFocus: () => {},
-    options: [],
     pattern: '',
     label: '',
     placeholder: '',
@@ -108,21 +106,6 @@ export class Field extends Component {
     }
   }
 
-  renderDropdownArrow = () => {
-    const landscape = (isMobileBrowser() && isLandscape());
-    const dropdownClasses = classNames({
-      'Form-fieldArrows': true,
-      'Form-fieldArrows--small': landscape
-    });
-
-    return (
-      <div className={dropdownClasses}>
-        <i className='Icon--dropdownArrow' />
-        <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />
-      </div>
-    );
-  }
-
   renderInput = () => {
     const sharedProps = {
       onChange: this.onChange,
@@ -131,9 +114,7 @@ export class Field extends Component {
       ref: 'field',
       value: this.props.value
     };
-    const fieldInputClasses = classNames({
-      'u-textSizeBaseMobile': isMobileBrowser()
-    });
+    const fieldInputClasses = isMobileBrowser() ? styles.fieldInputMobile : '';
     let fieldProps = {
       name: this.props.name,
       value: this.props.value,
@@ -175,37 +156,41 @@ export class Field extends Component {
   render = () => {
     const landscape = (isMobileBrowser() && isLandscape());
     const portrait = (isMobileBrowser() && !isLandscape());
-    const isDropdown = this.props.options.length > 0;
     const isInvalid = this.state.hasError && this.state.blurred;
-    const fieldClasses = classNames({
-      'Form-field u-isSelectable u-posRelative': true,
-      'Form-field--invalid': isInvalid,
-      'Form-field--focused': this.state.focused,
-      'Form-field--invalidFocused': isInvalid && this.state.focused,
-      'Form-field--dropdown': isDropdown,
-      'is-mobile': isMobileBrowser(),
-      'Form-field--small': landscape
-    });
-    const fieldLabelClasses = classNames({
-      'Form-fieldLabel u-textXHeight': true,
-      'u-textSize15': portrait,
-      'u-textSizeSml': landscape,
-      [this.props.labelClasses]: true
-    });
+    const orientationStyle = landscape ? styles.landscape : '';
+    const invalidStyle = isInvalid ? styles.invalid : '';
+    const focusedStyle = this.state.focused ? styles.focused : '';
+    const invalidFocusedStyle = isInvalid && this.state.focused ? styles.invalidFocused : '';
+    const deviceStyle = isMobileBrowser() ? styles.mobile : '';
+    const fieldClasses = `
+      ${styles.field}
+      ${invalidStyle}
+      ${focusedStyle}
+      ${invalidFocusedStyle}
+      ${deviceStyle}
+      ${orientationStyle}
+    `;
+    let labelOrientationStyle = landscape ? styles.labelLandscape : '';
 
-    const dropdownArrow = isDropdown ? this.renderDropdownArrow() : null;
+    labelOrientationStyle = portrait ? styles.labelPortrait : '';
+
+    const fieldLabelClasses = `
+      ${styles.label}
+      ${labelOrientationStyle}
+      ${this.props.labelClasses}
+    `;
+
     const showRequiredLabel = this.props.required && !_.isEmpty(this.props.label);
 
     return (
-      <div className={`Form-fieldContainer ${this.props.fieldContainerClasses}`}>
-        <label className='Form-fieldContainer u-block'>
+      <div className={`${styles.container} ${this.props.fieldContainerClasses}`}>
+        <label className={styles.labelContainer}>
           <div className={fieldLabelClasses}>
             {this.props.label}
             {showRequiredLabel ? '*' : ''}
           </div>
           <div className={`${fieldClasses} ${this.props.fieldClasses}`}>
             {this.renderInput()}
-            {dropdownArrow}
           </div>
         </label>
         {this.renderDescription()}

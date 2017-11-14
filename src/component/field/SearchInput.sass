@@ -1,0 +1,14 @@
+@import '../../styles/_vars.scss';
+
+.container {
+  composes: Arrange-sizeFill u-vsizeAll u-posRelative from global;
+}
+
+.searchInput {
+  composes: Arrange-sizeFill u-paddingHT from global;
+  composes: Form-placeholder from '../../styles/components/Form.scss';
+}
+
+.fullscreen {
+  composes: u-textSizeBaseMobile from global;
+}

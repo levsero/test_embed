@@ -1,0 +1,63 @@
+@import '../../styles/_vars.scss';
+
+.searchIcon {
+  composes: Arrange-sizeFit u-isActionable u-paddingHN from global;
+}
+
+.searchIconFocused {
+  composes: u-userTextColor u-userFillColor from global;
+}
+
+.searchLoadingIcon {
+  composes: u-paddingRS from global;
+}
+
+.hidden {
+  composes: u-isHidden from global;
+}
+
+.searchLoadingIconContainer {
+  composes: Arrange-sizeFit u-isActionable from global;
+}
+
+.clearInput {
+  composes: u-isActionable u-textCenter u-marginRS from global;
+  composes: Icon Icon--clearInput from '../../styles/components/Icon.scss';
+}
+
+.clearInputContainer {
+  composes: Arrange-sizeFit u-isActionable from global;
+}
+
+.mobileIconsContainer {
+  composes: u-displayInherit from global;
+}
+
+.searchContainer {
+  composes: u-cf from global;
+}
+
+.searched {
+  composes: u-paddingTM from global;
+}
+
+.notSearched {
+  composes: u-marginBL from global;
+}
+
+.fullscreen {
+  composes: u-paddingHN u-paddingBN Form-cta--barFullscreen from global;
+}
+
+.searchInputFullscreen {
+  composes: is-mobile from global;
+}
+
+.searchInput {
+  composes: Arrange Arrange--middle u-isSelectable u-paddingVN u-paddingRN from global;
+  composes: Form-field Form-field--search from '../../styles/components/Form.scss';
+}
+
+.focused {
+  composes: Form-field--focused from '../../styles/components/Form.scss';
+}
