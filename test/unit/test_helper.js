@@ -74,6 +74,23 @@ global.scrollContainerComponent = () => class extends Component {
   }
 };
 
+global.connectedComponent = (component) => class extends Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+  getWrappedInstance = () => this.refs.wrappedInstance;
+  render() {
+    const child = React.cloneElement(component, { ref: 'wrappedInstance' });
+
+    return (
+      <div>
+        {child}
+      </div>
+    );
+  }
+};
+
 global.shallowRender = (component) => {
   const renderer = TestUtils.createRenderer();
 

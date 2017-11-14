@@ -68,20 +68,6 @@ describe('WebWidget component', () => {
       }
     }
 
-    class MockChatReduxWrapper extends Component {
-      constructor() {
-        super();
-        this.state = {};
-      }
-      render() {
-        return (
-          <div>
-            <MockChat ref='wrappedInstance' />
-          </div>
-        );
-      }
-    }
-
     initMockRegistry({
       'React': React,
       'component/container/Container': {
@@ -93,10 +79,10 @@ describe('WebWidget component', () => {
           }
         }
       },
-      'component/chat/Chat': MockChatReduxWrapper,
       'component/helpCenter/HelpCenter': {
         HelpCenter: MockHelpCenter
       },
+      'component/chat/Chat': connectedComponent(<MockChat />),
       'component/submitTicket/SubmitTicket': {
         SubmitTicket: MockSubmitTicket
       },
