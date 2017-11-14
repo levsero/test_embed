@@ -81,7 +81,6 @@ class HelpCenter extends Component {
       activeArticle: {},
       articles: [],
       articleViewActive: false,
-      chatOnline: false,
       hasContextualSearched: false,
       hasSearched: false,
       previousSearchTerm: '',
@@ -308,11 +307,9 @@ class HelpCenter extends Component {
   }
 
   handleNextClick = (e) => {
-    const chatOnline = this.state.chatOnline || this.props.chatOnline;
-
     e.preventDefault();
 
-    if (this.props.channelChoice && chatOnline) {
+    if (this.props.channelChoice && this.props.chatOnline) {
       setTimeout(() => this.setChannelChoiceShown(true), 0);
     } else {
       this.props.onNextClick();
@@ -347,10 +344,6 @@ class HelpCenter extends Component {
 
   resetState = () => {
     this.refs.helpCenterMobile.resetState();
-  }
-
-  setChatOnline = (chatOnline) => {
-    this.setState({ chatOnline });
   }
 
   handleArticleClick = (articleIndex, e) => {
@@ -453,13 +446,12 @@ class HelpCenter extends Component {
   renderHelpCenterDesktop = (buttonLabel) => {
     const shadowVisible = this.state.articleViewActive ||
                           this.state.articles.length > minimumSearchResults;
-    const chatOnline = this.state.chatOnline || this.props.chatOnline;
 
     return (
       <HelpCenterDesktop
         ref='helpCenterDesktop'
         notification={this.props.notification}
-        chatOnline={chatOnline}
+        chatOnline={this.props.chatOnline}
         getFrameDimensions={this.props.getFrameDimensions}
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
@@ -487,8 +479,6 @@ class HelpCenter extends Component {
   }
 
   renderHelpCenterMobile = (buttonLabel) => {
-    const chatOnline = this.state.chatOnline || this.props.chatOnline;
-
     return (
       <HelpCenterMobile
         ref='helpCenterMobile'
@@ -499,7 +489,7 @@ class HelpCenter extends Component {
         onNextClick={this.props.onNextClick}
         newDesign={this.props.newDesign}
         showNextButton={this.props.showNextButton}
-        chatOnline={chatOnline}
+        chatOnline={this.props.chatOnline}
         channelChoice={this.state.channelChoiceShown}
         talkAvailable={this.props.talkAvailable}
         articleViewActive={this.state.articleViewActive}
@@ -520,7 +510,7 @@ class HelpCenter extends Component {
 
     if (this.props.channelChoice) {
       buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
-    } else if (this.state.chatOnline || this.props.chatOnline) {
+    } else if (this.props.chatOnline) {
       buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
     } else {
       buttonLabel = i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`); // eslint-disable-line
