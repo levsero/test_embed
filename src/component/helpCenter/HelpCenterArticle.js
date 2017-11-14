@@ -188,7 +188,8 @@ export class HelpCenterArticle extends Component {
       'player\.vimeo',
       'players\.brightcove',
       'fast\.wistia',
-      'content\.jwplatform'
+      'content\.jwplatform',
+      'screencast'
     ];
     const hasMatched = _.some(allowedDomains, (domain) => {
       const validDomainTest = `^(.*?)\/\/(?:www\.)?${domain}(?:-nocookie)?(\.com|\.net)\/`;
