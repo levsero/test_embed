@@ -79,10 +79,8 @@ describe('WebWidget component', () => {
           }
         }
       },
-      'component/helpCenter/HelpCenter': {
-        HelpCenter: MockHelpCenter
-      },
       'component/chat/Chat': connectedComponent(<MockChat />),
+      'component/helpCenter/HelpCenter': connectedComponent(<MockHelpCenter />),
       'component/submitTicket/SubmitTicket': {
         SubmitTicket: MockSubmitTicket
       },
@@ -485,7 +483,7 @@ describe('WebWidget component', () => {
 
         describe('when an article is active', () => {
           beforeEach(() => {
-            webWidget.refs.helpCenterForm.setState({
+            webWidget.refs.helpCenterForm.getWrappedInstance().setState({
               articleViewActive: true
             });
             webWidget.onBackClick();

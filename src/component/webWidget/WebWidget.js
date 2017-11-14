@@ -7,7 +7,7 @@ import Chat from 'component/chat/Chat';
 import { Talk } from 'component/talk/Talk';
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
 import { Container } from 'component/container/Container';
-import { HelpCenter } from 'component/helpCenter/HelpCenter';
+import HelpCenter from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
          updateEmbedAccessible,
@@ -145,7 +145,7 @@ class WebWidget extends Component {
 
   getChatComponent = () => this.refs[chat].getWrappedInstance();
 
-  getHelpCenterComponent = () => this.refs[helpCenter];
+  getHelpCenterComponent = () => this.refs[helpCenter].getWrappedInstance();
 
   articleViewActive = () => _.get(this.getHelpCenterComponent(), 'state.articleViewActive', false);
 

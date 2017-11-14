@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle';
@@ -8,11 +9,16 @@ import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop';
 import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile';
 import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
+import { updateSearchTerm } from 'src/redux/modules/helpCenter';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
 
-export class HelpCenter extends Component {
+const mapStateToProps = () => {
+  return {};
+};
+
+class HelpCenter extends Component {
   static propTypes = {
     buttonLabelKey: PropTypes.string,
     channelChoice: PropTypes.bool,
@@ -40,6 +46,7 @@ export class HelpCenter extends Component {
     updateFrameSize: PropTypes.func,
     hideChatNotification: PropTypes.func,
     updateChatScreen: PropTypes.func,
+    updateSearchTerm: PropTypes.func.isRequired,
     viewMoreEnabled: PropTypes.bool,
     zendeskHost: PropTypes.string.isRequired,
     notification: PropTypes.object.isRequired
@@ -541,3 +548,9 @@ export class HelpCenter extends Component {
     );
   }
 }
+
+const actionCreators = {
+  updateSearchTerm
+};
+
+export default connect(mapStateToProps, actionCreators, null, { withRef: true })(HelpCenter);

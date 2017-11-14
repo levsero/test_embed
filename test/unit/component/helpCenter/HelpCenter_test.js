@@ -79,6 +79,7 @@ describe('HelpCenter component', () => {
           }
         }
       },
+      'src/redux/modules/helpCenter': {},
       'service/i18n': {
         i18n: {
           init: jasmine.createSpy(),
@@ -96,7 +97,7 @@ describe('HelpCenter component', () => {
 
     mockery.registerAllowable(helpCenterPath);
 
-    HelpCenter = requireUncached(helpCenterPath).HelpCenter;
+    HelpCenter = requireUncached(helpCenterPath).default.WrappedComponent;
 
     jasmine.clock().install();
   });
