@@ -38,6 +38,7 @@ import SearchFieldStyles from 'component/field/SearchField.sass';
 import SearchInputStyles from 'component/field/SearchInput.sass';
 import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.sass';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.sass';
+import TalkStyles from 'component/talk/Talk.sass';
 
 import { sharedStyles } from 'embed/sharedStyles.js';
 
@@ -83,4 +84,5 @@ export const webWidgetStyles = `
   ${SearchInputStyles}
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
+  ${TalkStyles}
 `;
