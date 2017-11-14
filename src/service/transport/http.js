@@ -181,6 +181,22 @@ function automaticAnswersApiRequest(payload, formData = {}) {
     });
 }
 
+function callMeRequest(talkServiceUrl, payload) {
+  superagent.post(`${talkServiceUrl}/talk_embeddables_service/callback_request`)
+    .send(payload.params)
+    .end((err, res) => {
+      const { done, fail } = payload.callbacks;
+
+      if (err) {
+        if (_.isFunction(fail)) {
+          fail(err, res);
+        }
+      } else if (_.isFunction(done)) {
+        done(res);
+      }
+    });
+}
+
 export const http = {
   init: init,
   send: send,
@@ -190,5 +206,6 @@ export const http = {
   get: send,
   getZendeskHost: getZendeskHost,
   getZendeskSubdomain,
-  automaticAnswersApiRequest: automaticAnswersApiRequest
+  automaticAnswersApiRequest: automaticAnswersApiRequest,
+  callMeRequest
 };
