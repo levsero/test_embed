@@ -14,8 +14,11 @@ describe('embed.webWidget', () => {
     mockAuthenticateValue,
     mockFiltersValue,
     mockFrame,
+    socketioConnectSpy,
+    socketioMapEventsToActionsSpy,
     targetCancelHandlerSpy,
     mockIsIE,
+    mockZendeskSubdomain,
     mockWebWidget;
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
   const authenticateSpy = jasmine.createSpy();
@@ -37,7 +40,10 @@ describe('embed.webWidget', () => {
     mockFiltersValue = [],
     mockAttachmentsEnabledValue = true,
     mockViewMoreValue = false;
+    mockZendeskSubdomain = 'customerfoo';
     mockAuthenticateValue = null;
+    socketioConnectSpy = jasmine.createSpy('socketio.connect').and.returnValue('socket');
+    socketioMapEventsToActionsSpy = jasmine.createSpy('socketio.mapEventsToActions');
 
     targetCancelHandlerSpy = jasmine.createSpy();
 
@@ -68,7 +74,12 @@ describe('embed.webWidget', () => {
           getImage: jasmine.createSpy('http.getImage'),
           getZendeskHost: () => {
             return 'zendesk.host';
-          }
+          },
+          getZendeskSubdomain: () => mockZendeskSubdomain
+        },
+        socketio: {
+          connect: socketioConnectSpy,
+          mapEventsToActions: socketioMapEventsToActionsSpy
         }
       },
       'service/settings': {
@@ -498,6 +509,16 @@ describe('embed.webWidget', () => {
         expect(zChatInitSpy)
           .not.toHaveBeenCalled();
       });
+
+      it('does not call socketio.connect', () => {
+        expect(socketioConnectSpy)
+          .not.toHaveBeenCalled();
+      });
+
+      it('does not call socketio.mapEventsToActions', () => {
+        expect(socketioMapEventsToActionsSpy)
+          .not.toHaveBeenCalled();
+      });
     });
 
     describe('when talk is part of config', () => {
@@ -616,6 +637,22 @@ describe('embed.webWidget', () => {
           expect(zChatInitSpy)
             .not.toHaveBeenCalled();
         });
+      });
+    });
+
+    describe('when talk is part of the config', () => {
+      beforeEach(() => {
+        webWidget.create('', { talk: {} });
+      });
+
+      it('calls socketio.connect', () => {
+        expect(socketioConnectSpy)
+          .toHaveBeenCalled();
+      });
+
+      it('calls socketio.mapEventsToActions', () => {
+        expect(socketioMapEventsToActionsSpy)
+          .toHaveBeenCalled();
       });
     });
 
@@ -814,6 +851,26 @@ describe('embed.webWidget', () => {
         });
       });
       /* eslint-enable camelcase */
+    });
+
+    describe('setupTalk', () => {
+      beforeEach(() => {
+        const talkConfig = { serviceUrl: 'talk.com', group: 'Support' };
+
+        webWidget.create('', { talk: talkConfig }, 'reduxStore');
+
+        faythe = webWidget.get();
+      });
+
+      it('calls socketio.connect with serviceUrl, subdomain and group', () => {
+        expect(socketioConnectSpy)
+          .toHaveBeenCalledWith('talk.com', 'customerfoo', 'Support');
+      });
+
+      it('calls socketio.mapEventsToActions with the socket and redux store', () => {
+        expect(socketioMapEventsToActionsSpy)
+          .toHaveBeenCalledWith('socket', 'reduxStore');
+      });
     });
 
     describe('setUpHelpCenter', () => {
