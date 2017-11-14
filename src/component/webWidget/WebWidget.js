@@ -339,8 +339,7 @@ class WebWidget extends Component {
           buttonLabelKey={helpCenterConfig.buttonLabelKey}
           formTitleKey={helpCenterConfig.formTitleKey}
           showBackButton={this.props.updateBackButtonVisibility}
-          showNextButton={false}
-          showNextButtonSingleIframe={this.props.submitTicketAvailable || chatOnline}
+          showNextButton={this.props.submitTicketAvailable || chatOnline}
           searchSender={this.props.searchSender}
           contextualSearchSender={this.props.contextualSearchSender}
           imagesSender={this.props.imagesSender}

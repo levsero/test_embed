@@ -38,9 +38,7 @@ class HelpCenter extends Component {
     originalArticleButton: PropTypes.bool,
     searchSender: PropTypes.func.isRequired,
     showBackButton: PropTypes.func,
-    // TODO: make this a single prop when single iframe is GA'd
     showNextButton: PropTypes.bool,
-    showNextButtonSingleIframe: PropTypes.bool,
     style: PropTypes.object,
     talkAvailable: PropTypes.bool,
     updateFrameSize: PropTypes.func,
@@ -68,7 +66,6 @@ class HelpCenter extends Component {
     originalArticleButton: true,
     showBackButton: () => {},
     showNextButton: true,
-    showNextButtonSingleIframe: false,
     style: null,
     talkAvailable: false,
     updateFrameSize: () => {},
@@ -87,16 +84,13 @@ class HelpCenter extends Component {
       chatOnline: false,
       hasContextualSearched: false,
       hasSearched: false,
-      loadingSpinnerActive: false,
       previousSearchTerm: '',
       resultsCount: 0,
       resultsPerPage: minimumSearchResults,
       searchFailed: false,
-      searchFieldFocused: false,
       searchResultClicked: false,
       searchTerm: '',
       searchTracked: false,
-      showNextButton: this.props.showNextButton,
       showViewMore: true,
       viewMoreActive: false,
       channelChoiceShown: false
@@ -355,12 +349,6 @@ class HelpCenter extends Component {
     this.refs.helpCenterMobile.resetState();
   }
 
-  showNextButton = (value) => {
-    this.setState({ showNextButton: value });
-  }
-
-  shouldShowNextButton = () => this.state.showNextButton || this.props.showNextButtonSingleIframe;
-
   setChatOnline = (chatOnline) => {
     this.setState({ chatOnline });
   }
@@ -415,6 +403,7 @@ class HelpCenter extends Component {
   }
 
   renderResults = () => {
+    const { showNextButton } = this.props;
     const hasSearched = this.state.hasSearched || this.state.hasContextualSearched;
 
     if (this.state.articleViewActive || !hasSearched) {
@@ -425,8 +414,8 @@ class HelpCenter extends Component {
                          this.state.showViewMore &&
                          this.state.resultsCount > minimumSearchResults;
     const showBottomBorder = !this.props.fullscreen &&
-                             !(!this.shouldShowNextButton() && this.props.hideZendeskLogo);
-    const applyPadding = !this.shouldShowNextButton() && !this.props.hideZendeskLogo;
+                             !(!showNextButton && this.props.hideZendeskLogo);
+    const applyPadding = !showNextButton && !this.props.hideZendeskLogo;
 
     return (
       <HelpCenterResults
@@ -440,7 +429,7 @@ class HelpCenter extends Component {
         handleArticleClick={this.handleArticleClick}
         handleViewMoreClick={this.handleViewMoreClick}
         hasContextualSearched={this.state.hasContextualSearched}
-        showContactButton={this.shouldShowNextButton()} />
+        showContactButton={showNextButton} />
     );
   }
 
@@ -475,7 +464,7 @@ class HelpCenter extends Component {
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
         search={this.search}
-        showNextButton={this.shouldShowNextButton()}
+        showNextButton={this.props.showNextButton}
         hideZendeskLogo={this.props.hideZendeskLogo}
         isLoading={this.state.isLoading}
         onNextClick={this.props.onNextClick}
@@ -509,7 +498,7 @@ class HelpCenter extends Component {
         isLoading={this.state.isLoading}
         onNextClick={this.props.onNextClick}
         newDesign={this.props.newDesign}
-        showNextButton={this.shouldShowNextButton()}
+        showNextButton={this.props.showNextButton}
         chatOnline={chatOnline}
         channelChoice={this.state.channelChoiceShown}
         talkAvailable={this.props.talkAvailable}
