@@ -396,7 +396,9 @@ export class HelpCenter extends Component {
   }
 
   onContainerClick = () => {
-    this.setChannelChoiceShown(false);
+    if (this.state.channelChoiceShown) {
+      this.setChannelChoiceShown(false);
+    }
   }
 
   updateImages = (img) => {
