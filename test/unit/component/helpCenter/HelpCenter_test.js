@@ -1269,13 +1269,35 @@ describe('HelpCenter component', () => {
     let helpCenter;
 
     beforeEach(() => {
-      helpCenter = instanceRender(<HelpCenter channelChoice={true} />);
-      helpCenter.onContainerClick();
+      helpCenter = instanceRender(<HelpCenter />);
+
+      spyOn(helpCenter, 'setChannelChoiceShown');
     });
 
-    it('calls setChannelChoiceShown with false', () => {
-      expect(helpCenter.state.channelChoiceShown)
-        .toBe(false);
+    describe('when channeChoiceShown is false', () => {
+      beforeEach(() => {
+        helpCenter.setState({ channelChoiceShown: false });
+
+        helpCenter.onContainerClick();
+      });
+
+      it('does not call setChannelChoiceShown', () => {
+        expect(helpCenter.setChannelChoiceShown)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when channeChoiceShown is true', () => {
+      beforeEach(() => {
+        helpCenter.setState({ channelChoiceShown: true });
+
+        helpCenter.onContainerClick();
+      });
+
+      it('calls setChannelChoiceShown with false', () => {
+        expect(helpCenter.setChannelChoiceShown)
+          .toHaveBeenCalledWith(false);
+      });
     });
   });
 });
