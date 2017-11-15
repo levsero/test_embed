@@ -84,7 +84,7 @@ class WebWidget extends Component {
     activeEmbed: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
-    talkServiceUrl: PropTypes.string
+    talkConfig: PropTypes.object
   };
 
   static defaultProps = {
@@ -121,7 +121,7 @@ class WebWidget extends Component {
     zopimOnline: false,
     zopimOnNext: () => {},
     closeFrame: () => {},
-    talkServiceUrl: ''
+    talkConfig: {}
   };
 
   setComponent = (activeComponent) => {
@@ -417,7 +417,7 @@ class WebWidget extends Component {
         style={this.props.style}
         fullscreen={this.props.fullscreen}
         updateFrameSize={this.props.updateFrameSize}
-        talkServiceUrl={this.props.talkServiceUrl}
+        talkConfig={this.props.talkConfig}
         zendeskSubdomain={this.props.zendeskSubdomain} />
     );
   }
