@@ -34,6 +34,27 @@ describe('Form component', () => {
     mockery.disable();
   });
 
+  describe('clear', () => {
+    let form;
+
+    beforeEach(() => {
+      form = instanceRender(<Form />);
+      form.setState({ formState: { email: 'bigO@zd.com' }, valid: true });
+
+      form.clear();
+    });
+
+    it('clears the formState', () => {
+      expect(form.state.formState)
+        .toEqual({});
+    });
+
+    it('sets the form to invalid', () => {
+      expect(form.state.valid)
+        .toBe(false);
+    });
+  });
+
   describe('handleFormSubmit', () => {
     let form, onFormCompletedSpy, preventDefaultSpy;
 
