@@ -1,4 +1,4 @@
-fdescribe('Talk component', () => {
+describe('Talk component', () => {
   let Talk,
     httpSpy;
   const talkPath = buildSrcPath('component/talk/Talk');
@@ -88,8 +88,7 @@ fdescribe('Talk component', () => {
 
       beforeEach(() => {
         doneCallback = httpSpy.callMeRequest.calls.mostRecent().args[1].callbacks.done;
-        // eslint-disable-next-line camelcase
-        doneCallback({ body: { phone_number: '+61423456789' } });
+        doneCallback({ body: { phone_number: '+61423456789' } }); // eslint-disable-line camelcase
       });
 
       it('clears the form', () => {

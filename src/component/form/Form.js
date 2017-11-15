@@ -61,7 +61,6 @@ export class Form extends Component {
   }
 
   renderSubmitButton = () => {
-    debugger
     return (
       <ButtonGroup rtl={this.props.rtl}>
         <Button
