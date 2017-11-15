@@ -8,6 +8,7 @@ export class Form extends Component {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node,
+    rtl: PropTypes.bool,
     submitButtonLabel: PropTypes.string,
     onFormCompleted: PropTypes.func,
     onFormChange: PropTypes.func
@@ -16,6 +17,7 @@ export class Form extends Component {
   static defaultProps = {
     className: '',
     children: null,
+    rtl: false,
     submitButtonLabel: '',
     onFormCompleted: () => {},
     onFormChange: () => {}
@@ -59,8 +61,9 @@ export class Form extends Component {
   }
 
   renderSubmitButton = () => {
+    debugger
     return (
-      <ButtonGroup>
+      <ButtonGroup rtl={this.props.rtl}>
         <Button
           label={this.props.submitButtonLabel}
           disabled={!this.state.valid}

@@ -103,6 +103,7 @@ export class Talk extends Component {
       <Form
         ref={(el) => this.form = el}
         submitButtonLabel={i18n.t('embeddable_framework.talk.button.callMe', { fallback: 'Call me' })}
+        rtl={i18n.isRTL()}
         onFormCompleted={this.handleFormCompleted}
         onFormChange={this.handleFormChange}>
         {this.renderPhoneField()}
