@@ -32,6 +32,13 @@ export class Form extends Component {
     this.form = null;
   }
 
+  clear = () => {
+    const formState = {};
+
+    this.setState({ formState, valid: false });
+    this.props.onFormChange(formState);
+  }
+
   handleFormSubmit = (e) => {
     e.preventDefault();
 
