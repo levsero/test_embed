@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Form } from 'component/form/Form';
 import { Field } from 'component/field/Field';
+import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 
@@ -13,7 +14,7 @@ import { locals as styles } from './Talk.sass';
 
 export class Talk extends Component {
   static propTypes = {
-    talkServiceUrl: PropTypes.string.isRequired,
+    talkConfig: PropTypes.object.isRequired,
     zendeskSubdomain: PropTypes.string.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
@@ -31,20 +32,41 @@ export class Talk extends Component {
     super();
 
     this.state = {
-      formState: {}
+      formState: {},
+      showSuccessNotification: false,
+      successNotificationMessage: ''
     };
+
+    this.form = null;
+  }
+
+  clearNotification = () => {
+    this.setState({ showSuccessNotification: false });
   }
 
   handleFormCompleted = (formState) => {
+    const { serviceUrl, keyword } = this.props.talkConfig;
     const params = {
       phoneNumber: formState.phone,
-      subdomain: this.props.zendeskSubdomain
+      subdomain: this.props.zendeskSubdomain,
+      keyword
     };
     const callbacks = {
-      done: (res) => { debugger }
+      done: (res) => {
+        const message = i18n.t('embeddable_framework.talk.notify.success.message', {
+          fallback: `Thanks for submiting your request. We'll get back to you soon on ${res.body.phone_number}`
+        });
+
+        this.form.clear();
+
+        this.setState({
+          showSuccessNotification: true,
+          successNotificationMessage: message
+        });
+      }
     };
 
-    http.callMeRequest(this.props.talkServiceUrl, {
+    http.callMeRequest(serviceUrl, {
       params,
       callbacks
     });
@@ -79,6 +101,7 @@ export class Talk extends Component {
   renderForm = () => {
     return (
       <Form
+        ref={(el) => this.form = el}
         submitButtonLabel={i18n.t('embeddable_framework.talk.button.callMe', { fallback: 'Call me' })}
         onFormCompleted={this.handleFormCompleted}
         onFormChange={this.handleFormChange}>
@@ -93,23 +116,46 @@ export class Talk extends Component {
     return <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />;
   }
 
+  renderSuccessNotification = () => {
+    const iconClasses = `${styles.notifyIcon} u-userFillColor u-userTextColor`;
+
+    return (
+      <div>
+        <p className={styles.notifyMessage}>{this.state.successNotificationMessage}</p>
+        <div className={styles.notify}>
+          <Icon type='Icon--tick' className={iconClasses} />
+        </div>
+      </div>
+    );
+  }
+
+  renderBody = () => {
+    return this.state.showSuccessNotification
+         ? this.renderSuccessNotification()
+         : [this.renderFormHeader(), this.renderForm()];
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const title = i18n.t(`embeddable_framework.talk.form.title.${this.props.formTitleKey}`, {
+    const successNotificationTitle = i18n.t('embeddable_framework.talk.notify.success.title', {
+      fallback: 'Request sent'
+    });
+    const formTitle = i18n.t(`embeddable_framework.talk.form.title.${this.props.formTitleKey}`, {
       fallback: 'We\'ll call you'
     });
+    const title = this.state.showSuccessNotification ? successNotificationTitle : formTitle;
+    const footerClasses = !this.state.showSuccessNotification ? styles.footer : '';
 
     return (
       <ScrollContainer
         ref='scrollContainer'
         hideZendeskLogo={this.props.hideZendeskLogo}
-        footerClasses={styles.footer}
+        footerClasses={footerClasses}
         footerContent={this.renderZendeskLogo()}
         getFrameDimensions={this.props.getFrameDimensions}
         title={title}>
-        {this.renderFormHeader()}
-        {this.renderForm()}
+        {this.renderBody()}
       </ScrollContainer>
     );
   }
