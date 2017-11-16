@@ -1,0 +1,2 @@
+export const CALL_ME_SCREEN = 'widget/talk/CALL_ME_SCREEN';
+export const SUCCESS_NOTIFICATION_SCREEN = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';

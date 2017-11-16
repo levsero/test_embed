@@ -7,6 +7,7 @@ import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 
+import { CALL_ME_SCREEN, SUCCESS_NOTIFICATION_SCREEN } from 'src/redux/modules/talk/talk-screen-types';
 import { http } from 'service/transport';
 import { i18n } from 'service/i18n';
 
@@ -33,15 +34,15 @@ export class Talk extends Component {
 
     this.state = {
       formState: {},
-      showSuccessNotification: false,
-      successNotificationMessage: ''
+      currentScreen: CALL_ME_SCREEN,
+      phoneNumber: ''
     };
 
     this.form = null;
   }
 
   clearNotification = () => {
-    this.setState({ showSuccessNotification: false });
+    this.setState({ currentScreen: CALL_ME_SCREEN });
   }
 
   handleFormCompleted = (formState) => {
@@ -53,15 +54,10 @@ export class Talk extends Component {
     };
     const callbacks = {
       done: (res) => {
-        const message = i18n.t('embeddable_framework.talk.notify.success.message', {
-          fallback: `Thanks for submiting your request. We'll get back to you soon on ${res.body.phone_number}`
-        });
-
         this.form.clear();
-
         this.setState({
-          showSuccessNotification: true,
-          successNotificationMessage: message
+          currentScreen: SUCCESS_NOTIFICATION_SCREEN,
+          phoneNumber: res.body.phone_number
         });
       }
     };
@@ -94,7 +90,9 @@ export class Talk extends Component {
     );
   }
 
-  renderForm = () => {
+  renderFormScreen = () => {
+    if (this.state.currentScreen !== CALL_ME_SCREEN) return;
+
     return (
       <Form
         ref={(el) => this.form = el}
@@ -109,17 +107,22 @@ export class Talk extends Component {
   }
 
   renderZendeskLogo = () => {
-    if (this.props.hideZendeskLogo) return null;
+    if (this.props.hideZendeskLogo) return;
 
     return <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />;
   }
 
-  renderSuccessNotification = () => {
+  renderSuccessNotificationScreen = () => {
+    if (this.state.currentScreen !== SUCCESS_NOTIFICATION_SCREEN) return;
+
+    const message = i18n.t('embeddable_framework.talk.notify.success.message', {
+      fallback: `Thanks for submiting your request. We'll get back to you soon on ${this.state.phoneNumber}`
+    });
     const iconClasses = `${styles.notifyIcon} u-userFillColor u-userTextColor`;
 
     return (
       <div>
-        <p className={styles.notifyMessage}>{this.state.successNotificationMessage}</p>
+        <p className={styles.notifyMessage}>{message}</p>
         <div className={styles.notify}>
           <Icon type='Icon--tick' className={iconClasses} />
         </div>
@@ -127,23 +130,18 @@ export class Talk extends Component {
     );
   }
 
-  renderBody = () => {
-    return this.state.showSuccessNotification
-         ? this.renderSuccessNotification()
-         : this.renderForm();
-  }
-
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const successNotificationTitle = i18n.t('embeddable_framework.talk.notify.success.title', {
-      fallback: 'Request sent'
-    });
     const formTitle = i18n.t(`embeddable_framework.talk.form.title.${this.props.formTitleKey}`, {
       fallback: 'We\'ll call you'
     });
-    const title = this.state.showSuccessNotification ? successNotificationTitle : formTitle;
-    const footerClasses = !this.state.showSuccessNotification ? styles.footer : '';
+    const successNotificationTitle = i18n.t('embeddable_framework.talk.notify.success.title', {
+      fallback: 'Request sent'
+    });
+    const onCallMeScreen = this.state.currentScreen === CALL_ME_SCREEN;
+    const title = onCallMeScreen ? formTitle : successNotificationTitle;
+    const footerClasses = onCallMeScreen ? styles.footer : '';
 
     return (
       <ScrollContainer
@@ -153,7 +151,8 @@ export class Talk extends Component {
         footerContent={this.renderZendeskLogo()}
         getFrameDimensions={this.props.getFrameDimensions}
         title={title}>
-        {this.renderBody()}
+        {this.renderFormScreen()}
+        {this.renderSuccessNotificationScreen()}
       </ScrollContainer>
     );
   }

@@ -1,7 +1,8 @@
 describe('Talk component', () => {
   let Talk,
     httpSpy;
-  const talkPath = buildSrcPath('component/talk/Talk');
+  const callMeScreen = 'widget/talk/CALL_ME_SCREEN';
+  const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
 
   class MockScrollContainer extends Component {
     render() {
@@ -14,6 +15,8 @@ describe('Talk component', () => {
 
     mockery.enable();
 
+    const talkPath = buildSrcPath('component/talk/Talk');
+
     httpSpy = jasmine.createSpyObj('http', ['callMeRequest']);
 
     initMockRegistry({
@@ -25,6 +28,10 @@ describe('Talk component', () => {
       'component/ZendeskLogo': { ZendeskLogo: noopReactComponent },
       'service/i18n': { i18n: { t: (key) => key, isRTL: _.noop } },
       'service/transport': { http: httpSpy },
+      'src/redux/modules/talk/talk-screen-types': {
+        CALL_ME_SCREEN: callMeScreen,
+        SUCCESS_NOTIFICATION_SCREEN: successNotificationScreen
+      },
       './Talk.sass': {
         locals: {
           footer: 'footerClasses'
@@ -49,9 +56,9 @@ describe('Talk component', () => {
       talk.clearNotification();
     });
 
-    it('sets showSuccessNotification to false', () => {
-      expect(talk.state.showSuccessNotification)
-        .toBe(false);
+    it('sets current screen to CALL_ME_SCREEN', () => {
+      expect(talk.state.currentScreen)
+        .toBe(callMeScreen);
     });
   });
 
@@ -83,7 +90,7 @@ describe('Talk component', () => {
         .toHaveBeenCalledWith(config.serviceUrl, expectedPayload);
     });
 
-    describe('when the request is successfull', () => {
+    describe('when the request is successful', () => {
       let doneCallback;
 
       beforeEach(() => {
@@ -96,14 +103,14 @@ describe('Talk component', () => {
           .toHaveBeenCalled();
       });
 
-      it('sets showSuccessNotification to true', () => {
-        expect(talk.state.showSuccessNotification)
-          .toBe(true);
+      it('sets screen to SUCCESS_NOTIFICATION_SCREEN', () => {
+        expect(talk.state.currentScreen)
+          .toBe(successNotificationScreen);
       });
 
-      it('sets the successNotificationMessage to correct string', () => {
-        expect(talk.state.successNotificationMessage)
-          .toBe('embeddable_framework.talk.notify.success.message');
+      it('sets the phoneNumber to the number receieved in response', () => {
+        expect(talk.state.phoneNumber)
+          .toBe('+61423456789');
       });
     });
   });
@@ -129,9 +136,9 @@ describe('Talk component', () => {
       talk = domRender(<Talk formTitleKey='formTitle' />);
     });
 
-    describe('when the success notification is showing', () => {
+    describe('when on the success notification screen', () => {
       beforeEach(() => {
-        talk.setState({ showSuccessNotification: true });
+        talk.setState({ currentScreen: successNotificationScreen });
         scrollContainer = TestUtils.findRenderedComponentWithType(talk, MockScrollContainer);
       });
 
@@ -146,9 +153,8 @@ describe('Talk component', () => {
       });
     });
 
-    describe('when the success notification is not showing', () => {
+    describe('when on the call me back form screen', () => {
       beforeEach(() => {
-        talk.setState({ showSuccessNotification: false });
         scrollContainer = TestUtils.findRenderedComponentWithType(talk, MockScrollContainer);
       });
 
