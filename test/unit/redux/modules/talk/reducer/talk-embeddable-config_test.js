@@ -6,7 +6,7 @@ describe('talk reducer embeddable-config', () => {
   beforeAll(() => {
     mockery.enable();
 
-    const reducerPath = buildSrcPath('redux/modules/talk/reducer/embeddable-config');
+    const reducerPath = buildSrcPath('redux/modules/talk/reducer/talk-embeddable-config');
     const actionTypesPath = buildSrcPath('redux/modules/talk/talk-action-types');
 
     reducer = requireUncached(reducerPath).default;
