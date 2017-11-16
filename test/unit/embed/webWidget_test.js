@@ -17,6 +17,7 @@ describe('embed.webWidget', () => {
     socketioConnectSpy,
     socketioMapEventsToActionsSpy,
     targetCancelHandlerSpy,
+    updateTalkScreenSpy,
     mockIsIE,
     mockZendeskSubdomain,
     mockWebWidget;
@@ -26,6 +27,7 @@ describe('embed.webWidget', () => {
   const updateZopimOnlineSpy = jasmine.createSpy();
   const zChatInitSpy = jasmine.createSpy();
   const zChatFirehoseSpy = jasmine.createSpy().and.callThrough();
+  const callMeScreen = 'widget/talk/CALL_ME_SCREEN';
 
   beforeEach(() => {
     mockIsOnHelpCenterPageValue = false;
@@ -44,6 +46,7 @@ describe('embed.webWidget', () => {
     mockAuthenticateValue = null;
     socketioConnectSpy = jasmine.createSpy('socketio.connect').and.returnValue('socket');
     socketioMapEventsToActionsSpy = jasmine.createSpy('socketio.mapEventsToActions');
+    updateTalkScreenSpy = jasmine.createSpy('updateTalkScreen');
 
     targetCancelHandlerSpy = jasmine.createSpy();
 
@@ -121,6 +124,12 @@ describe('embed.webWidget', () => {
       },
       'src/redux/modules/chat': {
         setVisitorInfo: (user) => user
+      },
+      'src/redux/modules/talk': {
+        updateTalkScreen: updateTalkScreenSpy
+      },
+      'src/redux/modules/talk/talk-screen-types': {
+        CALL_ME_SCREEN: callMeScreen
       },
       'chat-web-sdk': {
         init: zChatInitSpy,
@@ -1122,7 +1131,7 @@ describe('embed.webWidget', () => {
         };
 
         beforeEach(() => {
-          webWidget.create('', config);
+          webWidget.create('', config, { dispatch: mockStoreDispatch });
           webWidget.render();
 
           const frame = webWidget.get().instance;
@@ -1193,6 +1202,19 @@ describe('embed.webWidget', () => {
         it('calls show on Frame with an options of viaActivate of true', () => {
           expect(frame.show)
             .toHaveBeenCalledWith({ viaActivate: true });
+        });
+      });
+
+      describe('when talk is available', () => {
+        beforeEach(() => {
+          frame.setState({ visible: false });
+          pluckSubscribeCall(mockMediator, 'webWidget.show')();
+          jasmine.clock().tick(0);
+        });
+
+        it('dispatches a updateTalkScreen action with CALL_ME_SCREEN', () => {
+          expect(updateTalkScreenSpy)
+            .toHaveBeenCalledWith(callMeScreen);
         });
       });
     });
@@ -1613,8 +1635,10 @@ describe('embed.webWidget', () => {
     });
 
     describe('contextual help', () => {
+      const mockStore = { dispatch: noop };
+
       beforeEach(() => {
-        webWidget.create('', { helpCenterForm: { contextualHelpEnabled: true } });
+        webWidget.create('', { helpCenterForm: { contextualHelpEnabled: true } }, mockStore);
       });
 
       describe('when mouse driven contextual help is enabled', () => {
@@ -1628,7 +1652,8 @@ describe('embed.webWidget', () => {
                 contextualHelpEnabled: true,
                 enableMouseDrivenContextualHelp: true
               }
-            }
+            },
+            mockStore
           );
           webWidget.render();
           spyOn(webWidget, 'keywordsSearch');
