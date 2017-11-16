@@ -56,12 +56,12 @@ describe('Form component', () => {
   });
 
   describe('handleFormSubmit', () => {
-    let form, onFormCompletedSpy, preventDefaultSpy;
+    let form, onCompletedSpy, preventDefaultSpy;
 
     beforeEach(() => {
-      onFormCompletedSpy = jasmine.createSpy('onFormCompleted');
+      onCompletedSpy = jasmine.createSpy('onCompleted');
       preventDefaultSpy = jasmine.createSpy('preventDefault');
-      form = instanceRender(<Form onFormCompleted={onFormCompletedSpy} />);
+      form = instanceRender(<Form onCompleted={onCompletedSpy} />);
 
       form.setState({ formState: { email: 'omega@zd.com' } });
       form.handleFormSubmit({ preventDefault: preventDefaultSpy });
@@ -72,22 +72,22 @@ describe('Form component', () => {
         .toHaveBeenCalled();
     });
 
-    it('calls props.onFormCompleted with the form state', () => {
-      expect(onFormCompletedSpy)
+    it('calls props.onCompleted with the form state', () => {
+      expect(onCompletedSpy)
         .toHaveBeenCalledWith({ email: 'omega@zd.com' });
     });
   });
 
   describe('handleFormChange', () => {
     let form,
-      onFormChangeSpy,
+      onChangeSpy,
       mockFormValidity,
       formElement;
     const target = { name: 'email', value: 'theta@zd.com' };
 
     beforeEach(() => {
-      onFormChangeSpy = jasmine.createSpy('onFormCompleted');
-      form = instanceRender(<Form onFormChange={onFormChangeSpy} />);
+      onChangeSpy = jasmine.createSpy('onCompleted');
+      form = instanceRender(<Form onChange={onChangeSpy} />);
       formElement = { checkValidity: () => mockFormValidity };
 
       form.form = formElement;
@@ -125,8 +125,8 @@ describe('Form component', () => {
         .toEqual({ email: 'theta@zd.com' });
     });
 
-    it('calls props.onFormChange with the form state', () => {
-      expect(onFormChangeSpy)
+    it('calls props.onChange with the form state', () => {
+      expect(onChangeSpy)
         .toHaveBeenCalledWith({ email: 'theta@zd.com' });
     });
   });
