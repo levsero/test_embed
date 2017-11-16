@@ -9,7 +9,7 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 
 import { CALL_ME_SCREEN, SUCCESS_NOTIFICATION_SCREEN } from 'src/redux/modules/talk/talk-screen-types';
-import { updateTalkScreen, updateTalkCallMeForm, updateTalkPhoneNumber } from 'src/redux/modules/talk/talk-actions';
+import { updateTalkScreen, updateTalkCallMeForm, updateTalkPhoneNumber } from 'src/redux/modules/talk';
 import { http } from 'service/transport';
 import { i18n } from 'service/i18n';
 
