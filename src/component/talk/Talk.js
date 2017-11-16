@@ -81,11 +81,7 @@ export class Talk extends Component {
       fallback: 'Enter your phone number and we\'ll call you as soon as we can.'
     });
 
-    return (
-      <div>
-        <p>{headerMessage}</p>
-      </div>
-    );
+    return <p>{headerMessage}</p>;
   }
 
   renderPhoneField = () => {
@@ -106,6 +102,7 @@ export class Talk extends Component {
         rtl={i18n.isRTL()}
         onFormCompleted={this.handleFormCompleted}
         onFormChange={this.handleFormChange}>
+        {this.renderFormHeader()}
         {this.renderPhoneField()}
       </Form>
     );
@@ -133,7 +130,7 @@ export class Talk extends Component {
   renderBody = () => {
     return this.state.showSuccessNotification
          ? this.renderSuccessNotification()
-         : [this.renderFormHeader(), this.renderForm()];
+         : this.renderForm();
   }
 
   render = () => {
