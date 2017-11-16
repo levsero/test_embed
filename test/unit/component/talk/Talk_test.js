@@ -3,7 +3,7 @@ describe('Talk component', () => {
     httpSpy;
   const talkPath = buildSrcPath('component/talk/Talk');
 
-  class MockScrollContainer extends React.Component {
+  class MockScrollContainer extends Component {
     render() {
       return <div />;
     }

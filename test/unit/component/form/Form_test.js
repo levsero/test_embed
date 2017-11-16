@@ -2,7 +2,7 @@ describe('Form component', () => {
   let Form;
   const formPath = buildSrcPath('component/form/Form');
 
-  class MockButton extends React.Component {
+  class MockButton extends Component {
     render() {
       return <div />;
     }
@@ -17,7 +17,7 @@ describe('Form component', () => {
       'React': React,
       'component/button/Button': { Button: MockButton },
       'component/button/ButtonGroup': {
-        ButtonGroup: class extends React.Component {
+        ButtonGroup: class extends Component {
           render() {
             return <div>{this.props.children}</div>;
           }
