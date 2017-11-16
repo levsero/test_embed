@@ -182,7 +182,7 @@ function automaticAnswersApiRequest(payload, formData = {}) {
 }
 
 function callMeRequest(talkServiceUrl, payload) {
-  superagent.post(`${talkServiceUrl}/talk_embeddables_service/callback_request`)
+  superagent('POST', `${talkServiceUrl}/talk_embeddables_service/callback_request`)
     .send(payload.params)
     .end((err, res) => {
       const { done, fail } = payload.callbacks;
