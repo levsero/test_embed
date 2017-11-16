@@ -137,7 +137,8 @@ function create(name, config = {}, reduxStore = {}) {
     hideZendeskLogo: false,
     color: '#659700'
   };
-  const talkAvailable = !!config.talk;
+  const talkConfig = config.talk;
+  const talkAvailable = !!talkConfig;
   const helpCenterAvailable = !!config.helpCenterForm && !settings.get('helpCenter.suppress');
   const submitTicketAvailable = !!config.ticketSubmissionForm && !settings.get('contactForm.suppress');
   const chatAvailable = !!config.zopimChat && !settings.get('chat.suppress');
@@ -149,7 +150,6 @@ function create(name, config = {}, reduxStore = {}) {
                            ? setUpHelpCenter(config.helpCenterForm)
                            : {};
   const rootConfig = _.omit(config, ['ticketSubmissionForm', 'helpCenterForm', 'zopimChat', 'talk']);
-  const talkConfig = config.talk;
   const globalConfig = _.extend(
     configDefaults,
     submitTicketSettings.config,
