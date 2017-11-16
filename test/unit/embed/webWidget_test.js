@@ -855,14 +855,14 @@ describe('embed.webWidget', () => {
 
     describe('setupTalk', () => {
       beforeEach(() => {
-        const talkConfig = { serviceUrl: 'talk.com', group: 'Support' };
+        const talkConfig = { serviceUrl: 'talk.com', keyword: 'Support' };
 
         webWidget.create('', { talk: talkConfig }, 'reduxStore');
 
         faythe = webWidget.get();
       });
 
-      it('calls socketio.connect with serviceUrl, subdomain and group', () => {
+      it('calls socketio.connect with serviceUrl, subdomain and keyword', () => {
         expect(socketioConnectSpy)
           .toHaveBeenCalledWith('talk.com', 'customerfoo', 'Support');
       });

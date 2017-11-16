@@ -137,7 +137,8 @@ function create(name, config = {}, reduxStore = {}) {
     hideZendeskLogo: false,
     color: '#659700'
   };
-  const talkAvailable = !!config.talk;
+  const talkConfig = config.talk;
+  const talkAvailable = !!talkConfig;
   const helpCenterAvailable = !!config.helpCenterForm && !settings.get('helpCenter.suppress');
   const submitTicketAvailable = !!config.ticketSubmissionForm && !settings.get('contactForm.suppress');
   const chatAvailable = !!config.zopimChat && !settings.get('chat.suppress');
@@ -153,15 +154,17 @@ function create(name, config = {}, reduxStore = {}) {
     configDefaults,
     submitTicketSettings.config,
     helpCenterSettings.config,
+    talkConfig,
     rootConfig
   );
+  const zendeskSubdomain = http.getZendeskSubdomain();
 
   if (chatAvailable) {
     setupChat(config.zopimChat, reduxStore);
   }
 
   if (talkAvailable) {
-    setupTalk(http.getZendeskSubdomain(), config.talk, reduxStore);
+    setupTalk(zendeskSubdomain, talkConfig, reduxStore);
   }
 
   if (isMobileBrowser()) {
@@ -233,8 +236,10 @@ function create(name, config = {}, reduxStore = {}) {
         submitTicketAvailable={submitTicketAvailable}
         submitTicketConfig={submitTicketSettings.config}
         submitTicketSender={submitTicketSettings.submitTicketSender}
+        talkConfig={talkConfig}
         viaId={settings.get('viaId')}
         zendeskHost={http.getZendeskHost()}
+        zendeskSubdomain={zendeskSubdomain}
         zopimOnNext={zopimOnNext} />
     </Frame>
   );
@@ -641,7 +646,7 @@ function setupChat(config, store) {
 }
 
 function setupTalk(zendeskSubdomain, config, store) {
-  const socket = socketio.connect(config.serviceUrl, zendeskSubdomain, config.group);
+  const socket = socketio.connect(config.serviceUrl, zendeskSubdomain, config.keyword);
 
   socketio.mapEventsToActions(socket, store);
 }

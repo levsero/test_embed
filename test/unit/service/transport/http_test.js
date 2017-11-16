@@ -773,6 +773,41 @@ describe('http', () => {
     });
   });
 
+  describe('callMeRequest', () => {
+    let mockSuperagent,
+      payload;
+
+    beforeEach(() => {
+      mockSuperagent = mockRegistry.superagent;
+      http.init();
+      spyOn(mockMethods, 'send').and.callThrough();
+    });
+
+    describe('sends a post request', () => {
+      beforeEach(() => {
+        payload = {
+          params: {
+            phoneNumber: '+61412345678',
+            subdomain: 'bob',
+            keyword: 'Support'
+          }
+        };
+
+        http.callMeRequest('http://talk_service.com', payload);
+      });
+
+      it('with the correct url', () => {
+        expect(mockSuperagent)
+          .toHaveBeenCalledWith('POST', 'http://talk_service.com/talk_embeddables_service/callback_request');
+      });
+
+      it('with the specified params', () => {
+        expect(mockMethods.send)
+          .toHaveBeenCalledWith(payload.params);
+      });
+    });
+  });
+
   describe('#automaticAnswersApiRequest', () => {
     let config,
       mockSuperagent,

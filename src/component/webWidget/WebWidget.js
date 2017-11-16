@@ -75,6 +75,7 @@ class WebWidget extends Component {
     closeFrame: PropTypes.func,
     viaId: PropTypes.number.isRequired,
     zendeskHost: PropTypes.string.isRequired,
+    zendeskSubdomain: PropTypes.string.isRequired,
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
     updateAuthenticated: PropTypes.func.isRequired,
@@ -82,7 +83,8 @@ class WebWidget extends Component {
     updateChatScreen: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired,
-    talkAvailable: PropTypes.bool.isRequired
+    talkAvailable: PropTypes.bool.isRequired,
+    talkConfig: PropTypes.object
   };
 
   static defaultProps = {
@@ -118,7 +120,8 @@ class WebWidget extends Component {
     updateFrameSize: () => {},
     zopimOnline: false,
     zopimOnNext: () => {},
-    closeFrame: () => {}
+    closeFrame: () => {},
+    talkConfig: {}
   };
 
   setComponent = (activeComponent) => {
@@ -413,7 +416,9 @@ class WebWidget extends Component {
         getFrameDimensions={this.props.getFrameDimensions}
         style={this.props.style}
         fullscreen={this.props.fullscreen}
-        updateFrameSize={this.props.updateFrameSize} />
+        updateFrameSize={this.props.updateFrameSize}
+        talkConfig={this.props.talkConfig}
+        zendeskSubdomain={this.props.zendeskSubdomain} />
     );
   }
 
