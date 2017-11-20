@@ -7,7 +7,7 @@ import Chat from 'component/chat/Chat';
 import { Talk } from 'component/talk/Talk';
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
 import { Container } from 'component/container/Container';
-import { HelpCenter } from 'component/helpCenter/HelpCenter';
+import HelpCenter from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
          updateEmbedAccessible,
@@ -135,13 +135,17 @@ class WebWidget extends Component {
 
   getActiveComponent = () => this.props.activeEmbed;
 
-  getRootComponent = () => this.refs[this.props.activeEmbed];
+  getRootComponent = () => {
+    const component = this.refs[this.props.activeEmbed];
+
+    return component.getWrappedInstance ? component.getWrappedInstance() : component;
+  };
 
   getSubmitTicketComponent = () => this.refs[submitTicket];
 
-  getChatComponent = () => this.refs[chat].refs.wrappedInstance;
+  getChatComponent = () => this.refs[chat].getWrappedInstance();
 
-  getHelpCenterComponent = () => this.refs[helpCenter];
+  getHelpCenterComponent = () => this.refs[helpCenter].getWrappedInstance();
 
   articleViewActive = () => _.get(this.getHelpCenterComponent(), 'state.articleViewActive', false);
 
@@ -335,8 +339,7 @@ class WebWidget extends Component {
           buttonLabelKey={helpCenterConfig.buttonLabelKey}
           formTitleKey={helpCenterConfig.formTitleKey}
           showBackButton={this.props.updateBackButtonVisibility}
-          showNextButton={false}
-          showNextButtonSingleIframe={this.props.submitTicketAvailable || chatOnline}
+          showNextButton={this.props.submitTicketAvailable || chatOnline}
           searchSender={this.props.searchSender}
           contextualSearchSender={this.props.contextualSearchSender}
           imagesSender={this.props.imagesSender}

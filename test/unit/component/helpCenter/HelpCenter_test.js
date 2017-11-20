@@ -79,6 +79,7 @@ describe('HelpCenter component', () => {
           }
         }
       },
+      'src/redux/modules/helpCenter': {},
       'service/i18n': {
         i18n: {
           init: jasmine.createSpy(),
@@ -96,7 +97,7 @@ describe('HelpCenter component', () => {
 
     mockery.registerAllowable(helpCenterPath);
 
-    HelpCenter = requireUncached(helpCenterPath).HelpCenter;
+    HelpCenter = requireUncached(helpCenterPath).default.WrappedComponent;
 
     jasmine.clock().install();
   });
@@ -107,32 +108,14 @@ describe('HelpCenter component', () => {
     mockery.disable();
   });
 
-  describe('initial state', () => {
-    let helpCenter;
-
-    beforeEach(() => {
-      helpCenter = instanceRender(<HelpCenter buttonLabelKey='contact' />);
-    });
-
-    it('has articles set to empty', () => {
-      expect(helpCenter.state.articles)
-        .toEqual([]);
-    });
-
-    it('has chatOnline set to false', () => {
-      expect(helpCenter.state.chatOnline)
-        .toEqual(false);
-    });
-  });
-
   describe('render', () => {
-    let helpCenter,
-      buttonLabelKey = 'contact';
+    let buttonLabelKey = 'contact';
 
     describe('when channel choice is on', () => {
       beforeEach(() => {
-        helpCenter = instanceRender(<HelpCenter buttonLabelKey={buttonLabelKey} channelChoice={true} />);
-        helpCenter.setChatOnline(true);
+        instanceRender(
+          <HelpCenter chatOnline={true} buttonLabelKey={buttonLabelKey} channelChoice={true} />
+        );
       });
 
       it('uses the contact us label for the button', () => {
@@ -142,13 +125,11 @@ describe('HelpCenter component', () => {
     });
 
     describe('when channelchoice is off', () => {
-      beforeEach(() => {
-        helpCenter = instanceRender(<HelpCenter buttonLabelKey={buttonLabelKey} channelChoice={false} />);
-      });
-
       describe('when chat is online', () => {
         beforeEach(() => {
-          helpCenter.setChatOnline(true);
+          instanceRender(
+            <HelpCenter chatOnline={true} buttonLabelKey={buttonLabelKey} channelChoice={false} />
+          );
         });
 
         it('uses the chat label for the button', () => {
@@ -159,7 +140,9 @@ describe('HelpCenter component', () => {
 
       describe('when chat is offline', () => {
         beforeEach(() => {
-          helpCenter.setChatOnline(false);
+          instanceRender(
+            <HelpCenter chatOnline={false} buttonLabelKey={buttonLabelKey} channelChoice={false} />
+          );
         });
 
         it('uses the buttonLabelKey label for the button', () => {
@@ -167,21 +150,6 @@ describe('HelpCenter component', () => {
             .toHaveBeenCalledWith(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${buttonLabelKey}`);
         });
       });
-    });
-  });
-
-  describe('setChatOnline', () => {
-    let helpCenter;
-
-    beforeEach(() => {
-      helpCenter = domRender(<HelpCenter buttonLabelKey='contact' />);
-    });
-
-    it('sets chatOnline state', () => {
-      helpCenter.setChatOnline(true);
-
-      expect(helpCenter.state.chatOnline)
-        .toEqual(true);
     });
   });
 

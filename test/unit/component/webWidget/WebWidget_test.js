@@ -68,20 +68,6 @@ describe('WebWidget component', () => {
       }
     }
 
-    class MockChatReduxWrapper extends Component {
-      constructor() {
-        super();
-        this.state = {};
-      }
-      render() {
-        return (
-          <div>
-            <MockChat ref='wrappedInstance' />
-          </div>
-        );
-      }
-    }
-
     initMockRegistry({
       'React': React,
       'component/container/Container': {
@@ -93,10 +79,8 @@ describe('WebWidget component', () => {
           }
         }
       },
-      'component/chat/Chat': MockChatReduxWrapper,
-      'component/helpCenter/HelpCenter': {
-        HelpCenter: MockHelpCenter
-      },
+      'component/chat/Chat': connectedComponent(<MockChat />),
+      'component/helpCenter/HelpCenter': connectedComponent(<MockHelpCenter />),
       'component/submitTicket/SubmitTicket': {
         SubmitTicket: MockSubmitTicket
       },
@@ -499,7 +483,7 @@ describe('WebWidget component', () => {
 
         describe('when an article is active', () => {
           beforeEach(() => {
-            webWidget.refs.helpCenterForm.setState({
+            webWidget.refs.helpCenterForm.getWrappedInstance().setState({
               articleViewActive: true
             });
             webWidget.onBackClick();

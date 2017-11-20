@@ -3,7 +3,8 @@ describe('root reducer', () => {
 
   const combinedReducers = [
     'chat',
-    'base'
+    'base',
+    'helpCenter'
   ];
 
   beforeAll(() => {
@@ -16,6 +17,7 @@ describe('root reducer', () => {
     initMockRegistry({
       './base/reducer': mockReducer,
       './chat/reducer': mockReducer,
+      './helpCenter/reducer': mockReducer,
       './root/reducer/root': (state) => { return {...state, root: true}; }
     });
 

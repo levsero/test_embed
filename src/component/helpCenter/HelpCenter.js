@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle';
@@ -8,11 +9,16 @@ import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop';
 import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile';
 import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
+import { updateSearchTerm } from 'src/redux/modules/helpCenter';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
 
-export class HelpCenter extends Component {
+const mapStateToProps = () => {
+  return {};
+};
+
+class HelpCenter extends Component {
   static propTypes = {
     buttonLabelKey: PropTypes.string,
     channelChoice: PropTypes.bool,
@@ -32,14 +38,13 @@ export class HelpCenter extends Component {
     originalArticleButton: PropTypes.bool,
     searchSender: PropTypes.func.isRequired,
     showBackButton: PropTypes.func,
-    // TODO: make this a single prop when single iframe is GA'd
     showNextButton: PropTypes.bool,
-    showNextButtonSingleIframe: PropTypes.bool,
     style: PropTypes.object,
     talkAvailable: PropTypes.bool,
     updateFrameSize: PropTypes.func,
     hideChatNotification: PropTypes.func,
     updateChatScreen: PropTypes.func,
+    updateSearchTerm: PropTypes.func.isRequired,
     viewMoreEnabled: PropTypes.bool,
     zendeskHost: PropTypes.string.isRequired,
     notification: PropTypes.object.isRequired
@@ -61,7 +66,6 @@ export class HelpCenter extends Component {
     originalArticleButton: true,
     showBackButton: () => {},
     showNextButton: true,
-    showNextButtonSingleIframe: false,
     style: null,
     talkAvailable: false,
     updateFrameSize: () => {},
@@ -77,19 +81,15 @@ export class HelpCenter extends Component {
       activeArticle: {},
       articles: [],
       articleViewActive: false,
-      chatOnline: false,
       hasContextualSearched: false,
       hasSearched: false,
-      loadingSpinnerActive: false,
       previousSearchTerm: '',
       resultsCount: 0,
       resultsPerPage: minimumSearchResults,
       searchFailed: false,
-      searchFieldFocused: false,
       searchResultClicked: false,
       searchTerm: '',
       searchTracked: false,
-      showNextButton: this.props.showNextButton,
       showViewMore: true,
       viewMoreActive: false,
       channelChoiceShown: false
@@ -307,11 +307,9 @@ export class HelpCenter extends Component {
   }
 
   handleNextClick = (e) => {
-    const chatOnline = this.state.chatOnline || this.props.chatOnline;
-
     e.preventDefault();
 
-    if (this.props.channelChoice && chatOnline) {
+    if (this.props.channelChoice && this.props.chatOnline) {
       setTimeout(() => this.setChannelChoiceShown(true), 0);
     } else {
       this.props.onNextClick();
@@ -346,16 +344,6 @@ export class HelpCenter extends Component {
 
   resetState = () => {
     this.refs.helpCenterMobile.resetState();
-  }
-
-  showNextButton = (value) => {
-    this.setState({ showNextButton: value });
-  }
-
-  shouldShowNextButton = () => this.state.showNextButton || this.props.showNextButtonSingleIframe;
-
-  setChatOnline = (chatOnline) => {
-    this.setState({ chatOnline });
   }
 
   handleArticleClick = (articleIndex, e) => {
@@ -408,6 +396,7 @@ export class HelpCenter extends Component {
   }
 
   renderResults = () => {
+    const { showNextButton } = this.props;
     const hasSearched = this.state.hasSearched || this.state.hasContextualSearched;
 
     if (this.state.articleViewActive || !hasSearched) {
@@ -418,8 +407,8 @@ export class HelpCenter extends Component {
                          this.state.showViewMore &&
                          this.state.resultsCount > minimumSearchResults;
     const showBottomBorder = !this.props.fullscreen &&
-                             !(!this.shouldShowNextButton() && this.props.hideZendeskLogo);
-    const applyPadding = !this.shouldShowNextButton() && !this.props.hideZendeskLogo;
+                             !(!showNextButton && this.props.hideZendeskLogo);
+    const applyPadding = !showNextButton && !this.props.hideZendeskLogo;
 
     return (
       <HelpCenterResults
@@ -433,7 +422,7 @@ export class HelpCenter extends Component {
         handleArticleClick={this.handleArticleClick}
         handleViewMoreClick={this.handleViewMoreClick}
         hasContextualSearched={this.state.hasContextualSearched}
-        showContactButton={this.shouldShowNextButton()} />
+        showContactButton={showNextButton} />
     );
   }
 
@@ -457,18 +446,17 @@ export class HelpCenter extends Component {
   renderHelpCenterDesktop = (buttonLabel) => {
     const shadowVisible = this.state.articleViewActive ||
                           this.state.articles.length > minimumSearchResults;
-    const chatOnline = this.state.chatOnline || this.props.chatOnline;
 
     return (
       <HelpCenterDesktop
         ref='helpCenterDesktop'
         notification={this.props.notification}
-        chatOnline={chatOnline}
+        chatOnline={this.props.chatOnline}
         getFrameDimensions={this.props.getFrameDimensions}
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
         search={this.search}
-        showNextButton={this.shouldShowNextButton()}
+        showNextButton={this.props.showNextButton}
         hideZendeskLogo={this.props.hideZendeskLogo}
         isLoading={this.state.isLoading}
         onNextClick={this.props.onNextClick}
@@ -491,8 +479,6 @@ export class HelpCenter extends Component {
   }
 
   renderHelpCenterMobile = (buttonLabel) => {
-    const chatOnline = this.state.chatOnline || this.props.chatOnline;
-
     return (
       <HelpCenterMobile
         ref='helpCenterMobile'
@@ -502,8 +488,8 @@ export class HelpCenter extends Component {
         isLoading={this.state.isLoading}
         onNextClick={this.props.onNextClick}
         newDesign={this.props.newDesign}
-        showNextButton={this.shouldShowNextButton()}
-        chatOnline={chatOnline}
+        showNextButton={this.props.showNextButton}
+        chatOnline={this.props.chatOnline}
         channelChoice={this.state.channelChoiceShown}
         talkAvailable={this.props.talkAvailable}
         articleViewActive={this.state.articleViewActive}
@@ -524,7 +510,7 @@ export class HelpCenter extends Component {
 
     if (this.props.channelChoice) {
       buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
-    } else if (this.state.chatOnline || this.props.chatOnline) {
+    } else if (this.props.chatOnline) {
       buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
     } else {
       buttonLabel = i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`); // eslint-disable-line
@@ -541,3 +527,9 @@ export class HelpCenter extends Component {
     );
   }
 }
+
+const actionCreators = {
+  updateSearchTerm
+};
+
+export default connect(mapStateToProps, actionCreators, null, { withRef: true })(HelpCenter);
