@@ -13,6 +13,8 @@ $Button-nudge: 5;
   padding: $spacing-med $spacing-lrg;
   border-radius: #{5/$font-size}rem;
   color: $base-color;
+  cursor: pointer;
+
   &:disabled {
     background: $inactive-color;
   }
