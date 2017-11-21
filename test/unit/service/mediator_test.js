@@ -9,7 +9,6 @@ describe('mediator', () => {
     submitTicketSub,
     chatSub,
     helpCenterSub,
-    channelChoiceSub,
     mockChatSuppressedValue,
     mockHelpCenterSuppressedValue,
     mockContactFormSuppressedValue,
@@ -92,9 +91,7 @@ describe('mediator', () => {
 
     submitTicketSub = jasmine.createSpyObj(
       'submitTicket',
-      ['show',
-       'showWithAnimation',
-       'hide',
+      ['hide',
        'setLastSearch',
        'prefill',
        'update',
@@ -113,14 +110,7 @@ describe('mediator', () => {
 
     helpCenterSub = jasmine.createSpyObj(
       'helpCenter',
-      ['show',
-       'showWithAnimation',
-       'hide']
-    );
-
-    channelChoiceSub = jasmine.createSpyObj(
-      'channelChoice',
-      ['show']
+      ['hide']
     );
 
     webWidgetSub = jasmine.createSpyObj(
@@ -149,8 +139,6 @@ describe('mediator', () => {
       c.subscribe(`${names.launcher}.setLabelUnreadMsgs`, launcherSub.setLabelUnreadMsgs);
       c.subscribe(`${names.launcher}.refreshLocale`, launcherSub.refreshLocale);
 
-      c.subscribe(`${names.submitTicket}.show`, submitTicketSub.show);
-      c.subscribe(`${names.submitTicket}.showWithAnimation`, submitTicketSub.show);
       c.subscribe(`${names.submitTicket}.hide`, submitTicketSub.hide);
       c.subscribe(`${names.submitTicket}.setLastSearch`, submitTicketSub.setLastSearch);
       c.subscribe(`${names.submitTicket}.prefill`, submitTicketSub.prefill);
@@ -163,11 +151,7 @@ describe('mediator', () => {
       c.subscribe(`${names.chat}.setUser`, chatSub.setUser);
       c.subscribe(`${names.chat}.refreshLocale`, chatSub.refreshLocale);
 
-      c.subscribe(`${names.helpCenter}.show`, helpCenterSub.show);
-      c.subscribe(`${names.helpCenter}.showWithAnimation`, helpCenterSub.show);
       c.subscribe(`${names.helpCenter}.hide`, helpCenterSub.hide);
-
-      c.subscribe(`${names.channelChoice}.show`, channelChoiceSub.show);
 
       c.subscribe(`${names.webWidget}.hide`, webWidgetSub.hide);
       c.subscribe(`${names.webWidget}.show`, webWidgetSub.show);
@@ -309,11 +293,13 @@ describe('mediator', () => {
     const submitTicket = 'ticketSubmissionForm';
     const helpCenter = 'helpCenterForm';
     const authentication = 'authentication';
+    const webWidget = 'webWidget';
     const names = {
-      launcher: launcher,
-      submitTicket: submitTicket,
-      helpCenter: helpCenter,
-      authentication: authentication
+      launcher,
+      submitTicket,
+      helpCenter,
+      authentication,
+      webWidget
     };
 
     beforeEach(() => {
@@ -329,8 +315,8 @@ describe('mediator', () => {
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
 
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(0);
+        expect(webWidgetSub.show.calls.count())
+          .toEqual(1);
 
         c.broadcast('webWidget.onClose');
         c.broadcast('authentication.onSuccess');
@@ -338,8 +324,8 @@ describe('mediator', () => {
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
 
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(1);
+        expect(webWidgetSub.show.calls.count())
+          .toEqual(2);
       });
 
       it('should call launcher show if there is no embed visible', () => {
@@ -455,13 +441,15 @@ describe('mediator', () => {
     const helpCenter = 'helpCenterForm';
     const authentication = 'authentication';
     const beacon = 'beacon';
+    const webWidget = 'webWidget';
     const names = {
-      launcher: launcher,
-      submitTicket: submitTicket,
-      chat: chat,
-      helpCenter: helpCenter,
-      authentication: authentication,
-      beacon: beacon
+      launcher,
+      submitTicket,
+      chat,
+      helpCenter,
+      authentication,
+      beacon,
+      webWidget
     };
 
     beforeEach(() => {
@@ -564,7 +552,7 @@ describe('mediator', () => {
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
 
-        expect(submitTicketSub.show.calls.count())
+        expect(webWidgetSub.show.calls.count())
           .toEqual(1);
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
@@ -686,7 +674,7 @@ describe('mediator', () => {
 
             expect(launcherSub.hide.calls.count())
               .toEqual(1);
-            expect(submitTicketSub.show.calls.count())
+            expect(webWidgetSub.show.calls.count())
               .toEqual(1);
             expect(chatSub.show.calls.count())
               .toEqual(0);
@@ -703,7 +691,7 @@ describe('mediator', () => {
 
             expect(launcherSub.hide.calls.count())
               .toEqual(1);
-            expect(submitTicketSub.show.calls.count())
+            expect(webWidgetSub.show.calls.count())
               .toEqual(0);
             expect(chatSub.show.calls.count())
               .toEqual(1);
@@ -725,7 +713,7 @@ describe('mediator', () => {
         });
 
         it('launches chat', () => {
-          expect(submitTicketSub.show.calls.count())
+          expect(webWidgetSub.show.calls.count())
             .toEqual(0);
           expect(chatSub.show.calls.count())
             .toEqual(1);
@@ -814,7 +802,7 @@ describe('mediator', () => {
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
 
-        expect(helpCenterSub.show.calls.count())
+        expect(webWidgetSub.show.calls.count())
           .toEqual(1);
       });
 
@@ -824,7 +812,7 @@ describe('mediator', () => {
         c.broadcast(`${helpCenter}.onNextClick`);
 
         reset(chatSub.show);
-        reset(helpCenterSub.show);
+        reset(webWidgetSub.show);
 
         c.broadcast(`${chat}.onHide`); // close
 
@@ -835,7 +823,7 @@ describe('mediator', () => {
         expect(chatSub.show.calls.count())
           .toEqual(1);
 
-        expect(helpCenterSub.show.calls.count())
+        expect(webWidgetSub.show.calls.count())
           .toEqual(0);
       });
 
@@ -846,14 +834,14 @@ describe('mediator', () => {
         jasmine.clock().tick(0);
         c.broadcast(`${helpCenter}.onNextClick`);
 
-        reset(helpCenterSub.show);
+        reset(webWidgetSub.show);
 
         c.broadcast(`${chat}.onHide`); // close
 
         c.broadcast(`.activate`); // open
         jasmine.clock().tick(0);
 
-        expect(helpCenterSub.show.calls.count())
+        expect(webWidgetSub.show.calls.count())
           .toEqual(1);
       });
 
@@ -871,7 +859,7 @@ describe('mediator', () => {
         c.broadcast(`${launcher}.onClick`);  // open
         c.broadcast(`${helpCenter}.onNextClick`);
 
-        reset(helpCenterSub.show);
+        reset(webWidgetSub.show);
         c.broadcast('webWidget.onClose'); // close
         c.broadcast(`${chat}.onOffline`);
 
@@ -879,7 +867,7 @@ describe('mediator', () => {
         c.broadcast(`${launcher}.onClick`); // open
         jasmine.clock().tick(0);
 
-        expect(helpCenterSub.show.calls.count())
+        expect(webWidgetSub.show.calls.count())
           .toEqual(1);
       });
 
@@ -895,13 +883,13 @@ describe('mediator', () => {
         c.broadcast(`${helpCenter}.onHide`);
 
         reset(chatSub.show);
-        reset(helpCenterSub.show);
+        reset(webWidgetSub.show);
 
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
 
-        expect(helpCenterSub.show.calls.count())
+        expect(webWidgetSub.show.calls.count())
           .toEqual(0);
 
         expect(chatSub.show.calls.count())
@@ -920,13 +908,13 @@ describe('mediator', () => {
         c.broadcast(`${chat}.onOffline`);
 
         reset(chatSub.show);
-        reset(helpCenterSub.show);
+        reset(webWidgetSub.show);
 
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
 
-        expect(helpCenterSub.show.calls.count())
+        expect(webWidgetSub.show.calls.count())
           .toEqual(1);
 
         expect(chatSub.show.calls.count())
@@ -1015,7 +1003,7 @@ describe('mediator', () => {
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
 
-        expect(submitTicketSub.show.calls.count())
+        expect(webWidgetSub.show.calls.count())
           .toEqual(1);
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
@@ -1054,7 +1042,7 @@ describe('mediator', () => {
       describe('when activate is called', () => {
         beforeEach(() => {
           c.broadcast('.hide');
-          reset(submitTicketSub.show);
+          reset(webWidgetSub.show);
         });
 
         describe('when position is top', () => {
@@ -1062,7 +1050,7 @@ describe('mediator', () => {
             mockPositionValue.vertical = 'top';
             c.broadcast('.activate');
 
-            const calls = submitTicketSub.show.calls;
+            const calls = webWidgetSub.show.calls;
 
             expect(calls.mostRecent().args[0])
               .toEqual(jasmine.objectContaining({ transition: 'downShow' }));
@@ -1077,7 +1065,7 @@ describe('mediator', () => {
             mockPositionValue.vertical = 'bottom';
             c.broadcast('.activate');
 
-            const calls = submitTicketSub.show.calls;
+            const calls = webWidgetSub.show.calls;
 
             expect(calls.mostRecent().args[0])
               .toEqual(jasmine.objectContaining({ transition: 'upShow' }));
@@ -1092,10 +1080,10 @@ describe('mediator', () => {
         mockContactFormSuppressedValue = true;
         mediator.init({ submitTicket: true, helpCenter: false });
 
-        reset(submitTicketSub.show);
+        reset(webWidgetSub.show);
         c.broadcast('.activate');
 
-        expect(submitTicketSub.show.calls.count())
+        expect(webWidgetSub.show.calls.count())
           .toEqual(0);
       });
 
@@ -1105,7 +1093,7 @@ describe('mediator', () => {
           c.broadcast(`${launcher}.onClick`);
           c.broadcast('.hide');
 
-          reset(submitTicketSub.show);
+          reset(webWidgetSub.show);
         });
 
         describe('when position is top', () => {
@@ -1113,7 +1101,7 @@ describe('mediator', () => {
             mockPositionValue.vertical = 'top';
             c.broadcast('.activate');
 
-            const calls = submitTicketSub.show.calls;
+            const calls = webWidgetSub.show.calls;
 
             expect(calls.mostRecent().args[0])
               .toEqual(jasmine.objectContaining({ transition: 'downShow' }));
@@ -1128,7 +1116,7 @@ describe('mediator', () => {
             mockPositionValue.vertical = 'bottom';
             c.broadcast('.activate');
 
-            const calls = submitTicketSub.show.calls;
+            const calls = webWidgetSub.show.calls;
 
             expect(calls.mostRecent().args[0])
               .toEqual(jasmine.objectContaining({ transition: 'upShow' }));
@@ -1160,14 +1148,14 @@ describe('mediator', () => {
             c.broadcast(`${chat}.onOnline`);
             c.broadcast(`${chat}.onOffline`);
 
-            reset(submitTicketSub.show);
+            reset(webWidgetSub.show);
             reset(chatSub.show);
 
             jasmine.clock().install();
             c.broadcast(`${launcher}.onClick`);
             jasmine.clock().tick(10);
 
-            expect(submitTicketSub.show.calls.count())
+            expect(webWidgetSub.show.calls.count())
               .toEqual(1);
 
             expect(chatSub.show.calls.count())
@@ -1181,14 +1169,14 @@ describe('mediator', () => {
             c.broadcast(`${chat}.onIsChatting`);
             c.broadcast(`${chat}.onOffline`);
 
-            reset(submitTicketSub.show);
+            reset(webWidgetSub.show);
             reset(chatSub.show);
 
             jasmine.clock().install();
             c.broadcast(`${launcher}.onClick`);
             jasmine.clock().tick(10);
 
-            expect(submitTicketSub.show.calls.count())
+            expect(webWidgetSub.show.calls.count())
               .toEqual(0);
 
             expect(chatSub.show.calls.count())
@@ -1209,7 +1197,7 @@ describe('mediator', () => {
 
         c.broadcast(`${submitTicket}.onFormSubmitted`);
 
-        reset(helpCenterSub.show);
+        reset(webWidgetSub.show);
 
         c.broadcast('webWidget.onClose'); // close
 
@@ -1217,21 +1205,8 @@ describe('mediator', () => {
         c.broadcast(`${launcher}.onClick`); // open
         jasmine.clock().tick(0);
 
-        expect(helpCenterSub.show.calls.count())
+        expect(webWidgetSub.show.calls.count())
           .toEqual(1);
-      });
-
-      it('does not show after activate is called and was visible before hidden', () => {
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${helpCenter}.onNextClick`);
-
-        c.broadcast('.hide');
-
-        reset(submitTicketSub.show);
-        c.broadcast('.activate');
-
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(0);
       });
     });
   });
@@ -1245,13 +1220,13 @@ describe('mediator', () => {
     const submitTicket = 'ticketSubmissionForm';
     const chat = 'zopimChat';
     const helpCenter = 'helpCenterForm';
-    const channelChoice = 'channelChoice';
+    const webWidget = 'webWidget';
     const names = {
-      launcher: launcher,
-      submitTicket: submitTicket,
-      chat: chat,
-      helpCenter: helpCenter,
-      channelChoice
+      launcher,
+      submitTicket,
+      chat,
+      helpCenter,
+      webWidget
     };
 
     beforeEach(() => {
@@ -1529,7 +1504,7 @@ describe('mediator', () => {
             expect(chatSub.show.calls.count())
               .toBe(0);
 
-            expect(channelChoiceSub.show.calls.count())
+            expect(webWidgetSub.show.calls.count())
               .toBe(1);
           });
         });
@@ -1542,7 +1517,7 @@ describe('mediator', () => {
           });
 
           it('sets the active embed to chat', () => {
-            expect(channelChoiceSub.show.calls.count())
+            expect(webWidgetSub.show.calls.count())
               .toBe(0);
 
             expect(chatSub.show.calls.count())
@@ -1565,7 +1540,7 @@ describe('mediator', () => {
             });
 
             it('shows contact form when chat connects', () => {
-              expect(submitTicketSub.show.calls.count())
+              expect(webWidgetSub.show.calls.count())
                 .toBe(1);
             });
           });
@@ -1630,7 +1605,7 @@ describe('mediator', () => {
         c.broadcast(`${launcher}.onClick`); // open
         jasmine.clock().tick(0);
 
-        expect(helpCenterSub.show.calls.count())
+        expect(webWidgetSub.show.calls.count())
           .toEqual(0);
         expect(chatSub.show.calls.count())
           .toEqual(1);
@@ -1692,11 +1667,13 @@ describe('mediator', () => {
     const submitTicket = 'ticketSubmissionForm';
     const helpCenter = 'helpCenterForm';
     const chat = 'zopimChat';
+    const webWidget = 'webWidget';
     const names = {
-      launcher: launcher,
-      submitTicket: submitTicket,
-      helpCenter: helpCenter,
-      chat: chat
+      launcher,
+      submitTicket,
+      helpCenter,
+      chat,
+      webWidget
     };
 
     beforeEach(() => {
@@ -1714,7 +1691,7 @@ describe('mediator', () => {
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
 
-        expect(helpCenterSub.show.calls.count())
+        expect(webWidgetSub.show.calls.count())
           .toEqual(1);
       });
     });
@@ -1729,7 +1706,7 @@ describe('mediator', () => {
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
 
-        expect(helpCenterSub.show.calls.count())
+        expect(webWidgetSub.show.calls.count())
           .toEqual(1);
       });
     });
@@ -1754,7 +1731,7 @@ describe('mediator', () => {
     describe('when activate is called', () => {
       beforeEach(() => {
         c.broadcast('.hide');
-        reset(helpCenterSub.show);
+        reset(webWidgetSub.show);
       });
 
       describe('when position is top', () => {
@@ -1762,7 +1739,7 @@ describe('mediator', () => {
           mockPositionValue.vertical = 'top';
           c.broadcast('.activate');
 
-          const calls = helpCenterSub.show.calls;
+          const calls = webWidgetSub.show.calls;
 
           expect(calls.mostRecent().args[0])
             .toEqual(jasmine.objectContaining({ transition: 'downShow' }));
@@ -1777,7 +1754,7 @@ describe('mediator', () => {
           mockPositionValue.vertical = 'bottom';
           c.broadcast('.activate');
 
-          const calls = helpCenterSub.show.calls;
+          const calls = webWidgetSub.show.calls;
 
           expect(calls.mostRecent().args[0])
             .toEqual(jasmine.objectContaining({ transition: 'upShow' }));
@@ -1792,10 +1769,10 @@ describe('mediator', () => {
       mockHelpCenterSuppressedValue = true;
       mediator.init({ submitTicket: false, helpCenter: true });
 
-      reset(helpCenterSub.show);
+      reset(webWidgetSub.show);
       c.broadcast('.activate');
 
-      expect(helpCenterSub.show.calls.count())
+      expect(webWidgetSub.show.calls.count())
         .toEqual(0);
     });
 
@@ -1824,32 +1801,34 @@ describe('mediator', () => {
     });
 
     it('should not set helpCenterForm to available if sign in is required', () => {
-      mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
+      mediator.init({ submitTicket: true, chat: true, helpCenter: true }, { helpCenterSignInRequired: true });
+      c.broadcast(`${chat}.onOnline`);
+      c.broadcast(`${chat}.onConnected`);
 
       jasmine.clock().install();
       c.broadcast(`${launcher}.onClick`);
       jasmine.clock().tick(0);
 
-      expect(submitTicketSub.show.calls.count())
-        .toEqual(1);
-
-      expect(helpCenterSub.show.calls.count())
+      expect(webWidgetSub.show.calls.count())
         .toEqual(0);
     });
 
     it('should set helpCenterForm to available if sign in is required and is on a hc page', () => {
       mockOnHelpCenterPageValue = true;
 
-      mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
+      mediator.init({ submitTicket: true, chat: true, helpCenter: true }, { helpCenterSignInRequired: true });
+
+      c.broadcast('zopimChat.onOnline');
+      c.broadcast('zopimChat.onConnected');
 
       jasmine.clock().install();
       c.broadcast(`${launcher}.onClick`);
       jasmine.clock().tick(0);
 
-      expect(submitTicketSub.show.calls.count())
+      expect(chatSub.show.calls.count())
         .toEqual(0);
 
-      expect(helpCenterSub.show.calls.count())
+      expect(webWidgetSub.show.calls.count())
         .toEqual(1);
     });
   });
@@ -1958,11 +1937,13 @@ describe('mediator', () => {
     const submitTicket = 'ticketSubmissionForm';
     const helpCenter = 'helpCenterForm';
     const chat = 'zopimChat';
+    const webWidget = 'webWidget';
     const names = {
-      launcher: launcher,
-      submitTicket: submitTicket,
-      helpCenter: helpCenter,
-      chat: chat
+      launcher,
+      submitTicket,
+      helpCenter,
+      chat,
+      webWidget
     };
 
     beforeEach(() => {
@@ -2033,7 +2014,7 @@ describe('mediator', () => {
           c.broadcast(`${launcher}.onClick`);
           jasmine.clock().tick(0);
 
-          expect(helpCenterSub.show.calls.count())
+          expect(webWidgetSub.show.calls.count())
             .toEqual(1);
         });
       });
@@ -2047,7 +2028,7 @@ describe('mediator', () => {
           c.broadcast(`${launcher}.onClick`);
           jasmine.clock().tick(0);
 
-          expect(helpCenterSub.show.calls.count())
+          expect(webWidgetSub.show.calls.count())
             .toEqual(1);
         });
       });
@@ -2066,7 +2047,7 @@ describe('mediator', () => {
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
 
-        expect(submitTicketSub.show.calls.count())
+        expect(webWidgetSub.show.calls.count())
           .toEqual(1);
         expect(chatSub.show.calls.count())
           .toEqual(0);
@@ -2123,32 +2104,17 @@ describe('mediator', () => {
 
     it('should not display help center if it is suppressed', () => {
       mockHelpCenterSuppressedValue = true;
-      mediator.init({ submitTicket: true, helpCenter: true });
+      mediator.init({ submitTicket: true, chat: true, helpCenter: true });
+
+      c.broadcast(`${chat}.onOnline`);
+      c.broadcast(`${chat}.onConnected`);
 
       c.broadcast(`${launcher}.onClick`);
       jasmine.clock().tick(0);
 
-      expect(submitTicketSub.show.calls.count())
-        .toEqual(1);
-      expect(helpCenterSub.show.calls.count())
-        .toEqual(0);
-    });
-
-    it('does not display chat or helpCenter if they are suppressed', () => {
-      mockChatSuppressedValue = true;
-      mockHelpCenterSuppressedValue = true;
-      mediator.init({ submitTicket: true, helpCenter: true });
-
-      c.broadcast(`${chat}.isOnline`);
-
-      c.broadcast(`${launcher}.onClick`);
-      jasmine.clock().tick(0);
-
-      expect(submitTicketSub.show.calls.count())
-        .toEqual(1);
       expect(chatSub.show.calls.count())
-        .toEqual(0);
-      expect(helpCenterSub.show.calls.count())
+        .toEqual(1);
+      expect(webWidgetSub.show.calls.count())
         .toEqual(0);
     });
   });

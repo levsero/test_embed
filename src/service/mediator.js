@@ -128,8 +128,12 @@ const showEmbed = (_state, viaActivate = false) => {
 
     _state[`${_state.activeEmbed}.isVisible`] = true;
     c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
-    c.broadcast(`${_state.activeEmbed}.show`, options);
-    c.broadcast('webWidget.show', options);
+
+    if (_state.activeEmbed === chat) {
+      c.broadcast(`${chat}.show`, options);
+    } else {
+      c.broadcast('webWidget.show', options);
+    }
   }
 
   if (isMobileBrowser() && _state.activeEmbed !== chat) {
