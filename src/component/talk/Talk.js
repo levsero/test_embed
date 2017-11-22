@@ -19,7 +19,6 @@ const mapStateToProps = (state) => {
   const { talk } = state;
 
   return {
-    talk,
     embeddableConfig: talk.embeddableConfig,
     agentAvailbility: talk.agentAvailbility,
     formState: talk.formState,
@@ -30,7 +29,6 @@ const mapStateToProps = (state) => {
 
 class Talk extends Component {
   static propTypes = {
-    talk: PropTypes.object.isRequired,
     embeddableConfig: PropTypes.object.isRequired,
     formState: PropTypes.object.isRequired,
     screen: PropTypes.string.isRequired,
