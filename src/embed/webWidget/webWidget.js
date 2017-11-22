@@ -105,6 +105,8 @@ const onHide = () => {
     if (rootComponent.pauseAllVideos) {
       rootComponent.pauseAllVideos();
     }
+
+    embed.store.dispatch(updateTalkScreen(CALL_ME_SCREEN));
   }
 };
 const onBack = () => {
@@ -313,8 +315,6 @@ function setupMediator() {
 
         webWidget.keywordsSearch(contextualSearchOptions);
       }
-
-      embed.store.dispatch(updateTalkScreen(CALL_ME_SCREEN));
     });
   });
 

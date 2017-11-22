@@ -215,11 +215,12 @@ describe('embed.webWidget', () => {
 
       beforeEach(() => {
         mockSetScaleLock = mockRegistry['utility/devices'].setScaleLock;
+        const mockStore = { dispatch: noop };
 
         webWidget.create('', {
           ticketSubmissionForm: { attachmentsEnabled: true },
           helpCenterForm: {}
-        });
+        }, mockStore);
         webWidget.render();
 
         frame = webWidget.get().instance;
@@ -278,6 +279,11 @@ describe('embed.webWidget', () => {
         it('should call setScaleLock', () => {
           expect(mockSetScaleLock)
             .toHaveBeenCalledWith(false);
+        });
+
+        it('dispatches a updateTalkScreen action with CALL_ME_SCREEN', () => {
+          expect(updateTalkScreenSpy)
+            .toHaveBeenCalledWith(callMeScreen);
         });
       });
 
@@ -1202,19 +1208,6 @@ describe('embed.webWidget', () => {
         it('calls show on Frame with an options of viaActivate of true', () => {
           expect(frame.show)
             .toHaveBeenCalledWith({ viaActivate: true });
-        });
-      });
-
-      describe('when talk is available', () => {
-        beforeEach(() => {
-          frame.setState({ visible: false });
-          pluckSubscribeCall(mockMediator, 'webWidget.show')();
-          jasmine.clock().tick(0);
-        });
-
-        it('dispatches a updateTalkScreen action with CALL_ME_SCREEN', () => {
-          expect(updateTalkScreenSpy)
-            .toHaveBeenCalledWith(callMeScreen);
         });
       });
     });
