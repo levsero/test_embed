@@ -68,20 +68,6 @@ describe('WebWidget component', () => {
       }
     }
 
-    class MockTalkReduxWrapper extends Component {
-      constructor() {
-        super();
-        this.state = {};
-      }
-      render() {
-        return (
-          <div>
-            <MockTalk ref='wrappedInstance' />
-          </div>
-        );
-      }
-    }
-
     initMockRegistry({
       'React': React,
       'component/container/Container': {
@@ -98,7 +84,7 @@ describe('WebWidget component', () => {
       'component/submitTicket/SubmitTicket': {
         SubmitTicket: MockSubmitTicket
       },
-      'component/talk/Talk': MockTalkReduxWrapper,
+      'component/talk/Talk': connectedComponent(<MockTalk />),
       'component/channelChoice/ChannelChoice': {
         ChannelChoice: noopReactComponent()
       },

@@ -25,10 +25,7 @@ describe('chat redux actions', () => {
     actionTypes = requireUncached(actionTypesPath);
     screenTypes = requireUncached(screenTypesPath);
 
-    mockStore = createMockStore({
-      talk: {
-      }
-    });
+    mockStore = createMockStore({ talk: {} });
   });
 
   afterEach(() => {
