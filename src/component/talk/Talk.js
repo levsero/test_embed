@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { Form } from 'component/form/Form';
 import { Field } from 'component/field/Field';
@@ -8,13 +9,36 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 
 import { CALL_ME_SCREEN, SUCCESS_NOTIFICATION_SCREEN } from 'src/redux/modules/talk/talk-screen-types';
+import { updateTalkScreen, updateTalkCallMeForm, updateTalkPhoneNumber } from 'src/redux/modules/talk';
+import { getEmbeddableConfig,
+         getAgentAvailability,
+         getFormState,
+         getScreen,
+         getPhoneNumber } from 'src/redux/modules/talk/talk-selectors';
 import { http } from 'service/transport';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './Talk.sass';
 
-export class Talk extends Component {
+const mapStateToProps = (state) => {
+  return {
+    embeddableConfig: getEmbeddableConfig(state),
+    agentAvailbility: getAgentAvailability(state),
+    formState: getFormState(state),
+    screen: getScreen(state),
+    phoneNumber: getPhoneNumber(state)
+  };
+};
+
+class Talk extends Component {
   static propTypes = {
+    embeddableConfig: PropTypes.object.isRequired,
+    formState: PropTypes.object.isRequired,
+    screen: PropTypes.string.isRequired,
+    phoneNumber: PropTypes.string.isRequired,
+    updateTalkScreen: PropTypes.func.isRequired,
+    updateTalkCallMeForm: PropTypes.func.isRequired,
+    updateTalkPhoneNumber: PropTypes.func.isRequired,
     talkConfig: PropTypes.object.isRequired,
     zendeskSubdomain: PropTypes.string.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
@@ -31,18 +55,7 @@ export class Talk extends Component {
 
   constructor() {
     super();
-
-    this.state = {
-      formState: {},
-      currentScreen: CALL_ME_SCREEN,
-      phoneNumber: ''
-    };
-
     this.form = null;
-  }
-
-  clearNotification = () => {
-    this.setState({ currentScreen: CALL_ME_SCREEN });
   }
 
   handleFormCompleted = (formState) => {
@@ -55,10 +68,8 @@ export class Talk extends Component {
     const callbacks = {
       done: (res) => {
         this.form.clear();
-        this.setState({
-          currentScreen: SUCCESS_NOTIFICATION_SCREEN,
-          phoneNumber: res.body.phone_number
-        });
+        this.props.updateTalkScreen(SUCCESS_NOTIFICATION_SCREEN);
+        this.props.updateTalkPhoneNumber(res.body.phone_number);
       }
     };
 
@@ -69,7 +80,7 @@ export class Talk extends Component {
   }
 
   handleFormChange = (formState) => {
-    this.setState({ formState });
+    this.props.updateTalkCallMeForm(formState);
   }
 
   renderFormHeader = () => {
@@ -85,13 +96,13 @@ export class Talk extends Component {
       <Field
         label={i18n.t('embeddable_framework.common.textLabel.phoneNumber', { fallback: 'Phone Number' })}
         required={true}
-        value={this.state.formState.phone}
+        value={this.props.formState.phone}
         name='phone' />
     );
   }
 
   renderFormScreen = () => {
-    if (this.state.currentScreen !== CALL_ME_SCREEN) return;
+    if (this.props.screen !== CALL_ME_SCREEN) return;
 
     return (
       <Form
@@ -113,10 +124,10 @@ export class Talk extends Component {
   }
 
   renderSuccessNotificationScreen = () => {
-    if (this.state.currentScreen !== SUCCESS_NOTIFICATION_SCREEN) return;
+    if (this.props.screen !== SUCCESS_NOTIFICATION_SCREEN) return;
 
     const message = i18n.t('embeddable_framework.talk.notify.success.message', {
-      fallback: `Thanks for submiting your request. We'll get back to you soon on ${this.state.phoneNumber}`
+      fallback: `Thanks for submiting your request. We'll get back to you soon on ${this.props.phoneNumber}`
     });
     const iconClasses = `${styles.notifyIcon} u-userFillColor u-userTextColor`;
 
@@ -139,7 +150,7 @@ export class Talk extends Component {
     const successNotificationTitle = i18n.t('embeddable_framework.talk.notify.success.title', {
       fallback: 'Request sent'
     });
-    const onCallMeScreen = this.state.currentScreen === CALL_ME_SCREEN;
+    const onCallMeScreen = this.props.screen === CALL_ME_SCREEN;
     const title = onCallMeScreen ? formTitle : successNotificationTitle;
     const footerClasses = onCallMeScreen ? styles.footer : '';
 
@@ -157,3 +168,11 @@ export class Talk extends Component {
     );
   }
 }
+
+const actionCreators = {
+  updateTalkScreen,
+  updateTalkCallMeForm,
+  updateTalkPhoneNumber
+};
+
+export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Talk);

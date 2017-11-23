@@ -84,9 +84,7 @@ describe('WebWidget component', () => {
       'component/submitTicket/SubmitTicket': {
         SubmitTicket: MockSubmitTicket
       },
-      'component/talk/Talk': {
-        Talk: MockTalk
-      },
+      'component/talk/Talk': connectedComponent(<MockTalk />),
       'component/channelChoice/ChannelChoice': {
         ChannelChoice: noopReactComponent()
       },

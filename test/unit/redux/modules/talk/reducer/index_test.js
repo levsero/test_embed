@@ -30,5 +30,20 @@ describe('talk root reducer', () => {
       expect(state.agentAvailbility)
         .toBeDefined();
     });
+
+    it('has the screen sub state', () => {
+      expect(state.screen)
+        .toBeDefined();
+    });
+
+    it('has the formState sub state', () => {
+      expect(state.formState)
+        .toBeDefined();
+    });
+
+    it('has the phoneNumber sub state', () => {
+      expect(state.phoneNumber)
+        .toBeDefined();
+    });
   });
 });

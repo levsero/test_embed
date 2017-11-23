@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import Chat from 'component/chat/Chat';
-import { Talk } from 'component/talk/Talk';
+import Talk from 'component/talk/Talk';
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
 import { Container } from 'component/container/Container';
 import HelpCenter from 'component/helpCenter/HelpCenter';

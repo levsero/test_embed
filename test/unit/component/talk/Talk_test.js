@@ -28,10 +28,16 @@ describe('Talk component', () => {
       'component/ZendeskLogo': { ZendeskLogo: noopReactComponent },
       'service/i18n': { i18n: { t: (key) => key, isRTL: _.noop } },
       'service/transport': { http: httpSpy },
+      'src/redux/modules/talk': {
+        updateTalkScreen: noop,
+        updateTalkCallMeForm: noop,
+        updateTalkPhoneNumber: noop
+      },
       'src/redux/modules/talk/talk-screen-types': {
         CALL_ME_SCREEN: callMeScreen,
         SUCCESS_NOTIFICATION_SCREEN: successNotificationScreen
       },
+      'src/redux/modules/talk/talk-selectors': {},
       './Talk.sass': {
         locals: {
           footer: 'footerClasses'
@@ -40,7 +46,7 @@ describe('Talk component', () => {
     });
 
     mockery.registerAllowable(talkPath);
-    Talk = requireUncached(talkPath).Talk;
+    Talk = requireUncached(talkPath).default.WrappedComponent;
   });
 
   afterEach(() => {
@@ -48,28 +54,24 @@ describe('Talk component', () => {
     mockery.disable();
   });
 
-  describe('clearNotification', () => {
-    let talk;
-
-    beforeEach(() => {
-      talk = instanceRender(<Talk />);
-      talk.clearNotification();
-    });
-
-    it('sets current screen to CALL_ME_SCREEN', () => {
-      expect(talk.state.currentScreen)
-        .toBe(callMeScreen);
-    });
-  });
-
   describe('handleFormCompleted', () => {
     let talk,
       form,
-      config;
+      config,
+      updateTalkScreenSpy,
+      updateTalkPhoneNumberSpy;
 
     beforeEach(() => {
+      updateTalkScreenSpy = jasmine.createSpy('updateTalkScreen');
+      updateTalkPhoneNumberSpy = jasmine.createSpy('updateTalkPhoneNumber');
       config = { serviceUrl: 'https://talk_service.com', keyword: 'Support' };
-      talk = instanceRender(<Talk talkConfig={config} zendeskSubdomain='z3npparker' />);
+      talk = instanceRender(
+        <Talk
+          talkConfig={config}
+          zendeskSubdomain='z3npparker'
+          updateTalkScreen={updateTalkScreenSpy}
+          updateTalkPhoneNumber={updateTalkPhoneNumberSpy} />
+      );
       form = { clear: jasmine.createSpy('form.clear') };
 
       talk.form = form;
@@ -103,42 +105,39 @@ describe('Talk component', () => {
           .toHaveBeenCalled();
       });
 
-      it('sets screen to SUCCESS_NOTIFICATION_SCREEN', () => {
-        expect(talk.state.currentScreen)
-          .toBe(successNotificationScreen);
+      it('calls updateTalkScreen with the SUCCESS_NOTIFICATION_SCREEN', () => {
+        expect(updateTalkScreenSpy)
+          .toHaveBeenCalledWith(successNotificationScreen);
       });
 
-      it('sets the phoneNumber to the number receieved in response', () => {
-        expect(talk.state.phoneNumber)
-          .toBe('+61423456789');
+      it('calls updateTalkPhoneNumber with the phone number', () => {
+        expect(updateTalkPhoneNumberSpy)
+          .toHaveBeenCalledWith('+61423456789');
       });
     });
   });
 
   describe('handleFormChange', () => {
-    let talk;
+    let talk, updateTalkCallMeFormSpy;
 
     beforeEach(() => {
-      talk = instanceRender(<Talk />);
+      updateTalkCallMeFormSpy = jasmine.createSpy('updateTalkCallMeForm');
+      talk = instanceRender(<Talk updateTalkCallMeForm={updateTalkCallMeFormSpy} />);
       talk.handleFormChange({ phone: '+61423456789' });
     });
 
-    it('sets the form state', () => {
-      expect(talk.state.formState)
-        .toEqual({ phone: '+61423456789' });
+    it('calls updateTalkCallMeForm with the form state', () => {
+      expect(updateTalkCallMeFormSpy)
+        .toHaveBeenCalledWith({ phone: '+61423456789' });
     });
   });
 
   describe('render', () => {
     let talk, scrollContainer;
 
-    beforeEach(() => {
-      talk = domRender(<Talk formTitleKey='formTitle' />);
-    });
-
     describe('when on the success notification screen', () => {
       beforeEach(() => {
-        talk.setState({ currentScreen: successNotificationScreen });
+        talk = domRender(<Talk screen={successNotificationScreen} />);
         scrollContainer = TestUtils.findRenderedComponentWithType(talk, MockScrollContainer);
       });
 
@@ -155,6 +154,7 @@ describe('Talk component', () => {
 
     describe('when on the call me back form screen', () => {
       beforeEach(() => {
+        talk = domRender(<Talk formTitleKey='formTitle' formState={{ phone: '' }} screen={callMeScreen} />);
         scrollContainer = TestUtils.findRenderedComponentWithType(talk, MockScrollContainer);
       });
 

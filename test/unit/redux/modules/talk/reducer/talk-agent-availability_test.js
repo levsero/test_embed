@@ -6,7 +6,7 @@ describe('talk reducer agent-availability', () => {
   beforeAll(() => {
     mockery.enable();
 
-    const reducerPath = buildSrcPath('redux/modules/talk/reducer/agent-availability');
+    const reducerPath = buildSrcPath('redux/modules/talk/reducer/talk-agent-availability');
     const actionTypesPath = buildSrcPath('redux/modules/talk/talk-action-types');
 
     reducer = requireUncached(reducerPath).default;
