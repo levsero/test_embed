@@ -10,17 +10,20 @@ import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile';
 import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
 import { updateSearchTerm,
+         updateActiveArticle,
          performSearch,
          performContextualSearch,
          performImageSearch } from 'src/redux/modules/helpCenter';
-import { getSearchLoading } from 'src/redux/modules/helpCenter/selectors';
+import { getSearchLoading,
+         getArticleClicked } from 'src/redux/modules/helpCenter/selectors';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
 
 const mapStateToProps = (state) => {
   return {
-    searchLoading: getSearchLoading(state)
+    searchLoading: getSearchLoading(state),
+    articleClicked: getArticleClicked(state)
   };
 };
 
@@ -47,11 +50,13 @@ class HelpCenter extends Component {
     showNextButton: PropTypes.bool,
     searchLoading: PropTypes.bool.isRequired,
     style: PropTypes.object,
+    articleClicked: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
     updateFrameSize: PropTypes.func,
     hideChatNotification: PropTypes.func,
     updateChatScreen: PropTypes.func,
     updateSearchTerm: PropTypes.func.isRequired,
+    updateActiveArticle: PropTypes.func.isRequired,
     viewMoreEnabled: PropTypes.bool,
     zendeskHost: PropTypes.string.isRequired,
     notification: PropTypes.object.isRequired
@@ -78,6 +83,7 @@ class HelpCenter extends Component {
     updateFrameSize: () => {},
     hideChatNotification: () => {},
     updateChatScreen: () => {},
+    updateActiveArticle: () => {},
     viewMoreEnabled: false
   };
 
@@ -94,7 +100,6 @@ class HelpCenter extends Component {
       resultsCount: 0,
       resultsPerPage: minimumSearchResults,
       searchFailed: false,
-      searchResultClicked: false,
       searchTerm: '',
       searchTracked: false,
       showViewMore: true,
@@ -118,17 +123,10 @@ class HelpCenter extends Component {
          : this.refs.helpCenterDesktop;
   }
 
-  searchStartState = (state) => {
-    return _.extend({
-      searchResultClicked: false
-    }, state);
-  }
-
   searchCompleteState = (state) => {
     return _.extend({
       hasSearched: true,
-      searchFailed: false,
-      searchResultClicked: false
+      searchFailed: false
     }, state);
   }
 
@@ -222,12 +220,10 @@ class HelpCenter extends Component {
       origin: 'web_widget'
     };
 
-    this.setState(
-      this.searchStartState({
-        searchTerm: searchTerm,
-        searchTracked: true
-      })
-    );
+    this.setState({
+      searchTerm: searchTerm,
+      searchTracked: true
+    });
 
     this.performSearchWithLocaleFallback(query, this.interactiveSearchSuccessFn);
 
@@ -353,6 +349,8 @@ class HelpCenter extends Component {
   handleArticleClick = (articleIndex, e) => {
     e.preventDefault();
 
+    // TODO: Use updateActiveArticle action to update this state.
+    // move from trackArticleView to here.
     this.setState({
       activeArticle: this.state.articles[articleIndex],
       articleViewActive: true
@@ -370,14 +368,14 @@ class HelpCenter extends Component {
 
   trackArticleView = () => {
     this.props.onArticleClick(this.getTrackPayload());
-    this.setState({ searchResultClicked: true });
+    this.props.updateActiveArticle();
   }
 
   getTrackPayload = () => {
     return {
       query: this.state.searchTerm,
       resultsCount: (this.state.resultsCount > 3) ? 3 : this.state.resultsCount,
-      uniqueSearchResultClick: !this.state.searchResultClicked,
+      uniqueSearchResultClick: !this.props.articleClicked,
       articleId: this.state.activeArticle.id,
       locale: i18n.getLocale()
     };
@@ -533,6 +531,7 @@ class HelpCenter extends Component {
 }
 
 const actionCreators = {
+  updateActiveArticle,
   updateSearchTerm,
   performSearch,
   performImageSearch,

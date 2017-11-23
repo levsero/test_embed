@@ -875,16 +875,6 @@ describe('HelpCenter component', () => {
     });
   });
 
-  it('searchStartState sets the correct values', () => {
-    const helpCenter = domRender(<HelpCenter />);
-    const result = helpCenter.searchStartState({});
-
-    expect(result)
-      .toEqual(jasmine.objectContaining({
-        searchResultClicked: false
-      }));
-  });
-
   it('searchCompleteState sets the correct values', () => {
     const helpCenter = domRender(<HelpCenter />);
     const result = helpCenter.searchCompleteState({});
@@ -892,8 +882,7 @@ describe('HelpCenter component', () => {
     expect(result)
       .toEqual(jasmine.objectContaining({
         hasSearched: true,
-        searchFailed: false,
-        searchResultClicked: false
+        searchFailed: false
       }));
   });
 
@@ -964,7 +953,6 @@ describe('HelpCenter component', () => {
 
       expect(helpCenter.state)
         .toEqual(jasmine.objectContaining({
-          searchResultClicked: false,
           searchTerm: searchTerm,
           searchTracked: true
         }));

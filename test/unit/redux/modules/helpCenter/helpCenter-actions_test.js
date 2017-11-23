@@ -330,4 +330,18 @@ describe('helpCenter redux actions', () => {
       });
     });
   });
+
+  describe('#updateActiveArticle', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateActiveArticle());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_ACTIVE_ARTICLE', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_ACTIVE_ARTICLE);
+    });
+  });
 });

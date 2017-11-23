@@ -1,5 +1,6 @@
 describe('helpCenter selectors', () => {
-  let getSearchLoading;
+  let getSearchLoading,
+    getArticleClicked;
 
   beforeEach(() => {
     mockery.enable();
@@ -11,6 +12,7 @@ describe('helpCenter selectors', () => {
     const selectors = requireUncached(selectorsPath);
 
     getSearchLoading = selectors.getSearchLoading;
+    getArticleClicked = selectors.getArticleClicked;
   });
 
   describe('getSearchLoading', () => {
@@ -26,6 +28,24 @@ describe('helpCenter selectors', () => {
     });
 
     it('returns the current state of searchLoading', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('getArticleClicked', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        articleClicked: true
+      }
+    };
+
+    beforeEach(() => {
+      result = getArticleClicked(mockHelpCenterState);
+    });
+
+    it('returns the current state of articleClicked', () => {
       expect(result)
         .toEqual(true);
     });
