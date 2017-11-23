@@ -52,7 +52,7 @@ describe('talk selectors', () => {
     let result;
     const mockTalkState = {
       talk: {
-        agentAvailbility: true
+        agentAvailability: true
       }
     };
 
