@@ -52,6 +52,10 @@ var config = {
       {
         test: /chat-web-sdk/,
         use: ['source-map-loader']
+      },
+      {
+        test: /\.png$/,
+        use: 'url-loader'
       }
     ]
   },
