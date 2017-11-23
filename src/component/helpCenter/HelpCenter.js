@@ -9,7 +9,10 @@ import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop';
 import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile';
 import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
-import { updateSearchTerm } from 'src/redux/modules/helpCenter';
+import { updateSearchTerm,
+         performSearch,
+         performContextualSearch,
+         performImageSearch } from 'src/redux/modules/helpCenter';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
@@ -23,12 +26,10 @@ class HelpCenter extends Component {
     buttonLabelKey: PropTypes.string,
     channelChoice: PropTypes.bool,
     chatOnline: PropTypes.bool,
-    contextualSearchSender: PropTypes.func.isRequired,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
-    imagesSender: PropTypes.func.isRequired,
     localeFallbacks: PropTypes.array,
     onArticleClick: PropTypes.func,
     onViewOriginalArticleClick: PropTypes.func,
@@ -36,7 +37,9 @@ class HelpCenter extends Component {
     newDesign: PropTypes.bool,
     onSearch: PropTypes.func,
     originalArticleButton: PropTypes.bool,
-    searchSender: PropTypes.func.isRequired,
+    performContextualSearch: PropTypes.func.isRequired,
+    performSearch: PropTypes.func.isRequired,
+    performImageSearch: PropTypes.func.isRequired,
     showBackButton: PropTypes.func,
     showNextButton: PropTypes.bool,
     style: PropTypes.object,
@@ -273,14 +276,14 @@ class HelpCenter extends Component {
           successFn(res, query);
         } else {
           query.locale = localeFallbacks.shift();
-          this.props.searchSender(_.pickBy(query), doneFn, this.searchFail);
+          this.props.performSearch(_.pickBy(query), doneFn, this.searchFail);
         }
       } else {
         this.searchFail();
       }
     };
 
-    this.props.searchSender(query, doneFn, this.searchFail);
+    this.props.performSearch(query, doneFn, this.searchFail);
   }
 
   performContextualSearch = (query, successFn) => {
@@ -292,7 +295,7 @@ class HelpCenter extends Component {
       }
     };
 
-    this.props.contextualSearchSender(query, doneFn, this.searchFail);
+    this.props.performContextualSearch(query, doneFn, this.searchFail);
   }
 
   handleViewMoreClick = (e) => {
@@ -322,7 +325,7 @@ class HelpCenter extends Component {
 
   trackSearch = () => {
     /* eslint camelcase:0 */
-    this.props.searchSender({
+    this.props.performSearch({
       query: this.state.searchTerm,
       per_page: 0,
       origin: 'web_widget'
@@ -436,7 +439,7 @@ class HelpCenter extends Component {
         originalArticleButton={this.props.originalArticleButton}
         handleOriginalArticleClick={this.handleOriginalArticleClick}
         storedImages={this.state.images}
-        imagesSender={this.props.imagesSender}
+        imagesSender={this.props.performImageSearch}
         updateStoredImages={this.updateImages}
         updateFrameSize={this.props.updateFrameSize}
         fullscreen={this.props.fullscreen} />
@@ -529,7 +532,10 @@ class HelpCenter extends Component {
 }
 
 const actionCreators = {
-  updateSearchTerm
+  updateSearchTerm,
+  performSearch,
+  performImageSearch,
+  performContextualSearch
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(HelpCenter);

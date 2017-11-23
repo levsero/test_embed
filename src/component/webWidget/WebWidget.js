@@ -42,7 +42,6 @@ class WebWidget extends Component {
     channelChoice: PropTypes.bool,
     chat: PropTypes.object.isRequired,
     chatNotification: PropTypes.object.isRequired,
-    contextualSearchSender: PropTypes.func,
     newDesign: PropTypes.bool,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
@@ -51,7 +50,6 @@ class WebWidget extends Component {
     helpCenterConfig: PropTypes.object,
     isOnHelpCenterPage: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
-    imagesSender: PropTypes.func,
     localeFallbacks: PropTypes.array,
     onArticleClick: PropTypes.func,
     onCancel: PropTypes.func,
@@ -59,7 +57,6 @@ class WebWidget extends Component {
     onSubmitted: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     position: PropTypes.string,
-    searchSender: PropTypes.func,
     showCloseButton: PropTypes.func,
     style: PropTypes.object,
     subjectEnabled: PropTypes.bool,
@@ -92,7 +89,6 @@ class WebWidget extends Component {
     channelChoice: false,
     chat: { account_status: 'offline' }, // eslint-disable-line camelcase
     chatNotification: { show: false, playSound: false },
-    contextualSearchSender: () => {},
     newDesign: false,
     formTitleKey: '',
     fullscreen: true,
@@ -100,7 +96,6 @@ class WebWidget extends Component {
     helpCenterConfig: {},
     isOnHelpCenterPage: false,
     hideZendeskLogo: false,
-    imagesSender: () => {},
     localeFallbacks: [],
     onArticleClick: () => {},
     onCancel: () => {},
@@ -108,7 +103,6 @@ class WebWidget extends Component {
     onSubmitted: () => {},
     originalArticleButton: true,
     position: 'right',
-    searchSender: () => {},
     showCloseButton: () => {},
     style: null,
     submitTicketAvailable: true,
@@ -340,9 +334,6 @@ class WebWidget extends Component {
           formTitleKey={helpCenterConfig.formTitleKey}
           showBackButton={this.props.updateBackButtonVisibility}
           showNextButton={this.props.submitTicketAvailable || chatOnline}
-          searchSender={this.props.searchSender}
-          contextualSearchSender={this.props.contextualSearchSender}
-          imagesSender={this.props.imagesSender}
           style={this.props.style}
           fullscreen={this.props.fullscreen}
           updateFrameSize={this.props.updateFrameSize}

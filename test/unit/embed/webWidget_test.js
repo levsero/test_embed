@@ -2,7 +2,6 @@ describe('embed.webWidget', () => {
   let webWidget,
     mockRegistry,
     mockIsOnHelpCenterPageValue,
-    mockIsOnHostMappedDomainValue,
     mockGetTokenValue,
     mockIsMobileBrowser,
     mockChatSuppressedValue,
@@ -31,7 +30,6 @@ describe('embed.webWidget', () => {
 
   beforeEach(() => {
     mockIsOnHelpCenterPageValue = false;
-    mockIsOnHostMappedDomainValue = false;
     mockGetTokenValue = null;
     mockIsMobileBrowser = false;
     mockIsIE = false;
@@ -158,16 +156,12 @@ describe('embed.webWidget', () => {
         cappedTimeoutCall: (callback) => { callback(); }
       },
       'utility/pages': {
-        isOnHelpCenterPage: () => mockIsOnHelpCenterPageValue,
-        isOnHostMappedDomain: () => mockIsOnHostMappedDomainValue
+        isOnHelpCenterPage: () => mockIsOnHelpCenterPageValue
       },
       'utility/globals': {
         document: global.document,
         getDocumentHost: () => {
           return document.body;
-        },
-        location: {
-          protocol: 'https:'
         },
         win: global.window
       },
@@ -516,7 +510,7 @@ describe('embed.webWidget', () => {
       });
 
       it('should not apply props from setUpHelpCenter to the embed', () => {
-        expect(faythe.props.contextualSearchSender)
+        expect(faythe.props.onArticleClick)
           .toBeFalsy();
       });
 
@@ -604,7 +598,7 @@ describe('embed.webWidget', () => {
       });
 
       it('should apply props from setUpHelpCenter to the embed', () => {
-        expect(faythe.props.contextualSearchSender)
+        expect(faythe.props.onArticleClick)
           .toBeTruthy();
       });
 
@@ -624,7 +618,7 @@ describe('embed.webWidget', () => {
         });
 
         it('should not apply props from setUpHelpCenter to the embed', () => {
-          expect(faythe.props.contextualSearchSender)
+          expect(faythe.props.onArticleClick)
             .toBeFalsy();
         });
       });
@@ -936,139 +930,6 @@ describe('embed.webWidget', () => {
           it('sets config.viewMoreEnabled to false', () => {
             expect(faythe.config.helpCenterForm.viewMoreEnabled)
               .toEqual(false);
-          });
-        });
-      });
-
-      describe('search senders', () => {
-        let mockTransport,
-          embed;
-
-        beforeEach(() => {
-          mockTransport = mockRegistry['service/transport'].http;
-
-          webWidget.create('', { helpCenterForm: {} });
-          webWidget.render();
-
-          embed = webWidget.get().instance.getRootComponent();
-        });
-
-        describe('search payload', () => {
-          let query,
-            doneFn,
-            failFn;
-
-          beforeEach(() => {
-            query = {
-              locale: 'en-US',
-              query: 'help'
-            };
-            doneFn = noop;
-            failFn = noop;
-          });
-
-          it('should contain the correct properties', () => {
-            embed.props.searchSender(query, doneFn, failFn);
-
-            const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
-
-            expect(recentCallArgs)
-              .toEqual({
-                method: 'get',
-                forceHttp: false,
-                path: '/api/v2/help_center/search.json',
-                query: query,
-                authorization: '',
-                callbacks: {
-                  done: doneFn,
-                  fail: failFn
-                }
-              });
-          });
-
-          it('should add any filters to the query', () => {
-            mockFiltersValue = {
-              category: 'burgers',
-              section: 'beef'
-            };
-
-            embed.props.searchSender(query, doneFn, failFn);
-
-            const recentCallQuery = mockTransport.send.calls.mostRecent().args[0].query;
-
-            expect(recentCallQuery.category)
-              .toEqual('burgers');
-            expect(recentCallQuery.section)
-              .toEqual('beef');
-          });
-
-          describe('when there is an oauth token', () => {
-            beforeEach(() => {
-              mockGetTokenValue = 'abc';
-            });
-
-            it('should set the authorization property to the token', () => {
-              embed.props.searchSender();
-
-              const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
-
-              expect(recentCallArgs.authorization)
-                .toBe('Bearer abc');
-            });
-          });
-
-          describe('when on a host mapped domain and not using SSL', () => {
-            beforeEach(() => {
-              mockIsOnHostMappedDomainValue = true;
-              mockRegistry['utility/globals'].location.protocol = 'http:';
-            });
-
-            it('should set the forceHttp property to true', () => {
-              embed.props.searchSender();
-
-              const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
-
-              expect(recentCallArgs.forceHttp)
-                .toBe(true);
-            });
-          });
-        });
-
-        describe('searchSender', () => {
-          it('calls transport.send with regular search endpoint when called', () => {
-            embed.props.searchSender();
-
-            expect(mockTransport.send)
-              .toHaveBeenCalled();
-
-            const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
-
-            expect(recentCallArgs.path)
-              .toEqual('/api/v2/help_center/search.json');
-          });
-        });
-
-        describe('contextualSearchSender', () => {
-          it('calls transport.send with contextual search endpoint when called', () => {
-            embed.props.contextualSearchSender();
-
-            const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
-
-            expect(recentCallArgs.path)
-              .toEqual('/api/v2/help_center/articles/embeddable_search.json');
-          });
-        });
-
-        describe('restrictedImagesSender', () => {
-          it('calls transport.send with passed in image url when called', () => {
-            const url = 'https://url.com/image';
-
-            embed.props.imagesSender(url);
-
-            const recentCallArgs = mockTransport.getImage.calls.mostRecent().args[0];
-
-            expect(recentCallArgs.path)
-              .toEqual(url);
           });
         });
       });
