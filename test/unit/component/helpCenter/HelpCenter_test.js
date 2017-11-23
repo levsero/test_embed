@@ -199,15 +199,9 @@ describe('HelpCenter component', () => {
 
   describe('searchFail', () => {
     it('should set states accordingly to the search failure', () => {
-      const searchTerm = 'abcd';
       const helpCenter = domRender(<HelpCenter />);
 
-      helpCenter.setState({ searchTerm: searchTerm });
-
       helpCenter.searchFail();
-
-      expect(helpCenter.state.previousSearchTerm)
-        .toEqual(searchTerm);
 
       expect(helpCenter.state.hasSearched)
         .toBeTruthy();
@@ -457,7 +451,6 @@ describe('HelpCenter component', () => {
 
       expect(helpCenter.state)
         .toEqual(jasmine.objectContaining({
-          searchTerm: searchOptions.search,
           hasContextualSearched: true
         }));
     });
@@ -488,7 +481,6 @@ describe('HelpCenter component', () => {
 
       expect(helpCenter.state)
         .toEqual(jasmine.objectContaining({
-          searchTerm: searchOptions.labels.join(','),
           hasContextualSearched: true
         }));
     });
@@ -752,16 +744,16 @@ describe('HelpCenter component', () => {
     it('should send the right request params when backtracking', () => {
       /* eslint camelcase:0 */
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
+      const searchTerm = 'abcd';
       const helpCenter = domRender(
         <HelpCenter
           performSearch={mockPerformSearch}
-          trackSearch={trackSearch} />
+          trackSearch={trackSearch}
+          searchTerm={searchTerm} />
       );
-      const searchTerm = 'abcd';
 
       helpCenter.setState({
-        searchTracked: false,
-        searchTerm: searchTerm
+        searchTracked: false
       });
 
       helpCenter.backtrackSearch();
@@ -775,11 +767,10 @@ describe('HelpCenter component', () => {
     });
 
     it('should correctly backtrack if not done before and have searched', () => {
-      const helpCenter = domRender(<HelpCenter trackSearch={trackSearch} />);
+      const helpCenter = domRender(<HelpCenter trackSearch={trackSearch} searchTerm='abcd' />);
 
       helpCenter.setState({
-        searchTracked: false,
-        searchTerm: 'abcd'
+        searchTracked: false
       });
 
       helpCenter.trackSearch = trackSearch;
@@ -791,11 +782,10 @@ describe('HelpCenter component', () => {
     });
 
     it('shouldn\'t backtrack if already tracked', () => {
-      const helpCenter = domRender(<HelpCenter trackSearch={trackSearch} />);
+      const helpCenter = domRender(<HelpCenter trackSearch={trackSearch} searchTerm='abcd' />);
 
       helpCenter.setState({
-        searchTracked: true,
-        searchTerm: 'abcd'
+        searchTracked: true
       });
 
       helpCenter.trackSearch = trackSearch;
@@ -807,11 +797,10 @@ describe('HelpCenter component', () => {
     });
 
     it('shouldn\'t backtrack if no search has been performed', () => {
-      const helpCenter = domRender(<HelpCenter trackSearch={trackSearch} />);
+      const helpCenter = domRender(<HelpCenter trackSearch={trackSearch} searchTerm='' />);
 
       helpCenter.setState({
-        searchTracked: false,
-        searchTerm: ''
+        searchTracked: false
       });
 
       helpCenter.trackSearch = trackSearch;
@@ -949,7 +938,6 @@ describe('HelpCenter component', () => {
 
       expect(helpCenter.state)
         .toEqual(jasmine.objectContaining({
-          searchTerm: searchTerm,
           searchTracked: true
         }));
     });
@@ -984,15 +972,16 @@ describe('HelpCenter component', () => {
       // Needs to be rewritten
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
       const mockOnArticleClick = jasmine.createSpy('mockOnArticleClick');
+      const searchTerm = 'help, I\'ve fallen and can\'t get up!';
       const helpCenter = domRender(
         <HelpCenter
           performSearch={mockPerformSearch}
           onArticleClick={mockOnArticleClick}
           onSearch={noop}
+          searchTerm={searchTerm}
           onLinkClick={noop}
           showBackButton={noop} />
       );
-      const searchTerm = 'help, I\'ve fallen and can\'t get up!';
       const responseArticle = {
         id: 0,
         title: 'bob',
@@ -1016,7 +1005,6 @@ describe('HelpCenter component', () => {
       // THIS setState BLOCK TO SIMULATE search triggering performSearch
       // TODO: make a better version of this test case
       helpCenter.setState({
-        searchTerm: searchTerm,
         searchTracked: true
       });
 

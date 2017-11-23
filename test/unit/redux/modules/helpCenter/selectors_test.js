@@ -1,7 +1,9 @@
 describe('helpCenter selectors', () => {
   let getSearchLoading,
     getArticleClicked,
-    getSearchFailed;
+    getSearchFailed,
+    getSearchTerm,
+    getPreviousSearchTerm;
 
   beforeEach(() => {
     mockery.enable();
@@ -15,6 +17,8 @@ describe('helpCenter selectors', () => {
     getSearchLoading = selectors.getSearchLoading;
     getArticleClicked = selectors.getArticleClicked;
     getSearchFailed = selectors.getSearchFailed;
+    getSearchTerm = selectors.getSearchTerm;
+    getPreviousSearchTerm = selectors.getPreviousSearchTerm;
   });
 
   describe('getSearchLoading', () => {
@@ -68,6 +72,46 @@ describe('helpCenter selectors', () => {
     it('returns the current state of searchFailed', () => {
       expect(result)
         .toEqual(true);
+    });
+  });
+
+  describe('getSearchTerm', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        searchTerm: {
+          current: 'foo'
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getSearchTerm(mockHelpCenterState);
+    });
+
+    it('returns the current state of searchTerm.current', () => {
+      expect(result)
+        .toEqual('foo');
+    });
+  });
+
+  describe('getPreviousSearchTerm', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        searchTerm: {
+          previous: 'bar'
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getPreviousSearchTerm(mockHelpCenterState);
+    });
+
+    it('returns the current state of searchTerm.previous', () => {
+      expect(result)
+        .toEqual('bar');
     });
   });
 });

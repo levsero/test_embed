@@ -16,7 +16,9 @@ import { updateSearchTerm,
          performImageSearch } from 'src/redux/modules/helpCenter';
 import { getSearchLoading,
          getArticleClicked,
-         getSearchFailed } from 'src/redux/modules/helpCenter/selectors';
+         getSearchFailed,
+         getSearchTerm,
+         getPreviousSearchTerm } from 'src/redux/modules/helpCenter/selectors';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
@@ -25,7 +27,9 @@ const mapStateToProps = (state) => {
   return {
     searchLoading: getSearchLoading(state),
     articleClicked: getArticleClicked(state),
-    searchFailed: getSearchFailed(state)
+    searchFailed: getSearchFailed(state),
+    searchTerm: getSearchTerm(state),
+    previousSearchTerm: getPreviousSearchTerm(state)
   };
 };
 
@@ -37,6 +41,10 @@ class HelpCenter extends Component {
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
+    previousSearchTerm: PropTypes.string.isRequired,
+    searchTerm: PropTypes.string.isRequired,
+    hasContextualSearched: PropTypes.bool.isRequired,
+    hasSearched: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
     localeFallbacks: PropTypes.array,
     onArticleClick: PropTypes.func,
@@ -87,6 +95,7 @@ class HelpCenter extends Component {
     hideChatNotification: () => {},
     updateChatScreen: () => {},
     updateActiveArticle: () => {},
+    updateSearchTerm: () => {},
     viewMoreEnabled: false
   };
 
@@ -99,10 +108,8 @@ class HelpCenter extends Component {
       articleViewActive: false,
       hasContextualSearched: false,
       hasSearched: false,
-      previousSearchTerm: '',
       resultsCount: 0,
       resultsPerPage: minimumSearchResults,
-      searchTerm: '',
       searchTracked: false,
       showViewMore: true,
       viewMoreActive: false,
@@ -142,8 +149,7 @@ class HelpCenter extends Component {
   interactiveSearchSuccessFn = (res, query) => {
     this.setState(
       this.searchCompleteState({
-        hasContextualSearched: false,
-        previousSearchTerm: this.state.searchTerm
+        hasContextualSearched: false
       })
     );
 
@@ -183,12 +189,11 @@ class HelpCenter extends Component {
       if (res.body.count > 0) {
         this.setState(
           this.searchCompleteState({
-            searchTerm: searchTerm,
-            hasContextualSearched: true,
-            previousSearchTerm: this.state.searchTerm
+            hasContextualSearched: true
           })
         );
         this.updateResults(res);
+        this.props.updateSearchTerm(searchTerm);
 
         if (this.refs.helpCenterMobile) {
           this.refs.helpCenterMobile.setContextualSearched();
@@ -207,7 +212,7 @@ class HelpCenter extends Component {
   search = () => {
     const searchField = this.getHelpCenterComponent().refs.searchField;
     const searchTerm = (this.state.viewMoreActive)
-                     ? this.state.previousSearchTerm
+                     ? this.props.previousSearchTerm
                      : searchField.getValue();
 
     if (_.isEmpty(searchTerm)) {
@@ -222,9 +227,9 @@ class HelpCenter extends Component {
     };
 
     this.setState({
-      searchTerm: searchTerm,
       searchTracked: true
     });
+    this.props.updateSearchTerm(searchTerm);
 
     this.performSearchWithLocaleFallback(query, this.interactiveSearchSuccessFn);
 
@@ -253,7 +258,6 @@ class HelpCenter extends Component {
 
   searchFail = () => {
     this.setState({
-      previousSearchTerm: this.state.searchTerm,
       hasSearched: true
     });
 
@@ -323,7 +327,7 @@ class HelpCenter extends Component {
   trackSearch = () => {
     /* eslint camelcase:0 */
     this.props.performSearch({
-      query: this.state.searchTerm,
+      query: this.props.searchTerm,
       per_page: 0,
       origin: 'web_widget'
     });
@@ -336,7 +340,7 @@ class HelpCenter extends Component {
    */
   backtrackSearch = () => {
     if (!this.state.searchTracked &&
-        this.state.searchTerm &&
+        this.props.searchTerm &&
         !this.state.hasContextualSearched) {
       this.trackSearch();
     }
@@ -373,7 +377,7 @@ class HelpCenter extends Component {
 
   getTrackPayload = () => {
     return {
-      query: this.state.searchTerm,
+      query: this.props.searchTerm,
       resultsCount: (this.state.resultsCount > 3) ? 3 : this.state.resultsCount,
       uniqueSearchResultClick: !this.props.articleClicked,
       articleId: this.state.activeArticle.id,
@@ -420,7 +424,7 @@ class HelpCenter extends Component {
         applyPadding={applyPadding}
         searchFailed={this.props.searchFailed}
         showBottomBorder={showBottomBorder}
-        previousSearchTerm={this.state.previousSearchTerm}
+        previousSearchTerm={this.props.previousSearchTerm}
         handleArticleClick={this.handleArticleClick}
         handleViewMoreClick={this.handleViewMoreClick}
         hasContextualSearched={this.state.hasContextualSearched}

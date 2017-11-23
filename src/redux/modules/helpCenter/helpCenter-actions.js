@@ -11,7 +11,8 @@ import { SEARCH_REQUEST,
          SEARCH_FAILURE,
          CONTEXTUAL_SEARCH_REQUEST,
          CONTEXTUAL_SEARCH_SUCCESS,
-         UPDATE_ACTIVE_ARTICLE } from './helpCenter-action-types';
+         UPDATE_ACTIVE_ARTICLE,
+         UPDATE_SEARCH_TERM } from './helpCenter-action-types';
 
 const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
   const token = authentication.getToken();
@@ -89,5 +90,12 @@ export function updateActiveArticle() {
   return {
     type: UPDATE_ACTIVE_ARTICLE,
     payload: {}
+  };
+}
+
+export function updateSearchTerm(term) {
+  return {
+    type: UPDATE_SEARCH_TERM,
+    payload: term
   };
 }

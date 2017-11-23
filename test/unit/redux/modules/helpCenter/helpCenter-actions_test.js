@@ -344,4 +344,23 @@ describe('helpCenter redux actions', () => {
         .toEqual(actionTypes.UPDATE_ACTIVE_ARTICLE);
     });
   });
+
+  describe('#updateSearchTerm', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateSearchTerm('foobar'));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_SEARCH_TERM', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_SEARCH_TERM);
+    });
+
+    it('contains the search term in the payload', () => {
+      expect(action.payload)
+        .toEqual('foobar');
+    });
+  });
 });
