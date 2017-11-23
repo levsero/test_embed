@@ -1,4 +1,5 @@
 require 'json'
+require 'jwt'
 require_relative './s3_deployer'
 
 set :version, fetch(:branch) || fetch(:local_head_revision)
@@ -12,6 +13,7 @@ set :ac_aws_credentials, Aws::Credentials.new(ENV['AC_AWS_RW_ACCESS_KEY'], ENV['
 set :ac_aws_region, ENV['AC_AWS_REGION']
 set :ac_s3_release_directory, "web_widget/#{fetch(:version)}"
 set :ac_s3_bucket_name, ENV['AC_AWS_BUCKET_NAME']
+set :ekr_jwt_secret, ENV['EKR_RW_JWT_SECRET']
 
 BUCKET_DOMAIN = 'd2fu7i775blqyh.cloudfront.net'.freeze
 STAGING_URL = 'ekr-internet-load-balancer-1568683846.us-west-2.elb.amazonaws.com/embed_key_registry/release'.freeze
@@ -61,7 +63,21 @@ def release_to_ekr(url)
     }
   }.to_json
 
-  sh %(curl -v -H "Content-Type: application/json" -X POST -d '#{params}' #{url})
+  sh %(curl -v -H "Content-Type: application/json" -H #{ekr_jwt_header} -X POST -d '#{params}' #{url})
+end
+
+def ekr_jwt_header
+  "X-Samson-Token: #{JWT.encode(ekr_jwt_payload, ekr_jwt_secret, 'HS256')}"
+end
+
+def ekr_jwt_payload
+  now = Time.now.to_i
+
+  {
+    exp: now + 60 * 5,
+    iat: now,
+    user: 'zdsamson'
+  }
 end
 
 before 'ac_embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'

@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 group :deployment do
   gem 'aws-sdk'
+  gem 'jwt'
 end
 
 source 'https://gem.zdsys.com/gems/' do
