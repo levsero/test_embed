@@ -47,10 +47,7 @@ export function performSearch(query, done = () => {}, fail = () => {}) {
       done(response);
     };
     const failFn = (error) => {
-      dispatch({
-        type: SEARCH_FAILURE,
-        payload: { error }
-      });
+      dispatch({ type: SEARCH_FAILURE });
       fail(error);
     };
 
@@ -75,10 +72,7 @@ export function performContextualSearch(query, done = () => {}, fail = () => {})
       done(response);
     };
     const failFn = (error) => {
-      dispatch({
-        type: SEARCH_FAILURE,
-        payload: { error }
-      });
+      dispatch({ type: SEARCH_FAILURE });
       fail(error);
     };
 

@@ -15,7 +15,8 @@ import { updateSearchTerm,
          performContextualSearch,
          performImageSearch } from 'src/redux/modules/helpCenter';
 import { getSearchLoading,
-         getArticleClicked } from 'src/redux/modules/helpCenter/selectors';
+         getArticleClicked,
+         getSearchFailed } from 'src/redux/modules/helpCenter/selectors';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
@@ -23,7 +24,8 @@ const maximumSearchResults = 9;
 const mapStateToProps = (state) => {
   return {
     searchLoading: getSearchLoading(state),
-    articleClicked: getArticleClicked(state)
+    articleClicked: getArticleClicked(state),
+    searchFailed: getSearchFailed(state)
   };
 };
 
@@ -49,6 +51,7 @@ class HelpCenter extends Component {
     showBackButton: PropTypes.func,
     showNextButton: PropTypes.bool,
     searchLoading: PropTypes.bool.isRequired,
+    searchFailed: PropTypes.bool.isRequired,
     style: PropTypes.object,
     articleClicked: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
@@ -99,7 +102,6 @@ class HelpCenter extends Component {
       previousSearchTerm: '',
       resultsCount: 0,
       resultsPerPage: minimumSearchResults,
-      searchFailed: false,
       searchTerm: '',
       searchTracked: false,
       showViewMore: true,
@@ -125,8 +127,7 @@ class HelpCenter extends Component {
 
   searchCompleteState = (state) => {
     return _.extend({
-      hasSearched: true,
-      searchFailed: false
+      hasSearched: true
     }, state);
   }
 
@@ -253,8 +254,7 @@ class HelpCenter extends Component {
   searchFail = () => {
     this.setState({
       previousSearchTerm: this.state.searchTerm,
-      hasSearched: true,
-      searchFailed: true
+      hasSearched: true
     });
 
     this.focusField();
@@ -418,7 +418,7 @@ class HelpCenter extends Component {
         articles={this.state.articles}
         showViewMore={showViewMore}
         applyPadding={applyPadding}
-        searchFailed={this.state.searchFailed}
+        searchFailed={this.props.searchFailed}
         showBottomBorder={showBottomBorder}
         previousSearchTerm={this.state.previousSearchTerm}
         handleArticleClick={this.handleArticleClick}

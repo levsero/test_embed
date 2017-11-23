@@ -211,9 +211,6 @@ describe('HelpCenter component', () => {
 
       expect(helpCenter.state.hasSearched)
         .toBeTruthy();
-
-      expect(helpCenter.state.searchFailed)
-        .toBeTruthy();
     });
   });
 
@@ -881,8 +878,7 @@ describe('HelpCenter component', () => {
 
     expect(result)
       .toEqual(jasmine.objectContaining({
-        hasSearched: true,
-        searchFailed: false
+        hasSearched: true
       }));
   });
 
