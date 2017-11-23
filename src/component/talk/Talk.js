@@ -14,7 +14,8 @@ import { getEmbeddableConfig,
          getAgentAvailability,
          getFormState,
          getScreen,
-         getPhoneNumber } from 'src/redux/modules/talk/talk-selectors';
+         getPhoneNumber,
+         getAverageWaitTime } from 'src/redux/modules/talk/talk-selectors';
 import { http } from 'service/transport';
 import { i18n } from 'service/i18n';
 
@@ -26,7 +27,8 @@ const mapStateToProps = (state) => {
     agentAvailbility: getAgentAvailability(state),
     formState: getFormState(state),
     screen: getScreen(state),
-    phoneNumber: getPhoneNumber(state)
+    phoneNumber: getPhoneNumber(state),
+    averageWaitTime: getAverageWaitTime(state)
   };
 };
 
@@ -36,6 +38,7 @@ class Talk extends Component {
     formState: PropTypes.object.isRequired,
     screen: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
+    averageWaitTime: PropTypes.string.isRequired,
     updateTalkScreen: PropTypes.func.isRequired,
     updateTalkCallMeForm: PropTypes.func.isRequired,
     updateTalkPhoneNumber: PropTypes.func.isRequired,
@@ -84,11 +87,21 @@ class Talk extends Component {
   }
 
   renderFormHeader = () => {
+    const { averageWaitTime } = this.props;
     const headerMessage = i18n.t('embeddable_framework.talk.form.headerMessage', {
       fallback: 'Enter your phone number and we\'ll call you as soon as we can.'
     });
+    const waitTimeMessage = i18n.t('embeddable_framework.talk.form.averageWaitTime', {
+      fallback: `Average wait time: ${averageWaitTime}`,
+      averageWaitTime
+    });
 
-    return <p>{headerMessage}</p>;
+    return (
+      <div>
+        <p>{headerMessage}</p>
+        <p>{waitTimeMessage}</p>
+      </div>
+    );
   }
 
   renderPhoneField = () => {
@@ -107,7 +120,7 @@ class Talk extends Component {
     return (
       <Form
         ref={(el) => this.form = el}
-        submitButtonLabel={i18n.t('embeddable_framework.talk.button.callMe', { fallback: 'Call me' })}
+        submitButtonLabel={i18n.t('embeddable_framework.talk.button.submit', { fallback: 'Submit' })}
         rtl={i18n.isRTL()}
         onCompleted={this.handleFormCompleted}
         onChange={this.handleFormChange}>
@@ -145,7 +158,7 @@ class Talk extends Component {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     const formTitle = i18n.t(`embeddable_framework.talk.form.title.${this.props.formTitleKey}`, {
-      fallback: 'We\'ll call you'
+      fallback: 'Request a callback'
     });
     const successNotificationTitle = i18n.t('embeddable_framework.talk.notify.success.title', {
       fallback: 'Request sent'
