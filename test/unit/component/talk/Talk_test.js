@@ -37,6 +37,7 @@ describe('Talk component', () => {
         CALL_ME_SCREEN: callMeScreen,
         SUCCESS_NOTIFICATION_SCREEN: successNotificationScreen
       },
+      'src/redux/modules/talk/talk-selectors': {},
       './Talk.sass': {
         locals: {
           footer: 'footerClasses'

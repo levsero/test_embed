@@ -10,20 +10,23 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 
 import { CALL_ME_SCREEN, SUCCESS_NOTIFICATION_SCREEN } from 'src/redux/modules/talk/talk-screen-types';
 import { updateTalkScreen, updateTalkCallMeForm, updateTalkPhoneNumber } from 'src/redux/modules/talk';
+import { getEmbeddableConfig,
+         getAgentAvailability,
+         getFormState,
+         getScreen,
+         getPhoneNumber } from 'src/redux/modules/talk/talk-selectors';
 import { http } from 'service/transport';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './Talk.sass';
 
 const mapStateToProps = (state) => {
-  const { talk } = state;
-
   return {
-    embeddableConfig: talk.embeddableConfig,
-    agentAvailbility: talk.agentAvailbility,
-    formState: talk.formState,
-    screen: talk.screen,
-    phoneNumber: talk.phoneNumber
+    embeddableConfig: getEmbeddableConfig(state),
+    agentAvailbility: getAgentAvailability(state),
+    formState: getFormState(state),
+    screen: getScreen(state),
+    phoneNumber: getPhoneNumber(state)
   };
 };
 
