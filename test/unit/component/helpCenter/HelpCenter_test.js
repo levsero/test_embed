@@ -80,6 +80,7 @@ describe('HelpCenter component', () => {
         }
       },
       'src/redux/modules/helpCenter': {},
+      'src/redux/modules/helpCenter/selectors': {},
       'service/i18n': {
         i18n: {
           init: jasmine.createSpy(),
@@ -204,9 +205,6 @@ describe('HelpCenter component', () => {
       helpCenter.setState({ searchTerm: searchTerm });
 
       helpCenter.searchFail();
-
-      expect(helpCenter.state.isLoading)
-        .toBeFalsy();
 
       expect(helpCenter.state.previousSearchTerm)
         .toEqual(searchTerm);
@@ -462,7 +460,6 @@ describe('HelpCenter component', () => {
 
       expect(helpCenter.state)
         .toEqual(jasmine.objectContaining({
-          isLoading: false,
           searchTerm: searchOptions.search,
           hasContextualSearched: true
         }));
@@ -494,7 +491,6 @@ describe('HelpCenter component', () => {
 
       expect(helpCenter.state)
         .toEqual(jasmine.objectContaining({
-          isLoading: false,
           searchTerm: searchOptions.labels.join(','),
           hasContextualSearched: true
         }));
@@ -885,7 +881,6 @@ describe('HelpCenter component', () => {
 
     expect(result)
       .toEqual(jasmine.objectContaining({
-        isLoading: true,
         searchResultClicked: false
       }));
   });
@@ -897,7 +892,6 @@ describe('HelpCenter component', () => {
     expect(result)
       .toEqual(jasmine.objectContaining({
         hasSearched: true,
-        isLoading: false,
         searchFailed: false,
         searchResultClicked: false
       }));
@@ -970,7 +964,6 @@ describe('HelpCenter component', () => {
 
       expect(helpCenter.state)
         .toEqual(jasmine.objectContaining({
-          isLoading: true,
           searchResultClicked: false,
           searchTerm: searchTerm,
           searchTracked: true

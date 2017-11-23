@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
-import search from './helpCenter-search';
+import searchLoading from './helpCenter-searchLoading';
 
 export default combineReducers({
-  search
+  searchLoading
 });
 

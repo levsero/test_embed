@@ -13,12 +13,15 @@ import { updateSearchTerm,
          performSearch,
          performContextualSearch,
          performImageSearch } from 'src/redux/modules/helpCenter';
+import { getSearchLoading } from 'src/redux/modules/helpCenter/selectors';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state) => {
+  return {
+    searchLoading: getSearchLoading(state)
+  };
 };
 
 class HelpCenter extends Component {
@@ -42,6 +45,7 @@ class HelpCenter extends Component {
     performImageSearch: PropTypes.func.isRequired,
     showBackButton: PropTypes.func,
     showNextButton: PropTypes.bool,
+    searchLoading: PropTypes.bool.isRequired,
     style: PropTypes.object,
     talkAvailable: PropTypes.bool,
     updateFrameSize: PropTypes.func,
@@ -116,7 +120,6 @@ class HelpCenter extends Component {
 
   searchStartState = (state) => {
     return _.extend({
-      isLoading: true,
       searchResultClicked: false
     }, state);
   }
@@ -124,7 +127,6 @@ class HelpCenter extends Component {
   searchCompleteState = (state) => {
     return _.extend({
       hasSearched: true,
-      isLoading: false,
       searchFailed: false,
       searchResultClicked: false
     }, state);
@@ -254,7 +256,6 @@ class HelpCenter extends Component {
 
   searchFail = () => {
     this.setState({
-      isLoading: false,
       previousSearchTerm: this.state.searchTerm,
       hasSearched: true,
       searchFailed: true
@@ -461,7 +462,7 @@ class HelpCenter extends Component {
         search={this.search}
         showNextButton={this.props.showNextButton}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        isLoading={this.state.isLoading}
+        isLoading={this.props.searchLoading}
         onNextClick={this.props.onNextClick}
         newDesign={this.props.newDesign}
         channelChoice={this.state.channelChoiceShown}
@@ -488,7 +489,7 @@ class HelpCenter extends Component {
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
         search={this.search}
-        isLoading={this.state.isLoading}
+        isLoading={this.state.searchLoading}
         onNextClick={this.props.onNextClick}
         newDesign={this.props.newDesign}
         showNextButton={this.props.showNextButton}
