@@ -3,7 +3,9 @@ describe('helpCenter selectors', () => {
     getArticleClicked,
     getSearchFailed,
     getSearchTerm,
-    getPreviousSearchTerm;
+    getPreviousSearchTerm,
+    getHasSearched,
+    getHasContextuallySearched;
 
   beforeEach(() => {
     mockery.enable();
@@ -19,6 +21,8 @@ describe('helpCenter selectors', () => {
     getSearchFailed = selectors.getSearchFailed;
     getSearchTerm = selectors.getSearchTerm;
     getPreviousSearchTerm = selectors.getPreviousSearchTerm;
+    getHasSearched = selectors.getHasSearched;
+    getHasContextuallySearched = selectors.getHasContextuallySearched;
   });
 
   describe('getSearchLoading', () => {
@@ -112,6 +116,42 @@ describe('helpCenter selectors', () => {
     it('returns the current state of searchTerm.previous', () => {
       expect(result)
         .toEqual('bar');
+    });
+  });
+
+  describe('getHasSearched', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        hasSearched: true
+      }
+    };
+
+    beforeEach(() => {
+      result = getHasSearched(mockHelpCenterState);
+    });
+
+    it('returns the current state of hasSearched', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('getHasContextuallySearched', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        hasContextuallySearched: true
+      }
+    };
+
+    beforeEach(() => {
+      result = getHasContextuallySearched(mockHelpCenterState);
+    });
+
+    it('returns the current state of hasContextuallySearched', () => {
+      expect(result)
+        .toEqual(true);
     });
   });
 });

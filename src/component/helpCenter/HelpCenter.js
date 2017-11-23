@@ -18,7 +18,9 @@ import { getSearchLoading,
          getArticleClicked,
          getSearchFailed,
          getSearchTerm,
-         getPreviousSearchTerm } from 'src/redux/modules/helpCenter/selectors';
+         getPreviousSearchTerm,
+         getHasSearched,
+         getHasContextuallySearched } from 'src/redux/modules/helpCenter/selectors';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
@@ -29,7 +31,9 @@ const mapStateToProps = (state) => {
     articleClicked: getArticleClicked(state),
     searchFailed: getSearchFailed(state),
     searchTerm: getSearchTerm(state),
-    previousSearchTerm: getPreviousSearchTerm(state)
+    previousSearchTerm: getPreviousSearchTerm(state),
+    hasSearched: getHasSearched(state),
+    hasContextualSearched: getHasContextuallySearched(state)
   };
 };
 
@@ -106,8 +110,6 @@ class HelpCenter extends Component {
       activeArticle: {},
       articles: [],
       articleViewActive: false,
-      hasContextualSearched: false,
-      hasSearched: false,
       resultsCount: 0,
       resultsPerPage: minimumSearchResults,
       searchTracked: false,
@@ -132,12 +134,6 @@ class HelpCenter extends Component {
          : this.refs.helpCenterDesktop;
   }
 
-  searchCompleteState = (state) => {
-    return _.extend({
-      hasSearched: true
-    }, state);
-  }
-
   setArticleView = (articleViewActive) => {
     this.setState({ articleViewActive });
   }
@@ -147,12 +143,6 @@ class HelpCenter extends Component {
   }
 
   interactiveSearchSuccessFn = (res, query) => {
-    this.setState(
-      this.searchCompleteState({
-        hasContextualSearched: false
-      })
-    );
-
     this.props.onSearch({searchTerm: query.query, searchLocale: query.locale});
     this.updateResults(res);
     this.focusField();
@@ -187,11 +177,6 @@ class HelpCenter extends Component {
 
     const successFn = (res) => {
       if (res.body.count > 0) {
-        this.setState(
-          this.searchCompleteState({
-            hasContextualSearched: true
-          })
-        );
         this.updateResults(res);
         this.props.updateSearchTerm(searchTerm);
 
@@ -249,19 +234,11 @@ class HelpCenter extends Component {
       resultsCount: json.count,
       articleViewActive: false,
       resultsPerPage: minimumSearchResults,
-      showViewMore: !this.state.viewMoreActive && !this.state.hasContextualSearched,
+      showViewMore: !this.state.viewMoreActive && !this.props.hasContextualSearched,
       viewMoreActive: false
     });
 
     this.props.showBackButton(false);
-  }
-
-  searchFail = () => {
-    this.setState({
-      hasSearched: true
-    });
-
-    this.focusField();
   }
 
   performSearchWithLocaleFallback = (query, successFn) => {
@@ -277,14 +254,14 @@ class HelpCenter extends Component {
           successFn(res, query);
         } else {
           query.locale = localeFallbacks.shift();
-          this.props.performSearch(_.pickBy(query), doneFn, this.searchFail);
+          this.props.performSearch(_.pickBy(query), doneFn, this.focusField);
         }
       } else {
-        this.searchFail();
+        this.focusField();
       }
     };
 
-    this.props.performSearch(query, doneFn, this.searchFail);
+    this.props.performSearch(query, doneFn, this.focusField);
   }
 
   performContextualSearch = (query, successFn) => {
@@ -292,11 +269,11 @@ class HelpCenter extends Component {
       if (res.ok) {
         successFn(res, query);
       } else {
-        this.searchFail();
+        this.focusField();
       }
     };
 
-    this.props.performContextualSearch(query, doneFn, this.searchFail);
+    this.props.performContextualSearch(query, doneFn, this.focusField);
   }
 
   handleViewMoreClick = (e) => {
@@ -341,7 +318,7 @@ class HelpCenter extends Component {
   backtrackSearch = () => {
     if (!this.state.searchTracked &&
         this.props.searchTerm &&
-        !this.state.hasContextualSearched) {
+        !this.props.hasContextualSearched) {
       this.trackSearch();
     }
   }
@@ -365,7 +342,7 @@ class HelpCenter extends Component {
 
     this.props.showBackButton();
 
-    if (!this.state.searchTracked && !this.state.hasContextualSearched) {
+    if (!this.state.searchTracked && !this.props.hasContextualSearched) {
       this.trackSearch();
     }
   }
@@ -403,7 +380,7 @@ class HelpCenter extends Component {
 
   renderResults = () => {
     const { showNextButton } = this.props;
-    const hasSearched = this.state.hasSearched || this.state.hasContextualSearched;
+    const hasSearched = this.props.hasSearched || this.props.hasContextualSearched;
 
     if (this.state.articleViewActive || !hasSearched) {
       return null;
@@ -427,7 +404,7 @@ class HelpCenter extends Component {
         previousSearchTerm={this.props.previousSearchTerm}
         handleArticleClick={this.handleArticleClick}
         handleViewMoreClick={this.handleViewMoreClick}
-        hasContextualSearched={this.state.hasContextualSearched}
+        hasContextualSearched={this.props.hasContextualSearched}
         showContactButton={showNextButton} />
     );
   }
@@ -470,7 +447,7 @@ class HelpCenter extends Component {
         channelChoice={this.state.channelChoiceShown}
         talkAvailable={this.props.talkAvailable}
         articleViewActive={this.state.articleViewActive}
-        hasSearched={this.state.hasSearched}
+        hasSearched={this.props.hasSearched}
         buttonLabel={buttonLabel}
         formTitleKey={this.props.formTitleKey}
         searchFieldValue={this.state.searchFieldValue}
@@ -499,7 +476,7 @@ class HelpCenter extends Component {
         channelChoice={this.state.channelChoiceShown}
         talkAvailable={this.props.talkAvailable}
         articleViewActive={this.state.articleViewActive}
-        hasSearched={this.state.hasSearched}
+        hasSearched={this.props.hasSearched}
         searchFieldValue={this.state.searchFieldValue}
         hideZendeskLogo={this.props.hideZendeskLogo}
         buttonLabel={buttonLabel}

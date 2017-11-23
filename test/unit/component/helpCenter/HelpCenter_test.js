@@ -197,17 +197,6 @@ describe('HelpCenter component', () => {
     });
   });
 
-  describe('searchFail', () => {
-    it('should set states accordingly to the search failure', () => {
-      const helpCenter = domRender(<HelpCenter />);
-
-      helpCenter.searchFail();
-
-      expect(helpCenter.state.hasSearched)
-        .toBeTruthy();
-    });
-  });
-
   describe('pauseAllVideos', () => {
     let helpCenter,
       videoList;
@@ -448,11 +437,6 @@ describe('HelpCenter component', () => {
 
       expect(helpCenter.updateResults)
         .toHaveBeenCalledWith(responsePayloadResults);
-
-      expect(helpCenter.state)
-        .toEqual(jasmine.objectContaining({
-          hasContextualSearched: true
-        }));
     });
 
     it('should set states and call updateResults if results, with labels', () => {
@@ -478,11 +462,6 @@ describe('HelpCenter component', () => {
 
       expect(helpCenter.updateResults)
         .toHaveBeenCalledWith(responsePayloadResults);
-
-      expect(helpCenter.state)
-        .toEqual(jasmine.objectContaining({
-          hasContextualSearched: true
-        }));
     });
 
     it('should request 3 results', () => {
@@ -521,7 +500,7 @@ describe('HelpCenter component', () => {
     const searchTerm = 'help me please';
 
     let helpCenter,
-      searchFail,
+      focusField,
       successFn,
       mockOnSearch,
       mockPerformSearch,
@@ -529,7 +508,7 @@ describe('HelpCenter component', () => {
       query;
 
     beforeEach(() => {
-      searchFail = jasmine.createSpy('mockSearchFail');
+      focusField = jasmine.createSpy('mockFocusField');
       successFn = jasmine.createSpy('mockSuccessFn');
       mockOnSearch = jasmine.createSpy('mockOnSearch');
       mockPerformSearch = jasmine.createSpy('mockPerformSearch');
@@ -543,7 +522,7 @@ describe('HelpCenter component', () => {
           performContextualSearch={mockPerformContextualSearch} />
       );
 
-      helpCenter.searchFail = searchFail;
+      helpCenter.focusField = focusField;
       helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'valid';
     });
 
@@ -577,19 +556,19 @@ describe('HelpCenter component', () => {
 
       describe('when the search fails', () => {
         describe('when the response status is not 200 OK', () => {
-          it('should call searchFail', () => {
+          it('should call focusField', () => {
             recentCallArgs[1](responsePayloadError);
 
-            expect(helpCenter.searchFail)
+            expect(helpCenter.focusField)
               .toHaveBeenCalled();
           });
         });
 
         describe('when the failFn callback is fired', () => {
-          it('should call searchFail', () => {
+          it('should call focusField', () => {
             recentCallArgs[2]();
 
-            expect(helpCenter.searchFail)
+            expect(helpCenter.focusField)
               .toHaveBeenCalled();
           });
         });
@@ -663,7 +642,7 @@ describe('HelpCenter component', () => {
               performContextualSearch={mockPerformContextualSearch} />
           );
 
-          helpCenter.searchFail = searchFail;
+          helpCenter.focusField = focusField;
           helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'valid';
 
           helpCenter.performSearchWithLocaleFallback(query, successFn);
@@ -720,19 +699,19 @@ describe('HelpCenter component', () => {
         });
 
         describe('when the response status is not 200 OK', () => {
-          it('should call searchFail', () => {
+          it('should call focusField', () => {
             recentCallArgs[1](responsePayloadError);
 
-            expect(helpCenter.searchFail)
+            expect(helpCenter.focusField)
               .toHaveBeenCalled();
           });
         });
 
         describe('when the failFn callback is fired', () => {
-          it('should call searchFail', () => {
+          it('should call focusField', () => {
             recentCallArgs[2]();
 
-            expect(helpCenter.searchFail)
+            expect(helpCenter.focusField)
               .toHaveBeenCalled();
           });
         });
@@ -859,16 +838,6 @@ describe('HelpCenter component', () => {
       expect(helpCenter.getHelpCenterComponent().focusField)
         .toHaveBeenCalled();
     });
-  });
-
-  it('searchCompleteState sets the correct values', () => {
-    const helpCenter = domRender(<HelpCenter />);
-    const result = helpCenter.searchCompleteState({});
-
-    expect(result)
-      .toEqual(jasmine.objectContaining({
-        hasSearched: true
-      }));
   });
 
   describe('search', () => {
@@ -1038,32 +1007,34 @@ describe('HelpCenter component', () => {
     let helpCenter,
       results;
 
-    beforeEach(() => {
-      helpCenter = domRender(<HelpCenter />);
+    describe('when hasSearched is true', () => {
+      beforeEach(() => {
+        helpCenter = domRender(<HelpCenter hasSearched={true} />);
+      });
+
+      it('renders HelpCenterResults', () => {
+        results = ReactDOM.findDOMNode(
+          TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'HelpCenterResults')
+        ).parentNode;
+
+        expect(results)
+          .toBeTruthy();
+      });
     });
 
-    it('renders HelpCenterResults when state.hasSearched is true', () => {
-      helpCenter.setState({ hasSearched: true });
+    describe('when hasContextualSearched is true', () => {
+      beforeEach(() => {
+        helpCenter = domRender(<HelpCenter hasContextualSearched={true} />);
+      });
 
-      jasmine.clock().tick(1);
+      it('renders HelpCenterResults', () => {
+        results = ReactDOM.findDOMNode(
+          TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'HelpCenterResults')
+        ).parentNode;
 
-      results = ReactDOM.findDOMNode(
-        TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'HelpCenterResults')
-      ).parentNode;
-
-      expect(results)
-        .toBeTruthy();
-    });
-
-    it('renders HelpCenterResults when state.hasContextualSearched is true', () => {
-      helpCenter.setState({ hasContextualSearched: true });
-
-      results = ReactDOM.findDOMNode(
-        TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'HelpCenterResults')
-      ).parentNode;
-
-      expect(results)
-        .toBeTruthy();
+        expect(results)
+          .toBeTruthy();
+      });
     });
   });
 
