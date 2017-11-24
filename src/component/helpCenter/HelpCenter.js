@@ -181,7 +181,7 @@ class HelpCenter extends Component {
         this.props.updateSearchTerm(searchTerm);
 
         if (this.refs.helpCenterMobile) {
-          this.refs.helpCenterMobile.setContextualSearched();
+          this.refs.helpCenterMobile.setIntroScreen();
         }
       }
     };
@@ -473,6 +473,7 @@ class HelpCenter extends Component {
         newDesign={this.props.newDesign}
         showNextButton={this.props.showNextButton}
         chatOnline={this.props.chatOnline}
+        hasContextualSearched={this.props.hasContextualSearched}
         channelChoice={this.state.channelChoiceShown}
         talkAvailable={this.props.talkAvailable}
         articleViewActive={this.state.articleViewActive}
