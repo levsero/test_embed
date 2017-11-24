@@ -97,9 +97,9 @@ describe('events', () => {
       describe('when surfacing the wait time is disabled', () => {
         it('does not dispatch an average wait time change action', () => {
           expect(mockReduxStore.dispatch.calls.mostRecent().args[0])
-            .not.toEqual({
-              type: 'talk/socket.waitTimeChange',
-              payload: '1'
+            .toEqual({
+              type: 'talk/socket.availability',
+              payload: false
             });
         });
       });
