@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { Form } from 'component/form/Form';
-import { Field } from 'component/field/Field';
 import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 
+import { renderTextField, renderPhoneField, renderEmailField, renderTextAreaField } from 'utility/common_fields';
 import { CALL_ME_SCREEN, SUCCESS_NOTIFICATION_SCREEN } from 'src/redux/modules/talk/talk-screen-types';
 import { updateTalkScreen, updateTalkCallMeForm, updateTalkPhoneNumber } from 'src/redux/modules/talk';
 import { getEmbeddableConfig,
@@ -20,6 +20,7 @@ import { http } from 'service/transport';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './Talk.sass';
+import _ from 'lodash';
 
 const mapStateToProps = (state) => {
   return {
@@ -63,9 +64,15 @@ class Talk extends Component {
 
   handleFormCompleted = (formState) => {
     const { serviceUrl, keyword } = this.props.talkConfig;
+    const additionalInfo = _.pickBy({
+      email: formState.email,
+      name: formState.name,
+      description: formState.description
+    }, _.identify);
     const params = {
       phoneNumber: formState.phone,
       subdomain: this.props.zendeskSubdomain,
+      additional_info: additionalInfo, // eslint-disable-line camelcase
       keyword
     };
     const callbacks = {
@@ -104,28 +111,32 @@ class Talk extends Component {
     );
   }
 
-  renderPhoneField = () => {
-    return (
-      <Field
-        label={i18n.t('embeddable_framework.common.textLabel.phoneNumber', { fallback: 'Phone Number' })}
-        required={true}
-        value={this.props.formState.phone}
-        name='phone' />
-    );
-  }
-
   renderFormScreen = () => {
     if (this.props.screen !== CALL_ME_SCREEN) return;
+
+    const phoneLabel = i18n.t(`embeddable_framework.common.textLabel.phone`, { fallback: 'Phone Number' });
+    const nameLabel = i18n.t(`embeddable_framework.common.textLabel.name`, { fallback: 'Name' });
+    const emailLabel = i18n.t(`embeddable_framework.common.textLabel.email`, { fallback: 'Email' });
+    const descriptionLabel = i18n.t(`embeddable_framework.common.textLabel.description`,
+      { fallback: 'How can we help?' });
+    const phoneValue = this.props.formState.phone;
+    const nameValue = this.props.formState.name;
+    const emailValue = this.props.formState.email;
+    const descriptionValue = this.props.formState.description;
 
     return (
       <Form
         ref={(el) => this.form = el}
+        className={styles.form}
         submitButtonLabel={i18n.t('embeddable_framework.talk.button.submit', { fallback: 'Submit' })}
         rtl={i18n.isRTL()}
         onCompleted={this.handleFormCompleted}
         onChange={this.handleFormChange}>
         {this.renderFormHeader()}
-        {this.renderPhoneField()}
+        {renderPhoneField('phone', phoneLabel, phoneValue, true)}
+        {renderTextField('name', nameLabel, nameValue, true)}
+        {renderEmailField('email', emailLabel, emailValue, true)}
+        {renderTextAreaField('description', descriptionLabel, descriptionValue, false)}
       </Form>
     );
   }
@@ -170,6 +181,7 @@ class Talk extends Component {
     return (
       <ScrollContainer
         ref='scrollContainer'
+        containerClasses={styles.scrollContainer}
         hideZendeskLogo={this.props.hideZendeskLogo}
         footerClasses={footerClasses}
         footerContent={this.renderZendeskLogo()}

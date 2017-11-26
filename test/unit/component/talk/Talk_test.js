@@ -22,7 +22,12 @@ describe('Talk component', () => {
     initMockRegistry({
       'React': React,
       'component/form/Form': { Form: noopReactComponent },
-      'component/field/Field': { Field: noopReactComponent },
+      'utility/common_fields': {
+        renderEmailField: () => noopReactComponent,
+        renderTextField: () => noopReactComponent,
+        renderPhoneField: () => noopReactComponent,
+        renderTextAreaField: () => noopReactComponent
+      },
       'component/Icon': { Icon: noopReactComponent },
       'component/container/ScrollContainer': { ScrollContainer: MockScrollContainer },
       'component/ZendeskLogo': { ZendeskLogo: noopReactComponent },
@@ -75,13 +80,23 @@ describe('Talk component', () => {
       form = { clear: jasmine.createSpy('form.clear') };
 
       talk.form = form;
-      talk.handleFormCompleted({ phone: '+61423456789' });
+      talk.handleFormCompleted({
+        phone: '+61423456789',
+        name: 'John',
+        email: 'john@john.com',
+        description: 'I need help in understanding your products.'
+      });
     });
 
     it('calls http.callMeRequest', () => {
       const expectedPayload = {
         params: {
           phoneNumber: '+61423456789',
+          additional_info: { // eslint-disable-line camelcase
+            name: 'John',
+            email: 'john@john.com',
+            description: 'I need help in understanding your products.'
+          },
           subdomain: 'z3npparker',
           keyword: 'Support'
         },
@@ -123,12 +138,12 @@ describe('Talk component', () => {
     beforeEach(() => {
       updateTalkCallMeFormSpy = jasmine.createSpy('updateTalkCallMeForm');
       talk = instanceRender(<Talk updateTalkCallMeForm={updateTalkCallMeFormSpy} />);
-      talk.handleFormChange({ phone: '+61423456789' });
+      talk.handleFormChange({ phone: '+61423456789', name: 'Sally' });
     });
 
-    it('calls updateTalkCallMeForm with the form state', () => {
+    it('calls updateTalkCallMeForm with the newly changed form state', () => {
       expect(updateTalkCallMeFormSpy)
-        .toHaveBeenCalledWith({ phone: '+61423456789' });
+        .toHaveBeenCalledWith({ phone: '+61423456789', name: 'Sally' });
     });
   });
 
