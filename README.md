@@ -49,7 +49,6 @@ The bootstrap file will do the following:
 To run the embeddables locally type `npm run watch` in this folder for it to kick off. This creates a dist folder with `main.js`, `boostrap.js` files and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/webpack-dev-server/](http://localhost:1337/webpack-dev-server/) to test live examples.
 
 ## Getting Started with Asset Composer
-
 First ensure that the project is bootstrap by following the instructions above.
 
 You will need to setup docker-images. Instructions can be found here: https://github.com/zendesk/docker-images#installation.
@@ -71,12 +70,10 @@ npm run watch:ac
 Finally navigate to [http://localhost:1337/webpack-dev-server/asset-composer.html](http://localhost:1337/webpack-dev-server/asset-composer.html). The Asset Composer version of the Web Widget should load on the page using the local Embed Key Registry application running in Docker.
 
 ## Running in Docker
-
 - Follow above to get `npm run watch` running.
 - Run `zdi embeddable_framework -d restart` in parallel.
 
 ### Building Docker image
-
 - Run `npm run build` to build static assets inside `./dist`.
 - Run `zdi embeddable_framework build`.
 - Verify the built image with `zdi embeddable_framework restart -l`.
@@ -101,14 +98,12 @@ See [STYLE.md](https://github.com/zendesk/embeddable_framework/blob/master/STYLE
 *Note: There is a pull request template (PULL_REQUEST_TEMPLATE.md) for auto completing the description. If you have the Zendesk chrome dev tools installed this will cause a conflict so disable the dev tools before opening a PR.*
 
 ## Deploying
-
 Please see our [Deploy guidelines](https://github.com/zendesk/embeddable_framework/blob/master/DEPLOY.md) for more information.
 
 ## Bugs
 Bugs are tracked in JIRA under the Customer Engagement project (`CE`) with the component *Web Widget*. Bugs should always have clear reproduction steps, some notion of urgency/scope and relevant references.
 
 ## Refreshing Rosetta translations
-
 To download the latest translations, run the following command from the root of this project:
 
 ```bash
@@ -116,7 +111,6 @@ To download the latest translations, run the following command from the root of 
 ```
 
 ## Generating a JWT token
-
 To generate a JWT token for development purposes, run the following command from the root of this project:
 
 ```bash
@@ -126,14 +120,20 @@ node ./script/generate-jwt.js <shared_secret>
 *`<shared_secret>` = a generated shared secret (e.g `4fcd8ac941baf1b9cf1bf0b8272d5bcf`)*
 
 ## Testing CSP
-
 See the **CSP.md** document for instructions on how to test CSP with the Web Widget.
 
 ## NPM tasks
-
 Run each task like this: ```npm run <taskname>```
 
 * **build** - Generates snippet and framework in production mode. This means the final source and assets are optimised and no sourcemaps are generated.
 * **watch** - Runs webpack-dashboard and launches a local server that automatically rebuilds the source and refreshes the browser on any changes. Navigate to http://localhost:1337/webpack-dev-server
 * **test** - Runs all the jasmine unit tests.
 * **lint** - Runs eslint on the *src* and *test* directories.
+
+## Documenting ADRs
+We will be documenting architectural decisions surrounding this project under `doc/architecture/decisions`.
+The standards followed are documented by Michael Nygard at:
+http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions
+
+### Tooling and ADR generation
+Please refer to https://github.com/npryce/adr-tools
