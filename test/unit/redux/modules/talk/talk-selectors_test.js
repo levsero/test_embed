@@ -3,7 +3,8 @@ describe('talk selectors', () => {
     getAgentAvailability,
     getFormState,
     getScreen,
-    getPhoneNumber;
+    getPhoneNumber,
+    getAverageWaitTime;
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
 
   beforeEach(() => {
@@ -20,6 +21,7 @@ describe('talk selectors', () => {
     getFormState = selectors.getFormState;
     getScreen = selectors.getScreen;
     getPhoneNumber = selectors.getPhoneNumber;
+    getAverageWaitTime = selectors.getAverageWaitTime;
   });
 
   describe('getEmbeddableConfig', () => {
@@ -117,6 +119,24 @@ describe('talk selectors', () => {
     it('returns the current state of phoneNumber', () => {
       expect(result)
         .toBe('+61412345678');
+    });
+  });
+
+  describe('getAverageWaitTime', () => {
+    let result;
+    const mockTalkState = {
+      talk: {
+        averageWaitTime: '2'
+      }
+    };
+
+    beforeEach(() => {
+      result = getAverageWaitTime(mockTalkState);
+    });
+
+    it('returns the current state of averageWaitTime', () => {
+      expect(result)
+        .toBe('2');
     });
   });
 });

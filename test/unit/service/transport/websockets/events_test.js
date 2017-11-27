@@ -1,6 +1,7 @@
 describe('events', () => {
   let talkEmbeddableConfigEventToAction,
     talkAgentAvailabilityEventToAction,
+    talkAverageWaitTimeEventToAction,
     mockSocket,
     mockReduxStore;
 
@@ -19,6 +20,7 @@ describe('events', () => {
     mockery.registerAllowable(eventsPath);
     talkEmbeddableConfigEventToAction = requireUncached(eventsPath).talkEmbeddableConfigEventToAction;
     talkAgentAvailabilityEventToAction = requireUncached(eventsPath).talkAgentAvailabilityEventToAction;
+    talkAverageWaitTimeEventToAction = requireUncached(eventsPath).talkAverageWaitTimeEventToAction;
   });
 
   afterEach(() => {
@@ -37,18 +39,19 @@ describe('events', () => {
     });
 
     describe('when the event is fired', () => {
-      let callback;
-      const mockConfig = {
-        agentAvailability: false,
-        averageWaitTimeSetting: null,
-        capability: '0',
-        enabled: 'false',
-        groupName: '',
-        keywords: '',
-        phoneNumber: ''
-      };
+      let callback,
+        mockConfig;
 
       beforeEach(() => {
+        mockConfig = {
+          agentAvailability: false,
+          capability: '0',
+          enabled: 'false',
+          groupName: '',
+          keywords: '',
+          phoneNumber: ''
+        };
+
         callback = mockSocket.on.calls.mostRecent().args[1];
         callback(mockConfig);
       });
@@ -57,7 +60,7 @@ describe('events', () => {
         expect(mockReduxStore.dispatch.calls.argsFor(0)[0])
           .toEqual({
             type: 'talk/socket.embeddableConfig',
-            payload: _.omit(mockConfig, 'agentAvailability')
+            payload: _.omit(mockConfig, 'agentAvailability', 'averageWaitTime')
           });
       });
 
@@ -67,6 +70,38 @@ describe('events', () => {
             type: 'talk/socket.availability',
             payload: false
           });
+      });
+
+      describe('when surfacing the wait time is enabled', () => {
+        beforeEach(() => {
+          const averageWaitTimeConfig = {
+            averageWaitTimeSetting: null,
+            averageWaitTime: '1'
+          };
+
+          mockConfig = { ...mockConfig, ...averageWaitTimeConfig };
+          mockReduxStore.dispatch.calls.reset();
+          callback = mockSocket.on.calls.mostRecent().args[1];
+          callback(mockConfig);
+        });
+
+        it('dispatches an average wait time change action', () => {
+          expect(mockReduxStore.dispatch.calls.argsFor(2)[0])
+            .toEqual({
+              type: 'talk/socket.waitTimeChange',
+              payload: '1'
+            });
+        });
+      });
+
+      describe('when surfacing the wait time is disabled', () => {
+        it('does not dispatch an average wait time change action', () => {
+          expect(mockReduxStore.dispatch.calls.mostRecent().args[0])
+            .toEqual({
+              type: 'talk/socket.availability',
+              payload: false
+            });
+        });
       });
     });
   });
@@ -95,6 +130,34 @@ describe('events', () => {
           .toHaveBeenCalledWith({
             type: 'talk/socket.availability',
             payload: true
+          });
+      });
+    });
+  });
+
+  describe('talkAverageWaitTimeEventToAction', () => {
+    beforeEach(() => {
+      talkAverageWaitTimeEventToAction(mockSocket, mockReduxStore);
+    });
+
+    it('calls socket.on with the event name and a callback', () => {
+      expect(mockSocket.on)
+        .toHaveBeenCalledWith('socket.waitTimeChange', jasmine.any(Function));
+    });
+
+    describe('when the event is fired', () => {
+      let callback;
+
+      beforeEach(() => {
+        callback = mockSocket.on.calls.mostRecent().args[1];
+        callback('5');
+      });
+
+      it('dispatches an average wait time change action', () => {
+        expect(mockReduxStore.dispatch)
+          .toHaveBeenCalledWith({
+            type: 'talk/socket.waitTimeChange',
+            payload: '5'
           });
       });
     });

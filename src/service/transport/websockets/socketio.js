@@ -1,7 +1,8 @@
 import io from 'socket.io-client';
 
 import { talkEmbeddableConfigEventToAction,
-         talkAgentAvailabilityEventToAction } from './events';
+         talkAgentAvailabilityEventToAction,
+         talkAverageWaitTimeEventToAction } from './events';
 
 const talkServicePath = '/talk_embeddables_service/socket.io';
 
@@ -15,6 +16,7 @@ function connect(serviceUrl, subdomain, keyword) {
 function mapEventsToActions(socket, reduxStore) {
   talkEmbeddableConfigEventToAction(socket, reduxStore);
   talkAgentAvailabilityEventToAction(socket, reduxStore);
+  talkAverageWaitTimeEventToAction(socket, reduxStore);
 }
 
 export const socketio = {
