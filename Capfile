@@ -172,7 +172,7 @@ namespace :deploy do
   end
 end
 
-#load 'config/deploy/ac_deploy.rb'
+load 'config/deploy/ekr_deploy.rb'
 
 before 'embeddable_framework:deploy', 'deploy:setup'
 before 'embeddable_framework:deploy', 'deploy:verify_local_git_status'
