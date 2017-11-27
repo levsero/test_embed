@@ -10,10 +10,10 @@ set :deploy_files, [
   'ze_localeIdMap.js'
 ]
 
-set :aws_credentials, Aws::Credentials.new(ENV['WEB_WIDGET_AWS_ACCESS_KEY'], ENV['WEB_WIDGET_AWS_SECRET_KEY'])
-set :aws_region, ENV['STATIC_ASSETS_AWS_REGION']
-set :s3_release_directory, "web_widget/#{fetch(:version)}"
-set :s3_bucket_name, ENV['STATIC_ASSETS_AWS_BUCKET_NAME']
+set :ekr_aws_credentials, Aws::Credentials.new(ENV['WEB_WIDGET_AWS_ACCESS_KEY'], ENV['WEB_WIDGET_AWS_SECRET_KEY'])
+set :ekr_aws_region, ENV['STATIC_ASSETS_AWS_REGION']
+set :ekr_s3_release_directory, "web_widget/#{fetch(:version)}"
+set :ekr_s3_bucket_name, ENV['STATIC_ASSETS_AWS_BUCKET_NAME']
 set :static_assets_domain, ENV['STATIC_ASSETS_DOMAIN']
 set :ekr_base_url, ENV['EKR_BASE_URL']
 set :ekr_jwt_secret, ENV['EKR_RW_JWT_SECRET']
@@ -31,11 +31,11 @@ namespace :ac_embeddable_framework do
   desc 'Release to Amazon S3 for asset composer'
   task :release_to_s3 do
     credentials = {
-      region: fetch(:aws_region),
-      credentials: fetch(:aws_credentials)
+      region: fetch(:ekr_aws_region),
+      credentials: fetch(:ekr_aws_credentials)
     }
-    bucket_name = fetch(:s3_bucket_name)
-    release_directory = fetch(:s3_release_directory)
+    bucket_name = fetch(:ekr_s3_bucket_name)
+    release_directory = fetch(:ekr_s3_release_directory)
     files = fetch(:deploy_files)
 
     deployer = S3Deployer.new(credentials, bucket_name, logger)

@@ -28,7 +28,7 @@ set :environment, (ENV['RAILS_ENV'] || ENV['RACK_ENV'] || '')
 set :rails_env, fetch(:environment)
 
 set :aws_credentials, Aws::Credentials.new(ENV['AWS_RW_ACCESS_KEY'], ENV['AWS_RW_SECRET_KEY'])
-set :aws_region, 'us-east-1'
+set :aws_region, ENV['AWS_REGION'] || 'us-east-1'
 set :s3_bucket_name, 'zendesk-embeddable-framework'
 set :s3_release_directory, "releases/#{(fetch(:tag) || fetch(:build_version))}"
 
@@ -172,7 +172,7 @@ namespace :deploy do
   end
 end
 
-load 'config/deploy/ac_deploy.rb'
+load 'config/deploy/ekr_deploy.rb'
 
 before 'embeddable_framework:deploy', 'deploy:setup'
 before 'embeddable_framework:deploy', 'deploy:verify_local_git_status'
