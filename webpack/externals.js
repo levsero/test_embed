@@ -5,5 +5,7 @@ module.exports = {
   superagent: 'superagent',
   'translation/ze_translations': 'zETranslations',
   'translation/ze_localeIdMap': 'zELocaleIdMap',
-  'chat-web-sdk': 'zChat'
+  'chat-web-sdk': 'zChat',
+  'libphonenumber-js': 'isValidNumber',
+  'socket.io-client': 'io'
 };
