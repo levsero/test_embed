@@ -103,7 +103,7 @@ class Talk extends Component {
       fallback: 'Enter your phone number and we\'ll call you as soon as we can.'
     });
     const waitTimeMessage = i18n.t(`embeddable_framework.talk.form.averageWaitTime${waitTimeForm}`, {
-      fallback: `Average wait time: ${averageWaitTime} minutes`,
+      fallback: `Average wait time: ${averageWaitTime}`,
       averageWaitTime
     });
 
