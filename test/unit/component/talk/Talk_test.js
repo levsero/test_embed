@@ -172,7 +172,7 @@ describe('Talk component', () => {
 
       it('shows the form scroll container header title', () => {
         expect(scrollContainer.props.title)
-          .toBe('embeddable_framework.talk.form.title.formTitle');
+          .toBe('embeddable_framework.talk.form.title');
       });
 
       it('applies the footer styles to the scroll container', () => {

@@ -97,11 +97,13 @@ class Talk extends Component {
 
   renderFormHeader = () => {
     const { averageWaitTime } = this.props;
+    const waitTimeForm = parseInt(averageWaitTime, 10) > 1 ? 'Plural' : 'Singular';
+
     const headerMessage = i18n.t('embeddable_framework.talk.form.headerMessage', {
       fallback: 'Enter your phone number and we\'ll call you as soon as we can.'
     });
-    const waitTimeMessage = i18n.t('embeddable_framework.talk.form.averageWaitTime', {
-      fallback: `Average wait time: ${averageWaitTime}`,
+    const waitTimeMessage = i18n.t(`embeddable_framework.talk.form.averageWaitTime${waitTimeForm}`, {
+      fallback: `Average wait time: ${averageWaitTime} minutes`,
       averageWaitTime
     });
 
@@ -163,8 +165,10 @@ class Talk extends Component {
   renderSuccessNotificationScreen = () => {
     if (this.props.screen !== SUCCESS_NOTIFICATION_SCREEN) return;
 
+    const displayNumber = this.props.phoneNumber;
     const message = i18n.t('embeddable_framework.talk.notify.success.message', {
-      fallback: `Thanks for submiting your request. We'll get back to you soon on ${this.props.phoneNumber}`
+      fallback: `Thanks for submiting your request. We'll get back to you soon on ${displayNumber}`,
+      displayNumber
     });
     const iconClasses = `${styles.notifyIcon} u-userFillColor u-userTextColor`;
 
@@ -181,7 +185,7 @@ class Talk extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const formTitle = i18n.t(`embeddable_framework.talk.form.title.${this.props.formTitleKey}`, {
+    const formTitle = i18n.t('embeddable_framework.talk.form.title', {
       fallback: 'Request a callback'
     });
     const successNotificationTitle = i18n.t('embeddable_framework.talk.notify.success.title', {
