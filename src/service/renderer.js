@@ -67,7 +67,7 @@ function init(config) {
     i18n.setLocale(config.locale);
     loadAudio(config);
 
-    const { newChat, embeds = {} } = config;
+    const { newChat, embeds = {}, answerBotStandalone } = config;
     const useNewChatEmbed = !!embeds.zopimChat && newChat;
     const hasSingleIframeEmbeds = !!embeds.ticketSubmissionForm
       || !!embeds.helpCenterForm
@@ -92,6 +92,11 @@ function init(config) {
         embed: 'webWidget',
         props: webWidgetConfig
       };
+    }
+
+    // We will be loading the new answerBot.js script on the page so won't need to initialize this.
+    if (answerBotStandalone) {
+      parsedConfig = _.omit(parsedConfig, 'automaticAnswers');
     }
 
     _.forEach(parsedConfig, (configItem, embedName) => {

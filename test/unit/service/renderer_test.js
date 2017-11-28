@@ -262,6 +262,32 @@ describe('renderer', () => {
         .toEqual(1);
     });
 
+    describe('when answerBotStandalone is true', () => {
+      beforeEach(() => {
+        configJSON = {
+          answerBotStandalone: true,
+          embeds: {
+            'automaticAnswers': {
+              'embed': 'automaticAnswers'
+            }
+          }
+        };
+
+        mockAutomaticAnswers.create.calls.reset();
+        mockAutomaticAnswers.render.calls.reset();
+
+        renderer.init(configJSON);
+      });
+
+      it('does not initialize automatic answers', () => {
+        expect(mockAutomaticAnswers.create)
+          .not.toHaveBeenCalled();
+
+        expect(mockAutomaticAnswers.render)
+          .not.toHaveBeenCalled();
+      });
+    });
+
     describe('zopimStandalone', () => {
       let configJSON;
 
