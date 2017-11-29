@@ -49,14 +49,12 @@ class Talk extends Component {
     zendeskSubdomain: PropTypes.string.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
-    updateFrameSize: PropTypes.func,
-    formTitleKey: PropTypes.string
+    updateFrameSize: PropTypes.func
   };
 
   static defaultProps = {
     hideZendeskLogo: false,
-    updateFrameSize: () => {},
-    formTitleKey: ''
+    updateFrameSize: () => {}
   };
 
   constructor() {
@@ -129,7 +127,7 @@ class Talk extends Component {
       <Form
         ref={(el) => this.form = el}
         className={styles.form}
-        submitButtonLabel={i18n.t('embeddable_framework.talk.button.submit', { fallback: 'Submit' })}
+        submitButtonLabel={i18n.t('embeddable_framework.common.button.send', { fallback: 'Submit' })}
         rtl={i18n.isRTL()}
         onCompleted={this.handleFormCompleted}
         onChange={this.handleFormChange}>

@@ -753,15 +753,10 @@ parts:
       screenshot: "https://zendesk.box.com/s/bbwmucnfk6rze62gpi0cdsa9hz535b4f"
       value: "Average wait time: %(averageWaitTime)s minutes"
   - translation:
-      key: "embeddable_framework.talk.button.submit"
-      title: "Button for submitting the callback request form"
-      screenshot: "https://zendesk.box.com/s/kbu6rd91w1p455f2wlici7xpl441qh2z"
-      value: "Submit"
-  - translation:
       key: "embeddable_framework.talk.notify.success.message"
       title: "Message confirming the form submission worked properly and that the customer will call back the user on the number specified. Note we pass the number into the screen"
       screenshot: "https://zendesk.box.com/s/bmf5rszlqchjfz7q5bngvfgrb8yo6aku"
-      value: "Thanks for submiting your request. We'll get back to you soon on %(displayNumber)s"
+      value: "Thanks for submitting your request. We'll get back to you soon on %(displayNumber)s"
   - translation:
       key: "embeddable_framework.talk.form.title"
       title: "Title for the callback request form"
