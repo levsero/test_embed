@@ -31,6 +31,7 @@
     "chat-web-sdk": "git+ssh://git@github.com/zendesk/chat-web-sdk.git#1.1.4",
     "color": "~0.7.3",
     "core-js": "^2.5.1",
+    "libphonenumber-js": "~0.2.2",
     "lodash": "~4.0.0",
     "prop-types": "^15.5.8",
     "react": "~15.4.1",

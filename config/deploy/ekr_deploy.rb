@@ -44,29 +44,30 @@ namespace :ac_embeddable_framework do
 
   desc 'Release the current version for Staging'
   task :release_to_staging do
-    release_to_ekr(:ekr_base_url + 'release')
+    release_to_ekr
   end
 
   desc 'Release the current version for Production'
   task :release_to_production do
-    release_to_ekr(:ekr_base_url + 'release')
+    release_to_ekr
   end
 end
 
-def release_to_ekr(url)
+def release_to_ekr
+  url = "#{fetch(:ekr_base_url)}release"
   params = {
     product: {
       name: 'web_widget',
       version: fetch(:version),
-      base_url: :static_assets_domain
+      base_url: fetch(:static_assets_domain)
     }
   }.to_json
 
-  sh %(curl -v -H "Content-Type: application/json" -H #{ekr_jwt_header} -X POST -d '#{params}' #{url})
+  sh %(curl -v -H "Content-Type: application/json" -H "#{ekr_jwt_header}" -X POST -d '#{params}' #{url})
 end
 
 def ekr_jwt_header
-  "X-Samson-Token: #{JWT.encode(ekr_jwt_payload, ekr_jwt_secret, 'HS256')}"
+  "X-Samson-Token: #{JWT.encode(ekr_jwt_payload, fetch(:ekr_jwt_secret), 'HS256')}"
 end
 
 def ekr_jwt_payload
