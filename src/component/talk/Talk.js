@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { Field } from 'component/field/Field';
+import { EmailField } from 'component/field/EmailField';
+import { TalkPhoneField } from 'component/talk/TalkPhoneField';
 import { Form } from 'component/form/Form';
 import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 
-import { renderTextField, renderPhoneField, renderEmailField, renderTextAreaField } from 'utility/common_fields';
 import { CALL_ME_SCREEN, SUCCESS_NOTIFICATION_SCREEN } from 'src/redux/modules/talk/talk-screen-types';
 import { updateTalkScreen, updateTalkCallMeForm, updateTalkPhoneNumber } from 'src/redux/modules/talk';
 import { getEmbeddableConfig,
@@ -119,10 +121,7 @@ class Talk extends Component {
     const emailLabel = i18n.t(`embeddable_framework.common.textLabel.email`, { fallback: 'Email' });
     const descriptionLabel = i18n.t(`embeddable_framework.common.textLabel.description`,
       { fallback: 'How can we help?' });
-    const phoneValue = this.props.formState.phone;
-    const nameValue = this.props.formState.name;
-    const emailValue = this.props.formState.email;
-    const descriptionValue = this.props.formState.description;
+    let { phone, name, email, description } = this.props.formState;
 
     return (
       <Form
@@ -133,10 +132,24 @@ class Talk extends Component {
         onCompleted={this.handleFormCompleted}
         onChange={this.handleFormChange}>
         {this.renderFormHeader()}
-        {renderPhoneField('phone', phoneLabel, phoneValue, true)}
-        {renderTextField('name', nameLabel, nameValue, true)}
-        {renderEmailField('email', emailLabel, emailValue, true)}
-        {renderTextAreaField('description', descriptionLabel, descriptionValue, false)}
+        <TalkPhoneField
+          label={phoneLabel}
+          required={true}
+          value={phone} />
+        <Field label={nameLabel}
+          required={true}
+          value={name}
+          name='name' />
+        <EmailField
+          label={emailLabel}
+          required={true}
+          value={email} />
+        <Field
+          label={descriptionLabel}
+          required={false}
+          value={description}
+          input={<textarea rows='3' />}
+          name='description' />
       </Form>
     );
   }

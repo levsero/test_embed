@@ -22,12 +22,9 @@ describe('Talk component', () => {
     initMockRegistry({
       'React': React,
       'component/form/Form': { Form: noopReactComponent },
-      'utility/common_fields': {
-        renderEmailField: () => noopReactComponent,
-        renderTextField: () => noopReactComponent,
-        renderPhoneField: () => noopReactComponent,
-        renderTextAreaField: () => noopReactComponent
-      },
+      'component/field/Field': { Field: noopReactComponent },
+      'component/field/EmailField': { EmailField: noopReactComponent },
+      'component/talk/TalkPhoneField': { TalkPhoneField: noopReactComponent },
       'component/Icon': { Icon: noopReactComponent },
       'component/container/ScrollContainer': { ScrollContainer: MockScrollContainer },
       'component/ZendeskLogo': { ZendeskLogo: noopReactComponent },
