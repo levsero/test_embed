@@ -19,6 +19,7 @@ export class HelpCenterMobile extends Component {
     chatOnline: PropTypes.bool,
     children: PropTypes.node.isRequired,
     formTitleKey: PropTypes.string,
+    hasContextualSearched: PropTypes.bool,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
     onNextClick: PropTypes.func,
@@ -38,6 +39,7 @@ export class HelpCenterMobile extends Component {
     articleViewActive: false,
     chatOnline: false,
     formTitleKey: 'help',
+    hasContextualSearched: false,
     hasSearched: false,
     hideZendeskLogo: false,
     newDesign: false,
@@ -54,7 +56,6 @@ export class HelpCenterMobile extends Component {
     super(props, context);
 
     this.state = {
-      hasContextualSearched: false,
       searchFieldFocused: false,
       showIntroScreen: true
     };
@@ -68,7 +69,7 @@ export class HelpCenterMobile extends Component {
     // on the correct one.
     if (prevState.showIntroScreen === true &&
         this.state.showIntroScreen === false &&
-        this.state.hasContextualSearched === false) {
+        this.props.hasContextualSearched === false) {
       searchField.focus();
     }
 
@@ -86,10 +87,9 @@ export class HelpCenterMobile extends Component {
     }
   }
 
-  setContextualSearched = () => {
+  setIntroScreen = () => {
     this.setState({
-      showIntroScreen: false,
-      hasContextualSearched: true
+      showIntroScreen: false
     });
   }
 

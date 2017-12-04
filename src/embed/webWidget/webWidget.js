@@ -18,11 +18,9 @@ import { getZoomSizingRatio,
          setScaleLock } from 'utility/devices';
 import { document,
          getDocumentHost,
-         location,
          win } from 'utility/globals';
 import { mouse } from 'utility/mouse';
-import { isOnHelpCenterPage,
-         isOnHostMappedDomain } from 'utility/pages';
+import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedTimeoutCall,
          getPageKeywords } from 'utility/utils';
 import { updateZopimOnline } from 'src/redux/modules/base';
@@ -214,7 +212,6 @@ function create(name, config = {}, reduxStore = {}) {
       <WebWidget
         attachmentSender={submitTicketSettings.attachmentSender}
         channelChoice={channelChoice}
-        contextualSearchSender={helpCenterSettings.contextualSearchSender}
         newDesign={!!config.zopimChat}
         fullscreen={isMobileBrowser()}
         helpCenterAvailable={helpCenterAvailable}
@@ -230,7 +227,6 @@ function create(name, config = {}, reduxStore = {}) {
         onSubmitted={submitTicketSettings.onSubmitted}
         originalArticleButton={settings.get('helpCenter.originalArticleButton')}
         position={globalConfig.position}
-        searchSender={helpCenterSettings.searchSender}
         showCloseButton={showCloseButton}
         style={containerStyle}
         subjectEnabled={settings.get('contactForm.subject')}
@@ -691,48 +687,15 @@ function setUpHelpCenter(config) {
     beacon.trackUserAction('helpCenter', 'search', 'helpCenterForm', params.searchTerm);
     mediator.channel.broadcast('helpCenterForm.onSearch', params);
   };
-  const senderPayload = (url) => (query, doneFn, failFn) => {
-    const token = authentication.getToken();
-    const forceHttp = isOnHostMappedDomain() && location.protocol === 'http:';
-    const queryParams = _.extend(query, settings.get('helpCenter.filter'));
-
-    return {
-      method: 'get',
-      forceHttp: forceHttp,
-      path: url,
-      query: queryParams,
-      authorization: token ? `Bearer ${token}` : '',
-      callbacks: {
-        done: doneFn,
-        fail: failFn
-      }
-    };
-  };
-  const searchSenderFn = (url) => (query, doneFn, failFn) => {
-    const payload = senderPayload(url)(query, doneFn, failFn);
-
-    http.send(payload);
-  };
-  const imagesSenderFn = (url, doneFn) => {
-    const payload = senderPayload(url)(null, doneFn);
-
-    http.getImage(payload);
-  };
 
   config = _.extend({}, helpCenterConfigDefaults, { viewMoreEnabled }, config);
 
   useMouseDistanceContexualSearch = config.enableMouseDrivenContextualHelp;
 
-  const contextualSearchSender = searchSenderFn('/api/v2/help_center/articles/embeddable_search.json');
-  const searchSender = searchSenderFn('/api/v2/help_center/search.json');
-
   return {
     config,
     onArticleClick,
-    onSearch,
-    searchSender,
-    imagesSenderFn,
-    contextualSearchSender
+    onSearch
   };
 }
 

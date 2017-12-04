@@ -1,8 +1,18 @@
 import { combineReducers } from 'redux';
 
-import search from './helpCenter-search';
+import searchLoading from './helpCenter-searchLoading';
+import articleClicked from './helpCenter-articleClicked';
+import searchFailed from './helpCenter-searchFailed';
+import searchTerm from './helpCenter-searchTerm';
+import hasSearched from './helpCenter-hasSearched';
+import hasContextuallySearched from './helpCenter-hasContextuallySearched';
 
 export default combineReducers({
-  search
+  searchLoading,
+  articleClicked,
+  searchFailed,
+  searchTerm,
+  hasSearched,
+  hasContextuallySearched
 });
 
