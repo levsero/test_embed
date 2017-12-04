@@ -6,6 +6,6 @@ module.exports = {
   'translation/ze_translations': 'zETranslations',
   'translation/ze_localeIdMap': 'zELocaleIdMap',
   'chat-web-sdk': 'zChat',
-  'libphonenumber-js': 'isValidNumber',
+  'libphonenumber-js': 'libphonenumber',
   'socket.io-client': 'io'
 };
