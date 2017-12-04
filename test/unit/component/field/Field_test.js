@@ -192,6 +192,97 @@ describe('Field component', () => {
     });
   });
 
+  describe('validator', () => {
+    let field,
+      eventSpy,
+      setCustomValiditySpy;
+
+    beforeEach(() => {
+      setCustomValiditySpy = jasmine.createSpy('setCustomValidity');
+    });
+
+    describe('when a validateInput prop is provided', () => {
+      let validateInputSpy;
+
+      describe('when the validateInput function returns true', () => {
+        beforeEach(() => {
+          validateInputSpy = jasmine.createSpy('validateInput').and.returnValue(true);
+          eventSpy = {
+            target: {
+              value: '+61430999721'
+            },
+            persist: () => null
+          };
+
+          field = domRender(<Field validateInput={validateInputSpy} />);
+          field.input = {
+            setCustomValidity: setCustomValiditySpy,
+            validity: {
+              valid: true
+            }
+          };
+          field.onChange(eventSpy);
+        });
+
+        it('calls input.setCustomValidity with an empty string', () => {
+          expect(setCustomValiditySpy)
+            .toHaveBeenCalledWith('');
+        });
+      });
+
+      describe('when the validateInput function returns false', () => {
+        beforeEach(() => {
+          validateInputSpy = jasmine.createSpy('validateInput').and.returnValue(false);
+          eventSpy = {
+            target: {
+              value: 'wrongNumber1430999721'
+            },
+            persist: () => null
+          };
+
+          field = domRender(<Field validateInput={validateInputSpy} />);
+          field.input = {
+            setCustomValidity: setCustomValiditySpy,
+            validity: {
+              valid: false
+            }
+          };
+          field.onChange(eventSpy);
+        });
+
+        it('calls input.setCustomValidity with an error string', () => {
+          expect(setCustomValiditySpy)
+            .toHaveBeenCalledWith('Error');
+        });
+      });
+    });
+
+    describe('when a validateInput prop is not provided', () => {
+      beforeEach(() => {
+        field = domRender(<Field />);
+        field.input = {
+          setCustomValidity: setCustomValiditySpy,
+          validity: {
+            valid: true
+          }
+        };
+        eventSpy = {
+          target: {
+            value: '+61430999721withwrongnumber'
+          },
+          persist: () => null
+        };
+
+        field.onChange(eventSpy);
+      });
+
+      it('calls input.setCustomValidity with an empty string', () => {
+        expect(setCustomValiditySpy)
+          .toHaveBeenCalledWith('');
+      });
+    });
+  });
+
   it('has autoComplete attribute set to false', () => {
     const field = domRender(<Field />);
     const fieldNode = ReactDOM.findDOMNode(field);

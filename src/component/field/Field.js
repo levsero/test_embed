@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { locals as styles } from './Field.sass';
@@ -33,7 +32,8 @@ export class Field extends Component {
     placeholder: PropTypes.string,
     required: PropTypes.bool,
     step: PropTypes.string,
-    type: PropTypes.string
+    type: PropTypes.string,
+    validateInput: PropTypes.func
   };
 
   static defaultProps = {
@@ -53,7 +53,8 @@ export class Field extends Component {
     required: false,
     step: '',
     type: '',
-    value: ''
+    value: '',
+    validateInput: () => true
   };
 
   constructor(props, context) {
@@ -66,6 +67,8 @@ export class Field extends Component {
       hasError: false,
       value: props.value
     };
+
+    this.input = null;
   }
 
   onFocus = (e) => {
@@ -77,7 +80,7 @@ export class Field extends Component {
   }
 
   onBlur = (e) => {
-    const result = ReactDOM.findDOMNode(this.refs.field);
+    const result = this.input;
 
     this.setState({
       focused: false,
@@ -93,7 +96,15 @@ export class Field extends Component {
 
   onChange = (e) => {
     const value = e.target.value;
-    const result = ReactDOM.findDOMNode(this.refs.field);
+    const result = this.input;
+
+    // Setting custom validity to empty string when input is valid allows the input field to be set to valid.
+    // Source: https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement/setCustomValidity
+    if (this.props.validateInput(value)){
+      result.setCustomValidity('');
+    } else {
+      result.setCustomValidity('Error'); // TODO: Customize error.
+    }
 
     this.setState({
       value: value,
@@ -111,7 +122,7 @@ export class Field extends Component {
       onChange: this.onChange,
       onBlur: this.onBlur,
       onFocus: this.onFocus,
-      ref: 'field',
+      ref: (element) => this.input = element,
       value: this.props.value
     };
     const fieldInputClasses = isMobileBrowser() ? styles.fieldInputMobile : '';

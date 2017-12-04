@@ -34,7 +34,12 @@ describe('Render phone field', () => {
     mockery.disable();
   });
 
-  it('returns an talk phone field component with a name prop', () => {
+  it('returns an internal field of talk phone number field component with a validator function prop', () => {
+    expect(field.props.validateInput)
+      .toEqual(jasmine.any(Function));
+  });
+
+  it('returns an internal field of talk phone field component with a name prop', () => {
     expect(field.props.name)
       .toEqual('phone');
   });
