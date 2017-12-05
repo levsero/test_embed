@@ -30,6 +30,15 @@ describe('Launcher component', () => {
         i18n: {
           t: _.identity
         }
+      },
+      'src/redux/modules/base/selectors': {
+        getZopimChatEmbed: noop
+      },
+      'src/redux/modules/chat/selectors': {
+        getChatStatus: noop
+      },
+      'src/redux/modules/zopimChat/selectors': {
+        getZopimChatStatus: noop
       }
     });
 
@@ -48,16 +57,6 @@ describe('Launcher component', () => {
 
     beforeEach(() => {
       launcher = instanceRender(<Launcher label='help' />);
-    });
-
-    it('should change the state icon when setIcon is called', () => {
-      expect(launcher.state.icon)
-        .not.toEqual('newIcon');
-
-      launcher.setIcon('newIcon');
-
-      expect(launcher.state.icon)
-        .toEqual('newIcon');
     });
 
     it('should change the label when setLabel is called', () => {
@@ -101,13 +100,6 @@ describe('Launcher component', () => {
 
       expect(launcherNode.querySelector('.labelClasses').innerHTML)
         .toEqual('foo');
-    });
-
-    it('should set the icon based on the state', () => {
-      launcher.setState({ icon: 'bar' });
-
-      expect(launcherNode.querySelector('.iconClasses').innerHTML)
-        .toEqual('bar');
     });
 
     describe('when props.chatStatus is online', () => {

@@ -149,7 +149,6 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setLabelChat', () => {
-    setIcon(name, 'Icon--chat');
     setLabel(name, 'embeddable_framework.launcher.label.chat');
     setHasUnreadMessages(name, false);
   });
@@ -157,7 +156,6 @@ function render(name) {
   mediator.channel.subscribe(name + '.setLabelHelp', () => {
     const label = `embeddable_framework.launcher.label.${launchers[name].config.labelKey}`;
 
-    setIcon(name, 'Icon');
     setLabel(name, label);
     setHasUnreadMessages(name, false);
   });
@@ -165,7 +163,6 @@ function render(name) {
   mediator.channel.subscribe(name + '.setLabelChatHelp', () => {
     const label = `embeddable_framework.launcher.label.${launchers[name].config.labelKey}`;
 
-    setIcon(name, 'Icon--chat');
     setLabel(name, label);
     setHasUnreadMessages(name, false);
   });

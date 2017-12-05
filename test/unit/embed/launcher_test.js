@@ -258,9 +258,6 @@ describe('embed.launcher', () => {
 
         pluckSubscribeCall(mockMediator, 'alice.setLabelHelp')();
 
-        expect(aliceLauncher.setIcon)
-          .toHaveBeenCalledWith('Icon');
-
         expect(aliceLauncher.setLabel)
           .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label', {});
       });
@@ -271,9 +268,6 @@ describe('embed.launcher', () => {
 
         pluckSubscribeCall(mockMediator, 'alice.setLabelChat')();
 
-        expect(aliceLauncher.setIcon)
-          .toHaveBeenCalledWith('Icon--chat');
-
         expect(aliceLauncher.setLabel)
           .toHaveBeenCalled();
       });
@@ -283,9 +277,6 @@ describe('embed.launcher', () => {
           .toHaveBeenCalledWith('alice.setLabelChatHelp', jasmine.any(Function));
 
         pluckSubscribeCall(mockMediator, 'alice.setLabelChatHelp')();
-
-        expect(aliceLauncher.setIcon)
-          .toHaveBeenCalledWith('Icon--chat');
 
         expect(aliceLauncher.setLabel)
           .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label', {});

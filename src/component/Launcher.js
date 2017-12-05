@@ -6,9 +6,15 @@ import { locals as styles } from './Launcher.sass';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
+import { getChatStatus } from 'src/redux/modules/chat/selectors';
+import { getZopimChatStatus } from 'src/redux/modules/zopimChat/selectors';
+import { getZopimChatEmbed } from 'src/redux/modules/base/selectors';
 
 const mapStateToProps = (state) => {
-  return { chatStatus: state.chat.account_status };
+  // If zopimChat is a seperate embed we're using old chat. New chat is contained in WebWidget.
+  const chatStatus = getZopimChatEmbed(state) ? getZopimChatStatus(state) : getChatStatus(state);
+
+  return { chatStatus };
 };
 
 class Launcher extends Component {
@@ -42,12 +48,6 @@ class Launcher extends Component {
     }
   }
 
-  setIcon = (icon) => {
-    if (this.props.chatStatus !== 'online') {
-      this.setState({ icon });
-    }
-  }
-
   render = () => {
     const mobile = isMobileBrowser();
     const baseMobileClasses = mobile ? styles.wrapperMobile : '';
@@ -59,9 +59,7 @@ class Launcher extends Component {
     const label = chatOnline
                 ? i18n.t('embeddable_framework.launcher.label.chat')
                 : i18n.t(this.state.label, this.state.labelOptions);
-    const icon = chatOnline
-               ? 'Icon--chat'
-               : this.state.icon;
+    const icon = chatOnline ? 'Icon--chat' : 'Icon';
 
     setTimeout(() => this.props.updateFrameSize(5, 0), 0);
 
