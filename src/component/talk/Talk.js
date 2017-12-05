@@ -12,6 +12,7 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 
 import {
   CALLBACK_ONLY_SCREEN,
+  PHONE_ONLY_SCREEN,
   CALLBACK_AND_PHONE_SCREEN,
   SUCCESS_NOTIFICATION_SCREEN } from 'src/redux/modules/talk/talk-screen-types';
 import { updateTalkCallbackForm,
@@ -148,6 +149,20 @@ class Talk extends Component {
     );
   }
 
+  renderPhoneOnlyScreen = () => {
+    const message = i18n.t(
+      'embeddable_framework.talk.phoneOnly.message',
+      { fallback: 'Call us at the phone number below to get in contact with us.' }
+    );
+
+    return (
+      <div className={styles.phoneOnlyContainer}>
+        <p className={styles.phoneOnlyMessage}>{message}</p>
+        <div className={styles.phoneNumber}>{this.props.embeddableConfig.phoneNumber}</div>
+      </div>
+    );
+  }
+
   renderSuccessNotificationScreen = () => {
     const displayNumber = this.props.phoneNumber;
     const message = i18n.t('embeddable_framework.talk.notify.success.message', {
@@ -170,6 +185,8 @@ class Talk extends Component {
     switch (this.props.screen) {
       case CALLBACK_ONLY_SCREEN:
         return this.renderFormScreen();
+      case PHONE_ONLY_SCREEN:
+        return this.renderPhoneOnlyScreen();
       case SUCCESS_NOTIFICATION_SCREEN:
         return this.renderSuccessNotificationScreen();
       case CALLBACK_AND_PHONE_SCREEN:

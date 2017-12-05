@@ -34,3 +34,16 @@
   margin-left: #{-10/$font-size}rem;
   padding-right: #{20/$font-size}rem;
 }
+
+.phoneOnlyContainer {
+  composes: u-marginBL from global;
+}
+
+.phoneOnlyMessage {
+  composes: u-marginBN from global;
+}
+
+.phoneNumber {
+  composes: u-textCenter from global;
+  font-size: #{20/$font-size}rem;
+}
