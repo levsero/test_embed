@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'component/field/Field';
-import libphonenumber from 'libphonenumber-js';
+const libphonenumber = require('libphonenumber-js');
 
 export class TalkPhoneField extends Component {
   static propTypes = {
