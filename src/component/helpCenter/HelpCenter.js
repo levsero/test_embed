@@ -468,7 +468,7 @@ class HelpCenter extends Component {
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
         search={this.search}
-        isLoading={this.state.searchLoading}
+        isLoading={this.props.searchLoading}
         onNextClick={this.props.onNextClick}
         newDesign={this.props.newDesign}
         showNextButton={this.props.showNextButton}
