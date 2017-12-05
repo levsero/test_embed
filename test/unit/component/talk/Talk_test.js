@@ -1,8 +1,9 @@
 describe('Talk component', () => {
   let Talk,
     httpSpy;
-  const callMeScreen = 'widget/talk/CALL_ME_SCREEN';
+  const callbackScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
+  const callbackAndPhoneScreen = 'widget/talk/CALLBACK_AND_PHONE_SCREEN';
 
   class MockScrollContainer extends Component {
     render() {
@@ -36,7 +37,7 @@ describe('Talk component', () => {
         updateTalkPhoneNumber: noop
       },
       'src/redux/modules/talk/talk-screen-types': {
-        CALL_ME_SCREEN: callMeScreen,
+        CALLBACK_ONLY_SCREEN: callbackScreen,
         SUCCESS_NOTIFICATION_SCREEN: successNotificationScreen
       },
       'src/redux/modules/talk/talk-selectors': {},
@@ -166,7 +167,7 @@ describe('Talk component', () => {
 
     describe('when on the call me back form screen', () => {
       beforeEach(() => {
-        talk = domRender(<Talk formTitleKey='formTitle' formState={{ phone: '' }} screen={callMeScreen} />);
+        talk = domRender(<Talk formTitleKey='formTitle' formState={{ phone: '' }} screen={callbackScreen} />);
         scrollContainer = TestUtils.findRenderedComponentWithType(talk, MockScrollContainer);
       });
 
@@ -178,6 +179,130 @@ describe('Talk component', () => {
       it('applies the footer styles to the scroll container', () => {
         expect(scrollContainer.props.footerClasses)
           .toBe('footerClasses');
+      });
+    });
+  });
+
+  describe('renderFormTitle', () => {
+    let result;
+
+    describe('when the screen is SUCCESS_NOTIFICATION_SCREEN', () => {
+      beforeEach(() => {
+        const talk = instanceRender(<Talk screen={successNotificationScreen} />);
+
+        result = talk.renderFormTitle();
+      });
+
+      it('returns the successNotificationTitle string', () => {
+        expect(result)
+          .toEqual('embeddable_framework.talk.notify.success.title');
+      });
+    });
+
+    describe('when the screen is CALLBACK_ONLY_SCREEN', () => {
+      beforeEach(() => {
+        const talk = instanceRender(<Talk screen={callbackScreen} />);
+
+        result = talk.renderFormTitle();
+      });
+
+      it('returns the formTitle string', () => {
+        expect(result)
+          .toEqual('embeddable_framework.talk.form.title');
+      });
+    });
+
+    describe('when the screen is CALLBACK_AND_PHONE_SCREEN', () => {
+      beforeEach(() => {
+        const talk = instanceRender(<Talk screen={callbackAndPhoneScreen} />);
+
+        result = talk.renderFormTitle();
+      });
+
+      it('returns the formTitle string', () => {
+        expect(result)
+          .toEqual('embeddable_framework.talk.form.title');
+      });
+    });
+
+    describe('when the screen is unrecognised', () => {
+      beforeEach(() => {
+        const talk = instanceRender(<Talk screen='foo' />);
+
+        result = talk.renderFormTitle();
+      });
+
+      it('returns the formTitle string', () => {
+        expect(result)
+          .toEqual('embeddable_framework.talk.form.title');
+      });
+    });
+  });
+
+  describe('renderContent', () => {
+    let result,
+      renderFormScreenSpy,
+      renderSuccessNotificationScreenSpy,
+      renderPhoneFormScreenSpy;
+
+    describe('when the screen is CALLBACK_ONLY_SCREEN', () => {
+      beforeEach(() => {
+        const talk = instanceRender(<Talk screen={callbackScreen} />);
+
+        renderFormScreenSpy = jasmine.createSpy();
+        talk.renderFormScreen = renderFormScreenSpy;
+
+        result = talk.renderContent();
+      });
+
+      it('calls renderFormScreen', () => {
+        expect(renderFormScreenSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the screen is SUCCESS_NOTIFICATION_SCREEN', () => {
+      beforeEach(() => {
+        const talk = instanceRender(<Talk screen={successNotificationScreen} />);
+
+        renderSuccessNotificationScreenSpy = jasmine.createSpy();
+        talk.renderSuccessNotificationScreen = renderSuccessNotificationScreenSpy;
+
+        result = talk.renderContent();
+      });
+
+      it('calls renderSuccessNotificationScreen', () => {
+        expect(renderSuccessNotificationScreenSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the screen is CALLBACK_AND_PHONE_SCREEN', () => {
+      beforeEach(() => {
+        const talk = instanceRender(<Talk screen={callbackAndPhoneScreen} />);
+
+        renderPhoneFormScreenSpy = jasmine.createSpy();
+        talk.renderPhoneFormScreen = renderPhoneFormScreenSpy;
+
+        result = talk.renderContent();
+      });
+
+      it('calls renderSuccessNotificationScreen', () => {
+        expect(renderSuccessNotificationScreenSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the screen is unrecognised', () => {
+      beforeEach(() => {
+        const talk = instanceRender(<Talk screen='undefinedScreen' />);
+
+        result = talk.renderContent();
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toBeNull();
       });
     });
   });

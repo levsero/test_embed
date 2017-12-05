@@ -26,7 +26,7 @@ describe('embed.webWidget', () => {
   const updateZopimOnlineSpy = jasmine.createSpy();
   const zChatInitSpy = jasmine.createSpy();
   const zChatFirehoseSpy = jasmine.createSpy().and.callThrough();
-  const callMeScreen = 'widget/talk/CALL_ME_SCREEN';
+  const callMeScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
 
   beforeEach(() => {
     mockIsOnHelpCenterPageValue = false;
@@ -127,7 +127,7 @@ describe('embed.webWidget', () => {
         updateTalkScreen: updateTalkScreenSpy
       },
       'src/redux/modules/talk/talk-screen-types': {
-        CALL_ME_SCREEN: callMeScreen
+        CALLBACK_ONLY_SCREEN: callMeScreen
       },
       'chat-web-sdk': {
         init: zChatInitSpy,
@@ -275,7 +275,7 @@ describe('embed.webWidget', () => {
             .toHaveBeenCalledWith(false);
         });
 
-        it('dispatches a updateTalkScreen action with CALL_ME_SCREEN', () => {
+        it('dispatches a updateTalkScreen action with CALLBACK_ONLY_SCREEN', () => {
           expect(updateTalkScreenSpy)
             .toHaveBeenCalledWith(callMeScreen);
         });

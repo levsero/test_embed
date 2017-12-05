@@ -1,7 +1,7 @@
 import { UPDATE_SCREEN } from '../talk-action-types';
-import { CALL_ME_SCREEN } from '../talk-screen-types';
+import { CALLBACK_ONLY_SCREEN } from '../talk-screen-types';
 
-const initialState = CALL_ME_SCREEN;
+const initialState = CALLBACK_ONLY_SCREEN;
 
 const screen = (state = initialState, action) => {
   switch (action.type) {

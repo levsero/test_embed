@@ -10,7 +10,10 @@ import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 
-import { CALL_ME_SCREEN, SUCCESS_NOTIFICATION_SCREEN } from 'src/redux/modules/talk/talk-screen-types';
+import {
+  CALLBACK_ONLY_SCREEN,
+  CALLBACK_AND_PHONE_SCREEN,
+  SUCCESS_NOTIFICATION_SCREEN } from 'src/redux/modules/talk/talk-screen-types';
 import { updateTalkScreen, updateTalkCallMeForm, updateTalkPhoneNumber } from 'src/redux/modules/talk';
 import { getEmbeddableConfig,
          getAgentAvailability,
@@ -54,7 +57,9 @@ class Talk extends Component {
 
   static defaultProps = {
     hideZendeskLogo: false,
-    updateFrameSize: () => {}
+    updateFrameSize: () => {},
+    formState: { phone: '' },
+    embeddableConfig: { phoneNumber: '' }
   };
 
   constructor() {
@@ -114,8 +119,6 @@ class Talk extends Component {
   }
 
   renderFormScreen = () => {
-    if (this.props.screen !== CALL_ME_SCREEN) return;
-
     const phoneLabel = i18n.t(`embeddable_framework.common.textLabel.phone`, { fallback: 'Phone Number' });
     const nameLabel = i18n.t(`embeddable_framework.common.textLabel.name`, { fallback: 'Name' });
     const emailLabel = i18n.t(`embeddable_framework.common.textLabel.email`, { fallback: 'Email' });
@@ -132,6 +135,7 @@ class Talk extends Component {
         onCompleted={this.handleFormCompleted}
         onChange={this.handleFormChange}>
         {this.renderFormHeader()}
+        <div className={styles.formDivider} />
         <TalkPhoneField
           label={phoneLabel}
           required={true}
@@ -154,15 +158,20 @@ class Talk extends Component {
     );
   }
 
-  renderZendeskLogo = () => {
-    if (this.props.hideZendeskLogo) return;
+  renderPhoneFormScreen = () => {
+    const phoneLabel = i18n.t('embeddable_framework.talk.label.phoneDisplay', { fallback: 'Our phone number:' });
 
-    return <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />;
+    return (
+      <div>
+        <div className={styles.phoneDisplayLabel}>
+          {`${phoneLabel} ${this.props.embeddableConfig.phoneNumber}`}
+        </div>
+        {this.renderFormScreen()}
+      </div>
+    );
   }
 
   renderSuccessNotificationScreen = () => {
-    if (this.props.screen !== SUCCESS_NOTIFICATION_SCREEN) return;
-
     const displayNumber = this.props.phoneNumber;
     const message = i18n.t('embeddable_framework.talk.notify.success.message', {
       fallback: `Thanks for submiting your request. We'll get back to you soon on ${displayNumber}`,
@@ -180,18 +189,49 @@ class Talk extends Component {
     );
   }
 
+  renderContent = () => {
+    switch (this.props.screen) {
+      case CALLBACK_ONLY_SCREEN:
+        return this.renderFormScreen();
+      case SUCCESS_NOTIFICATION_SCREEN:
+        return this.renderSuccessNotificationScreen();
+      case CALLBACK_AND_PHONE_SCREEN:
+        return this.renderPhoneFormScreen();
+      default:
+        return null;
+    }
+  }
+
+  renderFormTitle = () => {
+    const formTitle = i18n.t(
+      'embeddable_framework.talk.form.title',
+      { fallback: 'Request a callback' }
+    );
+    const successNotificationTitle = i18n.t(
+      'embeddable_framework.talk.notify.success.title',
+      { fallback: 'Request sent' }
+    );
+
+    switch (this.props.screen) {
+      case SUCCESS_NOTIFICATION_SCREEN:
+        return successNotificationTitle;
+      case CALLBACK_ONLY_SCREEN:
+      case CALLBACK_AND_PHONE_SCREEN:
+      default:
+        return formTitle;
+    }
+  }
+
+  renderZendeskLogo = () => {
+    if (this.props.hideZendeskLogo) return;
+
+    return <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />;
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const formTitle = i18n.t('embeddable_framework.talk.form.title', {
-      fallback: 'Request a callback'
-    });
-    const successNotificationTitle = i18n.t('embeddable_framework.talk.notify.success.title', {
-      fallback: 'Request sent'
-    });
-    const onCallMeScreen = this.props.screen === CALL_ME_SCREEN;
-    const title = onCallMeScreen ? formTitle : successNotificationTitle;
-    const footerClasses = onCallMeScreen ? styles.footer : '';
+    const footerClasses = !(this.props.screen === SUCCESS_NOTIFICATION_SCREEN) ? styles.footer : '';
 
     return (
       <ScrollContainer
@@ -201,9 +241,8 @@ class Talk extends Component {
         footerClasses={footerClasses}
         footerContent={this.renderZendeskLogo()}
         getFrameDimensions={this.props.getFrameDimensions}
-        title={title}>
-        {this.renderFormScreen()}
-        {this.renderSuccessNotificationScreen()}
+        title={this.renderFormTitle()}>
+        {this.renderContent()}
       </ScrollContainer>
     );
   }

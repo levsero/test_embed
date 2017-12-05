@@ -27,9 +27,9 @@ describe('talk reducer screen', () => {
     let state;
 
     describe('initial state', () => {
-      it('screen is set to CALL_ME_SCREEN', () => {
+      it('screen is set to CALLBACK_ONLY_SCREEN', () => {
         expect(initialState)
-          .toBe(screenTypes.CALL_ME_SCREEN);
+          .toBe(screenTypes.CALLBACK_ONLY_SCREEN);
       });
     });
 

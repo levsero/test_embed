@@ -738,6 +738,12 @@ parts:
 
   # Talk
   - translation:
+      key: "embeddable_framework.talk.label.phoneDisplay"
+      title: "An initial text to instruct our users that the following number on the right is available for use to contact us."
+      screenshot: "FIXME - N/A, WIP"
+      value: "Our phone number:"
+      wip: true
+  - translation:
       key: "embeddable_framework.talk.form.headerMessage"
       title: "Header message for the callback form which end-users have to fill"
       screenshot: "https://zendesk.box.com/s/daa78ojuy0g79iaf8mr01bz2w8pa7zbr"

@@ -1,3 +1,5 @@
+@import '../../styles/_vars.scss';
+
 .scrollContainer {
   max-height: none;
 }
@@ -20,4 +22,15 @@
 
 .notifyMessage {
   composes: u-marginBN from global;
+}
+
+.phoneDisplayLabel {
+  composes: u-marginBL from global;
+}
+
+.formDivider {
+  composes: u-marginBL u-hsizeAll from global;
+  border: #{0.5/$font-size}rem solid $zd-color-gainsboro;
+  margin-left: #{-10/$font-size}rem;
+  padding-right: #{20/$font-size}rem;
 }
