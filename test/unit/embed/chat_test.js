@@ -5,6 +5,7 @@ describe('embed.chat', () => {
     mockSettingsValue,
     mockZopim;
 
+  const updateZopimChatStatusSpy = jasmine.createSpy('updateZopimChatStatus');
   const mockGlobals = {
     document: global.document,
     win: {},
@@ -76,6 +77,9 @@ describe('embed.chat', () => {
         settings: {
           get: (name) => _.get(mockSettingsValue, name, null)
         }
+      },
+      'src/redux/modules/zopimChat': {
+        updateZopimChatStatus: updateZopimChatStatusSpy
       },
       'utility/devices': {
         isMobileBrowser: () => mockIsMobileBrowserValue
@@ -229,7 +233,7 @@ describe('embed.chat', () => {
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
         mockZopim = mockRegistry['utility/globals'].win.$zopim;
-        chat.create(chatName, {zopimId: zopimId});
+        chat.create(chatName, {zopimId: zopimId}, { dispatch: noop });
         chat.render(chatName);
 
         const livechat = mockZopim.livechat;
@@ -296,6 +300,13 @@ describe('embed.chat', () => {
             expect(mockMediator.channel.broadcast)
               .toHaveBeenCalledWith('dave.onOffline');
           });
+        });
+
+        it('calls updateZopimChatStatus with the status', () => {
+          onStatusCall.args[0]('online');
+
+          expect(updateZopimChatStatusSpy)
+            .toHaveBeenCalledWith('online');
         });
       });
 

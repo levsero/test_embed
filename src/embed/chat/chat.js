@@ -6,11 +6,12 @@ import { validSettingsColor } from 'utility/color';
 import { document, win,
          getDocumentHost } from 'utility/globals';
 import { cappedTimeoutCall } from 'utility/utils';
+import { updateZopimChatStatus } from 'src/redux/modules/zopimChat';
 
 let chats = {};
 const styleTag = document.createElement('style');
 
-function create(name, config) {
+function create(name, config, store) {
   const configDefaults = {
     position: 'right',
     color: '#78A300',
@@ -26,7 +27,8 @@ function create(name, config) {
   }
 
   chats[name] = {
-    config: _.extend(configDefaults, config)
+    config: _.extend(configDefaults, config),
+    store
   };
 }
 
@@ -154,6 +156,8 @@ function init(name) {
     } else {
       mediator.channel.broadcast(`${name}.onOffline`);
     }
+
+    get(name).store.dispatch(updateZopimChatStatus(status));
   };
   const onUnreadMsgs = (unreadMessageCount) => {
     mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount);
