@@ -57,7 +57,34 @@ describe('talk redux actions', () => {
     });
   });
 
-  describe('updateTalkCallbackForm', () => {
+  describe('resetTalkScreen', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore = createMockStore({
+        talk: {
+          embeddableConfig: { capability: 'widget/talk/PHONE_ONLY' }
+        }
+      });
+      mockStore.dispatch(actions.resetTalkScreen());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_SCREEN', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_SCREEN);
+    });
+
+    it('dispatches an action with the capable screen', () => {
+      expect(action.payload)
+        .toEqual(screenTypes.PHONE_ONLY_SCREEN);
+    });
+  });
+
+  describe('updateTalkCallMeForm', () => {
+    let action,
+      formState;
+
     beforeEach(() => {
       formState = {
         phone: '+61423423329',

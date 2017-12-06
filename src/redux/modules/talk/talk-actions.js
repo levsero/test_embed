@@ -8,7 +8,7 @@ import {
   TALK_CALLBACK_SUCCESS,
   TALK_CALLBACK_FAILURE
 } from './talk-action-types';
-import { getCapability, getFormState } from './talk-selectors';
+import { getFormState, getInitialScreen } from './talk-selectors';
 
 export function updateTalkScreen(screen) {
   return {
@@ -19,7 +19,7 @@ export function updateTalkScreen(screen) {
 
 export function resetTalkScreen() {
   return (dispatch, getState) => {
-    dispatch(updateTalkScreen(getCapability(getState())));
+    dispatch(updateTalkScreen(getInitialScreen(getState())));
   };
 }
 

@@ -16,7 +16,7 @@ describe('embed.webWidget', () => {
     socketioConnectSpy,
     socketioMapEventsToActionsSpy,
     targetCancelHandlerSpy,
-    updateTalkScreenSpy,
+    resetTalkScreenSpy,
     mockIsIE,
     mockZendeskSubdomain,
     mockWebWidget;
@@ -44,7 +44,7 @@ describe('embed.webWidget', () => {
     mockAuthenticateValue = null;
     socketioConnectSpy = jasmine.createSpy('socketio.connect').and.returnValue('socket');
     socketioMapEventsToActionsSpy = jasmine.createSpy('socketio.mapEventsToActions');
-    updateTalkScreenSpy = jasmine.createSpy('updateTalkScreen');
+    resetTalkScreenSpy = jasmine.createSpy('resetTalkScreen');
 
     targetCancelHandlerSpy = jasmine.createSpy();
 
@@ -124,7 +124,7 @@ describe('embed.webWidget', () => {
         setVisitorInfo: (user) => user
       },
       'src/redux/modules/talk': {
-        updateTalkScreen: updateTalkScreenSpy
+        resetTalkScreen: resetTalkScreenSpy
       },
       'src/redux/modules/talk/talk-screen-types': {
         CALLBACK_ONLY_SCREEN: callMeScreen
@@ -275,9 +275,9 @@ describe('embed.webWidget', () => {
             .toHaveBeenCalledWith(false);
         });
 
-        it('dispatches a updateTalkScreen action with CALLBACK_ONLY_SCREEN', () => {
-          expect(updateTalkScreenSpy)
-            .toHaveBeenCalledWith(callMeScreen);
+        it('dispatches a resetTalkScreen action', () => {
+          expect(resetTalkScreenSpy)
+            .toHaveBeenCalled();
         });
       });
 

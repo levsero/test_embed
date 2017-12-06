@@ -25,7 +25,6 @@ import { cappedTimeoutCall,
          getPageKeywords } from 'utility/utils';
 import { updateZopimOnline } from 'src/redux/modules/base';
 import { setVisitorInfo } from 'src/redux/modules/chat';
-import { updateTalkScreen } from 'src/redux/modules/talk';
 import { resetTalkScreen } from 'src/redux/modules/talk/talk-actions';
 
 import WebWidget from 'component/webWidget/WebWidget';

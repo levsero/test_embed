@@ -6,6 +6,7 @@ describe('events', () => {
     mockReduxStore;
 
   const eventsPath = buildSrcPath('service/transport/websockets/events');
+  const actionTypesPath = buildSrcPath('redux/modules/talk/talk-action-types');
 
   beforeEach(() => {
     mockery.enable();
@@ -13,8 +14,14 @@ describe('events', () => {
     mockSocket = { on: jasmine.createSpy('socket.on') };
     mockReduxStore = { dispatch: jasmine.createSpy('reduxStore.dispatch') };
 
+    const actionTypes = requireUncached(actionTypesPath);
+
     initMockRegistry({
-      'lodash': _
+      'lodash': _,
+      'src/redux/modules/talk/talk-action-types': actionTypes,
+      'src/redux/modules/talk/talk-actions': {
+        resetTalkScreen: () => { return { type: 'RESET_SCREEN' }; }
+      }
     });
 
     mockery.registerAllowable(eventsPath);
@@ -72,6 +79,11 @@ describe('events', () => {
           });
       });
 
+      it('dispatches the resetTalkScreen action', () => {
+        expect(mockReduxStore.dispatch.calls.argsFor(2)[0])
+          .toEqual({ type: 'RESET_SCREEN' });
+      });
+
       describe('when surfacing the wait time is enabled', () => {
         beforeEach(() => {
           const averageWaitTimeConfig = {
@@ -97,10 +109,7 @@ describe('events', () => {
       describe('when surfacing the wait time is disabled', () => {
         it('does not dispatch an average wait time change action', () => {
           expect(mockReduxStore.dispatch.calls.mostRecent().args[0])
-            .toEqual({
-              type: 'talk/socket.availability',
-              payload: false
-            });
+            .toEqual({ type: 'RESET_SCREEN' });
         });
       });
     });
