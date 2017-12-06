@@ -201,6 +201,10 @@ class Talk extends Component {
       'embeddable_framework.talk.form.title',
       { fallback: 'Request a callback' }
     );
+    const phoneOnlyTitle = i18n.t(
+      'embeddable_framework.talk.phoneOnly.title',
+      { fallback: 'Call us' }
+    );
     const successNotificationTitle = i18n.t(
       'embeddable_framework.talk.notify.success.title',
       { fallback: 'Request sent' }
@@ -209,6 +213,8 @@ class Talk extends Component {
     switch (this.props.screen) {
       case SUCCESS_NOTIFICATION_SCREEN:
         return successNotificationTitle;
+      case PHONE_ONLY_SCREEN:
+        return phoneOnlyTitle;
       case CALLBACK_ONLY_SCREEN:
       case CALLBACK_AND_PHONE_SCREEN:
       default:
