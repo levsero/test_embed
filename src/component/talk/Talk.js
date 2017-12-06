@@ -152,7 +152,7 @@ class Talk extends Component {
   renderPhoneOnlyScreen = () => {
     const message = i18n.t(
       'embeddable_framework.talk.phoneOnly.message',
-      { fallback: 'Call us at the phone number below to get in contact with us.' }
+      { fallback: 'Call the phone number below to get in contact with us.' }
     );
 
     return (
