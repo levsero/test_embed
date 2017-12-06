@@ -1,3 +1,6 @@
+import _ from 'lodash';
+
+import { http } from 'service/transport';
 import {
   UPDATE_SCREEN,
   UPDATE_CALLBACK_FORM,
@@ -5,21 +8,25 @@ import {
   TALK_CALLBACK_SUCCESS,
   TALK_CALLBACK_FAILURE
 } from './talk-action-types';
-import { getFormState } from './talk-selectors';
-import { http } from 'service/transport';
-import _ from 'lodash';
-
-export function updateTalkCallbackForm(formState) {
-  return {
-    type: UPDATE_CALLBACK_FORM,
-    payload: formState
-  };
-}
+import { getCapability, getFormState } from './talk-selectors';
 
 export function updateTalkScreen(screen) {
   return {
     type: UPDATE_SCREEN,
     payload: screen
+  };
+}
+
+export function resetTalkScreen() {
+  return (dispatch, getState) => {
+    dispatch(updateTalkScreen(getCapability(getState())));
+  };
+}
+
+export function updateTalkCallbackForm(formState) {
+  return {
+    type: UPDATE_CALLBACK_FORM,
+    payload: formState
   };
 }
 
