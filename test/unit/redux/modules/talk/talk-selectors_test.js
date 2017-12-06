@@ -1,10 +1,12 @@
 describe('talk selectors', () => {
   let getEmbeddableConfig,
+    getCapability,
     getAgentAvailability,
     getFormState,
     getScreen,
     getCallback,
-    getAverageWaitTime;
+    getAverageWaitTime,
+    getInitialScreen;
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
 
   beforeEach(() => {
@@ -17,11 +19,13 @@ describe('talk selectors', () => {
     const selectors = requireUncached(talkSelectorsPath);
 
     getEmbeddableConfig = selectors.getEmbeddableConfig;
+    getCapability = selectors.getCapability;
     getAgentAvailability = selectors.getAgentAvailability;
     getFormState = selectors.getFormState;
     getScreen = selectors.getScreen;
     getCallback = selectors.getCallback;
     getAverageWaitTime = selectors.getAverageWaitTime;
+    getInitialScreen = selectors.getInitialScreen;
   });
 
   describe('getEmbeddableConfig', () => {
@@ -47,6 +51,26 @@ describe('talk selectors', () => {
           enabled: 'false',
           phoneNumber: '+61412345678'
         });
+    });
+  });
+
+  describe('getCapability', () => {
+    let result;
+    const mockTalkState = {
+      talk: {
+        embeddableConfig: {
+          capability: 'widget/talk/CALLBACK_AND_PHONE'
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getCapability(mockTalkState);
+    });
+
+    it('returns the current state of capability', () => {
+      expect(result)
+        .toBe('widget/talk/CALLBACK_AND_PHONE');
     });
   });
 
@@ -145,6 +169,24 @@ describe('talk selectors', () => {
     it('returns the current state of averageWaitTime', () => {
       expect(result)
         .toBe('2');
+    });
+  });
+
+  describe('getInitialScreen', () => {
+    let result;
+    const mockTalkState = {
+      talk: {
+        embeddableConfig: { capability: 'widget/talk/PHONE_ONLY' }
+      }
+    };
+
+    beforeEach(() => {
+      result = getInitialScreen(mockTalkState);
+    });
+
+    it('returns the current correct screen for the current state of capability', () => {
+      expect(result)
+        .toBe('widget/talk/PHONE_ONLY_SCREEN');
     });
   });
 });

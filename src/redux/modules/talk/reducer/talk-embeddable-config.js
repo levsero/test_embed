@@ -1,22 +1,22 @@
 import { TALK_EMBEDDABLE_CONFIG } from '../talk-action-types';
 import {
-  CALLBACK_ONLY_SCREEN,
-  PHONE_ONLY_SCREEN,
-  CALLBACK_AND_PHONE_SCREEN } from 'src/redux/modules/talk/talk-screen-types';
+  CALLBACK_ONLY,
+  PHONE_ONLY,
+  CALLBACK_AND_PHONE } from '../talk-capability-types';
 
+const capabilityMap = {
+  '0': CALLBACK_ONLY,
+  '1': PHONE_ONLY,
+  '2': CALLBACK_AND_PHONE
+};
 const initialState = {
   averageWaitTimeSetting: null,
-  capability: '0',
+  capability: CALLBACK_ONLY,
   enabled: 'false',
   groupName: '',
   keywords: '',
   phoneNumber: '',
   supportedCountries: []
-};
-const capabilityScreenMap = {
-  '0': CALLBACK_ONLY_SCREEN,
-  '1': PHONE_ONLY_SCREEN,
-  '2': CALLBACK_AND_PHONE_SCREEN
 };
 
 const embeddableConfig = (state = initialState, action) => {
@@ -24,7 +24,7 @@ const embeddableConfig = (state = initialState, action) => {
     case TALK_EMBEDDABLE_CONFIG:
       const { payload } = action;
 
-      return { ...payload, capability: capabilityScreenMap[payload.capability] };
+      return { ...payload, capability: capabilityMap[payload.capability] };
     default:
       return state;
   }
