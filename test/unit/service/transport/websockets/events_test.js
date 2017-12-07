@@ -98,38 +98,6 @@ describe('events', () => {
         expect(mockReduxStore.dispatch.calls.argsFor(2)[0].type)
           .toBe('RESET_SCREEN');
       });
-
-      describe('when surfacing the wait time is enabled', () => {
-        beforeEach(() => {
-          const averageWaitTimeConfig = {
-            averageWaitTimeSetting: null,
-            averageWaitTime: '1'
-          };
-
-          mockConfig = { ...mockConfig, ...averageWaitTimeConfig };
-          mockReduxStore.dispatch.calls.reset();
-          callback = mockSocket.on.calls.mostRecent().args[1];
-          callback(mockConfig);
-        });
-
-        it('dispatches the UPDATE_AVERAGE_WAIT_TIME action', () => {
-          expect(updateTalkAverageWaitTimeSpy)
-            .toHaveBeenCalledWith('1');
-
-          expect(mockReduxStore.dispatch.calls.argsFor(2)[0].type)
-            .toBe(actionTypes.UPDATE_AVERAGE_WAIT_TIME);
-        });
-      });
-
-      describe('when surfacing the wait time is disabled', () => {
-        it('does not dispatch an average wait time change action', () => {
-          expect(resetTalkScreenSpy)
-            .toHaveBeenCalled();
-
-          expect(mockReduxStore.dispatch.calls.mostRecent().args[0].type)
-            .toBe('RESET_SCREEN');
-        });
-      });
     });
   });
 
