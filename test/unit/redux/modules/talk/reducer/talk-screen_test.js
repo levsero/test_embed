@@ -34,20 +34,30 @@ describe('talk reducer screen', () => {
     });
 
     describe('when a UPDATE_SCREEN action is dispatched', () => {
-      let screen;
-
       beforeEach(() => {
-        screen = screenTypes.SUCCESS_NOTIFICATION_SCREEN;
-
         state = reducer(initialState, {
           type: actionTypes.UPDATE_SCREEN,
-          payload: screen
+          payload: screenTypes.CALL_ME_SCREEN
         });
       });
 
       it('sets the action payload as the state', () => {
         expect(state)
-          .toEqual(screen);
+          .toEqual(screenTypes.CALL_ME_SCREEN);
+      });
+    });
+
+    describe('when a TALK_CALLBACK_SUCCESS action is dispatched and sent to talk screen reducer', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.TALK_CALLBACK_SUCCESS,
+          payload: screenTypes.SUCCESS_NOTIFICATION_SCREEN
+        });
+      });
+
+      it('sets the action payload as the state', () => {
+        expect(state)
+          .toEqual(screenTypes.SUCCESS_NOTIFICATION_SCREEN);
       });
     });
   });

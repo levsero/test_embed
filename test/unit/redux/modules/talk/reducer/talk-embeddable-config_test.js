@@ -32,7 +32,8 @@ describe('talk reducer embeddable-config', () => {
             enabled: 'false',
             groupName: '',
             keywords: '',
-            phoneNumber: ''
+            phoneNumber: '',
+            supportedCountries: []
           });
       });
     });

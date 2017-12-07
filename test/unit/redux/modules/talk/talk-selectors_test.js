@@ -3,7 +3,7 @@ describe('talk selectors', () => {
     getAgentAvailability,
     getFormState,
     getScreen,
-    getPhoneNumber,
+    getCallback,
     getAverageWaitTime;
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
 
@@ -20,7 +20,7 @@ describe('talk selectors', () => {
     getAgentAvailability = selectors.getAgentAvailability;
     getFormState = selectors.getFormState;
     getScreen = selectors.getScreen;
-    getPhoneNumber = selectors.getPhoneNumber;
+    getCallback = selectors.getCallback;
     getAverageWaitTime = selectors.getAverageWaitTime;
   });
 
@@ -104,21 +104,29 @@ describe('talk selectors', () => {
     });
   });
 
-  describe('getPhoneNumber', () => {
+  describe('getCallback', () => {
     let result;
     const mockTalkState = {
       talk: {
-        phoneNumber: '+61412345678'
+        callback: {
+          isSending: false,
+          errors: [],
+          phoneNumber: '+61412345678'
+        }
       }
     };
 
     beforeEach(() => {
-      result = getPhoneNumber(mockTalkState);
+      result = getCallback(mockTalkState);
     });
 
     it('returns the current state of phoneNumber', () => {
       expect(result)
-        .toBe('+61412345678');
+        .toEqual({
+          isSending: false,
+          errors: [],
+          phoneNumber: '+61412345678'
+        });
     });
   });
 

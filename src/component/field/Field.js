@@ -97,19 +97,23 @@ export class Field extends Component {
   onChange = (e) => {
     const value = e.target.value;
     const result = this.input;
+    const validator = this.props.validateInput;
 
     // Setting custom validity to empty string when input is valid allows the input field to be set to valid.
     // Source: https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement/setCustomValidity
-    if (this.props.validateInput(value)){
+    if (validator(value)) {
       result.setCustomValidity('');
+      this.setState({
+        value: value,
+        hasError: false
+      });
     } else {
       result.setCustomValidity('Error'); // TODO: Customize error.
+      this.setState({
+        value: value,
+        hasError: true
+      });
     }
-
-    this.setState({
-      value: value,
-      hasError: !result.validity.valid
-    });
 
     if (this.props.onChange) {
       e.persist();

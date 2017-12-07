@@ -8,16 +8,26 @@ import { getEnvironment } from 'src/util/utils';
 import reducer from 'src/redux/modules/reducer';
 import onStateChangeFn from 'src/redux/middleware/onStateChange';
 
+import { sendBlips } from 'src/redux/middleware/blip';
+
 export default function() {
   const enableLogging = __DEV__ || getEnvironment() === 'staging';
   const logger = createLogger();
   const devToolsExtension = window.parent.devToolsExtension
                           ? window.parent.devToolsExtension()
                           : (a) => a;
+  const middlewares = [
+    thunk,
+    onStateChange(onStateChangeFn),
+    sendBlips
+  ];
+  let storeEnhancers;
 
-  const storeEnhancers = enableLogging
-                       ? [applyMiddleware(thunk, onStateChange(onStateChangeFn), logger), devToolsExtension]
-                       : [applyMiddleware(thunk, onStateChange(onStateChangeFn))];
+  if (enableLogging) {
+    storeEnhancers = [applyMiddleware(...middlewares, logger), devToolsExtension];
+  } else {
+    storeEnhancers = [applyMiddleware(...middlewares)];
+  }
 
   return compose(...storeEnhancers)(createStore)(reducer);
 }
