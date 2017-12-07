@@ -1,6 +1,7 @@
 describe('Talk component', () => {
   let Talk;
   const callbackScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
+  const phoneOnlyScreen = 'widget/talk/PHONE_ONLY_SCREEN';
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
   const callbackAndPhoneScreen = 'widget/talk/CALLBACK_AND_PHONE_SCREEN';
 
@@ -33,6 +34,7 @@ describe('Talk component', () => {
       },
       'src/redux/modules/talk/talk-screen-types': {
         CALLBACK_ONLY_SCREEN: callbackScreen,
+        PHONE_ONLY_SCREEN: phoneOnlyScreen,
         SUCCESS_NOTIFICATION_SCREEN: successNotificationScreen
       },
       'src/redux/modules/talk/talk-selectors': {},
@@ -171,6 +173,19 @@ describe('Talk component', () => {
       });
     });
 
+    describe('when the screen is PHONE_ONLY_SCREEN', () => {
+      beforeEach(() => {
+        const talk = instanceRender(<Talk screen={phoneOnlyScreen} />);
+
+        result = talk.renderFormTitle();
+      });
+
+      it('returns the phoneOnly screen title string', () => {
+        expect(result)
+          .toEqual('embeddable_framework.talk.phoneOnly.title');
+      });
+    });
+
     describe('when the screen is CALLBACK_AND_PHONE_SCREEN', () => {
       beforeEach(() => {
         const talk = instanceRender(<Talk screen={callbackAndPhoneScreen} />);
@@ -201,6 +216,7 @@ describe('Talk component', () => {
   describe('renderContent', () => {
     let result,
       renderFormScreenSpy,
+      renderPhoneOnlyScreenSpy,
       renderSuccessNotificationScreenSpy,
       renderPhoneFormScreenSpy;
 
@@ -216,6 +232,22 @@ describe('Talk component', () => {
 
       it('calls renderFormScreen', () => {
         expect(renderFormScreenSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the screen is PHONE_ONLY_SCREEN', () => {
+      beforeEach(() => {
+        const talk = instanceRender(<Talk screen={phoneOnlyScreen} />);
+
+        renderPhoneOnlyScreenSpy = jasmine.createSpy();
+        talk.renderPhoneOnlyScreen = renderPhoneOnlyScreenSpy;
+
+        result = talk.renderContent();
+      });
+
+      it('calls renderPhoneOnlyScreen', () => {
+        expect(renderPhoneOnlyScreenSpy)
           .toHaveBeenCalled();
       });
     });

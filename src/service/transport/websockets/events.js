@@ -4,7 +4,7 @@ import {
   TALK_EMBEDDABLE_CONFIG,
   TALK_AGENT_AVAILABILITY,
   TALK_AVERAGE_WAIT_TIME } from 'src/redux/modules/talk/talk-action-types';
-import { resetTalkScreen } from 'src/redux/modules/talk/talk-actions';
+import { resetTalkScreen } from 'src/redux/modules/talk';
 
 export function talkEmbeddableConfigEventToAction(socket, reduxStore) {
   socket.on('socket.embeddableConfig', (config) => {

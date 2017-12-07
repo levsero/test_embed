@@ -19,7 +19,7 @@ describe('events', () => {
     initMockRegistry({
       'lodash': _,
       'src/redux/modules/talk/talk-action-types': actionTypes,
-      'src/redux/modules/talk/talk-actions': {
+      'src/redux/modules/talk': {
         resetTalkScreen: () => { return { type: 'RESET_SCREEN' }; }
       }
     });
