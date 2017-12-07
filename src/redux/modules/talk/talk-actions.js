@@ -2,6 +2,9 @@ import _ from 'lodash';
 
 import { http } from 'service/transport';
 import {
+  UPDATE_EMBEDDABLE_CONFIG,
+  UPDATE_AGENT_AVAILABILITY,
+  UPDATE_AVERAGE_WAIT_TIME,
   UPDATE_SCREEN,
   UPDATE_CALLBACK_FORM,
   TALK_CALLBACK_REQUEST,
@@ -9,6 +12,27 @@ import {
   TALK_CALLBACK_FAILURE
 } from './talk-action-types';
 import { getFormState, getInitialScreen } from './talk-selectors';
+
+export function updateTalkEmbeddableConfig(config) {
+  return {
+    type: UPDATE_EMBEDDABLE_CONFIG,
+    payload: _.omit(config, ['agentAvailability', 'averageWaitTime'])
+  };
+}
+
+export function updateTalkAgentAvailability(availability) {
+  return {
+    type: UPDATE_AGENT_AVAILABILITY,
+    payload: availability
+  };
+}
+
+export function updateTalkAverageWaitTime(waitTime) {
+  return {
+    type: UPDATE_AVERAGE_WAIT_TIME,
+    payload: waitTime
+  };
+}
 
 export function updateTalkScreen(screen) {
   return {

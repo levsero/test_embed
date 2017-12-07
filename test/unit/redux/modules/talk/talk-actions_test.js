@@ -40,6 +40,80 @@ describe('talk redux actions', () => {
     mockery.deregisterAll();
   });
 
+  describe('updateTalkEmbeddableConfig', () => {
+    let action,
+      mockConfig;
+
+    beforeEach(() => {
+      mockConfig = {
+        agentAvailability: false,
+        averageWaitTime: '2',
+        capability: '0',
+        enabled: 'false',
+        groupName: '',
+        keywords: '',
+        phoneNumber: ''
+      };
+
+      mockStore.dispatch(actions.updateTalkEmbeddableConfig(mockConfig));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_EMBEDDABLE_CONFIG', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_EMBEDDABLE_CONFIG);
+    });
+
+    it('dispatches an action with the config', () => {
+      expect(action.payload)
+        .toEqual({
+          capability: '0',
+          enabled: 'false',
+          groupName: '',
+          keywords: '',
+          phoneNumber: ''
+        });
+    });
+  });
+
+  describe('updateTalkAgentAvailability', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateTalkAgentAvailability(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_AGENT_AVAILABILITY', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_AGENT_AVAILABILITY);
+    });
+
+    it('dispatches an action with the agent availability', () => {
+      expect(action.payload)
+        .toBe(true);
+    });
+  });
+
+  describe('updateTalkAverageWaitTime', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateTalkAverageWaitTime('5'));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_AVERAGE_WAIT_TIME', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_AVERAGE_WAIT_TIME);
+    });
+
+    it('dispatches an action with the wait time', () => {
+      expect(action.payload)
+        .toBe('5');
+    });
+  });
+
   describe('updateTalkScreen', () => {
     beforeEach(() => {
       mockStore.dispatch(actions.updateTalkScreen(screenTypes.SUCCESS_NOTIFICATION_SCREEN));

@@ -1,6 +1,6 @@
-export const TALK_EMBEDDABLE_CONFIG = 'talk/socket.embeddableConfig';
-export const TALK_AGENT_AVAILABILITY = 'talk/socket.availability';
-export const TALK_AVERAGE_WAIT_TIME = 'talk/socket.waitTimeChange';
+export const UPDATE_EMBEDDABLE_CONFIG = 'widget/talk/UPDATE_EMBEDDABLE_CONFIG';
+export const UPDATE_AGENT_AVAILABILITY = 'widget/talk/UPDATE_AGENT_AVAILABILITY';
+export const UPDATE_AVERAGE_WAIT_TIME = 'widget/talk/UPDATE_AVERAGE_WAIT_TIME';
 export const UPDATE_SCREEN = 'widget/talk/UPDATE_SCREEN';
 export const UPDATE_CALLBACK_FORM = 'widget/talk/UPDATE_CALLBACK_FORM';
 export const TALK_CALLBACK_REQUEST = 'widget/talk/TALK_CALLBACK_REQUEST';
