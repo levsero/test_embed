@@ -86,6 +86,12 @@ function init(config) {
                                .mapValues('props')
                                .value();
 
+      _.forEach(_.keys(webWidgetConfig), (embed) => {
+        const name = embed === 'zopimChat' ? 'chat' : embed;
+
+        reduxStore.dispatch(updateEmbedAccessible(name, true));
+      });
+
       parsedConfig = _.omit(parsedConfig, webWidgetEmbeds);
 
       parsedConfig.webWidget = {

@@ -52,54 +52,91 @@ describe('Launcher component', () => {
     mockery.disable();
   });
 
-  describe('state', () => {
+  describe('getLabel', () => {
     let launcher;
 
-    beforeEach(() => {
-      launcher = instanceRender(<Launcher label='help' />);
+    describe('when there are unreadMessages', () => {
+      beforeEach(() => {
+        launcher = domRender(<Launcher />);
+      });
+
+      describe('when there is one unread message', () => {
+        beforeEach(() => {
+          launcher.setState({ unreadMessages: 1 });
+        });
+
+        it('returns the single message label', () => {
+          expect(launcher.getLabel())
+            .toEqual('embeddable_framework.chat.notification');
+        });
+      });
+
+      describe('when there is more then one unread message', () => {
+        beforeEach(() => {
+          launcher.setState({ unreadMessages: 2 });
+        });
+
+        it('returns the multiple messages label', () => {
+          expect(launcher.getLabel())
+            .toEqual('embeddable_framework.chat.notification_multiple');
+        });
+      });
     });
 
-    it('should change the label when setLabel is called', () => {
-      expect(launcher.state.label)
-        .toEqual('help');
+    describe('when there are no unreadMessages', () => {
+      describe('when chat is online', () => {
+        describe('when help center is part of config', () => {
+          beforeEach(() => {
+            launcher = domRender(
+              <Launcher chatStatus='online' helpCenterAvailable={true} label='help' />
+            );
+          });
 
-      launcher.setLabel('support');
+          it('returns the prop label', () => {
+            expect(launcher.getLabel())
+              .toEqual('help');
+          });
+        });
 
-      expect(launcher.state.label)
-        .toEqual('support');
-    });
+        describe('when help center is not of config', () => {
+          beforeEach(() => {
+            launcher = domRender(<Launcher chatStatus='online' helpCenterAvailable={false} />);
+          });
 
-    it('should change the labelOptions when setLabel is called with extra options', () => {
-      expect(launcher.state.labelOptions)
-        .toEqual({});
+          it('returns the chat label', () => {
+            expect(launcher.getLabel())
+              .toEqual('embeddable_framework.launcher.label.chat');
+          });
+        });
+      });
 
-      launcher.setLabel('support', { some: 'thing' });
+      describe('when chat is offline', () => {
+        beforeEach(() => {
+          launcher = domRender(
+            <Launcher chatStatus='offline' label='help' />
+          );
+        });
 
-      expect(launcher.state.labelOptions)
-        .toEqual({ some: 'thing' });
+        it('returns the prop label', () => {
+          expect(launcher.getLabel())
+            .toEqual('help');
+        });
+      });
     });
   });
 
   describe('render', () => {
     const mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
-    let launcher, launcherNode;
+    let launcher;
 
     beforeEach(() => {
       launcher = domRender(<Launcher updateFrameSize={mockUpdateFrameSize} />);
-      launcherNode = ReactDOM.findDOMNode(launcher);
     });
 
     it('should call the updateFrameSize prop on render if it exists', () => {
       jasmine.clock().tick(0);
 
       expect(mockUpdateFrameSize).toHaveBeenCalled();
-    });
-
-    it('should set the label based on the state', () => {
-      launcher.setState({ label: 'foo' });
-
-      expect(launcherNode.querySelector('.labelClasses').innerHTML)
-        .toEqual('foo');
     });
 
     describe('when props.chatStatus is online', () => {
