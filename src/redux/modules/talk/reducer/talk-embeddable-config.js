@@ -1,4 +1,4 @@
-import { TALK_EMBEDDABLE_CONFIG } from '../talk-action-types';
+import { UPDATE_EMBEDDABLE_CONFIG } from '../talk-action-types';
 import {
   CALLBACK_ONLY,
   PHONE_ONLY,
@@ -21,7 +21,7 @@ const initialState = {
 
 const embeddableConfig = (state = initialState, action) => {
   switch (action.type) {
-    case TALK_EMBEDDABLE_CONFIG:
+    case UPDATE_EMBEDDABLE_CONFIG:
       const { payload } = action;
 
       return { ...payload, capability: capabilityMap[payload.capability] };

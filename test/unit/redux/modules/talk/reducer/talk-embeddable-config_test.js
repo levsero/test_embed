@@ -41,7 +41,7 @@ describe('talk reducer embeddable-config', () => {
       });
     });
 
-    describe('when a TALK_EMBEDDABLE_CONFIG action is dispatched', () => {
+    describe('when an UPDATE_EMBEDDABLE_CONFIG action is dispatched', () => {
       let config,
         expected;
 
@@ -61,7 +61,7 @@ describe('talk reducer embeddable-config', () => {
           expected = { ...config, capability: capabilityTypes.CALLBACK_ONLY };
 
           state = reducer(initialState, {
-            type: actionTypes.TALK_EMBEDDABLE_CONFIG,
+            type: actionTypes.UPDATE_EMBEDDABLE_CONFIG,
             payload: config
           });
         });
@@ -78,7 +78,7 @@ describe('talk reducer embeddable-config', () => {
           expected = { ...config, capability: capabilityTypes.PHONE_ONLY };
 
           state = reducer(initialState, {
-            type: actionTypes.TALK_EMBEDDABLE_CONFIG,
+            type: actionTypes.UPDATE_EMBEDDABLE_CONFIG,
             payload: config
           });
         });
@@ -95,7 +95,7 @@ describe('talk reducer embeddable-config', () => {
           expected = { ...config, capability: capabilityTypes.CALLBACK_AND_PHONE };
 
           state = reducer(initialState, {
-            type: actionTypes.TALK_EMBEDDABLE_CONFIG,
+            type: actionTypes.UPDATE_EMBEDDABLE_CONFIG,
             payload: config
           });
         });
