@@ -1,5 +1,6 @@
 describe('Talk component', () => {
-  let Talk;
+  let Talk,
+    libPhoneNumberSpy;
   const callbackScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
   const phoneOnlyScreen = 'widget/talk/PHONE_ONLY_SCREEN';
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
@@ -18,8 +19,11 @@ describe('Talk component', () => {
 
     const talkPath = buildSrcPath('component/talk/Talk');
 
+    libPhoneNumberSpy = jasmine.createSpyObj('libphonenumber', ['format']);
+
     initMockRegistry({
       'React': React,
+      'libphonenumber-js': libPhoneNumberSpy,
       'component/form/Form': { Form: noopReactComponent },
       'component/field/Field': { Field: noopReactComponent },
       'component/field/EmailField': { EmailField: noopReactComponent },
@@ -210,6 +214,23 @@ describe('Talk component', () => {
         expect(result)
           .toEqual('embeddable_framework.talk.form.title');
       });
+    });
+  });
+
+  describe('renderPhoneOnlyScreen', () => {
+    let config;
+
+    beforeEach(() => {
+      config = { phoneNumber: '+61434032660' };
+
+      const talk = instanceRender(<Talk embeddableConfig={config} />);
+
+      talk.renderPhoneOnlyScreen();
+    });
+
+    it('formats the phone number', () => {
+      expect(libPhoneNumberSpy.format)
+        .toHaveBeenCalledWith(config.phoneNumber, 'International');
     });
   });
 

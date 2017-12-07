@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+const libphonenumber = require('libphonenumber-js');
 
 import { Field } from 'component/field/Field';
 import { EmailField } from 'component/field/EmailField';
@@ -154,11 +155,12 @@ class Talk extends Component {
       'embeddable_framework.talk.phoneOnly.message',
       { fallback: 'Call the phone number below to get in contact with us.' }
     );
+    const phoneNumber = libphonenumber.format(this.props.embeddableConfig.phoneNumber, 'International');
 
     return (
       <div className={styles.phoneOnlyContainer}>
         <p className={styles.phoneOnlyMessage}>{message}</p>
-        <div className={styles.phoneNumber}>{this.props.embeddableConfig.phoneNumber}</div>
+        <div className={styles.phoneNumber}>{phoneNumber}</div>
       </div>
     );
   }
