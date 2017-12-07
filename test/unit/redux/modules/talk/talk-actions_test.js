@@ -8,10 +8,18 @@ let actions,
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
+let httpSpy = jasmine.createSpyObj('http', ['callMeRequest']);
 
-describe('chat redux actions', () => {
+describe('talk redux actions', () => {
+  let action,
+    formState;
+
   beforeEach(() => {
     mockery.enable();
+
+    initMockRegistry({
+      'service/transport': { http: httpSpy }
+    });
 
     const actionsPath = buildSrcPath('redux/modules/talk');
     const actionTypesPath = buildSrcPath('redux/modules/talk/talk-action-types');
@@ -24,7 +32,6 @@ describe('chat redux actions', () => {
     actions = requireUncached(actionsPath);
     actionTypes = requireUncached(actionTypesPath);
     screenTypes = requireUncached(screenTypesPath);
-
     mockStore = createMockStore({ talk: {} });
   });
 
@@ -34,8 +41,6 @@ describe('chat redux actions', () => {
   });
 
   describe('updateTalkScreen', () => {
-    let action;
-
     beforeEach(() => {
       mockStore.dispatch(actions.updateTalkScreen(screenTypes.SUCCESS_NOTIFICATION_SCREEN));
       action = mockStore.getActions()[0];
@@ -52,43 +57,145 @@ describe('chat redux actions', () => {
     });
   });
 
-  describe('updateTalkCallMeForm', () => {
-    let action,
-      formState;
-
+  describe('updateTalkCallbackForm', () => {
     beforeEach(() => {
-      formState = { phone: '+61412345678' };
-      mockStore.dispatch(actions.updateTalkCallMeForm(formState));
+      formState = {
+        phone: '+61423423329',
+        name: 'ally',
+        email: 'Allly@ally.com',
+        description: 'Pleaseee help me.'
+      };
+      mockStore.dispatch(actions.updateTalkCallbackForm(formState));
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type UPDATE_CALL_ME_FORM', () => {
+    it('dispatches an action of type UPDATE_CALLBACK_FORM', () => {
       expect(action.type)
-        .toEqual(actionTypes.UPDATE_CALL_ME_FORM);
+        .toEqual(actionTypes.UPDATE_CALLBACK_FORM);
     });
 
     it('dispatches an action with the formState', () => {
       expect(action.payload)
-        .toEqual(formState);
+        .toEqual({
+          phone: '+61423423329',
+          name: 'ally',
+          email: 'Allly@ally.com',
+          description: 'Pleaseee help me.'
+        });
     });
   });
 
-  describe('updateTalkPhoneNumber', () => {
-    let action;
+  describe('submitTalkCallbackForm', () => {
+    let subdomain,
+      serviceUrl,
+      keyword;
 
     beforeEach(() => {
-      mockStore.dispatch(actions.updateTalkPhoneNumber('+61412345678'));
+      formState = {
+        phone: '+61423456789',
+        name: 'Johnny',
+        email: 'Johnny@john.com',
+        description: 'Please help me.'
+      };
+      serviceUrl = 'https://talk_service.com';
+      keyword = 'Support';
+      subdomain = 'z3npparker';
+      mockStore = createMockStore({
+        talk: { formState }
+      });
+      mockStore.dispatch(actions.submitTalkCallbackForm(formState, subdomain, serviceUrl, keyword));
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type UPDATE_PHONE_NUMBER', () => {
-      expect(action.type)
-        .toEqual(actionTypes.UPDATE_PHONE_NUMBER);
+    it('calls http.callMeRequest', () => {
+      const expectedPayload = {
+        params: {
+          phoneNumber: '+61423456789',
+          additionalInfo: {
+            name: 'Johnny',
+            email: 'Johnny@john.com',
+            description: 'Please help me.'
+          },
+          subdomain: 'z3npparker',
+          keyword: 'Support'
+        },
+        callbacks: { done: jasmine.any(Function), fail: jasmine.any(Function) }
+      };
+
+      expect(httpSpy.callMeRequest)
+        .toHaveBeenCalledWith('https://talk_service.com', expectedPayload);
     });
 
-    it('dispatches an action with the phone number', () => {
+    it('dispatches an action of TALK_CALLBACK_REQUEST', () => {
+      expect(action.type)
+        .toEqual(actionTypes.TALK_CALLBACK_REQUEST);
+    });
+
+    it('dispatches an action with the form state', () => {
       expect(action.payload)
-        .toEqual('+61412345678');
+        .toEqual({
+          phone: '+61423456789',
+          name: 'Johnny',
+          email: 'Johnny@john.com',
+          description: 'Please help me.'
+        });
+    });
+
+    describe('when the request is successful', () => {
+      let doneCallback;
+
+      beforeEach(() => {
+        doneCallback = httpSpy.callMeRequest.calls.mostRecent().args[1].callbacks.done;
+        doneCallback({ body: { phone_number: '+61423456789' } }); // eslint-disable-line camelcase
+        action = mockStore.getActions()[1];
+      });
+
+      it('dispatches an action of type TALK_CALLBACK_SUCCESS', () => {
+        expect(action.type)
+          .toEqual(actionTypes.TALK_CALLBACK_SUCCESS);
+      });
+
+      it('dispatches an action with the form state', () => {
+        expect(action.payload)
+          .toEqual({
+            phone: '+61423456789',
+            name: 'Johnny',
+            email: 'Johnny@john.com',
+            description: 'Please help me.'
+          });
+      });
+    });
+
+    describe('when the request has failed', () => {
+      let failCallback;
+
+      beforeEach(() => {
+        const error = {
+          response: {
+            text: '{"error": "Invalid phone number"}'
+          },
+          status: 422
+        };
+
+        failCallback = httpSpy.callMeRequest.calls.mostRecent().args[1].callbacks.fail;
+        failCallback(error);
+        action = mockStore.getActions()[1];
+      });
+
+      it('dispatches an action of type TALK_CALLBACK_FAILURE', () => {
+        expect(action.type)
+          .toEqual(actionTypes.TALK_CALLBACK_FAILURE);
+      });
+
+      it('dispatches an action with a list of errors.', () => {
+        const expectedError = {
+          message: 'Invalid phone number',
+          status: 422
+        };
+
+        expect(action.payload)
+          .toEqual(expectedError);
+      });
     });
   });
 });

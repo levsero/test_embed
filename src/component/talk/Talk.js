@@ -14,18 +14,17 @@ import {
   CALLBACK_ONLY_SCREEN,
   CALLBACK_AND_PHONE_SCREEN,
   SUCCESS_NOTIFICATION_SCREEN } from 'src/redux/modules/talk/talk-screen-types';
-import { updateTalkScreen, updateTalkCallMeForm, updateTalkPhoneNumber } from 'src/redux/modules/talk';
+import { updateTalkCallbackForm,
+         submitTalkCallbackForm } from 'src/redux/modules/talk';
 import { getEmbeddableConfig,
          getAgentAvailability,
          getFormState,
          getScreen,
-         getPhoneNumber,
+         getCallback,
          getAverageWaitTime } from 'src/redux/modules/talk/talk-selectors';
-import { http } from 'service/transport';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './Talk.sass';
-import _ from 'lodash';
 
 const mapStateToProps = (state) => {
   return {
@@ -33,7 +32,7 @@ const mapStateToProps = (state) => {
     agentAvailbility: getAgentAvailability(state),
     formState: getFormState(state),
     screen: getScreen(state),
-    phoneNumber: getPhoneNumber(state),
+    phoneNumber: getCallback(state).phoneNumber,
     averageWaitTime: getAverageWaitTime(state)
   };
 };
@@ -45,9 +44,8 @@ class Talk extends Component {
     screen: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
     averageWaitTime: PropTypes.string.isRequired,
-    updateTalkScreen: PropTypes.func.isRequired,
-    updateTalkCallMeForm: PropTypes.func.isRequired,
-    updateTalkPhoneNumber: PropTypes.func.isRequired,
+    updateTalkCallbackForm: PropTypes.func.isRequired,
+    submitTalkCallbackForm: PropTypes.func.isRequired,
     talkConfig: PropTypes.object.isRequired,
     zendeskSubdomain: PropTypes.string.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
@@ -69,33 +67,12 @@ class Talk extends Component {
 
   handleFormCompleted = (formState) => {
     const { serviceUrl, keyword } = this.props.talkConfig;
-    const additionalInfo = _.pickBy({
-      email: formState.email,
-      name: formState.name,
-      description: formState.description
-    }, _.identify);
-    const params = {
-      phoneNumber: formState.phone,
-      subdomain: this.props.zendeskSubdomain,
-      additional_info: additionalInfo, // eslint-disable-line camelcase
-      keyword
-    };
-    const callbacks = {
-      done: (res) => {
-        this.form.clear();
-        this.props.updateTalkScreen(SUCCESS_NOTIFICATION_SCREEN);
-        this.props.updateTalkPhoneNumber(res.body.phone_number);
-      }
-    };
 
-    http.callMeRequest(serviceUrl, {
-      params,
-      callbacks
-    });
+    this.props.submitTalkCallbackForm(formState, this.props.zendeskSubdomain, serviceUrl, keyword);
   }
 
   handleFormChange = (formState) => {
-    this.props.updateTalkCallMeForm(formState);
+    this.props.updateTalkCallbackForm(formState);
   }
 
   renderFormHeader = () => {
@@ -249,9 +226,8 @@ class Talk extends Component {
 }
 
 const actionCreators = {
-  updateTalkScreen,
-  updateTalkCallMeForm,
-  updateTalkPhoneNumber
+  updateTalkCallbackForm,
+  submitTalkCallbackForm
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Talk);

@@ -30,14 +30,14 @@ describe('talk reducer form state', () => {
       });
     });
 
-    describe('when a UPDATE_CALL_ME_FORM action is dispatched', () => {
+    describe('when a UPDATE_CALLBACK_FORM action is dispatched', () => {
       let formState;
 
       beforeEach(() => {
         formState = { phone: '+61412345678' };
 
         state = reducer(initialState, {
-          type: actionTypes.UPDATE_CALL_ME_FORM,
+          type: actionTypes.UPDATE_CALLBACK_FORM,
           payload: formState
         });
       });

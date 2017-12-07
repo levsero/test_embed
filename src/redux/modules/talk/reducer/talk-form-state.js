@@ -1,10 +1,10 @@
-import { UPDATE_CALL_ME_FORM } from '../talk-action-types';
+import { UPDATE_CALLBACK_FORM } from '../talk-action-types';
 
 const initialState = {};
 
 const formState = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_CALL_ME_FORM:
+    case UPDATE_CALLBACK_FORM:
       return action.payload;
     default:
       return state;

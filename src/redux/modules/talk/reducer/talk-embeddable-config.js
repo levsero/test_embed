@@ -6,7 +6,8 @@ const initialState = {
   enabled: 'false',
   groupName: '',
   keywords: '',
-  phoneNumber: ''
+  phoneNumber: '',
+  supportedCountries: []
 };
 
 const embeddableConfig = (state = initialState, action) => {

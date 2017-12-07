@@ -1,6 +1,5 @@
 describe('Talk component', () => {
-  let Talk,
-    httpSpy;
+  let Talk;
   const callbackScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
   const callbackAndPhoneScreen = 'widget/talk/CALLBACK_AND_PHONE_SCREEN';
@@ -18,8 +17,6 @@ describe('Talk component', () => {
 
     const talkPath = buildSrcPath('component/talk/Talk');
 
-    httpSpy = jasmine.createSpyObj('http', ['callMeRequest']);
-
     initMockRegistry({
       'React': React,
       'component/form/Form': { Form: noopReactComponent },
@@ -30,11 +27,9 @@ describe('Talk component', () => {
       'component/container/ScrollContainer': { ScrollContainer: MockScrollContainer },
       'component/ZendeskLogo': { ZendeskLogo: noopReactComponent },
       'service/i18n': { i18n: { t: (key) => key, isRTL: _.noop } },
-      'service/transport': { http: httpSpy },
       'src/redux/modules/talk': {
         updateTalkScreen: noop,
-        updateTalkCallMeForm: noop,
-        updateTalkPhoneNumber: noop
+        updateTalkCallbackForm: noop
       },
       'src/redux/modules/talk/talk-screen-types': {
         CALLBACK_ONLY_SCREEN: callbackScreen,
@@ -61,19 +56,16 @@ describe('Talk component', () => {
     let talk,
       form,
       config,
-      updateTalkScreenSpy,
-      updateTalkPhoneNumberSpy;
+      submitTalkCallbackFormSpy;
 
     beforeEach(() => {
-      updateTalkScreenSpy = jasmine.createSpy('updateTalkScreen');
-      updateTalkPhoneNumberSpy = jasmine.createSpy('updateTalkPhoneNumber');
+      submitTalkCallbackFormSpy = jasmine.createSpy('submitTalkCallbackForm');
       config = { serviceUrl: 'https://talk_service.com', keyword: 'Support' };
       talk = instanceRender(
         <Talk
           talkConfig={config}
           zendeskSubdomain='z3npparker'
-          updateTalkScreen={updateTalkScreenSpy}
-          updateTalkPhoneNumber={updateTalkPhoneNumberSpy} />
+          submitTalkCallbackForm={submitTalkCallbackFormSpy} />
       );
       form = { clear: jasmine.createSpy('form.clear') };
 
@@ -86,61 +78,28 @@ describe('Talk component', () => {
       });
     });
 
-    it('calls http.callMeRequest', () => {
-      const expectedPayload = {
-        params: {
-          phoneNumber: '+61423456789',
-          additional_info: { // eslint-disable-line camelcase
-            name: 'John',
-            email: 'john@john.com',
-            description: 'I need help in understanding your products.'
-          },
-          subdomain: 'z3npparker',
-          keyword: 'Support'
-        },
-        callbacks: { done: jasmine.any(Function) }
-      };
-
-      expect(httpSpy.callMeRequest)
-        .toHaveBeenCalledWith(config.serviceUrl, expectedPayload);
-    });
-
-    describe('when the request is successful', () => {
-      let doneCallback;
-
-      beforeEach(() => {
-        doneCallback = httpSpy.callMeRequest.calls.mostRecent().args[1].callbacks.done;
-        doneCallback({ body: { phone_number: '+61423456789' } }); // eslint-disable-line camelcase
-      });
-
-      it('clears the form', () => {
-        expect(form.clear)
-          .toHaveBeenCalled();
-      });
-
-      it('calls updateTalkScreen with the SUCCESS_NOTIFICATION_SCREEN', () => {
-        expect(updateTalkScreenSpy)
-          .toHaveBeenCalledWith(successNotificationScreen);
-      });
-
-      it('calls updateTalkPhoneNumber with the phone number', () => {
-        expect(updateTalkPhoneNumberSpy)
-          .toHaveBeenCalledWith('+61423456789');
-      });
+    it('calls submitTalkCallbackForm with the form state', () => {
+      expect(submitTalkCallbackFormSpy)
+        .toHaveBeenCalledWith({
+          phone: '+61423456789',
+          name: 'John',
+          email: 'john@john.com',
+          description: 'I need help in understanding your products.'
+        }, 'z3npparker', 'https://talk_service.com', 'Support');
     });
   });
 
   describe('handleFormChange', () => {
-    let talk, updateTalkCallMeFormSpy;
+    let talk, updateTalkCallbackFormSpy;
 
     beforeEach(() => {
-      updateTalkCallMeFormSpy = jasmine.createSpy('updateTalkCallMeForm');
-      talk = instanceRender(<Talk updateTalkCallMeForm={updateTalkCallMeFormSpy} />);
+      updateTalkCallbackFormSpy = jasmine.createSpy('updateTalkCallbackForm');
+      talk = instanceRender(<Talk updateTalkCallbackForm={updateTalkCallbackFormSpy} />);
       talk.handleFormChange({ phone: '+61423456789', name: 'Sally' });
     });
 
-    it('calls updateTalkCallMeForm with the newly changed form state', () => {
-      expect(updateTalkCallMeFormSpy)
+    it('calls updateTalkCallbackForm with the newly changed form state', () => {
+      expect(updateTalkCallbackFormSpy)
         .toHaveBeenCalledWith({ phone: '+61423456789', name: 'Sally' });
     });
   });

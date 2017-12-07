@@ -41,8 +41,8 @@ describe('talk root reducer', () => {
         .toBeDefined();
     });
 
-    it('has the phoneNumber sub state', () => {
-      expect(state.phoneNumber)
+    it('has the callback sub state', () => {
+      expect(state.callback)
         .toBeDefined();
     });
   });
