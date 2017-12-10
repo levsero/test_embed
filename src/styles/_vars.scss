@@ -40,8 +40,8 @@ $list-color: $zd-color-aluminum;
 // Errors
 $error-color: $zd-color-flamingo;
 $error-border-color: $error-color;
-$error-text-color: $error-color;
-$error-field-color: #FFE3D6;
+$error-text-color: $zd-color-monsoon;
+$error-background-color: rgba($error-color, 0.1);
 
 // Spacing units and rem calculations
 $xl: 30;

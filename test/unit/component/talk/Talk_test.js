@@ -408,4 +408,36 @@ describe('Talk component', () => {
       });
     });
   });
+
+  describe('renderErrorNotification', () => {
+    let result;
+
+    describe('when the user has already queued a phone', () => {
+      beforeEach(() => {
+        const mockCallback = { error: { message: 'phone_already_queued' } };
+        const talk = instanceRender(<Talk callback={mockCallback} />);
+
+        result = talk.renderErrorNotification();
+      });
+
+      it('renders a message describing the subject ', () => {
+        expect(result.props.children)
+          .toContain('embeddable_framework.talk.notify.error.phone_queued');
+      });
+    });
+
+    describe('when a generic error has occurred upon form submission', () => {
+      beforeEach(() => {
+        const mockCallback = { error: { message: 'fooBar' } };
+        const talk = instanceRender(<Talk callback={mockCallback} />);
+
+        result = talk.renderErrorNotification();
+      });
+
+      it('renders a message describing the subject ', () => {
+        expect(result.props.children)
+          .toContain('embeddable_framework.common.notify.error.generic');
+      });
+    });
+  });
 });

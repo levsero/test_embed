@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 const libphonenumber = require('libphonenumber-js');
 
@@ -33,7 +34,7 @@ const mapStateToProps = (state) => {
     agentAvailability: getAgentAvailability(state),
     formState: getFormState(state),
     screen: getScreen(state),
-    phoneNumber: getCallback(state).phoneNumber,
+    callback: getCallback(state),
     averageWaitTime: getAverageWaitTime(state)
   };
 };
@@ -43,7 +44,7 @@ class Talk extends Component {
     embeddableConfig: PropTypes.object.isRequired,
     formState: PropTypes.object.isRequired,
     screen: PropTypes.string.isRequired,
-    phoneNumber: PropTypes.string.isRequired,
+    callback: PropTypes.object.isRequired,
     averageWaitTime: PropTypes.string.isRequired,
     updateTalkCallbackForm: PropTypes.func.isRequired,
     submitTalkCallbackForm: PropTypes.func.isRequired,
@@ -58,7 +59,8 @@ class Talk extends Component {
     hideZendeskLogo: false,
     updateFrameSize: () => {},
     formState: { phone: '' },
-    embeddableConfig: { phoneNumber: '' }
+    embeddableConfig: { phoneNumber: '' },
+    callback: { error: {} }
   };
 
   constructor() {
@@ -135,6 +137,7 @@ class Talk extends Component {
           value={description}
           input={<textarea rows='3' />}
           name='description' />
+        {this.renderErrorNotification()}
       </Form>
     );
   }
@@ -232,6 +235,28 @@ class Talk extends Component {
     if (this.props.hideZendeskLogo) return;
 
     return <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />;
+  }
+
+  renderErrorNotification = () => {
+    const { error } = this.props.callback;
+
+    if (_.isEmpty(error)) return null;
+
+    // TEMP: Evaluation of expression is not finalised
+    const errorMsg = (error.message === 'phone_already_queued')
+      ? i18n.t(
+          'embeddable_framework.talk.notify.error.phone_queued',
+          { fallback: 'Looks like you\'ve already submitted a request. We\'ll get back to you soon.' })
+      : i18n.t(
+          'embeddable_framework.common.notify.error.generic',
+          { fallback: 'There was an error processing your request. Please try again later.' });
+
+    return (
+      <div className={styles.error}>
+        <Icon type='Icon--error' className={styles.errorIcon} />
+        {errorMsg}
+      </div>
+    );
   }
 
   render = () => {

@@ -21,6 +21,12 @@ parts:
       title: "The label for the live chat option used in both help center and channel choice."
       screenshot: "https://zendesk.box.com/s/cybiy7gshwetcw9y8yd0o40ddixfdjj6"
       value: "Live chat"
+  - translation:
+      key: "embeddable_framework.common.notify.error.generic"
+      title: "A message displayed on a styled error element, its purpose is to show a generic error message"
+      screenshot: "https://zendesk.box.com/s/3sshpz05wv1fv4fj6wwbmsgbpqqu4c7w"
+      value: "There was an error processing your request. Please try again later."
+      wip: true
 
   # Launcher embed
   - translation:
@@ -783,3 +789,9 @@ parts:
       title: "Header message for the call us (display phone number) screen to instruct users that the following number below is available for use."
       screenshot: "https://zendesk.box.com/s/96zongpdclysquuwag03ivisxeeo8tss"
       value: "Call the phone number below to get in contact with us."
+  - translation:
+      key: "embeddable_framework.talk.notify.error.phone_queued"
+      title: "A message displayed on a styled error element, its purpose is to show an error message that describes that the number the user entered is already tracked and processing"
+      screenshot: "https://zendesk.box.com/s/q3mit3mjkf1wsfriixaq1jp3hbpvwv8a"
+      value: "Looks like you've already submitted a request. We'll get back to you soon."
+      wip: true

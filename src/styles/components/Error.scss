@@ -1,7 +1,36 @@
 @import '../_vars.scss';
 
 .Error {
+  background-color: $error-background-color;
   border-radius: #{4/$font-size}rem;
-  background-color: $error-field-color;
+  border: #{1/$font-size}rem solid $zd-color-flamingo;
+  color: $error-text-color;
   padding: #{10/$font-size}rem #{13/$font-size}rem;
+  line-height: #{18/$font-size}rem;
+}
+
+.ErrorIcon {
+  margin-top: #{2/$font-size}rem;
+
+  svg {
+    min-width: #{14/$font-size}rem;
+    min-height: #{14/$font-size}rem;
+    width: #{14/$font-size}rem;
+    height: #{14/$font-size}rem;
+
+    g {
+      circle {
+        stroke: $zd-color-flamingo;
+        fill: $zd-color-flamingo;
+      }
+
+      path {
+        stroke: $zd-color-white;
+      }
+    }
+
+    circle {
+      fill: $zd-color-white;
+    }
+  }
 }

@@ -343,9 +343,10 @@ export class SubmitTicket extends Component {
     if (!this.state.errorMessage) return;
 
     return (
-      <p className={styles.error}>
+      <div className={styles.error}>
+        <Icon type='Icon--error' className={styles.errorIcon} />
         {this.state.errorMessage}
-      </p>
+      </div>
     );
   }
 
