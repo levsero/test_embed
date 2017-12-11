@@ -60,5 +60,19 @@ describe('talk reducer screen', () => {
           .toEqual(screenTypes.SUCCESS_NOTIFICATION_SCREEN);
       });
     });
+
+    describe('when a TALK_CALLBACK_SUCCESS action is dispatched and sent to talk screen reducer', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.TALK_CALLBACK_SUCCESS,
+          payload: screenTypes.SUCCESS_NOTIFICATION_SCREEN
+        });
+      });
+
+      it('sets the action payload as the state', () => {
+        expect(state)
+          .toEqual(screenTypes.SUCCESS_NOTIFICATION_SCREEN);
+      });
+    });
   });
 });
