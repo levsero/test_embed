@@ -1,25 +1,56 @@
+import _ from 'lodash';
+
+import { http } from 'service/transport';
 import {
-  UPDATE_SCREEN,
+  UPDATE_TALK_EMBEDDABLE_CONFIG,
+  UPDATE_TALK_AGENT_AVAILABILITY,
+  UPDATE_TALK_AVERAGE_WAIT_TIME,
+  UPDATE_TALK_SCREEN,
   UPDATE_CALLBACK_FORM,
   TALK_CALLBACK_REQUEST,
   TALK_CALLBACK_SUCCESS,
   TALK_CALLBACK_FAILURE
 } from './talk-action-types';
-import { getFormState } from './talk-selectors';
-import { http } from 'service/transport';
-import _ from 'lodash';
+import { getFormState, getInitialScreen } from './talk-selectors';
 
-export function updateTalkCallbackForm(formState) {
+export function updateTalkEmbeddableConfig(config) {
   return {
-    type: UPDATE_CALLBACK_FORM,
-    payload: formState
+    type: UPDATE_TALK_EMBEDDABLE_CONFIG,
+    payload: _.omit(config, ['agentAvailability', 'averageWaitTime'])
+  };
+}
+
+export function updateTalkAgentAvailability(availability) {
+  return {
+    type: UPDATE_TALK_AGENT_AVAILABILITY,
+    payload: availability
+  };
+}
+
+export function updateTalkAverageWaitTime(waitTime) {
+  return {
+    type: UPDATE_TALK_AVERAGE_WAIT_TIME,
+    payload: waitTime
   };
 }
 
 export function updateTalkScreen(screen) {
   return {
-    type: UPDATE_SCREEN,
+    type: UPDATE_TALK_SCREEN,
     payload: screen
+  };
+}
+
+export function resetTalkScreen() {
+  return (dispatch, getState) => {
+    dispatch(updateTalkScreen(getInitialScreen(getState())));
+  };
+}
+
+export function updateTalkCallbackForm(formState) {
+  return {
+    type: UPDATE_CALLBACK_FORM,
+    payload: formState
   };
 }
 

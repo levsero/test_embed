@@ -1,8 +1,17 @@
-import { TALK_EMBEDDABLE_CONFIG } from '../talk-action-types';
+import { UPDATE_TALK_EMBEDDABLE_CONFIG } from '../talk-action-types';
+import {
+  CALLBACK_ONLY,
+  PHONE_ONLY,
+  CALLBACK_AND_PHONE } from '../talk-capability-types';
 
+const capabilityMap = {
+  '0': CALLBACK_ONLY,
+  '1': PHONE_ONLY,
+  '2': CALLBACK_AND_PHONE
+};
 const initialState = {
   averageWaitTimeSetting: null,
-  capability: '0',
+  capability: CALLBACK_ONLY,
   enabled: 'false',
   groupName: '',
   keywords: '',
@@ -12,8 +21,10 @@ const initialState = {
 
 const embeddableConfig = (state = initialState, action) => {
   switch (action.type) {
-    case TALK_EMBEDDABLE_CONFIG:
-      return action.payload;
+    case UPDATE_TALK_EMBEDDABLE_CONFIG:
+      const { payload } = action;
+
+      return { ...payload, capability: capabilityMap[payload.capability] };
     default:
       return state;
   }

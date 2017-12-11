@@ -25,8 +25,7 @@ import { cappedTimeoutCall,
          getPageKeywords } from 'utility/utils';
 import { updateZopimOnline } from 'src/redux/modules/base';
 import { setVisitorInfo } from 'src/redux/modules/chat';
-import { updateTalkScreen } from 'src/redux/modules/talk';
-import { CALLBACK_ONLY_SCREEN } from 'src/redux/modules/talk/talk-screen-types';
+import { resetTalkScreen } from 'src/redux/modules/talk';
 
 import WebWidget from 'component/webWidget/WebWidget';
 import zChat from 'chat-web-sdk';
@@ -104,7 +103,7 @@ const onHide = () => {
       rootComponent.pauseAllVideos();
     }
 
-    embed.store.dispatch(updateTalkScreen(CALLBACK_ONLY_SCREEN));
+    embed.store.dispatch(resetTalkScreen());
   }
 };
 const onBack = () => {

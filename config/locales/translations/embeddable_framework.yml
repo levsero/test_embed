@@ -769,7 +769,17 @@ parts:
       screenshot: "https://zendesk.box.com/s/cmbvuwrzhbrsi9dd7ypn65thr65srs2v"
       value: "Request a callback"
   - translation:
+      key: "embeddable_framework.talk.phoneOnly.title"
+      title: "Title for the call us (display phone number) screen"
+      screenshot: "https://zendesk.box.com/s/wt8jnd0n45bloq03em1pfj9fwdixd5fn"
+      value: "Call us"
+  - translation:
       key: "embeddable_framework.talk.notify.success.title"
       title: "The title of the callback form after it's been submitted correctly"
       screenshot: "https://zendesk.box.com/s/j0onsjmhm05oxr0aa5ro7i8toznr12oy"
       value: "Request sent"
+  - translation:
+      key: "embeddable_framework.talk.phoneOnly.message"
+      title: "Header message for the call us (display phone number) screen to instruct users that the following number below is available for use."
+      screenshot: "https://zendesk.box.com/s/96zongpdclysquuwag03ivisxeeo8tss"
+      value: "Call the phone number below to get in contact with us."

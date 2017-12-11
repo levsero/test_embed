@@ -161,5 +161,9 @@ global.mockObjectDifference = (a, b) => {
   return _.transform(a, transformFn, {});
 };
 
+global.actionSpy = (name, type) => {
+  return jasmine.createSpy(name).and.returnValue({ type });
+};
+
 global.__DEV__ = true;
 global.__EMBEDDABLE_VERSION__ = 'bob1337';

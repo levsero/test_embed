@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+const libphonenumber = require('libphonenumber-js');
 
 import { Field } from 'component/field/Field';
 import { EmailField } from 'component/field/EmailField';
@@ -12,6 +13,7 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 
 import {
   CALLBACK_ONLY_SCREEN,
+  PHONE_ONLY_SCREEN,
   CALLBACK_AND_PHONE_SCREEN,
   SUCCESS_NOTIFICATION_SCREEN } from 'src/redux/modules/talk/talk-screen-types';
 import { updateTalkCallbackForm,
@@ -148,6 +150,21 @@ class Talk extends Component {
     );
   }
 
+  renderPhoneOnlyScreen = () => {
+    const message = i18n.t(
+      'embeddable_framework.talk.phoneOnly.message',
+      { fallback: 'Call the phone number below to get in contact with us.' }
+    );
+    const phoneNumber = libphonenumber.format(this.props.embeddableConfig.phoneNumber, 'International');
+
+    return (
+      <div className={styles.phoneOnlyContainer}>
+        <p className={styles.phoneOnlyMessage}>{message}</p>
+        <div className={styles.phoneNumber}>{phoneNumber}</div>
+      </div>
+    );
+  }
+
   renderSuccessNotificationScreen = () => {
     const displayNumber = this.props.phoneNumber;
     const message = i18n.t('embeddable_framework.talk.notify.success.message', {
@@ -170,6 +187,8 @@ class Talk extends Component {
     switch (this.props.screen) {
       case CALLBACK_ONLY_SCREEN:
         return this.renderFormScreen();
+      case PHONE_ONLY_SCREEN:
+        return this.renderPhoneOnlyScreen();
       case SUCCESS_NOTIFICATION_SCREEN:
         return this.renderSuccessNotificationScreen();
       case CALLBACK_AND_PHONE_SCREEN:
@@ -184,6 +203,10 @@ class Talk extends Component {
       'embeddable_framework.talk.form.title',
       { fallback: 'Request a callback' }
     );
+    const phoneOnlyTitle = i18n.t(
+      'embeddable_framework.talk.phoneOnly.title',
+      { fallback: 'Call us' }
+    );
     const successNotificationTitle = i18n.t(
       'embeddable_framework.talk.notify.success.title',
       { fallback: 'Request sent' }
@@ -192,6 +215,8 @@ class Talk extends Component {
     switch (this.props.screen) {
       case SUCCESS_NOTIFICATION_SCREEN:
         return successNotificationTitle;
+      case PHONE_ONLY_SCREEN:
+        return phoneOnlyTitle;
       case CALLBACK_ONLY_SCREEN:
       case CALLBACK_AND_PHONE_SCREEN:
       default:

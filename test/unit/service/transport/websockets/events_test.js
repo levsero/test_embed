@@ -2,10 +2,16 @@ describe('events', () => {
   let talkEmbeddableConfigEventToAction,
     talkAgentAvailabilityEventToAction,
     talkAverageWaitTimeEventToAction,
+    updateTalkEmbeddableConfigSpy,
+    updateTalkAgentAvailabilitySpy,
+    updateTalkAverageWaitTimeSpy,
+    resetTalkScreenSpy,
+    actionTypes,
     mockSocket,
     mockReduxStore;
 
   const eventsPath = buildSrcPath('service/transport/websockets/events');
+  const actionTypesPath = buildSrcPath('redux/modules/talk/talk-action-types');
 
   beforeEach(() => {
     mockery.enable();
@@ -13,8 +19,21 @@ describe('events', () => {
     mockSocket = { on: jasmine.createSpy('socket.on') };
     mockReduxStore = { dispatch: jasmine.createSpy('reduxStore.dispatch') };
 
+    actionTypes = requireUncached(actionTypesPath);
+    updateTalkEmbeddableConfigSpy = actionSpy('updateTalkEmbeddableConfig', actionTypes.UPDATE_TALK_EMBEDDABLE_CONFIG);
+    updateTalkAgentAvailabilitySpy = actionSpy('updateTalkAgentAvailability', actionTypes.UPDATE_TALK_AGENT_AVAILABILITY);
+    updateTalkAverageWaitTimeSpy = actionSpy('updateTalkAverageWaitTime', actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME);
+    resetTalkScreenSpy = actionSpy('resetTalkScreen', 'RESET_SCREEN');
+
     initMockRegistry({
-      'lodash': _
+      'lodash': _,
+      'src/redux/modules/talk/talk-action-types': actionTypes,
+      'src/redux/modules/talk': {
+        updateTalkEmbeddableConfig: updateTalkEmbeddableConfigSpy,
+        updateTalkAgentAvailability: updateTalkAgentAvailabilitySpy,
+        updateTalkAverageWaitTime: updateTalkAverageWaitTimeSpy,
+        resetTalkScreen: resetTalkScreenSpy
+      }
     });
 
     mockery.registerAllowable(eventsPath);
@@ -56,52 +75,28 @@ describe('events', () => {
         callback(mockConfig);
       });
 
-      it('dispatches an embeddable config action', () => {
-        expect(mockReduxStore.dispatch.calls.argsFor(0)[0])
-          .toEqual({
-            type: 'talk/socket.embeddableConfig',
-            payload: _.omit(mockConfig, 'agentAvailability', 'averageWaitTime')
-          });
+      it('dispatches the updateTalkEmbeddableConfig action', () => {
+        expect(updateTalkEmbeddableConfigSpy)
+          .toHaveBeenCalledWith(mockConfig);
+
+        expect(mockReduxStore.dispatch.calls.argsFor(0)[0].type)
+          .toBe(actionTypes.UPDATE_TALK_EMBEDDABLE_CONFIG);
       });
 
-      it('dispatches an agent availability action', () => {
-        expect(mockReduxStore.dispatch.calls.argsFor(1)[0])
-          .toEqual({
-            type: 'talk/socket.availability',
-            payload: false
-          });
+      it('dispatches an updateTalkAgentAvailability action', () => {
+        expect(updateTalkAgentAvailabilitySpy)
+          .toHaveBeenCalledWith(false);
+
+        expect(mockReduxStore.dispatch.calls.argsFor(1)[0].type)
+          .toBe(actionTypes.UPDATE_TALK_AGENT_AVAILABILITY);
       });
 
-      describe('when surfacing the wait time is enabled', () => {
-        beforeEach(() => {
-          const averageWaitTimeConfig = {
-            averageWaitTimeSetting: null,
-            averageWaitTime: '1'
-          };
+      it('dispatches the resetTalkScreen action', () => {
+        expect(resetTalkScreenSpy)
+          .toHaveBeenCalled();
 
-          mockConfig = { ...mockConfig, ...averageWaitTimeConfig };
-          mockReduxStore.dispatch.calls.reset();
-          callback = mockSocket.on.calls.mostRecent().args[1];
-          callback(mockConfig);
-        });
-
-        it('dispatches an average wait time change action', () => {
-          expect(mockReduxStore.dispatch.calls.argsFor(2)[0])
-            .toEqual({
-              type: 'talk/socket.waitTimeChange',
-              payload: '1'
-            });
-        });
-      });
-
-      describe('when surfacing the wait time is disabled', () => {
-        it('does not dispatch an average wait time change action', () => {
-          expect(mockReduxStore.dispatch.calls.mostRecent().args[0])
-            .toEqual({
-              type: 'talk/socket.availability',
-              payload: false
-            });
-        });
+        expect(mockReduxStore.dispatch.calls.argsFor(2)[0].type)
+          .toBe('RESET_SCREEN');
       });
     });
   });
@@ -126,11 +121,11 @@ describe('events', () => {
       });
 
       it('dispatches an agent availability action', () => {
-        expect(mockReduxStore.dispatch)
-          .toHaveBeenCalledWith({
-            type: 'talk/socket.availability',
-            payload: true
-          });
+        expect(updateTalkAgentAvailabilitySpy)
+          .toHaveBeenCalledWith(true);
+
+        expect(mockReduxStore.dispatch.calls.mostRecent().args[0].type)
+          .toBe(actionTypes.UPDATE_TALK_AGENT_AVAILABILITY);
       });
     });
   });
@@ -150,15 +145,15 @@ describe('events', () => {
 
       beforeEach(() => {
         callback = mockSocket.on.calls.mostRecent().args[1];
-        callback('5');
+        callback({ waitTime: '5' });
       });
 
       it('dispatches an average wait time change action', () => {
-        expect(mockReduxStore.dispatch)
-          .toHaveBeenCalledWith({
-            type: 'talk/socket.waitTimeChange',
-            payload: '5'
-          });
+        expect(updateTalkAverageWaitTimeSpy)
+          .toHaveBeenCalledWith('5');
+
+        expect(mockReduxStore.dispatch.calls.mostRecent().args[0].type)
+          .toBe(actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME);
       });
     });
   });
