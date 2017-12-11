@@ -290,7 +290,7 @@ class HelpCenter extends Component {
   handleNextClick = (e) => {
     e.preventDefault();
 
-    if (this.props.channelChoice && this.props.chatOnline) {
+    if (this.props.channelChoice) {
       setTimeout(() => this.setChannelChoiceShown(true), 0);
     } else {
       this.props.onNextClick();

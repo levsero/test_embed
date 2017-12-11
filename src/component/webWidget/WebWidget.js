@@ -115,6 +115,7 @@ class WebWidget extends Component {
     zopimOnline: false,
     zopimOnNext: () => {},
     closeFrame: () => {},
+    talkAvailable: false,
     talkConfig: {}
   };
 
@@ -157,7 +158,13 @@ class WebWidget extends Component {
     return helpCenterAvailable && helpCenterAccessible;
   }
 
-  isChannelChoiceAvailable = () => this.props.channelChoice && this.isChatOnline() && this.props.submitTicketAvailable;
+  isChannelChoiceAvailable = () => {
+    const { channelChoice, submitTicketAvailable, talkAvailable } = this.props;
+    const channels = [talkAvailable, submitTicketAvailable, this.isChatOnline()];
+    const channelsAvailable = _.filter(channels, _.identity);
+
+    return (channelChoice || talkAvailable) && channelsAvailable.length > 1;
+  };
 
   isTalkAvailable = () => this.props.talkAvailable;
 
@@ -259,16 +266,17 @@ class WebWidget extends Component {
     const rootComponent = this.getRootComponent();
     const { activeEmbed, updateBackButtonVisibility, updateActiveEmbed } = this.props;
     const helpCenterAvailable = this.isHelpCenterAvailable();
+    const channelChoiceAvailable = this.isChannelChoiceAvailable();
 
     if (activeEmbed === helpCenter) {
       rootComponent.setArticleView(false);
       updateBackButtonVisibility(false);
     } else if (this.shouldShowTicketFormBackButton()) {
       rootComponent.clearForm();
-      updateBackButtonVisibility(helpCenterAvailable || this.props.channelChoice);
+      updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable);
     } else if (helpCenterAvailable) {
       this.showHelpCenter();
-    } else if (this.props.channelChoice) {
+    } else if (channelChoiceAvailable) {
       updateActiveEmbed(channelChoice);
       updateBackButtonVisibility(false);
     }
@@ -339,7 +347,7 @@ class WebWidget extends Component {
           updateFrameSize={this.props.updateFrameSize}
           originalArticleButton={this.props.originalArticleButton}
           localeFallbacks={this.props.localeFallbacks}
-          channelChoice={this.props.channelChoice}
+          channelChoice={this.isChannelChoiceAvailable()}
           talkAvailable={this.isTalkAvailable()}
           viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
           zendeskHost={this.props.zendeskHost}

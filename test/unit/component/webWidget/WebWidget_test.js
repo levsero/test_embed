@@ -530,6 +530,7 @@ describe('WebWidget component', () => {
               activeEmbed='chat'
               helpCenterAvailable={false}
               channelChoice={true}
+              zopimOnline={true}
               updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
           );
           webWidget.onBackClick();
@@ -729,9 +730,28 @@ describe('WebWidget component', () => {
           webWidget.resetActiveEmbed();
         });
 
-        it('calls updateActiveEmbed with talk', () => {
+        it('calls updateActiveEmbed with channelChoice', () => {
           expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('talk');
+            .toHaveBeenCalledWith('channelChoice');
+        });
+
+        describe('when no other channels are available', () => {
+          beforeEach(() => {
+            webWidget = domRender(
+              <WebWidget
+                talkAvailable={true}
+                submitTicketAvailable={false}
+                updateActiveEmbed={updateActiveEmbedSpy}
+                activeEmbed='' />
+            );
+
+            webWidget.resetActiveEmbed();
+          });
+
+          it('calls updateActiveEmbed with talk', () => {
+            expect(updateActiveEmbedSpy)
+              .toHaveBeenCalledWith('talk');
+          });
         });
       });
     });
