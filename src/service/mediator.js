@@ -348,7 +348,6 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept(`${helpCenter}.onNextClick`, () => {
     if (!isMobileBrowser()) {
-      state[`${helpCenter}.isVisible`] = false;
       state[`${chat}.isVisible`] = true;
     } else {
       if (!state[`${launcher}.userHidden`]) {
@@ -359,6 +358,7 @@ function init(embedsAccessible, params = {}) {
 
     trackChatStarted();
 
+    state[`${helpCenter}.isVisible`] = false;
     state.activeEmbed = chat;
     c.broadcast(`${chat}.show`);
   });
