@@ -59,9 +59,9 @@ describe('talk redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type UPDATE_EMBEDDABLE_CONFIG', () => {
+    it('dispatches an action of type UPDATE_TALK_EMBEDDABLE_CONFIG', () => {
       expect(action.type)
-        .toEqual(actionTypes.UPDATE_EMBEDDABLE_CONFIG);
+        .toEqual(actionTypes.UPDATE_TALK_EMBEDDABLE_CONFIG);
     });
 
     it('dispatches an action with the config', () => {
@@ -84,9 +84,9 @@ describe('talk redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type UPDATE_AGENT_AVAILABILITY', () => {
+    it('dispatches an action of type UPDATE_TALK_AGENT_AVAILABILITY', () => {
       expect(action.type)
-        .toEqual(actionTypes.UPDATE_AGENT_AVAILABILITY);
+        .toEqual(actionTypes.UPDATE_TALK_AGENT_AVAILABILITY);
     });
 
     it('dispatches an action with the agent availability', () => {
@@ -103,9 +103,9 @@ describe('talk redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type UPDATE_AVERAGE_WAIT_TIME', () => {
+    it('dispatches an action of type UPDATE_TALK_AVERAGE_WAIT_TIME', () => {
       expect(action.type)
-        .toEqual(actionTypes.UPDATE_AVERAGE_WAIT_TIME);
+        .toEqual(actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME);
     });
 
     it('dispatches an action with the wait time', () => {
@@ -120,9 +120,9 @@ describe('talk redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type UPDATE_SCREEN', () => {
+    it('dispatches an action of type UPDATE_TALK_SCREEN', () => {
       expect(action.type)
-        .toEqual(actionTypes.UPDATE_SCREEN);
+        .toEqual(actionTypes.UPDATE_TALK_SCREEN);
     });
 
     it('dispatches an action with the screen', () => {
@@ -144,9 +144,9 @@ describe('talk redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type UPDATE_SCREEN', () => {
+    it('dispatches an action of type UPDATE_TALK_SCREEN', () => {
       expect(action.type)
-        .toEqual(actionTypes.UPDATE_SCREEN);
+        .toEqual(actionTypes.UPDATE_TALK_SCREEN);
     });
 
     it('dispatches an action with the capable screen', () => {

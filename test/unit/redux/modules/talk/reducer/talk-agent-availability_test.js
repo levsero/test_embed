@@ -30,14 +30,14 @@ describe('talk reducer agent-availability', () => {
       });
     });
 
-    describe('when a UPDATE_AGENT_AVAILABILITY action is dispatched', () => {
+    describe('when a UPDATE_TALK_AGENT_AVAILABILITY action is dispatched', () => {
       let agentAvailbility;
 
       beforeEach(() => {
         agentAvailbility = true;
 
         state = reducer(initialState, {
-          type: actionTypes.UPDATE_AGENT_AVAILABILITY,
+          type: actionTypes.UPDATE_TALK_AGENT_AVAILABILITY,
           payload: agentAvailbility
         });
       });

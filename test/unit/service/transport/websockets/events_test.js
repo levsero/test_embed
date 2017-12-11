@@ -20,9 +20,9 @@ describe('events', () => {
     mockReduxStore = { dispatch: jasmine.createSpy('reduxStore.dispatch') };
 
     actionTypes = requireUncached(actionTypesPath);
-    updateTalkEmbeddableConfigSpy = actionSpy('updateTalkEmbeddableConfig', actionTypes.UPDATE_EMBEDDABLE_CONFIG);
-    updateTalkAgentAvailabilitySpy = actionSpy('updateTalkAgentAvailability', actionTypes.UPDATE_AGENT_AVAILABILITY);
-    updateTalkAverageWaitTimeSpy = actionSpy('updateTalkAverageWaitTime', actionTypes.UPDATE_AVERAGE_WAIT_TIME);
+    updateTalkEmbeddableConfigSpy = actionSpy('updateTalkEmbeddableConfig', actionTypes.UPDATE_TALK_EMBEDDABLE_CONFIG);
+    updateTalkAgentAvailabilitySpy = actionSpy('updateTalkAgentAvailability', actionTypes.UPDATE_TALK_AGENT_AVAILABILITY);
+    updateTalkAverageWaitTimeSpy = actionSpy('updateTalkAverageWaitTime', actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME);
     resetTalkScreenSpy = actionSpy('resetTalkScreen', 'RESET_SCREEN');
 
     initMockRegistry({
@@ -80,7 +80,7 @@ describe('events', () => {
           .toHaveBeenCalledWith(mockConfig);
 
         expect(mockReduxStore.dispatch.calls.argsFor(0)[0].type)
-          .toBe(actionTypes.UPDATE_EMBEDDABLE_CONFIG);
+          .toBe(actionTypes.UPDATE_TALK_EMBEDDABLE_CONFIG);
       });
 
       it('dispatches an updateTalkAgentAvailability action', () => {
@@ -88,7 +88,7 @@ describe('events', () => {
           .toHaveBeenCalledWith(false);
 
         expect(mockReduxStore.dispatch.calls.argsFor(1)[0].type)
-          .toBe(actionTypes.UPDATE_AGENT_AVAILABILITY);
+          .toBe(actionTypes.UPDATE_TALK_AGENT_AVAILABILITY);
       });
 
       it('dispatches the resetTalkScreen action', () => {
@@ -125,7 +125,7 @@ describe('events', () => {
           .toHaveBeenCalledWith(true);
 
         expect(mockReduxStore.dispatch.calls.mostRecent().args[0].type)
-          .toBe(actionTypes.UPDATE_AGENT_AVAILABILITY);
+          .toBe(actionTypes.UPDATE_TALK_AGENT_AVAILABILITY);
       });
     });
   });
@@ -153,7 +153,7 @@ describe('events', () => {
           .toHaveBeenCalledWith('5');
 
         expect(mockReduxStore.dispatch.calls.mostRecent().args[0].type)
-          .toBe(actionTypes.UPDATE_AVERAGE_WAIT_TIME);
+          .toBe(actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME);
       });
     });
   });

@@ -33,10 +33,10 @@ describe('talk reducer screen', () => {
       });
     });
 
-    describe('when a UPDATE_SCREEN action is dispatched', () => {
+    describe('when a UPDATE_TALK_SCREEN action is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.UPDATE_SCREEN,
+          type: actionTypes.UPDATE_TALK_SCREEN,
           payload: screenTypes.CALL_ME_SCREEN
         });
       });

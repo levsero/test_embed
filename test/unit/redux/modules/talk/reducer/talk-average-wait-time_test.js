@@ -30,10 +30,10 @@ describe('talk reducer average wait time', () => {
       });
     });
 
-    describe('when a UPDATE_AVERAGE_WAIT_TIME action is dispatched', () => {
+    describe('when a UPDATE_TALK_AVERAGE_WAIT_TIME action is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.UPDATE_AVERAGE_WAIT_TIME,
+          type: actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME,
           payload: '1'
         });
       });
