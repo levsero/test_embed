@@ -26,6 +26,7 @@ import ContainerStyles from 'component/container/Container.sass';
 import DropdownStyles from 'component/field/Dropdown.sass';
 import DropdownOptionStyles from 'component/field/DropdownOption.sass';
 import FieldStyles from 'component/field/Field.sass';
+import FlagStyles from 'component/Flag.sass';
 import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.sass';
 import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.sass';
 import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.sass';
@@ -39,6 +40,7 @@ import SearchInputStyles from 'component/field/SearchInput.sass';
 import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.sass';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.sass';
 import TalkStyles from 'component/talk/Talk.sass';
+import TalkPhoneFieldStyles from 'component/talk/TalkPhoneField.sass';
 
 import { sharedStyles } from 'embed/sharedStyles.js';
 
@@ -72,6 +74,7 @@ export const webWidgetStyles = `
   ${DropdownStyles}
   ${DropdownOptionStyles}
   ${FieldStyles}
+  ${FlagStyles}
   ${HelpCenterArticleStyles}
   ${HelpCenterDesktopStyles}
   ${HelpCenterMobileStyles}
@@ -85,4 +88,5 @@ export const webWidgetStyles = `
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
   ${TalkStyles}
+  ${TalkPhoneFieldStyles}
 `;

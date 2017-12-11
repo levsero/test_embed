@@ -5,7 +5,8 @@ import { locals as styles } from './Flag.sass';
 
 export class Flag extends Component {
   static propTypes = {
-    country: PropTypes.string.isRequired
+    country: PropTypes.string.isRequired,
+    className: PropTypes.string
   };
 
   render = () => {
@@ -13,6 +14,7 @@ export class Flag extends Component {
       ${styles.container}
       ${styles.flag}
       ${styles.flag}-${this.props.country}
+      ${this.props.className}
     `;
 
     return <span className={flagClasses} />;

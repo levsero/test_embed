@@ -330,8 +330,8 @@ describe('dropdown component', () => {
         const dropdown = domRender(<Dropdown />);
         const dropdownNode = ReactDOM.findDOMNode(dropdown);
 
-        expect(dropdownNode.querySelector('.descriptionClasses').innerHTML)
-          .toEqual('');
+        expect(dropdownNode.querySelector('.descriptionClasses'))
+          .toBeNull();
       });
     });
   });

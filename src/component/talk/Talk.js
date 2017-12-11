@@ -137,8 +137,10 @@ class Talk extends Component {
         {this.renderFormHeader()}
         <div className={styles.formDivider} />
         <TalkPhoneField
-          required={true}
           label={phoneLabel}
+          getFrameDimensions={this.props.getFrameDimensions}
+          required={true}
+          supportedCountries={this.props.embeddableConfig.supportedCountries}
           value={phone} />
         <Field label={nameLabel}
           value={name}

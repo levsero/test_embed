@@ -18,6 +18,10 @@ export class Dropdown extends Component {
       PropTypes.number,
       PropTypes.string
     ]).isRequired,
+    className: PropTypes.string,
+    containerClassName: PropTypes.string,
+    menuContainerClassName: PropTypes.string,
+    inputClassName: PropTypes.string,
     fullscreen: PropTypes.bool,
     getFrameDimensions: PropTypes.func.isRequired,
     landscape: PropTypes.bool,
@@ -26,7 +30,13 @@ export class Dropdown extends Component {
     options: PropTypes.array.isRequired,
     label: PropTypes.string,
     required: PropTypes.bool,
-    value: PropTypes.object
+    value: PropTypes.object,
+    optionFormat: PropTypes.func,
+    selectionTextFormat: PropTypes.func,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func
   }
 
   static defaultProps = {
@@ -34,13 +44,23 @@ export class Dropdown extends Component {
     getFrameDimensions: () => {
       return { height: 500, width: 342 };
     },
+    className: '',
+    menuContainerClassName: '',
+    containerClassName: '',
+    inputClassName: '',
     landscape: false,
     description: '',
     onChange: () => {},
     options: [],
     label: '-',
     required: false,
-    value: { value: '' }
+    value: { value: '' },
+    optionFormat: _.identity,
+    selectionTextFormat: _.identity,
+    onFocus: () => {},
+    onBlur: () => {},
+    onMouseEnter: () => {},
+    onMouseLeave: () => {}
   }
 
   constructor (props) {
@@ -51,6 +71,7 @@ export class Dropdown extends Component {
         ref={(m) => { this.menu = m; }}
         fullscreen={this.props.fullscreen}
         options={this.formatDropdownOptions(this.props.options)}
+        optionFormat={this.props.optionFormat}
         onOptionClick={this.setValue} />
     );
 
@@ -77,13 +98,14 @@ export class Dropdown extends Component {
     this.height = el.getBoundingClientRect().top;
   }
 
-  handleFocus = () => {
+  handleFocus = (e) => {
     if (this.containerClicked) {
       this.setState({ open: true });
     }
+    this.props.onFocus(e);
   }
 
-  handleBlur = () => {
+  handleBlur = (e) => {
     this.setState({ open: this.containerClicked });
 
     if (this.containerClicked && !this.props.fullscreen) {
@@ -93,6 +115,7 @@ export class Dropdown extends Component {
 
       this.setState({ valid });
     }
+    this.props.onBlur(e);
   }
 
   handleInputClick = () => {
@@ -133,10 +156,12 @@ export class Dropdown extends Component {
 
   handleMouseEnter = () => {
     this.setState({ hovering: true });
+    this.props.onMouseEnter();
   }
 
   handleMouseLeave = () => {
     this.setState({ hovering: false });
+    this.props.onMouseLeave();
   }
 
   setValue = (value, name) => () => {
@@ -145,7 +170,7 @@ export class Dropdown extends Component {
       open: false
     });
 
-    setTimeout(() => this.props.onChange(), 0);
+    setTimeout(() => this.props.onChange(value, name), 0);
   }
 
   handleBackClick = (focusField = false) => {
@@ -220,6 +245,7 @@ export class Dropdown extends Component {
             backButton={true}
             handleBackClick={this.handleBackClick}
             fullscreen={this.props.fullscreen}
+            optionFormat={this.props.optionFormat}
             options={nestedOptions} />
         );
 
@@ -270,8 +296,15 @@ export class Dropdown extends Component {
                  : frameHeightValue;
     const posClasses = this.height > frameHeight/2 ? styles.menuUp : '';
 
+    const containerClasses = `
+      ${styles.menuContainer}
+      ${posClasses}
+      ${mobileClasses}
+      ${this.props.menuContainerClassName}
+    `;
+
     return (
-      <div className={`${styles.menuContainer} ${posClasses} ${mobileClasses}`}>
+      <div className={containerClasses}>
         <div className={`${styles.menu} ${nextClasses} ${backClasses}`}>
           {this.state.displayedMenu}
         </div>
@@ -279,22 +312,50 @@ export class Dropdown extends Component {
     );
   }
 
+  renderSelectionText = () => {
+    const selectionText = this.state.selected.name || '-';
+
+    return this.props.selectionTextFormat(selectionText);
+  }
+
+  renderLabel = (landscapeClasses, mobileClasses) => {
+    const { label, required } = this.props;
+    const includeLabel = label !== '-';
+    const requiredLabel = required ? '*' : '';
+
+    if (includeLabel) {
+      return (
+        <div className={`${styles.label} ${landscapeClasses} ${mobileClasses}`}>
+          {label}{requiredLabel}
+        </div>
+      );
+    }
+  }
+
   render = () => {
     const mobileClasses = this.props.fullscreen && !this.props.landscape ? styles.labelMobile : '';
     const landscapeClasses = this.props.landscape ? styles.labelLandscape : '';
     const invalidClasses = !this.state.valid ? styles.inputError : '';
-    const selectionText = this.state.selected.name || '-';
-    const requiredLabel = this.props.required ? '*' : '';
+    const containerClasses = this.props.className;
+    const inputClasses = `
+      ${styles.input}
+      ${invalidClasses}
+      ${mobileClasses}
+      ${landscapeClasses}
+      ${this.props.inputClassName}
+    `;
+    const dropdownContainer = `
+      ${styles.container}
+      ${this.props.containerClassName}
+    `;
 
     return (
-      <div onMouseDown={this.handleContainerClick}>
-        <div className={`${styles.label} ${landscapeClasses} ${mobileClasses}`}>
-          {this.props.label}{requiredLabel}
-        </div>
-        <div className={styles.container}>
+      <div className={containerClasses} onMouseDown={this.handleContainerClick}>
+        {this.renderLabel(landscapeClasses, mobileClasses)}
+        <div className={dropdownContainer}>
           <div
             ref={(i) => this.input = i}
-            className={`${styles.input} ${invalidClasses} ${mobileClasses} ${landscapeClasses}`}
+            className={inputClasses}
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}
             onKeyDown={this.handleKeyDown}
@@ -302,9 +363,9 @@ export class Dropdown extends Component {
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
             tabIndex='0'>
-            {selectionText}
+            {this.renderSelectionText()}
           </div>
-          <div className={styles.description}>{this.props.description}</div>
+          {this.props.description !== '' ? <div className={styles.description}>{this.props.description}</div> : ''}
           {/* hidden field with the selected value so that the form grabs it on submit */}
           <input
             onChange={_.noop} // Prevents console errors describing readOnly like usage
