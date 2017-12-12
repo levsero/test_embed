@@ -31,20 +31,20 @@ describe('talk reducer agent-availability', () => {
     });
 
     describe('when a UPDATE_TALK_AGENT_AVAILABILITY action is dispatched', () => {
-      let agentAvailbility;
+      let agentAvailability;
 
       beforeEach(() => {
-        agentAvailbility = true;
+        agentAvailability = 'true';
 
         state = reducer(initialState, {
           type: actionTypes.UPDATE_TALK_AGENT_AVAILABILITY,
-          payload: agentAvailbility
+          payload: agentAvailability
         });
       });
 
       it('sets the action payload as the state', () => {
         expect(state)
-          .toEqual(agentAvailbility);
+          .toBe(true);
       });
     });
   });
