@@ -27,10 +27,10 @@ export function updateTalkAgentAvailability(availability) {
   };
 }
 
-export function updateTalkAverageWaitTime(waitTime) {
+export function updateTalkAverageWaitTime(averageWaitTime) {
   return {
     type: UPDATE_TALK_AVERAGE_WAIT_TIME,
-    payload: waitTime
+    payload: averageWaitTime
   };
 }
 
@@ -70,10 +70,8 @@ export function submitTalkCallbackForm(formState, subdomain, serviceUrl, keyword
     };
     const callbacks = {
       done: () => {
-        dispatch({
-          type: TALK_CALLBACK_SUCCESS,
-          payload: formState
-        });
+        dispatch({ type: TALK_CALLBACK_SUCCESS, payload: formState });
+        dispatch(updateTalkCallbackForm({}));
       },
       fail: (err) => {
         const errorMessage = err.responseJSON ? err.responseJSON.error : JSON.parse(err.response.text).error;

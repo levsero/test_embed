@@ -243,27 +243,33 @@ describe('talk redux actions', () => {
     });
 
     describe('when the request is successful', () => {
-      let doneCallback;
+      let doneCallback,
+        actions;
 
       beforeEach(() => {
         doneCallback = httpSpy.callMeRequest.calls.mostRecent().args[1].callbacks.done;
         doneCallback({ body: { phone_number: '+61423456789' } }); // eslint-disable-line camelcase
-        action = mockStore.getActions()[1];
+        actions = mockStore.getActions();
       });
 
       it('dispatches an action of type TALK_CALLBACK_SUCCESS', () => {
-        expect(action.type)
+        expect(actions[1].type)
           .toEqual(actionTypes.TALK_CALLBACK_SUCCESS);
       });
 
       it('dispatches an action with the form state', () => {
-        expect(action.payload)
+        expect(actions[1].payload)
           .toEqual({
             phone: '+61423456789',
             name: 'Johnny',
             email: 'Johnny@john.com',
             description: 'Please help me.'
           });
+      });
+
+      it('clears the form state', () => {
+        expect(actions[2])
+          .toEqual({ type: actionTypes.UPDATE_CALLBACK_FORM, payload: {} });
       });
     });
 
