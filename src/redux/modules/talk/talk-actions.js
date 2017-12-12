@@ -70,10 +70,8 @@ export function submitTalkCallbackForm(formState, subdomain, serviceUrl, keyword
     };
     const callbacks = {
       done: () => {
-        dispatch({
-          type: TALK_CALLBACK_SUCCESS,
-          payload: formState
-        });
+        dispatch({ type: TALK_CALLBACK_SUCCESS, payload: formState });
+        dispatch(updateTalkCallbackForm({}));
       },
       fail: (err) => {
         const errorMessage = err.responseJSON ? err.responseJSON.error : JSON.parse(err.response.text).error;
