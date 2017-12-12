@@ -77,54 +77,53 @@ describe('HelpCenterArticle component', () => {
     let helpCenterArticle,
       content;
 
-    beforeEach(function(){
-      helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
+    describe('basic rendering', () => {
+      beforeEach(() => {
+        helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
 
-      // componentdidupdate only fires after setState not on initial render
-      helpCenterArticle.setState({ foo: 'bar' });
+        content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
+      });
 
-      content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
-    });
+      it('injects html string on componentDidMount', () => {
+        expect(content.children.length)
+          .toEqual(7);
 
-    it('should inject html string on componentDidUpdate', () => {
-      expect(content.children.length)
-        .toEqual(7);
+        expect(content.querySelector('div').style.cssText)
+          .toEqual('');
+      });
 
-      expect(content.querySelector('div').style.cssText)
-        .toEqual('');
-    });
+      it('preserves ids on divs and headers', () => {
+        expect(content.querySelector('div').id)
+          .toEqual('preserved');
 
-    it('should preserve ids on divs and headers', () => {
-      expect(content.querySelector('div').id)
-        .toEqual('preserved');
+        expect(content.querySelector('h1').id)
+          .toEqual('foo');
+      });
 
-      expect(content.querySelector('h1').id)
-        .toEqual('foo');
-    });
+      it('preserves name attribute on anchors', () => {
+        expect(content.querySelector('a[name="bar"]'))
+          .not.toBeNull();
+      });
 
-    it('should preserve name attribute on anchors', () => {
-      expect(content.querySelector('a[name="bar"]'))
-        .not.toBeNull();
-    });
+      it('preserves sub/sups on divs', () => {
+        expect(content.querySelectorAll('sup, sub').length)
+          .toBe(2);
 
-    it('should preserve sub/sups on divs', () => {
-      expect(content.querySelectorAll('sup, sub').length)
-        .toBe(2);
+        expect(content.querySelector('#notes').innerHTML)
+          .toBe('<sup>1</sup>This explains the note');
+      });
 
-      expect(content.querySelector('#notes').innerHTML)
-        .toBe('<sup>1</sup>This explains the note');
-    });
+      it('injects base tag to alter relative links base url', () => {
+        const baseTag = global.document.querySelector('head base');
+        const relativeAnchor = ReactDOM.findDOMNode(helpCenterArticle).querySelector('a[href^="/relative"]');
+        const baseUrl = 'https://' + global.document.zendeskHost;
 
-    it('should inject base tag to alter relative links base url', () => {
-      const baseTag = global.document.querySelector('head base');
-      const relativeAnchor = ReactDOM.findDOMNode(helpCenterArticle).querySelector('a[href^="/relative"]');
-      const baseUrl = 'https://' + global.document.zendeskHost;
+        expect(baseTag.href)
+          .toMatch(baseUrl);
 
-      expect(baseTag.href)
-        .toMatch(baseUrl);
-
-      expect(relativeAnchor.href)
-        .toMatch(baseUrl + '/relative/link');
+        expect(relativeAnchor.href)
+          .toMatch(baseUrl + '/relative/link');
+      });
     });
 
     describe('when the article has a \\n between start and end tags', () => {
@@ -189,7 +188,7 @@ describe('HelpCenterArticle component', () => {
         content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
       });
 
-      it('should call `this.props.updateFrameSize` for each image onload event', () => {
+      it('calls `this.props.updateFrameSize` for each image onload event', () => {
         const imgs = content.getElementsByTagName('img');
 
         imgs[0].onload();
@@ -213,9 +212,6 @@ describe('HelpCenterArticle component', () => {
             scrollIntoView: scrollIntoView
           };
         };
-
-        // componentdidupdate only fires after setState not on initial render
-        helpCenterArticle.setState({ foo: 'bar' });
       });
 
       afterEach(() => {
@@ -237,7 +233,7 @@ describe('HelpCenterArticle component', () => {
           });
         });
 
-        it('should call scrollIntoView', () => {
+        it('calls scrollIntoView', () => {
           expect(scrollIntoView)
             .toHaveBeenCalled();
         });
@@ -257,7 +253,7 @@ describe('HelpCenterArticle component', () => {
           });
         });
 
-        it('should call scrollIntoView', () => {
+        it('calls scrollIntoView', () => {
           expect(scrollIntoView)
             .toHaveBeenCalled();
         });
@@ -312,7 +308,7 @@ describe('HelpCenterArticle component', () => {
       });
     });
 
-    it('should display an article body if a prop was passed with truthy content body', () => {
+    it('displays an article body if a prop was passed with truthy content body', () => {
       const helpCenterArticleNode = ReactDOM.findDOMNode(helpCenterArticle);
 
       expect(helpCenterArticleNode.querySelector('#foo').innerHTML)
@@ -363,7 +359,7 @@ describe('HelpCenterArticle component', () => {
             attribs.src = returnObj.attribs.src = url;
           });
 
-          it(`should return a filtered frame object for ${url}`, () => {
+          it(`returns a filtered frame object for ${url}`, () => {
             expect(helpCenterArticle.filterVideoEmbed('iframe', attribs))
               .toEqual(returnObj);
           });
@@ -386,7 +382,7 @@ describe('HelpCenterArticle component', () => {
         });
 
         _.forEach(invalidUrls, (url) => {
-          it(`should return false for ${url}`, () => {
+          it(`returns false for ${url}`, () => {
             expect(helpCenterArticle.filterVideoEmbed('iframe', { src: url }))
             .toBe(false);
           });
@@ -396,11 +392,8 @@ describe('HelpCenterArticle component', () => {
   });
 
   describe('empty article body', () => {
-    it('should display an empty article body if a prop was passed with no content body', () => {
+    it('displays an empty article body if a prop was passed with no content body', () => {
       const helpCenterArticle = domRender(<HelpCenterArticle activeArticle={{ body: '' }} />);
-
-      // componentdidupdate only fires after setState not on initial render
-      helpCenterArticle.setState({ foo: 'bar' });
 
       expect(ReactDOM.findDOMNode(helpCenterArticle.refs.article).innerHTML)
         .toEqual('');
@@ -430,7 +423,7 @@ describe('HelpCenterArticle component', () => {
     });
 
     describe('when there are no valid images in the article', () => {
-      it('should return the unmodified article body', () => {
+      it('returns the unmodified article body', () => {
         expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
           .toEqual(mockArticle.body);
 
@@ -442,7 +435,7 @@ describe('HelpCenterArticle component', () => {
     });
 
     describe('when there are images in the article with relative `/attachments/` paths', () => {
-      it('should add the domain to the img src', () => {
+      it('adds the domain to the img src', () => {
         expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
           .toEqual(mockArticle.body);
 
@@ -454,7 +447,7 @@ describe('HelpCenterArticle component', () => {
     });
 
     describe('when there is no valid oauth token', () => {
-      it('should return the unmodified article body', () => {
+      it('returns the unmodified article body', () => {
         mockOauthToken = null;
         mockArticle.body += `<img src="https://${mockZendeskHost}/hc/article_attachments/img.png" />`;
 
@@ -483,7 +476,7 @@ describe('HelpCenterArticle component', () => {
         });
 
         describe('when there are no images stored or already queued', () => {
-          it('should queue the images for download with patched in locale', () => {
+          it('queues the images for download with patched in locale', () => {
             expect(calls.count())
               .toBe(expectedCallCount);
 
@@ -508,7 +501,7 @@ describe('HelpCenterArticle component', () => {
         });
 
         describe('when there are no images stored or already queued', () => {
-          it('should queue the images for download with existing locale', () => {
+          it('queues the images for download with existing locale', () => {
             expect(mockImagesSender.calls.count())
               .toBe(expectedCallCount);
 
@@ -528,7 +521,7 @@ describe('HelpCenterArticle component', () => {
       });
 
       describe('when the same article is viewed again', () => {
-        it('should not requeue the images for download', () => {
+        it('does not requeue the images for download', () => {
           helpCenterArticle.replaceArticleImages(mockArticle, 1);
 
           expect(mockImagesSender.calls.count())
@@ -537,7 +530,7 @@ describe('HelpCenterArticle component', () => {
       });
 
       describe('when there are queued images', () => {
-        it('should not requeue the images for download', () => {
+        it('does not requeue the images for download', () => {
           helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
 
           expect(mockImagesSender.calls.count())
@@ -559,7 +552,7 @@ describe('HelpCenterArticle component', () => {
           window.URL.createObjectURL = () => mockObjectUrl;
         });
 
-        it('should store it in HelpCenter\'s storedImages state object', () => {
+        it('stores it in HelpCenter\'s storedImages state object', () => {
           helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
 
           expect(mockImagesSender.calls.count())
@@ -639,7 +632,7 @@ describe('HelpCenterArticle component', () => {
           articleImages = helpCenterArticle.getArticleImages(parsedArticleBody, mockZendeskHost, mockArticle.locale);
         });
 
-        it('should patch in the locale', () => {
+        it('patches in the locale', () => {
           expect(articleImages[0].src)
             .toBe(`https://${mockZendeskHost}/hc/en-us/article_attachments/img1.png`);
         });
@@ -656,7 +649,7 @@ describe('HelpCenterArticle component', () => {
           articleImages = helpCenterArticle.getArticleImages(parsedArticleBody, mockZendeskHost, mockArticle.locale);
         });
 
-        it('should leave the existing locale', () => {
+        it('leaves the existing locale', () => {
           expect(articleImages[0].src)
             .toBe(`https://${mockZendeskHost}/hc/en-au/article_attachments/img1.png`);
 
@@ -677,7 +670,7 @@ describe('HelpCenterArticle component', () => {
         articleImages = helpCenterArticle.getArticleImages(parsedArticleBody, mockZendeskHost, mockArticle.locale);
       });
 
-      it('should return an empty array', () => {
+      it('returns an empty array', () => {
         expect(articleImages.length)
           .toBe(0);
       });
