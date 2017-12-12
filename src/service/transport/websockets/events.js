@@ -7,19 +7,37 @@ import {
 export function talkEmbeddableConfigEventToAction(socket, reduxStore) {
   socket.on('socket.embeddableConfig', (config) => {
     reduxStore.dispatch(updateTalkEmbeddableConfig(config));
-    reduxStore.dispatch(updateTalkAgentAvailability(config.agentAvailability));
+    dispatchAgentAvailability(reduxStore, config);
+    dispatchAverageWaitTime(reduxStore, config);
+
     reduxStore.dispatch(resetTalkScreen());
   });
 }
 
 export function talkAgentAvailabilityEventToAction(socket, reduxStore) {
   socket.on('socket.availability', (data) => {
-    reduxStore.dispatch(updateTalkAgentAvailability(data.agentAvailability));
+    dispatchAgentAvailability(reduxStore, data);
   });
 }
 
 export function talkAverageWaitTimeEventToAction(socket, reduxStore) {
   socket.on('socket.waitTimeChange', (data) => {
-    reduxStore.dispatch(updateTalkAverageWaitTime(data.waitTime));
+    dispatchAverageWaitTime(reduxStore, data);
   });
+}
+
+function dispatchAgentAvailability(reduxStore, data) {
+  const { agentAvailability } = data;
+
+  if (agentAvailability) {
+    reduxStore.dispatch(updateTalkAgentAvailability(agentAvailability));
+  }
+}
+
+function dispatchAverageWaitTime(reduxStore, data) {
+  const { averageWaitTime, averageWaitTimeSetting } = data;
+
+  if (averageWaitTime && averageWaitTimeSetting) {
+    reduxStore.dispatch(updateTalkAverageWaitTime(averageWaitTime));
+  }
 }
