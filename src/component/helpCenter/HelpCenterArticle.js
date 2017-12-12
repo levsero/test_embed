@@ -53,12 +53,6 @@ export class HelpCenterArticle extends Component {
   componentDidMount = () => {
     const doc = ReactDOM.findDOMNode(this).ownerDocument;
     const base = doc.createElement('base');
-
-    base.href = `https://${document.zendeskHost}`;
-    doc.head.appendChild(base);
-  }
-
-  componentDidUpdate = () => {
     const { activeArticle } = this.props;
     const container = ReactDOM.findDOMNode(this.refs.article);
     const sanitizeHtmlOptions = {
@@ -102,6 +96,9 @@ export class HelpCenterArticle extends Component {
         ]
       }
     };
+
+    base.href = `https://${document.zendeskHost}`;
+    doc.head.appendChild(base);
 
     if (activeArticle.body) {
       const body = this.replaceArticleImages(activeArticle, this.state.lastActiveArticleId);
