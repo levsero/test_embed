@@ -150,21 +150,6 @@ const showEmbed = (_state, viaActivate = false) => {
 };
 
 function init(embedsAccessible, params = {}) {
-  const updateLauncherLabel = () => {
-    if (chatAvailable()) {
-      if (state[`${chat}.unreadMsgs`]) {
-        c.broadcast(`${launcher}.setLabelUnreadMsgs`, state[`${chat}.unreadMsgs`]);
-      }
-      else if (helpCenterAvailable()) {
-        c.broadcast(`${launcher}.setLabelChatHelp`);
-      } else {
-        c.broadcast(`${launcher}.setLabelChat`);
-      }
-    } else {
-      c.broadcast(`${launcher}.setLabelHelp`);
-    }
-  };
-
   state[`${launcher}.userHidden`] = params.hideLauncher;
   state[`${submitTicket}.isAccessible`] = embedsAccessible.submitTicket;
   state[`${helpCenter}.isAccessible`] = embedsAccessible.helpCenter &&
@@ -277,12 +262,6 @@ function init(embedsAccessible, params = {}) {
       state.activeEmbed = channelChoiceAvailable() ? channelChoice : chat;
     }
 
-    if (helpCenterAvailable()) {
-      c.broadcast(`${launcher}.setLabelChatHelp`);
-    } else {
-      c.broadcast(`${launcher}.setLabelChat`);
-    }
-
     if (!submitTicketAvailable() && !helpCenterAvailable() && !state[`${chat}.connectionPending`]) {
       c.broadcast(`${launcher}.show`);
     }
@@ -306,8 +285,6 @@ function init(embedsAccessible, params = {}) {
       }
 
       c.broadcast('webWidget.setZopimOnline', false);
-
-      c.broadcast(`${launcher}.setLabelHelp`);
     }
   });
 
@@ -330,6 +307,8 @@ function init(embedsAccessible, params = {}) {
 
     state[`${chat}.unreadMsgs`] = count;
 
+    c.broadcast(`${launcher}.setUnreadMsgs`, state[`${chat}.unreadMsgs`]);
+
     if (count > 0 &&
         !embedVisible(state) &&
         !state[`${chat}.userClosed`] &&
@@ -342,8 +321,6 @@ function init(embedsAccessible, params = {}) {
       state[`${chat}.isSuppressed`] = false;
       c.broadcast(`${launcher}.hide`);
     }
-
-    updateLauncherLabel();
   });
 
   c.intercept(`${helpCenter}.onNextClick`, () => {
@@ -479,10 +456,6 @@ function init(embedsAccessible, params = {}) {
     c.broadcast(`${launcher}.refreshLocale`);
     c.broadcast('webWidget.refreshLocale');
   });
-
-  if (embedAvailable()) {
-    c.subscribe(`${launcher}.show`, updateLauncherLabel);
-  }
 
   initMessaging();
 }

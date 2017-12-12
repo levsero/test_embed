@@ -10,13 +10,15 @@ const groupChatsByAgent = (state) => {
 
   return _.groupBy(agentMsgs, (chat) => chat.nick);
 };
-
 const getPrechatSettings = (state) => state.chat.accountSettings.prechatForm;
-const getPostchatSettings = (state) => state.chat.accountSettings.postchatForm;
 
+export const getPostchatFormSettings = (state) => state.chat.accountSettings.postchatForm;
 export const getAgents = (state) => state.chat.agents;
 export const getConnection = (state) => state.chat.connection;
 export const getUserSoundSettings = (state) => state.chat.userSettings.sound;
+export const getChatStatus = (state) => state.chat.account_status;
+export const getIsChatting = (state) => state.chat.is_chatting;
+export const getChatVisitor = (state) => state.chat.visitor;
 export const getChatsByAgent = (state) => {
   return _.filter(getChats(state), (chat) => _.includes(chat.nick, 'agent'));
 };
@@ -43,19 +45,4 @@ export const getPrechatFormFields = createSelector(
 
     return _.keyBy(_.values(form), 'name');
   }
-);
-
-export const getIsChatting = createSelector(
-  [(state) => state.chat.is_chatting],
-  _.identity
-);
-
-export const getPostchatFormSettings = createSelector(
-  [getPostchatSettings],
-  _.identity
-);
-
-export const getChatVisitor = createSelector(
-  [(state) => state.chat.visitor],
-  _.identity
 );

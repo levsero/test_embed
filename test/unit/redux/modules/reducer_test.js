@@ -4,7 +4,9 @@ describe('root reducer', () => {
   const combinedReducers = [
     'chat',
     'base',
-    'helpCenter'
+    'helpCenter',
+    'talk',
+    'zopimChat'
   ];
 
   beforeAll(() => {
@@ -18,6 +20,8 @@ describe('root reducer', () => {
       './base/reducer': mockReducer,
       './chat/reducer': mockReducer,
       './helpCenter/reducer': mockReducer,
+      './talk/reducer': mockReducer,
+      './zopimChat/reducer': mockReducer,
       './root/reducer/root': (state) => { return {...state, root: true}; }
     });
 

@@ -30,11 +30,7 @@ describe('embed.launcher', () => {
       'component/Launcher': class extends Component {
         constructor() {
           super();
-          this.changeIcon = jasmine.createSpy('changeIcon');
-          this.setActive = jasmine.createSpy('setActive');
-          this.setIcon = jasmine.createSpy('setIcon');
-          this.setLabel = jasmine.createSpy('setLabel');
-          this.setLabelOptions = jasmine.createSpy('setLabelOptions');
+          this.setUnreadMessages = jasmine.createSpy('setUnreadMessages');
         }
         render() {
           return (
@@ -123,7 +119,6 @@ describe('embed.launcher', () => {
         config = {
           onClick: jasmine.createSpy(),
           position: 'test_position',
-          icon: 'tick',
           visible: true
         };
         launcher.create('alice', config);
@@ -135,11 +130,6 @@ describe('embed.launcher', () => {
       it('applies the position from config to frame', () => {
         expect(frame.props.position)
           .toEqual(config.position);
-      });
-
-      it('applies the icon from config to child', () => {
-        expect(child.props.icon)
-          .toEqual(config.icon);
       });
 
       it('applies the label from config', () => {
@@ -252,45 +242,6 @@ describe('embed.launcher', () => {
           .toHaveBeenCalled();
       });
 
-      it('should subscribe to <name>.setLabelHelp', () => {
-        expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('alice.setLabelHelp', jasmine.any(Function));
-
-        pluckSubscribeCall(mockMediator, 'alice.setLabelHelp')();
-
-        expect(aliceLauncher.setIcon)
-          .toHaveBeenCalledWith('Icon');
-
-        expect(aliceLauncher.setLabel)
-          .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label', {});
-      });
-
-      it('should subscribe to <name>.setLabelChat', () => {
-        expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('alice.setLabelChat', jasmine.any(Function));
-
-        pluckSubscribeCall(mockMediator, 'alice.setLabelChat')();
-
-        expect(aliceLauncher.setIcon)
-          .toHaveBeenCalledWith('Icon--chat');
-
-        expect(aliceLauncher.setLabel)
-          .toHaveBeenCalled();
-      });
-
-      it('should subscribe to <name>.setLabelChatHelp', () => {
-        expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('alice.setLabelChatHelp', jasmine.any(Function));
-
-        pluckSubscribeCall(mockMediator, 'alice.setLabelChatHelp')();
-
-        expect(aliceLauncher.setIcon)
-          .toHaveBeenCalledWith('Icon--chat');
-
-        expect(aliceLauncher.setLabel)
-          .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label', {});
-      });
-
       describe('<name>.refreshLocale', () => {
         beforeEach(() => {
           spyOn(alice.instance, 'updateFrameLocale');
@@ -315,35 +266,17 @@ describe('embed.launcher', () => {
         });
       });
 
-      describe('<name>.setLabelUnreadMsgs', () => {
-        it('should subscribe to setLabelUnreadMsgs', () => {
+      describe('<name>.setUnreadMsgs', () => {
+        it('should subscribe to setUnreadMsgs', () => {
           expect(mockMediator.channel.subscribe)
-            .toHaveBeenCalledWith('alice.setLabelUnreadMsgs', jasmine.any(Function));
+            .toHaveBeenCalledWith('alice.setUnreadMsgs', jasmine.any(Function));
         });
 
         it('should call setLabel', () => {
-          pluckSubscribeCall(mockMediator, 'alice.setLabelUnreadMsgs')();
+          pluckSubscribeCall(mockMediator, 'alice.setUnreadMsgs')();
 
-          expect(aliceLauncher.setLabel)
+          expect(aliceLauncher.setUnreadMessages)
             .toHaveBeenCalled();
-        });
-
-        describe('when there is one unread message', () => {
-          it('should call setLabel with the singular notification translation', () => {
-            pluckSubscribeCall(mockMediator, 'alice.setLabelUnreadMsgs')(1);
-
-            expect(aliceLauncher.setLabel)
-              .toHaveBeenCalledWith('embeddable_framework.chat.notification', {});
-          });
-        });
-
-        describe('when there is more than one unread message', () => {
-          it('should call setLabel with the multiple notification translation', () => {
-            pluckSubscribeCall(mockMediator, 'alice.setLabelUnreadMsgs')(2);
-
-            expect(aliceLauncher.setLabel)
-              .toHaveBeenCalledWith('embeddable_framework.chat.notification_multiple', { count: 2 });
-          });
         });
       });
 

@@ -82,10 +82,7 @@ describe('mediator', () => {
       'launcher',
       ['hide',
        'show',
-       'setLabelChat',
-       'setLabelHelp',
-       'setLabelChatHelp',
-       'setLabelUnreadMsgs',
+       'setUnreadMsgs',
        'refreshLocale']
     );
 
@@ -133,10 +130,7 @@ describe('mediator', () => {
 
       c.subscribe(`${names.launcher}.hide`, launcherSub.hide);
       c.subscribe(`${names.launcher}.show`, launcherSub.show);
-      c.subscribe(`${names.launcher}.setLabelChat`, launcherSub.setLabelChat);
-      c.subscribe(`${names.launcher}.setLabelHelp`, launcherSub.setLabelHelp);
-      c.subscribe(`${names.launcher}.setLabelChatHelp`, launcherSub.setLabelChatHelp);
-      c.subscribe(`${names.launcher}.setLabelUnreadMsgs`, launcherSub.setLabelUnreadMsgs);
+      c.subscribe(`${names.launcher}.setUnreadMsgs`, launcherSub.setUnreadMsgs);
       c.subscribe(`${names.launcher}.refreshLocale`, launcherSub.refreshLocale);
 
       c.subscribe(`${names.submitTicket}.hide`, submitTicketSub.hide);
@@ -607,41 +601,6 @@ describe('mediator', () => {
         mediator.init({ submitTicket: true, helpCenter: false, chat: true });
       });
 
-      it('shows label "Chat" if chat is online', () => {
-        c.broadcast(`${chat}.onOnline`);
-
-        expect(launcherSub.setLabelChat)
-          .toHaveBeenCalled();
-      });
-
-      it('resets label "Chat" on launcher.show if chat is online', () => {
-        c.broadcast(`${chat}.onOnline`);
-        reset(launcherSub.setLabelChat);
-
-        c.broadcast(`${launcher}.show`);
-
-        expect(launcherSub.setLabelChat.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows label "Help" if chat is offline', () => {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onOffline`);
-
-        expect(launcherSub.setLabelHelp.calls.count())
-          .toEqual(1);
-      });
-
-      it('resets label "Help" on launcher.show if chat is offline', () => {
-        c.broadcast(`${chat}.onOffline`);
-        reset(launcherSub.setLabelHelp);
-
-        c.broadcast(`${launcher}.show`);
-
-        expect(launcherSub.setLabelHelp.calls.count())
-          .toEqual(1);
-      });
-
       it('shows after 3000ms if chat does not connect', () => {
         expect(launcherSub.show.calls.count())
           .toEqual(0);
@@ -720,6 +679,17 @@ describe('mediator', () => {
         });
       });
 
+      it('updates launcher with unread message count', () => {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
+        c.broadcast(`${chat}.onUnreadMsgs`, 5);
+
+        expect(launcherSub.setUnreadMsgs.calls.count())
+          .toEqual(1);
+        expect(launcherSub.setUnreadMsgs)
+          .toHaveBeenCalledWith(5);
+      });
+
       it('does not hide if launching chat on mobile', () => {
         mockRegistry['utility/devices'].isMobileBrowser
           .and.returnValue(true);
@@ -748,53 +718,6 @@ describe('mediator', () => {
     describe('with Ticket Submission, Chat and Help Center', () => {
       beforeEach(() => {
         mediator.init({ submitTicket: true, helpCenter: true });
-      });
-
-      it('shows label "ChatHelp" if chat is online', () => {
-        c.broadcast(`${chat}.onOnline`);
-
-        expect(launcherSub.setLabelChatHelp)
-          .toHaveBeenCalled();
-      });
-
-      it('resets label "ChatHelp" on launcher.show if chat is online', () => {
-        c.broadcast(`${chat}.onOnline`);
-        reset(launcherSub.setLabelChatHelp);
-
-        c.broadcast(`${launcher}.show`);
-
-        expect(launcherSub.setLabelChatHelp.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows label "Help" if chat is offline', () => {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onOffline`);
-
-        expect(launcherSub.setLabelHelp.calls.count())
-          .toEqual(1);
-      });
-
-      it('resets label "Help" on launcher.show if chat is offline', () => {
-        c.broadcast(`${chat}.onOffline`);
-        reset(launcherSub.setLabelHelp);
-
-        c.broadcast(`${launcher}.show`);
-
-        expect(launcherSub.setLabelHelp.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows unread messages on launcher.show if chat is online with unread messages', () => {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onConnected`);
-        c.broadcast(`${chat}.onUnreadMsgs`, 1);
-        reset(launcherSub.setLabelUnreadMsgs);
-
-        c.broadcast(`${launcher}.show`);
-
-        expect(launcherSub.setLabelUnreadMsgs.calls.count())
-          .toEqual(1);
       });
 
       it('launches Help Center first', () => {
@@ -1277,33 +1200,6 @@ describe('mediator', () => {
         mediator.init({ chat: true, submitTicket: true, helpCenter: false });
       });
 
-      it('updates launcher with unread message count if chat is online', () => {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onConnected`);
-        c.broadcast(`${chat}.onUnreadMsgs`, 5);
-
-        expect(launcherSub.setLabelUnreadMsgs.calls.count())
-          .toEqual(1);
-        expect(launcherSub.setLabelUnreadMsgs)
-          .toHaveBeenCalledWith(5);
-      });
-
-      it('resets launcher label to Chat when unread message count is 0', () => {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onConnected`);
-        c.broadcast(`${chat}.onUnreadMsgs`, 5);
-
-        reset(launcherSub.setLabelUnreadMsgs);
-        reset(launcherSub.setLabelChat);
-
-        c.broadcast(`${chat}.onUnreadMsgs`, 0);
-
-        expect(launcherSub.setLabelUnreadMsgs.calls.count())
-          .toEqual(0);
-        expect(launcherSub.setLabelChat.calls.count())
-          .toEqual(1);
-      });
-
       it('hides the launcher when chat pops open from proactive chat', () => {
         c.broadcast(`${chat}.onConnected`);
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
@@ -1564,22 +1460,6 @@ describe('mediator', () => {
     describe('with Help Center', () => {
       beforeEach(() => {
         mediator.init({ submitTicket: true, helpCenter: true, chat: true });
-      });
-
-      it('resets launcher label to ChatHelp when unread message count is 0', () => {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onConnected`);
-        c.broadcast(`${chat}.onUnreadMsgs`, 5);
-
-        reset(launcherSub.setLabelUnreadMsgs);
-        reset(launcherSub.setLabelChatHelp);
-
-        c.broadcast(`${chat}.onUnreadMsgs`, 0);
-
-        expect(launcherSub.setLabelUnreadMsgs.calls.count())
-          .toEqual(0);
-        expect(launcherSub.setLabelChatHelp.calls.count())
-          .toEqual(1);
       });
 
       it('does not show after activate is called and was visible before hidden', () => {

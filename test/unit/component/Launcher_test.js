@@ -30,6 +30,15 @@ describe('Launcher component', () => {
         i18n: {
           t: _.identity
         }
+      },
+      'src/redux/modules/base/selectors': {
+        getZopimChatEmbed: noop
+      },
+      'src/redux/modules/chat/selectors': {
+        getChatStatus: noop
+      },
+      'src/redux/modules/zopimChat/selectors': {
+        getZopimChatStatus: noop
       }
     });
 
@@ -43,71 +52,91 @@ describe('Launcher component', () => {
     mockery.disable();
   });
 
-  describe('state', () => {
+  describe('getLabel', () => {
     let launcher;
 
-    beforeEach(() => {
-      launcher = instanceRender(<Launcher label='help' />);
+    describe('when there are unreadMessages', () => {
+      beforeEach(() => {
+        launcher = domRender(<Launcher />);
+      });
+
+      describe('when there is one unread message', () => {
+        beforeEach(() => {
+          launcher.setState({ unreadMessages: 1 });
+        });
+
+        it('returns the single message label', () => {
+          expect(launcher.getLabel())
+            .toEqual('embeddable_framework.chat.notification');
+        });
+      });
+
+      describe('when there is more then one unread message', () => {
+        beforeEach(() => {
+          launcher.setState({ unreadMessages: 2 });
+        });
+
+        it('returns the multiple messages label', () => {
+          expect(launcher.getLabel())
+            .toEqual('embeddable_framework.chat.notification_multiple');
+        });
+      });
     });
 
-    it('should change the state icon when setIcon is called', () => {
-      expect(launcher.state.icon)
-        .not.toEqual('newIcon');
+    describe('when there are no unreadMessages', () => {
+      describe('when chat is online', () => {
+        describe('when help center is part of config', () => {
+          beforeEach(() => {
+            launcher = domRender(
+              <Launcher chatStatus='online' helpCenterAvailable={true} label='help' />
+            );
+          });
 
-      launcher.setIcon('newIcon');
+          it('returns the prop label', () => {
+            expect(launcher.getLabel())
+              .toEqual('help');
+          });
+        });
 
-      expect(launcher.state.icon)
-        .toEqual('newIcon');
-    });
+        describe('when help center is not of config', () => {
+          beforeEach(() => {
+            launcher = domRender(<Launcher chatStatus='online' helpCenterAvailable={false} />);
+          });
 
-    it('should change the label when setLabel is called', () => {
-      expect(launcher.state.label)
-        .toEqual('help');
+          it('returns the chat label', () => {
+            expect(launcher.getLabel())
+              .toEqual('embeddable_framework.launcher.label.chat');
+          });
+        });
+      });
 
-      launcher.setLabel('support');
+      describe('when chat is offline', () => {
+        beforeEach(() => {
+          launcher = domRender(
+            <Launcher chatStatus='offline' label='help' />
+          );
+        });
 
-      expect(launcher.state.label)
-        .toEqual('support');
-    });
-
-    it('should change the labelOptions when setLabel is called with extra options', () => {
-      expect(launcher.state.labelOptions)
-        .toEqual({});
-
-      launcher.setLabel('support', { some: 'thing' });
-
-      expect(launcher.state.labelOptions)
-        .toEqual({ some: 'thing' });
+        it('returns the prop label', () => {
+          expect(launcher.getLabel())
+            .toEqual('help');
+        });
+      });
     });
   });
 
   describe('render', () => {
     const mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
-    let launcher, launcherNode;
+    let launcher;
 
     beforeEach(() => {
       launcher = domRender(<Launcher updateFrameSize={mockUpdateFrameSize} />);
-      launcherNode = ReactDOM.findDOMNode(launcher);
     });
 
     it('should call the updateFrameSize prop on render if it exists', () => {
       jasmine.clock().tick(0);
 
       expect(mockUpdateFrameSize).toHaveBeenCalled();
-    });
-
-    it('should set the label based on the state', () => {
-      launcher.setState({ label: 'foo' });
-
-      expect(launcherNode.querySelector('.labelClasses').innerHTML)
-        .toEqual('foo');
-    });
-
-    it('should set the icon based on the state', () => {
-      launcher.setState({ icon: 'bar' });
-
-      expect(launcherNode.querySelector('.iconClasses').innerHTML)
-        .toEqual('bar');
     });
 
     describe('when props.chatStatus is online', () => {

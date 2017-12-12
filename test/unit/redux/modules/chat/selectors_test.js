@@ -6,7 +6,8 @@ describe('chat selectors', () => {
     getChatVisitor,
     getUserSoundSettings,
     getConnection,
-    getChatsByAgent;
+    getChatsByAgent,
+    getChatStatus;
 
   beforeEach(() => {
     mockery.enable();
@@ -25,6 +26,7 @@ describe('chat selectors', () => {
     getUserSoundSettings = selectors.getUserSoundSettings;
     getConnection = selectors.getConnection;
     getChatsByAgent = selectors.getChatsByAgent;
+    getChatStatus = selectors.getChatStatus;
   });
 
   describe('getChatNotification', () => {
@@ -253,6 +255,24 @@ describe('chat selectors', () => {
     it('returns the current state of is_chatting', () => {
       expect(result)
         .toEqual('connected');
+    });
+  });
+
+  describe('getChatStatus', () => {
+    let result;
+    const mockChatSettings = {
+      chat: {
+        account_status: 'online'
+      }
+    };
+
+    beforeEach(() => {
+      result = getChatStatus(mockChatSettings);
+    });
+
+    it('returns the current state of account_status', () => {
+      expect(result)
+        .toEqual('online');
     });
   });
 

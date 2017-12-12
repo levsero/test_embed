@@ -85,8 +85,7 @@ function create(name, config, reduxStore) {
     <Frame {...params} store={reduxStore}>
       <Launcher
         onClick={onClick}
-        label={`embeddable_framework.launcher.label.${config.labelKey}`}
-        icon={config.icon} />
+        label={`embeddable_framework.launcher.label.${config.labelKey}`} />
     </Frame>
   );
 
@@ -106,18 +105,6 @@ function get(name) {
 
 function getRootComponent(name) {
   return get(name).instance.getRootComponent();
-}
-
-function setIcon(name, icon) {
-  waitForRootComponent(name, () => {
-    getRootComponent(name).setIcon(icon);
-  });
-}
-
-function setHasUnreadMessages(name, unread) {
-  waitForRootComponent(name, () => {
-    getRootComponent(name).setState({ hasUnreadMessages: unread });
-  });
 }
 
 function render(name) {
@@ -148,42 +135,10 @@ function render(name) {
     });
   });
 
-  mediator.channel.subscribe(name + '.setLabelChat', () => {
-    setIcon(name, 'Icon--chat');
-    setLabel(name, 'embeddable_framework.launcher.label.chat');
-    setHasUnreadMessages(name, false);
-  });
-
-  mediator.channel.subscribe(name + '.setLabelHelp', () => {
-    const label = `embeddable_framework.launcher.label.${launchers[name].config.labelKey}`;
-
-    setIcon(name, 'Icon');
-    setLabel(name, label);
-    setHasUnreadMessages(name, false);
-  });
-
-  mediator.channel.subscribe(name + '.setLabelChatHelp', () => {
-    const label = `embeddable_framework.launcher.label.${launchers[name].config.labelKey}`;
-
-    setIcon(name, 'Icon--chat');
-    setLabel(name, label);
-    setHasUnreadMessages(name, false);
-  });
-
-  mediator.channel.subscribe(name + '.setLabelUnreadMsgs', (unreadMsgs) => {
-    const label = unreadMsgs > 1
-                ? 'embeddable_framework.chat.notification_multiple'
-                : 'embeddable_framework.chat.notification';
-    const options = unreadMsgs > 1 ? { count: unreadMsgs } : {};
-
-    setLabel(name, label, options);
-    setHasUnreadMessages(name, true);
-  });
-}
-
-function setLabel(name, label, options = {}) {
-  waitForRootComponent(name, () => {
-    getRootComponent(name).setLabel(label, options);
+  mediator.channel.subscribe(name + '.setUnreadMsgs', (unreadMsgs) => {
+    waitForRootComponent(name, () => {
+      getRootComponent(name).setUnreadMessages(unreadMsgs);
+    });
   });
 }
 
@@ -201,7 +156,5 @@ export const launcher = {
   create: create,
   list: list,
   get: get,
-  render: render,
-  setIcon: setIcon,
-  setLabel: setLabel
+  render: render
 };
