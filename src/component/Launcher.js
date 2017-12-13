@@ -10,13 +10,14 @@ import { getChatStatus } from 'src/redux/modules/chat/selectors';
 import { getZopimChatStatus } from 'src/redux/modules/zopimChat/selectors';
 import { getZopimChatEmbed,
          getHelpCenterEmbed } from 'src/redux/modules/base/selectors';
+import { settings } from 'service/settings';
 
 const mapStateToProps = (state) => {
   const chatStatus = getZopimChatEmbed(state) ? getZopimChatStatus(state) : getChatStatus(state);
 
   return {
     chatStatus,
-    helpCenterAvailable: getHelpCenterEmbed(state)
+    helpCenterAvailable: getHelpCenterEmbed(state) && settings.get('helpCenter.suppress')
   };
 };
 
@@ -39,15 +40,24 @@ class Launcher extends Component {
 
     this.state = {
       unreadMessages: 0,
-      labelOptions: {}
+      overrideChatSuppress: false
     };
   }
 
   setUnreadMessages = (unreadMessages) => {
-    this.setState({ unreadMessages });
+    this.setState({
+      unreadMessages,
+      overrideChatSuppress: true
+    });
   }
 
-  chatOnline = () => this.props.chatStatus === 'online' || this.props.chatStatus === 'away'
+  chatAvailable = () => {
+    const { chatStatus } = this.props;
+    const chatOnline = chatStatus === 'online' || chatStatus === 'away';
+    const chatSuppressed = settings.get('chat.suppress') && !this.state.overrideChatSuppress;
+
+    return chatOnline && !chatSuppressed;
+  }
 
   getLabel = () => {
     const { helpCenterAvailable } = this.props;
@@ -57,7 +67,7 @@ class Launcher extends Component {
       return unreadMessages > 1
            ? i18n.t('embeddable_framework.chat.notification_multiple', { count: unreadMessages })
            : i18n.t('embeddable_framework.chat.notification');
-    } else if (this.chatOnline() && !helpCenterAvailable) {
+    } else if (this.chatAvailable() && !helpCenterAvailable) {
       return i18n.t('embeddable_framework.launcher.label.chat');
     }
 
@@ -70,7 +80,7 @@ class Launcher extends Component {
     const shouldShowMobileClasses = mobile && !this.state.unreadMessages > 0;
     const iconMobileClasses = shouldShowMobileClasses ? styles.iconMobile : '';
     const labelMobileClasses = shouldShowMobileClasses ? styles.labelMobile : '';
-    const icon = this.chatOnline() ? 'Icon--chat' : 'Icon';
+    const icon = this.chatAvailable() ? 'Icon--chat' : 'Icon';
 
     setTimeout(() => this.props.updateFrameSize(5, 0), 0);
 

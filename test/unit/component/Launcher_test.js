@@ -1,11 +1,14 @@
 describe('Launcher component', () => {
-  let Launcher;
+  let Launcher,
+    mockChatSuppressedValue;
   const launcherPath = buildSrcPath('component/Launcher');
 
   beforeEach(() => {
     resetDOM();
 
     mockery.enable();
+
+    mockChatSuppressedValue = false;
 
     initMockRegistry({
       'utility/devices': {
@@ -39,6 +42,11 @@ describe('Launcher component', () => {
       },
       'src/redux/modules/zopimChat/selectors': {
         getZopimChatStatus: noop
+      },
+      'service/settings': {
+        settings: {
+          get: () => mockChatSuppressedValue
+        }
       }
     });
 
@@ -52,28 +60,50 @@ describe('Launcher component', () => {
     mockery.disable();
   });
 
-  describe('chatOnline', () => {
+  describe('chatAvailable', () => {
     let launcher;
 
     it('returns true when prop.chatStatus is `online`', () => {
       launcher = domRender(<Launcher chatStatus='online' />);
 
-      expect(launcher.chatOnline())
+      expect(launcher.chatAvailable())
         .toBe(true);
     });
 
     it('returns true when prop.chatStatus is `away`', () => {
       launcher = domRender(<Launcher chatStatus='away' />);
 
-      expect(launcher.chatOnline())
+      expect(launcher.chatAvailable())
         .toBe(true);
     });
 
     it('returns false when prop.chatStatus is something else', () => {
       launcher = domRender(<Launcher chatStatus='offline' />);
 
-      expect(launcher.chatOnline())
+      expect(launcher.chatAvailable())
         .toBe(false);
+    });
+
+    describe('when chat is suppressed', () => {
+      beforeEach(() => {
+        mockChatSuppressedValue = true;
+
+        launcher = domRender(<Launcher chatStatus='online' />);
+      });
+
+      it('returns false', () => {
+        expect(launcher.chatAvailable())
+          .toBe(false);
+      });
+
+      describe('when a state.overrideChatSuppress is true', () => {
+        it('returns true', () => {
+          launcher.setState({ overrideChatSuppress: true });
+
+          expect(launcher.chatAvailable())
+            .toBe(true);
+        });
+      });
     });
   });
 
