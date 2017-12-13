@@ -13,6 +13,7 @@ describe('embed.webWidget', () => {
     mockAuthenticateValue,
     mockFiltersValue,
     mockFrame,
+    mockKeywordValue,
     socketioConnectSpy,
     socketioMapEventsToActionsSpy,
     targetCancelHandlerSpy,
@@ -45,6 +46,7 @@ describe('embed.webWidget', () => {
     socketioConnectSpy = jasmine.createSpy('socketio.connect').and.returnValue('socket');
     socketioMapEventsToActionsSpy = jasmine.createSpy('socketio.mapEventsToActions');
     resetTalkScreenSpy = jasmine.createSpy('resetTalkScreen');
+    mockKeywordValue = null;
 
     targetCancelHandlerSpy = jasmine.createSpy();
 
@@ -99,6 +101,9 @@ describe('embed.webWidget', () => {
                 suppress: mockContactFormSuppressedValue,
                 ticketForms: mockTicketFormsValue,
                 attachments: mockAttachmentsEnabledValue
+              },
+              talk: {
+                keyword: mockKeywordValue
               }
             }, value, null);
           }
@@ -863,17 +868,28 @@ describe('embed.webWidget', () => {
     });
 
     describe('setupTalk', () => {
+      const talkConfig = { serviceUrl: 'talk.com', keyword: 'Support' };
+
       beforeEach(() => {
-        const talkConfig = { serviceUrl: 'talk.com', keyword: 'Support' };
-
         webWidget.create('', { talk: talkConfig }, 'reduxStore');
-
-        faythe = webWidget.get();
       });
 
       it('calls socketio.connect with serviceUrl, subdomain and keyword', () => {
         expect(socketioConnectSpy)
           .toHaveBeenCalledWith('talk.com', 'customerfoo', 'Support');
+      });
+
+      describe('when a keyword exists in settings', () => {
+        beforeEach(() => {
+          mockKeywordValue = 'Sales';
+
+          webWidget.create('', { talk: talkConfig }, 'reduxStore');
+        });
+
+        it('overrides the keyword in config', () => {
+          expect(socketioConnectSpy)
+            .toHaveBeenCalledWith('talk.com', 'customerfoo', 'Sales');
+        });
       });
 
       it('calls socketio.mapEventsToActions with the socket and redux store', () => {
