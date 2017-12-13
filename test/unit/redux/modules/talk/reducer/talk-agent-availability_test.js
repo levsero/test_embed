@@ -47,5 +47,19 @@ describe('talk reducer agent-availability', () => {
           .toBe(true);
       });
     });
+
+    describe('when the payload is undefined', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.UPDATE_TALK_AGENT_AVAILABILITY,
+          payload: undefined
+        });
+      });
+
+      it('does not update state', () => {
+        expect(state)
+          .toEqual(initialState);
+      });
+    });
   });
 });
