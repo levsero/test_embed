@@ -214,7 +214,6 @@ describe('talk redux actions', () => {
           phoneNumber: '+61423456789',
           additionalInfo: {
             name: 'Johnny',
-            email: 'Johnny@john.com',
             description: 'Please help me.'
           },
           subdomain: 'z3npparker',

@@ -58,7 +58,6 @@ export function submitTalkCallbackForm(formState, subdomain, serviceUrl, keyword
   return (dispatch, getState) => {
     const formState = getFormState(getState());
     const additionalInfo = _.pickBy({
-      email: formState.email,
       name: formState.name,
       description: formState.description
     }, _.identify);
