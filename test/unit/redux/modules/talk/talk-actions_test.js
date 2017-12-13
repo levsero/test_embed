@@ -4,7 +4,8 @@ import thunk from 'redux-thunk';
 let actions,
   actionTypes,
   screenTypes,
-  mockStore;
+  mockStore,
+  mockSettings;
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -18,7 +19,12 @@ describe('talk redux actions', () => {
     mockery.enable();
 
     initMockRegistry({
-      'service/transport': { http: httpSpy }
+      'service/transport': { http: httpSpy },
+      'service/settings': {
+        settings: {
+          get: () => mockSettings
+        }
+      }
     });
 
     const actionsPath = buildSrcPath('redux/modules/talk');
@@ -239,6 +245,19 @@ describe('talk redux actions', () => {
           email: 'Johnny@john.com',
           description: 'Please help me.'
         });
+    });
+
+    describe('when a keyword exists in settings', () => {
+      beforeEach(() => {
+        mockSettings = 'Sales';
+
+        mockStore.dispatch(actions.submitTalkCallbackForm(formState, subdomain, serviceUrl, keyword));
+      });
+
+      it('overrides the keyword value with the one from settings', () => {
+        expect(httpSpy.callMeRequest.calls.mostRecent().args[1].params.keyword)
+          .toEqual('Sales');
+      });
     });
 
     describe('when the request is successful', () => {
