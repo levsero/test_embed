@@ -1,5 +1,5 @@
 describe('base selectors', () => {
-  let getZopimChatEmbed, getHelpCenterEmbed;
+  let getZopimChatEmbed, getHelpCenterEmbed, getTalkEmbed;
 
   beforeEach(() => {
     mockery.enable();
@@ -12,6 +12,7 @@ describe('base selectors', () => {
 
     getZopimChatEmbed = selectors.getZopimChatEmbed;
     getHelpCenterEmbed = selectors.getHelpCenterEmbed;
+    getTalkEmbed = selectors.getTalkEmbed;
   });
 
   describe('getZopimChatEmbed', () => {
@@ -49,6 +50,26 @@ describe('base selectors', () => {
     });
 
     it('returns the current state of embed.helpCenterForm', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('getTalkEmbed', () => {
+    let result;
+    const mockState = {
+      base: {
+        embeds: {
+          talk: true
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getTalkEmbed(mockState);
+    });
+
+    it('returns the current state of embed.talk', () => {
       expect(result)
         .toEqual(true);
     });

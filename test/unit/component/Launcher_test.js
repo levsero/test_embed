@@ -47,6 +47,9 @@ describe('Launcher component', () => {
         settings: {
           get: () => mockChatSuppressedValue
         }
+      },
+      'src/redux/modules/talk/talk-selectors': {
+        isCallbackEnabled: noop
       }
     });
 
@@ -176,6 +179,107 @@ describe('Launcher component', () => {
           expect(launcher.getLabel())
             .toEqual('help');
         });
+      });
+
+      describe('when Talk is available', () => {
+        describe('when callback capability is enabled', () => {
+          beforeEach(() => {
+            launcher = instanceRender(<Launcher talkAvailable={true} callbackEnabled={true} />);
+          });
+
+          it('returns a "Request a callback" string', () => {
+            expect(launcher.getLabel())
+              .toEqual('embeddable_framework.launcher.label.talk.request_callback');
+          });
+        });
+
+        describe('when callback capability is unavailable', () => {
+          beforeEach(() => {
+            launcher = instanceRender(<Launcher talkAvailable={true} />);
+          });
+
+          it('returns a "Call us" string', () => {
+            expect(launcher.getLabel())
+              .toEqual('embeddable_framework.launcher.label.talk.call_us');
+          });
+        });
+      });
+
+      describe('when Chat and Talk are available', () => {
+        let label;
+
+        describe('when callback capability is enabled', () => {
+          beforeEach(() => {
+            label = 'Help me Obi Wan Kenobi, you`re my only hope';
+            launcher = instanceRender(
+              <Launcher
+                label={label}
+                chatStatus='online'
+                talkAvailable={true} />
+            );
+          });
+
+          it('returns a string passed from a prop', () => {
+            expect(launcher.getLabel())
+              .toEqual(label);
+          });
+        });
+      });
+    });
+  });
+
+  describe('getIconType', () => {
+    let result;
+
+    describe('when chat and talk is available', () => {
+      beforeEach(() => {
+        const launcher = instanceRender(<Launcher chatStatus='online' talkAvailable={true} />);
+
+        result = launcher.getIconType();
+      });
+
+      it('returns the string Icon', () => {
+        expect(result)
+          .toEqual('Icon');
+      });
+    });
+
+    describe('when only chat is available', () => {
+      beforeEach(() => {
+        const launcher = instanceRender(<Launcher chatStatus='online' />);
+
+        result = launcher.getIconType();
+      });
+
+      it('returns the string Icon--chat', () => {
+        expect(result)
+          .toEqual('Icon--chat');
+      });
+    });
+
+    describe('when only talk is available', () => {
+      beforeEach(() => {
+        const launcher = instanceRender(<Launcher talkAvailable={true} />);
+
+        result = launcher.getIconType();
+      });
+
+      it('returns the string Icon--talk', () => {
+        expect(result)
+          .toEqual('Icon--talk');
+      });
+    });
+
+    describe('when no embeds are available', () => {
+      beforeEach(() => {
+        const launcher = instanceRender(<Launcher />);
+
+        result = launcher.getIconType();
+      });
+
+      it('returns the string Icon', () => {
+        expect(result)
+          .toEqual('Icon');
       });
     });
   });
