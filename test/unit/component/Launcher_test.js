@@ -52,6 +52,31 @@ describe('Launcher component', () => {
     mockery.disable();
   });
 
+  describe('chatOnline', () => {
+    let launcher;
+
+    it('returns true when prop.chatStatus is `online`', () => {
+      launcher = domRender(<Launcher chatStatus='online' />);
+
+      expect(launcher.chatOnline())
+        .toBe(true);
+    });
+
+    it('returns true when prop.chatStatus is `away`', () => {
+      launcher = domRender(<Launcher chatStatus='away' />);
+
+      expect(launcher.chatOnline())
+        .toBe(true);
+    });
+
+    it('returns false when prop.chatStatus is something else', () => {
+      launcher = domRender(<Launcher chatStatus='offline' />);
+
+      expect(launcher.chatOnline())
+        .toBe(false);
+    });
+  });
+
   describe('getLabel', () => {
     let launcher;
 

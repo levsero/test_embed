@@ -47,16 +47,17 @@ class Launcher extends Component {
     this.setState({ unreadMessages });
   }
 
+  chatOnline = () => this.props.chatStatus === 'online' || this.props.chatStatus === 'away'
+
   getLabel = () => {
     const { helpCenterAvailable } = this.props;
     const { unreadMessages } = this.state;
-    const chatOnline = this.props.chatStatus === 'online';
 
     if (unreadMessages) {
       return unreadMessages > 1
            ? i18n.t('embeddable_framework.chat.notification_multiple', { count: unreadMessages })
            : i18n.t('embeddable_framework.chat.notification');
-    } else if (chatOnline && !helpCenterAvailable) {
+    } else if (this.chatOnline() && !helpCenterAvailable) {
       return i18n.t('embeddable_framework.launcher.label.chat');
     }
 
@@ -69,7 +70,7 @@ class Launcher extends Component {
     const shouldShowMobileClasses = mobile && !this.state.unreadMessages > 0;
     const iconMobileClasses = shouldShowMobileClasses ? styles.iconMobile : '';
     const labelMobileClasses = shouldShowMobileClasses ? styles.labelMobile : '';
-    const icon = this.props.chatStatus === 'online' ? 'Icon--chat' : 'Icon';
+    const icon = this.chatOnline() ? 'Icon--chat' : 'Icon';
 
     setTimeout(() => this.props.updateFrameSize(5, 0), 0);
 
