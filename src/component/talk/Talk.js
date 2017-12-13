@@ -10,6 +10,7 @@ import { Form } from 'component/form/Form';
 import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
+import { errorCodes } from './talkErrorCodes';
 
 import {
   CALLBACK_ONLY_SCREEN,
@@ -173,7 +174,7 @@ class Talk extends Component {
   }
 
   renderSuccessNotificationScreen = () => {
-    const displayNumber = this.formatPhoneNumber(this.props.phoneNumber);
+    const displayNumber = this.formatPhoneNumber(this.props.callback.phoneNumber);
     const message = i18n.t('embeddable_framework.talk.notify.success.message', {
       fallback: `Thanks for submiting your request. We'll get back to you soon on ${displayNumber}`,
       displayNumber
@@ -237,19 +238,20 @@ class Talk extends Component {
     return <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />;
   }
 
+  resolveErrorMessage(code) {
+    const fallback = { fallback: 'There was an error processing your request. Please try again later.' };
+
+    return _.includes(errorCodes, code)
+      ? i18n.t(`embeddable_framework.talk.notify.error.${code}`, fallback)
+      : i18n.t('embeddable_framework.common.notify.error.generic', fallback);
+  }
+
   renderErrorNotification = () => {
     const { error } = this.props.callback;
 
     if (_.isEmpty(error)) return null;
 
-    // TEMP: Evaluation of expression is not finalised
-    const errorMsg = (error.message === 'phone_already_queued')
-      ? i18n.t(
-          'embeddable_framework.talk.notify.error.phone_queued',
-          { fallback: 'Looks like you\'ve already submitted a request. We\'ll get back to you soon.' })
-      : i18n.t(
-          'embeddable_framework.common.notify.error.generic',
-          { fallback: 'There was an error processing your request. Please try again later.' });
+    const errorMsg = this.resolveErrorMessage(error.message);
 
     return (
       <div className={styles.error}>

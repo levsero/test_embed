@@ -26,7 +26,6 @@ parts:
       title: "A message displayed on a styled error element, its purpose is to show a generic error message"
       screenshot: "https://zendesk.box.com/s/3sshpz05wv1fv4fj6wwbmsgbpqqu4c7w"
       value: "There was an error processing your request. Please try again later."
-      wip: true
 
   # Launcher embed
   - translation:
@@ -790,8 +789,12 @@ parts:
       screenshot: "https://zendesk.box.com/s/96zongpdclysquuwag03ivisxeeo8tss"
       value: "Call the phone number below to get in contact with us."
   - translation:
-      key: "embeddable_framework.talk.notify.error.phone_queued"
-      title: "A message displayed on a styled error element, its purpose is to show an error message that describes that the number the user entered is already tracked and processing"
+      key: "embeddable_framework.talk.notify.error.phone_number_already_in_queue"
+      title: "A message displayed on a styled error element, its purpose is to show an error message that describes the phone number the user entered is already tracked and processing"
       screenshot: "https://zendesk.box.com/s/q3mit3mjkf1wsfriixaq1jp3hbpvwv8a"
-      value: "Looks like you've already submitted a request. We'll get back to you soon."
-      wip: true
+      value: "You've already submitted a request. We'll get back to you soon."
+  - translation:
+      key: "embeddable_framework.talk.notify.error.invalid_phone_number"
+      title: "A message displayed on a styled error element, its purpose is to show an error message that describes the phone number the user entered is invalid"
+      screenshot: "https://zendesk.box.com/s/1ksdrmstlluiebp40qu6c2alvhk7852i"
+      value: "Please enter a valid phone number."

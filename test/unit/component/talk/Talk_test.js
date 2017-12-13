@@ -412,9 +412,9 @@ describe('Talk component', () => {
   describe('renderErrorNotification', () => {
     let result;
 
-    describe('when the user has already queued a phone', () => {
+    describe('when the user has queued a callback', () => {
       beforeEach(() => {
-        const mockCallback = { error: { message: 'phone_already_queued' } };
+        const mockCallback = { error: { message: 'phone_number_already_in_queue' } };
         const talk = instanceRender(<Talk callback={mockCallback} />);
 
         result = talk.renderErrorNotification();
@@ -422,7 +422,7 @@ describe('Talk component', () => {
 
       it('renders a message describing the subject ', () => {
         expect(result.props.children)
-          .toContain('embeddable_framework.talk.notify.error.phone_queued');
+          .toContain('embeddable_framework.talk.notify.error.phone_number_already_in_queue');
       });
     });
 
