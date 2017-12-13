@@ -42,5 +42,19 @@ describe('zopimChat reducer status', () => {
       expect(state)
         .toEqual('online');
     });
+
+    describe('when the payload is undefined', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.ZOPIM_CHAT_ON_STATUS_UPDATE,
+          payload: undefined
+        });
+      });
+
+      it('does not update state', () => {
+        expect(state)
+          .toEqual(initialState);
+      });
+    });
   });
 });
