@@ -24,7 +24,7 @@ describe('talk reducer agent-availability', () => {
     let state;
 
     describe('initial state', () => {
-      it('agentAvailbility is set to an object with default properties', () => {
+      it('agentAvailability is set to an object with default properties', () => {
         expect(initialState)
           .toBe(false);
       });

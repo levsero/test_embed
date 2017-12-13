@@ -26,8 +26,8 @@ describe('talk root reducer', () => {
         .toBeDefined();
     });
 
-    it('has the agentAvailbility sub state', () => {
-      expect(state.agentAvailbility)
+    it('has the agentAvailability sub state', () => {
+      expect(state.agentAvailability)
         .toBeDefined();
     });
 

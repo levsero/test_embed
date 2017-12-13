@@ -31,7 +31,7 @@ import { locals as styles } from './Talk.sass';
 const mapStateToProps = (state) => {
   return {
     embeddableConfig: getEmbeddableConfig(state),
-    agentAvailbility: getAgentAvailability(state),
+    agentAvailability: getAgentAvailability(state),
     formState: getFormState(state),
     screen: getScreen(state),
     phoneNumber: getCallback(state).phoneNumber,

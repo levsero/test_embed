@@ -2,7 +2,7 @@ import { UPDATE_TALK_AGENT_AVAILABILITY } from '../talk-action-types';
 
 const initialState = false;
 
-const agentAvailbility = (state = initialState, action) => {
+const agentAvailability = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_TALK_AGENT_AVAILABILITY:
       return action.payload === 'true';
@@ -11,4 +11,4 @@ const agentAvailbility = (state = initialState, action) => {
   }
 };
 
-export default agentAvailbility;
+export default agentAvailability;

@@ -86,7 +86,7 @@ describe('talk selectors', () => {
       result = getAgentAvailability(mockTalkState);
     });
 
-    it('returns the current state of agentAvailbility', () => {
+    it('returns the current state of agentAvailability', () => {
       expect(result)
         .toBe(true);
     });
