@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 const libphonenumber = require('libphonenumber-js');
 
 import { Field } from 'component/field/Field';
-import { EmailField } from 'component/field/EmailField';
 import { TalkPhoneField } from 'component/talk/TalkPhoneField';
 import { Form } from 'component/form/Form';
 import { Icon } from 'component/Icon';
@@ -100,10 +99,9 @@ class Talk extends Component {
   renderFormScreen = () => {
     const phoneLabel = i18n.t(`embeddable_framework.common.textLabel.phone`, { fallback: 'Phone Number' });
     const nameLabel = i18n.t(`embeddable_framework.common.textLabel.name`, { fallback: 'Name' });
-    const emailLabel = i18n.t(`embeddable_framework.common.textLabel.email`, { fallback: 'Email' });
     const descriptionLabel = i18n.t(`embeddable_framework.common.textLabel.description`,
       { fallback: 'How can we help?' });
-    let { phone, name, email, description } = this.props.formState;
+    let { phone, name, description } = this.props.formState;
 
     return (
       <Form
@@ -116,20 +114,14 @@ class Talk extends Component {
         {this.renderFormHeader()}
         <div className={styles.formDivider} />
         <TalkPhoneField
-          label={phoneLabel}
           required={true}
+          label={phoneLabel}
           value={phone} />
         <Field label={nameLabel}
-          required={true}
           value={name}
           name='name' />
-        <EmailField
-          label={emailLabel}
-          required={true}
-          value={email} />
         <Field
           label={descriptionLabel}
-          required={false}
           value={description}
           input={<textarea rows='3' />}
           name='description' />
