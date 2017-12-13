@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
 
   return {
     chatStatus,
-    helpCenterAvailable: getHelpCenterEmbed(state) && settings.get('helpCenter.suppress')
+    helpCenterAvailable: getHelpCenterEmbed(state) && !settings.get('helpCenter.suppress')
   };
 };
 
