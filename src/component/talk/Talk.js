@@ -100,7 +100,7 @@ class Talk extends Component {
 
     return (
       <div>
-        <p>{headerMessage}</p>
+        <p className={styles.formHeaderMessage}>{headerMessage}</p>
         <p>{this.renderAverageWaitTime()}</p>
       </div>
     );
