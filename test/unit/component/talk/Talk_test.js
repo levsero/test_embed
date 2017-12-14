@@ -1,4 +1,4 @@
-fdescribe('Talk component', () => {
+describe('Talk component', () => {
   let Talk,
     i18nTranslateSpy,
     libPhoneNumberSpy;
@@ -272,6 +272,26 @@ fdescribe('Talk component', () => {
         expect(result)
           .toEqual('embeddable_framework.talk.form.title');
       });
+    });
+  });
+
+  describe('renderPhoneFormScreen', () => {
+    let config,
+      formatPhoneNumberSpy;
+
+    beforeEach(() => {
+      config = { phoneNumber: '+61434032660' };
+      formatPhoneNumberSpy = jasmine.createSpy('formatPhoneNumber');
+
+      const talk = instanceRender(<Talk embeddableConfig={config} />);
+
+      talk.formatPhoneNumber = formatPhoneNumberSpy;
+      talk.renderPhoneFormScreen();
+    });
+
+    it('formats the phone number', () => {
+      expect(formatPhoneNumberSpy)
+        .toHaveBeenCalledWith(config.phoneNumber);
     });
   });
 

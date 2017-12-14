@@ -139,11 +139,12 @@ class Talk extends Component {
 
   renderPhoneFormScreen = () => {
     const phoneLabel = i18n.t('embeddable_framework.talk.label.phoneDisplay', { fallback: 'Our phone number:' });
+    const phoneNumber = this.formatPhoneNumber(this.props.embeddableConfig.phoneNumber);
 
     return (
       <div>
         <div className={styles.phoneDisplayLabel}>
-          {`${phoneLabel} ${this.props.embeddableConfig.phoneNumber}`}
+          {`${phoneLabel} ${phoneNumber}`}
         </div>
         {this.renderFormScreen()}
       </div>
