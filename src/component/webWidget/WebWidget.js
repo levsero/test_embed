@@ -324,6 +324,7 @@ class WebWidget extends Component {
     const { helpCenterConfig } = this.props;
     const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : '';
     const chatOnline = this.isChatOnline();
+    const showNextButton = this.props.submitTicketAvailable || chatOnline || this.isTalkAvailable();
 
     return (
       <div className={classes}>
@@ -341,7 +342,7 @@ class WebWidget extends Component {
           buttonLabelKey={helpCenterConfig.buttonLabelKey}
           formTitleKey={helpCenterConfig.formTitleKey}
           showBackButton={this.props.updateBackButtonVisibility}
-          showNextButton={this.props.submitTicketAvailable || chatOnline}
+          showNextButton={showNextButton}
           style={this.props.style}
           fullscreen={this.props.fullscreen}
           updateFrameSize={this.props.updateFrameSize}
