@@ -21,6 +21,7 @@ import { getSearchLoading,
          getPreviousSearchTerm,
          getHasSearched,
          getHasContextuallySearched } from 'src/redux/modules/helpCenter/selectors';
+import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
@@ -33,13 +34,15 @@ const mapStateToProps = (state) => {
     searchTerm: getSearchTerm(state),
     previousSearchTerm: getPreviousSearchTerm(state),
     hasSearched: getHasSearched(state),
-    hasContextualSearched: getHasContextuallySearched(state)
+    hasContextualSearched: getHasContextuallySearched(state),
+    callbackEnabled: isCallbackEnabled(state)
   };
 };
 
 class HelpCenter extends Component {
   static propTypes = {
     buttonLabelKey: PropTypes.string,
+    callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
     chatOnline: PropTypes.bool,
     formTitleKey: PropTypes.string,
@@ -79,6 +82,7 @@ class HelpCenter extends Component {
 
   static defaultProps = {
     buttonLabelKey: 'message',
+    callbackEnabled: false,
     channelChoice: false,
     chatOnline: false,
     formTitleKey: 'help',
@@ -491,11 +495,20 @@ class HelpCenter extends Component {
 
   render = () => {
     let buttonLabel;
+    const { channelChoice, chatOnline, talkAvailable, callbackEnabled } = this.props;
 
-    if (this.props.channelChoice) {
+    if (channelChoice || (chatOnline && talkAvailable)) {
       buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
-    } else if (this.props.chatOnline) {
+    } else if (chatOnline) {
       buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
+    } else if (talkAvailable) {
+      buttonLabel = callbackEnabled
+                  ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback', {
+                    fallback: i18n.t('embeddable_framework.talk.form.title')
+                  })
+                  : i18n.t('embeddable_framework.helpCenter.submitButton.label.phone', {
+                    fallback: i18n.t('embeddable_framework.talk.phoneOnly.title', { fallback: 'Call us '})
+                  });
     } else {
       buttonLabel = i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`); // eslint-disable-line
     }

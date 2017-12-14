@@ -81,6 +81,7 @@ describe('HelpCenter component', () => {
       },
       'src/redux/modules/helpCenter': {},
       'src/redux/modules/helpCenter/selectors': {},
+      'src/redux/modules/talk/talk-selectors': {},
       'service/i18n': {
         i18n: {
           init: jasmine.createSpy(),
@@ -136,6 +137,34 @@ describe('HelpCenter component', () => {
         it('uses the chat label for the button', () => {
           expect(mockRegistry['service/i18n'].i18n.t)
             .toHaveBeenCalledWith('embeddable_framework.helpCenter.submitButton.label.chat');
+        });
+      });
+
+      describe('when talk is available', () => {
+        describe('when callback is enabled', () => {
+          beforeEach(() => {
+            instanceRender(
+              <HelpCenter talkAvailable={true} callbackEnabled={true} />
+            );
+          });
+
+          it('uses the callback label for the button', () => {
+            expect(mockRegistry['service/i18n'].i18n.t.calls.mostRecent().args[0])
+              .toEqual('embeddable_framework.helpCenter.submitButton.label.callback');
+          });
+        });
+
+        describe('when callback is not enabled', () => {
+          beforeEach(() => {
+            instanceRender(
+              <HelpCenter talkAvailable={true} callbackEnabled={false} />
+            );
+          });
+
+          it('uses the phone label for the button', () => {
+            expect(mockRegistry['service/i18n'].i18n.t.calls.mostRecent().args[0])
+              .toEqual('embeddable_framework.helpCenter.submitButton.label.phone');
+          });
         });
       });
 
