@@ -100,6 +100,9 @@ describe('WebWidget component', () => {
       },
       'src/redux/modules/chat/selectors': {
         getChatNotification: noop
+      },
+      'service/settings': {
+        settings: { get: noop }
       }
     });
 

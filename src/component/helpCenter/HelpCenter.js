@@ -68,6 +68,8 @@ class HelpCenter extends Component {
     searchLoading: PropTypes.bool.isRequired,
     searchFailed: PropTypes.bool.isRequired,
     style: PropTypes.object,
+    submitTicketAvailable: PropTypes.bool,
+    chatAvailable: PropTypes.bool,
     articleClicked: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
     updateFrameSize: PropTypes.func,
@@ -98,6 +100,8 @@ class HelpCenter extends Component {
     showBackButton: () => {},
     showNextButton: true,
     style: null,
+    submitTicketAvailable: true,
+    chatAvailable: false,
     talkAvailable: false,
     updateFrameSize: () => {},
     hideChatNotification: () => {},
@@ -439,6 +443,8 @@ class HelpCenter extends Component {
         ref='helpCenterDesktop'
         notification={this.props.notification}
         chatOnline={this.props.chatOnline}
+        submitTicketAvailable={this.props.submitTicketAvailable}
+        chatAvailable={this.props.chatAvailable}
         getFrameDimensions={this.props.getFrameDimensions}
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
@@ -470,6 +476,8 @@ class HelpCenter extends Component {
       <HelpCenterMobile
         ref='helpCenterMobile'
         handleOnChangeValue={this.handleOnChangeValue}
+        submitTicketAvailable={this.props.submitTicketAvailable}
+        chatAvailable={this.props.chatAvailable}
         handleNextClick={this.handleNextClick}
         search={this.search}
         isLoading={this.props.searchLoading}

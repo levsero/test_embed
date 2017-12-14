@@ -15,11 +15,15 @@ export class ChannelChoiceMobile extends Component {
     formTitleKey: PropTypes.string.isRequired,
     showCloseButton: PropTypes.func.isRequired,
     chatOnline: PropTypes.bool.isRequired,
-    talkAvailable: PropTypes.bool
+    talkAvailable: PropTypes.bool,
+    submitTicketAvailable: PropTypes.bool,
+    chatAvailable: PropTypes.bool
   };
 
   static defaultProps = {
-    talkAvailable: false
+    talkAvailable: false,
+    submitTicketAvailable: true,
+    chatAvailable: false
   };
 
   renderCancelButton = () => {
@@ -43,6 +47,8 @@ export class ChannelChoiceMobile extends Component {
         footerContent={this.renderCancelButton()}
         title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}>
         <ChannelChoicePopupMobile
+          submitTicketAvailable={this.props.submitTicketAvailable}
+          chatAvailable={this.props.chatAvailable}
           chatOnline={chatOnline}
           onNextClick={handleNextClick}
           onCancelClick={handleCancelClick}

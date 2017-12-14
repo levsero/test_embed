@@ -15,6 +15,7 @@ import { updateActiveEmbed,
          updateAuthenticated } from 'src/redux/modules/base';
 import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
 import { getChatNotification } from 'src/redux/modules/chat/selectors';
+import { settings } from 'service/settings';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
@@ -353,6 +354,8 @@ class WebWidget extends Component {
           localeFallbacks={this.props.localeFallbacks}
           channelChoice={this.isChannelChoiceAvailable()}
           talkAvailable={this.isTalkAvailable()}
+          submitTicketAvailable={this.props.submitTicketAvailable}
+          chatAvailable={!settings.get('chat.suppress') && this.props.zopimOnline}
           viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
           zendeskHost={this.props.zendeskHost}
           hideChatNotification={this.props.hideChatNotification}
@@ -403,6 +406,8 @@ class WebWidget extends Component {
         style={this.props.style}
         chatOnline={this.isChatOnline()}
         talkAvailable={this.isTalkAvailable()}
+        submitTicketAvailable={this.props.submitTicketAvailable}
+        chatAvailable={!settings.get('chat.suppress') && this.props.zopimOnline}
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
         getFrameDimensions={this.props.getFrameDimensions}
