@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { http } from 'service/transport';
+import { settings } from 'service/settings';
 import {
   UPDATE_TALK_EMBEDDABLE_CONFIG,
   UPDATE_TALK_AGENT_AVAILABILITY,
@@ -65,7 +66,7 @@ export function submitTalkCallbackForm(formState, subdomain, serviceUrl, keyword
       phoneNumber: formState.phone,
       additionalInfo,
       subdomain,
-      keyword
+      keyword: settings.get('talk.keyword') || keyword
     };
     const callbacks = {
       done: () => {

@@ -36,6 +36,7 @@ const optionWhitelist = {
     'offset.vertical',
     'position.horizontal',
     'position.vertical',
+    'talk.keyword',
     'zIndex'
   ]
 };

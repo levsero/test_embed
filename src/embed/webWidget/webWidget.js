@@ -645,7 +645,8 @@ function setupChat(config, store) {
 }
 
 function setupTalk(zendeskSubdomain, config, store) {
-  const socket = socketio.connect(config.serviceUrl, zendeskSubdomain, config.keyword);
+  const keyword = settings.get('talk.keyword') || config.keyword;
+  const socket = socketio.connect(config.serviceUrl, zendeskSubdomain, keyword);
 
   socketio.mapEventsToActions(socket, store);
 }
