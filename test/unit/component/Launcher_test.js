@@ -264,9 +264,9 @@ describe('Launcher component', () => {
         result = launcher.getIconType();
       });
 
-      it('returns the string Icon--talk', () => {
+      it('returns the string Icon--launcher-talk', () => {
         expect(result)
-          .toEqual('Icon--talk');
+          .toEqual('Icon--launcher-talk');
       });
     });
 

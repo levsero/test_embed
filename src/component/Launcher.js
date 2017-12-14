@@ -85,7 +85,7 @@ class Launcher extends Component {
       return i18n.t(label);
     } else if (chatAvailable && !helpCenterAvailable) {
       return i18n.t('embeddable_framework.launcher.label.chat');
-    } else if (talkAvailable) {
+    } else if (talkAvailable && !helpCenterAvailable) {
       return talkLabel;
     }
 
@@ -97,7 +97,7 @@ class Launcher extends Component {
 
     if (chatStatus === 'online' && talkAvailable) return 'Icon';
     if (chatStatus === 'online') return 'Icon--chat';
-    if (talkAvailable) return 'Icon--talk';
+    if (talkAvailable) return 'Icon--launcher-talk';
 
     return 'Icon';
   }
