@@ -296,6 +296,29 @@ describe('WebWidget component', () => {
       });
     });
 
+    describe('when talk is available', () => {
+      beforeEach(() => {
+        webWidget = instanceRender(
+          <WebWidget
+            helpCenterAvailable={true}
+            talkAvailable={true}
+            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+            updateActiveEmbed={mockUpdateActiveEmbed} />
+        );
+        webWidget.onNextClick();
+      });
+
+      it('should call updateActiveEmbed with talk', () => {
+        expect(mockUpdateActiveEmbed)
+          .toHaveBeenCalledWith('talk');
+      });
+
+      it('should call updateBackButtonVisibility with true', () => {
+        expect(updateBackButtonVisibilitySpy)
+          .toHaveBeenCalledWith(true);
+      });
+    });
+
     describe('when chat is online', () => {
       beforeEach(() => {
         const chatProp = { account_status: 'online' }; // eslint-disable-line camelcase

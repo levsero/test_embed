@@ -236,6 +236,9 @@ class WebWidget extends Component {
 
     if (embed) {
       this.setComponent(embed);
+    } else if (this.isTalkAvailable()) {
+      updateActiveEmbed(talk);
+      updateBackButtonVisibility(true);
     } else if (this.isChatOnline()) {
       this.showChat();
       // TODO: track chat started
