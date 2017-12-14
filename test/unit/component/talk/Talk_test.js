@@ -1,7 +1,8 @@
 describe('Talk component', () => {
   let Talk,
     i18nTranslateSpy,
-    libPhoneNumberSpy;
+    libPhoneNumberFormatSpy,
+    libPhoneNumberParseSpy;
   const callbackScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
   const phoneOnlyScreen = 'widget/talk/PHONE_ONLY_SCREEN';
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
@@ -20,12 +21,15 @@ describe('Talk component', () => {
 
     const talkPath = buildSrcPath('component/talk/Talk');
 
-    libPhoneNumberSpy = jasmine.createSpyObj('libphonenumber', ['format']);
+    libPhoneNumberFormatSpy = jasmine.createSpy('libphonenumber.format');
+    libPhoneNumberParseSpy = jasmine.createSpy('libphonenumber.parse').and.callFake((phone) => {
+      return { country: 'AU', phone };
+    });
     i18nTranslateSpy = jasmine.createSpy('i18n.translate').and.callFake((key) => key);
 
     initMockRegistry({
       'React': React,
-      'libphonenumber-js': libPhoneNumberSpy,
+      'libphonenumber-js': { format: libPhoneNumberFormatSpy, parse: libPhoneNumberParseSpy },
       'component/form/Form': { Form: noopReactComponent },
       'component/field/Field': { Field: noopReactComponent },
       'component/field/EmailField': { EmailField: noopReactComponent },
@@ -120,9 +124,14 @@ describe('Talk component', () => {
       talk.formatPhoneNumber(config.phoneNumber);
     });
 
+    it('calls libphonenumber.parse with correct params', () => {
+      expect(libPhoneNumberParseSpy)
+        .toHaveBeenCalledWith('+61361275109');
+    });
+
     it('calls libphonenumber.format with correct params', () => {
-      expect(libPhoneNumberSpy.format)
-        .toHaveBeenCalledWith('+61361275109', 'International');
+      expect(libPhoneNumberFormatSpy)
+        .toHaveBeenCalledWith({ country: 'AU', phone: '+61361275109' }, 'International');
     });
   });
 

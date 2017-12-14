@@ -77,7 +77,9 @@ class Talk extends Component {
   }
 
   formatPhoneNumber = (phoneNumber) => {
-    return libphonenumber.format(phoneNumber, 'International');
+    const parsed = libphonenumber.parse(phoneNumber);
+
+    return libphonenumber.format(parsed, 'International');
   }
 
   renderAverageWaitTime = () => {
