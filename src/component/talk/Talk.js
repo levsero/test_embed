@@ -76,22 +76,32 @@ class Talk extends Component {
     this.props.updateTalkCallbackForm(formState);
   }
 
-  renderFormHeader = () => {
+  formatPhoneNumber = (phoneNumber) => {
+    const parsed = libphonenumber.parse(phoneNumber);
+
+    return libphonenumber.format(parsed, 'International');
+  }
+
+  renderAverageWaitTime = () => {
     const { averageWaitTime } = this.props;
     const waitTimeForm = parseInt(averageWaitTime, 10) > 1 ? 'Plural' : 'Singular';
-
-    const headerMessage = i18n.t('embeddable_framework.talk.form.headerMessage', {
-      fallback: 'Enter your phone number and we\'ll call you as soon as we can.'
-    });
     const waitTimeMessage = i18n.t(`embeddable_framework.talk.form.averageWaitTime${waitTimeForm}`, {
       fallback: `Average wait time: ${averageWaitTime}`,
       averageWaitTime
     });
 
+    return <p>{waitTimeMessage}</p>;
+  }
+
+  renderFormHeader = () => {
+    const headerMessage = i18n.t('embeddable_framework.talk.form.headerMessage', {
+      fallback: 'Enter your phone number and we\'ll call you as soon as we can.'
+    });
+
     return (
       <div>
-        <p>{headerMessage}</p>
-        <p>{waitTimeMessage}</p>
+        <p className={styles.formHeaderMessage}>{headerMessage}</p>
+        <p>{this.renderAverageWaitTime()}</p>
       </div>
     );
   }
@@ -131,11 +141,12 @@ class Talk extends Component {
 
   renderPhoneFormScreen = () => {
     const phoneLabel = i18n.t('embeddable_framework.talk.label.phoneDisplay', { fallback: 'Our phone number:' });
+    const phoneNumber = this.formatPhoneNumber(this.props.embeddableConfig.phoneNumber);
 
     return (
       <div>
         <div className={styles.phoneDisplayLabel}>
-          {`${phoneLabel} ${this.props.embeddableConfig.phoneNumber}`}
+          {`${phoneLabel} ${phoneNumber}`}
         </div>
         {this.renderFormScreen()}
       </div>
@@ -147,18 +158,19 @@ class Talk extends Component {
       'embeddable_framework.talk.phoneOnly.message',
       { fallback: 'Call the phone number below to get in contact with us.' }
     );
-    const phoneNumber = libphonenumber.format(this.props.embeddableConfig.phoneNumber, 'International');
+    const phoneNumber = this.formatPhoneNumber(this.props.embeddableConfig.phoneNumber);
 
     return (
       <div className={styles.phoneOnlyContainer}>
         <p className={styles.phoneOnlyMessage}>{message}</p>
+        <p>{this.renderAverageWaitTime()}</p>
         <div className={styles.phoneNumber}>{phoneNumber}</div>
       </div>
     );
   }
 
   renderSuccessNotificationScreen = () => {
-    const displayNumber = this.props.phoneNumber;
+    const displayNumber = this.formatPhoneNumber(this.props.phoneNumber);
     const message = i18n.t('embeddable_framework.talk.notify.success.message', {
       fallback: `Thanks for submiting your request. We'll get back to you soon on ${displayNumber}`,
       displayNumber

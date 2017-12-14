@@ -1,6 +1,8 @@
 describe('Talk component', () => {
   let Talk,
-    libPhoneNumberSpy;
+    i18nTranslateSpy,
+    libPhoneNumberFormatSpy,
+    libPhoneNumberParseSpy;
   const callbackScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
   const phoneOnlyScreen = 'widget/talk/PHONE_ONLY_SCREEN';
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
@@ -19,11 +21,15 @@ describe('Talk component', () => {
 
     const talkPath = buildSrcPath('component/talk/Talk');
 
-    libPhoneNumberSpy = jasmine.createSpyObj('libphonenumber', ['format']);
+    libPhoneNumberFormatSpy = jasmine.createSpy('libphonenumber.format');
+    libPhoneNumberParseSpy = jasmine.createSpy('libphonenumber.parse').and.callFake((phone) => {
+      return { country: 'AU', phone };
+    });
+    i18nTranslateSpy = jasmine.createSpy('i18n.translate').and.callFake((key) => key);
 
     initMockRegistry({
       'React': React,
-      'libphonenumber-js': libPhoneNumberSpy,
+      'libphonenumber-js': { format: libPhoneNumberFormatSpy, parse: libPhoneNumberParseSpy },
       'component/form/Form': { Form: noopReactComponent },
       'component/field/Field': { Field: noopReactComponent },
       'component/field/EmailField': { EmailField: noopReactComponent },
@@ -31,7 +37,7 @@ describe('Talk component', () => {
       'component/Icon': { Icon: noopReactComponent },
       'component/container/ScrollContainer': { ScrollContainer: MockScrollContainer },
       'component/ZendeskLogo': { ZendeskLogo: noopReactComponent },
-      'service/i18n': { i18n: { t: (key) => key, isRTL: _.noop } },
+      'service/i18n': { i18n: { t: i18nTranslateSpy, isRTL: _.noop } },
       'src/redux/modules/talk': {
         updateTalkScreen: noop,
         updateTalkCallbackForm: noop
@@ -107,6 +113,67 @@ describe('Talk component', () => {
     it('calls updateTalkCallbackForm with the newly changed form state', () => {
       expect(updateTalkCallbackFormSpy)
         .toHaveBeenCalledWith({ phone: '+61423456789', name: 'Sally' });
+    });
+  });
+
+  describe('formatPhoneNumber', () => {
+    beforeEach(() => {
+      const config = { phoneNumber: '+61361275109' };
+      const talk = instanceRender(<Talk embeddableConfig={config} />);
+
+      talk.formatPhoneNumber(config.phoneNumber);
+    });
+
+    it('calls libphonenumber.parse with correct params', () => {
+      expect(libPhoneNumberParseSpy)
+        .toHaveBeenCalledWith('+61361275109');
+    });
+
+    it('calls libphonenumber.format with correct params', () => {
+      expect(libPhoneNumberFormatSpy)
+        .toHaveBeenCalledWith({ country: 'AU', phone: '+61361275109' }, 'International');
+    });
+  });
+
+  describe('renderAverageWaitTime', () => {
+    let talk,
+      result,
+      mockAverageWaitTime;
+
+    describe('when the average wait time is greater than 1', () => {
+      beforeEach(() => {
+        mockAverageWaitTime = '5';
+        talk = domRender(<Talk averageWaitTime={mockAverageWaitTime} />);
+        result = talk.renderAverageWaitTime();
+      });
+
+      it('calls i18n.t with the average wait time', () => {
+        expect(i18nTranslateSpy.calls.mostRecent().args[1].averageWaitTime)
+          .toBe(mockAverageWaitTime);
+      });
+
+      it('renders the plural averge wait time message', () => {
+        expect(result.props.children)
+          .toBe('embeddable_framework.talk.form.averageWaitTimePlural');
+      });
+    });
+
+    describe('when the average wait time is not greater than 1', () => {
+      beforeEach(() => {
+        mockAverageWaitTime = '1';
+        talk = domRender(<Talk averageWaitTime={mockAverageWaitTime} />);
+        result = talk.renderAverageWaitTime();
+      });
+
+      it('calls i18n.t with the average wait time', () => {
+        expect(i18nTranslateSpy.calls.mostRecent().args[1].averageWaitTime)
+          .toBe(mockAverageWaitTime);
+      });
+
+      it('renders the singular averge wait time message', () => {
+        expect(result.props.children)
+          .toBe('embeddable_framework.talk.form.averageWaitTimeSingular');
+      });
     });
   });
 
@@ -217,20 +284,43 @@ describe('Talk component', () => {
     });
   });
 
-  describe('renderPhoneOnlyScreen', () => {
-    let config;
+  describe('renderPhoneFormScreen', () => {
+    let config,
+      formatPhoneNumberSpy;
 
     beforeEach(() => {
       config = { phoneNumber: '+61434032660' };
+      formatPhoneNumberSpy = jasmine.createSpy('formatPhoneNumber');
 
       const talk = instanceRender(<Talk embeddableConfig={config} />);
 
+      talk.formatPhoneNumber = formatPhoneNumberSpy;
+      talk.renderPhoneFormScreen();
+    });
+
+    it('formats the phone number', () => {
+      expect(formatPhoneNumberSpy)
+        .toHaveBeenCalledWith(config.phoneNumber);
+    });
+  });
+
+  describe('renderPhoneOnlyScreen', () => {
+    let config,
+      formatPhoneNumberSpy;
+
+    beforeEach(() => {
+      config = { phoneNumber: '+61434032660' };
+      formatPhoneNumberSpy = jasmine.createSpy('formatPhoneNumber');
+
+      const talk = instanceRender(<Talk embeddableConfig={config} />);
+
+      talk.formatPhoneNumber = formatPhoneNumberSpy;
       talk.renderPhoneOnlyScreen();
     });
 
     it('formats the phone number', () => {
-      expect(libPhoneNumberSpy.format)
-        .toHaveBeenCalledWith(config.phoneNumber, 'International');
+      expect(formatPhoneNumberSpy)
+        .toHaveBeenCalledWith(config.phoneNumber);
     });
   });
 
