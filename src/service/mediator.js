@@ -37,12 +37,13 @@ state[`${chat}.unreadMsgs`] = 0;
 state[`${chat}.userClosed`] = false;
 state[`${chat}.chatEnded`] = false;
 state[`${talk}.isAccessible`] = false;
+state[`${talk}.isAvailable`] = false;
 state['.hideOnClose'] = false;
 state['.activatePending'] = false;
 
 const talkAvailable = () => {
   // TODO: Add suppressed condition here when implementing it
-  return state[`${talk}.isAccessible`];
+  return state[`${talk}.isAccessible`] && state[`${talk}.isAccessible`];
 };
 
 const helpCenterAvailable = () => {
@@ -65,7 +66,7 @@ const channelChoiceAvailable = () => {
 };
 
 const embedAvailable = () => {
-  return helpCenterAvailable() || chatAvailable() || submitTicketAvailable();
+  return helpCenterAvailable() || chatAvailable() || submitTicketAvailable() || talkAvailable();
 };
 
 const getShowAnimation = _.memoize(
@@ -184,6 +185,18 @@ function init(embedsAccessible, params = {}) {
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${launcher}.hide`);
     c.broadcast('webWidget.hide');
+  });
+
+  c.intercept('talk.availability', (_, availability) => {
+    state[`${talk}.isAccessible`] = availability === 'true';
+
+    if (!embedVisible(state)) {
+      resetActiveEmbed();
+
+      if (embedAvailable()) {
+        show(state);
+      }
+    }
   });
 
   c.intercept(`.show, ${chat}.onError`, () => {

@@ -3,12 +3,14 @@ import {
   updateTalkAgentAvailability,
   updateTalkAverageWaitTime,
   resetTalkScreen } from 'src/redux/modules/talk';
+import { mediator } from 'service/mediator';
 
 export function talkEmbeddableConfigEventToAction(socket, reduxStore) {
   socket.on('socket.embeddableConfig', (config) => {
     reduxStore.dispatch(updateTalkEmbeddableConfig(config));
     dispatchAgentAvailability(reduxStore, config);
     dispatchAverageWaitTime(reduxStore, config);
+    mediator.channel.broadcast('talk.availability', config.enabled);
 
     reduxStore.dispatch(resetTalkScreen());
   });
@@ -31,6 +33,7 @@ function dispatchAgentAvailability(reduxStore, data) {
 
   if (agentAvailability) {
     reduxStore.dispatch(updateTalkAgentAvailability(agentAvailability));
+    mediator.channel.broadcast('talk.availability', agentAvailability);
   }
 }
 
