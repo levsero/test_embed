@@ -45,7 +45,7 @@ export class ChannelChoiceMenu extends Component {
         onClick={this.handleNextClick('talk')}
         iconClasses={styles.iconTalk}
         label={talkLabel}
-        icon='Icon--talk' />
+        icon='Icon--channelChoice-talk' />
     );
   }
 
