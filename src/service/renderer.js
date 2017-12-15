@@ -110,7 +110,7 @@ function init(config) {
         const zopimRendered = config.embeds.zopimChat && !newChat;
 
         reduxStore.dispatch(updateEmbedAccessible(embedName, true));
-        configItem.props.visible = !hideLauncher && config.embeds && !zopimRendered;
+        configItem.props.visible = !hideLauncher && config.embeds && !zopimRendered && !config.embeds.talk;
         configItem.props.hideZendeskLogo = config.hideZendeskLogo;
         configItem.props.brand = config.brand;
 

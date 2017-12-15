@@ -504,11 +504,6 @@ describe('embed.webWidget', () => {
           .toBeFalsy();
       });
 
-      it('should assign talkAvailable to false', () => {
-        expect(faythe.props.talkAvailable)
-          .toBeFalsy();
-      });
-
       it('should not apply props from setUpSubmitTicket to the embed', () => {
         expect(faythe.props.attachmentSender)
           .toBeFalsy();
@@ -532,20 +527,6 @@ describe('embed.webWidget', () => {
       it('does not call socketio.mapEventsToActions', () => {
         expect(socketioMapEventsToActionsSpy)
           .not.toHaveBeenCalled();
-      });
-    });
-
-    describe('when talk is part of config', () => {
-      beforeEach(() => {
-        webWidget.create('', { talk: {} });
-        webWidget.render();
-
-        faythe = webWidget.get().instance.getRootComponent();
-      });
-
-      it('should assign talkAvailable to true', () => {
-        expect(faythe.props.talkAvailable)
-          .toBeTruthy();
       });
     });
 

@@ -15,6 +15,8 @@ import { updateActiveEmbed,
          updateAuthenticated } from 'src/redux/modules/base';
 import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
 import { getChatNotification } from 'src/redux/modules/chat/selectors';
+import { getTalkAvailable } from 'src/redux/modules/talk/talk-selectors';
+import { settings } from 'service/settings';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
@@ -31,7 +33,8 @@ const mapStateToProps = (state) => {
     chatNotification: getChatNotification(state),
     activeEmbed: base.activeEmbed,
     zopimOnline: base.zopim,
-    authenticated: base.authenticated
+    authenticated: base.authenticated,
+    talkAvailable: getTalkAvailable(state)
   };
 };
 
@@ -81,6 +84,7 @@ class WebWidget extends Component {
     activeEmbed: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
+    agentAvailability: PropTypes.bool.isRequired,
     talkConfig: PropTypes.object
   };
 
@@ -115,6 +119,7 @@ class WebWidget extends Component {
     zopimOnline: false,
     zopimOnNext: () => {},
     closeFrame: () => {},
+    talkAvailable: false,
     talkConfig: {}
   };
 
@@ -157,9 +162,13 @@ class WebWidget extends Component {
     return helpCenterAvailable && helpCenterAccessible;
   }
 
-  isChannelChoiceAvailable = () => this.props.channelChoice && this.isChatOnline() && this.props.submitTicketAvailable;
+  isChannelChoiceAvailable = () => {
+    const { channelChoice, submitTicketAvailable, talkAvailable } = this.props;
+    const channels = [talkAvailable, submitTicketAvailable, this.isChatOnline()];
+    const channelsAvailable = _.filter(channels, _.identity);
 
-  isTalkAvailable = () => this.props.talkAvailable;
+    return (channelChoice || talkAvailable) && channelsAvailable.length > 1;
+  };
 
   isChatOnline = () => this.props.chat.account_status === 'online' || this.props.zopimOnline;
 
@@ -182,7 +191,7 @@ class WebWidget extends Component {
   setAuthenticated = (bool) => this.props.updateAuthenticated(bool);
 
   resetActiveEmbed = () => {
-    const { updateActiveEmbed, updateBackButtonVisibility } = this.props;
+    const { updateActiveEmbed, updateBackButtonVisibility, talkAvailable } = this.props;
     let backButton = false;
 
     if (this.isHelpCenterAvailable()) {
@@ -190,7 +199,7 @@ class WebWidget extends Component {
       backButton = this.articleViewActive();
     } else if (this.isChannelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
-    } else if (this.isTalkAvailable()) {
+    } else if (talkAvailable) {
       updateActiveEmbed(talk);
     } else if (this.isChatOnline()) {
       this.showChat();
@@ -229,6 +238,9 @@ class WebWidget extends Component {
 
     if (embed) {
       this.setComponent(embed);
+    } else if (this.props.talkAvailable) {
+      updateActiveEmbed(talk);
+      updateBackButtonVisibility(true);
     } else if (this.isChatOnline()) {
       this.showChat();
       // TODO: track chat started
@@ -259,16 +271,17 @@ class WebWidget extends Component {
     const rootComponent = this.getRootComponent();
     const { activeEmbed, updateBackButtonVisibility, updateActiveEmbed } = this.props;
     const helpCenterAvailable = this.isHelpCenterAvailable();
+    const channelChoiceAvailable = this.isChannelChoiceAvailable();
 
     if (activeEmbed === helpCenter) {
       rootComponent.setArticleView(false);
       updateBackButtonVisibility(false);
     } else if (this.shouldShowTicketFormBackButton()) {
       rootComponent.clearForm();
-      updateBackButtonVisibility(helpCenterAvailable || this.props.channelChoice);
+      updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable);
     } else if (helpCenterAvailable) {
       this.showHelpCenter();
-    } else if (this.props.channelChoice) {
+    } else if (channelChoiceAvailable) {
       updateActiveEmbed(channelChoice);
       updateBackButtonVisibility(false);
     }
@@ -316,6 +329,7 @@ class WebWidget extends Component {
     const { helpCenterConfig } = this.props;
     const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : '';
     const chatOnline = this.isChatOnline();
+    const showNextButton = this.props.submitTicketAvailable || chatOnline || this.props.talkAvailable;
 
     return (
       <div className={classes}>
@@ -333,14 +347,16 @@ class WebWidget extends Component {
           buttonLabelKey={helpCenterConfig.buttonLabelKey}
           formTitleKey={helpCenterConfig.formTitleKey}
           showBackButton={this.props.updateBackButtonVisibility}
-          showNextButton={this.props.submitTicketAvailable || chatOnline}
+          showNextButton={showNextButton}
           style={this.props.style}
           fullscreen={this.props.fullscreen}
           updateFrameSize={this.props.updateFrameSize}
           originalArticleButton={this.props.originalArticleButton}
           localeFallbacks={this.props.localeFallbacks}
-          channelChoice={this.props.channelChoice}
-          talkAvailable={this.isTalkAvailable()}
+          channelChoice={this.isChannelChoiceAvailable()}
+          talkAvailable={this.props.talkAvailable}
+          submitTicketAvailable={this.props.submitTicketAvailable}
+          chatAvailable={!settings.get('chat.suppress') && this.props.zopimOnline}
           viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
           zendeskHost={this.props.zendeskHost}
           hideChatNotification={this.props.hideChatNotification}
@@ -390,7 +406,9 @@ class WebWidget extends Component {
         ref={channelChoice}
         style={this.props.style}
         chatOnline={this.isChatOnline()}
-        talkAvailable={this.isTalkAvailable()}
+        talkAvailable={this.props.talkAvailable}
+        submitTicketAvailable={this.props.submitTicketAvailable}
+        chatAvailable={!settings.get('chat.suppress') && this.props.zopimOnline}
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
         getFrameDimensions={this.props.getFrameDimensions}

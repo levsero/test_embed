@@ -21,6 +21,7 @@ import { getSearchLoading,
          getPreviousSearchTerm,
          getHasSearched,
          getHasContextuallySearched } from 'src/redux/modules/helpCenter/selectors';
+import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
@@ -33,13 +34,15 @@ const mapStateToProps = (state) => {
     searchTerm: getSearchTerm(state),
     previousSearchTerm: getPreviousSearchTerm(state),
     hasSearched: getHasSearched(state),
-    hasContextualSearched: getHasContextuallySearched(state)
+    hasContextualSearched: getHasContextuallySearched(state),
+    callbackEnabled: isCallbackEnabled(state)
   };
 };
 
 class HelpCenter extends Component {
   static propTypes = {
     buttonLabelKey: PropTypes.string,
+    callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
     chatOnline: PropTypes.bool,
     formTitleKey: PropTypes.string,
@@ -65,6 +68,8 @@ class HelpCenter extends Component {
     searchLoading: PropTypes.bool.isRequired,
     searchFailed: PropTypes.bool.isRequired,
     style: PropTypes.object,
+    submitTicketAvailable: PropTypes.bool,
+    chatAvailable: PropTypes.bool,
     articleClicked: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
     updateFrameSize: PropTypes.func,
@@ -79,6 +84,7 @@ class HelpCenter extends Component {
 
   static defaultProps = {
     buttonLabelKey: 'message',
+    callbackEnabled: false,
     channelChoice: false,
     chatOnline: false,
     formTitleKey: 'help',
@@ -94,6 +100,8 @@ class HelpCenter extends Component {
     showBackButton: () => {},
     showNextButton: true,
     style: null,
+    submitTicketAvailable: true,
+    chatAvailable: false,
     talkAvailable: false,
     updateFrameSize: () => {},
     hideChatNotification: () => {},
@@ -290,7 +298,7 @@ class HelpCenter extends Component {
   handleNextClick = (e) => {
     e.preventDefault();
 
-    if (this.props.channelChoice && this.props.chatOnline) {
+    if (this.props.channelChoice) {
       setTimeout(() => this.setChannelChoiceShown(true), 0);
     } else {
       this.props.onNextClick();
@@ -435,6 +443,8 @@ class HelpCenter extends Component {
         ref='helpCenterDesktop'
         notification={this.props.notification}
         chatOnline={this.props.chatOnline}
+        submitTicketAvailable={this.props.submitTicketAvailable}
+        chatAvailable={this.props.chatAvailable}
         getFrameDimensions={this.props.getFrameDimensions}
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
@@ -466,6 +476,8 @@ class HelpCenter extends Component {
       <HelpCenterMobile
         ref='helpCenterMobile'
         handleOnChangeValue={this.handleOnChangeValue}
+        submitTicketAvailable={this.props.submitTicketAvailable}
+        chatAvailable={this.props.chatAvailable}
         handleNextClick={this.handleNextClick}
         search={this.search}
         isLoading={this.props.searchLoading}
@@ -491,11 +503,20 @@ class HelpCenter extends Component {
 
   render = () => {
     let buttonLabel;
+    const { channelChoice, chatOnline, talkAvailable, callbackEnabled } = this.props;
 
-    if (this.props.channelChoice) {
+    if (channelChoice || (chatOnline && talkAvailable)) {
       buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
-    } else if (this.props.chatOnline) {
+    } else if (chatOnline) {
       buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
+    } else if (talkAvailable) {
+      buttonLabel = callbackEnabled
+                  ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback', {
+                    fallback: i18n.t('embeddable_framework.talk.form.title')
+                  })
+                  : i18n.t('embeddable_framework.helpCenter.submitButton.label.phone', {
+                    fallback: i18n.t('embeddable_framework.talk.phoneOnly.title', { fallback: 'Call us '})
+                  });
     } else {
       buttonLabel = i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`); // eslint-disable-line
     }

@@ -30,6 +30,8 @@ export class HelpCenterMobile extends Component {
     search: PropTypes.func.isRequired,
     searchFieldValue: PropTypes.string,
     showNextButton: PropTypes.bool,
+    submitTicketAvailable: PropTypes.bool,
+    chatAvailable: PropTypes.bool,
     channelChoice: PropTypes.bool,
     setChannelChoiceShown: PropTypes.func,
     talkAvailable: PropTypes.bool
@@ -46,6 +48,8 @@ export class HelpCenterMobile extends Component {
     isLoading: false,
     searchFieldValue: '',
     showNextButton: true,
+    submitTicketAvailable: true,
+    chatAvailable: false,
     channelChoice: false,
     setChannelChoiceShown: () => {},
     onNextClick: () => {},
@@ -124,6 +128,8 @@ export class HelpCenterMobile extends Component {
     return this.props.channelChoice
          ? <div className={styles.channelChoiceContainer}>
              <ChannelChoicePopupMobile
+               submitTicketAvailable={this.props.submitTicketAvailable}
+               chatAvailable={this.props.chatAvailable}
                talkAvailable={this.props.talkAvailable}
                chatOnline={this.props.chatOnline}
                onNextClick={this.props.onNextClick}

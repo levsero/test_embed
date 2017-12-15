@@ -63,7 +63,8 @@ describe('ChannelChoiceMenu component', () => {
       beforeEach(() => {
         component = domRender(
           <ChannelChoiceMenu
-            chatOnline={false} />
+            chatOnline={false}
+            chatAvailable={true} />
         );
 
         componentNode = ReactDOM.findDOMNode(component);
@@ -119,6 +120,70 @@ describe('ChannelChoiceMenu component', () => {
 
       it('returns null', () => {
         expect(component.renderTalkButton())
+          .toBeNull();
+      });
+    });
+  });
+
+  describe('renderChatButton', () => {
+    let component;
+
+    describe('when chat is available', () => {
+      beforeEach(() => {
+        component = domRender(
+          <ChannelChoiceMenu
+            chatAvailable={true} />
+        );
+      });
+
+      it('returns a component', () => {
+        expect(component.renderChatButton())
+          .not.toBeNull();
+      });
+    });
+
+    describe('when chat is not available', () => {
+      beforeEach(() => {
+        component = domRender(
+          <ChannelChoiceMenu
+            chatAvailable={false} />
+        );
+      });
+
+      it('returns null', () => {
+        expect(component.renderChatButton())
+          .toBeNull();
+      });
+    });
+  });
+
+  describe('renderSubmitTicketButton', () => {
+    let component;
+
+    describe('when submit ticket is available', () => {
+      beforeEach(() => {
+        component = domRender(
+          <ChannelChoiceMenu
+            submitTicketAvailable={true} />
+        );
+      });
+
+      it('returns a component', () => {
+        expect(component.renderSubmitTicketButton())
+          .not.toBeNull();
+      });
+    });
+
+    describe('when submit ticket is not available', () => {
+      beforeEach(() => {
+        component = domRender(
+          <ChannelChoiceMenu
+            submitTicketAvailable={false} />
+        );
+      });
+
+      it('returns null', () => {
+        expect(component.renderSubmitTicketButton())
           .toBeNull();
       });
     });

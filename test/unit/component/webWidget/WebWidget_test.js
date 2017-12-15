@@ -100,6 +100,12 @@ describe('WebWidget component', () => {
       },
       'src/redux/modules/chat/selectors': {
         getChatNotification: noop
+      },
+      'src/redux/modules/talk/talk-selectors': {
+        getTalkAvailable: noop
+      },
+      'service/settings': {
+        settings: { get: noop }
       }
     });
 
@@ -293,6 +299,29 @@ describe('WebWidget component', () => {
           expect(mockUpdateActiveEmbed)
             .toHaveBeenCalledWith('zopimChat');
         });
+      });
+    });
+
+    describe('when talk is available', () => {
+      beforeEach(() => {
+        webWidget = instanceRender(
+          <WebWidget
+            helpCenterAvailable={true}
+            talkAvailable={true}
+            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+            updateActiveEmbed={mockUpdateActiveEmbed} />
+        );
+        webWidget.onNextClick();
+      });
+
+      it('should call updateActiveEmbed with talk', () => {
+        expect(mockUpdateActiveEmbed)
+          .toHaveBeenCalledWith('talk');
+      });
+
+      it('should call updateBackButtonVisibility with true', () => {
+        expect(updateBackButtonVisibilitySpy)
+          .toHaveBeenCalledWith(true);
       });
     });
 
@@ -530,6 +559,7 @@ describe('WebWidget component', () => {
               activeEmbed='chat'
               helpCenterAvailable={false}
               channelChoice={true}
+              zopimOnline={true}
               updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
           );
           webWidget.onBackClick();
@@ -729,9 +759,28 @@ describe('WebWidget component', () => {
           webWidget.resetActiveEmbed();
         });
 
-        it('calls updateActiveEmbed with talk', () => {
+        it('calls updateActiveEmbed with channelChoice', () => {
           expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('talk');
+            .toHaveBeenCalledWith('channelChoice');
+        });
+
+        describe('when no other channels are available', () => {
+          beforeEach(() => {
+            webWidget = domRender(
+              <WebWidget
+                talkAvailable={true}
+                submitTicketAvailable={false}
+                updateActiveEmbed={updateActiveEmbedSpy}
+                activeEmbed='' />
+            );
+
+            webWidget.resetActiveEmbed();
+          });
+
+          it('calls updateActiveEmbed with talk', () => {
+            expect(updateActiveEmbedSpy)
+              .toHaveBeenCalledWith('talk');
+          });
         });
       });
     });

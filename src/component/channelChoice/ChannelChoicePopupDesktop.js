@@ -8,19 +8,25 @@ export class ChannelChoicePopupDesktop extends Component {
   static propTypes = {
     onNextClick: PropTypes.func.isRequired,
     chatOnline: PropTypes.bool.isRequired,
-    talkAvailable: PropTypes.bool
+    talkAvailable: PropTypes.bool,
+    submitTicketAvailable: PropTypes.bool,
+    chatAvailable: PropTypes.bool
   };
 
   static defaultProps = {
-    talkAvailable: false
+    talkAvailable: false,
+    submitTicketAvailable: true,
+    chatAvailable: false
   };
 
   render = () => {
-    const { chatOnline, onNextClick, talkAvailable } = this.props;
+    const { chatOnline, onNextClick, talkAvailable, submitTicketAvailable, chatAvailable } = this.props;
 
     return (
       <div className={styles.container}>
         <ChannelChoiceMenu
+          submitTicketAvailable={submitTicketAvailable}
+          chatAvailable={chatAvailable}
           onNextClick={onNextClick}
           talkAvailable={talkAvailable}
           chatOnline={chatOnline} />

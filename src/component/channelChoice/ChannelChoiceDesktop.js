@@ -15,12 +15,16 @@ export class ChannelChoiceDesktop extends Component {
     handleNextClick: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
     getFrameDimensions: PropTypes.func.isRequired,
-    talkAvailable: PropTypes.bool
+    talkAvailable: PropTypes.bool,
+    submitTicketAvailable: PropTypes.bool,
+    chatAvailable: PropTypes.bool
   };
 
   static defaultProps = {
     hideZendeskLogo: false,
-    talkAvailable: false
+    talkAvailable: false,
+    submitTicketAvailable: true,
+    chatAvailable: false
   };
 
   renderZendeskLogo = () => {
@@ -37,6 +41,8 @@ export class ChannelChoiceDesktop extends Component {
     return (
       <div className={containerStyle}>
         <ChannelChoiceMenu
+          submitTicketAvailable={this.props.submitTicketAvailable}
+          chatAvailable={this.props.chatAvailable}
           talkAvailable={talkAvailable}
           onNextClick={handleNextClick}
           chatOnline={chatOnline} />
