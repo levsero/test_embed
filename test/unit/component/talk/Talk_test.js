@@ -21,7 +21,7 @@ describe('Talk component', () => {
 
     const talkPath = buildSrcPath('component/talk/Talk');
 
-    libPhoneNumberFormatSpy = jasmine.createSpy('libphonenumber.format');
+    libPhoneNumberFormatSpy = jasmine.createSpy('libphonenumber.format').and.callFake((phoneObj) => phoneObj.phone);
     libPhoneNumberParseSpy = jasmine.createSpy('libphonenumber.parse').and.callFake((phone) => {
       return { country: 'AU', phone };
     });
@@ -437,6 +437,51 @@ describe('Talk component', () => {
       it('renders a message describing the subject ', () => {
         expect(result.props.children)
           .toContain('embeddable_framework.common.notify.error.generic');
+      });
+    });
+  });
+
+  describe('renderPhoneNumber', () => {
+    let result;
+    const mockEmbeddableConfig = {
+      phoneNumber: '+61405474139'
+    };
+
+    describe('when accessed from a mobile device', () => {
+      beforeEach(() => {
+        const talk = instanceRender(<Talk isMobile={true} embeddableConfig={mockEmbeddableConfig} />);
+
+        result = talk.renderPhoneNumber();
+      });
+
+      it('renders an anchor link', () => {
+        expect(result.type)
+          .toEqual('a');
+      });
+
+      it('has a href value of "tel:+61405474139"', () => {
+        const expected = `tel:${mockEmbeddableConfig.phoneNumber}`;
+
+        expect(result.props.href)
+          .toContain(expected);
+      });
+    });
+
+    describe('when accessed from a desktop environment', () => {
+      beforeEach(() => {
+        const talk = instanceRender(<Talk isMobile={false} embeddableConfig={mockEmbeddableConfig} />);
+
+        result = talk.renderPhoneNumber();
+      });
+
+      it('renders a span', () => {
+        expect(result.type)
+          .toEqual('span');
+      });
+
+      it('renders with a number inside the span', () => {
+        expect(result.props.children)
+          .toEqual(mockEmbeddableConfig.phoneNumber);
       });
     });
   });
