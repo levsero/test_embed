@@ -214,7 +214,6 @@ function create(name, config = {}, reduxStore = {}) {
         newDesign={!!config.zopimChat}
         fullscreen={isMobileBrowser()}
         helpCenterAvailable={helpCenterAvailable}
-        talkAvailable={talkAvailable}
         helpCenterConfig={helpCenterSettings.config}
         isOnHelpCenterPage={isOnHelpCenterPage()}
         hideZendeskLogo={globalConfig.hideZendeskLogo}

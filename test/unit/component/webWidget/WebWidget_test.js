@@ -101,6 +101,9 @@ describe('WebWidget component', () => {
       'src/redux/modules/chat/selectors': {
         getChatNotification: noop
       },
+      'src/redux/modules/talk/talk-selectors': {
+        getTalkAvailable: noop
+      },
       'service/settings': {
         settings: { get: noop }
       }

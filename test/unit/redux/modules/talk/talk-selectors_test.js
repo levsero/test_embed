@@ -7,13 +7,23 @@ describe('talk selectors', () => {
     getCallback,
     getAverageWaitTime,
     getInitialScreen,
-    isCallbackEnabled;
+    isCallbackEnabled,
+    mockGetTalkEmbedValue,
+    getTalkAvailable;
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
 
   beforeEach(() => {
     mockery.enable();
 
     const talkSelectorsPath = buildSrcPath('redux/modules/talk/talk-selectors');
+
+    mockGetTalkEmbedValue = true;
+
+    initMockRegistry({
+      'src/redux/modules/base/selectors': {
+        getTalkEmbed: () => mockGetTalkEmbedValue
+      }
+    });
 
     mockery.registerAllowable(talkSelectorsPath);
 
@@ -28,6 +38,7 @@ describe('talk selectors', () => {
     getAverageWaitTime = selectors.getAverageWaitTime;
     getInitialScreen = selectors.getInitialScreen;
     isCallbackEnabled = selectors.isCallbackEnabled;
+    getTalkAvailable = selectors.getTalkAvailable;
   });
 
   describe('getEmbeddableConfig', () => {
@@ -243,6 +254,72 @@ describe('talk selectors', () => {
       it('returns false', () => {
         expect(result)
           .toEqual(false);
+      });
+    });
+  });
+
+  describe('getTalkAvailable', () => {
+    const mockTalkState = {
+      talk: {
+        agentAvailability: true,
+        embeddableConfig: {
+          enabled: true
+        }
+      }
+    };
+
+    describe('when embeddableConfig.enabled, agentAvailability and talkEmbed is true', () => {
+      let result;
+
+      beforeEach(() => {
+        result = getTalkAvailable(mockTalkState);
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toBe(true);
+      });
+    });
+
+    describe('when embeddableConfig enabled is false', () => {
+      let result;
+
+      beforeEach(() => {
+        mockTalkState.talk.embeddableConfig.enabled = false;
+        result = getTalkAvailable(mockTalkState);
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBe(false);
+      });
+    });
+
+    describe('when agentAvailability is false', () => {
+      let result;
+
+      beforeEach(() => {
+        mockTalkState.talk.agentAvailability = false;
+        result = getTalkAvailable(mockTalkState);
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBe(false);
+      });
+    });
+
+    describe('when talkEmbed is false', () => {
+      let result;
+
+      beforeEach(() => {
+        mockGetTalkEmbedValue = false;
+        result = getTalkAvailable(mockTalkState);
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBe(false);
       });
     });
   });
