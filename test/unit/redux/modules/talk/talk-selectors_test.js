@@ -6,7 +6,8 @@ describe('talk selectors', () => {
     getScreen,
     getCallback,
     getAverageWaitTime,
-    getInitialScreen;
+    getInitialScreen,
+    isCallbackEnabled;
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
 
   beforeEach(() => {
@@ -26,6 +27,7 @@ describe('talk selectors', () => {
     getCallback = selectors.getCallback;
     getAverageWaitTime = selectors.getAverageWaitTime;
     getInitialScreen = selectors.getInitialScreen;
+    isCallbackEnabled = selectors.isCallbackEnabled;
   });
 
   describe('getEmbeddableConfig', () => {
@@ -187,6 +189,61 @@ describe('talk selectors', () => {
     it('returns the current correct screen for the current state of capability', () => {
       expect(result)
         .toBe('widget/talk/PHONE_ONLY_SCREEN');
+    });
+  });
+
+  describe('isCallbackEnabled', () => {
+    let result;
+
+    describe('when callback only capability is enabled', () => {
+      beforeEach(() => {
+        const mockTalkState = {
+          talk: {
+            embeddableConfig: { capability: 'widget/talk/CALLBACK_ONLY' }
+          }
+        };
+
+        result = isCallbackEnabled(mockTalkState);
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when phone and callback capability is enabled', () => {
+      beforeEach(() => {
+        const mockTalkState = {
+          talk: {
+            embeddableConfig: { capability: 'widget/talk/CALLBACK_AND_PHONE' }
+          }
+        };
+
+        result = isCallbackEnabled(mockTalkState);
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when phone only capability is enabled', () => {
+      beforeEach(() => {
+        const mockTalkState = {
+          talk: {
+            embeddableConfig: { capability: 'widget/talk/PHONE_ONLY' }
+          }
+        };
+
+        result = isCallbackEnabled(mockTalkState);
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
     });
   });
 });

@@ -59,6 +59,16 @@ parts:
       key: "embeddable_framework.launcher.label.chat"
       title: "Label for the launcher button when a chat agent is online so customers know they will be sent to a live chat session, if over 15 characters only the icon will display (tinyurl.com/mevpgux)"
       value: "Chat"
+  - translation:
+      key: "embeddable_framework.launcher.label.talk.request_callback"
+      title: "This string is the same as 'embeddable_framework.talk.form.title'"
+      screenshot: "https://zendesk.box.com/s/huu7lxolbcueabf3nx7ifo67ew0oxcqd"
+      value: "Request a callback"
+  - translation:
+      key: "embeddable_framework.launcher.label.talk.call_us"
+      title: "This string is the same as 'embeddable_framework.talk.phoneOnly.title'"
+      screenshot: "https://zendesk.box.com/s/8e4pkn837ahb0t47vnutkffv74cqs483"
+      value: "Call us"
 
   # Chat embed
   - translation:
