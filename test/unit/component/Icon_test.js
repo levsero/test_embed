@@ -35,6 +35,7 @@ describe('Icon component', function() {
       'icons/widget-icon_tick.svg': DummyIcon,
       'icons/widget-icon_zendesk.svg': DummyIcon,
       'zd-svg-icons/src/14-attachment.svg': DummyIcon,
+      'zd-svg-icons/src/14-error.svg': DummyIcon,
       'zd-svg-icons/src/26-file.svg': DummyIcon,
       'zd-svg-icons/src/26-file-pdf.svg': DummyIcon,
       'zd-svg-icons/src/26-file-presentation.svg': DummyIcon,

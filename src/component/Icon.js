@@ -20,6 +20,7 @@ const icons = {
   'Icon--close': require('icons/widget-icon_close.svg'),
   'Icon--ellipsis': require('icons/widget-icon_ellipsis.svg'),
   'Icon--endChat': require('icons/widget-icon_endChat.svg'),
+  'Icon--error': require('zd-svg-icons/src/14-error.svg'),
   'Icon--link': require('icons/widget-icon_link.svg'),
   'Icon--paperclip-large': require('zd-svg-icons/src/14-attachment.svg'),
   'Icon--paperclip-small': require('zd-svg-icons/src/14-attachment.svg'),

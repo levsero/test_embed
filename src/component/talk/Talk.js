@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 const libphonenumber = require('libphonenumber-js');
 
@@ -9,6 +10,7 @@ import { Form } from 'component/form/Form';
 import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
+import { errorCodes } from './talkErrorCodes';
 
 import {
   CALLBACK_ONLY_SCREEN,
@@ -33,7 +35,7 @@ const mapStateToProps = (state) => {
     agentAvailability: getAgentAvailability(state),
     formState: getFormState(state),
     screen: getScreen(state),
-    phoneNumber: getCallback(state).phoneNumber,
+    callback: getCallback(state),
     averageWaitTime: getAverageWaitTime(state)
   };
 };
@@ -43,7 +45,7 @@ class Talk extends Component {
     embeddableConfig: PropTypes.object.isRequired,
     formState: PropTypes.object.isRequired,
     screen: PropTypes.string.isRequired,
-    phoneNumber: PropTypes.string.isRequired,
+    callback: PropTypes.object.isRequired,
     averageWaitTime: PropTypes.string.isRequired,
     updateTalkCallbackForm: PropTypes.func.isRequired,
     submitTalkCallbackForm: PropTypes.func.isRequired,
@@ -58,7 +60,8 @@ class Talk extends Component {
     hideZendeskLogo: false,
     updateFrameSize: () => {},
     formState: { phone: '' },
-    embeddableConfig: { phoneNumber: '' }
+    embeddableConfig: { phoneNumber: '' },
+    callback: { error: {} }
   };
 
   constructor() {
@@ -135,6 +138,7 @@ class Talk extends Component {
           value={description}
           input={<textarea rows='3' />}
           name='description' />
+        {this.renderErrorNotification()}
       </Form>
     );
   }
@@ -170,7 +174,7 @@ class Talk extends Component {
   }
 
   renderSuccessNotificationScreen = () => {
-    const displayNumber = this.formatPhoneNumber(this.props.phoneNumber);
+    const displayNumber = this.formatPhoneNumber(this.props.callback.phoneNumber);
     const message = i18n.t('embeddable_framework.talk.notify.success.message', {
       fallback: `Thanks for submiting your request. We'll get back to you soon on ${displayNumber}`,
       displayNumber
@@ -232,6 +236,29 @@ class Talk extends Component {
     if (this.props.hideZendeskLogo) return;
 
     return <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />;
+  }
+
+  resolveErrorMessage(code) {
+    const fallback = { fallback: 'There was an error processing your request. Please try again later.' };
+
+    return _.includes(errorCodes, code)
+      ? i18n.t(`embeddable_framework.talk.notify.error.${code}`, fallback)
+      : i18n.t('embeddable_framework.common.notify.error.generic', fallback);
+  }
+
+  renderErrorNotification = () => {
+    const { error } = this.props.callback;
+
+    if (_.isEmpty(error)) return null;
+
+    const errorMsg = this.resolveErrorMessage(error.message);
+
+    return (
+      <div className={styles.error}>
+        <Icon type='Icon--error' className={styles.errorIcon} />
+        {errorMsg}
+      </div>
+    );
   }
 
   render = () => {

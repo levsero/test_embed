@@ -58,8 +58,12 @@
 }
 
 .error {
-  composes: u-marginTL from global;
+  composes: u-flex u-marginTL from global;
   composes: Error from '../../styles/components/Error.scss';
+}
+
+.errorIcon {
+  composes: ErrorIcon from '../../styles/components/Error.scss';
 }
 
 .loadingSpinner {
