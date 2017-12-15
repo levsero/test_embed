@@ -12,7 +12,7 @@ import { settings } from 'service/settings';
 import { getZopimChatEmbed,
          getHelpCenterEmbed,
          getTalkEmbed } from 'src/redux/modules/base/selectors';
-import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
+import { isCallbackEnabled, getAgentAvailability } from 'src/redux/modules/talk/talk-selectors';
 
 const mapStateToProps = (state) => {
   const chatStatus = getZopimChatEmbed(state) ? getZopimChatStatus(state) : getChatStatus(state);
@@ -21,7 +21,8 @@ const mapStateToProps = (state) => {
     chatStatus,
     helpCenterAvailable: getHelpCenterEmbed(state) && !settings.get('helpCenter.suppress'),
     talkAvailable: getTalkEmbed(state),
-    callbackEnabled: isCallbackEnabled(state)
+    callbackEnabled: isCallbackEnabled(state),
+    agentAvailability: getAgentAvailability(state)
   };
 };
 
@@ -31,6 +32,7 @@ class Launcher extends Component {
     helpCenterAvailable: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
+    agentAvailability: PropTypes.bool.isRequired,
     label: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func
@@ -55,6 +57,10 @@ class Launcher extends Component {
       unreadMessages,
       overrideChatSuppress: true
     });
+  }
+
+  talkAvailable = () => {
+    return this.props.talkAvailable && this.props.agentAvailability;
   }
 
   chatAvailable = () => {
@@ -85,7 +91,7 @@ class Launcher extends Component {
       return i18n.t(label);
     } else if (chatAvailable && !helpCenterAvailable) {
       return i18n.t('embeddable_framework.launcher.label.chat');
-    } else if (talkAvailable && !helpCenterAvailable) {
+    } else if (this.talkAvailable() && !helpCenterAvailable) {
       return talkLabel;
     }
 
@@ -93,7 +99,8 @@ class Launcher extends Component {
   }
 
   getIconType = () => {
-    let { chatStatus, talkAvailable } = this.props;
+    const { chatStatus } = this.props;
+    const talkAvailable = this.talkAvailable();
 
     if (chatStatus === 'online' && talkAvailable) return 'Icon';
     if (chatStatus === 'online') return 'Icon--chat';

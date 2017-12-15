@@ -15,6 +15,7 @@ import { updateActiveEmbed,
          updateAuthenticated } from 'src/redux/modules/base';
 import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
 import { getChatNotification } from 'src/redux/modules/chat/selectors';
+import { getAgentAvailability } from 'src/redux/modules/talk/talk-selectors';
 import { settings } from 'service/settings';
 
 const submitTicket = 'ticketSubmissionForm';
@@ -32,7 +33,8 @@ const mapStateToProps = (state) => {
     chatNotification: getChatNotification(state),
     activeEmbed: base.activeEmbed,
     zopimOnline: base.zopim,
-    authenticated: base.authenticated
+    authenticated: base.authenticated,
+    agentAvailability: getAgentAvailability(state)
   };
 };
 
@@ -82,6 +84,7 @@ class WebWidget extends Component {
     activeEmbed: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
+    agentAvailability: PropTypes.bool.isRequired,
     talkConfig: PropTypes.object
   };
 
@@ -160,14 +163,15 @@ class WebWidget extends Component {
   }
 
   isChannelChoiceAvailable = () => {
-    const { channelChoice, submitTicketAvailable, talkAvailable } = this.props;
+    const talkAvailable = this.isTalkAvailable();
+    const { channelChoice, submitTicketAvailable } = this.props;
     const channels = [talkAvailable, submitTicketAvailable, this.isChatOnline()];
     const channelsAvailable = _.filter(channels, _.identity);
 
     return (channelChoice || talkAvailable) && channelsAvailable.length > 1;
   };
 
-  isTalkAvailable = () => this.props.talkAvailable;
+  isTalkAvailable = () => this.props.talkAvailable && this.props.agentAvailability;
 
   isChatOnline = () => this.props.chat.account_status === 'online' || this.props.zopimOnline;
 
