@@ -26,6 +26,21 @@ parts:
       title: "A message displayed on a styled error element, its purpose is to show a generic error message"
       screenshot: "https://zendesk.box.com/s/3sshpz05wv1fv4fj6wwbmsgbpqqu4c7w"
       value: "There was an error processing your request. Please try again later."
+  - translation:
+      key: "embeddable_framework.common.textLabel.phone"
+      title: "The label for a generic phone number form field."
+      screenshot: "https://zendesk.box.com/s/9f55ahsc3iizdx5csa61hogh8q7h5kux"
+      value: "Phone Number"
+  - translation:
+      key: "embeddable_framework.common.textLabel.name"
+      title: "The label for a generic name form field."
+      screenshot: "https://zendesk.box.com/s/gvom4euerrdzmiwq0z8n2ma3vcoeh0rr"
+      value: "Name"
+  - translation:
+      key: "embeddable_framework.common.textLabel.description"
+      title: "The label for a generic description form field."
+      screenshot: "https://zendesk.box.com/s/ou2h0p2glttacdu1zwmflui05rkk57un"
+      value: "How can we help?"
 
   # Launcher embed
   - translation:
