@@ -3,7 +3,6 @@ describe('renderer', () => {
     mockRegistry,
     mockLauncher,
     mockChat,
-    mockAutomaticAnswers,
     mockWebWidget,
     mockUpdateEmbedAccessible,
     loadSoundSpy;
@@ -41,7 +40,6 @@ describe('renderer', () => {
 
     mockLauncher = embedMocker('mockLauncher');
     mockChat = embedMocker('mockChat');
-    mockAutomaticAnswers = embedMocker('mockAutomaticAnswers');
     mockWebWidget = embedMocker('mockWebWidget');
     loadSoundSpy = jasmine.createSpy('loadSound');
 
@@ -51,9 +49,6 @@ describe('renderer', () => {
       },
       'embed/chat/chat': {
         chat: mockChat
-      },
-      'embed/automaticAnswers/automaticAnswers': {
-        automaticAnswers: mockAutomaticAnswers
       },
       'embed/webWidget/webWidget': {
         webWidget: mockWebWidget
@@ -129,9 +124,6 @@ describe('renderer', () => {
               'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
               'position': 'br'
             }
-          },
-          'automaticAnswers': {
-            'embed': 'automaticAnswers'
           }
         }
       };
@@ -158,12 +150,6 @@ describe('renderer', () => {
         .toEqual(launcherProps.position);
 
       expect(mockMediator.init)
-        .toHaveBeenCalled();
-
-      expect(mockAutomaticAnswers.create)
-        .toHaveBeenCalled();
-
-      expect(mockAutomaticAnswers.render)
         .toHaveBeenCalled();
     });
 
@@ -260,32 +246,6 @@ describe('renderer', () => {
 
       expect(mockLauncher.render.calls.count())
         .toEqual(1);
-    });
-
-    describe('when answerBotStandalone is true', () => {
-      beforeEach(() => {
-        configJSON = {
-          answerBotStandalone: true,
-          embeds: {
-            'automaticAnswers': {
-              'embed': 'automaticAnswers'
-            }
-          }
-        };
-
-        mockAutomaticAnswers.create.calls.reset();
-        mockAutomaticAnswers.render.calls.reset();
-
-        renderer.init(configJSON);
-      });
-
-      it('does not initialize automatic answers', () => {
-        expect(mockAutomaticAnswers.create)
-          .not.toHaveBeenCalled();
-
-        expect(mockAutomaticAnswers.render)
-          .not.toHaveBeenCalled();
-      });
     });
 
     describe('zopimStandalone', () => {

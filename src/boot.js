@@ -163,18 +163,6 @@ const displayOssAttribution = () => {
 };
 
 const getConfig = (win, postRenderQueue) => {
-  if (win.zESkipWebWidget) {
-    renderer.init({
-      embeds: {
-        automaticAnswers: {
-          embed: 'automaticAnswers'
-        }
-      }
-    });
-    boot.handlePostRenderQueue(win, postRenderQueue);
-    return;
-  }
-
   const configLoadStart = Date.now();
   const done = (res) => {
     const config = res.body;
