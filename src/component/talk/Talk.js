@@ -52,6 +52,7 @@ class Talk extends Component {
     talkConfig: PropTypes.object.isRequired,
     zendeskSubdomain: PropTypes.string.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
+    isMobile: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
     updateFrameSize: PropTypes.func
   };
@@ -79,10 +80,19 @@ class Talk extends Component {
     this.props.updateTalkCallbackForm(formState);
   }
 
-  formatPhoneNumber = (phoneNumber) => {
+  formatPhoneNumber = (phoneNumber, format = 'International') => {
     const parsed = libphonenumber.parse(phoneNumber);
 
-    return libphonenumber.format(parsed, 'International');
+    return libphonenumber.format(parsed, format);
+  }
+
+  renderPhoneNumber = () => {
+    const { phoneNumber } = this.props.embeddableConfig;
+    const formattedPhoneNumber = this.formatPhoneNumber(phoneNumber);
+
+    return (this.props.isMobile)
+      ? <a className={styles.phoneLink} href={`tel:${phoneNumber}`} target='_blank'>{formattedPhoneNumber}</a>
+      : <span className={styles.phoneText}>{formattedPhoneNumber}</span>;
   }
 
   renderAverageWaitTime = () => {
@@ -145,12 +155,11 @@ class Talk extends Component {
 
   renderPhoneFormScreen = () => {
     const phoneLabel = i18n.t('embeddable_framework.talk.label.phoneDisplay', { fallback: 'Our phone number:' });
-    const phoneNumber = this.formatPhoneNumber(this.props.embeddableConfig.phoneNumber);
 
     return (
       <div>
         <div className={styles.phoneDisplayLabel}>
-          {`${phoneLabel} ${phoneNumber}`}
+          {phoneLabel} {this.renderPhoneNumber()}
         </div>
         {this.renderFormScreen()}
       </div>
@@ -162,13 +171,12 @@ class Talk extends Component {
       'embeddable_framework.talk.phoneOnly.message',
       { fallback: 'Call the phone number below to get in contact with us.' }
     );
-    const phoneNumber = this.formatPhoneNumber(this.props.embeddableConfig.phoneNumber);
 
     return (
       <div className={styles.phoneOnlyContainer}>
         <p className={styles.phoneOnlyMessage}>{message}</p>
         {this.renderAverageWaitTime()}
-        <div className={styles.phoneNumber}>{phoneNumber}</div>
+        <div className={styles.phoneNumber}>{this.renderPhoneNumber()}</div>
       </div>
     );
   }

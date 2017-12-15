@@ -427,7 +427,7 @@ class WebWidget extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         getFrameDimensions={this.props.getFrameDimensions}
         style={this.props.style}
-        fullscreen={this.props.fullscreen}
+        isMobile={this.props.fullscreen}
         updateFrameSize={this.props.updateFrameSize}
         talkConfig={this.props.talkConfig}
         zendeskSubdomain={this.props.zendeskSubdomain} />
