@@ -38,12 +38,13 @@ state[`${chat}.userClosed`] = false;
 state[`${chat}.chatEnded`] = false;
 state[`${talk}.isAccessible`] = false;
 state[`${talk}.isAvailable`] = false;
+state[`${talk}.enabled`] = false;
 state['.hideOnClose'] = false;
 state['.activatePending'] = false;
 
 const talkAvailable = () => {
   // TODO: Add suppressed condition here when implementing it
-  return state[`${talk}.isAccessible`] && state[`${talk}.isAccessible`];
+  return state[`${talk}.isAccessible`] && state[`${talk}.isAccessible`] && state[`${talk}.enabled`];
 };
 
 const helpCenterAvailable = () => {
@@ -187,7 +188,11 @@ function init(embedsAccessible, params = {}) {
     c.broadcast('webWidget.hide');
   });
 
-  c.intercept('talk.availability', (_, availability) => {
+  c.intercept('talk.enabled', (_, enabled) => {
+    state[`${talk}.enabled`] = enabled === 'true';
+  });
+
+  c.intercept('talk.agentAvailability', (_, availability) => {
     state[`${talk}.isAccessible`] = availability === 'true';
 
     if (!embedVisible(state)) {
