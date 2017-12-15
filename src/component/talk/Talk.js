@@ -104,7 +104,7 @@ class Talk extends Component {
     return (
       <div>
         <p className={styles.formHeaderMessage}>{headerMessage}</p>
-        <p>{this.renderAverageWaitTime()}</p>
+        {this.renderAverageWaitTime()}
       </div>
     );
   }
@@ -167,7 +167,7 @@ class Talk extends Component {
     return (
       <div className={styles.phoneOnlyContainer}>
         <p className={styles.phoneOnlyMessage}>{message}</p>
-        <p>{this.renderAverageWaitTime()}</p>
+        {this.renderAverageWaitTime()}
         <div className={styles.phoneNumber}>{phoneNumber}</div>
       </div>
     );
