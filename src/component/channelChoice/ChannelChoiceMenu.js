@@ -11,13 +11,17 @@ export class ChannelChoiceMenu extends Component {
     chatOnline: PropTypes.bool.isRequired,
     buttonClasses: PropTypes.string,
     labelClasses: PropTypes.string,
-    talkAvailable: PropTypes.bool
+    talkAvailable: PropTypes.bool,
+    submitTicketAvailable: PropTypes.bool,
+    chatAvailable: PropTypes.bool
   };
 
   static defaultProps = {
     buttonClasses: '',
     labelClasses: '',
-    talkAvailable: false
+    talkAvailable: false,
+    submitTicketAvailable: true,
+    chatAvailable: false
   };
 
   handleChatClick = () => {
@@ -49,29 +53,45 @@ export class ChannelChoiceMenu extends Component {
     );
   }
 
-  render = () => {
-    const { chatOnline, buttonClasses, labelClasses } = this.props;
+  renderSubmitTicketButton = () => {
+    if (!this.props.submitTicketAvailable) return null;
+
+    return (
+      <ButtonIcon
+        className={this.props.buttonClasses}
+        labelClassName={this.props.labelClasses}
+        onClick={this.handleNextClick('ticketSubmissionForm')}
+        label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
+        icon='Icon--channelChoice-contactForm' />
+    );
+  }
+
+  renderChatButton = () => {
+    if (!this.props.chatAvailable) return null;
+
+    const { chatOnline } = this.props;
     const chatBtnStyle = !chatOnline ? styles.chatBtnDisabled : '';
     const chatLabel = (chatOnline)
                     ? i18n.t('embeddable_framework.channelChoice.button.label.chat')
                     : i18n.t('embeddable_framework.channelChoice.button.label.chat_offline');
 
     return (
+      <ButtonIcon
+        actionable={chatOnline}
+        className={`${chatBtnStyle} ${this.props.buttonClasses}`}
+        labelClassName={this.props.labelClasses}
+        onClick={this.handleChatClick()}
+        label={chatLabel}
+        icon='Icon--chat' />
+    );
+  }
+
+  render = () => {
+    return (
       <div>
         {this.renderTalkButton()}
-        <ButtonIcon
-          actionable={chatOnline}
-          className={`${chatBtnStyle} ${buttonClasses}`}
-          labelClassName={labelClasses}
-          onClick={this.handleChatClick()}
-          label={chatLabel}
-          icon='Icon--chat' />
-        <ButtonIcon
-          className={buttonClasses}
-          labelClassName={labelClasses}
-          onClick={this.handleNextClick('ticketSubmissionForm')}
-          label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
-          icon='Icon--channelChoice-contactForm' />
+        {this.renderChatButton()}
+        {this.renderSubmitTicketButton()}
       </div>
     );
   }

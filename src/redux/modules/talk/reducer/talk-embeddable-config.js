@@ -12,7 +12,7 @@ const capabilityMap = {
 const initialState = {
   averageWaitTimeSetting: null,
   capability: CALLBACK_ONLY,
-  enabled: 'false',
+  enabled: false,
   groupName: '',
   keywords: '',
   phoneNumber: '',
@@ -24,7 +24,11 @@ const embeddableConfig = (state = initialState, action) => {
     case UPDATE_TALK_EMBEDDABLE_CONFIG:
       const { payload } = action;
 
-      return { ...payload, capability: capabilityMap[payload.capability] };
+      return {
+        ...payload,
+        capability: capabilityMap[payload.capability],
+        enabled: payload.enabled === 'true'
+      };
     default:
       return state;
   }

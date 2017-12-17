@@ -474,6 +474,16 @@ parts:
       screenshot: "https://zendesk.box.com/s/yt5paokjfmnyhe78d1eaircqdgmrhs1q"
       value: "Contact us"
   - translation:
+      key: "embeddable_framework.helpCenter.submitButton.label.callback"
+      title: "Alternative label on the button in help center when only request a callback is available. Same text as `embeddable_framework.talk.form.title`"
+      screenshot: "https://zendesk.box.com/s/hdcx1sy5uvp1fioitgl5hhx10os9btwd"
+      value: "Request a callback"
+  - translation:
+      key: "embeddable_framework.helpCenter.submitButton.label.phone"
+      title: "Alternative label on the button in help center when only call us is avalable. Same text as `embeddable_framework.talk.phoneOnly.title`"
+      screenshot: "https://zendesk.box.com/s/esgv3lmib8wytp5bzpl72jpbddx51t9y"
+      value: "Call us"
+  - translation:
       key: "embeddable_framework.helpCenter.label.default"
       title: "The title for the help center widget when it is loaded and the user hasn't searched anything yet. Top articles will appear in a list below it. Will wrap if needed"
       value: "Common questions"

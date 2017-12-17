@@ -52,6 +52,15 @@
   font-size: #{20/$font-size}rem;
 }
 
+.phoneLink {
+  composes: u-userTextColor from global;
+  text-decoration: underline;
+}
+
+.phoneText {
+  composes: u-userTextColor from global;
+}
+
 .error {
   composes: u-flex u-marginBM from global;
   composes: Error from '../../styles/components/Error.scss';

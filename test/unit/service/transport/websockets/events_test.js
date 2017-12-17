@@ -27,6 +27,9 @@ describe('events', () => {
 
     initMockRegistry({
       'lodash': _,
+      'service/mediator': {
+        mediator: { channel: { broadcast: noop } }
+      },
       'src/redux/modules/talk/talk-action-types': actionTypes,
       'src/redux/modules/talk': {
         updateTalkEmbeddableConfig: updateTalkEmbeddableConfigSpy,

@@ -81,6 +81,7 @@ describe('HelpCenter component', () => {
       },
       'src/redux/modules/helpCenter': {},
       'src/redux/modules/helpCenter/selectors': {},
+      'src/redux/modules/talk/talk-selectors': {},
       'service/i18n': {
         i18n: {
           init: jasmine.createSpy(),
@@ -136,6 +137,34 @@ describe('HelpCenter component', () => {
         it('uses the chat label for the button', () => {
           expect(mockRegistry['service/i18n'].i18n.t)
             .toHaveBeenCalledWith('embeddable_framework.helpCenter.submitButton.label.chat');
+        });
+      });
+
+      describe('when talk is available', () => {
+        describe('when callback is enabled', () => {
+          beforeEach(() => {
+            instanceRender(
+              <HelpCenter talkAvailable={true} callbackEnabled={true} />
+            );
+          });
+
+          it('uses the callback label for the button', () => {
+            expect(mockRegistry['service/i18n'].i18n.t.calls.mostRecent().args[0])
+              .toEqual('embeddable_framework.helpCenter.submitButton.label.callback');
+          });
+        });
+
+        describe('when callback is not enabled', () => {
+          beforeEach(() => {
+            instanceRender(
+              <HelpCenter talkAvailable={true} callbackEnabled={false} />
+            );
+          });
+
+          it('uses the phone label for the button', () => {
+            expect(mockRegistry['service/i18n'].i18n.t.calls.mostRecent().args[0])
+              .toEqual('embeddable_framework.helpCenter.submitButton.label.phone');
+          });
         });
       });
 
@@ -1100,71 +1129,35 @@ describe('HelpCenter component', () => {
       onNextClickSpy = jasmine.createSpy('onNextClick');
     });
 
-    describe('when chat is online', () => {
-      describe('when props.channelChoice is true', () => {
-        beforeEach(() => {
-          helpCenter = domRender(<HelpCenter chatOnline={true} channelChoice={true} />);
+    describe('when props.channelChoice is true', () => {
+      beforeEach(() => {
+        helpCenter = domRender(<HelpCenter chatOnline={true} channelChoice={true} />);
 
-          spyOn(helpCenter, 'setChannelChoiceShown');
-          helpCenter.handleNextClick({ preventDefault: noop });
-          jasmine.clock().tick(0);
-        });
-
-        it('should call setChannelChoiceShown on the next tick', () => {
-          expect(helpCenter.setChannelChoiceShown)
-            .toHaveBeenCalledWith(true);
-        });
+        spyOn(helpCenter, 'setChannelChoiceShown');
+        helpCenter.handleNextClick({ preventDefault: noop });
+        jasmine.clock().tick(0);
       });
 
-      describe('when props.channelChoice is false', () => {
-        beforeEach(() => {
-          helpCenter = domRender(
-            <HelpCenter
-              chatOnline={true}
-              channelChoice={false}
-              onNextClick={onNextClickSpy} />
-          );
-          helpCenter.handleNextClick({ preventDefault: noop });
-        });
-
-        it('should call props.onNextClick', () => {
-          expect(onNextClickSpy)
-            .toHaveBeenCalled();
-        });
+      it('should call setChannelChoiceShown on the next tick', () => {
+        expect(helpCenter.setChannelChoiceShown)
+          .toHaveBeenCalledWith(true);
       });
     });
 
-    describe('when chat is offline', () => {
-      describe('when props.channelChoice is true', () => {
-        beforeEach(() => {
-          helpCenter = domRender(
-            <HelpCenter
-              channelChoice={true}
-              onNextClick={onNextClickSpy} />
-          );
-          helpCenter.handleNextClick({ preventDefault: noop });
-        });
-
-        it('should call props.onNextClick', () => {
-          expect(onNextClickSpy)
-            .toHaveBeenCalled();
-        });
+    describe('when props.channelChoice is false', () => {
+      beforeEach(() => {
+        helpCenter = domRender(
+          <HelpCenter
+            chatOnline={true}
+            channelChoice={false}
+            onNextClick={onNextClickSpy} />
+        );
+        helpCenter.handleNextClick({ preventDefault: noop });
       });
 
-      describe('when props.channelChoice is false', () => {
-        beforeEach(() => {
-          helpCenter = domRender(
-            <HelpCenter
-              channelChoice={false}
-              onNextClick={onNextClickSpy} />
-          );
-          helpCenter.handleNextClick({ preventDefault: noop });
-        });
-
-        it('should call props.onNextClick', () => {
-          expect(onNextClickSpy)
-            .toHaveBeenCalled();
-        });
+      it('should call props.onNextClick', () => {
+        expect(onNextClickSpy)
+          .toHaveBeenCalled();
       });
     });
   });

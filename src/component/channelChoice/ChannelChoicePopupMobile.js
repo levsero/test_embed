@@ -15,13 +15,17 @@ export class ChannelChoicePopupMobile extends Component {
     chatOnline: PropTypes.bool.isRequired,
     showCancelButton: PropTypes.bool,
     className: PropTypes.string,
-    talkAvailable: PropTypes.bool
+    talkAvailable: PropTypes.bool,
+    submitTicketAvailable: PropTypes.bool,
+    chatAvailable: PropTypes.bool
   };
 
   static defaultProps = {
     showCancelButton: true,
     className: '',
-    talkAvailable: false
+    talkAvailable: false,
+    submitTicketAvailable: true,
+    chatAvailable: false
   };
 
   handleContainerClick = (e) => e.stopPropagation();
@@ -50,6 +54,8 @@ export class ChannelChoicePopupMobile extends Component {
       <div onClick={this.handleContainerClick}>
         <div className={`${styles.inner} ${className}`}>
           <ChannelChoiceMenu
+            submitTicketAvailable={this.props.submitTicketAvailable}
+            chatAvailable={this.props.chatAvailable}
             onNextClick={onNextClick}
             chatOnline={chatOnline}
             talkAvailable={talkAvailable}

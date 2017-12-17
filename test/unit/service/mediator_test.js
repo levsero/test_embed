@@ -2119,4 +2119,50 @@ describe('mediator', () => {
         .toHaveBeenCalledWith('api', 'activate');
     });
   });
+
+  /* ****************************************** *
+  *                     TALK                    *
+  * ****************************************** */
+
+  describe('talk.availability', () => {
+    const launcher = 'launcher';
+    const talk = 'talk';
+    const names = {
+      launcher,
+      talk
+    };
+
+    beforeEach(() => {
+      initSubscriptionSpies(names);
+      jasmine.clock().install();
+
+      mediator.init({ submitTicket: false, helpCenter: false, talk: true });
+    });
+
+    describe('talk.agentAvailability', () => {
+      describe('when talk status is true', () => {
+        beforeEach(() => {
+          c.broadcast('talk.enabled', 'true');
+          c.broadcast('talk.agentAvailability', 'true');
+        });
+
+        it('shows launcher', () => {
+          expect(launcherSub.show)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when talk status is false', () => {
+        beforeEach(() => {
+          c.broadcast('talk.enabled', 'true');
+          c.broadcast('talk.agentAvailability', 'false');
+        });
+
+        it('does not show launcher', () => {
+          expect(launcherSub.show)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+  });
 });

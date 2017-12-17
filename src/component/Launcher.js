@@ -10,9 +10,8 @@ import { getChatStatus } from 'src/redux/modules/chat/selectors';
 import { getZopimChatStatus } from 'src/redux/modules/zopimChat/selectors';
 import { settings } from 'service/settings';
 import { getZopimChatEmbed,
-         getHelpCenterEmbed,
-         getTalkEmbed } from 'src/redux/modules/base/selectors';
-import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
+         getHelpCenterEmbed } from 'src/redux/modules/base/selectors';
+import { isCallbackEnabled, getTalkAvailable } from 'src/redux/modules/talk/talk-selectors';
 
 const mapStateToProps = (state) => {
   const chatStatus = getZopimChatEmbed(state) ? getZopimChatStatus(state) : getChatStatus(state);
@@ -20,7 +19,7 @@ const mapStateToProps = (state) => {
   return {
     chatStatus,
     helpCenterAvailable: getHelpCenterEmbed(state) && !settings.get('helpCenter.suppress'),
-    talkAvailable: getTalkEmbed(state),
+    talkAvailable: getTalkAvailable(state),
     callbackEnabled: isCallbackEnabled(state)
   };
 };
@@ -31,6 +30,7 @@ class Launcher extends Component {
     helpCenterAvailable: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
+    agentAvailability: PropTypes.bool.isRequired,
     label: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func
@@ -93,7 +93,7 @@ class Launcher extends Component {
   }
 
   getIconType = () => {
-    let { chatStatus, talkAvailable } = this.props;
+    const { chatStatus, talkAvailable } = this.props;
 
     if (chatStatus === 'online' && talkAvailable) return 'Icon';
     if (chatStatus === 'online') return 'Icon--chat';

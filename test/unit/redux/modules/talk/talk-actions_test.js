@@ -24,6 +24,9 @@ describe('talk redux actions', () => {
         settings: {
           get: () => mockSettings
         }
+      },
+      'src/redux/modules/base/selectors': {
+        updateTalkCallbackForm: noop
       }
     });
 
