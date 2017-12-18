@@ -39,6 +39,7 @@ state[`${chat}.chatEnded`] = false;
 state[`${talk}.isAccessible`] = false;
 state[`${talk}.isAvailable`] = false;
 state[`${talk}.enabled`] = false;
+state[`${talk}.isVisible`] = false;
 state['.hideOnClose'] = false;
 state['.activatePending'] = false;
 
@@ -81,7 +82,8 @@ const getHideAnimation = _.memoize(
 const embedVisible = (_state) => _.some([
   _state[`${helpCenter}.isVisible`],
   _state[`${chat}.isVisible`],
-  _state[`${submitTicket}.isVisible`]
+  _state[`${submitTicket}.isVisible`],
+  _state[`${talk}.isVisible`]
 ]);
 
 const resetActiveEmbed = () => {
