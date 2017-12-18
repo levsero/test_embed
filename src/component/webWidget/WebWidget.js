@@ -222,10 +222,11 @@ class WebWidget extends Component {
       return;
     }
 
-    // If zopim has gone offline we will need to reset the embed
+    // If zopim or talk has gone offline we will need to reset the embed
     const chatOffline = _.includes([zopimChat, channelChoice], activeEmbed) && !chatOnline;
+    const talkOffline = _.includes([talk, channelChoice], activeEmbed) && !this.props.talkAvailable;
 
-    if (this.noActiveEmbed() || viaActivate || chatOffline) this.resetActiveEmbed();
+    if (this.noActiveEmbed() || viaActivate || chatOffline || talkOffline) this.resetActiveEmbed();
   }
 
   showHelpCenter = () => {
