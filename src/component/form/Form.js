@@ -44,6 +44,10 @@ export class Form extends Component {
     return this.form.checkValidity() && !_.isEmpty(this.props.formState);
   }
 
+  validate() {
+    this.setState({ valid: this.isFormValid() });
+  }
+
   handleFormSubmit = (e) => {
     e.preventDefault();
 
@@ -55,8 +59,7 @@ export class Form extends Component {
     const fieldState = { [name]: value };
     const formState = { ...this.props.formState, ...fieldState };
 
-    this.setState({ valid: this.isFormValid() });
-
+    this.validate();
     this.props.onChange(formState);
   }
 
