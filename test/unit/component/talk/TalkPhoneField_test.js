@@ -137,6 +137,22 @@ describe('Render phone field', () => {
       expect(phoneField.state.hover).toEqual(false);
     });
 
+    it('does not remove focus when menu is open', () => {
+      phoneField.menuOpen = true;
+      phoneField.setState({ focus: true, hover: true });
+      phoneField.handleBlur();
+      expect(phoneField.state.focus).toEqual(true);
+      expect(phoneField.state.hover).toEqual(true);
+    });
+
+    it('sets menuOpen to value from handleMenuChange', () => {
+      expect(phoneField.menuOpen).toEqual(false);
+      phoneField.handleMenuChange(true);
+      expect(phoneField.menuOpen).toEqual(true);
+      phoneField.handleMenuChange(false);
+      expect(phoneField.menuOpen).toEqual(false);
+    });
+
     it('sets state on mouse enter', () => {
       phoneField.handleMouseEnter();
       expect(phoneField.state.hover).toEqual(true);
