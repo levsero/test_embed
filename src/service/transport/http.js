@@ -157,30 +157,6 @@ function getZendeskSubdomain() {
   return config.zendeskHost.split('.')[0];
 }
 
-function automaticAnswersApiRequest(payload, formData = {}) {
-  if (!config.zendeskHost) {
-    throw 'Missing zendeskHost config param.';
-  }
-
-  superagent(payload.method.toUpperCase(), buildFullUrl(payload.path))
-    // superAgent sets type('json') by default, which breaks CORS.
-    // setting 'form-data' results in 'Content-type: www-url-form-encoded' to prevent a preflight OPTIONS request.
-    .query(payload.queryParams)
-    .type('form-data')
-    .send(formData)
-    .end((err, res) => {
-      if (err) {
-        if (_.isFunction(payload.callbacks.fail)) {
-          payload.callbacks.fail(err, res);
-        }
-      } else {
-        if (_.isFunction(payload.callbacks.done)) {
-          payload.callbacks.done(res);
-        }
-      }
-    });
-}
-
 function callMeRequest(talkServiceUrl, payload) {
   superagent('POST', `${talkServiceUrl}/talk_embeddables_service/callback_request`)
     .send(payload.params)
@@ -206,6 +182,5 @@ export const http = {
   get: send,
   getZendeskHost: getZendeskHost,
   getZendeskSubdomain,
-  automaticAnswersApiRequest: automaticAnswersApiRequest,
   callMeRequest
 };
