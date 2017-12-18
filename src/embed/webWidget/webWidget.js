@@ -23,7 +23,6 @@ import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedTimeoutCall,
          getPageKeywords } from 'utility/utils';
-import { updateZopimOnline } from 'src/redux/modules/base';
 import { setVisitorInfo } from 'src/redux/modules/chat';
 import { resetTalkScreen } from 'src/redux/modules/talk';
 
@@ -314,12 +313,6 @@ function setupMediator() {
 
   mediator.channel.subscribe('webWidget.hide', (options = {}) => {
     hide(options);
-  });
-
-  mediator.channel.subscribe('webWidget.setZopimOnline', (online) => {
-    waitForRootComponent(() => {
-      embed.store.dispatch(updateZopimOnline(online));
-    });
   });
 
   mediator.channel.subscribe('webWidget.zopimChatEnded', () => {
