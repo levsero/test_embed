@@ -33,7 +33,9 @@ export class Field extends Component {
     required: PropTypes.bool,
     step: PropTypes.string,
     type: PropTypes.string,
-    validateInput: PropTypes.func
+    validateInput: PropTypes.func,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func
   };
 
   static defaultProps = {
@@ -54,7 +56,9 @@ export class Field extends Component {
     step: '',
     type: '',
     value: '',
-    validateInput: () => true
+    validateInput: () => true,
+    onMouseEnter: () => {},
+    onMouseLeave: () => {}
   };
 
   constructor(props, context) {
@@ -74,9 +78,7 @@ export class Field extends Component {
   onFocus = (e) => {
     this.setState({ focused: true });
 
-    if (this.props.onFocus) {
-      this.props.onFocus(e);
-    }
+    this.props.onFocus(e);
   }
 
   onBlur = (e) => {
@@ -89,9 +91,15 @@ export class Field extends Component {
       dirty: !this.state.value
     });
 
-    if (this.props.onBlur) {
-      this.props.onBlur(e);
-    }
+    this.props.onBlur(e);
+  }
+
+  onMouseEnter = (e) => {
+    this.props.onMouseEnter(e);
+  }
+
+  onMouseLeave = (e) => {
+    this.props.onMouseLeave(e);
   }
 
   onChange = (e) => {
@@ -198,7 +206,10 @@ export class Field extends Component {
     const showRequiredLabel = this.props.required && !_.isEmpty(this.props.label);
 
     return (
-      <div className={`${styles.container} ${this.props.fieldContainerClasses}`}>
+      <div
+        onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.onMouseLeave}
+        className={`${styles.container} ${this.props.fieldContainerClasses}`}>
         <label className={styles.labelContainer}>
           <div className={fieldLabelClasses}>
             {this.props.label}

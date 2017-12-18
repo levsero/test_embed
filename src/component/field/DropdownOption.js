@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import { locals as styles } from './DropdownOption.sass';
 import { i18n } from 'service/i18n';
@@ -11,7 +12,8 @@ export class DropdownOption extends Component {
     name: PropTypes.string,
     nestedMenu: PropTypes.object,
     onClick: PropTypes.func,
-    updateMenu: PropTypes.func
+    updateMenu: PropTypes.func,
+    nameFormat: PropTypes.func
   }
 
   static defaultProps = {
@@ -20,7 +22,8 @@ export class DropdownOption extends Component {
     nestedMenu: null,
     name: '',
     onClick: () => {},
-    updateScreen: () => {}
+    updateScreen: () => {},
+    nameFormat: _.identity
   }
 
   constructor (props) {
@@ -75,6 +78,12 @@ export class DropdownOption extends Component {
     );
   }
 
+  renderName = () => {
+    const { nameFormat, name } = this.props;
+
+    return nameFormat(name);
+  }
+
   render = () => {
     const focusedClasses = this.state.focused ? styles.fieldFocused : '';
     const borderClasses = this.props.backButton ? styles.fieldBorder : '';
@@ -88,7 +97,7 @@ export class DropdownOption extends Component {
         <div className={`${styles.field} ${focusedClasses}`}>
           {this.renderBackArrow()}
           <div className={styles.name}>
-            {this.props.name}
+            {this.renderName()}
           </div>
           {this.renderNextArrow()}
         </div>

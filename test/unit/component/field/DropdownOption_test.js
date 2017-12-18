@@ -19,7 +19,8 @@ describe('dropdownOption component', () => {
           arrowRight: 'arrowRightClasses',
           arrowMobile: 'arrowMobileClasses',
           fieldBorder: 'fieldBorderClasses',
-          fieldFocused: 'fieldFocusedClasses'
+          fieldFocused: 'fieldFocusedClasses',
+          name: 'nameClasses'
         }
       },
       'service/i18n': {
@@ -264,6 +265,15 @@ describe('dropdownOption component', () => {
         expect(ReactDOM.findDOMNode(option).className)
           .not.toContain('fieldBorderClasses');
       });
+    });
+  });
+
+  describe('nameFormat', () => {
+    it('allows custom formats for names', () => {
+      const option = domRender(<DropdownOption name='testing' nameFormat={(name) => { return name +'blah'; }} />);
+
+      expect(ReactDOM.findDOMNode(option).querySelector('.nameClasses').innerHTML)
+        .toEqual('testingblah');
     });
   });
 });
