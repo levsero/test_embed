@@ -26,7 +26,6 @@ describe('events', () => {
     resetTalkScreenSpy = actionSpy('resetTalkScreen', 'RESET_SCREEN');
 
     initMockRegistry({
-      'lodash': _,
       'service/mediator': {
         mediator: { channel: { broadcast: noop } }
       },
@@ -66,11 +65,11 @@ describe('events', () => {
 
       beforeEach(() => {
         mockConfig = {
-          agentAvailability: 'false',
+          agentAvailability: false,
           averageWaitTime: '1',
           averageWaitTimeSetting: 'exact',
           capability: '0',
-          enabled: 'false',
+          enabled: false,
           groupName: '',
           keywords: '',
           phoneNumber: ''
@@ -90,7 +89,7 @@ describe('events', () => {
 
       it('dispatches an updateTalkAgentAvailability action', () => {
         expect(updateTalkAgentAvailabilitySpy)
-          .toHaveBeenCalledWith('false');
+          .toHaveBeenCalledWith(false);
 
         expect(mockReduxStore.dispatch.calls.argsFor(1)[0].type)
           .toBe(actionTypes.UPDATE_TALK_AGENT_AVAILABILITY);
@@ -107,7 +106,6 @@ describe('events', () => {
       it('dispatches the resetTalkScreen action', () => {
         expect(resetTalkScreenSpy)
           .toHaveBeenCalled();
-
         expect(mockReduxStore.dispatch.calls.argsFor(3)[0].type)
           .toBe('RESET_SCREEN');
       });
@@ -130,7 +128,7 @@ describe('events', () => {
 
       describe('when agentAvailability is defined', () => {
         beforeEach(() => {
-          mockAgentAvailability = { agentAvailability: 'true' };
+          mockAgentAvailability = { agentAvailability: true };
 
           callback = mockSocket.on.calls.mostRecent().args[1];
           callback(mockAgentAvailability);
@@ -138,7 +136,7 @@ describe('events', () => {
 
         it('dispatches an agent availability action', () => {
           expect(updateTalkAgentAvailabilitySpy)
-            .toHaveBeenCalledWith('true');
+            .toHaveBeenCalledWith(true);
 
           expect(mockReduxStore.dispatch.calls.mostRecent().args[0].type)
             .toBe(actionTypes.UPDATE_TALK_AGENT_AVAILABILITY);
@@ -153,12 +151,20 @@ describe('events', () => {
           callback(mockAgentAvailability);
         });
 
-        it('does not dispatch an agent availability action', () => {
+        it('does dispatch an agent availability action', () => {
           expect(updateTalkAgentAvailabilitySpy)
-            .not.toHaveBeenCalled();
+            .toHaveBeenCalled();
 
           expect(mockReduxStore.dispatch)
-            .not.toHaveBeenCalled();
+            .toHaveBeenCalled();
+        });
+
+        it('dispatches an agent availability action', () => {
+          expect(updateTalkAgentAvailabilitySpy)
+            .toHaveBeenCalledWith(undefined);
+
+          expect(mockReduxStore.dispatch.calls.mostRecent().args[0].type)
+            .toBe(actionTypes.UPDATE_TALK_AGENT_AVAILABILITY);
         });
       });
     });

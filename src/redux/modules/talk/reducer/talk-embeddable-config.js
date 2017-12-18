@@ -33,7 +33,7 @@ const embeddableConfig = (state = initialState, action) => {
         ...payload,
         supportedCountries: _.pull(supportedCountries, '', null),
         capability: capabilityMap[payload.capability],
-        enabled: payload.enabled === 'true'
+        enabled: payload.enabled === true
       };
     default:
       return state;

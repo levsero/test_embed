@@ -58,7 +58,7 @@ describe('talk redux actions', () => {
         agentAvailability: false,
         averageWaitTime: '2',
         capability: '0',
-        enabled: 'false',
+        enabled: false,
         groupName: '',
         keywords: '',
         phoneNumber: ''
@@ -77,7 +77,7 @@ describe('talk redux actions', () => {
       expect(action.payload)
         .toEqual({
           capability: '0',
-          enabled: 'false',
+          enabled: false,
           groupName: '',
           keywords: '',
           phoneNumber: ''
