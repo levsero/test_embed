@@ -674,6 +674,44 @@ describe('WebWidget component', () => {
             .toHaveBeenCalled();
         });
       });
+
+      describe('when the activeEmbed is talk and talkAvailable is false', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              submitTicketAvailable={true}
+              updateActiveEmbed={noop}
+              talkAvailable={false}
+              activeEmbed='talk' />
+          );
+
+          webWidget.show();
+        });
+
+        it('calls resetActiveEmbed', () => {
+          expect(webWidget.resetActiveEmbed)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when the activeEmbed is channelChoice and talkAvailable is false', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              submitTicketAvailable={true}
+              updateActiveEmbed={noop}
+              talkAvailable={false}
+              activeEmbed='channelChoice' />
+          );
+
+          webWidget.show();
+        });
+
+        it('calls resetActiveEmbed', () => {
+          expect(webWidget.resetActiveEmbed)
+            .toHaveBeenCalled();
+        });
+      });
     });
 
     describe('when there is not an active embed', () => {
