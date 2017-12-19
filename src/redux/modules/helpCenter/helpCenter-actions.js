@@ -34,6 +34,9 @@ const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
 
 export function performImageSearch(path, done) {
   http.getImage(constructHelpCenterPayload(path, null, done));
+
+  // Temporary to stop middleware from breaking until we properly implement images
+  return({ type: '' });
 }
 
 export function performSearch(query, done = () => {}, fail = () => {}) {
