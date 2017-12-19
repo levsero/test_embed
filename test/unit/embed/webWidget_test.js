@@ -1158,25 +1158,31 @@ describe('embed.webWidget', () => {
           embed.submitTicketSettings.loadTicketFields = jasmine.createSpy('loadTicketFields');
           spyOn(embed.instance, 'updateFrameLocale');
           spyOn(embed.instance.getChild(), 'forceUpdate');
+          spyOn(embed.instance.getRootComponent(), 'forceUpdate');
           pluckSubscribeCall(mockMediator, 'webWidget.refreshLocale')();
         });
 
-        it('should call loadTicketForms', () => {
+        it('callsloadTicketForms', () => {
           expect(embed.submitTicketSettings.loadTicketForms)
             .toHaveBeenCalledWith(ticketForms, 'fr');
         });
 
-        it('should call updateFrameLocale', () => {
+        it('calls updateFrameLocale', () => {
           expect(embed.instance.updateFrameLocale)
             .toHaveBeenCalled();
         });
 
-        it('should call forceUpdate on the child', () => {
+        it('calls forceUpdate on the child', () => {
           expect(embed.instance.getChild().forceUpdate)
             .toHaveBeenCalled();
         });
 
-        it('should not call loadTicketFields', () => {
+        it('calls forceUpdate on the rootComponent', () => {
+          expect(embed.instance.getRootComponent().forceUpdate)
+            .toHaveBeenCalled();
+        });
+
+        it('does not call loadTicketFields', () => {
           expect(embed.submitTicketSettings.loadTicketFields)
             .not.toHaveBeenCalled();
         });

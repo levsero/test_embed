@@ -347,6 +347,7 @@ function setupMediator() {
 
       embed.instance.updateFrameLocale();
       getWebWidgetComponent().forceUpdate();
+      getRootComponent().forceUpdate();
 
       if (!_.isEmpty(ticketForms)) {
         loadTicketForms(ticketForms, i18n.getLocale());
