@@ -84,7 +84,6 @@ class WebWidget extends Component {
     activeEmbed: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
-    agentAvailability: PropTypes.bool.isRequired,
     talkConfig: PropTypes.object
   };
 
