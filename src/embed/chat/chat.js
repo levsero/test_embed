@@ -7,6 +7,7 @@ import { document, win,
          getDocumentHost } from 'utility/globals';
 import { cappedTimeoutCall } from 'utility/utils';
 import { updateZopimChatStatus } from 'src/redux/modules/zopimChat';
+import { updateSettingsChatSuppress, resetSettingsChatSuppress } from 'src/redux/modules/settings';
 
 let chats = {};
 const styleTag = document.createElement('style');
@@ -162,8 +163,12 @@ function init(name) {
   const onUnreadMsgs = (unreadMessageCount) => {
     mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount);
   };
+  const onChatStart = () => {
+    get(name).store.dispatch(updateSettingsChatSuppress(false));
+  };
   const onChatEnd = () => {
     mediator.channel.broadcast(`${name}.onChatEnd`);
+    get(name).store.dispatch(resetSettingsChatSuppress());
   };
   const onHide = () => {
     mediator.channel.broadcast(`${name}.onHide`);
@@ -194,6 +199,7 @@ function init(name) {
     zopimLive.setOnConnected(onConnected);
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
+    zopimLive.setOnChatStart(onChatStart);
     zopimLive.setOnChatEnd(onChatEnd);
 
     // TODO remove when zopim has release mobile notifications
