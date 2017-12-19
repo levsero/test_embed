@@ -1,0 +1,118 @@
+@import '../../styles/_vars.scss';
+
+.dropdown {
+  composes: u-inlineBlock from global;
+  width: 20%;
+
+  [type="Icon--chevron"] {
+    right: #{1/$font-size}rem;
+    margin-right: #{1/$font-size}rem;
+    padding-left: 0;
+  }
+}
+
+.dropdownContainer {
+  margin-bottom: 0 !important;
+}
+
+.menuContainer {
+  width: #{200/$font-size}rem !important;
+}
+
+.dropdownInput {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none;
+  padding-top: #{8.5/$font-size}rem !important;
+  padding-bottom: #{7/$font-size}rem !important;
+}
+
+.dropdownMobile {
+  padding-top: 0.89rem !important;
+  padding-bottom: 0.75rem !important;
+}
+
+.attention {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.dropdownAttention {
+  border-top: none !important;
+  border-left: none !important;
+  border-bottom: none !important;
+  border-right: $thin-border-size solid $stroke-focused-color !important;
+
+  &:focus {
+    box-shadow: none !important;
+  }
+}
+
+.dropdownOption {
+  display: inline-flex;
+}
+
+.fieldContainer {
+  composes: u-inlineBlock from global;
+  width: 80%;
+}
+
+.fieldLabel {
+  composes: u-isHiddenVisually from global;
+}
+
+.field {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.countrySelection {
+  composes: u-inlineBlock from global;
+}
+
+.label {
+  composes: u-textXHeight from global;
+  composes: Form-fieldLabel from '../../styles/components/Form.scss';
+}
+
+.labelPortrait {
+  composes: u-textSize15 from global;
+}
+
+.labelLandscape {
+  composes: u-textSizeSml from global;
+}
+
+.selectedFlag {
+  composes: u-posAbsolute from global;
+  width: #{20/$font-size}rem !important;
+  top: #{8/$font-size}rem !important;
+  left: #{11/$font-size}rem !important;
+}
+
+.dropdownFlag {
+  width: #{20/$font-size}rem !important;
+  height: #{20/$font-size}rem !important;
+}
+
+.dropdownName {
+  margin-left: #{5/$font-size}rem !important;
+  padding-top: #{2/$font-size}rem !important;
+}
+
+.controlsFocus {
+  box-shadow: 0 0 0 #{3/$font-size}rem rgba(153,153,153, 0.4);
+  border: $thin-border-size solid $stroke-focused-color;
+  border-radius: #{4/$font-size}rem;
+}
+
+.controlsHover {
+  border: $thin-border-size solid $stroke-focused-color;
+  border-radius: #{4/$font-size}rem;
+}
+
+.container {
+  composes: u-marginBM from global;
+  padding: 0;
+  margin: 0;
+}

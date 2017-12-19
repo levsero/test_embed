@@ -5,16 +5,23 @@ import { locals as styles } from './Flag.sass';
 
 export class Flag extends Component {
   static propTypes = {
-    country: PropTypes.string.isRequired
+    country: PropTypes.string.isRequired,
+    className: PropTypes.string
   };
 
   render = () => {
     const flagClasses = `
-      ${styles.container}
       ${styles.flag}
       ${styles.flag}-${this.props.country}
+      ${styles.flagCustom}
+      ${this.props.className}
     `;
 
-    return <span className={flagClasses} />;
+    return (
+      /* eslint max-len: 0 */
+      <img className={flagClasses}
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAAxJREFUeNpjYBjcAAAAoAABjvuxtAAAAABJRU5ErkJggg=="
+      />
+    );
   }
 }

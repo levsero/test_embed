@@ -52,13 +52,14 @@ describe('talk reducer embeddable-config', () => {
           enabled: true,
           groupName: 'Support',
           keywords: 'keyword',
-          phoneNumber: '+61412345678'
+          phoneNumber: '+61412345678',
+          supportedCountries: 'CA,ID'
         };
       });
 
       describe('when the capability is callback form', () => {
         beforeEach(() => {
-          expected = { ...config, capability: capabilityTypes.CALLBACK_ONLY, enabled: true };
+          expected = { ...config, supportedCountries: ['CA', 'ID'], capability: capabilityTypes.CALLBACK_ONLY, enabled: true };
 
           state = reducer(initialState, {
             type: actionTypes.UPDATE_TALK_EMBEDDABLE_CONFIG,
@@ -75,7 +76,7 @@ describe('talk reducer embeddable-config', () => {
       describe('when the capability is phone only', () => {
         beforeEach(() => {
           config.capability = '1';
-          expected = { ...config, capability: capabilityTypes.PHONE_ONLY, enabled: true };
+          expected = { ...config, supportedCountries: ['CA', 'ID'], capability: capabilityTypes.PHONE_ONLY, enabled: true };
 
           state = reducer(initialState, {
             type: actionTypes.UPDATE_TALK_EMBEDDABLE_CONFIG,
@@ -92,7 +93,7 @@ describe('talk reducer embeddable-config', () => {
       describe('when the capability is callback form and phone', () => {
         beforeEach(() => {
           config.capability = '2';
-          expected = { ...config, capability: capabilityTypes.CALLBACK_AND_PHONE, enabled: true };
+          expected = { ...config, supportedCountries: ['CA', 'ID'], capability: capabilityTypes.CALLBACK_AND_PHONE, enabled: true };
 
           state = reducer(initialState, {
             type: actionTypes.UPDATE_TALK_EMBEDDABLE_CONFIG,

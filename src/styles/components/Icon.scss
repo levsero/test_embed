@@ -180,20 +180,6 @@
   }
 }
 
-.Icon--circleTick-large {
-  svg {
-    width: #{48/$font-size}rem;
-    height: #{48/$font-size}rem;
-  }
-}
-
-.Icon--circleTick-small {
-  svg {
-    width: #{24/$font-size}rem;
-    height: #{24/$font-size}rem;
-  }
-}
-
 .Icon--check {
   svg {
     fill: $secondary-color;
@@ -363,19 +349,5 @@
 .Icon--preview-error {
   path {
     fill: $zd-color-iron;
-  }
-}
-
-.Icon--reopened-large {
-  svg {
-    width: #{48/$font-size}rem;
-    height: #{48/$font-size}rem;
-  }
-}
-
-.Icon--reopened-small {
-  svg {
-    width: #{24/$font-size}rem;
-    height: #{24/$font-size}rem;
   }
 }

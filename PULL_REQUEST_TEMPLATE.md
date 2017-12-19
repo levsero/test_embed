@@ -21,7 +21,6 @@ If you have anything else relevant to your PR add it to the list.
  - [ ] Talk
  - [ ] Asset Composer Build & Manifest
  - [ ] Blips
- - [ ] Automatic Answers
  - [ ] Contextual Help
  - [ ] RTL
  - [ ] Desktop

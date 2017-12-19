@@ -330,8 +330,8 @@ describe('dropdown component', () => {
         const dropdown = domRender(<Dropdown />);
         const dropdownNode = ReactDOM.findDOMNode(dropdown);
 
-        expect(dropdownNode.querySelector('.descriptionClasses').innerHTML)
-          .toEqual('');
+        expect(dropdownNode.querySelector('.descriptionClasses'))
+          .toBeNull();
       });
     });
   });
@@ -556,20 +556,25 @@ describe('dropdown component', () => {
 
   describe('handleInputClick', () => {
     it('should toggle to open state', () => {
-      dropdown = domRender(<Dropdown />);
+      const menuChangeSpy = jasmine.createSpy('menuChange');
+
+      dropdown = domRender(<Dropdown onMenuChange={menuChangeSpy} />);
 
       expect(dropdown.state.open)
         .toBe(false);
+      expect(menuChangeSpy).toHaveBeenCalledWith(false);
 
       dropdown.handleInputClick();
 
       expect(dropdown.state.open)
         .toBe(true);
+      expect(menuChangeSpy).toHaveBeenCalledWith(true);
 
       dropdown.handleInputClick();
 
       expect(dropdown.state.open)
         .toBe(false);
+      expect(menuChangeSpy).toHaveBeenCalledWith(false);
     });
   });
 

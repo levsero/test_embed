@@ -65,60 +65,6 @@ const launcherDownHide = {
 };
 
 const transitionFactory = {
-  automaticAnswersMobile: {
-    upShow: transitionMaker(
-      {
-        transitionProperty: 'none',
-        transitionDuration: '0',
-        transitionTimingFunction: 'unset',
-        opacity: 1,
-        bottom: '-150px'
-      },
-      {
-        transitionProperty: transitionProperties('bottom'),
-        transitionDuration: '400ms',
-        transitionTimingFunction: 'ease-out',
-        opacity: 1,
-        bottom: 0
-      }
-    ),
-    downHide: transitionMaker({},
-      {
-        transitionProperty: transitionProperties('bottom'),
-        transitionDuration: '300ms',
-        transitionTimingFunction: 'ease-in',
-        opacity: 0,
-        bottom: 0
-      }
-    )
-  },
-  automaticAnswersDesktop: {
-    upShow: transitionMaker(
-      {
-        transitionProperty: 'none',
-        transitionDuration: '0',
-        transitionTimingFunction: 'unset',
-        opacity: 0,
-        bottom: '-200px'
-      },
-      {
-        transitionProperty: transitionProperties('bottom'),
-        transitionDuration: '500ms',
-        transitionTimingFunction: 'ease-out',
-        opacity: 1,
-        bottom: 0
-      }
-    ),
-    downHide: transitionMaker({},
-      {
-        transitionProperty: transitionProperties('bottom'),
-        transitionDuration: '300ms',
-        transitionTimingFunction: 'ease-in',
-        opacity: 0,
-        bottom: '-200px'
-      }
-    )
-  },
   webWidget: {
     launcherUpShow: transitionMaker(launcherDownHide, launcherUpShow),
     launcherDownHide: transitionMaker(launcherUpShow, launcherDownHide),

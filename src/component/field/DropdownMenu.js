@@ -11,14 +11,16 @@ export class DropdownMenu extends Component {
     options: PropTypes.array,
     backButton: PropTypes.bool,
     fullscreen: PropTypes.bool,
-    handleBackClick: PropTypes.func
+    handleBackClick: PropTypes.func,
+    optionFormat: PropTypes.func
   }
 
   static defaultProps = {
     options: [],
     backButton: false,
     fullscreen: false,
-    handleBackClick: () => {}
+    handleBackClick: () => {},
+    optionFormat: _.identity
   }
 
   constructor (props) {
@@ -108,6 +110,7 @@ export class DropdownMenu extends Component {
           onClick={option.onClick}
           fullscreen={this.props.fullscreen}
           nestedMenu={option.nestedMenu}
+          nameFormat={this.props.optionFormat}
           updateMenu={option.updateMenu} />
       );
     });

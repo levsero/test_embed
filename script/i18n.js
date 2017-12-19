@@ -52,7 +52,10 @@ function getMissingTranslations(translations) {
 function transformTranslations(translations) {
   return _.reduce(translations, function(result, translation, locale) {
     _.forEach(translation, function(val, key) {
-      _.set(result, [key, locale].join('.'), val);
+      // Filters out the automaticAnswers strings. Once they have their own package we can remove this.
+      if (key.indexOf('automaticAnswers') === -1) {
+        _.set(result, [key, locale].join('.'), val);
+      }
     });
 
     return result;
