@@ -93,7 +93,7 @@ class WebWidget extends Component {
     chat: { account_status: 'offline' }, // eslint-disable-line camelcase
     chatNotification: { show: false, playSound: false },
     newDesign: false,
-    formTitleKey: '',
+    formTitleKey: 'message',
     fullscreen: true,
     helpCenterAvailable: false,
     helpCenterConfig: {},
