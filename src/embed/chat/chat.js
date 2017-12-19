@@ -188,6 +188,8 @@ function init(name) {
     cappedTimeoutCall(() => {
       if (zopimWin.getDisplay() || zopimLive.isChatting()) {
         mediator.channel.broadcast(`${name}.onIsChatting`);
+        get(name).store.dispatch(updateSettingsChatSuppress(false));
+
         return true;
       }
     }, 1000, 10);

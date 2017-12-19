@@ -39,17 +39,11 @@ class Launcher extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.state = {
-      unreadMessages: 0,
-      overrideChatSuppress: false
-    };
+    this.state = { unreadMessages: 0 };
   }
 
   setUnreadMessages = (unreadMessages) => {
-    this.setState({
-      unreadMessages,
-      overrideChatSuppress: true
-    });
+    this.setState({ unreadMessages });
   }
 
   chatAvailable = () => {

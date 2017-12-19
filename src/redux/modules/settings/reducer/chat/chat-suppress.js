@@ -4,7 +4,7 @@ import {
   RESET_SETTINGS_CHAT_SUPPRESS
 } from '../../settings-action-types';
 
-const initialState = settings.get('chat.suppress') || false;
+const initialState = !!settings.get('chat.suppress');
 
 const suppress = (state = initialState, action) => {
   const { type, payload } = action;
