@@ -326,6 +326,8 @@ class WebWidget extends Component {
   }
 
   renderHelpCenter = () => {
+    if (!this.props.helpCenterAvailable) return;
+
     const { helpCenterConfig } = this.props;
     const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : '';
     const chatOnline = this.isChatOnline();
@@ -366,6 +368,8 @@ class WebWidget extends Component {
   }
 
   renderSubmitTicket = () => {
+    if (!this.props.submitTicketAvailable) return;
+
     const { submitTicketConfig } = this.props;
     const classes = this.props.activeEmbed !== submitTicket ? 'u-isHidden' : '';
 

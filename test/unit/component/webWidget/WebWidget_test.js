@@ -122,7 +122,7 @@ describe('WebWidget component', () => {
     let webWidget;
 
     beforeEach(() => {
-      webWidget = domRender(<WebWidget activeEmbed='helpCenterForm' />);
+      webWidget = domRender(<WebWidget activeEmbed='helpCenterForm' helpCenterAvailable={true} />);
     });
 
     it('should have a data-embed value', () => {
@@ -143,7 +143,7 @@ describe('WebWidget component', () => {
 
     describe('when component is set to submitTicket', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' />);
+        webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' helpCenterAvailable={true} />);
       });
 
       it('should show submit ticket component', () => {
@@ -160,7 +160,7 @@ describe('WebWidget component', () => {
 
     describe('when component is set to chat', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget activeEmbed='chat' />);
+        webWidget = domRender(<WebWidget activeEmbed='chat' helpCenterAvailable={true} />);
       });
 
       it('should show chat component', () => {
@@ -746,6 +746,7 @@ describe('WebWidget component', () => {
             <WebWidget
               talkAvailable={true}
               updateActiveEmbed={updateActiveEmbedSpy}
+              helpCenterAvailable={true}
               activeEmbed='' />
           );
 
@@ -875,6 +876,7 @@ describe('WebWidget component', () => {
           <WebWidget
             updateActiveEmbed={updateActiveEmbedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+            helpCenterAvailable={true}
             activeEmbed='' />
         );
 
@@ -1177,7 +1179,7 @@ describe('WebWidget component', () => {
 
     describe('when the activeEmbed is helpCenter', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget activeEmbed='helpCenterForm' />);
+        webWidget = domRender(<WebWidget activeEmbed='helpCenterForm' helpCenterAvailable={true} />);
         webWidget.onContainerClick();
       });
 
