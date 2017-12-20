@@ -89,7 +89,6 @@ class Chat extends Component {
     acceptEndChatNotification: PropTypes.func.isRequired,
     isChatting: PropTypes.bool.isRequired,
     agents: PropTypes.object.isRequired,
-    playSound: PropTypes.bool.isRequired,
     saveContactDetails: PropTypes.func.isRequired,
     updateUserSettings: PropTypes.func.isRequired,
     userSoundSettings: PropTypes.bool.isRequired

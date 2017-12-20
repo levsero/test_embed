@@ -30,7 +30,6 @@ class Launcher extends Component {
     helpCenterAvailable: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
-    agentAvailability: PropTypes.bool.isRequired,
     label: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func

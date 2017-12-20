@@ -47,7 +47,7 @@ describe('talk selectors', () => {
       talk: {
         embeddableConfig: {
           capability: '0',
-          enabled: 'false',
+          enabled: false,
           phoneNumber: '+61412345678'
         }
       }
@@ -61,7 +61,7 @@ describe('talk selectors', () => {
       expect(result)
         .toEqual({
           capability: '0',
-          enabled: 'false',
+          enabled: false,
           phoneNumber: '+61412345678'
         });
     });
