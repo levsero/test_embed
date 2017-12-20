@@ -34,7 +34,7 @@ describe('talk reducer agent-availability', () => {
       let agentAvailability;
 
       beforeEach(() => {
-        agentAvailability = true;
+        agentAvailability = 'true';
 
         state = reducer(initialState, {
           type: actionTypes.UPDATE_TALK_AGENT_AVAILABILITY,
@@ -58,7 +58,7 @@ describe('talk reducer agent-availability', () => {
 
       it('does not update state', () => {
         expect(state)
-          .toEqual(false);
+          .toEqual(initialState);
       });
     });
   });
