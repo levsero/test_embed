@@ -191,11 +191,11 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept('talk.enabled', (_, enabled) => {
-    state[`${talk}.enabled`] = enabled === 'true';
+    state[`${talk}.enabled`] = enabled;
   });
 
   c.intercept('talk.agentAvailability', (_, availability) => {
-    state[`${talk}.isAccessible`] = availability === 'true';
+    state[`${talk}.isAccessible`] = availability;
 
     if (!embedVisible(state)) {
       resetActiveEmbed();
