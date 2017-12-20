@@ -123,6 +123,25 @@ describe('talk redux actions', () => {
     });
   });
 
+  describe('updateTalkAverageWaitTimeEnabled', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateTalkAverageWaitTimeEnabled(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_TALK_AVERAGE_WAIT_TIME_ENABLED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME_ENABLED);
+    });
+
+    it('dispatches an action with the average wait time enabled', () => {
+      expect(action.payload)
+        .toBe(true);
+    });
+  });
+
   describe('updateTalkScreen', () => {
     beforeEach(() => {
       mockStore.dispatch(actions.updateTalkScreen(screenTypes.SUCCESS_NOTIFICATION_SCREEN));
