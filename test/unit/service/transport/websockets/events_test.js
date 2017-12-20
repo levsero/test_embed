@@ -5,6 +5,7 @@ describe('events', () => {
     updateTalkEmbeddableConfigSpy,
     updateTalkAgentAvailabilitySpy,
     updateTalkAverageWaitTimeSpy,
+    updateTalkAverageWaitTimeEnabledSpy,
     resetTalkScreenSpy,
     actionTypes,
     mockSocket,
@@ -23,6 +24,7 @@ describe('events', () => {
     updateTalkEmbeddableConfigSpy = actionSpy('updateTalkEmbeddableConfig', actionTypes.UPDATE_TALK_EMBEDDABLE_CONFIG);
     updateTalkAgentAvailabilitySpy = actionSpy('updateTalkAgentAvailability', actionTypes.UPDATE_TALK_AGENT_AVAILABILITY);
     updateTalkAverageWaitTimeSpy = actionSpy('updateTalkAverageWaitTime', actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME);
+    updateTalkAverageWaitTimeEnabledSpy = actionSpy('updateTalkAverageWaitTimeEnabled', actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME_ENABLED);
     resetTalkScreenSpy = actionSpy('resetTalkScreen', 'RESET_SCREEN');
 
     initMockRegistry({
@@ -34,6 +36,7 @@ describe('events', () => {
         updateTalkEmbeddableConfig: updateTalkEmbeddableConfigSpy,
         updateTalkAgentAvailability: updateTalkAgentAvailabilitySpy,
         updateTalkAverageWaitTime: updateTalkAverageWaitTimeSpy,
+        updateTalkAverageWaitTimeEnabled: updateTalkAverageWaitTimeEnabledSpy,
         resetTalkScreen: resetTalkScreenSpy
       }
     });
@@ -68,6 +71,7 @@ describe('events', () => {
           agentAvailability: false,
           averageWaitTime: '1',
           averageWaitTimeSetting: 'exact',
+          averageWaitTimeEnabled: true,
           capability: '0',
           enabled: false,
           groupName: '',
@@ -95,7 +99,7 @@ describe('events', () => {
           .toBe(actionTypes.UPDATE_TALK_AGENT_AVAILABILITY);
       });
 
-      it('dispatches an updateTalkAgentAvailability action', () => {
+      it('dispatches an updateTalkAverageWaitTime action', () => {
         expect(updateTalkAverageWaitTimeSpy)
           .toHaveBeenCalledWith('1');
 
@@ -103,10 +107,18 @@ describe('events', () => {
           .toBe(actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME);
       });
 
+      it('dispatches an updateTalkAverageWaitTimeEnabled action', () => {
+        expect(updateTalkAverageWaitTimeEnabledSpy)
+          .toHaveBeenCalledWith(true);
+
+        expect(mockReduxStore.dispatch.calls.argsFor(3)[0].type)
+          .toBe(actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME_ENABLED);
+      });
+
       it('dispatches the resetTalkScreen action', () => {
         expect(resetTalkScreenSpy)
           .toHaveBeenCalled();
-        expect(mockReduxStore.dispatch.calls.argsFor(3)[0].type)
+        expect(mockReduxStore.dispatch.calls.argsFor(4)[0].type)
           .toBe('RESET_SCREEN');
       });
     });
@@ -184,9 +196,13 @@ describe('events', () => {
       let callback,
         mockData;
 
-      describe('when the averageWaitTime and averageWaitTimeSetting are defined', () => {
+      describe('when the averageWaitTime and averageWaitTimeSetting and averageWaitTimeEnabled are truthy', () => {
         beforeEach(() => {
-          mockData = { averageWaitTime: '1', averageWaitTimeSetting: 'exact' };
+          mockData = {
+            averageWaitTime: '1',
+            averageWaitTimeSetting: 'exact',
+            averageWaitTimeEnabled: true
+          };
 
           callback = mockSocket.on.calls.mostRecent().args[1];
           callback(mockData);
@@ -196,14 +212,25 @@ describe('events', () => {
           expect(updateTalkAverageWaitTimeSpy)
             .toHaveBeenCalledWith('1');
 
-          expect(mockReduxStore.dispatch.calls.mostRecent().args[0].type)
+          expect(mockReduxStore.dispatch.calls.argsFor(0)[0].type)
             .toBe(actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME);
+        });
+
+        it('dispatches an average wait time enabled update action with true', () => {
+          expect(updateTalkAverageWaitTimeEnabledSpy)
+            .toHaveBeenCalledWith(true);
+
+          expect(mockReduxStore.dispatch.calls.argsFor(1)[0].type)
+            .toBe(actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME_ENABLED);
         });
       });
 
       describe('when the averageWaitTime is undefined', () => {
         beforeEach(() => {
-          mockData = { averageWaitTimeSetting: 'exact' };
+          mockData = {
+            averageWaitTimeSetting: 'exact',
+            averageWaitTimeEnabled: false
+          };
 
           callback = mockSocket.on.calls.mostRecent().args[1];
           callback(mockData);
@@ -212,15 +239,23 @@ describe('events', () => {
         it('does not dispatch an average wait time change action', () => {
           expect(updateTalkAverageWaitTimeSpy)
             .not.toHaveBeenCalled();
+        });
 
-          expect(mockReduxStore.dispatch)
-            .not.toHaveBeenCalled();
+        it('dispatches an average wait time enabled update action with false', () => {
+          expect(updateTalkAverageWaitTimeEnabledSpy)
+            .toHaveBeenCalledWith(false);
+
+          expect(mockReduxStore.dispatch.calls.mostRecent().args[0].type)
+            .toBe(actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME_ENABLED);
         });
       });
 
       describe('when the averageWaitTimeSetting is undefined', () => {
         beforeEach(() => {
-          mockData = { averageWaitTime: '1' };
+          mockData = {
+            averageWaitTime: '1',
+            averageWaitTimeEnabled: false
+          };
 
           callback = mockSocket.on.calls.mostRecent().args[1];
           callback(mockData);
@@ -229,9 +264,40 @@ describe('events', () => {
         it('does not dispatch an average wait time change action', () => {
           expect(updateTalkAverageWaitTimeSpy)
             .not.toHaveBeenCalled();
+        });
 
-          expect(mockReduxStore.dispatch)
+        it('dispatches an average wait time enabled update action with false', () => {
+          expect(updateTalkAverageWaitTimeEnabledSpy)
+            .toHaveBeenCalledWith(false);
+
+          expect(mockReduxStore.dispatch.calls.mostRecent().args[0].type)
+            .toBe(actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME_ENABLED);
+        });
+      });
+
+      describe('when the averageWaitTimeEnabled is false', () => {
+        beforeEach(() => {
+          mockData = {
+            averageWaitTime: '1',
+            averageWaitTimeSetting: 'exact',
+            averageWaitTimeEnabled: false
+          };
+
+          callback = mockSocket.on.calls.mostRecent().args[1];
+          callback(mockData);
+        });
+
+        it('does not dispatch an average wait time change action', () => {
+          expect(updateTalkAverageWaitTimeSpy)
             .not.toHaveBeenCalled();
+        });
+
+        it('dispatches an average wait time enabled update action with false', () => {
+          expect(updateTalkAverageWaitTimeEnabledSpy)
+            .toHaveBeenCalledWith(false);
+
+          expect(mockReduxStore.dispatch.calls.mostRecent().args[0].type)
+            .toBe(actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME_ENABLED);
         });
       });
     });

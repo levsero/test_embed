@@ -36,9 +36,9 @@ function dispatchAgentAvailability(reduxStore, availabilityPayload) {
 }
 
 function dispatchAverageWaitTime(reduxStore, averageWaitTimePayload) {
-  const { averageWaitTime, averageWaitTimeSetting } = averageWaitTimePayload;
+  const { averageWaitTime, averageWaitTimeSetting, averageWaitTimeEnabled } = averageWaitTimePayload;
 
-  if (averageWaitTime && averageWaitTimeSetting) {
+  if (averageWaitTime && averageWaitTimeSetting && averageWaitTimeEnabled) {
     reduxStore.dispatch(updateTalkAverageWaitTime(averageWaitTime));
     reduxStore.dispatch(updateTalkAverageWaitTimeEnabled(true));
   } else {
