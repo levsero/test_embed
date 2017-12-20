@@ -556,25 +556,20 @@ describe('dropdown component', () => {
 
   describe('handleInputClick', () => {
     it('should toggle to open state', () => {
-      const menuChangeSpy = jasmine.createSpy('menuChange');
-
-      dropdown = domRender(<Dropdown onMenuChange={menuChangeSpy} />);
+      dropdown = domRender(<Dropdown />);
 
       expect(dropdown.state.open)
         .toBe(false);
-      expect(menuChangeSpy).toHaveBeenCalledWith(false);
 
       dropdown.handleInputClick();
 
       expect(dropdown.state.open)
         .toBe(true);
-      expect(menuChangeSpy).toHaveBeenCalledWith(true);
 
       dropdown.handleInputClick();
 
       expect(dropdown.state.open)
         .toBe(false);
-      expect(menuChangeSpy).toHaveBeenCalledWith(false);
     });
   });
 
