@@ -84,7 +84,6 @@ class WebWidget extends Component {
     activeEmbed: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
-    agentAvailability: PropTypes.bool.isRequired,
     talkConfig: PropTypes.object
   };
 
@@ -94,7 +93,7 @@ class WebWidget extends Component {
     chat: { account_status: 'offline' }, // eslint-disable-line camelcase
     chatNotification: { show: false, playSound: false },
     newDesign: false,
-    formTitleKey: '',
+    formTitleKey: 'message',
     fullscreen: true,
     helpCenterAvailable: false,
     helpCenterConfig: {},
@@ -327,6 +326,8 @@ class WebWidget extends Component {
   }
 
   renderHelpCenter = () => {
+    if (!this.props.helpCenterAvailable) return;
+
     const { helpCenterConfig } = this.props;
     const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : '';
     const chatOnline = this.isChatOnline();
@@ -367,6 +368,8 @@ class WebWidget extends Component {
   }
 
   renderSubmitTicket = () => {
+    if (!this.props.submitTicketAvailable) return;
+
     const { submitTicketConfig } = this.props;
     const classes = this.props.activeEmbed !== submitTicket ? 'u-isHidden' : '';
 

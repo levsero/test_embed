@@ -33,7 +33,7 @@ export class SubmitTicket extends Component {
     showBackButton: PropTypes.func,
     style: PropTypes.object,
     subjectEnabled: PropTypes.bool,
-    submitTicketSender: PropTypes.func.isRequired,
+    submitTicketSender: PropTypes.func,
     tags: PropTypes.array,
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
@@ -44,6 +44,7 @@ export class SubmitTicket extends Component {
   static defaultProps = {
     attachmentsEnabled: false,
     hideZendeskLogo: false,
+    formTitleKey: 'message',
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024,
     onCancel: () => {},
