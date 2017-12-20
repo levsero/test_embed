@@ -5,7 +5,7 @@ const initialState = false;
 const agentAvailability = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_TALK_AGENT_AVAILABILITY:
-      return action.payload === true;
+      return action.payload === 'true';
     default:
       return state;
   }

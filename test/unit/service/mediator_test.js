@@ -2142,8 +2142,8 @@ describe('mediator', () => {
     describe('talk.agentAvailability', () => {
       describe('when talk status is true', () => {
         beforeEach(() => {
-          c.broadcast('talk.enabled', true);
-          c.broadcast('talk.agentAvailability', true);
+          c.broadcast('talk.enabled', 'true');
+          c.broadcast('talk.agentAvailability', 'true');
         });
 
         it('shows launcher', () => {
@@ -2154,8 +2154,8 @@ describe('mediator', () => {
 
       describe('when talk status is false', () => {
         beforeEach(() => {
-          c.broadcast('talk.enabled', true);
-          c.broadcast('talk.agentAvailability', false);
+          c.broadcast('talk.enabled', 'true');
+          c.broadcast('talk.agentAvailability', 'false');
         });
 
         it('does not show launcher', () => {
