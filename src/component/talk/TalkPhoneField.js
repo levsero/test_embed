@@ -43,7 +43,6 @@ export class TalkPhoneField extends Component {
       focus: false,
       supportedCountries: this.formatCountries(supportedCountries, country)
     };
-    this.menuOpen = false;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -120,9 +119,7 @@ export class TalkPhoneField extends Component {
   }
 
   handleBlur = () => {
-    if (!this.menuOpen) {
-      this.setState({ focus: false, hover: false });
-    }
+    this.setState({ focus: false, hover: false });
   }
 
   handleMouseEnter = () => {
@@ -131,10 +128,6 @@ export class TalkPhoneField extends Component {
 
   handleMouseLeave = () => {
     this.setState({ hover: false });
-  }
-
-  handleMenuChange = (opened) => {
-    this.menuOpen = opened;
   }
 
   renderLabel() {
@@ -193,7 +186,6 @@ export class TalkPhoneField extends Component {
             onBlur={this.handleBlur}
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
-            onMenuChange={this.handleMenuChange}
             getFrameDimensions={this.props.getFrameDimensions}
           />
           <Field
