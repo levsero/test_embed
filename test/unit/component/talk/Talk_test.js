@@ -140,39 +140,53 @@ describe('Talk component', () => {
       result,
       mockAverageWaitTime;
 
-    describe('when the average wait time is greater than 1', () => {
-      beforeEach(() => {
-        mockAverageWaitTime = '5';
-        talk = domRender(<Talk averageWaitTime={mockAverageWaitTime} />);
-        result = talk.renderAverageWaitTime();
+    describe('when the average wait time is enabled', () => {
+      describe('when the average wait time is greater than 1', () => {
+        beforeEach(() => {
+          mockAverageWaitTime = '5';
+          talk = domRender(<Talk averageWaitTime={mockAverageWaitTime} averageWaitTimeEnabled={true}/>);
+          result = talk.renderAverageWaitTime();
+        });
+
+        it('calls i18n.t with the average wait time', () => {
+          expect(i18nTranslateSpy.calls.mostRecent().args[1].averageWaitTime)
+            .toBe(mockAverageWaitTime);
+        });
+
+        it('renders the plural average wait time message', () => {
+          expect(result.props.children)
+            .toBe('embeddable_framework.talk.form.averageWaitTimePlural');
+        });
       });
 
-      it('calls i18n.t with the average wait time', () => {
-        expect(i18nTranslateSpy.calls.mostRecent().args[1].averageWaitTime)
-          .toBe(mockAverageWaitTime);
-      });
+      describe('when the average wait time is not greater than 1', () => {
+        beforeEach(() => {
+          mockAverageWaitTime = '1';
+          talk = domRender(<Talk averageWaitTime={mockAverageWaitTime} averageWaitTimeEnabled={true} />);
+          result = talk.renderAverageWaitTime();
+        });
 
-      it('renders the plural averge wait time message', () => {
-        expect(result.props.children)
-          .toBe('embeddable_framework.talk.form.averageWaitTimePlural');
+        it('calls i18n.t with the average wait time', () => {
+          expect(i18nTranslateSpy.calls.mostRecent().args[1].averageWaitTime)
+            .toBe(mockAverageWaitTime);
+        });
+
+        it('renders the singular average wait time message', () => {
+          expect(result.props.children)
+            .toBe('embeddable_framework.talk.form.averageWaitTimeSingular');
+        });
       });
     });
 
-    describe('when the average wait time is not greater than 1', () => {
+    describe('when the average wait time is not enabled', () => {
       beforeEach(() => {
-        mockAverageWaitTime = '1';
-        talk = domRender(<Talk averageWaitTime={mockAverageWaitTime} />);
+        talk = domRender(<Talk averageWaitTimeEnabled={false} />);
         result = talk.renderAverageWaitTime();
       });
 
-      it('calls i18n.t with the average wait time', () => {
-        expect(i18nTranslateSpy.calls.mostRecent().args[1].averageWaitTime)
-          .toBe(mockAverageWaitTime);
-      });
-
-      it('renders the singular averge wait time message', () => {
-        expect(result.props.children)
-          .toBe('embeddable_framework.talk.form.averageWaitTimeSingular');
+      it('returns undefined', () => {
+        expect(result)
+          .toBeUndefined();
       });
     });
   });

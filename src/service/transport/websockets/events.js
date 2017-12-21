@@ -2,6 +2,7 @@ import {
   updateTalkEmbeddableConfig,
   updateTalkAgentAvailability,
   updateTalkAverageWaitTime,
+  updateTalkAverageWaitTimeEnabled,
   resetTalkScreen } from 'src/redux/modules/talk';
 import { mediator } from 'service/mediator';
 
@@ -35,9 +36,12 @@ function dispatchAgentAvailability(reduxStore, availabilityPayload) {
 }
 
 function dispatchAverageWaitTime(reduxStore, averageWaitTimePayload) {
-  const { averageWaitTime, averageWaitTimeSetting } = averageWaitTimePayload;
+  const { averageWaitTime, averageWaitTimeSetting, averageWaitTimeEnabled } = averageWaitTimePayload;
 
-  if (averageWaitTime && averageWaitTimeSetting) {
+  if (averageWaitTime && averageWaitTimeSetting && averageWaitTimeEnabled) {
     reduxStore.dispatch(updateTalkAverageWaitTime(averageWaitTime));
+    reduxStore.dispatch(updateTalkAverageWaitTimeEnabled(true));
+  } else {
+    reduxStore.dispatch(updateTalkAverageWaitTimeEnabled(false));
   }
 }

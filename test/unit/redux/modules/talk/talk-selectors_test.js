@@ -6,6 +6,7 @@ describe('talk selectors', () => {
     getScreen,
     getCallback,
     getAverageWaitTime,
+    getAverageWaitTimeEnabled,
     getInitialScreen,
     isCallbackEnabled,
     mockGetTalkEmbedValue,
@@ -36,6 +37,7 @@ describe('talk selectors', () => {
     getScreen = selectors.getScreen;
     getCallback = selectors.getCallback;
     getAverageWaitTime = selectors.getAverageWaitTime;
+    getAverageWaitTimeEnabled = selectors.getAverageWaitTimeEnabled;
     getInitialScreen = selectors.getInitialScreen;
     isCallbackEnabled = selectors.isCallbackEnabled;
     getTalkAvailable = selectors.getTalkAvailable;
@@ -182,6 +184,24 @@ describe('talk selectors', () => {
     it('returns the current state of averageWaitTime', () => {
       expect(result)
         .toBe('2');
+    });
+  });
+
+  describe('getAverageWaitTimeEnabled', () => {
+    let result;
+    const mockTalkState = {
+      talk: {
+        averageWaitTimeEnabled: true
+      }
+    };
+
+    beforeEach(() => {
+      result = getAverageWaitTimeEnabled(mockTalkState);
+    });
+
+    it('returns the current state of averageWaitTimeEnabled', () => {
+      expect(result)
+        .toBe(true);
     });
   });
 

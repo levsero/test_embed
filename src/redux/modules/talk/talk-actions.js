@@ -6,6 +6,7 @@ import {
   UPDATE_TALK_EMBEDDABLE_CONFIG,
   UPDATE_TALK_AGENT_AVAILABILITY,
   UPDATE_TALK_AVERAGE_WAIT_TIME,
+  UPDATE_TALK_AVERAGE_WAIT_TIME_ENABLED,
   UPDATE_TALK_SCREEN,
   UPDATE_CALLBACK_FORM,
   TALK_CALLBACK_REQUEST,
@@ -32,6 +33,13 @@ export function updateTalkAverageWaitTime(averageWaitTime) {
   return {
     type: UPDATE_TALK_AVERAGE_WAIT_TIME,
     payload: averageWaitTime
+  };
+}
+
+export function updateTalkAverageWaitTimeEnabled(averageWaitTimeEnabled) {
+  return {
+    type: UPDATE_TALK_AVERAGE_WAIT_TIME_ENABLED,
+    payload: averageWaitTimeEnabled
   };
 }
 
