@@ -164,6 +164,48 @@ describe('mediator', () => {
   });
 
  /* ****************************************** *
+  *                   zE API                   *
+  * ****************************************** */
+
+  describe('.show', () => {
+    const beacon = 'beacon';
+    const names = { beacon };
+
+    beforeEach(() => {
+      initSubscriptionSpies(names);
+      mediator.init({});
+
+      c.broadcast('.show');
+    });
+
+    it('broadcasts beacon.trackUserAction with expected params', () => {
+      const expected = ['api', 'show'];
+
+      expect(beaconSub.trackUserAction)
+        .toHaveBeenCalledWith(...expected);
+    });
+  });
+
+  describe('.hide', () => {
+    const beacon = 'beacon';
+    const names = { beacon };
+
+    beforeEach(() => {
+      initSubscriptionSpies(names);
+      mediator.init({});
+
+      c.broadcast('.hide');
+    });
+
+    it('broadcasts beacon.trackUserAction with expected params', () => {
+      const expected = ['api', 'hide'];
+
+      expect(beaconSub.trackUserAction)
+        .toHaveBeenCalledWith(...expected);
+    });
+  });
+
+ /* ****************************************** *
   *                  IDENTIFY                  *
   * ****************************************** */
 

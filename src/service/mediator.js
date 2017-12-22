@@ -180,6 +180,8 @@ function init(embedsAccessible, params = {}) {
   }
 
   c.intercept('.hide', () => {
+    c.broadcast('beacon.trackUserAction', 'api', 'hide');
+
     state[`${submitTicket}.isVisible`] = false;
     state[`${chat}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = false;
@@ -207,6 +209,8 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept(`.show, ${chat}.onError`, () => {
+    c.broadcast('beacon.trackUserAction', 'api', 'show');
+
     state[`${submitTicket}.isVisible`] = false;
     state[`${chat}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = false;
