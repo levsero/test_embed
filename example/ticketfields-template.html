@@ -9,7 +9,7 @@
   </head>
 
   <body style='background-color:#fff'>
-    <h1>Custom Ticket Fields boom</h1>
+    <h1>Custom Ticket Fields new boom</h1>
 
     <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique quis nisi a lobortis. Proin et malesuada orci, ut malesuada risus. Etiam eget tellus in est viverra aliquam vitae non felis. Vivamus vestibulum elit arcu. Vivamus a vehicula leo, id venenatis massa. Sed eget mi ultricies, ultricies sapien semper, porta nisl. Fusce accumsan risus a diam fermentum, ac consectetur erat pulvinar. Nulla vitae purus ac erat mollis feugiat.
@@ -37,109 +37,18 @@
               "embed": "submitTicket",
               "props": {
                 color: 'red',
-                customFields: [
-                  {
-                    id: '22660514',
-                    type: 'text',
-                    title: 'Text',
-                    required: true,
-                    variants: [
-                      {
-                        localeId: 1,
-                        content: "Option 1"
-                      },
-                      {
-                        localeId: 16,
-                        content: "FrenchField"
-                      }
-                    ]
-                  },
-                  {
-                    id: 10006,
-                    type: "tagger",
-                    title: "Nested Drop Down",
-                    required: false,
-                    options: [
-                      {
-                        title: "Option1::Part1",
-                        value: "option1__part1"
-                      },
-                      {
-                        title: "Option2::Part2",
-                        value: "option2__part2"
-                      },
-                      {
-                        title: "Option1::Part2",
-                        value: "option1__part2"
-                      }
-                    ]
-                  },
-                  {
-                    id: '22666574',
-                    type: 'tagger',
-                    title: 'Department',
-                    variants: [
-                      {
-                        localeId: 1,
-                        content: "Drop Down English"
-                      },
-                      {
-                        localeId: 16,
-                        content: "Drop Down français"
-                      }
-                    ],
-                    options: [
-                      {
-                        title: 'Sales',
-                        value: 1,
-                        variants: [
-                          {
-                            localeId: 1,
-                            content: "English"
-                          },
-                          {
-                            localeId: 16,
-                            content: "French"
-                          }
-                        ]
-                      },
-                      {
-                        title: 'Support',
-                        value: 2
-                      }
-                    ],
-                    required: true,
-                    description: 'Pretty obvious'
-                  },
-                  {
-                    id: '22660524',
-                    type: 'textarea',
-                    title: 'Order Details',
-                    required: true,
-                    description: 'test'
-                  },
-                  {
-                    id: '22823250',
-                    type: 'integer',
-                    title: 'Age',
-                    required: true,
-                    description: 'Your age in numbers'
-                  },
-                  {
-                    id: '22823260',
-                    type: 'decimal',
-                    title: 'Total Cost',
-                    required: true,
-                    description: 'How much will this event cost'
-                  },
-                  {
-                    id: '22823270',
-                    type: 'checkbox',
-                    title: 'Can we call you?',
-                    required: false,
-                    description: 'please?'
-                  }
-                ]
+                attachmentsEnabled: true,
+                customFields: {
+                  ids: [
+                    10002,
+                    10007,
+                    10012,
+                    10017,
+                    10022,
+                    10027,
+                    10032
+                  ]
+                }
               }
             },
             "launcher": {
