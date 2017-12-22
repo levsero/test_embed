@@ -19,8 +19,10 @@ glob('./example/*-template.html', function(err, files) {
     });
     const replaceMap = {
       'zendeskFrameworkUrl': '/dist/main.js',
-      'zendeskHost': process.env.WATCH_SUBDOMAIN,
-      'zopimId': process.env.WATCH_ZOPIM_ID
+      'zendeskHost': process.env.WATCH_DOMAIN,
+      'zopimId': process.env.WATCH_ZOPIM_ID,
+      'talkIntegration': process.env.WATCH_TALK_INTEGRATION,
+      'talkKeyword': process.env.WATCH_TALK_KEYWORD
     };
     const resultHtml = html.replace(/{{(\w+)}}/g, function(match, key) {
       return replaceMap[key];
