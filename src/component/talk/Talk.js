@@ -83,6 +83,13 @@ class Talk extends Component {
     this.props.updateTalkCallbackForm(formState);
   }
 
+  handleCountrySelect = (country, phone) => {
+    this.props.updateTalkCallbackForm({ ...this.props.formState, country, phone });
+    if (this.form) {
+      this.form.validate();
+    }
+  }
+
   formatPhoneNumber = (phoneNumber, format = 'International') => {
     const parsed = libphonenumber.parse(phoneNumber);
 
@@ -130,7 +137,7 @@ class Talk extends Component {
     const nameLabel = i18n.t(`embeddable_framework.common.textLabel.name`, { fallback: 'Name' });
     const descriptionLabel = i18n.t(`embeddable_framework.common.textLabel.description`,
       { fallback: 'How can we help?' });
-    let { phone, name, description } = this.props.formState;
+    let { phone, name, description, country } = this.props.formState;
 
     return (
       <Form
@@ -138,6 +145,7 @@ class Talk extends Component {
         className={styles.form}
         submitButtonLabel={i18n.t('embeddable_framework.common.button.send', { fallback: 'Submit' })}
         rtl={i18n.isRTL()}
+        formState={this.props.formState}
         onCompleted={this.handleFormCompleted}
         onChange={this.handleFormChange}>
         {this.renderFormHeader()}
@@ -145,8 +153,10 @@ class Talk extends Component {
         <TalkPhoneField
           label={phoneLabel}
           getFrameDimensions={this.props.getFrameDimensions}
+          onCountrySelect={this.handleCountrySelect}
           required={true}
           supportedCountries={this.props.embeddableConfig.supportedCountries}
+          country={country}
           value={phone} />
         <Field label={nameLabel}
           value={name}

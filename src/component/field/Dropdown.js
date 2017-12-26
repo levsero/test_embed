@@ -36,7 +36,8 @@ export class Dropdown extends Component {
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
     onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func
+    onMouseLeave: PropTypes.func,
+    onMenuChange: PropTypes.func
   }
 
   static defaultProps = {
@@ -60,7 +61,8 @@ export class Dropdown extends Component {
     onFocus: () => {},
     onBlur: () => {},
     onMouseEnter: () => {},
-    onMouseLeave: () => {}
+    onMouseLeave: () => {},
+    onMenuChange: () => {}
   }
 
   constructor (props) {
@@ -275,7 +277,10 @@ export class Dropdown extends Component {
   }
 
   renderMenus = () => {
-    if (!this.state.open) return;
+    if (!this.state.open) {
+      this.props.onMenuChange(false);
+      return;
+    }
 
     let backClasses = '', nextClasses = '';
 
@@ -302,6 +307,8 @@ export class Dropdown extends Component {
       ${mobileClasses}
       ${this.props.menuContainerClassName}
     `;
+
+    this.props.onMenuChange(true);
 
     return (
       <div className={containerClasses}>
