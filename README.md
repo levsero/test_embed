@@ -48,6 +48,24 @@ The bootstrap file will do the following:
 
 To run the embeddables locally type `npm run watch` in this folder for it to kick off. This creates a dist folder with `main.js`, `boostrap.js` files and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/webpack-dev-server/](http://localhost:1337/webpack-dev-server/) to test live examples.
 
+#### Setting up your own test values
+
+To use your own values in the watch task you can create a new .watch file for the thing you'd like to test. Prefix it with a dash and the name of the group you want to use.
+
+```bash
+cp config/.watch.example config/.watch-${your_config_name}
+```
+
+Then edit the values inside the config to point wherever you like. You can then use this config in your watch task by running
+
+```bash
+npm run watchConf ${your_config_name}
+```
+
+This will start a watch task using the values found in /config/.watch-${your_config_name}. The next time you start a watch task it will use the file you set last here.
+
+This will allow you to make as many different configurations as you like to test different scenarios with. It's recommended to have one for dev and one for your prod account.
+
 ## Getting Started with Asset Composer
 First ensure that the project is bootstrap by following the instructions above.
 

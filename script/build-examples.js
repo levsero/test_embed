@@ -1,6 +1,11 @@
+const appRoot = require('app-root-path');
+const fs = require('fs');
 const inline = require('inline-source').sync;
 const glob = require('glob');
-const fs = require('fs');
+const confPath = appRoot + process.argv[3];
+const watchConfPath = fs.existsSync(confPath) ? confPath : appRoot + '/config/.watch.example';
+
+require('dotenv').config({ path: watchConfPath });
 
 glob('./example/*-template.html', function(err, files) {
   if (err) {
@@ -14,7 +19,10 @@ glob('./example/*-template.html', function(err, files) {
     });
     const replaceMap = {
       'zendeskFrameworkUrl': '/dist/main.js',
-      'zendeskHost': 'dev.zd-dev.com'
+      'zendeskHost': process.env.WATCH_DOMAIN,
+      'zopimId': process.env.WATCH_ZOPIM_ID,
+      'talkIntegration': process.env.WATCH_TALK_INTEGRATION,
+      'talkKeyword': process.env.WATCH_TALK_KEYWORD
     };
     const resultHtml = html.replace(/{{(\w+)}}/g, function(match, key) {
       return replaceMap[key];
