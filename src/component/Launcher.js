@@ -6,18 +6,16 @@ import { locals as styles } from './Launcher.sass';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
-import { getChatStatus } from 'src/redux/modules/chat/selectors';
-import { getZopimChatStatus } from 'src/redux/modules/zopimChat/selectors';
+import { getChatOnline } from 'src/redux/modules/chat/selectors';
 import { settings } from 'service/settings';
-import { getZopimChatEmbed,
-         getHelpCenterEmbed } from 'src/redux/modules/base/selectors';
+import { getHelpCenterEmbed } from 'src/redux/modules/base/selectors';
 import { isCallbackEnabled, getTalkAvailable } from 'src/redux/modules/talk/talk-selectors';
+import { getSettingsChatSuppress } from 'src/redux/modules/settings/selectors';
 
 const mapStateToProps = (state) => {
-  const chatStatus = getZopimChatEmbed(state) ? getZopimChatStatus(state) : getChatStatus(state);
-
   return {
-    chatStatus,
+    chatOnline: getChatOnline(state),
+    chatSuppress: getSettingsChatSuppress(state),
     helpCenterAvailable: getHelpCenterEmbed(state) && !settings.get('helpCenter.suppress'),
     talkAvailable: getTalkAvailable(state),
     callbackEnabled: isCallbackEnabled(state)
@@ -26,7 +24,8 @@ const mapStateToProps = (state) => {
 
 class Launcher extends Component {
   static propTypes = {
-    chatStatus: PropTypes.string.isRequired,
+    chatOnline: PropTypes.bool.isRequired,
+    chatSuppress: PropTypes.bool.isRequired,
     helpCenterAvailable: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
@@ -35,33 +34,22 @@ class Launcher extends Component {
     updateFrameSize: PropTypes.func
   };
 
-  static defaultProps = {
-    chatStatus: '',
-    updateFrameSize: () => {}
-  };
+  static defaultProps = { updateFrameSize: () => {} };
 
   constructor(props, context) {
     super(props, context);
 
-    this.state = {
-      unreadMessages: 0,
-      overrideChatSuppress: false
-    };
+    this.state = { unreadMessages: 0 };
   }
 
   setUnreadMessages = (unreadMessages) => {
-    this.setState({
-      unreadMessages,
-      overrideChatSuppress: true
-    });
+    this.setState({ unreadMessages });
   }
 
   chatAvailable = () => {
-    const { chatStatus } = this.props;
-    const chatOnline = chatStatus === 'online' || chatStatus === 'away';
-    const chatSuppressed = settings.get('chat.suppress') && !this.state.overrideChatSuppress;
+    const { chatOnline, chatSuppress } = this.props;
 
-    return chatOnline && !chatSuppressed;
+    return chatOnline && !chatSuppress;
   }
 
   getLabel = () => {
@@ -92,10 +80,11 @@ class Launcher extends Component {
   }
 
   getIconType = () => {
-    const { chatStatus, talkAvailable } = this.props;
+    const { talkAvailable } = this.props;
+    const chatAvailable = this.chatAvailable();
 
-    if (chatStatus === 'online' && talkAvailable) return 'Icon';
-    if (chatStatus === 'online') return 'Icon--chat';
+    if (chatAvailable && talkAvailable) return 'Icon';
+    if (chatAvailable) return 'Icon--chat';
     if (talkAvailable) return 'Icon--launcher-talk';
 
     return 'Icon';

@@ -6,7 +6,8 @@ describe('root reducer', () => {
     'base',
     'helpCenter',
     'talk',
-    'zopimChat'
+    'zopimChat',
+    'settings'
   ];
 
   beforeAll(() => {
@@ -18,6 +19,7 @@ describe('root reducer', () => {
 
     initMockRegistry({
       './base/reducer': mockReducer,
+      './settings/reducer': mockReducer,
       './chat/reducer': mockReducer,
       './helpCenter/reducer': mockReducer,
       './talk/reducer': mockReducer,
