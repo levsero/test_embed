@@ -148,6 +148,8 @@ class WebWidget extends Component {
   articleViewActive = () => _.get(this.getHelpCenterComponent(), 'state.articleViewActive', false);
 
   shouldShowTicketFormBackButton = () => {
+    if (!this.getSubmitTicketComponent()) return false;
+
     const { selectedTicketForm, ticketForms } = this.getSubmitTicketComponent().state;
 
     return selectedTicketForm && _.size(ticketForms.ticket_forms) > 1;
