@@ -1,14 +1,11 @@
 @import '../../styles/_vars.scss';
 
+$flag-size: #{17.5/$font-size}rem !important;
+$flag-size-mobile: #{21.5/$font-size}rem !important;
+
 .dropdown {
   composes: u-inlineBlock from global;
   width: 20%;
-
-  [type="Icon--chevron"] {
-    right: #{1/$font-size}rem;
-    margin-right: #{1/$font-size}rem;
-    padding-left: 0;
-  }
 }
 
 .dropdownContainer {
@@ -23,13 +20,26 @@
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border-right: none;
-  padding-top: #{8.5/$font-size}rem !important;
-  padding-bottom: #{7/$font-size}rem !important;
+  height: $flag-size;
 }
 
 .dropdownMobile {
-  padding-top: 0.89rem !important;
-  padding-bottom: 0.75rem !important;
+  height: $flag-size-mobile;
+}
+
+.arrow {
+  composes: u-paddingAN from global;
+  top: #{12/$font-size}rem;
+  right: #{8/$font-size}rem;
+}
+
+.arrowMobile {
+  top: #{13/$font-size}rem;
+  right: #{12/$font-size}rem;
+
+  [dir="rtl"] & {
+    left: #{12/$font-size}rem;
+  }
 }
 
 .attention {
@@ -84,10 +94,17 @@
 }
 
 .selectedFlag {
-  composes: u-posAbsolute from global;
-  width: #{20/$font-size}rem !important;
-  top: #{8/$font-size}rem !important;
-  left: #{11/$font-size}rem !important;
+  composes: u-marginLT from global;
+  height: $flag-size;
+
+  [dir="rtl"] & {
+    margin-right: $spacing-tny !important;
+  }
+}
+
+.selectedFlagMobile {
+  composes: u-marginLS from global;
+  height: $flag-size-mobile;
 }
 
 .dropdownFlag {
@@ -98,6 +115,10 @@
 .dropdownName {
   margin-left: #{5/$font-size}rem !important;
   padding-top: #{2/$font-size}rem !important;
+}
+
+.controls {
+  composes: u-flex from global;
 }
 
 .controlsFocus {
