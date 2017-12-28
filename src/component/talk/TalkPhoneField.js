@@ -152,11 +152,13 @@ export class TalkPhoneField extends Component {
 
   renderDropdownOption = (name) => {
     const country = countriesByName[name];
+    const nameDeviceStyle = isMobileBrowser() ? styles.dropdownNameMobile : '';
+    const nameStyles = `${styles.dropdownName} ${nameDeviceStyle}`;
 
     return (
       <div className={styles.dropdownOption}>
         {this.renderFlag(country, styles.dropdownFlag)}
-        <span className={styles.dropdownName}>{name}</span>
+        <span className={nameStyles}>{name}</span>
       </div>
     );
   }
@@ -216,6 +218,7 @@ export class TalkPhoneField extends Component {
           <Dropdown
             className={styles.dropdown}
             name='countries'
+            fullscreen={isMobileBrowser()}
             options={supportedCountries}
             optionFormat={this.renderDropdownOption}
             selectionTextFormat={this.renderSelectionText}
@@ -240,6 +243,7 @@ export class TalkPhoneField extends Component {
             name='phone'
             fieldContainerClasses={styles.fieldContainer}
             fieldClasses={fieldClasses}
+            inputClasses={styles.fieldInput}
             labelClasses={styles.fieldLabel}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}

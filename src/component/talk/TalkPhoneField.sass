@@ -21,6 +21,16 @@ $flag-size-mobile: #{21.5/$font-size}rem !important;
   border-bottom-right-radius: 0;
   border-right: none;
   height: $flag-size;
+
+  [dir="rtl"] & {
+    border-top-right-radius: #{4/$font-size}rem;
+    border-bottom-right-radius: #{4/$font-size}rem;
+    border-right: $thin-border-size solid $stroke-color;
+
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+  }
 }
 
 .dropdownMobile {
@@ -31,6 +41,10 @@ $flag-size-mobile: #{21.5/$font-size}rem !important;
   composes: u-paddingAN from global;
   top: #{12/$font-size}rem;
   right: #{8/$font-size}rem;
+
+  [dir="rtl"] & {
+    left: #{8/$font-size}rem;
+  }
 }
 
 .arrowMobile {
@@ -53,6 +67,11 @@ $flag-size-mobile: #{21.5/$font-size}rem !important;
   border-bottom: none !important;
   border-right: $thin-border-size solid $stroke-focused-color !important;
 
+  [dir="rtl"] & {
+    border-right: none !important;
+    border-left: $thin-border-size solid $stroke-focused-color !important;
+  }
+
   &:focus {
     box-shadow: none !important;
   }
@@ -71,9 +90,24 @@ $flag-size-mobile: #{21.5/$font-size}rem !important;
   composes: u-isHiddenVisually from global;
 }
 
+.fieldInput {
+  [dir="rtl"] & {
+    text-align: right;
+    direction: ltr;
+  }
+}
+
 .field {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+
+  [dir="rtl"] & {
+    border-top-left-radius: #{4/$font-size}rem;
+    border-bottom-left-radius: #{4/$font-size}rem;
+
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
 }
 
 .countrySelection {
@@ -105,6 +139,10 @@ $flag-size-mobile: #{21.5/$font-size}rem !important;
 .selectedFlagMobile {
   composes: u-marginLS from global;
   height: $flag-size-mobile;
+
+  [dir="rtl"] & {
+    margin-right: $spacing-sml !important;
+  }
 }
 
 .dropdownFlag {
@@ -113,8 +151,17 @@ $flag-size-mobile: #{21.5/$font-size}rem !important;
 }
 
 .dropdownName {
-  margin-left: #{5/$font-size}rem !important;
+  composes: u-marginLS from global;
   padding-top: #{2/$font-size}rem !important;
+
+  [dir="rtl"] & {
+    margin-right: $spacing-sml !important;
+    margin-left: inherit;
+  }
+}
+
+.dropdownNameMobile {
+  composes: u-paddingTN from global;
 }
 
 .controls {
