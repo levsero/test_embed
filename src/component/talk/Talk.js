@@ -145,6 +145,7 @@ class Talk extends Component {
         className={styles.form}
         submitButtonLabel={i18n.t('embeddable_framework.common.button.send', { fallback: 'Submit' })}
         rtl={i18n.isRTL()}
+        isMobile={this.props.isMobile}
         formState={this.props.formState}
         onCompleted={this.handleFormCompleted}
         onChange={this.handleFormChange}>
