@@ -11,6 +11,7 @@ export class Form extends Component {
     className: PropTypes.string,
     children: PropTypes.node,
     rtl: PropTypes.bool,
+    isMobile: PropTypes.bool,
     submitButtonLabel: PropTypes.string,
     onCompleted: PropTypes.func,
     onChange: PropTypes.func
@@ -21,6 +22,7 @@ export class Form extends Component {
     className: '',
     children: null,
     rtl: false,
+    isMobile: false,
     submitButtonLabel: '',
     onCompleted: () => {},
     onChange: () => {}
@@ -65,8 +67,9 @@ export class Form extends Component {
 
   renderSubmitButton = () => {
     return (
-      <ButtonGroup rtl={this.props.rtl}>
+      <ButtonGroup fullscreen={this.props.isMobile} rtl={this.props.rtl}>
         <Button
+          fullscreen={this.props.isMobile}
           label={this.props.submitButtonLabel}
           disabled={!this.state.valid}
           type='submit' />
