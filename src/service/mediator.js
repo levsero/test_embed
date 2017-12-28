@@ -444,7 +444,7 @@ function init(embedsAccessible, params = {}) {
         // an embed on a mobile device causes the launcher to click as well.
         // The root cause of this is the click event is registered twice on
         // mobile devices and needs to be handled in a similar way to
-        // clickBusterRegister/clickBusterHandler so that frameFactory#show does
+        // clickBusterRegister/clickBusterHandler so that Frame#show does
         // not get fired twice
         state[`${launcher}.clickActive`] = true;
         setTimeout(
