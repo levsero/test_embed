@@ -2206,5 +2206,18 @@ describe('mediator', () => {
         });
       });
     });
+
+    it('does not show launcher if an agent goes offline', () => {
+      c.broadcast('talk.enabled', true);
+      c.broadcast('talk.agentAvailability', true);
+
+      c.broadcast(`${launcher}.onClick`);
+      c.broadcast(`webWidget.onClose`);
+
+      c.broadcast('talk.agentAvailability', false);
+
+      expect(launcherSub.hide)
+        .toHaveBeenCalled();
+    });
   });
 });

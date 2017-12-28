@@ -428,6 +428,7 @@ function init(embedsAccessible, params = {}) {
   c.intercept('webWidget.onClose', (_broadcast) => {
     state[`${submitTicket}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = false;
+    state[`${talk}.isVisible`] = false;
     _broadcast();
   });
 
