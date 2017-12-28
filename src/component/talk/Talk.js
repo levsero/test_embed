@@ -290,9 +290,9 @@ class Talk extends Component {
     }
 
     return (
-      <div>
-        <p>{label}</p>
-        <a onClick={this.props.onBackClick}>{link}</a>
+      <div className={styles.offline}>
+        <p className={styles.offlineLabel}>{label}</p>
+        <p className={styles.offlineLink} onClick={this.props.onBackClick}><a>{link}</a></p>
       </div>
     );
   }
