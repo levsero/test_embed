@@ -104,6 +104,22 @@ class Talk extends Component {
     return libphonenumber.format(parsed, format);
   }
 
+  getOfflineScreenLink = () => {
+    const { helpCenterAvailable, channelChoiceAvailable } = this.props;
+
+    if (helpCenterAvailable) {
+      return i18n.t('embeddable_framework.talk.offline.link.help_center',
+        { fallback: 'Go back to Help Center' }
+      );
+    } else if (channelChoiceAvailable) {
+      return i18n.t('embeddable_framework.talk.offline.link.channel_choice',
+        { fallback: 'Go back' }
+      );
+    }
+
+    return '';
+  }
+
   renderPhoneNumber = () => {
     const { phoneNumber } = this.props.embeddableConfig;
     const formattedPhoneNumber = this.formatPhoneNumber(phoneNumber);
@@ -273,26 +289,15 @@ class Talk extends Component {
     if (this.props.agentAvailability) return null;
 
     const label = i18n.t('embeddable_framework.talk.offline.label',
-      { fallback: 'Sorry, all agents are currently offline. Try again later.'}
+      { fallback: 'Sorry, all agents are currently offline. Try again later.' }
     );
-    let link;
-
-    if (this.props.helpCenterAvailable) {
-      link = i18n.t('embeddable_framework.talk.offline.link.help_center',
-        { fallback: 'Go back to Help Center'}
-      );
-    } else if (this.props.channelChoiceAvailable) {
-      link = i18n.t('embeddable_framework.talk.offline.link.channel_choice',
-        { fallback: 'Go back'}
-      );
-    } else {
-      link = '';
-    }
 
     return (
       <div className={styles.offline}>
         <p className={styles.offlineLabel}>{label}</p>
-        <p className={styles.offlineLink} onClick={this.props.onBackClick}><a>{link}</a></p>
+        <p className={styles.offlineLink} onClick={this.props.onBackClick}>
+          <a>{this.getOfflineScreenLink()}</a>
+        </p>
       </div>
     );
   }
