@@ -50,12 +50,16 @@ class Talk extends Component {
     callback: PropTypes.object.isRequired,
     averageWaitTime: PropTypes.string.isRequired,
     averageWaitTimeEnabled: PropTypes.bool.isRequired,
+    agentAvailability: PropTypes.bool.isRequired,
     updateTalkCallbackForm: PropTypes.func.isRequired,
     submitTalkCallbackForm: PropTypes.func.isRequired,
     talkConfig: PropTypes.object.isRequired,
     zendeskSubdomain: PropTypes.string.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
+    helpCenterAvailable: PropTypes.bool,
+    channelChoiceAvailable: PropTypes.bool,
+    onBackClick: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
     updateFrameSize: PropTypes.func
   };
@@ -65,7 +69,11 @@ class Talk extends Component {
     updateFrameSize: () => {},
     formState: { phone: '' },
     embeddableConfig: { phoneNumber: '' },
-    callback: { error: {} }
+    callback: { error: {} },
+    helpCenterAvailable: false,
+    channelChoiceAvailable: false,
+    onBackClick: () => {},
+    agentAvailability: true
   };
 
   constructor() {
@@ -219,6 +227,8 @@ class Talk extends Component {
   }
 
   renderContent = () => {
+    if (!this.props.agentAvailability) return null;
+
     switch (this.props.screen) {
       case CALLBACK_ONLY_SCREEN:
         return this.renderFormScreen();
@@ -257,6 +267,34 @@ class Talk extends Component {
       default:
         return formTitle;
     }
+  }
+
+  renderOfflineScreen = () => {
+    if (this.props.agentAvailability) return null;
+
+    const label = i18n.t('embeddable_framework.talk.offline.label',
+      { fallback: 'Sorry, all agents are currently offline. Try again later.'}
+    );
+    let link;
+
+    if (this.props.helpCenterAvailable) {
+      link = i18n.t('embeddable_framework.talk.offline.link.help_center',
+        { fallback: 'Go back to Help Center'}
+      );
+    } else if (this.props.channelChoiceAvailable) {
+      link = i18n.t('embeddable_framework.talk.offline.link.channel_choice',
+        { fallback: 'Go back'}
+      );
+    } else {
+      link = '';
+    }
+
+    return (
+      <div>
+        <p>{label}</p>
+        <a onClick={this.props.onBackClick}>{link}</a>
+      </div>
+    );
   }
 
   renderZendeskLogo = () => {
@@ -303,6 +341,7 @@ class Talk extends Component {
         getFrameDimensions={this.props.getFrameDimensions}
         title={this.renderFormTitle()}>
         {this.renderContent()}
+        {this.renderOfflineScreen()}
       </ScrollContainer>
     );
   }
