@@ -578,6 +578,82 @@ describe('WebWidget component', () => {
     });
   });
 
+  describe('#shouldShowTicketFormBackButton', () => {
+    let webWidget;
+    const mockState = {
+      selectedTicketForm: true,
+      ticketForms: {
+        ticket_forms: [1, 2, 3] // eslint-disable-line camelcase
+      }
+    };
+
+    describe('when a ticket form is selected and there is more then one ticket form', () => {
+      beforeEach(() => {
+        webWidget = domRender(
+          <WebWidget />
+        );
+
+        spyOn(webWidget, 'getSubmitTicketComponent').and.returnValue({ state: mockState });
+      });
+
+      it('returns true', () => {
+        expect(webWidget.shouldShowTicketFormBackButton())
+          .toEqual(true);
+      });
+    });
+
+    describe('when a ticket form is not selected', () => {
+      beforeEach(() => {
+        mockState.selectedTicketForm = false;
+
+        webWidget = domRender(
+          <WebWidget />
+        );
+
+        spyOn(webWidget, 'getSubmitTicketComponent').and.returnValue({ state: mockState });
+      });
+
+      it('returns false', () => {
+        expect(webWidget.shouldShowTicketFormBackButton())
+          .toEqual(false);
+      });
+    });
+
+    describe('when there is only one ticket form', () => {
+      beforeEach(() => {
+        mockState.ticketForms.ticket_forms = [1]; // eslint-disable-line camelcase
+
+        webWidget = domRender(
+          <WebWidget />
+        );
+
+        spyOn(webWidget, 'getSubmitTicketComponent').and.returnValue({ state: mockState });
+      });
+
+      it('returns false', () => {
+        expect(webWidget.shouldShowTicketFormBackButton())
+          .toEqual(false);
+      });
+    });
+
+    describe('when submit ticket does not exist', () => {
+      beforeEach(() => {
+        mockState.selectedTicketForm = true;
+
+        webWidget = domRender(
+          <WebWidget />
+        );
+
+        spyOn(webWidget, 'getSubmitTicketComponent').and.returnValue(undefined);
+      });
+
+      it('returns false', () => {
+        expect(webWidget.shouldShowTicketFormBackButton())
+          .toEqual(false);
+      });
+    });
+  });
+
   describe('#show', () => {
     let webWidget, updateActiveEmbedSpy;
 
