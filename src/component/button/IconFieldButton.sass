@@ -2,7 +2,22 @@
 
 .button {
   composes: u-borderTransparent u-marginLS from global;
-  composes: Button--field from '../../styles/components/Button.scss';
+
+  border-top-right-radius: #{3/$font-size}rem;
+  border-bottom-right-radius: #{3/$font-size}rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding: #{12/$font-size}rem #{14/$font-size}rem #{8/$font-size}rem;
+
+  [dir='rtl'] & {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: #{3/$font-size}rem;
+    border-bottom-left-radius: #{3/$font-size}rem;
+
+    margin-left: 0 !important;
+    margin-right: #{10/$font-size}rem !important;
+  }
 }
 
 .focused {
@@ -14,8 +29,14 @@
 }
 
 .fullscreen {
-  composes: Button--fieldMobile from '../../styles/components/Button.scss';
   composes: Anim-color from '../../styles/components/Animation.scss';
+
+  padding: #{14/$font-size}rem #{14/$font-size}rem #{10/$font-size}rem;
+  background: $zd-color-anti-flash-white;
+
+  &:focus, &:active {
+    background: $zd-color-gainsboro !important;
+  }
 }
 
 .hovering {

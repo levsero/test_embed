@@ -36,17 +36,6 @@ $Button-nudge: 5;
   }
 }
 
-.Button--cta {
-  background: $cta-color;
-  color: $base-color;
-  fill: $base-color;
-  border-radius: #{5/$font-size}rem;
-  font-weight: 700;
-  letter-spacing: 0.4;
-  bottom: -5px; /* 2 */
-  padding: #{12/$font-size}rem #{22/$font-size}rem #{14/$font-size}rem;
-}
-
 .Button--nav {
   color: $zd-color-aluminum;
   padding-top: #{16/$font-size}rem;
@@ -55,61 +44,6 @@ $Button-nudge: 5;
   &:hover, &:active {
     svg {
       fill: $icon-active-color;
-    }
-  }
-}
-
-.Button--navDesktop {
-  bottom: #{6/$font-size}rem;
-}
-
-.Button--field {
-  border-top-right-radius: #{3/$font-size}rem;
-  border-bottom-right-radius: #{3/$font-size}rem;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  padding: #{12/$font-size}rem #{14/$font-size}rem #{8/$font-size}rem;
-
-  [dir='rtl'] & {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-top-left-radius: #{3/$font-size}rem;
-    border-bottom-left-radius: #{3/$font-size}rem;
-
-    margin-left: 0 !important;
-    margin-right: #{10/$font-size}rem !important;
-  }
-}
-
-.Button--fieldMobile {
-  padding: #{14/$font-size}rem #{14/$font-size}rem #{10/$font-size}rem;
-  background: $zd-color-anti-flash-white;
-
-  &:focus, &:active {
-    background: $zd-color-gainsboro !important;
-  }
-}
-
-.Button--dropzone {
-  padding: #{14/$font-size}rem #{10/$font-size}rem;
-  color: $secondary-color;
-}
-
-.Button--icon {
-  color: $zd-color-dark-gray;
-  padding: #{10/$font-size}rem;
-
-  .Icon svg path {
-    fill: $zd-color-monsoon;
-  }
-
-  &:hover, &:focus, &:active {
-    background: $zd-color-anti-flash-white;
-    border-radius: #{4/$font-size}rem;
-    color: $zd-color-oil;
-
-    .Icon svg path {
-      fill: $zd-color-dark-gray;
     }
   }
 }

@@ -1,6 +1,7 @@
 import AttachmentStyles from 'component/attachment/Attachment.sass';
 import AttachmentBoxStyles from 'component/attachment/AttachmentBox.sass';
 import AttachmentListStyles from 'component/attachment/AttachmentList.sass';
+import ButtonDropzoneStyles from 'component/button/ButtonDropzone.sass';
 import ButtonIconStyles from 'component/button/ButtonIcon.sass';
 import ButtonGroupStyles from 'component/button/ButtonGroup.sass';
 import ButtonPillStyles from 'component/button/ButtonPill.sass';
@@ -49,6 +50,7 @@ export const webWidgetStyles = `
   ${AttachmentStyles}
   ${AttachmentBoxStyles}
   ${AttachmentListStyles}
+  ${ButtonDropzoneStyles}
   ${ButtonIconStyles}
   ${ButtonGroupStyles}
   ${ButtonPillStyles}

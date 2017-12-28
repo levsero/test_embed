@@ -1,13 +1,20 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: Button--icon from '../../styles/components/Button.scss';
-  composes: u-flex u-flexAlignItemsCenter u-isDisabled from global;
+  composes: u-paddingAS u-flex u-flexAlignItemsCenter u-isDisabled from global;
+
+  color: $zd-color-dark-gray;
+
+  .Icon svg path {
+    fill: $zd-color-monsoon;
+  }
 
   &:hover, &:focus, &:active {
+    background: $zd-color-anti-flash-white;
+    border-radius: #{4/$font-size}rem;
     color: $zd-color-oil;
 
-    svg path {
+    .Icon svg path {
       fill: $zd-color-dark-gray;
     }
   }
