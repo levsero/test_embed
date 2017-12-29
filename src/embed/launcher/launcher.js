@@ -15,7 +15,7 @@ import { transitionFactory } from 'service/transitionFactory';
 import { isMobileBrowser,
          getZoomSizingRatio } from 'utility/devices';
 
-const launcherCSS = `${require('./launcher.scss')} ${launcherStyles}`;
+const launcherCSS = `${require('globalCSS')} ${launcherStyles}`;
 
 let launchers = {};
 

@@ -133,8 +133,7 @@ describe('Frame', () => {
       'lodash': _,
       'component/Icon': {
         Icon: noop
-      },
-      'mainCSS': 'main-css-file'
+      }
     };
 
     initMockRegistry(mockRegistryMocks);
@@ -1001,9 +1000,6 @@ describe('Frame', () => {
       });
 
       it('should add css styles to the element', () => {
-        expect(frame.getChild().props.baseCSS)
-          .toContain('main-css-file');
-
         expect(frame.getChild().props.baseCSS)
           .toContain('css-prop');
       });

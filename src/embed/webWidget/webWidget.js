@@ -30,7 +30,7 @@ import { resetTalkScreen } from 'src/redux/modules/talk';
 import WebWidget from 'component/webWidget/WebWidget';
 import zChat from 'chat-web-sdk';
 
-const webWidgetCSS = `${require('./webWidget.scss')} ${webWidgetStyles}`;
+const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
 let embed = null;
 let hasManuallySetContextualSuggestions = false;

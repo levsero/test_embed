@@ -115,7 +115,7 @@ describe('embed.webWidget', () => {
         }
       },
       'component/webWidget/WebWidget': mockWebWidget,
-      './webWidget.scss': '',
+      'globalCSS': '',
       './webWidgetStyles.js': {
         webWidgetStyles: 'mockCss'
       },
