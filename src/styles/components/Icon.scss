@@ -42,15 +42,6 @@
   }
 }
 
-.Icon--form {
-  svg {
-    min-width: #{16/$font-size}rem; /* 1 */
-    min-height: #{16/$font-size}rem; /* 1 */
-    height: #{16/$font-size}rem;
-    width: #{16/$font-size}rem;
-  }
-}
-
 .Icon--zendesk {
   top: #{10/$font-size}rem;
 
@@ -206,22 +197,6 @@
     width: #{12/$font-size}rem;
     padding: 0;
   }
-}
-
-.Icon--dropdownArrow {
-  display: block;
-  width: 0;
-  height: 0;
-  border-left: $spacing-tny solid transparent;
-  border-right: $spacing-tny solid transparent;
-  border-bottom: $spacing-tny solid $icon-color;
-  margin-bottom: #{3/$font-size}rem;
-}
-
-.Icon--dropdownArrowBottom {
-  border-top: $spacing-tny solid $icon-color;
-  border-bottom: 0;
-  margin-bottom: 0;
 }
 
 .Icon--avatar {
