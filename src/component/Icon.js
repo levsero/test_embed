@@ -58,7 +58,6 @@ export class Icon extends Component {
     const icon = icons[this.props.type];
     const deviceStyle = this.props.isMobile ? styles.mobile : '';
     const iconClasses = `
-      ${styles.icon}
       ${this.props.type}
       ${this.props.className}
       ${deviceStyle}
