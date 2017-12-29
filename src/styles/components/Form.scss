@@ -11,35 +11,12 @@
   font-style: normal;
 }
 
-$Form-spacing: #{10/$font-size}rem;
-$Form-gutter: #{15/$font-size}rem;
-$Form-fontSize: #{13/$font-size}rem;
-
 @mixin error-state($thickness) {
   border: $thickness solid $error-color;
 }
 
 .Form {
   margin: 0;
-}
-
-.rf-Form, .form-group {
-  margin-bottom: #{14/$font-size}rem;
-}
-
-.Form-cta--bar {
-  border-radius: #{8/$font-size}rem #{8/$font-size}rem 0 0;
-  padding: #{19/$font-size}rem #{25/$font-size}rem;
-  background: $form-cta-color;
-  border-bottom: $thin-border-size solid $base-border-color;
-}
-
-.Form-cta--barFullscreen {
-  padding-top: #{18/$font-size}rem;
-}
-
-.Form-ctaLegend {
-  top: #{13/$font-size}rem;
 }
 
 .Form-fieldContainer {
@@ -56,7 +33,7 @@ $Form-fontSize: #{13/$font-size}rem;
   border-radius: #{4/$font-size}rem;
   padding: #{9.5/$font-size}rem $spacing-sml #{9.5/$font-size}rem;
   color: $secondary-color;
-  font-size: $Form-fontSize;
+  font-size: #{13/$font-size}rem;
 
   textarea, input, select {
     border: none;
@@ -81,42 +58,8 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 }
 
-.Form-field--small {
-  padding: #{4/$font-size}rem $spacing-sml #{4/$font-size}rem;
-}
-
-.Form-field--display {
-  background: $zd-color-white-smoke;
-  border: $thin-border-size solid $stroke-color;
-  border-radius: #{4/$font-size}rem;
-  padding: #{9/$font-size}rem $spacing-sml $spacing-sml;
-  color: $secondary-color;
-}
-
-.Form-field--display-preview {
-  @extend .Form-field--display;
-
-  padding: #{7/$font-size}rem;
-}
-
-.Form-fieldArrows {
-  position: absolute;
-  right: #{14/$font-size}rem;
-  top: #{13/$font-size}rem;
-  pointer-events: none;
-
-  [dir='rtl'] & {
-    left: #{14/$font-size}rem;
-    right: initial;
-  }
-}
-
-.Form-fieldArrows--small {
-  top: #{9/$font-size}rem;
-}
-
 .Form-field--search {
-  padding: #{11/$font-size}rem $Form-spacing;
+  padding: #{11/$font-size}rem #{10/$font-size}rem;
   height: #{43/$font-size}rem;
 
   &.is-mobile {
@@ -156,11 +99,7 @@ $Form-fontSize: #{13/$font-size}rem;
   padding: 0;
 }
 
-.Form-field--dropdown {
-  padding-left: #{12/$font-size}rem;
-}
-
-.Form-field--blurred.Form-field--invalid {
+.Form-field--invalid {
   @include error-state($thin-border-size);
 }
 
