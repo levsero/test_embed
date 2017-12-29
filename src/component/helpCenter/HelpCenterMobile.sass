@@ -1,6 +1,8 @@
 /**
  * 1. This ensures there is a margin between the footer and the
       Help Center article content. Appears as a small white strip.
+ * 2. fallback for old android browsers
+ * 3. fix big margin-top in landscape
  */
 
 @import '../../styles/_vars.scss';
@@ -17,7 +19,14 @@
 
 .searchTitle {
   composes: u-textSizeBaseMobile u-marginTM u-textCenter from global;
-  composes: Container--fullscreen-center-vert from '../../styles/components/Container.scss';
+
+  padding-top: 20%; /* 2 */
+  padding-top: calc(30% - (#{40/$font-size}rem));
+
+  /* 3 */
+  @media screen and (orientation: landscape) {
+    padding-top: calc(10% - (#{40/$font-size}rem));
+  }
 }
 
 .link {
