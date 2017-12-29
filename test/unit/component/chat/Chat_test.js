@@ -20,7 +20,7 @@ describe('Chat component', () => {
     chatProp = { chats: chats };
 
     initMockRegistry({
-      './Chat.sass': {
+      './Chat.scss': {
         locals: {
           scrollContainerMobile: 'scrollContainerMobileClasses',
           footer: 'footerClasses',

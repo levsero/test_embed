@@ -33,7 +33,7 @@ describe('ChatHeader component', () => {
           t: noop
         }
       },
-      './ChatHeader.sass': {
+      './ChatHeader.scss': {
         locals: {
           container: 'container',
           textContainer: 'textContainer',

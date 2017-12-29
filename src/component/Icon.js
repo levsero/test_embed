@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { locals as styles } from './Icon.sass';
+import { locals as styles } from './Icon.scss';
 import { isMobileBrowser } from 'utility/devices';
 
 const icons = {

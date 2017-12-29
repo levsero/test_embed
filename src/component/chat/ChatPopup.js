@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Button } from 'component/button/Button';
 
-import { locals as styles } from './ChatPopup.sass';
+import { locals as styles } from './ChatPopup.scss';
 
 export class ChatPopup extends Component {
   static propTypes = {

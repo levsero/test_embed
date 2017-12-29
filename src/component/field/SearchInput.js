@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { i18n } from 'service/i18n';
 import { isIos } from 'utility/devices';
-import { locals as styles } from './SearchInput.sass';
+import { locals as styles } from './SearchInput.scss';
 
 export class SearchInput extends Component {
   static propTypes = {

@@ -1,7 +1,7 @@
 @import '../styles/_vars.scss';
 
 .icon {
-  composes: Icon from global;
+  composes: Icon from '../styles/components/Icon.scss';
 }
 
 .mobile {

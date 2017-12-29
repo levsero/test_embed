@@ -19,7 +19,7 @@ describe('ChatContactDetailsPopup component', () => {
     mockFormValidity = false;
 
     initMockRegistry({
-      'component/chat/ChatContactDetailsPopup.sass': {
+      'component/chat/ChatContactDetailsPopup.scss': {
         locals: {}
       },
       'component/chat/ChatPopup': { ChatPopup },

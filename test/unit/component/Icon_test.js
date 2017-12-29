@@ -53,7 +53,7 @@ describe('Icon component', function() {
           return false;
         }
       },
-      './Icon.sass': {
+      './Icon.scss': {
         locals: {
           mobile: 'is-mobile',
           icon: 'my-generated-icon'

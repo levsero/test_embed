@@ -9,7 +9,7 @@ describe('ButtonSecondary', () => {
 
     initMockRegistry({
       'React': React,
-      './ButtonSecondary.sass': {
+      './ButtonSecondary.scss': {
         locals: {
           button: 'btn'
         }

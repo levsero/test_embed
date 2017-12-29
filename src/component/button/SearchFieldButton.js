@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { locals as styles } from './SearchFieldButton.sass';
+import { locals as styles } from './SearchFieldButton.scss';
 
 import { i18n } from 'service/i18n';
 import { IconFieldButton } from 'component/button/IconFieldButton';

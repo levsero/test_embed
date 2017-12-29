@@ -26,7 +26,7 @@ describe('Attachment component', () => {
           t: mocki18nTranslate
         }
       },
-      './Attachment.sass': {
+      './Attachment.scss': {
         locals: {
           progress: 'progress',
           containerError: 'containerError',

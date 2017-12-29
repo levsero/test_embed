@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { locals as styles } from './MessageBubble.sass';
+import { locals as styles } from './MessageBubble.scss';
 
 export class MessageBubble extends Component {
   static propTypes = {

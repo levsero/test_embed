@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { i18n } from 'service/i18n';
 import { ButtonIcon } from 'component/button/ButtonIcon';
-import { locals as styles } from './ChannelChoiceMenu.sass';
+import { locals as styles } from './ChannelChoiceMenu.scss';
 
 export class ChannelChoiceMenu extends Component {
   static propTypes = {

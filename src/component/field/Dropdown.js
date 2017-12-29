@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
-import { locals as styles } from './Dropdown.sass';
+import { locals as styles } from './Dropdown.scss';
 import { DropdownMenu } from 'component/field/DropdownMenu';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';

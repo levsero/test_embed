@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { win } from 'utility/globals';
 
-import { locals as styles } from './ScrollContainer.sass';
+import { locals as styles } from './ScrollContainer.scss';
 
 const frameMargin = 15;
 const frameBorder = 2;

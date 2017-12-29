@@ -14,7 +14,7 @@ describe('SearchField component', () => {
 
     initMockRegistry({
       'React': React,
-      './SearchField.sass': {
+      './SearchField.scss': {
         locals: {
           hidden: 'hidden',
           clearInput: 'clearInput'

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { locals as styles } from './ChatFooter.sass';
+import { locals as styles } from './ChatFooter.scss';
 
 import { Icon } from 'component/Icon';
 import { Dropzone } from 'component/Dropzone';

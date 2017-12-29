@@ -7,7 +7,7 @@ describe('ChatFooter component', () => {
     mockery.enable();
 
     initMockRegistry({
-      './ChatFooter.sass': {
+      './ChatFooter.scss': {
         locals: {
           icons: 'iconsClasses',
           iconDisabled: 'iconDisabledClasses',

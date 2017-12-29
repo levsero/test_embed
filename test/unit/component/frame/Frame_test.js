@@ -81,7 +81,7 @@ describe('Frame', () => {
 
     mockRegistryMocks = {
       'React': React,
-      './Frame.sass': {
+      './Frame.scss': {
         locals: {}
       },
       'utility/utils': {

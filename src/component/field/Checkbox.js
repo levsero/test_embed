@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { locals as styles } from './Checkbox.sass';
+import { locals as styles } from './Checkbox.scss';
 import { Icon } from 'component/Icon';
 
 export class Checkbox extends Component {

@@ -13,7 +13,7 @@ describe('dropdownOption component', () => {
 
     initMockRegistry({
       'React': React,
-      './DropdownOption.sass': {
+      './DropdownOption.scss': {
         locals: {
           arrowLeft: 'arrowLeftClasses',
           arrowRight: 'arrowRightClasses',

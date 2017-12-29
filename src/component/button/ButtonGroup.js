@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { locals as styles } from './ButtonGroup.sass';
+import { locals as styles } from './ButtonGroup.scss';
 import PropTypes from 'prop-types';
 
 export class ButtonGroup extends Component {

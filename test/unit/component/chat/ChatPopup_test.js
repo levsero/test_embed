@@ -7,7 +7,7 @@ describe('ChatPopup component', () => {
     mockery.enable();
 
     initMockRegistry({
-      './ChatPopup.sass': {
+      './ChatPopup.scss': {
         locals: {
           'leftCtaBtn': 'leftCtaBtnClasses',
           'rightCtaBtn': 'rightCtaBtnClasses',

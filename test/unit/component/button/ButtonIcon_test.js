@@ -18,7 +18,7 @@ describe('ButtonIcon', () => {
       'utility/devices': {
         isIE: () => mockIsIeValue
       },
-      './ButtonIcon.sass': {
+      './ButtonIcon.scss': {
         locals: {
           'containerActionable': 'containerActionable',
           'containerIE': 'containerIE'

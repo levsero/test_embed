@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { locals as styles } from './Field.sass';
+import { locals as styles } from './Field.scss';
 import { isMobileBrowser,
          isLandscape,
          isIos } from 'utility/devices';

@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { ButtonPill } from 'component/button/ButtonPill';
 import { i18n } from 'service/i18n';
 
-import { locals as styles } from './HelpCenterResults.sass';
+import { locals as styles } from './HelpCenterResults.scss';
 
 export class HelpCenterResults extends Component {
   static propTypes = {
