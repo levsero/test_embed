@@ -12,14 +12,6 @@
   composes: u-linkClean from global;
 }
 
-.content {
-  composes: UserContent from '../../styles/components/UserContent.scss';
-  word-break: break-word;
-  line-height: 1.5;
-  font-size: #{13/$font-size}rem;
-  max-width: #{339/$font-size}rem;
-}
-
 .contentMobile {
   font-size: #{14/$font-size}rem;
   max-width: 100%;
@@ -31,4 +23,125 @@
 
 .article {
   composes: u-marginTM from global;
+}
+
+.content {
+  word-break: break-word;
+  line-height: 1.5;
+  font-size: #{13/$font-size}rem;
+  max-width: #{339/$font-size}rem;
+
+  p {
+    margin-bottom: #{15/$font-size}rem;
+  }
+
+  ul {
+    white-space: pre-wrap;
+  }
+
+  ol, ul {
+    list-style: disc;
+    margin: 0 0 #{20/$font-size}rem #{20/$font-size}rem;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  a {
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  h1, h2, h3, h4, h5, h6,
+  .wysiwyg-font-size-large,
+  .wysiwyg-font-size-x-large {
+    font-weight: 600;
+    color: $body-color;
+    margin-bottom: #{5/$font-size}rem;
+  }
+
+  h1, .wysiwyg-font-size-x-large {
+    font-size: #{16/$font-size}rem;
+  }
+
+  h2, .wysiwyg-font-size-large {
+    font-size: #{15/$font-size}rem;
+  }
+
+  h3 {
+    font-size: #{14/$font-size}rem;
+  }
+
+  h4 {
+    font-size: #{13/$font-size}rem;
+  }
+
+  h5, .wysiwyg-font-size-small {
+    font-size: #{12/$font-size}rem;
+  }
+
+  h6 {
+    font-size: #{11/$font-size}rem;
+  }
+
+  blockquote {
+    border-left: #{4/$font-size}rem solid $zd-color-silver-sand;
+    padding-left: #{20/$font-size}rem;
+    font-style: italic;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  iframe {
+    width: 100%;
+    min-height: #{210/$font-size}rem;
+  }
+
+  .table-wrap {
+    /* hack to make the iframe work properly in iOS */
+    width: 1px;
+    *width: 100%;
+    min-width: 100%;
+    overflow-y: auto;
+    margin: 0 0 #{16/$font-size}rem;
+
+    &::-webkit-scrollbar {
+      box-shadow: none;
+      height: #{6/$font-size}rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $base-border-color;
+      border-radius: #{6/$font-size}rem;
+    }
+  }
+
+  table {
+    word-break: normal;
+    text-align: left;
+    font-size: #{13/$font-size}rem;
+    margin-bottom: #{10/$font-size}rem;
+    margin-right: #{3/$font-size}rem;
+  }
+
+  th, td {
+    padding: #{10/$font-size}rem;
+    border: #{1/$font-size}rem solid $stroke-color;
+  }
+
+  pre {
+    background: $zd-color-white-smoke;
+    border: #{1/$font-size}rem solid $zd-color-gainsboro;
+    border-radius: #{3/$font-size}rem;
+    padding: #{10/$font-size}rem #{15/$font-size}rem;
+    overflow: auto;
+    white-space: pre;
+    margin-bottom: #{15/$font-size}rem;
+  }
 }
