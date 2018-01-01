@@ -833,3 +833,18 @@ parts:
       title: "A message displayed on a styled error element, its purpose is to show an error message that describes the phone number the user entered is invalid"
       screenshot: "https://zendesk.box.com/s/1ksdrmstlluiebp40qu6c2alvhk7852i"
       value: "Please enter a valid phone number."
+  - translation:
+      key: "embeddable_framework.talk.offline.label"
+      title: "A message that displays when all agents go offline"
+      screenshot: "https://zendesk.box.com/s/bc4veq1cl0zo5ptd2b4ccisyxowfugs1"
+      value: "Sorry, all agents are currently offline. Try again later."
+  - translation:
+      key: "embeddable_framework.talk.offline.link.help_center"
+      title: "A link to go back to Help Center when all agents are offline"
+      screenshot: "https://zendesk.box.com/s/rtxyqticqshlbje59ufctq1j6g44q0pj"
+      value: "Go back to Help Center"
+  - translation:
+      key: "embeddable_framework.talk.offline.link.channel_choice"
+      title: "A link to go back when all agents are offline"
+      screenshot: "https://zendesk.box.com/s/jxaz68nditoaugexan0w9lfupdbmvi0s"
+      value: "Go back"

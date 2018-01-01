@@ -436,6 +436,9 @@ class WebWidget extends Component {
         isMobile={this.props.fullscreen}
         updateFrameSize={this.props.updateFrameSize}
         talkConfig={this.props.talkConfig}
+        helpCenterAvailable={this.isHelpCenterAvailable()}
+        channelChoiceAvailable={this.isChannelChoiceAvailable()}
+        onBackClick={this.onBackClick}
         zendeskSubdomain={this.props.zendeskSubdomain} />
     );
   }
