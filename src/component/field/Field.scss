@@ -50,3 +50,8 @@
 .fieldInputMobile {
   composes: u-textSizeBaseMobile from global;
 }
+
+.description {
+  composes: u-textAluminum from global;
+  composes: Form-description from '../../styles/components/Form.scss';
+}

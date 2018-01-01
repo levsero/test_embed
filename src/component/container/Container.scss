@@ -12,7 +12,7 @@
 }
 
 .mobile {
-  composes: Container--fullscreen from global;
+  composes: Container--fullscreen from '../../styles/components/Container.scss';
 }
 
 .card {

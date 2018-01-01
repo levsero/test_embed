@@ -182,7 +182,7 @@ export class Field extends Component {
 
   renderDescription = () => {
     return (this.props.description !== '')
-         ? <div className='Form-description u-textAluminum'>{this.props.description}</div>
+         ? <div className={styles.description}>{this.props.description}</div>
          : null;
   }
 
