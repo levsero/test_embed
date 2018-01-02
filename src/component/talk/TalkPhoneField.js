@@ -152,19 +152,23 @@ export class TalkPhoneField extends Component {
 
   renderDropdownOption = (name) => {
     const country = countriesByName[name];
+    const nameDeviceStyle = isMobileBrowser() ? styles.dropdownNameMobile : '';
+    const nameStyles = `${styles.dropdownName} ${nameDeviceStyle}`;
 
     return (
       <div className={styles.dropdownOption}>
         {this.renderFlag(country, styles.dropdownFlag)}
-        <span className={styles.dropdownName}>{name}</span>
+        <span className={nameStyles}>{name}</span>
       </div>
     );
   }
 
   renderSelectionText = (text) => {
     const country = countriesByName[text];
+    const flagDeviceStyle = isMobileBrowser() ? styles.selectedFlagMobile : '';
+    const flagClasses = `${styles.selectedFlag} ${flagDeviceStyle}`;
 
-    return <span>&nbsp;{this.renderFlag(country, styles.selectedFlag)}</span>;
+    return <span>{this.renderFlag(country, flagClasses)}</span>;
   }
 
   renderLabel() {
@@ -203,7 +207,9 @@ export class TalkPhoneField extends Component {
     `;
     const focusStyle = focus ? styles.controlsFocus : '';
     const hoverStyle = hover ? styles.controlsHover : '';
-    const containerStyle = `${focusStyle} ${hoverStyle}`;
+    const containerStyle = `${styles.controls} ${focusStyle} ${hoverStyle}`;
+    const arrowDeviceStyle = isMobileBrowser() ? styles.arrowMobile : '';
+    const arrowStyle = `${styles.arrow} ${arrowDeviceStyle}`;
 
     return (
       <div className={styles.container}>
@@ -212,12 +218,14 @@ export class TalkPhoneField extends Component {
           <Dropdown
             className={styles.dropdown}
             name='countries'
+            fullscreen={isMobileBrowser()}
             options={supportedCountries}
             optionFormat={this.renderDropdownOption}
             selectionTextFormat={this.renderSelectionText}
             onChange={this.handleCountrySelected}
             containerClassName={styles.dropdownContainer}
             menuContainerClassName={styles.menuContainer}
+            arrowClassName={arrowStyle}
             inputClassName={dropdownInputClasses}
             onFocus={this.handleFocus}
             onBlur={this.handleDropdownBlur}
@@ -235,6 +243,7 @@ export class TalkPhoneField extends Component {
             name='phone'
             fieldContainerClasses={styles.fieldContainer}
             fieldClasses={fieldClasses}
+            inputClasses={styles.fieldInput}
             labelClasses={styles.fieldLabel}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}

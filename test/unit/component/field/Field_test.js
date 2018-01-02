@@ -33,7 +33,8 @@ describe('Field component', () => {
           invalid: 'field-invalid',
           label: 'field-label',
           labelPortrait: 'label-portrait',
-          labelLandscape: 'label-landscape'
+          labelLandscape: 'label-landscape',
+          fieldInputMobile: 'field-input-mobile'
         }
       }
     });
@@ -48,7 +49,7 @@ describe('Field component', () => {
     mockery.disable();
   });
 
-  it('should render field DOM with a label wrapping two child divs', () => {
+  it('renders field DOM with a label wrapping two child divs', () => {
     const field = domRender(<Field name='alice' />);
     const fieldNode = ReactDOM.findDOMNode(field).children[0];
 
@@ -65,7 +66,7 @@ describe('Field component', () => {
       .toEqual('DIV');
   });
 
-  it('should pass along all props to underlying input', () => {
+  it('passes along all props to underlying input', () => {
     const field = domRender(<Field type='email' name='alice' disabled={true} />);
     const fieldNode = ReactDOM.findDOMNode(field);
 
@@ -79,7 +80,7 @@ describe('Field component', () => {
       .toEqual(true);
   });
 
-  it('should render input prop component instead of default input', () => {
+  it('renders input prop component instead of default input', () => {
     const field = domRender(<Field input={<textarea />} name='alice' />);
     const fieldNode = ReactDOM.findDOMNode(field);
 
@@ -93,7 +94,7 @@ describe('Field component', () => {
       .toEqual('alice');
   });
 
-  it('should set focused state on field focus', () => {
+  it('sets focused state on field focus', () => {
     const field = domRender(<Field name='alice' />);
 
     expect(field.state.focused)
@@ -108,7 +109,7 @@ describe('Field component', () => {
       .toBeTruthy();
   });
 
-  it('should only set invalid class after focus and blur events', () => {
+  it('sets invalid class after focus and blur events', () => {
     const field = domRender(<Field name='alice' />);
     const fieldNode = ReactDOM.findDOMNode(field);
 
@@ -140,8 +141,15 @@ describe('Field component', () => {
       .toBeTruthy();
   });
 
+  it('allows customization of the input class name', () => {
+    const field = domRender(<Field inputClasses='testing' />);
+
+    expect(TestUtils.findRenderedDOMComponentWithClass(field, 'testing'))
+      .toBeTruthy();
+  });
+
   describe('mobile', () => {
-    it('should have default mobile classes when isMobileBrowser is true', () => {
+    it('has the default mobile classes when isMobileBrowser is true', () => {
       mockIsMobileBrowserValue = true;
 
       const field = domRender(<Field />);
@@ -151,9 +159,12 @@ describe('Field component', () => {
 
       expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'label-landscape'))
         .toThrow();
+
+      expect(TestUtils.findRenderedDOMComponentWithClass(field, 'field-input-mobile'))
+        .toBeTruthy();
     });
 
-    it('should have extra landscape classes when isLandscape is true', () => {
+    it('has the extra landscape classes when isLandscape is true', () => {
       mockIsMobileBrowserValue = true;
       mockIsLandscapeValue = true;
 
@@ -166,16 +177,19 @@ describe('Field component', () => {
         .toThrow();
     });
 
-    it('should not have mobile classes when isMobileBrowser is false', () => {
+    it('does not have mobile classes when isMobileBrowser is false', () => {
       const field = domRender(<Field />);
 
       expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'mobile'))
+        .toThrow();
+
+      expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'field-input-mobile'))
         .toThrow();
     });
   });
 
   describe('pattern attr', () => {
-    it('should be used if it is passed in', () => {
+    it('is used if it is passed in', () => {
       const field = domRender(<Field pattern='[a-zA-Z]' />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
@@ -183,7 +197,7 @@ describe('Field component', () => {
         .toEqual('[a-zA-Z]');
     });
 
-    it('should not use one if it is not passed in', () => {
+    it('does not use one if it is not passed in', () => {
       const field = domRender(<Field />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
@@ -292,7 +306,7 @@ describe('Field component', () => {
   });
 
   describe('description', () => {
-    it('should be added if it is true', () => {
+    it('is added if it is true', () => {
       const field = domRender(<Field description='hello' />);
       const fieldNode = ReactDOM.findDOMNode(field);
 

@@ -84,7 +84,7 @@ $menu-height: #{200/$font-size}rem;
   z-index: 3; /* 1 */
   border-radius: #{4/$font-size}rem;
   border-color: $zd-color-aluminum;
-  top: #{37/$font-size}rem;
+  top: #{39/$font-size}rem;
   left: #{-1/$font-size}rem;
   height: $menu-height;
   overflow-x: hidden;
@@ -109,6 +109,11 @@ $menu-height: #{200/$font-size}rem;
     background: $base-border-color;
     border-radius: #{3/$font-size}rem;
   }
+
+  [dir="rtl"] & {
+    right: #{-1/$font-size}rem;
+    left: initial;
+  }
 }
 
 .menuUp {
@@ -117,7 +122,7 @@ $menu-height: #{200/$font-size}rem;
 
 .menuContainerMobile {
   composes: u-textSize15 from global;
-  top: #{38/$font-size}rem;
+  top: #{43/$font-size}rem;
 }
 
 .menu {

@@ -21,6 +21,7 @@ export class Dropdown extends Component {
     className: PropTypes.string,
     containerClassName: PropTypes.string,
     menuContainerClassName: PropTypes.string,
+    arrowClassName: PropTypes.string,
     inputClassName: PropTypes.string,
     fullscreen: PropTypes.bool,
     getFrameDimensions: PropTypes.func.isRequired,
@@ -48,6 +49,7 @@ export class Dropdown extends Component {
     className: '',
     menuContainerClassName: '',
     containerClassName: '',
+    arrowClassName: '',
     inputClassName: '',
     landscape: false,
     description: '',
@@ -270,9 +272,15 @@ export class Dropdown extends Component {
   renderDropdownArrow = () => {
     const iconOpenClasses = this.state.open ? styles.arrowOpen : '';
     const hoveredClasses = this.state.hovering ? styles.arrowHover : '';
+    const arrowClasses = `
+      ${styles.arrow}
+      ${this.props.arrowClassName}
+      ${iconOpenClasses}
+      ${hoveredClasses}
+    `;
 
     return (
-      <Icon type='Icon--chevron' className={`${styles.arrow} ${iconOpenClasses} ${hoveredClasses}`} />
+      <Icon type='Icon--chevron' className={arrowClasses} />
     );
   }
 

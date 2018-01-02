@@ -24,6 +24,7 @@ export class Field extends Component {
     fieldContainerClasses: PropTypes.string,
     labelClasses: PropTypes.string,
     fieldClasses: PropTypes.string,
+    inputClasses: PropTypes.string,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
@@ -46,6 +47,7 @@ export class Field extends Component {
     fieldContainerClasses: '',
     labelClasses: '',
     fieldClasses: '',
+    inputClasses: '',
     onBlur: () => {},
     onChange: () => {},
     onFocus: () => {},
@@ -141,7 +143,11 @@ export class Field extends Component {
       ref: (element) => this.input = element,
       value: this.props.value
     };
-    const fieldInputClasses = isMobileBrowser() ? styles.fieldInputMobile : '';
+    const fieldInputDeviceClasses = isMobileBrowser() ? styles.fieldInputMobile : '';
+    const fieldInputClasses = `
+      ${fieldInputDeviceClasses}
+      ${this.props.inputClasses}
+    `;
     let fieldProps = {
       name: this.props.name,
       value: this.props.value,
