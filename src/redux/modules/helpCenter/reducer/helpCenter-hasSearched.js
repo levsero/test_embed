@@ -1,7 +1,8 @@
 import {
   SEARCH_SUCCESS,
   SEARCH_FAILURE,
-  CONTEXTUAL_SEARCH_SUCCESS } from '../helpCenter-action-types';
+  CONTEXTUAL_SEARCH_SUCCESS,
+  CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS } from '../helpCenter-action-types';
 
 const initialState = false;
 
@@ -13,6 +14,8 @@ const hasSearched = (state = initialState, action) => {
     case SEARCH_SUCCESS:
     case SEARCH_FAILURE:
       return true;
+    case CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS:
+      return false;
     default:
       return state;
   }

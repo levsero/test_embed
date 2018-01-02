@@ -102,4 +102,19 @@ describe('helpCenter reducer searchLoading', () => {
         .toEqual(false);
     });
   });
+
+  describe('when an CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(initialState, {
+        type: actionTypes.CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS
+      });
+    });
+
+    it('sets the state to false', () => {
+      expect(state)
+        .toEqual(false);
+    });
+  });
 });

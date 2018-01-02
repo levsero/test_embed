@@ -1,6 +1,7 @@
 import {
   CONTEXTUAL_SEARCH_REQUEST,
   CONTEXTUAL_SEARCH_SUCCESS,
+  CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS,
   SEARCH_REQUEST,
   SEARCH_SUCCESS,
   SEARCH_FAILURE
@@ -17,6 +18,7 @@ const loading = (state = initialState, action) => {
       return true;
     case SEARCH_SUCCESS:
     case CONTEXTUAL_SEARCH_SUCCESS:
+    case CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS:
     case SEARCH_FAILURE:
       return false;
     default:
