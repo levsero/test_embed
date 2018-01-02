@@ -37,10 +37,9 @@ export class ChannelChoiceMenu extends Component {
   renderTalkButton = () => {
     if (!this.props.talkAvailable) return null;
 
-    const talkLabel = i18n.t(
-      'embeddable_framework.channelChoice.button.label.clickToCall',
-      { fallback: 'Click to call' }
-    );
+    const talkLabel = (this.props.callbackEnabled)
+      ? i18n.t('embeddable_framework.channelChoice.button.label.request_callback', { fallback: 'Request a callback' })
+      : i18n.t('embeddable_framework.channelChoice.button.label.call_us', { fallback: 'Call us' });
 
     return (
       <ButtonIcon
