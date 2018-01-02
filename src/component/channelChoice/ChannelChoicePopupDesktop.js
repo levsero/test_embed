@@ -8,6 +8,7 @@ export class ChannelChoicePopupDesktop extends Component {
   static propTypes = {
     onNextClick: PropTypes.func.isRequired,
     chatOnline: PropTypes.bool.isRequired,
+    callbackEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatAvailable: PropTypes.bool
@@ -20,7 +21,14 @@ export class ChannelChoicePopupDesktop extends Component {
   };
 
   render = () => {
-    const { chatOnline, onNextClick, talkAvailable, submitTicketAvailable, chatAvailable } = this.props;
+    const {
+      chatOnline,
+      onNextClick,
+      talkAvailable,
+      submitTicketAvailable,
+      chatAvailable,
+      callbackEnabled
+    } = this.props;
 
     return (
       <div className={styles.container}>
@@ -28,6 +36,7 @@ export class ChannelChoicePopupDesktop extends Component {
           submitTicketAvailable={submitTicketAvailable}
           chatAvailable={chatAvailable}
           onNextClick={onNextClick}
+          callbackEnabled={callbackEnabled}
           talkAvailable={talkAvailable}
           chatOnline={chatOnline} />
       </div>

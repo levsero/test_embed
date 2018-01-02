@@ -405,10 +405,13 @@ parts:
       screenshot: "https://zendesk.box.com/s/x2o3nb0yedt4y600n1ge6agmvavdisd4"
       value: "Live chat is offline"
   - translation:
-      key: "embeddable_framework.channelChoice.button.label.clickToCall"
-      title: "The label for the click to call option in the list."
-      value: "Click to Call"
-      wip: true
+      key: "embeddable_framework.channelChoice.button.label.request_callback"
+      title: "This string is the same as 'embeddable_framework.talk.form.title'"
+      value: "Request a callback"
+  - translation:
+      key: "embeddable_framework.channelChoice.button.label.call_us"
+      title: "This string is the same as 'embeddable_framework.talk.phoneOnly.title'"
+      value: "Call us"
 
   # Help Center component
   - translation:

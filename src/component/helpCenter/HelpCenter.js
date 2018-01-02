@@ -21,7 +21,6 @@ import { getSearchLoading,
          getPreviousSearchTerm,
          getHasSearched,
          getHasContextuallySearched } from 'src/redux/modules/helpCenter/selectors';
-import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
@@ -34,8 +33,7 @@ const mapStateToProps = (state) => {
     searchTerm: getSearchTerm(state),
     previousSearchTerm: getPreviousSearchTerm(state),
     hasSearched: getHasSearched(state),
-    hasContextualSearched: getHasContextuallySearched(state),
-    callbackEnabled: isCallbackEnabled(state)
+    hasContextualSearched: getHasContextuallySearched(state)
   };
 };
 
@@ -455,6 +453,7 @@ class HelpCenter extends Component {
         onNextClick={this.props.onNextClick}
         newDesign={this.props.newDesign}
         channelChoice={this.state.channelChoiceShown}
+        callbackEnabled={this.props.callbackEnabled}
         talkAvailable={this.props.talkAvailable}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.props.hasSearched}
@@ -487,6 +486,7 @@ class HelpCenter extends Component {
         chatOnline={this.props.chatOnline}
         hasContextualSearched={this.props.hasContextualSearched}
         channelChoice={this.state.channelChoiceShown}
+        callbackEnabled={this.props.callbackEnabled}
         talkAvailable={this.props.talkAvailable}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.props.hasSearched}
