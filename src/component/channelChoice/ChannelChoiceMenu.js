@@ -9,6 +9,7 @@ export class ChannelChoiceMenu extends Component {
   static propTypes = {
     onNextClick: PropTypes.func.isRequired,
     chatOnline: PropTypes.bool.isRequired,
+    callbackEnabled: PropTypes.bool.isRequired,
     buttonClasses: PropTypes.string,
     labelClasses: PropTypes.string,
     talkAvailable: PropTypes.bool,
