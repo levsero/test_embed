@@ -34,8 +34,9 @@ export class HelpCenterMobile extends Component {
     chatAvailable: PropTypes.bool,
     channelChoice: PropTypes.bool,
     setChannelChoiceShown: PropTypes.func,
-    callbackEnabled: PropTypes.bool.isRequired,
-    talkAvailable: PropTypes.bool
+    talkAvailable: PropTypes.bool,
+    talkOnline: PropTypes.bool,
+    callbackEnabled: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -54,7 +55,8 @@ export class HelpCenterMobile extends Component {
     channelChoice: false,
     setChannelChoiceShown: () => {},
     onNextClick: () => {},
-    talkAvailable: false
+    talkAvailable: false,
+    talkOnline: false
   };
 
   constructor(props, context) {
@@ -133,6 +135,7 @@ export class HelpCenterMobile extends Component {
                chatAvailable={this.props.chatAvailable}
                callbackEnabled={this.props.callbackEnabled}
                talkAvailable={this.props.talkAvailable}
+               talkOnline={this.props.talkOnline}
                chatOnline={this.props.chatOnline}
                onNextClick={this.props.onNextClick}
                onCancelClick={() => this.props.setChannelChoiceShown(false)} />

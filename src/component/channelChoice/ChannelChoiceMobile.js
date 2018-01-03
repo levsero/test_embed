@@ -17,12 +17,14 @@ export class ChannelChoiceMobile extends Component {
     chatOnline: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
+    talkOnline: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatAvailable: PropTypes.bool
   };
 
   static defaultProps = {
     talkAvailable: false,
+    talkOnline: false,
     submitTicketAvailable: true,
     chatAvailable: false
   };
@@ -44,6 +46,7 @@ export class ChannelChoiceMobile extends Component {
       chatOnline,
       formTitleKey,
       talkAvailable,
+      talkOnline,
       callbackEnabled
     } = this.props;
 
@@ -63,6 +66,7 @@ export class ChannelChoiceMobile extends Component {
           className={styles.container}
           callbackEnabled={callbackEnabled}
           talkAvailable={talkAvailable}
+          talkOnline={talkOnline}
           showCancelButton={false} />
       </ScrollContainer>
     );
