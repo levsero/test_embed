@@ -140,11 +140,11 @@ describe('HelpCenter component', () => {
         });
       });
 
-      describe('when talk is available', () => {
+      describe('when talk is online', () => {
         describe('when callback is enabled', () => {
           beforeEach(() => {
             instanceRender(
-              <HelpCenter talkAvailable={true} callbackEnabled={true} />
+              <HelpCenter talkOnline={true} callbackEnabled={true} />
             );
           });
 
@@ -157,7 +157,7 @@ describe('HelpCenter component', () => {
         describe('when callback is not enabled', () => {
           beforeEach(() => {
             instanceRender(
-              <HelpCenter talkAvailable={true} callbackEnabled={false} />
+              <HelpCenter talkOnline={true} callbackEnabled={false} />
             );
           });
 

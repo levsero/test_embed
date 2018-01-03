@@ -508,13 +508,13 @@ class HelpCenter extends Component {
 
   render = () => {
     let buttonLabel;
-    const { channelChoice, chatOnline, talkAvailable, callbackEnabled } = this.props;
+    const { channelChoice, chatOnline, talkOnline, callbackEnabled } = this.props;
 
-    if (channelChoice || (chatOnline && talkAvailable)) {
+    if (channelChoice || (chatOnline && talkOnline)) {
       buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
     } else if (chatOnline) {
       buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
-    } else if (talkAvailable) {
+    } else if (talkOnline) {
       buttonLabel = callbackEnabled
                   ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback', {
                     fallback: i18n.t('embeddable_framework.talk.form.title')
