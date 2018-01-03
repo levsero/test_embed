@@ -122,7 +122,7 @@ describe('WebWidget component', () => {
     let webWidget;
 
     beforeEach(() => {
-      webWidget = domRender(<WebWidget activeEmbed='helpCenterForm' />);
+      webWidget = domRender(<WebWidget activeEmbed='helpCenterForm' helpCenterAvailable={true} />);
     });
 
     it('should have a data-embed value', () => {
@@ -143,7 +143,7 @@ describe('WebWidget component', () => {
 
     describe('when component is set to submitTicket', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' />);
+        webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' helpCenterAvailable={true} />);
       });
 
       it('should show submit ticket component', () => {
@@ -160,7 +160,7 @@ describe('WebWidget component', () => {
 
     describe('when component is set to chat', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget activeEmbed='chat' />);
+        webWidget = domRender(<WebWidget activeEmbed='chat' helpCenterAvailable={true} />);
       });
 
       it('should show chat component', () => {
@@ -578,6 +578,82 @@ describe('WebWidget component', () => {
     });
   });
 
+  describe('#shouldShowTicketFormBackButton', () => {
+    let webWidget;
+    const mockState = {
+      selectedTicketForm: true,
+      ticketForms: {
+        ticket_forms: [1, 2, 3] // eslint-disable-line camelcase
+      }
+    };
+
+    describe('when a ticket form is selected and there is more then one ticket form', () => {
+      beforeEach(() => {
+        webWidget = domRender(
+          <WebWidget />
+        );
+
+        spyOn(webWidget, 'getSubmitTicketComponent').and.returnValue({ state: mockState });
+      });
+
+      it('returns true', () => {
+        expect(webWidget.shouldShowTicketFormBackButton())
+          .toEqual(true);
+      });
+    });
+
+    describe('when a ticket form is not selected', () => {
+      beforeEach(() => {
+        mockState.selectedTicketForm = false;
+
+        webWidget = domRender(
+          <WebWidget />
+        );
+
+        spyOn(webWidget, 'getSubmitTicketComponent').and.returnValue({ state: mockState });
+      });
+
+      it('returns false', () => {
+        expect(webWidget.shouldShowTicketFormBackButton())
+          .toEqual(false);
+      });
+    });
+
+    describe('when there is only one ticket form', () => {
+      beforeEach(() => {
+        mockState.ticketForms.ticket_forms = [1]; // eslint-disable-line camelcase
+
+        webWidget = domRender(
+          <WebWidget />
+        );
+
+        spyOn(webWidget, 'getSubmitTicketComponent').and.returnValue({ state: mockState });
+      });
+
+      it('returns false', () => {
+        expect(webWidget.shouldShowTicketFormBackButton())
+          .toEqual(false);
+      });
+    });
+
+    describe('when submit ticket does not exist', () => {
+      beforeEach(() => {
+        mockState.selectedTicketForm = true;
+
+        webWidget = domRender(
+          <WebWidget />
+        );
+
+        spyOn(webWidget, 'getSubmitTicketComponent').and.returnValue(undefined);
+      });
+
+      it('returns false', () => {
+        expect(webWidget.shouldShowTicketFormBackButton())
+          .toEqual(false);
+      });
+    });
+  });
+
   describe('#show', () => {
     let webWidget, updateActiveEmbedSpy;
 
@@ -746,6 +822,7 @@ describe('WebWidget component', () => {
             <WebWidget
               talkAvailable={true}
               updateActiveEmbed={updateActiveEmbedSpy}
+              helpCenterAvailable={true}
               activeEmbed='' />
           );
 
@@ -875,6 +952,7 @@ describe('WebWidget component', () => {
           <WebWidget
             updateActiveEmbed={updateActiveEmbedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+            helpCenterAvailable={true}
             activeEmbed='' />
         );
 
@@ -1177,7 +1255,7 @@ describe('WebWidget component', () => {
 
     describe('when the activeEmbed is helpCenter', () => {
       beforeEach(() => {
-        webWidget = domRender(<WebWidget activeEmbed='helpCenterForm' />);
+        webWidget = domRender(<WebWidget activeEmbed='helpCenterForm' helpCenterAvailable={true} />);
         webWidget.onContainerClick();
       });
 

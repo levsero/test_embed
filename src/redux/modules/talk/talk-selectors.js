@@ -10,6 +10,7 @@ export const getFormState = (state) => state.talk.formState;
 export const getScreen = (state) => state.talk.screen;
 export const getCallback = (state) => state.talk.callback;
 export const getAverageWaitTime = (state) => state.talk.averageWaitTime;
+export const getAverageWaitTimeEnabled = (state) => state.talk.averageWaitTimeEnabled;
 export const getInitialScreen = (state) => `${getCapability(state)}_SCREEN`;
 export const getTalkAvailable = (state) => {
   return getEmbeddableConfig(state).enabled && getAgentAvailability(state) && getTalkEmbed(state);

@@ -103,8 +103,17 @@ export class Field extends Component {
   }
 
   onChange = (e) => {
-    const value = e.target.value;
+    this.validate(e.target.value);
+
+    if (this.props.onChange) {
+      e.persist();
+      this.props.onChange(e);
+    }
+  }
+
+  validate = (val) => {
     const result = this.input;
+    const value = val || this.input.value;
     const validator = this.props.validateInput;
 
     // Setting custom validity to empty string when input is valid allows the input field to be set to valid.
@@ -121,11 +130,6 @@ export class Field extends Component {
         value: value,
         hasError: true
       });
-    }
-
-    if (this.props.onChange) {
-      e.persist();
-      this.props.onChange(e);
     }
   }
 

@@ -34,36 +34,14 @@ describe('Form component', () => {
     mockery.disable();
   });
 
-  describe('clear', () => {
-    let form;
-
-    beforeEach(() => {
-      form = instanceRender(<Form />);
-      form.setState({ formState: { email: 'bigO@zd.com' }, valid: true });
-
-      form.clear();
-    });
-
-    it('clears the formState', () => {
-      expect(form.state.formState)
-        .toEqual({});
-    });
-
-    it('sets the form to invalid', () => {
-      expect(form.state.valid)
-        .toBe(false);
-    });
-  });
-
   describe('handleFormSubmit', () => {
     let form, onCompletedSpy, preventDefaultSpy;
 
     beforeEach(() => {
       onCompletedSpy = jasmine.createSpy('onCompleted');
       preventDefaultSpy = jasmine.createSpy('preventDefault');
-      form = instanceRender(<Form onCompleted={onCompletedSpy} />);
+      form = instanceRender(<Form formState={{ email: 'omega@zd.com' }} onCompleted={onCompletedSpy} />);
 
-      form.setState({ formState: { email: 'omega@zd.com' } });
       form.handleFormSubmit({ preventDefault: preventDefaultSpy });
     });
 
@@ -86,8 +64,8 @@ describe('Form component', () => {
     const target = { name: 'email', value: 'theta@zd.com' };
 
     beforeEach(() => {
-      onChangeSpy = jasmine.createSpy('onCompleted');
-      form = instanceRender(<Form onChange={onChangeSpy} />);
+      onChangeSpy = jasmine.createSpy('onChange');
+      form = instanceRender(<Form formState={{email: 'a@a.com'}} onChange={onChangeSpy} />);
       formElement = { checkValidity: () => mockFormValidity };
 
       form.form = formElement;
@@ -120,11 +98,6 @@ describe('Form component', () => {
       });
     });
 
-    it('sets the form state', () => {
-      expect(form.state.formState)
-        .toEqual({ email: 'theta@zd.com' });
-    });
-
     it('calls props.onChange with the form state', () => {
       expect(onChangeSpy)
         .toHaveBeenCalledWith({ email: 'theta@zd.com' });
@@ -137,25 +110,28 @@ describe('Form component', () => {
     describe('submit button', () => {
       let button;
 
-      beforeEach(() => {
-        form = domRender(<Form submitButtonLabel='label' />);
-        button = TestUtils.findRenderedComponentWithType(form, MockButton);
-      });
+      describe('button props', () => {
+        beforeEach(() => {
+          form = shallowRender(<Form formState={{ email: 'a@a.com' }} submitButtonLabel='label' />);
+          button = form.props.children[1].props.children;
+        });
 
-      it('sets the label to props.submitButtonLabel', () => {
-        expect(button.props.label)
-          .toBe('label');
-      });
+        it('sets the label to props.submitButtonLabel', () => {
+          expect(button.props.label)
+            .toBe('label');
+        });
 
-      it('sets the type to submit', () => {
-        expect(button.props.type)
-          .toBe('submit');
+        it('sets the type to submit', () => {
+          expect(button.props.type)
+            .toBe('submit');
+        });
       });
 
       describe('when the form is valid', () => {
         beforeEach(() => {
+          form = shallow(<Form formState={{ email: 'a@a.com' }} submitButtonLabel='label' />);
           form.setState({ valid: true });
-          button = TestUtils.findRenderedComponentWithType(form, MockButton);
+          button = form.find('form').children().children().node;
         });
 
         it('sets disabled to false', () => {
@@ -166,8 +142,9 @@ describe('Form component', () => {
 
       describe('when the form is invalid', () => {
         beforeEach(() => {
+          form = shallow(<Form formState={{ email: 'a@a.com' }} submitButtonLabel='label' />);
           form.setState({ valid: false });
-          button = TestUtils.findRenderedComponentWithType(form, MockButton);
+          button = form.find('form').children().children().node;
         });
 
         it('sets disabled to true', () => {

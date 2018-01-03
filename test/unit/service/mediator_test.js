@@ -164,6 +164,48 @@ describe('mediator', () => {
   });
 
  /* ****************************************** *
+  *                   zE API                   *
+  * ****************************************** */
+
+  describe('.show', () => {
+    const beacon = 'beacon';
+    const names = { beacon };
+
+    beforeEach(() => {
+      initSubscriptionSpies(names);
+      mediator.init({});
+
+      c.broadcast('.show');
+    });
+
+    it('broadcasts beacon.trackUserAction with expected params', () => {
+      const expected = ['api', 'show'];
+
+      expect(beaconSub.trackUserAction)
+        .toHaveBeenCalledWith(...expected);
+    });
+  });
+
+  describe('.hide', () => {
+    const beacon = 'beacon';
+    const names = { beacon };
+
+    beforeEach(() => {
+      initSubscriptionSpies(names);
+      mediator.init({});
+
+      c.broadcast('.hide');
+    });
+
+    it('broadcasts beacon.trackUserAction with expected params', () => {
+      const expected = ['api', 'hide'];
+
+      expect(beaconSub.trackUserAction)
+        .toHaveBeenCalledWith(...expected);
+    });
+  });
+
+ /* ****************************************** *
   *                  IDENTIFY                  *
   * ****************************************** */
 
@@ -2142,8 +2184,8 @@ describe('mediator', () => {
     describe('talk.agentAvailability', () => {
       describe('when talk status is true', () => {
         beforeEach(() => {
-          c.broadcast('talk.enabled', 'true');
-          c.broadcast('talk.agentAvailability', 'true');
+          c.broadcast('talk.enabled', true);
+          c.broadcast('talk.agentAvailability', true);
         });
 
         it('shows launcher', () => {
@@ -2154,8 +2196,8 @@ describe('mediator', () => {
 
       describe('when talk status is false', () => {
         beforeEach(() => {
-          c.broadcast('talk.enabled', 'true');
-          c.broadcast('talk.agentAvailability', 'false');
+          c.broadcast('talk.enabled', true);
+          c.broadcast('talk.agentAvailability', false);
         });
 
         it('does not show launcher', () => {
@@ -2163,6 +2205,19 @@ describe('mediator', () => {
             .not.toHaveBeenCalled();
         });
       });
+    });
+
+    it('does not show launcher if an agent goes offline', () => {
+      c.broadcast('talk.enabled', true);
+      c.broadcast('talk.agentAvailability', true);
+
+      c.broadcast(`${launcher}.onClick`);
+      c.broadcast(`webWidget.onClose`);
+
+      c.broadcast('talk.agentAvailability', false);
+
+      expect(launcherSub.hide)
+        .toHaveBeenCalled();
     });
   });
 });

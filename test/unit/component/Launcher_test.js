@@ -38,10 +38,7 @@ describe('Launcher component', () => {
         getZopimChatEmbed: noop
       },
       'src/redux/modules/chat/selectors': {
-        getChatStatus: noop
-      },
-      'src/redux/modules/zopimChat/selectors': {
-        getZopimChatStatus: noop
+        getChatOnline: noop
       },
       'service/settings': {
         settings: {
@@ -50,6 +47,9 @@ describe('Launcher component', () => {
       },
       'src/redux/modules/talk/talk-selectors': {
         isCallbackEnabled: noop
+      },
+      'src/redux/modules/settings/selectors': {
+        getSettingsChatSuppress: noop
       }
     });
 
@@ -66,47 +66,25 @@ describe('Launcher component', () => {
   describe('chatAvailable', () => {
     let launcher;
 
-    it('returns true when prop.chatStatus is `online`', () => {
-      launcher = domRender(<Launcher chatStatus='online' />);
+    it('returns true when chat is online and not suppressed', () => {
+      launcher = domRender(<Launcher chatOnline={true} chatSuppress={false} />);
 
       expect(launcher.chatAvailable())
         .toBe(true);
     });
 
-    it('returns true when prop.chatStatus is `away`', () => {
-      launcher = domRender(<Launcher chatStatus='away' />);
-
-      expect(launcher.chatAvailable())
-        .toBe(true);
-    });
-
-    it('returns false when prop.chatStatus is something else', () => {
-      launcher = domRender(<Launcher chatStatus='offline' />);
+    it('returns false when chat is offline and not suppressed', () => {
+      launcher = domRender(<Launcher chatOnline={false} chatSuppress={false} />);
 
       expect(launcher.chatAvailable())
         .toBe(false);
     });
 
-    describe('when chat is suppressed', () => {
-      beforeEach(() => {
-        mockChatSuppressedValue = true;
+    it('returns false when chat is online and is suppressed', () => {
+      launcher = domRender(<Launcher chatOnline={true} chatSuppress={true} />);
 
-        launcher = domRender(<Launcher chatStatus='online' />);
-      });
-
-      it('returns false', () => {
-        expect(launcher.chatAvailable())
-          .toBe(false);
-      });
-
-      describe('when a state.overrideChatSuppress is true', () => {
-        it('returns true', () => {
-          launcher.setState({ overrideChatSuppress: true });
-
-          expect(launcher.chatAvailable())
-            .toBe(true);
-        });
-      });
+      expect(launcher.chatAvailable())
+        .toBe(false);
     });
   });
 
@@ -146,7 +124,7 @@ describe('Launcher component', () => {
         describe('when help center is part of config', () => {
           beforeEach(() => {
             launcher = domRender(
-              <Launcher chatStatus='online' helpCenterAvailable={true} label='help' />
+              <Launcher chatOnline={true} chatSuppress={false} helpCenterAvailable={true} label='help' />
             );
           });
 
@@ -158,7 +136,7 @@ describe('Launcher component', () => {
 
         describe('when help center is not of config', () => {
           beforeEach(() => {
-            launcher = domRender(<Launcher chatStatus='online' helpCenterAvailable={false} />);
+            launcher = domRender(<Launcher chatOnline={true} chatSuppress={false} helpCenterAvailable={false} />);
           });
 
           it('returns the chat label', () => {
@@ -171,7 +149,7 @@ describe('Launcher component', () => {
       describe('when chat is offline', () => {
         beforeEach(() => {
           launcher = domRender(
-            <Launcher chatStatus='offline' label='help' />
+            <Launcher chatOnline={false} label='help' />
           );
         });
 
@@ -214,7 +192,7 @@ describe('Launcher component', () => {
             launcher = instanceRender(
               <Launcher
                 label={label}
-                chatStatus='online'
+                chatOnline={true}
                 talkAvailable={true} />
             );
           });
@@ -233,7 +211,7 @@ describe('Launcher component', () => {
 
     describe('when chat and talk is available', () => {
       beforeEach(() => {
-        const launcher = instanceRender(<Launcher chatStatus='online' talkAvailable={true} />);
+        const launcher = instanceRender(<Launcher chatOnline={true} chatSuppress={false} talkAvailable={true} />);
 
         result = launcher.getIconType();
       });
@@ -246,7 +224,7 @@ describe('Launcher component', () => {
 
     describe('when only chat is available', () => {
       beforeEach(() => {
-        const launcher = instanceRender(<Launcher chatStatus='online' />);
+        const launcher = instanceRender(<Launcher chatOnline={true} chatSuppress={false} />);
 
         result = launcher.getIconType();
       });
@@ -298,9 +276,9 @@ describe('Launcher component', () => {
       expect(mockUpdateFrameSize).toHaveBeenCalled();
     });
 
-    describe('when props.chatStatus is online', () => {
+    describe('when props.chatOnline is online', () => {
       beforeEach(() => {
-        launcher = domRender(<Launcher chatStatus='online' />);
+        launcher = domRender(<Launcher chatOnline={true} chatSuppress={false} />);
       });
 
       it('should ignore state and set label to online', () => {
