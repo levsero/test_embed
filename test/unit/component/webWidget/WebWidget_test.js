@@ -98,6 +98,9 @@ describe('WebWidget component', () => {
         hideChatNotification: noop,
         updateChatScreen: noop
       },
+      'src/redux/modules/base/selectors': {
+        getZopimChatEmbed: noop
+      },
       'src/redux/modules/chat/selectors': {
         getChatNotification: noop
       },
@@ -305,12 +308,13 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when talk is available', () => {
+    describe('when talk is available and online', () => {
       beforeEach(() => {
         webWidget = instanceRender(
           <WebWidget
             helpCenterAvailable={true}
             talkAvailable={true}
+            talkOnline={true}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
         );
@@ -870,6 +874,7 @@ describe('WebWidget component', () => {
           webWidget = domRender(
             <WebWidget
               talkAvailable={true}
+              talkOnline={true}
               updateActiveEmbed={updateActiveEmbedSpy}
               activeEmbed='' />
           );
@@ -887,6 +892,7 @@ describe('WebWidget component', () => {
             webWidget = domRender(
               <WebWidget
                 talkAvailable={true}
+                talkOnline={true}
                 submitTicketAvailable={false}
                 updateActiveEmbed={updateActiveEmbedSpy}
                 activeEmbed='' />
