@@ -479,6 +479,10 @@ u-overflowAuto {
   line-height: #{18/$font-size}rem;
 }
 
+.u-textHeightLrg {
+  line-height: #{20/$font-size}rem;
+}
+
 /* Force a single line to have exact font height  */
 .u-textXHeight {
   line-height: 0.9;
