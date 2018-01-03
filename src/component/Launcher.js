@@ -9,7 +9,7 @@ import { isMobileBrowser } from 'utility/devices';
 import { getChatOnline } from 'src/redux/modules/chat/selectors';
 import { settings } from 'service/settings';
 import { getHelpCenterEmbed } from 'src/redux/modules/base/selectors';
-import { isCallbackEnabled, getTalkAvailable } from 'src/redux/modules/talk/talk-selectors';
+import { isCallbackEnabled, getTalkOnline } from 'src/redux/modules/talk/talk-selectors';
 import { getSettingsChatSuppress } from 'src/redux/modules/settings/selectors';
 
 const mapStateToProps = (state) => {
@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
     chatOnline: getChatOnline(state),
     chatSuppress: getSettingsChatSuppress(state),
     helpCenterAvailable: getHelpCenterEmbed(state) && !settings.get('helpCenter.suppress'),
-    talkAvailable: getTalkAvailable(state),
+    talkOnline: getTalkOnline(state),
     callbackEnabled: isCallbackEnabled(state)
   };
 };
@@ -27,7 +27,7 @@ class Launcher extends Component {
     chatOnline: PropTypes.bool.isRequired,
     chatSuppress: PropTypes.bool.isRequired,
     helpCenterAvailable: PropTypes.bool.isRequired,
-    talkAvailable: PropTypes.bool.isRequired,
+    talkOnline: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
     label: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
@@ -53,7 +53,7 @@ class Launcher extends Component {
   }
 
   getLabel = () => {
-    const { helpCenterAvailable, talkAvailable, callbackEnabled, label } = this.props;
+    const { helpCenterAvailable, talkOnline, callbackEnabled, label } = this.props;
     const { unreadMessages } = this.state;
     const chatAvailable = this.chatAvailable();
     const talkLabel = (callbackEnabled)
@@ -68,11 +68,11 @@ class Launcher extends Component {
       return unreadMessages > 1
            ? i18n.t('embeddable_framework.chat.notification_multiple', { count: unreadMessages })
            : i18n.t('embeddable_framework.chat.notification');
-    } else if (chatAvailable && talkAvailable) {
+    } else if (chatAvailable && talkOnline) {
       return i18n.t(label);
     } else if (chatAvailable && !helpCenterAvailable) {
       return i18n.t('embeddable_framework.launcher.label.chat');
-    } else if (talkAvailable && !helpCenterAvailable) {
+    } else if (talkOnline && !helpCenterAvailable) {
       return talkLabel;
     }
 
@@ -80,12 +80,12 @@ class Launcher extends Component {
   }
 
   getIconType = () => {
-    const { talkAvailable } = this.props;
+    const { talkOnline } = this.props;
     const chatAvailable = this.chatAvailable();
 
-    if (chatAvailable && talkAvailable) return 'Icon';
+    if (chatAvailable && talkOnline) return 'Icon';
     if (chatAvailable) return 'Icon--chat';
-    if (talkAvailable) return 'Icon--launcher-talk';
+    if (talkOnline) return 'Icon--launcher-talk';
 
     return 'Icon';
   }

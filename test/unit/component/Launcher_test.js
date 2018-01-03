@@ -162,7 +162,7 @@ describe('Launcher component', () => {
       describe('when Talk is available', () => {
         describe('when callback capability is enabled', () => {
           beforeEach(() => {
-            launcher = instanceRender(<Launcher talkAvailable={true} callbackEnabled={true} />);
+            launcher = instanceRender(<Launcher talkOnline={true} callbackEnabled={true} />);
           });
 
           it('returns a "Request a callback" string', () => {
@@ -173,7 +173,7 @@ describe('Launcher component', () => {
 
         describe('when callback capability is unavailable', () => {
           beforeEach(() => {
-            launcher = instanceRender(<Launcher talkAvailable={true} />);
+            launcher = instanceRender(<Launcher talkOnline={true} />);
           });
 
           it('returns a "Call us" string', () => {
@@ -193,7 +193,7 @@ describe('Launcher component', () => {
               <Launcher
                 label={label}
                 chatOnline={true}
-                talkAvailable={true} />
+                talkOnline={true} />
             );
           });
 
@@ -211,7 +211,7 @@ describe('Launcher component', () => {
 
     describe('when chat and talk is available', () => {
       beforeEach(() => {
-        const launcher = instanceRender(<Launcher chatOnline={true} chatSuppress={false} talkAvailable={true} />);
+        const launcher = instanceRender(<Launcher chatOnline={true} chatSuppress={false} talkOnline={true} />);
 
         result = launcher.getIconType();
       });
@@ -237,7 +237,7 @@ describe('Launcher component', () => {
 
     describe('when only talk is available', () => {
       beforeEach(() => {
-        const launcher = instanceRender(<Launcher talkAvailable={true} />);
+        const launcher = instanceRender(<Launcher talkOnline={true} />);
 
         result = launcher.getIconType();
       });
