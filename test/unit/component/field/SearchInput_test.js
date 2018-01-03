@@ -16,7 +16,7 @@ describe('SearchInput component', () => {
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['t'])
       },
-      './SearchInput.sass': {
+      './SearchInput.scss': {
         locals: {}
       }
     });

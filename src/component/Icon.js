@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { locals as styles } from './Icon.sass';
+import { locals as styles } from './Icon.scss';
 import { isMobileBrowser } from 'utility/devices';
 
 const icons = {
@@ -58,7 +58,6 @@ export class Icon extends Component {
     const icon = icons[this.props.type];
     const deviceStyle = this.props.isMobile ? styles.mobile : '';
     const iconClasses = `
-      ${styles.icon}
       ${this.props.type}
       ${this.props.className}
       ${deviceStyle}

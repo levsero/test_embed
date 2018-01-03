@@ -13,7 +13,7 @@ describe('IconFieldButton component', () => {
       'component/Icon': {
         Icon: noopReactComponent()
       },
-      './IconFieldButton.sass': {
+      './IconFieldButton.scss': {
         locals: {
           focused: 'isFocused',
           notFocused: 'notFocused',

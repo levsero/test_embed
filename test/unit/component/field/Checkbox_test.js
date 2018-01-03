@@ -11,7 +11,7 @@ describe('Checkbox component', () => {
 
     initMockRegistry({
       'React': React,
-      './Checkbox.sass': {
+      './Checkbox.scss': {
         locals: {
           'checkbox': 'checkboxClasses',
           'checkmarkUnchecked': 'checkmarkUncheckedClasses',

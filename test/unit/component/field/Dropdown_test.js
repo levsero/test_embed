@@ -41,7 +41,7 @@ describe('dropdown component', () => {
 
     initMockRegistry({
       'React': React,
-      './Dropdown.sass': {
+      './Dropdown.scss': {
         locals: {
           labelMobile: 'labelMobileClasses',
           labelLandscape: 'labelLandscapeClasses',

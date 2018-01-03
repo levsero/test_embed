@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
-import { locals as styles } from './Frame.sass';
+import { locals as styles } from './Frame.scss';
 
 import { EmbedWrapper } from 'component/frame/EmbedWrapper';
 import { i18n } from 'service/i18n';
@@ -14,8 +14,6 @@ import { clickBusterRegister,
          isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
 import { cssTimeToMs } from 'utility/utils';
-
-const mainCSS = require('mainCSS');
 
 // Unregister lodash from window._
 if (!__DEV__) {
@@ -377,7 +375,7 @@ export class Frame extends Component {
 
     const wrapper = (
       <EmbedWrapper
-        baseCSS={`${mainCSS} ${this.props.css} ${baseFontCSS}`}
+        baseCSS={`${this.props.css} ${baseFontCSS}`}
         reduxStore={this.props.store}
         handleBackClick={this.back}
         handleCloseClick={this.close}

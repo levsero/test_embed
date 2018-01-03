@@ -53,10 +53,9 @@ describe('Icon component', function() {
           return false;
         }
       },
-      './Icon.sass': {
+      './Icon.scss': {
         locals: {
-          mobile: 'is-mobile',
-          icon: 'my-generated-icon'
+          mobile: 'is-mobile'
         }
       }
     });
@@ -71,18 +70,8 @@ describe('Icon component', function() {
     mockery.disable();
   });
 
-  it('should insert an SVG icon inside a span, with the right class', function() {
-    const icon = shallowRender(<Icon type="Icon--zendesk" />);
-
-    expect(icon.props.className)
-      .toMatch('my-generated-icon');
-  });
-
   it('should not have mobile classes when isMobileBrowser is false', function() {
     const icon = shallowRender(<Icon type="Icon--zendesk" />);
-
-    expect(icon.props.className)
-      .toMatch('my-generated-icon');
 
     expect(icon.props.className)
       .not.toMatch('is-mobile');
@@ -98,9 +87,6 @@ describe('Icon component', function() {
     Icon = requireUncached(iconPath).Icon;
 
     const icon = shallowRender(<Icon type="Icon--zendesk" />);
-
-    expect(icon.props.className)
-      .toMatch('my-generated-icon');
 
     expect(icon.props.className)
       .toMatch('is-mobile');

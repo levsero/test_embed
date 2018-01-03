@@ -10,7 +10,7 @@ describe('ChannelChoiceDesktop component', () => {
     mockery.enable();
 
     initMockRegistry({
-      './ChannelChoiceDesktop.sass': {
+      './ChannelChoiceDesktop.scss': {
         locals: {
           hr: 'hr',
           inner: 'inner',

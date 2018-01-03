@@ -4,7 +4,7 @@ import { Dropzone } from 'component/Dropzone';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
-import { locals as styles } from './AttachmentBox.sass';
+import { locals as styles } from './AttachmentBox.scss';
 
 const dropzoneMargin = 38; // the frames border and padding
 

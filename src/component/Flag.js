@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { locals as styles } from './Flag.sass';
+import { locals as styles } from './Flag.scss';
 
 export class Flag extends Component {
   static propTypes = {

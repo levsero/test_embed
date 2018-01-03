@@ -5,7 +5,7 @@ import { i18n } from 'service/i18n';
 import { ChatRatingGroup, ChatRatings } from 'component/chat/ChatRatingGroup';
 import { Button } from 'component/button/Button';
 
-import { locals as styles } from './ChatFeedbackForm.sass';
+import { locals as styles } from './ChatFeedbackForm.scss';
 
 export class ChatFeedbackForm extends Component {
   static propTypes = {

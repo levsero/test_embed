@@ -71,7 +71,7 @@ describe('HelpCenterDesktop component', () => {
         PRECHAT_SCREEN: prechatScreen,
         CHATTING_SCREEN: chattingScreen
       },
-      './HelpCenterDesktop.sass': {
+      './HelpCenterDesktop.scss': {
         locals: {
           footer: 'footerClasses',
           footerArticleView: 'footerArticleViewClasses',

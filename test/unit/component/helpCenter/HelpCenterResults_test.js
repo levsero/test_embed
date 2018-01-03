@@ -20,7 +20,7 @@ describe('HelpCenterResults component', () => {
           }
         }
       },
-      './HelpCenterResults.sass': {
+      './HelpCenterResults.scss': {
         locals: {
           noResults: 'noResultsClasses',
           list: 'listClasses',

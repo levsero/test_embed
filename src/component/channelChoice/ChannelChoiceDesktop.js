@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { locals as styles } from './ChannelChoiceDesktop.sass';
+import { locals as styles } from './ChannelChoiceDesktop.scss';
 
 import { ChannelChoiceMenu } from 'component/channelChoice/ChannelChoiceMenu';
 import { ScrollContainer } from 'component/container/ScrollContainer';

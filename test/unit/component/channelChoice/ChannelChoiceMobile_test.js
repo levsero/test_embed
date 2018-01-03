@@ -10,7 +10,7 @@ describe('ChannelChoiceMobile component', () => {
     mockery.enable();
 
     initMockRegistry({
-      './ChannelChoiceMobile.sass': {
+      './ChannelChoiceMobile.scss': {
         locals: {}
       },
       'component/channelChoice/ChannelChoicePopupMobile': {

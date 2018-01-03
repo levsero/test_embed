@@ -28,7 +28,7 @@ import { getEmbeddableConfig,
          getAverageWaitTimeEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { i18n } from 'service/i18n';
 
-import { locals as styles } from './Talk.sass';
+import { locals as styles } from './Talk.scss';
 
 const mapStateToProps = (state) => {
   return {

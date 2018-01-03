@@ -5,7 +5,7 @@ import { IconFieldButton } from 'component/button/IconFieldButton';
 import { SearchInput } from 'component/field/SearchInput';
 import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { Icon } from 'component/Icon';
-import { locals as styles } from './SearchField.sass';
+import { locals as styles } from './SearchField.scss';
 
 export class SearchField extends Component {
   static propTypes = {

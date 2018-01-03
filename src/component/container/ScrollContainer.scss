@@ -14,8 +14,8 @@
 
 .header {
   composes: u-paddingVM u-paddingHL from global;
-  background: $form-cta-color;
-  border-bottom: $thin-border-size solid $header-stroke;
+  background: $zd-color-white-smoke;
+  border-bottom: $thin-border-size solid $zd-color-gainsboro;
   color: $zd-color-dark-gray;
 }
 

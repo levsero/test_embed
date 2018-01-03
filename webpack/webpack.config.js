@@ -27,14 +27,6 @@ var config = {
       {
         test: /\.scss$/,
         use: [
-          'css-loader',
-          'postcss-loader',
-          'sass-loader?includePaths[]=src/styles/components/'
-        ]
-      },
-      {
-        test: /\.sass$/,
-        use: [
           'css-loader?modules&importLoaders=2&localIdentName=[path][name]-[local]',
           'postcss-loader',
           'sass-loader'
@@ -72,8 +64,8 @@ var config = {
       vendor: path.join(prefix + '/src/vendor'),
       // CSS Components
       componentCSS: path.join(prefix + '/src/styles/components'),
-      mainCSS: path.join(prefix + '/src/styles/main.scss'),
-      icons: path.join(prefix + '/src/asset/icons')
+      icons: path.join(prefix + '/src/asset/icons'),
+      globalCSS: path.join(prefix + '/src/styles/globals.scss')
     },
     modules: ['node_modules']
   }

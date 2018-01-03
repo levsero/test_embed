@@ -37,7 +37,7 @@ import { getPrechatFormFields,
          getUserSoundSettings,
          getPostchatFormSettings } from 'src/redux/modules/chat/selectors';
 
-import { locals as styles } from './Chat.sass';
+import { locals as styles } from './Chat.scss';
 
 const mapStateToProps = (state) => {
   const { chat } = state;

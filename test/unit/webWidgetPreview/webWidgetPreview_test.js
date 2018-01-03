@@ -25,6 +25,7 @@ describe('webWidgetPreview entry file', () => {
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'lodash': _,
+      'globalCSS': '',
       'component/frame/Frame': {
         Frame: mockFrame
       },

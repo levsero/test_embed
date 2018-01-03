@@ -41,7 +41,7 @@ const renderWebWidgetPreview = (options) => {
     width: frameStyle.width
   };
   const frameParams = {
-    css: `${require('embed/webWidget/webWidget.scss')} ${webWidgetStyles}`,
+    css: `${require('globalCSS')} ${webWidgetStyles}`,
     name: 'webWidgetPreview',
     frameStyle,
     disableOffsetHorizontal: true,

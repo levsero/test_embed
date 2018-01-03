@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { locals as styles } from './Launcher.sass';
+import { locals as styles } from './Launcher.scss';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';

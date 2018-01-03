@@ -11,7 +11,7 @@
 
 .container {
   composes: u-cf u-paddingHN u-paddingBN from global;
-  composes: Form-cta--barFullscreen from '../../styles/components/Form.scss'
+  padding-top: #{18/$font-size}rem;
 }
 
 .placeholder {

@@ -12,7 +12,7 @@ describe('ChatPrechatForm component', () => {
     mockFormValidity = false;
 
     initMockRegistry({
-      './ChatPrechatForm.sass': {
+      './ChatPrechatForm.scss': {
         locals: {}
       },
       'component/button/Button': {

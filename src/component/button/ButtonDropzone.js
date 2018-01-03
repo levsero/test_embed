@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Dropzone } from 'component/Dropzone';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
-import { locals as styles } from './ButtonDropzone.sass';
+import { locals as styles } from './ButtonDropzone.scss';
 
 export class ButtonDropzone extends Component {
   static propTypes = {

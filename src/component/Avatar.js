@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { locals as styles } from './Avatar.sass';
+import { locals as styles } from './Avatar.scss';
 
 import { Icon } from 'component/Icon';
 

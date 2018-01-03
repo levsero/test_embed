@@ -5,7 +5,7 @@ import { ChatPopup } from 'component/chat/ChatPopup';
 import { Field } from 'component/field/Field';
 import { i18n } from 'service/i18n';
 
-import { locals as styles } from 'component/chat/ChatContactDetailsPopup.sass';
+import { locals as styles } from 'component/chat/ChatContactDetailsPopup.scss';
 
 export class ChatContactDetailsPopup extends Component {
   static propTypes = {
