@@ -485,7 +485,9 @@ window.zESettings = {
 
 #### fields
 
-Pre-populates the value of one or more fields in the contact form.
+Pre-populates the value of one or more text fields in the contact form.
+
+**Note**: The API doesn't support pre-populating drop-down fields. However, you can set default values for custom drop-down fields in the Support admin interface (**Manage** > **Ticket Fields**).
 
 For a default system field, specify the field name as the field `id`. Example:
 
@@ -517,7 +519,7 @@ zESettings = {
   webWidget: {
     contactForm: {
       fields: [
-        { id: 'description', prefill: { '*': 'My field text' } }
+        { id: 'description', prefill: { '*': 'My field text' } },
         { id: 2142225, prefill: { '*': 'My custom field text' } }
       ]
     }
