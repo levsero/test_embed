@@ -1,3 +1,4 @@
 #!/bin/sh
 SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 node $SCRIPT_DIR/i18n.js
+bundle exec ruby $SCRIPT_DIR/fetch_countries.rb

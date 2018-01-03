@@ -29,6 +29,10 @@ def load_official_language_mapping
   mapping
 end
 
+def ac_build?
+  ARGV.first == 'ac'
+end
+
 config = load_config
 mapping = load_mapping
 official_lang_mapping = load_official_language_mapping
@@ -54,14 +58,20 @@ end.sort_by { |k, _| k }
 
 last = output.last[0]
 
-puts <<-INSTR
-  Copy the lines below and paste it into src/component/talk/talkCountries.js inside
-  the countriesByIso object.
-INSTR
-puts
+target = File.join(File.expand_path('../src', __dir__), 'translation', 'ze_countries.js')
 
-output.each do |cc, data|
-  line = "  '#{cc}':  { code: '#{data[:code]}', name: '#{data[:name]}' }"
-  line += ',' if cc != last
-  puts line
+puts "Regenerating #{target}"
+
+File.open(target, 'w') do |f|
+  if ac_build?
+    f.puts 'window.zECountries = {'
+  else
+    f.puts 'export default {'
+  end
+  output.each do |cc, data|
+    line = "  '#{cc}': { code: '#{data[:code]}', name: '#{data[:name]}' }"
+    line += ',' if cc != last
+    f.puts line
+  end
+  f.puts '};'
 end
