@@ -4,8 +4,6 @@ describe('IconFieldButton component', () => {
   const iconFieldButtonPath = buildSrcPath('component/button/IconFieldButton');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({

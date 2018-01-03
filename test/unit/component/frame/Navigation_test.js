@@ -4,8 +4,6 @@ describe('Navigation', () => {
   const navigationPath = buildSrcPath('component/frame/Navigation');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({

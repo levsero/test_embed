@@ -26,8 +26,6 @@ describe('HelpCenter component', () => {
     updateResults = jasmine.createSpy('updateResults');
     search = jasmine.createSpy('search');
 
-    resetDOM();
-
     mockery.enable();
 
     mockPageKeywords = 'billy bob thorton';

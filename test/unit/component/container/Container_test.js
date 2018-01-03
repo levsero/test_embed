@@ -3,8 +3,6 @@ describe('Container component', () => {
   const containerPath = buildSrcPath('component/container/Container');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({

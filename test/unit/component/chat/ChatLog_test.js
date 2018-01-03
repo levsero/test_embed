@@ -4,7 +4,6 @@ describe('ChatLog component', () => {
   const chatLogPath = buildSrcPath('component/chat/ChatLog');
 
   beforeEach(() => {
-    resetDOM();
     mockery.enable();
 
     mockChats = new Map();

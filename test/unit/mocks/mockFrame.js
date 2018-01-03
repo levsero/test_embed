@@ -50,8 +50,12 @@ export class MockFrame extends Component {
     const doc = iframe.contentWindow.document;
     const element = doc.body.appendChild(doc.createElement('div'));
 
-    this.child = ReactDOM.render(
-      <MockEmbedWrapper className='mock-frame'>{this.props.children}</MockEmbedWrapper>,
+    ReactDOM.render(
+      <MockEmbedWrapper
+        ref={(el) => { this.child = el; }}
+        className='mock-frame'>
+        {this.props.children}
+      </MockEmbedWrapper>,
       element
     );
   }

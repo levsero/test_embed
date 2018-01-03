@@ -5,7 +5,6 @@ describe('ChatFeedbackForm component', () => {
   const ChatFeedbackFormPath = buildSrcPath('component/chat/ChatFeedbackForm');
 
   beforeEach(() => {
-    resetDOM();
     mockery.enable();
 
     mockChatRatings = {

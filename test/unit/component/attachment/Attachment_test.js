@@ -10,8 +10,6 @@ describe('Attachment component', () => {
   const attachmentPath = buildSrcPath('component/attachment/Attachment');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     mocki18nTranslate = jasmine.createSpy('mocki18nTranslate');

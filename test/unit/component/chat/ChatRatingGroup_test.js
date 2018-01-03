@@ -4,7 +4,6 @@ describe('ChatRatingGroup component', () => {
   const chatRatingGroupPath = buildSrcPath('component/chat/ChatRatingGroup');
 
   beforeEach(() => {
-    resetDOM();
     mockery.enable();
 
     initMockRegistry({

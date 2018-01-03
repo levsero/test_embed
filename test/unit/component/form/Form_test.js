@@ -9,8 +9,6 @@ describe('Form component', () => {
   }
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({
@@ -108,7 +106,10 @@ describe('Form component', () => {
     let form;
 
     describe('submit button', () => {
-      let button;
+      let button,
+          formRenderer,
+          formInstance,
+          formRenderedOutput;
 
       describe('button props', () => {
         beforeEach(() => {
@@ -129,9 +130,11 @@ describe('Form component', () => {
 
       describe('when the form is valid', () => {
         beforeEach(() => {
-          form = shallow(<Form formState={{ email: 'a@a.com' }} submitButtonLabel='label' />);
-          form.setState({ valid: true });
-          button = form.find('form').children().children().node;
+          formRenderer = getRenderer(<Form formState={{ email: 'a@a.com' }} submitButtonLabel='label' />);
+          formInstance = formRenderer.getMountedInstance();
+          formInstance.setState({ valid: true });
+          formRenderedOutput = formRenderer.getRenderOutput();
+          button = formRenderedOutput.props.children[1].props.children;
         });
 
         it('sets disabled to false', () => {
@@ -142,9 +145,11 @@ describe('Form component', () => {
 
       describe('when the form is invalid', () => {
         beforeEach(() => {
-          form = shallow(<Form formState={{ email: 'a@a.com' }} submitButtonLabel='label' />);
-          form.setState({ valid: false });
-          button = form.find('form').children().children().node;
+          formRenderer = getRenderer(<Form formState={{ email: 'a@a.com' }} submitButtonLabel='label' />);
+          formInstance = formRenderer.getMountedInstance();
+          formInstance.setState({ valid: false });
+          formRenderedOutput = formRenderer.getRenderOutput();
+          button = formRenderedOutput.props.children[1].props.children;
         });
 
         it('sets disabled to true', () => {

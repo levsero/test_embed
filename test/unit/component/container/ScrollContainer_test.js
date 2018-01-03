@@ -4,7 +4,6 @@ describe('ScrollContainer component', () => {
   const windowHeight = 500;
 
   beforeEach(() => {
-    resetDOM();
 
     mockery.enable();
 

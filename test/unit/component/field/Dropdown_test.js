@@ -31,8 +31,6 @@ describe('dropdown component', () => {
   }
 
   beforeAll(() => {
-    resetDOM();
-
     mockery.enable({
       warnOnReplace: false
     });

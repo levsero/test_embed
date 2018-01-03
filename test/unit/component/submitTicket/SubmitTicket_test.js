@@ -45,8 +45,6 @@ describe('Submit ticket component', () => {
   }
 
   beforeEach(() => {
-    resetDOM();
-
     mockIsMobileBrowserValue = false;
     mockIsIEValue = false;
     mockStoreValue = false;
@@ -740,7 +738,7 @@ describe('Submit ticket component', () => {
 
     beforeEach(() => {
       submitTicket = domRender(<SubmitTicket />);
-      submitTicket.refs.submitTicketForm = { clear: mockClear = jasmine.createSpy('setState') };
+      submitTicket.refs.submitTicketForm = { clear: mockClear = jasmine.createSpy('clear') };
     });
 
     describe('when there is more than 1 ticket form', () => {
@@ -749,7 +747,10 @@ describe('Submit ticket component', () => {
       };
 
       beforeEach(() => {
-        submitTicket.setState({ ticketForms: mockTicketForms });
+        submitTicket.setState({
+          ticketForms: mockTicketForms,
+          selectedTicketForm: 123
+        });
         submitTicket.setState = mockSetState = jasmine.createSpy('setState');
         submitTicket.clearForm();
       });
@@ -771,7 +772,10 @@ describe('Submit ticket component', () => {
       const mockTicketForms = { ticket_forms: [{ id: 123 }] };
 
       beforeEach(() => {
-        submitTicket.setState({ ticketForms: mockTicketForms });
+        submitTicket.setState({
+          ticketForms: mockTicketForms,
+          selectedTicketForm: 123
+        });
         submitTicket.setState = mockSetState = jasmine.createSpy('setState');
         submitTicket.clearForm();
       });

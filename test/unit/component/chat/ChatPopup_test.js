@@ -3,7 +3,6 @@ describe('ChatPopup component', () => {
   const chatPopupPath = buildSrcPath('component/chat/ChatPopup');
 
   beforeEach(() => {
-    resetDOM();
     mockery.enable();
 
     initMockRegistry({

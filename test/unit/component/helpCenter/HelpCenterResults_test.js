@@ -7,8 +7,6 @@ describe('HelpCenterResults component', () => {
   const helpCenterResultsPath = buildSrcPath('component/helpCenter/HelpCenterResults');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     mockRegistry = initMockRegistry({

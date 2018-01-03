@@ -12,7 +12,6 @@ describe('Chat component', () => {
   updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
 
   beforeEach(() => {
-    resetDOM();
     mockery.enable();
 
     chats = new Map();

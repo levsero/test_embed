@@ -3,7 +3,6 @@ describe('ChatMenu component', () => {
   const chatMenuPath = buildSrcPath('component/chat/ChatMenu');
 
   beforeEach(() => {
-    resetDOM();
     mockery.enable();
 
     initMockRegistry({

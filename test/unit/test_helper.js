@@ -35,16 +35,13 @@ global.location = global.window.location;
 */
 const React = require('react');
 const ReactDOM = require('react-dom');
-const TestUtils = require('react-addons-test-utils');
-const Enzyme = require('enzyme');
+const TestUtils = require('react-dom/test-utils');
+const ShallowRenderer = require('react-test-renderer/shallow');
 
 global.React = React;
 global.Component = React.Component;
 global.ReactDOM = ReactDOM;
 global.TestUtils = TestUtils;
-global.Enzyme = Enzyme;
-global.shallow = Enzyme.shallow;
-global.mount = Enzyme.mount;
 
 global.noopReactComponent = () => class extends Component {
   render() {
@@ -92,18 +89,25 @@ global.connectedComponent = (component) => class extends Component {
 };
 
 global.shallowRender = (component) => {
-  const renderer = TestUtils.createRenderer();
+  const renderer = new ShallowRenderer();
 
   renderer.render(component);
   return renderer.getRenderOutput();
 };
 
 global.instanceRender = (component) => {
-  const renderer = TestUtils.createRenderer();
+  const renderer = new ShallowRenderer();
 
   renderer.render(component);
   return renderer.getMountedInstance(renderer);
 };
+
+global.getRenderer = (component) => {
+  const renderer = new ShallowRenderer();
+
+  renderer.render(component);
+  return renderer;
+}
 
 global.domRender = (component) => {
   return ReactDOM.render(component, global.document.body);

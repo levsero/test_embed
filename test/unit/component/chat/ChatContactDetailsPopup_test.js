@@ -13,7 +13,6 @@ describe('ChatContactDetailsPopup component', () => {
   }
 
   beforeEach(() => {
-    resetDOM();
     mockery.enable();
 
     mockFormValidity = false;

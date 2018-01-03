@@ -5,8 +5,6 @@ describe('ChannelChoicePopupMobile component', () => {
   const channelChoicePath = buildSrcPath('component/channelChoice/ChannelChoicePopupMobile');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({

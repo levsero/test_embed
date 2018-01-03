@@ -3,7 +3,6 @@ describe('ChatFooter component', () => {
   const chatFooterPath = buildSrcPath('component/chat/ChatFooter');
 
   beforeEach(() => {
-    resetDOM();
     mockery.enable();
 
     initMockRegistry({

@@ -22,8 +22,6 @@ describe('SubmitTicketForm component', () => {
     onSubmit = jasmine.createSpy();
     onCancel = jasmine.createSpy();
 
-    resetDOM();
-
     mockery.enable({
       warnOnReplace: false
     });

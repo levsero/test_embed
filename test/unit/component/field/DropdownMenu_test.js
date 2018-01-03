@@ -22,8 +22,6 @@ describe('dropdownMenu component', () => {
   const handleBackClickSpy = jasmine.createSpy('handleBackClick');
 
   beforeAll(() => {
-    resetDOM();
-
     mockery.enable({
       warnOnReplace: false
     });

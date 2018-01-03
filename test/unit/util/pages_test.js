@@ -15,8 +15,6 @@ describe('pages', function() {
   const pagePath = buildSrcPath('util/pages');
 
   beforeEach(function() {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({

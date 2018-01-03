@@ -16,7 +16,6 @@ describe('webWidgetPreview entry file', () => {
   };
 
   beforeEach(() => {
-    resetDOM();
     mockery.enable();
 
     mockSetFormTitleKey = jasmine.createSpy('setFormTitleKey');

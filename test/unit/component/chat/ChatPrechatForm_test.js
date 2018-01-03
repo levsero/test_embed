@@ -6,7 +6,6 @@ describe('ChatPrechatForm component', () => {
   const ChatPrechatFormPath = buildSrcPath('component/chat/ChatPrechatForm');
 
   beforeEach(() => {
-    resetDOM();
     mockery.enable();
 
     mockFormValidity = false;

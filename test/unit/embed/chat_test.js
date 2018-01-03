@@ -194,8 +194,8 @@ describe('embed.chat', () => {
         .toHaveBeenCalled();
     });
 
-    describe('zopim.endpoint', () => {
-      describe('when the config doesnt exist', () => {
+  describe('zopim.endpoint', () => {
+      describe('when the config does not exist', () => {
         const chatName = 'bob';
         const config = { zopimId: '123' };
 

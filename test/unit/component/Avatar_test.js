@@ -11,8 +11,6 @@ describe('Avatar component', () => {
   }
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({
@@ -51,6 +49,8 @@ describe('Avatar component', () => {
         expect(() => TestUtils.findRenderedDOMComponentWithTag(component, 'img'))
           .toThrow();
       });
+
+
     });
 
     describe('when the src prop is not empty', () => {

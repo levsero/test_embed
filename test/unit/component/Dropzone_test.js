@@ -3,8 +3,6 @@ describe('Dropzone component', () => {
   const dropzonePath = buildSrcPath('component/Dropzone');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({ 'React': React });

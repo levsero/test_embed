@@ -24,7 +24,8 @@ export default function() {
   let storeEnhancers;
 
   if (enableLogging) {
-    storeEnhancers = [applyMiddleware(...middlewares, logger), devToolsExtension];
+    storeEnhancers = [applyMiddleware(...middlewares), devToolsExtension];
+    // storeEnhancers = [applyMiddleware(...middlewares, logger), devToolsExtension];
   } else {
     storeEnhancers = [applyMiddleware(...middlewares)];
   }

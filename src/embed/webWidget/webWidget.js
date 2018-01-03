@@ -180,7 +180,11 @@ function create(name, config = {}, reduxStore = {}) {
     containerStyle = { width: 342 };
   }
 
+  const testFn = (el) => {
+    embed.instance = el;
+  };
   const frameParams = {
+    ref: testFn,
     frameStyle: frameStyle,
     css: webWidgetCSS + generateUserCSS(globalConfig.color),
     position: globalConfig.position,
@@ -268,7 +272,7 @@ function render() {
 
   const element = getDocumentHost().appendChild(document.createElement('div'));
 
-  embed.instance = ReactDOM.render(embed.component, element);
+  ReactDOM.render(embed.component, element);
 
   setupMediator();
 }

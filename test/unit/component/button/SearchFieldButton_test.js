@@ -5,8 +5,6 @@ describe('SearchFieldButton component', () => {
   let mockRegistry;
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     mockRegistry = initMockRegistry({

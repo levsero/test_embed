@@ -4,8 +4,6 @@ describe('HelpCenterMobile component', () => {
   const helpCenterMobilePath = buildSrcPath('component/helpCenter/HelpCenterMobile');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({

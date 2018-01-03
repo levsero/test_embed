@@ -365,8 +365,7 @@ export class Frame extends Component {
     const positionClasses = position === 'left' ? styles.left : styles.right;
 
     element.className = `${positionClasses} ${desktopClasses}`;
-
-    this.child = ReactDOM.render(embed, element);
+    ReactDOM.render(embed, element);
     this.setState({ childRendered: true });
   }
 
@@ -380,7 +379,8 @@ export class Frame extends Component {
 
     const wrapper = (
       <EmbedWrapper
-        baseCSS={`${this.props.css} ${baseFontCSS}`}
+        ref={(el) => { this.child = el; }}
+        baseCSS={`${mainCSS} ${this.props.css} ${baseFontCSS}`}
         reduxStore={this.props.store}
         handleBackClick={this.back}
         handleCloseClick={this.close}

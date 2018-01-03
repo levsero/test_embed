@@ -3,8 +3,6 @@ describe('MessageBubble component', () => {
   const messageBubblePath = buildSrcPath('component/chat/MessageBubble');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({

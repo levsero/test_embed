@@ -16,8 +16,6 @@ describe('color', () => {
   };
 
   beforeEach(() => {
-    resetDOM();
-
     mockSettingsValue = null;
 
     mockery.enable();

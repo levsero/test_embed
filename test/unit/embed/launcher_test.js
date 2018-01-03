@@ -7,8 +7,6 @@ describe('embed.launcher', () => {
   const launcherPath = buildSrcPath('embed/launcher/launcher');
 
   beforeEach(() => {
-    resetDOM();
-
     mockIsMobileBrowser = false;
     mockZoomSizingRatioValue = 1;
 

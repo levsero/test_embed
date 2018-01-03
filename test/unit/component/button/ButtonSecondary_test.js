@@ -3,8 +3,6 @@ describe('ButtonSecondary', () => {
   const buttonSecondaryPath = buildSrcPath('component/button/ButtonSecondary');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({

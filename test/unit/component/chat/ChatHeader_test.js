@@ -9,7 +9,6 @@ describe('ChatHeader component', () => {
   }
 
   beforeEach(() => {
-    resetDOM();
     mockery.enable();
 
     initMockRegistry({

@@ -4,8 +4,6 @@ describe('LoadingEllipses component', () => {
   const loadingPath = buildSrcPath('component/loading/LoadingEllipses');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     mockIsDeviceValue = false;

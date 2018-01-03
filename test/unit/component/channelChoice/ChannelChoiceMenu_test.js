@@ -4,8 +4,6 @@ describe('ChannelChoiceMenu component', () => {
   const channelChoiceMenuPath = buildSrcPath('component/channelChoice/ChannelChoiceMenu');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({
