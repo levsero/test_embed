@@ -104,6 +104,9 @@ describe('WebWidget component', () => {
       'src/redux/modules/talk/talk-selectors': {
         getTalkAvailable: noop
       },
+      'src/redux/modules/zopimChat/selectors': {
+        getZopimChatOnline: noop
+      },
       'service/settings': {
         settings: { get: noop }
       }

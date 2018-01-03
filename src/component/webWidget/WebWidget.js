@@ -13,6 +13,7 @@ import { updateActiveEmbed,
          updateEmbedAccessible,
          updateBackButtonVisibility,
          updateAuthenticated } from 'src/redux/modules/base';
+import { getZopimChatOnline } from 'src/redux/modules/zopimChat/selectors';
 import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
 import { getChatNotification } from 'src/redux/modules/chat/selectors';
 import { getTalkAvailable, isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
@@ -32,7 +33,7 @@ const mapStateToProps = (state) => {
     chat,
     chatNotification: getChatNotification(state),
     activeEmbed: base.activeEmbed,
-    zopimOnline: base.zopim,
+    zopimOnline: getZopimChatOnline(state),
     authenticated: base.authenticated,
     talkAvailable: getTalkAvailable(state),
     callbackEnabled: isCallbackEnabled(state)

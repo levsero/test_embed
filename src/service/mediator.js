@@ -19,16 +19,17 @@ const channelChoice = 'channelChoice';
 const talk = 'talk';
 const state = {};
 
-state[`${chat}.connectionPending`] = true;
+
 state[`${launcher}.userHidden`] = false;
 state[`${launcher}.clickActive`] = false;
 state[`${submitTicket}.isVisible`] = false;
-state[`${chat}.isVisible`] = false;
 state[`${helpCenter}.isVisible`] = false;
 state[`${helpCenter}.isAccessible`] = false;
 state[`${helpCenter}.isSuppressed`] = false;
 state[`${channelChoice}.isVisible`] = false;
 state[`${channelChoice}.isAccessible`] = false;
+state[`${chat}.connectionPending`] = true;
+state[`${chat}.isVisible`] = false;
 state[`${chat}.isOnline`] = false;
 state[`${chat}.isChatting`] = false;
 state[`${chat}.isSuppressed`] = false;
@@ -37,15 +38,15 @@ state[`${chat}.unreadMsgs`] = 0;
 state[`${chat}.userClosed`] = false;
 state[`${chat}.chatEnded`] = false;
 state[`${talk}.isAccessible`] = false;
-state[`${talk}.isAvailable`] = false;
 state[`${talk}.enabled`] = false;
+state[`${talk}.connectionPending`] = true;
 state[`${talk}.isVisible`] = false;
 state['.hideOnClose'] = false;
 state['.activatePending'] = false;
 
 const talkAvailable = () => {
   // TODO: Add suppressed condition here when implementing it
-  return state[`${talk}.isAccessible`] && state[`${talk}.isAccessible`] && state[`${talk}.enabled`];
+  return state[`${talk}.isAccessible`] && state[`${talk}.enabled`] && !state[`${talk}.connectionPending`];
 };
 
 const helpCenterAvailable = () => {
@@ -165,7 +166,7 @@ function init(embedsAccessible, params = {}) {
   state[`${submitTicket}.isSuppressed`] = settings.get('contactForm.suppress');
   state[`${chat}.connectionPending`] = embedsAccessible.chat && !params.newChat;
   state[`${talk}.isAccessible`] = embedsAccessible.talk;
-
+  state[`${talk}.connectionPending`] = embedsAccessible.talk;
   resetActiveEmbed();
 
   if (state[`${chat}.connectionPending`]) {
@@ -185,6 +186,7 @@ function init(embedsAccessible, params = {}) {
     state[`${submitTicket}.isVisible`] = false;
     state[`${chat}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = false;
+    state[`${talk}.isVisible`] = false;
     state[`${launcher}.userHidden`] = true;
 
     c.broadcast(`${chat}.hide`);
@@ -194,6 +196,7 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept('talk.enabled', (_, enabled) => {
     state[`${talk}.enabled`] = enabled;
+    state[`${talk}.connectionPending`] = false;
   });
 
   c.intercept('talk.agentAvailability', (_, availability) => {
@@ -201,8 +204,7 @@ function init(embedsAccessible, params = {}) {
 
     if (!embedVisible(state)) {
       resetActiveEmbed();
-
-      if (embedAvailable()) {
+      if (embedAvailable() && !state[`${chat}.connectionPending`]) {
         show(state);
       }
     }
@@ -215,6 +217,7 @@ function init(embedsAccessible, params = {}) {
     state[`${chat}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = false;
     state[`${launcher}.userHidden`] = false;
+    state[`${talk}.isVisible`] = false;
 
     resetActiveEmbed();
 
@@ -231,18 +234,16 @@ function init(embedsAccessible, params = {}) {
 
     if (!embedVisible(state)) {
       resetActiveEmbed();
-
       state['.hideOnClose'] = !!options.hideOnClose;
+      if (embedAvailable()) {
+        const chatPending = state[`${chat}.connectionPending`] && state[`${chat}.isAccessible`];
+        const talkPending = state[`${talk}.connectionPending`] && state[`${talk}.isAccessible`];
 
-      if (embedAvailable() || state[`${chat}.connectionPending`]) {
-        // When boot time zE.activate() is used with contact form & chat,
-        // delay showing the embed so that chat has time to come online.
-        if (state[`${chat}.connectionPending`] &&
-            state[`${chat}.isAccessible`]) {
-          state['.activatePending'] = true;
-        } else {
-          showEmbed(state, true);
-        }
+        // When boot time zE.activate() is used with contact form, talk & chat,
+        // delay showing the embed so that talk and chat has time to come online.
+        (chatPending || talkPending)
+          ? state['.activatePending'] = true
+          : showEmbed(state, true);
       }
     }
   });
@@ -280,13 +281,11 @@ function init(embedsAccessible, params = {}) {
       return;
     }
 
-    c.broadcast('webWidget.setZopimOnline', true);
-
     if ((state.activeEmbed === submitTicket || !state.activeEmbed) && !helpCenterAvailable()) {
       state.activeEmbed = channelChoiceAvailable() ? channelChoice : chat;
     }
 
-    if (!submitTicketAvailable() && !helpCenterAvailable() && !state[`${chat}.connectionPending`]) {
+    if (!submitTicketAvailable() && !helpCenterAvailable() && !talkAvailable() && !state[`${chat}.connectionPending`]) {
       c.broadcast(`${launcher}.show`);
     }
   });
@@ -294,9 +293,13 @@ function init(embedsAccessible, params = {}) {
   c.intercept(`${chat}.onConnected`, () => {
     state[`${chat}.connectionPending`] = false;
 
-    if (!embedAvailable() || embedVisible(state)) return;
+    if (!embedVisible(state)) {
+      resetActiveEmbed();
 
-    show(state);
+      if (embedAvailable() && !state[`${talk}.connectionPending`]) {
+        show(state);
+      }
+    }
   });
 
   c.intercept(`${chat}.onOffline`, () => {
@@ -307,8 +310,6 @@ function init(embedsAccessible, params = {}) {
       if (state.activeEmbed === chat) {
         resetActiveEmbed();
       }
-
-      c.broadcast('webWidget.setZopimOnline', false);
     }
   });
 
