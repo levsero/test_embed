@@ -47,7 +47,7 @@ export class ChannelChoiceMenu extends Component {
       : i18n.t('embeddable_framework.channelChoice.button.label.call_us', { fallback: 'Call us' });
     const label = (talkOnline)
                 ? onlineLabel
-                : i18n.t('embeddable_framework.channelChoice.button.label.clickToCall_offline',
+                : i18n.t('embeddable_framework.channelChoice.button.label.talk_offline',
                          { fallback: 'Talk is offline' });
     const disabledStyle = !talkOnline ? styles.talkBtnDisabled : '';
 
