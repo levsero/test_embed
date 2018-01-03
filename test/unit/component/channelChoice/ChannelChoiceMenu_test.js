@@ -11,7 +11,8 @@ describe('ChannelChoiceMenu component', () => {
     initMockRegistry({
       './ChannelChoiceMenu.scss': {
         locals: {
-          chatBtnDisabled: 'chatBtnDisabled'
+          chatBtnDisabled: 'chatBtnDisabled',
+          talkBtnDisabled: 'talkBtnDisabled'
         }
       },
       'component/button/ButtonIcon': {
@@ -115,6 +116,7 @@ describe('ChannelChoiceMenu component', () => {
           const component = domRender(
             <ChannelChoiceMenu
               talkAvailable={true}
+              talkOnline={true}
               callbackEnabled={true} />
           );
 
@@ -132,6 +134,7 @@ describe('ChannelChoiceMenu component', () => {
           const component = domRender(
             <ChannelChoiceMenu
               talkAvailable={true}
+              talkOnline={true}
               callbackEnabled={false} />
           );
 
@@ -141,6 +144,36 @@ describe('ChannelChoiceMenu component', () => {
         it('renders an element with "Call us" string', () => {
           expect(result.props.label)
             .toEqual('embeddable_framework.channelChoice.button.label.call_us');
+        });
+      });
+
+      describe('when talk is online', () => {
+        beforeEach(() => {
+          component = domRender(
+            <ChannelChoiceMenu
+              talkAvailable={true}
+              talkOnline={true} />
+          );
+        });
+
+        it('renders the component without disabled classes', () => {
+          expect(component.renderTalkButton().props.className)
+            .not.toContain('talkBtnDisabled');
+        });
+      });
+
+      describe('when talk is offline', () => {
+        beforeEach(() => {
+          component = domRender(
+            <ChannelChoiceMenu
+              talkAvailable={true}
+              talkOnline={false} />
+          );
+        });
+
+        it('renders the component with disabled classes', () => {
+          expect(component.renderTalkButton().props.className)
+            .toContain('talkBtnDisabled');
         });
       });
     });
@@ -174,6 +207,36 @@ describe('ChannelChoiceMenu component', () => {
       it('returns a component', () => {
         expect(component.renderChatButton())
           .not.toBeNull();
+      });
+
+      describe('when chat is online', () => {
+        beforeEach(() => {
+          component = domRender(
+            <ChannelChoiceMenu
+              chatAvailable={true}
+              chatOnline={true} />
+          );
+        });
+
+        it('renders the component without disabled classes', () => {
+          expect(component.renderChatButton().props.className)
+            .not.toContain('chatBtnDisabled');
+        });
+      });
+
+      describe('when chat is offline', () => {
+        beforeEach(() => {
+          component = domRender(
+            <ChannelChoiceMenu
+              chatAvailable={true}
+              chatOnline={false} />
+          );
+        });
+
+        it('renders the component with disabled classes', () => {
+          expect(component.renderChatButton().props.className)
+            .toContain('chatBtnDisabled');
+        });
       });
     });
 

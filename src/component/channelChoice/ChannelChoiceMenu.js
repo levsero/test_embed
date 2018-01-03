@@ -13,6 +13,7 @@ export class ChannelChoiceMenu extends Component {
     buttonClasses: PropTypes.string,
     labelClasses: PropTypes.string,
     talkAvailable: PropTypes.bool,
+    talkOnline: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatAvailable: PropTypes.bool
   };
@@ -21,6 +22,7 @@ export class ChannelChoiceMenu extends Component {
     buttonClasses: '',
     labelClasses: '',
     talkAvailable: false,
+    talkOnline: false,
     submitTicketAvailable: true,
     chatAvailable: false
   };
@@ -36,19 +38,26 @@ export class ChannelChoiceMenu extends Component {
   }
 
   renderTalkButton = () => {
-    if (!this.props.talkAvailable) return null;
+    const { talkAvailable, talkOnline } = this.props;
 
-    const talkLabel = (this.props.callbackEnabled)
+    if (!talkAvailable) return null;
+
+    const onlineLabel = (this.props.callbackEnabled)
       ? i18n.t('embeddable_framework.channelChoice.button.label.request_callback', { fallback: 'Request a callback' })
       : i18n.t('embeddable_framework.channelChoice.button.label.call_us', { fallback: 'Call us' });
+    const label = (talkOnline)
+                ? onlineLabel
+                : i18n.t('embeddable_framework.channelChoice.button.label.clickToCall_offline',
+                         { fallback: 'Talk is offline' });
+    const disabledStyle = !talkOnline ? styles.talkBtnDisabled : '';
 
     return (
       <ButtonIcon
-        className={`${this.props.buttonClasses} ${styles.buttonTalk}`}
+        className={`${this.props.buttonClasses} ${styles.buttonTalk} ${disabledStyle}`}
         labelClassName={this.props.labelClasses}
         onClick={this.handleNextClick('talk')}
         iconClasses={styles.iconTalk}
-        label={talkLabel}
+        label={label}
         icon='Icon--channelChoice-talk' />
     );
   }
