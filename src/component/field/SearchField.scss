@@ -46,7 +46,9 @@
 }
 
 .fullscreen {
-  composes: u-paddingHN u-paddingBN Form-cta--barFullscreen from global;
+  composes: u-paddingHN u-paddingBN from global;
+
+  padding-top: #{18/$font-size}rem;
 }
 
 .searchInputFullscreen {

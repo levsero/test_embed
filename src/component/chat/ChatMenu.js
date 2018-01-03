@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
 
-import { locals as styles } from './ChatMenu.sass';
+import { locals as styles } from './ChatMenu.scss';
 
 export class ChatMenu extends Component {
   static propTypes = {

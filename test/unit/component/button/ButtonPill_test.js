@@ -17,7 +17,7 @@ describe('ButtonPill component', () => {
           isRTL: noop
         }
       },
-      './ButtonPill.sass': {
+      './ButtonPill.scss': {
         locals: {
           fullscreen: 'fullscreen'
         }

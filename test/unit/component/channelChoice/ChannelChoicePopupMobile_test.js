@@ -10,7 +10,7 @@ describe('ChannelChoicePopupMobile component', () => {
     mockery.enable();
 
     initMockRegistry({
-      './ChannelChoicePopupMobile.sass': {
+      './ChannelChoicePopupMobile.scss': {
         locals: {
           inner: 'inner',
           innerItem: 'innerItem',
@@ -19,7 +19,7 @@ describe('ChannelChoicePopupMobile component', () => {
           cancelButton: 'cancelButton'
         }
       },
-      './ChannelChoice.sass': {
+      './ChannelChoice.scss': {
         locals: {}
       },
       'component/button/Button': {

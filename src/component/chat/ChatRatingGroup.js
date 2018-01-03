@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { ButtonIcon } from 'component/button/ButtonIcon';
 
-import { locals as styles } from './ChatRatingGroup.sass';
+import { locals as styles } from './ChatRatingGroup.scss';
 
 export const ChatRatings = {
   GOOD: 'good',

@@ -15,7 +15,7 @@ describe('ChatFeedbackForm component', () => {
     };
 
     initMockRegistry({
-      './ChatFeedbackForm.sass': {
+      './ChatFeedbackForm.scss': {
         locals: {
           button: 'buttonClasses',
           rightButton: 'rightButtonClasses'

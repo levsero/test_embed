@@ -2,9 +2,12 @@
 
 .container {
   composes: u-marginTT u-posRelative from global;
-  composes: Form-field--display-preview from '../../styles/components/Form.scss';
 
   background-color: $zd-color-anti-flash-white !important;
+  border: $thin-border-size solid $stroke-color;
+  border-radius: #{4/$font-size}rem;
+  padding: #{7/$font-size}rem;
+  color: $secondary-color;
 }
 
 .containerError {

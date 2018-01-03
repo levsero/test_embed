@@ -20,7 +20,7 @@ describe('Avatar component', () => {
       'component/Icon': {
         Icon: MockIcon
       },
-      './Avatar.sass': {
+      './Avatar.scss': {
         locals: ''
       }
     });

@@ -17,7 +17,7 @@ describe('ChatRatingGroup component', () => {
           }
         }
       },
-      './ChatRatingGroup.sass': {
+      './ChatRatingGroup.scss': {
         locals: {
           ratingIconActive: 'ratingIconActive',
           ratingIcon: 'ratingIcon',

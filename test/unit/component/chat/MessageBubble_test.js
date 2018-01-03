@@ -9,7 +9,7 @@ describe('MessageBubble component', () => {
 
     initMockRegistry({
       'React': React,
-      './MessageBubble.sass': {
+      './MessageBubble.scss': {
         locals: ''
       }
     });

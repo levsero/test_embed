@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { Avatar } from 'component/Avatar';
 import { MessageBubble } from 'component/chat/MessageBubble';
 
-import { locals as styles } from './ChatGroup.sass';
+import { locals as styles } from './ChatGroup.scss';
 
 export class ChatGroup extends Component {
   static propTypes = {

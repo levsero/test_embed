@@ -9,7 +9,7 @@ describe('ChatGroup component', () => {
     mockery.enable();
 
     initMockRegistry({
-      './ChatGroup.sass': {
+      './ChatGroup.scss': {
         locals: {
           messageAgent: 'messageAgent',
           messageUser: 'messageUser',

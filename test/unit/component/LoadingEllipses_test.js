@@ -17,7 +17,7 @@ describe('LoadingEllipses component', () => {
           return mockIsDeviceValue;
         }
       },
-      './LoadingEllipses.sass': {
+      './LoadingEllipses.scss': {
         locals: {
           bounce: 'bounce',
           fade: 'fade'

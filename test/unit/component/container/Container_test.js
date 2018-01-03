@@ -9,7 +9,7 @@ describe('Container component', () => {
 
     initMockRegistry({
       'React': React,
-      './Container.sass': {
+      './Container.scss': {
         locals: {
           'desktop': 'desktopClasses',
           'mobile': 'mobileClasses',

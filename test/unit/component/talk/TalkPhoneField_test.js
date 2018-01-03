@@ -38,7 +38,7 @@ describe('Render phone field', () => {
         isMobileBrowser: () => mockIsMobileBrowserValue,
         isLandscape: () => mockIsLandscapeValue
       },
-      './TalkPhoneField.sass': {
+      './TalkPhoneField.scss': {
         locals: {
           field: 'field-class',
           hover: 'hover-class',

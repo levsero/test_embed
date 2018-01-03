@@ -48,7 +48,7 @@ describe('Talk component', () => {
         SUCCESS_NOTIFICATION_SCREEN: successNotificationScreen
       },
       'src/redux/modules/talk/talk-selectors': {},
-      './Talk.sass': {
+      './Talk.scss': {
         locals: {
           footer: 'footerClasses'
         }

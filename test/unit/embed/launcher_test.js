@@ -51,7 +51,7 @@ describe('embed.launcher', () => {
           get: () => {}
         }
       },
-      './launcher.scss': '',
+      'globalCSS': '',
       './launcherStyles.js': {
         launcherStyles: 'mockCss'
       },

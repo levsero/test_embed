@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { locals as styles } from './ZendeskLogo.sass';
+import { locals as styles } from './ZendeskLogo.scss';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';

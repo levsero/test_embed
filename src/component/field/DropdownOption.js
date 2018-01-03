@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { locals as styles } from './DropdownOption.sass';
+import { locals as styles } from './DropdownOption.scss';
 import { i18n } from 'service/i18n';
 
 export class DropdownOption extends Component {
