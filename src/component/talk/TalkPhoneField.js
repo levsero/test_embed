@@ -168,7 +168,7 @@ export class TalkPhoneField extends Component {
     const flagDeviceStyle = isMobileBrowser() ? styles.selectedFlagMobile : '';
     const flagClasses = `${styles.selectedFlag} ${flagDeviceStyle}`;
 
-    return <span>{this.renderFlag(country, flagClasses)}</span>;
+    return <span className={styles.selectedFlagContainer}>{this.renderFlag(country, flagClasses)}</span>;
   }
 
   renderLabel() {
@@ -210,6 +210,8 @@ export class TalkPhoneField extends Component {
     const containerStyle = `${styles.controls} ${focusStyle} ${hoverStyle}`;
     const arrowDeviceStyle = isMobileBrowser() ? styles.arrowMobile : '';
     const arrowStyle = `${styles.arrow} ${arrowDeviceStyle}`;
+    const fieldInputDeviceStyle = isMobileBrowser() ? styles.fieldInputMobile : '';
+    const fieldInputStyle = `${styles.fieldInput} ${fieldInputDeviceStyle}`;
 
     return (
       <div className={styles.container}>
@@ -243,7 +245,7 @@ export class TalkPhoneField extends Component {
             name='phone'
             fieldContainerClasses={styles.fieldContainer}
             fieldClasses={fieldClasses}
-            inputClasses={styles.fieldInput}
+            inputClasses={fieldInputStyle}
             labelClasses={styles.fieldLabel}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}

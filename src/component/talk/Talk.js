@@ -126,7 +126,7 @@ class Talk extends Component {
 
     return (this.props.isMobile)
       ? <a className={styles.phoneLink} href={`tel:${phoneNumber}`} target='_blank'>{formattedPhoneNumber}</a>
-      : <span className={styles.phoneText}>{formattedPhoneNumber}</span>;
+      : <span>{formattedPhoneNumber}</span>;
   }
 
   renderAverageWaitTime = () => {
@@ -140,7 +140,7 @@ class Talk extends Component {
       averageWaitTime
     });
 
-    return <p>{waitTimeMessage}</p>;
+    return <p className={styles.averageWaitTime}>{waitTimeMessage}</p>;
   }
 
   renderFormHeader = () => {
@@ -225,10 +225,8 @@ class Talk extends Component {
   }
 
   renderSuccessNotificationScreen = () => {
-    const displayNumber = this.formatPhoneNumber(this.props.callback.phoneNumber);
-    const message = i18n.t('embeddable_framework.talk.notify.success.message', {
-      fallback: `Thanks for submiting your request. We'll get back to you soon on ${displayNumber}`,
-      displayNumber
+    const message = i18n.t('embeddable_framework.talk.notify.success.message_new', {
+      fallback: `Thanks for submiting your request. We'll get back to you soon.`
     });
     const iconClasses = `${styles.notifyIcon} u-userFillColor u-userTextColor`;
 
@@ -334,7 +332,9 @@ class Talk extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const footerClasses = !(this.props.screen === SUCCESS_NOTIFICATION_SCREEN) ? styles.footer : '';
+    const { screen, isMobile } = this.props;
+    const footerClasses = (screen !== SUCCESS_NOTIFICATION_SCREEN && !isMobile) ? styles.footer : '';
+    const contentClasses = (isMobile) ? styles.contentMobile : styles.content;
 
     return (
       <ScrollContainer
@@ -345,8 +345,10 @@ class Talk extends Component {
         footerContent={this.renderZendeskLogo()}
         getFrameDimensions={this.props.getFrameDimensions}
         title={this.renderFormTitle()}>
-        {this.renderContent()}
-        {this.renderOfflineScreen()}
+        <div className={contentClasses}>
+          {this.renderContent()}
+          {this.renderOfflineScreen()}
+        </div>
       </ScrollContainer>
     );
   }

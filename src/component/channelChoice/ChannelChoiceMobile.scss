@@ -4,9 +4,12 @@
  *    composed classes defined here.
  */
 
+@import '../../styles/_vars.scss';
+
 .container {
   height: calc(100% - 10rem);
 
+  padding-top: $spacing-tny !important; /* 1 */
   padding-left: 0 !important; /* 1 */
   padding-right: 0 !important; /* 1 */
 }

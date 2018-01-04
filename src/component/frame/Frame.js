@@ -241,7 +241,7 @@ export class Frame extends Component {
     const animateFrom = _.extend({}, this.state.frameStyle, transition.start);
     const animateTo = _.extend({}, this.state.frameStyle, transition.end);
 
-    this.setState({ visible: true, frameStyle: animateFrom });
+    this.setState({ visible: true });
 
     setTimeout(() => {
       const existingStyle = frameFirstChild.style;
@@ -251,12 +251,17 @@ export class Frame extends Component {
       }
     }, scrollingStyleDelay);
 
-    setTimeout(() => this.setState({ frameStyle: animateTo }), 0);
+    if (options.transition === 'none') {
+      this.props.afterShowAnimate(this);
+    } else {
+      this.setState({ frameStyle: animateFrom });
+      setTimeout(() => this.setState({ frameStyle: animateTo }), 0);
 
-    setTimeout(
-      () => this.props.afterShowAnimate(this),
-      cssTimeToMs(transition.end.transitionDuration)
-    );
+      setTimeout(
+        () => this.props.afterShowAnimate(this),
+        cssTimeToMs(transition.end.transitionDuration)
+      );
+    }
 
     this.props.onShow(this);
   }

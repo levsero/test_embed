@@ -50,7 +50,9 @@ describe('Talk component', () => {
       'src/redux/modules/talk/talk-selectors': {},
       './Talk.scss': {
         locals: {
-          footer: 'footerClasses'
+          footer: 'footerClasses',
+          content: 'contentClasses',
+          contentMobile: 'contentMobileClasses'
         }
       }
     });
@@ -194,6 +196,56 @@ describe('Talk component', () => {
   describe('render', () => {
     let talk, scrollContainer;
 
+    describe('when not on mobile', () => {
+      beforeEach(() => {
+        talk = domRender(<Talk />);
+        scrollContainer = TestUtils.findRenderedComponentWithType(talk, MockScrollContainer);
+      });
+
+      it('applies the content styles to the scroll container children container', () => {
+        expect(scrollContainer.props.children.props.className)
+          .toBe('contentClasses');
+      });
+    });
+
+    describe('when on mobile', () => {
+      beforeEach(() => {
+        talk = domRender(<Talk isMobile={true} />);
+        scrollContainer = TestUtils.findRenderedComponentWithType(talk, MockScrollContainer);
+      });
+
+      it('applies the contentMobile styles to the scroll container children container', () => {
+        expect(scrollContainer.props.children.props.className)
+          .toBe('contentMobileClasses');
+      });
+    });
+
+    describe('when not on the success notification screen', () => {
+      describe('when not on mobile', () => {
+        beforeEach(() => {
+          talk = domRender(<Talk />);
+          scrollContainer = TestUtils.findRenderedComponentWithType(talk, MockScrollContainer);
+        });
+
+        it('applies the footer styles to the scroll container', () => {
+          expect(scrollContainer.props.footerClasses)
+            .toBe('footerClasses');
+        });
+      });
+
+      describe('when on mobile', () => {
+        beforeEach(() => {
+          talk = domRender(<Talk isMobile={true} />);
+          scrollContainer = TestUtils.findRenderedComponentWithType(talk, MockScrollContainer);
+        });
+
+        it('does not apply the footer styles to the scroll container', () => {
+          expect(scrollContainer.props.footerClasses)
+            .toBe('');
+        });
+      });
+    });
+
     describe('when on the success notification screen', () => {
       beforeEach(() => {
         talk = domRender(<Talk screen={successNotificationScreen} />);
@@ -203,11 +255,6 @@ describe('Talk component', () => {
       it('shows the success notification scroll container header title', () => {
         expect(scrollContainer.props.title)
           .toBe('embeddable_framework.talk.notify.success.title');
-      });
-
-      it('does not apply the footer styles to the scroll container', () => {
-        expect(scrollContainer.props.footerClasses)
-          .toBe('');
       });
     });
 
@@ -220,11 +267,6 @@ describe('Talk component', () => {
       it('shows the form scroll container header title', () => {
         expect(scrollContainer.props.title)
           .toBe('embeddable_framework.talk.form.title');
-      });
-
-      it('applies the footer styles to the scroll container', () => {
-        expect(scrollContainer.props.footerClasses)
-          .toBe('footerClasses');
       });
     });
   });

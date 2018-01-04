@@ -247,20 +247,47 @@ describe('helpCenter redux actions', () => {
     });
 
     describe('search response', () => {
-      let callbackFn;
+      let callbackFn,
+        mockResponse;
 
       describe('when the request is successful', () => {
-        beforeEach(() => {
-          const searchRequest = httpPostSpy.calls.mostRecent().args;
+        describe('when the response body contains no items', () => {
+          beforeEach(() => {
+            const mockResponse = { body: { count: 0 } };
+            const searchRequest = httpPostSpy.calls.mostRecent().args;
 
-          callbackFn = searchRequest[0].callbacks.done;
-          callbackFn();
-          action = mockStore.getActions()[1];
+            callbackFn = searchRequest[0].callbacks.done;
+            callbackFn(mockResponse);
+            action = mockStore.getActions()[1];
+          });
+
+          it('dispatches an action of type CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS', () => {
+            expect(action.type)
+              .toEqual(actionTypes.CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS);
+          });
         });
 
-        it('dispatches an action of type CONTEXTUAL_SEARCH_SUCCESS', () => {
-          expect(action.type)
-            .toEqual(actionTypes.CONTEXTUAL_SEARCH_SUCCESS);
+        describe('when the response body contains at least a single item', () => {
+          beforeEach(() => {
+            const searchRequest = httpPostSpy.calls.mostRecent().args;
+
+            mockResponse = { body: { count: 1 } };
+            callbackFn = searchRequest[0].callbacks.done;
+            callbackFn(mockResponse);
+            action = mockStore.getActions()[1];
+          });
+
+          it('dispatches an action of type CONTEXTUAL_SEARCH_SUCCESS', () => {
+            expect(action.type)
+              .toEqual(actionTypes.CONTEXTUAL_SEARCH_SUCCESS);
+          });
+
+          it('dispatches an action with a payload of the response', () => {
+            const expected = { response: mockResponse };
+
+            expect(action.payload)
+              .toEqual(expected);
+          });
         });
       });
 
