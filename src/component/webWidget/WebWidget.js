@@ -15,7 +15,7 @@ import { updateActiveEmbed,
          updateAuthenticated } from 'src/redux/modules/base';
 import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
 import { getChatNotification } from 'src/redux/modules/chat/selectors';
-import { getTalkAvailable } from 'src/redux/modules/talk/talk-selectors';
+import { getTalkAvailable, isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { settings } from 'service/settings';
 
 const submitTicket = 'ticketSubmissionForm';
@@ -34,7 +34,8 @@ const mapStateToProps = (state) => {
     activeEmbed: base.activeEmbed,
     zopimOnline: base.zopim,
     authenticated: base.authenticated,
-    talkAvailable: getTalkAvailable(state)
+    talkAvailable: getTalkAvailable(state),
+    callbackEnabled: isCallbackEnabled(state)
   };
 };
 
@@ -42,6 +43,7 @@ class WebWidget extends Component {
   static propTypes = {
     attachmentSender: PropTypes.func,
     buttonLabelKey: PropTypes.string,
+    callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
     chat: PropTypes.object.isRequired,
     chatNotification: PropTypes.object.isRequired,
@@ -358,6 +360,7 @@ class WebWidget extends Component {
           originalArticleButton={this.props.originalArticleButton}
           localeFallbacks={this.props.localeFallbacks}
           channelChoice={this.isChannelChoiceAvailable()}
+          callbackEnabled={this.props.callbackEnabled}
           talkAvailable={this.props.talkAvailable}
           submitTicketAvailable={this.props.submitTicketAvailable}
           chatAvailable={!settings.get('chat.suppress') && this.props.zopimOnline}
@@ -413,6 +416,7 @@ class WebWidget extends Component {
         style={this.props.style}
         chatOnline={this.isChatOnline()}
         talkAvailable={this.props.talkAvailable}
+        callbackEnabled={this.props.callbackEnabled}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatAvailable={!settings.get('chat.suppress') && this.props.zopimOnline}
         isMobile={this.props.fullscreen}
@@ -436,6 +440,9 @@ class WebWidget extends Component {
         isMobile={this.props.fullscreen}
         updateFrameSize={this.props.updateFrameSize}
         talkConfig={this.props.talkConfig}
+        helpCenterAvailable={this.isHelpCenterAvailable()}
+        channelChoiceAvailable={this.isChannelChoiceAvailable()}
+        onBackClick={this.onBackClick}
         zendeskSubdomain={this.props.zendeskSubdomain} />
     );
   }

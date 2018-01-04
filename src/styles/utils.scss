@@ -322,6 +322,10 @@ u-overflowAuto {
   padding-left: #{25/$font-size}rem;
 }
 
+.u-paddingLT {
+  padding-left: $spacing-tny;
+}
+
 .u-paddingLS {
   padding-left: $spacing-sml;
 }
