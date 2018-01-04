@@ -58,7 +58,7 @@ describe('talk redux actions', () => {
         agentAvailability: false,
         averageWaitTime: '2',
         capability: '0',
-        enabled: 'false',
+        enabled: false,
         groupName: '',
         keywords: '',
         phoneNumber: ''
@@ -77,7 +77,7 @@ describe('talk redux actions', () => {
       expect(action.payload)
         .toEqual({
           capability: '0',
-          enabled: 'false',
+          enabled: false,
           groupName: '',
           keywords: '',
           phoneNumber: ''
@@ -120,6 +120,25 @@ describe('talk redux actions', () => {
     it('dispatches an action with the wait time', () => {
       expect(action.payload)
         .toBe('5');
+    });
+  });
+
+  describe('updateTalkAverageWaitTimeEnabled', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateTalkAverageWaitTimeEnabled(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_TALK_AVERAGE_WAIT_TIME_ENABLED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_TALK_AVERAGE_WAIT_TIME_ENABLED);
+    });
+
+    it('dispatches an action with the average wait time enabled', () => {
+      expect(action.payload)
+        .toBe(true);
     });
   });
 

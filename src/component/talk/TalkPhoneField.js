@@ -21,6 +21,8 @@ export class TalkPhoneField extends Component {
     label: PropTypes.string,
     required: PropTypes.bool,
     getFrameDimensions: PropTypes.func,
+    country: PropTypes.string,
+    onCountrySelect: PropTypes.func,
     supportedCountries: PropTypes.array.isRequired
   };
 
@@ -28,32 +30,48 @@ export class TalkPhoneField extends Component {
     label: '',
     required: false,
     value: '',
-    getFrameDimensions: () => {}
+    country: '',
+    getFrameDimensions: () => {},
+    onCountrySelect: () => {}
   };
 
   constructor(props) {
     super(props);
-    const { value, supportedCountries } = props;
-    const { country } = libphonenumber.parse(value);
+    const { value, supportedCountries, country } = props;
+    const phone = this.formatPhoneNumber(value, country);
 
     this.state = {
       country: country,
-      disabled: _.isEmpty(value),
-      value: this.formatPhoneNumber(value, country),
+      value: phone,
       focus: false,
       supportedCountries: this.formatCountries(supportedCountries, country)
     };
+    this.menuOpen = false;
+  }
+
+  componentDidMount() {
+    if (this.state.country) {
+      this.triggerCountryChange(this.state.country);
+    }
+    if (this.state.value) {
+      this.input.validate();
+      // onBlur forces the red border to appear when there's an error
+      this.input.onBlur({ target: { value: this.state.value }});
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     const country = countriesByIso[this.state.country];
     const phoneCountryCode = this.formatPhoneCountryCode(country);
-
     const value = !_.startsWith(nextProps.value, phoneCountryCode)
       ? phoneCountryCode
       : this.formatPhoneNumber(nextProps.value, this.state.country);
 
     this.setState({ value });
+  }
+
+  validate = (value) => {
+    return libphonenumber.isValidNumber(value, this.state.country);
   }
 
   formatCountries(countries, selected) {
@@ -71,11 +89,61 @@ export class TalkPhoneField extends Component {
   }
 
   formatPhoneCountryCode(config) {
-    return `+${config.code}`;
+    return config ? `+${config.code}` : '';
   }
 
   formatPhoneNumber(text, country) {
-    return new libphonenumber.asYouType(country).input(text);
+    return country ? new libphonenumber.asYouType(country).input(text) : '';
+  }
+
+  triggerCountryChange(value) {
+    this.props.onCountrySelect(value, this.state.value);
+  }
+
+  handleCountrySelected = (iso) => {
+    if (this.state.country !== iso) {
+      const country = countriesByIso[iso];
+      const value = this.formatPhoneCountryCode(country);
+
+      this.setState({
+        country: iso,
+        focus: true,
+        value
+      });
+      this.input.validate();
+      this.triggerCountryChange(iso);
+    } else {
+      this.setState({ focus: true });
+    }
+  }
+
+  handleFocus = () => {
+    this.setState({ focus: true });
+  }
+
+  handleBlur = () => {
+    if (!this.menuOpen) {
+      this.setState({ focus: false, hover: false });
+    }
+  }
+
+  handleDropdownBlur = (e) => {
+    setTimeout(() => {
+      this.handleBlur();
+      this.input.onBlur(e);
+    }, 0);
+  }
+
+  handleMouseEnter = () => {
+    this.setState({ hover: true });
+  }
+
+  handleMouseLeave = () => {
+    this.setState({ hover: false });
+  }
+
+  handleMenuChange = (opened) => {
+    this.menuOpen = opened;
   }
 
   renderFlag(country, className) {
@@ -99,37 +167,6 @@ export class TalkPhoneField extends Component {
     return <span>&nbsp;{this.renderFlag(country, styles.selectedFlag)}</span>;
   }
 
-  handleCountrySelected = (iso) => {
-    if (this.state.country !== iso) {
-      const country = countriesByIso[iso];
-
-      this.setState({
-        disabled: false,
-        country: iso,
-        focus: true,
-        value: this.formatPhoneCountryCode(country)
-      });
-    } else {
-      this.setState({ focus: true });
-    }
-  }
-
-  handleFocus = () => {
-    this.setState({ focus: true });
-  }
-
-  handleBlur = () => {
-    this.setState({ focus: false, hover: false });
-  }
-
-  handleMouseEnter = () => {
-    this.setState({ hover: true });
-  }
-
-  handleMouseLeave = () => {
-    this.setState({ hover: false });
-  }
-
   renderLabel() {
     const landscape = (isMobileBrowser() && isLandscape());
     const portrait = (isMobileBrowser() && !isLandscape());
@@ -151,7 +188,7 @@ export class TalkPhoneField extends Component {
   }
 
   render() {
-    const { hover, focus, supportedCountries, value, disabled } = this.state;
+    const { hover, focus, supportedCountries, value } = this.state;
     const dropdownDeviceStyle = isMobileBrowser() ? styles.dropdownMobile : '';
     const dropdownAttentionStyle = (hover || focus) ? styles.dropdownAttention : '';
     const attentionStyle = (hover || focus) ? styles.attention : '';
@@ -183,18 +220,19 @@ export class TalkPhoneField extends Component {
             menuContainerClassName={styles.menuContainer}
             inputClassName={dropdownInputClasses}
             onFocus={this.handleFocus}
-            onBlur={this.handleBlur}
+            onBlur={this.handleDropdownBlur}
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
+            onMenuChange={this.handleMenuChange}
             getFrameDimensions={this.props.getFrameDimensions}
           />
           <Field
+            ref={(input) => this.input = input}
             label={this.props.label}
             required={this.props.required}
             value={value}
             type='tel'
             name='phone'
-            disabled={disabled}
             fieldContainerClasses={styles.fieldContainer}
             fieldClasses={fieldClasses}
             labelClasses={styles.fieldLabel}
@@ -202,7 +240,7 @@ export class TalkPhoneField extends Component {
             onBlur={this.handleBlur}
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
-            validateInput={libphonenumber.isValidNumber} />
+            validateInput={this.validate} />
         </div>
       </div>
     );

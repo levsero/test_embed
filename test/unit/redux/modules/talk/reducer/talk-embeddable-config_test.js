@@ -49,7 +49,7 @@ describe('talk reducer embeddable-config', () => {
         config = {
           averageWaitTimeSetting: null,
           capability: '0',
-          enabled: 'true',
+          enabled: true,
           groupName: 'Support',
           keywords: 'keyword',
           phoneNumber: '+61412345678',

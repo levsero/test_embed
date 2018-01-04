@@ -24,7 +24,8 @@ import { getEmbeddableConfig,
          getFormState,
          getScreen,
          getCallback,
-         getAverageWaitTime } from 'src/redux/modules/talk/talk-selectors';
+         getAverageWaitTime,
+         getAverageWaitTimeEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './Talk.sass';
@@ -36,7 +37,8 @@ const mapStateToProps = (state) => {
     formState: getFormState(state),
     screen: getScreen(state),
     callback: getCallback(state),
-    averageWaitTime: getAverageWaitTime(state)
+    averageWaitTime: getAverageWaitTime(state),
+    averageWaitTimeEnabled: getAverageWaitTimeEnabled(state)
   };
 };
 
@@ -47,6 +49,7 @@ class Talk extends Component {
     screen: PropTypes.string.isRequired,
     callback: PropTypes.object.isRequired,
     averageWaitTime: PropTypes.string.isRequired,
+    averageWaitTimeEnabled: PropTypes.bool.isRequired,
     updateTalkCallbackForm: PropTypes.func.isRequired,
     submitTalkCallbackForm: PropTypes.func.isRequired,
     talkConfig: PropTypes.object.isRequired,
@@ -80,6 +83,13 @@ class Talk extends Component {
     this.props.updateTalkCallbackForm(formState);
   }
 
+  handleCountrySelect = (country, phone) => {
+    this.props.updateTalkCallbackForm({ ...this.props.formState, country, phone });
+    if (this.form) {
+      this.form.validate();
+    }
+  }
+
   formatPhoneNumber = (phoneNumber, format = 'International') => {
     const parsed = libphonenumber.parse(phoneNumber);
 
@@ -96,7 +106,10 @@ class Talk extends Component {
   }
 
   renderAverageWaitTime = () => {
-    const { averageWaitTime } = this.props;
+    const { averageWaitTime, averageWaitTimeEnabled } = this.props;
+
+    if (!averageWaitTimeEnabled) return;
+
     const waitTimeForm = parseInt(averageWaitTime, 10) > 1 ? 'Plural' : 'Singular';
     const waitTimeMessage = i18n.t(`embeddable_framework.talk.form.averageWaitTime${waitTimeForm}`, {
       fallback: `Average wait time: ${averageWaitTime}`,
@@ -124,7 +137,7 @@ class Talk extends Component {
     const nameLabel = i18n.t(`embeddable_framework.common.textLabel.name`, { fallback: 'Name' });
     const descriptionLabel = i18n.t(`embeddable_framework.common.textLabel.description`,
       { fallback: 'How can we help?' });
-    let { phone, name, description } = this.props.formState;
+    let { phone, name, description, country } = this.props.formState;
 
     return (
       <Form
@@ -132,6 +145,7 @@ class Talk extends Component {
         className={styles.form}
         submitButtonLabel={i18n.t('embeddable_framework.common.button.send', { fallback: 'Submit' })}
         rtl={i18n.isRTL()}
+        formState={this.props.formState}
         onCompleted={this.handleFormCompleted}
         onChange={this.handleFormChange}>
         {this.renderFormHeader()}
@@ -139,8 +153,10 @@ class Talk extends Component {
         <TalkPhoneField
           label={phoneLabel}
           getFrameDimensions={this.props.getFrameDimensions}
+          onCountrySelect={this.handleCountrySelect}
           required={true}
           supportedCountries={this.props.embeddableConfig.supportedCountries}
+          country={country}
           value={phone} />
         <Field label={nameLabel}
           value={name}

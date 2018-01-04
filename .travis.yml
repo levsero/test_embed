@@ -33,6 +33,7 @@ branches:
   only:
     - master
     - /^feature.*$/
+    - Code_Freeze
 
 notifications:
   email: false

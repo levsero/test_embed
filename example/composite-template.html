@@ -35,7 +35,10 @@
           embeds: {
             "talk": {
               "embed": "talk",
-              "props": {}
+              "props": {
+                "keyword": "{{talkKeyword}}",
+                "serviceUrl": "{{talkIntegration}}"
+              }
             },
             "helpCenterForm": {
               "embed": "helpCenter",
@@ -50,7 +53,7 @@
             "zopimChat": {
               "embed": "chat",
               "props": {
-                "zopimId": "2EkTn0An31opxOLXuGgRCy5nPnSNmpe6"
+                "zopimId": "{{zopimId}}"
               }
             },
             "ticketSubmissionForm": {

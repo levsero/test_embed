@@ -180,6 +180,8 @@ function init(embedsAccessible, params = {}) {
   }
 
   c.intercept('.hide', () => {
+    c.broadcast('beacon.trackUserAction', 'api', 'hide');
+
     state[`${submitTicket}.isVisible`] = false;
     state[`${chat}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = false;
@@ -191,11 +193,11 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept('talk.enabled', (_, enabled) => {
-    state[`${talk}.enabled`] = enabled === 'true';
+    state[`${talk}.enabled`] = enabled;
   });
 
   c.intercept('talk.agentAvailability', (_, availability) => {
-    state[`${talk}.isAccessible`] = availability === 'true';
+    state[`${talk}.isAccessible`] = availability;
 
     if (!embedVisible(state)) {
       resetActiveEmbed();
@@ -207,6 +209,8 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept(`.show, ${chat}.onError`, () => {
+    c.broadcast('beacon.trackUserAction', 'api', 'show');
+
     state[`${submitTicket}.isVisible`] = false;
     state[`${chat}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = false;
@@ -424,6 +428,7 @@ function init(embedsAccessible, params = {}) {
   c.intercept('webWidget.onClose', (_broadcast) => {
     state[`${submitTicket}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = false;
+    state[`${talk}.isVisible`] = false;
     _broadcast();
   });
 

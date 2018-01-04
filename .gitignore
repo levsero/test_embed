@@ -13,3 +13,4 @@ webdrivercss/
 npm-debug.log
 REVISION
 vendor/
+/config/.watch-*

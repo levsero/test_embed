@@ -7,7 +7,8 @@ describe('chat selectors', () => {
     getUserSoundSettings,
     getConnection,
     getChatsByAgent,
-    getChatStatus;
+    getChatStatus,
+    getChatOnline;
 
   beforeEach(() => {
     mockery.enable();
@@ -27,6 +28,7 @@ describe('chat selectors', () => {
     getConnection = selectors.getConnection;
     getChatsByAgent = selectors.getChatsByAgent;
     getChatStatus = selectors.getChatStatus;
+    getChatOnline = selectors.getChatOnline;
   });
 
   describe('getChatNotification', () => {
@@ -316,6 +318,120 @@ describe('chat selectors', () => {
 
       expect(result[0].nick)
         .toEqual('agent');
+    });
+  });
+
+  describe('getChatOnline', () => {
+    let result;
+
+    describe('when zopimChat embed is present', () => {
+      const mockBaseState = { embeds: { zopimChat: {} } };
+
+      describe('when the agent is online', () => {
+        beforeEach(() => {
+          const mockState = {
+            base: mockBaseState,
+            zopimChat: {
+              status: 'online'
+            }
+          };
+
+          result = getChatOnline(mockState);
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when the agent is away', () => {
+        beforeEach(() => {
+          const mockState = {
+            base: mockBaseState,
+            zopimChat: {
+              status: 'away'
+            }
+          };
+
+          result = getChatOnline(mockState);
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when the agent is offline', () => {
+        beforeEach(() => {
+          const mockState = {
+            base: mockBaseState,
+            zopimChat: {
+              status: 'offline'
+            }
+          };
+
+          result = getChatOnline(mockState);
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+
+    describe('when chat embed is present', () => {
+      const mockBaseState = { embeds: {} };
+
+      describe('when the agent is online', () => {
+        beforeEach(() => {
+          const mockState = {
+            base: mockBaseState,
+            chat: { account_status: 'online' }
+          };
+
+          result = getChatOnline(mockState);
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when the agent is away', () => {
+        beforeEach(() => {
+          const mockState = {
+            base: mockBaseState,
+            chat: { account_status: 'away' }
+          };
+
+          result = getChatOnline(mockState);
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when the agent is offline', () => {
+        beforeEach(() => {
+          const mockState = {
+            base: mockBaseState,
+            chat: { account_status: 'offline' }
+          };
+
+          result = getChatOnline(mockState);
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
     });
   });
 });
