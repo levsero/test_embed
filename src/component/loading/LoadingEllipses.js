@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { locals as styles } from './LoadingEllipses.sass';
+import { locals as styles } from './LoadingEllipses.scss';
 
 import { isDevice } from 'utility/devices';
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { ChannelChoiceMenu } from 'component/channelChoice/ChannelChoiceMenu';
-import { locals as styles } from './ChannelChoicePopupDesktop.sass';
+import { locals as styles } from './ChannelChoicePopupDesktop.scss';
 
 export class ChannelChoicePopupDesktop extends Component {
   static propTypes = {

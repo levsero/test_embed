@@ -9,7 +9,7 @@ describe('Button', () => {
 
     initMockRegistry({
       'React': React,
-      './Button.sass': {
+      './Button.scss': {
         locals: {
           mobile: 'mobileClasses',
           filled: 'filledClasses',

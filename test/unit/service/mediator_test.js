@@ -116,7 +116,6 @@ describe('mediator', () => {
        'hide',
        'update',
        'refreshLocale',
-       'setZopimOnline',
        'zopimChatStarted',
        'zopimChatEnded']
     );
@@ -478,6 +477,7 @@ describe('mediator', () => {
     const authentication = 'authentication';
     const beacon = 'beacon';
     const webWidget = 'webWidget';
+    const talk = 'talk';
     const names = {
       launcher,
       submitTicket,
@@ -932,6 +932,65 @@ describe('mediator', () => {
 
         expect(authenticationSub.renew)
           .toHaveBeenCalled();
+      });
+    });
+
+    describe('with Talk and Chat', () => {
+      beforeEach(() => {
+        mediator.init({ chat: true, talk: true });
+      });
+
+      describe('when chat is connected', () => {
+        beforeEach(() => {
+          reset(launcherSub.show);
+          c.broadcast(`${chat}.onOnline`);
+          c.broadcast(`${chat}.onConnected`);
+        });
+
+        it('show launcher when talks connection is not pending', () => {
+          c.broadcast(`${talk}.enabled`, true);
+          c.broadcast(`${talk}.agentAvailability`, true);
+
+          expect(launcherSub.show.calls.count())
+            .toEqual(1);
+        });
+
+        it('does not show launcher when talks connection is pending', () => {
+          expect(launcherSub.show.calls.count())
+            .toEqual(0);
+        });
+      });
+
+      describe('when talk has connected', () => {
+        beforeEach(() => {
+          reset(launcherSub.show);
+          c.broadcast(`${talk}.enabled`, true);
+          c.broadcast(`${talk}.agentAvailability`, true);
+        });
+
+        it('does not show launcher when chats connection is pending', () => {
+          expect(launcherSub.show.calls.count())
+            .toEqual(0);
+        });
+
+        it('show launcher when chats connection is not pending', () => {
+          c.broadcast(`${chat}.onOnline`);
+          c.broadcast(`${chat}.onConnected`);
+
+          expect(launcherSub.show.calls.count())
+            .toEqual(1);
+        });
+      });
+
+      describe('does not show launcher when talk and chat are in connection pending', () => {
+        beforeEach(() => {
+          reset(launcherSub.show);
+        });
+
+        it('when chat loads first and then talk', () => {
+          expect(launcherSub.show.calls.count())
+            .toEqual(0);
+        });
       });
     });
   });
@@ -1518,7 +1577,7 @@ describe('mediator', () => {
           .toEqual(0);
       });
 
-      it('does not reset the active embed if it goes offline and was not online initally', () => {
+      it('does not reset the active embed if it goes offline and was not online initially', () => {
         c.broadcast('.zopimShow');
         c.broadcast(`${chat}.onOffline`);
         c.broadcast(`${chat}.onOnline`);
@@ -1818,21 +1877,6 @@ describe('mediator', () => {
 
       expect(webWidgetSub.zopimChatEnded)
         .toHaveBeenCalled();
-    });
-
-    it('broadcasts webWidget.setZopimOnline with false when zopimChat.onOffline is recieved', () => {
-      c.broadcast('zopimChat.onOnline');
-      c.broadcast('zopimChat.onOffline');
-
-      expect(webWidgetSub.setZopimOnline)
-        .toHaveBeenCalledWith(false);
-    });
-
-    it('broadcasts webWidget.setZopimOnline with true when zopimChat.onOnline is recieved', () => {
-      c.broadcast('zopimChat.onOnline');
-
-      expect(webWidgetSub.setZopimOnline)
-        .toHaveBeenCalledWith(true);
     });
 
     it('should broadcast webWidget.refreshLocale when onSetLocale is recieved', () => {
@@ -2140,25 +2184,122 @@ describe('mediator', () => {
   });
 
   describe('.activate', () => {
-    const launcher = 'launcher';
+    const webWidget = 'webWidget';
     const submitTicket = 'ticketSubmissionForm';
+    const chat = 'zopimChat';
+    const talk = 'talk';
     const beacon = 'beacon';
     const names = {
-      launcher: launcher,
-      submitTicket: submitTicket,
+      webWidget,
+      submitTicket,
+      chat,
       beacon
     };
 
     beforeEach(() => {
       initSubscriptionSpies(names);
+    });
+
+    it('sends an activate blip', () => {
       mediator.init({ submitTicket: true, helpCenter: false });
       beaconSub.trackUserAction.calls.reset();
       c.broadcast('.activate');
-    });
 
-    it('should send an activate blip', () => {
       expect(beaconSub.trackUserAction)
         .toHaveBeenCalledWith('api', 'activate');
+    });
+
+    describe('chat and talk used', () => {
+      beforeEach(() => {
+        mediator.init({ chat: true, talk: true });
+      });
+
+      it('show widget when talk and chat are not in connection pending', () => {
+        c.broadcast(`${talk}.enabled`, true);
+        c.broadcast(`${talk}.agentAvailability`, true);
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
+        c.broadcast('.activate');
+
+        expect(webWidgetSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('does not show widget when talk is in connection pending and chat is not in connection pending', () => {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
+        c.broadcast('.activate');
+
+        expect(webWidgetSub.show.calls.count())
+          .toEqual(0);
+      });
+
+      it('does not show widget when talk is not in connection pending and chat is in connection pending', () => {
+        c.broadcast(`${talk}.enabled`, true);
+        c.broadcast(`${talk}.agentAvailability`, true);
+        c.broadcast('.activate');
+
+        expect(webWidgetSub.show.calls.count())
+          .toEqual(0);
+      });
+
+      it('does not show widget when talk and chat are in connection pending', () => {
+        c.broadcast('.activate');
+        expect(webWidgetSub.show.calls.count())
+          .toEqual(0);
+      });
+    });
+
+    describe('chat is only used', () => {
+      beforeEach(() => {
+        mediator.init({ chat: true });
+      });
+
+      it('show chat when chat is not in connection pending', () => {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onConnected`);
+        c.broadcast('.activate');
+
+        expect(chatSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('does not show chat when chat is in connection pending', () => {
+        c.broadcast('.activate');
+
+        expect(chatSub.show.calls.count())
+          .toEqual(0);
+      });
+    });
+
+    describe('talk is only used', () => {
+      beforeEach(() => {
+        mediator.init({ talk: true });
+      });
+
+      it('show widget when talk is not in connection pending', () => {
+        c.broadcast(`${talk}.enabled`, true);
+        c.broadcast(`${talk}.agentAvailability`, true);
+        c.broadcast('.activate');
+
+        expect(webWidgetSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('does not show widget when talk is in connection pending', () => {
+        c.broadcast('.activate');
+
+        expect(webWidgetSub.show.calls.count())
+          .toEqual(0);
+      });
+    });
+
+    it('not chat and talk used', () => {
+      mediator.init({ ticket: true});
+      c.broadcast('.activate');
+
+      expect(webWidgetSub.show.calls.count())
+        .toEqual(0);
     });
   });
 

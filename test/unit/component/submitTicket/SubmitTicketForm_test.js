@@ -34,7 +34,7 @@ describe('SubmitTicketForm component', () => {
 
     mockRegistry = initMockRegistry({
       'React': React,
-      './SubmitTicketForm.sass': {
+      './SubmitTicketForm.scss': {
         locals: ''
       },
       'component/button/Button': {

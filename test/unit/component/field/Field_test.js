@@ -25,7 +25,7 @@ describe('Field component', () => {
           return mockIsLandscapeValue;
         }
       },
-      './Field.sass': {
+      './Field.scss': {
         locals: {
           focused: 'field-focused',
           landscape: 'landscape',

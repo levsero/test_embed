@@ -1,6 +1,36 @@
-@import '../_vars.scss';
+@import '../../styles/_vars.scss';
 
-.UserContent {
+.title {
+  composes: u-textSizeLrg u-marginBT u-textBold u-textBody from global;
+}
+
+.originalArticleButton {
+  composes: u-marginBM from global;
+}
+
+.link {
+  composes: u-linkClean from global;
+}
+
+.contentMobile {
+  font-size: #{14/$font-size}rem;
+  max-width: 100%;
+
+  table {
+    font-size: #{14/$font-size}rem;
+  }
+}
+
+.article {
+  composes: u-marginTM from global;
+}
+
+.content {
+  word-break: break-word;
+  line-height: 1.5;
+  font-size: #{13/$font-size}rem;
+  max-width: #{339/$font-size}rem;
+
   p {
     margin-bottom: #{15/$font-size}rem;
   }
@@ -59,7 +89,7 @@
   }
 
   blockquote {
-    border-left: #{4/$font-size}rem solid $icon-color;
+    border-left: #{4/$font-size}rem solid $zd-color-silver-sand;
     padding-left: #{20/$font-size}rem;
     font-style: italic;
   }

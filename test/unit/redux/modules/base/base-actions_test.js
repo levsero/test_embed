@@ -117,25 +117,6 @@ describe('base redux actions', () => {
     });
   });
 
-  describe('updateZopimOnline', () => {
-    let action;
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.updateZopimOnline(true));
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches an action of type UPDATE_ZOPIM_ONLINE', () => {
-      expect(action.type)
-        .toEqual(actionTypes.UPDATE_ZOPIM_ONLINE);
-    });
-
-    it('has the value in the payload', () => {
-      expect(action.payload)
-        .toEqual(true);
-    });
-  });
-
   describe('updateBackButtonVisibility', () => {
     let action;
 

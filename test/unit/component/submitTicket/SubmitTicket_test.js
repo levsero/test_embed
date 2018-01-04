@@ -80,7 +80,7 @@ describe('Submit ticket component', () => {
         isIE: () => mockIsIEValue,
         isMobileBrowser: () => mockIsMobileBrowserValue
       },
-      './SubmitTicket.sass': {
+      './SubmitTicket.scss': {
         locals: {
           loadingSpinnerIE: 'loadingSpinnerIEClasses',
           loadingSpinner: 'loadingSpinnerClasses'

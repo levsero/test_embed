@@ -34,20 +34,11 @@
   }
 
   svg {
-    fill: $icon-inactive-color;
+    fill: $zd-color-aluminum;
     min-width: #{14/$font-size}rem; /* 1 */
     min-height: #{14/$font-size}rem; /* 1 */
     height: #{14/$font-size}rem;
     width: #{14/$font-size}rem;
-  }
-}
-
-.Icon--form {
-  svg {
-    min-width: #{16/$font-size}rem; /* 1 */
-    min-height: #{16/$font-size}rem; /* 1 */
-    height: #{16/$font-size}rem;
-    width: #{16/$font-size}rem;
   }
 }
 
@@ -64,7 +55,9 @@
 
   svg {
     min-width: #{50/$font-size}rem; /* 1 */
+    min-height: #{30/$font-size}rem; /* 1 */
     width: #{50/$font-size}rem;
+    height: #{30/$font-size}rem;
 
     &:hover, &:active, &:focus {
       path {
@@ -87,7 +80,7 @@
   }
 
   svg {
-    fill: $icon-inactive-color;
+    fill: $zd-color-aluminum;
     min-width: #{10/$font-size}rem; /* 1 */
     min-height: #{10/$font-size}rem; /* 1 */
     height: #{10/$font-size}rem;
@@ -105,7 +98,7 @@
   }
 
   svg {
-    fill: $icon-inactive-color;
+    fill: $zd-color-aluminum;
     min-width: #{14/$font-size}rem; /* 1 */
     min-height: #{14/$font-size}rem; /* 1 */
     height: #{14/$font-size}rem;
@@ -118,7 +111,7 @@
   padding-right: 0 !important;
 
   svg {
-    fill: $icon-inactive-color;
+    fill: $zd-color-aluminum;
     min-width: #{8/$font-size}rem; /* 1 */
     min-height: #{8/$font-size}rem; /* 1 */
     height: #{8/$font-size}rem;
@@ -208,22 +201,6 @@
   }
 }
 
-.Icon--dropdownArrow {
-  display: block;
-  width: 0;
-  height: 0;
-  border-left: $spacing-tny solid transparent;
-  border-right: $spacing-tny solid transparent;
-  border-bottom: $spacing-tny solid $icon-color;
-  margin-bottom: #{3/$font-size}rem;
-}
-
-.Icon--dropdownArrowBottom {
-  border-top: $spacing-tny solid $icon-color;
-  border-bottom: 0;
-  margin-bottom: 0;
-}
-
 .Icon--avatar {
   box-sizing: border-box;
 
@@ -302,7 +279,7 @@
   margin-top: #{-18/$font-size}rem !important;
 
   svg {
-    fill: $icon-inactive-color;
+    fill: $zd-color-aluminum;
     min-width: #{7/$font-size}rem; /* 1 */
     min-height: #{7/$font-size}rem; /* 1 */
     height: #{7/$font-size}rem;

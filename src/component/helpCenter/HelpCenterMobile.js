@@ -10,7 +10,7 @@ import { SearchFieldButton } from 'component/button/SearchFieldButton';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 
-import { locals as styles } from './HelpCenterMobile.sass';
+import { locals as styles } from './HelpCenterMobile.scss';
 
 export class HelpCenterMobile extends Component {
   static propTypes = {

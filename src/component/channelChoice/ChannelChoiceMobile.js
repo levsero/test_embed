@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { locals as styles } from './ChannelChoiceMobile.sass';
+import { locals as styles } from './ChannelChoiceMobile.scss';
 
 import { Button } from 'component/button/Button';
 import { ChannelChoicePopupMobile } from 'component/channelChoice/ChannelChoicePopupMobile';

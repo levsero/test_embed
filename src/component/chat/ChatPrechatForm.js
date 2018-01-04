@@ -7,7 +7,7 @@ import { Button } from 'component/button/Button';
 
 import { i18n } from 'service/i18n';
 
-import { locals as styles } from './ChatPrechatForm.sass';
+import { locals as styles } from './ChatPrechatForm.scss';
 
 export class ChatPrechatForm extends Component {
   static propTypes = {

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { i18n } from 'service/i18n';
 
-import { locals as styles } from './ChatReconnectionBubble.sass';
+import { locals as styles } from './ChatReconnectionBubble.scss';
 
 export class ChatReconnectionBubble extends Component {
   render = () => {

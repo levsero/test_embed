@@ -11,7 +11,7 @@ describe('ChatLog component', () => {
     mockChats.set(0, { nick: 'visitor', type: 'chat.msg' });
 
     initMockRegistry({
-      './ChatLog.sass': {
+      './ChatLog.scss': {
         locals: {}
       },
       'component/chat/ChatGroup': {

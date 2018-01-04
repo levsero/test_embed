@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
-import { locals as styles } from './SubmitTicketForm.sass';
+import { locals as styles } from './SubmitTicketForm.scss';
 
 import { AttachmentList } from 'component/attachment/AttachmentList';
 import { Button } from 'component/button/Button';

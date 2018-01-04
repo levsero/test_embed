@@ -58,7 +58,7 @@ describe('HelpCenterMobile component', () => {
       'component/button/ButtonGroup': {
         ButtonGroup: noopReactComponent()
       },
-      './HelpCenterMobile.sass': {
+      './HelpCenterMobile.scss': {
         locals: {
           container: 'containerClasses',
           channelChoiceContainer: 'channelChoiceContainer'

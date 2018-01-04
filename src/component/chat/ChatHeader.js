@@ -5,7 +5,7 @@ import { i18n } from 'service/i18n';
 import { Avatar } from 'component/Avatar';
 import { ChatRatingGroup } from 'component/chat/ChatRatingGroup';
 
-import { locals as styles } from './ChatHeader.sass';
+import { locals as styles } from './ChatHeader.scss';
 
 export class ChatHeader extends Component {
   static propTypes = {

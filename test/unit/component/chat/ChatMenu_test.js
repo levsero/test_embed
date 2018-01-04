@@ -7,7 +7,7 @@ describe('ChatMenu component', () => {
     mockery.enable();
 
     initMockRegistry({
-      './ChatMenu.sass': {
+      './ChatMenu.scss': {
         locals: {}
       },
       'component/Icon': {

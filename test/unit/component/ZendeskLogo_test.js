@@ -17,7 +17,7 @@ describe('ZendeskLogo component', () => {
           t: _.identity
         }
       },
-      './ZendeskLogo.sass': {
+      './ZendeskLogo.scss': {
         locals: {
           rtl: 'rtl',
           ltr: 'ltr',

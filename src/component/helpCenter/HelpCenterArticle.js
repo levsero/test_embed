@@ -8,7 +8,7 @@ import { authentication } from 'service/authentication';
 import { i18n } from 'service/i18n';
 import { parseUrl } from 'utility/utils';
 
-import { locals as styles } from './HelpCenterArticle.sass';
+import { locals as styles } from './HelpCenterArticle.scss';
 
 const sanitizeHtml = require('sanitize-html');
 

@@ -24,7 +24,6 @@ describe('embed.webWidget', () => {
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
   const authenticateSpy = jasmine.createSpy();
   const revokeSpy = jasmine.createSpy();
-  const updateZopimOnlineSpy = jasmine.createSpy();
   const zChatInitSpy = jasmine.createSpy();
   const zChatFirehoseSpy = jasmine.createSpy().and.callThrough();
   const callMeScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
@@ -115,15 +114,12 @@ describe('embed.webWidget', () => {
         }
       },
       'component/webWidget/WebWidget': mockWebWidget,
-      './webWidget.scss': '',
+      'globalCSS': '',
       './webWidgetStyles.js': {
         webWidgetStyles: 'mockCss'
       },
       'component/frame/Frame': {
         Frame: mockFrame
-      },
-      'src/redux/modules/base': {
-        updateZopimOnline: updateZopimOnlineSpy
       },
       'src/redux/modules/chat': {
         setVisitorInfo: (user) => user
@@ -1073,22 +1069,6 @@ describe('embed.webWidget', () => {
     it('should subscribe to webWidget.hide', () => {
       expect(mockMediator.channel.subscribe)
         .toHaveBeenCalledWith('webWidget.hide', jasmine.any(Function));
-    });
-
-    it('should subscribe to webWidget.setZopimOnline', () => {
-      expect(mockMediator.channel.subscribe)
-        .toHaveBeenCalledWith('webWidget.setZopimOnline', jasmine.any(Function));
-    });
-
-    describe('when webWidget.setZopimOnline is broadcast', () => {
-      beforeEach(() => {
-        pluckSubscribeCall(mockMediator, 'webWidget.setZopimOnline')();
-      });
-
-      it('should dispatch the value to the store', () => {
-        expect(webWidget.get().store.dispatch)
-          .toHaveBeenCalled();
-      });
     });
 
     it('should subscribe to webWidget.zopimChatEnded', () => {
