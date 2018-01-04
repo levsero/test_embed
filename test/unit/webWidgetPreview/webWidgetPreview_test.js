@@ -1,5 +1,6 @@
 describe('webWidgetPreview entry file', () => {
   let mockRegistry,
+    mockFrame,
     mockSetFormTitleKey;
   const webWidgetPreviewPath = buildSrcPath('webWidgetPreview');
   const defaultOptions = {
@@ -19,13 +20,13 @@ describe('webWidgetPreview entry file', () => {
     mockery.enable();
 
     mockSetFormTitleKey = jasmine.createSpy('setFormTitleKey');
+    mockFrame = requireUncached(buildTestPath('unit/mocks/mockFrame')).MockFrame;
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'lodash': _,
-      'embed/frameFactory': {
-        frameFactory: require(buildTestPath('unit/mocks/mockFrameFactory')).mockFrameFactory,
-        frameMethods: require(buildTestPath('unit/mocks/mockFrameFactory')).mockFrameMethods
+      'component/frame/Frame': {
+        Frame: mockFrame
       },
       'component/container/Container': {
         Container: class extends Component {
@@ -89,12 +90,10 @@ describe('webWidgetPreview entry file', () => {
   });
 
   describe('zE.renderWebWidgetPreview', () => {
-    let element,
-      mockFrameFactory;
+    let element;
 
     beforeEach(() => {
       element = document.body.appendChild(document.createElement('div'));
-      mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
     });
 
     describe('when calling with an element property in options', () => {
@@ -132,12 +131,12 @@ describe('webWidgetPreview entry file', () => {
         });
       });
 
-      it('should call frameFactory with correct frameParams', () => {
-        window.zE.renderWebWidgetPreview({ element });
+      it('passes the correct props to Frame', () => {
+        const preview = window.zE.renderWebWidgetPreview({ element });
 
-        const args = mockFrameFactory.calls.mostRecent().args[1];
+        const props = preview._component.props;
 
-        expect(args)
+        expect(props)
           .toEqual(jasmine.objectContaining({
             name: 'webWidgetPreview',
             disableOffsetHorizontal: true,
@@ -146,6 +145,8 @@ describe('webWidgetPreview entry file', () => {
       });
 
       describe('setting the styles', () => {
+        let preview;
+
         describe('when a styles object is passed in', () => {
           const styles = {
             float: 'left',
@@ -155,37 +156,33 @@ describe('webWidgetPreview entry file', () => {
           };
 
           beforeEach(() => {
-            window.zE.renderWebWidgetPreview({ element, styles });
+            preview = window.zE.renderWebWidgetPreview({ element, styles })._component;
           });
 
-          it('calls frameFactory with custom styles', () => {
-            const args = mockFrameFactory.calls.mostRecent().args[1];
-
-            expect(args.frameStyle)
+          it('passes updated styles to Frame', () => {
+            expect(preview.props.frameStyle)
               .toEqual(jasmine.objectContaining(styles));
           });
 
           it('applies the correct custom container styles', () => {
-            expect(element.querySelector('.rootComponent').style.cssText)
-              .toContain('width: 1px');
+            expect(preview.props.children.props.style.width)
+              .toBe(1);
           });
         });
 
         describe('when no styles object is passed in', () => {
           beforeEach(() => {
-            window.zE.renderWebWidgetPreview({ element });
+            preview = window.zE.renderWebWidgetPreview({ element })._component;
           });
 
-          it('calls frameFactory with default styles', () => {
-            const args = mockFrameFactory.calls.mostRecent().args[1];
-
-            expect(args.frameStyle)
+          it('uses default styles', () => {
+            expect(preview.props.frameStyle)
               .toEqual(jasmine.objectContaining(defaultOptions.styles));
           });
 
           it('applies the correct default container styles', () => {
-            expect(element.querySelector('.rootComponent').style.cssText)
-              .toContain('width: 342px');
+            expect(preview.props.children.props.style.width)
+              .toBe(342);
           });
         });
       });
@@ -219,28 +216,29 @@ describe('webWidgetPreview entry file', () => {
     });
 
     describe('setColor', () => {
-      let mockSetButtonColor,
-        preview;
+      let preview, component;
 
       beforeEach(() => {
         preview = window.zE.renderWebWidgetPreview({ element });
-        mockSetButtonColor = mockRegistry['embed/frameFactory'].frameMethods.setButtonColor;
+        component = preview._component;
       });
 
       describe('when a color parameter is supplied', () => {
         it('should call setButtonColor with that color value', () => {
+          spyOn(component, 'setButtonColor');
           preview.setColor('#FF0000');
 
-          expect(mockSetButtonColor)
+          expect(component.setButtonColor)
             .toHaveBeenCalledWith('#FF0000');
         });
       });
 
       describe('when no color parameter is supplied', () => {
         it('should call setButtonColor with the default color value', () => {
+          spyOn(component, 'setButtonColor');
           preview.setColor();
 
-          expect(mockSetButtonColor)
+          expect(component.setButtonColor)
             .toHaveBeenCalledWith(defaultOptions.color);
         });
       });

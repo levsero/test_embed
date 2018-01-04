@@ -33,56 +33,32 @@ describe('EmbedWrapper', () => {
   });
 
   describe('render', () => {
-    it('adds a <style> block to the iframe document', () => {
-      const instance = domRender(
-        <EmbedWrapper
-          childFn={noop}
-          baseCSS='.base-css-file {}' />
-      );
-      const styleBlock = ReactDOM.findDOMNode(instance).getElementsByTagName('style')[0];
+    let instance, styleBlock;
 
+    beforeEach(() => {
+      instance = domRender(
+        <EmbedWrapper
+          baseCSS='.base-css-file {}'>
+          <MockChildComponent />
+        </EmbedWrapper>
+      );
+
+      styleBlock = ReactDOM.findDOMNode(instance).getElementsByTagName('style')[0];
+    });
+
+    it('adds a <style> block to the iframe document', () => {
       expect(styleBlock.innerHTML)
         .toContain('.base-css-file {}');
     });
 
-    describe('when a child prop is passed into it', () => {
-      let instance;
-
-      beforeEach(() => {
-        instance = domRender(
-          <EmbedWrapper><MockChildComponent /></EmbedWrapper>
-        );
-      });
-
-      it('renders the child in the wrapper', () => {
-        expect(instance.embed.firstChild.className)
-          .toBe('mock-component');
-      });
-
-      it('adds a rootComponent ref to that child', () => {
-        expect(instance.refs.rootComponent)
-          .toBeDefined();
-      });
+    it('renders the child in the wrapper', () => {
+      expect(instance.embed.firstChild.className)
+        .toBe('mock-component');
     });
 
-    describe('when a childFn prop is passed into it', () => {
-      let instance;
-
-      beforeEach(() => {
-        instance = domRender(
-          <EmbedWrapper childFn={() => <MockChildComponent />} />
-        );
-      });
-
-      it('renders the childFn in the wrapper', () => {
-        expect(instance.embed.firstChild.className)
-          .toBe('mock-component');
-      });
-
-      it('does not add a rootComponent ref to that child', () => {
-        expect(instance.refs.rootComponent)
-          .toBeUndefined();
-      });
+    it('adds a rootComponent ref to that child', () => {
+      expect(instance.refs.rootComponent)
+        .toBeDefined();
     });
   });
 });
