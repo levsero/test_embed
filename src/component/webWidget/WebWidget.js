@@ -368,7 +368,6 @@ class WebWidget extends Component {
           localeFallbacks={this.props.localeFallbacks}
           channelChoice={this.isChannelChoiceAvailable()}
           callbackEnabled={this.props.callbackEnabled}
-          talkAvailable={this.props.talkAvailable}
           submitTicketAvailable={this.props.submitTicketAvailable}
           chatAvailable={!settings.get('chat.suppress') && this.props.zopimChatAvailable}
           viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
