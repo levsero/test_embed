@@ -107,14 +107,14 @@ const trackChatStarted = () => {
   c.broadcast('beacon.trackUserAction', 'chat', 'opened', chat);
 };
 
-const show = (_state) => {
+const show = (_state, options = {}) => {
   if (_state['.activatePending']) {
     showEmbed(_state, true);
     if (isMobileBrowser()) {
-      c.broadcast(`${launcher}.show`);
+      c.broadcast(`${launcher}.show`, options);
     }
   } else if (!_state[`${launcher}.userHidden`]) {
-    c.broadcast(`${launcher}.show`);
+    c.broadcast(`${launcher}.show`, options);
   }
 };
 
@@ -175,7 +175,7 @@ function init(embedsAccessible, params = {}) {
     // connectionPending state just hangs.
     setTimeout(() => {
       if (state[`${chat}.connectionPending`] && embedAvailable()) {
-        show(state);
+        show(state, { transition: 'none' });
       }
     }, 3000);
   }
@@ -205,7 +205,7 @@ function init(embedsAccessible, params = {}) {
     if (!embedVisible(state)) {
       resetActiveEmbed();
       if (embedAvailable() && !state[`${chat}.connectionPending`]) {
-        show(state);
+        show(state, { transition: 'none' });
       }
     }
   });
@@ -286,7 +286,7 @@ function init(embedsAccessible, params = {}) {
     }
 
     if (!submitTicketAvailable() && !helpCenterAvailable() && !talkAvailable() && !state[`${chat}.connectionPending`]) {
-      c.broadcast(`${launcher}.show`);
+      c.broadcast(`${launcher}.show`, { transition: 'none' });
     }
   });
 
@@ -297,7 +297,7 @@ function init(embedsAccessible, params = {}) {
       resetActiveEmbed();
 
       if (embedAvailable() && !state[`${talk}.connectionPending`]) {
-        show(state);
+        show(state, { transition: 'none' });
       }
     }
   });
@@ -508,7 +508,7 @@ function initMessaging() {
       resetActiveEmbed();
 
       if (!state[`${launcher}.userHidden`] && !state[`${chat}.isAccessible`])  {
-        c.broadcast(`${launcher}.show`);
+        c.broadcast(`${launcher}.show`, { transition: 'none' });
       }
     }
 
