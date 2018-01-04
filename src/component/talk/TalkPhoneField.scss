@@ -91,10 +91,16 @@ $flag-size-mobile: #{20.5/$font-size}rem !important;
 }
 
 .fieldInput {
+  height: #{14.5/$font-size}rem !important;
+
   [dir="rtl"] & {
     text-align: right;
     direction: ltr;
   }
+}
+
+.fieldInputMobile {
+  height: #{18.5/$font-size}rem !important;
 }
 
 .field {
@@ -128,21 +134,18 @@ $flag-size-mobile: #{20.5/$font-size}rem !important;
 }
 
 .selectedFlag {
-  composes: u-marginLT from global;
+  composes: u-block from global;
+  margin: 0 auto;
   height: $flag-size;
-
-  [dir="rtl"] & {
-    margin-right: $spacing-tny !important;
-  }
 }
 
 .selectedFlagMobile {
-  composes: u-marginLS from global;
   height: $flag-size-mobile;
+}
 
-  [dir="rtl"] & {
-    margin-right: $spacing-sml !important;
-  }
+.selectedFlagContainer {
+  composes: u-block from global;
+  width: 70%;
 }
 
 .dropdownFlag {
