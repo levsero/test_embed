@@ -28,7 +28,7 @@
 
   &:hover, &:focus, &:active {
     svg path {
-      fill: none;
+      fill: none !important;
       stroke: $zd-color-dark-gray;
     }
   }

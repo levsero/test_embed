@@ -4,12 +4,24 @@
   max-height: none;
 }
 
+.content {
+  composes: u-textHeightMed from global;
+}
+
+.contentMobile {
+  composes: u-textHeightLrg u-textSize15 from global;
+}
+
 .form {
   composes: u-marginBM from global;
 }
 
 .formHeaderMessage {
-  composes: u-textHeightMed u-marginBM from global;
+  composes: u-marginBM from global;
+}
+
+.averageWaitTime {
+  composes: u-marginBM from global;
 }
 
 .footer {
@@ -53,12 +65,12 @@
 }
 
 .phoneLink {
-  composes: u-userTextColor from global;
+  color: $neutral-link-color;
   text-decoration: underline;
-}
 
-.phoneText {
-  composes: u-userTextColor from global;
+  &:hover, &:focus, &:active {
+    color: $neutral-link-color;
+  }
 }
 
 .error {
@@ -67,6 +79,7 @@
 }
 
 .errorIcon {
+  composes: u-marginRS from global;
   composes: ErrorIcon from '../../styles/components/Error.scss';
 }
 
@@ -75,9 +88,9 @@
 }
 
 .offlineLabel {
-  composes: u-textCenter u-textSizeNml from global;
+  composes: u-textCenter u-paddingBS from global;
 }
 
 .offlineLink {
-  composes: u-textCenter u-textSizeNml u-userLinkColor from global;
+  composes: u-textCenter u-userLinkColor from global;
 }
