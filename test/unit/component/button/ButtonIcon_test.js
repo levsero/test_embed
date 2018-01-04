@@ -36,6 +36,39 @@ describe('ButtonIcon', () => {
     mockery.disable();
   });
 
+  describe('handleOnClick', () => {
+    let component,
+      onClickSpy;
+
+    beforeEach(() => {
+      onClickSpy = jasmine.createSpy('onClick');
+    });
+
+    describe('when props.actionable is true', () => {
+      beforeEach(() => {
+        component = instanceRender(<ButtonIcon actionable={true} onClick={onClickSpy} />);
+        component.handleOnClick();
+      });
+
+      it('calls props.onClick', () => {
+        expect(onClickSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when props.actionable is false', () => {
+      beforeEach(() => {
+        component = instanceRender(<ButtonIcon actionable={false} onClick={onClickSpy} />);
+        component.handleOnClick();
+      });
+
+      it('does not call props.onClick', () => {
+        expect(onClickSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+  });
+
   describe('render', () => {
     let buttonNode;
 

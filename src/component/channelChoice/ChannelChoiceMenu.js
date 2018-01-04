@@ -53,6 +53,7 @@ export class ChannelChoiceMenu extends Component {
 
     return (
       <ButtonIcon
+        actionable={talkOnline}
         className={`${this.props.buttonClasses} ${styles.buttonTalk} ${disabledStyle}`}
         labelClassName={this.props.labelClasses}
         onClick={this.handleNextClick('talk')}

@@ -95,19 +95,20 @@ describe('ChannelChoiceMenu component', () => {
   });
 
   describe('renderTalkButton', () => {
-    let component,
-      result;
+    let result;
 
     describe('when talk is available', () => {
       beforeEach(() => {
-        component = domRender(
+        const component = domRender(
           <ChannelChoiceMenu
             talkAvailable={true} />
         );
+
+        result = component.renderTalkButton();
       });
 
       it('returns a component', () => {
-        expect(component.renderTalkButton())
+        expect(result)
           .not.toBeNull();
       });
 
@@ -149,45 +150,61 @@ describe('ChannelChoiceMenu component', () => {
 
       describe('when talk is online', () => {
         beforeEach(() => {
-          component = domRender(
+          const component = domRender(
             <ChannelChoiceMenu
               talkAvailable={true}
               talkOnline={true} />
           );
+
+          result = component.renderTalkButton();
         });
 
         it('renders the component without disabled classes', () => {
-          expect(component.renderTalkButton().props.className)
+          expect(result.props.className)
             .not.toContain('talkBtnDisabled');
+        });
+
+        it('renders the component with actionable prop as true', () => {
+          expect(result.props.actionable)
+            .toBe(true);
         });
       });
 
       describe('when talk is offline', () => {
         beforeEach(() => {
-          component = domRender(
+          const component = domRender(
             <ChannelChoiceMenu
               talkAvailable={true}
               talkOnline={false} />
           );
+
+          result = component.renderTalkButton();
         });
 
         it('renders the component with disabled classes', () => {
-          expect(component.renderTalkButton().props.className)
+          expect(result.props.className)
             .toContain('talkBtnDisabled');
+        });
+
+        it('renders the component with actionable prop as false', () => {
+          expect(result.props.actionable)
+            .toBe(false);
         });
       });
     });
 
     describe('when talk is not available', () => {
       beforeEach(() => {
-        component = domRender(
+        const component = domRender(
           <ChannelChoiceMenu
             talkAvailable={false} />
         );
+
+        result = component.renderTalkButton();
       });
 
       it('returns null', () => {
-        expect(component.renderTalkButton())
+        expect(result)
           .toBeNull();
       });
     });
