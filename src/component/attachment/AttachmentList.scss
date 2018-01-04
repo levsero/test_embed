@@ -1,0 +1,16 @@
+@import '../../styles/_vars.scss';
+
+.error {
+  composes: u-textError u-marginVS from global;
+  composes: Error from '../../styles/components/Error.scss';
+}
+
+.container {
+  composes: u-block u-marginTM u-marginBS from global;
+  composes: Form-fieldContainer from '../../styles/components/Form.scss';
+}
+
+.label {
+  composes: u-textXHeight from global;
+  composes: Form-fieldLabel from '../../styles/components/Form.scss';
+}

@@ -9,7 +9,7 @@
 }
 
 .formHeaderMessage {
-  composes: u-textHeightMed from global;
+  composes: u-textHeightMed u-marginBM from global;
 }
 
 .footer {

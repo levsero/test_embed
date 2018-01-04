@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { locals as styles } from './ButtonSecondary.sass';
+import { locals as styles } from './ButtonSecondary.scss';
 
 export class ButtonSecondary extends Component {
   static propTypes = {

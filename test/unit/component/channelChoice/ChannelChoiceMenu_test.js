@@ -9,7 +9,7 @@ describe('ChannelChoiceMenu component', () => {
     mockery.enable();
 
     initMockRegistry({
-      './ChannelChoiceMenu.sass': {
+      './ChannelChoiceMenu.scss': {
         locals: {
           chatBtnDisabled: 'chatBtnDisabled'
         }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { locals as styles } from './SubmitTicket.sass';
+import { locals as styles } from './SubmitTicket.scss';
 
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';

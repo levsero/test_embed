@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Icon } from 'component/Icon';
 import { isIE } from 'utility/devices';
-import { locals as styles } from './ButtonIcon.sass';
+import { locals as styles } from './ButtonIcon.scss';
 
 export class ButtonIcon extends Component {
   static propTypes = {

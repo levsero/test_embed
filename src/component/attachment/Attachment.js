@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
-import { locals as styles } from './Attachment.sass';
+import { locals as styles } from './Attachment.scss';
 
 export class Attachment extends Component {
   static propTypes = {

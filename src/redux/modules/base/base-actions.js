@@ -1,7 +1,6 @@
 import {
   UPDATE_ACTIVE_EMBED,
   UPDATE_EMBED,
-  UPDATE_ZOPIM_ONLINE,
   UPDATE_BACK_BUTTON_VISIBILITY,
   UPDATE_AUTHENTICATED
 } from './base-action-types';
@@ -27,13 +26,6 @@ export const updateEmbedAccessible = (name, accessible) => {
       name,
       params: { accessible }
     }
-  };
-};
-
-export const updateZopimOnline = (online) => {
-  return {
-    type: UPDATE_ZOPIM_ONLINE,
-    payload: online
   };
 };
 

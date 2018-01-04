@@ -9,7 +9,7 @@ describe('ButtonGroup component', () => {
 
     initMockRegistry({
       'React': React,
-      './ButtonGroup.sass': {
+      './ButtonGroup.scss': {
         locals: {
           buttonLeft: 'left',
           buttonRight: 'right'

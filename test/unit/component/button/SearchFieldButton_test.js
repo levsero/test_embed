@@ -17,7 +17,7 @@ describe('SearchFieldButton component', () => {
       'component/button/IconFieldButton': {
         IconFieldButton: noopReactComponent()
       },
-      './SearchFieldButton.sass': {
+      './SearchFieldButton.scss': {
         locals: {
           field: 'fld'
         }

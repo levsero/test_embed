@@ -32,7 +32,7 @@ describe('dropdownMenu component', () => {
 
     initMockRegistry({
       'React': React,
-      './DropdownMenu.sass': {
+      './DropdownMenu.scss': {
         locals: {
           fieldMobile: 'fieldMobileClasses'
         }

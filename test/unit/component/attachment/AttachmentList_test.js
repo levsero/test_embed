@@ -39,7 +39,7 @@ describe('AttachmentList component', () => {
         }
       },
       'lodash': _,
-      './AttachmentList.sass': {
+      './AttachmentList.scss': {
         locals: {
           label: 'label'
         }

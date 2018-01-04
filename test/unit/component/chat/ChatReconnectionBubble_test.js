@@ -11,7 +11,7 @@ describe('ChatReconnectionBubble component', () => {
 
     initMockRegistry({
       'React': React,
-      './ChatReconnectionBubble.sass': {
+      './ChatReconnectionBubble.scss': {
         locals: ''
       },
       'component/loading/LoadingSpinner': { LoadingSpinner: noopReactComponent() },

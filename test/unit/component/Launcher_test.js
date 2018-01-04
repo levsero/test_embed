@@ -23,7 +23,7 @@ describe('Launcher component', () => {
           }
         }
       },
-      './Launcher.sass': {
+      './Launcher.scss': {
         locals: {
           label: 'labelClasses',
           icon: 'iconClasses'

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { locals as styles } from './ButtonNav.sass';
+import { locals as styles } from './ButtonNav.scss';
 
 export class ButtonNav extends Component {
   static propTypes = {

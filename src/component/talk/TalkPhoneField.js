@@ -8,7 +8,7 @@ import { isMobileBrowser,
          isLandscape } from 'utility/devices';
 
 import { countriesByIso, countriesByName } from './talkCountries';
-import { locals as styles } from './TalkPhoneField.sass';
+import { locals as styles } from './TalkPhoneField.scss';
 
 const libphonenumber = require('libphonenumber-js');
 

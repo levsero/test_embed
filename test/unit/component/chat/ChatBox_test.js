@@ -7,7 +7,7 @@ describe('ChatBox component', () => {
     mockery.enable();
 
     initMockRegistry({
-      './ChatBox.sass': {
+      './ChatBox.scss': {
         locals: {}
       },
       'component/field/Field': {

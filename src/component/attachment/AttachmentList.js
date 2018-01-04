@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { Attachment } from 'component/attachment/Attachment';
 import { ButtonDropzone } from 'component/button/ButtonDropzone';
 import { i18n } from 'service/i18n';
-import { locals as styles } from './AttachmentList.sass';
+import { locals as styles } from './AttachmentList.scss';
 
 const iconMap = {
   'pdf': 'Icon--preview-pdf',

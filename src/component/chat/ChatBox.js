@@ -6,7 +6,7 @@ import { Field } from 'component/field/Field';
 import { i18n } from 'service/i18n';
 import { keyCodes } from 'utility/keyboard';
 
-import { locals as styles } from './ChatBox.sass';
+import { locals as styles } from './ChatBox.scss';
 
 export class ChatBox extends Component {
   static propTypes = {

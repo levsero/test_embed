@@ -1,46 +1,47 @@
-import AttachmentStyles from 'component/attachment/Attachment.sass';
-import AttachmentBoxStyles from 'component/attachment/AttachmentBox.sass';
-import AttachmentListStyles from 'component/attachment/AttachmentList.sass';
-import ButtonIconStyles from 'component/button/ButtonIcon.sass';
-import ButtonGroupStyles from 'component/button/ButtonGroup.sass';
-import ButtonPillStyles from 'component/button/ButtonPill.sass';
-import ButtonSecondaryStyles from 'component/button/ButtonSecondary.sass';
-import ChannelChoiceMenuStyles from 'component/channelChoice/ChannelChoiceMenu.sass';
-import ChannelChoiceDesktopStyles from 'component/channelChoice/ChannelChoiceDesktop.sass';
-import ChannelChoicePopupMobileStyles from 'component/channelChoice/ChannelChoicePopupMobile.sass';
-import ChannelChoiceMobileStyles from 'component/channelChoice/ChannelChoiceMobile.sass';
-import ChannelChoicePopupDesktopStyles from 'component/channelChoice/ChannelChoicePopupDesktop.sass';
-import ChatBoxStyles from 'component/chat/ChatBox.sass';
-import ChatPopupStyles from 'component/chat/ChatPopup.sass';
-import ChatContactDetailsPopup from 'component/chat/ChatContactDetailsPopup.sass';
-import ChatHeaderStyles from 'component/chat/ChatHeader.sass';
-import ChatFooterStyles from 'component/chat/ChatFooter.sass';
-import ChatRatingGroupStyles from 'component/chat/ChatRatingGroup.sass';
-import ChatPrechatFormStyles from 'component/chat/ChatPrechatForm.sass';
-import ChatMenuStyles from 'component/chat/ChatMenu.sass';
-import ChatGroupStyles from 'component/chat/ChatGroup.sass';
-import ChatReconnectionBubbleStyles from 'component/chat/ChatReconnectionBubble.sass';
-import ChatFeedbackForm from 'component/chat/ChatFeedbackForm.sass';
-import ChatStyles from 'component/chat/Chat.sass';
-import ContainerStyles from 'component/container/Container.sass';
-import DropdownStyles from 'component/field/Dropdown.sass';
-import DropdownOptionStyles from 'component/field/DropdownOption.sass';
-import FieldStyles from 'component/field/Field.sass';
-import FlagStyles from 'component/Flag.sass';
-import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.sass';
-import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.sass';
-import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.sass';
-import HelpCenterResultsStyles from 'component/helpCenter/HelpCenterResults.sass';
-import IconFieldButtonStyles from 'component/button/IconFieldButton.sass';
-import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.sass';
-import MessageBubbleStyles from 'component/chat/MessageBubble.sass';
-import SearchFieldButtonStyles from 'component/button/SearchFieldButton.sass';
-import SearchFieldStyles from 'component/field/SearchField.sass';
-import SearchInputStyles from 'component/field/SearchInput.sass';
-import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.sass';
-import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.sass';
-import TalkStyles from 'component/talk/Talk.sass';
-import TalkPhoneFieldStyles from 'component/talk/TalkPhoneField.sass';
+import AttachmentStyles from 'component/attachment/Attachment.scss';
+import AttachmentBoxStyles from 'component/attachment/AttachmentBox.scss';
+import AttachmentListStyles from 'component/attachment/AttachmentList.scss';
+import ButtonDropzoneStyles from 'component/button/ButtonDropzone.scss';
+import ButtonIconStyles from 'component/button/ButtonIcon.scss';
+import ButtonGroupStyles from 'component/button/ButtonGroup.scss';
+import ButtonPillStyles from 'component/button/ButtonPill.scss';
+import ButtonSecondaryStyles from 'component/button/ButtonSecondary.scss';
+import ChannelChoiceMenuStyles from 'component/channelChoice/ChannelChoiceMenu.scss';
+import ChannelChoiceDesktopStyles from 'component/channelChoice/ChannelChoiceDesktop.scss';
+import ChannelChoicePopupMobileStyles from 'component/channelChoice/ChannelChoicePopupMobile.scss';
+import ChannelChoiceMobileStyles from 'component/channelChoice/ChannelChoiceMobile.scss';
+import ChannelChoicePopupDesktopStyles from 'component/channelChoice/ChannelChoicePopupDesktop.scss';
+import ChatBoxStyles from 'component/chat/ChatBox.scss';
+import ChatPopupStyles from 'component/chat/ChatPopup.scss';
+import ChatContactDetailsPopup from 'component/chat/ChatContactDetailsPopup.scss';
+import ChatHeaderStyles from 'component/chat/ChatHeader.scss';
+import ChatFooterStyles from 'component/chat/ChatFooter.scss';
+import ChatRatingGroupStyles from 'component/chat/ChatRatingGroup.scss';
+import ChatPrechatFormStyles from 'component/chat/ChatPrechatForm.scss';
+import ChatMenuStyles from 'component/chat/ChatMenu.scss';
+import ChatGroupStyles from 'component/chat/ChatGroup.scss';
+import ChatReconnectionBubbleStyles from 'component/chat/ChatReconnectionBubble.scss';
+import ChatFeedbackForm from 'component/chat/ChatFeedbackForm.scss';
+import ChatStyles from 'component/chat/Chat.scss';
+import ContainerStyles from 'component/container/Container.scss';
+import DropdownStyles from 'component/field/Dropdown.scss';
+import DropdownOptionStyles from 'component/field/DropdownOption.scss';
+import FieldStyles from 'component/field/Field.scss';
+import FlagStyles from 'component/Flag.scss';
+import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.scss';
+import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.scss';
+import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.scss';
+import HelpCenterResultsStyles from 'component/helpCenter/HelpCenterResults.scss';
+import IconFieldButtonStyles from 'component/button/IconFieldButton.scss';
+import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.scss';
+import MessageBubbleStyles from 'component/chat/MessageBubble.scss';
+import SearchFieldButtonStyles from 'component/button/SearchFieldButton.scss';
+import SearchFieldStyles from 'component/field/SearchField.scss';
+import SearchInputStyles from 'component/field/SearchInput.scss';
+import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.scss';
+import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.scss';
+import TalkStyles from 'component/talk/Talk.scss';
+import TalkPhoneFieldStyles from 'component/talk/TalkPhoneField.scss';
 
 import { sharedStyles } from 'embed/sharedStyles.js';
 
@@ -49,6 +50,7 @@ export const webWidgetStyles = `
   ${AttachmentStyles}
   ${AttachmentBoxStyles}
   ${AttachmentListStyles}
+  ${ButtonDropzoneStyles}
   ${ButtonIconStyles}
   ${ButtonGroupStyles}
   ${ButtonPillStyles}

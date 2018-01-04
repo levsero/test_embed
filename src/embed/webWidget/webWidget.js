@@ -23,14 +23,13 @@ import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedTimeoutCall,
          getPageKeywords } from 'utility/utils';
-import { updateZopimOnline } from 'src/redux/modules/base';
 import { setVisitorInfo } from 'src/redux/modules/chat';
 import { resetTalkScreen } from 'src/redux/modules/talk';
 
 import WebWidget from 'component/webWidget/WebWidget';
 import zChat from 'chat-web-sdk';
 
-const webWidgetCSS = `${require('./webWidget.scss')} ${webWidgetStyles}`;
+const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
 let embed = null;
 let hasManuallySetContextualSuggestions = false;
@@ -314,12 +313,6 @@ function setupMediator() {
 
   mediator.channel.subscribe('webWidget.hide', (options = {}) => {
     hide(options);
-  });
-
-  mediator.channel.subscribe('webWidget.setZopimOnline', (online) => {
-    waitForRootComponent(() => {
-      embed.store.dispatch(updateZopimOnline(online));
-    });
   });
 
   mediator.channel.subscribe('webWidget.zopimChatEnded', () => {

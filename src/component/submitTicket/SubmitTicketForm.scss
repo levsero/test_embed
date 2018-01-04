@@ -14,7 +14,7 @@
 }
 
 .ticketFormTitle {
-  composes: ticketFormsListTitle from './SubmitTicket.sass';
+  composes: ticketFormsListTitle from './SubmitTicket.scss';
   composes: u-marginBM from global;
 }
 

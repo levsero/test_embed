@@ -10,7 +10,7 @@ describe('ScrollContainer component', () => {
 
     initMockRegistry({
       'React': React,
-      './ScrollContainer.sass': {
+      './ScrollContainer.scss': {
         locals: {
           contentMobile: 'contentMobileClasses',
           footer: 'footerClasses',

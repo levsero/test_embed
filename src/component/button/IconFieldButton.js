@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { locals as styles } from './IconFieldButton.sass';
+import { locals as styles } from './IconFieldButton.scss';
 
 import { Icon } from 'component/Icon';
 

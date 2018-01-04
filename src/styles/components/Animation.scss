@@ -1,20 +1,3 @@
 .Anim-color {
   transition: background-color 0.5s ease;
 }
-
-.Anim-all--fast {
-  transition: all 0.25s ease;
-}
-
-.Anim-none {
-  transition: none !important;
-}
-
-@keyframes Rotate-delay {
-  0% {
-    transform: rotate(0deg)
-  }
-  100% {
-    transform: rotate(360deg)
-  }
-}

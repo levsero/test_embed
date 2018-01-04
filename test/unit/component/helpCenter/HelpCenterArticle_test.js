@@ -36,7 +36,7 @@ describe('HelpCenterArticle component', () => {
       'utility/utils': {
         parseUrl: () => mockParseUrlValue
       },
-      './HelpCenterArticle.sass': {
+      './HelpCenterArticle.scss': {
         locals: {
           originalArticleButton: 'originalArticleButtonClasses'
         }
