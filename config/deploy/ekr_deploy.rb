@@ -7,7 +7,8 @@ set :deploy_files, [
   'web_widget.js',
   'manifest.json',
   'ze_translations.js',
-  'ze_localeIdMap.js'
+  'ze_localeIdMap.js',
+  'ze_countries.js'
 ]
 
 set :ekr_aws_credentials, Aws::Credentials.new(ENV['WEB_WIDGET_AWS_ACCESS_KEY'], ENV['WEB_WIDGET_AWS_SECRET_KEY'])

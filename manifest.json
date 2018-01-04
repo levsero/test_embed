@@ -38,6 +38,6 @@
   ],
   "internal": {
     "index": "web_widget.js",
-    "scripts": ["ze_translations.js", "ze_localeIdMap.js"]
+    "scripts": ["ze_translations.js", "ze_localeIdMap.js", "ze_countries.js"]
   }
 }
