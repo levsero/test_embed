@@ -114,9 +114,11 @@ describe('Render phone field', () => {
 
     it('passes mobile-specific props to components when isMobileBrowser is true', () => {
       const dropdown = TestUtils.findRenderedComponentWithType(phoneField, MockDropdown);
+      const field = TestUtils.findRenderedComponentWithType(phoneField, MockField);
 
       expect(dropdown.props.inputClassName).toMatch('dropdownMobile-class');
       expect(dropdown.props.arrowClassName).toMatch('arrow-mobile');
+      expect(field.props.inputClasses).toMatch('field-input-mobile');
     });
   });
 
