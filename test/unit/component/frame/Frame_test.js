@@ -444,7 +444,7 @@ describe('Frame', () => {
         .toHaveBeenCalled();
     });
 
-    it('should call afterShowAnimate', () => {
+    it('calls afterShowAnimate', () => {
       jasmine.clock().tick(animationDuration);
 
       expect(mockAfterShowAnimate)
@@ -473,12 +473,31 @@ describe('Frame', () => {
           .toEqual(['marginTop', 'transitionDuration', 'top']);
       });
 
-      it('should set the frames style values', () => {
+      it('sets the frames style values', () => {
         expect(frame.state.frameStyle.top)
           .toEqual('-1337px');
 
         expect(frame.state.frameStyle.transitionDuration)
           .toEqual('9999s');
+      });
+    });
+
+    describe('with transiton: none option passed in', () => {
+      let stateBefore;
+
+      beforeEach(() => {
+        stateBefore = frame.state.frameStyle;
+        frame.show({ transition: 'none' });
+      });
+
+      it('does not set any frames style values', () => {
+        expect(frame.state.frameStyle)
+          .toEqual(stateBefore);
+      });
+
+      it('calls afterShowAnimate right away', () => {
+        expect(mockAfterShowAnimate)
+          .toHaveBeenCalled();
       });
     });
 
