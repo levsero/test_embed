@@ -421,6 +421,74 @@ describe('Talk component', () => {
           .toBeNull();
       });
     });
+
+    describe('when no agents are available', () => {
+      beforeEach(() => {
+        const talk = instanceRender(<Talk agentAvailability={false} />);
+
+        result = talk.renderContent();
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toBeNull();
+      });
+    });
+  });
+
+  describe('renderOfflineScreen', () => {
+    let talk;
+
+    describe('when agents are available', () => {
+      beforeEach(() => {
+        talk = instanceRender(<Talk agentAvailability={true} />);
+      });
+
+      it('returns null', () => {
+        expect(talk.renderOfflineScreen())
+          .toBeNull();
+      });
+    });
+
+    describe('when agents are not available', () => {
+      let link;
+
+      describe('when help center is available', () => {
+        beforeEach(() => {
+          talk = domRender(<Talk agentAvailability={false} helpCenterAvailable={true} />);
+          link = talk.renderOfflineScreen().props.children[1];
+        });
+
+        it('has the correct link text', () => {
+          expect(link.props.children.props.children)
+            .toBe('embeddable_framework.talk.offline.link.help_center');
+        });
+      });
+
+      describe('when channel choice is available', () => {
+        beforeEach(() => {
+          talk = domRender(<Talk agentAvailability={false} channelChoiceAvailable={true} />);
+          link = talk.renderOfflineScreen().props.children[1];
+        });
+
+        it('has the correct link text', () => {
+          expect(link.props.children.props.children)
+            .toBe('embeddable_framework.talk.offline.link.channel_choice');
+        });
+      });
+
+      describe('when help center and channel choice are not available', () => {
+        beforeEach(() => {
+          talk = domRender(<Talk agentAvailability={false} />);
+          link = talk.renderOfflineScreen().props.children[1];
+        });
+
+        it('has empty link text', () => {
+          expect(link.props.children.props.children)
+            .toBe('');
+        });
+      });
+    });
   });
 
   describe('renderErrorNotification', () => {

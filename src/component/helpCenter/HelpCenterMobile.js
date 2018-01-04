@@ -34,6 +34,7 @@ export class HelpCenterMobile extends Component {
     chatAvailable: PropTypes.bool,
     channelChoice: PropTypes.bool,
     setChannelChoiceShown: PropTypes.func,
+    callbackEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool
   };
 
@@ -130,6 +131,7 @@ export class HelpCenterMobile extends Component {
              <ChannelChoicePopupMobile
                submitTicketAvailable={this.props.submitTicketAvailable}
                chatAvailable={this.props.chatAvailable}
+               callbackEnabled={this.props.callbackEnabled}
                talkAvailable={this.props.talkAvailable}
                chatOnline={this.props.chatOnline}
                onNextClick={this.props.onNextClick}

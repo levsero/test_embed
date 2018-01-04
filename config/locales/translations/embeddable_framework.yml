@@ -405,10 +405,13 @@ parts:
       screenshot: "https://zendesk.box.com/s/x2o3nb0yedt4y600n1ge6agmvavdisd4"
       value: "Live chat is offline"
   - translation:
-      key: "embeddable_framework.channelChoice.button.label.clickToCall"
-      title: "The label for the click to call option in the list."
-      value: "Click to Call"
-      wip: true
+      key: "embeddable_framework.channelChoice.button.label.request_callback"
+      title: "This string is the same as 'embeddable_framework.talk.form.title'"
+      value: "Request a callback"
+  - translation:
+      key: "embeddable_framework.channelChoice.button.label.call_us"
+      title: "This string is the same as 'embeddable_framework.talk.phoneOnly.title'"
+      value: "Call us"
 
   # Help Center component
   - translation:
@@ -778,16 +781,16 @@ parts:
 
   # Talk
   - translation:
-      key: "embeddable_framework.talk.label.phoneDisplay"
-      title: "An initial text to instruct our users that the following number on the right is available for use to contact us."
-      screenshot: "FIXME - N/A, WIP"
-      value: "Our phone number:"
-      wip: true
-  - translation:
       key: "embeddable_framework.talk.form.headerMessage"
       title: "Header message for the callback form which end-users have to fill"
       screenshot: "https://zendesk.box.com/s/daa78ojuy0g79iaf8mr01bz2w8pa7zbr"
       value: "Enter your phone number and we'll call you as soon as we can."
+      obsolete: "2018-02-02"
+  - translation:
+      key: "embeddable_framework.talk.form.headerMessage_new"
+      title: "Header message for the callback form which end-users have to fill"
+      screenshot: "https://zendesk.box.com/s/x81cx971yox9964upzfrwuwefl7z8x78"
+      value: "Enter your phone number and we'll call you back."
   - translation:
       key: "embeddable_framework.talk.form.averageWaitTimeSingular"
       title: "Average wait time in minutes when the wait time is 1 minute"
@@ -803,6 +806,12 @@ parts:
       title: "Message confirming the form submission worked properly and that the customer will call back the user on the number specified. Note we pass the number into the screen"
       screenshot: "https://zendesk.box.com/s/bmf5rszlqchjfz7q5bngvfgrb8yo6aku"
       value: "Thank you for submitting your request. We'll get back to you soon on %(displayNumber)s"
+      obsolete: "2018-02-02"
+  - translation:
+      key: "embeddable_framework.talk.notify.success.message_new"
+      title: "Message confirming the form submission worked properly and that the customer will call back the user."
+      screenshot: "https://zendesk.box.com/s/2971h3hwl70mmxuxr234fuk8giw8jkuk"
+      value: "Thanks for submitting your request. We'll get back to you soon."
   - translation:
       key: "embeddable_framework.talk.form.title"
       title: "Title for the callback request form"
@@ -833,3 +842,18 @@ parts:
       title: "A message displayed on a styled error element, its purpose is to show an error message that describes the phone number the user entered is invalid"
       screenshot: "https://zendesk.box.com/s/1ksdrmstlluiebp40qu6c2alvhk7852i"
       value: "Please enter a valid phone number."
+  - translation:
+      key: "embeddable_framework.talk.offline.label"
+      title: "A message that displays when all agents go offline"
+      screenshot: "https://zendesk.box.com/s/bc4veq1cl0zo5ptd2b4ccisyxowfugs1"
+      value: "Sorry, all agents are currently offline. Try again later."
+  - translation:
+      key: "embeddable_framework.talk.offline.link.help_center"
+      title: "A link to go back to Help Center when all agents are offline"
+      screenshot: "https://zendesk.box.com/s/rtxyqticqshlbje59ufctq1j6g44q0pj"
+      value: "Go back to Help Center"
+  - translation:
+      key: "embeddable_framework.talk.offline.link.channel_choice"
+      title: "A link to go back when all agents are offline"
+      screenshot: "https://zendesk.box.com/s/jxaz68nditoaugexan0w9lfupdbmvi0s"
+      value: "Go back"

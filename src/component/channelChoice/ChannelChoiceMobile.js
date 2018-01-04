@@ -15,6 +15,7 @@ export class ChannelChoiceMobile extends Component {
     formTitleKey: PropTypes.string.isRequired,
     showCloseButton: PropTypes.func.isRequired,
     chatOnline: PropTypes.bool.isRequired,
+    callbackEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatAvailable: PropTypes.bool
@@ -37,7 +38,14 @@ export class ChannelChoiceMobile extends Component {
   }
 
   render = () => {
-    const { handleNextClick, handleCancelClick, chatOnline, formTitleKey, talkAvailable } = this.props;
+    const {
+      handleNextClick,
+      handleCancelClick,
+      chatOnline,
+      formTitleKey,
+      talkAvailable,
+      callbackEnabled
+    } = this.props;
 
     return (
       <ScrollContainer
@@ -53,6 +61,7 @@ export class ChannelChoiceMobile extends Component {
           onNextClick={handleNextClick}
           onCancelClick={handleCancelClick}
           className={styles.container}
+          callbackEnabled={callbackEnabled}
           talkAvailable={talkAvailable}
           showCancelButton={false} />
       </ScrollContainer>

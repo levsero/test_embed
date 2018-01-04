@@ -39,6 +39,7 @@ export class HelpCenterDesktop extends Component {
     showNextButton: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatAvailable: PropTypes.bool,
+    callbackEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
     updateFrameSize: PropTypes.func,
     notification: PropTypes.object.isRequired,
@@ -151,6 +152,7 @@ export class HelpCenterDesktop extends Component {
          ? <ChannelChoicePopupDesktop
              submitTicketAvailable={this.props.submitTicketAvailable}
              chatAvailable={this.props.chatAvailable}
+             callbackEnabled={this.props.callbackEnabled}
              talkAvailable={this.props.talkAvailable}
              chatOnline={this.props.chatOnline}
              onNextClick={this.props.onNextClick} />

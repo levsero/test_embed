@@ -1,5 +1,7 @@
 describe('Render phone field', () => {
-  let TalkPhoneField;
+  let TalkPhoneField,
+    mockIsMobileBrowserValue,
+    mockIsLandscapeValue;
 
   const phoneFieldPath = buildSrcPath('component/talk/TalkPhoneField');
 
@@ -21,6 +23,9 @@ describe('Render phone field', () => {
     }
   }
 
+  mockIsMobileBrowserValue = false;
+  mockIsLandscapeValue = false;
+
   beforeEach(() => {
     resetDOM();
     mockery.enable();
@@ -30,7 +35,8 @@ describe('Render phone field', () => {
       'component/field/Dropdown': { Dropdown: MockDropdown },
       'component/Flag': { Flag: noopReactComponent },
       'utility/devices': {
-        isMobileBrowser: () => { return false; }
+        isMobileBrowser: () => mockIsMobileBrowserValue,
+        isLandscape: () => mockIsLandscapeValue
       },
       './TalkPhoneField.sass': {
         locals: {
@@ -40,7 +46,12 @@ describe('Render phone field', () => {
           dropdown: 'dropdown-class',
           dropdownMobile: 'dropdownMobile-class',
           dropdownInput: 'dropdownInput-class',
-          menuContainer: 'menuContainer-class'
+          menuContainer: 'menuContainer-class',
+          arrowMobile: 'arrow-mobile',
+          label: 'field-label',
+          labelPortrait: 'label-portrait',
+          labelLandscape: 'label-landscape',
+          fieldInputMobile: 'field-input-mobile'
         }
       }
     });
@@ -82,6 +93,31 @@ describe('Render phone field', () => {
 
     expect(selectSpy)
       .toHaveBeenCalledWith('US', '+1');
+  });
+
+  describe('mobile', () => {
+    let phoneField;
+
+    beforeEach(() => {
+      mockIsMobileBrowserValue = true;
+
+      phoneField = domRender(<TalkPhoneField />);
+    });
+
+    it('has the default mobile classes when isMobileBrowser is true', () => {
+      expect(TestUtils.findRenderedDOMComponentWithClass(phoneField, 'label-portrait'))
+        .toBeTruthy();
+
+      expect(() => TestUtils.findRenderedDOMComponentWithClass(phoneField, 'label-landscape'))
+        .toThrow();
+    });
+
+    it('passes mobile-specific props to components when isMobileBrowser is true', () => {
+      const dropdown = TestUtils.findRenderedComponentWithType(phoneField, MockDropdown);
+
+      expect(dropdown.props.inputClassName).toMatch('dropdownMobile-class');
+      expect(dropdown.props.arrowClassName).toMatch('arrow-mobile');
+    });
   });
 
   describe('rendering', () => {

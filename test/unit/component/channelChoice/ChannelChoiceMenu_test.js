@@ -94,7 +94,8 @@ describe('ChannelChoiceMenu component', () => {
   });
 
   describe('renderTalkButton', () => {
-    let component;
+    let component,
+      result;
 
     describe('when talk is available', () => {
       beforeEach(() => {
@@ -107,6 +108,40 @@ describe('ChannelChoiceMenu component', () => {
       it('returns a component', () => {
         expect(component.renderTalkButton())
           .not.toBeNull();
+      });
+
+      describe('when callback is enabled', () => {
+        beforeEach(() => {
+          const component = domRender(
+            <ChannelChoiceMenu
+              talkAvailable={true}
+              callbackEnabled={true} />
+          );
+
+          result = component.renderTalkButton();
+        });
+
+        it('renders an element with "Request a callback" string', () => {
+          expect(result.props.label)
+            .toEqual('embeddable_framework.channelChoice.button.label.request_callback');
+        });
+      });
+
+      describe('when callback is not available', () => {
+        beforeEach(() => {
+          const component = domRender(
+            <ChannelChoiceMenu
+              talkAvailable={true}
+              callbackEnabled={false} />
+          );
+
+          result = component.renderTalkButton();
+        });
+
+        it('renders an element with "Call us" string', () => {
+          expect(result.props.label)
+            .toEqual('embeddable_framework.channelChoice.button.label.call_us');
+        });
       });
     });
 
