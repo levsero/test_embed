@@ -11,6 +11,7 @@ import { SEARCH_REQUEST,
          SEARCH_FAILURE,
          CONTEXTUAL_SEARCH_REQUEST,
          CONTEXTUAL_SEARCH_SUCCESS,
+         CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS,
          UPDATE_ACTIVE_ARTICLE,
          UPDATE_SEARCH_TERM } from './helpCenter-action-types';
 
@@ -69,10 +70,10 @@ export function performContextualSearch(query, done = () => {}, fail = () => {})
 
   return (dispatch) => {
     const doneFn = (response) => {
-      dispatch({
-        type: CONTEXTUAL_SEARCH_SUCCESS,
-        payload: { response }
-      });
+      (response.body.count === 0)
+        ? dispatch({ type: CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS })
+        : dispatch({ type: CONTEXTUAL_SEARCH_SUCCESS, payload: { response } });
+
       done(response);
     };
     const failFn = (error) => {
@@ -80,20 +81,14 @@ export function performContextualSearch(query, done = () => {}, fail = () => {})
       fail(error);
     };
 
-    dispatch({
-      type: CONTEXTUAL_SEARCH_REQUEST,
-      payload: {}
-    });
+    dispatch({ type: CONTEXTUAL_SEARCH_REQUEST });
 
     http.send(constructHelpCenterPayload(path, query, doneFn, failFn));
   };
 }
 
 export function updateActiveArticle() {
-  return {
-    type: UPDATE_ACTIVE_ARTICLE,
-    payload: {}
-  };
+  return { type: UPDATE_ACTIVE_ARTICLE };
 }
 
 export function updateSearchTerm(term) {
