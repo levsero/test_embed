@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { Container } from 'component/container/Container';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
-import { frameFactory } from 'embed/frameFactory';
+import { Frame } from 'component/frame/Frame';
 import { i18n } from 'service/i18n';
 
 import createStore from 'src/redux/createStore';
@@ -23,6 +23,7 @@ const defaultOptions = {
     marginRight: '16px'
   }
 };
+let preview;
 
 const renderWebWidgetPreview = (options) => {
   options = _.defaultsDeep({}, options, defaultOptions);
@@ -33,7 +34,6 @@ const renderWebWidgetPreview = (options) => {
 
   i18n.setLocale(options.locale);
 
-  let preview;
   const frameStyle = _.extend({}, options.styles, {
     position: 'relative'
   });
@@ -48,30 +48,25 @@ const renderWebWidgetPreview = (options) => {
     preventClose: true
   };
 
-  const Embed = frameFactory(
-    () => {
-      return (
-        <Container
-          ref="rootComponent"
-          style={containerStyle}>
-          <SubmitTicket
-            ref={(submitTicket) => submitTicketComponent = submitTicket}
-            previewEnabled={true}
-            formTitleKey={options.titleKey}
-            submitTicketSender={() => {}}
-            attachmentSender={() => {}}
-            style={containerStyle} />
-        </Container>
-      );
-    },
-    frameParams,
-    createStore()
+  const component = (
+    <Frame {...frameParams} store={createStore()}>
+      <Container
+        style={containerStyle}>
+        <SubmitTicket
+          ref={(submitTicket) => submitTicketComponent = submitTicket}
+          previewEnabled={true}
+          formTitleKey={options.titleKey}
+          submitTicketSender={() => {}}
+          attachmentSender={() => {}}
+          style={containerStyle} />
+      </Container>
+    </Frame>
   );
 
   const container = document.createElement('div');
 
   options.element.appendChild(container);
-  preview = ReactDOM.render(<Embed />, container);
+  preview = ReactDOM.render(component, container);
 
   const setColor = (color = defaultOptions.color) => {
     preview.setButtonColor(color);
@@ -90,7 +85,8 @@ const renderWebWidgetPreview = (options) => {
 
   return {
     setColor,
-    setTitle
+    setTitle,
+    _component: preview
   };
 };
 

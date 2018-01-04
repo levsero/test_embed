@@ -8,8 +8,6 @@ import { generateWebWidgetPreviewCSS } from 'utility/color';
 export class EmbedWrapper extends Component {
   static propTypes = {
     baseCSS: PropTypes.string,
-    childFn: PropTypes.func,
-    childParams: PropTypes.object,
     children: PropTypes.object,
     fullscreen: PropTypes.bool,
     handleBackClick: PropTypes.func,
@@ -21,8 +19,6 @@ export class EmbedWrapper extends Component {
 
   static defaultProps = {
     baseCSS: '',
-    childFn: undefined,
-    childParams: {},
     children: undefined,
     fullscreen: false,
     handleBackClick: () => {},
@@ -56,10 +52,7 @@ export class EmbedWrapper extends Component {
     const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />;
 
-    // childFn is from frameFactory and children is from Frame component
-    const newChild = (typeof this.props.children !== 'undefined')
-                   ? React.cloneElement(this.props.children, { ref: 'rootComponent' })
-                   : this.props.childFn(this.props.childParams);
+    const newChild = React.cloneElement(this.props.children, { ref: 'rootComponent' });
 
     return (
       <Provider store={this.props.reduxStore}>
