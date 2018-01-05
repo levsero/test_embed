@@ -107,9 +107,9 @@ describe('Form component', () => {
 
     describe('submit button', () => {
       let button,
-          formRenderer,
-          formInstance,
-          formRenderedOutput;
+        formRenderer,
+        formInstance,
+        formRenderedOutput;
 
       describe('button props', () => {
         beforeEach(() => {

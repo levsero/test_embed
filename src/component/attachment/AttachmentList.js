@@ -69,6 +69,7 @@ export class AttachmentList extends Component {
         maxFiles: maxFileCount,
         fallback: 'Attachment limit reached (%(maxFiles)s)'
       });
+
       this.setState({ errorMessage });
     };
 

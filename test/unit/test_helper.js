@@ -107,7 +107,7 @@ global.getRenderer = (component) => {
 
   renderer.render(component);
   return renderer;
-}
+};
 
 global.domRender = (component) => {
   return ReactDOM.render(component, global.document.body);

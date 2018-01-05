@@ -380,7 +380,7 @@ export class Frame extends Component {
     const wrapper = (
       <EmbedWrapper
         ref={(el) => { this.child = el; }}
-        baseCSS={`${mainCSS} ${this.props.css} ${baseFontCSS}`}
+        baseCSS={`${this.props.css} ${baseFontCSS}`}
         reduxStore={this.props.store}
         handleBackClick={this.back}
         handleCloseClick={this.close}

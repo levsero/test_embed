@@ -1261,7 +1261,6 @@ describe('WebWidget component', () => {
     });
 
     describe('when the activeEmbed is helpCenter', () => {
-
       beforeEach(() => {
         webWidget = domRender(<WebWidget activeEmbed='helpCenterForm' helpCenterAvailable={true} />);
         webWidget.onContainerClick();
@@ -1274,51 +1273,45 @@ describe('WebWidget component', () => {
     });
 
     describe('when the activeEmbed is not chat or helpCenter', () => {
-
       beforeEach(() => {
         webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' />);
-        //webWidget.onContainerClick();
+        webWidget.onContainerClick();
       });
 
       it('does not call the chat onContainerClick handler', () => {
-        // expect(chatOnContainerClickSpy)
-        //   .not.toHaveBeenCalled();
-
-        //   console.log(chatOnContainerClickSpy.calls.count());
+        expect(chatOnContainerClickSpy)
+          .not.toHaveBeenCalled();
       });
 
       it('does not call the chat onContainerClick handler', () => {
-        // expect(chatOnContainerClickSpy)
-        //   .not.toHaveBeenCalled();
-        //   console.log(chatOnContainerClickSpy.calls.count());
+        expect(chatOnContainerClickSpy)
+          .not.toHaveBeenCalled();
       });
 
       it('does not call the helpCenter onContainerClick handler', () => {
-        // expect(helpCenterOnContainerClickSpy)
-        //   .not.toHaveBeenCalled();
+        expect(helpCenterOnContainerClickSpy)
+          .not.toHaveBeenCalled();
       });
 
       it('does not call the helpCenter onContainerClick handler', () => {
-        // expect(helpCenterOnContainerClickSpy)
-        //   .not.toHaveBeenCalled();
+        expect(helpCenterOnContainerClickSpy)
+          .not.toHaveBeenCalled();
       });
 
       it('does not call the helpCenter onContainerClick handler', () => {
-        // expect(helpCenterOnContainerClickSpy)
-        //   .not.toHaveBeenCalled();
+        expect(helpCenterOnContainerClickSpy)
+          .not.toHaveBeenCalled();
       });
 
       it('does not call the helpCenter onContainerClick handler', () => {
-        // expect(helpCenterOnContainerClickSpy)
-        //   .not.toHaveBeenCalled();
+        expect(helpCenterOnContainerClickSpy)
+          .not.toHaveBeenCalled();
       });
 
       it('does not call the helpCenter onContainerClick handler', () => {
-        // expect(helpCenterOnContainerClickSpy)
-        //   .not.toHaveBeenCalled();
+        expect(helpCenterOnContainerClickSpy)
+          .not.toHaveBeenCalled();
       });
-
-
     });
   });
 
