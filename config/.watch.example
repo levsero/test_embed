@@ -2,3 +2,4 @@ WATCH_ZOPIM_ID=2EkTn0An31opxOLXuGgRCy5nPnSNmpe6
 WATCH_DOMAIN=dev.zd-dev.com
 WATCH_TALK_INTEGRATION=https://talkintegration-pod999.zendesk-staging.com
 WATCH_TALK_KEYWORD=hola
+WATCH_SHARED_SECRET=abc123
