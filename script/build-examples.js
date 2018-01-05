@@ -4,8 +4,21 @@ const inline = require('inline-source').sync;
 const glob = require('glob');
 const confPath = appRoot + process.argv[3];
 const watchConfPath = fs.existsSync(confPath) ? confPath : appRoot + '/config/.watch.example';
+const jwt = require('jsonwebtoken');
 
 require('dotenv').config({ path: watchConfPath });
+
+function generateJWT(sharedSecret) {
+  const message = {
+    name: 'zenguy',
+    email: 'zenguy@zendesk.com',
+    iat: Math.floor(Date.now() / 1000),
+    // returns a random int between 0 and 0xFFFFFF, and then converts it to a string in hex format (base 16).
+    jti: ((Math.random() * 0xFFFFFF) | 0).toString(16)
+  };
+
+  return jwt.sign(message, sharedSecret);
+}
 
 glob('./example/*-template.html', function(err, files) {
   if (err) {
@@ -22,7 +35,8 @@ glob('./example/*-template.html', function(err, files) {
       'zendeskHost': process.env.WATCH_DOMAIN,
       'zopimId': process.env.WATCH_ZOPIM_ID,
       'talkIntegration': process.env.WATCH_TALK_INTEGRATION,
-      'talkKeyword': process.env.WATCH_TALK_KEYWORD
+      'talkKeyword': process.env.WATCH_TALK_KEYWORD,
+      'jwt': generateJWT(process.env.WATCH_SHARED_SECRET)
     };
     const resultHtml = html.replace(/{{(\w+)}}/g, function(match, key) {
       return replaceMap[key];
