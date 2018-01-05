@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'yaml'
 require 'uri'
 require 'net/http'
@@ -33,6 +34,21 @@ def ac_build?
   ARGV.first == 'ac'
 end
 
+def sanity_check(output)
+  puts 'Verifying file...'
+  raise "Will only output #{output.size} lines, which is too small!" if output.size < 200
+  {
+    'CN' => 'China (中国)',
+    'DE' => 'Germany (Deutschland)',
+    'US' => 'United States',
+    'GB' => 'United Kingdom',
+    'ES' => 'Spain (España)',
+    'TW' => 'Taiwan (台灣)'
+  }.each do |cc, name|
+    raise "Did not find #{name} in file!" unless output.detect { |k, v| (k == cc) && (v[:name] == name) }
+  end
+end
+
 config = load_config
 mapping = load_mapping
 official_lang_mapping = load_official_language_mapping
@@ -62,6 +78,8 @@ target = File.join(File.expand_path('../src', __dir__), 'translation', 'ze_count
 
 puts "Regenerating #{target}"
 
+sanity_check(output)
+
 File.open(target, 'w') do |f|
   if ac_build?
     f.puts 'window.zECountries = {'
@@ -75,3 +93,5 @@ File.open(target, 'w') do |f|
   end
   f.puts '};'
 end
+
+puts "Regenerated #{target}"

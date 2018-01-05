@@ -41,8 +41,10 @@ The bootstrap file will do the following:
 * Set Node version
 * Install selenium-server globally
 * Run `npm install` to get all dependencies
+* Run `bundle install` to get ruby dependencies
 * Run `npm run build` to generate snippet, framework and example files
-* Download rosetta translation into `src/translation/translation.json`
+* Download rosetta translation and mappings into `src/translation/ze_translations.js` and `src/translation/ze_localeIdMap.js`
+* Download countries translation into `src/translation/ze_countries.js`
 * Download graphicsmagick, imagemagick & cairo using brew
 * Run npm install webdriverio & webdrivercss (these depend on the above)
 
@@ -126,6 +128,13 @@ To download the latest translations, run the following command from the root of 
 
 ```bash
 ./script/fetch_i18n
+```
+
+## Refreshing countries translations from CLDR
+To download the latest translations, run the following command from the root of this project:
+
+```bash
+./script/fetch_countries
 ```
 
 ## Generating a JWT token

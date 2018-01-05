@@ -33,7 +33,7 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk
   jwt
-  zendesk_cldr!
+  zendesk_cldr (~> 0.2.9)!
   zendesk_deployment (~> 3.4)!
 
 BUNDLED WITH
