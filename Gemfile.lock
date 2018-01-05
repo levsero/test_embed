@@ -11,6 +11,7 @@ GEM
     aws-sdk-resources (2.2.14)
       aws-sdk-core (= 2.2.14)
     jmespath (1.1.3)
+    json (2.1.0)
     jwt (2.1.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -19,6 +20,8 @@ GEM
     sshkit (1.13.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    zendesk_cldr (0.2.9)
+      json
     zendesk_deployment (3.5.5)
       airbrussh
       rake (>= 0.9.3)
@@ -30,6 +33,7 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk
   jwt
+  zendesk_cldr!
   zendesk_deployment (~> 3.4)!
 
 BUNDLED WITH
