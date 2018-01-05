@@ -51,6 +51,14 @@ export class HelpCenterArticle extends Component {
   }
 
   componentDidMount = () => {
+    this.constructArticle();
+  }
+
+  componentDidUpdate = () => {
+    this.constructArticle();
+  }
+
+  constructArticle = () => {
     const doc = ReactDOM.findDOMNode(this).ownerDocument;
     const base = doc.createElement('base');
     const { activeArticle } = this.props;
