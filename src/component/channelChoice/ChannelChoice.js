@@ -20,6 +20,7 @@ export class ChannelChoice extends Component {
     submitTicketAvailable: PropTypes.bool,
     chatAvailable: PropTypes.bool,
     talkAvailable: PropTypes.bool,
+    talkOnline: PropTypes.bool,
     updateFrameSize: PropTypes.func
   };
 
@@ -32,6 +33,7 @@ export class ChannelChoice extends Component {
     isMobile: false,
     newDesign: false,
     talkAvailable: false,
+    talkOnline: false,
     submitTicketAvailable: true,
     chatAvailable: false,
     updateFrameSize: () => {}
@@ -51,6 +53,7 @@ export class ChannelChoice extends Component {
         chatOnline={chatOnline}
         formTitleKey={formTitleKey}
         talkAvailable={this.props.talkAvailable}
+        talkOnline={this.props.talkOnline}
         callbackEnabled={this.props.callbackEnabled}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatAvailable={this.props.chatAvailable}
@@ -71,6 +74,7 @@ export class ChannelChoice extends Component {
         chatOnline={this.props.chatOnline}
         formTitleKey={formTitleKey}
         talkAvailable={this.props.talkAvailable}
+        talkOnline={this.props.talkOnline}
         callbackEnabled={this.props.callbackEnabled}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatAvailable={this.props.chatAvailable}

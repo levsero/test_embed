@@ -1,11 +1,23 @@
 @import '../../styles/_vars.scss';
 
-.chatBtnDisabled {
+.btnDisabled {
   background-color: $zd-color-white !important;
   color: $zd-color-aluminum !important;
+}
+
+.chatBtnDisabled {
+  composes: btnDisabled;
 
   svg path {
     fill: $zd-color-iron !important;
+  }
+}
+
+.talkBtnDisabled {
+  composes: btnDisabled;
+
+  svg path {
+    stroke: $zd-color-iron !important;
   }
 }
 

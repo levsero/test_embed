@@ -10,12 +10,14 @@ export class ChannelChoicePopupDesktop extends Component {
     chatOnline: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
+    talkOnline: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatAvailable: PropTypes.bool
   };
 
   static defaultProps = {
     talkAvailable: false,
+    talkOnline: false,
     submitTicketAvailable: true,
     chatAvailable: false
   };
@@ -25,6 +27,7 @@ export class ChannelChoicePopupDesktop extends Component {
       chatOnline,
       onNextClick,
       talkAvailable,
+      talkOnline,
       submitTicketAvailable,
       chatAvailable,
       callbackEnabled
@@ -38,6 +41,7 @@ export class ChannelChoicePopupDesktop extends Component {
           onNextClick={onNextClick}
           callbackEnabled={callbackEnabled}
           talkAvailable={talkAvailable}
+          talkOnline={talkOnline}
           chatOnline={chatOnline} />
       </div>
     );

@@ -11,7 +11,8 @@ describe('ChannelChoiceMenu component', () => {
     initMockRegistry({
       './ChannelChoiceMenu.scss': {
         locals: {
-          chatBtnDisabled: 'chatBtnDisabled'
+          chatBtnDisabled: 'chatBtnDisabled',
+          talkBtnDisabled: 'talkBtnDisabled'
         }
       },
       'component/button/ButtonIcon': {
@@ -94,19 +95,20 @@ describe('ChannelChoiceMenu component', () => {
   });
 
   describe('renderTalkButton', () => {
-    let component,
-      result;
+    let result;
 
     describe('when talk is available', () => {
       beforeEach(() => {
-        component = domRender(
+        const component = domRender(
           <ChannelChoiceMenu
             talkAvailable={true} />
         );
+
+        result = component.renderTalkButton();
       });
 
       it('returns a component', () => {
-        expect(component.renderTalkButton())
+        expect(result)
           .not.toBeNull();
       });
 
@@ -115,6 +117,7 @@ describe('ChannelChoiceMenu component', () => {
           const component = domRender(
             <ChannelChoiceMenu
               talkAvailable={true}
+              talkOnline={true}
               callbackEnabled={true} />
           );
 
@@ -132,6 +135,7 @@ describe('ChannelChoiceMenu component', () => {
           const component = domRender(
             <ChannelChoiceMenu
               talkAvailable={true}
+              talkOnline={true}
               callbackEnabled={false} />
           );
 
@@ -143,18 +147,64 @@ describe('ChannelChoiceMenu component', () => {
             .toEqual('embeddable_framework.channelChoice.button.label.call_us');
         });
       });
+
+      describe('when talk is online', () => {
+        beforeEach(() => {
+          const component = domRender(
+            <ChannelChoiceMenu
+              talkAvailable={true}
+              talkOnline={true} />
+          );
+
+          result = component.renderTalkButton();
+        });
+
+        it('renders the component without disabled classes', () => {
+          expect(result.props.className)
+            .not.toContain('talkBtnDisabled');
+        });
+
+        it('renders the component with actionable prop as true', () => {
+          expect(result.props.actionable)
+            .toBe(true);
+        });
+      });
+
+      describe('when talk is offline', () => {
+        beforeEach(() => {
+          const component = domRender(
+            <ChannelChoiceMenu
+              talkAvailable={true}
+              talkOnline={false} />
+          );
+
+          result = component.renderTalkButton();
+        });
+
+        it('renders the component with disabled classes', () => {
+          expect(result.props.className)
+            .toContain('talkBtnDisabled');
+        });
+
+        it('renders the component with actionable prop as false', () => {
+          expect(result.props.actionable)
+            .toBe(false);
+        });
+      });
     });
 
     describe('when talk is not available', () => {
       beforeEach(() => {
-        component = domRender(
+        const component = domRender(
           <ChannelChoiceMenu
             talkAvailable={false} />
         );
+
+        result = component.renderTalkButton();
       });
 
       it('returns null', () => {
-        expect(component.renderTalkButton())
+        expect(result)
           .toBeNull();
       });
     });
@@ -174,6 +224,36 @@ describe('ChannelChoiceMenu component', () => {
       it('returns a component', () => {
         expect(component.renderChatButton())
           .not.toBeNull();
+      });
+
+      describe('when chat is online', () => {
+        beforeEach(() => {
+          component = domRender(
+            <ChannelChoiceMenu
+              chatAvailable={true}
+              chatOnline={true} />
+          );
+        });
+
+        it('renders the component without disabled classes', () => {
+          expect(component.renderChatButton().props.className)
+            .not.toContain('chatBtnDisabled');
+        });
+      });
+
+      describe('when chat is offline', () => {
+        beforeEach(() => {
+          component = domRender(
+            <ChannelChoiceMenu
+              chatAvailable={true}
+              chatOnline={false} />
+          );
+        });
+
+        it('renders the component with disabled classes', () => {
+          expect(component.renderChatButton().props.className)
+            .toContain('chatBtnDisabled');
+        });
       });
     });
 

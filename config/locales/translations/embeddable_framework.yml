@@ -412,6 +412,11 @@ parts:
       key: "embeddable_framework.channelChoice.button.label.call_us"
       title: "This string is the same as 'embeddable_framework.talk.phoneOnly.title'"
       value: "Call us"
+  - translation:
+      key: "embeddable_framework.channelChoice.button.label.talk_offline"
+      title: "A notification that appears when channel choice is open and all talk agents become unavailable."
+      value: "Talk is offline"
+      wip: true
 
   # Help Center component
   - translation:

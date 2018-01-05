@@ -26,8 +26,14 @@ export class ButtonIcon extends Component {
     onClick: () => {}
   };
 
+  handleOnClick = () => {
+    if (this.props.actionable) {
+      this.props.onClick();
+    }
+  }
+
   render = () => {
-    const { actionable, onClick, className, labelClassName, icon, label } = this.props;
+    const { actionable, className, labelClassName, icon, label } = this.props;
     const actionableStyles = actionable ? styles.containerActionable : '';
     const ieStyles = isIE() ? styles.containerIE : '';
     const buttonClasses = `
@@ -38,7 +44,7 @@ export class ButtonIcon extends Component {
 
     return (
       <div
-        onClick={onClick}
+        onClick={this.handleOnClick}
         className={`${buttonClasses} ${className}`}>
         <Icon
           className={`${styles.icon} ${this.props.iconClasses}`}

@@ -41,6 +41,7 @@ export class HelpCenterDesktop extends Component {
     chatAvailable: PropTypes.bool,
     callbackEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
+    talkOnline: PropTypes.bool,
     updateFrameSize: PropTypes.func,
     notification: PropTypes.object.isRequired,
     hideChatNotification: PropTypes.func,
@@ -63,6 +64,7 @@ export class HelpCenterDesktop extends Component {
     submitTicketAvailable: true,
     chatAvailable: false,
     talkAvailable: false,
+    talkOnline: false,
     updateFrameSize: () => {},
     hideChatNotification: () => {},
     updateChatScreen: () => {}
@@ -155,6 +157,7 @@ export class HelpCenterDesktop extends Component {
              callbackEnabled={this.props.callbackEnabled}
              talkAvailable={this.props.talkAvailable}
              chatOnline={this.props.chatOnline}
+             talkOnline={this.props.talkOnline}
              onNextClick={this.props.onNextClick} />
          : null;
   }

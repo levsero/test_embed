@@ -15,8 +15,9 @@ import { updateActiveEmbed,
          updateAuthenticated } from 'src/redux/modules/base';
 import { getZopimChatOnline } from 'src/redux/modules/zopimChat/selectors';
 import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
+import { getZopimChatEmbed } from 'src/redux/modules/base/selectors';
 import { getChatNotification } from 'src/redux/modules/chat/selectors';
-import { getTalkAvailable, isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
+import { getTalkAvailable, getTalkOnline, isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { settings } from 'service/settings';
 
 const submitTicket = 'ticketSubmissionForm';
@@ -36,7 +37,9 @@ const mapStateToProps = (state) => {
     zopimOnline: getZopimChatOnline(state),
     authenticated: base.authenticated,
     talkAvailable: getTalkAvailable(state),
-    callbackEnabled: isCallbackEnabled(state)
+    talkOnline: getTalkOnline(state),
+    callbackEnabled: isCallbackEnabled(state),
+    zopimChatAvailable: !!getZopimChatEmbed(state)
   };
 };
 
@@ -86,7 +89,9 @@ class WebWidget extends Component {
     updateChatScreen: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired,
+    zopimChatAvailable: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
+    talkOnline: PropTypes.bool.isRequired,
     talkConfig: PropTypes.object
   };
 
@@ -119,9 +124,10 @@ class WebWidget extends Component {
     updateBackButtonVisibility: () => {},
     updateFrameSize: () => {},
     zopimOnline: false,
+    talkAvailable: false,
+    talkOnline: false,
     zopimOnNext: () => {},
     closeFrame: () => {},
-    talkAvailable: false,
     talkConfig: {}
   };
 
@@ -167,11 +173,11 @@ class WebWidget extends Component {
   }
 
   isChannelChoiceAvailable = () => {
-    const { channelChoice, submitTicketAvailable, talkAvailable } = this.props;
-    const channels = [talkAvailable, submitTicketAvailable, this.isChatOnline()];
+    const { channelChoice, submitTicketAvailable, talkOnline } = this.props;
+    const channels = [talkOnline, submitTicketAvailable, this.isChatOnline()];
     const channelsAvailable = _.filter(channels, _.identity);
 
-    return (channelChoice || talkAvailable) && channelsAvailable.length > 1;
+    return (channelChoice || talkOnline) && channelsAvailable.length > 1;
   };
 
   isChatOnline = () => this.props.chat.account_status === 'online' || this.props.zopimOnline;
@@ -195,7 +201,7 @@ class WebWidget extends Component {
   setAuthenticated = (bool) => this.props.updateAuthenticated(bool);
 
   resetActiveEmbed = () => {
-    const { updateActiveEmbed, updateBackButtonVisibility, talkAvailable } = this.props;
+    const { updateActiveEmbed, updateBackButtonVisibility, talkOnline } = this.props;
     let backButton = false;
 
     if (this.isHelpCenterAvailable()) {
@@ -203,7 +209,7 @@ class WebWidget extends Component {
       backButton = this.articleViewActive();
     } else if (this.isChannelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
-    } else if (talkAvailable) {
+    } else if (talkOnline) {
       updateActiveEmbed(talk);
     } else if (this.isChatOnline()) {
       this.showChat();
@@ -228,7 +234,7 @@ class WebWidget extends Component {
 
     // If zopim or talk has gone offline we will need to reset the embed
     const chatOffline = _.includes([zopimChat, channelChoice], activeEmbed) && !chatOnline;
-    const talkOffline = _.includes([talk, channelChoice], activeEmbed) && !this.props.talkAvailable;
+    const talkOffline = _.includes([talk, channelChoice], activeEmbed) && !this.props.talkOnline;
 
     if (this.noActiveEmbed() || viaActivate || chatOffline || talkOffline) this.resetActiveEmbed();
   }
@@ -243,7 +249,7 @@ class WebWidget extends Component {
 
     if (embed) {
       this.setComponent(embed);
-    } else if (this.props.talkAvailable) {
+    } else if (this.props.talkOnline) {
       updateActiveEmbed(talk);
       updateBackButtonVisibility(true);
     } else if (this.isChatOnline()) {
@@ -362,9 +368,8 @@ class WebWidget extends Component {
           localeFallbacks={this.props.localeFallbacks}
           channelChoice={this.isChannelChoiceAvailable()}
           callbackEnabled={this.props.callbackEnabled}
-          talkAvailable={this.props.talkAvailable}
           submitTicketAvailable={this.props.submitTicketAvailable}
-          chatAvailable={!settings.get('chat.suppress') && this.props.zopimOnline}
+          chatAvailable={!settings.get('chat.suppress') && this.props.zopimChatAvailable}
           viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
           zendeskHost={this.props.zendeskHost}
           hideChatNotification={this.props.hideChatNotification}
@@ -417,9 +422,10 @@ class WebWidget extends Component {
         style={this.props.style}
         chatOnline={this.isChatOnline()}
         talkAvailable={this.props.talkAvailable}
+        talkOnline={this.props.talkOnline}
         callbackEnabled={this.props.callbackEnabled}
         submitTicketAvailable={this.props.submitTicketAvailable}
-        chatAvailable={!settings.get('chat.suppress') && this.props.zopimOnline}
+        chatAvailable={!settings.get('chat.suppress') && this.props.zopimChatAvailable}
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
         getFrameDimensions={this.props.getFrameDimensions}

@@ -45,7 +45,6 @@ state['.hideOnClose'] = false;
 state['.activatePending'] = false;
 
 const talkAvailable = () => {
-  // TODO: Add suppressed condition here when implementing it
   return state[`${talk}.isAccessible`] && state[`${talk}.enabled`] && !state[`${talk}.connectionPending`];
 };
 
@@ -203,7 +202,14 @@ function init(embedsAccessible, params = {}) {
     state[`${talk}.isAccessible`] = availability;
 
     if (!embedVisible(state)) {
-      resetActiveEmbed();
+      if (helpCenterAvailable()) {
+        if (state.activeEmbed !== chat) {
+          resetActiveEmbed();
+        }
+      } else {
+        resetActiveEmbed();
+      }
+
       if (embedAvailable() && !state[`${chat}.connectionPending`]) {
         show(state, { transition: 'none' });
       }
