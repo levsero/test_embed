@@ -406,7 +406,12 @@ parts:
       key: "embeddable_framework.channelChoice.button.label.talk_offline"
       title: "A notification that appears when channel choice is open and all talk agents become unavailable."
       value: "Talk is offline"
-      wip: true
+      obsolete: "2018-01-26"
+  - translation:
+      key: "embeddable_framework.channelChoice.button.label.talk_offline_v2"
+      title: "A notification that appears when channel choice is open and all talk agents become unavailable."
+      value: "No agents are available"
+      screenshot: "https://zendesk.box.com/s/ehtcqe25fqc7ecirqbxnxuc9l784h63v"
 
   # Help Center component
   - translation:
