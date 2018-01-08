@@ -136,7 +136,7 @@ describe('HelpCenter component', () => {
 
         it('uses the chat label for the button', () => {
           expect(mockRegistry['service/i18n'].i18n.t)
-            .toHaveBeenCalledWith('embeddable_framework.helpCenter.submitButton.label.chat');
+            .toHaveBeenCalledWith('embeddable_framework.common.button.chat');
         });
       });
 

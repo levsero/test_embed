@@ -22,7 +22,7 @@ const keyLookupTable = {
     'embeddable_framework.helpCenter.submitButton.label.submitTicket.contact'
   ],
   helpCenterContactButton: ['embeddable_framework.helpCenter.submitButton.label.submitTicket.contact'],
-  helpCenterChatButton: ['embeddable_framework.helpCenter.submitButton.label.chat'],
+  helpCenterChatButton: ['embeddable_framework.common.button.chat'],
   contactFormTitle: [
     'embeddable_framework.submitTicket.form.title.message',
     'embeddable_framework.submitTicket.form.title.contact'
@@ -30,8 +30,8 @@ const keyLookupTable = {
   contactFormSelectTicketForm: ['embeddable_framework.submitTicket.ticketForms.title'],
   helpCenterSearchPlaceholder: ['embeddable_framework.helpCenter.search.label.how_can_we_help'],
   contactOptionsContactFormLabel: ['embeddable_framework.channelChoice.button.label.submitTicket'],
-  contactOptionsChatLabelOnline: ['embeddable_framework.channelChoice.button.label.chat'],
-  contactOptionsChatLabelOffline: ['embeddable_framework.channelChoice.button.label.chat_offline']
+  contactOptionsChatLabelOnline: ['embeddable_framework.common.button.chat'],
+  contactOptionsChatLabelOffline: ['embeddable_framework.channelChoice.button.label.chat_offline_v2']
 };
 
 let currentLocale;

@@ -388,18 +388,6 @@ parts:
       screenshot: "https://zendesk.box.com/s/cybiy7gshwetcw9y8yd0o40ddixfdjj6"
       value: "Leave a message"
   - translation:
-      key: "embeddable_framework.channelChoice.button.label.chat"
-      title: "The label for the live chat option in the list (not product name, just general chat). The same text as embeddable_framework.helpCenter.submitButton.label.chat"
-      screenshot: "https://zendesk.box.com/s/cybiy7gshwetcw9y8yd0o40ddixfdjj6"
-      value: "Live Chat"
-      obsolete: "2017-11-26"
-  - translation:
-      key: "embeddable_framework.channelChoice.button.label.chat_offline"
-      title: "A notification that appears when a user enters live chat but all agents become unavailable."
-      screenshot: "https://zendesk.box.com/s/x2o3nb0yedt4y600n1ge6agmvavdisd4"
-      value: "Live Chat is offline"
-      obsolete: "2017-11-26"
-  - translation:
       key: "embeddable_framework.channelChoice.button.label.chat_offline_v2"
       title: "A notification that appears when a user enters live chat but all agents become unavailable."
       screenshot: "https://zendesk.box.com/s/x2o3nb0yedt4y600n1ge6agmvavdisd4"
@@ -418,7 +406,12 @@ parts:
       key: "embeddable_framework.channelChoice.button.label.talk_offline"
       title: "A notification that appears when channel choice is open and all talk agents become unavailable."
       value: "Talk is offline"
-      wip: true
+      obsolete: "2018-01-26"
+  - translation:
+      key: "embeddable_framework.channelChoice.button.label.talk_offline_v2"
+      title: "A notification that appears when channel choice is open and all talk agents become unavailable."
+      value: "No agents are available"
+      screenshot: "https://zendesk.box.com/s/ehtcqe25fqc7ecirqbxnxuc9l784h63v"
 
   # Help Center component
   - translation:
@@ -468,11 +461,6 @@ parts:
       key: "embeddable_framework.helpCenter.search.error.body"
       title: "The body of the message for the help center widget when searching fails and returns an error. Will wrap as needed (tinyurl.com/n475fhj)"
       value: "Click the button below to send us a message."
-  - translation:
-      key: "embeddable_framework.helpCenter.submitButton.label.chat"
-      title: "The label on the button in help center widget when a chat agent is online to let customers know that if they click it they will go to live chat. Will wrap if needed (tinyurl.com/kf8gpbb)"
-      value: "Live chat"
-      obsolete: "2017-11-26"
   - translation:
       key: "embeddable_framework.helpCenter.submitButton.label.submitTicket.message"
       title: "Label on the button in Help Center when no chat agents are online to let customers know that if they click it they will go to the submit ticket form. 22 letters (including spaces) max."

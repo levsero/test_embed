@@ -514,7 +514,7 @@ class HelpCenter extends Component {
     if (channelChoice || (chatOnline && talkOnline)) {
       buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
     } else if (chatOnline) {
-      buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
+      buttonLabel = i18n.t('embeddable_framework.common.button.chat');
     } else if (talkOnline) {
       buttonLabel = callbackEnabled
                   ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback', {
