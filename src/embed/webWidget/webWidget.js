@@ -180,11 +180,8 @@ function create(name, config = {}, reduxStore = {}) {
     containerStyle = { width: 342 };
   }
 
-  const testFn = (el) => {
-    embed.instance = el;
-  };
   const frameParams = {
-    ref: testFn,
+    ref: (el) => {embed.instance = el;},
     frameStyle: frameStyle,
     css: webWidgetCSS + generateUserCSS(globalConfig.color),
     position: globalConfig.position,

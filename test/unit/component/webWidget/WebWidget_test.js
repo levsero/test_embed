@@ -1283,31 +1283,6 @@ describe('WebWidget component', () => {
           .not.toHaveBeenCalled();
       });
 
-      it('does not call the chat onContainerClick handler', () => {
-        expect(chatOnContainerClickSpy)
-          .not.toHaveBeenCalled();
-      });
-
-      it('does not call the helpCenter onContainerClick handler', () => {
-        expect(helpCenterOnContainerClickSpy)
-          .not.toHaveBeenCalled();
-      });
-
-      it('does not call the helpCenter onContainerClick handler', () => {
-        expect(helpCenterOnContainerClickSpy)
-          .not.toHaveBeenCalled();
-      });
-
-      it('does not call the helpCenter onContainerClick handler', () => {
-        expect(helpCenterOnContainerClickSpy)
-          .not.toHaveBeenCalled();
-      });
-
-      it('does not call the helpCenter onContainerClick handler', () => {
-        expect(helpCenterOnContainerClickSpy)
-          .not.toHaveBeenCalled();
-      });
-
       it('does not call the helpCenter onContainerClick handler', () => {
         expect(helpCenterOnContainerClickSpy)
           .not.toHaveBeenCalled();
