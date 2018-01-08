@@ -566,7 +566,7 @@ describe('WebWidget component', () => {
               activeEmbed='chat'
               helpCenterAvailable={false}
               channelChoice={true}
-              zopimOnline={true}
+              zopimChatAvailable={true}
               updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
           );
           webWidget.onBackClick();
@@ -707,6 +707,7 @@ describe('WebWidget component', () => {
             <WebWidget
               submitTicketAvailable={true}
               updateActiveEmbed={updateActiveEmbedSpy}
+              zopimChatAvailable={true}
               zopimOnline={true}
               activeEmbed='ticketSubmissionForm' />
           );
@@ -920,7 +921,7 @@ describe('WebWidget component', () => {
 
           spyOn(webWidget, 'showChat');
 
-          webWidget.isChatOnline = () => true;
+          webWidget.isChatAvailable = () => true;
           webWidget.resetActiveEmbed();
         });
 
