@@ -82,8 +82,8 @@ export class ChannelChoiceMenu extends Component {
     const { chatOnline } = this.props;
     const chatBtnStyle = !chatOnline ? styles.chatBtnDisabled : '';
     const chatLabel = (chatOnline)
-                    ? i18n.t('embeddable_framework.channelChoice.button.label.chat')
-                    : i18n.t('embeddable_framework.channelChoice.button.label.chat_offline');
+                    ? i18n.t('embeddable_framework.common.button.chat')
+                    : i18n.t('embeddable_framework.channelChoice.button.label.chat_offline_v2');
 
     return (
       <ButtonIcon
