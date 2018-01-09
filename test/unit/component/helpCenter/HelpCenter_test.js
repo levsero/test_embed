@@ -116,7 +116,7 @@ describe('HelpCenter component', () => {
     describe('when channel choice is on', () => {
       beforeEach(() => {
         instanceRender(
-          <HelpCenter chatOnline={true} buttonLabelKey={buttonLabelKey} channelChoice={true} />
+          <HelpCenter chatAvailable={true} buttonLabelKey={buttonLabelKey} channelChoice={true} />
         );
       });
 
@@ -130,7 +130,7 @@ describe('HelpCenter component', () => {
       describe('when chat is online', () => {
         beforeEach(() => {
           instanceRender(
-            <HelpCenter chatOnline={true} buttonLabelKey={buttonLabelKey} channelChoice={false} />
+            <HelpCenter chatAvailable={true} buttonLabelKey={buttonLabelKey} channelChoice={false} />
           );
         });
 
