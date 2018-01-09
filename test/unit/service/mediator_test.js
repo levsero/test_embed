@@ -637,6 +637,23 @@ describe('mediator', () => {
       });
     });
 
+    describe('with Ticket Submission and Talk', () => {
+      beforeEach(() => {
+        jasmine.clock().install();
+        mediator.init({ submitTicket: true, helpCenter: false, talk: true });
+      });
+
+      it('shows after 3000ms if talk does not connect', () => {
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
+
+        jasmine.clock().tick(3000);
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+      });
+    });
+
     describe('with Ticket Submission and Chat', () => {
       beforeEach(() => {
         jasmine.clock().install();
