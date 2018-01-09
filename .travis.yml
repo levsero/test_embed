@@ -7,7 +7,7 @@ cache:
   directories:
     - node_modules
     - /home/travis/.rvm/
-  bundler: true
+    - vendor/bundle
 
 env:
   - TASK=lint
@@ -21,7 +21,7 @@ before_install:
   - rvm install 2.3.1
 
 install:
-  - bundle install --jobs=3 --retry=3
+  - bundle install --jobs=3 --retry=3 --path=vendor/bundle
   - npm set progress=false && npm install
   - npm run build-setup:prod
 
