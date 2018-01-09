@@ -53,6 +53,9 @@ describe('events', () => {
   });
 
   describe('talkEmbeddableConfigEventToAction', () => {
+    let callback,
+      mockConfig;
+
     beforeEach(() => {
       talkEmbeddableConfigEventToAction(mockSocket, mockReduxStore);
     });
@@ -63,9 +66,6 @@ describe('events', () => {
     });
 
     describe('when the event is fired', () => {
-      let callback,
-        mockConfig;
-
       beforeEach(() => {
         mockConfig = {
           agentAvailability: false,
@@ -79,7 +79,7 @@ describe('events', () => {
           phoneNumber: ''
         };
 
-        callback = mockSocket.on.calls.mostRecent().args[1];
+        callback = mockSocket.on.calls.argsFor(0)[1];
         callback(mockConfig);
       });
 
@@ -120,6 +120,31 @@ describe('events', () => {
           .toHaveBeenCalled();
         expect(mockReduxStore.dispatch.calls.argsFor(4)[0].type)
           .toBe('RESET_SCREEN');
+      });
+    });
+
+    describe('when the disconnect socket event is fired', () => {
+      beforeEach(() => {
+        mockConfig = { enabled: false };
+
+        callback = mockSocket.on.calls.argsFor(1)[1];
+        callback();
+      });
+
+      it('dispatches the updateTalkEmbeddableConfig action with enabled as false', () => {
+        expect(updateTalkEmbeddableConfigSpy)
+          .toHaveBeenCalledWith(mockConfig);
+
+        expect(mockReduxStore.dispatch.calls.argsFor(0)[0].type)
+          .toBe(actionTypes.UPDATE_TALK_EMBEDDABLE_CONFIG);
+      });
+
+      it('dispatches an updateTalkAgentAvailability action with false', () => {
+        expect(updateTalkAgentAvailabilitySpy)
+          .toHaveBeenCalledWith(false);
+
+        expect(mockReduxStore.dispatch.calls.argsFor(1)[0].type)
+          .toBe(actionTypes.UPDATE_TALK_AGENT_AVAILABILITY);
       });
     });
   });
