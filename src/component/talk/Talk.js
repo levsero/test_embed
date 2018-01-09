@@ -144,8 +144,8 @@ class Talk extends Component {
   }
 
   renderFormHeader = () => {
-    const headerMessage = i18n.t('embeddable_framework.talk.form.headerMessage', {
-      fallback: 'Enter your phone number and we\'ll call you as soon as we can.'
+    const headerMessage = i18n.t('embeddable_framework.talk.form.headerMessage_new', {
+      fallback: 'Enter your phone number and we\'ll call you back.'
     });
 
     return (
