@@ -163,9 +163,6 @@ function init(name) {
   const onUnreadMsgs = (unreadMessageCount) => {
     mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount);
   };
-  const onChatStart = () => {
-    get(name).store.dispatch(updateSettingsChatSuppress(false));
-  };
   const onChatEnd = () => {
     mediator.channel.broadcast(`${name}.onChatEnd`);
     get(name).store.dispatch(resetSettingsChatSuppress());
@@ -201,7 +198,6 @@ function init(name) {
     zopimLive.setOnConnected(onConnected);
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
-    zopimLive.setOnChatStart(onChatStart);
     zopimLive.setOnChatEnd(onChatEnd);
 
     // TODO remove when zopim has release mobile notifications
