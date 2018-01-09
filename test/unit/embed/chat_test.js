@@ -30,7 +30,6 @@ describe('embed.chat', () => {
 
     mockZopim.livechat = {
       setOnStatus: jasmine.createSpy('setOnStatus'),
-      setOnChatStart: jasmine.createSpy('setOnChatStart'),
       setOnConnected: jasmine.createSpy('setOnConnected'),
       setOnUnreadMsgs: jasmine.createSpy('setOnUnreadMsgs'),
       setLanguage: jasmine.createSpy('setLanguage'),
@@ -236,7 +235,6 @@ describe('embed.chat', () => {
         onHideCall,
         onStatusCall,
         onUnreadMsgsCall,
-        onChatStartCall,
         onChatEndCall;
 
       beforeEach(() => {
@@ -250,7 +248,6 @@ describe('embed.chat', () => {
         onHideCall = livechat.window.onHide.calls.mostRecent();
         onUnreadMsgsCall = livechat.setOnUnreadMsgs.calls.mostRecent();
         onStatusCall = livechat.setOnStatus.calls.mostRecent();
-        onChatStartCall = livechat.setOnChatStart.calls.mostRecent();
         onChatEndCall = livechat.setOnChatEnd.calls.mostRecent();
       });
 
@@ -328,15 +325,6 @@ describe('embed.chat', () => {
 
           expect(mockMediator.channel.broadcast)
             .toHaveBeenCalledWith('dave.onUnreadMsgs', count);
-        });
-      });
-
-      describe('zopim.onChatStart', () => {
-        it('calls updateSettingsChatSuppress with false', () => {
-          onChatStartCall.args[0](false);
-
-          expect(updateSettingsChatSuppressSpy)
-            .toHaveBeenCalledWith(false);
         });
       });
 
