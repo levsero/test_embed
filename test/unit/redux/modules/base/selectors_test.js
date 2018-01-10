@@ -2,6 +2,7 @@ describe('base selectors', () => {
   let getZopimChatEmbed,
     getHelpCenterEmbed,
     getTalkEmbed,
+    getActiveEmbed,
     getZopimChatAvailable,
     settingsChatSuppressValue,
     zopimChatOnlineValue,
@@ -29,10 +30,29 @@ describe('base selectors', () => {
     const selectors = requireUncached(selectorsPath);
 
     getZopimChatEmbed = selectors.getZopimChatEmbed;
+    getActiveEmbed = selectors.getActiveEmbed;
     getHelpCenterEmbed = selectors.getHelpCenterEmbed;
     getTalkEmbed = selectors.getTalkEmbed;
     getZopimChatAvailable = selectors.getZopimChatAvailable;
     getShowTalkBackButton = selectors.getShowTalkBackButton;
+  });
+
+  describe('getActiveEmbed', () => {
+    let result;
+    const mockState = {
+      base: {
+        activeEmbed: 'chat'
+      }
+    };
+
+    beforeEach(() => {
+      result = getActiveEmbed(mockState);
+    });
+
+    it('returns the current active embed', () => {
+      expect(result)
+        .toEqual('chat');
+    });
   });
 
   describe('getZopimChatEmbed', () => {

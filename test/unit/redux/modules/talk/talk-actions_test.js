@@ -190,9 +190,15 @@ describe('talk redux actions', () => {
     });
 
     describe('when getShowTalkBackButton is false', () => {
-      it('does not dispatch any more actions ', () => {
-        expect(mockStore.getActions().length)
-          .toBe(1);
+      beforeEach(() => {
+        talkBackButtonEmbedsValue = false;
+        mockStore.dispatch(actions.resetTalkScreen());
+        action = mockStore.getActions()[3];
+      });
+
+      it('calls updateBackButtonVisibility with false', () => {
+        expect(action.type)
+          .toBe(updateBackButtonVisibilityType);
       });
     });
 
@@ -200,7 +206,7 @@ describe('talk redux actions', () => {
       beforeEach(() => {
         talkBackButtonEmbedsValue = true;
         mockStore.dispatch(actions.resetTalkScreen());
-        action = mockStore.getActions()[2];
+        action = mockStore.getActions()[3];
       });
 
       it('calls updateBackButtonVisibility with true', () => {

@@ -20,6 +20,7 @@ describe('embed.webWidget', () => {
     resetTalkScreenSpy,
     mockIsIE,
     mockZendeskSubdomain,
+    mockActiveEmbed,
     mockWebWidget;
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
   const authenticateSpy = jasmine.createSpy();
@@ -42,6 +43,7 @@ describe('embed.webWidget', () => {
     mockViewMoreValue = false;
     mockZendeskSubdomain = 'customerfoo';
     mockAuthenticateValue = null;
+    mockActiveEmbed = '';
     socketioConnectSpy = jasmine.createSpy('socketio.connect').and.returnValue('socket');
     socketioMapEventsToActionsSpy = jasmine.createSpy('socketio.mapEventsToActions');
     resetTalkScreenSpy = jasmine.createSpy('resetTalkScreen');
@@ -127,6 +129,9 @@ describe('embed.webWidget', () => {
       'src/redux/modules/talk': {
         resetTalkScreen: resetTalkScreenSpy
       },
+      'src/redux/modules/base/selectors': {
+        getActiveEmbed: () => mockActiveEmbed
+      },
       'src/redux/modules/talk/talk-screen-types': {
         CALLBACK_ONLY_SCREEN: callMeScreen
       },
@@ -210,7 +215,7 @@ describe('embed.webWidget', () => {
 
       beforeEach(() => {
         mockSetScaleLock = mockRegistry['utility/devices'].setScaleLock;
-        const mockStore = { dispatch: noop };
+        const mockStore = { getState: noop, dispatch: noop };
 
         webWidget.create('', {
           ticketSubmissionForm: { attachmentsEnabled: true },
@@ -276,9 +281,30 @@ describe('embed.webWidget', () => {
             .toHaveBeenCalledWith(false);
         });
 
-        it('dispatches a resetTalkScreen action', () => {
-          expect(resetTalkScreenSpy)
-            .toHaveBeenCalled();
+        describe('active embed', () => {
+          describe('is talk', () => {
+            beforeEach(() => {
+              mockActiveEmbed = 'talk';
+              frame.props.onHide(frame);
+            });
+
+            it('dispatches a resetTalkScreen action', () => {
+              expect(resetTalkScreenSpy)
+                .toHaveBeenCalled();
+            });
+          });
+
+          describe('is not talk', () => {
+            beforeEach(() => {
+              mockActiveEmbed = 'chat';
+              frame.props.onHide(frame);
+            });
+
+            it('does not dispatch a resetTalkScreen action', () => {
+              expect(resetTalkScreenSpy)
+                .not.toHaveBeenCalled();
+            });
+          });
         });
       });
 

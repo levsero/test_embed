@@ -12,3 +12,4 @@ export const getZopimChatAvailable = (state) => {
 export const getShowTalkBackButton = (state) => {
   return getHelpCenterEmbed(state) || getZopimChatOnline(state) || getSubmitTicketEmbed(state);
 };
+export const getActiveEmbed = (state) => state.base.activeEmbed;

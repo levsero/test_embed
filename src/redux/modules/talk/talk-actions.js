@@ -56,9 +56,9 @@ export function resetTalkScreen() {
   return (dispatch, getState) => {
     dispatch(updateTalkScreen(getInitialScreen(getState())));
 
-    if (getShowTalkBackButton(getState())) {
-      dispatch(updateBackButtonVisibility(true));
-    }
+    const talkBackButtonAvailable = getShowTalkBackButton(getState());
+
+    dispatch(updateBackButtonVisibility(talkBackButtonAvailable));
   };
 }
 
