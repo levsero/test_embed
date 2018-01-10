@@ -225,12 +225,16 @@ class WebWidget extends Component {
   show = (viaActivate = false) => {
     const { activeEmbed } = this.props;
     const chatOnline = this.isChatAvailable();
+
     // If chat came online when contact form was open it should
     // replace it when it's next opened.
     if (activeEmbed === submitTicket && chatOnline && !this.isChannelChoiceAvailable()) {
       this.showChat();
       return;
     }
+
+    // If zopimChat is the active embed, we need to show the chat window regardless online or offline.
+    // If zopimChat becomes offline, the activeEmbed resets to "".
     if (activeEmbed === zopimChat) {
       this.props.zopimOnNext();
       return;
