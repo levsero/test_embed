@@ -202,11 +202,7 @@ function init(embedsAccessible, params = {}) {
     state[`${talk}.isAccessible`] = availability;
 
     if (!embedVisible(state)) {
-      if (helpCenterAvailable()) {
-        if (state.activeEmbed !== chat) {
-          resetActiveEmbed();
-        }
-      } else {
+      if (state.activeEmbed !== chat) {
         resetActiveEmbed();
       }
 
