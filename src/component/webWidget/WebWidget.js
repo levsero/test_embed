@@ -299,7 +299,7 @@ class WebWidget extends Component {
       updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable);
     } else if (helpCenterAvailable) {
       this.showHelpCenter();
-    } else {
+    } else if (channelChoiceAvailable) {
       updateActiveEmbed(channelChoice);
       updateBackButtonVisibility(false);
     }
