@@ -1,13 +1,21 @@
+import configureMockStore from 'redux-mock-store';
+
 describe('settings', () => {
   let settings,
     mockRegistry,
     defaults;
   const settingsPath = buildSrcPath('service/settings');
   const maxLocaleFallbacks = 3;
+  const createMockStore = configureMockStore();
+  const mockStore = createMockStore();
+  const mockUpdateSettingsChatSuppressAction = 'UPDATE_SETTINGS_CHAT_SUPPRESS';
 
   beforeEach(() => {
     mockery.enable();
     mockRegistry = initMockRegistry({
+      'src/redux/modules/settings': {
+        updateSettingsChatSuppress: () => { return { type: mockUpdateSettingsChatSuppressAction }; }
+      },
       'utility/globals': {
         win: {
           zESettings: {}
@@ -140,6 +148,13 @@ describe('settings', () => {
 
       expect(localeFallbacks)
         .toEqual(['en-US', 'en-AU', 'fr']);
+    });
+
+    it('calls updateSettingsChatSuppress', () => {
+      settings.init(mockStore);
+
+      expect(mockStore.getActions()[0].type)
+        .toEqual(mockUpdateSettingsChatSuppressAction);
     });
   });
 

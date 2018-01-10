@@ -11,10 +11,6 @@ import { settings } from 'service/settings';
 import { win } from 'utility/globals';
 import { updateEmbedAccessible } from 'src/redux/modules/base';
 
-import createStore from 'src/redux/createStore';
-
-const reduxStore = createStore();
-
 const embedsMap = {
   'chat': chat,
   'launcher': launcher,
@@ -55,7 +51,7 @@ const loadAudio = (config) => {
   }
 };
 
-function init(config) {
+function init(config, reduxStore = { dispatch: () => {} }) {
   if (!initialised) {
     if (config.webWidgetCustomizations) {
       settings.enableCustomizations();
