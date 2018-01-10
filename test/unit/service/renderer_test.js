@@ -78,9 +78,6 @@ describe('renderer', () => {
           get: (value) => _.get({ contactOptions: { enabled: false } }, value, null)
         }
       },
-      'src/redux/createStore': () => ({
-        dispatch: noop
-      }),
       'utility/globals': {
         win: global.window
       },
