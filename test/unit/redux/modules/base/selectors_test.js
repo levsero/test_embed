@@ -4,8 +4,7 @@ describe('base selectors', () => {
     getTalkEmbed,
     getZopimChatAvailable,
     settingsChatSuppressValue,
-    zopimChatOnlineValue,
-    getShowTalkBackButton;
+    zopimChatOnlineValue;
 
   beforeEach(() => {
     mockery.enable();
@@ -32,7 +31,6 @@ describe('base selectors', () => {
     getHelpCenterEmbed = selectors.getHelpCenterEmbed;
     getTalkEmbed = selectors.getTalkEmbed;
     getZopimChatAvailable = selectors.getZopimChatAvailable;
-    getShowTalkBackButton = selectors.getShowTalkBackButton;
   });
 
   describe('getZopimChatEmbed', () => {
@@ -92,65 +90,6 @@ describe('base selectors', () => {
     it('returns the current state of embed.talk', () => {
       expect(result)
         .toEqual(true);
-    });
-  });
-
-  describe('getShowTalkBackButton', () => {
-    let result;
-    const mockState = {
-      base: {
-        embeds: {
-          helpCenterForm: false,
-          ticketSubmissionForm: false
-        }
-      }
-    };
-
-    describe('when no other embeds are available', () => {
-      beforeEach(() => {
-        zopimChatOnlineValue = false;
-        result = getShowTalkBackButton(mockState);
-      });
-
-      it('returns false', () => {
-        expect(result)
-          .toEqual(false);
-      });
-    });
-
-    describe('when helpCenter is available', () => {
-      beforeEach(() => {
-        mockState.base.embeds.helpCenterForm = true;
-        result = getShowTalkBackButton(mockState);
-      });
-
-      it('returns true', () => {
-        expect(result)
-          .toEqual(true);
-      });
-    });
-
-    describe('when zopimChat is online', () => {
-      beforeEach(() => {
-        result = getShowTalkBackButton(mockState);
-      });
-
-      it('returns true', () => {
-        expect(result)
-          .toEqual(true);
-      });
-    });
-
-    describe('when submitTicket is available', () => {
-      beforeEach(() => {
-        mockState.base.embeds.ticketSubmissionForm = true;
-        result = getShowTalkBackButton(mockState);
-      });
-
-      it('returns true', () => {
-        expect(result)
-          .toEqual(true);
-      });
     });
   });
 
