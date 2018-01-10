@@ -8,11 +8,15 @@ import { mediator } from 'service/mediator';
 
 export function talkEmbeddableConfigEventToAction(socket, reduxStore) {
   socket.on('socket.embeddableConfig', (config) => {
-    mediator.channel.broadcast('talk.enabled', config.enabled);
-    reduxStore.dispatch(updateTalkEmbeddableConfig(config));
+    dispatchEmbeddableConfig(reduxStore, config);
     dispatchAgentAvailability(reduxStore, config);
     dispatchAverageWaitTime(reduxStore, config);
     reduxStore.dispatch(resetTalkScreen());
+  });
+
+  socket.on('disconnect', () => {
+    dispatchEmbeddableConfig(reduxStore, { enabled: false });
+    dispatchAgentAvailability(reduxStore, { agentAvailability: false });
   });
 }
 
@@ -26,6 +30,11 @@ export function talkAverageWaitTimeEventToAction(socket, reduxStore) {
   socket.on('socket.waitTimeChange', (averageWaitTimePayload) => {
     dispatchAverageWaitTime(reduxStore, averageWaitTimePayload);
   });
+}
+
+function dispatchEmbeddableConfig(reduxStore, config) {
+  mediator.channel.broadcast('talk.enabled', config.enabled);
+  reduxStore.dispatch(updateTalkEmbeddableConfig(config));
 }
 
 function dispatchAgentAvailability(reduxStore, availabilityPayload) {
@@ -45,3 +54,4 @@ function dispatchAverageWaitTime(reduxStore, averageWaitTimePayload) {
     reduxStore.dispatch(updateTalkAverageWaitTimeEnabled(false));
   }
 }
+
