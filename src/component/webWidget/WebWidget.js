@@ -233,6 +233,12 @@ class WebWidget extends Component {
       return;
     }
 
+    // If zopimChat is the active embed, we need to show the chat window regardless online or offline.
+    // If zopimChat becomes offline, the activeEmbed resets to "".
+    if (activeEmbed === zopimChat) {
+      this.props.zopimOnNext();
+      return;
+    }
     // If zopim or talk has gone offline we will need to reset the embed
     const chatOffline = _.includes([zopimChat, channelChoice], activeEmbed) && !chatOnline;
     const talkOffline = _.includes([talk, channelChoice], activeEmbed) && !this.props.talkOnline;
