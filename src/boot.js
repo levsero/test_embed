@@ -16,6 +16,10 @@ import { appendMetaTag,
          isMobileBrowser } from 'utility/devices';
 import { initMobileScaling } from 'utility/mobileScaling';
 
+import createStore from 'src/redux/createStore';
+
+const reduxStore = createStore();
+
 const handleQueue = (queue) => {
   _.forEach(queue, (method) => {
     if (method[0].locale) {
@@ -90,7 +94,7 @@ const setupServices = () => {
     version: __EMBEDDABLE_VERSION__
   });
 
-  settings.init();
+  settings.init(reduxStore);
   authentication.init();
 };
 
@@ -116,7 +120,7 @@ const setupWidgetQueue = (win, postRenderQueue) => {
 
   if (__DEV__) {
     devApi = {
-      devRender: renderer.init
+      devRender: (config) => renderer.init(config, reduxStore)
     };
   }
 
@@ -185,7 +189,7 @@ const getConfig = (win, postRenderQueue) => {
       beacon.trackSettings(settings.getTrackSettings());
     }
 
-    renderer.init(config);
+    renderer.init(config, reduxStore);
     boot.handlePostRenderQueue(win, postRenderQueue);
   };
   const fail = (error) => {

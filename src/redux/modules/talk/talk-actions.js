@@ -14,6 +14,8 @@ import {
   TALK_CALLBACK_FAILURE
 } from './talk-action-types';
 import { getFormState, getInitialScreen } from './talk-selectors';
+import { updateBackButtonVisibility } from 'src/redux/modules/base';
+import { getShowTalkBackButton } from 'src/redux/modules/base/selectors';
 
 export function updateTalkEmbeddableConfig(config) {
   return {
@@ -53,6 +55,10 @@ export function updateTalkScreen(screen) {
 export function resetTalkScreen() {
   return (dispatch, getState) => {
     dispatch(updateTalkScreen(getInitialScreen(getState())));
+
+    const talkBackButtonAvailable = getShowTalkBackButton(getState());
+
+    dispatch(updateBackButtonVisibility(talkBackButtonAvailable));
   };
 }
 
@@ -80,6 +86,7 @@ export function submitTalkCallbackForm(formState, subdomain, serviceUrl, keyword
       done: () => {
         dispatch({ type: TALK_CALLBACK_SUCCESS, payload: formState });
         dispatch(updateTalkCallbackForm({}));
+        dispatch(updateBackButtonVisibility(false));
       },
       fail: (err) => {
         const errorMessage = err.responseJSON ? err.responseJSON.error : JSON.parse(err.response.text).error;

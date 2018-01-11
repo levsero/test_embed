@@ -23,6 +23,7 @@ import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedTimeoutCall,
          getPageKeywords } from 'utility/utils';
+import { getActiveEmbed } from 'src/redux/modules/base/selectors';
 import { setVisitorInfo } from 'src/redux/modules/chat';
 import { resetTalkScreen } from 'src/redux/modules/talk';
 
@@ -102,7 +103,9 @@ const onHide = () => {
       rootComponent.pauseAllVideos();
     }
 
-    embed.store.dispatch(resetTalkScreen());
+    if (getActiveEmbed(embed.store.getState()) === 'talk') {
+      embed.store.dispatch(resetTalkScreen());
+    }
   }
 };
 const onBack = () => {

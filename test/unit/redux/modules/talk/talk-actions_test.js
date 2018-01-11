@@ -5,10 +5,12 @@ let actions,
   actionTypes,
   screenTypes,
   mockStore,
+  talkBackButtonEmbedsValue,
   mockSettings;
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
+const updateBackButtonVisibilityType = 'MOCK_UPDATE_BACK_BUTTON';
 let httpSpy = jasmine.createSpyObj('http', ['callMeRequest']);
 
 describe('talk redux actions', () => {
@@ -18,6 +20,8 @@ describe('talk redux actions', () => {
   beforeEach(() => {
     mockery.enable();
 
+    talkBackButtonEmbedsValue = false;
+
     initMockRegistry({
       'service/transport': { http: httpSpy },
       'service/settings': {
@@ -26,7 +30,10 @@ describe('talk redux actions', () => {
         }
       },
       'src/redux/modules/base/selectors': {
-        updateTalkCallbackForm: noop
+        getShowTalkBackButton: () => talkBackButtonEmbedsValue
+      },
+      'src/redux/modules/base': {
+        updateBackButtonVisibility: () => { return { type: updateBackButtonVisibilityType }; }
       }
     });
 
@@ -181,6 +188,32 @@ describe('talk redux actions', () => {
       expect(action.payload)
         .toEqual(screenTypes.PHONE_ONLY_SCREEN);
     });
+
+    describe('when getShowTalkBackButton is false', () => {
+      beforeEach(() => {
+        talkBackButtonEmbedsValue = false;
+        mockStore.dispatch(actions.resetTalkScreen());
+        action = mockStore.getActions()[3];
+      });
+
+      it('calls updateBackButtonVisibility with false', () => {
+        expect(action.type)
+          .toBe(updateBackButtonVisibilityType);
+      });
+    });
+
+    describe('when getShowTalkBackButton is true', () => {
+      beforeEach(() => {
+        talkBackButtonEmbedsValue = true;
+        mockStore.dispatch(actions.resetTalkScreen());
+        action = mockStore.getActions()[3];
+      });
+
+      it('calls updateBackButtonVisibility with true', () => {
+        expect(action.type)
+          .toBe(updateBackButtonVisibilityType);
+      });
+    });
   });
 
   describe('updateTalkCallMeForm', () => {
@@ -305,6 +338,11 @@ describe('talk redux actions', () => {
             email: 'Johnny@john.com',
             description: 'Please help me.'
           });
+      });
+
+      it('dispatches the action updateBackButtonVisibility', () => {
+        expect(actions[3].type)
+          .toEqual(updateBackButtonVisibilityType);
       });
 
       it('clears the form state', () => {

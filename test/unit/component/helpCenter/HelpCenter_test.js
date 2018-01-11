@@ -114,7 +114,7 @@ describe('HelpCenter component', () => {
     describe('when channel choice is on', () => {
       beforeEach(() => {
         instanceRender(
-          <HelpCenter chatOnline={true} buttonLabelKey={buttonLabelKey} channelChoice={true} />
+          <HelpCenter chatAvailable={true} buttonLabelKey={buttonLabelKey} channelChoice={true} />
         );
       });
 
@@ -128,13 +128,13 @@ describe('HelpCenter component', () => {
       describe('when chat is online', () => {
         beforeEach(() => {
           instanceRender(
-            <HelpCenter chatOnline={true} buttonLabelKey={buttonLabelKey} channelChoice={false} />
+            <HelpCenter chatAvailable={true} buttonLabelKey={buttonLabelKey} channelChoice={false} />
           );
         });
 
         it('uses the chat label for the button', () => {
           expect(mockRegistry['service/i18n'].i18n.t)
-            .toHaveBeenCalledWith('embeddable_framework.helpCenter.submitButton.label.chat');
+            .toHaveBeenCalledWith('embeddable_framework.common.button.chat');
         });
       });
 

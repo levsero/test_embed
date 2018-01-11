@@ -564,7 +564,7 @@ describe('WebWidget component', () => {
               activeEmbed='chat'
               helpCenterAvailable={false}
               channelChoice={true}
-              zopimOnline={true}
+              zopimChatAvailable={true}
               updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
           );
           webWidget.onBackClick();
@@ -705,6 +705,7 @@ describe('WebWidget component', () => {
             <WebWidget
               submitTicketAvailable={true}
               updateActiveEmbed={updateActiveEmbedSpy}
+              zopimChatAvailable={true}
               zopimOnline={true}
               activeEmbed='ticketSubmissionForm' />
           );
@@ -719,20 +720,29 @@ describe('WebWidget component', () => {
       });
 
       describe('when the activeEmbed is zopimChat and zopimChat is offline', () => {
+        let zopimOnNextSpy;
+
         beforeEach(() => {
+          zopimOnNextSpy = jasmine.createSpy('zopimOnNext');
           webWidget = domRender(
             <WebWidget
               submitTicketAvailable={true}
               updateActiveEmbed={noop}
               zopimOnline={false}
-              activeEmbed='zopimChat' />
+              activeEmbed='zopimChat'
+              zopimOnNext={zopimOnNextSpy} />
           );
 
           webWidget.show();
         });
 
-        it('calls resetActiveEmbed', () => {
+        it('does not call resetActiveEmbed', () => {
           expect(webWidget.resetActiveEmbed)
+            .not.toHaveBeenCalled();
+        });
+
+        it('calls zopimOnNext', () => {
+          expect(zopimOnNextSpy)
             .toHaveBeenCalled();
         });
       });
@@ -918,7 +928,7 @@ describe('WebWidget component', () => {
 
           spyOn(webWidget, 'showChat');
 
-          webWidget.isChatOnline = () => true;
+          webWidget.isChatAvailable = () => true;
           webWidget.resetActiveEmbed();
         });
 

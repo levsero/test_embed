@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { win } from 'utility/globals';
 import { objectDifference } from 'utility/utils';
+import { updateSettingsChatSuppress } from 'src/redux/modules/settings';
 
 const optionWhitelist = {
   webWidget: [
@@ -89,7 +90,7 @@ const initStore = (settings, options, defaults) => {
           .value();
 };
 
-function init() {
+function init(reduxStore = { dispatch: () => {} }) {
   const settings = _.assign({}, win.zESettings);
 
   // for backwards compatibility with authenticate.
@@ -105,6 +106,8 @@ function init() {
   // Limit number of fallback locales.
   webWidgetStore.helpCenter.localeFallbacks = _.take(webWidgetStore.helpCenter.localeFallbacks,
                                                      maxLocaleFallbacks);
+
+  reduxStore.dispatch(updateSettingsChatSuppress(webWidgetStore.chat.suppress));
 }
 
 function get(path) {

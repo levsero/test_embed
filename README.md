@@ -157,6 +157,22 @@ Run each task like this: ```npm run <taskname>```
 * **test** - Runs all the jasmine unit tests.
 * **lint** - Runs eslint on the *src* and *test* directories.
 
+## Debugging customer issues
+Sometimes we have issues that only manifest on customers sites.
+
+### Viewing Redux logs
+To see redux logging information on their site we can add a value to localstorage to surface the debug logs.
+
+In the browsers console
+```
+localStorage["ZD-debug"] = true
+```
+
+After that when you refresh the page you will start seeing redux logs in your console.
+
+### Using your development version of main.js
+Here is [an article](https://zendesk.atlassian.net/wiki/spaces/CE/pages/111936245/Debugging+on+3rd+party+websites) explaining how we can use burp to hijack the main.js request and point it to a local version.
+
 ## Documenting ADRs
 We will be documenting architectural decisions surrounding this project under `doc/architecture/decisions`.
 The standards followed are documented by Michael Nygard at:

@@ -168,12 +168,15 @@ function init(embedsAccessible, params = {}) {
   state[`${talk}.connectionPending`] = embedsAccessible.talk;
   resetActiveEmbed();
 
-  if (state[`${chat}.connectionPending`]) {
+  const connectionPending = () => state[`${chat}.connectionPending`]
+                               || state[`${talk}.connectionPending`];
+
+  if (connectionPending()) {
     // This is to handle zopim errors where onConnected or onError
     // both don't fire for some reason after chat connects and
     // connectionPending state just hangs.
     setTimeout(() => {
-      if (state[`${chat}.connectionPending`] && embedAvailable()) {
+      if (connectionPending() && embedAvailable()) {
         show(state, { transition: 'none' });
       }
     }, 3000);
@@ -202,11 +205,7 @@ function init(embedsAccessible, params = {}) {
     state[`${talk}.isAccessible`] = availability;
 
     if (!embedVisible(state)) {
-      if (helpCenterAvailable()) {
-        if (state.activeEmbed !== chat) {
-          resetActiveEmbed();
-        }
-      } else {
+      if (state.activeEmbed !== chat) {
         resetActiveEmbed();
       }
 

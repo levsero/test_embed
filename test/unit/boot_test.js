@@ -41,6 +41,9 @@ describe('boot', () => {
       'service/transport': transportSpy,
       'service/mediator': mediatorSpy,
       'service/renderer': rendererSpy,
+      'src/redux/createStore': () => ({
+        dispatch: noop
+      }),
       'utility/devices': {
         appendMetaTag: noop,
         clickBusterHandler: noop,
