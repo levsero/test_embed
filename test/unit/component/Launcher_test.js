@@ -204,6 +204,99 @@ describe('Launcher component', () => {
     });
   });
 
+  describe('getActiveEmbedLabel', () => {
+    let launcher;
+
+    describe('when the active embed is contact form', () => {
+      beforeEach(() => {
+        launcher = instanceRender(<Launcher label='some-label' activeEmbed='ticketSubmissionForm' />);
+      });
+
+      it('returns props.label', () => {
+        expect(launcher.getActiveEmbedLabel())
+          .toBe('some-label');
+      });
+    });
+
+    describe('when the active embed is help center', () => {
+      beforeEach(() => {
+        launcher = instanceRender(<Launcher label='some-label' activeEmbed='helpCenterForm' />);
+      });
+
+      it('returns props.label', () => {
+        expect(launcher.getActiveEmbedLabel())
+          .toBe('some-label');
+      });
+    });
+
+    describe('when the active embed is chat', () => {
+      beforeEach(() => {
+        launcher = instanceRender(<Launcher activeEmbed='zopimChat' />);
+      });
+
+      it('returns the chat label', () => {
+        expect(launcher.getActiveEmbedLabel())
+          .toEqual('embeddable_framework.launcher.label.chat');
+      });
+    });
+
+    describe('when the active embed is talk', () => {
+      describe('when callback capability is enabled', () => {
+        beforeEach(() => {
+          launcher = instanceRender(<Launcher activeEmbed='talk' callbackEnabled={true} />);
+        });
+
+        it('returns a "Request a callback" string', () => {
+          expect(launcher.getActiveEmbedLabel())
+            .toEqual('embeddable_framework.launcher.label.talk.request_callback');
+        });
+      });
+
+      describe('when callback capability is unavailable', () => {
+        beforeEach(() => {
+          launcher = instanceRender(<Launcher activeEmbed='talk' />);
+        });
+
+        it('returns a "Call us" string', () => {
+          expect(launcher.getActiveEmbedLabel())
+            .toEqual('embeddable_framework.launcher.label.talk.call_us');
+        });
+      });
+    });
+
+    describe('when the active embed is empty', () => {
+      let getLabelSpy;
+
+      beforeEach(() => {
+        getLabelSpy = jasmine.createSpy('getLabel').and.returnValue('get-label-value');
+        launcher = instanceRender(<Launcher activeEmbed='' />);
+
+        launcher.getLabel = getLabelSpy;
+      });
+
+      it('returns the value of getLabel', () => {
+        expect(launcher.getActiveEmbedLabel())
+          .toBe('get-label-value');
+      });
+    });
+
+    describe('when the active embed is channel choice', () => {
+      let getLabelSpy;
+
+      beforeEach(() => {
+        getLabelSpy = jasmine.createSpy('getLabel').and.returnValue('get-label-value');
+        launcher = instanceRender(<Launcher activeEmbed='channelChoice' />);
+
+        launcher.getLabel = getLabelSpy;
+      });
+
+      it('returns the value of getLabel', () => {
+        expect(launcher.getActiveEmbedLabel())
+          .toBe('get-label-value');
+      });
+    });
+  });
+
   describe('getIconType', () => {
     let result;
 
@@ -256,6 +349,91 @@ describe('Launcher component', () => {
       it('returns the string Icon', () => {
         expect(result)
           .toEqual('Icon');
+      });
+    });
+  });
+
+  describe('getActiveEmbedIconType', () => {
+    let launcher;
+
+    describe('when the active embed is contact form', () => {
+      beforeEach(() => {
+        launcher = instanceRender(<Launcher activeEmbed='ticketSubmissionForm' />);
+      });
+
+      it('returns the string Icon', () => {
+        expect(launcher.getActiveEmbedIconType())
+          .toBe('Icon');
+      });
+    });
+
+    describe('when the active embed is chat', () => {
+      beforeEach(() => {
+        launcher = instanceRender(<Launcher activeEmbed='zopimChat' />);
+      });
+
+      it('returns the string Icon--chat', () => {
+        expect(launcher.getActiveEmbedIconType())
+          .toBe('Icon--chat');
+      });
+    });
+
+    describe('when the active embed is talk', () => {
+      beforeEach(() => {
+        launcher = instanceRender(<Launcher activeEmbed='talk' />);
+      });
+
+      it('returns the string Icon--launcher-talk', () => {
+        expect(launcher.getActiveEmbedIconType())
+          .toBe('Icon--launcher-talk');
+      });
+    });
+
+    describe('when the active embed is empty', () => {
+      let getIconTypeSpy;
+
+      beforeEach(() => {
+        getIconTypeSpy = jasmine.createSpy('getIcon').and.returnValue('get-icon-value');
+        launcher = instanceRender(<Launcher activeEmbed='' />);
+
+        launcher.getIconType = getIconTypeSpy;
+      });
+
+      it('returns the value of getIcon', () => {
+        expect(launcher.getActiveEmbedIconType())
+          .toBe('get-icon-value');
+      });
+    });
+
+    describe('when the active embed is channel choice', () => {
+      let getIconTypeSpy;
+
+      beforeEach(() => {
+        getIconTypeSpy = jasmine.createSpy('getIcon').and.returnValue('get-icon-value');
+        launcher = instanceRender(<Launcher activeEmbed='channelChoice' />);
+
+        launcher.getIconType = getIconTypeSpy;
+      });
+
+      it('returns the value of getIcon', () => {
+        expect(launcher.getActiveEmbedIconType())
+          .toBe('get-icon-value');
+      });
+    });
+
+    describe('when the active embed is help center', () => {
+      let getIconTypeSpy;
+
+      beforeEach(() => {
+        getIconTypeSpy = jasmine.createSpy('getIcon').and.returnValue('get-icon-value');
+        launcher = instanceRender(<Launcher activeEmbed='helpCenterForm' />);
+
+        launcher.getIconType = getIconTypeSpy;
+      });
+
+      it('returns the value of getIcon', () => {
+        expect(launcher.getActiveEmbedIconType())
+          .toBe('get-icon-value');
       });
     });
   });

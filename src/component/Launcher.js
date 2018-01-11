@@ -8,12 +8,13 @@ import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
 import { getChatOnline } from 'src/redux/modules/chat/selectors';
 import { settings } from 'service/settings';
-import { getHelpCenterEmbed } from 'src/redux/modules/base/selectors';
+import { getHelpCenterEmbed, getActiveEmbed } from 'src/redux/modules/base/selectors';
 import { isCallbackEnabled, getTalkOnline } from 'src/redux/modules/talk/talk-selectors';
 import { getSettingsChatSuppress } from 'src/redux/modules/settings/selectors';
 
 const mapStateToProps = (state) => {
   return {
+    activeEmbed: getActiveEmbed(state),
     chatOnline: getChatOnline(state),
     chatSuppress: getSettingsChatSuppress(state),
     helpCenterAvailable: getHelpCenterEmbed(state) && !settings.get('helpCenter.suppress'),
@@ -24,6 +25,7 @@ const mapStateToProps = (state) => {
 
 class Launcher extends Component {
   static propTypes = {
+    activeEmbed: PropTypes.string.isRequired,
     chatOnline: PropTypes.bool.isRequired,
     chatSuppress: PropTypes.bool.isRequired,
     helpCenterAvailable: PropTypes.bool.isRequired,
@@ -52,17 +54,24 @@ class Launcher extends Component {
     return chatOnline && !chatSuppress;
   }
 
+  getTalkLabel = () => {
+    if (this.props.callbackEnabled) {
+      return i18n.t(
+       'embeddable_framework.launcher.label.talk.request_callback',
+       { fallback: i18n.t('embeddable_framework.talk.form.title', { fallback: 'Request a callback' }) }
+      );
+    } else {
+      return i18n.t(
+        'embeddable_framework.launcher.label.talk.call_us',
+        { fallback: i18n.t('embeddable_framework.talk.phoneOnly.title', { fallback: 'Call us' }) }
+      );
+    }
+  }
+
   getLabel = () => {
-    const { helpCenterAvailable, talkOnline, callbackEnabled, label } = this.props;
+    const { helpCenterAvailable, talkOnline, label } = this.props;
     const { unreadMessages } = this.state;
     const chatAvailable = this.chatAvailable();
-    const talkLabel = (callbackEnabled)
-      ? i18n.t(
-          'embeddable_framework.launcher.label.talk.request_callback',
-          { fallback: i18n.t('embeddable_framework.talk.form.title', { fallback: 'Request a callback' }) })
-      : i18n.t(
-          'embeddable_framework.launcher.label.talk.call_us',
-          { fallback: i18n.t('embeddable_framework.talk.phoneOnly.title', { fallback: 'Call us' }) });
 
     if (unreadMessages) {
       return unreadMessages > 1
@@ -73,10 +82,34 @@ class Launcher extends Component {
     } else if (chatAvailable && !helpCenterAvailable) {
       return i18n.t('embeddable_framework.launcher.label.chat');
     } else if (talkOnline && !helpCenterAvailable) {
-      return talkLabel;
+      return this.getTalkLabel();
     }
 
     return i18n.t(label);
+  }
+
+  getActiveEmbedLabel = () => {
+    const { label } = this.props;
+    const { unreadMessages } = this.state;
+
+    if (unreadMessages) {
+      return unreadMessages > 1
+           ? i18n.t('embeddable_framework.chat.notification_multiple', { count: unreadMessages })
+           : i18n.t('embeddable_framework.chat.notification');
+    }
+
+    switch (this.props.activeEmbed) {
+      case 'ticketSubmissionForm':
+      case 'helpCenterForm':
+        return i18n.t(label);
+      case 'chat':
+      case 'zopimChat':
+        return i18n.t('embeddable_framework.launcher.label.chat');
+      case 'talk':
+        return this.getTalkLabel();
+      default:
+        return this.getLabel();
+    }
   }
 
   getIconType = () => {
@@ -88,6 +121,20 @@ class Launcher extends Component {
     if (talkOnline) return 'Icon--launcher-talk';
 
     return 'Icon';
+  }
+
+  getActiveEmbedIconType = () => {
+    switch (this.props.activeEmbed) {
+      case 'ticketSubmissionForm':
+        return 'Icon';
+      case 'chat':
+      case 'zopimChat':
+        return 'Icon--chat';
+      case 'talk':
+        return 'Icon--launcher-talk';
+      default:
+        return this.getIconType();
+    }
   }
 
   render = () => {
@@ -104,9 +151,9 @@ class Launcher extends Component {
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>
         <Icon
-          type={this.getIconType()}
+          type={this.getActiveEmbedIconType()}
           className={`${styles.icon} ${iconMobileClasses}`} />
-        <span className={`${styles.label} ${labelMobileClasses}`}>{this.getLabel()}</span>
+        <span className={`${styles.label} ${labelMobileClasses}`}>{this.getActiveEmbedLabel()}</span>
       </div>
     );
   }
