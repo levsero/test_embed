@@ -6,8 +6,6 @@ describe('HelpCenterDesktop component', () => {
   const helpCenterDesktopPath = buildSrcPath('component/helpCenter/HelpCenterDesktop');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({

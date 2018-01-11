@@ -9,8 +9,6 @@ describe('Icon component', function() {
   }
 
   beforeEach(function() {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({

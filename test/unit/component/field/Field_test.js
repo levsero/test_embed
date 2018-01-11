@@ -5,8 +5,6 @@ describe('Field component', () => {
   const fieldPath = buildSrcPath('component/field/Field');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable({
       warnOnReplace: false
     });

@@ -9,8 +9,6 @@ describe('AttachmentList component', () => {
   const maxFileSize = 5 * 1024 * 1024;
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({
@@ -53,7 +51,7 @@ describe('AttachmentList component', () => {
     mockAttachmentSender = jasmine.createSpy('mockAttachmentSender').and.returnValue({});
     mockHandleAttachmentsError = jasmine.createSpy('handleAttachmentsError');
 
-    component = instanceRender(
+    component = domRender(
       <AttachmentList
         attachmentSender={mockAttachmentSender}
         updateAttachments={noop}
@@ -392,8 +390,8 @@ describe('AttachmentList component', () => {
           .toBe(2);
 
         const moreAttachments = [
-          { name: 'foo', size: 1024 },
-          { name: 'bar', size: 1024 },
+          { name: 'foooooo', size: 1024 },
+          { name: 'barrr', size: 1024 },
           { name: 'bob', size: 1024 },
           { name: 'tim', size: 1024 },
           { name: 'jim', size: 1024 }

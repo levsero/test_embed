@@ -47,8 +47,6 @@ describe('Frame', () => {
   }
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     mockIsMobileBrowserValue = false;

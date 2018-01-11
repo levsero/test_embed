@@ -3,8 +3,6 @@ describe('ButtonPill component', () => {
   const buttonPath = buildSrcPath('component/button/ButtonPill');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({

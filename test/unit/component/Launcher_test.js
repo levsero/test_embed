@@ -4,8 +4,6 @@ describe('Launcher component', () => {
   const launcherPath = buildSrcPath('component/Launcher');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     mockChatSuppressedValue = false;

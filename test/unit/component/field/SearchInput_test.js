@@ -3,8 +3,6 @@ describe('SearchInput component', () => {
   const searchInputPath = buildSrcPath('component/field/SearchInput');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable({
       warnOnReplace: false
     });

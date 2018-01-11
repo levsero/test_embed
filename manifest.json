@@ -2,13 +2,13 @@
   "externals": [
     {
       "name": "react",
-      "version": "15.4.1",
-      "url": "https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react.min.js"
+      "version": "16.2.0",
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/cjs/react.production.min.js"
     },
     {
       "name": "react-dom",
-      "version": "15.4.1",
-      "url": "https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-dom.min.js"
+      "version": "16.2.0",
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/cjs/react-dom.production.min.js"
     },
     {
       "name": "lodash",

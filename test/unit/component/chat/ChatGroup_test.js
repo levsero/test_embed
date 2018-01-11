@@ -5,7 +5,6 @@ describe('ChatGroup component', () => {
   const messagesData = [messageData];
 
   beforeEach(() => {
-    resetDOM();
     mockery.enable();
 
     initMockRegistry({

@@ -15,8 +15,6 @@ describe('Talk component', () => {
   }
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     const talkPath = buildSrcPath('component/talk/Talk');

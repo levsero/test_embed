@@ -3,8 +3,6 @@ describe('Button', () => {
   const buttonPath = buildSrcPath('component/button/Button');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({

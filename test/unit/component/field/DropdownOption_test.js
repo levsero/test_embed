@@ -3,8 +3,6 @@ describe('dropdownOption component', () => {
   const dropdownOptionPath = buildSrcPath('component/field/DropdownOption');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable({
       warnOnReplace: false
     });

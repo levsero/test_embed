@@ -12,7 +12,6 @@ describe('Render email field', () => {
   }
 
   beforeEach(() => {
-    resetDOM();
     mockery.enable();
     initMockRegistry({
       'React': React,

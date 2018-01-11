@@ -9,8 +9,6 @@ describe('WebWidget component', () => {
   const webWidgetPath = buildSrcPath('component/webWidget/WebWidget');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     mockUpdateActiveEmbed = jasmine.createSpy('updateActiveEmbed');
@@ -29,7 +27,7 @@ describe('WebWidget component', () => {
         this.onContainerClick = helpCenterOnContainerClickSpy;
       }
       render() {
-        return <div />;
+        return <div ref='helpCenter' />;
       }
     }
 

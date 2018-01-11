@@ -13,8 +13,6 @@ describe('EmbedWrapper', () => {
   }
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({

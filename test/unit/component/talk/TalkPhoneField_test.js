@@ -27,7 +27,6 @@ describe('Render phone field', () => {
   mockIsLandscapeValue = false;
 
   beforeEach(() => {
-    resetDOM();
     mockery.enable();
     initMockRegistry({
       'React': React,

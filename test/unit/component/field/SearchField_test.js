@@ -5,9 +5,6 @@ describe('SearchField component', () => {
 
   beforeEach(() => {
     onChangeValue = jasmine.createSpy('onChangeValue');
-
-    resetDOM();
-
     mockery.enable({
       warnOnReplace: false
     });

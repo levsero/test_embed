@@ -4,8 +4,6 @@ describe('ChatReconnectionBubble component', () => {
   const chatReconnectionBubblePath = buildSrcPath('component/chat/ChatReconnectionBubble');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
     mocki18nTranslate = jasmine.createSpy('i18nTranslate');
 

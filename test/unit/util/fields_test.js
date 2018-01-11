@@ -103,8 +103,6 @@ describe('fields', () => {
   /* eslint-enable camelcase */
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable({
       warnOnReplace: false
     });

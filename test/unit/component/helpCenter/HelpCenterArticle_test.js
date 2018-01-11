@@ -9,8 +9,6 @@ describe('HelpCenterArticle component', () => {
   beforeEach(() => {
     scrollIntoView = jasmine.createSpy();
 
-    resetDOM();
-
     global.document.zendeskHost = 'dev.zd-dev.com';
     mockOauthToken = 'abc';
     mockParseUrlValue = {

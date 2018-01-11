@@ -184,6 +184,7 @@ function create(name, config = {}, reduxStore = {}) {
   }
 
   const frameParams = {
+    ref: (el) => {embed.instance = el;},
     frameStyle: frameStyle,
     css: webWidgetCSS + generateUserCSS(globalConfig.color),
     position: globalConfig.position,
@@ -271,7 +272,7 @@ function render() {
 
   const element = getDocumentHost().appendChild(document.createElement('div'));
 
-  embed.instance = ReactDOM.render(embed.component, element);
+  ReactDOM.render(embed.component, element);
 
   setupMediator();
 }

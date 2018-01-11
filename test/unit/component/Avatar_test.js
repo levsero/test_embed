@@ -11,8 +11,6 @@ describe('Avatar component', () => {
   }
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({

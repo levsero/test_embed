@@ -4,8 +4,6 @@ describe('ButtonIcon', () => {
   const buttonIconPath = buildSrcPath('component/button/ButtonIcon');
 
   beforeEach(() => {
-    resetDOM();
-
     mockIsIeValue = false;
 
     mockery.enable();

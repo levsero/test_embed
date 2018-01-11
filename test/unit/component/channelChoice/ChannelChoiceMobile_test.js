@@ -5,8 +5,6 @@ describe('ChannelChoiceMobile component', () => {
   const channelChoicePath = buildSrcPath('component/channelChoice/ChannelChoiceMobile');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable();
 
     initMockRegistry({

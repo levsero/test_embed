@@ -3,8 +3,6 @@ describe('Checkbox component', () => {
   const checkboxPath = buildSrcPath('component/field/Checkbox');
 
   beforeEach(() => {
-    resetDOM();
-
     mockery.enable({
       warnOnReplace: false
     });
