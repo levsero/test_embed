@@ -87,6 +87,15 @@ describe('utils', () => {
 
       expect(splitPath('!/thi𝌆$/is/tchüss1@-_path.html'))
         .toEqual('! thi𝌆$ is tchüss1@  path');
+
+      expect(splitPath('/resource/1'))
+        .toEqual(' resource ');
+
+      expect(splitPath('/resource/1.html'))
+        .toEqual(' resource ');
+
+      expect(splitPath('/resource/1/children'))
+        .toEqual(' resource children');
     });
 
     describe('when there are \':\' or \'#\' characters in the path', () => {
@@ -143,6 +152,13 @@ describe('utils', () => {
 
       expect(getPageKeywords())
         .toEqual('buy page 5 hardcover false');
+    });
+
+    it('ignores numeric keywords in the url', () => {
+      location.pathname = '/buy/5/sell/5.html';
+
+      expect(getPageKeywords())
+        .toEqual('buy sell');
     });
   });
 

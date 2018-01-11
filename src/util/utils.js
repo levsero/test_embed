@@ -23,6 +23,7 @@ function parseUrl(url) {
 function splitPath(path) {
   return decodeURIComponent(path)
           .replace(/\#|\:/g, ' ') // Strip out '#' and ':' characters.
+          .replace(/\/(\d+(?:\.\w+)?)(?:$|\/)/g, ' ')
           .replace(/\.[^.]{1,4}$/, '')
           .replace(/[\/\.\|_\-]/g, ' ');
 }
