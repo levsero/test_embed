@@ -21,7 +21,8 @@ import { getSearchLoading,
          getPreviousSearchTerm,
          getHasSearched,
          getHasContextuallySearched } from 'src/redux/modules/helpCenter/selectors';
-import { isCallbackEnabled, getTalkAvailable, getTalkOnline } from 'src/redux/modules/talk/talk-selectors';
+import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
+import { getTalkAvailable, getTalkEnabled } from 'src/redux/modules/selectors';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
@@ -36,8 +37,8 @@ const mapStateToProps = (state) => {
     hasSearched: getHasSearched(state),
     hasContextualSearched: getHasContextuallySearched(state),
     callbackEnabled: isCallbackEnabled(state),
-    talkAvailable: getTalkAvailable(state),
-    talkOnline: getTalkOnline(state)
+    talkEnabled: getTalkEnabled(state),
+    talkAvailable: getTalkAvailable(state)
   };
 };
 
@@ -75,7 +76,7 @@ class HelpCenter extends Component {
     chatAvailable: PropTypes.bool,
     articleClicked: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
-    talkOnline: PropTypes.bool.isRequired,
+    talkEnabled: PropTypes.bool.isRequired,
     updateFrameSize: PropTypes.func,
     hideChatNotification: PropTypes.func,
     updateChatScreen: PropTypes.func,
@@ -459,8 +460,8 @@ class HelpCenter extends Component {
         newDesign={this.props.newDesign}
         channelChoice={this.state.channelChoiceShown}
         callbackEnabled={this.props.callbackEnabled}
-        talkAvailable={this.props.talkAvailable}
-        talkOnline={this.props.talkOnline}
+        talkAvailable={this.props.talkEnabled}
+        talkOnline={this.props.talkAvailable}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.props.hasSearched}
         buttonLabel={buttonLabel}
@@ -482,7 +483,7 @@ class HelpCenter extends Component {
         ref='helpCenterMobile'
         handleOnChangeValue={this.handleOnChangeValue}
         submitTicketAvailable={this.props.submitTicketAvailable}
-        chatAvailable={this.props.chatAccessible}
+        chatAvailable={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
         search={this.search}
         isLoading={this.props.searchLoading}
@@ -493,8 +494,8 @@ class HelpCenter extends Component {
         hasContextualSearched={this.props.hasContextualSearched}
         channelChoice={this.state.channelChoiceShown}
         callbackEnabled={this.props.callbackEnabled}
-        talkAvailable={this.props.talkAvailable}
-        talkOnline={this.props.talkOnline}
+        talkAvailable={this.props.talkEnabled}
+        talkOnline={this.props.talkAvailable}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.props.hasSearched}
         searchFieldValue={this.state.searchFieldValue}
@@ -510,13 +511,13 @@ class HelpCenter extends Component {
 
   render = () => {
     let buttonLabel;
-    const { channelChoice, chatAvailable, talkOnline, callbackEnabled } = this.props;
+    const { channelChoice, chatAvailable, talkAvailable, callbackEnabled } = this.props;
 
-    if (channelChoice || (chatAvailable && talkOnline)) {
+    if (channelChoice || (chatAvailable && talkAvailable)) {
       buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
     } else if (chatAvailable) {
       buttonLabel = i18n.t('embeddable_framework.common.button.chat');
-    } else if (talkOnline) {
+    } else if (talkAvailable) {
       buttonLabel = callbackEnabled
                   ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback', {
                     fallback: i18n.t('embeddable_framework.talk.form.title')

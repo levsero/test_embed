@@ -14,9 +14,9 @@ import { updateActiveEmbed,
          updateBackButtonVisibility,
          updateAuthenticated } from 'src/redux/modules/base';
 import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
-import { getChatAvailable, getChatOnline, getChatEnabled } from 'src/redux/modules/selectors';
+import { getChatAvailable, getChatEnabled, getTalkAvailable, getTalkEnabled } from 'src/redux/modules/selectors';
 import { getChatNotification } from 'src/redux/modules/chat/selectors';
-import { getTalkAvailable, getTalkOnline, isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
+import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getZopimChatEmbed } from 'src/redux/modules/base/selectors';
 
 const submitTicket = 'ticketSubmissionForm';
@@ -33,8 +33,8 @@ const mapStateToProps = (state) => {
     chatNotification: getChatNotification(state),
     activeEmbed: base.activeEmbed,
     authenticated: base.authenticated,
+    talkEnabled: getTalkEnabled(state),
     talkAvailable: getTalkAvailable(state),
-    talkOnline: getTalkOnline(state),
     callbackEnabled: isCallbackEnabled(state),
     chatAvailable: getChatAvailable(state),
     chatOnline: getChatOnline(state),
@@ -92,7 +92,7 @@ class WebWidget extends Component {
     chatEnabled: PropTypes.bool.isRequired,
     chatOnline: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
-    talkOnline: PropTypes.bool.isRequired,
+    talkEnabled: PropTypes.bool.isRequired,
     talkConfig: PropTypes.object
   };
 
@@ -178,11 +178,11 @@ class WebWidget extends Component {
   }
 
   isChannelChoiceAvailable = () => {
-    const { channelChoice, submitTicketAvailable, talkOnline, chatAvailable } = this.props;
-    const channels = [talkOnline, submitTicketAvailable, chatAvailable];
+    const { channelChoice, submitTicketAvailable, talkAvailable, chatAvailable } = this.props;
+    const channels = [talkAvailable, submitTicketAvailable, chatAvailable];
     const channelsAvailable = _.filter(channels, _.identity);
 
-    return (channelChoice || talkOnline) && channelsAvailable.length > 1;
+    return (channelChoice || talkAvailable) && channelsAvailable.length > 1;
   };
 
   noActiveEmbed = () => this.props.activeEmbed === '';
@@ -204,7 +204,7 @@ class WebWidget extends Component {
   setAuthenticated = (bool) => this.props.updateAuthenticated(bool);
 
   resetActiveEmbed = () => {
-    const { updateActiveEmbed, updateBackButtonVisibility, talkOnline, chatAvailable } = this.props;
+    const { updateActiveEmbed, updateBackButtonVisibility, talkAvailable, chatAvailable } = this.props;
     let backButton = false;
 
     if (this.isHelpCenterAvailable()) {
@@ -212,7 +212,7 @@ class WebWidget extends Component {
       backButton = this.articleViewActive();
     } else if (this.isChannelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
-    } else if (talkOnline) {
+    } else if (talkAvailable) {
       updateActiveEmbed(talk);
     } else if (chatAvailable) {
       this.showChat();
@@ -242,7 +242,7 @@ class WebWidget extends Component {
     }
     // If zopim or talk has gone offline we will need to reset the embed
     const chatOffline = _.includes([zopimChat, channelChoice], activeEmbed) && !chatOnline;
-    const talkOffline = _.includes([talk, channelChoice], activeEmbed) && !this.props.talkOnline;
+    const talkOffline = _.includes([talk, channelChoice], activeEmbed) && !this.props.talkAvailable;
 
     if (this.noActiveEmbed() || viaActivate || chatOffline || talkOffline) this.resetActiveEmbed();
   }
@@ -257,7 +257,7 @@ class WebWidget extends Component {
 
     if (embed) {
       this.setComponent(embed);
-    } else if (this.props.talkOnline) {
+    } else if (this.props.talkAvailable) {
       updateActiveEmbed(talk);
       updateBackButtonVisibility(true);
     } else if (chatAvailable) {
@@ -430,8 +430,8 @@ class WebWidget extends Component {
         ref={channelChoice}
         style={this.props.style}
         chatOnline={this.props.chatOnline}
-        talkAvailable={this.props.talkAvailable}
-        talkOnline={this.props.talkOnline}
+        talkAvailable={this.props.talkEnabled}
+        talkOnline={this.props.talkAvailable}
         callbackEnabled={this.props.callbackEnabled}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatAvailable={this.props.chatEnabled}

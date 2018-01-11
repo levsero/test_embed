@@ -3,13 +3,18 @@ describe('selectors', () => {
     getChatEnabled,
     getChatAvailable,
     getChatOnline,
+    getTalkEnabled,
+    getTalkAvailable,
     settingsChatSuppressValue,
     zopimChatOnlineValue,
     chatOnlineValue,
     helpCenterEmbedValue,
     submitTicketEmbedValue,
     chatEmbedValue,
-    zopimChatEmbedValue;
+    zopimChatEmbedValue,
+    talkEmbedValue,
+    talkEmbeddableConfigEnabledValue,
+    agentAvailabilityValue;
 
   beforeEach(() => {
     mockery.enable();
@@ -23,12 +28,16 @@ describe('selectors', () => {
     submitTicketEmbedValue = false;
     chatEmbedValue = false;
     zopimChatEmbedValue = false;
+    talkEmbedValue = false;
+    talkEmbeddableConfigEnabledValue = false;
+    agentAvailabilityValue = false;
 
     initMockRegistry({
       './base/selectors': {
         getHelpCenterEmbed: () => helpCenterEmbedValue,
         getSubmitTicketEmbed: () => submitTicketEmbedValue,
         getChatEmbed: () => chatEmbedValue,
+        getTalkEmbed: () => talkEmbedValue,
         getZopimChatEmbed: () => zopimChatEmbedValue
       },
       './settings/selectors': {
@@ -39,6 +48,10 @@ describe('selectors', () => {
       },
       './zopimChat/selectors': {
         getZopimChatOnline: () => zopimChatOnlineValue
+      },
+      './talk/talk-selectors': {
+        getEmbeddableConfigEnabled: () => talkEmbeddableConfigEnabledValue,
+        getAgentAvailability: () => agentAvailabilityValue
       }
     });
 
@@ -50,6 +63,8 @@ describe('selectors', () => {
     getChatEnabled = selectors.getChatEnabled;
     getChatOnline = selectors.getChatOnline;
     getShowTalkBackButton = selectors.getShowTalkBackButton;
+    getTalkEnabled = selectors.getTalkEnabled;
+    getTalkAvailable = selectors.getTalkAvailable;
   });
 
   describe('getShowTalkBackButton', () => {
@@ -288,6 +303,96 @@ describe('selectors', () => {
           expect(result)
             .toEqual(false);
         });
+      });
+    });
+  });
+
+  describe('getTalkEnabled', () => {
+    describe('when embeddableConfigEnabled and talkEmbed are true', () => {
+      let result;
+
+      beforeEach(() => {
+        talkEmbeddableConfigEnabledValue = true;
+        talkEmbedValue = true;
+
+        result = getTalkEnabled();
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toBe(true);
+      });
+    });
+
+    describe('when embeddableConfigEnabled is false', () => {
+      let result;
+
+      beforeEach(() => {
+        talkEmbedValue = true;
+        result = getTalkEnabled();
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBe(false);
+      });
+    });
+
+    describe('when talkEmbed is false', () => {
+      let result;
+
+      beforeEach(() => {
+        talkEmbeddableConfigEnabledValue = true;
+        result = getTalkEnabled();
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBe(false);
+      });
+    });
+  });
+
+  describe('getTalkAvailable', () => {
+    let result;
+
+    describe('when talk is avalilable and agent availability is true', () => {
+      beforeEach(() => {
+        talkEmbeddableConfigEnabledValue = true;
+        talkEmbedValue = true;
+        agentAvailabilityValue = true;
+
+        result = getTalkAvailable();
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toBe(true);
+      });
+    });
+
+    describe('when talk is not available', () => {
+      beforeEach(() => {
+        agentAvailabilityValue = true;
+        result = getTalkAvailable();
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBe(false);
+      });
+    });
+
+    describe('when agent availability is false', () => {
+      beforeEach(() => {
+        talkEmbeddableConfigEnabledValue = true;
+        talkEmbedValue = true;
+        result = getTalkAvailable();
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBe(false);
       });
     });
   });

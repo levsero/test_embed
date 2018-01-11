@@ -80,6 +80,7 @@ describe('HelpCenter component', () => {
       'src/redux/modules/helpCenter': {},
       'src/redux/modules/helpCenter/selectors': {},
       'src/redux/modules/talk/talk-selectors': {},
+      'src/redux/modules/selectors': {},
       'service/i18n': {
         i18n: {
           init: jasmine.createSpy(),
@@ -142,7 +143,7 @@ describe('HelpCenter component', () => {
         describe('when callback is enabled', () => {
           beforeEach(() => {
             instanceRender(
-              <HelpCenter talkOnline={true} callbackEnabled={true} />
+              <HelpCenter talkAvailable={true} callbackEnabled={true} />
             );
           });
 
@@ -155,7 +156,7 @@ describe('HelpCenter component', () => {
         describe('when callback is not enabled', () => {
           beforeEach(() => {
             instanceRender(
-              <HelpCenter talkOnline={true} callbackEnabled={false} />
+              <HelpCenter talkAvailable={true} callbackEnabled={false} />
             );
           });
 
