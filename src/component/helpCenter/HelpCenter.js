@@ -47,6 +47,7 @@ class HelpCenter extends Component {
     callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
     chatOnline: PropTypes.bool,
+    chatEnabled: PropTypes.bool.isRequired,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
@@ -446,7 +447,7 @@ class HelpCenter extends Component {
         notification={this.props.notification}
         chatOnline={this.props.chatOnline}
         submitTicketAvailable={this.props.submitTicketAvailable}
-        chatAvailable={this.props.chatAvailable}
+        chatAvailable={this.props.chatEnabled}
         getFrameDimensions={this.props.getFrameDimensions}
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
@@ -481,7 +482,7 @@ class HelpCenter extends Component {
         ref='helpCenterMobile'
         handleOnChangeValue={this.handleOnChangeValue}
         submitTicketAvailable={this.props.submitTicketAvailable}
-        chatAvailable={this.props.chatAvailable}
+        chatAvailable={this.props.chatAccessible}
         handleNextClick={this.handleNextClick}
         search={this.search}
         isLoading={this.props.searchLoading}

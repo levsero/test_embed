@@ -102,8 +102,8 @@ describe('WebWidget component', () => {
       'src/redux/modules/talk/talk-selectors': {
         getTalkAvailable: noop
       },
-      'src/redux/modules/zopimChat/selectors': {
-        getZopimChatOnline: noop
+      'src/redux/modules/selectors': {
+        getChatOnline: noop
       },
       'service/settings': {
         settings: { get: noop }
@@ -278,7 +278,8 @@ describe('WebWidget component', () => {
       beforeEach(() => {
         webWidget = instanceRender(
           <WebWidget
-            zopimOnline={true}
+            chatOnline={true}
+            oldChat={true}
             helpCenterAvailable={true}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
@@ -291,7 +292,7 @@ describe('WebWidget component', () => {
           .toHaveBeenCalledWith('foo');
       });
 
-      describe('when that param is chat and zopim is online', () => {
+      describe('when that param is chat and oldChat is true', () => {
         beforeEach(() => {
           webWidget.onNextClick('chat');
         });
@@ -329,11 +330,10 @@ describe('WebWidget component', () => {
 
     describe('when chat is online', () => {
       beforeEach(() => {
-        const chatProp = { account_status: 'online' }; // eslint-disable-line camelcase
-
         webWidget = instanceRender(
           <WebWidget
-            chat={chatProp}
+            chatOnline={true}
+            chatAvailable={true}
             helpCenterAvailable={true}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
@@ -354,11 +354,10 @@ describe('WebWidget component', () => {
 
     describe('when chat is offline', () => {
       beforeEach(() => {
-        const chatProp = { account_status: 'offline' }; // eslint-disable-line camelcase
-
         webWidget = instanceRender(
           <WebWidget
-            chat={chatProp}
+            chatOnline={false}
+            chatAvailable={false}
             helpCenterAvailable={true}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
             updateActiveEmbed={mockUpdateActiveEmbed} />
@@ -561,7 +560,7 @@ describe('WebWidget component', () => {
               activeEmbed='chat'
               helpCenterAvailable={false}
               channelChoice={true}
-              zopimChatAvailable={true}
+              chatAvailable={true}
               updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
           );
           webWidget.onBackClick();
@@ -702,8 +701,8 @@ describe('WebWidget component', () => {
             <WebWidget
               submitTicketAvailable={true}
               updateActiveEmbed={updateActiveEmbedSpy}
-              zopimChatAvailable={true}
-              zopimOnline={true}
+              chatAvailable={true}
+              chatOnline={true}
               activeEmbed='ticketSubmissionForm' />
           );
 
@@ -712,7 +711,7 @@ describe('WebWidget component', () => {
 
         it('sets the activeEmbed to chat', () => {
           expect(updateActiveEmbedSpy)
-            .toHaveBeenCalledWith('zopimChat');
+            .toHaveBeenCalledWith('chat');
         });
       });
 
@@ -725,7 +724,7 @@ describe('WebWidget component', () => {
             <WebWidget
               submitTicketAvailable={true}
               updateActiveEmbed={noop}
-              zopimOnline={false}
+              chatOnline={false}
               activeEmbed='zopimChat'
               zopimOnNext={zopimOnNextSpy} />
           );
@@ -750,7 +749,7 @@ describe('WebWidget component', () => {
             <WebWidget
               submitTicketAvailable={true}
               updateActiveEmbed={noop}
-              zopimOnline={false}
+              chatOnline={false}
               activeEmbed='channelChoice' />
           );
 
@@ -919,13 +918,13 @@ describe('WebWidget component', () => {
         beforeEach(() => {
           webWidget = domRender(
             <WebWidget
+              chatAvailable={true}
               updateActiveEmbed={updateActiveEmbedSpy}
               activeEmbed='' />
           );
 
           spyOn(webWidget, 'showChat');
 
-          webWidget.isChatAvailable = () => true;
           webWidget.resetActiveEmbed();
         });
 
@@ -1014,7 +1013,8 @@ describe('WebWidget component', () => {
           webWidget = instanceRender(
             <WebWidget
               activeEmbed=''
-              chat={{ account_status: 'online' }} // eslint-disable-line camelcase
+              chatOnline={true}
+              chatAvailable={true}
               channelChoice={true}
               submitTicketAvailable={true}
               updateActiveEmbed={updateActiveEmbedSpy} />
@@ -1035,7 +1035,8 @@ describe('WebWidget component', () => {
           webWidget = instanceRender(
             <WebWidget
               activeEmbed=''
-              chat={{ account_status: 'online' }} // eslint-disable-line camelcase
+              chatOnline={true}
+              chatAvailable={true}
               updateActiveEmbed={updateActiveEmbedSpy}
               channelChoice={false} />
           );
@@ -1055,7 +1056,8 @@ describe('WebWidget component', () => {
           webWidget = domRender(
             <WebWidget
               activeEmbed=''
-              chat={{ account_status: 'offline' }} // eslint-disable-line camelcase
+              chatOnline={false}
+              chatAvailable={false}
               updateBackButtonVisibility={updateBackButtonVisibilitySpy}
               updateActiveEmbed={updateActiveEmbedSpy} />
           );
@@ -1104,11 +1106,11 @@ describe('WebWidget component', () => {
       zopimOnNextSpy = jasmine.createSpy();
     });
 
-    describe('when zopimOnline is true', () => {
+    describe('when oldChat is true', () => {
       beforeEach(() => {
         webWidget = instanceRender(
           <WebWidget
-            zopimOnline={true}
+            oldChat={true}
             updateActiveEmbed={updateActiveEmbedSpy} />
         );
         webWidget.showChat();
@@ -1123,7 +1125,7 @@ describe('WebWidget component', () => {
         beforeEach(() => {
           webWidget = instanceRender(
             <WebWidget
-              zopimOnline={true}
+              oldChat={true}
               activeEmbed='helpCenterForm'
               zopimOnNext={zopimOnNextSpy}
               updateActiveEmbed={updateActiveEmbedSpy} />
@@ -1141,7 +1143,7 @@ describe('WebWidget component', () => {
         beforeEach(() => {
           webWidget = instanceRender(
             <WebWidget
-              zopimOnline={true}
+              oldChat={true}
               activeEmbed='channelChoice'
               zopimOnNext={zopimOnNextSpy}
               updateActiveEmbed={updateActiveEmbedSpy} />
@@ -1156,11 +1158,11 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when zopimOnline is false', () => {
+    describe('when oldChat is false', () => {
       beforeEach(() => {
         webWidget = instanceRender(
           <WebWidget
-            zopimOnline={false}
+            oldChat={false}
             updateActiveEmbed={updateActiveEmbedSpy} />
         );
         webWidget.showChat();

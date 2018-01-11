@@ -6,17 +6,15 @@ import { locals as styles } from './Launcher.scss';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
-import { getChatOnline } from 'src/redux/modules/chat/selectors';
+import { getChatAvailable } from 'src/redux/modules/selectors';
 import { settings } from 'service/settings';
 import { getHelpCenterEmbed, getActiveEmbed } from 'src/redux/modules/base/selectors';
 import { isCallbackEnabled, getTalkOnline } from 'src/redux/modules/talk/talk-selectors';
-import { getSettingsChatSuppress } from 'src/redux/modules/settings/selectors';
 
 const mapStateToProps = (state) => {
   return {
     activeEmbed: getActiveEmbed(state),
-    chatOnline: getChatOnline(state),
-    chatSuppress: getSettingsChatSuppress(state),
+    chatAvailable: getChatAvailable(state),
     helpCenterAvailable: getHelpCenterEmbed(state) && !settings.get('helpCenter.suppress'),
     talkOnline: getTalkOnline(state),
     callbackEnabled: isCallbackEnabled(state)
@@ -26,8 +24,7 @@ const mapStateToProps = (state) => {
 class Launcher extends Component {
   static propTypes = {
     activeEmbed: PropTypes.string.isRequired,
-    chatOnline: PropTypes.bool.isRequired,
-    chatSuppress: PropTypes.bool.isRequired,
+    chatAvailable: PropTypes.bool.isRequired,
     helpCenterAvailable: PropTypes.bool.isRequired,
     talkOnline: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
@@ -48,12 +45,6 @@ class Launcher extends Component {
     this.setState({ unreadMessages });
   }
 
-  chatAvailable = () => {
-    const { chatOnline, chatSuppress } = this.props;
-
-    return chatOnline && !chatSuppress;
-  }
-
   getTalkLabel = () => {
     if (this.props.callbackEnabled) {
       return i18n.t(
@@ -69,9 +60,8 @@ class Launcher extends Component {
   }
 
   getLabel = () => {
-    const { helpCenterAvailable, talkOnline, label } = this.props;
+    const { helpCenterAvailable, talkOnline, chatAvailable, label } = this.props;
     const { unreadMessages } = this.state;
-    const chatAvailable = this.chatAvailable();
 
     if (unreadMessages) {
       return unreadMessages > 1
@@ -113,8 +103,7 @@ class Launcher extends Component {
   }
 
   getIconType = () => {
-    const { talkOnline } = this.props;
-    const chatAvailable = this.chatAvailable();
+    const { talkOnline, chatAvailable } = this.props;
 
     if (chatAvailable && talkOnline) return 'Icon';
     if (chatAvailable) return 'Icon--chat';

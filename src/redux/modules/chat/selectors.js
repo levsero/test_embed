@@ -1,7 +1,5 @@
 import _ from 'lodash';
 import { createSelector } from 'reselect';
-import { getZopimChatEmbed } from '../base/selectors';
-import { getZopimChatStatus } from '../zopimChat/selectors';
 
 const getNotification = (state) => state.chat.notification;
 const getChats = (state) => {
@@ -21,12 +19,7 @@ export const getUserSoundSettings = (state) => state.chat.userSettings.sound;
 export const getChatStatus = (state) => state.chat.account_status;
 export const getIsChatting = (state) => state.chat.is_chatting;
 export const getChatVisitor = (state) => state.chat.visitor;
-
-export const getChatOnline = (state) => {
-  const status = getZopimChatEmbed(state) ? getZopimChatStatus(state) : getChatStatus(state);
-
-  return _.includes(['online', 'away'], status);
-};
+export const getChatOnline = (state) => _.includes(['online', 'away'], getChatStatus(state));
 
 export const getChatsByAgent = (state) => {
   return _.filter(getChats(state), (chat) => _.includes(chat.nick, 'agent'));

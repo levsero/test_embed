@@ -13,11 +13,11 @@ import { updateActiveEmbed,
          updateEmbedAccessible,
          updateBackButtonVisibility,
          updateAuthenticated } from 'src/redux/modules/base';
-import { getZopimChatOnline } from 'src/redux/modules/zopimChat/selectors';
 import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
-import { getZopimChatAvailable } from 'src/redux/modules/base/selectors';
+import { getChatAvailable, getChatOnline, getChatEnabled } from 'src/redux/modules/selectors';
 import { getChatNotification } from 'src/redux/modules/chat/selectors';
 import { getTalkAvailable, getTalkOnline, isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
+import { getZopimChatEmbed } from 'src/redux/modules/base/selectors';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
@@ -27,18 +27,19 @@ const channelChoice = 'channelChoice';
 const talk = 'talk';
 
 const mapStateToProps = (state) => {
-  const { base, chat } = state;
+  const { base } = state;
 
   return {
-    chat,
     chatNotification: getChatNotification(state),
     activeEmbed: base.activeEmbed,
-    zopimOnline: getZopimChatOnline(state),
     authenticated: base.authenticated,
     talkAvailable: getTalkAvailable(state),
     talkOnline: getTalkOnline(state),
     callbackEnabled: isCallbackEnabled(state),
-    zopimChatAvailable: getZopimChatAvailable(state)
+    chatAvailable: getChatAvailable(state),
+    chatOnline: getChatOnline(state),
+    chatEnabled: getChatEnabled(state),
+    oldChat: getZopimChatEmbed(state)
   };
 };
 
@@ -48,7 +49,6 @@ class WebWidget extends Component {
     buttonLabelKey: PropTypes.string,
     callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
-    chat: PropTypes.object.isRequired,
     chatNotification: PropTypes.object.isRequired,
     newDesign: PropTypes.bool,
     formTitleKey: PropTypes.string,
@@ -59,6 +59,7 @@ class WebWidget extends Component {
     isOnHelpCenterPage: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     localeFallbacks: PropTypes.array,
+    oldChat: PropTypes.bool.isRequired,
     onArticleClick: PropTypes.func,
     onCancel: PropTypes.func,
     onSearch: PropTypes.func,
@@ -75,7 +76,6 @@ class WebWidget extends Component {
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
-    zopimOnline: PropTypes.bool,
     zopimOnNext: PropTypes.func,
     closeFrame: PropTypes.func,
     viaId: PropTypes.number.isRequired,
@@ -88,7 +88,9 @@ class WebWidget extends Component {
     updateChatScreen: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired,
-    zopimChatAvailable: PropTypes.bool.isRequired,
+    chatAvailable: PropTypes.bool.isRequired,
+    chatEnabled: PropTypes.bool.isRequired,
+    chatOnline: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
     talkOnline: PropTypes.bool.isRequired,
     talkConfig: PropTypes.object
@@ -97,7 +99,6 @@ class WebWidget extends Component {
   static defaultProps = {
     buttonLabelKey: '',
     channelChoice: false,
-    chat: { account_status: 'offline' }, // eslint-disable-line camelcase
     chatNotification: { show: false, playSound: false },
     newDesign: false,
     formTitleKey: 'message',
@@ -122,7 +123,6 @@ class WebWidget extends Component {
     ticketFormSettings: [],
     updateBackButtonVisibility: () => {},
     updateFrameSize: () => {},
-    zopimOnline: false,
     talkAvailable: false,
     talkOnline: false,
     zopimOnNext: () => {},
@@ -178,23 +178,19 @@ class WebWidget extends Component {
   }
 
   isChannelChoiceAvailable = () => {
-    const { channelChoice, submitTicketAvailable, talkOnline } = this.props;
-    const channels = [talkOnline, submitTicketAvailable, this.isChatAvailable()];
+    const { channelChoice, submitTicketAvailable, talkOnline, chatAvailable } = this.props;
+    const channels = [talkOnline, submitTicketAvailable, chatAvailable];
     const channelsAvailable = _.filter(channels, _.identity);
 
     return (channelChoice || talkOnline) && channelsAvailable.length > 1;
   };
 
-  isChatAvailable = () => this.props.zopimChatAvailable || this.props.chat.account_status === 'online'
-
-  isChatOnline = () => this.props.zopimOnline || this.props.chat.account_status === 'online'
-
   noActiveEmbed = () => this.props.activeEmbed === '';
 
   showChat = () => {
-    const { activeEmbed, updateActiveEmbed, zopimOnline, zopimOnNext } = this.props;
+    const { activeEmbed, updateActiveEmbed, oldChat, zopimOnNext } = this.props;
 
-    if (zopimOnline) {
+    if (oldChat) {
       if (activeEmbed === helpCenter || activeEmbed === channelChoice) {
         zopimOnNext();
       }
@@ -208,7 +204,7 @@ class WebWidget extends Component {
   setAuthenticated = (bool) => this.props.updateAuthenticated(bool);
 
   resetActiveEmbed = () => {
-    const { updateActiveEmbed, updateBackButtonVisibility, talkOnline } = this.props;
+    const { updateActiveEmbed, updateBackButtonVisibility, talkOnline, chatAvailable } = this.props;
     let backButton = false;
 
     if (this.isHelpCenterAvailable()) {
@@ -218,7 +214,7 @@ class WebWidget extends Component {
       updateActiveEmbed(channelChoice);
     } else if (talkOnline) {
       updateActiveEmbed(talk);
-    } else if (this.isChatAvailable()) {
+    } else if (chatAvailable) {
       this.showChat();
     } else {
       updateActiveEmbed(submitTicket);
@@ -229,8 +225,7 @@ class WebWidget extends Component {
   }
 
   show = (viaActivate = false) => {
-    const { activeEmbed } = this.props;
-    const chatOnline = this.isChatAvailable();
+    const { activeEmbed, chatOnline } = this.props;
 
     // If chat came online when contact form was open it should
     // replace it when it's next opened.
@@ -258,17 +253,17 @@ class WebWidget extends Component {
   }
 
   onNextClick = (embed) => {
-    const { updateBackButtonVisibility, updateActiveEmbed, zopimOnline } = this.props;
+    const { updateBackButtonVisibility, updateActiveEmbed, oldChat, chatAvailable } = this.props;
 
     if (embed) {
       this.setComponent(embed);
     } else if (this.props.talkOnline) {
       updateActiveEmbed(talk);
       updateBackButtonVisibility(true);
-    } else if (this.isChatAvailable()) {
+    } else if (chatAvailable) {
       this.showChat();
       // TODO: track chat started
-      if (!zopimOnline) {
+      if (!oldChat) {
         updateBackButtonVisibility(true);
       }
     } else {
@@ -352,16 +347,17 @@ class WebWidget extends Component {
   renderHelpCenter = () => {
     if (!this.props.helpCenterAvailable) return;
 
-    const { helpCenterConfig, submitTicketAvailable, zopimChatAvailable, talkAvailable } = this.props;
+    const { helpCenterConfig, submitTicketAvailable, chatAvailable, talkAvailable } = this.props;
     const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : '';
-    const showNextButton = submitTicketAvailable || zopimChatAvailable || talkAvailable;
+    const showNextButton = submitTicketAvailable || chatAvailable || talkAvailable;
 
     return (
       <div className={classes}>
         <HelpCenter
           ref={helpCenter}
           notification={this.props.chatNotification}
-          chatOnline={this.isChatOnline()}
+          chatOnline={this.props.chatOnline}
+          chatEnabled={this.props.chatEnabled}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}
           newDesign={this.props.newDesign}
@@ -381,7 +377,7 @@ class WebWidget extends Component {
           channelChoice={this.isChannelChoiceAvailable()}
           callbackEnabled={this.props.callbackEnabled}
           submitTicketAvailable={this.props.submitTicketAvailable}
-          chatAvailable={this.isChatAvailable()}
+          chatAvailable={chatAvailable}
           viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
           zendeskHost={this.props.zendeskHost}
           hideChatNotification={this.props.hideChatNotification}
@@ -433,12 +429,12 @@ class WebWidget extends Component {
       <ChannelChoice
         ref={channelChoice}
         style={this.props.style}
-        chatOnline={this.isChatOnline()}
+        chatOnline={this.props.chatOnline}
         talkAvailable={this.props.talkAvailable}
         talkOnline={this.props.talkOnline}
         callbackEnabled={this.props.callbackEnabled}
         submitTicketAvailable={this.props.submitTicketAvailable}
-        chatAvailable={this.isChatAvailable()}
+        chatAvailable={this.props.chatEnabled}
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
         getFrameDimensions={this.props.getFrameDimensions}

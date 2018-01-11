@@ -35,7 +35,7 @@ describe('Launcher component', () => {
       'src/redux/modules/base/selectors': {
         getZopimChatEmbed: noop
       },
-      'src/redux/modules/chat/selectors': {
+      'src/redux/modules/selectors': {
         getChatOnline: noop
       },
       'service/settings': {
@@ -59,31 +59,6 @@ describe('Launcher component', () => {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
-  });
-
-  describe('chatAvailable', () => {
-    let launcher;
-
-    it('returns true when chat is online and not suppressed', () => {
-      launcher = domRender(<Launcher chatOnline={true} chatSuppress={false} />);
-
-      expect(launcher.chatAvailable())
-        .toBe(true);
-    });
-
-    it('returns false when chat is offline and not suppressed', () => {
-      launcher = domRender(<Launcher chatOnline={false} chatSuppress={false} />);
-
-      expect(launcher.chatAvailable())
-        .toBe(false);
-    });
-
-    it('returns false when chat is online and is suppressed', () => {
-      launcher = domRender(<Launcher chatOnline={true} chatSuppress={true} />);
-
-      expect(launcher.chatAvailable())
-        .toBe(false);
-    });
   });
 
   describe('getLabel', () => {
@@ -122,7 +97,7 @@ describe('Launcher component', () => {
         describe('when help center is part of config', () => {
           beforeEach(() => {
             launcher = domRender(
-              <Launcher chatOnline={true} chatSuppress={false} helpCenterAvailable={true} label='help' />
+              <Launcher chatAvailable={true} helpCenterAvailable={true} label='help' />
             );
           });
 
@@ -134,7 +109,7 @@ describe('Launcher component', () => {
 
         describe('when help center is not of config', () => {
           beforeEach(() => {
-            launcher = domRender(<Launcher chatOnline={true} chatSuppress={false} helpCenterAvailable={false} />);
+            launcher = domRender(<Launcher chatAvailable={true} helpCenterAvailable={false} />);
           });
 
           it('returns the chat label', () => {
@@ -190,7 +165,7 @@ describe('Launcher component', () => {
             launcher = instanceRender(
               <Launcher
                 label={label}
-                chatOnline={true}
+                chatAvailable={true}
                 talkOnline={true} />
             );
           });
@@ -302,7 +277,7 @@ describe('Launcher component', () => {
 
     describe('when chat and talk is available', () => {
       beforeEach(() => {
-        const launcher = instanceRender(<Launcher chatOnline={true} chatSuppress={false} talkOnline={true} />);
+        const launcher = instanceRender(<Launcher chatAvailable={true} talkOnline={true} />);
 
         result = launcher.getIconType();
       });
@@ -315,7 +290,7 @@ describe('Launcher component', () => {
 
     describe('when only chat is available', () => {
       beforeEach(() => {
-        const launcher = instanceRender(<Launcher chatOnline={true} chatSuppress={false} />);
+        const launcher = instanceRender(<Launcher chatAvailable={true} />);
 
         result = launcher.getIconType();
       });
@@ -454,7 +429,7 @@ describe('Launcher component', () => {
 
     describe('when props.chatOnline is online', () => {
       beforeEach(() => {
-        launcher = domRender(<Launcher chatOnline={true} chatSuppress={false} />);
+        launcher = domRender(<Launcher chatAvailable={true} />);
       });
 
       it('should ignore state and set label to online', () => {

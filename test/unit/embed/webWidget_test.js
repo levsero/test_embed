@@ -4,7 +4,6 @@ describe('embed.webWidget', () => {
     mockIsOnHelpCenterPageValue,
     mockGetTokenValue,
     mockIsMobileBrowser,
-    mockChatSuppressedValue,
     mockHelpCenterSuppressedValue,
     mockContactFormSuppressedValue,
     mockViewMoreValue,
@@ -34,7 +33,6 @@ describe('embed.webWidget', () => {
     mockGetTokenValue = null;
     mockIsMobileBrowser = false;
     mockIsIE = false;
-    mockChatSuppressedValue = false;
     mockHelpCenterSuppressedValue = false;
     mockContactFormSuppressedValue = false;
     mockTicketFormsValue = [],
@@ -91,7 +89,6 @@ describe('embed.webWidget', () => {
           get: (value) => {
             return _.get({
               authenticate: mockAuthenticateValue,
-              chat: { suppress: mockChatSuppressedValue },
               contactOptions: { enabled: false },
               helpCenter: {
                 suppress: mockHelpCenterSuppressedValue,
@@ -640,20 +637,6 @@ describe('embed.webWidget', () => {
       it('calls zChat init', () => {
         expect(zChatInitSpy)
           .toHaveBeenCalled();
-      });
-
-      describe('when chat is suppressed', () => {
-        beforeEach(() => {
-          mockChatSuppressedValue = true;
-          zChatInitSpy.calls.reset();
-
-          webWidget.create('', { zopimChat: {} });
-        });
-
-        it('does not call zChat init', () => {
-          expect(zChatInitSpy)
-            .not.toHaveBeenCalled();
-        });
       });
     });
 

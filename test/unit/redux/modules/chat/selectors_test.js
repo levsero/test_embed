@@ -324,113 +324,48 @@ describe('chat selectors', () => {
   describe('getChatOnline', () => {
     let result;
 
-    describe('when zopimChat embed is present', () => {
-      const mockBaseState = { embeds: { zopimChat: {} } };
+    describe('when the agent is online', () => {
+      beforeEach(() => {
+        const mockState = {
+          chat: { account_status: 'online' }
+        };
 
-      describe('when the agent is online', () => {
-        beforeEach(() => {
-          const mockState = {
-            base: mockBaseState,
-            zopimChat: {
-              status: 'online'
-            }
-          };
-
-          result = getChatOnline(mockState);
-        });
-
-        it('returns true', () => {
-          expect(result)
-            .toEqual(true);
-        });
+        result = getChatOnline(mockState);
       });
 
-      describe('when the agent is away', () => {
-        beforeEach(() => {
-          const mockState = {
-            base: mockBaseState,
-            zopimChat: {
-              status: 'away'
-            }
-          };
-
-          result = getChatOnline(mockState);
-        });
-
-        it('returns true', () => {
-          expect(result)
-            .toEqual(true);
-        });
-      });
-
-      describe('when the agent is offline', () => {
-        beforeEach(() => {
-          const mockState = {
-            base: mockBaseState,
-            zopimChat: {
-              status: 'offline'
-            }
-          };
-
-          result = getChatOnline(mockState);
-        });
-
-        it('returns false', () => {
-          expect(result)
-            .toEqual(false);
-        });
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
       });
     });
 
-    describe('when chat embed is present', () => {
-      const mockBaseState = { embeds: {} };
+    describe('when the agent is away', () => {
+      beforeEach(() => {
+        const mockState = {
+          chat: { account_status: 'away' }
+        };
 
-      describe('when the agent is online', () => {
-        beforeEach(() => {
-          const mockState = {
-            base: mockBaseState,
-            chat: { account_status: 'online' }
-          };
-
-          result = getChatOnline(mockState);
-        });
-
-        it('returns true', () => {
-          expect(result)
-            .toEqual(true);
-        });
+        result = getChatOnline(mockState);
       });
 
-      describe('when the agent is away', () => {
-        beforeEach(() => {
-          const mockState = {
-            base: mockBaseState,
-            chat: { account_status: 'away' }
-          };
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
 
-          result = getChatOnline(mockState);
-        });
+    describe('when the agent is offline', () => {
+      beforeEach(() => {
+        const mockState = {
+          chat: { account_status: 'offline' }
+        };
 
-        it('returns true', () => {
-          expect(result)
-            .toEqual(true);
-        });
+        result = getChatOnline(mockState);
       });
 
-      describe('when the agent is offline', () => {
-        beforeEach(() => {
-          const mockState = {
-            base: mockBaseState,
-            chat: { account_status: 'offline' }
-          };
-
-          result = getChatOnline(mockState);
-        });
-
-        it('returns false', () => {
-          expect(result)
-            .toEqual(false);
-        });
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
       });
     });
   });
