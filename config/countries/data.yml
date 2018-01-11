@@ -470,6 +470,7 @@ MP:
 'NO':
   code: '47'
   name: Norway
+  default_locale: 'no'
 OM:
   code: '968'
   name: Oman
