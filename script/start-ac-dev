@@ -1,8 +1,0 @@
-#!/bin/sh
-
-version=ffffff
-
-mkdir -p dist/web_widget/$version
-cp manifest.json dist/web_widget/$version
-cp src/translation/*.js dist/web_widget/$version
-curl -H "Content-Type: application/json" -X POST -d '{ "product": { "name": "web_widget", "version": "'${version}'", "base_url": "http://localhost:1337/dist" } }' dev.zd-dev.com/embed_key_registry/release

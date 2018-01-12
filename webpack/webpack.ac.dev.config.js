@@ -7,6 +7,6 @@ config.entry = { 'web_widget': path.join(prefix, '/src/main.js') };
 config.externals = externals;
 
 config.devServer.contentBase = ['example', './'];
-config.devServer.publicPath = '/dist/web_widget/ffffff/';
+config.devServer.publicPath = '/dist/web_widget/FFFFFF/';
 
 module.exports = config;
