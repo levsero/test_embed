@@ -776,6 +776,11 @@ parts:
 
   # Talk
   - translation:
+      key: "embeddable_framework.talk.form.phoneDisplay"
+      title: "A form label that describes the phone number to the right"
+      screenshot: "https://zendesk.box.com/s/lml68kcg4764arfm6mx6nso29zecbu9w"
+      value: "Our phone number:"
+  - translation:
       key: "embeddable_framework.talk.form.headerMessage"
       title: "Header message for the callback form which end-users have to fill"
       screenshot: "https://zendesk.box.com/s/daa78ojuy0g79iaf8mr01bz2w8pa7zbr"
