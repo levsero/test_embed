@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { locals as styles } from './SubmitTicket.scss';
@@ -12,11 +13,14 @@ import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { store } from 'service/persistence';
-import { isMobileBrowser,
-         isIE } from 'utility/devices';
+import { isIE } from 'utility/devices';
 import { location } from 'utility/globals';
 
-export class SubmitTicket extends Component {
+const mapStateToProps = () => {
+  return {};
+};
+
+class SubmitTicket extends Component {
   static propTypes = {
     attachmentsEnabled: PropTypes.bool,
     attachmentSender: PropTypes.func.isRequired,
@@ -38,7 +42,8 @@ export class SubmitTicket extends Component {
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
-    viaId: PropTypes.number.isRequired
+    viaId: PropTypes.number.isRequired,
+    fullscreen: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -68,7 +73,6 @@ export class SubmitTicket extends Component {
       errorMessage: null,
       formState: {},
       formTitleKey: props.formTitleKey,
-      fullscreen: isMobileBrowser(),
       isDragActive: false,
       loading: false,
       message: '',
@@ -330,7 +334,7 @@ export class SubmitTicket extends Component {
     return (
       <ScrollContainer
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
-        fullscreen={this.state.fullscreen}
+        fullscreen={this.props.fullscreen}
         getFrameDimensions={this.props.getFrameDimensions}
         containerClasses={styles.ticketFormsContainer}>
         <div className={`${styles.loadingSpinner} ${spinnerIEClasses}`}>
@@ -356,7 +360,7 @@ export class SubmitTicket extends Component {
       <SubmitTicketForm
         ref='submitTicketForm'
         onCancel={this.props.onCancel}
-        fullscreen={this.state.fullscreen}
+        fullscreen={this.props.fullscreen}
         hide={this.state.showNotification}
         customFields={this.state.ticketFields}
         formTitleKey={this.state.formTitleKey}
@@ -394,8 +398,8 @@ export class SubmitTicket extends Component {
   }
 
   renderTicketFormOptions = () => {
-    const { ticketForms, fullscreen } = this.state;
-    const mobileClasses = fullscreen ? styles.ticketFormsListMobile : '';
+    const { ticketForms } = this.state;
+    const mobileClasses = this.props.fullscreen ? styles.ticketFormsListMobile : '';
 
     return _.map(ticketForms.ticket_forms, (form, key) => {
       return (
@@ -409,7 +413,7 @@ export class SubmitTicket extends Component {
   renderTicketFormList = () => {
     if (this.state.showNotification) return;
 
-    const { fullscreen } = this.state;
+    const { fullscreen } = this.props;
     const containerClasses = fullscreen
                            ? styles.ticketFormsContainerMobile
                            : styles.ticketFormsContainer;
@@ -439,12 +443,12 @@ export class SubmitTicket extends Component {
   }
 
   renderZendeskLogo = () => {
-    return this.props.hideZendeskLogo || this.state.fullscreen
+    return this.props.hideZendeskLogo || this.props.fullscreen
          ? null
          : <ZendeskLogo
              formSuccess={this.state.showNotification}
              rtl={i18n.isRTL()}
-             fullscreen={this.state.fullscreen} />;
+             fullscreen={this.props.fullscreen} />;
   }
 
   renderAttachmentBox = () => {
@@ -476,3 +480,7 @@ export class SubmitTicket extends Component {
     );
   }
 }
+
+const actionCreators = {};
+
+export default connect(mapStateToProps, actionCreators, null, { withRef: true })(SubmitTicket);

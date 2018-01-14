@@ -8,7 +8,7 @@ import Talk from 'component/talk/Talk';
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
 import { Container } from 'component/container/Container';
 import HelpCenter from 'component/helpCenter/HelpCenter';
-import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
+import SubmitTicket from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
          updateEmbedAccessible,
          updateBackButtonVisibility,
@@ -147,7 +147,7 @@ class WebWidget extends Component {
     return component && component.getWrappedInstance ? component.getWrappedInstance() : component;
   };
 
-  getSubmitTicketComponent = () => this.refs[submitTicket];
+  getSubmitTicketComponent = () => this.refs[submitTicket].getWrappedInstance();
 
   getChatComponent = () => this.refs[chat].getWrappedInstance();
 
@@ -414,7 +414,8 @@ class WebWidget extends Component {
           ticketFieldSettings={this.props.ticketFieldSettings}
           ticketFormSettings={this.props.ticketFormSettings}
           updateFrameSize={this.props.updateFrameSize}
-          viaId={this.props.viaId} />
+          viaId={this.props.viaId}
+          fullscreen={this.props.fullscreen} />
       </div>
     );
   }
