@@ -17,7 +17,7 @@ import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
 import { getChatAvailable, getChatEnabled, getTalkAvailable, getTalkEnabled } from 'src/redux/modules/selectors';
 import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
-import { getZopimChatEmbed } from 'src/redux/modules/base/base-selectors';
+import { getZopimChatEmbed, getActiveEmbed, getAuthenticated } from 'src/redux/modules/base/base-selectors';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
@@ -27,12 +27,10 @@ const channelChoice = 'channelChoice';
 const talk = 'talk';
 
 const mapStateToProps = (state) => {
-  const { base } = state;
-
   return {
     chatNotification: getChatNotification(state),
-    activeEmbed: base.activeEmbed,
-    authenticated: base.authenticated,
+    activeEmbed: getActiveEmbed(state),
+    authenticated: getAuthenticated(state),
     talkEnabled: getTalkEnabled(state),
     talkAvailable: getTalkAvailable(state),
     callbackEnabled: isCallbackEnabled(state),

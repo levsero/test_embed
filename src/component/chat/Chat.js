@@ -32,38 +32,50 @@ import { endChat,
          updateUserSettings } from 'src/redux/modules/chat';
 import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
 import { getPrechatFormFields,
+         getPrechatFormSettings,
          getIsChatting,
          getAgents,
+         getChats,
+         getChatScreen,
+         getConnection,
+         getChatVisitor,
+         getCurrentMessage,
+         getChatRating,
          getUserSoundSettings,
+         getConciergeSettings,
+         getShowEndNotification,
+         getShowContactDetailsNotification,
          getPostchatFormSettings } from 'src/redux/modules/chat/chat-selectors';
 
 import { locals as styles } from './Chat.scss';
 
 const mapStateToProps = (state) => {
-  const { chat } = state;
-  const { accountSettings } = chat;
-  const { prechatForm } = chat.accountSettings;
+  const prechatForm = getPrechatFormSettings(state);
   const prechatFormFields = getPrechatFormFields(state);
 
   return {
-    chat: chat,
-    screen: chat.screen,
-    connection: chat.connection,
-    accountSettings: accountSettings,
+    chats: getChats(state),
+    currentMessage: getCurrentMessage(state),
+    screen: getChatScreen(state),
+    connection: getConnection(state),
+    concierge: getConciergeSettings(state),
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
     postChatFormSettings: getPostchatFormSettings(state),
-    showEndNotification: chat.showEndNotification,
-    showContactDetailsNotification: chat.showContactDetailsNotification,
+    showEndNotification: getShowEndNotification(state),
+    showContactDetailsNotification: getShowContactDetailsNotification(state),
     isChatting: getIsChatting(state),
     agents: getAgents(state),
+    rating: getChatRating(state),
+    visitor: getChatVisitor(state),
     userSoundSettings: getUserSoundSettings(state)
   };
 };
 
 class Chat extends Component {
   static propTypes = {
-    accountSettings: PropTypes.object.isRequired,
-    chat: PropTypes.object.isRequired,
+    concierge: PropTypes.object.isRequired,
+    chats: PropTypes.array.isRequired,
+    currentMessage: PropTypes.string.isRequired,
     connection: PropTypes.string.isRequired,
     endChat: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
@@ -89,6 +101,8 @@ class Chat extends Component {
     acceptEndChatNotification: PropTypes.func.isRequired,
     isChatting: PropTypes.bool.isRequired,
     agents: PropTypes.object.isRequired,
+    visitor: PropTypes.object.isRequired,
+    rating: PropTypes.string,
     saveContactDetails: PropTypes.func.isRequired,
     updateUserSettings: PropTypes.func.isRequired,
     userSoundSettings: PropTypes.bool.isRequired
@@ -101,7 +115,9 @@ class Chat extends Component {
     position: 'right',
     updateFrameSize: () => {},
     updateAccountSettings: () => {},
-    accountSettings: { concierge: {} },
+    concierge: {},
+    rating: null,
+    chats: [],
     postChatFormSettings: {},
     updateUserSettings: () => {},
     userSoundSettings: true
@@ -118,11 +134,11 @@ class Chat extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const { chat } = this.props;
+    const { chats } = this.props;
 
-    if (!chat || !nextProps.chat) return;
+    if (!chats || !nextProps.chats) return;
 
-    if (chat.chats.size !== nextProps.chat.chats.size) {
+    if (chats.size !== nextProps.chats.size) {
       setTimeout(() => {
         if (this.scrollContainer) {
           this.scrollContainer.scrollToBottom();
@@ -147,7 +163,7 @@ class Chat extends Component {
   }
 
   renderChatEnded = () => {
-    if (this.props.chat.chats.size <= 0 || this.props.chat.is_chatting) return;
+    if (this.props.chats.length <= 0 || this.props.isChatting) return;
 
     return (
       <div className={styles.chatEnd}>
@@ -181,7 +197,7 @@ class Chat extends Component {
   }
 
   renderChatFooter = () => {
-    const { chat, sendMsg, updateCurrentMsg } = this.props;
+    const { currentMessage, sendMsg, updateCurrentMsg } = this.props;
 
     const showChatEndFn = () => this.props.toggleEndChatNotification(true);
 
@@ -192,7 +208,7 @@ class Chat extends Component {
         handleAttachmentDrop={this.props.sendAttachments}
         toggleMenu={this.toggleMenu}>
         <ChatBox
-          currentMessage={chat.currentMessage}
+          currentMessage={currentMessage}
           sendMsg={sendMsg}
           updateCurrentMsg={updateCurrentMsg} />
       </ChatFooter>
@@ -200,16 +216,16 @@ class Chat extends Component {
   }
 
   renderChatHeader = (showRating = false) => {
-    const { chat, sendChatRating, accountSettings } = this.props;
+    const { rating, sendChatRating, concierge } = this.props;
     // Title in chat refers to the byline and display_name refers to the display title
-    const { avatar_path, display_name, title } = accountSettings.concierge;
+    const { avatar_path, display_name, title } = concierge;
     const displayName = _.has(display_name, 'toString') ? display_name.toString() : display_name; // eslint-disable-line camelcase
     const byline = _.has(title, 'toString') ? title.toString() : title;
 
     return (
       <ChatHeader
         showRating={showRating}
-        rating={chat.rating}
+        rating={rating}
         updateRating={sendChatRating}
         avatar={avatar_path} // eslint-disable-line camelcase
         title={displayName}
@@ -230,7 +246,7 @@ class Chat extends Component {
         <ChatPrechatForm
           form={form}
           greetingMessage={message}
-          visitor={this.props.chat.visitor}
+          visitor={this.props.visitor}
           onFormCompleted={this.onPrechatFormComplete} />
       </ScrollContainer>
     );
@@ -302,8 +318,7 @@ class Chat extends Component {
   }
 
   renderChatLog = () => {
-    const { chat } = this.props;
-    const { chats, agents } = chat;
+    const { chats, agents } = this.props;
 
     return (
       <ChatLog agents={agents} chats={chats} />
@@ -352,7 +367,7 @@ class Chat extends Component {
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
         <ChatFeedbackForm
           feedbackMessage={message}
-          rating={this.props.chat.rating}
+          rating={this.props.rating}
           updateRating={sendChatRating}
           skipClickFn={skipClickFn}
           sendClickFn={sendClickFn} />

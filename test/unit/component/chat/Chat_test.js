@@ -1,11 +1,9 @@
-const Map = require('core-js/library/es6/map');
-
 let updateChatScreenSpy;
 const prechatScreen = 'widget/chat/PRECHAT_SCREEN';
 const chattingScreen = 'widget/chat/CHATTING_SCREEN';
 
 describe('Chat component', () => {
-  let Chat, chats, chatProp, prechatFormSettingsProp;
+  let Chat, prechatFormSettingsProp;
 
   const chatPath = buildSrcPath('component/chat/Chat');
 
@@ -14,9 +12,7 @@ describe('Chat component', () => {
   beforeEach(() => {
     mockery.enable();
 
-    chats = new Map();
     prechatFormSettingsProp = { form: {}, required: false };
-    chatProp = { chats: chats };
 
     initMockRegistry({
       './Chat.scss': {
@@ -110,7 +106,6 @@ describe('Chat component', () => {
           postChatFormSettings={{ header: 'foo' }}
           setVisitorInfo={setVisitorInfoSpy}
           sendMsg={sendMsgSpy}
-          chat={chatProp}
           updateChatScreen={updateChatScreenSpy} />
       );
 
@@ -142,7 +137,6 @@ describe('Chat component', () => {
       beforeEach(() => {
         component = domRender(
           <Chat
-            chat={chatProp}
             screen={chattingScreen}
             prechatFormSettings={prechatFormSettingsProp} />
         );
@@ -158,7 +152,6 @@ describe('Chat component', () => {
       beforeEach(() => {
         component = domRender(
           <Chat
-            chat={chatProp}
             screen={prechatScreen}
             prechatFormSettings={prechatFormSettingsProp} />
         );
@@ -177,7 +170,7 @@ describe('Chat component', () => {
 
     describe('render', () => {
       beforeEach(() => {
-        const component = domRender(<Chat chat={chatProp} screen={chattingScreen} />);
+        const component = domRender(<Chat screen={chattingScreen} />);
 
         componentNode = ReactDOM.findDOMNode(component);
       });
@@ -192,7 +185,6 @@ describe('Chat component', () => {
       beforeEach(() => {
         component = domRender(
           <Chat
-            chat={chatProp}
             screen={prechatScreen}
             prechatFormSettings={prechatFormSettingsProp} />
         );
@@ -208,7 +200,6 @@ describe('Chat component', () => {
       beforeEach(() => {
         component = domRender(
           <Chat
-            chat={chatProp}
             screen={chattingScreen}
             prechatFormSettings={prechatFormSettingsProp} />
         );
@@ -226,7 +217,7 @@ describe('Chat component', () => {
 
     describe('when there are no messages', () => {
       beforeEach(() => {
-        component = domRender(<Chat chat={chatProp} />);
+        component = domRender(<Chat chats={[]} />);
       });
 
       it('does not display', () => {
@@ -235,12 +226,11 @@ describe('Chat component', () => {
       });
     });
 
-    describe('when is_chatting is true', () => {
+    describe('when isChatting is true', () => {
       beforeEach(() => {
-        chatProp.chats.set(123, { timestamp: 123, type: 'chat.msg' });
-        chatProp.is_chatting = true;
+        const chats = [{ timestamp: 123, type: 'chat.msg' }];
 
-        component = domRender(<Chat chat={chatProp} />);
+        component = domRender(<Chat isChatting={true} chats={chats} />);
       });
 
       it('displays chat end message', () => {
@@ -249,12 +239,11 @@ describe('Chat component', () => {
       });
     });
 
-    describe('when is_chatting is false', () => {
+    describe('when isChatting is false', () => {
       beforeEach(() => {
-        chatProp.chats.set(123, { timestamp: 123, type: 'chat.msg' });
-        chatProp.is_chatting = false;
+        const chats = [{ timestamp: 123, type: 'chat.msg' }];
 
-        component = domRender(<Chat chat={chatProp} />);
+        component = domRender(<Chat isChatting={false} chats={chats} />);
       });
 
       it('displays chat end message', () => {
@@ -268,7 +257,7 @@ describe('Chat component', () => {
 
       describe('for non mobile devices', () => {
         beforeEach(() => {
-          component = domRender(<Chat chat={chatProp} screen={chattingScreen} />);
+          component = domRender(<Chat screen={chattingScreen} />);
         });
 
         it('does not add classes to it', () => {
@@ -279,7 +268,7 @@ describe('Chat component', () => {
 
       describe('for mobile devices', () => {
         beforeEach(() => {
-          component = domRender(<Chat chat={chatProp} isMobile={true} screen={chattingScreen} />);
+          component = domRender(<Chat isMobile={true} screen={chattingScreen} />);
         });
 
         it('adds mobile container classes to it', () => {
@@ -294,7 +283,7 @@ describe('Chat component', () => {
 
       describe('when state.showMenu is false', () => {
         beforeEach(() => {
-          component = domRender(<Chat chat={chatProp} />);
+          component = domRender(<Chat />);
           component.setState({ showMenu: false });
         });
 
@@ -306,7 +295,7 @@ describe('Chat component', () => {
 
       describe('when state.showMenu is true', () => {
         beforeEach(() => {
-          component = domRender(<Chat chat={chatProp} />);
+          component = domRender(<Chat />);
           component.setState({ showMenu: true });
         });
 

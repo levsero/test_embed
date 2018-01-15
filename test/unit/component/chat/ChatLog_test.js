@@ -6,8 +6,7 @@ describe('ChatLog component', () => {
   beforeEach(() => {
     mockery.enable();
 
-    mockChats = new Map();
-    mockChats.set(0, { nick: 'visitor', type: 'chat.msg' });
+    mockChats = [{ nick: 'visitor', type: 'chat.msg' }];
 
     initMockRegistry({
       './ChatLog.scss': {
@@ -41,7 +40,7 @@ describe('ChatLog component', () => {
 
     describe('when chats contain no messages', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatLog chats={new Map()} />);
+        component = instanceRender(<ChatLog chats={[]} />);
         chatLog = component.render();
       });
 
@@ -73,7 +72,7 @@ describe('ChatLog component', () => {
     describe('when the messages are from an agent', () => {
       beforeEach(() => {
         mockChat = { nick: 'agent:1234' };
-        component = instanceRender(<ChatLog agents={agents} chats={new Map()} />);
+        component = instanceRender(<ChatLog agents={agents} chats={[]} />);
         chatGroup = component.renderChatGroup([mockChat], 0);
       });
 
@@ -91,7 +90,7 @@ describe('ChatLog component', () => {
     describe('when the messages are from a visitor', () => {
       beforeEach(() => {
         mockChat = { nick: 'visitor' };
-        component = instanceRender(<ChatLog agents={agents} chats={new Map()} />);
+        component = instanceRender(<ChatLog agents={agents} chats={[]} />);
         chatGroup = component.renderChatGroup([mockChat], 0);
       });
 
@@ -116,7 +115,7 @@ describe('ChatLog component', () => {
     describe('when the message is from a different user than the last', () => {
       beforeAll(() => {
         userData = { nick: 'visitor' };
-        component = instanceRender(<ChatLog chats={new Map()} />);
+        component = instanceRender(<ChatLog chats={[]} />);
         oldPreviousUser = component.previousUser;
         oldGroupCount = component.groupCount;
         component.processChatGroup(userData);
