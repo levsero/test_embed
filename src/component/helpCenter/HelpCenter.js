@@ -22,7 +22,6 @@ import { getSearchLoading,
          getHasSearched,
          getHasContextuallySearched } from 'src/redux/modules/helpCenter/selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
-import { getTalkAvailable, getTalkEnabled } from 'src/redux/modules/selectors';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
@@ -36,9 +35,7 @@ const mapStateToProps = (state) => {
     previousSearchTerm: getPreviousSearchTerm(state),
     hasSearched: getHasSearched(state),
     hasContextualSearched: getHasContextuallySearched(state),
-    callbackEnabled: isCallbackEnabled(state),
-    talkEnabled: getTalkEnabled(state),
-    talkAvailable: getTalkAvailable(state)
+    callbackEnabled: isCallbackEnabled(state)
   };
 };
 
@@ -47,7 +44,6 @@ class HelpCenter extends Component {
     buttonLabelKey: PropTypes.string,
     callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
-    chatOnline: PropTypes.bool,
     chatEnabled: PropTypes.bool.isRequired,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool.isRequired,
@@ -91,7 +87,6 @@ class HelpCenter extends Component {
     buttonLabelKey: 'message',
     callbackEnabled: false,
     channelChoice: false,
-    chatOnline: false,
     formTitleKey: 'help',
     hideZendeskLogo: false,
     getFrameDimensions: () => {},
@@ -446,9 +441,9 @@ class HelpCenter extends Component {
       <HelpCenterDesktop
         ref='helpCenterDesktop'
         notification={this.props.notification}
-        chatOnline={this.props.chatOnline}
+        chatAvailable={this.props.chatAvailable}
         submitTicketAvailable={this.props.submitTicketAvailable}
-        chatAvailable={this.props.chatEnabled}
+        chatEnabled={this.props.chatEnabled}
         getFrameDimensions={this.props.getFrameDimensions}
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
@@ -460,8 +455,8 @@ class HelpCenter extends Component {
         newDesign={this.props.newDesign}
         channelChoice={this.state.channelChoiceShown}
         callbackEnabled={this.props.callbackEnabled}
-        talkAvailable={this.props.talkEnabled}
-        talkOnline={this.props.talkAvailable}
+        talkEnabled={this.props.talkEnabled}
+        talkAvailable={this.props.talkAvailable}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.props.hasSearched}
         buttonLabel={buttonLabel}
@@ -483,19 +478,19 @@ class HelpCenter extends Component {
         ref='helpCenterMobile'
         handleOnChangeValue={this.handleOnChangeValue}
         submitTicketAvailable={this.props.submitTicketAvailable}
-        chatAvailable={this.props.chatEnabled}
+        chatEnabled={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
         search={this.search}
         isLoading={this.props.searchLoading}
         onNextClick={this.props.onNextClick}
         newDesign={this.props.newDesign}
         showNextButton={this.props.showNextButton}
-        chatOnline={this.props.chatOnline}
+        chatAvailable={this.props.chatAvailable}
         hasContextualSearched={this.props.hasContextualSearched}
         channelChoice={this.state.channelChoiceShown}
         callbackEnabled={this.props.callbackEnabled}
-        talkAvailable={this.props.talkEnabled}
-        talkOnline={this.props.talkAvailable}
+        talkEnabled={this.props.talkEnabled}
+        talkAvailable={this.props.talkAvailable}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.props.hasSearched}
         searchFieldValue={this.state.searchFieldValue}

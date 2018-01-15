@@ -37,7 +37,6 @@ const mapStateToProps = (state) => {
     talkAvailable: getTalkAvailable(state),
     callbackEnabled: isCallbackEnabled(state),
     chatAvailable: getChatAvailable(state),
-    chatOnline: getChatOnline(state),
     chatEnabled: getChatEnabled(state),
     oldChat: getZopimChatEmbed(state)
   };
@@ -90,7 +89,6 @@ class WebWidget extends Component {
     authenticated: PropTypes.bool.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
     chatEnabled: PropTypes.bool.isRequired,
-    chatOnline: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
     talkEnabled: PropTypes.bool.isRequired,
     talkConfig: PropTypes.object
@@ -225,11 +223,11 @@ class WebWidget extends Component {
   }
 
   show = (viaActivate = false) => {
-    const { activeEmbed, chatOnline } = this.props;
+    const { activeEmbed, chatAvailable } = this.props;
 
     // If chat came online when contact form was open it should
     // replace it when it's next opened.
-    if (activeEmbed === submitTicket && chatOnline && !this.isChannelChoiceAvailable()) {
+    if (activeEmbed === submitTicket && chatAvailable && !this.isChannelChoiceAvailable()) {
       this.showChat();
       return;
     }
@@ -241,7 +239,7 @@ class WebWidget extends Component {
       return;
     }
     // If zopim or talk has gone offline we will need to reset the embed
-    const chatOffline = _.includes([zopimChat, channelChoice], activeEmbed) && !chatOnline;
+    const chatOffline = _.includes([zopimChat, channelChoice], activeEmbed) && !chatAvailable;
     const talkOffline = _.includes([talk, channelChoice], activeEmbed) && !this.props.talkAvailable;
 
     if (this.noActiveEmbed() || viaActivate || chatOffline || talkOffline) this.resetActiveEmbed();
@@ -356,8 +354,9 @@ class WebWidget extends Component {
         <HelpCenter
           ref={helpCenter}
           notification={this.props.chatNotification}
-          chatOnline={this.props.chatOnline}
           chatEnabled={this.props.chatEnabled}
+          talkEnabled={this.props.talkEnabled}
+          talkAvailable={this.props.talkAvailable}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}
           newDesign={this.props.newDesign}
@@ -429,12 +428,12 @@ class WebWidget extends Component {
       <ChannelChoice
         ref={channelChoice}
         style={this.props.style}
-        chatOnline={this.props.chatOnline}
-        talkAvailable={this.props.talkEnabled}
-        talkOnline={this.props.talkAvailable}
+        chatAvailable={this.props.chatAvailable}
+        talkEnabled={this.props.talkEnabled}
+        talkAvailable={this.props.talkAvailable}
         callbackEnabled={this.props.callbackEnabled}
         submitTicketAvailable={this.props.submitTicketAvailable}
-        chatAvailable={this.props.chatEnabled}
+        chatEnabled={this.props.chatEnabled}
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
         getFrameDimensions={this.props.getFrameDimensions}

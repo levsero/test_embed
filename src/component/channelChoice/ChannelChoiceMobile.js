@@ -14,19 +14,19 @@ export class ChannelChoiceMobile extends Component {
     handleCancelClick: PropTypes.func.isRequired,
     formTitleKey: PropTypes.string.isRequired,
     showCloseButton: PropTypes.func.isRequired,
-    chatOnline: PropTypes.bool.isRequired,
+    chatAvailable: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
-    talkOnline: PropTypes.bool,
+    talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
-    chatAvailable: PropTypes.bool
+    chatEnabled: PropTypes.bool
   };
 
   static defaultProps = {
     talkAvailable: false,
-    talkOnline: false,
+    talkEnabled: false,
     submitTicketAvailable: true,
-    chatAvailable: false
+    chatEnabled: false
   };
 
   renderCancelButton = () => {
@@ -43,10 +43,10 @@ export class ChannelChoiceMobile extends Component {
     const {
       handleNextClick,
       handleCancelClick,
-      chatOnline,
+      chatAvailable,
       formTitleKey,
       talkAvailable,
-      talkOnline,
+      talkEnabled,
       callbackEnabled
     } = this.props;
 
@@ -59,14 +59,14 @@ export class ChannelChoiceMobile extends Component {
         title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}>
         <ChannelChoicePopupMobile
           submitTicketAvailable={this.props.submitTicketAvailable}
-          chatAvailable={this.props.chatAvailable}
-          chatOnline={chatOnline}
+          chatEnabled={this.props.chatEnabled}
+          chatAvailable={chatAvailable}
           onNextClick={handleNextClick}
           onCancelClick={handleCancelClick}
           className={styles.container}
           callbackEnabled={callbackEnabled}
           talkAvailable={talkAvailable}
-          talkOnline={talkOnline}
+          talkEnabled={talkEnabled}
           showCancelButton={false} />
       </ScrollContainer>
     );

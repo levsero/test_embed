@@ -22,7 +22,7 @@ export class HelpCenterDesktop extends Component {
     articleViewActive: PropTypes.bool,
     buttonLabel: PropTypes.string.isRequired,
     channelChoice: PropTypes.bool,
-    chatOnline: PropTypes.bool.isRequired,
+    chatAvailable: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
     formTitleKey: PropTypes.string,
     handleNextClick: PropTypes.func.isRequired,
@@ -38,10 +38,10 @@ export class HelpCenterDesktop extends Component {
     shadowVisible: PropTypes.bool,
     showNextButton: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
-    chatAvailable: PropTypes.bool,
+    chatEnabled: PropTypes.bool,
     callbackEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
-    talkOnline: PropTypes.bool,
+    talkEnabled: PropTypes.bool,
     updateFrameSize: PropTypes.func,
     notification: PropTypes.object.isRequired,
     hideChatNotification: PropTypes.func,
@@ -62,9 +62,9 @@ export class HelpCenterDesktop extends Component {
     shadowVisible: false,
     showNextButton: true,
     submitTicketAvailable: true,
-    chatAvailable: false,
+    chatEnabled: false,
     talkAvailable: false,
-    talkOnline: false,
+    talkEnabled: false,
     updateFrameSize: () => {},
     hideChatNotification: () => {},
     updateChatScreen: () => {}
@@ -153,11 +153,11 @@ export class HelpCenterDesktop extends Component {
     return this.props.channelChoice
          ? <ChannelChoicePopupDesktop
              submitTicketAvailable={this.props.submitTicketAvailable}
-             chatAvailable={this.props.chatAvailable}
+             chatEnabled={this.props.chatEnabled}
              callbackEnabled={this.props.callbackEnabled}
              talkAvailable={this.props.talkAvailable}
-             chatOnline={this.props.chatOnline}
-             talkOnline={this.props.talkOnline}
+             chatAvailable={this.props.chatAvailable}
+             talkEnabled={this.props.talkEnabled}
              onNextClick={this.props.onNextClick} />
          : null;
   }

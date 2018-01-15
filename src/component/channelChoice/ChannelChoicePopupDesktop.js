@@ -7,29 +7,29 @@ import { locals as styles } from './ChannelChoicePopupDesktop.scss';
 export class ChannelChoicePopupDesktop extends Component {
   static propTypes = {
     onNextClick: PropTypes.func.isRequired,
-    chatOnline: PropTypes.bool.isRequired,
+    chatAvailable: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
-    talkOnline: PropTypes.bool,
+    talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
-    chatAvailable: PropTypes.bool
+    chatEnabled: PropTypes.bool
   };
 
   static defaultProps = {
     talkAvailable: false,
-    talkOnline: false,
+    talkEnabled: false,
     submitTicketAvailable: true,
-    chatAvailable: false
+    chatEnabled: false
   };
 
   render = () => {
     const {
-      chatOnline,
+      chatAvailable,
       onNextClick,
       talkAvailable,
-      talkOnline,
+      talkEnabled,
       submitTicketAvailable,
-      chatAvailable,
+      chatEnabled,
       callbackEnabled
     } = this.props;
 
@@ -37,12 +37,12 @@ export class ChannelChoicePopupDesktop extends Component {
       <div className={styles.container}>
         <ChannelChoiceMenu
           submitTicketAvailable={submitTicketAvailable}
-          chatAvailable={chatAvailable}
+          chatEnabled={chatEnabled}
           onNextClick={onNextClick}
           callbackEnabled={callbackEnabled}
           talkAvailable={talkAvailable}
-          talkOnline={talkOnline}
-          chatOnline={chatOnline} />
+          talkEnabled={talkEnabled}
+          chatAvailable={chatAvailable} />
       </div>
     );
   }

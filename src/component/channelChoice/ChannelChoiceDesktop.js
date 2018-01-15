@@ -10,24 +10,24 @@ import { i18n } from 'service/i18n';
 
 export class ChannelChoiceDesktop extends Component {
   static propTypes = {
-    chatOnline: PropTypes.bool.isRequired,
+    chatAvailable: PropTypes.bool.isRequired,
     formTitleKey: PropTypes.string.isRequired,
     handleNextClick: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
     getFrameDimensions: PropTypes.func.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
-    talkOnline: PropTypes.bool,
+    talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
-    chatAvailable: PropTypes.bool
+    chatEnabled: PropTypes.bool
   };
 
   static defaultProps = {
     hideZendeskLogo: false,
     talkAvailable: false,
-    talkOnline: false,
+    talkEnabled: false,
     submitTicketAvailable: true,
-    chatAvailable: false
+    chatEnabled: false
   };
 
   renderZendeskLogo = () => {
@@ -39,10 +39,10 @@ export class ChannelChoiceDesktop extends Component {
   renderBody = () => {
     const {
       hideZendeskLogo,
-      chatOnline,
+      chatAvailable,
       handleNextClick,
       talkAvailable,
-      talkOnline,
+      talkEnabled,
       callbackEnabled } = this.props;
     const divider = !hideZendeskLogo ? <hr className={styles.hr} /> : null;
     const containerStyle = !hideZendeskLogo ? styles.inner : '';
@@ -51,12 +51,12 @@ export class ChannelChoiceDesktop extends Component {
       <div className={containerStyle}>
         <ChannelChoiceMenu
           submitTicketAvailable={this.props.submitTicketAvailable}
-          chatAvailable={this.props.chatAvailable}
+          chatEnabled={this.props.chatEnabled}
           callbackEnabled={callbackEnabled}
           talkAvailable={talkAvailable}
-          talkOnline={talkOnline}
+          talkEnabled={talkEnabled}
           onNextClick={handleNextClick}
-          chatOnline={chatOnline} />
+          chatAvailable={chatAvailable} />
         {divider}
       </div>
     );
