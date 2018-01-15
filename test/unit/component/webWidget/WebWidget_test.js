@@ -12,7 +12,6 @@ describe('WebWidget component', () => {
     mockery.enable();
 
     mockUpdateActiveEmbed = jasmine.createSpy('updateActiveEmbed');
-
     chatOnContainerClickSpy = jasmine.createSpy('chatOnContainerClick');
     helpCenterOnContainerClickSpy = jasmine.createSpy('helpCenterOnContainerClick');
     submitTicketOnDragEnterSpy = jasmine.createSpy('submitTicketOnDragEnter');
@@ -79,9 +78,7 @@ describe('WebWidget component', () => {
       },
       'component/chat/Chat': connectedComponent(<MockChat />),
       'component/helpCenter/HelpCenter': connectedComponent(<MockHelpCenter />),
-      'component/submitTicket/SubmitTicket': {
-        SubmitTicket: MockSubmitTicket
-      },
+      'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
       'component/talk/Talk': connectedComponent(<MockTalk />),
       'component/channelChoice/ChannelChoice': {
         ChannelChoice: noopReactComponent()

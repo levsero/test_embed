@@ -159,7 +159,7 @@ describe('Submit ticket component', () => {
 
     mockery.registerAllowable(submitTicketPath);
 
-    SubmitTicket = requireUncached(submitTicketPath).SubmitTicket;
+    SubmitTicket = requireUncached(submitTicketPath).default.WrappedComponent;
   });
 
   afterEach(() => {
@@ -650,26 +650,6 @@ describe('Submit ticket component', () => {
 
       expect(submitTicketNode.querySelectorAll('.loadingSpinnerIEClasses').length)
         .toEqual(1);
-    });
-  });
-
-  describe('fullscreen state', () => {
-    it('should be true if isMobileBrowser() is true', () => {
-      mockIsMobileBrowserValue = true;
-
-      const submitTicket = instanceRender(<SubmitTicket />);
-
-      expect(submitTicket.state.fullscreen)
-        .toEqual(true);
-    });
-
-    it('should be false if isMobileBrowser() is false', () => {
-      mockIsMobileBrowserValue = false;
-
-      const submitTicket = instanceRender(<SubmitTicket />);
-
-      expect(submitTicket.state.fullscreen)
-        .toEqual(false);
     });
   });
 

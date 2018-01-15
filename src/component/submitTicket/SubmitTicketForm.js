@@ -308,21 +308,23 @@ export class SubmitTicketForm extends Component {
     return !this.props.subjectEnabled
          ? null
          : <Field
+            key='subject'
+            name='subject'
             label={label}
             value={this.props.formState.subject}
-            name='subject'
             disabled={this.props.previewEnabled} />;
   }
 
   renderEmailField = () => {
     return (
       <Field
-        label={i18n.t('embeddable_framework.form.field.email.label')}
+        key='email'
+        name='email'
         type='email'
+        label={i18n.t('embeddable_framework.form.field.email.label')}
         required={true}
         pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
         value={this.props.formState.email}
-        name='email'
         disabled={this.props.previewEnabled} />
     );
   }
@@ -330,9 +332,10 @@ export class SubmitTicketForm extends Component {
   renderNameField = () => {
     return (
       <Field
+        key='name'
+        name='name'
         label={i18n.t('embeddable_framework.submitTicket.field.name.label')}
         value={this.props.formState.name}
-        name='name'
         disabled={this.props.previewEnabled} />
     );
   }
@@ -340,10 +343,11 @@ export class SubmitTicketForm extends Component {
   renderDescriptionField = () => {
     return (
       <Field
+        key='description'
+        name='description'
         label={i18n.t('embeddable_framework.submitTicket.field.description.label')}
         required={true}
         value={this.props.formState.description}
-        name='description'
         input={<textarea rows='5' />}
         disabled={this.props.previewEnabled} />
     );
