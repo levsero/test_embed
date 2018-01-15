@@ -87,13 +87,15 @@ Then run the `watch:ac` npm task
 npm run watch:ac
 ```
 
-Or run the `watch:acConf` npm task with the config you want to use.
+Or run the `watchConf:ac` npm task with the config you want to use.
 
 ```bash
-npm run watch:acConf ${your_config_name}
+npm run watchConf:ac ${your_config_name}
 ```
 
 Finally navigate to [http://localhost:1337/webpack-dev-server/asset_composer.html](http://localhost:1337/webpack-dev-server/asset_composer.html). The Asset Composer version of the Web Widget should load on the page using the local Embed Key Registry application running in Docker.
+
+View the confluence [documentation](https://zendesk.atlassian.net/wiki/spaces/CE/pages/332529715/End-to-end+development+for+Asset+Composer+Web+Widget) for more details.
 
 ## Running in Docker
 - Follow above to get `npm run watch` running.
