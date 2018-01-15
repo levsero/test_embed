@@ -126,7 +126,7 @@ describe('embed.webWidget', () => {
       'src/redux/modules/talk': {
         resetTalkScreen: resetTalkScreenSpy
       },
-      'src/redux/modules/base/selectors': {
+      'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed
       },
       'src/redux/modules/talk/talk-screen-types': {

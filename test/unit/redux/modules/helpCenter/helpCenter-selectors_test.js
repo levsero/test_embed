@@ -10,7 +10,7 @@ describe('helpCenter selectors', () => {
   beforeEach(() => {
     mockery.enable();
 
-    const selectorsPath = buildSrcPath('redux/modules/helpCenter/selectors');
+    const selectorsPath = buildSrcPath('redux/modules/helpCenter/helpCenter-selectors');
 
     mockery.registerAllowable(selectorsPath);
 

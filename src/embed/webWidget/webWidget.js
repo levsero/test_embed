@@ -23,7 +23,7 @@ import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedTimeoutCall,
          getPageKeywords } from 'utility/utils';
-import { getActiveEmbed } from 'src/redux/modules/base/selectors';
+import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { setVisitorInfo } from 'src/redux/modules/chat';
 import { resetTalkScreen } from 'src/redux/modules/talk';
 

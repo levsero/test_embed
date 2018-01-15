@@ -8,7 +8,7 @@ describe('base selectors', () => {
   beforeEach(() => {
     mockery.enable();
 
-    const selectorsPath = buildSrcPath('redux/modules/base/selectors');
+    const selectorsPath = buildSrcPath('redux/modules/base/base-selectors');
 
     mockery.registerAllowable(selectorsPath);
 

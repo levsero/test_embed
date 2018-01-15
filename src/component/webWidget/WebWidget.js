@@ -15,9 +15,9 @@ import { updateActiveEmbed,
          updateAuthenticated } from 'src/redux/modules/base';
 import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
 import { getChatAvailable, getChatEnabled, getTalkAvailable, getTalkEnabled } from 'src/redux/modules/selectors';
-import { getChatNotification } from 'src/redux/modules/chat/selectors';
+import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
-import { getZopimChatEmbed } from 'src/redux/modules/base/selectors';
+import { getZopimChatEmbed } from 'src/redux/modules/base/base-selectors';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';

@@ -32,7 +32,7 @@ describe('Launcher component', () => {
           t: _.identity
         }
       },
-      'src/redux/modules/base/selectors': {
+      'src/redux/modules/base/base-selectors': {
         getZopimChatEmbed: noop
       },
       'src/redux/modules/selectors': {
@@ -46,7 +46,7 @@ describe('Launcher component', () => {
       'src/redux/modules/talk/talk-selectors': {
         isCallbackEnabled: noop
       },
-      'src/redux/modules/settings/selectors': {
+      'src/redux/modules/settings/settings-selectors': {
         getSettingsChatSuppress: noop
       }
     });

@@ -78,7 +78,7 @@ describe('HelpCenter component', () => {
         }
       },
       'src/redux/modules/helpCenter': {},
-      'src/redux/modules/helpCenter/selectors': {},
+      'src/redux/modules/helpCenter/helpCenter-selectors': {},
       'src/redux/modules/talk/talk-selectors': {},
       'src/redux/modules/selectors': {},
       'service/i18n': {

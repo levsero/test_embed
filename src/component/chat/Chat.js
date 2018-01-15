@@ -35,7 +35,7 @@ import { getPrechatFormFields,
          getIsChatting,
          getAgents,
          getUserSoundSettings,
-         getPostchatFormSettings } from 'src/redux/modules/chat/selectors';
+         getPostchatFormSettings } from 'src/redux/modules/chat/chat-selectors';
 
 import { locals as styles } from './Chat.scss';
 

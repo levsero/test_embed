@@ -8,7 +8,7 @@ import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
 import { getChatAvailable, getTalkAvailable } from 'src/redux/modules/selectors';
 import { settings } from 'service/settings';
-import { getHelpCenterEmbed, getActiveEmbed } from 'src/redux/modules/base/selectors';
+import { getHelpCenterEmbed, getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 
 const mapStateToProps = (state) => {

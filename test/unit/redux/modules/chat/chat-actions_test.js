@@ -33,7 +33,7 @@ describe('chat redux actions', () => {
         sendFile: mockSendFile,
         _getAccountSettings: () => mockAccountSettings
       },
-      'src/redux/modules/chat/selectors': {
+      'src/redux/modules/chat/chat-selectors': {
         getChatVisitor: () => 'Batman'
       }
     });

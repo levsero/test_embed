@@ -4,7 +4,7 @@ describe('settings selectors', () => {
   beforeEach(() => {
     mockery.enable();
 
-    const settingsSelectorsPath = buildSrcPath('redux/modules/settings/selectors');
+    const settingsSelectorsPath = buildSrcPath('redux/modules/settings/settings-selectors');
 
     mockery.registerAllowable(settingsSelectorsPath);
 

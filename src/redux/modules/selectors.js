@@ -1,12 +1,12 @@
-import { getChatOnline as getNewChatOnline } from './chat/selectors';
-import { getZopimChatOnline } from './zopimChat/selectors';
-import { getSettingsChatSuppress } from './settings/selectors';
+import { getChatOnline as getNewChatOnline } from './chat/chat-selectors';
+import { getZopimChatOnline } from './zopimChat/zopimChat-selectors';
+import { getSettingsChatSuppress } from './settings/settings-selectors';
 import { getEmbeddableConfigEnabled, getAgentAvailability } from './talk/talk-selectors';
 import { getHelpCenterEmbed,
          getSubmitTicketEmbed,
          getZopimChatEmbed,
          getTalkEmbed,
-         getChatEmbed as getNewChatEmbed } from './base/selectors';
+         getChatEmbed as getNewChatEmbed } from './base/base-selectors';
 
 /*
  * Terms:

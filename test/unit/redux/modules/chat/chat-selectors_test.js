@@ -13,7 +13,7 @@ describe('chat selectors', () => {
   beforeEach(() => {
     mockery.enable();
 
-    const chatSelectorsPath = buildSrcPath('redux/modules/chat/selectors');
+    const chatSelectorsPath = buildSrcPath('redux/modules/chat/chat-selectors');
 
     mockery.registerAllowable(chatSelectorsPath);
 

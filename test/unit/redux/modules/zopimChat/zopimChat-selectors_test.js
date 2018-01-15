@@ -4,7 +4,7 @@ describe('zopimChat selectors', () => {
   beforeEach(() => {
     mockery.enable();
 
-    const selectorsPath = buildSrcPath('redux/modules/zopimChat/selectors');
+    const selectorsPath = buildSrcPath('redux/modules/zopimChat/zopimChat-selectors');
 
     mockery.registerAllowable(selectorsPath);
 

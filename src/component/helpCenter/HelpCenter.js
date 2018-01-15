@@ -20,7 +20,7 @@ import { getSearchLoading,
          getSearchTerm,
          getPreviousSearchTerm,
          getHasSearched,
-         getHasContextuallySearched } from 'src/redux/modules/helpCenter/selectors';
+         getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 
 const minimumSearchResults = 3;

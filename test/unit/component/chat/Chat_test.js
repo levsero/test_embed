@@ -71,7 +71,7 @@ describe('Chat component', () => {
         setVisitorInfo: noop,
         updateChatScreen: updateChatScreenSpy
       },
-      'src/redux/modules/chat/selectors': {
+      'src/redux/modules/chat/chat-selectors': {
         getPrechatFormFields: noop
       },
       'src/redux/modules/chat/reducer/chat-screen-types': {
@@ -465,4 +465,3 @@ describe('Chat component', () => {
     });
   });
 });
-

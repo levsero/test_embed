@@ -93,10 +93,10 @@ describe('WebWidget component', () => {
         hideChatNotification: noop,
         updateChatScreen: noop
       },
-      'src/redux/modules/base/selectors': {
+      'src/redux/modules/base/base-selectors': {
         getZopimChatEmbed: noop
       },
-      'src/redux/modules/chat/selectors': {
+      'src/redux/modules/chat/chat-selectors': {
         getChatNotification: noop
       },
       'src/redux/modules/talk/talk-selectors': {

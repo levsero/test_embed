@@ -33,20 +33,20 @@ describe('selectors', () => {
     agentAvailabilityValue = false;
 
     initMockRegistry({
-      './base/selectors': {
+      './base/base-selectors': {
         getHelpCenterEmbed: () => helpCenterEmbedValue,
         getSubmitTicketEmbed: () => submitTicketEmbedValue,
         getChatEmbed: () => chatEmbedValue,
         getTalkEmbed: () => talkEmbedValue,
         getZopimChatEmbed: () => zopimChatEmbedValue
       },
-      './settings/selectors': {
+      './settings/settings-selectors': {
         getSettingsChatSuppress: () => settingsChatSuppressValue
       },
-      './chat/selectors': {
+      './chat/chat-selectors': {
         getChatOnline: () => chatOnlineValue
       },
-      './zopimChat/selectors': {
+      './zopimChat/zopimChat-selectors': {
         getZopimChatOnline: () => zopimChatOnlineValue
       },
       './talk/talk-selectors': {

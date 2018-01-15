@@ -20,7 +20,7 @@ describe('talk selectors', () => {
     mockGetTalkEmbedValue = true;
 
     initMockRegistry({
-      'src/redux/modules/base/selectors': {
+      'src/redux/modules/base/base-selectors': {
         getTalkEmbed: () => mockGetTalkEmbedValue
       }
     });
