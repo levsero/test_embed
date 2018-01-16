@@ -32,6 +32,7 @@ import { endChat,
          updateUserSettings } from 'src/redux/modules/chat';
 import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
 import { getPrechatFormFields,
+         getAttachmentsEnabled,
          getPrechatFormSettings,
          getIsChatting,
          getAgents,
@@ -54,6 +55,7 @@ const mapStateToProps = (state) => {
   const prechatFormFields = getPrechatFormFields(state);
 
   return {
+    attachmentsEnabled: getAttachmentsEnabled(state),
     chats: getChats(state),
     currentMessage: getCurrentMessage(state),
     screen: getChatScreen(state),
@@ -73,6 +75,7 @@ const mapStateToProps = (state) => {
 
 class Chat extends Component {
   static propTypes = {
+    attachmentsEnabled: PropTypes.bool.isRequired,
     concierge: PropTypes.object.isRequired,
     chats: PropTypes.array.isRequired,
     currentMessage: PropTypes.string.isRequired,
@@ -203,6 +206,7 @@ class Chat extends Component {
 
     return (
       <ChatFooter
+        attachmentsEnabled={this.props.attachmentsEnabled}
         endChat={showChatEndFn}
         isChatting={this.props.isChatting}
         handleAttachmentDrop={this.props.sendAttachments}

@@ -17,7 +17,8 @@ describe('chat selectors', () => {
     getShowContactDetailsNotification,
     getCurrentMessage,
     getChatStatus,
-    getChatOnline;
+    getChatOnline,
+    getAttachmentsEnabled;
 
   beforeEach(() => {
     mockery.enable();
@@ -47,6 +48,7 @@ describe('chat selectors', () => {
     getShowEndNotification = selectors.getShowEndNotification;
     getShowContactDetailsNotification = selectors.getShowContactDetailsNotification;
     getCurrentMessage = selectors.getCurrentMessage;
+    getAttachmentsEnabled = selectors.getAttachmentsEnabled;
   });
 
   describe('getChatNotification', () => {
@@ -554,6 +556,29 @@ describe('chat selectors', () => {
     it('returns the current state of currentMessage', () => {
       expect(result)
         .toEqual('printer is on fire');
+    });
+  });
+
+  describe('getAttachmentsEnabled', () => {
+    let result;
+    const mockEnabled = true;
+    const mockChatSettings = {
+      chat: {
+        accountSettings: {
+          attachments: {
+            enabled: mockEnabled
+          }
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getAttachmentsEnabled(mockChatSettings);
+    });
+
+    it('returns the current state of attachmentsEnabled', () => {
+      expect(result)
+        .toEqual(mockEnabled);
     });
   });
 });

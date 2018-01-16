@@ -23,6 +23,7 @@ export const getShowEndNotification = (state) => state.chat.showEndNotification;
 export const getShowContactDetailsNotification = (state) => state.chat.showContactDetailsNotification;
 export const getCurrentMessage = (state) => state.chat.currentMessage;
 export const getChatRating = (state) => state.chat.rating;
+export const getAttachmentsEnabled = (state) => state.chat.accountSettings.attachments.enabled;
 export const getChats = (state) => {
   const filterChatType = (event) => _.includes(['chat.msg', 'chat.file'], event.type);
 
