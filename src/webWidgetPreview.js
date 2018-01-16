@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
+import SubmitTicket from 'component/submitTicket/SubmitTicket';
 import { Container } from 'component/container/Container';
-import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { Frame } from 'component/frame/Frame';
 import { i18n } from 'service/i18n';
+import { isMobileBrowser } from 'utility/devices';
+import { settings } from 'service/settings';
 
 import createStore from 'src/redux/createStore';
 
@@ -54,10 +56,13 @@ const renderWebWidgetPreview = (options) => {
         style={containerStyle}>
         <SubmitTicket
           ref={(submitTicket) => submitTicketComponent = submitTicket}
+          viaId={settings.get('viaId')}
           previewEnabled={true}
           formTitleKey={options.titleKey}
           submitTicketSender={() => {}}
           attachmentSender={() => {}}
+          getFrameDimensions={() => {}}
+          fullscreen={isMobileBrowser()}
           style={containerStyle} />
       </Container>
     </Frame>
@@ -91,7 +96,9 @@ const renderWebWidgetPreview = (options) => {
 };
 
 const getSubmitTicketComponent = () => {
-  return submitTicketComponent;
+  return (submitTicketComponent)
+    ? submitTicketComponent.getWrappedInstance()
+    : null;
 };
 
 const waitForSubmitTicketComponent = (callback) => {

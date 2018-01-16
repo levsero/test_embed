@@ -21,6 +21,16 @@ describe('webWidgetPreview entry file', () => {
     mockSetFormTitleKey = jasmine.createSpy('setFormTitleKey');
     mockFrame = requireUncached(buildTestPath('unit/mocks/mockFrame')).MockFrame;
 
+    const MockSubmitTicket = class extends Component {
+      constructor() {
+        super();
+        this.setFormTitleKey = mockSetFormTitleKey;
+      }
+      render() {
+        return <div />;
+      }
+    };
+
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'lodash': _,
@@ -41,19 +51,15 @@ describe('webWidgetPreview entry file', () => {
           }
         }
       },
-      'component/submitTicket/SubmitTicket': {
-        SubmitTicket: class extends Component {
-          constructor() {
-            super();
-            this.setFormTitleKey = mockSetFormTitleKey;
-          }
-          render() {
-            return <div />;
-          }
-        }
-      },
+      'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['setLocale'])
+      },
+      'utility/devices': {
+        isMobileBrowser: noop
+      },
+      'service/settings': {
+        settings: { get: noop }
       },
       'embed/webWidget/webWidget.scss': '',
       'embed/webWidget/webWidgetStyles.js': '',
