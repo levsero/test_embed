@@ -147,7 +147,13 @@ class WebWidget extends Component {
     return component && component.getWrappedInstance ? component.getWrappedInstance() : component;
   };
 
-  getSubmitTicketComponent = () => this.refs[submitTicket].getWrappedInstance();
+  getSubmitTicketComponent = () => {
+    const component = this.refs[submitTicket];
+
+    return (component)
+      ? component.getWrappedInstance()
+      : null;
+  }
 
   getChatComponent = () => this.refs[chat].getWrappedInstance();
 
