@@ -24,7 +24,9 @@ export const getShowContactDetailsNotification = (state) => state.chat.showConta
 export const getCurrentMessage = (state) => state.chat.currentMessage;
 export const getChatRating = (state) => state.chat.rating;
 export const getChats = (state) => {
-  return _.filter([...state.chat.chats.values()], (e) => e.type === 'chat.msg' || e.type === 'chat.file');
+  const filterChatType = (event) => _.includes(['chat.msg', 'chat.file'], event.type);
+
+  return _.filter([...state.chat.chats.values()], filterChatType);
 };
 export const getChatsByAgent = (state) => {
   return _.filter(getChats(state), (chat) => _.includes(chat.nick, 'agent'));
