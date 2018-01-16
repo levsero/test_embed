@@ -40,7 +40,7 @@ describe('WebWidget component', () => {
         this.handleDragEnter = submitTicketOnDragEnterSpy;
       }
       render() {
-        return <div />;
+        return <div ref='ticketSubmissionForm' />;
       }
     }
 
