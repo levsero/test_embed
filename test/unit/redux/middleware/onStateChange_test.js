@@ -20,7 +20,7 @@ describe('onStateChange middleware', () => {
           play: audioPlaySpy
         }
       },
-      'src/redux/modules/chat/selectors': {
+      'src/redux/modules/chat/chat-selectors': {
         getUserSoundSettings: () => mockUserSoundSetting,
         getConnection: _.identity,
         getChatsByAgent: _.identity

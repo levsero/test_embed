@@ -2,7 +2,7 @@ import { updateAccountSettings } from 'src/redux/modules/chat';
 import { audio } from 'service/audio';
 import { getChatsByAgent,
          getConnection,
-         getUserSoundSettings } from 'src/redux/modules/chat/selectors';
+         getUserSoundSettings } from 'src/redux/modules/chat/chat-selectors';
 
 const onChatConnected = (prevState, nextState, dispatch) => {
   if (getConnection(prevState) === 'connecting' && getConnection(nextState) !== 'connecting') {

@@ -23,7 +23,7 @@ import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedTimeoutCall,
          getPageKeywords } from 'utility/utils';
-import { getActiveEmbed } from 'src/redux/modules/base/selectors';
+import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { setVisitorInfo } from 'src/redux/modules/chat';
 import { resetTalkScreen } from 'src/redux/modules/talk';
 
@@ -144,7 +144,7 @@ function create(name, config = {}, reduxStore = {}) {
   const talkAvailable = !!talkConfig;
   const helpCenterAvailable = !!config.helpCenterForm && !settings.get('helpCenter.suppress');
   const submitTicketAvailable = !!config.ticketSubmissionForm && !settings.get('contactForm.suppress');
-  const chatAvailable = !!config.zopimChat && !settings.get('chat.suppress');
+  const chatAvailable = !!config.zopimChat;
   const channelChoice = settings.get('contactOptions').enabled && submitTicketAvailable;
   const submitTicketSettings = submitTicketAvailable
                              ? setUpSubmitTicket(config.ticketSubmissionForm)

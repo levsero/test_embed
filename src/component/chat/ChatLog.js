@@ -7,7 +7,7 @@ import { ChatGroup } from 'component/chat/ChatGroup';
 export class ChatLog extends Component {
   static propTypes = {
     agents: PropTypes.object.isRequired,
-    chats: PropTypes.object.isRequired
+    chats: PropTypes.array.isRequired
   };
 
   constructor() {
@@ -43,8 +43,7 @@ export class ChatLog extends Component {
 
   render() {
     const { chats } = this.props;
-    const chatGroups = _.chain([...chats.values()])
-                        .filter((chat) => chat.type === 'chat.msg' || chat.type === 'chat.file')
+    const chatGroups = _.chain(chats)
                         .groupBy(this.processChatGroup)
                         .map(this.renderChatGroup)
                         .value();

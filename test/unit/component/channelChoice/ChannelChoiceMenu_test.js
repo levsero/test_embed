@@ -58,12 +58,12 @@ describe('ChannelChoiceMenu component', () => {
         .not.toBeNull();
     });
 
-    describe('when chatOnline is false', () => {
+    describe('when chatAvailable is false', () => {
       beforeEach(() => {
         component = domRender(
           <ChannelChoiceMenu
-            chatOnline={false}
-            chatAvailable={true} />
+            chatAvailable={false}
+            chatEnabled={true} />
         );
 
         componentNode = ReactDOM.findDOMNode(component);
@@ -75,11 +75,12 @@ describe('ChannelChoiceMenu component', () => {
       });
     });
 
-    describe('when chatOnline is true', () => {
+    describe('when chatAvailable is true', () => {
       beforeEach(() => {
         component = domRender(
           <ChannelChoiceMenu
-            chatOnline={true} />
+            chatEnabled={true}
+            chatAvailable={true} />
         );
 
         componentNode = ReactDOM.findDOMNode(component);
@@ -95,11 +96,11 @@ describe('ChannelChoiceMenu component', () => {
   describe('renderTalkButton', () => {
     let result;
 
-    describe('when talk is available', () => {
+    describe('when talk is enabled', () => {
       beforeEach(() => {
         const component = domRender(
           <ChannelChoiceMenu
-            talkAvailable={true} />
+            talkEnabled={true} />
         );
 
         result = component.renderTalkButton();
@@ -115,7 +116,7 @@ describe('ChannelChoiceMenu component', () => {
           const component = domRender(
             <ChannelChoiceMenu
               talkAvailable={true}
-              talkOnline={true}
+              talkEnabled={true}
               callbackEnabled={true} />
           );
 
@@ -128,12 +129,12 @@ describe('ChannelChoiceMenu component', () => {
         });
       });
 
-      describe('when callback is not available', () => {
+      describe('when callback is not enabled', () => {
         beforeEach(() => {
           const component = domRender(
             <ChannelChoiceMenu
               talkAvailable={true}
-              talkOnline={true}
+              talkEnabled={true}
               callbackEnabled={false} />
           );
 
@@ -146,12 +147,12 @@ describe('ChannelChoiceMenu component', () => {
         });
       });
 
-      describe('when talk is online', () => {
+      describe('when talk is available', () => {
         beforeEach(() => {
           const component = domRender(
             <ChannelChoiceMenu
               talkAvailable={true}
-              talkOnline={true} />
+              talkEnabled={true} />
           );
 
           result = component.renderTalkButton();
@@ -168,12 +169,12 @@ describe('ChannelChoiceMenu component', () => {
         });
       });
 
-      describe('when talk is offline', () => {
+      describe('when talk is not available', () => {
         beforeEach(() => {
           const component = domRender(
             <ChannelChoiceMenu
-              talkAvailable={true}
-              talkOnline={false} />
+              talkAvailable={false}
+              talkEnabled={true} />
           );
 
           result = component.renderTalkButton();
@@ -191,11 +192,11 @@ describe('ChannelChoiceMenu component', () => {
       });
     });
 
-    describe('when talk is not available', () => {
+    describe('when talk is not enabled', () => {
       beforeEach(() => {
         const component = domRender(
           <ChannelChoiceMenu
-            talkAvailable={false} />
+            talkEnabled={false} />
         );
 
         result = component.renderTalkButton();
@@ -211,11 +212,11 @@ describe('ChannelChoiceMenu component', () => {
   describe('renderChatButton', () => {
     let component;
 
-    describe('when chat is available', () => {
+    describe('when chat is enabled', () => {
       beforeEach(() => {
         component = domRender(
           <ChannelChoiceMenu
-            chatAvailable={true} />
+            chatEnabled={true} />
         );
       });
 
@@ -224,12 +225,12 @@ describe('ChannelChoiceMenu component', () => {
           .not.toBeNull();
       });
 
-      describe('when chat is online', () => {
+      describe('when chat is available', () => {
         beforeEach(() => {
           component = domRender(
             <ChannelChoiceMenu
               chatAvailable={true}
-              chatOnline={true} />
+              chatEnabled={true} />
           );
         });
 
@@ -243,8 +244,8 @@ describe('ChannelChoiceMenu component', () => {
         beforeEach(() => {
           component = domRender(
             <ChannelChoiceMenu
-              chatAvailable={true}
-              chatOnline={false} />
+              chatEnabled={true}
+              chatAvailable={false} />
           );
         });
 
@@ -255,11 +256,11 @@ describe('ChannelChoiceMenu component', () => {
       });
     });
 
-    describe('when chat is not available', () => {
+    describe('when chat is not enabled', () => {
       beforeEach(() => {
         component = domRender(
           <ChannelChoiceMenu
-            chatAvailable={false} />
+            chatEnabled={false} />
         );
       });
 
@@ -305,11 +306,11 @@ describe('ChannelChoiceMenu component', () => {
   describe('handleChatClick', () => {
     let component;
 
-    describe('when chat is online', () => {
+    describe('when chatAvailable is true', () => {
       beforeEach(() => {
         component = domRender(
           <ChannelChoiceMenu
-            chatOnline={true} />
+            chatAvailable={true} />
         );
         spyOn(component, 'handleNextClick');
 
@@ -322,14 +323,14 @@ describe('ChannelChoiceMenu component', () => {
       });
     });
 
-    describe('when chat is offline', () => {
+    describe('when chatAvailable is false', () => {
       let handler,
         stopPropagationSpy;
 
       beforeEach(() => {
         component = instanceRender(
           <ChannelChoiceMenu
-            chatOnline={false} />
+            chatAvailable={false} />
         );
         stopPropagationSpy = jasmine.createSpy('stopPropagation');
         spyOn(component, 'handleNextClick');

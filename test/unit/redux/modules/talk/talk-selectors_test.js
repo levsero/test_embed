@@ -9,9 +9,7 @@ describe('talk selectors', () => {
     getAverageWaitTimeEnabled,
     getInitialScreen,
     isCallbackEnabled,
-    mockGetTalkEmbedValue,
-    getTalkAvailable,
-    getTalkOnline;
+    mockGetTalkEmbedValue;
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
 
   beforeEach(() => {
@@ -22,7 +20,7 @@ describe('talk selectors', () => {
     mockGetTalkEmbedValue = true;
 
     initMockRegistry({
-      'src/redux/modules/base/selectors': {
+      'src/redux/modules/base/base-selectors': {
         getTalkEmbed: () => mockGetTalkEmbedValue
       }
     });
@@ -41,8 +39,6 @@ describe('talk selectors', () => {
     getAverageWaitTimeEnabled = selectors.getAverageWaitTimeEnabled;
     getInitialScreen = selectors.getInitialScreen;
     isCallbackEnabled = selectors.isCallbackEnabled;
-    getTalkAvailable = selectors.getTalkAvailable;
-    getTalkOnline = selectors.getTalkOnline;
   });
 
   describe('getEmbeddableConfig', () => {
@@ -276,109 +272,6 @@ describe('talk selectors', () => {
       it('returns false', () => {
         expect(result)
           .toEqual(false);
-      });
-    });
-  });
-
-  describe('getTalkAvailable', () => {
-    const mockTalkState = {
-      talk: {
-        embeddableConfig: {
-          enabled: true
-        }
-      }
-    };
-
-    describe('when embeddableConfig.enabled and talkEmbed is true', () => {
-      let result;
-
-      beforeEach(() => {
-        result = getTalkAvailable(mockTalkState);
-      });
-
-      it('returns true', () => {
-        expect(result)
-          .toBe(true);
-      });
-    });
-
-    describe('when embeddableConfig enabled is false', () => {
-      let result;
-
-      beforeEach(() => {
-        mockTalkState.talk.embeddableConfig.enabled = false;
-        result = getTalkAvailable(mockTalkState);
-      });
-
-      it('returns false', () => {
-        expect(result)
-          .toBe(false);
-      });
-    });
-
-    describe('when talkEmbed is false', () => {
-      let result;
-
-      beforeEach(() => {
-        mockGetTalkEmbedValue = false;
-        result = getTalkAvailable(mockTalkState);
-      });
-
-      it('returns false', () => {
-        expect(result)
-          .toBe(false);
-      });
-    });
-  });
-
-  describe('getTalkOnline', () => {
-    let result,
-      mockTalkState;
-
-    describe('when talk is avalilable and agent availability is true', () => {
-      beforeEach(() => {
-        mockTalkState = {
-          talk: {
-            agentAvailability: true,
-            embeddableConfig: {
-              enabled: true
-            }
-          }
-        };
-
-        result = getTalkOnline(mockTalkState);
-      });
-
-      it('returns true', () => {
-        expect(result)
-          .toBe(true);
-      });
-    });
-
-    describe('when talk is not available', () => {
-      beforeEach(() => {
-        mockGetTalkEmbedValue = false;
-        mockTalkState.talk.embeddableConfig.enabled = false;
-
-        result = getTalkOnline(mockTalkState);
-      });
-
-      it('returns false', () => {
-        expect(result)
-          .toBe(false);
-      });
-    });
-
-    describe('when agent availability is false', () => {
-      beforeEach(() => {
-        mockTalkState.talk.agentAvailability = false;
-
-        result = getTalkOnline(mockTalkState);
-      });
-
-      it('returns false', () => {
-        expect(result)
-          .toBe(false);
       });
     });
   });

@@ -15,7 +15,7 @@ import {
 } from './talk-action-types';
 import { getFormState, getInitialScreen } from './talk-selectors';
 import { updateBackButtonVisibility } from 'src/redux/modules/base';
-import { getShowTalkBackButton } from 'src/redux/modules/base/selectors';
+import { getShowTalkBackButton } from 'src/redux/modules/selectors';
 
 export function updateTalkEmbeddableConfig(config) {
   return {

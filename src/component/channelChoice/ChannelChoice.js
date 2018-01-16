@@ -6,7 +6,7 @@ import { ChannelChoiceMobile } from 'component/channelChoice/ChannelChoiceMobile
 
 export class ChannelChoice extends Component {
   static propTypes = {
-    chatOnline: PropTypes.bool.isRequired,
+    chatAvailable: PropTypes.bool.isRequired,
     showCloseButton: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
@@ -18,9 +18,9 @@ export class ChannelChoice extends Component {
     style: PropTypes.object,
     isMobile: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
-    chatAvailable: PropTypes.bool,
+    chatEnabled: PropTypes.bool,
     talkAvailable: PropTypes.bool,
-    talkOnline: PropTypes.bool,
+    talkEnabled: PropTypes.bool,
     updateFrameSize: PropTypes.func
   };
 
@@ -33,9 +33,9 @@ export class ChannelChoice extends Component {
     isMobile: false,
     newDesign: false,
     talkAvailable: false,
-    talkOnline: false,
+    talkEnabled: false,
     submitTicketAvailable: true,
-    chatAvailable: false,
+    chatEnabled: false,
     updateFrameSize: () => {}
   };
 
@@ -45,18 +45,18 @@ export class ChannelChoice extends Component {
   }
 
   renderMobile = () => {
-    const { onCancelClick, showCloseButton, chatOnline, formTitleKey } = this.props;
+    const { onCancelClick, showCloseButton, chatAvailable, formTitleKey } = this.props;
 
     return (
       <ChannelChoiceMobile
         ref='channelChoiceMobile'
-        chatOnline={chatOnline}
+        chatAvailable={chatAvailable}
         formTitleKey={formTitleKey}
         talkAvailable={this.props.talkAvailable}
-        talkOnline={this.props.talkOnline}
+        talkEnabled={this.props.talkEnabled}
         callbackEnabled={this.props.callbackEnabled}
         submitTicketAvailable={this.props.submitTicketAvailable}
-        chatAvailable={this.props.chatAvailable}
+        chatEnabled={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
         handleCancelClick={onCancelClick}
         newDesign={this.props.newDesign}
@@ -71,13 +71,13 @@ export class ChannelChoice extends Component {
       <ChannelChoiceDesktop
         ref='channelChoiceDesktop'
         getFrameDimensions={getFrameDimensions}
-        chatOnline={this.props.chatOnline}
+        chatAvailable={this.props.chatAvailable}
         formTitleKey={formTitleKey}
         talkAvailable={this.props.talkAvailable}
-        talkOnline={this.props.talkOnline}
+        talkEnabled={this.props.talkEnabled}
         callbackEnabled={this.props.callbackEnabled}
         submitTicketAvailable={this.props.submitTicketAvailable}
-        chatAvailable={this.props.chatAvailable}
+        chatEnabled={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
         newDesign={this.props.newDesign}
         hideZendeskLogo={hideZendeskLogo} />

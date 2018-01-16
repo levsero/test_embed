@@ -16,7 +16,7 @@ export class HelpCenterMobile extends Component {
   static propTypes = {
     articleViewActive: PropTypes.bool,
     buttonLabel: PropTypes.string.isRequired,
-    chatOnline: PropTypes.bool,
+    chatAvailable: PropTypes.bool,
     children: PropTypes.node.isRequired,
     formTitleKey: PropTypes.string,
     hasContextualSearched: PropTypes.bool,
@@ -31,17 +31,17 @@ export class HelpCenterMobile extends Component {
     searchFieldValue: PropTypes.string,
     showNextButton: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
-    chatAvailable: PropTypes.bool,
+    chatEnabled: PropTypes.bool,
     channelChoice: PropTypes.bool,
     setChannelChoiceShown: PropTypes.func,
     talkAvailable: PropTypes.bool,
-    talkOnline: PropTypes.bool,
+    talkEnabled: PropTypes.bool,
     callbackEnabled: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
     articleViewActive: false,
-    chatOnline: false,
+    chatAvailable: false,
     formTitleKey: 'help',
     hasContextualSearched: false,
     hasSearched: false,
@@ -51,11 +51,11 @@ export class HelpCenterMobile extends Component {
     searchFieldValue: '',
     showNextButton: true,
     submitTicketAvailable: true,
-    chatAvailable: false,
+    chatEnabled: false,
     channelChoice: false,
     setChannelChoiceShown: () => {},
     onNextClick: () => {},
-    talkAvailable: false,
+    talkEnabled: false,
     talkOnline: false
   };
 
@@ -132,11 +132,11 @@ export class HelpCenterMobile extends Component {
          ? <div className={styles.channelChoiceContainer}>
              <ChannelChoicePopupMobile
                submitTicketAvailable={this.props.submitTicketAvailable}
-               chatAvailable={this.props.chatAvailable}
+               chatEnabled={this.props.chatEnabled}
                callbackEnabled={this.props.callbackEnabled}
                talkAvailable={this.props.talkAvailable}
-               talkOnline={this.props.talkOnline}
-               chatOnline={this.props.chatOnline}
+               talkEnabled={this.props.talkEnabled}
+               chatAvailable={this.props.chatAvailable}
                onNextClick={this.props.onNextClick}
                onCancelClick={() => this.props.setChannelChoiceShown(false)} />
            </div>
@@ -203,7 +203,7 @@ export class HelpCenterMobile extends Component {
   renderLinkContent = () => {
     if (!this.props.showNextButton || !this.state.showIntroScreen) return null;
 
-    const linkContext = this.props.chatOnline
+    const linkContext = this.props.chatAvailable
                       ? i18n.t('embeddable_framework.helpCenter.label.linkContext.chat')
                       : i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
 

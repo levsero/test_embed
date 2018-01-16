@@ -1,19 +1,28 @@
 describe('chat selectors', () => {
   let getChatNotification,
+    getPrechatFormSettings,
     getPrechatFormFields,
     getPostchatFormSettings,
     getIsChatting,
+    getChats,
     getChatVisitor,
     getUserSoundSettings,
     getConnection,
+    getConciergeSettings,
     getChatsByAgent,
+    getAgents,
+    getChatRating,
+    getChatScreen,
+    getShowEndNotification,
+    getShowContactDetailsNotification,
+    getCurrentMessage,
     getChatStatus,
     getChatOnline;
 
   beforeEach(() => {
     mockery.enable();
 
-    const chatSelectorsPath = buildSrcPath('redux/modules/chat/selectors');
+    const chatSelectorsPath = buildSrcPath('redux/modules/chat/chat-selectors');
 
     mockery.registerAllowable(chatSelectorsPath);
 
@@ -29,6 +38,15 @@ describe('chat selectors', () => {
     getChatsByAgent = selectors.getChatsByAgent;
     getChatStatus = selectors.getChatStatus;
     getChatOnline = selectors.getChatOnline;
+    getChats = selectors.getChats;
+    getPrechatFormSettings = selectors.getPrechatFormSettings;
+    getConciergeSettings = selectors.getConciergeSettings;
+    getAgents = selectors.getAgents;
+    getChatRating = selectors.getChatRating;
+    getChatScreen = selectors.getChatScreen;
+    getShowEndNotification = selectors.getShowEndNotification;
+    getShowContactDetailsNotification = selectors.getShowContactDetailsNotification;
+    getCurrentMessage = selectors.getCurrentMessage;
   });
 
   describe('getChatNotification', () => {
@@ -177,6 +195,26 @@ describe('chat selectors', () => {
     });
   });
 
+  describe('getPrechatFormSettings', () => {
+    let result;
+    const mockChatSettings = {
+      chat: {
+        accountSettings: {
+          prechatForm: 'foo'
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getPrechatFormSettings(mockChatSettings);
+    });
+
+    it('returns the value of accountSettings.prechatForm', () => {
+      expect(result)
+        .toEqual('foo');
+    });
+  });
+
   describe('getIsChatting', () => {
     let result;
     const mockChatSettings = {
@@ -254,7 +292,7 @@ describe('chat selectors', () => {
       result = getConnection(mockChatSettings);
     });
 
-    it('returns the current state of is_chatting', () => {
+    it('returns the current state of connection', () => {
       expect(result)
         .toEqual('connected');
     });
@@ -321,117 +359,201 @@ describe('chat selectors', () => {
     });
   });
 
+  describe('getChats', () => {
+    let result;
+    const mockChats = [
+      { nick: 'agent', type: 'chat.msg' },
+      { nick: 'agent', type: 'chat.file' },
+      { nick: 'agent', type: 'chat.foo' }
+    ];
+    const mockChatSettings = {
+      chat: {
+        chats: { values: () => mockChats }
+      }
+    };
+
+    beforeEach(() => {
+      result = getChats(mockChatSettings);
+    });
+
+    it('returns only chats of type file or msg', () => {
+      expect(result.length)
+        .toEqual(2);
+    });
+  });
+
   describe('getChatOnline', () => {
     let result;
 
-    describe('when zopimChat embed is present', () => {
-      const mockBaseState = { embeds: { zopimChat: {} } };
+    describe('when the agent is online', () => {
+      beforeEach(() => {
+        const mockState = {
+          chat: { account_status: 'online' }
+        };
 
-      describe('when the agent is online', () => {
-        beforeEach(() => {
-          const mockState = {
-            base: mockBaseState,
-            zopimChat: {
-              status: 'online'
-            }
-          };
-
-          result = getChatOnline(mockState);
-        });
-
-        it('returns true', () => {
-          expect(result)
-            .toEqual(true);
-        });
+        result = getChatOnline(mockState);
       });
 
-      describe('when the agent is away', () => {
-        beforeEach(() => {
-          const mockState = {
-            base: mockBaseState,
-            zopimChat: {
-              status: 'away'
-            }
-          };
-
-          result = getChatOnline(mockState);
-        });
-
-        it('returns true', () => {
-          expect(result)
-            .toEqual(true);
-        });
-      });
-
-      describe('when the agent is offline', () => {
-        beforeEach(() => {
-          const mockState = {
-            base: mockBaseState,
-            zopimChat: {
-              status: 'offline'
-            }
-          };
-
-          result = getChatOnline(mockState);
-        });
-
-        it('returns false', () => {
-          expect(result)
-            .toEqual(false);
-        });
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
       });
     });
 
-    describe('when chat embed is present', () => {
-      const mockBaseState = { embeds: {} };
+    describe('when the agent is away', () => {
+      beforeEach(() => {
+        const mockState = {
+          chat: { account_status: 'away' }
+        };
 
-      describe('when the agent is online', () => {
-        beforeEach(() => {
-          const mockState = {
-            base: mockBaseState,
-            chat: { account_status: 'online' }
-          };
-
-          result = getChatOnline(mockState);
-        });
-
-        it('returns true', () => {
-          expect(result)
-            .toEqual(true);
-        });
+        result = getChatOnline(mockState);
       });
 
-      describe('when the agent is away', () => {
-        beforeEach(() => {
-          const mockState = {
-            base: mockBaseState,
-            chat: { account_status: 'away' }
-          };
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
 
-          result = getChatOnline(mockState);
-        });
+    describe('when the agent is offline', () => {
+      beforeEach(() => {
+        const mockState = {
+          chat: { account_status: 'offline' }
+        };
 
-        it('returns true', () => {
-          expect(result)
-            .toEqual(true);
-        });
+        result = getChatOnline(mockState);
       });
 
-      describe('when the agent is offline', () => {
-        beforeEach(() => {
-          const mockState = {
-            base: mockBaseState,
-            chat: { account_status: 'offline' }
-          };
-
-          result = getChatOnline(mockState);
-        });
-
-        it('returns false', () => {
-          expect(result)
-            .toEqual(false);
-        });
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
       });
+    });
+  });
+
+  describe('getChatRating', () => {
+    let result;
+    const mockChatSettings = {
+      chat: {
+        rating: 'good'
+      }
+    };
+
+    beforeEach(() => {
+      result = getChatRating(mockChatSettings);
+    });
+
+    it('returns the current state of rating', () => {
+      expect(result)
+        .toEqual('good');
+    });
+  });
+
+  describe('getConciergeSettings', () => {
+    let result;
+    const mockChatSettings = {
+      chat: {
+        accountSettings: { concierge: 'foo.bar' }
+      }
+    };
+
+    beforeEach(() => {
+      result = getConciergeSettings(mockChatSettings);
+    });
+
+    it('returns the current state of accountSettings.concierge', () => {
+      expect(result)
+        .toEqual('foo.bar');
+    });
+  });
+
+  describe('getAgents', () => {
+    let result;
+    const mockChatSettings = {
+      chat: {
+        agents: 'Link'
+      }
+    };
+
+    beforeEach(() => {
+      result = getAgents(mockChatSettings);
+    });
+
+    it('returns the current state of agents', () => {
+      expect(result)
+        .toEqual('Link');
+    });
+  });
+
+  describe('getChatScreen', () => {
+    let result;
+    const mockChatSettings = {
+      chat: {
+        screen: 'chatting'
+      }
+    };
+
+    beforeEach(() => {
+      result = getChatScreen(mockChatSettings);
+    });
+
+    it('returns the current state of screen', () => {
+      expect(result)
+        .toEqual('chatting');
+    });
+  });
+
+  describe('getShowEndNotification', () => {
+    let result;
+    const mockChatSettings = {
+      chat: {
+        showEndNotification: true
+      }
+    };
+
+    beforeEach(() => {
+      result = getShowEndNotification(mockChatSettings);
+    });
+
+    it('returns the current state of showEndNotification', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('getShowContactDetailsNotification', () => {
+    let result;
+    const mockChatSettings = {
+      chat: {
+        showContactDetailsNotification: true
+      }
+    };
+
+    beforeEach(() => {
+      result = getShowContactDetailsNotification(mockChatSettings);
+    });
+
+    it('returns the current state of showContactDetailsNotification', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('getCurrentMessage', () => {
+    let result;
+    const mockChatSettings = {
+      chat: {
+        currentMessage: 'printer is on fire'
+      }
+    };
+
+    beforeEach(() => {
+      result = getCurrentMessage(mockChatSettings);
+    });
+
+    it('returns the current state of currentMessage', () => {
+      expect(result)
+        .toEqual('printer is on fire');
     });
   });
 });

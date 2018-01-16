@@ -29,7 +29,8 @@ describe('talk redux actions', () => {
           get: () => mockSettings
         }
       },
-      'src/redux/modules/base/selectors': {
+      'src/redux/modules/base/base-selectors': {},
+      'src/redux/modules/selectors': {
         getShowTalkBackButton: () => talkBackButtonEmbedsValue
       },
       'src/redux/modules/base': {

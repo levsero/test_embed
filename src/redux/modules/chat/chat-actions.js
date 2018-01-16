@@ -25,7 +25,7 @@ import {
   UPDATE_USER_SETTINGS
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './reducer/chat-screen-types';
-import { getChatVisitor } from 'src/redux/modules/chat/selectors';
+import { getChatVisitor } from 'src/redux/modules/chat/chat-selectors';
 
 const chatTypingTimeout = 2000;
 
