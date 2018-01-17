@@ -43,34 +43,64 @@ describe('ChatFooter component', () => {
       expect(componentNode.querySelector('.iconsClasses'))
         .toBeTruthy();
     });
+  });
 
-    describe('end chat icon', () => {
-      let componentNode;
+  describe('renderEndChatOption', () => {
+    let result;
 
-      describe('when props.isChatting is false', () => {
-        beforeEach(() => {
-          const component = domRender(<ChatFooter isChatting={false} />);
+    describe('when props.isChatting is false', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatFooter isChatting={false} />);
 
-          componentNode = ReactDOM.findDOMNode(component);
-        });
-
-        it('has disabled classes', () => {
-          expect(componentNode.querySelector('.iconDisabledClasses'))
-            .toBeTruthy();
-        });
+        result = component.renderEndChatOption();
       });
 
-      describe('when props.isChatting is true', () => {
-        beforeEach(() => {
-          const component = domRender(<ChatFooter isChatting={true} />);
+      it('has disabled classes', () => {
+        expect(result.props.className)
+          .toContain('iconDisabledClasses');
+      });
+    });
 
-          componentNode = ReactDOM.findDOMNode(component);
-        });
+    describe('when props.isChatting is true', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatFooter isChatting={true} />);
 
-        it('does not have disabled classes', () => {
-          expect(componentNode.querySelector('.iconDisabledClasses'))
-            .toBeFalsy();
-        });
+        result = component.renderEndChatOption();
+      });
+
+      it('does not have disabled classes', () => {
+        expect(result.props.className)
+          .not.toContain('iconDisabledClasses');
+      });
+    });
+  });
+
+  describe('renderAttachmentOption', () => {
+    let result;
+
+    describe('when props.attachmentsEnabled is true', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatFooter attachmentsEnabled={true} />);
+
+        result = component.renderAttachmentOption();
+      });
+
+      it('returns the attachment option', () => {
+        expect(result)
+          .toBeTruthy();
+      });
+    });
+
+    describe('when props.attachmentsEnabled is false', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatFooter attachmentsEnabled={false} />);
+
+        result = component.renderAttachmentOption();
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toBeNull();
       });
     });
   });

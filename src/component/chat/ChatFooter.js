@@ -12,7 +12,8 @@ export class ChatFooter extends Component {
     endChat: PropTypes.func,
     handleAttachmentDrop: PropTypes.func,
     isChatting: PropTypes.bool,
-    toggleMenu: PropTypes.func
+    toggleMenu: PropTypes.func,
+    attachmentsEnabled: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
@@ -33,23 +34,37 @@ export class ChatFooter extends Component {
     }
   }
 
-  render() {
+  renderEndChatOption = () => {
     const endChatDisabledClasses = this.props.isChatting ? '' : styles.iconDisabled;
 
+    return (
+      <Icon
+        type='Icon--endChat'
+        className={`${styles.icon} ${endChatDisabledClasses}`}
+        onClick={this.handleEndChatClick} />
+    );
+  }
+
+  renderAttachmentOption = () => {
+    if (!this.props.attachmentsEnabled) return null;
+
+    return (
+      <Dropzone
+        onDrop={this.props.handleAttachmentDrop}>
+        <Icon
+          type='Icon--paperclip-small'
+          className={styles.iconAttachment} />
+      </Dropzone>
+    );
+  }
+
+  render() {
     return (
       <div>
         {this.props.children}
         <div className={styles.icons}>
-          <Icon
-            type='Icon--endChat'
-            className={`${styles.icon} ${endChatDisabledClasses}`}
-            onClick={this.handleEndChatClick} />
-          <Dropzone
-            onDrop={this.props.handleAttachmentDrop}>
-            <Icon
-              type='Icon--paperclip-small'
-              className={styles.iconAttachment} />
-          </Dropzone>
+          {this.renderEndChatOption()}
+          {this.renderAttachmentOption()}
           <Icon type='Icon--ellipsis' onClick={this.menuIconClick} />
         </div>
       </div>
