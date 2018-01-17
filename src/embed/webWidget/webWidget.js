@@ -28,7 +28,12 @@ import { setVisitorInfo } from 'src/redux/modules/chat';
 import { resetTalkScreen } from 'src/redux/modules/talk';
 
 import WebWidget from 'component/webWidget/WebWidget';
-import zChat from 'chat-web-sdk';
+
+// Any external dependencies that are optional must be wrapped in a try...catch
+// when being required. This will stop an exception which prevents the Widget
+// from loading.
+// TODO: Find a DRY solution
+const zChat = (() => { try { return require('chat-web-sdk'); } catch (_) {} })();
 
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 

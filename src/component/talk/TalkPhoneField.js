@@ -10,7 +10,7 @@ import { isMobileBrowser,
 import { countriesByIso, countriesByName } from './talkCountries';
 import { locals as styles } from './TalkPhoneField.scss';
 
-const libphonenumber = require('libphonenumber-js');
+const libphonenumber = (() => { try { return require('libphonenumber-js'); } catch (_) {} })();
 
 export class TalkPhoneField extends Component {
   static propTypes = {
