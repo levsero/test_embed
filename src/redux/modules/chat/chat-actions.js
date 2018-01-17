@@ -1,5 +1,6 @@
-import zChat from 'chat-web-sdk';
 import _ from 'lodash';
+
+const zChat = (() => { try { return require('chat-web-sdk'); } catch (_) {} })();
 
 import {
   END_CHAT_SUCCESS,

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-const libphonenumber = require('libphonenumber-js');
 
 import { Field } from 'component/field/Field';
 import { TalkPhoneField } from 'component/talk/TalkPhoneField';
@@ -11,6 +10,8 @@ import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { errorCodes } from './talkErrorCodes';
+
+const libphonenumber = (() => { try { return require('libphonenumber-js'); } catch (_) {} })();
 
 import {
   CALLBACK_ONLY_SCREEN,

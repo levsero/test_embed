@@ -1,8 +1,8 @@
-import io from 'socket.io-client';
-
 import { talkEmbeddableConfigEventToAction,
          talkAgentAvailabilityEventToAction,
          talkAverageWaitTimeEventToAction } from './events';
+
+const io = (() => { try { return require('socket.io-client'); } catch (_) {} })();
 
 const talkServicePath = '/talk_embeddables_service/socket.io';
 
