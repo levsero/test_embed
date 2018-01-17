@@ -20,21 +20,22 @@ const validateDependencies = () => {
   const deps = manifest.externals;
   const packageDeps = packageJson.dependencies;
 
-  deps.forEach((dep) => {
-    const version = getVersion(packageDeps[dep.name]);
+  for (const depName in deps) {
+    const dep = deps[depName];
+    const version = getVersion(packageDeps[depName]);
 
     if (!version) {
-      writeError(`${dep.name} not present in package dependencies`);
+      writeError(`${depName} not present in package dependencies`);
       process.exit(1);
     }
 
     if (semver.satisfies(dep.version, version)) {
-      writeLog(`${dep.name}:${dep.version} is valid for package version ${version}`);
+      writeLog(`${depName}:${dep.version} is valid for package version ${version}`);
     } else {
-      writeError(`${dep.name}:${dep.version} is invalid for package version ${version}`);
+      writeError(`${depName}:${dep.version} is invalid for package version ${version}`);
       process.exit(1);
     }
-  });
+  }
 
   writeLog('\nAll manifest.json dependencies are valid');
 };
