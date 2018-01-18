@@ -28,7 +28,7 @@
 }
 
 .chatEndPopupDescription {
-  composes: u-paddingVL u-paddingLL from global;
+  composes: u-paddingVL u-paddingLL u-paddingRL from global;
 }
 
 .agentTyping {
