@@ -30,6 +30,7 @@ export class ChatHeader extends Component {
     return (
       <ChatRatingGroup
         updateRating={this.props.updateRating}
+        rtl={i18n.rtl}
         rating={this.props.rating} />
     );
   }

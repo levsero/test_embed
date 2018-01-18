@@ -2,6 +2,11 @@
 
 .container {
   margin-left: auto;
+
+  [dir='rtl'] & {
+    margin-left: 0;
+    margin-right: auto;
+  }
 }
 
 .ratingIcon {
@@ -37,5 +42,12 @@
 
   svg {
     padding-left: #{1/$font-size}rem;
+  }
+}
+
+.icon {
+  [dir='rtl'] & {
+    padding-left: 0 !important;
+    padding-right: #{15/$font-size}rem !important;
   }
 }

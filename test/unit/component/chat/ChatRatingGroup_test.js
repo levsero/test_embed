@@ -20,6 +20,7 @@ describe('ChatRatingGroup component', () => {
         locals: {
           ratingIconActive: 'ratingIconActive',
           ratingIcon: 'ratingIcon',
+          leftRatingIcon: 'leftRatingIcon',
           container: 'container',
           thumbDownIcon: 'thumbDownIcon'
         }
@@ -101,6 +102,74 @@ describe('ChatRatingGroup component', () => {
 
         expect(thumbDownNode)
           .not.toContain('ratingIconActive');
+      });
+    });
+
+    describe('when rtl is false', () => {
+      let chatRatingGroupChildren;
+
+      beforeEach(() => {
+        const component = domRender(<ChatRatingGroup />);
+
+        chatRatingGroupChildren = ReactDOM.findDOMNode(component).children;
+      });
+
+      describe('thumbs up icon', () => {
+        it('renders first', () => {
+          expect(chatRatingGroupChildren[0].className)
+            .toContain('Icon--thumbUp');
+        });
+
+        it('has leftRatingIcon classes', () => {
+          expect(chatRatingGroupChildren[0].className)
+            .toContain('leftRatingIcon');
+        });
+      });
+
+      describe('thumbs down icon', () => {
+        it('renders second', () => {
+          expect(chatRatingGroupChildren[1].className)
+            .toContain('Icon--thumbDown');
+        });
+
+        it('has ratingIcon classes', () => {
+          expect(chatRatingGroupChildren[1].className)
+            .toContain('ratingIcon');
+        });
+      });
+    });
+
+    describe('when rtl is true', () => {
+      let chatRatingGroupChildren;
+
+      beforeEach(() => {
+        const component = domRender(<ChatRatingGroup rtl={true} />);
+
+        chatRatingGroupChildren = ReactDOM.findDOMNode(component).children;
+      });
+
+      describe('thumbs up icon', () => {
+        it('renders second', () => {
+          expect(chatRatingGroupChildren[1].className)
+            .toContain('Icon--thumbUp');
+        });
+
+        it('has ratingIcon classes', () => {
+          expect(chatRatingGroupChildren[1].className)
+            .toContain('ratingIcon');
+        });
+      });
+
+      describe('thumbs down icon', () => {
+        it('renders first', () => {
+          expect(chatRatingGroupChildren[0].className)
+            .toContain('Icon--thumbDown');
+        });
+
+        it('has leftRatingIcon classes', () => {
+          expect(chatRatingGroupChildren[0].className)
+            .toContain('leftRatingIcon');
+        });
       });
     });
   });
