@@ -44,6 +44,11 @@
   composes: u-marginBT u-marginTT from global;
   margin-left: #{50/$font-size}rem;
   color: $zd-color-aluminum !important;
+
+  [dir='rtl'] & {
+    margin-left: 0;
+    margin-right: #{40/$font-size}rem;
+  }
 }
 
 .avatar {
