@@ -23,6 +23,11 @@
 .textContainer {
   composes: u-paddingLS from global;
   color: $zd-color-oil;
+
+  [dir='rtl'] & {
+    padding-left: 0 !important;
+    padding-right: #{10/$font-size}rem !important;
+  }
 }
 
 .title {

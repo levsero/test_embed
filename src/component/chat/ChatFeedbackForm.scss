@@ -16,6 +16,11 @@
 .rightButton {
   composes: button;
   margin-left: #{7/$font-size}rem !important;
+
+  [dir='rtl'] & {
+    margin-left: 0 !important;
+    margin-right: #{7/$font-size}rem !important;
+  }
 }
 
 .textarea {

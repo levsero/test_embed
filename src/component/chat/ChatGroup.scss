@@ -16,6 +16,10 @@
 .messageUser {
   composes: u-pullRight from global;
   color: $zd-color-white;
+
+  [dir='rtl'] & {
+    float: left !important;
+  }
 }
 
 .userBackground {
@@ -25,6 +29,10 @@
 .messageAgent {
   composes: u-pullLeft from global;
   color: $zd-color-black;
+
+  [dir='rtl'] & {
+    float: right !important;
+  }
 }
 
 .agentBackground {
@@ -36,6 +44,11 @@
   composes: u-marginBT u-marginTT from global;
   margin-left: #{50/$font-size}rem;
   color: $zd-color-aluminum !important;
+
+  [dir='rtl'] & {
+    margin-left: 0;
+    margin-right: #{40/$font-size}rem;
+  }
 }
 
 .avatar {
@@ -65,4 +78,9 @@
 
 .messageBubble {
   margin-left: #{40/$font-size}rem;
+
+  [dir='rtl'] & {
+    margin-left: 0;
+    margin-right: #{40/$font-size}rem;
+  }
 }
