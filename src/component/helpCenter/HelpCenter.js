@@ -13,34 +13,50 @@ import { updateSearchTerm,
          updateActiveArticle,
          performSearch,
          performContextualSearch,
-         performImageSearch } from 'src/redux/modules/helpCenter';
-import { getSearchLoading,
+         performImageSearch,
+         updateViewMoreClicked } from 'src/redux/modules/helpCenter';
+import { getActiveArticle,
+         getResultsCount,
+         getSearchLoading,
          getArticleClicked,
+         getViewMoreClicked,
          getSearchFailed,
          getSearchTerm,
          getPreviousSearchTerm,
          getHasSearched,
-         getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+         getHasContextuallySearched,
+         getShowViewMore,
+         getArticles,
+         getResultsPerPage,
+         getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 
+// FIXME: Put this in HC constants file
 const minimumSearchResults = 3;
-const maximumSearchResults = 9;
 
 const mapStateToProps = (state) => {
   return {
+    showViewMore: getShowViewMore(state),
+    resultsCount: getResultsCount(state),
+    activeArticle: getActiveArticle(state),
     searchLoading: getSearchLoading(state),
     articleClicked: getArticleClicked(state),
+    viewMoreClicked: getViewMoreClicked(state),
     searchFailed: getSearchFailed(state),
     searchTerm: getSearchTerm(state),
     previousSearchTerm: getPreviousSearchTerm(state),
     hasSearched: getHasSearched(state),
     hasContextualSearched: getHasContextuallySearched(state),
-    callbackEnabled: isCallbackEnabled(state)
+    callbackEnabled: isCallbackEnabled(state),
+    articleViewActive: getArticleViewActive(state),
+    articles: getArticles(state),
+    resultsPerPage: getResultsPerPage(state)
   };
 };
 
 class HelpCenter extends Component {
   static propTypes = {
+    activeArticle: PropTypes.object,
     buttonLabelKey: PropTypes.string,
     callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
@@ -71,6 +87,7 @@ class HelpCenter extends Component {
     submitTicketAvailable: PropTypes.bool,
     chatAvailable: PropTypes.bool,
     articleClicked: PropTypes.bool.isRequired,
+    viewMoreClicked: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
     talkEnabled: PropTypes.bool.isRequired,
     updateFrameSize: PropTypes.func,
@@ -78,9 +95,16 @@ class HelpCenter extends Component {
     updateChatScreen: PropTypes.func,
     updateSearchTerm: PropTypes.func.isRequired,
     updateActiveArticle: PropTypes.func.isRequired,
+    updateViewMoreClicked: PropTypes.func.isRequired,
     viewMoreEnabled: PropTypes.bool,
     zendeskHost: PropTypes.string.isRequired,
-    notification: PropTypes.object.isRequired
+    notification: PropTypes.object.isRequired,
+    resultsCount: PropTypes.number.isRequired,
+    showViewMore: PropTypes.bool.isRequired,
+    articles: PropTypes.array.isRequired,
+    resultsPerPage: PropTypes.number.isRequired,
+    articleViewActive: PropTypes.bool.isRequired,
+    updateArticleViewActive: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -107,21 +131,19 @@ class HelpCenter extends Component {
     updateChatScreen: () => {},
     updateActiveArticle: () => {},
     updateSearchTerm: () => {},
-    viewMoreEnabled: false
+    updateViewMoreClicked: () => {},
+    viewMoreEnabled: false,
+    articles: [],
+    resultsPerPage: minimumSearchResults,
+    articleViewActive: false,
+    updateArticleViewActive: () => {}
   };
 
   constructor(props, context) {
     super(props, context);
 
     this.state = {
-      activeArticle: {},
-      articles: [],
-      articleViewActive: false,
-      resultsCount: 0,
-      resultsPerPage: minimumSearchResults,
       searchTracked: false,
-      showViewMore: true,
-      viewMoreActive: false,
       channelChoiceShown: false
     };
   }
@@ -141,17 +163,13 @@ class HelpCenter extends Component {
          : this.refs.helpCenterDesktop;
   }
 
-  setArticleView = (articleViewActive) => {
-    this.setState({ articleViewActive });
-  }
-
   setChannelChoiceShown = (channelChoiceShown) => {
     this.setState({ channelChoiceShown });
   }
 
   interactiveSearchSuccessFn = (res, query) => {
-    this.props.onSearch({searchTerm: query.query, searchLocale: query.locale});
-    this.updateResults(res);
+    this.props.onSearch({ searchTerm: query.query, searchLocale: query.locale });
+    this.props.showBackButton(false);
     this.focusField();
   }
 
@@ -184,7 +202,7 @@ class HelpCenter extends Component {
 
     const successFn = (res) => {
       if (res.body.count > 0) {
-        this.updateResults(res);
+        this.props.showBackButton(false);
         this.props.updateSearchTerm(searchTerm);
 
         if (this.refs.helpCenterMobile) {
@@ -195,7 +213,7 @@ class HelpCenter extends Component {
 
     _.extend(query, {
       locale: i18n.getLocale(),
-      per_page: this.state.resultsPerPage
+      per_page: this.props.resultsPerPage
     });
 
     this.performContextualSearch(query, successFn);
@@ -203,7 +221,7 @@ class HelpCenter extends Component {
 
   search = () => {
     const searchField = this.getHelpCenterComponent().refs.searchField;
-    const searchTerm = (this.state.viewMoreActive)
+    const searchTerm = (this.props.viewMoreClicked)
                      ? this.props.previousSearchTerm
                      : searchField.getValue();
 
@@ -214,13 +232,11 @@ class HelpCenter extends Component {
     const query = {
       locale: i18n.getLocale(),
       query: searchTerm,
-      per_page: this.state.resultsPerPage, // eslint camelcase:0
+      per_page: this.props.resultsPerPage, // eslint camelcase:0
       origin: 'web_widget'
     };
 
-    this.setState({
-      searchTracked: true
-    });
+    this.setState({ searchTracked: true });
     this.props.updateSearchTerm(searchTerm);
 
     this.performSearchWithLocaleFallback(query, this.interactiveSearchSuccessFn);
@@ -230,22 +246,6 @@ class HelpCenter extends Component {
         searchField.blur();
       }, 1);
     }
-  }
-
-  updateResults = (res) => {
-    const json = res.body;
-    const articles = json.results;
-
-    this.setState({
-      articles: articles,
-      resultsCount: json.count,
-      articleViewActive: false,
-      resultsPerPage: minimumSearchResults,
-      showViewMore: !this.state.viewMoreActive && !this.props.hasContextualSearched,
-      viewMoreActive: false
-    });
-
-    this.props.showBackButton(false);
   }
 
   performSearchWithLocaleFallback = (query, successFn) => {
@@ -286,10 +286,7 @@ class HelpCenter extends Component {
   handleViewMoreClick = (e) => {
     e.preventDefault();
 
-    this.setState({
-      resultsPerPage: maximumSearchResults,
-      viewMoreActive: true
-    });
+    this.props.updateViewMoreClicked();
 
     setTimeout(() => this.search(), 0);
   }
@@ -337,34 +334,30 @@ class HelpCenter extends Component {
   handleArticleClick = (articleIndex, e) => {
     e.preventDefault();
 
-    // TODO: Use updateActiveArticle action to update this state.
-    // move from trackArticleView to here.
-    this.setState({
-      activeArticle: this.state.articles[articleIndex],
-      articleViewActive: true
-    });
-
-    // call nextTick so state has a chance to be consistent
-    setTimeout(() => this.trackArticleView(), 0);
-
+    this.props.updateActiveArticle(this.props.articles[articleIndex]);
+    this.props.updateArticleViewActive(true);
     this.props.showBackButton();
 
     if (!this.state.searchTracked && !this.props.hasContextualSearched) {
       this.trackSearch();
     }
+
+    // call nextTick so state has a chance to be consistent
+    setTimeout(() => this.trackArticleView(), 0);
   }
 
   trackArticleView = () => {
     this.props.onArticleClick(this.getTrackPayload());
-    this.props.updateActiveArticle();
   }
 
   getTrackPayload = () => {
+    const { searchTerm, resultsCount, articleClicked, activeArticle } = this.props;
+
     return {
-      query: this.props.searchTerm,
-      resultsCount: (this.state.resultsCount > 3) ? 3 : this.state.resultsCount,
-      uniqueSearchResultClick: !this.props.articleClicked,
-      articleId: this.state.activeArticle.id,
+      query: searchTerm,
+      resultsCount: (resultsCount > 3) ? 3 : resultsCount,
+      uniqueSearchResultClick: !articleClicked,
+      articleId: activeArticle.id,
       locale: i18n.getLocale()
     };
   }
@@ -386,42 +379,46 @@ class HelpCenter extends Component {
   }
 
   renderResults = () => {
-    const { showNextButton } = this.props;
-    const hasSearched = this.props.hasSearched || this.props.hasContextualSearched;
+    const {
+      showNextButton,
+      hasContextualSearched,
+      viewMoreEnabled,
+      resultsCount,
+      fullscreen,
+      hideZendeskLogo,
+      searchFailed,
+      previousSearchTerm
+    } = this.props;
+    const hasSearched = this.props.hasSearched || hasContextualSearched;
 
-    if (this.state.articleViewActive || !hasSearched) {
-      return null;
-    }
+    if (this.props.articleViewActive || !hasSearched) return null;
 
-    const showViewMore = this.props.viewMoreEnabled &&
-                         this.state.showViewMore &&
-                         this.state.resultsCount > minimumSearchResults;
-    const showBottomBorder = !this.props.fullscreen &&
-                             !(!showNextButton && this.props.hideZendeskLogo);
-    const applyPadding = !showNextButton && !this.props.hideZendeskLogo;
+    const showViewMore = viewMoreEnabled &&
+                         this.props.showViewMore &&
+                         (resultsCount > minimumSearchResults);
+    const applyPadding = !showNextButton && !hideZendeskLogo;
 
     return (
       <HelpCenterResults
-        fullscreen={this.props.fullscreen}
-        articles={this.state.articles}
+        fullscreen={fullscreen}
+        articles={this.props.articles}
         showViewMore={showViewMore}
         applyPadding={applyPadding}
-        searchFailed={this.props.searchFailed}
-        showBottomBorder={showBottomBorder}
-        previousSearchTerm={this.props.previousSearchTerm}
+        searchFailed={searchFailed}
+        previousSearchTerm={previousSearchTerm}
         handleArticleClick={this.handleArticleClick}
         handleViewMoreClick={this.handleViewMoreClick}
-        hasContextualSearched={this.props.hasContextualSearched}
+        hasContextualSearched={hasContextualSearched}
         showContactButton={showNextButton} />
     );
   }
 
   renderArticles = () => {
-    if (!this.state.articleViewActive) return null;
+    if (!this.props.articleViewActive) return null;
 
     return (
       <HelpCenterArticle
-        activeArticle={this.state.activeArticle}
+        activeArticle={this.props.activeArticle}
         zendeskHost={this.props.zendeskHost}
         originalArticleButton={this.props.originalArticleButton}
         handleOriginalArticleClick={this.handleOriginalArticleClick}
@@ -434,8 +431,8 @@ class HelpCenter extends Component {
   }
 
   renderHelpCenterDesktop = (buttonLabel) => {
-    const shadowVisible = this.state.articleViewActive ||
-                          this.state.articles.length > minimumSearchResults;
+    const shadowVisible = this.props.articleViewActive ||
+                          this.props.resultsCount > minimumSearchResults;
 
     return (
       <HelpCenterDesktop
@@ -457,7 +454,7 @@ class HelpCenter extends Component {
         callbackEnabled={this.props.callbackEnabled}
         talkEnabled={this.props.talkEnabled}
         talkAvailable={this.props.talkAvailable}
-        articleViewActive={this.state.articleViewActive}
+        articleViewActive={this.props.articleViewActive}
         hasSearched={this.props.hasSearched}
         buttonLabel={buttonLabel}
         formTitleKey={this.props.formTitleKey}
@@ -491,7 +488,7 @@ class HelpCenter extends Component {
         callbackEnabled={this.props.callbackEnabled}
         talkEnabled={this.props.talkEnabled}
         talkAvailable={this.props.talkAvailable}
-        articleViewActive={this.state.articleViewActive}
+        articleViewActive={this.props.articleViewActive}
         hasSearched={this.props.hasSearched}
         searchFieldValue={this.state.searchFieldValue}
         hideZendeskLogo={this.props.hideZendeskLogo}
@@ -541,7 +538,8 @@ const actionCreators = {
   updateSearchTerm,
   performSearch,
   performImageSearch,
-  performContextualSearch
+  performContextualSearch,
+  updateViewMoreClicked
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(HelpCenter);
