@@ -4,7 +4,6 @@ describe('WebWidget component', () => {
     helpCenterOnContainerClickSpy,
     submitTicketOnDragEnterSpy,
     mockUpdateActiveEmbed;
-  const setArticleViewSpy = jasmine.createSpy();
   const clearFormSpy = jasmine.createSpy();
   const webWidgetPath = buildSrcPath('component/webWidget/WebWidget');
 
@@ -19,10 +18,6 @@ describe('WebWidget component', () => {
     class MockHelpCenter extends Component {
       constructor() {
         super();
-        this.state = {
-          articleViewActive: false
-        };
-        this.setArticleView = setArticleViewSpy;
         this.onContainerClick = helpCenterOnContainerClickSpy;
       }
       render() {
@@ -93,6 +88,9 @@ describe('WebWidget component', () => {
         hideChatNotification: noop,
         updateChatScreen: noop
       },
+      'src/redux/modules/helpCenter': {
+        resetActiveArticle: noop
+      },
       'src/redux/modules/base/base-selectors': {
         getZopimChatEmbed: noop
       },
@@ -101,6 +99,9 @@ describe('WebWidget component', () => {
       },
       'src/redux/modules/talk/talk-selectors': {
         getTalkAvailable: noop
+      },
+      'src/redux/modules/helpCenter/helpCenter-selectors': {
+        getArticleViewActive: noop
       },
       'src/redux/modules/selectors': {
         getChatOnline: noop
@@ -379,10 +380,12 @@ describe('WebWidget component', () => {
 
   describe('#onBackClick', () => {
     let webWidget,
+      resetActiveArticleSpy,
       updateBackButtonVisibilitySpy;
 
     beforeEach(() => {
-      updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibilitySpy');
+      resetActiveArticleSpy = jasmine.createSpy('resetActiveArticle');
+      updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility');
     });
 
     describe('when help center is the active component', () => {
@@ -391,17 +394,18 @@ describe('WebWidget component', () => {
           <WebWidget
             activeEmbed='helpCenterForm'
             helpCenterAvailable={true}
+            resetActiveArticle={resetActiveArticleSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
         );
         webWidget.onBackClick();
       });
 
-      it('should set the state of article view', () => {
-        expect(setArticleViewSpy)
+      it('calls resetActiveArticle', () => {
+        expect(resetActiveArticleSpy)
           .toHaveBeenCalled();
       });
 
-      it('should call updateBackButtonVisibility prop with false', () => {
+      it('calls updateBackButtonVisibility prop with false', () => {
         expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(false);
       });
@@ -506,20 +510,6 @@ describe('WebWidget component', () => {
           it('should call updateBackButtonVisibility prop with false', () => {
             expect(updateBackButtonVisibilitySpy)
               .toHaveBeenCalledWith(false);
-          });
-        });
-
-        describe('when an article is active', () => {
-          beforeEach(() => {
-            webWidget.refs.helpCenterForm.getWrappedInstance().setState({
-              articleViewActive: true
-            });
-            webWidget.onBackClick();
-          });
-
-          it('should call updateBackButtonVisibility prop with true', () => {
-            expect(updateBackButtonVisibilitySpy)
-              .toHaveBeenCalledWith(true);
           });
         });
       });
@@ -837,15 +827,8 @@ describe('WebWidget component', () => {
               activeEmbed='' />
           );
 
-          spyOn(webWidget, 'articleViewActive');
-
           webWidget.isHelpCenterAvailable = () => true;
           webWidget.resetActiveEmbed();
-        });
-
-        it('calls articleViewActive', () => {
-          expect(webWidget.articleViewActive)
-            .toHaveBeenCalled();
         });
 
         it('calls updateActiveEmbed with helpCenterForm', () => {
@@ -961,7 +944,7 @@ describe('WebWidget component', () => {
 
     describe('when help center is available', () => {
       beforeEach(() => {
-        webWidget = domRender(
+        webWidget = instanceRender(
           <WebWidget
             updateActiveEmbed={updateActiveEmbedSpy}
             updateBackButtonVisibility={updateBackButtonVisibilitySpy}
@@ -980,13 +963,18 @@ describe('WebWidget component', () => {
 
       describe('when the article view is active', () => {
         beforeEach(() => {
-          webWidget.getHelpCenterComponent().setState({
-            articleViewActive: true
-          });
+          webWidget = instanceRender(
+            <WebWidget
+              articleViewActive={true}
+              updateActiveEmbed={updateActiveEmbedSpy}
+              updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+              helpCenterAvailable={true}
+              activeEmbed='' />
+          );
           webWidget.resetActiveEmbed();
         });
 
-        it('calls updateBackButtonVisibility woth true', () => {
+        it('calls updateBackButtonVisibility with true', () => {
           expect(updateBackButtonVisibilitySpy)
             .toHaveBeenCalledWith(true);
         });
@@ -994,9 +982,14 @@ describe('WebWidget component', () => {
 
       describe('when the article view is active', () => {
         beforeEach(() => {
-          webWidget.getHelpCenterComponent().setState({
-            articleViewActive: false
-          });
+          webWidget = instanceRender(
+            <WebWidget
+              articleViewActive={false}
+              updateActiveEmbed={updateActiveEmbedSpy}
+              updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+              helpCenterAvailable={true}
+              activeEmbed='' />
+          );
           webWidget.resetActiveEmbed();
         });
 
