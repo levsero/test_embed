@@ -140,20 +140,32 @@ describe('helpCenter redux actions', () => {
     });
 
     describe('search response', () => {
-      let callbackFn;
+      let callbackFn,
+        actions;
 
       describe('when the request is successful', () => {
         beforeEach(() => {
           const searchRequest = httpPostSpy.calls.mostRecent().args;
+          const mockResponse = {
+            body: {
+              results: [{ id: 1337 }, { id: 420 }, { id: 360 }],
+              count: 3
+            }
+          };
 
           callbackFn = searchRequest[0].callbacks.done;
-          callbackFn();
-          action = mockStore.getActions()[1];
+          callbackFn(mockResponse);
+          actions = mockStore.getActions();
         });
 
         it('dispatches an action of type SEARCH_SUCCESS', () => {
-          expect(action.type)
+          expect(actions[1].type)
             .toEqual(actionTypes.SEARCH_SUCCESS);
+        });
+
+        it('dispatches an action of type UPDATE_RESULTS', () => {
+          expect(actions[2].type)
+            .toEqual(actionTypes.UPDATE_RESULTS);
         });
       });
 
@@ -359,16 +371,27 @@ describe('helpCenter redux actions', () => {
   });
 
   describe('#updateActiveArticle', () => {
-    let action;
+    let action,
+      mockArticle;
 
     beforeEach(() => {
-      mockStore.dispatch(actions.updateActiveArticle());
+      mockArticle = {
+        id: 1,
+        body: '<p>Oh mai gawdddddddddddd</p>'
+      };
+
+      mockStore.dispatch(actions.updateActiveArticle(mockArticle));
       action = mockStore.getActions()[0];
     });
 
     it('dispatches an action of type UPDATE_ACTIVE_ARTICLE', () => {
       expect(action.type)
         .toEqual(actionTypes.UPDATE_ACTIVE_ARTICLE);
+    });
+
+    it('contains the article in the payload', () => {
+      expect(action.payload)
+        .toEqual(mockArticle);
     });
   });
 
@@ -388,6 +411,58 @@ describe('helpCenter redux actions', () => {
     it('contains the search term in the payload', () => {
       expect(action.payload)
         .toEqual('foobar');
+    });
+  });
+
+  describe('#updateViewMoreClicked', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateViewMoreClicked(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_VIEW_MORE_CLICKED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_VIEW_MORE_CLICKED);
+    });
+
+    it('contains the boolean value true in the payload', () => {
+      expect(action.payload)
+        .toEqual(true);
+    });
+  });
+
+  describe('#updateArticleViewActive', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateArticleViewActive(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_ARTICLE_VIEW_ACTIVE', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_ARTICLE_VIEW_ACTIVE);
+    });
+
+    it('contains the boolean value true in the payload', () => {
+      expect(action.payload)
+        .toEqual(true);
+    });
+  });
+
+  describe('#resetActiveArticle', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.resetActiveArticle());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type RESET_ACTIVE_ARTICLE', () => {
+      expect(action.type)
+        .toEqual(actionTypes.RESET_ACTIVE_ARTICLE);
     });
   });
 });
