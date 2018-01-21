@@ -71,7 +71,7 @@ export class HelpCenterArticle extends Component {
         'th', 'td', 'pre', 'video', 'source'
       ],
       transformTags: { 'iframe': this.filterVideoEmbed },
-      allowedSchemes: ['http', 'https', 'mailto', 'blob'],
+      allowedSchemes: ['http', 'https', 'mailto', 'blob', 'tel'],
       allowedSchemesByTag: {
         'iframe': ['https'],
         'img': ['data', 'http', 'https', 'blob']
