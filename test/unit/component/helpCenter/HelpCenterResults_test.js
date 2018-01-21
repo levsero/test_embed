@@ -38,8 +38,7 @@ describe('HelpCenterResults component', () => {
           isRTL: jasmine.createSpy(),
           t: _.identity
         }
-      },
-      '_': _
+      }
     });
 
     articles = [
@@ -172,7 +171,6 @@ describe('HelpCenterResults component', () => {
             <HelpCenterResults
               showViewMore={false}
               showContactButton={false}
-              showBottomBorder={true}
               articles={articles} />
           );
           helpCenterResults.renderResults();
@@ -193,7 +191,6 @@ describe('HelpCenterResults component', () => {
             <HelpCenterResults
               showViewMore={false}
               showContactButton={true}
-              showBottomBorder={true}
               articles={articles} />
           );
           helpCenterResults.renderResults();
@@ -215,25 +212,6 @@ describe('HelpCenterResults component', () => {
             <HelpCenterResults
               showViewMore={false}
               showContactButton={false}
-              showBottomBorder={true}
-              articles={articles} />
-          );
-          helpCenterResults.renderResults();
-        });
-
-        it('should pass down the listBottom classes', () => {
-          expect(document.querySelector('.listBottomClasses'))
-            .toBeTruthy();
-        });
-      });
-
-      describe('when zendesk logo is disabled', () => {
-        beforeEach(() => {
-          helpCenterResults = domRender(
-            <HelpCenterResults
-              showViewMore={false}
-              showContactButton={false}
-              showBottomBorder={false}
               articles={articles} />
           );
           helpCenterResults.renderResults();
@@ -308,38 +286,6 @@ describe('HelpCenterResults component', () => {
           expect(mockI18n.t)
             .toHaveBeenCalledWith('embeddable_framework.helpCenter.search.error.body');
         });
-      });
-    });
-  });
-
-  describe('#borderBottom', () => {
-    it('should display if there are results', () => {
-      const component = shallowRender(<HelpCenterResults articles={articles} />);
-
-      expect(component.props.className)
-        .toMatch('borderClasses');
-    });
-
-    it('should not display if there are no results', () => {
-      const component = shallowRender(<HelpCenterResults />);
-
-      expect(component.props.className)
-        .not.toMatch('borderClasses');
-    });
-
-    it('should not display if the showBottomBorder props is false', () => {
-      const component = shallowRender(<HelpCenterResults articles={articles} showBottomBorder={false} />);
-
-      expect(component.props.className)
-        .not.toMatch('borderClasses');
-    });
-
-    describe('when `applyPadding` prop is true', () => {
-      it('should apply padding to the border', () => {
-        const component = shallowRender(<HelpCenterResults articles={articles} applyPadding={true} />);
-
-        expect(component.props.className)
-          .toMatch('resultsPaddingClasses');
       });
     });
   });
