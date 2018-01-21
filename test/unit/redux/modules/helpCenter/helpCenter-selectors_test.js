@@ -1,11 +1,18 @@
 describe('helpCenter selectors', () => {
   let getSearchLoading,
     getArticleClicked,
+    getViewMoreClicked,
     getSearchFailed,
     getSearchTerm,
     getPreviousSearchTerm,
     getHasSearched,
-    getHasContextuallySearched;
+    getHasContextuallySearched,
+    getActiveArticle,
+    getResultsCount,
+    getShowViewMore,
+    getResultsPerPage,
+    getArticles,
+    getArticleViewActive;
 
   beforeEach(() => {
     mockery.enable();
@@ -18,11 +25,18 @@ describe('helpCenter selectors', () => {
 
     getSearchLoading = selectors.getSearchLoading;
     getArticleClicked = selectors.getArticleClicked;
+    getViewMoreClicked = selectors.getViewMoreClicked;
     getSearchFailed = selectors.getSearchFailed;
     getSearchTerm = selectors.getSearchTerm;
     getPreviousSearchTerm = selectors.getPreviousSearchTerm;
     getHasSearched = selectors.getHasSearched;
     getHasContextuallySearched = selectors.getHasContextuallySearched;
+    getActiveArticle = selectors.getActiveArticle;
+    getResultsCount = selectors.getResultsCount;
+    getShowViewMore = selectors.getShowViewMore;
+    getResultsPerPage = selectors.getResultsPerPage;
+    getArticles = selectors.getArticles;
+    getArticleViewActive = selectors.getArticleViewActive;
   });
 
   describe('getSearchLoading', () => {
@@ -56,6 +70,24 @@ describe('helpCenter selectors', () => {
     });
 
     it('returns the current state of articleClicked', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('getViewMoreClicked', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        viewMoreClicked: true
+      }
+    };
+
+    beforeEach(() => {
+      result = getViewMoreClicked(mockHelpCenterState);
+    });
+
+    it('returns the current state of viewMoreClicked', () => {
       expect(result)
         .toEqual(true);
     });
@@ -150,6 +182,120 @@ describe('helpCenter selectors', () => {
     });
 
     it('returns the current state of hasContextuallySearched', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('getActiveArticle', () => {
+    let result;
+    const mockArticle = { id: 1337, body: '<p>money money money</p>' };
+    const mockHelpCenterState = {
+      helpCenter: {
+        activeArticle: mockArticle
+      }
+    };
+
+    beforeEach(() => {
+      result = getActiveArticle(mockHelpCenterState);
+    });
+
+    it('returns the current state of activeArticle', () => {
+      expect(result)
+        .toEqual(mockArticle);
+    });
+  });
+
+  describe('getResultsCount', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        resultsCount: 5
+      }
+    };
+
+    beforeEach(() => {
+      result = getResultsCount(mockHelpCenterState);
+    });
+
+    it('returns the current state of resultsCount', () => {
+      expect(result)
+        .toEqual(5);
+    });
+  });
+
+  describe('showViewMore', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        viewMoreClicked: false,
+        hasContextuallySearched: false,
+        resultsCount: 4,
+        articles: [{ id: 1 }, { id: 2 }, { id: 3 }]
+      }
+    };
+
+    beforeEach(() => {
+      result = getShowViewMore(mockHelpCenterState);
+    });
+
+    it('returns the current state of showViewMore', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('resultsPerPage', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        resultsPerPage: 3
+      }
+    };
+
+    beforeEach(() => {
+      result = getResultsPerPage(mockHelpCenterState);
+    });
+
+    it('returns the current state of resultsPerPage', () => {
+      expect(result)
+        .toEqual(3);
+    });
+  });
+
+  describe('articles', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        articles: [{ id: 1337 }, { id: 420 }]
+      }
+    };
+
+    beforeEach(() => {
+      result = getArticles(mockHelpCenterState);
+    });
+
+    it('returns the current state of articles', () => {
+      const expectation = [{ id: 1337 }, { id: 420 }];
+
+      expect(result)
+        .toEqual(expectation);
+    });
+  });
+
+  describe('articleViewActive', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        activeArticle: { id: 360 }
+      }
+    };
+
+    beforeEach(() => {
+      result = getArticleViewActive(mockHelpCenterState);
+    });
+
+    it('returns the current state of articleViewActive', () => {
       expect(result)
         .toEqual(true);
     });
