@@ -6,11 +6,11 @@ import {
 const initialState = false;
 
 const viewMoreClicked = (state = initialState, action) => {
-  const { type, payload } = action;
+  const { type } = action;
 
   switch (type) {
     case UPDATE_RESULTS:
-      return !!payload.viewMoreClicked;
+      return false;
     case UPDATE_VIEW_MORE_CLICKED:
       return true;
     default:

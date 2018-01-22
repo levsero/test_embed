@@ -418,18 +418,13 @@ describe('helpCenter redux actions', () => {
     let action;
 
     beforeEach(() => {
-      mockStore.dispatch(actions.updateViewMoreClicked(true));
+      mockStore.dispatch(actions.updateViewMoreClicked());
       action = mockStore.getActions()[0];
     });
 
     it('dispatches an action of type UPDATE_VIEW_MORE_CLICKED', () => {
       expect(action.type)
         .toEqual(actionTypes.UPDATE_VIEW_MORE_CLICKED);
-    });
-
-    it('contains the boolean value true in the payload', () => {
-      expect(action.payload)
-        .toEqual(true);
     });
   });
 

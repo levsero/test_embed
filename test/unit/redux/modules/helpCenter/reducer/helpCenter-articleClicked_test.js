@@ -57,4 +57,19 @@ describe('helpCenter reducer articleClicked', () => {
         .toEqual(true);
     });
   });
+
+  describe('when an RESET_ACTIVE_ARTICLE action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(initialState, {
+        type: actionTypes.RESET_ACTIVE_ARTICLE
+      });
+    });
+
+    it('sets the state to false', () => {
+      expect(state)
+        .toEqual(false);
+    });
+  });
 });

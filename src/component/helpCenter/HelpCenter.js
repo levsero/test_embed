@@ -352,10 +352,13 @@ class HelpCenter extends Component {
 
   getTrackPayload = () => {
     const { searchTerm, resultsCount, articleClicked, activeArticle } = this.props;
+    const count = (resultsCount > minimumSearchResults)
+      ? minimumSearchResults
+      : resultsCount;
 
     return {
       query: searchTerm,
-      resultsCount: (resultsCount > 3) ? 3 : resultsCount,
+      resultsCount: count,
       uniqueSearchResultClick: !articleClicked,
       articleId: activeArticle.id,
       locale: i18n.getLocale()

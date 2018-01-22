@@ -33,30 +33,26 @@ describe('helpCenter reducer viewMoreClicked', () => {
 
     describe('when a boolean value is given', () => {
       beforeEach(() => {
-        state = reducer(initialState, {
-          type: actionTypes.UPDATE_RESULTS,
-          payload: { viewMoreClicked: true }
-        });
+        state = reducer(initialState, { type: actionTypes.UPDATE_RESULTS });
       });
 
-      it('sets the state to true', () => {
-        expect(state)
-          .toEqual(true);
-      });
-    });
-
-    describe('when a non-boolean value is given', () => {
-      beforeEach(() => {
-        state = reducer(initialState, {
-          type: actionTypes.UPDATE_RESULTS,
-          payload: { viewMoreClicked: '' }
-        });
-      });
-
-      it('casts and sets the state to its boolean equivalent', () => {
+      it('sets the state to false', () => {
         expect(state)
           .toEqual(false);
       });
+    });
+  });
+
+  describe('when an UPDATE_VIEW_MORE_CLICKED action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(initialState, { type: actionTypes.UPDATE_VIEW_MORE_CLICKED });
+    });
+
+    it('sets the state to true', () => {
+      expect(state)
+        .toEqual(true);
     });
   });
 });

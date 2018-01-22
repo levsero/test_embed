@@ -8,11 +8,9 @@ import searchFailed from './helpCenter-searchFailed';
 import searchTerm from './helpCenter-searchTerm';
 import hasSearched from './helpCenter-hasSearched';
 import hasContextuallySearched from './helpCenter-hasContextuallySearched';
-
 import articles from './helpCenter-articles';
 import resultsPerPage from './helpCenter-resultsPerPage';
 import resultsCount from './helpCenter-resultsCount';
-import articleViewActive from './helpCenter-articleViewActive';
 
 export default combineReducers({
   activeArticle,
@@ -25,6 +23,5 @@ export default combineReducers({
   hasContextuallySearched,
   articles,
   resultsCount,
-  resultsPerPage,
-  articleViewActive
+  resultsPerPage
 });

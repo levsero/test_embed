@@ -62,7 +62,7 @@ describe('helpCenter reducer activeArticle', () => {
       state = reducer(initialState, { type: actionTypes.RESET_ACTIVE_ARTICLE });
     });
 
-    it('sets the state to null from the payload', () => {
+    it('sets the state to null', () => {
       expect(state)
         .toEqual(null);
     });

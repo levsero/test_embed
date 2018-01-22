@@ -46,7 +46,7 @@ describe('helpCenter reducer articles', () => {
       });
     });
 
-    it('sets the state false from the payload', () => {
+    it('sets the state to the article array from the payload', () => {
       const expected = [{ id: 123 }, { id: 347865 }, { id: 238957 }];
 
       expect(state)

@@ -226,22 +226,25 @@ describe('helpCenter selectors', () => {
 
   describe('showViewMore', () => {
     let result;
-    const mockHelpCenterState = {
-      helpCenter: {
-        viewMoreClicked: false,
-        hasContextuallySearched: false,
-        resultsCount: 4,
-        articles: [{ id: 1 }, { id: 2 }, { id: 3 }]
-      }
-    };
 
-    beforeEach(() => {
-      result = getShowViewMore(mockHelpCenterState);
-    });
+    describe('when resultsCount is higher than # of articles and contextual search and view more click are false', () => {
+      const mockHelpCenterState = {
+        helpCenter: {
+          viewMoreClicked: false,
+          hasContextuallySearched: false,
+          resultsCount: 4,
+          articles: [{ id: 1 }, { id: 2 }, { id: 3 }]
+        }
+      };
 
-    it('returns the current state of showViewMore', () => {
-      expect(result)
-        .toEqual(true);
+      beforeEach(() => {
+        result = getShowViewMore(mockHelpCenterState);
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
     });
   });
 

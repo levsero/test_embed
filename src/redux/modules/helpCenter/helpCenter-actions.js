@@ -45,9 +45,7 @@ const updateResults = (response) => {
     type: UPDATE_RESULTS,
     payload: {
       articles,
-      articleViewActive: false,
-      resultsCount: json.count,
-      viewMoreClicked: false
+      resultsCount: json.count
     }
   };
 };
@@ -68,7 +66,9 @@ export function performSearch(query, done = () => {}, fail = () => {}) {
         type: SEARCH_SUCCESS,
         payload: { response }
       });
+
       dispatch(updateResults(response));
+      done(response);
     };
     const failFn = (error) => {
       dispatch({ type: SEARCH_FAILURE });
@@ -127,11 +127,8 @@ export function updateSearchTerm(term) {
   };
 }
 
-export function updateViewMoreClicked(bool) {
-  return {
-    type: UPDATE_VIEW_MORE_CLICKED,
-    payload: bool
-  };
+export function updateViewMoreClicked() {
+  return { type: UPDATE_VIEW_MORE_CLICKED };
 }
 
 export function resetActiveArticle() {
