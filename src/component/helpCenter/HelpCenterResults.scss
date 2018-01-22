@@ -39,10 +39,6 @@
   composes: u-paddingBM from global;
 }
 
-.resultsBorder {
-  composes: u-borderBottom from global;
-}
-
 .resultsPadding {
   composes: u-paddingBL from global;
 }
@@ -57,10 +53,6 @@
 
 .noResultsMobile {
   composes: u-textSizeBaseMobile from global;
-}
-
-.noResultsBorder {
-  composes: u-borderBottom from global;
 }
 
 .noResultsParagraph {

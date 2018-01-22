@@ -1,4 +1,4 @@
-describe('helpCenter reducer articleClicked', () => {
+describe('helpCenter reducer activeArticle', () => {
   let reducer,
     actionTypes,
     initialState;
@@ -6,7 +6,7 @@ describe('helpCenter reducer articleClicked', () => {
   beforeAll(() => {
     mockery.enable();
 
-    const reducerPath = buildSrcPath('redux/modules/helpCenter/reducer/helpCenter-articleClicked');
+    const reducerPath = buildSrcPath('redux/modules/helpCenter/reducer/helpCenter-activeArticle');
     const actionTypesPath = buildSrcPath('redux/modules/helpCenter/helpCenter-action-types');
 
     reducer = requireUncached(reducerPath).default;
@@ -22,39 +22,31 @@ describe('helpCenter reducer articleClicked', () => {
   });
 
   describe('initial state', () => {
-    it('is set to false', () => {
+    it('is set to null', () => {
       expect(initialState)
-        .toEqual(false);
-    });
-  });
-
-  describe('when an SEARCH_REQUEST action is dispatched', () => {
-    let state;
-
-    beforeEach(() => {
-      state = reducer(initialState, {
-        type: actionTypes.SEARCH_REQUEST
-      });
-    });
-
-    it('sets the state to false', () => {
-      expect(state)
-        .toEqual(false);
+        .toEqual(null);
     });
   });
 
   describe('when an UPDATE_ACTIVE_ARTICLE action is dispatched', () => {
-    let state;
+    let state,
+      mockArticle;
 
     beforeEach(() => {
+      mockArticle = {
+        id: 123,
+        body: 'bogan ipsum'
+      };
+
       state = reducer(initialState, {
-        type: actionTypes.UPDATE_ACTIVE_ARTICLE
+        type: actionTypes.UPDATE_ACTIVE_ARTICLE,
+        payload: mockArticle
       });
     });
 
-    it('sets the state to true', () => {
+    it('sets the state to the article passed from the payload', () => {
       expect(state)
-        .toEqual(true);
+        .toEqual(mockArticle);
     });
   });
 
@@ -62,14 +54,17 @@ describe('helpCenter reducer articleClicked', () => {
     let state;
 
     beforeEach(() => {
-      state = reducer(initialState, {
-        type: actionTypes.RESET_ACTIVE_ARTICLE
-      });
+      initialState = {
+        id: 123,
+        body: 'bogan ipsum'
+      };
+
+      state = reducer(initialState, { type: actionTypes.RESET_ACTIVE_ARTICLE });
     });
 
-    it('sets the state to false', () => {
+    it('sets the state to null', () => {
       expect(state)
-        .toEqual(false);
+        .toEqual(null);
     });
   });
 });

@@ -17,7 +17,6 @@ export class HelpCenterResults extends Component {
     hasContextualSearched: PropTypes.bool,
     previousSearchTerm: PropTypes.string,
     searchFailed: PropTypes.bool,
-    showBottomBorder: PropTypes.bool,
     showContactButton: PropTypes.bool,
     showViewMore: PropTypes.bool
   };
@@ -31,7 +30,6 @@ export class HelpCenterResults extends Component {
     hasContextualSearched: false,
     previousSearchTerm: '',
     searchFailed: false,
-    showBottomBorder: true,
     showContactButton: true,
     showViewMore: false
   };
@@ -63,9 +61,8 @@ export class HelpCenterResults extends Component {
       fullscreen,
       articles,
       showViewMore,
-      showBottomBorder,
       showContactButton } = this.props;
-    const noPaddingClasses = !showContactButton && this.hasInitialSearchResults() && showBottomBorder;
+    const noPaddingClasses = !showContactButton && this.hasInitialSearchResults();
 
     if (showViewMore) {
       paddingClasses = styles.listBottomViewMore;
@@ -87,7 +84,6 @@ export class HelpCenterResults extends Component {
     const noResultsClasses = this.props.fullscreen
                            ? styles.noResultsMobile
                            : styles.noResultsDesktop;
-    const borderClasses = this.props.showBottomBorder ? styles.noResultsBorder : '';
     const paragraphClasses = !this.props.fullscreen ? styles.noResultsParagraphDesktop : '';
 
     /* eslint indent:0 */
@@ -101,7 +97,7 @@ export class HelpCenterResults extends Component {
                : i18n.t('embeddable_framework.helpCenter.search.noResults.body');
 
     return (
-      <div className={`${styles.noResults} ${noResultsClasses} ${borderClasses}`}>
+      <div className={`${styles.noResults} ${noResultsClasses}`}>
         <p className='u-marginBN u-marginTL'>
           {title}
         </p>
@@ -145,10 +141,8 @@ export class HelpCenterResults extends Component {
 
   render = () => {
     const hasInitialSearchResults = this.hasInitialSearchResults();
-    const showBottomBorder = this.props.showBottomBorder && hasInitialSearchResults;
     const applyPadding = this.props.showViewMore ||
                          (this.props.applyPadding && hasInitialSearchResults);
-    const borderClasses = showBottomBorder ? styles.resultsBorder : '';
     const paddingClasses = applyPadding ? styles.resultsPadding : '';
     const legend = !(this.props.searchFailed || this.props.articles.length === 0)
                  ? this.renderLegend()
@@ -159,7 +153,7 @@ export class HelpCenterResults extends Component {
     const viewMoreButton = this.props.showViewMore ? this.renderViewMoreButton() : null;
 
     return (
-      <div className={`${borderClasses} ${paddingClasses}`}>
+      <div className={paddingClasses}>
         {legend}
         {results}
         {viewMoreButton}

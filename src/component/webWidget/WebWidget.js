@@ -14,7 +14,9 @@ import { updateActiveEmbed,
          updateBackButtonVisibility,
          updateAuthenticated } from 'src/redux/modules/base';
 import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
+import { resetActiveArticle } from 'src/redux/modules/helpCenter';
 import { getChatAvailable, getChatEnabled, getTalkAvailable, getTalkEnabled } from 'src/redux/modules/selectors';
+import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getZopimChatEmbed, getActiveEmbed, getAuthenticated } from 'src/redux/modules/base/base-selectors';
@@ -28,6 +30,7 @@ const talk = 'talk';
 
 const mapStateToProps = (state) => {
   return {
+    articleViewActive: getArticleViewActive(state),
     chatNotification: getChatNotification(state),
     activeEmbed: getActiveEmbed(state),
     authenticated: getAuthenticated(state),
@@ -89,7 +92,9 @@ class WebWidget extends Component {
     chatEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
     talkEnabled: PropTypes.bool.isRequired,
-    talkConfig: PropTypes.object
+    talkConfig: PropTypes.object,
+    resetActiveArticle: PropTypes.func.isRequired,
+    articleViewActive: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -123,7 +128,9 @@ class WebWidget extends Component {
     talkOnline: false,
     zopimOnNext: () => {},
     closeFrame: () => {},
-    talkConfig: {}
+    talkConfig: {},
+    resetActiveArticle: () => {},
+    articleViewActive: false
   };
 
   setComponent = (activeComponent) => {
@@ -154,8 +161,6 @@ class WebWidget extends Component {
   getChatComponent = () => this.refs[chat].getWrappedInstance();
 
   getHelpCenterComponent = () => this.refs[helpCenter].getWrappedInstance();
-
-  articleViewActive = () => _.get(this.getHelpCenterComponent(), 'state.articleViewActive', false);
 
   shouldShowTicketFormBackButton = () => {
     if (!this.getSubmitTicketComponent()) return false;
@@ -205,7 +210,7 @@ class WebWidget extends Component {
 
     if (this.isHelpCenterAvailable()) {
       updateActiveEmbed(helpCenter);
-      backButton = this.articleViewActive();
+      backButton = this.props.articleViewActive;
     } else if (this.isChannelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
     } else if (talkAvailable) {
@@ -244,16 +249,18 @@ class WebWidget extends Component {
   }
 
   showHelpCenter = () => {
-    this.props.updateActiveEmbed(helpCenter);
-    this.props.updateBackButtonVisibility(this.articleViewActive());
+    const { updateActiveEmbed, updateBackButtonVisibility, articleViewActive } = this.props;
+
+    updateActiveEmbed(helpCenter);
+    updateBackButtonVisibility(articleViewActive);
   }
 
   onNextClick = (embed) => {
-    const { updateBackButtonVisibility, updateActiveEmbed, oldChat, chatAvailable } = this.props;
+    const { updateBackButtonVisibility, updateActiveEmbed, oldChat, chatAvailable, talkAvailable } = this.props;
 
     if (embed) {
       this.setComponent(embed);
-    } else if (this.props.talkAvailable) {
+    } else if (talkAvailable) {
       updateActiveEmbed(talk);
       updateBackButtonVisibility(true);
     } else if (chatAvailable) {
@@ -284,13 +291,13 @@ class WebWidget extends Component {
 
   onBackClick = () => {
     const rootComponent = this.getRootComponent();
-    const { activeEmbed, updateBackButtonVisibility, updateActiveEmbed } = this.props;
+    const { activeEmbed, updateBackButtonVisibility, updateActiveEmbed, resetActiveArticle } = this.props;
     const helpCenterAvailable = this.isHelpCenterAvailable();
     const channelChoiceAvailable = this.isChannelChoiceAvailable();
 
     if (activeEmbed === helpCenter) {
-      rootComponent.setArticleView(false);
       updateBackButtonVisibility(false);
+      resetActiveArticle();
     } else if (this.shouldShowTicketFormBackButton()) {
       rootComponent.clearForm();
       updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable);
@@ -488,6 +495,7 @@ class WebWidget extends Component {
 }
 
 const actionCreators = {
+  resetActiveArticle,
   updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility,

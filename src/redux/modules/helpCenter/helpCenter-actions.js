@@ -13,7 +13,11 @@ import { SEARCH_REQUEST,
          CONTEXTUAL_SEARCH_SUCCESS,
          CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS,
          UPDATE_ACTIVE_ARTICLE,
-         UPDATE_SEARCH_TERM } from './helpCenter-action-types';
+         UPDATE_SEARCH_TERM,
+         UPDATE_RESULTS,
+         UPDATE_VIEW_MORE_CLICKED,
+         UPDATE_ARTICLE_VIEW_ACTIVE,
+         RESET_ACTIVE_ARTICLE } from './helpCenter-action-types';
 
 const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
   const token = authentication.getToken();
@@ -29,6 +33,19 @@ const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
     callbacks: {
       done: doneFn,
       fail: failFn
+    }
+  };
+};
+
+const updateResults = (response) => {
+  const json = response.body;
+  const articles = json.results;
+
+  return {
+    type: UPDATE_RESULTS,
+    payload: {
+      articles,
+      resultsCount: json.count
     }
   };
 };
@@ -49,6 +66,8 @@ export function performSearch(query, done = () => {}, fail = () => {}) {
         type: SEARCH_SUCCESS,
         payload: { response }
       });
+
+      dispatch(updateResults(response));
       done(response);
     };
     const failFn = (error) => {
@@ -87,8 +106,18 @@ export function performContextualSearch(query, done = () => {}, fail = () => {})
   };
 }
 
-export function updateActiveArticle() {
-  return { type: UPDATE_ACTIVE_ARTICLE };
+export function updateActiveArticle(article) {
+  return {
+    type: UPDATE_ACTIVE_ARTICLE,
+    payload: article
+  };
+}
+
+export function updateArticleViewActive(bool) {
+  return {
+    type: UPDATE_ARTICLE_VIEW_ACTIVE,
+    payload: bool
+  };
 }
 
 export function updateSearchTerm(term) {
@@ -96,4 +125,12 @@ export function updateSearchTerm(term) {
     type: UPDATE_SEARCH_TERM,
     payload: term
   };
+}
+
+export function updateViewMoreClicked() {
+  return { type: UPDATE_VIEW_MORE_CLICKED };
+}
+
+export function resetActiveArticle() {
+  return { type: RESET_ACTIVE_ARTICLE };
 }

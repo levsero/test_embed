@@ -3,7 +3,7 @@ describe('HelpCenter component', () => {
     mockRegistry,
     mockPageKeywords,
     trackSearch,
-    updateResults,
+    showBackButton,
     search;
 
   const helpCenterPath = buildSrcPath('component/helpCenter/HelpCenter');
@@ -23,7 +23,7 @@ describe('HelpCenter component', () => {
 
   beforeEach(() => {
     trackSearch = jasmine.createSpy('trackSearch');
-    updateResults = jasmine.createSpy('updateResults');
+    showBackButton = jasmine.createSpy('showBackButton');
     search = jasmine.createSpy('search');
 
     mockery.enable();
@@ -77,7 +77,9 @@ describe('HelpCenter component', () => {
           }
         }
       },
-      'src/redux/modules/helpCenter': {},
+      'src/redux/modules/helpCenter': {
+        showBackButton: noop
+      },
       'src/redux/modules/helpCenter/helpCenter-selectors': {},
       'src/redux/modules/talk/talk-selectors': {},
       'src/redux/modules/selectors': {},
@@ -182,49 +184,6 @@ describe('HelpCenter component', () => {
     });
   });
 
-  describe('updateResults', () => {
-    let helpCenter,
-      mockShowBackButton,
-      responsePayloadResults;
-
-    beforeEach(() => {
-      mockShowBackButton = jasmine.createSpy('mockShowBackButton');
-
-      helpCenter = domRender(<HelpCenter showBackButton={mockShowBackButton} />);
-
-      responsePayloadResults = { ok: true, body: { results: [1, 2, 3], count: 3 } };
-      helpCenter.updateResults(responsePayloadResults);
-    });
-
-    it('should set states matching the response with results', () => {
-      expect(helpCenter.state.articles)
-        .toEqual(responsePayloadResults.body.results);
-
-      expect(helpCenter.state.resultsCount)
-        .toEqual(responsePayloadResults.body.count);
-
-      expect(helpCenter.state.articleViewActive)
-        .toEqual(false);
-    });
-
-    it('should call props.showBackButton', () => {
-      expect(mockShowBackButton)
-        .toHaveBeenCalledWith(false);
-    });
-
-    it('should set states matching the response without results', () => {
-      const responsePayloadNoResults = { ok: true, body: { results: [], count: 0 } };
-
-      helpCenter.updateResults(responsePayloadNoResults);
-
-      expect(helpCenter.state.articles)
-        .toEqual(responsePayloadNoResults.body.results);
-
-      expect(helpCenter.state.resultsCount)
-        .toEqual(responsePayloadNoResults.body.count);
-    });
-  });
-
   describe('pauseAllVideos', () => {
     let helpCenter,
       videoList;
@@ -257,12 +216,18 @@ describe('HelpCenter component', () => {
     const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
 
     let helpCenter,
-      mockPerformContextualSearch;
+      mockPerformContextualSearch,
+      showBackButtonSpy;
 
     beforeEach(() => {
       mockPerformContextualSearch = jasmine.createSpy('mockPerformContextualSearch');
+      showBackButtonSpy = jasmine.createSpy('showBackButton');
 
-      helpCenter = domRender(<HelpCenter performContextualSearch={mockPerformContextualSearch}/>);
+      helpCenter = domRender(
+        <HelpCenter
+          showBackButton={showBackButtonSpy}
+          performContextualSearch={mockPerformContextualSearch} />
+        );
     });
 
     it('should call performContextualSearch', () => {
@@ -416,10 +381,10 @@ describe('HelpCenter component', () => {
         .not.toHaveBeenCalled();
     });
 
-    it('shouldn\'t call updateResults if no results', () => {
+    it('shouldn\'t call showBackButton if no results', () => {
       const searchOptions = { labels: ['foo', 'bar'] };
 
-      helpCenter.updateResults = updateResults;
+      helpCenter.showBackButton = showBackButton;
 
       helpCenter.contextualSearch(searchOptions);
 
@@ -439,14 +404,12 @@ describe('HelpCenter component', () => {
 
       mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadNoResults);
 
-      expect(helpCenter.updateResults)
+      expect(helpCenter.showBackButton)
         .not.toHaveBeenCalled();
     });
 
-    it('should set states and call updateResults if results, with search', () => {
+    it('should set states and call showBackButton if results, with search', () => {
       const searchOptions = { search: 'foo bar' };
-
-      helpCenter.updateResults = updateResults;
 
       helpCenter.contextualSearch(searchOptions);
 
@@ -463,15 +426,13 @@ describe('HelpCenter component', () => {
 
       mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadResults);
 
-      expect(helpCenter.updateResults)
-        .toHaveBeenCalledWith(responsePayloadResults);
+      expect(showBackButtonSpy)
+        .toHaveBeenCalledWith(false);
     });
 
-    it('should set states and call updateResults if results, with labels', () => {
+    it('should set states and call showBackButton if results, with labels', () => {
       /* eslint camelcase:0 */
       const searchOptions = { labels: ['foo', 'bar'] };
-
-      helpCenter.updateResults = updateResults;
 
       helpCenter.contextualSearch(searchOptions);
 
@@ -488,8 +449,8 @@ describe('HelpCenter component', () => {
 
       mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadResults);
 
-      expect(helpCenter.updateResults)
-        .toHaveBeenCalledWith(responsePayloadResults);
+      expect(showBackButtonSpy)
+        .toHaveBeenCalledWith(false);
     });
 
     it('should request 3 results', () => {
@@ -820,46 +781,49 @@ describe('HelpCenter component', () => {
   });
 
   describe('interactiveSearchSuccessFn', () => {
-    let mockOnSearch, helpCenter, result, query;
+    let onSearchSpy,
+      showBackButtonSpy,
+      helpCenter,
+      result,
+      query;
 
     beforeEach(() => {
-      mockOnSearch = jasmine.createSpy('onSearch');
-      helpCenter = domRender(<HelpCenter onSearch={mockOnSearch} />);
+      onSearchSpy = jasmine.createSpy('onSearch');
+      showBackButtonSpy = jasmine.createSpy('showBackButton');
 
+      helpCenter = domRender(
+        <HelpCenter
+          onSearch={onSearchSpy}
+          showBackButton={showBackButtonSpy} />
+      );
       result = {
         body: {
           results: []
         }
       };
-
       query = {
         query: 'a search query',
         locale: 'en-US'
       };
 
-      helpCenter.updateResults = jasmine.createSpy('updateResults');
       helpCenter.getHelpCenterComponent().focusField = jasmine.createSpy('focusField');
-
       helpCenter.interactiveSearchSuccessFn(result, query);
     });
 
     it('calls props.onSearch', () => {
-      expect(mockOnSearch)
+      expect(onSearchSpy)
         .toHaveBeenCalled();
 
-      expect(mockOnSearch.calls.mostRecent().args[0])
+      expect(onSearchSpy.calls.mostRecent().args[0])
         .toEqual(jasmine.objectContaining({
           searchTerm: query.query,
           searchLocale: query.locale
         }));
     });
 
-    it('calls updateResults', () => {
-      expect(helpCenter.updateResults)
-        .toHaveBeenCalled();
-
-      expect(helpCenter.updateResults.calls.mostRecent().args[0])
-        .toEqual(result);
+    it('calls showBackButton with false', () => {
+      expect(showBackButtonSpy)
+        .toHaveBeenCalledWith(false);
     });
 
     it('calls focusField', () => {
@@ -970,15 +934,7 @@ describe('HelpCenter component', () => {
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
       const mockOnArticleClick = jasmine.createSpy('mockOnArticleClick');
       const searchTerm = 'help, I\'ve fallen and can\'t get up!';
-      const helpCenter = domRender(
-        <HelpCenter
-          performSearch={mockPerformSearch}
-          onArticleClick={mockOnArticleClick}
-          onSearch={noop}
-          searchTerm={searchTerm}
-          onLinkClick={noop}
-          showBackButton={noop} />
-      );
+      const resultsCount = 3;
       const responseArticle = {
         id: 0,
         title: 'bob',
@@ -988,27 +944,45 @@ describe('HelpCenter component', () => {
       const responsePayload = {
         body: {
           results: [responseArticle, responseArticle, responseArticle],
-          count: 3
+          count: resultsCount
         },
         ok: true
       };
+      let helpCenter = domRender(
+        <HelpCenter
+          performSearch={mockPerformSearch}
+          onArticleClick={mockOnArticleClick}
+          onSearch={noop}
+          searchTerm={searchTerm}
+          onLinkClick={noop}
+          showBackButton={noop} />
+      );
 
       helpCenter.trackSearch = trackSearch;
-
       helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => searchTerm;
-
       helpCenter.performSearchWithLocaleFallback({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
 
       // THIS setState BLOCK TO SIMULATE search triggering performSearch
       // TODO: make a better version of this test case
-      helpCenter.setState({
-        searchTracked: true
-      });
+      helpCenter.setState({ searchTracked: true });
 
       mockPerformSearch.calls.mostRecent().args[1](responsePayload);
 
       expect(() => TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'UserContent'))
         .toThrow();
+
+      // Simulate Redux prop update by re-rendering
+      helpCenter = domRender(
+        <HelpCenter
+          resultsCount={resultsCount}
+          activeArticle={{ id: 0 }}
+          performSearch={mockPerformSearch}
+          onArticleClick={mockOnArticleClick}
+          onSearch={noop}
+          searchTerm={searchTerm}
+          onLinkClick={noop}
+          showBackButton={noop} />
+      );
 
       helpCenter.handleArticleClick(1, { preventDefault: noop });
 
@@ -1020,7 +994,7 @@ describe('HelpCenter component', () => {
       expect(mockOnArticleClick)
         .toHaveBeenCalledWith({
           query: searchTerm,
-          resultsCount: 3,
+          resultsCount: resultsCount,
           uniqueSearchResultClick: true,
           articleId: 0,
           locale: undefined
@@ -1067,31 +1041,24 @@ describe('HelpCenter component', () => {
   });
 
   describe('handleViewMoreClick', () => {
-    let helpCenter;
+    let helpCenter,
+      updateViewMoreClickedSpy;
 
     beforeEach(() => {
-      helpCenter = domRender(<HelpCenter performSearch={noop}/>);
+      updateViewMoreClickedSpy = jasmine.createSpy('updateViewMoreClicked');
+      helpCenter = domRender(
+        <HelpCenter
+          updateViewMoreClicked={updateViewMoreClickedSpy}
+          performSearch={noop} />
+      );
       helpCenter.search = search;
     });
 
-    it('sets state.resultsPerPage to 9', () => {
-      expect(helpCenter.state.resultsPerPage)
-        .toEqual(3);
-
+    it('calls updateViewMoreClicked', () => {
       helpCenter.handleViewMoreClick({ preventDefault: noop });
 
-      expect(helpCenter.state.resultsPerPage)
-        .toEqual(9);
-    });
-
-    it('sets state.viewMoreActive to true', () => {
-      expect(helpCenter.state.viewMoreActive)
-        .toEqual(false);
-
-      helpCenter.handleViewMoreClick({ preventDefault: noop });
-
-      expect(helpCenter.state.viewMoreActive)
-        .toEqual(true);
+      expect(updateViewMoreClickedSpy)
+        .toHaveBeenCalled();
     });
 
     it('calls search', () => {
@@ -1109,8 +1076,14 @@ describe('HelpCenter component', () => {
       mockOnViewOriginalArticleClick;
 
     beforeEach(() => {
+      const mockActiveArticle = { id: 1 };
+
       mockOnViewOriginalArticleClick = jasmine.createSpy('mockOnViewOriginalArticleClick');
-      helpCenter = domRender(<HelpCenter onViewOriginalArticleClick={mockOnViewOriginalArticleClick} />);
+      helpCenter = domRender(
+        <HelpCenter
+          onViewOriginalArticleClick={mockOnViewOriginalArticleClick}
+          activeArticle={mockActiveArticle} />
+      );
       helpCenter.handleOriginalArticleClick({ preventDefault: noop });
     });
 
@@ -1193,6 +1166,138 @@ describe('HelpCenter component', () => {
       it('calls setChannelChoiceShown with false', () => {
         expect(helpCenter.setChannelChoiceShown)
           .toHaveBeenCalledWith(false);
+      });
+    });
+  });
+
+  describe('trackArticleView', () => {
+    let helpCenter,
+      onArticleClickSpy,
+      getTrackPayloadSpy,
+      mockPayload;
+
+    beforeEach(() => {
+      mockPayload = {
+        query: 'bob',
+        resultsCount: 3,
+        uniqueSearchResultClick: false,
+        articleId: 0,
+        locale: 'en-US'
+      };
+      onArticleClickSpy = jasmine.createSpy('onArticleClick');
+      getTrackPayloadSpy = jasmine.createSpy('getTrackPayload').and.returnValue(mockPayload);
+
+      helpCenter = instanceRender(<HelpCenter onArticleClick={onArticleClickSpy} />);
+      helpCenter.getTrackPayload = getTrackPayloadSpy;
+
+      helpCenter.trackArticleView();
+    });
+
+    it('calls onArticleClickActive', () => {
+      expect(onArticleClickSpy)
+        .toHaveBeenCalledWith(mockPayload);
+    });
+
+    it('calls getTrackPayload', () => {
+      expect(getTrackPayloadSpy)
+        .toHaveBeenCalled();
+    });
+  });
+
+  describe('handleArticleClick', () => {
+    let helpCenter,
+      articleIndex,
+      mockArticles,
+      updateActiveArticleSpy,
+      showBackButtonSpy,
+      trackSearchSpy,
+      trackArticleViewSpy,
+      updateArticleViewActiveSpy;
+
+    beforeEach(() => {
+      const mockEvent = { preventDefault: () => {} };
+
+      articleIndex = 1;
+      trackSearchSpy = jasmine.createSpy('trackSearch');
+      trackArticleViewSpy = jasmine.createSpy('trackArticleView');
+      showBackButtonSpy = jasmine.createSpy('showBackButton');
+      updateActiveArticleSpy = jasmine.createSpy('updateActiveArticle');
+      updateArticleViewActiveSpy = jasmine.createSpy('updateArticleViewActiveSpy');
+      mockArticles = [
+        { 'foo': 123 },
+        { 'bar': 456 }
+      ];
+
+      helpCenter = instanceRender(
+        <HelpCenter
+          articles={mockArticles}
+          updateActiveArticle={updateActiveArticleSpy}
+          showBackButton={showBackButtonSpy}
+          updateArticleViewActive={updateArticleViewActiveSpy} />
+      );
+      helpCenter.trackSearch = trackSearchSpy;
+      helpCenter.trackArticleView = trackArticleViewSpy;
+
+      helpCenter.handleArticleClick(articleIndex, mockEvent);
+    });
+
+    it('calls updateArticleActive with an article', () => {
+      expect(updateActiveArticleSpy)
+        .toHaveBeenCalledWith(mockArticles[articleIndex]);
+    });
+
+    it('calls showBackButton', () => {
+      expect(showBackButtonSpy)
+        .toHaveBeenCalled();
+    });
+
+    it('calls trackSearch', () => {
+      expect(trackSearchSpy)
+        .toHaveBeenCalled();
+    });
+
+    it('calls trackArticleView', () => {
+      jasmine.clock().tick(0);
+
+      expect(trackArticleViewSpy)
+        .toHaveBeenCalled();
+    });
+
+    describe('when the search is already tracked', () => {
+      beforeEach(() => {
+        const mockEvent = { preventDefault: () => {} };
+
+        trackSearchSpy = jasmine.createSpy('trackSearch');
+
+        helpCenter = instanceRender(<HelpCenter hasContextualSearched={false} />);
+        helpCenter.trackSearch = trackSearchSpy;
+        helpCenter.setState({ searchTracked: true });
+
+        helpCenter.handleArticleClick(0, mockEvent);
+      });
+
+      it('does not call trackSearch', () => {
+        expect(trackSearchSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when contextual search has been performed', () => {
+      beforeEach(() => {
+        const mockEvent = { preventDefault: () => {} };
+
+        trackSearchSpy = jasmine.createSpy('trackSearch');
+
+        helpCenter = instanceRender(<HelpCenter hasContextualSearched={true} />);
+        helpCenter.trackSearch = trackSearchSpy;
+        helpCenter.setState({ searchTracked: false });
+
+        helpCenter.handleArticleClick(0, mockEvent);
+      });
+
+      it('does not call trackSearch', () => {
+        expect(trackSearchSpy)
+          .not.toHaveBeenCalled();
       });
     });
   });
