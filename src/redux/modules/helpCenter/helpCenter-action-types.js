@@ -8,5 +8,5 @@ export const CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS = 'widget/helpCenter/CONTEXTUA
 export const UPDATE_ACTIVE_ARTICLE = 'widget/helpCenter/UPDATE_ACTIVE_ARTICLE';
 export const UPDATE_RESULTS = 'widget/helpCenter/UPDATE_RESULTS';
 export const UPDATE_VIEW_MORE_CLICKED = 'widget/helpCenter/UPDATE_VIEW_MORE_CLICKED';
-export const UPDATE_ARTICLE_VIEW_ACTIVE = 'widget/helpCenter/UPDATE_ARTICLE_VIEW_ACTIVE';
 export const RESET_ACTIVE_ARTICLE = 'widget/helpCenter/RESET_ACTIVE_ARTICLE';
+export const ORIGINAL_ARTICLE_CLICKED = 'widget/helpCenter/ORIGINAL_ARTICLE_CLICKED';

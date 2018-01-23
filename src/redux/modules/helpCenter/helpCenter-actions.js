@@ -16,7 +16,7 @@ import { SEARCH_REQUEST,
          UPDATE_SEARCH_TERM,
          UPDATE_RESULTS,
          UPDATE_VIEW_MORE_CLICKED,
-         UPDATE_ARTICLE_VIEW_ACTIVE,
+         ORIGINAL_ARTICLE_CLICKED,
          RESET_ACTIVE_ARTICLE } from './helpCenter-action-types';
 
 const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
@@ -107,17 +107,16 @@ export function performContextualSearch(query, done = () => {}, fail = () => {})
   };
 }
 
+export function handleOriginalArticleClicked() {
+  return {
+    type: ORIGINAL_ARTICLE_CLICKED
+  };
+}
+
 export function updateActiveArticle(article) {
   return {
     type: UPDATE_ACTIVE_ARTICLE,
     payload: article
-  };
-}
-
-export function updateArticleViewActive(bool) {
-  return {
-    type: UPDATE_ARTICLE_VIEW_ACTIVE,
-    payload: bool
   };
 }
 
