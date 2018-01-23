@@ -1,7 +1,12 @@
+/* 1. Special case this for Talk product.
+      Remove this once Dropdown component has been fixed for menuUp case. */
+
+
 @import '../../styles/_vars.scss';
 
 $flag-size: #{17.5/$font-size}rem !important;
 $flag-size-mobile: #{20.5/$font-size}rem !important;
+$menu-height: #{200/$font-size}rem;
 
 .dropdown {
   composes: u-inlineBlock from global;
@@ -14,6 +19,8 @@ $flag-size-mobile: #{20.5/$font-size}rem !important;
 
 .menuContainer {
   width: #{300/$font-size}rem !important;
+  max-height: $menu-height; /* 1 */
+  height: auto !important; /* 1 */
 }
 
 .dropdownInput {
