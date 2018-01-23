@@ -22,6 +22,26 @@ parts:
       screenshot: "https://zendesk.box.com/s/cybiy7gshwetcw9y8yd0o40ddixfdjj6"
       value: "Live chat"
   - translation:
+      key: "embeddable_framework.common.button.dismiss"
+      title: "A generic label to describe the button's action to dismiss the modal where the option is contained."
+      screenshot: "https://zendesk.box.com/s/8s75rxg4o9y8mgr9hvlhbuthxrrv6t1n"
+      value: "Dismiss"
+  - translation:
+      key: "embeddable_framework.common.button.end"
+      title: "A generic label to describe the button's action to end something in context; e.g. a chat session, phone call, voice call, etc."
+      screenshot: "https://zendesk.box.com/s/ytti883fcn6exjuebp0u1vgxskgvrjz9"
+      value: "End"
+  - translation:
+      key: "embeddable_framework.common.button.save"
+      title: "A generic label to describe the button's action to save a form's details."
+      screenshot: "https://zendesk.box.com/s/t27e7sebkcxl64rk2fgvq8s3hzy0u9m2"
+      value: "Save"
+  - translation:
+      key: "embeddable_framework.common.button.skip"
+      title: "A generic label to describe the button's action to skip the action described by the modal containing the button."
+      screenshot: "https://zendesk.box.com/s/t61zjobgsc3i1zjo5l38w6sjsdiaslrp"
+      value: "Skip"
+  - translation:
       key: "embeddable_framework.common.notify.error.generic"
       title: "A message displayed on a styled error element, its purpose is to show a generic error message"
       screenshot: "https://zendesk.box.com/s/3sshpz05wv1fv4fj6wwbmsgbpqqu4c7w"
@@ -37,10 +57,40 @@ parts:
       screenshot: "https://zendesk.box.com/s/gvom4euerrdzmiwq0z8n2ma3vcoeh0rr"
       value: "Name"
   - translation:
+      key: "embeddable_framework.common.textLabel.your_name"
+      title: "A generic field heading that describes the input that follows where it accept a name."
+      screenshot: "https://zendesk.box.com/s/x2xurz9c4oae1rzuz8oyf3m1a692psag"
+      value: "Your name"
+  - translation:
+      key: "embeddable_framework.common.textLabel.email"
+      title: "A generic field heading that describes the input that follows where it accept an email."
+      screenshot: "https://zendesk.box.com/s/x2xurz9c4oae1rzuz8oyf3m1a692psag"
+      value: "Email"
+  - translation:
+      key: "embeddable_framework.common.textLabel.message"
+      title: "A generic field heading that describes the input that follows where it accept a message."
+      screenshot: "https://zendesk.box.com/s/dmpnac3geyud5ar4fqz4jq53wr86frcx"
+      value: "Message"
+  - translation:
       key: "embeddable_framework.common.textLabel.description"
       title: "The label for a generic description form field."
       screenshot: "https://zendesk.box.com/s/ou2h0p2glttacdu1zwmflui05rkk57un"
       value: "How can we help?"
+  - translation:
+      key: "embeddable_framework.common.attachments.dragdrop"
+      title: "A generic label or text to describe the action that will occur when a file is dragged over a targetted area"
+      screenshot: "https://zendesk.box.com/s/q2pl86lfl5ryxcqm3g0wxksptgh89cna"
+      value: "Drop to attach"
+  - translation:
+      key: "embeddable_framework.common.attachments.error.other"
+      title: "A generic error message that appears when the user tries to attach a file and the error is unidentified."
+      screenshot: "https://zendesk.box.com/s/9wegsy1p4on66he1ani9p504zlf7qvtx"
+      value: "There was a problem attaching this file. Please try again."
+  - translation:
+      key: "embeddable_framework.common.footer.cookies.description"
+      title: "A short lengthed message that describes the product uses cookies to store data."
+      screenshot: "https://zendesk.box.com/s/owtd3fzje8crsf86g2vqto0jdg4z904c"
+      value: "This widget uses cookies."
 
   # Launcher embed
   - translation:
@@ -97,22 +147,56 @@ parts:
       screenshot: "https://zendesk.box.com/s/0mq2yi7sukwjn4jhbi3rkt6m82komx6h"
       value: "Ask us anything"
   - translation:
-      key: "embeddable_framework.chat.end.label"
-      title: "The label that displays on the end chat button"
-      value: "End"
-      wip: true
-  - translation:
-      key: "embeddable_framework.chat.ended.label"
-      title: "The label that displays once chat has ended"
-      value: "Chat ended"
-      wip: true
-  - translation:
-      key: "embeddable_framework.chat.reconnecting.title"
+      key: "embeddable_framework.chat.reconnecting.label"
       title: "The title that displays in the chat reconnecting message bubble"
       value: "Reconnecting"
-      wip: true
 
   # Chat Web SDK
+  - translation:
+      key: "embeddable_framework.chat.agreement.cookies.title"
+      title: "The title that encompasses the following body that describes the agreement for the user to accept in order to access and use the Chat product as intended."
+      screenshot: "https://zendesk.box.com/s/n0hbf5yhz5rctwtvloueirsmxeuup8ux"
+      value: "Zendesk Chat requires cookies to function"
+  - translation:
+      key: "embeddable_framework.chat.agreement.cookies.reenable_chat_note"
+      title: "A note that is displayed at the bottom of the container prior making a selection."
+      screenshot: "https://zendesk.box.com/s/tpgi4fvbj5qi79gmhubi9zo6ipcpscx3"
+      value: "You may re-enable chat anytime."
+  - translation:
+      key: "embeddable_framework.chat.agreement.cookies.disable_chat_note"
+      title: "A note that is displayed at the bottom of the container prior making a selection."
+      screenshot: "https://zendesk.box.com/s/f4xkx3wbgdk0h1dnsho1un6kaitufm6i"
+      value: "You may disable the chat anytime."
+  - translation:
+      key: "embeddable_framework.chat.agreement.cookies.statement"
+      title: "A neutral body of text that follows after a title that details the intended agreement to be applied when the user makes a button selection."
+      screenshot: "https://zendesk.box.com/s/r5wj9zhr88dx1ohz2xa194x9yq6cngd4"
+      value: "If you do not agree with our cookie policy, you may disable the chat widget. Past information and cookies will be removed."
+  - translation:
+      key: "embeddable_framework.chat.agreement.cookies.statement.cookies_objection"
+      title: "A neutral body of text that follows after a title that details the intended agreement to be applied when the user makes a button selection."
+      screenshot: "https://zendesk.box.com/s/j87g3d8bv0drp5al3gmff8fig4weix11"
+      value: "You objected to the use of cookies based on our cookie policy. Approve the use of cookies to enable chat functions."
+  - translation:
+      key: "embeddable_framework.chat.agreement.cookies.disable_chat"
+      title: "A button that describes that the user will disable Chat product when clicked."
+      screenshot: "https://zendesk.box.com/s/wzwh72gz1tqifd6u29ftu7579matgl2x"
+      value: "Disable Chat"
+  - translation:
+      key: "embeddable_framework.chat.agreement.cookies.enable"
+      title: "A button that describes that the user will enable Cookies and Chat product when clicked."
+      screenshot: "https://zendesk.box.com/s/dxhe1cuu0iflzbsue2zwq9t6648kiuwp"
+      value: "Enable Cookies and Chat"
+  - translation:
+      key: "embeddable_framework.chat.chatlog.comment.submitted"
+      title: "A system message that is displayed in the middle of a chat log when the user has submitted their comment as feedback for the current chat session"
+      screenshot: "https://zendesk.box.com/s/q87klo5a1fe8egi3ufxinljpq01k91rv"
+      value: "Comment submitted"
+  - translation:
+      key: "embeddable_framework.chat.title"
+      title: "The title that is displayed on the top of the container's frame"
+      screenshot: "https://zendesk.box.com/s/x3yx88qnonc2l6zfko7nkt2uupnurtbp"
+      value: "Chat with us"
   - translation:
       key: "embeddable_framework.chat.form.editContact.title"
       title: "The title of the form modal that is shown when the user edits the contact details in chat"
@@ -149,6 +233,11 @@ parts:
       screenshot: "https://zendesk.box.com/s/qawwqamv9lhpzjjg8mfrfwz4vmp0twbp"
       value: "Sorry, we aren't online at the moment. Leave a message and we'll get back to you."
   - translation:
+      key: "embeddable_framework.chat.options.yourProfile"
+      title: "One of the options that is presented in chat when the user clicks on the ellipses icon. It describes the ability to edit the user's own profile attributes such as name, email and potentially other details."
+      screenshot: "https://zendesk.box.com/s/ujva92iwya5cwseu3lpizsytm7y6i200"
+      value: "Your profile"
+  - translation:
       key: "embeddable_framework.chat.options.editContactDetails"
       title: "One of the options that is presented in chat when the user clicks on the ellipses icon"
       screenshot: "https://zendesk.box.com/s/9sae07rivufhpmr8kf3rv5tmhjalohio"
@@ -182,7 +271,7 @@ parts:
       key: "embeddable_framework.chat.chatLog.rating.description"
       title: "A template text to describe the user's rating of the chat followed by a value e.g. Good/Bad"
       screenshot: "https://zendesk.box.com/s/6217lsbb6xpx9islgzrtg65o6ozma3zz"
-      value: "You rated the chat"
+      value: "Chat rated %(value)s"
   - translation:
       key: "embeddable_framework.chat.chatLog.rating.good"
       title: "A rating value that is displayed once the user clicks on thumbs up icon"
@@ -194,15 +283,30 @@ parts:
       screenshot: "https://zendesk.box.com/s/cr65lbpqkg0sutj587wajfukzu58a9kg"
       value: "Bad"
   - translation:
+      key: "embeddable_framework.chat.chatLog.queuePosition"
+      title: "The system message that is displayed onto the chat log when all agents are occupied and the user is queued."
+      screenshot: "https://zendesk.box.com/s/1816c5npxee9tvap5hz5d3ye1g42w6v1"
+      value: "Queue position: %(value)s"
+  - translation:
       key: "embeddable_framework.chat.chatLog.chatStarted"
       title: "An application message that is displayed on the chat log when the user enters into a chat with a Chat agent"
       screenshot: "https://zendesk.box.com/s/2qm6ess3wmdt3glsjhrmemwqosxgxidf"
       value: "Chat started"
   - translation:
+      key: "embeddable_framework.chat.chatLog.chatEnded"
+      title: "The system message that is displayed onto the chat log once the user or an agent has ended the chat session."
+      screenshot: "https://zendesk.box.com/s/1xzdf3rzfbdco5aeeqkzdesd20f1u83e"
+      value: "Chat ended"
+  - translation:
       key: "embeddable_framework.chat.chatLog.button.leaveComment"
       title: "A text that is displayed on a button that provides the user with the ability to navigate to a rating form"
       screenshot: "https://zendesk.box.com/s/bawjetlh45rha525gnoy1042n78s9hv5"
       value: "Leave a comment"
+  - translation:
+      key: "embeddable_framework.chat.chatLog.button.rateChat"
+      title: "A button that is shown within the chat log when the agent initiates a rating prompt to the user in the chat session."
+      screenshot: "https://zendesk.box.com/s/cusff9jlt8u9ru0q71iw9hcrusnphxkd"
+      value: "Rate this chat"
   - translation:
       key: "embeddable_framework.chat.chatLog.isTyping"
       title: "An application notifier that signifies that an X person is typing a message"
@@ -234,6 +338,11 @@ parts:
       screenshot: "https://zendesk.box.com/s/m25eokdc7fwux7rhkyu6mi6eef9noedc"
       value: "Sending..."
   - translation:
+      key: "embeddable_framework.chat.chatLog.uploading"
+      title: "A text that is displayed at the bottom of an attachment signifying that its in the process of being uploaded to the server."
+      screenshot: "https://zendesk.box.com/s/0yvw1vbm79q8ibvpv36nntyw7asm1yqm"
+      value: "Uploading..."
+  - translation:
       key: "embeddable_framework.chat.form.endChat.description"
       title: "A description that is displayed on a form modal to notify the users if they want to quit the current chat"
       screenshot: "https://zendesk.box.com/s/hsnutdne9ixb8b6ygperw3exb0j2m8uw"
@@ -243,6 +352,12 @@ parts:
       title: "A text that is shown on a button when the user would like to end the current chat"
       screenshot: "https://zendesk.box.com/s/pkzhz6n8nzte7jnu20j8ry0vaadpk9qp"
       value: "End"
+      obsolete: "2018-02-24"
+  - translation:
+      key: "embeddable_framework.chat.postChat.byline"
+      title: "A byline that appears under a chat header when the chat session has ended."
+      screenshot: "https://zendesk.box.com/s/2mrpr8jwv57m93dx0q4wffzpcoh4oi4y"
+      value: "Thank you for chatting with us."
   - translation:
       key: "embeddable_framework.chat.postChat.rating.title"
       title: "A title text describing the intent of the following section, it asks if the user would like to rate the prior chat session"
@@ -348,6 +463,7 @@ parts:
       key: "embeddable_framework.submitTicket.form.cancelButton.label.cancel"
       title: "The label on the button to cancel the form in the submit ticket form (tinyurl.com/pd286zm)"
       value: "Cancel"
+      obsolete: "2018-02-24"
   - translation:
       key: "embeddable_framework.submitTicket.form.submittedFrom.label"
       title: "The label added to tickets to show what page they were submitted from. %()s stands for string and does not need to be edited as it us part of the placeholder %(url)s. (https://zendesk.box.com/s/xphceiyfi5lod5978fxuwynm9hg0xcs9)"
@@ -554,6 +670,7 @@ parts:
       title: "The label that appears when attaching a file through drag and drop. Will wrap as needed. (https://zendesk.box.com/s/q2pl86lfl5ryxcqm3g0wxksptgh89cna)"
       screenshot: "https://zendesk.box.com/s/q2pl86lfl5ryxcqm3g0wxksptgh89cna"
       value: "Drop to attach"
+      obsolete: "2018-02-24"
   - translation:
       key: "embeddable_framework.submitTicket.attachments.button.label"
       title: "The label on the form about attaching files. Will wrap as needed. (https://zendesk.box.com/s/iglhqt5vb2ds5pmxujckzvg3pga2r7lz)"
@@ -593,6 +710,7 @@ parts:
       title: "The error notification that appears when something goes wrong with the upload. Will wrap as needed. (https://zendesk.box.com/s/i2vh170lwc39bffkjl59zu0ztq6zafnq)"
       screenshot: "https://zendesk.box.com/s/i2vh170lwc39bffkjl59zu0ztq6zafnq"
       value: "There was a problem attaching this file. Please try again."
+      obsolete: "2018-02-24"
 
   # Automatic Answers
   - translation:
@@ -715,7 +833,6 @@ parts:
       title: "Error message on failed undo of previous solve ticket action."
       screenshot: "https://zendesk.box.com/s/sz5u3z3a3jqu0irva7p9xhoyqlyh57d8"
       value: "Please contact us to reopen your request"
-
   - translation:
       key: "embeddable_framework.automaticAnswers.desktop.irrelevant.question"
       title: "Ask the user for feedback on why the article didn't answer their question. Do not use YOUR question but THE question (or similar) to avoid formal/informal issues."
