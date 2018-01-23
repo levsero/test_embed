@@ -1,4 +1,4 @@
-fdescribe('helpCenter reducer totalUserSearches', () => {
+describe('helpCenter reducer totalUserSearches', () => {
   let reducer,
     actionTypes,
     initialState;
