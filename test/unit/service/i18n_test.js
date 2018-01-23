@@ -369,7 +369,7 @@ describe('i18n', () => {
       i18n.setLocale('zh');
 
       expect(i18n.getLocale())
-        .toEqual('zh-CN');
+        .toEqual('zh-cn');
     });
 
     it('should return Norwegian locale for `nb` and `nn` key', () => {

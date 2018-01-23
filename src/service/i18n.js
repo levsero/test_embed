@@ -113,7 +113,7 @@ function parseLocale(str) {
   } else if (_.includes(locales, extractLang(locale))) {
     return extractLang(locale);
   } else if (str === 'zh') {
-    return 'zh-CN';
+    return 'zh-cn';
   } else if (str === 'nb' || str === 'nn') {
     return 'no';
   } else if (str === 'tl') {
