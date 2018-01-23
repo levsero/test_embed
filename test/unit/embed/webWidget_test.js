@@ -258,18 +258,11 @@ describe('embed.webWidget', () => {
           mockIsMobileBrowser = true;
 
           spyOn(child, 'resetState');
-          spyOn(child, 'backtrackSearch');
-
           frame.props.onHide(frame);
         });
 
         it('should hide virtual keyboard', () => {
           expect(child.resetState)
-            .toHaveBeenCalled();
-        });
-
-        it('should back track search', () => {
-          expect(child.backtrackSearch)
             .toHaveBeenCalled();
         });
 
@@ -384,22 +377,6 @@ describe('embed.webWidget', () => {
         it('should switch container styles', () => {
           expect(faythe.props.style)
             .toEqual({ height: '100%', width: '100%' });
-        });
-      });
-
-      describe('onSearch', () => {
-        let mockMediator;
-        const params = { searchString: 'searchString', searchLocale: 'en-US' };
-
-        beforeEach(() => {
-          mockMediator = mockRegistry['service/mediator'].mediator;
-        });
-
-        it('should broadcast helpCenterForm.onSearch', () => {
-          faythe.props.onSearch(params);
-
-          expect(mockMediator.channel.broadcast)
-            .toHaveBeenCalledWith('helpCenterForm.onSearch', params);
         });
       });
 
@@ -528,11 +505,6 @@ describe('embed.webWidget', () => {
           .toBeFalsy();
       });
 
-      it('should not apply props from setUpHelpCenter to the embed', () => {
-        expect(faythe.props.onArticleClick)
-          .toBeFalsy();
-      });
-
       it('does not call zChat init', () => {
         expect(zChatInitSpy)
           .not.toHaveBeenCalled();
@@ -602,11 +574,6 @@ describe('embed.webWidget', () => {
           .toBeTruthy();
       });
 
-      it('should apply props from setUpHelpCenter to the embed', () => {
-        expect(faythe.props.onArticleClick)
-          .toBeTruthy();
-      });
-
       describe('when help center is suppressed', () => {
         beforeEach(() => {
           mockHelpCenterSuppressedValue = true;
@@ -619,11 +586,6 @@ describe('embed.webWidget', () => {
 
         it('should assign helpCenterAvailable to false', () => {
           expect(faythe.props.helpCenterAvailable)
-            .toBeFalsy();
-        });
-
-        it('should not apply props from setUpHelpCenter to the embed', () => {
-          expect(faythe.props.onArticleClick)
             .toBeFalsy();
         });
       });
