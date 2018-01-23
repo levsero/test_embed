@@ -12,7 +12,8 @@ describe('helpCenter selectors', () => {
     getShowViewMore,
     getResultsPerPage,
     getArticles,
-    getArticleViewActive;
+    getArticleViewActive,
+    getTotalUserSearches;
 
   beforeEach(() => {
     mockery.enable();
@@ -37,6 +38,7 @@ describe('helpCenter selectors', () => {
     getResultsPerPage = selectors.getResultsPerPage;
     getArticles = selectors.getArticles;
     getArticleViewActive = selectors.getArticleViewActive;
+    getTotalUserSearches = selectors.getTotalUserSearches;
   });
 
   describe('getSearchLoading', () => {
@@ -152,38 +154,140 @@ describe('helpCenter selectors', () => {
   });
 
   describe('getHasSearched', () => {
-    let result;
-    const mockHelpCenterState = {
-      helpCenter: {
-        hasSearched: true
-      }
-    };
+    let result,
+      mockHelpCenterState;
 
     beforeEach(() => {
-      result = getHasSearched(mockHelpCenterState);
+      mockHelpCenterState = {
+        helpCenter: {
+          hasContextuallySearched: false,
+          totalUserSearches: 0
+        }
+      };
     });
 
-    it('returns the current state of hasSearched', () => {
-      expect(result)
-        .toEqual(true);
+    describe('when hasContextuallySearched is true', () => {
+      beforeEach(() => {
+        mockHelpCenterState.helpCenter.hasContextuallySearched = true;
+      });
+
+      describe('when totalUserSearches is greater than 0', () => {
+        it('state of hasSearched should be true', () => {
+          mockHelpCenterState.helpCenter.totalUserSearches = 10;
+
+          result = getHasSearched(mockHelpCenterState);
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when totalUserSearches is 0', () => {
+        it('state of hasSearched should be true', () => {
+          mockHelpCenterState.helpCenter.totalUserSearches = 0;
+
+          result = getHasSearched(mockHelpCenterState);
+          expect(result)
+            .toEqual(true);
+        });
+      });
+    });
+
+    describe('when hasContextuallySearched is false', () => {
+      beforeEach(() => {
+        mockHelpCenterState.helpCenter.hasContextuallySearched = false;
+      });
+
+      describe('when totalUserSearches is greater than 0', () => {
+        it('state of hasSearched should be true', () => {
+          mockHelpCenterState.helpCenter.totalUserSearches = 10;
+
+          result = getHasSearched(mockHelpCenterState);
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('when totalUserSearches is 0', () => {
+        it('state of hasSearched should be false', () => {
+          mockHelpCenterState.helpCenter.totalUserSearches = 0;
+
+          result = getHasSearched(mockHelpCenterState);
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+  });
+
+  describe('getTotalUserSearches', () => {
+    let result,
+      mockHelpCenterState;
+
+    beforeEach(() => {
+      mockHelpCenterState = {
+        helpCenter: {
+          totalUserSearches: 0
+        }
+      };
+    });
+
+    describe('when no searches have been made', () => {
+      it('returns 0', () => {
+        result = getTotalUserSearches(mockHelpCenterState);
+
+        expect(result)
+          .toEqual(0);
+      });
+    });
+
+    describe('when 1 search has been made', () => {
+      it('returns 1', () => {
+        mockHelpCenterState.helpCenter.totalUserSearches = 1;
+        result = getTotalUserSearches(mockHelpCenterState);
+
+        expect(result)
+          .toEqual(1);
+      });
+    });
+
+    describe('when multiple searches have been made', () => {
+      it('returns 10', () => {
+        mockHelpCenterState.helpCenter.totalUserSearches = 10;
+        result = getTotalUserSearches(mockHelpCenterState);
+
+        expect(result)
+          .toEqual(10);
+      });
     });
   });
 
   describe('getHasContextuallySearched', () => {
-    let result;
-    const mockHelpCenterState = {
-      helpCenter: {
-        hasContextuallySearched: true
-      }
-    };
+    let result,
+      mockHelpCenterState;
 
     beforeEach(() => {
-      result = getHasContextuallySearched(mockHelpCenterState);
+      mockHelpCenterState = {
+        helpCenter: {
+          hasContextuallySearched: true
+        }
+      };
     });
 
-    it('returns the current state of hasContextuallySearched', () => {
-      expect(result)
-        .toEqual(true);
+    describe('when contextual search made', () => {
+      it('returns true', () => {
+        result = getHasContextuallySearched(mockHelpCenterState);
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when contextual search not made', () => {
+      it('returns false', () => {
+        mockHelpCenterState.helpCenter.hasContextuallySearched = false;
+        result = getHasContextuallySearched(mockHelpCenterState);
+        expect(result)
+          .toEqual(false);
+      });
     });
   });
 
