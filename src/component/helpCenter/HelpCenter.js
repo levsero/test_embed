@@ -14,11 +14,11 @@ import { updateSearchTerm,
          performSearch,
          performContextualSearch,
          performImageSearch,
-         updateViewMoreClicked } from 'src/redux/modules/helpCenter';
+         updateViewMoreClicked,
+         handleOriginalArticleClicked } from 'src/redux/modules/helpCenter';
 import { getActiveArticle,
          getResultsCount,
          getSearchLoading,
-         getArticleClicked,
          getViewMoreClicked,
          getSearchFailed,
          getSearchTerm,
@@ -30,6 +30,7 @@ import { getActiveArticle,
          getResultsPerPage,
          getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
+import { mediator } from 'service/mediator';
 
 // FIXME: Put this in HC constants file
 const minimumSearchResults = 3;
@@ -40,7 +41,6 @@ const mapStateToProps = (state) => {
     resultsCount: getResultsCount(state),
     activeArticle: getActiveArticle(state),
     searchLoading: getSearchLoading(state),
-    articleClicked: getArticleClicked(state),
     viewMoreClicked: getViewMoreClicked(state),
     searchFailed: getSearchFailed(state),
     searchTerm: getSearchTerm(state),
@@ -67,14 +67,10 @@ class HelpCenter extends Component {
     previousSearchTerm: PropTypes.string.isRequired,
     searchTerm: PropTypes.string.isRequired,
     hasContextualSearched: PropTypes.bool.isRequired,
-    hasSearched: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool,
     localeFallbacks: PropTypes.array,
-    onArticleClick: PropTypes.func,
-    onViewOriginalArticleClick: PropTypes.func,
     onNextClick: PropTypes.func,
     newDesign: PropTypes.bool,
-    onSearch: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     performContextualSearch: PropTypes.func.isRequired,
     performSearch: PropTypes.func.isRequired,
@@ -86,7 +82,6 @@ class HelpCenter extends Component {
     style: PropTypes.object,
     submitTicketAvailable: PropTypes.bool,
     chatAvailable: PropTypes.bool,
-    articleClicked: PropTypes.bool.isRequired,
     viewMoreClicked: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
     talkEnabled: PropTypes.bool.isRequired,
@@ -96,15 +91,15 @@ class HelpCenter extends Component {
     updateSearchTerm: PropTypes.func.isRequired,
     updateActiveArticle: PropTypes.func.isRequired,
     updateViewMoreClicked: PropTypes.func.isRequired,
-    viewMoreEnabled: PropTypes.bool,
     zendeskHost: PropTypes.string.isRequired,
     notification: PropTypes.object.isRequired,
     resultsCount: PropTypes.number.isRequired,
     showViewMore: PropTypes.bool.isRequired,
     articles: PropTypes.array.isRequired,
     resultsPerPage: PropTypes.number.isRequired,
-    articleViewActive: PropTypes.bool.isRequired,
-    updateArticleViewActive: PropTypes.func.isRequired
+    hasSearched: PropTypes.bool.isRequired,
+    handleOriginalArticleClicked: PropTypes.func.isRequired,
+    articleViewActive: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -115,10 +110,7 @@ class HelpCenter extends Component {
     hideZendeskLogo: false,
     getFrameDimensions: () => {},
     localeFallbacks: [],
-    onArticleClick: () => {},
-    onViewOriginalArticleClick: () => {},
     onNextClick: () => {},
-    onSearch: () => {},
     newDesign: false,
     originalArticleButton: true,
     showBackButton: () => {},
@@ -132,11 +124,12 @@ class HelpCenter extends Component {
     updateActiveArticle: () => {},
     updateSearchTerm: () => {},
     updateViewMoreClicked: () => {},
-    viewMoreEnabled: false,
     articles: [],
     resultsPerPage: minimumSearchResults,
     articleViewActive: false,
-    updateArticleViewActive: () => {}
+    handleOriginalArticleClicked: () => {},
+    hasSearched: false,
+    activeArticle: null
   };
 
   constructor(props, context) {
@@ -168,8 +161,8 @@ class HelpCenter extends Component {
   }
 
   interactiveSearchSuccessFn = (res, query) => {
-    this.props.onSearch({ searchTerm: query.query, searchLocale: query.locale });
     this.props.showBackButton(false);
+    mediator.channel.broadcast('helpCenterForm.onSearch', {searchTerm: query.query, searchLocale: query.locale});
     this.focusField();
   }
 
@@ -251,7 +244,7 @@ class HelpCenter extends Component {
   performSearchWithLocaleFallback = (query, successFn) => {
     // When localeFallbacks is defined in the zESettings object then
     // attempt the search with each locale in that array in order. Otherwise
-    // try the search with no locale.
+    // try the search with no locale with the empty string.
     const localeFallbacks = !_.isEmpty(this.props.localeFallbacks)
                           ? this.props.localeFallbacks.slice()
                           : [''];
@@ -305,68 +298,14 @@ class HelpCenter extends Component {
     this.setState({ searchFieldValue: value });
   }
 
-  trackSearch = () => {
-    /* eslint camelcase:0 */
-    this.props.performSearch({
-      query: this.props.searchTerm,
-      per_page: 0,
-      origin: 'web_widget'
-    });
-
-    this.setState({ searchTracked: true });
-  }
-
-  /**
-   * Instrument the last auto-search, if it's still pending to be instrumented
-   */
-  backtrackSearch = () => {
-    if (!this.state.searchTracked &&
-        this.props.searchTerm &&
-        !this.props.hasContextualSearched) {
-      this.trackSearch();
-    }
-  }
-
   resetState = () => {
     this.refs.helpCenterMobile.resetState();
   }
 
   handleArticleClick = (articleIndex, e) => {
     e.preventDefault();
-
     this.props.updateActiveArticle(this.props.articles[articleIndex]);
-    this.props.updateArticleViewActive(true);
     this.props.showBackButton();
-
-    if (!this.state.searchTracked && !this.props.hasContextualSearched) {
-      this.trackSearch();
-    }
-
-    // call nextTick so state has a chance to be consistent
-    setTimeout(() => this.trackArticleView(), 0);
-  }
-
-  trackArticleView = () => {
-    this.props.onArticleClick(this.getTrackPayload());
-  }
-
-  getTrackPayload = () => {
-    const { searchTerm, resultsCount, articleClicked, activeArticle } = this.props;
-    const count = (resultsCount > minimumSearchResults)
-      ? minimumSearchResults
-      : resultsCount;
-
-    return {
-      query: searchTerm,
-      resultsCount: count,
-      uniqueSearchResultClick: !articleClicked,
-      articleId: activeArticle.id,
-      locale: i18n.getLocale()
-    };
-  }
-
-  handleOriginalArticleClick = () => {
-    this.props.onViewOriginalArticleClick(this.getTrackPayload());
   }
 
   onContainerClick = () => {
@@ -384,27 +323,25 @@ class HelpCenter extends Component {
   renderResults = () => {
     const {
       showNextButton,
-      hasContextualSearched,
-      viewMoreEnabled,
-      resultsCount,
       fullscreen,
       hideZendeskLogo,
       searchFailed,
-      previousSearchTerm
+      previousSearchTerm,
+      hasContextualSearched,
+      articleViewActive,
+      hasSearched,
+      showViewMore,
+      articles
     } = this.props;
-    const hasSearched = this.props.hasSearched || hasContextualSearched;
 
-    if (this.props.articleViewActive || !hasSearched) return null;
+    if (articleViewActive || !hasSearched) return null;
 
-    const showViewMore = viewMoreEnabled &&
-                         this.props.showViewMore &&
-                         (resultsCount > minimumSearchResults);
     const applyPadding = !showNextButton && !hideZendeskLogo;
 
     return (
       <HelpCenterResults
         fullscreen={fullscreen}
-        articles={this.props.articles}
+        articles={articles}
         showViewMore={showViewMore}
         applyPadding={applyPadding}
         searchFailed={searchFailed}
@@ -424,7 +361,7 @@ class HelpCenter extends Component {
         activeArticle={this.props.activeArticle}
         zendeskHost={this.props.zendeskHost}
         originalArticleButton={this.props.originalArticleButton}
-        handleOriginalArticleClick={this.handleOriginalArticleClick}
+        handleOriginalArticleClick={this.props.handleOriginalArticleClicked}
         storedImages={this.state.images}
         imagesSender={this.props.performImageSearch}
         updateStoredImages={this.updateImages}
@@ -542,7 +479,8 @@ const actionCreators = {
   performSearch,
   performImageSearch,
   performContextualSearch,
-  updateViewMoreClicked
+  updateViewMoreClicked,
+  handleOriginalArticleClicked
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(HelpCenter);
