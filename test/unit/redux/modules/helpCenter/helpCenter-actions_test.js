@@ -300,6 +300,13 @@ describe('helpCenter redux actions', () => {
             expect(action.payload)
               .toEqual(expected);
           });
+
+          it('dispatches an action of type UPDATE_RESULTS', () => {
+            const action = mockStore.getActions()[2];
+
+            expect(action.type)
+              .toEqual(actionTypes.UPDATE_RESULTS);
+          });
         });
       });
 
