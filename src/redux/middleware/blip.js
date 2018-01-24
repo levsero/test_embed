@@ -68,7 +68,7 @@ const sendHelpCenterFirstSearchBlip = (state) => {
 };
 
 const sendArticleClickedBlip = (state, latestArticle) => {
-  if (latestArticle !== null) {
+  if (latestArticle) {
     beacon.trackUserAction('helpCenter', 'click', 'helpCenterForm', getArticleClickValues(state, latestArticle));
   }
 };

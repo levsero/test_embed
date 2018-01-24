@@ -30,7 +30,6 @@ import { getActiveArticle,
          getResultsPerPage,
          getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
-import { mediator } from 'service/mediator';
 
 // FIXME: Put this in HC constants file
 const minimumSearchResults = 3;
@@ -136,7 +135,6 @@ class HelpCenter extends Component {
     super(props, context);
 
     this.state = {
-      searchTracked: false,
       channelChoiceShown: false
     };
   }
@@ -160,9 +158,8 @@ class HelpCenter extends Component {
     this.setState({ channelChoiceShown });
   }
 
-  interactiveSearchSuccessFn = (res, query) => {
+  interactiveSearchSuccessFn = () => {
     this.props.showBackButton(false);
-    mediator.channel.broadcast('helpCenterForm.onSearch', {searchTerm: query.query, searchLocale: query.locale});
     this.focusField();
   }
 
@@ -229,7 +226,6 @@ class HelpCenter extends Component {
       origin: 'web_widget'
     };
 
-    this.setState({ searchTracked: true });
     this.props.updateSearchTerm(searchTerm);
 
     this.performSearchWithLocaleFallback(query, this.interactiveSearchSuccessFn);
@@ -244,14 +240,14 @@ class HelpCenter extends Component {
   performSearchWithLocaleFallback = (query, successFn) => {
     // When localeFallbacks is defined in the zESettings object then
     // attempt the search with each locale in that array in order. Otherwise
-    // try the search with no locale with the empty string.
+    // try the search with no locale (injects an empty string into localeFallbacks).
     const localeFallbacks = !_.isEmpty(this.props.localeFallbacks)
                           ? this.props.localeFallbacks.slice()
                           : [''];
     const doneFn = (res) => {
       if (res.ok) {
         if (res.body.count > 0 || _.isEmpty(localeFallbacks)) {
-          successFn(res, query);
+          successFn();
         } else {
           query.locale = localeFallbacks.shift();
           this.props.performSearch(_.pickBy(query), doneFn, this.focusField);

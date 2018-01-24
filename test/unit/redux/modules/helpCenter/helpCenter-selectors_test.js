@@ -172,20 +172,24 @@ describe('helpCenter selectors', () => {
       });
 
       describe('when totalUserSearches is greater than 0', () => {
-        it('state of hasSearched should be true', () => {
+        beforeEach(() => {
           mockHelpCenterState.helpCenter.totalUserSearches = 10;
-
           result = getHasSearched(mockHelpCenterState);
+        });
+
+        it('state of hasSearched should be true', () => {
           expect(result)
             .toEqual(true);
         });
       });
 
       describe('when totalUserSearches is 0', () => {
-        it('state of hasSearched should be true', () => {
+        beforeEach(() => {
           mockHelpCenterState.helpCenter.totalUserSearches = 0;
-
           result = getHasSearched(mockHelpCenterState);
+        });
+
+        it('state of hasSearched should be true', () => {
           expect(result)
             .toEqual(true);
         });
@@ -198,20 +202,24 @@ describe('helpCenter selectors', () => {
       });
 
       describe('when totalUserSearches is greater than 0', () => {
-        it('state of hasSearched should be true', () => {
+        beforeEach(() => {
           mockHelpCenterState.helpCenter.totalUserSearches = 10;
-
           result = getHasSearched(mockHelpCenterState);
+        });
+
+        it('state of hasSearched should be true', () => {
           expect(result)
             .toEqual(true);
         });
       });
 
       describe('when totalUserSearches is 0', () => {
-        it('state of hasSearched should be false', () => {
+        beforeEach(() => {
           mockHelpCenterState.helpCenter.totalUserSearches = 0;
-
           result = getHasSearched(mockHelpCenterState);
+        });
+
+        it('state of hasSearched should be false', () => {
           expect(result)
             .toEqual(false);
         });
@@ -232,29 +240,35 @@ describe('helpCenter selectors', () => {
     });
 
     describe('when no searches have been made', () => {
-      it('returns 0', () => {
+      beforeEach(() => {
         result = getTotalUserSearches(mockHelpCenterState);
+      });
 
+      it('returns 0', () => {
         expect(result)
           .toEqual(0);
       });
     });
 
     describe('when 1 search has been made', () => {
-      it('returns 1', () => {
+      beforeEach(() => {
         mockHelpCenterState.helpCenter.totalUserSearches = 1;
         result = getTotalUserSearches(mockHelpCenterState);
+      });
 
+      it('returns 1', () => {
         expect(result)
           .toEqual(1);
       });
     });
 
     describe('when multiple searches have been made', () => {
-      it('returns 10', () => {
+      beforeEach(() => {
         mockHelpCenterState.helpCenter.totalUserSearches = 10;
         result = getTotalUserSearches(mockHelpCenterState);
+      });
 
+      it('returns 10', () => {
         expect(result)
           .toEqual(10);
       });
@@ -274,17 +288,23 @@ describe('helpCenter selectors', () => {
     });
 
     describe('when contextual search made', () => {
-      it('returns true', () => {
+      beforeEach(() => {
         result = getHasContextuallySearched(mockHelpCenterState);
+      });
+
+      it('returns true', () => {
         expect(result)
           .toEqual(true);
       });
     });
 
     describe('when contextual search not made', () => {
-      it('returns false', () => {
+      beforeEach(() => {
         mockHelpCenterState.helpCenter.hasContextuallySearched = false;
         result = getHasContextuallySearched(mockHelpCenterState);
+      });
+
+      it('returns false', () => {
         expect(result)
           .toEqual(false);
       });

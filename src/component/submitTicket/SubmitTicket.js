@@ -15,9 +15,12 @@ import { i18n } from 'service/i18n';
 import { store } from 'service/persistence';
 import { isIE } from 'utility/devices';
 import { location } from 'utility/globals';
+import { getSearchTerm } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state) => {
+  return {
+    searchTerm: getSearchTerm(state)
+  };
 };
 
 class SubmitTicket extends Component {
@@ -43,7 +46,8 @@ class SubmitTicket extends Component {
     ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
     viaId: PropTypes.number.isRequired,
-    fullscreen: PropTypes.bool.isRequired
+    fullscreen: PropTypes.bool.isRequired,
+    searchTerm: PropTypes.string
   };
 
   static defaultProps = {
@@ -76,8 +80,6 @@ class SubmitTicket extends Component {
       isDragActive: false,
       loading: false,
       message: '',
-      searchLocale: null,
-      searchTerm: null,
       selectedTicketForm: null,
       showNotification: false,
       ticketFields: [],
@@ -143,8 +145,8 @@ class SubmitTicket extends Component {
       const params = {
         res: res,
         email: formParams.email,
-        searchTerm: this.state.searchTerm,
-        searchLocale: this.state.searchLocale
+        searchTerm: this.props.searchTerm,
+        searchLocale: i18n.getLocale()
       };
 
       if (this.props.attachmentsEnabled) {

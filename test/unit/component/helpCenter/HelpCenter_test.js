@@ -93,11 +93,6 @@ describe('HelpCenter component', () => {
       'utility/globals': {
         win: window,
         document: document
-      },
-      'service/mediator': {
-        mediator: {
-          channel: jasmine.createSpyObj('channel', ['broadcast'])
-        }
       }
     });
 
@@ -710,13 +705,10 @@ describe('HelpCenter component', () => {
     let showBackButtonSpy,
       helpCenter,
       result,
-      query,
-      mockMediator;
+      query;
 
     beforeEach(() => {
       showBackButtonSpy = jasmine.createSpy('showBackButton');
-
-      mockMediator = mockRegistry['service/mediator'].mediator;
 
       helpCenter = domRender(
         <HelpCenter
@@ -734,11 +726,6 @@ describe('HelpCenter component', () => {
 
       helpCenter.getHelpCenterComponent().focusField = jasmine.createSpy('focusField');
       helpCenter.interactiveSearchSuccessFn(result, query);
-    });
-
-    it('calls mediator helpCenterForm.onSearch', () => {
-      expect(mockMediator.channel.broadcast)
-        .toHaveBeenCalledWith('helpCenterForm.onSearch', {searchTerm: query.query, searchLocale: query.locale});
     });
 
     it('calls showBackButton with false', () => {

@@ -362,16 +362,6 @@ function setupMediator() {
     });
   });
 
-  mediator.channel.subscribe('ticketSubmissionForm.setLastSearch', (params) => {
-    waitForRootComponent(() => {
-      const submitTicket = getWebWidgetComponent().getSubmitTicketComponent();
-
-      if (submitTicket) {
-        submitTicket.setState(_.pick(params, ['searchTerm', 'searchLocale']));
-      }
-    });
-  });
-
   mediator.channel.subscribe('webWidget.update', () => {
     waitForRootComponent(() => {
       embed.instance.getChild().forceUpdate();
