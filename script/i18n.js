@@ -3,6 +3,7 @@ var when = require('when'),
     _ = require('lodash'),
     fs = require('fs'),
     isAssetComposerBuild = process.argv[2] === 'ac',
+    appRoot = require('app-root-path'),
     localeIdMapGlobal = 'zELocaleIdMap',
     translationsGlobal = 'zETranslations',
     localeIdMapPath = __dirname + "/../src/translation/ze_localeIdMap.js",
@@ -60,6 +61,40 @@ function transformTranslations(translations) {
 
     return result;
   }, {});
+}
+
+function createIndividualFile(rootPath, json) {
+  _.forEach(json, (value, key) => {
+    var translations = transformTranslations({ key: value });
+    var localePath = rootPath + key + '/';
+    var contents = JSON.stringify(translations, null, 2);
+
+    console.log('Writing individual locale file ' + key);
+
+    fs.mkdir(localePath, (err) => {
+      if (err && err.code !== 'EEXIST') {
+        console.log('Error creating ' + key + ' path', err);
+      } else {
+        fs.writeFile(localePath + 'translations.js', contents, (err) => {
+          if (err) {
+            console.log('Error creating ' + key + ' translations', err);
+          }
+        });
+      }
+    });
+  });
+}
+
+function writeJsonToIndivdualFiles(globalName, json) {
+  const rootPath = appRoot + '/src/translation/locales/';
+
+  fs.mkdir(rootPath, (err) => {
+    if (err && err.code !== 'EEXIST') {
+      console.log('Error creating root path', err);
+    } else {
+      createIndividualFile(rootPath, json);
+    }
+  });
 }
 
 function writeJsonToGlobalFile(globalName, path, json) {
@@ -144,6 +179,10 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
         console.log('\nWriting to ' + translationsPath);
 
         writeJson(translationsPath, transformed, translationsGlobal);
+
+        if (isAssetComposerBuild) {
+          writeJsonToIndivdualFiles(translationsPath, translations, translationsGlobal);
+        }
       }
     });
   });
