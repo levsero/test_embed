@@ -970,16 +970,11 @@ describe('HelpCenter component', () => {
   describe('onContainerClick', () => {
     let helpCenter;
 
-    beforeEach(() => {
-      helpCenter = instanceRender(<HelpCenter />);
-
-      spyOn(helpCenter, 'setChannelChoiceShown');
-    });
-
     describe('when channeChoiceShown is false', () => {
       beforeEach(() => {
-        helpCenter.setState({ channelChoiceShown: false });
+        helpCenter = instanceRender(<HelpCenter channelChoiceShown={false} />);
 
+        spyOn(helpCenter, 'setChannelChoiceShown');
         helpCenter.onContainerClick();
       });
 
@@ -991,8 +986,9 @@ describe('HelpCenter component', () => {
 
     describe('when channeChoiceShown is true', () => {
       beforeEach(() => {
-        helpCenter.setState({ channelChoiceShown: true });
+        helpCenter = instanceRender(<HelpCenter channelChoiceShown={true} />);
 
+        spyOn(helpCenter, 'setChannelChoiceShown');
         helpCenter.onContainerClick();
       });
 

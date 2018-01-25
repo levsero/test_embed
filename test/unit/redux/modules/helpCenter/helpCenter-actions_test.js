@@ -485,4 +485,23 @@ describe('helpCenter redux actions', () => {
         });
     });
   });
+
+  describe('#updateChannelChoiceShown', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateChannelChoiceShown(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_CHANNELCHOICE_SHOWN', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_CHANNELCHOICE_SHOWN);
+    });
+
+    it('contains the boolean value in the payload', () => {
+      expect(action.payload)
+        .toEqual(true);
+    });
+  });
 });

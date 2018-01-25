@@ -13,7 +13,8 @@ describe('helpCenter selectors', () => {
     getResultsPerPage,
     getArticles,
     getArticleViewActive,
-    getTotalUserSearches;
+    getTotalUserSearches,
+    getChannelChoiceShown;
 
   beforeEach(() => {
     mockery.enable();
@@ -39,6 +40,7 @@ describe('helpCenter selectors', () => {
     getArticles = selectors.getArticles;
     getArticleViewActive = selectors.getArticleViewActive;
     getTotalUserSearches = selectors.getTotalUserSearches;
+    getChannelChoiceShown = selectors.getChannelChoiceShown;
   });
 
   describe('getSearchLoading', () => {
@@ -423,6 +425,24 @@ describe('helpCenter selectors', () => {
     });
 
     it('returns the current state of articleViewActive', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('channelChoiceShown', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        channelChoiceShown: true
+      }
+    };
+
+    beforeEach(() => {
+      result = getChannelChoiceShown(mockHelpCenterState);
+    });
+
+    it('returns the current state of channelChoiceShown', () => {
       expect(result)
         .toEqual(true);
     });

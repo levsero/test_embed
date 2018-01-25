@@ -16,7 +16,8 @@ import { updateSearchTerm,
          performImageSearch,
          updateViewMoreClicked,
          handleOriginalArticleClicked,
-         addRestrictedImage } from 'src/redux/modules/helpCenter';
+         addRestrictedImage,
+         updateChannelChoiceShown } from 'src/redux/modules/helpCenter';
 import { getActiveArticle,
          getResultsCount,
          getSearchLoading,
@@ -30,7 +31,8 @@ import { getActiveArticle,
          getArticles,
          getResultsPerPage,
          getArticleViewActive,
-         getRestrictedImages } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+         getRestrictedImages,
+         getChannelChoiceShown } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 
 // FIXME: Put this in HC constants file
@@ -52,7 +54,8 @@ const mapStateToProps = (state) => {
     articleViewActive: getArticleViewActive(state),
     articles: getArticles(state),
     resultsPerPage: getResultsPerPage(state),
-    restrictedImages: getRestrictedImages(state)
+    restrictedImages: getRestrictedImages(state),
+    channelChoiceShown: getChannelChoiceShown(state)
   };
 };
 
@@ -103,7 +106,9 @@ class HelpCenter extends Component {
     handleOriginalArticleClicked: PropTypes.func.isRequired,
     articleViewActive: PropTypes.bool.isRequired,
     restrictedImages: PropTypes.object.isRequired,
-    addRestrictedImage: PropTypes.func
+    addRestrictedImage: PropTypes.func,
+    updateChannelChoiceShown: PropTypes.func.isRequired,
+    channelChoiceShown: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -135,14 +140,15 @@ class HelpCenter extends Component {
     hasSearched: false,
     activeArticle: null,
     restrictedImages: {},
-    addRestrictedImage: () => {}
+    addRestrictedImage: () => {},
+    updateChannelChoiceShown: () => {}
   };
 
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
     this.state = {
-      channelChoiceShown: false
+      searchFieldValue: ''
     };
   }
 
@@ -161,8 +167,8 @@ class HelpCenter extends Component {
          : this.refs.helpCenterDesktop;
   }
 
-  setChannelChoiceShown = (channelChoiceShown) => {
-    this.setState({ channelChoiceShown });
+  setChannelChoiceShown = (bool) => {
+    this.props.updateChannelChoiceShown(bool);
   }
 
   interactiveSearchSuccessFn = () => {
@@ -312,7 +318,7 @@ class HelpCenter extends Component {
   }
 
   onContainerClick = () => {
-    if (this.state.channelChoiceShown) {
+    if (this.props.channelChoiceShown) {
       this.setChannelChoiceShown(false);
     }
   }
@@ -387,7 +393,7 @@ class HelpCenter extends Component {
         isLoading={this.props.searchLoading}
         onNextClick={this.props.onNextClick}
         newDesign={this.props.newDesign}
-        channelChoice={this.state.channelChoiceShown}
+        channelChoice={this.props.channelChoiceShown}
         callbackEnabled={this.props.callbackEnabled}
         talkEnabled={this.props.talkEnabled}
         talkAvailable={this.props.talkAvailable}
@@ -421,7 +427,7 @@ class HelpCenter extends Component {
         showNextButton={this.props.showNextButton}
         chatAvailable={this.props.chatAvailable}
         hasContextualSearched={this.props.hasContextualSearched}
-        channelChoice={this.state.channelChoiceShown}
+        channelChoice={this.props.channelChoiceShown}
         callbackEnabled={this.props.callbackEnabled}
         talkEnabled={this.props.talkEnabled}
         talkAvailable={this.props.talkAvailable}
@@ -471,6 +477,7 @@ class HelpCenter extends Component {
 }
 
 const actionCreators = {
+  updateChannelChoiceShown,
   updateActiveArticle,
   updateSearchTerm,
   performSearch,
