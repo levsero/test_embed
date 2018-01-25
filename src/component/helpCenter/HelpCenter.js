@@ -15,7 +15,8 @@ import { updateSearchTerm,
          performContextualSearch,
          performImageSearch,
          updateViewMoreClicked,
-         handleOriginalArticleClicked } from 'src/redux/modules/helpCenter';
+         handleOriginalArticleClicked,
+         addRestrictedImage } from 'src/redux/modules/helpCenter';
 import { getActiveArticle,
          getResultsCount,
          getSearchLoading,
@@ -28,7 +29,8 @@ import { getActiveArticle,
          getShowViewMore,
          getArticles,
          getResultsPerPage,
-         getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+         getArticleViewActive,
+         getRestrictedImages } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 
 // FIXME: Put this in HC constants file
@@ -49,7 +51,8 @@ const mapStateToProps = (state) => {
     callbackEnabled: isCallbackEnabled(state),
     articleViewActive: getArticleViewActive(state),
     articles: getArticles(state),
-    resultsPerPage: getResultsPerPage(state)
+    resultsPerPage: getResultsPerPage(state),
+    restrictedImages: getRestrictedImages(state)
   };
 };
 
@@ -98,7 +101,9 @@ class HelpCenter extends Component {
     resultsPerPage: PropTypes.number.isRequired,
     hasSearched: PropTypes.bool.isRequired,
     handleOriginalArticleClicked: PropTypes.func.isRequired,
-    articleViewActive: PropTypes.bool.isRequired
+    articleViewActive: PropTypes.bool.isRequired,
+    restrictedImages: PropTypes.object.isRequired,
+    addRestrictedImage: PropTypes.func
   };
 
   static defaultProps = {
@@ -128,7 +133,9 @@ class HelpCenter extends Component {
     articleViewActive: false,
     handleOriginalArticleClicked: () => {},
     hasSearched: false,
-    activeArticle: null
+    activeArticle: null,
+    restrictedImages: {},
+    addRestrictedImage: () => {}
   };
 
   constructor(props, context) {
@@ -310,12 +317,6 @@ class HelpCenter extends Component {
     }
   }
 
-  updateImages = (img) => {
-    this.setState({
-      images: _.extend({}, this.state.images, img)
-    });
-  }
-
   renderResults = () => {
     const {
       showNextButton,
@@ -358,9 +359,9 @@ class HelpCenter extends Component {
         zendeskHost={this.props.zendeskHost}
         originalArticleButton={this.props.originalArticleButton}
         handleOriginalArticleClick={this.props.handleOriginalArticleClicked}
-        storedImages={this.state.images}
+        storedImages={this.props.restrictedImages}
         imagesSender={this.props.performImageSearch}
-        updateStoredImages={this.updateImages}
+        updateStoredImages={this.props.addRestrictedImage}
         updateFrameSize={this.props.updateFrameSize}
         fullscreen={this.props.fullscreen} />
     );
@@ -476,7 +477,8 @@ const actionCreators = {
   performImageSearch,
   performContextualSearch,
   updateViewMoreClicked,
-  handleOriginalArticleClicked
+  handleOriginalArticleClicked,
+  addRestrictedImage
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(HelpCenter);

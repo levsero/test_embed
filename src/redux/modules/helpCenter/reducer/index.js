@@ -11,6 +11,7 @@ import hasContextuallySearched from './helpCenter-hasContextuallySearched';
 import articles from './helpCenter-articles';
 import resultsPerPage from './helpCenter-resultsPerPage';
 import resultsCount from './helpCenter-resultsCount';
+import restrictedImages from './helpCenter-restrictedImages';
 
 export default combineReducers({
   activeArticle,
@@ -23,5 +24,6 @@ export default combineReducers({
   resultsCount,
   resultsPerPage,
   totalUserSearches,
-  hasContextuallySearched
+  hasContextuallySearched,
+  restrictedImages
 });

@@ -12,6 +12,7 @@ export const getArticles = (state) => state.helpCenter.articles;
 export const getResultsPerPage = (state) => state.helpCenter.resultsPerPage;
 export const getResultsCount = (state) => state.helpCenter.resultsCount;
 export const getHasSearched = (state) => getHasContextuallySearched(state) || getTotalUserSearches(state) > 0;
+export const getRestrictedImages = (state) => state.helpCenter.restrictedImages;
 export const getShowViewMore = (state) => {
   return !getViewMoreClicked(state) &&
          !getHasContextuallySearched(state) &&
