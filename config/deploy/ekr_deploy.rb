@@ -41,6 +41,7 @@ namespace :ac_embeddable_framework do
 
     deployer = S3Deployer.new(credentials, bucket_name, logger)
     deployer.upload_files('dist', release_directory, files)
+    deployer.upload_translations('dist/locales', release_directory);
   end
 
   desc 'Release the current version for Staging'
