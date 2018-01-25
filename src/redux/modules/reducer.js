@@ -7,6 +7,7 @@ import chat from './chat/reducer';
 import talk from './talk/reducer';
 import helpCenter from './helpCenter/reducer';
 import zopimChat from './zopimChat/reducer';
+import submitTicket from './submitTicket/reducer';
 
 const combinedReducers = combineReducers({
   base,
@@ -14,7 +15,8 @@ const combinedReducers = combineReducers({
   chat,
   talk,
   helpCenter,
-  zopimChat
+  zopimChat,
+  submitTicket
 });
 
 export default function reducer(state, action) {
