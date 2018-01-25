@@ -1,4 +1,4 @@
-describe('helpCenter reducer hasSearched', () => {
+describe('helpCenter reducer totalUserSearches', () => {
   let reducer,
     actionTypes,
     initialState;
@@ -6,11 +6,10 @@ describe('helpCenter reducer hasSearched', () => {
   beforeAll(() => {
     mockery.enable();
 
-    const reducerPath = buildSrcPath('redux/modules/helpCenter/reducer/helpCenter-hasSearched');
+    const reducerPath = buildSrcPath('redux/modules/helpCenter/reducer/helpCenter-totalUserSearches');
     const actionTypesPath = buildSrcPath('redux/modules/helpCenter/helpCenter-action-types');
 
     reducer = requireUncached(reducerPath).default;
-    actionTypes = requireUncached(actionTypesPath);
 
     initialState = reducer(undefined, { type: '' });
     actionTypes = requireUncached(actionTypesPath);
@@ -22,9 +21,9 @@ describe('helpCenter reducer hasSearched', () => {
   });
 
   describe('initial state', () => {
-    it('is set to false', () => {
+    it('is set to 0', () => {
       expect(initialState)
-        .toEqual(false);
+        .toEqual(0);
     });
   });
 
@@ -37,28 +36,13 @@ describe('helpCenter reducer hasSearched', () => {
       });
     });
 
-    it('sets the state to true', () => {
+    it('sets the state to 1', () => {
       expect(state)
-        .toEqual(true);
+        .toEqual(1);
     });
   });
 
-  describe('when an CONTEXTUAL_SEARCH_SUCCESS action is dispatched', () => {
-    let state;
-
-    beforeEach(() => {
-      state = reducer(initialState, {
-        type: actionTypes.CONTEXTUAL_SEARCH_SUCCESS
-      });
-    });
-
-    it('sets the state to true', () => {
-      expect(state)
-        .toEqual(true);
-    });
-  });
-
-  describe('when an SEARCH_FAILURE action is dispatched', () => {
+  describe('when a SEARCH_FAILURE action is dispatched', () => {
     let state;
 
     beforeEach(() => {
@@ -67,24 +51,24 @@ describe('helpCenter reducer hasSearched', () => {
       });
     });
 
-    it('sets the state to true', () => {
+    it('sets the state to 1', () => {
       expect(state)
-        .toEqual(true);
+        .toEqual(1);
     });
   });
 
-  describe('when an CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS action is dispatched', () => {
+  describe('when an irrelevant action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS
+        type: 'blah'
       });
     });
 
-    it('sets the state to false', () => {
+    it('sets the state to 0', () => {
       expect(state)
-        .toEqual(false);
+        .toEqual(0);
     });
   });
 });

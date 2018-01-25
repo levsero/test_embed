@@ -488,6 +488,7 @@ describe('WebWidget component', () => {
               updateActiveEmbed={noop}
               activeEmbed='ticketSubmissionForm'
               helpCenterAvailable={true}
+              articleViewActive={false}
               updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
           );
           spyOn(webWidget, 'showHelpCenter').and.callThrough();
@@ -501,15 +502,31 @@ describe('WebWidget component', () => {
 
         describe('when an article is not active', () => {
           beforeEach(() => {
-            webWidget.getHelpCenterComponent().setState({
-              articleViewActive: false
-            });
             webWidget.onBackClick();
           });
 
           it('should call updateBackButtonVisibility prop with false', () => {
             expect(updateBackButtonVisibilitySpy)
               .toHaveBeenCalledWith(false);
+          });
+        });
+
+        describe('when an article is active and helpCenter is available', () => {
+          beforeEach(() => {
+            webWidget = domRender(
+              <WebWidget
+                updateActiveEmbed={noop}
+                helpCenterAvailable={true}
+                articleViewActive={true}
+                activeEmbed='ticketSubmissionForm'
+                updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
+            );
+            webWidget.onBackClick();
+          });
+
+          it('should call updateBackButtonVisibility prop with true', () => {
+            expect(updateBackButtonVisibilitySpy)
+              .toHaveBeenCalledWith(true);
           });
         });
       });
@@ -971,6 +988,7 @@ describe('WebWidget component', () => {
               helpCenterAvailable={true}
               activeEmbed='' />
           );
+
           webWidget.resetActiveEmbed();
         });
 
@@ -980,7 +998,7 @@ describe('WebWidget component', () => {
         });
       });
 
-      describe('when the article view is active', () => {
+      describe('when the article view is not active', () => {
         beforeEach(() => {
           webWidget = instanceRender(
             <WebWidget
@@ -990,6 +1008,7 @@ describe('WebWidget component', () => {
               helpCenterAvailable={true}
               activeEmbed='' />
           );
+
           webWidget.resetActiveEmbed();
         });
 

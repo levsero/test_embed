@@ -379,10 +379,6 @@ function init(embedsAccessible, params = {}) {
     }
   });
 
-  c.intercept(`${helpCenter}.onSearch`, (__, params) => {
-    c.broadcast(`${submitTicket}.setLastSearch`, params);
-  });
-
   c.intercept(`${launcher}.onClick`, () => {
     if (state[`${launcher}.clickActive`] === true) return;
 

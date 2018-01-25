@@ -60,9 +60,7 @@ class WebWidget extends Component {
     hideZendeskLogo: PropTypes.bool,
     localeFallbacks: PropTypes.array,
     oldChat: PropTypes.bool.isRequired,
-    onArticleClick: PropTypes.func,
     onCancel: PropTypes.func,
-    onSearch: PropTypes.func,
     onSubmitted: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     position: PropTypes.string,
@@ -109,9 +107,7 @@ class WebWidget extends Component {
     isOnHelpCenterPage: false,
     hideZendeskLogo: false,
     localeFallbacks: [],
-    onArticleClick: () => {},
     onCancel: () => {},
-    onSearch: () => {},
     onSubmitted: () => {},
     originalArticleButton: true,
     position: 'right',
@@ -365,8 +361,6 @@ class WebWidget extends Component {
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}
           newDesign={this.props.newDesign}
-          onArticleClick={this.props.onArticleClick}
-          onSearch={this.props.onSearch}
           position={this.props.position}
           getFrameDimensions={this.props.getFrameDimensions}
           buttonLabelKey={helpCenterConfig.buttonLabelKey}

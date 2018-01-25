@@ -106,9 +106,6 @@ const onHide = () => {
     if (rootComponent.clearNotification) {
       rootComponent.clearNotification();
     }
-    if (rootComponent.backtrackSearch) {
-      rootComponent.backtrackSearch();
-    }
     if (rootComponent.pauseAllVideos) {
       rootComponent.pauseAllVideos();
     }
@@ -218,7 +215,6 @@ function create(name, config = {}, reduxStore = {}) {
     onClose,
     onBack
   };
-
   const component = (
     <Frame {...frameParams}>
       <WebWidget
@@ -232,9 +228,7 @@ function create(name, config = {}, reduxStore = {}) {
         hideZendeskLogo={globalConfig.hideZendeskLogo}
         imagesSender={helpCenterSettings.imagesSenderFn}
         localeFallbacks={settings.get('helpCenter.localeFallbacks')}
-        onArticleClick={helpCenterSettings.onArticleClick}
         onCancel={submitTicketSettings.onCancel}
-        onSearch={helpCenterSettings.onSearch}
         onSubmitted={submitTicketSettings.onSubmitted}
         originalArticleButton={settings.get('helpCenter.originalArticleButton')}
         position={globalConfig.position}
@@ -365,16 +359,6 @@ function setupMediator() {
       }
 
       embed.instance.getChild().forceUpdate();
-    });
-  });
-
-  mediator.channel.subscribe('ticketSubmissionForm.setLastSearch', (params) => {
-    waitForRootComponent(() => {
-      const submitTicket = getWebWidgetComponent().getSubmitTicketComponent();
-
-      if (submitTicket) {
-        submitTicket.setState(_.pick(params, ['searchTerm', 'searchLocale']));
-      }
     });
   });
 
@@ -689,22 +673,12 @@ function setUpHelpCenter(config) {
     color: '#659700'
   };
 
-  const onArticleClick = (trackPayload) => {
-    beacon.trackUserAction('helpCenter', 'click', 'helpCenterForm', trackPayload);
-  };
-  const onSearch = (params) => {
-    beacon.trackUserAction('helpCenter', 'search', 'helpCenterForm', params.searchTerm);
-    mediator.channel.broadcast('helpCenterForm.onSearch', params);
-  };
-
   config = _.extend({}, helpCenterConfigDefaults, { viewMoreEnabled }, config);
 
   useMouseDistanceContexualSearch = config.enableMouseDrivenContextualHelp;
 
   return {
-    config,
-    onArticleClick,
-    onSearch
+    config
   };
 }
 

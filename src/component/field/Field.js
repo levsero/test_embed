@@ -19,7 +19,6 @@ export class Field extends Component {
     ]),
     description: PropTypes.string,
     disabled: PropTypes.bool,
-    hasSearched: PropTypes.bool,
     input: PropTypes.element,
     fieldContainerClasses: PropTypes.string,
     labelClasses: PropTypes.string,
@@ -42,7 +41,6 @@ export class Field extends Component {
   static defaultProps = {
     description: '',
     disabled: false,
-    hasSearched: false,
     input: null,
     fieldContainerClasses: '',
     labelClasses: '',

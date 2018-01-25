@@ -10,7 +10,6 @@ describe('helpCenter reducer hasContextuallySearched', () => {
     const actionTypesPath = buildSrcPath('redux/modules/helpCenter/helpCenter-action-types');
 
     reducer = requireUncached(reducerPath).default;
-    actionTypes = requireUncached(actionTypesPath);
 
     initialState = reducer(undefined, { type: '' });
     actionTypes = requireUncached(actionTypesPath);

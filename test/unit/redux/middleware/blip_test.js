@@ -4,6 +4,10 @@ describe('blip middleware', () => {
     i18nSpy;
   const TALK_CALLBACK_SUCCESS = 'widget/talk/TALK_CALLBACK_SUCCESS';
   const UPDATE_ACTIVE_EMBED = 'widget/base/UPDATE_ACTIVE_EMBED';
+  const UPDATE_ACTIVE_ARTICLE = 'widget/helpCenter/UPDATE_ACTIVE_ARTICLE';
+  const ORIGINAL_ARTICLE_CLICKED = 'widget/helpCenter/ORIGINAL_ARTICLE_CLICKED';
+  const SEARCH_SUCCESS = 'widget/helpCenter/SEARCH_SUCCESS';
+  const SEARCH_FAILURE = 'widget/helpCenter/SEARCH_FAILURE';
 
   beforeEach(() => {
     const blipPath = buildSrcPath('redux/middleware/blip');
@@ -26,8 +30,21 @@ describe('blip middleware', () => {
         getFormState: _.identity,
         getAverageWaitTime: (prevState) => prevState.averageWaitTime
       },
+      'src/redux/modules/helpCenter/helpCenter-selectors': {
+        getTotalUserSearches: (prevState) => prevState.totalUserSearches,
+        getSearchTerm: (prevState) => prevState.searchTerm,
+        getResultsCount: (prevState) => prevState.resultsCount,
+        getArticleClicked: (prevState) => prevState.articleClicked,
+        getActiveArticle: (prevState) => prevState.activeArticle
+      },
       'src/redux/modules/talk/talk-action-types': {
         TALK_CALLBACK_SUCCESS: TALK_CALLBACK_SUCCESS
+      },
+      'src/redux/modules/helpCenter/helpCenter-action-types': {
+        'UPDATE_ACTIVE_ARTICLE': UPDATE_ACTIVE_ARTICLE,
+        'ORIGINAL_ARTICLE_CLICKED': ORIGINAL_ARTICLE_CLICKED,
+        'SEARCH_SUCCESS': SEARCH_SUCCESS,
+        'SEARCH_FAILURE': SEARCH_FAILURE
       },
       'src/redux/modules/base/base-action-types': {
         UPDATE_ACTIVE_EMBED: UPDATE_ACTIVE_EMBED
@@ -79,6 +96,26 @@ describe('blip middleware', () => {
         };
 
         sendBlips({ getState: () => flatState })(nextSpy)(action);
+      });
+
+      it('calls trackUserAction with the correct params', () => {
+        const expectedValue = {
+          supportedCountries: '1, 10, 9, 89',
+          groupName: 'Support',
+          keywords: ['Support'],
+          phoneNumber: '+61430919721',
+          averageWaitTime: 10,
+          agentAvailability: true,
+          user: {
+            name: 'Johnny',
+            email: 'Johnny@john.com',
+            description: 'Please help me.'
+          },
+          locale: 'US'
+        };
+
+        expect(beaconSpy.trackUserAction)
+          .toHaveBeenCalledWith('talk', 'request', 'callbackForm', expectedValue);
       });
     });
 
@@ -137,6 +174,181 @@ describe('blip middleware', () => {
           expect(beaconSpy.trackUserAction)
             .not.toHaveBeenCalled();
         });
+      });
+    });
+
+    describe('action has type UPDATE_ACTIVE_ARTICLE', () => {
+      let flatState;
+
+      beforeEach(() => {
+        flatState = {
+          searchTerm: 'i made a query...',
+          resultsCount: 5,
+          articleClicked: false
+        };
+
+        beaconSpy.trackUserAction.calls.reset();
+        nextSpy = jasmine.createSpy('nextSpy');
+      });
+
+      describe('latest article is not null', () => {
+        beforeEach(() => {
+          action = {
+            type: UPDATE_ACTIVE_ARTICLE,
+            payload: { id: 121212112 }
+          };
+          sendBlips({ getState: () => flatState })(nextSpy)(action);
+        });
+
+        it('calls trackUserAction with the correct params', () => {
+          const expectedValue = {
+            query: 'i made a query...',
+            resultsCount: 3,
+            uniqueSearchResultClick: true,
+            articleId: 121212112,
+            locale: 'US'
+          };
+
+          expect(beaconSpy.trackUserAction)
+            .toHaveBeenCalledWith('helpCenter', 'click', 'helpCenterForm', expectedValue);
+        });
+      });
+
+      describe('latest article is null', () => {
+        beforeEach(() => {
+          action = {
+            type: UPDATE_ACTIVE_ARTICLE,
+            payload: null
+          };
+          sendBlips({ getState: () => flatState })(nextSpy)(action);
+        });
+
+        it('does not call trackUserAction', () => {
+          expect(beaconSpy.trackUserAction)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('action has type SEARCH_SUCCESS', () => {
+      let flatState;
+
+      beforeEach(() => {
+        beaconSpy.trackUserAction.calls.reset();
+        nextSpy = jasmine.createSpy('nextSpy');
+      });
+
+      describe('total user searches previously is 0', () => {
+        beforeEach(() => {
+          flatState = {
+            totalUserSearches: 0,
+            searchTerm: 'i made a query...'
+          };
+          action = {
+            type: SEARCH_SUCCESS
+          };
+          sendBlips({ getState: () => flatState })(nextSpy)(action);
+        });
+
+        it('calls trackUserAction with the correct params', () => {
+          expect(beaconSpy.trackUserAction)
+            .toHaveBeenCalledWith('helpCenter', 'search', 'helpCenterForm', 'i made a query...');
+        });
+      });
+
+      describe('total searches previously is not 0', () => {
+        beforeEach(() => {
+          flatState = {
+            totalUserSearches: 100,
+            searchTerm: 'i made a query...'
+          };
+          action = {
+            type: SEARCH_SUCCESS
+          };
+          sendBlips({ getState: () => flatState })(nextSpy)(action);
+        });
+
+        it('does not call trackUserAction', () => {
+          expect(beaconSpy.trackUserAction)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('action has type SEARCH_FAILURE', () => {
+      let flatState;
+
+      beforeEach(() => {
+        beaconSpy.trackUserAction.calls.reset();
+        nextSpy = jasmine.createSpy('nextSpy');
+      });
+
+      describe('total user searches previously is 0', () => {
+        beforeEach(() => {
+          flatState = {
+            totalUserSearches: 0,
+            searchTerm: 'i made a query...'
+          };
+          action = {
+            type: SEARCH_FAILURE
+          };
+          sendBlips({ getState: () => flatState })(nextSpy)(action);
+        });
+
+        it('calls trackUserAction with the correct params', () => {
+          expect(beaconSpy.trackUserAction)
+            .toHaveBeenCalledWith('helpCenter', 'search', 'helpCenterForm', 'i made a query...');
+        });
+      });
+
+      describe('total searches previously is not 0', () => {
+        beforeEach(() => {
+          flatState = {
+            totalUserSearches: 100,
+            searchTerm: 'i made a query...'
+          };
+          action = {
+            type: SEARCH_FAILURE
+          };
+          sendBlips({ getState: () => flatState })(nextSpy)(action);
+        });
+
+        it('does not call trackUserAction', () => {
+          expect(beaconSpy.trackUserAction)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('action has type ORIGINAL_ARTICLE_CLICKED', () => {
+      let flatState;
+
+      beforeEach(() => {
+        beaconSpy.trackUserAction.calls.reset();
+        nextSpy = jasmine.createSpy('nextSpy');
+        flatState = {
+          activeArticle: { id: 1213211232123 },
+          resultsCount: 1,
+          searchTerm: 'i made a query...',
+          articleClicked: true
+        };
+        action = {
+          type: ORIGINAL_ARTICLE_CLICKED
+        };
+        sendBlips({ getState: () => flatState })(nextSpy)(action);
+      });
+
+      it('calls trackUserAction with the correct params', () => {
+        const expectedValue = {
+          query: 'i made a query...',
+          resultsCount: 1,
+          uniqueSearchResultClick: false,
+          articleId: 1213211232123,
+          locale: 'US'
+        };
+
+        expect(beaconSpy.trackUserAction)
+          .toHaveBeenCalledWith('helpCenter', 'viewOriginalArticle', 'helpCenterForm', expectedValue);
       });
     });
 

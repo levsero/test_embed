@@ -6,7 +6,7 @@ import articleClicked from './helpCenter-articleClicked';
 import viewMoreClicked from './helpCenter-viewMoreClicked';
 import searchFailed from './helpCenter-searchFailed';
 import searchTerm from './helpCenter-searchTerm';
-import hasSearched from './helpCenter-hasSearched';
+import totalUserSearches from './helpCenter-totalUserSearches';
 import hasContextuallySearched from './helpCenter-hasContextuallySearched';
 import articles from './helpCenter-articles';
 import resultsPerPage from './helpCenter-resultsPerPage';
@@ -19,9 +19,9 @@ export default combineReducers({
   viewMoreClicked,
   searchFailed,
   searchTerm,
-  hasSearched,
-  hasContextuallySearched,
   articles,
   resultsCount,
-  resultsPerPage
+  resultsPerPage,
+  totalUserSearches,
+  hasContextuallySearched
 });

@@ -89,7 +89,6 @@ describe('mediator', () => {
     submitTicketSub = jasmine.createSpyObj(
       'submitTicket',
       ['hide',
-       'setLastSearch',
        'prefill',
        'update',
        'refreshLocale']
@@ -133,7 +132,6 @@ describe('mediator', () => {
       c.subscribe(`${names.launcher}.refreshLocale`, launcherSub.refreshLocale);
 
       c.subscribe(`${names.submitTicket}.hide`, submitTicketSub.hide);
-      c.subscribe(`${names.submitTicket}.setLastSearch`, submitTicketSub.setLastSearch);
       c.subscribe(`${names.submitTicket}.prefill`, submitTicketSub.prefill);
       c.subscribe(`${names.submitTicket}.update`, submitTicketSub.update);
 
@@ -1707,23 +1705,6 @@ describe('mediator', () => {
         expect(webWidgetSub.show.calls.count())
           .toEqual(1);
       });
-    });
-
-    it('triggers Ticket Submission setLastSearch with last search params', () => {
-      const params = {
-        searchString: 'a search',
-        searchLocale: 'en-US'
-      };
-
-      reset(submitTicketSub.setLastSearch);
-
-      c.broadcast(`${helpCenter}.onSearch`, params);
-
-      expect(submitTicketSub.setLastSearch.calls.count())
-        .toEqual(1);
-
-      expect(submitTicketSub.setLastSearch)
-        .toHaveBeenCalledWith(params);
     });
 
     describe('when activate is called', () => {

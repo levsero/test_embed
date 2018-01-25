@@ -435,25 +435,6 @@ describe('helpCenter redux actions', () => {
     });
   });
 
-  describe('#updateArticleViewActive', () => {
-    let action;
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.updateArticleViewActive(true));
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches an action of type UPDATE_ARTICLE_VIEW_ACTIVE', () => {
-      expect(action.type)
-        .toEqual(actionTypes.UPDATE_ARTICLE_VIEW_ACTIVE);
-    });
-
-    it('contains the boolean value true in the payload', () => {
-      expect(action.payload)
-        .toEqual(true);
-    });
-  });
-
   describe('#resetActiveArticle', () => {
     let action;
 
@@ -465,6 +446,20 @@ describe('helpCenter redux actions', () => {
     it('dispatches an action of type RESET_ACTIVE_ARTICLE', () => {
       expect(action.type)
         .toEqual(actionTypes.RESET_ACTIVE_ARTICLE);
+    });
+  });
+
+  describe('#handleOriginalArticleClicked', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.handleOriginalArticleClicked());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type ORIGINAL_ARTICLE_CLICKED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.ORIGINAL_ARTICLE_CLICKED);
     });
   });
 });

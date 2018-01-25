@@ -138,7 +138,8 @@ describe('Submit ticket component', () => {
           setLocale: noop,
           getLocaleId: () => 'fr',
           isRTL: noop,
-          t: _.identity
+          t: _.identity,
+          getLocale: () => 'en-US'
         }
       },
       'service/settings': {
@@ -154,7 +155,10 @@ describe('Submit ticket component', () => {
       'component/Icon': {
         Icon: noopReactComponent()
       },
-      'lodash': _
+      'lodash': _,
+      'src/redux/modules/helpCenter/helpCenter-selectors': {
+        getSearchTerm: () => 'a search.'
+      }
     });
 
     mockery.registerAllowable(submitTicketPath);
@@ -232,7 +236,8 @@ describe('Submit ticket component', () => {
             onSubmitted={mockOnSubmitted}
             updateFrameSize={noop}
             tags={['extra_tag']}
-            viaId={48} />
+            viaId={48}
+            searchTerm='a search' />
         );
 
         submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
@@ -249,7 +254,6 @@ describe('Submit ticket component', () => {
 
       it('should call onSubmitted with given last search state', () => {
         submitTicket.setState({
-          searchTerm: 'a search',
           searchLocale: 'en-US'
         });
 
