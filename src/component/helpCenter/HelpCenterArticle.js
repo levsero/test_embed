@@ -24,7 +24,7 @@ export class HelpCenterArticle extends Component {
     imagesSender: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     handleOriginalArticleClick: PropTypes.func,
-    storedImages: PropTypes.array,
+    storedImages: PropTypes.object,
     updateFrameSize: PropTypes.func,
     updateStoredImages: PropTypes.func,
     zendeskHost: PropTypes.string
@@ -35,7 +35,7 @@ export class HelpCenterArticle extends Component {
     imagesSender: () => {},
     originalArticleButton: true,
     handleOriginalArticleClick: () => {},
-    storedImages: [],
+    storedImages: {},
     updateFrameSize: () => {},
     updateStoredImages: () => {},
     zendeskHost: ''
