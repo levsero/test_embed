@@ -92,5 +92,5 @@
 }
 
 .offlineLink {
-  composes: u-textCenter u-userLinkColor from global;
+  composes: u-isActionable u-textCenter u-userLinkColor from global;
 }
