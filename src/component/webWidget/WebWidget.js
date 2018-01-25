@@ -130,11 +130,12 @@ class WebWidget extends Component {
   };
 
   setComponent = (activeComponent) => {
+    this.props.updateBackButtonVisibility(true);
+
     if (activeComponent === chat) {
       this.showChat();
     } else {
       this.props.updateActiveEmbed(activeComponent);
-      this.props.updateBackButtonVisibility(true);
     }
   }
 
