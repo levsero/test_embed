@@ -19,7 +19,8 @@ import { SEARCH_REQUEST,
          ORIGINAL_ARTICLE_CLICKED,
          RESET_ACTIVE_ARTICLE,
          ADD_RESTRICTED_IMAGE,
-         UPDATE_CHANNELCHOICE_SHOWN } from './helpCenter-action-types';
+         UPDATE_CHANNELCHOICE_SHOWN,
+         UPDATE_SEARCH_FIELD_VALUE } from './helpCenter-action-types';
 
 const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
   const token = authentication.getToken();
@@ -148,5 +149,12 @@ export function updateChannelChoiceShown(bool) {
   return {
     type: UPDATE_CHANNELCHOICE_SHOWN,
     payload: bool
+  };
+}
+
+export function updateSearchFieldValue(value) {
+  return {
+    type: UPDATE_SEARCH_FIELD_VALUE,
+    payload: value
   };
 }

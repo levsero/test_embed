@@ -504,4 +504,23 @@ describe('helpCenter redux actions', () => {
         .toEqual(true);
     });
   });
+
+  describe('#updateSearchFieldValue', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateSearchFieldValue('bla bla bla'));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_SEARCH_FIELD_VALUE', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_SEARCH_FIELD_VALUE);
+    });
+
+    it('contains the search field value in the payload', () => {
+      expect(action.payload)
+        .toEqual('bla bla bla');
+    });
+  });
 });

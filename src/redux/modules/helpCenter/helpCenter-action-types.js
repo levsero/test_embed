@@ -12,3 +12,4 @@ export const RESET_ACTIVE_ARTICLE = 'widget/helpCenter/RESET_ACTIVE_ARTICLE';
 export const ORIGINAL_ARTICLE_CLICKED = 'widget/helpCenter/ORIGINAL_ARTICLE_CLICKED';
 export const ADD_RESTRICTED_IMAGE = 'widget/helpCenter/ADD_RESTRICTED_IMAGE';
 export const UPDATE_CHANNELCHOICE_SHOWN = 'widget/helpCenter/UPDATE_CHANNELCHOICE_SHOWN';
+export const UPDATE_SEARCH_FIELD_VALUE = 'widget/helpCenter/UPDATE_SEARCH_FIELD_VALUE';

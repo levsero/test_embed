@@ -17,7 +17,8 @@ import { updateSearchTerm,
          updateViewMoreClicked,
          handleOriginalArticleClicked,
          addRestrictedImage,
-         updateChannelChoiceShown } from 'src/redux/modules/helpCenter';
+         updateChannelChoiceShown,
+         updateSearchFieldValue } from 'src/redux/modules/helpCenter';
 import { getActiveArticle,
          getResultsCount,
          getSearchLoading,
@@ -32,7 +33,8 @@ import { getActiveArticle,
          getResultsPerPage,
          getArticleViewActive,
          getRestrictedImages,
-         getChannelChoiceShown } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+         getChannelChoiceShown,
+         getSearchFieldValue } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 
 // FIXME: Put this in HC constants file
@@ -55,7 +57,8 @@ const mapStateToProps = (state) => {
     articles: getArticles(state),
     resultsPerPage: getResultsPerPage(state),
     restrictedImages: getRestrictedImages(state),
-    channelChoiceShown: getChannelChoiceShown(state)
+    channelChoiceShown: getChannelChoiceShown(state),
+    searchFieldValue: getSearchFieldValue(state)
   };
 };
 
@@ -108,7 +111,9 @@ class HelpCenter extends Component {
     restrictedImages: PropTypes.object.isRequired,
     addRestrictedImage: PropTypes.func,
     updateChannelChoiceShown: PropTypes.func.isRequired,
-    channelChoiceShown: PropTypes.bool.isRequired
+    channelChoiceShown: PropTypes.bool.isRequired,
+    searchFieldValue: PropTypes.string.isRequired,
+    updateSearchFieldValue: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -141,14 +146,15 @@ class HelpCenter extends Component {
     activeArticle: null,
     restrictedImages: {},
     addRestrictedImage: () => {},
-    updateChannelChoiceShown: () => {}
+    updateChannelChoiceShown: () => {},
+    updateSearchFieldValue: () => {}
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      searchFieldValue: ''
+      images: []
     };
   }
 
@@ -401,7 +407,7 @@ class HelpCenter extends Component {
         hasSearched={this.props.hasSearched}
         buttonLabel={buttonLabel}
         formTitleKey={this.props.formTitleKey}
-        searchFieldValue={this.state.searchFieldValue}
+        searchFieldValue={this.props.searchFieldValue}
         shadowVisible={shadowVisible}
         updateFrameSize={this.props.updateFrameSize}
         hideChatNotification={this.props.hideChatNotification}
@@ -433,7 +439,7 @@ class HelpCenter extends Component {
         talkAvailable={this.props.talkAvailable}
         articleViewActive={this.props.articleViewActive}
         hasSearched={this.props.hasSearched}
-        searchFieldValue={this.state.searchFieldValue}
+        searchFieldValue={this.props.searchFieldValue}
         hideZendeskLogo={this.props.hideZendeskLogo}
         buttonLabel={buttonLabel}
         formTitleKey={this.props.formTitleKey}
@@ -477,6 +483,7 @@ class HelpCenter extends Component {
 }
 
 const actionCreators = {
+  updateSearchFieldValue,
   updateChannelChoiceShown,
   updateActiveArticle,
   updateSearchTerm,
