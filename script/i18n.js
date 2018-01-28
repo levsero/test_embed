@@ -64,12 +64,12 @@ function transformTranslations(translations) {
 }
 
 function createIndividualFile(rootPath, json) {
+  console.log('Writing individual locale files');
+
   _.forEach(json, (value, key) => {
     var translations = transformTranslations({ key: value });
     var localePath = rootPath + key + '/';
     var contents = JSON.stringify(translations, null, 2);
-
-    console.log('Writing individual locale file ' + key);
 
     fs.mkdir(localePath, (err) => {
       if (err && err.code !== 'EEXIST') {
@@ -78,6 +78,8 @@ function createIndividualFile(rootPath, json) {
         fs.writeFile(localePath + 'translations.js', contents, (err) => {
           if (err) {
             console.log('Error creating ' + key + ' translations', err);
+          } else {
+            process.stdout.write('.');
           }
         });
       }
