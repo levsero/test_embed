@@ -347,7 +347,6 @@ parts:
       title: "A text that is shown on a button when the user would like to end the current chat"
       screenshot: "https://zendesk.box.com/s/pkzhz6n8nzte7jnu20j8ry0vaadpk9qp"
       value: "End"
-      obsolete: "2018-02-24"
   - translation:
       key: "embeddable_framework.chat.postChat.byline"
       title: "A byline that appears under a chat header when the chat session has ended."
@@ -694,7 +693,6 @@ parts:
       title: "The error notification that appears when something goes wrong with the upload. Will wrap as needed. (https://zendesk.box.com/s/i2vh170lwc39bffkjl59zu0ztq6zafnq)"
       screenshot: "https://zendesk.box.com/s/i2vh170lwc39bffkjl59zu0ztq6zafnq"
       value: "There was a problem attaching this file. Please try again."
-      obsolete: "2018-02-24"
 
   # Automatic Answers
   - translation:

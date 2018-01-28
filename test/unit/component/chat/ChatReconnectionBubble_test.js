@@ -33,7 +33,7 @@ describe('ChatReconnectionBubble component', () => {
     it('uses correct translation for title with `Reconnecting` fallback', () => {
       expect(mocki18nTranslate)
         .toHaveBeenCalledWith(
-          'embeddable_framework.chat.reconnecting.label',
+          'embeddable_framework.chat.reconnecting.title',
           { fallback: 'Reconnecting' }
         );
     });

@@ -340,7 +340,7 @@ class Chat extends Component {
         leftCtaFn={hideChatEndFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
         rightCtaFn={this.props.acceptEndChatNotification}
-        rightCtaLabel={i18n.t('embeddable_framework.common.button.end')}>
+        rightCtaLabel={i18n.t('embeddable_framework.chat.form.endChat.button.end')}>
         <div className={styles.chatEndPopupDescription}>
           {i18n.t('embeddable_framework.chat.form.endChat.description')}
         </div>

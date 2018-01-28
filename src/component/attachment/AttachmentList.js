@@ -151,7 +151,7 @@ export class AttachmentList extends Component {
 
     setTimeout(() => {
       if (!errorMessage) {
-        const error = i18n.t('embeddable_framework.common.attachments.error.other');
+        const error = i18n.t('embeddable_framework.submitTicket.attachments.error.other');
 
         this.updateAttachmentState(attachmentId, {
           uploadRequestSender: this.props.attachmentSender(file, doneFn, failFn(error), progressFn)
