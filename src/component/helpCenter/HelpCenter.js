@@ -305,10 +305,6 @@ class HelpCenter extends Component {
     }
   }
 
-  handleOnChangeValue = (value) => {
-    this.setState({ searchFieldValue: value });
-  }
-
   resetState = () => {
     this.refs.helpCenterMobile.resetState();
   }
@@ -385,7 +381,7 @@ class HelpCenter extends Component {
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
         getFrameDimensions={this.props.getFrameDimensions}
-        handleOnChangeValue={this.handleOnChangeValue}
+        handleOnChangeValue={this.props.updateSearchFieldValue}
         handleNextClick={this.handleNextClick}
         search={this.search}
         showNextButton={this.props.showNextButton}
@@ -416,7 +412,7 @@ class HelpCenter extends Component {
     return (
       <HelpCenterMobile
         ref='helpCenterMobile'
-        handleOnChangeValue={this.handleOnChangeValue}
+        handleOnChangeValue={this.props.updateSearchFieldValue}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
