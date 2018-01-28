@@ -173,10 +173,6 @@ class HelpCenter extends Component {
          : this.refs.helpCenterDesktop;
   }
 
-  setChannelChoiceShown = (bool) => {
-    this.props.updateChannelChoiceShown(bool);
-  }
-
   interactiveSearchSuccessFn = () => {
     this.props.showBackButton(false);
     this.focusField();
@@ -303,7 +299,7 @@ class HelpCenter extends Component {
     e.preventDefault();
 
     if (this.props.channelChoice) {
-      setTimeout(() => this.setChannelChoiceShown(true), 0);
+      setTimeout(() => this.props.updateChannelChoiceShown(true), 0);
     } else {
       this.props.onNextClick();
     }
@@ -324,9 +320,7 @@ class HelpCenter extends Component {
   }
 
   onContainerClick = () => {
-    if (this.props.channelChoiceShown) {
-      this.setChannelChoiceShown(false);
-    }
+    this.props.updateChannelChoiceShown(false);
   }
 
   renderResults = () => {
@@ -443,7 +437,7 @@ class HelpCenter extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         buttonLabel={buttonLabel}
         formTitleKey={this.props.formTitleKey}
-        setChannelChoiceShown={this.setChannelChoiceShown}>
+        setChannelChoiceShown={this.props.updateChannelChoiceShown}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterMobile>

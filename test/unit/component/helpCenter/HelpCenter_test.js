@@ -928,23 +928,29 @@ describe('HelpCenter component', () => {
 
   describe('handleNextClick', () => {
     let helpCenter,
-      onNextClickSpy;
+      onNextClickSpy,
+      updateChannelChoiceShownSpy;
 
     beforeEach(() => {
       onNextClickSpy = jasmine.createSpy('onNextClick');
+      updateChannelChoiceShownSpy = jasmine.createSpy('updateChannelChoiceShown');
     });
 
     describe('when props.channelChoice is true', () => {
       beforeEach(() => {
-        helpCenter = domRender(<HelpCenter chatOnline={true} channelChoice={true} />);
+        helpCenter = domRender(
+          <HelpCenter
+            chatOnline={true}
+            channelChoice={true}
+            updateChannelChoiceShown={updateChannelChoiceShownSpy} />
+        );
 
-        spyOn(helpCenter, 'setChannelChoiceShown');
         helpCenter.handleNextClick({ preventDefault: noop });
         jasmine.clock().tick(0);
       });
 
-      it('should call setChannelChoiceShown on the next tick', () => {
-        expect(helpCenter.setChannelChoiceShown)
+      it('should call updateChannelChoiceShown on the next tick', () => {
+        expect(updateChannelChoiceShownSpy)
           .toHaveBeenCalledWith(true);
       });
     });
@@ -968,34 +974,20 @@ describe('HelpCenter component', () => {
   });
 
   describe('onContainerClick', () => {
-    let helpCenter;
+    let helpCenter,
+      updateChannelChoiceShownSpy;
 
-    describe('when channeChoiceShown is false', () => {
-      beforeEach(() => {
-        helpCenter = instanceRender(<HelpCenter channelChoiceShown={false} />);
+    beforeEach(() => {
+      updateChannelChoiceShownSpy = jasmine.createSpy('updateChannelChoiceShown');
 
-        spyOn(helpCenter, 'setChannelChoiceShown');
-        helpCenter.onContainerClick();
-      });
+      helpCenter = instanceRender(<HelpCenter updateChannelChoiceShown={updateChannelChoiceShownSpy} />);
 
-      it('does not call setChannelChoiceShown', () => {
-        expect(helpCenter.setChannelChoiceShown)
-          .not.toHaveBeenCalled();
-      });
+      helpCenter.onContainerClick();
     });
 
-    describe('when channeChoiceShown is true', () => {
-      beforeEach(() => {
-        helpCenter = instanceRender(<HelpCenter channelChoiceShown={true} />);
-
-        spyOn(helpCenter, 'setChannelChoiceShown');
-        helpCenter.onContainerClick();
-      });
-
-      it('calls setChannelChoiceShown with false', () => {
-        expect(helpCenter.setChannelChoiceShown)
-          .toHaveBeenCalledWith(false);
-      });
+    it('calls updateChannelChoiceShown with false', () => {
+      expect(updateChannelChoiceShownSpy)
+        .toHaveBeenCalledWith(false);
     });
   });
 
