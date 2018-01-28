@@ -949,7 +949,7 @@ describe('HelpCenter component', () => {
         jasmine.clock().tick(0);
       });
 
-      it('should call updateChannelChoiceShown on the next tick', () => {
+      it('calls updateChannelChoiceShown on the next tick', () => {
         expect(updateChannelChoiceShownSpy)
           .toHaveBeenCalledWith(true);
       });
