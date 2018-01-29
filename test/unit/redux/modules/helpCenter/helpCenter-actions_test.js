@@ -462,4 +462,65 @@ describe('helpCenter redux actions', () => {
         .toEqual(actionTypes.ORIGINAL_ARTICLE_CLICKED);
     });
   });
+
+  describe('#addRestrictedImage', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.addRestrictedImage({
+        'http://img.lnk': 'blob:http://img.lnk'
+      }));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type ADD_RESTRICTED_IMAGE', () => {
+      expect(action.type)
+        .toEqual(actionTypes.ADD_RESTRICTED_IMAGE);
+    });
+
+    it('contains the search term in the payload', () => {
+      expect(action.payload)
+        .toEqual({
+          'http://img.lnk': 'blob:http://img.lnk'
+        });
+    });
+  });
+
+  describe('#updateChannelChoiceShown', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateChannelChoiceShown(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_CHANNELCHOICE_SHOWN', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_CHANNELCHOICE_SHOWN);
+    });
+
+    it('contains the boolean value in the payload', () => {
+      expect(action.payload)
+        .toEqual(true);
+    });
+  });
+
+  describe('#updateSearchFieldValue', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateSearchFieldValue('bla bla bla'));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_SEARCH_FIELD_VALUE', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_SEARCH_FIELD_VALUE);
+    });
+
+    it('contains the search field value in the payload', () => {
+      expect(action.payload)
+        .toEqual('bla bla bla');
+    });
+  });
 });

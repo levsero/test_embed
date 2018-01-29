@@ -15,7 +15,10 @@ import { updateSearchTerm,
          performContextualSearch,
          performImageSearch,
          updateViewMoreClicked,
-         handleOriginalArticleClicked } from 'src/redux/modules/helpCenter';
+         handleOriginalArticleClicked,
+         addRestrictedImage,
+         updateChannelChoiceShown,
+         updateSearchFieldValue } from 'src/redux/modules/helpCenter';
 import { getActiveArticle,
          getResultsCount,
          getSearchLoading,
@@ -28,7 +31,10 @@ import { getActiveArticle,
          getShowViewMore,
          getArticles,
          getResultsPerPage,
-         getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+         getArticleViewActive,
+         getRestrictedImages,
+         getChannelChoiceShown,
+         getSearchFieldValue } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 
 // FIXME: Put this in HC constants file
@@ -49,7 +55,10 @@ const mapStateToProps = (state) => {
     callbackEnabled: isCallbackEnabled(state),
     articleViewActive: getArticleViewActive(state),
     articles: getArticles(state),
-    resultsPerPage: getResultsPerPage(state)
+    resultsPerPage: getResultsPerPage(state),
+    restrictedImages: getRestrictedImages(state),
+    channelChoiceShown: getChannelChoiceShown(state),
+    searchFieldValue: getSearchFieldValue(state)
   };
 };
 
@@ -98,7 +107,13 @@ class HelpCenter extends Component {
     resultsPerPage: PropTypes.number.isRequired,
     hasSearched: PropTypes.bool.isRequired,
     handleOriginalArticleClicked: PropTypes.func.isRequired,
-    articleViewActive: PropTypes.bool.isRequired
+    articleViewActive: PropTypes.bool.isRequired,
+    restrictedImages: PropTypes.object.isRequired,
+    addRestrictedImage: PropTypes.func,
+    updateChannelChoiceShown: PropTypes.func.isRequired,
+    channelChoiceShown: PropTypes.bool.isRequired,
+    searchFieldValue: PropTypes.string.isRequired,
+    updateSearchFieldValue: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -128,14 +143,18 @@ class HelpCenter extends Component {
     articleViewActive: false,
     handleOriginalArticleClicked: () => {},
     hasSearched: false,
-    activeArticle: null
+    activeArticle: null,
+    restrictedImages: {},
+    addRestrictedImage: () => {},
+    updateChannelChoiceShown: () => {},
+    updateSearchFieldValue: () => {}
   };
 
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
     this.state = {
-      channelChoiceShown: false
+      images: []
     };
   }
 
@@ -152,10 +171,6 @@ class HelpCenter extends Component {
     return (this.props.fullscreen)
          ? this.refs.helpCenterMobile
          : this.refs.helpCenterDesktop;
-  }
-
-  setChannelChoiceShown = (channelChoiceShown) => {
-    this.setState({ channelChoiceShown });
   }
 
   interactiveSearchSuccessFn = () => {
@@ -284,14 +299,10 @@ class HelpCenter extends Component {
     e.preventDefault();
 
     if (this.props.channelChoice) {
-      setTimeout(() => this.setChannelChoiceShown(true), 0);
+      setTimeout(() => this.props.updateChannelChoiceShown(true), 0);
     } else {
       this.props.onNextClick();
     }
-  }
-
-  handleOnChangeValue = (value) => {
-    this.setState({ searchFieldValue: value });
   }
 
   resetState = () => {
@@ -305,15 +316,7 @@ class HelpCenter extends Component {
   }
 
   onContainerClick = () => {
-    if (this.state.channelChoiceShown) {
-      this.setChannelChoiceShown(false);
-    }
-  }
-
-  updateImages = (img) => {
-    this.setState({
-      images: _.extend({}, this.state.images, img)
-    });
+    this.props.updateChannelChoiceShown(false);
   }
 
   renderResults = () => {
@@ -358,9 +361,9 @@ class HelpCenter extends Component {
         zendeskHost={this.props.zendeskHost}
         originalArticleButton={this.props.originalArticleButton}
         handleOriginalArticleClick={this.props.handleOriginalArticleClicked}
-        storedImages={this.state.images}
+        storedImages={this.props.restrictedImages}
         imagesSender={this.props.performImageSearch}
-        updateStoredImages={this.updateImages}
+        updateStoredImages={this.props.addRestrictedImage}
         updateFrameSize={this.props.updateFrameSize}
         fullscreen={this.props.fullscreen} />
     );
@@ -378,7 +381,7 @@ class HelpCenter extends Component {
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
         getFrameDimensions={this.props.getFrameDimensions}
-        handleOnChangeValue={this.handleOnChangeValue}
+        handleOnChangeValue={this.props.updateSearchFieldValue}
         handleNextClick={this.handleNextClick}
         search={this.search}
         showNextButton={this.props.showNextButton}
@@ -386,7 +389,7 @@ class HelpCenter extends Component {
         isLoading={this.props.searchLoading}
         onNextClick={this.props.onNextClick}
         newDesign={this.props.newDesign}
-        channelChoice={this.state.channelChoiceShown}
+        channelChoice={this.props.channelChoiceShown}
         callbackEnabled={this.props.callbackEnabled}
         talkEnabled={this.props.talkEnabled}
         talkAvailable={this.props.talkAvailable}
@@ -394,7 +397,7 @@ class HelpCenter extends Component {
         hasSearched={this.props.hasSearched}
         buttonLabel={buttonLabel}
         formTitleKey={this.props.formTitleKey}
-        searchFieldValue={this.state.searchFieldValue}
+        searchFieldValue={this.props.searchFieldValue}
         shadowVisible={shadowVisible}
         updateFrameSize={this.props.updateFrameSize}
         hideChatNotification={this.props.hideChatNotification}
@@ -409,7 +412,7 @@ class HelpCenter extends Component {
     return (
       <HelpCenterMobile
         ref='helpCenterMobile'
-        handleOnChangeValue={this.handleOnChangeValue}
+        handleOnChangeValue={this.props.updateSearchFieldValue}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
@@ -420,17 +423,17 @@ class HelpCenter extends Component {
         showNextButton={this.props.showNextButton}
         chatAvailable={this.props.chatAvailable}
         hasContextualSearched={this.props.hasContextualSearched}
-        channelChoice={this.state.channelChoiceShown}
+        channelChoice={this.props.channelChoiceShown}
         callbackEnabled={this.props.callbackEnabled}
         talkEnabled={this.props.talkEnabled}
         talkAvailable={this.props.talkAvailable}
         articleViewActive={this.props.articleViewActive}
         hasSearched={this.props.hasSearched}
-        searchFieldValue={this.state.searchFieldValue}
+        searchFieldValue={this.props.searchFieldValue}
         hideZendeskLogo={this.props.hideZendeskLogo}
         buttonLabel={buttonLabel}
         formTitleKey={this.props.formTitleKey}
-        setChannelChoiceShown={this.setChannelChoiceShown}>
+        setChannelChoiceShown={this.props.updateChannelChoiceShown}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterMobile>
@@ -470,13 +473,16 @@ class HelpCenter extends Component {
 }
 
 const actionCreators = {
+  updateSearchFieldValue,
+  updateChannelChoiceShown,
   updateActiveArticle,
   updateSearchTerm,
   performSearch,
   performImageSearch,
   performContextualSearch,
   updateViewMoreClicked,
-  handleOriginalArticleClicked
+  handleOriginalArticleClicked,
+  addRestrictedImage
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(HelpCenter);

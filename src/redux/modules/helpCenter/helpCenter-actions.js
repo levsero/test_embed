@@ -17,7 +17,10 @@ import { SEARCH_REQUEST,
          UPDATE_RESULTS,
          UPDATE_VIEW_MORE_CLICKED,
          ORIGINAL_ARTICLE_CLICKED,
-         RESET_ACTIVE_ARTICLE } from './helpCenter-action-types';
+         RESET_ACTIVE_ARTICLE,
+         ADD_RESTRICTED_IMAGE,
+         UPDATE_CHANNELCHOICE_SHOWN,
+         UPDATE_SEARCH_FIELD_VALUE } from './helpCenter-action-types';
 
 const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
   const token = authentication.getToken();
@@ -133,4 +136,25 @@ export function updateViewMoreClicked() {
 
 export function resetActiveArticle() {
   return { type: RESET_ACTIVE_ARTICLE };
+}
+
+export function addRestrictedImage(img) {
+  return {
+    type: ADD_RESTRICTED_IMAGE,
+    payload: img
+  };
+}
+
+export function updateChannelChoiceShown(bool) {
+  return {
+    type: UPDATE_CHANNELCHOICE_SHOWN,
+    payload: bool
+  };
+}
+
+export function updateSearchFieldValue(value) {
+  return {
+    type: UPDATE_SEARCH_FIELD_VALUE,
+    payload: value
+  };
 }
