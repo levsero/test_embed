@@ -27,6 +27,14 @@ class S3Deployer
     @bucket ||= Aws::S3::Resource.new.bucket(bucket_name)
   end
 
+  def upload_translations(local_directory, remote_directory)
+    Dir.glob("#{local_directory}/**/*.js") do |file|
+      upload_file("#{remote_directory}/#{file.partition("/").last}", file)
+
+      logger.info "put_object #{file} on dir #{file.partition("/").last}"
+    end
+  end
+
   private
 
   attr_reader :bucket_name, :logger
