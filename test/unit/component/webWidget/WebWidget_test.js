@@ -1338,4 +1338,72 @@ describe('WebWidget component', () => {
       });
     });
   });
+
+  describe('setComponent', () => {
+    let webWidget,
+      updateBackButtonVisibilitySpy,
+      updateActiveEmbedSpy;
+
+    describe('when the active component is Chat', () => {
+      beforeEach(() => {
+        updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility');
+        updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed');
+
+        webWidget = instanceRender(
+          <WebWidget
+            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+            updateActiveEmbed={updateActiveEmbedSpy} />
+        );
+        spyOn(webWidget, 'showChat');
+
+        webWidget.setComponent('chat');
+      });
+
+      it('calls showChat', () => {
+        expect(webWidget.showChat)
+          .toHaveBeenCalled();
+      });
+
+      it('calls updateBackButtonVisibility with true', () => {
+        expect(updateBackButtonVisibilitySpy)
+          .toHaveBeenCalledWith(true);
+      });
+
+      it('does not call updateActiveEmbed', () => {
+        expect(updateActiveEmbedSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when the active component is not Chat', () => {
+      beforeEach(() => {
+        updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility');
+        updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed');
+
+        webWidget = instanceRender(
+          <WebWidget
+            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+            updateActiveEmbed={updateActiveEmbedSpy} />
+        );
+        spyOn(webWidget, 'showChat');
+
+        webWidget.setComponent('helpCenterForm');
+      });
+
+      it('does not call showChat', () => {
+        expect(webWidget.showChat)
+          .not.toHaveBeenCalled();
+      });
+
+      it('calls updateBackButtonVisibility with true', () => {
+        expect(updateBackButtonVisibilitySpy)
+          .toHaveBeenCalledWith(true);
+      });
+
+      it('calls updateActiveEmbed with the component name', () => {
+        expect(updateActiveEmbedSpy)
+          .toHaveBeenCalledWith('helpCenterForm');
+      });
+    });
+  });
 });
