@@ -485,4 +485,42 @@ describe('helpCenter redux actions', () => {
         });
     });
   });
+
+  describe('#updateChannelChoiceShown', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateChannelChoiceShown(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_CHANNELCHOICE_SHOWN', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_CHANNELCHOICE_SHOWN);
+    });
+
+    it('contains the boolean value in the payload', () => {
+      expect(action.payload)
+        .toEqual(true);
+    });
+  });
+
+  describe('#updateSearchFieldValue', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateSearchFieldValue('bla bla bla'));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_SEARCH_FIELD_VALUE', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_SEARCH_FIELD_VALUE);
+    });
+
+    it('contains the search field value in the payload', () => {
+      expect(action.payload)
+        .toEqual('bla bla bla');
+    });
+  });
 });
