@@ -178,6 +178,8 @@ function init(embedsAccessible, params = {}) {
     setTimeout(() => {
       if (connectionPending() && embedAvailable()) {
         show(state, { transition: 'none' });
+        state[`${chat}.connectionPending`] = false;
+        state[`${talk}.connectionPending`] = false;
       }
     }, 3000);
   }
