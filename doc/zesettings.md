@@ -27,6 +27,7 @@ The Web Widget has the following general settings:
 * [position](#position)
 * [zIndex](#zindex)
 
+<a name="example-general"></a>
 #### Example
 
 ```html
@@ -53,6 +54,7 @@ The widget's `contactForm` object, which represents the contact form, has the fo
 * [ticketForms](#ticketforms)
 * [title](#title)
 
+<a name="example-contact-form"></a>
 #### Example
 
 ```html
@@ -80,6 +82,7 @@ The widget's `contactOptions` object, which represents a component that lets the
 
 To learn more about contact options, see [Offering end-users multiple contact options](https://support.zendesk.com/hc/en-us/articles/229167008#topic_spt_fb1_l1b) in the Support Help Center.
 
+<a name="example-contact-options"></a>
 #### Example
 
 ```html
@@ -109,6 +112,7 @@ The widget's `helpCenter` object, which represents the Help Center component, ha
 * [title](#title)
 * [viewMore](#viewmore)
 
+<a name="example-hc-settings"></a>
 #### Example
 
 ```html
@@ -133,6 +137,7 @@ The widget's `chat` object, which represents the Chat component, has the followi
 
 * [suppress](#suppress)
 
+<a name="example-chat-settings"></a>
 #### Example
 
 ```html
@@ -155,6 +160,7 @@ The widget's `launcher` object, which represents the launcher button, has the fo
 * [chatLabel](#chatlabel)
 * [label](#label)
 
+<a name="example-launcher-settings"></a>
 #### Example
 
 ```html
@@ -208,6 +214,7 @@ Disables attaching files to tickets submitted through the Web Widget.
 
 * contactForm
 
+<a name="example-attachments"></a>
 ##### Example
 
 ```html
@@ -270,6 +277,7 @@ The string can't exceed 25 characters.
 
 * helpCenter
 
+<a name="example-chatbutton"></a>
 ##### Example
 
 ```html
@@ -310,6 +318,7 @@ You can use different strings for different locales or use one string for all lo
 
 * launcher
 
+<a name="example-chatlabel"></a>
 ##### Example
 
 ```html
@@ -341,6 +350,7 @@ You can use different strings for different locales or use one string for all lo
 
 * contactOptions
 
+<a name="example-chatlabeloffline"></a>
 ##### Example
 
 ```html
@@ -374,6 +384,7 @@ You can use different strings for different locales or use one string for all lo
 
 * contactOptions
 
+<a name="example-chatlabelonline"></a>
 ##### Example
 
 ```html
@@ -429,6 +440,7 @@ You can use different strings for different locales or use one string for all lo
 
 * contactOptions
 
+<a name="example-contactbutton"></a>
 ##### Example
 
 ```html
@@ -461,6 +473,7 @@ You can use different strings for different locales or use one string for all lo
 
 * contactOptions
 
+<a name="example-contactformlabel"></a>
 ##### Example
 
 ```html
@@ -511,6 +524,7 @@ You can use different strings for different locales or use one string for all lo
 
 * contactForm
 
+<a name="example-fields"></a>
 ##### Example
 
 ```html
@@ -547,6 +561,7 @@ Limits Help Center search results to a specified category, section, or label. Th
 
 * helpCenter
 
+<a name="example-filter"></a>
 ##### Example
 
 ```html
@@ -588,6 +603,7 @@ You can use different strings for different locales or use one string for all lo
 
 * launcher
 
+<a name="example-label"></a>
 ##### Example
 
 ```html
@@ -624,6 +640,7 @@ The string can't exceed 25 characters.
 
 * helpCenter
 
+<a name="example-messagebutton"></a>
 ##### Example
 
 ```html
@@ -681,6 +698,7 @@ Hides the "View Original Article" button.
 
 * helpCenter
 
+<a name="example-originalarticlebutton"></a>
 ##### Example
 
 ```html
@@ -736,6 +754,7 @@ Replaces the placeholder text displayed in the Help Center search box that says 
 
 * helpCenter
 
+<a name="example-searchplaceholder"></a>
 ##### Example
 
 ```html
@@ -773,6 +792,7 @@ You can use different strings for different locales or use one string for all lo
 
 * contactForm
 
+<a name="example-selectticketform"></a>
 ##### Example
 
 ```html
@@ -810,6 +830,7 @@ Inserts a Subject field in the contact form. The form doesn't have one by defaul
 
 * contactForm
 
+<a name="example-subject"></a>
 ##### Example
 
 ```html
@@ -845,6 +866,7 @@ Suppresses the Help Center, Chat, or contact form in the Web Widget on that page
 * contactForm
 * helpCenter
 
+<a name="example-suppress"></a>
 ##### Example
 
 ```html
@@ -873,6 +895,7 @@ Note: The tags are visible in the JavaScript console in the user's browser.
 
 * contactForm
 
+<a name="example-tags"></a>
 ##### Example
 
 ```html
@@ -936,6 +959,7 @@ ticketForms: [
 
 * contactForm
 
+<a name="example-ticketforms"></a>
 ##### Example
 
 ```html
@@ -976,6 +1000,7 @@ You can use different strings for different locales or use one string for all lo
 * contactForm
 * helpCenter
 
+<a name="example-title"></a>
 ##### Example
 
 ```html
@@ -1007,6 +1032,7 @@ Hides the View More button that may appear after a Help Center search. The butto
 
 * helpCenter
 
+<a name="example-viewmore"></a>
 ##### Example
 
 ```html
