@@ -1,7 +1,9 @@
 require 'aws-sdk'
+require 'time'
 
 class S3Deployer
   ENCRYPTION_TYPE = 'AES256'.freeze
+  SECONDS_IN_A_YEAR = 31536000
 
   def initialize(credentials, bucket_name, logger)
     Aws.config.update(
@@ -29,9 +31,9 @@ class S3Deployer
 
   def upload_translations(local_directory, remote_directory)
     Dir.glob("#{local_directory}/**/*.js") do |file|
-      upload_file("#{remote_directory}/#{file.partition("/").last}", file)
+      upload_file("#{remote_directory}/#{file.partition('/').last}", file)
 
-      logger.info "put_object #{file} on dir #{file.partition("/").last}"
+      logger.info "put_object #{file} on dir #{file.partition('/').last}"
     end
   end
 
@@ -50,9 +52,14 @@ class S3Deployer
           .upload_file(
             file,
             server_side_encryption: ENCRYPTION_TYPE,
-            cache_control: 'max-age=31536000',
+            cache_control: "public, max-age=#{SECONDS_IN_A_YEAR}",
+            expires: expires_header,
             content_type: "#{content_type_header(file)} charset=utf-8"
           )
+  end
+
+  def expires_header
+    (Time.now + SECONDS_IN_A_YEAR).httpdate
   end
 
   def content_type_header(file)
