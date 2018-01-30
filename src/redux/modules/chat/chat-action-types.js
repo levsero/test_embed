@@ -19,6 +19,8 @@ export const SEND_CHAT_FILE_SUCCESS = 'widget/chat/SEND_CHAT_FILE_SUCCESS';
 export const SEND_CHAT_FILE_FAILURE = 'widget/chat/SEND_CHAT_FILE_FAILURE';
 export const SEND_CHAT_FILE = 'widget/chat/SEND_CHAT_FILE';
 export const UPDATE_USER_SETTINGS = 'widget/chat/UPDATE_USER_SETTINGS';
+export const INCREMENT_NOTIFICATION_COUNT = 'widget/chat/INCREMENT_NOTIFICATION_COUNT';
+export const RESET_NOTIFICATION_COUNT = 'widget/chat/RESET_NOTIFICATION_COUNT';
 
 export const SDK_CHAT_MSG = 'websdk/chat.msg';
 export const SDK_CHAT_FILE = 'websdk/chat.file';

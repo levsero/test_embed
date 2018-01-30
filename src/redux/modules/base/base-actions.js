@@ -2,14 +2,18 @@ import {
   UPDATE_ACTIVE_EMBED,
   UPDATE_EMBED,
   UPDATE_BACK_BUTTON_VISIBILITY,
-  UPDATE_AUTHENTICATED
+  UPDATE_AUTHENTICATED,
+  UPDATE_EMBED_SHOWN
 } from './base-action-types';
-import { hideChatNotification } from 'src/redux/modules/chat';
+import {
+  hideChatNotification,
+  resetNotificationCount } from 'src/redux/modules/chat';
 
 export const updateActiveEmbed = (embedName) => {
   return (dispatch) => {
     if (embedName === 'chat') {
       dispatch(hideChatNotification());
+      dispatch(resetNotificationCount());
     }
 
     dispatch({
@@ -42,3 +46,20 @@ export const updateAuthenticated = (bool) => {
     payload: bool
   };
 };
+
+export const updateEmbedShown = (bool) => {
+  const embedShownAction = {
+    type: UPDATE_EMBED_SHOWN,
+    payload: bool
+  };
+
+  return (dispatch, getState) => {
+    const activeEmbed = getState().base.activeEmbed;
+
+    dispatch(embedShownAction);
+
+    if (activeEmbed === 'chat') {
+      dispatch(resetNotificationCount());
+    }
+  };
+}

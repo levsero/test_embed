@@ -10,6 +10,7 @@ import { getChatAvailable, getTalkAvailable } from 'src/redux/modules/selectors'
 import { settings } from 'service/settings';
 import { getHelpCenterEmbed, getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
+import { getNotification } from 'src/redux/modules/chat/chat-selectors';
 
 const mapStateToProps = (state) => {
   return {
@@ -17,7 +18,8 @@ const mapStateToProps = (state) => {
     chatAvailable: getChatAvailable(state),
     helpCenterAvailable: getHelpCenterEmbed(state) && !settings.get('helpCenter.suppress'),
     talkAvailable: getTalkAvailable(state),
-    callbackEnabled: isCallbackEnabled(state)
+    callbackEnabled: isCallbackEnabled(state),
+    notificationCount: getNotification(state).count
   };
 };
 
@@ -30,7 +32,8 @@ class Launcher extends Component {
     callbackEnabled: PropTypes.bool.isRequired,
     label: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
-    updateFrameSize: PropTypes.func
+    updateFrameSize: PropTypes.func,
+    notificationCount: PropTypes.number.isRequired
   };
 
   static defaultProps = { updateFrameSize: () => {} };
@@ -59,13 +62,20 @@ class Launcher extends Component {
     }
   }
 
+  getNotificationCount = () => {
+    const { unreadMessages } = this.state;
+    const { notificationCount } = this.props;
+
+    return unreadMessages || notificationCount;
+  }
+
   getLabel = () => {
     const { helpCenterAvailable, talkAvailable, chatAvailable, label } = this.props;
-    const { unreadMessages } = this.state;
+    const notificationCount = this.getNotificationCount();
 
-    if (unreadMessages) {
-      return unreadMessages > 1
-           ? i18n.t('embeddable_framework.chat.notification_multiple', { count: unreadMessages })
+    if (notificationCount) {
+      return notificationCount > 1
+           ? i18n.t('embeddable_framework.chat.notification_multiple', { count: notificationCount })
            : i18n.t('embeddable_framework.chat.notification');
     } else if (chatAvailable && talkAvailable) {
       return i18n.t(label);
@@ -80,11 +90,11 @@ class Launcher extends Component {
 
   getActiveEmbedLabel = () => {
     const { label } = this.props;
-    const { unreadMessages } = this.state;
+    const notificationCount = this.getNotificationCount();
 
-    if (unreadMessages) {
-      return unreadMessages > 1
-           ? i18n.t('embeddable_framework.chat.notification_multiple', { count: unreadMessages })
+    if (notificationCount) {
+      return notificationCount > 1
+           ? i18n.t('embeddable_framework.chat.notification_multiple', { count: notificationCount })
            : i18n.t('embeddable_framework.chat.notification');
     }
 

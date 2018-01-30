@@ -1,13 +1,13 @@
 import _ from 'lodash';
 import { createSelector } from 'reselect';
 
-const getNotification = (state) => state.chat.notification;
 const groupChatsByAgent = (state) => {
   const agentMsgs = getChatsByAgent(state);
 
   return _.groupBy(agentMsgs, (chat) => chat.nick);
 };
 
+export const getNotification = (state) => state.chat.notification;
 export const getPrechatFormSettings = (state) => state.chat.accountSettings.prechatForm;
 export const getPostchatFormSettings = (state) => state.chat.accountSettings.postchatForm;
 export const getConciergeSettings = (state) => state.chat.accountSettings.concierge;

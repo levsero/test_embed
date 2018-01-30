@@ -19,6 +19,7 @@ import { clickBusterRegister,
          isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
 import { cssTimeToMs } from 'utility/utils';
+import { updateEmbedShown } from 'src/redux/modules/base/base-actions';
 
 // Unregister lodash from window._
 if (!__DEV__) {
@@ -241,6 +242,7 @@ export class Frame extends Component {
   }
 
   show = (options = {}) => {
+    const { dispatch } = this.props.store;
     const frameFirstChild = this.getRootComponentElement();
     const transition = this.props.transitions[options.transition] || defaultShowTransition;
     const animateFrom = _.extend({}, this.state.frameStyle, transition.start);
@@ -269,6 +271,10 @@ export class Frame extends Component {
     }
 
     this.props.onShow(this);
+
+    (this.props.name === 'launcher')
+      ? dispatch(updateEmbedShown(false))
+      : dispatch(updateEmbedShown(true));
   }
 
   hide = (options = {}) => {
