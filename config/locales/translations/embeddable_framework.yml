@@ -166,12 +166,12 @@ parts:
       key: "embeddable_framework.chat.agreement.cookies.statement"
       title: "A neutral body of text that follows after a title that details the intended agreement to be applied when the user makes a button selection."
       screenshot: "https://zendesk.box.com/s/r5wj9zhr88dx1ohz2xa194x9yq6cngd4"
-      value: "If you do not agree with our cookie policy, you may disable the chat widget. Past information and cookies will be removed."
+      value: "If you do not agree with our <a target='_blank' href='%(url)s'>cookie policy</a>, you may disable the chat widget. Past information and cookies will be removed."
   - translation:
       key: "embeddable_framework.chat.agreement.cookies.statement.cookies_objection"
       title: "A neutral body of text that follows after a title that details the intended agreement to be applied when the user makes a button selection."
       screenshot: "https://zendesk.box.com/s/j87g3d8bv0drp5al3gmff8fig4weix11"
-      value: "You objected to the use of cookies based on our cookie policy. Approve the use of cookies to enable chat functions."
+      value: "You objected to the use of cookies based on our <a target='_blank' href='%(url)s'>cookie policy</a>. Approve the use of cookies to enable chat functions."
   - translation:
       key: "embeddable_framework.chat.agreement.cookies.disable_chat"
       title: "A button that describes that the user will disable Chat product when clicked."
