@@ -16,7 +16,7 @@ import { getCustomFields } from 'utility/fields';
 
 const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
 const sendingButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.sending';
-const cancelButtonMessageString = 'embeddable_framework.submitTicket.form.cancelButton.label.cancel';
+const cancelButtonMessageString = 'embeddable_framework.common.button.cancel';
 const initialState = {
   attachments: [],
   buttonMessage: sendButtonMessageString,
