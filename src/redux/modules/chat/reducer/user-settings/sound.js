@@ -1,10 +1,10 @@
-import { UPDATE_USER_SETTINGS } from '../../chat-action-types';
+import { SOUND_ICON_CLICKED } from '../../chat-action-types';
 
 const initialState = true;
 
 const sound = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_USER_SETTINGS:
+    case SOUND_ICON_CLICKED:
       return action.payload.sound;
     default:
       return state;

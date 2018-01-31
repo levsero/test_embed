@@ -1,4 +1,4 @@
-import { UPDATE_ACCOUNT_SETTINGS } from '../../chat-action-types';
+import { GET_ACCOUNT_SETTINGS } from '../../chat-action-types';
 
 const initialState = {
   header: '',
@@ -7,7 +7,7 @@ const initialState = {
 
 const postchatForm = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_ACCOUNT_SETTINGS:
+    case GET_ACCOUNT_SETTINGS:
       const { header, message } = action.payload.forms.post_chat_form;
 
       return {

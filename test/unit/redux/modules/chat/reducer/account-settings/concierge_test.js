@@ -40,7 +40,7 @@ describe('chat reducer accountSettings concierge', () => {
       });
     });
 
-    describe('when a UPDATE_ACCOUNT_SETTINGS action is dispatched', () => {
+    describe('when a GET_ACCOUNT_SETTINGS action is dispatched', () => {
       let settings;
 
       beforeEach(() => {
@@ -53,7 +53,7 @@ describe('chat reducer accountSettings concierge', () => {
         };
 
         state = reducer(initialState, {
-          type: actionTypes.UPDATE_ACCOUNT_SETTINGS,
+          type: actionTypes.GET_ACCOUNT_SETTINGS,
           payload: settings
         });
       });

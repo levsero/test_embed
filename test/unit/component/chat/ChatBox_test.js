@@ -37,12 +37,12 @@ describe('ChatBox component', () => {
 
     beforeEach(() => {
       updateCurrentMsgSpy = jasmine.createSpy();
-      component = domRender(<ChatBox updateCurrentMsg={updateCurrentMsgSpy} />);
+      component = domRender(<ChatBox handleChatBoxChange={updateCurrentMsgSpy} />);
 
       component.handleChange({ target: { value: '!' } });
     });
 
-    it('calls updateCurrentMsg prop', () => {
+    it('calls handleChatBoxChange prop', () => {
       expect(updateCurrentMsgSpy)
         .toHaveBeenCalledWith('!');
     });
@@ -52,7 +52,7 @@ describe('ChatBox component', () => {
     let component, updateCurrentMsgSpy, sendMsgSpy;
 
     beforeEach(() => {
-      updateCurrentMsgSpy = jasmine.createSpy('updateCurrentMsg');
+      updateCurrentMsgSpy = jasmine.createSpy('handleChatBoxChange');
       sendMsgSpy = jasmine.createSpy('sendMsg');
     });
 
@@ -61,13 +61,13 @@ describe('ChatBox component', () => {
         component = domRender(
           <ChatBox
             currentMessage=''
-            updateCurrentMsg={updateCurrentMsgSpy}
+            handleChatBoxChange={updateCurrentMsgSpy}
             sendMsg={sendMsgSpy} />);
 
         component.handleSendClick();
       });
 
-      it('does not call updateCurrentMsg prop', () => {
+      it('does not call handleChatBoxChange prop', () => {
         expect(updateCurrentMsgSpy)
           .not.toHaveBeenCalled();
       });
@@ -83,13 +83,13 @@ describe('ChatBox component', () => {
         component = domRender(
           <ChatBox
             currentMessage='Hello!'
-            updateCurrentMsg={updateCurrentMsgSpy}
+            handleChatBoxChange={updateCurrentMsgSpy}
             sendMsg={sendMsgSpy} />);
 
         component.handleSendClick();
       });
 
-      it('clears updateCurrentMsg prop', () => {
+      it('clears handleChatBoxChange prop', () => {
         expect(updateCurrentMsgSpy)
           .toHaveBeenCalledWith('');
       });
@@ -112,7 +112,7 @@ describe('ChatBox component', () => {
       component = domRender(
         <ChatBox
           currentMessage='Hello!'
-          updateCurrentMsg={updateCurrentMsgSpy}
+          handleChatBoxChange={updateCurrentMsgSpy}
           sendMsg={sendMsgSpy} />);
     });
 

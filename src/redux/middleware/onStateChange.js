@@ -1,4 +1,4 @@
-import { updateAccountSettings,
+import { getAccountSettings,
          newAgentMessageReceived } from 'src/redux/modules/chat';
 import { audio } from 'service/audio';
 import { getFilteredChatsByAgent,
@@ -18,7 +18,7 @@ const handleNotificationCounter = (nextState, dispatch) => {
 
 const onChatConnected = (prevState, nextState, dispatch) => {
   if (getConnection(prevState) === 'connecting' && getConnection(nextState) !== 'connecting') {
-    dispatch(updateAccountSettings());
+    dispatch(getAccountSettings());
   }
 };
 

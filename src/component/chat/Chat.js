@@ -20,12 +20,12 @@ import { endChat,
          sendMsg,
          sendAttachments,
          setVisitorInfo,
-         updateAccountSettings,
-         updateCurrentMsg,
+         getAccountSettings,
+         handleChatBoxChange,
          sendChatRating,
          sendChatComment,
          updateChatScreen,
-         updateUserSettings } from 'src/redux/modules/chat';
+         handleSoundIconClick } from 'src/redux/modules/chat';
 import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { getPrechatFormFields,
          getAttachmentsEnabled,
@@ -83,9 +83,9 @@ class Chat extends Component {
     position: PropTypes.string,
     sendMsg: PropTypes.func.isRequired,
     setVisitorInfo: PropTypes.func.isRequired,
-    updateCurrentMsg: PropTypes.func.isRequired,
+    handleChatBoxChange: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
-    updateAccountSettings: PropTypes.func.isRequired,
+    getAccountSettings: PropTypes.func.isRequired,
     sendChatRating: PropTypes.func.isRequired,
     sendChatComment: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
@@ -93,7 +93,7 @@ class Chat extends Component {
     agents: PropTypes.object.isRequired,
     visitor: PropTypes.object.isRequired,
     rating: PropTypes.string,
-    updateUserSettings: PropTypes.func.isRequired,
+    handleSoundIconClick: PropTypes.func.isRequired,
     userSoundSettings: PropTypes.bool.isRequired
   };
 
@@ -103,12 +103,12 @@ class Chat extends Component {
     newDesign: false,
     position: 'right',
     updateFrameSize: () => {},
-    updateAccountSettings: () => {},
+    getAccountSettings: () => {},
     concierge: {},
     rating: null,
     chats: [],
     postChatFormSettings: {},
-    updateUserSettings: () => {},
+    handleSoundIconClick: () => {},
     userSoundSettings: true
   };
 
@@ -171,11 +171,11 @@ class Chat extends Component {
     const {
       userSoundSettings,
       isChatting,
-      updateUserSettings
+      handleSoundIconClick
     } = this.props;
     const showChatEndFn = () => this.setState({ showEndChatMenu: true });
     const showContactDetailsFn = () => this.setState({ showEditContactDetailsMenu: true });
-    const toggleSoundFn = () => updateUserSettings({ sound: !userSoundSettings });
+    const toggleSoundFn = () => handleSoundIconClick({ sound: !userSoundSettings });
 
     return (
       <ChatMenu
@@ -188,7 +188,7 @@ class Chat extends Component {
   }
 
   renderChatFooter = () => {
-    const { currentMessage, sendMsg, updateCurrentMsg } = this.props;
+    const { currentMessage, sendMsg, handleChatBoxChange } = this.props;
 
     const showChatEndFn = () => this.setState({ showEndChatMenu: true });
 
@@ -202,7 +202,7 @@ class Chat extends Component {
         <ChatBox
           currentMessage={currentMessage}
           sendMsg={sendMsg}
-          updateCurrentMsg={updateCurrentMsg} />
+          handleChatBoxChange={handleChatBoxChange} />
       </ChatFooter>
     );
   }
@@ -406,15 +406,15 @@ class Chat extends Component {
 
 const actionCreators = {
   sendMsg,
-  updateCurrentMsg,
-  updateAccountSettings,
+  handleChatBoxChange,
+  getAccountSettings,
   endChat,
   setVisitorInfo,
   sendChatRating,
   sendChatComment,
   updateChatScreen,
   sendAttachments,
-  updateUserSettings
+  handleSoundIconClick
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);

@@ -1,4 +1,4 @@
-import { UPDATE_ACCOUNT_SETTINGS } from '../../chat-action-types';
+import { GET_ACCOUNT_SETTINGS } from '../../chat-action-types';
 
 const initialState = {
   avatar_path: '',
@@ -8,7 +8,7 @@ const initialState = {
 
 const concierge = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_ACCOUNT_SETTINGS:
+    case GET_ACCOUNT_SETTINGS:
       return action.payload.concierge;
     default:
       return state;

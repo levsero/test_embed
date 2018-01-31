@@ -30,7 +30,7 @@ describe('chat reducer chats', () => {
       });
     });
 
-    describe('when a SENT_CHAT_MSG_SUCCESS action is dispatched', () => {
+    describe('when a CHAT_MSG_REQUEST_SUCCESS action is dispatched', () => {
       let state,
         payload;
 
@@ -43,7 +43,7 @@ describe('chat reducer chats', () => {
         };
 
         state = reducer(initialState, {
-          type: actionTypes.SENT_CHAT_MSG_SUCCESS,
+          type: actionTypes.CHAT_MSG_REQUEST_SUCCESS,
           payload: payload
         });
       });
@@ -60,7 +60,7 @@ describe('chat reducer chats', () => {
       });
     });
 
-    describe('when a SEND_CHAT_FILE action is dispatched', () => {
+    describe('when a CHAT_FILE_REQUEST_SENT action is dispatched', () => {
       let state,
         sendPayload;
 
@@ -73,7 +73,7 @@ describe('chat reducer chats', () => {
         };
 
         state = reducer(initialState, {
-          type: actionTypes.SEND_CHAT_FILE,
+          type: actionTypes.CHAT_FILE_REQUEST_SENT,
           payload: sendPayload
         });
       });
@@ -89,7 +89,7 @@ describe('chat reducer chats', () => {
           }));
       });
 
-      describe('when a SEND_CHAT_FILE_SUCCESS action is dispatched', () => {
+      describe('when a CHAT_FILE_REQUEST_SUCCESS action is dispatched', () => {
         let successPayload;
 
         beforeEach(() => {
@@ -102,12 +102,12 @@ describe('chat reducer chats', () => {
           };
         });
 
-        it('overrides the SEND_CHAT_FILE state', () => {
+        it('overrides the CHAT_FILE_REQUEST_SENT state', () => {
           expect(state.size)
             .toEqual(1);
 
           state = reducer(state, {
-            type: actionTypes.SEND_CHAT_FILE_SUCCESS,
+            type: actionTypes.CHAT_FILE_REQUEST_SUCCESS,
             payload: successPayload
           });
 

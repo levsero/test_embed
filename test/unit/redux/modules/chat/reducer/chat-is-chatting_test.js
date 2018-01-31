@@ -122,11 +122,11 @@ describe('chat reducer is_chatting', () => {
       });
     });
 
-    describe('when a END_CHAT_SUCCESS action is dispatched', () => {
+    describe('when a END_CHAT_REQUEST_SUCCESS action is dispatched', () => {
       describe('when the member is an agent', () => {
         beforeEach(() => {
           state = reducer(initialState, {
-            type: actionTypes.END_CHAT_SUCCESS
+            type: actionTypes.END_CHAT_REQUEST_SUCCESS
           });
         });
 

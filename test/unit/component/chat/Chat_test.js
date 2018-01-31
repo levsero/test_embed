@@ -63,7 +63,7 @@ describe('Chat component', () => {
       },
       'src/redux/modules/chat': {
         sendMsg: noop,
-        updateCurrentMsg: noop,
+        handleChatBoxChange: noop,
         setVisitorInfo: noop,
         updateChatScreen: updateChatScreenSpy
       },

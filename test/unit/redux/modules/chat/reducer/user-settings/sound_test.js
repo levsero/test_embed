@@ -30,10 +30,10 @@ describe('chat reducer userSettings sound', () => {
       });
     });
 
-    describe('when a UPDATE_USER_SETTINGS action is dispatched', () => {
+    describe('when a SOUND_ICON_CLICKED action is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.UPDATE_USER_SETTINGS,
+          type: actionTypes.SOUND_ICON_CLICKED,
           payload: { sound: false }
         });
       });
