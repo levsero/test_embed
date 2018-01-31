@@ -189,7 +189,11 @@ class HelpCenter extends Component {
     const hasLabelsKey = options.labels &&
                          _.isArray(options.labels) &&
                          options.labels.length > 0;
-    const query = {};
+    const query = {
+      origin: 'web_widget',
+      locale: i18n.getLocale(),
+      per_page: this.props.resultsPerPage
+    };
     let searchTerm;
 
     // This `isString` check is needed in the case that a user passes in only a
@@ -215,11 +219,6 @@ class HelpCenter extends Component {
         }
       }
     };
-
-    _.extend(query, {
-      locale: i18n.getLocale(),
-      per_page: this.props.resultsPerPage
-    });
 
     this.performContextualSearch(query, successFn);
   }
