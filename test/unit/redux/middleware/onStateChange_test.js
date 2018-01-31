@@ -1,7 +1,10 @@
 describe('onStateChange middleware', () => {
   let stateChangeFn,
-    mockUserSoundSetting;
+    mockUserSoundSetting,
+    mockActiveEmbed,
+    mockEmbedShown;
   const updateAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
+  const incrementNotificationCountSpy = jasmine.createSpy('incrementNotificationCount');
   const audioPlaySpy = jasmine.createSpy('audioPlay');
 
   beforeAll(() => {
@@ -10,10 +13,13 @@ describe('onStateChange middleware', () => {
     const path = buildSrcPath('redux/middleware/onStateChange');
 
     mockUserSoundSetting = false;
+    mockActiveEmbed = '';
+    mockEmbedShown = false;
 
     initMockRegistry({
       'src/redux/modules/chat': {
-        updateAccountSettings: updateAccountSettingsSpy
+        updateAccountSettings: updateAccountSettingsSpy,
+        incrementNotificationCount: incrementNotificationCountSpy
       },
       'service/audio': {
         audio: {
@@ -24,6 +30,10 @@ describe('onStateChange middleware', () => {
         getUserSoundSettings: () => mockUserSoundSetting,
         getConnection: _.identity,
         getChatsByAgent: _.identity
+      },
+      'src/redux/modules/base/base-selectors': {
+        getActiveEmbed: () => mockActiveEmbed,
+        getEmbedShown: () => mockEmbedShown
       }
     });
 
@@ -67,28 +77,34 @@ describe('onStateChange middleware', () => {
     describe('onNewChatMessage', () => {
       const prevState = [{ nick: 'agent' }];
       const nextState = [{ nick: 'agent' }, { nick: 'agent' }];
+      const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough();
 
-      describe('when audio settings are off', () => {
-        beforeEach(() => {
-          mockUserSoundSetting = false;
+      describe('when there are no new messages', () => {
+        describe('when audio settings are on', () => {
+          beforeEach(() => {
+            mockUserSoundSetting = true;
 
-          stateChangeFn(prevState, nextState);
-        });
+            stateChangeFn(prevState, prevState);
+          });
 
-        it('does not call sound', () => {
-          expect(audioPlaySpy)
-            .not.toHaveBeenCalled();
+          it('does not call sound', () => {
+            expect(audioPlaySpy)
+              .not.toHaveBeenCalled();
+          });
+
+          it('does not dispatch incrementNotificationCount', () => {
+            expect(incrementNotificationCountSpy)
+              .not.toHaveBeenCalled();
+          });
         });
       });
 
-      describe('when audio settings are on', () => {
-        beforeEach(() => {
-          mockUserSoundSetting = true;
-        });
-
-        describe('when there are no new messages', () => {
+      describe('when there are new messages', () => {
+        describe('when audio settings are off', () => {
           beforeEach(() => {
-            stateChangeFn(prevState, prevState);
+            mockUserSoundSetting = false;
+
+            stateChangeFn(prevState, nextState, {}, dispatchSpy);
           });
 
           it('does not call sound', () => {
@@ -97,14 +113,58 @@ describe('onStateChange middleware', () => {
           });
         });
 
-        describe('when there are new messages', () => {
+        describe('when audio settings are on', () => {
           beforeEach(() => {
-            stateChangeFn(prevState, nextState);
+            mockUserSoundSetting = true;
+
+            stateChangeFn(prevState, nextState, {}, dispatchSpy);
           });
 
           it('calls sound', () => {
             expect(audioPlaySpy)
               .toHaveBeenCalled();
+          });
+        });
+
+        describe('when the embed is not shown', () => {
+          beforeEach(() => {
+            mockEmbedShown = false;
+
+            stateChangeFn(prevState, nextState, {}, dispatchSpy);
+          });
+
+          it('dispatches incrementNotificationCount', () => {
+            expect(incrementNotificationCountSpy)
+              .toHaveBeenCalled();
+          });
+        });
+
+        describe('when the embed is shown and the active embed is not chat', () => {
+          beforeEach(() => {
+            mockEmbedShown = true;
+            mockActiveEmbed = 'helpCenterForm';
+
+            stateChangeFn(prevState, nextState, {}, dispatchSpy);
+          });
+
+          it('dispatches incrementNotificationCount', () => {
+            expect(incrementNotificationCountSpy)
+              .toHaveBeenCalled();
+          });
+        });
+
+        describe('when the embed is shown and the active embed is chat', () => {
+          beforeEach(() => {
+            mockEmbedShown = true;
+            mockActiveEmbed = 'chat';
+            incrementNotificationCountSpy.calls.reset();
+
+            stateChangeFn(prevState, nextState, {}, dispatchSpy);
+          });
+
+          it('does not dispatch incrementNotificationCount', () => {
+            expect(incrementNotificationCountSpy)
+              .not.toHaveBeenCalled();
           });
         });
       });

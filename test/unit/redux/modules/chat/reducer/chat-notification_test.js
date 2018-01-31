@@ -26,7 +26,8 @@ describe('chat reducer notification', () => {
       nick: '',
       display_name: '',
       msg: '',
-      show: false
+      show: false,
+      count: 0
     };
 
     describe('initial state', () => {
@@ -76,6 +77,38 @@ describe('chat reducer notification', () => {
 
       it('updates the state with payload', () => {
         const expected = _.merge({}, mockInitialState, { show: false });
+
+        expect(state)
+          .toEqual(expected);
+      });
+    });
+
+    describe('when a INCREMENT_NOTIFICATION_COUNT action is dispatched', () => {
+      beforeEach(() => {
+        const action = { type: actionTypes.INCREMENT_NOTIFICATION_COUNT };
+
+        state = reducer(initialState, action);
+      });
+
+      it('updates the state with payload', () => {
+        const expected = _.merge({}, mockInitialState, { count: 1 });
+
+        expect(state)
+          .toEqual(expected);
+      });
+    });
+
+    describe('when a RESET_NOTIFICATION_COUNT action is dispatched', () => {
+      beforeEach(() => {
+        const action = { type: actionTypes.RESET_NOTIFICATION_COUNT };
+
+        initialState.count = 1;
+
+        state = reducer(initialState, action);
+      });
+
+      it('resets the state for count to 0', () => {
+        const expected = _.merge({}, mockInitialState, { count: 0 });
 
         expect(state)
           .toEqual(expected);

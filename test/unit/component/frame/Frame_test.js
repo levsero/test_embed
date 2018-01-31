@@ -11,7 +11,8 @@ describe('Frame', () => {
     mockClickBusterRegister,
     mockIsRTLValue,
     mockLocaleValue,
-    mockZoomSizingRatioValue;
+    mockZoomSizingRatioValue,
+    mockUpdateEmbedShown;
 
   const FramePath = buildSrcPath('component/frame/Frame');
 
@@ -77,6 +78,8 @@ describe('Frame', () => {
     };
     mockClickBusterRegister = jasmine.createSpy('clickBusterRegister');
 
+    mockUpdateEmbedShown = jasmine.createSpy('updateEmbedShown');
+
     mockRegistryMocks = {
       'React': React,
       './Frame.scss': {
@@ -127,6 +130,9 @@ describe('Frame', () => {
           },
           hiddenState: mockHiddenStateTransition
         }
+      },
+      'src/redux/modules/base/base-actions': {
+        updateEmbedShown: mockUpdateEmbedShown
       },
       'lodash': _,
       'component/Icon': {
@@ -400,7 +406,7 @@ describe('Frame', () => {
   });
 
   describe('show', () => {
-    let frame, mockOnShow, frameProps, mockAfterShowAnimate;
+    let frame, mockOnShow, frameProps, mockAfterShowAnimate, dispatchSpy;
     const animationDuration = 300;
 
     beforeEach(() => {
@@ -415,7 +421,10 @@ describe('Frame', () => {
           }
         },
         onShow: mockOnShow,
-        afterShowAnimate: mockAfterShowAnimate
+        afterShowAnimate: mockAfterShowAnimate,
+        store: {
+          dispatch: noop
+        }
       };
 
       jasmine.clock().install();
@@ -449,6 +458,15 @@ describe('Frame', () => {
         .toHaveBeenCalled();
     });
 
+    it('applies webkitOverflowScrolling when not set', () => {
+      jasmine.clock().tick(50);
+
+      const frameContainerStyle = frame.getRootComponentElement().style;
+
+      expect(frameContainerStyle.WebkitOverflowScrolling)
+        .toEqual('touch');
+    });
+
     describe('with animation props passed in', () => {
       beforeEach(() => {
         mockOnShow = jasmine.createSpy('onShow');
@@ -459,6 +477,9 @@ describe('Frame', () => {
               start: { top: '-1337px', transitionDuration: '9999s' },
               end: { top: '466px', transitionDuration: '7777s' }
             }
+          },
+          store: {
+            dispatch: noop
           }
         };
 
@@ -499,13 +520,56 @@ describe('Frame', () => {
       });
     });
 
-    it('applies webkitOverflowScrolling when not set', () => {
-      jasmine.clock().tick(50);
+    describe('when the name is launcher', () => {
+      beforeEach(() => {
+        dispatchSpy = jasmine.createSpy('dispatch');
 
-      const frameContainerStyle = frame.getRootComponentElement().style;
+        frameProps = {
+          name: 'launcher',
+          store: {
+            dispatch: dispatchSpy
+          }
+        };
 
-      expect(frameContainerStyle.WebkitOverflowScrolling)
-        .toEqual('touch');
+        frame = domRender(<Frame {...frameProps} />);
+        frame.show();
+      });
+
+      it('calls updateEmbedShown with false', () => {
+        expect(mockUpdateEmbedShown)
+          .toHaveBeenCalledWith(false);
+      });
+
+      it('calls dispatch', () => {
+        expect(dispatchSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the name is not launcher', () => {
+      beforeEach(() => {
+        dispatchSpy = jasmine.createSpy('dispatch');
+
+        frameProps = {
+          name: 'launcher',
+          store: {
+            dispatch: dispatchSpy
+          }
+        };
+
+        frame = domRender(<Frame {...frameProps} />);
+        frame.show();
+      });
+
+      it('calls updateEmbedShown with true', () => {
+        expect(mockUpdateEmbedShown)
+          .toHaveBeenCalledWith(true);
+      });
+
+      it('calls dispatch', () => {
+        expect(dispatchSpy)
+          .toHaveBeenCalled();
+      });
     });
   });
 

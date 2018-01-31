@@ -3,8 +3,7 @@ import { updateAccountSettings,
 import { audio } from 'service/audio';
 import { getChatsByAgent,
          getConnection,
-         getUserSoundSettings,
-         getNotification } from 'src/redux/modules/chat/chat-selectors';
+         getUserSoundSettings } from 'src/redux/modules/chat/chat-selectors';
 import { getActiveEmbed,
          getEmbedShown } from 'src/redux/modules/base/base-selectors';
 
@@ -15,7 +14,7 @@ const handleNotificationCounter = (nextState, dispatch) => {
   if (!embedShown || (embedShown && activeEmbed !== 'chat')) {
     dispatch(incrementNotificationCount());
   }
-}
+};
 
 const onChatConnected = (prevState, nextState, dispatch) => {
   if (getConnection(prevState) === 'connecting' && getConnection(nextState) !== 'connecting') {

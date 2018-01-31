@@ -46,6 +46,9 @@ describe('Launcher component', () => {
       'src/redux/modules/talk/talk-selectors': {
         isCallbackEnabled: noop
       },
+      'src/redux/modules/chat/chat-selectors': {
+        getNotification: noop
+      },
       'src/redux/modules/settings/settings-selectors': {
         getSettingsChatSuppress: noop
       }
@@ -444,6 +447,37 @@ describe('Launcher component', () => {
 
         expect(ReactDOM.findDOMNode(launcher).querySelector('.iconClasses').innerHTML)
           .toEqual('Icon--chat');
+      });
+    });
+  });
+
+  describe('getNotificationCount', () => {
+    let result;
+
+    describe('when unread messages is greater than 0', () => {
+      beforeEach(() => {
+        const launcher = domRender(<Launcher notificationCount={5} />);
+
+        launcher.setState({ unreadMessages: 10 });
+        result = launcher.getNotificationCount();
+      });
+
+      it('returns the value from the state', () => {
+        expect(result)
+          .toEqual(10);
+      });
+    });
+
+    describe('when unread messages is 0 and notification count is greater than 0', () => {
+      beforeEach(() => {
+        const launcher = domRender(<Launcher notificationCount={5} />);
+
+        result = launcher.getNotificationCount();
+      });
+
+      it('returns the value from the props', () => {
+        expect(result)
+          .toEqual(5);
       });
     });
   });

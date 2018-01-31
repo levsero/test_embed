@@ -683,4 +683,36 @@ describe('chat redux actions', () => {
         .toEqual({ display_name: name, email });
     });
   });
+
+  describe('incrementNotificationCount', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.incrementNotificationCount());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches a INCREMENT_NOTIFICATION_COUNT action', () => {
+      const expected = { type: actionTypes.INCREMENT_NOTIFICATION_COUNT };
+
+      expect(action)
+        .toEqual(expected);
+    });
+  });
+
+  describe('resetNotificationCount', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.resetNotificationCount());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches a RESET_NOTIFICATION_COUNT action', () => {
+      const expected = { type: actionTypes.RESET_NOTIFICATION_COUNT };
+
+      expect(action)
+        .toEqual(expected);
+    });
+  });
 });

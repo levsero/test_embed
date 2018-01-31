@@ -48,7 +48,7 @@ export const updateAuthenticated = (bool) => {
 };
 
 export const updateEmbedShown = (bool) => {
-  const embedShownAction = {
+  const updateEmbedShownAction = {
     type: UPDATE_EMBED_SHOWN,
     payload: bool
   };
@@ -56,10 +56,10 @@ export const updateEmbedShown = (bool) => {
   return (dispatch, getState) => {
     const activeEmbed = getState().base.activeEmbed;
 
-    dispatch(embedShownAction);
+    dispatch(updateEmbedShownAction);
 
     if (activeEmbed === 'chat') {
       dispatch(resetNotificationCount());
     }
   };
-}
+};
