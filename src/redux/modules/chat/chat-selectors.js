@@ -20,8 +20,6 @@ export const getIsChatting = (state) => state.chat.is_chatting;
 export const getChatVisitor = (state) => state.chat.visitor;
 export const getChatOnline = (state) => _.includes(['online', 'away'], getChatStatus(state));
 export const getChatScreen = (state) => state.chat.screen;
-export const getShowEndNotification = (state) => state.chat.showEndNotification;
-export const getShowContactDetailsNotification = (state) => state.chat.showContactDetailsNotification;
 export const getCurrentMessage = (state) => state.chat.currentMessage;
 export const getChatRating = (state) => state.chat.rating;
 export const getAttachmentsEnabled = (state) => state.chat.accountSettings.attachments.enabled;

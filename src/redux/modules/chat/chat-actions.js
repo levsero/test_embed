@@ -16,8 +16,6 @@ import {
   SEND_CHAT_RATING_FAILURE,
   HIDE_CHAT_NOTIFICATION,
   UPDATE_CHAT_SCREEN,
-  TOGGLE_END_CHAT_NOTIFICATION,
-  TOGGLE_CONTACT_DETAILS_NOTIFICATION,
   SEND_CHAT_RATING_COMMENT_SUCCESS,
   SEND_CHAT_RATING_COMMENT_FAILURE,
   SEND_CHAT_FILE,
@@ -59,10 +57,14 @@ const sendMsgFailure = (err) => {
 };
 
 export const endChat = () => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     zChat.endChat((err) => {
       if (!err) {
         dispatch({ type: END_CHAT_SUCCESS });
+
+        if (getState().chat.rating === null) {
+          dispatch(updateChatScreen(FEEDBACK_SCREEN));
+        }
       } else {
         dispatch({ type: END_CHAT_FAILURE });
       }
@@ -70,24 +72,10 @@ export const endChat = () => {
   };
 };
 
-export const toggleEndChatNotification = (bool) => {
-  return {
-    type: TOGGLE_END_CHAT_NOTIFICATION,
-    payload: bool
-  };
-};
-
 export const updateChatScreen = (screen) => {
   return {
     type: UPDATE_CHAT_SCREEN,
     payload: { screen }
-  };
-};
-
-export const toggleContactDetailsNotification = (bool) => {
-  return {
-    type: TOGGLE_CONTACT_DETAILS_NOTIFICATION,
-    payload: bool
   };
 };
 
@@ -193,20 +181,6 @@ export function hideChatNotification() {
   return { type: HIDE_CHAT_NOTIFICATION };
 }
 
-export function acceptEndChatNotification() {
-  return (dispatch, getStateFn) => {
-    const state = getStateFn();
-
-    dispatch(toggleEndChatNotification(false));
-
-    if (state.chat.rating === null) {
-      dispatch(updateChatScreen(FEEDBACK_SCREEN));
-    } else {
-      dispatch(endChat());
-    }
-  };
-}
-
 export function sendAttachments(attachments) {
   return (dispatch, getState) => {
     const visitor = getChatVisitor(getState());
@@ -243,13 +217,6 @@ export function sendAttachments(attachments) {
         }
       });
     });
-  };
-}
-
-export function saveContactDetails(name, email) {
-  return (dispatch) => {
-    dispatch(toggleContactDetailsNotification(false));
-    dispatch(setVisitorInfo({ display_name: name, email }));
   };
 }
 

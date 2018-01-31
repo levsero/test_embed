@@ -13,8 +13,6 @@ describe('chat selectors', () => {
     getAgents,
     getChatRating,
     getChatScreen,
-    getShowEndNotification,
-    getShowContactDetailsNotification,
     getCurrentMessage,
     getChatStatus,
     getChatOnline,
@@ -46,8 +44,6 @@ describe('chat selectors', () => {
     getAgents = selectors.getAgents;
     getChatRating = selectors.getChatRating;
     getChatScreen = selectors.getChatScreen;
-    getShowEndNotification = selectors.getShowEndNotification;
-    getShowContactDetailsNotification = selectors.getShowContactDetailsNotification;
     getCurrentMessage = selectors.getCurrentMessage;
     getAttachmentsEnabled = selectors.getAttachmentsEnabled;
     getNotificationCount = selectors.getNotificationCount;
@@ -504,42 +500,6 @@ describe('chat selectors', () => {
     it('returns the current state of screen', () => {
       expect(result)
         .toEqual('chatting');
-    });
-  });
-
-  describe('getShowEndNotification', () => {
-    let result;
-    const mockChatSettings = {
-      chat: {
-        showEndNotification: true
-      }
-    };
-
-    beforeEach(() => {
-      result = getShowEndNotification(mockChatSettings);
-    });
-
-    it('returns the current state of showEndNotification', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
-
-  describe('getShowContactDetailsNotification', () => {
-    let result;
-    const mockChatSettings = {
-      chat: {
-        showContactDetailsNotification: true
-      }
-    };
-
-    beforeEach(() => {
-      result = getShowContactDetailsNotification(mockChatSettings);
-    });
-
-    it('returns the current state of showContactDetailsNotification', () => {
-      expect(result)
-        .toEqual(true);
     });
   });
 

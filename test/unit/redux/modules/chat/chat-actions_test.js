@@ -67,44 +67,6 @@ describe('chat redux actions', () => {
     jasmine.clock().uninstall();
   });
 
-  describe('toggleEndChatNotification', () => {
-    let action;
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.toggleEndChatNotification(true));
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches an action of type TOGGLE_END_CHAT_NOTIFICATION', () => {
-      expect(action.type)
-        .toEqual(actionTypes.TOGGLE_END_CHAT_NOTIFICATION);
-    });
-
-    it('dispatches an action with payload of true', () => {
-      expect(action.payload)
-        .toEqual(true);
-    });
-  });
-
-  describe('acceptEndChatNotification', () => {
-    let action;
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.acceptEndChatNotification());
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches an action of type TOGGLE_END_CHAT_NOTIFICATION', () => {
-      expect(action.type)
-        .toEqual(actionTypes.TOGGLE_END_CHAT_NOTIFICATION);
-    });
-
-    it('calls endChat on the Web SDK', () => {
-      expect(mockEndChat)
-        .toHaveBeenCalled();
-    });
-  });
-
   describe('updateCurrentMsg', () => {
     let message,
       action;
@@ -554,25 +516,6 @@ describe('chat redux actions', () => {
     });
   });
 
-  describe('toggleContactDetailsNotification', () => {
-    let action;
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.toggleContactDetailsNotification(true));
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches an action of type TOGGLE_CONTACT_DETAILS_NOTIFICATION', () => {
-      expect(action.type)
-        .toEqual(actionTypes.TOGGLE_CONTACT_DETAILS_NOTIFICATION);
-    });
-
-    it('has the toggle bool in the payload', () => {
-      expect(action.payload)
-        .toBe(true);
-    });
-  });
-
   describe('sendAttachments', () => {
     let files, action;
 
@@ -652,35 +595,6 @@ describe('chat redux actions', () => {
             }));
         });
       });
-    });
-  });
-
-  describe('saveContactDetails', () => {
-    let toggleContactDetailsAction,
-      name,
-      email;
-
-    beforeEach(() => {
-      name = 'bob';
-      email = 'bob@zd.com';
-
-      mockStore.dispatch(actions.saveContactDetails(name, email));
-      toggleContactDetailsAction = mockStore.getActions()[0];
-    });
-
-    it('toggles the contact details notifiction to hidden', () => {
-      expect(toggleContactDetailsAction)
-        .toEqual({
-          type: actionTypes.TOGGLE_CONTACT_DETAILS_NOTIFICATION,
-          payload: false
-        });
-    });
-
-    it('dispatches the setVisitorInfo action with name and email', () => {
-      const args = mockSetVisitorInfo.calls.mostRecent().args[0];
-
-      expect(args)
-        .toEqual({ display_name: name, email });
     });
   });
 
