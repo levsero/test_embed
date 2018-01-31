@@ -14,6 +14,10 @@ class S3Deployer
     @logger = logger
   end
 
+  def object_exists?(key)
+    bucket.object(key).exists?
+  end
+
   def upload_files(local_directory, remote_directory, files)
     put_object("#{remote_directory}/")
 
@@ -23,10 +27,6 @@ class S3Deployer
       put_object(object_key)
       upload_file(object_key, "#{local_directory}/#{file}")
     end
-  end
-
-  def bucket
-    @bucket ||= Aws::S3::Resource.new.bucket(bucket_name)
   end
 
   def upload_translations(local_directory, remote_directory)
@@ -72,5 +72,9 @@ class S3Deployer
     else
       ''
     end
+  end
+
+  def bucket
+    @bucket ||= Aws::S3::Resource.new.bucket(bucket_name)
   end
 end
