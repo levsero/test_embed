@@ -25,7 +25,7 @@ import {
   NEW_AGENT_MESSAGE_RECEIVED,
   CHAT_OPENED
 } from './chat-action-types';
-import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './reducer/chat-screen-types';
+import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import { getChatVisitor } from 'src/redux/modules/chat/chat-selectors';
 
 const chatTypingTimeout = 2000;

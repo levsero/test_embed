@@ -70,7 +70,7 @@ describe('Chat component', () => {
       'src/redux/modules/chat/chat-selectors': {
         getPrechatFormFields: noop
       },
-      'src/redux/modules/chat/reducer/chat-screen-types': {
+      'src/redux/modules/chat/chat-screen-types': {
         PRECHAT_SCREEN: prechatScreen,
         CHATTING_SCREEN: chattingScreen
       },

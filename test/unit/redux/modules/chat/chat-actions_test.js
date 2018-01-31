@@ -40,7 +40,7 @@ describe('chat redux actions', () => {
 
     const actionsPath = buildSrcPath('redux/modules/chat');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
-    const screenTypesPath = buildSrcPath('redux/modules/chat/reducer/chat-screen-types');
+    const screenTypesPath = buildSrcPath('redux/modules/chat/chat-screen-types');
 
     mockery.registerAllowable(actionsPath);
     mockery.registerAllowable(actionTypesPath);

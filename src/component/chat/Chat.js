@@ -26,7 +26,7 @@ import { endChat,
          sendChatComment,
          updateChatScreen,
          updateUserSettings } from 'src/redux/modules/chat';
-import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
+import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { getPrechatFormFields,
          getAttachmentsEnabled,
          getPrechatFormSettings,
