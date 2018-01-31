@@ -7,6 +7,7 @@ describe('root reducer', () => {
     'helpCenter',
     'talk',
     'zopimChat',
+    'submitTicket',
     'settings'
   ];
 
@@ -24,6 +25,7 @@ describe('root reducer', () => {
       './helpCenter/reducer': mockReducer,
       './talk/reducer': mockReducer,
       './zopimChat/reducer': mockReducer,
+      './submitTicket/reducer': mockReducer,
       './root/reducer/root': (state) => { return {...state, root: true}; }
     });
 

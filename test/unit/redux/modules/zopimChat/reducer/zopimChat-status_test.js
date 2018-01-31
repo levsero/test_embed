@@ -13,7 +13,6 @@ describe('zopimChat reducer status', () => {
     actionTypes = requireUncached(actionTypesPath);
 
     initialState = reducer(undefined, { type: '' });
-    actionTypes = requireUncached(actionTypesPath);
   });
 
   afterAll(() => {

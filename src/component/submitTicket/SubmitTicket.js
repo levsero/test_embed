@@ -11,6 +11,8 @@ import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
+import { handleFormChange } from 'src/redux/modules/submitTicket';
+import { getFormState } from 'src/redux/modules/submitTicket/submitTicket-selectors';
 import { i18n } from 'service/i18n';
 import { store } from 'service/persistence';
 import { isIE } from 'utility/devices';
@@ -19,7 +21,8 @@ import { getSearchTerm } from 'src/redux/modules/helpCenter/helpCenter-selectors
 
 const mapStateToProps = (state) => {
   return {
-    searchTerm: getSearchTerm(state)
+    searchTerm: getSearchTerm(state),
+    formState: getFormState(state)
   };
 };
 
@@ -28,6 +31,7 @@ class SubmitTicket extends Component {
     attachmentsEnabled: PropTypes.bool,
     attachmentSender: PropTypes.func.isRequired,
     formTitleKey: PropTypes.string.isRequired,
+    formState: PropTypes.object.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
     maxFileCount: PropTypes.number,
@@ -45,6 +49,7 @@ class SubmitTicket extends Component {
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
+    handleFormChange: PropTypes.func.isRequired,
     viaId: PropTypes.number.isRequired,
     fullscreen: PropTypes.bool.isRequired,
     searchTerm: PropTypes.string
@@ -75,7 +80,6 @@ class SubmitTicket extends Component {
 
     this.state = {
       errorMessage: null,
-      formState: {},
       formTitleKey: props.formTitleKey,
       isDragActive: false,
       loading: false,
@@ -104,10 +108,6 @@ class SubmitTicket extends Component {
 
   setLoading = (loading) => {
     this.setState({ loading });
-  }
-
-  setFormState = (formState) => {
-    this.setState({ formState });
   }
 
   handleSubmit = (e, data) => {
@@ -371,8 +371,8 @@ class SubmitTicket extends Component {
         subjectEnabled={this.props.subjectEnabled}
         maxFileCount={this.props.maxFileCount}
         maxFileSize={this.props.maxFileSize}
-        formState={this.state.formState}
-        setFormState={this.setFormState}
+        formState={this.props.formState}
+        setFormState={this.props.handleFormChange}
         submit={this.handleSubmit}
         newDesign={this.props.newDesign}
         ticketForms={this.state.ticketForms}
@@ -483,6 +483,8 @@ class SubmitTicket extends Component {
   }
 }
 
-const actionCreators = {};
+const actionCreators = {
+  handleFormChange
+};
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(SubmitTicket);

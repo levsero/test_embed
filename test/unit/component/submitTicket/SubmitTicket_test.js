@@ -152,6 +152,8 @@ describe('Submit ticket component', () => {
           get: () => mockStoreValue
         }
       },
+      'src/redux/modules/submitTicket': {},
+      'src/redux/modules/submitTicket/submitTicket-selectors': {},
       'component/Icon': {
         Icon: noopReactComponent()
       },
