@@ -1,7 +1,7 @@
 import {
-  SEARCH_REQUEST,
-  UPDATE_ACTIVE_ARTICLE,
-  RESET_ACTIVE_ARTICLE
+  SEARCH_REQUEST_SENT,
+  ARTICLE_CLICKED,
+  ARTICLE_CLOSED
 } from '../helpCenter-action-types';
 
 const initialState = false;
@@ -10,10 +10,10 @@ const articleClicked = (state = initialState, action) => {
   const { type } = action;
 
   switch (type) {
-    case RESET_ACTIVE_ARTICLE:
-    case SEARCH_REQUEST:
+    case ARTICLE_CLOSED:
+    case SEARCH_REQUEST_SENT:
       return false;
-    case UPDATE_ACTIVE_ARTICLE:
+    case ARTICLE_CLICKED:
       return true;
     default:
       return state;

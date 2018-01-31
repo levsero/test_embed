@@ -1,6 +1,6 @@
 import {
-  SEARCH_REQUEST,
-  SEARCH_FAILURE
+  SEARCH_REQUEST_SENT,
+  SEARCH_REQUEST_FAILURE
 } from '../helpCenter-action-types';
 
 const initialState = false;
@@ -9,9 +9,9 @@ const searchFailed = (state = initialState, action) => {
   const { type } = action;
 
   switch (type) {
-    case SEARCH_REQUEST:
+    case SEARCH_REQUEST_SENT:
       return false;
-    case SEARCH_FAILURE:
+    case SEARCH_REQUEST_FAILURE:
       return true;
     default:
       return state;

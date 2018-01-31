@@ -10,7 +10,7 @@ import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile';
 import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
 import { updateSearchTerm,
-         updateActiveArticle,
+         handleArticleClick,
          performSearch,
          performContextualSearch,
          performImageSearch,
@@ -18,7 +18,7 @@ import { updateSearchTerm,
          handleOriginalArticleClicked,
          addRestrictedImage,
          updateChannelChoiceShown,
-         updateSearchFieldValue } from 'src/redux/modules/helpCenter';
+         handleSearchFieldChange } from 'src/redux/modules/helpCenter';
 import { getActiveArticle,
          getResultsCount,
          getSearchLoading,
@@ -97,7 +97,7 @@ class HelpCenter extends Component {
     hideChatNotification: PropTypes.func,
     updateChatScreen: PropTypes.func,
     updateSearchTerm: PropTypes.func.isRequired,
-    updateActiveArticle: PropTypes.func.isRequired,
+    handleArticleClick: PropTypes.func.isRequired,
     updateViewMoreClicked: PropTypes.func.isRequired,
     zendeskHost: PropTypes.string.isRequired,
     notification: PropTypes.object.isRequired,
@@ -113,7 +113,7 @@ class HelpCenter extends Component {
     updateChannelChoiceShown: PropTypes.func.isRequired,
     channelChoiceShown: PropTypes.bool.isRequired,
     searchFieldValue: PropTypes.string.isRequired,
-    updateSearchFieldValue: PropTypes.func.isRequired
+    handleSearchFieldChange: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -135,7 +135,7 @@ class HelpCenter extends Component {
     updateFrameSize: () => {},
     hideChatNotification: () => {},
     updateChatScreen: () => {},
-    updateActiveArticle: () => {},
+    handleArticleClick: () => {},
     updateSearchTerm: () => {},
     updateViewMoreClicked: () => {},
     articles: [],
@@ -147,7 +147,7 @@ class HelpCenter extends Component {
     restrictedImages: {},
     addRestrictedImage: () => {},
     updateChannelChoiceShown: () => {},
-    updateSearchFieldValue: () => {}
+    handleSearchFieldChange: () => {}
   };
 
   constructor(props) {
@@ -310,7 +310,7 @@ class HelpCenter extends Component {
 
   handleArticleClick = (articleIndex, e) => {
     e.preventDefault();
-    this.props.updateActiveArticle(this.props.articles[articleIndex]);
+    this.props.handleArticleClick(this.props.articles[articleIndex]);
     this.props.showBackButton();
   }
 
@@ -380,7 +380,7 @@ class HelpCenter extends Component {
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
         getFrameDimensions={this.props.getFrameDimensions}
-        handleOnChangeValue={this.props.updateSearchFieldValue}
+        handleOnChangeValue={this.props.handleSearchFieldChange}
         handleNextClick={this.handleNextClick}
         search={this.search}
         showNextButton={this.props.showNextButton}
@@ -411,7 +411,7 @@ class HelpCenter extends Component {
     return (
       <HelpCenterMobile
         ref='helpCenterMobile'
-        handleOnChangeValue={this.props.updateSearchFieldValue}
+        handleOnChangeValue={this.props.handleSearchFieldChange}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
@@ -472,9 +472,9 @@ class HelpCenter extends Component {
 }
 
 const actionCreators = {
-  updateSearchFieldValue,
+  handleSearchFieldChange,
   updateChannelChoiceShown,
-  updateActiveArticle,
+  handleArticleClick,
   updateSearchTerm,
   performSearch,
   performImageSearch,

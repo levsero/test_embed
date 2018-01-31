@@ -27,12 +27,12 @@ describe('helpCenter reducer viewMoreClicked', () => {
     });
   });
 
-  describe('when an UPDATE_RESULTS action is dispatched', () => {
+  describe('when an CONTEXTUAL_SEARCH_REQUEST_SUCCESS action is dispatched', () => {
     let state;
 
     describe('when a boolean value is given', () => {
       beforeEach(() => {
-        state = reducer(initialState, { type: actionTypes.UPDATE_RESULTS });
+        state = reducer(initialState, { type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SUCCESS });
       });
 
       it('sets the state to false', () => {

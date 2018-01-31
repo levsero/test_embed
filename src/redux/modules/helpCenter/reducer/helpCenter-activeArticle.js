@@ -1,4 +1,4 @@
-import { UPDATE_ACTIVE_ARTICLE, RESET_ACTIVE_ARTICLE } from '../helpCenter-action-types';
+import { ARTICLE_CLICKED, ARTICLE_CLOSED } from '../helpCenter-action-types';
 
 const initialState = null;
 
@@ -6,9 +6,9 @@ const activeArticle = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case UPDATE_ACTIVE_ARTICLE:
+    case ARTICLE_CLICKED:
       return payload;
-    case RESET_ACTIVE_ARTICLE:
+    case ARTICLE_CLOSED:
       return null;
     default:
       return state;

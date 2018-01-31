@@ -27,12 +27,12 @@ describe('helpCenter reducer searchFieldValue', () => {
     });
   });
 
-  describe('when an UPDATE_SEARCH_FIELD_VALUE action is dispatched', () => {
+  describe('when an SEARCH_FIELD_CHANGED action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.UPDATE_SEARCH_FIELD_VALUE,
+        type: actionTypes.SEARCH_FIELD_CHANGED,
         payload: 'dsfdsfdss sdfds fsd fdsf'
       });
     });

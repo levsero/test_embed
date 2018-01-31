@@ -27,12 +27,12 @@ describe('helpCenter reducer resultsCount', () => {
     });
   });
 
-  describe('when an UPDATE_RESULTS action is dispatched', () => {
+  describe('when an CONTEXTUAL_SEARCH_REQUEST_SUCCESS action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.UPDATE_RESULTS,
+        type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
         payload: { resultsCount: 6 }
       });
     });
@@ -40,6 +40,22 @@ describe('helpCenter reducer resultsCount', () => {
     it('sets the state to the counter from the payload', () => {
       expect(state)
         .toEqual(6);
+    });
+  });
+
+  describe('when an SEARCH_REQUEST_SUCCESS action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(initialState, {
+        type: actionTypes.SEARCH_REQUEST_SUCCESS,
+        payload: { resultsCount: 4 }
+      });
+    });
+
+    it('sets the state to the counter from the payload', () => {
+      expect(state)
+        .toEqual(4);
     });
   });
 });

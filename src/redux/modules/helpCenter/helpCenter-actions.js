@@ -6,21 +6,20 @@ import { settings } from 'service/settings';
 import { location } from 'utility/globals';
 import { isOnHostMappedDomain } from 'utility/pages';
 
-import { SEARCH_REQUEST,
-         SEARCH_SUCCESS,
-         SEARCH_FAILURE,
-         CONTEXTUAL_SEARCH_REQUEST,
-         CONTEXTUAL_SEARCH_SUCCESS,
-         CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS,
-         UPDATE_ACTIVE_ARTICLE,
-         UPDATE_SEARCH_TERM,
-         UPDATE_RESULTS,
+import { SEARCH_REQUEST_SENT,
+         SEARCH_REQUEST_SUCCESS,
+         SEARCH_REQUEST_FAILURE,
+         CONTEXTUAL_SEARCH_REQUEST_SENT,
+         CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
+         CONTEXTUAL_SEARCH_REQUEST_SUCCESS_NO_RESULTS,
+         ARTICLE_CLICKED,
+         SEARCH_BAR_CHANGED,
          UPDATE_VIEW_MORE_CLICKED,
          ORIGINAL_ARTICLE_CLICKED,
-         RESET_ACTIVE_ARTICLE,
+         ARTICLE_CLOSED,
          ADD_RESTRICTED_IMAGE,
-         UPDATE_CHANNELCHOICE_SHOWN,
-         UPDATE_SEARCH_FIELD_VALUE } from './helpCenter-action-types';
+         NEXT_BUTTON_CLICKED,
+         SEARCH_FIELD_CHANGED } from './helpCenter-action-types';
 
 const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
   const token = authentication.getToken();
@@ -40,16 +39,13 @@ const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
   };
 };
 
-const updateResults = (response) => {
+const formatResults = (response) => {
   const json = response.body;
   const articles = json.results;
 
   return {
-    type: UPDATE_RESULTS,
-    payload: {
-      articles,
-      resultsCount: json.count
-    }
+    articles,
+    resultsCount: json.count
   };
 };
 
@@ -66,20 +62,19 @@ export function performSearch(query, done = () => {}, fail = () => {}) {
   return (dispatch) => {
     const doneFn = (response) => {
       dispatch({
-        type: SEARCH_SUCCESS,
-        payload: { response }
+        type: SEARCH_REQUEST_SUCCESS,
+        payload: formatResults(response)
       });
 
-      dispatch(updateResults(response));
       done(response);
     };
     const failFn = (error) => {
-      dispatch({ type: SEARCH_FAILURE });
+      dispatch({ type: SEARCH_REQUEST_FAILURE });
       fail(error);
     };
 
     dispatch({
-      type: SEARCH_REQUEST,
+      type: SEARCH_REQUEST_SENT,
       payload: {}
     });
 
@@ -93,18 +88,17 @@ export function performContextualSearch(query, done = () => {}, fail = () => {})
   return (dispatch) => {
     const doneFn = (response) => {
       (response.body.count === 0)
-        ? dispatch({ type: CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS })
-        : dispatch({ type: CONTEXTUAL_SEARCH_SUCCESS, payload: { response } });
+        ? dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_SUCCESS_NO_RESULTS })
+        : dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_SUCCESS, payload: formatResults(response) });
 
-      dispatch(updateResults(response));
       done(response);
     };
     const failFn = (error) => {
-      dispatch({ type: SEARCH_FAILURE });
+      dispatch({ type: SEARCH_REQUEST_FAILURE });
       fail(error);
     };
 
-    dispatch({ type: CONTEXTUAL_SEARCH_REQUEST });
+    dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_SENT });
 
     http.send(constructHelpCenterPayload(path, query, doneFn, failFn));
   };
@@ -116,16 +110,16 @@ export function handleOriginalArticleClicked() {
   };
 }
 
-export function updateActiveArticle(article) {
+export function handleArticleClick(article) {
   return {
-    type: UPDATE_ACTIVE_ARTICLE,
+    type: ARTICLE_CLICKED,
     payload: article
   };
 }
 
 export function updateSearchTerm(term) {
   return {
-    type: UPDATE_SEARCH_TERM,
+    type: SEARCH_BAR_CHANGED,
     payload: term
   };
 }
@@ -135,7 +129,7 @@ export function updateViewMoreClicked() {
 }
 
 export function resetActiveArticle() {
-  return { type: RESET_ACTIVE_ARTICLE };
+  return { type: ARTICLE_CLOSED };
 }
 
 export function addRestrictedImage(img) {
@@ -147,14 +141,14 @@ export function addRestrictedImage(img) {
 
 export function updateChannelChoiceShown(bool) {
   return {
-    type: UPDATE_CHANNELCHOICE_SHOWN,
+    type: NEXT_BUTTON_CLICKED,
     payload: bool
   };
 }
 
-export function updateSearchFieldValue(value) {
+export function handleSearchFieldChange(value) {
   return {
-    type: UPDATE_SEARCH_FIELD_VALUE,
+    type: SEARCH_FIELD_CHANGED,
     payload: value
   };
 }

@@ -27,11 +27,24 @@ describe('helpCenter reducer resultsPerPage', () => {
     });
   });
 
-  describe('when an UPDATE_RESULTS action is dispatched', () => {
+  describe('when an CONTEXTUAL_SEARCH_REQUEST_SUCCESS action is dispatched', () => {
     let state;
 
     beforeEach(() => {
-      state = reducer(initialState, { type: actionTypes.UPDATE_RESULTS });
+      state = reducer(initialState, { type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SUCCESS });
+    });
+
+    it('sets the state to the minimum search result value', () => {
+      expect(state)
+        .toEqual(3);
+    });
+  });
+
+  describe('when an SEARCH_REQUEST_SUCCESS action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(initialState, { type: actionTypes.SEARCH_REQUEST_SUCCESS });
     });
 
     it('sets the state to the minimum search result value', () => {

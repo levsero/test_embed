@@ -30,7 +30,7 @@ describe('helpCenter reducer searchTerm', () => {
     });
   });
 
-  describe('when an SEARCH_SUCCESS action is dispatched', () => {
+  describe('when an SEARCH_REQUEST_SUCCESS action is dispatched', () => {
     let state;
     const initialStateObj = {
       current: 'foobar',
@@ -39,7 +39,7 @@ describe('helpCenter reducer searchTerm', () => {
 
     beforeEach(() => {
       state = reducer(initialStateObj, {
-        type: actionTypes.SEARCH_SUCCESS
+        type: actionTypes.SEARCH_REQUEST_SUCCESS
       });
     });
 
@@ -54,7 +54,7 @@ describe('helpCenter reducer searchTerm', () => {
     });
   });
 
-  describe('when an CONTEXTUAL_SEARCH_SUCCESS action is dispatched', () => {
+  describe('when an CONTEXTUAL_SEARCH_REQUEST_SUCCESS action is dispatched', () => {
     let state;
     const initialStateObj = {
       current: 'foobar',
@@ -63,7 +63,7 @@ describe('helpCenter reducer searchTerm', () => {
 
     beforeEach(() => {
       state = reducer(initialStateObj, {
-        type: actionTypes.CONTEXTUAL_SEARCH_SUCCESS
+        type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SUCCESS
       });
     });
 
@@ -78,7 +78,7 @@ describe('helpCenter reducer searchTerm', () => {
     });
   });
 
-  describe('when an SEARCH_FAILURE action is dispatched', () => {
+  describe('when an SEARCH_REQUEST_FAILURE action is dispatched', () => {
     let state;
     const initialStateObj = {
       current: 'foobar',
@@ -87,7 +87,7 @@ describe('helpCenter reducer searchTerm', () => {
 
     beforeEach(() => {
       state = reducer(initialStateObj, {
-        type: actionTypes.SEARCH_FAILURE
+        type: actionTypes.SEARCH_REQUEST_FAILURE
       });
     });
 
@@ -102,7 +102,7 @@ describe('helpCenter reducer searchTerm', () => {
     });
   });
 
-  describe('when an CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS action is dispatched', () => {
+  describe('when an CONTEXTUAL_SEARCH_REQUEST_SUCCESS_NO_RESULTS action is dispatched', () => {
     let state;
     const initialStateObj = {
       current: 'foobar',
@@ -111,7 +111,7 @@ describe('helpCenter reducer searchTerm', () => {
 
     beforeEach(() => {
       state = reducer(initialStateObj, {
-        type: actionTypes.CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS
+        type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SUCCESS_NO_RESULTS
       });
     });
 
@@ -126,7 +126,7 @@ describe('helpCenter reducer searchTerm', () => {
     });
   });
 
-  describe('when an UPDATE_SEARCH_TERM action is dispatched', () => {
+  describe('when an SEARCH_BAR_CHANGED action is dispatched', () => {
     let state;
     const initialStateObj = {
       current: 'foobar',
@@ -135,7 +135,7 @@ describe('helpCenter reducer searchTerm', () => {
 
     beforeEach(() => {
       state = reducer(initialStateObj, {
-        type: actionTypes.UPDATE_SEARCH_TERM,
+        type: actionTypes.SEARCH_BAR_CHANGED,
         payload: 'baz'
       });
     });

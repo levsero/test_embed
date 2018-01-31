@@ -28,12 +28,12 @@ describe('helpCenter reducer channelChoiceShown', () => {
     });
   });
 
-  describe('when an UPDATE_CHANNELCHOICE_SHOWN action is dispatched', () => {
+  describe('when an NEXT_BUTTON_CLICKED action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.UPDATE_CHANNELCHOICE_SHOWN,
+        type: actionTypes.NEXT_BUTTON_CLICKED,
         payload: true
       });
     });

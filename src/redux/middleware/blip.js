@@ -1,9 +1,9 @@
 import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types';
 import { UPDATE_ACTIVE_EMBED } from 'src/redux/modules/base/base-action-types';
-import { UPDATE_ACTIVE_ARTICLE,
+import { ARTICLE_CLICKED,
          ORIGINAL_ARTICLE_CLICKED,
-         SEARCH_SUCCESS,
-         SEARCH_FAILURE } from 'src/redux/modules/helpCenter/helpCenter-action-types';
+         SEARCH_REQUEST_SUCCESS,
+         SEARCH_REQUEST_FAILURE } from 'src/redux/modules/helpCenter/helpCenter-action-types';
 import { beacon } from 'service/beacon';
 import { getEmbeddableConfig,
          getAgentAvailability,
@@ -93,11 +93,11 @@ export function sendBlips({ getState }) {
           sendTalkOpenedBlip(prevState);
         }
         break;
-      case UPDATE_ACTIVE_ARTICLE:
+      case ARTICLE_CLICKED:
         sendArticleClickedBlip(prevState, payload);
         break;
-      case SEARCH_SUCCESS:
-      case SEARCH_FAILURE:
+      case SEARCH_REQUEST_SUCCESS:
+      case SEARCH_REQUEST_FAILURE:
         sendHelpCenterFirstSearchBlip(prevState);
         break;
       case ORIGINAL_ARTICLE_CLICKED:

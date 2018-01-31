@@ -27,12 +27,12 @@ describe('helpCenter reducer searchLoading', () => {
     });
   });
 
-  describe('when an SEARCH_REQUEST action is dispatched', () => {
+  describe('when an SEARCH_REQUEST_SENT action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.SEARCH_REQUEST
+        type: actionTypes.SEARCH_REQUEST_SENT
       });
     });
 
@@ -42,12 +42,12 @@ describe('helpCenter reducer searchLoading', () => {
     });
   });
 
-  describe('when an CONTEXTUAL_SEARCH_REQUEST action is dispatched', () => {
+  describe('when an CONTEXTUAL_SEARCH_REQUEST_SENT action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.CONTEXTUAL_SEARCH_REQUEST
+        type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SENT
       });
     });
 
@@ -57,12 +57,12 @@ describe('helpCenter reducer searchLoading', () => {
     });
   });
 
-  describe('when an SEARCH_SUCCESS action is dispatched', () => {
+  describe('when an SEARCH_REQUEST_SUCCESS action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.SEARCH_SUCCESS
+        type: actionTypes.SEARCH_REQUEST_SUCCESS
       });
     });
 
@@ -72,12 +72,12 @@ describe('helpCenter reducer searchLoading', () => {
     });
   });
 
-  describe('when an CONTEXTUAL_SEARCH_SUCCESS action is dispatched', () => {
+  describe('when an CONTEXTUAL_SEARCH_REQUEST_SUCCESS action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.CONTEXTUAL_SEARCH_SUCCESS
+        type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SUCCESS
       });
     });
 
@@ -87,12 +87,12 @@ describe('helpCenter reducer searchLoading', () => {
     });
   });
 
-  describe('when an SEARCH_FAILURE action is dispatched', () => {
+  describe('when an SEARCH_REQUEST_FAILURE action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.SEARCH_FAILURE
+        type: actionTypes.SEARCH_REQUEST_FAILURE
       });
     });
 
@@ -102,12 +102,12 @@ describe('helpCenter reducer searchLoading', () => {
     });
   });
 
-  describe('when an CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS action is dispatched', () => {
+  describe('when an CONTEXTUAL_SEARCH_REQUEST_SUCCESS_NO_RESULTS action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS
+        type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SUCCESS_NO_RESULTS
       });
     });
 
