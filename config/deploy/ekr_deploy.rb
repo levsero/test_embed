@@ -31,26 +31,17 @@ namespace :ac_embeddable_framework do
 
   desc 'Release to Amazon S3 for asset composer'
   task :release_to_s3 do
-    credentials = {
-      region: fetch(:ekr_aws_region),
-      credentials: fetch(:ekr_aws_credentials)
-    }
-    bucket_name = fetch(:ekr_s3_bucket_name)
     release_directory = fetch(:ekr_s3_release_directory)
     files = fetch(:deploy_files)
 
-    deployer = S3Deployer.new(credentials, bucket_name, logger)
-    deployer.upload_files('dist', release_directory, files)
-    deployer.upload_translations('dist/locales', release_directory);
+    s3_deployer.upload_files('dist', release_directory, files)
+    s3_deployer.upload_translations('dist/locales', release_directory);
   end
 
-  desc 'Release the current version for Staging'
-  task :release_to_staging do
-    release_to_ekr
-  end
+  desc 'Release the current version to EKR'
+  task :release_to_ekr do
+    raise version_error unless version_exists_on_s3?
 
-  desc 'Release the current version for Production'
-  task :release_to_production do
     release_to_ekr
   end
 end
@@ -80,6 +71,24 @@ def ekr_jwt_payload
     iat: now,
     user: 'zdsamson'
   }
+end
+
+def version_exists_on_s3?
+  s3_deployer.object_exists?("#{fetch(:ekr_s3_release_directory)}/")
+end
+
+def version_error
+  "Folder #{fetch(:ekr_s3_release_directory)} does not exist on the bucket"
+end
+
+def s3_deployer
+  credentials = {
+    region: fetch(:ekr_aws_region),
+    credentials: fetch(:ekr_aws_credentials)
+  }
+  bucket_name = fetch(:ekr_s3_bucket_name)
+
+  @s3_deployer ||= S3Deployer.new(credentials, bucket_name, logger)
 end
 
 before 'ac_embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
