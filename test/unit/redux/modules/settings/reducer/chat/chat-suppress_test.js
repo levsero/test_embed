@@ -21,7 +21,6 @@ describe('chat reducer suppress', () => {
     const actionTypesPath = buildSrcPath('redux/modules/settings/settings-action-types');
 
     reducer = requireUncached(reducerPath).default;
-    actionTypes = requireUncached(actionTypesPath);
 
     initialState = reducer(undefined, { type: '' });
     actionTypes = requireUncached(actionTypesPath);

@@ -10,7 +10,6 @@ describe('base reducer authenticated', () => {
     const actionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
 
     reducer = requireUncached(reducerPath).default;
-    actionTypes = requireUncached(actionTypesPath);
 
     initialState = reducer(undefined, { type: '' });
     actionTypes = requireUncached(actionTypesPath);

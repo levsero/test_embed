@@ -10,7 +10,6 @@ describe('chat reducer departments', () => {
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
 
     reducer = requireUncached(reducerPath).default;
-    actionTypes = requireUncached(actionTypesPath);
 
     initialState = reducer(undefined, { type: '' });
     actionTypes = requireUncached(actionTypesPath);
