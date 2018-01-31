@@ -4,12 +4,12 @@ describe('chat selectors', () => {
     getPrechatFormFields,
     getPostchatFormSettings,
     getIsChatting,
-    getChats,
+    getFilteredChats,
     getChatVisitor,
     getUserSoundSettings,
     getConnection,
     getConciergeSettings,
-    getChatsByAgent,
+    getFilteredChatsByAgent,
     getAgents,
     getChatRating,
     getChatScreen,
@@ -35,10 +35,10 @@ describe('chat selectors', () => {
     getChatVisitor = selectors.getChatVisitor;
     getUserSoundSettings = selectors.getUserSoundSettings;
     getConnection = selectors.getConnection;
-    getChatsByAgent = selectors.getChatsByAgent;
+    getFilteredChatsByAgent = selectors.getFilteredChatsByAgent;
     getChatStatus = selectors.getChatStatus;
     getChatOnline = selectors.getChatOnline;
-    getChats = selectors.getChats;
+    getFilteredChats = selectors.getFilteredChats;
     getPrechatFormSettings = selectors.getPrechatFormSettings;
     getConciergeSettings = selectors.getConciergeSettings;
     getAgents = selectors.getAgents;
@@ -334,7 +334,7 @@ describe('chat selectors', () => {
     });
   });
 
-  describe('getChatsByAgent', () => {
+  describe('getFilteredChatsByAgent', () => {
     let result;
     const mockChats = [
       { nick: 'agent', type: 'chat.msg' },
@@ -347,7 +347,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getChatsByAgent(mockChatSettings);
+      result = getFilteredChatsByAgent(mockChatSettings);
     });
 
     it('returns the chats from only agents', () => {
@@ -359,7 +359,7 @@ describe('chat selectors', () => {
     });
   });
 
-  describe('getChats', () => {
+  describe('getFilteredChats', () => {
     let result;
     const mockChats = [
       { nick: 'agent', type: 'chat.msg' },
@@ -373,7 +373,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getChats(mockChatSettings);
+      result = getFilteredChats(mockChatSettings);
     });
 
     it('returns only chats of type file or msg', () => {

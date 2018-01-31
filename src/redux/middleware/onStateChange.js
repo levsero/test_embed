@@ -1,7 +1,7 @@
 import { updateAccountSettings,
          newAgentMessageReceived } from 'src/redux/modules/chat';
 import { audio } from 'service/audio';
-import { getChatsByAgent,
+import { getFilteredChatsByAgent,
          getConnection,
          getUserSoundSettings } from 'src/redux/modules/chat/chat-selectors';
 import { getActiveEmbed,
@@ -23,8 +23,8 @@ const onChatConnected = (prevState, nextState, dispatch) => {
 };
 
 const onNewChatMessage = (prevState, nextState, dispatch) => {
-  const prevChats = getChatsByAgent(prevState);
-  const nextChats = getChatsByAgent(nextState);
+  const prevChats = getFilteredChatsByAgent(prevState);
+  const nextChats = getFilteredChatsByAgent(nextState);
   const isIncomingChat = prevChats.length < nextChats.length;
 
   if (isIncomingChat) {

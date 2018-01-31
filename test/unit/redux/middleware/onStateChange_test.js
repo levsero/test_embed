@@ -29,7 +29,7 @@ describe('onStateChange middleware', () => {
       'src/redux/modules/chat/chat-selectors': {
         getUserSoundSettings: () => mockUserSoundSetting,
         getConnection: _.identity,
-        getChatsByAgent: _.identity
+        getFilteredChatsByAgent: _.identity
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed,
