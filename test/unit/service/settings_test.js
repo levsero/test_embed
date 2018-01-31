@@ -182,6 +182,9 @@ describe('settings', () => {
           chat: {
             suppress: true
           },
+          talk: {
+            suppress: true
+          },
           color: {
             theme: '#FF0000'
           }
@@ -191,25 +194,28 @@ describe('settings', () => {
       settings.init();
     });
 
-    it('should return user setting for helpCenter.originalArticleButton', () => {
+    it('returns user setting for helpCenter.originalArticleButton', () => {
       expect(settings.get('helpCenter.originalArticleButton'))
         .toBe(false);
     });
 
-    it('should return user setting for suppress', () => {
+    it('returns user setting for suppress', () => {
       expect(settings.get('helpCenter.suppress'))
         .toBe(true);
 
       expect(settings.get('chat.suppress'))
         .toBe(true);
+
+      expect(settings.get('talk.suppress'))
+        .toBe(true);
     });
 
-    it('should return user setting for color', () => {
+    it('returns user setting for color', () => {
       expect(settings.get('color.theme'))
         .toBe('#FF0000');
     });
 
-    it('should return user setting for contactForm.subject', () => {
+    it('returns user setting for contactForm.subject', () => {
       expect(settings.get('contactForm.subject'))
         .toBe(true);
     });
@@ -220,25 +226,25 @@ describe('settings', () => {
         settings.enableCustomizations();
       });
 
-      it('should return user setting for helpCenter.localeFallbacks', () => {
+      it('returns user setting for helpCenter.localeFallbacks', () => {
         expect(settings.get('helpCenter.localeFallbacks'))
           .toEqual(['fr']);
       });
     });
 
     describe('when web widget customisations are disabled', () => {
-      it('should return user default for helpCenter.localeFallbacks', () => {
+      it('returns user default for helpCenter.localeFallbacks', () => {
         expect(settings.get('helpCenter.localeFallbacks'))
           .toEqual(defaults.helpCenter.localeFallbacks);
       });
     });
 
-    it('should return a value if it exists in the store', () => {
+    it('returns a value if it exists in the store', () => {
       expect(settings.get('authenticate'))
         .toEqual('foo');
     });
 
-    it('should return null if a value does not exist in the store', () => {
+    it('returns null if a value does not exist in the store', () => {
       mockRegistry['utility/globals'].win.zESettings = { webWidget: {} };
       settings.init();
 
@@ -246,7 +252,7 @@ describe('settings', () => {
         .toEqual(null);
     });
 
-    it('should return a value for a nested param if it exists in the store', () => {
+    it('returns a value for a nested param if it exists in the store', () => {
       mockRegistry['utility/globals'].win.zESettings = { webWidget: { contactForm: { attachments: 'foo' } } };
       settings.init();
 
@@ -275,7 +281,7 @@ describe('settings', () => {
       settings.init();
     });
 
-    it('should return the translations', () => {
+    it('returns the translations', () => {
       expect(settings.getTranslations())
         .toEqual({
           helpCenterTitle: {
@@ -308,7 +314,7 @@ describe('settings', () => {
       settings.init();
     });
 
-    it('should return a web Widget Object', () => {
+    it('returns a web Widget Object', () => {
       expect(settings.getTrackSettings().webWidget)
         .toBeDefined();
     });
