@@ -3,7 +3,7 @@
 require 'zendesk/deployment'
 require 'zendesk/deployment/tasks/environment_selector'
 
-require 'aws-sdk'
+require 'aws-sdk-s3'
 require 'yaml'
 
 set :application, 'zendesk_embeddable_framework'

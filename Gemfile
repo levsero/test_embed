@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
 group :deployment do
-  gem 'aws-sdk'
-  gem 'jwt'
+  gem 'aws-sdk-s3', '~> 1.8'
+  gem 'jwt', '~> 2.1'
 end
 
 source 'https://gem.zdsys.com/gems/' do
