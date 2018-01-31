@@ -10,7 +10,7 @@ import { getChatAvailable, getTalkAvailable } from 'src/redux/modules/selectors'
 import { settings } from 'service/settings';
 import { getHelpCenterEmbed, getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
-import { getNotification } from 'src/redux/modules/chat/chat-selectors';
+import { getNotificationCount } from 'src/redux/modules/chat/chat-selectors';
 
 const mapStateToProps = (state) => {
   return {
@@ -19,7 +19,7 @@ const mapStateToProps = (state) => {
     helpCenterAvailable: getHelpCenterEmbed(state) && !settings.get('helpCenter.suppress'),
     talkAvailable: getTalkAvailable(state),
     callbackEnabled: isCallbackEnabled(state),
-    notificationCount: getNotification(state).count
+    notificationCount: getNotificationCount(state)
   };
 };
 
@@ -66,6 +66,8 @@ class Launcher extends Component {
     const { unreadMessages } = this.state;
     const { notificationCount } = this.props;
 
+    // TODO: Remove this once mediator is removed
+    // Only Zopim or Chat SDK will ever have a value greater than 0 at a given time
     return unreadMessages || notificationCount;
   }
 

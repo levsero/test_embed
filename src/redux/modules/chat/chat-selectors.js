@@ -8,6 +8,7 @@ const groupChatsByAgent = (state) => {
 };
 
 export const getNotification = (state) => state.chat.notification;
+export const getNotificationCount = (state) => getNotification(state).count;
 export const getPrechatFormSettings = (state) => state.chat.accountSettings.prechatForm;
 export const getPostchatFormSettings = (state) => state.chat.accountSettings.postchatForm;
 export const getConciergeSettings = (state) => state.chat.accountSettings.concierge;
