@@ -1,4 +1,4 @@
-describe('base reducer embedShown', () => {
+describe('base reducer widgetShown', () => {
   let reducer,
     actionTypes,
     initialState;
@@ -26,12 +26,12 @@ describe('base reducer embedShown', () => {
     });
   });
 
-  describe('when an UPDATE_EMBED_SHOWN action is dispatched', () => {
+  describe('when an UPDATE_WIDGET_SHOWN action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.UPDATE_EMBED_SHOWN,
+        type: actionTypes.UPDATE_WIDGET_SHOWN,
         payload: true
       });
     });

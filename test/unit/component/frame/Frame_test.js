@@ -12,7 +12,7 @@ describe('Frame', () => {
     mockIsRTLValue,
     mockLocaleValue,
     mockZoomSizingRatioValue,
-    mockUpdateEmbedShown;
+    mockUpdateWidgetShown;
 
   const FramePath = buildSrcPath('component/frame/Frame');
 
@@ -78,7 +78,7 @@ describe('Frame', () => {
     };
     mockClickBusterRegister = jasmine.createSpy('clickBusterRegister');
 
-    mockUpdateEmbedShown = jasmine.createSpy('updateEmbedShown');
+    mockUpdateWidgetShown = jasmine.createSpy('updateWidgetShown');
 
     mockRegistryMocks = {
       'React': React,
@@ -132,7 +132,7 @@ describe('Frame', () => {
         }
       },
       'src/redux/modules/base/base-actions': {
-        updateEmbedShown: mockUpdateEmbedShown
+        updateWidgetShown: mockUpdateWidgetShown
       },
       'lodash': _,
       'component/Icon': {
@@ -535,8 +535,8 @@ describe('Frame', () => {
         frame.show();
       });
 
-      it('calls updateEmbedShown with false', () => {
-        expect(mockUpdateEmbedShown)
+      it('calls updateWidgetShown with false', () => {
+        expect(mockUpdateWidgetShown)
           .toHaveBeenCalledWith(false);
       });
 
@@ -561,8 +561,8 @@ describe('Frame', () => {
         frame.show();
       });
 
-      it('calls updateEmbedShown with true', () => {
-        expect(mockUpdateEmbedShown)
+      it('calls updateWidgetShown with true', () => {
+        expect(mockUpdateWidgetShown)
           .toHaveBeenCalledWith(true);
       });
 

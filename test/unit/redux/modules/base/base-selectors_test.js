@@ -5,7 +5,7 @@ describe('base selectors', () => {
     getActiveEmbed,
     getChatEmbed,
     getAuthenticated,
-    getEmbedShown;
+    getWidgetShown;
 
   beforeEach(() => {
     mockery.enable();
@@ -22,7 +22,7 @@ describe('base selectors', () => {
     getTalkEmbed = selectors.getTalkEmbed;
     getChatEmbed = selectors.getChatEmbed;
     getAuthenticated = selectors.getAuthenticated;
-    getEmbedShown = selectors.getEmbedShown;
+    getWidgetShown = selectors.getWidgetShown;
   });
 
   describe('getActiveEmbed', () => {
@@ -141,19 +141,19 @@ describe('base selectors', () => {
     });
   });
 
-  describe('getEmbedShown', () => {
+  describe('getWidgetShown', () => {
     let result;
     const mockState = {
       base: {
-        embedShown: true
+        widgetShown: true
       }
     };
 
     beforeEach(() => {
-      result = getEmbedShown(mockState);
+      result = getWidgetShown(mockState);
     });
 
-    it('returns the current state of embedShown', () => {
+    it('returns the current state of widgetShown', () => {
       expect(result)
         .toEqual(true);
     });

@@ -2,9 +2,9 @@ describe('onStateChange middleware', () => {
   let stateChangeFn,
     mockUserSoundSetting,
     mockActiveEmbed,
-    mockEmbedShown;
+    mockwidgetShown;
   const updateAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
-  const incrementNotificationCountSpy = jasmine.createSpy('incrementNotificationCount');
+  const newAgentMessageReceivedSpy = jasmine.createSpy('newAgentMessageReceived');
   const audioPlaySpy = jasmine.createSpy('audioPlay');
 
   beforeAll(() => {
@@ -14,12 +14,12 @@ describe('onStateChange middleware', () => {
 
     mockUserSoundSetting = false;
     mockActiveEmbed = '';
-    mockEmbedShown = false;
+    mockwidgetShown = false;
 
     initMockRegistry({
       'src/redux/modules/chat': {
         updateAccountSettings: updateAccountSettingsSpy,
-        incrementNotificationCount: incrementNotificationCountSpy
+        newAgentMessageReceived: newAgentMessageReceivedSpy
       },
       'service/audio': {
         audio: {
@@ -33,7 +33,7 @@ describe('onStateChange middleware', () => {
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed,
-        getEmbedShown: () => mockEmbedShown
+        getWidgetShown: () => mockwidgetShown
       }
     });
 
@@ -92,8 +92,8 @@ describe('onStateChange middleware', () => {
               .not.toHaveBeenCalled();
           });
 
-          it('does not dispatch incrementNotificationCount', () => {
-            expect(incrementNotificationCountSpy)
+          it('does not dispatch newAgentMessageReceived', () => {
+            expect(newAgentMessageReceivedSpy)
               .not.toHaveBeenCalled();
           });
         });
@@ -128,42 +128,42 @@ describe('onStateChange middleware', () => {
 
         describe('when the embed is not shown', () => {
           beforeEach(() => {
-            mockEmbedShown = false;
+            mockwidgetShown = false;
 
             stateChangeFn(prevState, nextState, {}, dispatchSpy);
           });
 
-          it('dispatches incrementNotificationCount', () => {
-            expect(incrementNotificationCountSpy)
+          it('dispatches newAgentMessageReceived', () => {
+            expect(newAgentMessageReceivedSpy)
               .toHaveBeenCalled();
           });
         });
 
         describe('when the embed is shown and the active embed is not chat', () => {
           beforeEach(() => {
-            mockEmbedShown = true;
+            mockwidgetShown = true;
             mockActiveEmbed = 'helpCenterForm';
 
             stateChangeFn(prevState, nextState, {}, dispatchSpy);
           });
 
-          it('dispatches incrementNotificationCount', () => {
-            expect(incrementNotificationCountSpy)
+          it('dispatches newAgentMessageReceived', () => {
+            expect(newAgentMessageReceivedSpy)
               .toHaveBeenCalled();
           });
         });
 
         describe('when the embed is shown and the active embed is chat', () => {
           beforeEach(() => {
-            mockEmbedShown = true;
+            mockwidgetShown = true;
             mockActiveEmbed = 'chat';
-            incrementNotificationCountSpy.calls.reset();
+            newAgentMessageReceivedSpy.calls.reset();
 
             stateChangeFn(prevState, nextState, {}, dispatchSpy);
           });
 
-          it('does not dispatch incrementNotificationCount', () => {
-            expect(incrementNotificationCountSpy)
+          it('does not dispatch newAgentMessageReceived', () => {
+            expect(newAgentMessageReceivedSpy)
               .not.toHaveBeenCalled();
           });
         });

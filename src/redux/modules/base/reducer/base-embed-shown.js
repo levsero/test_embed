@@ -1,16 +1,16 @@
-import { UPDATE_EMBED_SHOWN } from '../base-action-types';
+import { UPDATE_WIDGET_SHOWN } from '../base-action-types';
 
 const initialState = false;
 
-const embedShown = (state = initialState, action) => {
+const widgetShown = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case UPDATE_EMBED_SHOWN:
+    case UPDATE_WIDGET_SHOWN:
       return payload;
     default:
       return state;
   }
 };
 
-export default embedShown;
+export default widgetShown;

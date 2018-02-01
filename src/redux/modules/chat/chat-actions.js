@@ -24,8 +24,8 @@ import {
   SEND_CHAT_FILE_SUCCESS,
   SEND_CHAT_FILE_FAILURE,
   UPDATE_USER_SETTINGS,
-  INCREMENT_NOTIFICATION_COUNT,
-  RESET_NOTIFICATION_COUNT
+  NEW_AGENT_MESSAGE_RECEIVED,
+  CHAT_OPENED
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './reducer/chat-screen-types';
 import { getChatVisitor } from 'src/redux/modules/chat/chat-selectors';
@@ -253,10 +253,10 @@ export function saveContactDetails(name, email) {
   };
 }
 
-export function incrementNotificationCount() {
-  return { type: INCREMENT_NOTIFICATION_COUNT };
+export function newAgentMessageReceived() {
+  return { type: NEW_AGENT_MESSAGE_RECEIVED };
 }
 
-export function resetNotificationCount() {
-  return { type: RESET_NOTIFICATION_COUNT };
+export function chatOpened() {
+  return { type: CHAT_OPENED };
 }

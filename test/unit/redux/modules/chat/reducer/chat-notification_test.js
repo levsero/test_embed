@@ -83,9 +83,9 @@ describe('chat reducer notification', () => {
       });
     });
 
-    describe('when a INCREMENT_NOTIFICATION_COUNT action is dispatched', () => {
+    describe('when a NEW_AGENT_MESSAGE_RECEIVED action is dispatched', () => {
       beforeEach(() => {
-        const action = { type: actionTypes.INCREMENT_NOTIFICATION_COUNT };
+        const action = { type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED };
 
         state = reducer(initialState, action);
       });
@@ -98,9 +98,9 @@ describe('chat reducer notification', () => {
       });
     });
 
-    describe('when a RESET_NOTIFICATION_COUNT action is dispatched', () => {
+    describe('when a CHAT_OPENED action is dispatched', () => {
       beforeEach(() => {
-        const action = { type: actionTypes.RESET_NOTIFICATION_COUNT };
+        const action = { type: actionTypes.CHAT_OPENED };
 
         initialState.count = 1;
 

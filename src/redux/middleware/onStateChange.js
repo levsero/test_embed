@@ -1,18 +1,18 @@
 import { updateAccountSettings,
-         incrementNotificationCount } from 'src/redux/modules/chat';
+         newAgentMessageReceived } from 'src/redux/modules/chat';
 import { audio } from 'service/audio';
 import { getChatsByAgent,
          getConnection,
          getUserSoundSettings } from 'src/redux/modules/chat/chat-selectors';
 import { getActiveEmbed,
-         getEmbedShown } from 'src/redux/modules/base/base-selectors';
+         getWidgetShown } from 'src/redux/modules/base/base-selectors';
 
 const handleNotificationCounter = (nextState, dispatch) => {
   const activeEmbed = getActiveEmbed(nextState);
-  const embedShown = getEmbedShown(nextState);
+  const widgetShown = getWidgetShown(nextState);
 
-  if (!embedShown || (embedShown && activeEmbed !== 'chat')) {
-    dispatch(incrementNotificationCount());
+  if (!widgetShown || (widgetShown && activeEmbed !== 'chat')) {
+    dispatch(newAgentMessageReceived());
   }
 };
 

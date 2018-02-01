@@ -19,7 +19,7 @@ import { clickBusterRegister,
          isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
 import { cssTimeToMs } from 'utility/utils';
-import { updateEmbedShown } from 'src/redux/modules/base/base-actions';
+import { updateWidgetShown } from 'src/redux/modules/base/base-actions';
 
 // Unregister lodash from window._
 if (!__DEV__) {
@@ -272,9 +272,7 @@ export class Frame extends Component {
 
     this.props.onShow(this);
 
-    (this.props.name === 'launcher')
-      ? dispatch(updateEmbedShown(false))
-      : dispatch(updateEmbedShown(true));
+    dispatch(updateWidgetShown(this.props.name === 'launcher'));
   }
 
   hide = (options = {}) => {

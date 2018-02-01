@@ -1,7 +1,7 @@
 import { SDK_CHAT_MSG,
          HIDE_CHAT_NOTIFICATION,
-         INCREMENT_NOTIFICATION_COUNT,
-         RESET_NOTIFICATION_COUNT } from '../chat-action-types';
+         NEW_AGENT_MESSAGE_RECEIVED,
+         CHAT_OPENED } from '../chat-action-types';
 
 const initialState = {
   nick: '',
@@ -25,9 +25,9 @@ const notification = (state = initialState, action) => {
       };
     case HIDE_CHAT_NOTIFICATION:
       return { ...state, show: false };
-    case INCREMENT_NOTIFICATION_COUNT:
+    case NEW_AGENT_MESSAGE_RECEIVED:
       return { ...state, count: state.count + 1 };
-    case RESET_NOTIFICATION_COUNT:
+    case CHAT_OPENED:
       return { ...state, count: 0 };
     default:
       return state;

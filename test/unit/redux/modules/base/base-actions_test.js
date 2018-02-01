@@ -5,7 +5,7 @@ let actions,
   actionTypes,
   chatActionTypes,
   hideChatNotificationSpy,
-  resetNotificationCountSpy,
+  chatOpenedSpy,
   mockStore;
 
 const middlewares = [thunk];
@@ -17,13 +17,13 @@ describe('base redux actions', () => {
 
     hideChatNotificationSpy = jasmine.createSpy('hideChatNotification')
       .and.returnValue({ type: 'widget/chat/HIDE_CHAT_NOTIFICATION' });
-    resetNotificationCountSpy = jasmine.createSpy('resetNotificationCount')
-      .and.returnValue({ type: 'widget/chat/RESET_NOTIFICATION_COUNT' });
+    chatOpenedSpy = jasmine.createSpy('chatOpened')
+      .and.returnValue({ type: 'widget/chat/CHAT_OPENED' });
 
     initMockRegistry({
       'src/redux/modules/chat': {
         hideChatNotification: hideChatNotificationSpy,
-        resetNotificationCount: resetNotificationCountSpy
+        chatOpened: chatOpenedSpy
       }
     });
 
@@ -68,9 +68,9 @@ describe('base redux actions', () => {
           .toEqual(chatActionTypes.HIDE_CHAT_NOTIFICATION);
       });
 
-      it('dispatches an action of type RESET_NOTIFICATION_COUNT', () => {
+      it('dispatches an action of type CHAT_OPENED', () => {
         expect(actionList[1].type)
-          .toEqual(chatActionTypes.RESET_NOTIFICATION_COUNT);
+          .toEqual(chatActionTypes.CHAT_OPENED);
       });
 
       it('dispatches an action of type UPDATE_ACTIVE_EMBED', () => {
@@ -174,20 +174,20 @@ describe('base redux actions', () => {
     });
   });
 
-  describe('updateEmbedShown', () => {
+  describe('updateWidgetShown', () => {
     let action,
       actionList;
 
     describe('when activeEmbed is not chat', () => {
       beforeEach(() => {
         mockStore = createMockStore({ base: { activeEmbed: 'apoorv' } });
-        mockStore.dispatch(actions.updateEmbedShown(true));
+        mockStore.dispatch(actions.updateWidgetShown(true));
         action = mockStore.getActions()[0];
       });
 
-      it('dispatches an action of type UPDATE_EMBED_SHOWN', () => {
+      it('dispatches an action of type UPDATE_WIDGET_SHOWN', () => {
         expect(action.type)
-          .toEqual(actionTypes.UPDATE_EMBED_SHOWN);
+          .toEqual(actionTypes.UPDATE_WIDGET_SHOWN);
       });
 
       it('has the value of true in the payload', () => {
@@ -199,13 +199,13 @@ describe('base redux actions', () => {
     describe('when activeEmbed is chat', () => {
       beforeEach(() => {
         mockStore = createMockStore({ base: { activeEmbed: 'chat' } });
-        mockStore.dispatch(actions.updateEmbedShown(true));
+        mockStore.dispatch(actions.updateWidgetShown(true));
         actionList = mockStore.getActions();
       });
 
-      it('dispatches an action of type UPDATE_EMBED_SHOWN', () => {
+      it('dispatches an action of type UPDATE_WIDGET_SHOWN', () => {
         expect(actionList[0].type)
-          .toEqual(actionTypes.UPDATE_EMBED_SHOWN);
+          .toEqual(actionTypes.UPDATE_WIDGET_SHOWN);
       });
 
       it('has the value of true in the payload', () => {
@@ -213,9 +213,9 @@ describe('base redux actions', () => {
           .toEqual(true);
       });
 
-      it('dispatches an action of RESET_NOTIFICATION_COUNT', () => {
+      it('dispatches an action of CHAT_OPENED', () => {
         expect(actionList[1].type)
-          .toEqual(chatActionTypes.RESET_NOTIFICATION_COUNT);
+          .toEqual(chatActionTypes.CHAT_OPENED);
       });
     });
   });

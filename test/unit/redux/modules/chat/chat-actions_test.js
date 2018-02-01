@@ -684,32 +684,32 @@ describe('chat redux actions', () => {
     });
   });
 
-  describe('incrementNotificationCount', () => {
+  describe('newAgentMessageReceived', () => {
     let action;
 
     beforeEach(() => {
-      mockStore.dispatch(actions.incrementNotificationCount());
+      mockStore.dispatch(actions.newAgentMessageReceived());
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches a INCREMENT_NOTIFICATION_COUNT action', () => {
-      const expected = { type: actionTypes.INCREMENT_NOTIFICATION_COUNT };
+    it('dispatches a NEW_AGENT_MESSAGE_RECEIVED action', () => {
+      const expected = { type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED };
 
       expect(action)
         .toEqual(expected);
     });
   });
 
-  describe('resetNotificationCount', () => {
+  describe('chatOpened', () => {
     let action;
 
     beforeEach(() => {
-      mockStore.dispatch(actions.resetNotificationCount());
+      mockStore.dispatch(actions.chatOpened());
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches a RESET_NOTIFICATION_COUNT action', () => {
-      const expected = { type: actionTypes.RESET_NOTIFICATION_COUNT };
+    it('dispatches a CHAT_OPENED action', () => {
+      const expected = { type: actionTypes.CHAT_OPENED };
 
       expect(action)
         .toEqual(expected);
