@@ -93,7 +93,6 @@ describe('mediator', () => {
     submitTicketSub = jasmine.createSpyObj(
       'submitTicket',
       ['hide',
-       'prefill',
        'update',
        'refreshLocale']
     );
@@ -142,7 +141,6 @@ describe('mediator', () => {
       c.subscribe(`${names.launcher}.refreshLocale`, launcherSub.refreshLocale);
 
       c.subscribe(`${names.submitTicket}.hide`, submitTicketSub.hide);
-      c.subscribe(`${names.submitTicket}.prefill`, submitTicketSub.prefill);
       c.subscribe(`${names.submitTicket}.update`, submitTicketSub.update);
 
       c.subscribe(`${names.chat}.show`, chatSub.show);
@@ -253,11 +251,6 @@ describe('mediator', () => {
           .toHaveBeenCalledWith(params);
       });
 
-      it('should broadcast submitTicket.prefill with given params', () => {
-        expect(submitTicketSub.prefill)
-          .toHaveBeenCalledWith(params);
-      });
-
       it('should broadcast chat.setUser with given params', () => {
         expect(chatSub.setUser)
           .toHaveBeenCalledWith(params);
@@ -291,11 +284,6 @@ describe('mediator', () => {
       });
 
       describe('when name is valid', () => {
-        it('should broadcast submitTicket.prefill with name', () => {
-          expect(submitTicketSub.prefill)
-            .toHaveBeenCalledWith({ name: params.name });
-        });
-
         it('should broadcast chat.setUser with name', () => {
           expect(chatSub.setUser)
             .toHaveBeenCalledWith({ name: params.name });
@@ -311,14 +299,8 @@ describe('mediator', () => {
 
           mockEmailValid = false;
           reset(chatSub.setUser);
-          reset(submitTicketSub.prefill);
 
           c.broadcast('.onIdentify', params);
-        });
-
-        it('should not broadcast submitTicket.prefill', () => {
-          expect(submitTicketSub.prefill)
-            .not.toHaveBeenCalled();
         });
 
         it('should not broadcast chat.setUser', () => {

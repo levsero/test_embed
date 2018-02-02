@@ -219,4 +219,27 @@ describe('base redux actions', () => {
       });
     });
   });
+
+  describe('handleIdentifyRecieved', () => {
+    let action;
+    const mockUser = {
+      name: 'Harry Potter',
+      email: 'hpotter@hogwarts.com'
+    };
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.handleIdentifyRecieved(mockUser));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type IDENTIFY_RECIEVED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.IDENTIFY_RECIEVED);
+    });
+
+    it('passes the value to the payload', () => {
+      expect(action.payload)
+        .toEqual(mockUser);
+    });
+  });
 });

@@ -1183,46 +1183,6 @@ describe('embed.webWidget', () => {
       });
     });
 
-    it('should subscribe to ticketSubmissionForm.prefill', () => {
-      expect(mockMediator.channel.subscribe)
-        .toHaveBeenCalledWith('ticketSubmissionForm.prefill', jasmine.any(Function));
-    });
-
-    describe('when prefill is broadcast', () => {
-      let params,
-        submitTicket;
-
-      beforeEach(() => {
-        params = {
-          name: 'James Dean',
-          email: 'james@dean.com'
-        };
-
-        const webWidgetComponent = webWidget.get().instance.getRootComponent();
-
-        submitTicket = webWidgetComponent.getSubmitTicketComponent();
-
-        submitTicket.setState({ formState: { description:'hello' } });
-
-        pluckSubscribeCall(mockMediator, 'ticketSubmissionForm.prefill')(params);
-      });
-
-      it('should set the form name', () => {
-        expect(submitTicket.state.formState.name)
-          .toEqual(params.name);
-      });
-
-      it('should set the form email', () => {
-        expect(submitTicket.state.formState.email)
-          .toEqual(params.email);
-      });
-
-      it('should not override the other state values', () => {
-        expect(submitTicket.state.formState.description)
-          .toEqual('hello');
-      });
-    });
-
     describe('when subscribing to helpCenterForm.setHelpCenterSuggestions', () => {
       it('should subscribe to helpCenterForm.setHelpCenterSuggestions', () => {
         expect(mockMediator.channel.subscribe)

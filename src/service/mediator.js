@@ -498,14 +498,12 @@ function initMessaging() {
   c.intercept('.onIdentify', (__, params) => {
     if (emailValid(params.email)) {
       c.broadcast('beacon.identify', params);
-      c.broadcast(`${submitTicket}.prefill`, params);
       c.broadcast(`${chat}.setUser`, params);
     } else {
       console.warn('invalid params passed into zE.identify', params); // eslint-disable-line no-console
 
       if (_.isString(params.name)) {
         c.broadcast(`${chat}.setUser`, { name: params.name });
-        c.broadcast(`${submitTicket}.prefill`, { name: params.name });
       }
     }
   });

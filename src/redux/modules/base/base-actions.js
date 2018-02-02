@@ -3,7 +3,8 @@ import {
   UPDATE_EMBED,
   UPDATE_BACK_BUTTON_VISIBILITY,
   UPDATE_AUTHENTICATED,
-  UPDATE_WIDGET_SHOWN
+  UPDATE_WIDGET_SHOWN,
+  IDENTIFY_RECIEVED
 } from './base-action-types';
 import {
   hideChatNotification,
@@ -61,5 +62,12 @@ export const updateWidgetShown = (bool) => {
     if (activeEmbed === 'chat') {
       dispatch(chatOpened());
     }
+  };
+};
+
+export const handleIdentifyRecieved = (payload) => {
+  return {
+    type: IDENTIFY_RECIEVED,
+    payload
   };
 };
