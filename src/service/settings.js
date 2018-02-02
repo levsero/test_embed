@@ -38,6 +38,7 @@ const optionWhitelist = {
     'position.horizontal',
     'position.vertical',
     'talk.keyword',
+    'talk.suppress',
     'zIndex'
   ]
 };
@@ -68,6 +69,9 @@ const webWidgetStoreDefaults = {
   offset: {
     horizontal: 0,
     vertical: 0
+  },
+  talk: {
+    suppress: false
   },
   viaId: 48,
   zIndex: 999999

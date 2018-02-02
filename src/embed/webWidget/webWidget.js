@@ -148,7 +148,7 @@ function create(name, config = {}, reduxStore = {}) {
     color: '#659700'
   };
   const talkConfig = config.talk;
-  const talkAvailable = !!talkConfig;
+  const talkAvailable = !!talkConfig && !settings.get('talk.suppress');
   const helpCenterAvailable = !!config.helpCenterForm && !settings.get('helpCenter.suppress');
   const submitTicketAvailable = !!config.ticketSubmissionForm && !settings.get('contactForm.suppress');
   const chatAvailable = !!config.zopimChat;
@@ -242,6 +242,7 @@ function create(name, config = {}, reduxStore = {}) {
         submitTicketConfig={submitTicketSettings.config}
         submitTicketSender={submitTicketSettings.submitTicketSender}
         talkConfig={talkConfig}
+        talkAvailable={talkAvailable}
         viaId={settings.get('viaId')}
         zendeskHost={http.getZendeskHost()}
         zendeskSubdomain={zendeskSubdomain}

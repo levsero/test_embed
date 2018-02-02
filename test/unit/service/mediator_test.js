@@ -9,9 +9,11 @@ describe('mediator', () => {
     submitTicketSub,
     chatSub,
     helpCenterSub,
+    talkSub,
     mockChatSuppressedValue,
     mockHelpCenterSuppressedValue,
     mockContactFormSuppressedValue,
+    mockTalkSuppressedValue,
     mockOnHelpCenterPageValue,
     mockPositionValue,
     mockEmailValid,
@@ -28,6 +30,7 @@ describe('mediator', () => {
     mockChatSuppressedValue = false;
     mockHelpCenterSuppressedValue = false;
     mockContactFormSuppressedValue = false;
+    mockTalkSuppressedValue = false;
     mockOnHelpCenterPageValue = false;
     mockPositionValue = { horizontal: 'right', vertical: 'bottom' };
 
@@ -39,6 +42,7 @@ describe('mediator', () => {
               chat: { suppress: mockChatSuppressedValue },
               helpCenter: { suppress: mockHelpCenterSuppressedValue },
               contactForm: { suppress: mockContactFormSuppressedValue },
+              talk: { suppress: mockTalkSuppressedValue },
               position: mockPositionValue
             }, value, null);
           }
@@ -109,6 +113,12 @@ describe('mediator', () => {
       ['hide']
     );
 
+    talkSub = jasmine.createSpyObj(
+      'talk',
+      ['show',
+      'hide']
+    );
+
     webWidgetSub = jasmine.createSpyObj(
       'webWidget',
       ['show',
@@ -151,6 +161,8 @@ describe('mediator', () => {
       c.subscribe(`${names.webWidget}.setZopimOnline`, webWidgetSub.setZopimOnline);
       c.subscribe(`${names.webWidget}.zopimChatStarted`, webWidgetSub.zopimChatStarted);
       c.subscribe(`${names.webWidget}.zopimChatEnded`, webWidgetSub.zopimChatEnded);
+
+      c.subscribe(`${names.talk}.show`, talkSub.show);
     };
   });
 
@@ -483,7 +495,8 @@ describe('mediator', () => {
       helpCenter,
       authentication,
       beacon,
-      webWidget
+      webWidget,
+      talk
     };
 
     beforeEach(() => {
@@ -518,7 +531,7 @@ describe('mediator', () => {
 
       it('does not show when a show call is made if everything is suppressed', () => {
         mockContactFormSuppressedValue = true;
-        mediator.init({ submitTicket: true, helpCenter: false });
+        mediator.init({ submitTicket: true, helpCenter: false, talk: false });
 
         c.broadcast('.show');
 
@@ -655,7 +668,7 @@ describe('mediator', () => {
     describe('with Ticket Submission and Chat', () => {
       beforeEach(() => {
         jasmine.clock().install();
-        mediator.init({ submitTicket: true, helpCenter: false, chat: true });
+        mediator.init({ submitTicket: true, helpCenter: false, chat: true, talk: false });
       });
 
       it('shows after 3000ms if chat does not connect', () => {
@@ -774,7 +787,7 @@ describe('mediator', () => {
 
     describe('with Ticket Submission, Chat and Help Center', () => {
       beforeEach(() => {
-        mediator.init({ submitTicket: true, helpCenter: true });
+        mediator.init({ submitTicket: true, helpCenter: true, talk: false });
       });
 
       it('launches Help Center first', () => {
@@ -962,7 +975,7 @@ describe('mediator', () => {
           c.broadcast(`${chat}.onConnected`);
         });
 
-        it('show launcher when talks connection is not pending', () => {
+        it("shows launcher when talk's connection is not pending", () => {
           c.broadcast(`${talk}.enabled`, true);
           c.broadcast(`${talk}.agentAvailability`, true);
 
@@ -970,7 +983,7 @@ describe('mediator', () => {
             .toEqual(1);
         });
 
-        it('does not show launcher when talks connection is pending', () => {
+        it("does not show launcher when talk's connection is pending", () => {
           expect(launcherSub.show.calls.count())
             .toEqual(0);
         });
@@ -983,12 +996,12 @@ describe('mediator', () => {
           c.broadcast(`${talk}.agentAvailability`, true);
         });
 
-        it('does not show launcher when chats connection is pending', () => {
+        it("does not show launcher when chat's connection is pending", () => {
           expect(launcherSub.show.calls.count())
             .toEqual(0);
         });
 
-        it('show launcher when chats connection is not pending', () => {
+        it("show launcher when chat's connection is not pending", () => {
           c.broadcast(`${chat}.onOnline`);
           c.broadcast(`${chat}.onConnected`);
 
@@ -1504,6 +1517,7 @@ describe('mediator', () => {
               chat: true,
               submitTicket: true,
               channelChoice: true,
+              talk: true,
               helpCenter: false
             });
 
@@ -1902,12 +1916,14 @@ describe('mediator', () => {
     const helpCenter = 'helpCenterForm';
     const chat = 'zopimChat';
     const webWidget = 'webWidget';
+    const talk = 'talk';
     const names = {
       launcher,
       submitTicket,
       helpCenter,
       chat,
-      webWidget
+      webWidget,
+      talk
     };
 
     beforeEach(() => {
@@ -2308,9 +2324,11 @@ describe('mediator', () => {
   describe('talk.availability', () => {
     const launcher = 'launcher';
     const talk = 'talk';
+    const webWidget = 'webWidget';
     const names = {
       launcher,
-      talk
+      talk,
+      webWidget
     };
 
     beforeEach(() => {
@@ -2357,6 +2375,36 @@ describe('mediator', () => {
 
       expect(launcherSub.hide)
         .toHaveBeenCalled();
+    });
+
+    describe('talk suppress', () => {
+      it('shows after activate is called if it is not suppressed', () => {
+        mockTalkSuppressedValue = false;
+        mediator.init({ submitTicket: false, talk: true });
+
+        c.broadcast(`${talk}.enabled`, true);
+        c.broadcast(`${talk}.agentAvailability`, true);
+
+        c.broadcast('.activate');
+        jasmine.clock().tick(0);
+
+        expect(webWidgetSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('does not show after activate is called if it is suppressed', () => {
+        mockTalkSuppressedValue = true;
+        mediator.init({ submitTicket: false, talk: true });
+
+        c.broadcast(`${talk}.enabled`, true);
+        c.broadcast(`${talk}.agentAvailability`, true);
+
+        c.broadcast('.activate');
+        jasmine.clock().tick(0);
+
+        expect(webWidgetSub.show.calls.count())
+          .toEqual(0);
+      });
     });
   });
 });

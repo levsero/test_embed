@@ -41,11 +41,15 @@ state[`${talk}.isAccessible`] = false;
 state[`${talk}.enabled`] = false;
 state[`${talk}.connectionPending`] = true;
 state[`${talk}.isVisible`] = false;
+state[`${talk}.isSuppressed`] = false;
 state['.hideOnClose'] = false;
 state['.activatePending'] = false;
 
 const talkAvailable = () => {
-  return state[`${talk}.isAccessible`] && state[`${talk}.enabled`] && !state[`${talk}.connectionPending`];
+  return !state[`${talk}.isSuppressed`] &&
+          state[`${talk}.isAccessible`] &&
+          state[`${talk}.enabled`] &&
+          !state[`${talk}.connectionPending`];
 };
 
 const helpCenterAvailable = () => {
@@ -166,6 +170,7 @@ function init(embedsAccessible, params = {}) {
   state[`${chat}.connectionPending`] = embedsAccessible.chat && !params.newChat;
   state[`${talk}.isAccessible`] = embedsAccessible.talk;
   state[`${talk}.connectionPending`] = embedsAccessible.talk;
+  state[`${talk}.isSuppressed`] = settings.get('talk.suppress');
   resetActiveEmbed();
 
   const connectionPending = () => state[`${chat}.connectionPending`]

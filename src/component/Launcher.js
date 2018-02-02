@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
     activeEmbed: getActiveEmbed(state),
     chatAvailable: getChatAvailable(state),
     helpCenterAvailable: getHelpCenterEmbed(state) && !settings.get('helpCenter.suppress'),
-    talkAvailable: getTalkAvailable(state),
+    talkAvailable: getTalkAvailable(state) && !settings.get('talk.suppress'),
     callbackEnabled: isCallbackEnabled(state),
     notificationCount: getNotificationCount(state)
   };

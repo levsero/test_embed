@@ -6,6 +6,7 @@ describe('embed.webWidget', () => {
     mockIsMobileBrowser,
     mockHelpCenterSuppressedValue,
     mockContactFormSuppressedValue,
+    mockTalkSuppressedValue,
     mockViewMoreValue,
     mockTicketFormsValue,
     mockAttachmentsEnabledValue,
@@ -35,6 +36,7 @@ describe('embed.webWidget', () => {
     mockIsIE = false;
     mockHelpCenterSuppressedValue = false;
     mockContactFormSuppressedValue = false;
+    mockTalkSuppressedValue = false;
     mockTicketFormsValue = [],
     mockFiltersValue = [],
     mockAttachmentsEnabledValue = true,
@@ -101,6 +103,7 @@ describe('embed.webWidget', () => {
                 attachments: mockAttachmentsEnabledValue
               },
               talk: {
+                suppress: mockTalkSuppressedValue,
                 keyword: mockKeywordValue
               }
             }, value, null);
@@ -602,7 +605,7 @@ describe('embed.webWidget', () => {
       });
     });
 
-    describe('when talk is part of the config', () => {
+    describe('when talk is part of config', () => {
       beforeEach(() => {
         webWidget.create('', { talk: {} });
       });
@@ -615,6 +618,22 @@ describe('embed.webWidget', () => {
       it('calls socketio.mapEventsToActions', () => {
         expect(socketioMapEventsToActionsSpy)
           .toHaveBeenCalled();
+      });
+
+      describe('when talk is suppressed', () => {
+        beforeEach(() => {
+          mockTalkSuppressedValue = true;
+
+          webWidget.create('', { talk: {} });
+          webWidget.render();
+
+          faythe = webWidget.get().instance.getRootComponent();
+        });
+
+        it('assigns talkAvailable to false', () => {
+          expect(faythe.props.talkAvailable)
+            .toBe(false);
+        });
       });
     });
 
