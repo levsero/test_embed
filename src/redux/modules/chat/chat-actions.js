@@ -23,7 +23,9 @@ import {
   SEND_CHAT_FILE,
   SEND_CHAT_FILE_SUCCESS,
   SEND_CHAT_FILE_FAILURE,
-  UPDATE_USER_SETTINGS
+  UPDATE_USER_SETTINGS,
+  NEW_AGENT_MESSAGE_RECEIVED,
+  CHAT_OPENED
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './reducer/chat-screen-types';
 import { getChatVisitor } from 'src/redux/modules/chat/chat-selectors';
@@ -249,4 +251,12 @@ export function saveContactDetails(name, email) {
     dispatch(toggleContactDetailsNotification(false));
     dispatch(setVisitorInfo({ display_name: name, email }));
   };
+}
+
+export function newAgentMessageReceived() {
+  return { type: NEW_AGENT_MESSAGE_RECEIVED };
+}
+
+export function chatOpened() {
+  return { type: CHAT_OPENED };
 }

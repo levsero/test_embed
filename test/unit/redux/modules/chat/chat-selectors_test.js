@@ -18,7 +18,8 @@ describe('chat selectors', () => {
     getCurrentMessage,
     getChatStatus,
     getChatOnline,
-    getAttachmentsEnabled;
+    getAttachmentsEnabled,
+    getNotificationCount;
 
   beforeEach(() => {
     mockery.enable();
@@ -49,6 +50,7 @@ describe('chat selectors', () => {
     getShowContactDetailsNotification = selectors.getShowContactDetailsNotification;
     getCurrentMessage = selectors.getCurrentMessage;
     getAttachmentsEnabled = selectors.getAttachmentsEnabled;
+    getNotificationCount = selectors.getNotificationCount;
   });
 
   describe('getChatNotification', () => {
@@ -579,6 +581,26 @@ describe('chat selectors', () => {
     it('returns the current state of attachmentsEnabled', () => {
       expect(result)
         .toEqual(mockEnabled);
+    });
+  });
+
+  describe('getNotificationCount', () => {
+    let result;
+    const mockChatSettings = {
+      chat: {
+        notification: {
+          count: 123
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getNotificationCount(mockChatSettings);
+    });
+
+    it(`returns the current state of the notification's count`, () => {
+      expect(result)
+        .toEqual(123);
     });
   });
 });
