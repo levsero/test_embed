@@ -6,9 +6,9 @@ import {
   UPDATE_WIDGET_SHOWN,
   IDENTIFY_RECIEVED
 } from './base-action-types';
-import {
-  hideChatNotification,
-  chatOpened } from 'src/redux/modules/chat';
+import { hideChatNotification, chatOpened } from 'src/redux/modules/chat';
+import { emailValid } from 'utility/utils';
+import _ from 'lodash';
 
 export const updateActiveEmbed = (embedName) => {
   return (dispatch) => {
@@ -66,8 +66,14 @@ export const updateWidgetShown = (bool) => {
 };
 
 export const handleIdentifyRecieved = (payload) => {
+  let userDetails = payload;
+
+  if (!emailValid(payload.email)) {
+    userDetails = _.omit(userDetails, 'email');
+  }
+
   return {
     type: IDENTIFY_RECIEVED,
-    payload
+    payload: userDetails
   };
 };

@@ -6,6 +6,7 @@ let actions,
   chatActionTypes,
   hideChatNotificationSpy,
   chatOpenedSpy,
+  mockEmailValidValue,
   mockStore;
 
 const middlewares = [thunk];
@@ -14,6 +15,8 @@ const createMockStore = configureMockStore(middlewares);
 describe('base redux actions', () => {
   beforeEach(() => {
     mockery.enable();
+
+    mockEmailValidValue = true;
 
     hideChatNotificationSpy = jasmine.createSpy('hideChatNotification')
       .and.returnValue({ type: 'widget/chat/HIDE_CHAT_NOTIFICATION' });
@@ -24,7 +27,8 @@ describe('base redux actions', () => {
       'src/redux/modules/chat': {
         hideChatNotification: hideChatNotificationSpy,
         chatOpened: chatOpenedSpy
-      }
+      },
+      'utility/utils': { emailValid: () => mockEmailValidValue }
     });
 
     const actionsPath = buildSrcPath('redux/modules/base');
@@ -224,7 +228,7 @@ describe('base redux actions', () => {
     let action;
     const mockUser = {
       name: 'Harry Potter',
-      email: 'hpotter@hogwarts.com'
+      email: 'hpotter@hogwarts.edu.uk'
     };
 
     beforeEach(() => {
@@ -240,6 +244,25 @@ describe('base redux actions', () => {
     it('passes the value to the payload', () => {
       expect(action.payload)
         .toEqual(mockUser);
+    });
+
+    describe('when the email is not valid', () => {
+      beforeEach(() => {
+        mockUser.email = 'hpotter@hogwarts';
+        mockEmailValidValue = false;
+        mockStore.dispatch(actions.handleIdentifyRecieved(mockUser));
+        action = mockStore.getActions()[1];
+      });
+
+      it('does not pass through the email in payload', () => {
+        expect(action.payload.email)
+          .toBeFalsy();
+      });
+
+      it('still passes through the name in payload', () => {
+        expect(action.payload.name)
+          .toBe(mockUser.name);
+      });
     });
   });
 });
