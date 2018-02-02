@@ -52,6 +52,9 @@ describe('boot', () => {
       },
       'utility/mobileScaling': {
         initMobileScaling: noop
+      },
+      'src/redux/modules/base': {
+        handleIdentifyRecieved: noop
       }
     });
 

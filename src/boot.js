@@ -15,6 +15,7 @@ import { appendMetaTag,
          getMetaTagsByName,
          isMobileBrowser } from 'utility/devices';
 import { initMobileScaling } from 'utility/mobileScaling';
+import { handleIdentifyRecieved } from 'src/redux/modules/base';
 
 import createStore from 'src/redux/createStore';
 
@@ -216,6 +217,8 @@ const getConfig = (win, postRenderQueue) => {
 const setupWidgetApi = (win) => {
   win.zE.identify = (user) => {
     mediator.channel.broadcast('.onIdentify', user);
+
+    reduxStore.dispatch(handleIdentifyRecieved(_.pick(user, ['name', 'email']), _.isString));
   };
   win.zE.logout = () => {
     mediator.channel.broadcast('.logout');

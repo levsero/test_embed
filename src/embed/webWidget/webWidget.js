@@ -369,19 +369,6 @@ function setupMediator() {
     });
   });
 
-  mediator.channel.subscribe('ticketSubmissionForm.prefill', (user) => {
-    waitForRootComponent(() => {
-      const submitTicketForm = getWebWidgetComponent().getSubmitTicketComponent();
-      const formData = _.pickBy(_.pick(user, ['name', 'email']), _.isString);
-
-      if (submitTicketForm) {
-        submitTicketForm.setState({
-          formState: _.extend({}, submitTicketForm.state.formState, formData)
-        });
-      }
-    });
-  });
-
   mediator.channel.subscribe('zopimChat.setUser', (user) => {
     waitForRootComponent(() => {
       if (embed.embedsAvailable.chat) {
