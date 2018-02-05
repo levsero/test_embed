@@ -43,5 +43,19 @@ describe('chat reducer userSettings sound', () => {
           .toEqual(false);
       });
     });
+
+    describe('when a GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS action is dispatched', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
+          payload: { sound: { disabled: false } }
+        });
+      });
+
+      it('updates the state with the inverse sound.disabled property from the payload', () => {
+        expect(state)
+          .toEqual(true);
+      });
+    });
   });
 });

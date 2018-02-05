@@ -11,7 +11,7 @@ import {
   CHAT_BOX_CHANGED,
   SET_VISITOR_INFO_REQUEST_SUCCESS,
   SET_VISITOR_INFO_REQUEST_FAILURE,
-  GET_ACCOUNT_SETTINGS,
+  GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
   CHAT_RATING_REQUEST_SUCCESS,
   CHAT_RATING_REQUEST_FAILURE,
   HIDE_CHAT_NOTIFICATION,
@@ -168,10 +168,8 @@ export function getAccountSettings() {
       dispatch(updateChatScreen(PRECHAT_SCREEN));
     }
 
-    dispatch(handleSoundIconClick({ sound: !accountSettings.sound.disabled }));
-
     dispatch({
-      type: GET_ACCOUNT_SETTINGS,
+      type: GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
       payload: accountSettings
     });
   };

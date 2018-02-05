@@ -52,7 +52,7 @@ describe('chat reducer accountSettings prechatForm', () => {
       });
     });
 
-    describe('when a GET_ACCOUNT_SETTINGS action is dispatched', () => {
+    describe('when a GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS action is dispatched', () => {
       let settings;
       const mockForm = {
         0: { name: 'name', required: true },
@@ -72,7 +72,7 @@ describe('chat reducer accountSettings prechatForm', () => {
         };
 
         state = reducer(initialState, {
-          type: actionTypes.GET_ACCOUNT_SETTINGS,
+          type: actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
           payload: settings
         });
       });

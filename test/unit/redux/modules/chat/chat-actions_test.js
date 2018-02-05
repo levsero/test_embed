@@ -378,23 +378,18 @@ describe('chat redux actions', () => {
   });
 
   describe('getAccountSettings', () => {
-    let updateAccountSettingsAction,
-      updateUserSettingsAction,
-      soundDisabled;
+    let updateAccountSettingsAction;
 
     describe('when the prechat form is required', () => {
       let updateScreenAction;
 
       beforeEach(() => {
-        soundDisabled = false;
         mockAccountSettings = {
-          forms: { pre_chat_form: { required: true } },
-          sound: { disabled: soundDisabled }
+          forms: { pre_chat_form: { required: true } }
         };
         mockStore.dispatch(actions.getAccountSettings());
         updateScreenAction = mockStore.getActions()[0];
-        updateUserSettingsAction = mockStore.getActions()[1];
-        updateAccountSettingsAction = mockStore.getActions()[2];
+        updateAccountSettingsAction = mockStore.getActions()[1];
       });
 
       it('dispatches updateChatScreen action with the prechat screen', () => {
@@ -405,19 +400,9 @@ describe('chat redux actions', () => {
           });
       });
 
-      it('dispatches an action of type SOUND_ICON_CLICKED', () => {
-        expect(updateUserSettingsAction.type)
-          .toBe(actionTypes.SOUND_ICON_CLICKED);
-      });
-
-      it('has the inverted value of sound settings in the payload', () => {
-        expect(updateUserSettingsAction.payload)
-          .toEqual({ sound: !soundDisabled });
-      });
-
-      it('dispatches an action of type GET_ACCOUNT_SETTINGS', () => {
+      it('dispatches an action of type GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS', () => {
         expect(updateAccountSettingsAction.type)
-          .toBe(actionTypes.GET_ACCOUNT_SETTINGS);
+          .toBe(actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS);
       });
 
       it('has the value returned from zChat._getAccountSettings() in the payload', () => {
@@ -428,29 +413,16 @@ describe('chat redux actions', () => {
 
     describe('when the prechat form is not required', () => {
       beforeEach(() => {
-        soundDisabled = true;
         mockAccountSettings = {
-          forms: { pre_chat_form: { required: false } },
-          sound: { disabled: soundDisabled }
+          forms: { pre_chat_form: { required: false } }
         };
         mockStore.dispatch(actions.getAccountSettings());
-        updateUserSettingsAction = mockStore.getActions()[0];
-        updateAccountSettingsAction = mockStore.getActions()[1];
+        updateAccountSettingsAction = mockStore.getActions()[0];
       });
 
-      it('dispatches an action of type SOUND_ICON_CLICKED', () => {
-        expect(updateUserSettingsAction.type)
-          .toBe(actionTypes.SOUND_ICON_CLICKED);
-      });
-
-      it('has the inverted value of sound settings in the payload', () => {
-        expect(updateUserSettingsAction.payload)
-          .toEqual({ sound: !soundDisabled });
-      });
-
-      it('dispatches an action of type GET_ACCOUNT_SETTINGS', () => {
+      it('dispatches an action of type GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS', () => {
         expect(updateAccountSettingsAction.type)
-          .toEqual(actionTypes.GET_ACCOUNT_SETTINGS);
+          .toEqual(actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS);
       });
 
       it('has the value returned from zChat._getAccountSettings() in the payload', () => {
