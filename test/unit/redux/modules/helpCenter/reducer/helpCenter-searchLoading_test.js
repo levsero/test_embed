@@ -101,4 +101,19 @@ describe('helpCenter reducer searchLoading', () => {
         .toEqual(false);
     });
   });
+
+  describe('when an CONTEXTUAL_SEARCH_REQUEST_FAILURE action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(initialState, {
+        type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_FAILURE
+      });
+    });
+
+    it('sets the state to false', () => {
+      expect(state)
+        .toEqual(false);
+    });
+  });
 });

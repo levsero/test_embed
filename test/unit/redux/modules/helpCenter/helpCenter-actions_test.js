@@ -287,9 +287,9 @@ describe('helpCenter redux actions', () => {
           action = mockStore.getActions()[1];
         });
 
-        it('dispatches an action of type SEARCH_REQUEST_FAILURE', () => {
+        it('dispatches an action of type CONTEXTUAL_SEARCH_REQUEST_FAILURE', () => {
           expect(action.type)
-            .toEqual(actionTypes.SEARCH_REQUEST_FAILURE);
+            .toEqual(actionTypes.CONTEXTUAL_SEARCH_REQUEST_FAILURE);
         });
       });
     });

@@ -102,6 +102,30 @@ describe('helpCenter reducer searchTerm', () => {
     });
   });
 
+  describe('when an CONTEXTUAL_SEARCH_REQUEST_FAILURE action is dispatched', () => {
+    let state;
+    const initialStateObj = {
+      current: 'foobar',
+      previous: ''
+    };
+
+    beforeEach(() => {
+      state = reducer(initialStateObj, {
+        type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_FAILURE
+      });
+    });
+
+    it('sets the previous state to the current state', () => {
+      expect(state.previous)
+        .toEqual(initialStateObj.current);
+    });
+
+    it('does not change the current state', () => {
+      expect(state.current)
+        .toEqual(initialStateObj.current);
+    });
+  });
+
   describe('when an SEARCH_BAR_CHANGED action is dispatched', () => {
     let state;
     const initialStateObj = {

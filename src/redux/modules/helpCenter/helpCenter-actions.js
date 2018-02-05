@@ -11,6 +11,7 @@ import { SEARCH_REQUEST_SENT,
          SEARCH_REQUEST_FAILURE,
          CONTEXTUAL_SEARCH_REQUEST_SENT,
          CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
+         CONTEXTUAL_SEARCH_REQUEST_FAILURE,
          ARTICLE_CLICKED,
          SEARCH_BAR_CHANGED,
          UPDATE_VIEW_MORE_CLICKED,
@@ -91,7 +92,7 @@ export function performContextualSearch(query, done = () => {}, fail = () => {})
       done(response);
     };
     const failFn = (error) => {
-      dispatch({ type: SEARCH_REQUEST_FAILURE });
+      dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_FAILURE });
       fail(error);
     };
 
