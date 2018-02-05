@@ -676,7 +676,28 @@ Moves the Web Widget vertically and horizontally. The `offset` property consists
 <script type="text/javascript">
 window.zESettings = {
   webWidget: {
-    offset: { horizontal: '100px', vertical: '150px' }
+    offset: {
+      horizontal: '100px',
+      vertical: '150px'
+    }
+  }
+};
+</script>
+```
+
+To move the Web Widget vertically and horizontally **on mobile**, simply add a `mobile` property inside the above `offset` property which should consist of `horizontal` and `vertical` properties.
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    offset: {
+      horizontal: '100px',
+      vertical: '150px',
+      mobile: {
+        horizontal: '230px',
+        vertical: '100px'
+      }
+    }
   }
 };
 </script>

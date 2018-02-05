@@ -340,24 +340,26 @@ export class Frame extends Component {
     const visibilityStyles = (visible && !hiddenByZoom) ? null : hiddenStyle;
 
     // Position
-    const offset = settings.get('offset');
     const isMobile = isMobileBrowser();
-    const horizontalOffset = (isMobile || !offset) ? 0 : offset.horizontal;
-    const verticalOffset = (isMobile || !offset) ? 0 : offset.vertical;
+    const offset = settings.get('offset');
+    const mobileOffset = _.get(offset, 'mobile', {});
+    const horizontalOffset = isMobile ? _.get(mobileOffset, 'horizontal', 0) : _.get(offset, 'horizontal', 0);
+    const verticalOffset = isMobile ? _.get(mobileOffset, 'vertical', 0) : _.get(offset, 'vertical', 0);
     const horizontalPos = settings.get('position.horizontal') || this.props.position;
     const verticalPos = isPositionTop ? 'top' : 'bottom';
-    const posObj = {
+
+    const posObj = (isMobile && this.props.name === 'webWidget') ? {} : {
       [horizontalPos]: horizontalOffset,
       [verticalPos]: verticalOffset
     };
 
-    return _.extend(
+    return _.extend({},
       baseStyles,
-      posObj,
       frameStyle,
       modifiedStyles,
       iframeDimensions,
-      visibilityStyles
+      visibilityStyles,
+      posObj
     );
   }
 

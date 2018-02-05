@@ -935,20 +935,293 @@ describe('Frame', () => {
 
     describe('offset', () => {
       let frame;
+      const desktopOnlyOffset = {
+        offset: {
+          vertical: 31,
+          horizontal: 52
+        }
+      };
+      const mobileOnlyOffset = {
+        offset: {
+          mobile: {
+            horizontal: 100,
+            vertical: 200
+          }
+        }
+      };
+      const desktopAndMobileOffset = {
+        offset: {
+          horizontal: 101,
+          vertical: 102,
+          mobile: {
+            horizontal: 100,
+            vertical: 200
+          }
+        }
+      };
 
-      beforeEach(() => {
-        mockSettingsValue = { offset: { vertical: 31, horizontal: 52 } };
-        Frame = requireUncached(FramePath).Frame;
+      describe('when on desktop', () => {
+        beforeEach(() => {
+          mockIsMobileBrowserValue = false;
+        });
 
-        frame = domRender(<Frame>{mockChild}</Frame>);
+        describe('when on launcher', () => {
+          beforeEach(() => {
+            Frame = requireUncached(FramePath).Frame;
+            frame = domRender(<Frame name='launcher'>{mockChild}</Frame>);
+          });
+
+          describe('when there is a desktop offset only', () => {
+            beforeEach(() => {
+              mockSettingsValue = desktopOnlyOffset;
+            });
+
+            it('should apply the customized desktop offsets', () => {
+              expect(frame.computeIframeStyle().bottom)
+                .toBe(31);
+
+              expect(frame.computeIframeStyle().right)
+                .toBe(52);
+            });
+          });
+
+          describe('when there is a mobile offset only', () => {
+            beforeEach(() => {
+              mockSettingsValue = mobileOnlyOffset;
+            });
+
+            it('should not apply customized mobile offsets', () => {
+              expect(frame.computeIframeStyle().bottom)
+                .toBe(0);
+
+              expect(frame.computeIframeStyle().right)
+                .toBe(0);
+            });
+          });
+
+          describe('when there are desktop and mobile offsets', () => {
+            beforeEach(() => {
+              mockSettingsValue = desktopAndMobileOffset;
+            });
+
+            it('should apply only customized desktop offsets', () => {
+              expect(frame.computeIframeStyle().bottom)
+                .toBe(102);
+
+              expect(frame.computeIframeStyle().right)
+                .toBe(101);
+            });
+          });
+
+          describe('when there is no offset', () => {
+            beforeEach(() => {
+              mockSettingsValue = {};
+            });
+
+            it('should not apply any offsets', () => {
+              expect(frame.computeIframeStyle().bottom)
+                .toBe(0);
+
+              expect(frame.computeIframeStyle().right)
+                .toBe(0);
+            });
+          });
+        });
+
+        describe('when on Web Widget', () => {
+          beforeEach(() => {
+            Frame = requireUncached(FramePath).Frame;
+            frame = domRender(<Frame name='webWidget'>{mockChild}</Frame>);
+          });
+
+          describe('where there is a desktop offset only', () => {
+            beforeEach(() => {
+              mockSettingsValue = desktopOnlyOffset;
+            });
+
+            it('should apply the customized desktop offsets', () => {
+              expect(frame.computeIframeStyle().bottom)
+                .toBe(31);
+
+              expect(frame.computeIframeStyle().right)
+                .toBe(52);
+            });
+          });
+
+          describe('when there is a mobile offset only', () => {
+            beforeEach(() => {
+              mockSettingsValue = mobileOnlyOffset;
+            });
+
+            it('should not apply customized mobile offsets', () => {
+              expect(frame.computeIframeStyle().bottom)
+                .toBe(0);
+
+              expect(frame.computeIframeStyle().right)
+                .toBe(0);
+            });
+          });
+
+          describe('where there are desktop and mobile offsets', () => {
+            beforeEach(() => {
+              mockSettingsValue = desktopAndMobileOffset;
+            });
+
+            it('should apply only customized desktop offsets', () => {
+              expect(frame.computeIframeStyle().bottom)
+                .toBe(102);
+
+              expect(frame.computeIframeStyle().right)
+                .toBe(101);
+            });
+          });
+
+          describe('when there is no offset', () => {
+            beforeEach(() => {
+              mockSettingsValue = {};
+            });
+
+            it('should not apply any offsets', () => {
+              expect(frame.computeIframeStyle().bottom)
+                .toBe(0);
+
+              expect(frame.computeIframeStyle().right)
+                .toBe(0);
+            });
+          });
+        });
       });
 
-      it('should apply the offsets', () => {
-        expect(frame.computeIframeStyle().bottom)
-          .toBe(31);
+      describe('when on mobile', () => {
+        beforeEach(() => {
+          mockIsMobileBrowserValue = true;
+        });
 
-        expect(frame.computeIframeStyle().right)
-          .toBe(52);
+        describe('when on launcher', () => {
+          beforeEach(() => {
+            Frame = requireUncached(FramePath).Frame;
+            frame = domRender(<Frame name='launcher'>{mockChild}</Frame>);
+          });
+
+          describe('when there is a desktop offset only', () => {
+            beforeEach(() => {
+              mockSettingsValue = desktopOnlyOffset;
+            });
+
+            it('should not apply the customized desktop offsets', () => {
+              expect(frame.computeIframeStyle().bottom)
+                .toBe(0);
+
+              expect(frame.computeIframeStyle().right)
+                .toBe(0);
+            });
+          });
+
+          describe('when there is a mobile offset only', () => {
+            beforeEach(() => {
+              mockSettingsValue = mobileOnlyOffset;
+            });
+
+            it('should apply customized mobile offsets', () => {
+              expect(frame.computeIframeStyle().bottom)
+                .toBe(200);
+
+              expect(frame.computeIframeStyle().right)
+                .toBe(100);
+            });
+          });
+
+          describe('where there are desktop and mobile offsets', () => {
+            beforeEach(() => {
+              mockSettingsValue = desktopAndMobileOffset;
+            });
+
+            it('should apply only customized mobile offsets', () => {
+              expect(frame.computeIframeStyle().bottom)
+                .toBe(200);
+
+              expect(frame.computeIframeStyle().right)
+                .toBe(100);
+            });
+          });
+
+          describe('no offset', () => {
+            beforeEach(() => {
+              mockSettingsValue = {};
+            });
+
+            it('should not apply any offsets', () => {
+              expect(frame.computeIframeStyle().bottom)
+                .toBe(0);
+
+              expect(frame.computeIframeStyle().right)
+                .toBe(0);
+            });
+          });
+        });
+
+        describe('when on Web Widget', () => {
+          beforeEach(() => {
+            Frame = requireUncached(FramePath).Frame;
+            frame = domRender(<Frame name='webWidget'>{mockChild}</Frame>);
+          });
+
+          describe('when there is a desktop offset only', () => {
+            beforeEach(() => {
+              mockSettingsValue = desktopOnlyOffset;
+            });
+
+            it('should not apply the customized desktop offsets', () => {
+              expect(frame.computeIframeStyle().bottom)
+                .toBe(undefined);
+
+              expect(frame.computeIframeStyle().right)
+                .toBe(undefined);
+            });
+          });
+
+          describe('where there is a mobile offset only', () => {
+            beforeEach(() => {
+              mockSettingsValue = mobileOnlyOffset;
+            });
+
+            it('should not apply the customized mobile offsets', () => {
+              expect(frame.computeIframeStyle().bottom)
+                .toBe(undefined);
+
+              expect(frame.computeIframeStyle().right)
+                .toBe(undefined);
+            });
+          });
+
+          describe('when there are desktop and mobile offsets', () => {
+            beforeEach(() => {
+              mockSettingsValue = desktopAndMobileOffset;
+            });
+
+            it('should not apply any customized offsets', () => {
+              expect(frame.computeIframeStyle().bottom)
+                .toBe(undefined);
+
+              expect(frame.computeIframeStyle().right)
+                .toBe(undefined);
+            });
+          });
+
+          describe('when there is no offset', () => {
+            beforeEach(() => {
+              mockSettingsValue = {};
+            });
+
+            it('should not apply any offsets', () => {
+              expect(frame.computeIframeStyle().bottom)
+                .toBe(undefined);
+
+              expect(frame.computeIframeStyle().right)
+                .toBe(undefined);
+            });
+          });
+        });
       });
     });
 
