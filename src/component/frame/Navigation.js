@@ -19,7 +19,8 @@ class Navigation extends Component {
     handleCloseClick: PropTypes.func,
     hideCloseButton: PropTypes.bool,
     backButtonVisible: PropTypes.bool,
-    useBackButton: PropTypes.bool
+    useBackButton: PropTypes.bool,
+    newDesign: PropTypes.bool
   };
 
   static defaultProps = {
@@ -28,7 +29,8 @@ class Navigation extends Component {
     handleCloseClick: () => {},
     hideCloseButton: false,
     backButtonVisible: false,
-    useBackButton: false
+    useBackButton: false,
+    newDesign: false
   };
 
   constructor(props) {
@@ -65,6 +67,8 @@ class Navigation extends Component {
   }
 
   render = () => {
+    const closeIcon = this.props.newDesign ? 'Icon--dash' : 'Icon--close';
+
     return (
       <div>
         {this.renderNavButton({
@@ -75,7 +79,7 @@ class Navigation extends Component {
         })}
         {this.renderNavButton({
           onClick: this.props.handleCloseClick,
-          icon: 'Icon--close',
+          icon: closeIcon,
           position: 'right',
           isVisible: this.state.showCloseButton
         })}

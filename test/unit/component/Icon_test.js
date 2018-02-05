@@ -21,6 +21,7 @@ describe('Icon component', function() {
       'icons/widget-icon_circle_tick.svg': DummyIcon,
       'icons/widget-icon_clearInput.svg': DummyIcon,
       'icons/widget-icon_close.svg': DummyIcon,
+      'icons/widget-icon_dash.svg': DummyIcon,
       'icons/widget-icon_concierge.svg': DummyIcon,
       'icons/widget-icon_ellipsis.svg': DummyIcon,
       'icons/widget-icon_endChat.svg': DummyIcon,
