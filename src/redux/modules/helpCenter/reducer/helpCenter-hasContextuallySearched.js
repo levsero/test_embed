@@ -1,6 +1,5 @@
 import {
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
-  CONTEXTUAL_SEARCH_REQUEST_SUCCESS_NO_RESULTS,
   SEARCH_REQUEST_SUCCESS
 } from '../helpCenter-action-types';
 
@@ -12,7 +11,6 @@ const hasContextuallySearched = (state = initialState, action) => {
   switch (type) {
     case CONTEXTUAL_SEARCH_REQUEST_SUCCESS:
       return true;
-    case CONTEXTUAL_SEARCH_REQUEST_SUCCESS_NO_RESULTS:
     case SEARCH_REQUEST_SUCCESS:
       return false;
     default:

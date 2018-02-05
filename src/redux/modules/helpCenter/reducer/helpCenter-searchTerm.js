@@ -1,7 +1,6 @@
 import {
   SEARCH_REQUEST_SUCCESS,
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
-  CONTEXTUAL_SEARCH_REQUEST_SUCCESS_NO_RESULTS,
   SEARCH_BAR_CHANGED,
   SEARCH_REQUEST_FAILURE
 } from '../helpCenter-action-types';
@@ -17,7 +16,6 @@ const searchTerm = (state = initialState, action) => {
   switch (type) {
     case SEARCH_REQUEST_SUCCESS:
     case CONTEXTUAL_SEARCH_REQUEST_SUCCESS:
-    case CONTEXTUAL_SEARCH_REQUEST_SUCCESS_NO_RESULTS:
     case SEARCH_REQUEST_FAILURE:
       return {
         ...state,

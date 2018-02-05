@@ -11,7 +11,6 @@ import { SEARCH_REQUEST_SENT,
          SEARCH_REQUEST_FAILURE,
          CONTEXTUAL_SEARCH_REQUEST_SENT,
          CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
-         CONTEXTUAL_SEARCH_REQUEST_SUCCESS_NO_RESULTS,
          ARTICLE_CLICKED,
          SEARCH_BAR_CHANGED,
          UPDATE_VIEW_MORE_CLICKED,
@@ -87,9 +86,7 @@ export function performContextualSearch(query, done = () => {}, fail = () => {})
 
   return (dispatch) => {
     const doneFn = (response) => {
-      (response.body.count === 0)
-        ? dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_SUCCESS_NO_RESULTS })
-        : dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_SUCCESS, payload: formatResults(response) });
+      dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_SUCCESS, payload: formatResults(response) });
 
       done(response);
     };

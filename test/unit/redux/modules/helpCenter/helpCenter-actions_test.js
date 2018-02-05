@@ -258,41 +258,23 @@ describe('helpCenter redux actions', () => {
         mockResponse;
 
       describe('when the request is successful', () => {
-        describe('when the response body contains no items', () => {
-          beforeEach(() => {
-            const mockResponse = { body: { count: 0 } };
-            const searchRequest = httpPostSpy.calls.mostRecent().args;
+        beforeEach(() => {
+          const searchRequest = httpPostSpy.calls.mostRecent().args;
 
-            callbackFn = searchRequest[0].callbacks.done;
-            callbackFn(mockResponse);
-            action = mockStore.getActions()[1];
-          });
-
-          it('dispatches an action of type CONTEXTUAL_SEARCH_REQUEST_SUCCESS_NO_RESULTS', () => {
-            expect(action.type)
-              .toEqual(actionTypes.CONTEXTUAL_SEARCH_REQUEST_SUCCESS_NO_RESULTS);
-          });
+          mockResponse = { body: { count: 1 } };
+          callbackFn = searchRequest[0].callbacks.done;
+          callbackFn(mockResponse);
+          action = mockStore.getActions()[1];
         });
 
-        describe('when the response body contains at least a single item', () => {
-          beforeEach(() => {
-            const searchRequest = httpPostSpy.calls.mostRecent().args;
+        it('dispatches an action of type CONTEXTUAL_SEARCH_REQUEST_SUCCESS', () => {
+          expect(action.type)
+            .toEqual(actionTypes.CONTEXTUAL_SEARCH_REQUEST_SUCCESS);
+        });
 
-            mockResponse = { body: { count: 1 } };
-            callbackFn = searchRequest[0].callbacks.done;
-            callbackFn(mockResponse);
-            action = mockStore.getActions()[1];
-          });
-
-          it('dispatches an action of type CONTEXTUAL_SEARCH_REQUEST_SUCCESS', () => {
-            expect(action.type)
-              .toEqual(actionTypes.CONTEXTUAL_SEARCH_REQUEST_SUCCESS);
-          });
-
-          it('dispatches an action with a payload containing the count', () => {
-            expect(action.payload.resultsCount)
-              .toEqual(1);
-          });
+        it('dispatches an action with a payload containing the count', () => {
+          expect(action.payload.resultsCount)
+            .toEqual(1);
         });
       });
 
