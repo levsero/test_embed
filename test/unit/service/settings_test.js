@@ -38,7 +38,14 @@ describe('settings', () => {
         localeFallbacks: []
       },
       margin: 15,
-      offset: { horizontal: 0, vertical: 0 },
+      offset: {
+        horizontal: 0,
+        vertical: 0,
+        mobile: {
+          horizontal: 0,
+          vertical: 0
+        }
+      },
       viaId: 48,
       zIndex: 999999
     };

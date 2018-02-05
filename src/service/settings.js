@@ -35,6 +35,8 @@ const optionWhitelist = {
     'launcher.label',
     'offset.horizontal',
     'offset.vertical',
+    'offset.mobile.horizontal',
+    'offset.mobile.vertical',
     'position.horizontal',
     'position.vertical',
     'talk.keyword',
@@ -68,7 +70,11 @@ const webWidgetStoreDefaults = {
   margin: 15,
   offset: {
     horizontal: 0,
-    vertical: 0
+    vertical: 0,
+    mobile: {
+      horizontal: 0,
+      vertical: 0
+    }
   },
   talk: {
     suppress: false
