@@ -15,7 +15,9 @@ describe('ScrollContainer component', () => {
           footerShadow: 'footerShadowClasses',
           content: 'contentClasses',
           contentBigheader: 'contentBigheaderClasses',
-          userHeader: 'userHeaderClassesYo'
+          userHeader: 'userHeaderClassesYo',
+          container: 'containerClasses',
+          containerDesktop: 'containerDesktopClasses'
         }
       },
       'utility/globals': {
@@ -40,6 +42,20 @@ describe('ScrollContainer component', () => {
 
     expect(container.props.children[1].props.className)
       .toMatch('contentMobileClasses');
+  });
+
+  it('has "container" classes when fullscreen is true', () => {
+    const container = shallowRender(<ScrollContainer fullscreen={true} />);
+
+    expect(container.props.className)
+      .toMatch('containerClasses');
+  });
+
+  it('has "containerDesktop" classes when fullscreen is false', () => {
+    const container = shallowRender(<ScrollContainer />);
+
+    expect(container.props.className)
+      .toMatch('containerDesktopClasses');
   });
 
   describe('when headerContent is not null', () => {

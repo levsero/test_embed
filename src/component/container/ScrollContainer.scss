@@ -8,8 +8,12 @@
 
 .container {
   composes: u-nbfc from global;
-  border-radius: #{8/$font-size}rem;
   box-sizing: border-box;
+}
+
+.containerDesktop {
+  composes: container;
+  border-radius: #{8/$font-size}rem;
 }
 
 .header {

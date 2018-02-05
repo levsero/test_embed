@@ -116,9 +116,10 @@ export class ScrollContainer extends Component {
     const mobileTitleClasses = fullscreen ? styles.titleMobile : '';
     const bigHeaderClasses = headerContent && fullscreen ? styles.contentBigheader : '';
     const userHeaderClasses = newDesign ? styles.userHeader : '';
+    const scrollContainerClasses = fullscreen ? styles.container : styles.containerDesktop;
 
     return (
-      <div className={styles.container}>
+      <div className={scrollContainerClasses}>
         <header ref={(el) => {this.header = el;}}
           className={`${styles.header} ${userHeaderClasses}`}>
           <div className={`${styles.title} ${mobileTitleClasses}`}>
