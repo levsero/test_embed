@@ -321,7 +321,7 @@ export class HelpCenterArticle extends Component {
     const mobileClasses = this.props.fullscreen ? styles.contentMobile : '';
 
     return (
-      <div className={`${styles.content} u-userLinkColor ${mobileClasses}`} ref='userContent'>
+      <div className={`${styles.content} ${mobileClasses}`} ref='userContent'>
         <div className={styles.title}>{this.props.activeArticle.title}</div>
         <div
           ref='article'

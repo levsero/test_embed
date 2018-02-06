@@ -26,6 +26,8 @@
 }
 
 .content {
+  composes: u-userLinkColor from global;
+
   word-break: break-word;
   line-height: 1.5;
   font-size: #{13/$font-size}rem;
