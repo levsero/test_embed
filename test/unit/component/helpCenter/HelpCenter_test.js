@@ -397,7 +397,7 @@ describe('HelpCenter component', () => {
         .toBeFalsy();
 
       expect(recentCallArgs.origin)
-        .toEqual('web_widget');
+        .toBeFalsy();
 
       mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadNoResults);
 
