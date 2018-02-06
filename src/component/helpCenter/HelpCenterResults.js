@@ -32,7 +32,7 @@ export class HelpCenterResults extends Component {
   hasInitialSearchResults = () => {
     const { articles } = this.props;
 
-    return articles.length > 0 && articles.length < 4;
+    return articles.length > 0;
   }
 
   renderResultRow = (article, index) => {
@@ -122,7 +122,7 @@ export class HelpCenterResults extends Component {
     const legend = !(this.props.searchFailed || this.props.articles.length === 0)
                  ? this.renderLegend()
                  : null;
-    const results = this.props.articles.length > 0
+    const results = hasInitialSearchResults
                   ? this.renderResults()
                   : this.renderNoResults();
 

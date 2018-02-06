@@ -204,7 +204,7 @@ class HelpCenter extends Component {
 
     _.extend(query, {
       locale: i18n.getLocale(),
-      per_page: this.props.resultsPerPage
+      per_page: maximumSearchResults
     });
 
     this.performContextualSearch(query, successFn);
@@ -344,9 +344,8 @@ class HelpCenter extends Component {
   }
 
   renderHelpCenterDesktop = (buttonLabel) => {
-    const noResults = 0;
     const shadowVisible = this.props.articleViewActive ||
-                          this.props.resultsCount > noResults;
+                          this.props.resultsCount > 0;
 
     return (
       <HelpCenterDesktop

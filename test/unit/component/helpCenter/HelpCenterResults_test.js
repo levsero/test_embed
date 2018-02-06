@@ -22,6 +22,7 @@ describe('HelpCenterResults component', () => {
         locals: {
           noResults: 'noResultsClasses',
           list: 'listClasses',
+          listMobile: 'listMobileClasses',
           legend: 'legendClasses',
           resultsBorder: 'borderClasses',
           resultsPadding: 'resultsPaddingClasses',
@@ -122,7 +123,67 @@ describe('HelpCenterResults component', () => {
   });
 
   describe('#renderResults', () => {
-    // FIXME
+    let result;
+
+    describe('when fullscreen is true', () => {
+      beforeEach(() => {
+        component = instanceRender(<HelpCenterResults fullscreen={true} />);
+        result = component.renderResults();
+      });
+
+      it('renders with listMobile styles', () => {
+        expect(result.props.className)
+          .toContain('listMobileClasses');
+      });
+    });
+
+    describe('when fullscreen is false', () => {
+      beforeEach(() => {
+        component = instanceRender(<HelpCenterResults />);
+        result = component.renderResults();
+      });
+
+      it('does not render listMobile styles', () => {
+        expect(result.props.className)
+          .not.toContain('listMobileClasses');
+      });
+    });
+
+    describe('when either contactButton is not shown or search has not been initiated', () => {
+      beforeEach(() => {
+        const mockArticles = [{ id: 'terence' }, { id: 'fakeIdStringYesIknow' }];
+
+        component = instanceRender(
+          <HelpCenterResults
+            showContactButton={true}
+            articles={mockArticles} />
+        );
+        result = component.renderResults();
+      });
+
+      it('renders with listBottom styles', () => {
+        expect(result.props.className)
+          .toContain('listBottomClasses');
+      });
+    });
+
+    describe('when contactButton is not shown and search is initiated', () => {
+      beforeEach(() => {
+        const mockArticles = [{ id: '32423' }];
+
+        component = instanceRender(
+          <HelpCenterResults
+            showContactButton={false}
+            articles={mockArticles} />
+        );
+        result = component.renderResults();
+      });
+
+      it('does not render with listBottom styles', () => {
+        expect(result.props.className)
+          .not.toContain('listBottomClasses');
+      });
+    });
   });
 
   describe('#renderNoResults', () => {
