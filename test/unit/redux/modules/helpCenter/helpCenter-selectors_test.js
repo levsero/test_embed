@@ -8,7 +8,6 @@ describe('helpCenter selectors', () => {
     getHasContextuallySearched,
     getActiveArticle,
     getResultsCount,
-    getResultsPerPage,
     getArticles,
     getArticleViewActive,
     getTotalUserSearches,
@@ -33,7 +32,6 @@ describe('helpCenter selectors', () => {
     getHasContextuallySearched = selectors.getHasContextuallySearched;
     getActiveArticle = selectors.getActiveArticle;
     getResultsCount = selectors.getResultsCount;
-    getResultsPerPage = selectors.getResultsPerPage;
     getArticles = selectors.getArticles;
     getArticleViewActive = selectors.getArticleViewActive;
     getTotalUserSearches = selectors.getTotalUserSearches;
@@ -341,24 +339,6 @@ describe('helpCenter selectors', () => {
     it('returns the current state of resultsCount', () => {
       expect(result)
         .toEqual(5);
-    });
-  });
-
-  describe('resultsPerPage', () => {
-    let result;
-    const mockHelpCenterState = {
-      helpCenter: {
-        resultsPerPage: 3
-      }
-    };
-
-    beforeEach(() => {
-      result = getResultsPerPage(mockHelpCenterState);
-    });
-
-    it('returns the current state of resultsPerPage', () => {
-      expect(result)
-        .toEqual(3);
     });
   });
 

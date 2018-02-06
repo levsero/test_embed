@@ -27,15 +27,13 @@ import { getActiveArticle,
          getHasSearched,
          getHasContextuallySearched,
          getArticles,
-         getResultsPerPage,
          getArticleViewActive,
          getRestrictedImages,
          getChannelChoiceShown,
          getSearchFieldValue } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 
-// FIXME: Put this in HC constants file
-const minimumSearchResults = 3;
+const maximumSearchResults = 9;
 
 const mapStateToProps = (state) => {
   return {
@@ -50,7 +48,6 @@ const mapStateToProps = (state) => {
     callbackEnabled: isCallbackEnabled(state),
     articleViewActive: getArticleViewActive(state),
     articles: getArticles(state),
-    resultsPerPage: getResultsPerPage(state),
     restrictedImages: getRestrictedImages(state),
     channelChoiceShown: getChannelChoiceShown(state),
     searchFieldValue: getSearchFieldValue(state)
@@ -96,7 +93,6 @@ class HelpCenter extends Component {
     notification: PropTypes.object.isRequired,
     resultsCount: PropTypes.number.isRequired,
     articles: PropTypes.array.isRequired,
-    resultsPerPage: PropTypes.number.isRequired,
     hasSearched: PropTypes.bool.isRequired,
     handleOriginalArticleClicked: PropTypes.func.isRequired,
     articleViewActive: PropTypes.bool.isRequired,
@@ -130,7 +126,6 @@ class HelpCenter extends Component {
     handleArticleClick: () => {},
     updateSearchTerm: () => {},
     articles: [],
-    resultsPerPage: minimumSearchResults,
     articleViewActive: false,
     handleOriginalArticleClicked: () => {},
     hasSearched: false,
@@ -226,7 +221,7 @@ class HelpCenter extends Component {
     const query = {
       locale: i18n.getLocale(),
       query: searchTerm,
-      per_page: this.props.resultsPerPage, // eslint camelcase:0
+      per_page: maximumSearchResults,
       origin: 'web_widget'
     };
 
@@ -349,8 +344,9 @@ class HelpCenter extends Component {
   }
 
   renderHelpCenterDesktop = (buttonLabel) => {
+    const noResults = 0;
     const shadowVisible = this.props.articleViewActive ||
-                          this.props.resultsCount > minimumSearchResults;
+                          this.props.resultsCount > noResults;
 
     return (
       <HelpCenterDesktop

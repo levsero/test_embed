@@ -459,7 +459,7 @@ describe('HelpCenter component', () => {
       const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
 
       expect(recentCallArgs.per_page)
-        .toEqual(3);
+        .toEqual(9);
     });
 
     it('should not call focusField', () => {
@@ -789,7 +789,7 @@ describe('HelpCenter component', () => {
       expect(recentCallArgs[0])
         .toEqual(jasmine.objectContaining({
           query: searchTerm,
-          per_page: 3,
+          per_page: 9,
           origin: 'web_widget'
         }));
     });
