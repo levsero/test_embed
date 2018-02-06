@@ -37,7 +37,8 @@ const icons = {
   'Icon--tick': require('icons/widget-icon_tick.svg'),
   'Icon--zendesk': require('icons/widget-icon_zendesk.svg'),
   'Icon--sound-on': require('icons/widget-icon_sound_on.svg'),
-  'Icon--sound-off': require('icons/widget-icon_sound_off.svg')
+  'Icon--sound-off': require('icons/widget-icon_sound_off.svg'),
+  'Icon--link-external': require('zd-svg-icons/src/14-link-external.svg')
 };
 
 export class Icon extends Component {
