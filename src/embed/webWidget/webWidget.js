@@ -31,6 +31,8 @@ import { cappedTimeoutCall,
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { setVisitorInfo } from 'src/redux/modules/chat';
 import { resetTalkScreen } from 'src/redux/modules/talk';
+import { getTicketForms,
+         getTicketFields } from 'src/redux/modules/submitTicket';
 
 import WebWidget from 'component/webWidget/WebWidget';
 
@@ -50,29 +52,6 @@ let contextualSearchOptions = {};
 let cancelTargetHandler = null;
 let resetEmbedOnShow = false;
 
-const getWithSpinner = (path, locale, doneFn) => {
-  const httpData = {
-    method: 'get',
-    path,
-    timeout: 20000,
-    locale,
-    callbacks: {
-      done(res) { doneFn(JSON.parse(res.text)); },
-      fail() { getWebWidgetComponent().getSubmitTicketComponent().setLoading(false); }
-    }
-  };
-
-  waitForRootComponent(() => {
-    getWebWidgetComponent().getSubmitTicketComponent().setLoading(true);
-
-    // For setTimeout and invocation of waitForRootComponent,
-    // defer and wait for rootComponent before processing statements
-    // in order execute after setLoading is completed
-    setTimeout(() => {
-      http.get(httpData, false);
-    }, 0);
-  });
-};
 const showCloseButton = (show = true) => {
   embed.instance.getChild().showCloseButton(show);
 };
@@ -154,7 +133,7 @@ function create(name, config = {}, reduxStore = {}) {
   const chatAvailable = !!config.zopimChat;
   const channelChoice = settings.get('contactOptions').enabled && submitTicketAvailable;
   const submitTicketSettings = submitTicketAvailable
-                             ? setUpSubmitTicket(config.ticketSubmissionForm)
+                             ? setUpSubmitTicket(config.ticketSubmissionForm, reduxStore)
                              : {};
   const helpCenterSettings = helpCenterAvailable
                            ? setUpHelpCenter(config.helpCenterForm)
@@ -342,11 +321,10 @@ function setupMediator() {
 
   mediator.channel.subscribe('webWidget.refreshLocale', () => {
     waitForRootComponent(() => {
+      const store = embed.store;
       const {
         ticketForms,
-        customFields = {},
-        loadTicketForms,
-        loadTicketFields } = embed.submitTicketSettings;
+        customFields = {} } = embed.submitTicketSettings;
 
       embed.instance.updateFrameLocale();
       getWebWidgetComponent().forceUpdate();
@@ -355,9 +333,9 @@ function setupMediator() {
       }
 
       if (!_.isEmpty(ticketForms)) {
-        loadTicketForms(ticketForms, i18n.getLocale());
+        store.dispatch(getTicketForms(ticketForms, i18n.getLocale()));
       } else if (customFields.ids || customFields.all) {
-        loadTicketFields(customFields, i18n.getLocale());
+        store.dispatch(getTicketFields(customFields, i18n.getLocale()));
       }
 
       embed.instance.getChild().forceUpdate();
@@ -482,7 +460,7 @@ function performContextualHelp(options) {
   }
 }
 
-function setUpSubmitTicket(config) {
+function setUpSubmitTicket(config, store) {
   const submitTicketConfigDefaults = {
     position: 'right',
     customFields: [],
@@ -553,7 +531,7 @@ function setUpSubmitTicket(config) {
   const onCancel = () => {
     mediator.channel.broadcast('ticketSubmissionForm.onCancelClick');
   };
-  const getTicketForms = _.memoize((config) => {
+  const getTicketFormsFromConfig = _.memoize((config) => {
     const settingTicketForms = settings.get('contactForm.ticketForms');
 
     if (_.isEmpty(settingTicketForms)) {
@@ -565,29 +543,15 @@ function setUpSubmitTicket(config) {
             .compact()
             .value();
   });
-  const loadTicketForms = (ticketForms, locale) => {
-    const ticketFormIds = _.toString(ticketForms);
-    const onDone = (res) => getWebWidgetComponent().getSubmitTicketComponent().updateTicketForms(res);
-    const path = `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`;
-
-    getWithSpinner(path, locale, onDone);
-  };
-  const loadTicketFields = (customFields, locale) => {
-    const onDone = (res) => getWebWidgetComponent().getSubmitTicketComponent().updateTicketFields(res);
-    const pathIds = customFields.all ? '' : `field_ids=${_.toString(customFields.ids)}&`;
-    const path = `/embeddable/ticket_fields?${pathIds}locale=${locale}`;
-
-    getWithSpinner(path, locale, onDone);
-  };
 
   const { customFields } = config;
-  const ticketForms = getTicketForms(config);
+  const ticketForms = getTicketFormsFromConfig(config);
 
   if (!_.isEmpty(ticketForms)) {
     // TODO: Alter this code to return objects with id's once pre-fill is GA'd
-    loadTicketForms(ticketForms, i18n.getLocale());
+    store.dispatch(getTicketForms(ticketForms, i18n.getLocale()));
   } else if (customFields.ids || customFields.all === true) {
-    loadTicketFields(customFields, i18n.getLocale());
+    store.dispatch(getTicketFields(customFields, i18n.getLocale()));
     config.customFields = [];
   } else {
     setTimeout(() => {
@@ -605,8 +569,6 @@ function setUpSubmitTicket(config) {
     config,
     ticketForms,
     customFields,
-    loadTicketForms,
-    loadTicketFields,
     submitTicketSender,
     attachmentSender,
     onSubmitted,

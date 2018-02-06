@@ -103,6 +103,9 @@ describe('WebWidget component', () => {
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getArticleViewActive: noop
       },
+      'src/redux/modules/submitTicket/submitTicket-selectors': {
+        getTicketForms: noop
+      },
       'src/redux/modules/selectors': {
         getChatOnline: noop
       },
@@ -412,10 +415,7 @@ describe('WebWidget component', () => {
     });
 
     describe('when submit ticket is the active component', () => {
-      const ticketFormsState = {
-        selectedTicketForm: { id: '1' },
-        ticketForms: { ticket_forms: [{ id: '1' }, { id: '2' }] } // eslint-disable-line camelcase
-      };
+      const ticketFormsState = { selectedTicketForm: { id: '1' } };
 
       describe('and it has a ticket form selected with > 1 ticket forms', () => {
         beforeEach(() => {
@@ -424,6 +424,7 @@ describe('WebWidget component', () => {
               updateActiveEmbed={() => {}}
               activeEmbed='ticketSubmissionForm'
               helpCenterAvailable={true}
+              ticketForms={[{ id: '1' }, { id: '2' }]}
               updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
           );
           webWidget.getRootComponent().setState(ticketFormsState);
@@ -588,17 +589,12 @@ describe('WebWidget component', () => {
 
   describe('#shouldShowTicketFormBackButton', () => {
     let webWidget;
-    const mockState = {
-      selectedTicketForm: true,
-      ticketForms: {
-        ticket_forms: [1, 2, 3] // eslint-disable-line camelcase
-      }
-    };
+    const mockState = { selectedTicketForm: true };
 
     describe('when a ticket form is selected and there is more then one ticket form', () => {
       beforeEach(() => {
         webWidget = domRender(
-          <WebWidget />
+          <WebWidget ticketForms={[1, 2, 3]} />
         );
 
         spyOn(webWidget, 'getSubmitTicketComponent').and.returnValue({ state: mockState });
@@ -629,10 +625,8 @@ describe('WebWidget component', () => {
 
     describe('when there is only one ticket form', () => {
       beforeEach(() => {
-        mockState.ticketForms.ticket_forms = [1]; // eslint-disable-line camelcase
-
         webWidget = domRender(
-          <WebWidget />
+          <WebWidget ticketForms={[1]} />
         );
 
         spyOn(webWidget, 'getSubmitTicketComponent').and.returnValue({ state: mockState });

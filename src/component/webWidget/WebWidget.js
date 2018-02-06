@@ -20,6 +20,7 @@ import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-se
 import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getZopimChatEmbed, getActiveEmbed, getAuthenticated } from 'src/redux/modules/base/base-selectors';
+import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
@@ -39,7 +40,8 @@ const mapStateToProps = (state) => {
     callbackEnabled: isCallbackEnabled(state),
     chatAvailable: getChatAvailable(state),
     chatEnabled: getChatEnabled(state),
-    oldChat: getZopimChatEmbed(state)
+    oldChat: getZopimChatEmbed(state),
+    ticketForms: getTicketForms(state)
   };
 };
 
@@ -71,6 +73,7 @@ class WebWidget extends Component {
     submitTicketConfig: PropTypes.object,
     submitTicketSender: PropTypes.func,
     tags: PropTypes.array,
+    ticketForms: PropTypes.array.isRequired,
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
@@ -162,9 +165,10 @@ class WebWidget extends Component {
   shouldShowTicketFormBackButton = () => {
     if (!this.getSubmitTicketComponent()) return false;
 
-    const { selectedTicketForm, ticketForms } = this.getSubmitTicketComponent().state;
+    const { selectedTicketForm } = this.getSubmitTicketComponent().state;
+    const { ticketForms } = this.props;
 
-    return selectedTicketForm && _.size(ticketForms.ticket_forms) > 1;
+    return selectedTicketForm && _.size(ticketForms) > 1;
   }
 
   isHelpCenterAvailable = () => {

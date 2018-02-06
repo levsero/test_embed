@@ -12,7 +12,10 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { handleFormChange } from 'src/redux/modules/submitTicket';
-import { getFormState } from 'src/redux/modules/submitTicket/submitTicket-selectors';
+import { getFormState,
+         getLoading,
+         getTicketForms,
+         getTicketFields } from 'src/redux/modules/submitTicket/submitTicket-selectors';
 import { i18n } from 'service/i18n';
 import { store } from 'service/persistence';
 import { isIE } from 'utility/devices';
@@ -22,7 +25,10 @@ import { getSearchTerm } from 'src/redux/modules/helpCenter/helpCenter-selectors
 const mapStateToProps = (state) => {
   return {
     searchTerm: getSearchTerm(state),
-    formState: getFormState(state)
+    formState: getFormState(state),
+    loading: getLoading(state),
+    ticketForms: getTicketForms(state),
+    ticketFields: getTicketFields(state)
   };
 };
 
@@ -34,6 +40,7 @@ class SubmitTicket extends Component {
     formState: PropTypes.object.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
+    loading: PropTypes.bool.isRequired,
     maxFileCount: PropTypes.number,
     maxFileSize: PropTypes.number,
     onCancel: PropTypes.func,
@@ -48,6 +55,8 @@ class SubmitTicket extends Component {
     tags: PropTypes.array,
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
+    ticketForms: PropTypes.array.isRequired,
+    ticketFields: PropTypes.array.isRequired,
     updateFrameSize: PropTypes.func,
     handleFormChange: PropTypes.func.isRequired,
     viaId: PropTypes.number.isRequired,
@@ -72,6 +81,8 @@ class SubmitTicket extends Component {
     tags: [],
     ticketFieldSettings: [],
     ticketFormSettings: [],
+    ticketForms: [],
+    ticketFields: [],
     updateFrameSize: () => {}
   };
 
@@ -82,12 +93,9 @@ class SubmitTicket extends Component {
       errorMessage: null,
       formTitleKey: props.formTitleKey,
       isDragActive: false,
-      loading: false,
       message: '',
       selectedTicketForm: null,
-      showNotification: false,
-      ticketFields: [],
-      ticketForms: {}
+      showNotification: false
     };
   }
 
@@ -96,18 +104,13 @@ class SubmitTicket extends Component {
   }
 
   clearForm = () => {
-    /* eslint camelcase:0 */
-    const { ticket_forms } = this.state.ticketForms;
+    const { ticketForms } = this.props;
 
     this.refs.submitTicketForm.clear();
 
-    if (ticket_forms && ticket_forms.length > 1) {
+    if (ticketForms && ticketForms.length > 1) {
       this.setState({ selectedTicketForm: null });
     }
-  }
-
-  setLoading = (loading) => {
-    this.setState({ loading });
   }
 
   handleSubmit = (e, data) => {
@@ -176,7 +179,7 @@ class SubmitTicket extends Component {
   }
 
   findField = (fieldType) => {
-    return _.find(this.state.ticketForms.ticket_fields, (field) => {
+    return _.find(this.props.ticketFields, (field) => {
       return field.type === fieldType && field.removable === false;
     });
   }
@@ -189,7 +192,7 @@ class SubmitTicket extends Component {
 
       return _.map(newName, _.capitalize).join(' ');
     };
-    const ticketFormsAvailable = !!this.state.ticketForms.ticket_forms;
+    const ticketFormsAvailable = this.props.ticketForms.length > 0;
     const submittedFrom = i18n.t(
       'embeddable_framework.submitTicket.form.submittedFrom.label',
       { url: location.href }
@@ -226,7 +229,7 @@ class SubmitTicket extends Component {
       'ticket_form_id': ticketFormsAvailable ? this.state.selectedTicketForm.id : null
     };
 
-    return this.state.ticketFields.length > 0
+    return this.props.ticketFields.length > 0
            || ticketFormsAvailable
          ? { request: _.extend(params, this.formatTicketFieldData(data)) }
          : { request: params };
@@ -255,12 +258,7 @@ class SubmitTicket extends Component {
     this.refs.submitTicketForm.updateContactForm(this.props.ticketFieldSettings);
   }
 
-  updateTicketFields = (fields) => {
-    this.setState({
-      ticketFields: fields,
-      loading: false
-    });
-
+  updateTicketFields = () => {
     this.updateContactForm();
   }
 
@@ -285,7 +283,7 @@ class SubmitTicket extends Component {
     const updateFormFn = () => {
       this.refs.submitTicketForm.updateTicketForm(
         selectedTicketForm,
-        this.state.ticketForms.ticket_fields,
+        this.props.ticketFields,
         ticketFormPrefill.fields,
         this.props.ticketFieldSettings
       );
@@ -294,30 +292,13 @@ class SubmitTicket extends Component {
     this.setState({ selectedTicketForm }, updateFormFn);
   }
 
-  updateTicketForms = (forms) => {
-    let callbackFn = () => {};
-    const { ticket_forms: ticketForms } = forms;
-    const { ticketFormSettings } = this.props;
-
-    if (ticketForms.length === 1) {
-      callbackFn = () => this.updateSubmitTicketForm(ticketForms[0], ticketFormSettings[0]);
-    } else if (this.state.selectedTicketForm) {
-      callbackFn = () => this.setTicketForm(this.state.selectedTicketForm.id);
-    }
-
-    this.setState({
-      ticketForms: forms,
-      loading: false
-    }, callbackFn);
-  }
-
   setTicketForm = (ticketFormId) => {
-    const { ticket_forms } = this.state.ticketForms;
+    const { ticketForms } = this.props;
 
-    if (Array.isArray(ticket_forms) && ticket_forms.length === 0) return;
+    if (Array.isArray(ticketForms) && ticketForms.length === 0) return;
 
     const getformByIdFn = (form) => form.id === parseInt(ticketFormId);
-    const selectedTicketForm = _.find(ticket_forms, getformByIdFn);
+    const selectedTicketForm = _.find(ticketForms, getformByIdFn);
     const ticketFormPrefill = _.find(this.props.ticketFormSettings, getformByIdFn);
 
     this.props.showBackButton();
@@ -363,7 +344,7 @@ class SubmitTicket extends Component {
         onCancel={this.props.onCancel}
         fullscreen={this.props.fullscreen}
         hide={this.state.showNotification}
-        customFields={this.state.ticketFields}
+        customFields={this.props.ticketFields}
         formTitleKey={this.state.formTitleKey}
         attachmentSender={this.props.attachmentSender}
         attachmentsEnabled={this.props.attachmentsEnabled}
@@ -374,7 +355,7 @@ class SubmitTicket extends Component {
         setFormState={this.props.handleFormChange}
         submit={this.handleSubmit}
         newDesign={this.props.newDesign}
-        ticketForms={this.state.ticketForms}
+        ticketForms={this.props.ticketForms}
         getFrameDimensions={this.props.getFrameDimensions}
         previewEnabled={this.props.previewEnabled}>
         {this.renderErrorMessage()}
@@ -399,10 +380,10 @@ class SubmitTicket extends Component {
   }
 
   renderTicketFormOptions = () => {
-    const { ticketForms } = this.state;
+    const { ticketForms } = this.props;
     const mobileClasses = this.props.fullscreen ? styles.ticketFormsListMobile : '';
 
-    return _.map(ticketForms.ticket_forms, (form, key) => {
+    return _.map(ticketForms, (form, key) => {
       return (
         <div key={key} data-id={form.id} className={`${styles.ticketFormsList} u-userTextColor ${mobileClasses}`}>
           {form.display_name}
@@ -463,10 +444,10 @@ class SubmitTicket extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const content = (_.isEmpty(this.state.ticketForms) || this.state.selectedTicketForm)
+    const content = (_.isEmpty(this.props.ticketForms) || this.state.selectedTicketForm)
                   ? this.renderForm()
                   : this.renderTicketFormList();
-    const display = this.state.loading
+    const display = this.props.loading
                   ? this.renderLoadingSpinner()
                   : content;
 
