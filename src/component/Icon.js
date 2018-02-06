@@ -17,6 +17,7 @@ const icons = {
   'Icon--check': require('icons/widget-icon_checkboxCheck.svg'),
   'Icon--clearInput': require('icons/widget-icon_clearInput.svg'),
   'Icon--close': require('icons/widget-icon_close.svg'),
+  'Icon--dash': require('icons/widget-icon_dash.svg'),
   'Icon--ellipsis': require('icons/widget-icon_ellipsis.svg'),
   'Icon--endChat': require('icons/widget-icon_endChat.svg'),
   'Icon--error': require('zd-svg-icons/src/14-error.svg'),

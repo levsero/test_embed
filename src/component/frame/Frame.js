@@ -54,6 +54,7 @@ export class Frame extends Component {
     hideCloseButton: PropTypes.bool,
     name: PropTypes.string,
     newChat: PropTypes.bool,
+    newDesign: PropTypes.bool,
     onBack: PropTypes.func,
     onClose: PropTypes.func,
     onHide: PropTypes.func,
@@ -77,6 +78,7 @@ export class Frame extends Component {
     hideCloseButton: false,
     name: '',
     newChat: false,
+    newDesign: false,
     onBack: () => {},
     onClose: () => {},
     onHide: () => {},
@@ -399,7 +401,8 @@ export class Frame extends Component {
         updateFrameSize={this.updateFrameSize}
         hideCloseButton={this.props.hideCloseButton}
         name={this.props.name}
-        fullscreen={this.props.fullscreenable && isMobileBrowser()}>
+        fullscreen={this.props.fullscreenable && isMobileBrowser()}
+        newDesign={this.props.newDesign}>
         {newChild}
       </EmbedWrapper>
     );

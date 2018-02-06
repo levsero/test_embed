@@ -70,6 +70,18 @@ describe('Navigation', () => {
           .toBeNull();
       });
     });
+
+    describe('when newDesign is true', () => {
+      beforeEach(() => {
+        navigation = domRender(<Navigation newDesign={true} />);
+        navigationNode = ReactDOM.findDOMNode(navigation);
+      });
+
+      it('renders the dash button icon', () => {
+        expect(navigationNode.querySelector('.Icon--dash'))
+          .not.toBeNull();
+      });
+    });
   });
 
   describe('back button', () => {

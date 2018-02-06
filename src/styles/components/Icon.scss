@@ -88,13 +88,30 @@
   }
 }
 
+.Icon--dash {
+  padding: 0;
+
+  &.is-mobile {
+    display: block;
+    margin-top: #{2/$font-size}rem;
+  }
+
+  svg {
+    fill: $zd-color-aluminum;
+    min-width: #{10/$font-size}rem; /* 1 */
+    min-height: #{10/$font-size}rem; /* 1 */
+    height: #{10/$font-size}rem;
+    width: #{10/$font-size}rem;
+  }
+}
+
 .Icon--back {
   display: block;
   margin-top: #{-2/$font-size}rem;
 
   &.is-mobile {
     margin-top: 0;
-    padding-left: #{1/$font-size}rem;;
+    padding-left: #{1/$font-size}rem;
   }
 
   svg {
