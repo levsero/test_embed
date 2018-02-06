@@ -30,7 +30,6 @@ const optionWhitelist = {
     'helpCenter.searchPlaceholder',
     'helpCenter.suppress',
     'helpCenter.title',
-    'helpCenter.viewMore',
     'launcher.chatLabel',
     'launcher.label',
     'offset.horizontal',
@@ -60,8 +59,7 @@ const webWidgetStoreDefaults = {
   helpCenter: {
     originalArticleButton: true,
     localeFallbacks: [],
-    suppress: false,
-    viewMore: true
+    suppress: false
   },
   chat: {
     suppress: false

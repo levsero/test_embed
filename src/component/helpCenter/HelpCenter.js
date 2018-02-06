@@ -14,7 +14,6 @@ import { updateSearchTerm,
          performSearch,
          performContextualSearch,
          performImageSearch,
-         updateViewMoreClicked,
          handleOriginalArticleClicked,
          addRestrictedImage,
          updateChannelChoiceShown,
@@ -22,13 +21,11 @@ import { updateSearchTerm,
 import { getActiveArticle,
          getResultsCount,
          getSearchLoading,
-         getViewMoreClicked,
          getSearchFailed,
          getSearchTerm,
          getPreviousSearchTerm,
          getHasSearched,
          getHasContextuallySearched,
-         getShowViewMore,
          getArticles,
          getResultsPerPage,
          getArticleViewActive,
@@ -42,11 +39,9 @@ const minimumSearchResults = 3;
 
 const mapStateToProps = (state) => {
   return {
-    showViewMore: getShowViewMore(state),
     resultsCount: getResultsCount(state),
     activeArticle: getActiveArticle(state),
     searchLoading: getSearchLoading(state),
-    viewMoreClicked: getViewMoreClicked(state),
     searchFailed: getSearchFailed(state),
     searchTerm: getSearchTerm(state),
     previousSearchTerm: getPreviousSearchTerm(state),
@@ -90,7 +85,6 @@ class HelpCenter extends Component {
     style: PropTypes.object,
     submitTicketAvailable: PropTypes.bool,
     chatAvailable: PropTypes.bool,
-    viewMoreClicked: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool.isRequired,
     talkEnabled: PropTypes.bool.isRequired,
     updateFrameSize: PropTypes.func,
@@ -98,11 +92,9 @@ class HelpCenter extends Component {
     updateChatScreen: PropTypes.func,
     updateSearchTerm: PropTypes.func.isRequired,
     handleArticleClick: PropTypes.func.isRequired,
-    updateViewMoreClicked: PropTypes.func.isRequired,
     zendeskHost: PropTypes.string.isRequired,
     notification: PropTypes.object.isRequired,
     resultsCount: PropTypes.number.isRequired,
-    showViewMore: PropTypes.bool.isRequired,
     articles: PropTypes.array.isRequired,
     resultsPerPage: PropTypes.number.isRequired,
     hasSearched: PropTypes.bool.isRequired,
@@ -137,7 +129,6 @@ class HelpCenter extends Component {
     updateChatScreen: () => {},
     handleArticleClick: () => {},
     updateSearchTerm: () => {},
-    updateViewMoreClicked: () => {},
     articles: [],
     resultsPerPage: minimumSearchResults,
     articleViewActive: false,
@@ -226,9 +217,7 @@ class HelpCenter extends Component {
 
   search = () => {
     const searchField = this.getHelpCenterComponent().refs.searchField;
-    const searchTerm = (this.props.viewMoreClicked)
-                     ? this.props.previousSearchTerm
-                     : searchField.getValue();
+    const searchTerm = searchField.getValue();
 
     if (_.isEmpty(searchTerm)) {
       return;
@@ -287,14 +276,6 @@ class HelpCenter extends Component {
     this.props.performContextualSearch(query, doneFn, this.focusField);
   }
 
-  handleViewMoreClick = (e) => {
-    e.preventDefault();
-
-    this.props.updateViewMoreClicked();
-
-    setTimeout(() => this.search(), 0);
-  }
-
   handleNextClick = (e) => {
     e.preventDefault();
 
@@ -329,7 +310,6 @@ class HelpCenter extends Component {
       hasContextualSearched,
       articleViewActive,
       hasSearched,
-      showViewMore,
       articles
     } = this.props;
 
@@ -341,12 +321,10 @@ class HelpCenter extends Component {
       <HelpCenterResults
         fullscreen={fullscreen}
         articles={articles}
-        showViewMore={showViewMore}
         applyPadding={applyPadding}
         searchFailed={searchFailed}
         previousSearchTerm={previousSearchTerm}
         handleArticleClick={this.handleArticleClick}
-        handleViewMoreClick={this.handleViewMoreClick}
         hasContextualSearched={hasContextualSearched}
         showContactButton={showNextButton} />
     );
@@ -481,7 +459,6 @@ const actionCreators = {
   performSearch,
   performImageSearch,
   performContextualSearch,
-  updateViewMoreClicked,
   handleOriginalArticleClicked,
   addRestrictedImage
 };

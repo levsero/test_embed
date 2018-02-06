@@ -1,7 +1,6 @@
 export const getActiveArticle = (state) => state.helpCenter.activeArticle;
 export const getSearchLoading = (state) => state.helpCenter.searchLoading;
 export const getArticleClicked = (state) => state.helpCenter.articleClicked;
-export const getViewMoreClicked = (state) => state.helpCenter.viewMoreClicked;
 export const getSearchFailed = (state) => state.helpCenter.searchFailed;
 export const getSearchTerm = (state) => state.helpCenter.searchTerm.current;
 export const getPreviousSearchTerm = (state) => state.helpCenter.searchTerm.previous;
@@ -17,8 +16,3 @@ export const getHasContextuallySearched = (state) => {
 export const getHasSearched = (state) => getHasContextuallySearched(state) || getTotalUserSearches(state) > 0;
 export const getRestrictedImages = (state) => state.helpCenter.restrictedImages;
 export const getSearchFieldValue = (state) => state.helpCenter.searchFieldValue;
-export const getShowViewMore = (state) => {
-  return !getViewMoreClicked(state) &&
-         !getHasContextuallySearched(state) &&
-         (getResultsCount(state) > getArticles(state).length);
-};

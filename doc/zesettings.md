@@ -110,7 +110,6 @@ The widget's `helpCenter` object, which represents the Help Center component, ha
 * [searchPlaceholder](#searchplaceholder)
 * [suppress](#suppress)
 * [title](#title)
-* [viewMore](#viewmore)
 
 <a name="example-hc-settings"></a>
 #### Example
@@ -202,7 +201,6 @@ window.zESettings = {
 * [tags](#tags)
 * [ticketForms](#ticketforms)
 * [title](#title)
-* [viewMore](#viewmore)
 * [zIndex](#zindex)
 
 
@@ -303,7 +301,6 @@ window.zESettings = {
 * [searchPlaceholder](#searchplaceholder)
 * [suppress](#suppress)
 * [title](#title)
-* [viewMore](#viewmore)
 
 
 #### chatLabel
@@ -588,7 +585,6 @@ For more examples, see [Limiting search results](https://support.zendesk.com/hc/
 * [searchPlaceholder](#searchplaceholder)
 * [suppress](#suppress)
 * [title](#title)
-* [viewMore](#viewmore)
 
 
 #### label
@@ -665,7 +661,6 @@ window.zESettings = {
 * [searchPlaceholder](#searchplaceholder)
 * [suppress](#suppress)
 * [title](#title)
-* [viewMore](#viewmore)
 
 
 #### offset
@@ -743,7 +738,6 @@ window.zESettings = {
 * [searchPlaceholder](#searchplaceholder)
 * [suppress](#suppress)
 * [title](#title)
-* [viewMore](#viewmore)
 
 
 #### position
@@ -1045,29 +1039,6 @@ window.zESettings = {
 </script>
 ```
 
-
-#### viewMore
-
-Hides the View More button that may appear after a Help Center search. The button appears when the search returns more than 3 articles.
-
-##### Availability
-
-* helpCenter
-
-<a name="example-viewmore"></a>
-##### Example
-
-```html
-<script type="text/javascript">
-window.zESettings = {
-  webWidget: {
-    helpCenter: {
-      viewMore: false
-    }
-  }
-};
-</script>
-```
 
 ##### Related settings
 

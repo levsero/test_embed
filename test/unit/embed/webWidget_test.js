@@ -7,7 +7,6 @@ describe('embed.webWidget', () => {
     mockHelpCenterSuppressedValue,
     mockContactFormSuppressedValue,
     mockTalkSuppressedValue,
-    mockViewMoreValue,
     mockTicketFormsValue,
     mockAttachmentsEnabledValue,
     mockAuthenticateValue,
@@ -40,7 +39,6 @@ describe('embed.webWidget', () => {
     mockTicketFormsValue = [],
     mockFiltersValue = [],
     mockAttachmentsEnabledValue = true,
-    mockViewMoreValue = false;
     mockZendeskSubdomain = 'customerfoo';
     mockAuthenticateValue = null;
     mockActiveEmbed = '';
@@ -94,7 +92,6 @@ describe('embed.webWidget', () => {
               contactOptions: { enabled: false },
               helpCenter: {
                 suppress: mockHelpCenterSuppressedValue,
-                viewMore: mockViewMoreValue,
                 filter: mockFiltersValue
               },
               contactForm: {
@@ -640,8 +637,6 @@ describe('embed.webWidget', () => {
     describe('setUpSubmitTicket', () => {
       describe('config', () => {
         beforeEach(() => {
-          mockViewMoreValue = false;
-
           const submitTicketConfig = {
             formTitleKey: 'test_title',
             attachmentsEnabled: true
@@ -886,34 +881,6 @@ describe('embed.webWidget', () => {
         it('changes config.formTitleKey if formTitleKey is set', () => {
           expect(faythe.config.helpCenterForm.formTitleKey)
             .toEqual('test_title');
-        });
-
-        describe('when viewMore setting is true', () => {
-          beforeEach(() => {
-            mockViewMoreValue = true;
-
-            webWidget.create('', { helpCenterForm: {} });
-            faythe = webWidget.get();
-          });
-
-          it('sets config.viewMoreEnabled to true', () => {
-            expect(faythe.config.helpCenterForm.viewMoreEnabled)
-              .toEqual(true);
-          });
-        });
-
-        describe('when viewMore setting is false', () => {
-          beforeEach(() => {
-            mockViewMoreValue = false;
-
-            webWidget.create('', { helpCenterForm: {} });
-            faythe = webWidget.get();
-          });
-
-          it('sets config.viewMoreEnabled to false', () => {
-            expect(faythe.config.helpCenterForm.viewMoreEnabled)
-              .toEqual(false);
-          });
         });
       });
     });

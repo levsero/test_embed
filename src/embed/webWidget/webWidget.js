@@ -651,7 +651,6 @@ function makeChatConfig(config) {
 }
 
 function setUpHelpCenter(config) {
-  const viewMoreEnabled = !!settings.get('helpCenter.viewMore');
   const helpCenterConfigDefaults = {
     position: 'right',
     contextualHelpEnabled: false,
@@ -662,7 +661,7 @@ function setUpHelpCenter(config) {
     color: '#659700'
   };
 
-  config = _.extend({}, helpCenterConfigDefaults, { viewMoreEnabled }, config);
+  config = _.extend({}, helpCenterConfigDefaults, config);
 
   useMouseDistanceContexualSearch = config.enableMouseDrivenContextualHelp;
 

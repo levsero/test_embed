@@ -24,10 +24,8 @@ describe('HelpCenterResults component', () => {
           list: 'listClasses',
           legend: 'legendClasses',
           resultsBorder: 'borderClasses',
-          viewMore: 'viewMoreClasses',
           resultsPadding: 'resultsPaddingClasses',
-          listBottom: 'listBottomClasses',
-          listBottomViewMore: 'listBottomViewMoreClasses'
+          listBottom: 'listBottomClasses'
         }
       },
       'service/i18n': {
@@ -100,28 +98,6 @@ describe('HelpCenterResults component', () => {
       });
     });
 
-    describe('when props.showViewMore is true', () => {
-      beforeEach(() => {
-        component = domRender(<HelpCenterResults articles={articles} showViewMore={true} />);
-      });
-
-      it('renders a View More button', () => {
-        expect(document.querySelector('.viewMoreClasses'))
-          .toBeTruthy();
-      });
-    });
-
-    describe('when props.showViewMore is false', () => {
-      beforeEach(() => {
-        component = domRender(<HelpCenterResults articles={articles} showViewMore={false} />);
-      });
-
-      it('does not render a View More button', () => {
-        expect(document.querySelector('.viewMoreClasses'))
-          .toBeFalsy();
-      });
-    });
-
     describe('when props.hasContextualSearched is true', () => {
       beforeEach(() => {
         shallowRender(<HelpCenterResults articles={articles} hasContextualSearched={true} />);
@@ -146,83 +122,7 @@ describe('HelpCenterResults component', () => {
   });
 
   describe('#renderResults', () => {
-    let helpCenterResults;
-
-    describe('when view more button is visible', () => {
-      beforeEach(() => {
-        helpCenterResults = domRender(
-          <HelpCenterResults
-            showViewMore={true}
-            articles={articles} />
-        );
-        helpCenterResults.renderResults();
-      });
-
-      it('should pass down the listBottomViewMore classes', () => {
-        expect(document.querySelector('.listBottomViewMoreClasses'))
-          .toBeTruthy();
-      });
-    });
-
-    describe('when view more button is not visible', () => {
-      describe('when props.showContactButton is false, there are 3 or less results, and zendesk logo is enabled', () => {
-        beforeEach(() => {
-          helpCenterResults = domRender(
-            <HelpCenterResults
-              showViewMore={false}
-              showContactButton={false}
-              articles={articles} />
-          );
-          helpCenterResults.renderResults();
-        });
-
-        it('should pass down no list bottom padding', () => {
-          expect(document.querySelector('.listBottomClasses'))
-            .toBeFalsy();
-
-          expect(document.querySelector('.listBottomViewMoreClasses'))
-            .toBeFalsy();
-        });
-      });
-
-      describe('when props.showContactButton is true', () => {
-        beforeEach(() => {
-          helpCenterResults = domRender(
-            <HelpCenterResults
-              showViewMore={false}
-              showContactButton={true}
-              articles={articles} />
-          );
-          helpCenterResults.renderResults();
-        });
-
-        it('should pass down the listBottom classes', () => {
-          expect(document.querySelector('.listBottomClasses'))
-            .toBeTruthy();
-        });
-      });
-
-      describe('when there are more than 3 results visible', () => {
-        beforeEach(() => {
-          articles.push(
-            { 'html_url': 'http://www.example.com', title: 'Test article one', name: 'Test article 3' },
-            { 'html_url': 'http://www.example.com', title: 'Test article two', name: 'Test article 4' }
-          );
-          helpCenterResults = domRender(
-            <HelpCenterResults
-              showViewMore={false}
-              showContactButton={false}
-              articles={articles} />
-          );
-          helpCenterResults.renderResults();
-        });
-
-        it('should pass down the listBottom classes', () => {
-          expect(document.querySelector('.listBottomClasses'))
-            .toBeTruthy();
-        });
-      });
-    });
+    // FIXME
   });
 
   describe('#renderNoResults', () => {

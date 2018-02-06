@@ -52,17 +52,4 @@ describe('helpCenter reducer resultsPerPage', () => {
         .toEqual(3);
     });
   });
-
-  describe('when an UPDATE_VIEW_MORE_CLICKED action is dispatched', () => {
-    let state;
-
-    beforeEach(() => {
-      state = reducer(initialState, { type: actionTypes.UPDATE_VIEW_MORE_CLICKED });
-    });
-
-    it('sets the state to the maximum search result value', () => {
-      expect(state)
-        .toEqual(9);
-    });
-  });
 });

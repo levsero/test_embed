@@ -2,8 +2,7 @@ describe('HelpCenter component', () => {
   let HelpCenter,
     mockRegistry,
     mockPageKeywords,
-    showBackButton,
-    search;
+    showBackButton;
 
   const helpCenterPath = buildSrcPath('component/helpCenter/HelpCenter');
 
@@ -22,7 +21,6 @@ describe('HelpCenter component', () => {
 
   beforeEach(() => {
     showBackButton = jasmine.createSpy('showBackButton');
-    search = jasmine.createSpy('search');
 
     mockery.enable();
 
@@ -892,37 +890,6 @@ describe('HelpCenter component', () => {
         expect(results)
           .toBeTruthy();
       });
-    });
-  });
-
-  describe('handleViewMoreClick', () => {
-    let helpCenter,
-      updateViewMoreClickedSpy;
-
-    beforeEach(() => {
-      updateViewMoreClickedSpy = jasmine.createSpy('updateViewMoreClicked');
-      helpCenter = domRender(
-        <HelpCenter
-          updateViewMoreClicked={updateViewMoreClickedSpy}
-          performSearch={noop} />
-      );
-      helpCenter.search = search;
-    });
-
-    it('calls updateViewMoreClicked', () => {
-      helpCenter.handleViewMoreClick({ preventDefault: noop });
-
-      expect(updateViewMoreClickedSpy)
-        .toHaveBeenCalled();
-    });
-
-    it('calls search', () => {
-      helpCenter.handleViewMoreClick({ preventDefault: noop });
-
-      jasmine.clock().tick(1);
-
-      expect(helpCenter.search)
-        .toHaveBeenCalled();
     });
   });
 

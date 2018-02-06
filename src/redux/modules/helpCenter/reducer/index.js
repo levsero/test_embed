@@ -3,7 +3,6 @@ import { combineReducers } from 'redux';
 import activeArticle from './helpCenter-activeArticle';
 import searchLoading from './helpCenter-searchLoading';
 import articleClicked from './helpCenter-articleClicked';
-import viewMoreClicked from './helpCenter-viewMoreClicked';
 import searchFailed from './helpCenter-searchFailed';
 import searchTerm from './helpCenter-searchTerm';
 import totalUserSearches from './helpCenter-totalUserSearches';
@@ -19,7 +18,6 @@ export default combineReducers({
   activeArticle,
   searchLoading,
   articleClicked,
-  viewMoreClicked,
   searchFailed,
   searchTerm,
   articles,
