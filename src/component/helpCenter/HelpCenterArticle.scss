@@ -1,15 +1,11 @@
 @import '../../styles/_vars.scss';
 
 .title {
-  composes: u-textSizeLrg u-marginBT u-textBold u-textBody from global;
+  composes: u-textSizeLrg u-marginBT u-textBold u-textBody u-hsizeAll u-tableCell from global;
 }
 
 .originalArticleButton {
-  composes: u-marginBM from global;
-}
-
-.link {
-  composes: u-linkClean from global;
+  composes: u-tableCell u-alignMiddle from global;
 }
 
 .contentMobile {
@@ -18,6 +14,13 @@
 
   table {
     font-size: #{14/$font-size}rem;
+  }
+
+  .originalArticleButton {
+    svg {
+      width: #{18/$font-size}rem;
+      height: #{18/$font-size}rem;
+    }
   }
 }
 

@@ -112,6 +112,9 @@ function generateUserCSS(color = defaultColor) {
     .u-userLinkColor a {
       color: ${listColorStr} !important;
     }
+    .u-userLinkColor a:hover {
+      color: ${highlightColor(listColorStr)} !important;
+    }
     .u-userStrokeColor {
       stroke: ${color} !important;
     }
