@@ -65,7 +65,7 @@ describe('HelpCenterDesktop component', () => {
           }
         }
       },
-      'src/redux/modules/chat/reducer/chat-screen-types': {
+      'src/redux/modules/chat/chat-screen-types': {
         PRECHAT_SCREEN: prechatScreen,
         CHATTING_SCREEN: chattingScreen
       },

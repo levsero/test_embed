@@ -1,5 +1,5 @@
 import { UPDATE_CHAT_SCREEN } from '../chat-action-types';
-import { CHATTING_SCREEN } from './chat-screen-types';
+import { CHATTING_SCREEN } from '../chat-screen-types';
 
 const initialState = CHATTING_SCREEN;
 

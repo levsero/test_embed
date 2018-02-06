@@ -30,10 +30,10 @@ describe('chat reducer userSettings sound', () => {
       });
     });
 
-    describe('when a UPDATE_USER_SETTINGS action is dispatched', () => {
+    describe('when a SOUND_ICON_CLICKED action is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.UPDATE_USER_SETTINGS,
+          type: actionTypes.SOUND_ICON_CLICKED,
           payload: { sound: false }
         });
       });
@@ -41,6 +41,20 @@ describe('chat reducer userSettings sound', () => {
       it('updates the state with the sound property from the payload', () => {
         expect(state)
           .toEqual(false);
+      });
+    });
+
+    describe('when a GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS action is dispatched', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
+          payload: { sound: { disabled: false } }
+        });
+      });
+
+      it('updates the state with the inverse sound.disabled property from the payload', () => {
+        expect(state)
+          .toEqual(true);
       });
     });
   });

@@ -32,7 +32,7 @@ describe('chat reducer accountSettings postchatForm', () => {
       });
     });
 
-    describe('when a UPDATE_ACCOUNT_SETTINGS action is dispatched', () => {
+    describe('when a GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS action is dispatched', () => {
       let settings,
         mockHeader,
         mockMessage;
@@ -53,7 +53,7 @@ describe('chat reducer accountSettings postchatForm', () => {
         };
 
         state = reducer(initialState, {
-          type: actionTypes.UPDATE_ACCOUNT_SETTINGS,
+          type: actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
           payload: settings
         });
       });

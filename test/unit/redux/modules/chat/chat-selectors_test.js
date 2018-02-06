@@ -4,17 +4,15 @@ describe('chat selectors', () => {
     getPrechatFormFields,
     getPostchatFormSettings,
     getIsChatting,
-    getChats,
+    getFilteredChats,
     getChatVisitor,
     getUserSoundSettings,
     getConnection,
     getConciergeSettings,
-    getChatsByAgent,
+    getFilteredChatsByAgent,
     getAgents,
     getChatRating,
     getChatScreen,
-    getShowEndNotification,
-    getShowContactDetailsNotification,
     getCurrentMessage,
     getChatStatus,
     getChatOnline,
@@ -37,17 +35,15 @@ describe('chat selectors', () => {
     getChatVisitor = selectors.getChatVisitor;
     getUserSoundSettings = selectors.getUserSoundSettings;
     getConnection = selectors.getConnection;
-    getChatsByAgent = selectors.getChatsByAgent;
+    getFilteredChatsByAgent = selectors.getFilteredChatsByAgent;
     getChatStatus = selectors.getChatStatus;
     getChatOnline = selectors.getChatOnline;
-    getChats = selectors.getChats;
+    getFilteredChats = selectors.getFilteredChats;
     getPrechatFormSettings = selectors.getPrechatFormSettings;
     getConciergeSettings = selectors.getConciergeSettings;
     getAgents = selectors.getAgents;
     getChatRating = selectors.getChatRating;
     getChatScreen = selectors.getChatScreen;
-    getShowEndNotification = selectors.getShowEndNotification;
-    getShowContactDetailsNotification = selectors.getShowContactDetailsNotification;
     getCurrentMessage = selectors.getCurrentMessage;
     getAttachmentsEnabled = selectors.getAttachmentsEnabled;
     getNotificationCount = selectors.getNotificationCount;
@@ -338,7 +334,7 @@ describe('chat selectors', () => {
     });
   });
 
-  describe('getChatsByAgent', () => {
+  describe('getFilteredChatsByAgent', () => {
     let result;
     const mockChats = [
       { nick: 'agent', type: 'chat.msg' },
@@ -351,7 +347,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getChatsByAgent(mockChatSettings);
+      result = getFilteredChatsByAgent(mockChatSettings);
     });
 
     it('returns the chats from only agents', () => {
@@ -363,7 +359,7 @@ describe('chat selectors', () => {
     });
   });
 
-  describe('getChats', () => {
+  describe('getFilteredChats', () => {
     let result;
     const mockChats = [
       { nick: 'agent', type: 'chat.msg' },
@@ -377,7 +373,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getChats(mockChatSettings);
+      result = getFilteredChats(mockChatSettings);
     });
 
     it('returns only chats of type file or msg', () => {
@@ -504,42 +500,6 @@ describe('chat selectors', () => {
     it('returns the current state of screen', () => {
       expect(result)
         .toEqual('chatting');
-    });
-  });
-
-  describe('getShowEndNotification', () => {
-    let result;
-    const mockChatSettings = {
-      chat: {
-        showEndNotification: true
-      }
-    };
-
-    beforeEach(() => {
-      result = getShowEndNotification(mockChatSettings);
-    });
-
-    it('returns the current state of showEndNotification', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
-
-  describe('getShowContactDetailsNotification', () => {
-    let result;
-    const mockChatSettings = {
-      chat: {
-        showContactDetailsNotification: true
-      }
-    };
-
-    beforeEach(() => {
-      result = getShowContactDetailsNotification(mockChatSettings);
-    });
-
-    it('returns the current state of showContactDetailsNotification', () => {
-      expect(result)
-        .toEqual(true);
     });
   });
 

@@ -63,14 +63,14 @@ describe('Chat component', () => {
       },
       'src/redux/modules/chat': {
         sendMsg: noop,
-        updateCurrentMsg: noop,
+        handleChatBoxChange: noop,
         setVisitorInfo: noop,
         updateChatScreen: updateChatScreenSpy
       },
       'src/redux/modules/chat/chat-selectors': {
         getPrechatFormFields: noop
       },
-      'src/redux/modules/chat/reducer/chat-screen-types': {
+      'src/redux/modules/chat/chat-screen-types': {
         PRECHAT_SCREEN: prechatScreen,
         CHATTING_SCREEN: chattingScreen
       },
@@ -312,8 +312,9 @@ describe('Chat component', () => {
       describe('when the notification should be shown', () => {
         beforeEach(() => {
           component = domRender(
-            <Chat chat={{ rating: null }} showEndNotification={true} />
+            <Chat chat={{ rating: null }} />
           );
+          component.setState({ showEndChatMenu: true });
         });
 
         it('shows the chat end notification component', () => {
@@ -340,8 +341,9 @@ describe('Chat component', () => {
       describe('when the popup should be shown', () => {
         beforeEach(() => {
           component = domRender(
-            <Chat chat={{ rating: null }} showContactDetailsNotification={true} />
+            <Chat chat={{ rating: null }} />
           );
+          component.setState({ showEditContactDetailsMenu: true });
         });
 
         it('shows the chat contact details popup component', () => {

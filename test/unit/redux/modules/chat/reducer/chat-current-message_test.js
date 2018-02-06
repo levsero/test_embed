@@ -30,14 +30,14 @@ describe('chat reducer currentMessage', () => {
       });
     });
 
-    describe('when a UPDATE_CURRENT_MSG action is dispatched', () => {
+    describe('when a CHAT_BOX_CHANGED action is dispatched', () => {
       let payload;
 
       beforeEach(() => {
         payload = 'im typing here';
 
         state = reducer(initialState, {
-          type: actionTypes.UPDATE_CURRENT_MSG,
+          type: actionTypes.CHAT_BOX_CHANGED,
           payload: payload
         });
       });

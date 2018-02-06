@@ -10,7 +10,7 @@ import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { i18n } from 'service/i18n';
-import { CHATTING_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
+import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 
 import { locals as styles } from './HelpCenterDesktop.scss';
 

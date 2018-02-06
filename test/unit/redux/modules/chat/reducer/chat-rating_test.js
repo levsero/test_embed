@@ -40,14 +40,14 @@ describe('chat reducer agents', () => {
       });
     });
 
-    describe('when a SEND_CHAT_RATING_SUCCESS action is dispatched', () => {
+    describe('when a CHAT_RATING_REQUEST_SUCCESS action is dispatched', () => {
       let payload;
 
       beforeEach(() => {
         payload = 'bad';
 
         state = reducer(initialState, {
-          type: actionTypes.SEND_CHAT_RATING_SUCCESS,
+          type: actionTypes.CHAT_RATING_REQUEST_SUCCESS,
           payload: payload
         });
       });

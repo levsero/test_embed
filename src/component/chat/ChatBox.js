@@ -12,7 +12,7 @@ export class ChatBox extends Component {
   static propTypes = {
     currentMessage: PropTypes.string,
     sendMsg: PropTypes.func.isRequired,
-    updateCurrentMsg: PropTypes.func.isRequired
+    handleChatBoxChange: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -20,11 +20,11 @@ export class ChatBox extends Component {
   };
 
   handleSendClick = () => {
-    const { currentMessage, sendMsg, updateCurrentMsg } = this.props;
+    const { currentMessage, sendMsg, handleChatBoxChange } = this.props;
 
     if (!_.isEmpty(currentMessage)) {
       sendMsg(currentMessage);
-      updateCurrentMsg('');
+      handleChatBoxChange('');
     }
   }
 
@@ -38,7 +38,7 @@ export class ChatBox extends Component {
   handleChange = (e) => {
     const { value } = e.target;
 
-    this.props.updateCurrentMsg(value);
+    this.props.handleChatBoxChange(value);
   }
 
   chatBoxTextarea = () => {
@@ -65,4 +65,3 @@ export class ChatBox extends Component {
     );
   }
 }
-

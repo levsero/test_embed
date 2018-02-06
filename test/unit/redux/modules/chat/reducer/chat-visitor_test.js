@@ -98,7 +98,7 @@ describe('chat reducer visitor', () => {
       });
     });
 
-    describe('when a UPDATE_VISITOR_INFO_SUCCESS action is dispatched', () => {
+    describe('when a SET_VISITOR_INFO_REQUEST_SUCCESS action is dispatched', () => {
       let payload;
 
       beforeEach(() => {
@@ -108,7 +108,7 @@ describe('chat reducer visitor', () => {
         };
 
         state = reducer(initialState, {
-          type: actionTypes.UPDATE_VISITOR_INFO_SUCCESS,
+          type: actionTypes.SET_VISITOR_INFO_REQUEST_SUCCESS,
           payload: payload
         });
       });

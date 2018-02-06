@@ -40,7 +40,7 @@ describe('chat redux actions', () => {
 
     const actionsPath = buildSrcPath('redux/modules/chat');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
-    const screenTypesPath = buildSrcPath('redux/modules/chat/reducer/chat-screen-types');
+    const screenTypesPath = buildSrcPath('redux/modules/chat/chat-screen-types');
 
     mockery.registerAllowable(actionsPath);
     mockery.registerAllowable(actionTypesPath);
@@ -67,57 +67,19 @@ describe('chat redux actions', () => {
     jasmine.clock().uninstall();
   });
 
-  describe('toggleEndChatNotification', () => {
-    let action;
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.toggleEndChatNotification(true));
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches an action of type TOGGLE_END_CHAT_NOTIFICATION', () => {
-      expect(action.type)
-        .toEqual(actionTypes.TOGGLE_END_CHAT_NOTIFICATION);
-    });
-
-    it('dispatches an action with payload of true', () => {
-      expect(action.payload)
-        .toEqual(true);
-    });
-  });
-
-  describe('acceptEndChatNotification', () => {
-    let action;
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.acceptEndChatNotification());
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches an action of type TOGGLE_END_CHAT_NOTIFICATION', () => {
-      expect(action.type)
-        .toEqual(actionTypes.TOGGLE_END_CHAT_NOTIFICATION);
-    });
-
-    it('calls endChat on the Web SDK', () => {
-      expect(mockEndChat)
-        .toHaveBeenCalled();
-    });
-  });
-
-  describe('updateCurrentMsg', () => {
+  describe('handleChatBoxChange', () => {
     let message,
       action;
 
     beforeEach(() => {
       message = 'new message';
-      mockStore.dispatch(actions.updateCurrentMsg(message));
+      mockStore.dispatch(actions.handleChatBoxChange(message));
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type UPDATE_CURRENT_MSG', () => {
+    it('dispatches an action of type CHAT_BOX_CHANGED', () => {
       expect(action.type)
-        .toEqual(actionTypes.UPDATE_CURRENT_MSG);
+        .toEqual(actionTypes.CHAT_BOX_CHANGED);
     });
 
     it('has the message in the payload', () => {
@@ -151,10 +113,10 @@ describe('chat redux actions', () => {
         .toHaveBeenCalled();
     });
 
-    it('dispatches a SENT_CHAT_MSG_REQUEST action', () => {
+    it('dispatches a CHAT_MSG_REQUEST_SENT action', () => {
       expect(mockStore.getActions())
         .toContain({
-          type: actionTypes.SENT_CHAT_MSG_REQUEST
+          type: actionTypes.CHAT_MSG_REQUEST_SENT
         });
     });
 
@@ -172,10 +134,10 @@ describe('chat redux actions', () => {
           callbackFn();
         });
 
-        it('dispatches a SENT_CHAT_MSG_SUCCESS action with the message in payload', () => {
+        it('dispatches a CHAT_MSG_REQUEST_SUCCESS action with the message in payload', () => {
           expect(mockStore.getActions())
             .toContain({
-              type: actionTypes.SENT_CHAT_MSG_SUCCESS,
+              type: actionTypes.CHAT_MSG_REQUEST_SUCCESS,
               payload: {
                 type: 'chat.msg',
                 msg: message,
@@ -197,10 +159,10 @@ describe('chat redux actions', () => {
           callbackFn(errors);
         });
 
-        it('dispatches a SENT_CHAT_MSG_FAILURE action with the errors in the payload', () => {
+        it('dispatches a CHAT_MSG_REQUEST_FAILURE action with the errors in the payload', () => {
           expect(mockStore.getActions())
             .toContain({
-              type: actionTypes.SENT_CHAT_MSG_FAILURE,
+              type: actionTypes.CHAT_MSG_REQUEST_FAILURE,
               payload: errors
             });
         });
@@ -232,10 +194,10 @@ describe('chat redux actions', () => {
           callbackFn();
         });
 
-        it('dispatches a END_CHAT_SUCCESS action', () => {
+        it('dispatches a END_CHAT_REQUEST_SUCCESS action', () => {
           expect(mockStore.getActions())
             .toContain({
-              type: actionTypes.END_CHAT_SUCCESS
+              type: actionTypes.END_CHAT_REQUEST_SUCCESS
             });
         });
       });
@@ -245,10 +207,10 @@ describe('chat redux actions', () => {
           callbackFn(['error!']);
         });
 
-        it('dispatches a END_CHAT_FAILURE action', () => {
+        it('dispatches a END_CHAT_REQUEST_FAILURE action', () => {
           expect(mockStore.getActions())
             .toContain({
-              type: actionTypes.END_CHAT_FAILURE
+              type: actionTypes.END_CHAT_REQUEST_FAILURE
             });
         });
       });
@@ -281,10 +243,10 @@ describe('chat redux actions', () => {
           callbackFn();
         });
 
-        it('dispatches a UPDATE_VISITOR_INFO_SUCCESS action with the correct payload', () => {
+        it('dispatches a SET_VISITOR_INFO_REQUEST_SUCCESS action with the correct payload', () => {
           expect(mockStore.getActions())
             .toContain({
-              type: actionTypes.UPDATE_VISITOR_INFO_SUCCESS,
+              type: actionTypes.SET_VISITOR_INFO_REQUEST_SUCCESS,
               payload: { email: 'x@x.com' }
             });
         });
@@ -295,10 +257,10 @@ describe('chat redux actions', () => {
           callbackFn(['error!']);
         });
 
-        it('dispatches a UPDATE_VISITOR_INFO_FAILURE action', () => {
+        it('dispatches a SET_VISITOR_INFO_REQUEST_FAILURE action', () => {
           expect(mockStore.getActions())
             .toContain({
-              type: actionTypes.UPDATE_VISITOR_INFO_FAILURE
+              type: actionTypes.SET_VISITOR_INFO_REQUEST_FAILURE
             });
         });
       });
@@ -331,10 +293,10 @@ describe('chat redux actions', () => {
           callbackFn();
         });
 
-        it('dispatches a SEND_CHAT_RATING_SUCCESS action with the correct payload', () => {
+        it('dispatches a CHAT_RATING_REQUEST_SUCCESS action with the correct payload', () => {
           expect(mockStore.getActions())
             .toContain({
-              type: actionTypes.SEND_CHAT_RATING_SUCCESS,
+              type: actionTypes.CHAT_RATING_REQUEST_SUCCESS,
               payload: 'good'
             });
         });
@@ -345,10 +307,10 @@ describe('chat redux actions', () => {
           callbackFn(['error!']);
         });
 
-        it('dispatches a SEND_CHAT_RATING_FAILURE action', () => {
+        it('dispatches a CHAT_RATING_REQUEST_FAILURE action', () => {
           expect(mockStore.getActions())
             .toContain({
-              type: actionTypes.SEND_CHAT_RATING_FAILURE
+              type: actionTypes.CHAT_RATING_REQUEST_FAILURE
             });
         });
       });
@@ -380,10 +342,10 @@ describe('chat redux actions', () => {
           callbackFn();
         });
 
-        it('dispatches a SEND_CHAT_RATING_COMMENT_SUCCESS action with the correct payload', () => {
+        it('dispatches a CHAT_RATING_COMMENT_REQUEST_SUCCESS action with the correct payload', () => {
           expect(mockStore.getActions())
             .toContain({
-              type: actionTypes.SEND_CHAT_RATING_COMMENT_SUCCESS,
+              type: actionTypes.CHAT_RATING_COMMENT_REQUEST_SUCCESS,
               payload: rating
             });
         });
@@ -400,10 +362,10 @@ describe('chat redux actions', () => {
           callbackFn(['error!']);
         });
 
-        it('dispatches a SEND_CHAT_RATING_COMMENT_FAILURE action', () => {
+        it('dispatches a CHAT_RATING_COMMENT_REQUEST_FAILURE action', () => {
           expect(mockStore.getActions())
             .toContain({
-              type: actionTypes.SEND_CHAT_RATING_COMMENT_FAILURE
+              type: actionTypes.CHAT_RATING_COMMENT_REQUEST_FAILURE
             });
         });
 
@@ -415,24 +377,19 @@ describe('chat redux actions', () => {
     });
   });
 
-  describe('updateAccountSettings', () => {
-    let updateAccountSettingsAction,
-      updateUserSettingsAction,
-      soundDisabled;
+  describe('getAccountSettings', () => {
+    let updateAccountSettingsAction;
 
     describe('when the prechat form is required', () => {
       let updateScreenAction;
 
       beforeEach(() => {
-        soundDisabled = false;
         mockAccountSettings = {
-          forms: { pre_chat_form: { required: true } },
-          sound: { disabled: soundDisabled }
+          forms: { pre_chat_form: { required: true } }
         };
-        mockStore.dispatch(actions.updateAccountSettings());
+        mockStore.dispatch(actions.getAccountSettings());
         updateScreenAction = mockStore.getActions()[0];
-        updateUserSettingsAction = mockStore.getActions()[1];
-        updateAccountSettingsAction = mockStore.getActions()[2];
+        updateAccountSettingsAction = mockStore.getActions()[1];
       });
 
       it('dispatches updateChatScreen action with the prechat screen', () => {
@@ -443,19 +400,9 @@ describe('chat redux actions', () => {
           });
       });
 
-      it('dispatches an action of type UPDATE_USER_SETTINGS', () => {
-        expect(updateUserSettingsAction.type)
-          .toBe(actionTypes.UPDATE_USER_SETTINGS);
-      });
-
-      it('has the inverted value of sound settings in the payload', () => {
-        expect(updateUserSettingsAction.payload)
-          .toEqual({ sound: !soundDisabled });
-      });
-
-      it('dispatches an action of type UPDATE_ACCOUNT_SETTINGS', () => {
+      it('dispatches an action of type GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS', () => {
         expect(updateAccountSettingsAction.type)
-          .toBe(actionTypes.UPDATE_ACCOUNT_SETTINGS);
+          .toBe(actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS);
       });
 
       it('has the value returned from zChat._getAccountSettings() in the payload', () => {
@@ -466,29 +413,16 @@ describe('chat redux actions', () => {
 
     describe('when the prechat form is not required', () => {
       beforeEach(() => {
-        soundDisabled = true;
         mockAccountSettings = {
-          forms: { pre_chat_form: { required: false } },
-          sound: { disabled: soundDisabled }
+          forms: { pre_chat_form: { required: false } }
         };
-        mockStore.dispatch(actions.updateAccountSettings());
-        updateUserSettingsAction = mockStore.getActions()[0];
-        updateAccountSettingsAction = mockStore.getActions()[1];
+        mockStore.dispatch(actions.getAccountSettings());
+        updateAccountSettingsAction = mockStore.getActions()[0];
       });
 
-      it('dispatches an action of type UPDATE_USER_SETTINGS', () => {
-        expect(updateUserSettingsAction.type)
-          .toBe(actionTypes.UPDATE_USER_SETTINGS);
-      });
-
-      it('has the inverted value of sound settings in the payload', () => {
-        expect(updateUserSettingsAction.payload)
-          .toEqual({ sound: !soundDisabled });
-      });
-
-      it('dispatches an action of type UPDATE_ACCOUNT_SETTINGS', () => {
+      it('dispatches an action of type GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS', () => {
         expect(updateAccountSettingsAction.type)
-          .toEqual(actionTypes.UPDATE_ACCOUNT_SETTINGS);
+          .toEqual(actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS);
       });
 
       it('has the value returned from zChat._getAccountSettings() in the payload', () => {
@@ -498,19 +432,19 @@ describe('chat redux actions', () => {
     });
   });
 
-  describe('updateUserSettings', () => {
+  describe('handleSoundIconClick', () => {
     let action,
       setting;
 
     beforeEach(() => {
       setting = { sound: true };
-      mockStore.dispatch(actions.updateUserSettings(setting));
+      mockStore.dispatch(actions.handleSoundIconClick(setting));
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type UPDATE_USER_SETTINGS ', () => {
+    it('dispatches an action of type SOUND_ICON_CLICKED ', () => {
       expect(action.type)
-        .toEqual(actionTypes.UPDATE_USER_SETTINGS);
+        .toEqual(actionTypes.SOUND_ICON_CLICKED);
     });
 
     it('has the settings in the payload', () => {
@@ -554,25 +488,6 @@ describe('chat redux actions', () => {
     });
   });
 
-  describe('toggleContactDetailsNotification', () => {
-    let action;
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.toggleContactDetailsNotification(true));
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches an action of type TOGGLE_CONTACT_DETAILS_NOTIFICATION', () => {
-      expect(action.type)
-        .toEqual(actionTypes.TOGGLE_CONTACT_DETAILS_NOTIFICATION);
-    });
-
-    it('has the toggle bool in the payload', () => {
-      expect(action.payload)
-        .toBe(true);
-    });
-  });
-
   describe('sendAttachments', () => {
     let files, action;
 
@@ -588,10 +503,10 @@ describe('chat redux actions', () => {
         .toHaveBeenCalled();
     });
 
-    it('dispatches a SEND_CHAT_FILE action', () => {
+    it('dispatches a CHAT_FILE_REQUEST_SENT action', () => {
       expect(action)
         .toEqual(jasmine.objectContaining({
-          type: actionTypes.SEND_CHAT_FILE
+          type: actionTypes.CHAT_FILE_REQUEST_SENT
         }));
     });
 
@@ -621,10 +536,10 @@ describe('chat redux actions', () => {
           action = mockStore.getActions()[1];
         });
 
-        it('dispatches a SEND_CHAT_FILE_SUCCESS action', () => {
+        it('dispatches a CHAT_FILE_REQUEST_SUCCESS action', () => {
           expect(action)
             .toEqual(jasmine.objectContaining({
-              type: actionTypes.SEND_CHAT_FILE_SUCCESS
+              type: actionTypes.CHAT_FILE_REQUEST_SUCCESS
             }));
         });
 
@@ -645,42 +560,13 @@ describe('chat redux actions', () => {
           action = mockStore.getActions()[1];
         });
 
-        it('dispatches a SEND_CHAT_FILE_FAILURE action', () => {
+        it('dispatches a CHAT_FILE_REQUEST_FAILURE action', () => {
           expect(action)
             .toEqual(jasmine.objectContaining({
-              type: actionTypes.SEND_CHAT_FILE_FAILURE
+              type: actionTypes.CHAT_FILE_REQUEST_FAILURE
             }));
         });
       });
-    });
-  });
-
-  describe('saveContactDetails', () => {
-    let toggleContactDetailsAction,
-      name,
-      email;
-
-    beforeEach(() => {
-      name = 'bob';
-      email = 'bob@zd.com';
-
-      mockStore.dispatch(actions.saveContactDetails(name, email));
-      toggleContactDetailsAction = mockStore.getActions()[0];
-    });
-
-    it('toggles the contact details notifiction to hidden', () => {
-      expect(toggleContactDetailsAction)
-        .toEqual({
-          type: actionTypes.TOGGLE_CONTACT_DETAILS_NOTIFICATION,
-          payload: false
-        });
-    });
-
-    it('dispatches the setVisitorInfo action with name and email', () => {
-      const args = mockSetVisitorInfo.calls.mostRecent().args[0];
-
-      expect(args)
-        .toEqual({ display_name: name, email });
     });
   });
 

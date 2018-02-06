@@ -1,7 +1,7 @@
 import Map from 'core-js/library/es6/map';
 
 import {
-  SENT_CHAT_MSG_SUCCESS,
+  CHAT_MSG_REQUEST_SUCCESS,
   SDK_CHAT_MSG,
   SDK_CHAT_FILE,
   SDK_CHAT_WAIT_QUEUE,
@@ -10,8 +10,8 @@ import {
   SDK_CHAT_REQUEST_RATING,
   SDK_CHAT_RATING,
   SDK_CHAT_COMMENT,
-  SEND_CHAT_FILE_SUCCESS,
-  SEND_CHAT_FILE
+  CHAT_FILE_REQUEST_SUCCESS,
+  CHAT_FILE_REQUEST_SENT
 } from '../chat-action-types';
 
 const initialState = new Map();
@@ -24,9 +24,9 @@ const concatChat = (chats, chat) => {
 
 const chats = (state = initialState, action) => {
   switch (action.type) {
-    case SENT_CHAT_MSG_SUCCESS:
-    case SEND_CHAT_FILE_SUCCESS:
-    case SEND_CHAT_FILE:
+    case CHAT_MSG_REQUEST_SUCCESS:
+    case CHAT_FILE_REQUEST_SUCCESS:
+    case CHAT_FILE_REQUEST_SENT:
       return concatChat(state, action.payload);
     case SDK_CHAT_FILE:
     case SDK_CHAT_WAIT_QUEUE:

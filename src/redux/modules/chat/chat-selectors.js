@@ -2,10 +2,11 @@ import _ from 'lodash';
 import { createSelector } from 'reselect';
 
 const groupChatsByAgent = (state) => {
-  const agentMsgs = getChatsByAgent(state);
+  const agentMsgs = getFilteredChatsByAgent(state);
 
   return _.groupBy(agentMsgs, (chat) => chat.nick);
 };
+const getChats = (state) => state.chat.chats;
 
 export const getNotification = (state) => state.chat.notification;
 export const getNotificationCount = (state) => getNotification(state).count;
@@ -20,20 +21,9 @@ export const getIsChatting = (state) => state.chat.is_chatting;
 export const getChatVisitor = (state) => state.chat.visitor;
 export const getChatOnline = (state) => _.includes(['online', 'away'], getChatStatus(state));
 export const getChatScreen = (state) => state.chat.screen;
-export const getShowEndNotification = (state) => state.chat.showEndNotification;
-export const getShowContactDetailsNotification = (state) => state.chat.showContactDetailsNotification;
 export const getCurrentMessage = (state) => state.chat.currentMessage;
 export const getChatRating = (state) => state.chat.rating;
 export const getAttachmentsEnabled = (state) => state.chat.accountSettings.attachments.enabled;
-export const getChats = (state) => {
-  const filterChatType = (event) => _.includes(['chat.msg', 'chat.file'], event.type);
-
-  return _.filter([...state.chat.chats.values()], filterChatType);
-};
-export const getChatsByAgent = (state) => {
-  return _.filter(getChats(state), (chat) => _.includes(chat.nick, 'agent'));
-};
-
 export const getChatNotification = createSelector(
   [getNotification, getAgents, groupChatsByAgent],
   (notification, agents, chats) => {
@@ -48,12 +38,25 @@ export const getChatNotification = createSelector(
     };
   }
 );
-
 export const getPrechatFormFields = createSelector(
   [getPrechatFormSettings],
   (prechatSettings) => {
     const { form } = prechatSettings;
 
     return _.keyBy(_.values(form), 'name');
+  }
+);
+export const getFilteredChats = createSelector(
+  [getChats],
+  (chats) => {
+    const filterChatType = (event) => _.includes(['chat.msg', 'chat.file'], event.type);
+
+    return _.filter([...chats.values()], filterChatType);
+  }
+);
+export const getFilteredChatsByAgent = createSelector(
+  [getFilteredChats],
+  (chats) => {
+    return _.filter(chats, (chat) => _.includes(chat.nick, 'agent'));
   }
 );

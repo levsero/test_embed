@@ -3,7 +3,7 @@ describe('onStateChange middleware', () => {
     mockUserSoundSetting,
     mockActiveEmbed,
     mockwidgetShown;
-  const updateAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
+  const getAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
   const newAgentMessageReceivedSpy = jasmine.createSpy('newAgentMessageReceived');
   const audioPlaySpy = jasmine.createSpy('audioPlay');
 
@@ -18,7 +18,7 @@ describe('onStateChange middleware', () => {
 
     initMockRegistry({
       'src/redux/modules/chat': {
-        updateAccountSettings: updateAccountSettingsSpy,
+        getAccountSettings: getAccountSettingsSpy,
         newAgentMessageReceived: newAgentMessageReceivedSpy
       },
       'service/audio': {
@@ -29,7 +29,7 @@ describe('onStateChange middleware', () => {
       'src/redux/modules/chat/chat-selectors': {
         getUserSoundSettings: () => mockUserSoundSetting,
         getConnection: _.identity,
-        getChatsByAgent: _.identity
+        getFilteredChatsByAgent: _.identity
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed,
@@ -56,8 +56,8 @@ describe('onStateChange middleware', () => {
           stateChangeFn(connectingState, connectingState, {}, dispatchSpy);
         });
 
-        it('does not dispatch the updateAccountSettings action', () => {
-          expect(updateAccountSettingsSpy)
+        it('does not dispatch the getAccountSettings action', () => {
+          expect(getAccountSettingsSpy)
             .not.toHaveBeenCalled();
         });
       });
@@ -67,8 +67,8 @@ describe('onStateChange middleware', () => {
           stateChangeFn(connectingState, connectedState, {}, dispatchSpy);
         });
 
-        it('dispatches the updateAccountSettings action', () => {
-          expect(updateAccountSettingsSpy)
+        it('dispatches the getAccountSettings action', () => {
+          expect(getAccountSettingsSpy)
             .toHaveBeenCalled();
         });
       });

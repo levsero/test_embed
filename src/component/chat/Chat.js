@@ -20,23 +20,19 @@ import { endChat,
          sendMsg,
          sendAttachments,
          setVisitorInfo,
-         updateAccountSettings,
-         updateCurrentMsg,
+         getAccountSettings,
+         handleChatBoxChange,
          sendChatRating,
          sendChatComment,
          updateChatScreen,
-         saveContactDetails,
-         toggleEndChatNotification,
-         acceptEndChatNotification,
-         toggleContactDetailsNotification,
-         updateUserSettings } from 'src/redux/modules/chat';
-import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/reducer/chat-screen-types';
+         handleSoundIconClick } from 'src/redux/modules/chat';
+import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { getPrechatFormFields,
          getAttachmentsEnabled,
          getPrechatFormSettings,
          getIsChatting,
          getAgents,
-         getChats,
+         getFilteredChats,
          getChatScreen,
          getConnection,
          getChatVisitor,
@@ -44,8 +40,6 @@ import { getPrechatFormFields,
          getChatRating,
          getUserSoundSettings,
          getConciergeSettings,
-         getShowEndNotification,
-         getShowContactDetailsNotification,
          getPostchatFormSettings } from 'src/redux/modules/chat/chat-selectors';
 
 import { locals as styles } from './Chat.scss';
@@ -56,15 +50,13 @@ const mapStateToProps = (state) => {
 
   return {
     attachmentsEnabled: getAttachmentsEnabled(state),
-    chats: getChats(state),
+    chats: getFilteredChats(state),
     currentMessage: getCurrentMessage(state),
     screen: getChatScreen(state),
     connection: getConnection(state),
     concierge: getConciergeSettings(state),
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
     postChatFormSettings: getPostchatFormSettings(state),
-    showEndNotification: getShowEndNotification(state),
-    showContactDetailsNotification: getShowContactDetailsNotification(state),
     isChatting: getIsChatting(state),
     agents: getAgents(state),
     rating: getChatRating(state),
@@ -91,23 +83,17 @@ class Chat extends Component {
     position: PropTypes.string,
     sendMsg: PropTypes.func.isRequired,
     setVisitorInfo: PropTypes.func.isRequired,
-    updateCurrentMsg: PropTypes.func.isRequired,
+    handleChatBoxChange: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
-    updateAccountSettings: PropTypes.func.isRequired,
+    getAccountSettings: PropTypes.func.isRequired,
     sendChatRating: PropTypes.func.isRequired,
     sendChatComment: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
-    showEndNotification: PropTypes.bool.isRequired,
-    showContactDetailsNotification: PropTypes.bool.isRequired,
-    toggleEndChatNotification: PropTypes.func.isRequired,
-    toggleContactDetailsNotification: PropTypes.func.isRequired,
-    acceptEndChatNotification: PropTypes.func.isRequired,
     isChatting: PropTypes.bool.isRequired,
     agents: PropTypes.object.isRequired,
     visitor: PropTypes.object.isRequired,
     rating: PropTypes.string,
-    saveContactDetails: PropTypes.func.isRequired,
-    updateUserSettings: PropTypes.func.isRequired,
+    handleSoundIconClick: PropTypes.func.isRequired,
     userSoundSettings: PropTypes.bool.isRequired
   };
 
@@ -117,12 +103,12 @@ class Chat extends Component {
     newDesign: false,
     position: 'right',
     updateFrameSize: () => {},
-    updateAccountSettings: () => {},
+    getAccountSettings: () => {},
     concierge: {},
     rating: null,
     chats: [],
     postChatFormSettings: {},
-    updateUserSettings: () => {},
+    handleSoundIconClick: () => {},
     userSoundSettings: true
   };
 
@@ -130,7 +116,9 @@ class Chat extends Component {
     super(props);
 
     this.state = {
-      showMenu: false
+      showMenu: false,
+      showEndChatMenu: false,
+      showEditContactDetailsMenu: false
     };
 
     this.scrollContainer = null;
@@ -155,7 +143,9 @@ class Chat extends Component {
   }
 
   onContainerClick = () => {
-    this.setState({ showMenu: false });
+    this.setState({
+      showMenu: false
+    });
   }
 
   onPrechatFormComplete = (info) => {
@@ -181,13 +171,11 @@ class Chat extends Component {
     const {
       userSoundSettings,
       isChatting,
-      toggleEndChatNotification,
-      toggleContactDetailsNotification,
-      updateUserSettings
+      handleSoundIconClick
     } = this.props;
-    const showChatEndFn = () => toggleEndChatNotification(true);
-    const showContactDetailsFn = () => toggleContactDetailsNotification(true);
-    const toggleSoundFn = () => updateUserSettings({ sound: !userSoundSettings });
+    const showChatEndFn = () => this.setState({ showEndChatMenu: true });
+    const showContactDetailsFn = () => this.setState({ showEditContactDetailsMenu: true });
+    const toggleSoundFn = () => handleSoundIconClick({ sound: !userSoundSettings });
 
     return (
       <ChatMenu
@@ -200,9 +188,9 @@ class Chat extends Component {
   }
 
   renderChatFooter = () => {
-    const { currentMessage, sendMsg, updateCurrentMsg } = this.props;
+    const { currentMessage, sendMsg, handleChatBoxChange } = this.props;
 
-    const showChatEndFn = () => this.props.toggleEndChatNotification(true);
+    const showChatEndFn = () => this.setState({ showEndChatMenu: true });
 
     return (
       <ChatFooter
@@ -214,7 +202,7 @@ class Chat extends Component {
         <ChatBox
           currentMessage={currentMessage}
           sendMsg={sendMsg}
-          updateCurrentMsg={updateCurrentMsg} />
+          handleChatBoxChange={handleChatBoxChange} />
       </ChatFooter>
     );
   }
@@ -330,16 +318,20 @@ class Chat extends Component {
   }
 
   renderChatEndPopup = () => {
-    if (!this.props.showEndNotification) return null;
+    if (!this.state.showEndChatMenu) return null;
 
-    const hideChatEndFn = () => this.props.toggleEndChatNotification(false);
+    const hideChatEndFn = () => this.setState({ showEndChatMenu: false });
+    const endChatFn = () => {
+      this.setState({ showEndChatMenu: false });
+      this.props.endChat();
+    };
 
     return (
       <ChatPopup
         className={styles.bottomPopup}
         leftCtaFn={hideChatEndFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
-        rightCtaFn={this.props.acceptEndChatNotification}
+        rightCtaFn={endChatFn}
         rightCtaLabel={i18n.t('embeddable_framework.chat.form.endChat.button.end')}>
         <div className={styles.chatEndPopupDescription}>
           {i18n.t('embeddable_framework.chat.form.endChat.description')}
@@ -380,15 +372,19 @@ class Chat extends Component {
   }
 
   renderChatContactDetailsPopup = () => {
-    if (!this.props.showContactDetailsNotification) return null;
+    if (!this.state.showEditContactDetailsMenu) return null;
 
-    const hideContactDetailsFn = () => this.props.toggleContactDetailsNotification(false);
+    const hideContactDetailsFn = () => this.setState({ showEditContactDetailsMenu: false });
+    const saveContactDetailsFn = (name, email) => {
+      this.setState({ showEditContactDetailsMenu: false });
+      this.props.setVisitorInfo({ display_name: name, email });
+    };
 
     return (
       <ChatContactDetailsPopup
         className={styles.bottomPopup}
         leftCtaFn={hideContactDetailsFn}
-        rightCtaFn={this.props.saveContactDetails} />
+        rightCtaFn={saveContactDetailsFn} />
     );
   }
 
@@ -409,20 +405,16 @@ class Chat extends Component {
 }
 
 const actionCreators = {
-  toggleEndChatNotification,
-  toggleContactDetailsNotification,
-  acceptEndChatNotification,
-  saveContactDetails,
   sendMsg,
-  updateCurrentMsg,
-  updateAccountSettings,
+  handleChatBoxChange,
+  getAccountSettings,
   endChat,
   setVisitorInfo,
   sendChatRating,
   sendChatComment,
   updateChatScreen,
   sendAttachments,
-  updateUserSettings
+  handleSoundIconClick
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);
