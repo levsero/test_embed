@@ -204,7 +204,7 @@ function create(name, config = {}, reduxStore = {}) {
       downHide: transitionFactory.webWidget.downHide(),
       upShow: transitionFactory.webWidget.upShow()
     },
-    newDesign: !!config.zopimChat,
+    newDesign: config.newDesign,
     newChat: !!config.zopimChat,
     store: reduxStore,
     visible: false,
@@ -221,7 +221,7 @@ function create(name, config = {}, reduxStore = {}) {
       <WebWidget
         attachmentSender={submitTicketSettings.attachmentSender}
         channelChoice={channelChoice}
-        newDesign={!!config.zopimChat}
+        newDesign={config.newDesign}
         fullscreen={isMobileBrowser()}
         helpCenterAvailable={helpCenterAvailable}
         helpCenterConfig={helpCenterSettings.config}

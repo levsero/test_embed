@@ -245,6 +245,23 @@ describe('renderer', () => {
         .toEqual(1);
     });
 
+    describe('when newDesign is true', () => {
+      beforeEach(() => {
+        configJSON.newDesign = true;
+
+        mockWebWidget.create.calls.reset();
+
+        renderer.init(configJSON);
+      });
+
+      it('passes through the newDesign value', () => {
+        expect(mockWebWidget.create)
+          .toHaveBeenCalledWith('webWidget', jasmine.objectContaining({
+            newDesign: true
+          }), jasmine.any(Object));
+      });
+    });
+
     describe('zopimStandalone', () => {
       let configJSON;
 
