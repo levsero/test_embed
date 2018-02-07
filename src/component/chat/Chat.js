@@ -387,7 +387,7 @@ class Chat extends Component {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     return (
-      <div>
+      <div className={styles.container}>
         {this.renderPrechatScreen()}
         {this.renderChatScreen()}
         {this.renderPostchatScreen()}
