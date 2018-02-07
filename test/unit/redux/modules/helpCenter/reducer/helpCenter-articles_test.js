@@ -27,7 +27,7 @@ describe('helpCenter reducer articles', () => {
     });
   });
 
-  describe('when an UPDATE_RESULTS action is dispatched', () => {
+  describe('when an CONTEXTUAL_SEARCH_REQUEST_SUCCESS action is dispatched', () => {
     let state,
       mockPayload;
 
@@ -35,18 +35,42 @@ describe('helpCenter reducer articles', () => {
       mockPayload = {
         articles: [{ id: 123 }, { id: 347865 }, { id: 238957 }],
         articleViewActive: false,
-        resultsCount: 1,
-        viewMoreClicked: false
+        resultsCount: 1
       };
 
       state = reducer(initialState, {
-        type: actionTypes.UPDATE_RESULTS,
+        type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
         payload: mockPayload
       });
     });
 
     it('sets the state to the article array from the payload', () => {
       const expected = [{ id: 123 }, { id: 347865 }, { id: 238957 }];
+
+      expect(state)
+        .toEqual(expected);
+    });
+  });
+
+  describe('when an SEARCH_REQUEST_SUCCESS action is dispatched', () => {
+    let state,
+      mockPayload;
+
+    beforeEach(() => {
+      mockPayload = {
+        articles: [{ id: 456 }, { id: 100000 }],
+        articleViewActive: false,
+        resultsCount: 1
+      };
+
+      state = reducer(initialState, {
+        type: actionTypes.SEARCH_REQUEST_SUCCESS,
+        payload: mockPayload
+      });
+    });
+
+    it('sets the state to the article array from the payload', () => {
+      const expected = [{ id: 456 }, { id: 100000 }];
 
       expect(state)
         .toEqual(expected);

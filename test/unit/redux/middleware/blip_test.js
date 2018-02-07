@@ -4,10 +4,10 @@ describe('blip middleware', () => {
     i18nSpy;
   const TALK_CALLBACK_SUCCESS = 'widget/talk/TALK_CALLBACK_SUCCESS';
   const UPDATE_ACTIVE_EMBED = 'widget/base/UPDATE_ACTIVE_EMBED';
-  const UPDATE_ACTIVE_ARTICLE = 'widget/helpCenter/UPDATE_ACTIVE_ARTICLE';
+  const ARTICLE_CLICKED = 'widget/helpCenter/ARTICLE_CLICKED';
   const ORIGINAL_ARTICLE_CLICKED = 'widget/helpCenter/ORIGINAL_ARTICLE_CLICKED';
-  const SEARCH_SUCCESS = 'widget/helpCenter/SEARCH_SUCCESS';
-  const SEARCH_FAILURE = 'widget/helpCenter/SEARCH_FAILURE';
+  const SEARCH_REQUEST_SUCCESS = 'widget/helpCenter/SEARCH_REQUEST_SUCCESS';
+  const SEARCH_REQUEST_FAILURE = 'widget/helpCenter/SEARCH_REQUEST_FAILURE';
 
   beforeEach(() => {
     const blipPath = buildSrcPath('redux/middleware/blip');
@@ -41,10 +41,10 @@ describe('blip middleware', () => {
         TALK_CALLBACK_SUCCESS: TALK_CALLBACK_SUCCESS
       },
       'src/redux/modules/helpCenter/helpCenter-action-types': {
-        'UPDATE_ACTIVE_ARTICLE': UPDATE_ACTIVE_ARTICLE,
+        'ARTICLE_CLICKED': ARTICLE_CLICKED,
         'ORIGINAL_ARTICLE_CLICKED': ORIGINAL_ARTICLE_CLICKED,
-        'SEARCH_SUCCESS': SEARCH_SUCCESS,
-        'SEARCH_FAILURE': SEARCH_FAILURE
+        'SEARCH_REQUEST_SUCCESS': SEARCH_REQUEST_SUCCESS,
+        'SEARCH_REQUEST_FAILURE': SEARCH_REQUEST_FAILURE
       },
       'src/redux/modules/base/base-action-types': {
         UPDATE_ACTIVE_EMBED: UPDATE_ACTIVE_EMBED
@@ -177,7 +177,7 @@ describe('blip middleware', () => {
       });
     });
 
-    describe('action has type UPDATE_ACTIVE_ARTICLE', () => {
+    describe('action has type ARTICLE_CLICKED', () => {
       let flatState;
 
       beforeEach(() => {
@@ -194,7 +194,7 @@ describe('blip middleware', () => {
       describe('latest article is not null', () => {
         beforeEach(() => {
           action = {
-            type: UPDATE_ACTIVE_ARTICLE,
+            type: ARTICLE_CLICKED,
             payload: { id: 121212112 }
           };
           sendBlips({ getState: () => flatState })(nextSpy)(action);
@@ -217,7 +217,7 @@ describe('blip middleware', () => {
       describe('latest article is null', () => {
         beforeEach(() => {
           action = {
-            type: UPDATE_ACTIVE_ARTICLE,
+            type: ARTICLE_CLICKED,
             payload: null
           };
           sendBlips({ getState: () => flatState })(nextSpy)(action);
@@ -230,7 +230,7 @@ describe('blip middleware', () => {
       });
     });
 
-    describe('action has type SEARCH_SUCCESS', () => {
+    describe('action has type SEARCH_REQUEST_SUCCESS', () => {
       let flatState;
 
       beforeEach(() => {
@@ -245,7 +245,7 @@ describe('blip middleware', () => {
             searchTerm: 'i made a query...'
           };
           action = {
-            type: SEARCH_SUCCESS
+            type: SEARCH_REQUEST_SUCCESS
           };
           sendBlips({ getState: () => flatState })(nextSpy)(action);
         });
@@ -263,7 +263,7 @@ describe('blip middleware', () => {
             searchTerm: 'i made a query...'
           };
           action = {
-            type: SEARCH_SUCCESS
+            type: SEARCH_REQUEST_SUCCESS
           };
           sendBlips({ getState: () => flatState })(nextSpy)(action);
         });
@@ -275,7 +275,7 @@ describe('blip middleware', () => {
       });
     });
 
-    describe('action has type SEARCH_FAILURE', () => {
+    describe('action has type SEARCH_REQUEST_FAILURE', () => {
       let flatState;
 
       beforeEach(() => {
@@ -290,7 +290,7 @@ describe('blip middleware', () => {
             searchTerm: 'i made a query...'
           };
           action = {
-            type: SEARCH_FAILURE
+            type: SEARCH_REQUEST_FAILURE
           };
           sendBlips({ getState: () => flatState })(nextSpy)(action);
         });
@@ -308,7 +308,7 @@ describe('blip middleware', () => {
             searchTerm: 'i made a query...'
           };
           action = {
-            type: SEARCH_FAILURE
+            type: SEARCH_REQUEST_FAILURE
           };
           sendBlips({ getState: () => flatState })(nextSpy)(action);
         });

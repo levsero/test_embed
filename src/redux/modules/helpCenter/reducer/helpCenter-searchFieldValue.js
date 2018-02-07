@@ -1,4 +1,4 @@
-import { UPDATE_SEARCH_FIELD_VALUE } from '../helpCenter-action-types';
+import { SEARCH_FIELD_CHANGED } from '../helpCenter-action-types';
 
 const initialState = '';
 
@@ -6,7 +6,7 @@ const searchFieldValue = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case UPDATE_SEARCH_FIELD_VALUE:
+    case SEARCH_FIELD_CHANGED:
       return payload;
     default:
       return state;

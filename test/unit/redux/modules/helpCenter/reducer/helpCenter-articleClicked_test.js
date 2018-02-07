@@ -27,12 +27,12 @@ describe('helpCenter reducer articleClicked', () => {
     });
   });
 
-  describe('when an SEARCH_REQUEST action is dispatched', () => {
+  describe('when an SEARCH_REQUEST_SENT action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.SEARCH_REQUEST
+        type: actionTypes.SEARCH_REQUEST_SENT
       });
     });
 
@@ -42,12 +42,12 @@ describe('helpCenter reducer articleClicked', () => {
     });
   });
 
-  describe('when an UPDATE_ACTIVE_ARTICLE action is dispatched', () => {
+  describe('when an ARTICLE_CLICKED action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.UPDATE_ACTIVE_ARTICLE
+        type: actionTypes.ARTICLE_CLICKED
       });
     });
 
@@ -57,12 +57,12 @@ describe('helpCenter reducer articleClicked', () => {
     });
   });
 
-  describe('when an RESET_ACTIVE_ARTICLE action is dispatched', () => {
+  describe('when an ARTICLE_CLOSED action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.RESET_ACTIVE_ARTICLE
+        type: actionTypes.ARTICLE_CLOSED
       });
     });
 

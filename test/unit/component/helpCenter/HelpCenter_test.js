@@ -1003,7 +1003,7 @@ describe('HelpCenter component', () => {
 
       articleIndex = 1;
       showBackButtonSpy = jasmine.createSpy('showBackButton');
-      updateActiveArticleSpy = jasmine.createSpy('updateActiveArticle');
+      updateActiveArticleSpy = jasmine.createSpy('handleArticleClick');
       mockArticles = [
         { 'foo': 123 },
         { 'bar': 456 }
@@ -1012,13 +1012,13 @@ describe('HelpCenter component', () => {
       helpCenter = instanceRender(
         <HelpCenter
           articles={mockArticles}
-          updateActiveArticle={updateActiveArticleSpy}
+          handleArticleClick={updateActiveArticleSpy}
           showBackButton={showBackButtonSpy} />
       );
       helpCenter.handleArticleClick(articleIndex, mockEvent);
     });
 
-    it('calls updateActiveArticle with an article', () => {
+    it('calls handleArticleClick with an article', () => {
       expect(updateActiveArticleSpy)
         .toHaveBeenCalledWith(mockArticles[articleIndex]);
     });

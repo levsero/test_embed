@@ -80,9 +80,9 @@ describe('helpCenter redux actions', () => {
       httpPostSpy.calls.reset();
     });
 
-    it('dispatches an action of type SEARCH_REQUEST', () => {
+    it('dispatches an action of type SEARCH_REQUEST_SENT', () => {
       expect(action.type)
-        .toEqual(actionTypes.SEARCH_REQUEST);
+        .toEqual(actionTypes.SEARCH_REQUEST_SENT);
     });
 
     it('sends a http search request with the correct params', () => {
@@ -158,14 +158,9 @@ describe('helpCenter redux actions', () => {
           actions = mockStore.getActions();
         });
 
-        it('dispatches an action of type SEARCH_SUCCESS', () => {
+        it('dispatches an action of type SEARCH_REQUEST_SUCCESS', () => {
           expect(actions[1].type)
-            .toEqual(actionTypes.SEARCH_SUCCESS);
-        });
-
-        it('dispatches an action of type UPDATE_RESULTS', () => {
-          expect(actions[2].type)
-            .toEqual(actionTypes.UPDATE_RESULTS);
+            .toEqual(actionTypes.SEARCH_REQUEST_SUCCESS);
         });
       });
 
@@ -178,9 +173,9 @@ describe('helpCenter redux actions', () => {
           action = mockStore.getActions()[1];
         });
 
-        it('dispatches an action of type SEARCH_FAILURE', () => {
+        it('dispatches an action of type SEARCH_REQUEST_FAILURE', () => {
           expect(action.type)
-            .toEqual(actionTypes.SEARCH_FAILURE);
+            .toEqual(actionTypes.SEARCH_REQUEST_FAILURE);
         });
       });
     });
@@ -199,9 +194,9 @@ describe('helpCenter redux actions', () => {
       httpPostSpy.calls.reset();
     });
 
-    it('dispatches an action of type CONTEXTUAL_SEARCH_REQUEST', () => {
+    it('dispatches an action of type CONTEXTUAL_SEARCH_REQUEST_SENT', () => {
       expect(action.type)
-        .toEqual(actionTypes.CONTEXTUAL_SEARCH_REQUEST);
+        .toEqual(actionTypes.CONTEXTUAL_SEARCH_REQUEST_SENT);
     });
 
     it('sends a http search request with the correct params', () => {
@@ -263,50 +258,23 @@ describe('helpCenter redux actions', () => {
         mockResponse;
 
       describe('when the request is successful', () => {
-        describe('when the response body contains no items', () => {
-          beforeEach(() => {
-            const mockResponse = { body: { count: 0 } };
-            const searchRequest = httpPostSpy.calls.mostRecent().args;
+        beforeEach(() => {
+          const searchRequest = httpPostSpy.calls.mostRecent().args;
 
-            callbackFn = searchRequest[0].callbacks.done;
-            callbackFn(mockResponse);
-            action = mockStore.getActions()[1];
-          });
-
-          it('dispatches an action of type CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS', () => {
-            expect(action.type)
-              .toEqual(actionTypes.CONTEXTUAL_SEARCH_SUCCESS_NO_RESULTS);
-          });
+          mockResponse = { body: { count: 1 } };
+          callbackFn = searchRequest[0].callbacks.done;
+          callbackFn(mockResponse);
+          action = mockStore.getActions()[1];
         });
 
-        describe('when the response body contains at least a single item', () => {
-          beforeEach(() => {
-            const searchRequest = httpPostSpy.calls.mostRecent().args;
+        it('dispatches an action of type CONTEXTUAL_SEARCH_REQUEST_SUCCESS', () => {
+          expect(action.type)
+            .toEqual(actionTypes.CONTEXTUAL_SEARCH_REQUEST_SUCCESS);
+        });
 
-            mockResponse = { body: { count: 1 } };
-            callbackFn = searchRequest[0].callbacks.done;
-            callbackFn(mockResponse);
-            action = mockStore.getActions()[1];
-          });
-
-          it('dispatches an action of type CONTEXTUAL_SEARCH_SUCCESS', () => {
-            expect(action.type)
-              .toEqual(actionTypes.CONTEXTUAL_SEARCH_SUCCESS);
-          });
-
-          it('dispatches an action with a payload of the response', () => {
-            const expected = { response: mockResponse };
-
-            expect(action.payload)
-              .toEqual(expected);
-          });
-
-          it('dispatches an action of type UPDATE_RESULTS', () => {
-            const action = mockStore.getActions()[2];
-
-            expect(action.type)
-              .toEqual(actionTypes.UPDATE_RESULTS);
-          });
+        it('dispatches an action with a payload containing the count', () => {
+          expect(action.payload.resultsCount)
+            .toEqual(1);
         });
       });
 
@@ -319,9 +287,9 @@ describe('helpCenter redux actions', () => {
           action = mockStore.getActions()[1];
         });
 
-        it('dispatches an action of type SEARCH_FAILURE', () => {
+        it('dispatches an action of type CONTEXTUAL_SEARCH_REQUEST_FAILURE', () => {
           expect(action.type)
-            .toEqual(actionTypes.SEARCH_FAILURE);
+            .toEqual(actionTypes.CONTEXTUAL_SEARCH_REQUEST_FAILURE);
         });
       });
     });
@@ -377,7 +345,7 @@ describe('helpCenter redux actions', () => {
     });
   });
 
-  describe('#updateActiveArticle', () => {
+  describe('#handleArticleClick', () => {
     let action,
       mockArticle;
 
@@ -387,13 +355,13 @@ describe('helpCenter redux actions', () => {
         body: '<p>Oh mai gawdddddddddddd</p>'
       };
 
-      mockStore.dispatch(actions.updateActiveArticle(mockArticle));
+      mockStore.dispatch(actions.handleArticleClick(mockArticle));
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type UPDATE_ACTIVE_ARTICLE', () => {
+    it('dispatches an action of type ARTICLE_CLICKED', () => {
       expect(action.type)
-        .toEqual(actionTypes.UPDATE_ACTIVE_ARTICLE);
+        .toEqual(actionTypes.ARTICLE_CLICKED);
     });
 
     it('contains the article in the payload', () => {
@@ -410,9 +378,9 @@ describe('helpCenter redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type UPDATE_SEARCH_TERM', () => {
+    it('dispatches an action of type SEARCH_BAR_CHANGED', () => {
       expect(action.type)
-        .toEqual(actionTypes.UPDATE_SEARCH_TERM);
+        .toEqual(actionTypes.SEARCH_BAR_CHANGED);
     });
 
     it('contains the search term in the payload', () => {
@@ -443,9 +411,9 @@ describe('helpCenter redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type RESET_ACTIVE_ARTICLE', () => {
+    it('dispatches an action of type ARTICLE_CLOSED', () => {
       expect(action.type)
-        .toEqual(actionTypes.RESET_ACTIVE_ARTICLE);
+        .toEqual(actionTypes.ARTICLE_CLOSED);
     });
   });
 
@@ -494,9 +462,9 @@ describe('helpCenter redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type UPDATE_CHANNELCHOICE_SHOWN', () => {
+    it('dispatches an action of type NEXT_BUTTON_CLICKED', () => {
       expect(action.type)
-        .toEqual(actionTypes.UPDATE_CHANNELCHOICE_SHOWN);
+        .toEqual(actionTypes.NEXT_BUTTON_CLICKED);
     });
 
     it('contains the boolean value in the payload', () => {
@@ -505,17 +473,17 @@ describe('helpCenter redux actions', () => {
     });
   });
 
-  describe('#updateSearchFieldValue', () => {
+  describe('#handleSearchFieldChange', () => {
     let action;
 
     beforeEach(() => {
-      mockStore.dispatch(actions.updateSearchFieldValue('bla bla bla'));
+      mockStore.dispatch(actions.handleSearchFieldChange('bla bla bla'));
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type UPDATE_SEARCH_FIELD_VALUE', () => {
+    it('dispatches an action of type SEARCH_FIELD_CHANGED', () => {
       expect(action.type)
-        .toEqual(actionTypes.UPDATE_SEARCH_FIELD_VALUE);
+        .toEqual(actionTypes.SEARCH_FIELD_CHANGED);
     });
 
     it('contains the search field value in the payload', () => {

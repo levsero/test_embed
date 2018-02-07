@@ -27,12 +27,12 @@ describe('helpCenter reducer searchFailed', () => {
     });
   });
 
-  describe('when an SEARCH_REQUEST action is dispatched', () => {
+  describe('when an SEARCH_REQUEST_SENT action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.SEARCH_REQUEST
+        type: actionTypes.SEARCH_REQUEST_SENT
       });
     });
 
@@ -42,12 +42,12 @@ describe('helpCenter reducer searchFailed', () => {
     });
   });
 
-  describe('when an SEARCH_FAILURE action is dispatched', () => {
+  describe('when an SEARCH_REQUEST_FAILURE action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.SEARCH_FAILURE
+        type: actionTypes.SEARCH_REQUEST_FAILURE
       });
     });
 

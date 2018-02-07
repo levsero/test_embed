@@ -27,7 +27,7 @@ describe('helpCenter reducer activeArticle', () => {
     });
   });
 
-  describe('when an UPDATE_ACTIVE_ARTICLE action is dispatched', () => {
+  describe('when an ARTICLE_CLICKED action is dispatched', () => {
     let state,
       mockArticle;
 
@@ -38,7 +38,7 @@ describe('helpCenter reducer activeArticle', () => {
       };
 
       state = reducer(initialState, {
-        type: actionTypes.UPDATE_ACTIVE_ARTICLE,
+        type: actionTypes.ARTICLE_CLICKED,
         payload: mockArticle
       });
     });
@@ -49,7 +49,7 @@ describe('helpCenter reducer activeArticle', () => {
     });
   });
 
-  describe('when an RESET_ACTIVE_ARTICLE action is dispatched', () => {
+  describe('when an ARTICLE_CLOSED action is dispatched', () => {
     let state;
 
     beforeEach(() => {
@@ -58,7 +58,7 @@ describe('helpCenter reducer activeArticle', () => {
         body: 'bogan ipsum'
       };
 
-      state = reducer(initialState, { type: actionTypes.RESET_ACTIVE_ARTICLE });
+      state = reducer(initialState, { type: actionTypes.ARTICLE_CLOSED });
     });
 
     it('sets the state to null', () => {

@@ -165,7 +165,8 @@ describe('helpCenter selectors', () => {
       mockHelpCenterState = {
         helpCenter: {
           hasContextuallySearched: false,
-          totalUserSearches: 0
+          totalUserSearches: 0,
+          articles: [1]
         }
       };
     });
@@ -286,12 +287,13 @@ describe('helpCenter selectors', () => {
     beforeEach(() => {
       mockHelpCenterState = {
         helpCenter: {
-          hasContextuallySearched: true
+          hasContextuallySearched: true,
+          articles: [1]
         }
       };
     });
 
-    describe('when contextual search made', () => {
+    describe('when contextual search is true and the articles array is not empty', () => {
       beforeEach(() => {
         result = getHasContextuallySearched(mockHelpCenterState);
       });
@@ -302,9 +304,21 @@ describe('helpCenter selectors', () => {
       });
     });
 
-    describe('when contextual search not made', () => {
+    describe('when contextual search is false', () => {
       beforeEach(() => {
         mockHelpCenterState.helpCenter.hasContextuallySearched = false;
+        result = getHasContextuallySearched(mockHelpCenterState);
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when the articles array is empty', () => {
+      beforeEach(() => {
+        mockHelpCenterState.helpCenter.articles = [];
         result = getHasContextuallySearched(mockHelpCenterState);
       });
 
