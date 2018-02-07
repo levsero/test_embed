@@ -14,7 +14,6 @@ export class ChannelChoiceDesktop extends Component {
     formTitleKey: PropTypes.string.isRequired,
     handleNextClick: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
-    getFrameDimensions: PropTypes.func.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
@@ -63,14 +62,13 @@ export class ChannelChoiceDesktop extends Component {
   }
 
   render = () => {
-    const { formTitleKey, hideZendeskLogo, getFrameDimensions } = this.props;
+    const { formTitleKey, hideZendeskLogo } = this.props;
     const footerClasses = hideZendeskLogo ? styles.footerNoLogo : '';
 
     return (
       <div>
         <ScrollContainer
           ref='scrollContainer'
-          getFrameDimensions={getFrameDimensions}
           containerClasses={styles.container}
           footerContent={this.renderZendeskLogo()}
           footerClasses={footerClasses}

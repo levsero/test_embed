@@ -335,7 +335,6 @@ class WebWidget extends Component {
     return (
       <Chat
         ref={chat}
-        getFrameDimensions={this.props.getFrameDimensions}
         isMobile={this.props.fullscreen}
         newDesign={this.props.newDesign}
         updateFrameSize={this.props.updateFrameSize}
@@ -363,7 +362,6 @@ class WebWidget extends Component {
           onNextClick={this.onNextClick}
           newDesign={this.props.newDesign}
           position={this.props.position}
-          getFrameDimensions={this.props.getFrameDimensions}
           buttonLabelKey={helpCenterConfig.buttonLabelKey}
           formTitleKey={helpCenterConfig.formTitleKey}
           showBackButton={this.props.updateBackButtonVisibility}
@@ -435,7 +433,6 @@ class WebWidget extends Component {
         chatEnabled={this.props.chatEnabled}
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
-        getFrameDimensions={this.props.getFrameDimensions}
         onCancelClick={this.props.closeFrame}
         showCloseButton={this.props.showCloseButton}
         hideZendeskLogo={this.props.hideZendeskLogo} />
@@ -449,7 +446,6 @@ class WebWidget extends Component {
       <Talk
         ref={talk}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        getFrameDimensions={this.props.getFrameDimensions}
         style={this.props.style}
         isMobile={this.props.fullscreen}
         updateFrameSize={this.props.updateFrameSize}

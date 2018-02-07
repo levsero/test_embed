@@ -77,7 +77,6 @@ class Chat extends Component {
     sendAttachments: PropTypes.func.isRequired,
     prechatFormSettings: PropTypes.object.isRequired,
     postChatFormSettings: PropTypes.object.isRequired,
-    getFrameDimensions: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
     newDesign: PropTypes.bool,
     position: PropTypes.string,
@@ -98,7 +97,6 @@ class Chat extends Component {
   };
 
   static defaultProps = {
-    getFrameDimensions: () => {},
     isMobile: false,
     newDesign: false,
     position: 'right',
@@ -232,7 +230,6 @@ class Chat extends Component {
 
     return (
       <ScrollContainer
-        getFrameDimensions={this.props.getFrameDimensions}
         newDesign={this.props.newDesign}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
         <ChatPrechatForm
@@ -296,7 +293,6 @@ class Chat extends Component {
         headerContent={this.renderChatHeader(showRating)}
         headerClasses={styles.header}
         containerClasses={containerClasses}
-        getFrameDimensions={this.props.getFrameDimensions}
         newDesign={this.props.newDesign}
         footerClasses={styles.footer}
         footerContent={this.renderChatFooter()}>
@@ -359,7 +355,6 @@ class Chat extends Component {
       <ScrollContainer
         headerContent={this.renderChatHeader()}
         newDesign={this.props.newDesign}
-        getFrameDimensions={this.props.getFrameDimensions}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
         <ChatFeedbackForm
           feedbackMessage={message}

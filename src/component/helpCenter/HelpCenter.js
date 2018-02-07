@@ -63,7 +63,6 @@ class HelpCenter extends Component {
     chatEnabled: PropTypes.bool.isRequired,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool.isRequired,
-    getFrameDimensions: PropTypes.func.isRequired,
     previousSearchTerm: PropTypes.string.isRequired,
     searchTerm: PropTypes.string.isRequired,
     hasContextualSearched: PropTypes.bool.isRequired,
@@ -110,7 +109,6 @@ class HelpCenter extends Component {
     channelChoice: false,
     formTitleKey: 'help',
     hideZendeskLogo: false,
-    getFrameDimensions: () => {},
     localeFallbacks: [],
     onNextClick: () => {},
     newDesign: false,
@@ -354,7 +352,6 @@ class HelpCenter extends Component {
         chatAvailable={this.props.chatAvailable}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
-        getFrameDimensions={this.props.getFrameDimensions}
         handleOnChangeValue={this.props.handleSearchFieldChange}
         handleNextClick={this.handleNextClick}
         search={this.search}
