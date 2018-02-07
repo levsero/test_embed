@@ -47,6 +47,7 @@ describe('Icon component', function() {
       'zd-svg-icons/src/14-chevron.svg': DummyIcon,
       'icons/widget-icon_sound_on.svg': DummyIcon,
       'icons/widget-icon_sound_off.svg': DummyIcon,
+      'zd-svg-icons/src/14-link-external.svg': DummyIcon,
       'utility/devices': {
         isMobileBrowser: function() {
           return false;

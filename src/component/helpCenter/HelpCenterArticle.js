@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
-import { ButtonPill } from 'component/button/ButtonPill';
+import { Icon } from 'component/Icon';
 import { authentication } from 'service/authentication';
 import { i18n } from 'service/i18n';
 import { parseUrl } from 'utility/utils';
@@ -305,13 +305,11 @@ export class HelpCenterArticle extends Component {
     return (
       <div className={styles.originalArticleButton}>
         <a
-          className={styles.link}
           href={this.props.activeArticle.html_url}
           target='_blank'
-          onClick={this.props.handleOriginalArticleClick}>
-          <ButtonPill
-            fullscreen={this.props.fullscreen}
-            label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')} />
+          onClick={this.props.handleOriginalArticleClick}
+          title={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}>
+          <Icon type='Icon--link-external' isMobile={this.props.fullscreen} />
         </a>
       </div>
     );
@@ -321,13 +319,13 @@ export class HelpCenterArticle extends Component {
     const mobileClasses = this.props.fullscreen ? styles.contentMobile : '';
 
     return (
-      <div className={`${styles.content} u-userLinkColor ${mobileClasses}`} ref='userContent'>
+      <div className={`${styles.content} ${mobileClasses}`} ref='userContent'>
         <div className={styles.title}>{this.props.activeArticle.title}</div>
+        {this.renderOriginalArticleButton()}
         <div
           ref='article'
           className={styles.article}
           onClick={this.handleClick} />
-          {this.renderOriginalArticleButton()}
       </div>
     );
   }
