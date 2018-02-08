@@ -9,7 +9,6 @@ export class ChannelChoice extends Component {
     chatAvailable: PropTypes.bool.isRequired,
     showCloseButton: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
-    getFrameDimensions: PropTypes.func.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
     newDesign: PropTypes.bool,
     formTitleKey: PropTypes.string,
@@ -27,7 +26,6 @@ export class ChannelChoice extends Component {
   static defaultProps = {
     formTitleKey: 'help',
     hideZendeskLogo: false,
-    getFrameDimensions: () => {},
     onNextClick: () => {},
     style: {},
     isMobile: false,
@@ -65,12 +63,11 @@ export class ChannelChoice extends Component {
   }
 
   renderDesktop = () => {
-    const { formTitleKey, hideZendeskLogo, getFrameDimensions } = this.props;
+    const { formTitleKey, hideZendeskLogo } = this.props;
 
     return (
       <ChannelChoiceDesktop
         ref='channelChoiceDesktop'
-        getFrameDimensions={getFrameDimensions}
         chatAvailable={this.props.chatAvailable}
         formTitleKey={formTitleKey}
         talkAvailable={this.props.talkAvailable}

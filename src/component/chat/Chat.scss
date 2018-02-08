@@ -5,6 +5,10 @@
   max-height: #{480/$font-size}rem;
 }
 
+.container {
+  max-height: #{550/$font-size}rem;
+}
+
 .messages {
   margin-top: #{70/$font-size}rem;
   margin-bottom: #{24/$font-size}rem;

@@ -53,7 +53,6 @@ export class Frame extends Component {
     fullscreenable: PropTypes.bool,
     hideCloseButton: PropTypes.bool,
     name: PropTypes.string,
-    newChat: PropTypes.bool,
     newDesign: PropTypes.bool,
     onBack: PropTypes.func,
     onClose: PropTypes.func,
@@ -77,7 +76,6 @@ export class Frame extends Component {
     fullscreenable: false,
     hideCloseButton: false,
     name: '',
-    newChat: false,
     newDesign: false,
     onBack: () => {},
     onClose: () => {},
@@ -168,7 +166,6 @@ export class Frame extends Component {
   updateFrameSize = () => {
     const frameDoc = this.getContentDocument();
     const fullscreenWidth = `${win.innerWidth}px`;
-    const maxFrameHeight = win.innerHeight*0.9;
 
     if (!frameDoc.firstChild) {
       return false;
@@ -220,18 +217,6 @@ export class Frame extends Component {
 
     const dimensions = getDimensions();
     const frameWin = this.getContentWindow();
-
-    if (this.props.newChat) {
-      const { iframeDimensions } = this.state;
-
-      // Don't shrink back down
-      if (iframeDimensions.height > dimensions.height) {
-        dimensions.height = iframeDimensions.height;
-      // Stop growing at 90% of window height
-      } else if (dimensions.height > maxFrameHeight) {
-        dimensions.height = maxFrameHeight;
-      }
-    }
 
     frameWin.setTimeout(() => this.setState({ iframeDimensions: dimensions }), 0);
     return dimensions;
