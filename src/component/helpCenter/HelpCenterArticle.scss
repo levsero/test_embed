@@ -8,6 +8,10 @@
   composes: u-tableCell u-alignMiddle from global;
 }
 
+.oldOriginalArticleButton {
+  composes: u-marginBM from global;
+}
+
 .contentMobile {
   font-size: #{14/$font-size}rem;
   max-width: 100%;
@@ -22,6 +26,10 @@
       height: #{18/$font-size}rem;
     }
   }
+}
+
+.link {
+  composes: u-linkClean from global;
 }
 
 .article {

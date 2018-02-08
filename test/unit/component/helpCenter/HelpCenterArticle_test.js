@@ -40,6 +40,9 @@ describe('HelpCenterArticle component', () => {
         }
       },
       'imports?_=lodash!lodash': _,
+      'component/button/ButtonPill': {
+        ButtonPill: noopReactComponent()
+      },
       'component/Icon': {
         Icon: noopReactComponent()
       }
@@ -676,21 +679,59 @@ describe('HelpCenterArticle component', () => {
   });
 
   describe('view original article button', () => {
-    it('is visible by default', () => {
-      const helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
+    let helpCenterArticle;
 
-      expect(ReactDOM.findDOMNode(helpCenterArticle).querySelector('.originalArticleButtonClasses'))
-        .toBeTruthy();
+    describe('when newDesign is false', () => {
+      beforeEach(() => {
+        helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
+      });
+
+      it('is rendered', () => {
+        expect(helpCenterArticle.renderOldOriginalArticleButton())
+          .toBeTruthy();
+      });
+
+      it('does not render the new button', () => {
+        expect(helpCenterArticle.renderOriginalArticleButton())
+          .toBeFalsy();
+      });
+
+      it('is hidden if originalArticleButton prop is false', () => {
+        helpCenterArticle = domRender(
+          <HelpCenterArticle
+            activeArticle={mockArticle}
+            originalArticleButton={false} />);
+
+        expect(helpCenterArticle.renderOldOriginalArticleButton())
+          .toBeFalsy();
+      });
     });
 
-    it('is hidden if originalArticleButton prop is true', () => {
-      const helpCenterArticle = domRender(
-        <HelpCenterArticle
-          activeArticle={mockArticle}
-          originalArticleButton={false} />);
+    describe('when newDesign is true', () => {
+      beforeEach(() => {
+        helpCenterArticle = domRender(<HelpCenterArticle newDesign={true} activeArticle={mockArticle} />);
+      });
 
-      expect(ReactDOM.findDOMNode(helpCenterArticle).querySelector('.originalArticleButtonClasses'))
-        .toBeFalsy();
+      it('is rendered', () => {
+        expect(helpCenterArticle.renderOriginalArticleButton())
+          .toBeTruthy();
+      });
+
+      it('does not render the new button', () => {
+        expect(helpCenterArticle.renderOldOriginalArticleButton())
+          .toBeFalsy();
+      });
+
+      it('is hidden if originalArticleButton prop is false', () => {
+        helpCenterArticle = domRender(
+          <HelpCenterArticle
+            activeArticle={mockArticle}
+            newDesign={true}
+            originalArticleButton={false} />);
+
+        expect(helpCenterArticle.renderOriginalArticleButton())
+          .toBeFalsy();
+      });
     });
   });
 
