@@ -5,6 +5,7 @@ describe('selectors', () => {
     getChatOnline,
     getTalkEnabled,
     getTalkAvailable,
+    getShowTicketFormsBackButton,
     settingsChatSuppressValue,
     zopimChatOnlineValue,
     chatOnlineValue,
@@ -14,7 +15,9 @@ describe('selectors', () => {
     zopimChatEmbedValue,
     talkEmbedValue,
     talkEmbeddableConfigEnabledValue,
-    agentAvailabilityValue;
+    agentAvailabilityValue,
+    activeTicketFormValue,
+    ticketFormsValue;
 
   beforeEach(() => {
     mockery.enable();
@@ -31,6 +34,8 @@ describe('selectors', () => {
     talkEmbedValue = false;
     talkEmbeddableConfigEnabledValue = false;
     agentAvailabilityValue = false;
+    activeTicketFormValue = null;
+    ticketFormsValue = [];
 
     initMockRegistry({
       './base/base-selectors': {
@@ -52,6 +57,10 @@ describe('selectors', () => {
       './talk/talk-selectors': {
         getEmbeddableConfigEnabled: () => talkEmbeddableConfigEnabledValue,
         getAgentAvailability: () => agentAvailabilityValue
+      },
+      './submitTicket/submitTicket-selectors': {
+        getActiveTicketForm: () => activeTicketFormValue,
+        getTicketForms: () => ticketFormsValue
       }
     });
 
@@ -65,6 +74,7 @@ describe('selectors', () => {
     getShowTalkBackButton = selectors.getShowTalkBackButton;
     getTalkEnabled = selectors.getTalkEnabled;
     getTalkAvailable = selectors.getTalkAvailable;
+    getShowTicketFormsBackButton = selectors.getShowTicketFormsBackButton;
   });
 
   describe('getShowTalkBackButton', () => {
@@ -388,6 +398,67 @@ describe('selectors', () => {
         talkEmbeddableConfigEnabledValue = true;
         talkEmbedValue = true;
         result = getTalkAvailable();
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBe(false);
+      });
+    });
+  });
+
+  describe('getShowTicketFormsBackButton', () => {
+    let result;
+
+    describe('when submitTicket is avalilable and has an activeForm and more then 1 form', () => {
+      beforeEach(() => {
+        submitTicketEmbedValue = true;
+        activeTicketFormValue = 1;
+        ticketFormsValue = [1, 2, 3];
+
+        result = getShowTicketFormsBackButton();
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toBe(true);
+      });
+    });
+
+    describe('when submitTicket is not available', () => {
+      beforeEach(() => {
+        submitTicketEmbedValue = false;
+        activeTicketFormValue = 1;
+        ticketFormsValue = [1, 2, 3];
+        result = getShowTicketFormsBackButton();
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBe(false);
+      });
+    });
+
+    describe('when active ticket form is falsy', () => {
+      beforeEach(() => {
+        submitTicketEmbedValue = true;
+        activeTicketFormValue = null;
+        ticketFormsValue = [1, 2, 3];
+        result = getShowTicketFormsBackButton();
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBeFalsy();
+      });
+    });
+
+    describe('when there is only one form', () => {
+      beforeEach(() => {
+        submitTicketEmbedValue = true;
+        activeTicketFormValue = 1;
+        ticketFormsValue = [1];
+        result = getShowTicketFormsBackButton();
       });
 
       it('returns false', () => {
