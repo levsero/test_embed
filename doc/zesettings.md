@@ -685,7 +685,8 @@ window.zESettings = {
 </script>
 ```
 
-To move the Web Widget vertically and horizontally **on mobile**, simply add a `mobile` property inside the above `offset` property which should consist of `horizontal` and `vertical` properties.
+To specify an offset for mobile devices, add a `mobile` property to the `offset` object, and specify `horizontal` and `vertical` values. Example:
+
 ```html
 <script type="text/javascript">
 window.zESettings = {
