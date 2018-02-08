@@ -155,9 +155,7 @@ function overrideTranslations(newTranslations) {
 const parseYamlTranslations = (filePath) => {
   if (_.isEmpty(filePath)) return;
 
-  const translations = filePath.parts.reduce(partReducer, {});
-
-  return translations;
+  return filePath.parts.reduce(partReducer, {});
 };
 
 const partReducer = (list, part) => {
