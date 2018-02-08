@@ -1,6 +1,7 @@
 describe('submitTicket selectors', () => {
   let getFormState,
     getLoading,
+    getActiveTicketForm,
     getTicketFields,
     getTicketForms;
 
@@ -17,6 +18,7 @@ describe('submitTicket selectors', () => {
     getLoading = selectors.getLoading;
     getTicketFields = selectors.getTicketFields;
     getTicketForms = selectors.getTicketForms;
+    getActiveTicketForm = selectors.getActiveTicketForm;
   });
 
   describe('getFormState', () => {
@@ -92,6 +94,24 @@ describe('submitTicket selectors', () => {
     it('returns the current state of ticketFields', () => {
       expect(result)
         .toEqual([2, 3, 5]);
+    });
+  });
+
+  describe('getActiveTicketForm', () => {
+    let result;
+    const mockSubmitTicketState = {
+      submitTicket: {
+        activeForm: { id: 2 }
+      }
+    };
+
+    beforeEach(() => {
+      result = getActiveTicketForm(mockSubmitTicketState);
+    });
+
+    it('returns the current state of activeForm', () => {
+      expect(result)
+        .toEqual({ id: 2 });
     });
   });
 });

@@ -15,7 +15,11 @@ import { updateActiveEmbed,
          updateAuthenticated } from 'src/redux/modules/base';
 import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
 import { resetActiveArticle } from 'src/redux/modules/helpCenter';
-import { getChatAvailable, getChatEnabled, getTalkAvailable, getTalkEnabled } from 'src/redux/modules/selectors';
+import { getChatAvailable,
+         getChatEnabled,
+         getTalkAvailable,
+         getTalkEnabled,
+         getShowTicketFormsBackButton } from 'src/redux/modules/selectors';
 import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
@@ -41,7 +45,8 @@ const mapStateToProps = (state) => {
     chatAvailable: getChatAvailable(state),
     chatEnabled: getChatEnabled(state),
     oldChat: getZopimChatEmbed(state),
-    ticketForms: getTicketForms(state)
+    ticketForms: getTicketForms(state),
+    showTicketFormsBackButton: getShowTicketFormsBackButton(state)
   };
 };
 
@@ -66,6 +71,7 @@ class WebWidget extends Component {
     onSubmitted: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     position: PropTypes.string,
+    showTicketFormsBackButton: PropTypes.bool.isRequired,
     showCloseButton: PropTypes.func,
     style: PropTypes.object,
     subjectEnabled: PropTypes.bool,
@@ -162,15 +168,6 @@ class WebWidget extends Component {
 
   getHelpCenterComponent = () => this.refs[helpCenter].getWrappedInstance();
 
-  shouldShowTicketFormBackButton = () => {
-    if (!this.getSubmitTicketComponent()) return false;
-
-    const { selectedTicketForm } = this.getSubmitTicketComponent().state;
-    const { ticketForms } = this.props;
-
-    return selectedTicketForm && _.size(ticketForms) > 1;
-  }
-
   isHelpCenterAvailable = () => {
     const { helpCenterAvailable, helpCenterConfig, authenticated, isOnHelpCenterPage } = this.props;
     const signInRequired = _.get(helpCenterConfig, 'signInRequired', false);
@@ -220,7 +217,7 @@ class WebWidget extends Component {
       this.showChat();
     } else {
       updateActiveEmbed(submitTicket);
-      backButton = this.shouldShowTicketFormBackButton();
+      backButton = this.props.showTicketFormsBackButton;
     }
 
     updateBackButtonVisibility(backButton);
@@ -299,7 +296,7 @@ class WebWidget extends Component {
     if (activeEmbed === helpCenter) {
       updateBackButtonVisibility(false);
       resetActiveArticle();
-    } else if (this.shouldShowTicketFormBackButton()) {
+    } else if (this.props.showTicketFormsBackButton) {
       rootComponent.clearForm();
       updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable);
     } else if (helpCenterAvailable) {

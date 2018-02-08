@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { FORM_ON_CHANGE,
+         TICKET_FORM_UPDATE,
          TICKET_FORMS_REQUEST_SENT,
          TICKET_FORMS_REQUEST_SUCCESS,
          TICKET_FORMS_REQUEST_FAILURE,
@@ -74,5 +75,12 @@ export function getTicketFields(customFields, locale) {
     dispatch({
       type: TICKET_FIELDS_REQUEST_SENT
     });
+  };
+}
+
+export function handleTicketFormClick(form) {
+  return {
+    type: TICKET_FORM_UPDATE,
+    payload: form
   };
 }

@@ -199,4 +199,25 @@ describe('submitTicket redux actions', () => {
       });
     });
   });
+
+  describe('handleTicketFormClick', () => {
+    let action,
+      form;
+
+    beforeEach(() => {
+      form = { id: 1 };
+      mockStore.dispatch(actions.handleTicketFormClick(form));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type TICKET_FORM_UPDATE ', () => {
+      expect(action.type)
+        .toEqual(actionTypes.TICKET_FORM_UPDATE);
+    });
+
+    it('has the form in the payload', () => {
+      expect(action.payload)
+        .toBe(form);
+    });
+  });
 });

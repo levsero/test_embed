@@ -415,19 +415,16 @@ describe('WebWidget component', () => {
     });
 
     describe('when submit ticket is the active component', () => {
-      const ticketFormsState = { selectedTicketForm: { id: '1' } };
-
-      describe('and it has a ticket form selected with > 1 ticket forms', () => {
+      describe('when showTicketFormsBackButton is true', () => {
         beforeEach(() => {
           webWidget = domRender(
             <WebWidget
               updateActiveEmbed={() => {}}
               activeEmbed='ticketSubmissionForm'
               helpCenterAvailable={true}
-              ticketForms={[{ id: '1' }, { id: '2' }]}
+              showTicketFormsBackButton={true}
               updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
           );
-          webWidget.getRootComponent().setState(ticketFormsState);
           webWidget.onBackClick();
         });
 
@@ -451,7 +448,6 @@ describe('WebWidget component', () => {
                 channelChoice={true}
                 updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
             );
-            webWidget.getRootComponent().setState(ticketFormsState);
             webWidget.onBackClick();
           });
 
@@ -471,7 +467,6 @@ describe('WebWidget component', () => {
                 channelChoice={false}
                 updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
             );
-            webWidget.getRootComponent().setState(ticketFormsState);
             webWidget.onBackClick();
           });
 
@@ -482,7 +477,7 @@ describe('WebWidget component', () => {
         });
       });
 
-      describe('when it does not have a ticket form selected', () => {
+      describe('when showTicketFormsBackButton is false', () => {
         beforeEach(() => {
           webWidget = domRender(
             <WebWidget
@@ -490,6 +485,7 @@ describe('WebWidget component', () => {
               activeEmbed='ticketSubmissionForm'
               helpCenterAvailable={true}
               articleViewActive={false}
+              showTicketFormsBackButton={false}
               updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
           );
           spyOn(webWidget, 'showHelpCenter').and.callThrough();
@@ -583,75 +579,6 @@ describe('WebWidget component', () => {
           expect(updateBackButtonVisibilitySpy)
             .toHaveBeenCalledWith(false);
         });
-      });
-    });
-  });
-
-  describe('#shouldShowTicketFormBackButton', () => {
-    let webWidget;
-    const mockState = { selectedTicketForm: true };
-
-    describe('when a ticket form is selected and there is more then one ticket form', () => {
-      beforeEach(() => {
-        webWidget = domRender(
-          <WebWidget ticketForms={[1, 2, 3]} />
-        );
-
-        spyOn(webWidget, 'getSubmitTicketComponent').and.returnValue({ state: mockState });
-      });
-
-      it('returns true', () => {
-        expect(webWidget.shouldShowTicketFormBackButton())
-          .toEqual(true);
-      });
-    });
-
-    describe('when a ticket form is not selected', () => {
-      beforeEach(() => {
-        mockState.selectedTicketForm = false;
-
-        webWidget = domRender(
-          <WebWidget />
-        );
-
-        spyOn(webWidget, 'getSubmitTicketComponent').and.returnValue({ state: mockState });
-      });
-
-      it('returns false', () => {
-        expect(webWidget.shouldShowTicketFormBackButton())
-          .toEqual(false);
-      });
-    });
-
-    describe('when there is only one ticket form', () => {
-      beforeEach(() => {
-        webWidget = domRender(
-          <WebWidget ticketForms={[1]} />
-        );
-
-        spyOn(webWidget, 'getSubmitTicketComponent').and.returnValue({ state: mockState });
-      });
-
-      it('returns false', () => {
-        expect(webWidget.shouldShowTicketFormBackButton())
-          .toEqual(false);
-      });
-    });
-
-    describe('when submit ticket does not exist', () => {
-      beforeEach(() => {
-        mockState.selectedTicketForm = true;
-
-        webWidget = domRender(
-          <WebWidget />
-        );
-
-        spyOn(webWidget, 'getSubmitTicketComponent').and.returnValue(undefined);
-      });
-
-      it('returns false', () => {
-        expect(webWidget.shouldShowTicketFormBackButton())
-          .toEqual(false);
       });
     });
   });
@@ -936,14 +863,7 @@ describe('WebWidget component', () => {
               activeEmbed='' />
           );
 
-          spyOn(webWidget, 'shouldShowTicketFormBackButton');
-
           webWidget.resetActiveEmbed();
-        });
-
-        it('calls shouldShowTicketFormBackButton', () => {
-          expect(webWidget.shouldShowTicketFormBackButton)
-            .toHaveBeenCalled();
         });
 
         it('calls updateActiveEmbed with ticketSubmissionForm', () => {
@@ -1064,7 +984,6 @@ describe('WebWidget component', () => {
               activeEmbed=''
               chatOnline={false}
               chatAvailable={false}
-              updateBackButtonVisibility={updateBackButtonVisibilitySpy}
               updateActiveEmbed={updateActiveEmbedSpy} />
           );
 
@@ -1077,9 +996,17 @@ describe('WebWidget component', () => {
             .toHaveBeenCalledWith('ticketSubmissionForm');
         });
 
-        describe('when shouldShowTicketFormBackButton is false', () => {
+        describe('when showTicketFormsBackButton is false', () => {
           beforeEach(() => {
-            spyOn(webWidget, 'shouldShowTicketFormBackButton').and.returnValue(false);
+            webWidget = domRender(
+              <WebWidget
+                activeEmbed=''
+                chatOnline={false}
+                chatAvailable={false}
+                showTicketFormsBackButton={false}
+                updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+                updateActiveEmbed={updateActiveEmbedSpy} />);
+
             webWidget.resetActiveEmbed();
           });
 
@@ -1089,9 +1016,17 @@ describe('WebWidget component', () => {
           });
         });
 
-        describe('when shouldShowTicketFormBackButton is true', () => {
+        describe('when showTicketFormsBackButton is true', () => {
           beforeEach(() => {
-            spyOn(webWidget, 'shouldShowTicketFormBackButton').and.returnValue(true);
+            webWidget = domRender(
+              <WebWidget
+                activeEmbed=''
+                chatOnline={false}
+                chatAvailable={false}
+                showTicketFormsBackButton={true}
+                updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+                updateActiveEmbed={updateActiveEmbedSpy} />);
+
             webWidget.resetActiveEmbed();
           });
 
