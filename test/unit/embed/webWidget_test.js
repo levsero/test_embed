@@ -313,26 +313,14 @@ describe('embed.webWidget', () => {
     });
 
     describe('new design', () => {
-      describe('when new chat is on', () => {
-        it('passes the `newDesign` with a value of true', () => {
-          const zopim = { zopimChat: { embed: 'chat', props: { zopimId: 'abcde' } } };
+      it('passes the `newDesign` with a value of true', () => {
+        const config = { newDesign: true, zopimChat: { embed: 'chat', props: { zopimId: 'abcde' } } };
 
-          webWidget.create('', zopim);
-          faythe = webWidget.get().component.props.children;
+        webWidget.create('', config);
+        faythe = webWidget.get().component.props.children;
 
-          expect(faythe.props.newDesign)
-            .toEqual(true);
-        });
-      });
-
-      describe('when new chat is off', () => {
-        it('passes the `newDesign` with a value of false', () => {
-          webWidget.create('', {});
-          faythe = webWidget.get().component.props.children;
-
-          expect(faythe.props.newDesign)
-            .toEqual(false);
-        });
+        expect(faythe.props.newDesign)
+          .toEqual(true);
       });
     });
 

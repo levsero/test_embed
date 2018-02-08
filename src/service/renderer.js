@@ -61,7 +61,7 @@ function init(config, reduxStore = { dispatch: () => {} }) {
     i18n.setLocale(config.locale);
     loadAudio(config);
 
-    const { newChat, embeds = {} } = config;
+    const { newChat, newDesign, embeds = {} } = config;
     const useNewChatEmbed = !!embeds.zopimChat && newChat;
     const hasSingleIframeEmbeds = !!embeds.ticketSubmissionForm
       || !!embeds.helpCenterForm
@@ -85,6 +85,8 @@ function init(config, reduxStore = { dispatch: () => {} }) {
 
         reduxStore.dispatch(updateEmbedAccessible(name, true));
       });
+
+      webWidgetConfig.newDesign = !!newDesign;
 
       parsedConfig = _.omit(parsedConfig, webWidgetEmbeds);
 
