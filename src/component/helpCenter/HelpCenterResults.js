@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { ButtonPill } from 'component/button/ButtonPill';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './HelpCenterResults.scss';
@@ -13,12 +12,10 @@ export class HelpCenterResults extends Component {
     articles: PropTypes.array,
     fullscreen: PropTypes.bool,
     handleArticleClick: PropTypes.func,
-    handleViewMoreClick: PropTypes.func,
     hasContextualSearched: PropTypes.bool,
     previousSearchTerm: PropTypes.string,
     searchFailed: PropTypes.bool,
-    showContactButton: PropTypes.bool,
-    showViewMore: PropTypes.bool
+    showContactButton: PropTypes.bool
   };
 
   static defaultProps = {
@@ -26,18 +23,16 @@ export class HelpCenterResults extends Component {
     articles: [],
     fullscreen: false,
     handleArticleClick: () => {},
-    handleViewMoreClick: () => {},
     hasContextualSearched: false,
     previousSearchTerm: '',
     searchFailed: false,
-    showContactButton: true,
-    showViewMore: false
+    showContactButton: true
   };
 
   hasInitialSearchResults = () => {
     const { articles } = this.props;
 
-    return articles.length > 0 && articles.length < 4;
+    return articles.length > 0;
   }
 
   renderResultRow = (article, index) => {
@@ -60,13 +55,10 @@ export class HelpCenterResults extends Component {
     const {
       fullscreen,
       articles,
-      showViewMore,
       showContactButton } = this.props;
     const noPaddingClasses = !showContactButton && this.hasInitialSearchResults();
 
-    if (showViewMore) {
-      paddingClasses = styles.listBottomViewMore;
-    } else if (!noPaddingClasses) {
+    if (!noPaddingClasses) {
       paddingClasses = styles.listBottom;
     }
 
@@ -108,22 +100,6 @@ export class HelpCenterResults extends Component {
     );
   }
 
-  renderViewMoreButton = () => {
-    const RTLClasses = i18n.isRTL() ? styles.viewMoreRTL : '';
-
-    return (
-      <div className={styles.viewMore}>
-        <div className={RTLClasses}>
-          <ButtonPill
-            fullscreen={this.props.fullscreen}
-            showIcon={false}
-            onClick={this.props.handleViewMoreClick}
-            label={i18n.t('embeddable_framework.helpCenter.results.viewMoreLinkText')} />
-        </div>
-      </div>
-    );
-  }
-
   renderLegend = () => {
     const mobileClasses = this.props.fullscreen ? styles.legendMobile : '';
     const resultsLegend = this.props.hasContextualSearched
@@ -141,22 +117,19 @@ export class HelpCenterResults extends Component {
 
   render = () => {
     const hasInitialSearchResults = this.hasInitialSearchResults();
-    const applyPadding = this.props.showViewMore ||
-                         (this.props.applyPadding && hasInitialSearchResults);
+    const applyPadding = this.props.applyPadding && hasInitialSearchResults;
     const paddingClasses = applyPadding ? styles.resultsPadding : '';
     const legend = !(this.props.searchFailed || this.props.articles.length === 0)
                  ? this.renderLegend()
                  : null;
-    const results = this.props.articles.length > 0
+    const results = hasInitialSearchResults
                   ? this.renderResults()
                   : this.renderNoResults();
-    const viewMoreButton = this.props.showViewMore ? this.renderViewMoreButton() : null;
 
     return (
       <div className={paddingClasses}>
         {legend}
         {results}
-        {viewMoreButton}
       </div>
     );
   }

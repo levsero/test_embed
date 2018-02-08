@@ -1,7 +1,6 @@
 describe('helpCenter selectors', () => {
   let getSearchLoading,
     getArticleClicked,
-    getViewMoreClicked,
     getSearchFailed,
     getSearchTerm,
     getPreviousSearchTerm,
@@ -9,8 +8,6 @@ describe('helpCenter selectors', () => {
     getHasContextuallySearched,
     getActiveArticle,
     getResultsCount,
-    getShowViewMore,
-    getResultsPerPage,
     getArticles,
     getArticleViewActive,
     getTotalUserSearches,
@@ -28,7 +25,6 @@ describe('helpCenter selectors', () => {
 
     getSearchLoading = selectors.getSearchLoading;
     getArticleClicked = selectors.getArticleClicked;
-    getViewMoreClicked = selectors.getViewMoreClicked;
     getSearchFailed = selectors.getSearchFailed;
     getSearchTerm = selectors.getSearchTerm;
     getPreviousSearchTerm = selectors.getPreviousSearchTerm;
@@ -36,8 +32,6 @@ describe('helpCenter selectors', () => {
     getHasContextuallySearched = selectors.getHasContextuallySearched;
     getActiveArticle = selectors.getActiveArticle;
     getResultsCount = selectors.getResultsCount;
-    getShowViewMore = selectors.getShowViewMore;
-    getResultsPerPage = selectors.getResultsPerPage;
     getArticles = selectors.getArticles;
     getArticleViewActive = selectors.getArticleViewActive;
     getTotalUserSearches = selectors.getTotalUserSearches;
@@ -76,24 +70,6 @@ describe('helpCenter selectors', () => {
     });
 
     it('returns the current state of articleClicked', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
-
-  describe('getViewMoreClicked', () => {
-    let result;
-    const mockHelpCenterState = {
-      helpCenter: {
-        viewMoreClicked: true
-      }
-    };
-
-    beforeEach(() => {
-      result = getViewMoreClicked(mockHelpCenterState);
-    });
-
-    it('returns the current state of viewMoreClicked', () => {
       expect(result)
         .toEqual(true);
     });
@@ -363,48 +339,6 @@ describe('helpCenter selectors', () => {
     it('returns the current state of resultsCount', () => {
       expect(result)
         .toEqual(5);
-    });
-  });
-
-  describe('showViewMore', () => {
-    let result;
-
-    describe('when resultsCount is higher than # of articles and contextual search and view more click are false', () => {
-      const mockHelpCenterState = {
-        helpCenter: {
-          viewMoreClicked: false,
-          hasContextuallySearched: false,
-          resultsCount: 4,
-          articles: [{ id: 1 }, { id: 2 }, { id: 3 }]
-        }
-      };
-
-      beforeEach(() => {
-        result = getShowViewMore(mockHelpCenterState);
-      });
-
-      it('returns true', () => {
-        expect(result)
-          .toEqual(true);
-      });
-    });
-  });
-
-  describe('resultsPerPage', () => {
-    let result;
-    const mockHelpCenterState = {
-      helpCenter: {
-        resultsPerPage: 3
-      }
-    };
-
-    beforeEach(() => {
-      result = getResultsPerPage(mockHelpCenterState);
-    });
-
-    it('returns the current state of resultsPerPage', () => {
-      expect(result)
-        .toEqual(3);
     });
   });
 

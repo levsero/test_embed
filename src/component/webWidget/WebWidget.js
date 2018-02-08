@@ -377,7 +377,6 @@ class WebWidget extends Component {
           callbackEnabled={this.props.callbackEnabled}
           submitTicketAvailable={this.props.submitTicketAvailable}
           chatAvailable={chatAvailable}
-          viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
           zendeskHost={this.props.zendeskHost}
           hideChatNotification={this.props.hideChatNotification}
           updateChatScreen={this.props.updateChatScreen} />

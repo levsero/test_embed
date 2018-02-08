@@ -22,12 +22,11 @@ describe('HelpCenterResults component', () => {
         locals: {
           noResults: 'noResultsClasses',
           list: 'listClasses',
+          listMobile: 'listMobileClasses',
           legend: 'legendClasses',
           resultsBorder: 'borderClasses',
-          viewMore: 'viewMoreClasses',
           resultsPadding: 'resultsPaddingClasses',
-          listBottom: 'listBottomClasses',
-          listBottomViewMore: 'listBottomViewMoreClasses'
+          listBottom: 'listBottomClasses'
         }
       },
       'service/i18n': {
@@ -100,28 +99,6 @@ describe('HelpCenterResults component', () => {
       });
     });
 
-    describe('when props.showViewMore is true', () => {
-      beforeEach(() => {
-        component = domRender(<HelpCenterResults articles={articles} showViewMore={true} />);
-      });
-
-      it('renders a View More button', () => {
-        expect(document.querySelector('.viewMoreClasses'))
-          .toBeTruthy();
-      });
-    });
-
-    describe('when props.showViewMore is false', () => {
-      beforeEach(() => {
-        component = domRender(<HelpCenterResults articles={articles} showViewMore={false} />);
-      });
-
-      it('does not render a View More button', () => {
-        expect(document.querySelector('.viewMoreClasses'))
-          .toBeFalsy();
-      });
-    });
-
     describe('when props.hasContextualSearched is true', () => {
       beforeEach(() => {
         shallowRender(<HelpCenterResults articles={articles} hasContextualSearched={true} />);
@@ -146,81 +123,65 @@ describe('HelpCenterResults component', () => {
   });
 
   describe('#renderResults', () => {
-    let helpCenterResults;
+    let result;
 
-    describe('when view more button is visible', () => {
+    describe('when fullscreen is true', () => {
       beforeEach(() => {
-        helpCenterResults = domRender(
-          <HelpCenterResults
-            showViewMore={true}
-            articles={articles} />
-        );
-        helpCenterResults.renderResults();
+        component = instanceRender(<HelpCenterResults fullscreen={true} />);
+        result = component.renderResults();
       });
 
-      it('should pass down the listBottomViewMore classes', () => {
-        expect(document.querySelector('.listBottomViewMoreClasses'))
-          .toBeTruthy();
+      it('renders with listMobile styles', () => {
+        expect(result.props.className)
+          .toContain('listMobileClasses');
       });
     });
 
-    describe('when view more button is not visible', () => {
-      describe('when props.showContactButton is false, there are 3 or less results, and zendesk logo is enabled', () => {
-        beforeEach(() => {
-          helpCenterResults = domRender(
-            <HelpCenterResults
-              showViewMore={false}
-              showContactButton={false}
-              articles={articles} />
-          );
-          helpCenterResults.renderResults();
-        });
-
-        it('should pass down no list bottom padding', () => {
-          expect(document.querySelector('.listBottomClasses'))
-            .toBeFalsy();
-
-          expect(document.querySelector('.listBottomViewMoreClasses'))
-            .toBeFalsy();
-        });
+    describe('when fullscreen is false', () => {
+      beforeEach(() => {
+        component = instanceRender(<HelpCenterResults />);
+        result = component.renderResults();
       });
 
-      describe('when props.showContactButton is true', () => {
-        beforeEach(() => {
-          helpCenterResults = domRender(
-            <HelpCenterResults
-              showViewMore={false}
-              showContactButton={true}
-              articles={articles} />
-          );
-          helpCenterResults.renderResults();
-        });
+      it('does not render listMobile styles', () => {
+        expect(result.props.className)
+          .not.toContain('listMobileClasses');
+      });
+    });
 
-        it('should pass down the listBottom classes', () => {
-          expect(document.querySelector('.listBottomClasses'))
-            .toBeTruthy();
-        });
+    describe('when either contactButton is not shown or search has not been initiated', () => {
+      beforeEach(() => {
+        const mockArticles = [{ id: 'terence' }, { id: 'fakeIdStringYesIknow' }];
+
+        component = instanceRender(
+          <HelpCenterResults
+            showContactButton={true}
+            articles={mockArticles} />
+        );
+        result = component.renderResults();
       });
 
-      describe('when there are more than 3 results visible', () => {
-        beforeEach(() => {
-          articles.push(
-            { 'html_url': 'http://www.example.com', title: 'Test article one', name: 'Test article 3' },
-            { 'html_url': 'http://www.example.com', title: 'Test article two', name: 'Test article 4' }
-          );
-          helpCenterResults = domRender(
-            <HelpCenterResults
-              showViewMore={false}
-              showContactButton={false}
-              articles={articles} />
-          );
-          helpCenterResults.renderResults();
-        });
+      it('renders with listBottom styles', () => {
+        expect(result.props.className)
+          .toContain('listBottomClasses');
+      });
+    });
 
-        it('should pass down the listBottom classes', () => {
-          expect(document.querySelector('.listBottomClasses'))
-            .toBeTruthy();
-        });
+    describe('when contactButton is not shown and search is initiated', () => {
+      beforeEach(() => {
+        const mockArticles = [{ id: '32423' }];
+
+        component = instanceRender(
+          <HelpCenterResults
+            showContactButton={false}
+            articles={mockArticles} />
+        );
+        result = component.renderResults();
+      });
+
+      it('does not render with listBottom styles', () => {
+        expect(result.props.className)
+          .not.toContain('listBottomClasses');
       });
     });
   });

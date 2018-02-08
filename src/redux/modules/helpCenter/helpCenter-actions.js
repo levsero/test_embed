@@ -14,7 +14,6 @@ import { SEARCH_REQUEST_SENT,
          CONTEXTUAL_SEARCH_REQUEST_FAILURE,
          ARTICLE_CLICKED,
          SEARCH_BAR_CHANGED,
-         UPDATE_VIEW_MORE_CLICKED,
          ORIGINAL_ARTICLE_CLICKED,
          ARTICLE_CLOSED,
          ADD_RESTRICTED_IMAGE,
@@ -120,10 +119,6 @@ export function updateSearchTerm(term) {
     type: SEARCH_BAR_CHANGED,
     payload: term
   };
-}
-
-export function updateViewMoreClicked() {
-  return { type: UPDATE_VIEW_MORE_CLICKED };
 }
 
 export function resetActiveArticle() {

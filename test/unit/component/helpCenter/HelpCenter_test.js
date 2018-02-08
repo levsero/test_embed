@@ -2,8 +2,7 @@ describe('HelpCenter component', () => {
   let HelpCenter,
     mockRegistry,
     mockPageKeywords,
-    showBackButton,
-    search;
+    showBackButton;
 
   const helpCenterPath = buildSrcPath('component/helpCenter/HelpCenter');
 
@@ -22,7 +21,6 @@ describe('HelpCenter component', () => {
 
   beforeEach(() => {
     showBackButton = jasmine.createSpy('showBackButton');
-    search = jasmine.createSpy('search');
 
     mockery.enable();
 
@@ -461,7 +459,7 @@ describe('HelpCenter component', () => {
       const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
 
       expect(recentCallArgs.per_page)
-        .toEqual(3);
+        .toEqual(9);
     });
 
     it('should not call focusField', () => {
@@ -791,7 +789,7 @@ describe('HelpCenter component', () => {
       expect(recentCallArgs[0])
         .toEqual(jasmine.objectContaining({
           query: searchTerm,
-          per_page: 3,
+          per_page: 9,
           origin: 'web_widget'
         }));
     });
@@ -892,37 +890,6 @@ describe('HelpCenter component', () => {
         expect(results)
           .toBeTruthy();
       });
-    });
-  });
-
-  describe('handleViewMoreClick', () => {
-    let helpCenter,
-      updateViewMoreClickedSpy;
-
-    beforeEach(() => {
-      updateViewMoreClickedSpy = jasmine.createSpy('updateViewMoreClicked');
-      helpCenter = domRender(
-        <HelpCenter
-          updateViewMoreClicked={updateViewMoreClickedSpy}
-          performSearch={noop} />
-      );
-      helpCenter.search = search;
-    });
-
-    it('calls updateViewMoreClicked', () => {
-      helpCenter.handleViewMoreClick({ preventDefault: noop });
-
-      expect(updateViewMoreClickedSpy)
-        .toHaveBeenCalled();
-    });
-
-    it('calls search', () => {
-      helpCenter.handleViewMoreClick({ preventDefault: noop });
-
-      jasmine.clock().tick(1);
-
-      expect(helpCenter.search)
-        .toHaveBeenCalled();
     });
   });
 

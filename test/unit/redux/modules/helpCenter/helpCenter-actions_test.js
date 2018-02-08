@@ -389,20 +389,6 @@ describe('helpCenter redux actions', () => {
     });
   });
 
-  describe('#updateViewMoreClicked', () => {
-    let action;
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.updateViewMoreClicked());
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches an action of type UPDATE_VIEW_MORE_CLICKED', () => {
-      expect(action.type)
-        .toEqual(actionTypes.UPDATE_VIEW_MORE_CLICKED);
-    });
-  });
-
   describe('#resetActiveArticle', () => {
     let action;
 

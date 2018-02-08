@@ -35,10 +35,6 @@
   composes: u-paddingBL from global;
 }
 
-.listBottomViewMore {
-  composes: u-paddingBM from global;
-}
-
 .resultsPadding {
   composes: u-paddingBL from global;
 }
@@ -61,14 +57,6 @@
 
 .noResultsParagraphDesktop {
   composes: u-marginBL from global;
-}
-
-.viewMore {
-  composes: u-cf from global;
-}
-
-.viewMoreRTL {
-  composes: u-pullRight from global;
 }
 
 .legend {

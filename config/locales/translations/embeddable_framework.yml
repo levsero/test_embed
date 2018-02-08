@@ -611,6 +611,7 @@ parts:
       title: "The button that is displayed after user has searched and there are more then 3 results. Clicking it loads more results."
       screenshot: "https://zendesk.box.com/s/m8r7h3g7b8nzgz87m3xpah3tzhdqpqqb"
       value: "View more"
+      obsolete: "2018-04-05"
   - translation:
       key: "embeddable_framework.helpCenter.results.button.backToChat"
       title: "A button that is displayed at the bottom when the user has chatted prior viewing the current helpcenter article"
