@@ -363,6 +363,7 @@ class HelpCenter extends Component {
         handleOriginalArticleClick={this.props.handleOriginalArticleClicked}
         storedImages={this.props.restrictedImages}
         imagesSender={this.props.performImageSearch}
+        newDesign={this.props.newDesign}
         updateStoredImages={this.props.addRestrictedImage}
         updateFrameSize={this.props.updateFrameSize}
         fullscreen={this.props.fullscreen} />
