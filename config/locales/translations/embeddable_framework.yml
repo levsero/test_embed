@@ -174,12 +174,12 @@ parts:
       value: "You objected to the use of cookies based on our <a target='_blank' href='%(url)s'>cookie policy</a>. Approve the use of cookies to enable Chat functions."
   - translation:
       key: "embeddable_framework.chat.agreement.cookies.disable_chat"
-      title: "A button that describes that the user will disable Chat product when clicked."
+      title: "A button that describes that the user will disable the chat functionality (Chat can be localized)"
       screenshot: "https://zendesk.box.com/s/wzwh72gz1tqifd6u29ftu7579matgl2x"
       value: "Disable Chat"
   - translation:
       key: "embeddable_framework.chat.agreement.cookies.enable"
-      title: "A button that describes that the user will enable Cookies and Chat product when clicked."
+      title: "A button that describes that the user will enable cookies and chat (can be localized) functionality when clicked."
       screenshot: "https://zendesk.box.com/s/dxhe1cuu0iflzbsue2zwq9t6648kiuwp"
       value: "Enable Cookies and Chat"
   - translation:
