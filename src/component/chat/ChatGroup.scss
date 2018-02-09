@@ -53,7 +53,7 @@
 
 .avatar {
   composes: u-posAbsolute from global;
-  bottom: #{4/$font-size}rem;
+  bottom: #{7/$font-size}rem;
 
   svg {
     padding-top: #{8/$font-size}rem;
