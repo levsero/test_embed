@@ -27,10 +27,19 @@ export function getTicketForms(ticketForms, locale) {
       locale,
       callbacks: {
         done(res) {
+          const forms = JSON.parse(res.text);
+
           dispatch({
             type: TICKET_FORMS_REQUEST_SUCCESS,
-            payload: JSON.parse(res.text)
+            payload: forms
           });
+
+          if (forms.ticket_forms.length === 1) {
+            dispatch({
+              type: TICKET_FORM_UPDATE,
+              payload: forms.ticket_forms[0]
+            });
+          }
         },
         fail() {
           dispatch({

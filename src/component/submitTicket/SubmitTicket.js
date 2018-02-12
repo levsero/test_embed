@@ -11,11 +11,12 @@ import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
-import { handleFormChange } from 'src/redux/modules/submitTicket';
+import { handleFormChange, handleTicketFormClick } from 'src/redux/modules/submitTicket';
 import { getFormState,
          getLoading,
          getTicketForms,
-         getTicketFields } from 'src/redux/modules/submitTicket/submitTicket-selectors';
+         getTicketFields,
+         getActiveTicketForm } from 'src/redux/modules/submitTicket/submitTicket-selectors';
 import { i18n } from 'service/i18n';
 import { store } from 'service/persistence';
 import { isIE } from 'utility/devices';
@@ -28,7 +29,8 @@ const mapStateToProps = (state) => {
     formState: getFormState(state),
     loading: getLoading(state),
     ticketForms: getTicketForms(state),
-    ticketFields: getTicketFields(state)
+    ticketFields: getTicketFields(state),
+    activeTicketForm: getActiveTicketForm(state)
   };
 };
 
@@ -59,8 +61,10 @@ class SubmitTicket extends Component {
     ticketFields: PropTypes.array.isRequired,
     updateFrameSize: PropTypes.func,
     handleFormChange: PropTypes.func.isRequired,
+    handleTicketFormClick: PropTypes.func.isRequired,
     viaId: PropTypes.number.isRequired,
     fullscreen: PropTypes.bool.isRequired,
+    activeTicketForm: PropTypes.object.isRequired,
     searchTerm: PropTypes.string
   };
 
@@ -68,6 +72,7 @@ class SubmitTicket extends Component {
     attachmentsEnabled: false,
     hideZendeskLogo: false,
     formTitleKey: 'message',
+    handleTicketFormClick: () => {},
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024,
     onCancel: () => {},
@@ -83,6 +88,7 @@ class SubmitTicket extends Component {
     ticketFormSettings: [],
     ticketForms: [],
     ticketFields: [],
+    activeTicketForm: null,
     updateFrameSize: () => {}
   };
 
@@ -94,7 +100,6 @@ class SubmitTicket extends Component {
       formTitleKey: props.formTitleKey,
       isDragActive: false,
       message: '',
-      selectedTicketForm: null,
       showNotification: false
     };
   }
@@ -109,7 +114,7 @@ class SubmitTicket extends Component {
     this.refs.submitTicketForm.clear();
 
     if (ticketForms && ticketForms.length > 1) {
-      this.setState({ selectedTicketForm: null });
+      this.props.handleTicketFormClick(null);
     }
   }
 
@@ -226,7 +231,7 @@ class SubmitTicket extends Component {
         'email': email,
         'locale_id': i18n.getLocaleId()
       },
-      'ticket_form_id': ticketFormsAvailable ? this.state.selectedTicketForm.id : null
+      'ticket_form_id': ticketFormsAvailable ? this.props.activeTicketForm.id : null
     };
 
     return this.props.ticketFields.length > 0
@@ -279,30 +284,34 @@ class SubmitTicket extends Component {
     this.setState({ formTitleKey });
   }
 
-  updateSubmitTicketForm = (selectedTicketForm, ticketFormPrefill = {}) => {
-    const updateFormFn = () => {
-      this.refs.submitTicketForm.updateTicketForm(
-        selectedTicketForm,
-        this.props.ticketFields,
-        ticketFormPrefill.fields,
-        this.props.ticketFieldSettings
-      );
-    };
-
-    this.setState({ selectedTicketForm }, updateFormFn);
-  }
-
   setTicketForm = (ticketFormId) => {
     const { ticketForms } = this.props;
 
     if (Array.isArray(ticketForms) && ticketForms.length === 0) return;
 
     const getformByIdFn = (form) => form.id === parseInt(ticketFormId);
-    const selectedTicketForm = _.find(ticketForms, getformByIdFn);
-    const ticketFormPrefill = _.find(this.props.ticketFormSettings, getformByIdFn);
+    const activeTicketForm = _.find(ticketForms, getformByIdFn);
 
     this.props.showBackButton();
-    this.updateSubmitTicketForm(selectedTicketForm, ticketFormPrefill);
+    this.props.handleTicketFormClick(activeTicketForm);
+
+    this.handlePrefill(ticketFormId);
+  }
+
+  handlePrefill = (ticketFormId) => {
+    if (!this.props.ticketFormSettings.length > 0) return;
+
+    const getformByIdFn = (form) => form.id === parseInt(ticketFormId);
+
+    const ticketFormPrefill = _.find(this.props.ticketFormSettings, getformByIdFn);
+
+    setTimeout(() => {
+      this.refs.submitTicketForm.prefillFormState(
+        this.props.ticketFields,
+        ticketFormPrefill.fields,
+        this.props.ticketFieldSettings
+      );
+    }, 0);
   }
 
   handleTicketFormsListClick = (e) => {
@@ -344,7 +353,7 @@ class SubmitTicket extends Component {
         onCancel={this.props.onCancel}
         fullscreen={this.props.fullscreen}
         hide={this.state.showNotification}
-        customFields={this.props.ticketFields}
+        ticketFields={this.props.ticketFields}
         formTitleKey={this.state.formTitleKey}
         attachmentSender={this.props.attachmentSender}
         attachmentsEnabled={this.props.attachmentsEnabled}
@@ -355,7 +364,7 @@ class SubmitTicket extends Component {
         setFormState={this.props.handleFormChange}
         submit={this.handleSubmit}
         newDesign={this.props.newDesign}
-        ticketForms={this.props.ticketForms}
+        activeTicketForm={this.props.activeTicketForm}
         getFrameDimensions={this.props.getFrameDimensions}
         previewEnabled={this.props.previewEnabled}>
         {this.renderErrorMessage()}
@@ -444,7 +453,7 @@ class SubmitTicket extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const content = (_.isEmpty(this.props.ticketForms) || this.state.selectedTicketForm)
+    const content = (_.isEmpty(this.props.ticketForms) || this.props.activeTicketForm)
                   ? this.renderForm()
                   : this.renderTicketFormList();
     const display = this.props.loading
@@ -463,7 +472,8 @@ class SubmitTicket extends Component {
 }
 
 const actionCreators = {
-  handleFormChange
+  handleFormChange,
+  handleTicketFormClick
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(SubmitTicket);

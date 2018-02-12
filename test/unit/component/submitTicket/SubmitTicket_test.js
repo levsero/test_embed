@@ -374,7 +374,7 @@ describe('Submit ticket component', () => {
 
           mockValues.value['22660514'] = 'mockCustomField';
 
-          submitTicket = instanceRender(<SubmitTicket customFields={mockCustomField} />);
+          submitTicket = instanceRender(<SubmitTicket ticketFields={mockCustomField} />);
           params = submitTicket.formatTicketFieldData(mockValues);
         });
 
@@ -419,9 +419,13 @@ describe('Submit ticket component', () => {
             }
           };
 
-          submitTicket = domRender(<SubmitTicket ticketFields={ticketFields} ticketForms={mockTicketForm} />);
+          submitTicket = domRender(
+            <SubmitTicket
+              ticketFields={ticketFields}
+              ticketForms={mockTicketForm}
+              activeTicketForm={mockTicketForm[0]} />
+          );
 
-          submitTicket.setState({ selectedTicketForm: mockTicketForm[0] });
           params = submitTicket.formatRequestTicketData(mockValues);
         });
 
@@ -441,8 +445,12 @@ describe('Submit ticket component', () => {
           beforeEach(() => {
             ticketFields.push({ id: 2, type: 'subject', removable: false });
 
-            submitTicket = domRender(<SubmitTicket ticketFields={ticketFields} ticketForms={mockTicketForm} />);
-            submitTicket.setState({ selectedTicketForm: mockTicketForm[0] });
+            submitTicket = domRender(
+              <SubmitTicket
+                ticketFields={ticketFields}
+                ticketForms={mockTicketForm}
+                activeTicketForm={mockTicketForm[0]} />
+            );
             params = submitTicket.formatRequestTicketData(mockValues);
           });
 
@@ -722,36 +730,34 @@ describe('Submit ticket component', () => {
 
   describe('clearForm', () => {
     let submitTicket;
-    const mockSetState = jasmine.createSpy('setState');
     const mockClear = jasmine.createSpy('clear');
+    const handleTicketFormClickSpy = jasmine.createSpy('handleTicketFormClick');
 
     beforeEach(() => {
-      mockSetState.calls.reset();
       mockClear.calls.reset();
+      handleTicketFormClickSpy.calls.reset();
     });
 
     describe('when there is more than 1 ticket form', () => {
       const mockTicketForms = [{ id: 123 }, { id: 456 }];
-
+      
       beforeEach(() => {
-        submitTicket = domRender(<SubmitTicket ticketForms={mockTicketForms} />);
-        submitTicket.setState({ selectedTicketForm: 123 });
+        submitTicket = domRender(
+          <SubmitTicket ticketForms={mockTicketForms} handleTicketFormClick={handleTicketFormClickSpy} />
+        );
 
         submitTicket.refs.submitTicketForm = { clear: mockClear };
-        submitTicket.setState = mockSetState;
         submitTicket.clearForm();
       });
 
-      it('should call clear on submitTicketForm', () => {
+      it('calls clear on submitTicketForm', () => {
         expect(mockClear)
           .toHaveBeenCalled();
       });
 
-      it('should call setState with null set to selectedTicketForm', () => {
-        const expectation = { selectedTicketForm: null };
-
-        expect(mockSetState)
-          .toHaveBeenCalledWith(expectation);
+      it('calls handleTicketFormClick with null', () => {
+        expect(handleTicketFormClickSpy)
+          .toHaveBeenCalledWith(null);
       });
     });
 
@@ -759,11 +765,9 @@ describe('Submit ticket component', () => {
       const mockTicketForms = [{ id: 123 }];
 
       beforeEach(() => {
-        submitTicket = domRender(<SubmitTicket ticketForms={mockTicketForms} />);
-        submitTicket.setState({ selectedTicketForm: 123 });
+        submitTicket = domRender(<SubmitTicket ticketForms={mockTicketForms} handleTicketFormClick={handleTicketFormClickSpy} />);
 
         submitTicket.refs.submitTicketForm = { clear: mockClear };
-        submitTicket.setState = mockSetState;
         submitTicket.clearForm();
       });
 
@@ -772,8 +776,8 @@ describe('Submit ticket component', () => {
           .toHaveBeenCalled();
       });
 
-      it('should not call setState', () => {
-        expect(mockSetState)
+      it('does not call handleTicketFormClick', () => {
+        expect(handleTicketFormClickSpy)
           .not.toHaveBeenCalled();
       });
     });
@@ -782,7 +786,7 @@ describe('Submit ticket component', () => {
   describe('setTicketForm', () => {
     let submitTicket,
       mockShowBackButton,
-      mockUpdateSubmitTicketForm;
+      mockHandlePrefill;
 
     describe('when there are no ticket forms', () => {
       const subjects = ['Kuroi Uta', 123, [], { id: 456 }];
@@ -790,7 +794,7 @@ describe('Submit ticket component', () => {
       beforeEach(() => {
         mockShowBackButton = jasmine.createSpy('showBackButton');
         submitTicket = domRender(<SubmitTicket showBackButton={mockShowBackButton} ticketForms={[]} />);
-        submitTicket.updateSubmitTicketForm = mockUpdateSubmitTicketForm = jasmine.createSpy('updateSubmitTicketForm');
+        submitTicket.handlePrefill = mockHandlePrefill = jasmine.createSpy('handlePrefill');
       });
 
       describe('when it is passed any data type representing a ticketFormId', () => {
@@ -808,7 +812,7 @@ describe('Submit ticket component', () => {
             submitTicket.setTicketForm(subject);
           });
 
-          expect(mockUpdateSubmitTicketForm)
+          expect(mockHandlePrefill)
             .not.toHaveBeenCalled();
         });
       });
@@ -820,41 +824,21 @@ describe('Submit ticket component', () => {
       beforeEach(() => {
         mockShowBackButton = jasmine.createSpy('showBackButton');
         submitTicket = domRender(<SubmitTicket showBackButton={mockShowBackButton} ticketForms={ticketForms} />);
-        submitTicket.updateSubmitTicketForm = mockUpdateSubmitTicketForm = jasmine.createSpy('updateSubmitTicketForm');
+        submitTicket.handlePrefill = mockHandlePrefill = jasmine.createSpy('handlePrefill');
       });
 
-      describe('when it is passed a non-existing ticketFormId', () => {
-        it('calls showBackButton', () => {
-          submitTicket.setTicketForm(777);
+      it('calls showBackButton', () => {
+        submitTicket.setTicketForm(123);
 
-          expect(mockShowBackButton)
-            .toHaveBeenCalled();
-        });
-
-        it('calls updateSubmitTicketForm with undefined as ticketForm', () => {
-          const ticketForm = undefined;
-
-          submitTicket.setTicketForm(777);
-
-          expect(mockUpdateSubmitTicketForm)
-            .toHaveBeenCalledWith(ticketForm, undefined);
-        });
+        expect(mockShowBackButton)
+          .toHaveBeenCalled();
       });
 
-      describe('when it is passed an existing ticketFormId', () => {
-        it('calls showBackButton', () => {
-          submitTicket.setTicketForm(123);
+      it('calls updateSubmitTicketForm with a ticketForm object', () => {
+        submitTicket.setTicketForm(456);
 
-          expect(mockShowBackButton)
-            .toHaveBeenCalled();
-        });
-
-        it('calls updateSubmitTicketForm with a ticketForm object', () => {
-          submitTicket.setTicketForm(456);
-
-          expect(mockUpdateSubmitTicketForm)
-            .toHaveBeenCalledWith({ id: 456 }, undefined);
-        });
+        expect(mockHandlePrefill)
+          .toHaveBeenCalledWith(456);
       });
     });
   });
