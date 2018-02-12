@@ -740,7 +740,7 @@ describe('Submit ticket component', () => {
 
     describe('when there is more than 1 ticket form', () => {
       const mockTicketForms = [{ id: 123 }, { id: 456 }];
-      
+
       beforeEach(() => {
         submitTicket = domRender(
           <SubmitTicket ticketForms={mockTicketForms} handleTicketFormClick={handleTicketFormClickSpy} />
@@ -785,8 +785,7 @@ describe('Submit ticket component', () => {
 
   describe('setTicketForm', () => {
     let submitTicket,
-      mockShowBackButton,
-      mockHandlePrefill;
+      mockShowBackButton;
 
     describe('when there are no ticket forms', () => {
       const subjects = ['Kuroi Uta', 123, [], { id: 456 }];
@@ -794,7 +793,6 @@ describe('Submit ticket component', () => {
       beforeEach(() => {
         mockShowBackButton = jasmine.createSpy('showBackButton');
         submitTicket = domRender(<SubmitTicket showBackButton={mockShowBackButton} ticketForms={[]} />);
-        submitTicket.handlePrefill = mockHandlePrefill = jasmine.createSpy('handlePrefill');
       });
 
       describe('when it is passed any data type representing a ticketFormId', () => {
@@ -806,15 +804,6 @@ describe('Submit ticket component', () => {
           expect(mockShowBackButton)
             .not.toHaveBeenCalled();
         });
-
-        it('does not call updateSubmitTicketForm', () => {
-          subjects.forEach((subject) => {
-            submitTicket.setTicketForm(subject);
-          });
-
-          expect(mockHandlePrefill)
-            .not.toHaveBeenCalled();
-        });
       });
     });
 
@@ -824,7 +813,6 @@ describe('Submit ticket component', () => {
       beforeEach(() => {
         mockShowBackButton = jasmine.createSpy('showBackButton');
         submitTicket = domRender(<SubmitTicket showBackButton={mockShowBackButton} ticketForms={ticketForms} />);
-        submitTicket.handlePrefill = mockHandlePrefill = jasmine.createSpy('handlePrefill');
       });
 
       it('calls showBackButton', () => {
@@ -832,13 +820,6 @@ describe('Submit ticket component', () => {
 
         expect(mockShowBackButton)
           .toHaveBeenCalled();
-      });
-
-      it('calls updateSubmitTicketForm with a ticketForm object', () => {
-        submitTicket.setTicketForm(456);
-
-        expect(mockHandlePrefill)
-          .toHaveBeenCalledWith(456);
       });
     });
   });

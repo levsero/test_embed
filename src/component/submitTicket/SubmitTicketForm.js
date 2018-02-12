@@ -36,6 +36,8 @@ export class SubmitTicketForm extends Component {
     ticketFields: PropTypes.array,
     activeTicketForm: PropTypes.object,
     getFrameDimensions: PropTypes.func.isRequired,
+    ticketFormSettings: PropTypes.array,
+    ticketFieldSettings: PropTypes.array,
     newDesign: PropTypes.bool,
     formState: PropTypes.object,
     formTitleKey: PropTypes.string,
@@ -80,6 +82,7 @@ export class SubmitTicketForm extends Component {
     const showShadow = this.props.ticketFields.length > 0 || this.props.attachmentsEnabled;
 
     this.refs.scrollContainer.setScrollShadowVisible(showShadow);
+    this.prefillFormState(this.props.ticketFields, this.props.ticketFormSettings, this.props.ticketFieldSettings);
   }
 
   componentDidUpdate = () => {
@@ -219,7 +222,11 @@ export class SubmitTicketForm extends Component {
             .value();
   }
 
-  prefillFormState = (fields, prefillTicketForm, prefillTicketField) => {
+  // Passed in as params so the tests don't break
+  prefillFormState = (
+    fields = this.props.ticketFields,
+    prefillTicketForm = this.props.ticketFormSettings,
+    prefillTicketField = this.props.ticketFieldSettings) => {
     const filteredFields = this.filterPrefillFields(fields, prefillTicketForm, prefillTicketField);
 
     // Check if pre-fill is still valid after processing

@@ -294,24 +294,6 @@ class SubmitTicket extends Component {
 
     this.props.showBackButton();
     this.props.handleTicketFormClick(activeTicketForm);
-
-    this.handlePrefill(ticketFormId);
-  }
-
-  handlePrefill = (ticketFormId) => {
-    if (!this.props.ticketFormSettings.length > 0) return;
-
-    const getformByIdFn = (form) => form.id === parseInt(ticketFormId);
-
-    const ticketFormPrefill = _.find(this.props.ticketFormSettings, getformByIdFn);
-
-    setTimeout(() => {
-      this.refs.submitTicketForm.prefillFormState(
-        this.props.ticketFields,
-        ticketFormPrefill.fields,
-        this.props.ticketFieldSettings
-      );
-    }, 0);
   }
 
   handleTicketFormsListClick = (e) => {
@@ -347,6 +329,11 @@ class SubmitTicket extends Component {
   }
 
   renderForm = () => {
+    const { activeTicketForm, ticketFormSettings } = this.props;
+    const getformByIdFn = (form) => parseInt(form.id) === parseInt(activeTicketForm.id);
+    const activeTicketFormSettings = activeTicketForm ? _.find(ticketFormSettings, getformByIdFn) : {};
+    const activeTicketFormPrefill = _.get(activeTicketFormSettings, 'fields', []);
+
     return (
       <SubmitTicketForm
         ref='submitTicketForm'
@@ -362,6 +349,8 @@ class SubmitTicket extends Component {
         maxFileSize={this.props.maxFileSize}
         formState={this.props.formState}
         setFormState={this.props.handleFormChange}
+        ticketFormSettings={activeTicketFormPrefill}
+        ticketFieldSettings={this.props.ticketFieldSettings}
         submit={this.handleSubmit}
         newDesign={this.props.newDesign}
         activeTicketForm={this.props.activeTicketForm}
