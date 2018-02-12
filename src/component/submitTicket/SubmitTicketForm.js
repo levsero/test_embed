@@ -82,7 +82,7 @@ export class SubmitTicketForm extends Component {
     const showShadow = this.props.ticketFields.length > 0 || this.props.attachmentsEnabled;
 
     this.refs.scrollContainer.setScrollShadowVisible(showShadow);
-    this.prefillFormState(this.props.ticketFields, this.props.ticketFormSettings, this.props.ticketFieldSettings);
+    this.prefillFormState();
   }
 
   componentDidUpdate = () => {

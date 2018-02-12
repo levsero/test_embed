@@ -584,14 +584,14 @@ describe('Submit ticket component', () => {
   describe('ticket forms list', () => {
     let submitTicket;
 
-    it('should not be rendered by default', () => {
+    it('is rendered by default', () => {
       submitTicket = domRender(<SubmitTicket />);
 
       expect(submitTicket.refs.ticketFormSelector)
         .toBeUndefined();
     });
 
-    it('should not be rendered if the form is loading', () => {
+    it('is rendered if the form is loading', () => {
       const ticketForms = [{ id: 1 }];
 
       submitTicket = domRender(<SubmitTicket ticketForms={ticketForms} loading={true} />);
@@ -600,7 +600,7 @@ describe('Submit ticket component', () => {
         .toBeUndefined();
     });
 
-    it('should be rendered when there is more then one ticket form', () => {
+    it('is rendered when there is more then one ticket form', () => {
       const ticketForms = [{ id: 1 }, { id: 2 }];
 
       submitTicket = domRender(<SubmitTicket ticketForms={ticketForms} />);
@@ -609,7 +609,7 @@ describe('Submit ticket component', () => {
         .toBeDefined();
     });
 
-    it('should render the correct number of list options', () => {
+    it('renders the correct number of list options', () => {
       const ticketForms = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
       submitTicket = domRender(<SubmitTicket ticketForms={ticketForms} />);

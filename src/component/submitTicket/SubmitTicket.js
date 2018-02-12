@@ -64,7 +64,7 @@ class SubmitTicket extends Component {
     handleTicketFormClick: PropTypes.func.isRequired,
     viaId: PropTypes.number.isRequired,
     fullscreen: PropTypes.bool.isRequired,
-    activeTicketForm: PropTypes.object.isRequired,
+    activeTicketForm: PropTypes.object,
     searchTerm: PropTypes.string
   };
 

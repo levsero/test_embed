@@ -366,7 +366,7 @@ describe('selectors', () => {
   describe('getTalkAvailable', () => {
     let result;
 
-    describe('when talk is avalilable and agent availability is true', () => {
+    describe('when talk is available and agent availability is true', () => {
       beforeEach(() => {
         talkEmbeddableConfigEnabledValue = true;
         talkEmbedValue = true;
