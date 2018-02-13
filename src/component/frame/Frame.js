@@ -345,8 +345,8 @@ export class Frame extends Component {
       frameStyle,
       modifiedStyles,
       iframeDimensions,
-      visibilityStyles,
-      posObj
+      posObj,
+      visibilityStyles
     );
   }
 
