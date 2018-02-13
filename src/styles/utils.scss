@@ -621,3 +621,7 @@ u-overflowAuto {
     display: none !important;
   }
 }
+
+.u-transitionBG {
+  transition: background-color .25s ease-in-out;
+}

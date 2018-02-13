@@ -29,6 +29,7 @@
 
 .title {
   composes: u-textSizeMed u-textBold u-textCenter u-textXHeight from global;
+  letter-spacing: #{0.3/$font-size}rem;
 }
 
 .titleMobile {

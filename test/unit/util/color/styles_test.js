@@ -131,6 +131,26 @@ describe('styles', () => {
             .toContain(trimWhitespace(expectedCss));
         });
       });
+
+      describe('u-userHeaderButtonColor', () => {
+        const expectedCss = `
+        .u-userHeaderButtonColor {
+          fill: #227C7B !important;
+        }
+        .u-userHeaderButtonColor:hover,
+        .u-userHeaderButtonColor:active,
+        .u-userHeaderButtonColor:focus {
+          background: #35F8F4 !important;
+          svg {
+            background: #35F8F4 !important;
+          }
+        }`;
+
+        it('is calculated to the same color with a darker text color', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
     });
 
     describe('when the color is not light', () => {
@@ -231,6 +251,26 @@ describe('styles', () => {
             .toContain(trimWhitespace(expectedCss));
         });
       });
+
+      describe('u-userHeaderButtonColor', () => {
+        const expectedCss = `
+        .u-userHeaderButtonColor {
+          fill: white !important;
+        }
+        .u-userHeaderButtonColor:hover,
+        .u-userHeaderButtonColor:active,
+        .u-userHeaderButtonColor:focus {
+          background: #253241 !important;
+          svg {
+            background: #253241 !important;
+          }
+        }`;
+
+        it('is calculated to the same color', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
     });
   });
 
@@ -285,6 +325,17 @@ describe('styles', () => {
         .u-userHeaderColor {
           background: #556B2F !important;
           color: white !important;
+        }
+        .u-userHeaderButtonColor {
+          fill: white !important;
+        }
+        .u-userHeaderButtonColor:hover,
+        .u-userHeaderButtonColor:active,
+        .u-userHeaderButtonColor:focus {
+          background: #4C602A !important;
+          svg {
+            background: #4C602A !important;
+          }
         }`;
 
         it('prefers the header colour over the base colour', () => {
@@ -305,6 +356,17 @@ describe('styles', () => {
         .u-userHeaderColor {
           background: #FF69B4 !important;
           color: white !important;
+        }
+        .u-userHeaderButtonColor {
+          fill: white !important;
+        }
+        .u-userHeaderButtonColor:hover,
+        .u-userHeaderButtonColor:active,
+        .u-userHeaderButtonColor:focus {
+          background: #FF47A3 !important;
+          svg {
+            background: #FF47A3 !important;
+          }
         }`;
 
         it('falls back to the base colour', () => {

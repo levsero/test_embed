@@ -89,7 +89,9 @@
 }
 
 .Icon--dash {
-  padding: 0;
+  display: block;
+  padding-bottom: #{5/$font-size}rem !important;
+  padding-top: #{5/$font-size}rem !important;
 
   &.is-mobile {
     display: block;
@@ -97,11 +99,10 @@
   }
 
   svg {
-    fill: $zd-color-aluminum;
-    min-width: #{10/$font-size}rem; /* 1 */
-    min-height: #{10/$font-size}rem; /* 1 */
-    height: #{10/$font-size}rem;
-    width: #{10/$font-size}rem;
+    min-width: #{12/$font-size}rem; /* 1 */
+    min-height: #{2/$font-size}rem; /* 1 */
+    height: #{2/$font-size}rem;
+    width: #{12/$font-size}rem;
   }
 }
 
@@ -115,7 +116,7 @@
   }
 
   svg {
-    fill: $zd-color-aluminum;
+    stroke: none;
     min-width: #{14/$font-size}rem; /* 1 */
     min-height: #{14/$font-size}rem; /* 1 */
     height: #{14/$font-size}rem;
