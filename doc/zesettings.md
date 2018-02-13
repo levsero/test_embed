@@ -406,7 +406,9 @@ window.zESettings = {
 
 #### color
 
-Sets a color theme for the Web Widget. The `color` property consists of an object with a `theme` property with color HEX codes as possible values.
+Sets a color theme for the Web Widget. The `color` property consists of an object, itself with different properties to fully customize several of the widget's elements using color HEX codes as possible values.
+
+The `theme` property may be used as a base, determining the overall color scheme of the widget:
 
 ```html
 <script type="text/javascript">
@@ -417,6 +419,35 @@ window.zESettings = {
 };
 </script>
 ```
+
+Furthermore, you can define a number of additional options to target specific elements:
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    color: {
+      theme: '#FF69B4',
+      launcher: '#CC3A83',
+      button: '#8A0648',
+      resultLists: '#691840',
+      header: '#203D9D',
+      articleLinks: '#FF4500'
+    }
+  }
+};
+</script>
+```
+
+None of these elements are mandatory, and elements that are not defined will be based on either the `theme` color or the color [defined from the settings page](https://support.zendesk.com/hc/en-us/articles/115009692388-Configuring-the-components-in-your-Web-Widget), in that order of priority.
+
+Some examples of elements you may customize using the properties described above:
+
+![Widget launcher](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_color_launcher.png)
+
+![Search results](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_color_results.png)
+
+![Article view](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_color_article.png)
 
 ##### Related settings
 
