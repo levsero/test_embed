@@ -15,7 +15,7 @@ import Launcher from 'component/Launcher';
 import { beacon } from 'service/beacon';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
-import { generateUserCSS } from 'utility/color';
+import { generateUserCSS } from 'utility/color/styles';
 import { transitionFactory } from 'service/transitionFactory';
 import { isMobileBrowser,
          getZoomSizingRatio } from 'utility/devices';

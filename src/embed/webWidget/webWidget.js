@@ -16,7 +16,7 @@ import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { transitionFactory } from 'service/transitionFactory';
 import { http, socketio } from 'service/transport';
-import { generateUserCSS } from 'utility/color';
+import { generateUserCSS } from 'utility/color/styles';
 import { getZoomSizingRatio,
          isIE,
          isMobileBrowser,
