@@ -56,18 +56,18 @@
   bottom: #{7/$font-size}rem;
 
   svg {
-    padding-top: #{8/$font-size}rem;
-    min-width: #{13/$font-size}rem;
-    min-height: #{13/$font-size}rem;
-    max-width: #{13/$font-size}rem;
-    max-height: #{13/$font-size}rem;
+    padding-top: #{7/$font-size}rem;
+    min-width: #{14/$font-size}rem;
+    min-height: #{14/$font-size}rem;
+    max-width: #{14/$font-size}rem;
+    max-height: #{14/$font-size}rem;
   }
 }
 
 .avatarDefault {
   composes: avatar;
-  height: #{32/$font-size}rem;
-  width: #{32/$font-size}rem;
+  height: #{30/$font-size}rem;
+  width: #{30/$font-size}rem;
 }
 
 .avatarWithSrc {
