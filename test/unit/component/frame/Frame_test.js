@@ -904,8 +904,29 @@ describe('Frame', () => {
         });
       });
 
-      describe('when the frame should be hidden', () => {
+      describe('when the frame should be hidden and vertical is top', () => {
         beforeEach(() => {
+          mockSettingsValue = { position: { vertical: 'top' } };
+          Frame = requireUncached(FramePath).Frame;
+
+          frame = instanceRender(<Frame>{mockChild}</Frame>);
+          frame.setState({
+            visible: false,
+            hiddenByZoom: true
+          });
+        });
+
+        it('position should not override the hidden absolute position', () => {
+          expect(frame.computeIframeStyle().top)
+            .toEqual('-9999px');
+        });
+      });
+
+      describe('when the frame should be hidden and vertical is bottom', () => {
+        beforeEach(() => {
+          mockSettingsValue = { position: { vertical: 'bottom' } };
+          Frame = requireUncached(FramePath).Frame;
+
           frame = instanceRender(<Frame>{mockChild}</Frame>);
           frame.setState({
             visible: false,
