@@ -46,16 +46,13 @@ describe('ChannelChoice component', () => {
   });
 
   describe('handleNextClick', () => {
-    let onNextClickSpy,
-      showCloseButtonSpy;
+    let onNextClickSpy;
 
     beforeEach(() => {
       onNextClickSpy = jasmine.createSpy('onNextClick');
-      showCloseButtonSpy = jasmine.createSpy('showCloseButton');
       channelChoice = domRender(
         <ChannelChoice
-          onNextClick={onNextClickSpy}
-          showCloseButton={showCloseButtonSpy} />
+          onNextClick={onNextClickSpy} />
       );
 
       channelChoice.handleNextClick('chat');
@@ -64,11 +61,6 @@ describe('ChannelChoice component', () => {
     it('should call props.onNextClick with embed param', () => {
       expect(onNextClickSpy)
         .toHaveBeenCalledWith('chat');
-    });
-
-    it('should call props.showCloseButton', () => {
-      expect(showCloseButtonSpy)
-        .toHaveBeenCalled();
     });
   });
 });

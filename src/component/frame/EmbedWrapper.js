@@ -38,10 +38,6 @@ export class EmbedWrapper extends Component {
     this.nav = null;
   }
 
-  showCloseButton = (show = true) => {
-    this.nav.getWrappedInstance().showCloseButton(show);
-  }
-
   setButtonColor = (color) => {
     const css = generateWebWidgetPreviewCSS(color);
 

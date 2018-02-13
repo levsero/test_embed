@@ -33,20 +33,6 @@ class Navigation extends Component {
     newDesign: false
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showCloseButton: !props.hideCloseButton
-    };
-
-    this.embed = null;
-  }
-
-  showCloseButton = (show = true) => {
-    this.setState({ showCloseButton: show });
-  }
-
   renderNavButton = (options = {}) => {
     if (!options.isVisible) return;
 
@@ -81,7 +67,7 @@ class Navigation extends Component {
           onClick: this.props.handleCloseClick,
           icon: closeIcon,
           position: 'right',
-          isVisible: this.state.showCloseButton
+          isVisible: !this.props.hideCloseButton
         })}
       </div>
     );

@@ -13,7 +13,6 @@ export class ChannelChoiceMobile extends Component {
     handleNextClick: PropTypes.func.isRequired,
     handleCancelClick: PropTypes.func.isRequired,
     formTitleKey: PropTypes.string.isRequired,
-    showCloseButton: PropTypes.func.isRequired,
     chatAvailable: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
     talkAvailable: PropTypes.bool,

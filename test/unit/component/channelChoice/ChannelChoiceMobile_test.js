@@ -46,16 +46,11 @@ describe('ChannelChoiceMobile component', () => {
   });
 
   describe('render', () => {
-    let showCloseButtonSpy;
-
     beforeEach(() => {
-      showCloseButtonSpy = jasmine.createSpy('showCloseButton');
-
       channelChoiceMobile = domRender(
         <ChannelChoiceMobile
           handleNextClick={noop}
-          handleCancelClick={noop}
-          showCloseButton={showCloseButtonSpy} />
+          handleCancelClick={noop} />
       );
       channelChoiceComponent = ReactDOM.findDOMNode(channelChoiceMobile);
     });
