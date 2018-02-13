@@ -21,6 +21,7 @@ const defaultOptions = {
   locale: 'en-US',
   color: '#659700',
   titleKey: 'message',
+  newDesign: true,
   styles: {
     float: 'right',
     width: 342,
@@ -66,6 +67,7 @@ const renderWebWidgetPreview = (options) => {
           attachmentSender={() => {}}
           getFrameDimensions={() => {}}
           fullscreen={isMobileBrowser()}
+          newDesign={!!options.newDesign}
           style={containerStyle} />
       </Container>
     </Frame>

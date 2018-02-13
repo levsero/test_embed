@@ -103,6 +103,9 @@ function generateWebWidgetPreviewCSS(color) {
   const mixer = new ColorMixer;
   const baseColor = themeColor(color);
 
+  const headerColorStr = colorFor('header', baseColor);
+  const headerTextColorStr = mixer.foregroundColorFrom(headerColorStr);
+
   return (`
     .u-userBackgroundColor:not([disabled]) {
       background-color: ${baseColor} !important;
@@ -111,6 +114,10 @@ function generateWebWidgetPreviewCSS(color) {
     .u-userBackgroundColor:not([disabled]):active,
     .u-userBackgroundColor:not([disabled]):focus {
       background-color: ${mixer.highlightColor(baseColor)} !important;
+    }
+    .u-userHeaderColor {
+      background: ${headerColorStr} !important;
+      color: ${headerTextColorStr} !important;
     }
   `);
 }
