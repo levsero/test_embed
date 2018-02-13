@@ -171,6 +171,10 @@ describe('chat redux actions', () => {
   });
 
   describe('endChat', () => {
+    const makeEndChatCall = (...args) => {
+      mockEndChat.calls.mostRecent().args[0](...args);
+    };
+
     beforeEach(() => {
       mockStore.dispatch(actions.endChat());
     });
@@ -181,17 +185,9 @@ describe('chat redux actions', () => {
     });
 
     describe('Web SDK callback', () => {
-      let callbackFn;
-
-      beforeEach(() => {
-        const endChatCalls = mockEndChat.calls.mostRecent().args;
-
-        callbackFn = endChatCalls[0];
-      });
-
       describe('when there are no errors', () => {
         beforeEach(() => {
-          callbackFn();
+          makeEndChatCall();
         });
 
         it('dispatches a END_CHAT_REQUEST_SUCCESS action', () => {
@@ -204,13 +200,59 @@ describe('chat redux actions', () => {
 
       describe('when there are errors', () => {
         beforeEach(() => {
-          callbackFn(['error!']);
+          makeEndChatCall(['error!']);
         });
 
         it('dispatches a END_CHAT_REQUEST_FAILURE action', () => {
           expect(mockStore.getActions())
             .toContain({
               type: actionTypes.END_CHAT_REQUEST_FAILURE
+            });
+        });
+      });
+    });
+
+    describe('satisfaction rating settings', () => {
+      const createStoreWithRatingsSetting = (enabled) => (
+        createMockStore({
+          chat: {
+            accountSettings: { rating: { enabled } },
+            rating: null
+          }
+        })
+      );
+
+      describe('enabled', () => {
+        beforeEach(() => {
+          mockStore = createStoreWithRatingsSetting(true);
+          mockStore.dispatch(actions.endChat());
+
+          makeEndChatCall();
+        });
+
+        it('dispatches an UPDATE_CHAT_SCREEN action with the FEEDBACK_SCREEN', () => {
+          expect(mockStore.getActions())
+            .toContain({
+              type: actionTypes.UPDATE_CHAT_SCREEN,
+              payload: { screen: screenTypes.FEEDBACK_SCREEN }
+            });
+        });
+      });
+
+      describe('disabled', () => {
+        beforeEach(() => {
+          mockStore = createStoreWithRatingsSetting(false);
+          mockStore.dispatch(actions.endChat());
+
+          makeEndChatCall();
+        });
+
+        it('does not dispatch an UPDATE_CHAT_SCREEN action with the FEEDBACK_SCREEN', () => {
+          expect(mockStore.getActions())
+            .not
+            .toContain({
+              type: actionTypes.UPDATE_CHAT_SCREEN,
+              payload: { screen: screenTypes.FEEDBACK_SCREEN }
             });
         });
       });

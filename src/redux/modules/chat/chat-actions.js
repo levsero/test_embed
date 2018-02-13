@@ -62,7 +62,7 @@ export const endChat = () => {
       if (!err) {
         dispatch({ type: END_CHAT_REQUEST_SUCCESS });
 
-        if (getState().chat.rating === null) {
+        if (getState().chat.rating === null && getState().chat.accountSettings.rating.enabled) {
           dispatch(updateChatScreen(FEEDBACK_SCREEN));
         }
       } else {
