@@ -406,7 +406,7 @@ window.zESettings = {
 
 #### color
 
-Sets a color theme for the Web Widget. The `color` property consists of an object, itself with different properties to fully customize several of the widget's elements using color HEX codes as possible values.
+Sets a color theme for the Web Widget. The `color` property consists of an object, itself with different properties to fully customize several of the widget's elements using color HEX codes as their value.
 
 The `theme` property may be used as a base, determining the overall color scheme of the widget:
 
