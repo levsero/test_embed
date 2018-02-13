@@ -903,6 +903,21 @@ describe('Frame', () => {
           });
         });
       });
+
+      describe('when the frame should be hidden', () => {
+        beforeEach(() => {
+          frame = instanceRender(<Frame>{mockChild}</Frame>);
+          frame.setState({
+            visible: false,
+            hiddenByZoom: true
+          });
+        });
+
+        it('position should not override the hidden absolute position', () => {
+          expect(frame.computeIframeStyle().top)
+            .toEqual('-9999px');
+        });
+      });
     });
 
     describe('offset', () => {
