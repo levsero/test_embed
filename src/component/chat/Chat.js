@@ -40,7 +40,8 @@ import { getPrechatFormFields,
          getChatRating,
          getUserSoundSettings,
          getConciergeSettings,
-         getPostchatFormSettings } from 'src/redux/modules/chat/chat-selectors';
+         getPostchatFormSettings,
+         getRatingSettings } from 'src/redux/modules/chat/chat-selectors';
 
 import { locals as styles } from './Chat.scss';
 
@@ -61,7 +62,8 @@ const mapStateToProps = (state) => {
     agents: getAgents(state),
     rating: getChatRating(state),
     visitor: getChatVisitor(state),
-    userSoundSettings: getUserSoundSettings(state)
+    userSoundSettings: getUserSoundSettings(state),
+    ratingSettings: getRatingSettings(state)
   };
 };
 
@@ -93,7 +95,8 @@ class Chat extends Component {
     visitor: PropTypes.object.isRequired,
     rating: PropTypes.string,
     handleSoundIconClick: PropTypes.func.isRequired,
-    userSoundSettings: PropTypes.bool.isRequired
+    userSoundSettings: PropTypes.bool.isRequired,
+    ratingSettings: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -107,7 +110,8 @@ class Chat extends Component {
     chats: [],
     postChatFormSettings: {},
     handleSoundIconClick: () => {},
-    userSoundSettings: true
+    userSoundSettings: true,
+    ratingSettings: { enabled: false }
   };
 
   constructor(props) {
@@ -282,8 +286,7 @@ class Chat extends Component {
 
   renderChatScreen = () => {
     if (this.props.screen !== CHATTING_SCREEN) return;
-
-    const showRating = true;
+    const showRating = this.props.ratingSettings.enabled;
     const containerClasses = this.props.isMobile ? styles.scrollContainerMobile : '';
 
     return (

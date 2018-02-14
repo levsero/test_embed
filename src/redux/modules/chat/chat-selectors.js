@@ -24,6 +24,7 @@ export const getChatScreen = (state) => state.chat.screen;
 export const getCurrentMessage = (state) => state.chat.currentMessage;
 export const getChatRating = (state) => state.chat.rating;
 export const getAttachmentsEnabled = (state) => state.chat.accountSettings.attachments.enabled;
+export const getRatingSettings = (state) => state.chat.accountSettings.rating;
 export const getChatNotification = createSelector(
   [getNotification, getAgents, groupChatsByAgent],
   (notification, agents, chats) => {
