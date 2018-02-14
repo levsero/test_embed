@@ -1,0 +1,6 @@
+@import '../../styles/_vars.scss';
+
+.eventMessage {
+  composes: u-marginTS u-marginBL u-textCenter from global;
+  color: $zd-color-aluminum;
+}
