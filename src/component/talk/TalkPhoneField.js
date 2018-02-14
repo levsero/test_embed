@@ -20,7 +20,7 @@ export class TalkPhoneField extends Component {
     ]),
     label: PropTypes.string,
     required: PropTypes.bool,
-    getFrameDimensions: PropTypes.func,
+    getFrameDimensions: PropTypes.func.isRequired,
     country: PropTypes.string,
     onCountrySelect: PropTypes.func,
     supportedCountries: PropTypes.array.isRequired
