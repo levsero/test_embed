@@ -1,23 +1,23 @@
 describe('chat selectors', () => {
-  let getChatNotification,
-    getPrechatFormSettings,
-    getPrechatFormFields,
-    getPostchatFormSettings,
-    getIsChatting,
-    getChatVisitor,
-    getUserSoundSettings,
-    getConnection,
+  let getAgents,
+    getAttachmentsEnabled,
     getConciergeSettings,
-    getAgents,
+    getConnection,
+    getCurrentMessage,
     getChatMessages,
     getChatMessagesByAgent,
+    getChatNotification,
+    getChatOnline,
     getChatRating,
     getChatScreen,
-    getCurrentMessage,
     getChatStatus,
-    getChatOnline,
-    getAttachmentsEnabled,
-    getNotificationCount;
+    getChatVisitor,
+    getIsChatting,
+    getNotificationCount,
+    getPostchatFormSettings,
+    getPrechatFormSettings,
+    getPrechatFormFields,
+    getUserSoundSettings;
 
   beforeEach(() => {
     mockery.enable();
@@ -28,25 +28,25 @@ describe('chat selectors', () => {
 
     const selectors = requireUncached(chatSelectorsPath);
 
-    getChatNotification = selectors.getChatNotification;
-    getPrechatFormFields = selectors.getPrechatFormFields;
-    getPostchatFormSettings = selectors.getPostchatFormSettings;
-    getIsChatting = selectors.getIsChatting;
-    getChatVisitor = selectors.getChatVisitor;
-    getUserSoundSettings = selectors.getUserSoundSettings;
+    getAgents = selectors.getAgents;
+    getAttachmentsEnabled = selectors.getAttachmentsEnabled;
+    getConciergeSettings = selectors.getConciergeSettings;
     getConnection = selectors.getConnection;
-    getChatStatus = selectors.getChatStatus;
+    getCurrentMessage = selectors.getCurrentMessage;
     getChatMessages = selectors.getChatMessages;
     getChatMessagesByAgent = selectors.getChatMessagesByAgent;
+    getChatNotification = selectors.getChatNotification;
     getChatOnline = selectors.getChatOnline;
-    getPrechatFormSettings = selectors.getPrechatFormSettings;
-    getConciergeSettings = selectors.getConciergeSettings;
-    getAgents = selectors.getAgents;
     getChatRating = selectors.getChatRating;
     getChatScreen = selectors.getChatScreen;
-    getCurrentMessage = selectors.getCurrentMessage;
-    getAttachmentsEnabled = selectors.getAttachmentsEnabled;
+    getChatStatus = selectors.getChatStatus;
+    getChatVisitor = selectors.getChatVisitor;
+    getIsChatting = selectors.getIsChatting;
     getNotificationCount = selectors.getNotificationCount;
+    getPostchatFormSettings = selectors.getPostchatFormSettings;
+    getPrechatFormFields = selectors.getPrechatFormFields;
+    getPrechatFormSettings = selectors.getPrechatFormSettings;
+    getUserSoundSettings = selectors.getUserSoundSettings;
   });
 
   describe('getChatNotification', () => {
