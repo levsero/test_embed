@@ -155,16 +155,6 @@ class Chat extends Component {
     this.props.updateChatScreen(CHATTING_SCREEN);
   }
 
-  renderChatEnded = () => {
-    if (this.props.chats.length <= 0 || this.props.isChatting) return;
-
-    return (
-      <div className={styles.chatEnd}>
-        {i18n.t('embeddable_framework.chat.ended.label', { fallback: 'Chat Ended' })}
-      </div>
-    );
-  }
-
   renderChatMenu = () => {
     if (!this.state.showMenu) return;
 
@@ -301,7 +291,6 @@ class Chat extends Component {
         footerContent={this.renderChatFooter()}>
         <div className={styles.messages}>
           {this.renderChatLog()}
-          {this.renderChatEnded()}
           {this.renderAgentTyping()}
         </div>
       </ScrollContainer>
