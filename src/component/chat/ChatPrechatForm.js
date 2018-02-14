@@ -113,7 +113,7 @@ export class ChatPrechatForm extends Component {
 
     return !phoneData.hidden
          ? <Field
-            label={i18n.t('embeddable_framework.common.textLabel.phoneNumber', { fallback: 'Phone Number' })}
+            label={i18n.t('embeddable_framework.common.textLabel.phone_number', { fallback: 'Phone Number' })}
             required={phoneData.required}
             type='number'
             value={this.state.formState.phone}
