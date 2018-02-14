@@ -33,6 +33,8 @@ import { getPrechatFormFields,
          getIsChatting,
          getAgents,
          getChatMessages,
+         getChatEvents,
+         getGroupedChatLog,
          getChatScreen,
          getChatVisitor,
          getCurrentMessage,
@@ -51,6 +53,8 @@ const mapStateToProps = (state) => {
   return {
     attachmentsEnabled: getAttachmentsEnabled(state),
     chats: getChatMessages(state),
+    events: getChatEvents(state),
+    chatLog: getGroupedChatLog(state),
     currentMessage: getCurrentMessage(state),
     screen: getChatScreen(state),
     concierge: getConciergeSettings(state),
@@ -70,6 +74,8 @@ class Chat extends Component {
     attachmentsEnabled: PropTypes.bool.isRequired,
     concierge: PropTypes.object.isRequired,
     chats: PropTypes.array.isRequired,
+    events: PropTypes.array.isRequired,
+    chatLog: PropTypes.object.isRequired,
     currentMessage: PropTypes.string.isRequired,
     endChat: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
@@ -105,6 +111,8 @@ class Chat extends Component {
     concierge: {},
     rating: null,
     chats: [],
+    events: [],
+    chatLog: {},
     postChatFormSettings: {},
     handleSoundIconClick: () => {},
     userSoundSettings: true,
@@ -125,11 +133,14 @@ class Chat extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const { chats } = this.props;
+    const { chats, events } = this.props;
 
-    if (!chats || !nextProps.chats) return;
+    if (!nextProps.chats && !nextProps.events) return;
 
-    if (chats.size !== nextProps.chats.size) {
+    const chatLogLength = chats.length + events.length;
+    const nextChatLogLength = nextProps.chats.length + nextProps.events.length;
+
+    if (chatLogLength !== nextChatLogLength) {
       setTimeout(() => {
         if (this.scrollContainer) {
           this.scrollContainer.scrollToBottom();
@@ -290,18 +301,10 @@ class Chat extends Component {
         footerClasses={styles.footer}
         footerContent={this.renderChatFooter()}>
         <div className={styles.messages}>
-          {this.renderChatLog()}
+          <ChatLog chatLog={this.props.chatLog} agents={this.props.agents} />
           {this.renderAgentTyping()}
         </div>
       </ScrollContainer>
-    );
-  }
-
-  renderChatLog = () => {
-    const { chats, agents } = this.props;
-
-    return (
-      <ChatLog agents={agents} chats={chats} />
     );
   }
 
