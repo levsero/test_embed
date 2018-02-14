@@ -4,6 +4,7 @@ describe('chat selectors', () => {
     getConciergeSettings,
     getConnection,
     getCurrentMessage,
+    getChatEvents,
     getChatMessages,
     getChatMessagesByAgent,
     getChatNotification,
@@ -12,6 +13,7 @@ describe('chat selectors', () => {
     getChatScreen,
     getChatStatus,
     getChatVisitor,
+    getGroupedChatLog,
     getIsChatting,
     getNotificationCount,
     getPostchatFormSettings,
@@ -33,6 +35,7 @@ describe('chat selectors', () => {
     getConciergeSettings = selectors.getConciergeSettings;
     getConnection = selectors.getConnection;
     getCurrentMessage = selectors.getCurrentMessage;
+    getChatEvents = selectors.getChatEvents;
     getChatMessages = selectors.getChatMessages;
     getChatMessagesByAgent = selectors.getChatMessagesByAgent;
     getChatNotification = selectors.getChatNotification;
@@ -41,6 +44,7 @@ describe('chat selectors', () => {
     getChatScreen = selectors.getChatScreen;
     getChatStatus = selectors.getChatStatus;
     getChatVisitor = selectors.getChatVisitor;
+    getGroupedChatLog = selectors.getGroupedChatLog;
     getIsChatting = selectors.getIsChatting;
     getNotificationCount = selectors.getNotificationCount;
     getPostchatFormSettings = selectors.getPostchatFormSettings;
@@ -362,9 +366,11 @@ describe('chat selectors', () => {
   describe('getChatMessages', () => {
     let result;
     const mockChats = [
-      { nick: 'agent', type: 'chat.msg' },
-      { nick: 'agent', type: 'chat.file' },
-      { nick: 'agent', type: 'chat.foo' }
+      { nick: 'visitor', type: 'chat.memberjoined' },
+      { nick: 'visitor', type: 'chat.msg' },
+      { nick: 'visitor', type: 'chat.file' },
+      { nick: 'visitor', type: 'chat.rating' },
+      { nick: 'visitor', type: 'chat.memberleave' }
     ];
     const mockChatSettings = {
       chat: {
@@ -376,9 +382,128 @@ describe('chat selectors', () => {
       result = getChatMessages(mockChatSettings);
     });
 
-    it('returns only chats of type file or msg', () => {
+    it('returns only whitelisted message types chats', () => {
       expect(result.length)
         .toEqual(2);
+
+      expect(result[0].type)
+        .toEqual('chat.msg');
+
+      expect(result[1].type)
+        .toEqual('chat.file');
+    });
+  });
+
+  describe('getChatEvents', () => {
+    let result;
+    const mockChats = [
+      { nick: 'visitor', type: 'chat.memberjoin' },
+      { nick: 'visitor', type: 'chat.msg' },
+      { nick: 'visitor', type: 'chat.file' },
+      { nick: 'visitor', type: 'chat.rating' },
+      { nick: 'visitor', type: 'chat.memberleave' }
+    ];
+    const mockChatSettings = {
+      chat: {
+        chats: { values: () => mockChats }
+      }
+    };
+
+    beforeEach(() => {
+      result = getChatEvents(mockChatSettings);
+    });
+
+    it('returns only whitelisted event type chats', () => {
+      expect(result.length)
+        .toEqual(3);
+
+      expect(result[0].type)
+        .toEqual('chat.memberjoin');
+
+      expect(result[1].type)
+        .toEqual('chat.rating');
+
+      expect(result[2].type)
+        .toEqual('chat.memberleave');
+    });
+  });
+
+  describe('getGroupedChatLog', () => {
+    let result,
+      mockChats,
+      mockChatSettings,
+      expectedResult;
+
+    describe('when passed a chat log containing valid messages and events', () => {
+      beforeEach(() => {
+        mockChats = [
+          { nick: 'visitor', type: 'chat.memberjoin', timestamp: 1 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 3 },
+          { nick: 'agent', type: 'chat.memberjoin', timestamp: 4 },
+          { nick: 'agent', type: 'chat.msg', msg: 'Hi', timestamp: 5 },
+          { nick: 'agent', type: 'chat.msg', msg: 'How can I help you?', timestamp: 6 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'My laptop is broken', timestamp: 7 },
+          { nick: 'agent', type: 'chat.msg', msg: 'Try turning it on and off again', timestamp: 8 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'That fixed it!', timestamp: 9 },
+          { nick: 'visitor', type: 'chat.rating', new_rating: 'good', timestamp: 10 },
+          { nick: 'visitor', type: 'chat.memberleave', timestamp: 11 }
+        ];
+
+        mockChatSettings = {
+          chat: {
+            chats: { values: () => mockChats }
+          }
+        };
+
+        expectedResult = {
+          1: [mockChats[0]],
+          2: [mockChats[1], mockChats[2]],
+          4: [mockChats[3]],
+          5: [mockChats[4], mockChats[5]],
+          7: [mockChats[6]],
+          8: [mockChats[7]],
+          9: [mockChats[8]],
+          10: [mockChats[9]],
+          11: [mockChats[10]]
+        };
+
+        result = getGroupedChatLog(mockChatSettings);
+      });
+
+      it('returns chats with messages from a single user grouped under the first timestamp, and with events ungrouped', () => {
+        expect(result)
+          .toEqual(expectedResult);
+      });
+    });
+
+    describe('when passed a chat log with non-whitelisted events or messages', () => {
+      beforeEach(() => {
+        mockChats = [
+          { nick: 'visitor', type: 'chat.membercartwheeled', timestamp: 1 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
+          { nick: 'visitor', type: 'chat.package', package: 'suspicious.exe', timestamp: 3 },
+          { nick: 'agent', type: 'chat.msg', msg: 'Hey', timestamp: 4 }
+        ];
+
+        mockChatSettings = {
+          chat: {
+            chats: { values: () => mockChats }
+          }
+        };
+
+        expectedResult = {
+          2: [mockChats[1]],
+          4: [mockChats[3]]
+        };
+
+        result = getGroupedChatLog(mockChatSettings);
+      });
+
+      it('filters out the invalid chats', () => {
+        expect(result)
+          .toEqual(expectedResult);
+      });
     });
   });
 
