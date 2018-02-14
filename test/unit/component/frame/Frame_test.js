@@ -94,7 +94,7 @@ describe('Frame', () => {
           innerHeight: mockWindowHeight
         }
       },
-      'utility/color/styles': {},
+      'utility/color': {},
       'utility/devices': {
         getZoomSizingRatio: () => {
           return mockZoomSizingRatioValue;
