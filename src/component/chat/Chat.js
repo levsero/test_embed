@@ -111,7 +111,8 @@ class Chat extends Component {
     postChatFormSettings: {},
     handleSoundIconClick: () => {},
     userSoundSettings: true,
-    ratingSettings: { enabled: false }
+    ratingSettings: { enabled: false },
+    agents: {}
   };
 
   constructor(props) {
@@ -285,9 +286,11 @@ class Chat extends Component {
   }
 
   renderChatScreen = () => {
-    if (this.props.screen !== CHATTING_SCREEN) return;
-    const showRating = this.props.ratingSettings.enabled;
-    const containerClasses = this.props.isMobile ? styles.scrollContainerMobile : '';
+    const { screen, ratingSettings, agents, isMobile, newDesign } = this.props;
+
+    if (screen !== CHATTING_SCREEN) return;
+    const showRating = ratingSettings.enabled && _.size(agents) > 0;
+    const containerClasses = isMobile ? styles.scrollContainerMobile : '';
 
     return (
       <ScrollContainer
@@ -296,7 +299,7 @@ class Chat extends Component {
         headerContent={this.renderChatHeader(showRating)}
         headerClasses={styles.header}
         containerClasses={containerClasses}
-        newDesign={this.props.newDesign}
+        newDesign={newDesign}
         footerClasses={styles.footer}
         footerContent={this.renderChatFooter()}>
         <div className={styles.messages}>
