@@ -1,10 +1,13 @@
-describe('styles', () => {
+import Color from 'color';
+
+describe('color', () => {
   let generateUserCSS,
     generateWebWidgetPreviewCSS,
+    validSettingsColor,
     mockSettingsValue;
 
-  const baseThemeColor = '#FF69B4';
-  const stylesPath = buildSrcPath('util/color/styles');
+  const colorPath = buildSrcPath('util/color');
+  const defaultColor = '#78A300';
   const trimWhitespace = (str) => {
     return _.chain(str.split('\n'))
             .map(_.trim)
@@ -13,18 +16,22 @@ describe('styles', () => {
   };
 
   beforeEach(() => {
+    mockSettingsValue = null;
+
     mockery.enable();
 
     initMockRegistry({
       'service/settings': {
         settings: {
-          get: (name) => _.get(mockSettingsValue, name, null)
+          get: () => mockSettingsValue
         }
-      }
+      },
+      'color': Color
     });
 
-    generateUserCSS = requireUncached(stylesPath).generateUserCSS;
-    generateWebWidgetPreviewCSS = require(stylesPath).generateWebWidgetPreviewCSS;
+    generateUserCSS = require(colorPath).generateUserCSS;
+    generateWebWidgetPreviewCSS = require(colorPath).generateWebWidgetPreviewCSS;
+    validSettingsColor = require(colorPath).validSettingsColor;
   });
 
   afterEach(() => {
@@ -33,6 +40,50 @@ describe('styles', () => {
   });
 
   describe('generateUserCSS', () => {
+    it('uses the default value if nothing is passed in', () => {
+      expect(generateUserCSS())
+        .toMatch(defaultColor);
+    });
+
+    it('uses the value passed into the function if it exists', () => {
+      expect(generateUserCSS('#ffffff'))
+        .toMatch('#ffffff');
+    });
+
+    it('uses the value in zESettings if it exists', () => {
+      mockSettingsValue = '#aaaaaa';
+      const cssString = generateUserCSS('#ffffff');
+
+      expect(cssString)
+        .not.toMatch('#ffffff');
+
+      expect(cssString)
+        .toMatch('#aaaaaa');
+    });
+
+    describe('when the color passed by config is missing the hash', () => {
+      describe('when it is otherwise valid', () => {
+        it('identifies it as valid and normalises it', () => {
+          const cssString = generateUserCSS('abcdef');
+
+          expect(cssString)
+            .toMatch('#abcdef');
+        });
+      });
+
+      describe('when something other than the hash is invalid', () => {
+        it('returns the default colour', () => {
+          const cssString = generateUserCSS('a12hyn');
+
+          expect(cssString)
+            .not.toMatch('a12hyn');
+
+          expect(cssString)
+            .toMatch(defaultColor);
+        });
+      });
+    });
+
     describe('when the color is light', () => {
       let css;
 
@@ -234,244 +285,6 @@ describe('styles', () => {
     });
   });
 
-  describe('when overriding with zESettings', () => {
-    let css;
-
-    describe('when overriding button colours', () => {
-      describe('and the override is valid', () => {
-        const expectedCss = `
-        .u-userBackgroundColor:not([disabled]) {
-          background-color: #DC143C !important;
-          color: white !important;
-        }`;
-
-        it('prefers the button colour over the base colour', () => {
-          mockSettingsValue = { color: {
-            theme: baseThemeColor,
-            button: '#DC143C'
-          }};
-
-          css = generateUserCSS();
-
-          expect(trimWhitespace(css))
-            .toContain(trimWhitespace(expectedCss));
-        });
-      });
-
-      describe('and the override is invalid or undefined', () => {
-        const expectedCss = `
-        .u-userBackgroundColor:not([disabled]) {
-          background-color: #FF69B4 !important;
-          color: white !important;
-        }`;
-
-        it('falls back to the base colour', () => {
-          mockSettingsValue = { color: {
-            theme: baseThemeColor,
-            button: '#YOYOYO'
-          }};
-
-          css = generateUserCSS();
-
-          expect(trimWhitespace(css))
-            .toContain(trimWhitespace(expectedCss));
-        });
-      });
-    });
-
-    describe('when overriding header colours', () => {
-      describe('and the override is valid', () => {
-        const expectedCss = `
-        .u-userHeaderColor {
-          background: #556B2F !important;
-          color: white !important;
-        }`;
-
-        it('prefers the header colour over the base colour', () => {
-          mockSettingsValue = { color: {
-            theme: baseThemeColor,
-            header: '#556B2F'
-          }};
-
-          css = generateUserCSS();
-
-          expect(trimWhitespace(css))
-            .toContain(trimWhitespace(expectedCss));
-        });
-      });
-
-      describe('and the override is invalid or undefined', () => {
-        const expectedCss = `
-        .u-userHeaderColor {
-          background: #FF69B4 !important;
-          color: white !important;
-        }`;
-
-        it('falls back to the base colour', () => {
-          mockSettingsValue = { color: {
-            theme: baseThemeColor,
-            header: '#JUJAJU'
-          }};
-
-          css = generateUserCSS();
-
-          expect(trimWhitespace(css))
-            .toContain(trimWhitespace(expectedCss));
-        });
-      });
-    });
-
-    describe('when overriding launcher colours', () => {
-      describe('and the override is valid', () => {
-        const expectedCss = `
-        .u-userLauncherColor:not([disabled]) {
-          background-color: #FFD700 !important;
-          color: #6C5F13 !important;
-          fill: #6C5F13 !important;
-          svg {
-            color: #6C5F13 !important;
-            fill: #6C5F13 !important;
-          }
-        }`;
-
-        it('prefers the launcher colour over the base colour', () => {
-          mockSettingsValue = { color: {
-            theme: baseThemeColor,
-            launcher: '#FFD700'
-          }};
-
-          css = generateUserCSS();
-
-          expect(trimWhitespace(css))
-            .toContain(trimWhitespace(expectedCss));
-        });
-      });
-
-      describe('and the override is invalid or undefined', () => {
-        const expectedCss = `
-        .u-userLauncherColor:not([disabled]) {
-          background-color: #FF69B4 !important;
-          color: white !important;
-          fill: white !important;
-          svg {
-            color: white !important;
-            fill: white !important;
-          }
-        }`;
-
-        it('falls back to the base colour', () => {
-          mockSettingsValue = { color: {
-            theme: baseThemeColor,
-            launcher: '#SARASA'
-          }};
-
-          css = generateUserCSS();
-
-          expect(trimWhitespace(css))
-            .toContain(trimWhitespace(expectedCss));
-        });
-      });
-    });
-
-    describe('when overriding link colours', () => {
-      describe('and the override is valid', () => {
-        const expectedCss = `
-        .u-userLinkColor a {
-          color: #6B8E23 !important;
-        }`;
-
-        it('prefers the link colour over the base colour', () => {
-          mockSettingsValue = { color: {
-            theme: baseThemeColor,
-            articleLinks: '#6B8E23'
-          }};
-
-          css = generateUserCSS();
-
-          expect(trimWhitespace(css))
-            .toContain(trimWhitespace(expectedCss));
-        });
-      });
-
-      describe('and the override is invalid or undefined', () => {
-        const expectedCss = `
-        .u-userLinkColor a {
-          color: #FF69B4 !important;
-        }`;
-
-        it('falls back to the base colour', () => {
-          mockSettingsValue = { color: {
-            theme: baseThemeColor,
-            articleLinks: '#MOOMOO'
-          }};
-
-          css = generateUserCSS();
-
-          expect(trimWhitespace(css))
-            .toContain(trimWhitespace(expectedCss));
-        });
-      });
-    });
-
-    describe('when overriding list colours', () => {
-      describe('and the override is valid', () => {
-        const expectedCss = `
-        .u-userTextColor:not([disabled]) {
-          color: #2E8B57 !important;
-          fill: #2E8B57 !important;
-        }
-        .u-userTextColor:not([disabled]):hover,
-        .u-userTextColor:not([disabled]):active,
-        .u-userTextColor:not([disabled]):focus {
-          color: #297A4C !important;
-          fill: #297A4C !important;
-        }`;
-
-        it('prefers the link colour over the base colour', () => {
-          mockSettingsValue = { color: {
-            theme: baseThemeColor,
-            resultLists: '#2E8B57'
-          }};
-
-          css = generateUserCSS();
-
-          expect(trimWhitespace(css))
-            .toContain(trimWhitespace(expectedCss));
-        });
-      });
-
-      describe('and the override is invalid or undefined', () => {
-        const expectedCss = `
-        .u-userTextColor:not([disabled]) {
-          color: #FF69B4 !important;
-          fill: #FF69B4 !important;
-        }
-        .u-userTextColor:not([disabled]):hover,
-        .u-userTextColor:not([disabled]):active,
-        .u-userTextColor:not([disabled]):focus {
-          color: #FF47A3 !important;
-          fill: #FF47A3 !important;
-        }`;
-
-        it('falls back to the base colour', () => {
-          mockSettingsValue = { color: {
-            theme: baseThemeColor,
-            links: '#SNOOPD'
-          }};
-
-          css = generateUserCSS();
-
-          expect(trimWhitespace(css))
-            .toContain(trimWhitespace(expectedCss));
-        });
-      });
-    });
-
-    afterAll(() => {
-      mockSettingsValue = null;
-    });
-  });
-
   describe('when the color is extremely light (white or almost white)', () => {
     let css;
 
@@ -576,6 +389,57 @@ describe('styles', () => {
     it('uses the value passed into the function', () => {
       expect(generateWebWidgetPreviewCSS('#ffffff'))
         .toMatch('#ffffff');
+    });
+  });
+
+  describe('validSettingsColor', () => {
+    it('allows valid hex values', () => {
+      mockSettingsValue = '#aaaaaa';
+
+      expect(validSettingsColor())
+        .not.toBeNull();
+
+      mockSettingsValue = '#eee';
+
+      expect(validSettingsColor())
+        .not.toBeNull();
+
+      mockSettingsValue = '#AEAEAE';
+
+      expect(validSettingsColor())
+        .not.toBeNull();
+    });
+
+    it('wont allow non valid hex values', () => {
+      mockSettingsValue = '#aaaa';
+
+      expect(validSettingsColor())
+        .toBeNull();
+
+      mockSettingsValue = '#hhh';
+
+      expect(validSettingsColor())
+        .toBeNull();
+
+      mockSettingsValue = '#638927384';
+
+      expect(validSettingsColor())
+        .toBeNull();
+
+      mockSettingsValue = 'eee';
+
+      expect(validSettingsColor())
+        .toBeNull();
+
+      mockSettingsValue = '0xFFFFFF';
+
+      expect(validSettingsColor())
+        .toBeNull();
+
+      mockSettingsValue = 'rgb(255,123,123)';
+
+      expect(validSettingsColor())
+        .toBeNull();
     });
   });
 });

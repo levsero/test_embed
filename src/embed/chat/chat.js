@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
 import { mediator } from 'service/mediator';
-import { themeColor } from 'utility/color/styles';
+import { validSettingsColor } from 'utility/color';
 import { document, win,
          getDocumentHost } from 'utility/globals';
 import { cappedTimeoutCall } from 'utility/utils';
@@ -23,8 +23,8 @@ function create(name, config, store) {
     endpoint: 'v2.zopim.com'
   };
 
-  if (themeColor()) {
-    config.color = themeColor();
+  if (validSettingsColor()) {
+    config.color = validSettingsColor();
   }
 
   chats[name] = {
