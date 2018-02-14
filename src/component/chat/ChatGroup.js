@@ -19,18 +19,18 @@ export class ChatGroup extends Component {
     avatarPath: ''
   };
 
-  renderName = () => {
+  renderName() {
     const { isAgent } = this.props;
-    const name = _.get(this.props.messages, '0.display_name', '');
+    const name = _.get(this.props.messages, '0.display_name');
 
-    if (!isAgent || name === '') return null;
+    if (!isAgent || !name) return null;
 
     return (
       <div className={styles.name}>{name}</div>
     );
   }
 
-  renderAvatar = () => {
+  renderAvatar() {
     const { isAgent, avatarPath } = this.props;
     const avatarStyles = avatarPath ? styles.avatarWithSrc : styles.avatarDefault;
 
@@ -41,29 +41,38 @@ export class ChatGroup extends Component {
     );
   }
 
-  renderChatMessage = (chat = {}, key) => {
-    const { isAgent } = this.props;
+  renderChatMessages() {
+    const { isAgent, messages } = this.props;
     const userClasses = isAgent ? styles.messageAgent : styles.messageUser;
     const userBackgroundStyle = isAgent ? styles.agentBackground : styles.userBackground;
-    // temporary so we have a visual representation of attachments uploaded, will be replaced
-    const msg = chat.msg ? chat.msg : (chat.uploading ? 'uploading' : 'uploaded');
 
-    return (
-      <div key={key} className={styles.wrapper}>
-        <div className={`${styles.message} ${userClasses}`}>
-          <MessageBubble
-            className={`${styles.messageBubble} ${userBackgroundStyle}`}
-            message={msg} />
+    return messages.map((chat) => {
+      let messageContent;
+
+      if (chat.msg) {
+        messageContent = chat.msg;
+      } else if (chat.file) {
+        // temporary so we have a visual representation of attachments uploaded, will be replaced
+        messageContent = chat.uploading ? 'uploading' : 'uploaded';
+      }
+
+      return (
+        <div key={chat.timestamp} className={styles.wrapper}>
+          <div className={`${styles.message} ${userClasses}`}>
+            <MessageBubble
+              className={`${styles.messageBubble} ${userBackgroundStyle}`}
+              message={messageContent} />
+          </div>
         </div>
-      </div>
-    );
+      );
+    });
   }
 
   render() {
     return (
       <div className={styles.container}>
         {this.renderName()}
-        {_.map(this.props.messages, this.renderChatMessage)}
+        {this.renderChatMessages()}
         {this.renderAvatar()}
       </div>
     );
