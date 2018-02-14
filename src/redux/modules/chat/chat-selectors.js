@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { createSelector } from 'reselect';
 
 const groupChatsByAgent = (state) => {
-  const agentMsgs = getFilteredChatsByAgent(state);
+  const agentMsgs = getChatMessagesByAgent(state);
 
   return _.groupBy(agentMsgs, (chat) => chat.nick);
 };
@@ -47,16 +47,16 @@ export const getPrechatFormFields = createSelector(
     return _.keyBy(_.values(form), 'name');
   }
 );
-export const getFilteredChats = createSelector(
+export const getChatMessages = createSelector(
   [getChats],
   (chats) => {
     const filterChatType = (event) => _.includes(['chat.msg', 'chat.file'], event.type);
 
     return _.filter([...chats.values()], filterChatType);
+export const getChatMessagesByAgent = createSelector(
+  [getChatMessages],
   }
 );
-export const getFilteredChatsByAgent = createSelector(
-  [getFilteredChats],
   (chats) => {
     return _.filter(chats, (chat) => _.includes(chat.nick, 'agent'));
   }

@@ -32,7 +32,7 @@ import { getPrechatFormFields,
          getPrechatFormSettings,
          getIsChatting,
          getAgents,
-         getFilteredChats,
+         getChatMessages,
          getChatScreen,
          getConnection,
          getChatVisitor,
@@ -51,7 +51,7 @@ const mapStateToProps = (state) => {
 
   return {
     attachmentsEnabled: getAttachmentsEnabled(state),
-    chats: getFilteredChats(state),
+    chats: getChatMessages(state),
     currentMessage: getCurrentMessage(state),
     screen: getChatScreen(state),
     connection: getConnection(state),

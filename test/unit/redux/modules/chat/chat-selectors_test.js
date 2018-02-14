@@ -4,13 +4,13 @@ describe('chat selectors', () => {
     getPrechatFormFields,
     getPostchatFormSettings,
     getIsChatting,
-    getFilteredChats,
     getChatVisitor,
     getUserSoundSettings,
     getConnection,
     getConciergeSettings,
-    getFilteredChatsByAgent,
     getAgents,
+    getChatMessages,
+    getChatMessagesByAgent,
     getChatRating,
     getChatScreen,
     getCurrentMessage,
@@ -35,10 +35,10 @@ describe('chat selectors', () => {
     getChatVisitor = selectors.getChatVisitor;
     getUserSoundSettings = selectors.getUserSoundSettings;
     getConnection = selectors.getConnection;
-    getFilteredChatsByAgent = selectors.getFilteredChatsByAgent;
     getChatStatus = selectors.getChatStatus;
+    getChatMessages = selectors.getChatMessages;
+    getChatMessagesByAgent = selectors.getChatMessagesByAgent;
     getChatOnline = selectors.getChatOnline;
-    getFilteredChats = selectors.getFilteredChats;
     getPrechatFormSettings = selectors.getPrechatFormSettings;
     getConciergeSettings = selectors.getConciergeSettings;
     getAgents = selectors.getAgents;
@@ -334,7 +334,7 @@ describe('chat selectors', () => {
     });
   });
 
-  describe('getFilteredChatsByAgent', () => {
+  describe('getChatMessagesByAgent', () => {
     let result;
     const mockChats = [
       { nick: 'agent', type: 'chat.msg' },
@@ -347,7 +347,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getFilteredChatsByAgent(mockChatSettings);
+      result = getChatMessagesByAgent(mockChatSettings);
     });
 
     it('returns the chats from only agents', () => {
@@ -359,7 +359,7 @@ describe('chat selectors', () => {
     });
   });
 
-  describe('getFilteredChats', () => {
+  describe('getChatMessages', () => {
     let result;
     const mockChats = [
       { nick: 'agent', type: 'chat.msg' },
@@ -373,7 +373,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getFilteredChats(mockChatSettings);
+      result = getChatMessages(mockChatSettings);
     });
 
     it('returns only chats of type file or msg', () => {
