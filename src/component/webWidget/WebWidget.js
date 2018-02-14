@@ -453,7 +453,8 @@ class WebWidget extends Component {
         helpCenterAvailable={this.isHelpCenterAvailable()}
         channelChoiceAvailable={this.isChannelChoiceAvailable()}
         onBackClick={this.onBackClick}
-        zendeskSubdomain={this.props.zendeskSubdomain} />
+        zendeskSubdomain={this.props.zendeskSubdomain}
+        getFrameDimensions={this.props.getFrameDimensions} />
     );
   }
 
