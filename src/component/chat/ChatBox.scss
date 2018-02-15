@@ -9,7 +9,7 @@
   composes: u-alignBottom from global;
 
   textarea { /* 1 */
-    height: #{33/$font-size}rem;
+    height: #{30/$font-size}rem !important;
 
     &::placeholder {
       color: $zd-color-gainsboro;

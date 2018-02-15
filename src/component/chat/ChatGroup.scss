@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: u-posRelative u-marginBT from global;
+  composes: u-posRelative from global;
 }
 
 .wrapper {
@@ -53,21 +53,21 @@
 
 .avatar {
   composes: u-posAbsolute from global;
-  bottom: #{4/$font-size}rem;
+  bottom: #{7/$font-size}rem;
 
   svg {
-    padding-top: #{8/$font-size}rem;
-    min-width: #{13/$font-size}rem;
-    min-height: #{13/$font-size}rem;
-    max-width: #{13/$font-size}rem;
-    max-height: #{13/$font-size}rem;
+    padding-top: #{7/$font-size}rem;
+    min-width: #{14/$font-size}rem;
+    min-height: #{14/$font-size}rem;
+    max-width: #{14/$font-size}rem;
+    max-height: #{14/$font-size}rem;
   }
 }
 
 .avatarDefault {
   composes: avatar;
-  height: #{32/$font-size}rem;
-  width: #{32/$font-size}rem;
+  height: #{30/$font-size}rem;
+  width: #{30/$font-size}rem;
 }
 
 .avatarWithSrc {
