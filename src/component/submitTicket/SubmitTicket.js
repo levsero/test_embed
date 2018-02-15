@@ -12,11 +12,7 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { handleFormChange, handleTicketFormClick } from 'src/redux/modules/submitTicket';
-import { getFormState,
-         getLoading,
-         getTicketForms,
-         getTicketFields,
-         getActiveTicketForm } from 'src/redux/modules/submitTicket/submitTicket-selectors';
+import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selectors';
 import { i18n } from 'service/i18n';
 import { store } from 'service/persistence';
 import { isIE } from 'utility/devices';
@@ -26,11 +22,13 @@ import { getSearchTerm } from 'src/redux/modules/helpCenter/helpCenter-selectors
 const mapStateToProps = (state) => {
   return {
     searchTerm: getSearchTerm(state),
-    formState: getFormState(state),
-    loading: getLoading(state),
-    ticketForms: getTicketForms(state),
-    ticketFields: getTicketFields(state),
-    activeTicketForm: getActiveTicketForm(state)
+    formState: selectors.getFormState(state),
+    loading: selectors.getLoading(state),
+    ticketForms: selectors.getTicketForms(state),
+    ticketFormsAvailable: selectors.getTicketFormsAvailable(state),
+    ticketFields: selectors.getTicketFields(state),
+    ticketFieldsAvailable: selectors.getTicketFieldsAvailable(state),
+    activeTicketForm: selectors.getActiveTicketForm(state)
   };
 };
 
@@ -58,6 +56,8 @@ class SubmitTicket extends Component {
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     ticketForms: PropTypes.array.isRequired,
+    ticketFormsAvailable: PropTypes.bool.isRequired,
+    ticketFieldsAvailable: PropTypes.bool.isRequired,
     ticketFields: PropTypes.array.isRequired,
     updateFrameSize: PropTypes.func,
     handleFormChange: PropTypes.func.isRequired,
@@ -87,6 +87,7 @@ class SubmitTicket extends Component {
     ticketFieldSettings: [],
     ticketFormSettings: [],
     ticketForms: [],
+    ticketFormsAvailable: false,
     ticketFields: [],
     activeTicketForm: null,
     updateFrameSize: () => {}
@@ -109,11 +110,11 @@ class SubmitTicket extends Component {
   }
 
   clearForm = () => {
-    const { ticketForms } = this.props;
+    const { ticketFormsAvailable, ticketForms } = this.props;
 
     this.refs.submitTicketForm.clear();
 
-    if (ticketForms && ticketForms.length > 1) {
+    if (ticketFormsAvailable && ticketForms.length > 1) {
       this.props.handleTicketFormClick(null);
     }
   }
@@ -191,13 +192,13 @@ class SubmitTicket extends Component {
 
   formatRequestTicketData = (data) => {
     const { name, email } = data.value;
+    const { ticketFormsAvailable, ticketFieldsAvailable } = this.props;
     const formatNameFromEmail = (email) => {
       const localPart = email.split('@', 2)[0];
       const newName = localPart.split(/[._]/);
 
       return _.map(newName, _.capitalize).join(' ');
     };
-    const ticketFormsAvailable = this.props.ticketForms.length > 0;
     const submittedFrom = i18n.t(
       'embeddable_framework.submitTicket.form.submittedFrom.label',
       { url: location.href }
@@ -234,8 +235,7 @@ class SubmitTicket extends Component {
       'ticket_form_id': ticketFormsAvailable ? this.props.activeTicketForm.id : null
     };
 
-    return this.props.ticketFields.length > 0
-           || ticketFormsAvailable
+    return ticketFieldsAvailable || ticketFormsAvailable
          ? { request: _.extend(params, this.formatTicketFieldData(data)) }
          : { request: params };
   }
@@ -285,9 +285,9 @@ class SubmitTicket extends Component {
   }
 
   setTicketForm = (ticketFormId) => {
-    const { ticketForms } = this.props;
+    const { ticketForms, ticketFormsAvailable } = this.props;
 
-    if (Array.isArray(ticketForms) && ticketForms.length === 0) return;
+    if (!ticketFormsAvailable) return;
 
     const getformByIdFn = (form) => form.id === parseInt(ticketFormId);
     const activeTicketForm = _.find(ticketForms, getformByIdFn);

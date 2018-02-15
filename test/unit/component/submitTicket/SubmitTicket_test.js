@@ -423,6 +423,7 @@ describe('Submit ticket component', () => {
             <SubmitTicket
               ticketFields={ticketFields}
               ticketForms={mockTicketForm}
+              ticketFormsAvailable={true}
               activeTicketForm={mockTicketForm[0]} />
           );
 
@@ -449,6 +450,7 @@ describe('Submit ticket component', () => {
               <SubmitTicket
                 ticketFields={ticketFields}
                 ticketForms={mockTicketForm}
+                ticketFormsAvailable={true}
                 activeTicketForm={mockTicketForm[0]} />
             );
             params = submitTicket.formatRequestTicketData(mockValues);
@@ -743,7 +745,10 @@ describe('Submit ticket component', () => {
 
       beforeEach(() => {
         submitTicket = domRender(
-          <SubmitTicket ticketForms={mockTicketForms} handleTicketFormClick={handleTicketFormClickSpy} />
+          <SubmitTicket
+            ticketForms={mockTicketForms}
+            ticketFormsAvailable={true}
+            handleTicketFormClick={handleTicketFormClickSpy} />
         );
 
         submitTicket.refs.submitTicketForm = { clear: mockClear };
@@ -765,7 +770,12 @@ describe('Submit ticket component', () => {
       const mockTicketForms = [{ id: 123 }];
 
       beforeEach(() => {
-        submitTicket = domRender(<SubmitTicket ticketForms={mockTicketForms} handleTicketFormClick={handleTicketFormClickSpy} />);
+        submitTicket = domRender(
+          <SubmitTicket
+            ticketForms={mockTicketForms}
+            ticketFormsAvailable={true}
+            handleTicketFormClick={handleTicketFormClickSpy} />
+        );
 
         submitTicket.refs.submitTicketForm = { clear: mockClear };
         submitTicket.clearForm();
@@ -812,7 +822,12 @@ describe('Submit ticket component', () => {
 
       beforeEach(() => {
         mockShowBackButton = jasmine.createSpy('showBackButton');
-        submitTicket = domRender(<SubmitTicket showBackButton={mockShowBackButton} ticketForms={ticketForms} />);
+        submitTicket = domRender(
+          <SubmitTicket
+            showBackButton={mockShowBackButton}
+            ticketFormsAvailable={true}
+            ticketForms={ticketForms} />
+        );
       });
 
       it('calls showBackButton', () => {
