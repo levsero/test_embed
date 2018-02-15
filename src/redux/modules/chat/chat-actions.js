@@ -23,7 +23,11 @@ import {
   CHAT_FILE_REQUEST_SENT,
   CHAT_FILE_REQUEST_SUCCESS,
   CHAT_FILE_REQUEST_FAILURE,
-  SOUND_ICON_CLICKED
+  SOUND_ICON_CLICKED,
+  EMAIL_TRANSCRIPT_SUCCESS,
+  EMAIL_TRANSCRIPT_FAILURE,
+  EMAIL_TRANSCRIPT_REQUEST_SENT,
+  EMAIL_TRANSCRIPT_IDLE
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import { getChatVisitor } from 'src/redux/modules/chat/chat-selectors';
@@ -128,6 +132,36 @@ export function setVisitorInfo(visitor) {
         dispatch({ type: SET_VISITOR_INFO_REQUEST_FAILURE });
       }
     });
+  };
+}
+
+export function sendEmailTranscript(email) {
+  return (dispatch) => {
+    dispatch({
+      type: EMAIL_TRANSCRIPT_REQUEST_SENT,
+      payload: email
+    });
+
+    zChat.sendEmailTranscript(email, (err) => {
+      if (!err) {
+        dispatch({
+          type: EMAIL_TRANSCRIPT_SUCCESS,
+          payload: email
+        });
+      } else {
+        dispatch({
+          type: EMAIL_TRANSCRIPT_FAILURE,
+          payload: email
+        });
+      }
+    });
+  };
+}
+
+export function resetEmailTranscript() {
+  return {
+    type: EMAIL_TRANSCRIPT_IDLE,
+    payload: ''
   };
 }
 

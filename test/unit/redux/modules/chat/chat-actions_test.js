@@ -13,7 +13,8 @@ let actions,
   mockEndChat = jasmine.createSpy('endChat'),
   mockSendChatRating = jasmine.createSpy('sendChatRating'),
   mockSendChatComment = jasmine.createSpy('sendChatComment'),
-  mockSendFile = jasmine.createSpy('sendFile');
+  mockSendFile = jasmine.createSpy('sendFile'),
+  mockSendEmailTranscript = jasmine.createSpy('sendEmailTranscript');
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -31,6 +32,7 @@ describe('chat redux actions', () => {
         sendChatRating: mockSendChatRating,
         sendChatComment: mockSendChatComment,
         sendFile: mockSendFile,
+        sendEmailTranscript: mockSendEmailTranscript,
         _getAccountSettings: () => mockAccountSettings
       },
       'src/redux/modules/chat/chat-selectors': {
@@ -402,6 +404,66 @@ describe('chat redux actions', () => {
     });
   });
 
+  describe('sendEmailTranscript', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.sendEmailTranscript('some@email.com'));
+      action = mockStore.getActions()[0];
+    });
+
+    it('should dispatch an EMAIL_TRANSCRIPT_REQUEST_SENT action', () => {
+      expect(action)
+        .toEqual({
+          type: actionTypes.EMAIL_TRANSCRIPT_REQUEST_SENT,
+          payload: 'some@email.com'
+        });
+    });
+
+    it('calls sendEmailTranscript on web sdk', () => {
+      expect(mockSendEmailTranscript)
+        .toHaveBeenCalled();
+    });
+
+    describe('web sdk callback', () => {
+      let callbackFn;
+
+      beforeEach(() => {
+        callbackFn = mockSendEmailTranscript.calls.mostRecent().args[1];
+      });
+
+      describe('when there are no errors', () => {
+        beforeEach(() => {
+          callbackFn(null);
+          action = mockStore.getActions()[1];
+        });
+
+        it('dispatches an EMAIL_TRANSCRIPT_SUCCESS action', () => {
+          expect(action)
+            .toEqual({
+              type: actionTypes.EMAIL_TRANSCRIPT_SUCCESS,
+              payload: 'some@email.com'
+            });
+        });
+      });
+
+      describe('when there are errors', () => {
+        beforeEach(() => {
+          callbackFn(true);
+          action = mockStore.getActions()[1];
+        });
+
+        it('dispatches an EMAIL_TRANSCRIPT_FAILURE action', () => {
+          expect(action)
+            .toEqual({
+              type: actionTypes.EMAIL_TRANSCRIPT_FAILURE,
+              payload: 'some@email.com'
+            });
+        });
+      });
+    });
+  });
+
   describe('sendChatComment', () => {
     const rating = 'The product was faulty and foobard';
 
@@ -684,6 +746,23 @@ describe('chat redux actions', () => {
 
       expect(action)
         .toEqual(expected);
+    });
+  });
+
+  describe('resetEmailTranscript', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.resetEmailTranscript());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches EMAIL_TRANSCRIPT_IDLE action', () => {
+      expect(action)
+        .toEqual({
+          type: actionTypes.EMAIL_TRANSCRIPT_IDLE,
+          payload: ''
+        });
     });
   });
 });

@@ -71,5 +71,30 @@ describe('chat root reducer', () => {
       expect(state.visitor)
         .toBeDefined();
     });
+
+    it('has the rating sub state', () => {
+      expect(state.rating)
+        .toBeDefined();
+    });
+
+    it('has the notification sub state', () => {
+      expect(state.notification)
+        .toBeDefined();
+    });
+
+    it('has the screen sub state', () => {
+      expect(state.screen)
+        .toBeDefined();
+    });
+
+    it('has the userSettings sub state', () => {
+      expect(state.userSettings)
+        .toBeDefined();
+    });
+
+    it('has the emailTranscript sub state', () => {
+      expect(state.emailTranscript)
+        .toBeDefined();
+    });
   });
 });

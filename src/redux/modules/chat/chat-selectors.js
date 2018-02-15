@@ -22,7 +22,6 @@ const getChats = (state) => state.chat.chats;
 const getNotification = (state) => state.chat.notification;
 
 export const getAgents = (state) => state.chat.agents;
-export const getAttachmentsEnabled = (state) => state.chat.accountSettings.attachments.enabled;
 export const getConciergeSettings = (state) => state.chat.accountSettings.concierge;
 export const getConnection = (state) => state.chat.connection;
 export const getCurrentMessage = (state) => state.chat.currentMessage;
@@ -35,6 +34,8 @@ export const getIsChatting = (state) => state.chat.is_chatting;
 export const getNotificationCount = (state) => getNotification(state).count;
 export const getPostchatFormSettings = (state) => state.chat.accountSettings.postchatForm;
 export const getPrechatFormSettings = (state) => state.chat.accountSettings.prechatForm;
+export const getEmailTranscript = (state) => state.chat.emailTranscript;
+export const getAttachmentsEnabled = (state) => state.chat.accountSettings.attachments.enabled;
 export const getRatingSettings = (state) => state.chat.accountSettings.rating;
 export const getUserSoundSettings = (state) => state.chat.userSettings.sound;
 
