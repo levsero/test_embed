@@ -158,7 +158,7 @@ class Talk extends Component {
   }
 
   renderFormScreen = () => {
-    const phoneLabel = i18n.t(`embeddable_framework.common.textLabel.phone`, { fallback: 'Phone Number' });
+    const phoneLabel = i18n.t(`embeddable_framework.common.textLabel.phone_number`, { fallback: 'Phone Number' });
     const nameLabel = i18n.t(`embeddable_framework.common.textLabel.name`, { fallback: 'Name' });
     const descriptionLabel = i18n.t(`embeddable_framework.common.textLabel.description`,
       { fallback: 'How can we help?' });

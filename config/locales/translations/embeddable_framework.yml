@@ -51,6 +51,12 @@ parts:
       title: "The label for a generic phone number form field."
       screenshot: "https://zendesk.box.com/s/9f55ahsc3iizdx5csa61hogh8q7h5kux"
       value: "Phone number"
+      obsolete: "2018-04-15"
+  - translation:
+      key: "embeddable_framework.common.textLabel.phone_number"
+      title: "The label for a generic phone number form field. The same as embeddable_framework.common.textLabel.phone but with capitalised N for number"
+      screenshot: "https://zendesk.box.com/s/9f55ahsc3iizdx5csa61hogh8q7h5kux"
+      value: "Phone Number"
   - translation:
       key: "embeddable_framework.common.textLabel.name"
       title: "The label for a generic name form field."
