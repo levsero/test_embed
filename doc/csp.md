@@ -4,6 +4,9 @@ The HTTP [Content-Security-Policy](http://www.html5rocks.com/en/tutorials/securi
 
 <p class="alert alert-warning" style="margin-top:20px;"><strong>Note</strong>: If Zendesk Chat is enabled for the widget, see <a href="#whitelisting-the-web-widget-when-chat-is-enabled">Whitelisting the Web Widget when Chat is enabled</a> below.</p>
 
+Zendesk uses a third-party library named [Airbrake-js](https://airbrake.io/) to track exceptions on sites that embed the widget. See [Airbrake-js](https://developer.zendesk.com/embeddables/docs/widget/legal#airbrake-js) in the Legal notices.
+
+
 ### Whitelisting the Web Widget
 
 Adding a source to the header's `script-src` directive is not enough to whitelist the Web Widget. You must also include some supporting JavaScript in your site.
