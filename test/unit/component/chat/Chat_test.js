@@ -167,10 +167,13 @@ describe('Chat component', () => {
   describe('renderChatScreen', () => {
     let component,
       componentNode;
+    const renderChatComponent = (ratingsEnabled, agents) => (
+      domRender(<Chat screen={chattingScreen} ratingSettings={{ enabled: ratingsEnabled }} agents={agents} />)
+    );
 
     describe('render', () => {
       beforeEach(() => {
-        const component = domRender(<Chat screen={chattingScreen} />);
+        component = renderChatComponent(true, {});
 
         componentNode = ReactDOM.findDOMNode(component);
       });
@@ -178,6 +181,45 @@ describe('Chat component', () => {
       it('renders the chat screen with footer styles', () => {
         expect(componentNode.querySelector('.footerClasses'))
           .toBeTruthy();
+      });
+
+      describe('the renderChatHeader call', () => {
+        const mockAgents = { agent_id: { display_name: 'James', typing: false }};
+        const setupComponentAndRenderChatScreen = (ratingsEnabled, agents) => {
+          component = renderChatComponent(ratingsEnabled, agents);
+          spyOn(component, 'renderChatHeader');
+          component.renderChatScreen();
+        };
+
+        describe('when the ratings setting is enabled and there are agents in the chat', () => {
+          beforeEach(() => {
+            setupComponentAndRenderChatScreen(true, mockAgents);
+          });
+
+          it('is made with the showRatings argument set to true', () => {
+            expect(component.renderChatHeader).toHaveBeenCalledWith(true);
+          });
+        });
+
+        describe('when the ratings setting is disabled', () => {
+          beforeEach(() => {
+            setupComponentAndRenderChatScreen(false, mockAgents);
+          });
+
+          it('is made with the showRatings argument set to false', () => {
+            expect(component.renderChatHeader).toHaveBeenCalledWith(false);
+          });
+        });
+
+        describe('when there are no agents in the chat', () => {
+          beforeEach(() => {
+            setupComponentAndRenderChatScreen(true, {});
+          });
+
+          it('is made with the showRatings argument set to false', () => {
+            expect(component.renderChatHeader).toHaveBeenCalledWith(false);
+          });
+        });
       });
     });
 
