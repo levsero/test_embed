@@ -33,6 +33,10 @@ export class ChatPopup extends Component {
     show: false
   };
 
+  onContainerClick = (e) => {
+    e.stopPropagation();
+  }
+
   renderCta = () => {
     const {
       showCta, leftCtaFn, rightCtaFn,
@@ -62,7 +66,8 @@ export class ChatPopup extends Component {
     return (
       <SlideUpAppear
         className={`${className} ${styles.containerWrapper}`}
-        trigger={this.props.show}>
+        trigger={this.props.show}
+        onClick={this.onContainerClick}>
         <div className={styles.container}>
           <div onClick={childrenOnClick}>{children}</div>
           {this.renderCta()}

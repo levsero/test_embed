@@ -158,7 +158,9 @@ class Chat extends Component {
 
   onContainerClick = () => {
     this.setState({
-      showMenu: false
+      showMenu: false,
+      showEndChatMenu: false,
+      showEditContactDetailsMenu: false,
     });
   }
 
@@ -175,9 +177,19 @@ class Chat extends Component {
       isChatting,
       handleSoundIconClick
     } = this.props;
-    const showChatEndFn = () => this.setState({ showEndChatMenu: true });
-    const showContactDetailsFn = () => this.setState({ showEditContactDetailsMenu: true });
-    const toggleSoundFn = () => handleSoundIconClick({ sound: !userSoundSettings });
+    const showChatEndFn = (e) => {
+      e.stopPropagation();
+      this.setState({ showEndChatMenu: true });
+      this.setState({ showMenu: false });
+    }
+    const showContactDetailsFn = (e) => {
+      e.stopPropagation();
+      this.setState({ showEditContactDetailsMenu: true });
+      this.setState({ showMenu: false });
+    }
+    const toggleSoundFn = (e) => {
+      handleSoundIconClick({ sound: !userSoundSettings });
+    }
 
     return (
       <ChatMenu
@@ -195,6 +207,7 @@ class Chat extends Component {
 
     const showChatEndFn = () => this.setState({ showEndChatMenu: true });
     const showChatEndFn = (e) => {
+      e.stopPropagation();
       this.setState({ showEndChatMenu: true });
       this.setState({ showMenu: false });
     }
