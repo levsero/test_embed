@@ -194,6 +194,10 @@ class Chat extends Component {
     const { currentMessage, sendMsg, handleChatBoxChange } = this.props;
 
     const showChatEndFn = () => this.setState({ showEndChatMenu: true });
+    const showChatEndFn = (e) => {
+      this.setState({ showEndChatMenu: true });
+      this.setState({ showMenu: false });
+    }
 
     return (
       <ChatFooter

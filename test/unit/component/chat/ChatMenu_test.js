@@ -119,5 +119,99 @@ describe('ChatMenu component', () => {
         });
       });
     });
+
+    describe('contactDetailsOnClick', () => {
+      let contactDetailsOnClickSpy;
+
+      describe('when the container has been clicked', () => {
+        beforeEach(() => {
+          contactDetailsOnClickSpy = jasmine.createSpy();
+
+          const component = domRender(<ChatMenu contactDetailsOnClick={contactDetailsOnClickSpy} />);
+          const componentNode = ReactDOM.findDOMNode(component);
+
+          componentNode.children[2].click();
+        });
+
+        it('calls contactDetailsOnClick', () => {
+          expect(contactDetailsOnClickSpy)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when the container has not been clicked', () => {
+        beforeEach(() => {
+          contactDetailsOnClickSpy = jasmine.createSpy();
+
+          domRender(<ChatMenu contactDetailsOnClick={contactDetailsOnClickSpy} />);
+        });
+
+        it('does not call contactDetailsOnClick', () => {
+          expect(contactDetailsOnClickSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('emailTranscriptOnClick', () => {
+      let emailTranscriptOnClickSpy;
+
+      describe('when the container has been clicked', () => {
+        beforeEach(() => {
+          emailTranscriptOnClickSpy = jasmine.createSpy();
+
+          const component = domRender(<ChatMenu emailTranscriptOnClick={emailTranscriptOnClickSpy} isChatting={true} />);
+          const componentNode = ReactDOM.findDOMNode(component);
+
+          componentNode.children[2].click();
+        });
+
+        it('calls emailTranscriptOnClick', () => {
+          expect(emailTranscriptOnClickSpy)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when the container has not been clicked', () => {
+        beforeEach(() => {
+          emailTranscriptOnClickSpy = jasmine.createSpy();
+
+          domRender(<ChatMenu emailTranscriptOnClick={emailTranscriptOnClickSpy} isChatting={true} />);
+        });
+
+        it('does not call contactDetailsOnClick', () => {
+          expect(emailTranscriptOnClickSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('playSound', () => {
+      let component, response;
+
+      describe('when playSound is true', () => {
+        beforeEach(() => {
+          component = domRender(<ChatMenu playSound={true} />);
+          response = component.renderSoundButton();
+        });
+
+        it('iconType should be Icon--sound-on', () => {
+          expect(response.props.children[1].props.type)
+            .toEqual('Icon--sound-on');
+        });
+      });
+
+      describe('when playSound is true', () => {
+        beforeEach(() => {
+          component = domRender(<ChatMenu playSound={false} />);
+          response = component.renderSoundButton();
+        });
+
+        it('iconType should be Icon--sound-off', () => {
+          expect(response.props.children[1].props.type)
+            .toEqual('Icon--sound-off');
+        });
+      });
+    });
   });
 });
