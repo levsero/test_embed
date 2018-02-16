@@ -6,28 +6,37 @@ import { Field } from 'component/field/Field';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from 'component/chat/ChatContactDetailsPopup.scss';
+import { emailValid } from 'src/util/utils';
+import _ from 'lodash';
 
 export class ChatContactDetailsPopup extends Component {
   static propTypes = {
     className: PropTypes.string,
     leftCtaFn: PropTypes.func,
     rightCtaFn: PropTypes.func,
-    show: PropTypes.bool
+    show: PropTypes.bool,
+    visitor: PropTypes.object
   }
 
   static defaultProps = {
     className: '',
     leftCtaFn: () => {},
     rightCtaFn: () => {},
-    show: false
+    show: false,
+    visitor: {}
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const email = _.get(props.visitor, 'email', '');
+    const name = _.get(props.visitor, 'name', '');
 
     this.state = {
-      valid: false,
-      formState: {}
+      valid: emailValid(email) && !!name.length,
+      formState: {
+        email,
+        name
+      }
     };
 
     this.form = null;

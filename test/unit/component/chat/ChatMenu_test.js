@@ -87,6 +87,34 @@ describe('ChatMenu component', () => {
       });
     });
 
+    describe('isChatting', () => {
+      let component, response;
+
+      describe('when isChatting is true', () => {
+        beforeEach(() => {
+          component = domRender(<ChatMenu isChatting={true} />);
+          response = component.renderEmailTranscriptButton();
+        });
+
+        it('shows email transcript button', () => {
+          expect(response.type)
+            .toEqual('button');
+        });
+      });
+
+      describe('when isChatting is false', () => {
+        beforeEach(() => {
+          component = domRender(<ChatMenu isChatting={false} />);
+          response = component.renderEmailTranscriptButton();
+        });
+
+        it('does not show email transcript button', () => {
+          expect(response)
+            .toEqual(null);
+        });
+      });
+    });
+
     describe('endChatOnClick', () => {
       let endChatOnClickSpy;
 
