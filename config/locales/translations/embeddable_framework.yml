@@ -124,9 +124,9 @@ parts:
   # Chat embed
   - translation:
       key: "embeddable_framework.chat.title"
-      title: "The name of the live chat window provided by Zopim that the Widget serves when chat agents are online. If text exceeds widget width, text will be cut off and the characters ... appended (tinyurl.com/nbhwvcc)"
-      value: "Live Chat"
-      obsolete: "2017-11-26"
+      title: "The title that is displayed on the top of the container's frame"
+      screenshot: "https://zendesk.box.com/s/x3yx88qnonc2l6zfko7nkt2uupnurtbp"
+      value: "Chat with us"
   - translation:
       key: "embeddable_framework.chat.notification"
       title: "The notification message that appears on the launcher button when a new message is received in chat. This is for a singular incoming chat notification"
@@ -193,11 +193,6 @@ parts:
       title: "A system message that is displayed in the middle of a chat log when the user has submitted their comment as feedback for the current chat session"
       screenshot: "https://zendesk.box.com/s/q87klo5a1fe8egi3ufxinljpq01k91rv"
       value: "Comment submitted"
-  - translation:
-      key: "embeddable_framework.chat.title"
-      title: "The title that is displayed on the top of the container's frame"
-      screenshot: "https://zendesk.box.com/s/x3yx88qnonc2l6zfko7nkt2uupnurtbp"
-      value: "Chat with us"
   - translation:
       key: "embeddable_framework.chat.form.editContact.title"
       title: "The title of the form modal that is shown when the user edits the contact details in chat"
