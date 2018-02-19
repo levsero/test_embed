@@ -420,7 +420,7 @@ window.zESettings = {
 </script>
 ```
 
-Furthermore, you can define a number of additional options to target specific elements:
+You can define a number of additional options to target specific elements:
 
 ```html
 <script type="text/javascript">
@@ -439,9 +439,9 @@ window.zESettings = {
 </script>
 ```
 
-None of these elements are mandatory, and elements that are not defined will be based on either the `theme` color or the color [defined from the settings page](https://support.zendesk.com/hc/en-us/articles/115009692388-Configuring-the-components-in-your-Web-Widget), in that order of priority.
+None of these elements are mandatory, and elements that are not defined will be based on either the `theme` color or the color [defined in the settings page](https://support.zendesk.com/hc/en-us/articles/115009692388-Configuring-the-components-in-your-Web-Widget), in that order of priority.
 
-Some examples of elements you may customize using the properties described above:
+Examples of elements customized using `color` properties:
 
 ![Widget launcher](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_color_launcher.png)
 
