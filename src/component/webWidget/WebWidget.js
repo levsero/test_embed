@@ -324,7 +324,9 @@ class WebWidget extends Component {
   };
 
   onContainerDragEnter = () => {
-    if (this.props.activeEmbed === submitTicket) {
+    const { activeEmbed } = this.props;
+
+    if (activeEmbed === submitTicket || activeEmbed === chat) {
       this.getRootComponent().handleDragEnter();
     }
   }
@@ -339,7 +341,8 @@ class WebWidget extends Component {
         newDesign={this.props.newDesign}
         updateFrameSize={this.props.updateFrameSize}
         updateChatScreen={this.props.updateChatScreen}
-        position={this.props.position} />
+        position={this.props.position}
+        getFrameDimensions={this.props.getFrameDimensions} />
     );
   }
 

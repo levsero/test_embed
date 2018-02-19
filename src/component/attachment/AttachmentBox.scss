@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: u-posRelative from global;
+  composes: u-posAbsoluteCenter from global;
 
   z-index: 100;
 }

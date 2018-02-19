@@ -15,6 +15,7 @@ import { ChatRatings } from 'component/chat/ChatRatingGroup';
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { LoadingEllipses } from 'component/loading/LoadingEllipses';
+import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { i18n } from 'service/i18n';
 import { endChat,
          sendMsg,
@@ -99,7 +100,8 @@ class Chat extends Component {
     rating: PropTypes.string,
     handleSoundIconClick: PropTypes.func.isRequired,
     userSoundSettings: PropTypes.bool.isRequired,
-    ratingSettings: PropTypes.object.isRequired
+    ratingSettings: PropTypes.object.isRequired,
+    getFrameDimensions: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -117,7 +119,8 @@ class Chat extends Component {
     handleSoundIconClick: () => {},
     userSoundSettings: true,
     ratingSettings: { enabled: false },
-    agents: {}
+    agents: {},
+    getFrameDimensions: () => {}
   };
 
   constructor(props) {
@@ -308,6 +311,45 @@ class Chat extends Component {
     );
   }
 
+  handleDragEnter = () => {
+    this.setState({ isDragActive: true });
+  }
+
+  handleDragLeave = () => {
+    this.setState({ isDragActive: false });
+  }
+
+  handleDragDrop = (attachments) => {
+    this.setState({ isDragActive: false });
+    return this.props.sendAttachments(attachments);
+  }
+
+  renderAttachmentsBox = () => {
+    const { screen, attachmentsEnabled, getFrameDimensions } = this.props;
+
+    if (
+      screen !== CHATTING_SCREEN ||
+      !this.state.isDragActive ||
+      !attachmentsEnabled
+    ) return;
+
+    return (
+      <AttachmentBox
+        onDragLeave={this.handleDragLeave}
+        dimensions={getFrameDimensions()}
+        onDrop={this.handleDragDrop}
+      />
+    );
+  }
+
+  renderChatLog = () => {
+    const { chats, agents } = this.props;
+
+    return (
+      <ChatLog agents={agents} chats={chats} />
+    );
+  }
+
   renderChatEndPopup = () => {
     if (!this.state.showEndChatMenu) return null;
 
@@ -389,6 +431,7 @@ class Chat extends Component {
         {this.renderChatMenu()}
         {this.renderChatEndPopup()}
         {this.renderChatContactDetailsPopup()}
+        {this.renderAttachmentsBox()}
       </div>
     );
   }
