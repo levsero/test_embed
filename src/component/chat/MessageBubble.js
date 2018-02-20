@@ -14,7 +14,7 @@ export class MessageBubble extends Component {
     message: ''
   };
 
-  render = () => {
+  render() {
     return (
       <div className={`${styles.messageBubble} ${this.props.className}`}>
         {this.props.message}

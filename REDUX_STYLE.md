@@ -201,7 +201,7 @@ class HelpCenter extends Component {
 For complex state that rerenders often we should memoize it using reselect. The react dom rerenders everytime a new input is entered, therefore any complex transformations of data should be memoized to minimize the impact of this.
 
 ```js
-export const getFilteredChats = createSelector(
+export const getChatMessages = createSelector(
   [getChats],  // If the value of getChats
   (chats) => {
     const filterChatType = (event) => _.includes(['chat.msg', 'chat.file'], event.type);

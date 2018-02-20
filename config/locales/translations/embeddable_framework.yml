@@ -279,6 +279,11 @@ parts:
       screenshot: "https://zendesk.box.com/s/cr65lbpqkg0sutj587wajfukzu58a9kg"
       value: "Bad"
   - translation:
+      key: "embeddable_framework.chat.chatLog.rating.removed"
+      title: "A message that is displayed if the user removes the current rating"
+      screenshot: "https://zendesk.box.com/s/pvk9ikpaqnnpy81evyth5yjf7ht5aubg"
+      value: "Chat rating removed"
+  - translation:
       key: "embeddable_framework.chat.chatLog.queuePosition"
       title: "The system message that is displayed onto the chat log when all agents are occupied and the user is queued."
       screenshot: "https://zendesk.box.com/s/1816c5npxee9tvap5hz5d3ye1g42w6v1"
@@ -293,6 +298,16 @@ parts:
       title: "The system message that is displayed onto the chat log once the user or an agent has ended the chat session."
       screenshot: "https://zendesk.box.com/s/1xzdf3rzfbdco5aeeqkzdesd20f1u83e"
       value: "Chat ended"
+  - translation:
+      key: "embeddable_framework.chat.chatLog.agentJoined"
+      title: "An application message that is displayed in the chat log when an agent joins a chat"
+      screenshot: "https://zendesk.box.com/s/pmhpewnsoc7odl2b6fgs3ue3imeqpdld"
+      value: "%(agent) joined the chat"
+  - translation:
+      key: "embeddable_framework.chat.chatLog.agentLeft"
+      title: "An application message that is displayed in the chat log when an agent leaves a chat"
+      screenshot: "https://zendesk.box.com/s/48nsffvaymmoec3ryv5b6w14kmgbg6pv"
+      value: "%(agent) left the chat"
   - translation:
       key: "embeddable_framework.chat.chatLog.button.leaveComment"
       title: "A text that is displayed on a button that provides the user with the ability to navigate to a rating form"
