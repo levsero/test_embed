@@ -77,7 +77,7 @@ describe('i18n', () => {
       },
       'lodash': _,
       'sprintf-js': require('sprintf-js'),
-      '../../config/locales/translations/answer_bot_widget.yml': {
+      '../../config/locales/translations/embeddable_framework.yml': {
         parts: [translationFromFile]
       }
     });

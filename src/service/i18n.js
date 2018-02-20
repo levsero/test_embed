@@ -5,7 +5,7 @@ import { settings } from 'service/settings';
 import zETranslations from 'translation/ze_translations';
 import zELocaleIdMap from 'translation/ze_localeIdMap';
 
-import answerBotYamlFile from '../../config/locales/translations/answer_bot_widget.yml';
+import frameworkYamlFile from '../../config/locales/translations/embeddable_framework.yml';
 
 const keyLookupTable = {
   launcherLabel: [
@@ -169,7 +169,7 @@ const partReducer = (list, part) => {
 };
 
 function setFallbackTranslations() {
-  const translations = parseYamlTranslations(answerBotYamlFile);
+  const translations = parseYamlTranslations(frameworkYamlFile);
 
   if (!_.isEmpty(translations)) {
     fallbackTranslations = translations;
