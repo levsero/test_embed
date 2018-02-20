@@ -60,11 +60,11 @@ export const endChat = () => {
   return (dispatch, getState) => {
     zChat.endChat((err) => {
       if (!err) {
-        const { rating, accountSettings } = getState().chat;
+        const { rating, accountSettings, agents } = getState().chat;
 
         dispatch({ type: END_CHAT_REQUEST_SUCCESS });
 
-        if (rating === null && accountSettings.rating.enabled) {
+        if (rating === null && accountSettings.rating.enabled && _.size(agents) > 0) {
           dispatch(updateChatScreen(FEEDBACK_SCREEN));
         }
       } else {
