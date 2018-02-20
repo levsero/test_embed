@@ -33,8 +33,11 @@ export class SubmitTicketForm extends Component {
     attachmentsEnabled: PropTypes.bool,
     attachmentSender: PropTypes.func.isRequired,
     children: PropTypes.element.isRequired,
-    customFields: PropTypes.array,
+    ticketFields: PropTypes.array,
+    activeTicketForm: PropTypes.object,
     getFrameDimensions: PropTypes.func.isRequired,
+    ticketFormSettings: PropTypes.array,
+    ticketFieldSettings: PropTypes.array,
     newDesign: PropTypes.bool,
     formState: PropTypes.object,
     formTitleKey: PropTypes.string,
@@ -52,7 +55,8 @@ export class SubmitTicketForm extends Component {
   static defaultProps = {
     attachmentsEnabled: false,
     children: <span />,
-    customFields: [],
+    ticketFields: [],
+    activeTicketForm: {},
     formTitleKey: 'message',
     newDesign: false,
     formState: {},
@@ -70,16 +74,15 @@ export class SubmitTicketForm extends Component {
     super(props, context);
 
     this.state = _.extend({}, initialState, {
-      isValid: props.previewEnabled,
-      ticketForm: null,
-      ticketFormFields: []
+      isValid: props.previewEnabled
     });
   }
 
   componentDidMount = () => {
-    const showShadow = this.props.customFields.length > 0 || this.props.attachmentsEnabled;
+    const showShadow = this.props.ticketFields.length > 0 || this.props.attachmentsEnabled;
 
     this.refs.scrollContainer.setScrollShadowVisible(showShadow);
+    this.prefillFormState();
   }
 
   componentDidUpdate = () => {
@@ -219,7 +222,11 @@ export class SubmitTicketForm extends Component {
             .value();
   }
 
-  prefillFormState = (fields, prefillTicketForm, prefillTicketField) => {
+  // Passed in as params so the tests don't break
+  prefillFormState = (
+    fields = this.props.ticketFields,
+    prefillTicketForm = this.props.ticketFormSettings,
+    prefillTicketField = this.props.ticketFieldSettings) => {
     const filteredFields = this.filterPrefillFields(fields, prefillTicketForm, prefillTicketField);
 
     // Check if pre-fill is still valid after processing
@@ -240,16 +247,9 @@ export class SubmitTicketForm extends Component {
       { id: 'description', type: 'description' },
       { id: 'subject', type: 'subject' }
     ];
-    const fieldsData = _.compact(_.concat(this.props.customFields, internalFields));
+    const fieldsData = _.compact(_.concat(this.props.ticketFields, internalFields));
 
     this.prefillFormState(fieldsData, {}, prefillTicketField);
-  }
-
-  updateTicketForm = (form, fields, prefill, prefillTicketField) => {
-    this.setState({
-      ticketForm: form,
-      ticketFormFields: fields
-    }, () => this.prefillFormState(fields, prefill, prefillTicketField));
   }
 
   updateForm = () => {
@@ -354,10 +354,11 @@ export class SubmitTicketForm extends Component {
   }
 
   renderTicketFormBody = () => {
-    const { ticketForm, ticketFormFields } = this.state;
-    const formTicketFields = _.filter(ticketFormFields, (field) => {
-      return ticketForm.ticket_field_ids.indexOf(field.id) > -1;
+    const { activeTicketForm, ticketFields } = this.props;
+    const formTicketFields = _.filter(ticketFields, (field) => {
+      return activeTicketForm.ticket_field_ids.indexOf(field.id) > -1;
     });
+
     const ticketFieldsElem = getCustomFields(
       formTicketFields,
       this.props.formState,
@@ -373,7 +374,7 @@ export class SubmitTicketForm extends Component {
     return (
       <div ref='formWrapper'>
         <div className={`${styles.ticketFormTitle} ${titleMobileClasses}`}>
-          {ticketForm.display_name}
+          {activeTicketForm.display_name}
         </div>
         {ticketFieldsElem.allFields}
         {this.props.children}
@@ -382,8 +383,8 @@ export class SubmitTicketForm extends Component {
   }
 
   renderFormBody = () => {
-    const customFields = getCustomFields(
-      this.props.customFields,
+    const ticketFields = getCustomFields(
+      this.props.ticketFields,
       this.props.formState,
       {
         getFrameDimensions: this.props.getFrameDimensions,
@@ -395,10 +396,10 @@ export class SubmitTicketForm extends Component {
       <div ref='formWrapper'>
         {this.renderNameField()}
         {this.renderEmailField()}
-        {customFields.fields}
+        {ticketFields.fields}
         {this.renderSubjectField()}
         {this.renderDescriptionField()}
-        {customFields.checkboxes}
+        {ticketFields.checkboxes}
         {this.props.children}
       </div>
     );
@@ -433,12 +434,12 @@ export class SubmitTicketForm extends Component {
   render = () => {
     const { attachmentsEnabled, fullscreen, formTitleKey, hide } = this.props;
 
-    const form = this.state.ticketForm ? this.renderTicketFormBody() : this.renderFormBody();
+    const form = this.props.activeTicketForm ? this.renderTicketFormBody() : this.renderFormBody();
     const formBody = this.state.shouldRemoveForm ? null : form;
     const buttonCancel = fullscreen ? null : this.renderCancelButton();
     const attachments = attachmentsEnabled ? this.renderAttachments() : null;
     const hiddenClass = hide ? styles.hidden : '';
-    const containerClasses = this.state.ticketForm ? styles.ticketFormContainer : '';
+    const containerClasses = this.props.activeTicketForm ? styles.ticketFormContainer : '';
 
     return (
       <form
