@@ -6,6 +6,7 @@ describe('Chat component', () => {
   let Chat, prechatFormSettingsProp;
 
   const chatPath = buildSrcPath('component/chat/Chat');
+  const AttachmentBox = noopReactComponent();
 
   updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
 
@@ -60,6 +61,9 @@ describe('Chat component', () => {
       },
       'component/container/ScrollContainer': {
         ScrollContainer: scrollContainerComponent()
+      },
+      'component/attachment/AttachmentBox': {
+        AttachmentBox: AttachmentBox
       },
       'src/redux/modules/chat': {
         sendMsg: noop,
@@ -453,6 +457,62 @@ describe('Chat component', () => {
       it('renders a notification that signifies multiple agents typing', () => {
         expect(agentTypingComponent.props.children[1])
           .toEqual('embeddable_framework.chat.chatLog.isTyping_multiple');
+      });
+    });
+  });
+
+  describe('renderAttachmentsBox', () => {
+    let component;
+    const renderChatComponent = (screen, attachmentsEnabled) => (
+      domRender(
+        <Chat screen={screen} attachmentsEnabled={attachmentsEnabled} prechatFormSettings={prechatFormSettingsProp} />
+      )
+    );
+
+    describe('when screen is not `chatting`', () => {
+      beforeEach(() => {
+        component = renderChatComponent(prechatScreen, true);
+        component.handleDragEnter();
+      });
+
+      it('does not return anything', () => {
+        expect(component.renderAttachmentsBox())
+          .toBeFalsy();
+      });
+    });
+
+    describe('when attachmentsEnabled is false', () => {
+      beforeEach(() => {
+        component = renderChatComponent(chattingScreen, false);
+        component.handleDragEnter();
+      });
+
+      it('does not return anything', () => {
+        expect(component.renderAttachmentsBox())
+          .toBeFalsy();
+      });
+    });
+
+    describe('when the component has not had handleDragEnter called on it', () => {
+      beforeEach(() => {
+        component = renderChatComponent(chattingScreen, true);
+      });
+
+      it('does not return anything', () => {
+        expect(component.renderAttachmentsBox())
+          .toBeFalsy();
+      });
+    });
+
+    describe('when the screen is `chatting`, the attachments are enabled and handleDragEnter has been called', () => {
+      beforeEach(() => {
+        component = renderChatComponent(chattingScreen, true);
+        component.handleDragEnter();
+      });
+
+      it('returns the AttachmentsBox component', () => {
+        expect(TestUtils.isElementOfType(component.renderAttachmentsBox(), AttachmentBox))
+          .toEqual(true);
       });
     });
   });
