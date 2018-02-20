@@ -1,1 +1,8 @@
 export const FORM_ON_CHANGE = 'widget/submitTicket/FORM_ON_CHANGE';
+export const TICKET_FORM_UPDATE = 'widget/submitTicket/TICKET_FORM_UPDATE';
+export const TICKET_FORMS_REQUEST_SENT = 'widget/submitTicket/TICKET_FORMS_REQUEST_SENT';
+export const TICKET_FORMS_REQUEST_SUCCESS = 'widget/submitTicket/TICKET_FORMS_REQUEST_SUCCESS';
+export const TICKET_FORMS_REQUEST_FAILURE = 'widget/submitTicket/TICKET_FORMS_REQUEST_FAILURE';
+export const TICKET_FIELDS_REQUEST_SENT = 'widget/submitTicket/TICKET_FIELDS_REQUEST_SENT';
+export const TICKET_FIELDS_REQUEST_SUCCESS = 'widget/submitTicket/TICKET_FIELDS_REQUEST_SUCCESS';
+export const TICKET_FIELDS_REQUEST_FAILURE = 'widget/submitTicket/TICKET_FIELDS_REQUEST_FAILURE';

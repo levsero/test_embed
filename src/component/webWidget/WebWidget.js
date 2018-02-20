@@ -15,11 +15,16 @@ import { updateActiveEmbed,
          updateAuthenticated } from 'src/redux/modules/base';
 import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
 import { resetActiveArticle } from 'src/redux/modules/helpCenter';
-import { getChatAvailable, getChatEnabled, getTalkAvailable, getTalkEnabled } from 'src/redux/modules/selectors';
+import { getChatAvailable,
+         getChatEnabled,
+         getTalkAvailable,
+         getTalkEnabled,
+         getShowTicketFormsBackButton } from 'src/redux/modules/selectors';
 import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getZopimChatEmbed, getActiveEmbed, getAuthenticated } from 'src/redux/modules/base/base-selectors';
+import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
@@ -39,7 +44,9 @@ const mapStateToProps = (state) => {
     callbackEnabled: isCallbackEnabled(state),
     chatAvailable: getChatAvailable(state),
     chatEnabled: getChatEnabled(state),
-    oldChat: getZopimChatEmbed(state)
+    oldChat: getZopimChatEmbed(state),
+    ticketForms: getTicketForms(state),
+    showTicketFormsBackButton: getShowTicketFormsBackButton(state)
   };
 };
 
@@ -64,13 +71,14 @@ class WebWidget extends Component {
     onSubmitted: PropTypes.func,
     originalArticleButton: PropTypes.bool,
     position: PropTypes.string,
-    showCloseButton: PropTypes.func,
+    showTicketFormsBackButton: PropTypes.bool,
     style: PropTypes.object,
     subjectEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     submitTicketConfig: PropTypes.object,
     submitTicketSender: PropTypes.func,
     tags: PropTypes.array,
+    ticketForms: PropTypes.array.isRequired,
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
@@ -111,10 +119,10 @@ class WebWidget extends Component {
     onSubmitted: () => {},
     originalArticleButton: true,
     position: 'right',
-    showCloseButton: () => {},
     style: null,
     submitTicketAvailable: true,
     submitTicketConfig: {},
+    showTicketFormsBackButton: false,
     tags: [],
     ticketFieldSettings: [],
     ticketFormSettings: [],
@@ -158,14 +166,6 @@ class WebWidget extends Component {
   getChatComponent = () => this.refs[chat].getWrappedInstance();
 
   getHelpCenterComponent = () => this.refs[helpCenter].getWrappedInstance();
-
-  shouldShowTicketFormBackButton = () => {
-    if (!this.getSubmitTicketComponent()) return false;
-
-    const { selectedTicketForm, ticketForms } = this.getSubmitTicketComponent().state;
-
-    return selectedTicketForm && _.size(ticketForms.ticket_forms) > 1;
-  }
 
   isHelpCenterAvailable = () => {
     const { helpCenterAvailable, helpCenterConfig, authenticated, isOnHelpCenterPage } = this.props;
@@ -216,7 +216,7 @@ class WebWidget extends Component {
       this.showChat();
     } else {
       updateActiveEmbed(submitTicket);
-      backButton = this.shouldShowTicketFormBackButton();
+      backButton = this.props.showTicketFormsBackButton;
     }
 
     updateBackButtonVisibility(backButton);
@@ -295,7 +295,7 @@ class WebWidget extends Component {
     if (activeEmbed === helpCenter) {
       updateBackButtonVisibility(false);
       resetActiveArticle();
-    } else if (this.shouldShowTicketFormBackButton()) {
+    } else if (this.props.showTicketFormsBackButton) {
       rootComponent.clearForm();
       updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable);
     } else if (helpCenterAvailable) {
@@ -324,7 +324,9 @@ class WebWidget extends Component {
   };
 
   onContainerDragEnter = () => {
-    if (this.props.activeEmbed === submitTicket) {
+    const { activeEmbed } = this.props;
+
+    if (activeEmbed === submitTicket || activeEmbed === chat) {
       this.getRootComponent().handleDragEnter();
     }
   }
@@ -339,7 +341,8 @@ class WebWidget extends Component {
         newDesign={this.props.newDesign}
         updateFrameSize={this.props.updateFrameSize}
         updateChatScreen={this.props.updateChatScreen}
-        position={this.props.position} />
+        position={this.props.position}
+        getFrameDimensions={this.props.getFrameDimensions} />
     );
   }
 
@@ -434,7 +437,6 @@ class WebWidget extends Component {
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
         onCancelClick={this.props.closeFrame}
-        showCloseButton={this.props.showCloseButton}
         hideZendeskLogo={this.props.hideZendeskLogo} />
     );
   }

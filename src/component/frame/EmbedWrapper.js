@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 
 import Navigation from 'component/frame/Navigation';
-import { generateWebWidgetPreviewCSS } from 'utility/color';
+import { generateWebWidgetPreviewCSS } from 'utility/color/styles';
 
 export class EmbedWrapper extends Component {
   static propTypes = {
@@ -36,10 +36,6 @@ export class EmbedWrapper extends Component {
 
     this.embed = null;
     this.nav = null;
-  }
-
-  showCloseButton = (show = true) => {
-    this.nav.getWrappedInstance().showCloseButton(show);
   }
 
   setButtonColor = (color) => {

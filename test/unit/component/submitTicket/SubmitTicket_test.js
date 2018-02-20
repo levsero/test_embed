@@ -374,7 +374,7 @@ describe('Submit ticket component', () => {
 
           mockValues.value['22660514'] = 'mockCustomField';
 
-          submitTicket = instanceRender(<SubmitTicket customFields={mockCustomField} />);
+          submitTicket = instanceRender(<SubmitTicket ticketFields={mockCustomField} />);
           params = submitTicket.formatTicketFieldData(mockValues);
         });
 
@@ -385,7 +385,7 @@ describe('Submit ticket component', () => {
       });
 
       describe('when the form is a user ticket form', () => {
-        let mockTicketFormParams,
+        let mockTicketForm,
           ticketFields;
 
         beforeEach(() => {
@@ -401,15 +401,12 @@ describe('Submit ticket component', () => {
               removable: true
             }
           ];
-          mockTicketFormParams = {
-            ticket_forms: [
-              {
-                id: 50,
-                ticket_field_ids: [ 1, 2, 4 ]
-              }
-            ],
-            ticket_fields: ticketFields
-          };
+          mockTicketForm = [
+            {
+              id: 50,
+              ticket_field_ids: [ 1, 2, 4 ]
+            }
+          ];
 
           mockValues = {
             isFormValid: true,
@@ -422,10 +419,14 @@ describe('Submit ticket component', () => {
             }
           };
 
-          submitTicket = domRender(<SubmitTicket />);
+          submitTicket = domRender(
+            <SubmitTicket
+              ticketFields={ticketFields}
+              ticketForms={mockTicketForm}
+              ticketFormsAvailable={true}
+              activeTicketForm={mockTicketForm[0]} />
+          );
 
-          submitTicket.updateTicketForms(mockTicketFormParams);
-          submitTicket.setState({ selectedTicketForm: mockTicketFormParams.ticket_forms[0] });
           params = submitTicket.formatRequestTicketData(mockValues);
         });
 
@@ -445,8 +446,13 @@ describe('Submit ticket component', () => {
           beforeEach(() => {
             ticketFields.push({ id: 2, type: 'subject', removable: false });
 
-            submitTicket.updateTicketForms(mockTicketFormParams);
-            submitTicket.setState({ selectedTicketForm: mockTicketFormParams.ticket_forms[0] });
+            submitTicket = domRender(
+              <SubmitTicket
+                ticketFields={ticketFields}
+                ticketForms={mockTicketForm}
+                ticketFormsAvailable={true}
+                activeTicketForm={mockTicketForm[0]} />
+            );
             params = submitTicket.formatRequestTicketData(mockValues);
           });
 
@@ -580,41 +586,35 @@ describe('Submit ticket component', () => {
   describe('ticket forms list', () => {
     let submitTicket;
 
-    beforeEach(() => {
+    it('is rendered by default', () => {
       submitTicket = domRender(<SubmitTicket />);
-    });
-
-    it('should not be rendered by default', () => {
-      expect(submitTicket.refs.ticketFormSelector)
-        .toBeUndefined();
-    });
-
-    it('should not be rendered if the form is loading', () => {
-      submitTicket.setState({ loading: true });
-      submitTicket.updateTicketForms({ ticket_forms: [{ id: 1 }], ticket_fields: [] });
 
       expect(submitTicket.refs.ticketFormSelector)
         .toBeUndefined();
     });
 
-    it('should not be rendered when there is only one ticket form', () => {
-      submitTicket.updateTicketForms({ ticket_forms: [{ id: 1 }], ticket_fields: [] });
+    it('is rendered if the form is loading', () => {
+      const ticketForms = [{ id: 1 }];
+
+      submitTicket = domRender(<SubmitTicket ticketForms={ticketForms} loading={true} />);
 
       expect(submitTicket.refs.ticketFormSelector)
         .toBeUndefined();
     });
 
-    it('should be rendered when there is more then one ticket form', () => {
-      submitTicket.updateTicketForms({ ticket_forms: [{ id: 1 }, { id: 2 }], ticket_fields: [] });
+    it('is rendered when there is more then one ticket form', () => {
+      const ticketForms = [{ id: 1 }, { id: 2 }];
+
+      submitTicket = domRender(<SubmitTicket ticketForms={ticketForms} />);
 
       expect(submitTicket.refs.ticketFormSelector)
         .toBeDefined();
     });
 
-    it('should render the correct number of list options', () => {
-      const ticketForms = { ticket_forms: [{ id: 1 }, { id: 2 }, { id: 3 }], ticket_fields: [] };
+    it('renders the correct number of list options', () => {
+      const ticketForms = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
-      submitTicket.updateTicketForms(ticketForms);
+      submitTicket = domRender(<SubmitTicket ticketForms={ticketForms} />);
 
       expect(submitTicket.renderTicketFormOptions().length)
         .toBe(3);
@@ -629,33 +629,46 @@ describe('Submit ticket component', () => {
       submitTicketNode = ReactDOM.findDOMNode(submitTicket);
     });
 
-    it('should not be rendered by default', () => {
-      expect(submitTicketNode.querySelectorAll('.loadingSpinnerClasses').length)
-        .toEqual(0);
+    describe('when loading is false', () => {
+      beforeEach(() => {
+        submitTicket = domRender(<SubmitTicket />);
+        submitTicketNode = ReactDOM.findDOMNode(submitTicket);
+      });
+
+      it('does not render', () => {
+        expect(submitTicketNode.querySelectorAll('.loadingSpinnerClasses').length)
+          .toEqual(0);
+      });
     });
 
-    it('should be rendered when loading state is true', () => {
-      submitTicket.setState({ loading: true });
+    describe('when loading is true', () => {
+      beforeEach(() => {
+        submitTicket = domRender(<SubmitTicket loading={true} />);
+        submitTicketNode = ReactDOM.findDOMNode(submitTicket);
+      });
 
-      expect(submitTicketNode.querySelectorAll('.loadingSpinnerClasses').length)
-        .toEqual(1);
-    });
+      it('renders', () => {
+        expect(submitTicketNode.querySelectorAll('.loadingSpinnerClasses').length)
+          .toEqual(1);
+      });
 
-    it('should not have extra padding by default', () => {
-      submitTicket.setState({ loading: true });
+      it('does not have extra padding by default', () => {
+        expect(submitTicketNode.querySelectorAll('.loadingSpinnerIEClasses').length)
+          .toEqual(0);
+      });
 
-      expect(submitTicketNode.querySelectorAll('.loadingSpinnerIEClasses').length)
-        .toEqual(0);
-    });
+      describe('when on IE', () => {
+        beforeEach(() => {
+          mockIsIEValue = true;
+          submitTicket = domRender(<SubmitTicket loading={true} />);
+          submitTicketNode = ReactDOM.findDOMNode(submitTicket);
+        });
 
-    it('should have extra padding on IE', () => {
-      mockIsIEValue = true;
-      submitTicket = domRender(<SubmitTicket />);
-      submitTicketNode = ReactDOM.findDOMNode(submitTicket);
-      submitTicket.setState({ loading: true });
-
-      expect(submitTicketNode.querySelectorAll('.loadingSpinnerIEClasses').length)
-        .toEqual(1);
+        it('has extra padding', () => {
+          expect(submitTicketNode.querySelectorAll('.loadingSpinnerIEClasses').length)
+            .toEqual(1);
+        });
+      });
     });
   });
 
@@ -718,51 +731,53 @@ describe('Submit ticket component', () => {
   });
 
   describe('clearForm', () => {
-    let submitTicket,
-      mockSetState,
-      mockClear;
+    let submitTicket;
+    const mockClear = jasmine.createSpy('clear');
+    const handleTicketFormClickSpy = jasmine.createSpy('handleTicketFormClick');
 
     beforeEach(() => {
-      submitTicket = domRender(<SubmitTicket />);
-      submitTicket.refs.submitTicketForm = { clear: mockClear = jasmine.createSpy('clear') };
+      mockClear.calls.reset();
+      handleTicketFormClickSpy.calls.reset();
     });
 
     describe('when there is more than 1 ticket form', () => {
-      const mockTicketForms = {
-        ticket_forms: [{ id: 123 }, { id: 456 }]
-      };
+      const mockTicketForms = [{ id: 123 }, { id: 456 }];
 
       beforeEach(() => {
-        submitTicket.setState({
-          ticketForms: mockTicketForms,
-          selectedTicketForm: 123
-        });
-        submitTicket.setState = mockSetState = jasmine.createSpy('setState');
+        submitTicket = domRender(
+          <SubmitTicket
+            ticketForms={mockTicketForms}
+            ticketFormsAvailable={true}
+            handleTicketFormClick={handleTicketFormClickSpy} />
+        );
+
+        submitTicket.refs.submitTicketForm = { clear: mockClear };
         submitTicket.clearForm();
       });
 
-      it('should call clear on submitTicketForm', () => {
+      it('calls clear on submitTicketForm', () => {
         expect(mockClear)
           .toHaveBeenCalled();
       });
 
-      it('should call setState with null set to selectedTicketForm', () => {
-        const expectation = { selectedTicketForm: null };
-
-        expect(mockSetState)
-          .toHaveBeenCalledWith(expectation);
+      it('calls handleTicketFormClick with null', () => {
+        expect(handleTicketFormClickSpy)
+          .toHaveBeenCalledWith(null);
       });
     });
 
     describe('when there is 1 ticket form', () => {
-      const mockTicketForms = { ticket_forms: [{ id: 123 }] };
+      const mockTicketForms = [{ id: 123 }];
 
       beforeEach(() => {
-        submitTicket.setState({
-          ticketForms: mockTicketForms,
-          selectedTicketForm: 123
-        });
-        submitTicket.setState = mockSetState = jasmine.createSpy('setState');
+        submitTicket = domRender(
+          <SubmitTicket
+            ticketForms={mockTicketForms}
+            ticketFormsAvailable={true}
+            handleTicketFormClick={handleTicketFormClickSpy} />
+        );
+
+        submitTicket.refs.submitTicketForm = { clear: mockClear };
         submitTicket.clearForm();
       });
 
@@ -771,8 +786,8 @@ describe('Submit ticket component', () => {
           .toHaveBeenCalled();
       });
 
-      it('should not call setState', () => {
-        expect(mockSetState)
+      it('does not call handleTicketFormClick', () => {
+        expect(handleTicketFormClickSpy)
           .not.toHaveBeenCalled();
       });
     });
@@ -780,18 +795,14 @@ describe('Submit ticket component', () => {
 
   describe('setTicketForm', () => {
     let submitTicket,
-      mockShowBackButton,
-      mockUpdateSubmitTicketForm;
+      mockShowBackButton;
 
     describe('when there are no ticket forms', () => {
-      const ticketForms = { ticket_forms: [] };
       const subjects = ['Kuroi Uta', 123, [], { id: 456 }];
 
       beforeEach(() => {
         mockShowBackButton = jasmine.createSpy('showBackButton');
-        submitTicket = domRender(<SubmitTicket showBackButton={mockShowBackButton} />);
-        submitTicket.setState({ ticketForms });
-        submitTicket.updateSubmitTicketForm = mockUpdateSubmitTicketForm = jasmine.createSpy('updateSubmitTicketForm');
+        submitTicket = domRender(<SubmitTicket showBackButton={mockShowBackButton} ticketForms={[]} />);
       });
 
       describe('when it is passed any data type representing a ticketFormId', () => {
@@ -803,98 +814,27 @@ describe('Submit ticket component', () => {
           expect(mockShowBackButton)
             .not.toHaveBeenCalled();
         });
-
-        it('does not call updateSubmitTicketForm', () => {
-          subjects.forEach((subject) => {
-            submitTicket.setTicketForm(subject);
-          });
-
-          expect(mockUpdateSubmitTicketForm)
-            .not.toHaveBeenCalled();
-        });
       });
     });
 
     describe('when there are ticket forms', () => {
-      const ticketForms = { ticket_forms: [{ id: 123 }, { id: 456 }] };
+      const ticketForms = [{ id: 123 }, { id: 456 }];
 
       beforeEach(() => {
         mockShowBackButton = jasmine.createSpy('showBackButton');
-        submitTicket = domRender(<SubmitTicket showBackButton={mockShowBackButton} />);
-        submitTicket.setState({ ticketForms });
-        submitTicket.updateSubmitTicketForm = mockUpdateSubmitTicketForm = jasmine.createSpy('updateSubmitTicketForm');
+        submitTicket = domRender(
+          <SubmitTicket
+            showBackButton={mockShowBackButton}
+            ticketFormsAvailable={true}
+            ticketForms={ticketForms} />
+        );
       });
 
-      describe('when it is passed a non-existing ticketFormId', () => {
-        it('calls showBackButton', () => {
-          submitTicket.setTicketForm(777);
+      it('calls showBackButton', () => {
+        submitTicket.setTicketForm(123);
 
-          expect(mockShowBackButton)
-            .toHaveBeenCalled();
-        });
-
-        it('calls updateSubmitTicketForm with undefined as ticketForm', () => {
-          const ticketForm = undefined;
-
-          submitTicket.setTicketForm(777);
-
-          expect(mockUpdateSubmitTicketForm)
-            .toHaveBeenCalledWith(ticketForm, undefined);
-        });
-      });
-
-      describe('when it is passed an existing ticketFormId', () => {
-        it('calls showBackButton', () => {
-          submitTicket.setTicketForm(123);
-
-          expect(mockShowBackButton)
-            .toHaveBeenCalled();
-        });
-
-        it('calls updateSubmitTicketForm with a ticketForm object', () => {
-          submitTicket.setTicketForm(456);
-
-          expect(mockUpdateSubmitTicketForm)
-            .toHaveBeenCalledWith({ id: 456 }, undefined);
-        });
-      });
-    });
-  });
-
-  describe('updateTicketForms', () => {
-    let submitTicket,
-      mockTicketForms;
-
-    beforeEach(() => {
-      submitTicket = domRender(<SubmitTicket />);
-    });
-
-    describe('when the ticket forms length is 1', () => {
-      beforeEach(() => {
-        mockTicketForms = { ticket_forms: [{ id: 1234567 }] };
-
-        spyOn(submitTicket, 'updateSubmitTicketForm');
-        submitTicket.updateTicketForms(mockTicketForms);
-      });
-
-      it('should call updateSubmitTicketForm with the first ticket form', () => {
-        expect(submitTicket.updateSubmitTicketForm)
-          .toHaveBeenCalledWith({ id: 1234567 }, undefined);
-      });
-    });
-
-    describe('when there is a currently selected ticket form', () => {
-      beforeEach(() => {
-        mockTicketForms = { ticket_forms: [{ id: 1234567 }, { id: 1234568 }] };
-
-        spyOn(submitTicket, 'setTicketForm');
-        submitTicket.updateSubmitTicketForm(mockTicketForms.ticket_forms[1]);
-        submitTicket.updateTicketForms(mockTicketForms);
-      });
-
-      it('should call setTicketForm with the currently selected ticket form id', () => {
-        expect(submitTicket.setTicketForm)
-          .toHaveBeenCalledWith(1234568);
+        expect(mockShowBackButton)
+          .toHaveBeenCalled();
       });
     });
   });

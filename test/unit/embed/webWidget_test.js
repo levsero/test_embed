@@ -20,10 +20,14 @@ describe('embed.webWidget', () => {
     mockIsIE,
     mockZendeskSubdomain,
     mockActiveEmbed,
+    mockStoreDispatch,
+    mockStore,
     mockWebWidget;
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
   const authenticateSpy = jasmine.createSpy();
   const revokeSpy = jasmine.createSpy();
+  const getTicketFormsSpy = jasmine.createSpy('ticketForms');
+  const getTicketFieldsSpy = jasmine.createSpy('ticketFields');
   const zChatInitSpy = jasmine.createSpy();
   const zChatFirehoseSpy = jasmine.createSpy().and.callThrough();
   const callMeScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
@@ -46,11 +50,16 @@ describe('embed.webWidget', () => {
     socketioMapEventsToActionsSpy = jasmine.createSpy('socketio.mapEventsToActions');
     resetTalkScreenSpy = jasmine.createSpy('resetTalkScreen');
     mockKeywordValue = null;
+    mockStoreDispatch = jasmine.createSpy('dispatch');
+    mockStore = { getState: noop, dispatch: mockStoreDispatch };
 
     targetCancelHandlerSpy = jasmine.createSpy();
 
     mockFrame = requireUncached(buildTestPath('unit/mocks/mockFrame')).MockFrame;
     mockWebWidget = requireUncached(buildTestPath('unit/mocks/mockWebWidget'));
+
+    getTicketFormsSpy.calls.reset();
+    getTicketFieldsSpy.calls.reset();
 
     resetDOM();
 
@@ -126,6 +135,10 @@ describe('embed.webWidget', () => {
       'src/redux/modules/talk': {
         resetTalkScreen: resetTalkScreenSpy
       },
+      'src/redux/modules/submitTicket': {
+        getTicketForms: getTicketFormsSpy,
+        getTicketFields: getTicketFieldsSpy
+      },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed
       },
@@ -151,7 +164,7 @@ describe('embed.webWidget', () => {
           target: jasmine.createSpy('mouseTarget').and.returnValue(targetCancelHandlerSpy)
         }
       },
-      'utility/color': {
+      'utility/color/styles': {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
       'utility/utils': {
@@ -212,7 +225,6 @@ describe('embed.webWidget', () => {
 
       beforeEach(() => {
         mockSetScaleLock = mockRegistry['utility/devices'].setScaleLock;
-        const mockStore = { getState: noop, dispatch: noop };
 
         webWidget.create('', {
           ticketSubmissionForm: { attachmentsEnabled: true },
@@ -472,7 +484,7 @@ describe('embed.webWidget', () => {
     describe('when no embeds are part of config', () => {
       beforeEach(() => {
         zChatInitSpy.calls.reset();
-        webWidget.create('', {});
+        webWidget.create('', {}, mockStore);
         webWidget.render();
 
         faythe = webWidget.get().instance.getRootComponent();
@@ -511,7 +523,7 @@ describe('embed.webWidget', () => {
 
     describe('when ticketSubmissionForm is part of config', () => {
       beforeEach(() => {
-        webWidget.create('', { ticketSubmissionForm: {} });
+        webWidget.create('', { ticketSubmissionForm: {} }, mockStore);
         webWidget.render();
 
         faythe = webWidget.get().instance.getRootComponent();
@@ -632,7 +644,7 @@ describe('embed.webWidget', () => {
 
           mockAttachmentsEnabledValue = false;
 
-          webWidget.create('', { ticketSubmissionForm: submitTicketConfig });
+          webWidget.create('', { ticketSubmissionForm: submitTicketConfig }, mockStore);
 
           faythe = webWidget.get();
         });
@@ -662,7 +674,7 @@ describe('embed.webWidget', () => {
             'email': 'mock@email.com',
             'description': 'Mock Description'
           };
-          webWidget.create('', { ticketSubmissionForm: {} });
+          webWidget.create('', { ticketSubmissionForm: {} }, mockStore);
           webWidget.render();
 
           embed = webWidget.get().instance.getRootComponent();
@@ -691,7 +703,7 @@ describe('embed.webWidget', () => {
             name: 'foo.bar'
           };
 
-          webWidget.create('', { ticketSubmissionForm: {} });
+          webWidget.create('', { ticketSubmissionForm: {} }, mockStore);
           webWidget.render();
 
           embed = webWidget.get().instance.getRootComponent();
@@ -722,7 +734,7 @@ describe('embed.webWidget', () => {
               .toEqual('/api/v2/ticket_forms/show_many.json?ids=1&include=ticket_fields');
           };
 
-          webWidget.create('', { ticketSubmissionForm: { ticketForms: [{ id:1 }] } } );
+          webWidget.create('', { ticketSubmissionForm: { ticketForms: [{ id:1 }] } }, mockStore);
           webWidget.waitForRootComponent(expectFn);
         });
 
@@ -733,7 +745,7 @@ describe('embed.webWidget', () => {
           };
 
           mockTicketFormsValue = [{ id: 212 }];
-          webWidget.create('', { ticketSubmissionForm: { ticketForms: [{ id: 121 }] } } );
+          webWidget.create('', { ticketSubmissionForm: { ticketForms: [{ id: 121 }] } }, mockStore);
           webWidget.waitForRootComponent(expectFn);
         });
       });
@@ -751,7 +763,7 @@ describe('embed.webWidget', () => {
               .toEqual('/embeddable/ticket_fields?field_ids=1,2,3&locale=fr');
           };
 
-          webWidget.create('', { ticketSubmissionForm: { customFields: { ids: [1, 2, 3] } } } );
+          webWidget.create('', { ticketSubmissionForm: { customFields: { ids: [1, 2, 3] } } }, mockStore);
           webWidget.waitForRootComponent(expectFn);
         });
       });
@@ -769,7 +781,7 @@ describe('embed.webWidget', () => {
               .toEqual('/embeddable/ticket_fields?locale=fr');
           };
 
-          webWidget.create('', { ticketSubmissionForm: { customFields: { all: true } } } );
+          webWidget.create('', { ticketSubmissionForm: { customFields: { all: true } } }, mockStore);
           webWidget.waitForRootComponent(expectFn);
         });
       });
@@ -876,7 +888,7 @@ describe('embed.webWidget', () => {
 
   describe('#render', () => {
     it('renders a webWidget form to the document', () => {
-      webWidget.create();
+      webWidget.create('', {}, mockStore);
       webWidget.render();
 
       expect(document.querySelectorAll('.mock-frame').length)
@@ -899,14 +911,12 @@ describe('embed.webWidget', () => {
 
   describe('setUpMediator', () => {
     let mockMediator,
-      mockStoreDispatch,
       frame,
       component;
 
     beforeEach(() => {
-      mockStoreDispatch = jasmine.createSpy();
       mockMediator = mockRegistry['service/mediator'].mediator;
-      webWidget.create('', {}, { dispatch: mockStoreDispatch });
+      webWidget.create('', {}, mockStore);
       webWidget.render();
     });
 
@@ -936,7 +946,7 @@ describe('embed.webWidget', () => {
         };
 
         beforeEach(() => {
-          webWidget.create('', config, { dispatch: mockStoreDispatch });
+          webWidget.create('', config, mockStore);
           webWidget.render();
 
           const frame = webWidget.get().instance;
@@ -1041,7 +1051,7 @@ describe('embed.webWidget', () => {
 
       describe('when chat is available', () => {
         beforeEach(() => {
-          webWidget.create('', { zopimChat: {} }, { dispatch: mockStoreDispatch });
+          webWidget.create('', { zopimChat: {} }, mockStore);
           webWidget.render();
           pluckSubscribeCall(mockMediator, 'zopimChat.setUser')(user);
         });
@@ -1075,19 +1085,17 @@ describe('embed.webWidget', () => {
         const ticketForms = [10000, 10001];
 
         beforeEach(() => {
-          webWidget.create('', { ticketSubmissionForm: { ticketForms } });
+          webWidget.create('', { ticketSubmissionForm: { ticketForms } }, mockStore);
           embed = webWidget.get();
           webWidget.render();
 
-          embed.submitTicketSettings.loadTicketForms = jasmine.createSpy('loadTicketForms');
-          embed.submitTicketSettings.loadTicketFields = jasmine.createSpy('loadTicketFields');
           spyOn(embed.instance, 'updateFrameLocale');
           spyOn(embed.instance.getChild(), 'forceUpdate');
           pluckSubscribeCall(mockMediator, 'webWidget.refreshLocale')();
         });
 
-        it('should call loadTicketForms', () => {
-          expect(embed.submitTicketSettings.loadTicketForms)
+        it('should call getTicketForms', () => {
+          expect(getTicketFormsSpy)
             .toHaveBeenCalledWith(ticketForms, 'fr');
         });
 
@@ -1101,8 +1109,8 @@ describe('embed.webWidget', () => {
             .toHaveBeenCalled();
         });
 
-        it('should not call loadTicketFields', () => {
-          expect(embed.submitTicketSettings.loadTicketFields)
+        it('should not call getTicketFields', () => {
+          expect(getTicketFieldsSpy)
             .not.toHaveBeenCalled();
         });
       });
@@ -1111,18 +1119,16 @@ describe('embed.webWidget', () => {
         const customFields = { ids: [10000, 10001] };
 
         beforeEach(() => {
-          webWidget.create('', { ticketSubmissionForm: { customFields } });
+          webWidget.create('', { ticketSubmissionForm: { customFields } }, mockStore);
           embed = webWidget.get();
           webWidget.render();
 
-          embed.submitTicketSettings.loadTicketForms = jasmine.createSpy('loadTicketForms');
-          embed.submitTicketSettings.loadTicketFields = jasmine.createSpy('loadTicketFields');
           spyOn(embed.instance.getChild(), 'forceUpdate');
           pluckSubscribeCall(mockMediator, 'webWidget.refreshLocale')();
         });
 
-        it('should call loadTicketFields', () => {
-          expect(embed.submitTicketSettings.loadTicketFields)
+        it('should call getTicketFields', () => {
+          expect(getTicketFieldsSpy)
             .toHaveBeenCalledWith(customFields, 'fr');
         });
 
@@ -1131,8 +1137,8 @@ describe('embed.webWidget', () => {
             .toHaveBeenCalled();
         });
 
-        it('should not call loadTicketForms', () => {
-          expect(embed.submitTicketSettings.loadTicketForms)
+        it('should not call getTicketForms', () => {
+          expect(getTicketFormsSpy)
             .not.toHaveBeenCalled();
         });
       });
@@ -1371,8 +1377,6 @@ describe('embed.webWidget', () => {
     });
 
     describe('contextual help', () => {
-      const mockStore = { dispatch: noop };
-
       beforeEach(() => {
         webWidget.create('', { helpCenterForm: { contextualHelpEnabled: true } }, mockStore);
       });

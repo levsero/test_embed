@@ -3,53 +3,53 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import { ChatGroup } from 'component/chat/ChatGroup';
+import { ChatEventMessage } from 'component/chat/ChatEventMessage';
+// TODO: move constants out of chat-selectors and into a more sensible location
+import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'src/redux/modules/chat/chat-selectors';
 
 export class ChatLog extends Component {
   static propTypes = {
-    agents: PropTypes.object.isRequired,
-    chats: PropTypes.array.isRequired
+    chatLog: PropTypes.object.isRequired,
+    agents: PropTypes.object
   };
 
-  constructor() {
-    super();
+  renderChatLog(chatLog, agents) {
+    const chatLogEl = _.map(chatLog, (chatLogItem, timestamp) => {
+      // message groups and events are both returned as arrays; we can determine the type of the entire timestamped item 'group' by reading the type value of the first entry
+      const chatLogItemType = _.get(chatLogItem, '0.type');
 
-    // The following instance variables are purposely not assigned as state.
-    // This is due to us wanting to update the values without triggering a re-render.
-    this.previousUser = null;
-    this.groupCount = 0;
-  }
+      if (_.includes(CHAT_MESSAGE_EVENTS, chatLogItemType)) {
+        const chatGroup = chatLogItem;
+        const groupNick = _.get(chatGroup, '0.nick');
+        const isAgent = groupNick !== 'visitor';
+        const avatarPath = _.get(agents, `${groupNick}.avatar_path`);
 
-  processChatGroup = (chat) => {
-    if (chat.nick !== this.previousUser) {
-      this.previousUser = chat.nick;
-      this.groupCount += 1;
-    }
+        return (
+          <ChatGroup
+            key={timestamp}
+            isAgent={isAgent}
+            messages={chatGroup}
+            avatarPath={avatarPath} />
+        );
+      } else if (_.includes(CHAT_SYSTEM_EVENTS, chatLogItemType)) {
+        const event = chatLogItem[0];
 
-    return this.groupCount;
-  }
+        return (
+          <ChatEventMessage
+            key={timestamp}
+            event={event} />
+        );
+      }
+    });
 
-  renderChatGroup = (chatGroup, key) => {
-    const firstUserNick = _.get(chatGroup, '0.nick', '');
-    const isAgent = firstUserNick !== 'visitor';
-    const avatarPath = _.get(this.props.agents, `${firstUserNick}.avatar_path`, '');
-
-    return (
-      <ChatGroup
-        key={key}
-        isAgent={isAgent}
-        messages={chatGroup}
-        avatarPath={avatarPath} />);
+    return chatLogEl.length ? chatLogEl : null;
   }
 
   render() {
-    const { chats } = this.props;
-    const chatGroups = _.chain(chats)
-                        .groupBy(this.processChatGroup)
-                        .map(this.renderChatGroup)
-                        .value();
+    const { chatLog, agents } = this.props;
 
     return (
-      <div>{chatGroups}</div>
+      <div>{this.renderChatLog(chatLog, agents)}</div>
     );
   }
 }

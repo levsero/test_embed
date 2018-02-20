@@ -15,6 +15,7 @@ import { ChatRatings } from 'component/chat/ChatRatingGroup';
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { LoadingEllipses } from 'component/loading/LoadingEllipses';
+import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { i18n } from 'service/i18n';
 import { endChat,
          sendMsg,
@@ -32,9 +33,10 @@ import { getPrechatFormFields,
          getPrechatFormSettings,
          getIsChatting,
          getAgents,
-         getFilteredChats,
+         getChatMessages,
+         getChatEvents,
+         getGroupedChatLog,
          getChatScreen,
-         getConnection,
          getChatVisitor,
          getCurrentMessage,
          getChatRating,
@@ -51,10 +53,11 @@ const mapStateToProps = (state) => {
 
   return {
     attachmentsEnabled: getAttachmentsEnabled(state),
-    chats: getFilteredChats(state),
+    chats: getChatMessages(state),
+    events: getChatEvents(state),
+    chatLog: getGroupedChatLog(state),
     currentMessage: getCurrentMessage(state),
     screen: getChatScreen(state),
-    connection: getConnection(state),
     concierge: getConciergeSettings(state),
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
     postChatFormSettings: getPostchatFormSettings(state),
@@ -72,8 +75,9 @@ class Chat extends Component {
     attachmentsEnabled: PropTypes.bool.isRequired,
     concierge: PropTypes.object.isRequired,
     chats: PropTypes.array.isRequired,
+    events: PropTypes.array.isRequired,
+    chatLog: PropTypes.object.isRequired,
     currentMessage: PropTypes.string.isRequired,
-    connection: PropTypes.string.isRequired,
     endChat: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
     sendAttachments: PropTypes.func.isRequired,
@@ -96,7 +100,8 @@ class Chat extends Component {
     rating: PropTypes.string,
     handleSoundIconClick: PropTypes.func.isRequired,
     userSoundSettings: PropTypes.bool.isRequired,
-    ratingSettings: PropTypes.object.isRequired
+    ratingSettings: PropTypes.object.isRequired,
+    getFrameDimensions: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -108,11 +113,14 @@ class Chat extends Component {
     concierge: {},
     rating: null,
     chats: [],
+    events: [],
+    chatLog: {},
     postChatFormSettings: {},
     handleSoundIconClick: () => {},
     userSoundSettings: true,
     ratingSettings: { enabled: false },
-    agents: {}
+    agents: {},
+    getFrameDimensions: () => {}
   };
 
   constructor(props) {
@@ -128,11 +136,14 @@ class Chat extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const { chats } = this.props;
+    const { chats, events } = this.props;
 
-    if (!chats || !nextProps.chats) return;
+    if (!nextProps.chats && !nextProps.events) return;
 
-    if (chats.size !== nextProps.chats.size) {
+    const chatLogLength = chats.length + events.length;
+    const nextChatLogLength = nextProps.chats.length + nextProps.events.length;
+
+    if (chatLogLength !== nextChatLogLength) {
       setTimeout(() => {
         if (this.scrollContainer) {
           this.scrollContainer.scrollToBottom();
@@ -156,16 +167,6 @@ class Chat extends Component {
     this.props.sendMsg(info.message);
 
     this.props.updateChatScreen(CHATTING_SCREEN);
-  }
-
-  renderChatEnded = () => {
-    if (this.props.chats.length <= 0 || this.props.isChatting) return;
-
-    return (
-      <div className={styles.chatEnd}>
-        {i18n.t('embeddable_framework.chat.ended.label', { fallback: 'Chat Ended' })}
-      </div>
-    );
   }
 
   renderChatMenu = () => {
@@ -303,11 +304,41 @@ class Chat extends Component {
         footerClasses={styles.footer}
         footerContent={this.renderChatFooter()}>
         <div className={styles.messages}>
-          {this.renderChatLog()}
-          {this.renderChatEnded()}
+          <ChatLog chatLog={this.props.chatLog} agents={this.props.agents} />
           {this.renderAgentTyping()}
         </div>
       </ScrollContainer>
+    );
+  }
+
+  handleDragEnter = () => {
+    this.setState({ isDragActive: true });
+  }
+
+  handleDragLeave = () => {
+    this.setState({ isDragActive: false });
+  }
+
+  handleDragDrop = (attachments) => {
+    this.setState({ isDragActive: false });
+    return this.props.sendAttachments(attachments);
+  }
+
+  renderAttachmentsBox = () => {
+    const { screen, attachmentsEnabled, getFrameDimensions } = this.props;
+
+    if (
+      screen !== CHATTING_SCREEN ||
+      !this.state.isDragActive ||
+      !attachmentsEnabled
+    ) return;
+
+    return (
+      <AttachmentBox
+        onDragLeave={this.handleDragLeave}
+        dimensions={getFrameDimensions()}
+        onDrop={this.handleDragDrop}
+      />
     );
   }
 
@@ -400,6 +431,7 @@ class Chat extends Component {
         {this.renderChatMenu()}
         {this.renderChatEndPopup()}
         {this.renderChatContactDetailsPopup()}
+        {this.renderAttachmentsBox()}
       </div>
     );
   }

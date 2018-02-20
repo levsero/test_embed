@@ -1,7 +1,10 @@
+import { createSelector } from 'reselect';
+
 import { getChatOnline as getNewChatOnline } from './chat/chat-selectors';
 import { getZopimChatOnline } from './zopimChat/zopimChat-selectors';
 import { getSettingsChatSuppress } from './settings/settings-selectors';
 import { getEmbeddableConfigEnabled, getAgentAvailability } from './talk/talk-selectors';
+import { getActiveTicketForm, getTicketForms } from './submitTicket/submitTicket-selectors';
 import { getHelpCenterEmbed,
          getSubmitTicketEmbed,
          getZopimChatEmbed,
@@ -24,3 +27,7 @@ export const getShowTalkBackButton = (state) => {
 };
 export const getTalkEnabled = (state) => getTalkEmbed(state) && getEmbeddableConfigEnabled(state);
 export const getTalkAvailable = (state) => getTalkEnabled(state) && getAgentAvailability(state);
+export const getShowTicketFormsBackButton = createSelector(
+  [getSubmitTicketEmbed, getActiveTicketForm, getTicketForms],
+  (embed, activeForm, ticketForms) => embed && activeForm && ticketForms.length > 1
+);

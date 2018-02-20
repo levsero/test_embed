@@ -49,23 +49,25 @@ describe('Navigation', () => {
       navigationNode = ReactDOM.findDOMNode(navigation);
     });
 
-    describe('when state.showCloseButton is true', () => {
+    describe('when props.hideCloseButton is false', () => {
       beforeEach(() => {
-        navigation.setState({ showCloseButton: true });
+        navigation = domRender(<Navigation hideCloseButton={false} />);
+        navigationNode = ReactDOM.findDOMNode(navigation);
       });
 
-      it('should render the close button', () => {
+      it('renders the close button', () => {
         expect(navigationNode.querySelector('.Icon--close'))
           .not.toBeNull();
       });
     });
 
-    describe('when state.showCloseButton is false', () => {
+    describe('when state.showCloseButton is true', () => {
       beforeEach(() => {
-        navigation.setState({ showCloseButton: false });
+        navigation = domRender(<Navigation hideCloseButton={true} />);
+        navigationNode = ReactDOM.findDOMNode(navigation);
       });
 
-      it('should not render the close button', () => {
+      it('does not render the close button', () => {
         expect(navigationNode.querySelector('.Icon--close'))
           .toBeNull();
       });

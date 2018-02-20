@@ -37,7 +37,7 @@ describe('ChatGroup component', () => {
     mockery.disable();
   });
 
-  describe('renderName', () => {
+  describe('#renderName', () => {
     let nameElement;
 
     describe('when it is an agent and name is not empty', () => {
@@ -86,7 +86,7 @@ describe('ChatGroup component', () => {
     });
   });
 
-  describe('renderAvatar', () => {
+  describe('#renderAvatar', () => {
     let avatarElement;
 
     describe('when isAgent is true', () => {
@@ -144,7 +144,7 @@ describe('ChatGroup component', () => {
     });
   });
 
-  describe('renderChatMessage', () => {
+  describe('#renderChatMessage', () => {
     let chatGroupNode;
 
     beforeEach(() => {

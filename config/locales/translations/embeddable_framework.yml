@@ -124,9 +124,9 @@ parts:
   # Chat embed
   - translation:
       key: "embeddable_framework.chat.title"
-      title: "The name of the live chat window provided by Zopim that the Widget serves when chat agents are online. If text exceeds widget width, text will be cut off and the characters ... appended (tinyurl.com/nbhwvcc)"
-      value: "Live Chat"
-      obsolete: "2017-11-26"
+      title: "The title that is displayed on the top of the container's frame"
+      screenshot: "https://zendesk.box.com/s/x3yx88qnonc2l6zfko7nkt2uupnurtbp"
+      value: "Chat with us"
   - translation:
       key: "embeddable_framework.chat.notification"
       title: "The notification message that appears on the launcher button when a new message is received in chat. This is for a singular incoming chat notification"
@@ -193,11 +193,6 @@ parts:
       title: "A system message that is displayed in the middle of a chat log when the user has submitted their comment as feedback for the current chat session"
       screenshot: "https://zendesk.box.com/s/q87klo5a1fe8egi3ufxinljpq01k91rv"
       value: "Comment submitted"
-  - translation:
-      key: "embeddable_framework.chat.title"
-      title: "The title that is displayed on the top of the container's frame"
-      screenshot: "https://zendesk.box.com/s/x3yx88qnonc2l6zfko7nkt2uupnurtbp"
-      value: "Chat with us"
   - translation:
       key: "embeddable_framework.chat.form.editContact.title"
       title: "The title of the form modal that is shown when the user edits the contact details in chat"
@@ -284,6 +279,11 @@ parts:
       screenshot: "https://zendesk.box.com/s/cr65lbpqkg0sutj587wajfukzu58a9kg"
       value: "Bad"
   - translation:
+      key: "embeddable_framework.chat.chatLog.rating.removed"
+      title: "A message that is displayed if the user removes the current rating"
+      screenshot: "https://zendesk.box.com/s/pvk9ikpaqnnpy81evyth5yjf7ht5aubg"
+      value: "Chat rating removed"
+  - translation:
       key: "embeddable_framework.chat.chatLog.queuePosition"
       title: "The system message that is displayed onto the chat log when all agents are occupied and the user is queued."
       screenshot: "https://zendesk.box.com/s/1816c5npxee9tvap5hz5d3ye1g42w6v1"
@@ -298,6 +298,16 @@ parts:
       title: "The system message that is displayed onto the chat log once the user or an agent has ended the chat session."
       screenshot: "https://zendesk.box.com/s/1xzdf3rzfbdco5aeeqkzdesd20f1u83e"
       value: "Chat ended"
+  - translation:
+      key: "embeddable_framework.chat.chatLog.agentJoined"
+      title: "An application message that is displayed in the chat log when an agent joins a chat"
+      screenshot: "https://zendesk.box.com/s/pmhpewnsoc7odl2b6fgs3ue3imeqpdld"
+      value: "%(agent) joined the chat"
+  - translation:
+      key: "embeddable_framework.chat.chatLog.agentLeft"
+      title: "An application message that is displayed in the chat log when an agent leaves a chat"
+      screenshot: "https://zendesk.box.com/s/48nsffvaymmoec3ryv5b6w14kmgbg6pv"
+      value: "%(agent) left the chat"
   - translation:
       key: "embeddable_framework.chat.chatLog.button.leaveComment"
       title: "A text that is displayed on a button that provides the user with the ability to navigate to a rating form"

@@ -6,7 +6,6 @@ describe('MessageBubble component', () => {
     mockery.enable();
 
     initMockRegistry({
-      'React': React,
       './MessageBubble.scss': {
         locals: ''
       }
@@ -22,12 +21,12 @@ describe('MessageBubble component', () => {
   });
 
   describe('#render', () => {
-    let component,
-      domNode;
+    let domNode;
 
-    describe('Component props', () => {
+    describe('component props', () => {
       beforeEach(() => {
-        component = domRender(<MessageBubble message='Test Message' className='bob'/>);
+        const component = domRender(<MessageBubble message='Test Message' className='bob'/>);
+
         domNode = ReactDOM.findDOMNode(component);
       });
 
