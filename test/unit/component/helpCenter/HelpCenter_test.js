@@ -459,7 +459,7 @@ describe('HelpCenter component', () => {
       const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
 
       expect(recentCallArgs.per_page)
-        .toEqual(9);
+        .toEqual(3);
     });
 
     it('should not call focusField', () => {

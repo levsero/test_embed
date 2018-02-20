@@ -34,6 +34,7 @@ import { getActiveArticle,
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 
 const maximumSearchResults = 9;
+const maximumContextualSearchResults = 3;
 
 const mapStateToProps = (state) => {
   return {
@@ -202,7 +203,7 @@ class HelpCenter extends Component {
 
     _.extend(query, {
       locale: i18n.getLocale(),
-      per_page: maximumSearchResults
+      per_page: maximumContextualSearchResults
     });
 
     this.performContextualSearch(query, successFn);
