@@ -22,7 +22,7 @@ describe('embed.launcher', () => {
           return document.body;
         }
       },
-      'utility/color': {
+      'utility/color/styles': {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
       'component/Launcher': class extends Component {

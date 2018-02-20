@@ -164,7 +164,7 @@ describe('embed.webWidget', () => {
           target: jasmine.createSpy('mouseTarget').and.returnValue(targetCancelHandlerSpy)
         }
       },
-      'utility/color': {
+      'utility/color/styles': {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
       'utility/utils': {

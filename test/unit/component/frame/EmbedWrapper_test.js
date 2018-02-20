@@ -17,7 +17,7 @@ describe('EmbedWrapper', () => {
 
     initMockRegistry({
       'React': React,
-      'utility/color': {},
+      'utility/color/styles': {},
       'component/frame/Navigation': noopReactComponent(),
       'lodash': _
     });
