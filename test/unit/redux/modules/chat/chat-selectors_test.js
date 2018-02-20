@@ -19,6 +19,7 @@ describe('chat selectors', () => {
     getPostchatFormSettings,
     getPrechatFormSettings,
     getPrechatFormFields,
+    getRatingSettings,
     getUserSoundSettings;
 
   beforeEach(() => {
@@ -50,6 +51,7 @@ describe('chat selectors', () => {
     getPostchatFormSettings = selectors.getPostchatFormSettings;
     getPrechatFormFields = selectors.getPrechatFormFields;
     getPrechatFormSettings = selectors.getPrechatFormSettings;
+    getRatingSettings = selectors.getRatingSettings;
     getUserSoundSettings = selectors.getUserSoundSettings;
   });
 
@@ -196,6 +198,27 @@ describe('chat selectors', () => {
     it('returns prechat fields grouped by their name', () => {
       expect(result)
         .toEqual(expectedResult);
+    });
+  });
+
+  describe('getRatingSettings', () => {
+    let result;
+    const ratingSettings = { enabled: true };
+    const mockChatSettings = {
+      chat: {
+        accountSettings: {
+          rating: ratingSettings
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getRatingSettings(mockChatSettings);
+    });
+
+    it('returns the value of accountSettings.rating', () => {
+      expect(result)
+        .toEqual(ratingSettings);
     });
   });
 
