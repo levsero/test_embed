@@ -1,0 +1,74 @@
+@import '../../styles/_vars.scss';
+
+$resultGridMinHeight: 20;
+
+:export {
+  resultGridMinHeight: $resultGridMinHeight;
+}
+.childrenContainer {
+  composes: u-paddingTM u-paddingBT u-paddingHL from global;
+}
+
+.resultContainer {
+  padding: 20px;
+  width: 275px;
+}
+
+.loadingContainer {
+  padding: 18px;
+  width: 279px;
+}
+
+.resultScreen {
+  display: grid;
+  grid-template-columns: 30px 245px;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  min-height: #{$resultGridMinHeight}px;
+
+   /* Non standard for WebKit */
+  word-break: break-word;
+  hyphens: auto;
+
+  &:last-child {
+    font-size: 13px;
+    line-height: 16px;
+  }
+}
+
+.resultScreenSingleLine {
+  composes: resultScreen;
+  align-items: center;
+}
+
+.resultScreenMultiLine {
+  composes: resultScreen;
+}
+
+.title {
+  color: $zd-color-monsoon;
+}
+
+.form {
+  composes: u-marginBN from global;
+}
+
+.field {
+  composes: u-paddingVS u-paddingHM from global;
+}
+
+.fieldContainer {
+  composes: u-marginBS from global;
+}
+
+.loadingSpinner {
+  composes: u-textCenter from global;
+}
+
+/*.loadingSpinner {
+  composes: u-flex u-posFill u-posAbsolute u-flexAlignItemsCenter u-flexJustifyCenter from global;
+}*/
+
+.loadingSpinnerIE {
+  composes: u-paddingBXL u-paddingRXL from global;
+}

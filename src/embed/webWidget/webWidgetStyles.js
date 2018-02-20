@@ -14,6 +14,7 @@ import ChannelChoicePopupDesktopStyles from 'component/channelChoice/ChannelChoi
 import ChatBoxStyles from 'component/chat/ChatBox.scss';
 import ChatPopupStyles from 'component/chat/ChatPopup.scss';
 import ChatContactDetailsPopup from 'component/chat/ChatContactDetailsPopup.scss';
+import ChatEmailTranscriptPopup from 'component/chat/ChatEmailTranscriptPopup.scss';
 import ChatHeaderStyles from 'component/chat/ChatHeader.scss';
 import ChatFooterStyles from 'component/chat/ChatFooter.scss';
 import ChatRatingGroupStyles from 'component/chat/ChatRatingGroup.scss';
@@ -64,6 +65,7 @@ export const webWidgetStyles = `
   ${ChatBoxStyles}
   ${ChatPopupStyles}
   ${ChatContactDetailsPopup}
+  ${ChatEmailTranscriptPopup}
   ${ChatHeaderStyles}
   ${ChatFooterStyles}
   ${ChatRatingGroupStyles}

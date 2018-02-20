@@ -8,6 +8,11 @@ describe('Chat component', () => {
   const chatPath = buildSrcPath('component/chat/Chat');
   const AttachmentBox = noopReactComponent();
 
+  const EMAIL_TRANSCRIPT_IDLE = 'widget/chat/EMAIL_TRANSCRIPT_IDLE';
+  const EMAIL_TRANSCRIPT_SUCCESS = 'widget/chat/EMAIL_TRANSCRIPT_SUCCESS';
+  const EMAIL_TRANSCRIPT_FAILURE = 'widget/chat/EMAIL_TRANSCRIPT_FAILURE';
+  const EMAIL_TRANSCRIPT_REQUEST_SENT = 'widget/chat/EMAIL_TRANSCRIPT_REQUEST_SENT';
+
   updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
 
   beforeEach(() => {
@@ -50,6 +55,9 @@ describe('Chat component', () => {
       'component/chat/ChatContactDetailsPopup': {
         ChatContactDetailsPopup: noopReactComponent()
       },
+      'component/chat/ChatEmailTranscriptPopup': {
+        ChatEmailTranscriptPopup: noopReactComponent()
+      },
       'component/chat/ChatFeedbackForm': {
         ChatFeedbackForm: noopReactComponent()
       },
@@ -78,6 +86,11 @@ describe('Chat component', () => {
         PRECHAT_SCREEN: prechatScreen,
         CHATTING_SCREEN: chattingScreen
       },
+      'src/redux/modules/chat/chat-action-types': {
+        EMAIL_TRANSCRIPT_IDLE: EMAIL_TRANSCRIPT_IDLE,
+        EMAIL_TRANSCRIPT_SUCCESS: EMAIL_TRANSCRIPT_SUCCESS,
+        EMAIL_TRANSCRIPT_FAILURE: EMAIL_TRANSCRIPT_FAILURE
+      },
       'service/i18n': {
         i18n: { t: _.identity }
       }
@@ -90,6 +103,200 @@ describe('Chat component', () => {
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('onContainerClick', () => {
+    let emailTranscript,
+      resetEmailTranscriptSpy,
+      component;
+
+    beforeEach(() => {
+      resetEmailTranscriptSpy = jasmine.createSpy('resetEmailTranscriptSpy');
+    });
+
+    describe('when emailTranscript status is EMAIL_TRANSCRIPT_FAILURE', () => {
+      beforeEach(() => {
+        emailTranscript = {
+          status: EMAIL_TRANSCRIPT_FAILURE,
+          email: 'yolo@yolo.com'
+        };
+        component = domRender(<Chat emailTranscript={emailTranscript} resetEmailTranscript={resetEmailTranscriptSpy} />);
+        component.onContainerClick();
+      });
+
+      it('should set the correct state', () => {
+        expect(component.state)
+          .toEqual(jasmine.objectContaining({
+            showMenu: false,
+            showEndChatMenu: false,
+            showEditContactDetailsMenu: false,
+            showEmailTranscriptMenu: false
+          }));
+      });
+
+      it('should call resetEmailTranscript', () => {
+        expect(resetEmailTranscriptSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when emailTranscript status is EMAIL_TRANSCRIPT_SUCCESS', () => {
+      beforeEach(() => {
+        emailTranscript = {
+          status: EMAIL_TRANSCRIPT_SUCCESS,
+          email: 'yolo@yolo.com'
+        };
+        component = domRender(<Chat emailTranscript={emailTranscript} resetEmailTranscript={resetEmailTranscriptSpy} />);
+        component.onContainerClick();
+      });
+
+      it('should set the correct state', () => {
+        expect(component.state)
+          .toEqual(jasmine.objectContaining({
+            showMenu: false,
+            showEndChatMenu: false,
+            showEditContactDetailsMenu: false,
+            showEmailTranscriptMenu: false
+          }));
+      });
+
+      it('should call resetEmailTranscript', () => {
+        expect(resetEmailTranscriptSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when emailTranscript status is irrelevant', () => {
+      beforeEach(() => {
+        emailTranscript = {
+          status: 'yolo',
+          email: 'yolo@yolo.com'
+        };
+        component = domRender(<Chat emailTranscript={emailTranscript} resetEmailTranscript={resetEmailTranscriptSpy} />);
+        component.onContainerClick();
+      });
+
+      it('should set the correct state', () => {
+        expect(component.state)
+          .toEqual(jasmine.objectContaining({
+            showMenu: false,
+            showEndChatMenu: false,
+            showEditContactDetailsMenu: false,
+            showEmailTranscriptMenu: false
+          }));
+      });
+
+      it('should not call resetEmailTranscript', () => {
+        expect(resetEmailTranscriptSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('componentWillReceiveProps', () => {
+    let emailTranscript,
+      nextProps,
+      component;
+
+    describe('when next props emailTranscript status is not EMAIL_TRANSCRIPT_IDLE', () => {
+      beforeEach(() => {
+        emailTranscript = {
+          status: EMAIL_TRANSCRIPT_SUCCESS,
+          email: 'yolo@yolo.com'
+        };
+        component = domRender(<Chat emailTranscript={emailTranscript} chats={[]} events={[]} />);
+      });
+
+      describe('when next props is different from previous props', () => {
+        beforeEach(() => {
+          nextProps = {
+            emailTranscript: {
+              status: EMAIL_TRANSCRIPT_REQUEST_SENT
+            },
+            chats: [],
+            events: []
+          };
+          component.componentWillReceiveProps(nextProps);
+        });
+
+        it('should set the correct state', () => {
+          expect(component.state)
+            .toEqual(jasmine.objectContaining({
+              showEmailTranscriptMenu: true
+            }));
+        });
+      });
+
+      describe('when next props is not different from previous props', () => {
+        beforeEach(() => {
+          nextProps = {
+            emailTranscript: {
+              status: EMAIL_TRANSCRIPT_SUCCESS
+            },
+            chats: [],
+            events: []
+          };
+          component.componentWillReceiveProps(nextProps);
+        });
+
+        it('should not update state', () => {
+          expect(component.state)
+            .toEqual(jasmine.objectContaining({
+              showEmailTranscriptMenu: false
+            }));
+        });
+      });
+    });
+
+    describe('when next props emailTranscript status is EMAIL_TRANSCRIPT_IDLE', () => {
+      beforeEach(() => {
+        emailTranscript = {
+          status: EMAIL_TRANSCRIPT_IDLE,
+          email: 'yolo@yolo.com'
+        };
+        component = domRender(<Chat emailTranscript={emailTranscript} chats={[]} events={[]} />);
+      });
+
+      describe('when next props is different from previous props', () => {
+        beforeEach(() => {
+          nextProps = {
+            emailTranscript: {
+              status: EMAIL_TRANSCRIPT_IDLE
+            },
+            chats: [],
+            events: []
+          };
+          component.componentWillReceiveProps(nextProps);
+        });
+
+        it('should not update the state', () => {
+          expect(component.state)
+            .toEqual(jasmine.objectContaining({
+              showEmailTranscriptMenu: false
+            }));
+        });
+      });
+
+      describe('when next props is not different from previous props', () => {
+        beforeEach(() => {
+          nextProps = {
+            emailTranscript: {
+              status: EMAIL_TRANSCRIPT_IDLE
+            },
+            chats: [],
+            events: []
+          };
+          component.componentWillReceiveProps(nextProps);
+        });
+
+        it('should not update the state', () => {
+          expect(component.state)
+            .toEqual(jasmine.objectContaining({
+              showEmailTranscriptMenu: false
+            }));
+        });
+      });
+    });
   });
 
   describe('onPrechatFormComplete', () => {
@@ -366,6 +573,35 @@ describe('Chat component', () => {
       it('passes false to its popup components show prop', () => {
         expect(component.renderChatContactDetailsPopup().props.show)
           .toBe(false);
+      });
+    });
+  });
+
+  describe('renderChatEmailTranscriptPopup', () => {
+    let component;
+
+    describe('when the popup should be shown', () => {
+      beforeEach(() => {
+        component = domRender(
+          <Chat />
+        );
+        component.setState({ showEmailTranscriptMenu: true });
+      });
+
+      it('shows the email transcript popup component', () => {
+        expect(component.renderChatEmailTranscriptPopup())
+          .not.toBeNull();
+      });
+    });
+
+    describe('when the popup should not be shown', () => {
+      beforeEach(() => {
+        component = domRender(<Chat />);
+      });
+
+      it('does not show the chat contact details popup component', () => {
+        expect(component.renderChatEmailTranscriptPopup())
+          .toBeNull();
       });
     });
   });

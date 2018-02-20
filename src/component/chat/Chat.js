@@ -13,6 +13,7 @@ import { ChatFeedbackForm } from 'component/chat/ChatFeedbackForm';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { ChatRatings } from 'component/chat/ChatRatingGroup';
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup';
+import { ChatEmailTranscriptPopup } from 'component/chat/ChatEmailTranscriptPopup';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
@@ -26,7 +27,9 @@ import { endChat,
          sendChatRating,
          sendChatComment,
          updateChatScreen,
-         handleSoundIconClick } from 'src/redux/modules/chat';
+         handleSoundIconClick,
+         sendEmailTranscript,
+         resetEmailTranscript } from 'src/redux/modules/chat';
 import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { getPrechatFormFields,
          getAttachmentsEnabled,
@@ -43,7 +46,11 @@ import { getPrechatFormFields,
          getUserSoundSettings,
          getConciergeSettings,
          getPostchatFormSettings,
-         getRatingSettings } from 'src/redux/modules/chat/chat-selectors';
+         getRatingSettings,
+         getEmailTranscript } from 'src/redux/modules/chat/chat-selectors';
+import { EMAIL_TRANSCRIPT_IDLE,
+         EMAIL_TRANSCRIPT_SUCCESS,
+         EMAIL_TRANSCRIPT_FAILURE } from 'src/redux/modules/chat/chat-action-types';
 
 import { locals as styles } from './Chat.scss';
 
@@ -66,7 +73,8 @@ const mapStateToProps = (state) => {
     rating: getChatRating(state),
     visitor: getChatVisitor(state),
     userSoundSettings: getUserSoundSettings(state),
-    ratingSettings: getRatingSettings(state)
+    ratingSettings: getRatingSettings(state),
+    emailTranscript: getEmailTranscript(state)
   };
 };
 
@@ -101,10 +109,14 @@ class Chat extends Component {
     handleSoundIconClick: PropTypes.func.isRequired,
     userSoundSettings: PropTypes.bool.isRequired,
     ratingSettings: PropTypes.object.isRequired,
-    getFrameDimensions: PropTypes.func.isRequired
+    getFrameDimensions: PropTypes.func.isRequired,
+    sendEmailTranscript: PropTypes.func.isRequired,
+    emailTranscript: PropTypes.object.isRequired,
+    resetEmailTranscript: PropTypes.func
   };
 
   static defaultProps = {
+    attachmentsEnabled: false,
     isMobile: false,
     newDesign: false,
     position: 'right',
@@ -120,7 +132,10 @@ class Chat extends Component {
     userSoundSettings: true,
     ratingSettings: { enabled: false },
     agents: {},
-    getFrameDimensions: () => {}
+    getFrameDimensions: () => {},
+    sendEmailTranscript: () => {},
+    emailTranscript: {},
+    resetEmailTranscript: () => {}
   };
 
   constructor(props) {
@@ -129,7 +144,8 @@ class Chat extends Component {
     this.state = {
       showMenu: false,
       showEndChatMenu: false,
-      showEditContactDetailsMenu: false
+      showEditContactDetailsMenu: false,
+      showEmailTranscriptMenu: false
     };
 
     this.scrollContainer = null;
@@ -150,6 +166,10 @@ class Chat extends Component {
         }
       }, 0);
     }
+    if (nextProps.emailTranscript.status !== EMAIL_TRANSCRIPT_IDLE &&
+        nextProps.emailTranscript.status !== this.props.emailTranscript.status) {
+      this.setState({ showEmailTranscriptMenu: true });
+    }
   }
 
   toggleMenu = () => {
@@ -161,7 +181,12 @@ class Chat extends Component {
       showMenu: false,
       showEndChatMenu: false,
       showEditContactDetailsMenu: false,
+      showEmailTranscriptMenu: false
     });
+    if (this.props.emailTranscript.status === EMAIL_TRANSCRIPT_FAILURE ||
+        this.props.emailTranscript.status === EMAIL_TRANSCRIPT_SUCCESS) {
+      this.props.resetEmailTranscript();
+    }
   }
 
   onPrechatFormComplete = (info) => {
@@ -181,15 +206,20 @@ class Chat extends Component {
       e.stopPropagation();
       this.setState({ showEndChatMenu: true });
       this.setState({ showMenu: false });
-    }
+    };
     const showContactDetailsFn = (e) => {
       e.stopPropagation();
       this.setState({ showEditContactDetailsMenu: true });
       this.setState({ showMenu: false });
-    }
-    const toggleSoundFn = (e) => {
+    };
+    const showEmailTranscriptFn = (e) => {
+      e.stopPropagation();
+      this.setState({ showEmailTranscriptMenu: true });
+      this.setState({ showMenu: false });
+    };
+    const toggleSoundFn = () => {
       handleSoundIconClick({ sound: !userSoundSettings });
-    }
+    };
 
     return (
       <ChatMenu
@@ -198,19 +228,22 @@ class Chat extends Component {
         disableEndChat={!isChatting}
         endChatOnClick={showChatEndFn}
         contactDetailsOnClick={showContactDetailsFn}
-        onSoundClick={toggleSoundFn} />
+        emailTranscriptOnClick={showEmailTranscriptFn}
+        onSoundClick={toggleSoundFn}
+        isChatting={this.props.isChatting} />
     );
   }
 
   renderChatFooter = () => {
     const { currentMessage, sendMsg, handleChatBoxChange } = this.props;
 
-    const showChatEndFn = () => this.setState({ showEndChatMenu: true });
     const showChatEndFn = (e) => {
       e.stopPropagation();
       this.setState({ showEndChatMenu: true });
       this.setState({ showMenu: false });
-    }
+      this.setState({ showEmailTranscriptMenu: false });
+      this.setState({ showEditContactDetailsMenu: false });
+    };
 
     return (
       <ChatFooter
@@ -421,7 +454,31 @@ class Chat extends Component {
       <ChatContactDetailsPopup
         show={this.state.showEditContactDetailsMenu}
         leftCtaFn={hideContactDetailsFn}
-        rightCtaFn={saveContactDetailsFn} />
+        rightCtaFn={saveContactDetailsFn}
+        visitor={this.props.visitor} />
+    );
+  }
+
+  renderChatEmailTranscriptPopup = () => {
+    if (!this.state.showEmailTranscriptMenu) return null;
+
+    const hideEmailTranscriptFn = () => this.setState({ showEmailTranscriptMenu: false });
+    const sendEmailTranscriptFn = (email) => {
+      this.props.sendEmailTranscript(email);
+    };
+    const tryEmailTranscriptAgain = () => {
+      this.props.resetEmailTranscript();
+      this.setState( { showEmailTranscriptMenu: true });
+    };
+
+    return (
+      <ChatEmailTranscriptPopup
+        className={styles.bottomPopup}
+        leftCtaFn={hideEmailTranscriptFn}
+        rightCtaFn={sendEmailTranscriptFn}
+        visitor={this.props.visitor}
+        emailTranscript={this.props.emailTranscript}
+        tryEmailTranscriptAgain={tryEmailTranscriptAgain} />
     );
   }
 
@@ -437,6 +494,7 @@ class Chat extends Component {
         {this.renderChatEndPopup()}
         {this.renderChatContactDetailsPopup()}
         {this.renderAttachmentsBox()}
+        {this.renderChatEmailTranscriptPopup()}
       </div>
     );
   }
@@ -452,7 +510,9 @@ const actionCreators = {
   sendChatComment,
   updateChatScreen,
   sendAttachments,
-  handleSoundIconClick
+  handleSoundIconClick,
+  sendEmailTranscript,
+  resetEmailTranscript
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);
