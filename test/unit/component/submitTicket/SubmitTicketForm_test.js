@@ -723,4 +723,56 @@ describe('SubmitTicketForm component', () => {
       });
     });
   });
+
+  describe('renderTicketFormBody', () => {
+    let result;
+
+    const mockTicketForm = { ticket_field_ids: [111, 'blah', 555, 1337, 444, 777] }; // eslint-disable-line camelcase
+    const mockTicketFields = [
+      { id: 111, type: 'subject', title: 'Subject' },
+      { id: 222, type: 'description', title: 'Description' },
+      { id: 333, type: 'textarea', title: 'Foo' },
+      { id: 444, type: 'integer', title: 'Bar' },
+      { id: 555, type: 'tagger', title: 'Baz' },
+      { id: 777, type: 'decimal', title: 'Bazza' }
+    ];
+
+    beforeEach(() => {
+      const submitTicketForm = instanceRender(
+        <SubmitTicketForm
+          activeTicketForm={mockTicketForm}
+          ticketFields={mockTicketFields}
+          getFrameDimensions={noop} />);
+
+      result = submitTicketForm.renderTicketFormBody();
+    });
+
+    it('sorts all ticket fields according to the ticket form', () => {
+      const ticketFieldsList = result.props.children[1].slice(1);
+
+      expect(ticketFieldsList[0].props.name)
+        .toEqual(mockTicketForm.ticket_field_ids[0]);
+
+      expect(ticketFieldsList[1].props.name)
+        .toEqual(mockTicketForm.ticket_field_ids[2]);
+
+      expect(ticketFieldsList[2].props.name)
+        .toEqual(mockTicketForm.ticket_field_ids[4]);
+
+      expect(ticketFieldsList[3].props.name)
+        .toEqual(mockTicketForm.ticket_field_ids[5]);
+    });
+
+    it('ignores ticket fields that do not exist', () => {
+      const ticketFieldsList = result.props.children[1].slice(1);
+      const fieldNameList = _.map(ticketFieldsList, (field) => field.props.name);
+      const doesNotInclude = (fieldName) => !_.includes(fieldNameList, fieldName);
+
+      expect(doesNotInclude('blah'))
+        .toBe(true);
+
+      expect(doesNotInclude(1337))
+        .toBe(true);
+    });
+  });
 });
