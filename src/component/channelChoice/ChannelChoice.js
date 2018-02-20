@@ -7,7 +7,6 @@ import { ChannelChoiceMobile } from 'component/channelChoice/ChannelChoiceMobile
 export class ChannelChoice extends Component {
   static propTypes = {
     chatAvailable: PropTypes.bool.isRequired,
-    showCloseButton: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
     newDesign: PropTypes.bool,
@@ -39,11 +38,10 @@ export class ChannelChoice extends Component {
 
   handleNextClick = (embed) => {
     this.props.onNextClick(embed);
-    this.props.showCloseButton();
   }
 
   renderMobile = () => {
-    const { onCancelClick, showCloseButton, chatAvailable, formTitleKey } = this.props;
+    const { onCancelClick, chatAvailable, formTitleKey } = this.props;
 
     return (
       <ChannelChoiceMobile
@@ -57,8 +55,7 @@ export class ChannelChoice extends Component {
         chatEnabled={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
         handleCancelClick={onCancelClick}
-        newDesign={this.props.newDesign}
-        showCloseButton={showCloseButton} />
+        newDesign={this.props.newDesign} />
     );
   }
 

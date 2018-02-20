@@ -72,7 +72,6 @@ class WebWidget extends Component {
     originalArticleButton: PropTypes.bool,
     position: PropTypes.string,
     showTicketFormsBackButton: PropTypes.bool,
-    showCloseButton: PropTypes.func,
     style: PropTypes.object,
     subjectEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
@@ -120,7 +119,6 @@ class WebWidget extends Component {
     onSubmitted: () => {},
     originalArticleButton: true,
     position: 'right',
-    showCloseButton: () => {},
     style: null,
     submitTicketAvailable: true,
     submitTicketConfig: {},
@@ -436,7 +434,6 @@ class WebWidget extends Component {
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
         onCancelClick={this.props.closeFrame}
-        showCloseButton={this.props.showCloseButton}
         hideZendeskLogo={this.props.hideZendeskLogo} />
     );
   }

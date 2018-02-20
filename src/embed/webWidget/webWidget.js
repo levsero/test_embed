@@ -52,9 +52,6 @@ let contextualSearchOptions = {};
 let cancelTargetHandler = null;
 let resetEmbedOnShow = false;
 
-const showCloseButton = (show = true) => {
-  embed.instance.getChild().showCloseButton(show);
-};
 const onShow = () => {
   const rootComponent = getRootComponent();
 
@@ -212,7 +209,6 @@ function create(name, config = {}, reduxStore = {}) {
         onSubmitted={submitTicketSettings.onSubmitted}
         originalArticleButton={settings.get('helpCenter.originalArticleButton')}
         position={globalConfig.position}
-        showCloseButton={showCloseButton}
         style={containerStyle}
         subjectEnabled={settings.get('contactForm.subject')}
         tags={settings.get('contactForm.tags')}
