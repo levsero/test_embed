@@ -113,7 +113,7 @@ export const getGroupedChatLog = createSelector(
       }
 
       if (isMessage(messageOrEvent)) {
-        if (isMessage(previousMessageOrEvent)) {
+        if (previousMessageOrEvent && isMessage(previousMessageOrEvent)) {
           if (previousMessageOrEvent.nick === messageOrEvent.nick) {
             return previousMessageOrEvent.timestamp;
           }
