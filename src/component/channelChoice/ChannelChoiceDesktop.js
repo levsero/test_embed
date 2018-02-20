@@ -18,6 +18,7 @@ export class ChannelChoiceDesktop extends Component {
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
+    newDesign: PropTypes.bool,
     chatEnabled: PropTypes.bool
   };
 
@@ -73,6 +74,7 @@ export class ChannelChoiceDesktop extends Component {
           footerContent={this.renderZendeskLogo()}
           footerClasses={footerClasses}
           hideZendeskLogo={hideZendeskLogo}
+          newDesign={this.props.newDesign}
           title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}>
           {this.renderBody()}
         </ScrollContainer>
