@@ -500,6 +500,60 @@ describe('chat selectors', () => {
       });
     });
 
+    describe('when passed a chat log which begins with an event', () => {
+      beforeEach(() => {
+        mockChats = [
+          { nick: 'visitor', type: 'chat.memberjoin', timestamp: 1 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 }
+        ];
+
+        mockChatSettings = {
+          chat: {
+            chats: { values: () => mockChats }
+          }
+        };
+
+        expectedResult = {
+          1: [mockChats[0]],
+          2: [mockChats[1]]
+        };
+
+        result = getGroupedChatLog(mockChatSettings);
+      });
+
+      it('parses the chat log successfully', () => {
+        expect(result)
+          .toEqual(expectedResult);
+      });
+    });
+
+    describe('when passed a chat log which begins with a message', () => {
+      beforeEach(() => {
+        mockChats = [
+          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 1 },
+          { nick: 'visitor', type: 'chat.memberjoin', timestamp: 2 }
+        ];
+
+        mockChatSettings = {
+          chat: {
+            chats: { values: () => mockChats }
+          }
+        };
+
+        expectedResult = {
+          1: [mockChats[0]],
+          2: [mockChats[1]]
+        };
+
+        result = getGroupedChatLog(mockChatSettings);
+      });
+
+      it('parses the chat log successfully', () => {
+        expect(result)
+          .toEqual(expectedResult);
+      });
+    });
+
     describe('when passed a chat log with non-whitelisted events or messages', () => {
       beforeEach(() => {
         mockChats = [
