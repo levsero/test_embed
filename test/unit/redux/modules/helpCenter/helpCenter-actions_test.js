@@ -8,6 +8,7 @@ let mockIsOnHostMappedDomainValue,
   actions,
   actionTypes;
 const httpPostSpy = jasmine.createSpy('http.send');
+const httpGetSpy = jasmine.createSpy('http.get');
 const httpImageSpy = jasmine.createSpy('http.getImage');
 
 describe('helpCenter redux actions', () => {
@@ -25,7 +26,8 @@ describe('helpCenter redux actions', () => {
       'service/transport': {
         http: {
           send: httpPostSpy,
-          getImage: httpImageSpy
+          getImage: httpImageSpy,
+          get: httpGetSpy
         }
       },
       'service/settings': {
@@ -475,6 +477,36 @@ describe('helpCenter redux actions', () => {
     it('contains the search field value in the payload', () => {
       expect(action.payload)
         .toEqual('bla bla bla');
+    });
+  });
+
+  describe('#displayArticle', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.displayArticle(123));
+      action = mockStore.getActions()[0];
+    });
+
+    afterEach(() => {
+      httpGetSpy.calls.reset();
+    });
+
+    it('dispatches an action of type GET_ARTICLE_REQUEST_SENT', () => {
+      expect(action.type)
+        .toEqual(actionTypes.GET_ARTICLE_REQUEST_SENT);
+    });
+
+    it('sends a http search request with the correct params', () => {
+      expect(httpGetSpy)
+        .toHaveBeenCalledWith(jasmine.objectContaining({
+          method: 'get',
+          path: '/api/v2/help_center/articles/123.json',
+          callbacks: {
+            done: jasmine.any(Function),
+            fail: jasmine.any(Function)
+          }
+        }), false);
     });
   });
 });

@@ -18,6 +18,9 @@ import { SEARCH_REQUEST_SENT,
          ARTICLE_CLOSED,
          ADD_RESTRICTED_IMAGE,
          NEXT_BUTTON_CLICKED,
+         GET_ARTICLE_REQUEST_SENT,
+         GET_ARTICLE_REQUEST_SUCCESS,
+         GET_ARTICLE_REQUEST_FAILURE,
          SEARCH_FIELD_CHANGED } from './helpCenter-action-types';
 
 const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
@@ -143,5 +146,26 @@ export function handleSearchFieldChange(value) {
   return {
     type: SEARCH_FIELD_CHANGED,
     payload: value
+  };
+}
+
+export function displayArticle(articleId) {
+  return (dispatch) => {
+    dispatch({ type: GET_ARTICLE_REQUEST_SENT });
+
+    http.get({
+      method: 'get',
+      path: `/api/v2/help_center/articles/${articleId}.json`,
+      callbacks: {
+        done: (res) => dispatch({
+          type: GET_ARTICLE_REQUEST_SUCCESS,
+          payload: res.body.article
+        }),
+        fail: (err) => dispatch({
+          type: GET_ARTICLE_REQUEST_FAILURE,
+          payload: err.response ? err.response : err
+        })
+      }
+    }, false);
   };
 }

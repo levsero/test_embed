@@ -9,9 +9,14 @@ export const getArticleViewActive = (state) => !!getActiveArticle(state);
 export const getArticles = (state) => state.helpCenter.articles;
 export const getResultsCount = (state) => state.helpCenter.resultsCount;
 export const getChannelChoiceShown = (state) => state.helpCenter.channelChoiceShown;
+export const getArticleDisplayed = (state) => state.helpCenter.articleDisplayed;
 export const getHasContextuallySearched = (state) => {
   return state.helpCenter.hasContextuallySearched && getArticles(state).length > 0;
 };
-export const getHasSearched = (state) => getHasContextuallySearched(state) || getTotalUserSearches(state) > 0;
+export const getHasSearched = (state) => {
+  return getArticleDisplayed(state) ||
+    getHasContextuallySearched(state) ||
+    getTotalUserSearches(state) > 0;
+};
 export const getRestrictedImages = (state) => state.helpCenter.restrictedImages;
 export const getSearchFieldValue = (state) => state.helpCenter.searchFieldValue;

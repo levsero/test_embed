@@ -19,7 +19,6 @@ const channelChoice = 'channelChoice';
 const talk = 'talk';
 const state = {};
 
-
 state[`${launcher}.userHidden`] = false;
 state[`${launcher}.clickActive`] = false;
 state[`${submitTicket}.isVisible`] = false;

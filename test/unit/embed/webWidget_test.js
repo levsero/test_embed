@@ -28,6 +28,7 @@ describe('embed.webWidget', () => {
   const revokeSpy = jasmine.createSpy();
   const getTicketFormsSpy = jasmine.createSpy('ticketForms');
   const getTicketFieldsSpy = jasmine.createSpy('ticketFields');
+  const displayArticleSpy = jasmine.createSpy('displayArticle');
   const zChatInitSpy = jasmine.createSpy();
   const zChatFirehoseSpy = jasmine.createSpy().and.callThrough();
   const callMeScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
@@ -139,6 +140,9 @@ describe('embed.webWidget', () => {
         getTicketForms: getTicketFormsSpy,
         getTicketFields: getTicketFieldsSpy
       },
+      'src/redux/modules/helpCenter': {
+        displayArticle: displayArticleSpy
+      },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed
       },
@@ -196,7 +200,9 @@ describe('embed.webWidget', () => {
 
     mockery.registerAllowable(webWidgetPath);
 
-    webWidget = requireUncached(webWidgetPath).webWidget;
+    const factory = requireUncached(webWidgetPath).default;
+
+    webWidget = new factory;
   });
 
   afterEach(() => {

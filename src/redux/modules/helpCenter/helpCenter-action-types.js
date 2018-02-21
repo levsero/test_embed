@@ -11,3 +11,6 @@ export const ORIGINAL_ARTICLE_CLICKED = 'widget/helpCenter/ORIGINAL_ARTICLE_CLIC
 export const ADD_RESTRICTED_IMAGE = 'widget/helpCenter/ADD_RESTRICTED_IMAGE';
 export const NEXT_BUTTON_CLICKED = 'widget/helpCenter/NEXT_BUTTON_CLICKED';
 export const SEARCH_FIELD_CHANGED = 'widget/helpCenter/SEARCH_FIELD_CHANGED';
+export const GET_ARTICLE_REQUEST_SENT = 'widget/helpCenter/GET_ARTICLE_REQUEST_SENT';
+export const GET_ARTICLE_REQUEST_SUCCESS = 'widget/helpCenter/GET_ARTICLE_REQUEST_SUCCESS';
+export const GET_ARTICLE_REQUEST_FAILURE = 'widget/helpCenter/GET_ARTICLE_REQUEST_FAILURE';

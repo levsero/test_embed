@@ -116,12 +116,20 @@ const setupWidgetQueue = (win, postRenderQueue) => {
     identify: postRenderQueueCallback.bind('identify'),
     logout: postRenderQueueCallback.bind('logout'),
     activate: postRenderQueueCallback.bind('activate'),
+    configureIPMWidget: postRenderQueueCallback.bind('configureIPMWidget'),
+    showIPMArticle: postRenderQueueCallback.bind('showIPMArticle'),
+    hideIPMWidget: postRenderQueueCallback.bind('hideIPMWidget'),
     activateIpm: () => {} // no-op until rest of connect code is removed
   };
 
   if (__DEV__) {
     devApi = {
-      devRender: (config) => renderer.init(config, reduxStore)
+      devRender: (config) => {
+        if (config.ipmAllowed) {
+          setupIPMApi(win);
+        }
+        renderer.init(config, reduxStore);
+      }
     };
   }
 
@@ -179,6 +187,10 @@ const getConfig = (win, postRenderQueue) => {
 
     beacon.setConfig(config);
 
+    if (config.ipmAllowed) {
+      setupIPMApi(win);
+    }
+
     // Only send 1/10 times
     if (Math.random() <= 0.1) {
       beacon.sendConfigLoadTime(Date.now() - configLoadStart);
@@ -212,6 +224,20 @@ const getConfig = (win, postRenderQueue) => {
       fail
     }
   }, false);
+};
+
+const setupIPMApi = (win) => {
+  win.zE.configureIPMWidget = (config) => {
+    const store = createStore();
+
+    renderer.initIPM(config, store);
+  };
+  win.zE.showIPMArticle = (articleId) => {
+    mediator.channel.broadcast('ipm.helpCenterForm.displayArticle', articleId);
+  };
+  win.zE.hideIPMWidget = () => {
+    mediator.channel.broadcast('ipm.webWidget.hide');
+  };
 };
 
 const setupWidgetApi = (win) => {

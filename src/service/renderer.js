@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { audio } from 'service/audio';
 import { chat } from 'embed/chat/chat';
 import { launcher } from 'embed/launcher/launcher';
-import { webWidget } from 'embed/webWidget/webWidget';
+import WebWidgetFactory from 'embed/webWidget/webWidget';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { logging } from 'service/logging';
@@ -14,7 +14,8 @@ import { updateEmbedAccessible } from 'src/redux/modules/base';
 const embedsMap = {
   'chat': chat,
   'launcher': launcher,
-  'webWidget': webWidget
+  'webWidget': new WebWidgetFactory,
+  'ipmWidget': new WebWidgetFactory('ipm')
 };
 let initialised = false;
 let hideLauncher = false;
@@ -51,6 +52,69 @@ const loadAudio = (config) => {
   }
 };
 
+function initIPM(config, reduxStore = { dispatch: () => {} }) {
+  let parsedConfig = parseConfig(config);
+
+  parsedConfig = addPropsToConfig('ipmWidget', config, parsedConfig, reduxStore);
+  renderEmbeds(parsedConfig, config, reduxStore);
+}
+
+function renderEmbeds(parsedConfig, config, reduxStore) {
+  const { newChat } = config;
+
+  _.forEach(parsedConfig, (configItem, embedName) => {
+    try {
+      const zopimRendered = config.embeds.zopimChat && !newChat;
+
+      reduxStore.dispatch(updateEmbedAccessible(embedName, true));
+      configItem.props.visible = config.embeds && !config.embeds.talk && !zopimRendered && !hideLauncher;
+      configItem.props.hideZendeskLogo = config.hideZendeskLogo;
+      configItem.props.brand = config.brand;
+
+      embedsMap[configItem.embed].create(embedName, configItem.props, reduxStore);
+      embedsMap[configItem.embed].render(embedName);
+    } catch (err) {
+      logging.error({
+        error: err,
+        context: {
+          embedName: embedName,
+          configItem: configItem
+        }
+      });
+    }
+  });
+}
+
+function addPropsToConfig(name, config, parsedConfig, reduxStore) {
+  const { newChat, newDesign } = config;
+  const webWidgetEmbeds = ['ticketSubmissionForm', 'helpCenterForm', 'talk'];
+
+  // Only send chat to WebWidget if new chat is on. Otherwise use old one.
+  if (newChat) webWidgetEmbeds.push('zopimChat');
+
+  const webWidgetConfig = _.chain(parsedConfig)
+    .pick(webWidgetEmbeds)
+    .mapValues('props')
+    .value();
+
+  _.forEach(_.keys(webWidgetConfig), (embed) => {
+    const name = embed === 'zopimChat' ? 'chat' : embed;
+
+    reduxStore.dispatch(updateEmbedAccessible(name, true));
+  });
+
+  webWidgetConfig.newDesign = !!newDesign;
+
+  parsedConfig = _.omit(parsedConfig, webWidgetEmbeds);
+
+  parsedConfig[name] = {
+    embed: name,
+    props: webWidgetConfig
+  };
+
+  return parsedConfig;
+}
+
 function init(config, reduxStore = { dispatch: () => {} }) {
   if (!initialised) {
     if (config.webWidgetCustomizations) {
@@ -61,7 +125,7 @@ function init(config, reduxStore = { dispatch: () => {} }) {
     i18n.setLocale(config.locale);
     loadAudio(config);
 
-    const { newChat, newDesign, embeds = {} } = config;
+    const { newChat, embeds = {} } = config;
     const useNewChatEmbed = !!embeds.zopimChat && newChat;
     const hasSingleIframeEmbeds = !!embeds.ticketSubmissionForm
       || !!embeds.helpCenterForm
@@ -70,53 +134,10 @@ function init(config, reduxStore = { dispatch: () => {} }) {
     let parsedConfig = parseConfig(config);
 
     if (hasSingleIframeEmbeds) {
-      const webWidgetEmbeds = ['ticketSubmissionForm', 'helpCenterForm', 'talk'];
-
-      // Only send chat to WebWidget if new chat is on. Otherwise use old one.
-      if (newChat) webWidgetEmbeds.push('zopimChat');
-
-      const webWidgetConfig = _.chain(parsedConfig)
-                               .pick(webWidgetEmbeds)
-                               .mapValues('props')
-                               .value();
-
-      _.forEach(_.keys(webWidgetConfig), (embed) => {
-        const name = embed === 'zopimChat' ? 'chat' : embed;
-
-        reduxStore.dispatch(updateEmbedAccessible(name, true));
-      });
-
-      webWidgetConfig.newDesign = !!newDesign;
-
-      parsedConfig = _.omit(parsedConfig, webWidgetEmbeds);
-
-      parsedConfig.webWidget = {
-        embed: 'webWidget',
-        props: webWidgetConfig
-      };
+      parsedConfig = addPropsToConfig('webWidget', config, parsedConfig, reduxStore);
     }
 
-    _.forEach(parsedConfig, (configItem, embedName) => {
-      try {
-        const zopimRendered = config.embeds.zopimChat && !newChat;
-
-        reduxStore.dispatch(updateEmbedAccessible(embedName, true));
-        configItem.props.visible = !hideLauncher && config.embeds && !zopimRendered && !config.embeds.talk;
-        configItem.props.hideZendeskLogo = config.hideZendeskLogo;
-        configItem.props.brand = config.brand;
-
-        embedsMap[configItem.embed].create(embedName, configItem.props, reduxStore);
-        embedsMap[configItem.embed].render(embedName);
-      } catch (err) {
-        logging.error({
-          error: err,
-          context: {
-            embedName: embedName,
-            configItem: configItem
-          }
-        });
-      }
-    });
+    renderEmbeds(parsedConfig, config, reduxStore);
 
     renderedEmbeds = parsedConfig;
 
@@ -214,6 +235,7 @@ function hideByZoom(hide) {
 
 export const renderer = {
   init: init,
+  initIPM: initIPM,
   postRenderCallbacks: postRenderCallbacks,
   propagateFontRatio: propagateFontRatio,
   hideByZoom: hideByZoom,
