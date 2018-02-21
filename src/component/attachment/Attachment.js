@@ -46,15 +46,9 @@ export class Attachment extends Component {
 
     return size >= 1000000
            ? i18n.t('embeddable_framework.submitTicket.attachments.size_megabyte',
-             {
-               size: _.floor(size / 1000000, 1),
-               fallback: '%(size)s MB'
-             })
+             { size: _.floor(size / 1000000, 1) })
            : i18n.t('embeddable_framework.submitTicket.attachments.size_kilobyte',
-             {
-               size: _.floor(size / 1000),
-               fallback: '%(size)s KB'
-             });
+             { size: _.floor(size / 1000) });
   }
 
   renderProgressBar = () => {

@@ -88,7 +88,7 @@ export class ChatPrechatForm extends Component {
 
     return (
       <Field
-        label={i18n.t('embeddable_framework.common.textLabel.name', { fallback: 'Your name' })}
+        label={i18n.t('embeddable_framework.common.textLabel.name')}
         required={nameData.required}
         value={this.state.formState.name}
         name={nameData.name} />
@@ -100,7 +100,7 @@ export class ChatPrechatForm extends Component {
 
     return (
       <Field
-        label={i18n.t('embeddable_framework.common.textLabel.email', { fallback: 'Email' })}
+        label={i18n.t('embeddable_framework.common.textLabel.email')}
         required={emailData.required}
         value={this.state.formState.email}
         pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
@@ -113,7 +113,7 @@ export class ChatPrechatForm extends Component {
 
     return !phoneData.hidden
          ? <Field
-            label={i18n.t('embeddable_framework.common.textLabel.phone_number', { fallback: 'Phone Number' })}
+            label={i18n.t('embeddable_framework.common.textLabel.phone_number')}
             required={phoneData.required}
             type='number'
             value={this.state.formState.phone}
@@ -126,7 +126,7 @@ export class ChatPrechatForm extends Component {
 
     return (
       <Field
-        label={i18n.t('embeddable_framework.common.textLabel.message', { fallback: 'Message' })}
+        label={i18n.t('embeddable_framework.common.textLabel.message')}
         required={messageData.required}
         value={this.state.formState.message}
         input={<textarea rows='3' />}

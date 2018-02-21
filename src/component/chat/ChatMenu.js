@@ -30,7 +30,7 @@ export class ChatMenu extends Component {
 
     return (
       <button className={styles.item} onClick={this.handleSoundClick}>
-        {i18n.t('embeddable_framework.chat.options.sound', { fallback: 'Sound' })}
+        {i18n.t('embeddable_framework.chat.options.sound')}
         <Icon className={styles.soundIcon} type={iconType} />
       </button>
     );
@@ -42,20 +42,14 @@ export class ChatMenu extends Component {
         {this.renderSoundButton()}
         <div className={styles.itemLine} />
         <button className={styles.item}>
-          {i18n.t('embeddable_framework.chat.options.emailTranscript', {
-            fallback: 'Email transcript'
-          })}
+          {i18n.t('embeddable_framework.chat.options.emailTranscript')}
         </button>
         <button className={styles.item} onClick={this.props.contactDetailsOnClick}>
-          {i18n.t('embeddable_framework.chat.options.editContactDetails', {
-            fallback: 'Edit contact details'
-          })}
+          {i18n.t('embeddable_framework.chat.options.editContactDetails')}
         </button>
         <div className={styles.itemLine} />
         <button className={styles.item} onClick={this.props.endChatOnClick} disabled={this.props.disableEndChat}>
-          {i18n.t('embeddable_framework.chat.options.endChat', {
-            fallback: 'End chat'
-          })}
+          {i18n.t('embeddable_framework.chat.options.endChat')}
         </button>
       </div>
     );

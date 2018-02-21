@@ -304,9 +304,7 @@ export class SubmitTicketForm extends Component {
   }
 
   renderSubjectField = () => {
-    const label = i18n.t('embeddable_framework.submitTicket.field.subject.label', {
-      fallback: 'Subject'
-    });
+    const label = i18n.t('embeddable_framework.submitTicket.field.subject.label');
 
     return !this.props.subjectEnabled
          ? null

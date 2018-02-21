@@ -422,12 +422,8 @@ class HelpCenter extends Component {
       buttonLabel = i18n.t('embeddable_framework.common.button.chat');
     } else if (talkAvailable) {
       buttonLabel = callbackEnabled
-                  ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback', {
-                    fallback: i18n.t('embeddable_framework.talk.form.title')
-                  })
-                  : i18n.t('embeddable_framework.helpCenter.submitButton.label.phone', {
-                    fallback: i18n.t('embeddable_framework.talk.phoneOnly.title', { fallback: 'Call us '})
-                  });
+                  ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback')
+                  : i18n.t('embeddable_framework.helpCenter.submitButton.label.phone');
     } else {
       buttonLabel = i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`); // eslint-disable-line
     }

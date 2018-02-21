@@ -48,10 +48,7 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   renderTitle = () => {
-    const title = i18n.t(
-      'embeddable_framework.chat.contactDetails.title',
-      { fallback: 'Edit Contact Details' }
-    );
+    const title = i18n.t('embeddable_framework.chat.contactDetails.title');
 
     return <h4 className={styles.title}>{title}</h4>;
   }
@@ -61,7 +58,7 @@ export class ChatContactDetailsPopup extends Component {
       <Field
         fieldContainerClasses={styles.fieldContainer}
         fieldClasses={styles.field}
-        placeholder={i18n.t('embeddable_framework.common.textLabel.name', { fallback: 'Your name' })}
+        placeholder={i18n.t('embeddable_framework.common.textLabel.name')}
         required={true}
         value={this.state.formState.name}
         name='name'/>
@@ -73,7 +70,7 @@ export class ChatContactDetailsPopup extends Component {
       <Field
         fieldContainerClasses={styles.fieldContainer}
         fieldClasses={styles.field}
-        placeholder={i18n.t('embeddable_framework.common.textLabel.email', { fallback: 'Email' })}
+        placeholder={i18n.t('embeddable_framework.common.textLabel.email')}
         required={true}
         value={this.state.formState.email}
         pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
@@ -105,7 +102,7 @@ export class ChatContactDetailsPopup extends Component {
         leftCtaFn={leftCtaFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
         rightCtaFn={this.handleSave}
-        rightCtaLabel={i18n.t('embeddable_framework.common.button.save', { fallback: 'Save' })}
+        rightCtaLabel={i18n.t('embeddable_framework.common.button.save')}
         rightCtaDisabled={!this.state.valid}>
         <div className={styles.popupChildrenContainer}>
           {this.renderForm()}

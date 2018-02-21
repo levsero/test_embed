@@ -43,12 +43,11 @@ export class ChannelChoiceMenu extends Component {
     if (!talkEnabled) return null;
 
     const onlineLabel = (this.props.callbackEnabled)
-      ? i18n.t('embeddable_framework.channelChoice.button.label.request_callback', { fallback: 'Request a callback' })
-      : i18n.t('embeddable_framework.channelChoice.button.label.call_us', { fallback: 'Call us' });
+      ? i18n.t('embeddable_framework.channelChoice.button.label.request_callback')
+      : i18n.t('embeddable_framework.channelChoice.button.label.call_us');
     const label = (talkAvailable)
                 ? onlineLabel
-                : i18n.t('embeddable_framework.channelChoice.button.label.talk_offline_v2',
-                         { fallback: 'No agents are available' });
+                : i18n.t('embeddable_framework.channelChoice.button.label.talk_offline_v2');
     const disabledStyle = !talkAvailable ? styles.talkBtnDisabled : '';
 
     return (

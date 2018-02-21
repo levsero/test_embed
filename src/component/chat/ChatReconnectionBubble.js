@@ -7,10 +7,7 @@ import { locals as styles } from './ChatReconnectionBubble.scss';
 
 export class ChatReconnectionBubble extends Component {
   render = () => {
-    const title = i18n.t(
-      'embeddable_framework.chat.reconnecting.title',
-      { fallback: 'Reconnecting' }
-    );
+    const title = i18n.t('embeddable_framework.chat.reconnecting.title');
 
     return (
       <div className={styles.container}>

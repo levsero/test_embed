@@ -66,8 +66,7 @@ export class AttachmentList extends Component {
     const numFilesToAdd = maxFileCount - numAttachments;
     const setLimitError = () => {
       const errorMessage = i18n.t('embeddable_framework.submitTicket.attachments.error.limit_reached', {
-        maxFiles: maxFileCount,
-        fallback: 'Attachment limit reached (%(maxFiles)s)'
+        maxFiles: maxFileCount
       });
 
       this.setState({ errorMessage });

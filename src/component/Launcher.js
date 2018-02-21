@@ -50,15 +50,9 @@ class Launcher extends Component {
 
   getTalkLabel = () => {
     if (this.props.callbackEnabled) {
-      return i18n.t(
-       'embeddable_framework.launcher.label.talk.request_callback',
-       { fallback: i18n.t('embeddable_framework.talk.form.title', { fallback: 'Request a callback' }) }
-      );
+      return i18n.t('embeddable_framework.launcher.label.talk.request_callback');
     } else {
-      return i18n.t(
-        'embeddable_framework.launcher.label.talk.call_us',
-        { fallback: i18n.t('embeddable_framework.talk.phoneOnly.title', { fallback: 'Call us' }) }
-      );
+      return i18n.t('embeddable_framework.launcher.label.talk.call_us');
     }
   }
 
