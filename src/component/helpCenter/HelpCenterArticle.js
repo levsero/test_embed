@@ -116,7 +116,7 @@ export class HelpCenterArticle extends Component {
       let cleanHtml = sanitizeHtml(body, sanitizeHtmlOptions);
 
       // Inject a table wrapper to allow horizontal scrolling
-      cleanHtml = cleanHtml.replace('<table', '<div class="table-wrap"><table');
+      cleanHtml = cleanHtml.replace('<table', `<div class="${styles['table-wrap']}"><table`);
       cleanHtml = cleanHtml.replace('/table>', '/table></div>');
 
       // Removes a single newline from start to end tags
