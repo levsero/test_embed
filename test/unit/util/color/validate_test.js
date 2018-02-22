@@ -79,20 +79,20 @@ describe('Colour Validation Utilities', () => {
         });
 
         describe('and without a base colour', () => {
-          it("falls back to the widget's default colour", () => {
+          it('returns null', () => {
             mockSettingsValue = { color: { theme: '#OMGWFTBBQ' } };
 
             expect(validate.themeColor())
-              .toEqual(validate.defaultColor);
+              .toEqual(null);
           });
 
           const testColors = ['#aaaa', '#hhh', '#638927384', '0xFFFFFF', 'rgb(255,123,123)'];
 
           _.forEach(testColors, (testColor) => {
-            it(`won't allow an invalid value (i.e., ${testColor}) and fall back to the default colour`, () => {
+            it(`won't allow an invalid value (i.e., ${testColor}) and returns null`, () => {
               mockSettingsValue = { color: { theme: testColor } };
               expect(validate.themeColor())
-                .toEqual(validate.defaultColor);
+                .toEqual(null);
             });
           });
         });
@@ -111,21 +111,21 @@ describe('Colour Validation Utilities', () => {
         });
 
         describe('with an invalid base colour', () => {
-          it("falls back to the widget's default colour", () => {
+          it('returns null', () => {
             mockSettingsValue = null;
 
             expect(validate.themeColor('#OMGWFTBBQ'))
-              .toEqual(validate.defaultColor);
+              .toEqual(null);
           });
         });
       });
 
       describe('without a base colour', () => {
-        it("falls back to the widget's default colour", () => {
+        it('returns null', () => {
           mockSettingsValue = null;
 
           expect(validate.themeColor())
-            .toEqual(validate.defaultColor);
+            .toEqual(null);
         });
       });
     });

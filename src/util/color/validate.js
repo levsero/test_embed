@@ -10,7 +10,7 @@ function themeColor(base = null) {
     color = normalizedBase;
   }
 
-  return color || defaultColor;
+  return color;
 }
 
 function colorFor(element, fallback = null) {

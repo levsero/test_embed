@@ -3,7 +3,7 @@ import { ColorMixer } from './mixer';
 
 function generateUserCSS(color = defaultColor) {
   const mixer = new ColorMixer;
-  const baseColor = themeColor(color);
+  const baseColor = themeColor(color) || defaultColor;
 
   const buttonColorStr = colorFor('button', mixer.buttonColorFrom(baseColor));
   const buttonTextColorStr = mixer.foregroundColorFrom(buttonColorStr);
