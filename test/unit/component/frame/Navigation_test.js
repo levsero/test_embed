@@ -24,10 +24,16 @@ describe('Navigation', () => {
           isRTL: () => false
         }
       },
+      './Navigation.scss': {
+        locals: {
+          'iconNewDesign': 'iconNewDesign',
+          'icon': 'icon'
+        }
+      },
       'component/Icon': {
         Icon: class extends Component {
           render() {
-            return <div className={this.props.type} />;
+            return <div className={`${this.props.type} ${this.props.className}`} />;
           }
         }
       }
@@ -73,6 +79,11 @@ describe('Navigation', () => {
       });
     });
 
+    it('does not have new design classes', () => {
+      expect(navigationNode.querySelector('.iconNewDesign'))
+        .toBeNull();
+    });
+
     describe('when newDesign is true', () => {
       beforeEach(() => {
         navigation = domRender(<Navigation newDesign={true} />);
@@ -81,6 +92,11 @@ describe('Navigation', () => {
 
       it('renders the dash button icon', () => {
         expect(navigationNode.querySelector('.Icon--dash'))
+          .not.toBeNull();
+      });
+
+      it('has new design classes', () => {
+        expect(navigationNode.querySelector('.iconNewDesign'))
           .not.toBeNull();
       });
     });

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { locals as styles } from './Navigation.scss';
 import { ButtonNav } from 'component/button/ButtonNav';
 import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
@@ -36,18 +37,22 @@ class Navigation extends Component {
   renderNavButton = (options = {}) => {
     if (!options.isVisible) return;
 
+    const { newDesign } = this.props;
+    const iconClasses = newDesign ? styles.iconNewDesign : styles.icon;
+
     return (
       <ButtonNav
         onClick={options.onClick}
         label={
           <Icon
             type={options.icon}
-            className='u-textInheritColor'
+            className={iconClasses}
             isMobile={this.props.fullscreen} />
         }
         rtl={i18n.isRTL()}
-        position={options.position}
         className={options.className}
+        position={options.position}
+        newDesign={newDesign}
         fullscreen={this.props.fullscreen} />
     );
   }

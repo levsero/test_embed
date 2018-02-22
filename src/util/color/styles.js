@@ -19,6 +19,7 @@ function generateUserCSS(color = defaultColor) {
 
   const headerColorStr = colorFor('header', baseColor);
   const headerTextColorStr = mixer.foregroundColorFrom(headerColorStr);
+  const headerBackgroundColorStr = mixer.highlightColor(headerColorStr);
 
   return (`
     .rf-CheckboxGroup__checkbox:checked + span:before,
@@ -83,6 +84,17 @@ function generateUserCSS(color = defaultColor) {
     .u-userHeaderColor {
       background: ${headerColorStr} !important;
       color: ${headerTextColorStr} !important;
+    }
+    .u-userHeaderButtonColor {
+      fill: ${headerTextColorStr} !important;
+    }
+    .u-userHeaderButtonColor:hover,
+    .u-userHeaderButtonColor:active,
+    .u-userHeaderButtonColor:focus {
+      background: ${headerBackgroundColorStr} !important;
+      svg {
+        background: ${headerBackgroundColorStr} !important;
+      }
     }
   `);
 }

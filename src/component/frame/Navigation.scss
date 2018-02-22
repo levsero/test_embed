@@ -1,0 +1,11 @@
+@import '../../styles/_vars.scss';
+
+.icon {
+  composes: u-textInheritColor from global;
+  fill: $zd-color-aluminum;
+}
+
+.iconNewDesign {
+  composes: u-textInheritColor u-userHeaderButtonColor from global;
+  composes: AnimColorEaseInOut from '../../styles/components/Animation.scss';
+}

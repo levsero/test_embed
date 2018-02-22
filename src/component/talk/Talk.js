@@ -62,6 +62,7 @@ class Talk extends Component {
     channelChoiceAvailable: PropTypes.bool,
     onBackClick: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
+    newDesign: PropTypes.bool,
     updateFrameSize: PropTypes.func
   };
 
@@ -344,6 +345,7 @@ class Talk extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         footerClasses={footerClasses}
         footerContent={this.renderZendeskLogo()}
+        newDesign={this.props.newDesign}
         getFrameDimensions={this.props.getFrameDimensions}
         title={this.renderFormTitle()}>
         <div className={contentClasses}>

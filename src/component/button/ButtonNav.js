@@ -9,7 +9,8 @@ export class ButtonNav extends Component {
     label: PropTypes.element.isRequired,
     onClick: PropTypes.func,
     position: PropTypes.string,
-    rtl: PropTypes.bool
+    rtl: PropTypes.bool,
+    newDesign: PropTypes.bool
   };
 
   static defaultProps = {
@@ -17,15 +18,17 @@ export class ButtonNav extends Component {
     fullscreen: false,
     onClick: () => {},
     position: 'left',
-    rtl: false
+    rtl: false,
+    newDesign: false
   };
 
   render = () => {
-    const { className, fullscreen, position, rtl } = this.props;
+    const { className, fullscreen, position, rtl, newDesign } = this.props;
     const isLeft = (position === 'left');
     const isRight = (position === 'right');
     const fullscreenStyles = (fullscreen) ? styles.fullscreen : '';
     const directionStyles = (rtl) ? styles.rtl : '';
+    const buttonStyles = newDesign ? styles.buttonNewDesign : styles.button;
     let positionStyles;
 
     if (isLeft) {
@@ -36,7 +39,7 @@ export class ButtonNav extends Component {
     }
 
     const buttonClasses = `
-      ${styles.button}
+      ${buttonStyles}
       ${fullscreenStyles}
       ${positionStyles}
       ${directionStyles}

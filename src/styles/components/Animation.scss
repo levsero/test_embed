@@ -1,3 +1,7 @@
 .Anim-color {
   transition: background-color 0.5s ease;
 }
+
+.AnimColorEaseInOut {
+  transition: background-color .25s ease-in-out;
+}

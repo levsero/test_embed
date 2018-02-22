@@ -432,6 +432,7 @@ class WebWidget extends Component {
         talkEnabled={this.props.talkEnabled}
         talkAvailable={this.props.talkAvailable}
         callbackEnabled={this.props.callbackEnabled}
+        newDesign={this.props.newDesign}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
         isMobile={this.props.fullscreen}
@@ -450,6 +451,7 @@ class WebWidget extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         style={this.props.style}
         isMobile={this.props.fullscreen}
+        newDesign={this.props.newDesign}
         updateFrameSize={this.props.updateFrameSize}
         talkConfig={this.props.talkConfig}
         helpCenterAvailable={this.isHelpCenterAvailable()}

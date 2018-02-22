@@ -6,7 +6,23 @@
 
 .button {
   composes: u-posAbsolute u-posStart--vertFlush from global;
-  composes: Button Button--nav from '../../styles/components/Button.scss';
+  composes: Button from '../../styles/components/Button.scss';
+  padding-top: #{16/$font-size}rem !important;
+
+  &:hover, &:active {
+    svg {
+      fill: $zd-color-dark-gray;
+    }
+  }
+}
+
+.buttonNewDesign {
+  composes: u-posAbsolute u-posStart--vertFlush u-marginTS u-userHeaderButtonColor from global;
+  composes: Button from '../../styles/components/Button.scss';
+  composes: AnimColorEaseInOut from '../../styles/components/Animation.scss';
+  margin-right: #{14/$font-size}rem !important;
+  margin-left: #{14/$font-size}rem !important;
+  padding: #{6/$font-size}rem !important;
 }
 
 .left {
