@@ -6,5 +6,6 @@
 }
 
 .iconNewDesign {
-  composes: u-textInheritColor u-userHeaderButtonColor u-transitionBG from global;
+  composes: u-textInheritColor u-userHeaderButtonColor from global;
+  composes: AnimColorEaseInOut from '../../styles/components/Animation.scss';
 }
