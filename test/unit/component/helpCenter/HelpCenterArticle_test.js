@@ -36,7 +36,8 @@ describe('HelpCenterArticle component', () => {
       },
       './HelpCenterArticle.scss': {
         locals: {
-          originalArticleButton: 'originalArticleButtonClasses'
+          originalArticleButton: 'originalArticleButtonClasses',
+          'table-wrap': 'table-WrapClasses'
         }
       },
       'imports?_=lodash!lodash': _,
@@ -65,6 +66,11 @@ describe('HelpCenterArticle component', () => {
           This text contains a sub-note<sub>1</sub>
         </div>
         <div id="notes"><sup>1</sup>This explains the note</div>
+        <table>
+          <tr>
+            <td><p>Zombocom</p>
+          </tr>
+        </table>
       `
     };
   });
@@ -85,9 +91,19 @@ describe('HelpCenterArticle component', () => {
         content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
       });
 
+      it('wraps table elements with a div and class', () => {
+        const node = content.querySelector('.table-wrapClasses');
+
+        expect(node)
+          .toBeTruthy();
+
+        expect(node.nodeName)
+          .toEqual('DIV');
+      });
+
       it('injects html string on componentDidMount', () => {
         expect(content.children.length)
-          .toEqual(7);
+          .toEqual(8);
 
         expect(content.querySelector('div').style.cssText)
           .toEqual('');
