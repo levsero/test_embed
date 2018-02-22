@@ -105,10 +105,14 @@ function generateWebWidgetPreviewCSS(color) {
 
   const headerColorStr = colorFor('header', baseColor);
   const headerTextColorStr = mixer.foregroundColorFrom(headerColorStr);
+  const headerBackgroundColorStr = mixer.highlightColor(headerColorStr);
+  const buttonColorStr = colorFor('button', mixer.buttonColorFrom(baseColor));
+  const buttonTextColorStr = mixer.foregroundColorFrom(buttonColorStr);
 
   return (`
     .u-userBackgroundColor:not([disabled]) {
-      background-color: ${baseColor} !important;
+      background-color: ${buttonColorStr} !important;
+      color: ${buttonTextColorStr} !important;
     }
     .u-userBackgroundColor:not([disabled]):hover,
     .u-userBackgroundColor:not([disabled]):active,
@@ -118,6 +122,17 @@ function generateWebWidgetPreviewCSS(color) {
     .u-userHeaderColor {
       background: ${headerColorStr} !important;
       color: ${headerTextColorStr} !important;
+    }
+    .u-userHeaderButtonColor {
+      fill: ${headerTextColorStr} !important;
+    }
+    .u-userHeaderButtonColor:hover,
+    .u-userHeaderButtonColor:active,
+    .u-userHeaderButtonColor:focus {
+      background: ${headerBackgroundColorStr} !important;
+      svg {
+        background: ${headerBackgroundColorStr} !important;
+      }
     }
   `);
 }

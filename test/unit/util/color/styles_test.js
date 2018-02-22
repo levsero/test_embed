@@ -654,6 +654,34 @@ describe('styles', () => {
       });
     });
 
+    describe('u-userBackgroundColor', () => {
+      const expectedCss = `
+      .u-userBackgroundColor:not([disabled]) {
+        background-color: #58F9F7 !important;
+        color: #227C7B !important;
+      }`;
+
+      it('is calculated to the same colot with a highlight', () => {
+        expect(trimWhitespace(css))
+          .toContain(trimWhitespace(expectedCss));
+      });
+    });
+
+    describe('u-userHeaderButtonColor', () => {
+      const expectedCss = `
+      .u-userHeaderButtonColor:focus {
+        background: #35F8F4 !important;
+        svg {
+          background: #35F8F4 !important;
+        }
+      }`;
+
+      it('is calculated to the same color with a darker text color', () => {
+        expect(trimWhitespace(css))
+          .toContain(trimWhitespace(expectedCss));
+      });
+    });
+
     it('uses the value passed into the function', () => {
       expect(css)
         .toMatch('#58F9F7');

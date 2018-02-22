@@ -46,12 +46,16 @@ const renderWebWidgetPreview = (options) => {
   const containerStyle = {
     width: frameStyle.width
   };
+
+  const newDesign = !!options.newDesign;
+
   const frameParams = {
     css: `${require('globalCSS')} ${webWidgetStyles}`,
     name: 'webWidgetPreview',
     frameStyle,
     disableOffsetHorizontal: true,
-    preventClose: true
+    preventClose: true,
+    newDesign: newDesign
   };
 
   const component = (
@@ -67,7 +71,7 @@ const renderWebWidgetPreview = (options) => {
           attachmentSender={() => {}}
           getFrameDimensions={() => {}}
           fullscreen={isMobileBrowser()}
-          newDesign={!!options.newDesign}
+          newDesign={newDesign}
           style={containerStyle} />
       </Container>
     </Frame>
