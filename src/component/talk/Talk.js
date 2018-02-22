@@ -199,7 +199,7 @@ class Talk extends Component {
   }
 
   renderPhoneFormScreen = () => {
-    const phoneLabel = i18n.t('embeddable_framework.talk.label.phoneDisplay', { fallback: 'Our phone number:' });
+    const phoneLabel = i18n.t('embeddable_framework.talk.form.phoneDisplay', { fallback: 'Our phone number:' });
 
     return (
       <div>
