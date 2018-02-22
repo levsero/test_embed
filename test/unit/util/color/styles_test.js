@@ -635,9 +635,28 @@ describe('styles', () => {
   });
 
   describe('generateWebWidgetPreviewCSS', () => {
+    let css;
+
+    beforeEach(() => {
+      css = generateWebWidgetPreviewCSS('#58F9F7');
+    });
+
+    describe('u-userHeaderColor', () => {
+      const expectedCss = `
+      .u-userHeaderColor {
+        background: #58F9F7 !important;
+        color: #227C7B !important;
+      }`;
+
+      it('is calculated to a darker color', () => {
+        expect(trimWhitespace(css))
+          .toContain(trimWhitespace(expectedCss));
+      });
+    });
+
     it('uses the value passed into the function', () => {
-      expect(generateWebWidgetPreviewCSS('#ffffff'))
-        .toMatch('#ffffff');
+      expect(css)
+        .toMatch('#58F9F7');
     });
   });
 });
