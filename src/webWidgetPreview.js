@@ -21,7 +21,6 @@ const defaultOptions = {
   locale: 'en-US',
   color: '#659700',
   titleKey: 'message',
-  newDesign: true,
   styles: {
     float: 'right',
     width: 342,
@@ -46,16 +45,12 @@ const renderWebWidgetPreview = (options) => {
   const containerStyle = {
     width: frameStyle.width
   };
-
-  const newDesign = !!options.newDesign;
-
   const frameParams = {
     css: `${require('globalCSS')} ${webWidgetStyles}`,
     name: 'webWidgetPreview',
     frameStyle,
     disableOffsetHorizontal: true,
-    preventClose: true,
-    newDesign: newDesign
+    preventClose: true
   };
 
   const component = (
@@ -71,7 +66,6 @@ const renderWebWidgetPreview = (options) => {
           attachmentSender={() => {}}
           getFrameDimensions={() => {}}
           fullscreen={isMobileBrowser()}
-          newDesign={newDesign}
           style={containerStyle} />
       </Container>
     </Frame>
