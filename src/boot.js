@@ -91,7 +91,7 @@ const setupServices = () => {
   identity.init();
 
   http.init({
-    zendeskHost: document.zendeskHost,
+    zendeskHost: document.zendeskHost || document.web_widget.id,
     version: __EMBEDDABLE_VERSION__
   });
 
@@ -198,7 +198,7 @@ const getConfig = (win, postRenderQueue) => {
       logging.error({
         error: error,
         context: {
-          account: document.zendeskHost
+          account: document.zendeskHost || document.web_widget.id
         }
       });
     }
