@@ -170,8 +170,6 @@ class Chat extends Component {
   }
 
   renderChatMenu = () => {
-    if (!this.state.showMenu) return;
-
     const {
       userSoundSettings,
       isChatting,
@@ -183,6 +181,7 @@ class Chat extends Component {
 
     return (
       <ChatMenu
+        show={this.state.showMenu}
         playSound={userSoundSettings}
         disableEndChat={!isChatting}
         endChatOnClick={showChatEndFn}
@@ -344,8 +343,6 @@ class Chat extends Component {
   }
 
   renderChatEndPopup = () => {
-    if (!this.state.showEndChatMenu) return null;
-
     const hideChatEndFn = () => this.setState({ showEndChatMenu: false });
     const endChatFn = () => {
       this.setState({ showEndChatMenu: false });
@@ -354,10 +351,10 @@ class Chat extends Component {
 
     return (
       <ChatPopup
-        className={styles.bottomPopup}
         leftCtaFn={hideChatEndFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
         rightCtaFn={endChatFn}
+        show={this.state.showEndChatMenu}
         rightCtaLabel={i18n.t('embeddable_framework.chat.form.endChat.button.end')}>
         <div className={styles.chatEndPopupDescription}>
           {i18n.t('embeddable_framework.chat.form.endChat.description')}
@@ -397,8 +394,6 @@ class Chat extends Component {
   }
 
   renderChatContactDetailsPopup = () => {
-    if (!this.state.showEditContactDetailsMenu) return null;
-
     const hideContactDetailsFn = () => this.setState({ showEditContactDetailsMenu: false });
     const saveContactDetailsFn = (name, email) => {
       this.setState({ showEditContactDetailsMenu: false });
@@ -407,7 +402,7 @@ class Chat extends Component {
 
     return (
       <ChatContactDetailsPopup
-        className={styles.bottomPopup}
+        show={this.state.showEditContactDetailsMenu}
         leftCtaFn={hideContactDetailsFn}
         rightCtaFn={saveContactDetailsFn} />
     );

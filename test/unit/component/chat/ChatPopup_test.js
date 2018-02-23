@@ -27,6 +27,9 @@ describe('ChatPopup component', () => {
           }
         }
       },
+      'component/transition/SlideUpAppear': {
+        SlideUpAppear: noopReactComponent()
+      },
       'service/i18n': {
         i18n: {
           t: noop

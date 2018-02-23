@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Button } from 'component/button/Button';
+import { SlideUpAppear } from 'component/transition/SlideUpAppear';
 
 import { locals as styles } from './ChatPopup.scss';
 
@@ -15,7 +16,8 @@ export class ChatPopup extends Component {
     rightCtaLabel: PropTypes.string,
     rightCtaDisabled: PropTypes.bool,
     childrenOnClick: PropTypes.func,
-    children: PropTypes.node
+    children: PropTypes.node,
+    show: PropTypes.bool
   };
 
   static defaultProps = {
@@ -27,7 +29,8 @@ export class ChatPopup extends Component {
     rightCtaLabel: '',
     rightCtaDisabled: false,
     childrenOnClick: () => {},
-    children: null
+    children: null,
+    show: false
   };
 
   renderCta = () => {
@@ -57,13 +60,14 @@ export class ChatPopup extends Component {
     const { className, childrenOnClick, children } = this.props;
 
     return (
-      <div className={`${className} ${styles.containerWrapper}`}>
+      <SlideUpAppear
+        className={`${className} ${styles.containerWrapper}`}
+        trigger={this.props.show}>
         <div className={styles.container}>
           <div onClick={childrenOnClick}>{children}</div>
           {this.renderCta()}
         </div>
-      </div>
+      </SlideUpAppear>
     );
   }
 }
-

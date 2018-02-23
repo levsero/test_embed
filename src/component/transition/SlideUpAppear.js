@@ -16,8 +16,8 @@ export class SlideUpAppear extends Component {
     className: '',
     duration: 100,
     trigger: true,
-    startPosHeight: '-10px',
-    endPosHeight: '0'
+    startPosHeight: '0',
+    endPosHeight: '10px'
   };
 
   render = () => {
