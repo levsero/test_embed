@@ -24,20 +24,24 @@ function set(name, data, type = 'local') {
 }
 
 function remove(name, type = 'local') {
-  storage(type).removeItem(prefix + name);
+  try {
+    storage(type).removeItem(prefix + name);
+  } catch (e) {}
 }
 
 function clear(type = 'local') {
-  const backend = storage(type);
-  const keys = _.chain(_.keys(backend))
-                .filter((key) => {
-                  return key.indexOf(prefix) === 0;
-                })
-                .value();
+  try {
+    const backend = storage(type);
+    const keys = _.chain(_.keys(backend))
+                  .filter((key) => {
+                    return key.indexOf(prefix) === 0;
+                  })
+                  .value();
 
-  _.forEach(keys, (key) => {
-    backend.removeItem(key);
-  });
+    _.forEach(keys, (key) => {
+      backend.removeItem(key);
+    });
+  } catch (e) {}
 }
 
 function serialize(data) {
