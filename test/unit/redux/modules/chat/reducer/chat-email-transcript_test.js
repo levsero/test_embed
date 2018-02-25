@@ -1,6 +1,7 @@
 describe('chat email transcript', () => {
   let reducer,
     actionTypes,
+    screenTypes,
     initialState;
 
   beforeAll(() => {
@@ -8,9 +9,11 @@ describe('chat email transcript', () => {
 
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-email-transcript');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
+    const screenTypesPath = buildSrcPath('redux/modules/chat/chat-screen-types');
 
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);
+    screenTypes = requireUncached(screenTypesPath);
 
     initialState = reducer(undefined, { type: '' });
   });
@@ -24,10 +27,10 @@ describe('chat email transcript', () => {
     let state;
 
     describe('initial state', () => {
-      it('is set to empty email and idle status ', () => {
+      it('is set to empty email and idle screen ', () => {
         expect(initialState)
           .toEqual({
-            status: actionTypes.EMAIL_TRANSCRIPT_IDLE,
+            screen: screenTypes.EMAIL_TRANSCRIPT_SCREEN,
             email: ''
           });
       });
@@ -46,9 +49,9 @@ describe('chat email transcript', () => {
           .toEqual('john@john.com');
       });
 
-      it('updates status to EMAIL_TRANSCRIPT_REQUEST_SENT', () => {
-        expect(state.status)
-          .toEqual(actionTypes.EMAIL_TRANSCRIPT_REQUEST_SENT);
+      it('updates screen to EMAIL_TRANSCRIPT_LOADING_SCREEN', () => {
+        expect(state.screen)
+          .toEqual(screenTypes.EMAIL_TRANSCRIPT_LOADING_SCREEN);
       });
     });
 
@@ -65,9 +68,9 @@ describe('chat email transcript', () => {
           .toEqual('john@john.com');
       });
 
-      it('updates status to EMAIL_TRANSCRIPT_SUCCESS', () => {
-        expect(state.status)
-          .toEqual(actionTypes.EMAIL_TRANSCRIPT_SUCCESS);
+      it('updates screen to EMAIL_TRANSCRIPT_SUCCESS_SCREEN', () => {
+        expect(state.screen)
+          .toEqual(screenTypes.EMAIL_TRANSCRIPT_SUCCESS_SCREEN);
       });
     });
 
@@ -84,9 +87,9 @@ describe('chat email transcript', () => {
           .toEqual('john@john.com');
       });
 
-      it('updates status to EMAIL_TRANSCRIPT_FAILURE', () => {
-        expect(state.status)
-          .toEqual(actionTypes.EMAIL_TRANSCRIPT_FAILURE);
+      it('updates screen to EMAIL_TRANSCRIPT_FAILURE_SCREEN', () => {
+        expect(state.screen)
+          .toEqual(screenTypes.EMAIL_TRANSCRIPT_FAILURE_SCREEN);
       });
     });
 
@@ -103,9 +106,27 @@ describe('chat email transcript', () => {
           .toEqual('john@john.com');
       });
 
-      it('updates status to EMAIL_TRANSCRIPT_IDLE', () => {
-        expect(state.status)
-          .toEqual(actionTypes.EMAIL_TRANSCRIPT_IDLE);
+      it('updates screen to EMAIL_TRANSCRIPT_SCREEN', () => {
+        expect(state.screen)
+          .toEqual(screenTypes.EMAIL_TRANSCRIPT_SCREEN);
+      });
+    });
+
+    describe('when a RESET_EMAIL_TRANSCRIPT action is dispatched', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.RESET_EMAIL_TRANSCRIPT
+        });
+      });
+
+      it('sets email to nothing', () => {
+        expect(state.email)
+          .toEqual('');
+      });
+
+      it('updates screen to EMAIL_TRANSCRIPT_SCREEN', () => {
+        expect(state.screen)
+          .toEqual(screenTypes.EMAIL_TRANSCRIPT_SCREEN);
       });
     });
 
@@ -117,14 +138,14 @@ describe('chat email transcript', () => {
         });
       });
 
-      it('does not update eail', () => {
+      it('does not update email', () => {
         expect(state.email)
           .toEqual('');
       });
 
-      it('updates status to EMAIL_TRANSCRIPT_IDLE', () => {
-        expect(state.status)
-          .toEqual(actionTypes.EMAIL_TRANSCRIPT_IDLE);
+      it('updates screen to EMAIL_TRANSCRIPT_SCREEN', () => {
+        expect(state.screen)
+          .toEqual(screenTypes.EMAIL_TRANSCRIPT_SCREEN);
       });
     });
   });

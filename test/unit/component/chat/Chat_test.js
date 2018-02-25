@@ -8,10 +8,10 @@ describe('Chat component', () => {
   const chatPath = buildSrcPath('component/chat/Chat');
   const AttachmentBox = noopReactComponent();
 
-  const EMAIL_TRANSCRIPT_IDLE = 'widget/chat/EMAIL_TRANSCRIPT_IDLE';
-  const EMAIL_TRANSCRIPT_SUCCESS = 'widget/chat/EMAIL_TRANSCRIPT_SUCCESS';
-  const EMAIL_TRANSCRIPT_FAILURE = 'widget/chat/EMAIL_TRANSCRIPT_FAILURE';
-  const EMAIL_TRANSCRIPT_REQUEST_SENT = 'widget/chat/EMAIL_TRANSCRIPT_REQUEST_SENT';
+  const EMAIL_TRANSCRIPT_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_SCREEN';
+  const EMAIL_TRANSCRIPT_SUCCESS_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_SUCCESS_SCREEN';
+  const EMAIL_TRANSCRIPT_FAILURE_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_FAILURE_SCREEN';
+  const EMAIL_TRANSCRIPT_LOADING_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_LOADING_SCREEN';
 
   updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
 
@@ -84,12 +84,10 @@ describe('Chat component', () => {
       },
       'src/redux/modules/chat/chat-screen-types': {
         PRECHAT_SCREEN: prechatScreen,
-        CHATTING_SCREEN: chattingScreen
-      },
-      'src/redux/modules/chat/chat-action-types': {
-        EMAIL_TRANSCRIPT_IDLE: EMAIL_TRANSCRIPT_IDLE,
-        EMAIL_TRANSCRIPT_SUCCESS: EMAIL_TRANSCRIPT_SUCCESS,
-        EMAIL_TRANSCRIPT_FAILURE: EMAIL_TRANSCRIPT_FAILURE
+        CHATTING_SCREEN: chattingScreen,
+        EMAIL_TRANSCRIPT_SCREEN: EMAIL_TRANSCRIPT_SCREEN,
+        EMAIL_TRANSCRIPT_SUCCESS_SCREEN: EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
+        EMAIL_TRANSCRIPT_FAILURE_SCREEN: EMAIL_TRANSCRIPT_FAILURE_SCREEN
       },
       'service/i18n': {
         i18n: { t: _.identity }
@@ -114,10 +112,10 @@ describe('Chat component', () => {
       resetEmailTranscriptSpy = jasmine.createSpy('resetEmailTranscriptSpy');
     });
 
-    describe('when emailTranscript status is EMAIL_TRANSCRIPT_FAILURE', () => {
+    describe('when emailTranscript screen is EMAIL_TRANSCRIPT_FAILURE_SCREEN', () => {
       beforeEach(() => {
         emailTranscript = {
-          status: EMAIL_TRANSCRIPT_FAILURE,
+          screen: EMAIL_TRANSCRIPT_FAILURE_SCREEN,
           email: 'yolo@yolo.com'
         };
         component = domRender(<Chat emailTranscript={emailTranscript} resetEmailTranscript={resetEmailTranscriptSpy} />);
@@ -140,10 +138,10 @@ describe('Chat component', () => {
       });
     });
 
-    describe('when emailTranscript status is EMAIL_TRANSCRIPT_SUCCESS', () => {
+    describe('when emailTranscript screen is EMAIL_TRANSCRIPT_SUCCESS_SCREEN', () => {
       beforeEach(() => {
         emailTranscript = {
-          status: EMAIL_TRANSCRIPT_SUCCESS,
+          screen: EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
           email: 'yolo@yolo.com'
         };
         component = domRender(<Chat emailTranscript={emailTranscript} resetEmailTranscript={resetEmailTranscriptSpy} />);
@@ -166,10 +164,10 @@ describe('Chat component', () => {
       });
     });
 
-    describe('when emailTranscript status is irrelevant', () => {
+    describe('when emailTranscript screen is irrelevant', () => {
       beforeEach(() => {
         emailTranscript = {
-          status: 'yolo',
+          screen: 'yolo',
           email: 'yolo@yolo.com'
         };
         component = domRender(<Chat emailTranscript={emailTranscript} resetEmailTranscript={resetEmailTranscriptSpy} />);
@@ -198,10 +196,10 @@ describe('Chat component', () => {
       nextProps,
       component;
 
-    describe('when next props emailTranscript status is not EMAIL_TRANSCRIPT_IDLE', () => {
+    describe('when next props emailTranscript screen is not EMAIL_TRANSCRIPT_SCREEN', () => {
       beforeEach(() => {
         emailTranscript = {
-          status: EMAIL_TRANSCRIPT_SUCCESS,
+          screen: EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
           email: 'yolo@yolo.com'
         };
         component = domRender(<Chat emailTranscript={emailTranscript} chats={[]} events={[]} />);
@@ -211,7 +209,7 @@ describe('Chat component', () => {
         beforeEach(() => {
           nextProps = {
             emailTranscript: {
-              status: EMAIL_TRANSCRIPT_REQUEST_SENT
+              screen: EMAIL_TRANSCRIPT_LOADING_SCREEN
             },
             chats: [],
             events: []
@@ -231,7 +229,7 @@ describe('Chat component', () => {
         beforeEach(() => {
           nextProps = {
             emailTranscript: {
-              status: EMAIL_TRANSCRIPT_SUCCESS
+              screen: EMAIL_TRANSCRIPT_SUCCESS_SCREEN
             },
             chats: [],
             events: []
@@ -248,10 +246,10 @@ describe('Chat component', () => {
       });
     });
 
-    describe('when next props emailTranscript status is EMAIL_TRANSCRIPT_IDLE', () => {
+    describe('when next props emailTranscript screen is EMAIL_TRANSCRIPT_SCREEN', () => {
       beforeEach(() => {
         emailTranscript = {
-          status: EMAIL_TRANSCRIPT_IDLE,
+          screen: EMAIL_TRANSCRIPT_SCREEN,
           email: 'yolo@yolo.com'
         };
         component = domRender(<Chat emailTranscript={emailTranscript} chats={[]} events={[]} />);
@@ -261,7 +259,7 @@ describe('Chat component', () => {
         beforeEach(() => {
           nextProps = {
             emailTranscript: {
-              status: EMAIL_TRANSCRIPT_IDLE
+              screen: EMAIL_TRANSCRIPT_SCREEN
             },
             chats: [],
             events: []
@@ -281,7 +279,7 @@ describe('Chat component', () => {
         beforeEach(() => {
           nextProps = {
             emailTranscript: {
-              status: EMAIL_TRANSCRIPT_IDLE
+              screen: EMAIL_TRANSCRIPT_SCREEN
             },
             chats: [],
             events: []

@@ -48,7 +48,7 @@ export class ChatMenu extends Component {
 
     return (
       <button className={styles.item} onClick={this.props.emailTranscriptOnClick}>
-          {i18n.t('embeddable_framework.chat.options.emailTranscript')}
+        {i18n.t('embeddable_framework.chat.options.emailTranscript')}
       </button>
     );
   }

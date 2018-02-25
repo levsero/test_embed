@@ -9,13 +9,17 @@ export class EmailField extends Component {
       PropTypes.string
     ]),
     label: PropTypes.string,
-    required: PropTypes.bool
+    required: PropTypes.bool,
+    fieldContainerClasses: PropTypes.string,
+    fieldClasses: PropTypes.string
   };
 
   static defaultProps = {
     label: '',
     required: false,
-    value: ''
+    value: '',
+    fieldContainerClasses: '',
+    fieldClasses: ''
   };
 
   render = () => {
@@ -26,6 +30,8 @@ export class EmailField extends Component {
         value={this.props.value}
         name='email'
         pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
+        fieldContainerClasses={this.props.fieldContainerClasses}
+        fieldClasses={this.props.fieldClasses}
         />
     );
   }

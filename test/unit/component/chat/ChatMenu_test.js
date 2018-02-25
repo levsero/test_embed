@@ -92,7 +92,7 @@ describe('ChatMenu component', () => {
 
       describe('when isChatting is true', () => {
         beforeEach(() => {
-          component = domRender(<ChatMenu isChatting={true} />);
+          component = instanceRender(<ChatMenu isChatting={true} />);
           response = component.renderEmailTranscriptButton();
         });
 
@@ -219,7 +219,7 @@ describe('ChatMenu component', () => {
 
       describe('when playSound is true', () => {
         beforeEach(() => {
-          component = domRender(<ChatMenu playSound={true} />);
+          component = instanceRender(<ChatMenu playSound={true} />);
           response = component.renderSoundButton();
         });
 

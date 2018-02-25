@@ -757,11 +757,10 @@ describe('chat redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches EMAIL_TRANSCRIPT_IDLE action', () => {
+    it('dispatches RESET_EMAIL_TRANSCRIPT action', () => {
       expect(action)
         .toEqual({
-          type: actionTypes.EMAIL_TRANSCRIPT_IDLE,
-          payload: ''
+          type: actionTypes.RESET_EMAIL_TRANSCRIPT
         });
     });
   });

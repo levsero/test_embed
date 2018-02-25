@@ -4,10 +4,10 @@ describe('ChatEmailTranscriptPopup component', () => {
     mockFormValidity,
     resultGridMinHeight;
 
-  const EMAIL_TRANSCRIPT_REQUEST_SENT = 'widget/chat/EMAIL_TRANSCRIPT_REQUEST_SENT';
-  const EMAIL_TRANSCRIPT_SUCCESS = 'widget/chat/EMAIL_TRANSCRIPT_SUCCESS';
-  const EMAIL_TRANSCRIPT_FAILURE = 'widget/chat/EMAIL_TRANSCRIPT_FAILURE';
-  const EMAIL_TRANSCRIPT_IDLE = 'widget/chat/EMAIL_TRANSCRIPT_IDLE';
+  const EMAIL_TRANSCRIPT_LOADING_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_LOADING_SCREEN';
+  const EMAIL_TRANSCRIPT_SUCCESS_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_SUCCESS_SCREEN';
+  const EMAIL_TRANSCRIPT_FAILURE_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_FAILURE_SCREEN';
+  const EMAIL_TRANSCRIPT_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_SCREEN';
 
   const ChatEmailTranscriptPopupPath = buildSrcPath('component/chat/ChatEmailTranscriptPopup');
 
@@ -31,16 +31,10 @@ describe('ChatEmailTranscriptPopup component', () => {
         }
       },
       'component/chat/ChatPopup': { ChatPopup },
-      'component/field/Field': {
-        Field: class extends Component {
+      'component/field/EmailField': {
+        EmailField: class extends Component {
           render() {
-            return this.props.input
-                 ? React.cloneElement(this.props.input, _.extend({}, this.props))
-                 : <input
-                    name={this.props.name}
-                    required={this.props.required}
-                    pattern={this.props.pattern}
-                    type={this.props.type} />;
+            return this.props.input;
           }
         }
       },
@@ -49,11 +43,11 @@ describe('ChatEmailTranscriptPopup component', () => {
           t: noop
         }
       },
-      'src/redux/modules/chat/chat-action-types': {
-        EMAIL_TRANSCRIPT_REQUEST_SENT: EMAIL_TRANSCRIPT_REQUEST_SENT,
-        EMAIL_TRANSCRIPT_SUCCESS: EMAIL_TRANSCRIPT_SUCCESS,
-        EMAIL_TRANSCRIPT_FAILURE: EMAIL_TRANSCRIPT_FAILURE,
-        EMAIL_TRANSCRIPT_IDLE: EMAIL_TRANSCRIPT_IDLE
+      'src/redux/modules/chat/chat-screen-types': {
+        EMAIL_TRANSCRIPT_LOADING_SCREEN: EMAIL_TRANSCRIPT_LOADING_SCREEN,
+        EMAIL_TRANSCRIPT_SUCCESS_SCREEN: EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
+        EMAIL_TRANSCRIPT_FAILURE_SCREEN: EMAIL_TRANSCRIPT_FAILURE_SCREEN,
+        EMAIL_TRANSCRIPT_SCREEN: EMAIL_TRANSCRIPT_SCREEN
       },
       'src/util/utils': {
         emailValid: () => true
@@ -62,7 +56,6 @@ describe('ChatEmailTranscriptPopup component', () => {
         Icon: noop
       },
       'component/loading/LoadingSpinner': noopReactComponent,
-      'lodash': _,
       'utility/devices': {
         isIE: () => false
       }
@@ -170,33 +163,41 @@ describe('ChatEmailTranscriptPopup component', () => {
     describe('renderSuccessScreen', () => {
       let response;
 
-      describe('when email transcript status is EMAIL_TRANSCRIPT_SUCCESS', () => {
+      describe('when email transcript screen is EMAIL_TRANSCRIPT_SUCCESS_SCREEN', () => {
         beforeEach(() => {
           emailTranscript = {
-            status: EMAIL_TRANSCRIPT_SUCCESS,
+            screen: EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
             email: 'yolo@yolo.com'
           };
           component = instanceRender(<ChatEmailTranscriptPopup emailTranscript={emailTranscript} />);
           response = component.renderSuccessScreen();
         });
 
-        it('should render success screen', () => {
-          expect(response.props.children[0].props.children.props.type)
+        it('renders success screen', () => {
+          expect(response)
+            .toBeTruthy();
+        });
+
+        it('renders success icon', () => {
+          const popupContent = response.props.children[0];
+          const icon = popupContent.props.children;
+
+          expect(icon.props.type)
             .toEqual('Icon--checkmark-fill');
         });
       });
 
-      describe('when email transcript status is not EMAIL_TRANSCRIPT_SUCCESS', () => {
+      describe('when email transcript screen is not EMAIL_TRANSCRIPT_SUCCESS_SCREEN', () => {
         beforeEach(() => {
           emailTranscript = {
-            status: 'y0lo',
+            screen: 'y0lo',
             email: 'yolo@yolo.com'
           };
           component = instanceRender(<ChatEmailTranscriptPopup emailTranscript={emailTranscript} />);
           response = component.renderSuccessScreen();
         });
 
-        it('should not render success screen', () => {
+        it('does not render success screen', () => {
           expect(response)
             .toEqual(null);
         });
@@ -206,33 +207,41 @@ describe('ChatEmailTranscriptPopup component', () => {
     describe('renderFailureScreen', () => {
       let response;
 
-      describe('when email transcript status is EMAIL_TRANSCRIPT_FAILURE', () => {
+      describe('when email transcript status is EMAIL_TRANSCRIPT_FAILURE_SCREEN', () => {
         beforeEach(() => {
           emailTranscript = {
-            status: EMAIL_TRANSCRIPT_FAILURE,
+            screen: EMAIL_TRANSCRIPT_FAILURE_SCREEN,
             email: 'yolo@yolo.com'
           };
           component = instanceRender(<ChatEmailTranscriptPopup emailTranscript={emailTranscript} />);
           response = component.renderFailureScreen();
         });
 
-        it('should render failure screen', () => {
-          expect(response.props.children[0].props.children.props.type)
+        it('renders failure screen', () => {
+          expect(response)
+            .toBeTruthy();
+        });
+
+        it('renders failure icon', () => {
+          const popupContent = response.props.children[0];
+          const icon = popupContent.props.children;
+
+          expect(icon.props.type)
             .toEqual('Icon--error-fill');
         });
       });
 
-      describe('when email transcript status is not EMAIL_TRANSCRIPT_FAILURE', () => {
+      describe('when email transcript status is not EMAIL_TRANSCRIPT_FAILURE_SCREEN', () => {
         beforeEach(() => {
           emailTranscript = {
-            status: 'y0lo',
+            screen: 'y0lo',
             email: 'yolo@yolo.com'
           };
           component = instanceRender(<ChatEmailTranscriptPopup emailTranscript={emailTranscript} />);
           response = component.renderFailureScreen();
         });
 
-        it('should not render failure screen', () => {
+        it('does not render failure screen', () => {
           expect(response)
             .toEqual(null);
         });
@@ -242,33 +251,33 @@ describe('ChatEmailTranscriptPopup component', () => {
     describe('renderLoadingScreen', () => {
       let response;
 
-      describe('when email transcript status is EMAIL_TRANSCRIPT_REQUEST_SENT', () => {
+      describe('when email transcript status is EMAIL_TRANSCRIPT_LOADING_SCREEN', () => {
         beforeEach(() => {
           emailTranscript = {
-            status: EMAIL_TRANSCRIPT_REQUEST_SENT,
+            screen: EMAIL_TRANSCRIPT_LOADING_SCREEN,
             email: 'yolo@yolo.com'
           };
           component = instanceRender(<ChatEmailTranscriptPopup emailTranscript={emailTranscript} />);
           response = component.renderLoadingScreen();
         });
 
-        it('should render loading screen', () => {
+        it('renders loading screen', () => {
           expect(response)
             .toBeDefined();
         });
       });
 
-      describe('when email transcript status is not EMAIL_TRANSCRIPT_REQUEST_SENT', () => {
+      describe('when email transcript status is not EMAIL_TRANSCRIPT_LOADING_SCREEN', () => {
         beforeEach(() => {
           emailTranscript = {
-            status: 'y0lo',
+            screen: 'y0lo',
             email: 'yolo@yolo.com'
           };
           component = instanceRender(<ChatEmailTranscriptPopup emailTranscript={emailTranscript} />);
           response = component.renderLoadingScreen();
         });
 
-        it('should not render loading screen', () => {
+        it('does not render loading screen', () => {
           expect(response)
             .toEqual(null);
         });
@@ -278,132 +287,35 @@ describe('ChatEmailTranscriptPopup component', () => {
     describe('renderFormScreen', () => {
       let response;
 
-      describe('when email transcript status is EMAIL_TRANSCRIPT_IDLE', () => {
+      describe('when email transcript status is EMAIL_TRANSCRIPT_SCREEN', () => {
         beforeEach(() => {
           emailTranscript = {
-            status: EMAIL_TRANSCRIPT_IDLE,
+            screen: EMAIL_TRANSCRIPT_SCREEN,
             email: 'yolo@yolo.com'
           };
           component = instanceRender(<ChatEmailTranscriptPopup emailTranscript={emailTranscript} />);
           response = component.renderFormScreen();
         });
 
-        it('should render form screen', () => {
+        it('renders form screen', () => {
           expect(response.type)
             .toEqual('form');
         });
       });
 
-      describe('when email transcript status is not EMAIL_TRANSCRIPT_IDLE', () => {
+      describe('when email transcript status is not EMAIL_TRANSCRIPT_SCREEN', () => {
         beforeEach(() => {
           emailTranscript = {
-            status: 'y0lo',
+            screen: 'y0lo',
             email: 'yolo@yolo.com'
           };
           component = instanceRender(<ChatEmailTranscriptPopup emailTranscript={emailTranscript} />);
           response = component.renderFormScreen();
         });
 
-        it('should not render form screen', () => {
+        it('does not render form screen', () => {
           expect(response)
             .toEqual(null);
-        });
-      });
-    });
-
-    describe('componentDidUpdate', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatEmailTranscriptPopup />);
-      });
-
-      describe('when resultContainer is null', () => {
-        beforeEach(() => {
-          component.resultContainer = null;
-          component.state = {
-            isResultTextMultiLine: false
-          };
-          component.componentDidUpdate(null, component.state);
-        });
-
-        it('should not change component state', () => {
-          expect(component.state)
-            .toEqual({
-              isResultTextMultiLine: false
-            });
-        });
-      });
-
-      describe('when resultContainer is not null', () => {
-        describe('when text is multiline', () => {
-          beforeEach(() => {
-            component.resultContainer = {
-              clientHeight: 21
-            };
-          });
-
-          describe('when text was originally single line', () => {
-            beforeEach(() => {
-              component.state = {
-                isResultTextMultiLine: false
-              };
-              component.componentDidUpdate(null, component.state);
-            });
-
-            it('should update isResultTextMultiLine state correctly', () => {
-              expect(component.state.isResultTextMultiLine)
-                .toEqual(true);
-            });
-          });
-
-          describe('when text was originally multiline', () => {
-            beforeEach(() => {
-              component.state = {
-                isResultTextMultiLine: true
-              };
-              component.componentDidUpdate(null, component.state);
-            });
-
-            it('should not change state', () => {
-              expect(component.state.isResultTextMultiLine)
-                .toEqual(true);
-            });
-          });
-        });
-
-        describe('when text is singleline', () => {
-          beforeEach(() => {
-            component.resultContainer = {
-              clientHeight: 19
-            };
-          });
-
-          describe('when text was originally single line', () => {
-            beforeEach(() => {
-              component.state = {
-                isResultTextMultiLine: false
-              };
-              component.componentDidUpdate(null, component.state);
-            });
-
-            it('should not change state', () => {
-              expect(component.state.isResultTextMultiLine)
-                .toEqual(false);
-            });
-          });
-
-          describe('when text was originally multiline', () => {
-            beforeEach(() => {
-              component.state = {
-                isResultTextMultiLine: true
-              };
-              component.componentDidUpdate(null, component.state);
-            });
-
-            it('should update isResultTextMultiLine state correctly', () => {
-              expect(component.state.isResultTextMultiLine)
-                .toEqual(false);
-            });
-          });
         });
       });
     });

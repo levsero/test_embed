@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { ChatPopup } from 'component/chat/ChatPopup';
-import { Field } from 'component/field/Field';
+import { EmailField } from 'component/field/EmailField';
 import { i18n } from 'service/i18n';
-import { EMAIL_TRANSCRIPT_IDLE,
-         EMAIL_TRANSCRIPT_SUCCESS,
-         EMAIL_TRANSCRIPT_FAILURE,
-         EMAIL_TRANSCRIPT_REQUEST_SENT } from 'src/redux/modules/chat/chat-action-types';
+import { EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
+         EMAIL_TRANSCRIPT_FAILURE_SCREEN,
+         EMAIL_TRANSCRIPT_SCREEN,
+         EMAIL_TRANSCRIPT_LOADING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { locals as styles } from 'component/chat/ChatEmailTranscriptPopup.scss';
 import { emailValid } from 'src/util/utils';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
@@ -43,25 +43,11 @@ export class ChatEmailTranscriptPopup extends Component {
       valid: emailValid(email),
       formState: {
         email
-      },
-      isResultTextMultiLine: false
+      }
     };
 
     this.form = null;
-    this.resultContainer = null;
   }
-
-  componentDidUpdate= (prevProps, prevState) => {
-    if (this.resultContainer &&
-        this.resultContainer.clientHeight > styles.resultGridMinHeight &&
-        !prevState.isResultTextMultiLine) {
-      this.setState({ isResultTextMultiLine: true });
-    } else if (this.resultContainer &&
-                this.resultContainer.clientHeight <= styles.resultGridMinHeight &&
-                prevState.isResultTextMultiLine) {
-      this.setState({ isResultTextMultiLine: false });
-    }
-  };
 
   handleSave = (e) => {
     e.preventDefault();
@@ -85,17 +71,14 @@ export class ChatEmailTranscriptPopup extends Component {
   }
 
   renderTitle = () => {
-    const title = i18n.t(
-      'embeddable_framework.chat.emailTranscript.title',
-      { fallback: 'Email chat transcript' }
-    );
+    const title = i18n.t('embeddable_framework.chat.emailtranscript.title');
 
     return <h4 className={styles.title}>{title}</h4>;
   }
 
   renderEmailField = () => {
     return (
-      <Field
+      <EmailField
         fieldContainerClasses={styles.fieldContainer}
         fieldClasses={styles.field}
         placeholder={i18n.t('embeddable_framework.common.textLabel.email', { fallback: 'Email' })}
@@ -107,7 +90,7 @@ export class ChatEmailTranscriptPopup extends Component {
   }
 
   renderFormScreen = () => {
-    if (this.props.emailTranscript.status !== EMAIL_TRANSCRIPT_IDLE) return null;
+    if (this.props.emailTranscript.screen !== EMAIL_TRANSCRIPT_SCREEN) return null;
 
     return (
       <form
@@ -123,17 +106,13 @@ export class ChatEmailTranscriptPopup extends Component {
   }
 
   renderSuccessScreen = () => {
-    if (this.props.emailTranscript.status !== EMAIL_TRANSCRIPT_SUCCESS) return null;
+    if (this.props.emailTranscript.screen !== EMAIL_TRANSCRIPT_SUCCESS_SCREEN) return null;
 
-    const fallback = `Email will be sent to <b>${this.props.emailTranscript.email}</b> when the chat ends`;
     const successLabel = i18n.t('embeddable_framework.chat.emailtranscript.success_message',
-                                { fallback, email: this.props.emailTranscript.email });
-    const multiLineStyle = this.state.isResultTextMultiLine
-                          ? styles.resultScreenMultiLine
-                          : styles.resultScreenSingleLine;
+                                { email: this.props.emailTranscript.email });
 
     return (
-      <div className={multiLineStyle} ref={(resultContainer) => {this.resultContainer = resultContainer;}}>
+      <div className={styles.resultScreen}>
         <div>
           <Icon type='Icon--checkmark-fill'/>
         </div>
@@ -143,18 +122,13 @@ export class ChatEmailTranscriptPopup extends Component {
   }
 
   renderFailureScreen = () => {
-    if (this.props.emailTranscript.status !== EMAIL_TRANSCRIPT_FAILURE) return null;
+    if (this.props.emailTranscript.screen !== EMAIL_TRANSCRIPT_FAILURE_SCREEN) return null;
 
-    const failureMessageLabel = i18n.t('embeddable_framework.chat.emailtranscript.failure_message',
-                                       { fallback: 'Unable to send transcript.' });
-    const tryAgainLabel = i18n.t('embeddable_framework.chat.emailtranscript.failure_message',
-                                 { fallback: 'Try again.' });
-    const multiLineStyle = this.state.isResultTextMultiLine
-                          ? styles.resultScreenMultiLine
-                          : styles.resultScreenSingleLine;
+    const failureMessageLabel = i18n.t('embeddable_framework.chat.emailtranscript.failure_message');
+    const tryAgainLabel = i18n.t('embeddable_framework.chat.emailtranscript.try_again');
 
     return (
-      <div className={multiLineStyle} ref={(resultContainer) => {this.resultContainer = resultContainer;}}>
+      <div className={styles.resultScreen}>
         <div>
           <Icon type='Icon--error-fill'/>
         </div>
@@ -168,7 +142,7 @@ export class ChatEmailTranscriptPopup extends Component {
   }
 
   renderLoadingScreen = () => {
-    if (this.props.emailTranscript.status !== EMAIL_TRANSCRIPT_REQUEST_SENT) return null;
+    if (this.props.emailTranscript.screen !== EMAIL_TRANSCRIPT_LOADING_SCREEN) return null;
 
     const spinnerIEClasses = isIE() ? styles.loadingSpinnerIE : '';
 
@@ -181,18 +155,18 @@ export class ChatEmailTranscriptPopup extends Component {
 
   render = () => {
     const { className, leftCtaFn } = this.props;
-    const isEmailTranscriptResult = this.props.emailTranscript.status === EMAIL_TRANSCRIPT_SUCCESS ||
-                                    this.props.emailTranscript.status === EMAIL_TRANSCRIPT_FAILURE;
-    let childrenContainerClasses = isEmailTranscriptResult ?
-                                  styles.resultContainer : styles.childrenContainer;
+    const isEmailTranscriptResult = this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SUCCESS_SCREEN ||
+                                    this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_FAILURE_SCREEN;
+    let childrenContainerClasses = isEmailTranscriptResult
+                                 ? styles.resultContainer : styles.childrenContainer;
 
-    if (this.props.emailTranscript.status === EMAIL_TRANSCRIPT_REQUEST_SENT) {
+    if (this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_LOADING_SCREEN) {
       childrenContainerClasses = styles.loadingContainer;
     }
 
     return (
       <ChatPopup
-        showCta={this.props.emailTranscript.status===EMAIL_TRANSCRIPT_IDLE}
+        showCta={this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SCREEN}
         className={className}
         leftCtaFn={leftCtaFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}

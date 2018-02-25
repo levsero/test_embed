@@ -27,7 +27,7 @@ import {
   EMAIL_TRANSCRIPT_SUCCESS,
   EMAIL_TRANSCRIPT_FAILURE,
   EMAIL_TRANSCRIPT_REQUEST_SENT,
-  EMAIL_TRANSCRIPT_IDLE
+  RESET_EMAIL_TRANSCRIPT
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import { getChatVisitor } from 'src/redux/modules/chat/chat-selectors';
@@ -160,8 +160,7 @@ export function sendEmailTranscript(email) {
 
 export function resetEmailTranscript() {
   return {
-    type: EMAIL_TRANSCRIPT_IDLE,
-    payload: ''
+    type: RESET_EMAIL_TRANSCRIPT
   };
 }
 

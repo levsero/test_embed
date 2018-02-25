@@ -2,6 +2,7 @@ describe('ChatContactDetailsPopup component', () => {
   let ChatContactDetailsPopup,
     mockForm,
     mockFormValidity;
+  let mockEmailValid = true;
 
   const ChatContactDetailsPopupPath = buildSrcPath('component/chat/ChatContactDetailsPopup');
 
@@ -42,9 +43,8 @@ describe('ChatContactDetailsPopup component', () => {
         }
       },
       'src/util/utils': {
-        emailValid: () => true
-      },
-      'lodash': _
+        emailValid: () => mockEmailValid
+      }
     });
 
     mockForm = {

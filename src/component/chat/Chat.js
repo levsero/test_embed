@@ -30,7 +30,7 @@ import { endChat,
          handleSoundIconClick,
          sendEmailTranscript,
          resetEmailTranscript } from 'src/redux/modules/chat';
-import { PRECHAT_SCREEN, CHATTING_SCREEN, FEEDBACK_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
+import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import { getPrechatFormFields,
          getAttachmentsEnabled,
          getPrechatFormSettings,
@@ -48,10 +48,6 @@ import { getPrechatFormFields,
          getPostchatFormSettings,
          getRatingSettings,
          getEmailTranscript } from 'src/redux/modules/chat/chat-selectors';
-import { EMAIL_TRANSCRIPT_IDLE,
-         EMAIL_TRANSCRIPT_SUCCESS,
-         EMAIL_TRANSCRIPT_FAILURE } from 'src/redux/modules/chat/chat-action-types';
-
 import { locals as styles } from './Chat.scss';
 
 const mapStateToProps = (state) => {
@@ -166,8 +162,8 @@ class Chat extends Component {
         }
       }, 0);
     }
-    if (nextProps.emailTranscript.status !== EMAIL_TRANSCRIPT_IDLE &&
-        nextProps.emailTranscript.status !== this.props.emailTranscript.status) {
+    if (nextProps.emailTranscript.screen !== screens.EMAIL_TRANSCRIPT_SCREEN &&
+        nextProps.emailTranscript.screen !== this.props.emailTranscript.screen) {
       this.setState({ showEmailTranscriptMenu: true });
     }
   }
@@ -183,8 +179,8 @@ class Chat extends Component {
       showEditContactDetailsMenu: false,
       showEmailTranscriptMenu: false
     });
-    if (this.props.emailTranscript.status === EMAIL_TRANSCRIPT_FAILURE ||
-        this.props.emailTranscript.status === EMAIL_TRANSCRIPT_SUCCESS) {
+    if (this.props.emailTranscript.screen === screens.EMAIL_TRANSCRIPT_FAILURE_SCREEN ||
+        this.props.emailTranscript.screen === screens.EMAIL_TRANSCRIPT_SUCCESS_SCREEN) {
       this.props.resetEmailTranscript();
     }
   }
@@ -193,7 +189,7 @@ class Chat extends Component {
     this.props.setVisitorInfo(_.pick(info, ['display_name', 'email', 'phone']));
     this.props.sendMsg(info.message);
 
-    this.props.updateChatScreen(CHATTING_SCREEN);
+    this.props.updateChatScreen(screens.CHATTING_SCREEN);
   }
 
   renderChatMenu = () => {
@@ -204,18 +200,24 @@ class Chat extends Component {
     } = this.props;
     const showChatEndFn = (e) => {
       e.stopPropagation();
-      this.setState({ showEndChatMenu: true });
-      this.setState({ showMenu: false });
+      this.setState({
+        showEndChatMenu: true,
+        showMenu: false
+      });
     };
     const showContactDetailsFn = (e) => {
       e.stopPropagation();
-      this.setState({ showEditContactDetailsMenu: true });
-      this.setState({ showMenu: false });
+      this.setState({
+        showEditContactDetailsMenu: true,
+        showMenu: false
+      });
     };
     const showEmailTranscriptFn = (e) => {
       e.stopPropagation();
-      this.setState({ showEmailTranscriptMenu: true });
-      this.setState({ showMenu: false });
+      this.setState({
+        showEmailTranscriptMenu: true,
+        showMenu: false
+      });
     };
     const toggleSoundFn = () => {
       handleSoundIconClick({ sound: !userSoundSettings });
@@ -239,10 +241,12 @@ class Chat extends Component {
 
     const showChatEndFn = (e) => {
       e.stopPropagation();
-      this.setState({ showEndChatMenu: true });
-      this.setState({ showMenu: false });
-      this.setState({ showEmailTranscriptMenu: false });
-      this.setState({ showEditContactDetailsMenu: false });
+      this.setState({
+        showEndChatMenu: true,
+        showMenu: false,
+        showEmailTranscriptMenu: false,
+        showEditContactDetailsMenu: false
+      });
     };
 
     return (
@@ -279,7 +283,7 @@ class Chat extends Component {
   }
 
   renderPrechatScreen = () => {
-    if (this.props.screen !== PRECHAT_SCREEN) return;
+    if (this.props.screen !== screens.PRECHAT_SCREEN) return;
 
     const { form, message } = this.props.prechatFormSettings;
 
@@ -331,7 +335,7 @@ class Chat extends Component {
   renderChatScreen = () => {
     const { screen, ratingSettings, agents, isMobile, newDesign } = this.props;
 
-    if (screen !== CHATTING_SCREEN) return;
+    if (screen !== screens.CHATTING_SCREEN) return;
     const showRating = ratingSettings.enabled && _.size(agents) > 0;
     const containerClasses = isMobile ? styles.scrollContainerMobile : '';
 
@@ -370,7 +374,7 @@ class Chat extends Component {
     const { screen, attachmentsEnabled, getFrameDimensions } = this.props;
 
     if (
-      screen !== CHATTING_SCREEN ||
+      screen !== screens.CHATTING_SCREEN ||
       !this.state.isDragActive ||
       !attachmentsEnabled
     ) return;
@@ -414,18 +418,18 @@ class Chat extends Component {
   }
 
   renderPostchatScreen = () => {
-    if (this.props.screen !== FEEDBACK_SCREEN) return null;
+    if (this.props.screen !== screens.FEEDBACK_SCREEN) return null;
 
     const { sendChatRating, updateChatScreen, endChat, sendChatComment } = this.props;
     const { message } = this.props.postChatFormSettings;
     const skipClickFn = () => {
       sendChatRating(ChatRatings.NOT_SET);
-      updateChatScreen(CHATTING_SCREEN);
+      updateChatScreen(screens.CHATTING_SCREEN);
       endChat();
     };
     const sendClickFn = (text = '') => {
       sendChatComment(text);
-      updateChatScreen(CHATTING_SCREEN);
+      updateChatScreen(screens.CHATTING_SCREEN);
     };
 
     return (
@@ -468,7 +472,7 @@ class Chat extends Component {
     };
     const tryEmailTranscriptAgain = () => {
       this.props.resetEmailTranscript();
-      this.setState( { showEmailTranscriptMenu: true });
+      this.setState({ showEmailTranscriptMenu: true });
     };
 
     return (

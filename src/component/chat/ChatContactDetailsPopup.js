@@ -32,7 +32,7 @@ export class ChatContactDetailsPopup extends Component {
     const name = _.get(props.visitor, 'name', '');
 
     this.state = {
-      valid: emailValid(email) && !!name.length,
+      valid: emailValid(email) && !!name.trim(),
       formState: {
         email,
         name
