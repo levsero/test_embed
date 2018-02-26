@@ -5,7 +5,8 @@ describe('submitTicket selectors', () => {
     getTicketFormsAvailable,
     getTicketFieldsAvailable,
     getTicketFields,
-    getTicketForms;
+    getTicketForms,
+    getActiveTicketFormFields;
 
   beforeEach(() => {
     mockery.enable();
@@ -23,6 +24,7 @@ describe('submitTicket selectors', () => {
     getActiveTicketForm = selectors.getActiveTicketForm;
     getTicketFormsAvailable = selectors.getTicketFormsAvailable;
     getTicketFieldsAvailable = selectors.getTicketFieldsAvailable;
+    getActiveTicketFormFields = selectors.getActiveTicketFormFields;
   });
 
   describe('getFormState', () => {
@@ -69,7 +71,7 @@ describe('submitTicket selectors', () => {
     let result;
     const mockSubmitTicketState = {
       submitTicket: {
-        ticketForms: [1, 2, 4]
+        ticketForms: [{ id: 1 }, { id: 2 }, { id: 4 }]
       }
     };
 
@@ -79,7 +81,7 @@ describe('submitTicket selectors', () => {
 
     it('returns the current state of ticketForms', () => {
       expect(result)
-        .toEqual([1, 2, 4]);
+        .toEqual([{ id: 1 }, { id: 2 }, { id: 4 }]);
     });
   });
 
@@ -87,7 +89,7 @@ describe('submitTicket selectors', () => {
     let result;
     const mockSubmitTicketState = {
       submitTicket: {
-        ticketForms: [1, 2, 4]
+        ticketForms: [{ id: 1 }, { id: 2 }, { id: 4 }]
       }
     };
 
@@ -119,7 +121,7 @@ describe('submitTicket selectors', () => {
     let result;
     const mockSubmitTicketState = {
       submitTicket: {
-        ticketFields: [2, 3, 5]
+        ticketFields: [{ id: 1 }, { id: 3 }, { id: 5 }]
       }
     };
 
@@ -128,8 +130,14 @@ describe('submitTicket selectors', () => {
     });
 
     it('returns the current state of ticketFields', () => {
+      const expectation = {
+        1: { id: 1 },
+        3: { id: 3 },
+        5: { id: 5 }
+      };
+
       expect(result)
-        .toEqual([2, 3, 5]);
+        .toEqual(jasmine.objectContaining(expectation));
     });
   });
 
@@ -137,7 +145,7 @@ describe('submitTicket selectors', () => {
     let result;
     const mockSubmitTicketState = {
       submitTicket: {
-        ticketFields: [2, 3, 5]
+        ticketFields: [{ id: 2 }, { id: 3 }, { id: 5 }]
       }
     };
 
@@ -180,6 +188,49 @@ describe('submitTicket selectors', () => {
     it('returns the current state of activeForm', () => {
       expect(result)
         .toEqual({ id: 2 });
+    });
+  });
+
+  describe('getActiveTicketFormFields', () => {
+    let result;
+    const mockSubmitTicketState = {
+      submitTicket: {
+        activeForm: {
+          id: 2,
+          ticket_field_ids: [777, 'blah', 111, 333, 555, 420] // eslint-disable-line camelcase
+        },
+        ticketFields: {
+          111: { id: 111 },
+          222: { id: 222 },
+          333: { id: 333 },
+          444: { id: 444 },
+          555: { id: 555 },
+          666: { id: 666 },
+          777: { id: 777 }
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getActiveTicketFormFields(mockSubmitTicketState);
+    });
+
+    it('returns the an array of sorted ticket forms', () => {
+      const expectation = [{ id: 777 }, { id: 111 }, { id: 333 }, { id: 555 }];
+
+      expect(result)
+        .toEqual(expectation);
+    });
+
+    it('ignores ticket fields that do not exist', () => {
+      const ticketFieldIds = _.map(result, (obj) => obj.id);
+      const doesNotInclude = (fieldName) => !_.includes(ticketFieldIds, fieldName);
+
+      expect(doesNotInclude('blah'))
+        .toBe(true);
+
+      expect(doesNotInclude(420))
+        .toBe(true);
     });
   });
 });

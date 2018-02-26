@@ -355,12 +355,8 @@ export class SubmitTicketForm extends Component {
 
   renderTicketFormBody = () => {
     const { activeTicketForm, ticketFields } = this.props;
-    const formTicketFields = _.filter(ticketFields, (field) => {
-      return activeTicketForm.ticket_field_ids.indexOf(field.id) > -1;
-    });
-
     const ticketFieldsElem = getCustomFields(
-      formTicketFields,
+      ticketFields,
       this.props.formState,
       {
         getFrameDimensions: this.props.getFrameDimensions,

@@ -28,7 +28,8 @@ const mapStateToProps = (state) => {
     ticketFormsAvailable: selectors.getTicketFormsAvailable(state),
     ticketFields: selectors.getTicketFields(state),
     ticketFieldsAvailable: selectors.getTicketFieldsAvailable(state),
-    activeTicketForm: selectors.getActiveTicketForm(state)
+    activeTicketForm: selectors.getActiveTicketForm(state),
+    activeTicketFormFields: selectors.getActiveTicketFormFields(state)
   };
 };
 
@@ -58,14 +59,15 @@ class SubmitTicket extends Component {
     ticketForms: PropTypes.array.isRequired,
     ticketFormsAvailable: PropTypes.bool.isRequired,
     ticketFieldsAvailable: PropTypes.bool.isRequired,
-    ticketFields: PropTypes.array.isRequired,
+    ticketFields: PropTypes.object.isRequired,
     updateFrameSize: PropTypes.func,
     handleFormChange: PropTypes.func.isRequired,
     handleTicketFormClick: PropTypes.func.isRequired,
     viaId: PropTypes.number.isRequired,
     fullscreen: PropTypes.bool.isRequired,
     activeTicketForm: PropTypes.object,
-    searchTerm: PropTypes.string
+    searchTerm: PropTypes.string,
+    activeTicketFormFields: PropTypes.array
   };
 
   static defaultProps = {
@@ -88,9 +90,10 @@ class SubmitTicket extends Component {
     ticketFormSettings: [],
     ticketForms: [],
     ticketFormsAvailable: false,
-    ticketFields: [],
+    ticketFields: {},
     activeTicketForm: null,
-    updateFrameSize: () => {}
+    updateFrameSize: () => {},
+    activeTicketFormFields: []
   };
 
   constructor(props, context) {
@@ -341,7 +344,7 @@ class SubmitTicket extends Component {
         onCancel={this.props.onCancel}
         fullscreen={this.props.fullscreen}
         hide={this.state.showNotification}
-        ticketFields={this.props.ticketFields}
+        ticketFields={this.props.activeTicketFormFields}
         formTitleKey={this.state.formTitleKey}
         attachmentSender={this.props.attachmentSender}
         attachmentsEnabled={this.props.attachmentsEnabled}
