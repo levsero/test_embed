@@ -14,7 +14,8 @@ import { sendBlips } from 'src/redux/middleware/blip';
 export default function() {
   const enableLogging = __DEV__ || getEnvironment() === 'staging' || store.get('debug');
   const logger = createLogger();
-  const devToolsExtension = window.parent.devToolsExtension
+  const devToolsEnabled = window.parent.__REDUX_DEVTOOLS_EXTENSION__;
+  const devToolsExtension = devToolsEnabled
                           ? window.parent.devToolsExtension()
                           : (a) => a;
   const middlewares = [
@@ -25,7 +26,8 @@ export default function() {
   let storeEnhancers;
 
   if (enableLogging) {
-    storeEnhancers = [applyMiddleware(...middlewares, logger), devToolsExtension];
+    if (!devToolsEnabled) middlewares.push(logger);
+    storeEnhancers = [applyMiddleware(...middlewares), devToolsExtension];
   } else {
     storeEnhancers = [applyMiddleware(...middlewares)];
   }
