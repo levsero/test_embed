@@ -50,6 +50,8 @@ The bootstrap file will do the following:
 
 To run the embeddables locally type `npm run watch` in this folder for it to kick off. This creates a dist folder with `main.js`, `boostrap.js` files and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/webpack-dev-server/](http://localhost:1337/webpack-dev-server/) to test live examples.
 
+We recommended installing the [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) extension on your browser.
+
 #### Setting up your own test values
 
 To use your own values in the watch task you can create a new .watch file for the thing you'd like to test. Prefix it with a dash and the name of the group you want to use.
