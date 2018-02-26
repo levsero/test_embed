@@ -212,19 +212,62 @@ describe('chat redux actions', () => {
       });
     });
 
-    describe('satisfaction rating settings', () => {
-      const createStoreWithRatingsSetting = (enabled) => (
-        createMockStore({
+    describe('rating and feedback form visibility', () => {
+      const mockAgents = { agent_id: { display_name: 'James', typing: false }};
+      const createChatStore = (ratingEnabled, agents) => {
+        return createMockStore({
           chat: {
-            accountSettings: { rating: { enabled } },
-            rating: null
+            accountSettings: {
+              rating: {
+                enabled: ratingEnabled
+              }
+            },
+            rating: null,
+            agents
           }
-        })
-      );
+        });
+      };
 
-      describe('enabled', () => {
+      describe('satisfaction rating settings', () => {
+        describe('enabled', () => {
+          beforeEach(() => {
+            mockStore = createChatStore(true, mockAgents);
+            mockStore.dispatch(actions.endChat());
+
+            makeEndChatCall();
+          });
+
+          it('dispatches an UPDATE_CHAT_SCREEN action with the FEEDBACK_SCREEN', () => {
+            expect(mockStore.getActions())
+              .toContain({
+                type: actionTypes.UPDATE_CHAT_SCREEN,
+                payload: { screen: screenTypes.FEEDBACK_SCREEN }
+              });
+          });
+        });
+
+        describe('disabled', () => {
+          beforeEach(() => {
+            mockStore = createChatStore(false, mockAgents);
+            mockStore.dispatch(actions.endChat());
+
+            makeEndChatCall();
+          });
+
+          it('does not dispatch an UPDATE_CHAT_SCREEN action with the FEEDBACK_SCREEN', () => {
+            expect(mockStore.getActions())
+              .not
+              .toContain({
+                type: actionTypes.UPDATE_CHAT_SCREEN,
+                payload: { screen: screenTypes.FEEDBACK_SCREEN }
+              });
+          });
+        });
+      });
+
+      describe('when an agent is present in the chat', () => {
         beforeEach(() => {
-          mockStore = createStoreWithRatingsSetting(true);
+          mockStore = createChatStore(true, mockAgents);
           mockStore.dispatch(actions.endChat());
 
           makeEndChatCall();
@@ -239,9 +282,9 @@ describe('chat redux actions', () => {
         });
       });
 
-      describe('disabled', () => {
+      describe('when there is no agent in the chat', () => {
         beforeEach(() => {
-          mockStore = createStoreWithRatingsSetting(false);
+          mockStore = createChatStore(true, {});
           mockStore.dispatch(actions.endChat());
 
           makeEndChatCall();
