@@ -565,5 +565,37 @@ describe('renderer', () => {
       expect(mockWebWidgetRecentCall.args[1].helpCenterForm.color)
         .toEqual(hcProps.color);
     });
+
+    describe('embeddableConfig present', () => {
+      let embeddableConfig;
+
+      beforeEach(() => {
+        embeddableConfig = {
+          'embeds': {
+            'helpCenterForm': {
+              embed: 'helpCenter',
+              props: {
+                color: 'black',
+                position: 'left'
+              }
+            }
+          }
+        };
+      });
+
+      it('merges the embeddableConfig with the custom config', () => {
+        const hcProps = configJSON.embeds.helpCenterForm.props;
+
+        renderer.initIPM(configJSON, embeddableConfig);
+
+        const mockWebWidgetRecentCall = mockWebWidget.create.calls.mostRecent();
+
+        expect(mockWebWidgetRecentCall.args[1].helpCenterForm.color)
+          .toEqual(hcProps.color);
+
+        expect(mockWebWidgetRecentCall.args[1].helpCenterForm.position)
+          .toEqual('left');
+      });
+    });
   });
 });

@@ -52,7 +52,28 @@ const loadAudio = (config) => {
   }
 };
 
-function initIPM(config, reduxStore = { dispatch: () => {} }) {
+const dummyStore = {
+  dispatch: () => {}
+};
+
+function mergeEmbedConfigs(config, embeddableConfig) {
+  const embeds = embeddableConfig && embeddableConfig.embeds;
+
+  if (embeds) {
+    _.forEach(config.embeds, (value, key) => {
+      if (embeds[key]) {
+        const newConfig = _.merge({}, embeds[key], config.embeds[key]);
+
+        config.embeds[key] = newConfig;
+      }
+    });
+  }
+
+  return config;
+}
+
+function initIPM(config, embeddableConfig, reduxStore = dummyStore) {
+  config = mergeEmbedConfigs(config, embeddableConfig);
   let parsedConfig = parseConfig(config);
 
   parsedConfig = addPropsToConfig('ipmWidget', config, parsedConfig, reduxStore);
@@ -117,7 +138,7 @@ function addPropsToConfig(name, config, parsedConfig, reduxStore) {
   return parsedConfig;
 }
 
-function init(config, reduxStore = { dispatch: () => {} }) {
+function init(config, reduxStore = dummyStore) {
   if (!initialised) {
     if (config.webWidgetCustomizations) {
       settings.enableCustomizations();

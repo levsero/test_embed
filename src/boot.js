@@ -127,7 +127,7 @@ const setupWidgetQueue = (win, postRenderQueue) => {
     devApi = {
       devRender: (config) => {
         if (config.ipmAllowed) {
-          setupIPMApi(win);
+          setupIPMApi(win, config);
         }
         renderer.init(config, reduxStore);
       }
@@ -189,7 +189,7 @@ const getConfig = (win, postRenderQueue) => {
     beacon.setConfig(config);
 
     if (config.ipmAllowed) {
-      setupIPMApi(win);
+      setupIPMApi(win, config);
     }
 
     // Only send 1/10 times
@@ -227,11 +227,11 @@ const getConfig = (win, postRenderQueue) => {
   }, false);
 };
 
-const setupIPMApi = (win) => {
+const setupIPMApi = (win, embeddableConfig = {}) => {
   const ipmReduxStore = createStore();
 
   win.zE.configureIPMWidget = (config) => {
-    renderer.initIPM(config, ipmReduxStore);
+    renderer.initIPM(config, embeddableConfig, ipmReduxStore);
   };
   win.zE.showIPMArticle = (articleId) => {
     ipmReduxStore.dispatch(displayArticle(articleId));

@@ -548,7 +548,8 @@ function initZopimStandalone() {
 
 function initIPMStandalone() {
   c.intercept('ipm.webWidget.onClose', () => {
-    c.broadcast('.show');
+    show(state);
+    //c.broadcast('.show');
   });
 }
 
