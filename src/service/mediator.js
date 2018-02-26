@@ -546,9 +546,16 @@ function initZopimStandalone() {
   initMessaging();
 }
 
+function initIPMStandalone() {
+  c.intercept('ipm.webWidget.onClose', () => {
+    c.broadcast('.show');
+  });
+}
+
 export const mediator = {
   channel: c,
   init: init,
   initMessaging: initMessaging,
-  initZopimStandalone: initZopimStandalone
+  initZopimStandalone: initZopimStandalone,
+  initIPMStandalone: initIPMStandalone
 };

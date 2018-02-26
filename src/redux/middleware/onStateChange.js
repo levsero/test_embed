@@ -1,9 +1,11 @@
 import { getAccountSettings,
          newAgentMessageReceived } from 'src/redux/modules/chat';
 import { audio } from 'service/audio';
+import { mediator } from 'service/mediator';
 import { getChatMessagesByAgent,
          getConnection,
          getUserSoundSettings } from 'src/redux/modules/chat/chat-selectors';
+import { getArticleDisplayed } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getActiveEmbed,
          getWidgetShown } from 'src/redux/modules/base/base-selectors';
 
@@ -36,7 +38,18 @@ const onNewChatMessage = (prevState, nextState, dispatch) => {
   }
 };
 
+const onArticleDisplayed = (prevState, nextState) => {
+  const prevDisplay = getArticleDisplayed(prevState);
+  const nextDisplay = getArticleDisplayed(nextState);
+
+  if (!prevDisplay && nextDisplay) {
+    mediator.channel.broadcast('.hide');
+    mediator.channel.broadcast('ipm.webWidget.show');
+  }
+};
+
 export default function onStateChange(prevState, nextState, _, dispatch) {
   onChatConnected(prevState, nextState, dispatch);
   onNewChatMessage(prevState, nextState, dispatch);
+  onArticleDisplayed(prevState, nextState, dispatch);
 }

@@ -12,6 +12,7 @@ describe('renderer', () => {
   const rendererPath = buildSrcPath('service/renderer');
   const mediatorInitZopimStandaloneSpy = jasmine.createSpy('mediator.initZopimStandalone');
   const mediatorInitSpy = jasmine.createSpy('mediator.init');
+  const mediatorInitIPMStandaloneSpy = jasmine.createSpy('mediator.initIPMStandalone');
   const mockTrackSettings = { webWidget: 'foo' };
 
   const embedMocker = (name) => {
@@ -61,7 +62,8 @@ describe('renderer', () => {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe']),
           init: mediatorInitSpy,
           initMessaging: jasmine.createSpy(),
-          initZopimStandalone: mediatorInitZopimStandaloneSpy
+          initZopimStandalone: mediatorInitZopimStandaloneSpy,
+          initIPMStandalone: mediatorInitIPMStandaloneSpy
         }
       },
       'lodash': _,
@@ -548,6 +550,9 @@ describe('renderer', () => {
       const hcProps = configJSON.embeds.helpCenterForm.props;
 
       renderer.initIPM(configJSON);
+
+      expect(mediatorInitIPMStandaloneSpy)
+        .toHaveBeenCalled();
 
       const mockWebWidgetRecentCall = mockWebWidget.create.calls.mostRecent();
 

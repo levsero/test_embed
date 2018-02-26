@@ -16,6 +16,7 @@ import { appendMetaTag,
          isMobileBrowser } from 'utility/devices';
 import { initMobileScaling } from 'utility/mobileScaling';
 import { handleIdentifyRecieved } from 'src/redux/modules/base';
+import { displayArticle } from 'src/redux/modules/helpCenter';
 
 import createStore from 'src/redux/createStore';
 
@@ -227,13 +228,13 @@ const getConfig = (win, postRenderQueue) => {
 };
 
 const setupIPMApi = (win) => {
-  win.zE.configureIPMWidget = (config) => {
-    const store = createStore();
+  const ipmReduxStore = createStore();
 
-    renderer.initIPM(config, store);
+  win.zE.configureIPMWidget = (config) => {
+    renderer.initIPM(config, ipmReduxStore);
   };
   win.zE.showIPMArticle = (articleId) => {
-    mediator.channel.broadcast('ipm.helpCenterForm.displayArticle', articleId);
+    ipmReduxStore.dispatch(displayArticle(articleId));
   };
   win.zE.hideIPMWidget = () => {
     mediator.channel.broadcast('ipm.webWidget.hide');

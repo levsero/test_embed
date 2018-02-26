@@ -31,7 +31,6 @@ import { cappedTimeoutCall,
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { setVisitorInfo } from 'src/redux/modules/chat';
 import { resetTalkScreen } from 'src/redux/modules/talk';
-import { displayArticle } from 'src/redux/modules/helpCenter';
 import { getTicketForms,
          getTicketFields } from 'src/redux/modules/submitTicket';
 
@@ -68,7 +67,7 @@ export default function WebWidgetFactory(name) {
       if (isMobileBrowser()) {
         setScaleLock(true);
         setTimeout(() => {
-          mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
+          mediator.channel.broadcast(prefix + '.updateZoom', getZoomSizingRatio());
         }, 0);
       }
       if (submitTicketForm) {
@@ -376,41 +375,6 @@ export default function WebWidgetFactory(name) {
       waitForRootComponent(() => {
         getWebWidgetComponent().setAuthenticated(hasAuthenticatedSuccessfully);
       });
-    });
-
-    // IPM specific listeners
-    // We only want to subscribe if the current embed is from IPM
-    if (name === 'ipm') {
-      setupIPMMediator();
-    }
-  }
-
-  function setupIPMMediator() {
-    let ipmUnsubscribe;
-
-    const articleDisplayed = () => {
-      const state = embed.store.getState();
-
-      if (state.helpCenter.articleDisplayed === true) {
-        mediator.channel.broadcast('.hide');
-        mediator.channel.broadcast('ipm.webWidget.show');
-        if (ipmUnsubscribe) {
-          ipmUnsubscribe();
-        }
-      }
-    };
-
-    mediator.channel.subscribe('ipm.helpCenterForm.displayArticle', (articleId) => {
-      waitForRootComponent(() => {
-        if (embed.embedsAvailable.helpCenterForm) {
-          embed.store.dispatch(displayArticle(articleId));
-          ipmUnsubscribe = embed.store.subscribe(articleDisplayed);
-        }
-      });
-    });
-
-    mediator.channel.subscribe('ipm.webWidget.onClose', () => {
-      mediator.channel.broadcast('.show');
     });
   }
 

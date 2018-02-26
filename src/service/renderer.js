@@ -57,6 +57,8 @@ function initIPM(config, reduxStore = { dispatch: () => {} }) {
 
   parsedConfig = addPropsToConfig('ipmWidget', config, parsedConfig, reduxStore);
   renderEmbeds(parsedConfig, config, reduxStore);
+
+  mediator.initIPMStandalone();
 }
 
 function renderEmbeds(parsedConfig, config, reduxStore) {
