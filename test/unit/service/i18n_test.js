@@ -157,17 +157,6 @@ describe('i18n', () => {
             .toBe(`Missing translation (en-US): ${key}`);
         });
       });
-
-      describe('when there is a fallback param', () => {
-        beforeEach(() => {
-          params = { fallback: 'emacs 4lyf' };
-        });
-
-        it('returns the fallback string', () => {
-          expect(i18n.t(key, params))
-            .toBe('emacs 4lyf');
-        });
-      });
     });
 
     describe('when the translation is an empty string', () => {
