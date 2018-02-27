@@ -72,42 +72,6 @@ function mergeEmbedConfigs(config, embeddableConfig) {
   return config;
 }
 
-function initIPM(config, embeddableConfig, reduxStore = dummyStore) {
-  config = mergeEmbedConfigs(config, embeddableConfig);
-  let parsedConfig = parseConfig(config);
-
-  parsedConfig = addPropsToConfig('ipmWidget', config, parsedConfig, reduxStore);
-  renderEmbeds(parsedConfig, config, reduxStore);
-
-  mediator.initIPMStandalone();
-}
-
-function renderEmbeds(parsedConfig, config, reduxStore) {
-  const { newChat } = config;
-
-  _.forEach(parsedConfig, (configItem, embedName) => {
-    try {
-      const zopimRendered = config.embeds.zopimChat && !newChat;
-
-      reduxStore.dispatch(updateEmbedAccessible(embedName, true));
-      configItem.props.visible = config.embeds && !config.embeds.talk && !zopimRendered && !hideLauncher;
-      configItem.props.hideZendeskLogo = config.hideZendeskLogo;
-      configItem.props.brand = config.brand;
-
-      embedsMap[configItem.embed].create(embedName, configItem.props, reduxStore);
-      embedsMap[configItem.embed].render(embedName);
-    } catch (err) {
-      logging.error({
-        error: err,
-        context: {
-          embedName: embedName,
-          configItem: configItem
-        }
-      });
-    }
-  });
-}
-
 function addPropsToConfig(name, config, parsedConfig, reduxStore) {
   const { newChat, newDesign } = config;
   const webWidgetEmbeds = ['ticketSubmissionForm', 'helpCenterForm', 'talk'];
@@ -136,6 +100,32 @@ function addPropsToConfig(name, config, parsedConfig, reduxStore) {
   };
 
   return parsedConfig;
+}
+
+function renderEmbeds(parsedConfig, config, reduxStore) {
+  const { newChat } = config;
+
+  _.forEach(parsedConfig, (configItem, embedName) => {
+    try {
+      const zopimRendered = config.embeds.zopimChat && !newChat;
+
+      reduxStore.dispatch(updateEmbedAccessible(embedName, true));
+      configItem.props.visible = config.embeds && !config.embeds.talk && !zopimRendered && !hideLauncher;
+      configItem.props.hideZendeskLogo = config.hideZendeskLogo;
+      configItem.props.brand = config.brand;
+
+      embedsMap[configItem.embed].create(embedName, configItem.props, reduxStore);
+      embedsMap[configItem.embed].render(embedName);
+    } catch (err) {
+      logging.error({
+        error: err,
+        context: {
+          embedName: embedName,
+          configItem: configItem
+        }
+      });
+    }
+  });
 }
 
 function init(config, reduxStore = dummyStore) {
@@ -176,6 +166,16 @@ function init(config, reduxStore = dummyStore) {
       propagateFontRatio(ratio);
     });
   }
+}
+
+function initIPM(config, embeddableConfig, reduxStore = dummyStore) {
+  config = mergeEmbedConfigs(config, embeddableConfig);
+  let parsedConfig = parseConfig(config);
+
+  parsedConfig = addPropsToConfig('ipmWidget', config, parsedConfig, reduxStore);
+  renderEmbeds(parsedConfig, config, reduxStore);
+
+  mediator.initIPMStandalone();
 }
 
 function initMediator(config) {
