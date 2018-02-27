@@ -30,10 +30,13 @@ const initialState = {
 
 export class SubmitTicketForm extends Component {
   static propTypes = {
+    ticketFields: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.object
+    ]),
     attachmentsEnabled: PropTypes.bool,
     attachmentSender: PropTypes.func.isRequired,
     children: PropTypes.element.isRequired,
-    ticketFields: PropTypes.array,
     activeTicketForm: PropTypes.object,
     getFrameDimensions: PropTypes.func.isRequired,
     ticketFormSettings: PropTypes.array,

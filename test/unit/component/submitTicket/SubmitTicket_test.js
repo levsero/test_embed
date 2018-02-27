@@ -173,6 +173,62 @@ describe('Submit ticket component', () => {
     mockery.disable();
   });
 
+  describe('renderForm', () => {
+    let result;
+    const mockActiveTicketFormFields = [{ id: 111 }, { id: 222 }];
+    const mockTicketFields = {
+      123: { id: 123 },
+      456: { id: 456 }
+    };
+
+    describe('when there is an active ticket form', () => {
+      beforeEach(() => {
+        const activeTicketForm = { id: 3984 };
+        const submitTicket = instanceRender(
+          <SubmitTicket
+            activeTicketForm={activeTicketForm}
+            activeTicketFormFields={mockActiveTicketFormFields}
+            ticketFields={mockTicketFields} />
+        );
+
+        result = submitTicket.renderForm();
+      });
+
+      it('passes down active ticket form fields', () => {
+        expect(result.props.ticketFields)
+          .toEqual(mockActiveTicketFormFields);
+      });
+
+      it('the passed fields do not match ticket fields from config', () => {
+        expect(result.props.ticketFields)
+          .not.toEqual(mockTicketFields);
+      });
+    });
+
+    describe('when an active form does not exist', () => {
+      beforeEach(() => {
+        const submitTicket = instanceRender(
+          <SubmitTicket
+            activeTicketForm={null}
+            activeTicketFormFields={mockActiveTicketFormFields}
+            ticketFields={mockTicketFields} />
+        );
+
+        result = submitTicket.renderForm();
+      });
+
+      it('passes down ticket fields from config', () => {
+        expect(result.props.ticketFields)
+          .toEqual(mockTicketFields);
+      });
+
+      it('the passed fields do not match active ticket fields for a form', () => {
+        expect(result.props.ticketFields)
+          .not.toEqual(mockActiveTicketFormFields);
+      });
+    });
+  });
+
   it('should correctly set the initial states when created', () => {
     const submitTicket = instanceRender(<SubmitTicket />);
 
