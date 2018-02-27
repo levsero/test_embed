@@ -11,13 +11,11 @@ import onStateChangeFn from 'src/redux/middleware/onStateChange';
 
 import { sendBlips } from 'src/redux/middleware/blip';
 
-export default function() {
+export default function(storeName = 'web_widget') {
   const enableLogging = __DEV__ || getEnvironment() === 'staging' || store.get('debug');
   const logger = createLogger();
-  const devToolsEnabled = window.parent.__REDUX_DEVTOOLS_EXTENSION__;
-  const devToolsExtension = devToolsEnabled
-                          ? window.parent.devToolsExtension()
-                          : (a) => a;
+  const devToolsExtension = window.parent.__REDUX_DEVTOOLS_EXTENSION__
+    && window.parent.__REDUX_DEVTOOLS_EXTENSION__({ name: storeName });
   const middlewares = [
     thunk,
     onStateChange(onStateChangeFn),
@@ -26,7 +24,8 @@ export default function() {
   let storeEnhancers;
 
   if (enableLogging) {
-    if (!devToolsEnabled) middlewares.push(logger);
+    if (!devToolsExtension) middlewares.push(logger);
+
     storeEnhancers = [applyMiddleware(...middlewares), devToolsExtension];
   } else {
     storeEnhancers = [applyMiddleware(...middlewares)];
