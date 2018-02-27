@@ -333,10 +333,11 @@ class SubmitTicket extends Component {
   }
 
   renderForm = () => {
-    const { activeTicketForm, ticketFormSettings } = this.props;
+    const { activeTicketForm, ticketFormSettings, activeTicketFormFields, ticketFields } = this.props;
     const getformByIdFn = (form) => parseInt(form.id) === parseInt(activeTicketForm.id);
     const activeTicketFormSettings = activeTicketForm ? _.find(ticketFormSettings, getformByIdFn) : {};
     const activeTicketFormPrefill = _.get(activeTicketFormSettings, 'fields', []);
+    const fields = (activeTicketForm) ? activeTicketFormFields : ticketFields;
 
     return (
       <SubmitTicketForm
@@ -344,7 +345,7 @@ class SubmitTicket extends Component {
         onCancel={this.props.onCancel}
         fullscreen={this.props.fullscreen}
         hide={this.state.showNotification}
-        ticketFields={this.props.activeTicketFormFields}
+        ticketFields={fields}
         formTitleKey={this.state.formTitleKey}
         attachmentSender={this.props.attachmentSender}
         attachmentsEnabled={this.props.attachmentsEnabled}
