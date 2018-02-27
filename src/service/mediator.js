@@ -188,14 +188,16 @@ function init(embedsAccessible, params = {}) {
     }, 3000);
   }
 
-  c.intercept('.hide', () => {
-    c.broadcast('beacon.trackUserAction', 'api', 'hide');
+  c.intercept('.hide', (_, viaIPM = false) => {
+    if (!viaIPM) {
+      c.broadcast('beacon.trackUserAction', 'api', 'hide');
+    }
 
     state[`${submitTicket}.isVisible`] = false;
     state[`${chat}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = false;
     state[`${talk}.isVisible`] = false;
-    state[`${launcher}.userHidden`] = true;
+    state[`${launcher}.userHidden`] = !viaIPM;
 
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${launcher}.hide`);
@@ -549,7 +551,6 @@ function initZopimStandalone() {
 function initIPMStandalone() {
   c.intercept('ipm.webWidget.onClose', () => {
     show(state);
-    //c.broadcast('.show');
   });
 }
 

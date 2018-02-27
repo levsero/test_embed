@@ -200,15 +200,23 @@ describe('mediator', () => {
     beforeEach(() => {
       initSubscriptionSpies(names);
       mediator.init({});
-
-      c.broadcast('.hide');
     });
 
     it('broadcasts beacon.trackUserAction with expected params', () => {
+      c.broadcast('.hide');
+
       const expected = ['api', 'hide'];
 
       expect(beaconSub.trackUserAction)
         .toHaveBeenCalledWith(...expected);
+    });
+
+    describe('viaIPM', () => {
+      it('does not call beacon', () => {
+        c.broadcast('.hide', true);
+        expect(beaconSub.trackUserAction)
+          .not.toHaveBeenCalled();
+      });
     });
   });
 
@@ -2387,6 +2395,30 @@ describe('mediator', () => {
         expect(webWidgetSub.show.calls.count())
           .toEqual(0);
       });
+    });
+  });
+
+  describe('IPM', () => {
+    const launcher = 'launcher';
+    const webWidget = 'webWidget';
+    const names = {
+      launcher,
+      webWidget
+    };
+
+    beforeEach(() => {
+      initSubscriptionSpies(names);
+      jasmine.clock().install();
+
+      mediator.init({ submitTicket: true });
+      mediator.initIPMStandalone();
+
+      c.broadcast('ipm.webWidget.onClose');
+    });
+
+    it('shows launcher', () => {
+      expect(launcherSub.show)
+        .toHaveBeenCalled();
     });
   });
 });

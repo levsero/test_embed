@@ -193,7 +193,7 @@ describe('onStateChange middleware', () => {
 
         it('calls mediator', () => {
           expect(broadcastSpy)
-            .toHaveBeenCalledWith('.hide');
+            .toHaveBeenCalledWith('.hide', true);
 
           expect(broadcastSpy)
             .toHaveBeenCalledWith('ipm.webWidget.show');

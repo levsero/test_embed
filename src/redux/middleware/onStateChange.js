@@ -43,7 +43,7 @@ const onArticleDisplayed = (prevState, nextState) => {
   const nextDisplay = getArticleDisplayed(nextState);
 
   if (!prevDisplay && nextDisplay) {
-    mediator.channel.broadcast('.hide');
+    mediator.channel.broadcast('.hide', true);
     mediator.channel.broadcast('ipm.webWidget.show');
   }
 };
