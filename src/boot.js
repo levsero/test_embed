@@ -20,8 +20,6 @@ import { displayArticle } from 'src/redux/modules/helpCenter';
 
 import createStore from 'src/redux/createStore';
 
-const reduxStore = createStore();
-
 const handleQueue = (queue) => {
   _.forEach(queue, (method) => {
     if (method[0].locale) {
@@ -88,7 +86,7 @@ const setupIframe = (iframe, doc) => {
   }
 };
 
-const setupServices = () => {
+const setupServices = (reduxStore) => {
   identity.init();
 
   http.init({
@@ -100,7 +98,7 @@ const setupServices = () => {
   authentication.init();
 };
 
-const setupWidgetQueue = (win, postRenderQueue) => {
+const setupWidgetQueue = (win, postRenderQueue, reduxStore) => {
   let devApi;
 
   // no "fat arrow" because it binds `this` to the scoped environment and does not allow it to be re-set with .bind()
@@ -176,7 +174,7 @@ const displayOssAttribution = () => {
   console.info(message); // eslint-disable-line no-console
 };
 
-const getConfig = (win, postRenderQueue) => {
+const getConfig = (win, postRenderQueue, reduxStore) => {
   if (win.zESkipWebWidget) return;
 
   const configLoadStart = Date.now();
@@ -228,7 +226,7 @@ const getConfig = (win, postRenderQueue) => {
 };
 
 const setupIPMApi = (win, embeddableConfig = {}) => {
-  const ipmReduxStore = createStore();
+  const ipmReduxStore = createStore('ipm');
 
   win.zE.configureIPMWidget = (config) => {
     renderer.initIPM(config, embeddableConfig, ipmReduxStore);
@@ -236,12 +234,15 @@ const setupIPMApi = (win, embeddableConfig = {}) => {
   win.zE.showIPMArticle = (articleId) => {
     ipmReduxStore.dispatch(displayArticle(articleId));
   };
+  win.zE.showIPMWidget = () => {
+    mediator.channel.broadcast('ipm.webWidget.show');
+  };
   win.zE.hideIPMWidget = () => {
     mediator.channel.broadcast('ipm.webWidget.hide');
   };
 };
 
-const setupWidgetApi = (win) => {
+const setupWidgetApi = (win, reduxStore) => {
   win.zE.identify = (user) => {
     mediator.channel.broadcast('.onIdentify', user);
 
@@ -270,12 +271,12 @@ const setupWidgetApi = (win) => {
 };
 
 const start = (win, doc) => {
-  boot.setupIframe(window.frameElement, doc);
-  boot.setupServices();
-
+  const reduxStore = createStore();
   const postRenderQueue = [];
-  const { publicApi, devApi } = boot.setupWidgetQueue(win, postRenderQueue);
+  const { publicApi, devApi } = boot.setupWidgetQueue(win, postRenderQueue, reduxStore);
 
+  boot.setupIframe(window.frameElement, doc);
+  boot.setupServices(reduxStore);
   boot.setupZopimQueue(win);
 
   _.extend(win.zEmbed, publicApi, devApi);
@@ -285,8 +286,8 @@ const start = (win, doc) => {
   beacon.init();
   win.onunload = identity.unload;
 
-  boot.setupWidgetApi(win);
-  boot.getConfig(win, postRenderQueue);
+  boot.setupWidgetApi(win, reduxStore);
+  boot.getConfig(win, postRenderQueue, reduxStore);
 
   displayOssAttribution();
 
