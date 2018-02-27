@@ -12,6 +12,7 @@ import resultsCount from './helpCenter-resultsCount';
 import restrictedImages from './helpCenter-restrictedImages';
 import channelChoiceShown from './helpCenter-channelChoiceShown';
 import searchFieldValue from './helpCenter-searchFieldValue';
+import articleDisplayed from './helpCenter-articleDisplayed';
 
 export default combineReducers({
   activeArticle,
@@ -25,5 +26,6 @@ export default combineReducers({
   hasContextuallySearched,
   restrictedImages,
   channelChoiceShown,
-  searchFieldValue
+  searchFieldValue,
+  articleDisplayed
 });

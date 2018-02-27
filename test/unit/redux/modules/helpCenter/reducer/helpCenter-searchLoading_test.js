@@ -57,6 +57,21 @@ describe('helpCenter reducer searchLoading', () => {
     });
   });
 
+  describe('when an GET_ARTICLE_REQUEST_SENT action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(initialState, {
+        type: actionTypes.GET_ARTICLE_REQUEST_SENT
+      });
+    });
+
+    it('sets the state to true', () => {
+      expect(state)
+        .toEqual(true);
+    });
+  });
+
   describe('when an SEARCH_REQUEST_SUCCESS action is dispatched', () => {
     let state;
 
@@ -87,6 +102,21 @@ describe('helpCenter reducer searchLoading', () => {
     });
   });
 
+  describe('when an GET_ARTICLE_REQUEST_SUCCESS action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(initialState, {
+        type: actionTypes.GET_ARTICLE_REQUEST_SUCCESS
+      });
+    });
+
+    it('sets the state to false', () => {
+      expect(state)
+        .toEqual(false);
+    });
+  });
+
   describe('when an SEARCH_REQUEST_FAILURE action is dispatched', () => {
     let state;
 
@@ -108,6 +138,21 @@ describe('helpCenter reducer searchLoading', () => {
     beforeEach(() => {
       state = reducer(initialState, {
         type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_FAILURE
+      });
+    });
+
+    it('sets the state to false', () => {
+      expect(state)
+        .toEqual(false);
+    });
+  });
+
+  describe('when an GET_ARTICLE_REQUEST_FAILURE action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(initialState, {
+        type: actionTypes.GET_ARTICLE_REQUEST_FAILURE
       });
     });
 

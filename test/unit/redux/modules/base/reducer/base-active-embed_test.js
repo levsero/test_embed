@@ -1,10 +1,19 @@
 describe('base reducer activeEmbed', () => {
   let reducer,
     actionTypes,
+    getArticleSuccess,
     initialState;
 
   beforeAll(() => {
     mockery.enable();
+
+    getArticleSuccess = 'getArticleSuccess';
+
+    initMockRegistry({
+      'src/redux/modules/helpCenter/helpCenter-action-types': {
+        GET_ARTICLE_REQUEST_SUCCESS: getArticleSuccess
+      }
+    });
 
     const reducerPath = buildSrcPath('redux/modules/base/reducer/base-active-embed');
     const actionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
@@ -43,6 +52,21 @@ describe('base reducer activeEmbed', () => {
     it('sets the action payload as the state', () => {
       expect(state)
         .toEqual(activeEmbed);
+    });
+  });
+
+  describe(`when an GET_ARTICLE_REQUEST_SUCCESS action is dispatched`, () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(initialState, {
+        type: getArticleSuccess
+      });
+    });
+
+    it('sets the helpCenterForm as the state', () => {
+      expect(state)
+        .toEqual('helpCenterForm');
     });
   });
 });

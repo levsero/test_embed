@@ -6,6 +6,7 @@ describe('onStateChange middleware', () => {
   const getAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
   const newAgentMessageReceivedSpy = jasmine.createSpy('newAgentMessageReceived');
   const audioPlaySpy = jasmine.createSpy('audioPlay');
+  const broadcastSpy = jasmine.createSpy('broadcast');
 
   beforeAll(() => {
     mockery.enable();
@@ -26,10 +27,20 @@ describe('onStateChange middleware', () => {
           play: audioPlaySpy
         }
       },
+      'service/mediator': {
+        mediator: {
+          channel: {
+            broadcast: broadcastSpy
+          }
+        }
+      },
       'src/redux/modules/chat/chat-selectors': {
         getUserSoundSettings: () => mockUserSoundSetting,
         getConnection: _.identity,
         getChatMessagesByAgent: _.identity
+      },
+      'src/redux/modules/helpCenter/helpCenter-selectors': {
+        getArticleDisplayed: _.identity
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed,
@@ -166,6 +177,48 @@ describe('onStateChange middleware', () => {
             expect(newAgentMessageReceivedSpy)
               .not.toHaveBeenCalled();
           });
+        });
+      });
+    });
+
+    describe('onArticleDisplayed', () => {
+      beforeEach(() => {
+        broadcastSpy.calls.reset();
+      });
+
+      describe('articleDisplayed goes from false to true', () => {
+        beforeEach(() => {
+          stateChangeFn(false, true);
+        });
+
+        it('calls mediator', () => {
+          expect(broadcastSpy)
+            .toHaveBeenCalledWith('.hide', true);
+
+          expect(broadcastSpy)
+            .toHaveBeenCalledWith('ipm.webWidget.show');
+        });
+      });
+
+      describe('articleDisplayed goes from true to true', () => {
+        beforeEach(() => {
+          stateChangeFn(true, true);
+        });
+
+        it('does not call mediator', () => {
+          expect(broadcastSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('articleDisplayed goes from true to false', () => {
+        beforeEach(() => {
+          stateChangeFn(true, false);
+        });
+
+        it('does not call mediator', () => {
+          expect(broadcastSpy)
+            .not.toHaveBeenCalled();
         });
       });
     });

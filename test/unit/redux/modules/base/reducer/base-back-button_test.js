@@ -1,10 +1,19 @@
 describe('base reducer back button', () => {
   let reducer,
     actionTypes,
+    getArticleSuccess,
     initialState;
 
   beforeAll(() => {
     mockery.enable();
+
+    getArticleSuccess = 'getArticleSuccess';
+
+    initMockRegistry({
+      'src/redux/modules/helpCenter/helpCenter-action-types': {
+        GET_ARTICLE_REQUEST_SUCCESS: getArticleSuccess
+      }
+    });
 
     const reducerPath = buildSrcPath('redux/modules/base/reducer/back-button-visibility');
     const actionTypesPath = buildSrcPath('redux/modules/base/base-action-types');
@@ -40,6 +49,21 @@ describe('base reducer back button', () => {
     it('sets the action payload as the state', () => {
       expect(state)
         .toEqual(true);
+    });
+  });
+
+  describe(`when an GET_ARTICLE_REQUEST_SUCCESS action is dispatched`, () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(initialState, {
+        type: getArticleSuccess
+      });
+    });
+
+    it('sets state to false', () => {
+      expect(state)
+        .toEqual(false);
     });
   });
 });

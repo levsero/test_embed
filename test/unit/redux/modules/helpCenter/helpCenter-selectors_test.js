@@ -12,6 +12,7 @@ describe('helpCenter selectors', () => {
     getArticleViewActive,
     getTotalUserSearches,
     getChannelChoiceShown,
+    getArticleDisplayed,
     getSearchFieldValue;
 
   beforeEach(() => {
@@ -37,6 +38,7 @@ describe('helpCenter selectors', () => {
     getTotalUserSearches = selectors.getTotalUserSearches;
     getChannelChoiceShown = selectors.getChannelChoiceShown;
     getSearchFieldValue = selectors.getSearchFieldValue;
+    getArticleDisplayed = selectors.getArticleDisplayed;
   });
 
   describe('getSearchLoading', () => {
@@ -204,6 +206,18 @@ describe('helpCenter selectors', () => {
           expect(result)
             .toEqual(false);
         });
+      });
+    });
+
+    describe('when articleDisplayed is true', () => {
+      beforeEach(() => {
+        mockHelpCenterState.helpCenter.articleDisplayed = true;
+        result = getHasSearched(mockHelpCenterState);
+      });
+
+      it('state of hasSearched should be true', () => {
+        expect(result)
+          .toEqual(true);
       });
     });
   });
@@ -413,6 +427,24 @@ describe('helpCenter selectors', () => {
     it('returns the current state of searchFieldValue', () => {
       expect(result)
         .toEqual('bob blah blerghh');
+    });
+  });
+
+  describe('getArticleDisplayed', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        articleDisplayed: true
+      }
+    };
+
+    beforeEach(() => {
+      result = getArticleDisplayed(mockHelpCenterState);
+    });
+
+    it('returns the current state of articleDisplayed', () => {
+      expect(result)
+        .toEqual(true);
     });
   });
 });

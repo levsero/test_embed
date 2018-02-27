@@ -55,6 +55,9 @@ describe('boot', () => {
       },
       'src/redux/modules/base': {
         handleIdentifyRecieved: noop
+      },
+      'src/redux/modules/helpCenter': {
+        displayArticle: noop
       }
     });
 

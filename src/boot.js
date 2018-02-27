@@ -16,6 +16,7 @@ import { appendMetaTag,
          isMobileBrowser } from 'utility/devices';
 import { initMobileScaling } from 'utility/mobileScaling';
 import { handleIdentifyRecieved } from 'src/redux/modules/base';
+import { displayArticle } from 'src/redux/modules/helpCenter';
 
 import createStore from 'src/redux/createStore';
 
@@ -116,12 +117,20 @@ const setupWidgetQueue = (win, postRenderQueue) => {
     identify: postRenderQueueCallback.bind('identify'),
     logout: postRenderQueueCallback.bind('logout'),
     activate: postRenderQueueCallback.bind('activate'),
+    configureIPMWidget: postRenderQueueCallback.bind('configureIPMWidget'),
+    showIPMArticle: postRenderQueueCallback.bind('showIPMArticle'),
+    hideIPMWidget: postRenderQueueCallback.bind('hideIPMWidget'),
     activateIpm: () => {} // no-op until rest of connect code is removed
   };
 
   if (__DEV__) {
     devApi = {
-      devRender: (config) => renderer.init(config, reduxStore)
+      devRender: (config) => {
+        if (config.ipmAllowed) {
+          setupIPMApi(win, config);
+        }
+        renderer.init(config, reduxStore);
+      }
     };
   }
 
@@ -179,6 +188,10 @@ const getConfig = (win, postRenderQueue) => {
 
     beacon.setConfig(config);
 
+    if (config.ipmAllowed) {
+      setupIPMApi(win, config);
+    }
+
     // Only send 1/10 times
     if (Math.random() <= 0.1) {
       beacon.sendConfigLoadTime(Date.now() - configLoadStart);
@@ -212,6 +225,20 @@ const getConfig = (win, postRenderQueue) => {
       fail
     }
   }, false);
+};
+
+const setupIPMApi = (win, embeddableConfig = {}) => {
+  const ipmReduxStore = createStore();
+
+  win.zE.configureIPMWidget = (config) => {
+    renderer.initIPM(config, embeddableConfig, ipmReduxStore);
+  };
+  win.zE.showIPMArticle = (articleId) => {
+    ipmReduxStore.dispatch(displayArticle(articleId));
+  };
+  win.zE.hideIPMWidget = () => {
+    mediator.channel.broadcast('ipm.webWidget.hide');
+  };
 };
 
 const setupWidgetApi = (win) => {

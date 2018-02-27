@@ -196,7 +196,9 @@ describe('embed.webWidget', () => {
 
     mockery.registerAllowable(webWidgetPath);
 
-    webWidget = requireUncached(webWidgetPath).webWidget;
+    const factory = requireUncached(webWidgetPath).default;
+
+    webWidget = new factory;
   });
 
   afterEach(() => {

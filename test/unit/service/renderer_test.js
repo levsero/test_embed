@@ -4,6 +4,7 @@ describe('renderer', () => {
     mockLauncher,
     mockChat,
     mockWebWidget,
+    mockWebWidgetFactory,
     mockUpdateEmbedAccessible,
     loadSoundSpy;
   const updateBaseFontSize = jasmine.createSpy();
@@ -11,6 +12,7 @@ describe('renderer', () => {
   const rendererPath = buildSrcPath('service/renderer');
   const mediatorInitZopimStandaloneSpy = jasmine.createSpy('mediator.initZopimStandalone');
   const mediatorInitSpy = jasmine.createSpy('mediator.init');
+  const mediatorInitIPMStandaloneSpy = jasmine.createSpy('mediator.initIPMStandalone');
   const mockTrackSettings = { webWidget: 'foo' };
 
   const embedMocker = (name) => {
@@ -41,6 +43,7 @@ describe('renderer', () => {
     mockLauncher = embedMocker('mockLauncher');
     mockChat = embedMocker('mockChat');
     mockWebWidget = embedMocker('mockWebWidget');
+    mockWebWidgetFactory = () => mockWebWidget;
     loadSoundSpy = jasmine.createSpy('loadSound');
 
     mockRegistry = initMockRegistry({
@@ -50,9 +53,7 @@ describe('renderer', () => {
       'embed/chat/chat': {
         chat: mockChat
       },
-      'embed/webWidget/webWidget': {
-        webWidget: mockWebWidget
-      },
+      'embed/webWidget/webWidget': mockWebWidgetFactory,
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['setCustomTranslations', 'setLocale', 't'])
       },
@@ -61,7 +62,8 @@ describe('renderer', () => {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe']),
           init: mediatorInitSpy,
           initMessaging: jasmine.createSpy(),
-          initZopimStandalone: mediatorInitZopimStandaloneSpy
+          initZopimStandalone: mediatorInitZopimStandaloneSpy,
+          initIPMStandalone: mediatorInitIPMStandaloneSpy
         }
       },
       'lodash': _,
@@ -527,6 +529,73 @@ describe('renderer', () => {
 
       expect(updateFrameSize)
         .toHaveBeenCalled();
+    });
+  });
+
+  describe('#initIPM', () => {
+    let configJSON;
+
+    beforeEach(() => {
+      configJSON = {
+        embeds: {
+          'helpCenterForm': {
+            'embed': 'helpCenter',
+            'props': { 'color': 'white' }
+          }
+        }
+      };
+    });
+
+    it('calls and render correct embeds from config', () => {
+      const hcProps = configJSON.embeds.helpCenterForm.props;
+
+      renderer.initIPM(configJSON);
+
+      expect(mediatorInitIPMStandaloneSpy)
+        .toHaveBeenCalled();
+
+      const mockWebWidgetRecentCall = mockWebWidget.create.calls.mostRecent();
+
+      expect(mockUpdateEmbedAccessible)
+        .toHaveBeenCalledWith(jasmine.any(String), true);
+
+      expect(mockWebWidget.create.calls.count())
+        .toBe(1);
+
+      expect(mockWebWidgetRecentCall.args[1].helpCenterForm.color)
+        .toEqual(hcProps.color);
+    });
+
+    describe('embeddableConfig present', () => {
+      let embeddableConfig;
+
+      beforeEach(() => {
+        embeddableConfig = {
+          'embeds': {
+            'helpCenterForm': {
+              embed: 'helpCenter',
+              props: {
+                color: 'black',
+                position: 'left'
+              }
+            }
+          }
+        };
+      });
+
+      it('merges the embeddableConfig with the custom config', () => {
+        const hcProps = configJSON.embeds.helpCenterForm.props;
+
+        renderer.initIPM(configJSON, embeddableConfig);
+
+        const mockWebWidgetRecentCall = mockWebWidget.create.calls.mostRecent();
+
+        expect(mockWebWidgetRecentCall.args[1].helpCenterForm.color)
+          .toEqual(hcProps.color);
+
+        expect(mockWebWidgetRecentCall.args[1].helpCenterForm.position)
+          .toEqual('left');
+      });
     });
   });
 });
