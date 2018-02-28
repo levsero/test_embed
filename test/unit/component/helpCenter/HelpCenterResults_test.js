@@ -154,9 +154,7 @@ describe('HelpCenterResults component', () => {
         const mockArticles = [{ id: 'terence' }, { id: 'fakeIdStringYesIknow' }];
 
         component = instanceRender(
-          <HelpCenterResults
-            showContactButton={true}
-            articles={mockArticles} />
+          <HelpCenterResults showContactButton={true} articles={mockArticles} />
         );
         result = component.renderResults();
       });
@@ -168,20 +166,42 @@ describe('HelpCenterResults component', () => {
     });
 
     describe('when contactButton is not shown and search is initiated', () => {
-      beforeEach(() => {
-        const mockArticles = [{ id: '32423' }];
+      describe('and the Zendesk logo is hidden', () => {
+        beforeEach(() => {
+          const mockArticles = [{ id: '32423' }];
 
-        component = instanceRender(
-          <HelpCenterResults
-            showContactButton={false}
-            articles={mockArticles} />
-        );
-        result = component.renderResults();
+          component = instanceRender(
+            <HelpCenterResults
+              showContactButton={false}
+              hideZendeskLogo={true}
+              articles={mockArticles} />
+          );
+          result = component.renderResults();
+        });
+
+        it('renders with listBottom styles', () => {
+          expect(result.props.className)
+            .toContain('listBottomClasses');
+        });
       });
 
-      it('does not render with listBottom styles', () => {
-        expect(result.props.className)
-          .not.toContain('listBottomClasses');
+      describe('and the Zendesk logo is not hidden', () => {
+        beforeEach(() => {
+          const mockArticles = [{ id: '32423' }];
+
+          component = instanceRender(
+            <HelpCenterResults
+              showContactButton={false}
+              hideZendeskLogo={false}
+              articles={mockArticles} />
+          );
+          result = component.renderResults();
+        });
+
+        it('does not render with listBottom styles', () => {
+          expect(result.props.className)
+            .not.toContain('listBottomClasses');
+        });
       });
     });
   });

@@ -320,7 +320,8 @@ class HelpCenter extends Component {
         previousSearchTerm={previousSearchTerm}
         handleArticleClick={this.handleArticleClick}
         hasContextualSearched={hasContextualSearched}
-        showContactButton={showNextButton} />
+        showContactButton={showNextButton}
+        hideZendeskLogo={hideZendeskLogo} />
     );
   }
 

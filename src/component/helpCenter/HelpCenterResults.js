@@ -15,7 +15,8 @@ export class HelpCenterResults extends Component {
     hasContextualSearched: PropTypes.bool,
     previousSearchTerm: PropTypes.string,
     searchFailed: PropTypes.bool,
-    showContactButton: PropTypes.bool
+    showContactButton: PropTypes.bool,
+    hideZendeskLogo: PropTypes.bool
   };
 
   static defaultProps = {
@@ -26,7 +27,8 @@ export class HelpCenterResults extends Component {
     hasContextualSearched: false,
     previousSearchTerm: '',
     searchFailed: false,
-    showContactButton: true
+    showContactButton: true,
+    hideZendeskLogo: false
   };
 
   hasInitialSearchResults = () => {
@@ -55,8 +57,9 @@ export class HelpCenterResults extends Component {
     const {
       fullscreen,
       articles,
-      showContactButton } = this.props;
-    const noPaddingClasses = !showContactButton && this.hasInitialSearchResults();
+      showContactButton,
+      hideZendeskLogo } = this.props;
+    const noPaddingClasses = !showContactButton && !hideZendeskLogo && this.hasInitialSearchResults();
 
     if (!noPaddingClasses) {
       paddingClasses = styles.listBottom;
