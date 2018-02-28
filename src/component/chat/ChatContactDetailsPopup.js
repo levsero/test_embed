@@ -48,7 +48,7 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   renderTitle = () => {
-    const title = i18n.t('embeddable_framework.chat.contactDetails.title');
+    const title = i18n.t('embeddable_framework.chat.options.editContactDetails');
 
     return <h4 className={styles.title}>{title}</h4>;
   }
