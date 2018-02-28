@@ -24,9 +24,9 @@ export default function(storeName = 'web_widget') {
   let storeEnhancers;
 
   if (enableLogging) {
-    if (!devToolsExtension) middlewares.push(logger);
-
-    storeEnhancers = [applyMiddleware(...middlewares), devToolsExtension];
+    storeEnhancers = !!devToolsExtension
+      ? [applyMiddleware(...middlewares), devToolsExtension]
+      : [applyMiddleware(...middlewares, logger)];
   } else {
     storeEnhancers = [applyMiddleware(...middlewares)];
   }
