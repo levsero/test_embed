@@ -1,0 +1,8 @@
+@import '../../styles/_vars.scss';
+
+.requestRatingButton {
+  composes: Grid-cell--center u-marginTS from global;
+
+  height: #{30/$font-size}rem;
+  line-height: #{30/$font-size}rem;
+}

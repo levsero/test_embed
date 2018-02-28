@@ -2,6 +2,7 @@ describe('ChatLog component', () => {
   let ChatLog,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS;
+  let mockRegistry;
 
   const chatLogPath = buildSrcPath('component/chat/ChatLog');
   const chatSelectorsPath = buildSrcPath('redux/modules/chat/chat-selectors');
@@ -15,16 +16,29 @@ describe('ChatLog component', () => {
     CHAT_MESSAGE_EVENTS = requireUncached(chatSelectorsPath).CHAT_MESSAGE_EVENTS;
     CHAT_SYSTEM_EVENTS = requireUncached(chatSelectorsPath).CHAT_SYSTEM_EVENTS;
 
-    initMockRegistry({
+    mockRegistry = initMockRegistry({
       'component/chat/ChatGroup': {
         ChatGroup: ChatGroup
       },
       'component/chat/ChatEventMessage': {
         ChatEventMessage: ChatEventMessage
       },
+      'component/button/Button': {
+        Button: noopReactComponent()
+      },
       'src/redux/modules/chat/chat-selectors': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS
+      },
+      './ChatLog.scss': {
+        locals: {
+          'requestRatingButton': 'requestRatingButtonStyles'
+        }
+      },
+      'service/i18n': {
+        i18n: {
+          t: jasmine.createSpy()
+        }
       }
     });
 
@@ -44,7 +58,7 @@ describe('ChatLog component', () => {
   const getRenderChatLogFn = () => {
     const component = domRender(<ChatLog chatLog={{}} agents={{}} />);
 
-    return component.renderChatLog;
+    return component.renderChatLog.bind(component);
   };
 
   const expectSingleElementWithProps = (chatLog, elementTypeName, elementType, expectedProps) => {
@@ -70,6 +84,9 @@ describe('ChatLog component', () => {
   };
 
   describe('#render', () => {
+    const chatCommentLeft = false;
+    const goToFeedbackScreenSpy = jasmine.createSpy('goToFeedbackScreen');
+
     let component;
     let chatLog = {
       100: [{ timestamp: 100, nick: 'visitor', type: 'chat.memberjoin' }],
@@ -77,14 +94,20 @@ describe('ChatLog component', () => {
     };
 
     beforeEach(() => {
-      component = domRender(<ChatLog chatLog={chatLog} agents={agents} />);
+      component = domRender(
+        <ChatLog
+          chatLog={chatLog}
+          agents={agents}
+          chatCommentLeft={chatCommentLeft}
+          goToFeedbackScreen={goToFeedbackScreenSpy}
+        />);
 
       spyOn(component, 'renderChatLog');
       component.render();
     });
 
     it('calls renderChatLog with the correct args', () => {
-      expect(component.renderChatLog).toHaveBeenCalledWith(chatLog, agents);
+      expect(component.renderChatLog).toHaveBeenCalledWith(chatLog, agents, chatCommentLeft, goToFeedbackScreenSpy);
     });
   });
 
@@ -157,6 +180,20 @@ describe('ChatLog component', () => {
       expectSingleElementWithProps(chatLog, 'ChatEventMessage', ChatEventMessage, {
         event: { timestamp: 100, nick: 'visitor', type: 'chat.memberjoin' }
       });
+
+      describe('renderRequestRatingButton', () => {
+        let component;
+
+        beforeEach(()=> {
+          component = domRender(<ChatLog chatLog={{}} agents={{}} />);
+          spyOn(component, 'renderRequestRatingButton');
+          component.renderChatLog(chatLog);
+        });
+
+        it('is called', () => {
+          expect(component.renderRequestRatingButton).toHaveBeenCalled();
+        });
+      });
     });
 
     describe('when passed a chat log with a series of messages and events', () => {
@@ -207,6 +244,131 @@ describe('ChatLog component', () => {
             expectedResult[idx].props
           ));
         });
+      });
+    });
+  });
+
+  describe('#renderRequestRatingButton', () => {
+    const getRenderRequestRatingButtonFn = () => {
+      const component = domRender(<ChatLog chatLog={{}} agents={{}} />);
+
+      return component.renderRequestRatingButton;
+    };
+
+    let renderRequestRatingButtonFn;
+    let renderRequestRatingButton;
+    let goToFeedbackScreenSpy = jasmine.createSpy('goToFeedbackScreen');
+    let isLastRating;
+    let newRating;
+    let event;
+    let chatCommentLeft;
+    let mockStringValues;
+
+    beforeEach(() => {
+      renderRequestRatingButtonFn = getRenderRequestRatingButtonFn();
+
+      mockStringValues = {
+        'embeddable_framework.chat.chatLog.button.leaveComment': 'Leave a comment',
+        'embeddable_framework.chat.chatLog.button.rateChat': 'Rate this chat'
+      };
+
+      mockRegistry['service/i18n'].i18n.t.and.callFake((key) => {
+        return mockStringValues[key];
+      });
+    });
+
+    describe('when the event type is not rating or request.rating', () => {
+      beforeEach(() => {
+        isLastRating = true;
+        chatCommentLeft = false;
+        newRating = 'good';
+        event = { timestamp: 100, nick: 'visitor', type: 'chat.memberjoin', new_rating: newRating, isLastRating };
+        renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+      });
+
+      it('returns nothing', () => {
+        expect(renderRequestRatingButton).toBeFalsy();
+      });
+    });
+
+    describe('when the event type is rating', () => {
+      describe('when the event.isLastRating property is false', () => {
+        beforeEach(() => {
+          isLastRating = false;
+          chatCommentLeft = false;
+          newRating = 'good';
+          event = { timestamp: 100, nick: 'visitor', type: 'chat.rating', new_rating: newRating, isLastRating };
+          renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+        });
+
+        it('returns nothing', () => {
+          expect(renderRequestRatingButton).toBeFalsy();
+        });
+      });
+
+      describe('when the event.new_rating property is falsey', () => {
+        beforeEach(() => {
+          isLastRating = true;
+          chatCommentLeft = false;
+          newRating = null;
+          event = { timestamp: 100, nick: 'visitor', type: 'chat.rating', new_rating: newRating, isLastRating };
+          renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+        });
+
+        it('returns nothing', () => {
+          expect(renderRequestRatingButton).toBeFalsy();
+        });
+      });
+
+      describe('when the chatCommentLeft prop is true', () => {
+        beforeEach(() => {
+          isLastRating = true;
+          chatCommentLeft = true;
+          newRating = 'good';
+          event = { timestamp: 100, nick: 'visitor', type: 'chat.rating', new_rating: newRating, isLastRating };
+          renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+        });
+
+        it('returns nothing', () => {
+          expect(renderRequestRatingButton).toBeFalsy();
+        });
+      });
+
+      describe('when it is the last event, has a valid rating and no comment has been left', () => {
+        beforeEach(() => {
+          isLastRating = true;
+          chatCommentLeft = false;
+          newRating = 'good';
+          event = { timestamp: 100, nick: 'visitor', type: 'chat.rating', new_rating: newRating, isLastRating };
+          renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+        });
+
+        it('returns a button with the correct props', () => {
+          expect(renderRequestRatingButton).toBeTruthy();
+          expect(renderRequestRatingButton.props).toEqual(jasmine.objectContaining(
+            {
+              label: mockStringValues['embeddable_framework.chat.chatLog.button.leaveComment'],
+              onClick: goToFeedbackScreenSpy
+            }
+          ));
+        });
+      });
+    });
+
+    describe('when the event type is request.rating', () => {
+      beforeEach(() => {
+        event = { timestamp: 100, nick: 'visitor', type: 'chat.request.rating' };
+        renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+      });
+
+      it('returns a button with the correct props', () => {
+        expect(renderRequestRatingButton).toBeTruthy();
+        expect(renderRequestRatingButton.props).toEqual(jasmine.objectContaining(
+          {
+            label: mockStringValues['embeddable_framework.chat.chatLog.button.rateChat'],
+            onClick: goToFeedbackScreenSpy
+          }
+        ));
       });
     });
   });

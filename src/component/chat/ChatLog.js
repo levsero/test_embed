@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { i18n } from 'service/i18n';
+import { locals as styles } from './ChatLog.scss';
 
 import { ChatGroup } from 'component/chat/ChatGroup';
 import { ChatEventMessage } from 'component/chat/ChatEventMessage';
+import { Button } from 'component/button/Button';
+
 // TODO: move constants out of chat-selectors and into a more sensible location
 import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'src/redux/modules/chat/chat-selectors';
 
 export class ChatLog extends Component {
   static propTypes = {
     chatLog: PropTypes.object.isRequired,
-    agents: PropTypes.object
+    agents: PropTypes.object,
+    chatCommentLeft: PropTypes.bool.isRequired,
+    goToFeedbackScreen: PropTypes.func.isRequired
   };
 
-  renderChatLog(chatLog, agents) {
+  renderChatLog(chatLog, agents, chatCommentLeft, goToFeedbackScreen) {
     const chatLogEl = _.map(chatLog, (chatLogItem, timestamp) => {
       // message groups and events are both returned as arrays; we can determine the type of the entire timestamped item 'group' by reading the type value of the first entry
       const chatLogItemType = _.get(chatLogItem, '0.type');
@@ -35,9 +41,9 @@ export class ChatLog extends Component {
         const event = chatLogItem[0];
 
         return (
-          <ChatEventMessage
-            key={timestamp}
-            event={event} />
+          <ChatEventMessage event={event} key={timestamp}>
+            {this.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreen)}
+          </ChatEventMessage>
         );
       }
     });
@@ -45,11 +51,37 @@ export class ChatLog extends Component {
     return chatLogEl.length ? chatLogEl : null;
   }
 
-  render() {
-    const { chatLog, agents } = this.props;
+  renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreen) {
+    const acceptedEventTypes = ['chat.rating', 'chat.request.rating'];
+
+    if (
+      !_.includes(acceptedEventTypes, event.type) ||
+      (event.type === 'chat.rating' && (
+        !event.isLastRating ||
+        !event.new_rating ||
+        chatCommentLeft
+      ))
+    ) { return; }
+
+    const labelKey = event.type === 'chat.rating' ?
+      'embeddable_framework.chat.chatLog.button.leaveComment' :
+      'embeddable_framework.chat.chatLog.button.rateChat';
 
     return (
-      <div>{this.renderChatLog(chatLog, agents)}</div>
+      <Button
+        primary={false}
+        label={i18n.t(labelKey)}
+        className={styles.requestRatingButton}
+        onClick={goToFeedbackScreen}
+      />
+    );
+  }
+
+  render() {
+    const { chatLog, agents, chatCommentLeft, goToFeedbackScreen } = this.props;
+
+    return (
+      <div>{this.renderChatLog(chatLog, agents, chatCommentLeft, goToFeedbackScreen)}</div>
     );
   }
 }
