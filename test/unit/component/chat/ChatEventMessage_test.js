@@ -52,6 +52,10 @@ describe('ChatEventMessage component', () => {
       { description: 'rating event with no rating value',
         event: { nick: 'visitor', type: 'chat.rating' },
         expectedString: 'embeddable_framework.chat.chatLog.rating.removed'
+      },
+      { description: 'chat comment submitted',
+        event: { nick: 'visitor', type: 'chat.comment' },
+        expectedString: 'embeddable_framework.chat.chatlog.comment.submitted'
       }
     ];
 
@@ -131,6 +135,26 @@ describe('ChatEventMessage component', () => {
 
       expect(componentNode.className)
         .toEqual('eventMessageStyles');
+    });
+
+    describe('when passed a child component', () => {
+      const childElement = <div id='last-child-element' />;
+      let children;
+
+      beforeEach(() => {
+        mockRegistry['service/i18n'].i18n.t.and.returnValue('Chat started');
+        const component = domRender(
+          <ChatEventMessage event={event}>
+            {childElement}
+          </ChatEventMessage>
+        );
+
+        children = component.render().props.children;
+      });
+
+      it('is rendered as the last element in the wrapper element', () => {
+        expect(children[children.length - 1]).toEqual(childElement);
+      });
     });
   });
 });
