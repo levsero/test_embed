@@ -61,20 +61,27 @@ const sendMsgFailure = (err) => {
 };
 
 export const endChat = () => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     zChat.endChat((err) => {
       if (!err) {
-        const { rating, accountSettings, agents } = getState().chat;
-
         dispatch({ type: END_CHAT_REQUEST_SUCCESS });
-
-        if (rating === null && accountSettings.rating.enabled && _.size(agents) > 0) {
-          dispatch(updateChatScreen(FEEDBACK_SCREEN));
-        }
       } else {
         dispatch({ type: END_CHAT_REQUEST_FAILURE });
       }
     });
+  };
+};
+
+export const endChatViaPostChatScreen = () => {
+  return (dispatch, getState) => {
+    const { rating, accountSettings, agents } = getState().chat;
+
+    if (!rating.value && accountSettings.rating.enabled && _.size(agents) > 0) {
+      dispatch(updateChatScreen(FEEDBACK_SCREEN));
+    }
+    else {
+      endChat()(dispatch);
+    }
   };
 };
 
@@ -187,7 +194,6 @@ export function sendChatComment(comment = '') {
           type: CHAT_RATING_COMMENT_REQUEST_SUCCESS,
           payload: comment
         });
-        endChat()(dispatch);
       } else {
         dispatch({ type: CHAT_RATING_COMMENT_REQUEST_FAILURE });
       }
