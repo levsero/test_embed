@@ -11,9 +11,13 @@ import onStateChangeFn from 'src/redux/middleware/onStateChange';
 
 import { sendBlips } from 'src/redux/middleware/blip';
 
+function loggerTitleFormatter(storeName) {
+  return (action, time, took) => [`%c[${storeName}] ${String(action.type)}`, `%c@ ${time}`].join(' ');
+}
+
 export default function(storeName = 'web_widget') {
   const enableLogging = __DEV__ || getEnvironment() === 'staging' || store.get('debug');
-  const logger = createLogger();
+  const logger = createLogger({ titleFormatter: loggerTitleFormatter(storeName) });
   const devToolsExtension = window.parent.__REDUX_DEVTOOLS_EXTENSION__
     && window.parent.__REDUX_DEVTOOLS_EXTENSION__({ name: storeName });
   const middlewares = [
