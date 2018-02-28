@@ -8,6 +8,43 @@ $flag-size: #{17.5/$font-size}rem !important;
 $flag-size-mobile: #{20.5/$font-size}rem !important;
 $menu-height: #{200/$font-size}rem;
 
+.staticCountryContainer {
+  width: #{58/$font-size}rem;
+  border: $thin-border-size solid $stroke-color;
+  border-radius: #{4/$font-size}rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none;
+
+  [dir="rtl"] & {
+    border-top-right-radius: #{4/$font-size}rem;
+    border-bottom-right-radius: #{4/$font-size}rem;
+    border-right: $thin-border-size solid $stroke-color;
+
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+  }
+}
+
+.staticCountryContainerActive {
+  composes: u-borderNone from global;
+  border-right: $thin-border-size solid $stroke-focused-color !important;
+  width: #{58/$font-size}rem;
+
+  [dir="rtl"] & {
+    border-right: none !important;
+    border-left: $thin-border-size solid $stroke-focused-color !important;
+  }
+}
+
+.staticCountryImage {
+  composes: u-block from global;
+  height: $flag-size;
+  width: $flag-size;
+  margin: #{7/$font-size}rem auto;
+}
+
 .dropdown {
   composes: u-inlineBlock from global;
   width: 20%;

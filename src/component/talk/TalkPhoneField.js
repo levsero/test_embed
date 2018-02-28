@@ -32,31 +32,46 @@ export class TalkPhoneField extends Component {
     value: '',
     country: '',
     getFrameDimensions: () => {},
-    onCountrySelect: () => {}
+    onCountrySelect: () => {},
+    supportedCountries: []
   };
 
   constructor(props) {
     super(props);
+
     const { value, supportedCountries, country } = props;
-    const phone = this.formatPhoneNumber(value, country);
+    const countryValue = country || _.get(supportedCountries, 0, '');
+    const countryIso = countriesByIso[countryValue];
+    const phoneNumber = (!value)
+      ? this.formatPhoneCountryCode(countryIso)
+      : this.formatPhoneNumber(value, countryValue);
+
+    this.menuOpen = false;
+    this.containerFocused = false;
 
     this.state = {
-      country: country,
-      value: phone,
-      focus: false,
-      supportedCountries: this.formatCountries(supportedCountries, country)
+      supportedCountries: this.formatCountries(supportedCountries, countryValue),
+      country: countryValue,
+      value: phoneNumber,
+      focus: false
     };
-    this.menuOpen = false;
   }
 
   componentDidMount() {
-    if (this.state.country) {
-      this.triggerCountryChange(this.state.country);
+    const { country, value } = this.state;
+
+    if (country) {
+      this.triggerCountryChange(country);
     }
-    if (this.state.value) {
-      this.input.validate();
-      // onBlur forces the red border to appear when there's an error
-      this.input.onBlur({ target: { value: this.state.value }});
+
+    if (value) {
+      const countryCode = this.formatPhoneCountryCode(countriesByIso[country]);
+
+      if (value !== countryCode) {
+        this.input.validate();
+        // onBlur forces the red border to appear when there's an error
+        this.input.onBlur({ target: { value }});
+      }
     }
   }
 
@@ -118,20 +133,23 @@ export class TalkPhoneField extends Component {
   }
 
   handleFocus = () => {
+    this.handleContainerFocus();
     this.setState({ focus: true });
   }
 
   handleBlur = () => {
-    if (!this.menuOpen) {
+    if (!this.menuOpen && !this.containerFocused) {
       this.setState({ focus: false, hover: false });
     }
   }
 
   handleDropdownBlur = (e) => {
-    setTimeout(() => {
-      this.handleBlur();
-      this.input.onBlur(e);
-    }, 0);
+    if (!this.containerFocused) {
+      setTimeout(() => {
+        this.handleBlur();
+        this.input.onBlur(e);
+      }, 0);
+    }
   }
 
   handleMouseEnter = () => {
@@ -146,7 +164,14 @@ export class TalkPhoneField extends Component {
     this.menuOpen = opened;
   }
 
-  renderFlag(country, className) {
+  handleContainerFocus() {
+    this.containerFocused = true;
+    setTimeout(() => {
+      this.containerFocused = false;
+    }, 0);
+  }
+
+  renderFlag = (country, className) => {
     return country ? <Flag className={className} country={country.iso.toLowerCase()} /> : '';
   }
 
@@ -191,25 +216,71 @@ export class TalkPhoneField extends Component {
     );
   }
 
-  render() {
-    const { hover, focus, supportedCountries, value } = this.state;
+  renderCountryDropdown() {
+    const { focus, hover, supportedCountries } = this.state;
+    const arrowDeviceStyle = isMobileBrowser() ? styles.arrowMobile : '';
+    const arrowStyle = `${styles.arrow} ${arrowDeviceStyle}`;
     const dropdownDeviceStyle = isMobileBrowser() ? styles.dropdownMobile : '';
     const dropdownAttentionStyle = (hover || focus) ? styles.dropdownAttention : '';
-    const attentionStyle = (hover || focus) ? styles.attention : '';
     const dropdownInputClasses = `
       ${styles.dropdownInput}
       ${dropdownDeviceStyle}
       ${dropdownAttentionStyle}
     `;
-    const fieldClasses = `
-      ${styles.field}
-      ${attentionStyle}
-    `;
+
+    return (
+      <Dropdown
+        className={styles.dropdown}
+        name='countries'
+        fullscreen={isMobileBrowser()}
+        options={supportedCountries}
+        optionFormat={this.renderDropdownOption}
+        selectionTextFormat={this.renderSelectionText}
+        onChange={this.handleCountrySelected}
+        containerClassName={styles.dropdownContainer}
+        menuContainerClassName={styles.menuContainer}
+        arrowClassName={arrowStyle}
+        inputClassName={dropdownInputClasses}
+        onFocus={this.handleFocus}
+        onBlur={this.handleDropdownBlur}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+        onMenuChange={this.handleMenuChange}
+        getFrameDimensions={this.props.getFrameDimensions}
+      />
+    );
+  }
+
+  renderStaticCountry(country) {
+    const { hover, focus } = this.state;
+    const countryData = countriesByName[country.name];
+    const containerStyles = (hover || focus)
+      ? styles.staticCountryContainerActive
+      : styles.staticCountryContainer;
+
+    return (
+      <div className={containerStyles}>
+        {this.renderFlag(countryData, styles.staticCountryImage)}
+      </div>
+    );
+  }
+
+  renderCountryOption() {
+    const { supportedCountries } = this.state;
+    const singleSupportedCountry = (supportedCountries.length === 1);
+
+    return (singleSupportedCountry)
+      ? this.renderStaticCountry(supportedCountries[0])
+      : this.renderCountryDropdown();
+  }
+
+  render() {
+    const { hover, focus, value } = this.state;
+    const attentionStyle = (hover || focus) ? styles.attention : '';
+    const fieldClasses = `${styles.field} ${attentionStyle}`;
     const focusStyle = focus ? styles.controlsFocus : '';
     const hoverStyle = hover ? styles.controlsHover : '';
     const containerStyle = `${styles.controls} ${focusStyle} ${hoverStyle}`;
-    const arrowDeviceStyle = isMobileBrowser() ? styles.arrowMobile : '';
-    const arrowStyle = `${styles.arrow} ${arrowDeviceStyle}`;
     const fieldInputDeviceStyle = isMobileBrowser() ? styles.fieldInputMobile : '';
     const fieldInputStyle = `${styles.fieldInput} ${fieldInputDeviceStyle}`;
 
@@ -217,25 +288,7 @@ export class TalkPhoneField extends Component {
       <div className={styles.container}>
         {this.renderLabel()}
         <div className={containerStyle}>
-          <Dropdown
-            className={styles.dropdown}
-            name='countries'
-            fullscreen={isMobileBrowser()}
-            options={supportedCountries}
-            optionFormat={this.renderDropdownOption}
-            selectionTextFormat={this.renderSelectionText}
-            onChange={this.handleCountrySelected}
-            containerClassName={styles.dropdownContainer}
-            menuContainerClassName={styles.menuContainer}
-            arrowClassName={arrowStyle}
-            inputClassName={dropdownInputClasses}
-            onFocus={this.handleFocus}
-            onBlur={this.handleDropdownBlur}
-            onMouseEnter={this.handleMouseEnter}
-            onMouseLeave={this.handleMouseLeave}
-            onMenuChange={this.handleMenuChange}
-            getFrameDimensions={this.props.getFrameDimensions}
-          />
+          {this.renderCountryOption()}
           <Field
             ref={(input) => this.input = input}
             label={this.props.label}
