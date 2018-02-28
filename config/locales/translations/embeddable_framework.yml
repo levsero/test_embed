@@ -302,12 +302,12 @@ parts:
       key: "embeddable_framework.chat.chatLog.agentJoined"
       title: "An application message that is displayed in the chat log when an agent joins a chat"
       screenshot: "https://zendesk.box.com/s/pmhpewnsoc7odl2b6fgs3ue3imeqpdld"
-      value: "%(agent) joined the chat"
+      value: "%(agent)s joined the chat"
   - translation:
       key: "embeddable_framework.chat.chatLog.agentLeft"
       title: "An application message that is displayed in the chat log when an agent leaves a chat"
       screenshot: "https://zendesk.box.com/s/48nsffvaymmoec3ryv5b6w14kmgbg6pv"
-      value: "%(agent) left the chat"
+      value: "%(agent)s left the chat"
   - translation:
       key: "embeddable_framework.chat.chatLog.button.leaveComment"
       title: "A text that is displayed on a button that provides the user with the ability to navigate to a rating form"

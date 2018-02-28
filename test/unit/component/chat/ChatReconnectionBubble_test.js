@@ -30,12 +30,9 @@ describe('ChatReconnectionBubble component', () => {
       domRender(<ChatReconnectionBubble />);
     });
 
-    it('uses correct translation for title with `Reconnecting` fallback', () => {
+    it('uses correct translation for title', () => {
       expect(mocki18nTranslate)
-        .toHaveBeenCalledWith(
-          'embeddable_framework.chat.reconnecting.title',
-          { fallback: 'Reconnecting' }
-        );
+        .toHaveBeenCalledWith('embeddable_framework.chat.reconnecting.title');
     });
   });
 });

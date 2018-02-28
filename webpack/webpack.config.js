@@ -50,6 +50,10 @@ var config = {
       {
         test: /\.png$/,
         use: 'url-loader'
+      },
+      {
+        test: /\.(yml|yaml)/,
+          use: [ 'json-loader', 'yaml-loader' ]
       }
     ]
   },

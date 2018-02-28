@@ -55,7 +55,9 @@ describe('renderer', () => {
       },
       'embed/webWidget/webWidget': mockWebWidgetFactory,
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['setCustomTranslations', 'setLocale', 't'])
+        i18n: jasmine.createSpyObj('i18n', [
+          'setCustomTranslations', 'setLocale', 't', 'setFallbackTranslations'
+        ])
       },
       'service/mediator': {
         mediator: {

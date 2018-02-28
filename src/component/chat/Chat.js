@@ -256,23 +256,16 @@ class Chat extends Component {
       case 1:
         const agent = agentList[0].display_name;
 
-        typingNotification = i18n.t(
-          'embeddable_framework.chat.chatLog.isTyping',
-          { agent, fallback: `${agent} is typing` });
+        typingNotification = i18n.t('embeddable_framework.chat.chatLog.isTyping', { agent });
         break;
       case 2:
         const agent1 = agentList[0].display_name,
           agent2 = agentList[1].display_name;
 
-        typingNotification = i18n.t(
-          'embeddable_framework.chat.chatLog.isTyping_two',
-          { agent1, agent2, fallback: `${agent1} and ${agent2} are typing` });
+        typingNotification = i18n.t('embeddable_framework.chat.chatLog.isTyping_two', { agent1, agent2 });
         break;
       default:
-        typingNotification = i18n.t(
-          'embeddable_framework.chat.chatLog.isTyping_multiple',
-          { fallback: 'Multiple agents are typing' }
-        );
+        typingNotification = i18n.t('embeddable_framework.chat.chatLog.isTyping_multiple');
     }
 
     return (

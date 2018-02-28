@@ -1,6 +1,14 @@
 describe('i18n', () => {
   let i18n,
-    mockRegistry;
+    mockRegistry,
+    stringKeyFromFile = 'string.key.from.yml.file',
+    stringValueFromFile = 'Hello',
+    translationFromFile = {
+      translation: {
+        key: stringKeyFromFile,
+        value: stringValueFromFile
+      }
+    };
   const i18nPath = buildSrcPath('service/i18n');
 
   beforeEach(() => {
@@ -68,7 +76,10 @@ describe('i18n', () => {
         'he': 30
       },
       'lodash': _,
-      'sprintf-js': require('sprintf-js')
+      'sprintf-js': require('sprintf-js'),
+      '../../config/locales/translations/embeddable_framework.yml': {
+        parts: [translationFromFile]
+      }
     });
 
     mockery.registerAllowable(i18nPath);
@@ -146,17 +157,6 @@ describe('i18n', () => {
             .toBe(`Missing translation (en-US): ${key}`);
         });
       });
-
-      describe('when there is a fallback param', () => {
-        beforeEach(() => {
-          params = { fallback: 'emacs 4lyf' };
-        });
-
-        it('returns the fallback string', () => {
-          expect(i18n.t(key, params))
-            .toBe('emacs 4lyf');
-        });
-      });
     });
 
     describe('when the translation is an empty string', () => {
@@ -191,6 +191,38 @@ describe('i18n', () => {
       it('returns true', () => {
         expect(i18n.isRTL())
           .toBe(true);
+      });
+    });
+  });
+
+  describe('#setFallbackTranslations', () => {
+    beforeEach(() => {
+      i18n.setLocale('en-US');
+    });
+
+    describe('when a yml file contains a translation string', () => {
+      beforeEach(() => {
+        i18n.setFallbackTranslations();
+      });
+
+      it('sets the string to be available as a fallback for translate', () => {
+        expect(i18n.t(stringKeyFromFile))
+          .toBe(stringValueFromFile);
+      });
+    });
+
+    describe('when a yml file does not contain a translation string', () => {
+      beforeAll(() => {
+        translationFromFile = undefined;
+      });
+
+      beforeEach(() => {
+        i18n.setFallbackTranslations();
+      });
+
+      it('does not set the string to be available as a fallback for translate', () => {
+        expect(i18n.t(stringKeyFromFile))
+          .toBe(`Missing translation (en-US): ${stringKeyFromFile}`);
       });
     });
   });

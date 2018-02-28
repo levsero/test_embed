@@ -14,7 +14,7 @@ describe('ChatMenu component', () => {
       },
       'service/i18n': {
         i18n: {
-          t: (_, { fallback }) => fallback
+          t: noop
         }
       }
     });

@@ -135,6 +135,7 @@ function init(config, reduxStore = dummyStore) {
     }
 
     i18n.setCustomTranslations();
+    i18n.setFallbackTranslations();
     i18n.setLocale(config.locale);
     loadAudio(config);
 

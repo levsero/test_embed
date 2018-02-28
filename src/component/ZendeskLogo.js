@@ -38,10 +38,7 @@ export class ZendeskLogo extends Component {
     `;
 
     const logoUrl = [
-      i18n.t(
-        `embeddable_framework.zendeskLogo.powered_by_url.${logoLink}`,
-        { fallback: `https://www.zendesk.com/${logoLink}/` }
-      ),
+      i18n.t(`embeddable_framework.zendeskLogo.powered_by_url.${logoLink}`),
       `?utm_source=${utm}&utm_medium=poweredbyzendesk&utm_campaign=image`
     ].join('');
 

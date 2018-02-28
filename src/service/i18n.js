@@ -5,6 +5,8 @@ import { settings } from 'service/settings';
 import zETranslations from 'translation/ze_translations';
 import zELocaleIdMap from 'translation/ze_localeIdMap';
 
+import frameworkYamlFile from '../../config/locales/translations/embeddable_framework.yml';
+
 const keyLookupTable = {
   launcherLabel: [
     'embeddable_framework.launcher.label.help',
@@ -34,6 +36,7 @@ const keyLookupTable = {
   contactOptionsChatLabelOffline: ['embeddable_framework.channelChoice.button.label.chat_offline_v2']
 };
 
+let fallbackTranslations;
 let currentLocale;
 
 // The force argument is for post-render setLocale function so that
@@ -49,7 +52,7 @@ function translate(key, params = {}) {
   const translation = _.get(zETranslations, keyForLocale);
 
   if (_.isUndefined(translation)) {
-    return params.fallback || getMissingTranslationString(key, currentLocale);
+    return getFallbackTranslation(key) || getMissingTranslationString(key, currentLocale);
   }
 
   return interpolateTranslation(translation, params);
@@ -147,11 +150,42 @@ function overrideTranslations(newTranslations) {
   });
 }
 
+const parseYamlTranslations = (filePath) => {
+  if (_.isEmpty(filePath)) return;
+
+  return filePath.parts.reduce(partReducer, {});
+};
+
+const partReducer = (list, part) => {
+  if (_.isEmpty(part)) return;
+
+  const { translation: { key, value } } = part;
+
+  list[key] = value;
+
+  return list;
+};
+
+function setFallbackTranslations() {
+  const translations = parseYamlTranslations(frameworkYamlFile);
+
+  if (!_.isEmpty(translations)) {
+    fallbackTranslations = translations;
+  }
+}
+
+const getFallbackTranslation = (key) => {
+  if (_.isEmpty(fallbackTranslations)) return false;
+
+  return fallbackTranslations[key];
+};
+
 export const i18n = {
   t: translate,
   getLocaleId: getLocaleId,
   setLocale: setLocale,
   getLocale: getLocale,
   isRTL: isRTL,
-  setCustomTranslations: setCustomTranslations
+  setCustomTranslations: setCustomTranslations,
+  setFallbackTranslations: setFallbackTranslations
 };

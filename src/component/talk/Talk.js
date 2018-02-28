@@ -110,13 +110,9 @@ class Talk extends Component {
     const { helpCenterAvailable, channelChoiceAvailable } = this.props;
 
     if (helpCenterAvailable) {
-      return i18n.t('embeddable_framework.talk.offline.link.help_center',
-        { fallback: 'Go back to Help Center' }
-      );
+      return i18n.t('embeddable_framework.talk.offline.link.help_center');
     } else if (channelChoiceAvailable) {
-      return i18n.t('embeddable_framework.talk.offline.link.channel_choice',
-        { fallback: 'Go back' }
-      );
+      return i18n.t('embeddable_framework.talk.offline.link.channel_choice');
     }
 
     return '';
@@ -138,7 +134,6 @@ class Talk extends Component {
 
     const waitTimeForm = parseInt(averageWaitTime, 10) > 1 ? 'Plural' : 'Singular';
     const waitTimeMessage = i18n.t(`embeddable_framework.talk.form.averageWaitTime${waitTimeForm}`, {
-      fallback: `Average wait time: ${averageWaitTime}`,
       averageWaitTime
     });
 
@@ -146,9 +141,7 @@ class Talk extends Component {
   }
 
   renderFormHeader = () => {
-    const headerMessage = i18n.t('embeddable_framework.talk.form.headerMessage_new', {
-      fallback: 'Enter your phone number and we\'ll call you back.'
-    });
+    const headerMessage = i18n.t('embeddable_framework.talk.form.headerMessage_new');
 
     return (
       <div>
@@ -159,17 +152,16 @@ class Talk extends Component {
   }
 
   renderFormScreen = () => {
-    const phoneLabel = i18n.t(`embeddable_framework.common.textLabel.phone_number`, { fallback: 'Phone Number' });
-    const nameLabel = i18n.t(`embeddable_framework.common.textLabel.name`, { fallback: 'Name' });
-    const descriptionLabel = i18n.t(`embeddable_framework.common.textLabel.description`,
-      { fallback: 'How can we help?' });
+    const phoneLabel = i18n.t(`embeddable_framework.common.textLabel.phone_number`);
+    const nameLabel = i18n.t(`embeddable_framework.common.textLabel.name`);
+    const descriptionLabel = i18n.t(`embeddable_framework.common.textLabel.description`);
     let { phone, name, description, country } = this.props.formState;
 
     return (
       <Form
         ref={(el) => this.form = el}
         className={styles.form}
-        submitButtonLabel={i18n.t('embeddable_framework.common.button.send', { fallback: 'Submit' })}
+        submitButtonLabel={i18n.t('embeddable_framework.common.button.send')}
         rtl={i18n.isRTL()}
         isMobile={this.props.isMobile}
         formState={this.props.formState}
@@ -199,7 +191,7 @@ class Talk extends Component {
   }
 
   renderPhoneFormScreen = () => {
-    const phoneLabel = i18n.t('embeddable_framework.talk.form.phoneDisplay', { fallback: 'Our phone number:' });
+    const phoneLabel = i18n.t('embeddable_framework.talk.form.phoneDisplay');
 
     return (
       <div>
@@ -212,14 +204,11 @@ class Talk extends Component {
   }
 
   renderPhoneOnlyScreen = () => {
-    const message = i18n.t(
-      'embeddable_framework.talk.phoneOnly.message',
-      { fallback: 'Call the phone number below to get in contact with us.' }
-    );
-
     return (
       <div className={styles.phoneOnlyContainer}>
-        <p className={styles.phoneOnlyMessage}>{message}</p>
+        <p className={styles.phoneOnlyMessage}>
+          {i18n.t('embeddable_framework.talk.phoneOnly.message')}
+        </p>
         {this.renderAverageWaitTime()}
         <div className={styles.phoneNumber}>{this.renderPhoneNumber()}</div>
       </div>
@@ -227,14 +216,13 @@ class Talk extends Component {
   }
 
   renderSuccessNotificationScreen = () => {
-    const message = i18n.t('embeddable_framework.talk.notify.success.message_new', {
-      fallback: `Thanks for submiting your request. We'll get back to you soon.`
-    });
     const iconClasses = `${styles.notifyIcon} u-userFillColor u-userTextColor`;
 
     return (
       <div>
-        <p className={styles.notifyMessage}>{message}</p>
+        <p className={styles.notifyMessage}>
+          {i18n.t('embeddable_framework.talk.notify.success.message_new')}
+        </p>
         <div className={styles.notify}>
           <Icon type='Icon--tick' className={iconClasses} />
         </div>
@@ -260,41 +248,26 @@ class Talk extends Component {
   }
 
   renderFormTitle = () => {
-    const formTitle = i18n.t(
-      'embeddable_framework.talk.form.title',
-      { fallback: 'Request a callback' }
-    );
-    const phoneOnlyTitle = i18n.t(
-      'embeddable_framework.talk.phoneOnly.title',
-      { fallback: 'Call us' }
-    );
-    const successNotificationTitle = i18n.t(
-      'embeddable_framework.talk.notify.success.title',
-      { fallback: 'Request sent' }
-    );
-
     switch (this.props.screen) {
       case SUCCESS_NOTIFICATION_SCREEN:
-        return successNotificationTitle;
+        return i18n.t('embeddable_framework.talk.notify.success.title');
       case PHONE_ONLY_SCREEN:
-        return phoneOnlyTitle;
+        return i18n.t('embeddable_framework.talk.phoneOnly.title');
       case CALLBACK_ONLY_SCREEN:
       case CALLBACK_AND_PHONE_SCREEN:
       default:
-        return formTitle;
+        return i18n.t('embeddable_framework.talk.form.title');
     }
   }
 
   renderOfflineScreen = () => {
     if (this.props.agentAvailability) return null;
 
-    const label = i18n.t('embeddable_framework.talk.offline.label',
-      { fallback: 'Sorry, all agents are currently offline. Try again later.' }
-    );
-
     return (
       <div className={styles.offline}>
-        <p className={styles.offlineLabel}>{label}</p>
+        <p className={styles.offlineLabel}>
+          {i18n.t('embeddable_framework.talk.offline.label')}
+        </p>
         <p className={styles.offlineLink} onClick={this.props.onBackClick}>
           <a>{this.getOfflineScreenLink()}</a>
         </p>
@@ -309,11 +282,9 @@ class Talk extends Component {
   }
 
   resolveErrorMessage(code) {
-    const fallback = { fallback: 'There was an error processing your request. Please try again later.' };
-
     return _.includes(errorCodes, code)
-      ? i18n.t(`embeddable_framework.talk.notify.error.${code}`, fallback)
-      : i18n.t('embeddable_framework.common.notify.error.generic', fallback);
+      ? i18n.t(`embeddable_framework.talk.notify.error.${code}`)
+      : i18n.t('embeddable_framework.common.notify.error.generic');
   }
 
   renderErrorNotification = () => {

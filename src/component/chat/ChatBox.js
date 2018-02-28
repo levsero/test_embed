@@ -42,9 +42,7 @@ export class ChatBox extends Component {
   }
 
   chatBoxTextarea = () => {
-    const placeholder = i18n.t('embeddable_framework.chat.chatBox.placeholder.typeMessageHere', {
-      fallback: 'Type a message here…'
-    });
+    const placeholder = i18n.t('embeddable_framework.chat.chatBox.placeholder.typeMessageHere');
 
     return (
       <textarea
