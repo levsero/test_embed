@@ -11,14 +11,15 @@ import { ChatMenu } from 'component/chat/ChatMenu';
 import { ChatPrechatForm } from 'component/chat/ChatPrechatForm';
 import { ChatFeedbackForm } from 'component/chat/ChatFeedbackForm';
 import { ChatPopup } from 'component/chat/ChatPopup';
-import { ChatRatings } from 'component/chat/ChatRatingGroup';
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup';
 import { ChatEmailTranscriptPopup } from 'component/chat/ChatEmailTranscriptPopup';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
+import { ChatRatings } from 'component/chat/ChatRatingGroup';
 import { i18n } from 'service/i18n';
 import { endChat,
+         endChatViaPostChatScreen,
          sendMsg,
          sendAttachments,
          setVisitorInfo,
@@ -83,6 +84,7 @@ class Chat extends Component {
     chatLog: PropTypes.object.isRequired,
     currentMessage: PropTypes.string.isRequired,
     endChat: PropTypes.func.isRequired,
+    endChatViaPostChatScreen: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
     sendAttachments: PropTypes.func.isRequired,
     prechatFormSettings: PropTypes.object.isRequired,
@@ -101,7 +103,7 @@ class Chat extends Component {
     isChatting: PropTypes.bool.isRequired,
     agents: PropTypes.object.isRequired,
     visitor: PropTypes.object.isRequired,
-    rating: PropTypes.string,
+    rating: PropTypes.object.isRequired,
     handleSoundIconClick: PropTypes.func.isRequired,
     userSoundSettings: PropTypes.bool.isRequired,
     ratingSettings: PropTypes.object.isRequired,
@@ -119,7 +121,7 @@ class Chat extends Component {
     updateFrameSize: () => {},
     getAccountSettings: () => {},
     concierge: {},
-    rating: null,
+    rating: {},
     chats: [],
     events: [],
     chatLog: {},
@@ -148,14 +150,16 @@ class Chat extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const { chats, events } = this.props;
+    const { chats, events, screen } = this.props;
 
     if (!nextProps.chats && !nextProps.events) return;
 
     const chatLogLength = chats.length + events.length;
     const nextChatLogLength = nextProps.chats.length + nextProps.events.length;
+    const nextScreen = nextProps.screen;
+    const reRenderChatLog = screen !== nextScreen || chatLogLength !== nextChatLogLength;
 
-    if (chatLogLength !== nextChatLogLength) {
+    if (nextScreen === CHATTING_SCREEN && reRenderChatLog) {
       setTimeout(() => {
         if (this.scrollContainer) {
           this.scrollContainer.scrollToBottom();
@@ -270,7 +274,7 @@ class Chat extends Component {
     return (
       <ChatHeader
         showRating={showRating}
-        rating={rating}
+        rating={rating.value}
         updateRating={sendChatRating}
         avatar={avatar_path} // eslint-disable-line camelcase
         title={displayName}
@@ -346,7 +350,12 @@ class Chat extends Component {
         footerClasses={styles.footer}
         footerContent={this.renderChatFooter()}>
         <div className={styles.messages}>
-          <ChatLog chatLog={this.props.chatLog} agents={this.props.agents} />
+          <ChatLog
+            chatLog={this.props.chatLog}
+            agents={this.props.agents}
+            chatCommentLeft={!!this.props.rating.comment}
+            goToFeedbackScreen={() => this.props.updateChatScreen(FEEDBACK_SCREEN)}
+          />
           {this.renderAgentTyping()}
         </div>
       </ScrollContainer>
@@ -384,19 +393,11 @@ class Chat extends Component {
     );
   }
 
-  renderChatLog = () => {
-    const { chats, agents } = this.props;
-
-    return (
-      <ChatLog agents={agents} chats={chats} />
-    );
-  }
-
   renderChatEndPopup = () => {
     const hideChatEndFn = () => this.setState({ showEndChatMenu: false });
     const endChatFn = () => {
       this.setState({ showEndChatMenu: false });
-      this.props.endChat();
+      this.props.endChatViaPostChatScreen();
     };
 
     return (
@@ -416,17 +417,23 @@ class Chat extends Component {
   renderPostchatScreen = () => {
     if (this.props.screen !== screens.FEEDBACK_SCREEN) return null;
 
-    const { sendChatRating, updateChatScreen, endChat, sendChatComment } = this.props;
+    const { sendChatRating, updateChatScreen, endChat, sendChatComment, rating, isChatting } = this.props;
     const { message } = this.props.postChatFormSettings;
     const skipClickFn = () => {
       sendChatRating(ChatRatings.NOT_SET);
       updateChatScreen(screens.CHATTING_SCREEN);
       endChat();
     };
-    const sendClickFn = (text = '') => {
-      sendChatComment(text);
+    const sendClickFn = (newRating, text) => {
+      newRating !== rating.value && sendChatRating(newRating);
+      text && sendChatComment(text);
       updateChatScreen(screens.CHATTING_SCREEN);
+      endChat();
     };
+
+    const cancelButtonTextKey = isChatting ?
+      'embeddable_framework.common.button.cancel' :
+      'embeddable_framework.chat.postChat.rating.button.skip';
 
     return (
       <ScrollContainer
@@ -436,9 +443,9 @@ class Chat extends Component {
         <ChatFeedbackForm
           feedbackMessage={message}
           rating={this.props.rating}
-          updateRating={sendChatRating}
           skipClickFn={skipClickFn}
-          sendClickFn={sendClickFn} />
+          sendClickFn={sendClickFn}
+          cancelButtonTextKey={cancelButtonTextKey} />
       </ScrollContainer>
     );
   }
@@ -505,6 +512,7 @@ const actionCreators = {
   handleChatBoxChange,
   getAccountSettings,
   endChat,
+  endChatViaPostChatScreen,
   setVisitorInfo,
   sendChatRating,
   sendChatComment,
