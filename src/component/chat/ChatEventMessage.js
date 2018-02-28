@@ -7,7 +7,7 @@ import { locals as styles } from './ChatEventMessage.scss';
 export class ChatEventMessage extends Component {
   static propTypes = {
     event: PropTypes.object.isRequired,
-    children: PropTypes.object.isRequired
+    children: PropTypes.object
   };
 
   renderEventMessage(event) {
