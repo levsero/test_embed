@@ -1,14 +1,26 @@
-import { CHAT_RATING_REQUEST_SUCCESS } from '../chat-action-types';
+import { CHAT_RATING_REQUEST_SUCCESS, CHAT_RATING_COMMENT_REQUEST_SUCCESS } from '../chat-action-types';
 import { ChatRatings } from 'component/chat/ChatRatingGroup';
 
-const initialState = ChatRatings.NOT_SET;
+const initialState = { value: ChatRatings.NOT_SET };
 
 const rating = (state = initialState, action = {}) => {
   const { type, payload } = action;
 
   switch (type) {
     case CHAT_RATING_REQUEST_SUCCESS:
-      return payload;
+      return (
+        {
+          value: payload,
+          comment: null
+        }
+      );
+    case CHAT_RATING_COMMENT_REQUEST_SUCCESS:
+      return (
+        {
+          ...state,
+          comment: payload
+        }
+      );
     default:
       return state;
   }

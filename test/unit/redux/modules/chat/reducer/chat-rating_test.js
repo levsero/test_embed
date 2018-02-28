@@ -41,20 +41,63 @@ describe('chat reducer agents', () => {
     });
 
     describe('when a CHAT_RATING_REQUEST_SUCCESS action is dispatched', () => {
-      let payload;
+      const payload = 'bad';
+      const expectedState = {
+        value: payload,
+        comment: null
+      };
+
+      describe('when the initial state is empty', () => {
+        beforeEach(() => {
+          state = reducer(initialState, {
+            type: actionTypes.CHAT_RATING_REQUEST_SUCCESS,
+            payload: payload
+          });
+        });
+
+        it('updates the state with the rating from the payload', () => {
+          expect(state)
+            .toEqual(expectedState);
+        });
+      });
+
+      describe('when the initial state contains a previous rating and comment', () => {
+        const initialState = {
+          value: 'good',
+          comment: 'a previous ratings comment'
+        };
+
+        beforeEach(() => {
+          state = reducer(initialState, {
+            type: actionTypes.CHAT_RATING_REQUEST_SUCCESS,
+            payload: payload
+          });
+        });
+
+        it('clears any previous comment stored in the state', () => {
+          expect(state)
+            .toEqual(expectedState);
+        });
+      });
+    });
+
+    describe('when a CHAT_RATING_COMMENT_REQUEST_SUCCESS action is dispatched', () => {
+      const payload = 'Great work!';
+
+      const expectedState = {
+        comment: payload
+      };
 
       beforeEach(() => {
-        payload = 'bad';
-
         state = reducer(initialState, {
-          type: actionTypes.CHAT_RATING_REQUEST_SUCCESS,
+          type: actionTypes.CHAT_RATING_COMMENT_REQUEST_SUCCESS,
           payload: payload
         });
       });
 
-      it('updates the agent with properties from the payload', () => {
+      it('sets the comment in the state', () => {
         expect(state)
-          .toEqual(payload);
+          .toEqual(expectedState);
       });
     });
   });
