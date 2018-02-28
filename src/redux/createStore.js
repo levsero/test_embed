@@ -11,9 +11,16 @@ import onStateChangeFn from 'src/redux/middleware/onStateChange';
 
 import { sendBlips } from 'src/redux/middleware/blip';
 
+function loggerTitleFormatter(storeName) {
+  return (action) => [`${storeName}`, `%c${String(action.type)}`, '%c'].join(' ');
+}
+
 export default function(storeName = 'web_widget') {
   const enableLogging = __DEV__ || getEnvironment() === 'staging' || store.get('debug');
-  const logger = createLogger();
+  const logger = createLogger({
+    collapsed: true,
+    titleFormatter: loggerTitleFormatter(storeName)
+  });
   const devToolsExtension = window.parent.__REDUX_DEVTOOLS_EXTENSION__
     && window.parent.__REDUX_DEVTOOLS_EXTENSION__({ name: storeName });
   const middlewares = [
@@ -24,9 +31,9 @@ export default function(storeName = 'web_widget') {
   let storeEnhancers;
 
   if (enableLogging) {
-    if (!devToolsExtension) middlewares.push(logger);
-
-    storeEnhancers = [applyMiddleware(...middlewares), devToolsExtension];
+    storeEnhancers = devToolsExtension
+      ? [applyMiddleware(...middlewares), devToolsExtension]
+      : [applyMiddleware(...middlewares, logger)];
   } else {
     storeEnhancers = [applyMiddleware(...middlewares)];
   }
