@@ -1,7 +1,8 @@
 describe('Render phone field', () => {
   let TalkPhoneField,
     mockIsMobileBrowserValue,
-    mockIsLandscapeValue;
+    mockIsLandscapeValue,
+    mockSupportedCountries;
 
   const phoneFieldPath = buildSrcPath('component/talk/TalkPhoneField');
 
@@ -13,7 +14,7 @@ describe('Render phone field', () => {
       this.validated = true;
     }
     render() {
-      return <div className='field'/>;
+      return <div className='field' />;
     }
   }
 
@@ -25,6 +26,7 @@ describe('Render phone field', () => {
 
   mockIsMobileBrowserValue = false;
   mockIsLandscapeValue = false;
+  mockSupportedCountries = ['AU', 'US', 'ZM'];
 
   beforeEach(() => {
     mockery.enable();
@@ -52,6 +54,11 @@ describe('Render phone field', () => {
           labelLandscape: 'label-landscape',
           fieldInputMobile: 'field-input-mobile'
         }
+      },
+      'translation/ze_countries': {
+        'AU': { code: '61', name: 'Australia' },
+        'US': { code: '1', name: 'United States' },
+        'ZM': { code: '260', name: 'Zambia' }
       }
     });
     mockery.registerAllowable(phoneFieldPath);
@@ -59,8 +66,122 @@ describe('Render phone field', () => {
   });
 
   afterEach(() => {
+    jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('constructor', () => {
+    let phoneField;
+
+    describe('when the form has no previous country and phone value', () => {
+      beforeEach(() => {
+        phoneField = domRender(<TalkPhoneField supportedCountries={mockSupportedCountries} />);
+      });
+
+      it('sets the first country via alphabetical sort to the default country', () => {
+        const supportedCountries = [
+          { name: 'Australia', value: 'AU', default: true },
+          { name: 'United States', value: 'US', default: false },
+          { name: 'Zambia', value: 'ZM', default: false }
+        ];
+        const expected = {
+          supportedCountries,
+          country: 'AU',
+          value: '+61',
+          focus: false
+        };
+
+        expect(phoneField.state)
+          .toEqual(jasmine.objectContaining(expected));
+      });
+    });
+
+    describe('when the form has a previous country and phone value', () => {
+      beforeEach(() => {
+        phoneField = domRender(
+          <TalkPhoneField
+            supportedCountries={mockSupportedCountries}
+            country='ZM'
+            value='+260123654247' />
+        );
+      });
+
+      it('sets the first country via alphabetical sort to the default country', () => {
+        const supportedCountries = [
+          { name: 'Australia', value: 'AU', default: false },
+          { name: 'United States', value: 'US', default: false },
+          { name: 'Zambia', value: 'ZM', default: true }
+        ];
+        const expected = {
+          supportedCountries,
+          country: 'ZM',
+          value: '+260123654247',
+          focus: false
+        };
+
+        expect(phoneField.state)
+          .toEqual(jasmine.objectContaining(expected));
+      });
+    });
+  });
+
+  describe('componentDidMount', () => {
+    let phoneField;
+
+    describe('if a country value exists in state', () => {
+      beforeEach(() => {
+        phoneField = domRender(
+          <TalkPhoneField
+            supportedCountries={mockSupportedCountries}
+            country='US' />
+        );
+
+        spyOn(phoneField, 'triggerCountryChange');
+      });
+
+      it('calls triggerCountryChange with the country', () => {
+        expect(phoneField.triggerCountryChange)
+          .not.toHaveBeenCalled();
+
+        phoneField.componentDidMount();
+
+        expect(phoneField.triggerCountryChange)
+          .toHaveBeenCalledWith('US');
+      });
+    });
+
+    describe('if a value provided is not equal to the country code', () => {
+      beforeEach(() => {
+        phoneField = domRender(
+          <TalkPhoneField
+            supportedCountries={mockSupportedCountries}
+            value='+61403354742'
+            country='AU' />
+        );
+
+        spyOn(phoneField.input, 'validate');
+        spyOn(phoneField.input, 'onBlur');
+
+        phoneField.componentDidMount();
+      });
+
+      it('calls validate', () => {
+        expect(phoneField.input.validate)
+          .toHaveBeenCalled();
+      });
+
+      it('calls onBlur with an event object with a formatted phone number', () => {
+        const expected = {
+          target: {
+            value: '+61 403 354 742'
+          }
+        };
+
+        expect(phoneField.input.onBlur)
+          .toHaveBeenCalledWith(jasmine.objectContaining(expected));
+      });
+    });
   });
 
   it('handles empty values', () => {
@@ -172,7 +293,7 @@ describe('Render phone field', () => {
       expect(phoneField.state.supportedCountries)
         .toEqual([
           { name: 'Australia', value: 'AU', default: true },
-          { name:'United States', value: 'US', default: false }
+          { name: 'United States', value: 'US', default: false }
         ]);
     });
 
@@ -223,36 +344,101 @@ describe('Render phone field', () => {
     });
 
     describe('event handling', () => {
-      it('sets state on focus', () => {
-        phoneField.handleFocus();
+      describe('when focus is triggered', () => {
+        beforeEach(() => {
+          spyOn(phoneField, 'handleContainerFocus');
 
-        expect(phoneField.state.focus)
-          .toEqual(true);
+          phoneField.handleFocus();
+        });
+
+        it('sets state on focus', () => {
+          expect(phoneField.state.focus)
+            .toEqual(true);
+        });
+
+        it('calls handleContainerFocus', () => {
+          expect(phoneField.handleContainerFocus)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when blur is triggered', () => {
+        describe('when menu is not open and container is not focused', () => {
+          beforeEach(() => {
+            phoneField.menuOpen = false;
+            phoneField.containerFocused = false;
+
+            phoneField.handleBlur();
+          });
+
+          it('sets state on blur', () => {
+            expect(phoneField.state.focus)
+              .toEqual(false);
+            expect(phoneField.state.hover)
+              .toEqual(false);
+          });
+        });
+
+        describe('when either menu is opened or container is focused', () => {
+          beforeEach(() => {
+            phoneField.menuOpen = true;
+            phoneField.containerFocused = true;
+
+            phoneField.setState({ focus: true, hover: true });
+            phoneField.handleBlur();
+          });
+
+          it('does not change the current state on blur', () => {
+            expect(phoneField.state.focus)
+              .toEqual(true);
+            expect(phoneField.state.hover)
+              .toEqual(true);
+          });
+        });
+      });
+
+      describe('when handleDropdownBlur is triggered', () => {
+        describe('when container is focused', () => {
+          beforeEach(() => {
+            phoneField.containerFocused = true;
+            field.blurred = false;
+
+            spyOn(phoneField, 'handleBlur');
+
+            jasmine.clock().install();
+            phoneField.handleDropdownBlur();
+            jasmine.clock().tick(0);
+          });
+
+          it('does not call blur on input', () => {
+            expect(field.blurred)
+              .toBe(false);
+          });
+        });
+
+        describe('when container is not focused', () => {
+          beforeEach(() => {
+            phoneField.containerFocused = false;
+            field.blurred = false;
+
+            spyOn(phoneField, 'handleBlur');
+
+            jasmine.clock().install();
+            phoneField.handleDropdownBlur();
+            jasmine.clock().tick(0);
+          });
+
+          it('calls blur on input', () => {
+            expect(field.blurred)
+              .toBe(true);
+          });
+        });
       });
 
       it('triggers validate on field after setting props', () => {
         phoneField.componentWillReceiveProps({ value: '+61422' });
 
         expect(field.validated)
-          .toBe(true);
-      });
-
-      it('sets state on blur', () => {
-        phoneField.handleBlur();
-
-        expect(phoneField.state.focus)
-          .toEqual(false);
-        expect(phoneField.state.hover)
-          .toEqual(false);
-      });
-
-      it('calls blur on input when dropdown blur is triggered', () => {
-        jasmine.clock().install();
-        field.blurred = false;
-        phoneField.handleDropdownBlur();
-        jasmine.clock().tick(0);
-
-        expect(field.blurred)
           .toBe(true);
       });
 
