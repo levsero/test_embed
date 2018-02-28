@@ -9,51 +9,61 @@ import { locals as styles } from './ChatFeedbackForm.scss';
 
 export class ChatFeedbackForm extends Component {
   static propTypes = {
-    updateRating: PropTypes.func.isRequired,
     skipClickFn: PropTypes.func.isRequired,
     sendClickFn: PropTypes.func.isRequired,
     feedbackMessage: PropTypes.string,
-    rating: PropTypes.string
+    rating: PropTypes.object.isRequired,
+    cancelButtonTextKey: PropTypes.string.isRequired
   }
 
   static defaultProps = {
     feedbackMessage: '',
-    rating: null
+    rating: {
+      value: ChatRatings.NOT_SET
+    },
+    cancelButtonTextKey: ''
   }
 
   constructor(props) {
     super(props);
 
+    this.state = {
+      selectedRating: props.rating.value
+    };
     this.textarea = null;
   }
 
   renderActionButtons = () => {
-    const { rating } = this.props;
-    const disabled = rating === ChatRatings.NOT_SET;
+    const { cancelButtonTextKey } = this.props;
+    const disabled = this.state.selectedRating === ChatRatings.NOT_SET;
 
     return (
       <div className={styles.buttonGroup}>
         <Button
           className={styles.button}
           primary={false}
-          label={i18n.t('embeddable_framework.chat.postChat.rating.button.skip')}
+          label={i18n.t(cancelButtonTextKey)}
           onClick={this.props.skipClickFn} />
         <Button
           className={styles.rightButton}
           disabled={disabled}
           label={i18n.t('embeddable_framework.common.button.send')}
-          onClick={() => this.props.sendClickFn(this.textarea.value)} />
+          onClick={() => this.props.sendClickFn(this.state.selectedRating, this.textarea.value)} />
       </div>
     );
   }
 
   render() {
-    const { rating, updateRating, feedbackMessage } = this.props;
+    const { rating, feedbackMessage } = this.props;
 
     return (
       <div>
         <label className={styles.feedbackMessage}>{feedbackMessage}</label>
-        <ChatRatingGroup className={styles.chatRatingGroup} rating={rating} updateRating={updateRating} />
+        <ChatRatingGroup
+          className={styles.chatRatingGroup}
+          rating={this.state.selectedRating}
+          updateRating={(rating) => this.setState({selectedRating: rating})}
+        />
         <label htmlFor='feedbackTextarea' className={styles.feedbackDescription}>
           {i18n.t('embeddable_framework.chat.postChat.rating.description')}
         </label>
@@ -62,7 +72,8 @@ export class ChatFeedbackForm extends Component {
           ref={(el) => { this.textarea = el; }}
           className={styles.textarea}
           placeholder={i18n.t('embeddable_framework.chat.postChat.rating.placeholder.optional')}
-          rows={6} />
+          rows={6}
+          defaultValue={rating.comment || undefined}/>
         {this.renderActionButtons()}
       </div>
     );
