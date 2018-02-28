@@ -9,7 +9,9 @@ export const CHAT_MESSAGE_EVENTS = [
 export const CHAT_SYSTEM_EVENTS = [
   'chat.memberjoin',
   'chat.memberleave',
-  'chat.rating'
+  'chat.rating',
+  'chat.comment',
+  'chat.request.rating'
 ];
 
 const groupChatsByAgent = (state) => {
@@ -100,13 +102,13 @@ export const getGroupedChatLog = createSelector(
     const chatsArr = Array.from(chats.values());
     let previousMessageOrEvent;
 
-    const isMessage = (messageOrEvent) => {
-      return _.includes(CHAT_MESSAGE_EVENTS, messageOrEvent.type);
-    };
+    const isMessage = (messageOrEvent) => (
+      _.includes(CHAT_MESSAGE_EVENTS, messageOrEvent.type)
+    );
 
-    const isEvent = (messageOrEvent) => {
-      return _.includes(CHAT_SYSTEM_EVENTS, messageOrEvent.type);
-    };
+    const isEvent = (messageOrEvent) => (
+      _.includes(CHAT_SYSTEM_EVENTS, messageOrEvent.type)
+    );
 
     const getGroupTimestamp = (messageOrEvent, previousMessageOrEvent) => {
       if (isEvent(messageOrEvent)) {
@@ -125,18 +127,30 @@ export const getGroupedChatLog = createSelector(
       return null;
     };
 
-    return _.reduce(chatsArr, (groupedChatLog, messageOrEvent) => {
+    return _.reduce(chatsArr, (function(groupedChatLog, messageOrEvent) {
       if (!messageOrEvent) { return groupedChatLog; }
 
       const groupTimestamp = getGroupTimestamp(messageOrEvent, previousMessageOrEvent);
+      const { latestRating, latestRatingRequest } = this;
 
       if (groupTimestamp) {
         (groupedChatLog[groupTimestamp] || (groupedChatLog[groupTimestamp] = [])).push(messageOrEvent);
       }
 
+      if (messageOrEvent.type === 'chat.rating') {
+        latestRating.isLastRating = false;
+        messageOrEvent.isLastRating = true;
+        this.latestRating = messageOrEvent;
+      }
+
+      if (messageOrEvent.type === 'chat.request.rating') {
+        delete groupedChatLog[latestRatingRequest.timestamp];
+        this.latestRatingRequest = messageOrEvent;
+      }
+
       previousMessageOrEvent = messageOrEvent;
 
       return groupedChatLog;
-    }, {});
+    }).bind({ latestRating: {}, latestRatingRequest: {} }), {});
   }
 );

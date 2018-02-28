@@ -608,6 +608,75 @@ describe('chat selectors', () => {
           .toEqual(expectedResult);
       });
     });
+
+    describe('when passed a chat log with several ratings', () => {
+      beforeEach(() => {
+        mockChats = [
+          { nick: 'visitor', type: 'chat.memberjoin', timestamp: 1 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
+          { nick: 'agent', type: 'chat.msg', msg: 'Hey', timestamp: 3 },
+          { nick: 'visitor', type: 'chat.rating', new_rating: 'good', timestamp: 4 },
+          { nick: 'agent', type: 'chat.msg', msg: 'Boo', timestamp: 5 },
+          { nick: 'visitor', type: 'chat.rating', new_rating: 'bad', timestamp: 6 }
+        ];
+
+        mockChatSettings = {
+          chat: {
+            chats: { values: () => mockChats }
+          }
+        };
+
+        expectedResult = {
+          1: [mockChats[0]],
+          2: [mockChats[1]],
+          3: [mockChats[2]],
+          4: [mockChats[3]],
+          5: [mockChats[4]],
+          6: [{ ...mockChats[5], isLastRating: true }]
+        };
+
+        result = getGroupedChatLog(mockChatSettings);
+      });
+
+      it('adds an isLastRating property to the last rating event', () => {
+        expect(result)
+          .toEqual(expectedResult);
+      });
+    });
+
+    describe('when passed a chat log with several rating requests', () => {
+      beforeEach(() => {
+        mockChats = [
+          { nick: 'visitor', type: 'chat.memberjoin', timestamp: 1 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
+          { nick: 'agent', type: 'chat.msg', msg: 'Hey', timestamp: 3 },
+          { nick: 'agent', type: 'chat.request.rating', timestamp: 4 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'Wait', timestamp: 5 },
+          { nick: 'agent', type: 'chat.request.rating', timestamp: 6 }
+        ];
+
+        mockChatSettings = {
+          chat: {
+            chats: { values: () => mockChats }
+          }
+        };
+
+        expectedResult = {
+          1: [mockChats[0]],
+          2: [mockChats[1]],
+          3: [mockChats[2]],
+          5: [mockChats[4]],
+          6: [mockChats[5]]
+        };
+
+        result = getGroupedChatLog(mockChatSettings);
+      });
+
+      it('filters out all except the final rating request', () => {
+        expect(result)
+          .toEqual(expectedResult);
+      });
+    });
   });
 
   describe('getChatOnline', () => {
