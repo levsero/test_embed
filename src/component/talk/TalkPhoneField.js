@@ -253,7 +253,7 @@ export class TalkPhoneField extends Component {
 
   renderStaticCountry(country) {
     const { hover, focus } = this.state;
-    const countryData = countriesByName[country.name];
+    const countryData = { iso: _.get(country, 'value', '') };
     const containerStyles = (hover || focus)
       ? styles.staticCountryContainerActive
       : styles.staticCountryContainer;
