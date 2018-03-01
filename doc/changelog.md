@@ -1,8 +1,9 @@
 ## Changelog
+### 02 March 2018
+- Fixed an issue with tables in Help Center articles. It now allows horizontal scrolling for articles with multiple tables. 
 
 ### 01 March 2018
-- Fixed an issue with padding for config where no ticket forms and no Zendesk logo enabled.
-- Fixed an issue with tables in Help Center articles. It now allows horizontal scrolling for articles with multiple tables. 
+- Fixed an issue with content padding for configuration where no ticket form(s) and no Zendesk logo was enabled.
 
 ### 28 February 2018
 - Header color will now match the theme color. It was previously grey.
