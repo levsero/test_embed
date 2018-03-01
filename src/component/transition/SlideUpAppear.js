@@ -9,7 +9,9 @@ export class SlideUpAppear extends Component {
     duration: PropTypes.number,
     trigger: PropTypes.bool,
     startPosHeight: PropTypes.string,
-    endPosHeight: PropTypes.string
+    endPosHeight: PropTypes.string,
+    onClick: PropTypes.func,
+    onExited: PropTypes.func
   };
 
   static defaultProps = {
@@ -17,7 +19,9 @@ export class SlideUpAppear extends Component {
     duration: 100,
     trigger: true,
     startPosHeight: '0',
-    endPosHeight: '10px'
+    endPosHeight: '10px',
+    onClick: () => {},
+    onExited: () => {}
   };
 
   render = () => {
@@ -42,10 +46,12 @@ export class SlideUpAppear extends Component {
     };
 
     return (
-      <Transition in={this.props.trigger} timeout={duration} unmountOnExit={true}>
+      <Transition in={this.props.trigger} timeout={duration} unmountOnExit={true} onExited={this.props.onExited}>
         {(status) => {
           return (
-          <div className={this.props.className} style={{ ...style, ...transitionStyles[status] }}>
+          <div onClick={this.props.onClick}
+            className={this.props.className}
+            style={{ ...style, ...transitionStyles[status] }}>
             {this.props.children}
           </div>
         );}}

@@ -23,7 +23,9 @@ export class ChatEmailTranscriptPopup extends Component {
     rightCtaFn: PropTypes.func,
     visitor: PropTypes.object,
     emailTranscript: PropTypes.object,
-    tryEmailTranscriptAgain: PropTypes.func
+    tryEmailTranscriptAgain: PropTypes.func,
+    show: PropTypes.bool,
+    resetEmailTranscript: PropTypes.func
   }
 
   static defaultProps = {
@@ -32,7 +34,9 @@ export class ChatEmailTranscriptPopup extends Component {
     rightCtaFn: () => {},
     visitor: {},
     emailTranscript: {},
-    tryEmailTranscriptAgain: () => {}
+    tryEmailTranscriptAgain: () => {},
+    show: false,
+    resetEmailTranscript: () => {}
   }
 
   constructor(props) {
@@ -81,10 +85,9 @@ export class ChatEmailTranscriptPopup extends Component {
       <EmailField
         fieldContainerClasses={styles.fieldContainer}
         fieldClasses={styles.field}
-        placeholder={i18n.t('embeddable_framework.common.textLabel.email', { fallback: 'Email' })}
+        placeholder={i18n.t('embeddable_framework.common.textLabel.email')}
         required={true}
         value={this.state.formState.email}
-        pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
         name='email' />
     );
   }
@@ -112,7 +115,7 @@ export class ChatEmailTranscriptPopup extends Component {
                                 { email: this.props.emailTranscript.email });
 
     return (
-      <div className={styles.resultScreen}>
+      <div className={`${styles.resultScreen}`}>
         <div>
           <Icon type='Icon--checkmark-fill'/>
         </div>
@@ -128,7 +131,7 @@ export class ChatEmailTranscriptPopup extends Component {
     const tryAgainLabel = i18n.t('embeddable_framework.chat.emailtranscript.try_again');
 
     return (
-      <div className={styles.resultScreen}>
+      <div className={`${styles.resultScreen}`}>
         <div>
           <Icon type='Icon--error-fill'/>
         </div>
@@ -153,7 +156,7 @@ export class ChatEmailTranscriptPopup extends Component {
     );
   }
 
-  render = () => {
+  render() {
     const { className, leftCtaFn } = this.props;
     const isEmailTranscriptResult = this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SUCCESS_SCREEN ||
                                     this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_FAILURE_SCREEN;
@@ -164,14 +167,23 @@ export class ChatEmailTranscriptPopup extends Component {
       childrenContainerClasses = styles.loadingContainer;
     }
 
+    const onExited = () => {
+      if (this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_FAILURE_SCREEN ||
+          this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SUCCESS_SCREEN) {
+        this.props.resetEmailTranscript();
+      }
+    };
+
     return (
       <ChatPopup
+        onExited={onExited}
         showCta={this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SCREEN}
+        show={this.props.show}
         className={className}
         leftCtaFn={leftCtaFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
         rightCtaFn={this.handleSave}
-        rightCtaLabel={i18n.t('embeddable_framework.common.button.send', { fallback: 'Send' })}
+        rightCtaLabel={i18n.t('embeddable_framework.common.button.send')}
         rightCtaDisabled={!this.state.valid}>
         <div className={childrenContainerClasses}>
           {this.renderFormScreen()}

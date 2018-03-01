@@ -179,10 +179,6 @@ class Chat extends Component {
       showEditContactDetailsMenu: false,
       showEmailTranscriptMenu: false
     });
-    if (this.props.emailTranscript.screen === screens.EMAIL_TRANSCRIPT_FAILURE_SCREEN ||
-        this.props.emailTranscript.screen === screens.EMAIL_TRANSCRIPT_SUCCESS_SCREEN) {
-      this.props.resetEmailTranscript();
-    }
   }
 
   onPrechatFormComplete = (info) => {
@@ -464,8 +460,6 @@ class Chat extends Component {
   }
 
   renderChatEmailTranscriptPopup = () => {
-    if (!this.state.showEmailTranscriptMenu) return null;
-
     const hideEmailTranscriptFn = () => this.setState({ showEmailTranscriptMenu: false });
     const sendEmailTranscriptFn = (email) => {
       this.props.sendEmailTranscript(email);
@@ -477,12 +471,14 @@ class Chat extends Component {
 
     return (
       <ChatEmailTranscriptPopup
+        show={this.state.showEmailTranscriptMenu}
         className={styles.bottomPopup}
         leftCtaFn={hideEmailTranscriptFn}
         rightCtaFn={sendEmailTranscriptFn}
         visitor={this.props.visitor}
         emailTranscript={this.props.emailTranscript}
-        tryEmailTranscriptAgain={tryEmailTranscriptAgain} />
+        tryEmailTranscriptAgain={tryEmailTranscriptAgain}
+        resetEmailTranscript={this.props.resetEmailTranscript} />
     );
   }
 
