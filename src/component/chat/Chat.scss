@@ -30,11 +30,6 @@
   composes: u-textCenter from global;
 }
 
-.bottomPopup {
-  composes: u-posAbsolute from global;
-  bottom: #{10/$font-size}rem;
-}
-
 .chatEndPopupDescription {
   composes: u-paddingVL u-paddingLL u-paddingRL from global;
 }

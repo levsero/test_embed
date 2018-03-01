@@ -11,13 +11,15 @@ export class ChatContactDetailsPopup extends Component {
   static propTypes = {
     className: PropTypes.string,
     leftCtaFn: PropTypes.func,
-    rightCtaFn: PropTypes.func
+    rightCtaFn: PropTypes.func,
+    show: PropTypes.bool
   }
 
   static defaultProps = {
     className: '',
     leftCtaFn: () => {},
-    rightCtaFn: () => {}
+    rightCtaFn: () => {},
+    show: false
   }
 
   constructor() {
@@ -98,6 +100,7 @@ export class ChatContactDetailsPopup extends Component {
     return (
       <ChatPopup
         className={className}
+        show={this.props.show}
         childrenContainerClasses={styles.popupChildrenContainer}
         leftCtaFn={leftCtaFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}

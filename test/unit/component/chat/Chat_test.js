@@ -293,9 +293,9 @@ describe('Chat component', () => {
         component.setState({ showMenu: false });
       });
 
-      it('does not return anything', () => {
-        expect(component.renderChatMenu())
-          .toBeFalsy();
+      it('passes false to its popup components show prop', () => {
+        expect(component.renderChatMenu().props.show)
+          .toBe(false);
       });
     });
 
@@ -305,9 +305,9 @@ describe('Chat component', () => {
         component.setState({ showMenu: true });
       });
 
-      it('returns the chat menu', () => {
-        expect(component.renderChatMenu())
-          .not.toBeFalsy();
+      it('passes true to its popup components show prop', () => {
+        expect(component.renderChatMenu().props.show)
+          .toBe(true);
       });
     });
   });
@@ -323,9 +323,9 @@ describe('Chat component', () => {
         component.setState({ showEndChatMenu: true });
       });
 
-      it('shows the chat end notification component', () => {
-        expect(component.renderChatEndPopup())
-          .not.toBeNull();
+      it('passes true to its popup components show prop', () => {
+        expect(component.renderChatEndPopup().props.show)
+          .toBe(true);
       });
     });
 
@@ -334,9 +334,9 @@ describe('Chat component', () => {
         component = domRender(<Chat chat={{ rating: null }} />);
       });
 
-      it('does not show the chat end notification component', () => {
-        expect(component.renderChatEndPopup())
-          .toBeNull();
+      it('passes false to its popup components show prop', () => {
+        expect(component.renderChatEndPopup().props.show)
+          .toBe(false);
       });
     });
   });
@@ -352,9 +352,9 @@ describe('Chat component', () => {
         component.setState({ showEditContactDetailsMenu: true });
       });
 
-      it('shows the chat contact details popup component', () => {
-        expect(component.renderChatContactDetailsPopup())
-          .not.toBeNull();
+      it('passes true to its popup components show prop', () => {
+        expect(component.renderChatContactDetailsPopup().props.show)
+          .toBe(true);
       });
     });
 
@@ -363,9 +363,9 @@ describe('Chat component', () => {
         component = domRender(<Chat chat={{ rating: null }} />);
       });
 
-      it('does not show the chat contact details popup component', () => {
-        expect(component.renderChatContactDetailsPopup())
-          .toBeNull();
+      it('passes false to its popup components show prop', () => {
+        expect(component.renderChatContactDetailsPopup().props.show)
+          .toBe(false);
       });
     });
   });
