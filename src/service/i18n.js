@@ -52,7 +52,7 @@ function translate(key, params = {}) {
   const translation = _.get(zETranslations, keyForLocale);
 
   if (_.isUndefined(translation)) {
-    return getFallbackTranslation(key) || getMissingTranslationString(key, currentLocale);
+    return sprintf(getFallbackTranslation(key), params) || getMissingTranslationString(key, currentLocale);
   }
 
   return interpolateTranslation(translation, params);
