@@ -71,6 +71,12 @@ describe('HelpCenterArticle component', () => {
             <td><p>Zombocom</p>
           </tr>
         </table>
+        <p>Whoa!</p>
+        <table>
+          <tr>
+            <td>OMGWTFBBQ!!1! wat? another table? but why??</td>
+          </tr>
+        </table>
       `
     };
   });
@@ -82,28 +88,38 @@ describe('HelpCenterArticle component', () => {
 
   describe('article body', () => {
     let helpCenterArticle,
-      content;
+      content,
+      tables;
 
     describe('basic rendering', () => {
       beforeEach(() => {
         helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
 
         content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
+        tables = content.querySelectorAll('.table-wrapClasses');
       });
 
-      it('wraps table elements with a div and class', () => {
-        const node = content.querySelector('.table-wrapClasses');
-
-        expect(node)
+      it('correctly identifies and finds table elements', () => {
+        expect(tables)
           .toBeTruthy();
+      });
 
-        expect(node.nodeName)
+      it('operates greedily on all tables in the document', () => {
+        expect(tables.length)
+          .toEqual(2);
+      });
+
+      it('wraps the table elements in a div and adds a class', () => {
+        expect(tables[0].nodeName)
+          .toEqual('DIV');
+
+        expect(tables[1].nodeName)
           .toEqual('DIV');
       });
 
       it('injects html string on componentDidMount', () => {
         expect(content.children.length)
-          .toEqual(8);
+          .toEqual(10);
 
         expect(content.querySelector('div').style.cssText)
           .toEqual('');
