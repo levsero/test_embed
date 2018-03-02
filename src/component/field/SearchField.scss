@@ -1,3 +1,8 @@
+/**
+ * 1. In the event where there are multiple layers rendered
+ *    'backface-visibility: hidden' will only allow the front facing element to be visible
+ */
+
 @import '../../styles/_vars.scss';
 
 .searchIcon {
@@ -62,4 +67,5 @@
 
 .focused {
   composes: Form-field--focused from '../../styles/components/Form.scss';
+  backface-visibility: hidden; /* 1 */
 }
