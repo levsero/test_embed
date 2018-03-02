@@ -6,6 +6,7 @@ import _ from 'lodash';
 import Chat from 'component/chat/Chat';
 import Talk from 'component/talk/Talk';
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
+import { ChatNotificationPopup } from 'component/chat/ChatNotificationPopup';
 import { Container } from 'component/container/Container';
 import HelpCenter from 'component/helpCenter/HelpCenter';
 import SubmitTicket from 'component/submitTicket/SubmitTicket';
@@ -13,7 +14,7 @@ import { updateActiveEmbed,
          updateEmbedAccessible,
          updateBackButtonVisibility,
          updateAuthenticated } from 'src/redux/modules/base';
-import { hideChatNotification, updateChatScreen } from 'src/redux/modules/chat';
+import { chatNotificationDismissed, updateChatScreen, chatNotificationRespond } from 'src/redux/modules/chat';
 import { resetActiveArticle } from 'src/redux/modules/helpCenter';
 import { getChatAvailable,
          getChatEnabled,
@@ -90,7 +91,8 @@ class WebWidget extends Component {
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
     updateAuthenticated: PropTypes.func.isRequired,
-    hideChatNotification: PropTypes.func.isRequired,
+    chatNotificationDismissed: PropTypes.func.isRequired,
+    chatNotificationRespond: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
     activeEmbed: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired,
@@ -379,7 +381,7 @@ class WebWidget extends Component {
           submitTicketAvailable={this.props.submitTicketAvailable}
           chatAvailable={chatAvailable}
           zendeskHost={this.props.zendeskHost}
-          hideChatNotification={this.props.hideChatNotification}
+          chatNotificationDismissed={this.props.chatNotificationDismissed}
           updateChatScreen={this.props.updateChatScreen} />
       </div>
     );
@@ -462,6 +464,23 @@ class WebWidget extends Component {
     );
   }
 
+  renderChatNotification = () => {
+    // For now only display notifications inside Help Center
+    if (this.props.activeEmbed !== helpCenter) return;
+
+    const onNotificatonResponded = () => {
+      this.onNextClick(chat);
+      this.props.chatNotificationRespond();
+    };
+
+    return (
+      <ChatNotificationPopup
+        notification={this.props.chatNotification}
+        chatNotificationRespond={onNotificatonResponded}
+        chatNotificationDismissed={this.props.chatNotificationDismissed} />
+    );
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
@@ -483,6 +502,7 @@ class WebWidget extends Component {
           {this.renderHelpCenter()}
           {this.renderChannelChoice()}
           {this.renderTalk()}
+          {this.renderChatNotification()}
         </Container>
       </div>
     );
@@ -495,7 +515,8 @@ const actionCreators = {
   updateEmbedAccessible,
   updateBackButtonVisibility,
   updateAuthenticated,
-  hideChatNotification,
+  chatNotificationDismissed,
+  chatNotificationRespond,
   updateChatScreen
 };
 

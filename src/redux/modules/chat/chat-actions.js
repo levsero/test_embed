@@ -14,7 +14,8 @@ import {
   GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
   CHAT_RATING_REQUEST_SUCCESS,
   CHAT_RATING_REQUEST_FAILURE,
-  HIDE_CHAT_NOTIFICATION,
+  CHAT_NOTIFICATION_DISMISSED,
+  CHAT_NOTIFICATION_RESPONDED,
   UPDATE_CHAT_SCREEN,
   NEW_AGENT_MESSAGE_RECEIVED,
   CHAT_OPENED,
@@ -210,8 +211,12 @@ export function getAccountSettings() {
   };
 }
 
-export function hideChatNotification() {
-  return { type: HIDE_CHAT_NOTIFICATION };
+export function chatNotificationDismissed() {
+  return { type: CHAT_NOTIFICATION_DISMISSED };
+}
+
+export function chatNotificationRespond() {
+  return { type: CHAT_NOTIFICATION_RESPONDED };
 }
 
 export function sendAttachments(attachments) {

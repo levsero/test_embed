@@ -24,6 +24,8 @@ export const EMAIL_TRANSCRIPT_SUCCESS = 'widget/chat/EMAIL_TRANSCRIPT_SUCCESS';
 export const EMAIL_TRANSCRIPT_FAILURE = 'widget/chat/EMAIL_TRANSCRIPT_FAILURE';
 export const EMAIL_TRANSCRIPT_IDLE = 'widget/chat/EMAIL_TRANSCRIPT_IDLE';
 export const RESET_EMAIL_TRANSCRIPT = 'widget/chat/RESET_EMAIL_TRANSCRIPT';
+export const CHAT_NOTIFICATION_DISMISSED = 'widget/chat/CHAT_NOTIFICATION_DISMISSED';
+export const CHAT_NOTIFICATION_RESPONDED = 'widget/chat/CHAT_NOTIFICATION_RESPONDED';
 
 export const SDK_CHAT_MSG = 'websdk/chat.msg';
 export const SDK_CHAT_FILE = 'websdk/chat.file';
