@@ -1,4 +1,9 @@
 ## Changelog
+### 05 March 2018
+- Fixed an issue with tables in Help Center articles. The Widget now allows horizontal scrolling for articles with multiple tables. 
+
+### 01 March 2018
+- Fixed an issue with content padding for configuration where no ticket form(s) and no Zendesk logo was enabled.
 
 ### 28 February 2018
 - Header color will now match the theme color. It was previously grey.
@@ -10,5 +15,5 @@
 - Fixed an issue with tables in Help Center articles. It now allows horizontal scrolling.
 
 ### 13 February 2018
-- Added [mobile offset](/embeddables/docs/widget/zesettings#offset) to settings
-- Removed the "view more" button. Display up to 9 results by default
+- Added [mobile offset](/embeddables/docs/widget/zesettings#offset) to settings.
+- Removed the "view more" button. Display up to 9 results by default.
