@@ -42,12 +42,29 @@
 
 .name {
   composes: u-marginBT u-marginTT from global;
-  margin-left: #{50/$font-size}rem;
   color: $zd-color-aluminum !important;
 
   [dir='rtl'] & {
     margin-left: 0;
+  }
+}
+
+.nameAvatar {
+  composes: name;
+  margin-left: #{50/$font-size}rem;
+
+  [dir='rtl'] & {
     margin-right: #{40/$font-size}rem;
+  }
+}
+
+.nameNoAvatar {
+  composes: u-marginLS from global;
+  composes: name;
+
+  [dir='rtl'] & {
+    margin-left: 0;
+    margin-right: #{10/$font-size}rem;
   }
 }
 

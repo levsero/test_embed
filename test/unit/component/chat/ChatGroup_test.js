@@ -15,7 +15,10 @@ describe('ChatGroup component', () => {
           agentBackground: 'agentBackground',
           userBackground: 'userBackground',
           avatarWithSrc: 'avatarWithSrc',
-          avatarDefault: 'avatarDefault'
+          avatarDefault: 'avatarDefault',
+          nameAvatar: 'nameAvatarClass',
+          nameNoAvatar: 'nameNoAvatarClass',
+          messageBubble: 'messageBubbleClass'
         }
       },
       'component/chat/MessageBubble': {
@@ -39,6 +42,42 @@ describe('ChatGroup component', () => {
 
   describe('#renderName', () => {
     let nameElement;
+
+    describe('when showAvatar is true', () => {
+      beforeEach(() => {
+        const component = instanceRender(
+          <ChatGroup
+            isAgent={true}
+            showAvatar={true}
+            messages={messagesData} />
+        );
+
+        nameElement = component.renderName();
+      });
+
+      it('renders with nameAvatarClass', () => {
+        expect(nameElement.props.className)
+          .toContain('nameAvatarClass');
+      });
+    });
+
+    describe('when showAvatar is false', () => {
+      beforeEach(() => {
+        const component = instanceRender(
+          <ChatGroup
+            isAgent={true}
+            showAvatar={false}
+            messages={messagesData} />
+        );
+
+        nameElement = component.renderName();
+      });
+
+      it('renders with nameNoAvatarClass', () => {
+        expect(nameElement.props.className)
+          .toContain('nameNoAvatarClass');
+      });
+    });
 
     describe('when it is an agent and name is not empty', () => {
       beforeEach(() => {
@@ -89,9 +128,22 @@ describe('ChatGroup component', () => {
   describe('#renderAvatar', () => {
     let avatarElement;
 
-    describe('when isAgent is true', () => {
+    describe('when isAgent and showAvatar are false', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChatGroup isAgent={true} />);
+        const component = instanceRender(<ChatGroup showAvatar={false} isAgent={false} />);
+
+        avatarElement = component.renderAvatar();
+      });
+
+      it('returns null', () => {
+        expect(avatarElement)
+          .toBeNull();
+      });
+    });
+
+    describe('when isAgent and showAvatar are true', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatGroup showAvatar={true} isAgent={true} />);
 
         avatarElement = component.renderAvatar();
       });
@@ -102,9 +154,22 @@ describe('ChatGroup component', () => {
       });
     });
 
-    describe('when isAgent is false', () => {
+    describe('when isAgent is false and showAvatar is true', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChatGroup isAgent={false} />);
+        const component = instanceRender(<ChatGroup showAvatar={true} isAgent={false} />);
+
+        avatarElement = component.renderAvatar();
+      });
+
+      it('returns null', () => {
+        expect(avatarElement)
+          .toBeNull();
+      });
+    });
+
+    describe('when isAgent is true and showAvatar is false', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatGroup showAvatar={false} isAgent={true} />);
 
         avatarElement = component.renderAvatar();
       });
@@ -119,7 +184,7 @@ describe('ChatGroup component', () => {
       const imageUrl = 'https://www.fakesite.com/img/blah.jpg';
 
       beforeEach(() => {
-        const component = instanceRender(<ChatGroup isAgent={true} avatarPath={imageUrl} />);
+        const component = instanceRender(<ChatGroup showAvatar={true} isAgent={true} avatarPath={imageUrl} />);
 
         avatarElement = component.renderAvatar();
       });
@@ -132,7 +197,7 @@ describe('ChatGroup component', () => {
 
     describe('when avatarPath does not exist', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChatGroup isAgent={true} />);
+        const component = instanceRender(<ChatGroup showAvatar={true} isAgent={true} />);
 
         avatarElement = component.renderAvatar();
       });
@@ -156,6 +221,36 @@ describe('ChatGroup component', () => {
     it('renders messageBubble with a name', () => {
       expect(chatGroupNode.querySelector('#messageBubble').textContent)
         .toEqual(messageData.msg);
+    });
+
+    describe('when showAvatar is true', () => {
+      beforeEach(() => {
+        const component = domRender(<ChatGroup showAvatar={true} isAgent={true} messages={messagesData} />);
+
+        chatGroupNode = ReactDOM.findDOMNode(component);
+      });
+
+      it('renders MessageBubble with messageBubble class', () => {
+        const result = chatGroupNode.querySelector('.messageBubbleClass');
+
+        expect(result)
+          .not.toBeNull();
+      });
+    });
+
+    describe('when showAvatar is false', () => {
+      beforeEach(() => {
+        const component = domRender(<ChatGroup showAvatar={false} isAgent={true} messages={messagesData} />);
+
+        chatGroupNode = ReactDOM.findDOMNode(component);
+      });
+
+      it('does not render with messageBubble class', () => {
+        const result = chatGroupNode.querySelector('.messageBubbleClass');
+
+        expect(result)
+          .toBeNull();
+      });
     });
 
     describe('when user is agent', () => {
