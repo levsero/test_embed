@@ -1,5 +1,5 @@
 ## Changelog
-### 02 March 2018
+### 05 March 2018
 - Fixed an issue with tables in Help Center articles. The Widget now allows horizontal scrolling for articles with multiple tables. 
 
 ### 01 March 2018
