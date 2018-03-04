@@ -22,6 +22,7 @@ const groupChatsByAgent = (state) => {
 
 const getChats = (state) => state.chat.chats;
 const getNotification = (state) => state.chat.notification;
+const getThemeMessageType = (state) => state.chat.accountSettings.theme.message_type;
 
 export const getAgents = (state) => state.chat.agents;
 export const getConciergeSettings = (state) => state.chat.accountSettings.concierge;
@@ -40,6 +41,18 @@ export const getEmailTranscript = (state) => state.chat.emailTranscript;
 export const getAttachmentsEnabled = (state) => state.chat.accountSettings.attachments.enabled;
 export const getRatingSettings = (state) => state.chat.accountSettings.rating;
 export const getUserSoundSettings = (state) => state.chat.userSettings.sound;
+
+export const getThemeShowAvatar = createSelector(
+  getThemeMessageType,
+  (messageType) => {
+    const CHAT_THEME_SHOW_AVATAR = {
+      'basic_avatar': true,
+      'bubble_avatar': true
+    };
+
+    return _.get(CHAT_THEME_SHOW_AVATAR, messageType, false);
+  }
+);
 
 export const getChatNotification = createSelector(
   [getNotification, getAgents, groupChatsByAgent],
