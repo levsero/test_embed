@@ -56,7 +56,7 @@ describe('ChatLog component', () => {
   };
 
   const getRenderChatLogFn = () => {
-    const component = domRender(<ChatLog chatLog={{}} agents={{}} />);
+    const component = domRender(<ChatLog showAvatar={true} chatLog={{}} agents={{}} />);
 
     return component.renderChatLog.bind(component);
   };
@@ -92,10 +92,12 @@ describe('ChatLog component', () => {
       100: [{ timestamp: 100, nick: 'visitor', type: 'chat.memberjoin' }],
       200: [{ timestamp: 200, nick: 'visitor', type: 'chat.msg', msg: 'Hello' }]
     };
+    let showAvatar = true;
 
     beforeEach(() => {
       component = domRender(
         <ChatLog
+          showAvatar={showAvatar}
           chatLog={chatLog}
           agents={agents}
           chatCommentLeft={chatCommentLeft}
@@ -107,7 +109,7 @@ describe('ChatLog component', () => {
     });
 
     it('calls renderChatLog with the correct args', () => {
-      expect(component.renderChatLog).toHaveBeenCalledWith(chatLog, agents, chatCommentLeft, goToFeedbackScreenSpy);
+      expect(component.renderChatLog).toHaveBeenCalledWith(chatLog, agents, chatCommentLeft, goToFeedbackScreenSpy, showAvatar);
     });
   });
 
