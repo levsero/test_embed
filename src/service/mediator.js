@@ -188,6 +188,10 @@ function init(embedsAccessible, params = {}) {
     }, 3000);
   }
 
+  c.intercept('newChat.connected', () => {
+    show(state);
+  });
+
   c.intercept('.hide', (_, viaIPM = false) => {
     if (!viaIPM) {
       c.broadcast('beacon.trackUserAction', 'api', 'hide');

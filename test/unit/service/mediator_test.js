@@ -1275,6 +1275,23 @@ describe('mediator', () => {
       initSubscriptionSpies(names);
     });
 
+    describe('newChat standalone', () => {
+      describe('when launcher is not hidden', () => {
+        beforeEach(() => {
+          jasmine.clock().install();
+          mediator.init({ submitTicket: false, helpCenter: false, chat: true }, { hideLauncher: false });
+
+          c.broadcast('newChat.connected');
+          jasmine.clock().tick(0);
+        });
+
+        it('shows the launcher', () => {
+          expect(launcherSub.show.calls.count())
+            .toEqual(1);
+        });
+      });
+    });
+
     describe('standalone', () => {
       beforeEach(() => {
         mediator.init({ submitTicket: false, helpCenter: false, chat: true });

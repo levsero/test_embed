@@ -71,6 +71,11 @@ describe('onStateChange middleware', () => {
           expect(getAccountSettingsSpy)
             .not.toHaveBeenCalled();
         });
+
+        it('does not call mediator with newChat.connected', () => {
+          expect(broadcastSpy)
+            .not.toHaveBeenCalledWith('newChat.connected');
+        });
       });
 
       describe('when chat has connected', () => {
@@ -81,6 +86,11 @@ describe('onStateChange middleware', () => {
         it('dispatches the getAccountSettings action', () => {
           expect(getAccountSettingsSpy)
             .toHaveBeenCalled();
+        });
+
+        it('calls mediator with newChat.connected', () => {
+          expect(broadcastSpy)
+            .toHaveBeenCalledWith('newChat.connected');
         });
       });
     });

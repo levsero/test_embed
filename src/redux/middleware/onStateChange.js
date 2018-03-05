@@ -21,6 +21,8 @@ const handleNotificationCounter = (nextState, dispatch) => {
 const onChatConnected = (prevState, nextState, dispatch) => {
   if (getConnection(prevState) === 'connecting' && getConnection(nextState) !== 'connecting') {
     dispatch(getAccountSettings());
+
+    mediator.channel.broadcast('newChat.connected');
   }
 };
 
