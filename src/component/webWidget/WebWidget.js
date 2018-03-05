@@ -468,7 +468,7 @@ class WebWidget extends Component {
     // TODO: Once single iframe is GA'd the containers for each child can be moved
     // here and this won't be needed to fix dodgy animation.
     const width = this.props.fullscreen ? '100%' : '342px';
-    const style = { width };
+    const style = { width, minHeight:'100%' };
 
     return (
       // data-embed is needed for our intergration tests
