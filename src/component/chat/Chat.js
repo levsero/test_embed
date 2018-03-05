@@ -19,6 +19,7 @@ import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { i18n } from 'service/i18n';
 import { endChat,
          endChatViaPostChatScreen,
+         agentEndChat,
          sendMsg,
          sendAttachment,
          setVisitorInfo,

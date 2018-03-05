@@ -1,5 +1,6 @@
 import { getAccountSettings,
-         newAgentMessageReceived } from 'src/redux/modules/chat';
+         newAgentMessageReceived,
+         agentEndChat } from 'src/redux/modules/chat';
 import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
 import { getChatMessagesByAgent,
@@ -51,8 +52,18 @@ const onArticleDisplayed = (prevState, nextState) => {
   }
 };
 
+const onChatEndedByAgent = (prevState, nextState, dispatch) => {
+  const prevAgentHasLeft = prevState.chat.agentHasLeft;
+  const nextAgentHasLeft = nextState.chat.agentHasLeft;
+
+  if(!prevAgentHasLeft && nextAgentHasLeft) {
+    dispatch(agentEndChat());
+  }
+}
+
 export default function onStateChange(prevState, nextState, _, dispatch) {
   onChatConnected(prevState, nextState, dispatch);
   onNewChatMessage(prevState, nextState, dispatch);
   onArticleDisplayed(prevState, nextState, dispatch);
+  onChatEndedByAgent(prevState, nextState, dispatch);
 }
