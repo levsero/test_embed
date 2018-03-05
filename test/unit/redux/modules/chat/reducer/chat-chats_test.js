@@ -128,7 +128,6 @@ describe('chat reducer chats', () => {
       let state,
         detail;
       const sdkActionTypes = [
-        chatActionTypes.SDK_CHAT_FILE,
         chatActionTypes.SDK_CHAT_WAIT_QUEUE,
         chatActionTypes.SDK_CHAT_REQUEST_RATING,
         chatActionTypes.SDK_CHAT_MSG,
@@ -149,7 +148,52 @@ describe('chat reducer chats', () => {
 
             state = reducer(initialState, {
               type: actionType,
-              payload: { detail: detail }
+              payload: { detail }
+            });
+          });
+
+          it('adds the message to the chats collection', () => {
+            expect(state.size)
+              .toEqual(1);
+
+            expect(state.get(detail.timestamp))
+              .toEqual(jasmine.objectContaining(detail));
+          });
+        });
+      });
+
+      describe('when a websdk/chat.file action is dispatched', () => {
+        describe('and it is triggered by an outgoing attachment', () => {
+          beforeEach(() => {
+            detail = {
+              timestamp: Date.now(),
+              nick: 'visitor',
+              display_name: 'Visitor'
+            };
+
+            state = reducer(initialState, {
+              type: 'websdk/chat.file',
+              payload: { detail }
+            });
+          });
+
+          it('does not change the state', () => {
+            expect(state)
+              .toEqual(initialState);
+          });
+        });
+
+        describe('and it is triggered by an incoming attachment', () => {
+          beforeEach(() => {
+            detail = {
+              timestamp: Date.now(),
+              nick: 'agent:123',
+              display_name: 'Agent 123'
+            };
+
+            state = reducer(initialState, {
+              type: 'websdk/chat.file',
+              payload: { detail }
             });
           });
 

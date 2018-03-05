@@ -5,7 +5,6 @@ let actions,
   actionTypes,
   screenTypes,
   mockStore,
-  mockVisitor,
   mockAccountSettings,
   mockSendChatMsg = jasmine.createSpy('sendChatMsg'),
   mockSendTyping = jasmine.createSpy('sendTyping'),
@@ -16,16 +15,21 @@ let actions,
   mockSendFile = jasmine.createSpy('sendFile'),
   mockSendEmailTranscript = jasmine.createSpy('sendEmailTranscript'),
   showRatingScreen = false,
-  getShowRatingScreenSpy = jasmine.createSpy('getShowRatingScreenSpy')
-                             .and
-                             .callFake(() => showRatingScreen);
+  getShowRatingScreenSpy = jasmine.createSpy('getShowRatingScreenSpy').and.callFake(() => showRatingScreen);
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
+const mockVisitor = { display_name: 'Visitor 123', nick: 'visitor' };
 
 describe('chat redux actions', () => {
   beforeEach(() => {
     mockery.enable();
+
+    mockStore = createMockStore({
+      chat: {
+        visitor: mockVisitor
+      }
+    });
 
     initMockRegistry({
       'chat-web-sdk': {
@@ -40,7 +44,7 @@ describe('chat redux actions', () => {
         _getAccountSettings: () => mockAccountSettings
       },
       'src/redux/modules/chat/chat-selectors': {
-        getChatVisitor: () => 'Batman',
+        getChatVisitor: () => mockVisitor,
         getShowRatingScreen: getShowRatingScreenSpy
       }
     });
@@ -57,7 +61,6 @@ describe('chat redux actions', () => {
     actionTypes = requireUncached(actionTypesPath);
     screenTypes = requireUncached(screenTypesPath);
 
-    mockVisitor = { display_name: 'Visitor 123', nick: 'visitor' };
     mockStore = createMockStore({
       chat: {
         visitor: mockVisitor,
@@ -599,12 +602,21 @@ describe('chat redux actions', () => {
     });
   });
 
-  describe('sendAttachments', () => {
-    let files, action;
+  describe('sendAttachment', () => {
+    let fileList, action;
 
     beforeEach(() => {
-      files = { name: 'testFile.jpg' };
-      mockStore.dispatch(actions.sendAttachments(files));
+      fileList = [
+        {
+          lastModified: 1514764800000,
+          lastModifiedDate: 'Mon Jan 01 2018 11:00:00 GMT+1100 (AEDT)',
+          name: 'icecream.jpg',
+          size: 10000,
+          type: 'image/jpeg'
+        }
+      ];
+
+      mockStore.dispatch(actions.sendAttachment(fileList));
 
       action = mockStore.getActions()[0];
     });
@@ -615,16 +627,18 @@ describe('chat redux actions', () => {
     });
 
     it('dispatches a CHAT_FILE_REQUEST_SENT action', () => {
-      expect(action)
-        .toEqual(jasmine.objectContaining({
-          type: actionTypes.CHAT_FILE_REQUEST_SENT
-        }));
+      expect(action.type)
+        .toEqual(actionTypes.CHAT_FILE_REQUEST_SENT);
     });
 
     it('has the correct params in the payload', () => {
       expect(action.payload)
         .toEqual(jasmine.objectContaining({
           type: 'chat.file',
+          file: fileList[0],
+          nick: mockVisitor.nick,
+          display_name: mockVisitor.display_name,
+          timestamp: Date.now(),
           uploading: true
         }));
     });

@@ -20,6 +20,7 @@ const isAgent = (nick) => nick.indexOf('agent:') > -1;
 
 const concatChat = (chats, chat) => {
   const copy = new Map(chats);
+
   return copy.set(chat.timestamp, { ...chat });
 };
 
@@ -38,6 +39,12 @@ const chats = (state = initialState, action) => {
     case SDK_CHAT_MEMBER_JOIN:
     case SDK_CHAT_MEMBER_LEAVE:
       return concatChat(state, action.payload.detail);
+
+    case SDK_CHAT_FILE:
+      // the payload from this event is only used for incoming files as outgoing files are handled by our custom actions
+      return isAgent(action.payload.detail.nick) ?
+        concatChat(state, action.payload.detail) : state;
+
     default:
       return state;
   }

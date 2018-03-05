@@ -102,7 +102,7 @@ export function sendMsg(msg) {
 
     zChat.sendChatMsg(msg, (err) => {
       if (!err) {
-        const { visitor } = getState().chat;
+        const visitor = getChatVisitor(getState());
 
         dispatch(sendMsgSuccess(msg, visitor));
       } else {
@@ -221,41 +221,41 @@ export function chatNotificationRespond() {
   return { type: CHAT_NOTIFICATION_RESPONDED };
 }
 
-export function sendAttachments(attachments) {
+export function sendAttachment(fileList) {
   return (dispatch, getState) => {
     const visitor = getChatVisitor(getState());
+    const file = fileList[0];
+    const time = Date.now();
 
-    _.forEach(attachments, (file) => {
-      const time = Date.now();
+    dispatch({
+      type: CHAT_FILE_REQUEST_SENT,
+      payload: {
+        type: 'chat.file',
+        file,
+        nick: visitor.nick,
+        display_name: visitor.display_name,
+        timestamp: time,
+        uploading: true
+      }
+    });
 
-      dispatch({
-        type: CHAT_FILE_REQUEST_SENT,
-        payload: {
-          type: 'chat.file',
-          nick: visitor.nick,
-          display_name: visitor.display_name,
-          timestamp: time,
-          uploading: true
-        }
-      });
-
-      zChat.sendFile(file, (err, data) => {
-        if (!err) {
-          dispatch({
-            type: CHAT_FILE_REQUEST_SUCCESS,
-            payload: {
-              type: 'chat.file',
-              attachment: data.url,
-              nick: visitor.nick,
-              display_name: visitor.display_name,
-              timestamp: time,
-              uploading: false
-            }
-          });
-        } else {
-          dispatch({ type: CHAT_FILE_REQUEST_FAILURE });
-        }
-      });
+    zChat.sendFile(file, (err, data) => {
+      if (!err) {
+        dispatch({
+          type: CHAT_FILE_REQUEST_SUCCESS,
+          payload: {
+            type: 'chat.file',
+            file,
+            attachment: data.url,
+            nick: visitor.nick,
+            display_name: visitor.display_name,
+            timestamp: time,
+            uploading: false
+          }
+        });
+      } else {
+        dispatch({ type: CHAT_FILE_REQUEST_FAILURE });
+      }
     });
   };
 }
