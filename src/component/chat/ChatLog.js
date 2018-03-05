@@ -25,8 +25,8 @@ export class ChatLog extends Component {
 
       if (_.includes(CHAT_MESSAGE_EVENTS, chatLogItemType)) {
         const chatGroup = chatLogItem;
-        const groupNick = _.get(chatGroup, '0.nick');
-        const isAgent = groupNick !== 'visitor';
+        const groupNick = _.get(chatGroup, '0.nick', 'visitor');
+        const isAgent = groupNick.indexOf('agent:') > -1;
         const avatarPath = _.get(agents, `${groupNick}.avatar_path`);
 
         return (
