@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 const zChat = (() => { try { return require('chat-web-sdk'); } catch (_) {} })();
 
 import {

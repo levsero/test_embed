@@ -1,22 +1,31 @@
 describe('ChatEventMessage component', () => {
   let ChatEventMessage,
-    mockRegistry;
+    i18n;
 
   const chatEventMessagePath = buildSrcPath('component/chat/ChatEventMessage');
+  const mockStringValues = {
+    'embeddable_framework.chat.chatLog.chatStarted': 'Chat started',
+    'embeddable_framework.chat.chatLog.rating.good': 'Good',
+    'embeddable_framework.chat.chatLog.rating.bad': 'Bad',
+    'embeddable_framework.chat.chatLog.button.leaveComment': 'Leave a comment',
+    'embeddable_framework.chat.chatLog.button.rateChat': 'Rate this chat'
+  };
 
   beforeEach(() => {
     mockery.enable();
 
-    mockRegistry = initMockRegistry({
+    i18n = {
+      t: jasmine.createSpy()
+    };
+
+    initMockRegistry({
       './ChatEventMessage.scss': {
         locals: {
           'eventMessage': 'eventMessageStyles'
         }
       },
       'service/i18n': {
-        i18n: {
-          t: jasmine.createSpy()
-        }
+        i18n
       }
     });
 
@@ -36,7 +45,7 @@ describe('ChatEventMessage component', () => {
         expectedString: 'embeddable_framework.chat.chatLog.chatStarted'
       },
       { description: 'member joined event from an agent',
-        event: { nick: 'agent123', display_name: 'Agent 123', type: 'chat.memberjoin' },
+        event: { nick: 'agent:123', display_name: 'Agent 123', type: 'chat.memberjoin' },
         expectedString: 'embeddable_framework.chat.chatLog.agentJoined',
         expectedArgs: { agent: 'Agent 123' }
       },
@@ -45,7 +54,7 @@ describe('ChatEventMessage component', () => {
         expectedString: 'embeddable_framework.chat.chatLog.chatEnded'
       },
       { description: 'member left event from an agent',
-        event: { nick: 'agent123', display_name: 'Agent 123', type: 'chat.memberleave' },
+        event: { nick: 'agent:123', display_name: 'Agent 123', type: 'chat.memberleave' },
         expectedString: 'embeddable_framework.chat.chatLog.agentLeft',
         expectedArgs: { agent: 'Agent 123' }
       },
@@ -66,12 +75,13 @@ describe('ChatEventMessage component', () => {
         });
 
         it('returns the appropriate string', () => {
-          expect(mockRegistry['service/i18n'].i18n.t.calls.mostRecent().args[0])
-            .toEqual(testCase.expectedString);
-
           if (testCase.expectedArgs) {
-            expect(mockRegistry['service/i18n'].i18n.t.calls.mostRecent().args[1])
-              .toEqual(jasmine.objectContaining(testCase.expectedArgs));
+            expect(i18n.t).toHaveBeenCalledWith(
+              testCase.expectedString,
+              testCase.expectedArgs
+            );
+          } else {
+            expect(i18n.t).toHaveBeenCalledWith(testCase.expectedString);
           }
         });
       });
@@ -93,12 +103,7 @@ describe('ChatEventMessage component', () => {
     ratingTestCases.forEach((testCase) => {
       describe(`when passed a ${testCase.description}`, () => {
         beforeEach(() => {
-          const mockStringValues = {
-            'embeddable_framework.chat.chatLog.rating.good': 'Good',
-            'embeddable_framework.chat.chatLog.rating.bad': 'Bad'
-          };
-
-          mockRegistry['service/i18n'].i18n.t.and.callFake((key) => {
+          i18n.t.and.callFake((key) => {
             return mockStringValues[key];
           });
 
@@ -106,12 +111,13 @@ describe('ChatEventMessage component', () => {
         });
 
         it('returns the appropriate string', () => {
-          expect(mockRegistry['service/i18n'].i18n.t.calls.mostRecent().args[0])
-            .toEqual(testCase.expectedString);
-
           if (testCase.expectedArgs) {
-            expect(mockRegistry['service/i18n'].i18n.t.calls.mostRecent().args[1])
-              .toEqual(jasmine.objectContaining(testCase.expectedArgs));
+            expect(i18n.t).toHaveBeenCalledWith(
+              testCase.expectedString,
+              testCase.expectedArgs
+            );
+          } else {
+            expect(i18n.t).toHaveBeenCalledWith(testCase.expectedString);
           }
         });
       });
@@ -123,7 +129,10 @@ describe('ChatEventMessage component', () => {
     const event = { nick: 'visitor', type: 'chat.memberjoin', timestamp: 123456789 };
 
     beforeEach(() => {
-      mockRegistry['service/i18n'].i18n.t.and.returnValue('Chat started');
+      i18n.t.and.callFake((key) => {
+        return mockStringValues[key];
+      });
+
       const component = domRender(<ChatEventMessage event={event} />);
 
       componentNode = ReactDOM.findDOMNode(component);
@@ -131,7 +140,7 @@ describe('ChatEventMessage component', () => {
 
     it('wraps the translated event message in a container with styles', () => {
       expect(componentNode.textContent)
-        .toEqual('Chat started');
+        .toEqual(mockStringValues['embeddable_framework.chat.chatLog.chatStarted']);
 
       expect(componentNode.className)
         .toEqual('eventMessageStyles');
@@ -142,7 +151,6 @@ describe('ChatEventMessage component', () => {
       let children;
 
       beforeEach(() => {
-        mockRegistry['service/i18n'].i18n.t.and.returnValue('Chat started');
         const component = domRender(
           <ChatEventMessage event={event}>
             {childElement}

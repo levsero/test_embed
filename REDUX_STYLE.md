@@ -105,7 +105,7 @@ export const UPDATE_VIEW_MORE = 'widget/helpCenter/UPDATE_VIEW_MORE'; // bad
 Note: There are some slight exceptions to this rule that were allowed on a case by case basis.
 
 #### Async requests should be named consistently
-When sending an asyncronous request to a 3rd party we use the thunk middleware and generate three actions. One for the request and then for any possible responses, usually success or fail. For example they should be named `*_REQUEST_SENT`, `*_REQUEST_SUCCESS`, `*_REQUEST_FAILURE`.
+When sending an asynchronous request to a 3rd party we use the thunk middleware and generate three actions. One for the request and then for any possible responses, usually success or fail. For example they should be named `*_REQUEST_SENT`, `*_REQUEST_SUCCESS`, `*_REQUEST_FAILURE`.
 
 ```js
 export function sendChatRating(rating = null) {

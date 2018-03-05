@@ -42,7 +42,6 @@ describe('chat selectors', () => {
     const chatSelectorsPath = buildSrcPath('redux/modules/chat/chat-selectors');
 
     mockery.registerAllowable(chatSelectorsPath);
-
     const selectors = requireUncached(chatSelectorsPath);
 
     getAgents = selectors.getAgents;
@@ -70,6 +69,11 @@ describe('chat selectors', () => {
     getEmailTranscript = selectors.getEmailTranscript;
     getShowRatingScreen = selectors.getShowRatingScreen;
     getThemeShowAvatar = selectors.getThemeShowAvatar;
+  });
+
+  afterEach(() => {
+    mockery.deregisterAll();
+    mockery.disable();
   });
 
   describe('getChatNotification', () => {
