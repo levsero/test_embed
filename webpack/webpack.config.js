@@ -61,12 +61,14 @@ var config = {
     alias: {
       // Framework
       component: path.join(prefix + '/src/component'),
+      constants: path.join(prefix + '/src/constants'),
       embed: path.join(prefix + '/src/embed'),
       mixin: path.join(prefix + '/src/component/mixin'),
       service: path.join(prefix + '/src/service'),
       src: path.join(prefix + '/src'),
       utility: path.join(prefix + '/src/util'),
       translation: path.join(prefix + '/src/translation'),
+      types: path.join(prefix + '/src/types'),
       vendor: path.join(prefix + '/src/vendor'),
       // CSS Components
       componentCSS: path.join(prefix + '/src/styles/components'),

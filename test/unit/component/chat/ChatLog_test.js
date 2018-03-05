@@ -5,7 +5,7 @@ describe('ChatLog component', () => {
   let mockRegistry;
 
   const chatLogPath = buildSrcPath('component/chat/ChatLog');
-  const chatSelectorsPath = buildSrcPath('redux/modules/chat/chat-selectors');
+  const chatConstantsPath = buildSrcPath('constants/chat');
 
   const ChatGroup = noopReactComponent('ChatGroup');
   const ChatEventMessage = noopReactComponent('ChatEventMessage');
@@ -13,8 +13,8 @@ describe('ChatLog component', () => {
   beforeEach(() => {
     mockery.enable();
 
-    CHAT_MESSAGE_EVENTS = requireUncached(chatSelectorsPath).CHAT_MESSAGE_EVENTS;
-    CHAT_SYSTEM_EVENTS = requireUncached(chatSelectorsPath).CHAT_SYSTEM_EVENTS;
+    CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS;
+    CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS;
 
     mockRegistry = initMockRegistry({
       'component/chat/ChatGroup': {
@@ -26,7 +26,7 @@ describe('ChatLog component', () => {
       'component/button/Button': {
         Button: noopReactComponent()
       },
-      'src/redux/modules/chat/chat-selectors': {
+      'constants/chat': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS
       },

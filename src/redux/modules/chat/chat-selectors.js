@@ -1,18 +1,6 @@
 import _ from 'lodash';
 import { createSelector } from 'reselect';
-
-export const CHAT_MESSAGE_EVENTS = [
-  'chat.msg',
-  'chat.file'
-];
-
-export const CHAT_SYSTEM_EVENTS = [
-  'chat.memberjoin',
-  'chat.memberleave',
-  'chat.rating',
-  'chat.comment',
-  'chat.request.rating'
-];
+import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
 
 const groupChatsByAgent = (state) => {
   const agentMsgs = getChatMessagesByAgent(state);
