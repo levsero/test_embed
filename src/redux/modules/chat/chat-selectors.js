@@ -154,3 +154,10 @@ export const getGroupedChatLog = createSelector(
     }).bind({ latestRating: {}, latestRatingRequest: {} }), {});
   }
 );
+
+export const getShowRatingScreen = createSelector(
+  [getChatRating, getRatingSettings, getAgents],
+  (rating, ratingSettings, agents) => (
+    !rating.value && ratingSettings.enabled && _.size(agents) > 0
+  )
+);

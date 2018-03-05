@@ -21,7 +21,8 @@ describe('chat selectors', () => {
     getPrechatFormFields,
     getRatingSettings,
     getUserSoundSettings,
-    getEmailTranscript;
+    getEmailTranscript,
+    getShowRatingScreen;
 
   beforeEach(() => {
     mockery.enable();
@@ -55,6 +56,7 @@ describe('chat selectors', () => {
     getRatingSettings = selectors.getRatingSettings;
     getUserSoundSettings = selectors.getUserSoundSettings;
     getEmailTranscript = selectors.getEmailTranscript;
+    getShowRatingScreen = selectors.getShowRatingScreen;
   });
 
   describe('getChatNotification', () => {
@@ -858,6 +860,70 @@ describe('chat selectors', () => {
     it(`returns the current state of the notification's count`, () => {
       expect(result)
         .toEqual(123);
+    });
+  });
+
+  describe('getShowRatingScreen', () => {
+    let result, mockState;
+
+    beforeEach(() => {
+      mockState = {
+        chat: {
+          rating: {
+            value: null,
+            comment: null
+          },
+          accountSettings: {
+            rating: {
+              enabled: true
+            }
+          },
+          agents: ['agent_1']
+        }
+      };
+    });
+
+    describe('when a rating has been submitted', () => {
+      beforeEach(() => {
+        mockState.chat.rating.value = 'good';
+        result = getShowRatingScreen(mockState);
+      });
+
+      it('returns false', () => {
+        expect(result).toBe(false);
+      });
+    });
+
+    describe('when ratings are disabled', () => {
+      beforeEach(() => {
+        mockState.chat.accountSettings.rating.enabled = false;
+        result = getShowRatingScreen(mockState);
+      });
+
+      it('returns false', () => {
+        expect(result).toBe(false);
+      });
+    });
+
+    describe('when there are no agents in the chat', () => {
+      beforeEach(() => {
+        mockState.chat.agents = [];
+        result = getShowRatingScreen(mockState);
+      });
+
+      it('returns false', () => {
+        expect(result).toBe(false);
+      });
+    });
+
+    describe('when a rating has not been submitted, ratings are enabled and there are agents in the chat', () => {
+      beforeEach(() => {
+        result = getShowRatingScreen(mockState);
+      });
+
+      it('returns true', () => {
+        expect(result).toBe(true);
+      });
     });
   });
 });
