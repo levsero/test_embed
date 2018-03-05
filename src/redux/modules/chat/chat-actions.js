@@ -30,7 +30,7 @@ import {
   RESET_EMAIL_TRANSCRIPT
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
-import { getChatVisitor } from 'src/redux/modules/chat/chat-selectors';
+import { getChatVisitor, getShowRatingScreen } from 'src/redux/modules/chat/chat-selectors';
 
 const chatTypingTimeout = 2000;
 
@@ -74,13 +74,11 @@ export const endChat = () => {
 
 export const endChatViaPostChatScreen = () => {
   return (dispatch, getState) => {
-    const { rating, accountSettings, agents } = getState().chat;
-
-    if (!rating.value && accountSettings.rating.enabled && _.size(agents) > 0) {
+    if (getShowRatingScreen(getState())) {
       dispatch(updateChatScreen(FEEDBACK_SCREEN));
     }
     else {
-      endChat()(dispatch);
+      dispatch(endChat());
     }
   };
 };
