@@ -1,0 +1,59 @@
+/**
+ * 1. Non standard for WebKit
+ */
+
+@import '../../styles/_vars.scss';
+
+.childrenContainer {
+  composes: u-paddingTM u-paddingBT u-paddingHL from global;
+}
+
+.resultContainer {
+  composes: u-paddingAL from global;
+  width: #{275/$font-size}rem;
+}
+
+.loadingContainer {
+  padding: #{18/$font-size}rem;
+  width: #{279/$font-size}rem;
+}
+
+.resultScreen {
+  composes: u-wordBreakAll from global;
+  display: grid;
+  grid-template-columns: #{30/$font-size}rem #{245/$font-size}rem;
+
+  min-height: #{20/$font-size}rem;
+
+
+  hyphens: auto;
+
+  &:last-child {
+    font-size: #{13/$font-size}rem;
+    line-height: #{16/$font-size}rem;
+  }
+}
+
+.title {
+  color: $zd-color-monsoon;
+}
+
+.form {
+  composes: u-marginBN from global;
+}
+
+.field {
+  composes: u-paddingVS u-paddingHM from global;
+}
+
+.fieldContainer {
+  composes: u-marginBS from global;
+}
+
+.loadingSpinner {
+  composes: u-textCenter from global;
+}
+
+.loadingSpinnerIE {
+  composes: u-paddingBXL u-paddingRXL from global;
+}

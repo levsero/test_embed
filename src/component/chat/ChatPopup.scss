@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
 .containerWrapper {
-  composes: u-hsizeAll u-posAbsolute from global;
+  composes: u-hsizeAll u-posAbsolute u-zIndex1 from global;
 }
 
 .container {

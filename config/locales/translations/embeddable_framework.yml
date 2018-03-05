@@ -151,6 +151,26 @@ parts:
       key: "embeddable_framework.chat.reconnecting.label"
       title: "The title that displays in the chat reconnecting message bubble"
       value: "Reconnecting"
+  - translation:
+      key: "embeddable_framework.chat.emailtranscript.failure_message"
+      title: "The message that appears when an email was not successfully registered for sending a chat transcript."
+      screenshot: "https://zendesk.box.com/s/ciyp3cht8bg1ecbls423isur6era66ph"
+      value: "Unable to send transcript."
+  - translation:
+      key: "embeddable_framework.chat.emailtranscript.try_again"
+      title: "The try again link that appears when an email was not successfully registered for sending a chat transcript. "
+      screenshot: "https://zendesk.box.com/s/283wa03wokpn8t7yq4kx4huy86zqqizq"
+      value: "Try again."
+  - translation:
+      key: "embeddable_framework.chat.emailtranscript.success_message"
+      title: "The message that appears when an email was successfully registered for sending a chat transcript. We have a <b></b> surrounded around email and %(email)s will be replaced by a real email."
+      screenshot: "https://zendesk.box.com/s/2mht92k8pdnjaiixbehabhrx6nmtr4eb"
+      value: "Email will be sent to %(email)s when the chat ends"
+  - translation:
+      key: "embeddable_framework.chat.emailtranscript.title"
+      title: "The form title of the chat email transcript popup"
+      screenshot: "need_url"
+      value: "Email chat transcript"
 
   # Chat Web SDK
   - translation:

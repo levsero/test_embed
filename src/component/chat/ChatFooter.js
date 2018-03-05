@@ -28,9 +28,9 @@ export class ChatFooter extends Component {
     this.props.toggleMenu();
   }
 
-  handleEndChatClick = () => {
+  handleEndChatClick = (e) => {
     if (this.props.isChatting) {
-      this.props.endChat();
+      this.props.endChat(e);
     }
   }
 

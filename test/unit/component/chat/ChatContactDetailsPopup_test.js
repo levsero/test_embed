@@ -2,6 +2,8 @@ describe('ChatContactDetailsPopup component', () => {
   let ChatContactDetailsPopup,
     mockForm,
     mockFormValidity;
+  let mockEmailValid = true;
+
   const ChatContactDetailsPopupPath = buildSrcPath('component/chat/ChatContactDetailsPopup');
 
   class ChatPopup extends Component {
@@ -39,6 +41,9 @@ describe('ChatContactDetailsPopup component', () => {
         i18n: {
           t: noop
         }
+      },
+      'src/util/utils': {
+        emailValid: () => mockEmailValid
       }
     });
 
@@ -71,6 +76,7 @@ describe('ChatContactDetailsPopup component', () => {
 
     beforeEach(() => {
       rightCtaFnSpy = jasmine.createSpy('rightCtaFn');
+
       component = instanceRender(<ChatContactDetailsPopup rightCtaFn={rightCtaFnSpy} />);
 
       component.setState({ formState: { name: 'bob', email: 'bob@zd.com' } });
@@ -101,7 +107,7 @@ describe('ChatContactDetailsPopup component', () => {
 
     it('sets state.formState for target field', () => {
       expect(component.state.formState)
-        .toEqual({ name: 'bob' });
+        .toEqual({ name: 'bob', email: '' });
     });
   });
 

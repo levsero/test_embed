@@ -492,6 +492,11 @@ u-overflowAuto {
   text-transform: uppercase;
 }
 
+.u-wordBreakAll {
+  word-break: break-all;
+  word-break: break-word; /* Non standard for WebKit */
+}
+
 /**
  * States
  */

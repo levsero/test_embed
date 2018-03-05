@@ -17,7 +17,8 @@ export class ChatPopup extends Component {
     rightCtaDisabled: PropTypes.bool,
     childrenOnClick: PropTypes.func,
     children: PropTypes.node,
-    show: PropTypes.bool
+    show: PropTypes.bool,
+    onExited: PropTypes.func
   };
 
   static defaultProps = {
@@ -30,8 +31,13 @@ export class ChatPopup extends Component {
     rightCtaDisabled: false,
     childrenOnClick: () => {},
     children: null,
-    show: false
+    show: false,
+    onExited: () => {}
   };
+
+  onContainerClick = (e) => {
+    e.stopPropagation();
+  }
 
   renderCta = () => {
     const {
@@ -62,7 +68,9 @@ export class ChatPopup extends Component {
     return (
       <SlideUpAppear
         className={`${className} ${styles.containerWrapper}`}
-        trigger={this.props.show}>
+        trigger={this.props.show}
+        onClick={this.onContainerClick}
+        onExited={this.props.onExited}>
         <div className={styles.container}>
           <div onClick={childrenOnClick}>{children}</div>
           {this.renderCta()}

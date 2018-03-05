@@ -19,6 +19,11 @@ export const UPDATE_CHAT_SCREEN = 'widget/chat/UPDATE_CHAT_SCREEN';
 export const NEW_AGENT_MESSAGE_RECEIVED = 'widget/chat/NEW_AGENT_MESSAGE_RECEIVED';
 export const CHAT_OPENED = 'widget/chat/CHAT_OPENED';
 export const HIDE_CHAT_NOTIFICATION = 'widget/chat/HIDE_CHAT_NOTIFICATION';
+export const EMAIL_TRANSCRIPT_REQUEST_SENT = 'widget/chat/EMAIL_TRANSCRIPT_REQUEST_SENT';
+export const EMAIL_TRANSCRIPT_SUCCESS = 'widget/chat/EMAIL_TRANSCRIPT_SUCCESS';
+export const EMAIL_TRANSCRIPT_FAILURE = 'widget/chat/EMAIL_TRANSCRIPT_FAILURE';
+export const EMAIL_TRANSCRIPT_IDLE = 'widget/chat/EMAIL_TRANSCRIPT_IDLE';
+export const RESET_EMAIL_TRANSCRIPT = 'widget/chat/RESET_EMAIL_TRANSCRIPT';
 
 export const SDK_CHAT_MSG = 'websdk/chat.msg';
 export const SDK_CHAT_FILE = 'websdk/chat.file';

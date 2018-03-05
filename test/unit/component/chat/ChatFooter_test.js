@@ -138,7 +138,7 @@ describe('ChatFooter component', () => {
       beforeEach(() => {
         component = domRender(<ChatFooter isChatting={false} endChat={endChatSpy} />);
 
-        component.handleEndChatClick();
+        component.handleEndChatClick('some event');
       });
 
       it('does not call props.endChat', () => {
@@ -151,12 +151,12 @@ describe('ChatFooter component', () => {
       beforeEach(() => {
         component = domRender(<ChatFooter isChatting={true} endChat={endChatSpy} />);
 
-        component.handleEndChatClick();
+        component.handleEndChatClick('some event');
       });
 
       it('calls props.endChat', () => {
         expect(endChatSpy)
-          .toHaveBeenCalled();
+          .toHaveBeenCalledWith('some event');
       });
     });
   });

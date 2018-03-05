@@ -20,7 +20,8 @@ describe('chat selectors', () => {
     getPrechatFormSettings,
     getPrechatFormFields,
     getRatingSettings,
-    getUserSoundSettings;
+    getUserSoundSettings,
+    getEmailTranscript;
 
   beforeEach(() => {
     mockery.enable();
@@ -53,6 +54,7 @@ describe('chat selectors', () => {
     getPrechatFormSettings = selectors.getPrechatFormSettings;
     getRatingSettings = selectors.getRatingSettings;
     getUserSoundSettings = selectors.getUserSoundSettings;
+    getEmailTranscript = selectors.getEmailTranscript;
   });
 
   describe('getChatNotification', () => {
@@ -257,6 +259,30 @@ describe('chat selectors', () => {
     it('returns the current state of is_chatting', () => {
       expect(result)
         .toEqual(true);
+    });
+  });
+
+  describe('getEmailTranscript', () => {
+    let result;
+    const mockChatSettings = {
+      chat: {
+        emailTranscript: {
+          status: 'some_status',
+          email: 'someemail@email.com'
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getEmailTranscript(mockChatSettings);
+    });
+
+    it('returns the current state of emailTranscript', () => {
+      expect(result)
+        .toEqual({
+          status: 'some_status',
+          email: 'someemail@email.com'
+        });
     });
   });
 

@@ -14,13 +14,17 @@ export class ChatMenu extends Component {
     contactDetailsOnClick: PropTypes.func,
     onSoundClick: PropTypes.func.isRequired,
     endChatOnClick: PropTypes.func,
-    show: PropTypes.bool
+    show: PropTypes.bool,
+    emailTranscriptOnClick: PropTypes.func,
+    isChatting: PropTypes.bool
   };
 
   static defaultProps = {
     endChatOnClick: () => {},
     contactDetailsOnClick: () => {},
-    show: false
+    show: false,
+    emailTranscriptOnClick: () => {},
+    isChatting: false
   };
 
   handleSoundClick = (e) => {
@@ -39,6 +43,16 @@ export class ChatMenu extends Component {
     );
   }
 
+  renderEmailTranscriptButton = () => {
+    if (!this.props.isChatting) return null;
+
+    return (
+      <button className={styles.item} onClick={this.props.emailTranscriptOnClick}>
+        {i18n.t('embeddable_framework.chat.options.emailTranscript')}
+      </button>
+    );
+  }
+
   render() {
     return (
       <SlideUpAppear
@@ -48,9 +62,7 @@ export class ChatMenu extends Component {
         trigger={this.props.show}>
         {this.renderSoundButton()}
         <div className={styles.itemLine} />
-        <button className={styles.item}>
-          {i18n.t('embeddable_framework.chat.options.emailTranscript')}
-        </button>
+        {this.renderEmailTranscriptButton()}
         <button className={styles.item} onClick={this.props.contactDetailsOnClick}>
           {i18n.t('embeddable_framework.chat.options.editContactDetails')}
         </button>
