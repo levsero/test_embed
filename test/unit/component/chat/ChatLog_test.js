@@ -255,14 +255,14 @@ describe('ChatLog component', () => {
       return component.renderRequestRatingButton;
     };
 
-    let renderRequestRatingButtonFn;
-    let renderRequestRatingButton;
-    let goToFeedbackScreenSpy = jasmine.createSpy('goToFeedbackScreen');
-    let isLastRating;
-    let newRating;
-    let event;
-    let chatCommentLeft;
-    let mockStringValues;
+    let renderRequestRatingButtonFn,
+      renderRequestRatingButton,
+      isLastRating,
+      newRating,
+      event,
+      chatCommentLeft,
+      mockStringValues,
+      goToFeedbackScreenSpy = jasmine.createSpy('goToFeedbackScreen');
 
     beforeEach(() => {
       renderRequestRatingButtonFn = getRenderRequestRatingButtonFn();

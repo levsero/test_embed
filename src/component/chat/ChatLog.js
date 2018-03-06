@@ -53,19 +53,15 @@ export class ChatLog extends Component {
 
   renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreen) {
     const acceptedEventTypes = ['chat.rating', 'chat.request.rating'];
+    const validEventType = _.includes(acceptedEventTypes, event.type);
+    const isRatingEvent = event.type === 'chat.rating';
+    const showButtonForRating = event.isLastRating && event.new_rating && !chatCommentLeft;
 
-    if (
-      !_.includes(acceptedEventTypes, event.type) ||
-      (event.type === 'chat.rating' && (
-        !event.isLastRating ||
-        !event.new_rating ||
-        chatCommentLeft
-      ))
-    ) { return; }
+    if (!validEventType || (isRatingEvent && !showButtonForRating)) return;
 
-    const labelKey = event.type === 'chat.rating' ?
-      'embeddable_framework.chat.chatLog.button.leaveComment' :
-      'embeddable_framework.chat.chatLog.button.rateChat';
+    const labelKey = (event.type === 'chat.rating')
+                   ? 'embeddable_framework.chat.chatLog.button.leaveComment'
+                   : 'embeddable_framework.chat.chatLog.button.rateChat';
 
     return (
       <Button
@@ -80,8 +76,6 @@ export class ChatLog extends Component {
   render() {
     const { chatLog, agents, chatCommentLeft, goToFeedbackScreen } = this.props;
 
-    return (
-      <div>{this.renderChatLog(chatLog, agents, chatCommentLeft, goToFeedbackScreen)}</div>
-    );
+    return this.renderChatLog(chatLog, agents, chatCommentLeft, goToFeedbackScreen);
   }
 }
