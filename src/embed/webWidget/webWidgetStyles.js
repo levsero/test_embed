@@ -36,6 +36,7 @@ import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.scss
 import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.scss';
 import HelpCenterResultsStyles from 'component/helpCenter/HelpCenterResults.scss';
 import IconFieldButtonStyles from 'component/button/IconFieldButton.scss';
+import ImageMessageStyles from 'component/chat/ImageMessage.scss';
 import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.scss';
 import MessageBubbleStyles from 'component/chat/MessageBubble.scss';
 import SearchFieldButtonStyles from 'component/button/SearchFieldButton.scss';
@@ -88,6 +89,7 @@ export const webWidgetStyles = `
   ${HelpCenterMobileStyles}
   ${HelpCenterResultsStyles}
   ${IconFieldButtonStyles}
+  ${ImageMessageStyles}
   ${LoadingEllipsesStyles}
   ${MessageBubbleStyles}
   ${SearchFieldButtonStyles}
