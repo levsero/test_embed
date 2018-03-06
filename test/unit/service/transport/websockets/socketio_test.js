@@ -52,7 +52,9 @@ describe('socketio', () => {
       expect(args[1])
         .toEqual({
           query: 'subdomain=foocustomer&keyword=Support',
-          path: '/talk_embeddables_service/socket.io'
+          path: '/talk_embeddables_service/socket.io',
+          reconnectionAttempts: 6,
+          transports: ['websocket']
         });
     });
 
