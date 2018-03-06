@@ -1,4 +1,9 @@
 ## Changelog
+### 07 March 2018
+- Web Widget performance improvements, including the new Asset Composer snippet were released. See announcement here.
+- Fixed an issue where Chat wasn't appearing after an Agent comes online. The Widget now behaves as expected, opening to Chat.
+- Fixed an issue where a line became visible after scrolling in the Widget on mobile. The line no longer appears.
+
 ### 05 March 2018
 - Fixed an issue with tables in Help Center articles. The Widget now allows horizontal scrolling for articles with multiple tables. 
 
