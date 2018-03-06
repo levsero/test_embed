@@ -8,19 +8,15 @@ const rating = (state = initialState, action = {}) => {
 
   switch (type) {
     case CHAT_RATING_REQUEST_SUCCESS:
-      return (
-        {
-          value: payload,
-          comment: null
-        }
-      );
+      return {
+        value: payload,
+        comment: null
+      };
     case CHAT_RATING_COMMENT_REQUEST_SUCCESS:
-      return (
-        {
-          ...state,
-          comment: payload
-        }
-      );
+      return {
+        ...state,
+        comment: payload
+      };
     default:
       return state;
   }
