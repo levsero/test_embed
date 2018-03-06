@@ -93,17 +93,6 @@ export const endChatViaPostChatScreen = () => {
   };
 };
 
-export const agentEndChat = () => {
-  return (dispatch, getState) => {
-    const { rating, accountSettings, agents } = getState().chat;
-    dispatch({ type: END_CHAT_REQUEST_SUCCESS });
-
-    if (rating === null && accountSettings.rating.enabled && _.size(agents) > 0) {
-      dispatch(updateChatScreen(FEEDBACK_SCREEN));
-    }
-  };
-}
-
 export const updateChatScreen = (screen) => {
   return {
     type: UPDATE_CHAT_SCREEN,
