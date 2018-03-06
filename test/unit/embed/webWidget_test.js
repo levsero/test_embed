@@ -376,9 +376,9 @@ describe('embed.webWidget', () => {
           faythe = webWidget.get().component.props.children;
         });
 
-        it('should switch container styles', () => {
+        it('switches container styles', () => {
           expect(faythe.props.style)
-            .toEqual({ height: '100%', width: '100%' });
+            .toEqual({ minHeight: '100%', width: '100%' });
         });
       });
 

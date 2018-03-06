@@ -160,7 +160,7 @@ export default function WebWidgetFactory(name) {
     }
 
     if (isMobileBrowser()) {
-      containerStyle = { width: '100%', height: '100%' };
+      containerStyle = { width: '100%', minHeight:'100%' };
     } else {
       const margin = settings.get('margin');
 
