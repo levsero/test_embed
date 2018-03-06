@@ -13,15 +13,14 @@ export class ChatFeedbackForm extends Component {
     sendClickFn: PropTypes.func.isRequired,
     feedbackMessage: PropTypes.string,
     rating: PropTypes.object.isRequired,
-    cancelButtonTextKey: PropTypes.string.isRequired
+    cancelButtonText: PropTypes.string.isRequired
   }
 
   static defaultProps = {
     feedbackMessage: '',
     rating: {
       value: ChatRatings.NOT_SET
-    },
-    cancelButtonTextKey: ''
+    }
   }
 
   constructor(props) {
@@ -34,7 +33,7 @@ export class ChatFeedbackForm extends Component {
   }
 
   renderActionButtons = () => {
-    const { cancelButtonTextKey } = this.props;
+    const { cancelButtonText } = this.props;
     const disabled = this.state.selectedRating === ChatRatings.NOT_SET;
 
     return (
@@ -42,7 +41,7 @@ export class ChatFeedbackForm extends Component {
         <Button
           className={styles.button}
           primary={false}
-          label={i18n.t(cancelButtonTextKey)}
+          label={cancelButtonText}
           onClick={this.props.skipClickFn} />
         <Button
           className={styles.rightButton}
@@ -62,7 +61,7 @@ export class ChatFeedbackForm extends Component {
         <ChatRatingGroup
           className={styles.chatRatingGroup}
           rating={this.state.selectedRating}
-          updateRating={(rating) => this.setState({selectedRating: rating})}
+          updateRating={(rating) => this.setState({ selectedRating: rating })}
         />
         <label htmlFor='feedbackTextarea' className={styles.feedbackDescription}>
           {i18n.t('embeddable_framework.chat.postChat.rating.description')}
@@ -73,7 +72,7 @@ export class ChatFeedbackForm extends Component {
           className={styles.textarea}
           placeholder={i18n.t('embeddable_framework.chat.postChat.rating.placeholder.optional')}
           rows={6}
-          defaultValue={rating.comment || undefined}/>
+          defaultValue={rating.comment} />
         {this.renderActionButtons()}
       </div>
     );
