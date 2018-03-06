@@ -374,6 +374,16 @@ parts:
       screenshot: "https://zendesk.box.com/s/0yvw1vbm79q8ibvpv36nntyw7asm1yqm"
       value: "Uploading..."
   - translation:
+      key: "embeddable_framework.chat.chatLog.loadingImage"
+      title: "A text that is displayed at the bottom of an uploaded image attachment signifying that it is in the process of being downloaded to display in the chat log. The %(attachmentSize)s placeholder will be replaced with the size of the image in kilobytes (KB) or megabytes (MB)"
+      screenshot: "https://zendesk.box.com/s/y5jv9ov2vpy0xm8whq31819dffkj18zu"
+      value: "Loading image (%(attachmentSize)s)..."
+  - translation:
+      key: "embeddable_framework.chat.chatLog.attachmentDownload"
+      title: "A text that is displayed on an incoming attachment linking to the file"
+      screenshot: "https://zendesk.box.com/s/jl47jgnkjwsknei785vfiklkkdep3exl"
+      value: "Download"
+  - translation:
       key: "embeddable_framework.chat.form.endChat.description"
       title: "A description that is displayed on a form modal to notify the users if they want to quit the current chat"
       screenshot: "https://zendesk.box.com/s/hsnutdne9ixb8b6ygperw3exb0j2m8uw"

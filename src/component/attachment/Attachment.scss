@@ -1,73 +1,76 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: u-marginTT u-posRelative from global;
-
-  background-color: $zd-color-anti-flash-white !important;
+  composes: u-paddingAS u-posRelative from global;
   border: $thin-border-size solid $stroke-color;
-  border-radius: #{4/$font-size}rem;
-  padding: #{7/$font-size}rem;
   color: $secondary-color;
 }
 
 .containerError {
   composes: u-borderError from global;
-
-  background-color: $zd-color-white !important;
-}
-
-.uploading {
-  background-color: transparent;
-  border: #{1/$font-size}rem dashed $zd-color-iron;
 }
 
 .preview {
-  composes: u-posRelative u-hsizeAll from global;
-
-  overflow: auto;
+  composes: u-flex u-flexAlignItemsCenter from global;
   min-height: #{32/$font-size}rem;
-  height: auto;
   z-index: 2;
 }
 
-.previewNameLeft {
-  composes: u-alignTop u-pullLeft u-textTruncate u-textBody from global;
-
-  max-width: 62%;
+.description {
+  flex: 1;
 }
 
-.previewNameRight {
-  composes: u-pullLeft u-textBody from global;
-}
-
-.progress {
-  composes: u-zIndex1 u-vsizeAll u-posAbsolute u-posStart--flush u-posStart--vertFlush from global;
-
-  border-radius: #{4/$font-size}rem;
-  background-color: rgba($zd-color-shamrock, 0.15);
-}
-
-.title {
-  composes: u-pullLeft from global;
-
-  width: 85%;
+.previewName {
+  composes: u-flex u-textBody from global;
+  overflow: hidden;
 }
 
 .secondaryText {
-  composes: u-pullLeft u-clearLeft from global;
+  composes: u-block from global;
 }
 
 .secondaryTextError {
   composes: u-textError from global;
 }
 
+.downloadSize {
+  color: $secondary-color;
+}
+
+.downloadText {
+  composes: u-marginLT from global;
+  color: #007FAB;
+}
+
 .icon {
-  composes: u-isActionable u-pullRight from global;
   composes: Button--nav from '../../styles/components/Button.scss';
-  composes: Icon--preview-close from '../../styles/components/Icon.scss';
+  composes: u-paddingTN u-isActionable from global;
+
+  svg {
+    min-width: #{10/$font-size}rem; /* 1 */
+    min-height: #{10/$font-size}rem; /* 1 */
+    height: #{10/$font-size}rem;
+    width: #{10/$font-size}rem;
+  }
 }
 
 .iconPreview {
-  composes: u-pullLeft from global;
   composes: Icon--preview from '../../styles/components/Icon.scss';
+  composes: u-paddingTN u-marginTN u-inlineBlock from global;
+}
+
+.link {
+  composes: u-linkClean from global;
+}
+
+.progressBarContainer {
+  composes: u-marginTT from global;
+  background-color: $zd-color-gainsboro;
+  border-radius: #{4/$font-size}rem;
+}
+
+.progressBar {
+  height: #{5/$font-size}rem;
+  background-color: $zd-color-chateau-green;
+  border-radius: #{4/$font-size}rem;
 }
