@@ -61,7 +61,7 @@ export class ChatNotificationPopup extends Component {
   }
 
   render = () => {
-    const { notification, chatNotificationDismissed } = this.props;
+    const { notification, chatNotificationDismissed, chatNotificationRespond } = this.props;
     const { proactive } = notification;
     const className = proactive ? styles.ongoingNotificationCta : styles.ongoingNotification;
 
@@ -73,8 +73,8 @@ export class ChatNotificationPopup extends Component {
         leftCtaLabel={i18n.t('embeddable_framework.chat.popup.button.dismiss')}
         leftCtaFn={chatNotificationDismissed}
         rightCtaLabel={i18n.t('embeddable_framework.chat.popup.button.reply')}
-        rightCtaFn={this.props.chatNotificationRespond}
-        childrenOnClick={this.props.chatNotificationRespond}>
+        rightCtaFn={chatNotificationRespond}
+        childrenOnClick={chatNotificationRespond}>
         {this.renderProactiveContent()}
       </ChatPopup>
     );
