@@ -528,6 +528,38 @@ describe('chat selectors', () => {
       });
     });
 
+    describe('when passed a chat log with many consecutive messages from either visitor or agent', () => {
+      beforeEach(() => {
+        mockChats = [
+          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 1 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'Hey', timestamp: 2 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'Yo', timestamp: 3 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'Oi', timestamp: 4 },
+          { nick: 'agent', type: 'chat.msg', msg: 'What', timestamp: 5 },
+          { nick: 'agent', type: 'chat.msg', msg: 'Calm down', timestamp: 6 },
+          { nick: 'agent', type: 'chat.msg', msg: 'What do you want', timestamp: 7 }
+        ];
+
+        mockChatSettings = {
+          chat: {
+            chats: { values: () => mockChats }
+          }
+        };
+
+        expectedResult = {
+          1: [mockChats[0], mockChats[1], mockChats[2], mockChats[3]],
+          5: [mockChats[4], mockChats[5], mockChats[6]]
+        };
+
+        result = getGroupedChatLog(mockChatSettings);
+      });
+
+      it('parses the chat log successfully', () => {
+        expect(result)
+          .toEqual(expectedResult);
+      });
+    });
+
     describe('when passed a chat log which begins with an event', () => {
       beforeEach(() => {
         mockChats = [
