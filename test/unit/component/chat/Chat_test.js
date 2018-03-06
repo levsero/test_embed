@@ -318,7 +318,7 @@ describe('Chat component', () => {
 
     describe('when state.screen is not `feedback`', () => {
       beforeEach(() => {
-        component = domRender(
+        component = instanceRender(
           <Chat
             screen={chattingScreen}
           />
@@ -350,6 +350,13 @@ describe('Chat component', () => {
         );
       });
 
+      afterEach(() => {
+        updateChatScreenSpy.calls.reset();
+        endChatSpy.calls.reset();
+        sendChatRatingSpy.calls.reset();
+        sendChatCommentSpy.calls.reset();
+      });
+
       it('returns a component', () => {
         expect(component.renderPostchatScreen())
           .toBeTruthy();
@@ -367,13 +374,6 @@ describe('Chat component', () => {
         beforeEach(() => {
           chatFeedbackFormComponent = component.renderPostchatScreen().props.children;
           sendClickFn = chatFeedbackFormComponent.props.sendClickFn;
-        });
-
-        afterEach(() => {
-          updateChatScreenSpy.calls.reset();
-          endChatSpy.calls.reset();
-          sendChatRatingSpy.calls.reset();
-          sendChatCommentSpy.calls.reset();
         });
 
         it('sends the chat rating if it has changed', () => {
@@ -405,9 +405,28 @@ describe('Chat component', () => {
           expect(updateChatScreenSpy).toHaveBeenCalledWith(chattingScreen);
         });
 
-        it('ends the chat', () => {
-          sendClickFn(defaultRating.value);
-          expect(endChatSpy).toHaveBeenCalled();
+        describe('when the components state has endChatFromFeedbackForm set to true', () => {
+          beforeEach(() => {
+            component.setState({ endChatFromFeedbackForm: true });
+            sendClickFn = sendClickFn.bind(component);
+          });
+
+          it('ends the chat', () => {
+            sendClickFn(defaultRating.value);
+            expect(endChatSpy).toHaveBeenCalled();
+          });
+        });
+
+        describe('when the components state has endChatFromFeedbackForm set to false', () => {
+          beforeEach(() => {
+            component.setState({ endChatFromFeedbackForm: false });
+            sendClickFn = sendClickFn.bind(component);
+          });
+
+          it('does not end the chat', () => {
+            sendClickFn(defaultRating.value);
+            expect(endChatSpy).not.toHaveBeenCalled();
+          });
         });
       });
 
@@ -420,13 +439,32 @@ describe('Chat component', () => {
         });
 
         it('redirects to the chatting screen', () => {
-          skipClickFn(defaultRating.value);
+          skipClickFn();
           expect(updateChatScreenSpy).toHaveBeenCalledWith(chattingScreen);
         });
 
-        it('ends the chat', () => {
-          skipClickFn(defaultRating.value);
-          expect(endChatSpy).toHaveBeenCalled();
+        describe('when the components state has endChatFromFeedbackForm set to true', () => {
+          beforeEach(() => {
+            component.setState({ endChatFromFeedbackForm: true });
+            skipClickFn = skipClickFn.bind(component);
+          });
+
+          it('ends the chat', () => {
+            skipClickFn();
+            expect(endChatSpy).toHaveBeenCalled();
+          });
+        });
+
+        describe('when the components state has endChatFromFeedbackForm set to false', () => {
+          beforeEach(() => {
+            component.setState({ endChatFromFeedbackForm: false });
+            skipClickFn = skipClickFn.bind(component);
+          });
+
+          it('does not end the chat', () => {
+            skipClickFn();
+            expect(endChatSpy).not.toHaveBeenCalled();
+          });
         });
       });
     });
