@@ -6,7 +6,8 @@ import { locals as styles } from './ChatEventMessage.scss';
 
 export class ChatEventMessage extends Component {
   static propTypes = {
-    event: PropTypes.object.isRequired
+    event: PropTypes.object.isRequired,
+    children: PropTypes.object
   };
 
   renderEventMessage(event) {
@@ -30,6 +31,8 @@ export class ChatEventMessage extends Component {
         return ratingValue
           ? i18n.t('embeddable_framework.chat.chatLog.rating.description', { value })
           : i18n.t('embeddable_framework.chat.chatLog.rating.removed');
+      case 'chat.comment':
+        return i18n.t('embeddable_framework.chat.chatlog.comment.submitted');
     }
   }
 
@@ -39,6 +42,7 @@ export class ChatEventMessage extends Component {
     return (
       <div key={event.timestamp} className={styles.eventMessage}>
         {this.renderEventMessage(event)}
+        {this.props.children}
       </div>
     );
   }

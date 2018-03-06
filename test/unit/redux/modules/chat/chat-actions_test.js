@@ -14,7 +14,11 @@ let actions,
   mockSendChatRating = jasmine.createSpy('sendChatRating'),
   mockSendChatComment = jasmine.createSpy('sendChatComment'),
   mockSendFile = jasmine.createSpy('sendFile'),
-  mockSendEmailTranscript = jasmine.createSpy('sendEmailTranscript');
+  mockSendEmailTranscript = jasmine.createSpy('sendEmailTranscript'),
+  showRatingScreen = false,
+  getShowRatingScreenSpy = jasmine.createSpy('getShowRatingScreenSpy')
+                             .and
+                             .callFake(() => showRatingScreen);
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -36,7 +40,8 @@ describe('chat redux actions', () => {
         _getAccountSettings: () => mockAccountSettings
       },
       'src/redux/modules/chat/chat-selectors': {
-        getChatVisitor: () => 'Batman'
+        getChatVisitor: () => 'Batman',
+        getShowRatingScreen: getShowRatingScreenSpy
       }
     });
 
@@ -55,7 +60,11 @@ describe('chat redux actions', () => {
     mockVisitor = { display_name: 'Visitor 123', nick: 'visitor' };
     mockStore = createMockStore({
       chat: {
-        visitor: mockVisitor
+        visitor: mockVisitor,
+        rating: {},
+        accountSettings: {
+          rating: {}
+        }
       }
     });
 
@@ -213,93 +222,41 @@ describe('chat redux actions', () => {
         });
       });
     });
+  });
 
-    describe('rating and feedback form visibility', () => {
-      const mockAgents = { agent_id: { display_name: 'James', typing: false }};
-      const createChatStore = (ratingEnabled, agents) => {
-        return createMockStore({
-          chat: {
-            accountSettings: {
-              rating: {
-                enabled: ratingEnabled
-              }
-            },
-            rating: null,
-            agents
-          }
-        });
-      };
+  describe('endChatViaPostChatScreen', () => {
+    beforeEach(() => {
+      mockStore.clearActions();
+    });
 
-      describe('satisfaction rating settings', () => {
-        describe('enabled', () => {
-          beforeEach(() => {
-            mockStore = createChatStore(true, mockAgents);
-            mockStore.dispatch(actions.endChat());
-
-            makeEndChatCall();
-          });
-
-          it('dispatches an UPDATE_CHAT_SCREEN action with the FEEDBACK_SCREEN', () => {
-            expect(mockStore.getActions())
-              .toContain({
-                type: actionTypes.UPDATE_CHAT_SCREEN,
-                payload: { screen: screenTypes.FEEDBACK_SCREEN }
-              });
-          });
-        });
-
-        describe('disabled', () => {
-          beforeEach(() => {
-            mockStore = createChatStore(false, mockAgents);
-            mockStore.dispatch(actions.endChat());
-
-            makeEndChatCall();
-          });
-
-          it('does not dispatch an UPDATE_CHAT_SCREEN action with the FEEDBACK_SCREEN', () => {
-            expect(mockStore.getActions())
-              .not
-              .toContain({
-                type: actionTypes.UPDATE_CHAT_SCREEN,
-                payload: { screen: screenTypes.FEEDBACK_SCREEN }
-              });
-          });
-        });
+    describe('when the getShowRatingScreen selector returns true', () => {
+      beforeEach(() => {
+        showRatingScreen = true;
+        mockStore.dispatch(actions.endChatViaPostChatScreen());
       });
 
-      describe('when an agent is present in the chat', () => {
-        beforeEach(() => {
-          mockStore = createChatStore(true, mockAgents);
-          mockStore.dispatch(actions.endChat());
+      it('dispatches an UPDATE_CHAT_SCREEN action with the FEEDBACK_SCREEN', () => {
+        expect(mockStore.getActions())
+          .toContain({
+            type: actionTypes.UPDATE_CHAT_SCREEN,
+            payload: { screen: screenTypes.FEEDBACK_SCREEN }
+          });
+      });
+    });
 
-          makeEndChatCall();
-        });
-
-        it('dispatches an UPDATE_CHAT_SCREEN action with the FEEDBACK_SCREEN', () => {
-          expect(mockStore.getActions())
-            .toContain({
-              type: actionTypes.UPDATE_CHAT_SCREEN,
-              payload: { screen: screenTypes.FEEDBACK_SCREEN }
-            });
-        });
+    describe('when the getShowRatingScreen selector returns false', () => {
+      beforeEach(() => {
+        showRatingScreen = false;
+        mockStore.dispatch(actions.endChatViaPostChatScreen());
       });
 
-      describe('when there is no agent in the chat', () => {
-        beforeEach(() => {
-          mockStore = createChatStore(true, {});
-          mockStore.dispatch(actions.endChat());
-
-          makeEndChatCall();
-        });
-
-        it('does not dispatch an UPDATE_CHAT_SCREEN action with the FEEDBACK_SCREEN', () => {
-          expect(mockStore.getActions())
-            .not
-            .toContain({
-              type: actionTypes.UPDATE_CHAT_SCREEN,
-              payload: { screen: screenTypes.FEEDBACK_SCREEN }
-            });
-        });
+      it('does not dispatch an UPDATE_CHAT_SCREEN action with the FEEDBACK_SCREEN', () => {
+        expect(mockStore.getActions())
+          .not
+          .toContain({
+            type: actionTypes.UPDATE_CHAT_SCREEN,
+            payload: { screen: screenTypes.FEEDBACK_SCREEN }
+          });
       });
     });
   });
@@ -495,11 +452,6 @@ describe('chat redux actions', () => {
               type: actionTypes.CHAT_RATING_COMMENT_REQUEST_SUCCESS,
               payload: rating
             });
-        });
-
-        it('calls endChat', () => {
-          expect(mockEndChat)
-            .toHaveBeenCalled();
         });
       });
 

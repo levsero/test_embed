@@ -30,7 +30,7 @@ import {
   RESET_EMAIL_TRANSCRIPT
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
-import { getChatVisitor } from 'src/redux/modules/chat/chat-selectors';
+import { getChatVisitor, getShowRatingScreen } from 'src/redux/modules/chat/chat-selectors';
 
 const chatTypingTimeout = 2000;
 
@@ -61,20 +61,25 @@ const sendMsgFailure = (err) => {
 };
 
 export const endChat = () => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     zChat.endChat((err) => {
       if (!err) {
-        const { rating, accountSettings, agents } = getState().chat;
-
         dispatch({ type: END_CHAT_REQUEST_SUCCESS });
-
-        if (rating === null && accountSettings.rating.enabled && _.size(agents) > 0) {
-          dispatch(updateChatScreen(FEEDBACK_SCREEN));
-        }
       } else {
         dispatch({ type: END_CHAT_REQUEST_FAILURE });
       }
     });
+  };
+};
+
+export const endChatViaPostChatScreen = () => {
+  return (dispatch, getState) => {
+    if (getShowRatingScreen(getState())) {
+      dispatch(updateChatScreen(FEEDBACK_SCREEN));
+    }
+    else {
+      dispatch(endChat());
+    }
   };
 };
 
@@ -187,7 +192,6 @@ export function sendChatComment(comment = '') {
           type: CHAT_RATING_COMMENT_REQUEST_SUCCESS,
           payload: comment
         });
-        endChat()(dispatch);
       } else {
         dispatch({ type: CHAT_RATING_COMMENT_REQUEST_FAILURE });
       }

@@ -1,6 +1,6 @@
-let updateChatScreenSpy;
 const prechatScreen = 'widget/chat/PRECHAT_SCREEN';
 const chattingScreen = 'widget/chat/CHATTING_SCREEN';
+const feedbackScreen = 'widget/chat/FEEDBACK_SCREEN';
 
 describe('Chat component', () => {
   let Chat, prechatFormSettingsProp;
@@ -13,7 +13,12 @@ describe('Chat component', () => {
   const EMAIL_TRANSCRIPT_FAILURE_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_FAILURE_SCREEN';
   const EMAIL_TRANSCRIPT_LOADING_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_LOADING_SCREEN';
 
-  updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
+  const updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
+  const sendChatRatingSpy = jasmine.createSpy('sendChatRating');
+  const sendChatCommentSpy = jasmine.createSpy('sendChatComment');
+  const endChatSpy = jasmine.createSpy('endChat');
+
+  const ChatFeedbackForm = noopReactComponent('ChatFeedbackForm');
 
   beforeEach(() => {
     mockery.enable();
@@ -59,7 +64,7 @@ describe('Chat component', () => {
         ChatEmailTranscriptPopup: noopReactComponent()
       },
       'component/chat/ChatFeedbackForm': {
-        ChatFeedbackForm: noopReactComponent()
+        ChatFeedbackForm
       },
       'component/chat/ChatRatingGroup': {
         ChatRatings: {}
@@ -77,7 +82,10 @@ describe('Chat component', () => {
         sendMsg: noop,
         handleChatBoxChange: noop,
         setVisitorInfo: noop,
-        updateChatScreen: updateChatScreenSpy
+        updateChatScreen: updateChatScreenSpy,
+        sendChatRating: sendChatRatingSpy,
+        sendChatComment: sendChatCommentSpy,
+        endChat: endChatSpy
       },
       'src/redux/modules/chat/chat-selectors': {
         getPrechatFormFields: noop
@@ -85,6 +93,7 @@ describe('Chat component', () => {
       'src/redux/modules/chat/chat-screen-types': {
         PRECHAT_SCREEN: prechatScreen,
         CHATTING_SCREEN: chattingScreen,
+        FEEDBACK_SCREEN: feedbackScreen,
         EMAIL_TRANSCRIPT_SCREEN: EMAIL_TRANSCRIPT_SCREEN,
         EMAIL_TRANSCRIPT_SUCCESS_SCREEN: EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
         EMAIL_TRANSCRIPT_FAILURE_SCREEN: EMAIL_TRANSCRIPT_FAILURE_SCREEN
@@ -300,6 +309,163 @@ describe('Chat component', () => {
       it('returns a component', () => {
         expect(component.renderPrechatScreen())
           .toBeTruthy();
+      });
+    });
+  });
+
+  describe('renderPostchatScreen', () => {
+    let component;
+
+    describe('when state.screen is not `feedback`', () => {
+      beforeEach(() => {
+        component = instanceRender(
+          <Chat
+            screen={chattingScreen}
+          />
+        );
+      });
+
+      it('does not return anything', () => {
+        expect(component.renderPostchatScreen())
+          .toBeFalsy();
+      });
+    });
+
+    describe('when state.screen is `feedback`', () => {
+      const defaultRating = {
+        value: 'default_rating',
+        comment: null
+      };
+
+      beforeEach(() => {
+        component = domRender(
+          <Chat
+            screen={feedbackScreen}
+            rating={defaultRating}
+            updateChatScreen={updateChatScreenSpy}
+            endChat={endChatSpy}
+            sendChatRating={sendChatRatingSpy}
+            sendChatComment={sendChatCommentSpy}
+          />
+        );
+      });
+
+      afterEach(() => {
+        updateChatScreenSpy.calls.reset();
+        endChatSpy.calls.reset();
+        sendChatRatingSpy.calls.reset();
+        sendChatCommentSpy.calls.reset();
+      });
+
+      it('returns a component', () => {
+        expect(component.renderPostchatScreen())
+          .toBeTruthy();
+      });
+
+      it('returns a component with the ChatFeedbackForm component as the first child', () => {
+        const firstChild = component.renderPostchatScreen().props.children;
+
+        expect(TestUtils.isElementOfType(firstChild, ChatFeedbackForm)).toEqual(true);
+      });
+
+      describe('the sendClickFn passed as a prop to the ChatFeedbackForm', () => {
+        let chatFeedbackFormComponent, sendClickFn;
+
+        beforeEach(() => {
+          chatFeedbackFormComponent = component.renderPostchatScreen().props.children;
+          sendClickFn = chatFeedbackFormComponent.props.sendClickFn;
+        });
+
+        it('sends the chat rating if it has changed', () => {
+          const newRating = { value: 'updated_rating'};
+
+          sendClickFn(newRating);
+          expect(sendChatRatingSpy).toHaveBeenCalledWith(newRating);
+        });
+
+        it('does not send the chat rating if it is the same', () => {
+          sendClickFn(defaultRating.value);
+          expect(sendChatRatingSpy).not.toHaveBeenCalled();
+        });
+
+        it('sends the comment if one is submitted', () => {
+          const chatReviewComment = 'you are nice';
+
+          sendClickFn(defaultRating.value, chatReviewComment);
+          expect(sendChatCommentSpy).toHaveBeenCalledWith(chatReviewComment);
+        });
+
+        it('does not send the comment if it is not specified', () => {
+          sendClickFn(defaultRating.value, null);
+          expect(sendChatCommentSpy).not.toHaveBeenCalled();
+        });
+
+        it('redirects to the chatting screen', () => {
+          sendClickFn(defaultRating.value);
+          expect(updateChatScreenSpy).toHaveBeenCalledWith(chattingScreen);
+        });
+
+        describe('when the components state has endChatFromFeedbackForm set to true', () => {
+          beforeEach(() => {
+            component.setState({ endChatFromFeedbackForm: true });
+            sendClickFn = sendClickFn.bind(component);
+          });
+
+          it('ends the chat', () => {
+            sendClickFn(defaultRating.value);
+            expect(endChatSpy).toHaveBeenCalled();
+          });
+        });
+
+        describe('when the components state has endChatFromFeedbackForm set to false', () => {
+          beforeEach(() => {
+            component.setState({ endChatFromFeedbackForm: false });
+            sendClickFn = sendClickFn.bind(component);
+          });
+
+          it('does not end the chat', () => {
+            sendClickFn(defaultRating.value);
+            expect(endChatSpy).not.toHaveBeenCalled();
+          });
+        });
+      });
+
+      describe('the skipClickFn passed as a prop to the ChatFeedbackForm', () => {
+        let chatFeedbackFormComponent, skipClickFn;
+
+        beforeEach(() => {
+          chatFeedbackFormComponent = component.renderPostchatScreen().props.children;
+          skipClickFn = chatFeedbackFormComponent.props.skipClickFn;
+        });
+
+        it('redirects to the chatting screen', () => {
+          skipClickFn();
+          expect(updateChatScreenSpy).toHaveBeenCalledWith(chattingScreen);
+        });
+
+        describe('when the components state has endChatFromFeedbackForm set to true', () => {
+          beforeEach(() => {
+            component.setState({ endChatFromFeedbackForm: true });
+            skipClickFn = skipClickFn.bind(component);
+          });
+
+          it('ends the chat', () => {
+            skipClickFn();
+            expect(endChatSpy).toHaveBeenCalled();
+          });
+        });
+
+        describe('when the components state has endChatFromFeedbackForm set to false', () => {
+          beforeEach(() => {
+            component.setState({ endChatFromFeedbackForm: false });
+            skipClickFn = skipClickFn.bind(component);
+          });
+
+          it('does not end the chat', () => {
+            skipClickFn();
+            expect(endChatSpy).not.toHaveBeenCalled();
+          });
+        });
       });
     });
   });
