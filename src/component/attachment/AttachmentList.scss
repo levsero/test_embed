@@ -14,3 +14,8 @@
   composes: u-textXHeight from global;
   composes: Form-fieldLabel from '../../styles/components/Form.scss';
 }
+
+.attachment {
+  composes: u-marginTS from global;
+  border-radius: #{4/$font-size}rem;
+}
