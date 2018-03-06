@@ -186,12 +186,10 @@ class WebWidget extends Component {
   noActiveEmbed = () => this.props.activeEmbed === '';
 
   showChat = () => {
-    const { activeEmbed, updateActiveEmbed, oldChat, zopimOnNext } = this.props;
+    const { updateActiveEmbed, oldChat, zopimOnNext } = this.props;
 
     if (oldChat) {
-      if (activeEmbed === helpCenter || activeEmbed === channelChoice) {
-        zopimOnNext();
-      }
+      zopimOnNext();
 
       updateActiveEmbed(zopimChat);
     } else {
