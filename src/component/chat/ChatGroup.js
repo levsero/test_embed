@@ -11,7 +11,8 @@ export class ChatGroup extends Component {
   static propTypes = {
     messages: PropTypes.array,
     isAgent: PropTypes.bool.isRequired,
-    avatarPath: PropTypes.string
+    avatarPath: PropTypes.string,
+    showAvatar: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -20,21 +21,22 @@ export class ChatGroup extends Component {
   };
 
   renderName() {
-    const { isAgent } = this.props;
+    const { isAgent, showAvatar } = this.props;
     const name = _.get(this.props.messages, '0.display_name');
+    const nameStyles = (showAvatar) ? styles.nameAvatar : styles.nameNoAvatar;
 
     if (!isAgent || !name) return null;
 
     return (
-      <div className={styles.name}>{name}</div>
+      <div className={nameStyles}>{name}</div>
     );
   }
 
   renderAvatar() {
-    const { isAgent, avatarPath } = this.props;
+    const { isAgent, avatarPath, showAvatar } = this.props;
     const avatarStyles = avatarPath ? styles.avatarWithSrc : styles.avatarDefault;
 
-    if (!isAgent) return null;
+    if (!showAvatar || !isAgent) return null;
 
     return (
       <Avatar className={avatarStyles} src={avatarPath} />
@@ -42,9 +44,10 @@ export class ChatGroup extends Component {
   }
 
   renderChatMessages() {
-    const { isAgent, messages } = this.props;
+    const { isAgent, messages, showAvatar } = this.props;
     const userClasses = isAgent ? styles.messageAgent : styles.messageUser;
     const userBackgroundStyle = isAgent ? styles.agentBackground : styles.userBackground;
+    const messageStyle = (showAvatar) ? styles.messageBubble : '';
 
     return messages.map((chat) => {
       let messageContent;
@@ -60,7 +63,7 @@ export class ChatGroup extends Component {
         <div key={chat.timestamp} className={styles.wrapper}>
           <div className={`${styles.message} ${userClasses}`}>
             <MessageBubble
-              className={`${styles.messageBubble} ${userBackgroundStyle}`}
+              className={`${messageStyle} ${userBackgroundStyle}`}
               message={messageContent} />
           </div>
         </div>

@@ -16,14 +16,32 @@ describe('chat accountSettings reducer', () => {
 
   describe('initial state', () => {
     let state;
+    const propertyList = [
+      'attachments',
+      'concierge',
+      'prechatForm',
+      'postchatForm',
+      'rating',
+      'theme'
+    ];
+    const assertPropertySpec = (property) => {
+      it(`it has ${property} sub-state`, () => {
+        expect(state[property])
+          .toBeDefined();
+      });
+    };
 
     beforeEach(() => {
       state = reducer({}, { type: '' });
     });
 
-    it('has the concierge sub state', () => {
-      expect(state.concierge)
-        .toBeDefined();
+    it('has at least a single sub-state', () => {
+      expect(propertyList.length > 0)
+        .toBe(true);
+    });
+
+    propertyList.forEach((property) => {
+      assertPropertySpec(property);
     });
   });
 });

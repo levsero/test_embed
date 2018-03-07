@@ -47,7 +47,8 @@ import { getPrechatFormFields,
          getConciergeSettings,
          getPostchatFormSettings,
          getRatingSettings,
-         getEmailTranscript } from 'src/redux/modules/chat/chat-selectors';
+         getEmailTranscript,
+         getThemeShowAvatar } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './Chat.scss';
 
 const mapStateToProps = (state) => {
@@ -70,7 +71,8 @@ const mapStateToProps = (state) => {
     visitor: getChatVisitor(state),
     userSoundSettings: getUserSoundSettings(state),
     ratingSettings: getRatingSettings(state),
-    emailTranscript: getEmailTranscript(state)
+    emailTranscript: getEmailTranscript(state),
+    showAvatar: getThemeShowAvatar(state)
   };
 };
 
@@ -109,7 +111,8 @@ class Chat extends Component {
     getFrameDimensions: PropTypes.func.isRequired,
     sendEmailTranscript: PropTypes.func.isRequired,
     emailTranscript: PropTypes.object.isRequired,
-    resetEmailTranscript: PropTypes.func
+    resetEmailTranscript: PropTypes.func,
+    showAvatar: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -350,6 +353,7 @@ class Chat extends Component {
         footerContent={this.renderChatFooter()}>
         <div className={styles.messages}>
           <ChatLog
+            showAvatar={this.props.showAvatar}
             chatLog={this.props.chatLog}
             agents={this.props.agents}
             chatCommentLeft={!!this.props.rating.comment}

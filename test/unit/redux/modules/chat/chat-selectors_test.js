@@ -22,7 +22,8 @@ describe('chat selectors', () => {
     getRatingSettings,
     getUserSoundSettings,
     getEmailTranscript,
-    getShowRatingScreen;
+    getShowRatingScreen,
+    getThemeShowAvatar;
 
   beforeEach(() => {
     mockery.enable();
@@ -57,6 +58,7 @@ describe('chat selectors', () => {
     getUserSoundSettings = selectors.getUserSoundSettings;
     getEmailTranscript = selectors.getEmailTranscript;
     getShowRatingScreen = selectors.getShowRatingScreen;
+    getThemeShowAvatar = selectors.getThemeShowAvatar;
   });
 
   describe('getChatNotification', () => {
@@ -924,6 +926,48 @@ describe('chat selectors', () => {
       it('returns true', () => {
         expect(result).toBe(true);
       });
+    });
+  });
+
+  describe('getThemeShowAvatar', () => {
+    let result;
+    const assertState = (messageType, expectation) => {
+      const mockChatSettings = {
+        chat: {
+          accountSettings: {
+            theme: {
+              message_type: messageType
+            }
+          }
+        }
+      };
+
+      beforeEach(() => {
+        result = getThemeShowAvatar(mockChatSettings);
+      });
+
+      it(`returns the ${expectation} from the current state of message_type`, () => {
+        expect(result)
+          .toEqual(expectation);
+      });
+    };
+
+    describe('when the message_type is bubble_avatar', () => {
+      const expectation = true;
+
+      assertState('bubble_avatar', expectation);
+    });
+
+    describe('when the message_type is basic_avatar', () => {
+      const expectation = true;
+
+      assertState('basic_avatar', expectation);
+    });
+
+    describe('when the message_type is anything else', () => {
+      const expectation = false;
+
+      assertState('bubble', expectation);
     });
   });
 });
