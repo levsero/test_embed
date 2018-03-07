@@ -1,7 +1,7 @@
 ## Changelog
 ### 07 March 2018
 - Released Web Widget performance improvements, including the new "Asset Composer" snippet. See announcement here.
-- Fixed an issue where Chat wasn't appearing after an Agent comes online. The Widget now behaves as expected, opening to Chat.
+- Fixed an issue where Chat wasn't appearing after an Agent came online. The Widget now behaves as expected, opening to Chat.
 - Fixed an issue where a line became visible after scrolling in the Widget on mobile. The line no longer appears.
 
 ### 05 March 2018
