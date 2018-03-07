@@ -2,7 +2,8 @@ describe('onStateChange middleware', () => {
   let stateChangeFn,
     mockUserSoundSetting,
     mockActiveEmbed,
-    mockwidgetShown;
+    mockwidgetShown,
+    mockChatStatus;
   const getAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
   const newAgentMessageReceivedSpy = jasmine.createSpy('newAgentMessageReceived');
   const audioPlaySpy = jasmine.createSpy('audioPlay');
@@ -16,6 +17,7 @@ describe('onStateChange middleware', () => {
     mockUserSoundSetting = false;
     mockActiveEmbed = '';
     mockwidgetShown = false;
+    mockChatStatus = 'offline';
 
     initMockRegistry({
       'src/redux/modules/chat': {
@@ -37,7 +39,8 @@ describe('onStateChange middleware', () => {
       'src/redux/modules/chat/chat-selectors': {
         getUserSoundSettings: () => mockUserSoundSetting,
         getConnection: _.identity,
-        getChatMessagesByAgent: _.identity
+        getChatMessagesByAgent: _.identity,
+        getChatStatus: () => mockChatStatus
       },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getArticleDisplayed: _.identity
@@ -72,9 +75,9 @@ describe('onStateChange middleware', () => {
             .not.toHaveBeenCalled();
         });
 
-        it('does not call mediator with newChat.connected', () => {
+        it('does not call mediator with newChat.show', () => {
           expect(broadcastSpy)
-            .not.toHaveBeenCalledWith('newChat.connected');
+            .not.toHaveBeenCalledWith('newChat.show');
         });
       });
 
@@ -88,9 +91,16 @@ describe('onStateChange middleware', () => {
             .toHaveBeenCalled();
         });
 
-        it('calls mediator with newChat.connected', () => {
-          expect(broadcastSpy)
-            .toHaveBeenCalledWith('newChat.connected');
+        describe('when chat status is online', () => {
+          beforeEach(() => {
+            mockChatStatus = 'online';
+            stateChangeFn(connectingState, connectedState, {}, dispatchSpy);
+          });
+
+          it('calls mediator with newChat.show', () => {
+            expect(broadcastSpy)
+              .toHaveBeenCalledWith('newChat.show');
+          });
         });
       });
     });
