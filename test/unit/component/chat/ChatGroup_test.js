@@ -36,13 +36,14 @@ describe('ChatGroup component', () => {
           message: 'message',
           messageUser: 'messageUser',
           messageAgent: 'messageAgent',
+          messageBubble: 'messageBubble',
           attachment: 'attachment',
           userBackground: 'userBackground',
           agentBackground: 'agentBackground',
-          name: 'name',
-          avatar: 'avatar',
           avatarDefault: 'avatarDefault',
-          avatarWithSrc: 'avatarWithSrc'
+          avatarWithSrc: 'avatarWithSrc',
+          nameAvatar: 'nameAvatar',
+          nameNoAvatar: 'nameNoAvatar'
         }
       }
     });
@@ -67,17 +68,19 @@ describe('ChatGroup component', () => {
   describe('#renderName', () => {
     let renderName,
       isAgent,
+      showAvatar,
       messages,
       result;
 
     beforeEach(() => {
       renderName = getComponentMethod('renderName');
-      result = renderName(isAgent, messages);
+      result = renderName(isAgent, showAvatar, messages);
     });
 
     describe('when the message group is from a visitor', () => {
       beforeAll(() => {
         isAgent = false;
+        showAvatar = true;
         messages = [{
           type: 'chat.msg',
           nick: 'visitor',
@@ -124,6 +127,26 @@ describe('ChatGroup component', () => {
           expect(result.type).toEqual('div');
           expect(result.props.children).toEqual(messages[0].display_name);
         });
+
+        describe('when showAvatar is false', () => {
+          beforeAll(() => {
+            showAvatar = false;
+          });
+
+          it('renders with the correct styles', () => {
+            expect(result.props.className).toContain('nameNoAvatar');
+          });
+        });
+
+        describe('when showAvatar is true', () => {
+          beforeAll(() => {
+            showAvatar = true;
+          });
+
+          it('renders with the correct styles', () => {
+            expect(result.props.className).toContain('nameAvatar');
+          });
+        });
       });
     });
   });
@@ -131,12 +154,13 @@ describe('ChatGroup component', () => {
   describe('#renderChatMessages', () => {
     let renderChatMessages,
       isAgent,
+      showAvatar,
       messages,
       result;
 
     beforeEach(() => {
       renderChatMessages = getComponentMethod('renderChatMessages');
-      result = renderChatMessages(isAgent, messages);
+      result = renderChatMessages(isAgent, showAvatar, messages);
     });
 
     describe('when the message group is from a visitor', () => {
@@ -199,6 +223,30 @@ describe('ChatGroup component', () => {
 
         expect(TestUtils.isElementOfType(message1, MessageBubble)).toEqual(true);
         expect(TestUtils.isElementOfType(message2, Attachment)).toEqual(true);
+      });
+
+      describe('when showAvatar is false', () => {
+        beforeAll(() => {
+          showAvatar = false;
+        });
+
+        it('renders MessageBubble with the messageBubble class', () => {
+          const messageBubble = result[0].props.children.props.children;
+
+          expect(messageBubble.props.className).not.toContain('messageBubble');
+        });
+      });
+
+      describe('when showAvatar is true', () => {
+        beforeAll(() => {
+          showAvatar = true;
+        });
+
+        it('renders MessageBubble with the messageBubble class', () => {
+          const messageBubble = result[0].props.children.props.children;
+
+          expect(messageBubble.props.className).toContain('messageBubble');
+        });
       });
     });
   });
@@ -405,23 +453,23 @@ describe('ChatGroup component', () => {
       renderAvatar = getComponentMethod('renderAvatar');
     });
 
-    describe('when the message group is from a visitor', () => {
-      const isAgent = false;
+    describe('when showAvatarAsAgent is false', () => {
+      const showAvatarAsAgent = false;
 
       it('returns nothing', () => {
-        const result = renderAvatar(isAgent, avatarPath);
+        const result = renderAvatar(showAvatarAsAgent, avatarPath);
 
         expect(result).toEqual(null);
       });
     });
 
-    describe('when the message group is from an agent', () => {
+    describe('when showAvatarAsAgent is true', () => {
       let result;
-      const isAgent = true;
+      const showAvatarAsAgent = true;
 
       describe('and provided with a path to an avatar', () => {
         beforeEach(() => {
-          result = renderAvatar(isAgent, avatarPath);
+          result = renderAvatar(showAvatarAsAgent, avatarPath);
         });
 
         it('returns an Avatar component', () => {
@@ -438,7 +486,7 @@ describe('ChatGroup component', () => {
 
       describe('and not provided with a path to an avatar', () => {
         beforeEach(() => {
-          result = renderAvatar(isAgent);
+          result = renderAvatar(showAvatarAsAgent);
         });
 
         it('returns an Avatar component', () => {
@@ -458,6 +506,7 @@ describe('ChatGroup component', () => {
   describe('#render', () => {
     let component;
     const isAgent = true;
+    const showAvatar = true;
     const messages = [{
       timestamp: 100,
       type: 'chat.msg',
@@ -467,7 +516,7 @@ describe('ChatGroup component', () => {
     }];
 
     beforeEach(() => {
-      component = domRender(<ChatGroup isAgent={isAgent} messages={messages} avatarPath={avatarPath} />);
+      component = domRender(<ChatGroup isAgent={isAgent} showAvatar={showAvatar} messages={messages} avatarPath={avatarPath} />);
 
       spyOn(component, 'renderName');
       spyOn(component, 'renderChatMessages');
@@ -477,15 +526,15 @@ describe('ChatGroup component', () => {
     });
 
     it('calls renderName with the correct args', () => {
-      expect(component.renderName).toHaveBeenCalledWith(isAgent, messages);
+      expect(component.renderName).toHaveBeenCalledWith(isAgent, showAvatar, messages);
     });
 
     it('calls renderChatMessages with the correct args', () => {
-      expect(component.renderChatMessages).toHaveBeenCalledWith(isAgent, messages);
+      expect(component.renderChatMessages).toHaveBeenCalledWith(isAgent, showAvatar, messages);
     });
 
     it('calls renderAvatar with the correct args', () => {
-      expect(component.renderAvatar).toHaveBeenCalledWith(isAgent, avatarPath);
+      expect(component.renderAvatar).toHaveBeenCalledWith(showAvatar && isAgent, avatarPath);
     });
   });
 });

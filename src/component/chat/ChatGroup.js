@@ -14,24 +14,26 @@ export class ChatGroup extends Component {
   static propTypes = {
     messages: PropTypes.arrayOf(chatPropTypes.chatMessage),
     isAgent: PropTypes.bool,
-    avatarPath: PropTypes.string
+    avatarPath: PropTypes.string,
+    showAvatar: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
     messages: [],
-    isAgent: false,
-    avatarPath: ''
+    isAgent: false
   };
 
-  renderName = (isAgent, messages) => {
+  renderName = (isAgent, showAvatar, messages) => {
     const name = _.get(messages, '0.display_name');
+    const nameStyles = showAvatar ? styles.nameAvatar : styles.nameNoAvatar;
 
     return isAgent && name ?
-      <div className={styles.name}>{name}</div> : null;
+      <div className={nameStyles}>{name}</div> : null;
   }
 
-  renderChatMessages = (isAgent, messages) => {
+  renderChatMessages = (isAgent, showAvatar, messages) => {
     const userClasses = isAgent ? styles.messageAgent : styles.messageUser;
+    const messageStyle = showAvatar ? styles.messageBubble : '';
     const userBackgroundStyle = isAgent ? styles.agentBackground : styles.userBackground;
 
     return messages.map((chat) => {
@@ -40,7 +42,7 @@ export class ChatGroup extends Component {
       if (chat.msg) {
         message = (
           <MessageBubble
-            className={userBackgroundStyle}
+            className={`${messageStyle} ${userBackgroundStyle}`}
             message={chat.msg}
           />
         );
@@ -94,21 +96,22 @@ export class ChatGroup extends Component {
     return inlineAttachment;
   }
 
-  renderAvatar = (isAgent, avatarPath = '') => {
+  renderAvatar = (showAvatarAsAgent, avatarPath = '') => {
     const avatarStyles = avatarPath ? styles.avatarWithSrc : styles.avatarDefault;
 
-    return isAgent ?
+    return showAvatarAsAgent ?
       <Avatar className={avatarStyles} src={avatarPath} /> : null;
   }
 
   render() {
-    const { isAgent, messages, avatarPath } = this.props;
+    const { isAgent, messages, avatarPath, showAvatar } = this.props;
+    const showAvatarAsAgent = isAgent && showAvatar;
 
     return (
       <div className={styles.container}>
-        {this.renderName(isAgent, messages)}
-        {this.renderChatMessages(isAgent, messages)}
-        {this.renderAvatar(isAgent, avatarPath)}
+        {this.renderName(isAgent, showAvatar, messages)}
+        {this.renderChatMessages(isAgent, showAvatar, messages)}
+        {this.renderAvatar(showAvatarAsAgent, avatarPath)}
       </div>
     );
   }
