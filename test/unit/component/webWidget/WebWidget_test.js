@@ -78,6 +78,9 @@ describe('WebWidget component', () => {
       'component/channelChoice/ChannelChoice': {
         ChannelChoice: noopReactComponent()
       },
+      'component/chat/ChatNotificationPopup': {
+        ChatNotificationPopup: noopReactComponent()
+      },
       'src/redux/modules/base': {
         updateActiveEmbed: noop,
         updateEmbedAccessible: noop,
@@ -85,7 +88,7 @@ describe('WebWidget component', () => {
         updateAuthenticated: noop
       },
       'src/redux/modules/chat': {
-        hideChatNotification: noop,
+        chatNotificationDismissed: noop,
         updateChatScreen: noop
       },
       'src/redux/modules/helpCenter': {
@@ -130,12 +133,12 @@ describe('WebWidget component', () => {
       webWidget = domRender(<WebWidget activeEmbed='helpCenterForm' helpCenterAvailable={true} />);
     });
 
-    it('should have a data-embed value', () => {
+    it('has a data-embed value', () => {
       expect(ReactDOM.findDOMNode(webWidget).attributes['data-embed'])
         .toBeTruthy();
     });
 
-    it('should show help center component by default', () => {
+    it('shows help center component by default', () => {
       expect(webWidget.renderHelpCenter().props.className)
         .not.toContain('u-isHidden');
 
@@ -146,12 +149,17 @@ describe('WebWidget component', () => {
         .toBeFalsy();
     });
 
+    it('renders the chatPopup component', () => {
+      expect(webWidget.renderChatNotification())
+        .toBeTruthy();
+    });
+
     describe('when component is set to submitTicket', () => {
       beforeEach(() => {
         webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' helpCenterAvailable={true} />);
       });
 
-      it('should show submit ticket component', () => {
+      it('shows submit ticket component', () => {
         expect(webWidget.renderHelpCenter().props.className)
           .toContain('u-isHidden');
 
@@ -161,6 +169,11 @@ describe('WebWidget component', () => {
         expect(webWidget.renderChat())
           .toBeFalsy();
       });
+
+      it('does not render the chatPopup component', () => {
+        expect(webWidget.renderChatNotification())
+          .toBeFalsy();
+      });
     });
 
     describe('when component is set to chat', () => {
@@ -168,7 +181,7 @@ describe('WebWidget component', () => {
         webWidget = domRender(<WebWidget activeEmbed='chat' helpCenterAvailable={true} />);
       });
 
-      it('should show chat component', () => {
+      it('shows chat component', () => {
         expect(webWidget.renderHelpCenter().props.className)
           .toContain('u-isHidden');
 
@@ -178,6 +191,11 @@ describe('WebWidget component', () => {
         expect(webWidget.renderChat())
           .toBeTruthy();
       });
+
+      it('does not render the chatPopup component', () => {
+        expect(webWidget.renderChatNotification())
+          .toBeFalsy();
+      });
     });
 
     describe('when component is set to talk', () => {
@@ -185,9 +203,14 @@ describe('WebWidget component', () => {
         webWidget = domRender(<WebWidget activeEmbed='talk' />);
       });
 
-      it('should show talk component', () => {
+      it('shows talk component', () => {
         expect(webWidget.renderTalk())
           .toBeTruthy();
+      });
+
+      it('does not render the chatPopup component', () => {
+        expect(webWidget.renderChatNotification())
+          .toBeFalsy();
       });
     });
   });

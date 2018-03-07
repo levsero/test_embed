@@ -85,12 +85,10 @@ class HelpCenter extends Component {
     talkAvailable: PropTypes.bool.isRequired,
     talkEnabled: PropTypes.bool.isRequired,
     updateFrameSize: PropTypes.func,
-    hideChatNotification: PropTypes.func,
     updateChatScreen: PropTypes.func,
     updateSearchTerm: PropTypes.func.isRequired,
     handleArticleClick: PropTypes.func.isRequired,
     zendeskHost: PropTypes.string.isRequired,
-    notification: PropTypes.object.isRequired,
     resultsCount: PropTypes.number.isRequired,
     articles: PropTypes.array.isRequired,
     hasSearched: PropTypes.bool.isRequired,
@@ -120,7 +118,6 @@ class HelpCenter extends Component {
     submitTicketAvailable: true,
     chatAvailable: false,
     updateFrameSize: () => {},
-    hideChatNotification: () => {},
     updateChatScreen: () => {},
     handleArticleClick: () => {},
     updateSearchTerm: () => {},
@@ -350,7 +347,6 @@ class HelpCenter extends Component {
     return (
       <HelpCenterDesktop
         ref='helpCenterDesktop'
-        notification={this.props.notification}
         chatAvailable={this.props.chatAvailable}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
@@ -373,7 +369,6 @@ class HelpCenter extends Component {
         searchFieldValue={this.props.searchFieldValue}
         shadowVisible={shadowVisible}
         updateFrameSize={this.props.updateFrameSize}
-        hideChatNotification={this.props.hideChatNotification}
         updateChatScreen={this.props.updateChatScreen}>
         {this.renderResults()}
         {this.renderArticles()}

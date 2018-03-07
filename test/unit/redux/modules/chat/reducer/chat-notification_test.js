@@ -68,9 +68,9 @@ describe('chat reducer notification', () => {
       });
     });
 
-    describe('when a HIDE_CHAT_NOTIFICATION action is dispatched', () => {
+    describe('when a CHAT_NOTIFICATION_DISMISSED action is dispatched', () => {
       beforeEach(() => {
-        const action = { type: actionTypes.HIDE_CHAT_NOTIFICATION };
+        const action = { type: actionTypes.CHAT_NOTIFICATION_DISMISSED };
 
         state = reducer(initialState, action);
       });

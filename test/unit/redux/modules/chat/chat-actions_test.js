@@ -552,18 +552,31 @@ describe('chat redux actions', () => {
     });
   });
 
-  describe('hideChatNotification', () => {
+  describe('chatNotificationDismissed', () => {
     let action;
 
     beforeEach(() => {
-      mockAccountSettings = { foo: 'bar' };
-      mockStore.dispatch(actions.hideChatNotification());
+      mockStore.dispatch(actions.chatNotificationDismissed());
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type HIDE_CHAT_NOTIFICATION', () => {
+    it('dispatches an action of type CHAT_NOTIFICATION_DISMISSED', () => {
       expect(action.type)
-        .toEqual(actionTypes.HIDE_CHAT_NOTIFICATION);
+        .toEqual(actionTypes.CHAT_NOTIFICATION_DISMISSED);
+    });
+  });
+
+  describe('chatNotificationRespond', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.chatNotificationRespond());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type CHAT_NOTIFICATION_RESPONDED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.CHAT_NOTIFICATION_RESPONDED);
     });
   });
 
@@ -571,7 +584,6 @@ describe('chat redux actions', () => {
     let action;
 
     beforeEach(() => {
-      mockAccountSettings = { foo: 'bar' };
       mockStore.dispatch(actions.updateChatScreen(screenTypes.CHATTING_SCREEN));
       action = mockStore.getActions()[0];
     });

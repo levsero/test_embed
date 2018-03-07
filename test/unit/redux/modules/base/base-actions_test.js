@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 let actions,
   actionTypes,
   chatActionTypes,
-  hideChatNotificationSpy,
+  chatNotificationDismissedSpy,
   chatOpenedSpy,
   mockEmailValidValue,
   mockStore;
@@ -18,14 +18,14 @@ describe('base redux actions', () => {
 
     mockEmailValidValue = true;
 
-    hideChatNotificationSpy = jasmine.createSpy('hideChatNotification')
-      .and.returnValue({ type: 'widget/chat/HIDE_CHAT_NOTIFICATION' });
+    chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed')
+      .and.returnValue({ type: 'widget/chat/CHAT_NOTIFICATION_DISMISSED' });
     chatOpenedSpy = jasmine.createSpy('chatOpened')
       .and.returnValue({ type: 'widget/chat/CHAT_OPENED' });
 
     initMockRegistry({
       'src/redux/modules/chat': {
-        hideChatNotification: hideChatNotificationSpy,
+        chatNotificationDismissed: chatNotificationDismissedSpy,
         chatOpened: chatOpenedSpy
       },
       'utility/utils': { emailValid: () => mockEmailValidValue }
@@ -62,28 +62,18 @@ describe('base redux actions', () => {
         actionList = mockStore.getActions();
       });
 
-      it('calls hideChatNotification()', () => {
-        expect(hideChatNotificationSpy)
-          .toHaveBeenCalled();
-      });
-
-      it('dispatches an action of type HIDE_CHAT_NOTIFICATION', () => {
-        expect(actionList[0].type)
-          .toEqual(chatActionTypes.HIDE_CHAT_NOTIFICATION);
-      });
-
       it('dispatches an action of type CHAT_OPENED', () => {
-        expect(actionList[1].type)
+        expect(actionList[0].type)
           .toEqual(chatActionTypes.CHAT_OPENED);
       });
 
       it('dispatches an action of type UPDATE_ACTIVE_EMBED', () => {
-        expect(actionList[2].type)
+        expect(actionList[1].type)
           .toEqual(actionTypes.UPDATE_ACTIVE_EMBED);
       });
 
       it('has the embed in the payload', () => {
-        expect(actionList[2].payload)
+        expect(actionList[1].payload)
           .toEqual(embed);
       });
     });
@@ -93,11 +83,6 @@ describe('base redux actions', () => {
         embed = 'helpCenter';
         mockStore.dispatch(actions.updateActiveEmbed(embed));
         action = mockStore.getActions()[0];
-      });
-
-      it('does not call hideChatNotification()', () => {
-        expect(hideChatNotificationSpy)
-          .not.toHaveBeenCalled();
       });
 
       it('dispatches an action of type UPDATE_ACTIVE_EMBED', () => {
