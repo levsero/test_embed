@@ -17,8 +17,7 @@ let config = {
   method: 'GET',
   endpoint: '/embeddable_blip',
   identifyEndpoint: '/embeddable_identify',
-  reduceBlipping: false,
-  newIdentify: false
+  reduceBlipping: false
 };
 
 const sendPageViewWhenReady = () => {
@@ -71,8 +70,7 @@ const sendPageView = () => {
 
 function setConfig(_config) {
   _.merge(config, {
-    reduceBlipping: !!_config.reduceBlipping,
-    newIdentify: !!_config.newIdentify
+    reduceBlipping: !!_config.reduceBlipping
   });
 }
 
@@ -152,18 +150,18 @@ function trackSettings(settings) {
 }
 
 function identify(user) {
-  const { newIdentify, method, identifyEndpoint } = config;
+  const { method, identifyEndpoint } = config;
   const payload = {
     type: 'user',
-    method: newIdentify ? method : 'POST',
-    path: newIdentify ? identifyEndpoint : '/embeddable/identify',
+    method: method,
+    path: identifyEndpoint,
     params:  {
       user: { ...user, localeId: i18n.getLocaleId() },
       userAgent: navigator.userAgent
     }
   };
 
-  http.sendWithMeta(payload, newIdentify);
+  http.sendWithMeta(payload);
 }
 
 function getFrameworkLoadTime() {

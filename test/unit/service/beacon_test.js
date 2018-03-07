@@ -502,82 +502,30 @@ describe('beacon', () => {
   });
 
   describe('identify', () => {
-    let mockTransport,
-      mockGlobals;
+    let mockTransport;
 
     const name = 'John';
     const email = 'john@example.com';
 
     beforeEach(() => {
       mockTransport = mockRegistry['service/transport'];
-      mockGlobals = mockRegistry['utility/globals'];
 
       beacon.init(true);
+
+      beacon.identify({ name: name, email: email });
     });
 
-    describe('with newIdentify turned off', () => {
-      beforeEach(() => {
-        beacon.identify({ name: name, email: email });
-      });
+    it('sends correct payload using transport.send', () => {
+      expect(mockTransport.http.sendWithMeta)
+        .toHaveBeenCalled();
 
-      it('sends the correct payload', () => {
-        expect(mockTransport.http.sendWithMeta)
-          .toHaveBeenCalled();
+      const payload = mockTransport.http.sendWithMeta.calls.mostRecent().args[0];
 
-        const payload = mockTransport.http.sendWithMeta.calls.mostRecent().args[0];
-        const useBase64 = mockTransport.http.sendWithMeta.calls.mostRecent().args[1];
+      expect(payload.method)
+        .toBe('GET');
 
-        expect(payload.method)
-          .toBe('POST');
-
-        expect(payload.path)
-          .toBe('/embeddable/identify');
-
-        expect(useBase64)
-          .toBe(false);
-
-        const params = payload.params;
-
-        expect(params.user.name)
-          .toEqual(name);
-
-        expect(params.user.email)
-          .toEqual(email);
-
-        expect(params.user.localeId)
-          .toEqual(localeId);
-
-        expect(params.userAgent)
-          .toEqual(mockGlobals.navigator.userAgent);
-      });
-    });
-
-    describe('with newIdentify turned on', () => {
-      beforeEach(() => {
-        beacon.setConfig({ newIdentify: true });
-        beacon.identify({ name: name, email: email });
-      });
-
-      afterEach(() => {
-        beacon.setConfig({});
-      });
-
-      it('sends correct payload using transport.send', () => {
-        expect(mockTransport.http.sendWithMeta)
-          .toHaveBeenCalled();
-
-        const payload = mockTransport.http.sendWithMeta.calls.mostRecent().args[0];
-        const useBase64 = mockTransport.http.sendWithMeta.calls.mostRecent().args[1];
-
-        expect(payload.method)
-          .toBe('GET');
-
-        expect(payload.path)
-          .toBe('/embeddable_identify');
-
-        expect(useBase64)
-          .toBe(true);
-      });
+      expect(payload.path)
+        .toBe('/embeddable_identify');
     });
   });
 
