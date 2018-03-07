@@ -9,7 +9,7 @@ const packageJson = require('../package.json');
 const writeLog = (msg) => console.log(chalk.green(msg));
 const writeError = (msg) => console.error(chalk.red(msg));
 const getVersion = (versionStr) => {
-  if (versionStr.includes('git+ssh')) {
+  if (versionStr && versionStr.includes('git+ssh')) {
     return versionStr.split('#')[1];
   }
 
@@ -24,16 +24,18 @@ const validateDependencies = () => {
     const dep = deps[depName];
     const version = getVersion(packageDeps[depName]);
 
-    if (!version) {
-      writeError(`${depName} not present in package dependencies`);
-      process.exit(1);
-    }
+    if (!dep.ignoreValidation) {
+      if (!version) {
+        writeError(`${depName} not present in package dependencies`);
+        process.exit(1);
+      }
 
-    if (semver.satisfies(dep.version, version)) {
-      writeLog(`${depName}:${dep.version} is valid for package version ${version}`);
-    } else {
-      writeError(`${depName}:${dep.version} is invalid for package version ${version}`);
-      process.exit(1);
+      if (semver.satisfies(dep.version, version)) {
+        writeLog(`${depName}:${dep.version} is valid for package version ${version}`);
+      } else {
+        writeError(`${depName}:${dep.version} is invalid for package version ${version}`);
+        process.exit(1);
+      }
     }
   }
 

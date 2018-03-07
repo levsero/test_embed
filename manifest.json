@@ -1,5 +1,10 @@
 {
   "externals": {
+    "es6-shim": {
+      "version": "0.35.3",
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js",
+      "ignoreValidation": true
+    },
     "react": {
       "version": "16.2.0",
       "url": "https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"
@@ -36,7 +41,7 @@
   "features": [
     {
       "name": "common",
-      "externals": ["react", "react-dom", "lodash", "superagent"]
+      "externals": ["es6-shim", "react", "react-dom", "lodash", "superagent"]
     },
     {
       "name": "talk",
