@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import Chat from 'component/chat/Chat';
+import ChatOfflineForm from 'component/chat/ChatOfflineForm';
 import Talk from 'component/talk/Talk';
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
 import { ChatNotificationPopup } from 'component/chat/ChatNotificationPopup';
@@ -22,9 +23,12 @@ import { getChatAvailable,
          getTalkEnabled,
          getShowTicketFormsBackButton } from 'src/redux/modules/selectors';
 import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
-import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
+import { getChatNotification, getChatStatus } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
-import { getZopimChatEmbed, getActiveEmbed, getAuthenticated } from 'src/redux/modules/base/base-selectors';
+import { getZopimChatEmbed,
+         getActiveEmbed,
+         getAuthenticated,
+         getChatStandalone } from 'src/redux/modules/base/base-selectors';
 import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors';
 
 const submitTicket = 'ticketSubmissionForm';
@@ -47,7 +51,9 @@ const mapStateToProps = (state) => {
     chatEnabled: getChatEnabled(state),
     oldChat: getZopimChatEmbed(state),
     ticketForms: getTicketForms(state),
-    showTicketFormsBackButton: getShowTicketFormsBackButton(state)
+    showTicketFormsBackButton: getShowTicketFormsBackButton(state),
+    chatStandalone: getChatStandalone(state),
+    chatStatus: getChatStatus(state)
   };
 };
 
@@ -101,7 +107,9 @@ class WebWidget extends Component {
     talkEnabled: PropTypes.bool.isRequired,
     talkConfig: PropTypes.object,
     resetActiveArticle: PropTypes.func.isRequired,
-    articleViewActive: PropTypes.bool.isRequired
+    articleViewActive: PropTypes.bool.isRequired,
+    chatStandalone: PropTypes.bool.isRequired,
+    chatStatus: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -305,7 +313,7 @@ class WebWidget extends Component {
   }
 
   onContainerClick = () => {
-    const { activeEmbed } = this.props;
+    const { activeEmbed, chatStandalone } = this.props;
 
     // TODO:
     // Once the other embed components are within a wrappedInstance,
@@ -314,7 +322,7 @@ class WebWidget extends Component {
     // logic and replace it with something like:
     // if (this.getRootComponent().onContainerClick)
     //   this.getRootComponent().onContainerClick()
-    if (activeEmbed === chat) {
+    if (activeEmbed === chat && !chatStandalone) {
       this.getChatComponent().onContainerClick();
     } else if (activeEmbed === helpCenter) {
       this.getRootComponent().onContainerClick();
@@ -330,17 +338,22 @@ class WebWidget extends Component {
   }
 
   renderChat = () => {
-    if (this.props.activeEmbed !== chat) return;
+    const { activeEmbed, chatStandalone, chatStatus } = this.props;
 
-    return (
-      <Chat
-        ref={chat}
-        isMobile={this.props.fullscreen}
-        updateFrameSize={this.props.updateFrameSize}
-        updateChatScreen={this.props.updateChatScreen}
-        position={this.props.position}
-        getFrameDimensions={this.props.getFrameDimensions} />
-    );
+    if (activeEmbed !== chat) return;
+
+    return (chatStandalone && chatStatus === 'offline')
+      ? <ChatOfflineForm
+          ref={chatOffline}
+          updateFrameSize={this.props.updateFrameSize}
+        />
+      : <Chat
+          ref={chat}
+          isMobile={this.props.fullscreen}
+          updateFrameSize={this.props.updateFrameSize}
+          updateChatScreen={this.props.updateChatScreen}
+          position={this.props.position}
+          getFrameDimensions={this.props.getFrameDimensions} />;
   }
 
   renderHelpCenter = () => {

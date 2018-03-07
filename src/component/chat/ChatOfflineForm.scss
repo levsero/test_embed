@@ -1,0 +1,15 @@
+@import '../../styles/_vars.scss';
+
+.submitButton {
+  composes: u-hsizeAll from global;
+  max-width: 100%;
+}
+
+.offlineGreeting {
+  composes: u-marginTT from global;
+  margin-bottom: #{18/$font-size}rem;
+}
+
+.form {
+  composes: u-marginBL from global;
+}
