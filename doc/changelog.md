@@ -1,6 +1,6 @@
 ## Changelog
 ### 07 March 2018
-- Released Web Widget performance improvements, including the new "Asset Composer" snippet. See announcement here.
+- Released Web Widget performance improvements, including the new "Asset Composer" snippet. See announcement [here](https://support.zendesk.com/hc/en-us/articles/360000620507).
 - Fixed an issue where Chat wasn't appearing after an Agent came online. The Widget now behaves as expected, opening to Chat.
 - Fixed an issue where a line became visible after scrolling in the Widget on mobile. The line no longer appears.
 
