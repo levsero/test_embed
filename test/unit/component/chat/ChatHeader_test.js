@@ -89,6 +89,13 @@ describe('ChatHeader component', () => {
         expect(avatar.props.src)
           .toEqual('https://example.com/snake');
       });
+
+      it('should pass Icon--avatar as the fallback icon to the avatar component', () => {
+        const avatar = TestUtils.findRenderedComponentWithType(component, MockAvatar);
+
+        expect(avatar.props.fallbackIcon)
+          .toEqual('Icon--avatar');
+      });
     });
   });
 });

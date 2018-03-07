@@ -44,7 +44,7 @@ export class ChatHeader extends Component {
 
     return (
       <div className={styles.container}>
-        <Avatar className={styles.avatar} src={avatarPath} />
+        <Avatar className={styles.avatar} src={avatarPath} fallbackIcon="Icon--avatar" />
         <div className={styles.textContainer}>
           <div className={styles.title}>{titleText}</div>
           <div>{subText}</div>

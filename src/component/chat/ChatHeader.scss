@@ -10,6 +10,10 @@
   }
 }
 
+.avatar:not([src]) {
+  border: #{1/$font-size}rem solid $zd-color-iron;
+}
+
 .container {
   composes: u-flex u-flexAlignItemsCenter u-posStart--flush u-posAbsolute u-hsizeAll from global;
   background-color: $base-color;
