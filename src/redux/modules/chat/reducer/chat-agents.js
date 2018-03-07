@@ -6,7 +6,7 @@ import {
 
 const initialState = {};
 
-const isAgent = (nick) => nick.startsWith('agent:');
+const isAgent = (nick) => nick.indexOf('agent:') > -1;
 
 const agents = (state = initialState, action = {}) => {
   const { type, payload } = action;

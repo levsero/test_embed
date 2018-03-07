@@ -1,32 +1,31 @@
 describe('ChatLog component', () => {
   let ChatLog,
     CHAT_MESSAGE_EVENTS,
-    CHAT_SYSTEM_EVENTS;
-  let mockRegistry;
+    CHAT_SYSTEM_EVENTS,
+    i18n;
 
   const chatLogPath = buildSrcPath('component/chat/ChatLog');
-  const chatSelectorsPath = buildSrcPath('redux/modules/chat/chat-selectors');
+  const chatConstantsPath = buildSrcPath('constants/chat');
 
-  const ChatGroup = noopReactComponent('ChatGroup');
-  const ChatEventMessage = noopReactComponent('ChatEventMessage');
+  const ChatGroup = noopReactComponent();
+  const ChatEventMessage = noopReactComponent();
+  const Button = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
 
-    CHAT_MESSAGE_EVENTS = requireUncached(chatSelectorsPath).CHAT_MESSAGE_EVENTS;
-    CHAT_SYSTEM_EVENTS = requireUncached(chatSelectorsPath).CHAT_SYSTEM_EVENTS;
+    CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS;
+    CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS;
 
-    mockRegistry = initMockRegistry({
-      'component/chat/ChatGroup': {
-        ChatGroup: ChatGroup
-      },
-      'component/chat/ChatEventMessage': {
-        ChatEventMessage: ChatEventMessage
-      },
-      'component/button/Button': {
-        Button: noopReactComponent()
-      },
-      'src/redux/modules/chat/chat-selectors': {
+    i18n = {
+      t: jasmine.createSpy()
+    };
+
+    initMockRegistry({
+      'component/chat/ChatGroup': { ChatGroup },
+      'component/chat/ChatEventMessage': { ChatEventMessage },
+      'component/button/Button': { Button },
+      'constants/chat': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS
       },
@@ -36,9 +35,7 @@ describe('ChatLog component', () => {
         }
       },
       'service/i18n': {
-        i18n: {
-          t: jasmine.createSpy()
-        }
+        i18n
       }
     });
 
@@ -274,7 +271,7 @@ describe('ChatLog component', () => {
         'embeddable_framework.chat.chatLog.button.rateChat': 'Rate this chat'
       };
 
-      mockRegistry['service/i18n'].i18n.t.and.callFake((key) => {
+      i18n.t.and.callFake((key) => {
         return mockStringValues[key];
       });
     });

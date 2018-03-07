@@ -1,33 +1,50 @@
 describe('ChatGroup component', () => {
-  let ChatGroup;
+  let ChatGroup,
+    ICONS,
+    FILETYPE_ICONS;
+
   const chatGroupPath = buildSrcPath('component/chat/ChatGroup');
-  const messageData = { msg: 'Hmm why did I forget the actual plan for implementing ChatGroup?', display_name: 'bob' }; // eslint-disable-line camelcase
-  const messagesData = [messageData];
+  const sharedConstantsPath = buildSrcPath('constants/shared');
+
+  const Avatar = noopReactComponent();
+  const MessageBubble = noopReactComponent();
+  const ImageMessage = noopReactComponent();
+  const Attachment = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
 
+    ICONS = requireUncached(sharedConstantsPath).ICONS;
+    FILETYPE_ICONS = requireUncached(sharedConstantsPath).FILETYPE_ICONS;
+
     initMockRegistry({
+      'types/chat': {
+        chatMessage: 'chatMessage'
+      },
+      'component/Avatar': { Avatar },
+      'component/chat/MessageBubble': { MessageBubble },
+      'component/chat/ImageMessage': { ImageMessage },
+      'component/attachment/Attachment': { Attachment },
+      'constants/shared': {
+        ICONS,
+        FILETYPE_ICONS
+      },
       './ChatGroup.scss': {
         locals: {
-          messageAgent: 'messageAgent',
+          container: 'container',
+          wrapper: 'wrapper',
+          message: 'message',
           messageUser: 'messageUser',
-          agentBackground: 'agentBackground',
+          messageAgent: 'messageAgent',
+          messageBubble: 'messageBubble',
+          attachment: 'attachment',
           userBackground: 'userBackground',
-          avatarWithSrc: 'avatarWithSrc',
+          agentBackground: 'agentBackground',
           avatarDefault: 'avatarDefault',
-          nameAvatar: 'nameAvatarClass',
-          nameNoAvatar: 'nameNoAvatarClass',
-          messageBubble: 'messageBubbleClass'
+          avatarWithSrc: 'avatarWithSrc',
+          nameAvatar: 'nameAvatar',
+          nameNoAvatar: 'nameNoAvatar'
         }
-      },
-      'component/chat/MessageBubble': {
-        MessageBubble: class extends Component {
-          render = () => <div id='messageBubble' className={this.props.className}>{this.props.message}</div>;
-        }
-      },
-      'component/Avatar': {
-        Avatar: noopReactComponent()
       }
     });
 
@@ -40,253 +57,484 @@ describe('ChatGroup component', () => {
     mockery.disable();
   });
 
+  const getComponentMethod = (methodName) => {
+    const component = domRender(<ChatGroup />);
+
+    return component[methodName];
+  };
+
+  const avatarPath = 'path://to/avatar';
+
   describe('#renderName', () => {
-    let nameElement;
+    let renderName,
+      isAgent,
+      showAvatar,
+      messages,
+      result;
 
-    describe('when showAvatar is true', () => {
-      beforeEach(() => {
-        const component = instanceRender(
-          <ChatGroup
-            isAgent={true}
-            showAvatar={true}
-            messages={messagesData} />
-        );
+    beforeEach(() => {
+      renderName = getComponentMethod('renderName');
+      result = renderName(isAgent, showAvatar, messages);
+    });
 
-        nameElement = component.renderName();
+    describe('when the message group is from a visitor', () => {
+      beforeAll(() => {
+        isAgent = false;
+        showAvatar = true;
+        messages = [{
+          type: 'chat.msg',
+          nick: 'visitor',
+          display_name: 'Visitor 123',
+          msg: 'Hello'
+        }];
       });
 
-      it('renders with nameAvatarClass', () => {
-        expect(nameElement.props.className)
-          .toContain('nameAvatarClass');
+      it('returns nothing', () => {
+        expect(result).toEqual(null);
       });
     });
 
-    describe('when showAvatar is false', () => {
-      beforeEach(() => {
-        const component = instanceRender(
-          <ChatGroup
-            isAgent={true}
-            showAvatar={false}
-            messages={messagesData} />
-        );
-
-        nameElement = component.renderName();
+    describe('when the message group is from an agent', () => {
+      beforeAll(() => {
+        isAgent = true;
       });
 
-      it('renders with nameNoAvatarClass', () => {
-        expect(nameElement.props.className)
-          .toContain('nameNoAvatarClass');
+      describe('and the user has no display name',() => {
+        beforeAll(() => {
+          messages = [{
+            type: 'chat.msg',
+            nick: 'agent:123',
+            msg: 'Hello'
+          }];
+        });
+
+        it('returns nothing', () => {
+          expect(result).toEqual(null);
+        });
+      });
+
+      describe('and the user has a display name', () => {
+        beforeAll(() => {
+          messages = [{
+            type: 'chat.msg',
+            nick: 'agent:123',
+            display_name: 'Agent 123',
+            msg: 'Hello'
+          }];
+        });
+
+        it('returns a div containing the name', () => {
+          expect(result.type).toEqual('div');
+          expect(result.props.children).toEqual(messages[0].display_name);
+        });
+
+        describe('when showAvatar is false', () => {
+          beforeAll(() => {
+            showAvatar = false;
+          });
+
+          it('renders with the correct styles', () => {
+            expect(result.props.className).toContain('nameNoAvatar');
+          });
+        });
+
+        describe('when showAvatar is true', () => {
+          beforeAll(() => {
+            showAvatar = true;
+          });
+
+          it('renders with the correct styles', () => {
+            expect(result.props.className).toContain('nameAvatar');
+          });
+        });
+      });
+    });
+  });
+
+  describe('#renderChatMessages', () => {
+    let renderChatMessages,
+      isAgent,
+      showAvatar,
+      messages,
+      result;
+
+    beforeEach(() => {
+      renderChatMessages = getComponentMethod('renderChatMessages');
+      result = renderChatMessages(isAgent, showAvatar, messages);
+    });
+
+    describe('when the message group is from a visitor', () => {
+      beforeAll(() => {
+        isAgent = false;
+        messages = [
+          {
+            type: 'chat.msg',
+            nick: 'visitor',
+            display_name: 'Visitor 123',
+            msg: 'Hello, I would like these pancakes please:'
+          },
+          {
+            type: 'chat.file',
+            file: {
+              type: 'image/jpeg',
+              name: 'pancakes.jpg',
+              size: 1024
+            },
+            attachment: 'path://to/file',
+            uploading: false
+          }
+        ];
+      });
+
+      it('maps over the messages and returns the appropriate components', () => {
+        const message1 = result[0].props.children.props.children;
+        const message2 = result[1].props.children.props.children;
+
+        expect(TestUtils.isElementOfType(message1, MessageBubble)).toEqual(true);
+        expect(TestUtils.isElementOfType(message2, ImageMessage)).toEqual(true);
       });
     });
 
-    describe('when it is an agent and name is not empty', () => {
-      beforeEach(() => {
-        const component = instanceRender(<ChatGroup isAgent={true} messages={messagesData} />);
-
-        nameElement = component.renderName();
+    describe('when the message group is from an agent', () => {
+      beforeAll(() => {
+        isAgent = true;
+        messages = [
+          {
+            type: 'chat.msg',
+            nick: 'agent:123',
+            display_name: 'Agent 123',
+            msg: 'Sure. Here is the bill:'
+          },
+          {
+            type: 'chat.file',
+            attachment: {
+              mime_type: 'application/pdf',
+              name: 'invoice.pdf',
+              size: 16,
+              url: 'path://to/file'
+            }
+          }
+        ];
       });
 
-      it('returns a div element', () => {
-        expect(nameElement)
-          .not.toBeNull();
+      it('maps over the messages and returns the appropriate components', () => {
+        const message1 = result[0].props.children.props.children;
+        const message2 = result[1].props.children.props.children;
+
+        expect(TestUtils.isElementOfType(message1, MessageBubble)).toEqual(true);
+        expect(TestUtils.isElementOfType(message2, Attachment)).toEqual(true);
       });
 
-      it('contains a name prop', () => {
-        expect(nameElement.props.children)
-          .toEqual('bob');
+      describe('when showAvatar is false', () => {
+        beforeAll(() => {
+          showAvatar = false;
+        });
+
+        it('renders MessageBubble with the messageBubble class', () => {
+          const messageBubble = result[0].props.children.props.children;
+
+          expect(messageBubble.props.className).not.toContain('messageBubble');
+        });
+      });
+
+      describe('when showAvatar is true', () => {
+        beforeAll(() => {
+          showAvatar = true;
+        });
+
+        it('renders MessageBubble with the messageBubble class', () => {
+          const messageBubble = result[0].props.children.props.children;
+
+          expect(messageBubble.props.className).toContain('messageBubble');
+        });
+      });
+    });
+  });
+
+  describe('#renderInlineAttachment', () => {
+    let renderInlineAttachment,
+      isAgent,
+      chat,
+      result;
+
+    beforeEach(() => {
+      renderInlineAttachment = getComponentMethod('renderInlineAttachment');
+      result = renderInlineAttachment(isAgent, chat);
+    });
+
+    describe('when the message group is from an agent', () => {
+      beforeAll(() => {
+        isAgent = true;
+      });
+
+      describe('when the attachment filetype is is not an image', () => {
+        beforeAll(() => {
+          chat = {
+            type: 'chat.file',
+            attachment: {
+              mime_type: 'application/pdf',
+              name: 'invoice.pdf',
+              size: 1024,
+              url: 'path://to/file'
+            }
+          };
+        });
+
+        it('returns an Attachment component', () => {
+          expect(TestUtils.isElementOfType(result, Attachment)).toEqual(true);
+        });
+
+        it('passes the correct props to the child component', () => {
+          expect(result.props).toEqual(jasmine.objectContaining({
+            downloading: false,
+            file: chat.attachment,
+            isDownloadable: true
+          }));
+        });
+      });
+
+      describe('when the attachment filetype is an image', () => {
+        beforeAll(() => {
+          chat = {
+            type: 'chat.file',
+            attachment: {
+              mime_type: 'image/jpeg',
+              name: 'penguins.jpg',
+              size: 1024,
+              url: 'path://to/image'
+            }
+          };
+        });
+
+        it('returns an ImageMessage component', () => {
+          expect(TestUtils.isElementOfType(result, ImageMessage)).toEqual(true);
+        });
+
+        it('passes the correct imgSrc prop to the component', () => {
+          expect(result.props.imgSrc).toEqual(chat.attachment.url);
+        });
+
+        it('renders the component without a placeholder element', () => {
+          expect(result.props).toEqual(jasmine.objectContaining({
+            placeholderEl: false
+          }));
+        });
       });
     });
 
-    describe('when the user is a visitor', () => {
-      beforeEach(() => {
-        const component = instanceRender(<ChatGroup isAgent={false} messages={messagesData} />);
-
-        nameElement = component.renderName();
+    describe('when the message group is from a visitor', () => {
+      beforeAll(() => {
+        isAgent = false;
       });
 
-      it('returns null', () => {
-        expect(nameElement)
-          .toBeNull();
+      describe('when the attachment filetype is is not an image', () => {
+        beforeAll(() => {
+          chat = {
+            type: 'chat.file',
+            file: {
+              mime_type: 'application/pdf',
+              name: 'manual.pdf',
+              size: 1024,
+              url: 'path://to/file'
+            }
+          };
+        });
+
+        it('returns an Attachment component', () => {
+          expect(TestUtils.isElementOfType(result, Attachment)).toEqual(true);
+        });
+
+        it('passes the correct props to the child component', () => {
+          expect(result.props).toEqual(jasmine.objectContaining({
+            downloading: false,
+            file: chat.file,
+            isDownloadable: false
+          }));
+        });
+      });
+
+      describe('when the attachment filetype is an image', () => {
+        describe('while the file is uploading', () => {
+          beforeAll(() => {
+            chat = {
+              type: 'chat.file',
+              file: {
+                type: 'image/jpeg',
+                name: 'tortoises.jpg',
+                size: 1024
+              },
+              uploading: true
+            };
+          });
+
+          it('returns an Attachment component', () => {
+            expect(TestUtils.isElementOfType(result, Attachment)).toEqual(true);
+          });
+
+          it('passes the correct props to the child component', () => {
+            expect(result.props).toEqual(jasmine.objectContaining({
+              downloading: false,
+              file: chat.file,
+              isDownloadable: false,
+              uploading: true
+            }));
+          });
+        });
+
+        describe('when the file has finished uploading', () => {
+          beforeAll(() => {
+            chat = {
+              type: 'chat.file',
+              file: {
+                type: 'image/jpeg',
+                name: 'tortoises.jpg',
+                size: 1024
+              },
+              attachment: 'path://to/file',
+              uploading: false
+            };
+          });
+
+          it('returns an ImageMessage component', () => {
+            expect(TestUtils.isElementOfType(result, ImageMessage)).toEqual(true);
+          });
+
+          it('passes the correct imgSrc prop to the component', () => {
+            expect(result.props.imgSrc).toEqual(chat.attachment);
+          });
+
+          it('renders the component with an Attachment as the placeholder element', () => {
+            expect(TestUtils.isElementOfType(result.props.placeholderEl, Attachment))
+              .toEqual(true);
+          });
+        });
       });
     });
 
-    describe('when the name is empty', () => {
-      beforeEach(() => {
-        const messagesData = [{ display_name: '' }]; // eslint-disable-line camelcase
-        const component = instanceRender(<ChatGroup isAgent={false} messages={messagesData} />);
-
-        nameElement = component.renderName();
+    describe('when the filetype has an associated icon', () => {
+      beforeAll(() => {
+        chat = {
+          type: 'chat.file',
+          file: {
+            name: 'numbers.xls',
+            size: 128
+          },
+          uploading: true
+        };
       });
 
-      it('returns null', () => {
-        expect(nameElement)
-          .toBeNull();
+      it('passes the appropriate preview icon to Attachment', () => {
+        expect(result.props.icon).toEqual('Icon--preview-spreadsheet');
+      });
+    });
+
+    describe('when the filetype has no associated icon', () => {
+      beforeAll(() => {
+        chat = {
+          type: 'chat.file',
+          file: {
+            name: 'readme.nfo',
+            size: 64
+          },
+          uploading: true
+        };
+      });
+
+      it('passes the default preview icon to Attachment', () => {
+        expect(result.props.icon).toEqual('Icon--preview-default');
       });
     });
   });
 
   describe('#renderAvatar', () => {
-    let avatarElement;
+    let renderAvatar;
 
-    describe('when isAgent and showAvatar are false', () => {
-      beforeEach(() => {
-        const component = instanceRender(<ChatGroup showAvatar={false} isAgent={false} />);
+    beforeEach(() => {
+      renderAvatar = getComponentMethod('renderAvatar');
+    });
 
-        avatarElement = component.renderAvatar();
-      });
+    describe('when showAvatarAsAgent is false', () => {
+      const showAvatarAsAgent = false;
 
-      it('returns null', () => {
-        expect(avatarElement)
-          .toBeNull();
+      it('returns nothing', () => {
+        const result = renderAvatar(showAvatarAsAgent, avatarPath);
+
+        expect(result).toEqual(null);
       });
     });
 
-    describe('when isAgent and showAvatar are true', () => {
-      beforeEach(() => {
-        const component = instanceRender(<ChatGroup showAvatar={true} isAgent={true} />);
+    describe('when showAvatarAsAgent is true', () => {
+      let result;
+      const showAvatarAsAgent = true;
 
-        avatarElement = component.renderAvatar();
+      describe('and provided with a path to an avatar', () => {
+        beforeEach(() => {
+          result = renderAvatar(showAvatarAsAgent, avatarPath);
+        });
+
+        it('returns an Avatar component', () => {
+          expect(TestUtils.isElementOfType(result, Avatar)).toEqual(true);
+        });
+
+        it('passes the correct props to the child component', () => {
+          expect(result.props).toEqual(jasmine.objectContaining({
+            className: 'avatarWithSrc',
+            src: avatarPath
+          }));
+        });
       });
 
-      it('returns an Avatar component', () => {
-        expect(avatarElement)
-          .not.toBeNull();
-      });
-    });
+      describe('and not provided with a path to an avatar', () => {
+        beforeEach(() => {
+          result = renderAvatar(showAvatarAsAgent);
+        });
 
-    describe('when isAgent is false and showAvatar is true', () => {
-      beforeEach(() => {
-        const component = instanceRender(<ChatGroup showAvatar={true} isAgent={false} />);
+        it('returns an Avatar component', () => {
+          expect(TestUtils.isElementOfType(result, Avatar)).toEqual(true);
+        });
 
-        avatarElement = component.renderAvatar();
-      });
-
-      it('returns null', () => {
-        expect(avatarElement)
-          .toBeNull();
-      });
-    });
-
-    describe('when isAgent is true and showAvatar is false', () => {
-      beforeEach(() => {
-        const component = instanceRender(<ChatGroup showAvatar={false} isAgent={true} />);
-
-        avatarElement = component.renderAvatar();
-      });
-
-      it('returns null', () => {
-        expect(avatarElement)
-          .toBeNull();
-      });
-    });
-
-    describe('when avatarPath exists', () => {
-      const imageUrl = 'https://www.fakesite.com/img/blah.jpg';
-
-      beforeEach(() => {
-        const component = instanceRender(<ChatGroup showAvatar={true} isAgent={true} avatarPath={imageUrl} />);
-
-        avatarElement = component.renderAvatar();
-      });
-
-      it('should render Avatar with avatar style', () => {
-        expect(avatarElement.props.className)
-          .toContain('avatar');
-      });
-    });
-
-    describe('when avatarPath does not exist', () => {
-      beforeEach(() => {
-        const component = instanceRender(<ChatGroup showAvatar={true} isAgent={true} />);
-
-        avatarElement = component.renderAvatar();
-      });
-
-      it('should render Avatar with avatarDefault style', () => {
-        expect(avatarElement.props.className)
-          .toContain('avatarDefault');
+        it('passes the correct props to the child component', () => {
+          expect(result.props).toEqual(jasmine.objectContaining({
+            className: 'avatarDefault',
+            src: ''
+          }));
+        });
       });
     });
   });
 
-  describe('#renderChatMessage', () => {
-    let chatGroupNode;
+  describe('#render', () => {
+    let component;
+    const isAgent = true;
+    const showAvatar = true;
+    const messages = [{
+      timestamp: 100,
+      type: 'chat.msg',
+      nick: 'agent:123',
+      display_name: 'Agent 123',
+      msg: 'Hello'
+    }];
 
     beforeEach(() => {
-      const component = domRender(<ChatGroup messages={messagesData} />);
+      component = domRender(<ChatGroup isAgent={isAgent} showAvatar={showAvatar} messages={messages} avatarPath={avatarPath} />);
 
-      chatGroupNode = ReactDOM.findDOMNode(component);
+      spyOn(component, 'renderName');
+      spyOn(component, 'renderChatMessages');
+      spyOn(component, 'renderAvatar');
+
+      component.render();
     });
 
-    it('renders messageBubble with a name', () => {
-      expect(chatGroupNode.querySelector('#messageBubble').textContent)
-        .toEqual(messageData.msg);
+    it('calls renderName with the correct args', () => {
+      expect(component.renderName).toHaveBeenCalledWith(isAgent, showAvatar, messages);
     });
 
-    describe('when showAvatar is true', () => {
-      beforeEach(() => {
-        const component = domRender(<ChatGroup showAvatar={true} isAgent={true} messages={messagesData} />);
-
-        chatGroupNode = ReactDOM.findDOMNode(component);
-      });
-
-      it('renders MessageBubble with messageBubble class', () => {
-        const result = chatGroupNode.querySelector('.messageBubbleClass');
-
-        expect(result)
-          .not.toBeNull();
-      });
+    it('calls renderChatMessages with the correct args', () => {
+      expect(component.renderChatMessages).toHaveBeenCalledWith(isAgent, showAvatar, messages);
     });
 
-    describe('when showAvatar is false', () => {
-      beforeEach(() => {
-        const component = domRender(<ChatGroup showAvatar={false} isAgent={true} messages={messagesData} />);
-
-        chatGroupNode = ReactDOM.findDOMNode(component);
-      });
-
-      it('does not render with messageBubble class', () => {
-        const result = chatGroupNode.querySelector('.messageBubbleClass');
-
-        expect(result)
-          .toBeNull();
-      });
-    });
-
-    describe('when user is agent', () => {
-      beforeEach(() => {
-        const component = domRender(<ChatGroup isAgent={true} messages={messagesData} />);
-
-        chatGroupNode = ReactDOM.findDOMNode(component);
-      });
-
-      it('renders with agent styles', () => {
-        expect(chatGroupNode.querySelector('.messageAgent'))
-          .toBeTruthy();
-      });
-
-      it('renders with agent background styles', () => {
-        expect(chatGroupNode.querySelector('.agentBackground'))
-          .toBeTruthy();
-      });
-    });
-
-    describe('when user is visitor', () => {
-      beforeEach(() => {
-        const component = domRender(<ChatGroup isAgent={false} messages={messagesData} />);
-
-        chatGroupNode = ReactDOM.findDOMNode(component);
-      });
-
-      it('renders with visitor styles', () => {
-        expect(chatGroupNode.querySelector('.messageUser'))
-          .toBeTruthy();
-      });
-
-      it('renders with visitor background styles', () => {
-        expect(chatGroupNode.querySelector('.userBackground'))
-          .toBeTruthy();
-      });
+    it('calls renderAvatar with the correct args', () => {
+      expect(component.renderAvatar).toHaveBeenCalledWith(showAvatar && isAgent, avatarPath);
     });
   });
 });

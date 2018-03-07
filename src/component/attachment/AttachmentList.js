@@ -4,32 +4,9 @@ import _ from 'lodash';
 
 import { Attachment } from 'component/attachment/Attachment';
 import { ButtonDropzone } from 'component/button/ButtonDropzone';
+import { ICONS, FILETYPE_ICONS } from 'constants/shared';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './AttachmentList.scss';
-
-const iconMap = {
-  'pdf': 'Icon--preview-pdf',
-  'ppt': 'Icon--preview-presentation',
-  'pptx': 'Icon--preview-presentation',
-  'key': 'Icon--preview-presentation',
-  'xls': 'Icon--preview-spreadsheet',
-  'xlsx': 'Icon--preview-spreadsheet',
-  'numbers': 'Icon--preview-spreadsheet',
-  'csv': 'Icon--preview-spreadsheet',
-  'pages': 'Icon--preview-document',
-  'doc': 'Icon--preview-document',
-  'docx': 'Icon--preview-document',
-  'pag': 'Icon--preview-document',
-  'rtf': 'Icon--preview-document',
-  'txt': 'Icon--preview-document',
-  'gif': 'Icon--preview-image',
-  'img': 'Icon--preview-image',
-  'jpeg': 'Icon--preview-image',
-  'jpg': 'Icon--preview-image',
-  'png': 'Icon--preview-image',
-  'rar': 'Icon--preview-zip',
-  'zip': 'Icon--preview-zip'
-};
 
 export class AttachmentList extends Component {
   static propTypes = {
@@ -54,7 +31,7 @@ export class AttachmentList extends Component {
     };
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
+  componentDidUpdate(prevProps, prevState) {
     if (prevState.errorMessage === null && this.state.errorMessage) {
       this.props.handleAttachmentsError();
     }
@@ -210,21 +187,24 @@ export class AttachmentList extends Component {
       const { file } = attachment;
 
       if (file && file.name) {
-        const extension = file.name.split('.').pop();
+        const extension = file.name.split('.').pop().toUpperCase();
         const icon = attachment.errorMessage
-                   ? 'Icon--preview-error'
-                   : iconMap[extension] || 'Icon--preview-default';
+                   ? ICONS.PREVIEW_ERROR
+                   : FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT;
 
         return (
           <Attachment
             key={id}
             attachmentId={id}
+            className={styles.attachment}
             file={file}
+            filenameMaxLength={30}
             errorMessage={attachment.errorMessage}
+            handleRemoveAttachment={this.handleRemoveAttachment}
+            icon={icon}
+            isRemovable={true}
             uploading={attachment.uploading}
             uploadProgress={attachment.uploadProgress}
-            icon={icon}
-            handleRemoveAttachment={this.handleRemoveAttachment}
             uploadRequestSender={attachment.uploadRequestSender} />
         );
       }
@@ -239,7 +219,7 @@ export class AttachmentList extends Component {
     );
   }
 
-  render = () => {
+  render() {
     const numAttachments = this.numUploadedAttachments();
     const title = (numAttachments > 0)
                 ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount',

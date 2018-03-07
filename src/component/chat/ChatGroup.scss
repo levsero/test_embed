@@ -6,6 +6,12 @@
 
 .wrapper {
   composes: u-cf u-block from global;
+  margin-left: #{40/$font-size}rem;
+
+  [dir='rtl'] & {
+    margin-left: 0;
+    margin-right: #{40/$font-size}rem;
+  }
 }
 
 .message {
@@ -22,10 +28,6 @@
   }
 }
 
-.userBackground {
-  composes: u-userBackgroundColor from global;
-}
-
 .messageAgent {
   composes: u-pullLeft from global;
   color: $zd-color-black;
@@ -33,6 +35,15 @@
   [dir='rtl'] & {
     float: right !important;
   }
+}
+
+.attachment {
+  width: #{180/$font-size}rem;
+  border-radius: #{8/$font-size}rem;
+}
+
+.userBackground {
+  composes: u-userBackgroundColor from global;
 }
 
 .agentBackground {
@@ -91,13 +102,4 @@
   composes: avatar;
   height: #{30/$font-size}rem;
   width: #{30/$font-size}rem;
-}
-
-.messageBubble {
-  margin-left: #{40/$font-size}rem;
-
-  [dir='rtl'] & {
-    margin-left: 0;
-    margin-right: #{40/$font-size}rem;
-  }
 }

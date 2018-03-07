@@ -1,82 +1,117 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import chatPropTypes from 'types/chat';
 import _ from 'lodash';
 
 import { Avatar } from 'component/Avatar';
 import { MessageBubble } from 'component/chat/MessageBubble';
-
+import { ImageMessage } from 'component/chat/ImageMessage';
+import { Attachment } from 'component/attachment/Attachment';
+import { ICONS, FILETYPE_ICONS } from 'constants/shared';
 import { locals as styles } from './ChatGroup.scss';
 
 export class ChatGroup extends Component {
   static propTypes = {
-    messages: PropTypes.array,
-    isAgent: PropTypes.bool.isRequired,
+    messages: PropTypes.arrayOf(chatPropTypes.chatMessage),
+    isAgent: PropTypes.bool,
     avatarPath: PropTypes.string,
     showAvatar: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
     messages: [],
-    avatarPath: ''
+    isAgent: false
   };
 
-  renderName() {
-    const { isAgent, showAvatar } = this.props;
-    const name = _.get(this.props.messages, '0.display_name');
-    const nameStyles = (showAvatar) ? styles.nameAvatar : styles.nameNoAvatar;
+  renderName = (isAgent, showAvatar, messages) => {
+    const name = _.get(messages, '0.display_name');
+    const nameStyles = showAvatar ? styles.nameAvatar : styles.nameNoAvatar;
 
-    if (!isAgent || !name) return null;
-
-    return (
-      <div className={nameStyles}>{name}</div>
-    );
+    return isAgent && name ?
+      <div className={nameStyles}>{name}</div> : null;
   }
 
-  renderAvatar() {
-    const { isAgent, avatarPath, showAvatar } = this.props;
-    const avatarStyles = avatarPath ? styles.avatarWithSrc : styles.avatarDefault;
-
-    if (!showAvatar || !isAgent) return null;
-
-    return (
-      <Avatar className={avatarStyles} src={avatarPath} />
-    );
-  }
-
-  renderChatMessages() {
-    const { isAgent, messages, showAvatar } = this.props;
+  renderChatMessages = (isAgent, showAvatar, messages) => {
     const userClasses = isAgent ? styles.messageAgent : styles.messageUser;
+    const messageStyle = showAvatar ? styles.messageBubble : '';
     const userBackgroundStyle = isAgent ? styles.agentBackground : styles.userBackground;
-    const messageStyle = (showAvatar) ? styles.messageBubble : '';
 
     return messages.map((chat) => {
-      let messageContent;
+      let message;
 
       if (chat.msg) {
-        messageContent = chat.msg;
-      } else if (chat.file) {
-        // temporary so we have a visual representation of attachments uploaded, will be replaced
-        messageContent = chat.uploading ? 'uploading' : 'uploaded';
+        message = (
+          <MessageBubble
+            className={`${messageStyle} ${userBackgroundStyle}`}
+            message={chat.msg}
+          />
+        );
+      } else if (chat.file || chat.attachment) {
+        message = this.renderInlineAttachment(isAgent, chat);
       }
 
       return (
         <div key={chat.timestamp} className={styles.wrapper}>
           <div className={`${styles.message} ${userClasses}`}>
-            <MessageBubble
-              className={`${messageStyle} ${userBackgroundStyle}`}
-              message={messageContent} />
+            {message}
           </div>
         </div>
       );
     });
   }
 
+  renderInlineAttachment = (isAgent, chat) => {
+    let inlineAttachment;
+    const file = isAgent ? chat.attachment : chat.file;
+    const extension = file.name.split('.').pop().toUpperCase();
+    const icon = FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT;
+    const isImage = /(gif|jpe?g|png)$/i.test(extension);
+
+    // chat.uploading is never truthy on an incoming message, therefore the assignment below
+    // never occurs if the message group is from an agent AND it is an image
+    inlineAttachment = (
+      <Attachment
+        className={styles.attachment}
+        downloading={!chat.uploading && isImage}
+        file={file}
+        filenameMaxLength={20}
+        icon={icon}
+        isDownloadable={isAgent}
+        uploading={chat.uploading}
+      />
+    );
+
+    if (!chat.uploading && isImage) {
+      const imgSrc = _.isObject(chat.attachment) ? chat.attachment.url : chat.attachment;
+      const placeholderEl = !isAgent && inlineAttachment;
+
+      inlineAttachment = (
+        <ImageMessage
+          imgSrc={imgSrc}
+          placeholderEl={placeholderEl}
+        />
+      );
+    }
+
+    return inlineAttachment;
+  }
+
+  renderAvatar = (showAvatarAsAgent, avatarPath = '') => {
+    const avatarStyles = avatarPath ? styles.avatarWithSrc : styles.avatarDefault;
+
+    return showAvatarAsAgent ?
+      <Avatar className={avatarStyles} src={avatarPath} /> : null;
+  }
+
   render() {
+    const { isAgent, messages, avatarPath, showAvatar } = this.props;
+    const showAvatarAsAgent = isAgent && showAvatar;
+
     return (
       <div className={styles.container}>
-        {this.renderName()}
-        {this.renderChatMessages()}
-        {this.renderAvatar()}
+        {this.renderName(isAgent, showAvatar, messages)}
+        {this.renderChatMessages(isAgent, showAvatar, messages)}
+        {this.renderAvatar(showAvatarAsAgent, avatarPath)}
       </div>
     );
   }

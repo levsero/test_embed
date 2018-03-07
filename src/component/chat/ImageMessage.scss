@@ -1,0 +1,19 @@
+@import '../../styles/_vars.scss';
+
+.container {
+  composes: u-inlineBlock from global;
+
+  img {
+    max-width: #{180/$font-size}rem;
+    max-height: #{180/$font-size}rem;
+    border-radius: #{8/$font-size}rem;
+  }
+}
+
+.link {
+  composes: u-linkClean from global;
+}
+
+.hidden {
+  composes: u-isHidden from global;
+}

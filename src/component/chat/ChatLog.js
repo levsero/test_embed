@@ -7,9 +7,7 @@ import { locals as styles } from './ChatLog.scss';
 import { ChatGroup } from 'component/chat/ChatGroup';
 import { ChatEventMessage } from 'component/chat/ChatEventMessage';
 import { Button } from 'component/button/Button';
-
-// TODO: move constants out of chat-selectors and into a more sensible location
-import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'src/redux/modules/chat/chat-selectors';
+import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
 
 export class ChatLog extends Component {
   static propTypes = {
@@ -27,8 +25,8 @@ export class ChatLog extends Component {
 
       if (_.includes(CHAT_MESSAGE_EVENTS, chatLogItemType)) {
         const chatGroup = chatLogItem;
-        const groupNick = _.get(chatGroup, '0.nick');
-        const isAgent = groupNick !== 'visitor';
+        const groupNick = _.get(chatGroup, '0.nick', 'visitor');
+        const isAgent = groupNick.indexOf('agent:') > -1;
         const avatarPath = _.get(agents, `${groupNick}.avatar_path`);
 
         return (

@@ -11,19 +11,20 @@ export class ChatEventMessage extends Component {
   };
 
   renderEventMessage(event) {
+    const isAgent = (nick) => nick.indexOf('agent:') > -1;
     const agent = event.display_name;
     const ratingValue = event.new_rating;
 
     switch (event.type) {
       case 'chat.memberjoin':
-        return event.nick === 'visitor'
-          ? i18n.t('embeddable_framework.chat.chatLog.chatStarted')
-          : i18n.t('embeddable_framework.chat.chatLog.agentJoined', { agent });
+        return isAgent(event.nick)
+          ? i18n.t('embeddable_framework.chat.chatLog.agentJoined', { agent })
+          : i18n.t('embeddable_framework.chat.chatLog.chatStarted');
 
       case 'chat.memberleave':
-        return event.nick === 'visitor'
-          ? i18n.t('embeddable_framework.chat.chatLog.chatEnded')
-          : i18n.t('embeddable_framework.chat.chatLog.agentLeft', { agent });
+        return isAgent(event.nick)
+          ? i18n.t('embeddable_framework.chat.chatLog.agentLeft', { agent })
+          : i18n.t('embeddable_framework.chat.chatLog.chatEnded');
 
       case 'chat.rating':
         const value = i18n.t(`embeddable_framework.chat.chatLog.rating.${ratingValue}`);

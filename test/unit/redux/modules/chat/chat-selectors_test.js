@@ -28,10 +28,20 @@ describe('chat selectors', () => {
   beforeEach(() => {
     mockery.enable();
 
+    const chatConstantsPath = basePath('src/constants/chat');
+    const CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS;
+    const CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS;
+
+    initMockRegistry({
+      'constants/chat': {
+        CHAT_MESSAGE_EVENTS,
+        CHAT_SYSTEM_EVENTS
+      }
+    });
+
     const chatSelectorsPath = buildSrcPath('redux/modules/chat/chat-selectors');
 
     mockery.registerAllowable(chatSelectorsPath);
-
     const selectors = requireUncached(chatSelectorsPath);
 
     getAgents = selectors.getAgents;
@@ -59,6 +69,11 @@ describe('chat selectors', () => {
     getEmailTranscript = selectors.getEmailTranscript;
     getShowRatingScreen = selectors.getShowRatingScreen;
     getThemeShowAvatar = selectors.getThemeShowAvatar;
+  });
+
+  afterEach(() => {
+    mockery.deregisterAll();
+    mockery.disable();
   });
 
   describe('getChatNotification', () => {

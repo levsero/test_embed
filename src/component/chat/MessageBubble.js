@@ -9,11 +9,6 @@ export class MessageBubble extends Component {
     message: PropTypes.string
   };
 
-  static defaultProps = {
-    className: '',
-    message: ''
-  };
-
   render() {
     return (
       <div className={`${styles.messageBubble} ${this.props.className}`}>

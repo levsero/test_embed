@@ -1,18 +1,25 @@
 describe('AttachmentList component', () => {
   let AttachmentList,
     component,
+    ICONS,
+    FILETYPE_ICONS,
     mockUpdateForm,
     mockAttachmentSender,
     mockHandleAttachmentsError;
+
   const attachmentListPath = buildSrcPath('component/attachment/AttachmentList');
+  const sharedConstantsPath = buildSrcPath('constants/shared');
+
   const maxFileCount = 5;
   const maxFileSize = 5 * 1024 * 1024;
 
   beforeEach(() => {
     mockery.enable();
 
+    ICONS = requireUncached(sharedConstantsPath).ICONS;
+    FILETYPE_ICONS = requireUncached(sharedConstantsPath).FILETYPE_ICONS;
+
     initMockRegistry({
-      'React': React,
       'component/attachment/Attachment': {
         Attachment: class extends Component {
           render() {
@@ -28,6 +35,10 @@ describe('AttachmentList component', () => {
       'component/button/ButtonDropzone': {
         ButtonDropzone: noopReactComponent()
       },
+      'constants/shared' : {
+        ICONS,
+        FILETYPE_ICONS
+      },
       'service/i18n': {
         i18n: {
           init: noop,
@@ -36,7 +47,6 @@ describe('AttachmentList component', () => {
           t: _.identity
         }
       },
-      'lodash': _,
       './AttachmentList.scss': {
         locals: {
           label: 'label'
@@ -88,7 +98,7 @@ describe('AttachmentList component', () => {
     });
 
     describe('when there are no attachments', () => {
-      it('has a label that with the embeddable_framework.submitTicket.attachments.title string', () => {
+      it('has a label with the embeddable_framework.submitTicket.attachments.title string', () => {
         const label = document.querySelector('label.label').innerHTML;
 
         expect(label)
@@ -227,7 +237,6 @@ describe('AttachmentList component', () => {
 
     it('maps images correctly', () => {
       const attachments = [
-        { name: 'test.img' },
         { name: 'test.png' },
         { name: 'test.jpeg' },
         { name: 'test.jpg' },
@@ -262,19 +271,6 @@ describe('AttachmentList component', () => {
         expect(preview.props.icon)
           .toEqual('Icon--preview-zip');
       });
-    });
-
-    it('maps error correctly', () => {
-      const attachments = [{ name: 'test.doc', size: maxFileSize + 1 }];
-
-      component.handleOnDrop(attachments);
-
-      jasmine.clock().tick(1);
-
-      const previews = component.renderAttachments();
-
-      expect(previews[0].props.icon)
-        .toEqual('Icon--preview-error');
     });
 
     it('falls back to default icon if it is not recognised', () => {
