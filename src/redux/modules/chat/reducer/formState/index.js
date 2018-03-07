@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import offlineForm from './offlineForm';
+import offlineForm from './offline-form';
 
 export default combineReducers({
   offlineForm
