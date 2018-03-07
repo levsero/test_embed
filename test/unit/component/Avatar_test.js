@@ -34,15 +34,21 @@ describe('Avatar component', () => {
 
   describe('#render', () => {
     let component;
+    let fallbackIconType = 'Icon-Type';
 
     describe('when the src prop is empty', () => {
       beforeEach(() => {
-        component = domRender(<Avatar />);
+        component = domRender(<Avatar fallbackIcon={fallbackIconType} />);
       });
 
       it('should render an Icon', () => {
         expect(() => TestUtils.findRenderedComponentWithType(component, MockIcon))
           .not.toThrow();
+      });
+
+      it('the rendered Icon should have the type of the fallback icon', () => {
+        expect(TestUtils.findRenderedComponentWithType(component, MockIcon).props.type)
+          .toEqual(fallbackIconType);
       });
 
       it('should not render an img', () => {

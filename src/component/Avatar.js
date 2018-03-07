@@ -8,7 +8,8 @@ import { Icon } from 'component/Icon';
 export class Avatar extends Component {
   static propTypes = {
     className: PropTypes.string,
-    src: PropTypes.string
+    src: PropTypes.string,
+    fallbackIcon: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -24,19 +25,20 @@ export class Avatar extends Component {
     );
   }
 
-  renderDefault = (classes) => {
+  renderDefault = (classes, icon) => {
     return (
       <Icon
         className={classes}
-        type="Icon--avatar" />
+        type={icon} />
     );
   }
 
   render = () => {
-    const classes = `${styles.avatar} ${this.props.className}`;
+    const { src, className, fallbackIcon } = this.props;
+    const classes = `${styles.avatar} ${className}`;
 
-    return _.isEmpty(this.props.src)
-         ? this.renderDefault(classes)
+    return _.isEmpty(src)
+         ? this.renderDefault(classes, fallbackIcon)
          : this.renderCustom(classes);
   }
 }
