@@ -1,0 +1,27 @@
+@import '../../../styles/_vars.scss';
+
+.optionItem {
+  line-height: #{16/$font-size}rem;
+  padding: #{8/$font-size}rem #{12/$font-size}rem;
+  transition: background-color 250ms ease-out;
+  border-bottom: #{1/$font-size}rem #f3f3f3 solid;
+  border-left: #{1/$font-size}rem #f3f3f3 solid;
+  border-right: #{1/$font-size}rem #f3f3f3 solid;
+  max-width: #{219/$font-size}rem;
+
+  &:hover {
+    background-color: $zd-color-white-smoke;
+    cursor: pointer;
+    transition: background-color 250ms ease-in;
+  }
+}
+
+.firstItemBorders {
+  border-top-left-radius: #{16/$font-size}rem;
+  border-top-right-radius: #{16/$font-size}rem;
+}
+
+.lastItemBorders {
+  border-bottom-left-radius: #{16/$font-size}rem;
+  border-bottom-right-radius: #{16/$font-size}rem;
+}
