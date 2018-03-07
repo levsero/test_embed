@@ -51,7 +51,7 @@ export class ChatNotificationPopup extends Component {
 
     return (
       <div className={styles.proactiveContainer}>
-        <Avatar className={avatarClasses} src={avatarPath} />
+        <Avatar className={avatarClasses} src={avatarPath} fallbackIcon="Icon--avatar" />
         <div className={styles.agentContainer}>
           {this.renderAgentName(agentName)}
           {this.renderAgentMessage(msg)}
