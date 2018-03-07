@@ -29,6 +29,7 @@ export const getEmailTranscript = (state) => state.chat.emailTranscript;
 export const getAttachmentsEnabled = (state) => state.chat.accountSettings.attachments.enabled;
 export const getRatingSettings = (state) => state.chat.accountSettings.rating;
 export const getUserSoundSettings = (state) => state.chat.userSettings.sound;
+export const getChatOfflineForm = (state) => state.chat.forms.offlineForm;
 
 export const getThemeShowAvatar = createSelector(
   getThemeMessageType,
