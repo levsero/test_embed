@@ -67,16 +67,28 @@ export class ScrollContainer extends Component {
     this.setState({ scrollShadowVisible: visible });
   }
 
+  renderFooter() {
+    const { footerContent, footerClasses, scrollShadowVisible } = this.props;
+    const footerShadowClasses = this.state.scrollShadowVisible || scrollShadowVisible ? styles.footerShadow : '';
+
+    if (!footerContent || (Array.isArray(footerContent) && footerContent.length === 0)) return null;
+
+    return (
+      <footer
+        ref={(el) => {this.footer = el;}}
+        className={`${styles.footer} ${footerClasses} ${footerShadowClasses}`}>
+        {footerContent}
+      </footer>
+    );
+  }
+
   render = () => {
     const {
       fullscreen,
       headerContent,
-      containerClasses,
-      footerClasses,
-      scrollShadowVisible
+      containerClasses
     } = this.props;
     const mobileContentClasses = fullscreen ? styles.contentMobile : '';
-    const footerShadowClasses = this.state.scrollShadowVisible || scrollShadowVisible ? styles.footerShadow : '';
     const mobileTitleClasses = fullscreen ? styles.titleMobile : '';
     const bigHeaderClasses = headerContent && fullscreen ? styles.contentBigheader : '';
     const scrollContainerClasses = fullscreen ? styles.container : styles.containerDesktop;
@@ -100,11 +112,7 @@ export class ScrollContainer extends Component {
           }>
           {this.props.children}
         </div>
-        <footer
-          ref={(el) => {this.footer = el;}}
-          className={`${styles.footer} ${footerClasses} ${footerShadowClasses}`}>
-          {this.props.footerContent}
-        </footer>
+        {this.renderFooter()}
       </div>
     );
   }
