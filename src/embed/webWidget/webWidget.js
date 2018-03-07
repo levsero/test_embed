@@ -133,7 +133,8 @@ export default function WebWidgetFactory(name) {
     const talkAvailable = !!talkConfig && !settings.get('talk.suppress');
     const helpCenterAvailable = !!config.helpCenterForm && !settings.get('helpCenter.suppress');
     const submitTicketAvailable = !!config.ticketSubmissionForm && !settings.get('contactForm.suppress');
-    const chatAvailable = !!config.zopimChat;
+    const chatConfig = config.zopimChat;
+    const chatAvailable = !!chatConfig;
     const channelChoice = settings.get('contactOptions').enabled && submitTicketAvailable;
     const submitTicketSettings = submitTicketAvailable
                                ? setUpSubmitTicket(config.ticketSubmissionForm, reduxStore)
@@ -147,6 +148,7 @@ export default function WebWidgetFactory(name) {
       submitTicketSettings.config,
       helpCenterSettings.config,
       talkConfig,
+      chatConfig,
       rootConfig
     );
     const zendeskSubdomain = http.getZendeskSubdomain();
@@ -187,7 +189,7 @@ export default function WebWidgetFactory(name) {
         upShow: transitionFactory.webWidget.upShow()
       },
       newDesign: config.newDesign,
-      newChat: !!config.zopimChat,
+      newChat: chatAvailable,
       store: reduxStore,
       visible: false,
       useBackButton: true,
