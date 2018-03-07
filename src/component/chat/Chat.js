@@ -91,7 +91,6 @@ class Chat extends Component {
     prechatFormSettings: PropTypes.object.isRequired,
     postChatFormSettings: PropTypes.object.isRequired,
     isMobile: PropTypes.bool,
-    newDesign: PropTypes.bool,
     position: PropTypes.string,
     sendMsg: PropTypes.func.isRequired,
     setVisitorInfo: PropTypes.func.isRequired,
@@ -118,7 +117,6 @@ class Chat extends Component {
   static defaultProps = {
     attachmentsEnabled: false,
     isMobile: false,
-    newDesign: false,
     position: 'right',
     updateFrameSize: () => {},
     getAccountSettings: () => {},
@@ -291,7 +289,6 @@ class Chat extends Component {
 
     return (
       <ScrollContainer
-        newDesign={this.props.newDesign}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
         <ChatPrechatForm
           form={form}
@@ -335,7 +332,7 @@ class Chat extends Component {
   }
 
   renderChatScreen = () => {
-    const { screen, ratingSettings, agents, isMobile, newDesign } = this.props;
+    const { screen, ratingSettings, agents, isMobile } = this.props;
 
     if (screen !== screens.CHATTING_SCREEN) return;
     const showRating = ratingSettings.enabled && _.size(agents) > 0;
@@ -348,7 +345,6 @@ class Chat extends Component {
         headerContent={this.renderChatHeader(showRating)}
         headerClasses={styles.header}
         containerClasses={containerClasses}
-        newDesign={newDesign}
         footerClasses={styles.footer}
         footerContent={this.renderChatFooter()}>
         <div className={styles.messages}>
@@ -444,7 +440,6 @@ class Chat extends Component {
     return (
       <ScrollContainer
         headerContent={this.renderChatHeader()}
-        newDesign={this.props.newDesign}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
         <ChatFeedbackForm
           feedbackMessage={message}

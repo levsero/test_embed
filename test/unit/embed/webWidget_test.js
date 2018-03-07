@@ -326,18 +326,6 @@ describe('embed.webWidget', () => {
       });
     });
 
-    describe('new design', () => {
-      it('passes the `newDesign` with a value of true', () => {
-        const config = { newDesign: true, zopimChat: { embed: 'chat', props: { zopimId: 'abcde' } } };
-
-        webWidget.create('', config);
-        faythe = webWidget.get().component.props.children;
-
-        expect(faythe.props.newDesign)
-          .toEqual(true);
-      });
-    });
-
     describe('child props', () => {
       beforeEach(() => {
         const config = {

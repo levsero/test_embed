@@ -46,7 +46,6 @@ class SubmitTicket extends Component {
     maxFileSize: PropTypes.number,
     onCancel: PropTypes.func,
     onSubmitted: PropTypes.func,
-    newDesign: PropTypes.bool,
     position: PropTypes.string,
     previewEnabled: PropTypes.bool,
     showBackButton: PropTypes.func,
@@ -79,7 +78,6 @@ class SubmitTicket extends Component {
     maxFileSize: 5 * 1024 * 1024,
     onCancel: () => {},
     onSubmitted: () => {},
-    newDesign: false,
     position: 'right',
     previewEnabled: false,
     showBackButton: () => {},
@@ -312,7 +310,6 @@ class SubmitTicket extends Component {
       <ScrollContainer
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         fullscreen={this.props.fullscreen}
-        newDesign={this.props.newDesign}
         containerClasses={styles.ticketFormsContainer}>
         <div className={`${styles.loadingSpinner} ${spinnerIEClasses}`}>
           <LoadingSpinner />
@@ -357,7 +354,6 @@ class SubmitTicket extends Component {
         ticketFormSettings={activeTicketFormPrefill}
         ticketFieldSettings={this.props.ticketFieldSettings}
         submit={this.handleSubmit}
-        newDesign={this.props.newDesign}
         activeTicketForm={this.props.activeTicketForm}
         getFrameDimensions={this.props.getFrameDimensions}
         previewEnabled={this.props.previewEnabled}>
@@ -373,7 +369,7 @@ class SubmitTicket extends Component {
 
     return (
       <div className={styles.notify} ref='notification'>
-        <ScrollContainer title={this.state.message} newDesign={this.props.newDesign}>
+        <ScrollContainer title={this.state.message}>
           <Icon
             type='Icon--tick'
             className={iconClasses} />
@@ -414,7 +410,6 @@ class SubmitTicket extends Component {
         fullscreen={fullscreen}
         scrollShadowVisible={!fullscreen}
         containerClasses={containerClasses}
-        newDesign={this.props.newDesign}
         footerClasses={footerClasses}>
         <div className={`${styles.ticketFormsListTitle} ${titleMobileClasses}`}>
           {i18n.t('embeddable_framework.submitTicket.ticketForms.title')}

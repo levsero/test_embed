@@ -77,22 +77,11 @@ describe('ScrollContainer component', () => {
       });
     });
 
-    describe('when newDesign is true', () => {
-      it('has `userHeader` classes', () => {
-        const container = shallowRender(<ScrollContainer newDesign={true} headerContent={<div />} />);
+    it('has `userHeader` classes', () => {
+      const container = shallowRender(<ScrollContainer headerContent={<div />} />);
 
-        expect(container.props.children[0].props.className)
-          .toMatch('userHeaderClassesYo');
-      });
-    });
-
-    describe('when newDesign is false', () => {
-      it('does not have `userHeader` classes', () => {
-        const container = shallowRender(<ScrollContainer newDesign={false} headerContent={<div />} />);
-
-        expect(container.props.children[0].props.className)
-          .not.toMatch('userHeaderClassesYo');
-      });
+      expect(container.props.children[0].props.className)
+        .toMatch('userHeaderClassesYo');
     });
   });
 

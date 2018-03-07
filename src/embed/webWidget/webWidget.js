@@ -188,7 +188,6 @@ export default function WebWidgetFactory(name) {
         downHide: transitionFactory.webWidget.downHide(),
         upShow: transitionFactory.webWidget.upShow()
       },
-      newDesign: config.newDesign,
       newChat: chatAvailable,
       store: reduxStore,
       visible: false,
@@ -205,7 +204,6 @@ export default function WebWidgetFactory(name) {
         <WebWidget
           attachmentSender={submitTicketSettings.attachmentSender}
           channelChoice={channelChoice}
-          newDesign={config.newDesign}
           fullscreen={isMobileBrowser()}
           helpCenterAvailable={helpCenterAvailable}
           helpCenterConfig={helpCenterSettings.config}

@@ -41,7 +41,6 @@ export class SubmitTicketForm extends Component {
     getFrameDimensions: PropTypes.func.isRequired,
     ticketFormSettings: PropTypes.array,
     ticketFieldSettings: PropTypes.array,
-    newDesign: PropTypes.bool,
     formState: PropTypes.object,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
@@ -61,7 +60,6 @@ export class SubmitTicketForm extends Component {
     ticketFields: [],
     activeTicketForm: {},
     formTitleKey: 'message',
-    newDesign: false,
     formState: {},
     fullscreen: false,
     hide: false,
@@ -450,7 +448,6 @@ export class SubmitTicketForm extends Component {
           title={i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)}
           containerClasses={`${styles.container} ${containerClasses}`}
           getFrameDimensions={this.props.getFrameDimensions}
-          newDesign={this.props.newDesign}
           footerContent={
             <ButtonGroup rtl={i18n.isRTL()}>
               {buttonCancel}

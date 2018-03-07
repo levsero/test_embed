@@ -70,7 +70,6 @@ class HelpCenter extends Component {
     hideZendeskLogo: PropTypes.bool,
     localeFallbacks: PropTypes.array,
     onNextClick: PropTypes.func,
-    newDesign: PropTypes.bool,
     originalArticleButton: PropTypes.bool,
     performContextualSearch: PropTypes.func.isRequired,
     performSearch: PropTypes.func.isRequired,
@@ -110,7 +109,6 @@ class HelpCenter extends Component {
     hideZendeskLogo: false,
     localeFallbacks: [],
     onNextClick: () => {},
-    newDesign: false,
     originalArticleButton: true,
     showBackButton: () => {},
     showNextButton: true,
@@ -333,7 +331,6 @@ class HelpCenter extends Component {
         handleOriginalArticleClick={this.props.handleOriginalArticleClicked}
         storedImages={this.props.restrictedImages}
         imagesSender={this.props.performImageSearch}
-        newDesign={this.props.newDesign}
         updateStoredImages={this.props.addRestrictedImage}
         updateFrameSize={this.props.updateFrameSize}
         fullscreen={this.props.fullscreen} />
@@ -357,7 +354,6 @@ class HelpCenter extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         isLoading={this.props.searchLoading}
         onNextClick={this.props.onNextClick}
-        newDesign={this.props.newDesign}
         channelChoice={this.props.channelChoiceShown}
         callbackEnabled={this.props.callbackEnabled}
         talkEnabled={this.props.talkEnabled}
@@ -387,7 +383,6 @@ class HelpCenter extends Component {
         search={this.search}
         isLoading={this.props.searchLoading}
         onNextClick={this.props.onNextClick}
-        newDesign={this.props.newDesign}
         showNextButton={this.props.showNextButton}
         chatAvailable={this.props.chatAvailable}
         hasContextualSearched={this.props.hasContextualSearched}
