@@ -7,6 +7,8 @@ describe('WebWidget component', () => {
   const clearFormSpy = jasmine.createSpy();
   const webWidgetPath = buildSrcPath('component/webWidget/WebWidget');
 
+  const ChatOfflineForm = connectedComponent(noopReactComponent());
+
   beforeEach(() => {
     mockery.enable();
 
@@ -72,6 +74,7 @@ describe('WebWidget component', () => {
         }
       },
       'component/chat/Chat': connectedComponent(<MockChat />),
+      'component/chat/ChatOfflineForm': ChatOfflineForm,
       'component/helpCenter/HelpCenter': connectedComponent(<MockHelpCenter />),
       'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
       'component/talk/Talk': connectedComponent(<MockTalk />),
@@ -211,6 +214,64 @@ describe('WebWidget component', () => {
       it('does not render the chatPopup component', () => {
         expect(webWidget.renderChatNotification())
           .toBeFalsy();
+      });
+    });
+  });
+
+  describe('renderChat', () => {
+    let result;
+
+    describe('when chat is standalone and chat is offline', () => {
+      beforeEach(() => {
+        const webWidget = instanceRender(
+          <WebWidget
+            activeEmbed='chat'
+            chatStandalone={true}
+            chatStatus='offline' />
+        );
+
+        result = webWidget.renderChat();
+      });
+
+      it('renders ChatOfflineForm', () => {
+        expect(TestUtils.isElementOfType(result, ChatOfflineForm))
+          .toEqual(true);
+      });
+    });
+
+    describe('when chat is not standalone', () => {
+      beforeEach(() => {
+        const webWidget = instanceRender(
+          <WebWidget
+            activeEmbed='chat'
+            chatStandalone={false}
+            chatStatus='offline' />
+        );
+
+        result = webWidget.renderChat();
+      });
+
+      it('renders Chat', () => {
+        expect(result.ref)
+          .toEqual('chat');
+      });
+    });
+
+    describe('when chat is online', () => {
+      beforeEach(() => {
+        const webWidget = instanceRender(
+          <WebWidget
+            activeEmbed='chat'
+            chatStandalone={true}
+            chatStatus='online' />
+        );
+
+        result = webWidget.renderChat();
+      });
+
+      it('renders Chat', () => {
+        expect(result.ref)
+          .toEqual('chat');
       });
     });
   });

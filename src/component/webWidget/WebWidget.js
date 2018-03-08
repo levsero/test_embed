@@ -34,6 +34,7 @@ import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-sele
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
 const chat = 'chat';
+const chatOffline = 'chatOffline';
 const zopimChat = 'zopimChat';
 const channelChoice = 'channelChoice';
 const talk = 'talk';
