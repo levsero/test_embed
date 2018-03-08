@@ -182,7 +182,7 @@ function initIPM(config, embeddableConfig, reduxStore = dummyStore) {
 function initMediator(config) {
   const embeds = config.embeds;
 
-  if (embeds && embeds.zopimChat && embeds.zopimChat.props.standalone) {
+  if (_.get(embeds, 'zopimChat.props.standalone') && !config.newChat) {
     mediator.initZopimStandalone();
   } else if (embeds) {
     const signInRequired = embeds.helpCenterForm
