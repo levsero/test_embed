@@ -109,7 +109,7 @@ describe('ScrollContainer component', () => {
   });
 
   it('should have shadow class on footer if content is scrollable', () => {
-    const container = domRender(<ScrollContainer fullscreen={true} />);
+    const container = domRender(<ScrollContainer footerContent='foo' fullscreen={true} />);
 
     container.setState({ scrollShadowVisible: true });
 
@@ -122,7 +122,7 @@ describe('ScrollContainer component', () => {
 
     describe('containerClasses', () => {
       beforeEach(() => {
-        container = domRender(<ScrollContainer containerClasses='baz' />);
+        container = domRender(<ScrollContainer footerContent='foo' containerClasses='baz' />);
       });
 
       it('should apply them to container', () => {
@@ -138,7 +138,7 @@ describe('ScrollContainer component', () => {
 
     describe('footerClasses', () => {
       beforeEach(() => {
-        container = domRender(<ScrollContainer footerClasses='baz' />);
+        container = domRender(<ScrollContainer footerContent='foo' footerClasses='baz' />);
       });
 
       it('should apply them to footer', () => {
@@ -179,6 +179,49 @@ describe('ScrollContainer component', () => {
 
         expect(container.scrollTop)
           .toEqual(newScrollTopValue);
+      });
+    });
+  });
+
+  describe('renderFooter', () => {
+    let result;
+
+    describe('when the footerContent is an empty array', () => {
+      beforeEach(() => {
+        const scrollContainer = instanceRender(<ScrollContainer footerContent={[]} />);
+
+        result = scrollContainer.renderFooter();
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toEqual(null);
+      });
+    });
+
+    describe('when the footerContent is a null value', () => {
+      beforeEach(() => {
+        const scrollContainer = instanceRender(<ScrollContainer footerContent={[]} />);
+
+        result = scrollContainer.renderFooter();
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toEqual(null);
+      });
+    });
+
+    describe('when the footerContent is a valid node value', () => {
+      beforeEach(() => {
+        const scrollContainer = instanceRender(<ScrollContainer footerContent='bobby' />);
+
+        result = scrollContainer.renderFooter();
+      });
+
+      it('returns a footer element', () => {
+        expect(result.type)
+          .toEqual('footer');
       });
     });
   });
