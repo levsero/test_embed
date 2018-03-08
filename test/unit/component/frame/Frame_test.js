@@ -12,7 +12,8 @@ describe('Frame', () => {
     mockIsRTLValue,
     mockLocaleValue,
     mockZoomSizingRatioValue,
-    mockUpdateWidgetShown;
+    mockUpdateWidgetShown,
+    mockWidgetHideAnimationComplete;
 
   const FramePath = buildSrcPath('component/frame/Frame');
 
@@ -79,6 +80,7 @@ describe('Frame', () => {
     mockClickBusterRegister = jasmine.createSpy('clickBusterRegister');
 
     mockUpdateWidgetShown = jasmine.createSpy('updateWidgetShown');
+    mockWidgetHideAnimationComplete = jasmine.createSpy('widgetHideAnimationComplete');
 
     mockRegistryMocks = {
       'React': React,
@@ -132,7 +134,8 @@ describe('Frame', () => {
         }
       },
       'src/redux/modules/base/base-actions': {
-        updateWidgetShown: mockUpdateWidgetShown
+        updateWidgetShown: mockUpdateWidgetShown,
+        widgetHideAnimationComplete: mockWidgetHideAnimationComplete
       },
       'lodash': _,
       'component/Icon': {
@@ -546,12 +549,19 @@ describe('Frame', () => {
   });
 
   describe('hide', () => {
-    let frame, mockOnHide, frameProps;
+    let frame, mockOnHide, frameProps, dispatchSpy;
 
     beforeEach(() => {
       mockOnHide = jasmine.createSpy('onHide');
+      dispatchSpy = jasmine.createSpy('dispatch');
+      frameProps = {
+        onHide: mockOnHide,
+        store: {
+          dispatch: dispatchSpy
+        }
+      };
 
-      frame = domRender(<Frame onHide={mockOnHide}>{mockChild}</Frame>);
+      frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>);
 
       jasmine.clock().install();
 
@@ -595,6 +605,16 @@ describe('Frame', () => {
         expect(mockOnHide)
           .toHaveBeenCalled();
       });
+
+      it('calls widgetHideAnimationComplete', () => {
+        expect(mockWidgetHideAnimationComplete)
+          .toHaveBeenCalled();
+      });
+
+      it('calls dispatch', () => {
+        expect(dispatchSpy)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('with animation', () => {
@@ -624,6 +644,16 @@ describe('Frame', () => {
 
         expect(frame.state.frameStyle.transitionDuration)
           .toEqual('7777s');
+      });
+
+      it('calls widgetHideAnimationComplete', () => {
+        expect(mockWidgetHideAnimationComplete)
+          .toHaveBeenCalled();
+      });
+
+      it('calls dispatch', () => {
+        expect(dispatchSpy)
+          .toHaveBeenCalled();
       });
     });
   });

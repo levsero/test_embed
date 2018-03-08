@@ -19,7 +19,7 @@ import { clickBusterRegister,
          isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
 import { cssTimeToMs } from 'utility/utils';
-import { updateWidgetShown } from 'src/redux/modules/base/base-actions';
+import { updateWidgetShown, widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
 
 // Unregister lodash from window._
 if (!__DEV__) {
@@ -81,6 +81,7 @@ export class Frame extends Component {
     onShow: () => {},
     position: 'right',
     preventClose: false,
+    store: { dispatch: () => {} },
     useBackButton: false,
     transitions: {},
     visible: true
@@ -261,11 +262,15 @@ export class Frame extends Component {
   }
 
   hide = (options = {}) => {
-    const { onHide, transitions } = this.props;
-
-    if (options.transition === 'none') {
+    const { onHide, transitions, store } = this.props;
+    const hideFinished = () => {
       this.setState({ visible: false });
       onHide(this);
+      store.dispatch(widgetHideAnimationComplete());
+    };
+
+    if (options.transition === 'none') {
+      hideFinished();
     } else {
       const transition = transitions[options.transition] || defaultHideTransition;
       const frameStyle = _.extend({}, this.state.frameStyle, transition.end);
@@ -273,8 +278,7 @@ export class Frame extends Component {
       this.setState({ frameStyle });
 
       setTimeout(() => {
-        this.setState({ visible: false });
-        onHide(this);
+        hideFinished();
       }, cssTimeToMs(transition.end.transitionDuration));
     }
   }
