@@ -652,38 +652,6 @@ describe('embed.webWidget', () => {
         });
       });
 
-      describe('submitTicketSender', () => {
-        let formParams,
-          mockTransport,
-          embed;
-
-        beforeEach(() => {
-          mockTransport = mockRegistry['service/transport'].http;
-          formParams = {
-            'set_tags': 'web_widget',
-            'via_id': 48,
-            'submitted_from': global.window.location.href,
-            'email': 'mock@email.com',
-            'description': 'Mock Description'
-          };
-          webWidget.create('', { ticketSubmissionForm: {} }, mockStore);
-          webWidget.render();
-
-          embed = webWidget.get().instance.getRootComponent();
-          embed.props.submitTicketSender(formParams, null, null);
-        });
-
-        it('should call transport.send when invoked', () => {
-          expect(mockTransport.send)
-            .toHaveBeenCalled();
-        });
-
-        it('should send with the correct path', () => {
-          expect(mockTransport.send.calls.mostRecent().args[0].path)
-            .toEqual('/api/v2/requests');
-        });
-      });
-
       describe('attachmentSender', () => {
         let file,
           mockTransport,

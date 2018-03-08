@@ -11,13 +11,11 @@ import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
-import { handleFormChange, handleTicketFormClick } from 'src/redux/modules/submitTicket';
+import { handleFormChange, handleTicketFormClick, handleTicketSubmission } from 'src/redux/modules/submitTicket';
 import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selectors';
 import { getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { i18n } from 'service/i18n';
-import { store } from 'service/persistence';
 import { isIE } from 'utility/devices';
-import { location } from 'utility/globals';
 import { getSearchTerm } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 
 const mapStateToProps = (state) => {
@@ -53,8 +51,7 @@ class SubmitTicket extends Component {
     showBackButton: PropTypes.func,
     style: PropTypes.object,
     subjectEnabled: PropTypes.bool,
-    submitTicketSender: PropTypes.func,
-    tags: PropTypes.array,
+    handleTicketSubmission: PropTypes.func.isRequired,
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     ticketForms: PropTypes.array.isRequired,
@@ -64,7 +61,6 @@ class SubmitTicket extends Component {
     updateFrameSize: PropTypes.func,
     handleFormChange: PropTypes.func.isRequired,
     handleTicketFormClick: PropTypes.func.isRequired,
-    viaId: PropTypes.number.isRequired,
     fullscreen: PropTypes.bool.isRequired,
     activeTicketForm: PropTypes.object,
     searchTerm: PropTypes.string,
@@ -134,14 +130,10 @@ class SubmitTicket extends Component {
       return;
     }
 
-    const formParams = this.formatRequestTicketData(data);
+    const attachments = _.get(this.refs, 'submitTicketForm.refs.attachments');
+    const uploads = attachments ? attachments.getAttachmentTokens() : null;
 
-    const failCallback = (err) => {
-      const msg = (err.timeout)
-                ? i18n.t('embeddable_framework.submitTicket.notify.message.timeout')
-                : i18n.t('embeddable_framework.submitTicket.notify.message.error');
-
-      this.setState({ errorMessage: msg });
+    const failCallback = () => {
       this.refs.submitTicketForm.failedToSubmit();
     };
     const doneCallback = (res) => {
@@ -176,7 +168,7 @@ class SubmitTicket extends Component {
                                  .value();
 
         _.extend(params, {
-          email: formParams.request.requester.email,
+          email: _.get(this.props.formState, 'email'),
           attachmentsCount: attachmentsList.numUploadedAttachments(),
           attachmentTypes: attachmentTypes
         });
@@ -187,82 +179,7 @@ class SubmitTicket extends Component {
       this.props.updateFrameSize();
     };
 
-    this.props.submitTicketSender(formParams, doneCallback, failCallback);
-  }
-
-  findField = (fieldType) => {
-    return _.find(this.props.ticketFields, (field) => {
-      return field.type === fieldType && field.removable === false;
-    });
-  }
-
-  formatRequestTicketData = (data) => {
-    const { name, email } = data.value;
-    const { ticketFormsAvailable, ticketFieldsAvailable } = this.props;
-    const formatNameFromEmail = (email) => {
-      const localPart = email.split('@', 2)[0];
-      const newName = localPart.split(/[._]/);
-
-      return _.map(newName, _.capitalize).join(' ');
-    };
-    const submittedFrom = i18n.t(
-      'embeddable_framework.submitTicket.form.submittedFrom.label',
-      { url: location.href }
-    );
-    const descriptionData = ticketFormsAvailable
-               ? data.value[this.findField('description').id]
-               : data.value.description;
-    const subjectField = this.findField('subject');
-    const subjectData = ticketFormsAvailable && subjectField
-                      ? data.value[subjectField.id]
-                      : data.value.subject;
-    const referrerPolicy = store.get('referrerPolicy', 'session');
-    const descriptionUrlStr = `\n\n------------------\n${submittedFrom}`;
-    const description = referrerPolicy ? descriptionData : `${descriptionData}${descriptionUrlStr}`;
-    const uploads = this.refs.submitTicketForm.refs.attachments
-                  ? this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
-                  : null;
-    const subject = (this.props.subjectEnabled || ticketFormsAvailable) && !_.isEmpty(subjectData)
-                  ? subjectData
-                  : (descriptionData.length <= 50) ? descriptionData : `${descriptionData.slice(0,50)}...`;
-    const params = {
-      'subject': subject,
-      'tags': ['web_widget'].concat(this.props.tags),
-      'via_id': this.props.viaId,
-      'comment': {
-        'body': description,
-        'uploads': uploads
-      },
-      'requester': {
-        'name': name || formatNameFromEmail(email),
-        'email': email,
-        'locale_id': i18n.getLocaleId()
-      },
-      'ticket_form_id': ticketFormsAvailable ? this.props.activeTicketForm.id : null
-    };
-
-    return ticketFieldsAvailable || ticketFormsAvailable
-         ? { request: _.extend(params, this.formatTicketFieldData(data)) }
-         : { request: params };
-  }
-
-  formatTicketFieldData = (data) => {
-    let params = { fields: {} };
-    const subjectField = this.findField('subject');
-    const subjectFieldId = subjectField ? subjectField.id : null;
-    const descriptionField = this.findField('description');
-    const descriptionFieldId = descriptionField ? descriptionField.id : null;
-
-    _.forEach(data.value, function(value, name) {
-      // Custom field names are numbers so we check if name is NaN
-      const nameInt = parseInt(name, 10);
-
-      if (!isNaN(nameInt) && nameInt !== subjectFieldId && nameInt !== descriptionFieldId) {
-        params.fields[name] = value;
-      }
-    });
-
-    return params;
+    this.props.handleTicketSubmission(uploads, doneCallback, failCallback);
   }
 
   updateContactForm = () => {
@@ -467,7 +384,8 @@ class SubmitTicket extends Component {
 
 const actionCreators = {
   handleFormChange,
-  handleTicketFormClick
+  handleTicketFormClick,
+  handleTicketSubmission
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(SubmitTicket);

@@ -15,15 +15,6 @@ describe('Submit ticket component', () => {
     'locale_id': 'fr',
     'submitted_from': global.window.location.href
   };
-  const payload = {
-    method: 'post',
-    path: '/requests/embedded/create',
-    params: formParams,
-    callbacks: {
-      done: noop,
-      fail: noop
-    }
-  };
   const submitTicketPath = buildSrcPath('component/submitTicket/SubmitTicket');
 
   class MockAttachmentList extends Component {
@@ -50,23 +41,6 @@ describe('Submit ticket component', () => {
     mockStoreValue = false;
 
     mockery.enable();
-
-    jasmine.addMatchers({
-      toBeJSONEqual: function(util, customEqualityTesters) {
-        return {
-          compare: function(actual, expected) {
-            const result = {};
-
-            result.pass = util.equals(
-              JSON.stringify(actual),
-              JSON.stringify(expected),
-              customEqualityTesters
-            );
-            return result;
-          }
-        };
-      }
-    });
 
     initMockRegistry({
       'React': React,
@@ -229,25 +203,15 @@ describe('Submit ticket component', () => {
     });
   });
 
-  it('should correctly set the initial states when created', () => {
-    const submitTicket = instanceRender(<SubmitTicket />);
-
-    expect(submitTicket.state.showNotification)
-      .toEqual(false);
-
-    expect(submitTicket.state.message)
-      .toEqual('');
-  });
-
-  describe('submitTicketSender', () => {
+  describe('#handleSubmit', () => {
     let submitTicket,
-      mockSubmitTicketSender,
+      mockHandleTicketSubmission,
       mockOnSubmitted,
       mockValues;
 
     beforeEach(() => {
-      mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
-      mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
+      mockHandleTicketSubmission = jasmine.createSpy('handleTicketSubmission');
+      mockOnSubmitted = jasmine.createSpy('onSubmitted');
       mockValues = {
         isFormValid: true,
         value: {
@@ -260,10 +224,13 @@ describe('Submit ticket component', () => {
 
       submitTicket = domRender(
         <SubmitTicket
-          submitTicketSender={mockSubmitTicketSender}
+          handleTicketSubmission={mockHandleTicketSubmission}
           onSubmitted={mockOnSubmitted}
+          searchTerm={'a search'}
+          attachmentsEnabled={true}
           updateFrameSize={noop} />
       );
+      spyOn(submitTicket, 'clearForm');
     });
 
     describe('when the form is invalid', () => {
@@ -272,338 +239,43 @@ describe('Submit ticket component', () => {
         submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
       });
 
-      it('should not send the form', () => {
-        expect(mockSubmitTicketSender)
+      it('does not call props.handleTicketSubmission', () => {
+        expect(mockHandleTicketSubmission)
           .not.toHaveBeenCalled();
       });
     });
 
     describe('when the form is valid', () => {
-      let params,
-        mockOnSubmitted;
+      let params;
 
       beforeEach(() => {
-        spyOn(submitTicket, 'clearForm');
-
-        mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
-
-        submitTicket = domRender(
-          <SubmitTicket
-            submitTicketSender={mockSubmitTicketSender}
-            attachmentsEnabled={true}
-            onSubmitted={mockOnSubmitted}
-            updateFrameSize={noop}
-            tags={['extra_tag']}
-            viaId={48}
-            searchTerm='a search' />
-        );
-
         submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
 
-        params = mockSubmitTicketSender.calls.mostRecent().args[0];
-      });
-
-      it('should clear the form on a valid submit', () => {
-        mockSubmitTicketSender.calls.mostRecent().args[1]({});
-
-        expect(submitTicket.clearForm)
-          .toHaveBeenCalled();
-      });
-
-      it('should call onSubmitted with given last search state', () => {
-        submitTicket.setState({
-          searchLocale: 'en-US'
-        });
-
-        submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
-
-        mockSubmitTicketSender.calls.mostRecent().args[1]({});
-
-        expect(mockOnSubmitted)
-          .toHaveBeenCalled();
-
-        expect(mockOnSubmitted.calls.mostRecent().args[0].searchTerm)
-          .toEqual('a search');
-
-        expect(mockOnSubmitted.calls.mostRecent().args[0].searchLocale)
-          .toEqual('en-US');
-      });
-
-      it('wraps the data in a request object', () => {
-        expect(params.request)
-          .toBeTruthy();
-      });
-
-      it('formats the requester correctly', () => {
-        expect(params.request.requester)
-          .toBeJSONEqual({
-            'name': formParams.name,
-            'email': formParams.email,
-            'locale_id': formParams.locale_id
-          });
-      });
-
-      describe('when name field is empty', () => {
-        const values = [
-          {
-            email: 'harry.j.potter@hogwarts.com',
-            expected: 'Harry J Potter'
-          },
-          {
-            email: 'ron_b.weasley@hogwarts.com',
-            expected: 'Ron B Weasley'
-          },
-          {
-            email: 'hermione_granger@hogwarts.com',
-            expected: 'Hermione Granger'
-          },
-          {
-            email: 'dracomalfoy@hogwarts.com',
-            expected: 'Dracomalfoy'
-          }
-        ];
-
-        const testNames = (email, expected) => {
-          it(`formats the name correct based on the email ${email}`, () => {
-            mockValues.value.name = '';
-            mockValues.value.email = email;
-            submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
-            params = mockSubmitTicketSender.calls.mostRecent().args[0];
-
-            expect(params.request.requester.name)
-              .toEqual(expected);
-          });
-        };
-
-        _.forEach(values, (value) => {
-          testNames(value.email, value.expected);
-        });
-      });
-
-      it('uses the description as the subject', () => {
-        expect(params.request.subject)
-          .toEqual(formParams.description);
-      });
-
-      it('trims the subject if it is too long', () => {
-        mockValues.value.description = 'this text is longer then 50 characters xxxxxxxxxxxx';
-        submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
-
-        params = mockSubmitTicketSender.calls.mostRecent().args[0];
-
-        expect(params.request.subject)
-          .toEqual('this text is longer then 50 characters xxxxxxxxxxx...');
-      });
-
-      describe('when stores referrerPolicy is false', () => {
-        it('adds submitted from to the description', () => {
-          const label = 'embeddable_framework.submitTicket.form.submittedFrom.label';
-
-          expect(params.request.comment.body)
-            .toBe(`${payload.params.description}\n\n------------------\n${label}`);
-        });
-      });
-
-      describe('when stores referrerPolicy is true', () => {
-        it('adds submitted from to the description', () => {
-          mockStoreValue = true;
-
-          submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
-
-          params = mockSubmitTicketSender.calls.mostRecent().args[0];
-
-          expect(params.request.comment.body)
-            .toBe(payload.params.description);
-        });
-      });
-
-      describe('when the form has custom ticket fields', () => {
-        beforeEach(() => {
-          const mockCustomField = [
-            {
-              id: '22660514',
-              type: 'text',
-              title: 'Text',
-              required: true
-            }
-          ];
-
-          mockValues.value['22660514'] = 'mockCustomField';
-
-          submitTicket = instanceRender(<SubmitTicket ticketFields={mockCustomField} />);
-          params = submitTicket.formatTicketFieldData(mockValues);
-        });
-
-        it('should correctly format custom fields', () => {
-          expect(params.fields['22660514'])
-            .toBe('mockCustomField');
-        });
-      });
-
-      describe('when the form is a user ticket form', () => {
-        let mockTicketForm,
-          ticketFields;
-
-        beforeEach(() => {
-          ticketFields = [
-            {
-              id: 1,
-              type: 'description',
-              removable: false
-            },
-            {
-              id: 4,
-              type: 'text',
-              removable: true
-            }
-          ];
-          mockTicketForm = [
-            {
-              id: 50,
-              ticket_field_ids: [ 1, 2, 4 ]
-            }
-          ];
-
-          mockValues = {
-            isFormValid: true,
-            value: {
-              email: formParams.email,
-              name: formParams.name,
-              1: 'Just saying Hi',
-              2: 'Hello',
-              4: 'Cheeseburger'
-            }
-          };
-
-          submitTicket = domRender(
-            <SubmitTicket
-              ticketFields={ticketFields}
-              ticketForms={mockTicketForm}
-              ticketFormsAvailable={true}
-              activeTicketForm={mockTicketForm[0]} />
-          );
-
-          params = submitTicket.formatRequestTicketData(mockValues);
-        });
-
-        it('should correctly format custom fields', () => {
-          expect(params.request.fields[4])
-            .toBe('Cheeseburger');
-        });
-
-        describe('when subject field is not available', () => {
-          it('uses the description as the subject', () => {
-            expect(params.request.subject)
-              .toBe('Just saying Hi');
-          });
-        });
-
-        describe('when the subject field is available', () => {
-          beforeEach(() => {
-            ticketFields.push({ id: 2, type: 'subject', removable: false });
-
-            submitTicket = domRender(
-              <SubmitTicket
-                ticketFields={ticketFields}
-                ticketForms={mockTicketForm}
-                ticketFormsAvailable={true}
-                activeTicketForm={mockTicketForm[0]} />
-            );
-            params = submitTicket.formatRequestTicketData(mockValues);
-          });
-
-          it('should correctly format the subject field', () => {
-            expect(params.request.fields[2])
-              .not.toBe('Hello');
-
-            expect(params.request.subject)
-              .toBe('Hello');
-          });
-        });
-
-        it('should correctly format the description field', () => {
-          expect(params.request.fields[1])
-            .not.toBe('Just saying Hi');
-
-          expect(params.request.comment.body)
-            .toContain('Just saying Hi');
-        });
-
-        it('should send through the ticket_form_id', () => {
-          expect(params.request.ticket_form_id)
-            .toBe(50);
-        });
-      });
-
-      describe('when the subject field is available', () => {
-        beforeEach(() => {
-          submitTicket = domRender(
-            <SubmitTicket
-              submitTicketSender={mockSubmitTicketSender}
-              attachmentsEnabled={true}
-              subjectEnabled={true} />
-          );
-
-          submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
-          params = mockSubmitTicketSender.calls.mostRecent().args[0];
-        });
-
-        describe('when the field is empty', () => {
-          it('uses the description as the subject', () => {
-            mockValues.value.subject = '';
-
-            submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
-            params = mockSubmitTicketSender.calls.mostRecent().args[0];
-
-            expect(params.request.subject)
-              .toEqual(formParams.description);
-          });
-        });
-
-        describe('when the field is not empty', () => {
-          it('uses the subject fields value', () => {
-            expect(params.request.subject)
-              .toEqual(formParams.subject);
-          });
-        });
+        params = mockHandleTicketSubmission.calls.mostRecent().args;
       });
 
       it('gets the attachments from AttachmentList', () => {
-        expect(params.request.comment.uploads)
+        expect(params[0])
           .toEqual(['12345']);
-      });
-
-      it('Adds the correct tag', () => {
-        expect(params.request.tags)
-          .toContain('web_widget');
-      });
-
-      it('adds any extra tags', () => {
-        expect(params.request.tags)
-          .toContain('extra_tag');
-      });
-
-      it('Adds the correct via_id', () => {
-        /* eslint camelcase:0 */
-        expect(params.request.via_id)
-          .toEqual(48);
       });
 
       describe('when there is a successful response', () => {
         beforeEach(() => {
-          submitTicket.setState({
-            searchTerm: 'a search',
-            searchLocale: 'en-US'
-          });
-
           submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
-          mockSubmitTicketSender.calls.mostRecent().args[1]({});
+          mockHandleTicketSubmission.calls.mostRecent().args[1]({});
+        });
 
+        it('clears the form', () => {
+          expect(submitTicket.clearForm)
+            .toHaveBeenCalled();
+        });
+
+        it('calls onSubmitted', () => {
           expect(mockOnSubmitted)
             .toHaveBeenCalled();
         });
 
-        it('should call onSubmitted with given last search', () => {
+        it('calls onSubmitted with given last search', () => {
           expect(mockOnSubmitted.calls.mostRecent().args[0].searchTerm)
             .toEqual('a search');
 
@@ -611,17 +283,12 @@ describe('Submit ticket component', () => {
             .toEqual('en-US');
         });
 
-        it('should call onSubmitted with the attachments list state', () => {
+        it('calls onSubmitted with the attachments list state', () => {
           expect(mockOnSubmitted.calls.mostRecent().args[0].attachmentsCount)
             .toEqual(2);
 
           expect(mockOnSubmitted.calls.mostRecent().args[0].attachmentTypes)
             .toEqual(['image/png', 'application/octet-stream']);
-        });
-
-        it('should call clearForm', () => {
-          expect(submitTicket.clearForm)
-            .toHaveBeenCalled();
         });
       });
     });
