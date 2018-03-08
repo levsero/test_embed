@@ -65,7 +65,7 @@ function send(payload, addType = true) {
   });
 }
 
-function sendWithMeta(payload, useBase64 = true) {
+function sendWithMeta(payload) {
   const commonParams = {
     buid: identity.getBuid(),
     suid: identity.getSuid().id || null,
@@ -78,17 +78,13 @@ function sendWithMeta(payload, useBase64 = true) {
 
   _.extend(payload.params, commonParams, urlParams);
 
-  if (useBase64) {
-    payload.query = {
-      type: payload.type,
-      data: base64encode(JSON.stringify(payload.params))
-    };
-    const base64Payload = _.pick(payload, ['method', 'path', 'query', 'callbacks']);
+  payload.query = {
+    type: payload.type,
+    data: base64encode(JSON.stringify(payload.params))
+  };
+  const base64Payload = _.pick(payload, ['method', 'path', 'query', 'callbacks']);
 
-    send(base64Payload, false);
-  } else {
-    send(payload);
-  }
+  send(base64Payload, false);
 }
 
 function sendFile(payload) {
