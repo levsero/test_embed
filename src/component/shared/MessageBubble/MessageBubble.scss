@@ -1,0 +1,23 @@
+@import '../../../styles/_vars.scss';
+
+.genericMessageBubble {
+  composes: u-textBreak u-inlineBlock from global;
+  white-space: pre-wrap;
+  max-width: #{245/$font-size}rem;
+}
+
+.messageBubble {
+  composes: genericMessageBubble;
+  border-radius: #{16/$font-size}rem;
+  line-height: 1.4;
+  padding: #{7/$font-size}rem #{10/$font-size}rem;
+}
+
+.messageBubbleWithOptions {
+  line-height: #{16/$font-size}rem;
+  composes: genericMessageBubble;
+  border-top-left-radius: #{16/$font-size}rem;
+  border-top-right-radius: #{16/$font-size}rem;
+  border: #{1/$font-size}rem #f3f3f3 solid;
+  padding: #{8/$font-size}rem #{12/$font-size}rem;
+}
