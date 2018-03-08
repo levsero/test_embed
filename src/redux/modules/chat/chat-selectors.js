@@ -101,7 +101,7 @@ export const getGroupedChatLog = createSelector(
   [getChats],
   (chats) => {
     const chatsArr = Array.from(chats.values());
-    let previousMessageOrEvent;
+    let lastUniqueMessageOrEvent;
 
     const isMessage = (messageOrEvent) => (
       _.includes(CHAT_MESSAGE_EVENTS, messageOrEvent.type)
@@ -111,17 +111,19 @@ export const getGroupedChatLog = createSelector(
       _.includes(CHAT_SYSTEM_EVENTS, messageOrEvent.type)
     );
 
-    const getGroupTimestamp = (messageOrEvent, previousMessageOrEvent) => {
+    const getGroupTimestamp = (messageOrEvent, groupFirstMessageCandidate) => {
       if (isEvent(messageOrEvent)) {
+        lastUniqueMessageOrEvent = messageOrEvent;
         return messageOrEvent.timestamp;
       }
 
       if (isMessage(messageOrEvent)) {
-        if (previousMessageOrEvent && isMessage(previousMessageOrEvent)) {
-          if (previousMessageOrEvent.nick === messageOrEvent.nick) {
-            return previousMessageOrEvent.timestamp;
+        if (groupFirstMessageCandidate && isMessage(groupFirstMessageCandidate)) {
+          if (groupFirstMessageCandidate.nick === messageOrEvent.nick) {
+            return groupFirstMessageCandidate.timestamp;
           }
         }
+        lastUniqueMessageOrEvent = messageOrEvent;
         return messageOrEvent.timestamp;
       }
 
@@ -131,7 +133,7 @@ export const getGroupedChatLog = createSelector(
     return _.reduce(chatsArr, (function(groupedChatLog, messageOrEvent) {
       if (!messageOrEvent) { return groupedChatLog; }
 
-      const groupTimestamp = getGroupTimestamp(messageOrEvent, previousMessageOrEvent);
+      const groupTimestamp = getGroupTimestamp(messageOrEvent, lastUniqueMessageOrEvent);
       const { latestRating, latestRatingRequest } = this;
 
       if (groupTimestamp) {
@@ -148,8 +150,6 @@ export const getGroupedChatLog = createSelector(
         delete groupedChatLog[latestRatingRequest.timestamp];
         this.latestRatingRequest = messageOrEvent;
       }
-
-      previousMessageOrEvent = messageOrEvent;
 
       return groupedChatLog;
     }).bind({ latestRating: {}, latestRatingRequest: {} }), {});
