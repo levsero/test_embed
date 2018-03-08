@@ -787,4 +787,30 @@ describe('chat redux actions', () => {
         });
     });
   });
+
+  describe('chatOfflineFormChanged', () => {
+    let action,
+      mockFormState;
+
+    beforeEach(() => {
+      mockFormState = {
+        name: 'Terence',
+        phone: '123456789',
+        message: 'foo bar'
+      };
+
+      mockStore.dispatch(actions.chatOfflineFormChanged(mockFormState));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches CHAT_OFFLINE_FORM_CHANGED action', () => {
+      expect(action.type)
+        .toEqual(actionTypes.CHAT_OFFLINE_FORM_CHANGED);
+    });
+
+    it('has the correct params in the payload', () => {
+      expect(action.payload)
+        .toEqual(jasmine.objectContaining(mockFormState));
+    });
+  });
 });
