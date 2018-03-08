@@ -1,4 +1,4 @@
-import { SDK_CHAT_MEMBER_LEAVE } from '../chat-action-types';
+import { SDK_CHAT_MEMBER_LEAVE, SDK_CHAT_MEMBER_JOIN } from '../chat-action-types';
 
 const initialState = false;
 
@@ -10,9 +10,14 @@ const agentHasLeft = (state = initialState, action) => {
       if (isAgent(action.payload.detail.nick)) {
         return true;
       }
-      return false;
+      return state;
+    case SDK_CHAT_MEMBER_JOIN:
+      if (isAgent(action.payload.detail.nick)) {
+        return false;
+      }
+      return state;
     default:
-      return false;
+      return state;
   }
 };
 

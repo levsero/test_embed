@@ -80,9 +80,14 @@ export class ChatLog extends Component {
   }
 
   _validEventType(event) {
-    const isAgent = event.nick.indexOf('agent:') > -1;
-    const agentHasLeft = isAgent && event.type === 'chat.memberleave';
 
-    return _.includes(['chat.rating', 'chat.request.rating'], event.type) || agentHasLeft;
+    return _.includes(['chat.rating', 'chat.request.rating'], event.type) || this._allAgentsHaveLeft(event);
+  }
+
+  _allAgentsHaveLeft(event) {
+    const { agents } = this.props;
+    const agentHasLeft = event.nick.indexOf('agent:') > -1 && event.type === 'chat.memberleave';
+    console.log('-----------------AGENTS----------------', agents);
+    return _.size(agents) < 1 && agentHasLeft;
   }
 }
