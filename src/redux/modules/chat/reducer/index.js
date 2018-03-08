@@ -14,7 +14,7 @@ import notification from './chat-notification';
 import screen from './chat-screen';
 import userSettings from './user-settings/';
 import emailTranscript from './chat-email-transcript';
-import formState from './formState';
+import formState from './form-state';
 
 export default combineReducers({
   accountSettings,
