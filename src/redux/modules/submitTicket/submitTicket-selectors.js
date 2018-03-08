@@ -9,6 +9,8 @@ export const getTicketForms = (state) => state.submitTicket.ticketForms;
 export const getTicketFormsAvailable = (state) => getTicketForms(state).length > 0;
 export const getTicketFieldsAvailable = (state) => getTicketFieldsResponse(state).length > 0;
 export const getActiveTicketForm = (state) => state.submitTicket.activeForm;
+export const getErrorMsg = (state) => state.submitTicket.errorMsg;
+export const getShowNotification = (state) => state.submitTicket.notification.show;
 
 export const getTicketFields = createSelector(
   [getTicketFieldsResponse],

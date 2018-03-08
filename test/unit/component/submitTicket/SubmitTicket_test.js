@@ -294,16 +294,34 @@ describe('Submit ticket component', () => {
     });
   });
 
-  it('should unhide notification element on state change', () => {
-    const submitTicket = domRender(<SubmitTicket />);
+  describe('renderNotification', () => {
+    let notification;
 
-    expect(submitTicket.refs.notification)
-      .toBeFalsy();
+    describe('when props.showNotification is true', () => {
+      beforeEach(() => {
+        const submitTicket = domRender(<SubmitTicket showNotification={true} />);
 
-    submitTicket.setState({ showNotification: true });
+        notification = submitTicket.renderNotification();
+      });
 
-    expect(submitTicket.refs.notification)
-      .toBeTruthy();
+      it('returns an element', () => {
+        expect(notification)
+          .toBeTruthy();
+      });
+    });
+
+    describe('when props.showNotification is false', () => {
+      beforeEach(() => {
+        const submitTicket = domRender(<SubmitTicket showNotification={false} />);
+
+        notification = submitTicket.renderNotification();
+      });
+
+      it('does not return an element', () => {
+        expect(notification)
+          .toBeFalsy();
+      });
+    });
   });
 
   describe('ticket forms list', () => {

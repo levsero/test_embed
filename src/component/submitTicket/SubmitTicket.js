@@ -21,6 +21,7 @@ import { getSearchTerm } from 'src/redux/modules/helpCenter/helpCenter-selectors
 const mapStateToProps = (state) => {
   return {
     searchTerm: getSearchTerm(state),
+    errorMsg: selectors.getErrorMsg(state),
     formState: selectors.getFormState(state),
     loading: selectors.getLoading(state),
     ticketForms: selectors.getTicketForms(state),
@@ -29,7 +30,8 @@ const mapStateToProps = (state) => {
     ticketFieldsAvailable: selectors.getTicketFieldsAvailable(state),
     activeTicketForm: selectors.getActiveTicketForm(state),
     activeTicketFormFields: selectors.getActiveTicketFormFields(state),
-    hasContextuallySearched: getHasContextuallySearched(state)
+    hasContextuallySearched: getHasContextuallySearched(state),
+    showNotification: selectors.getShowNotification(state)
   };
 };
 
@@ -37,6 +39,7 @@ class SubmitTicket extends Component {
   static propTypes = {
     attachmentsEnabled: PropTypes.bool,
     attachmentSender: PropTypes.func.isRequired,
+    errorMsg: PropTypes.string.isRequired,
     formTitleKey: PropTypes.string.isRequired,
     formState: PropTypes.object.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
@@ -64,8 +67,9 @@ class SubmitTicket extends Component {
     fullscreen: PropTypes.bool.isRequired,
     activeTicketForm: PropTypes.object,
     searchTerm: PropTypes.string,
-    activeTicketFormFields: PropTypes.array,
-    hasContextuallySearched: PropTypes.bool
+    hasContextuallySearched: PropTypes.bool,
+    showNotification: PropTypes.bool.isRequired,
+    activeTicketFormFields: PropTypes.array
   };
 
   static defaultProps = {
@@ -98,16 +102,9 @@ class SubmitTicket extends Component {
     super(props, context);
 
     this.state = {
-      errorMessage: null,
       formTitleKey: props.formTitleKey,
-      isDragActive: false,
-      message: '',
-      showNotification: false
+      isDragActive: false
     };
-  }
-
-  clearNotification = () => {
-    this.setState({ showNotification: false });
   }
 
   clearForm = () => {
@@ -122,8 +119,6 @@ class SubmitTicket extends Component {
 
   handleSubmit = (e, data) => {
     e.preventDefault();
-
-    this.setState({ errorMessage: null });
 
     if (!data.isFormValid) {
       // TODO: Handle invalid form submission
@@ -142,15 +137,9 @@ class SubmitTicket extends Component {
         return;
       }
 
-      this.props.showBackButton(false);
-      this.setState({
-        showNotification: true,
-        message: i18n.t('embeddable_framework.submitTicket.notify.message.success')
-      });
-
       const params = {
         res: res,
-        email: formParams.email,
+        email: _.get(this.props.formState, 'email'),
         searchTerm: this.props.searchTerm,
         searchLocale: i18n.getLocale(),
         contextualSearch: this.props.hasContextuallySearched
@@ -241,12 +230,12 @@ class SubmitTicket extends Component {
   }
 
   renderErrorMessage = () => {
-    if (!this.state.errorMessage) return;
+    if (!this.props.errorMsg) return;
 
     return (
       <div className={styles.error}>
         <Icon type='Icon--error' className={styles.errorIcon} />
-        {this.state.errorMessage}
+        {this.props.errorMsg}
       </div>
     );
   }
@@ -263,7 +252,7 @@ class SubmitTicket extends Component {
         ref='submitTicketForm'
         onCancel={this.props.onCancel}
         fullscreen={this.props.fullscreen}
-        hide={this.state.showNotification}
+        hide={this.props.showNotification}
         ticketFields={fields}
         formTitleKey={this.state.formTitleKey}
         attachmentSender={this.props.attachmentSender}
@@ -284,14 +273,14 @@ class SubmitTicket extends Component {
     );
   }
 
-  renderNotifications = () => {
-    if (!this.state.showNotification) return;
+  renderNotification = () => {
+    if (!this.props.showNotification) return;
 
     const iconClasses = `${styles.notifyIcon} u-userFillColor u-userTextColor`;
 
     return (
       <div className={styles.notify} ref='notification'>
-        <ScrollContainer title={this.state.message}>
+        <ScrollContainer title={i18n.t('embeddable_framework.submitTicket.notify.message.success')}>
           <Icon
             type='Icon--tick'
             className={iconClasses} />
@@ -314,7 +303,7 @@ class SubmitTicket extends Component {
   }
 
   renderTicketFormList = () => {
-    if (this.state.showNotification) return;
+    if (this.props.showNotification) return;
 
     const { fullscreen } = this.props;
     const containerClasses = fullscreen
@@ -347,7 +336,7 @@ class SubmitTicket extends Component {
     return this.props.hideZendeskLogo || this.props.fullscreen
          ? null
          : <ZendeskLogo
-             formSuccess={this.state.showNotification}
+             formSuccess={this.props.showNotification}
              rtl={i18n.isRTL()}
              fullscreen={this.props.fullscreen} />;
   }
@@ -374,7 +363,7 @@ class SubmitTicket extends Component {
     return (
       <div>
         {this.renderAttachmentBox()}
-        {this.renderNotifications()}
+        {this.renderNotification()}
         {display}
         {this.renderZendeskLogo()}
       </div>
