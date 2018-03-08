@@ -12,7 +12,7 @@ const getFormFields = (settings) => {
   const { form } = settings;
 
   return _.keyBy(_.values(form), 'name');
-}
+};
 
 const getChats = (state) => state.chat.chats;
 const getNotification = (state) => state.chat.notification;

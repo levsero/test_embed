@@ -36,7 +36,7 @@ describe('ChatOfflineForm component', () => {
         EmailField: EmailField
       },
       'src/redux/modules/chat': {
-        chatOfflineFormChanged: '',
+        chatOfflineFormChanged: ''
       },
       'src/redux/modules/chat/chat-selectors': {
         getChatOfflineForm: '',

@@ -21,11 +21,11 @@ const handleNotificationCounter = (nextState, dispatch) => {
 
 const onChatStatusChange  = (prevState, nextState) => {
   const widgetShown = getWidgetShown(nextState);
-  const chatStatus = getChatStatus(nextState);
-  const chatOnline = (chatStatus === 'online');
-  const chatOffline = (chatStatus === 'offline');
+  const nextChatStatus = getChatStatus(nextState);
+  const chatOnline = (nextChatStatus === 'online');
+  const chatOffline = (nextChatStatus === 'offline');
 
-  if (getChatStatus(prevState) !== chatStatus) {
+  if (getChatStatus(prevState) !== getChatStatus(nextState)) {
     if (!widgetShown && chatOnline) {
       mediator.channel.broadcast('newChat.show');
     }
