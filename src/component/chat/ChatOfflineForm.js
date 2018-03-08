@@ -9,13 +9,15 @@ import { Form } from 'component/form/Form';
 import { Field } from 'component/field/Field';
 import { EmailField } from 'component/field/EmailField';
 import { chatOfflineFormChanged } from 'src/redux/modules/chat';
-import { getChatOfflineForm } from 'src/redux/modules/chat/chat-selectors';
+import { getChatOfflineForm,
+         getOfflineFormFields } from 'src/redux/modules/chat/chat-selectors';
 
 import { locals as styles } from './ChatOfflineForm.scss';
 
 const mapStateToProps = (state) => {
   return {
-    formState: getChatOfflineForm(state)
+    formState: getChatOfflineForm(state),
+    formFields: getOfflineFormFields(state)
   };
 };
 
@@ -23,7 +25,8 @@ class ChatOfflineForm extends Component {
   static propTypes = {
     updateFrameSize: PropTypes.func.isRequired,
     chatOfflineFormChanged: PropTypes.func.isRequired,
-    formState: PropTypes.object.isRequired
+    formState: PropTypes.object.isRequired,
+    formFields: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -31,6 +34,7 @@ class ChatOfflineForm extends Component {
   };
 
   renderNameField() {
+    const isRequired = !!_.get(this.props.formFields, 'name.required');
     const value = _.get(this.props.formState, 'name', '');
 
     return (
@@ -38,16 +42,16 @@ class ChatOfflineForm extends Component {
         name='name'
         label={i18n.t('embeddable_framework.common.textLabel.name')}
         value={value}
-        required={true} />
+        required={isRequired} />
     );
   }
 
   renderEmailField() {
+    const isRequired = !!_.get(this.props.formFields, 'email.required');
     const value = _.get(this.props.formState, 'email', '');
 
     return (
       <EmailField
-        name='email'
         label={i18n.t('embeddable_framework.common.textLabel.email')}
         value={value}
         required={isRequired} />
@@ -68,17 +72,18 @@ class ChatOfflineForm extends Component {
     );
   }
 
-  renderDescriptionField() {
-    const value = _.get(this.props.formState, 'description', '');
+  renderMessageField() {
+    const isRequired = !!_.get(this.props.formFields, 'message.required');
+    const value = _.get(this.props.formState, 'message', '');
 
     return (
       <Field
-        key='description'
-        name='description'
+        key='message'
+        name='message'
         label={i18n.t('embeddable_framework.common.textLabel.message')}
         input={<textarea rows='5' />}
         value={value}
-        required={true} />
+        required={isRequired} />
     );
   }
 
@@ -90,7 +95,7 @@ class ChatOfflineForm extends Component {
       <Form
         className={styles.form}
         formState={this.props.formState}
-        onChange={this.handleFormChange.bind(this)}
+        onChange={this.props.chatOfflineFormChanged}
         submitButtonClasses={styles.submitButton}
         submitButtonLabel={submitbuttonText}>
         <p className={styles.offlineGreeting}>
@@ -98,7 +103,8 @@ class ChatOfflineForm extends Component {
         </p>
         {this.renderNameField()}
         {this.renderEmailField()}
-        {this.renderDescriptionField()}
+        {this.renderPhoneNumberField()}
+        {this.renderMessageField()}
       </Form>
     );
   }

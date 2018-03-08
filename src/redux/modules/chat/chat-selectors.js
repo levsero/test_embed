@@ -8,6 +8,12 @@ const groupChatsByAgent = (state) => {
   return _.groupBy(agentMsgs, (chat) => chat.nick);
 };
 
+const getFormFields = (settings) => {
+  const { form } = settings;
+
+  return _.keyBy(_.values(form), 'name');
+}
+
 const getChats = (state) => state.chat.chats;
 const getNotification = (state) => state.chat.notification;
 const getThemeMessageType = (state) => state.chat.accountSettings.theme.message_type;
@@ -25,11 +31,12 @@ export const getIsChatting = (state) => state.chat.is_chatting;
 export const getNotificationCount = (state) => getNotification(state).count;
 export const getPostchatFormSettings = (state) => state.chat.accountSettings.postchatForm;
 export const getPrechatFormSettings = (state) => state.chat.accountSettings.prechatForm;
+export const getOfflineFormSettings = (state) => state.chat.accountSettings.offlineForm;
 export const getEmailTranscript = (state) => state.chat.emailTranscript;
 export const getAttachmentsEnabled = (state) => state.chat.accountSettings.attachments.enabled;
 export const getRatingSettings = (state) => state.chat.accountSettings.rating;
 export const getUserSoundSettings = (state) => state.chat.userSettings.sound;
-export const getChatOfflineForm = (state) => state.chat.forms.offlineForm;
+export const getChatOfflineForm = (state) => state.chat.formState.offlineForm;
 
 export const getThemeShowAvatar = createSelector(
   getThemeMessageType,
@@ -58,13 +65,14 @@ export const getChatNotification = createSelector(
   }
 );
 
+export const getOfflineFormFields = createSelector(
+  [getOfflineFormSettings],
+  getFormFields
+);
+
 export const getPrechatFormFields = createSelector(
   [getPrechatFormSettings],
-  (prechatSettings) => {
-    const { form } = prechatSettings;
-
-    return _.keyBy(_.values(form), 'name');
-  }
+  getFormFields
 );
 
 export const getChatMessages = createSelector(
