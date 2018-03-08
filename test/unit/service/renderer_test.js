@@ -271,6 +271,7 @@ describe('renderer', () => {
 
       beforeEach(() => {
         configJSON = {
+          newChat: false,
           embeds: {
             'zopimChat': {
               'embed': 'chat',
