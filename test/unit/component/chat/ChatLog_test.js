@@ -89,7 +89,8 @@ describe('ChatLog component', () => {
       100: [{ timestamp: 100, nick: 'visitor', type: 'chat.memberjoin' }],
       200: [{ timestamp: 200, nick: 'visitor', type: 'chat.msg', msg: 'Hello' }]
     };
-    let showAvatar = true;
+    let showAvatar = true,
+      sendMsg = () => {};
 
     beforeEach(() => {
       component = domRender(
@@ -99,6 +100,7 @@ describe('ChatLog component', () => {
           agents={agents}
           chatCommentLeft={chatCommentLeft}
           goToFeedbackScreen={goToFeedbackScreenSpy}
+          sendMsgFn={sendMsg}
         />);
 
       spyOn(component, 'renderChatLog');
@@ -106,7 +108,7 @@ describe('ChatLog component', () => {
     });
 
     it('calls renderChatLog with the correct args', () => {
-      expect(component.renderChatLog).toHaveBeenCalledWith(chatLog, agents, chatCommentLeft, goToFeedbackScreenSpy, showAvatar);
+      expect(component.renderChatLog).toHaveBeenCalledWith(chatLog, agents, chatCommentLeft, goToFeedbackScreenSpy, showAvatar, sendMsg);
     });
   });
 

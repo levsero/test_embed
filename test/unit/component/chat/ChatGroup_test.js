@@ -22,7 +22,7 @@ describe('ChatGroup component', () => {
         chatMessage: 'chatMessage'
       },
       'component/Avatar': { Avatar },
-      'component/chat/MessageBubble': { MessageBubble },
+      'component/shared/MessageBubble': { MessageBubble },
       'component/chat/ImageMessage': { ImageMessage },
       'component/attachment/Attachment': { Attachment },
       'constants/shared': {
@@ -246,6 +246,29 @@ describe('ChatGroup component', () => {
           const messageBubble = result[0].props.children.props.children;
 
           expect(messageBubble.props.className).toContain('messageBubble');
+        });
+      });
+    });
+
+    describe('when there are options', () => {
+      beforeAll(() => {
+        messages = [
+          {
+            msg: 'Hmm why did I forget the actual plan for implementing ChatGroup?',
+            display_name: 'bob',
+            options: ['yes', 'no']
+          }
+        ];
+        isAgent = true;
+      });
+
+      it('passes options related props into MessageBubble', () => {
+        result.forEach(messageItem => {
+          const messageBubbleItem = messageItem.props.children.props.children;
+
+          expect(TestUtils.isElementOfType(messageBubbleItem, MessageBubble)).toEqual(true);
+          expect(messageBubbleItem.props.options).toEqual(['yes', 'no']);
+          expect(messageBubbleItem.props.sendMsgFn).toEqual(jasmine.any(Function));
         });
       });
     });
