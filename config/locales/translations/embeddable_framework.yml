@@ -165,7 +165,7 @@ parts:
       key: "embeddable_framework.chat.emailtranscript.success_message"
       title: "The message that appears when an email was successfully registered for sending a chat transcript. We have a <b></b> surrounded around email and %(email)s will be replaced by a real email."
       screenshot: "https://zendesk.box.com/s/2mht92k8pdnjaiixbehabhrx6nmtr4eb"
-      value: "Email will be sent to %(email)s when the chat ends"
+      value: "Email will be sent to %(email)s when the chat ends."
   - translation:
       key: "embeddable_framework.chat.emailtranscript.title"
       title: "The form title of the chat email transcript popup"
