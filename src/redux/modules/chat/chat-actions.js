@@ -33,21 +33,30 @@ import { getChatVisitor, getShowRatingScreen } from 'src/redux/modules/chat/chat
 
 const chatTypingTimeout = 2000;
 
-const sendMsgRequest = () => {
+const getChatMessagePayload = (msg, visitor, timestamp) => ({
+  type: 'chat.msg',
+  msg,
+  nick: visitor.nick,
+  display_name: visitor.display_name,
+  timestamp
+});
+
+const sendMsgRequest = (msg, visitor, timestamp) => {
   return {
-    type: CHAT_MSG_REQUEST_SENT
+    type: CHAT_MSG_REQUEST_SENT,
+    payload: {
+      ...getChatMessagePayload(msg, visitor, timestamp),
+      pending: true
+    }
   };
 };
 
-const sendMsgSuccess = (msg, visitor) => {
+const sendMsgSuccess = (msg, visitor, timestamp) => {
   return {
     type: CHAT_MSG_REQUEST_SUCCESS,
     payload: {
-      type: 'chat.msg',
-      msg,
-      nick: visitor.nick,
-      display_name: visitor.display_name,
-      timestamp: Date.now()
+      ...getChatMessagePayload(msg, visitor, timestamp),
+      pending: false
     }
   };
 };
@@ -98,13 +107,17 @@ export const handleSoundIconClick = (settings) => {
 
 export function sendMsg(msg) {
   return (dispatch, getState) => {
-    dispatch(sendMsgRequest());
+    const timestamp = Date.now();
+    let visitor = getChatVisitor(getState());
+
+    if (visitor.nick) {
+      dispatch(sendMsgRequest(msg, visitor, timestamp));
+    }
 
     zChat.sendChatMsg(msg, (err) => {
       if (!err) {
-        const visitor = getChatVisitor(getState());
-
-        dispatch(sendMsgSuccess(msg, visitor));
+        visitor = getChatVisitor(getState());
+        dispatch(sendMsgSuccess(msg, visitor, timestamp));
       } else {
         dispatch(sendMsgFailure(err));
       }
