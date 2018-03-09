@@ -360,14 +360,21 @@ describe('renderer', () => {
           renderer.init(config);
         });
 
-        it('should not create zopimChat', () => {
+        it('does not create a zopimChat embed', () => {
           expect(mockChat.create)
             .not.toHaveBeenCalled();
         });
 
-        it('should create webWidget embed', () => {
+        it('creates a webWidget embed', () => {
           expect(mockWebWidget.create)
             .toHaveBeenCalled();
+        });
+
+        it('sets visibile prop in config to false', () => {
+          const params = mockWebWidget.create.calls.mostRecent().args;
+
+          expect(params[1].visible)
+            .toBe(false);
         });
       });
     });
