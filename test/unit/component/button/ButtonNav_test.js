@@ -12,8 +12,8 @@ describe('ButtonNav', () => {
       },
       './ButtonNav.scss': {
         locals: {
-          'button': 'button',
-          'buttonNewDesign': 'buttonNewDesign'
+          'left': 'left',
+          'right': 'right'
         }
       }
     });
@@ -31,39 +31,39 @@ describe('ButtonNav', () => {
   describe('render', () => {
     let componentNode;
 
-    describe('when props.newDesign is true', () => {
+    describe('when position is left', () => {
       beforeEach(() => {
-        const component = domRender(<ButtonNav newDesign={true} />);
+        const component = domRender(<ButtonNav position={'left'} />);
 
         componentNode = ReactDOM.findDOMNode(component);
       });
 
-      it('has new design classes', () => {
-        expect(componentNode.querySelector('.buttonNewDesign'))
+      it('has left classes', () => {
+        expect(componentNode.querySelector('.left'))
           .not.toBeNull();
       });
 
-      it('does not have old classes', () => {
-        expect(componentNode.querySelector('.button'))
+      it('does not have right classes', () => {
+        expect(componentNode.querySelector('.right'))
           .toBeNull();
       });
     });
 
-    describe('when props.newDesign is false', () => {
+    describe('when position is right', () => {
       beforeEach(() => {
-        const component = domRender(<ButtonNav />);
+        const component = domRender(<ButtonNav position={'right'} />);
 
         componentNode = ReactDOM.findDOMNode(component);
       });
 
-      it('does not have new design classes', () => {
-        expect(componentNode.querySelector('.buttonNewDesign'))
-          .toBeNull();
+      it('has right classes', () => {
+        expect(componentNode.querySelector('.right'))
+          .not.toBeNull();
       });
 
-      it('has old classes', () => {
-        expect(componentNode.querySelector('.button'))
-          .not.toBeNull();
+      it('does not have left classes', () => {
+        expect(componentNode.querySelector('.left'))
+          .toBeNull();
       });
     });
   });

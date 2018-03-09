@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
-import { ButtonPill } from 'component/button/ButtonPill';
 import { Icon } from 'component/Icon';
 import { authentication } from 'service/authentication';
 import { i18n } from 'service/i18n';
@@ -26,7 +25,6 @@ export class HelpCenterArticle extends Component {
     originalArticleButton: PropTypes.bool,
     handleOriginalArticleClick: PropTypes.func,
     storedImages: PropTypes.object,
-    newDesign: PropTypes.bool,
     updateFrameSize: PropTypes.func,
     updateStoredImages: PropTypes.func,
     zendeskHost: PropTypes.string
@@ -37,7 +35,6 @@ export class HelpCenterArticle extends Component {
     imagesSender: () => {},
     originalArticleButton: true,
     handleOriginalArticleClick: () => {},
-    newDesign: false,
     storedImages: {},
     updateFrameSize: () => {},
     updateStoredImages: () => {},
@@ -303,7 +300,7 @@ export class HelpCenterArticle extends Component {
   }
 
   renderOriginalArticleButton = () => {
-    if (!this.props.originalArticleButton || !this.props.newDesign) return;
+    if (!this.props.originalArticleButton) return;
 
     return (
       <div className={styles.originalArticleButton}>
@@ -313,25 +310,6 @@ export class HelpCenterArticle extends Component {
           onClick={this.props.handleOriginalArticleClick}
           title={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}>
           <Icon type='Icon--link-external' isMobile={this.props.fullscreen} />
-        </a>
-      </div>
-    );
-  }
-
-  // Temporary have both until newDesigns is GAd
-  renderOldOriginalArticleButton = () => {
-    if (!this.props.originalArticleButton || this.props.newDesign) return;
-
-    return (
-      <div className={styles.oldOriginalArticleButton}>
-        <a
-          className={styles.link}
-          href={this.props.activeArticle.html_url}
-          target='_blank'
-          onClick={this.props.handleOriginalArticleClick}>
-          <ButtonPill
-            fullscreen={this.props.fullscreen}
-            label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')} />
         </a>
       </div>
     );
@@ -348,7 +326,6 @@ export class HelpCenterArticle extends Component {
           ref='article'
           className={styles.article}
           onClick={this.handleClick} />
-        {this.renderOldOriginalArticleButton()}
       </div>
     );
   }

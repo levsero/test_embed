@@ -73,7 +73,7 @@ function mergeEmbedConfigs(config, embeddableConfig) {
 }
 
 function addPropsToConfig(name, config, parsedConfig, reduxStore) {
-  const { newChat, newDesign } = config;
+  const { newChat } = config;
   const webWidgetEmbeds = ['ticketSubmissionForm', 'helpCenterForm', 'talk'];
 
   // Only send chat to WebWidget if new chat is on. Otherwise use old one.
@@ -89,8 +89,6 @@ function addPropsToConfig(name, config, parsedConfig, reduxStore) {
 
     reduxStore.dispatch(updateEmbedAccessible(name, true));
   });
-
-  webWidgetConfig.newDesign = !!newDesign;
 
   parsedConfig = _.omit(parsedConfig, webWidgetEmbeds);
 

@@ -20,8 +20,7 @@ class Navigation extends Component {
     handleCloseClick: PropTypes.func,
     hideCloseButton: PropTypes.bool,
     backButtonVisible: PropTypes.bool,
-    useBackButton: PropTypes.bool,
-    newDesign: PropTypes.bool
+    useBackButton: PropTypes.bool
   };
 
   static defaultProps = {
@@ -30,15 +29,11 @@ class Navigation extends Component {
     handleCloseClick: () => {},
     hideCloseButton: false,
     backButtonVisible: false,
-    useBackButton: false,
-    newDesign: false
+    useBackButton: false
   };
 
   renderNavButton = (options = {}) => {
     if (!options.isVisible) return;
-
-    const { newDesign } = this.props;
-    const iconClasses = newDesign ? styles.iconNewDesign : styles.icon;
 
     return (
       <ButtonNav
@@ -46,20 +41,17 @@ class Navigation extends Component {
         label={
           <Icon
             type={options.icon}
-            className={iconClasses}
+            className={styles.icon}
             isMobile={this.props.fullscreen} />
         }
         rtl={i18n.isRTL()}
         className={options.className}
         position={options.position}
-        newDesign={newDesign}
         fullscreen={this.props.fullscreen} />
     );
   }
 
   render = () => {
-    const closeIcon = this.props.newDesign ? 'Icon--dash' : 'Icon--close';
-
     return (
       <div>
         {this.renderNavButton({
@@ -70,7 +62,7 @@ class Navigation extends Component {
         })}
         {this.renderNavButton({
           onClick: this.props.handleCloseClick,
-          icon: closeIcon,
+          icon: 'Icon--dash',
           position: 'right',
           isVisible: !this.props.hideCloseButton
         })}

@@ -18,8 +18,7 @@ export class ChannelChoiceMobile extends Component {
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
-    chatEnabled: PropTypes.bool,
-    newDesign: PropTypes.bool
+    chatEnabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -56,7 +55,6 @@ export class ChannelChoiceMobile extends Component {
         fullscreen={true}
         containerClasses={styles.container}
         footerContent={this.renderCancelButton()}
-        newDesign={this.props.newDesign}
         title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}>
         <ChannelChoicePopupMobile
           submitTicketAvailable={this.props.submitTicketAvailable}

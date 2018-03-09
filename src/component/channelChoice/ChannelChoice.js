@@ -9,7 +9,6 @@ export class ChannelChoice extends Component {
     chatAvailable: PropTypes.bool.isRequired,
     onCancelClick: PropTypes.func.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
-    newDesign: PropTypes.bool,
     formTitleKey: PropTypes.string,
     hideZendeskLogo: PropTypes.bool,
     onNextClick: PropTypes.func,
@@ -28,7 +27,6 @@ export class ChannelChoice extends Component {
     onNextClick: () => {},
     style: {},
     isMobile: false,
-    newDesign: false,
     talkAvailable: false,
     talkEnabled: false,
     submitTicketAvailable: true,
@@ -54,8 +52,7 @@ export class ChannelChoice extends Component {
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
-        handleCancelClick={onCancelClick}
-        newDesign={this.props.newDesign} />
+        handleCancelClick={onCancelClick} />
     );
   }
 
@@ -73,7 +70,6 @@ export class ChannelChoice extends Component {
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
-        newDesign={this.props.newDesign}
         hideZendeskLogo={hideZendeskLogo} />
     );
   }

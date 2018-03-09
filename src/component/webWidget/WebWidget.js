@@ -58,7 +58,6 @@ class WebWidget extends Component {
     callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
     chatNotification: PropTypes.object.isRequired,
-    newDesign: PropTypes.bool,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
     getFrameDimensions: PropTypes.func.isRequired,
@@ -109,7 +108,6 @@ class WebWidget extends Component {
     buttonLabelKey: '',
     channelChoice: false,
     chatNotification: { show: false, playSound: false },
-    newDesign: false,
     formTitleKey: 'message',
     fullscreen: true,
     helpCenterAvailable: false,
@@ -338,7 +336,6 @@ class WebWidget extends Component {
       <Chat
         ref={chat}
         isMobile={this.props.fullscreen}
-        newDesign={this.props.newDesign}
         updateFrameSize={this.props.updateFrameSize}
         updateChatScreen={this.props.updateChatScreen}
         position={this.props.position}
@@ -363,7 +360,6 @@ class WebWidget extends Component {
           talkAvailable={this.props.talkAvailable}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}
-          newDesign={this.props.newDesign}
           position={this.props.position}
           buttonLabelKey={helpCenterConfig.buttonLabelKey}
           formTitleKey={helpCenterConfig.formTitleKey}
@@ -399,7 +395,6 @@ class WebWidget extends Component {
           attachmentSender={this.props.attachmentSender}
           customFields={submitTicketConfig.customFields}
           formTitleKey={submitTicketConfig.formTitleKey}
-          newDesign={this.props.newDesign}
           getFrameDimensions={this.props.getFrameDimensions}
           hideZendeskLogo={this.props.hideZendeskLogo}
           maxFileCount={submitTicketConfig.maxFileCount}
@@ -432,7 +427,6 @@ class WebWidget extends Component {
         talkEnabled={this.props.talkEnabled}
         talkAvailable={this.props.talkAvailable}
         callbackEnabled={this.props.callbackEnabled}
-        newDesign={this.props.newDesign}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
         isMobile={this.props.fullscreen}
@@ -451,7 +445,6 @@ class WebWidget extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         style={this.props.style}
         isMobile={this.props.fullscreen}
-        newDesign={this.props.newDesign}
         updateFrameSize={this.props.updateFrameSize}
         talkConfig={this.props.talkConfig}
         helpCenterAvailable={this.isHelpCenterAvailable()}

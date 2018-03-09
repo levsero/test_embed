@@ -5,18 +5,6 @@
 }
 
 .button {
-  composes: u-posAbsolute u-posStart--vertFlush from global;
-  composes: Button from '../../styles/components/Button.scss';
-  padding-top: #{16/$font-size}rem !important;
-
-  &:hover, &:active {
-    svg {
-      fill: $zd-color-dark-gray;
-    }
-  }
-}
-
-.buttonNewDesign {
   composes: u-posAbsolute u-posStart--vertFlush u-marginTS u-userHeaderButtonColor from global;
   composes: Button from '../../styles/components/Button.scss';
   composes: AnimColorEaseInOut from '../../styles/components/Animation.scss';

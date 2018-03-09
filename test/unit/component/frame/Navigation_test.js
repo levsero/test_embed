@@ -26,7 +26,6 @@ describe('Navigation', () => {
       },
       './Navigation.scss': {
         locals: {
-          'iconNewDesign': 'iconNewDesign',
           'icon': 'icon'
         }
       },
@@ -61,44 +60,32 @@ describe('Navigation', () => {
         navigationNode = ReactDOM.findDOMNode(navigation);
       });
 
-      it('renders the close button', () => {
-        expect(navigationNode.querySelector('.Icon--close'))
+      it('renders the dash button', () => {
+        expect(navigationNode.querySelector('.Icon--dash'))
           .not.toBeNull();
       });
     });
 
-    describe('when state.showCloseButton is true', () => {
+    describe('when props.hideCloseButton is true', () => {
       beforeEach(() => {
         navigation = domRender(<Navigation hideCloseButton={true} />);
         navigationNode = ReactDOM.findDOMNode(navigation);
       });
 
-      it('does not render the close button', () => {
-        expect(navigationNode.querySelector('.Icon--close'))
+      it('does not render the dash button', () => {
+        expect(navigationNode.querySelector('.Icon--dash'))
           .toBeNull();
       });
     });
 
-    it('does not have new design classes', () => {
-      expect(navigationNode.querySelector('.iconNewDesign'))
-        .toBeNull();
+    it('renders the dash button icon', () => {
+      expect(navigationNode.querySelector('.Icon--dash'))
+        .not.toBeNull();
     });
 
-    describe('when newDesign is true', () => {
-      beforeEach(() => {
-        navigation = domRender(<Navigation newDesign={true} />);
-        navigationNode = ReactDOM.findDOMNode(navigation);
-      });
-
-      it('renders the dash button icon', () => {
-        expect(navigationNode.querySelector('.Icon--dash'))
-          .not.toBeNull();
-      });
-
-      it('has new design classes', () => {
-        expect(navigationNode.querySelector('.iconNewDesign'))
-          .not.toBeNull();
-      });
+    it('has icon classes', () => {
+      expect(navigationNode.querySelector('.icon'))
+        .not.toBeNull();
     });
   });
 
