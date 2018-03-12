@@ -29,7 +29,7 @@ export const CHAT_NOTIFICATION_RESPONDED = 'widget/chat/CHAT_NOTIFICATION_RESPON
 
 export const SDK_CHAT_MSG = 'websdk/chat.msg';
 export const SDK_CHAT_FILE = 'websdk/chat.file';
-export const SDK_CHAT_WAIT_QUEUE = 'websdk/chat.wait_queue';
+export const SDK_CHAT_QUEUE_POSITION = 'websdk/chat.queue_position';
 export const SDK_CHAT_MEMBER_JOIN = 'websdk/chat.memberjoin';
 export const SDK_CHAT_MEMBER_LEAVE = 'websdk/chat.memberleave';
 export const SDK_CHAT_REQUEST_RATING = 'websdk/chat.request.rating';
