@@ -127,11 +127,45 @@ describe('chat redux actions', () => {
         .toHaveBeenCalled();
     });
 
-    it('dispatches a CHAT_MSG_REQUEST_SENT action', () => {
-      expect(mockStore.getActions())
-        .toContain({
-          type: actionTypes.CHAT_MSG_REQUEST_SENT
-        });
+    describe('when the visitor.nick is blank', () => {
+      beforeEach(() => {
+        const mockState = mockStore.getState();
+
+        delete mockState.chat.visitor.nick;
+        mockStore = createMockStore(mockState);
+        mockStore.dispatch(actions.sendMsg(message));
+      });
+
+      it('does not dispatch a CHAT_MSG_REQUEST_SENT action', () => {
+        expect(mockStore.getActions().map((action) => action.type))
+          .not
+          .toContain(actionTypes.CHAT_MSG_REQUEST_SENT);
+      });
+    });
+
+    describe('when the visitor.nick is set', () => {
+      beforeEach(() => {
+        const mockState = mockStore.getState();
+
+        mockState.chat.visitor.nick = 'visitor';
+        mockStore = createMockStore(mockState);
+        mockStore.dispatch(actions.sendMsg(message));
+      });
+
+      it('dispatches a CHAT_MSG_REQUEST_SENT action', () => {
+        expect(mockStore.getActions().map((action) => action.type))
+          .toContain(actionTypes.CHAT_MSG_REQUEST_SENT);
+      });
+
+      it('sets pending on the payload to true', () => {
+        expect(
+          mockStore.getActions()
+            .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_SENT)
+            .payload
+            .pending
+        )
+          .toEqual(true);
+      });
     });
 
     describe('Web SDK callback', () => {
@@ -149,17 +183,28 @@ describe('chat redux actions', () => {
         });
 
         it('dispatches a CHAT_MSG_REQUEST_SUCCESS action with the message in payload', () => {
-          expect(mockStore.getActions())
-            .toContain({
-              type: actionTypes.CHAT_MSG_REQUEST_SUCCESS,
-              payload: {
-                type: 'chat.msg',
-                msg: message,
-                timestamp: Date.now(),
-                nick: mockVisitor.nick,
-                display_name: mockVisitor.display_name
-              }
-            });
+          expect(mockStore.getActions().map((action) => action.type))
+            .toContain(actionTypes.CHAT_MSG_REQUEST_SUCCESS);
+        });
+
+        it('sets the message on the payload', () => {
+          expect(
+            mockStore.getActions()
+              .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_SUCCESS)
+              .payload
+              .msg
+          )
+            .toEqual(message);
+        });
+
+        it('sets pending on the payload to false', () => {
+          expect(
+            mockStore.getActions()
+              .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_SUCCESS)
+              .payload
+              .pending
+          )
+            .toEqual(false);
         });
       });
 

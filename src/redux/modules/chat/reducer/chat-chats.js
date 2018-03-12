@@ -10,6 +10,7 @@ import {
   SDK_CHAT_RATING,
   SDK_CHAT_COMMENT,
   CHAT_MSG_REQUEST_SUCCESS,
+  CHAT_MSG_REQUEST_SENT,
   CHAT_FILE_REQUEST_SENT,
   CHAT_FILE_REQUEST_SUCCESS
 } from '../chat-action-types';
@@ -24,9 +25,19 @@ const concatChat = (chats, chat) => {
   return copy.set(chat.timestamp, { ...chat });
 };
 
+const updateChat = (chats, chat) => {
+  const copy = new Map(chats),
+    prevChat = chats.get(chat.timestamp);
+
+  return copy.set(chat.timestamp, {...prevChat, ...chat});
+};
+
 const chats = (state = initialState, action) => {
   switch (action.type) {
     case CHAT_MSG_REQUEST_SUCCESS:
+      return updateChat(state, action.payload);
+
+    case CHAT_MSG_REQUEST_SENT:
     case CHAT_FILE_REQUEST_SENT:
     case CHAT_FILE_REQUEST_SUCCESS:
       return concatChat(state, action.payload);

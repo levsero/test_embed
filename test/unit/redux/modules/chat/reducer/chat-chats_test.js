@@ -30,7 +30,7 @@ describe('chat reducer chats', () => {
       });
     });
 
-    describe('when a CHAT_MSG_REQUEST_SUCCESS action is dispatched', () => {
+    describe('when a CHAT_MSG_REQUEST_SENT action is dispatched', () => {
       let state,
         payload;
 
@@ -39,11 +39,12 @@ describe('chat reducer chats', () => {
           timestamp: Date.now(),
           msg: 'Hi',
           nick: 'visitor',
-          display_name: 'Visitor 123'
+          display_name: 'Visitor 123',
+          pending: true
         };
 
         state = reducer(initialState, {
-          type: actionTypes.CHAT_MSG_REQUEST_SUCCESS,
+          type: actionTypes.CHAT_MSG_REQUEST_SENT,
           payload: payload
         });
       });
@@ -55,8 +56,82 @@ describe('chat reducer chats', () => {
         expect(state.get(payload.timestamp))
           .toEqual(jasmine.objectContaining({
             timestamp: payload.timestamp,
-            msg: payload.msg
+            msg: payload.msg,
+            pending: payload.pending
           }));
+      });
+    });
+
+    describe('when a CHAT_MSG_REQUEST_SUCCESS action is dispatched', () => {
+      let state,
+        payload;
+      const timestamp = Date.now();
+
+      beforeEach(() => {
+        payload = {
+          timestamp,
+          msg: 'Hi',
+          nick: 'visitor',
+          display_name: 'Visitor 123',
+          pending: false
+        };
+      });
+
+      describe('when there is no chat with this timestamp', () => {
+        beforeEach(() => {
+          state = reducer(initialState, {
+            type: actionTypes.CHAT_MSG_REQUEST_SUCCESS,
+            payload: payload
+          });
+        });
+
+        it('adds the message to the chats collection', () => {
+          expect(state.size)
+            .toEqual(1);
+
+          expect(state.get(payload.timestamp))
+            .toEqual(payload);
+        });
+      });
+
+      describe('when there is a chat with this timestamp', () => {
+        let pendingChatState,
+          pendingChatPayload,
+          successfulChatPayload;
+
+        beforeEach(() => {
+          pendingChatPayload = { ...payload, pending: true };
+          successfulChatPayload = { ...payload, pending: false };
+
+          pendingChatState = initialState;
+          pendingChatState.set(
+            pendingChatPayload.timestamp,
+            pendingChatPayload
+          );
+
+          state = reducer(pendingChatState, {
+            type: actionTypes.CHAT_MSG_REQUEST_SUCCESS,
+            payload: successfulChatPayload
+          });
+        });
+
+        afterEach(() => {
+          initialState.clear();
+        });
+
+        it('updates the existing chat in the chats collection', () => {
+          expect(pendingChatState.size)
+            .toEqual(1);
+
+          expect(pendingChatState.get(payload.timestamp))
+            .toEqual(pendingChatPayload);
+
+          expect(state.size)
+            .toEqual(1);
+
+          expect(state.get(payload.timestamp))
+            .toEqual(successfulChatPayload);
+        });
       });
     });
 
