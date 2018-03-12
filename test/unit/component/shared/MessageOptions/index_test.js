@@ -39,7 +39,7 @@ describe('MessageOptions component', () => {
     describe('when message bubble is linked', () => {
       describe('when a custom option style is provided', () => {
         beforeEach(() => {
-          messageOptionsComponent = domRender(<MessageOptions isMessageBubbleLinked={true} optionItemStyle={'yolo'} optionItems={optionItems} />);
+          messageOptionsComponent = instanceRender(<MessageOptions isMessageBubbleLinked={true} optionItemStyle={'yolo'} optionItems={optionItems} />);
           response = messageOptionsComponent.render();
         });
 
@@ -48,10 +48,21 @@ describe('MessageOptions component', () => {
             expect(TestUtils.isElementOfType(optionItem, 'li')).toEqual(true);
             expect(optionItem.key).toEqual(index.toString());
 
+            const classes = optionItem.props.className;
+
+            expect(classes)
+              .toContain('optionItem');
+
+            expect(classes)
+              .toContain('yolo');
+
             if (index === response.props.children.length - 1) {
-              expect(optionItem.props.className).toEqual('optionItem yolo  lastItemBorders');
+              expect(classes)
+                .toContain('lastItemBorders');
             } else {
-              expect(optionItem.props.className).toEqual('optionItem yolo  ');
+              expect(classes)
+                .not
+                .toContain('lastItemBorders');
             }
           });
         });
@@ -59,7 +70,7 @@ describe('MessageOptions component', () => {
 
       describe('when a custom option style is not provided', () => {
         beforeEach(() => {
-          messageOptionsComponent = domRender(<MessageOptions isMessageBubbleLinked={true} optionItems={optionItems} />);
+          messageOptionsComponent = instanceRender(<MessageOptions isMessageBubbleLinked={true} optionItems={optionItems} />);
           response = messageOptionsComponent.render();
         });
 
@@ -68,10 +79,22 @@ describe('MessageOptions component', () => {
             expect(TestUtils.isElementOfType(optionItem, 'li')).toEqual(true);
             expect(optionItem.key).toEqual(index.toString());
 
+            const classes = optionItem.props.className;
+
+            expect(classes)
+              .toContain('optionItem');
+
+            expect(classes)
+              .not
+              .toContain('yolo');
+
             if (index === response.props.children.length - 1) {
-              expect(optionItem.props.className).toEqual('optionItem   lastItemBorders');
+              expect(classes)
+                .toContain('lastItemBorders');
             } else {
-              expect(optionItem.props.className).toEqual('optionItem   ');
+              expect(classes)
+                .not
+                .toContain('lastItemBorders');
             }
           });
         });
@@ -81,7 +104,7 @@ describe('MessageOptions component', () => {
     describe('when message bubble is not linked', () => {
       describe('when a custom option style is not provided', () => {
         beforeEach(() => {
-          messageOptionsComponent = domRender(<MessageOptions isMessageBubbleLinked={false} optionItems={optionItems} />);
+          messageOptionsComponent = instanceRender(<MessageOptions isMessageBubbleLinked={false} optionItems={optionItems} />);
           response = messageOptionsComponent.render();
         });
 
@@ -90,20 +113,33 @@ describe('MessageOptions component', () => {
             expect(TestUtils.isElementOfType(optionItem, 'li')).toEqual(true);
             expect(optionItem.key).toEqual(index.toString());
 
+            const classes = optionItem.props.className;
+
+            expect(classes)
+              .toContain('optionItem');
+
+            expect(classes)
+              .not
+              .toContain('yolo');
+
             if (index === 0) {
-              expect(optionItem.props.className).toEqual('optionItem  firstItemBorders ');
+              expect(classes)
+                .toContain('firstItemBorders');
             } else if (index === response.props.children.length - 1) {
-              expect(optionItem.props.className).toEqual('optionItem   lastItemBorders');
+              expect(classes)
+                .toContain('lastItemBorders');
             } else {
-              expect(optionItem.props.className).toEqual('optionItem   ');
+              expect(classes)
+                .not
+                .toContain('lastItemBorders');
             }
           });
         });
       });
 
       describe('when a custom option style is provided', () => {
-        beforeEach(() => {
-          messageOptionsComponent = domRender(<MessageOptions isMessageBubbleLinked={false} optionItems={optionItems} optionItemStyle={'yolo'} />);
+        beforeAll(() => {
+          messageOptionsComponent = instanceRender(<MessageOptions isMessageBubbleLinked={false} optionItems={optionItems} optionItemStyle={'yolo'} />);
           response = messageOptionsComponent.render();
         });
 
@@ -112,12 +148,24 @@ describe('MessageOptions component', () => {
             expect(TestUtils.isElementOfType(optionItem, 'li')).toEqual(true);
             expect(optionItem.key).toEqual(index.toString());
 
+            const classes = optionItem.props.className;
+
+            expect(classes)
+              .toContain('optionItem');
+
+            expect(classes)
+              .toContain('yolo');
+
             if (index === 0) {
-              expect(optionItem.props.className).toEqual('optionItem yolo firstItemBorders ');
+              expect(classes)
+                .toContain('firstItemBorders');
             } else if (index === response.props.children.length - 1) {
-              expect(optionItem.props.className).toEqual('optionItem yolo  lastItemBorders');
+              expect(classes)
+                .toContain('lastItemBorders');
             } else {
-              expect(optionItem.props.className).toEqual('optionItem yolo  ');
+              expect(classes)
+                .not
+                .toContain('lastItemBorders');
             }
           });
         });
