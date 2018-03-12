@@ -194,7 +194,7 @@ describe('ChatNotificationPopup component', () => {
         proactiveContent = chatNotification.renderProactiveContent();
       });
 
-      it('is rendered with the fallback icon prop on the avatar to Icon--avatar', () => {
+      it('renders with the fallback icon prop on the avatar set to Icon--avatar', () => {
         expect(getChildAvatar(proactiveContent).props.fallbackIcon)
           .toEqual('Icon--avatar');
       });

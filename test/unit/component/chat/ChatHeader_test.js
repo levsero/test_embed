@@ -63,34 +63,34 @@ describe('ChatHeader component', () => {
       component = domRender(<ChatHeader {...props} />);
     });
 
-    it('should render an Avatar', () => {
+    it('renders an Avatar', () => {
       expect(() => TestUtils.findRenderedComponentWithType(component, MockAvatar))
         .not.toThrow();
     });
 
     describe('props', () => {
-      it('should use the agents name as the title', () => {
+      it('uses the agents name as the title', () => {
         const titleElem = document.querySelector('.textContainer').firstChild;
 
         expect(titleElem.innerHTML)
           .toEqual('Luke Skywalker');
       });
 
-      it('should use the agents title as the subText', () => {
+      it('uses the agents title as the subText', () => {
         const subTextElem = document.querySelector('.textContainer').childNodes[1];
 
         expect(subTextElem.innerHTML)
           .toEqual('Jedi');
       });
 
-      it('should pass the avatar_path to the avatar component', () => {
+      it('passes the avatar_path to the avatar component', () => {
         const avatar = TestUtils.findRenderedComponentWithType(component, MockAvatar);
 
         expect(avatar.props.src)
           .toEqual('https://example.com/snake');
       });
 
-      it('should pass Icon--avatar as the fallback icon to the avatar component', () => {
+      it('passes Icon--avatar as the fallback icon to the avatar component', () => {
         const avatar = TestUtils.findRenderedComponentWithType(component, MockAvatar);
 
         expect(avatar.props.fallbackIcon)

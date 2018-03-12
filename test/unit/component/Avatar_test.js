@@ -41,17 +41,17 @@ describe('Avatar component', () => {
         component = domRender(<Avatar fallbackIcon={fallbackIconType} />);
       });
 
-      it('should render an Icon', () => {
+      it('renders the icon', () => {
         expect(() => TestUtils.findRenderedComponentWithType(component, MockIcon))
           .not.toThrow();
       });
 
-      it('the rendered Icon should have the type of the fallback icon', () => {
+      it('the rendered Icon has the type of the fallback icon', () => {
         expect(TestUtils.findRenderedComponentWithType(component, MockIcon).props.type)
           .toEqual(fallbackIconType);
       });
 
-      it('should not render an img', () => {
+      it('does not render an img', () => {
         expect(() => TestUtils.findRenderedDOMComponentWithTag(component, 'img'))
           .toThrow();
       });
@@ -62,7 +62,7 @@ describe('Avatar component', () => {
         component = domRender(<Avatar src='http://mofo.io/img.png' />);
       });
 
-      it('should render an img with the correct src', () => {
+      it('renders an img with the correct src', () => {
         let img;
 
         expect(() => img = TestUtils.findRenderedDOMComponentWithTag(component, 'img'))
