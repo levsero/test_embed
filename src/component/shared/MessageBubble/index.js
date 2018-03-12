@@ -10,12 +10,12 @@ export class MessageBubble extends Component {
     className: PropTypes.string,
     message: PropTypes.string,
     options: PropTypes.array,
-    sendMsgFn: PropTypes.func
+    handleSendMsg: PropTypes.func
   };
 
   static defaultProps = {
     options: [],
-    sendMsgFn: () => {}
+    handleSendMsg: () => {}
   }
 
   renderOptions = () => {
@@ -25,7 +25,7 @@ export class MessageBubble extends Component {
 
     const optionItems = options.map((option, index) => {
       return (
-        <a key={index} onClick={() => this.props.sendMsgFn(option)}>
+        <a key={index} onClick={() => this.props.handleSendMsg(option)}>
           {option}
         </a>
       );

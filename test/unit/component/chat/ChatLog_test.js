@@ -100,7 +100,7 @@ describe('ChatLog component', () => {
           agents={agents}
           chatCommentLeft={chatCommentLeft}
           goToFeedbackScreen={goToFeedbackScreenSpy}
-          sendMsgFn={sendMsg}
+          handleSendMsg={sendMsg}
         />);
 
       spyOn(component, 'renderChatLog');

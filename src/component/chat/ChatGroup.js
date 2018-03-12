@@ -18,13 +18,12 @@ export class ChatGroup extends Component {
     isAgent: PropTypes.bool.isRequired,
     avatarPath: PropTypes.string,
     showAvatar: PropTypes.bool.isRequired,
-    sendMsgFn: PropTypes.func
+    handleSendMsg: PropTypes.func
   };
 
   static defaultProps = {
     messages: [],
-    isAgent: false,
-    sendMsgFn: () => {}
+    isAgent: false
   };
 
   renderName = (isAgent, showAvatar, messages) => {
@@ -49,7 +48,7 @@ export class ChatGroup extends Component {
             className={`${messageStyle} ${userBackgroundStyle}`}
             message={chat.msg}
             options={chat.options}
-            sendMsgFn={this.props.sendMsgFn}
+            handleSendMsg={this.props.handleSendMsg}
           />
         );
       } else if (chat.file || chat.attachment) {

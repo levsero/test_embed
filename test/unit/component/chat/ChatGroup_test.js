@@ -57,8 +57,8 @@ describe('ChatGroup component', () => {
     mockery.disable();
   });
 
-  const getComponentMethod = (methodName) => {
-    const component = domRender(<ChatGroup />);
+  const getComponentMethod = (methodName, args={}) => {
+    const component = domRender(<ChatGroup {...args} />);
 
     return component[methodName];
   };
@@ -156,10 +156,15 @@ describe('ChatGroup component', () => {
       isAgent,
       showAvatar,
       messages,
-      result;
+      result,
+      args;
 
     beforeEach(() => {
-      renderChatMessages = getComponentMethod('renderChatMessages');
+      args = {
+        handleSendMsg: () => {}
+      };
+
+      renderChatMessages = getComponentMethod('renderChatMessages', args);
       result = renderChatMessages(isAgent, showAvatar, messages);
     });
 
@@ -268,7 +273,7 @@ describe('ChatGroup component', () => {
 
           expect(TestUtils.isElementOfType(messageBubbleItem, MessageBubble)).toEqual(true);
           expect(messageBubbleItem.props.options).toEqual(['yes', 'no']);
-          expect(messageBubbleItem.props.sendMsgFn).toEqual(jasmine.any(Function));
+          expect(messageBubbleItem.props.handleSendMsg).toEqual(jasmine.any(Function));
         });
       });
     });
