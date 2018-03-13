@@ -39,7 +39,7 @@ describe('MessageOptions component', () => {
     describe('when message bubble is linked', () => {
       describe('when a custom option style is provided', () => {
         beforeEach(() => {
-          messageOptionsComponent = instanceRender(<MessageOptions isMessageBubbleLinked={true} optionItemStyle={'yolo'} optionItems={optionItems} />);
+          messageOptionsComponent = instanceRender(<MessageOptions isMessageBubbleLinked={true} optionItemClasses={'yolo'} optionItems={optionItems} />);
           response = messageOptionsComponent.render();
         });
 
@@ -139,7 +139,7 @@ describe('MessageOptions component', () => {
 
       describe('when a custom option style is provided', () => {
         beforeAll(() => {
-          messageOptionsComponent = instanceRender(<MessageOptions isMessageBubbleLinked={false} optionItems={optionItems} optionItemStyle={'yolo'} />);
+          messageOptionsComponent = instanceRender(<MessageOptions isMessageBubbleLinked={false} optionItems={optionItems} optionItemClasses={'yolo'} />);
           response = messageOptionsComponent.render();
         });
 

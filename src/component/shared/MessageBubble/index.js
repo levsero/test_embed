@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import { locals as styles } from './MessageBubble.scss';
-
 import { MessageOptions }  from 'component/shared/MessageOptions';
 
 export class MessageBubble extends Component {
@@ -14,8 +14,7 @@ export class MessageBubble extends Component {
   };
 
   static defaultProps = {
-    options: [],
-    handleSendMsg: () => {}
+    options: []
   }
 
   renderOptions = () => {
@@ -24,8 +23,10 @@ export class MessageBubble extends Component {
     if (!options.length) return;
 
     const optionItems = options.map((option, index) => {
+      const args = _.isFunction(this.props.handleSendMsg) ? { onClick: () => this.props.handleSendMsg(option)} : {};
+
       return (
-        <a key={index} onClick={() => this.props.handleSendMsg(option)}>
+        <a key={index} {...args}>
           {option}
         </a>
       );
@@ -37,11 +38,11 @@ export class MessageBubble extends Component {
   }
 
   render() {
-    const messageBubbleStyle = this.props.options.length ? styles.messageBubbleWithOptions : styles.messageBubble;
+    const messageBubbleClasses = this.props.options.length ? styles.messageBubbleWithOptions : styles.messageBubble;
 
     return (
       <div>
-        <div className={`${messageBubbleStyle} ${this.props.className}`}>
+        <div className={`${messageBubbleClasses} ${this.props.className}`}>
           {this.props.message}
         </div>
         {this.renderOptions()}

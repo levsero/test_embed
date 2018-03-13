@@ -36,7 +36,7 @@ export class ChatGroup extends Component {
 
   renderChatMessages = (isAgent, showAvatar, messages) => {
     const userClasses = isAgent ? styles.messageAgent : styles.messageUser;
-    const messageStyle = showAvatar ? styles.messageBubble : '';
+    const messageBubbleClasses = showAvatar ? styles.messageBubble : '';
     const userBackgroundStyle = isAgent ? styles.agentBackground : styles.userBackground;
 
     return messages.map((chat) => {
@@ -45,7 +45,7 @@ export class ChatGroup extends Component {
       if (chat.msg) {
         message = (
           <MessageBubble
-            className={`${messageStyle} ${userBackgroundStyle}`}
+            className={`${messageBubbleClasses} ${userBackgroundStyle}`}
             message={chat.msg}
             options={chat.options}
             handleSendMsg={this.props.handleSendMsg}
