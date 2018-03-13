@@ -12,6 +12,7 @@ import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
 export class ChatLog extends Component {
   static propTypes = {
     chatLog: PropTypes.object.isRequired,
+    lastAgentLeaveEvent: PropTypes.object,
     agents: PropTypes.object,
     chatCommentLeft: PropTypes.bool.isRequired,
     goToFeedbackScreen: PropTypes.func.isRequired,
@@ -80,14 +81,13 @@ export class ChatLog extends Component {
   }
 
   _validEventType(event) {
-
-    return _.includes(['chat.rating', 'chat.request.rating'], event.type) || this._allAgentsHaveLeft(event);
+    return _.includes(['chat.rating', 'chat.request.rating'], event.type) ||
+           this._allAgentsHaveLeft(event);
   }
 
   _allAgentsHaveLeft(event) {
-    const { agents } = this.props;
-    const agentHasLeft = event.nick.indexOf('agent:') > -1 && event.type === 'chat.memberleave';
-    console.log('-----------------AGENTS----------------', agents);
-    return _.size(agents) < 1 && agentHasLeft;
+    const { agents, lastAgentLeaveEvent } = this.props;
+
+    return _.size(agents) < 1 && (lastAgentLeaveEvent && event == lastAgentLeaveEvent);
   }
 }
