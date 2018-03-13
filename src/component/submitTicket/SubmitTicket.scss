@@ -64,6 +64,7 @@
 
 .errorIcon {
   composes: ErrorIcon from '../../styles/components/Error.scss';
+  margin-right: #{12/$font-size}rem;
 }
 
 .loadingSpinner {
