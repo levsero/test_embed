@@ -35,7 +35,8 @@ describe('blip middleware', () => {
         getSearchTerm: (prevState) => prevState.searchTerm,
         getResultsCount: (prevState) => prevState.resultsCount,
         getArticleClicked: (prevState) => prevState.articleClicked,
-        getActiveArticle: (prevState) => prevState.activeArticle
+        getActiveArticle: (prevState) => prevState.activeArticle,
+        getHasContextuallySearched: (prevState) => prevState.hasContextuallySearched
       },
       'src/redux/modules/talk/talk-action-types': {
         TALK_CALLBACK_SUCCESS: TALK_CALLBACK_SUCCESS
@@ -184,7 +185,8 @@ describe('blip middleware', () => {
         flatState = {
           searchTerm: 'i made a query...',
           resultsCount: 5,
-          articleClicked: false
+          articleClicked: false,
+          hasContextuallySearched: false
         };
 
         beaconSpy.trackUserAction.calls.reset();
@@ -206,7 +208,8 @@ describe('blip middleware', () => {
             resultsCount: 3,
             uniqueSearchResultClick: true,
             articleId: 121212112,
-            locale: 'US'
+            locale: 'US',
+            contextualSearch: false
           };
 
           expect(beaconSpy.trackUserAction)
@@ -330,7 +333,8 @@ describe('blip middleware', () => {
           activeArticle: { id: 1213211232123 },
           resultsCount: 1,
           searchTerm: 'i made a query...',
-          articleClicked: true
+          articleClicked: true,
+          hasContextuallySearched: true
         };
         action = {
           type: ORIGINAL_ARTICLE_CLICKED
@@ -344,7 +348,8 @@ describe('blip middleware', () => {
           resultsCount: 1,
           uniqueSearchResultClick: false,
           articleId: 1213211232123,
-          locale: 'US'
+          locale: 'US',
+          contextualSearch: true
         };
 
         expect(beaconSpy.trackUserAction)
