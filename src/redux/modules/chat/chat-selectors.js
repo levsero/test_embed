@@ -70,9 +70,19 @@ export const getOfflineFormFields = createSelector(
   getFormFields
 );
 
+const getDepartments = (state) => _.values(state.chat.departments);
+
 export const getPrechatFormFields = createSelector(
-  [getPrechatFormSettings],
-  getFormFields
+  [getPrechatFormSettings, getDepartments],
+  (prechatSettings, departments) => {
+    const formsByKey = getFormFields(prechatSettings);
+    const departmentOptions = _.map(
+      departments,
+      (department) => ({ ...department, value: department.id })
+    );
+
+    return _.extend({}, formsByKey, { departments: departmentOptions });
+  }
 );
 
 export const getChatMessages = createSelector(
