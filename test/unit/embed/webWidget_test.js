@@ -386,7 +386,8 @@ describe('embed.webWidget', () => {
             searchTerm: 'a search',
             searchLocale: 'en-US',
             attachmentsCount: 2,
-            attachmentTypes: ['image/gif', 'image/png']
+            attachmentTypes: ['image/gif', 'image/png'],
+            contextualSearch: false
           };
           value = {
             query: params.searchTerm,
@@ -394,7 +395,8 @@ describe('embed.webWidget', () => {
             email: params.email,
             ticketId: 149,
             attachmentsCount: 2,
-            attachmentTypes: ['image/gif', 'image/png']
+            attachmentTypes: ['image/gif', 'image/png'],
+            contextualSearch: false
           };
         });
 

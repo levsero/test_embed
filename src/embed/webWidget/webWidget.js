@@ -516,7 +516,8 @@ export default function WebWidgetFactory(name) {
         ticketId: response.id,
         email: params.email,
         attachmentsCount: params.attachmentsCount,
-        attachmentTypes: params.attachmentTypes
+        attachmentTypes: params.attachmentTypes,
+        contextualSearch: params.contextualSearch
       });
     };
     const onSubmitted = (params) => {

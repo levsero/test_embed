@@ -13,6 +13,7 @@ import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { handleFormChange, handleTicketFormClick } from 'src/redux/modules/submitTicket';
 import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selectors';
+import { getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { i18n } from 'service/i18n';
 import { store } from 'service/persistence';
 import { isIE } from 'utility/devices';
@@ -29,7 +30,8 @@ const mapStateToProps = (state) => {
     ticketFields: selectors.getTicketFields(state),
     ticketFieldsAvailable: selectors.getTicketFieldsAvailable(state),
     activeTicketForm: selectors.getActiveTicketForm(state),
-    activeTicketFormFields: selectors.getActiveTicketFormFields(state)
+    activeTicketFormFields: selectors.getActiveTicketFormFields(state),
+    hasContextuallySearched: getHasContextuallySearched(state)
   };
 };
 
@@ -66,7 +68,8 @@ class SubmitTicket extends Component {
     fullscreen: PropTypes.bool.isRequired,
     activeTicketForm: PropTypes.object,
     searchTerm: PropTypes.string,
-    activeTicketFormFields: PropTypes.array
+    activeTicketFormFields: PropTypes.array,
+    hasContextuallySearched: PropTypes.bool
   };
 
   static defaultProps = {
@@ -91,7 +94,8 @@ class SubmitTicket extends Component {
     ticketFields: {},
     activeTicketForm: null,
     updateFrameSize: () => {},
-    activeTicketFormFields: []
+    activeTicketFormFields: [],
+    hasContextuallySearched: false
   };
 
   constructor(props, context) {
@@ -156,7 +160,8 @@ class SubmitTicket extends Component {
         res: res,
         email: formParams.email,
         searchTerm: this.props.searchTerm,
-        searchLocale: i18n.getLocale()
+        searchLocale: i18n.getLocale(),
+        contextualSearch: this.props.hasContextuallySearched
       };
 
       if (this.props.attachmentsEnabled) {

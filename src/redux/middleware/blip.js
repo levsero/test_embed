@@ -13,7 +13,8 @@ import { getTotalUserSearches,
          getResultsCount,
          getSearchTerm,
          getArticleClicked,
-         getActiveArticle } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+         getActiveArticle,
+         getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { i18n } from 'service/i18n';
 
 const createTalkBlipData = (state, phone) => {
@@ -37,7 +38,8 @@ const getArticleClickValues = (state, activeArticle) => {
     resultsCount: (resultsCount > 3) ? 3 : resultsCount,
     uniqueSearchResultClick: !getArticleClicked(state),
     articleId: activeArticle.id,
-    locale: i18n.getLocale()
+    locale: i18n.getLocale(),
+    contextualSearch: getHasContextuallySearched(state)
   };
 
   return trackPayload;
