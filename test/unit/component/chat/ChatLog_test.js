@@ -250,13 +250,7 @@ describe('ChatLog component', () => {
   });
 
   describe('#renderRequestRatingButton', () => {
-    const getRenderRequestRatingButtonFn = () => {
-      const component = domRender(<ChatLog chatLog={{}} agents={{}} />);
-
-      return component.renderRequestRatingButton;
-    };
-
-    let renderRequestRatingButtonFn,
+    let component,
       renderRequestRatingButton,
       isLastRating,
       newRating,
@@ -266,7 +260,7 @@ describe('ChatLog component', () => {
       goToFeedbackScreenSpy = jasmine.createSpy('goToFeedbackScreen');
 
     beforeEach(() => {
-      renderRequestRatingButtonFn = getRenderRequestRatingButtonFn();
+      component = domRender(<ChatLog chatLog={{}} agents={{}} lastAgentLeaveEvent={{}} />);
 
       mockStringValues = {
         'embeddable_framework.chat.chatLog.button.leaveComment': 'Leave a comment',
@@ -284,7 +278,7 @@ describe('ChatLog component', () => {
         chatCommentLeft = false;
         newRating = 'good';
         event = { timestamp: 100, nick: 'visitor', type: 'chat.memberjoin', new_rating: newRating, isLastRating };
-        renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+        renderRequestRatingButton = component.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreenSpy);
       });
 
       it('returns nothing', () => {
@@ -299,7 +293,7 @@ describe('ChatLog component', () => {
           chatCommentLeft = false;
           newRating = 'good';
           event = { timestamp: 100, nick: 'visitor', type: 'chat.rating', new_rating: newRating, isLastRating };
-          renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+          renderRequestRatingButton = component.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreenSpy);
         });
 
         it('returns nothing', () => {
@@ -313,7 +307,7 @@ describe('ChatLog component', () => {
           chatCommentLeft = false;
           newRating = null;
           event = { timestamp: 100, nick: 'visitor', type: 'chat.rating', new_rating: newRating, isLastRating };
-          renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+          renderRequestRatingButton = component.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreenSpy);
         });
 
         it('returns nothing', () => {
@@ -327,7 +321,7 @@ describe('ChatLog component', () => {
           chatCommentLeft = true;
           newRating = 'good';
           event = { timestamp: 100, nick: 'visitor', type: 'chat.rating', new_rating: newRating, isLastRating };
-          renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+          renderRequestRatingButton = component.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreenSpy);
         });
 
         it('returns nothing', () => {
@@ -341,7 +335,7 @@ describe('ChatLog component', () => {
           chatCommentLeft = false;
           newRating = 'good';
           event = { timestamp: 100, nick: 'visitor', type: 'chat.rating', new_rating: newRating, isLastRating };
-          renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+          renderRequestRatingButton = component.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreenSpy);
         });
 
         it('returns a button with the correct props', () => {
@@ -359,7 +353,7 @@ describe('ChatLog component', () => {
     describe('when the event type is request.rating', () => {
       beforeEach(() => {
         event = { timestamp: 100, nick: 'visitor', type: 'chat.request.rating' };
-        renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+        renderRequestRatingButton = component.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreenSpy);
       });
 
       it('returns a button with the correct props', () => {
