@@ -209,7 +209,7 @@ class WebWidget extends Component {
   setAuthenticated = (bool) => this.props.updateAuthenticated(bool);
 
   resetActiveEmbed = () => {
-    const { updateActiveEmbed, updateBackButtonVisibility, talkAvailable, chatAvailable } = this.props;
+    const { chatStandalone, updateActiveEmbed, updateBackButtonVisibility, talkAvailable, chatAvailable } = this.props;
     let backButton = false;
 
     if (this.isHelpCenterAvailable()) {
@@ -219,7 +219,7 @@ class WebWidget extends Component {
       updateActiveEmbed(channelChoice);
     } else if (talkAvailable) {
       updateActiveEmbed(talk);
-    } else if (chatAvailable) {
+    } else if (chatAvailable || chatStandalone) {
       this.showChat();
     } else {
       updateActiveEmbed(submitTicket);

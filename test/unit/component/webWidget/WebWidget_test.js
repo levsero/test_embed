@@ -939,6 +939,26 @@ describe('WebWidget component', () => {
         });
       });
 
+      describe('when Chat is standalone', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              chatStandalone={true}
+              updateActiveEmbed={updateActiveEmbedSpy}
+              activeEmbed='' />
+          );
+
+          spyOn(webWidget, 'showChat');
+
+          webWidget.resetActiveEmbed();
+        });
+
+        it('calls showChat', () => {
+          expect(webWidget.showChat)
+            .toHaveBeenCalled();
+        });
+      });
+
       describe('when there are no embeds available apart from contactForm', () => {
         beforeEach(() => {
           webWidget = domRender(
@@ -1047,6 +1067,26 @@ describe('WebWidget component', () => {
               activeEmbed=''
               chatOnline={true}
               chatAvailable={true}
+              updateActiveEmbed={updateActiveEmbedSpy}
+              channelChoice={false} />
+          );
+
+          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
+          webWidget.resetActiveEmbed();
+        });
+
+        it('calls updateActiveEmbed with chat', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('chat');
+        });
+      });
+
+      describe('when chat is standalone', () => {
+        beforeEach(() => {
+          webWidget = instanceRender(
+            <WebWidget
+              activeEmbed=''
+              chatStandalone={true}
               updateActiveEmbed={updateActiveEmbedSpy}
               channelChoice={false} />
           );

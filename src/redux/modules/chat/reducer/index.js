@@ -31,6 +31,5 @@ export default combineReducers({
   screen,
   userSettings,
   emailTranscript,
-  queuePosition,
   formState
 });
