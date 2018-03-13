@@ -499,6 +499,12 @@ describe('ChatGroup component', () => {
             src: ''
           }));
         });
+
+        it('passes the correct fallback icon prop to the child component', () => {
+          expect(result.props).toEqual(jasmine.objectContaining({
+            fallbackIcon: 'Icon--agent-avatar'
+          }));
+        });
       });
     });
   });

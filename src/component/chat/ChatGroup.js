@@ -100,7 +100,7 @@ export class ChatGroup extends Component {
     const avatarStyles = avatarPath ? styles.avatarWithSrc : styles.avatarDefault;
 
     return showAvatarAsAgent ?
-      <Avatar className={avatarStyles} src={avatarPath} /> : null;
+      <Avatar className={avatarStyles} src={avatarPath} fallbackIcon="Icon--agent-avatar" /> : null;
   }
 
   render() {

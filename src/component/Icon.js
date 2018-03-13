@@ -8,6 +8,7 @@ const icons = {
   'Icon': require('icons/widget-icon_help.svg'),
   'Icon--thumbUp': require('icons/widget-icon_thumb-up.svg'),
   'Icon--thumbDown': require('icons/widget-icon_thumb-down.svg'),
+  'Icon--agent-avatar': require('icons/widget-icon_avatar.svg'),
   'Icon--avatar': require('icons/widget-icon_concierge.svg'),
   'Icon--back': require('icons/widget-icon_back.svg'),
   'Icon--chevron': require('zd-svg-icons/src/14-chevron.svg'),

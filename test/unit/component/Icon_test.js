@@ -13,6 +13,7 @@ describe('Icon component', function() {
 
     initMockRegistry({
       'React': React,
+      'icons/widget-icon_avatar.svg': DummyIcon,
       'icons/widget-icon_back.svg': DummyIcon,
       'icons/widget-icon_channelChoice-contactForm.svg': DummyIcon,
       'icons/widget-icon_channelChoice-talk.svg': DummyIcon,

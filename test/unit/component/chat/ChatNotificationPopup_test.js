@@ -1,6 +1,7 @@
 describe('ChatNotificationPopup component', () => {
   let ChatNotificationPopup;
-  const chatMenuPath = buildSrcPath('component/chat/ChatNotificationPopup');
+  const chatMenuPath = buildSrcPath('component/chat/ChatNotificationPopup'),
+    noopAvatar = noopReactComponent('Avatar');
 
   beforeEach(() => {
     mockery.enable();
@@ -16,7 +17,7 @@ describe('ChatNotificationPopup component', () => {
         }
       },
       'component/Avatar': {
-        Avatar: noopReactComponent()
+        Avatar: noopAvatar
       },
       'component/chat/ChatPopup': {
         ChatPopup: class extends Component {
@@ -106,6 +107,12 @@ describe('ChatNotificationPopup component', () => {
       mockNotification,
       proactiveContent;
 
+    const getChildAvatar = (component) => (
+      component.props.children.find(
+        (el) => TestUtils.isElementOfType(el, noopAvatar)
+      )
+    );
+
     describe('when the chat is proactive', () => {
       beforeEach(() => {
         mockNotification = {
@@ -125,7 +132,7 @@ describe('ChatNotificationPopup component', () => {
       });
 
       it('applies proactiveAvatar classes to the avatar', () => {
-        expect(proactiveContent.props.children[0].props.className)
+        expect(getChildAvatar(proactiveContent).props.className)
           .toContain('proactiveAvatarClasses');
       });
 
@@ -154,7 +161,7 @@ describe('ChatNotificationPopup component', () => {
       });
 
       it('applies avatar classes to the avatar', () => {
-        expect(proactiveContent.props.children[0].props.className)
+        expect(getChildAvatar(proactiveContent).props.className)
           .toContain('avatarClasses');
       });
 
@@ -166,6 +173,30 @@ describe('ChatNotificationPopup component', () => {
       it('calls renderAgentMessage with undefined', () => {
         expect(chatNotification.renderAgentMessage)
           .toHaveBeenCalledWith(undefined);
+      });
+    });
+
+    describe('the proactive content avatar', () => {
+      beforeEach(() => {
+        mockNotification = {
+          show: true,
+          proactive: true,
+          display_name: 'Dolores',
+          msg: 'These violent delights have violent ends'
+        };
+        chatNotification = domRender(
+          <ChatNotificationPopup
+            notification={mockNotification}
+            chatNotificationDismissed={noop} />
+        );
+        spyOn(chatNotification, 'renderAgentName');
+        spyOn(chatNotification, 'renderAgentMessage');
+        proactiveContent = chatNotification.renderProactiveContent();
+      });
+
+      it('renders with the fallback icon prop on the avatar set to Icon--avatar', () => {
+        expect(getChildAvatar(proactiveContent).props.fallbackIcon)
+          .toEqual('Icon--avatar');
       });
     });
   });
