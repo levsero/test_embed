@@ -16,10 +16,10 @@ const isChatting = (state = initialState, action) => {
       }
       return state;
     case SDK_CHAT_MEMBER_LEAVE:
-    if (!isAgent(action.payload.detail.nick)) {
-      return false;
-    }
-    return state;
+      if (!isAgent(action.payload.detail.nick)) {
+        return false;
+      }
+      return state;
     case END_CHAT_REQUEST_SUCCESS:
       return false;
     default:

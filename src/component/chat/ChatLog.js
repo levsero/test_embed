@@ -74,12 +74,6 @@ export class ChatLog extends Component {
     );
   }
 
-  render() {
-    const { chatLog, agents, chatCommentLeft, goToFeedbackScreen, showAvatar, handleSendMsg } = this.props;
-
-    return this.renderChatLog(chatLog, agents, chatCommentLeft, goToFeedbackScreen, showAvatar, handleSendMsg);
-  }
-
   _validEventType(event) {
     return _.includes(['chat.rating', 'chat.request.rating'], event.type) ||
            this._allAgentsHaveLeft(event);
@@ -88,6 +82,12 @@ export class ChatLog extends Component {
   _allAgentsHaveLeft(event) {
     const { agents, lastAgentLeaveEvent } = this.props;
 
-    return _.size(agents) < 1 && (lastAgentLeaveEvent && event == lastAgentLeaveEvent);
+    return _.size(agents) < 1 && (lastAgentLeaveEvent && event === lastAgentLeaveEvent);
+  }
+
+  render() {
+    const { chatLog, agents, chatCommentLeft, goToFeedbackScreen, showAvatar, handleSendMsg } = this.props;
+
+    return this.renderChatLog(chatLog, agents, chatCommentLeft, goToFeedbackScreen, showAvatar, handleSendMsg);
   }
 }

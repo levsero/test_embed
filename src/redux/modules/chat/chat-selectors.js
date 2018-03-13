@@ -175,13 +175,13 @@ export const getShowRatingScreen = createSelector(
 export const getLastAgentLeaveEvent = createSelector(
   [getGroupedChatLog],
   (chatLog) => {
-    if(_.isEmpty(chatLog)) return;
+    if (_.isEmpty(chatLog)) return;
 
     const logValues = _.values(chatLog);
     const payload = _.last(logValues)[0];
-    const isLeaveEvent = payload.type == 'chat.memberleave';
+    const isLeaveEvent = payload.type === 'chat.memberleave';
     const isAgent = payload.nick.indexOf('agent:') > -1;
 
-    if(isLeaveEvent && isAgent) { return payload; }
+    if (isLeaveEvent && isAgent) { return payload; }
   }
 );
