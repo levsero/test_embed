@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { locals as styles } from './MessageOptions.scss';
-import classNames from 'classNames';
+import classNames from 'classnames';
 
 export class MessageOptions extends Component {
   static propTypes = {
