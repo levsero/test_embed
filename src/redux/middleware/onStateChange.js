@@ -4,7 +4,6 @@ import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
 import { getChatMessagesByAgent,
          getConnection,
-         getChatStatus,
          getUserSoundSettings } from 'src/redux/modules/chat/chat-selectors';
 import { getArticleDisplayed } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getActiveEmbed,
@@ -19,30 +18,11 @@ const handleNotificationCounter = (nextState, dispatch) => {
   }
 };
 
-const onChatStatusChange  = (prevState, nextState) => {
-  const widgetShown = getWidgetShown(nextState);
-  const nextChatStatus = getChatStatus(nextState);
-  const chatOnline = (nextChatStatus === 'online');
-  const chatOffline = (nextChatStatus === 'offline');
-
-  if (getChatStatus(prevState) !== getChatStatus(nextState)) {
-    if (!widgetShown && chatOnline) {
-      mediator.channel.broadcast('newChat.show');
-    }
-
-    if (widgetShown && chatOffline) {
-      mediator.channel.broadcast('.hide');
-    }
-  }
-};
-
 const onChatConnected = (prevState, nextState, dispatch) => {
   if (getConnection(prevState) === 'connecting' && getConnection(nextState) !== 'connecting') {
     dispatch(getAccountSettings());
 
-    if (getChatStatus(nextState) === 'online') {
-      mediator.channel.broadcast('newChat.show');
-    }
+    mediator.channel.broadcast('newChat.connected');
   }
 };
 
@@ -71,7 +51,6 @@ const onArticleDisplayed = (prevState, nextState) => {
 };
 
 export default function onStateChange(prevState, nextState, _, dispatch) {
-  onChatStatusChange(prevState, nextState);
   onChatConnected(prevState, nextState, dispatch);
   onNewChatMessage(prevState, nextState, dispatch);
   onArticleDisplayed(prevState, nextState, dispatch);
