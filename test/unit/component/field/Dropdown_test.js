@@ -687,4 +687,54 @@ describe('dropdown component', () => {
         .toEqual(false);
     });
   });
+
+  describe('renderSelectionText', () => {
+    const placeholderNode = 'Default',
+      selectionFormatSpy = jasmine.createSpy('selectionFormat').and.callFake(_.identity);
+    let result;
+
+    const callRenderSelectionTextFn = (selected) => {
+      const dropdown = instanceRender(
+        <Dropdown
+          placeholderNode={placeholderNode}
+          selectionFormat={selectionFormatSpy}
+          value={selected}
+        />
+      );
+
+      return dropdown.renderSelectionText();
+    };
+
+    describe('when selected.name is defined in the state', () => {
+      const name = 'Selected name';
+
+      beforeEach(() => {
+        result = callRenderSelectionTextFn({ name });
+      });
+
+      it('returns the result of the selectionFormat call with that value', () => {
+        expect(selectionFormatSpy)
+          .toHaveBeenCalledWith(name);
+
+        expect(result)
+          .toEqual(name);
+      });
+    });
+
+    describe('when selected.name is not defined in the state', () => {
+      const name = null;
+
+      beforeEach(() => {
+        result = callRenderSelectionTextFn({ name });
+      });
+
+      it('returns the result of the selectionFormat call with the placeholderNode prop', () => {
+        expect(selectionFormatSpy)
+          .toHaveBeenCalledWith(placeholderNode);
+
+        expect(result)
+          .toEqual(placeholderNode);
+      });
+    });
+  });
 });
