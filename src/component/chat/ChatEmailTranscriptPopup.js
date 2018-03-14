@@ -112,7 +112,7 @@ export class ChatEmailTranscriptPopup extends Component {
     if (this.props.emailTranscript.screen !== EMAIL_TRANSCRIPT_SUCCESS_SCREEN) return null;
 
     const successLabel = i18n.t('embeddable_framework.chat.emailtranscript.success_message',
-                                { email: this.props.emailTranscript.email });
+                                { email: `<b>${this.props.emailTranscript.email}</b>` });
 
     return (
       <div className={`${styles.resultScreen}`}>
