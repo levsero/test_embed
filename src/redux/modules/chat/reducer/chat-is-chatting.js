@@ -1,8 +1,4 @@
-import {
-  SDK_CHAT_MEMBER_JOIN,
-  SDK_CHAT_MEMBER_LEAVE,
-  END_CHAT_REQUEST_SUCCESS
-} from '../chat-action-types';
+import { SDK_CHAT_MEMBER_JOIN, SDK_CHAT_MEMBER_LEAVE, END_CHAT_REQUEST_SUCCESS } from '../chat-action-types';
 
 const initialState = false;
 
