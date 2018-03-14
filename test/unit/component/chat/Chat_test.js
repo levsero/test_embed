@@ -558,6 +558,48 @@ describe('Chat component', () => {
           .toBeTruthy();
       });
     });
+
+    describe('when state.lastAgentLeaveEvent contains an event', () => {
+      const leaveEvent = {nick: 'agent:123', type: 'chat.memberleave'};
+
+      beforeEach(() => {
+        component = domRender(
+          <Chat
+            screen={chattingScreen}
+            lastAgentLeaveEvent={leaveEvent} />
+        );
+      });
+
+      it("passes the event to the chatLog component's `lastAgentLeaveEvent` prop", () => {
+        const scrollContainer = component.renderChatScreen().props.children;
+        const chatLog = scrollContainer.props.children[0];
+        const lastAgentLeaveEvent = chatLog.props.lastAgentLeaveEvent;
+
+        expect(lastAgentLeaveEvent)
+          .toEqual(leaveEvent);
+      });
+    });
+
+    describe('when state.lastAgentLeaveEvent does not contain an event', () => {
+      const leaveEvent = null;
+
+      beforeEach(() => {
+        component = domRender(
+          <Chat
+            screen={chattingScreen}
+            lastAgentLeaveEvent={leaveEvent} />
+        );
+      });
+
+      it("passes null to the chatLog component's `lastAgentLeaveEvent` prop", () => {
+        const scrollContainer = component.renderChatScreen().props.children;
+        const chatLog = scrollContainer.props.children[0];
+        const lastAgentLeaveEvent = chatLog.props.lastAgentLeaveEvent;
+
+        expect(lastAgentLeaveEvent)
+          .toEqual(null);
+      });
+    });
   });
 
   describe('renderChatScreen', () => {
