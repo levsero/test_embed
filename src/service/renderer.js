@@ -101,14 +101,10 @@ function addPropsToConfig(name, config, parsedConfig, reduxStore) {
 }
 
 function renderEmbeds(parsedConfig, config, reduxStore) {
-  const { newChat } = config;
-
   _.forEach(parsedConfig, (configItem, embedName) => {
     try {
-      const zopimRendered = config.embeds.zopimChat && !newChat;
-
       reduxStore.dispatch(updateEmbedAccessible(embedName, true));
-      configItem.props.visible = config.embeds && !config.embeds.talk && !zopimRendered && !hideLauncher;
+      configItem.props.visible = config.embeds && !config.embeds.talk && !config.embeds.zopimChat && !hideLauncher;
       configItem.props.hideZendeskLogo = config.hideZendeskLogo;
       configItem.props.brand = config.brand;
 

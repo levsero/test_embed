@@ -166,7 +166,7 @@ function init(embedsAccessible, params = {}) {
   state[`${channelChoice}.isAccessible`] = embedsAccessible.channelChoice;
   state[`${chat}.isSuppressed`] = settings.get('chat.suppress');
   state[`${submitTicket}.isSuppressed`] = settings.get('contactForm.suppress');
-  state[`${chat}.connectionPending`] = embedsAccessible.chat && !params.newChat;
+  state[`${chat}.connectionPending`] = embedsAccessible.chat;
   state[`${talk}.isAccessible`] = embedsAccessible.talk;
   state[`${talk}.connectionPending`] = embedsAccessible.talk;
   state[`${talk}.isSuppressed`] = settings.get('talk.suppress');
@@ -189,7 +189,11 @@ function init(embedsAccessible, params = {}) {
   }
 
   c.intercept('newChat.connected', () => {
-    show(state);
+    state[`${chat}.connectionPending`] = false;
+
+    if (!state[`${talk}.connectionPending`]) {
+      show(state, { transition: 'none' });
+    }
   });
 
   c.intercept('.hide', (_, viaIPM = false) => {

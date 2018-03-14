@@ -671,18 +671,6 @@ describe('mediator', () => {
           .toEqual(1);
       });
 
-      it('does not show after 3000ms if newChat is true', () => {
-        mediator.init({ submitTicket: true, helpCenter: false, chat: true }, { newChat: true });
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(0);
-
-        jasmine.clock().tick(3000);
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(0);
-      });
-
       describe('when chat is offline', () => {
         describe('when there is not an active chat', () => {
           it('launches Ticket Submission', () => {
@@ -994,6 +982,63 @@ describe('mediator', () => {
         it("show launcher when chat's connection is not pending", () => {
           c.broadcast(`${chat}.onOnline`);
           c.broadcast(`${chat}.onConnected`);
+
+          expect(launcherSub.show.calls.count())
+            .toEqual(1);
+        });
+      });
+
+      describe('does not show launcher when talk and chat are in connection pending', () => {
+        beforeEach(() => {
+          reset(launcherSub.show);
+        });
+
+        it('when chat loads first and then talk', () => {
+          expect(launcherSub.show.calls.count())
+            .toEqual(0);
+        });
+      });
+    });
+
+    describe('with Talk and new Chat', () => {
+      beforeEach(() => {
+        mediator.init({ chat: true, talk: true });
+      });
+
+      describe('when chat is connected', () => {
+        beforeEach(() => {
+          reset(launcherSub.show);
+          c.broadcast('newChat.connected');
+        });
+
+        it("shows launcher when talk's connection is not pending", () => {
+          c.broadcast(`${talk}.enabled`, true);
+          c.broadcast(`${talk}.agentAvailability`, true);
+
+          expect(launcherSub.show.calls.count())
+            .toEqual(1);
+        });
+
+        it("does not show launcher when talk's connection is pending", () => {
+          expect(launcherSub.show.calls.count())
+            .toEqual(0);
+        });
+      });
+
+      describe('when talk has connected', () => {
+        beforeEach(() => {
+          reset(launcherSub.show);
+          c.broadcast(`${talk}.enabled`, true);
+          c.broadcast(`${talk}.agentAvailability`, true);
+        });
+
+        it("does not show launcher when chat's connection is pending", () => {
+          expect(launcherSub.show.calls.count())
+            .toEqual(0);
+        });
+
+        it("show launcher when chat's connection is not pending", () => {
+          c.broadcast('newChat.connected');
 
           expect(launcherSub.show.calls.count())
             .toEqual(1);
