@@ -23,8 +23,7 @@ describe('chat selectors', () => {
     getUserSoundSettings,
     getEmailTranscript,
     getShowRatingScreen,
-    getThemeShowAvatar,
-    getQueuePosition;
+    getThemeShowAvatar;
 
   beforeEach(() => {
     mockery.enable();
@@ -70,7 +69,6 @@ describe('chat selectors', () => {
     getEmailTranscript = selectors.getEmailTranscript;
     getShowRatingScreen = selectors.getShowRatingScreen;
     getThemeShowAvatar = selectors.getThemeShowAvatar;
-    getQueuePosition = selectors.getQueuePosition;
   });
 
   afterEach(() => {
@@ -242,25 +240,6 @@ describe('chat selectors', () => {
     it('returns the value of accountSettings.rating', () => {
       expect(result)
         .toEqual(ratingSettings);
-    });
-  });
-
-  describe('getQueuePosition', () => {
-    let result;
-    const queuePosition = 3;
-    const mockChatSettings = {
-      chat: {
-        queuePosition
-      }
-    };
-
-    beforeEach(() => {
-      result = getQueuePosition(mockChatSettings);
-    });
-
-    it('returns the value of chat.queuePosition', () => {
-      expect(result)
-        .toEqual(queuePosition);
     });
   });
 

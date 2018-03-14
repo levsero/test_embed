@@ -17,7 +17,6 @@ describe('Chat component', () => {
   const sendChatRatingSpy = jasmine.createSpy('sendChatRating');
   const sendChatCommentSpy = jasmine.createSpy('sendChatComment');
   const endChatSpy = jasmine.createSpy('endChat');
-  const translationSpy = jasmine.createSpy('translation').and.callFake(_.identity);
 
   const ChatFeedbackForm = noopReactComponent('ChatFeedbackForm');
 
@@ -100,7 +99,7 @@ describe('Chat component', () => {
         EMAIL_TRANSCRIPT_FAILURE_SCREEN: EMAIL_TRANSCRIPT_FAILURE_SCREEN
       },
       'service/i18n': {
-        i18n: { t: translationSpy }
+        i18n: { t: _.identity }
       }
     });
 
@@ -111,12 +110,6 @@ describe('Chat component', () => {
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
-
-    updateChatScreenSpy.calls.reset();
-    sendChatRatingSpy.calls.reset();
-    sendChatCommentSpy.calls.reset();
-    endChatSpy.calls.reset();
-    translationSpy.calls.reset();
   });
 
   describe('onContainerClick', () => {
@@ -355,6 +348,13 @@ describe('Chat component', () => {
             sendChatComment={sendChatCommentSpy}
           />
         );
+      });
+
+      afterEach(() => {
+        updateChatScreenSpy.calls.reset();
+        endChatSpy.calls.reset();
+        sendChatRatingSpy.calls.reset();
+        sendChatCommentSpy.calls.reset();
       });
 
       it('returns a component', () => {
@@ -697,68 +697,6 @@ describe('Chat component', () => {
       it('passes false to its popup components show prop', () => {
         expect(component.renderChatEmailTranscriptPopup().props.show)
           .toBe(false);
-      });
-    });
-  });
-
-  describe('renderQueuePosition', () => {
-    let queuePositionComponent, queuePosition, mockAgents;
-
-    describe('when there is no agent in the chat', () => {
-      beforeEach(() => {
-        mockAgents = {};
-      });
-
-      describe('when the queuePosition prop is greater than zero', () => {
-        const translationKey = 'embeddable_framework.chat.chatLog.queuePosition';
-
-        beforeEach(() => {
-          queuePosition = 5;
-          const component = instanceRender(<Chat agents={mockAgents} queuePosition={queuePosition} />);
-
-          queuePositionComponent = component.renderQueuePosition();
-        });
-
-        it('calls the i18n translate function with the correct key and value', () => {
-          expect(translationSpy)
-            .toHaveBeenCalledWith(translationKey, { value: queuePosition });
-        });
-
-        it('returns a component displaying the result of the i18n translate call', () => {
-          const expectedContent = translationSpy(translationKey, { value: queuePosition });
-
-          expect(queuePositionComponent.props.children)
-            .toEqual(expectedContent);
-        });
-      });
-
-      describe('when the queuePosition prop is zero', () => {
-        beforeEach(() => {
-          queuePosition = 0;
-          const component = instanceRender(<Chat agents={mockAgents} queuePosition={queuePosition} />);
-
-          queuePositionComponent = component.renderQueuePosition();
-        });
-
-        it('returns null', () => {
-          expect(queuePositionComponent)
-            .toBeNull();
-        });
-      });
-    });
-
-    describe('when there is an agent in the chat', () => {
-      beforeEach(() => {
-        mockAgents = {'agent123456': { display_name: 'Wayne', typing: false }};
-        queuePosition = 5;
-        const component = instanceRender(<Chat agents={mockAgents} queuePosition={queuePosition} />);
-
-        queuePositionComponent = component.renderQueuePosition();
-      });
-
-      it('returns null', () => {
-        expect(queuePositionComponent)
-          .toBeNull();
       });
     });
   });

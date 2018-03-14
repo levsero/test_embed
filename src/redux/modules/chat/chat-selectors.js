@@ -28,7 +28,6 @@ export const getPrechatFormSettings = (state) => state.chat.accountSettings.prec
 export const getEmailTranscript = (state) => state.chat.emailTranscript;
 export const getAttachmentsEnabled = (state) => state.chat.accountSettings.attachments.enabled;
 export const getRatingSettings = (state) => state.chat.accountSettings.rating;
-export const getQueuePosition = (state) => state.chat.queuePosition;
 export const getUserSoundSettings = (state) => state.chat.userSettings.sound;
 
 export const getThemeShowAvatar = createSelector(
