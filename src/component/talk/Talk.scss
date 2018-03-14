@@ -79,8 +79,8 @@
 }
 
 .errorIcon {
-  composes: u-marginRS from global;
   composes: ErrorIcon from '../../styles/components/Error.scss';
+  margin-right: #{12/$font-size}rem;
 }
 
 .offline {
