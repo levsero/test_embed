@@ -96,5 +96,10 @@ describe('chat root reducer', () => {
       expect(state.emailTranscript)
         .toBeDefined();
     });
+
+    it('has the formState sub state', () => {
+      expect(state.formState)
+        .toBeDefined();
+    });
   });
 });

@@ -26,7 +26,8 @@ import {
   EMAIL_TRANSCRIPT_SUCCESS,
   EMAIL_TRANSCRIPT_FAILURE,
   EMAIL_TRANSCRIPT_REQUEST_SENT,
-  RESET_EMAIL_TRANSCRIPT
+  RESET_EMAIL_TRANSCRIPT,
+  CHAT_OFFLINE_FORM_CHANGED
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import { getChatVisitor, getShowRatingScreen } from 'src/redux/modules/chat/chat-selectors';
@@ -279,4 +280,11 @@ export function newAgentMessageReceived() {
 
 export function chatOpened() {
   return { type: CHAT_OPENED };
+}
+
+export function chatOfflineFormChanged(formState) {
+  return {
+    type: CHAT_OFFLINE_FORM_CHANGED,
+    payload: formState
+  };
 }

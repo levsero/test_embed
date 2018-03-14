@@ -5,7 +5,8 @@ describe('base selectors', () => {
     getActiveEmbed,
     getChatEmbed,
     getAuthenticated,
-    getWidgetShown;
+    getWidgetShown,
+    getChatStandalone;
 
   beforeEach(() => {
     mockery.enable();
@@ -23,6 +24,7 @@ describe('base selectors', () => {
     getChatEmbed = selectors.getChatEmbed;
     getAuthenticated = selectors.getAuthenticated;
     getWidgetShown = selectors.getWidgetShown;
+    getChatStandalone = selectors.getChatStandalone;
   });
 
   describe('getActiveEmbed', () => {
@@ -157,5 +159,58 @@ describe('base selectors', () => {
       expect(result)
         .toEqual(true);
     });
+  });
+
+  describe('getChatStandalone', () => {
+    let result;
+    const additionalEmbeds = ['talk', 'helpCenterForm', 'ticketSubmissionForm'];
+
+    describe('when Chat is the only product existing', () => {
+      beforeEach(() => {
+        const mockState = {
+          base: {
+            embeds: {
+              chat: {}
+            }
+          }
+        };
+
+        result = getChatStandalone(mockState);
+      });
+
+      it('returns true for the state of chatStandalone', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    const refuteChatStandAlone = (embed) => {
+      describe(`when ${embed} exist alongside with Chat`, () => {
+        beforeEach(() => {
+          const mockState = {
+            base: {
+              embeds: {
+                chat: {},
+                [embed]: {}
+              }
+            }
+          };
+
+          result = getChatStandalone(mockState);
+        });
+
+        it('returns false for the state of chatStandalone', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    };
+
+    it('evalutes at least a single additional embed', () => {
+      expect(additionalEmbeds.length > 0)
+        .toBe(true);
+    });
+
+    additionalEmbeds.forEach(refuteChatStandAlone);
   });
 });

@@ -7,6 +7,8 @@ describe('WebWidget component', () => {
   const clearFormSpy = jasmine.createSpy();
   const webWidgetPath = buildSrcPath('component/webWidget/WebWidget');
 
+  const ChatOfflineForm = connectedComponent(noopReactComponent());
+
   beforeEach(() => {
     mockery.enable();
 
@@ -72,6 +74,7 @@ describe('WebWidget component', () => {
         }
       },
       'component/chat/Chat': connectedComponent(<MockChat />),
+      'component/chat/ChatOfflineForm': ChatOfflineForm,
       'component/helpCenter/HelpCenter': connectedComponent(<MockHelpCenter />),
       'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
       'component/talk/Talk': connectedComponent(<MockTalk />),
@@ -211,6 +214,64 @@ describe('WebWidget component', () => {
       it('does not render the chatPopup component', () => {
         expect(webWidget.renderChatNotification())
           .toBeFalsy();
+      });
+    });
+  });
+
+  describe('renderChat', () => {
+    let result;
+
+    describe('when chat is standalone and chat is offline', () => {
+      beforeEach(() => {
+        const webWidget = instanceRender(
+          <WebWidget
+            activeEmbed='chat'
+            chatStandalone={true}
+            chatStatus='offline' />
+        );
+
+        result = webWidget.renderChat();
+      });
+
+      it('renders ChatOfflineForm', () => {
+        expect(TestUtils.isElementOfType(result, ChatOfflineForm))
+          .toEqual(true);
+      });
+    });
+
+    describe('when chat is not standalone', () => {
+      beforeEach(() => {
+        const webWidget = instanceRender(
+          <WebWidget
+            activeEmbed='chat'
+            chatStandalone={false}
+            chatStatus='offline' />
+        );
+
+        result = webWidget.renderChat();
+      });
+
+      it('renders Chat', () => {
+        expect(result.ref)
+          .toEqual('chat');
+      });
+    });
+
+    describe('when chat is online', () => {
+      beforeEach(() => {
+        const webWidget = instanceRender(
+          <WebWidget
+            activeEmbed='chat'
+            chatStandalone={true}
+            chatStatus='online' />
+        );
+
+        result = webWidget.renderChat();
+      });
+
+      it('renders Chat', () => {
+        expect(result.ref)
+          .toEqual('chat');
       });
     });
   });
@@ -878,6 +939,26 @@ describe('WebWidget component', () => {
         });
       });
 
+      describe('when Chat is standalone', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              chatStandalone={true}
+              updateActiveEmbed={updateActiveEmbedSpy}
+              activeEmbed='' />
+          );
+
+          spyOn(webWidget, 'showChat');
+
+          webWidget.resetActiveEmbed();
+        });
+
+        it('calls showChat', () => {
+          expect(webWidget.showChat)
+            .toHaveBeenCalled();
+        });
+      });
+
       describe('when there are no embeds available apart from contactForm', () => {
         beforeEach(() => {
           webWidget = domRender(
@@ -986,6 +1067,26 @@ describe('WebWidget component', () => {
               activeEmbed=''
               chatOnline={true}
               chatAvailable={true}
+              updateActiveEmbed={updateActiveEmbedSpy}
+              channelChoice={false} />
+          );
+
+          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
+          webWidget.resetActiveEmbed();
+        });
+
+        it('calls updateActiveEmbed with chat', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('chat');
+        });
+      });
+
+      describe('when chat is standalone', () => {
+        beforeEach(() => {
+          webWidget = instanceRender(
+            <WebWidget
+              activeEmbed=''
+              chatStandalone={true}
               updateActiveEmbed={updateActiveEmbedSpy}
               channelChoice={false} />
           );

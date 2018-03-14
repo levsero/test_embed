@@ -14,7 +14,8 @@ export class Form extends Component {
     isMobile: PropTypes.bool,
     submitButtonLabel: PropTypes.string,
     onCompleted: PropTypes.func,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    submitButtonClasses: PropTypes.string
   };
 
   static defaultProps = {
@@ -25,7 +26,8 @@ export class Form extends Component {
     isMobile: false,
     submitButtonLabel: '',
     onCompleted: () => {},
-    onChange: () => {}
+    onChange: () => {},
+    submitButtonClasses: ''
   };
 
   constructor() {
@@ -69,6 +71,7 @@ export class Form extends Component {
     return (
       <ButtonGroup fullscreen={this.props.isMobile} rtl={this.props.rtl}>
         <Button
+          className={this.props.submitButtonClasses}
           fullscreen={this.props.isMobile}
           label={this.props.submitButtonLabel}
           disabled={!this.state.valid}

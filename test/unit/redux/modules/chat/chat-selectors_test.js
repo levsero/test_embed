@@ -23,7 +23,10 @@ describe('chat selectors', () => {
     getUserSoundSettings,
     getEmailTranscript,
     getShowRatingScreen,
-    getThemeShowAvatar;
+    getThemeShowAvatar,
+    getOfflineFormFields,
+    getOfflineFormSettings,
+    getChatOfflineForm;
 
   beforeEach(() => {
     mockery.enable();
@@ -69,6 +72,9 @@ describe('chat selectors', () => {
     getEmailTranscript = selectors.getEmailTranscript;
     getShowRatingScreen = selectors.getShowRatingScreen;
     getThemeShowAvatar = selectors.getThemeShowAvatar;
+    getOfflineFormFields = selectors.getOfflineFormFields;
+    getOfflineFormSettings = selectors.getOfflineFormSettings;
+    getChatOfflineForm = selectors.getChatOfflineForm;
   });
 
   afterEach(() => {
@@ -222,6 +228,40 @@ describe('chat selectors', () => {
     });
   });
 
+  describe('getOfflineFormFields', () => {
+    let result;
+    const mockAccountSettings = {
+      offlineForm: {
+        form: {
+          0: { name: 'name', required: true },
+          1: { name: 'email', required: true },
+          2: { name: 'phone', label: 'Phone Number', required: true },
+          3: { name: 'message', label: 'Message', required: false }
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getOfflineFormFields({
+        chat: {
+          accountSettings: mockAccountSettings
+        }
+      });
+    });
+
+    it('returns offline fields grouped by their name', () => {
+      const expectedResult = {
+        name: { name: 'name', required: true },
+        email: { name: 'email', required: true },
+        phone: { name: 'phone', label: 'Phone Number', required: true },
+        message: { name: 'message', label: 'Message', required: false }
+      };
+
+      expect(result)
+        .toEqual(expectedResult);
+    });
+  });
+
   describe('getRatingSettings', () => {
     let result;
     const ratingSettings = { enabled: true };
@@ -260,6 +300,26 @@ describe('chat selectors', () => {
     it('returns the value of accountSettings.prechatForm', () => {
       expect(result)
         .toEqual('foo');
+    });
+  });
+
+  describe('getOfflineFormSettings', () => {
+    let result;
+    const mockChatSettings = {
+      chat: {
+        accountSettings: {
+          offlineForm: 'bar'
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getOfflineFormSettings(mockChatSettings);
+    });
+
+    it('returns the value of accountSettings.offlineForm', () => {
+      expect(result)
+        .toEqual('bar');
     });
   });
 
@@ -1015,6 +1075,32 @@ describe('chat selectors', () => {
       const expectation = false;
 
       assertState('bubble', expectation);
+    });
+  });
+
+  describe('getChatOfflineForm', () => {
+    let result,
+      mockChatSettings;
+
+    beforeEach(() => {
+      mockChatSettings = {
+        chat: {
+          formState: {
+            offlineForm: {
+              name: 'Sizuki',
+              phone: '123456789',
+              email: 'foo@bar.com',
+              message: 'baz'
+            }
+          }
+        }
+      };
+      result = getChatOfflineForm(mockChatSettings);
+    });
+
+    it(`returns the current state of the notification's count`, () => {
+      expect(result)
+        .toEqual(mockChatSettings.chat.formState.offlineForm);
     });
   });
 });
