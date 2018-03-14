@@ -61,30 +61,6 @@ describe('MessageOptions component', () => {
               .toContain('firstItemBorders');
           });
         });
-
-        it('does not render middle option items with first/last styles', ()=> {
-          const middleItems = response.props.children;
-
-          _.slice(middleItems, 1, response.props.children.length - 2).forEach(optionItem => {
-            const classes = optionItem.props.className;
-
-            expect(classes)
-              .not
-              .toContain('firstItemBorders');
-
-            expect(classes)
-              .not
-              .toContain('lastItemBorders');
-          });
-        });
-
-        it('renders last option item with correct styles', () => {
-          const lastItem = _.last(response.props.children);
-          const lastItemClasses = lastItem.props.className;
-
-          expect(lastItemClasses)
-            .toContain('lastItemBorders');
-        });
       });
 
       describe('when a custom option style is not provided', () => {
@@ -112,30 +88,6 @@ describe('MessageOptions component', () => {
               .toContain('firstItemBorders');
           });
         });
-
-        it('does not render middle option items with first/last styles', ()=> {
-          const middleItems = response.props.children;
-
-          _.slice(middleItems, 1, response.props.children.length - 2).forEach(optionItem => {
-            const classes = optionItem.props.className;
-
-            expect(classes)
-              .not
-              .toContain('firstItemBorders');
-
-            expect(classes)
-              .not
-              .toContain('lastItemBorders');
-          });
-        });
-
-        it('renders last option item with correct styles', () => {
-          const lastItem = _.last(response.props.children);
-          const lastItemClasses = lastItem.props.className;
-
-          expect(lastItemClasses)
-            .toContain('lastItemBorders');
-        });
       });
     });
 
@@ -155,6 +107,10 @@ describe('MessageOptions component', () => {
 
             expect(classes)
               .toContain('optionItem');
+
+            expect(classes)
+              .not
+              .toContain('yolo');
           });
         });
 
@@ -164,38 +120,18 @@ describe('MessageOptions component', () => {
 
           expect(firstItemClasses)
             .toContain('firstItemBorders');
-
-          expect(firstItemClasses)
-            .not
-            .toContain('lastItemBorders');
         });
 
-        it('does not render middle option items with first/last styles', ()=> {
+        it('does not render remaining option items with firstItemBorders styles', ()=> {
           const middleItems = response.props.children;
 
-          _.slice(middleItems, 1, response.props.children.length - 2).forEach(optionItem => {
+          _.slice(middleItems, 1).forEach(optionItem => {
             const classes = optionItem.props.className;
 
             expect(classes)
               .not
               .toContain('firstItemBorders');
-
-            expect(classes)
-              .not
-              .toContain('lastItemBorders');
           });
-        });
-
-        it('renders last option item with correct styles', () => {
-          const lastItem = _.last(response.props.children);
-          const lastItemClasses = lastItem.props.className;
-
-          expect(lastItemClasses)
-            .not
-            .toContain('firstItemBorders');
-
-          expect(lastItemClasses)
-            .toContain('lastItemBorders');
         });
       });
 
@@ -226,38 +162,18 @@ describe('MessageOptions component', () => {
 
           expect(firstItemClasses)
             .toContain('firstItemBorders');
-
-          expect(firstItemClasses)
-            .not
-            .toContain('lastItemBorders');
         });
 
-        it('does not render middle option items with first/last styles', ()=> {
+        it('does not render remaining option items with firstItemBorders', ()=> {
           const middleItems = response.props.children;
 
-          _.slice(middleItems, 1, response.props.children.length - 2).forEach(optionItem => {
+          _.slice(middleItems, 1).forEach(optionItem => {
             const classes = optionItem.props.className;
 
             expect(classes)
               .not
               .toContain('firstItemBorders');
-
-            expect(classes)
-              .not
-              .toContain('lastItemBorders');
           });
-        });
-
-        it('renders last option item with correct styles', () => {
-          const lastItem = _.last(response.props.children);
-          const lastItemClasses = lastItem.props.className;
-
-          expect(lastItemClasses)
-            .not
-            .toContain('firstItemBorders');
-
-          expect(lastItemClasses)
-            .toContain('lastItemBorders');
         });
       });
     });

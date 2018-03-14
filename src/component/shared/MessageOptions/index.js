@@ -22,8 +22,7 @@ export class MessageOptions extends Component {
         styles.optionItem,
         this.props.optionItemClasses,
         {
-          [styles.firstItemBorders]: index === 0 && !this.props.isMessageBubbleLinked,
-          [styles.lastItemBorders]: index === this.props.optionItems.length - 1
+          [styles.firstItemBorders]: index === 0 && !this.props.isMessageBubbleLinked
         }
       );
 
