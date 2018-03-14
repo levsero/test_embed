@@ -942,19 +942,38 @@ describe('HelpCenter component', () => {
 
   describe('onContainerClick', () => {
     let helpCenter,
-      updateChannelChoiceShownSpy;
+      updateChannelChoiceShownSpy,
+      channelChoiceShown;
 
     beforeEach(() => {
       updateChannelChoiceShownSpy = jasmine.createSpy('updateChannelChoiceShown');
 
-      helpCenter = instanceRender(<HelpCenter updateChannelChoiceShown={updateChannelChoiceShownSpy} />);
+      helpCenter = instanceRender(<HelpCenter updateChannelChoiceShown={updateChannelChoiceShownSpy} channelChoiceShown={channelChoiceShown}/>);
 
       helpCenter.onContainerClick();
     });
 
-    it('calls updateChannelChoiceShown with false', () => {
-      expect(updateChannelChoiceShownSpy)
-        .toHaveBeenCalledWith(false);
+    describe('when channelChoiceShown prop is true', () => {
+      beforeAll(() => {
+        channelChoiceShown = true;
+      });
+
+      it('calls updateChannelChoiceShown with false', () => {
+        expect(updateChannelChoiceShownSpy)
+          .toHaveBeenCalledWith(false);
+      });
+    });
+
+    describe('when channelChoiceShown prop is false', () => {
+      beforeAll(() => {
+        channelChoiceShown = false;
+      });
+
+      it('does not call updateChannelChoiceShown', () => {
+        expect(updateChannelChoiceShownSpy)
+          .not
+          .toHaveBeenCalled();
+      });
     });
   });
 

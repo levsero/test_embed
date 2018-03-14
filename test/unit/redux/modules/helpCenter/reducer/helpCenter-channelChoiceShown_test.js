@@ -28,12 +28,12 @@ describe('helpCenter reducer channelChoiceShown', () => {
     });
   });
 
-  describe('when an NEXT_BUTTON_CLICKED action is dispatched', () => {
+  describe('when an CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN action is dispatched', () => {
     let state;
 
     beforeEach(() => {
       state = reducer(initialState, {
-        type: actionTypes.NEXT_BUTTON_CLICKED,
+        type: actionTypes.CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN,
         payload: true
       });
     });
