@@ -17,7 +17,7 @@ import { SEARCH_REQUEST_SENT,
          ORIGINAL_ARTICLE_CLICKED,
          ARTICLE_CLOSED,
          ADD_RESTRICTED_IMAGE,
-         NEXT_BUTTON_CLICKED,
+         CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN,
          GET_ARTICLE_REQUEST_SENT,
          GET_ARTICLE_REQUEST_SUCCESS,
          GET_ARTICLE_REQUEST_FAILURE,
@@ -137,7 +137,7 @@ export function addRestrictedImage(img) {
 
 export function updateChannelChoiceShown(bool) {
   return {
-    type: NEXT_BUTTON_CLICKED,
+    type: CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN,
     payload: bool
   };
 }

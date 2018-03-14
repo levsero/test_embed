@@ -450,9 +450,9 @@ describe('helpCenter redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type NEXT_BUTTON_CLICKED', () => {
+    it('dispatches an action of type CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN', () => {
       expect(action.type)
-        .toEqual(actionTypes.NEXT_BUTTON_CLICKED);
+        .toEqual(actionTypes.CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN);
     });
 
     it('contains the boolean value in the payload', () => {

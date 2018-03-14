@@ -286,7 +286,9 @@ class HelpCenter extends Component {
   }
 
   onContainerClick = () => {
-    this.props.updateChannelChoiceShown(false);
+    if (this.props.channelChoiceShown) {
+      this.props.updateChannelChoiceShown(false);
+    }
   }
 
   renderResults = () => {
