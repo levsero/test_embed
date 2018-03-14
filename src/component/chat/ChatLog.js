@@ -15,10 +15,11 @@ export class ChatLog extends Component {
     agents: PropTypes.object,
     chatCommentLeft: PropTypes.bool.isRequired,
     goToFeedbackScreen: PropTypes.func.isRequired,
-    showAvatar: PropTypes.bool.isRequired
+    showAvatar: PropTypes.bool.isRequired,
+    handleSendMsg: PropTypes.func
   };
 
-  renderChatLog(chatLog, agents, chatCommentLeft, goToFeedbackScreen, showAvatar) {
+  renderChatLog(chatLog, agents, chatCommentLeft, goToFeedbackScreen, showAvatar, handleSendMsg) {
     const chatLogEl = _.map(chatLog, (chatLogItem, timestamp) => {
       // message groups and events are both returned as arrays; we can determine the type of the entire timestamped item 'group' by reading the type value of the first entry
       const chatLogItemType = _.get(chatLogItem, '0.type');
@@ -35,7 +36,8 @@ export class ChatLog extends Component {
             isAgent={isAgent}
             messages={chatGroup}
             avatarPath={avatarPath}
-            showAvatar={showAvatar} />
+            showAvatar={showAvatar}
+            handleSendMsg={handleSendMsg} />
         );
       } else if (_.includes(CHAT_SYSTEM_EVENTS, chatLogItemType)) {
         const event = chatLogItem[0];
@@ -74,8 +76,8 @@ export class ChatLog extends Component {
   }
 
   render() {
-    const { chatLog, agents, chatCommentLeft, goToFeedbackScreen, showAvatar } = this.props;
+    const { chatLog, agents, chatCommentLeft, goToFeedbackScreen, showAvatar, handleSendMsg } = this.props;
 
-    return this.renderChatLog(chatLog, agents, chatCommentLeft, goToFeedbackScreen, showAvatar);
+    return this.renderChatLog(chatLog, agents, chatCommentLeft, goToFeedbackScreen, showAvatar, handleSendMsg);
   }
 }

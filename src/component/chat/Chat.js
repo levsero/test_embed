@@ -332,7 +332,7 @@ class Chat extends Component {
   }
 
   renderChatScreen = () => {
-    const { screen, ratingSettings, agents, isMobile } = this.props;
+    const { screen, ratingSettings, agents, isMobile, sendMsg } = this.props;
 
     if (screen !== screens.CHATTING_SCREEN) return;
     const showRating = ratingSettings.enabled && _.size(agents) > 0;
@@ -354,6 +354,7 @@ class Chat extends Component {
             agents={this.props.agents}
             chatCommentLeft={!!this.props.rating.comment}
             goToFeedbackScreen={() => this.props.updateChatScreen(screens.FEEDBACK_SCREEN)}
+            handleSendMsg={sendMsg}
           />
           {this.renderAgentTyping()}
         </div>

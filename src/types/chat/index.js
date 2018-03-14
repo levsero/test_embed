@@ -6,6 +6,7 @@ const chatMessage = PropTypes.shape({
   nick: PropTypes.string.isRequired,
   display_name: PropTypes.string.isRequired, // eslint-disable-line camelcase
   msg: PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.string),
   attachment: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.shape({

@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import chatPropTypes from 'types/chat';
+
 import _ from 'lodash';
 
 import { Avatar } from 'component/Avatar';
-import { MessageBubble } from 'component/chat/MessageBubble';
+import { MessageBubble } from 'component/shared/MessageBubble';
 import { ImageMessage } from 'component/chat/ImageMessage';
 import { Attachment } from 'component/attachment/Attachment';
 import { ICONS, FILETYPE_ICONS } from 'constants/shared';
+
 import { locals as styles } from './ChatGroup.scss';
 
 export class ChatGroup extends Component {
   static propTypes = {
     messages: PropTypes.arrayOf(chatPropTypes.chatMessage),
-    isAgent: PropTypes.bool,
+    isAgent: PropTypes.bool.isRequired,
     avatarPath: PropTypes.string,
-    showAvatar: PropTypes.bool.isRequired
+    showAvatar: PropTypes.bool.isRequired,
+    handleSendMsg: PropTypes.func
   };
 
   static defaultProps = {
@@ -33,7 +36,7 @@ export class ChatGroup extends Component {
 
   renderChatMessages = (isAgent, showAvatar, messages) => {
     const userClasses = isAgent ? styles.messageAgent : styles.messageUser;
-    const messageStyle = showAvatar ? styles.messageBubble : '';
+    const messageBubbleClasses = showAvatar ? styles.messageBubble : '';
     const userBackgroundStyle = isAgent ? styles.agentBackground : styles.userBackground;
 
     return messages.map((chat) => {
@@ -42,8 +45,10 @@ export class ChatGroup extends Component {
       if (chat.msg) {
         message = (
           <MessageBubble
-            className={`${messageStyle} ${userBackgroundStyle}`}
+            className={`${messageBubbleClasses} ${userBackgroundStyle}`}
             message={chat.msg}
+            options={chat.options}
+            handleSendMsg={this.props.handleSendMsg}
           />
         );
       } else if (chat.file || chat.attachment) {
