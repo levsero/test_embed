@@ -888,13 +888,6 @@ parts:
       value: "https://www.zendesk.com/embeddables/"
       screenshot: "https://zendesk.box.com/s/qmyogztvns6u9t8ti56g4ulbdrakvj81"
       hidden: true
-  - translation:
-      key: "embeddable_framework.zendeskLogo.powered_by_url.connect"
-      title: "URL for the Powered By Zendesk link in the Connect IPM"
-      value: "https://www.zendesk.com/connect/"
-      screenshot: "https://zendesk.box.com/s/gbj1x0hjotrzqboq01kslqrhqq523rbk"
-      hidden: true
-      obsolete: "2017-11-06"
 
   # Talk
   - translation:
