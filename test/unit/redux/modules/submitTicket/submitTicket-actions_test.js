@@ -82,7 +82,7 @@ describe('submitTicket redux actions', () => {
       expect(httpGetSpy)
         .toHaveBeenCalledWith(jasmine.objectContaining({
           method: 'get',
-          path: '/api/v2/ticket_forms/show_many.json?ids=1,2,4&include=ticket_fields',
+          path: '/api/v2/ticket_forms/show_many.json?ids=1,2,4&include=ticket_fields&locale=fr',
           locale
         }), false);
     });
