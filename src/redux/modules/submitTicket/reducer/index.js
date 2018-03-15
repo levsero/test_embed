@@ -5,11 +5,15 @@ import loading from './submitTicket-loading';
 import ticketForms from './submitTicket-forms';
 import ticketFields from './submitTicket-fields';
 import activeForm from './submitTicket-activeForm';
+import errorMsg from './submitTicket-errorMsg';
+import notification from './submitTicket-notification';
 
 export default combineReducers({
   formState,
   loading,
   ticketForms,
   ticketFields,
-  activeForm
+  activeForm,
+  errorMsg,
+  notification
 });

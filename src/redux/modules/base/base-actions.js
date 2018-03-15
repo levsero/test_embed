@@ -4,7 +4,8 @@ import {
   UPDATE_BACK_BUTTON_VISIBILITY,
   UPDATE_AUTHENTICATED,
   UPDATE_WIDGET_SHOWN,
-  IDENTIFY_RECIEVED
+  IDENTIFY_RECIEVED,
+  WIDGET_HIDE_ANIMATION_COMPLETE
 } from './base-action-types';
 import { chatOpened } from 'src/redux/modules/chat';
 import { emailValid } from 'utility/utils';
@@ -74,5 +75,11 @@ export const handleIdentifyRecieved = (payload) => {
   return {
     type: IDENTIFY_RECIEVED,
     payload: userDetails
+  };
+};
+
+export const widgetHideAnimationComplete = () => {
+  return {
+    type: WIDGET_HIDE_ANIMATION_COMPLETE
   };
 };

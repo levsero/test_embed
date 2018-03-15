@@ -83,15 +83,12 @@ class WebWidget extends Component {
     subjectEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     submitTicketConfig: PropTypes.object,
-    submitTicketSender: PropTypes.func,
-    tags: PropTypes.array,
     ticketForms: PropTypes.array.isRequired,
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
     zopimOnNext: PropTypes.func,
     closeFrame: PropTypes.func,
-    viaId: PropTypes.number.isRequired,
     zendeskHost: PropTypes.string.isRequired,
     zendeskSubdomain: PropTypes.string.isRequired,
     updateActiveEmbed: PropTypes.func.isRequired,
@@ -132,7 +129,6 @@ class WebWidget extends Component {
     submitTicketAvailable: true,
     submitTicketConfig: {},
     showTicketFormsBackButton: false,
-    tags: [],
     ticketFieldSettings: [],
     ticketFormSettings: [],
     updateBackButtonVisibility: () => {},
@@ -419,12 +415,9 @@ class WebWidget extends Component {
           showBackButton={this.props.updateBackButtonVisibility}
           style={this.props.style}
           subjectEnabled={this.props.subjectEnabled}
-          submitTicketSender={this.props.submitTicketSender}
-          tags={this.props.tags}
           ticketFieldSettings={this.props.ticketFieldSettings}
           ticketFormSettings={this.props.ticketFormSettings}
           updateFrameSize={this.props.updateFrameSize}
-          viaId={this.props.viaId}
           fullscreen={this.props.fullscreen} />
       </div>
     );

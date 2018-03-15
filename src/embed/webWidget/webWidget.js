@@ -85,9 +85,6 @@ export default function WebWidgetFactory(name) {
           rootComponent.resetState();
         }
       }
-      if (rootComponent.clearNotification) {
-        rootComponent.clearNotification();
-      }
       if (rootComponent.pauseAllVideos) {
         rootComponent.pauseAllVideos();
       }
@@ -217,15 +214,12 @@ export default function WebWidgetFactory(name) {
           position={globalConfig.position}
           style={containerStyle}
           subjectEnabled={settings.get('contactForm.subject')}
-          tags={settings.get('contactForm.tags')}
           ticketFormSettings={settings.get('contactForm.ticketForms')}
           ticketFieldSettings={settings.get('contactForm.fields')}
           submitTicketAvailable={submitTicketAvailable}
           submitTicketConfig={submitTicketSettings.config}
-          submitTicketSender={submitTicketSettings.submitTicketSender}
           talkConfig={talkConfig}
           talkAvailable={talkAvailable}
-          viaId={settings.get('viaId')}
           zendeskHost={http.getZendeskHost()}
           zendeskSubdomain={zendeskSubdomain}
           zopimOnNext={zopimOnNext} />
@@ -266,13 +260,7 @@ export default function WebWidgetFactory(name) {
 
   function hide(options) {
     waitForRootComponent(() => {
-      const rootComponent = getRootComponent();
-
       embed.instance.hide(options);
-
-      if (rootComponent && rootComponent.state && rootComponent.state.showNotification) {
-        rootComponent.clearNotification();
-      }
     });
   }
 
@@ -481,19 +469,6 @@ export default function WebWidgetFactory(name) {
       config.attachmentsEnabled = false;
     }
 
-    const submitTicketSender = (params, doneFn, failFn) => {
-      const payload = {
-        method: 'post',
-        path: '/api/v2/requests',
-        params: params,
-        callbacks: {
-          done: doneFn,
-          fail: failFn
-        }
-      };
-
-      http.send(payload);
-    };
     const attachmentSender = (file, doneFn, failFn, progressFn) => {
       const payload = {
         method: 'post',
@@ -572,7 +547,6 @@ export default function WebWidgetFactory(name) {
       config,
       ticketForms,
       customFields,
-      submitTicketSender,
       attachmentSender,
       onSubmitted,
       onCancel

@@ -1,6 +1,8 @@
 describe('submitTicket selectors', () => {
   let getFormState,
     getLoading,
+    getErrorMsg,
+    getShowNotification,
     getActiveTicketForm,
     getTicketFormsAvailable,
     getTicketFieldsAvailable,
@@ -19,6 +21,8 @@ describe('submitTicket selectors', () => {
 
     getFormState = selectors.getFormState;
     getLoading = selectors.getLoading;
+    getErrorMsg = selectors.getErrorMsg;
+    getShowNotification = selectors.getShowNotification;
     getTicketFields = selectors.getTicketFields;
     getTicketForms = selectors.getTicketForms;
     getActiveTicketForm = selectors.getActiveTicketForm;
@@ -231,6 +235,44 @@ describe('submitTicket selectors', () => {
 
       expect(doesNotInclude(420))
         .toBe(true);
+    });
+  });
+
+  describe('getErrorMsg', () => {
+    let result;
+    const mockSubmitTicketState = {
+      submitTicket: {
+        errorMsg: 'oh no'
+      }
+    };
+
+    beforeEach(() => {
+      result = getErrorMsg(mockSubmitTicketState);
+    });
+
+    it('returns the current state of getErrorMsg', () => {
+      expect(result)
+        .toEqual('oh no');
+    });
+  });
+
+  describe('getShowNotification', () => {
+    let result;
+    const mockSubmitTicketState = {
+      submitTicket: {
+        notification: {
+          show: true
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getShowNotification(mockSubmitTicketState);
+    });
+
+    it('returns the current state of notification.show', () => {
+      expect(result)
+        .toEqual(true);
     });
   });
 });
