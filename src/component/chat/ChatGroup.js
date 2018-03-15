@@ -11,6 +11,7 @@ import { Attachment } from 'component/attachment/Attachment';
 import { ICONS, FILETYPE_ICONS } from 'constants/shared';
 
 import { locals as styles } from './ChatGroup.scss';
+import classNames from 'classnames';
 
 export class ChatGroup extends Component {
   static propTypes = {
@@ -28,16 +29,26 @@ export class ChatGroup extends Component {
 
   renderName = (isAgent, showAvatar, messages) => {
     const name = _.get(messages, '0.display_name');
-    const nameStyles = showAvatar ? styles.nameAvatar : styles.nameNoAvatar;
+    const nameClasses = showAvatar ? styles.nameAvatar : styles.nameNoAvatar;
 
     return isAgent && name ?
-      <div className={nameStyles}>{name}</div> : null;
+      <div className={nameClasses}>{name}</div> : null;
   }
 
   renderChatMessages = (isAgent, showAvatar, messages) => {
-    const userClasses = isAgent ? styles.messageAgent : styles.messageUser;
-    const messageBubbleClasses = showAvatar ? styles.messageBubble : '';
-    const userBackgroundStyle = isAgent ? styles.agentBackground : styles.userBackground;
+    const messageClasses = classNames(
+      styles.message,
+      {
+        [styles.messageUser]: !isAgent,
+        [styles.messageAgent]: isAgent
+      }
+    );
+
+    const messageBubbleClasses = classNames({
+      [styles.messageBubble]: showAvatar,
+      [styles.userBackground]: !isAgent,
+      [styles.agentBackground]: isAgent
+    });
 
     return messages.map((chat) => {
       let message;
@@ -45,7 +56,7 @@ export class ChatGroup extends Component {
       if (chat.msg) {
         message = (
           <MessageBubble
-            className={`${messageBubbleClasses} ${userBackgroundStyle}`}
+            className={messageBubbleClasses}
             message={chat.msg}
             options={chat.options}
             handleSendMsg={this.props.handleSendMsg}
@@ -57,7 +68,7 @@ export class ChatGroup extends Component {
 
       return (
         <div key={chat.timestamp} className={styles.wrapper}>
-          <div className={`${styles.message} ${userClasses}`}>
+          <div className={messageClasses}>
             {message}
           </div>
         </div>
@@ -102,10 +113,14 @@ export class ChatGroup extends Component {
   }
 
   renderAvatar = (showAvatarAsAgent, avatarPath = '') => {
-    const avatarStyles = avatarPath ? styles.avatarWithSrc : styles.avatarDefault;
+    const avatarClasses = avatarPath ? styles.avatarWithSrc : styles.avatarDefault;
 
     return showAvatarAsAgent ?
-      <Avatar className={avatarStyles} src={avatarPath} fallbackIcon="Icon--agent-avatar" /> : null;
+      <Avatar
+        className={avatarClasses}
+        src={avatarPath}
+        fallbackIcon='Icon--agent-avatar'
+      /> : null;
   }
 
   render() {

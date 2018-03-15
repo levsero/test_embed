@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { locals as styles } from './ImageMessage.scss';
+import classNames from 'classnames';
 
 export class ImageMessage extends Component {
   static propTypes = {
@@ -20,15 +21,18 @@ export class ImageMessage extends Component {
   }
 
   render() {
-    const { className, imgSrc, placeholderEl } = this.props;
-    const imageStyles = this.state.loading ? styles.hidden : '';
+    const imageClasses = classNames(
+      styles.container,
+      this.props.className,
+      { [styles.hidden]: this.state.loading }
+    );
 
     return (
       <div>
-        {this.state.loading && placeholderEl}
-        <div className={`${styles.container} ${className} ${imageStyles}`}>
-          <a className={styles.link} target="_blank" href={imgSrc}>
-            <img src={imgSrc} onLoad={this.onLoad} />
+        {this.state.loading && this.props.placeholderEl}
+        <div className={imageClasses}>
+          <a className={styles.link} target="_blank" href={this.props.imgSrc}>
+            <img src={this.props.imgSrc} onLoad={this.onLoad} />
           </a>
         </div>
       </div>

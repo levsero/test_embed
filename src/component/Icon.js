@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { locals as styles } from './Icon.scss';
 import { isMobileBrowser } from 'utility/devices';
+import { locals as styles } from './Icon.scss';
+import classNames from 'classnames';
 
 const icons = {
   'Icon': require('icons/widget-icon_help.svg'),
@@ -53,20 +54,16 @@ export class Icon extends Component {
   };
 
   static defaultProps = {
-    className: '',
-    isMobile: isMobileBrowser(),
-    onClick: () => {},
-    type: ''
+    isMobile: isMobileBrowser()
   };
 
-  render = () => {
+  render() {
     const icon = icons[this.props.type];
-    const deviceStyle = this.props.isMobile ? styles.mobile : '';
-    const iconClasses = `
-      ${this.props.type}
-      ${this.props.className}
-      ${deviceStyle}
-    `;
+    const iconClasses = classNames(
+      this.props.className,
+      this.props.type,
+      { [styles.mobile]: this.props.isMobile }
+    );
 
     return (
       <span

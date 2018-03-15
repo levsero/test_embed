@@ -282,6 +282,11 @@
   padding-right: #{8/$font-size}rem;
   margin-top: #{4/$font-size}rem;
 
+  [dir='rtl'] & {
+    padding-left: #{8/$font-size}rem;
+    padding-right: 0;
+  }
+
   svg {
     min-width: #{24/$font-size}rem; /* 1 */
     min-height: #{24/$font-size}rem; /* 1 */
