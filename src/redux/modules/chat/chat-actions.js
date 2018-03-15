@@ -288,3 +288,15 @@ export function chatOfflineFormChanged(formState) {
     payload: formState
   };
 }
+
+export function setDepartment(departmentId, successCallback, errCallback) {
+  return () => {
+    zChat.setVisitorDefaultDepartment(departmentId, (err) => {
+      if (!err) {
+        successCallback();
+      } else {
+        errCallback(err);
+      }
+    });
+  };
+}
