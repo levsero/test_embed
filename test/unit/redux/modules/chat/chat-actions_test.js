@@ -648,7 +648,8 @@ describe('chat redux actions', () => {
   });
 
   describe('sendAttachment', () => {
-    let fileList, action;
+    let fileList,
+      action;
 
     beforeEach(() => {
       fileList = [
@@ -656,7 +657,7 @@ describe('chat redux actions', () => {
           lastModified: 1514764800000,
           lastModifiedDate: 'Mon Jan 01 2018 11:00:00 GMT+1100 (AEDT)',
           name: 'icecream.jpg',
-          size: 10000,
+          size: 1024,
           type: 'image/jpeg'
         }
       ];
@@ -680,60 +681,79 @@ describe('chat redux actions', () => {
       expect(action.payload)
         .toEqual(jasmine.objectContaining({
           type: 'chat.file',
-          file: fileList[0],
+          timestamp: Date.now(),
           nick: mockVisitor.nick,
           display_name: mockVisitor.display_name,
-          timestamp: Date.now(),
-          uploading: true
+          file: {
+            ...fileList[0],
+            uploading: true
+          }
         }));
     });
 
     describe('Web SDK callback', () => {
-      let callbackFn, endpointData;
+      let callbackFn,
+        data,
+        err;
 
       beforeEach(() => {
         const sendFileCall = mockSendFile.calls.mostRecent().args;
 
-        endpointData = { url: 'something.com/46278rfa' };
-
+        data = { url: 'something.com/46278rfa' };
         callbackFn = sendFileCall[1];
       });
 
       describe('when there are no errors', () => {
         beforeEach(() => {
-          callbackFn(false, endpointData);
-
+          callbackFn(false, data);
           action = mockStore.getActions()[1];
         });
 
         it('dispatches a CHAT_FILE_REQUEST_SUCCESS action', () => {
-          expect(action)
-            .toEqual(jasmine.objectContaining({
-              type: actionTypes.CHAT_FILE_REQUEST_SUCCESS
-            }));
+          expect(action.type)
+            .toEqual(actionTypes.CHAT_FILE_REQUEST_SUCCESS);
         });
 
         it('has the correct params in the payload', () => {
           expect(action.payload)
             .toEqual(jasmine.objectContaining({
               type: 'chat.file',
-              uploading: false,
-              attachment: endpointData.url
+              timestamp: Date.now(),
+              nick: mockVisitor.nick,
+              display_name: mockVisitor.display_name,
+              file: {
+                ...fileList[0],
+                url: data.url,
+                uploading: false
+              }
             }));
         });
       });
 
       describe('when there are errors', () => {
         beforeEach(() => {
-          callbackFn(true);
-
+          err = { message: 'EXCEED_SIZE_ERROR' };
+          callbackFn(err, data);
           action = mockStore.getActions()[1];
         });
 
         it('dispatches a CHAT_FILE_REQUEST_FAILURE action', () => {
-          expect(action)
+          expect(action.type)
+            .toEqual(actionTypes.CHAT_FILE_REQUEST_FAILURE);
+        });
+
+        it('has the correct params in the payload', () => {
+          expect(action.payload)
             .toEqual(jasmine.objectContaining({
-              type: actionTypes.CHAT_FILE_REQUEST_FAILURE
+              type: 'chat.file',
+              timestamp: Date.now(),
+              nick: mockVisitor.nick,
+              display_name: mockVisitor.display_name,
+              file: {
+                ...fileList[0],
+                error: err,
+                uploading: false
+              }
             }));
         });
       });

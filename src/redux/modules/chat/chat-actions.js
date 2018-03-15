@@ -31,15 +31,16 @@ import {
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import { getChatVisitor, getShowRatingScreen } from 'src/redux/modules/chat/chat-selectors';
+import _ from 'lodash';
 
 const chatTypingTimeout = 2000;
 
 const getChatMessagePayload = (msg, visitor, timestamp) => ({
   type: 'chat.msg',
-  msg,
+  timestamp,
   nick: visitor.nick,
   display_name: visitor.display_name,
-  timestamp
+  msg
 });
 
 const sendMsgRequest = (msg, visitor, timestamp) => {
@@ -239,17 +240,22 @@ export function sendAttachment(fileList) {
   return (dispatch, getState) => {
     const visitor = getChatVisitor(getState());
     const file = fileList[0];
-    const time = Date.now();
+    const basePayload = {
+      type: 'chat.file',
+      timestamp: Date.now(),
+      nick: visitor.nick,
+      display_name: visitor.display_name
+    };
 
     dispatch({
       type: CHAT_FILE_REQUEST_SENT,
       payload: {
-        type: 'chat.file',
-        file,
-        nick: visitor.nick,
-        display_name: visitor.display_name,
-        timestamp: time,
-        uploading: true
+        ...basePayload,
+        // _.assign is intentionally used here as 'file' is an instance of the
+        // File class and isn't easily spread over/extended with native methods
+        file: _.assign(file, {
+          uploading: true
+        })
       }
     });
 
@@ -258,17 +264,24 @@ export function sendAttachment(fileList) {
         dispatch({
           type: CHAT_FILE_REQUEST_SUCCESS,
           payload: {
-            type: 'chat.file',
-            file,
-            attachment: data.url,
-            nick: visitor.nick,
-            display_name: visitor.display_name,
-            timestamp: time,
-            uploading: false
+            ...basePayload,
+            file: _.assign(file, {
+              url: data.url,
+              uploading: false
+            })
           }
         });
       } else {
-        dispatch({ type: CHAT_FILE_REQUEST_FAILURE });
+        dispatch({
+          type: CHAT_FILE_REQUEST_FAILURE,
+          payload: {
+            ...basePayload,
+            file: _.assign(file, {
+              error: err,
+              uploading: false
+            })
+          }
+        });
       }
     });
   };

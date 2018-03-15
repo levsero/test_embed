@@ -12,7 +12,8 @@ import {
   CHAT_MSG_REQUEST_SUCCESS,
   CHAT_MSG_REQUEST_SENT,
   CHAT_FILE_REQUEST_SENT,
-  CHAT_FILE_REQUEST_SUCCESS
+  CHAT_FILE_REQUEST_SUCCESS,
+  CHAT_FILE_REQUEST_FAILURE
 } from '../chat-action-types';
 
 const initialState = new Map();
@@ -40,6 +41,7 @@ const chats = (state = initialState, action) => {
     case CHAT_MSG_REQUEST_SENT:
     case CHAT_FILE_REQUEST_SENT:
     case CHAT_FILE_REQUEST_SUCCESS:
+    case CHAT_FILE_REQUEST_FAILURE:
       return concatChat(state, action.payload);
 
     case SDK_CHAT_WAIT_QUEUE:

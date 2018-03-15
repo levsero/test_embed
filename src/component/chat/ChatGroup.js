@@ -83,27 +83,24 @@ export class ChatGroup extends Component {
     const icon = FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT;
     const isImage = /(gif|jpe?g|png)$/i.test(extension);
 
-    // chat.uploading is never truthy on an incoming message, therefore the assignment below
-    // never occurs if the message group is from an agent AND it is an image
     inlineAttachment = (
       <Attachment
         className={styles.attachment}
-        downloading={!chat.uploading && isImage}
+        downloading={!file.error && !file.uploading && isImage}
         file={file}
         filenameMaxLength={20}
         icon={icon}
         isDownloadable={isAgent}
-        uploading={chat.uploading}
+        uploading={!file.error && file.uploading}
       />
     );
 
-    if (!chat.uploading && isImage) {
-      const imgSrc = _.isObject(chat.attachment) ? chat.attachment.url : chat.attachment;
-      const placeholderEl = !isAgent && inlineAttachment;
+    if (!file.uploading && isImage) {
+      const placeholderEl = !isAgent ? inlineAttachment : null;
 
       inlineAttachment = (
         <ImageMessage
-          imgSrc={imgSrc}
+          imgSrc={file.url}
           placeholderEl={placeholderEl}
         />
       );

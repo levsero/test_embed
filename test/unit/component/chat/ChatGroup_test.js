@@ -183,10 +183,10 @@ describe('ChatGroup component', () => {
             file: {
               type: 'image/jpeg',
               name: 'pancakes.jpg',
-              size: 1024
-            },
-            attachment: 'path://to/file',
-            uploading: false
+              size: 1024,
+              uploading: false,
+              url: 'path://to/file'
+            }
           }
         ];
       });
@@ -344,7 +344,7 @@ describe('ChatGroup component', () => {
 
         it('renders the component without a placeholder element', () => {
           expect(result.props).toEqual(jasmine.objectContaining({
-            placeholderEl: false
+            placeholderEl: null
           }));
         });
       });
@@ -389,9 +389,9 @@ describe('ChatGroup component', () => {
               file: {
                 type: 'image/jpeg',
                 name: 'tortoises.jpg',
-                size: 1024
-              },
-              uploading: true
+                size: 1024,
+                uploading: true
+              }
             };
           });
 
@@ -416,10 +416,10 @@ describe('ChatGroup component', () => {
               file: {
                 type: 'image/jpeg',
                 name: 'tortoises.jpg',
-                size: 1024
-              },
-              attachment: 'path://to/file',
-              uploading: false
+                size: 1024,
+                url: 'path://to/file',
+                uploading: false
+              }
             };
           });
 
@@ -428,7 +428,7 @@ describe('ChatGroup component', () => {
           });
 
           it('passes the correct imgSrc prop to the component', () => {
-            expect(result.props.imgSrc).toEqual(chat.attachment);
+            expect(result.props.imgSrc).toEqual(chat.file.url);
           });
 
           it('renders the component with an Attachment as the placeholder element', () => {
@@ -445,9 +445,9 @@ describe('ChatGroup component', () => {
           type: 'chat.file',
           file: {
             name: 'numbers.xls',
-            size: 128
-          },
-          uploading: true
+            size: 128,
+            uploading: true
+          }
         };
       });
 
@@ -462,9 +462,9 @@ describe('ChatGroup component', () => {
           type: 'chat.file',
           file: {
             name: 'readme.nfo',
-            size: 64
-          },
-          uploading: true
+            size: 64,
+            uploading: true
+          }
         };
       });
 
