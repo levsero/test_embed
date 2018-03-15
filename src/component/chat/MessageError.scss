@@ -1,0 +1,16 @@
+@import '../../styles/_vars.scss';
+
+.container {
+  color: $error-color;
+}
+
+.icon {
+  position: relative;
+  top: #{3/$font-size}rem;
+  margin-right: $spacing-tny;
+
+  [dir='rtl'] & {
+    margin-left: $spacing-tny;
+    margin-right: 0;
+  }
+}

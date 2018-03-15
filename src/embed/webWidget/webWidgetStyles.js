@@ -40,6 +40,9 @@ import HelpCenterResultsStyles from 'component/helpCenter/HelpCenterResults.scss
 import IconFieldButtonStyles from 'component/button/IconFieldButton.scss';
 import ImageMessageStyles from 'component/chat/ImageMessage.scss';
 import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.scss';
+import MessageBubbleStyles from 'component/shared/MessageBubble/MessageBubble.scss';
+import MessageErrorStyles from 'component/chat/MessageError.scss';
+import MessageOptionsStyles from 'component/shared/MessageOptions/MessageOptions.scss';
 import SearchFieldButtonStyles from 'component/button/SearchFieldButton.scss';
 import SearchFieldStyles from 'component/field/SearchField.scss';
 import SearchInputStyles from 'component/field/SearchInput.scss';
@@ -47,8 +50,6 @@ import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.scss';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.scss';
 import TalkStyles from 'component/talk/Talk.scss';
 import TalkPhoneFieldStyles from 'component/talk/TalkPhoneField.scss';
-import MessageOptionsStyles from 'component/shared/MessageOptions/MessageOptions.scss';
-import MessageBubbleStyles from 'component/shared/MessageBubble/MessageBubble.scss';
 import { sharedStyles } from 'embed/sharedStyles.js';
 
 export const webWidgetStyles = `
@@ -95,6 +96,9 @@ export const webWidgetStyles = `
   ${IconFieldButtonStyles}
   ${ImageMessageStyles}
   ${LoadingEllipsesStyles}
+  ${MessageBubbleStyles}
+  ${MessageErrorStyles}
+  ${MessageOptionsStyles}
   ${SearchFieldButtonStyles}
   ${SearchFieldStyles}
   ${SearchInputStyles}
@@ -102,6 +106,4 @@ export const webWidgetStyles = `
   ${SubmitTicketFormStyles}
   ${TalkStyles}
   ${TalkPhoneFieldStyles}
-  ${MessageOptionsStyles}
-  ${MessageBubbleStyles}
 `;
