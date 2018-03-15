@@ -235,7 +235,7 @@ export class TalkPhoneField extends Component {
         fullscreen={isMobileBrowser()}
         options={supportedCountries}
         optionFormat={this.renderDropdownOption}
-        selectionTextFormat={this.renderSelectionText}
+        selectionFormat={this.renderSelectionText}
         onChange={this.handleCountrySelected}
         containerClassName={styles.dropdownContainer}
         menuContainerClassName={styles.menuContainer}
