@@ -14,3 +14,16 @@
   color: $zd-color-dark-gray;
   margin-bottom: #{13/$font-size}rem;
 }
+
+.dropdown {
+  composes: u-marginBL from global;
+}
+
+.dropdownMenuContainer {
+  height: auto !important;
+  max-height: #{200/$font-size}rem;
+}
+
+.defaultDropdownText {
+  color: $zd-color-iron;
+}
