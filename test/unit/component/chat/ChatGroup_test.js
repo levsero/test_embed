@@ -1,21 +1,29 @@
 describe('ChatGroup component', () => {
   let ChatGroup,
+    ATTACHMENT_ERROR_TYPES,
     ICONS,
-    FILETYPE_ICONS;
+    FILETYPE_ICONS,
+    i18n;
 
   const chatGroupPath = buildSrcPath('component/chat/ChatGroup');
+  const chatConstantsPath = buildSrcPath('constants/chat');
   const sharedConstantsPath = buildSrcPath('constants/shared');
 
   const Avatar = noopReactComponent();
   const MessageBubble = noopReactComponent();
-  const ImageMessage = noopReactComponent();
   const Attachment = noopReactComponent();
+  const MessageError = noopReactComponent();
+  const ImageMessage = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
 
+    ATTACHMENT_ERROR_TYPES = requireUncached(chatConstantsPath).ATTACHMENT_ERROR_TYPES;
     ICONS = requireUncached(sharedConstantsPath).ICONS;
     FILETYPE_ICONS = requireUncached(sharedConstantsPath).FILETYPE_ICONS;
+    i18n = {
+      t: jasmine.createSpy().and.callFake((key) => { return key; })
+    };
 
     initMockRegistry({
       'types/chat': {
@@ -23,11 +31,18 @@ describe('ChatGroup component', () => {
       },
       'component/Avatar': { Avatar },
       'component/shared/MessageBubble': { MessageBubble },
-      'component/chat/ImageMessage': { ImageMessage },
       'component/attachment/Attachment': { Attachment },
+      'component/chat/MessageError': { MessageError },
+      'component/chat/ImageMessage': { ImageMessage },
+      'constants/chat': {
+        ATTACHMENT_ERROR_TYPES
+      },
       'constants/shared': {
         ICONS,
         FILETYPE_ICONS
+      },
+      'service/i18n': {
+        i18n
       },
       './ChatGroup.scss': {
         locals: {
@@ -378,6 +393,57 @@ describe('ChatGroup component', () => {
             file: chat.file,
             isDownloadable: false
           }));
+        });
+
+        describe('when the file contains a server returned error', () => {
+          let children;
+
+          beforeAll(() => {
+            chat = {
+              type: 'chat.file',
+              file: {
+                type: 'application/zip',
+                name: 'sketchy.zip',
+                size: 512,
+                error: { message: 'INVALID_EXTENSION' },
+                uploading: false
+              }
+            };
+          });
+
+          beforeEach(() => {
+            children = result.props.children;
+          });
+
+          it('returns a group of components', () => {
+            expect(result.props.children).toBeDefined();
+          });
+
+          it('returns an Attachment component', () => {
+            expect(TestUtils.isElementOfType(children[0], Attachment)).toEqual(true);
+          });
+
+          it('passes the correct props to the Attachment component', () => {
+            expect(children[0].props).toEqual(jasmine.objectContaining({
+              downloading: false,
+              file: chat.file,
+              isDownloadable: false,
+              uploading: false
+            }));
+          });
+
+          it('returns a wrapped MessageError component', () => {
+            expect(TestUtils.isElementOfType(
+              children[1].props.children, MessageError)
+            ).toEqual(true);
+          });
+
+          it('passes the correct props to the MessageError component', () => {
+            expect(children[1].props.children.props)
+              .toEqual(jasmine.objectContaining({
+                errorMessage: 'embeddable_framework.chat.attachments.error.invalid_extension'
+              }));
+          });
         });
       });
 

@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import chatPropTypes from 'types/chat';
 
-import _ from 'lodash';
-
 import { Avatar } from 'component/Avatar';
 import { MessageBubble } from 'component/shared/MessageBubble';
-import { ImageMessage } from 'component/chat/ImageMessage';
 import { Attachment } from 'component/attachment/Attachment';
+import { MessageError } from 'component/chat/MessageError';
+import { ImageMessage } from 'component/chat/ImageMessage';
+import { ATTACHMENT_ERROR_TYPES } from 'constants/chat';
 import { ICONS, FILETYPE_ICONS } from 'constants/shared';
 
+import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatGroup.scss';
 import classNames from 'classnames';
+import _ from 'lodash';
 
 export class ChatGroup extends Component {
   static propTypes = {
@@ -83,9 +85,14 @@ export class ChatGroup extends Component {
     const icon = FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT;
     const isImage = /(gif|jpe?g|png)$/i.test(extension);
 
+    const attachmentClasses = classNames(
+      styles.attachment,
+      { [styles.attachmentError]: !!file.error }
+    );
+
     inlineAttachment = (
       <Attachment
-        className={styles.attachment}
+        className={attachmentClasses}
         downloading={!file.error && !file.uploading && isImage}
         file={file}
         filenameMaxLength={20}
@@ -95,10 +102,24 @@ export class ChatGroup extends Component {
       />
     );
 
+    if (file.error) {
+      const errorType = ATTACHMENT_ERROR_TYPES[file.error.message];
+      const errorMessage = i18n.t(`embeddable_framework.chat.attachments.error.${errorType}`);
+
+      return (
+        <div>
+          {inlineAttachment}
+          <div className={styles.messageErrorContainer}>
+            <MessageError errorMessage={errorMessage} />
+          </div>
+        </div>
+      );
+    }
+
     if (!file.uploading && isImage) {
       const placeholderEl = !isAgent ? inlineAttachment : null;
 
-      inlineAttachment = (
+      return (
         <ImageMessage
           imgSrc={file.url}
           placeholderEl={placeholderEl}

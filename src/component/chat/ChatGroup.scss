@@ -1,11 +1,12 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: u-posRelative from global;
+  position: relative;
 }
 
 .wrapper {
-  composes: u-cf u-block from global;
+  composes: u-cf from global;
+  display: block;
   margin-left: #{40/$font-size}rem;
 
   [dir='rtl'] & {
@@ -15,31 +16,50 @@
 }
 
 .message {
-  composes: u-paddingS from global;
   margin-bottom: #{7/$font-size}rem;
 }
 
 .messageUser {
-  composes: u-pullRight from global;
   color: $zd-color-white;
+  float: right;
 
   [dir='rtl'] & {
-    float: left !important;
+    float: left;
   }
 }
 
 .messageAgent {
-  composes: u-pullLeft from global;
   color: $zd-color-black;
+  float: left;
 
   [dir='rtl'] & {
-    float: right !important;
+    float: right;
   }
 }
 
 .attachment {
   width: #{180/$font-size}rem;
   border-radius: #{8/$font-size}rem;
+}
+
+.attachmentError {
+  composes: u-borderError from global;
+  float: right;
+
+  [dir='rtl'] & {
+    float: left;
+  }
+}
+
+.messageErrorContainer {
+  margin-top: $spacing-tny;
+  float: right;
+  text-align: right;
+
+  [dir='rtl'] & {
+    float: left;
+    text-align: left;
+  }
 }
 
 .userBackground {
@@ -52,12 +72,8 @@
 }
 
 .name {
-  composes: u-marginBT u-marginTT from global;
+  margin: $spacing-tny 0;
   color: $zd-color-aluminum !important;
-
-  [dir='rtl'] & {
-    margin-left: 0;
-  }
 }
 
 .nameAvatar {
@@ -65,22 +81,22 @@
   margin-left: #{50/$font-size}rem;
 
   [dir='rtl'] & {
-    margin-right: #{40/$font-size}rem;
+    margin-right: #{50/$font-size}rem;
   }
 }
 
 .nameNoAvatar {
-  composes: u-marginLS from global;
   composes: name;
+  margin-left: $spacing-sml;
 
   [dir='rtl'] & {
     margin-left: 0;
-    margin-right: #{10/$font-size}rem;
+    margin-right: $spacing-sml;
   }
 }
 
 .avatar {
-  composes: u-posAbsolute from global;
+  position: absolute;
   bottom: #{7/$font-size}rem;
 
   svg {
