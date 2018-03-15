@@ -86,11 +86,17 @@ const setupIframe = (iframe, doc) => {
   }
 };
 
+const getZendeskHost = () => {
+  const path = 'web_widget.id';
+
+  return document.zendeskHost || _.get(document.zendesk, path) || _.get(document, path);
+};
+
 const setupServices = (reduxStore) => {
   identity.init();
 
   http.init({
-    zendeskHost: document.zendeskHost || document.web_widget.id,
+    zendeskHost: getZendeskHost(),
     version: __EMBEDDABLE_VERSION__
   });
 
@@ -209,7 +215,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
       logging.error({
         error: error,
         context: {
-          account: document.zendeskHost || document.web_widget.id
+          account: getZendeskHost()
         }
       });
     }
