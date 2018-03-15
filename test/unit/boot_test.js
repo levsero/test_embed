@@ -12,7 +12,7 @@ describe('boot', () => {
     identitySpy = registerImportSpy('identity', 'init'),
     loggingSpy = registerImportSpy('logging', 'init', 'error'),
     persistenceSpy = registerImportSpy('persistence', 'store'),
-    transportSpy = registerImportSpy('http', 'get'),
+    transportSpy = registerImportSpy('http', 'get', 'init'),
     mediatorSpy = { mediator: registerImportSpy('channel', 'broadcast', 'subscribe') },
     rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks');
 
@@ -29,6 +29,7 @@ describe('boot', () => {
       'service/settings': {
         settings: {
           get: noop,
+          init: noop,
           getTrackSettings: () => {
             return {
               webWidget: {
@@ -68,6 +69,72 @@ describe('boot', () => {
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('#setupServices', () => {
+    it('sets up the services', () => {
+      boot.setupServices({});
+      expect(identitySpy.identity.init)
+        .toHaveBeenCalled();
+      expect(authenticationSpy.authentication.init)
+        .toHaveBeenCalled();
+      expect(transportSpy.http.init)
+        .toHaveBeenCalled();
+    });
+
+    describe('zendeskHost', () => {
+      beforeEach(() => {
+        document.zendeskHost = 'test.zendesk.com';
+        boot.setupServices({});
+      });
+
+      afterEach(() => {
+        document.zendeskHost = null;
+      });
+
+      it('gets the zendeskHost from document', () => {
+        expect(transportSpy.http.init)
+          .toHaveBeenCalledWith(jasmine.objectContaining({
+            zendeskHost: 'test.zendesk.com'
+          }));
+      });
+    });
+
+    describe('zendesk.web_widget.id', () => {
+      beforeEach(() => {
+        document.zendesk = { web_widget: { id: 'test3.zendesk.com' } }; // eslint-disable-line camelcase
+        boot.setupServices({});
+      });
+
+      afterEach(() => {
+        document.zendesk = null;
+      });
+
+      it('gets the zendeskHost from document', () => {
+        expect(transportSpy.http.init)
+          .toHaveBeenCalledWith(jasmine.objectContaining({
+            zendeskHost: 'test3.zendesk.com'
+          }));
+      });
+    });
+
+    describe('web_widget.id', () => {
+      beforeEach(() => {
+        document.web_widget = { id: 'test2.zendesk.com' }; // eslint-disable-line camelcase
+        boot.setupServices({});
+      });
+
+      afterEach(() => {
+        document.web_widget = null; // eslint-disable-line camelcase
+      });
+
+      it('gets the zendeskHost from document', () => {
+        expect(transportSpy.http.init)
+          .toHaveBeenCalledWith(jasmine.objectContaining({
+            zendeskHost: 'test2.zendesk.com'
+          }));
+      });
+    });
   });
 
   describe('#getConfig', () => {
@@ -213,19 +280,67 @@ describe('boot', () => {
       describe('when the error status code is not 404', () => {
         const error = { status: 500 };
 
-        beforeEach(() => {
-          document.zendeskHost = 'pizza.zendesk.com';
-          failHandler(error);
+        describe('using zendeskHost', () => {
+          beforeEach(() => {
+            document.zendeskHost = 'pizza.zendesk.com';
+            failHandler(error);
+          });
+
+          it('should call logging.error', () => {
+            expect(loggingSpy.logging.error)
+              .toHaveBeenCalledWith({
+                error,
+                context: {
+                  account: 'pizza.zendesk.com'
+                }
+              });
+          });
+
+          afterEach(() => {
+            document.zendeskHost = null;
+          });
         });
 
-        it('should call logging.error', () => {
-          expect(loggingSpy.logging.error)
-            .toHaveBeenCalledWith({
-              error,
-              context: {
-                account: 'pizza.zendesk.com'
-              }
-            });
+        describe('using widget.id', () => {
+          beforeEach(() => {
+            document.web_widget = { id: 'pepperoni.zendesk.com' }; // eslint-disable-line camelcase
+            failHandler(error);
+          });
+
+          it('should call logging.error', () => {
+            expect(loggingSpy.logging.error)
+              .toHaveBeenCalledWith({
+                error,
+                context: {
+                  account: 'pepperoni.zendesk.com'
+                }
+              });
+          });
+
+          afterEach(() => {
+            document.web_widget = null; // eslint-disable-line camelcase
+          });
+        });
+
+        describe('using zendesk.widget.id', () => {
+          beforeEach(() => {
+            document.zendesk = { web_widget: { id: 'anchovy.zendesk.com' } }; // eslint-disable-line camelcase
+            failHandler(error);
+          });
+
+          it('should call logging.error', () => {
+            expect(loggingSpy.logging.error)
+              .toHaveBeenCalledWith({
+                error,
+                context: {
+                  account: 'anchovy.zendesk.com'
+                }
+              });
+          });
+
+          afterEach(() => {
+            document.zendesk = null;
+          });
         });
       });
     });
