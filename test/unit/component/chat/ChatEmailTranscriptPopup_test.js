@@ -2,14 +2,15 @@ describe('ChatEmailTranscriptPopup component', () => {
   let ChatEmailTranscriptPopup,
     mockForm,
     mockFormValidity,
-    resultGridMinHeight;
+    ICONS;
 
   const EMAIL_TRANSCRIPT_LOADING_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_LOADING_SCREEN';
   const EMAIL_TRANSCRIPT_SUCCESS_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_SUCCESS_SCREEN';
   const EMAIL_TRANSCRIPT_FAILURE_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_FAILURE_SCREEN';
   const EMAIL_TRANSCRIPT_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_SCREEN';
 
-  const ChatEmailTranscriptPopupPath = buildSrcPath('component/chat/ChatEmailTranscriptPopup');
+  const chatEmailTranscriptPopupPath = buildSrcPath('component/chat/ChatEmailTranscriptPopup');
+  const sharedConstantsPath = buildSrcPath('constants/shared');
 
   class ChatPopup extends Component {
     render() {
@@ -21,15 +22,12 @@ describe('ChatEmailTranscriptPopup component', () => {
 
   beforeEach(() => {
     mockery.enable();
+
     mockFormValidity = false;
-    resultGridMinHeight = 20;
+    ICONS = requireUncached(sharedConstantsPath).ICONS;
 
     initMockRegistry({
-      'component/chat/ChatEmailTranscriptPopup.scss': {
-        locals: {
-          resultGridMinHeight
-        }
-      },
+      'component/chat/ChatEmailTranscriptPopup.scss': { locals: {} },
       'component/chat/ChatPopup': { ChatPopup },
       'component/field/EmailField': {
         EmailField: class extends Component {
@@ -37,6 +35,9 @@ describe('ChatEmailTranscriptPopup component', () => {
             return this.props.input;
           }
         }
+      },
+      'constants/shared': {
+        ICONS
       },
       'service/i18n': {
         i18n: {
@@ -75,8 +76,8 @@ describe('ChatEmailTranscriptPopup component', () => {
       ]
     };
 
-    mockery.registerAllowable(ChatEmailTranscriptPopupPath);
-    ChatEmailTranscriptPopup = requireUncached(ChatEmailTranscriptPopupPath).ChatEmailTranscriptPopup;
+    mockery.registerAllowable(chatEmailTranscriptPopupPath);
+    ChatEmailTranscriptPopup = requireUncached(chatEmailTranscriptPopupPath).ChatEmailTranscriptPopup;
   });
 
   afterEach(() => {

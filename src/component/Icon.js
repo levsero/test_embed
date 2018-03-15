@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { isMobileBrowser } from 'utility/devices';
+import { ICONS } from 'constants/shared';
 import { locals as styles } from './Icon.scss';
 import classNames from 'classnames';
 
@@ -42,7 +43,7 @@ const icons = {
   'Icon--sound-off': require('icons/widget-icon_sound_off.svg'),
   'Icon--link-external': require('zd-svg-icons/src/14-link-external.svg'),
   'Icon--checkmark-fill': require('zd-svg-icons/src/14-checkmark-fill.svg'),
-  'Icon--error-fill': require('zd-svg-icons/src/14-error-fill.svg')
+  [ICONS.ERROR_FILL]: require('zd-svg-icons/src/14-error-fill.svg')
 };
 
 export class Icon extends Component {
