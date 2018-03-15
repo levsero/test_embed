@@ -206,7 +206,7 @@ describe('boot', () => {
           .toHaveBeenCalledWith(win, postRenderQueue);
       });
 
-      it('should not call beacon.sendConfigLoadTime', () => {
+      it('does not call beacon.sendConfigLoadTime', () => {
         expect(beaconSpy.beacon.sendConfigLoadTime)
           .not.toHaveBeenCalled();
       });
@@ -217,7 +217,7 @@ describe('boot', () => {
           doneHandler({ body: config });
         });
 
-        it('should not call beacon.trackSettings', () => {
+        it('does not call beacon.trackSettings', () => {
           expect(beaconSpy.beacon.trackSettings)
             .not.toHaveBeenCalled();
         });
@@ -229,7 +229,7 @@ describe('boot', () => {
           doneHandler({ body: config });
         });
 
-        it('should call beacon.trackSettings', () => {
+        it('calls beacon.trackSettings', () => {
           expect(beaconSpy.beacon.trackSettings)
             .toHaveBeenCalledWith({
               webWidget: {
@@ -250,7 +250,7 @@ describe('boot', () => {
           doneHandler({ body: config });
         });
 
-        it('should call beacon.sendConfigLoadTime with the load time', () => {
+        it('calls beacon.sendConfigLoadTime with the load time', () => {
           expect(beaconSpy.beacon.sendConfigLoadTime)
             .toHaveBeenCalledWith(1000);
         });
@@ -271,7 +271,7 @@ describe('boot', () => {
           failHandler({ status: 404 });
         });
 
-        it('should not call logging.error', () => {
+        it('does not call logging.error', () => {
           expect(loggingSpy.logging.error)
             .not.toHaveBeenCalled();
         });
@@ -286,7 +286,7 @@ describe('boot', () => {
             failHandler(error);
           });
 
-          it('should call logging.error', () => {
+          it('calls logging.error', () => {
             expect(loggingSpy.logging.error)
               .toHaveBeenCalledWith({
                 error,
@@ -307,7 +307,7 @@ describe('boot', () => {
             failHandler(error);
           });
 
-          it('should call logging.error', () => {
+          it('calls logging.error', () => {
             expect(loggingSpy.logging.error)
               .toHaveBeenCalledWith({
                 error,
@@ -328,7 +328,7 @@ describe('boot', () => {
             failHandler(error);
           });
 
-          it('should call logging.error', () => {
+          it('calls logging.error', () => {
             expect(loggingSpy.logging.error)
               .toHaveBeenCalledWith({
                 error,
