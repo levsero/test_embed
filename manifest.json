@@ -100,7 +100,7 @@
     },
     "chat-web-sdk": {
       "version": "1.1.4",
-      "url": "https://dev.zopim.com/web-sdk/1.1.4/web-sdk.js"
+      "url": "https://static-staging.zdassets.com/externals/chat-web-sdk/2.0.0/web-sdk.js"
     },
     "socket.io-client": {
       "version": "2.0.4",
