@@ -100,7 +100,8 @@
     },
     "chat-web-sdk": {
       "version": "1.1.4",
-      "url": "https://static-staging.zdassets.com/externals/chat-web-sdk/2.0.0/web-sdk.js"
+      "url": "https://static-staging.zdassets.com/externals/chat-web-sdk/2.0.0/web-sdk.js",
+      "ignoreValidation": true
     },
     "socket.io-client": {
       "version": "2.0.4",
