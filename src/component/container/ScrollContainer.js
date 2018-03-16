@@ -71,8 +71,6 @@ export class ScrollContainer extends Component {
     const { footerContent, footerClasses, scrollShadowVisible } = this.props;
     const footerShadowClasses = this.state.scrollShadowVisible || scrollShadowVisible ? styles.footerShadow : '';
 
-    if (!footerContent || (Array.isArray(footerContent) && footerContent.length === 0)) return null;
-
     return (
       <footer
         ref={(el) => {this.footer = el;}}

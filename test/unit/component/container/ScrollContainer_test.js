@@ -193,9 +193,9 @@ describe('ScrollContainer component', () => {
         result = scrollContainer.renderFooter();
       });
 
-      it('returns null', () => {
-        expect(result)
-          .toEqual(null);
+      it('returns a footer element', () => {
+        expect(result.type)
+          .toEqual('footer');
       });
     });
 
@@ -206,9 +206,9 @@ describe('ScrollContainer component', () => {
         result = scrollContainer.renderFooter();
       });
 
-      it('returns null', () => {
-        expect(result)
-          .toEqual(null);
+      it('returns a footer element', () => {
+        expect(result.type)
+          .toEqual('footer');
       });
     });
 

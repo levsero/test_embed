@@ -93,7 +93,6 @@ class ChatOfflineForm extends Component {
 
     return (
       <Form
-        className={styles.form}
         formState={this.props.formState}
         onChange={this.props.chatOfflineFormChanged}
         submitButtonClasses={styles.submitButton}

@@ -9,7 +9,3 @@
   composes: u-marginTT from global;
   margin-bottom: #{18/$font-size}rem;
 }
-
-.form {
-  composes: u-marginBL from global;
-}

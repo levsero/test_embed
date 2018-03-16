@@ -14,8 +14,7 @@ describe('ChatOfflineForm component', () => {
         locals: {
           container: 'containerClass',
           offlineGreeting: 'offlineGreetingClass',
-          submitButton: 'submitButtonClass',
-          form: 'formClass'
+          submitButton: 'submitButtonClass'
         }
       },
       'service/i18n': {
@@ -109,11 +108,6 @@ describe('ChatOfflineForm component', () => {
 
       expect(result.props.formState)
         .toEqual(jasmine.objectContaining(expected));
-    });
-
-    it('has a props.className', () => {
-      expect(result.props.className)
-        .toEqual('formClass');
     });
 
     it('has a props.submitbuttonClasses value', () => {
