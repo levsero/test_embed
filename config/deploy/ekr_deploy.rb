@@ -18,7 +18,6 @@ set :ekr_s3_bucket_name, ENV['STATIC_ASSETS_AWS_BUCKET_NAME']
 set :static_assets_domain, ENV['STATIC_ASSETS_DOMAIN']
 set :ekr_base_url, ENV['EKR_BASE_URL']
 set :ekr_jwt_secret, ENV['EKR_RW_JWT_SECRET']
-set :chat_sdk_local_dir, 'node_modules/chat-web-sdk'
 set :chat_sdk_version, '2.0.0'
 set :chat_sdk_remote_dir, "web_widget/externals/chat-web-sdk/#{fetch(:chat_sdk_version)}"
 
@@ -40,7 +39,7 @@ namespace :ac_embeddable_framework do
     s3_deployer.upload_files('dist', release_directory, files)
 
     s3_deployer.upload_files(
-      fetch(:chat_sdk_local_dir),
+      'dist',
       fetch(:chat_sdk_remote_dir),
       ['web_sdk.js']
     )
