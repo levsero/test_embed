@@ -94,6 +94,7 @@ export class ChatGroup extends Component {
       <Attachment
         className={attachmentClasses}
         downloading={!file.error && !file.uploading && isImage}
+        fakeProgress={true}
         file={file}
         filenameMaxLength={20}
         icon={icon}

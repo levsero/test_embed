@@ -43,6 +43,7 @@ import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.scss';
 import MessageBubbleStyles from 'component/shared/MessageBubble/MessageBubble.scss';
 import MessageErrorStyles from 'component/chat/MessageError.scss';
 import MessageOptionsStyles from 'component/shared/MessageOptions/MessageOptions.scss';
+import ProgressBarStyles from 'component/attachment/ProgressBar.scss';
 import SearchFieldButtonStyles from 'component/button/SearchFieldButton.scss';
 import SearchFieldStyles from 'component/field/SearchField.scss';
 import SearchInputStyles from 'component/field/SearchInput.scss';
@@ -99,6 +100,7 @@ export const webWidgetStyles = `
   ${MessageBubbleStyles}
   ${MessageErrorStyles}
   ${MessageOptionsStyles}
+  ${ProgressBarStyles}
   ${SearchFieldButtonStyles}
   ${SearchFieldStyles}
   ${SearchInputStyles}

@@ -4,6 +4,7 @@ import sharedPropTypes from 'types/shared';
 import _ from 'lodash';
 
 import { Icon } from 'component/Icon';
+import { ProgressBar } from 'component/attachment/ProgressBar';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './Attachment.scss';
 import classNames from 'classnames';
@@ -14,6 +15,7 @@ export class Attachment extends Component {
     className: PropTypes.string,
     downloading: PropTypes.bool,
     errorMessage: PropTypes.string,
+    fakeProgress: PropTypes.bool,
     file: sharedPropTypes.file,
     filenameMaxLength: PropTypes.number,
     handleRemoveAttachment: PropTypes.func,
@@ -28,20 +30,13 @@ export class Attachment extends Component {
   static defaultProps = {
     attachmentId: '',
     downloading: false,
+    fakeProgress: false,
     isDownloadable: false,
     isRemovable: false,
     uploading: false,
     uploadProgress: 0,
     uploadRequestSender: {}
   };
-
-  componentWillReceiveProps(nextProps) {
-    const { progressBar } = this.refs;
-
-    if (progressBar) {
-      progressBar.style.width = `${_.floor(nextProps.uploadProgress)}%`;
-    }
-  }
 
   handleIconClick = () => {
     if (this.props.uploading) {
@@ -137,9 +132,10 @@ export class Attachment extends Component {
     );
 
     const progressBar = (
-      <div className={styles.progressBarContainer}>
-        <div className={styles.progressBar} ref='progressBar' />
-      </div>
+      <ProgressBar
+        percentLoaded={this.props.uploadProgress}
+        fakeProgress={this.props.fakeProgress}
+      />
     );
 
     return (
