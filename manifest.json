@@ -1,4 +1,81 @@
 {
+  "assets": [
+    {
+      "feature": "common",
+      "externals": [
+        {
+          "name": "es6-shim",
+          "version": "0.35.3",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js",
+          "ignoreValidation": true
+        },
+        {
+          "name": "react",
+          "version": "16.2.0",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"
+        },
+        {
+          "name": "react-dom",
+          "version": "16.2.0",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"
+        },
+        {
+          "name": "lodash",
+          "version": "4.0.0",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.0.0/lodash.min.js"
+        },
+        {
+          "name": "superagent",
+          "version": "2.0.0",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/superagent/2.0.0/superagent.min.js"
+        }
+      ],
+      "internals": [
+        {
+          "name": "ze_translations.js"
+        },
+        {
+          "name": "ze_localeIdMap.js"
+        }
+      ]
+    },
+    {
+      "feature": "talk",
+      "externals": [
+        {
+          "name": "socket.io-client",
+          "version": "2.0.4",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js"
+        },
+        {
+          "name": "libphonenumber-js",
+          "version": "0.4.49",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/0.4.49/libphonenumber-js.min.js"
+        }
+      ],
+      "internals": [
+        {
+          "name": "ze_countries.js"
+        }
+      ]
+    },
+    {
+      "feature": "chat",
+      "externals": [
+        {
+          "name": "chat-web-sdk",
+          "version": "1.1.4",
+          "url": "https://dev.zopim.com/web-sdk/1.1.4/web-sdk.js"
+        },
+        {
+          "name": "libphonenumber-js",
+          "version": "0.4.49",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/0.4.49/libphonenumber-js.min.js"
+        }
+      ]
+    }
+  ],
+  "index": "web_widget.js",
   "externals": {
     "es6-shim": {
       "version": "0.35.3",
