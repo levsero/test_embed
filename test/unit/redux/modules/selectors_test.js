@@ -8,7 +8,7 @@ describe('selectors', () => {
     getShowTicketFormsBackButton,
     settingsChatSuppressValue,
     zopimChatOnlineValue,
-    chatOnlineValue,
+    showOfflineFormValue,
     helpCenterEmbedValue,
     submitTicketEmbedValue,
     chatEmbedValue,
@@ -26,7 +26,7 @@ describe('selectors', () => {
 
     settingsChatSuppressValue = false;
     zopimChatOnlineValue = false;
-    chatOnlineValue = false;
+    showOfflineFormValue = true;
     helpCenterEmbedValue = false;
     submitTicketEmbedValue = false;
     chatEmbedValue = false;
@@ -49,7 +49,7 @@ describe('selectors', () => {
         getSettingsChatSuppress: () => settingsChatSuppressValue
       },
       './chat/chat-selectors': {
-        getChatOnline: () => chatOnlineValue
+        getShowOfflineForm: () => showOfflineFormValue
       },
       './zopimChat/zopimChat-selectors': {
         getZopimChatOnline: () => zopimChatOnlineValue
@@ -116,10 +116,10 @@ describe('selectors', () => {
       });
     });
 
-    describe('when chat is available', () => {
+    describe('when showOfflineForm is false', () => {
       beforeEach(() => {
         chatEmbedValue = true;
-        chatOnlineValue = true;
+        showOfflineFormValue = false;
         result = getShowTalkBackButton();
       });
 
@@ -168,9 +168,9 @@ describe('selectors', () => {
       });
     });
 
-    describe('when chat is online', () => {
+    describe('when showOfflineForm is false', () => {
       beforeEach(() => {
-        chatOnlineValue = true;
+        showOfflineFormValue = false;
         result = getChatOnline();
       });
 
@@ -278,10 +278,10 @@ describe('selectors', () => {
       });
 
       describe('when chat embed exists', () => {
-        describe('when chat is online', () => {
+        describe('when showOfflineForm is false', () => {
           beforeEach(() => {
             chatEmbedValue = true;
-            chatOnlineValue = true;
+            showOfflineFormValue = false;
             result = getChatAvailable();
           });
 
