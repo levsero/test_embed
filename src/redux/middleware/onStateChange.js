@@ -15,6 +15,7 @@ const handleNotificationCounter = (nextState, dispatch) => {
 
   if (!widgetShown || (widgetShown && activeEmbed !== 'chat')) {
     dispatch(newAgentMessageReceived());
+    mediator.channel.broadcast('newChat.newMessage');
   }
 };
 

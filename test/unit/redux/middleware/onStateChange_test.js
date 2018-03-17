@@ -104,6 +104,7 @@ describe('onStateChange middleware', () => {
         describe('when audio settings are on', () => {
           beforeEach(() => {
             mockUserSoundSetting = true;
+            broadcastSpy.calls.reset();
 
             stateChangeFn(prevState, prevState);
           });
@@ -115,6 +116,11 @@ describe('onStateChange middleware', () => {
 
           it('does not dispatch newAgentMessageReceived', () => {
             expect(newAgentMessageReceivedSpy)
+              .not.toHaveBeenCalled();
+          });
+
+          it('does not call mediator', () => {
+            expect(broadcastSpy)
               .not.toHaveBeenCalled();
           });
         });
@@ -157,6 +163,11 @@ describe('onStateChange middleware', () => {
           it('dispatches newAgentMessageReceived', () => {
             expect(newAgentMessageReceivedSpy)
               .toHaveBeenCalled();
+          });
+
+          it('calls mediator with newChat.newMessage', () => {
+            expect(broadcastSpy)
+              .toHaveBeenCalledWith('newChat.newMessage');
           });
         });
 

@@ -196,6 +196,14 @@ function init(embedsAccessible, params = {}) {
     }
   });
 
+  c.intercept('newChat.newMessage', () => {
+    if (!state[`${chat}.userClosed`] &&
+        !isMobileBrowser()) {
+      c.broadcast('webWidget.proactiveChat', { transition: getShowAnimation() });
+      c.broadcast(`${launcher}.hide`);
+    }
+  });
+
   c.intercept('.hide', (_, viaIPM = false) => {
     if (!viaIPM) {
       c.broadcast('beacon.trackUserAction', 'api', 'hide');
@@ -447,6 +455,7 @@ function init(embedsAccessible, params = {}) {
     state[`${submitTicket}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = false;
     state[`${talk}.isVisible`] = false;
+    state[`${chat}.userClosed`] = true;
     _broadcast();
   });
 
