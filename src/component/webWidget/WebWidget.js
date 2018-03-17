@@ -24,7 +24,7 @@ import { getChatAvailable,
          getTalkEnabled,
          getShowTicketFormsBackButton } from 'src/redux/modules/selectors';
 import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
-import { getChatNotification, getChatStatus } from 'src/redux/modules/chat/chat-selectors';
+import { getChatNotification, getShowOfflineForm } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getZopimChatEmbed,
          getActiveEmbed,
@@ -55,7 +55,7 @@ const mapStateToProps = (state) => {
     ticketForms: getTicketForms(state),
     showTicketFormsBackButton: getShowTicketFormsBackButton(state),
     chatStandalone: getChatStandalone(state),
-    chatStatus: getChatStatus(state)
+    showOfflineForm: getShowOfflineForm(state)
   };
 };
 
@@ -108,7 +108,7 @@ class WebWidget extends Component {
     resetActiveArticle: PropTypes.func.isRequired,
     articleViewActive: PropTypes.bool.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
-    chatStatus: PropTypes.string.isRequired
+    showOfflineForm: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -340,11 +340,11 @@ class WebWidget extends Component {
   }
 
   renderChat = () => {
-    const { activeEmbed, chatStandalone, chatStatus } = this.props;
+    const { activeEmbed, showOfflineForm } = this.props;
 
     if (activeEmbed !== chat) return;
 
-    return (chatStandalone && chatStatus === 'offline')
+    return (showOfflineForm)
       ? <ChatOfflineForm
           ref={chatOffline}
           updateFrameSize={this.props.updateFrameSize}

@@ -224,13 +224,12 @@ describe('WebWidget component', () => {
   describe('renderChat', () => {
     let result;
 
-    describe('when chat is standalone and chat is offline', () => {
+    describe('when props.showOfflineForm is true', () => {
       beforeEach(() => {
         const webWidget = instanceRender(
           <WebWidget
             activeEmbed='chat'
-            chatStandalone={true}
-            chatStatus='offline' />
+            showOfflineForm={true} />
         );
 
         result = webWidget.renderChat();
@@ -242,31 +241,13 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when chat is not standalone', () => {
+    describe('when props.showOfflineForm is true', () => {
       beforeEach(() => {
         const webWidget = instanceRender(
           <WebWidget
             activeEmbed='chat'
-            chatStandalone={false}
+            showOfflineForm={false}
             chatStatus='offline' />
-        );
-
-        result = webWidget.renderChat();
-      });
-
-      it('renders Chat', () => {
-        expect(result.ref)
-          .toEqual('chat');
-      });
-    });
-
-    describe('when chat is online', () => {
-      beforeEach(() => {
-        const webWidget = instanceRender(
-          <WebWidget
-            activeEmbed='chat'
-            chatStandalone={true}
-            chatStatus='online' />
         );
 
         result = webWidget.renderChat();
