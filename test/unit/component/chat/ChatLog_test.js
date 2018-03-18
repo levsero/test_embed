@@ -260,7 +260,7 @@ describe('ChatLog component', () => {
       goToFeedbackScreenSpy = jasmine.createSpy('goToFeedbackScreen');
 
     beforeEach(() => {
-      component = domRender(<ChatLog chatLog={{}} agents={{}} lastAgentLeaveEvent={{}} />);
+      component = instanceRender(<ChatLog chatLog={{}} agents={{}} lastAgentLeaveEvent={{}} />);
 
       mockStringValues = {
         'embeddable_framework.chat.chatLog.button.leaveComment': 'Leave a comment',
@@ -385,7 +385,7 @@ describe('ChatLog component', () => {
         };
 
         beforeEach(() => {
-          component = domRender(<ChatLog chatLog={chatLog} agents={agentsLeft} lastAgentLeaveEvent={leaveEvent} />);
+          component = instanceRender(<ChatLog chatLog={chatLog} agents={agentsLeft} lastAgentLeaveEvent={leaveEvent} />);
           renderRequestRatingButton = component.renderRequestRatingButton(leaveEvent, false, goToFeedbackScreenSpy);
         });
 
