@@ -4,6 +4,10 @@
   composes: u-paddingTM u-paddingBT u-paddingHL from global;
 }
 
+.popupChildrenContainerLoading {
+  composes: u-paddingVL from global;
+}
+
 .title {
   color: $zd-color-monsoon;
 }
@@ -18,4 +22,24 @@
 
 .fieldContainer {
   composes: u-marginBS from global;
+}
+
+.loadingSpinner {
+  composes: Grid-cell--center from global;
+}
+
+.errorContainer {
+  composes: u-marginTM u-marginBS from global;
+}
+
+.errorIcon {
+  composes: u-alignTop u-inlineBlock u-marginTN from global;
+  composes: ErrorIcon from '../../styles/components/Error.scss';
+  margin-right: #{12/$font-size}rem;
+}
+
+.errorMsg {
+  composes: u-inlineBlock from global;
+  color: $error-color;
+  width: calc(100% - #{27/$font-size}rem);
 }
