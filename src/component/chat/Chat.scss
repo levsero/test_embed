@@ -3,6 +3,7 @@
 .scrollContainerMobile {
   height: calc(100% - #{150/$font-size}rem);
   max-height: #{480/$font-size}rem;
+  position: relative;
 
   .agentTyping {
     bottom: #{94/$font-size}rem;
@@ -15,6 +16,14 @@
 
 .messages {
   margin-top: #{70/$font-size}rem;
+}
+
+.messagesMobile {
+  composes: messages;
+
+  width: calc(100% - #{20/$font-size}rem);
+  bottom: 0;
+  position: absolute;
 }
 
 .header {

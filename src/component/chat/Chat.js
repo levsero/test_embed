@@ -337,6 +337,7 @@ class Chat extends Component {
     if (screen !== screens.CHATTING_SCREEN) return;
     const showRating = ratingSettings.enabled && _.size(agents) > 0;
     const containerClasses = isMobile ? styles.scrollContainerMobile : '';
+    const messageClasses = isMobile ? styles.messagesMobile : styles.messages;
 
     return (
       <ScrollContainer
@@ -347,7 +348,7 @@ class Chat extends Component {
         containerClasses={containerClasses}
         footerClasses={styles.footer}
         footerContent={this.renderChatFooter()}>
-        <div className={styles.messages}>
+        <div className={messageClasses}>
           <ChatLog
             showAvatar={this.props.showAvatar}
             chatLog={this.props.chatLog}
