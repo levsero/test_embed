@@ -102,5 +102,10 @@ describe('chat root reducer', () => {
       expect(state.formState)
         .toBeDefined();
     });
+
+    it('has the editContactDetails sub state', () => {
+      expect(state.editContactDetails)
+        .toBeDefined();
+    });
   });
 });
