@@ -38,6 +38,9 @@ namespace :ac_embeddable_framework do
 
     s3_deployer.upload_files('dist', release_directory, files)
 
+    # Temporary fix to get the newest, non public version of the chat SDK
+    # into asset composer. This will be removed when we re-engineer the way
+    # we deal with internal and external assets.
     s3_deployer.upload_files(
       'dist',
       fetch(:chat_sdk_remote_dir),
