@@ -32,7 +32,8 @@ import { endChat,
          handleSoundIconClick,
          sendEmailTranscript,
          resetEmailTranscript,
-         handlePreChatFormChange } from 'src/redux/modules/chat';
+         handlePreChatFormChange,
+         updateContactDetailsVisibility } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import { getPrechatFormFields,
          getAttachmentsEnabled,
@@ -54,8 +55,8 @@ import { getPrechatFormFields,
          getLastAgentLeaveEvent,
          getThemeShowAvatar,
          getPreChatFormState,
-         getQueuePosition } from 'src/redux/modules/chat/chat-selectors';
-
+         getQueuePosition,
+         getEditContactDetails } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './Chat.scss';
 
 const mapStateToProps = (state) => {
@@ -82,7 +83,8 @@ const mapStateToProps = (state) => {
     emailTranscript: getEmailTranscript(state),
     showAvatar: getThemeShowAvatar(state),
     preChatFormState: getPreChatFormState(state),
-    queuePosition: getQueuePosition(state)
+    queuePosition: getQueuePosition(state),
+    editContactDetails: getEditContactDetails(state)
   };
 };
 
@@ -126,7 +128,9 @@ class Chat extends Component {
     showAvatar: PropTypes.bool.isRequired,
     preChatFormState: PropTypes.object,
     handlePreChatFormChange: PropTypes.func,
-    queuePosition: PropTypes.number
+    queuePosition: PropTypes.number,
+    editContactDetails: PropTypes.object.isRequired,
+    updateContactDetailsVisibility: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -149,7 +153,8 @@ class Chat extends Component {
     getFrameDimensions: () => {},
     sendEmailTranscript: () => {},
     emailTranscript: {},
-    resetEmailTranscript: () => {}
+    resetEmailTranscript: () => {},
+    editContactDetails: {}
   };
 
   constructor(props) {
@@ -158,7 +163,6 @@ class Chat extends Component {
     this.state = {
       showMenu: false,
       showEndChatMenu: false,
-      showEditContactDetailsMenu: false,
       showEmailTranscriptMenu: false
     };
 
@@ -196,9 +200,10 @@ class Chat extends Component {
     this.setState({
       showMenu: false,
       showEndChatMenu: false,
-      showEditContactDetailsMenu: false,
       showEmailTranscriptMenu: false
     });
+
+    this.props.updateContactDetailsVisibility(false);
   }
 
   onPrechatFormComplete = (info) => {
@@ -238,10 +243,8 @@ class Chat extends Component {
     };
     const showContactDetailsFn = (e) => {
       e.stopPropagation();
-      this.setState({
-        showEditContactDetailsMenu: true,
-        showMenu: false
-      });
+      this.setState({ showMenu: false });
+      this.props.updateContactDetailsVisibility(true);
     };
     const showEmailTranscriptFn = (e) => {
       e.stopPropagation();
@@ -275,9 +278,9 @@ class Chat extends Component {
       this.setState({
         showEndChatMenu: true,
         showMenu: false,
-        showEmailTranscriptMenu: false,
-        showEditContactDetailsMenu: false
+        showEmailTranscriptMenu: false
       });
+      this.props.updateContactDetailsVisibility(false);
     };
 
     return (
@@ -506,18 +509,17 @@ class Chat extends Component {
   }
 
   renderChatContactDetailsPopup = () => {
-    const hideContactDetailsFn = () => this.setState({ showEditContactDetailsMenu: false });
-    const saveContactDetailsFn = (name, email) => {
-      this.setState({ showEditContactDetailsMenu: false });
-      this.props.setVisitorInfo({ display_name: name, email });
-    };
+    const { editContactDetails, updateContactDetailsVisibility, setVisitorInfo, visitor } = this.props;
+    const hideContactDetailsFn = () => updateContactDetailsVisibility(false);
+    const saveContactDetailsFn = (name, email) => setVisitorInfo({ display_name: name, email });
 
     return (
       <ChatContactDetailsPopup
-        show={this.state.showEditContactDetailsMenu}
+        screen={editContactDetails.status}
+        show={editContactDetails.show}
         leftCtaFn={hideContactDetailsFn}
         rightCtaFn={saveContactDetailsFn}
-        visitor={this.props.visitor} />
+        visitor={visitor} />
     );
   }
 
@@ -577,7 +579,8 @@ const actionCreators = {
   handleSoundIconClick,
   sendEmailTranscript,
   resetEmailTranscript,
-  handlePreChatFormChange
+  handlePreChatFormChange,
+  updateContactDetailsVisibility
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);
