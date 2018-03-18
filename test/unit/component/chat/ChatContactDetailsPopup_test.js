@@ -112,7 +112,7 @@ describe('ChatContactDetailsPopup component', () => {
         .toHaveBeenCalledWith('bob', 'bob@zd.com');
     });
 
-    describe('when there exist an activeElement', () => {
+    describe('when there exists an activeElement', () => {
       beforeEach(() => {
         const mockActiveElement = domRender(<div />);
 
@@ -124,7 +124,7 @@ describe('ChatContactDetailsPopup component', () => {
         component.handleSave();
       });
 
-      it('blur has been called on the activeElement', () => {
+      it('calls blur on the activeElement', () => {
         expect(document.activeElement.blur)
           .toHaveBeenCalled();
       });
@@ -281,7 +281,7 @@ describe('ChatContactDetailsPopup component', () => {
   describe('renderForm', () => {
     let form;
 
-    describe('when the state is not in a loading screen', () => {
+    describe('when the state is an edit contact details screen', () => {
       beforeEach(() => {
         const mockScreen = EDIT_CONTACT_DETAILS_SCREEN;
         const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
@@ -295,7 +295,7 @@ describe('ChatContactDetailsPopup component', () => {
       });
     });
 
-    describe('when the state is a loading screen', () => {
+    describe('when the state is not an edit contact details screen', () => {
       beforeEach(() => {
         const mockScreen = EDIT_CONTACT_DETAILS_LOADING_SCREEN;
         const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
@@ -303,7 +303,7 @@ describe('ChatContactDetailsPopup component', () => {
         form = component.renderForm();
       });
 
-      it('renders an error message component', () => {
+      it('does not render a form component', () => {
         expect(form)
           .toEqual(null);
       });
