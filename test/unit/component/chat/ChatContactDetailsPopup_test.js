@@ -44,6 +44,9 @@ describe('ChatContactDetailsPopup component', () => {
       },
       'src/util/utils': {
         emailValid: () => mockEmailValid
+      },
+      'utility/globals': {
+        document: document
       }
     });
 
@@ -86,6 +89,24 @@ describe('ChatContactDetailsPopup component', () => {
     it('calls props.rightCtaFn with form state name and email', () => {
       expect(rightCtaFnSpy)
         .toHaveBeenCalledWith('bob', 'bob@zd.com');
+    });
+
+    describe('when there exist an activeElement', () => {
+      beforeEach(() => {
+        const mockActiveElement = domRender(<div />);
+
+        document.activeElement = mockActiveElement;
+
+        spyOn(document.activeElement, 'blur');
+
+        component = instanceRender(<ChatContactDetailsPopup rightCtaFn={rightCtaFnSpy} />);
+        component.handleSave();
+      });
+
+      it('blur has been called on the activeElement', () => {
+        expect(document.activeElement.blur)
+          .toHaveBeenCalled();
+      });
     });
   });
 

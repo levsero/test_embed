@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { document as doc } from 'utility/globals';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { Field } from 'component/field/Field';
 import { i18n } from 'service/i18n';
@@ -46,6 +47,10 @@ export class ChatContactDetailsPopup extends Component {
     const { name, email } = this.state.formState;
 
     this.props.rightCtaFn(name, email);
+
+    if (doc.activeElement) {
+      doc.activeElement.blur();
+    }
   }
 
   handleFormChange = (e) => {

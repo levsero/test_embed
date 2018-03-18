@@ -39,6 +39,7 @@ export const getQueuePosition = (state) => state.chat.queuePosition;
 export const getUserSoundSettings = (state) => state.chat.userSettings.sound;
 export const getChatOfflineForm = (state) => state.chat.formState.offlineForm;
 export const getPreChatFormState = (state) => state.chat.formState.preChatForm;
+export const getEditContactDetails = (state) => state.chat.editContactDetails;
 
 export const getThemeShowAvatar = createSelector(
   getThemeMessageType,
