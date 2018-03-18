@@ -322,7 +322,6 @@ export function chatOfflineFormChanged(formState) {
   };
 }
 
-<<<<<<< HEAD
 export function setDepartment(departmentId, successCallback, errCallback) {
   return () => {
     zChat.setVisitorDefaultDepartment(departmentId, (err) => {
@@ -339,11 +338,12 @@ export function handlePreChatFormChange(state) {
   return {
     type: PRE_CHAT_FORM_ON_CHANGE,
     payload: state
-=======
+  };
+}
+
 export function updateContactDetailsVisibility(bool) {
   return {
     type: UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
     payload: bool
->>>>>>> Add Chat action to toggle contactDetails visibility
   };
 }

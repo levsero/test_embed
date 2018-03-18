@@ -9,7 +9,8 @@ describe('chat root reducer', () => {
     initMockRegistry({
       'component/chat/ChatRatingGroup': {
         ChatRatings: { NOT_SET: null }
-      }
+      },
+      'constants/chat': {}
     });
 
     reducer = requireUncached(reducerPath).default;

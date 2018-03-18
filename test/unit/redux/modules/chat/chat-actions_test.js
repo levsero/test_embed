@@ -323,6 +323,13 @@ describe('chat redux actions', () => {
       mockStore.dispatch(actions.setVisitorInfo(info));
     });
 
+    it('dispatches a SET_VISITOR_INFO_REQUEST_PENDING action', () => {
+      const expected = { type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING };
+
+      expect(mockStore.getActions())
+        .toContain(jasmine.objectContaining(expected));
+    });
+
     it('calls setVisitorInfo on the Web SDK', () => {
       expect(mockSetVisitorInfo)
         .toHaveBeenCalled();
@@ -974,6 +981,25 @@ describe('chat redux actions', () => {
 
       expect(action)
         .toEqual(expected);
+    });
+  });
+
+  describe('updateContactDetailsVisibility', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateContactDetailsVisibility(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY action', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY);
+    });
+
+    it('has the correct params in the payload', () => {
+      expect(action.payload)
+        .toEqual(true);
     });
   });
 });
