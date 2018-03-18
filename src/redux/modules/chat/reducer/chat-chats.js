@@ -13,8 +13,12 @@ import {
   CHAT_MSG_REQUEST_SENT,
   CHAT_FILE_REQUEST_SENT,
   CHAT_FILE_REQUEST_SUCCESS,
-  CHAT_FILE_REQUEST_FAILURE
+  CHAT_FILE_REQUEST_FAILURE,
+  CHAT_MSG_REQUEST_FAILURE
 } from '../chat-action-types';
+import { CHAT_MESSAGE_FAILURE } from 'constants/chat';
+
+import _ from 'lodash';
 
 const initialState = new Map();
 
@@ -30,15 +34,18 @@ const updateChat = (chats, chat) => {
   const copy = new Map(chats),
     prevChat = chats.get(chat.timestamp);
 
-  return copy.set(chat.timestamp, {...prevChat, ...chat});
+  const numFailedTries = ((_.get(chat, 'status') === CHAT_MESSAGE_FAILURE) | 0) + _.get(prevChat, 'numFailedTries', 0);
+
+  return copy.set(chat.timestamp, {...prevChat, ...chat, numFailedTries});
 };
 
 const chats = (state = initialState, action) => {
   switch (action.type) {
     case CHAT_MSG_REQUEST_SUCCESS:
+    case CHAT_MSG_REQUEST_FAILURE:
+    case CHAT_MSG_REQUEST_SENT:
       return updateChat(state, action.payload);
 
-    case CHAT_MSG_REQUEST_SENT:
     case CHAT_FILE_REQUEST_SENT:
     case CHAT_FILE_REQUEST_SUCCESS:
     case CHAT_FILE_REQUEST_FAILURE:

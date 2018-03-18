@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 let actions,
   actionTypes,
   screenTypes,
+  chatConstants,
   mockStore,
   mockAccountSettings,
   mockIsChatting,
@@ -17,7 +18,8 @@ let actions,
   mockSendEmailTranscript = jasmine.createSpy('sendEmailTranscript'),
   mockSetVisitorDefaultDepartment = jasmine.createSpy('setVisitorDefaultDepartment'),
   showRatingScreen = false,
-  getShowRatingScreenSpy = jasmine.createSpy('getShowRatingScreenSpy').and.callFake(() => showRatingScreen);
+  getShowRatingScreenSpy = jasmine.createSpy('getShowRatingScreenSpy').and.callFake(() => showRatingScreen),
+  getIsChattingSpy = jasmine.createSpy('getIsChatting').and.callFake(() => mockIsChatting);
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -27,11 +29,10 @@ describe('chat redux actions', () => {
   beforeEach(() => {
     mockery.enable();
 
-    mockStore = createMockStore({
-      chat: {
-        visitor: mockVisitor
-      }
-    });
+    const chatConstantsPath = buildSrcPath('constants/chat');
+    const actionsPath = buildSrcPath('redux/modules/chat');
+    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
+    const screenTypesPath = buildSrcPath('redux/modules/chat/chat-screen-types');
 
     mockIsChatting = false;
 
@@ -52,21 +53,24 @@ describe('chat redux actions', () => {
       'src/redux/modules/chat/chat-selectors': {
         getChatVisitor: () => mockVisitor,
         getShowRatingScreen: getShowRatingScreenSpy,
-        getIsChatting: () => mockIsChatting
+        getIsChatting: getIsChattingSpy
+      },
+      'src/constants/chat': {
+        CHAT_MESSAGE_PENDING: 'CHAT_MESSAGE_PENDING',
+        CHAT_MESSAGE_SUCCESS: 'CHAT_MESSAGE_SUCCESS',
+        CHAT_MESSAGE_FAILURE: 'CHAT_MESSAGE_FAILURE'
       }
     });
-
-    const actionsPath = buildSrcPath('redux/modules/chat');
-    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
-    const screenTypesPath = buildSrcPath('redux/modules/chat/chat-screen-types');
 
     mockery.registerAllowable(actionsPath);
     mockery.registerAllowable(actionTypesPath);
     mockery.registerAllowable(screenTypesPath);
+    mockery.registerAllowable(chatConstantsPath);
 
     actions = requireUncached(actionsPath);
     actionTypes = requireUncached(actionTypesPath);
     screenTypes = requireUncached(screenTypesPath);
+    chatConstants = requireUncached(chatConstantsPath);
 
     mockStore = createMockStore({
       chat: {
@@ -134,11 +138,16 @@ describe('chat redux actions', () => {
         .toHaveBeenCalled();
     });
 
-    describe('when the visitor.nick is blank', () => {
+    it('calls getIsChatting selector', () => {
+      expect(getIsChattingSpy)
+        .toHaveBeenCalled();
+    });
+
+    describe('when there is no chat session', () => {
       beforeEach(() => {
         const mockState = mockStore.getState();
 
-        delete mockState.chat.visitor.nick;
+        mockIsChatting = false;
         mockStore = createMockStore(mockState);
         mockStore.dispatch(actions.sendMsg(message));
       });
@@ -150,11 +159,11 @@ describe('chat redux actions', () => {
       });
     });
 
-    describe('when the visitor.nick is set', () => {
+    describe('when there is a chat session', () => {
       beforeEach(() => {
         const mockState = mockStore.getState();
 
-        mockState.chat.visitor.nick = 'visitor';
+        mockIsChatting = true;
         mockStore = createMockStore(mockState);
         mockStore.dispatch(actions.sendMsg(message));
       });
@@ -164,14 +173,14 @@ describe('chat redux actions', () => {
           .toContain(actionTypes.CHAT_MSG_REQUEST_SENT);
       });
 
-      it('sets pending on the payload to true', () => {
+      it('sets status of payload to CHAT_MESSAGE_PENDING', () => {
         expect(
           mockStore.getActions()
             .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_SENT)
             .payload
-            .pending
+            .status
         )
-          .toEqual(true);
+          .toEqual(chatConstants.CHAT_MESSAGE_PENDING);
       });
     });
 
@@ -204,14 +213,14 @@ describe('chat redux actions', () => {
             .toEqual(message);
         });
 
-        it('sets pending on the payload to false', () => {
+        it('sets status of payload CHAT_MESSAGE_SUCCESS', () => {
           expect(
             mockStore.getActions()
               .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_SUCCESS)
               .payload
-              .pending
+              .status
           )
-            .toEqual(false);
+            .toEqual(chatConstants.CHAT_MESSAGE_SUCCESS);
         });
       });
 
@@ -226,11 +235,28 @@ describe('chat redux actions', () => {
         });
 
         it('dispatches a CHAT_MSG_REQUEST_FAILURE action with the errors in the payload', () => {
-          expect(mockStore.getActions())
-            .toContain({
-              type: actionTypes.CHAT_MSG_REQUEST_FAILURE,
-              payload: errors
-            });
+          expect(mockStore.getActions().map((action) => action.type))
+            .toContain(actionTypes.CHAT_MSG_REQUEST_FAILURE);
+        });
+
+        it('sets the message on the payload', () => {
+          expect(
+            mockStore.getActions()
+              .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_FAILURE)
+              .payload
+              .msg
+          )
+            .toEqual(message);
+        });
+
+        it('sets status of payload CHAT_MESSAGE_FAILURE', () => {
+          expect(
+            mockStore.getActions()
+              .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_FAILURE)
+              .payload
+              .status
+          )
+            .toEqual(chatConstants.CHAT_MESSAGE_FAILURE);
         });
       });
     });

@@ -3,17 +3,25 @@ import * as chatActionTypes from '../../../../../../src/redux/modules/chat/chat-
 describe('chat reducer chats', () => {
   let reducer,
     actionTypes,
+    chatConstants,
     initialState;
 
   const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-chats');
   const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
+  const chatConstantsPath = buildSrcPath('constants/chat');
 
   beforeEach(() => {
     mockery.enable();
+    chatConstants = requireUncached(chatConstantsPath);
+
+    initMockRegistry({
+      'constants/chat': {
+        CHAT_MESSAGE_FAILURE: chatConstants.CHAT_MESSAGE_FAILURE
+      }
+    });
 
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);
-
     initialState = reducer(undefined, { type: '' });
   });
 
@@ -40,8 +48,7 @@ describe('chat reducer chats', () => {
           timestamp: Date.now(),
           nick: 'visitor',
           display_name: 'Visitor 123',
-          msg: 'Hi',
-          pending: true
+          msg: 'Hi'
         };
 
         state = reducer(initialState, {
@@ -57,8 +64,7 @@ describe('chat reducer chats', () => {
         expect(state.get(payload.timestamp))
           .toEqual(jasmine.objectContaining({
             timestamp: payload.timestamp,
-            msg: payload.msg,
-            pending: payload.pending
+            msg: payload.msg
           }));
       });
     });
@@ -73,8 +79,7 @@ describe('chat reducer chats', () => {
           timestamp,
           msg: 'Hi',
           nick: 'visitor',
-          display_name: 'Visitor 123',
-          pending: false
+          display_name: 'Visitor 123'
         };
       });
 
@@ -82,35 +87,39 @@ describe('chat reducer chats', () => {
         beforeEach(() => {
           state = reducer(initialState, {
             type: actionTypes.CHAT_MSG_REQUEST_SUCCESS,
-            payload: payload
+            payload: { ...payload, status: chatConstants.CHAT_MESSAGE_SUCCESS }
           });
         });
 
         it('adds the message to the chats collection', () => {
+          const expectedPayload = {
+            ...payload,
+            status: chatConstants.CHAT_MESSAGE_SUCCESS,
+            numFailedTries: 0
+          };
+
           expect(state.size)
             .toEqual(1);
 
           expect(state.get(payload.timestamp))
-            .toEqual(payload);
+            .toEqual(expectedPayload);
         });
       });
 
       describe('when there is a chat with this timestamp', () => {
-        let pendingChatState,
-          pendingChatPayload,
+        let pendingChatPayload,
           successfulChatPayload;
 
         beforeEach(() => {
-          pendingChatPayload = { ...payload, pending: true };
-          successfulChatPayload = { ...payload, pending: false };
+          pendingChatPayload = { ...payload, status: chatConstants.CHAT_MESSAGE_PENDING };
+          successfulChatPayload = { ...payload, status: chatConstants.CHAT_MESSAGE_SUCCESS };
 
-          pendingChatState = initialState;
-          pendingChatState.set(
-            pendingChatPayload.timestamp,
-            pendingChatPayload
-          );
+          state = reducer(initialState, {
+            type: actionTypes.CHAT_MSG_REQUEST_SENT,
+            payload: pendingChatPayload
+          });
 
-          state = reducer(pendingChatState, {
+          state = reducer(state, {
             type: actionTypes.CHAT_MSG_REQUEST_SUCCESS,
             payload: successfulChatPayload
           });
@@ -121,17 +130,120 @@ describe('chat reducer chats', () => {
         });
 
         it('updates the existing chat in the chats collection', () => {
-          expect(pendingChatState.size)
-            .toEqual(1);
-
-          expect(pendingChatState.get(payload.timestamp))
-            .toEqual(pendingChatPayload);
+          const expectedPayload = {
+            ...payload,
+            status: chatConstants.CHAT_MESSAGE_SUCCESS,
+            numFailedTries: 0
+          };
 
           expect(state.size)
             .toEqual(1);
 
           expect(state.get(payload.timestamp))
-            .toEqual(successfulChatPayload);
+            .toEqual(expectedPayload);
+        });
+      });
+    });
+
+    describe('when a CHAT_MSG_REQUEST_FAILURE action is dispatched', () => {
+      let state,
+        payload;
+      const timestamp = 123;
+
+      beforeEach(() => {
+        payload = {
+          timestamp,
+          msg: 'Hi',
+          nick: 'visitor',
+          display_name: 'Visitor 123'
+        };
+      });
+
+      describe('when there is no chat with this timestamp', () => {
+        beforeEach(() => {
+          state = reducer(initialState, {
+            type: actionTypes.CHAT_MSG_REQUEST_FAILURE,
+            payload: { ...payload, status: chatConstants.CHAT_MESSAGE_FAILURE }
+          });
+        });
+
+        it('adds the message to the chats collection', () => {
+          const expectedPayload = {
+            ...payload,
+            status: chatConstants.CHAT_MESSAGE_FAILURE,
+            numFailedTries: 1
+          };
+
+          expect(state.size)
+            .toEqual(1);
+
+          expect(state.get(payload.timestamp))
+            .toEqual(expectedPayload);
+        });
+      });
+
+      describe('when there is a chat with this timestamp', () => {
+        let pendingChatPayload,
+          failureChatPayload;
+
+        beforeEach(() => {
+          pendingChatPayload = { ...payload, status: chatConstants.CHAT_MESSAGE_PENDING };
+          failureChatPayload = { ...payload, status: chatConstants.CHAT_MESSAGE_FAILURE };
+
+          state = reducer(initialState, {
+            type: actionTypes.CHAT_MSG_REQUEST_SENT,
+            payload: pendingChatPayload
+          });
+
+          state = reducer(state, {
+            type: actionTypes.CHAT_MSG_REQUEST_FAILURE,
+            payload: failureChatPayload
+          });
+        });
+
+        afterEach(() => {
+          initialState.clear();
+        });
+
+        it('updates the existing chat in the chats collection', () => {
+          const expectedPayload = {
+            ...payload,
+            status: chatConstants.CHAT_MESSAGE_FAILURE,
+            numFailedTries: 1
+          };
+
+          expect(state.size)
+            .toEqual(1);
+
+          expect(state.get(payload.timestamp))
+            .toEqual(expectedPayload);
+        });
+
+        describe('when there is another failed chat', () => {
+          beforeEach(() => {
+            state = reducer(state, {
+              type: actionTypes.CHAT_MSG_REQUEST_SENT,
+              payload: pendingChatPayload
+            });
+            state = reducer(state, {
+              type: actionTypes.CHAT_MSG_REQUEST_FAILURE,
+              payload: failureChatPayload
+            });
+          });
+
+          it('increments number of failed tries by 1', () => {
+            const expectedPayload = {
+              ...payload,
+              status: chatConstants.CHAT_MESSAGE_FAILURE,
+              numFailedTries: 2
+            };
+
+            expect(state.size)
+              .toEqual(1);
+
+            expect(state.get(payload.timestamp))
+              .toEqual(expectedPayload);
+          });
         });
       });
     });
@@ -139,12 +251,11 @@ describe('chat reducer chats', () => {
     describe('when a CHAT_FILE_REQUEST_SENT action is dispatched', () => {
       let state,
         sendPayload;
-      const timestamp = Date.now();
 
       beforeEach(() => {
         sendPayload = {
           type: 'chat.file',
-          timestamp,
+          timestamp: 1,
           nick: 'visitor',
           display_name: 'Visitor 123',
           file: {
@@ -165,6 +276,7 @@ describe('chat reducer chats', () => {
 
       describe('when a CHAT_FILE_REQUEST_SUCCESS action is dispatched', () => {
         let successPayload;
+        const timestamp = 1;
 
         beforeEach(() => {
           successPayload = {
@@ -199,6 +311,7 @@ describe('chat reducer chats', () => {
 
       describe('when a CHAT_FILE_REQUEST_FAILURE action is dispatched', () => {
         let failurePayload;
+        const timestamp = 1;
 
         beforeEach(() => {
           failurePayload = {
