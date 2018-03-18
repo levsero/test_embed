@@ -38,7 +38,12 @@ describe('MessageError component', () => {
     const errorMessage = 'Something went wrong';
 
     beforeEach(() => {
-      const component = instanceRender(<MessageError errorMessage={errorMessage} />);
+      const messageErrorComponent = (
+        <MessageError errorMessage={errorMessage}
+          className='customClassName'
+          handleError={() => {}} />
+      );
+      const component = instanceRender(messageErrorComponent);
 
       el = component.render();
     });
@@ -50,8 +55,31 @@ describe('MessageError component', () => {
       expect(firstChild.props.type).toEqual(ICONS.ERROR_FILL);
     });
 
-    it('renders the error message', () => {
-      expect(el.props.children).toContain(errorMessage);
+    describe('error element', () => {
+      let secondChild;
+
+      beforeEach(() => {
+        secondChild = el.props.children[1];
+      });
+
+      it('renders a span tag', () => {
+        expect(TestUtils.isElementOfType(secondChild, 'span'))
+          .toEqual(true);
+      });
+
+      it('renders custom className prop', () => {
+        expect(secondChild.props.className)
+          .toEqual('customClassName');
+      });
+
+      it('renders handleError props', () => {
+        expect(secondChild.props.onClick)
+          .toEqual(jasmine.any(Function));
+      });
+
+      it('renders the error message', () => {
+        expect(secondChild.props.children).toContain(errorMessage);
+      });
     });
   });
 });

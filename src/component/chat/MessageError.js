@@ -8,7 +8,8 @@ import { locals as styles } from './MessageError.scss';
 export class MessageError extends Component {
   static propTypes = {
     errorMessage: PropTypes.string.isRequired,
-    handleError: PropTypes.func
+    handleError: PropTypes.func,
+    className: PropTypes.string
   };
 
   render() {
@@ -18,7 +19,9 @@ export class MessageError extends Component {
           className={styles.icon}
           type={ICONS.ERROR_FILL}
         />
-        {this.props.errorMessage}
+        <span className={this.props.className} onClick={this.props.handleError}>
+          {this.props.errorMessage}
+        </span>
       </div>
     );
   }
