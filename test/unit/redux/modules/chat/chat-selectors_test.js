@@ -29,7 +29,8 @@ describe('chat selectors', () => {
     getOfflineFormSettings,
     getChatOfflineForm,
     getShowOfflineForm,
-    getPreChatFormState;
+    getPreChatFormState,
+    getQueuePosition;
 
   beforeEach(() => {
     mockery.enable();
@@ -81,6 +82,7 @@ describe('chat selectors', () => {
     getChatOfflineForm = selectors.getChatOfflineForm;
     getShowOfflineForm = selectors.getShowOfflineForm;
     getPreChatFormState = selectors.getPreChatFormState;
+    getQueuePosition = selectors.getQueuePosition;
   });
 
   afterEach(() => {
@@ -302,6 +304,25 @@ describe('chat selectors', () => {
     it('returns the value of accountSettings.rating', () => {
       expect(result)
         .toEqual(ratingSettings);
+    });
+  });
+
+  describe('getQueuePosition', () => {
+    let result;
+    const queuePosition = 3;
+    const mockChatSettings = {
+      chat: {
+        queuePosition
+      }
+    };
+
+    beforeEach(() => {
+      result = getQueuePosition(mockChatSettings);
+    });
+
+    it('returns the value of chat.queuePosition', () => {
+      expect(result)
+        .toEqual(queuePosition);
     });
   });
 
