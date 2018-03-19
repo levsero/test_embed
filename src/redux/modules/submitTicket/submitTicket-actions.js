@@ -28,7 +28,7 @@ export function handleFormChange(state) {
 export function getTicketForms(ticketForms, locale) {
   return (dispatch) => {
     const ticketFormIds = _.toString(ticketForms);
-    const path = `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`;
+    const path = `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields&locale=${locale}`;
     const httpData = {
       method: 'get',
       path,
