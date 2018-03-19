@@ -40,7 +40,7 @@ export class ChatFooter extends Component {
     return (
       <Icon
         type='Icon--endChat'
-        className={`${styles.icon} ${endChatDisabledClasses}`}
+        className={`${styles.iconChatMenuOption} ${endChatDisabledClasses}`}
         onClick={this.handleEndChatClick} />
     );
   }
@@ -62,7 +62,7 @@ export class ChatFooter extends Component {
     return (
       <div>
         {this.props.children}
-        <div className={styles.icons}>
+        <div className={styles.iconContainer}>
           {this.renderEndChatOption()}
           {this.renderAttachmentOption()}
           <Icon type='Icon--ellipsis' onClick={this.menuIconClick} />

@@ -1,19 +1,39 @@
 @import '../../styles/_vars.scss';
 
-.icons {
+.iconContainer {
   composes: u-flex from global;
   justify-content: flex-end;
   padding-top: #{8/$font-size}rem;
 }
 
-.icon {
-  composes: Icon--ellipsis u-paddingLN from global;
-
+.iconChatMenuOption {
   padding-right: #{3/$font-size}rem;
+
+  svg {
+    padding: #{5/$font-size}rem;
+    border-radius: #{4/$font-size}rem;
+
+    min-width: #{14/$font-size}rem;
+    min-height: #{14/$font-size}rem;
+    width: #{14/$font-size}rem;
+    height: #{14/$font-size}rem;
+
+    g {
+      fill: $zd-color-aluminum !important;
+    }
+
+    &:hover, &:active, &:focus {
+      background: $zd-color-platinum;
+
+      g {
+        fill: $zd-color-dark-gray !important;
+      }
+    }
+  }
 }
 
 .iconAttachment {
-  composes: icon;
+  composes: iconChatMenuOption;
 
   path {
     stroke: $zd-color-aluminum !important;

@@ -8,7 +8,7 @@ describe('ChatFooter component', () => {
     initMockRegistry({
       './ChatFooter.scss': {
         locals: {
-          icons: 'iconsClasses',
+          iconContainer: 'iconsClass',
           iconDisabled: 'iconDisabledClasses',
           iconAttachmentDisabled: 'iconAttachmentDisabledClasses'
         }
@@ -40,7 +40,7 @@ describe('ChatFooter component', () => {
     });
 
     it('renders the chat footer with styled icons', () => {
-      expect(componentNode.querySelector('.iconsClasses'))
+      expect(componentNode.querySelector('.iconsClass'))
         .toBeTruthy();
     });
   });
