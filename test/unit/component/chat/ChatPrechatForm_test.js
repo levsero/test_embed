@@ -75,64 +75,42 @@ describe('ChatPrechatForm component', () => {
     mockery.disable();
   });
 
-  describe('componentWillReceiveProps', () => {
-    let component;
-    const visitor = { display_name: 'Arya Stark', email: 'no@name.x' };
-
-    beforeEach(() => {
-      component = instanceRender(<ChatPrechatForm form={mockFormProp} />);
-      component.setState({ formState: { phone: '1234' } });
-    });
-
-    describe('when it gets a truthy email', () => {
-      beforeEach(() => {
-        component.componentWillReceiveProps({ visitor });
-      });
-
-      it('sets the name and email', () => {
-        expect(component.state.formState)
-          .toEqual(jasmine.objectContaining(visitor));
-      });
-
-      it('does not override the other form fields', () => {
-        expect(component.state.formState.phone)
-          .toEqual('1234');
-      });
-    });
-
-    describe('when it gets a falsy email', () => {
-      beforeEach(() => {
-        component.componentWillReceiveProps({ visitor: {} });
-      });
-
-      it('does not set the name and email', () => {
-        expect(component.state.formState)
-          .not.toEqual(jasmine.objectContaining(visitor));
-      });
-    });
-  });
-
   describe('handleFormChange', () => {
-    let component;
+    let component, setFormStateSpy;
 
     beforeEach(() => {
-      component = instanceRender(<ChatPrechatForm form={mockFormProp} />);
+      setFormStateSpy = jasmine.createSpy('setFormState');
+      component = instanceRender(<ChatPrechatForm form={mockFormProp} setFormState={setFormStateSpy} />);
       mockFormValidity = true;
       component.form = mockForm;
 
       component.handleFormChange();
     });
 
-    describe('state.formState', () => {
-      it('equals the form elements name mapped to the value', () => {
-        expect(component.state.formState)
-          .toEqual({ display_name: 'John Snow', email: 'j@l.r' });
-      });
+    it('calls setFormState', () => {
+      expect(setFormStateSpy)
+        .toHaveBeenCalled();
+    });
 
-      it('does not contain elements with type submit', () => {
-        expect(component.state.formState.button)
-          .toBeUndefined();
-      });
+    it('calls setFormState with the form element names mapped to their values', () => {
+      expect(setFormStateSpy)
+        .toHaveBeenCalledWith(
+          jasmine.objectContaining({
+            display_name: 'John Snow',
+            email: 'j@l.r'
+          })
+        );
+    });
+
+    it('calls setFormState without the values from elements with type submit', () => {
+      expect(setFormStateSpy.calls.count())
+        .toEqual(1);
+
+      const formArgument = setFormStateSpy.calls.first().args[0];
+
+      expect(Object.keys(formArgument))
+        .not
+        .toContain('button');
     });
 
     it('sets valid state with the formValidity value', () => {
@@ -143,18 +121,23 @@ describe('ChatPrechatForm component', () => {
 
   describe('handleFormSubmit', () => {
     let component, onFormCompletedSpy;
+    const formState = 'mockFormState';
 
     beforeEach(() => {
       onFormCompletedSpy = jasmine.createSpy('onFormCompleted');
-      component = instanceRender(<ChatPrechatForm form={mockFormProp} onFormCompleted={onFormCompletedSpy} />);
-
-      component.setState({ formState: 'mockFormState' });
+      component = instanceRender(
+        <ChatPrechatForm
+          form={mockFormProp}
+          onFormCompleted={onFormCompletedSpy}
+          formState={formState}
+        />
+      );
       component.handleFormSubmit({ preventDefault: noop });
     });
 
-    it('calls onFormCompleted spy with state.formState', () => {
+    it('calls onFormCompleted spy with the formState prop', () => {
       expect(onFormCompletedSpy)
-        .toHaveBeenCalledWith('mockFormState');
+        .toHaveBeenCalledWith(formState);
     });
   });
 

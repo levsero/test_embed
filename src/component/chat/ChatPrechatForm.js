@@ -13,6 +13,8 @@ import { locals as styles } from './ChatPrechatForm.scss';
 export class ChatPrechatForm extends Component {
   static propTypes = {
     form: PropTypes.object,
+    formState: PropTypes.object,
+    setFormState: PropTypes.func,
     greetingMessage: PropTypes.string,
     visitor: PropTypes.object,
     onFormCompleted: PropTypes.func
@@ -20,6 +22,8 @@ export class ChatPrechatForm extends Component {
 
   static defaultProps = {
     form: {},
+    formState: {},
+    setFormState: () => {},
     greetingMessage: '',
     visitor: {},
     onFormCompleted: () => {}
@@ -29,8 +33,7 @@ export class ChatPrechatForm extends Component {
     super();
 
     this.state = {
-      valid: false,
-      formState: {}
+      valid: false
     };
 
     this.form = null;
@@ -40,18 +43,10 @@ export class ChatPrechatForm extends Component {
     this.handleFormChange();
   }
 
-  componentWillReceiveProps = (props) => {
-    if (props.visitor.email) {
-      this.setState({
-        formState: _.merge({}, props.visitor, this.state.formState)
-      });
-    }
-  }
-
   handleFormSubmit = (e) => {
     e.preventDefault();
 
-    this.props.onFormCompleted(this.state.formState);
+    this.props.onFormCompleted(this.props.formState);
   }
 
   handleFormChange = () => {
@@ -70,10 +65,8 @@ export class ChatPrechatForm extends Component {
     // See this Github issue: https://github.com/tmpvar/jsdom/issues/544
     const valid = !!(this.form.checkValidity && this.form.checkValidity());
 
-    this.setState({
-      valid,
-      formState: values
-    });
+    this.setState({ valid });
+    this.props.setFormState(values);
   }
 
   renderGreetingMessage = () => {
@@ -91,7 +84,7 @@ export class ChatPrechatForm extends Component {
       <Field
         label={i18n.t('embeddable_framework.common.textLabel.name')}
         required={nameData.required}
-        value={this.state.formState.name}
+        value={this.props.formState.name}
         name={nameData.name} />
     );
   }
@@ -103,7 +96,7 @@ export class ChatPrechatForm extends Component {
       <Field
         label={i18n.t('embeddable_framework.common.textLabel.email')}
         required={emailData.required}
-        value={this.state.formState.email}
+        value={this.props.formState.email}
         pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
         name={emailData.name} />
     );
@@ -117,7 +110,7 @@ export class ChatPrechatForm extends Component {
             label={i18n.t('embeddable_framework.common.textLabel.phone_number')}
             required={phoneData.required}
             type='number'
-            value={this.state.formState.phone}
+            value={this.props.formState.phone}
             name={phoneData.name} />
          : null;
   }
@@ -129,7 +122,7 @@ export class ChatPrechatForm extends Component {
       <Field
         label={i18n.t('embeddable_framework.common.textLabel.message')}
         required={messageData.required}
-        value={this.state.formState.message}
+        value={this.props.formState.message}
         input={<textarea rows='3' />}
         name={messageData.name} />
     );
