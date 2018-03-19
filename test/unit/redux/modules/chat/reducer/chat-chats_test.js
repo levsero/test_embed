@@ -139,11 +139,12 @@ describe('chat reducer chats', () => {
     describe('when a CHAT_FILE_REQUEST_SENT action is dispatched', () => {
       let state,
         sendPayload;
+      const timestamp = Date.now();
 
       beforeEach(() => {
         sendPayload = {
           type: 'chat.file',
-          timestamp: Date.now(),
+          timestamp,
           nick: 'visitor',
           display_name: 'Visitor 123',
           file: {
@@ -158,14 +159,8 @@ describe('chat reducer chats', () => {
       });
 
       it('adds the attachment message to the chats collection', () => {
-        expect(state.size)
-          .toEqual(1);
-
         expect(state.get(sendPayload.timestamp))
-          .toEqual(jasmine.objectContaining({
-            timestamp: sendPayload.timestamp,
-            file: sendPayload.file
-          }));
+          .toEqual(sendPayload);
       });
 
       describe('when a CHAT_FILE_REQUEST_SUCCESS action is dispatched', () => {
@@ -174,7 +169,7 @@ describe('chat reducer chats', () => {
         beforeEach(() => {
           successPayload = {
             type: 'chat.file',
-            timestamp: Date.now(),
+            timestamp,
             nick: 'visitor',
             display_name: 'Visitor 123',
             file: {
@@ -185,22 +180,20 @@ describe('chat reducer chats', () => {
         });
 
         it('overrides the CHAT_FILE_REQUEST_SENT state', () => {
-          expect(state.size)
-            .toEqual(1);
+          expect(state.get(timestamp))
+            .toBeDefined();
+
+          expect(state.get(timestamp))
+            .not
+            .toEqual(successPayload);
 
           state = reducer(state, {
             type: actionTypes.CHAT_FILE_REQUEST_SUCCESS,
             payload: successPayload
           });
 
-          expect(state.size)
-            .toEqual(1);
-
-          expect(state.get(successPayload.timestamp))
-            .toEqual(jasmine.objectContaining({
-              timestamp: successPayload.timestamp,
-              file: successPayload.file
-            }));
+          expect(state.get(timestamp))
+            .toEqual(successPayload);
         });
       });
 
@@ -210,7 +203,7 @@ describe('chat reducer chats', () => {
         beforeEach(() => {
           failurePayload = {
             type: 'chat.file',
-            timestamp: Date.now(),
+            timestamp,
             nick: 'visitor',
             display_name: 'Visitor 123',
             file: {
@@ -221,22 +214,20 @@ describe('chat reducer chats', () => {
         });
 
         it('overrides the CHAT_FILE_REQUEST_SENT state', () => {
-          expect(state.size)
-            .toEqual(1);
+          expect(state.get(timestamp))
+            .toBeDefined();
+
+          expect(state.get(timestamp))
+            .not
+            .toEqual(failurePayload);
 
           state = reducer(state, {
-            type: actionTypes.CHAT_FILE_REQUEST_SUCCESS,
+            type: actionTypes.CHAT_FILE_REQUEST_FAILURE,
             payload: failurePayload
           });
 
-          expect(state.size)
-            .toEqual(1);
-
-          expect(state.get(failurePayload.timestamp))
-            .toEqual(jasmine.objectContaining({
-              timestamp: failurePayload.timestamp,
-              file: failurePayload.file
-            }));
+          expect(state.get(timestamp))
+            .toEqual(failurePayload);
         });
       });
     });
