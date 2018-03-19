@@ -16,7 +16,8 @@
     "build:translationsIndividual": "rm -rf dist/locales && cp -r src/translation/locales dist/locales",
     "build:ze_localeIdMap": "uglifyjs -c -m -o dist/ze_localeIdMap.js -- src/translation/ze_localeIdMap.js",
     "build:ze_countries": "uglifyjs -c -m -o dist/ze_countries.js -- src/translation/ze_countries.js",
-    "prebuild:ac": "script/ac_fetch_i18n && cp manifest.json dist && npm run build:ze_translations && npm run build:ze_localeIdMap && npm run build:ze_countries && npm run build:translationsIndividual",
+    "build:chat_sdk": "uglifyjs -c -m -o dist/web_sdk.js -- node_modules/chat-web-sdk/web_sdk.js",
+    "prebuild:ac": "script/ac_fetch_i18n && cp manifest.json dist && npm run build:ze_translations && npm run build:ze_localeIdMap && npm run build:ze_countries && npm run build:chat_sdk && npm run build:translationsIndividual",
     "build:prod": "script/fetch_i18n && webpack --config=./webpack/webpack.prod.config.js --progress",
     "build:ac": "webpack --config=./webpack/webpack.ac.config.js --progress",
     "watchConf": "node script/update_watch_config",
@@ -37,7 +38,7 @@
   "dependencies": {
     "airbrake-js": "^0.5.9",
     "airwaves": "~0.3.0",
-    "chat-web-sdk": "git+ssh://git@github.com/zendesk/chat-web-sdk.git#1.1.4",
+    "chat-web-sdk": "git+ssh://git@github.com/zendesk/chat-web-sdk.git#2.0.0",
     "classnames": "^2.2.5",
     "color": "~0.7.3",
     "core-js": "^2.5.1",
