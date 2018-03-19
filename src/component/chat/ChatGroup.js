@@ -7,9 +7,9 @@ import { MessageBubble } from 'component/shared/MessageBubble';
 import { Attachment } from 'component/attachment/Attachment';
 import { MessageError } from 'component/chat/MessageError';
 import { ImageMessage } from 'component/chat/ImageMessage';
-import { ATTACHMENT_ERROR_TYPES } from 'constants/chat';
 import { ICONS, FILETYPE_ICONS } from 'constants/shared';
-
+import { ATTACHMENT_ERROR_TYPES,
+         CHAT_MESSAGE_FAILURE } from 'constants/chat';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatGroup.scss';
 import classNames from 'classnames';
@@ -26,7 +26,8 @@ export class ChatGroup extends Component {
 
   static defaultProps = {
     messages: [],
-    isAgent: false
+    isAgent: false,
+    handleSendMsg: () => {}
   };
 
   renderName = (isAgent, showAvatar, messages) => {
@@ -46,24 +47,11 @@ export class ChatGroup extends Component {
       }
     );
 
-    const messageBubbleClasses = classNames({
-      [styles.messageBubble]: showAvatar,
-      [styles.userBackground]: !isAgent,
-      [styles.agentBackground]: isAgent
-    });
-
     return messages.map((chat) => {
       let message;
 
       if (chat.msg) {
-        message = (
-          <MessageBubble
-            className={messageBubbleClasses}
-            message={chat.msg}
-            options={chat.options}
-            handleSendMsg={this.props.handleSendMsg}
-          />
-        );
+        message = this.renderMessage(isAgent, chat, showAvatar);
       } else if (chat.file || chat.attachment) {
         message = this.renderInlineAttachment(isAgent, chat);
       }
@@ -76,6 +64,47 @@ export class ChatGroup extends Component {
         </div>
       );
     });
+  }
+
+  renderMessage = (isAgent, chat, showAvatar) => {
+    const messageBubbleClasses = classNames({
+      [styles.messageBubble]: showAvatar,
+      [styles.userBackground]: !isAgent,
+      [styles.agentBackground]: isAgent
+    });
+
+    const message = (
+      <MessageBubble
+        className={messageBubbleClasses}
+        message={chat.msg}
+        options={chat.options}
+        handleSendMsg={this.props.handleSendMsg}
+      />
+    );
+
+    if (chat.status === CHAT_MESSAGE_FAILURE) {
+      let errorMessage,
+        handleResendMsg = () => {},
+        errorClasses = '';
+
+      if (chat.numFailedTries === 1) {
+        errorMessage = 'Resend';
+        handleResendMsg = () => this.props.handleSendMsg(chat.msg, chat.timestamp);
+        errorClasses = styles.messageErrorRetry;
+      } else if (chat.numFailedTries > 1) {
+        errorMessage = 'Failed to send';
+      }
+
+      return (
+        <div>
+          {message}
+          <div className={styles.messageErrorContainer}>
+            <MessageError className={errorClasses} errorMessage={errorMessage} handleError={handleResendMsg}/>
+          </div>
+        </div>
+      );
+    }
+    return message;
   }
 
   renderInlineAttachment = (isAgent, chat) => {

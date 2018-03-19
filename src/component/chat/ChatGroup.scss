@@ -51,8 +51,12 @@
   }
 }
 
-.messageErrorContainer {
-  margin-top: $spacing-tny;
+.messageErrorRetry {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.genericErrorContainer {
   float: right;
   text-align: right;
 
@@ -60,6 +64,17 @@
     float: left;
     text-align: left;
   }
+}
+
+.messageErrorContainer {
+  composes: genericErrorContainer;
+  margin-top: #{2/$font-size}rem;
+  margin-bottom: #{5/$font-size}rem;
+}
+
+.attachmentMessageErrorContainer {
+  composes: genericErrorContainer;
+  margin-top: $spacing-tny;
 }
 
 .userBackground {

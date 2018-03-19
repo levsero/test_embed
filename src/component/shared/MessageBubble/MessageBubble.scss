@@ -1,7 +1,7 @@
 @import '../../../styles/_vars.scss';
 
 .genericMessageBubble {
-  composes: u-textBreak u-inlineBlock from global;
+  composes: u-textBreak u-inlineBlock u-pullRight from global;
   white-space: pre-wrap;
   max-width: #{245/$font-size}rem;
 }
