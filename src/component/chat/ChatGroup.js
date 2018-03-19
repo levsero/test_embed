@@ -88,11 +88,11 @@ export class ChatGroup extends Component {
         errorClasses = '';
 
       if (chat.numFailedTries === 1) {
-        errorMessage = 'Resend';
+        errorMessage = i18n.t('embeddable_framework.chat.messagefailed.resend');
         handleResendMsg = () => this.props.handleSendMsg(chat.msg, chat.timestamp);
         errorClasses = styles.messageErrorRetry;
       } else if (chat.numFailedTries > 1) {
-        errorMessage = 'Failed to send';
+        errorMessage = i18n.t('embeddable_framework.chat.messagefailed.failed_twice');
       }
 
       return (

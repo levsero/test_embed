@@ -69,7 +69,7 @@
 .messageErrorContainer {
   composes: genericErrorContainer;
   margin-top: #{2/$font-size}rem;
-  margin-bottom: #{5/$font-size}rem;
+  margin-bottom: $spacing-tny;
 }
 
 .attachmentMessageErrorContainer {

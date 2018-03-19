@@ -383,7 +383,7 @@ describe('ChatGroup component', () => {
 
         it('renders first attempt error message', () => {
           expect(messageErrorComponent.props.errorMessage)
-            .toEqual('Resend');
+            .toEqual('embeddable_framework.chat.messagefailed.resend');
         });
 
         it('renders handleError function prop that does call handleSendMsg prop', () => {
@@ -416,7 +416,7 @@ describe('ChatGroup component', () => {
 
         it('renders second attempt error message', () => {
           expect(messageErrorComponent.props.errorMessage)
-            .toEqual('Failed to send');
+            .toEqual('embeddable_framework.chat.messagefailed.failed_twice');
         });
 
         it('renders handleError function prop that does not call handleSendMsg prop', () => {
