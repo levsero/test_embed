@@ -37,6 +37,7 @@ export const getAttachmentsEnabled = (state) => state.chat.accountSettings.attac
 export const getRatingSettings = (state) => state.chat.accountSettings.rating;
 export const getUserSoundSettings = (state) => state.chat.userSettings.sound;
 export const getChatOfflineForm = (state) => state.chat.formState.offlineForm;
+export const getPreChatFormState = (state) => state.chat.formState.preChatForm;
 
 export const getThemeShowAvatar = createSelector(
   getThemeMessageType,
