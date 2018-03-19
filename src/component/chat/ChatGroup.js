@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import chatPropTypes from 'types/chat';
 
-import _ from 'lodash';
-
 import { Avatar } from 'component/Avatar';
 import { MessageBubble } from 'component/shared/MessageBubble';
-import { ImageMessage } from 'component/chat/ImageMessage';
 import { Attachment } from 'component/attachment/Attachment';
+import { MessageError } from 'component/chat/MessageError';
+import { ImageMessage } from 'component/chat/ImageMessage';
+import { ATTACHMENT_ERROR_TYPES } from 'constants/chat';
 import { ICONS, FILETYPE_ICONS } from 'constants/shared';
 
+import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatGroup.scss';
+import classNames from 'classnames';
+import _ from 'lodash';
 
 export class ChatGroup extends Component {
   static propTypes = {
@@ -28,16 +31,26 @@ export class ChatGroup extends Component {
 
   renderName = (isAgent, showAvatar, messages) => {
     const name = _.get(messages, '0.display_name');
-    const nameStyles = showAvatar ? styles.nameAvatar : styles.nameNoAvatar;
+    const nameClasses = showAvatar ? styles.nameAvatar : styles.nameNoAvatar;
 
     return isAgent && name ?
-      <div className={nameStyles}>{name}</div> : null;
+      <div className={nameClasses}>{name}</div> : null;
   }
 
   renderChatMessages = (isAgent, showAvatar, messages) => {
-    const userClasses = isAgent ? styles.messageAgent : styles.messageUser;
-    const messageBubbleClasses = showAvatar ? styles.messageBubble : '';
-    const userBackgroundStyle = isAgent ? styles.agentBackground : styles.userBackground;
+    const messageClasses = classNames(
+      styles.message,
+      {
+        [styles.messageUser]: !isAgent,
+        [styles.messageAgent]: isAgent
+      }
+    );
+
+    const messageBubbleClasses = classNames({
+      [styles.messageBubble]: showAvatar,
+      [styles.userBackground]: !isAgent,
+      [styles.agentBackground]: isAgent
+    });
 
     return messages.map((chat) => {
       let message;
@@ -45,7 +58,7 @@ export class ChatGroup extends Component {
       if (chat.msg) {
         message = (
           <MessageBubble
-            className={`${messageBubbleClasses} ${userBackgroundStyle}`}
+            className={messageBubbleClasses}
             message={chat.msg}
             options={chat.options}
             handleSendMsg={this.props.handleSendMsg}
@@ -57,7 +70,7 @@ export class ChatGroup extends Component {
 
       return (
         <div key={chat.timestamp} className={styles.wrapper}>
-          <div className={`${styles.message} ${userClasses}`}>
+          <div className={messageClasses}>
             {message}
           </div>
         </div>
@@ -72,27 +85,43 @@ export class ChatGroup extends Component {
     const icon = FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT;
     const isImage = /(gif|jpe?g|png)$/i.test(extension);
 
-    // chat.uploading is never truthy on an incoming message, therefore the assignment below
-    // never occurs if the message group is from an agent AND it is an image
+    const attachmentClasses = classNames(
+      styles.attachment,
+      { [styles.attachmentError]: !!file.error }
+    );
+
     inlineAttachment = (
       <Attachment
-        className={styles.attachment}
-        downloading={!chat.uploading && isImage}
+        className={attachmentClasses}
+        downloading={!file.error && !file.uploading && isImage}
         file={file}
         filenameMaxLength={20}
         icon={icon}
         isDownloadable={isAgent}
-        uploading={chat.uploading}
+        uploading={!file.error && file.uploading}
       />
     );
 
-    if (!chat.uploading && isImage) {
-      const imgSrc = _.isObject(chat.attachment) ? chat.attachment.url : chat.attachment;
-      const placeholderEl = !isAgent && inlineAttachment;
+    if (file.error) {
+      const errorType = ATTACHMENT_ERROR_TYPES[file.error.message];
+      const errorMessage = i18n.t(`embeddable_framework.chat.attachments.error.${errorType}`);
 
-      inlineAttachment = (
+      return (
+        <div>
+          {inlineAttachment}
+          <div className={styles.messageErrorContainer}>
+            <MessageError errorMessage={errorMessage} />
+          </div>
+        </div>
+      );
+    }
+
+    if (!file.uploading && isImage) {
+      const placeholderEl = !isAgent ? inlineAttachment : null;
+
+      return (
         <ImageMessage
-          imgSrc={imgSrc}
+          imgSrc={file.url}
           placeholderEl={placeholderEl}
         />
       );
@@ -102,10 +131,14 @@ export class ChatGroup extends Component {
   }
 
   renderAvatar = (showAvatarAsAgent, avatarPath = '') => {
-    const avatarStyles = avatarPath ? styles.avatarWithSrc : styles.avatarDefault;
+    const avatarClasses = avatarPath ? styles.avatarWithSrc : styles.avatarDefault;
 
     return showAvatarAsAgent ?
-      <Avatar className={avatarStyles} src={avatarPath} fallbackIcon="Icon--agent-avatar" /> : null;
+      <Avatar
+        className={avatarClasses}
+        src={avatarPath}
+        fallbackIcon='Icon--agent-avatar'
+      /> : null;
   }
 
   render() {

@@ -1,6 +1,9 @@
 describe('Icon component', function() {
-  let Icon;
+  let Icon,
+    ICONS;
+
   const iconPath = buildSrcPath('component/Icon');
+  const sharedConstantsPath = buildSrcPath('constants/shared');
 
   class DummyIcon {
     render() {
@@ -10,6 +13,8 @@ describe('Icon component', function() {
 
   beforeEach(function() {
     mockery.enable();
+
+    ICONS = requireUncached(sharedConstantsPath).ICONS;
 
     initMockRegistry({
       'React': React,
@@ -55,6 +60,9 @@ describe('Icon component', function() {
         isMobileBrowser: function() {
           return false;
         }
+      },
+      'constants/shared': {
+        ICONS
       },
       './Icon.scss': {
         locals: {

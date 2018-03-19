@@ -8,12 +8,12 @@ import { EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
          EMAIL_TRANSCRIPT_FAILURE_SCREEN,
          EMAIL_TRANSCRIPT_SCREEN,
          EMAIL_TRANSCRIPT_LOADING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
+import { ICONS } from 'constants/shared';
 import { locals as styles } from 'component/chat/ChatEmailTranscriptPopup.scss';
 import { emailValid } from 'src/util/utils';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { Icon } from 'src/component/Icon';
 import { isIE } from 'utility/devices';
-
 import _ from 'lodash';
 
 export class ChatEmailTranscriptPopup extends Component {
@@ -133,7 +133,7 @@ export class ChatEmailTranscriptPopup extends Component {
     return (
       <div className={`${styles.resultScreen}`}>
         <div>
-          <Icon type='Icon--error-fill'/>
+          <Icon type={ICONS.ERROR_FILL} />
         </div>
         <div>
           {failureMessageLabel}

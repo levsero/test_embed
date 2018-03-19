@@ -5,11 +5,11 @@ describe('chat reducer chats', () => {
     actionTypes,
     initialState;
 
-  beforeAll(() => {
-    mockery.enable();
+  const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-chats');
+  const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
 
-    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-chats');
-    const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
+  beforeEach(() => {
+    mockery.enable();
 
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);
@@ -17,7 +17,7 @@ describe('chat reducer chats', () => {
     initialState = reducer(undefined, { type: '' });
   });
 
-  afterAll(() => {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
@@ -36,10 +36,11 @@ describe('chat reducer chats', () => {
 
       beforeEach(() => {
         payload = {
+          type: 'chat.msg',
           timestamp: Date.now(),
-          msg: 'Hi',
           nick: 'visitor',
           display_name: 'Visitor 123',
+          msg: 'Hi',
           pending: true
         };
 
@@ -141,10 +142,13 @@ describe('chat reducer chats', () => {
 
       beforeEach(() => {
         sendPayload = {
+          type: 'chat.file',
           timestamp: Date.now(),
-          uploading: true,
           nick: 'visitor',
-          display_name: 'Visitor 123'
+          display_name: 'Visitor 123',
+          file: {
+            uploading: true
+          }
         };
 
         state = reducer(initialState, {
@@ -160,7 +164,7 @@ describe('chat reducer chats', () => {
         expect(state.get(sendPayload.timestamp))
           .toEqual(jasmine.objectContaining({
             timestamp: sendPayload.timestamp,
-            uploading: sendPayload.uploading
+            file: sendPayload.file
           }));
       });
 
@@ -169,11 +173,14 @@ describe('chat reducer chats', () => {
 
         beforeEach(() => {
           successPayload = {
-            timestamp: sendPayload.timestamp,
-            uploading: false,
-            attachment: { name: 'bunpun.png' },
+            type: 'chat.file',
+            timestamp: Date.now(),
             nick: 'visitor',
-            display_name: 'Visitor 123'
+            display_name: 'Visitor 123',
+            file: {
+              url: 'http://path/to/file',
+              uploading: false
+            }
           };
         });
 
@@ -192,8 +199,43 @@ describe('chat reducer chats', () => {
           expect(state.get(successPayload.timestamp))
             .toEqual(jasmine.objectContaining({
               timestamp: successPayload.timestamp,
-              uploading: successPayload.uploading,
-              attachment: successPayload.attachment
+              file: successPayload.file
+            }));
+        });
+      });
+
+      describe('when a CHAT_FILE_REQUEST_FAILURE action is dispatched', () => {
+        let failurePayload;
+
+        beforeEach(() => {
+          failurePayload = {
+            type: 'chat.file',
+            timestamp: Date.now(),
+            nick: 'visitor',
+            display_name: 'Visitor 123',
+            file: {
+              error: { message: 'EXCEED_SIZE_LIMIT' },
+              uploading: false
+            }
+          };
+        });
+
+        it('overrides the CHAT_FILE_REQUEST_SENT state', () => {
+          expect(state.size)
+            .toEqual(1);
+
+          state = reducer(state, {
+            type: actionTypes.CHAT_FILE_REQUEST_SUCCESS,
+            payload: failurePayload
+          });
+
+          expect(state.size)
+            .toEqual(1);
+
+          expect(state.get(failurePayload.timestamp))
+            .toEqual(jasmine.objectContaining({
+              timestamp: failurePayload.timestamp,
+              file: failurePayload.file
             }));
         });
       });
@@ -202,6 +244,7 @@ describe('chat reducer chats', () => {
     describe('chat SDK actions', () => {
       let state,
         detail;
+
       const sdkActionTypes = [
         chatActionTypes.SDK_CHAT_WAIT_QUEUE,
         chatActionTypes.SDK_CHAT_REQUEST_RATING,

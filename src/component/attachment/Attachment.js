@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './Attachment.scss';
+import classNames from 'classnames';
 
 export class Attachment extends Component {
   static propTypes = {
@@ -106,26 +107,35 @@ export class Attachment extends Component {
             downloading,
             errorMessage,
             filenameMaxLength,
-            icon,
             isDownloadable,
-            isRemovable,
             uploading } = this.props;
-    const containerErrorStyles = errorMessage ? styles.containerError : '';
-    const containerStyles = `${styles.container} ${this.props.className} ${containerErrorStyles}`;
-    const previewIcon = (
-      <Icon type={icon} className={styles.iconPreview} />
+
+    const containerClasses = classNames(
+      styles.container,
+      this.props.className,
+      { [styles.containerError]: !!errorMessage }
     );
+
+    const secondaryTextClasses = classNames(
+      styles.secondaryText,
+      { [styles.secondaryTextError]: !!errorMessage }
+    );
+
+    const previewIcon = <Icon type={this.props.icon} className={styles.iconPreview} />;
+
     const previewName = (
       <div className={styles.previewName}>
         {filenameMaxLength ? this.truncateFilename(file.name, filenameMaxLength, 7) : file.name}
       </div>
     );
+
     const removeIcon = (
       <Icon
         onClick={this.handleIconClick}
         className={styles.icon}
         type='Icon--close' />
     );
+
     const progressBar = (
       <div className={styles.progressBarContainer}>
         <div className={styles.progressBar} ref='progressBar' />
@@ -133,12 +143,12 @@ export class Attachment extends Component {
     );
 
     return (
-      <div className={containerStyles}>
+      <div className={containerClasses}>
         <div className={styles.preview}>
           {isDownloadable ? this.renderLinkedEl(previewIcon, file.url) : previewIcon}
           <div className={styles.description}>
             {isDownloadable ? this.renderLinkedEl(previewName, file.url) : previewName}
-            <div className={styles.secondaryText}>
+            <div className={secondaryTextClasses}>
               {this.renderSecondaryText(
                 file,
                 errorMessage,
@@ -148,7 +158,7 @@ export class Attachment extends Component {
               }
             </div>
           </div>
-          {isRemovable && removeIcon}
+          {this.props.isRemovable && removeIcon}
         </div>
         {(uploading && !errorMessage) && progressBar}
       </div>

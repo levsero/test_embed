@@ -458,6 +458,41 @@ parts:
       title: "A button that is presented at the bottom of the window when the user wants to go back to chatting"
       screenshot: "https://zendesk.box.com/s/7py8p1xvv56q7bc053rsnvs6id1rraet"
       value: "Back to chat"
+  - translation:
+      key: "embeddable_framework.chat.attachments.error.not_supported"
+      title: "A text displayed in the chat log when file sending is not supported on the users browser"
+      screenshot: "https://zendesk.box.com/s/b46p64o8lr8pdeij7z9ksr6pcptxbri0"
+      value: "Upload failed. File sending is not supported on this browser."
+  - translation:
+      key: "embeddable_framework.chat.attachments.error.not_allowed"
+      title: "A text displayed in the chat log when file sending is not allowed due to account’s File Sending settings"
+      screenshot: "https://zendesk.box.com/s/xcd899s9n42fbxeu9oelhb6f44iy6sy1"
+      value: "Upload failed. File sending is not allowed."
+  - translation:
+      key: "embeddable_framework.chat.attachments.error.conn_error"
+      title: "A text displayed in the chat log when file sending fails due to connectivity issues"
+      screenshot: "https://zendesk.box.com/s/lre4eykllgwi4cvu76r336xw8fdupcea"
+      value: "Upload failed. Something went wrong. Please try again."
+  - translation:
+      key: "embeddable_framework.chat.attachments.error.invalid_extension"
+      title: "A text displayed in the chat log when file sending fails due to an invalid file extension"
+      screenshot: "https://zendesk.box.com/s/xs18h6zcmghhqe5nvmjm4h671uxj2izc"
+      value: "Upload failed. File type is not supported."
+  - translation:
+      key: "embeddable_framework.chat.attachments.error.exceed_size_limit"
+      title: "A text displayed in the chat log when file sending fails due to file size exceeding the limit"
+      screenshot: "https://zendesk.box.com/s/a80q86e1njmck8ymdhai1rkf2ppg6djo"
+      value: "Upload failed. File size is too large."
+  - translation:
+      key: "embeddable_framework.chat.attachments.error.internal_error"
+      title: "A text displayed in the chat log when file sending fails due to an internal Zendesk Chat error"
+      screenshot: "https://zendesk.box.com/s/lre4eykllgwi4cvu76r336xw8fdupcea"
+      value: "Upload failed. Something went wrong. Please try again."
+  - translation:
+      key: "embeddable_framework.chat.attachments.error.unknown_error"
+      title: "A text displayed in the chat log when file sending fails due to an unknown error"
+      screenshot: "https://zendesk.box.com/s/lre4eykllgwi4cvu76r336xw8fdupcea"
+      value: "Upload failed. Something went wrong. Please try again."
 
   # Submit Ticket component
   - translation:

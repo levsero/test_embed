@@ -1,6 +1,7 @@
 // TODO: this is an incomplete list, and should probably include exports for all the other icons we use as well
 
 export const ICONS = {
+  ERROR_FILL:           'Icon--error-fill',
   PREVIEW_DEFAULT:      'Icon--preview-default',
   PREVIEW_DOCUMENT:     'Icon--preview-document',
   PREVIEW_ERROR:        'Icon--preview-error',
