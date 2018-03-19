@@ -1008,20 +1008,37 @@ describe('embed.webWidget', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('zopimChat.setUser', jasmine.any(Function));
       });
+    });
 
-      describe('when chat is available', () => {
+    describe('webWidget.proactiveChat', () => {
+      beforeEach(() => {
+        pluckSubscribeCall(mockMediator, 'webWidget.proactiveChat');
+      });
+
+      it('should subscribe to webWidget.proactiveChat', () => {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('webWidget.proactiveChat', jasmine.any(Function));
+      });
+
+      describe('when webWidget.proactiveChat is dispatched', () => {
         beforeEach(() => {
-          webWidget.create('', { zopimChat: {} }, mockStore);
-          webWidget.render();
-          pluckSubscribeCall(mockMediator, 'zopimChat.setUser')(user);
+          frame = webWidget.get().instance;
+          component = frame.getRootComponent();
+
+          spyOn(frame, 'show');
+          spyOn(component, 'showChat');
+
+          pluckSubscribeCall(mockMediator, 'webWidget.proactiveChat')();
         });
 
-        it('dispatches the setVisitorInfo action', () => {
-          expect(webWidget.get().store.dispatch)
-            .toHaveBeenCalledWith({
-              display_name: user.name, // eslint-disable-line camelcase
-              email: user.email
-            });
+        it('call show on Frame', () => {
+          expect(frame.show)
+            .toHaveBeenCalled();
+        });
+
+        it('call showChat with true on the component', () => {
+          expect(component.showChat)
+            .toHaveBeenCalledWith(true);
         });
       });
 

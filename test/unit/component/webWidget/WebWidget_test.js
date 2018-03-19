@@ -103,6 +103,9 @@ describe('WebWidget component', () => {
       'src/redux/modules/chat/chat-selectors': {
         getChatNotification: noop
       },
+      'src/redux/modules/chat/chat-screen-types': {
+        CHATTING_SCREEN: 'chatting'
+      },
       'src/redux/modules/talk/talk-selectors': {
         getTalkAvailable: noop
       },
@@ -1224,18 +1227,84 @@ describe('WebWidget component', () => {
     });
 
     describe('when oldChat is false', () => {
-      beforeEach(() => {
-        webWidget = instanceRender(
-          <WebWidget
-            oldChat={false}
-            updateActiveEmbed={updateActiveEmbedSpy} />
-        );
-        webWidget.showChat();
+      const updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
+      const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility');
+
+      describe('when proactive is false', () => {
+        beforeEach(() => {
+          webWidget = instanceRender(
+            <WebWidget
+              oldChat={false}
+              updateChatScreen={updateChatScreenSpy}
+              updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+              updateActiveEmbed={updateActiveEmbedSpy} />
+          );
+          webWidget.showChat();
+        });
+
+        it('calls updateActiveEmbed with chat', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('chat');
+        });
+
+        it('does not call updateChatScreen', () => {
+          expect(updateChatScreenSpy)
+            .not.toHaveBeenCalled();
+        });
+
+        it('does not call updateBackButtonVisibility', () => {
+          expect(updateBackButtonVisibilitySpy)
+            .not.toHaveBeenCalled();
+        });
       });
 
-      it('should call updateActiveEmbed with chat', () => {
-        expect(updateActiveEmbedSpy)
-          .toHaveBeenCalledWith('chat');
+      describe('when proactive is true', () => {
+        beforeEach(() => {
+          webWidget = instanceRender(
+            <WebWidget
+              oldChat={false}
+              updateChatScreen={updateChatScreenSpy}
+              updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+              updateActiveEmbed={updateActiveEmbedSpy} />
+          );
+          webWidget.showChat({ proactive: true });
+        });
+
+        it('calls updateActiveEmbed with chat', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('chat');
+        });
+
+        it('calls updateChatScreen with chatting screen', () => {
+          expect(updateChatScreenSpy)
+            .toHaveBeenCalledWith('chatting');
+        });
+
+        describe('when helpCenterAvailable is true', () => {
+          beforeEach(() => {
+            spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(true);
+
+            webWidget.showChat({ proactive: true });
+          });
+
+          it('calls updateBackButtonVisibility with true', () => {
+            expect(updateBackButtonVisibilitySpy)
+              .toHaveBeenCalledWith(true);
+          });
+        });
+
+        describe('when helpCenterAvailable is false', () => {
+          beforeEach(() => {
+            spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
+
+            webWidget.showChat({ proactive: true });
+          });
+
+          it('calls updateBackButtonVisibility with false', () => {
+            expect(updateBackButtonVisibilitySpy)
+              .toHaveBeenCalledWith(false);
+          });
+        });
       });
     });
   });

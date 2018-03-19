@@ -34,6 +34,8 @@ export default class MockWebWidget extends Component {
 
   show() {}
 
+  showChat() {}
+
   render() {
     return (
       <div className='mock-webWidget'>

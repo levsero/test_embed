@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
+import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import Chat from 'component/chat/Chat';
 import ChatOfflineForm from 'component/chat/ChatOfflineForm';
 import Talk from 'component/talk/Talk';
@@ -190,7 +191,7 @@ class WebWidget extends Component {
 
   noActiveEmbed = () => this.props.activeEmbed === '';
 
-  showChat = () => {
+  showChat = (options = { proactive: false }) => {
     const { updateActiveEmbed, oldChat, zopimOnNext } = this.props;
 
     if (oldChat) {
@@ -199,6 +200,10 @@ class WebWidget extends Component {
       updateActiveEmbed(zopimChat);
     } else {
       updateActiveEmbed(chat);
+      if (options.proactive) {
+        this.props.updateChatScreen(CHATTING_SCREEN);
+        this.props.updateBackButtonVisibility(this.isHelpCenterAvailable());
+      }
     }
   }
 

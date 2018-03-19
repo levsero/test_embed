@@ -290,6 +290,11 @@ export default function WebWidgetFactory(name) {
       });
     });
 
+    mediator.channel.subscribe(prefix + 'webWidget.proactiveChat', (options = {}) => {
+      getWebWidgetComponent().showChat({ proactive: true });
+      embed.instance.show(options);
+    });
+
     mediator.channel.subscribe(prefix + 'webWidget.hide', (options = {}) => {
       hide(options);
     });

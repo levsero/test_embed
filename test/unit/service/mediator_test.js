@@ -125,7 +125,8 @@ describe('mediator', () => {
        'update',
        'refreshLocale',
        'zopimChatStarted',
-       'zopimChatEnded']
+       'zopimChatEnded',
+       'proactiveChat']
     );
 
     initSubscriptionSpies = function(names) {
@@ -159,6 +160,7 @@ describe('mediator', () => {
       c.subscribe(`${names.webWidget}.setZopimOnline`, webWidgetSub.setZopimOnline);
       c.subscribe(`${names.webWidget}.zopimChatStarted`, webWidgetSub.zopimChatStarted);
       c.subscribe(`${names.webWidget}.zopimChatEnded`, webWidgetSub.zopimChatEnded);
+      c.subscribe(`${names.webWidget}.proactiveChat`, webWidgetSub.proactiveChat);
 
       c.subscribe(`${names.talk}.show`, talkSub.show);
     };
@@ -1441,6 +1443,33 @@ describe('mediator', () => {
 
         expect(chatSub.show.calls.count())
           .toEqual(0);
+      });
+
+      describe('newChat.newMessage', () => {
+        it('broadcasts webWidget.proactiveChat', () => {
+          c.broadcast('newChat.newMessage');
+
+          expect(webWidgetSub.proactiveChat.calls.count())
+            .toEqual(1);
+        });
+
+        it('does not broadcast webWidget.proactiveChat when userClosed is true', () => {
+          c.broadcast('webWidget.onClose');
+          c.broadcast('newChat.newMessage');
+
+          expect(webWidgetSub.proactiveChat.calls.count())
+            .toEqual(0);
+        });
+
+        it('does not broadcast webWidget.proactiveChat when isMobileBrowser is true', () => {
+          mockRegistry['utility/devices'].isMobileBrowser
+            .and.returnValue(true);
+
+          c.broadcast('newChat.newMessage');
+
+          expect(webWidgetSub.proactiveChat.calls.count())
+            .toEqual(0);
+        });
       });
 
       it('pops open proactive chat after chat ends and user closes it', () => {

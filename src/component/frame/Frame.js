@@ -258,10 +258,13 @@ export class Frame extends Component {
 
     this.props.onShow(this);
 
-    dispatch(updateWidgetShown(this.props.name === 'launcher'));
+    if (this.props.name !== 'launcher') {
+      dispatch(updateWidgetShown(true));
+    }
   }
 
   hide = (options = {}) => {
+    const { dispatch } = this.props.store;
     const { onHide, transitions, store } = this.props;
     const hideFinished = () => {
       this.setState({ visible: false });
@@ -280,6 +283,10 @@ export class Frame extends Component {
       setTimeout(() => {
         hideFinished();
       }, cssTimeToMs(transition.end.transitionDuration));
+    }
+
+    if (this.props.name !== 'launcher') {
+      dispatch(updateWidgetShown(false));
     }
   }
 

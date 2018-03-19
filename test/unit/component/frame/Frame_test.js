@@ -495,38 +495,12 @@ describe('Frame', () => {
       });
     });
 
-    describe('when the name is launcher', () => {
-      beforeEach(() => {
-        dispatchSpy = jasmine.createSpy('dispatch');
-
-        frameProps = {
-          name: 'launcher',
-          store: {
-            dispatch: dispatchSpy
-          }
-        };
-
-        frame = domRender(<Frame {...frameProps} />);
-        frame.show();
-      });
-
-      it('calls updateWidgetShown with false', () => {
-        expect(mockUpdateWidgetShown)
-          .toHaveBeenCalledWith(false);
-      });
-
-      it('calls dispatch', () => {
-        expect(dispatchSpy)
-          .toHaveBeenCalled();
-      });
-    });
-
     describe('when the name is not launcher', () => {
       beforeEach(() => {
         dispatchSpy = jasmine.createSpy('dispatch');
 
         frameProps = {
-          name: 'launcher',
+          name: 'webWidget',
           store: {
             dispatch: dispatchSpy
           }
@@ -544,6 +518,34 @@ describe('Frame', () => {
       it('calls dispatch', () => {
         expect(dispatchSpy)
           .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the name is launcher', () => {
+      beforeEach(() => {
+        dispatchSpy = jasmine.createSpy('dispatch');
+
+        frameProps = {
+          name: 'launcher',
+          store: {
+            dispatch: dispatchSpy
+          }
+        };
+
+        mockUpdateWidgetShown.calls.reset();
+
+        frame = domRender(<Frame {...frameProps} />);
+        frame.show();
+      });
+
+      it('does not call updateWidgetShown', () => {
+        expect(mockUpdateWidgetShown)
+          .not.toHaveBeenCalled();
+      });
+
+      it('does not call dispatch', () => {
+        expect(dispatchSpy)
+          .not.toHaveBeenCalled();
       });
     });
   });
@@ -654,6 +656,60 @@ describe('Frame', () => {
       it('calls dispatch', () => {
         expect(dispatchSpy)
           .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the name is not launcher', () => {
+      beforeEach(() => {
+        dispatchSpy = jasmine.createSpy('dispatch');
+
+        frameProps = {
+          name: 'webWidget',
+          store: {
+            dispatch: dispatchSpy
+          }
+        };
+
+        frame = domRender(<Frame {...frameProps} />);
+        frame.hide();
+      });
+
+      it('calls updateWidgetShown with false', () => {
+        expect(mockUpdateWidgetShown)
+          .toHaveBeenCalledWith(false);
+      });
+
+      it('calls dispatch', () => {
+        expect(dispatchSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the name is launcher', () => {
+      beforeEach(() => {
+        dispatchSpy = jasmine.createSpy('dispatch');
+
+        frameProps = {
+          name: 'launcher',
+          store: {
+            dispatch: dispatchSpy
+          }
+        };
+
+        mockUpdateWidgetShown.calls.reset();
+
+        frame = domRender(<Frame {...frameProps} />);
+        frame.hide();
+      });
+
+      it('does not call updateWidgetShown', () => {
+        expect(mockUpdateWidgetShown)
+          .not.toHaveBeenCalled();
+      });
+
+      it('does not call dispatch', () => {
+        expect(dispatchSpy)
+          .not.toHaveBeenCalled();
       });
     });
   });
