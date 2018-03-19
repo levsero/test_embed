@@ -8,16 +8,36 @@
 }
 
 .container {
-  max-height: #{550/$font-size}rem;
+  height: #{$chat-height/$font-size}rem;
+}
+
+.mobileContainer {
+  height: 100% !important;
+}
+
+.scrollContainer {
+  composes: container;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollContainerContent {
+  height: 100%;
+  max-height: none;
+}
+
+.scrollContainerMessagesContent {
+  composes: scrollContainerContent;
+
+  margin-top: #{58/$font-size}rem;
 }
 
 .messages {
-  margin-top: #{70/$font-size}rem;
+  margin-top: #{-10/$font-size}rem;
 }
 
 .messagesMobile {
-  composes: messages;
-
   width: calc(100% - #{20/$font-size}rem);
   bottom: 0;
 }
