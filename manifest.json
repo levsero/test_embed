@@ -64,11 +64,6 @@
           "name": "chat-web-sdk",
           "version": "2.0.0",
           "url": "https://static.zdassets.com/web_widget/externals/chat-web-sdk/2.0.0/web_sdk.js"
-        },
-        {
-          "name": "libphonenumber-js",
-          "version": "0.4.49",
-          "url": "https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/0.4.49/libphonenumber-js.min.js"
         }
       ]
     }
