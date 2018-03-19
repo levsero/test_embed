@@ -120,6 +120,19 @@ describe('ScrollContainer component', () => {
   describe('props', () => {
     let container;
 
+    describe('classes', () => {
+      const className = 'scrollContainerClass';
+
+      beforeEach(() => {
+        container = domRender(<ScrollContainer classes={className} />);
+      });
+
+      it('should apply them to the top element', () => {
+        expect(ReactDOM.findDOMNode(container).className)
+          .toContain(className);
+      });
+    });
+
     describe('containerClasses', () => {
       beforeEach(() => {
         container = domRender(<ScrollContainer footerContent='foo' containerClasses='baz' />);

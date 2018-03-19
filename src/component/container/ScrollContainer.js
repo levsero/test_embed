@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import { locals as styles } from './ScrollContainer.scss';
 
@@ -15,7 +16,8 @@ export class ScrollContainer extends Component {
     fullscreen: PropTypes.bool,
     headerContent: PropTypes.element,
     scrollShadowVisible: PropTypes.bool,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    classes: PropTypes.string
   };
 
   static defaultProps = {
@@ -84,30 +86,37 @@ export class ScrollContainer extends Component {
     const {
       fullscreen,
       headerContent,
-      containerClasses
+      containerClasses,
+      classes
     } = this.props;
-    const mobileContentClasses = fullscreen ? styles.contentMobile : '';
-    const mobileTitleClasses = fullscreen ? styles.titleMobile : '';
-    const bigHeaderClasses = headerContent && fullscreen ? styles.contentBigheader : '';
-    const scrollContainerClasses = fullscreen ? styles.container : styles.containerDesktop;
+    const headerClasses = classNames(styles.header, styles.userHeader);
+    const titleClasses = classNames(styles.title, { [styles.titleMobile]: fullscreen });
+    const scrollContainerClasses = classNames(
+      classes,
+      styles.container,
+      { [styles.containerDesktop]: !fullscreen }
+    );
+    const contentClasses = classNames(
+      styles.content,
+      containerClasses,
+      {
+        [styles.contentMobile]: fullscreen,
+        [styles.contentBigheader]: headerContent && fullscreen
+      }
+    );
 
     return (
       <div className={scrollContainerClasses}>
         <header ref={(el) => {this.header = el;}}
-          className={`${styles.header} ${styles.userHeader}`}>
-          <div className={`${styles.title} ${mobileTitleClasses}`}>
+          className={headerClasses}>
+          <div className={titleClasses}>
             {this.props.title}
           </div>
           {this.props.headerContent}
         </header>
         <div
           ref={(el) => {this.content = el;}}
-          className={`
-            ${styles.content}
-            ${containerClasses}
-            ${mobileContentClasses}
-            ${bigHeaderClasses}`
-          }>
+          className={contentClasses}>
           {this.props.children}
         </div>
         {this.renderFooter()}
