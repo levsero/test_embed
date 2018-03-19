@@ -897,4 +897,27 @@ describe('chat redux actions', () => {
       });
     });
   });
+
+  describe('handlePreChatFormChange', () => {
+    let action;
+    const payload = {
+      name: 'name',
+      email: 'foo@bar.com'
+    };
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.handlePreChatFormChange(payload));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches a PRE_CHAT_FORM_ON_CHANGE action with the payload passed in', () => {
+      const expected = {
+        type: actionTypes.PRE_CHAT_FORM_ON_CHANGE,
+        payload
+      };
+
+      expect(action)
+        .toEqual(expected);
+    });
+  });
 });

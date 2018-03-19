@@ -27,7 +27,8 @@ import {
   EMAIL_TRANSCRIPT_FAILURE,
   EMAIL_TRANSCRIPT_REQUEST_SENT,
   RESET_EMAIL_TRANSCRIPT,
-  CHAT_OFFLINE_FORM_CHANGED
+  CHAT_OFFLINE_FORM_CHANGED,
+  PRE_CHAT_FORM_ON_CHANGE
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import { getChatVisitor, getShowRatingScreen } from 'src/redux/modules/chat/chat-selectors';
@@ -311,5 +312,12 @@ export function setDepartment(departmentId, successCallback, errCallback) {
         errCallback(err);
       }
     });
+  };
+}
+
+export function handlePreChatFormChange(state) {
+  return {
+    type: PRE_CHAT_FORM_ON_CHANGE,
+    payload: state
   };
 }
