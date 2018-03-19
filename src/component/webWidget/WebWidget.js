@@ -191,7 +191,7 @@ class WebWidget extends Component {
 
   noActiveEmbed = () => this.props.activeEmbed === '';
 
-  showChat = (proactive = false) => {
+  showChat = (options = { proactive: false }) => {
     const { updateActiveEmbed, oldChat, zopimOnNext } = this.props;
 
     if (oldChat) {
@@ -200,7 +200,7 @@ class WebWidget extends Component {
       updateActiveEmbed(zopimChat);
     } else {
       updateActiveEmbed(chat);
-      if (proactive) {
+      if (options.proactive) {
         this.props.updateChatScreen(CHATTING_SCREEN);
         this.props.updateBackButtonVisibility(this.isHelpCenterAvailable());
       }

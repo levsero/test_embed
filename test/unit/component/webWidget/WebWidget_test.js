@@ -1267,7 +1267,7 @@ describe('WebWidget component', () => {
               updateBackButtonVisibility={updateBackButtonVisibilitySpy}
               updateActiveEmbed={updateActiveEmbedSpy} />
           );
-          webWidget.showChat(true);
+          webWidget.showChat({ proactive: true });
         });
 
         it('calls updateActiveEmbed with chat', () => {
@@ -1284,7 +1284,7 @@ describe('WebWidget component', () => {
           beforeEach(() => {
             spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(true);
 
-            webWidget.showChat(true);
+            webWidget.showChat({ proactive: true });
           });
 
           it('calls updateBackButtonVisibility with true', () => {
@@ -1297,7 +1297,7 @@ describe('WebWidget component', () => {
           beforeEach(() => {
             spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
 
-            webWidget.showChat(true);
+            webWidget.showChat({ proactive: true });
           });
 
           it('calls updateBackButtonVisibility with false', () => {

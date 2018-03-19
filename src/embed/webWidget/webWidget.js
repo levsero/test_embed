@@ -291,7 +291,7 @@ export default function WebWidgetFactory(name) {
     });
 
     mediator.channel.subscribe(prefix + 'webWidget.proactiveChat', (options = {}) => {
-      getWebWidgetComponent().showChat(true);
+      getWebWidgetComponent().showChat({ proactive: true });
       embed.instance.show(options);
     });
 
