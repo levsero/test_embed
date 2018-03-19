@@ -173,7 +173,8 @@ export class Dropdown extends Component {
   setValue = (value, name) => () => {
     this.setState({
       selected: { value, name },
-      open: false
+      open: false,
+      valid: !this.props.required || !!value
     });
 
     setTimeout(() => this.props.onChange(value, name), 0);

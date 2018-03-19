@@ -552,6 +552,48 @@ describe('dropdown component', () => {
     });
   });
 
+  describe('setValue', () => {
+    describe('when the field is not required', () => {
+      beforeEach(() => {
+        dropdown = domRender(<Dropdown required={false} />);
+        dropdown.setValue(null, null)();
+      });
+
+      it('should not show input error classes', () => {
+        expect(ReactDOM.findDOMNode(dropdown).querySelector('.inputErrorClasses'))
+          .toBeNull();
+      });
+    });
+
+    describe('when the field is required', () => {
+      beforeEach(() => {
+        dropdown = domRender(<Dropdown required={true} />);
+      });
+
+      describe('when the value is null', () => {
+        beforeEach(() => {
+          dropdown.setValue(null, null)();
+        });
+
+        it('should show input error classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.inputErrorClasses'))
+            .not.toBeNull();
+        });
+      });
+
+      describe('when the value is not null', () => {
+        beforeEach(() => {
+          dropdown.setValue('selected item', 'some name')();
+        });
+
+        it('should not show input error classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.inputErrorClasses'))
+            .toBeNull();
+        });
+      });
+    });
+  });
+
   describe('handleInputClick', () => {
     it('should toggle to open state', () => {
       const menuChangeSpy = jasmine.createSpy('menuChange');
