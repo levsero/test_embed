@@ -28,7 +28,6 @@ describe('chat selectors', () => {
     getOfflineFormFields,
     getOfflineFormSettings,
     getChatOfflineForm;
-    getThemeShowAvatar;
 
   beforeEach(() => {
     mockery.enable();
