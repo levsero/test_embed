@@ -1045,6 +1045,13 @@ describe('mediator', () => {
           expect(launcherSub.show.calls.count())
             .toEqual(1);
         });
+
+        it('does not show launcher when the showOnLoad param is true', () => {
+          c.broadcast('newChat.connected', true);
+
+          expect(launcherSub.show.calls.count())
+            .toEqual(0);
+        });
       });
 
       describe('does not show launcher when talk and chat are in connection pending', () => {
@@ -1335,6 +1342,47 @@ describe('mediator', () => {
         it('shows the launcher', () => {
           expect(launcherSub.show.calls.count())
             .toEqual(1);
+        });
+      });
+
+      describe('isChatting', () => {
+        beforeEach(() => {
+          mediator.init({ submitTicket: false, helpCenter: false, chat: true }, { hideLauncher: false });
+        });
+
+        describe('when isChatting param is true', () => {
+          describe('when showOnLoad param is true', () => {
+            beforeEach(() => {
+              c.broadcast('newChat.isChatting', true, true);
+            });
+
+            it('broadcasts webWidget.show', () => {
+              expect(webWidgetSub.show.calls.count())
+                .toEqual(1);
+            });
+          });
+
+          describe('when showOnLoad param is false', () => {
+            beforeEach(() => {
+              c.broadcast('newChat.isChatting', true, false);
+            });
+
+            it('broadcasts launcher.show', () => {
+              expect(launcherSub.show.calls.count())
+                .toEqual(1);
+            });
+          });
+        });
+
+        describe('when isChatting is false', () => {
+          beforeEach(() => {
+            c.broadcast('newChat.isChatting', false);
+          });
+
+          it('broadcasts launcher.show', () => {
+            expect(launcherSub.show.calls.count())
+              .toEqual(1);
+          });
         });
       });
     });

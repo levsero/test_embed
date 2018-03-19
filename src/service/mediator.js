@@ -115,6 +115,8 @@ const show = (_state, options = {}) => {
     if (isMobileBrowser()) {
       c.broadcast(`${launcher}.show`, options);
     }
+  } else if (options.showOnLoad && options.isChatting) {
+    showEmbed(_state, false);
   } else if (!_state[`${launcher}.userHidden`]) {
     c.broadcast(`${launcher}.show`, options);
   }
@@ -188,12 +190,20 @@ function init(embedsAccessible, params = {}) {
     }, 3000);
   }
 
-  c.intercept('newChat.connected', () => {
+  c.intercept('newChat.connected', (_, showOnLoad) => {
     state[`${chat}.connectionPending`] = false;
 
-    if (!state[`${talk}.connectionPending`]) {
+    // When showOnLoad is true we need to wait for the SDK to tell us
+    // if it's chatting or not. The widget will be shown then.
+    if (!state[`${talk}.connectionPending`] && !showOnLoad) {
       show(state, { transition: 'none' });
     }
+  });
+
+  c.intercept('newChat.isChatting', (_, isChatting, showOnLoad) => {
+    state[`${chat}.connectionPending`] = false;
+
+    show(state, { transition: 'none', isChatting, showOnLoad });
   });
 
   c.intercept('newChat.newMessage', () => {

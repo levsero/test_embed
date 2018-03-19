@@ -1,5 +1,10 @@
+import _ from 'lodash';
+
 import { getAccountSettings,
-         newAgentMessageReceived } from 'src/redux/modules/chat';
+         newAgentMessageReceived,
+         getIsChatting } from 'src/redux/modules/chat';
+import { updateActiveEmbed } from 'src/redux/modules/base';
+import { GET_IS_CHATTING_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types';
 import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
 import { getChatMessagesByAgent,
@@ -8,6 +13,9 @@ import { getChatMessagesByAgent,
 import { getArticleDisplayed } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getActiveEmbed,
          getWidgetShown } from 'src/redux/modules/base/base-selectors';
+import { store } from 'service/persistence';
+
+const showOnLoad = _.get(store.get('store'), 'widgetShown');
 
 const handleNotificationCounter = (nextState, dispatch) => {
   const activeEmbed = getActiveEmbed(nextState);
@@ -22,8 +30,17 @@ const handleNotificationCounter = (nextState, dispatch) => {
 const onChatConnected = (prevState, nextState, dispatch) => {
   if (getConnection(prevState) === 'connecting' && getConnection(nextState) !== 'connecting') {
     dispatch(getAccountSettings());
+    dispatch(getIsChatting());
+    mediator.channel.broadcast('newChat.connected', showOnLoad);
+  }
+};
 
-    mediator.channel.broadcast('newChat.connected');
+const onChatStatus = (action = {}, dispatch) => {
+  if (action.type === GET_IS_CHATTING_REQUEST_SUCCESS) {
+    mediator.channel.broadcast('newChat.isChatting', action.payload, showOnLoad);
+    if (action.payload) {
+      dispatch(updateActiveEmbed(_.get(store.get('store'), 'activeEmbed', '')));
+    }
   }
 };
 
@@ -51,8 +68,9 @@ const onArticleDisplayed = (prevState, nextState) => {
   }
 };
 
-export default function onStateChange(prevState, nextState, _, dispatch) {
+export default function onStateChange(prevState, nextState, action, dispatch) {
   onChatConnected(prevState, nextState, dispatch);
   onNewChatMessage(prevState, nextState, dispatch);
   onArticleDisplayed(prevState, nextState, dispatch);
+  onChatStatus(action, dispatch);
 }
