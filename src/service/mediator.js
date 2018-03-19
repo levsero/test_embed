@@ -187,7 +187,7 @@ function init(embedsAccessible, params = {}) {
         state[`${chat}.connectionPending`] = false;
         state[`${talk}.connectionPending`] = false;
       }
-    }, 3000);
+    }, 5000);
   }
 
   c.intercept('newChat.connected', (_, showOnLoad) => {

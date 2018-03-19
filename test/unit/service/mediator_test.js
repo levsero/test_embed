@@ -646,11 +646,11 @@ describe('mediator', () => {
         mediator.init({ submitTicket: true, helpCenter: false, talk: true });
       });
 
-      it('shows after 3000ms if talk does not connect', () => {
+      it('shows after 5000ms if talk does not connect', () => {
         expect(launcherSub.show.calls.count())
           .toEqual(0);
 
-        jasmine.clock().tick(3000);
+        jasmine.clock().tick(5000);
 
         expect(launcherSub.show.calls.count())
           .toEqual(1);
@@ -663,11 +663,11 @@ describe('mediator', () => {
         mediator.init({ submitTicket: true, helpCenter: false, chat: true, talk: false });
       });
 
-      it('shows after 3000ms if chat does not connect', () => {
+      it('shows after 5000ms if chat does not connect', () => {
         expect(launcherSub.show.calls.count())
           .toEqual(0);
 
-        jasmine.clock().tick(3000);
+        jasmine.clock().tick(5000);
 
         expect(launcherSub.show.calls.count())
           .toEqual(1);
