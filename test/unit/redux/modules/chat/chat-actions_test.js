@@ -43,6 +43,7 @@ describe('chat redux actions', () => {
         sendFile: mockSendFile,
         sendEmailTranscript: mockSendEmailTranscript,
         setVisitorDefaultDepartment: mockSetVisitorDefaultDepartment,
+        isChatting: () => true,
         _getAccountSettings: () => mockAccountSettings
       },
       'src/redux/modules/chat/chat-selectors': {
@@ -818,6 +819,25 @@ describe('chat redux actions', () => {
         .toEqual({
           type: actionTypes.RESET_EMAIL_TRANSCRIPT
         });
+    });
+  });
+
+  describe('getIsChatting', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.getIsChatting());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches GET_IS_CHATTING_REQUEST_SUCCESS action', () => {
+      expect(action.type)
+        .toEqual(actionTypes.GET_IS_CHATTING_REQUEST_SUCCESS);
+    });
+
+    it('has the value from zChat.getIsChatting in the payload', () => {
+      expect(action.payload)
+        .toEqual(true);
     });
   });
 

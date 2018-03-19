@@ -10,6 +10,7 @@ import {
   SET_VISITOR_INFO_REQUEST_SUCCESS,
   SET_VISITOR_INFO_REQUEST_FAILURE,
   GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
+  GET_IS_CHATTING_REQUEST_SUCCESS,
   CHAT_RATING_REQUEST_SUCCESS,
   CHAT_RATING_REQUEST_FAILURE,
   CHAT_NOTIFICATION_DISMISSED,
@@ -226,6 +227,15 @@ export function getAccountSettings() {
       type: GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
       payload: accountSettings
     });
+  };
+}
+
+export function getIsChatting() {
+  const isChatting = zChat.isChatting();
+
+  return {
+    type: GET_IS_CHATTING_REQUEST_SUCCESS,
+    payload: isChatting
   };
 }
 
