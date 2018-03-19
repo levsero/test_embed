@@ -1,7 +1,9 @@
+import { _ } from 'lodash';
 import {
   SDK_CHAT_MEMBER_JOIN,
   SDK_CHAT_TYPING,
-  SDK_AGENT_UPDATE
+  SDK_AGENT_UPDATE,
+  SDK_CHAT_MEMBER_LEAVE
 } from '../chat-action-types';
 
 const initialState = {};
@@ -43,6 +45,11 @@ const agents = (state = initialState, action = {}) => {
           typing: isTyping
         }
       };
+    case SDK_CHAT_MEMBER_LEAVE:
+      if (isAgent(payload.detail.nick)) {
+        return _.omit(state, [payload.detail.nick]);
+      }
+      return state;
     default:
       return state;
   }

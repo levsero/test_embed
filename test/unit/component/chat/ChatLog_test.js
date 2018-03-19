@@ -4,6 +4,10 @@ describe('ChatLog component', () => {
     CHAT_SYSTEM_EVENTS,
     i18n;
 
+  let agents = {
+    'agent:123': { display_name: 'Agent123', nick: 'agent:123', typing: false, avatar_path: '/path/to/avatar'}
+  };
+
   const chatLogPath = buildSrcPath('component/chat/ChatLog');
   const chatConstantsPath = buildSrcPath('constants/chat');
 
@@ -47,10 +51,6 @@ describe('ChatLog component', () => {
     mockery.deregisterAll();
     mockery.disable();
   });
-
-  const agents = {
-    'agent:123': { display_name: 'Agent123', nick: 'agent:123', typing: false, avatar_path: '/path/to/avatar'}
-  };
 
   const getRenderChatLogFn = () => {
     const component = domRender(<ChatLog showAvatar={true} chatLog={{}} agents={{}} />);
@@ -250,13 +250,7 @@ describe('ChatLog component', () => {
   });
 
   describe('#renderRequestRatingButton', () => {
-    const getRenderRequestRatingButtonFn = () => {
-      const component = domRender(<ChatLog chatLog={{}} agents={{}} />);
-
-      return component.renderRequestRatingButton;
-    };
-
-    let renderRequestRatingButtonFn,
+    let component,
       renderRequestRatingButton,
       isLastRating,
       newRating,
@@ -266,7 +260,7 @@ describe('ChatLog component', () => {
       goToFeedbackScreenSpy = jasmine.createSpy('goToFeedbackScreen');
 
     beforeEach(() => {
-      renderRequestRatingButtonFn = getRenderRequestRatingButtonFn();
+      component = instanceRender(<ChatLog chatLog={{}} agents={{}} lastAgentLeaveEvent={{}} />);
 
       mockStringValues = {
         'embeddable_framework.chat.chatLog.button.leaveComment': 'Leave a comment',
@@ -278,13 +272,13 @@ describe('ChatLog component', () => {
       });
     });
 
-    describe('when the event type is not rating or request.rating', () => {
+    describe('when the event type is not one that triggers a rating', () => {
       beforeEach(() => {
         isLastRating = true;
         chatCommentLeft = false;
         newRating = 'good';
         event = { timestamp: 100, nick: 'visitor', type: 'chat.memberjoin', new_rating: newRating, isLastRating };
-        renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+        renderRequestRatingButton = component.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreenSpy);
       });
 
       it('returns nothing', () => {
@@ -299,7 +293,7 @@ describe('ChatLog component', () => {
           chatCommentLeft = false;
           newRating = 'good';
           event = { timestamp: 100, nick: 'visitor', type: 'chat.rating', new_rating: newRating, isLastRating };
-          renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+          renderRequestRatingButton = component.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreenSpy);
         });
 
         it('returns nothing', () => {
@@ -307,13 +301,13 @@ describe('ChatLog component', () => {
         });
       });
 
-      describe('when the event.new_rating property is falsey', () => {
+      describe('when the event.new_rating property is falsy', () => {
         beforeEach(() => {
           isLastRating = true;
           chatCommentLeft = false;
           newRating = null;
           event = { timestamp: 100, nick: 'visitor', type: 'chat.rating', new_rating: newRating, isLastRating };
-          renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+          renderRequestRatingButton = component.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreenSpy);
         });
 
         it('returns nothing', () => {
@@ -327,7 +321,7 @@ describe('ChatLog component', () => {
           chatCommentLeft = true;
           newRating = 'good';
           event = { timestamp: 100, nick: 'visitor', type: 'chat.rating', new_rating: newRating, isLastRating };
-          renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+          renderRequestRatingButton = component.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreenSpy);
         });
 
         it('returns nothing', () => {
@@ -341,7 +335,7 @@ describe('ChatLog component', () => {
           chatCommentLeft = false;
           newRating = 'good';
           event = { timestamp: 100, nick: 'visitor', type: 'chat.rating', new_rating: newRating, isLastRating };
-          renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+          renderRequestRatingButton = component.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreenSpy);
         });
 
         it('returns a button with the correct props', () => {
@@ -359,7 +353,7 @@ describe('ChatLog component', () => {
     describe('when the event type is request.rating', () => {
       beforeEach(() => {
         event = { timestamp: 100, nick: 'visitor', type: 'chat.request.rating' };
-        renderRequestRatingButton = renderRequestRatingButtonFn(event, chatCommentLeft, goToFeedbackScreenSpy);
+        renderRequestRatingButton = component.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreenSpy);
       });
 
       it('returns a button with the correct props', () => {
@@ -370,6 +364,58 @@ describe('ChatLog component', () => {
             onClick: goToFeedbackScreenSpy
           }
         ));
+      });
+    });
+
+    describe('when agents leave the chat', () => {
+      let leaveEvent = { timestamp: 400, nick: 'agent:smith', type: 'chat.memberleave' };
+      let agentsLeft, chatLog;
+
+      describe('when there are other agents left in the chat ', () => {
+        agentsLeft = {
+          'agent:jones': { display_name: 'AgentJones', nick: 'agent:jones', typing: false, avatar_path: '/path/to/avatar'}
+        };
+
+        chatLog = {
+          100: [{ timestamp: 100, nick: 'visitor', type: 'chat.memberjoin' }],
+          200: [{ timestamp: 200, nick: 'agent:smith', type: 'chat.memberjoin' }],
+          250: [{ timestamp: 250, nick: 'agent:jones', type: 'chat.memberjoin' }],
+          300: [{ timestamp: 300, nick: 'visitor', type: 'chat.msg', msg: 'Fixed! Thanks' }],
+          400: [leaveEvent]
+        };
+
+        beforeEach(() => {
+          component = instanceRender(<ChatLog chatLog={chatLog} agents={agentsLeft} lastAgentLeaveEvent={leaveEvent} />);
+          renderRequestRatingButton = component.renderRequestRatingButton(leaveEvent, false, goToFeedbackScreenSpy);
+        });
+
+        it('returns nothing', () => {
+          expect(renderRequestRatingButton).toBeFalsy();
+        });
+      });
+
+      describe('when the very last agent leaves the chat', () => {
+        chatLog = {
+          100: [{ timestamp: 100, nick: 'visitor', type: 'chat.memberjoin' }],
+          200: [{ timestamp: 200, nick: 'agent:smith', type: 'chat.memberjoin' }],
+          300: [{ timestamp: 300, nick: 'visitor', type: 'chat.msg', msg: 'Fixed! Thanks' }],
+          400: [leaveEvent]
+        };
+
+        beforeEach(() => {
+          component = domRender(<ChatLog chatLog={chatLog} agents={{}} lastAgentLeaveEvent={leaveEvent} />);
+          renderRequestRatingButton = component.renderRequestRatingButton(leaveEvent, false, goToFeedbackScreenSpy);
+        });
+
+        it('returns a button with the correct props', () => {
+          expect(renderRequestRatingButton).toBeTruthy();
+          expect(renderRequestRatingButton.props).toEqual(jasmine.objectContaining(
+            {
+              label: mockStringValues['embeddable_framework.chat.chatLog.button.rateChat'],
+              onClick: goToFeedbackScreenSpy
+            }
+          ));
+        });
       });
     });
   });

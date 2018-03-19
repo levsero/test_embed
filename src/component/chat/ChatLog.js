@@ -12,6 +12,7 @@ import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
 export class ChatLog extends Component {
   static propTypes = {
     chatLog: PropTypes.object.isRequired,
+    lastAgentLeaveEvent: PropTypes.object,
     agents: PropTypes.object,
     chatCommentLeft: PropTypes.bool.isRequired,
     goToFeedbackScreen: PropTypes.func.isRequired,
@@ -54,12 +55,9 @@ export class ChatLog extends Component {
   }
 
   renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreen) {
-    const acceptedEventTypes = ['chat.rating', 'chat.request.rating'];
-    const validEventType = _.includes(acceptedEventTypes, event.type);
-    const isRatingEvent = event.type === 'chat.rating';
     const showButtonForRating = event.isLastRating && event.new_rating && !chatCommentLeft;
 
-    if (!validEventType || (isRatingEvent && !showButtonForRating)) return;
+    if (!this.validEventType(event, showButtonForRating)) return;
 
     const labelKey = (event.type === 'chat.rating')
                    ? 'embeddable_framework.chat.chatLog.button.leaveComment'
@@ -73,6 +71,20 @@ export class ChatLog extends Component {
         onClick={goToFeedbackScreen}
       />
     );
+  }
+
+  validEventType(event, showButton) {
+    const isChatRating = event.type === 'chat.rating' && showButton;
+    const isChatRequestRating = event.type === 'chat.request.rating';
+    const allAgentsHaveLeft = this.allAgentsHaveLeft(event);
+
+    return isChatRating || isChatRequestRating || allAgentsHaveLeft;
+  }
+
+  allAgentsHaveLeft(event) {
+    const { agents, lastAgentLeaveEvent } = this.props;
+
+    return _.size(agents) < 1 && (lastAgentLeaveEvent && event === lastAgentLeaveEvent);
   }
 
   render() {

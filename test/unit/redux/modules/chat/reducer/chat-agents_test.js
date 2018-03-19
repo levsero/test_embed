@@ -149,5 +149,62 @@ describe('chat reducer agents', () => {
         });
       });
     });
+
+    describe('when a SDK_CHAT_MEMBER_LEAVE action is dispatched', () => {
+      let payload, currentState;
+
+      beforeAll(() => {
+        payload = {
+          detail: {
+            type: 'chat.memberleave',
+            nick: '',
+            display_name: '',
+            timestamp: Date.now()
+          }
+        };
+
+        currentState = {
+          'agent:mcbob': {},
+          'agent:mcjim': {}
+        };
+      });
+
+      describe('when the member is an agent', () => {
+        beforeEach(() => {
+          payload.detail.nick = 'agent:mcbob';
+
+          state = reducer(currentState, {
+            type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
+            payload: payload
+          });
+        });
+
+        it('removes the state entry for the agent', () => {
+          expect(state['agent:mcbob'])
+            .toBeUndefined();
+        });
+
+        it('keeps other agents in the state', () => {
+          expect(state['agent:mcjim'])
+            .toEqual({});
+        });
+      });
+
+      describe('when the member is a visitor', () => {
+        beforeEach(() => {
+          payload.detail.nick = 'visitor';
+
+          state = reducer(currentState, {
+            type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
+            payload: payload
+          });
+        });
+
+        it('does not change the state', () => {
+          expect(state)
+            .toEqual(currentState);
+        });
+      });
+    });
   });
 });

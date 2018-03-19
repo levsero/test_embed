@@ -48,6 +48,7 @@ import { getPrechatFormFields,
          getPostchatFormSettings,
          getRatingSettings,
          getEmailTranscript,
+         getLastAgentLeaveEvent,
          getThemeShowAvatar } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './Chat.scss';
 
@@ -60,6 +61,7 @@ const mapStateToProps = (state) => {
     chats: getChatMessages(state),
     events: getChatEvents(state),
     chatLog: getGroupedChatLog(state),
+    lastAgentLeaveEvent: getLastAgentLeaveEvent(state),
     currentMessage: getCurrentMessage(state),
     screen: getChatScreen(state),
     concierge: getConciergeSettings(state),
@@ -83,6 +85,7 @@ class Chat extends Component {
     chats: PropTypes.array.isRequired,
     events: PropTypes.array.isRequired,
     chatLog: PropTypes.object.isRequired,
+    lastAgentLeaveEvent: PropTypes.object.isRequired,
     currentMessage: PropTypes.string.isRequired,
     endChat: PropTypes.func.isRequired,
     endChatViaPostChatScreen: PropTypes.func.isRequired,
@@ -125,6 +128,7 @@ class Chat extends Component {
     chats: [],
     events: [],
     chatLog: {},
+    lastAgentLeaveEvent: {},
     postChatFormSettings: {},
     handleSoundIconClick: () => {},
     userSoundSettings: true,
@@ -351,6 +355,7 @@ class Chat extends Component {
           <ChatLog
             showAvatar={this.props.showAvatar}
             chatLog={this.props.chatLog}
+            lastAgentLeaveEvent={this.props.lastAgentLeaveEvent}
             agents={this.props.agents}
             chatCommentLeft={!!this.props.rating.comment}
             goToFeedbackScreen={() => this.props.updateChatScreen(screens.FEEDBACK_SCREEN)}

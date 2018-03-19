@@ -24,6 +24,7 @@ describe('chat selectors', () => {
     getEmailTranscript,
     getShowRatingScreen,
     getThemeShowAvatar,
+    getLastAgentLeaveEvent,
     getOfflineFormFields,
     getOfflineFormSettings,
     getChatOfflineForm;
@@ -71,6 +72,7 @@ describe('chat selectors', () => {
     getUserSoundSettings = selectors.getUserSoundSettings;
     getEmailTranscript = selectors.getEmailTranscript;
     getShowRatingScreen = selectors.getShowRatingScreen;
+    getLastAgentLeaveEvent = selectors.getLastAgentLeaveEvent;
     getThemeShowAvatar = selectors.getThemeShowAvatar;
     getOfflineFormFields = selectors.getOfflineFormFields;
     getOfflineFormSettings = selectors.getOfflineFormSettings;
@@ -1101,6 +1103,112 @@ describe('chat selectors', () => {
     it(`returns the current state of the notification's count`, () => {
       expect(result)
         .toEqual(mockChatSettings.chat.formState.offlineForm);
+    });
+  });
+
+  describe('getLastAgentLeaveEvent', () => {
+    let result, mockChats, mockChatSettings;
+
+    describe('when the chat log is empty', () => {
+      beforeEach(() => {
+        mockChatSettings = {
+          chat: {
+            chats: { values: () => [] }
+          }
+        };
+
+        result = getLastAgentLeaveEvent(mockChatSettings);
+      });
+
+      it('returns undefined', () => {
+        expect(result).toBeUndefined();
+      });
+    });
+
+    describe('when there are no leave events', () => {
+      beforeEach(() => {
+        mockChats = [
+          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 3 }
+        ];
+
+        mockChatSettings = {
+          chat: {
+            chats: { values: () => mockChats }
+          }
+        };
+
+        result = getLastAgentLeaveEvent(mockChatSettings);
+      });
+
+      it('returns undefined', () => {
+        expect(result).toBeUndefined();
+      });
+    });
+
+    describe("when there are agent leave events but they're not the last one", () => {
+      beforeEach(() => {
+        mockChats = [
+          { nick: 'agent:smith', type: 'chat.memberleave', timestamp: 11 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 30 }
+        ];
+
+        mockChatSettings = {
+          chat: {
+            chats: { values: () => mockChats }
+          }
+        };
+
+        result = getLastAgentLeaveEvent(mockChatSettings);
+      });
+
+      it('returns undefined', () => {
+        expect(result).toBeUndefined();
+      });
+    });
+
+    describe('when there are leave events by visitors', () => {
+      beforeEach(() => {
+        mockChats = [
+          { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 11 },
+          { nick: 'visitor', type: 'chat.memberleave', timestamp: 30 }
+        ];
+
+        mockChatSettings = {
+          chat: {
+            chats: { values: () => mockChats }
+          }
+        };
+
+        result = getLastAgentLeaveEvent(mockChatSettings);
+      });
+
+      it('returns undefined', () => {
+        expect(result).toBeUndefined();
+      });
+    });
+
+    describe("when there is an agent leave event as the chat's last event", () => {
+      let validLeaveEvent = { nick: 'agent:smith', type: 'chat.memberleave', timestamp: 30 };
+
+      beforeEach(() => {
+        mockChats = [
+          { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 11 },
+          validLeaveEvent
+        ];
+
+        mockChatSettings = {
+          chat: {
+            chats: { values: () => mockChats }
+          }
+        };
+
+        result = getLastAgentLeaveEvent(mockChatSettings);
+      });
+
+      it('returns the event', () => {
+        expect(result).toEqual(validLeaveEvent);
+      });
     });
   });
 });
