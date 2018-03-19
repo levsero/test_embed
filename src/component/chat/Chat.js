@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import { ChatBox } from 'component/chat/ChatBox';
 import { ChatFooter } from 'component/chat/ChatFooter';
@@ -301,6 +302,10 @@ class Chat extends Component {
 
   renderAgentTyping = () => {
     const agentList = _.filter(this.props.agents, (agent) => agent.typing === true);
+    const agentTypingStyles = classNames(
+      styles.agentTyping,
+      { [styles.agentTypingMobile]: this.props.isMobile }
+    );
     let typingNotification;
 
     switch (agentList.length) {
@@ -321,7 +326,7 @@ class Chat extends Component {
     }
 
     return (
-      <div className={styles.agentTyping}>
+      <div className={agentTypingStyles}>
         <LoadingEllipses
           useUserColor={false}
           className={styles.loadingEllipses}
