@@ -1036,9 +1036,9 @@ describe('embed.webWidget', () => {
             .toHaveBeenCalled();
         });
 
-        it('call showChat with true on the component', () => {
+        it('calls showChat with proactive true on the component', () => {
           expect(component.showChat)
-            .toHaveBeenCalledWith(true);
+            .toHaveBeenCalledWith({ proactive: true });
         });
       });
 
