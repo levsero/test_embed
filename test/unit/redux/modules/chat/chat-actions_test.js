@@ -6,6 +6,7 @@ let actions,
   screenTypes,
   mockStore,
   mockAccountSettings,
+  mockIsChatting,
   mockSendChatMsg = jasmine.createSpy('sendChatMsg'),
   mockSendTyping = jasmine.createSpy('sendTyping'),
   mockSetVisitorInfo = jasmine.createSpy('mockSetVisitorInfo'),
@@ -32,6 +33,8 @@ describe('chat redux actions', () => {
       }
     });
 
+    mockIsChatting = false;
+
     initMockRegistry({
       'chat-web-sdk': {
         sendChatMsg: mockSendChatMsg,
@@ -48,7 +51,8 @@ describe('chat redux actions', () => {
       },
       'src/redux/modules/chat/chat-selectors': {
         getChatVisitor: () => mockVisitor,
-        getShowRatingScreen: getShowRatingScreenSpy
+        getShowRatingScreen: getShowRatingScreenSpy,
+        getIsChatting: () => mockIsChatting
       }
     });
 
@@ -542,12 +546,33 @@ describe('chat redux actions', () => {
         updateAccountSettingsAction = mockStore.getActions()[1];
       });
 
-      it('dispatches updateChatScreen action with the prechat screen', () => {
-        expect(updateScreenAction)
-          .toEqual({
-            type: actionTypes.UPDATE_CHAT_SCREEN,
-            payload: { screen: screenTypes.PRECHAT_SCREEN }
-          });
+      describe('when isChatting is false', () => {
+        it('dispatches updateChatScreen action with the prechat screen', () => {
+          expect(updateScreenAction)
+            .toEqual({
+              type: actionTypes.UPDATE_CHAT_SCREEN,
+              payload: { screen: screenTypes.PRECHAT_SCREEN }
+            });
+        });
+      });
+
+      describe('when isChatting is true', () => {
+        let action;
+
+        beforeEach(() => {
+          mockAccountSettings = {
+            forms: { pre_chat_form: { required: true } }
+          };
+          mockStore.clearActions();
+          mockIsChatting = true;
+          mockStore.dispatch(actions.getAccountSettings());
+          action = mockStore.getActions()[0];
+        });
+
+        it('does not dispatch updateChatScreen', () => {
+          expect(action.type)
+            .toEqual(actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS);
+        });
       });
 
       it('dispatches an action of type GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS', () => {

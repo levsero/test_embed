@@ -32,7 +32,10 @@ import {
   PRE_CHAT_FORM_ON_CHANGE
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
-import { getChatVisitor, getShowRatingScreen } from 'src/redux/modules/chat/chat-selectors';
+import {
+  getChatVisitor,
+  getShowRatingScreen,
+  getIsChatting as getIsChattingState } from 'src/redux/modules/chat/chat-selectors';
 import _ from 'lodash';
 
 const chatTypingTimeout = 2000;
@@ -218,8 +221,8 @@ export function sendChatComment(comment = '') {
 export function getAccountSettings() {
   const accountSettings = zChat._getAccountSettings();
 
-  return (dispatch) => {
-    if (accountSettings.forms.pre_chat_form.required) {
+  return (dispatch, getState) => {
+    if (accountSettings.forms.pre_chat_form.required && !getIsChattingState(getState())) {
       dispatch(updateChatScreen(PRECHAT_SCREEN));
     }
 
