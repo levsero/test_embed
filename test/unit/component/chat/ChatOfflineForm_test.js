@@ -14,7 +14,10 @@ describe('ChatOfflineForm component', () => {
         locals: {
           container: 'containerClass',
           offlineGreeting: 'offlineGreetingClass',
-          submitButton: 'submitButtonClass'
+          submitButton: 'submitButtonClass',
+          scrollContainer: 'scrollContainerClass',
+          mobileContainer: 'mobileContainerClass',
+          scrollContainerContent: 'scrollContainerContentClass'
         }
       },
       'service/i18n': {
@@ -66,7 +69,12 @@ describe('ChatOfflineForm component', () => {
 
     it('has a props.containerClasses value', () => {
       expect(result.props.containerClasses)
-        .toEqual('containerClass');
+        .toEqual('scrollContainerContentClass');
+    });
+
+    it('has a props.classes value', () => {
+      expect(result.props.classes)
+        .toEqual('scrollContainerClass');
     });
 
     it('has a props.title value', () => {
@@ -77,6 +85,21 @@ describe('ChatOfflineForm component', () => {
     it('calls renderBody', () => {
       expect(component.renderBody)
         .toHaveBeenCalled();
+    });
+
+    describe('when the isMobile prop is true', () => {
+      beforeEach(() => {
+        component = instanceRender(<ChatOfflineForm isMobile={true} formState={{}} />);
+
+        spyOn(component, 'renderBody');
+
+        result = component.render();
+      });
+
+      it('passes the mobile styles to the classes prop', () => {
+        expect(result.props.classes)
+          .toContain('mobileContainerClass');
+      });
     });
   });
 
