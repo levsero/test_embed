@@ -1399,7 +1399,40 @@ describe('WebWidget component', () => {
     describe('when the activeEmbed is not chat or helpCenter', () => {
       beforeEach(() => {
         webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' />);
+
+        spyOn(webWidget, 'getRootComponent');
+
         webWidget.onContainerClick();
+      });
+
+      it('calls getRootComponent', () => {
+        expect(webWidget.getRootComponent)
+          .toHaveBeenCalled();
+      });
+
+      it('does not call the chat onContainerClick handler', () => {
+        expect(chatOnContainerClickSpy)
+          .not.toHaveBeenCalled();
+      });
+
+      it('does not call the helpCenter onContainerClick handler', () => {
+        expect(helpCenterOnContainerClickSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when there is no activeEmbed', () => {
+      beforeEach(() => {
+        webWidget = domRender(<WebWidget activeEmbed='' />);
+
+        spyOn(webWidget, 'getRootComponent');
+
+        webWidget.onContainerClick();
+      });
+
+      it('calls getRootComponent', () => {
+        expect(webWidget.getRootComponent)
+          .toHaveBeenCalled();
       });
 
       it('does not call the chat onContainerClick handler', () => {
