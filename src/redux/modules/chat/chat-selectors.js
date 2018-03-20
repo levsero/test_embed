@@ -35,6 +35,7 @@ export const getOfflineFormSettings = (state) => state.chat.accountSettings.offl
 export const getEmailTranscript = (state) => state.chat.emailTranscript;
 export const getAttachmentsEnabled = (state) => state.chat.accountSettings.attachments.enabled;
 export const getRatingSettings = (state) => state.chat.accountSettings.rating;
+export const getQueuePosition = (state) => state.chat.queuePosition;
 export const getUserSoundSettings = (state) => state.chat.userSettings.sound;
 export const getChatOfflineForm = (state) => state.chat.formState.offlineForm;
 export const getPreChatFormState = (state) => state.chat.formState.preChatForm;

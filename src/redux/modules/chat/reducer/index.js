@@ -15,6 +15,7 @@ import screen from './chat-screen';
 import userSettings from './user-settings/';
 import emailTranscript from './chat-email-transcript';
 import formState from './form-state';
+import queuePosition from './chat-queue-position';
 
 export default combineReducers({
   accountSettings,
@@ -31,5 +32,6 @@ export default combineReducers({
   screen,
   userSettings,
   emailTranscript,
-  formState
+  formState,
+  queuePosition
 });

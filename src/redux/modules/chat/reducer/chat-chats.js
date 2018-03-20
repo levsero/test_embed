@@ -3,7 +3,7 @@ import Map from 'core-js/library/es6/map';
 import {
   SDK_CHAT_MSG,
   SDK_CHAT_FILE,
-  SDK_CHAT_WAIT_QUEUE,
+  SDK_CHAT_QUEUE_POSITION,
   SDK_CHAT_MEMBER_JOIN,
   SDK_CHAT_MEMBER_LEAVE,
   SDK_CHAT_REQUEST_RATING,
@@ -44,7 +44,7 @@ const chats = (state = initialState, action) => {
     case CHAT_FILE_REQUEST_FAILURE:
       return concatChat(state, action.payload);
 
-    case SDK_CHAT_WAIT_QUEUE:
+    case SDK_CHAT_QUEUE_POSITION:
     case SDK_CHAT_REQUEST_RATING:
     case SDK_CHAT_RATING:
     case SDK_CHAT_COMMENT:

@@ -53,7 +53,8 @@ import { getPrechatFormFields,
          getEmailTranscript,
          getLastAgentLeaveEvent,
          getThemeShowAvatar,
-         getPreChatFormState } from 'src/redux/modules/chat/chat-selectors';
+         getPreChatFormState,
+         getQueuePosition } from 'src/redux/modules/chat/chat-selectors';
 
 import { locals as styles } from './Chat.scss';
 
@@ -80,7 +81,8 @@ const mapStateToProps = (state) => {
     ratingSettings: getRatingSettings(state),
     emailTranscript: getEmailTranscript(state),
     showAvatar: getThemeShowAvatar(state),
-    preChatFormState: getPreChatFormState(state)
+    preChatFormState: getPreChatFormState(state),
+    queuePosition: getQueuePosition(state)
   };
 };
 
@@ -123,7 +125,8 @@ class Chat extends Component {
     resetEmailTranscript: PropTypes.func,
     showAvatar: PropTypes.bool.isRequired,
     preChatFormState: PropTypes.object,
-    handlePreChatFormChange: PropTypes.func
+    handlePreChatFormChange: PropTypes.func,
+    queuePosition: PropTypes.number
   };
 
   static defaultProps = {
@@ -389,6 +392,7 @@ class Chat extends Component {
             goToFeedbackScreen={() => this.props.updateChatScreen(screens.FEEDBACK_SCREEN)}
             handleSendMsg={sendMsg}
           />
+          {this.renderQueuePosition()}
           {this.renderAgentTyping()}
         </div>
       </ScrollContainer>
@@ -423,6 +427,18 @@ class Chat extends Component {
         dimensions={getFrameDimensions()}
         onDrop={this.handleDragDrop}
       />
+    );
+  }
+
+  renderQueuePosition = () => {
+    const { queuePosition, agents } = this.props;
+
+    if (!queuePosition || _.size(agents) > 0) return null;
+
+    return (
+      <div className={styles.queuePosition}>
+        {i18n.t('embeddable_framework.chat.chatLog.queuePosition', { value: queuePosition })}
+      </div>
     );
   }
 

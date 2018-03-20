@@ -237,7 +237,7 @@ describe('chat reducer chats', () => {
         detail;
 
       const sdkActionTypes = [
-        chatActionTypes.SDK_CHAT_WAIT_QUEUE,
+        chatActionTypes.SDK_CHAT_QUEUE_POSITION,
         chatActionTypes.SDK_CHAT_REQUEST_RATING,
         chatActionTypes.SDK_CHAT_MSG,
         chatActionTypes.SDK_CHAT_RATING,
