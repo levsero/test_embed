@@ -13,7 +13,8 @@ describe('helpCenter selectors', () => {
     getTotalUserSearches,
     getChannelChoiceShown,
     getArticleDisplayed,
-    getSearchFieldValue;
+    getSearchFieldValue,
+    getSearchFieldFocused;
 
   beforeEach(() => {
     mockery.enable();
@@ -38,6 +39,7 @@ describe('helpCenter selectors', () => {
     getTotalUserSearches = selectors.getTotalUserSearches;
     getChannelChoiceShown = selectors.getChannelChoiceShown;
     getSearchFieldValue = selectors.getSearchFieldValue;
+    getSearchFieldFocused = selectors.getSearchFieldFocused;
     getArticleDisplayed = selectors.getArticleDisplayed;
   });
 
@@ -427,6 +429,24 @@ describe('helpCenter selectors', () => {
     it('returns the current state of searchFieldValue', () => {
       expect(result)
         .toEqual('bob blah blerghh');
+    });
+  });
+
+  describe('getSearchFieldFocused', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        searchFieldFocused: true
+      }
+    };
+
+    beforeEach(() => {
+      result = getSearchFieldFocused(mockHelpCenterState);
+    });
+
+    it('returns the current state of searchFieldFocused', () => {
+      expect(result)
+        .toEqual(true);
     });
   });
 

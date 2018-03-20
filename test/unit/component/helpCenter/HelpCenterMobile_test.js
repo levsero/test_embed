@@ -1,9 +1,11 @@
 describe('HelpCenterMobile component', () => {
-  let HelpCenterMobile;
+  let HelpCenterMobile,
+    onSearchFieldFocusSpy;
 
   const helpCenterMobilePath = buildSrcPath('component/helpCenter/HelpCenterMobile');
 
   beforeEach(() => {
+    onSearchFieldFocusSpy = jasmine.createSpy();
     mockery.enable();
 
     initMockRegistry({
@@ -92,7 +94,9 @@ describe('HelpCenterMobile component', () => {
 
     describe('when `hasSearched` prop is true', () => {
       beforeEach(() => {
-        helpCenterMobile = domRender(<HelpCenterMobile hasSearched={true} />);
+        helpCenterMobile = domRender(
+          <HelpCenterMobile hasSearched={true} onSearchFieldFocus={onSearchFieldFocusSpy}/>
+        );
 
         helpCenterMobile.handleSearchBoxClicked();
 
@@ -104,6 +108,8 @@ describe('HelpCenterMobile component', () => {
 
         expect(footerContent)
           .toBeFalsy();
+        expect(onSearchFieldFocusSpy)
+          .toHaveBeenCalledWith(true);
       });
 
       it('should appear when searchField is blurred', () => {
@@ -115,6 +121,8 @@ describe('HelpCenterMobile component', () => {
 
         expect(footerContent.props.className)
           .not.toContain('u-isHidden');
+        expect(onSearchFieldFocusSpy)
+          .toHaveBeenCalledWith(false);
       });
     });
 
@@ -147,7 +155,7 @@ describe('HelpCenterMobile component', () => {
     let helpCenterMobile;
 
     beforeEach(() => {
-      helpCenterMobile = domRender(<HelpCenterMobile />);
+      helpCenterMobile = domRender(<HelpCenterMobile onSearchFieldFocus={onSearchFieldFocusSpy} />);
     });
 
     it('sets `showIntroScreen` state to false when component is clicked', () => {
@@ -169,6 +177,8 @@ describe('HelpCenterMobile component', () => {
 
       expect(helpCenterMobile.state.searchFieldFocused)
         .toEqual(true);
+      expect(onSearchFieldFocusSpy)
+        .toHaveBeenCalledWith(true);
     });
   });
 

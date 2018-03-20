@@ -260,6 +260,67 @@ describe('WebWidget component', () => {
     });
   });
 
+  describe('renderChatNotification', () => {
+    let result;
+
+    describe('when props.fullscreen and props.helpCenterSearchFocused are true', () => {
+      beforeEach(() => {
+        const webWidget = instanceRender(
+          <WebWidget
+            activeEmbed='helpCenterForm'
+            fullscreen={true}
+            helpCenterSearchFocused={true}
+          />
+        );
+
+        result = webWidget.renderChatNotification();
+      });
+
+      it('pass shouldShow as false to ChatNotificationPopup', () => {
+        expect(result.props.shouldShow)
+          .toEqual(false);
+      });
+    });
+
+    describe('when props.fullscreen is false', () => {
+      beforeEach(() => {
+        const webWidget = instanceRender(
+          <WebWidget
+            activeEmbed='helpCenterForm'
+            fullscreen={false}
+            helpCenterSearchFocused={true}
+          />
+        );
+
+        result = webWidget.renderChatNotification();
+      });
+
+      it('pass shouldShow as true to ChatNotificationPopup', () => {
+        expect(result.props.shouldShow)
+          .toEqual(true);
+      });
+    });
+
+    describe('when props.fullscreen is true and props.helpCenterSearchFocused is false', () => {
+      beforeEach(() => {
+        const webWidget = instanceRender(
+          <WebWidget
+            activeEmbed='helpCenterForm'
+            fullscreen={true}
+            helpCenterSearchFocused={false}
+          />
+        );
+
+        result = webWidget.renderChatNotification();
+      });
+
+      it('pass shouldShow as true to ChatNotificationPopup', () => {
+        expect(result.props.shouldShow)
+          .toEqual(true);
+      });
+    });
+  });
+
   describe('setAuthenticated', () => {
     let webWidget,
       updateAuthenticatedSpy;
