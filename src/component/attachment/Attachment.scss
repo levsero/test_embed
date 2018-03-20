@@ -62,15 +62,3 @@
 .link {
   composes: u-linkClean from global;
 }
-
-.progressBarContainer {
-  composes: u-marginTT from global;
-  background-color: $zd-color-gainsboro;
-  border-radius: #{4/$font-size}rem;
-}
-
-.progressBar {
-  height: #{5/$font-size}rem;
-  background-color: $zd-color-chateau-green;
-  border-radius: #{4/$font-size}rem;
-}

@@ -11,6 +11,7 @@ describe('Attachment component', () => {
   const sharedTypesPath = buildSrcPath('types/shared');
 
   const Icon = noopReactComponent();
+  const ProgressBar = noopReactComponent();
 
   const mockProps = {
     attachmentId: '1',
@@ -40,6 +41,7 @@ describe('Attachment component', () => {
         sharedPropTypes
       },
       'component/Icon': { Icon },
+      'component/attachment/ProgressBar': { ProgressBar },
       'service/i18n': {
         i18n
       },
@@ -53,8 +55,7 @@ describe('Attachment component', () => {
           previewName: 'previewName',
           description: 'description',
           secondaryText: 'secondaryText',
-          link: 'link',
-          progressbar: 'progressbar'
+          link: 'link'
         }
       }
     });
@@ -403,8 +404,10 @@ describe('Attachment component', () => {
         expect(componentNode.querySelector('.removeIcon')).toBeNull();
       });
 
-      it('does not render a progress bar', () => {
-        expect(component.refs.progressBar).toBeUndefined();
+      it('does not render a progress bar after the preview block', () => {
+        const secondChild = element.props.children[1];
+
+        expect(secondChild).toEqual(false);
       });
     });
 
@@ -459,8 +462,10 @@ describe('Attachment component', () => {
         uploading = false;
       });
 
-      it('renders a progress bar', () => {
-        expect(component.refs.progressBar).toBeDefined();
+      it('renders a progress bar after the preview block', () => {
+        const secondChild = element.props.children[1];
+
+        expect(TestUtils.isElementOfType(secondChild, ProgressBar)).toEqual(true);
       });
     });
   });
