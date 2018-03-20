@@ -23,3 +23,4 @@ export const getHasSearched = createSelector(
 );
 export const getRestrictedImages = (state) => state.helpCenter.restrictedImages;
 export const getSearchFieldValue = (state) => state.helpCenter.searchFieldValue;
+export const getSearchFieldFocused = (state) => !!state.helpCenter.searchFieldFocused;

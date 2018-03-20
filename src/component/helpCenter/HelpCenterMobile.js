@@ -22,6 +22,7 @@ export class HelpCenterMobile extends Component {
     hasContextualSearched: PropTypes.bool,
     handleNextClick: PropTypes.func.isRequired,
     handleOnChangeValue: PropTypes.func.isRequired,
+    onSearchFieldFocus: PropTypes.func.isRequired,
     onNextClick: PropTypes.func,
     hasSearched: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
@@ -85,10 +86,8 @@ export class HelpCenterMobile extends Component {
 
   resetState = () => {
     if (!this.props.hasSearched) {
-      this.setState({
-        showIntroScreen: true,
-        searchFieldFocused: false
-      });
+      this.setState({ showIntroScreen: true });
+      this.setSearchFieldFocused(false);
     }
   }
 
@@ -98,17 +97,20 @@ export class HelpCenterMobile extends Component {
     });
   }
 
+  setSearchFieldFocused = (focused) => {
+    this.setState({ searchFieldFocused: !!focused });
+    this.props.onSearchFieldFocus(!!focused);
+  }
+
   handleSearchBoxClicked = () => {
-    this.setState({
-      showIntroScreen: false,
-      searchFieldFocused: true
-    });
+    this.setState({ showIntroScreen: false });
+    this.setSearchFieldFocused(true);
   }
 
   handleOnBlur = () => {
     // defer event to allow onClick events to fire first
     setTimeout(() => {
-      this.setState({ searchFieldFocused: false });
+      this.setSearchFieldFocused(false);
 
       if (!this.props.hasSearched && !this.props.isLoading) {
         this.setState({ showIntroScreen: true });
@@ -117,7 +119,7 @@ export class HelpCenterMobile extends Component {
   }
 
   handleOnFocus = () => {
-    this.setState({ searchFieldFocused: true });
+    this.setSearchFieldFocused(true);
   }
 
   handleSubmit = (e) => {

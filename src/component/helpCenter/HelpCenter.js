@@ -17,7 +17,8 @@ import { updateSearchTerm,
          handleOriginalArticleClicked,
          addRestrictedImage,
          updateChannelChoiceShown,
-         handleSearchFieldChange } from 'src/redux/modules/helpCenter';
+         handleSearchFieldChange,
+         handleSearchFieldFocus } from 'src/redux/modules/helpCenter';
 import { getActiveArticle,
          getResultsCount,
          getSearchLoading,
@@ -98,7 +99,8 @@ class HelpCenter extends Component {
     updateChannelChoiceShown: PropTypes.func.isRequired,
     channelChoiceShown: PropTypes.bool.isRequired,
     searchFieldValue: PropTypes.string.isRequired,
-    handleSearchFieldChange: PropTypes.func.isRequired
+    handleSearchFieldChange: PropTypes.func.isRequired,
+    handleSearchFieldFocus: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -379,6 +381,7 @@ class HelpCenter extends Component {
       <HelpCenterMobile
         ref='helpCenterMobile'
         handleOnChangeValue={this.props.handleSearchFieldChange}
+        onSearchFieldFocus={this.props.handleSearchFieldFocus}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
@@ -435,6 +438,7 @@ class HelpCenter extends Component {
 
 const actionCreators = {
   handleSearchFieldChange,
+  handleSearchFieldFocus,
   updateChannelChoiceShown,
   handleArticleClick,
   updateSearchTerm,

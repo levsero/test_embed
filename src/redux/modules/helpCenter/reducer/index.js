@@ -12,6 +12,7 @@ import resultsCount from './helpCenter-resultsCount';
 import restrictedImages from './helpCenter-restrictedImages';
 import channelChoiceShown from './helpCenter-channelChoiceShown';
 import searchFieldValue from './helpCenter-searchFieldValue';
+import searchFieldFocused from './helpCenter-searchFieldFocused';
 import articleDisplayed from './helpCenter-articleDisplayed';
 
 export default combineReducers({
@@ -27,5 +28,6 @@ export default combineReducers({
   restrictedImages,
   channelChoiceShown,
   searchFieldValue,
+  searchFieldFocused,
   articleDisplayed
 });
