@@ -10,11 +10,23 @@ describe('ChatPopup component', () => {
         locals: {
           'leftCtaBtn': 'leftCtaBtnClasses',
           'rightCtaBtn': 'rightCtaBtnClasses',
-          'container': 'containerClasses'
+          'container': 'containerClasses',
+          'closeIcon': 'closeIconClasses'
         }
       },
       'component/Avatar': {
         Avatar: noopReactComponent()
+      },
+      'component/Icon': {
+        Icon: class extends Component {
+          render() {
+            const { className, onClick } = this.props;
+
+            return (
+              <div onClick={onClick} className={className} />
+            );
+          }
+        }
       },
       'component/button/Button': {
         Button: class extends Component {
@@ -154,6 +166,46 @@ describe('ChatPopup component', () => {
           expect(childrenOnClickSpy)
             .not.toHaveBeenCalled();
         });
+      });
+    });
+  });
+
+  describe('dismiss', () => {
+    let componentNode,
+      closeSpy;
+
+    describe('when isDismissible is true', () => {
+      beforeEach(() => {
+        closeSpy = jasmine.createSpy();
+
+        const component = domRender(<ChatPopup isDismissible={true} onCloseIconClick={closeSpy} />);
+
+        componentNode = ReactDOM.findDOMNode(component);
+      });
+
+      it('renders close icon', () => {
+        expect(componentNode.querySelector('.closeIconClasses'))
+          .not.toBeNull();
+      });
+
+      it('calls onCloseIconClick when close icon is clicked', () => {
+        componentNode.querySelector('.closeIconClasses').click();
+
+        expect(closeSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when isDismissible is false', () => {
+      beforeEach(() => {
+        const component = domRender(<ChatPopup isDismissible={false} />);
+
+        componentNode = ReactDOM.findDOMNode(component);
+      });
+
+      it('does not render close icon', () => {
+        expect(componentNode.querySelector('.closeIconClasses'))
+          .toBeNull();
       });
     });
   });

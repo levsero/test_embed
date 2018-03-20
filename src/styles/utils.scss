@@ -186,6 +186,11 @@ u-overflowAuto {
 
 .u-marginRM {
   margin-right: $spacing-med !important;
+
+  [dir='rtl'] & {
+    margin-right: 0;
+    margin-left: $spacing-med;
+  }
 }
 
 .u-marginRL {

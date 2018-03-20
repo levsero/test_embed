@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { Icon } from 'component/Icon';
 import { Button } from 'component/button/Button';
 import { SlideUpAppear } from 'component/transition/SlideUpAppear';
 
 import { locals as styles } from './ChatPopup.scss';
+import classNames from 'classnames';
 
 export class ChatPopup extends Component {
   static propTypes = {
     className: PropTypes.string,
+    containerClassName: PropTypes.string,
     showCta: PropTypes.bool,
     leftCtaFn: PropTypes.func,
     rightCtaFn: PropTypes.func,
@@ -18,11 +21,14 @@ export class ChatPopup extends Component {
     childrenOnClick: PropTypes.func,
     children: PropTypes.node,
     show: PropTypes.bool,
-    onExited: PropTypes.func
+    onExited: PropTypes.func,
+    isDismissible: PropTypes.bool,
+    onCloseIconClick: PropTypes.func
   };
 
   static defaultProps = {
     className: '',
+    containerClassName: '',
     showCta: true,
     leftCtaFn: () => {},
     rightCtaFn: () => {},
@@ -32,7 +38,9 @@ export class ChatPopup extends Component {
     childrenOnClick: () => {},
     children: null,
     show: false,
-    onExited: () => {}
+    onExited: () => {},
+    isDismissible: false,
+    onCloseIconClick: () => {}
   };
 
   onContainerClick = (e) => {
@@ -62,8 +70,25 @@ export class ChatPopup extends Component {
       : null;
   }
 
+  renderCloseIcon = () => {
+    if (!this.props.isDismissible) {
+      return null;
+    }
+
+    return (
+      <Icon
+        className={styles.closeIcon}
+        onClick={this.props.onCloseIconClick}
+        type='Icon--remove' />
+    );
+  }
+
   render = () => {
-    const { className, childrenOnClick, children } = this.props;
+    const { className, childrenOnClick, children, containerClassName } = this.props;
+    const containerClasses = classNames(
+      styles.container,
+      containerClassName
+    );
 
     return (
       <SlideUpAppear
@@ -71,9 +96,10 @@ export class ChatPopup extends Component {
         trigger={this.props.show}
         onClick={this.onContainerClick}
         onExited={this.props.onExited}>
-        <div className={styles.container}>
+        <div className={containerClasses}>
           <div onClick={childrenOnClick}>{children}</div>
           {this.renderCta()}
+          {this.renderCloseIcon()}
         </div>
       </SlideUpAppear>
     );

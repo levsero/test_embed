@@ -4,12 +4,21 @@
   bottom: #{15/$font-size}rem;
 }
 
-.ongoingNotification {
+.ongoingNotificationDesktop {
   bottom: #{80/$font-size}rem;
+}
+
+.ongoingNotificationMobile {
+  bottom: 0px !important;
 }
 
 .proactiveContainer {
   composes: u-flex u-flexAlignItemsCenter from global;
+}
+
+.notificationContainerMobile {
+  border-radius: 0;
+  width: 100%;
 }
 
 .agentContainer {

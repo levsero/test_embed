@@ -42,3 +42,23 @@
     margin-left: #{20/$font-size}rem !important;
   }
 }
+
+.closeIcon {
+  composes: u-posAbsolute u-posStart--vert u-posEnd--flush u-paddingRS u-isActionable from global;
+  color: $zd-color-aluminum;
+
+  [dir="rtl"] & {
+    right: 0;
+  }
+
+  &:hover {
+    color: $zd-color-monsoon;
+  }
+
+  svg {
+    min-width: #{16/$font-size}rem;
+    min-height: #{16/$font-size}rem;
+    height: #{16/$font-size}rem;
+    width: #{16/$font-size}rem;
+  }
+}

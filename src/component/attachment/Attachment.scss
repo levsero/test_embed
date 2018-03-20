@@ -43,7 +43,6 @@
 }
 
 .icon {
-  composes: Button--nav from '../../styles/components/Button.scss';
   composes: u-paddingTN u-isActionable from global;
 
   svg {
