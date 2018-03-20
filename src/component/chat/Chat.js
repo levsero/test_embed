@@ -202,7 +202,11 @@ class Chat extends Component {
   }
 
   onPrechatFormComplete = (info) => {
-    const sendMessage = () => this.props.sendMsg(info.message);
+    const sendMessage = () => {
+      if (info.message) {
+        this.props.sendMsg(info.message);
+      }
+    };
 
     if (info.department) {
       this.props.setDepartment(
