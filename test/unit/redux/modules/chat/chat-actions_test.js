@@ -855,9 +855,9 @@ describe('chat redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches GET_IS_CHATTING_REQUEST_SUCCESS action', () => {
+    it('dispatches IS_CHATTING action', () => {
       expect(action.type)
-        .toEqual(actionTypes.GET_IS_CHATTING_REQUEST_SUCCESS);
+        .toEqual(actionTypes.IS_CHATTING);
     });
 
     it('has the value from zChat.getIsChatting in the payload', () => {

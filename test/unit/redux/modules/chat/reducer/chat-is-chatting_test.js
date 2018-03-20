@@ -137,10 +137,10 @@ describe('chat reducer is_chatting', () => {
       });
     });
 
-    describe('when a GET_IS_CHATTING_REQUEST_SUCCESS action is dispatched', () => {
+    describe('when a IS_CHATTING action is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.GET_IS_CHATTING_REQUEST_SUCCESS,
+          type: actionTypes.IS_CHATTING,
           payload: true
         });
       });

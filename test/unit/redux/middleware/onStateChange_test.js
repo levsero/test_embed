@@ -52,7 +52,7 @@ describe('onStateChange middleware', () => {
         }
       },
       'src/redux/modules/chat/chat-action-types': {
-        GET_IS_CHATTING_REQUEST_SUCCESS: 'get_is_chatting_request_success'
+        IS_CHATTING: 'IS_CHATTING'
       },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getArticleDisplayed: _.identity
@@ -276,10 +276,10 @@ describe('onStateChange middleware', () => {
         broadcastSpy.calls.reset();
       });
 
-      describe('when the action is GET_IS_CHATTING_REQUEST_SUCCESS', () => {
+      describe('when the action is IS_CHATTING', () => {
         beforeEach(() => {
           const action = {
-            type: 'get_is_chatting_request_success',
+            type: 'IS_CHATTING',
             payload: false
           };
 
@@ -301,7 +301,7 @@ describe('onStateChange middleware', () => {
         describe('when the payload is true', () => {
           beforeEach(() => {
             const action = {
-              type: 'get_is_chatting_request_success',
+              type: 'IS_CHATTING',
               payload: true
             };
 
@@ -318,7 +318,7 @@ describe('onStateChange middleware', () => {
         });
       });
 
-      describe('when the action is not GET_IS_CHATTING_REQUEST_SUCCESS', () => {
+      describe('when the action is not IS_CHATTING', () => {
         beforeEach(() => {
           const action = {
             type: 'something_else'

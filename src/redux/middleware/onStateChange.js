@@ -4,7 +4,7 @@ import { getAccountSettings,
          newAgentMessageReceived,
          getIsChatting } from 'src/redux/modules/chat';
 import { updateActiveEmbed } from 'src/redux/modules/base';
-import { GET_IS_CHATTING_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types';
+import { IS_CHATTING } from 'src/redux/modules/chat/chat-action-types';
 import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
 import { getChatMessagesByAgent,
@@ -36,7 +36,7 @@ const onChatConnected = (prevState, nextState, dispatch) => {
 };
 
 const onChatStatus = (action = {}, dispatch) => {
-  if (action.type === GET_IS_CHATTING_REQUEST_SUCCESS) {
+  if (action.type === IS_CHATTING) {
     mediator.channel.broadcast('newChat.isChatting', action.payload, showOnLoad);
     if (action.payload) {
       dispatch(updateActiveEmbed(_.get(store.get('store'), 'activeEmbed', '')));
