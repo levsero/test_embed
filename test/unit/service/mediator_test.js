@@ -1712,6 +1712,22 @@ describe('mediator', () => {
                 .toBe(1);
             });
           });
+
+          describe('when newChat is online', () => {
+            beforeEach(() => {
+              mediator.init({ chat: true }, { newChat: true });
+              c.broadcast('.activate');
+              c.broadcast(`newChat.connected`);
+            });
+
+            it('shows webWidget instead of chat', () => {
+              expect(webWidgetSub.show.calls.count())
+                .toBe(1);
+
+              expect(chatSub.show.calls.count())
+                .toBe(0);
+            });
+          });
         });
       });
     });

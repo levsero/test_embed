@@ -217,6 +217,14 @@ function init(embedsAccessible, params = {}) {
     }
   });
 
+  c.intercept('newChat.online', () => {
+    state[`${chat}.isOnline`] = true;
+  });
+
+  c.intercept('newChat.offline', () => {
+    state[`${chat}.isOnline`] = false;
+  });
+
   c.intercept('.hide', (_, viaIPM = false) => {
     if (!viaIPM) {
       c.broadcast('beacon.trackUserAction', 'api', 'hide');
@@ -277,7 +285,8 @@ function init(embedsAccessible, params = {}) {
     if (!embedVisible(state)) {
       resetActiveEmbed();
       state['.hideOnClose'] = !!options.hideOnClose;
-      if (embedAvailable()) {
+      // New chat might still be connecting when activate on page is processed.
+      if (embedAvailable() || (state[`${chat}.connectionPending`] && state['.newChat'])) {
         const chatPending = state[`${chat}.connectionPending`] && state[`${chat}.isAccessible`];
         const talkPending = state[`${talk}.connectionPending`] && state[`${talk}.isAccessible`];
 
