@@ -185,3 +185,10 @@ export const getLastAgentLeaveEvent = createSelector(
     if (isLeaveEvent && isAgent) { return payload; }
   }
 );
+
+export const getShowOfflineForm = createSelector(
+  [getChatOnline, getIsChatting, getShowRatingScreen, getChats],
+  (chatOnline, isChatting, showRatingScreen) => {
+    return !chatOnline && !isChatting && !showRatingScreen;
+  }
+);
