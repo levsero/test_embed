@@ -20,7 +20,7 @@ import { i18n } from 'service/i18n';
 import { endChat,
          endChatViaPostChatScreen,
          sendMsg,
-         sendAttachment,
+         sendAttachments,
          setVisitorInfo,
          getAccountSettings,
          handleChatBoxChange,
@@ -87,7 +87,7 @@ class Chat extends Component {
     endChat: PropTypes.func.isRequired,
     endChatViaPostChatScreen: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
-    sendAttachment: PropTypes.func.isRequired,
+    sendAttachments: PropTypes.func.isRequired,
     prechatFormSettings: PropTypes.object.isRequired,
     postChatFormSettings: PropTypes.object.isRequired,
     isMobile: PropTypes.bool,
@@ -254,7 +254,7 @@ class Chat extends Component {
         attachmentsEnabled={this.props.attachmentsEnabled}
         endChat={showChatEndFn}
         isChatting={this.props.isChatting}
-        handleAttachmentDrop={this.props.sendAttachment}
+        handleAttachmentDrop={this.props.sendAttachments}
         toggleMenu={this.toggleMenu}>
         <ChatBox
           currentMessage={currentMessage}
@@ -372,7 +372,7 @@ class Chat extends Component {
 
   handleDragDrop = (attachments) => {
     this.setState({ isDragActive: false });
-    return this.props.sendAttachment(attachments);
+    return this.props.sendAttachments(attachments);
   }
 
   renderAttachmentsBox = () => {
@@ -519,7 +519,7 @@ const actionCreators = {
   sendChatRating,
   sendChatComment,
   updateChatScreen,
-  sendAttachment,
+  sendAttachments,
   handleSoundIconClick,
   sendEmailTranscript,
   resetEmailTranscript
