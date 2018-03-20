@@ -15,8 +15,7 @@ const initialState = {
   averageWaitTimeSetting: null,
   capability: CALLBACK_ONLY,
   enabled: false,
-  groupName: '',
-  keywords: '',
+  nickname: '',
   phoneNumber: '',
   supportedCountries: []
 };

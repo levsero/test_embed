@@ -83,9 +83,9 @@ class Talk extends Component {
   }
 
   handleFormCompleted = (formState) => {
-    const { serviceUrl, keyword } = this.props.talkConfig;
+    const { serviceUrl, nickname } = this.props.talkConfig;
 
-    this.props.submitTalkCallbackForm(formState, this.props.zendeskSubdomain, serviceUrl, keyword);
+    this.props.submitTalkCallbackForm(formState, this.props.zendeskSubdomain, serviceUrl, nickname);
   }
 
   handleFormChange = (formState) => {

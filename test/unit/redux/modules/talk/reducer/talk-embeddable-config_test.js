@@ -33,8 +33,7 @@ describe('talk reducer embeddable-config', () => {
             averageWaitTimeSetting: null,
             capability: capabilityTypes.CALLBACK_ONLY,
             enabled: false,
-            groupName: '',
-            keywords: '',
+            nickname: '',
             phoneNumber: '',
             supportedCountries: []
           });
@@ -50,8 +49,7 @@ describe('talk reducer embeddable-config', () => {
           averageWaitTimeSetting: null,
           capability: '0',
           enabled: true,
-          groupName: 'Support',
-          keywords: 'keyword',
+          nickname: 'nickname',
           phoneNumber: '+61412345678',
           supportedCountries: 'CA,ID'
         };

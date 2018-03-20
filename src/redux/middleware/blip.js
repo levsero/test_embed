@@ -18,12 +18,11 @@ import { getTotalUserSearches,
 import { i18n } from 'service/i18n';
 
 const createTalkBlipData = (state, phone) => {
-  const { keywords, groupName, supportedCountries } = getEmbeddableConfig(state);
+  const { nickname, supportedCountries } = getEmbeddableConfig(state);
 
   return {
     supportedCountries: supportedCountries,
-    groupName: groupName,
-    keywords: keywords,
+    nickname: nickname,
     phoneNumber: phone,
     averageWaitTime: getAverageWaitTime(state),
     agentAvailability: getAgentAvailability(state),

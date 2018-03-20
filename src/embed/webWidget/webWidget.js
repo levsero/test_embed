@@ -571,8 +571,8 @@ export default function WebWidgetFactory(name) {
   }
 
   function setupTalk(zendeskSubdomain, config, store) {
-    const keyword = settings.get('talk.keyword') || config.keyword;
-    const socket = socketio.connect(config.serviceUrl, zendeskSubdomain, keyword);
+    const nickname = settings.get('talk.nickname') || config.nickname;
+    const socket = socketio.connect(config.serviceUrl, zendeskSubdomain, nickname);
 
     socketio.mapEventsToActions(socket, store);
   }

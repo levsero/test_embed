@@ -43,7 +43,7 @@ const optionWhitelist = {
     'offset.mobile.vertical',
     'position.horizontal',
     'position.vertical',
-    'talk.keyword',
+    'talk.nickname',
     'talk.suppress',
     'zIndex'
   ]

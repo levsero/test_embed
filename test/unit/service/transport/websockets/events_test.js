@@ -74,8 +74,7 @@ describe('events', () => {
           averageWaitTimeEnabled: true,
           capability: '0',
           enabled: false,
-          groupName: '',
-          keywords: '',
+          nickname: '',
           phoneNumber: ''
         };
 

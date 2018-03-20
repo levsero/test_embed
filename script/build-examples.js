@@ -35,7 +35,7 @@ glob('./example/*-template.html', function(err, files) {
       'zendeskHost': process.env.WATCH_DOMAIN,
       'zopimId': process.env.WATCH_ZOPIM_ID,
       'talkIntegration': process.env.WATCH_TALK_INTEGRATION,
-      'talkKeyword': process.env.WATCH_TALK_KEYWORD,
+      'talkNickname': process.env.WATCH_TALK_NICKNAME,
       'jwt': generateJWT(process.env.WATCH_SHARED_SECRET)
     };
     const resultHtml = html.replace(/{{(\w+)}}/g, function(match, key) {

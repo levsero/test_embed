@@ -69,7 +69,7 @@ export function updateTalkCallbackForm(formState) {
   };
 }
 
-export function submitTalkCallbackForm(formState, subdomain, serviceUrl, keyword) {
+export function submitTalkCallbackForm(formState, subdomain, serviceUrl, nickname) {
   return (dispatch, getState) => {
     const formState = getFormState(getState());
     const additionalInfo = _.pickBy({
@@ -80,7 +80,7 @@ export function submitTalkCallbackForm(formState, subdomain, serviceUrl, keyword
       phoneNumber: formState.phone,
       additionalInfo,
       subdomain,
-      keyword: settings.get('talk.keyword') || keyword
+      keyword: settings.get('talk.nickname') || nickname
     };
     const callbacks = {
       done: () => {
