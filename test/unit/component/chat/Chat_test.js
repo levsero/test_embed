@@ -280,6 +280,24 @@ describe('Chat component', () => {
         .toHaveBeenCalledWith(visitorInfo);
     });
 
+    describe('when the message is empty', () => {
+      beforeEach(() => {
+        component = domRender(
+          <Chat
+            sendMsg={sendMsgSpy}
+            updateChatScreen={updateChatScreenSpy}
+            setVisitorInfo={setVisitorInfoSpy} />
+        );
+
+        component.onPrechatFormComplete({ message: '' });
+      });
+
+      it('does not call sendMsg', () => {
+        expect(sendMsgSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+
     describe('when the department is specified', () => {
       it('calls setDepartment with the department as the first argument', () => {
         expect(setDepartmentSpy.calls.mostRecent().args[0])
