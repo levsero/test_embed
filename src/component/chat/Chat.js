@@ -31,7 +31,8 @@ import { endChat,
          updateChatScreen,
          handleSoundIconClick,
          sendEmailTranscript,
-         resetEmailTranscript } from 'src/redux/modules/chat';
+         resetEmailTranscript,
+         handlePreChatFormChange } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import { getPrechatFormFields,
          getAttachmentsEnabled,
@@ -51,7 +52,9 @@ import { getPrechatFormFields,
          getRatingSettings,
          getEmailTranscript,
          getLastAgentLeaveEvent,
-         getThemeShowAvatar } from 'src/redux/modules/chat/chat-selectors';
+         getThemeShowAvatar,
+         getPreChatFormState } from 'src/redux/modules/chat/chat-selectors';
+
 import { locals as styles } from './Chat.scss';
 
 const mapStateToProps = (state) => {
@@ -76,7 +79,8 @@ const mapStateToProps = (state) => {
     userSoundSettings: getUserSoundSettings(state),
     ratingSettings: getRatingSettings(state),
     emailTranscript: getEmailTranscript(state),
-    showAvatar: getThemeShowAvatar(state)
+    showAvatar: getThemeShowAvatar(state),
+    preChatFormState: getPreChatFormState(state)
   };
 };
 
@@ -117,7 +121,9 @@ class Chat extends Component {
     sendEmailTranscript: PropTypes.func.isRequired,
     emailTranscript: PropTypes.object.isRequired,
     resetEmailTranscript: PropTypes.func,
-    showAvatar: PropTypes.bool.isRequired
+    showAvatar: PropTypes.bool.isRequired,
+    preChatFormState: PropTypes.object,
+    handlePreChatFormChange: PropTypes.func
   };
 
   static defaultProps = {
@@ -310,6 +316,8 @@ class Chat extends Component {
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
         <ChatPrechatForm
           form={form}
+          formState={this.props.preChatFormState}
+          setFormState={this.props.handlePreChatFormChange}
           greetingMessage={message}
           visitor={this.props.visitor}
           onFormCompleted={this.onPrechatFormComplete} />
@@ -548,7 +556,8 @@ const actionCreators = {
   sendAttachment,
   handleSoundIconClick,
   sendEmailTranscript,
-  resetEmailTranscript
+  resetEmailTranscript,
+  handlePreChatFormChange
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);

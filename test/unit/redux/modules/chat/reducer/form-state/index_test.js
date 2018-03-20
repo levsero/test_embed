@@ -25,5 +25,10 @@ describe('chat form-state reducer', () => {
       expect(state.offlineForm)
         .toBeDefined();
     });
+
+    it('has the preChatForm sub state', () => {
+      expect(state.preChatForm)
+        .toBeDefined();
+    });
   });
 });

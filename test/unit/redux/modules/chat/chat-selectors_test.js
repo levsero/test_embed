@@ -28,7 +28,8 @@ describe('chat selectors', () => {
     getOfflineFormFields,
     getOfflineFormSettings,
     getChatOfflineForm,
-    getShowOfflineForm;
+    getShowOfflineForm,
+    getPreChatFormState;
 
   beforeEach(() => {
     mockery.enable();
@@ -79,6 +80,7 @@ describe('chat selectors', () => {
     getOfflineFormSettings = selectors.getOfflineFormSettings;
     getChatOfflineForm = selectors.getChatOfflineForm;
     getShowOfflineForm = selectors.getShowOfflineForm;
+    getPreChatFormState = selectors.getPreChatFormState;
   });
 
   afterEach(() => {
@@ -1299,6 +1301,27 @@ describe('chat selectors', () => {
         expect(result)
           .toBe(true);
       });
+    });
+  });
+
+  describe('getPreChatFormState', () => {
+    let result;
+    const formState = 'form state';
+    const mockChatSettings = {
+      chat: {
+        formState: {
+          preChatForm: formState
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getPreChatFormState(mockChatSettings);
+    });
+
+    it('returns the current state of the pre chat form', () => {
+      expect(result)
+        .toEqual(formState);
     });
   });
 });
