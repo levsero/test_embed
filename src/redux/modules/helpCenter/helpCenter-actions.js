@@ -21,7 +21,8 @@ import { SEARCH_REQUEST_SENT,
          GET_ARTICLE_REQUEST_SENT,
          GET_ARTICLE_REQUEST_SUCCESS,
          GET_ARTICLE_REQUEST_FAILURE,
-         SEARCH_FIELD_CHANGED } from './helpCenter-action-types';
+         SEARCH_FIELD_CHANGED,
+         SEARCH_FIELD_FOCUSED } from './helpCenter-action-types';
 
 const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
   const token = authentication.getToken();
@@ -145,6 +146,13 @@ export function updateChannelChoiceShown(bool) {
 export function handleSearchFieldChange(value) {
   return {
     type: SEARCH_FIELD_CHANGED,
+    payload: value
+  };
+}
+
+export function handleSearchFieldFocus(value) {
+  return {
+    type: SEARCH_FIELD_FOCUSED,
     payload: value
   };
 }

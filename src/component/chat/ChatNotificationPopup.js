@@ -13,6 +13,7 @@ export class ChatNotificationPopup extends Component {
     className: PropTypes.string,
     isMobile: PropTypes.bool,
     notification: PropTypes.object.isRequired,
+    shouldShow: PropTypes.bool.isRequired,
     chatNotificationDismissed: PropTypes.func.isRequired,
     chatNotificationRespond: PropTypes.func.isRequired
   }
@@ -64,7 +65,7 @@ export class ChatNotificationPopup extends Component {
   }
 
   render = () => {
-    const { notification, chatNotificationDismissed, chatNotificationRespond, isMobile } = this.props;
+    const { notification, shouldShow, chatNotificationDismissed, chatNotificationRespond, isMobile } = this.props;
     const { proactive } = notification;
     const className = classNames({
       [styles.ongoingNotificationCta]: proactive,
@@ -82,7 +83,7 @@ export class ChatNotificationPopup extends Component {
         onCloseIconClick={chatNotificationDismissed}
         className={className}
         containerClassName={containerClassName}
-        show={notification.show}
+        show={notification.show && shouldShow}
         leftCtaLabel={i18n.t('embeddable_framework.chat.popup.button.dismiss')}
         leftCtaFn={chatNotificationDismissed}
         rightCtaLabel={i18n.t('embeddable_framework.chat.popup.button.reply')}

@@ -108,25 +108,46 @@ describe('ChatNotificationPopup component', () => {
     });
 
     describe('when chat notification.show is true', () => {
-      it('passes the prop show as true to ChatPopup', () => {
-        expect(chatNotification.props.show)
-          .toBe(true);
+      describe('when shouldShow is true', () => {
+        it('passes the prop show as true to ChatPopup', () => {
+          chatNotification = shallowRender(
+            <ChatNotificationPopup shouldShow={true} notification={mockNotification} />
+          );
+          expect(chatNotification.props.show).toBe(true);
+        });
+      });
+
+      describe('when shouldShow is false', () => {
+        it('passes the prop show as false to ChatPopup', () => {
+          chatNotification = shallowRender(
+            <ChatNotificationPopup shouldShow={false} notification={mockNotification} />
+          );
+          expect(chatNotification.props.show).toBe(false);
+        });
       });
     });
 
     describe('when chat notification.show is false', () => {
       beforeEach(() => {
         mockNotification = { show: false };
-
-        chatNotification = shallowRender(
-          <ChatNotificationPopup
-            notification={mockNotification} />
-        );
       });
 
-      it('passes the prop show as false to ChatPopup', () => {
-        expect(chatNotification.props.show)
-          .toBe(false);
+      describe('when shouldShow is true', () => {
+        it('passes the prop show as false to ChatPopup', () => {
+          chatNotification = shallowRender(
+            <ChatNotificationPopup shouldShow={true} notification={mockNotification} />
+          );
+          expect(chatNotification.props.show).toBe(false);
+        });
+      });
+
+      describe('when shouldShow is false', () => {
+        it('passes the prop show as false to ChatPopup', () => {
+          chatNotification = shallowRender(
+            <ChatNotificationPopup shouldShow={false} notification={mockNotification} />
+          );
+          expect(chatNotification.props.show).toBe(false);
+        });
       });
     });
   });

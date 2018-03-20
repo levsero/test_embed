@@ -23,7 +23,8 @@ import { getChatAvailable,
          getTalkAvailable,
          getTalkEnabled,
          getShowTicketFormsBackButton } from 'src/redux/modules/selectors';
-import { getArticleViewActive } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+import { getArticleViewActive,
+         getSearchFieldFocused } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getChatNotification, getShowOfflineForm } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getZopimChatEmbed,
@@ -43,6 +44,7 @@ const noActiveEmbed = '';
 const mapStateToProps = (state) => {
   return {
     articleViewActive: getArticleViewActive(state),
+    helpCenterSearchFocused: getSearchFieldFocused(state),
     chatNotification: getChatNotification(state),
     activeEmbed: getActiveEmbed(state),
     authenticated: getAuthenticated(state),
@@ -107,6 +109,7 @@ class WebWidget extends Component {
     talkConfig: PropTypes.object,
     resetActiveArticle: PropTypes.func.isRequired,
     articleViewActive: PropTypes.bool.isRequired,
+    helpCenterSearchFocused: PropTypes.bool.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
     showOfflineForm: PropTypes.bool.isRequired
   };
@@ -466,10 +469,13 @@ class WebWidget extends Component {
       this.props.chatNotificationRespond();
     };
 
+    const shouldShow = !this.props.fullscreen || !this.props.helpCenterSearchFocused;
+
     return (
       <ChatNotificationPopup
         isMobile={this.props.fullscreen}
         notification={this.props.chatNotification}
+        shouldShow={shouldShow}
         chatNotificationRespond={onNotificatonResponded}
         chatNotificationDismissed={this.props.chatNotificationDismissed} />
     );

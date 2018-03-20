@@ -480,6 +480,25 @@ describe('helpCenter redux actions', () => {
     });
   });
 
+  describe('#handleSearchFieldFocus', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.handleSearchFieldFocus(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type SEARCH_FIELD_FOCUSED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.SEARCH_FIELD_FOCUSED);
+    });
+
+    it('contains the search focused state in the payload', () => {
+      expect(action.payload)
+        .toEqual(true);
+    });
+  });
+
   describe('#displayArticle', () => {
     let action;
 
