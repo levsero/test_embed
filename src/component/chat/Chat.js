@@ -302,10 +302,6 @@ class Chat extends Component {
 
   renderAgentTyping = () => {
     const agentList = _.filter(this.props.agents, (agent) => agent.typing === true);
-    const agentTypingStyles = classNames(
-      styles.agentTyping,
-      { [styles.agentTypingMobile]: this.props.isMobile }
-    );
     let typingNotification;
 
     switch (agentList.length) {
@@ -326,7 +322,7 @@ class Chat extends Component {
     }
 
     return (
-      <div className={agentTypingStyles}>
+      <div className={styles.agentTyping}>
         <LoadingEllipses
           useUserColor={false}
           className={styles.loadingEllipses}
@@ -342,7 +338,12 @@ class Chat extends Component {
     if (screen !== screens.CHATTING_SCREEN) return;
     const showRating = ratingSettings.enabled && _.size(agents) > 0;
     const containerClasses = isMobile ? styles.scrollContainerMobile : '';
-    const messageClasses = isMobile ? styles.messagesMobile : styles.messages;
+    const messageClasses = classNames(
+      {
+        [styles.messages]: !isMobile,
+        [styles.messagesMobile]: isMobile
+      }
+    );
 
     return (
       <ScrollContainer
