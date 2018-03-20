@@ -21,9 +21,11 @@
 
 .messageUser {
   color: $zd-color-white;
+  text-align: right;
   float: right;
 
   [dir='rtl'] & {
+    text-align: left;
     float: left;
   }
 }
@@ -56,7 +58,13 @@
   cursor: pointer;
 }
 
-.genericErrorContainer {
+.messageErrorContainer {
+  margin-top: #{2/$font-size}rem;
+  margin-bottom: $spacing-tny;
+}
+
+.attachmentMessageErrorContainer {
+  margin-top: $spacing-tny;
   float: right;
   text-align: right;
 
@@ -64,17 +72,6 @@
     float: left;
     text-align: left;
   }
-}
-
-.messageErrorContainer {
-  composes: genericErrorContainer;
-  margin-top: #{2/$font-size}rem;
-  margin-bottom: $spacing-tny;
-}
-
-.attachmentMessageErrorContainer {
-  composes: genericErrorContainer;
-  margin-top: $spacing-tny;
 }
 
 .userBackground {
