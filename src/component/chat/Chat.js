@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import { ChatBox } from 'component/chat/ChatBox';
 import { ChatFooter } from 'component/chat/ChatFooter';
@@ -341,6 +342,12 @@ class Chat extends Component {
     if (screen !== screens.CHATTING_SCREEN) return;
     const showRating = ratingSettings.enabled && _.size(agents) > 0;
     const containerClasses = isMobile ? styles.scrollContainerMobile : '';
+    const messageClasses = classNames(
+      {
+        [styles.messages]: !isMobile,
+        [styles.messagesMobile]: isMobile
+      }
+    );
 
     return (
       <ScrollContainer
@@ -351,7 +358,7 @@ class Chat extends Component {
         containerClasses={containerClasses}
         footerClasses={styles.footer}
         footerContent={this.renderChatFooter()}>
-        <div className={styles.messages}>
+        <div className={messageClasses}>
           <ChatLog
             showAvatar={this.props.showAvatar}
             chatLog={this.props.chatLog}

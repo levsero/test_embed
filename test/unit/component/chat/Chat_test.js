@@ -30,7 +30,9 @@ describe('Chat component', () => {
         locals: {
           scrollContainerMobile: 'scrollContainerMobileClasses',
           footer: 'footerClasses',
-          agentTyping: 'agentTypingClasses'
+          agentTyping: 'agentTypingClasses',
+          messagesMobile: 'messagesMobileClasses',
+          messages: 'messagesClasses'
         }
       },
       'component/chat/ChatBox': {
@@ -610,9 +612,14 @@ describe('Chat component', () => {
         component = domRender(<Chat screen={chattingScreen} />);
       });
 
-      it('does not add classes to it', () => {
+      it('does not add classes to scrollContainer', () => {
         expect(component.renderChatScreen().props.containerClasses)
           .toBe('');
+      });
+
+      it('has messages classes', () => {
+        expect(component.renderChatScreen().props.children.props.className)
+          .toBe('messagesClasses');
       });
     });
 
@@ -621,9 +628,14 @@ describe('Chat component', () => {
         component = domRender(<Chat isMobile={true} screen={chattingScreen} />);
       });
 
-      it('adds mobile container classes to it', () => {
+      it('adds mobile container classes to scrollContainer', () => {
         expect(component.renderChatScreen().props.containerClasses)
           .toContain('scrollContainerMobileClasses');
+      });
+
+      it('has messagesMobile classes', () => {
+        expect(component.renderChatScreen().props.children.props.className)
+          .toBe('messagesMobileClasses');
       });
     });
   });
