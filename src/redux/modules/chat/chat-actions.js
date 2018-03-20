@@ -237,53 +237,55 @@ export function chatNotificationRespond() {
   return { type: CHAT_NOTIFICATION_RESPONDED };
 }
 
-export function sendAttachment(fileList) {
+export function sendAttachments(fileList) {
   return (dispatch, getState) => {
     const visitor = getChatVisitor(getState());
-    const file = fileList[0];
-    const basePayload = {
-      type: 'chat.file',
-      timestamp: Date.now(),
-      nick: visitor.nick,
-      display_name: visitor.display_name
-    };
 
-    dispatch({
-      type: CHAT_FILE_REQUEST_SENT,
-      payload: {
-        ...basePayload,
-        // _.assign is intentionally used here as 'file' is an instance of the
-        // File class and isn't easily spread over/extended with native methods
-        file: _.assign(file, {
-          uploading: true
-        })
-      }
-    });
+    _.forEach(fileList, file => {
+      const basePayload = {
+        type: 'chat.file',
+        timestamp: Date.now(),
+        nick: visitor.nick,
+        display_name: visitor.display_name
+      };
 
-    zChat.sendFile(file, (err, data) => {
-      if (!err) {
-        dispatch({
-          type: CHAT_FILE_REQUEST_SUCCESS,
-          payload: {
-            ...basePayload,
-            file: _.assign(file, {
-              url: data.url,
-              uploading: false
-            })
-          }
-        });
-      } else {
-        dispatch({
-          type: CHAT_FILE_REQUEST_FAILURE,
-          payload: {
-            ...basePayload,
-            file: _.assign(file, {
-              error: err,
-              uploading: false
-            })
-          }
-        });
-      }
+      dispatch({
+        type: CHAT_FILE_REQUEST_SENT,
+        payload: {
+          ...basePayload,
+          // _.assign is intentionally used here as 'file' is an instance of the
+          // File class and isn't easily spread over/extended with native methods
+          file: _.assign(file, {
+            uploading: true
+          })
+        }
+      });
+
+      zChat.sendFile(file, (err, data) => {
+        if (!err) {
+          dispatch({
+            type: CHAT_FILE_REQUEST_SUCCESS,
+            payload: {
+              ...basePayload,
+              file: _.assign(file, {
+                url: data.url,
+                uploading: false
+              })
+            }
+          });
+        } else {
+          dispatch({
+            type: CHAT_FILE_REQUEST_FAILURE,
+            payload: {
+              ...basePayload,
+              file: _.assign(file, {
+                error: err,
+                uploading: false
+              })
+            }
+          });
+        }
+      });
     });
   };
 }
