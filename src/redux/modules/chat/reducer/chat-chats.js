@@ -16,7 +16,7 @@ import {
   CHAT_FILE_REQUEST_SUCCESS,
   CHAT_FILE_REQUEST_FAILURE
 } from '../chat-action-types';
-import { CHAT_MESSAGE_FAILURE } from 'constants/chat';
+import { CHAT_MESSAGE_TYPES } from 'constants/chat';
 
 import _ from 'lodash';
 
@@ -34,7 +34,8 @@ const updateChat = (chats, chat) => {
   const copy = new Map(chats),
     prevChat = chats.get(chat.timestamp);
 
-  const numFailedTries = ((_.get(chat, 'status') === CHAT_MESSAGE_FAILURE) | 0) + _.get(prevChat, 'numFailedTries', 0);
+  const numFailedTries = ((_.get(chat, 'status') === CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE) || 0)
+    + _.get(prevChat, 'numFailedTries', 0);
 
   return copy.set(chat.timestamp, {...prevChat, ...chat, numFailedTries});
 };

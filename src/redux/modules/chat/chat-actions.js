@@ -38,9 +38,7 @@ import {
   getChatVisitor,
   getShowRatingScreen,
   getIsChatting as getIsChattingState } from 'src/redux/modules/chat/chat-selectors';
-import { CHAT_MESSAGE_PENDING,
-         CHAT_MESSAGE_SUCCESS,
-         CHAT_MESSAGE_FAILURE } from 'src/constants/chat';
+import { CHAT_MESSAGE_TYPES } from 'src/constants/chat';
 
 import _ from 'lodash';
 
@@ -59,7 +57,7 @@ const sendMsgRequest = (msg, visitor, timestamp) => {
     type: CHAT_MSG_REQUEST_SENT,
     payload: {
       ...getChatMessagePayload(msg, visitor, timestamp),
-      status: CHAT_MESSAGE_PENDING
+      status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING
     }
   };
 };
@@ -69,7 +67,7 @@ const sendMsgSuccess = (msg, visitor, timestamp) => {
     type: CHAT_MSG_REQUEST_SUCCESS,
     payload: {
       ...getChatMessagePayload(msg, visitor, timestamp),
-      status: CHAT_MESSAGE_SUCCESS
+      status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS
     }
   };
 };
@@ -79,7 +77,7 @@ const sendMsgFailure = (msg, visitor, timestamp) => {
     type: CHAT_MSG_REQUEST_FAILURE,
     payload: {
       ...getChatMessagePayload(msg, visitor, timestamp),
-      status: CHAT_MESSAGE_FAILURE
+      status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE
     }
   };
 };

@@ -1,6 +1,7 @@
 describe('ChatGroup component', () => {
   let ChatGroup,
     ATTACHMENT_ERROR_TYPES,
+    CHAT_MESSAGE_TYPES,
     ICONS,
     FILETYPE_ICONS,
     i18n;
@@ -20,6 +21,7 @@ describe('ChatGroup component', () => {
   beforeEach(() => {
     mockery.enable();
 
+    CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
     ATTACHMENT_ERROR_TYPES = chatConstants.ATTACHMENT_ERROR_TYPES;
     ICONS = requireUncached(sharedConstantsPath).ICONS;
     FILETYPE_ICONS = requireUncached(sharedConstantsPath).FILETYPE_ICONS;
@@ -38,7 +40,7 @@ describe('ChatGroup component', () => {
       'component/chat/ImageMessage': { ImageMessage },
       'constants/chat': {
         ATTACHMENT_ERROR_TYPES,
-        CHAT_MESSAGE_FAILURE: chatConstants.CHAT_MESSAGE_FAILURE
+        CHAT_MESSAGE_TYPES
       },
       'constants/shared': {
         ICONS,
@@ -272,7 +274,7 @@ describe('ChatGroup component', () => {
           msg: 'Hmm why did I forget the actual plan for implementing ChatGroup?',
           display_name: 'bob',
           options: ['yes', 'no'],
-          status: chatConstantsPath.CHAT_MESSAGE_SUCCESS,
+          status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
           numFailedTries: 0,
           timestamp: 123
         };
@@ -355,7 +357,7 @@ describe('ChatGroup component', () => {
           msg: 'Hmm why did I forget the actual plan for implementing ChatGroup?',
           display_name: 'bob',
           options: ['yes', 'no'],
-          status: chatConstants.CHAT_MESSAGE_FAILURE,
+          status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
           numFailedTries: 1,
           timestamp: 123
         };
@@ -400,7 +402,7 @@ describe('ChatGroup component', () => {
             msg: 'Hmm why did I forget the actual plan for implementing ChatGroup?',
             display_name: 'bob',
             options: ['yes', 'no'],
-            status: chatConstants.CHAT_MESSAGE_FAILURE,
+            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
             numFailedTries: 2
           };
         });

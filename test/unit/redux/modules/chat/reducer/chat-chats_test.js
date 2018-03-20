@@ -4,19 +4,22 @@ describe('chat reducer chats', () => {
   let reducer,
     actionTypes,
     chatConstants,
-    initialState;
+    initialState,
+    CHAT_MESSAGE_TYPES;
 
   const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-chats');
   const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
   const chatConstantsPath = buildSrcPath('constants/chat');
 
+  chatConstants = requireUncached(chatConstantsPath);
+  CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
+
   beforeEach(() => {
     mockery.enable();
-    chatConstants = requireUncached(chatConstantsPath);
 
     initMockRegistry({
       'constants/chat': {
-        CHAT_MESSAGE_FAILURE: chatConstants.CHAT_MESSAGE_FAILURE
+        CHAT_MESSAGE_TYPES
       }
     });
 
@@ -87,14 +90,14 @@ describe('chat reducer chats', () => {
         beforeEach(() => {
           state = reducer(initialState, {
             type: actionTypes.CHAT_MSG_REQUEST_SUCCESS,
-            payload: { ...payload, status: chatConstants.CHAT_MESSAGE_SUCCESS }
+            payload: { ...payload, status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS }
           });
         });
 
         it('adds the message to the chats collection', () => {
           const expectedPayload = {
             ...payload,
-            status: chatConstants.CHAT_MESSAGE_SUCCESS,
+            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
             numFailedTries: 0
           };
 
@@ -111,8 +114,8 @@ describe('chat reducer chats', () => {
           successfulChatPayload;
 
         beforeEach(() => {
-          pendingChatPayload = { ...payload, status: chatConstants.CHAT_MESSAGE_PENDING };
-          successfulChatPayload = { ...payload, status: chatConstants.CHAT_MESSAGE_SUCCESS };
+          pendingChatPayload = { ...payload, status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING };
+          successfulChatPayload = { ...payload, status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS };
 
           state = reducer(initialState, {
             type: actionTypes.CHAT_MSG_REQUEST_SENT,
@@ -132,7 +135,7 @@ describe('chat reducer chats', () => {
         it('updates the existing chat in the chats collection', () => {
           const expectedPayload = {
             ...payload,
-            status: chatConstants.CHAT_MESSAGE_SUCCESS,
+            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
             numFailedTries: 0
           };
 
@@ -163,14 +166,14 @@ describe('chat reducer chats', () => {
         beforeEach(() => {
           state = reducer(initialState, {
             type: actionTypes.CHAT_MSG_REQUEST_FAILURE,
-            payload: { ...payload, status: chatConstants.CHAT_MESSAGE_FAILURE }
+            payload: { ...payload, status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE }
           });
         });
 
         it('adds the message to the chats collection', () => {
           const expectedPayload = {
             ...payload,
-            status: chatConstants.CHAT_MESSAGE_FAILURE,
+            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
             numFailedTries: 1
           };
 
@@ -187,8 +190,8 @@ describe('chat reducer chats', () => {
           failureChatPayload;
 
         beforeEach(() => {
-          pendingChatPayload = { ...payload, status: chatConstants.CHAT_MESSAGE_PENDING };
-          failureChatPayload = { ...payload, status: chatConstants.CHAT_MESSAGE_FAILURE };
+          pendingChatPayload = { ...payload, status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING };
+          failureChatPayload = { ...payload, status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE };
 
           state = reducer(initialState, {
             type: actionTypes.CHAT_MSG_REQUEST_SENT,
@@ -208,7 +211,7 @@ describe('chat reducer chats', () => {
         it('updates the existing chat in the chats collection', () => {
           const expectedPayload = {
             ...payload,
-            status: chatConstants.CHAT_MESSAGE_FAILURE,
+            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
             numFailedTries: 1
           };
 
@@ -234,7 +237,7 @@ describe('chat reducer chats', () => {
           it('increments number of failed tries by 1', () => {
             const expectedPayload = {
               ...payload,
-              status: chatConstants.CHAT_MESSAGE_FAILURE,
+              status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
               numFailedTries: 2
             };
 

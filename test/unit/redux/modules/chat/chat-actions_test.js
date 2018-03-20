@@ -5,6 +5,7 @@ let actions,
   actionTypes,
   screenTypes,
   chatConstants,
+  CHAT_MESSAGE_TYPES,
   mockStore,
   mockAccountSettings,
   mockIsChatting,
@@ -35,6 +36,13 @@ describe('chat redux actions', () => {
     const screenTypesPath = buildSrcPath('redux/modules/chat/chat-screen-types');
 
     mockIsChatting = false;
+    mockery.registerAllowable(actionsPath);
+    mockery.registerAllowable(actionTypesPath);
+    mockery.registerAllowable(screenTypesPath);
+    mockery.registerAllowable(chatConstantsPath);
+
+    chatConstants = requireUncached(chatConstantsPath);
+    CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
 
     initMockRegistry({
       'chat-web-sdk': {
@@ -56,21 +64,13 @@ describe('chat redux actions', () => {
         getIsChatting: getIsChattingSpy
       },
       'src/constants/chat': {
-        CHAT_MESSAGE_PENDING: 'CHAT_MESSAGE_PENDING',
-        CHAT_MESSAGE_SUCCESS: 'CHAT_MESSAGE_SUCCESS',
-        CHAT_MESSAGE_FAILURE: 'CHAT_MESSAGE_FAILURE'
+        CHAT_MESSAGE_TYPES
       }
     });
-
-    mockery.registerAllowable(actionsPath);
-    mockery.registerAllowable(actionTypesPath);
-    mockery.registerAllowable(screenTypesPath);
-    mockery.registerAllowable(chatConstantsPath);
 
     actions = requireUncached(actionsPath);
     actionTypes = requireUncached(actionTypesPath);
     screenTypes = requireUncached(screenTypesPath);
-    chatConstants = requireUncached(chatConstantsPath);
 
     mockStore = createMockStore({
       chat: {
@@ -180,7 +180,7 @@ describe('chat redux actions', () => {
             .payload
             .status
         )
-          .toEqual(chatConstants.CHAT_MESSAGE_PENDING);
+          .toEqual(CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING);
       });
     });
 
@@ -220,7 +220,7 @@ describe('chat redux actions', () => {
               .payload
               .status
           )
-            .toEqual(chatConstants.CHAT_MESSAGE_SUCCESS);
+            .toEqual(CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS);
         });
       });
 
@@ -256,7 +256,7 @@ describe('chat redux actions', () => {
               .payload
               .status
           )
-            .toEqual(chatConstants.CHAT_MESSAGE_FAILURE);
+            .toEqual(CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE);
         });
       });
     });
