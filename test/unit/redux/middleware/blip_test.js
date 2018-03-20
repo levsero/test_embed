@@ -89,8 +89,7 @@ describe('blip middleware', () => {
           name: 'Johnny',
           email: 'Johnny@john.com',
           description: 'Please help me.',
-          keywords: ['Support'],
-          groupName: 'Support',
+          nickname: 'Support',
           supportedCountries: '1, 10, 9, 89',
           averageWaitTime: 10,
           agentAvailability: true
@@ -102,8 +101,7 @@ describe('blip middleware', () => {
       it('calls trackUserAction with the correct params', () => {
         const expectedValue = {
           supportedCountries: '1, 10, 9, 89',
-          groupName: 'Support',
-          keywords: ['Support'],
+          nickname: 'Support',
           phoneNumber: '+61430919721',
           averageWaitTime: 10,
           agentAvailability: true,
@@ -126,8 +124,7 @@ describe('blip middleware', () => {
       beforeEach(() => {
         flatState = {
           phoneNumber: '+61430919721',
-          keywords: ['Support'],
-          groupName: 'Support',
+          nickname: 'Support',
           supportedCountries: '1, 10, 9, 89',
           averageWaitTime: 10,
           agentAvailability: true
@@ -149,8 +146,7 @@ describe('blip middleware', () => {
         it('calls trackUserAction with the correct params', () => {
           const expectedValue = {
             supportedCountries: '1, 10, 9, 89',
-            groupName: 'Support',
-            keywords: ['Support'],
+            nickname: 'Support',
             phoneNumber: '+61430919721',
             averageWaitTime: 10,
             agentAvailability: true,

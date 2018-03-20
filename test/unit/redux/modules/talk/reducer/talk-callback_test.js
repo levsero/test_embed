@@ -78,7 +78,7 @@ describe('talk reducer callback', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.TALK_CALLBACK_FAILURE,
-          payload: { 'error': 'Keyword is required.' }
+          payload: { 'error': 'Nickname is required.' }
         });
       });
 
@@ -86,7 +86,7 @@ describe('talk reducer callback', () => {
         expect(state)
           .toEqual({
             isSending: false,
-            error: { 'error': 'Keyword is required.' },
+            error: { 'error': 'Nickname is required.' },
             phoneNumber: ''
           });
       });

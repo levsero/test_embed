@@ -12,7 +12,7 @@ describe('embed.webWidget', () => {
     mockAuthenticateValue,
     mockFiltersValue,
     mockFrame,
-    mockKeywordValue,
+    mockNicknameValue,
     socketioConnectSpy,
     socketioMapEventsToActionsSpy,
     targetCancelHandlerSpy,
@@ -49,7 +49,7 @@ describe('embed.webWidget', () => {
     socketioConnectSpy = jasmine.createSpy('socketio.connect').and.returnValue('socket');
     socketioMapEventsToActionsSpy = jasmine.createSpy('socketio.mapEventsToActions');
     resetTalkScreenSpy = jasmine.createSpy('resetTalkScreen');
-    mockKeywordValue = null;
+    mockNicknameValue = null;
     mockStoreDispatch = jasmine.createSpy('dispatch');
     mockStore = { getState: noop, dispatch: mockStoreDispatch };
 
@@ -110,7 +110,7 @@ describe('embed.webWidget', () => {
               },
               talk: {
                 suppress: mockTalkSuppressedValue,
-                keyword: mockKeywordValue
+                nickname: mockNicknameValue
               }
             }, value, null);
           }
@@ -790,25 +790,25 @@ describe('embed.webWidget', () => {
     });
 
     describe('setupTalk', () => {
-      const talkConfig = { serviceUrl: 'talk.com', keyword: 'Support' };
+      const talkConfig = { serviceUrl: 'talk.com', nickname: 'Support' };
 
       beforeEach(() => {
         webWidget.create('', { talk: talkConfig }, 'reduxStore');
       });
 
-      it('calls socketio.connect with serviceUrl, subdomain and keyword', () => {
+      it('calls socketio.connect with serviceUrl, subdomain and nickname (as keyword)', () => {
         expect(socketioConnectSpy)
           .toHaveBeenCalledWith('talk.com', 'customerfoo', 'Support');
       });
 
-      describe('when a keyword exists in settings', () => {
+      describe('when a nickname exists in settings', () => {
         beforeEach(() => {
-          mockKeywordValue = 'Sales';
+          mockNicknameValue = 'Sales';
 
           webWidget.create('', { talk: talkConfig }, 'reduxStore');
         });
 
-        it('overrides the keyword in config', () => {
+        it('overrides the nickname in config', () => {
           expect(socketioConnectSpy)
             .toHaveBeenCalledWith('talk.com', 'customerfoo', 'Sales');
         });

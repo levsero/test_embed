@@ -67,8 +67,7 @@ describe('talk redux actions', () => {
         averageWaitTime: '2',
         capability: '0',
         enabled: false,
-        groupName: '',
-        keywords: '',
+        nickname: '',
         phoneNumber: ''
       };
 
@@ -86,8 +85,7 @@ describe('talk redux actions', () => {
         .toEqual({
           capability: '0',
           enabled: false,
-          groupName: '',
-          keywords: '',
+          nickname: '',
           phoneNumber: ''
         });
     });
@@ -251,7 +249,7 @@ describe('talk redux actions', () => {
   describe('submitTalkCallbackForm', () => {
     let subdomain,
       serviceUrl,
-      keyword;
+      nickname;
 
     beforeEach(() => {
       formState = {
@@ -261,12 +259,12 @@ describe('talk redux actions', () => {
         description: 'Please help me.'
       };
       serviceUrl = 'https://talk_service.com';
-      keyword = 'Support';
+      nickname = 'Support';
       subdomain = 'z3npparker';
       mockStore = createMockStore({
         talk: { formState }
       });
-      mockStore.dispatch(actions.submitTalkCallbackForm(formState, subdomain, serviceUrl, keyword));
+      mockStore.dispatch(actions.submitTalkCallbackForm(formState, subdomain, serviceUrl, nickname));
       action = mockStore.getActions()[0];
     });
 
@@ -303,14 +301,14 @@ describe('talk redux actions', () => {
         });
     });
 
-    describe('when a keyword exists in settings', () => {
+    describe('when a nickname exists in settings', () => {
       beforeEach(() => {
         mockSettings = 'Sales';
 
-        mockStore.dispatch(actions.submitTalkCallbackForm(formState, subdomain, serviceUrl, keyword));
+        mockStore.dispatch(actions.submitTalkCallbackForm(formState, subdomain, serviceUrl, nickname));
       });
 
-      it('overrides the keyword value with the one from settings', () => {
+      it('overrides the nickname with the one from settings and passes it as `keyword`', () => {
         expect(httpSpy.callMeRequest.calls.mostRecent().args[1].params.keyword)
           .toEqual('Sales');
       });

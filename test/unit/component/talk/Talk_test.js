@@ -72,7 +72,7 @@ describe('Talk component', () => {
 
     beforeEach(() => {
       submitTalkCallbackFormSpy = jasmine.createSpy('submitTalkCallbackForm');
-      config = { serviceUrl: 'https://talk_service.com', keyword: 'Support' };
+      config = { serviceUrl: 'https://talk_service.com', nickname: 'Support' };
       talk = instanceRender(
         <Talk
           talkConfig={config}
