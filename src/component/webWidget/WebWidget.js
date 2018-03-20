@@ -35,10 +35,10 @@ import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-sele
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
 const chat = 'chat';
-const chatOffline = 'chatOffline';
 const zopimChat = 'zopimChat';
 const channelChoice = 'channelChoice';
 const talk = 'talk';
+const noActiveEmbed = '';
 
 const mapStateToProps = (state) => {
   return {
@@ -168,8 +168,6 @@ class WebWidget extends Component {
       ? component.getWrappedInstance()
       : null;
   }
-
-  getChatComponent = () => this.refs[chat].getWrappedInstance();
 
   getHelpCenterComponent = () => this.refs[helpCenter].getWrappedInstance();
 
@@ -315,20 +313,12 @@ class WebWidget extends Component {
   }
 
   onContainerClick = () => {
-    const { activeEmbed, chatStandalone } = this.props;
+    const { activeEmbed } = this.props;
+    const rootComponent = this.getRootComponent() || {};
 
-    // TODO:
-    // Once the other embed components are within a wrappedInstance,
-    // getting a reference to the instance of the Chat component will no
-    // longer need to be in a seperate method. We can then remove this if-else
-    // logic and replace it with something like:
-    // if (this.getRootComponent().onContainerClick)
-    //   this.getRootComponent().onContainerClick()
-    if (activeEmbed === chat && !chatStandalone) {
-      this.getChatComponent().onContainerClick();
-    } else if (activeEmbed === helpCenter) {
-      this.getRootComponent().onContainerClick();
-    }
+    if (activeEmbed === noActiveEmbed) return;
+
+    _.attempt(rootComponent.onContainerClick);
   };
 
   onContainerDragEnter = () => {
@@ -346,7 +336,7 @@ class WebWidget extends Component {
 
     return (showOfflineForm)
       ? <ChatOfflineForm
-          ref={chatOffline}
+          ref={chat}
           updateFrameSize={this.props.updateFrameSize}
         />
       : <Chat

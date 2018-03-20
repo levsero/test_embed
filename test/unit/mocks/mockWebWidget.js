@@ -24,10 +24,6 @@ export default class MockWebWidget extends Component {
     return this.refs.mockChild;
   }
 
-  getChatComponent() {
-    return this.refs.mockChild;
-  }
-
   getHelpCenterComponent() {
     return this.refs.mockChild;
   }
