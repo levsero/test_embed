@@ -203,6 +203,20 @@ describe('chat selectors', () => {
 
   describe('getPrechatFormFields', () => {
     let result;
+    const getDepartments = (setValueProperty) => ([
+      {
+        name: 'Design',
+        status: 'online',
+        id: 12345,
+        value: setValueProperty ? 12345 : undefined
+      },
+      {
+        name: 'Engineering',
+        status: 'online',
+        id: 56789,
+        value: setValueProperty ? 56789 : undefined
+      }
+    ]);
     const mockAccountSettings = {
       prechatForm: {
         form: {
@@ -215,13 +229,15 @@ describe('chat selectors', () => {
     const expectedResult = {
       name: { name: 'name', required: true },
       email: { name: 'email', required: true },
-      phone: { name: 'phone', label: 'Phone Number', required: false }
+      phone: { name: 'phone', label: 'Phone Number', required: false },
+      departments: getDepartments(true)
     };
 
     beforeEach(() => {
       result = getPrechatFormFields({
         chat: {
-          accountSettings: mockAccountSettings
+          accountSettings: mockAccountSettings,
+          departments: getDepartments(false)
         }
       });
     });

@@ -240,23 +240,26 @@ describe('Chat component', () => {
   });
 
   describe('onPrechatFormComplete', () => {
-    let component, setVisitorInfoSpy, sendMsgSpy;
+    let component, setVisitorInfoSpy, sendMsgSpy, setDepartmentSpy;
     const formInfo = {
       display_name: 'Daenerys Targaryen',
       email: 'mother@of.dragons',
       phone: '87654321',
-      message: 'bend the knee'
+      message: 'bend the knee',
+      department: 12345
     };
 
     beforeEach(() => {
       setVisitorInfoSpy = jasmine.createSpy('setVisitorInfo');
       sendMsgSpy = jasmine.createSpy('sendMsg');
+      setDepartmentSpy = jasmine.createSpy('setDepartment');
 
       component = domRender(
         <Chat
           postChatFormSettings={{ header: 'foo' }}
           setVisitorInfo={setVisitorInfoSpy}
           sendMsg={sendMsgSpy}
+          setDepartment={setDepartmentSpy}
           updateChatScreen={updateChatScreenSpy} />
       );
 
@@ -264,15 +267,50 @@ describe('Chat component', () => {
     });
 
     it('calls setVisitorInfo with the display_name, email and phone', () => {
-      const visitorInfo = _.omit(formInfo, ['message']);
+      const visitorInfo = _.omit(formInfo, ['message', 'department']);
 
       expect(setVisitorInfoSpy)
         .toHaveBeenCalledWith(visitorInfo);
     });
 
-    it('calls sendMsg with the message', () => {
-      expect(sendMsgSpy)
-        .toHaveBeenCalledWith(formInfo.message);
+    describe('when the department is specified', () => {
+      it('calls setDepartment with the department as the first argument', () => {
+        expect(setDepartmentSpy.calls.mostRecent().args[0])
+          .toEqual(formInfo.department);
+      });
+
+      it('calls setDepartment with a call to send message in the success callback', () => {
+        expect(sendMsgSpy.calls.count())
+          .toEqual(0);
+
+        setDepartmentSpy.calls.mostRecent().args[1]();
+
+        expect(sendMsgSpy.calls.count())
+          .toEqual(1);
+      });
+
+      it('calls setDepartment with a call to send message in the error callback', () => {
+        expect(sendMsgSpy.calls.count())
+          .toEqual(0);
+
+        setDepartmentSpy.calls.mostRecent().args[2]();
+
+        expect(sendMsgSpy.calls.count())
+          .toEqual(1);
+      });
+    });
+
+    describe('when the department is not specified', () => {
+      beforeEach(() => {
+        const formInfoWithoutDepartment = { ...formInfo, department: undefined };
+
+        component.onPrechatFormComplete(formInfoWithoutDepartment);
+      });
+
+      it('calls sendMsg with the message', () => {
+        expect(sendMsgSpy)
+          .toHaveBeenCalledWith(formInfo.message);
+      });
     });
 
     it('calls updateChatScreen with `chatting`', () => {

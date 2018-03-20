@@ -3,7 +3,8 @@ describe('ChatPrechatForm component', () => {
     mockForm,
     mockFormValidity,
     mockFormProp;
-  const ChatPrechatFormPath = buildSrcPath('component/chat/ChatPrechatForm');
+  const chatPrechatFormPath = buildSrcPath('component/chat/ChatPrechatForm');
+  const Dropdown = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
@@ -29,6 +30,9 @@ describe('ChatPrechatForm component', () => {
                     type={this.props.type} />;
           }
         }
+      },
+      'component/field/Dropdown': {
+        Dropdown
       },
       'service/i18n': {
         i18n: {
@@ -62,8 +66,8 @@ describe('ChatPrechatForm component', () => {
       ]
     };
 
-    mockery.registerAllowable(ChatPrechatFormPath);
-    ChatPrechatForm = requireUncached(ChatPrechatFormPath).ChatPrechatForm;
+    mockery.registerAllowable(chatPrechatFormPath);
+    ChatPrechatForm = requireUncached(chatPrechatFormPath).ChatPrechatForm;
   });
 
   afterEach(() => {
@@ -271,6 +275,87 @@ describe('ChatPrechatForm component', () => {
     it('calls handleFormChange', () => {
       expect(component.handleFormChange)
         .toHaveBeenCalled();
+    });
+  });
+
+  describe('renderDepartmentsField', () => {
+    let renderDepartmentsFieldFn, formProp, result;
+    const departments = [
+        { name: 'Design', status: 'online', id: 12345, value: 12345 },
+        { name: 'Engineering', status: 'online', id: 56789, value: 56789 }
+      ],
+      getRenderDepartmentsFieldFn = (formProp) => (
+      instanceRender(<ChatPrechatForm form={formProp} />)
+        .renderDepartmentsField
+    );
+
+    describe('when there are departments in the form', () => {
+      beforeEach(() => {
+        formProp = {
+          ...mockFormProp,
+          departments,
+          department: { label: 'department label' }
+        };
+        renderDepartmentsFieldFn = getRenderDepartmentsFieldFn(formProp);
+        result = renderDepartmentsFieldFn();
+      });
+
+      it('returns a dropdown', () => {
+        expect(TestUtils.isElementOfType(result, Dropdown))
+          .toEqual(true);
+      });
+
+      it('sets the label prop from the department settings', () => {
+        expect(result.props.label)
+          .toEqual(formProp.department.label);
+      });
+
+      describe('when the required setting is true', () => {
+        beforeEach(() => {
+          formProp = {
+            ...mockFormProp,
+            departments,
+            department: { required: true }
+          };
+          renderDepartmentsFieldFn = getRenderDepartmentsFieldFn(formProp);
+          result = renderDepartmentsFieldFn();
+        });
+
+        it('sets the required attribute to true', () => {
+          expect(result.props.required)
+            .toEqual(true);
+        });
+      });
+
+      describe('when the required setting is false', () => {
+        beforeEach(() => {
+          formProp = {
+            ...mockFormProp,
+            departments,
+            department: { required: false }
+          };
+          renderDepartmentsFieldFn = getRenderDepartmentsFieldFn(formProp);
+          result = renderDepartmentsFieldFn();
+        });
+
+        it('sets the required attribute to false', () => {
+          expect(result.props.required)
+            .toEqual(false);
+        });
+      });
+    });
+
+    describe('when there are no departments in the form', () => {
+      beforeEach(() => {
+        formProp = { ...mockFormProp, departments: undefined };
+        renderDepartmentsFieldFn = getRenderDepartmentsFieldFn(formProp);
+        result = renderDepartmentsFieldFn();
+      });
+
+      it('does not return anything', () => {
+        expect(result)
+          .toBeUndefined();
+      });
     });
   });
 });

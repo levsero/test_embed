@@ -14,6 +14,7 @@ let actions,
   mockSendChatComment = jasmine.createSpy('sendChatComment'),
   mockSendFile = jasmine.createSpy('sendFile'),
   mockSendEmailTranscript = jasmine.createSpy('sendEmailTranscript'),
+  mockSetVisitorDefaultDepartment = jasmine.createSpy('setVisitorDefaultDepartment'),
   showRatingScreen = false,
   getShowRatingScreenSpy = jasmine.createSpy('getShowRatingScreenSpy').and.callFake(() => showRatingScreen);
 
@@ -41,6 +42,7 @@ describe('chat redux actions', () => {
         sendChatComment: mockSendChatComment,
         sendFile: mockSendFile,
         sendEmailTranscript: mockSendEmailTranscript,
+        setVisitorDefaultDepartment: mockSetVisitorDefaultDepartment,
         _getAccountSettings: () => mockAccountSettings
       },
       'src/redux/modules/chat/chat-selectors': {
@@ -831,6 +833,68 @@ describe('chat redux actions', () => {
     it('has the correct params in the payload', () => {
       expect(action.payload)
         .toEqual(jasmine.objectContaining(mockFormState));
+    });
+  });
+
+  describe('setDepartment', () => {
+    const departmentId = 12345;
+    const successCallbackSpy = jasmine.createSpy('successCallback');
+    const errCallbackSpy = jasmine.createSpy('errCallback');
+
+    beforeEach(() => {
+      mockStore.dispatch(
+        actions.setDepartment(departmentId, successCallbackSpy, errCallbackSpy)
+      );
+    });
+
+    afterEach(() => {
+      successCallbackSpy.calls.reset();
+      errCallbackSpy.calls.reset();
+    });
+
+    it('calls setVisitorDefaultDepartment on the Web SDK', () => {
+      expect(mockSetVisitorDefaultDepartment)
+        .toHaveBeenCalled();
+    });
+
+    describe('Web SDK callback', () => {
+      let callbackFn;
+
+      beforeEach(() => {
+        const setVisitorDefaultDepartmentCalls = mockSetVisitorDefaultDepartment.calls.mostRecent().args;
+
+        callbackFn = setVisitorDefaultDepartmentCalls[1];
+      });
+
+      describe('when there are no errors', () => {
+        beforeEach(() => {
+          callbackFn();
+        });
+
+        it('calls the success callback function and not the error callback function', () => {
+          expect(successCallbackSpy)
+            .toHaveBeenCalled();
+
+          expect(errCallbackSpy)
+            .not
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when there are errors', () => {
+        beforeEach(() => {
+          callbackFn(['error!']);
+        });
+
+        it('calls the error callback function and not the success callback function', () => {
+          expect(errCallbackSpy)
+            .toHaveBeenCalled();
+
+          expect(successCallbackSpy)
+            .not
+            .toHaveBeenCalled();
+        });
+      });
     });
   });
 });

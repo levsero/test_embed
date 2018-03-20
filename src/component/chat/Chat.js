@@ -23,6 +23,7 @@ import { endChat,
          sendMsg,
          sendAttachment,
          setVisitorInfo,
+         setDepartment,
          getAccountSettings,
          handleChatBoxChange,
          sendChatRating,
@@ -98,6 +99,7 @@ class Chat extends Component {
     position: PropTypes.string,
     sendMsg: PropTypes.func.isRequired,
     setVisitorInfo: PropTypes.func.isRequired,
+    setDepartment: PropTypes.func.isRequired,
     handleChatBoxChange: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
     getAccountSettings: PropTypes.func.isRequired,
@@ -191,9 +193,20 @@ class Chat extends Component {
   }
 
   onPrechatFormComplete = (info) => {
-    this.props.setVisitorInfo(_.pick(info, ['display_name', 'email', 'phone']));
-    this.props.sendMsg(info.message);
+    const sendMessage = () => this.props.sendMsg(info.message);
 
+    if (info.department) {
+      this.props.setDepartment(
+        parseInt(info.department, 10),
+        sendMessage,
+        sendMessage
+      );
+    }
+    else {
+      sendMessage();
+    }
+
+    this.props.setVisitorInfo(_.pick(info, ['display_name', 'email', 'phone']));
     this.props.updateChatScreen(screens.CHATTING_SCREEN);
   }
 
@@ -528,6 +541,7 @@ const actionCreators = {
   endChat,
   endChatViaPostChatScreen,
   setVisitorInfo,
+  setDepartment,
   sendChatRating,
   sendChatComment,
   updateChatScreen,

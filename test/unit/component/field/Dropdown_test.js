@@ -552,6 +552,48 @@ describe('dropdown component', () => {
     });
   });
 
+  describe('setValue', () => {
+    describe('when the field is not required', () => {
+      beforeEach(() => {
+        dropdown = domRender(<Dropdown required={false} />);
+        dropdown.setValue(null, null)();
+      });
+
+      it('should not show input error classes', () => {
+        expect(ReactDOM.findDOMNode(dropdown).querySelector('.inputErrorClasses'))
+          .toBeNull();
+      });
+    });
+
+    describe('when the field is required', () => {
+      beforeEach(() => {
+        dropdown = domRender(<Dropdown required={true} />);
+      });
+
+      describe('when the value is null', () => {
+        beforeEach(() => {
+          dropdown.setValue(null, null)();
+        });
+
+        it('should show input error classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.inputErrorClasses'))
+            .not.toBeNull();
+        });
+      });
+
+      describe('when the value is not null', () => {
+        beforeEach(() => {
+          dropdown.setValue('selected item', 'some name')();
+        });
+
+        it('should not show input error classes', () => {
+          expect(ReactDOM.findDOMNode(dropdown).querySelector('.inputErrorClasses'))
+            .toBeNull();
+        });
+      });
+    });
+  });
+
   describe('handleInputClick', () => {
     it('should toggle to open state', () => {
       const menuChangeSpy = jasmine.createSpy('menuChange');
@@ -685,6 +727,56 @@ describe('dropdown component', () => {
       jasmine.clock().tick(1);
       expect(dropdown.containerClicked)
         .toEqual(false);
+    });
+  });
+
+  describe('renderSelectionText', () => {
+    const placeholderNode = 'Default',
+      selectionFormatSpy = jasmine.createSpy('selectionFormat').and.callFake(_.identity);
+    let result;
+
+    const callRenderSelectionTextFn = (selected) => {
+      const dropdown = instanceRender(
+        <Dropdown
+          placeholderNode={placeholderNode}
+          selectionFormat={selectionFormatSpy}
+          value={selected}
+        />
+      );
+
+      return dropdown.renderSelectionText();
+    };
+
+    describe('when selected.name is defined in the state', () => {
+      const name = 'Selected name';
+
+      beforeEach(() => {
+        result = callRenderSelectionTextFn({ name });
+      });
+
+      it('returns the result of the selectionFormat call with that value', () => {
+        expect(selectionFormatSpy)
+          .toHaveBeenCalledWith(name);
+
+        expect(result)
+          .toEqual(name);
+      });
+    });
+
+    describe('when selected.name is not defined in the state', () => {
+      const name = null;
+
+      beforeEach(() => {
+        result = callRenderSelectionTextFn({ name });
+      });
+
+      it('returns the result of the selectionFormat call with the placeholderNode prop', () => {
+        expect(selectionFormatSpy)
+          .toHaveBeenCalledWith(placeholderNode);
+
+        expect(result)
+          .toEqual(placeholderNode);
+      });
     });
   });
 });

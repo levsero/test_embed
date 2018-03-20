@@ -239,6 +239,11 @@ parts:
       screenshot: "https://zendesk.box.com/s/ydey48r6d48boxx7m8f231td6rha3mzz"
       value: "Start chat"
   - translation:
+      key: "embeddable_framework.chat.preChat.online.dropdown.selectDepartment"
+      title: "The default text for the dropdown to select a department in the pre chat form"
+      screenshot: "https://drive.google.com/file/d/1Dar24_SV8BCS0f3PBMfaCvklBI_UdPW6"
+      value: "Select department"
+  - translation:
       key: "embeddable_framework.chat.preChat.offline.button.sendMessage"
       title: "A submit button in the pre-chat form that becomes available once the user has filled in chat details"
       screenshot: "https://zendesk.box.com/s/o5wnlsojizy84zf6b5cnn0ho0x2tj41y"

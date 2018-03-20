@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 import { Field } from 'component/field/Field';
 import { Button } from 'component/button/Button';
+import { Dropdown } from 'component/field/Dropdown';
 
 import { i18n } from 'service/i18n';
 
@@ -134,6 +135,30 @@ export class ChatPrechatForm extends Component {
     );
   }
 
+  renderDepartmentsField = () => {
+    const { department: departmentSettings, departments } = this.props.form;
+    const placeholderNode = (
+      <span className={styles.defaultDropdownText}>
+        {i18n.t('embeddable_framework.chat.preChat.online.dropdown.selectDepartment')}
+      </span>
+    );
+
+    if (_.size(departments) === 0) return;
+
+    return (
+      <Dropdown
+        className={styles.dropdown}
+        menuContainerClassName={styles.dropdownMenuContainer}
+        label={departmentSettings.label}
+        required={departmentSettings.required}
+        name='department'
+        options={departments}
+        onChange={this.handleFormChange}
+        placeholderNode={placeholderNode}
+      />
+    );
+  }
+
   render = () => {
     return (
       <form
@@ -146,6 +171,7 @@ export class ChatPrechatForm extends Component {
         {this.renderNameField()}
         {this.renderEmailField()}
         {this.renderPhoneField()}
+        {this.renderDepartmentsField()}
         {this.renderMessageField()}
         <Button
           label={i18n.t('embeddable_framework.chat.preChat.online.button.startChat')}

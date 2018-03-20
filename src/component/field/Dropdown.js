@@ -33,12 +33,13 @@ export class Dropdown extends Component {
     required: PropTypes.bool,
     value: PropTypes.object,
     optionFormat: PropTypes.func,
-    selectionTextFormat: PropTypes.func,
+    selectionFormat: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
-    onMenuChange: PropTypes.func
+    onMenuChange: PropTypes.func,
+    placeholderNode: PropTypes.node
   }
 
   static defaultProps = {
@@ -57,9 +58,10 @@ export class Dropdown extends Component {
     options: [],
     label: '-',
     required: false,
+    placeholderNode: '-',
     value: { value: '' },
     optionFormat: _.identity,
-    selectionTextFormat: _.identity,
+    selectionFormat: _.identity,
     onFocus: () => {},
     onBlur: () => {},
     onMouseEnter: () => {},
@@ -171,7 +173,8 @@ export class Dropdown extends Component {
   setValue = (value, name) => () => {
     this.setState({
       selected: { value, name },
-      open: false
+      open: false,
+      valid: !this.props.required || !!value
     });
 
     setTimeout(() => this.props.onChange(value, name), 0);
@@ -328,9 +331,9 @@ export class Dropdown extends Component {
   }
 
   renderSelectionText = () => {
-    const selectionText = this.state.selected.name || '-';
+    const selection = this.state.selected.name || this.props.placeholderNode;
 
-    return this.props.selectionTextFormat(selectionText);
+    return this.props.selectionFormat(selection);
   }
 
   renderLabel = (landscapeClasses, mobileClasses) => {
