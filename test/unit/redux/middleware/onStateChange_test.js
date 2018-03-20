@@ -49,7 +49,8 @@ describe('onStateChange middleware', () => {
             return _.identity(val);
           }
           return [];
-        }
+        },
+        getChatOnline: (status) => status === 'online'
       },
       'src/redux/modules/chat/chat-action-types': {
         IS_CHATTING: 'IS_CHATTING'
@@ -325,6 +326,45 @@ describe('onStateChange middleware', () => {
           };
 
           stateChangeFn(null, null, action, dispatchSpy);
+        });
+
+        it('does not call mediator', () => {
+          expect(broadcastSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('onChatStatusChange', () => {
+      beforeEach(() => {
+        broadcastSpy.calls.reset();
+      });
+
+      describe('chatStatus goes from online to offline', () => {
+        beforeEach(() => {
+          stateChangeFn('online', 'offline');
+        });
+
+        it('calls mediator with newChat.offline', () => {
+          expect(broadcastSpy)
+            .toHaveBeenCalledWith('newChat.offline');
+        });
+      });
+
+      describe('chatStatus goes from offline to online', () => {
+        beforeEach(() => {
+          stateChangeFn('offline', 'online');
+        });
+
+        it('calls mediator with newChat.online', () => {
+          expect(broadcastSpy)
+            .toHaveBeenCalledWith('newChat.online');
+        });
+      });
+
+      describe('no chatStatus change', () => {
+        beforeEach(() => {
+          stateChangeFn('offline', 'offline');
         });
 
         it('does not call mediator', () => {
