@@ -478,6 +478,7 @@ class WebWidget extends Component {
 
     return (
       <ChatNotificationPopup
+        isMobile={this.props.fullscreen}
         notification={this.props.chatNotification}
         chatNotificationRespond={onNotificatonResponded}
         chatNotificationDismissed={this.props.chatNotificationDismissed} />

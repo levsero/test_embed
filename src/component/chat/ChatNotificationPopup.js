@@ -6,17 +6,20 @@ import { ChatPopup } from 'component/chat/ChatPopup';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './ChatNotificationPopup.scss';
+import classNames from 'classnames';
 
 export class ChatNotificationPopup extends Component {
   static propTypes = {
     className: PropTypes.string,
+    isMobile: PropTypes.bool,
     notification: PropTypes.object.isRequired,
     chatNotificationDismissed: PropTypes.func.isRequired,
     chatNotificationRespond: PropTypes.func.isRequired
   }
 
   static defaultProps = {
-    className: ''
+    className: '',
+    isMobile: false
   }
 
   constructor() {
@@ -61,14 +64,24 @@ export class ChatNotificationPopup extends Component {
   }
 
   render = () => {
-    const { notification, chatNotificationDismissed, chatNotificationRespond } = this.props;
+    const { notification, chatNotificationDismissed, chatNotificationRespond, isMobile } = this.props;
     const { proactive } = notification;
-    const className = proactive ? styles.ongoingNotificationCta : styles.ongoingNotification;
+    const className = classNames({
+      [styles.ongoingNotificationCta]: proactive,
+      [styles.ongoingNotificationDesktop]: !proactive && !isMobile,
+      [styles.ongoingNotificationMobile]: !proactive && isMobile
+    });
+    const containerClassName = classNames(
+      { [styles.notificationContainerMobile]: !proactive && isMobile }
+    );
 
     return (
       <ChatPopup
         showCta={proactive}
+        isDismissible={true}
+        onCloseIconClick={chatNotificationDismissed}
         className={className}
+        containerClassName={containerClassName}
         show={notification.show}
         leftCtaLabel={i18n.t('embeddable_framework.chat.popup.button.dismiss')}
         leftCtaFn={chatNotificationDismissed}

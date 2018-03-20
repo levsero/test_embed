@@ -56,6 +56,7 @@ describe('Icon component', function() {
       'zd-svg-icons/src/14-link-external.svg': DummyIcon,
       'zd-svg-icons/src/14-checkmark-fill.svg': DummyIcon,
       'zd-svg-icons/src/14-error-fill.svg': DummyIcon,
+      'zd-svg-icons/src/14-remove.svg': DummyIcon,
       'utility/devices': {
         isMobileBrowser: function() {
           return false;

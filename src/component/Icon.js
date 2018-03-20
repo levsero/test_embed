@@ -43,6 +43,7 @@ const icons = {
   'Icon--sound-off': require('icons/widget-icon_sound_off.svg'),
   'Icon--link-external': require('zd-svg-icons/src/14-link-external.svg'),
   'Icon--checkmark-fill': require('zd-svg-icons/src/14-checkmark-fill.svg'),
+  'Icon--remove': require('zd-svg-icons/src/14-remove.svg'),
   [ICONS.ERROR_FILL]: require('zd-svg-icons/src/14-error-fill.svg')
 };
 
