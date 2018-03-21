@@ -42,7 +42,11 @@ const onChatStatus = (action = {}, dispatch) => {
   if (action.type === IS_CHATTING) {
     mediator.channel.broadcast('newChat.isChatting', action.payload, showOnLoad);
     if (action.payload) {
-      dispatch(updateActiveEmbed(_.get(store.get('store'), 'activeEmbed', '')));
+      let activeEmbed = _.get(store.get('store'), 'activeEmbed', '');
+
+      if (activeEmbed === 'zopimChat') activeEmbed = 'chat';
+
+      dispatch(updateActiveEmbed(activeEmbed));
     }
   }
 };

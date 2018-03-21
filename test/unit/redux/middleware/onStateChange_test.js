@@ -306,13 +306,13 @@ describe('onStateChange middleware', () => {
         });
 
         describe('when the payload is true', () => {
-          beforeEach(() => {
-            const action = {
-              type: 'IS_CHATTING',
-              payload: true
-            };
+          const action = {
+            type: 'IS_CHATTING',
+            payload: true
+          };
 
-            mockStoreValue = { activeEmbed: 'chat' };
+          beforeEach(() => {
+            mockStoreValue = { activeEmbed: 'helpCenter' };
             stateChangeFn = requireUncached(path).default;
 
             stateChangeFn(null, null, action, dispatchSpy);
@@ -320,7 +320,21 @@ describe('onStateChange middleware', () => {
 
           it('dispatches updateActiveEmbed with the value from the store', () => {
             expect(updateActiveEmbedSpy)
-              .toHaveBeenCalledWith('chat');
+              .toHaveBeenCalledWith('helpCenter');
+          });
+
+          describe('when the value in the store is zopimChat', () => {
+            beforeEach(() => {
+              mockStoreValue = { activeEmbed: 'zopimChat' };
+              stateChangeFn = requireUncached(path).default;
+
+              stateChangeFn(null, null, action, dispatchSpy);
+            });
+
+            it('dispatches updateActiveEmbed with the chat', () => {
+              expect(updateActiveEmbedSpy)
+                .toHaveBeenCalledWith('chat');
+            });
           });
         });
       });
