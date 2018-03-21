@@ -167,6 +167,7 @@ export class ChatPrechatForm extends Component {
         {this.renderDepartmentsField()}
         {this.renderMessageField()}
         <Button
+          onTouchStartDisabled={true}
           label={i18n.t('embeddable_framework.chat.preChat.online.button.startChat')}
           disabled={!this.state.valid}
           className={styles.button}

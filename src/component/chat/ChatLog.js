@@ -68,6 +68,7 @@ export class ChatLog extends Component {
         primary={false}
         label={i18n.t(labelKey)}
         className={styles.requestRatingButton}
+        onTouchStartDisabled={true}
         onClick={goToFeedbackScreen}
       />
     );

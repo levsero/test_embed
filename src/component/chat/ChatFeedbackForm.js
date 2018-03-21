@@ -39,11 +39,13 @@ export class ChatFeedbackForm extends Component {
     return (
       <div className={styles.buttonGroup}>
         <Button
+          onTouchStartDisabled={true}
           className={styles.button}
           primary={false}
           label={cancelButtonText}
           onClick={this.props.skipClickFn} />
         <Button
+          onTouchStartDisabled={true}
           className={styles.rightButton}
           disabled={disabled}
           label={i18n.t('embeddable_framework.common.button.send')}
