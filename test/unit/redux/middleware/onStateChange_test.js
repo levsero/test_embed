@@ -200,6 +200,7 @@ describe('onStateChange middleware', () => {
           beforeEach(() => {
             mockwidgetShown = true;
             mockActiveEmbed = 'helpCenterForm';
+            broadcastSpy.calls.reset();
 
             stateChangeFn(prevState, nextState, {}, dispatchSpy);
           });
@@ -207,6 +208,11 @@ describe('onStateChange middleware', () => {
           it('dispatches newAgentMessageReceived', () => {
             expect(newAgentMessageReceivedSpy)
               .toHaveBeenCalled();
+          });
+
+          it('does not call mediator', () => {
+            expect(broadcastSpy)
+              .not.toHaveBeenCalled();
           });
         });
 
