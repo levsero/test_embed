@@ -1,10 +1,14 @@
 describe('ChatContactDetailsPopup component', () => {
   let ChatContactDetailsPopup,
     mockForm,
-    mockFormValidity;
-  let mockEmailValid = true;
-
+    mockFormValidity,
+    mockEmailValid,
+    EDIT_CONTACT_DETAILS_SCREEN,
+    EDIT_CONTACT_DETAILS_LOADING_SCREEN,
+    EDIT_CONTACT_DETAILS_ERROR_SCREEN;
   const ChatContactDetailsPopupPath = buildSrcPath('component/chat/ChatContactDetailsPopup');
+
+  const LoadingSpinner = noopReactComponent();
 
   class ChatPopup extends Component {
     render() {
@@ -17,13 +21,30 @@ describe('ChatContactDetailsPopup component', () => {
   beforeEach(() => {
     mockery.enable();
 
+    const chatConstantsPath = basePath('src/constants/chat');
+
+    EDIT_CONTACT_DETAILS_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_SCREEN;
+    EDIT_CONTACT_DETAILS_LOADING_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_LOADING_SCREEN;
+    EDIT_CONTACT_DETAILS_ERROR_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_ERROR_SCREEN;
+
     mockFormValidity = false;
+    mockEmailValid = true;
 
     initMockRegistry({
       'component/chat/ChatContactDetailsPopup.scss': {
-        locals: {}
+        locals: {
+          popupChildrenContainerLoading: 'popupChildrenContainerLoadingClass'
+        }
+      },
+      'constants/chat': {
+        EDIT_CONTACT_DETAILS_SCREEN,
+        EDIT_CONTACT_DETAILS_LOADING_SCREEN,
+        EDIT_CONTACT_DETAILS_ERROR_SCREEN
       },
       'component/chat/ChatPopup': { ChatPopup },
+      'component/loading/LoadingSpinner': { LoadingSpinner },
+      'component/Icon': noopReactComponent(),
+      'component/field/EmailField': noopReactComponent(),
       'component/field/Field': {
         Field: class extends Component {
           render() {
@@ -44,6 +65,9 @@ describe('ChatContactDetailsPopup component', () => {
       },
       'src/util/utils': {
         emailValid: () => mockEmailValid
+      },
+      'utility/globals': {
+        document: document
       }
     });
 
@@ -87,6 +111,24 @@ describe('ChatContactDetailsPopup component', () => {
       expect(rightCtaFnSpy)
         .toHaveBeenCalledWith('bob', 'bob@zd.com');
     });
+
+    describe('when there exists an activeElement', () => {
+      beforeEach(() => {
+        const mockActiveElement = domRender(<div />);
+
+        document.activeElement = mockActiveElement;
+
+        spyOn(document.activeElement, 'blur');
+
+        component = instanceRender(<ChatContactDetailsPopup rightCtaFn={rightCtaFnSpy} />);
+        component.handleSave();
+      });
+
+      it('calls blur on the activeElement', () => {
+        expect(document.activeElement.blur)
+          .toHaveBeenCalled();
+      });
+    });
   });
 
   describe('handleFormChange', () => {
@@ -113,7 +155,67 @@ describe('ChatContactDetailsPopup component', () => {
 
   describe('render', () => {
     let component,
+      renderedComponent,
       popupComponent;
+
+    describe('when method is called', () => {
+      beforeEach(() => {
+        component = instanceRender(<ChatContactDetailsPopup />);
+
+        spyOn(component, 'renderForm');
+        spyOn(component, 'renderLoadingSpinner');
+
+        component.render();
+      });
+
+      it('calls renderForm', () => {
+        expect(component.renderForm)
+          .toHaveBeenCalled();
+      });
+
+      it('calls renderLoadingSpinner', () => {
+        expect(component.renderLoadingSpinner)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the state is a loading screen', () => {
+      beforeEach(() => {
+        const mockScreen = EDIT_CONTACT_DETAILS_LOADING_SCREEN;
+        const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
+
+        renderedComponent = component.render();
+      });
+
+      it('has false in props.showCta', () => {
+        expect(renderedComponent.props.showCta)
+          .toEqual(false);
+      });
+
+      it('has the appropriate class in props.containerClasses', () => {
+        expect(renderedComponent.props.containerClasses)
+          .toEqual('popupChildrenContainerLoadingClass');
+      });
+    });
+
+    describe('when the state is not in a loading screen', () => {
+      beforeEach(() => {
+        const mockScreen = EDIT_CONTACT_DETAILS_SCREEN;
+        const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
+
+        renderedComponent = component.render();
+      });
+
+      it('has true in props.showCta', () => {
+        expect(renderedComponent.props.showCta)
+          .toEqual(true);
+      });
+
+      it('has an empty style in props.containerClasses', () => {
+        expect(renderedComponent.props.containerClasses)
+          .toEqual('');
+      });
+    });
 
     describe('when the form is valid', () => {
       beforeEach(() => {
@@ -140,6 +242,102 @@ describe('ChatContactDetailsPopup component', () => {
       it('renders ChatPopup with rightCtaDisabled prop as true', () => {
         expect(popupComponent.props.rightCtaDisabled)
           .toBe(true);
+      });
+    });
+  });
+
+  describe('renderErrorMessage', () => {
+    let errorMessage;
+
+    describe('when the state is not in an error screen', () => {
+      beforeEach(() => {
+        const mockScreen = EDIT_CONTACT_DETAILS_SCREEN;
+        const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
+
+        errorMessage = component.renderErrorMessage();
+      });
+
+      it('does not render an error message component', () => {
+        expect(errorMessage)
+          .toEqual(null);
+      });
+    });
+
+    describe('when the state is an error screen', () => {
+      beforeEach(() => {
+        const mockScreen = EDIT_CONTACT_DETAILS_ERROR_SCREEN;
+        const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
+
+        errorMessage = component.renderErrorMessage();
+      });
+
+      it('renders an error message component', () => {
+        expect(errorMessage)
+          .not.toEqual(null);
+      });
+    });
+  });
+
+  describe('renderForm', () => {
+    let form;
+
+    describe('when the state is an edit contact details screen', () => {
+      beforeEach(() => {
+        const mockScreen = EDIT_CONTACT_DETAILS_SCREEN;
+        const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
+
+        form = component.renderForm();
+      });
+
+      it('renders a form component', () => {
+        expect(form)
+          .not.toEqual(null);
+      });
+    });
+
+    describe('when the state is not an edit contact details screen', () => {
+      beforeEach(() => {
+        const mockScreen = EDIT_CONTACT_DETAILS_LOADING_SCREEN;
+        const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
+
+        form = component.renderForm();
+      });
+
+      it('does not render a form component', () => {
+        expect(form)
+          .toEqual(null);
+      });
+    });
+  });
+
+  describe('renderLoadingSpinner', () => {
+    let loadingSpinner;
+
+    describe('when the state is not in a loading screen', () => {
+      beforeEach(() => {
+        const mockScreen = EDIT_CONTACT_DETAILS_SCREEN;
+        const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
+
+        loadingSpinner = component.renderLoadingSpinner();
+      });
+
+      it('does not render a loading spinner component', () => {
+        expect(loadingSpinner)
+          .toEqual(null);
+      });
+    });
+
+    describe('when the state is a loading screen', () => {
+      beforeEach(() => {
+        const mockScreen = EDIT_CONTACT_DETAILS_LOADING_SCREEN;
+        const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
+
+        loadingSpinner = component.renderLoadingSpinner();
+      });
+
+      it('renders a loading spinner component', () => {
+        expect(TestUtils.isElementOfType(loadingSpinner, LoadingSpinner))
+          .toEqual(true);
       });
     });
   });

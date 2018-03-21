@@ -7,6 +7,7 @@ import {
   CHAT_MSG_REQUEST_SUCCESS,
   CHAT_MSG_REQUEST_FAILURE,
   CHAT_BOX_CHANGED,
+  SET_VISITOR_INFO_REQUEST_PENDING,
   SET_VISITOR_INFO_REQUEST_SUCCESS,
   SET_VISITOR_INFO_REQUEST_FAILURE,
   GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
@@ -29,7 +30,8 @@ import {
   EMAIL_TRANSCRIPT_REQUEST_SENT,
   RESET_EMAIL_TRANSCRIPT,
   CHAT_OFFLINE_FORM_CHANGED,
-  PRE_CHAT_FORM_ON_CHANGE
+  PRE_CHAT_FORM_ON_CHANGE,
+  UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import {
@@ -146,6 +148,8 @@ export function handleChatBoxChange(msg) {
 
 export function setVisitorInfo(visitor) {
   return (dispatch) => {
+    dispatch({ type: SET_VISITOR_INFO_REQUEST_PENDING });
+
     zChat.setVisitorInfo(visitor, (err) => {
       if (!err) {
         dispatch({
@@ -334,5 +338,12 @@ export function handlePreChatFormChange(state) {
   return {
     type: PRE_CHAT_FORM_ON_CHANGE,
     payload: state
+  };
+}
+
+export function updateContactDetailsVisibility(bool) {
+  return {
+    type: UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
+    payload: bool
   };
 }

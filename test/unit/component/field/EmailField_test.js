@@ -25,7 +25,8 @@ describe('Render email field', () => {
           required={true}
           value='hello@hello.com'
           fieldContainerClasses='someClass'
-          fieldClasses='someClass2' />
+          fieldClasses='someClass2'
+          placeholder='Please enter your email here...' />
       );
     field = TestUtils.findRenderedComponentWithType(emailField, MockField);
   });
@@ -51,7 +52,8 @@ describe('Render email field', () => {
       value: 'hello@hello.com',
       required: true,
       fieldContainerClasses: 'someClass',
-      fieldClasses: 'someClass2'
+      fieldClasses: 'someClass2',
+      placeholder: 'Please enter your email here...'
     };
 
     expect(emailField.props)

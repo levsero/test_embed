@@ -9,7 +9,8 @@ describe('chat root reducer', () => {
     initMockRegistry({
       'component/chat/ChatRatingGroup': {
         ChatRatings: { NOT_SET: null }
-      }
+      },
+      'constants/chat': {}
     });
 
     reducer = requireUncached(reducerPath).default;
@@ -99,6 +100,11 @@ describe('chat root reducer', () => {
 
     it('has the formState sub state', () => {
       expect(state.formState)
+        .toBeDefined();
+    });
+
+    it('has the editContactDetails sub state', () => {
+      expect(state.editContactDetails)
         .toBeDefined();
     });
   });

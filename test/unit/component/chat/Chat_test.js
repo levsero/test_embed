@@ -7,6 +7,7 @@ describe('Chat component', () => {
 
   const chatPath = buildSrcPath('component/chat/Chat');
   const AttachmentBox = noopReactComponent();
+  const ChatMenu = noopReactComponent();
 
   const EMAIL_TRANSCRIPT_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_SCREEN';
   const EMAIL_TRANSCRIPT_SUCCESS_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_SUCCESS_SCREEN';
@@ -52,7 +53,7 @@ describe('Chat component', () => {
         ChatFooter: noopReactComponent()
       },
       'component/chat/ChatMenu': {
-        ChatMenu: noopReactComponent()
+        ChatMenu: ChatMenu
       },
       'component/chat/ChatLog': {
         ChatLog: noopReactComponent()
@@ -125,10 +126,13 @@ describe('Chat component', () => {
   });
 
   describe('onContainerClick', () => {
-    let component;
+    let component,
+      updateContactDetailsVisibilitySpy;
 
     beforeEach(() => {
-      component = domRender(<Chat />);
+      updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility');
+
+      component = domRender(<Chat updateContactDetailsVisibility={updateContactDetailsVisibilitySpy} />);
       component.onContainerClick();
     });
 
@@ -137,9 +141,13 @@ describe('Chat component', () => {
         .toEqual(jasmine.objectContaining({
           showMenu: false,
           showEndChatMenu: false,
-          showEditContactDetailsMenu: false,
           showEmailTranscriptMenu: false
         }));
+    });
+
+    it('calls updateContactDetailsVisibility with false', () => {
+      expect(updateContactDetailsVisibilitySpy)
+        .toHaveBeenCalledWith(false);
     });
   });
 
@@ -741,7 +749,22 @@ describe('Chat component', () => {
   });
 
   describe('renderChatMenu', () => {
-    let component;
+    let component,
+      mockEvent,
+      mockUserSoundSettings,
+      updateContactDetailsVisibilitySpy,
+      handleSoundIconClickSpy;
+
+    describe('when method is called', () => {
+      beforeEach(() => {
+        component = domRender(<Chat />);
+      });
+
+      it('returns a ChatMenu component', () => {
+        expect(TestUtils.isElementOfType(component.renderChatMenu(), ChatMenu))
+          .toEqual(true);
+      });
+    });
 
     describe('when state.showMenu is false', () => {
       beforeEach(() => {
@@ -764,6 +787,116 @@ describe('Chat component', () => {
       it('passes true to its popup components show prop', () => {
         expect(component.renderChatMenu().props.show)
           .toBe(true);
+      });
+    });
+
+    describe('when prop.endChatOnClick is called', () => {
+      beforeEach(() => {
+        component = domRender(<Chat />);
+
+        spyOn(component, 'setState');
+
+        const chatMenu = component.renderChatMenu();
+
+        mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') };
+        chatMenu.props.endChatOnClick(mockEvent);
+      });
+
+      it('calls stopPropagation on event', () => {
+        expect(mockEvent.stopPropagation)
+          .toHaveBeenCalled();
+      });
+
+      it('calls setState with expected arguments', () => {
+        const expected = {
+          showEndChatMenu: true,
+          showMenu: false
+        };
+
+        expect(component.setState)
+          .toHaveBeenCalledWith(jasmine.objectContaining(expected));
+      });
+    });
+
+    describe('when prop.contactDetailsOnClick is called', () => {
+      beforeEach(() => {
+        updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility');
+        component = domRender(<Chat updateContactDetailsVisibility={updateContactDetailsVisibilitySpy} />);
+
+        spyOn(component, 'setState');
+
+        const chatMenu = component.renderChatMenu();
+
+        mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') };
+        chatMenu.props.contactDetailsOnClick(mockEvent);
+      });
+
+      it('calls stopPropagation on event', () => {
+        expect(mockEvent.stopPropagation)
+          .toHaveBeenCalled();
+      });
+
+      it('calls setState with expected arguments', () => {
+        const expected = { showMenu: false };
+
+        expect(component.setState)
+          .toHaveBeenCalledWith(jasmine.objectContaining(expected));
+      });
+
+      it('calls updateContactDetailsVisibility with true', () => {
+        expect(updateContactDetailsVisibilitySpy)
+          .toHaveBeenCalledWith(true);
+      });
+    });
+
+    describe('when prop.emailTranscriptOnClick is called', () => {
+      beforeEach(() => {
+        component = domRender(<Chat />);
+
+        spyOn(component, 'setState');
+
+        const chatMenu = component.renderChatMenu();
+
+        mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') };
+        chatMenu.props.emailTranscriptOnClick(mockEvent);
+      });
+
+      it('calls stopPropagation on event', () => {
+        expect(mockEvent.stopPropagation)
+          .toHaveBeenCalled();
+      });
+
+      it('calls setState with expected arguments', () => {
+        const expected = {
+          showEmailTranscriptMenu: true,
+          showMenu: false
+        };
+
+        expect(component.setState)
+          .toHaveBeenCalledWith(jasmine.objectContaining(expected));
+      });
+    });
+
+    describe('when prop.onSoundClick is called', () => {
+      beforeEach(() => {
+        mockUserSoundSettings = false;
+        handleSoundIconClickSpy = jasmine.createSpy('handleSoundIconClick');
+        component = domRender(
+          <Chat
+            userSoundSettings={mockUserSoundSettings}
+            handleSoundIconClick={handleSoundIconClickSpy} />
+        );
+
+        const chatMenu = component.renderChatMenu();
+
+        chatMenu.props.onSoundClick();
+      });
+
+      it('calls handleSoundIconClick with expected arguments', () => {
+        const expected = { sound: !mockUserSoundSettings };
+
+        expect(handleSoundIconClickSpy)
+          .toHaveBeenCalledWith(jasmine.objectContaining(expected));
       });
     });
   });
@@ -798,30 +931,75 @@ describe('Chat component', () => {
   });
 
   describe('renderChatContactDetailsPopup', () => {
-    let component;
+    let chatContactDetailsPopup,
+      mockVisitor,
+      mockEditContactDetails,
+      mockName,
+      mockEmail,
+      updateContactDetailsVisibilitySpy,
+      setVisitorInfoSpy;
 
-    describe('when the popup should be shown', () => {
+    beforeEach(() => {
+      mockEditContactDetails = { show: true, status: 'error' };
+      mockVisitor = { name: 'Terence', email: 'foo@bar.com' };
+
+      const component = instanceRender(
+        <Chat
+          editContactDetails={mockEditContactDetails}
+          visitor={mockVisitor} />
+      );
+
+      chatContactDetailsPopup = component.renderChatContactDetailsPopup();
+    });
+
+    it(`passes a status string to the popup component's screen prop`, () => {
+      expect(chatContactDetailsPopup.props.screen)
+        .toBe('error');
+    });
+
+    it(`passes true to the popup component's show prop`, () => {
+      expect(chatContactDetailsPopup.props.show)
+        .toBe(true);
+    });
+
+    it(`passes an expected object to the popup component's visitor prop`, () => {
+      expect(chatContactDetailsPopup.props.visitor)
+        .toEqual(jasmine.objectContaining(mockVisitor));
+    });
+
+    describe('when props.leftCtaFn is called', () => {
       beforeEach(() => {
-        component = domRender(
-          <Chat chat={{ rating: null }} />
-        );
-        component.setState({ showEditContactDetailsMenu: true });
+        updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility');
+
+        const component = instanceRender(<Chat updateContactDetailsVisibility={updateContactDetailsVisibilitySpy} />);
+        const chatContactDetailsPopup = component.renderChatContactDetailsPopup();
+
+        chatContactDetailsPopup.props.leftCtaFn();
       });
 
-      it('passes true to its popup components show prop', () => {
-        expect(component.renderChatContactDetailsPopup().props.show)
-          .toBe(true);
+      it('calls updateContactDetailsVisibility with false', () => {
+        expect(updateContactDetailsVisibilitySpy)
+          .toHaveBeenCalledWith(false);
       });
     });
 
-    describe('when the popup should not be shown', () => {
+    describe('when props.rightCtaFn is called', () => {
       beforeEach(() => {
-        component = domRender(<Chat chat={{ rating: null }} />);
+        setVisitorInfoSpy = jasmine.createSpy('setVisitorInfo');
+        mockName = 'Terence';
+        mockEmail = 'foo@bar.com';
+
+        const component = instanceRender(<Chat setVisitorInfo={setVisitorInfoSpy} />);
+        const chatContactDetailsPopup = component.renderChatContactDetailsPopup();
+
+        chatContactDetailsPopup.props.rightCtaFn(mockName, mockEmail);
       });
 
-      it('passes false to its popup components show prop', () => {
-        expect(component.renderChatContactDetailsPopup().props.show)
-          .toBe(false);
+      it('calls setVisitorInfo with an expected argument', () => {
+        const expected = { display_name: mockName, email: mockEmail };
+
+        expect(setVisitorInfoSpy)
+          .toHaveBeenCalledWith(jasmine.objectContaining(expected));
       });
     });
   });

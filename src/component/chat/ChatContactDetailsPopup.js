@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
-import { ChatPopup } from 'component/chat/ChatPopup';
-import { Field } from 'component/field/Field';
+import { document as doc } from 'utility/globals';
 import { i18n } from 'service/i18n';
+import { emailValid } from 'src/util/utils';
+import { ChatPopup } from 'component/chat/ChatPopup';
+import { EmailField } from 'component/field/EmailField';
+import { Field } from 'component/field/Field';
+import { Icon } from 'component/Icon';
+import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 
 import { locals as styles } from 'component/chat/ChatContactDetailsPopup.scss';
-import { emailValid } from 'src/util/utils';
-import _ from 'lodash';
+
+import {
+  EDIT_CONTACT_DETAILS_LOADING_SCREEN,
+  EDIT_CONTACT_DETAILS_ERROR_SCREEN
+} from 'constants/chat';
 
 export class ChatContactDetailsPopup extends Component {
   static propTypes = {
+    screen: PropTypes.string.isRequired,
     className: PropTypes.string,
     leftCtaFn: PropTypes.func,
     rightCtaFn: PropTypes.func,
@@ -46,6 +56,10 @@ export class ChatContactDetailsPopup extends Component {
     const { name, email } = this.state.formState;
 
     this.props.rightCtaFn(name, email);
+
+    if (doc.activeElement) {
+      doc.activeElement.blur();
+    }
   }
 
   handleFormChange = (e) => {
@@ -78,47 +92,73 @@ export class ChatContactDetailsPopup extends Component {
 
   renderEmailField = () => {
     return (
-      <Field
+      <EmailField
         fieldContainerClasses={styles.fieldContainer}
         fieldClasses={styles.field}
         placeholder={i18n.t('embeddable_framework.common.textLabel.email')}
         required={true}
-        value={this.state.formState.email}
-        pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
-        name='email' />
+        value={this.state.formState.email} />
+    );
+  }
+
+  renderErrorMessage() {
+    if (this.props.screen !== EDIT_CONTACT_DETAILS_ERROR_SCREEN) return null;
+
+    return (
+      <div className={styles.errorContainer}>
+        <Icon type='Icon--error' className={styles.errorIcon} />
+        <p className={styles.errorMsg}>
+          {i18n.t('embeddable_framework.common.notify.error.generic')}
+        </p>
+      </div>
     );
   }
 
   renderForm = () => {
+    if (this.props.screen === EDIT_CONTACT_DETAILS_LOADING_SCREEN) return null;
+
     return (
-      <form
-        ref={(element) => this.form = element}
-        className={styles.form}
-        noValidate={true}
-        onChange={this.handleFormChange}>
-        {this.renderTitle()}
-        {this.renderNameField()}
-        {this.renderEmailField()}
-      </form>
+      <div className={styles.popupChildrenContainer}>
+        <form
+          ref={(element) => this.form = element}
+          className={styles.form}
+          noValidate={true}
+          onChange={this.handleFormChange}>
+          {this.renderTitle()}
+          {this.renderNameField()}
+          {this.renderEmailField()}
+          {this.renderErrorMessage()}
+        </form>
+      </div>
+    );
+  }
+
+  renderLoadingSpinner() {
+    if (this.props.screen !== EDIT_CONTACT_DETAILS_LOADING_SCREEN) return null;
+
+    return (
+      <LoadingSpinner className={styles.loadingSpinner} />
     );
   }
 
   render = () => {
-    const { className, leftCtaFn } = this.props;
+    const { className, leftCtaFn, screen } = this.props;
+    const isLoading = (screen === EDIT_CONTACT_DETAILS_LOADING_SCREEN);
+    const containerClasses = (isLoading) ? styles.popupChildrenContainerLoading : '';
 
     return (
       <ChatPopup
         className={className}
+        containerClasses={containerClasses}
+        showCta={!isLoading}
         show={this.props.show}
-        childrenContainerClasses={styles.popupChildrenContainer}
         leftCtaFn={leftCtaFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
         rightCtaFn={this.handleSave}
         rightCtaLabel={i18n.t('embeddable_framework.common.button.save')}
         rightCtaDisabled={!this.state.valid}>
-        <div className={styles.popupChildrenContainer}>
-          {this.renderForm()}
-        </div>
+        {this.renderForm()}
+        {this.renderLoadingSpinner()}
       </ChatPopup>
     );
   }

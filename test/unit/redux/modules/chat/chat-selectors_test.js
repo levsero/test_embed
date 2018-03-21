@@ -30,7 +30,9 @@ describe('chat selectors', () => {
     getChatOfflineForm,
     getShowOfflineForm,
     getPreChatFormState,
-    getQueuePosition;
+    getQueuePosition,
+    getEditContactDetails,
+    EDIT_CONTACT_DETAILS_SCREEN;
 
   beforeEach(() => {
     mockery.enable();
@@ -39,10 +41,13 @@ describe('chat selectors', () => {
     const CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS;
     const CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS;
 
+    EDIT_CONTACT_DETAILS_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_SCREEN;
+
     initMockRegistry({
       'constants/chat': {
         CHAT_MESSAGE_EVENTS,
-        CHAT_SYSTEM_EVENTS
+        CHAT_SYSTEM_EVENTS,
+        EDIT_CONTACT_DETAILS_SCREEN
       }
     });
 
@@ -83,6 +88,7 @@ describe('chat selectors', () => {
     getShowOfflineForm = selectors.getShowOfflineForm;
     getPreChatFormState = selectors.getPreChatFormState;
     getQueuePosition = selectors.getQueuePosition;
+    getEditContactDetails = selectors.getEditContactDetails;
   });
 
   afterEach(() => {
@@ -1343,6 +1349,28 @@ describe('chat selectors', () => {
     it('returns the current state of the pre chat form', () => {
       expect(result)
         .toEqual(formState);
+    });
+  });
+
+  describe('getEditContactDetails', () => {
+    let result,
+      mockChatSettings;
+
+    beforeEach(() => {
+      mockChatSettings = {
+        chat: {
+          editContactDetails: {
+            status: EDIT_CONTACT_DETAILS_SCREEN,
+            show: true
+          }
+        }
+      };
+      result = getEditContactDetails(mockChatSettings);
+    });
+
+    it('returns the current state of the edit contact details', () => {
+      expect(result)
+        .toEqual(jasmine.objectContaining(mockChatSettings.chat.editContactDetails));
     });
   });
 });
