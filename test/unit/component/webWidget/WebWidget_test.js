@@ -241,13 +241,17 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when props.showOfflineForm is true', () => {
+    describe('when props.showOfflineForm is false', () => {
+      const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility');
+      let webWidget;
+
       beforeEach(() => {
-        const webWidget = instanceRender(
+        webWidget = instanceRender(
           <WebWidget
             activeEmbed='chat'
             showOfflineForm={false}
-            chatStatus='offline' />
+            chatStatus='offline'
+            updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
         );
 
         result = webWidget.renderChat();
@@ -256,6 +260,55 @@ describe('WebWidget component', () => {
       it('renders Chat', () => {
         expect(result.ref)
           .toEqual('chat');
+      });
+
+      describe('the function passed to updateBackButtonVisibility', () => {
+        let chatComponent;
+
+        describe('when isHelpCenterAvailable is true', () => {
+          beforeEach(() => {
+            spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(true);
+            spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(false);
+
+            chatComponent = webWidget.renderChat();
+            chatComponent.props.updateBackButtonVisibility();
+          });
+
+          it('calls updateBackButtonVisibility with true', () => {
+            expect(updateBackButtonVisibilitySpy)
+              .toHaveBeenCalledWith(true);
+          });
+        });
+
+        describe('when isChannelChoiceAvailable is true', () => {
+          beforeEach(() => {
+            spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
+            spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(true);
+
+            chatComponent = webWidget.renderChat();
+            chatComponent.props.updateBackButtonVisibility();
+          });
+
+          it('calls updateBackButtonVisibility with true', () => {
+            expect(updateBackButtonVisibilitySpy)
+              .toHaveBeenCalledWith(true);
+          });
+        });
+
+        describe('when isChannelChoiceAvailable and isHelpCenterAvailable are false', () => {
+          beforeEach(() => {
+            spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
+            spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(false);
+
+            chatComponent = webWidget.renderChat();
+            chatComponent.props.updateBackButtonVisibility();
+          });
+
+          it('calls updateBackButtonVisibility with true', () => {
+            expect(updateBackButtonVisibilitySpy)
+              .toHaveBeenCalledWith(false);
+          });
+        });
       });
     });
   });
@@ -1321,32 +1374,6 @@ describe('WebWidget component', () => {
           expect(updateChatScreenSpy)
             .toHaveBeenCalledWith('chatting');
         });
-
-        describe('when helpCenterAvailable is true', () => {
-          beforeEach(() => {
-            spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(true);
-
-            webWidget.showChat({ proactive: true });
-          });
-
-          it('calls updateBackButtonVisibility with true', () => {
-            expect(updateBackButtonVisibilitySpy)
-              .toHaveBeenCalledWith(true);
-          });
-        });
-
-        describe('when helpCenterAvailable is false', () => {
-          beforeEach(() => {
-            spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
-
-            webWidget.showChat({ proactive: true });
-          });
-
-          it('calls updateBackButtonVisibility with false', () => {
-            expect(updateBackButtonVisibilitySpy)
-              .toHaveBeenCalledWith(false);
-          });
-        });
       });
     });
   });
@@ -1600,6 +1627,132 @@ describe('WebWidget component', () => {
       it('calls updateActiveEmbed with the component name', () => {
         expect(updateActiveEmbedSpy)
           .toHaveBeenCalledWith('helpCenterForm');
+      });
+    });
+  });
+
+  describe('isChannelChoiceAvailable', () => {
+    let webWidget;
+
+    describe('when isChatting is true', () => {
+      beforeEach(() => {
+        webWidget = instanceRender(
+          <WebWidget
+          channelChoice={true}
+          submitTicketAvailable={true}
+          talkAvailable={true}
+          chatAvailable={true}
+          isChatting={true}
+          />
+        );
+      });
+
+      it('returns false', () => {
+        expect(webWidget.isChannelChoiceAvailable())
+          .toEqual(false);
+      });
+    });
+
+    describe('when isChatting is false', () => {
+      const isChatting = false;
+
+      describe('when only channelChoice is available', () => {
+        describe('when no other channels are available', () => {
+          beforeEach(() => {
+            webWidget = instanceRender(
+              <WebWidget
+              channelChoice={true}
+              submitTicketAvailable={false}
+              talkAvailable={false}
+              chatAvailable={false}
+              isChatting={isChatting}
+              />
+            );
+          });
+
+          it('returns false', () => {
+            expect(webWidget.isChannelChoiceAvailable())
+              .toEqual(false);
+          });
+        });
+
+        describe('when only one other channel is available', () => {
+          beforeEach(() => {
+            webWidget = instanceRender(
+              <WebWidget
+              channelChoice={true}
+              submitTicketAvailable={true}
+              talkAvailable={false}
+              chatAvailable={false}
+              isChatting={isChatting}
+              />
+            );
+          });
+
+          it('returns false', () => {
+            expect(webWidget.isChannelChoiceAvailable())
+              .toEqual(false);
+          });
+        });
+
+        describe('when two other channels are available', () => {
+          beforeEach(() => {
+            webWidget = instanceRender(
+              <WebWidget
+              channelChoice={true}
+              submitTicketAvailable={true}
+              talkAvailable={false}
+              chatAvailable={true}
+              isChatting={isChatting}
+              />
+            );
+          });
+
+          it('returns true', () => {
+            expect(webWidget.isChannelChoiceAvailable())
+              .toEqual(true);
+          });
+        });
+      });
+
+      describe('when only talkAvailable is available', () => {
+        describe('when no other channels are available', () => {
+          beforeEach(() => {
+            webWidget = instanceRender(
+              <WebWidget
+              channelChoice={false}
+              submitTicketAvailable={false}
+              talkAvailable={true}
+              chatAvailable={false}
+              isChatting={isChatting}
+              />
+            );
+          });
+
+          it('returns false', () => {
+            expect(webWidget.isChannelChoiceAvailable())
+              .toEqual(false);
+          });
+        });
+
+        describe('when another channel is available', () => {
+          beforeEach(() => {
+            webWidget = instanceRender(
+              <WebWidget
+              channelChoice={false}
+              submitTicketAvailable={true}
+              talkAvailable={true}
+              chatAvailable={false}
+              isChatting={isChatting}
+              />
+            );
+          });
+
+          it('returns true', () => {
+            expect(webWidget.isChannelChoiceAvailable())
+              .toEqual(true);
+          });
+        });
       });
     });
   });

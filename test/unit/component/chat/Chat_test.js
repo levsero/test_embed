@@ -255,6 +255,27 @@ describe('Chat component', () => {
         });
       });
     });
+
+    describe('the updateChatBackButtonVisibility prop', () => {
+      let updateChatBackButtonVisibilitySpy;
+
+      beforeEach(() => {
+        updateChatBackButtonVisibilitySpy = jasmine.createSpy('updateChatBackButtonVisibility');
+        component = domRender(<Chat updateChatBackButtonVisibility={updateChatBackButtonVisibilitySpy} chats={[]} events={[]} />);
+        nextProps = {
+          emailTranscript: {},
+          chats: [],
+          events: []
+        };
+
+        component.componentWillReceiveProps(nextProps);
+      });
+
+      it('is called', () => {
+        expect(updateChatBackButtonVisibilitySpy)
+          .toHaveBeenCalled();
+      });
+    });
   });
 
   describe('onPrechatFormComplete', () => {
