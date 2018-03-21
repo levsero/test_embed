@@ -65,11 +65,9 @@
 
 .attachmentMessageErrorContainer {
   margin-top: $spacing-tny;
-  float: right;
   text-align: right;
 
   [dir='rtl'] & {
-    float: left;
     text-align: left;
   }
 }
