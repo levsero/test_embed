@@ -130,7 +130,8 @@ class Chat extends Component {
     handlePreChatFormChange: PropTypes.func,
     queuePosition: PropTypes.number,
     editContactDetails: PropTypes.object.isRequired,
-    updateContactDetailsVisibility: PropTypes.func.isRequired
+    updateContactDetailsVisibility: PropTypes.func.isRequired,
+    updateChatBackButtonVisibility: PropTypes.func
   };
 
   static defaultProps = {
@@ -154,7 +155,8 @@ class Chat extends Component {
     sendEmailTranscript: () => {},
     emailTranscript: {},
     resetEmailTranscript: () => {},
-    editContactDetails: {}
+    editContactDetails: {},
+    updateChatBackButtonVisibility: () => {}
   };
 
   constructor(props) {
@@ -190,6 +192,8 @@ class Chat extends Component {
         nextProps.emailTranscript.screen !== this.props.emailTranscript.screen) {
       this.setState({ showEmailTranscriptMenu: true });
     }
+
+    this.props.updateChatBackButtonVisibility();
   }
 
   toggleMenu = () => {
