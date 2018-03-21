@@ -25,7 +25,7 @@ import { getChatAvailable,
          getShowTicketFormsBackButton } from 'src/redux/modules/selectors';
 import { getArticleViewActive,
          getSearchFieldFocused } from 'src/redux/modules/helpCenter/helpCenter-selectors';
-import { getChatNotification, getShowOfflineForm } from 'src/redux/modules/chat/chat-selectors';
+import { getChatNotification, getShowOfflineForm, getIsChatting } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getZopimChatEmbed,
          getActiveEmbed,
@@ -57,7 +57,8 @@ const mapStateToProps = (state) => {
     ticketForms: getTicketForms(state),
     showTicketFormsBackButton: getShowTicketFormsBackButton(state),
     chatStandalone: getChatStandalone(state),
-    showOfflineForm: getShowOfflineForm(state)
+    showOfflineForm: getShowOfflineForm(state),
+    isChatting: getIsChatting(state)
   };
 };
 
@@ -111,7 +112,8 @@ class WebWidget extends Component {
     articleViewActive: PropTypes.bool.isRequired,
     helpCenterSearchFocused: PropTypes.bool.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
-    showOfflineForm: PropTypes.bool.isRequired
+    showOfflineForm: PropTypes.bool.isRequired,
+    isChatting: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -183,11 +185,10 @@ class WebWidget extends Component {
   }
 
   isChannelChoiceAvailable = () => {
-    const { channelChoice, submitTicketAvailable, talkAvailable, chatAvailable } = this.props;
-    const channels = [talkAvailable, submitTicketAvailable, chatAvailable];
-    const channelsAvailable = _.filter(channels, _.identity);
+    const { channelChoice, submitTicketAvailable, talkAvailable, chatAvailable, isChatting } = this.props;
+    const availableChannelCount = !!talkAvailable + !!submitTicketAvailable + !!chatAvailable;
 
-    return (channelChoice || talkAvailable) && channelsAvailable.length > 1;
+    return (channelChoice || talkAvailable) && availableChannelCount > 1 && !isChatting;
   };
 
   noActiveEmbed = () => this.props.activeEmbed === '';
@@ -203,7 +204,6 @@ class WebWidget extends Component {
       updateActiveEmbed(chat);
       if (options.proactive) {
         this.props.updateChatScreen(CHATTING_SCREEN);
-        this.props.updateBackButtonVisibility(this.isHelpCenterAvailable());
       }
     }
   }
@@ -337,6 +337,13 @@ class WebWidget extends Component {
 
     if (activeEmbed !== chat) return;
 
+    const updateBackButtonVisibilityChat = () => {
+      this.props.updateBackButtonVisibility(
+        this.isHelpCenterAvailable() ||
+        this.isChannelChoiceAvailable()
+      );
+    };
+
     return (showOfflineForm)
       ? <ChatOfflineForm
           ref={chat}
@@ -349,7 +356,8 @@ class WebWidget extends Component {
           updateFrameSize={this.props.updateFrameSize}
           updateChatScreen={this.props.updateChatScreen}
           position={this.props.position}
-          getFrameDimensions={this.props.getFrameDimensions} />;
+          getFrameDimensions={this.props.getFrameDimensions}
+          updateBackButtonVisibility={updateBackButtonVisibilityChat}/>;
   }
 
   renderHelpCenter = () => {
