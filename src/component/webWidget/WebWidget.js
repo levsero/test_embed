@@ -341,6 +341,7 @@ class WebWidget extends Component {
       ? <ChatOfflineForm
           ref={chat}
           updateFrameSize={this.props.updateFrameSize}
+          isMobile={this.props.fullscreen}
         />
       : <Chat
           ref={chat}

@@ -317,10 +317,16 @@ class Chat extends Component {
     if (this.props.screen !== screens.PRECHAT_SCREEN) return;
 
     const { form, message } = this.props.prechatFormSettings;
+    const scrollContainerClasses = classNames(
+      styles.scrollContainer,
+      { [styles.mobileContainer]: this.props.isMobile }
+    );
 
     return (
       <ScrollContainer
-        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
+        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+        classes={scrollContainerClasses}
+        containerClasses={styles.scrollContainerContent}>
         <ChatPrechatForm
           form={form}
           formState={this.props.preChatFormState}
@@ -369,12 +375,17 @@ class Chat extends Component {
 
     if (screen !== screens.CHATTING_SCREEN) return;
     const showRating = ratingSettings.enabled && _.size(agents) > 0;
-    const containerClasses = isMobile ? styles.scrollContainerMobile : '';
+    const containerClasses = classNames(
+      styles.scrollContainerMessagesContent,
+      { [styles.scrollContainerMobile]: isMobile }
+    );
     const messageClasses = classNames(
-      {
-        [styles.messages]: !isMobile,
-        [styles.messagesMobile]: isMobile
-      }
+      styles.messages,
+      { [styles.messagesMobile]: isMobile }
+    );
+    const scrollContainerClasses = classNames(
+      styles.scrollContainer,
+      { [styles.mobileContainer]: isMobile }
     );
 
     return (
@@ -385,8 +396,9 @@ class Chat extends Component {
         headerClasses={styles.header}
         containerClasses={containerClasses}
         footerClasses={styles.footer}
-        footerContent={this.renderChatFooter()}>
-        <div className={messageClasses}>
+        footerContent={this.renderChatFooter()}
+        classes={scrollContainerClasses}>
+          <div className={messageClasses}>
           <ChatLog
             showAvatar={this.props.showAvatar}
             chatLog={this.props.chatLog}
@@ -470,8 +482,12 @@ class Chat extends Component {
   renderPostchatScreen = () => {
     if (this.props.screen !== screens.FEEDBACK_SCREEN) return null;
 
-    const { sendChatRating, updateChatScreen, endChat, sendChatComment, rating, isChatting } = this.props;
+    const { sendChatRating, updateChatScreen, endChat, sendChatComment, rating, isChatting, isMobile } = this.props;
     const { message } = this.props.postChatFormSettings;
+    const scrollContainerClasses = classNames(
+      styles.scrollContainer,
+      { [styles.mobileContainer]: isMobile }
+    );
     const skipClickFn = () => {
       if (this.state.endChatFromFeedbackForm) endChat();
 
@@ -494,7 +510,9 @@ class Chat extends Component {
     return (
       <ScrollContainer
         headerContent={this.renderChatHeader()}
-        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}>
+        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+        classes={scrollContainerClasses}
+        containerClasses={styles.scrollContainerContent}>
         <ChatFeedbackForm
           feedbackMessage={message}
           rating={this.props.rating}
@@ -545,10 +563,15 @@ class Chat extends Component {
   }
 
   render = () => {
+    const containerStyle = classNames(
+      styles.container,
+      { [styles.mobileContainer]: this.props.isMobile }
+    );
+
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     return (
-      <div className={styles.container}>
+      <div className={containerStyle}>
         {this.renderPrechatScreen()}
         {this.renderChatScreen()}
         {this.renderPostchatScreen()}

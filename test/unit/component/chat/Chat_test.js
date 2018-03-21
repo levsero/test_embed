@@ -33,7 +33,10 @@ describe('Chat component', () => {
           footer: 'footerClasses',
           agentTyping: 'agentTypingClasses',
           messagesMobile: 'messagesMobileClasses',
-          messages: 'messagesClasses'
+          messages: 'messagesClasses',
+          scrollContainer: 'scrollContainerClasses',
+          scrollContainerContent: 'scrollContainerContentClasses',
+          scrollContainerMessagesContent: 'scrollContainerMessagesContentClasses'
         }
       },
       'component/chat/ChatBox': {
@@ -375,6 +378,18 @@ describe('Chat component', () => {
         expect(component.renderPrechatScreen())
           .toBeTruthy();
       });
+
+      describe('the scroll container wrapper', () => {
+        it('has its classes prop to the scroll container style', () => {
+          expect(component.renderPrechatScreen().props.classes)
+            .toEqual('scrollContainerClasses');
+        });
+
+        it('has its containerClasses prop to the scrollContainerContent style', () => {
+          expect(component.renderPrechatScreen().props.containerClasses)
+            .toEqual('scrollContainerContentClasses');
+        });
+      });
     });
   });
 
@@ -424,6 +439,18 @@ describe('Chat component', () => {
         const firstChild = component.renderPostchatScreen().props.children;
 
         expect(TestUtils.isElementOfType(firstChild, ChatFeedbackForm)).toEqual(true);
+      });
+
+      describe('the scroll container wrapper', () => {
+        it('has its classes prop to the scroll container style', () => {
+          expect(component.renderPostchatScreen().props.classes)
+            .toEqual('scrollContainerClasses');
+        });
+
+        it('has its containerClasses prop to the scrollContainerContent style', () => {
+          expect(component.renderPostchatScreen().props.containerClasses)
+            .toEqual('scrollContainerContentClasses');
+        });
       });
 
       describe('the sendClickFn passed as a prop to the ChatFeedbackForm', () => {
@@ -668,9 +695,10 @@ describe('Chat component', () => {
         component = domRender(<Chat screen={chattingScreen} />);
       });
 
-      it('does not add classes to scrollContainer', () => {
+      it('does not add the scrollContainerMobile class to it', () => {
         expect(component.renderChatScreen().props.containerClasses)
-          .toBe('');
+          .not
+          .toContain('scrollContainerMobileClasses');
       });
 
       it('has messages classes', () => {
@@ -691,7 +719,23 @@ describe('Chat component', () => {
 
       it('has messagesMobile classes', () => {
         expect(component.renderChatScreen().props.children.props.className)
-          .toBe('messagesMobileClasses');
+          .toContain('messagesMobileClasses');
+      });
+    });
+
+    describe('the scroll container wrapper', () => {
+      beforeEach(() => {
+        component = instanceRender(<Chat screen={chattingScreen} />);
+      });
+
+      it('has its classes prop to the scroll container style', () => {
+        expect(component.renderChatScreen().props.classes)
+          .toEqual('scrollContainerClasses');
+      });
+
+      it('has its containerClasses prop to the scrollContainerContent style', () => {
+        expect(component.renderChatScreen().props.containerClasses)
+          .toEqual('scrollContainerMessagesContentClasses');
       });
     });
   });

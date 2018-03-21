@@ -12,7 +12,6 @@
 }
 
 .containerDesktop {
-  composes: container;
   border-radius: #{8/$font-size}rem;
 }
 

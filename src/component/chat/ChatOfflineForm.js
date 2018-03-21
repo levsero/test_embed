@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { i18n } from 'service/i18n';
+import classNames from 'classnames';
 
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { Form } from 'component/form/Form';
@@ -26,11 +27,13 @@ class ChatOfflineForm extends Component {
     updateFrameSize: PropTypes.func.isRequired,
     chatOfflineFormChanged: PropTypes.func.isRequired,
     formState: PropTypes.object.isRequired,
-    formFields: PropTypes.object.isRequired
+    formFields: PropTypes.object.isRequired,
+    isMobile: PropTypes.bool
   };
 
   static defaultProps = {
-    updateFrameSize: () => {}
+    updateFrameSize: () => {},
+    isMobile: false
   };
 
   renderNameField() {
@@ -109,12 +112,19 @@ class ChatOfflineForm extends Component {
   }
 
   render() {
+    const { isMobile } = this.props;
+    const scrollContainerClasses = classNames(
+      styles.scrollContainer,
+      { [styles.mobileContainer]: isMobile }
+    );
+
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     return (
       <ScrollContainer
         ref='scrollContainer'
-        containerClasses={styles.container}
+        classes={scrollContainerClasses}
+        containerClasses={styles.scrollContainerContent}
         title={i18n.t('embeddable_framework.chat.title')}>
         {this.renderBody()}
       </ScrollContainer>
