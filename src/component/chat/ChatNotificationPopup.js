@@ -78,6 +78,7 @@ export class ChatNotificationPopup extends Component {
 
     return (
       <ChatPopup
+        isMobile={isMobile}
         showCta={proactive}
         isDismissible={true}
         onCloseIconClick={chatNotificationDismissed}
