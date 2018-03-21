@@ -1,10 +1,12 @@
 @import '../../styles/_vars.scss';
 
 .scrollContainerMobile {
-  height: calc(100% - #{150/$font-size}rem);
-  max-height: #{480/$font-size}rem;
   display: flex;
   flex-direction: column-reverse;
+
+  .agentTyping {
+    bottom: #{48/$font-size}rem;
+  }
 }
 
 .container {
@@ -49,6 +51,12 @@
 .footer {
   padding-top: #{21/$font-size}rem !important;
   padding-bottom: #{4/$font-size}rem !important;
+}
+
+.footerMobile {
+  padding: 0 !important;
+  border-top: $thin-border-size solid $zd-color-gainsboro;
+  margin-top: #{12/$font-size}rem !important;
 }
 
 .chatEnd {

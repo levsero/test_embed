@@ -1,14 +1,20 @@
-/**
- * 1. We target the barebones textarea element here since Field overrides
- *    the className attribute for its input
- */
-
 @import '../../styles/_vars.scss';
 
-.input {
+.container {
   composes: u-alignBottom from global;
 
-  textarea { /* 1 */
+  .label {
+    display: none;
+  }
+
+  .fieldMobile {
+    padding: #{12/$font-size}rem 0;
+    border: none !important;
+    border-radius: 0;
+    box-shadow: none !important;
+  }
+
+  .input {
     height: #{30/$font-size}rem !important;
 
     &::placeholder {
@@ -23,5 +29,11 @@
       background: $base-border-color;
       border-radius: #{4/$font-size}rem;
     }
+  }
+
+  .inputMobile {
+    font-size: #{14/$font-size}rem !important;
+    height: #{16/$font-size}rem !important;
+    line-height: #{16/$font-size}rem !important;
   }
 }

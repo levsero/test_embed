@@ -22,6 +22,7 @@ const icons = {
   'Icon--close': require('icons/widget-icon_close.svg'),
   'Icon--dash': require('icons/widget-icon_dash.svg'),
   'Icon--ellipsis': require('icons/widget-icon_ellipsis.svg'),
+  'Icon--sendChat': require('icons/widget-icon_sendChat.svg'),
   'Icon--endChat': require('icons/widget-icon_endChat.svg'),
   'Icon--error': require('zd-svg-icons/src/14-error.svg'),
   'Icon--launcher-talk': require('icons/widget-icon_launcher-talk.svg'),

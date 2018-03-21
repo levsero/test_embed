@@ -6,13 +6,12 @@
   padding-top: #{8/$font-size}rem;
 }
 
-.iconChatMenuOption {
-  padding-right: #{3/$font-size}rem;
+.icon {
+  margin-right: #{3/$font-size}rem;
+  border-radius: #{4/$font-size}rem;
 
   svg {
     padding: #{5/$font-size}rem;
-    border-radius: #{4/$font-size}rem;
-
     min-width: #{14/$font-size}rem;
     min-height: #{14/$font-size}rem;
     width: #{14/$font-size}rem;
@@ -21,43 +20,103 @@
     g {
       fill: $zd-color-aluminum !important;
     }
+  }
 
-    &:hover, &:active, &:focus {
-      background: $zd-color-platinum;
+  &:hover, &:active, &:focus {
+    cursor: pointer;
+    background: $zd-color-platinum;
 
-      g {
-        fill: $zd-color-dark-gray !important;
-      }
+    svg > g {
+      fill: $zd-color-dark-gray !important;
     }
   }
 }
 
-.iconAttachment {
-  composes: iconChatMenuOption;
+.iconMobile {
+  margin-right: 0;
+  border-radius: 50%;
+  margin: 0 #{4/$font-size}rem;
 
-  path {
-    stroke: $zd-color-aluminum !important;
+  svg {
+    padding: #{8/$font-size}rem;
+    min-width: #{16/$font-size}rem;
+    min-height: #{16/$font-size}rem;
+    width: #{16/$font-size}rem;
+    height: #{16/$font-size}rem;
+  }
+}
+
+.iconEndChat {
+  composes: icon;
+}
+
+.iconAttachment {
+  composes: icon;
+
+  svg {
+    padding-right: 0;
+
+    path {
+      stroke: $zd-color-aluminum !important;
+    }
   }
 
   &:hover, &:active, &:focus {
-    path {
+    svg > path {
       stroke: $zd-color-dark-gray !important;
     }
   }
 }
 
-.iconDisabled {
+.iconAttachmentMobile {
+  composes: iconMobile;
+
   svg {
-    g {
+    padding: #{9/$font-size}rem #{3/$font-size}rem #{7/$font-size}rem #{8/$font-size}rem;
+  }
+}
+
+.iconMenu {
+  composes: icon;
+  margin-right: 0;
+}
+
+.iconSendChat {
+  composes: icon;
+
+  svg > path {
+    fill: $zd-color-aluminum !important;
+  }
+}
+
+.iconSendChatMobile {
+  composes: iconMobile;
+
+  svg {
+    padding: #{8/$font-size}rem #{7/$font-size}rem #{8/$font-size}rem #{9/$font-size}rem;
+  }
+}
+
+.iconDisabled {
+  svg > g {
+    fill: $zd-color-iron !important;
+  }
+
+  &:hover, &:active, &:focus {
+    cursor: default;
+    background: none;
+
+    svg > g {
       fill: $zd-color-iron !important;
     }
-
-    &:hover, &:active, &:focus {
-      background: none;
-
-      g {
-        fill: $zd-color-iron !important;
-      }
-    }
   }
+}
+
+.containerMobile {
+  display: flex;
+  align-items: center;
+}
+
+.inputContainerMobile {
+  flex-grow: 1;
 }
