@@ -14,6 +14,7 @@ const c = new airwaves.Channel();
 const submitTicket = 'ticketSubmissionForm';
 const launcher = 'launcher';
 const chat = 'zopimChat';
+const newChat = 'newChat';
 const helpCenter = 'helpCenterForm';
 const channelChoice = 'channelChoice';
 const talk = 'talk';
@@ -43,6 +44,7 @@ state[`${talk}.isVisible`] = false;
 state[`${talk}.isSuppressed`] = false;
 state['.hideOnClose'] = false;
 state['.activatePending'] = false;
+state['.newChat'] = false;
 
 const talkAvailable = () => {
   return !state[`${talk}.isSuppressed`] &&
@@ -97,7 +99,7 @@ const resetActiveEmbed = () => {
   } else if (talkAvailable()) {
     state.activeEmbed = talk;
   } else if (chatAvailable()) {
-    state.activeEmbed = chat;
+    state.activeEmbed = (state['.newChat']) ? newChat : chat;
   } else if (submitTicketAvailable()) {
     state.activeEmbed = submitTicket;
   } else {
@@ -160,6 +162,7 @@ const showEmbed = (_state, viaActivate = false) => {
 
 function init(embedsAccessible, params = {}) {
   state[`${launcher}.userHidden`] = params.hideLauncher;
+  state['.newChat'] = params.newChat;
   state[`${submitTicket}.isAccessible`] = embedsAccessible.submitTicket;
   state[`${helpCenter}.isAccessible`] = embedsAccessible.helpCenter &&
     (!params.helpCenterSignInRequired || isOnHelpCenterPage());
@@ -212,6 +215,14 @@ function init(embedsAccessible, params = {}) {
       c.broadcast('webWidget.proactiveChat', { transition: getShowAnimation() });
       c.broadcast(`${launcher}.hide`);
     }
+  });
+
+  c.intercept('newChat.online', () => {
+    state[`${chat}.isOnline`] = true;
+  });
+
+  c.intercept('newChat.offline', () => {
+    state[`${chat}.isOnline`] = false;
   });
 
   c.intercept('.hide', (_, viaIPM = false) => {
@@ -274,7 +285,8 @@ function init(embedsAccessible, params = {}) {
     if (!embedVisible(state)) {
       resetActiveEmbed();
       state['.hideOnClose'] = !!options.hideOnClose;
-      if (embedAvailable()) {
+      // New chat might still be connecting when activate on page is processed.
+      if (embedAvailable() || (state[`${chat}.connectionPending`] && state['.newChat'])) {
         const chatPending = state[`${chat}.connectionPending`] && state[`${chat}.isAccessible`];
         const talkPending = state[`${talk}.connectionPending`] && state[`${talk}.isAccessible`];
 

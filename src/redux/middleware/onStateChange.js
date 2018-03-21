@@ -9,6 +9,7 @@ import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
 import { getChatMessagesByAgent,
          getConnection,
+         getChatOnline,
          getUserSoundSettings } from 'src/redux/modules/chat/chat-selectors';
 import { getArticleDisplayed } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getActiveEmbed,
@@ -60,6 +61,18 @@ const onNewChatMessage = (prevState, nextState, dispatch) => {
   }
 };
 
+const onChatStatusChange = (prevState, nextState) => {
+  const nextChatStatusOnline = getChatOnline(nextState);
+
+  if (getChatOnline(prevState) !== nextChatStatusOnline) {
+    if (nextChatStatusOnline) {
+      mediator.channel.broadcast('newChat.online');
+    } else {
+      mediator.channel.broadcast('newChat.offline');
+    }
+  }
+};
+
 const onArticleDisplayed = (prevState, nextState) => {
   const prevDisplay = getArticleDisplayed(prevState);
   const nextDisplay = getArticleDisplayed(nextState);
@@ -70,7 +83,8 @@ const onArticleDisplayed = (prevState, nextState) => {
   }
 };
 
-export default function onStateChange(prevState, nextState, action, dispatch) {
+export default function onStateChange(prevState, nextState, action, dispatch = () => {}) {
+  onChatStatusChange(prevState, nextState);
   onChatConnected(prevState, nextState, dispatch);
   onNewChatMessage(prevState, nextState, dispatch);
   onArticleDisplayed(prevState, nextState, dispatch);
