@@ -8,6 +8,7 @@ import { getEnvironment } from 'src/util/utils';
 
 import reducer from 'src/redux/modules/reducer';
 import onStateChangeFn from 'src/redux/middleware/onStateChange';
+import persist from 'src/redux/middleware/persist';
 
 import { sendBlips } from 'src/redux/middleware/blip';
 
@@ -26,7 +27,8 @@ export default function(storeName = 'web_widget') {
   const middlewares = [
     thunk,
     onStateChange(onStateChangeFn),
-    sendBlips
+    sendBlips,
+    persist
   ];
   let storeEnhancers;
 

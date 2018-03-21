@@ -136,5 +136,19 @@ describe('chat reducer is_chatting', () => {
         });
       });
     });
+
+    describe('when a IS_CHATTING action is dispatched', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.IS_CHATTING,
+          payload: true
+        });
+      });
+
+      it('should set the state to the payload', () => {
+        expect(state)
+          .toEqual(true);
+      });
+    });
   });
 });

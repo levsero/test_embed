@@ -2,25 +2,32 @@ describe('onStateChange middleware', () => {
   let stateChangeFn,
     mockUserSoundSetting,
     mockActiveEmbed,
-    mockwidgetShown;
+    mockwidgetShown,
+    mockStoreValue;
   const getAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
+  const getIsChattingSpy = jasmine.createSpy('getIsChatting');
   const newAgentMessageReceivedSpy = jasmine.createSpy('newAgentMessageReceived');
+  const updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed');
   const audioPlaySpy = jasmine.createSpy('audioPlay');
   const broadcastSpy = jasmine.createSpy('broadcast');
+  const path = buildSrcPath('redux/middleware/onStateChange');
 
   beforeAll(() => {
     mockery.enable();
 
-    const path = buildSrcPath('redux/middleware/onStateChange');
-
     mockUserSoundSetting = false;
     mockActiveEmbed = '';
     mockwidgetShown = false;
+    mockStoreValue = { widgetShown: false };
 
     initMockRegistry({
       'src/redux/modules/chat': {
         getAccountSettings: getAccountSettingsSpy,
-        newAgentMessageReceived: newAgentMessageReceivedSpy
+        newAgentMessageReceived: newAgentMessageReceivedSpy,
+        getIsChatting: getIsChattingSpy
+      },
+      'src/redux/modules/base': {
+        updateActiveEmbed: updateActiveEmbedSpy
       },
       'service/audio': {
         audio: {
@@ -37,7 +44,15 @@ describe('onStateChange middleware', () => {
       'src/redux/modules/chat/chat-selectors': {
         getUserSoundSettings: () => mockUserSoundSetting,
         getConnection: _.identity,
-        getChatMessagesByAgent: _.identity
+        getChatMessagesByAgent: (val) => {
+          if (val) {
+            return _.identity(val);
+          }
+          return [];
+        }
+      },
+      'src/redux/modules/chat/chat-action-types': {
+        IS_CHATTING: 'IS_CHATTING'
       },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getArticleDisplayed: _.identity
@@ -45,6 +60,11 @@ describe('onStateChange middleware', () => {
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed,
         getWidgetShown: () => mockwidgetShown
+      },
+      'service/persistence': {
+        store: {
+          get: () => mockStoreValue
+        }
       }
     });
 
@@ -83,14 +103,19 @@ describe('onStateChange middleware', () => {
           stateChangeFn(connectingState, connectedState, {}, dispatchSpy);
         });
 
-        it('dispatches the getAccountSettings action', () => {
+        it('dispatches the getAccountSettings action creator', () => {
           expect(getAccountSettingsSpy)
             .toHaveBeenCalled();
         });
 
-        it('calls mediator with newChat.connected', () => {
+        it('dispatches the getIsChatting action creator', () => {
+          expect(getIsChattingSpy)
+            .toHaveBeenCalled();
+        });
+
+        it('calls mediator with newChat.connected with the store value', () => {
           expect(broadcastSpy)
-            .toHaveBeenCalledWith('newChat.connected');
+            .toHaveBeenCalledWith('newChat.connected', false);
         });
       });
     });
@@ -235,6 +260,71 @@ describe('onStateChange middleware', () => {
       describe('articleDisplayed goes from true to false', () => {
         beforeEach(() => {
           stateChangeFn(true, false);
+        });
+
+        it('does not call mediator', () => {
+          expect(broadcastSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('onChatStatus', () => {
+      const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough();
+
+      beforeEach(() => {
+        broadcastSpy.calls.reset();
+      });
+
+      describe('when the action is IS_CHATTING', () => {
+        beforeEach(() => {
+          const action = {
+            type: 'IS_CHATTING',
+            payload: false
+          };
+
+          stateChangeFn(null, null, action, dispatchSpy);
+        });
+
+        it('calls mediator with isChatting and the value from the payload and store', () => {
+          expect(broadcastSpy)
+            .toHaveBeenCalledWith('newChat.isChatting', false, false);
+        });
+
+        describe('when the payload is false', () => {
+          it('does not dispatches updateActiveEmbed', () => {
+            expect(updateActiveEmbedSpy)
+              .not.toHaveBeenCalled();
+          });
+        });
+
+        describe('when the payload is true', () => {
+          beforeEach(() => {
+            const action = {
+              type: 'IS_CHATTING',
+              payload: true
+            };
+
+            mockStoreValue = { activeEmbed: 'chat' };
+            stateChangeFn = requireUncached(path).default;
+
+            stateChangeFn(null, null, action, dispatchSpy);
+          });
+
+          it('dispatches updateActiveEmbed with the value from the store', () => {
+            expect(updateActiveEmbedSpy)
+              .toHaveBeenCalledWith('chat');
+          });
+        });
+      });
+
+      describe('when the action is not IS_CHATTING', () => {
+        beforeEach(() => {
+          const action = {
+            type: 'something_else'
+          };
+
+          stateChangeFn(null, null, action, dispatchSpy);
         });
 
         it('does not call mediator', () => {
