@@ -23,10 +23,12 @@ export class ChatPopup extends Component {
     show: PropTypes.bool,
     onExited: PropTypes.func,
     isDismissible: PropTypes.bool,
-    onCloseIconClick: PropTypes.func
+    onCloseIconClick: PropTypes.func,
+    isMobile: PropTypes.bool
   };
 
   static defaultProps = {
+    isMobile: false,
     className: '',
     containerClassName: '',
     showCta: true,
@@ -47,6 +49,13 @@ export class ChatPopup extends Component {
     e.stopPropagation();
   }
 
+  ctaButtonStyle = (orientation) => {
+    return classNames({
+      [styles[orientation + 'CtaBtn']]: true,
+      [styles.ctaBtnMobile]: this.props.isMobile
+    });
+  }
+
   renderCta = () => {
     const {
       showCta, leftCtaFn, rightCtaFn,
@@ -58,13 +67,13 @@ export class ChatPopup extends Component {
           <Button
             onTouchStartDisabled={true}
             label={leftCtaLabel}
-            className={styles.leftCtaBtn}
+            className={this.ctaButtonStyle('left')}
             primary={false}
             onClick={leftCtaFn} />
           <Button
             onTouchStartDisabled={true}
             label={rightCtaLabel}
-            className={styles.rightCtaBtn}
+            className={this.ctaButtonStyle('right')}
             primary={true}
             disabled={rightCtaDisabled}
             onClick={rightCtaFn} />
