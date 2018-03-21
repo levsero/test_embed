@@ -337,7 +337,7 @@ class WebWidget extends Component {
 
     if (activeEmbed !== chat) return;
 
-    const updateBackButtonVisibilityChat = () => {
+    const updateChatBackButtonVisibility = () => {
       this.props.updateBackButtonVisibility(
         this.isHelpCenterAvailable() ||
         this.isChannelChoiceAvailable()
@@ -357,7 +357,7 @@ class WebWidget extends Component {
           updateChatScreen={this.props.updateChatScreen}
           position={this.props.position}
           getFrameDimensions={this.props.getFrameDimensions}
-          updateBackButtonVisibility={updateBackButtonVisibilityChat}/>;
+          updateChatBackButtonVisibility={updateChatBackButtonVisibility}/>;
   }
 
   renderHelpCenter = () => {
