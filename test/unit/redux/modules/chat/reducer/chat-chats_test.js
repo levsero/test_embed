@@ -255,10 +255,12 @@ describe('chat reducer chats', () => {
       let state,
         sendPayload;
 
+      const timestamp = Date.now();
+
       beforeEach(() => {
         sendPayload = {
           type: 'chat.file',
-          timestamp: 1,
+          timestamp,
           nick: 'visitor',
           display_name: 'Visitor 123',
           file: {
@@ -279,7 +281,7 @@ describe('chat reducer chats', () => {
 
       describe('when a CHAT_FILE_REQUEST_SUCCESS action is dispatched', () => {
         let successPayload;
-        const timestamp = 1;
+        const timestamp = Date.now();
 
         beforeEach(() => {
           successPayload = {
@@ -314,7 +316,7 @@ describe('chat reducer chats', () => {
 
       describe('when a CHAT_FILE_REQUEST_FAILURE action is dispatched', () => {
         let failurePayload;
-        const timestamp = 1;
+        const timestamp = Date.now();
 
         beforeEach(() => {
           failurePayload = {

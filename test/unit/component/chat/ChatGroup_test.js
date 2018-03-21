@@ -260,7 +260,8 @@ describe('ChatGroup component', () => {
       result,
       chat,
       showAvatar,
-      handleSendMsgSpy;
+      handleSendMsgSpy,
+      exampleMsg = 'Hmm why did I forget the actual plan for implementing ChatGroup?';
 
     beforeEach(() => {
       handleSendMsgSpy = jasmine.createSpy('handleSendMsg');
@@ -271,7 +272,7 @@ describe('ChatGroup component', () => {
     describe('when chat status is not CHAT_MESSAGE_FAILURE', () => {
       beforeAll(() => {
         chat = {
-          msg: 'Hmm why did I forget the actual plan for implementing ChatGroup?',
+          msg: exampleMsg,
           display_name: 'bob',
           options: ['yes', 'no'],
           status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
@@ -335,7 +336,7 @@ describe('ChatGroup component', () => {
 
       it('passes the correct message prop', () => {
         expect(result.props.message)
-          .toEqual('Hmm why did I forget the actual plan for implementing ChatGroup?');
+          .toEqual(exampleMsg);
       });
 
       it('passes the correct options prop', () => {
@@ -345,7 +346,7 @@ describe('ChatGroup component', () => {
 
       it('passes the correct handleSendMsg prop', () => {
         expect(result.props.handleSendMsg)
-          .toEqual(jasmine.any(Function));
+          .toEqual(handleSendMsgSpy);
       });
     });
 
@@ -354,7 +355,7 @@ describe('ChatGroup component', () => {
 
       beforeAll(() => {
         chat = {
-          msg: 'Hmm why did I forget the actual plan for implementing ChatGroup?',
+          msg: exampleMsg,
           display_name: 'bob',
           options: ['yes', 'no'],
           status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
@@ -392,7 +393,7 @@ describe('ChatGroup component', () => {
           messageErrorComponent.props.handleError();
 
           expect(handleSendMsgSpy)
-            .toHaveBeenCalledWith('Hmm why did I forget the actual plan for implementing ChatGroup?', 123);
+            .toHaveBeenCalledWith(exampleMsg, 123);
         });
       });
 
@@ -413,7 +414,7 @@ describe('ChatGroup component', () => {
 
         it('has empty errorClasses', () => {
           expect(messageErrorComponent.props.className)
-            .toEqual('');
+            .toBeFalsy();
         });
 
         it('renders second attempt error message', () => {

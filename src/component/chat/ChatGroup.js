@@ -90,10 +90,13 @@ export class ChatGroup extends Component {
       if (chat.numFailedTries === 1) {
         errorMessage = i18n.t('embeddable_framework.chat.messagefailed.resend');
         handleResendMsg = () => this.props.handleSendMsg(chat.msg, chat.timestamp);
-        errorClasses = styles.messageErrorRetry;
       } else if (chat.numFailedTries > 1) {
         errorMessage = i18n.t('embeddable_framework.chat.messagefailed.failed_twice');
       }
+
+      errorClasses = classNames({
+        [styles.messageErrorRetry]: chat.numFailedTries === 1
+      });
 
       return (
         <div>
