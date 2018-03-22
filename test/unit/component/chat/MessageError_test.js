@@ -20,7 +20,7 @@ describe('MessageError component', () => {
         locals: {
           container: 'container',
           icon: 'icon',
-          messageErrorRetry: 'messageErrorRetry'
+          messageErrorLink: 'messageErrorLink'
         }
       }
     });
@@ -98,9 +98,9 @@ describe('MessageError component', () => {
             .toEqual(errorMessage);
         });
 
-        it('renders the correct messageErrorRetry className', () => {
+        it('renders the correct messageErrorLink className', () => {
           expect(errorElement.props.className)
-            .toEqual('messageErrorRetry');
+            .toEqual('messageErrorLink');
         });
       });
 

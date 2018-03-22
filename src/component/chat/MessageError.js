@@ -23,7 +23,7 @@ export class MessageError extends Component {
 
     if (hasHandler) {
       errorTag = (
-        <a className={styles.messageErrorRetry}
+        <a className={styles.messageErrorLink}
            onClick={this.props.handleError}>
            {this.props.errorMessage}
         </a>
