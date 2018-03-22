@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import Chat from 'component/chat/Chat';
-import ChatOfflineForm from 'component/chat/ChatOfflineForm';
+import ChatOffline from 'component/chat/ChatOffline';
 import Talk from 'component/talk/Talk';
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
 import { ChatNotificationPopup } from 'component/chat/ChatNotificationPopup';
@@ -345,9 +345,10 @@ class WebWidget extends Component {
     };
 
     return (showOfflineForm)
-      ? <ChatOfflineForm
+      ? <ChatOffline
           ref={chat}
           updateFrameSize={this.props.updateFrameSize}
+          handleCloseClick={(e) => this.props.closeFrame(e, { skipOnClose: true })}
           isMobile={this.props.fullscreen}
         />
       : <Chat

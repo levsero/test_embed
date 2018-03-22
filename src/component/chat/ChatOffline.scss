@@ -1,0 +1,31 @@
+@import '../../styles/_vars.scss';
+
+.button {
+  max-width: 100%;
+  width: calc(100% - #{20/$font-size}rem);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: 0 #{10/$font-size}rem;
+}
+
+.mobileContainer {
+  height: 100% !important;
+}
+
+.container {
+  height: #{$chat-height/$font-size}rem;
+}
+
+.scrollContainer {
+  composes: container;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollContainerContent {
+  height: 100%;
+  max-height: none;
+  position: relative;
+}

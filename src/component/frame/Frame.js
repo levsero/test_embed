@@ -303,7 +303,9 @@ export class Frame extends Component {
 
     this.hide({ transition });
 
-    this.props.onClose(this, options);
+    if (!options.skipOnClose) {
+      this.props.onClose(this, options);
+    }
   }
 
   back = (e) => {
