@@ -51,6 +51,9 @@ describe('chat reducer accountSettings offlineForm', () => {
                 3: { name: 'message', label: 'Message', required: false }
               }
             }
+          },
+          chat_button: {
+            hide_when_offline: false
           }
         };
 
@@ -60,9 +63,14 @@ describe('chat reducer accountSettings offlineForm', () => {
         });
       });
 
-      it('sets the action payload as the state', () => {
+      it('sets the offline_form payload as part of the state', () => {
         expect(state)
-          .toEqual(settings.forms.offline_form);
+          .toEqual(jasmine.objectContaining(settings.forms.offline_form));
+      });
+
+      it('sets the inverse of hide_when_offline as enabled', () => {
+        expect(state)
+          .toEqual(jasmine.objectContaining({ enabled: true }));
       });
     });
   });
