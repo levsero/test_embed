@@ -164,6 +164,7 @@ function init(name) {
     mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount);
   };
   const onChatStart = () => {
+    mediator.channel.broadcast(`${name}.onChatStart`);
     get(name).store.dispatch(updateSettingsChatSuppress(false));
   };
   const onChatEnd = () => {

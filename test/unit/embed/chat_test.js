@@ -332,11 +332,18 @@ describe('embed.chat', () => {
       });
 
       describe('zopim.onChatStart', () => {
-        it('calls updateSettingsChatSuppress with false', () => {
+        beforeEach(() => {
           onChatStartCall.args[0](false);
+        });
 
+        it('calls updateSettingsChatSuppress with false', () => {
           expect(updateSettingsChatSuppressSpy)
             .toHaveBeenCalledWith(false);
+        });
+
+        it('broadcasts <name>.onChatStart', () => {
+          expect(mockMediator.channel.broadcast)
+            .toHaveBeenCalledWith('dave.onChatStart');
         });
       });
 
