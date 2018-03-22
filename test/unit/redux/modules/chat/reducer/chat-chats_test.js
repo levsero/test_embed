@@ -314,7 +314,6 @@ describe('chat reducer chats', () => {
 
       describe('when a CHAT_FILE_REQUEST_FAILURE action is dispatched', () => {
         let failurePayload;
-        const timestamp = Date.now();
 
         beforeEach(() => {
           failurePayload = {
