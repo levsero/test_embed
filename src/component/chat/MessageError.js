@@ -5,6 +5,9 @@ import { Icon } from 'component/Icon';
 import { ICONS } from 'constants/shared';
 import { locals as styles } from './MessageError.scss';
 
+import _ from 'lodash';
+import classNames from 'classnames';
+
 export class MessageError extends Component {
   static propTypes = {
     errorMessage: PropTypes.string.isRequired,
@@ -13,15 +16,29 @@ export class MessageError extends Component {
   };
 
   render() {
+    const hasHandler = _.isFunction(this.props.handleError);
+    const errorClasses = classNames(styles.container, this.props.className);
+
+    let errorTag;
+
+    if (hasHandler) {
+      errorTag = (
+        <a className={styles.messageErrorRetry}
+           onClick={this.props.handleError}>
+           {this.props.errorMessage}
+        </a>
+      );
+    } else {
+      errorTag = this.props.errorMessage;
+    }
+
     return (
-      <div className={styles.container}>
+      <div className={errorClasses}>
         <Icon
           className={styles.icon}
           type={ICONS.ERROR_FILL}
         />
-        <span className={this.props.className} onClick={this.props.handleError}>
-          {this.props.errorMessage}
-        </span>
+        {errorTag}
       </div>
     );
   }

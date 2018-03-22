@@ -1,7 +1,6 @@
 describe('ChatGroup component', () => {
   let ChatGroup,
     ATTACHMENT_ERROR_TYPES,
-    CHAT_MESSAGE_TYPES,
     ICONS,
     FILETYPE_ICONS,
     i18n;
@@ -17,11 +16,11 @@ describe('ChatGroup component', () => {
   const ImageMessage = noopReactComponent();
 
   let chatConstants = requireUncached(chatConstantsPath);
+  let CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
 
   beforeEach(() => {
     mockery.enable();
 
-    CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
     ATTACHMENT_ERROR_TYPES = chatConstants.ATTACHMENT_ERROR_TYPES;
     ICONS = requireUncached(sharedConstantsPath).ICONS;
     FILETYPE_ICONS = requireUncached(sharedConstantsPath).FILETYPE_ICONS;
@@ -64,7 +63,6 @@ describe('ChatGroup component', () => {
           avatarWithSrc: 'avatarWithSrc',
           nameAvatar: 'nameAvatar',
           nameNoAvatar: 'nameNoAvatar',
-          messageErrorRetry: 'messageErrorRetry',
           messageErrorContainer: 'messageErrorContainer'
         }
       }
@@ -379,11 +377,6 @@ describe('ChatGroup component', () => {
       });
 
       describe('when numFailedTries is 1', () => {
-        it('renders correct errorClasses', () => {
-          expect(messageErrorComponent.props.className)
-            .toEqual('messageErrorRetry');
-        });
-
         it('renders first attempt error message', () => {
           expect(messageErrorComponent.props.errorMessage)
             .toEqual('embeddable_framework.chat.messagefailed.resend');
@@ -400,7 +393,7 @@ describe('ChatGroup component', () => {
       describe('when numFailedTries is more than 1', () => {
         beforeAll(() => {
           chat = {
-            msg: 'Hmm why did I forget the actual plan for implementing ChatGroup?',
+            msg: exampleMsg,
             display_name: 'bob',
             options: ['yes', 'no'],
             status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
@@ -412,22 +405,14 @@ describe('ChatGroup component', () => {
           handleSendMsgSpy.calls.reset();
         });
 
-        it('has empty errorClasses', () => {
-          expect(messageErrorComponent.props.className)
-            .toBeFalsy();
-        });
-
         it('renders second attempt error message', () => {
           expect(messageErrorComponent.props.errorMessage)
             .toEqual('embeddable_framework.chat.messagefailed.failed_twice');
         });
 
-        it('renders handleError function prop that does not call handleSendMsg prop', () => {
-          messageErrorComponent.props.handleError();
-
-          expect(handleSendMsgSpy)
-            .not
-            .toHaveBeenCalledWith('Hmm why did I forget the actual plan for implementing ChatGroup?', 123);
+        it('does not pass handleError function prop', () => {
+          expect(messageErrorComponent.props.handleError)
+            .toBeFalsy();
         });
       });
     });

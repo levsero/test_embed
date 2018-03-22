@@ -19,7 +19,8 @@ describe('MessageError component', () => {
       './MessageError.scss': {
         locals: {
           container: 'container',
-          icon: 'icon'
+          icon: 'icon',
+          messageErrorRetry: 'messageErrorRetry'
         }
       }
     });
@@ -34,14 +35,14 @@ describe('MessageError component', () => {
   });
 
   describe('#render', () => {
-    let el;
+    let el,
+      handleErrorSpy;
     const errorMessage = 'Something went wrong';
 
     beforeEach(() => {
       const messageErrorComponent = (
         <MessageError errorMessage={errorMessage}
-          className='customClassName'
-          handleError={() => {}} />
+          className='customClassName' handleError={handleErrorSpy} />
       );
       const component = instanceRender(messageErrorComponent);
 
@@ -56,29 +57,71 @@ describe('MessageError component', () => {
     });
 
     describe('error element', () => {
-      let secondChild;
+      let errorElement;
 
-      beforeEach(() => {
-        secondChild = el.props.children[1];
+      it('renders default class container', () => {
+        expect(el.props.className)
+          .toContain('container');
       });
 
-      it('renders a span tag', () => {
-        expect(TestUtils.isElementOfType(secondChild, 'span'))
-          .toEqual(true);
+      it('renders custom class container', () => {
+        expect(el.props.className)
+          .toContain('customClassName');
       });
 
-      it('renders custom className prop', () => {
-        expect(secondChild.props.className)
-          .toEqual('customClassName');
+      describe('when there is a handler', () => {
+        beforeAll(() => {
+          handleErrorSpy = jasmine.createSpy('handleError').and.returnValue('random click');
+        });
+
+        beforeEach(() => {
+          errorElement = el.props.children[1];
+        });
+
+        it('renders an anchor tag', () => {
+          expect(TestUtils.isElementOfType(errorElement, 'a'))
+            .toEqual(true);
+        });
+
+        it('renders an onClick handler', () => {
+          const result = errorElement.props.onClick();
+
+          expect(handleErrorSpy)
+            .toHaveBeenCalled();
+
+          expect(result)
+            .toEqual('random click');
+        });
+
+        it('renders the error message', () => {
+          expect(errorElement.props.children)
+            .toEqual(errorMessage);
+        });
+
+        it('renders the correct messageErrorRetry className', () => {
+          expect(errorElement.props.className)
+            .toEqual('messageErrorRetry');
+        });
       });
 
-      it('renders handleError props', () => {
-        expect(secondChild.props.onClick)
-          .toEqual(jasmine.any(Function));
-      });
+      describe('when there is no handler', () => {
+        beforeAll(() => {
+          handleErrorSpy = null;
+        });
 
-      it('renders the error message', () => {
-        expect(secondChild.props.children).toContain(errorMessage);
+        beforeEach(() => {
+          errorElement = el.props.children[1];
+        });
+
+        it('renders the error message', () => {
+          expect(errorElement)
+            .toEqual(errorMessage);
+        });
+
+        it('does not render an anchor tag', () => {
+          expect(TestUtils.isElementOfType(errorElement, 'a'))
+            .toEqual(false);
+        });
       });
     });
   });

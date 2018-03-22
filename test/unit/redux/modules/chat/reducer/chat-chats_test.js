@@ -281,7 +281,6 @@ describe('chat reducer chats', () => {
 
       describe('when a CHAT_FILE_REQUEST_SUCCESS action is dispatched', () => {
         let successPayload;
-        const timestamp = Date.now();
 
         beforeEach(() => {
           successPayload = {
