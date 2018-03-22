@@ -32,6 +32,7 @@ describe('Chat component', () => {
         locals: {
           scrollContainerMobile: 'scrollContainerMobileClasses',
           footer: 'footerClasses',
+          footerMobile: 'footerMobileClasses',
           agentTyping: 'agentTypingClasses',
           messagesMobile: 'messagesMobileClasses',
           messages: 'messagesClasses',
@@ -587,20 +588,43 @@ describe('Chat component', () => {
   describe('renderChatScreen', () => {
     let component,
       componentNode;
-    const renderChatComponent = (ratingsEnabled, agents) => (
-      domRender(<Chat screen={chattingScreen} ratingSettings={{ enabled: ratingsEnabled }} agents={agents} />)
+    const renderChatComponent = (ratingsEnabled, agents, isMobile) => (
+      domRender(
+        <Chat
+          screen={chattingScreen}
+          ratingSettings={{ enabled: ratingsEnabled }}
+          agents={agents}
+          isMobile={isMobile} />
+      )
     );
 
     describe('render', () => {
       beforeEach(() => {
         component = renderChatComponent(true, {});
-
         componentNode = ReactDOM.findDOMNode(component);
       });
 
-      it('renders the chat screen with footer styles', () => {
-        expect(componentNode.querySelector('.footerClasses'))
-          .toBeTruthy();
+      describe('footer classNames on non-mobile devices', () => {
+        it('has desktop specific classes', () => {
+          expect(componentNode.querySelector('.footerClasses'))
+            .toBeTruthy();
+          expect(componentNode.querySelector('.footerMobileClasses'))
+            .toBeFalsy();
+        });
+      });
+
+      describe('footer classNames on mobile devices', () => {
+        beforeEach(() => {
+          component = renderChatComponent(true, {}, true);
+          componentNode = ReactDOM.findDOMNode(component);
+        });
+
+        it('has mobile specific classes', () => {
+          expect(componentNode.querySelector('.footerClasses'))
+            .toBeTruthy();
+          expect(componentNode.querySelector('.footerMobileClasses'))
+            .toBeTruthy();
+        });
       });
 
       describe('the renderChatHeader call', () => {

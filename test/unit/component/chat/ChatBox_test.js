@@ -7,7 +7,12 @@ describe('ChatBox component', () => {
 
     initMockRegistry({
       './ChatBox.scss': {
-        locals: {}
+        locals: {
+          label: 'label',
+          fieldMobile: 'fieldMobile',
+          input: 'input',
+          inputMobile: 'inputMobile'
+        }
       },
       'component/field/Field': {
         Field: noopReactComponent()
@@ -48,72 +53,14 @@ describe('ChatBox component', () => {
     });
   });
 
-  describe('handleSendClick', () => {
-    let component, updateCurrentMsgSpy, sendMsgSpy;
-
-    beforeEach(() => {
-      updateCurrentMsgSpy = jasmine.createSpy('handleChatBoxChange');
-      sendMsgSpy = jasmine.createSpy('sendMsg');
-    });
-
-    describe('when currentMessage is empty', () => {
-      beforeEach(() => {
-        component = domRender(
-          <ChatBox
-            currentMessage=''
-            handleChatBoxChange={updateCurrentMsgSpy}
-            sendMsg={sendMsgSpy} />);
-
-        component.handleSendClick();
-      });
-
-      it('does not call handleChatBoxChange prop', () => {
-        expect(updateCurrentMsgSpy)
-          .not.toHaveBeenCalled();
-      });
-
-      it('does not call sendMsg prop', () => {
-        expect(sendMsgSpy)
-          .not.toHaveBeenCalled();
-      });
-    });
-
-    describe('when currentMessage is not empty', () => {
-      beforeEach(() => {
-        component = domRender(
-          <ChatBox
-            currentMessage='Hello!'
-            handleChatBoxChange={updateCurrentMsgSpy}
-            sendMsg={sendMsgSpy} />);
-
-        component.handleSendClick();
-      });
-
-      it('clears handleChatBoxChange prop', () => {
-        expect(updateCurrentMsgSpy)
-          .toHaveBeenCalledWith('');
-      });
-
-      it('calls sendMsg prop', () => {
-        expect(sendMsgSpy)
-          .toHaveBeenCalledWith('Hello!');
-      });
-    });
-  });
-
   describe('handleKeyDown', () => {
     const keyCodes = { enter: 13, a: 65 };
-    let component, updateCurrentMsgSpy, sendMsgSpy;
+    let component, sendChatSpy;
     let event = { keyCode: keyCodes.enter, preventDefault: () => false };
 
     beforeEach(() => {
-      updateCurrentMsgSpy = jasmine.createSpy();
-      sendMsgSpy = jasmine.createSpy();
-      component = domRender(
-        <ChatBox
-          currentMessage='Hello!'
-          handleChatBoxChange={updateCurrentMsgSpy}
-          sendMsg={sendMsgSpy} />);
+      sendChatSpy = jasmine.createSpy();
+      component = domRender(<ChatBox sendChat={sendChatSpy} />);
     });
 
     describe('when the user presses <Enter>', () => {
@@ -121,8 +68,8 @@ describe('ChatBox component', () => {
         it('interprets it as a send signal and sends the message', () => {
           component.handleKeyDown(event);
 
-          expect(sendMsgSpy)
-            .toHaveBeenCalledWith('Hello!');
+          expect(sendChatSpy)
+            .toHaveBeenCalled();
         });
       });
 
@@ -131,7 +78,7 @@ describe('ChatBox component', () => {
           event = _.merge(event, { shiftKey: true });
           component.handleKeyDown(event);
 
-          expect(sendMsgSpy)
+          expect(sendChatSpy)
             .not.toHaveBeenCalled();
         });
       });
@@ -142,8 +89,72 @@ describe('ChatBox component', () => {
         event = _.merge(event, { keyCode: keyCodes.a });
         component.handleKeyDown(event);
 
-        expect(sendMsgSpy)
+        expect(sendChatSpy)
           .not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('chatBoxTextarea', () => {
+    let component;
+
+    describe('on non-mobile devices', () => {
+      beforeEach(() => {
+        component = domRender(<ChatBox isMobile={false} />);
+      });
+
+      it('has 2 rows', () => {
+        expect(component.chatBoxTextarea().props.rows)
+          .toBe('2');
+      });
+    });
+
+    describe('on mobile devices', () => {
+      beforeEach(() => {
+        component = domRender(<ChatBox isMobile={true} />);
+      });
+
+      it('has 1 row', () => {
+        expect(component.chatBoxTextarea().props.rows)
+          .toBe('1');
+      });
+    });
+  });
+
+  describe('Field component', () => {
+    let component, field;
+
+    describe('on non-mobile devices', () => {
+      beforeEach(() => {
+        component = domRender(<ChatBox isMobile={false} />);
+        field = component.render().props.children;
+      });
+
+      it('passes correct classnames to Field', () => {
+        expect(field.props.labelClasses)
+          .toContain('label');
+        expect(field.props.fieldClasses)
+          .not.toContain('fieldMobile');
+        expect(field.props.inputClasses)
+          .toContain('input');
+        expect(field.props.inputClasses)
+          .not.toContain('inputMobile');
+      });
+    });
+
+    describe('on mobile devices', () => {
+      beforeEach(() => {
+        component = domRender(<ChatBox isMobile={true} />);
+        field = component.render().props.children;
+      });
+
+      it('passes correct classnames to Field', () => {
+        expect(field.props.labelClasses)
+          .toContain('label');
+        expect(field.props.fieldClasses)
+          .toContain('fieldMobile');
+        expect(field.props.inputClasses)
+          .toContain('input inputMobile');
       });
     });
   });
