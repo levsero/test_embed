@@ -58,7 +58,7 @@ const helpCenterAvailable = () => {
 };
 
 const chatAvailable = () => {
-  return state[`${chat}.isOnline`] && !state[`${chat}.isSuppressed`];
+  return (state['.newChat'] || state[`${chat}.isOnline`]) && !state[`${chat}.isSuppressed`];
 };
 
 const submitTicketAvailable = () => {
