@@ -21,9 +21,11 @@
 
 .messageUser {
   color: $zd-color-white;
+  text-align: right;
   float: right;
 
   [dir='rtl'] & {
+    text-align: left;
     float: left;
   }
 }
@@ -52,12 +54,15 @@
 }
 
 .messageErrorContainer {
+  margin-top: #{2/$font-size}rem;
+  margin-bottom: $spacing-tny;
+}
+
+.attachmentMessageErrorContainer {
   margin-top: $spacing-tny;
-  float: right;
   text-align: right;
 
   [dir='rtl'] & {
-    float: left;
     text-align: left;
   }
 }

@@ -38,6 +38,8 @@ import {
   getChatVisitor,
   getShowRatingScreen,
   getIsChatting as getIsChattingState } from 'src/redux/modules/chat/chat-selectors';
+import { CHAT_MESSAGE_TYPES } from 'src/constants/chat';
+
 import _ from 'lodash';
 
 const chatTypingTimeout = 2000;
@@ -55,7 +57,7 @@ const sendMsgRequest = (msg, visitor, timestamp) => {
     type: CHAT_MSG_REQUEST_SENT,
     payload: {
       ...getChatMessagePayload(msg, visitor, timestamp),
-      pending: true
+      status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING
     }
   };
 };
@@ -65,17 +67,40 @@ const sendMsgSuccess = (msg, visitor, timestamp) => {
     type: CHAT_MSG_REQUEST_SUCCESS,
     payload: {
       ...getChatMessagePayload(msg, visitor, timestamp),
-      pending: false
+      status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS
     }
   };
 };
 
-const sendMsgFailure = (err) => {
+const sendMsgFailure = (msg, visitor, timestamp) => {
   return {
     type: CHAT_MSG_REQUEST_FAILURE,
-    payload: err
+    payload: {
+      ...getChatMessagePayload(msg, visitor, timestamp),
+      status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE
+    }
   };
 };
+
+export function sendMsg(msg, timestamp=Date.now()) {
+  return (dispatch, getState) => {
+    let visitor = getChatVisitor(getState());
+
+    if (getIsChattingState(getState())) {
+      dispatch(sendMsgRequest(msg, visitor, timestamp));
+    }
+
+    zChat.sendChatMsg(msg, (err) => {
+      visitor = getChatVisitor(getState());
+
+      if (!err) {
+        dispatch(sendMsgSuccess(msg, visitor, timestamp));
+      } else {
+        dispatch(sendMsgFailure(msg, visitor, timestamp));
+      }
+    });
+  };
+}
 
 export const endChat = () => {
   return (dispatch) => {
@@ -113,26 +138,6 @@ export const handleSoundIconClick = (settings) => {
     payload: settings
   };
 };
-
-export function sendMsg(msg) {
-  return (dispatch, getState) => {
-    const timestamp = Date.now();
-    let visitor = getChatVisitor(getState());
-
-    if (visitor.nick) {
-      dispatch(sendMsgRequest(msg, visitor, timestamp));
-    }
-
-    zChat.sendChatMsg(msg, (err) => {
-      if (!err) {
-        visitor = getChatVisitor(getState());
-        dispatch(sendMsgSuccess(msg, visitor, timestamp));
-      } else {
-        dispatch(sendMsgFailure(err));
-      }
-    });
-  };
-}
 
 export function handleChatBoxChange(msg) {
   return dispatch => {

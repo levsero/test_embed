@@ -4,6 +4,16 @@
   color: $error-color;
 }
 
+.messageErrorLink {
+  color: $error-color;
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover, &:focus, &:active {
+    color: $error-color;
+  }
+}
+
 .icon {
   position: relative;
   top: #{3/$font-size}rem;

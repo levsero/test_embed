@@ -169,8 +169,18 @@ parts:
   - translation:
       key: "embeddable_framework.chat.emailtranscript.title"
       title: "The form title of the chat email transcript popup"
-      screenshot: "need_url"
+      screenshot: "https://zendesk.box.com/s/25mefndapdovrycnmf2kwvsi9yt60h84"
       value: "Email chat transcript"
+  - translation:
+      key: "embeddable_framework.chat.messagefailed.resend"
+      title: "The resend text that shows if a message send fails."
+      screenshot: "https://zendesk.box.com/s/c8i2waxi2czx6yl8g04tgw1cb0lvdhl7"
+      value: "Resend"
+  - translation:
+      key: "embeddable_framework.chat.messagefailed.failed_twice"
+      title: "The resend text that shows if a message send fails for the second time."
+      screenshot: "https://zendesk.box.com/s/kx69e0et86r5a56w6xas3oxsef0f416d"
+      value: "Failed to send"
 
   # Chat Web SDK
   - translation:

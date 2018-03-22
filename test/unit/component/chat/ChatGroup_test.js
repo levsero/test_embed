@@ -15,10 +15,13 @@ describe('ChatGroup component', () => {
   const MessageError = noopReactComponent();
   const ImageMessage = noopReactComponent();
 
+  let chatConstants = requireUncached(chatConstantsPath);
+  let CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
+
   beforeEach(() => {
     mockery.enable();
 
-    ATTACHMENT_ERROR_TYPES = requireUncached(chatConstantsPath).ATTACHMENT_ERROR_TYPES;
+    ATTACHMENT_ERROR_TYPES = chatConstants.ATTACHMENT_ERROR_TYPES;
     ICONS = requireUncached(sharedConstantsPath).ICONS;
     FILETYPE_ICONS = requireUncached(sharedConstantsPath).FILETYPE_ICONS;
     i18n = {
@@ -35,7 +38,8 @@ describe('ChatGroup component', () => {
       'component/chat/MessageError': { MessageError },
       'component/chat/ImageMessage': { ImageMessage },
       'constants/chat': {
-        ATTACHMENT_ERROR_TYPES
+        ATTACHMENT_ERROR_TYPES,
+        CHAT_MESSAGE_TYPES
       },
       'constants/shared': {
         ICONS,
@@ -58,7 +62,8 @@ describe('ChatGroup component', () => {
           avatarDefault: 'avatarDefault',
           avatarWithSrc: 'avatarWithSrc',
           nameAvatar: 'nameAvatar',
-          nameNoAvatar: 'nameNoAvatar'
+          nameNoAvatar: 'nameNoAvatar',
+          messageErrorContainer: 'messageErrorContainer'
         }
       }
     });
@@ -244,6 +249,40 @@ describe('ChatGroup component', () => {
         expect(TestUtils.isElementOfType(message1, MessageBubble)).toEqual(true);
         expect(TestUtils.isElementOfType(message2, Attachment)).toEqual(true);
       });
+    });
+  });
+
+  describe('#renderMessage', () => {
+    let renderMessage,
+      isAgent,
+      result,
+      chat,
+      showAvatar,
+      handleSendMsgSpy,
+      exampleMsg = 'Hmm why did I forget the actual plan for implementing ChatGroup?';
+
+    beforeEach(() => {
+      handleSendMsgSpy = jasmine.createSpy('handleSendMsg');
+      renderMessage = getComponentMethod('renderMessage', { handleSendMsg: handleSendMsgSpy });
+      result = renderMessage(isAgent, chat, showAvatar);
+    });
+
+    describe('when chat status is not CHAT_MESSAGE_FAILURE', () => {
+      beforeAll(() => {
+        chat = {
+          msg: exampleMsg,
+          display_name: 'bob',
+          options: ['yes', 'no'],
+          status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS,
+          numFailedTries: 0,
+          timestamp: 123
+        };
+      });
+
+      it('renders a MessageBubble component', () => {
+        expect(TestUtils.isElementOfType(result, MessageBubble))
+          .toEqual(true);
+      });
 
       describe('when showAvatar is false', () => {
         beforeAll(() => {
@@ -251,9 +290,7 @@ describe('ChatGroup component', () => {
         });
 
         it('renders MessageBubble with the messageBubble class', () => {
-          const messageBubble = result[0].props.children.props.children;
-
-          expect(messageBubble.props.className).not.toContain('messageBubble');
+          expect(result.props.className).not.toContain('messageBubble');
         });
       });
 
@@ -263,32 +300,119 @@ describe('ChatGroup component', () => {
         });
 
         it('renders MessageBubble with the messageBubble class', () => {
-          const messageBubble = result[0].props.children.props.children;
-
-          expect(messageBubble.props.className).toContain('messageBubble');
+          expect(result.props.className).toContain('messageBubble');
         });
+      });
+
+      describe('when isAgent is true', () => {
+        beforeAll(() => {
+          isAgent = true;
+        });
+
+        it('renders MessageBubble with the agentBackground class', () => {
+          expect(result.props.className).toContain('agentBackground');
+        });
+
+        it('renders MessageBubble not with the userBackground class', () => {
+          expect(result.props.className).not.toContain('userBackground');
+        });
+      });
+
+      describe('when isAgent is false', () => {
+        beforeAll(() => {
+          isAgent = false;
+        });
+
+        it('renders MessageBubble not with the agentBackground class', () => {
+          expect(result.props.className).not.toContain('agentBackground');
+        });
+
+        it('renders MessageBubble with the userBackground class', () => {
+          expect(result.props.className).toContain('userBackground');
+        });
+      });
+
+      it('passes the correct message prop', () => {
+        expect(result.props.message)
+          .toEqual(exampleMsg);
+      });
+
+      it('passes the correct options prop', () => {
+        expect(result.props.options)
+          .toEqual(['yes', 'no']);
+      });
+
+      it('passes the correct handleSendMsg prop', () => {
+        expect(result.props.handleSendMsg)
+          .toEqual(handleSendMsgSpy);
       });
     });
 
-    describe('when there are options', () => {
+    describe('when chat status is CHAT_MESSAGE_FAILURE', () => {
+      let messageErrorComponent;
+
       beforeAll(() => {
-        messages = [
-          {
-            msg: 'Hmm why did I forget the actual plan for implementing ChatGroup?',
-            display_name: 'bob',
-            options: ['yes', 'no']
-          }
-        ];
-        isAgent = true;
+        chat = {
+          msg: exampleMsg,
+          display_name: 'bob',
+          options: ['yes', 'no'],
+          status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
+          numFailedTries: 1,
+          timestamp: 123
+        };
       });
 
-      it('passes options related props into MessageBubble', () => {
-        result.forEach(messageItem => {
-          const messageBubbleItem = messageItem.props.children.props.children;
+      beforeEach(() => {
+        messageErrorComponent = result.props.children[1].props.children;
+      });
 
-          expect(TestUtils.isElementOfType(messageBubbleItem, MessageBubble)).toEqual(true);
-          expect(messageBubbleItem.props.options).toEqual(['yes', 'no']);
-          expect(messageBubbleItem.props.handleSendMsg).toEqual(jasmine.any(Function));
+      it('renders MessageBubble as first child', () => {
+        expect(TestUtils.isElementOfType(result.props.children[0], MessageBubble))
+          .toEqual(true);
+      });
+
+      it('renders MessageError component', () => {
+        expect(TestUtils.isElementOfType(messageErrorComponent, MessageError))
+          .toEqual(true);
+      });
+
+      describe('when numFailedTries is 1', () => {
+        it('renders first attempt error message', () => {
+          expect(messageErrorComponent.props.errorMessage)
+            .toEqual('embeddable_framework.chat.messagefailed.resend');
+        });
+
+        it('renders handleError function prop that does call handleSendMsg prop', () => {
+          messageErrorComponent.props.handleError();
+
+          expect(handleSendMsgSpy)
+            .toHaveBeenCalledWith(exampleMsg, 123);
+        });
+      });
+
+      describe('when numFailedTries is more than 1', () => {
+        beforeAll(() => {
+          chat = {
+            msg: exampleMsg,
+            display_name: 'bob',
+            options: ['yes', 'no'],
+            status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE,
+            numFailedTries: 2
+          };
+        });
+
+        beforeEach(() => {
+          handleSendMsgSpy.calls.reset();
+        });
+
+        it('renders second attempt error message', () => {
+          expect(messageErrorComponent.props.errorMessage)
+            .toEqual('embeddable_framework.chat.messagefailed.failed_twice');
+        });
+
+        it('does not pass handleError function prop', () => {
+          expect(messageErrorComponent.props.handleError)
+            .toBeFalsy();
         });
       });
     });
