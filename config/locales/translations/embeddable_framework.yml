@@ -253,53 +253,61 @@ parts:
       title: "A description that is displayed on the offline form when there are no Chat agents online to attend to the user"
       screenshot: "https://zendesk.box.com/s/qawwqamv9lhpzjjg8mfrfwz4vmp0twbp"
       value: "Sorry, we aren't online at the moment. Leave a message and we'll get back to you."
-
-
   - translation:
-      key: "embeddable_framework.chat.preChat.offline.label.operatingHours"
+      key: "embeddable_framework.chat.operatingHours.label.title"
       title: "The label for 'Operating Hours' for a given customer"
       screenshot: "https://drive.google.com/open?id=1VeJPuTOOdlXZG60l5yJZuh3Ag3UJE1yg"
       value: "Operating Hours %(timezone)s"
   - translation:
-      key: "embeddable_framework.chat.preChat.offline.label.monday"
+      key: "embeddable_framework.chat.operatingHours.label.monday"
       title: "Day of the week for operating hours: Monday"
       screenshot: "https://drive.google.com/open?id=1uKHW4AxDi6cemxhEspEclAnBCI4wxzkb"
       value: "Monday"
   - translation:
-      key: "embeddable_framework.chat.preChat.offline.label.tuesday"
+      key: "embeddable_framework.chat.operatingHours.label.tuesday"
       title: "Day of the week for operating hours: Tuesday"
       screenshot: "https://drive.google.com/open?id=19IPSIKviGq9at-jNr-LBEOdulb5RIw_k"
       value: "Tuesday"
   - translation:
-      key: "embeddable_framework.chat.preChat.offline.label.wednesday"
+      key: "embeddable_framework.chat.operatingHours.label.wednesday"
       title: "Day of the week for operating hours: Wednesday"
       screenshot: "https://drive.google.com/open?id=1CiMsr8Yf_UG2B-UjGXDEpxcGU_m58Ckh"
       value: "Wednesday"
   - translation:
-      key: "embeddable_framework.chat.preChat.offline.label.thursday"
+      key: "embeddable_framework.chat.operatingHours.label.thursday"
       title: "Day of the week for operating hours: Thursday"
       screenshot: "https://drive.google.com/open?id=1jNGF6q-AU0y4difm2K6PyPPEmjUDboet"
       value: "Thursday"
   - translation:
-      key: "embeddable_framework.chat.preChat.offline.label.friday"
+      key: "embeddable_framework.chat.operatingHours.label.friday"
       title: "Day of the week for operating hours: Friday"
       screenshot: "https://drive.google.com/open?id=1l9UxZxv7vzRdJhZ9hgjF-Fd4d0vTfzGL"
       value: "Friday"
   - translation:
-      key: "embeddable_framework.chat.preChat.offline.label.saturday"
+      key: "embeddable_framework.chat.operatingHours.label.saturday"
       title: "Day of the week for operating hours: Saturday"
       screenshot: "https://drive.google.com/open?id=1NdZEqVBWf8NvdNphUHPoNE9Jw42MFHbE"
       value: "Saturday"
   - translation:
-      key: "embeddable_framework.chat.preChat.offline.label.sunday"
+      key: "embeddable_framework.chat.operatingHours.label.sunday"
       title: "Day of the week for operating hours: Sunday"
       screenshot: "https://drive.google.com/open?id=1vz69EFENQmgXzbeZecnWwz9KRoxNNY3-"
       value: "Sunday"
   - translation:
-      key: "embeddable_framework.chat.preChat.offline.label.<ampmstuff>"
-      title: ""
-      screenshot: ""
-      value: "<am pm stuff>"
+      key: "embeddable_framework.chat.operatingHours.label.am"
+      title: "The time equivalent of AM for operating hours (leave empty if your language uses 24-hour time, e.g., 14:00)"
+      screenshot: "https://drive.google.com/open?id=1xdLSyIspULTxD5poQpMpCqHIK74jFR47"
+      value: "am"
+  - translation:
+      key: "embeddable_framework.chat.operatingHours.label.pm"
+      title: "The time equivalent of PM for operating hours (leave empty if your language uses 24-hour time, e.g., 14:00)"
+      screenshot: "https://drive.google.com/open?id=1xdLSyIspULTxD5poQpMpCqHIK74jFR47"
+      value: "pm"
+  - translation:
+      key: "embeddable_framework.chat.operatingHours.label.hourRange"
+      title: "The range for a customer's operating hours on any given day. openingPeriod and closingPeriod refer to AM or PM (which may be disregarded if your language uses 24-hour time)"
+      screenshot: "https://drive.google.com/open?id=1xdLSyIspULTxD5poQpMpCqHIK74jFR47"
+      value: "%(openingHour)s %(openingPeriod)s to %(closingHour)s %(closingPeriod)s"
   - translation:
       key: "embeddable_framework.chat.preChat.offline.label.noForm"
       title: "The label to display if all agents are online and the customer doesn't have a contact form"
@@ -320,9 +328,6 @@ parts:
       title: "Button to fill out another contact form after one has been filled when all agents are offline"
       screenshot: "https://drive.google.com/open?id=1JwCe7SCpWieHWMyw1pPi6SsHQ3YwWqwG"
       value: "Send Another"
-
-
-
   - translation:
       key: "embeddable_framework.chat.options.yourProfile"
       title: "One of the options that is presented in chat when the user clicks on the ellipses icon. It describes the ability to edit the user's own profile attributes such as name, email and potentially other details."
@@ -478,7 +483,6 @@ parts:
       title: "A title text describing the intent of the following section, it asks if the user would like to rate the prior chat session"
       screenshot: "https://zendesk.box.com/s/v26vtuxkv2uvlr0edh6qxs1aetrttny8"
       value: "Would you like to rate this chat?"
-
   - translation:
       key: "embeddable_framework.chat.postChat.rating.description"
       title: "A text that describes the intent of the following element. It points the user to leave a comment in the textarea"
@@ -501,7 +505,6 @@ parts:
       title: "A string for a button to skip a chat rating"
       screenshot: "https://drive.google.com/open?id=1P1nDpoepZdmGOiobru6wmdJ_9m5t6fIE"
       value: "Skip"
-
   - translation:
       key: "embeddable_framework.chat.postChat.rating.button.skip"
       title: "A text that is displayed on a button that provides the user with the option to skip the rating form"
