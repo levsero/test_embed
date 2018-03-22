@@ -5,7 +5,6 @@ import { Icon } from 'component/Icon';
 import { ICONS } from 'constants/shared';
 import { locals as styles } from './MessageError.scss';
 
-import _ from 'lodash';
 import classNames from 'classnames';
 
 export class MessageError extends Component {
@@ -16,12 +15,11 @@ export class MessageError extends Component {
   };
 
   render() {
-    const hasHandler = _.isFunction(this.props.handleError);
     const errorClasses = classNames(styles.container, this.props.className);
 
     let errorTag;
 
-    if (hasHandler) {
+    if (this.props.handleError) {
       errorTag = (
         <a className={styles.messageErrorLink}
            onClick={this.props.handleError}>

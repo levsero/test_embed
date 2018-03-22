@@ -4,7 +4,6 @@ import thunk from 'redux-thunk';
 let actions,
   actionTypes,
   screenTypes,
-  chatConstants,
   CHAT_MESSAGE_TYPES,
   mockStore,
   mockAccountSettings,
@@ -34,6 +33,7 @@ describe('chat redux actions', () => {
     const actionsPath = buildSrcPath('redux/modules/chat');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
     const screenTypesPath = buildSrcPath('redux/modules/chat/chat-screen-types');
+    const chatConstants = requireUncached(chatConstantsPath);
 
     mockIsChatting = false;
     mockery.registerAllowable(actionsPath);
@@ -41,7 +41,6 @@ describe('chat redux actions', () => {
     mockery.registerAllowable(screenTypesPath);
     mockery.registerAllowable(chatConstantsPath);
 
-    chatConstants = requireUncached(chatConstantsPath);
     CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
 
     initMockRegistry({

@@ -83,17 +83,23 @@ export class ChatGroup extends Component {
     );
 
     if (chat.status === CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE) {
-      const messageErrorProps = {
-        ...chat.numFailedTries === 1 && {errorMessage: i18n.t('embeddable_framework.chat.messagefailed.resend')},
-        ...chat.numFailedTries > 1 && {errorMessage: i18n.t('embeddable_framework.chat.messagefailed.failed_twice')},
-        ...chat.numFailedTries === 1 && {handleError: () => this.props.handleSendMsg(chat.msg, chat.timestamp)}
-      };
+      let messageError;
+
+      if (chat.numFailedTries === 1) {
+        messageError = (
+          <MessageError
+            errorMessage={i18n.t('embeddable_framework.chat.messagefailed.resend')}
+            handleError={() => this.props.handleSendMsg(chat.msg, chat.timestamp)} />
+        );
+      } else {
+        messageError = <MessageError errorMessage={i18n.t('embeddable_framework.chat.messagefailed.failed_twice')} />;
+      }
 
       return (
         <div>
           {message}
           <div className={styles.messageErrorContainer}>
-            <MessageError {...messageErrorProps}/>
+            {messageError}
           </div>
         </div>
       );

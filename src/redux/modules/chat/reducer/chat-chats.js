@@ -37,7 +37,7 @@ const updateChat = (chats, chat) => {
   const numFailedTries = ((_.get(chat, 'status') === CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE) || 0)
     + _.get(prevChat, 'numFailedTries', 0);
 
-  return copy.set(chat.timestamp, {...prevChat, ...chat, numFailedTries});
+  return copy.set(chat.timestamp, { ...prevChat, ...chat, numFailedTries });
 };
 
 const chats = (state = initialState, action) => {

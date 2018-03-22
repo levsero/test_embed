@@ -3,15 +3,14 @@ import * as chatActionTypes from '../../../../../../src/redux/modules/chat/chat-
 describe('chat reducer chats', () => {
   let reducer,
     actionTypes,
-    chatConstants,
     initialState,
     CHAT_MESSAGE_TYPES;
 
   const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-chats');
   const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
   const chatConstantsPath = buildSrcPath('constants/chat');
+  const chatConstants = requireUncached(chatConstantsPath);
 
-  chatConstants = requireUncached(chatConstantsPath);
   CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
 
   beforeEach(() => {
