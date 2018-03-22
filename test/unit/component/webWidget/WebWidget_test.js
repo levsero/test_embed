@@ -224,12 +224,12 @@ describe('WebWidget component', () => {
   describe('renderChat', () => {
     let result;
 
-    describe('when props.showOfflineForm is true', () => {
+    describe('when props.showOfflineChat is true', () => {
       beforeEach(() => {
         const webWidget = instanceRender(
           <WebWidget
             activeEmbed='chat'
-            showOfflineForm={true} />
+            showOfflineChat={true} />
         );
 
         result = webWidget.renderChat();

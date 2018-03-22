@@ -49,7 +49,7 @@ describe('selectors', () => {
         getSettingsChatSuppress: () => settingsChatSuppressValue
       },
       './chat/chat-selectors': {
-        getShowOfflineForm: () => showOfflineFormValue
+        getShowOfflineChat: () => showOfflineFormValue
       },
       './zopimChat/zopimChat-selectors': {
         getZopimChatOnline: () => zopimChatOnlineValue

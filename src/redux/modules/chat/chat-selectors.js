@@ -199,7 +199,7 @@ export const getLastAgentLeaveEvent = createSelector(
   }
 );
 
-export const getShowOfflineForm = createSelector(
+export const getShowOfflineChat = createSelector(
   [getChatOnline, getIsChatting, getShowRatingScreen, getChats],
   (chatOnline, isChatting, showRatingScreen) => {
     return !chatOnline && !isChatting && !showRatingScreen;

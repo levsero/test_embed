@@ -28,7 +28,7 @@ describe('chat selectors', () => {
     getOfflineFormFields,
     getOfflineFormSettings,
     getChatOfflineForm,
-    getShowOfflineForm,
+    getShowOfflineChat,
     getPreChatFormState,
     getQueuePosition,
     getEditContactDetails,
@@ -85,7 +85,7 @@ describe('chat selectors', () => {
     getOfflineFormFields = selectors.getOfflineFormFields;
     getOfflineFormSettings = selectors.getOfflineFormSettings;
     getChatOfflineForm = selectors.getChatOfflineForm;
-    getShowOfflineForm = selectors.getShowOfflineForm;
+    getShowOfflineChat = selectors.getShowOfflineChat;
     getPreChatFormState = selectors.getPreChatFormState;
     getQueuePosition = selectors.getQueuePosition;
     getEditContactDetails = selectors.getEditContactDetails;
@@ -1259,7 +1259,7 @@ describe('chat selectors', () => {
     });
   });
 
-  describe('getShowOfflineForm', () => {
+  describe('getShowOfflineChat', () => {
     let result,
       mockState;
 
@@ -1286,7 +1286,7 @@ describe('chat selectors', () => {
     describe('when chat is online', () => {
       beforeEach(() => {
         mockState.chat.account_status = 'online';
-        result = getShowOfflineForm(mockState);
+        result = getShowOfflineChat(mockState);
       });
 
       it('returns false', () => {
@@ -1298,7 +1298,7 @@ describe('chat selectors', () => {
     describe('when isChatting is true', () => {
       beforeEach(() => {
         mockState.chat.is_chatting = true;
-        result = getShowOfflineForm(mockState);
+        result = getShowOfflineChat(mockState);
       });
 
       it('returns false', () => {
@@ -1310,7 +1310,7 @@ describe('chat selectors', () => {
     describe('when a rating has not been left', () => {
       beforeEach(() => {
         mockState.chat.rating.value = null;
-        result = getShowOfflineForm(mockState);
+        result = getShowOfflineChat(mockState);
       });
 
       it('returns false', () => {
@@ -1321,7 +1321,7 @@ describe('chat selectors', () => {
 
     describe('when chat is offline, isChatting is true and a rating has been left', () => {
       beforeEach(() => {
-        result = getShowOfflineForm(mockState);
+        result = getShowOfflineChat(mockState);
       });
 
       it('returns true', () => {
