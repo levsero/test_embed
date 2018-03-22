@@ -354,13 +354,19 @@
 
 .Icon--error-fill {
   path {
-    fill: $zd-color-flamingo
+    fill: $zd-color-flamingo;
   }
 }
 
 .Icon--checkmark-fill {
   path {
-    fill: $zd-color-chateau-green
+    fill: $zd-color-chateau-green;
+  }
+  svg {
+    min-width: #{15/$font-size}rem;
+    min-height: #{15/$font-size}rem;
+    height: #{15/$font-size}rem;
+    width: #{15/$font-size}rem;
   }
 }
 
