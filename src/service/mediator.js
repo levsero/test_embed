@@ -473,6 +473,10 @@ function init(embedsAccessible, params = {}) {
     }
   });
 
+  c.intercept(`${chat}.onChatStart`, () => {
+    state[`${chat}.isChatting`] = true;
+  });
+
   c.intercept('webWidget.onClose', (_broadcast) => {
     state[`${submitTicket}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = false;
