@@ -1385,6 +1385,82 @@ describe('mediator', () => {
           });
         });
       });
+
+      describe('online', () => {
+        beforeEach(() => {
+          mediator.init({ submitTicket: false, helpCenter: false, chat: true }, { hideLauncher: false });
+          c.broadcast('newChat.connected');
+
+          reset(launcherSub.show);
+          c.broadcast('newChat.online');
+        });
+
+        it('broadcasts launcher.show', () => {
+          expect(launcherSub.show.calls.count())
+            .toEqual(1);
+        });
+      });
+
+      describe('offline', () => {
+        beforeEach(() => {
+          mediator.init({ submitTicket: false, helpCenter: false, chat: true }, { hideLauncher: false });
+        });
+
+        describe('when the hideLauncher param is true', () => {
+          beforeEach(() => {
+            reset(launcherSub.hide);
+            c.broadcast('newChat.offline', true);
+          });
+
+          it('broadcasts launcher.hide', () => {
+            expect(launcherSub.hide.calls.count())
+              .toEqual(1);
+          });
+        });
+
+        describe('when the hideLauncher param is false', () => {
+          beforeEach(() => {
+            reset(launcherSub.hide);
+            c.broadcast('newChat.offline', false);
+          });
+
+          it('does not broadcast launcher.hide', () => {
+            expect(launcherSub.hide.calls.count())
+              .toEqual(0);
+          });
+        });
+      });
+    });
+
+    describe('newChat not standalone', () => {
+      describe('online', () => {
+        beforeEach(() => {
+          mediator.init({ submitTicket: true, helpCenter: false, chat: true }, { hideLauncher: false });
+          c.broadcast('newChat.online');
+        });
+
+        it('does not broadcast launcher.show', () => {
+          expect(launcherSub.show.calls.count())
+            .toEqual(0);
+        });
+      });
+
+      describe('offline', () => {
+        beforeEach(() => {
+          mediator.init({ submitTicket: true, helpCenter: false, chat: true }, { hideLauncher: false });
+        });
+
+        describe('when the hideLauncher param is true', () => {
+          beforeEach(() => {
+            c.broadcast('newChat.offline', true);
+          });
+
+          it('does not broadcast launcher.hide', () => {
+            expect(launcherSub.hide.calls.count())
+              .toEqual(0);
+          });
+        });
+      });
     });
 
     describe('standalone', () => {

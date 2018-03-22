@@ -39,7 +39,8 @@ import {
   getShowRatingScreen,
   getIsChatting as getIsChattingState } from 'src/redux/modules/chat/chat-selectors';
 import { CHAT_MESSAGE_TYPES } from 'src/constants/chat';
-
+import { getChatStandalone } from 'src/redux/modules/base/base-selectors';
+import { mediator } from 'service/mediator';
 import _ from 'lodash';
 
 const chatTypingTimeout = 2000;
@@ -233,6 +234,10 @@ export function getAccountSettings() {
   return (dispatch, getState) => {
     if (accountSettings.forms.pre_chat_form.required && !getIsChattingState(getState())) {
       dispatch(updateChatScreen(PRECHAT_SCREEN));
+    }
+
+    if (!accountSettings.chat_button.hide_when_offline && getChatStandalone(getState())) {
+      mediator.channel.broadcast('.show');
     }
 
     dispatch({

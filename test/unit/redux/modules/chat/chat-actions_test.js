@@ -8,6 +8,7 @@ let actions,
   mockStore,
   mockAccountSettings,
   mockIsChatting,
+  mockChatStandalone,
   mockSendChatMsg = jasmine.createSpy('sendChatMsg'),
   mockSendTyping = jasmine.createSpy('sendTyping'),
   mockSetVisitorInfo = jasmine.createSpy('mockSetVisitorInfo'),
@@ -24,6 +25,7 @@ let actions,
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
 const mockVisitor = { display_name: 'Visitor 123', nick: 'visitor' };
+const broadcastSpy = jasmine.createSpy('broadcast');
 
 describe('chat redux actions', () => {
   beforeEach(() => {
@@ -36,6 +38,7 @@ describe('chat redux actions', () => {
     const chatConstants = requireUncached(chatConstantsPath);
 
     mockIsChatting = false;
+    mockChatStandalone = false;
     mockery.registerAllowable(actionsPath);
     mockery.registerAllowable(actionTypesPath);
     mockery.registerAllowable(screenTypesPath);
@@ -57,6 +60,9 @@ describe('chat redux actions', () => {
         isChatting: () => true,
         _getAccountSettings: () => mockAccountSettings
       },
+      'src/redux/modules/base/base-selectors': {
+        getChatStandalone: () => mockChatStandalone
+      },
       'src/redux/modules/chat/chat-selectors': {
         getChatVisitor: () => mockVisitor,
         getShowRatingScreen: getShowRatingScreenSpy,
@@ -64,6 +70,13 @@ describe('chat redux actions', () => {
       },
       'src/constants/chat': {
         CHAT_MESSAGE_TYPES
+      },
+      'service/mediator': {
+        mediator: {
+          channel: {
+            broadcast: broadcastSpy
+          }
+        }
       }
     });
 
@@ -571,7 +584,8 @@ describe('chat redux actions', () => {
 
       beforeEach(() => {
         mockAccountSettings = {
-          forms: { pre_chat_form: { required: true } }
+          forms: { pre_chat_form: { required: true } },
+          chat_button: { hide_when_offline: false }
         };
         mockStore.dispatch(actions.getAccountSettings());
         updateScreenAction = mockStore.getActions()[0];
@@ -593,7 +607,8 @@ describe('chat redux actions', () => {
 
         beforeEach(() => {
           mockAccountSettings = {
-            forms: { pre_chat_form: { required: true } }
+            forms: { pre_chat_form: { required: true } },
+            chat_button: { hide_when_offline: false }
           };
           mockStore.clearActions();
           mockIsChatting = true;
@@ -621,7 +636,8 @@ describe('chat redux actions', () => {
     describe('when the prechat form is not required', () => {
       beforeEach(() => {
         mockAccountSettings = {
-          forms: { pre_chat_form: { required: false } }
+          forms: { pre_chat_form: { required: false } },
+          chat_button: { hide_when_offline: false }
         };
         mockStore.dispatch(actions.getAccountSettings());
         updateAccountSettingsAction = mockStore.getActions()[0];
@@ -635,6 +651,38 @@ describe('chat redux actions', () => {
       it('has the value returned from zChat._getAccountSettings() in the payload', () => {
         expect(updateAccountSettingsAction.payload)
           .toEqual(mockAccountSettings);
+      });
+    });
+
+    describe('when hide_when_offline is false', () => {
+      beforeEach(() => {
+        mockAccountSettings = {
+          forms: { pre_chat_form: { required: false } },
+          chat_button: { hide_when_offline: false }
+        };
+      });
+
+      describe('when chat is not standalone', () => {
+        beforeEach(() => {
+          mockStore.dispatch(actions.getAccountSettings());
+        });
+
+        it('does not broadcast to mediator', () => {
+          expect(broadcastSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when chat is standalone', () => {
+        beforeEach(() => {
+          mockChatStandalone = true;
+          mockStore.dispatch(actions.getAccountSettings());
+        });
+
+        it('broadcasts show to mediator', () => {
+          expect(broadcastSpy)
+            .toHaveBeenCalledWith('.show');
+        });
       });
     });
   });
