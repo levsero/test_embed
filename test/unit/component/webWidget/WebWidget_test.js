@@ -262,7 +262,7 @@ describe('WebWidget component', () => {
           .toEqual('chat');
       });
 
-      describe('the function passed to updateBackButtonVisibility', () => {
+      describe('the function passed to updateChatBackButtonVisibility', () => {
         let chatComponent;
 
         describe('when isHelpCenterAvailable is true', () => {
@@ -271,7 +271,7 @@ describe('WebWidget component', () => {
             spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(false);
 
             chatComponent = webWidget.renderChat();
-            chatComponent.props.updateBackButtonVisibility();
+            chatComponent.props.updateChatBackButtonVisibility();
           });
 
           it('calls updateBackButtonVisibility with true', () => {
@@ -286,7 +286,7 @@ describe('WebWidget component', () => {
             spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(true);
 
             chatComponent = webWidget.renderChat();
-            chatComponent.props.updateBackButtonVisibility();
+            chatComponent.props.updateChatBackButtonVisibility();
           });
 
           it('calls updateBackButtonVisibility with true', () => {
@@ -301,7 +301,7 @@ describe('WebWidget component', () => {
             spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(false);
 
             chatComponent = webWidget.renderChat();
-            chatComponent.props.updateBackButtonVisibility();
+            chatComponent.props.updateChatBackButtonVisibility();
           });
 
           it('calls updateBackButtonVisibility with true', () => {
