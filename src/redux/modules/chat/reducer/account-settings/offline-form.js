@@ -1,13 +1,12 @@
 import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from '../../chat-action-types';
 
-const initialFieldProps = { name: '', required: false };
 const initialState = {
   form: {
-    name: initialFieldProps,
-    email: initialFieldProps,
-    phone: initialFieldProps,
-    message: initialFieldProps
   }
+    name: { name: 'name', required: false },
+    email: { name: 'email', required: false },
+    phone: { name: 'phone', required: false },
+    message: { name: 'message', required: false }
 };
 
 const offlineForm = (state = initialState, action) => {

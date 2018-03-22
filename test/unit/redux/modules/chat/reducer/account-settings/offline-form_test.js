@@ -24,14 +24,12 @@ describe('chat reducer accountSettings offlineForm', () => {
     let state;
 
     describe('initial state', () => {
-      const defaultFieldProps = { name: '', required: false };
-
       it('form is set to an object with default field props', () => {
         const expected = {
-          name: defaultFieldProps,
-          email: defaultFieldProps,
-          phone: defaultFieldProps,
-          message: defaultFieldProps
+          name: { name: 'name', required: false },
+          email: { name: 'email', required: false },
+          phone: { name: 'phone', required: false },
+          message: { name: 'message', required: false }
         };
 
         expect(initialState.form)
