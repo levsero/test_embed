@@ -150,50 +150,19 @@ describe('chat redux actions', () => {
         .toHaveBeenCalled();
     });
 
-    it('calls getIsChatting selector', () => {
-      expect(getIsChattingSpy)
-        .toHaveBeenCalled();
+    it('dispatches a CHAT_MSG_REQUEST_SENT action', () => {
+      expect(mockStore.getActions().map((action) => action.type))
+        .toContain(actionTypes.CHAT_MSG_REQUEST_SENT);
     });
 
-    describe('when there is no chat session', () => {
-      beforeEach(() => {
-        const mockState = mockStore.getState();
-
-        mockIsChatting = false;
-        mockStore = createMockStore(mockState);
-        mockStore.dispatch(actions.sendMsg(message));
-      });
-
-      it('does not dispatch a CHAT_MSG_REQUEST_SENT action', () => {
-        expect(mockStore.getActions().map((action) => action.type))
-          .not
-          .toContain(actionTypes.CHAT_MSG_REQUEST_SENT);
-      });
-    });
-
-    describe('when there is a chat session', () => {
-      beforeEach(() => {
-        const mockState = mockStore.getState();
-
-        mockIsChatting = true;
-        mockStore = createMockStore(mockState);
-        mockStore.dispatch(actions.sendMsg(message));
-      });
-
-      it('dispatches a CHAT_MSG_REQUEST_SENT action', () => {
-        expect(mockStore.getActions().map((action) => action.type))
-          .toContain(actionTypes.CHAT_MSG_REQUEST_SENT);
-      });
-
-      it('sets status of payload to CHAT_MESSAGE_PENDING', () => {
-        expect(
-          mockStore.getActions()
-            .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_SENT)
-            .payload
-            .status
-        )
-          .toEqual(CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING);
-      });
+    it('sets status of payload to CHAT_MESSAGE_PENDING', () => {
+      expect(
+        mockStore.getActions()
+          .find((action) => action.type === actionTypes.CHAT_MSG_REQUEST_SENT)
+          .payload
+          .status
+      )
+        .toEqual(CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING);
     });
 
     describe('Web SDK callback', () => {
