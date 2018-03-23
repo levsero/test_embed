@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { locals as styles } from './MessageBubble.scss';
 import { MessageOptions }  from 'component/shared/MessageOptions';
+import Linkify from 'react-linkify';
 
 export class MessageBubble extends Component {
   static propTypes = {
@@ -41,7 +42,7 @@ export class MessageBubble extends Component {
     return (
       <div>
         <div className={`${messageBubbleClasses} ${this.props.className}`}>
-          {this.props.message}
+          <Linkify properties={{ className: styles.link, target: '_blank' }}>{this.props.message}</Linkify>
         </div>
         {this.renderOptions()}
       </div>

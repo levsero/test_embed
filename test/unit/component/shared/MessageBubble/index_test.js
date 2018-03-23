@@ -3,6 +3,7 @@ describe('MessageBubble component', () => {
 
   const messageBubblePath = buildSrcPath('component/shared/MessageBubble');
   const MessageOptions = noopReactComponent();
+  const Linkify = noopReactComponent('Linkify');
 
   beforeEach(() => {
     mockery.enable();
@@ -16,7 +17,8 @@ describe('MessageBubble component', () => {
       },
       'component/shared/MessageOptions': {
         MessageOptions: MessageOptions
-      }
+      },
+      'react-linkify' : Linkify
     });
 
     mockery.registerAllowable(messageBubblePath);
@@ -44,8 +46,13 @@ describe('MessageBubble component', () => {
         expect(component.renderOptions).toHaveBeenCalled();
       });
 
+      it('wraps the text content in a linkify component', () => {
+        expect(TestUtils.isElementOfType(response.props.children[0].props.children, Linkify))
+          .toEqual(true);
+      });
+
       it('sets the text content', () => {
-        expect(response.props.children[0].props.children)
+        expect(response.props.children[0].props.children.props.children)
           .toEqual('Test Message');
       });
 
