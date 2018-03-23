@@ -58,10 +58,12 @@ class ChatOffline extends Component {
 
     return (
       <div>
-        <p className={styles.greeting}>Sorry, we aren't online at the moment</p>
+        <p className={styles.greeting}>
+          {i18n.t('embeddable_framework.chat.offline.label.noForm')}
+        </p>
         <Button
           onTouchStartDisabled={true}
-          label={i18n.t('embeddable_framework.navigation.close')}
+          label={i18n.t('embeddable_framework.chat.offline.button.close')}
           onClick={this.props.handleCloseClick}
           className={styles.button} />
       </div>
