@@ -133,7 +133,7 @@ describe('Chat component', () => {
     beforeEach(() => {
       updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility');
 
-      component = domRender(<Chat updateContactDetailsVisibility={updateContactDetailsVisibilitySpy} />);
+      component = instanceRender(<Chat updateContactDetailsVisibility={updateContactDetailsVisibilitySpy} />);
       component.onContainerClick();
     });
 
@@ -163,7 +163,7 @@ describe('Chat component', () => {
           screen: EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
           email: 'yolo@yolo.com'
         };
-        component = domRender(<Chat emailTranscript={emailTranscript} chats={[]} events={[]} />);
+        component = instanceRender(<Chat emailTranscript={emailTranscript} chats={[]} events={[]} />);
       });
 
       describe('when next props is different from previous props', () => {
@@ -213,7 +213,7 @@ describe('Chat component', () => {
           screen: EMAIL_TRANSCRIPT_SCREEN,
           email: 'yolo@yolo.com'
         };
-        component = domRender(<Chat emailTranscript={emailTranscript} chats={[]} events={[]} />);
+        component = instanceRender(<Chat emailTranscript={emailTranscript} chats={[]} events={[]} />);
       });
 
       describe('when next props is different from previous props', () => {
@@ -262,7 +262,7 @@ describe('Chat component', () => {
 
       beforeEach(() => {
         updateChatBackButtonVisibilitySpy = jasmine.createSpy('updateChatBackButtonVisibility');
-        component = domRender(<Chat updateChatBackButtonVisibility={updateChatBackButtonVisibilitySpy} chats={[]} events={[]} />);
+        component = instanceRender(<Chat updateChatBackButtonVisibility={updateChatBackButtonVisibilitySpy} chats={[]} events={[]} />);
         nextProps = {
           emailTranscript: {},
           chats: [],
@@ -294,7 +294,7 @@ describe('Chat component', () => {
       sendMsgSpy = jasmine.createSpy('sendMsg');
       setDepartmentSpy = jasmine.createSpy('setDepartment');
 
-      component = domRender(
+      component = instanceRender(
         <Chat
           postChatFormSettings={{ header: 'foo' }}
           setVisitorInfo={setVisitorInfoSpy}
@@ -315,7 +315,7 @@ describe('Chat component', () => {
 
     describe('when the message is empty', () => {
       beforeEach(() => {
-        component = domRender(
+        component = instanceRender(
           <Chat
             sendMsg={sendMsgSpy}
             updateChatScreen={updateChatScreenSpy}
@@ -382,7 +382,7 @@ describe('Chat component', () => {
 
     describe('when state.screen is not `prechat`', () => {
       beforeEach(() => {
-        component = domRender(
+        component = instanceRender(
           <Chat
             screen={chattingScreen}
             prechatFormSettings={prechatFormSettingsProp} />
@@ -397,7 +397,7 @@ describe('Chat component', () => {
 
     describe('when state.screen is `prechat`', () => {
       beforeEach(() => {
-        component = domRender(
+        component = instanceRender(
           <Chat
             screen={prechatScreen}
             prechatFormSettings={prechatFormSettingsProp} />
@@ -448,7 +448,7 @@ describe('Chat component', () => {
       };
 
       beforeEach(() => {
-        component = domRender(
+        component = instanceRender(
           <Chat
             screen={feedbackScreen}
             rating={defaultRating}
@@ -586,10 +586,9 @@ describe('Chat component', () => {
   });
 
   describe('renderChatScreen', () => {
-    let component,
-      componentNode;
+    let component, result;
     const renderChatComponent = (ratingsEnabled, agents, isMobile) => (
-      domRender(
+      instanceRender(
         <Chat
           screen={chattingScreen}
           ratingSettings={{ enabled: ratingsEnabled }}
@@ -601,29 +600,29 @@ describe('Chat component', () => {
     describe('render', () => {
       beforeEach(() => {
         component = renderChatComponent(true, {});
-        componentNode = ReactDOM.findDOMNode(component);
       });
 
       describe('footer classNames on non-mobile devices', () => {
         it('has desktop specific classes', () => {
-          expect(componentNode.querySelector('.footerClasses'))
-            .toBeTruthy();
-          expect(componentNode.querySelector('.footerMobileClasses'))
-            .toBeFalsy();
+          result = component.renderChatScreen();
+          expect(result.props.footerClasses)
+            .toContain('footerClasses');
+          expect(result.props.footerClasses)
+            .not.toContain('footerMobileClasses');
         });
       });
 
       describe('footer classNames on mobile devices', () => {
         beforeEach(() => {
           component = renderChatComponent(true, {}, true);
-          componentNode = ReactDOM.findDOMNode(component);
         });
 
         it('has mobile specific classes', () => {
-          expect(componentNode.querySelector('.footerClasses'))
-            .toBeTruthy();
-          expect(componentNode.querySelector('.footerMobileClasses'))
-            .toBeTruthy();
+          result = component.renderChatScreen();
+          expect(result.props.footerClasses)
+            .toContain('footerClasses');
+          expect(result.props.footerClasses)
+            .toContain('footerMobileClasses');
         });
       });
 
@@ -669,7 +668,7 @@ describe('Chat component', () => {
 
     describe('when state.screen is not `chatting`', () => {
       beforeEach(() => {
-        component = domRender(
+        component = instanceRender(
           <Chat
             screen={prechatScreen}
             prechatFormSettings={prechatFormSettingsProp} />
@@ -684,7 +683,7 @@ describe('Chat component', () => {
 
     describe('when state.screen is `chatting`', () => {
       beforeEach(() => {
-        component = domRender(
+        component = instanceRender(
           <Chat
             screen={chattingScreen}
             prechatFormSettings={prechatFormSettingsProp} />
@@ -701,7 +700,7 @@ describe('Chat component', () => {
       const leaveEvent = {nick: 'agent:123', type: 'chat.memberleave'};
 
       beforeEach(() => {
-        component = domRender(
+        component = instanceRender(
           <Chat
             screen={chattingScreen}
             lastAgentLeaveEvent={leaveEvent} />
@@ -722,7 +721,7 @@ describe('Chat component', () => {
       const leaveEvent = null;
 
       beforeEach(() => {
-        component = domRender(
+        component = instanceRender(
           <Chat
             screen={chattingScreen}
             lastAgentLeaveEvent={leaveEvent} />
@@ -745,7 +744,7 @@ describe('Chat component', () => {
 
     describe('for non mobile devices', () => {
       beforeEach(() => {
-        component = domRender(<Chat screen={chattingScreen} />);
+        component = instanceRender(<Chat screen={chattingScreen} />);
       });
 
       it('does not add the scrollContainerMobile class to it', () => {
@@ -762,7 +761,7 @@ describe('Chat component', () => {
 
     describe('for mobile devices', () => {
       beforeEach(() => {
-        component = domRender(<Chat isMobile={true} screen={chattingScreen} />);
+        component = instanceRender(<Chat isMobile={true} screen={chattingScreen} />);
       });
 
       it('adds mobile container classes to scrollContainer', () => {
@@ -802,7 +801,7 @@ describe('Chat component', () => {
 
     describe('when method is called', () => {
       beforeEach(() => {
-        component = domRender(<Chat />);
+        component = instanceRender(<Chat />);
       });
 
       it('returns a ChatMenu component', () => {
@@ -813,7 +812,7 @@ describe('Chat component', () => {
 
     describe('when state.showMenu is false', () => {
       beforeEach(() => {
-        component = domRender(<Chat />);
+        component = instanceRender(<Chat />);
         component.setState({ showMenu: false });
       });
 
@@ -825,7 +824,7 @@ describe('Chat component', () => {
 
     describe('when state.showMenu is true', () => {
       beforeEach(() => {
-        component = domRender(<Chat />);
+        component = instanceRender(<Chat />);
         component.setState({ showMenu: true });
       });
 
@@ -837,7 +836,7 @@ describe('Chat component', () => {
 
     describe('when prop.endChatOnClick is called', () => {
       beforeEach(() => {
-        component = domRender(<Chat />);
+        component = instanceRender(<Chat />);
 
         spyOn(component, 'setState');
 
@@ -866,7 +865,7 @@ describe('Chat component', () => {
     describe('when prop.contactDetailsOnClick is called', () => {
       beforeEach(() => {
         updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility');
-        component = domRender(<Chat updateContactDetailsVisibility={updateContactDetailsVisibilitySpy} />);
+        component = instanceRender(<Chat updateContactDetailsVisibility={updateContactDetailsVisibilitySpy} />);
 
         spyOn(component, 'setState');
 
@@ -896,7 +895,7 @@ describe('Chat component', () => {
 
     describe('when prop.emailTranscriptOnClick is called', () => {
       beforeEach(() => {
-        component = domRender(<Chat />);
+        component = instanceRender(<Chat />);
 
         spyOn(component, 'setState');
 
@@ -926,7 +925,7 @@ describe('Chat component', () => {
       beforeEach(() => {
         mockUserSoundSettings = false;
         handleSoundIconClickSpy = jasmine.createSpy('handleSoundIconClick');
-        component = domRender(
+        component = instanceRender(
           <Chat
             userSoundSettings={mockUserSoundSettings}
             handleSoundIconClick={handleSoundIconClickSpy} />
@@ -951,7 +950,7 @@ describe('Chat component', () => {
 
     describe('when the notification should be shown', () => {
       beforeEach(() => {
-        component = domRender(
+        component = instanceRender(
           <Chat chat={{ rating: null }} />
         );
         component.setState({ showEndChatMenu: true });
@@ -965,7 +964,7 @@ describe('Chat component', () => {
 
     describe('when the notification should not be shown', () => {
       beforeEach(() => {
-        component = domRender(<Chat chat={{ rating: null }} />);
+        component = instanceRender(<Chat chat={{ rating: null }} />);
       });
 
       it('passes false to its popup components show prop', () => {
@@ -1054,9 +1053,7 @@ describe('Chat component', () => {
 
     describe('when the popup should be shown', () => {
       beforeEach(() => {
-        component = domRender(
-          <Chat />
-        );
+        component = instanceRender(<Chat />);
         component.setState({ showEmailTranscriptMenu: true });
       });
 
@@ -1068,7 +1065,7 @@ describe('Chat component', () => {
 
     describe('when the popup should not be shown', () => {
       beforeEach(() => {
-        component = domRender(<Chat />);
+        component = instanceRender(<Chat />);
       });
 
       it('passes false to its popup components show prop', () => {
@@ -1234,7 +1231,7 @@ describe('Chat component', () => {
   describe('renderAttachmentsBox', () => {
     let component;
     const renderChatComponent = (screen, attachmentsEnabled) => (
-      domRender(
+      instanceRender(
         <Chat screen={screen} attachmentsEnabled={attachmentsEnabled} prechatFormSettings={prechatFormSettingsProp} />
       )
     );

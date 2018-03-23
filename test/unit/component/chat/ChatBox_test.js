@@ -42,7 +42,7 @@ describe('ChatBox component', () => {
 
     beforeEach(() => {
       updateCurrentMsgSpy = jasmine.createSpy();
-      component = domRender(<ChatBox handleChatBoxChange={updateCurrentMsgSpy} />);
+      component = instanceRender(<ChatBox handleChatBoxChange={updateCurrentMsgSpy} />);
 
       component.handleChange({ target: { value: '!' } });
     });
@@ -60,7 +60,7 @@ describe('ChatBox component', () => {
 
     beforeEach(() => {
       sendChatSpy = jasmine.createSpy();
-      component = domRender(<ChatBox sendChat={sendChatSpy} />);
+      component = instanceRender(<ChatBox sendChat={sendChatSpy} />);
     });
 
     describe('when the user presses <Enter>', () => {
@@ -100,23 +100,23 @@ describe('ChatBox component', () => {
 
     describe('on non-mobile devices', () => {
       beforeEach(() => {
-        component = domRender(<ChatBox isMobile={false} />);
+        component = instanceRender(<ChatBox isMobile={false} />);
       });
 
       it('has 2 rows', () => {
         expect(component.chatBoxTextarea().props.rows)
-          .toBe('2');
+          .toBe(2);
       });
     });
 
     describe('on mobile devices', () => {
       beforeEach(() => {
-        component = domRender(<ChatBox isMobile={true} />);
+        component = instanceRender(<ChatBox isMobile={true} />);
       });
 
       it('has 1 row', () => {
         expect(component.chatBoxTextarea().props.rows)
-          .toBe('1');
+          .toBe(1);
       });
     });
   });
@@ -126,7 +126,7 @@ describe('ChatBox component', () => {
 
     describe('on non-mobile devices', () => {
       beforeEach(() => {
-        component = domRender(<ChatBox isMobile={false} />);
+        component = instanceRender(<ChatBox isMobile={false} />);
         field = component.render().props.children;
       });
 
@@ -144,7 +144,7 @@ describe('ChatBox component', () => {
 
     describe('on mobile devices', () => {
       beforeEach(() => {
-        component = domRender(<ChatBox isMobile={true} />);
+        component = instanceRender(<ChatBox isMobile={true} />);
         field = component.render().props.children;
       });
 

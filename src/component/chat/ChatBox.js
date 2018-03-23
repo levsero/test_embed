@@ -34,12 +34,10 @@ export class ChatBox extends Component {
   }
 
   chatBoxTextarea = () => {
-    const rows = this.props.isMobile ? '1' : '2';
-
     return (
       <textarea
         onKeyDown={this.handleKeyDown}
-        rows={rows} />);
+        rows={this.props.isMobile ? 1 : 2} />);
   }
 
   render = () => {

@@ -24,6 +24,9 @@ describe('ChatFooter component', () => {
       },
       'component/Icon': {
         Icon: noopReactComponent()
+      },
+      'constants/shared': {
+        ICONS: {}
       }
     });
 
@@ -55,7 +58,7 @@ describe('ChatFooter component', () => {
       let result;
 
       beforeEach(() => {
-        component = domRender(<ChatFooter isMobile={false} />);
+        component = instanceRender(<ChatFooter isMobile={false} />);
         result = component.render();
       });
 
@@ -69,7 +72,7 @@ describe('ChatFooter component', () => {
       let result;
 
       beforeEach(() => {
-        component = domRender(<ChatFooter isMobile={true} />);
+        component = instanceRender(<ChatFooter isMobile={true} />);
         result = component.render();
       });
 
@@ -221,7 +224,7 @@ describe('ChatFooter component', () => {
       stopPropagationSpy = jasmine.createSpy();
       toggleMenuSpy = jasmine.createSpy();
 
-      component = domRender(<ChatFooter showIcons={true} toggleMenu={toggleMenuSpy} />);
+      component = instanceRender(<ChatFooter showIcons={true} toggleMenu={toggleMenuSpy} />);
       component.handleMenuClick({ stopPropagation: stopPropagationSpy });
     });
 
@@ -245,7 +248,7 @@ describe('ChatFooter component', () => {
 
     describe('when props.isChatting is false', () => {
       beforeEach(() => {
-        component = domRender(<ChatFooter isChatting={false} endChat={endChatSpy} />);
+        component = instanceRender(<ChatFooter isChatting={false} endChat={endChatSpy} />);
 
         component.handleEndChatClick('some event');
       });
@@ -258,7 +261,7 @@ describe('ChatFooter component', () => {
 
     describe('when props.isChatting is true', () => {
       beforeEach(() => {
-        component = domRender(<ChatFooter isChatting={true} endChat={endChatSpy} />);
+        component = instanceRender(<ChatFooter isChatting={true} endChat={endChatSpy} />);
 
         component.handleEndChatClick('some event');
       });

@@ -7,6 +7,8 @@ import classNames from 'classnames';
 import { Icon } from 'component/Icon';
 import { Dropzone } from 'component/Dropzone';
 
+import { ICONS } from 'constants/shared';
+
 export class ChatFooter extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
@@ -43,7 +45,7 @@ export class ChatFooter extends Component {
 
     return (
       <Icon
-        type='Icon--endChat'
+        type={ICONS.END_CHAT}
         className={`${styles.iconEndChat} ${endChatDisabledClasses}`}
         onClick={this.handleEndChatClick} />
     );
@@ -60,7 +62,7 @@ export class ChatFooter extends Component {
     return (
       <div className={attachmentClasses}>
         <Dropzone onDrop={this.props.handleAttachmentDrop}>
-          <Icon type='Icon--paperclip-small' />
+          <Icon type={ICONS.PAPERCLIP_SMALL} />
         </Dropzone>
       </div>
     );
@@ -69,7 +71,7 @@ export class ChatFooter extends Component {
   renderMenuOption = () => {
     return (
       <Icon
-        type='Icon--ellipsis'
+        type={ICONS.ELLIPSIS}
         className={styles.iconMenu}
         onClick={this.handleMenuClick} />
     );
@@ -78,7 +80,7 @@ export class ChatFooter extends Component {
   renderSendChatOption = () => {
     return (
       <Icon
-        type='Icon--sendChat'
+        type={ICONS.SEND_CHAT}
         className={`${styles.iconSendChat} ${styles.iconSendChatMobile}`}
         onClick={this.props.sendChat} />
     );
