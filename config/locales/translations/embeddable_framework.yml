@@ -332,7 +332,7 @@ parts:
       key: "embeddable_framework.chat.preChat.offline.label.confirmation"
       title: "Confirmation text after users fill out the contact form displayed when all agents are offline"
       screenshot: "https://drive.google.com/open?id=1K5GEURjwUDNhyvc9Dj0a_4q3yN_4XhTP"
-      value: "Thanks for the message! We'll get back to you as soon as we can"
+      value: "Thanks for the message! We'll get back to you as soon as we can."
   - translation:
       key: "embeddable_framework.chat.preChat.offline.button.sendAnother"
       title: "Button to fill out another contact form after one has been filled when all agents are offline"
