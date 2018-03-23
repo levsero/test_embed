@@ -294,6 +294,7 @@ export class SubmitTicketForm extends Component {
       email: formState.email,
       clearCheckboxes: true
     });
+    this.prefillFormState();
   }
 
   renderSubjectField = () => {

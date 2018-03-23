@@ -225,12 +225,19 @@ describe('SubmitTicketForm component', () => {
           formState={mockFormState} />
       );
 
+      spyOn(submitTicketForm, 'prefillFormState');
+
       submitTicketForm.clear();
     });
 
     it('should clear all fields other then name and email', () => {
       expect(mockFormState)
         .toEqual(expectedFormState);
+    });
+
+    it('calls prefillFormState', () => {
+      expect(submitTicketForm.prefillFormState)
+        .toHaveBeenCalled();
     });
 
     it("should reset the button to it's initial state", () => {
