@@ -33,6 +33,7 @@ import { endChat,
          sendEmailTranscript,
          resetEmailTranscript,
          handlePreChatFormChange,
+         updateMenuVisibility,
          updateContactDetailsVisibility } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import { getPrechatFormFields,
@@ -56,6 +57,7 @@ import { getPrechatFormFields,
          getThemeShowAvatar,
          getPreChatFormState,
          getQueuePosition,
+         getMenuVisible,
          getEditContactDetails } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './Chat.scss';
 import { agentBot } from 'constants/chat';
@@ -85,7 +87,8 @@ const mapStateToProps = (state) => {
     showAvatar: getThemeShowAvatar(state),
     preChatFormState: getPreChatFormState(state),
     queuePosition: getQueuePosition(state),
-    editContactDetails: getEditContactDetails(state)
+    editContactDetails: getEditContactDetails(state),
+    menuVisible: getMenuVisible(state)
   };
 };
 
@@ -132,7 +135,9 @@ class Chat extends Component {
     queuePosition: PropTypes.number,
     editContactDetails: PropTypes.object.isRequired,
     updateContactDetailsVisibility: PropTypes.func.isRequired,
-    updateChatBackButtonVisibility: PropTypes.func
+    updateChatBackButtonVisibility: PropTypes.func,
+    updateMenuVisibility: PropTypes.func,
+    menuVisible: PropTypes.bool
   };
 
   static defaultProps = {
@@ -157,14 +162,15 @@ class Chat extends Component {
     emailTranscript: {},
     resetEmailTranscript: () => {},
     editContactDetails: {},
-    updateChatBackButtonVisibility: () => {}
+    updateChatBackButtonVisibility: () => {},
+    updateMenuVisibility: () => {},
+    menuVisible: false
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      showMenu: false,
       showEndChatMenu: false,
       showEmailTranscriptMenu: false
     };
@@ -198,16 +204,16 @@ class Chat extends Component {
   }
 
   toggleMenu = () => {
-    this.setState({ showMenu: !this.state.showMenu });
+    this.props.updateMenuVisibility(!this.props.menuVisible);
   }
 
   onContainerClick = () => {
     this.setState({
-      showMenu: false,
       showEndChatMenu: false,
       showEmailTranscriptMenu: false
     });
 
+    this.props.updateMenuVisibility(false);
     this.props.updateContactDetailsVisibility(false);
   }
 
@@ -241,21 +247,21 @@ class Chat extends Component {
     } = this.props;
     const showChatEndFn = (e) => {
       e.stopPropagation();
+      this.props.updateMenuVisibility(false);
       this.setState({
-        showEndChatMenu: true,
-        showMenu: false
+        showEndChatMenu: true
       });
     };
     const showContactDetailsFn = (e) => {
       e.stopPropagation();
-      this.setState({ showMenu: false });
+      this.props.updateMenuVisibility(false);
       this.props.updateContactDetailsVisibility(true);
     };
     const showEmailTranscriptFn = (e) => {
       e.stopPropagation();
+      this.props.updateMenuVisibility(false);
       this.setState({
-        showEmailTranscriptMenu: true,
-        showMenu: false
+        showEmailTranscriptMenu: true
       });
     };
     const toggleSoundFn = () => {
@@ -264,7 +270,7 @@ class Chat extends Component {
 
     return (
       <ChatMenu
-        show={this.state.showMenu}
+        show={this.props.menuVisible}
         playSound={userSoundSettings}
         disableEndChat={!isChatting}
         endChatOnClick={showChatEndFn}
@@ -280,9 +286,9 @@ class Chat extends Component {
 
     const showChatEndFn = (e) => {
       e.stopPropagation();
+      this.props.updateMenuVisibility(false);
       this.setState({
         showEndChatMenu: true,
-        showMenu: false,
         showEmailTranscriptMenu: false
       });
       this.props.updateContactDetailsVisibility(false);
@@ -621,6 +627,7 @@ const actionCreators = {
   sendEmailTranscript,
   resetEmailTranscript,
   handlePreChatFormChange,
+  updateMenuVisibility,
   updateContactDetailsVisibility
 };
 

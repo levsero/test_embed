@@ -18,6 +18,7 @@ import editContactDetails from './chat-edit-contact-details';
 import formState from './form-state';
 import queuePosition from './chat-queue-position';
 import offlineMessage from './chat-offline-message';
+import menuVisible from './chat-menu-visibility';
 
 export default combineReducers({
   accountSettings,
@@ -37,5 +38,6 @@ export default combineReducers({
   formState,
   queuePosition,
   editContactDetails,
-  offlineMessage
+  offlineMessage,
+  menuVisible
 });

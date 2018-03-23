@@ -90,6 +90,7 @@ export class ChatPopup extends Component {
       <Icon
         className={styles.closeIcon}
         onClick={this.props.onCloseIconClick}
+        isMobile={this.props.isMobile}
         type='Icon--remove' />
     );
   }

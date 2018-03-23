@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { createSelector } from 'reselect';
 import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
+import { CHATTING_SCREEN } from './chat-screen-types';
 
 const groupChatsByAgent = (state) => {
   const agentMsgs = getChatMessagesByAgent(state);
@@ -41,6 +42,8 @@ export const getChatOfflineForm = (state) => state.chat.formState.offlineForm;
 export const getOfflineMessage = (state) => state.chat.offlineMessage;
 export const getPreChatFormState = (state) => state.chat.formState.preChatForm;
 export const getEditContactDetails = (state) => state.chat.editContactDetails;
+export const getMenuVisible = (state) => state.chat.menuVisible;
+export const getShowMenu = (state) => getChatScreen(state) === CHATTING_SCREEN;
 
 export const getThemeShowAvatar = createSelector(
   getThemeMessageType,

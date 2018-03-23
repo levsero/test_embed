@@ -48,7 +48,6 @@ export class ButtonNav extends Component {
       <div className={styles.container}>
         <div
           onClick={this.props.onClick}
-          onTouchStart={this.props.onClick}
           className={buttonClasses}>
           {this.props.label}
         </div>

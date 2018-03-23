@@ -107,5 +107,10 @@ describe('chat root reducer', () => {
       expect(state.editContactDetails)
         .toBeDefined();
     });
+
+    it('has the menu visible sub state', () => {
+      expect(state.menuVisible)
+        .toBeDefined();
+    });
   });
 });
