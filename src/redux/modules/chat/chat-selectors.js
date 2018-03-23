@@ -193,7 +193,7 @@ export const getLastAgentLeaveEvent = createSelector(
     const logValues = _.values(chatLog);
     const payload = _.last(logValues)[0];
     const isLeaveEvent = payload.type === 'chat.memberleave';
-    const isAgent = payload.nick.indexOf('agent:') > -1;
+    const isAgent = (payload.nick) ? payload.nick.indexOf('agent:') > -1 : false;
 
     if (isLeaveEvent && isAgent) { return payload; }
   }
