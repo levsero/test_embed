@@ -296,12 +296,12 @@ parts:
   - translation:
       key: "embeddable_framework.chat.operatingHours.label.am"
       title: "The time equivalent of AM for operating hours (leave empty if your language uses 24-hour time, e.g., 14:00)"
-      screenshot: "https://drive.google.com/open?id=1xdLSyIspULTxD5poQpMpCqHIK74jFR47"
+      screenshot: "https://drive.google.com/open?id=1I0KhcUMqfOMulb6G0Zx5nh3ohPa0Qr9q"
       value: "am"
   - translation:
       key: "embeddable_framework.chat.operatingHours.label.pm"
       title: "The time equivalent of PM for operating hours (leave empty if your language uses 24-hour time, e.g., 14:00)"
-      screenshot: "https://drive.google.com/open?id=1xdLSyIspULTxD5poQpMpCqHIK74jFR47"
+      screenshot: "https://drive.google.com/open?id=1yZTe5-F0ME22FkduF3JZpbhXKeMKVijU"
       value: "pm"
   - translation:
       key: "embeddable_framework.chat.operatingHours.label.hourRange"
@@ -309,12 +309,12 @@ parts:
       screenshot: "https://drive.google.com/open?id=1xdLSyIspULTxD5poQpMpCqHIK74jFR47"
       value: "%(openingHour)s %(openingPeriod)s to %(closingHour)s %(closingPeriod)s"
   - translation:
-      key: "embeddable_framework.chat.preChat.offline.label.noForm"
+      key: "embeddable_framework.chat.offline.label.noForm"
       title: "The label to display if all agents are online and the customer doesn't have a contact form"
       screenshot: "https://drive.google.com/open?id=1cWlcbhwpVpNwVdLKNWm6d2fE80RW4jq7"
-      value: "Sorry, we aren't online at the moment"
+      value: "Sorry, we are not online at the moment"
   - translation:
-      key: "embeddable_framework.chat.preChat.offline.button.close"
+      key: "embeddable_framework.chat.offline.button.close"
       title: "Button label prompting the user to close the chat offline screen"
       screenshot: "https://drive.google.com/open?id=15AKmHYs2dIOdfw3qjrWwmmG8mK81vhxd"
       value: "Close"
