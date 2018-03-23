@@ -58,7 +58,7 @@ class ChatOffline extends Component {
 
     return (
       <div>
-        Sorry, we aren't online at the moment
+        <p className={styles.greeting}>Sorry, we aren't online at the moment</p>
         <Button
           onTouchStartDisabled={true}
           label={i18n.t('embeddable_framework.navigation.close')}

@@ -29,3 +29,8 @@
   max-height: none;
   position: relative;
 }
+
+.greeting {
+  margin-top: #{6/$font-size}rem;
+  font-size: #{13/$font-size}rem;
+}
