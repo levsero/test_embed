@@ -21,11 +21,10 @@
 
 .messageUser {
   color: $zd-color-white;
-  text-align: right;
   float: right;
 
   [dir='rtl'] & {
-    text-align: left;
+    text-align: right;
     float: left;
   }
 }
@@ -35,6 +34,7 @@
   float: left;
 
   [dir='rtl'] & {
+    text-align: right;
     float: right;
   }
 }
