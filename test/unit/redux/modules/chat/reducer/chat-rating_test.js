@@ -100,5 +100,18 @@ describe('chat reducer agents', () => {
           .toEqual(expectedState);
       });
     });
+
+    describe('when a END_CHAT_REQUEST_SUCESS action is dispatched', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.END_CHAT_REQUEST_SUCCESS
+        });
+      });
+
+      it('clears the state', () => {
+        expect(state)
+          .toEqual({ value: null });
+      });
+    });
   });
 });
