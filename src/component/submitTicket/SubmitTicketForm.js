@@ -228,7 +228,12 @@ export class SubmitTicketForm extends Component {
     fields = this.props.ticketFields,
     prefillTicketForm = this.props.ticketFormSettings,
     prefillTicketField = this.props.ticketFieldSettings) => {
-    const filteredFields = this.filterPrefillFields(fields, prefillTicketForm, prefillTicketField);
+    const internalFields = {
+      description: { id: 'description', type: 'description' },
+      subject: { id: 'subject', type: 'subject' }
+    };
+    const fieldsData = _.extend({}, fields, internalFields);
+    const filteredFields = this.filterPrefillFields(fieldsData, prefillTicketForm, prefillTicketField);
 
     // Check if pre-fill is still valid after processing
     if (filteredFields.length === 0) return;
@@ -241,16 +246,6 @@ export class SubmitTicketForm extends Component {
     });
 
     this.props.setFormState(formState);
-  }
-
-  updateContactForm = (prefillTicketField) => {
-    const internalFields = [
-      { id: 'description', type: 'description' },
-      { id: 'subject', type: 'subject' }
-    ];
-    const fieldsData = _.compact(_.concat(this.props.ticketFields, internalFields));
-
-    this.prefillFormState(fieldsData, {}, prefillTicketField);
   }
 
   updateForm = () => {

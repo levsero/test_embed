@@ -171,14 +171,6 @@ class SubmitTicket extends Component {
     this.props.handleTicketSubmission(uploads, doneCallback, failCallback);
   }
 
-  updateContactForm = () => {
-    this.refs.submitTicketForm.updateContactForm(this.props.ticketFieldSettings);
-  }
-
-  updateTicketFields = () => {
-    this.updateContactForm();
-  }
-
   handleDragEnter = () => {
     this.setState({ isDragActive: true });
   }

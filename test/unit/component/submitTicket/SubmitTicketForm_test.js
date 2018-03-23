@@ -646,16 +646,16 @@ describe('SubmitTicketForm component', () => {
       id: 1,
       ticket_field_ids: [1111111, '2222222', 3333333, '4444444', 5555555, '6666666', 7777777, '8888888'] // eslint-disable-line camelcase
     };
-    const mockTicketFields = [
-      { id: 1111111, type: 'name' },
-      { id: '2222222', type: 'email' },
-      { id: 3333333, type: 'subject' },
-      { id: '4444444', type: 'checkbox' },
-      { id: 5555555, type: 'tagger' },
-      { id: '6666666', type: 'integer' },
-      { id: 7777777, type: 'decimal' },
-      { id: '8888888', type: 'text' }
-    ];
+    const mockTicketFields = {
+      '1111111': { id: '1111111', type: 'name' },
+      '2222222': { id: '2222222', type: 'email' },
+      '3333333': { id: '3333333', type: 'subject' },
+      '4444444': { id: '4444444', type: 'checkbox' },
+      '5555555': { id: '5555555', type: 'tagger' },
+      '6666666': { id: '6666666', type: 'integer' },
+      '7777777': { id: '7777777', type: 'decimal' },
+      '8888888': { id: '8888888', type: 'text' }
+    };
 
     beforeEach(() => {
       mockSetFormState = jasmine.createSpy('mockSetFormState');
@@ -719,6 +719,20 @@ describe('SubmitTicketForm component', () => {
 
           expect(mockSetFormState.calls.mostRecent().args)
             .toEqual(expectation);
+        });
+      });
+
+      describe('when the fields do not contain description', () => {
+        const mockPrefill = [
+          { id: 7777777, prefill: { '*': 123, 'en-GB': 1337 } },
+          { id: 'description', prefill: { '*': 'my prefill' } }
+        ];
+
+        it('still pre-fills description if it is passed in', () => {
+          submitTicketForm.prefillFormState(mockTicketFields, [], mockPrefill);
+
+          expect(mockSetFormState.calls.mostRecent().args[0])
+            .toEqual(jasmine.objectContaining({ description: 'my prefill' }));
         });
       });
     });

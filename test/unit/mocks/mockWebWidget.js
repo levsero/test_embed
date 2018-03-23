@@ -52,7 +52,6 @@ class MockWebWidgetChild extends Component {
     this.focusField = noop;
     this.hideVirtualKeyboard = noop;
     this.updateUser = noop;
-    this.updateContactForm = noop;
     this.setLoading = noop;
     this.state = {
       topics: [],

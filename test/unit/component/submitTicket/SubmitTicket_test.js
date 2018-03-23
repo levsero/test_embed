@@ -2,8 +2,7 @@ describe('Submit ticket component', () => {
   let SubmitTicket,
     mockStoreValue,
     mockIsIEValue,
-    mockIsMobileBrowserValue,
-    mockUpdateContactForm;
+    mockIsMobileBrowserValue;
 
   const formParams = {
     'name': 'bob',
@@ -67,7 +66,6 @@ describe('Submit ticket component', () => {
             };
           }
           clear() {}
-          updateContactForm = mockUpdateContactForm
           updateTicketForm() {}
           render() {
             return (
@@ -451,26 +449,6 @@ describe('Submit ticket component', () => {
     });
   });
 
-  describe('updateContactForm', () => {
-    let submitTicket;
-    const ticketFieldSettings = [
-      { id: 'description', prefill: { '*': 'Yukihira Souma' } },
-      { id: 12345678, prefill: { '*': 'Nakiri Erina' } }
-    ];
-
-    beforeEach(() => {
-      mockUpdateContactForm = jasmine.createSpy('updateContactForm');
-      submitTicket = domRender(<SubmitTicket ticketFieldSettings={ticketFieldSettings} />);
-    });
-
-    it('should invoke updateContactForm with ticket field settings', () => {
-      submitTicket.updateContactForm();
-
-      expect(mockUpdateContactForm.calls.mostRecent().args[0])
-        .toEqual(ticketFieldSettings);
-    });
-  });
-
   describe('clearForm', () => {
     let submitTicket;
     const mockClear = jasmine.createSpy('clear');
@@ -577,21 +555,6 @@ describe('Submit ticket component', () => {
         expect(mockShowBackButton)
           .toHaveBeenCalled();
       });
-    });
-  });
-
-  describe('updateTicketFields', () => {
-    let submitTicket;
-
-    beforeEach(() => {
-      submitTicket = domRender(<SubmitTicket />);
-      spyOn(submitTicket, 'updateContactForm');
-      submitTicket.updateTicketFields({});
-    });
-
-    it('should call updateContactForm', () => {
-      expect(submitTicket.updateContactForm)
-        .toHaveBeenCalled();
     });
   });
 });

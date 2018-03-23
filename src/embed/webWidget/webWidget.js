@@ -536,16 +536,6 @@ export default function WebWidgetFactory(name) {
     } else if (customFields.ids || customFields.all === true) {
       store.dispatch(getTicketFields(customFields, i18n.getLocale()));
       config.customFields = [];
-    } else {
-      setTimeout(() => {
-        waitForRootComponent(() => {
-          const submitTicketForm = getWebWidgetComponent().getSubmitTicketComponent();
-
-          if (submitTicketForm) {
-            submitTicketForm.updateContactForm();
-          }
-        });
-      }, 0);
     }
 
     return {
