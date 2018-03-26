@@ -21,3 +21,10 @@
   border: #{1/$font-size}rem #f3f3f3 solid;
   padding: #{8/$font-size}rem #{12/$font-size}rem;
 }
+
+.link {
+  &:link, &:hover, &:active, &:visited {
+    color: inherit;
+    text-decoration: underline;
+  }
+}
