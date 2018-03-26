@@ -44,6 +44,7 @@ export const getPreChatFormState = (state) => state.chat.formState.preChatForm;
 export const getEditContactDetails = (state) => state.chat.editContactDetails;
 export const getMenuVisible = (state) => state.chat.menuVisible;
 export const getShowMenu = (state) => getChatScreen(state) === CHATTING_SCREEN;
+export const getAgentJoined = (state) => state.chat.agentJoined;
 
 export const getThemeShowAvatar = createSelector(
   getThemeMessageType,

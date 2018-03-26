@@ -58,7 +58,8 @@ import { getPrechatFormFields,
          getPreChatFormState,
          getQueuePosition,
          getMenuVisible,
-         getEditContactDetails } from 'src/redux/modules/chat/chat-selectors';
+         getEditContactDetails,
+         getAgentJoined } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './Chat.scss';
 import { agentBot } from 'constants/chat';
 
@@ -88,7 +89,8 @@ const mapStateToProps = (state) => {
     preChatFormState: getPreChatFormState(state),
     queuePosition: getQueuePosition(state),
     editContactDetails: getEditContactDetails(state),
-    menuVisible: getMenuVisible(state)
+    menuVisible: getMenuVisible(state),
+    agentJoined: getAgentJoined(state)
   };
 };
 
@@ -137,7 +139,8 @@ class Chat extends Component {
     updateContactDetailsVisibility: PropTypes.func.isRequired,
     updateChatBackButtonVisibility: PropTypes.func,
     updateMenuVisibility: PropTypes.func,
-    menuVisible: PropTypes.bool
+    menuVisible: PropTypes.bool,
+    agentJoined: PropTypes.bool
   };
 
   static defaultProps = {
@@ -164,7 +167,8 @@ class Chat extends Component {
     editContactDetails: {},
     updateChatBackButtonVisibility: () => {},
     updateMenuVisibility: () => {},
-    menuVisible: false
+    menuVisible: false,
+    agentJoined: false
   };
 
   constructor(props) {
@@ -318,8 +322,8 @@ class Chat extends Component {
     );
   }
 
-  renderChatHeader = (showRating = false) => {
-    const { rating, sendChatRating, concierge } = this.props;
+  renderChatHeader = () => {
+    const { rating, sendChatRating, concierge, agentJoined } = this.props;
     // Title in chat refers to the byline and display_name refers to the display title
     const { avatar_path, display_name, title } = concierge;
     const displayName = _.has(display_name, 'toString') ? display_name.toString() : display_name; // eslint-disable-line camelcase
@@ -327,7 +331,7 @@ class Chat extends Component {
 
     return (
       <ChatHeader
-        showRating={showRating}
+        showRating={agentJoined}
         rating={rating.value}
         updateRating={sendChatRating}
         avatar={avatar_path} // eslint-disable-line camelcase
