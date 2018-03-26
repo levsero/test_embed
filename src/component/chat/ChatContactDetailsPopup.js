@@ -40,7 +40,7 @@ export class ChatContactDetailsPopup extends Component {
   constructor(props) {
     super(props);
     const email = _.get(props.visitor, 'email', '');
-    const name = _.get(props.visitor, 'name', '');
+    const name = _.get(props.visitor, 'display_name', '');
 
     this.state = {
       valid: emailValid(email) && !!name.trim(),
@@ -51,6 +51,15 @@ export class ChatContactDetailsPopup extends Component {
     };
 
     this.form = null;
+  }
+
+  componentWillReceiveProps(nextProp) {
+    const email = _.get(nextProp.visitor, 'email', '');
+    const name = _.get(nextProp.visitor, 'display_name', '');
+
+    this.setState({
+      formState: { email, name }
+    });
   }
 
   handleSave = () => {

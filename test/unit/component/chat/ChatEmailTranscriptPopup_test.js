@@ -128,6 +128,21 @@ describe('ChatEmailTranscriptPopup component', () => {
     });
   });
 
+  describe('componentWillReceiveProps', () => {
+    let component;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatEmailTranscriptPopup />);
+
+      component.componentWillReceiveProps({ visitor: { display_name: 'bob', email: 'bob@bob.com' } });
+    });
+
+    it('sets email form state to the email visitor prop passed in', () => {
+      expect(component.state.formState.email)
+        .toEqual('bob@bob.com');
+    });
+  });
+
   describe('render', () => {
     let component,
       popupComponent,

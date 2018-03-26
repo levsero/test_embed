@@ -153,6 +153,26 @@ describe('ChatContactDetailsPopup component', () => {
     });
   });
 
+  describe('componentWillReceiveProps', () => {
+    let component;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatContactDetailsPopup />);
+
+      component.componentWillReceiveProps({ visitor: { display_name: 'bob', email: 'bob@bob.com' } });
+    });
+
+    it('sets name form state to the display_name visitor prop passed in', () => {
+      expect(component.state.formState.name)
+        .toEqual('bob');
+    });
+
+    it('sets email form state to the email visitor prop passed in', () => {
+      expect(component.state.formState.email)
+        .toEqual('bob@bob.com');
+    });
+  });
+
   describe('render', () => {
     let component,
       renderedComponent,
