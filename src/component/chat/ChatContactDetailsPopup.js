@@ -43,7 +43,7 @@ export class ChatContactDetailsPopup extends Component {
     const name = _.get(props.visitor, 'display_name', '');
 
     this.state = {
-      valid: emailValid(email) && !!name.trim(),
+      valid: emailValid(email),
       formState: {
         email,
         name
@@ -58,6 +58,7 @@ export class ChatContactDetailsPopup extends Component {
     const name = _.get(nextProp.visitor, 'display_name', '');
 
     this.setState({
+      valid: emailValid(email),
       formState: { email, name }
     });
   }
@@ -95,7 +96,6 @@ export class ChatContactDetailsPopup extends Component {
         fieldClasses={styles.field}
         labelClasses={styles.fieldLabel}
         label={i18n.t('embeddable_framework.common.textLabel.name')}
-        required={true}
         value={this.state.formState.name}
         name='name'/>
     );
@@ -108,7 +108,6 @@ export class ChatContactDetailsPopup extends Component {
         fieldClasses={styles.field}
         labelClasses={styles.fieldLabel}
         label={i18n.t('embeddable_framework.common.textLabel.email')}
-        required={true}
         value={this.state.formState.email}
         name='email'/>
     );
