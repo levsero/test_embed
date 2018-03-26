@@ -32,6 +32,7 @@ describe('chat selectors', () => {
     getPreChatFormState,
     getQueuePosition,
     getEditContactDetails,
+    getOfflineMessage,
     EDIT_CONTACT_DETAILS_SCREEN;
 
   beforeEach(() => {
@@ -89,6 +90,7 @@ describe('chat selectors', () => {
     getPreChatFormState = selectors.getPreChatFormState;
     getQueuePosition = selectors.getQueuePosition;
     getEditContactDetails = selectors.getEditContactDetails;
+    getOfflineMessage = selectors.getOfflineMessage;
   });
 
   afterEach(() => {
@@ -1371,6 +1373,28 @@ describe('chat selectors', () => {
     it('returns the current state of the edit contact details', () => {
       expect(result)
         .toEqual(jasmine.objectContaining(mockChatSettings.chat.editContactDetails));
+    });
+  });
+
+  describe('getOfflineMessage', () => {
+    let result,
+      mockChatSettings;
+
+    beforeEach(() => {
+      mockChatSettings = {
+        chat: {
+          offlineMessage: {
+            message: {},
+            screen: 'main'
+          }
+        }
+      };
+      result = getOfflineMessage(mockChatSettings);
+    });
+
+    it('returns the current state of the offlineMessage', () => {
+      expect(result)
+        .toEqual(jasmine.objectContaining(mockChatSettings.chat.offlineMessage));
     });
   });
 });

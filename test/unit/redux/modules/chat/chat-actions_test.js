@@ -1109,4 +1109,18 @@ describe('chat redux actions', () => {
         .toEqual(true);
     });
   });
+
+  describe('handleOfflineFormBack', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.handleOfflineFormBack(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches OFFLINE_FORM_BACK_CLICKED action', () => {
+      expect(action.type)
+        .toEqual(actionTypes.OFFLINE_FORM_BACK_CLICKED);
+    });
+  });
 });
