@@ -18,6 +18,7 @@ export class ChatOfflineForm extends Component {
     chatOfflineFormChanged: PropTypes.func.isRequired,
     handleOfflineFormSubmit: PropTypes.func.isRequired,
     handleOfflineFormBack: PropTypes.func.isRequired,
+    offlineMessage: PropTypes.object.isRequired,
     formState: PropTypes.object.isRequired,
     formFields: PropTypes.object.isRequired,
     isMobile: PropTypes.bool
@@ -25,7 +26,8 @@ export class ChatOfflineForm extends Component {
 
   static defaultProps = {
     updateFrameSize: () => {},
-    isMobile: false
+    isMobile: false,
+    offlineMessage: {}
   };
 
   renderNameField() {
@@ -85,8 +87,19 @@ export class ChatOfflineForm extends Component {
   renderSuccess() {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.SUCCESS) return;
 
+    const { name, email, phone, message } = this.props.offlineMessage.message;
+
     return (
       <div className={styles.successContainer}>
+        <p className={styles.message}>
+         {i18n.t('embeddable_framework.chat.preChat.offline.label.confirmation')}
+        </p>
+        <div className={styles.info}>
+          <b>{name}</b>
+          <p>{email}</p>
+          <p>{phone}</p>
+          <p className={styles.offlineMessage}>{message}</p>
+        </div>
         <Button
           onTouchStartDisabled={true}
           label={i18n.t('embeddable_framework.chat.preChat.offline.button.sendAnother')}

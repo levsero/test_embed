@@ -151,6 +151,60 @@ describe('ChatOfflineForm component', () => {
     });
   });
 
+  describe('renderSuccess', () => {
+    let result, formResults;
+    const mockFormValues = {
+      name: 'Boromir',
+      email: 'boromir@gondor.nw',
+      phone: '12345678',
+      message: 'One does not simply walk into Mordor'
+    };
+
+    describe('when the screen is the success screen', () => {
+      beforeEach(() => {
+        const component = instanceRender(
+          <ChatOfflineForm offlineMessage={{ screen: 'success', message: mockFormValues }} />
+        );
+
+        result = component.renderSuccess();
+        formResults = result.props.children[1].props.children;
+      });
+
+      it('renders the name value from the form to the screen', () => {
+        expect(formResults[0].props.children)
+          .toBe('Boromir');
+      });
+
+      it('renders the email value from the form to the screen', () => {
+        expect(formResults[1].props.children)
+          .toBe('boromir@gondor.nw');
+      });
+
+      it('renders the phone value from the form to the screen', () => {
+        expect(formResults[2].props.children)
+          .toBe('12345678');
+      });
+
+      it('renders the message value from the form to the screen', () => {
+        expect(formResults[3].props.children)
+          .toBe('One does not simply walk into Mordor');
+      });
+    });
+
+    describe('when the screen is not the success screen', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatOfflineForm offlineMessage={{ screen: 'main' }} />);
+
+        result = component.renderSuccess();
+      });
+
+      it('renders nothing', () => {
+        expect(result)
+          .toBeUndefined();
+      });
+    });
+  });
+
   describe('renderNameField', () => {
     let result;
 
