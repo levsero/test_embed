@@ -7,8 +7,9 @@ import classNames from 'classnames';
 import { Button } from 'component/button/Button';
 import { ChatOfflineForm } from 'component/chat/ChatOfflineForm';
 import { ScrollContainer } from 'component/container/ScrollContainer';
-import { chatOfflineFormChanged } from 'src/redux/modules/chat';
+import { chatOfflineFormChanged, sendOfflineMessage, handleOfflineFormBack } from 'src/redux/modules/chat';
 import { getChatOfflineForm,
+         getOfflineMessage,
          getOfflineFormSettings,
          getOfflineFormFields } from 'src/redux/modules/chat/chat-selectors';
 
@@ -18,7 +19,8 @@ const mapStateToProps = (state) => {
   return {
     formState: getChatOfflineForm(state),
     formFields: getOfflineFormFields(state),
-    formSettings: getOfflineFormSettings(state)
+    formSettings: getOfflineFormSettings(state),
+    offlineMessage: getOfflineMessage(state)
   };
 };
 
@@ -26,9 +28,12 @@ class ChatOffline extends Component {
   static propTypes = {
     updateFrameSize: PropTypes.func.isRequired,
     chatOfflineFormChanged: PropTypes.func.isRequired,
+    sendOfflineMessage: PropTypes.func.isRequired,
+    handleOfflineFormBack: PropTypes.func.isRequired,
     formState: PropTypes.object.isRequired,
     formFields: PropTypes.object.isRequired,
     formSettings: PropTypes.object.isRequired,
+    offlineMessage: PropTypes.object.isRequired,
     handleCloseClick: PropTypes.func,
     isMobile: PropTypes.bool
   };
@@ -36,6 +41,7 @@ class ChatOffline extends Component {
   static defaultProps = {
     updateFrameSize: () => {},
     handleCloseClick: () => {},
+    sendOfflineMessage: () => {},
     isMobile: false,
     formSettings: { enabled: false }
   };
@@ -47,6 +53,9 @@ class ChatOffline extends Component {
       <ChatOfflineForm
         formFields={this.props.formFields}
         formState={this.props.formState}
+        offlineMessage={this.props.offlineMessage}
+        handleOfflineFormBack={this.props.handleOfflineFormBack}
+        sendOfflineMessage={this.props.sendOfflineMessage}
         chatOfflineFormChanged={this.props.chatOfflineFormChanged}
         updateFrameSize={this.props.updateFrameSize}
         isMobile={this.props.isMobile} />
@@ -93,7 +102,9 @@ class ChatOffline extends Component {
 }
 
 const actionCreators = {
-  chatOfflineFormChanged
+  chatOfflineFormChanged,
+  sendOfflineMessage,
+  handleOfflineFormBack
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(ChatOffline);

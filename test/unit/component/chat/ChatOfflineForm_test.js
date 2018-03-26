@@ -5,6 +5,8 @@ describe('ChatOfflineForm component', () => {
   const Form = noopReactComponent();
   const Field = noopReactComponent();
   const EmailField = noopReactComponent();
+  const Button = noopReactComponent();
+  const LoadingSpinner = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
@@ -25,6 +27,13 @@ describe('ChatOfflineForm component', () => {
           t: _.identity
         }
       },
+      'constants/chat': {
+        OFFLINE_FORM_SCREENS: {
+          MAIN: 'main',
+          SUCCESS: 'success',
+          LOADING: 'loading'
+        }
+      },
       'component/form/Form': {
         Form: Form
       },
@@ -33,6 +42,12 @@ describe('ChatOfflineForm component', () => {
       },
       'component/field/EmailField': {
         EmailField: EmailField
+      },
+      'component/button/Button': {
+        Button: Button
+      },
+      'component/loading/LoadingSpinner': {
+        LoadingSpinner: LoadingSpinner
       }
     });
 
@@ -45,7 +60,7 @@ describe('ChatOfflineForm component', () => {
     mockery.disable();
   });
 
-  describe('render', () => {
+  describe('renderForm', () => {
     let component,
       result;
 
@@ -55,14 +70,14 @@ describe('ChatOfflineForm component', () => {
         message: 'I need coffee'
       };
 
-      component = instanceRender(<ChatOfflineForm formState={mockFormState} />);
+      component = instanceRender(<ChatOfflineForm formState={mockFormState} offlineMessage={{ screen: 'main' }} />);
 
       spyOn(component, 'renderNameField');
       spyOn(component, 'renderEmailField');
       spyOn(component, 'renderPhoneNumberField');
       spyOn(component, 'renderMessageField');
 
-      result = component.render();
+      result = component.renderForm();
     });
 
     it('has a props.formState value', () => {
@@ -103,6 +118,90 @@ describe('ChatOfflineForm component', () => {
     it('calls renderMessageField', () => {
       expect(component.renderMessageField)
         .toHaveBeenCalled();
+    });
+  });
+
+  describe('renderLoading', () => {
+    let result;
+
+    describe('when the screen is the loading screen', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatOfflineForm offlineMessage={{ screen: 'loading' }} />);
+
+        result = component.renderLoading();
+      });
+
+      it('renders a type of LoadingSpinner', () => {
+        expect(TestUtils.isElementOfType(result.props.children, LoadingSpinner))
+          .toEqual(true);
+      });
+    });
+
+    describe('when the screen is not the loading screen', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatOfflineForm offlineMessage={{ screen: 'main' }} />);
+
+        result = component.renderLoading();
+      });
+
+      it('renders nothing', () => {
+        expect(result)
+          .toBeUndefined();
+      });
+    });
+  });
+
+  describe('renderSuccess', () => {
+    let result, formResults;
+    const mockFormValues = {
+      name: 'Boromir',
+      email: 'boromir@gondor.nw',
+      phone: '12345678',
+      message: 'One does not simply walk into Mordor'
+    };
+
+    describe('when the screen is the success screen', () => {
+      beforeEach(() => {
+        const component = instanceRender(
+          <ChatOfflineForm offlineMessage={{ screen: 'success', details: mockFormValues }} />
+        );
+
+        result = component.renderSuccess();
+        formResults = result.props.children[1].props.children;
+      });
+
+      it('renders the name value from the form to the screen', () => {
+        expect(formResults[0].props.children)
+          .toBe('Boromir');
+      });
+
+      it('renders the email value from the form to the screen', () => {
+        expect(formResults[1].props.children)
+          .toBe('boromir@gondor.nw');
+      });
+
+      it('renders the phone value from the form to the screen', () => {
+        expect(formResults[2].props.children)
+          .toBe('12345678');
+      });
+
+      it('renders the message value from the form to the screen', () => {
+        expect(formResults[3].props.children)
+          .toBe('One does not simply walk into Mordor');
+      });
+    });
+
+    describe('when the screen is not the success screen', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatOfflineForm offlineMessage={{ screen: 'main' }} />);
+
+        result = component.renderSuccess();
+      });
+
+      it('renders nothing', () => {
+        expect(result)
+          .toBeUndefined();
+      });
     });
   });
 
