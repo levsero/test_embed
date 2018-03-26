@@ -93,9 +93,9 @@ describe('chat reducer editContactDetails', () => {
           .toEqual(EDIT_CONTACT_DETAILS_LOADING_SCREEN);
       });
 
-      it('sets state.show to true', () => {
+      it('sets state.show to remain unchanged', () => {
         expect(state.show)
-          .toEqual(true);
+          .toEqual(false);
       });
     });
 
@@ -111,7 +111,7 @@ describe('chat reducer editContactDetails', () => {
 
       it('sets state.show to true', () => {
         expect(state.show)
-          .toEqual(true);
+          .toEqual(false);
       });
     });
 

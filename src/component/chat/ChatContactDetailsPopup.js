@@ -14,6 +14,7 @@ import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { locals as styles } from 'component/chat/ChatContactDetailsPopup.scss';
 
 import {
+  EDIT_CONTACT_DETAILS_SCREEN,
   EDIT_CONTACT_DETAILS_LOADING_SCREEN,
   EDIT_CONTACT_DETAILS_ERROR_SCREEN
 } from 'constants/chat';
@@ -115,7 +116,7 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   renderForm = () => {
-    if (this.props.screen === EDIT_CONTACT_DETAILS_LOADING_SCREEN) return null;
+    if (this.props.screen !== EDIT_CONTACT_DETAILS_SCREEN) return null;
 
     return (
       <div className={styles.popupChildrenContainer}>

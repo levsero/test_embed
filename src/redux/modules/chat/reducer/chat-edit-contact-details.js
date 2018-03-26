@@ -28,14 +28,12 @@ const editContactDetails = (state = initialState, action) => {
     case SET_VISITOR_INFO_REQUEST_PENDING:
       return {
         ...state,
-        status: EDIT_CONTACT_DETAILS_LOADING_SCREEN,
-        show: true
+        status: EDIT_CONTACT_DETAILS_LOADING_SCREEN
       };
     case SET_VISITOR_INFO_REQUEST_FAILURE:
       return {
         ...state,
-        status: EDIT_CONTACT_DETAILS_ERROR_SCREEN,
-        show: true
+        status: EDIT_CONTACT_DETAILS_ERROR_SCREEN
       };
     case UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY:
       return {
