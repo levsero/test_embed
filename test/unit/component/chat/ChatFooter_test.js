@@ -9,8 +9,14 @@ describe('ChatFooter component', () => {
       './ChatFooter.scss': {
         locals: {
           iconContainer: 'iconsClass',
+          containerMobile: 'containerMobileClass',
+          iconEndChat: 'iconEndChatClass',
           iconDisabled: 'iconDisabledClasses',
-          iconAttachmentDisabled: 'iconAttachmentDisabledClasses'
+          iconAttachment: 'iconAttachmentClass',
+          iconAttachmentMobile: 'iconAttachmentMobileClass',
+          iconMenu: 'iconMenuClass',
+          iconSendChat: 'iconSendChatClass',
+          iconSendChatMobile: 'iconSendChatMobileClass'
         }
       },
       'component/Dropzone': {
@@ -18,6 +24,9 @@ describe('ChatFooter component', () => {
       },
       'component/Icon': {
         Icon: noopReactComponent()
+      },
+      'constants/shared': {
+        ICONS: {}
       }
     });
 
@@ -31,17 +40,46 @@ describe('ChatFooter component', () => {
   });
 
   describe('render', () => {
-    let componentNode;
+    let component, componentNode;
 
-    beforeEach(() => {
-      const component = domRender(<ChatFooter showIcons={true} />);
+    describe('icons', () => {
+      beforeEach(() => {
+        component = domRender(<ChatFooter />);
+        componentNode = ReactDOM.findDOMNode(component);
+      });
 
-      componentNode = ReactDOM.findDOMNode(component);
+      it('renders the chat footer with styled icons', () => {
+        expect(componentNode.querySelector('.iconsClass'))
+          .toBeTruthy();
+      });
     });
 
-    it('renders the chat footer with styled icons', () => {
-      expect(componentNode.querySelector('.iconsClass'))
-        .toBeTruthy();
+    describe('on non-mobile devices', () => {
+      let result;
+
+      beforeEach(() => {
+        component = instanceRender(<ChatFooter isMobile={false} />);
+        result = component.render();
+      });
+
+      it('renders the desktop version', () => {
+        expect(result.props.className)
+          .not.toContain('containerMobileClass');
+      });
+    });
+
+    describe('on mobile devices', () => {
+      let result;
+
+      beforeEach(() => {
+        component = instanceRender(<ChatFooter isMobile={true} />);
+        result = component.render();
+      });
+
+      it('renders the mobile version', () => {
+        expect(result.props.className)
+          .toContain('containerMobileClass');
+      });
     });
   });
 
@@ -57,6 +95,8 @@ describe('ChatFooter component', () => {
 
       it('has disabled classes', () => {
         expect(result.props.className)
+          .toContain('iconEndChatClass');
+        expect(result.props.className)
           .toContain('iconDisabledClasses');
       });
     });
@@ -69,6 +109,8 @@ describe('ChatFooter component', () => {
       });
 
       it('does not have disabled classes', () => {
+        expect(result.props.className)
+          .toContain('iconEndChatClass');
         expect(result.props.className)
           .not.toContain('iconDisabledClasses');
       });
@@ -103,17 +145,87 @@ describe('ChatFooter component', () => {
           .toBeNull();
       });
     });
+
+    describe('on non-mobile devices', () => {
+      beforeEach(() => {
+        const component = instanceRender(
+          <ChatFooter attachmentsEnabled={true} isMobile={false} />
+        );
+
+        result = component.renderAttachmentOption();
+      });
+
+      it('does not have mobile specific classes', () => {
+        expect(result.props.className)
+          .toContain('iconAttachmentClass');
+        expect(result.props.className)
+          .not.toContain('iconAttachmentMobileClass');
+      });
+    });
+
+    describe('on mobile devices', () => {
+      beforeEach(() => {
+        const component = instanceRender(
+          <ChatFooter attachmentsEnabled={true} isMobile={true} />
+        );
+
+        result = component.renderAttachmentOption();
+      });
+
+      it('has mobile specific classes', () => {
+        expect(result.props.className)
+          .toContain('iconAttachmentClass');
+        expect(result.props.className)
+          .toContain('iconAttachmentMobileClass');
+      });
+    });
   });
 
-  describe('menuIconClick', () => {
+  describe('renderMenuOption', () => {
+    let result;
+
+    beforeEach(() => {
+      const component = instanceRender(<ChatFooter />);
+
+      result = component.renderMenuOption();
+    });
+
+    it('has correct classes', () => {
+      expect(result.props.className)
+        .toContain('iconMenuClass');
+    });
+  });
+
+  describe('renderSendChatOption', () => {
+    let result, sendChatSpy;
+
+    beforeEach(() => {
+      sendChatSpy = jasmine.createSpy();
+      const component = instanceRender(<ChatFooter sendChat={sendChatSpy} />);
+
+      result = component.renderSendChatOption();
+    });
+
+    it('has correct classes', () => {
+      expect(result.props.className)
+        .toContain('iconSendChatClass iconSendChatMobileClass');
+    });
+
+    it('passes sendChat to onClick handler', () => {
+      expect(result.props.onClick)
+        .toBe(sendChatSpy);
+    });
+  });
+
+  describe('handleMenuClick', () => {
     let component, stopPropagationSpy, toggleMenuSpy;
 
     beforeEach(() => {
       stopPropagationSpy = jasmine.createSpy();
       toggleMenuSpy = jasmine.createSpy();
 
-      component = domRender(<ChatFooter showIcons={true} toggleMenu={toggleMenuSpy} />);
-      component.menuIconClick({ stopPropagation: stopPropagationSpy });
+      component = instanceRender(<ChatFooter showIcons={true} toggleMenu={toggleMenuSpy} />);
+      component.handleMenuClick({ stopPropagation: stopPropagationSpy });
     });
 
     it('calls stopPropagation on the event', () => {
@@ -136,7 +248,7 @@ describe('ChatFooter component', () => {
 
     describe('when props.isChatting is false', () => {
       beforeEach(() => {
-        component = domRender(<ChatFooter isChatting={false} endChat={endChatSpy} />);
+        component = instanceRender(<ChatFooter isChatting={false} endChat={endChatSpy} />);
 
         component.handleEndChatClick('some event');
       });
@@ -149,7 +261,7 @@ describe('ChatFooter component', () => {
 
     describe('when props.isChatting is true', () => {
       beforeEach(() => {
-        component = domRender(<ChatFooter isChatting={true} endChat={endChatSpy} />);
+        component = instanceRender(<ChatFooter isChatting={true} endChat={endChatSpy} />);
 
         component.handleEndChatClick('some event');
       });

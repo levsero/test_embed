@@ -275,7 +275,7 @@ class Chat extends Component {
   }
 
   renderChatFooter = () => {
-    const { currentMessage, sendMsg, handleChatBoxChange } = this.props;
+    const { currentMessage, sendMsg, handleChatBoxChange, isMobile } = this.props;
 
     const showChatEndFn = (e) => {
       e.stopPropagation();
@@ -287,16 +287,25 @@ class Chat extends Component {
       this.props.updateContactDetailsVisibility(false);
     };
 
+    const sendChatFn = () => {
+      if (_.isEmpty(currentMessage)) return;
+      sendMsg(currentMessage);
+      handleChatBoxChange('');
+    };
+
     return (
       <ChatFooter
         attachmentsEnabled={this.props.attachmentsEnabled}
+        isMobile={isMobile}
         endChat={showChatEndFn}
+        sendChat={sendChatFn}
         isChatting={this.props.isChatting}
         handleAttachmentDrop={this.props.sendAttachments}
         toggleMenu={this.toggleMenu}>
         <ChatBox
+          isMobile={isMobile}
           currentMessage={currentMessage}
-          sendMsg={sendMsg}
+          sendChat={sendChatFn}
           handleChatBoxChange={handleChatBoxChange} />
       </ChatFooter>
     );
@@ -394,6 +403,10 @@ class Chat extends Component {
       styles.scrollContainer,
       { [styles.mobileContainer]: isMobile }
     );
+    const footerClasses = classNames(
+      styles.footer,
+      { [styles.footerMobile]: isMobile }
+    );
 
     return (
       <ScrollContainer
@@ -402,7 +415,7 @@ class Chat extends Component {
         headerContent={this.renderChatHeader(showRating)}
         headerClasses={styles.header}
         containerClasses={containerClasses}
-        footerClasses={styles.footer}
+        footerClasses={footerClasses}
         footerContent={this.renderChatFooter()}
         classes={scrollContainerClasses}>
           <div className={messageClasses}>

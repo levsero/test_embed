@@ -1,7 +1,10 @@
 // TODO: this is an incomplete list, and should probably include exports for all the other icons we use as well
 
 export const ICONS = {
+  ELLIPSIS:             'Icon--ellipsis',
+  END_CHAT:             'Icon--endChat',
   ERROR_FILL:           'Icon--error-fill',
+  PAPERCLIP_SMALL:      'Icon--paperclip-small',
   PREVIEW_DEFAULT:      'Icon--preview-default',
   PREVIEW_DOCUMENT:     'Icon--preview-document',
   PREVIEW_ERROR:        'Icon--preview-error',
@@ -9,7 +12,8 @@ export const ICONS = {
   PREVIEW_PDF:          'Icon--preview-pdf',
   PREVIEW_PRESENTATION: 'Icon--preview-presentation',
   PREVIEW_SPREADSHEET:  'Icon--preview-spreadsheet',
-  PREVIEW_ZIP:          'Icon--preview-zip'
+  PREVIEW_ZIP:          'Icon--preview-zip',
+  SEND_CHAT:            'Icon--sendChat'
 };
 
 export const FILETYPE_ICONS = {

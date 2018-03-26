@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 import { Field } from 'component/field/Field';
 import { i18n } from 'service/i18n';
 import { keyCodes } from 'utility/keyboard';
 
 import { locals as styles } from './ChatBox.scss';
+import classNames from 'classnames';
 
 export class ChatBox extends Component {
   static propTypes = {
+    isMobile: PropTypes.bool.isRequired,
     currentMessage: PropTypes.string,
-    sendMsg: PropTypes.func.isRequired,
+    sendChat: PropTypes.func.isRequired,
     handleChatBoxChange: PropTypes.func.isRequired
   };
 
@@ -19,19 +20,10 @@ export class ChatBox extends Component {
     currentMessage: ''
   };
 
-  handleSendClick = () => {
-    const { currentMessage, sendMsg, handleChatBoxChange } = this.props;
-
-    if (!_.isEmpty(currentMessage)) {
-      sendMsg(currentMessage);
-      handleChatBoxChange('');
-    }
-  }
-
   handleKeyDown = (e) => {
     if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
       e.preventDefault();
-      this.handleSendClick();
+      this.props.sendChat();
     }
   }
 
@@ -42,19 +34,29 @@ export class ChatBox extends Component {
   }
 
   chatBoxTextarea = () => {
-    const placeholder = i18n.t('embeddable_framework.chat.chatBox.placeholder.typeMessageHere');
-
     return (
       <textarea
         onKeyDown={this.handleKeyDown}
-        placeholder={placeholder}
-        rows='2' />);
+        rows={this.props.isMobile ? 1 : 2} />);
   }
 
   render = () => {
+    const placeholder = i18n.t('embeddable_framework.chat.chatBox.placeholder.typeMessageHere');
+    const fieldClasses = classNames(
+      { [styles.fieldMobile]: this.props.isMobile }
+    );
+    const inputClasses = classNames(
+      styles.input,
+      { [styles.inputMobile]: this.props.isMobile }
+    );
+
     return (
-      <div className={styles.input}>
+      <div className={styles.container}>
         <Field
+          labelClasses={styles.label}
+          fieldClasses={fieldClasses}
+          inputClasses={inputClasses}
+          placeholder={placeholder}
           input={this.chatBoxTextarea()}
           onChange={this.handleChange}
           name='chatBox'

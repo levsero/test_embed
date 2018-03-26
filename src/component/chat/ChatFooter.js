@@ -2,28 +2,34 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { locals as styles } from './ChatFooter.scss';
+import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
 import { Dropzone } from 'component/Dropzone';
+
+import { ICONS } from 'constants/shared';
 
 export class ChatFooter extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     endChat: PropTypes.func,
+    sendChat: PropTypes.func,
     handleAttachmentDrop: PropTypes.func,
     isChatting: PropTypes.bool,
     toggleMenu: PropTypes.func,
-    attachmentsEnabled: PropTypes.bool.isRequired
+    attachmentsEnabled: PropTypes.bool.isRequired,
+    isMobile: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
     endChat: () => {},
+    sendChat: () => {},
     handleAttachmentDrop: () => {},
     isChatting: false,
     toggleMenu: () => {}
   }
 
-  menuIconClick = (e) => {
+  handleMenuClick = (e) => {
     e.stopPropagation();
     this.props.toggleMenu();
   }
@@ -39,8 +45,8 @@ export class ChatFooter extends Component {
 
     return (
       <Icon
-        type='Icon--endChat'
-        className={`${styles.iconChatMenuOption} ${endChatDisabledClasses}`}
+        type={ICONS.END_CHAT}
+        className={`${styles.iconEndChat} ${endChatDisabledClasses}`}
         onClick={this.handleEndChatClick} />
     );
   }
@@ -48,26 +54,64 @@ export class ChatFooter extends Component {
   renderAttachmentOption = () => {
     if (!this.props.attachmentsEnabled) return null;
 
+    const attachmentClasses = classNames(
+      styles.iconAttachment,
+      { [styles.iconAttachmentMobile]: this.props.isMobile }
+    );
+
     return (
-      <Dropzone
-        onDrop={this.props.handleAttachmentDrop}>
-        <Icon
-          type='Icon--paperclip-small'
-          className={styles.iconAttachment} />
-      </Dropzone>
+      <div className={attachmentClasses}>
+        <Dropzone onDrop={this.props.handleAttachmentDrop}>
+          <Icon type={ICONS.PAPERCLIP_SMALL} />
+        </Dropzone>
+      </div>
     );
   }
 
-  render() {
+  renderMenuOption = () => {
+    return (
+      <Icon
+        type={ICONS.ELLIPSIS}
+        className={styles.iconMenu}
+        onClick={this.handleMenuClick} />
+    );
+  }
+
+  renderSendChatOption = () => {
+    return (
+      <Icon
+        type={ICONS.SEND_CHAT}
+        className={`${styles.iconSendChat} ${styles.iconSendChatMobile}`}
+        onClick={this.props.sendChat} />
+    );
+  }
+
+  renderDesktop = () => {
     return (
       <div>
         {this.props.children}
         <div className={styles.iconContainer}>
           {this.renderEndChatOption()}
           {this.renderAttachmentOption()}
-          <Icon type='Icon--ellipsis' onClick={this.menuIconClick} />
+          {this.renderMenuOption()}
         </div>
       </div>
     );
+  }
+
+  renderMobile = () => {
+    return (
+      <div className={styles.containerMobile}>
+        {this.renderAttachmentOption()}
+        <div className={styles.inputContainerMobile}>
+          {this.props.children}
+        </div>
+        {this.renderSendChatOption()}
+      </div>
+    );
+  }
+
+  render() {
+    return this.props.isMobile ? this.renderMobile() : this.renderDesktop();
   }
 }

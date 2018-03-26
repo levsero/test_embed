@@ -31,6 +31,7 @@ describe('Icon component', function() {
       'icons/widget-icon_concierge.svg': DummyIcon,
       'icons/widget-icon_ellipsis.svg': DummyIcon,
       'icons/widget-icon_endChat.svg': DummyIcon,
+      'icons/widget-icon_sendChat.svg': DummyIcon,
       'icons/widget-icon_help.svg': DummyIcon,
       'icons/widget-icon_launcher-talk.svg': DummyIcon,
       'icons/widget-icon_link.svg': DummyIcon,
