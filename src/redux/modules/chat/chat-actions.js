@@ -35,7 +35,7 @@ import {
   OFFLINE_FORM_REQUEST_FAILURE,
   OFFLINE_FORM_REQUEST_SUCCESS,
   OFFLINE_FORM_REQUEST_SENT,
-  OFFLINE_FORM_BACK_CLICKED
+  OFFLINE_FORM_BACK_BUTTON_CLICKED
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import {
@@ -362,11 +362,11 @@ export function updateContactDetailsVisibility(bool) {
 
 export function handleOfflineFormBack() {
   return {
-    type: OFFLINE_FORM_BACK_CLICKED
+    type: OFFLINE_FORM_BACK_BUTTON_CLICKED
   };
 }
 
-export function handleOfflineFormSubmit(formState) {
+export function sendOfflineMessage(formState) {
   return (dispatch) => {
     dispatch({ type: OFFLINE_FORM_REQUEST_SENT });
 

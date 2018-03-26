@@ -1394,7 +1394,7 @@ describe('chat selectors', () => {
 
     it('returns the current state of the offlineMessage', () => {
       expect(result)
-        .toEqual(jasmine.objectContaining(mockChatSettings.chat.offlineMessage));
+        .toEqual(mockChatSettings.chat.offlineMessage);
     });
   });
 });

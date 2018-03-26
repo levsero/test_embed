@@ -16,7 +16,7 @@ export class ChatOfflineForm extends Component {
   static propTypes = {
     updateFrameSize: PropTypes.func.isRequired,
     chatOfflineFormChanged: PropTypes.func.isRequired,
-    handleOfflineFormSubmit: PropTypes.func.isRequired,
+    sendOfflineMessage: PropTypes.func.isRequired,
     handleOfflineFormBack: PropTypes.func.isRequired,
     offlineMessage: PropTypes.object.isRequired,
     formState: PropTypes.object.isRequired,
@@ -87,7 +87,7 @@ export class ChatOfflineForm extends Component {
   renderSuccess() {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.SUCCESS) return;
 
-    const { name, email, phone, message } = this.props.offlineMessage.message;
+    const { name, email, phone, message } = this.props.offlineMessage.details;
 
     return (
       <div className={styles.successContainer}>
@@ -128,7 +128,7 @@ export class ChatOfflineForm extends Component {
     return (
       <Form
         formState={this.props.formState}
-        onCompleted={this.props.handleOfflineFormSubmit}
+        onCompleted={this.props.sendOfflineMessage}
         onChange={this.props.chatOfflineFormChanged}
         submitButtonClasses={styles.submitButton}
         submitButtonLabel={submitbuttonText}>

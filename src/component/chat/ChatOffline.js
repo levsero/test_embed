@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { Button } from 'component/button/Button';
 import { ChatOfflineForm } from 'component/chat/ChatOfflineForm';
 import { ScrollContainer } from 'component/container/ScrollContainer';
-import { chatOfflineFormChanged, handleOfflineFormSubmit, handleOfflineFormBack } from 'src/redux/modules/chat';
+import { chatOfflineFormChanged, sendOfflineMessage, handleOfflineFormBack } from 'src/redux/modules/chat';
 import { getChatOfflineForm,
          getOfflineMessage,
          getOfflineFormSettings,
@@ -28,7 +28,7 @@ class ChatOffline extends Component {
   static propTypes = {
     updateFrameSize: PropTypes.func.isRequired,
     chatOfflineFormChanged: PropTypes.func.isRequired,
-    handleOfflineFormSubmit: PropTypes.func.isRequired,
+    sendOfflineMessage: PropTypes.func.isRequired,
     handleOfflineFormBack: PropTypes.func.isRequired,
     formState: PropTypes.object.isRequired,
     formFields: PropTypes.object.isRequired,
@@ -41,7 +41,7 @@ class ChatOffline extends Component {
   static defaultProps = {
     updateFrameSize: () => {},
     handleCloseClick: () => {},
-    handleOfflineFormSubmit: () => {},
+    sendOfflineMessage: () => {},
     isMobile: false,
     formSettings: { enabled: false }
   };
@@ -55,7 +55,7 @@ class ChatOffline extends Component {
         formState={this.props.formState}
         offlineMessage={this.props.offlineMessage}
         handleOfflineFormBack={this.props.handleOfflineFormBack}
-        handleOfflineFormSubmit={this.props.handleOfflineFormSubmit}
+        sendOfflineMessage={this.props.sendOfflineMessage}
         chatOfflineFormChanged={this.props.chatOfflineFormChanged}
         updateFrameSize={this.props.updateFrameSize}
         isMobile={this.props.isMobile} />
@@ -103,7 +103,7 @@ class ChatOffline extends Component {
 
 const actionCreators = {
   chatOfflineFormChanged,
-  handleOfflineFormSubmit,
+  sendOfflineMessage,
   handleOfflineFormBack
 };
 

@@ -1005,7 +1005,7 @@ describe('chat redux actions', () => {
     });
   });
 
-  describe('handleOfflineFormSubmit', () => {
+  describe('sendOfflineMessage', () => {
     let action;
     const mockFormState = {
       name: 'Boromir',
@@ -1014,7 +1014,7 @@ describe('chat redux actions', () => {
     };
 
     beforeEach(() => {
-      mockStore.dispatch(actions.handleOfflineFormSubmit(mockFormState));
+      mockStore.dispatch(actions.sendOfflineMessage(mockFormState));
       action = mockStore.getActions()[0];
     });
 
@@ -1118,9 +1118,9 @@ describe('chat redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches OFFLINE_FORM_BACK_CLICKED action', () => {
+    it('dispatches OFFLINE_FORM_BACK_BUTTON_CLICKED action', () => {
       expect(action.type)
-        .toEqual(actionTypes.OFFLINE_FORM_BACK_CLICKED);
+        .toEqual(actionTypes.OFFLINE_FORM_BACK_BUTTON_CLICKED);
     });
   });
 });

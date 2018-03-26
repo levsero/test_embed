@@ -83,7 +83,7 @@ describe('chat reducer formState offlineForm', () => {
       });
     });
 
-    describe('when a OFFLINE_FORM_BACK_CLICKED action is dispatched', () => {
+    describe('when a OFFLINE_FORM_BACK_BUTTON_CLICKED action is dispatched', () => {
       let mockFormState;
 
       beforeEach(() => {
@@ -95,7 +95,7 @@ describe('chat reducer formState offlineForm', () => {
         };
 
         state = reducer(mockFormState, {
-          type: actionTypes.OFFLINE_FORM_BACK_CLICKED
+          type: actionTypes.OFFLINE_FORM_BACK_BUTTON_CLICKED
         });
       });
 

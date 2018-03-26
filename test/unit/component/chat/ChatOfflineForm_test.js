@@ -163,7 +163,7 @@ describe('ChatOfflineForm component', () => {
     describe('when the screen is the success screen', () => {
       beforeEach(() => {
         const component = instanceRender(
-          <ChatOfflineForm offlineMessage={{ screen: 'success', message: mockFormValues }} />
+          <ChatOfflineForm offlineMessage={{ screen: 'success', details: mockFormValues }} />
         );
 
         result = component.renderSuccess();

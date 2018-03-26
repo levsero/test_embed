@@ -34,7 +34,11 @@ describe('chat reducer offline message', () => {
     let state;
     const mockInitialState = {
       screen: 'main',
-      message: {},
+      details: {
+        name: '',
+        email: '',
+        message: ''
+      },
       error: false
     };
 
@@ -54,7 +58,7 @@ describe('chat reducer offline message', () => {
 
       it('updates the state', () => {
         const expected = {
-          message: {},
+          details: {},
           error: false,
           screen: 'loading'
         };
@@ -64,7 +68,7 @@ describe('chat reducer offline message', () => {
       });
     });
 
-    describe('when a OFFLINE_FORM_REQUEST_SUCCESS action is dispatched', () => {
+    describe('when an OFFLINE_FORM_REQUEST_SUCCESS action is dispatched', () => {
       const payload  = {
         name: 'Boromir',
         email: 'boromir@gondor.nw',
@@ -78,7 +82,7 @@ describe('chat reducer offline message', () => {
       });
 
       it('updates the state with payload and screen', () => {
-        const expected = _.merge({}, mockInitialState, { message: payload, screen: 'success' });
+        const expected = { ...mockInitialState, details: payload, screen: 'success' };
 
         expect(state)
           .toEqual(expected);
@@ -93,22 +97,22 @@ describe('chat reducer offline message', () => {
       });
 
       it('updates the state with error true', () => {
-        const expected = _.merge({}, mockInitialState, { error: true });
+        const expected = { ...mockInitialState, error: true };
 
         expect(state)
           .toEqual(expected);
       });
     });
 
-    describe('when a OFFLINE_FORM_BACK_CLICKED action is dispatched', () => {
+    describe('when a OFFLINE_FORM_BACK_BUTTON_CLICKED action is dispatched', () => {
       beforeEach(() => {
-        const action = { type: actionTypes.OFFLINE_FORM_BACK_CLICKED };
+        const action = { type: actionTypes.OFFLINE_FORM_BACK_BUTTON_CLICKED };
 
         state = reducer(initialState, action);
       });
 
       it('updates the state with screen main', () => {
-        const expected = _.merge({}, mockInitialState, { screen: 'main' });
+        const expected = { ...mockInitialState, screen: 'main' };
 
         expect(state)
           .toEqual(expected);
