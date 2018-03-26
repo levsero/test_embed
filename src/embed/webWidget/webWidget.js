@@ -151,7 +151,7 @@ export default function WebWidgetFactory(name) {
     const zendeskSubdomain = http.getZendeskSubdomain();
 
     if (chatAvailable) {
-      setupChat(config.zopimChat, reduxStore);
+      setupChat(config.zopimChat, reduxStore, globalConfig.brand);
     }
 
     if (talkAvailable) {
@@ -548,10 +548,14 @@ export default function WebWidgetFactory(name) {
     };
   }
 
-  function setupChat(config, store) {
+  function setupChat(config, store, brand) {
     win.zChat = zChat;
 
     zChat.init(makeChatConfig(config));
+
+    if (brand) {
+      zChat.addTag(brand);
+    }
 
     zChat.getFirehose().on('data', (data) => {
       const actionType = data.detail.type ? `websdk/${data.detail.type}` : `websdk/${data.type}`;
