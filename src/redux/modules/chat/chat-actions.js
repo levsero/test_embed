@@ -87,9 +87,7 @@ export function sendMsg(msg, timestamp=Date.now()) {
   return (dispatch, getState) => {
     let visitor = getChatVisitor(getState());
 
-    if (getIsChattingState(getState())) {
-      dispatch(sendMsgRequest(msg, visitor, timestamp));
-    }
+    dispatch(sendMsgRequest(msg, visitor, timestamp));
 
     zChat.sendChatMsg(msg, (err) => {
       visitor = getChatVisitor(getState());
