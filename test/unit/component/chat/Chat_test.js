@@ -6,8 +6,7 @@ describe('Chat component', () => {
   let Chat, prechatFormSettingsProp;
 
   const chatPath = buildSrcPath('component/chat/Chat');
-  const AttachmentBox = noopReactComponent();
-  const ChatMenu = noopReactComponent();
+  const chatConstantsPath = buildSrcPath('constants/chat');
 
   const EMAIL_TRANSCRIPT_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_SCREEN';
   const EMAIL_TRANSCRIPT_SUCCESS_SCREEN = 'widget/chat/EMAIL_TRANSCRIPT_SUCCESS_SCREEN';
@@ -20,7 +19,12 @@ describe('Chat component', () => {
   const endChatSpy = jasmine.createSpy('endChat');
   const translationSpy = jasmine.createSpy('translation').and.callFake(_.identity);
 
+  const AttachmentBox = noopReactComponent('AttachmentBox');
+  const ChatMenu = noopReactComponent('ChatMenu');
   const ChatFeedbackForm = noopReactComponent('ChatFeedbackForm');
+  const ChatReconnectionBubble = noopReactComponent('ChatReconnectionBubble');
+
+  const CONNECTION_STATUSES = requireUncached(chatConstantsPath).CONNECTION_STATUSES;
 
   beforeEach(() => {
     mockery.enable();
@@ -77,6 +81,9 @@ describe('Chat component', () => {
       'component/chat/ChatRatingGroup': {
         ChatRatings: {}
       },
+      'component/chat/ChatReconnectionBubble': {
+        ChatReconnectionBubble: ChatReconnectionBubble
+      },
       'component/loading/LoadingEllipses': {
         LoadingEllipses: noopReactComponent()
       },
@@ -110,7 +117,8 @@ describe('Chat component', () => {
         i18n: { t: translationSpy }
       },
       'constants/chat': {
-        agentBot: 'agent:trigger'
+        agentBot: 'agent:trigger',
+        CONNECTION_STATUSES
       }
     });
 
@@ -1424,6 +1432,39 @@ describe('Chat component', () => {
       it('returns the AttachmentsBox component', () => {
         expect(TestUtils.isElementOfType(component.renderAttachmentsBox(), AttachmentBox))
           .toEqual(true);
+      });
+    });
+  });
+
+  describe('renderChatReconnectionBubble', () => {
+    let connectionStatus,
+      result;
+
+    beforeEach(() => {
+      const component = instanceRender(<Chat connection={connectionStatus} />);
+
+      result = component.renderChatReconnectionBubble();
+    });
+
+    describe('when the connection prop is set to connecting', () => {
+      beforeAll(() => {
+        connectionStatus = CONNECTION_STATUSES.CONNECTING;
+      });
+
+      it('returns the ChatReconnectingBubble component', () => {
+        expect(TestUtils.isElementOfType(result, ChatReconnectionBubble))
+          .toEqual(true);
+      });
+    });
+
+    describe('when the connection prop is not set to connecting', () => {
+      beforeAll(() => {
+        connectionStatus = CONNECTION_STATUSES.CONNECTED;
+      });
+
+      it('returns undefined', () => {
+        expect(result)
+          .toBeUndefined();
       });
     });
   });

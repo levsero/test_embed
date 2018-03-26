@@ -14,6 +14,7 @@ import { ChatFeedbackForm } from 'component/chat/ChatFeedbackForm';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup';
 import { ChatEmailTranscriptPopup } from 'component/chat/ChatEmailTranscriptPopup';
+import { ChatReconnectionBubble } from 'component/chat/ChatReconnectionBubble';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
@@ -59,9 +60,10 @@ import { getPrechatFormFields,
          getQueuePosition,
          getMenuVisible,
          getEditContactDetails,
-         getAgentJoined } from 'src/redux/modules/chat/chat-selectors';
+         getAgentJoined,
+         getConnection } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './Chat.scss';
-import { agentBot } from 'constants/chat';
+import { agentBot, CONNECTION_STATUSES } from 'constants/chat';
 
 const mapStateToProps = (state) => {
   const prechatForm = getPrechatFormSettings(state);
@@ -90,7 +92,8 @@ const mapStateToProps = (state) => {
     queuePosition: getQueuePosition(state),
     editContactDetails: getEditContactDetails(state),
     menuVisible: getMenuVisible(state),
-    agentJoined: getAgentJoined(state)
+    agentJoined: getAgentJoined(state),
+    connection: getConnection(state)
   };
 };
 
@@ -140,7 +143,8 @@ class Chat extends Component {
     updateChatBackButtonVisibility: PropTypes.func,
     updateMenuVisibility: PropTypes.func,
     menuVisible: PropTypes.bool,
-    agentJoined: PropTypes.bool
+    agentJoined: PropTypes.bool,
+    connection: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -168,7 +172,8 @@ class Chat extends Component {
     updateChatBackButtonVisibility: () => {},
     updateMenuVisibility: () => {},
     menuVisible: false,
-    agentJoined: false
+    agentJoined: false,
+    connection: ''
   };
 
   constructor(props) {
@@ -606,6 +611,14 @@ class Chat extends Component {
     );
   }
 
+  renderChatReconnectionBubble = () => {
+    const { connection } = this.props;
+
+    if (connection !== CONNECTION_STATUSES.CONNECTING) return;
+
+    return <ChatReconnectionBubble />;
+  }
+
   render = () => {
     const containerStyle = classNames(
       styles.container,
@@ -624,6 +637,7 @@ class Chat extends Component {
         {this.renderChatContactDetailsPopup()}
         {this.renderAttachmentsBox()}
         {this.renderChatEmailTranscriptPopup()}
+        {this.renderChatReconnectionBubble()}
       </div>
     );
   }
