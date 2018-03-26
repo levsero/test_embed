@@ -3,7 +3,8 @@ import {
   SDK_CHAT_MEMBER_JOIN,
   SDK_CHAT_TYPING,
   SDK_AGENT_UPDATE,
-  SDK_CHAT_MEMBER_LEAVE
+  SDK_CHAT_MEMBER_LEAVE,
+  END_CHAT_REQUEST_SUCCESS
 } from '../chat-action-types';
 
 const initialState = {};
@@ -50,6 +51,8 @@ const agents = (state = initialState, action = {}) => {
         return _.omit(state, [payload.detail.nick]);
       }
       return state;
+    case END_CHAT_REQUEST_SUCCESS:
+      return initialState;
     default:
       return state;
   }
