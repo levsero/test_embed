@@ -355,7 +355,7 @@ class Chat extends Component {
   }
 
   renderAgentTyping = () => {
-    const agentList = _.filter(this.props.agents, (agent) => agent.typing === true);
+    const agentList = _.filter(this.props.agents, (agent, key) => agent.typing && key !== 'agent:trigger');
     let typingNotification;
 
     switch (agentList.length) {

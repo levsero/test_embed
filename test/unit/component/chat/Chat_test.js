@@ -1180,6 +1180,23 @@ describe('Chat component', () => {
       });
     });
 
+    describe('when a trigger agent bot is typing', () => {
+      beforeEach(() => {
+        mockAgents = {
+          'agent:trigger': { display_name: 'agent', typing: true }
+        };
+
+        const component = instanceRender(<Chat chat={{ rating: null }} agents={mockAgents} />);
+
+        agentTypingComponent = component.renderAgentTyping();
+      });
+
+      it('renders nothing', () => {
+        expect(agentTypingComponent)
+          .toBeNull();
+      });
+    });
+
     describe('when two agents are typing a message', () => {
       beforeEach(() => {
         mockAgents = [
