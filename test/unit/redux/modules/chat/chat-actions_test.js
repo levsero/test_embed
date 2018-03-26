@@ -18,6 +18,7 @@ let actions,
   mockSendFile = jasmine.createSpy('sendFile'),
   mockSendEmailTranscript = jasmine.createSpy('sendEmailTranscript'),
   mockSetVisitorDefaultDepartment = jasmine.createSpy('setVisitorDefaultDepartment'),
+  mockSendOfflineMsg = jasmine.createSpy('sendOfflineMsg'),
   showRatingScreen = false,
   getShowRatingScreenSpy = jasmine.createSpy('getShowRatingScreenSpy').and.callFake(() => showRatingScreen),
   getIsChattingSpy = jasmine.createSpy('getIsChatting').and.callFake(() => mockIsChatting);
@@ -58,6 +59,7 @@ describe('chat redux actions', () => {
         sendEmailTranscript: mockSendEmailTranscript,
         setVisitorDefaultDepartment: mockSetVisitorDefaultDepartment,
         isChatting: () => true,
+        sendOfflineMsg: mockSendOfflineMsg,
         _getAccountSettings: () => mockAccountSettings
       },
       'src/redux/modules/base/base-selectors': {
@@ -998,6 +1000,69 @@ describe('chat redux actions', () => {
           expect(successCallbackSpy)
             .not
             .toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
+  describe('handleOfflineFormSubmit', () => {
+    let action;
+    const mockFormState = {
+      name: 'Boromir',
+      email: 'boromir@gondor.nw',
+      message: 'One does not simply walk into Mordor'
+    };
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.handleOfflineFormSubmit(mockFormState));
+      action = mockStore.getActions()[0];
+    });
+
+    it('calls sendOfflineMsg on the Web SDK', () => {
+      expect(mockSendOfflineMsg)
+        .toHaveBeenCalled();
+    });
+
+    it('dispatches OFFLINE_FORM_REQUEST_SENT action', () => {
+      expect(action.type)
+        .toEqual(actionTypes.OFFLINE_FORM_REQUEST_SENT);
+    });
+
+    describe('Web SDK callback', () => {
+      let callbackFn;
+
+      beforeEach(() => {
+        const sendOfflineMsgCalls = mockSendOfflineMsg.calls.mostRecent().args;
+
+        callbackFn = sendOfflineMsgCalls[1];
+      });
+
+      describe('when there are no errors', () => {
+        beforeEach(() => {
+          callbackFn();
+          action = mockStore.getActions()[1];
+        });
+
+        it('dispatches OFFLINE_FORM_REQUEST_SUCCESS action', () => {
+          expect(action.type)
+            .toEqual(actionTypes.OFFLINE_FORM_REQUEST_SUCCESS);
+        });
+
+        it('has the formState as the payload', () => {
+          expect(action.payload)
+            .toEqual(mockFormState);
+        });
+      });
+
+      describe('when there are errors', () => {
+        beforeEach(() => {
+          callbackFn(['error!']);
+          action = mockStore.getActions()[1];
+        });
+
+        it('dispatches OFFLINE_FORM_REQUEST_FAILURE action', () => {
+          expect(action.type)
+            .toEqual(actionTypes.OFFLINE_FORM_REQUEST_FAILURE);
         });
       });
     });

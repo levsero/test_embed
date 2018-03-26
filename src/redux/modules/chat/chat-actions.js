@@ -31,7 +31,10 @@ import {
   RESET_EMAIL_TRANSCRIPT,
   CHAT_OFFLINE_FORM_CHANGED,
   PRE_CHAT_FORM_ON_CHANGE,
-  UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY
+  UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
+  OFFLINE_FORM_REQUEST_FAILURE,
+  OFFLINE_FORM_REQUEST_SUCCESS,
+  OFFLINE_FORM_REQUEST_SENT
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import {
@@ -353,5 +356,21 @@ export function updateContactDetailsVisibility(bool) {
   return {
     type: UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
     payload: bool
+  };
+}
+export function handleOfflineFormSubmit(formState) {
+  return (dispatch) => {
+    dispatch({ type: OFFLINE_FORM_REQUEST_SENT });
+
+    zChat.sendOfflineMsg(formState, (err) => {
+      if (!err) {
+        dispatch({
+          type: OFFLINE_FORM_REQUEST_SUCCESS,
+          payload: formState
+        });
+      } else {
+        dispatch({ type: OFFLINE_FORM_REQUEST_FAILURE });
+      }
+    });
   };
 }
