@@ -206,5 +206,22 @@ describe('chat reducer agents', () => {
         });
       });
     });
+
+    describe('when a END_CHAT_REQUEST_SUCCESS action is dispatched', () => {
+      beforeEach(() => {
+        const currentState = {
+          'agent:cena': {}
+        };
+
+        state = reducer(currentState, {
+          type: actionTypes.END_CHAT_REQUEST_SUCCESS
+        });
+      });
+
+      it('resets reducer to initial state', () => {
+        expect(state)
+          .toEqual({});
+      });
+    });
   });
 });

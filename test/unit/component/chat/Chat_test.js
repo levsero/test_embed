@@ -108,6 +108,9 @@ describe('Chat component', () => {
       },
       'service/i18n': {
         i18n: { t: translationSpy }
+      },
+      'constants/chat': {
+        agentBot: 'agent:trigger'
       }
     });
 
@@ -1177,6 +1180,23 @@ describe('Chat component', () => {
       it('renders a notification that signifies a single agent typing', () => {
         expect(agentTypingComponent.props.children[1])
           .toEqual('embeddable_framework.chat.chatLog.isTyping');
+      });
+    });
+
+    describe('when a trigger agent bot is typing', () => {
+      beforeEach(() => {
+        mockAgents = {
+          'agent:trigger': { display_name: 'agent', typing: true }
+        };
+
+        const component = instanceRender(<Chat chat={{ rating: null }} agents={mockAgents} />);
+
+        agentTypingComponent = component.renderAgentTyping();
+      });
+
+      it('renders nothing', () => {
+        expect(agentTypingComponent)
+          .toBeNull();
       });
     });
 
