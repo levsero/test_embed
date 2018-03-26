@@ -9,7 +9,9 @@ import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
 import { getChatMessagesByAgent,
          getConnection,
+         getOfflineFormSettings,
          getChatOnline,
+         getChatStatus,
          getUserSoundSettings } from 'src/redux/modules/chat/chat-selectors';
 import { getArticleDisplayed } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getActiveEmbed,
@@ -66,13 +68,13 @@ const onNewChatMessage = (prevState, nextState, dispatch) => {
 };
 
 const onChatStatusChange = (prevState, nextState) => {
-  const nextChatStatusOnline = getChatOnline(nextState);
-
-  if (getChatOnline(prevState) !== nextChatStatusOnline) {
-    if (nextChatStatusOnline) {
+  if (getChatStatus(prevState) !== getChatStatus(nextState)) {
+    if (getChatOnline(nextState)) {
       mediator.channel.broadcast('newChat.online');
     } else {
-      mediator.channel.broadcast('newChat.offline');
+      const hideLauncher = !getOfflineFormSettings(nextState).enabled;
+
+      mediator.channel.broadcast('newChat.offline', hideLauncher);
     }
   }
 };

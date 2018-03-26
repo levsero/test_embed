@@ -766,6 +766,20 @@ describe('Frame', () => {
         });
       });
 
+      describe('when options.skipOnClose is true', () => {
+        beforeEach(() => {
+          frame = domRender(<Frame onClose={mockOnClose}>{mockChild}</Frame>);
+
+          spyOn(frame, 'hide');
+          frame.close({}, { skipOnClose: true });
+        });
+
+        it('does not call the onClose handler', () => {
+          expect(mockOnClose)
+            .not.toHaveBeenCalled();
+        });
+      });
+
       describe('when on mobile', () => {
         let mockEvent;
 

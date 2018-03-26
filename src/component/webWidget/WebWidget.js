@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import Chat from 'component/chat/Chat';
-import ChatOfflineForm from 'component/chat/ChatOfflineForm';
+import ChatOffline from 'component/chat/ChatOffline';
 import Talk from 'component/talk/Talk';
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
 import { ChatNotificationPopup } from 'component/chat/ChatNotificationPopup';
@@ -25,7 +25,7 @@ import { getChatAvailable,
          getShowTicketFormsBackButton } from 'src/redux/modules/selectors';
 import { getArticleViewActive,
          getSearchFieldFocused } from 'src/redux/modules/helpCenter/helpCenter-selectors';
-import { getChatNotification, getShowOfflineForm, getIsChatting } from 'src/redux/modules/chat/chat-selectors';
+import { getChatNotification, getShowOfflineChat, getIsChatting } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getZopimChatEmbed,
          getActiveEmbed,
@@ -57,7 +57,7 @@ const mapStateToProps = (state) => {
     ticketForms: getTicketForms(state),
     showTicketFormsBackButton: getShowTicketFormsBackButton(state),
     chatStandalone: getChatStandalone(state),
-    showOfflineForm: getShowOfflineForm(state),
+    showOfflineChat: getShowOfflineChat(state),
     isChatting: getIsChatting(state)
   };
 };
@@ -112,7 +112,7 @@ class WebWidget extends Component {
     articleViewActive: PropTypes.bool.isRequired,
     helpCenterSearchFocused: PropTypes.bool.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
-    showOfflineForm: PropTypes.bool.isRequired,
+    showOfflineChat: PropTypes.bool.isRequired,
     isChatting: PropTypes.bool.isRequired
   };
 
@@ -333,7 +333,7 @@ class WebWidget extends Component {
   }
 
   renderChat = () => {
-    const { activeEmbed, showOfflineForm } = this.props;
+    const { activeEmbed, showOfflineChat } = this.props;
 
     if (activeEmbed !== chat) return;
 
@@ -344,10 +344,11 @@ class WebWidget extends Component {
       );
     };
 
-    return (showOfflineForm)
-      ? <ChatOfflineForm
+    return (showOfflineChat)
+      ? <ChatOffline
           ref={chat}
           updateFrameSize={this.props.updateFrameSize}
+          handleCloseClick={(e) => this.props.closeFrame(e, { skipOnClose: true })}
           isMobile={this.props.fullscreen}
         />
       : <Chat

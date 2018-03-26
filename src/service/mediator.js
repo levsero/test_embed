@@ -58,7 +58,7 @@ const helpCenterAvailable = () => {
 };
 
 const chatAvailable = () => {
-  return state[`${chat}.isOnline`] && !state[`${chat}.isSuppressed`];
+  return (state['.newChat'] || state[`${chat}.isOnline`]) && !state[`${chat}.isSuppressed`];
 };
 
 const submitTicketAvailable = () => {
@@ -219,10 +219,22 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept('newChat.online', () => {
     state[`${chat}.isOnline`] = true;
+
+    if (!submitTicketAvailable() && !helpCenterAvailable() && !talkAvailable() && !state[`${chat}.connectionPending`]) {
+      c.broadcast(`${launcher}.show`, { transition: 'none' });
+    }
   });
 
-  c.intercept('newChat.offline', () => {
+  c.intercept('newChat.offline', (_, hideLauncher) => {
     state[`${chat}.isOnline`] = false;
+
+    if (hideLauncher &&
+        !submitTicketAvailable() &&
+        !helpCenterAvailable() &&
+        !talkAvailable()) {
+      c.broadcast(`${launcher}.hide`, { transition: 'none' });
+      state[`${launcher}.userHidden`] = true;
+    }
   });
 
   c.intercept('.hide', (_, viaIPM = false) => {

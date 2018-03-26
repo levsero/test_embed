@@ -1,28 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import _ from 'lodash';
 import { i18n } from 'service/i18n';
-import classNames from 'classnames';
 
-import { ScrollContainer } from 'component/container/ScrollContainer';
 import { Form } from 'component/form/Form';
 import { Field } from 'component/field/Field';
 import { EmailField } from 'component/field/EmailField';
-import { chatOfflineFormChanged } from 'src/redux/modules/chat';
-import { getChatOfflineForm,
-         getOfflineFormFields } from 'src/redux/modules/chat/chat-selectors';
 
 import { locals as styles } from './ChatOfflineForm.scss';
 
-const mapStateToProps = (state) => {
-  return {
-    formState: getChatOfflineForm(state),
-    formFields: getOfflineFormFields(state)
-  };
-};
-
-class ChatOfflineForm extends Component {
+export class ChatOfflineForm extends Component {
   static propTypes = {
     updateFrameSize: PropTypes.func.isRequired,
     chatOfflineFormChanged: PropTypes.func.isRequired,
@@ -90,7 +77,7 @@ class ChatOfflineForm extends Component {
     );
   }
 
-  renderBody() {
+  render() {
     const submitbuttonText = i18n.t('embeddable_framework.chat.preChat.offline.button.sendMessage');
     const offlineGreetingText = i18n.t('embeddable_framework.chat.preChat.offline.greeting');
 
@@ -110,30 +97,4 @@ class ChatOfflineForm extends Component {
       </Form>
     );
   }
-
-  render() {
-    const { isMobile } = this.props;
-    const scrollContainerClasses = classNames(
-      styles.scrollContainer,
-      { [styles.mobileContainer]: isMobile }
-    );
-
-    setTimeout(() => this.props.updateFrameSize(), 0);
-
-    return (
-      <ScrollContainer
-        ref='scrollContainer'
-        classes={scrollContainerClasses}
-        containerClasses={styles.scrollContainerContent}
-        title={i18n.t('embeddable_framework.chat.title')}>
-        {this.renderBody()}
-      </ScrollContainer>
-    );
-  }
 }
-
-const actionCreators = {
-  chatOfflineFormChanged
-};
-
-export default connect(mapStateToProps, actionCreators, null, { withRef: true })(ChatOfflineForm);

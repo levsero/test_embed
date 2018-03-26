@@ -9,23 +9,3 @@
   composes: u-marginTT from global;
   margin-bottom: #{18/$font-size}rem;
 }
-
-.mobileContainer {
-  height: 100% !important;
-}
-
-.container {
-  height: #{$chat-height/$font-size}rem;
-}
-
-.scrollContainer {
-  composes: container;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.scrollContainerContent {
-  height: 100%;
-  max-height: none;
-}

@@ -3,6 +3,7 @@ describe('onStateChange middleware', () => {
     mockUserSoundSetting,
     mockActiveEmbed,
     mockwidgetShown,
+    mockOfflineFormSettings,
     mockStoreValue;
   const getAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
   const getIsChattingSpy = jasmine.createSpy('getIsChatting');
@@ -19,6 +20,7 @@ describe('onStateChange middleware', () => {
     mockActiveEmbed = '';
     mockwidgetShown = false;
     mockStoreValue = { widgetShown: false };
+    mockOfflineFormSettings = { enabled: false };
 
     initMockRegistry({
       'src/redux/modules/chat': {
@@ -50,7 +52,9 @@ describe('onStateChange middleware', () => {
           }
           return [];
         },
-        getChatOnline: (status) => status === 'online'
+        getChatOnline: (status) => status === 'online',
+        getChatStatus: (status) => status === 'online',
+        getOfflineFormSettings: () => mockOfflineFormSettings
       },
       'src/redux/modules/chat/chat-action-types': {
         IS_CHATTING: 'IS_CHATTING'
@@ -361,13 +365,27 @@ describe('onStateChange middleware', () => {
       });
 
       describe('chatStatus goes from online to offline', () => {
-        beforeEach(() => {
-          stateChangeFn('online', 'offline');
+        describe('when offline form is disabled', () => {
+          beforeEach(() => {
+            stateChangeFn('online', 'offline');
+          });
+
+          it('calls mediator with newChat.offline and true', () => {
+            expect(broadcastSpy)
+              .toHaveBeenCalledWith('newChat.offline', true);
+          });
         });
 
-        it('calls mediator with newChat.offline', () => {
-          expect(broadcastSpy)
-            .toHaveBeenCalledWith('newChat.offline');
+        describe('when offline form is enabled', () => {
+          beforeEach(() => {
+            mockOfflineFormSettings = { enabled: true };
+            stateChangeFn('online', 'offline');
+          });
+
+          it('calls mediator with newChat.offline and false', () => {
+            expect(broadcastSpy)
+              .toHaveBeenCalledWith('newChat.offline', false);
+          });
         });
       });
 

@@ -7,7 +7,7 @@ describe('WebWidget component', () => {
   const clearFormSpy = jasmine.createSpy();
   const webWidgetPath = buildSrcPath('component/webWidget/WebWidget');
 
-  const ChatOfflineForm = connectedComponent(noopReactComponent());
+  const ChatOffline = connectedComponent(noopReactComponent());
 
   beforeEach(() => {
     mockery.enable();
@@ -74,7 +74,7 @@ describe('WebWidget component', () => {
         }
       },
       'component/chat/Chat': connectedComponent(<MockChat />),
-      'component/chat/ChatOfflineForm': ChatOfflineForm,
+      'component/chat/ChatOffline': ChatOffline,
       'component/helpCenter/HelpCenter': connectedComponent(<MockHelpCenter />),
       'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
       'component/talk/Talk': connectedComponent(<MockTalk />),
@@ -224,19 +224,19 @@ describe('WebWidget component', () => {
   describe('renderChat', () => {
     let result;
 
-    describe('when props.showOfflineForm is true', () => {
+    describe('when props.showOfflineChat is true', () => {
       beforeEach(() => {
         const webWidget = instanceRender(
           <WebWidget
             activeEmbed='chat'
-            showOfflineForm={true} />
+            showOfflineChat={true} />
         );
 
         result = webWidget.renderChat();
       });
 
-      it('renders ChatOfflineForm', () => {
-        expect(TestUtils.isElementOfType(result, ChatOfflineForm))
+      it('renders ChatOffline', () => {
+        expect(TestUtils.isElementOfType(result, ChatOffline))
           .toEqual(true);
       });
     });

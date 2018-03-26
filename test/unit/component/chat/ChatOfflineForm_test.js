@@ -25,9 +25,6 @@ describe('ChatOfflineForm component', () => {
           t: _.identity
         }
       },
-      'component/container/ScrollContainer': {
-        ScrollContainer: noopReactComponent()
-      },
       'component/form/Form': {
         Form: Form
       },
@@ -36,18 +33,11 @@ describe('ChatOfflineForm component', () => {
       },
       'component/field/EmailField': {
         EmailField: EmailField
-      },
-      'src/redux/modules/chat': {
-        chatOfflineFormChanged: ''
-      },
-      'src/redux/modules/chat/chat-selectors': {
-        getChatOfflineForm: '',
-        getOfflineFormFields: ''
       }
     });
 
     mockery.registerAllowable(ChatOfflineFormPath);
-    ChatOfflineForm = requireUncached(ChatOfflineFormPath).default.WrappedComponent;
+    ChatOfflineForm = requireUncached(ChatOfflineFormPath).ChatOfflineForm;
   });
 
   afterEach(() => {
@@ -56,54 +46,6 @@ describe('ChatOfflineForm component', () => {
   });
 
   describe('render', () => {
-    let component,
-      result;
-
-    beforeEach(() => {
-      component = instanceRender(<ChatOfflineForm formState={{}} />);
-
-      spyOn(component, 'renderBody');
-
-      result = component.render();
-    });
-
-    it('has a props.containerClasses value', () => {
-      expect(result.props.containerClasses)
-        .toEqual('scrollContainerContentClass');
-    });
-
-    it('has a props.classes value', () => {
-      expect(result.props.classes)
-        .toEqual('scrollContainerClass');
-    });
-
-    it('has a props.title value', () => {
-      expect(result.props.title)
-        .toEqual('embeddable_framework.chat.title');
-    });
-
-    it('calls renderBody', () => {
-      expect(component.renderBody)
-        .toHaveBeenCalled();
-    });
-
-    describe('when the isMobile prop is true', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOfflineForm isMobile={true} formState={{}} />);
-
-        spyOn(component, 'renderBody');
-
-        result = component.render();
-      });
-
-      it('passes the mobile styles to the classes prop', () => {
-        expect(result.props.classes)
-          .toContain('mobileContainerClass');
-      });
-    });
-  });
-
-  describe('renderBody', () => {
     let component,
       result;
 
@@ -120,7 +62,7 @@ describe('ChatOfflineForm component', () => {
       spyOn(component, 'renderPhoneNumberField');
       spyOn(component, 'renderMessageField');
 
-      result = component.renderBody();
+      result = component.render();
     });
 
     it('has a props.formState value', () => {
