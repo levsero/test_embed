@@ -8,14 +8,17 @@ import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
 import { ICONS } from 'constants/shared';
 
-import { getMenuVisible, getShowMenu } from 'src/redux/modules/chat/chat-selectors';
-import { updateMenuVisibility } from 'src/redux/modules/chat/chat-actions';
+import {
+  getMenuVisible as getChatMenuVisible,
+  getShowMenu as getShowChatMenu
+} from 'src/redux/modules/chat/chat-selectors';
+import { updateMenuVisibility as updateChatMenuVisibility } from 'src/redux/modules/chat/chat-actions';
 
 const mapStateToProps = (state) => {
   return {
     backButtonVisible: state.base.backButtonVisible,
-    menuVisible: getMenuVisible(state),
-    useMenu: getShowMenu(state)
+    menuVisible: getChatMenuVisible(state),
+    useMenu: getShowChatMenu(state)
   };
 };
 
@@ -109,7 +112,7 @@ class Navigation extends Component {
 }
 
 const actionCreators = {
-  updateMenuVisibility
+  updateMenuVisibility: updateChatMenuVisibility
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Navigation);
