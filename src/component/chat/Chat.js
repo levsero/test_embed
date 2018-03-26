@@ -323,15 +323,16 @@ class Chat extends Component {
   }
 
   renderChatHeader = () => {
-    const { rating, sendChatRating, concierge, agentJoined } = this.props;
+    const { rating, sendChatRating, concierge, agentJoined, ratingSettings } = this.props;
     // Title in chat refers to the byline and display_name refers to the display title
     const { avatar_path, display_name, title } = concierge;
     const displayName = _.has(display_name, 'toString') ? display_name.toString() : display_name; // eslint-disable-line camelcase
     const byline = _.has(title, 'toString') ? title.toString() : title;
+    const showRating = ratingSettings.enabled && agentJoined;
 
     return (
       <ChatHeader
-        showRating={agentJoined}
+        showRating={showRating}
         rating={rating.value}
         updateRating={sendChatRating}
         avatar={avatar_path} // eslint-disable-line camelcase
@@ -398,10 +399,9 @@ class Chat extends Component {
   }
 
   renderChatScreen = () => {
-    const { screen, ratingSettings, agents, isMobile, sendMsg } = this.props;
+    const { screen, isMobile, sendMsg } = this.props;
 
     if (screen !== screens.CHATTING_SCREEN) return;
-    const showRating = ratingSettings.enabled && _.size(agents) > 0;
     const containerClasses = classNames(
       styles.scrollContainerMessagesContent,
       { [styles.scrollContainerMobile]: isMobile }
@@ -423,7 +423,7 @@ class Chat extends Component {
       <ScrollContainer
         ref={(el) => { this.scrollContainer = el; }}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-        headerContent={this.renderChatHeader(showRating)}
+        headerContent={this.renderChatHeader()}
         headerClasses={styles.header}
         containerClasses={containerClasses}
         footerClasses={footerClasses}
