@@ -30,3 +30,5 @@ export const CHAT_MESSAGE_TYPES = {
   CHAT_MESSAGE_FAILURE: 'CHAT_MESSAGE_FAILURE',
   CHAT_MESSAGE_PENDING: 'CHAT_MESSAGE_PENDING'
 };
+
+export const agentBot = 'agent:trigger';

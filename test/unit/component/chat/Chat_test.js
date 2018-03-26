@@ -108,6 +108,9 @@ describe('Chat component', () => {
       },
       'service/i18n': {
         i18n: { t: translationSpy }
+      },
+      'constants/chat': {
+        agentBot: 'agent:trigger'
       }
     });
 

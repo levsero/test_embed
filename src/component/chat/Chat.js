@@ -58,6 +58,7 @@ import { getPrechatFormFields,
          getQueuePosition,
          getEditContactDetails } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './Chat.scss';
+import { agentBot } from 'constants/chat';
 
 const mapStateToProps = (state) => {
   const prechatForm = getPrechatFormSettings(state);
@@ -355,7 +356,7 @@ class Chat extends Component {
   }
 
   renderAgentTyping = () => {
-    const agentList = _.filter(this.props.agents, (agent, key) => agent.typing && key !== 'agent:trigger');
+    const agentList = _.filter(this.props.agents, (agent, key) => agent.typing && key !== agentBot);
     let typingNotification;
 
     switch (agentList.length) {
