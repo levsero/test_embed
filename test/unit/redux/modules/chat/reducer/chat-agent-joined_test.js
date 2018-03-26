@@ -1,4 +1,4 @@
-describe('chat reducer agent_joined', () => {
+describe('chat reducer agentJoined', () => {
   let reducer,
     actionTypes,
     initialState;
@@ -8,6 +8,12 @@ describe('chat reducer agent_joined', () => {
 
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-agent-joined');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
+
+    initMockRegistry({
+      'constants/chat': {
+        agentBot: 'agent:trigger'
+      }
+    });
 
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);
@@ -70,6 +76,26 @@ describe('chat reducer agent_joined', () => {
         it('sets state to true', () => {
           expect(state)
             .toEqual(true);
+        });
+      });
+
+      describe('when the member is an agent bot', () => {
+        beforeEach(() => {
+          payload = {
+            detail: {
+              nick: 'agent:trigger'
+            }
+          };
+
+          state = reducer(initialState, {
+            type: actionTypes.SDK_CHAT_MEMBER_JOIN,
+            payload: payload
+          });
+        });
+
+        it('does not change the state', () => {
+          expect(state)
+            .toEqual(initialState);
         });
       });
     });
