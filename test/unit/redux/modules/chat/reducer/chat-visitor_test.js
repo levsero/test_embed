@@ -96,6 +96,11 @@ describe('chat reducer visitor', () => {
         expect(state)
           .toEqual(jasmine.objectContaining(payload.detail));
       });
+
+      it('defaults nick to visitor', () => {
+        expect(state)
+          .toEqual(jasmine.objectContaining({ nick: 'visitor' }));
+      });
     });
 
     describe('when a SET_VISITOR_INFO_REQUEST_SUCCESS action is dispatched', () => {
