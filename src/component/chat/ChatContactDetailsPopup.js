@@ -84,7 +84,8 @@ export class ChatContactDetailsPopup extends Component {
       <Field
         fieldContainerClasses={styles.fieldContainer}
         fieldClasses={styles.field}
-        placeholder={i18n.t('embeddable_framework.common.textLabel.name')}
+        labelClasses={styles.fieldLabel}
+        label={i18n.t('embeddable_framework.common.textLabel.name')}
         required={true}
         value={this.state.formState.name}
         name='name'/>
@@ -96,9 +97,11 @@ export class ChatContactDetailsPopup extends Component {
       <EmailField
         fieldContainerClasses={styles.fieldContainer}
         fieldClasses={styles.field}
-        placeholder={i18n.t('embeddable_framework.common.textLabel.email')}
+        labelClasses={styles.fieldLabel}
+        label={i18n.t('embeddable_framework.common.textLabel.email')}
         required={true}
-        value={this.state.formState.email} />
+        value={this.state.formState.email}
+        name='email'/>
     );
   }
 
