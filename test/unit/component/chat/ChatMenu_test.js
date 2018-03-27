@@ -7,10 +7,21 @@ describe('ChatMenu component', () => {
 
     initMockRegistry({
       './ChatMenu.scss': {
-        locals: {}
+        locals: {
+          itemMobile: 'itemMobileClass',
+          item: 'itemClass',
+          container: 'containerClass',
+          containerMobile: 'containerMobileClass'
+        }
       },
       'component/Icon': {
         Icon: noopReactComponent()
+      },
+      'component/button/Button': {
+        Button: noopReactComponent()
+      },
+      'component/Dropzone': {
+        Dropzone: noopReactComponent()
       },
       'component/transition/SlideAppear': {
         SlideAppear: noopReactComponent()
@@ -50,6 +61,23 @@ describe('ChatMenu component', () => {
 
     it('calls props.onSoundClick', () => {
       expect(onSoundClickSpy)
+        .toHaveBeenCalled();
+    });
+  });
+
+  describe('handleSendFileClick', () => {
+    let stopPropagationSpy;
+
+    beforeEach(() => {
+      stopPropagationSpy = jasmine.createSpy('stopPropagation');
+
+      const component = domRender(<ChatMenu />);
+
+      component.handleSendFileClick({ stopPropagation: stopPropagationSpy });
+    });
+
+    it('calls stopPropagation on the event', () => {
+      expect(stopPropagationSpy)
         .toHaveBeenCalled();
     });
   });
@@ -99,6 +127,30 @@ describe('ChatMenu component', () => {
         it('shows email transcript button', () => {
           expect(response.type)
             .toEqual('button');
+        });
+
+        describe('when isMobile is true', () => {
+          beforeEach(() => {
+            component = instanceRender(<ChatMenu isMobile={true} isChatting={true} />);
+            response = component.renderEmailTranscriptButton();
+          });
+
+          it('uses mobile styles', () => {
+            expect(response.props.className)
+              .toEqual('itemMobileClass');
+          });
+        });
+
+        describe('when isMobile is false', () => {
+          beforeEach(() => {
+            component = instanceRender(<ChatMenu isMobile={false} isChatting={true} />);
+            response = component.renderEmailTranscriptButton();
+          });
+
+          it('uses desktop styles', () => {
+            expect(response.props.className)
+              .toEqual('itemClass');
+          });
         });
       });
 
@@ -240,6 +292,204 @@ describe('ChatMenu component', () => {
             .toEqual('Icon--sound-off');
         });
       });
+
+      describe('when isMobile is true', () => {
+        beforeEach(() => {
+          component = instanceRender(<ChatMenu isMobile={true} />);
+          response = component.renderSoundButton();
+        });
+
+        it('uses mobile styles', () => {
+          expect(response.props.className)
+            .toEqual('itemMobileClass');
+        });
+      });
+
+      describe('when isMobile is false', () => {
+        beforeEach(() => {
+          component = instanceRender(<ChatMenu isMobile={false} />);
+          response = component.renderSoundButton();
+        });
+
+        it('uses desktop styles', () => {
+          expect(response.props.className)
+            .toEqual('itemClass');
+        });
+      });
+    });
+
+    describe('attachmentsEnabled', () => {
+      let component, response;
+
+      describe('when attachmentsEnabled is true', () => {
+        beforeEach(() => {
+          component = instanceRender(<ChatMenu attachmentsEnabled={true} />);
+          response = component.renderSendFileButton();
+        });
+
+        it('shows button', () => {
+          expect(response.type)
+            .toEqual('div');
+        });
+      });
+
+      describe('when attachmentsEnabled is false', () => {
+        beforeEach(() => {
+          component = instanceRender(<ChatMenu attachmentsEnabled={false} />);
+          response = component.renderSendFileButton();
+        });
+
+        it('does not show button', () => {
+          expect(response)
+            .toBeNull();
+        });
+      });
+
+      describe('when isMobile is true', () => {
+        beforeEach(() => {
+          component = instanceRender(<ChatMenu attachmentsEnabled={true} isMobile={true} />);
+          response = component.renderSendFileButton();
+        });
+
+        it('uses mobile styles', () => {
+          expect(response.props.children.props.className)
+            .toEqual('itemMobileClass');
+        });
+      });
+
+      describe('when isMobile is false', () => {
+        beforeEach(() => {
+          component = instanceRender(<ChatMenu attachmentsEnabled={true} isMobile={false} />);
+          response = component.renderSendFileButton();
+        });
+
+        it('uses desktop styles', () => {
+          expect(response.props.children.props.className)
+            .toEqual('itemClass');
+        });
+      });
+    });
+  });
+
+  describe('desktop', () => {
+    let response,
+      buttons,
+      contactDetailsOnClickSpy,
+      endChatOnClickSpy;
+
+    beforeEach(() => {
+      contactDetailsOnClickSpy = jasmine.createSpy('contactDetailsOnClick');
+      endChatOnClickSpy = jasmine.createSpy('endChatOnClick');
+
+      const component = instanceRender(
+        <ChatMenu
+          contactDetailsOnClick={contactDetailsOnClickSpy}
+          endChatOnClick={endChatOnClickSpy}
+        />);
+
+      response = component.render();
+      buttons = response.props.children;
+    });
+
+    it('renders the expected container class', () => {
+      expect(response.props.className)
+        .toEqual('containerClass');
+    });
+
+    it('renders sound button as first item', () => {
+      expect(buttons[0].props.children[1].props.type)
+        .toEqual('Icon--sound-off');
+    });
+
+    it('renders contact details button as fourth item with the expected style', () => {
+      const contactDetails = buttons[3];
+
+      expect(contactDetails.props.onClick)
+        .toEqual(contactDetailsOnClickSpy);
+
+      expect(contactDetails.props.className)
+        .toEqual('itemClass');
+    });
+
+    it('renders end chat button as sixth item with the expected style', () => {
+      const endChat = buttons[5];
+
+      expect(endChat.props.onClick)
+        .toEqual(endChatOnClickSpy);
+
+      expect(endChat.props.className)
+        .toEqual('itemClass');
+    });
+  });
+
+  describe('mobile', () => {
+    let response,
+      buttons,
+      goBackClickSpy,
+      contactDetailsOnClickSpy,
+      endChatOnClickSpy;
+
+    beforeEach(() => {
+      goBackClickSpy = jasmine.createSpy('goBackClick');
+      contactDetailsOnClickSpy = jasmine.createSpy('contactDetailsOnClick');
+      endChatOnClickSpy = jasmine.createSpy('endChatOnClick');
+
+      const component = instanceRender(
+        <ChatMenu
+          isMobile={true}
+          contactDetailsOnClick={contactDetailsOnClickSpy}
+          endChatOnClick={endChatOnClickSpy}
+          onGoBackClick={goBackClickSpy}
+        />);
+
+      response = component.render();
+
+      buttons = response.props.children[1].props.children;
+    });
+
+    it('renders the expected container class', () => {
+      expect(response.props.className)
+        .toContain('containerMobileClass');
+    });
+
+    it('renders go back button as first item with expected style', () => {
+      const goBack = buttons[0];
+
+      expect(goBack.props.onClick)
+        .toEqual(goBackClickSpy);
+
+      expect(goBack.props.className)
+        .toEqual('itemMobileClass');
+    });
+
+    it('renders go back button as first item with expected style', () => {
+      const goBack = buttons[0];
+
+      expect(goBack.props.onClick)
+        .toEqual(goBackClickSpy);
+
+      expect(goBack.props.className)
+        .toEqual('itemMobileClass');
+    });
+
+    it('renders contact details button as second with the expected style', () => {
+      const contactDetails = buttons[1];
+
+      expect(contactDetails.props.onClick)
+        .toEqual(contactDetailsOnClickSpy);
+
+      expect(contactDetails.props.className)
+        .toEqual('itemMobileClass');
+    });
+
+    it('renders end chat button as fifth item with the expected style', () => {
+      const endChat = buttons[4];
+
+      expect(endChat.props.onClick)
+        .toEqual(endChatOnClickSpy);
+
+      expect(endChat.props.className)
+        .toEqual('itemMobileClass');
     });
   });
 });
