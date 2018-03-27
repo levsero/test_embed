@@ -1123,4 +1123,23 @@ describe('chat redux actions', () => {
         .toEqual(actionTypes.OFFLINE_FORM_BACK_BUTTON_CLICKED);
     });
   });
+
+  describe('updateMenuVisibility', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateMenuVisibility(false));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type UPDATE_CHAT_MENU_VISIBILITY', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_CHAT_MENU_VISIBILITY);
+    });
+
+    it('has the value of the argument in the payload', () => {
+      expect(action.payload)
+        .toEqual(false);
+    });
+  });
 });

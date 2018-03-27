@@ -6,10 +6,19 @@ import { locals as styles } from './Navigation.scss';
 import { ButtonNav } from 'component/button/ButtonNav';
 import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
+import { ICONS } from 'constants/shared';
+
+import {
+  getMenuVisible as getChatMenuVisible,
+  getShowMenu as getShowChatMenu
+} from 'src/redux/modules/chat/chat-selectors';
+import { updateMenuVisibility as updateChatMenuVisibility } from 'src/redux/modules/chat/chat-actions';
 
 const mapStateToProps = (state) => {
   return {
-    backButtonVisible: state.base.backButtonVisible
+    backButtonVisible: state.base.backButtonVisible,
+    menuVisible: getChatMenuVisible(state),
+    useMenu: getShowChatMenu(state)
   };
 };
 
@@ -20,7 +29,10 @@ class Navigation extends Component {
     handleCloseClick: PropTypes.func,
     hideCloseButton: PropTypes.bool,
     backButtonVisible: PropTypes.bool,
-    useBackButton: PropTypes.bool
+    useBackButton: PropTypes.bool,
+    useMenu: PropTypes.bool,
+    menuVisible: PropTypes.bool,
+    updateMenuVisibility: PropTypes.func
   };
 
   static defaultProps = {
@@ -29,7 +41,10 @@ class Navigation extends Component {
     handleCloseClick: () => {},
     hideCloseButton: false,
     backButtonVisible: false,
-    useBackButton: false
+    useBackButton: false,
+    updateMenuVisibility: () => {},
+    menuVisible: false,
+    useMenu: false
   };
 
   renderNavButton = (options = {}) => {
@@ -51,18 +66,43 @@ class Navigation extends Component {
     );
   }
 
+  handleMenuClick = () => {
+    this.props.updateMenuVisibility(!this.props.menuVisible);
+  }
+
+  renderLeftNavButton = () => {
+    const {
+      fullscreen, useMenu, backButtonVisible, useBackButton, handleBackClick
+    } = this.props;
+
+    if (fullscreen && useMenu) {
+      return (
+        this.renderNavButton({
+          onClick: this.handleMenuClick,
+          icon: ICONS.MENU,
+          position: 'left',
+          isVisible: true
+        })
+      );
+    } else {
+      return (
+        this.renderNavButton({
+          onClick: handleBackClick,
+          icon: ICONS.BACK,
+          position: 'left',
+          isVisible: backButtonVisible && useBackButton
+        })
+      );
+    }
+  }
+
   render = () => {
     return (
       <div>
-        {this.renderNavButton({
-          onClick: this.props.handleBackClick,
-          icon: 'Icon--back',
-          position: 'left',
-          isVisible: this.props.backButtonVisible && this.props.useBackButton
-        })}
+        {this.renderLeftNavButton()}
         {this.renderNavButton({
           onClick: this.props.handleCloseClick,
-          icon: 'Icon--dash',
+          icon: ICONS.DASH,
           position: 'right',
           isVisible: !this.props.hideCloseButton
         })}
@@ -71,4 +111,8 @@ class Navigation extends Component {
   }
 }
 
-export default connect(mapStateToProps, {}, null, { withRef: true })(Navigation);
+const actionCreators = {
+  updateMenuVisibility: updateChatMenuVisibility
+};
+
+export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Navigation);

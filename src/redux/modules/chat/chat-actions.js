@@ -35,7 +35,8 @@ import {
   OFFLINE_FORM_REQUEST_FAILURE,
   OFFLINE_FORM_REQUEST_SUCCESS,
   OFFLINE_FORM_REQUEST_SENT,
-  OFFLINE_FORM_BACK_BUTTON_CLICKED
+  OFFLINE_FORM_BACK_BUTTON_CLICKED,
+  UPDATE_CHAT_MENU_VISIBILITY
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import {
@@ -380,5 +381,12 @@ export function sendOfflineMessage(formState) {
         dispatch({ type: OFFLINE_FORM_REQUEST_FAILURE });
       }
     });
+  };
+}
+
+export function updateMenuVisibility(visible) {
+  return {
+    type: UPDATE_CHAT_MENU_VISIBILITY,
+    payload: visible
   };
 }

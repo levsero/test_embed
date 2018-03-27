@@ -375,3 +375,12 @@
     fill: $zd-color-aluminum;
   }
 }
+
+.Icon--menu {
+  svg {
+    min-width: #{13/$font-size}rem;
+    min-height: #{13/$font-size}rem;
+    height: #{13/$font-size}rem;
+    width: #{13/$font-size}rem;
+  }
+}

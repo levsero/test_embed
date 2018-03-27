@@ -6,6 +6,9 @@ describe('Navigation', () => {
   beforeEach(() => {
     mockery.enable();
 
+    const sharedConstantsPath = buildSrcPath('constants/shared');
+    const ICONS = requireUncached(sharedConstantsPath).ICONS;
+
     initMockRegistry({
       'React': React,
       'component/button/ButtonNav': {
@@ -35,6 +38,16 @@ describe('Navigation', () => {
             return <div className={`${this.props.type} ${this.props.className}`} />;
           }
         }
+      },
+      'src/redux/modules/chat/chat-selectors': {
+        getMenuVisible: () => false,
+        getShowMenu: () => false
+      },
+      'src/redux/modules/chat/chat-actions': {
+        updateMenuVisibility: () => {}
+      },
+      'constants/shared': {
+        ICONS
       }
     });
 
@@ -128,9 +141,37 @@ describe('Navigation', () => {
         navigationNode = ReactDOM.findDOMNode(navigation);
       });
 
-      it('should not render the back button', () => {
+      it('does not render the back button', () => {
         expect(navigationNode.querySelector('.Icon--back'))
           .toBeNull();
+      });
+    });
+
+    describe('when props.useMenu is true and fullscreen', () => {
+      beforeEach(() => {
+        navigation = domRender(<Navigation useMenu={true} fullscreen={true} />);
+        navigationNode = ReactDOM.findDOMNode(navigation);
+      });
+
+      it('does not render the back button', () => {
+        expect(navigationNode.querySelector('.Icon--back'))
+          .toBeNull();
+      });
+    });
+  });
+
+  describe('mobile menu', () => {
+    let navigation, navigationNode;
+
+    describe('when props.useMenu is true and fullscreen', () => {
+      beforeEach(() => {
+        navigation = domRender(<Navigation useMenu={true} fullscreen={true} />);
+        navigationNode = ReactDOM.findDOMNode(navigation);
+      });
+
+      it('renders the menu icon', () => {
+        expect(navigationNode.querySelector('.Icon--menu'))
+          .not.toBeNull();
       });
     });
   });

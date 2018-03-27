@@ -33,6 +33,9 @@ describe('chat selectors', () => {
     getQueuePosition,
     getEditContactDetails,
     getOfflineMessage,
+    getMenuVisible,
+    getShowMenu,
+    CHATTING_SCREEN,
     EDIT_CONTACT_DETAILS_SCREEN;
 
   beforeEach(() => {
@@ -43,12 +46,16 @@ describe('chat selectors', () => {
     const CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS;
 
     EDIT_CONTACT_DETAILS_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_SCREEN;
+    CHATTING_SCREEN = 'chatlog';
 
     initMockRegistry({
       'constants/chat': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS,
         EDIT_CONTACT_DETAILS_SCREEN
+      },
+      './chat-screen-types': {
+        CHATTING_SCREEN
       }
     });
 
@@ -91,6 +98,8 @@ describe('chat selectors', () => {
     getQueuePosition = selectors.getQueuePosition;
     getEditContactDetails = selectors.getEditContactDetails;
     getOfflineMessage = selectors.getOfflineMessage;
+    getMenuVisible = selectors.getMenuVisible;
+    getShowMenu = selectors.getShowMenu;
   });
 
   afterEach(() => {
@@ -1395,6 +1404,62 @@ describe('chat selectors', () => {
     it('returns the current state of the offlineMessage', () => {
       expect(result)
         .toEqual(mockChatSettings.chat.offlineMessage);
+    });
+  });
+
+  describe('getMenuVisible', () => {
+    let result;
+    const mockState = {
+      chat: {
+        menuVisible: true
+      }
+    };
+
+    beforeEach(() => {
+      result = getMenuVisible(mockState);
+    });
+
+    it('returns the current state of menuVisible', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('getShowMenu', () => {
+    let result;
+
+    describe('when current chat screen is CHATTING_SCREEN', () => {
+      beforeEach(() => {
+        const mockState = {
+          chat: {
+            screen: CHATTING_SCREEN
+          }
+        };
+
+        result = getShowMenu(mockState);
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toBe(true);
+      });
+    });
+
+    describe('when current chat screen is not CHATTING_SCREEN', () => {
+      beforeEach(() => {
+        const mockState = {
+          chat: {
+            screen: 'not_chatting_screen'
+          }
+        };
+
+        result = getShowMenu(mockState);
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBe(false);
+      });
     });
   });
 });

@@ -13,7 +13,10 @@ export const ICONS = {
   PREVIEW_PRESENTATION: 'Icon--preview-presentation',
   PREVIEW_SPREADSHEET:  'Icon--preview-spreadsheet',
   PREVIEW_ZIP:          'Icon--preview-zip',
-  SEND_CHAT:            'Icon--sendChat'
+  SEND_CHAT:            'Icon--sendChat',
+  MENU:                 'Icon--menu',
+  DASH:                 'Icon--dash',
+  BACK:                 'Icon--back'
 };
 
 export const FILETYPE_ICONS = {

@@ -12,7 +12,7 @@ const icons = {
   'Icon--thumbDown': require('icons/widget-icon_thumb-down.svg'),
   'Icon--agent-avatar': require('icons/widget-icon_avatar.svg'),
   'Icon--avatar': require('icons/widget-icon_concierge.svg'),
-  'Icon--back': require('icons/widget-icon_back.svg'),
+  [ICONS.BACK]: require('icons/widget-icon_back.svg'),
   'Icon--chevron': require('zd-svg-icons/src/14-chevron.svg'),
   'Icon--channelChoice-contactForm': require('icons/widget-icon_channelChoice-contactForm.svg'),
   'Icon--channelChoice-talk': require('icons/widget-icon_channelChoice-talk.svg'),
@@ -20,7 +20,7 @@ const icons = {
   'Icon--check': require('icons/widget-icon_checkboxCheck.svg'),
   'Icon--clearInput': require('icons/widget-icon_clearInput.svg'),
   'Icon--close': require('icons/widget-icon_close.svg'),
-  'Icon--dash': require('icons/widget-icon_dash.svg'),
+  [ICONS.DASH]: require('icons/widget-icon_dash.svg'),
   [ICONS.ELLIPSIS]: require('icons/widget-icon_ellipsis.svg'),
   [ICONS.SEND_CHAT]: require('icons/widget-icon_sendChat.svg'),
   [ICONS.END_CHAT]: require('icons/widget-icon_endChat.svg'),
@@ -45,6 +45,7 @@ const icons = {
   'Icon--link-external': require('zd-svg-icons/src/14-link-external.svg'),
   'Icon--checkmark-fill': require('zd-svg-icons/src/14-checkmark-fill.svg'),
   'Icon--remove': require('zd-svg-icons/src/14-remove.svg'),
+  [ICONS.MENU]: require('icons/widget-icon_menu.svg'),
   [ICONS.ERROR_FILL]: require('zd-svg-icons/src/14-error-fill.svg')
 };
 
