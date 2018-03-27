@@ -148,6 +148,7 @@ export class ChatPrechatForm extends Component {
         options={departments}
         onChange={this.handleFormChange}
         placeholderNode={placeholderNode}
+        disableMenuUp={true}
       />
     );
   }
