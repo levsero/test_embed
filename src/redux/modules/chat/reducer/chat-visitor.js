@@ -19,7 +19,8 @@ const visitor = (state = initialState, action = {}) => {
     case SDK_VISITOR_UPDATE:
       return {
         ...state,
-        ...payload.detail
+        ...payload.detail,
+        nick: payload.detail.nick || 'visitor'
       };
     case SET_VISITOR_INFO_REQUEST_SUCCESS:
       return {
