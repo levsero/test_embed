@@ -38,7 +38,7 @@ export class ChatHeader extends Component {
   render = () => {
     const { avatar, title, byline, showRating } = this.props;
     const avatarPath = avatar ? avatar : '';
-    const titleText = title ? title : i18n.t('embeddable_framework.chat.header.default.title');
+    const titleText = title ? title : i18n.t('embeddable_framework.chat.header.title');
     const subText = byline ? byline : i18n.t('embeddable_framework.chat.header.subText');
     const ratingButtons = showRating ? this.renderRatingButtons() : null;
 

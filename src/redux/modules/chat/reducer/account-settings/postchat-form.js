@@ -11,8 +11,8 @@ const postchatForm = (state = initialState, action) => {
       const { header, message } = action.payload.forms.post_chat_form;
 
       return {
-        header: header ? header.toString() : '',
-        message: message ? message.toString(): ''
+        header: header.toString(),
+        message: message.toString()
       };
     default:
       return state;
