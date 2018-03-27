@@ -8,7 +8,12 @@ export class ImageMessage extends Component {
   static propTypes = {
     className: PropTypes.string,
     imgSrc: PropTypes.string,
-    placeholderEl: PropTypes.element
+    placeholderEl: PropTypes.element,
+    handleImageLoad: PropTypes.func
+  };
+
+  static defaultProps = {
+    handleImageLoad: () => {}
   };
 
   constructor() {
@@ -18,6 +23,7 @@ export class ImageMessage extends Component {
 
   onLoad = () => {
     this.setState({ loading: false });
+    this.props.handleImageLoad();
   }
 
   render() {

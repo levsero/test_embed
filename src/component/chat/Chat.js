@@ -193,11 +193,7 @@ class Chat extends Component {
     const reRenderChatLog = screen !== nextScreen || chatLogLength !== nextChatLogLength;
 
     if (nextScreen === screens.CHATTING_SCREEN && reRenderChatLog) {
-      setTimeout(() => {
-        if (this.scrollContainer) {
-          this.scrollContainer.scrollToBottom();
-        }
-      }, 0);
+      this.scrollToBottom();
     }
     if (nextProps.emailTranscript.screen !== screens.EMAIL_TRANSCRIPT_SCREEN &&
         nextProps.emailTranscript.screen !== this.props.emailTranscript.screen) {
@@ -209,6 +205,14 @@ class Chat extends Component {
 
   toggleMenu = () => {
     this.props.updateMenuVisibility(!this.props.menuVisible);
+  }
+
+  scrollToBottom = () => {
+    setTimeout(() => {
+      if (this.scrollContainer) {
+        this.scrollContainer.scrollToBottom();
+      }
+    }, 0);
   }
 
   onContainerClick = () => {
@@ -438,6 +442,7 @@ class Chat extends Component {
             chatCommentLeft={!!this.props.rating.comment}
             goToFeedbackScreen={() => this.props.updateChatScreen(screens.FEEDBACK_SCREEN)}
             handleSendMsg={sendMsg}
+            handleImageLoad={this.scrollToBottom}
           />
           {this.renderQueuePosition()}
           {this.renderAgentTyping()}

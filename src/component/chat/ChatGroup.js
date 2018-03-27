@@ -21,13 +21,15 @@ export class ChatGroup extends Component {
     isAgent: PropTypes.bool.isRequired,
     avatarPath: PropTypes.string,
     showAvatar: PropTypes.bool.isRequired,
-    handleSendMsg: PropTypes.func
+    handleSendMsg: PropTypes.func,
+    handleImageLoad: PropTypes.func
   };
 
   static defaultProps = {
     messages: [],
     isAgent: false,
-    handleSendMsg: () => {}
+    handleSendMsg: () => {},
+    handleImageLoad: () => {}
   };
 
   renderName = (isAgent, showAvatar, messages) => {
@@ -153,6 +155,7 @@ export class ChatGroup extends Component {
         <ImageMessage
           imgSrc={file.url}
           placeholderEl={placeholderEl}
+          handleImageLoad={this.props.handleImageLoad}
         />
       );
     }

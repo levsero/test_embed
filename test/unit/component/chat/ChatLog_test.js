@@ -83,6 +83,7 @@ describe('ChatLog component', () => {
   describe('#render', () => {
     const chatCommentLeft = false;
     const goToFeedbackScreenSpy = jasmine.createSpy('goToFeedbackScreen');
+    const handleImageLoadSpy = jasmine.createSpy('handleImageLoad');
 
     let component;
     let chatLog = {
@@ -101,6 +102,7 @@ describe('ChatLog component', () => {
           chatCommentLeft={chatCommentLeft}
           goToFeedbackScreen={goToFeedbackScreenSpy}
           handleSendMsg={sendMsg}
+          handleImageLoad={handleImageLoadSpy}
         />);
 
       spyOn(component, 'renderChatLog');
@@ -108,7 +110,7 @@ describe('ChatLog component', () => {
     });
 
     it('calls renderChatLog with the correct args', () => {
-      expect(component.renderChatLog).toHaveBeenCalledWith(chatLog, agents, chatCommentLeft, goToFeedbackScreenSpy, showAvatar, sendMsg);
+      expect(component.renderChatLog).toHaveBeenCalledWith(chatLog, agents, chatCommentLeft, goToFeedbackScreenSpy, showAvatar, sendMsg, handleImageLoadSpy);
     });
   });
 
