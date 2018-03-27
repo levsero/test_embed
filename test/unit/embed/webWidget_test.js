@@ -28,8 +28,9 @@ describe('embed.webWidget', () => {
   const revokeSpy = jasmine.createSpy();
   const getTicketFormsSpy = jasmine.createSpy('ticketForms');
   const getTicketFieldsSpy = jasmine.createSpy('ticketFields');
-  const zChatInitSpy = jasmine.createSpy();
-  const zChatFirehoseSpy = jasmine.createSpy().and.callThrough();
+  const zChatInitSpy = jasmine.createSpy('zChatInit');
+  const zChatAddTagSpy = jasmine.createSpy('zChatAddTag');
+  const zChatFirehoseSpy = jasmine.createSpy('zChatFirehose').and.callThrough();
   const callMeScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
 
   beforeEach(() => {
@@ -147,6 +148,7 @@ describe('embed.webWidget', () => {
       },
       'chat-web-sdk': {
         init: zChatInitSpy,
+        addTag: zChatAddTagSpy,
         getFirehose: () => {
           return {
             on: zChatFirehoseSpy
@@ -748,10 +750,10 @@ describe('embed.webWidget', () => {
     });
 
     describe('setUpChat', () => {
+      const chatConfig = { zopimId: '123abc' };
+
       /* eslint-disable camelcase */
       beforeEach(() => {
-        const chatConfig = { zopimId: '123abc' };
-
         webWidget.create('', { zopimChat: chatConfig });
 
         faythe = webWidget.get();
@@ -770,6 +772,24 @@ describe('embed.webWidget', () => {
       it('sets up firehose data', () => {
         expect(zChatFirehoseSpy)
           .toHaveBeenCalled();
+      });
+
+      describe('when brand does not exist in config', () => {
+        it('does not call zChat.addTag', () => {
+          expect(zChatAddTagSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when brand does exist in config', () => {
+        beforeEach(() => {
+          webWidget.create('', { zopimChat: chatConfig, brand: 'z3n' });
+        });
+
+        it('calls zChat.addTag with the brand', () => {
+          expect(zChatAddTagSpy)
+            .toHaveBeenCalledWith('z3n');
+        });
       });
 
       describe('when in staging', () => {
