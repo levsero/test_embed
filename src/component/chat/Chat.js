@@ -116,6 +116,7 @@ class Chat extends Component {
     setDepartment: PropTypes.func.isRequired,
     handleChatBoxChange: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
+    onBackButtonClick: PropTypes.func,
     getAccountSettings: PropTypes.func.isRequired,
     sendChatRating: PropTypes.func.isRequired,
     sendChatComment: PropTypes.func.isRequired,
@@ -148,6 +149,7 @@ class Chat extends Component {
     isMobile: false,
     position: 'right',
     updateFrameSize: () => {},
+    onBackButtonClick: () => {},
     getAccountSettings: () => {},
     concierge: {},
     rating: {},
@@ -247,7 +249,11 @@ class Chat extends Component {
     const {
       userSoundSettings,
       isChatting,
-      handleSoundIconClick
+      handleSoundIconClick,
+      attachmentsEnabled,
+      sendAttachments,
+      onBackButtonClick,
+      isMobile
     } = this.props;
     const showChatEndFn = (e) => {
       e.stopPropagation();
@@ -277,11 +283,15 @@ class Chat extends Component {
         show={this.props.menuVisible}
         playSound={userSoundSettings}
         disableEndChat={!isChatting}
+        attachmentsEnabled={attachmentsEnabled}
+        onGoBackClick={onBackButtonClick}
+        onSendFileClick={sendAttachments}
         endChatOnClick={showChatEndFn}
         contactDetailsOnClick={showContactDetailsFn}
         emailTranscriptOnClick={showEmailTranscriptFn}
         onSoundClick={toggleSoundFn}
-        isChatting={this.props.isChatting} />
+        isChatting={isChatting}
+        isMobile={isMobile} />
     );
   }
 

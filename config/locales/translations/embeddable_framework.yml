@@ -344,6 +344,16 @@ parts:
       screenshot: "https://drive.google.com/open?id=1JwCe7SCpWieHWMyw1pPi6SsHQ3YwWqwG"
       value: "Send Another"
   - translation:
+      key: "embeddable_framework.chat.options.goBack"
+      title: "One of the options that is presented in chat when the user clicks on the menu icon"
+      screenshot: "https://drive.google.com/open?id=1L8wTYsPNunv77KxBfAYwLW6u_vOK4piF"
+      value: "Go back to Help Center"
+  - translation:
+      key: "embeddable_framework.chat.options.sendFile"
+      title: "One of the options that is presented in chat when the user clicks on the menu icon"
+      screenshot: "https://drive.google.com/open?id=16wJvq_fPhkhlpBAqIz8kzdwHE_dK4-u7"
+      value: "Send file"
+  - translation:
       key: "embeddable_framework.chat.options.yourProfile"
       title: "One of the options that is presented in chat when the user clicks on the ellipses icon. It describes the ability to edit the user's own profile attributes such as name, email and potentially other details."
       screenshot: "https://zendesk.box.com/s/ujva92iwya5cwseu3lpizsytm7y6i200"
