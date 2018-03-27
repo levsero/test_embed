@@ -56,6 +56,9 @@ describe('chat selectors', () => {
       },
       './chat-screen-types': {
         CHATTING_SCREEN
+      },
+      'src/redux/modules/base/base-selectors': {
+        getActiveEmbed: (state) => state.base.embed
       }
     });
 
@@ -1433,6 +1436,9 @@ describe('chat selectors', () => {
         const mockState = {
           chat: {
             screen: CHATTING_SCREEN
+          },
+          base: {
+            embed: 'chat'
           }
         };
 
@@ -1450,6 +1456,29 @@ describe('chat selectors', () => {
         const mockState = {
           chat: {
             screen: 'not_chatting_screen'
+          },
+          base: {
+            embed: 'chat'
+          }
+        };
+
+        result = getShowMenu(mockState);
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toBe(false);
+      });
+    });
+
+    describe('when current screen is not chat', () => {
+      beforeEach(() => {
+        const mockState = {
+          chat: {
+            screen: CHATTING_SCREEN
+          },
+          base: {
+            embed: 'not_chat'
           }
         };
 
