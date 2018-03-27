@@ -15,7 +15,7 @@
 
 .ctaContainer {
   composes: u-flexJustifyCenter u-flex from global;
-  padding-bottom: #{16/$font-size}rem !important;
+  padding-bottom: #{20/$font-size}rem !important;
 }
 
 .ctaButton {
