@@ -3,6 +3,7 @@
 .feedbackMessage {
   composes: u-block u-textBold from global;
   margin-top: #{60/$font-size}rem;
+  margin-bottom: #{10/$font-size}rem;
 }
 
 .buttonGroup {

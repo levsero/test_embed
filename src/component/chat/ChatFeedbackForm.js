@@ -59,7 +59,9 @@ export class ChatFeedbackForm extends Component {
 
     return (
       <div>
-        <label className={styles.feedbackMessage}>{feedbackMessage}</label>
+        <label className={styles.feedbackMessage}>
+          {feedbackMessage || i18n.t('embeddable_framework.chat.postChat.rating.title')}
+        </label>
         <ChatRatingGroup
           className={styles.chatRatingGroup}
           rating={this.state.selectedRating}
