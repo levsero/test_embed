@@ -53,8 +53,8 @@ export class ChatEmailTranscriptPopup extends Component {
     this.form = null;
   }
 
-  componentWillReceiveProps(nextProp) {
-    const email = _.get(nextProp.visitor, 'email', '');
+  componentWillReceiveProps(nextProps) {
+    const email = _.get(nextProps.visitor, 'email', '');
 
     this.setState({
       formState: { email }

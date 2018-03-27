@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { document as doc } from 'utility/globals';
 import { i18n } from 'service/i18n';
-import { emailValid } from 'src/util/utils';
+import { emailValid, chatNameDefault } from 'src/util/utils';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { EmailField } from 'component/field/EmailField';
 import { Field } from 'component/field/Field';
@@ -46,20 +46,23 @@ export class ChatContactDetailsPopup extends Component {
       valid: emailValid(email),
       formState: {
         email,
-        name
+        name: chatNameDefault(name) ? '' : name
       }
     };
 
     this.form = null;
   }
 
-  componentWillReceiveProps(nextProp) {
-    const email = _.get(nextProp.visitor, 'email', '');
-    const name = _.get(nextProp.visitor, 'display_name', '');
+  componentWillReceiveProps(nextProps) {
+    const email = _.get(nextProps.visitor, 'email', '');
+    const name = _.get(nextProps.visitor, 'display_name', '');
 
     this.setState({
       valid: emailValid(email),
-      formState: { email, name }
+      formState: {
+        email,
+        name: chatNameDefault(name) ? '' : name
+      }
     });
   }
 
