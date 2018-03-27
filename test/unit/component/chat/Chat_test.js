@@ -641,41 +641,15 @@ describe('Chat component', () => {
       });
 
       describe('the renderChatHeader call', () => {
-        const mockAgents = { agent_id: { display_name: 'James', typing: false }};
-        const setupComponentAndRenderChatScreen = (ratingsEnabled, agents) => {
-          component = renderChatComponent(ratingsEnabled, agents);
+        beforeEach(() => {
+          component = instanceRender(<Chat screen={chattingScreen} />);
           spyOn(component, 'renderChatHeader');
           component.renderChatScreen();
-        };
-
-        describe('when the ratings setting is enabled and there are agents in the chat', () => {
-          beforeEach(() => {
-            setupComponentAndRenderChatScreen(true, mockAgents);
-          });
-
-          it('is made with the showRatings argument set to true', () => {
-            expect(component.renderChatHeader).toHaveBeenCalledWith(true);
-          });
         });
 
-        describe('when the ratings setting is disabled', () => {
-          beforeEach(() => {
-            setupComponentAndRenderChatScreen(false, mockAgents);
-          });
-
-          it('is made with the showRatings argument set to false', () => {
-            expect(component.renderChatHeader).toHaveBeenCalledWith(false);
-          });
-        });
-
-        describe('when there are no agents in the chat', () => {
-          beforeEach(() => {
-            setupComponentAndRenderChatScreen(true, {});
-          });
-
-          it('is made with the showRatings argument set to false', () => {
-            expect(component.renderChatHeader).toHaveBeenCalledWith(false);
-          });
+        it('calls renderChatHeader', () => {
+          expect(component.renderChatHeader)
+            .toHaveBeenCalled();
         });
       });
     });
@@ -1272,6 +1246,74 @@ describe('Chat component', () => {
       it('renders a notification that signifies multiple agents typing', () => {
         expect(agentTypingComponent.props.children[1])
           .toEqual('embeddable_framework.chat.chatLog.isTyping_multiple');
+      });
+    });
+  });
+
+  describe('renderChatHeader', () => {
+    let agentJoined,
+      ratingSettings,
+      chatHeaderComponent;
+
+    beforeEach(() => {
+      const component = instanceRender(<Chat ratingSettings={ratingSettings} agentJoined={agentJoined} />);
+
+      chatHeaderComponent = component.renderChatHeader();
+    });
+
+    describe('when agent has joined', () => {
+      beforeAll(() => {
+        agentJoined = true;
+      });
+
+      describe('when rating settings enabled', () => {
+        beforeAll(() => {
+          ratingSettings = { enabled: true };
+        });
+
+        it('show rating', () => {
+          expect(chatHeaderComponent.props.showRating)
+            .toEqual(true);
+        });
+      });
+
+      describe('when rating settings not enabled', () => {
+        beforeAll(() => {
+          ratingSettings = { enabled: false };
+        });
+
+        it('do not show rating', () => {
+          expect(chatHeaderComponent.props.showRating)
+            .toEqual(false);
+        });
+      });
+    });
+
+    describe('when agent has not joined', () => {
+      beforeAll(() => {
+        agentJoined = false;
+      });
+
+      describe('when rating settings enabled', () => {
+        beforeAll(() => {
+          ratingSettings = { enabled: true };
+        });
+
+        it('do not show rating', () => {
+          expect(chatHeaderComponent.props.showRating)
+            .toEqual(false);
+        });
+      });
+
+      describe('when rating settings not enabled', () => {
+        beforeAll(() => {
+          ratingSettings = { enabled: false };
+        });
+
+        it('do not show rating', () => {
+          expect(chatHeaderComponent.props.showRating)
+            .toEqual(false);
+        });
       });
     });
   });
