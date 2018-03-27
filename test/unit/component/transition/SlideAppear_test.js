@@ -1,5 +1,5 @@
-describe('SlideUpAppear component', () => {
-  let SlideUpAppear;
+describe('SlideAppear component', () => {
+  let SlideAppear;
 
   beforeEach(() => {
     mockery.enable();
@@ -10,10 +10,10 @@ describe('SlideUpAppear component', () => {
       }
     });
 
-    const SlideUpAppearPath = buildSrcPath('component/transition/SlideUpAppear');
+    const SlideAppearPath = buildSrcPath('component/transition/SlideAppear');
 
-    mockery.registerAllowable(SlideUpAppearPath);
-    SlideUpAppear = requireUncached(SlideUpAppearPath).SlideUpAppear;
+    mockery.registerAllowable(SlideAppearPath);
+    SlideAppear = requireUncached(SlideAppearPath).SlideAppear;
   });
 
   afterEach(() => {
@@ -25,7 +25,7 @@ describe('SlideUpAppear component', () => {
     let component;
 
     beforeEach(() => {
-      component = instanceRender(<SlideUpAppear onClick={() => 'click'} onExited={() => 'exited'}/>);
+      component = instanceRender(<SlideAppear onClick={() => 'click'} onExited={() => 'exited'}/>);
     });
 
     it('uses onExited prop', () => {

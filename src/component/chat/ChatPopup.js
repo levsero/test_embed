@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Icon } from 'component/Icon';
 import { Button } from 'component/button/Button';
-import { SlideUpAppear } from 'component/transition/SlideUpAppear';
+import { SlideAppear } from 'component/transition/SlideAppear';
 
 import { locals as styles } from './ChatPopup.scss';
 import classNames from 'classnames';
@@ -103,7 +103,7 @@ export class ChatPopup extends Component {
     );
 
     return (
-      <SlideUpAppear
+      <SlideAppear
         className={`${className} ${styles.containerWrapper}`}
         trigger={this.props.show}
         onClick={this.onContainerClick}
@@ -113,7 +113,7 @@ export class ChatPopup extends Component {
           {this.renderCta()}
           {this.renderCloseIcon()}
         </div>
-      </SlideUpAppear>
+      </SlideAppear>
     );
   }
 }
