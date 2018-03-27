@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { locals as styles } from './ChatFooter.scss';
 import classNames from 'classnames';
 
-import { Icon } from 'component/Icon';
+import { Icon, IconButton } from 'component/Icon';
 import { Dropzone } from 'component/Dropzone';
 
 import { ICONS } from 'constants/shared';
@@ -49,7 +49,7 @@ export class ChatFooter extends Component {
     );
 
     return (
-      <Icon
+      <IconButton
         type={ICONS.END_CHAT}
         className={endChatClasses}
         onClick={this.handleEndChatClick} />
@@ -80,7 +80,7 @@ export class ChatFooter extends Component {
     );
 
     return (
-      <Icon
+      <IconButton
         type={ICONS.ELLIPSIS}
         className={menuClasses}
         onClick={this.handleMenuClick} />
@@ -89,7 +89,7 @@ export class ChatFooter extends Component {
 
   renderSendChatOption = () => {
     return (
-      <Icon
+      <IconButton
         type={ICONS.SEND_CHAT}
         className={`${styles.iconSendChat} ${styles.iconSendChatMobile}`}
         onClick={this.props.sendChat} />

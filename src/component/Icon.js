@@ -78,3 +78,39 @@ export class Icon extends Component {
     );
   }
 }
+
+export class IconButton extends Component {
+  static propTypes = {
+    altText: PropTypes.string.isRequired,
+    buttonClassName: PropTypes.string,
+    className: PropTypes.string,
+    isMobile: PropTypes.bool,
+    onClick: PropTypes.func,
+    type: PropTypes.string.isRequired
+  };
+
+  static defaultProps = {
+    className: '',
+    buttonClassName: '',
+    isMobile: isMobileBrowser(),
+    onClick: () => {}
+  };
+
+  render() {
+    const { altText, buttonClassName, onClick, ...iconProps } = this.props;
+
+    return (
+      <button
+        type="button"
+        className={`${buttonClassName} ${styles.button}`}
+        onClick={onClick}
+        title={altText}
+      >
+        <Icon {...iconProps} />
+        <span className={styles.altText}>
+          {altText}
+        </span>
+      </button>
+    );
+  }
+}

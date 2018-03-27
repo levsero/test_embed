@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { i18n } from 'service/i18n';
+<<<<<<< HEAD
 import { Icon } from 'component/Icon';
 import { Button } from 'component/button/Button';
 import { Dropzone } from 'component/Dropzone';
 import { SlideAppear } from 'component/transition/SlideAppear';
+=======
+import { IconButton } from 'component/Icon';
+import { SlideUpAppear } from 'component/transition/SlideUpAppear';
+>>>>>>> Add IconButton component for accessible clickable icons
 
 import { locals as styles } from './ChatMenu.scss';
 import classNames from 'classnames';
@@ -55,10 +60,13 @@ export class ChatMenu extends Component {
     const iconType = this.props.playSound ? 'Icon--sound-on' : 'Icon--sound-off';
 
     return (
-      <button className={this.getItemClasses()} onClick={this.handleSoundClick}>
-        {i18n.t('embeddable_framework.chat.options.sound')}
-        <Icon className={styles.soundIcon} type={iconType} />
-      </button>
+      <IconButton
+        altText={i18n.t('embeddable_framework.chat.options.sound')}
+        buttonClassName={this.getItemClasses()}
+        className={styles.soundIcon}
+        onClick={this.handleSoundClick}
+        type={iconType}
+      />
     );
   }
 
