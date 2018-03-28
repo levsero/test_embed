@@ -92,3 +92,8 @@
   composes: u-textCenter from global;
   color: $zd-color-aluminum;
 }
+
+.agentListBackButton {
+  width: 100%;
+  max-width: unset;
+}
