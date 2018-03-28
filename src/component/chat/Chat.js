@@ -196,6 +196,8 @@ class Chat extends Component {
     if (screen === screens.CHATTING_SCREEN && hasMessages) {
       this.scrollToBottom();
     }
+
+    this.props.updateChatBackButtonVisibility();
   }
 
   componentWillReceiveProps = (nextProps) => {
