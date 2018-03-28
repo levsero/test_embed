@@ -39,7 +39,8 @@ export class Dropdown extends Component {
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
     onMenuChange: PropTypes.func,
-    placeholderNode: PropTypes.node
+    placeholderNode: PropTypes.node,
+    disableMenuUp: PropTypes.bool
   }
 
   static defaultProps = {
@@ -66,7 +67,8 @@ export class Dropdown extends Component {
     onBlur: () => {},
     onMouseEnter: () => {},
     onMouseLeave: () => {},
-    onMenuChange: () => {}
+    onMenuChange: () => {},
+    disableMenuUp: false
   }
 
   constructor (props) {
@@ -304,13 +306,17 @@ export class Dropdown extends Component {
     }
 
     const mobileClasses = this.props.fullscreen ? styles.menuContainerMobile : '';
+    let posClasses = '';
 
-    // If the dropdown is below half the height of the frame have it open up.
-    const frameHeightValue = this.props.getFrameDimensions().height;
-    const frameHeight = frameHeightValue === '100%' || !frameHeightValue
-                 ? document.documentElement.clientHeight
-                 : frameHeightValue;
-    const posClasses = this.height > frameHeight/2 ? styles.menuUp : '';
+    if (!this.props.disableMenuUp) {
+      // If the dropdown is below half the height of the frame have it open up.
+      const frameHeightValue = this.props.getFrameDimensions().height;
+      const frameHeight = frameHeightValue === '100%' || !frameHeightValue
+        ? document.documentElement.clientHeight
+        : frameHeightValue;
+
+      posClasses = this.height > frameHeight/2 ? styles.menuUp : '';
+    }
 
     const containerClasses = `
       ${styles.menuContainer}
