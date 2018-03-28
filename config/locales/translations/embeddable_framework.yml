@@ -156,6 +156,12 @@ parts:
       key: "embeddable_framework.chat.reconnecting.label"
       title: "The title that displays in the chat reconnecting message bubble"
       value: "Reconnecting"
+      obsolete: "2017-05-01"
+  - translation:
+      key: "embeddable_framework.chat.reconnecting"
+      title: "A text displayed on a persistent popup notification when the user's chat session has disconnected. It goes away after successful reconnection"
+      screenshot: "https://drive.google.com/file/d/1f5aC8HbAr7dyddzResi0s0ss67lH8iZl"
+      value: "Reconnecting..."
   - translation:
       key: "embeddable_framework.chat.emailtranscript.failure_message"
       title: "The message that appears when an email was not successfully registered for sending a chat transcript."
@@ -458,6 +464,7 @@ parts:
       title: "A text displayed on a persistent popup notification when the user's chat session has disconnected. It goes away after successful reconnection"
       screenshot: "https://zendesk.box.com/s/2953g3t145nd7u5fngbpoqrhnp5pmx14"
       value: "Reconnecting"
+      obsolete: "2017-05-01"
   - translation:
       key: "embeddable_framework.chat.chatLog.sending"
       title: "A text that is displayed at the bottom of an attachment signifying that its in the process of being sent to the server."
