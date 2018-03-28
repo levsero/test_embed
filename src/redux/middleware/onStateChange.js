@@ -19,6 +19,7 @@ import { getActiveEmbed,
 import { store } from 'service/persistence';
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown');
+let chatAccountSettingsFetched = false;
 
 const handleNotificationCounter = (nextState, dispatch) => {
   const activeEmbed = getActiveEmbed(nextState);
@@ -33,9 +34,12 @@ const handleNotificationCounter = (nextState, dispatch) => {
 };
 
 const onChatConnected = (prevState, nextState, dispatch) => {
-  if (getConnection(prevState) === 'connecting' && getConnection(nextState) !== 'connecting') {
+  if (getConnection(prevState) === 'connecting'
+      && getConnection(nextState) !== 'connecting'
+      && !chatAccountSettingsFetched) {
     dispatch(getAccountSettings());
     dispatch(getIsChatting());
+    chatAccountSettingsFetched = true;
     mediator.channel.broadcast('newChat.connected', showOnLoad);
   }
 };
