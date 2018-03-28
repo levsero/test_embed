@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { document as doc } from 'utility/globals';
 import { i18n } from 'service/i18n';
-import { emailValid } from 'src/util/utils';
+import { emailValid, chatNameDefault } from 'src/util/utils';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { EmailField } from 'component/field/EmailField';
 import { Field } from 'component/field/Field';
@@ -40,17 +40,30 @@ export class ChatContactDetailsPopup extends Component {
   constructor(props) {
     super(props);
     const email = _.get(props.visitor, 'email', '');
-    const name = _.get(props.visitor, 'name', '');
+    const name = _.get(props.visitor, 'display_name', '');
 
     this.state = {
-      valid: emailValid(email) && !!name.trim(),
+      valid: emailValid(email, { allowEmpty: true }),
       formState: {
         email,
-        name
+        name: chatNameDefault(name) ? '' : name
       }
     };
 
     this.form = null;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const email = _.get(nextProps.visitor, 'email', '');
+    const name = _.get(nextProps.visitor, 'display_name', '');
+
+    this.setState({
+      valid: emailValid(email, { allowEmpty: true }),
+      formState: {
+        email,
+        name: chatNameDefault(name) ? '' : name
+      }
+    });
   }
 
   handleSave = () => {
@@ -86,7 +99,6 @@ export class ChatContactDetailsPopup extends Component {
         fieldClasses={styles.field}
         labelClasses={styles.fieldLabel}
         label={i18n.t('embeddable_framework.common.textLabel.name')}
-        required={true}
         value={this.state.formState.name}
         name='name'/>
     );
@@ -99,7 +111,6 @@ export class ChatContactDetailsPopup extends Component {
         fieldClasses={styles.field}
         labelClasses={styles.fieldLabel}
         label={i18n.t('embeddable_framework.common.textLabel.email')}
-        required={true}
         value={this.state.formState.email}
         name='email'/>
     );

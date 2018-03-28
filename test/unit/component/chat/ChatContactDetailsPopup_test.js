@@ -3,6 +3,7 @@ describe('ChatContactDetailsPopup component', () => {
     mockForm,
     mockFormValidity,
     mockEmailValid,
+    mockChatNameDefault,
     EDIT_CONTACT_DETAILS_SCREEN,
     EDIT_CONTACT_DETAILS_LOADING_SCREEN,
     EDIT_CONTACT_DETAILS_ERROR_SCREEN;
@@ -29,6 +30,7 @@ describe('ChatContactDetailsPopup component', () => {
 
     mockFormValidity = false;
     mockEmailValid = true;
+    mockChatNameDefault = false;
 
     initMockRegistry({
       'component/chat/ChatContactDetailsPopup.scss': {
@@ -64,7 +66,8 @@ describe('ChatContactDetailsPopup component', () => {
         }
       },
       'src/util/utils': {
-        emailValid: () => mockEmailValid
+        emailValid: () => mockEmailValid,
+        chatNameDefault: () => mockChatNameDefault
       },
       'utility/globals': {
         document: document
@@ -150,6 +153,42 @@ describe('ChatContactDetailsPopup component', () => {
     it('sets state.formState for target field', () => {
       expect(component.state.formState)
         .toEqual({ name: 'bob', email: '' });
+    });
+  });
+
+  describe('componentWillReceiveProps', () => {
+    let component;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatContactDetailsPopup />);
+
+      component.componentWillReceiveProps({ visitor: { display_name: 'bob', email: 'bob@bob.com' } });
+    });
+
+    describe('when the name is not the default chat name', () => {
+      it('sets name form state to the display_name visitor prop passed in', () => {
+        expect(component.state.formState.name)
+          .toEqual('bob');
+      });
+    });
+
+    describe('when the name is the default chat name', () => {
+      beforeEach(() => {
+        mockChatNameDefault = true;
+        component = instanceRender(<ChatContactDetailsPopup />);
+
+        component.componentWillReceiveProps({ visitor: { display_name: 'Visitor 12345' } });
+      });
+
+      it('sets name form state to an empty string', () => {
+        expect(component.state.formState.name)
+          .toEqual('');
+      });
+    });
+
+    it('sets email form state to the email visitor prop passed in', () => {
+      expect(component.state.formState.email)
+        .toEqual('bob@bob.com');
     });
   });
 
