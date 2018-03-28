@@ -19,6 +19,7 @@ let actions,
   mockSendEmailTranscript = jasmine.createSpy('sendEmailTranscript'),
   mockSetVisitorDefaultDepartment = jasmine.createSpy('setVisitorDefaultDepartment'),
   mockSendOfflineMsg = jasmine.createSpy('sendOfflineMsg'),
+  mockReconnect = jasmine.createSpy('reconnect'),
   showRatingScreen = false,
   getShowRatingScreenSpy = jasmine.createSpy('getShowRatingScreenSpy').and.callFake(() => showRatingScreen),
   getIsChattingSpy = jasmine.createSpy('getIsChatting').and.callFake(() => mockIsChatting);
@@ -60,6 +61,7 @@ describe('chat redux actions', () => {
         setVisitorDefaultDepartment: mockSetVisitorDefaultDepartment,
         isChatting: () => true,
         sendOfflineMsg: mockSendOfflineMsg,
+        reconnect: mockReconnect,
         _getAccountSettings: () => mockAccountSettings
       },
       'src/redux/modules/base/base-selectors': {
@@ -1140,6 +1142,25 @@ describe('chat redux actions', () => {
     it('has the value of the argument in the payload', () => {
       expect(action.payload)
         .toEqual(false);
+    });
+  });
+
+  describe('handleReconnect', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.handleReconnect(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('calls zChat.reconnect', () => {
+      expect(mockReconnect)
+        .toHaveBeenCalled();
+    });
+
+    it('dispatches CHAT_RECONNECT action', () => {
+      expect(action.type)
+        .toEqual(actionTypes.CHAT_RECONNECT);
     });
   });
 });

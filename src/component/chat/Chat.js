@@ -36,6 +36,7 @@ import { endChat,
          handleSoundIconClick,
          sendEmailTranscript,
          resetEmailTranscript,
+         handleReconnect,
          handlePreChatFormChange,
          updateMenuVisibility,
          updateContactDetailsVisibility } from 'src/redux/modules/chat';
@@ -123,6 +124,7 @@ class Chat extends Component {
     handleChatBoxChange: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
     getAccountSettings: PropTypes.func.isRequired,
+    handleReconnect: PropTypes.func.isRequired,
     sendChatRating: PropTypes.func.isRequired,
     sendChatComment: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
@@ -672,6 +674,7 @@ class Chat extends Component {
         <ButtonPill
           className={styles.reconnectButton}
           showIcon={false}
+          onClick={this.props.handleReconnect}
           label={i18n.t('embeddable_framework.chat.chatLog.reconnect.label')} />
       </div>
     );
@@ -720,6 +723,7 @@ const actionCreators = {
   resetEmailTranscript,
   handlePreChatFormChange,
   updateMenuVisibility,
+  handleReconnect,
   updateContactDetailsVisibility
 };
 
