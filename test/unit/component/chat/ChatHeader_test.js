@@ -36,7 +36,8 @@ describe('ChatHeader component', () => {
         locals: {
           container: 'container',
           textContainer: 'textContainer',
-          ratingIconActive: 'ratingIconActive'
+          ratingIconActive: 'ratingIconActive',
+          clickable:'clickableClasses'
         }
       }
     });
@@ -95,6 +96,43 @@ describe('ChatHeader component', () => {
 
         expect(avatar.props.fallbackIcon)
           .toEqual('Icon--avatar');
+      });
+
+      describe('onClick', () => {
+        let onClickSpy,
+          component;
+
+        beforeEach(() => {
+          component = instanceRender(<ChatHeader onClick={onClickSpy} />);
+        });
+
+        describe('when it is defined', () => {
+          beforeAll(() => {
+            onClickSpy = jasmine.createSpy();
+          });
+
+          it('adds the clickable classNames to the container', () => {
+            expect(component.render().props.className)
+              .toContain('clickableClasses');
+          });
+
+          it('sets the onClick of the container to the prop', () => {
+            expect(component.render().props.onClick)
+              .toEqual(onClickSpy);
+          });
+        });
+
+        describe('when it is not defined', () => {
+          beforeAll(() => {
+            onClickSpy = undefined;
+          });
+
+          it('does not add the clickable classNames to the container', () => {
+            expect(component.render().props.className)
+              .not
+              .toContain('clickableClasses');
+          });
+        });
       });
     });
   });
