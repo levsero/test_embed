@@ -35,7 +35,10 @@
 }
 
 .title {
-  color: $zd-color-monsoon;
+  color: $zd-color-dark-gray;
+  margin-bottom: #{16/$font-size}rem;
+  text-align: center;
+  font-size: #{13/$font-size}rem;
 }
 
 .form {
@@ -46,8 +49,14 @@
   composes: u-paddingVS u-paddingHM from global;
 }
 
-.fieldContainer {
+.fieldContainer:last-of-type {
+  margin-bottom: #{20/$font-size}rem !important;
+}
+
+.fieldLabel {
   composes: u-marginBS from global;
+  font-size: #{13/$font-size}rem;
+  color: $zd-color-dark-gray !important;
 }
 
 .loadingSpinner {

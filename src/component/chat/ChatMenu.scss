@@ -16,6 +16,7 @@
   background: none;
   outline: none;
   color: $zd-color-monsoon;
+  font-size: #{13/$font-size}rem;
   padding: #{8/$font-size}rem #{15/$font-size}rem;
 
   path {

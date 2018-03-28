@@ -85,8 +85,8 @@ export class ChatEmailTranscriptPopup extends Component {
       <EmailField
         fieldContainerClasses={styles.fieldContainer}
         fieldClasses={styles.field}
-        placeholder={i18n.t('embeddable_framework.common.textLabel.email')}
-        required={true}
+        labelClasses={styles.fieldLabel}
+        label={i18n.t('embeddable_framework.form.field.email.label')}
         value={this.state.formState.email}
         name='email' />
     );
