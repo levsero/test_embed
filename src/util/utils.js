@@ -105,11 +105,12 @@ function nowInSeconds() {
   return Math.floor(Date.now() / 1000);
 }
 
-function emailValid(email) {
+function emailValid(email, options = { allowEmpty: false }) {
   // Taken from https://tinyurl.com/35646w3
   const validRegex = new RegExp(/^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/) // eslint-disable-line
+  const validEmpty = options.allowEmpty && email === '';
 
-  return validRegex.test(email);
+  return validRegex.test(email) || validEmpty;
 }
 
 function chatNameDefault(name) {

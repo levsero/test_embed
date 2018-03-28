@@ -43,7 +43,7 @@ export class ChatContactDetailsPopup extends Component {
     const name = _.get(props.visitor, 'display_name', '');
 
     this.state = {
-      valid: emailValid(email),
+      valid: emailValid(email, { allowEmpty: true }),
       formState: {
         email,
         name: chatNameDefault(name) ? '' : name
@@ -58,7 +58,7 @@ export class ChatContactDetailsPopup extends Component {
     const name = _.get(nextProps.visitor, 'display_name', '');
 
     this.setState({
-      valid: emailValid(email),
+      valid: emailValid(email, { allowEmpty: true }),
       formState: {
         email,
         name: chatNameDefault(name) ? '' : name

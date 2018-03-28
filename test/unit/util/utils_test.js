@@ -329,6 +329,13 @@ describe('utils', () => {
       expect(emailValid(email))
         .toEqual(false);
     }));
+
+    describe('when allowEmpty is true', () => {
+      it('returns true for an empty string', () => {
+        expect(emailValid('', { allowEmpty: true }))
+          .toEqual(true);
+      });
+    });
   });
 
   describe('chatNameDefault', () => {
