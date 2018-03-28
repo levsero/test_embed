@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { locals as styles } from './ChatFooter.scss';
 import classNames from 'classnames';
 
-import { Icon, IconButton } from 'component/Icon';
+import { i18n } from 'service/i18n';
+import { IconButton } from 'component/Icon';
 import { Dropzone } from 'component/Dropzone';
 
 import { ICONS } from 'constants/shared';
@@ -52,6 +53,7 @@ export class ChatFooter extends Component {
       <IconButton
         type={ICONS.END_CHAT}
         className={endChatClasses}
+        altText={i18n.t('embeddable_framework.chat.icon.endChat.hover.label')}
         onClick={this.handleEndChatClick} />
     );
   }
@@ -67,7 +69,9 @@ export class ChatFooter extends Component {
     return (
       <div className={attachmentClasses}>
         <Dropzone onDrop={this.props.handleAttachmentDrop}>
-          <Icon type={ICONS.PAPERCLIP_SMALL} />
+          <IconButton
+            altText={i18n.t('embeddable_framework.chat.icon.menu.hover.label')}
+            type={ICONS.PAPERCLIP_SMALL} />
         </Dropzone>
       </div>
     );
@@ -83,6 +87,7 @@ export class ChatFooter extends Component {
       <IconButton
         type={ICONS.ELLIPSIS}
         className={menuClasses}
+        altText={i18n.t('embeddable_framework.chat.icon.menu.hover.label')}
         onClick={this.handleMenuClick} />
     );
   }
@@ -91,6 +96,7 @@ export class ChatFooter extends Component {
     return (
       <IconButton
         type={ICONS.SEND_CHAT}
+        altText={i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')}
         className={`${styles.iconSendChat} ${styles.iconSendChatMobile}`}
         onClick={this.props.sendChat} />
     );
