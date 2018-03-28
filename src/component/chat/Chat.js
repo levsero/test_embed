@@ -182,6 +182,14 @@ class Chat extends Component {
     this.scrollContainer = null;
   }
 
+  componentDidMount() {
+    const { screen, chats, events } = this.props;
+
+    if (screen === screens.CHATTING_SCREEN && ((chats.length + events.length) > 0)) {
+      this.scrollToBottom();
+    }
+  }
+
   componentWillReceiveProps = (nextProps) => {
     const { chats, events, screen } = this.props;
 

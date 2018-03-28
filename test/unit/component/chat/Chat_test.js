@@ -166,6 +166,51 @@ describe('Chat component', () => {
     });
   });
 
+  describe('componentDidMount', () => {
+    let component;
+
+    describe('when current screen is CHATTING_SCREEN', () => {
+      describe('when there are chats', () => {
+        beforeEach(() => {
+          component = instanceRender(<Chat screen={chattingScreen} chats={[1, 2]} events={[3]} />);
+          spyOn(component, 'scrollToBottom');
+          component.componentDidMount();
+        });
+
+        it('scrolls to bottom', () => {
+          expect(component.scrollToBottom)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when there are no chats', () => {
+        beforeEach(() => {
+          component = instanceRender(<Chat screen={chattingScreen} chats={[]} events={[]} />);
+          spyOn(component, 'scrollToBottom');
+          component.componentDidMount();
+        });
+
+        it('does not scroll to bottom', () => {
+          expect(component.scrollToBottom)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when current screen is not CHATTING_SCREEN', () => {
+      beforeEach(() => {
+        component = instanceRender(<Chat screen={feedbackScreen} chats={[1, 2]} events={[3]} />);
+        spyOn(component, 'scrollToBottom');
+        component.componentDidMount();
+      });
+
+      it('does not scroll to bottom', () => {
+        expect(component.scrollToBottom)
+          .not.toHaveBeenCalled();
+      });
+    });
+  });
+
   describe('componentWillReceiveProps', () => {
     let emailTranscript,
       nextProps,
