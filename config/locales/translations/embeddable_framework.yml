@@ -459,6 +459,11 @@ parts:
       screenshot: "https://zendesk.box.com/s/2953g3t145nd7u5fngbpoqrhnp5pmx14"
       value: "Reconnecting"
   - translation:
+      key: "embeddable_framework.chat.chatLog.reconnect.label"
+      title: "A text displayed on a popup that displays when a users chat session has disconnected. Clicking it will reconnect to the session"
+      screenshot: "https://drive.google.com/open?id=1gsIhKmw7mc7I7NQs0_1_nv3pO-rjVhS6"
+      value: "Click to reconnect"
+  - translation:
       key: "embeddable_framework.chat.chatLog.sending"
       title: "A text that is displayed at the bottom of an attachment signifying that its in the process of being sent to the server."
       screenshot: "https://zendesk.box.com/s/m25eokdc7fwux7rhkyu6mi6eef9noedc"
