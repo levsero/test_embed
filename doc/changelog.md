@@ -1,4 +1,10 @@
 ## Changelog
+### 28 March 2018
+- Fixed prefill issues. Prefill now appears for any field when submitting a second ticket via the Web Widget without refreshing page, and for the description field when ticket form is not enabled.
+
+### 26 March 2018
+- Fixed an issue with Web Widget embedded in restricted Help Centers with hostmapped domains. The new snippet now works for restricted Help Centers with hostmapping.
+
 ### 07 March 2018
 - Released Web Widget performance improvements, including the new "Asset Composer" snippet. See announcement [here](https://support.zendesk.com/hc/en-us/articles/360000620507).
 - Fixed an issue where Chat wasn't appearing after an Agent came online. The Widget now behaves as expected, opening to Chat.
