@@ -508,6 +508,8 @@ class Chat extends Component {
 
     return (
       <ChatPopup
+        isMobile={this.props.isMobile}
+        useOverlay={this.props.isMobile}
         leftCtaFn={hideChatEndFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
         rightCtaFn={endChatFn}
@@ -565,7 +567,7 @@ class Chat extends Component {
   }
 
   renderChatContactDetailsPopup = () => {
-    const { editContactDetails, updateContactDetailsVisibility, setVisitorInfo, visitor } = this.props;
+    const { editContactDetails, updateContactDetailsVisibility, setVisitorInfo, visitor, isMobile } = this.props;
     const hideContactDetailsFn = () => updateContactDetailsVisibility(false);
     const saveContactDetailsFn = (name, email) => setVisitorInfo({ display_name: name, email });
 
@@ -573,6 +575,7 @@ class Chat extends Component {
       <ChatContactDetailsPopup
         screen={editContactDetails.status}
         show={editContactDetails.show}
+        isMobile={isMobile}
         leftCtaFn={hideContactDetailsFn}
         rightCtaFn={saveContactDetailsFn}
         visitor={visitor} />
@@ -592,6 +595,7 @@ class Chat extends Component {
     return (
       <ChatEmailTranscriptPopup
         show={this.state.showEmailTranscriptMenu}
+        isMobile={this.props.isMobile}
         className={styles.bottomPopup}
         leftCtaFn={hideEmailTranscriptFn}
         rightCtaFn={sendEmailTranscriptFn}

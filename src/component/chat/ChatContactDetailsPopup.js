@@ -26,6 +26,7 @@ export class ChatContactDetailsPopup extends Component {
     leftCtaFn: PropTypes.func,
     rightCtaFn: PropTypes.func,
     show: PropTypes.bool,
+    isMobile: PropTypes.bool,
     visitor: PropTypes.object
   }
 
@@ -34,6 +35,7 @@ export class ChatContactDetailsPopup extends Component {
     leftCtaFn: () => {},
     rightCtaFn: () => {},
     show: false,
+    isMobile: false,
     visitor: {}
   }
 
@@ -157,12 +159,14 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   render = () => {
-    const { className, leftCtaFn, screen } = this.props;
+    const { isMobile, className, leftCtaFn, screen } = this.props;
     const isLoading = (screen === EDIT_CONTACT_DETAILS_LOADING_SCREEN);
     const containerClasses = (isLoading) ? styles.popupChildrenContainerLoading : '';
 
     return (
       <ChatPopup
+        isMobile={isMobile}
+        useOverlay={isMobile}
         className={className}
         containerClasses={containerClasses}
         showCta={!isLoading}

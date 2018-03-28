@@ -55,7 +55,7 @@
 
 .fieldLabel {
   composes: u-marginBS from global;
-  font-size: #{13/$font-size}rem;
+  font-size: #{13/$font-size}rem !important;
   color: $zd-color-dark-gray !important;
 }
 

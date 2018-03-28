@@ -24,11 +24,13 @@ export class ChatPopup extends Component {
     onExited: PropTypes.func,
     isDismissible: PropTypes.bool,
     onCloseIconClick: PropTypes.func,
-    isMobile: PropTypes.bool
+    isMobile: PropTypes.bool,
+    useOverlay: PropTypes.bool
   };
 
   static defaultProps = {
     isMobile: false,
+    useOverlay: false,
     className: '',
     containerClassName: '',
     showCta: true,
@@ -95,7 +97,7 @@ export class ChatPopup extends Component {
     );
   }
 
-  render = () => {
+  renderDefault = () => {
     const { className, childrenOnClick, children, containerClassName } = this.props;
     const containerClasses = classNames(
       styles.container,
@@ -115,5 +117,40 @@ export class ChatPopup extends Component {
         </div>
       </SlideAppear>
     );
+  }
+
+  renderMobileOverlay = () => {
+    const { className, childrenOnClick, children, containerClassName, show } = this.props;
+    const popupContainerClasses = classNames(
+      styles.popupContainerMobile,
+      { [styles.hidden]: !show }
+    );
+
+    return (
+      <div className={popupContainerClasses}>
+        <div className={styles.overlayMobile} />
+        <SlideAppear
+          direction={'down'}
+          duration={200}
+          startPosHeight={'-10px'}
+          endPosHeight={'0px'}
+          className={`${className} ${styles.wrapperMobile}`}
+          trigger={show}
+          onClick={this.onContainerClick}
+          onExited={this.props.onExited}>
+          <div className={containerClassName}>
+            <div onClick={childrenOnClick}>{children}</div>
+            {this.renderCta()}
+            {this.renderCloseIcon()}
+          </div>
+        </SlideAppear>
+      </div>
+    );
+  }
+
+  render() {
+    return (this.props.isMobile && this.props.useOverlay)
+      ? this.renderMobileOverlay()
+      : this.renderDefault();
   }
 }

@@ -25,6 +25,7 @@ export class ChatEmailTranscriptPopup extends Component {
     emailTranscript: PropTypes.object,
     tryEmailTranscriptAgain: PropTypes.func,
     show: PropTypes.bool,
+    isMobile: PropTypes.bool,
     resetEmailTranscript: PropTypes.func
   }
 
@@ -36,6 +37,7 @@ export class ChatEmailTranscriptPopup extends Component {
     emailTranscript: {},
     tryEmailTranscriptAgain: () => {},
     show: false,
+    isMobile: false,
     resetEmailTranscript: () => {}
   }
 
@@ -165,7 +167,7 @@ export class ChatEmailTranscriptPopup extends Component {
   }
 
   render() {
-    const { className, leftCtaFn } = this.props;
+    const { isMobile, className, leftCtaFn } = this.props;
     const isEmailTranscriptResult = this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SUCCESS_SCREEN ||
                                     this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_FAILURE_SCREEN;
     let childrenContainerClasses = isEmailTranscriptResult
@@ -184,6 +186,8 @@ export class ChatEmailTranscriptPopup extends Component {
 
     return (
       <ChatPopup
+        isMobile={isMobile}
+        useOverlay={isMobile}
         onExited={onExited}
         showCta={this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SCREEN}
         show={this.props.show}
