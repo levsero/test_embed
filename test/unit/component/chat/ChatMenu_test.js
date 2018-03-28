@@ -49,7 +49,7 @@ describe('ChatMenu component', () => {
       onSoundClickSpy = jasmine.createSpy('handleSoundClick');
       stopPropagationSpy = jasmine.createSpy('stopPropagation');
 
-      const component = domRender(<ChatMenu onSoundClick={onSoundClickSpy} />);
+      const component = instanceRender(<ChatMenu onSoundClick={onSoundClickSpy} />);
 
       component.handleSoundClick({ stopPropagation: stopPropagationSpy });
     });
@@ -71,7 +71,7 @@ describe('ChatMenu component', () => {
     beforeEach(() => {
       stopPropagationSpy = jasmine.createSpy('stopPropagation');
 
-      const component = domRender(<ChatMenu />);
+      const component = instanceRender(<ChatMenu />);
 
       component.handleSendFileClick({ stopPropagation: stopPropagationSpy });
     });
@@ -156,7 +156,7 @@ describe('ChatMenu component', () => {
 
       describe('when isChatting is false', () => {
         beforeEach(() => {
-          component = domRender(<ChatMenu isChatting={false} />);
+          component = instanceRender(<ChatMenu isChatting={false} />);
           response = component.renderEmailTranscriptButton();
         });
 
@@ -190,7 +190,7 @@ describe('ChatMenu component', () => {
         beforeEach(() => {
           endChatOnClickSpy = jasmine.createSpy();
 
-          domRender(<ChatMenu endChatOnClick={endChatOnClickSpy} />);
+          instanceRender(<ChatMenu endChatOnClick={endChatOnClickSpy} />);
         });
 
         it('does not call endChatOnClick', () => {
@@ -223,7 +223,7 @@ describe('ChatMenu component', () => {
         beforeEach(() => {
           contactDetailsOnClickSpy = jasmine.createSpy();
 
-          domRender(<ChatMenu contactDetailsOnClick={contactDetailsOnClickSpy} />);
+          instanceRender(<ChatMenu contactDetailsOnClick={contactDetailsOnClickSpy} />);
         });
 
         it('does not call contactDetailsOnClick', () => {
@@ -256,7 +256,7 @@ describe('ChatMenu component', () => {
         beforeEach(() => {
           emailTranscriptOnClickSpy = jasmine.createSpy();
 
-          domRender(<ChatMenu emailTranscriptOnClick={emailTranscriptOnClickSpy} isChatting={true} />);
+          instanceRender(<ChatMenu emailTranscriptOnClick={emailTranscriptOnClickSpy} isChatting={true} />);
         });
 
         it('does not call contactDetailsOnClick', () => {
@@ -283,7 +283,7 @@ describe('ChatMenu component', () => {
 
       describe('when playSound is true', () => {
         beforeEach(() => {
-          component = domRender(<ChatMenu playSound={false} />);
+          component = instanceRender(<ChatMenu playSound={false} />);
           response = component.renderSoundButton();
         });
 
@@ -374,15 +374,19 @@ describe('ChatMenu component', () => {
   describe('desktop', () => {
     let response,
       buttons,
+      emailTranscriptOnClickSpy,
       contactDetailsOnClickSpy,
       endChatOnClickSpy;
 
     beforeEach(() => {
+      emailTranscriptOnClickSpy = jasmine.createSpy('emailTranscriptOnClick');
       contactDetailsOnClickSpy = jasmine.createSpy('contactDetailsOnClick');
       endChatOnClickSpy = jasmine.createSpy('endChatOnClick');
 
       const component = instanceRender(
         <ChatMenu
+          isChatting={true}
+          emailTranscriptOnClick={emailTranscriptOnClickSpy}
           contactDetailsOnClick={contactDetailsOnClickSpy}
           endChatOnClick={endChatOnClickSpy}
         />);
@@ -399,6 +403,16 @@ describe('ChatMenu component', () => {
     it('renders sound button as first item', () => {
       expect(buttons[0].props.children[1].props.type)
         .toEqual('Icon--sound-off');
+    });
+
+    it('renders email transcript button as third item with the expected style', () => {
+      const emailTranscript = buttons[2];
+
+      expect(emailTranscript.props.onClick)
+        .toEqual(emailTranscriptOnClickSpy);
+
+      expect(emailTranscript.props.className)
+        .toEqual('itemClass');
     });
 
     it('renders contact details button as fourth item with the expected style', () => {
@@ -423,21 +437,27 @@ describe('ChatMenu component', () => {
   });
 
   describe('mobile', () => {
-    let response,
+    let component,
+      response,
       buttons,
       goBackClickSpy,
       contactDetailsOnClickSpy,
+      emailTranscriptOnClickSpy,
       endChatOnClickSpy;
 
     beforeEach(() => {
       goBackClickSpy = jasmine.createSpy('goBackClick');
       contactDetailsOnClickSpy = jasmine.createSpy('contactDetailsOnClick');
+      emailTranscriptOnClickSpy = jasmine.createSpy('emailTranscriptOnClick');
       endChatOnClickSpy = jasmine.createSpy('endChatOnClick');
 
-      const component = instanceRender(
+      component = instanceRender(
         <ChatMenu
           isMobile={true}
+          attachmentsEnabled={true}
+          isChatting={true}
           contactDetailsOnClick={contactDetailsOnClickSpy}
+          emailTranscriptOnClick={emailTranscriptOnClickSpy}
           endChatOnClick={endChatOnClickSpy}
           onGoBackClick={goBackClickSpy}
         />);
@@ -472,13 +492,33 @@ describe('ChatMenu component', () => {
         .toEqual('itemMobileClass');
     });
 
-    it('renders contact details button as second with the expected style', () => {
+    it('renders contact details button as second item with the expected style', () => {
       const contactDetails = buttons[1];
 
       expect(contactDetails.props.onClick)
         .toEqual(contactDetailsOnClickSpy);
 
       expect(contactDetails.props.className)
+        .toEqual('itemMobileClass');
+    });
+
+    it('renders send file button as third item with the expected style', () => {
+      const sendFile = buttons[2];
+
+      expect(sendFile.props.onClick)
+        .toEqual(component.handleSendFileClick);
+
+      expect(sendFile.props.children.props.className)
+        .toEqual('itemMobileClass');
+    });
+
+    it('renders email transcript button as fourth item with the expected style', () => {
+      const emailTranscript = buttons[3];
+
+      expect(emailTranscript.props.onClick)
+        .toEqual(emailTranscriptOnClickSpy);
+
+      expect(emailTranscript.props.className)
         .toEqual('itemMobileClass');
     });
 
