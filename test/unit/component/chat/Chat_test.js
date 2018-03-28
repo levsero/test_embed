@@ -167,14 +167,23 @@ describe('Chat component', () => {
   });
 
   describe('componentDidMount', () => {
-    let component;
+    let component,
+      currentScreen,
+      chats,
+      events;
+
+    beforeEach(() => {
+      component = instanceRender(<Chat screen={currentScreen} chats={chats} events={events} />);
+      spyOn(component, 'scrollToBottom');
+      component.componentDidMount();
+    });
 
     describe('when current screen is CHATTING_SCREEN', () => {
       describe('when there are chats', () => {
-        beforeEach(() => {
-          component = instanceRender(<Chat screen={chattingScreen} chats={[1, 2]} events={[3]} />);
-          spyOn(component, 'scrollToBottom');
-          component.componentDidMount();
+        beforeAll(() => {
+          currentScreen = chattingScreen;
+          chats = [1,2];
+          events = [3];
         });
 
         it('scrolls to bottom', () => {
@@ -184,10 +193,10 @@ describe('Chat component', () => {
       });
 
       describe('when there are no chats', () => {
-        beforeEach(() => {
-          component = instanceRender(<Chat screen={chattingScreen} chats={[]} events={[]} />);
-          spyOn(component, 'scrollToBottom');
-          component.componentDidMount();
+        beforeAll(() => {
+          currentScreen = chattingScreen;
+          chats = [];
+          events = [];
         });
 
         it('does not scroll to bottom', () => {
@@ -198,10 +207,10 @@ describe('Chat component', () => {
     });
 
     describe('when current screen is not CHATTING_SCREEN', () => {
-      beforeEach(() => {
-        component = instanceRender(<Chat screen={feedbackScreen} chats={[1, 2]} events={[3]} />);
-        spyOn(component, 'scrollToBottom');
-        component.componentDidMount();
+      beforeAll(() => {
+        currentScreen = feedbackScreen;
+        chats = [1,2];
+        events = [3];
       });
 
       it('does not scroll to bottom', () => {

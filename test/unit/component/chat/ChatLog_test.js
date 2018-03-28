@@ -110,7 +110,8 @@ describe('ChatLog component', () => {
     });
 
     it('calls renderChatLog with the correct args', () => {
-      expect(component.renderChatLog).toHaveBeenCalledWith(chatLog, agents, chatCommentLeft, goToFeedbackScreenSpy, showAvatar, sendMsg, handleImageLoadSpy);
+      expect(component.renderChatLog)
+        .toHaveBeenCalledWith(chatLog, agents, chatCommentLeft, goToFeedbackScreenSpy, showAvatar, sendMsg, handleImageLoadSpy);
     });
   });
 

@@ -36,16 +36,16 @@ describe('ImageMessage component', () => {
   });
 
   describe('#onLoad', () => {
-    it('sets local state of loading to false', () => {
+    beforeEach(() => {
       component.onLoad();
+    });
 
+    it('sets local state of loading to false', () => {
       expect(component.state.loading)
         .toEqual(false);
     });
 
     it('calls handleImageLoad prop', () => {
-      component.onLoad();
-
       expect(handleImageLoadSpy)
         .toHaveBeenCalled();
     });
