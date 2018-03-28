@@ -402,10 +402,6 @@ class Chat extends Component {
       styles.scrollContainerMessagesContent,
       { [styles.scrollContainerMobile]: isMobile }
     );
-    const messageClasses = classNames(
-      styles.messages,
-      { [styles.messagesMobile]: isMobile }
-    );
     const scrollContainerClasses = classNames(
       styles.scrollContainer,
       { [styles.mobileContainer]: isMobile }
@@ -425,7 +421,7 @@ class Chat extends Component {
         footerClasses={footerClasses}
         footerContent={this.renderChatFooter()}
         classes={scrollContainerClasses}>
-          <div className={messageClasses}>
+        <div>
           <ChatLog
             showAvatar={this.props.showAvatar}
             chatLog={this.props.chatLog}
