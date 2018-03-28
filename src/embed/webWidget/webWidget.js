@@ -29,6 +29,7 @@ import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedTimeoutCall,
          getPageKeywords } from 'utility/utils';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
+import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
 import { setVisitorInfo } from 'src/redux/modules/chat';
 import { resetTalkScreen } from 'src/redux/modules/talk';
 import { getTicketForms,
@@ -58,6 +59,12 @@ export default function WebWidgetFactory(name) {
     prefix = name + '.';
   }
 
+  const onShowMobile = () => {
+    setScaleLock(true);
+    setTimeout(() => {
+      mediator.channel.broadcast(prefix + '.updateZoom', getZoomSizingRatio());
+    }, 0);
+  };
   const onShow = () => {
     const rootComponent = getRootComponent();
 
@@ -65,10 +72,7 @@ export default function WebWidgetFactory(name) {
       const { submitTicketForm } = rootComponent.refs;
 
       if (isMobileBrowser()) {
-        setScaleLock(true);
-        setTimeout(() => {
-          mediator.channel.broadcast(prefix + '.updateZoom', getZoomSizingRatio());
-        }, 0);
+        onShowMobile();
       }
       if (submitTicketForm) {
         submitTicketForm.resetTicketFormVisibility();
@@ -222,7 +226,8 @@ export default function WebWidgetFactory(name) {
           talkAvailable={talkAvailable}
           zendeskHost={http.getZendeskHost()}
           zendeskSubdomain={zendeskSubdomain}
-          zopimOnNext={zopimOnNext} />
+          zopimOnNext={zopimOnNext}
+          onShowMobile={onShowMobile} />
       </Frame>
     );
 
@@ -291,8 +296,12 @@ export default function WebWidgetFactory(name) {
     });
 
     mediator.channel.subscribe(prefix + 'webWidget.proactiveChat', (options = {}) => {
-      getWebWidgetComponent().showChat({ proactive: true });
-      embed.instance.show(options);
+      const { proactive, show } = getChatNotification(embed.store.getState());
+
+      if (proactive && show) {
+        embed.instance.show(options);
+        getWebWidgetComponent().showProactiveChat();
+      }
     });
 
     mediator.channel.subscribe(prefix + 'webWidget.hide', (options = {}) => {

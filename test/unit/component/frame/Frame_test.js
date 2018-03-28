@@ -254,6 +254,42 @@ describe('Frame', () => {
     });
   });
 
+  describe('setFixedFrameStyles', () => {
+    let frame, fixedStyles;
+
+    beforeEach(() => {
+      frame = instanceRender(<Frame>{mockChild}</Frame>);
+    });
+
+    describe('when called with an object', () => {
+      beforeEach(() => {
+        fixedStyles = {
+          width: '10px',
+          height: 'auto',
+          background: 'transparent'
+        };
+        frame.setFixedFrameStyles(fixedStyles);
+      });
+
+      it('sets the fixedStyles state', () => {
+        expect(frame.state.fixedStyles)
+          .toEqual(fixedStyles);
+      });
+    });
+
+    describe('when called with no parameters', () => {
+      beforeEach(() => {
+        fixedStyles = {};
+        frame.setFixedFrameStyles(fixedStyles);
+      });
+
+      it('sets the fixedStyles state to an empty object', () => {
+        expect(frame.state.fixedStyles)
+          .toEqual({});
+      });
+    });
+  });
+
   describe('updateFrameSize', () => {
     let frame, dimensions;
     const mockObject = {
@@ -1346,6 +1382,38 @@ describe('Frame', () => {
       it('uses the value from settings if it exists', () => {
         expect(frame.computeIframeStyle().zIndex)
           .toBe(10001);
+      });
+    });
+
+    describe('state.fixedStyles', () => {
+      let result;
+      const frameStyle = { width: 0, height: 0, background: 'rgb(255, 255, 255)' };
+
+      describe('when fixedStyles has properties', () => {
+        const fixedStyles = { width: '10px', height: 'auto', background: 'transparent' };
+
+        beforeEach(() => {
+          frame = domRender(<Frame frameStyle={frameStyle}>{mockChild}</Frame>);
+          frame.setFixedFrameStyles(fixedStyles);
+          result = frame.computeIframeStyle();
+        });
+
+        it('computeIframeStyle should contain styles from the modification', () => {
+          expect(result)
+            .toEqual(jasmine.objectContaining(fixedStyles));
+        });
+      });
+
+      describe('when frameStyleModifier does not exist', () => {
+        beforeEach(() => {
+          frame = domRender(<Frame frameStyle={frameStyle}>{mockChild}</Frame>);
+          result = frame.computeIframeStyle();
+        });
+
+        it('computeIframeStyle should contain styles from frameStyle', () => {
+          expect(result)
+            .toEqual(jasmine.objectContaining(frameStyle));
+        });
       });
     });
   });

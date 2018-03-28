@@ -39,6 +39,7 @@ const chat = 'chat';
 const zopimChat = 'zopimChat';
 const channelChoice = 'channelChoice';
 const talk = 'talk';
+const mobileChatPopup = 'mobileChatPopup';
 const noActiveEmbed = '';
 
 const mapStateToProps = (state) => {
@@ -91,6 +92,7 @@ class WebWidget extends Component {
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
+    setFixedFrameStyles: PropTypes.func,
     zopimOnNext: PropTypes.func,
     closeFrame: PropTypes.func,
     zendeskHost: PropTypes.string.isRequired,
@@ -113,7 +115,8 @@ class WebWidget extends Component {
     helpCenterSearchFocused: PropTypes.bool.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
     showOfflineChat: PropTypes.bool.isRequired,
-    isChatting: PropTypes.bool.isRequired
+    isChatting: PropTypes.bool.isRequired,
+    onShowMobile: PropTypes.func
   };
 
   static defaultProps = {
@@ -139,13 +142,15 @@ class WebWidget extends Component {
     ticketFormSettings: [],
     updateBackButtonVisibility: () => {},
     updateFrameSize: () => {},
+    setFixedFrameStyles: () => {},
     talkAvailable: false,
     talkOnline: false,
     zopimOnNext: () => {},
     closeFrame: () => {},
     talkConfig: {},
     resetActiveArticle: () => {},
-    articleViewActive: false
+    articleViewActive: false,
+    onShowMobile: () => {}
   };
 
   setComponent = (activeComponent) => {
@@ -205,6 +210,21 @@ class WebWidget extends Component {
       if (options.proactive) {
         this.props.updateChatScreen(CHATTING_SCREEN);
       }
+    }
+  }
+
+  showProactiveChat = () => {
+    // Set the Web Widget iframe to a fixed size for the mobile
+    // chat notification popup.
+    if (this.props.fullscreen) {
+      const frameStyle = {
+        height: '25%',
+        background: 'transparent'
+      };
+
+      this.props.setFixedFrameStyles(frameStyle);
+    } else {
+      this.showChat({ proactive: true });
     }
   }
 
@@ -293,6 +313,11 @@ class WebWidget extends Component {
       updateActiveEmbed('');
       onCancel();
     }
+  }
+
+  onCloseClick = () => {
+    this.props.updateActiveEmbed('');
+    this.props.onCancel();
   }
 
   onBackClick = () => {
@@ -491,12 +516,53 @@ class WebWidget extends Component {
     );
   }
 
+  renderStandaloneChatPopup() {
+    const {
+      style,
+      chatNotification,
+      chatNotificationRespond,
+      chatNotificationDismissed,
+      setFixedFrameStyles
+    } = this.props;
+    const onNotificatonResponded = () => {
+      chatNotificationRespond();
+      setFixedFrameStyles();
+      this.props.onShowMobile();
+      this.showChat({ proactive: true });
+    };
+    const onNotificatonDismissed = () => {
+      setFixedFrameStyles();
+      this.onCloseClick();
+      chatNotificationDismissed();
+    };
+    const containerStyle = { ...style, background: 'transparent' };
+
+    return (
+      <div style={style} data-embed={mobileChatPopup}>
+        <Container style={containerStyle}>
+          <ChatNotificationPopup
+            isMobile={true}
+            notification={chatNotification}
+            shouldShow={chatNotification.show}
+            chatNotificationRespond={onNotificatonResponded}
+            chatNotificationDismissed={onNotificatonDismissed} />
+        </Container>
+      </div>
+    );
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
+    const { fullscreen, chatNotification } = this.props;
+    const { proactive, show } = chatNotification;
+    const shouldRenderChatNotificationPopup = (fullscreen && proactive && show) && this.noActiveEmbed();
+
+    if (shouldRenderChatNotificationPopup) return this.renderStandaloneChatPopup();
+
     // TODO: Once single iframe is GA'd the containers for each child can be moved
     // here and this won't be needed to fix dodgy animation.
-    const width = this.props.fullscreen ? '100%' : '342px';
+    const width = fullscreen ? '100%' : '342px';
     const style = { width };
 
     return (

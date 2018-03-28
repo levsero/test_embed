@@ -67,9 +67,7 @@ describe('WebWidget component', () => {
       'component/container/Container': {
         Container: class extends Component {
           render() {
-            return (
-              <div>{this.props.children}</div>
-            );
+            return <div>{this.props.children}</div>;
           }
         }
       },
@@ -217,6 +215,142 @@ describe('WebWidget component', () => {
       it('does not render the chatPopup component', () => {
         expect(webWidget.renderChatNotification())
           .toBeFalsy();
+      });
+    });
+
+    describe('when there is a proactive chat popup and no active embed', () => {
+      beforeEach(() => {
+        const mockChatNotification = { proactive: true, show: true };
+
+        webWidget = instanceRender(
+          <WebWidget
+            fullscreen={true}
+            activeEmbed={''}
+            chatNotification={mockChatNotification} />
+        );
+        spyOn(webWidget, 'renderStandaloneChatPopup');
+        webWidget.render();
+      });
+
+      it('shows the standaloneChatPopup', () => {
+        expect(webWidget.renderStandaloneChatPopup)
+          .toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('renderStandaloneChatPopup', () => {
+    let webWidget,
+      result,
+      container,
+      chatPopup,
+      mockChatNotification;
+
+    beforeEach(() => {
+      mockChatNotification = { show: true };
+
+      webWidget = domRender(<WebWidget chatNotification={mockChatNotification} />);
+      result = webWidget.renderStandaloneChatPopup();
+      container = result.props.children;
+      chatPopup = container.props.children;
+    });
+
+    it('renders a Container with the correct styles', () => {
+      expect(container.props.style)
+        .toEqual(jasmine.objectContaining({ background: 'transparent' }));
+    });
+
+    it('renders a ChatNotificationPopup with the correct props', () => {
+      const expectedProps = { isMobile: true, shouldShow: true, notification: mockChatNotification };
+
+      expect(chatPopup.props)
+        .toEqual(jasmine.objectContaining(expectedProps));
+    });
+
+    describe('when ChatNotificationPopup respond prop is called', () => {
+      let chatNotificationRespondSpy,
+        setFixedFrameStylesSpy,
+        onShowMobileSpy;
+
+      beforeEach(() => {
+        chatNotificationRespondSpy = jasmine.createSpy('chatNotificationRespond');
+        setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
+        onShowMobileSpy = jasmine.createSpy('onShowMobile');
+        webWidget = domRender(
+          <WebWidget
+            chatNotification={mockChatNotification}
+            chatNotificationRespond={chatNotificationRespondSpy}
+            setFixedFrameStyles={setFixedFrameStylesSpy}
+            onShowMobile={onShowMobileSpy} />
+        );
+
+        result = webWidget.renderStandaloneChatPopup();
+        container = result.props.children;
+        chatPopup = container.props.children;
+
+        spyOn(webWidget, 'showChat');
+        chatPopup.props.chatNotificationRespond();
+      });
+
+      it('calls props.chatNotificationRespond', () => {
+        expect(chatNotificationRespondSpy)
+          .toHaveBeenCalled();
+      });
+
+      it('calls props.setFixedFrameStyles with no parameters', () => {
+        expect(setFixedFrameStylesSpy)
+          .toHaveBeenCalledWith();
+      });
+
+      it('calls props.onShowMobile', () => {
+        expect(onShowMobileSpy)
+          .toHaveBeenCalled();
+      });
+
+      it('calls showChat with proactive true', () => {
+        expect(webWidget.showChat)
+          .toHaveBeenCalledWith({ proactive: true });
+      });
+    });
+
+    describe('when ChatNotificationDismiss respond prop is called', () => {
+      let chatNotificationDismissedSpy,
+        setFixedFrameStylesSpy,
+        onShowMobileSpy;
+
+      beforeEach(() => {
+        chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed');
+        setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
+        onShowMobileSpy = jasmine.createSpy('onShowMobile');
+        webWidget = domRender(
+          <WebWidget
+            chatNotification={mockChatNotification}
+            chatNotificationDismissed={chatNotificationDismissedSpy}
+            setFixedFrameStyles={setFixedFrameStylesSpy}
+            onShowMobile={onShowMobileSpy} />
+        );
+
+        result = webWidget.renderStandaloneChatPopup();
+        container = result.props.children;
+        chatPopup = container.props.children;
+
+        spyOn(webWidget, 'onCloseClick');
+        chatPopup.props.chatNotificationDismissed();
+      });
+
+      it('calls props.setFixedFrameStyles with no parameters', () => {
+        expect(setFixedFrameStylesSpy)
+          .toHaveBeenCalledWith();
+      });
+
+      it('calls props.onCloseClick', () => {
+        expect(webWidget.onCloseClick)
+          .toHaveBeenCalled();
+      });
+
+      it('calls props.chatNotificationDismissed', () => {
+        expect(chatNotificationDismissedSpy)
+          .toHaveBeenCalled();
       });
     });
   });
@@ -560,6 +694,32 @@ describe('WebWidget component', () => {
         expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(true);
       });
+    });
+  });
+
+  describe('onCloseClick', () => {
+    let webWidget, updateActiveEmbedSpy, onCancelSpy;
+
+    beforeEach(() => {
+      updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed');
+      onCancelSpy = jasmine.createSpy('onCancel');
+
+      webWidget = instanceRender(
+        <WebWidget
+          updateActiveEmbed={updateActiveEmbedSpy}
+          onCancel={onCancelSpy} />
+      );
+      webWidget.onCloseClick();
+    });
+
+    it('calls props.updateActiveEmbed with empty string', () => {
+      expect(updateActiveEmbedSpy)
+        .toHaveBeenCalledWith('');
+    });
+
+    it('calls props.onCancel', () => {
+      expect(onCancelSpy)
+        .toHaveBeenCalled();
     });
   });
 
@@ -1374,6 +1534,43 @@ describe('WebWidget component', () => {
           expect(updateChatScreenSpy)
             .toHaveBeenCalledWith('chatting');
         });
+      });
+    });
+  });
+
+  describe('showProactiveChat', () => {
+    let webWidget;
+
+    describe('when on mobile', () => {
+      let setFixedFrameStylesSpy;
+
+      beforeEach(() => {
+        setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
+        webWidget = instanceRender(
+          <WebWidget
+            oldChat={false}
+            fullscreen={true}
+            setFixedFrameStyles={setFixedFrameStylesSpy} />
+        );
+        webWidget.showProactiveChat();
+      });
+
+      it('calls props.setFixedFrameStyles with correct styles', () => {
+        expect(setFixedFrameStylesSpy)
+          .toHaveBeenCalledWith({ height: '25%', background: 'transparent' });
+      });
+    });
+
+    describe('when not on mobile', () => {
+      beforeEach(() => {
+        webWidget = instanceRender(<WebWidget oldChat={false} fullscreen={false} />);
+        spyOn(webWidget, 'showChat');
+        webWidget.showProactiveChat();
+      });
+
+      it('calls showChat with proactive true', () => {
+        expect(webWidget.showChat)
+          .toHaveBeenCalledWith({ proactive: true });
       });
     });
   });

@@ -206,12 +206,13 @@ function init(embedsAccessible, params = {}) {
   c.intercept('newChat.isChatting', (_, isChatting, showOnLoad) => {
     state[`${chat}.connectionPending`] = false;
 
+    if (isMobileBrowser()) showOnLoad = false;
+
     show(state, { transition: 'none', isChatting, showOnLoad });
   });
 
   c.intercept('newChat.newMessage', () => {
-    if (!state[`${chat}.userClosed`] &&
-        !isMobileBrowser()) {
+    if (!state[`${chat}.userClosed`]) {
       c.broadcast('webWidget.proactiveChat', { transition: getShowAnimation() });
       c.broadcast(`${launcher}.hide`);
     }
