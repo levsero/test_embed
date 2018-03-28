@@ -4,7 +4,8 @@ import {
   SDK_CHAT_TYPING,
   SDK_AGENT_UPDATE,
   SDK_CHAT_MEMBER_LEAVE,
-  END_CHAT_REQUEST_SUCCESS
+  END_CHAT_REQUEST_SUCCESS,
+  CHAT_RECONNECT
 } from '../chat-action-types';
 
 const initialState = {};
@@ -52,6 +53,7 @@ const agents = (state = initialState, action = {}) => {
       }
       return state;
     case END_CHAT_REQUEST_SUCCESS:
+    case CHAT_RECONNECT:
       return initialState;
     default:
       return state;

@@ -113,5 +113,18 @@ describe('chat reducer agents', () => {
           .toEqual({ value: null });
       });
     });
+
+    describe('when a CHAT_RECONNECT action is dispatched', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.CHAT_RECONNECT
+        });
+      });
+
+      it('clears the state', () => {
+        expect(state)
+          .toEqual({ value: null });
+      });
+    });
   });
 });
