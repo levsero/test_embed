@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
 
+import { ButtonPill } from 'component/button/ButtonPill';
 import { ChatBox } from 'component/chat/ChatBox';
 import { ChatFooter } from 'component/chat/ChatFooter';
 import { ChatLog } from 'component/chat/ChatLog';
@@ -661,6 +662,21 @@ class Chat extends Component {
     );
   }
 
+  renderChatReconnectButton = () => {
+    const { connection } = this.props;
+
+    if (connection !== CONNECTION_STATUSES.CLOSED) return;
+
+    return (
+      <div className={styles.reconnectContainer}>
+        <ButtonPill
+          className={styles.reconnectButton}
+          showIcon={false}
+          label={i18n.t('embeddable_framework.chat.chatLog.reconnect.label')} />
+      </div>
+    );
+  }
+
   render = () => {
     const containerStyle = classNames(
       styles.container,
@@ -681,6 +697,7 @@ class Chat extends Component {
         {this.renderAttachmentsBox()}
         {this.renderChatEmailTranscriptPopup()}
         {this.renderChatReconnectionBubble()}
+        {this.renderChatReconnectButton()}
       </div>
     );
   }
