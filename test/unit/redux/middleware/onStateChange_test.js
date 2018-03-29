@@ -59,6 +59,11 @@ describe('onStateChange middleware', () => {
       'src/redux/modules/chat/chat-action-types': {
         IS_CHATTING: 'IS_CHATTING'
       },
+      'src/constants/chat': {
+        CONNECTION_STATUSES: {
+          CONNECTING: 'connecting'
+        }
+      },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getArticleDisplayed: _.identity
       },

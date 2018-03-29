@@ -5,6 +5,7 @@ import { getAccountSettings,
          getIsChatting } from 'src/redux/modules/chat';
 import { updateActiveEmbed } from 'src/redux/modules/base';
 import { IS_CHATTING } from 'src/redux/modules/chat/chat-action-types';
+import { CONNECTION_STATUSES } from 'src/constants/chat';
 import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
 import { getChatMessagesByAgent,
@@ -34,8 +35,8 @@ const handleNotificationCounter = (nextState, dispatch) => {
 };
 
 const onChatConnected = (prevState, nextState, dispatch) => {
-  if (getConnection(prevState) === 'connecting'
-      && getConnection(nextState) !== 'connecting'
+  if (getConnection(prevState) === CONNECTION_STATUSES.CONNECTING
+      && getConnection(nextState) !== CONNECTION_STATUSES.CONNECTING
       && !chatAccountSettingsFetched) {
     dispatch(getAccountSettings());
     dispatch(getIsChatting());
