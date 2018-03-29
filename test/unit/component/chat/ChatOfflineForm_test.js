@@ -8,6 +8,7 @@ describe('ChatOfflineForm component', () => {
   const Button = noopReactComponent();
   const LoadingSpinner = noopReactComponent();
   const ChatOperatingHours = noopReactComponent();
+  const ChatOfflineMessageForm = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
@@ -55,6 +56,9 @@ describe('ChatOfflineForm component', () => {
       },
       'component/chat/ChatOperatingHours': {
         ChatOperatingHours
+      },
+      'component/chat/ChatOfflineMessageForm': {
+        ChatOfflineMessageForm
       }
     });
 
@@ -159,7 +163,10 @@ describe('ChatOfflineForm component', () => {
   });
 
   describe('renderSuccess', () => {
-    let result, formResults;
+    let result,
+      offlineMessageProp,
+      onFormBackSpy;
+
     const mockFormValues = {
       name: 'Boromir',
       email: 'boromir@gondor.nw',
@@ -169,32 +176,27 @@ describe('ChatOfflineForm component', () => {
 
     describe('when the screen is the success screen', () => {
       beforeEach(() => {
+        offlineMessageProp = { screen: 'success', details: mockFormValues };
+        onFormBackSpy = jasmine.createSpy('onFormBack');
+
         const component = instanceRender(
-          <ChatOfflineForm offlineMessage={{ screen: 'success', details: mockFormValues }} />
+          <ChatOfflineForm offlineMessage={offlineMessageProp} handleOfflineFormBack={onFormBackSpy}/>
         );
 
         result = component.renderSuccess();
-        formResults = result.props.children[1].props.children;
       });
 
-      it('renders the name value from the form to the screen', () => {
-        expect(formResults[0].props.children)
-          .toBe('Boromir');
+      it('renders ChatOfflineMessageForm', () => {
+        expect(TestUtils.isElementOfType(result, ChatOfflineMessageForm))
+          .toEqual(true);
       });
 
-      it('renders the email value from the form to the screen', () => {
-        expect(formResults[1].props.children)
-          .toBe('boromir@gondor.nw');
-      });
+      it('passes the correct props to ChatOfflineMessageForm', () => {
+        expect(result.props.offlineMessage)
+          .toEqual(offlineMessageProp);
 
-      it('renders the phone value from the form to the screen', () => {
-        expect(formResults[2].props.children)
-          .toBe('12345678');
-      });
-
-      it('renders the message value from the form to the screen', () => {
-        expect(formResults[3].props.children)
-          .toBe('One does not simply walk into Mordor');
+        expect(result.props.onFormBack)
+          .toEqual(onFormBackSpy);
       });
     });
 
