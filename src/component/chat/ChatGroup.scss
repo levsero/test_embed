@@ -2,6 +2,7 @@
 
 .container {
   position: relative;
+  margin-bottom: #{5/$font-size}rem;
 }
 
 .wrapper {
@@ -16,7 +17,7 @@
 }
 
 .message {
-  margin-bottom: #{7/$font-size}rem;
+  margin-bottom: #{5/$font-size}rem;
 }
 
 .messageUser {

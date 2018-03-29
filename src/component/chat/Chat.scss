@@ -35,15 +35,6 @@
   margin-top: #{58/$font-size}rem;
 }
 
-.messages {
-  margin-top: #{-10/$font-size}rem;
-}
-
-.messagesMobile {
-  width: calc(100% - #{20/$font-size}rem);
-  bottom: 0;
-}
-
 .header {
   composes: u-marginBM from global;
 }
@@ -90,6 +81,8 @@
 
 .queuePosition {
   composes: u-textCenter from global;
+  margin-top: #{5/$font-size}rem;
+  margin-bottom: #{10/$font-size}rem;
   color: $zd-color-aluminum;
 }
 

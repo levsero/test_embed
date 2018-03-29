@@ -40,8 +40,6 @@ describe('Chat component', () => {
           footer: 'footerClasses',
           footerMobile: 'footerMobileClasses',
           agentTyping: 'agentTypingClasses',
-          messagesMobile: 'messagesMobileClasses',
-          messages: 'messagesClasses',
           scrollContainer: 'scrollContainerClasses',
           scrollContainerContent: 'scrollContainerContentClasses',
           scrollContainerMessagesContent: 'scrollContainerMessagesContentClasses',
@@ -798,10 +796,6 @@ describe('Chat component', () => {
           .toEqual(null);
       });
     });
-  });
-
-  describe('renderChatScreen', () => {
-    let component;
 
     describe('for non mobile devices', () => {
       beforeEach(() => {
@@ -813,11 +807,6 @@ describe('Chat component', () => {
           .not
           .toContain('scrollContainerMobileClasses');
       });
-
-      it('has messages classes', () => {
-        expect(component.renderChatScreen().props.children.props.className)
-          .toBe('messagesClasses');
-      });
     });
 
     describe('for mobile devices', () => {
@@ -828,11 +817,6 @@ describe('Chat component', () => {
       it('adds mobile container classes to scrollContainer', () => {
         expect(component.renderChatScreen().props.containerClasses)
           .toContain('scrollContainerMobileClasses');
-      });
-
-      it('has messagesMobile classes', () => {
-        expect(component.renderChatScreen().props.children.props.className)
-          .toContain('messagesMobileClasses');
       });
     });
 
