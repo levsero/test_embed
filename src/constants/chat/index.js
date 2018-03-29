@@ -38,3 +38,9 @@ export const CHAT_MESSAGE_TYPES = {
 };
 
 export const agentBot = 'agent:trigger';
+
+export const CONNECTION_STATUSES = {
+  CONNECTING: 'connecting',
+  CONNECTED: 'connected',
+  CLOSED: 'closed'
+};

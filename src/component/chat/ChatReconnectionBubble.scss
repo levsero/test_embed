@@ -7,15 +7,22 @@
 .bubble {
   composes: u-backgroundWhite from global;
   opacity: 0.9;
-  border-radius: #{4/$font-size}rem !important;
+  border-radius: #{30/$font-size}rem !important;
   box-shadow: 0 #{1/$font-size}rem #{10/$font-size}rem 0 rgba(0, 0, 0, 0.2);
-  width: #{127/$font-size}rem;
-  height: #{34/$font-size}rem;
-  line-height: #{36/$font-size}rem;
+  max-width: 90%;
+  height: #{30/$font-size}rem;
+  line-height: #{30/$font-size}rem;
 }
 
 .contentContainer {
   composes: u-textCenter from global;
+
+  padding-left: #{15/$font-size}rem;
+  padding-right: #{12/$font-size}rem;
+
+  &:after {
+    content: '\A0';
+  }
 }
 
 .loadingSpinner {
@@ -23,11 +30,17 @@
   width: #{16/$font-size}rem;
   height: #{16/$font-size}rem;
   stroke-width: #{8/$font-size}rem;
+  margin-bottom: #{1/$font-size}rem;
 }
 
 .title {
   composes: u-inlineBlock u-alignMiddle from global;
   margin-right: #{7/$font-size}rem;
+  margin-bottom: #{1/$font-size}rem;
+  max-width: calc(100% - #{23/$font-size}rem);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .circle {

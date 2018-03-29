@@ -32,7 +32,7 @@ describe('ChatReconnectionBubble component', () => {
 
     it('uses correct translation for title', () => {
       expect(mocki18nTranslate)
-        .toHaveBeenCalledWith('embeddable_framework.chat.reconnecting.title');
+        .toHaveBeenCalledWith('embeddable_framework.chat.reconnecting');
     });
   });
 });
