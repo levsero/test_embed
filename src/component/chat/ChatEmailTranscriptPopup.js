@@ -91,11 +91,14 @@ export class ChatEmailTranscriptPopup extends Component {
   }
 
   renderEmailField = () => {
+    const inputClasses = this.props.isMobile ? styles.fieldInputMobile : '';
+
     return (
       <EmailField
         fieldContainerClasses={styles.fieldContainer}
         fieldClasses={styles.field}
         labelClasses={styles.fieldLabel}
+        inputClasses={inputClasses}
         label={i18n.t('embeddable_framework.form.field.email.label')}
         value={this.state.formState.email}
         name='email' />

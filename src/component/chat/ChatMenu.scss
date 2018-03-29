@@ -14,7 +14,7 @@
 .containerMobile {
   composes: u-posAbsolute u-posFill from global;
   top: #{42.5/$font-size}rem !important;
-  z-index: 4;
+  z-index: #{$chat-header-zindex + 1};
   overflow: hidden;
 
   &.hidden {
@@ -78,7 +78,7 @@
     background: $zd-color-white-smoke;
   }
 
-  &:disabled {
+  &:disabled, &.disabled {
     color: $zd-color-iron;
     background: $zd-color-white;
   }

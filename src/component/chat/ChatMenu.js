@@ -42,8 +42,8 @@ export class ChatMenu extends Component {
     this.props.onSoundClick();
   }
 
-  handleSendFileClick = (e) => {
-    // This is needed to keep the menu opened and allow file sending to work
+  preventContainerClick = (e) => {
+    // This is needed to keep the menu being opened
     e.stopPropagation();
   }
 
@@ -83,21 +83,26 @@ export class ChatMenu extends Component {
   renderEndChatButton = () => {
     const { isMobile, disableEndChat, endChatOnClick } = this.props;
     const label = i18n.t('embeddable_framework.chat.options.endChat');
+    const containerClasses = classNames(
+      this.getItemClasses(),
+      { [styles.disabled]: disableEndChat }
+    );
 
-    return (
-      <button className={this.getItemClasses()} onClick={endChatOnClick} disabled={disableEndChat}>
-        {
-          isMobile
-          ? <Button
+    return (isMobile
+      ? <div className={containerClasses} onClick={this.preventContainerClick}>
+          <Button
             onTouchStartDisabled={true}
+            onClick={endChatOnClick}
             label={label}
+            type={'button'}
             className={styles.endChatMobileButton}
             primary={true}
             disabled={disableEndChat} />
-          : label
-        }
-      </button>
-    );
+        </div>
+      : <button className={containerClasses} onClick={endChatOnClick} disabled={disableEndChat}>
+          {label}
+        </button>
+      );
   }
 
   renderGoBackButton = () => {
@@ -112,7 +117,7 @@ export class ChatMenu extends Component {
     if (!this.props.attachmentsEnabled) return null;
 
     return (
-      <div onClick={this.handleSendFileClick}>
+      <div onClick={this.preventContainerClick}>
         <Dropzone className={this.getItemClasses()} onDrop={this.props.onSendFileClick}>
           {i18n.t('embeddable_framework.chat.options.sendFile')}
         </Dropzone>

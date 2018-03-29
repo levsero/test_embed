@@ -65,7 +65,7 @@ describe('ChatMenu component', () => {
     });
   });
 
-  describe('handleSendFileClick', () => {
+  describe('preventContainerClick', () => {
     let stopPropagationSpy;
 
     beforeEach(() => {
@@ -73,7 +73,7 @@ describe('ChatMenu component', () => {
 
       const component = instanceRender(<ChatMenu />);
 
-      component.handleSendFileClick({ stopPropagation: stopPropagationSpy });
+      component.preventContainerClick({ stopPropagation: stopPropagationSpy });
     });
 
     it('calls stopPropagation on the event', () => {
@@ -506,7 +506,7 @@ describe('ChatMenu component', () => {
       const sendFile = buttons[2];
 
       expect(sendFile.props.onClick)
-        .toEqual(component.handleSendFileClick);
+        .toEqual(component.preventContainerClick);
 
       expect(sendFile.props.children.props.className)
         .toEqual('itemMobileClass');
@@ -526,6 +526,9 @@ describe('ChatMenu component', () => {
       const endChat = buttons[4];
 
       expect(endChat.props.onClick)
+        .toEqual(component.preventContainerClick);
+
+      expect(endChat.props.children.props.onClick)
         .toEqual(endChatOnClickSpy);
 
       expect(endChat.props.className)

@@ -22,7 +22,7 @@
   height: #{58/$font-size}rem;
   padding: #{5/$font-size}rem #{17/$font-size}rem;
   top: #{43/$font-size}rem;
-  z-index: 3;
+  z-index: $chat-header-zindex;
 }
 
 .textContainer {

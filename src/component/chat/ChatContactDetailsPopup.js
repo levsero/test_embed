@@ -95,11 +95,14 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   renderNameField = () => {
+    const inputClasses = this.props.isMobile ? styles.fieldInputMobile : '';
+
     return (
       <Field
         fieldContainerClasses={styles.fieldContainer}
         fieldClasses={styles.field}
         labelClasses={styles.fieldLabel}
+        inputClasses={inputClasses}
         label={i18n.t('embeddable_framework.common.textLabel.name')}
         value={this.state.formState.name}
         name='name'/>
@@ -107,11 +110,14 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   renderEmailField = () => {
+    const inputClasses = this.props.isMobile ? styles.fieldInputMobile : '';
+
     return (
       <EmailField
         fieldContainerClasses={styles.fieldContainer}
         fieldClasses={styles.field}
         labelClasses={styles.fieldLabel}
+        inputClasses={inputClasses}
         label={i18n.t('embeddable_framework.common.textLabel.email')}
         value={this.state.formState.email}
         name='email'/>

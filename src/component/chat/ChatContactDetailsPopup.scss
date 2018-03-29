@@ -33,6 +33,10 @@
   color: $zd-color-dark-gray !important;
 }
 
+.fieldInputMobile {
+  font-size: #{13/$font-size}rem !important;
+}
+
 .loadingSpinner {
   composes: Grid-cell--center from global;
 }
