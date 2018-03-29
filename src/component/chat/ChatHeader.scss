@@ -38,3 +38,7 @@
 .title {
   composes: u-textBold from global;
 }
+
+.clickable {
+  cursor: pointer;
+}

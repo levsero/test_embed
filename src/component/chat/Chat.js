@@ -15,9 +15,11 @@ import { ChatPopup } from 'component/chat/ChatPopup';
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup';
 import { ChatEmailTranscriptPopup } from 'component/chat/ChatEmailTranscriptPopup';
 import { ChatReconnectionBubble } from 'component/chat/ChatReconnectionBubble';
+import { ChatAgentList } from 'component/chat/ChatAgentList';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
+import { Button } from 'component/button/Button';
 import { i18n } from 'service/i18n';
 import { endChat,
          endChatViaPostChatScreen,
@@ -341,12 +343,24 @@ class Chat extends Component {
   }
 
   renderChatHeader = () => {
-    const { rating, sendChatRating, concierge, agentJoined, ratingSettings } = this.props;
+    const {
+      rating,
+      sendChatRating,
+      concierge,
+      agentJoined,
+      ratingSettings,
+      updateChatScreen,
+      screen,
+      agents
+    } = this.props;
     // Title in chat refers to the byline and display_name refers to the display title
     const { avatar_path, display_name, title } = concierge;
     const displayName = _.has(display_name, 'toString') ? display_name.toString() : display_name; // eslint-disable-line camelcase
     const byline = _.has(title, 'toString') ? title.toString() : title;
     const showRating = ratingSettings.enabled && agentJoined;
+    const onClick = (screen === screens.CHATTING_SCREEN && _.size(agents) > 0)
+                  ? () => { updateChatScreen(screens.AGENT_LIST_SCREEN); }
+                  : null;
 
     return (
       <ChatHeader
@@ -355,7 +369,8 @@ class Chat extends Component {
         updateRating={sendChatRating}
         avatar={avatar_path} // eslint-disable-line camelcase
         title={displayName}
-        byline={byline} />
+        byline={byline}
+        onClick={onClick} />
     );
   }
 
@@ -619,6 +634,37 @@ class Chat extends Component {
     return <ChatReconnectionBubble />;
   }
 
+  renderAgentListScreen = () => {
+    const { screen, agents, updateChatScreen, isMobile } = this.props;
+
+    if (screen !== screens.AGENT_LIST_SCREEN) return null;
+
+    const scrollContainerClasses = classNames(
+      styles.scrollContainer,
+      { [styles.mobileContainer]: isMobile }
+    );
+    const backButtonOnClick = () => { updateChatScreen(screens.CHATTING_SCREEN); };
+    const backToChatButton = (
+      <Button
+        fullscreen={isMobile}
+        label={i18n.t('embeddable_framework.chat.agentList.button.backToChat')}
+        onTouchStartDisabled={true}
+        onClick={backButtonOnClick}
+        className={styles.agentListBackButton} />
+    );
+
+    return (
+      <ScrollContainer
+        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+        classes={scrollContainerClasses}
+        containerClasses={styles.scrollContainerContent}
+        footerContent={backToChatButton}
+        >
+        <ChatAgentList agents={agents} />
+      </ScrollContainer>
+    );
+  }
+
   render = () => {
     const containerStyle = classNames(
       styles.container,
@@ -631,6 +677,7 @@ class Chat extends Component {
       <div className={containerStyle}>
         {this.renderPrechatScreen()}
         {this.renderChatScreen()}
+        {this.renderAgentListScreen()}
         {this.renderPostchatScreen()}
         {this.renderChatMenu()}
         {this.renderChatEndPopup()}

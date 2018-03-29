@@ -11,6 +11,7 @@ import ChannelChoiceDesktopStyles from 'component/channelChoice/ChannelChoiceDes
 import ChannelChoicePopupMobileStyles from 'component/channelChoice/ChannelChoicePopupMobile.scss';
 import ChannelChoiceMobileStyles from 'component/channelChoice/ChannelChoiceMobile.scss';
 import ChannelChoicePopupDesktopStyles from 'component/channelChoice/ChannelChoicePopupDesktop.scss';
+import ChatAgentListStyles from 'component/chat/ChatAgentList.scss';
 import ChatBoxStyles from 'component/chat/ChatBox.scss';
 import ChatPopupStyles from 'component/chat/ChatPopup.scss';
 import ChatNotificationPopupStyles from 'component/chat/ChatNotificationPopup.scss';
@@ -69,6 +70,7 @@ export const webWidgetStyles = `
   ${ChannelChoicePopupDesktopStyles}
   ${ChannelChoiceMobileStyles}
   ${ChannelChoicePopupMobileStyles}
+  ${ChatAgentListStyles}
   ${ChatBoxStyles}
   ${ChatPopupStyles}
   ${ChatNotificationPopupStyles}
