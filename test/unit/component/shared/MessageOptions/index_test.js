@@ -177,5 +177,31 @@ describe('MessageOptions component', () => {
         });
       });
     });
+
+    describe('onOptionClick', () => {
+      let onOptionClickSpy;
+
+      beforeEach(() => {
+        onOptionClickSpy = jasmine.createSpy();
+
+        messageOptionsComponent = instanceRender(
+          <MessageOptions optionItems={optionItems} onOptionClick={onOptionClickSpy} />
+        );
+
+        response = messageOptionsComponent.render();
+      });
+
+      it('sets onClick handler to each item correctly', () => {
+        response.props.children.forEach((item, index) => {
+          expect(item.props.onClick)
+            .toEqual(jasmine.any(Function));
+
+          item.props.onClick();
+
+          expect(onOptionClickSpy)
+            .toHaveBeenCalledWith(optionItems[index]);
+        });
+      });
+    });
   });
 });

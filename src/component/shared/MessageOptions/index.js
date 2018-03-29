@@ -8,11 +8,13 @@ export class MessageOptions extends Component {
   static propTypes = {
     optionItemClasses: PropTypes.string,
     optionItems: PropTypes.array,
+    onOptionClick: PropTypes.func,
     isMessageBubbleLinked: PropTypes.bool
   };
 
   static defaultProps = {
     optionItems: [],
+    onOptionClick: () => {},
     isMessageBubbleLinked: false
   }
 
@@ -27,8 +29,11 @@ export class MessageOptions extends Component {
       );
 
       return (
-        <li className={childClasses} key={index}>
-          {child}
+        <li
+          key={index}
+          className={childClasses}
+          onClick={() => this.props.onOptionClick(child)}>
+          <a>{child}</a>
         </li>
       );
     });

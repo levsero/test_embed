@@ -88,10 +88,19 @@ describe('MessageBubble component', () => {
   describe('#renderOptions', () => {
     let component,
       response,
+      handleSendMsgSpy,
       options;
 
     beforeEach(() => {
-      component = instanceRender(<MessageBubble message='Test Message' options={options} />);
+      handleSendMsgSpy = jasmine.createSpy();
+
+      component = instanceRender(
+        <MessageBubble
+          message='Test Message'
+          handleSendMsg={handleSendMsgSpy}
+          options={options} />
+      );
+
       response = component.renderOptions();
     });
 
@@ -121,17 +130,18 @@ describe('MessageBubble component', () => {
           .toEqual(true);
       });
 
+      it('sets onOptionClick prop correctly', () => {
+        expect(response.props.onOptionClick)
+          .toBe(handleSendMsgSpy);
+      });
+
       it('sets the correct optionItems', () => {
-        response.props.optionItems.forEach((optionItem, index) => {
-          expect(TestUtils.isElementOfType(optionItem, 'a'))
-            .toEqual(true);
-          expect(optionItem.key)
-            .toEqual(index.toString());
-          expect(optionItem.props.children)
-            .toEqual(options[index]);
-          expect(optionItem.props.onClick)
-            .toEqual(jasmine.any(Function));
-        });
+        expect(response.props.optionItems.length)
+          .toEqual(2);
+        expect(response.props.optionItems[0])
+          .toEqual('yes');
+        expect(response.props.optionItems[1])
+          .toEqual('no');
       });
     });
   });
