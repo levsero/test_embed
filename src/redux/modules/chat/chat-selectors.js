@@ -85,10 +85,12 @@ export const getOfflineFormFields = createSelector(
   getFormFields
 );
 
-const getDepartments = (state) => _.values(state.chat.departments);
+export const getDepartments = (state) => state.chat.departments;
+
+const getDepartmentsList = (state) => _.values(state.chat.departments);
 
 export const getPrechatFormFields = createSelector(
-  [getPrechatFormSettings, getDepartments],
+  [getPrechatFormSettings, getDepartmentsList],
   (prechatSettings, departments) => {
     const formsByKey = getFormFields(prechatSettings);
     const departmentOptions = _.map(
