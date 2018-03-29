@@ -1,5 +1,6 @@
-describe('Icon component', function() {
+describe('Icon components', function() {
   let Icon,
+    IconButton,
     ICONS;
 
   const iconPath = buildSrcPath('component/Icon');
@@ -69,7 +70,9 @@ describe('Icon component', function() {
       },
       './Icon.scss': {
         locals: {
-          mobile: 'is-mobile'
+          mobile: 'is-mobile',
+          button: 'button',
+          altText: 'altText'
         }
       }
     });
@@ -77,6 +80,7 @@ describe('Icon component', function() {
     mockery.registerAllowable(iconPath);
 
     Icon = requireUncached(iconPath).Icon;
+    IconButton = requireUncached(iconPath).IconButton;
   });
 
   afterEach(function() {
@@ -84,25 +88,60 @@ describe('Icon component', function() {
     mockery.disable();
   });
 
-  it('should not have mobile classes when isMobileBrowser is false', function() {
-    const icon = shallowRender(<Icon type="Icon--zendesk" />);
+  describe('Icon', () => {
+    it('should not have mobile classes when isMobileBrowser is false', function() {
+      const icon = shallowRender(<Icon type="Icon--zendesk" />);
 
-    expect(icon.props.className)
-      .not.toMatch('is-mobile');
-  });
-
-  it('should have mobile classes when isMobileBrowser is true', function() {
-    mockery.registerMock('utility/devices', {
-      isMobileBrowser: function isMobileBrowser() {
-        return true;
-      }
+      expect(icon.props.className)
+        .not.toMatch('is-mobile');
     });
 
-    Icon = requireUncached(iconPath).Icon;
+    it('should have mobile classes when isMobileBrowser is true', function() {
+      mockery.registerMock('utility/devices', {
+        isMobileBrowser: function isMobileBrowser() {
+          return true;
+        }
+      });
 
-    const icon = shallowRender(<Icon type="Icon--zendesk" />);
+      Icon = requireUncached(iconPath).Icon;
 
-    expect(icon.props.className)
-      .toMatch('is-mobile');
+      const icon = shallowRender(<Icon type="Icon--zendesk" />);
+
+      expect(icon.props.className)
+        .toMatch('is-mobile');
+    });
+  });
+
+  describe('IconButton', () => {
+    describe('#render', () => {
+      let component,
+        buttonEl;
+
+      beforeEach(() => {
+        component = instanceRender(<IconButton type='Icon--zendesk' altText='Clickable Icon' />);
+        buttonEl = component.render();
+      });
+
+      describe('child elements', () => {
+        describe('Icon', () => {
+          it('renders an Icon element of the correct type', () => {
+            expect(buttonEl.props.children[0].props.type)
+              .toMatch('Icon--zendesk');
+          });
+        });
+
+        describe('alt text', () => {
+          it('renders an element for the alt text', () => {
+            expect(buttonEl.props.children[1].type)
+              .toMatch('span');
+          });
+
+          it('renders the alt text for the icon', () => {
+            expect(buttonEl.props.children[1].props.children)
+              .toMatch('Clickable Icon');
+          });
+        });
+      });
+    });
   });
 });
