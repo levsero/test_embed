@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { getAccountSettings,
          newAgentMessageReceived,
          incrementNewAgentMessageCounter,
+         updateLastAgentMessageSeenTimestamp,
          getIsChatting } from 'src/redux/modules/chat';
 import { updateActiveEmbed } from 'src/redux/modules/base';
 import { IS_CHATTING } from 'src/redux/modules/chat/chat-action-types';
@@ -14,10 +15,13 @@ import { getChatMessagesByAgent,
          getOfflineFormSettings,
          getChatOnline,
          getChatStatus,
+         getChatScreen,
+         getLastAgentMessageSeenTimestamp,
          getUserSoundSettings } from 'src/redux/modules/chat/chat-selectors';
 import { getArticleDisplayed } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getActiveEmbed,
          getWidgetShown } from 'src/redux/modules/base/base-selectors';
+import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { store } from 'service/persistence';
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown');
@@ -63,17 +67,58 @@ const onChatStatus = (action = {}, dispatch) => {
 
       if (activeEmbed === 'zopimChat') activeEmbed = 'chat';
 
+      const timestamp = _.get(store.get('store'), 'lastAgentMessageSeenTimestamp');
+
+      if (timestamp) {
+        dispatch(updateLastAgentMessageSeenTimestamp(timestamp));
+      }
+
       dispatch(updateActiveEmbed(activeEmbed));
     }
   }
 };
 
-const onNewChatMessage = (prevState, nextState, dispatch) => {
-  const prevChats = getChatMessagesByAgent(prevState);
-  const nextChats = getChatMessagesByAgent(nextState);
-  const isIncomingChat = prevChats.length < nextChats.length;
+const hasUnseenAgentMessage = (state) => {
+  const timestamp = _.get(store.get('store'), 'lastAgentMessageSeenTimestamp');
 
-  if (isIncomingChat) {
+  if (!timestamp) {
+    return false;
+  }
+
+  // check if any of the agent messages came after the last stored timestamp
+  return _.find(getChatMessagesByAgent(state), message => message.timestamp > timestamp);
+};
+
+const inChattingScreen = (state) => {
+  const screen = getChatScreen(state);
+  const embed = getActiveEmbed(state);
+  const widgetShown = getWidgetShown(state);
+
+  return widgetShown && screen === CHATTING_SCREEN && embed === 'chat';
+};
+
+const storeLastAgentMessageSeen = (state, dispatch) => {
+  const timestamp = _.get(_.last(getChatMessagesByAgent(state)), 'timestamp');
+  const previousTimestamp = getLastAgentMessageSeenTimestamp(state);
+
+  if (timestamp && timestamp > previousTimestamp) {
+    dispatch(updateLastAgentMessageSeenTimestamp(timestamp));
+  }
+};
+
+const onNewAgentMessage = (prevState, nextState, dispatch) => {
+  // only store the last message seen timestamp if user is chatting on the chat screen
+  if (inChattingScreen(nextState)) {
+    storeLastAgentMessageSeen(nextState, dispatch);
+  }
+};
+
+const onNewChatMessage = (prevState, nextState, dispatch) => {
+  const prev = getChatMessagesByAgent(prevState);
+  const next = getChatMessagesByAgent(nextState);
+  const newAgentMessage = next.length > prev.length;
+
+  if (newAgentMessage && hasUnseenAgentMessage(nextState)) {
     if (getUserSoundSettings(nextState)) {
       audio.play('incoming_message');
     }
@@ -107,6 +152,7 @@ const onArticleDisplayed = (prevState, nextState) => {
 export default function onStateChange(prevState, nextState, action, dispatch = () => {}) {
   onChatStatusChange(prevState, nextState);
   onChatConnected(prevState, nextState, dispatch);
+  onNewAgentMessage(prevState, nextState, dispatch);
   onNewChatMessage(prevState, nextState, dispatch);
   onArticleDisplayed(prevState, nextState, dispatch);
   onChatStatus(action, dispatch);

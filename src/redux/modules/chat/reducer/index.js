@@ -20,6 +20,7 @@ import queuePosition from './chat-queue-position';
 import offlineMessage from './chat-offline-message';
 import menuVisible from './chat-menu-visibility';
 import agentJoined from './chat-agent-joined';
+import lastAgentMessageSeenTimestamp from './chat-last-agent-message-seen-timestamp';
 
 export default combineReducers({
   accountSettings,
@@ -41,5 +42,6 @@ export default combineReducers({
   editContactDetails,
   menuVisible,
   offlineMessage,
-  agentJoined
+  agentJoined,
+  lastAgentMessageSeenTimestamp
 });

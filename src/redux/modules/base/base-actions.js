@@ -48,10 +48,10 @@ export const updateAuthenticated = (bool) => {
   };
 };
 
-export const updateWidgetShown = (bool) => {
+export const updateWidgetShown = (show) => {
   const updateWidgetShownAction = {
     type: UPDATE_WIDGET_SHOWN,
-    payload: bool
+    payload: show
   };
 
   return (dispatch, getState) => {
@@ -59,7 +59,7 @@ export const updateWidgetShown = (bool) => {
 
     dispatch(updateWidgetShownAction);
 
-    if (activeEmbed === 'chat') {
+    if (activeEmbed === 'chat' && show) {
       dispatch(chatOpened());
     }
   };
