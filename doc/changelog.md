@@ -1,6 +1,6 @@
 ## Changelog
 ### 28 March 2018
-- Fixed prefill issues. Prefill now appears for any field when submitting a second ticket via the Web Widget without refreshing page, and for the description field when ticket form is not enabled.
+- Fixed prefill issues. Prefill now appears for any field when submitting a second ticket via the Web Widget without refreshing the page, and for the description field when ticket form is not enabled.
 
 ### 26 March 2018
 - Fixed an issue with Web Widget embedded in restricted Help Centers with hostmapped domains. The new snippet now works for restricted Help Centers with hostmapping.
