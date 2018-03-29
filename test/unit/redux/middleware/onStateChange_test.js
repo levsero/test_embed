@@ -59,6 +59,11 @@ describe('onStateChange middleware', () => {
       'src/redux/modules/chat/chat-action-types': {
         IS_CHATTING: 'IS_CHATTING'
       },
+      'src/constants/chat': {
+        CONNECTION_STATUSES: {
+          CONNECTING: 'connecting'
+        }
+      },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getArticleDisplayed: _.identity
       },
@@ -121,6 +126,30 @@ describe('onStateChange middleware', () => {
         it('calls mediator with newChat.connected with the store value', () => {
           expect(broadcastSpy)
             .toHaveBeenCalledWith('newChat.connected', false);
+        });
+
+        describe('when the chat connects for a second time', () => {
+          beforeEach(() => {
+            getAccountSettingsSpy.calls.reset();
+            getIsChattingSpy.calls.reset();
+            broadcastSpy.calls.reset();
+            stateChangeFn(connectingState, connectedState, {}, dispatchSpy);
+          });
+
+          it('does not dispatch the getAccountSettings action creator', () => {
+            expect(getAccountSettingsSpy)
+              .not.toHaveBeenCalled();
+          });
+
+          it('does not dispatch the getIsChatting action creator', () => {
+            expect(getIsChattingSpy)
+              .not.toHaveBeenCalled();
+          });
+
+          it('does not call mediator with newChat.connected with the store value', () => {
+            expect(broadcastSpy)
+              .not.toHaveBeenCalledWith('newChat.connected', false);
+          });
         });
       });
     });

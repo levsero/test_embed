@@ -3,6 +3,9 @@
 .pill {
   composes: u-textNormal from global;
   composes: c-btn c-btn--secondary c-btn--pill from '../../styles/components/Button.scss';
+  background-color: $zd-color-white !important;
+  box-shadow: 0 #{1/$font-size}rem #{10/$font-size}rem 0 rgba(0, 0, 0, 0.2);
+  padding: #{10/$font-size}rem #{15/$font-size}rem !important;
 }
 
 .fullscreen {

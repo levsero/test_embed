@@ -90,3 +90,7 @@
   width: 100%;
   max-width: unset;
 }
+
+.reconnectContainer {
+  composes: u-flex u-posFill u-posAbsolute u-flexAlignItemsCenter u-flexJustifyCenter from global;
+}

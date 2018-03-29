@@ -223,5 +223,22 @@ describe('chat reducer agents', () => {
           .toEqual({});
       });
     });
+
+    describe('when a CHAT_RECONNECT action is dispatched', () => {
+      beforeEach(() => {
+        const currentState = {
+          'agent:cena': {}
+        };
+
+        state = reducer(currentState, {
+          type: actionTypes.CHAT_RECONNECT
+        });
+      });
+
+      it('resets reducer to initial state', () => {
+        expect(state)
+          .toEqual({});
+      });
+    });
   });
 });

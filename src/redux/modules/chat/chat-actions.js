@@ -36,7 +36,8 @@ import {
   OFFLINE_FORM_REQUEST_SUCCESS,
   OFFLINE_FORM_REQUEST_SENT,
   OFFLINE_FORM_BACK_BUTTON_CLICKED,
-  UPDATE_CHAT_MENU_VISIBILITY
+  UPDATE_CHAT_MENU_VISIBILITY,
+  CHAT_RECONNECT
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import {
@@ -388,5 +389,13 @@ export function updateMenuVisibility(visible) {
   return {
     type: UPDATE_CHAT_MENU_VISIBILITY,
     payload: visible
+  };
+}
+
+export function handleReconnect() {
+  zChat.reconnect();
+
+  return {
+    type: CHAT_RECONNECT
   };
 }

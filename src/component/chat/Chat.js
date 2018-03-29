@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
 
+import { ButtonPill } from 'component/button/ButtonPill';
 import { ChatBox } from 'component/chat/ChatBox';
 import { ChatFooter } from 'component/chat/ChatFooter';
 import { ChatLog } from 'component/chat/ChatLog';
@@ -35,6 +36,7 @@ import { endChat,
          handleSoundIconClick,
          sendEmailTranscript,
          resetEmailTranscript,
+         handleReconnect,
          handlePreChatFormChange,
          updateMenuVisibility,
          updateContactDetailsVisibility } from 'src/redux/modules/chat';
@@ -122,6 +124,7 @@ class Chat extends Component {
     handleChatBoxChange: PropTypes.func.isRequired,
     updateFrameSize: PropTypes.func,
     getAccountSettings: PropTypes.func.isRequired,
+    handleReconnect: PropTypes.func.isRequired,
     sendChatRating: PropTypes.func.isRequired,
     sendChatComment: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
@@ -661,6 +664,22 @@ class Chat extends Component {
     );
   }
 
+  renderChatReconnectButton = () => {
+    const { connection } = this.props;
+
+    if (connection !== CONNECTION_STATUSES.CLOSED) return;
+
+    return (
+      <div className={styles.reconnectContainer}>
+        <ButtonPill
+          className={styles.reconnectButton}
+          showIcon={false}
+          onClick={this.props.handleReconnect}
+          label={i18n.t('embeddable_framework.chat.chatLog.reconnect.label')} />
+      </div>
+    );
+  }
+
   render = () => {
     const containerStyle = classNames(
       styles.container,
@@ -681,6 +700,7 @@ class Chat extends Component {
         {this.renderAttachmentsBox()}
         {this.renderChatEmailTranscriptPopup()}
         {this.renderChatReconnectionBubble()}
+        {this.renderChatReconnectButton()}
       </div>
     );
   }
@@ -703,6 +723,7 @@ const actionCreators = {
   resetEmailTranscript,
   handlePreChatFormChange,
   updateMenuVisibility,
+  handleReconnect,
   updateContactDetailsVisibility
 };
 

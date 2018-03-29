@@ -25,6 +25,7 @@ describe('Chat component', () => {
   const ChatFeedbackForm = noopReactComponent('ChatFeedbackForm');
   const ChatReconnectionBubble = noopReactComponent('ChatReconnectionBubble');
   const Button = noopReactComponent('Button');
+  const ButtonPill = noopReactComponent('ButtonPill');
 
   const CONNECTION_STATUSES = requireUncached(chatConstantsPath).CONNECTION_STATUSES;
 
@@ -52,6 +53,9 @@ describe('Chat component', () => {
       },
       'component/chat/ChatAgentList': {
         ChatAgentList: noopReactComponent()
+      },
+      'component/button/ButtonPill': {
+        ButtonPill
       },
       'component/chat/ChatBox': {
         ChatBox: noopReactComponent()
@@ -1605,6 +1609,39 @@ describe('Chat component', () => {
               .toHaveBeenCalledWith(chattingScreen);
           });
         });
+      });
+    });
+  });
+
+  describe('renderChatReconnectButton', () => {
+    let connectionStatus,
+      result;
+
+    beforeEach(() => {
+      const component = instanceRender(<Chat connection={connectionStatus} />);
+
+      result = component.renderChatReconnectButton();
+    });
+
+    describe('when the connection prop is set to closed', () => {
+      beforeAll(() => {
+        connectionStatus = CONNECTION_STATUSES.CLOSED;
+      });
+
+      it('returns a div with a ButtonPill component inside it', () => {
+        expect(TestUtils.isElementOfType(result.props.children, ButtonPill))
+          .toEqual(true);
+      });
+    });
+
+    describe('when the connection prop is not set to closed', () => {
+      beforeAll(() => {
+        connectionStatus = CONNECTION_STATUSES.CONNECTED;
+      });
+
+      it('returns undefined', () => {
+        expect(result)
+          .toBeUndefined();
       });
     });
   });
