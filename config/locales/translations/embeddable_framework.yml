@@ -380,6 +380,16 @@ parts:
       screenshot: "https://zendesk.box.com/s/1hzxsd0sbrcmjohme1jl9t5hkasokj8p"
       value: "About"
   - translation:
+      key: "embeddable_framework.chat.icon.menu.hover.label"
+      title: "A text popup that is displayed when the user's cursor is hovered above the ellipses (menu) icon"
+      screenshot: "https://drive.google.com/open?id=1XPtpR_c_3sJrSEMBLZtBNTJdLFSXjOAj"
+      value: "Options"
+  - translation:
+      key: "embeddable_framework.chat.icon.attachments.hover.label"
+      title: "A text popup that is displayed when the user's cursor is hovered above the attachments icon"
+      screenshot: "https://drive.google.com/open?id=1VxljLKDi0_4a-pWrHaJW9fF4uWe1lUxe"
+      value: "Attach file"
+  - translation:
       key: "embeddable_framework.chat.icon.endChat.hover.label"
       title: "A text popup that is displayed when the user's cursor is hovered above the end chat icon"
       screenshot: "https://zendesk.box.com/s/an3d6l0vxyk0lsch5xdd1jjzw0ibdibg"
