@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { getAccountSettings,
          newAgentMessageReceived,
+         incrementNewAgentMessageCounter,
          getIsChatting } from 'src/redux/modules/chat';
 import { updateActiveEmbed } from 'src/redux/modules/base';
 import { IS_CHATTING } from 'src/redux/modules/chat/chat-action-types';
@@ -20,14 +21,23 @@ import { store } from 'service/persistence';
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown');
 
-const handleNotificationCounter = (nextState, dispatch) => {
+const handleNewAgentMessage = (nextState, dispatch) => {
   const activeEmbed = getActiveEmbed(nextState);
   const widgetShown = getWidgetShown(nextState);
+  const otherEmbedOpen = widgetShown && activeEmbed !== 'chat';
 
-  if (!widgetShown || (widgetShown && activeEmbed !== 'chat')) {
-    dispatch(newAgentMessageReceived());
+  if (!widgetShown || otherEmbedOpen) {
+    dispatch(incrementNewAgentMessageCounter());
+
     if (!widgetShown) {
       mediator.channel.broadcast('newChat.newMessage');
+    }
+
+    if (otherEmbedOpen) {
+      const messages = getChatMessagesByAgent(nextState);
+      const newAgentMessage = messages[messages.length-1];
+
+      dispatch(newAgentMessageReceived(newAgentMessage));
     }
   }
 };
@@ -63,7 +73,7 @@ const onNewChatMessage = (prevState, nextState, dispatch) => {
       audio.play('incoming_message');
     }
 
-    handleNotificationCounter(nextState, dispatch);
+    handleNewAgentMessage(nextState, dispatch);
   }
 };
 
