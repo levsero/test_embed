@@ -153,7 +153,7 @@ parts:
       screenshot: "https://zendesk.box.com/s/0mq2yi7sukwjn4jhbi3rkt6m82komx6h"
       value: "Ask us anything"
   - translation:
-      key: "embeddable_framework.chat.reconnecting.label"
+      key: "embeddable_framework.chat.reconnecting_label"
       title: "The title that displays in the chat reconnecting message bubble"
       value: "Reconnecting"
       obsolete: "2017-05-01"
@@ -316,12 +316,12 @@ parts:
       value: "Sunday"
   - translation:
       key: "embeddable_framework.chat.operatingHours.label.am"
-      title: "The time equivalent of AM for operating hours (leave empty if your language uses 24-hour time, e.g., 14:00)"
+      title: "The time equivalent of AM for operating hours"
       screenshot: "https://drive.google.com/open?id=1I0KhcUMqfOMulb6G0Zx5nh3ohPa0Qr9q"
       value: "am"
   - translation:
       key: "embeddable_framework.chat.operatingHours.label.pm"
-      title: "The time equivalent of PM for operating hours (leave empty if your language uses 24-hour time, e.g., 14:00)"
+      title: "The time equivalent of PM for operating hours"
       screenshot: "https://drive.google.com/open?id=1yZTe5-F0ME22FkduF3JZpbhXKeMKVijU"
       value: "pm"
   - translation:
