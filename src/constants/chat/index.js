@@ -38,7 +38,7 @@ export const CHAT_MESSAGE_TYPES = {
   CHAT_MESSAGE_PENDING: 'CHAT_MESSAGE_PENDING'
 };
 
-export const agentBot = 'agent:trigger';
+export const AGENT_BOT = 'agent:trigger';
 
 export const CONNECTION_STATUSES = {
   CONNECTING: 'connecting',

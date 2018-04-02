@@ -70,8 +70,8 @@ import { getPrechatFormFields,
          getConnection,
          getLoginSettings } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './Chat.scss';
-import { agentBot, CONNECTION_STATUSES } from 'constants/chat';
 import { chatNameDefault } from 'src/util/utils';
+import { AGENT_BOT, CONNECTION_STATUSES } from 'constants/chat';
 
 const mapStateToProps = (state) => {
   const prechatForm = getPrechatFormSettings(state);
@@ -437,7 +437,7 @@ class Chat extends Component {
   }
 
   renderAgentTyping = () => {
-    const agentList = _.filter(this.props.agents, (agent, key) => agent.typing && key !== agentBot);
+    const agentList = _.filter(this.props.agents, (agent, key) => agent.typing && key !== AGENT_BOT);
     let typingNotification;
 
     switch (agentList.length) {

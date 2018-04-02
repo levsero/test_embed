@@ -143,7 +143,7 @@ describe('Chat component', () => {
         isFirefox: () => isFirefox
       },
       'constants/chat': {
-        agentBot: 'agent:trigger',
+        AGENT_BOT: 'agent:trigger',
         CONNECTION_STATUSES
       },
       'src/util/utils': {
