@@ -1383,31 +1383,55 @@ describe('Chat component', () => {
         agentJoined = true;
       });
 
-      describe('when rating settings enabled', () => {
+      describe('when on the chatting screen', () => {
         beforeAll(() => {
-          ratingSettings = { enabled: true };
+          screen = chattingScreen;
         });
 
-        it('show rating', () => {
-          expect(chatHeaderComponent.props.showRating)
-            .toEqual(true);
+        describe('when rating settings enabled', () => {
+          beforeAll(() => {
+            ratingSettings = { enabled: true };
+          });
+
+          it('shows rating', () => {
+            expect(chatHeaderComponent.props.showRating)
+              .toEqual(true);
+          });
+        });
+
+        describe('when rating settings not enabled', () => {
+          beforeAll(() => {
+            ratingSettings = { enabled: false };
+          });
+
+          it('does not show rating', () => {
+            expect(chatHeaderComponent.props.showRating)
+              .toEqual(false);
+          });
         });
       });
 
-      describe('when rating settings not enabled', () => {
+      describe('when not on the chatting screen', () => {
         beforeAll(() => {
-          ratingSettings = { enabled: false };
+          screen = feedbackScreen;
         });
 
-        it('do not show rating', () => {
-          expect(chatHeaderComponent.props.showRating)
-            .toEqual(false);
+        describe('when rating settings enabled', () => {
+          beforeAll(() => {
+            ratingSettings = { enabled: true };
+          });
+
+          it('does not show rating', () => {
+            expect(chatHeaderComponent.props.showRating)
+              .toEqual(false);
+          });
         });
       });
     });
 
     describe('when agent has not joined', () => {
       beforeAll(() => {
+        screen = chattingScreen;
         agentJoined = false;
       });
 
@@ -1416,7 +1440,7 @@ describe('Chat component', () => {
           ratingSettings = { enabled: true };
         });
 
-        it('do not show rating', () => {
+        it('does not show rating', () => {
           expect(chatHeaderComponent.props.showRating)
             .toEqual(false);
         });
@@ -1427,7 +1451,7 @@ describe('Chat component', () => {
           ratingSettings = { enabled: false };
         });
 
-        it('do not show rating', () => {
+        it('does not show rating', () => {
           expect(chatHeaderComponent.props.showRating)
             .toEqual(false);
         });

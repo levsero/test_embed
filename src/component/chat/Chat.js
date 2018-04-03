@@ -370,7 +370,7 @@ class Chat extends Component {
     const { avatar_path, display_name, title } = concierge;
     const displayName = _.has(display_name, 'toString') ? display_name.toString() : display_name; // eslint-disable-line camelcase
     const byline = _.has(title, 'toString') ? title.toString() : title;
-    const showRating = ratingSettings.enabled && agentJoined;
+    const showRating = screen === screens.CHATTING_SCREEN && ratingSettings.enabled && agentJoined;
     const onClick = (screen === screens.CHATTING_SCREEN && _.size(agents) > 0)
                   ? () => { updateChatScreen(screens.AGENT_LIST_SCREEN); }
                   : null;
