@@ -27,6 +27,9 @@ describe('formatter submitTicket helper', () => {
         store: {
           get: () => mockStoreValue
         }
+      },
+      'utility/globals': {
+        location: global.window.location
       }
     });
 
