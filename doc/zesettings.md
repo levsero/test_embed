@@ -912,6 +912,7 @@ Suppresses the Help Center, Chat, or contact form in the Web Widget on that page
 * chat
 * contactForm
 * helpCenter
+* talk
 
 <a name="example-suppress"></a>
 ##### Example
