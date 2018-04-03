@@ -8,12 +8,15 @@
 .wrapper {
   composes: u-cf from global;
   display: block;
-  margin-left: #{40/$font-size}rem;
 
   [dir='rtl'] & {
     margin-left: 0;
     margin-right: #{40/$font-size}rem;
   }
+}
+
+.avatarWrapper {
+  margin-left: #{40/$font-size}rem;
 }
 
 .message {
@@ -78,26 +81,26 @@
 }
 
 .name {
-  margin: $spacing-tny 0;
+  margin: #{8/$font-size}rem 0;
   color: $zd-color-aluminum !important;
 }
 
 .nameAvatar {
   composes: name;
-  margin-left: #{50/$font-size}rem;
+  margin-left: #{45/$font-size}rem;
 
   [dir='rtl'] & {
-    margin-right: #{50/$font-size}rem;
+    margin-right: #{45/$font-size}rem;
   }
 }
 
 .nameNoAvatar {
   composes: name;
-  margin-left: $spacing-sml;
+  margin-left: $spacing-tny;
 
   [dir='rtl'] & {
     margin-left: 0;
-    margin-right: $spacing-sml;
+    margin-right: $spacing-tny;
   }
 }
 
