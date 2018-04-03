@@ -21,12 +21,12 @@ export class MessageBubble extends Component {
   renderOptions = () => {
     const { handleSendMsg, options } = this.props;
 
-    return options.length && (
+    return options.length ? (
       <MessageOptions
         isMessageBubbleLinked={true}
         onOptionClick={handleSendMsg}
         optionItems={options} />
-    );
+    ) : null;
   }
 
   render() {
