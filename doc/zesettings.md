@@ -155,7 +155,7 @@ window.zESettings = {
 
 The widget's `talk` object, which represents the Talk component, has the following setting:
 
-* [nickName](#nickname)
+* [nickname](#nickname)
 
 <a name="example-talk-settings"></a>
 #### Example
@@ -165,7 +165,7 @@ The widget's `talk` object, which represents the Talk component, has the followi
 window.zESettings = {
   webWidget: {
     talk: {
-      nickName: 'Sales Support'
+      nickname: 'Sales Support'
     }
   }
 };
@@ -212,7 +212,7 @@ window.zESettings = {
 * [filter](#filter)
 * [label](#label)
 * [messageButton](#messagebutton)
-* [nickName](#nickname)
+* [nickname](#nickname)
 * [offset](#offset)
 * [originalArticleButton](#originalarticlebutton)
 * [position](#position)
@@ -716,14 +716,26 @@ window.zESettings = {
 * [title](#title)
 
 
-#### nickName
+#### nickname
 
-An Admin can choose to set up more than one configuration for how Talk will behave in the Web Widget.  Each configuration can customise call routing, and display options.  `nickName` tells the Web Widget which of the available configurations should be used on the current page.
+An Admin can choose to set up more than one configuration for how Talk will behave in the Web Widget.  Each configuration can customise call routing, and display options.  `nickname` tells the Web Widget which of the available configurations should be used on the current page.
 
-When using the `nickName` setting, you should consider the following:
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    talk: {
+      nickname: 'Sales Support'
+    }
+  }
+};
+</script>
+```
 
-* It is mandatory for the value of the `nickName` setting to exactly match the nickname of the Talk configuration you wish to use, including any spaces and capitalization.
-* The nickname is publicly visible to anyone who looks at the page source code so create the nickname accordingly.
+When using the `nickname` setting, you should consider the following:
+
+* It is mandatory for the value of the `nickname` setting to exactly match the nickname of the Talk configuration you wish to use, including any spaces and capitalization.
+* The nickname is publicly visible to anyone who looks at the page source code, so create the nickname accordingly.
 
 
 #### offset
