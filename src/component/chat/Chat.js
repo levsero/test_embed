@@ -345,6 +345,7 @@ class Chat extends Component {
         sendChat={sendChatFn}
         isChatting={this.props.isChatting}
         handleAttachmentDrop={this.props.sendAttachments}
+        menuVisible={this.props.menuVisible}
         toggleMenu={this.toggleMenu}>
         <ChatBox
           isMobile={isMobile}

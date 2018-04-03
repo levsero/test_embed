@@ -32,6 +32,15 @@
   }
 }
 
+.iconActive {
+  cursor: pointer;
+  background: $zd-color-platinum;
+
+  svg > g {
+    fill: $zd-color-dark-gray !important;
+  }
+}
+
 .iconMobile {
   margin-right: 0;
   border-radius: 50%;
