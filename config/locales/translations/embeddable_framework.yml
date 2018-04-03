@@ -395,6 +395,11 @@ parts:
       screenshot: "https://zendesk.box.com/s/an3d6l0vxyk0lsch5xdd1jjzw0ibdibg"
       value: "End chat"
   - translation:
+      key: "embeddable_framework.chat.chatLog.login.updateInfo"
+      title: "A link which appears in the chat log asking the user to update their details. Avoid use of 'your' if you have formal/informal issues. Example: Update contact info/update profile. Stay consistent with what you used in meshim.widget.widgets.form.profile.str_label_edit_internal. VERY SENSITIVE STRING. Please check TM and keep as close as possible to that version, but avoid formal/informal issues."
+      screenshot: "https://drive.google.com/open?id=1gJuqzZ3mlDlaO-NVkI9kZYyk0S0mtBjB"
+      value: "Please update your info"
+  - translation:
       key: "embeddable_framework.chat.chatLog.rating.description"
       title: "A template text to describe the user's rating of the chat followed by a value e.g. Good/Bad"
       screenshot: "https://zendesk.box.com/s/6217lsbb6xpx9islgzrtg65o6ozma3zz"
