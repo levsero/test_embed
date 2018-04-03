@@ -371,8 +371,8 @@ class Chat extends Component {
     const displayName = _.has(display_name, 'toString') ? display_name.toString() : display_name; // eslint-disable-line camelcase
     const byline = _.has(title, 'toString') ? title.toString() : title;
     const showRating = screen === screens.CHATTING_SCREEN && ratingSettings.enabled && agentJoined;
-    const onClick = (screen === screens.CHATTING_SCREEN && _.size(agents) > 0)
-                  ? () => { updateChatScreen(screens.AGENT_LIST_SCREEN); }
+    const onAgentDetailsClick = (screen === screens.CHATTING_SCREEN && _.size(agents) > 0)
+                  ? () => updateChatScreen(screens.AGENT_LIST_SCREEN)
                   : null;
 
     return (
@@ -383,7 +383,7 @@ class Chat extends Component {
         avatar={avatar_path} // eslint-disable-line camelcase
         title={displayName}
         byline={byline}
-        onClick={onClick} />
+        onAgentDetailsClick={onAgentDetailsClick} />
     );
   }
 

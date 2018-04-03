@@ -1345,7 +1345,7 @@ describe('Chat component', () => {
         });
 
         beforeEach(() => {
-          chatHeaderComponent.props.onClick();
+          chatHeaderComponent.props.onAgentDetailsClick();
         });
 
         it('passes a function which calls updateChatScreen with agent list screen', () => {
@@ -1359,8 +1359,8 @@ describe('Chat component', () => {
           screen = feedbackScreen;
         });
 
-        it('passes null to the onClick prop', () => {
-          expect(chatHeaderComponent.props.onClick)
+        it('passes null to the onAgentDetailsClick prop', () => {
+          expect(chatHeaderComponent.props.onAgentDetailsClick)
             .toBeNull();
         });
       });
@@ -1372,8 +1372,8 @@ describe('Chat component', () => {
         agents = {};
       });
 
-      it('passes null to the onClick prop', () => {
-        expect(chatHeaderComponent.props.onClick)
+      it('passes null to the onAgentDetailsClick prop', () => {
+        expect(chatHeaderComponent.props.onAgentDetailsClick)
           .toBeNull();
       });
     });

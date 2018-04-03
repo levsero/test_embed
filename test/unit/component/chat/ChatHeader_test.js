@@ -98,12 +98,14 @@ describe('ChatHeader component', () => {
           .toEqual('Icon--avatar');
       });
 
-      describe('onClick', () => {
+      describe('onAgentDetailsClick', () => {
         let onClickSpy,
-          component;
+          agentDetailsContainer;
 
         beforeEach(() => {
-          component = instanceRender(<ChatHeader onClick={onClickSpy} />);
+          const component = instanceRender(<ChatHeader onAgentDetailsClick={onClickSpy} />);
+
+          agentDetailsContainer = component.render().props.children[0];
         });
 
         describe('when it is defined', () => {
@@ -111,13 +113,13 @@ describe('ChatHeader component', () => {
             onClickSpy = jasmine.createSpy();
           });
 
-          it('adds the clickable classNames to the container', () => {
-            expect(component.render().props.className)
+          it('adds the clickable classNames to the agent details container', () => {
+            expect(agentDetailsContainer.props.className)
               .toContain('clickableClasses');
           });
 
-          it('sets the onClick of the container to the prop', () => {
-            expect(component.render().props.onClick)
+          it('sets the onClick of the agent details container to the prop', () => {
+            expect(agentDetailsContainer.props.onClick)
               .toEqual(onClickSpy);
           });
         });
@@ -127,8 +129,8 @@ describe('ChatHeader component', () => {
             onClickSpy = undefined;
           });
 
-          it('does not add the clickable classNames to the container', () => {
-            expect(component.render().props.className)
+          it('does not add the clickable classNames to the agent details container', () => {
+            expect(agentDetailsContainer.props.className)
               .not
               .toContain('clickableClasses');
           });
