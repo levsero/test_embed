@@ -1,6 +1,6 @@
-import { SDK_CHAT_MSG,
-         CHAT_NOTIFICATION_DISMISSED,
+import { CHAT_NOTIFICATION_DISMISSED,
          NEW_AGENT_MESSAGE_RECEIVED,
+         INCREMENT_NEW_AGENT_MESSAGE_COUNTER,
          CHAT_OPENED } from '../chat-action-types';
 
 const initialState = {
@@ -13,8 +13,10 @@ const initialState = {
 
 const notification = (state = initialState, action) => {
   switch (action.type) {
-    case SDK_CHAT_MSG:
-      const { nick, display_name, msg } = action.payload.detail;
+    case CHAT_NOTIFICATION_DISMISSED:
+      return { ...state, show: false };
+    case NEW_AGENT_MESSAGE_RECEIVED:
+      const { nick, display_name, msg } = action.payload;
 
       return {
         ...state,
@@ -23,9 +25,7 @@ const notification = (state = initialState, action) => {
         msg,
         show: true
       };
-    case CHAT_NOTIFICATION_DISMISSED:
-      return { ...state, show: false };
-    case NEW_AGENT_MESSAGE_RECEIVED:
+    case INCREMENT_NEW_AGENT_MESSAGE_COUNTER:
       return { ...state, count: state.count + 1 };
     case CHAT_OPENED:
       return { ...state, show: false, count: 0 };

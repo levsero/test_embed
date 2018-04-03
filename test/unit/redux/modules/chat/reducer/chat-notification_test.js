@@ -37,31 +37,45 @@ describe('chat reducer notification', () => {
       });
     });
 
-    describe('when a SDK_CHAT_MSG action is dispatched', () => {
+    describe('when a NEW_AGENT_MESSAGE_RECEIVED action is dispatched', () => {
       let payload;
 
       beforeEach(() => {
         payload = {
-          detail: {
-            nick: '123',
-            display_name: 'Terence',
-            msg: 'Hello there!'
-          }
+          nick: '123',
+          display_name: 'Terence',
+          msg: 'Hello there!'
         };
 
-        const action = { type: actionTypes.SDK_CHAT_MSG, payload };
+        const action = { type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED, payload };
 
         state = reducer(initialState, action);
       });
 
       it('updates the state with payload', () => {
-        const { nick, display_name, msg } = payload.detail;
-        const expected = _.merge(
-          {},
-          mockInitialState,
-          { nick, display_name, msg },
-          { show: true }
-        );
+        const { nick, display_name, msg } = payload;
+        const expected = {
+          ...mockInitialState,
+          nick,
+          display_name,
+          msg,
+          show: true
+        };
+
+        expect(state)
+          .toEqual(expected);
+      });
+    });
+
+    describe('when a INCREMENT_NEW_AGENT_MESSAGE_COUNTER action is dispatched', () => {
+      beforeEach(() => {
+        const action = { type: actionTypes.INCREMENT_NEW_AGENT_MESSAGE_COUNTER };
+
+        state = reducer(initialState, action);
+      });
+
+      it('updates the state with payload', () => {
+        const expected = { ...mockInitialState, count: 1 };
 
         expect(state)
           .toEqual(expected);
@@ -77,21 +91,6 @@ describe('chat reducer notification', () => {
 
       it('updates the state with payload', () => {
         const expected = _.merge({}, mockInitialState, { show: false });
-
-        expect(state)
-          .toEqual(expected);
-      });
-    });
-
-    describe('when a NEW_AGENT_MESSAGE_RECEIVED action is dispatched', () => {
-      beforeEach(() => {
-        const action = { type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED };
-
-        state = reducer(initialState, action);
-      });
-
-      it('updates the state with payload', () => {
-        const expected = _.merge({}, mockInitialState, { count: 1 });
 
         expect(state)
           .toEqual(expected);

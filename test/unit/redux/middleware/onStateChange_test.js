@@ -4,7 +4,8 @@ describe('onStateChange middleware', () => {
     mockActiveEmbed,
     mockwidgetShown,
     mockOfflineFormSettings,
-    mockStoreValue;
+    mockStoreValue,
+    incrementNewAgentMessageCounterSpy;
   const getAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
   const getIsChattingSpy = jasmine.createSpy('getIsChatting');
   const newAgentMessageReceivedSpy = jasmine.createSpy('newAgentMessageReceived');
@@ -21,11 +22,13 @@ describe('onStateChange middleware', () => {
     mockwidgetShown = false;
     mockStoreValue = { widgetShown: false };
     mockOfflineFormSettings = { enabled: false };
+    incrementNewAgentMessageCounterSpy = jasmine.createSpy('incrementNewAgentMessageCounter');
 
     initMockRegistry({
       'src/redux/modules/chat': {
         getAccountSettings: getAccountSettingsSpy,
         newAgentMessageReceived: newAgentMessageReceivedSpy,
+        incrementNewAgentMessageCounter: incrementNewAgentMessageCounterSpy,
         getIsChatting: getIsChattingSpy
       },
       'src/redux/modules/base': {
@@ -156,7 +159,7 @@ describe('onStateChange middleware', () => {
 
     describe('onNewChatMessage', () => {
       const prevState = [{ nick: 'agent' }];
-      const nextState = [{ nick: 'agent' }, { nick: 'agent' }];
+      const nextState = [{ nick: 'agent' }, { nick: 'agent' }, { nick: 'agent:007', msg: 'latest' }];
       const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough();
 
       describe('when there are no new messages', () => {
@@ -175,6 +178,11 @@ describe('onStateChange middleware', () => {
 
           it('does not dispatch newAgentMessageReceived', () => {
             expect(newAgentMessageReceivedSpy)
+              .not.toHaveBeenCalled();
+          });
+
+          it('does not dispatch incrementNewAgentMessageCounter', () => {
+            expect(incrementNewAgentMessageCounterSpy)
               .not.toHaveBeenCalled();
           });
 
@@ -219,8 +227,8 @@ describe('onStateChange middleware', () => {
             stateChangeFn(prevState, nextState, {}, dispatchSpy);
           });
 
-          it('dispatches newAgentMessageReceived', () => {
-            expect(newAgentMessageReceivedSpy)
+          it('dispatches incrementNewAgentMessageCounterSpy', () => {
+            expect(incrementNewAgentMessageCounterSpy)
               .toHaveBeenCalled();
           });
 
@@ -239,9 +247,14 @@ describe('onStateChange middleware', () => {
             stateChangeFn(prevState, nextState, {}, dispatchSpy);
           });
 
-          it('dispatches newAgentMessageReceived', () => {
-            expect(newAgentMessageReceivedSpy)
+          it('dispatches incrementNewAgentMessageCounterSpy', () => {
+            expect(incrementNewAgentMessageCounterSpy)
               .toHaveBeenCalled();
+          });
+
+          it('dispatches newAgentMessageReceived with new agent message', () => {
+            expect(newAgentMessageReceivedSpy)
+              .toHaveBeenCalledWith({ nick: 'agent:007', msg: 'latest' });
           });
 
           it('does not call mediator', () => {
@@ -255,12 +268,18 @@ describe('onStateChange middleware', () => {
             mockwidgetShown = true;
             mockActiveEmbed = 'chat';
             newAgentMessageReceivedSpy.calls.reset();
+            incrementNewAgentMessageCounterSpy.calls.reset();
 
             stateChangeFn(prevState, nextState, {}, dispatchSpy);
           });
 
           it('does not dispatch newAgentMessageReceived', () => {
             expect(newAgentMessageReceivedSpy)
+              .not.toHaveBeenCalled();
+          });
+
+          it('does not dispatch incrementNewAgentMessageCounter', () => {
+            expect(incrementNewAgentMessageCounterSpy)
               .not.toHaveBeenCalled();
           });
         });

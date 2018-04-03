@@ -854,17 +854,35 @@ describe('chat redux actions', () => {
 
   describe('newAgentMessageReceived', () => {
     let action;
+    const agentMessage = { nick: 'agent:007', msg: 'hello, world' };
 
     beforeEach(() => {
-      mockStore.dispatch(actions.newAgentMessageReceived());
+      mockStore.dispatch(actions.newAgentMessageReceived(agentMessage));
       action = mockStore.getActions()[0];
     });
 
     it('dispatches a NEW_AGENT_MESSAGE_RECEIVED action', () => {
-      const expected = { type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED };
+      expect(action.type)
+        .toEqual(actionTypes.NEW_AGENT_MESSAGE_RECEIVED);
+    });
 
-      expect(action)
-        .toEqual(expected);
+    it('has the agent message in the payload', () => {
+      expect(action.payload)
+        .toEqual(agentMessage);
+    });
+  });
+
+  describe('incrementNewAgentMessageCounter', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.incrementNewAgentMessageCounter());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches a INCREMENT_NEW_AGENT_MESSAGE_COUNTER action', () => {
+      expect(action.type)
+        .toEqual(actionTypes.INCREMENT_NEW_AGENT_MESSAGE_COUNTER);
     });
   });
 
