@@ -1,5 +1,27 @@
 @import '../../styles/_vars.scss';
 
+.popupContainerMobile {
+  composes: u-posAbsolute u-posFill from global;
+  top: #{42.5/$font-size}rem !important;
+  z-index: 4;
+  overflow: hidden;
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.overlayMobile {
+  composes: u-posAbsolute u-posFill from global;
+  background-color: $zd-color-black;
+  opacity: 0.4;
+}
+
+.wrapperMobile {
+  composes: u-posAbsolute u-posStart--flush u-posEnd--flush from global;
+  background-color: $base-color;
+}
+
 .containerWrapper {
   composes: u-hsizeAll u-posAbsolute u-zIndex1 from global;
 }

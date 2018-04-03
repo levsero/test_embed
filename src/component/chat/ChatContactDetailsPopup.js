@@ -26,6 +26,7 @@ export class ChatContactDetailsPopup extends Component {
     leftCtaFn: PropTypes.func,
     rightCtaFn: PropTypes.func,
     show: PropTypes.bool,
+    isMobile: PropTypes.bool,
     visitor: PropTypes.object
   }
 
@@ -34,6 +35,7 @@ export class ChatContactDetailsPopup extends Component {
     leftCtaFn: () => {},
     rightCtaFn: () => {},
     show: false,
+    isMobile: false,
     visitor: {}
   }
 
@@ -93,11 +95,14 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   renderNameField = () => {
+    const inputClasses = this.props.isMobile ? styles.fieldInputMobile : '';
+
     return (
       <Field
         fieldContainerClasses={styles.fieldContainer}
         fieldClasses={styles.field}
         labelClasses={styles.fieldLabel}
+        inputClasses={inputClasses}
         label={i18n.t('embeddable_framework.common.textLabel.name')}
         value={this.state.formState.name}
         name='name'/>
@@ -105,11 +110,14 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   renderEmailField = () => {
+    const inputClasses = this.props.isMobile ? styles.fieldInputMobile : '';
+
     return (
       <EmailField
         fieldContainerClasses={styles.fieldContainer}
         fieldClasses={styles.field}
         labelClasses={styles.fieldLabel}
+        inputClasses={inputClasses}
         label={i18n.t('embeddable_framework.common.textLabel.email')}
         value={this.state.formState.email}
         name='email'/>
@@ -157,12 +165,14 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   render = () => {
-    const { className, leftCtaFn, screen } = this.props;
+    const { isMobile, className, leftCtaFn, screen } = this.props;
     const isLoading = (screen === EDIT_CONTACT_DETAILS_LOADING_SCREEN);
     const containerClasses = (isLoading) ? styles.popupChildrenContainerLoading : '';
 
     return (
       <ChatPopup
+        isMobile={isMobile}
+        useOverlay={isMobile}
         className={className}
         containerClasses={containerClasses}
         showCta={!isLoading}

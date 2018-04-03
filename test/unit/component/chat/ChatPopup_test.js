@@ -11,7 +11,11 @@ describe('ChatPopup component', () => {
           'leftCtaBtn': 'leftCtaBtnClasses',
           'rightCtaBtn': 'rightCtaBtnClasses',
           'container': 'containerClasses',
-          'closeIcon': 'closeIconClasses'
+          'closeIcon': 'closeIconClasses',
+          'popupContainerMobile': 'popupContainerMobileClasses',
+          'hidden': 'hiddenClasses',
+          'overlayMobile': 'overlayMobileClasses',
+          'wrapperMobile': 'wrapperMobileClasses'
         }
       },
       'component/Avatar': {
@@ -39,8 +43,8 @@ describe('ChatPopup component', () => {
           }
         }
       },
-      'component/transition/SlideUpAppear': {
-        SlideUpAppear: noopReactComponent()
+      'component/transition/SlideAppear': {
+        SlideAppear: noopReactComponent()
       },
       'service/i18n': {
         i18n: {
@@ -261,6 +265,77 @@ describe('ChatPopup component', () => {
       it('renders the right cta button with disabled false', () => {
         expect(componentNode.querySelector('.rightCtaBtnClasses').disabled)
           .toBe(false);
+      });
+    });
+  });
+
+  describe('mobile overlay', () => {
+    let component,
+      result;
+
+    const render = ({ isMobile = true, useOverlay = true, show }) => {
+      component = instanceRender(
+        <ChatPopup
+          isMobile={isMobile}
+          useOverlay={useOverlay}
+          show={show} />
+      );
+      result = component.render();
+    };
+
+    beforeEach(() => {
+      render({ isMobile: true, useOverlay: true });
+    });
+
+    describe('container', () => {
+      it('has correct classnames when it should be hidden', () => {
+        expect(result.props.className)
+          .toContain('popupContainerMobileClasses');
+        expect(result.props.className)
+          .toContain('hiddenClasses');
+      });
+
+      it('has correct classnames when it should be visible', () => {
+        render({ show: true });
+
+        expect(result.props.className)
+          .toContain('popupContainerMobileClasses');
+        expect(result.props.className)
+          .not.toContain('hiddenClasses');
+      });
+    });
+
+    describe('overlay', () => {
+      it('has correct classnames', () => {
+        const overlay = result.props.children[0];
+
+        expect(overlay.props.className)
+          .toContain('overlayMobileClasses');
+      });
+    });
+
+    describe('SlideAppear', () => {
+      let slideAppear;
+
+      beforeEach(() => {
+        slideAppear = result.props.children[1];
+      });
+
+      it('has correct direction', () => {
+        expect(slideAppear.props.direction)
+          .toEqual('down');
+      });
+
+      it('has correct start/end positions', () => {
+        expect(slideAppear.props.startPosHeight)
+          .toEqual('-10px');
+        expect(slideAppear.props.endPosHeight)
+          .toEqual('0px');
+      });
+
+      it('has correct classnames', () => {
+        expect(slideAppear.props.className)
+          .toContain('wrapperMobileClasses');
       });
     });
   });

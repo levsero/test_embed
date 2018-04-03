@@ -383,7 +383,8 @@ export class Frame extends Component {
     const newChild = React.cloneElement(this.props.children, {
       updateFrameSize: this.updateFrameSize,
       closeFrame: this.close,
-      getFrameDimensions: this.getFrameDimensions
+      getFrameDimensions: this.getFrameDimensions,
+      onBackButtonClick: this.back
     });
 
     const wrapper = (

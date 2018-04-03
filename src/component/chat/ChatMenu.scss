@@ -11,6 +11,28 @@
   box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .2);
 }
 
+.containerMobile {
+  composes: u-posAbsolute u-posFill from global;
+  top: #{42.5/$font-size}rem !important;
+  z-index: #{$chat-header-zindex + 1};
+  overflow: hidden;
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.overlayMobile {
+  composes: u-posAbsolute u-posFill from global;
+  background-color: $zd-color-black;
+  opacity: 0.4;
+}
+
+.wrapperMobile {
+  composes: u-posAbsolute u-posStart--flush u-posEnd--flush from global;
+  background-color: $base-color;
+}
+
 .item {
   composes: u-hsizeAll u-textLeft u-borderNone from global;
   background: none;
@@ -40,6 +62,36 @@
   [dir='rtl'] & {
     text-align: right !important;
   }
+}
+
+.itemMobile {
+  composes: u-hsizeAll u-textLeft u-borderBottom u-textSizeMed from global;
+  background: none;
+  outline: none;
+  color: $zd-color-monsoon;
+  padding: #{13/$font-size}rem #{20/$font-size}rem;
+  border-color: $zd-color-platinum;
+  box-sizing: border-box;
+
+  &:hover, &:active, &:focus {
+    color: $zd-color-oil;
+    background: $zd-color-white-smoke;
+  }
+
+  &:disabled, &.disabled {
+    color: $zd-color-iron;
+    background: $zd-color-white;
+  }
+
+  [dir='rtl'] & {
+    text-align: right !important;
+  }
+}
+
+.endChatMobileButton {
+  width: 100%;
+  max-width: none;
+  border-radius: #{4/$font-size}rem;
 }
 
 .itemLine {

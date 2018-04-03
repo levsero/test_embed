@@ -13,6 +13,7 @@ export class EmailField extends Component {
     fieldContainerClasses: PropTypes.string,
     labelClasses: PropTypes.string,
     fieldClasses: PropTypes.string,
+    inputClasses: PropTypes.string,
     placeholder: PropTypes.string
   };
 
@@ -23,6 +24,7 @@ export class EmailField extends Component {
     fieldContainerClasses: '',
     labelClasses: '',
     fieldClasses: '',
+    inputClasses: '',
     placeholder: ''
   };
 
@@ -38,6 +40,7 @@ export class EmailField extends Component {
         fieldContainerClasses={this.props.fieldContainerClasses}
         fieldClasses={this.props.fieldClasses}
         labelClasses={this.props.labelClasses}
+        inputClasses={this.props.inputClasses}
         />
     );
   }

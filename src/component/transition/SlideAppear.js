@@ -2,10 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Transition from 'react-transition-group/Transition';
 
-export class SlideUpAppear extends Component {
+const DIRECTION_MAP = {
+  UP: 'bottom',
+  DOWN: 'top'
+};
+
+export class SlideAppear extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
+    direction: PropTypes.string,
     duration: PropTypes.number,
     trigger: PropTypes.bool,
     startPosHeight: PropTypes.string,
@@ -16,6 +22,7 @@ export class SlideUpAppear extends Component {
 
   static defaultProps = {
     className: '',
+    direction: 'up',
     duration: 100,
     trigger: true,
     startPosHeight: '0',
@@ -26,6 +33,8 @@ export class SlideUpAppear extends Component {
 
   render = () => {
     const { duration } = this.props;
+    const direction = this.props.direction.toUpperCase();
+    const position = DIRECTION_MAP[direction] || DIRECTION_MAP.UP;
     const style = {
       transition: `all ${duration}ms ease-in-out`,
       opacity: 0
@@ -33,15 +42,15 @@ export class SlideUpAppear extends Component {
     const transitionStyles = {
       entering: {
         opacity: 0,
-        bottom: this.props.startPosHeight
+        [position]: this.props.startPosHeight
       },
       entered: {
         opacity: 1,
-        bottom: this.props.endPosHeight
+        [position]: this.props.endPosHeight
       },
       exiting: {
         opacity: 0,
-        bottom: this.props.startPosHeight
+        [position]: this.props.startPosHeight
       }
     };
 

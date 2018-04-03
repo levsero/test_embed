@@ -93,6 +93,7 @@ class WebWidget extends Component {
     updateFrameSize: PropTypes.func,
     zopimOnNext: PropTypes.func,
     closeFrame: PropTypes.func,
+    onBackButtonClick: PropTypes.func,
     zendeskHost: PropTypes.string.isRequired,
     zendeskSubdomain: PropTypes.string.isRequired,
     updateActiveEmbed: PropTypes.func.isRequired,
@@ -143,6 +144,7 @@ class WebWidget extends Component {
     talkOnline: false,
     zopimOnNext: () => {},
     closeFrame: () => {},
+    onBackButtonClick: () => {},
     talkConfig: {},
     resetActiveArticle: () => {},
     articleViewActive: false
@@ -358,7 +360,8 @@ class WebWidget extends Component {
           updateChatScreen={this.props.updateChatScreen}
           position={this.props.position}
           getFrameDimensions={this.props.getFrameDimensions}
-          updateChatBackButtonVisibility={updateChatBackButtonVisibility}/>;
+          updateChatBackButtonVisibility={updateChatBackButtonVisibility}
+          onBackButtonClick={this.props.onBackButtonClick} />;
   }
 
   renderHelpCenter = () => {
