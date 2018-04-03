@@ -45,3 +45,8 @@ export const CONNECTION_STATUSES = {
   CONNECTED: 'connected',
   CLOSED: 'closed'
 };
+
+export const DEPARTMENT_STATUSES = {
+  ONLINE: 'online',
+  OFFLINE: 'offline'
+};

@@ -1,6 +1,7 @@
 const prechatScreen = 'widget/chat/PRECHAT_SCREEN';
 const chattingScreen = 'widget/chat/CHATTING_SCREEN';
 const feedbackScreen = 'widget/chat/FEEDBACK_SCREEN';
+const offlineMessageScreen = 'widget/chat/OFFLINE_MESSAGE_SCREEN';
 
 describe('Chat component', () => {
   let Chat,
@@ -28,10 +29,13 @@ describe('Chat component', () => {
   const ChatMenu = noopReactComponent('ChatMenu');
   const ChatFeedbackForm = noopReactComponent('ChatFeedbackForm');
   const ChatReconnectionBubble = noopReactComponent('ChatReconnectionBubble');
+  const ChatOfflineMessageForm = noopReactComponent('ChatOfflineMessageForm');
+  const ChatPrechatForm = noopReactComponent('ChatPrechatForm');
   const Button = noopReactComponent('Button');
   const ButtonPill = noopReactComponent('ButtonPill');
 
   const CONNECTION_STATUSES = requireUncached(chatConstantsPath).CONNECTION_STATUSES;
+  const DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES;
 
   beforeEach(() => {
     mockery.enable();
@@ -72,7 +76,7 @@ describe('Chat component', () => {
         ChatHeader: noopReactComponent()
       },
       'component/chat/ChatPrechatForm': {
-        ChatPrechatForm: noopReactComponent()
+        ChatPrechatForm
       },
       'component/chat/ChatFooter': {
         ChatFooter: noopReactComponent()
@@ -130,6 +134,7 @@ describe('Chat component', () => {
         PRECHAT_SCREEN: prechatScreen,
         CHATTING_SCREEN: chattingScreen,
         FEEDBACK_SCREEN: feedbackScreen,
+        OFFLINE_MESSAGE_SCREEN: offlineMessageScreen,
         EMAIL_TRANSCRIPT_SCREEN: EMAIL_TRANSCRIPT_SCREEN,
         EMAIL_TRANSCRIPT_SUCCESS_SCREEN: EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
         EMAIL_TRANSCRIPT_FAILURE_SCREEN: EMAIL_TRANSCRIPT_FAILURE_SCREEN,
@@ -144,10 +149,14 @@ describe('Chat component', () => {
       },
       'constants/chat': {
         AGENT_BOT: 'agent:trigger',
-        CONNECTION_STATUSES
+        CONNECTION_STATUSES,
+        DEPARTMENT_STATUSES
       },
       'src/util/utils': {
         chatNameDefault: noop
+      },
+      'component/chat/ChatOfflineMessageForm': {
+        ChatOfflineMessageForm
       }
     });
 
@@ -402,24 +411,19 @@ describe('Chat component', () => {
   });
 
   describe('onPrechatFormComplete', () => {
-    let component, setVisitorInfoSpy, sendMsgSpy, setDepartmentSpy;
-    let formInfo;
-
-    beforeAll(() => {
-      formInfo = {
-        display_name: 'Daenerys Targaryen',
-        email: 'mother@of.dragons',
-        phone: '87654321',
-        message: 'bend the knee',
-        department: 12345
-      };
-    });
+    let component,
+      setVisitorInfoSpy,
+      sendMsgSpy,
+      setDepartmentSpy,
+      formInfo,
+      sendOfflineMessageSpy,
+      mockDepartments;
 
     beforeEach(() => {
       setVisitorInfoSpy = jasmine.createSpy('setVisitorInfo');
       sendMsgSpy = jasmine.createSpy('sendMsg');
       setDepartmentSpy = jasmine.createSpy('setDepartment');
-
+      sendOfflineMessageSpy = jasmine.createSpy('sendOfflineMessage');
       component = instanceRender(
         <Chat
           postChatFormSettings={{ header: 'foo' }}
@@ -427,25 +431,39 @@ describe('Chat component', () => {
           sendMsg={sendMsgSpy}
           setDepartment={setDepartmentSpy}
           updateChatScreen={updateChatScreenSpy}
-          resetCurrentMessage={resetCurrentMessageSpy} />
+          resetCurrentMessage={resetCurrentMessageSpy}
+          departments={mockDepartments}
+          sendOfflineMessage={sendOfflineMessageSpy} />
       );
 
       component.onPrechatFormComplete(formInfo);
     });
 
-    it('calls setVisitorInfo with the display_name, email and phone', () => {
-      const visitorInfo = _.omit(formInfo, ['message', 'department']);
-
-      expect(setVisitorInfoSpy)
-        .toHaveBeenCalledWith(visitorInfo);
+    afterEach(() => {
+      setVisitorInfoSpy.calls.reset();
+      sendMsgSpy.calls.reset();
+      setDepartmentSpy.calls.reset();
+      updateChatScreenSpy.calls.reset();
+      sendOfflineMessageSpy.calls.reset();
     });
 
     describe('when display_name is not specified in the form data', () => {
       const nameValue = 'test name';
 
       beforeAll(() => {
-        delete formInfo.display_name;
-        formInfo.name = nameValue;
+        formInfo = {
+          name: nameValue,
+          email: 'mother@of.dragons',
+          phone: '87654321',
+          message: 'bend the knee',
+          department: 12345
+        };
+
+        mockDepartments = {
+          12345: {
+            status: 'online'
+          }
+        };
       });
 
       it('uses the value of the name as the display_name', () => {
@@ -454,67 +472,117 @@ describe('Chat component', () => {
       });
     });
 
-    describe('when the message is empty', () => {
-      beforeEach(() => {
-        component = instanceRender(
-          <Chat
-            sendMsg={sendMsgSpy}
-            updateChatScreen={updateChatScreenSpy}
-            setVisitorInfo={setVisitorInfoSpy} />
-        );
+    describe('when department is specified', () => {
+      describe('when department is online', () => {
+        beforeAll(() => {
+          formInfo = {
+            display_name: 'Daenerys Targaryen',
+            email: 'mother@of.dragons',
+            phone: '87654321',
+            message: 'bend the knee',
+            department: 12345
+          };
 
-        component.onPrechatFormComplete({ message: '' });
+          mockDepartments = {
+            12345: {
+              status: 'online'
+            }
+          };
+        });
+
+        it('calls setDepartment with correct arguments', () => {
+          expect(setDepartmentSpy)
+            .toHaveBeenCalledWith(formInfo.department, jasmine.any(Function), jasmine.any(Function));
+        });
+
+        it('calls setVisitorInfo with the correct arguments', () => {
+          expect(setVisitorInfoSpy)
+            .toHaveBeenCalledWith({
+              display_name: 'Daenerys Targaryen',
+              email: 'mother@of.dragons',
+              phone: '87654321'
+            });
+        });
+
+        it('calls updateChatScreen with the CHATTING_SCREEN', () => {
+          expect(updateChatScreenSpy)
+            .toHaveBeenCalledWith(chattingScreen);
+        });
       });
 
-      it('does not call sendMsg', () => {
-        expect(sendMsgSpy)
-          .not.toHaveBeenCalled();
+      describe('when department is offline', () => {
+        beforeAll(() => {
+          formInfo = {
+            display_name: 'Daenerys Targaryen',
+            email: 'mother@of.dragons',
+            phone: '87654321',
+            message: 'bend the knee',
+            department: 12345
+          };
+
+          mockDepartments = {
+            12345: {
+              status: 'offline'
+            }
+          };
+        });
+
+        it('calls sendOfflineMessage with the correct arguments', () => {
+          expect(sendOfflineMessageSpy)
+            .toHaveBeenCalledWith({
+              ...formInfo
+            });
+        });
+
+        it('calls updateChatScreen with the OFFLINE_MESSAGE_SCREEN', () => {
+          expect(updateChatScreenSpy)
+            .toHaveBeenCalledWith(offlineMessageScreen);
+        });
       });
     });
 
-    describe('when the department is specified', () => {
-      it('calls setDepartment with the department as the first argument', () => {
-        expect(setDepartmentSpy.calls.mostRecent().args[0])
-          .toEqual(formInfo.department);
+    describe('when department is not specified', () => {
+      beforeAll(() => {
+        formInfo = {
+          display_name: 'Daenerys Targaryen',
+          email: 'mother@of.dragons',
+          phone: '87654321'
+        };
+
+        mockDepartments = null;
       });
 
-      it('calls setDepartment with a call to send message in the success callback', () => {
-        expect(sendMsgSpy.calls.count())
-          .toEqual(0);
-
-        setDepartmentSpy.calls.mostRecent().args[1]();
-
-        expect(sendMsgSpy.calls.count())
-          .toEqual(1);
+      it('should call setVisitorInfo with the correct arguments', () => {
+        expect(setVisitorInfoSpy)
+          .toHaveBeenCalledWith({
+            display_name: 'Daenerys Targaryen',
+            email: 'mother@of.dragons',
+            phone: '87654321'
+          });
       });
 
-      it('calls setDepartment with a call to send message in the error callback', () => {
-        expect(sendMsgSpy.calls.count())
-          .toEqual(0);
+      describe('when there is a message to send', () => {
+        beforeAll(() => {
+          formInfo.message = 'Bend the knee m8.';
+        });
 
-        setDepartmentSpy.calls.mostRecent().args[2]();
-
-        expect(sendMsgSpy.calls.count())
-          .toEqual(1);
-      });
-    });
-
-    describe('when the department is not specified', () => {
-      beforeEach(() => {
-        const formInfoWithoutDepartment = { ...formInfo, department: undefined };
-
-        component.onPrechatFormComplete(formInfoWithoutDepartment);
+        it('sends an online message', () => {
+          expect(sendMsgSpy)
+            .toHaveBeenCalledWith('Bend the knee m8.');
+        });
       });
 
-      it('calls sendMsg with the message', () => {
-        expect(sendMsgSpy)
-          .toHaveBeenCalledWith(formInfo.message);
-      });
-    });
+      describe('when there is no message to send', () => {
+        beforeAll(() => {
+          formInfo.message = null;
+        });
 
-    it('calls updateChatScreen with `chatting`', () => {
-      expect(updateChatScreenSpy)
-        .toHaveBeenCalledWith(chattingScreen);
+        it('does not send online message', () => {
+          expect(sendMsgSpy)
+            .not
+            .toHaveBeenCalled();
+        });
+      });
     });
 
     it('calls resetCurrentMessage', () => {
@@ -524,22 +592,8 @@ describe('Chat component', () => {
   });
 
   describe('renderPrechatScreen', () => {
-    let component;
-
-    describe('when state.screen is not `prechat`', () => {
-      beforeEach(() => {
-        component = instanceRender(
-          <Chat
-            screen={chattingScreen}
-            prechatFormSettings={prechatFormSettingsProp} />
-        );
-      });
-
-      it('does not return anything', () => {
-        expect(component.renderPrechatScreen())
-          .toBeFalsy();
-      });
-    });
+    let component,
+      result;
 
     describe('when state.screen is `prechat`', () => {
       beforeEach(() => {
@@ -548,22 +602,114 @@ describe('Chat component', () => {
             screen={prechatScreen}
             prechatFormSettings={prechatFormSettingsProp} />
         );
+        result = component.renderPrechatScreen();
       });
 
       it('returns a component', () => {
-        expect(component.renderPrechatScreen())
+        expect(result)
           .toBeTruthy();
       });
 
       describe('the scroll container wrapper', () => {
         it('has its classes prop to the scroll container style', () => {
-          expect(component.renderPrechatScreen().props.classes)
+          expect(result.props.classes)
             .toEqual('scrollContainerClasses');
         });
 
         it('has its containerClasses prop to the scrollContainerContent style', () => {
-          expect(component.renderPrechatScreen().props.containerClasses)
+          expect(result.props.containerClasses)
             .toEqual('scrollContainerContentClasses');
+        });
+
+        it('renders the ChatPrechatForm component', () => {
+          expect(TestUtils.isElementOfType(result.props.children, ChatPrechatForm))
+            .toEqual(true);
+        });
+      });
+    });
+
+    describe('when state.screen is `offlinemessage`', () => {
+      beforeEach(() => {
+        component = instanceRender(
+          <Chat
+            screen={offlineMessageScreen}
+            prechatFormSettings={prechatFormSettingsProp} />
+        );
+        result = component.renderPrechatScreen();
+      });
+
+      it('returns a component', () => {
+        expect(result)
+          .toBeTruthy();
+      });
+
+      describe('the scroll container wrapper', () => {
+        it('has its classes prop to the scroll container style', () => {
+          expect(result.props.classes)
+            .toEqual('scrollContainerClasses');
+        });
+
+        it('has its containerClasses prop to the scrollContainerContent style', () => {
+          expect(result.props.containerClasses)
+            .toEqual('scrollContainerContentClasses');
+        });
+
+        it('renders the ChatOfflineMessageForm component', () => {
+          expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm))
+            .toEqual(true);
+        });
+      });
+    });
+
+    describe('when state.screen is not `prechat` and not `offlinemessage`', () => {
+      beforeEach(() => {
+        component = instanceRender(
+          <Chat
+            screen={'yoloScreen'}
+            prechatFormSettings={prechatFormSettingsProp} />
+        );
+        result = component.renderPrechatScreen();
+      });
+
+      it('should not render prechat form', () => {
+        expect(result)
+          .toBeUndefined();
+      });
+    });
+
+    describe('scroll container classes', () => {
+      describe('when user is on mobile', () => {
+        beforeEach(() => {
+          component = instanceRender(
+            <Chat
+              screen={prechatScreen}
+              prechatFormSettings={prechatFormSettingsProp}
+              isMobile={true} />
+          );
+          result = component.renderPrechatScreen();
+        });
+
+        it('render mobileContainer class on scroll container', () => {
+          expect(result.props.classes)
+            .toContain('mobileContainerClasses');
+        });
+      });
+
+      describe('when user is not on mobile', () => {
+        beforeEach(() => {
+          component = instanceRender(
+            <Chat
+              screen={prechatScreen}
+              prechatFormSettings={prechatFormSettingsProp}
+              isMobile={false} />
+          );
+          result = component.renderPrechatScreen();
+        });
+
+        it('does not render mobileContainer class on scroll container', () => {
+          expect(result.props.classes)
+            .not
+            .toContain('mobileContainerClasses');
         });
       });
     });
