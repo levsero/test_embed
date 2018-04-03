@@ -19,20 +19,13 @@ export class MessageBubble extends Component {
   }
 
   renderOptions = () => {
-    const { options } = this.props;
+    const { handleSendMsg, options } = this.props;
 
-    if (!options.length) return;
-
-    const optionItems = options.map((option, index) => {
-      return (
-        <a key={index} onClick={() => this.props.handleSendMsg(option)}>
-          {option}
-        </a>
-      );
-    });
-
-    return (
-      <MessageOptions isMessageBubbleLinked={true} optionItems={optionItems} />
+    return options.length && (
+      <MessageOptions
+        isMessageBubbleLinked={true}
+        onOptionClick={handleSendMsg}
+        optionItems={options} />
     );
   }
 
