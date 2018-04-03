@@ -212,7 +212,7 @@ window.zESettings = {
 * [filter](#filter)
 * [label](#label)
 * [messageButton](#messagebutton)
-* [nickName](#nickName)
+* [nickName](#nickname)
 * [offset](#offset)
 * [originalArticleButton](#originalarticlebutton)
 * [position](#position)
