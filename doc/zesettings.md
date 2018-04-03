@@ -153,7 +153,7 @@ window.zESettings = {
 
 ### Talk settings
 
-The widget's `talk` object, which represents the Chat component, has the following setting:
+The widget's `talk` object, which represents the Talk component, has the following setting:
 
 * [nickName](#nickname)
 
