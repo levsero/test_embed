@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { store } from 'service/persistence';
 import { settings } from 'service/settings';
+import { location } from 'utility/globals';
 
 const findFieldId = (name, ticketFields) => {
   const field = _.find(ticketFields, (field) => {
