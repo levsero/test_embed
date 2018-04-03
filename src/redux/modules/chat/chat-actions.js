@@ -370,6 +370,14 @@ export function setDepartment(departmentId, successCallback, errCallback) {
   };
 }
 
+export function clearDepartment(successCallback) {
+  return () => {
+    zChat.clearVisitorDefaultDepartment(() => {
+      successCallback();
+    });
+  };
+}
+
 export function handlePreChatFormChange(state) {
   return {
     type: PRE_CHAT_FORM_ON_CHANGE,
