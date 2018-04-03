@@ -70,7 +70,7 @@
 }
 
 .userBackground {
-  composes: u-userBackgroundColor from global;
+  composes: u-userBackgroundColorNoHover from global;
 }
 
 .agentBackground {
