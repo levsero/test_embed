@@ -3,3 +3,28 @@
   overflow: hidden !important;
   max-width: $max-width;
 }
+
+@mixin fade-in($duration) {
+  animation: fadeIn $duration 1 ease-in-out;
+
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+}
+
+@mixin fade-up($duration) {
+  position: relative;
+  animation: fadeUp $duration 1 ease-in-out;
+
+  @keyframes fadeUp {
+    0% {
+      opacity: 0;
+      bottom: -10px;
+    }
+    100% {
+      opacity: 1;
+      bottom: 0px;
+    }
+  }
+}

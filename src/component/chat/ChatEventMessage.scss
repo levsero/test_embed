@@ -1,8 +1,13 @@
 @import '../../styles/_vars.scss';
+@import '../../styles/mixins.scss';
 
 .eventMessage {
   composes: u-textCenter from global;
   margin-top: #{5/$font-size}rem;
   margin-bottom: #{10/$font-size}rem;
   color: $zd-color-aluminum !important;
+}
+
+.fadeIn {
+  @include fade-in(200ms);
 }

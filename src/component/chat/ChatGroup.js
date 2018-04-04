@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import chatPropTypes from 'types/chat';
 
@@ -22,19 +23,53 @@ export class ChatGroup extends Component {
     avatarPath: PropTypes.string,
     showAvatar: PropTypes.bool.isRequired,
     handleSendMsg: PropTypes.func,
-    handleImageLoad: PropTypes.func
+    handleImageLoad: PropTypes.func,
+    chatLogCreatedAt: PropTypes.number
   };
 
   static defaultProps = {
     messages: [],
     isAgent: false,
     handleSendMsg: () => {},
-    handleImageLoad: () => {}
+    handleImageLoad: () => {},
+    chatLogCreatedAt: 0
   };
+
+  constructor(props) {
+    super(props);
+
+    this.container = null;
+    this.avatar = null;
+  }
+
+  componentDidMount() {
+    this.updateAvatarPosition();
+  }
+
+  componentDidUpdate() {
+    this.updateAvatarPosition();
+  }
+
+  updateAvatarPosition = () => {
+    if (!this.container || !this.avatar) return;
+
+    const containerHeight = this.container.getBoundingClientRect().height;
+    const avatarHeight = this.avatar.getBoundingClientRect().height;
+    const newTopPosition = containerHeight - avatarHeight;
+
+    if (this.avatar.style.top !== newTopPosition) {
+      this.avatar.style.top = newTopPosition;
+    }
+  }
 
   renderName = (isAgent, showAvatar, messages) => {
     const name = _.get(messages, '0.display_name');
-    const nameClasses = showAvatar ? styles.nameAvatar : styles.nameNoAvatar;
+    const shouldAnimate = _.get(messages, '0.timestamp') > this.props.chatLogCreatedAt;
+    const nameClasses = classNames({
+      [styles.nameAvatar]: showAvatar,
+      [styles.nameNoAvatar]: !showAvatar,
+      [styles.fadeIn]: shouldAnimate
+    });
 
     return isAgent && name ?
       <div className={nameClasses}>{name}</div> : null;
@@ -58,9 +93,13 @@ export class ChatGroup extends Component {
         message = this.renderInlineAttachment(isAgent, chat);
       }
 
+      const shouldAnimate = chat.timestamp > this.props.chatLogCreatedAt;
       const wrapperClasses = classNames(
         styles.wrapper,
-        { [styles.avatarWrapper]: isAgent && showAvatar }
+        {
+          [styles.avatarWrapper]: isAgent && showAvatar,
+          [styles.fadeUp]: shouldAnimate
+        }
       );
 
       return (
@@ -168,11 +207,17 @@ export class ChatGroup extends Component {
     return inlineAttachment;
   }
 
-  renderAvatar = (showAvatarAsAgent, avatarPath = '') => {
-    const avatarClasses = avatarPath ? styles.avatarWithSrc : styles.avatarDefault;
+  renderAvatar = (showAvatarAsAgent, avatarPath = '', messages) => {
+    const shouldAnimate = _.get(messages, '0.timestamp') > this.props.chatLogCreatedAt;
+    const avatarClasses = classNames({
+      [styles.avatarWithSrc]: avatarPath,
+      [styles.avatarDefault]: !avatarPath,
+      [styles.fadeIn]: shouldAnimate
+    });
 
     return showAvatarAsAgent ?
       <Avatar
+        ref={(el) => { this.avatar = ReactDOM.findDOMNode(el); }}
         className={avatarClasses}
         src={avatarPath}
         fallbackIcon='Icon--agent-avatar'
@@ -184,10 +229,13 @@ export class ChatGroup extends Component {
     const showAvatarAsAgent = isAgent && showAvatar;
 
     return (
-      <div className={styles.container}>
+      <div
+        ref={(el) => { this.container = el; }}
+        className={styles.container}
+      >
         {this.renderName(isAgent, showAvatar, messages)}
         {this.renderChatMessages(isAgent, showAvatar, messages)}
-        {this.renderAvatar(showAvatarAsAgent, avatarPath)}
+        {this.renderAvatar(showAvatarAsAgent, avatarPath, messages)}
       </div>
     );
   }

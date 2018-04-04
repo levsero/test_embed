@@ -1,9 +1,6 @@
 @import '../../styles/_vars.scss';
 
 .scrollContainerMobile {
-  display: flex;
-  flex-direction: column-reverse;
-
   .agentTyping {
     bottom: #{48/$font-size}rem;
   }
@@ -37,6 +34,17 @@
   composes: scrollContainerContent;
 
   margin-top: #{58/$font-size}rem;
+}
+
+.chatLogContainer {
+  overflow: hidden;
+}
+
+.chatLogContainerMobile {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .header {

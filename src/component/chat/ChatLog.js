@@ -21,6 +21,12 @@ export class ChatLog extends Component {
     handleImageLoad: PropTypes.func
   };
 
+  constructor(props) {
+    super(props);
+
+    this.createdTimestamp = Date.now();
+  }
+
   renderChatLog(chatLog, agents, chatCommentLeft, goToFeedbackScreen, showAvatar, handleSendMsg, handleImageLoad) {
     const chatLogEl = _.map(chatLog, (chatLogItem, timestamp) => {
       // message groups and events are both returned as arrays; we can determine the type of the entire timestamped item 'group' by reading the type value of the first entry
@@ -40,13 +46,18 @@ export class ChatLog extends Component {
             avatarPath={avatarPath}
             showAvatar={showAvatar}
             handleImageLoad={handleImageLoad}
-            handleSendMsg={handleSendMsg} />
+            handleSendMsg={handleSendMsg}
+            chatLogCreatedAt={this.createdTimestamp} />
         );
       } else if (_.includes(CHAT_SYSTEM_EVENTS, chatLogItemType)) {
         const event = chatLogItem[0];
 
         return (
-          <ChatEventMessage event={event} key={timestamp}>
+          <ChatEventMessage
+            event={event}
+            key={timestamp}
+            chatLogCreatedAt={this.createdTimestamp}
+          >
             {this.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreen)}
           </ChatEventMessage>
         );
