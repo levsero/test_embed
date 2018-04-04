@@ -1,11 +1,19 @@
 describe('ChatFooter component', () => {
-  let ChatFooter;
+  let ChatFooter,
+    i18n;
   const chatFooterPath = buildSrcPath('component/chat/ChatFooter');
 
   beforeEach(() => {
     mockery.enable();
 
+    i18n = {
+      t: jasmine.createSpy().and.callFake((key) => { return key; })
+    };
+
     initMockRegistry({
+      'service/i18n': {
+        i18n
+      },
       './ChatFooter.scss': {
         locals: {
           iconContainer: 'iconsClass',
@@ -23,7 +31,7 @@ describe('ChatFooter component', () => {
         Dropzone: noopReactComponent()
       },
       'component/Icon': {
-        Icon: noopReactComponent()
+        IconButton: noopReactComponent()
       },
       'constants/shared': {
         ICONS: {}

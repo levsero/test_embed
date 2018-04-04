@@ -3,3 +3,21 @@
 .mobile {
   composes: is-mobile from global;
 }
+
+.button {
+  position: relative;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.altText {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
