@@ -810,7 +810,7 @@ describe('embed.webWidget', () => {
     });
 
     describe('setupTalk', () => {
-      const talkConfig = { serviceUrl: 'talk.com', nickname: 'Support' };
+      const talkConfig = { serviceUrl: 'https://customer.zendesk.com', nickname: 'Support' };
 
       beforeEach(() => {
         webWidget.create('', { talk: talkConfig }, 'reduxStore');
@@ -818,7 +818,7 @@ describe('embed.webWidget', () => {
 
       it('calls socketio.connect with serviceUrl, subdomain and nickname (as keyword)', () => {
         expect(socketioConnectSpy)
-          .toHaveBeenCalledWith('talk.com', 'customerfoo', 'Support');
+          .toHaveBeenCalledWith('https://customer.zendesk.com', 'Support');
       });
 
       describe('when a nickname exists in settings', () => {
@@ -830,7 +830,7 @@ describe('embed.webWidget', () => {
 
         it('overrides the nickname in config', () => {
           expect(socketioConnectSpy)
-            .toHaveBeenCalledWith('talk.com', 'customerfoo', 'Sales');
+            .toHaveBeenCalledWith('https://customer.zendesk.com', 'Sales');
         });
       });
 
