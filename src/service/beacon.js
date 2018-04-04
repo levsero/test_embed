@@ -114,7 +114,10 @@ function trackUserAction(category, action, label = null, value = null) {
     type: 'userAction',
     method: config.method,
     path: config.endpoint,
-    params: { userAction }
+    params: {
+      channel: 'web_widget',
+      userAction: userAction
+    }
   };
 
   http.sendWithMeta(payload);
