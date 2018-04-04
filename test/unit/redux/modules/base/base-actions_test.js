@@ -188,23 +188,45 @@ describe('base redux actions', () => {
     describe('when activeEmbed is chat', () => {
       beforeEach(() => {
         mockStore = createMockStore({ base: { activeEmbed: 'chat' } });
-        mockStore.dispatch(actions.updateWidgetShown(true));
-        actionList = mockStore.getActions();
       });
 
-      it('dispatches an action of type UPDATE_WIDGET_SHOWN', () => {
-        expect(actionList[0].type)
-          .toEqual(actionTypes.UPDATE_WIDGET_SHOWN);
+      describe('when widget is shown', () => {
+        beforeEach(() => {
+          mockStore.dispatch(actions.updateWidgetShown(true));
+          actionList = mockStore.getActions();
+        });
+
+        it('dispatches an action of type UPDATE_WIDGET_SHOWN', () => {
+          expect(actionList[0].type)
+            .toEqual(actionTypes.UPDATE_WIDGET_SHOWN);
+        });
+
+        it('has the value of true in the payload', () => {
+          expect(actionList[0].payload)
+            .toEqual(true);
+        });
+
+        it('dispatches an action of CHAT_OPENED', () => {
+          expect(actionList[1].type)
+            .toEqual(chatActionTypes.CHAT_OPENED);
+        });
       });
 
-      it('has the value of true in the payload', () => {
-        expect(actionList[0].payload)
-          .toEqual(true);
-      });
+      describe('when widget is not shown', () => {
+        beforeEach(() => {
+          mockStore.dispatch(actions.updateWidgetShown(false));
+          actionList = mockStore.getActions();
+        });
 
-      it('dispatches an action of CHAT_OPENED', () => {
-        expect(actionList[1].type)
-          .toEqual(chatActionTypes.CHAT_OPENED);
+        it('has the value of false in the payload', () => {
+          expect(actionList[0].payload)
+            .toEqual(false);
+        });
+
+        it('does not dispatch an action of CHAT_OPENED', () => {
+          expect(actionList.length)
+            .toEqual(1);
+        });
       });
     });
   });

@@ -38,7 +38,8 @@ import {
   OFFLINE_FORM_REQUEST_SENT,
   OFFLINE_FORM_BACK_BUTTON_CLICKED,
   UPDATE_CHAT_MENU_VISIBILITY,
-  CHAT_RECONNECT
+  CHAT_RECONNECT,
+  UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import {
@@ -402,5 +403,12 @@ export function handleReconnect() {
 
   return {
     type: CHAT_RECONNECT
+  };
+}
+
+export function updateLastAgentMessageSeenTimestamp(timestamp) {
+  return {
+    type: UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP,
+    payload: timestamp
   };
 }
