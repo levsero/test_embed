@@ -70,7 +70,7 @@ const webWidgetStoreDefaults = {
     suppress: false
   },
   launcher: {},
-  margin: 15,
+  margin: 8,
   offset: {
     horizontal: 0,
     vertical: 0,

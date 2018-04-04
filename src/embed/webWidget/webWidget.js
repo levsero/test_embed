@@ -42,7 +42,7 @@ import WebWidget from 'component/webWidget/WebWidget';
 // TODO: Find a DRY solution
 const zChat = (() => { try { return require('chat-web-sdk'); } catch (_) {} })();
 
-const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
+const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles} body { padding: 0 7px; }`;
 
 export default function WebWidgetFactory(name) {
   let embed = null;
