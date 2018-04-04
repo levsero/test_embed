@@ -20,17 +20,23 @@
 
 .resultScreen {
   composes: u-wordBreakAll from global;
-  display: grid;
-  grid-template-columns: #{30/$font-size}rem #{245/$font-size}rem;
+  overflow: auto;
+}
 
-  min-height: #{20/$font-size}rem;
+.resultIcon {
+  float: left;
+  margin-right: #{15/$font-size}rem;
+}
 
+.resultMessage {
+  float: left;
+  width: 88%;
+  font-size: #{13/$font-size}rem;
+  line-height: 1.4;
+  color: $zd-color-oil;
 
-  hyphens: auto;
-
-  &:last-child {
-    font-size: #{13/$font-size}rem;
-    line-height: #{16/$font-size}rem;
+  a {
+    cursor: pointer;
   }
 }
 
