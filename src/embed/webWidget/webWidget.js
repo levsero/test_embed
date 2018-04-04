@@ -155,7 +155,7 @@ export default function WebWidgetFactory(name) {
     }
 
     if (talkAvailable) {
-      setupTalk(zendeskSubdomain, talkConfig, reduxStore);
+      setupTalk(talkConfig, reduxStore);
     }
 
     if (isMobileBrowser()) {
@@ -564,9 +564,9 @@ export default function WebWidgetFactory(name) {
     });
   }
 
-  function setupTalk(zendeskSubdomain, config, store) {
+  function setupTalk(config, store) {
     const nickname = settings.get('talk.nickname') || config.nickname;
-    const socket = socketio.connect(config.serviceUrl, zendeskSubdomain, nickname);
+    const socket = socketio.connect(config.serviceUrl, nickname);
 
     socketio.mapEventsToActions(socket, store);
   }

@@ -4,7 +4,8 @@ describe('socketio', () => {
     mockIoReturnValue,
     talkEmbeddableConfigEventToActionSpy,
     talkAgentAvailabilityEventToActionSpy,
-    talkAverageWaitTimeEventToActionSpy;
+    talkAverageWaitTimeEventToActionSpy,
+    mockTalkServiceHostname;
 
   const socketioPath = buildSrcPath('service/transport/websockets/socketio');
 
@@ -12,6 +13,7 @@ describe('socketio', () => {
     mockery.enable();
 
     mockIoReturnValue = 'socket';
+    mockTalkServiceHostname = 'customer.zendesk.com';
     ioSpy = jasmine.createSpy('io').and.returnValue(mockIoReturnValue);
     talkEmbeddableConfigEventToActionSpy = jasmine.createSpy('talkEmbeddableConfigEventToAction');
     talkAgentAvailabilityEventToActionSpy = jasmine.createSpy('talkAgentAvailabilityEventToAction');
@@ -23,6 +25,11 @@ describe('socketio', () => {
         talkEmbeddableConfigEventToAction: talkEmbeddableConfigEventToActionSpy,
         talkAgentAvailabilityEventToAction: talkAgentAvailabilityEventToActionSpy,
         talkAverageWaitTimeEventToAction: talkAverageWaitTimeEventToActionSpy
+      },
+      'utility/utils': {
+        parseUrl: () => {
+          return { hostname: mockTalkServiceHostname };
+        }
       }
     });
 
@@ -39,19 +46,19 @@ describe('socketio', () => {
     let args, socket;
 
     beforeEach(() => {
-      socket = socketio.connect('talk.com', 'foocustomer', 'Support');
+      socket = socketio.connect(`https://${mockTalkServiceHostname}`, 'Support');
       args = ioSpy.calls.mostRecent().args;
     });
 
     it('calls io with the correct service url', () => {
       expect(args[0])
-        .toBe('talk.com');
+        .toBe(`https://${mockTalkServiceHostname}`);
     });
 
     it('calls io with the correct options', () => {
       expect(args[1])
         .toEqual({
-          query: 'subdomain=foocustomer&keyword=Support',
+          query: 'subdomain=customer&keyword=Support',
           path: '/talk_embeddables_service/socket.io',
           reconnectionAttempts: 6,
           transports: ['websocket']
