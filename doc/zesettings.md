@@ -151,6 +151,27 @@ window.zESettings = {
 </script>
 ```
 
+### Talk settings
+
+The widget's `talk` object, which represents the Talk component, has the following setting:
+
+* [nickname](#nickname)
+
+<a name="example-talk-settings"></a>
+#### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    talk: {
+      nickname: 'Sales Support'
+    }
+  }
+};
+</script>
+```
+
 
 ### Launcher settings
 
@@ -191,6 +212,7 @@ window.zESettings = {
 * [filter](#filter)
 * [label](#label)
 * [messageButton](#messagebutton)
+* [nickname](#nickname)
 * [offset](#offset)
 * [originalArticleButton](#originalarticlebutton)
 * [position](#position)
@@ -694,6 +716,28 @@ window.zESettings = {
 * [title](#title)
 
 
+#### nickname
+
+An Admin can choose to set up more than one configuration for how Talk will behave in the Web Widget.  Each configuration can customize call routing, and display options. `nickname` tells the Web Widget which of the available configurations should be used on the current page.
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    talk: {
+      nickname: 'Sales Support'
+    }
+  }
+};
+</script>
+```
+
+When using the `nickname` setting, you should consider the following:
+
+* It is mandatory for the value of the `nickname` setting to exactly match the nickname of the Talk configuration you wish to use, including any spaces and capitalization.
+* The nickname is publicly visible to anyone who looks at the page source code, so create the nickname accordingly.
+
+
 #### offset
 
 Moves the Web Widget vertically and horizontally. The `offset` property consists of an object with `horizontal` and `vertical` properties with '##px' string values.
@@ -912,6 +956,7 @@ Suppresses the Help Center, Chat, or contact form in the Web Widget on that page
 * chat
 * contactForm
 * helpCenter
+* talk
 
 <a name="example-suppress"></a>
 ##### Example
