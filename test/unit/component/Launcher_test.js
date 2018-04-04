@@ -208,13 +208,31 @@ describe('Launcher component', () => {
     });
 
     describe('when the active embed is chat', () => {
-      beforeEach(() => {
-        launcher = instanceRender(<Launcher activeEmbed='zopimChat' />);
+      describe('when chat is available', () => {
+        beforeEach(() => {
+          launcher = instanceRender(<Launcher activeEmbed='chat' chatAvailable={true}/>);
+        });
+
+        it('returns the chat label', () => {
+          expect(launcher.getActiveEmbedLabel())
+            .toEqual('embeddable_framework.launcher.label.chat');
+        });
       });
 
-      it('returns the chat label', () => {
-        expect(launcher.getActiveEmbedLabel())
-          .toEqual('embeddable_framework.launcher.label.chat');
+      describe('when chat is not available', () => {
+        let getLabelSpy;
+
+        beforeEach(() => {
+          getLabelSpy = jasmine.createSpy('getLabel').and.returnValue('get-label-value');
+          launcher = instanceRender(<Launcher activeEmbed='chat' chatAvailable={false} />);
+
+          launcher.getLabel = getLabelSpy;
+        });
+
+        it('returns the value of getLabel', () => {
+          expect(launcher.getActiveEmbedLabel())
+            .toBe('get-label-value');
+        });
       });
     });
 
@@ -346,13 +364,31 @@ describe('Launcher component', () => {
     });
 
     describe('when the active embed is chat', () => {
-      beforeEach(() => {
-        launcher = instanceRender(<Launcher activeEmbed='zopimChat' />);
+      describe('when chat is available', () => {
+        beforeEach(() => {
+          launcher = instanceRender(<Launcher activeEmbed='zopimChat' chatAvailable={true} />);
+        });
+
+        it('returns the string Icon--chat', () => {
+          expect(launcher.getActiveEmbedIconType())
+            .toBe('Icon--chat');
+        });
       });
 
-      it('returns the string Icon--chat', () => {
-        expect(launcher.getActiveEmbedIconType())
-          .toBe('Icon--chat');
+      describe('when chat is not available', () => {
+        let getIconTypeSpy;
+
+        beforeEach(() => {
+          getIconTypeSpy = jasmine.createSpy('getIcon').and.returnValue('get-icon-value');
+          launcher = instanceRender(<Launcher activeEmbed='zopimChat' chatAvailable={false} />);
+
+          launcher.getIconType = getIconTypeSpy;
+        });
+
+        it('returns the value of getIcon', () => {
+          expect(launcher.getActiveEmbedIconType())
+            .toBe('get-icon-value');
+        });
       });
     });
 
