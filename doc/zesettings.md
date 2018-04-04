@@ -718,7 +718,18 @@ window.zESettings = {
 
 #### nickname
 
-An Admin can choose to set up more than one configuration for how Talk will behave in the Web Widget.  Each configuration can customize call routing, and display options. `nickname` tells the Web Widget which of the available configurations should be used on the current page.
+An admin can choose to set up more than one configuration for how Talk behaves in the Web Widget. Each configuration can customize call routing and display options. The `nickname` property tells the Web Widget which of the available configurations to use on the current page.
+
+The value of the `nickname` property must match exactly the nickname of the Talk configuration you want to use, including any spaces and capitalization.
+
+The nickname is publicly visible to anyone who looks at the page source code, so create the nickname accordingly.
+
+##### Availability
+
+* talk
+
+<a name="example-nickname"></a>
+##### Example
 
 ```html
 <script type="text/javascript">
@@ -731,12 +742,6 @@ window.zESettings = {
 };
 </script>
 ```
-
-When using the `nickname` setting, you should consider the following:
-
-* It is mandatory for the value of the `nickname` setting to exactly match the nickname of the Talk configuration you wish to use, including any spaces and capitalization.
-* The nickname is publicly visible to anyone who looks at the page source code, so create the nickname accordingly.
-
 
 #### offset
 
