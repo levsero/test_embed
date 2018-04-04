@@ -19,6 +19,7 @@ describe('Chat component', () => {
   const sendChatCommentSpy = jasmine.createSpy('sendChatComment');
   const endChatSpy = jasmine.createSpy('endChat');
   const translationSpy = jasmine.createSpy('translation').and.callFake(_.identity);
+  const resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage');
 
   const AttachmentBox = noopReactComponent('AttachmentBox');
   const ChatMenu = noopReactComponent('ChatMenu');
@@ -112,7 +113,8 @@ describe('Chat component', () => {
         updateChatScreen: updateChatScreenSpy,
         sendChatRating: sendChatRatingSpy,
         sendChatComment: sendChatCommentSpy,
-        endChat: endChatSpy
+        endChat: endChatSpy,
+        resetCurrentMessage: resetCurrentMessageSpy
       },
       'src/redux/modules/chat/chat-selectors': {
         getPrechatFormFields: noop
@@ -389,7 +391,8 @@ describe('Chat component', () => {
           setVisitorInfo={setVisitorInfoSpy}
           sendMsg={sendMsgSpy}
           setDepartment={setDepartmentSpy}
-          updateChatScreen={updateChatScreenSpy} />
+          updateChatScreen={updateChatScreenSpy}
+          resetCurrentMessage={resetCurrentMessageSpy} />
       );
 
       component.onPrechatFormComplete(formInfo);
@@ -463,6 +466,11 @@ describe('Chat component', () => {
     it('calls updateChatScreen with `chatting`', () => {
       expect(updateChatScreenSpy)
         .toHaveBeenCalledWith(chattingScreen);
+    });
+
+    it('calls resetCurrentMessage', () => {
+      expect(resetCurrentMessageSpy)
+        .toHaveBeenCalled();
     });
   });
 

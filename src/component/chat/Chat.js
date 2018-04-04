@@ -39,7 +39,8 @@ import { endChat,
          handleReconnect,
          handlePreChatFormChange,
          updateMenuVisibility,
-         updateContactDetailsVisibility } from 'src/redux/modules/chat';
+         updateContactDetailsVisibility,
+         resetCurrentMessage } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import { getPrechatFormFields,
          getAttachmentsEnabled,
@@ -150,7 +151,8 @@ class Chat extends Component {
     updateMenuVisibility: PropTypes.func,
     menuVisible: PropTypes.bool,
     agentJoined: PropTypes.bool,
-    connection: PropTypes.string.isRequired
+    connection: PropTypes.string.isRequired,
+    resetCurrentMessage: PropTypes.func
   };
 
   static defaultProps = {
@@ -180,7 +182,8 @@ class Chat extends Component {
     updateMenuVisibility: () => {},
     menuVisible: false,
     agentJoined: false,
-    connection: ''
+    connection: '',
+    resetCurrentMessage: () => {}
   };
 
   constructor(props) {
@@ -266,6 +269,7 @@ class Chat extends Component {
 
     this.props.setVisitorInfo(_.pick(info, ['display_name', 'email', 'phone']));
     this.props.updateChatScreen(screens.CHATTING_SCREEN);
+    this.props.resetCurrentMessage();
   }
 
   renderChatMenu = () => {
@@ -319,8 +323,8 @@ class Chat extends Component {
   }
 
   renderChatFooter = () => {
-    const { currentMessage, sendMsg, handleChatBoxChange, isMobile } = this.props;
     const menuIconActive = this.props.menuVisible;
+    const { currentMessage, sendMsg, resetCurrentMessage, handleChatBoxChange, isMobile } = this.props;
 
     const showChatEndFn = (e) => {
       e.stopPropagation();
@@ -335,7 +339,7 @@ class Chat extends Component {
     const sendChatFn = () => {
       if (_.isEmpty(currentMessage)) return;
       sendMsg(currentMessage);
-      handleChatBoxChange('');
+      resetCurrentMessage();
     };
 
     return (
@@ -742,7 +746,8 @@ const actionCreators = {
   handlePreChatFormChange,
   updateMenuVisibility,
   handleReconnect,
-  updateContactDetailsVisibility
+  updateContactDetailsVisibility,
+  resetCurrentMessage
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);
