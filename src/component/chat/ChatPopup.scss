@@ -31,8 +31,9 @@
   background-color: $zd-color-white;
   border-radius: #{3/$font-size}rem;
   box-shadow: 0 0 #{8/$font-size}rem 0 rgba($base-shadow, 0.26);
-  width: 92%;
-  margin: auto;
+  width: auto;
+  min-height: #{75/$font-size}rem;
+  margin: 0 #{16/$font-size}rem #{30/$font-size}rem;
 }
 
 .ctaContainer {

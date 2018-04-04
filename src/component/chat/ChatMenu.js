@@ -129,7 +129,7 @@ export class ChatMenu extends Component {
     return (
       <SlideAppear
         startPosHeight={'10px'}
-        endPosHeight={'20px'}
+        endPosHeight={'30px'}
         className={styles.container}
         trigger={this.props.show}>
         {this.renderSoundButton()}

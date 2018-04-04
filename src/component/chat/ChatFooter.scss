@@ -9,6 +9,7 @@
 .icon {
   margin-right: #{3/$font-size}rem;
   border-radius: #{4/$font-size}rem;
+  height: #{24/$font-size}rem;
 
   svg {
     padding: #{5/$font-size}rem;
@@ -29,6 +30,15 @@
     svg > g {
       fill: $zd-color-dark-gray !important;
     }
+  }
+}
+
+.iconActive {
+  cursor: pointer;
+  background: $zd-color-platinum;
+
+  svg > g {
+    fill: $zd-color-dark-gray !important;
   }
 }
 

@@ -320,6 +320,7 @@ class Chat extends Component {
 
   renderChatFooter = () => {
     const { currentMessage, sendMsg, handleChatBoxChange, isMobile } = this.props;
+    const menuIconActive = this.props.menuVisible;
 
     const showChatEndFn = (e) => {
       e.stopPropagation();
@@ -345,6 +346,7 @@ class Chat extends Component {
         sendChat={sendChatFn}
         isChatting={this.props.isChatting}
         handleAttachmentDrop={this.props.sendAttachments}
+        menuIconActive={menuIconActive}
         toggleMenu={this.toggleMenu}>
         <ChatBox
           isMobile={isMobile}
@@ -616,7 +618,9 @@ class Chat extends Component {
   }
 
   renderChatEmailTranscriptPopup = () => {
-    const hideEmailTranscriptFn = () => this.setState({ showEmailTranscriptMenu: false });
+    const hideEmailTranscriptFn = () => {
+      this.setState({ showEmailTranscriptMenu: false });
+    };
     const sendEmailTranscriptFn = (email) => {
       this.props.sendEmailTranscript(email);
     };

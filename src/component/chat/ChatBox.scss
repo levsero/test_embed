@@ -2,6 +2,7 @@
 
 .container {
   composes: u-alignBottom from global;
+  margin: 0 #{1/$font-size}rem;
 
   .label {
     display: none;
@@ -15,7 +16,7 @@
   }
 
   .input {
-    height: #{30/$font-size}rem !important;
+    height: #{50/$font-size}rem !important;
 
     &::placeholder {
       color: $zd-color-gainsboro;

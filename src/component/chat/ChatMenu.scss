@@ -1,12 +1,13 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: u-posAbsolute u-marginAS u-posEnd--flush u-zIndex1 from global;
+  composes: u-posAbsolute u-posEnd--flush u-zIndex1 from global;
 
   background-color: $base-color;
-  bottom: #{20/$font-size}rem;
-  width: calc(100% - #{20/$font-size}rem);
+  bottom: #{30/$font-size}rem;
+  width: calc(100% - #{32/$font-size}rem);
   padding: #{4/$font-size}rem 0;
+  margin: 0 #{16/$font-size}rem #{10/$font-size}rem;
   border-radius: #{4/$font-size}rem;
   box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .2);
 }

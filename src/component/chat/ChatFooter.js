@@ -16,6 +16,7 @@ export class ChatFooter extends Component {
     sendChat: PropTypes.func,
     handleAttachmentDrop: PropTypes.func,
     isChatting: PropTypes.bool,
+    menuIconActive: PropTypes.bool,
     toggleMenu: PropTypes.func,
     attachmentsEnabled: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool.isRequired
@@ -26,6 +27,7 @@ export class ChatFooter extends Component {
     sendChat: () => {},
     handleAttachmentDrop: () => {},
     isChatting: false,
+    menuIconActive: false,
     toggleMenu: () => {}
   }
 
@@ -41,12 +43,15 @@ export class ChatFooter extends Component {
   }
 
   renderEndChatOption = () => {
-    const endChatDisabledClasses = this.props.isChatting ? '' : styles.iconDisabled;
+    const endChatClasses = classNames(
+      styles.iconEndChat,
+      { [styles.iconDisabled]: !this.props.isChatting }
+    );
 
     return (
       <Icon
         type={ICONS.END_CHAT}
-        className={`${styles.iconEndChat} ${endChatDisabledClasses}`}
+        className={endChatClasses}
         onClick={this.handleEndChatClick} />
     );
   }
@@ -69,10 +74,15 @@ export class ChatFooter extends Component {
   }
 
   renderMenuOption = () => {
+    const menuClasses = classNames(
+      styles.iconMenu,
+      { [styles.iconActive]: this.props.menuIconActive }
+    );
+
     return (
       <Icon
         type={ICONS.ELLIPSIS}
-        className={styles.iconMenu}
+        className={menuClasses}
         onClick={this.handleMenuClick} />
     );
   }

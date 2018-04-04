@@ -121,20 +121,27 @@ export class ChatEmailTranscriptPopup extends Component {
     );
   }
 
+  renderResultScreen = (resultContent, iconType = 'Icon--checkmark-fill') => {
+    return (
+      <div className={styles.resultScreen}>
+        <div className={styles.resultIcon}>
+          <Icon type={iconType} />
+        </div>
+        {resultContent}
+      </div>
+    );
+  }
+
   renderSuccessScreen = () => {
     if (this.props.emailTranscript.screen !== EMAIL_TRANSCRIPT_SUCCESS_SCREEN) return null;
 
-    const successLabel = i18n.t('embeddable_framework.chat.emailtranscript.success_message',
-                                { email: `<b>${this.props.emailTranscript.email}</b>` });
-
-    return (
-      <div className={`${styles.resultScreen}`}>
-        <div>
-          <Icon type='Icon--checkmark-fill'/>
-        </div>
-        <div dangerouslySetInnerHTML={{__html: successLabel}} />
-      </div>
+    const successLabel = i18n.t(
+      'embeddable_framework.chat.emailtranscript.success_message',
+      { email: `<strong>${this.props.emailTranscript.email}</strong>` }
     );
+    const message = <div className={styles.resultMessage} dangerouslySetInnerHTML={{__html: successLabel}} />;
+
+    return this.renderResultScreen(message);
   }
 
   renderFailureScreen = () => {
@@ -142,19 +149,15 @@ export class ChatEmailTranscriptPopup extends Component {
 
     const failureMessageLabel = i18n.t('embeddable_framework.chat.emailtranscript.failure_message');
     const tryAgainLabel = i18n.t('embeddable_framework.chat.emailtranscript.try_again');
-
-    return (
-      <div className={`${styles.resultScreen}`}>
-        <div>
-          <Icon type={ICONS.ERROR_FILL} />
-        </div>
-        <div>
-          {failureMessageLabel}
-          <br />
-          <a onClick={this.props.tryEmailTranscriptAgain}>{tryAgainLabel}</a>
-        </div>
+    const message = (
+      <div className={styles.resultMessage}>
+        {failureMessageLabel}
+        <br />
+        <a onClick={this.props.tryEmailTranscriptAgain}>{tryAgainLabel}</a>
       </div>
     );
+
+    return this.renderResultScreen(message, ICONS.ERROR_FILL);
   }
 
   renderLoadingScreen = () => {
