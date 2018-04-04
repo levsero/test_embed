@@ -6,7 +6,6 @@ import { Icon } from 'component/Icon';
 import { Button } from 'component/button/Button';
 import { Dropzone } from 'component/Dropzone';
 import { SlideAppear } from 'component/transition/SlideAppear';
-import { Icon } from 'component/Icon';
 
 import { locals as styles } from './ChatMenu.scss';
 import classNames from 'classnames';
@@ -56,7 +55,7 @@ export class ChatMenu extends Component {
     const iconType = this.props.playSound ? 'Icon--sound-on' : 'Icon--sound-off';
 
     return (
-      <button className={styles.item} onClick={this.handleSoundClick}>
+      <button className={this.getItemClasses()} onClick={this.handleSoundClick}>
         {i18n.t('embeddable_framework.chat.options.sound')}
         <Icon className={styles.soundIcon} type={iconType} />
       </button>

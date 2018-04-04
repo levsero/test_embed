@@ -104,8 +104,7 @@ export class IconButton extends Component {
         type="button"
         className={`${buttonClassName} ${styles.button}`}
         onClick={onClick}
-        title={altText}
-      >
+        title={altText}>
         <Icon {...iconProps} />
         <span className={styles.altText}>
           {altText}
