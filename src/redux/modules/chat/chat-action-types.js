@@ -39,6 +39,7 @@ export const CHAT_RECONNECT = 'widget/chat/CHAT_RECONNECT';
 export const UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY = 'widget/chat/UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY';
 export const UPDATE_CHAT_MENU_VISIBILITY = 'widget/chat/UPDATE_CHAT_MENU_VISIBILITY';
 export const UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP = 'widget/chat/UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP';
+export const RESET_CURRENT_MESSAGE = 'widget/chat/RESET_CURRENT_MESSAGE';
 
 export const SDK_CHAT_MSG = 'websdk/chat.msg';
 export const SDK_CHAT_FILE = 'websdk/chat.file';
