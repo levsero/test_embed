@@ -718,7 +718,7 @@ window.zESettings = {
 
 #### nickname
 
-An Admin can choose to set up more than one configuration for how Talk will behave in the Web Widget.  Each configuration can customise call routing, and display options.  `nickname` tells the Web Widget which of the available configurations should be used on the current page.
+An Admin can choose to set up more than one configuration for how Talk will behave in the Web Widget.  Each configuration can customize call routing, and display options. `nickname` tells the Web Widget which of the available configurations should be used on the current page.
 
 ```html
 <script type="text/javascript">
