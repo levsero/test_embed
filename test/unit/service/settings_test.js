@@ -37,7 +37,7 @@ describe('settings', () => {
         originalArticleButton: true,
         localeFallbacks: []
       },
-      margin: 15,
+      margin: 8,
       offset: {
         horizontal: 0,
         vertical: 0,
