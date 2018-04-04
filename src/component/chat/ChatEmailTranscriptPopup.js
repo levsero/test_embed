@@ -42,7 +42,7 @@ export class ChatEmailTranscriptPopup extends Component {
 
   constructor(props) {
     super(props);
-    const email = _.get(props.visitor, 'email', '');
+    const email = props.emailTranscript.email ? props.emailTranscript.email : _.get(props.visitor, 'email', '');
 
     this.state = {
       valid: emailValid(email),
@@ -55,7 +55,7 @@ export class ChatEmailTranscriptPopup extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const email = _.get(nextProps.visitor, 'email', '');
+    const email = nextProps.emailTranscript.email ? nextProps.emailTranscript.email : _.get(nextProps.visitor, 'email', '');
 
     this.setState({
       formState: { email }
@@ -181,8 +181,7 @@ export class ChatEmailTranscriptPopup extends Component {
     }
 
     const onExited = () => {
-      if (this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_FAILURE_SCREEN ||
-          this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SUCCESS_SCREEN) {
+      if (this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SUCCESS_SCREEN) {
         this.props.resetEmailTranscript();
       }
     };

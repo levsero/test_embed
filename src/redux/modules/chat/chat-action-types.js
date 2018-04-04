@@ -27,6 +27,7 @@ export const EMAIL_TRANSCRIPT_SUCCESS = 'widget/chat/EMAIL_TRANSCRIPT_SUCCESS';
 export const EMAIL_TRANSCRIPT_FAILURE = 'widget/chat/EMAIL_TRANSCRIPT_FAILURE';
 export const EMAIL_TRANSCRIPT_IDLE = 'widget/chat/EMAIL_TRANSCRIPT_IDLE';
 export const RESET_EMAIL_TRANSCRIPT = 'widget/chat/RESET_EMAIL_TRANSCRIPT';
+export const RESET_EMAIL_TRANSCRIPT_SCREEN = 'widget/chat/RESET_EMAIL_TRANSCRIPT_SCREEN';
 export const CHAT_NOTIFICATION_DISMISSED = 'widget/chat/CHAT_NOTIFICATION_DISMISSED';
 export const CHAT_NOTIFICATION_RESPONDED = 'widget/chat/CHAT_NOTIFICATION_RESPONDED';
 export const CHAT_OFFLINE_FORM_CHANGED = 'widget/chat/CHAT_OFFLINE_FORM_CHANGED';
@@ -42,6 +43,7 @@ export const UPDATE_CHAT_MENU_VISIBILITY = 'widget/chat/UPDATE_CHAT_MENU_VISIBIL
 export const UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP = 'widget/chat/UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP';
 export const RESET_CURRENT_MESSAGE = 'widget/chat/RESET_CURRENT_MESSAGE';
 
+export const SDK_ERROR = 'websdk/error';
 export const SDK_CHAT_MSG = 'websdk/chat.msg';
 export const SDK_CHAT_FILE = 'websdk/chat.file';
 export const SDK_CHAT_QUEUE_POSITION = 'websdk/chat.queue_position';

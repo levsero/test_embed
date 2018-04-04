@@ -2,7 +2,9 @@ import { EMAIL_TRANSCRIPT_SUCCESS,
          EMAIL_TRANSCRIPT_FAILURE,
          EMAIL_TRANSCRIPT_REQUEST_SENT,
          EMAIL_TRANSCRIPT_IDLE,
-         RESET_EMAIL_TRANSCRIPT } from '../chat-action-types';
+         RESET_EMAIL_TRANSCRIPT,
+         RESET_EMAIL_TRANSCRIPT_SCREEN,
+         SDK_ERROR } from '../chat-action-types';
 import {
   EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
   EMAIL_TRANSCRIPT_FAILURE_SCREEN,
@@ -32,10 +34,17 @@ const emailTranscript = (state = initialState, action) => {
         screen: screenLookUp[action.type],
         email: action.payload
       };
-    case RESET_EMAIL_TRANSCRIPT:
+    case RESET_EMAIL_TRANSCRIPT_SCREEN:
       return {
-        screen: EMAIL_TRANSCRIPT_SCREEN,
-        email: ''
+        ...state,
+        screen: EMAIL_TRANSCRIPT_SCREEN
+      };
+    case RESET_EMAIL_TRANSCRIPT:
+      return initialState;
+    case SDK_ERROR:
+      return {
+        ...state,
+        screen: EMAIL_TRANSCRIPT_FAILURE_SCREEN
       };
     default:
       return state;

@@ -38,6 +38,7 @@ import { endChat,
          handleSoundIconClick,
          sendEmailTranscript,
          resetEmailTranscript,
+         resetEmailTranscriptScreen,
          handleReconnect,
          handlePreChatFormChange,
          updateMenuVisibility,
@@ -152,6 +153,7 @@ class Chat extends Component {
     sendEmailTranscript: PropTypes.func.isRequired,
     emailTranscript: PropTypes.object.isRequired,
     resetEmailTranscript: PropTypes.func,
+    resetEmailTranscriptScreen: PropTypes.func,
     showAvatar: PropTypes.bool.isRequired,
     preChatFormState: PropTypes.object,
     handlePreChatFormChange: PropTypes.func,
@@ -194,6 +196,7 @@ class Chat extends Component {
     sendEmailTranscript: () => {},
     emailTranscript: {},
     resetEmailTranscript: () => {},
+    resetEmailTranscriptScreen: () => {},
     editContactDetails: {},
     updateChatBackButtonVisibility: () => {},
     updateMenuVisibility: () => {},
@@ -693,8 +696,8 @@ class Chat extends Component {
       this.props.sendEmailTranscript(email);
     };
     const tryEmailTranscriptAgain = () => {
-      this.props.resetEmailTranscript();
       this.setState({ showEmailTranscriptMenu: true });
+      this.props.resetEmailTranscriptScreen();
     };
 
     return (
@@ -807,6 +810,7 @@ const actionCreators = {
   handleSoundIconClick,
   sendEmailTranscript,
   resetEmailTranscript,
+  resetEmailTranscriptScreen,
   handlePreChatFormChange,
   updateMenuVisibility,
   handleReconnect,

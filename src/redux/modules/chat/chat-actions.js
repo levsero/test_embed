@@ -30,6 +30,7 @@ import {
   EMAIL_TRANSCRIPT_FAILURE,
   EMAIL_TRANSCRIPT_REQUEST_SENT,
   RESET_EMAIL_TRANSCRIPT,
+  RESET_EMAIL_TRANSCRIPT_SCREEN,
   CHAT_OFFLINE_FORM_CHANGED,
   PRE_CHAT_FORM_ON_CHANGE,
   UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
@@ -210,6 +211,12 @@ export function sendEmailTranscript(email) {
 export function resetEmailTranscript() {
   return {
     type: RESET_EMAIL_TRANSCRIPT
+  };
+}
+
+export function resetEmailTranscriptScreen() {
+  return {
+    type: RESET_EMAIL_TRANSCRIPT_SCREEN
   };
 }
 
