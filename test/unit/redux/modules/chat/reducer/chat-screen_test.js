@@ -66,5 +66,18 @@ describe('chat reducer screens', () => {
           .toEqual('chatting_screen');
       });
     });
+
+    describe('when a SDK_CHAT_MEMBER_JOIN action is dispatched', () => {
+      beforeEach(() => {
+        state = reducer('prechat_screen', {
+          type: actionTypes.SDK_CHAT_MEMBER_JOIN
+        });
+      });
+
+      it('sets the state to chatting screen', () => {
+        expect(state)
+          .toEqual('chatting_screen');
+      });
+    });
   });
 });
