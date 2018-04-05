@@ -16,7 +16,7 @@ describe('time', () => {
       result = timeFromMinutes(timeInMinutes, amString, pmString);
     });
 
-    describe('when the time is 24 time (military style)', () => {
+    describe('when the time is 24-hour time (military style)', () => {
       beforeAll(() => {
         timeInMinutes = 1000;
         amString = '';
@@ -36,7 +36,7 @@ describe('time', () => {
       });
     });
 
-    describe('when the time is 12 time (civilian style)', () => {
+    describe('when the time is 12-hour time (civilian style)', () => {
       beforeAll(() => {
         amString = 'am';
         pmString = 'pm';
