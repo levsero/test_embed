@@ -1352,13 +1352,27 @@ describe('mediator', () => {
 
         describe('when isChatting param is true', () => {
           describe('when showOnLoad param is true', () => {
-            beforeEach(() => {
-              c.broadcast('newChat.isChatting', true, true);
+            describe('when not on mobile', () => {
+              beforeEach(() => {
+                c.broadcast('newChat.isChatting', true, true);
+              });
+
+              it('broadcasts webWidget.show', () => {
+                expect(webWidgetSub.show.calls.count())
+                  .toEqual(1);
+              });
             });
 
-            it('broadcasts webWidget.show', () => {
-              expect(webWidgetSub.show.calls.count())
-                .toEqual(1);
+            describe('when on mobile', () => {
+              beforeEach(() => {
+                mockRegistry['utility/devices'].isMobileBrowser.and.returnValue(true);
+                c.broadcast('newChat.isChatting', true, true);
+              });
+
+              it('broadcasts launcher.show', () => {
+                expect(launcherSub.show.calls.count())
+                  .toBe(1);
+              });
             });
           });
 
@@ -1579,16 +1593,6 @@ describe('mediator', () => {
 
         it('does not broadcast webWidget.proactiveChat when userClosed is true', () => {
           c.broadcast('webWidget.onClose');
-          c.broadcast('newChat.newMessage');
-
-          expect(webWidgetSub.proactiveChat.calls.count())
-            .toEqual(0);
-        });
-
-        it('does not broadcast webWidget.proactiveChat when isMobileBrowser is true', () => {
-          mockRegistry['utility/devices'].isMobileBrowser
-            .and.returnValue(true);
-
           c.broadcast('newChat.newMessage');
 
           expect(webWidgetSub.proactiveChat.calls.count())

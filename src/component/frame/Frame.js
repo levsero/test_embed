@@ -97,7 +97,8 @@ export class Frame extends Component {
         height: 0,
         width: 0
       },
-      visible: props.visible
+      visible: props.visible,
+      fixedStyles: {}
     };
 
     this.child = null;
@@ -160,6 +161,10 @@ export class Frame extends Component {
       this.child.forceUpdate();
       this.child.nav.forceUpdate();
     }
+  }
+
+  setFixedFrameStyles = (fixedStyles = {}) => {
+    this.setState({ fixedStyles });
   }
 
   updateFrameSize = () => {
@@ -357,7 +362,8 @@ export class Frame extends Component {
       modifiedStyles,
       iframeDimensions,
       posObj,
-      visibilityStyles
+      visibilityStyles,
+      this.state.fixedStyles
     );
   }
 
@@ -382,6 +388,7 @@ export class Frame extends Component {
     // Pass down updateFrameSize to children
     const newChild = React.cloneElement(this.props.children, {
       updateFrameSize: this.updateFrameSize,
+      setFixedFrameStyles: this.setFixedFrameStyles,
       closeFrame: this.close,
       getFrameDimensions: this.getFrameDimensions,
       onBackButtonClick: this.back

@@ -22,7 +22,8 @@ describe('embed.webWidget', () => {
     mockActiveEmbed,
     mockStoreDispatch,
     mockStore,
-    mockWebWidget;
+    mockWebWidget,
+    mockChatNotification;
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
   const authenticateSpy = jasmine.createSpy();
   const revokeSpy = jasmine.createSpy();
@@ -53,6 +54,7 @@ describe('embed.webWidget', () => {
     mockNicknameValue = null;
     mockStoreDispatch = jasmine.createSpy('dispatch');
     mockStore = { getState: noop, dispatch: mockStoreDispatch };
+    mockChatNotification = { show: false, proactive: false };
 
     targetCancelHandlerSpy = jasmine.createSpy();
 
@@ -142,6 +144,9 @@ describe('embed.webWidget', () => {
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed
+      },
+      'src/redux/modules/chat/chat-selectors': {
+        getChatNotification: () => mockChatNotification
       },
       'src/redux/modules/talk/talk-screen-types': {
         CALLBACK_ONLY_SCREEN: callMeScreen
@@ -1041,24 +1046,54 @@ describe('embed.webWidget', () => {
       });
 
       describe('when webWidget.proactiveChat is dispatched', () => {
-        beforeEach(() => {
-          frame = webWidget.get().instance;
-          component = frame.getRootComponent();
+        describe('when there is a proactive chat notification', () => {
+          beforeEach(() => {
+            mockChatNotification = { proactive: true, show: true };
+            webWidget.create('', {}, mockStore);
+            webWidget.render();
+            frame = webWidget.get().instance;
+            component = frame.getRootComponent();
 
-          spyOn(frame, 'show');
-          spyOn(component, 'showChat');
+            spyOn(frame, 'show');
+            spyOn(component, 'showProactiveChat');
 
-          pluckSubscribeCall(mockMediator, 'webWidget.proactiveChat')();
+            pluckSubscribeCall(mockMediator, 'webWidget.proactiveChat')();
+          });
+
+          it('call show on Frame', () => {
+            expect(frame.show)
+              .toHaveBeenCalled();
+          });
+
+          it('calls showProactiveChat on the component', () => {
+            expect(component.showProactiveChat)
+              .toHaveBeenCalled();
+          });
         });
 
-        it('call show on Frame', () => {
-          expect(frame.show)
-            .toHaveBeenCalled();
-        });
+        describe('when there is no proactive chat notification', () => {
+          beforeEach(() => {
+            mockChatNotification = { proactive: false, show: false };
+            webWidget.create('', {}, mockStore);
+            webWidget.render();
+            frame = webWidget.get().instance;
+            component = frame.getRootComponent();
 
-        it('calls showChat with proactive true on the component', () => {
-          expect(component.showChat)
-            .toHaveBeenCalledWith({ proactive: true });
+            spyOn(frame, 'show');
+            spyOn(component, 'showProactiveChat');
+
+            pluckSubscribeCall(mockMediator, 'webWidget.proactiveChat')();
+          });
+
+          it('does not call show on Frame', () => {
+            expect(frame.show)
+              .not.toHaveBeenCalled();
+          });
+
+          it('does not call showProactiveChat on the component', () => {
+            expect(component.showProactiveChat)
+              .not.toHaveBeenCalled();
+          });
         });
       });
 

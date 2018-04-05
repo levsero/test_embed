@@ -241,6 +241,23 @@ describe('Chat component', () => {
     });
   });
 
+  describe('componentDidMount', () => {
+    let updateChatBackButtonVisibilitySpy;
+
+    beforeEach(() => {
+      updateChatBackButtonVisibilitySpy = jasmine.createSpy('updateChatBackButtonVisibility');
+
+      const component = instanceRender(<Chat updateChatBackButtonVisibility={updateChatBackButtonVisibilitySpy} />);
+
+      component.componentDidMount();
+    });
+
+    it('calls props.updateChatBackButtonVisibility', () => {
+      expect(updateChatBackButtonVisibilitySpy)
+        .toHaveBeenCalled();
+    });
+  });
+
   describe('componentWillReceiveProps', () => {
     let emailTranscript,
       nextProps,
