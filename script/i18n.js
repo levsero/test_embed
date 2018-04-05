@@ -109,7 +109,7 @@ function writeJsonToGlobalFile(globalName, path, json) {
 }
 
 function writeJsonToModuleFile(path, json) {
-  var contents = 'export default ' + JSON.stringify(json, null, 2);
+  var contents = 'module.exports = ' + JSON.stringify(json, null, 2);
 
   fs.writeFile(path, contents);
 }

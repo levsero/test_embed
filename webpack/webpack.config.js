@@ -53,7 +53,7 @@ var config = {
       },
       {
         test: /\.(yml|yaml)/,
-          use: [ 'json-loader', 'yaml-loader' ]
+        use: [ 'json-loader', 'yaml-loader' ]
       }
     ]
   },

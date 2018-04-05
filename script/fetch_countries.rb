@@ -84,7 +84,7 @@ File.open(target, 'w') do |f|
   if ac_build?
     f.puts 'window.zECountries = {'
   else
-    f.puts 'export default {'
+    f.puts 'module.exports = {'
   end
   output.each do |cc, data|
     line = "  '#{cc}': { code: '#{data[:code]}', name: '#{data[:name]}' }"
