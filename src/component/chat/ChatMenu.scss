@@ -73,6 +73,7 @@
   padding: #{13/$font-size}rem #{20/$font-size}rem;
   border-color: $zd-color-platinum;
   box-sizing: border-box;
+  border-top: 0;
 
   &:hover, &:active, &:focus {
     color: $zd-color-oil;
