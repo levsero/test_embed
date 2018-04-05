@@ -280,16 +280,16 @@ class Chat extends Component {
       this.props.sendOfflineMessage(info);
       this.props.updateChatScreen(screens.OFFLINE_MESSAGE_SCREEN);
     } else {
-      if (selectedDepartment) {
-        const sendOnlineDepartmentMessage = () => this.props.sendMsg(info.message);
+      const sendOnlineMessage = () => info.message ? this.props.sendMsg(info.message) : null;
 
+      if (selectedDepartment) {
         this.props.setDepartment(
           selectedDepartment,
-          sendOnlineDepartmentMessage,
-          sendOnlineDepartmentMessage
+          sendOnlineMessage,
+          sendOnlineMessage
         );
-      } else if (info.message) {
-        this.props.sendMsg(info.message);
+      } else {
+        sendOnlineMessage();
       }
       this.props.setVisitorInfo({
         display_name: info.display_name || info.name,
