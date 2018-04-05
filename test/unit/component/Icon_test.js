@@ -1,6 +1,7 @@
 describe('Icon components', function() {
   let Icon,
     IconButton,
+    mockRTLValue,
     ICONS;
 
   const iconPath = buildSrcPath('component/Icon');
@@ -15,6 +16,7 @@ describe('Icon components', function() {
   beforeEach(function() {
     mockery.enable();
 
+    mockRTLValue = false;
     ICONS = requireUncached(sharedConstantsPath).ICONS;
 
     initMockRegistry({
@@ -63,6 +65,11 @@ describe('Icon components', function() {
       'utility/devices': {
         isMobileBrowser: function() {
           return false;
+        }
+      },
+      'service/i18n': {
+        i18n: {
+          isRTL: () => mockRTLValue
         }
       },
       'constants/shared': {

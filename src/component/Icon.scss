@@ -35,8 +35,8 @@
   position: relative;
 }
 
-.tooltip {
-  composes: c-tooltip c-arrow c-arrow--br u-va-top from global;
+.tooltip-base {
+  composes: c-tooltip c-arrow u-va-top from global;
   position: absolute;
   top: #{-25/$font-size}rem;
   right: #{3/$font-size}rem;
@@ -44,6 +44,18 @@
   visibility: hidden;
   transition: opacity 150ms ease-out;
   opacity: 0;
+}
+
+.tooltip {
+  composes: tooltip-base;
+  composes: c-arrow--br from global;
+}
+
+.tooltipRtl {
+  composes: tooltip-base;
+  composes: c-arrow--bl from global;
+  left: #{3/$font-size}rem;
+  right: auto;
 }
 
 .tooltipShown {

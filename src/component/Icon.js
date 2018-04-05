@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { isMobileBrowser } from 'utility/devices';
+import { i18n } from 'service/i18n';
 import { ICONS } from 'constants/shared';
 import { locals as styles } from './Icon.scss';
 import classNames from 'classnames';
@@ -124,8 +125,9 @@ export class IconButton extends Component {
 
     const showTooltip = !disabled && !disableTooltip && this.state.showTooltip;
     const showTitle = !disabled && (disableTooltip || !this.state.showTooltip);
+    const tooltipClass = i18n.isRTL() ? styles.tooltipRtl : styles.tooltip;
     const tooltipStyles = classNames(
-      styles.tooltip,
+      tooltipClass,
       {
         [styles.tooltipShown]: showTooltip,
         [styles.tooltipTransition]: showTooltip
