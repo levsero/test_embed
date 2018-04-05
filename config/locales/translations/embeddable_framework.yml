@@ -145,7 +145,7 @@ parts:
   - translation:
       key: "embeddable_framework.chat.header.default.title"
       title: "Chat's default header text"
-      screenshot: "https://drive.google.com/file/d/1UuLAoz-CR-jdip0MU3BeEc5ATk_6TFjS"
+      screenshot: "https://drive.google.com/open?id=10S05tWpZZXAutXslTBoJNhzv2N7NqApw"
       value: "Live Support"
   - translation:
       key: "embeddable_framework.chat.header.subText"
@@ -160,7 +160,7 @@ parts:
   - translation:
       key: "embeddable_framework.chat.reconnecting"
       title: "A text displayed on a persistent popup notification when the user's chat session has disconnected. It goes away after successful reconnection"
-      screenshot: "https://drive.google.com/file/d/1f5aC8HbAr7dyddzResi0s0ss67lH8iZl"
+      screenshot: "https://drive.google.com/open?id=1yEx9kGh05t3visDMsWzRDUu_h_5QJBqK"
       value: "Reconnecting..."
   - translation:
       key: "embeddable_framework.chat.emailtranscript.failure_message"
@@ -262,7 +262,7 @@ parts:
   - translation:
       key: "embeddable_framework.chat.preChat.online.dropdown.selectDepartment"
       title: "The default text for the dropdown to select a department in the pre chat form"
-      screenshot: "https://drive.google.com/file/d/1Dar24_SV8BCS0f3PBMfaCvklBI_UdPW6"
+      screenshot: "https://drive.google.com/open?id=13axYwVNISVpj0eb5_r5EnbtXu-Wzo20m"
       value: "Select department"
   - translation:
       key: "embeddable_framework.chat.preChat.offline.button.sendMessage"
