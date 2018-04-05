@@ -79,7 +79,7 @@ export class ChatOperatingHours extends Component {
     return (
       <div className={styles.container}>
         <h4 className={styles.title}>{title}</h4>
-        <ul>{this.renderDays()}</ul>
+        {this.renderDays()}
         {this.renderBackButton()}
       </div>
     );

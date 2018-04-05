@@ -109,7 +109,7 @@ describe('ChatOperatingHours component', () => {
       });
 
       it('is contained in the right element', () => {
-        expect(list.type).toEqual('ul');
+        expect(list.type).toEqual('dl');
       });
     });
   });
