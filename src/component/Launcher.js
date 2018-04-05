@@ -100,7 +100,8 @@ class Launcher extends Component {
         return i18n.t(label);
       case 'chat':
       case 'zopimChat':
-        return i18n.t('embeddable_framework.launcher.label.chat');
+        if (this.props.chatAvailable) return i18n.t('embeddable_framework.launcher.label.chat');
+        return this.getLabel();
       case 'talk':
         return this.getTalkLabel();
       default:
@@ -124,7 +125,8 @@ class Launcher extends Component {
         return 'Icon';
       case 'chat':
       case 'zopimChat':
-        return 'Icon--chat';
+        if (this.props.chatAvailable) return 'Icon--chat';
+        return this.getIconType();
       case 'talk':
         return 'Icon--launcher-talk';
       default:
