@@ -118,6 +118,11 @@ describe('onStateChange middleware', () => {
             .not.toHaveBeenCalled();
         });
 
+        it('does not dispatch the getOperatingHours action', () => {
+          expect(getOperatingHoursSpy)
+            .not.toHaveBeenCalled();
+        });
+
         it('does not call mediator with newChat.connected', () => {
           expect(broadcastSpy)
             .not.toHaveBeenCalledWith('newChat.connected');
@@ -136,6 +141,11 @@ describe('onStateChange middleware', () => {
 
         it('dispatches the getIsChatting action creator', () => {
           expect(getIsChattingSpy)
+            .toHaveBeenCalled();
+        });
+
+        it('dispatches the getOperatingHours action creator', () => {
+          expect(getOperatingHoursSpy)
             .toHaveBeenCalled();
         });
 
