@@ -20,7 +20,9 @@ describe('ChatOfflineForm component', () => {
           submitButton: 'submitButtonClass',
           scrollContainer: 'scrollContainerClass',
           mobileContainer: 'mobileContainerClass',
-          scrollContainerContent: 'scrollContainerContentClass'
+          scrollContainerContent: 'scrollContainerContentClass',
+          operatingHoursContainer: 'operatingHoursContainerClass',
+          operatingHoursLink: 'operatingHoursLinkClass'
         }
       },
       'service/i18n': {
@@ -32,7 +34,8 @@ describe('ChatOfflineForm component', () => {
         OFFLINE_FORM_SCREENS: {
           MAIN: 'main',
           SUCCESS: 'success',
-          LOADING: 'loading'
+          LOADING: 'loading',
+          OPERATING_HOURS: 'operatingHours'
         }
       },
       'component/form/Form': {
@@ -205,6 +208,63 @@ describe('ChatOfflineForm component', () => {
       it('renders nothing', () => {
         expect(result)
           .toBeUndefined();
+      });
+    });
+  });
+
+  describe('renderOperatingHours', () => {
+    let result;
+
+    describe('when the screen is not the operating hours screen', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatOfflineForm offlineMessage={{ screen: 'main' }} />);
+
+        result = component.renderOperatingHours();
+      });
+
+      it('renders nothing', () => {
+        expect(result)
+          .toBeUndefined();
+      });
+    });
+
+    describe('when the screen is the operatingHours screen', () => {
+      let handleOfflineFormBackFn;
+
+      beforeEach(() => {
+        const mockOperatingHours = {
+          account_schedule: [[456]]
+        };
+
+        handleOfflineFormBackFn = () => {};
+
+        const component = instanceRender(
+          <ChatOfflineForm
+            operatingHours={mockOperatingHours}
+            handleOfflineFormBack={handleOfflineFormBackFn}
+            offlineMessage={{ screen: 'operatingHours' }} />
+        );
+
+        result = component.renderOperatingHours();
+      });
+
+      it('returns a <ChatOperatingHours> element', () => {
+        expect(TestUtils.isElementOfType(result, ChatOperatingHours))
+          .toEqual(true);
+      });
+
+      it('has a props.operatingHours value', () => {
+        const expected = {
+          account_schedule: [[456]]
+        };
+
+        expect(result.props.operatingHours)
+          .toEqual(expected);
+      });
+
+      it('has a props.handleOfflineFormBack value', () => {
+        expect(result.props.handleOfflineFormBack)
+          .toEqual(handleOfflineFormBackFn);
       });
     });
   });
