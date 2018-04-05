@@ -18,7 +18,9 @@ export class ChatLog extends Component {
     goToFeedbackScreen: PropTypes.func.isRequired,
     showAvatar: PropTypes.bool.isRequired,
     handleSendMsg: PropTypes.func,
-    onImageLoad: PropTypes.func
+    onImageLoad: PropTypes.func,
+    showUpdateInfo: PropTypes.bool.isRequired,
+    updateInfoOnClick: PropTypes.func
   };
 
   constructor(props) {
@@ -27,7 +29,19 @@ export class ChatLog extends Component {
     this.createdTimestamp = Date.now();
   }
 
-  renderChatLog(chatLog, agents, chatCommentLeft, goToFeedbackScreen, showAvatar, handleSendMsg, onImageLoad) {
+  renderChatLog(props) {
+    const {
+      chatLog,
+      agents,
+      chatCommentLeft,
+      goToFeedbackScreen,
+      showAvatar,
+      handleSendMsg,
+      onImageLoad,
+      showUpdateInfo,
+      updateInfoOnClick
+    } = props;
+
     const chatLogEl = _.map(chatLog, (chatLogItem, timestamp) => {
       // message groups and events are both returned as arrays; we can determine the type of the entire timestamped item 'group' by reading the type value of the first entry
       const chatLogItemType = _.get(chatLogItem, '0.type');
@@ -37,6 +51,7 @@ export class ChatLog extends Component {
         const groupNick = _.get(chatGroup, '0.nick', 'visitor');
         const isAgent = groupNick.indexOf('agent:') > -1;
         const avatarPath = _.get(agents, `${groupNick}.avatar_path`);
+        const shouldRenderUpdateInfo = showUpdateInfo && chatGroup.isFirstVisitorMessage;
 
         return (
           <ChatGroup
@@ -47,7 +62,9 @@ export class ChatLog extends Component {
             showAvatar={showAvatar}
             onImageLoad={onImageLoad}
             handleSendMsg={handleSendMsg}
-            chatLogCreatedAt={this.createdTimestamp} />
+            chatLogCreatedAt={this.createdTimestamp}>
+            {this.renderUpdateInfo(shouldRenderUpdateInfo, updateInfoOnClick)}
+          </ChatGroup>
         );
       } else if (_.includes(CHAT_SYSTEM_EVENTS, chatLogItemType)) {
         const event = chatLogItem[0];
@@ -101,12 +118,17 @@ export class ChatLog extends Component {
     return _.size(agents) < 1 && (lastAgentLeaveEvent && event === lastAgentLeaveEvent);
   }
 
-  render() {
-    const {
-      chatLog, agents, chatCommentLeft, goToFeedbackScreen, showAvatar, handleSendMsg, onImageLoad
-    } = this.props;
+  renderUpdateInfo(showUpdateInfo, updateInfoOnClick) {
+    if (!showUpdateInfo) return;
 
-    return this.renderChatLog(chatLog, agents, chatCommentLeft,
-      goToFeedbackScreen, showAvatar, handleSendMsg, onImageLoad);
+    return (
+      <div onClick={updateInfoOnClick} className={styles.updateInfo}>
+        {i18n.t('embeddable_framework.chat.chatLog.login.updateInfo')}
+      </div>
+    );
+  }
+
+  render() {
+    return this.renderChatLog(this.props);
   }
 }
