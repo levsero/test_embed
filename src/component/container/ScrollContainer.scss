@@ -18,7 +18,6 @@
 .header {
   composes: u-paddingVM u-paddingHL from global;
   background: $zd-color-white-smoke;
-  border-bottom: $thin-border-size solid $zd-color-gainsboro;
   color: $zd-color-dark-gray;
 }
 
