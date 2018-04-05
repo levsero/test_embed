@@ -28,6 +28,8 @@
 .textContainer {
   composes: u-paddingLS from global;
   color: $zd-color-oil;
+  line-height: #{15/$font-size}rem;
+  padding-top: #{1/$font-size}rem;
 
   [dir='rtl'] & {
     padding-left: 0 !important;
@@ -41,4 +43,8 @@
 
 .clickable {
   cursor: pointer;
+}
+
+.agentDetails {
+  composes: u-flex from global;
 }
