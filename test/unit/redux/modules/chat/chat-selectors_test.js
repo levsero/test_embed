@@ -35,6 +35,7 @@ describe('chat selectors', () => {
     getOfflineMessage,
     getMenuVisible,
     getShowMenu,
+    getOperatingHours,
     CHATTING_SCREEN,
     EDIT_CONTACT_DETAILS_SCREEN;
 
@@ -100,6 +101,7 @@ describe('chat selectors', () => {
     getPreChatFormState = selectors.getPreChatFormState;
     getQueuePosition = selectors.getQueuePosition;
     getEditContactDetails = selectors.getEditContactDetails;
+    getOperatingHours = selectors.getOperatingHours;
     getOfflineMessage = selectors.getOfflineMessage;
     getMenuVisible = selectors.getMenuVisible;
     getShowMenu = selectors.getShowMenu;
@@ -1385,6 +1387,25 @@ describe('chat selectors', () => {
     it('returns the current state of the edit contact details', () => {
       expect(result)
         .toEqual(jasmine.objectContaining(mockChatSettings.chat.editContactDetails));
+    });
+  });
+
+  describe('getOperatingHours', () => {
+    let result;
+    const operatingHoursPayload = { account_schedule: [[456]] };
+    const mockOperatingHours = {
+      chat: {
+        operatingHours: operatingHoursPayload
+      }
+    };
+
+    beforeEach(() => {
+      result = getOperatingHours(mockOperatingHours);
+    });
+
+    it('returns the current state of operatingHours', () => {
+      expect(result)
+        .toEqual(operatingHoursPayload);
     });
   });
 
