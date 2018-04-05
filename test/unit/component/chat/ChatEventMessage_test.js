@@ -21,7 +21,8 @@ describe('ChatEventMessage component', () => {
     initMockRegistry({
       './ChatEventMessage.scss': {
         locals: {
-          'eventMessage': 'eventMessageStyles'
+          'eventMessage': 'eventMessageClass',
+          'fadeIn': 'fadeInClass'
         }
       },
       'service/i18n': {
@@ -141,9 +142,36 @@ describe('ChatEventMessage component', () => {
     it('wraps the translated event message in a container with styles', () => {
       expect(componentNode.textContent)
         .toEqual(mockStringValues['embeddable_framework.chat.chatLog.chatStarted']);
+    });
 
-      expect(componentNode.className)
-        .toEqual('eventMessageStyles');
+    describe('when rendering a new event', () => {
+      beforeEach(() => {
+        const component = domRender(
+          <ChatEventMessage event={event} chatLogCreatedAt={event.timestamp - 1} />
+        );
+
+        componentNode = ReactDOM.findDOMNode(component);
+      });
+
+      it('renders container with correct classnames', () => {
+        expect(componentNode.className)
+          .toEqual('eventMessageClass fadeInClass');
+      });
+    });
+
+    describe('when rendering an old event', () => {
+      beforeEach(() => {
+        const component = domRender(
+          <ChatEventMessage event={event} chatLogCreatedAt={event.timestamp + 1} />
+        );
+
+        componentNode = ReactDOM.findDOMNode(component);
+      });
+
+      it('renders container with correct classnames', () => {
+        expect(componentNode.className)
+          .toEqual('eventMessageClass');
+      });
     });
 
     describe('when passed a child component', () => {

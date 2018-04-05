@@ -3,11 +3,17 @@ import PropTypes from 'prop-types';
 
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatEventMessage.scss';
+import classNames from 'classnames';
 
 export class ChatEventMessage extends Component {
   static propTypes = {
     event: PropTypes.object.isRequired,
-    children: PropTypes.object
+    children: PropTypes.object,
+    chatLogCreatedAt: PropTypes.number
+  };
+
+  static defaultProps = {
+    chatLogCreatedAt: 0
   };
 
   renderEventMessage(event) {
@@ -37,10 +43,17 @@ export class ChatEventMessage extends Component {
   }
 
   render() {
-    const { event } = this.props;
+    const { event, chatLogCreatedAt } = this.props;
+    const shouldAnimate = event.timestamp > chatLogCreatedAt;
+    const wrapperClasses = classNames(
+      styles.eventMessage,
+      {
+        [styles.fadeIn]: shouldAnimate
+      }
+    );
 
     return (
-      <div key={event.timestamp} className={styles.eventMessage}>
+      <div key={event.timestamp} className={wrapperClasses}>
         {this.renderEventMessage(event)}
         {this.props.children}
       </div>

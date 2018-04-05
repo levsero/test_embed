@@ -456,6 +456,7 @@ class Chat extends Component {
     const { screen, isMobile, sendMsg } = this.props;
 
     if (screen !== screens.CHATTING_SCREEN) return;
+
     const containerClasses = classNames(
       styles.scrollContainerMessagesContent,
       { [styles.scrollContainerMobile]: isMobile }
@@ -463,6 +464,10 @@ class Chat extends Component {
     const scrollContainerClasses = classNames(
       styles.scrollContainer,
       { [styles.mobileContainer]: isMobile }
+    );
+    const chatLogContainerClasses = classNames(
+      styles.chatLogContainer,
+      { [styles.chatLogContainerMobile]: isMobile }
     );
     const footerClasses = classNames(
       styles.footer,
@@ -479,7 +484,7 @@ class Chat extends Component {
         footerClasses={footerClasses}
         footerContent={this.renderChatFooter()}
         classes={scrollContainerClasses}>
-        <div>
+        <div className={chatLogContainerClasses}>
           <ChatLog
             showAvatar={this.props.showAvatar}
             chatLog={this.props.chatLog}
@@ -488,7 +493,7 @@ class Chat extends Component {
             chatCommentLeft={!!this.props.rating.comment}
             goToFeedbackScreen={() => this.props.updateChatScreen(screens.FEEDBACK_SCREEN)}
             handleSendMsg={sendMsg}
-            handleImageLoad={this.scrollToBottom}
+            onImageLoad={this.scrollToBottom}
           />
           {this.renderQueuePosition()}
           {this.renderAgentTyping()}

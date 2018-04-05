@@ -63,7 +63,9 @@ describe('ChatGroup component', () => {
           avatarWithSrc: 'avatarWithSrc',
           nameAvatar: 'nameAvatar',
           nameNoAvatar: 'nameNoAvatar',
-          messageErrorContainer: 'messageErrorContainer'
+          messageErrorContainer: 'messageErrorContainer',
+          fadeIn: 'fadeIn',
+          fadeUp: 'fadeUp'
         }
       }
     });
@@ -84,6 +86,7 @@ describe('ChatGroup component', () => {
   };
 
   const avatarPath = 'path://to/avatar';
+  const fakeTimestamp = 123;
 
   describe('#renderName', () => {
     let renderName,
@@ -139,7 +142,8 @@ describe('ChatGroup component', () => {
             type: 'chat.msg',
             nick: 'agent:123',
             display_name: 'Agent 123',
-            msg: 'Hello'
+            msg: 'Hello',
+            timestamp: fakeTimestamp
           }];
         });
 
@@ -155,6 +159,7 @@ describe('ChatGroup component', () => {
 
           it('renders with the correct styles', () => {
             expect(result.props.className).toContain('nameNoAvatar');
+            expect(result.props.className).toContain('fadeIn');
           });
         });
 
@@ -165,6 +170,22 @@ describe('ChatGroup component', () => {
 
           it('renders with the correct styles', () => {
             expect(result.props.className).toContain('nameAvatar');
+            expect(result.props.className).toContain('fadeIn');
+          });
+        });
+
+        describe('when the message is an old message', () => {
+          beforeEach(() => {
+            showAvatar = true;
+            renderName = getComponentMethod('renderName', {
+              chatLogCreatedAt: fakeTimestamp + 1
+            });
+            result = renderName(isAgent, showAvatar, messages);
+          });
+
+          it('renders with the correct styles', () => {
+            expect(result.props.className).toContain('nameAvatar');
+            expect(result.props.className).not.toContain('fadeIn');
           });
         });
       });
@@ -248,6 +269,56 @@ describe('ChatGroup component', () => {
 
         expect(TestUtils.isElementOfType(message1, MessageBubble)).toEqual(true);
         expect(TestUtils.isElementOfType(message2, Attachment)).toEqual(true);
+      });
+    });
+
+    describe('when the message is new', () => {
+      beforeAll(() => {
+        isAgent = true;
+        messages = [
+          {
+            type: 'chat.msg',
+            nick: 'agent:123',
+            display_name: 'Agent 123',
+            msg: 'Sure. Here is the bill:',
+            timestamp: fakeTimestamp
+          }
+        ];
+      });
+
+      it('render the wrapper with correct classnames', () => {
+        const wrapperClasses = result[0].props.className;
+
+        expect(wrapperClasses).toContain('wrapper');
+        expect(wrapperClasses).toContain('fadeUp');
+      });
+    });
+
+    describe('when the message is old', () => {
+      beforeEach(() => {
+        isAgent = true;
+        messages = [
+          {
+            type: 'chat.msg',
+            nick: 'agent:123',
+            display_name: 'Agent 123',
+            msg: 'Sure. Here is the bill:',
+            timestamp: fakeTimestamp
+          }
+        ];
+
+        renderChatMessages = getComponentMethod('renderChatMessages', {
+          ...args,
+          chatLogCreatedAt: fakeTimestamp + 1
+        });
+        result = renderChatMessages(isAgent, showAvatar, messages);
+      });
+
+      it('render the wrapper with correct classnames', () => {
+        const wrapperClasses = result[0].props.className;
+
+        expect(wrapperClasses).toContain('wrapper');
+        expect(wrapperClasses).not.toContain('fadeUp');
       });
     });
   });
@@ -665,6 +736,15 @@ describe('ChatGroup component', () => {
   });
 
   describe('#renderAvatar', () => {
+    const messages = [
+      {
+        type: 'chat.msg',
+        nick: 'agent:123',
+        display_name: 'Agent 123',
+        msg: 'Sure. Here is the bill:',
+        timestamp: fakeTimestamp
+      }
+    ];
     let renderAvatar;
 
     beforeEach(() => {
@@ -675,7 +755,7 @@ describe('ChatGroup component', () => {
       const showAvatarAsAgent = false;
 
       it('returns nothing', () => {
-        const result = renderAvatar(showAvatarAsAgent, avatarPath);
+        const result = renderAvatar(showAvatarAsAgent, avatarPath, messages);
 
         expect(result).toEqual(null);
       });
@@ -687,7 +767,7 @@ describe('ChatGroup component', () => {
 
       describe('and provided with a path to an avatar', () => {
         beforeEach(() => {
-          result = renderAvatar(showAvatarAsAgent, avatarPath);
+          result = renderAvatar(showAvatarAsAgent, avatarPath, messages);
         });
 
         it('returns an Avatar component', () => {
@@ -695,16 +775,14 @@ describe('ChatGroup component', () => {
         });
 
         it('passes the correct props to the child component', () => {
-          expect(result.props).toEqual(jasmine.objectContaining({
-            className: 'avatarWithSrc',
-            src: avatarPath
-          }));
+          expect(result.props.className).toContain('avatarWithSrc');
+          expect(result.props.src).toEqual(avatarPath);
         });
       });
 
       describe('and not provided with a path to an avatar', () => {
         beforeEach(() => {
-          result = renderAvatar(showAvatarAsAgent);
+          result = renderAvatar(showAvatarAsAgent, undefined, messages);
         });
 
         it('returns an Avatar component', () => {
@@ -712,16 +790,39 @@ describe('ChatGroup component', () => {
         });
 
         it('passes the correct props to the child component', () => {
-          expect(result.props).toEqual(jasmine.objectContaining({
-            className: 'avatarDefault',
-            src: ''
-          }));
+          expect(result.props.className).toContain('avatarDefault');
+          expect(result.props.src).toEqual('');
         });
 
         it('passes the correct fallback icon prop to the child component', () => {
           expect(result.props).toEqual(jasmine.objectContaining({
             fallbackIcon: 'Icon--agent-avatar'
           }));
+        });
+      });
+
+      describe('and avatar belongs to a new chat group', () => {
+        beforeEach(() => {
+          result = renderAvatar(showAvatarAsAgent, avatarPath, messages);
+        });
+
+        it('passes the correct classnames to the child component', () => {
+          expect(result.props.className).toContain('avatarWithSrc');
+          expect(result.props.className).toContain('fadeIn');
+        });
+      });
+
+      describe('and avatar belongs to an old chat group', () => {
+        beforeEach(() => {
+          renderAvatar = getComponentMethod('renderAvatar', {
+            chatLogCreatedAt: fakeTimestamp + 1
+          });
+          result = renderAvatar(showAvatarAsAgent, avatarPath, messages);
+        });
+
+        it('passes the correct classnames to the child component', () => {
+          expect(result.props.className).toContain('avatarWithSrc');
+          expect(result.props.className).not.toContain('fadeIn');
         });
       });
     });
@@ -758,7 +859,7 @@ describe('ChatGroup component', () => {
     });
 
     it('calls renderAvatar with the correct args', () => {
-      expect(component.renderAvatar).toHaveBeenCalledWith(showAvatar && isAgent, avatarPath);
+      expect(component.renderAvatar).toHaveBeenCalledWith(showAvatar && isAgent, avatarPath, messages);
     });
   });
 });
