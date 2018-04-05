@@ -26,7 +26,31 @@
   position: absolute;
   left: -10000px;
   top: auto;
-  width: 1px;
-  height: 1px;
+  width: #{1/$font-size}rem;
+  height: #{1/$font-size}rem;
   overflow: hidden;
+}
+
+.wrapper {
+  position: relative;
+}
+
+.tooltip {
+  composes: c-tooltip c-arrow c-arrow--br u-va-top from global;
+  position: absolute;
+  top: #{-25/$font-size}rem;
+  right: #{3/$font-size}rem;
+  z-index: 9999;
+  visibility: hidden;
+  transition: opacity 150ms ease-out;
+  opacity: 0;
+}
+
+.tooltipShown {
+  visibility: visible;
+}
+
+.tooltipTransition {
+  transition: opacity 200ms ease-in-out 300ms;
+  opacity: 1;
 }

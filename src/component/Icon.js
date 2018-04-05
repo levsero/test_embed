@@ -84,6 +84,8 @@ export class IconButton extends Component {
   static propTypes = {
     altText: PropTypes.string.isRequired,
     buttonClassName: PropTypes.string,
+    disabled: PropTypes.bool,
+    disableTooltip: PropTypes.bool,
     className: PropTypes.string,
     isMobile: PropTypes.bool,
     onClick: PropTypes.func,
@@ -93,24 +95,59 @@ export class IconButton extends Component {
   static defaultProps = {
     className: '',
     buttonClassName: '',
+    disabled: false,
+    disableTooltip: false,
     isMobile: isMobileBrowser(),
     onClick: () => {}
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showTooltip: false
+    };
+  }
+
+  handleMouseOver = () => {
+    this.setState({ showTooltip: true });
+  }
+
+  handleMouseOut = () => {
+    this.setState({ showTooltip: false });
+  }
+
   render() {
-    const { altText, buttonClassName, onClick, ...iconProps } = this.props;
+    const {
+      altText, buttonClassName, disabled, disableTooltip, onClick, ...iconProps
+    } = this.props;
+
+    const showTooltip = !disabled && !disableTooltip && this.state.showTooltip;
+    const showTitle = !disabled && (disableTooltip || !this.state.showTooltip);
+    const tooltipStyles = classNames(
+      styles.tooltip,
+      {
+        [styles.tooltipShown]: showTooltip,
+        [styles.tooltipTransition]: showTooltip
+      }
+    );
 
     return (
-      <button
-        type="button"
-        className={`${buttonClassName} ${styles.button}`}
-        onClick={onClick}
-        title={altText}>
-        <Icon {...iconProps} />
-        <span className={styles.altText}>
-          {altText}
-        </span>
-      </button>
+      <div className={styles.wrapper}>
+        <button
+          type="button"
+          className={`${buttonClassName} ${styles.button}`}
+          onClick={onClick}
+          onMouseOver={this.handleMouseOver}
+          onMouseOut={this.handleMouseOut}
+          title={showTitle ? altText : null}>
+          <Icon {...iconProps} />
+          <span className={styles.altText}>
+            {altText}
+          </span>
+        </button>
+        <div className={tooltipStyles}>{altText}</div>
+      </div>
     );
   }
 }
