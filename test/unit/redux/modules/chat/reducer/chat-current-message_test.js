@@ -47,5 +47,43 @@ describe('chat reducer currentMessage', () => {
           .toEqual(payload);
       });
     });
+
+    describe('when a PRE_CHAT_FORM_ON_CHANGE action is dispatched', () => {
+      let payload;
+
+      beforeEach(() => {
+        payload = {
+          message: 'im typing here',
+          name: 'some_name',
+          email: 'yeah@yeah.com'
+        };
+
+        state = reducer(initialState, {
+          type: actionTypes.PRE_CHAT_FORM_ON_CHANGE,
+          payload: payload
+        });
+      });
+
+      it('updates the state with payload', () => {
+        expect(state)
+          .toEqual(payload.message);
+      });
+    });
+
+    describe('when a RESET_CURRENT_MESSAGE action is dispatched', () => {
+      let payload;
+
+      beforeEach(() => {
+        state = reducer('yolo', {
+          type: actionTypes.RESET_CURRENT_MESSAGE,
+          payload: payload
+        });
+      });
+
+      it('updates the state with payload', () => {
+        expect(state)
+          .toEqual('');
+      });
+    });
   });
 });

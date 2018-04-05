@@ -108,6 +108,20 @@ describe('chat redux actions', () => {
     jasmine.clock().uninstall();
   });
 
+  describe('resetCurrentMessage', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.resetCurrentMessage());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type RESET_CURRENT_MESSAGE', () => {
+      expect(action.type)
+        .toEqual(actionTypes.RESET_CURRENT_MESSAGE);
+    });
+  });
+
   describe('handleChatBoxChange', () => {
     let message,
       action;

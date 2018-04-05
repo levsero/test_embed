@@ -39,7 +39,8 @@ import {
   OFFLINE_FORM_BACK_BUTTON_CLICKED,
   UPDATE_CHAT_MENU_VISIBILITY,
   CHAT_RECONNECT,
-  UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP
+  UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP,
+  RESET_CURRENT_MESSAGE
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import {
@@ -145,6 +146,12 @@ export const handleSoundIconClick = (settings) => {
     payload: settings
   };
 };
+
+export function resetCurrentMessage() {
+  return {
+    type: RESET_CURRENT_MESSAGE
+  };
+}
 
 export function handleChatBoxChange(msg) {
   return dispatch => {

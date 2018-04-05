@@ -1,4 +1,6 @@
-import { CHAT_BOX_CHANGED } from '../chat-action-types';
+import { CHAT_BOX_CHANGED,
+         RESET_CURRENT_MESSAGE,
+         PRE_CHAT_FORM_ON_CHANGE } from '../chat-action-types';
 
 const initialState = '';
 
@@ -6,6 +8,10 @@ const currentMessage = (state = initialState, action) => {
   switch (action.type) {
     case CHAT_BOX_CHANGED:
       return action.payload;
+    case PRE_CHAT_FORM_ON_CHANGE:
+      return action.payload.message;
+    case RESET_CURRENT_MESSAGE:
+      return initialState;
     default:
       return state;
   }
