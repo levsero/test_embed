@@ -7,6 +7,7 @@ describe('ChatOfflineForm component', () => {
   const EmailField = noopReactComponent();
   const Button = noopReactComponent();
   const LoadingSpinner = noopReactComponent();
+  const ChatOperatingHours = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
@@ -48,6 +49,9 @@ describe('ChatOfflineForm component', () => {
       },
       'component/loading/LoadingSpinner': {
         LoadingSpinner: LoadingSpinner
+      },
+      'component/chat/ChatOperatingHours': {
+        ChatOperatingHours
       }
     });
 

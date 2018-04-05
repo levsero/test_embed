@@ -11,6 +11,7 @@ describe('onStateChange middleware', () => {
   const getAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
   const getIsChattingSpy = jasmine.createSpy('getIsChatting');
   const newAgentMessageReceivedSpy = jasmine.createSpy('newAgentMessageReceived');
+  const getOperatingHoursSpy = jasmine.createSpy('getOperatingHours');
   const updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed');
   const audioPlaySpy = jasmine.createSpy('audioPlay');
   const broadcastSpy = jasmine.createSpy('broadcast');
@@ -34,6 +35,7 @@ describe('onStateChange middleware', () => {
         getAccountSettings: getAccountSettingsSpy,
         newAgentMessageReceived: newAgentMessageReceivedSpy,
         incrementNewAgentMessageCounter: incrementNewAgentMessageCounterSpy,
+        getOperatingHours: getOperatingHoursSpy,
         getIsChatting: getIsChattingSpy,
         updateLastAgentMessageSeenTimestamp: updateLastAgentMessageSeenTimestampSpy
       },
