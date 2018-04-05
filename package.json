@@ -36,6 +36,9 @@
   "author": "Zendesk",
   "license": "All Rights Reserved",
   "dependencies": {
+    "@zendesk/garden-css-arrows": "^1.1.0",
+    "@zendesk/garden-css-tooltips": "^2.1.0",
+    "@zendesk/garden-css-variables": "^3.1.0",
     "airbrake-js": "^0.5.9",
     "airwaves": "~0.3.0",
     "chat-web-sdk": "git+ssh://git@github.com/zendesk/chat-web-sdk.git#v3.0.0",
@@ -65,9 +68,6 @@
     "zd-svg-icons": "git+ssh://git@github.com/zendeskgarden/svg-icons.git#1.4.0"
   },
   "devDependencies": {
-    "@zendesk/garden-css-arrows": "^1.1.0",
-    "@zendesk/garden-css-tooltips": "^2.1.0",
-    "@zendesk/garden-css-variables": "^3.1.0",
     "app-root-path": "^2.0.1",
     "autoprefixer": "^6.7.7",
     "babel-core": "^6.20.0",
