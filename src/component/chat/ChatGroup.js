@@ -23,7 +23,7 @@ export class ChatGroup extends Component {
     avatarPath: PropTypes.string,
     showAvatar: PropTypes.bool.isRequired,
     handleSendMsg: PropTypes.func,
-    handleImageLoad: PropTypes.func,
+    onImageLoad: PropTypes.func,
     chatLogCreatedAt: PropTypes.number
   };
 
@@ -31,7 +31,7 @@ export class ChatGroup extends Component {
     messages: [],
     isAgent: false,
     handleSendMsg: () => {},
-    handleImageLoad: () => {},
+    onImageLoad: () => {},
     chatLogCreatedAt: 0
   };
 
@@ -60,6 +60,13 @@ export class ChatGroup extends Component {
     if (this.avatar.style.top !== newTopPosition) {
       this.avatar.style.top = newTopPosition;
     }
+  }
+
+  handleImageLoad = () => {
+    this.props.onImageLoad();
+    setTimeout(() => {
+      this.updateAvatarPosition();
+    }, 0);
   }
 
   renderName = (isAgent, showAvatar, messages) => {
@@ -199,7 +206,7 @@ export class ChatGroup extends Component {
         <ImageMessage
           imgSrc={file.url}
           placeholderEl={placeholderEl}
-          handleImageLoad={this.props.handleImageLoad}
+          onImageLoad={this.handleImageLoad}
         />
       );
     }

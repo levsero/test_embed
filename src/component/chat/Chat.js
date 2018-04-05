@@ -487,7 +487,7 @@ class Chat extends Component {
             chatCommentLeft={!!this.props.rating.comment}
             goToFeedbackScreen={() => this.props.updateChatScreen(screens.FEEDBACK_SCREEN)}
             handleSendMsg={sendMsg}
-            handleImageLoad={this.scrollToBottom}
+            onImageLoad={this.scrollToBottom}
           />
           {this.renderQueuePosition()}
           {this.renderAgentTyping()}

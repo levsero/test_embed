@@ -4,7 +4,7 @@ describe('ImageMessage component', () => {
 
   const imageMessagePath = buildSrcPath('component/chat/ImageMessage');
   const placeholderEl = '<div>Image Loading...</div>';
-  const handleImageLoadSpy = jasmine.createSpy('handleImageLoad');
+  const onImageLoadSpy = jasmine.createSpy('onImageLoad');
 
   beforeEach(() => {
     mockery.enable();
@@ -21,7 +21,7 @@ describe('ImageMessage component', () => {
 
     mockery.registerAllowable(imageMessagePath);
     ImageMessage = requireUncached(imageMessagePath).ImageMessage;
-    component = domRender(<ImageMessage handleImageLoad={handleImageLoadSpy} placeholderEl={placeholderEl} />);
+    component = domRender(<ImageMessage onImageLoad={onImageLoadSpy} placeholderEl={placeholderEl} />);
   });
 
   afterEach(() => {
@@ -45,8 +45,8 @@ describe('ImageMessage component', () => {
         .toEqual(false);
     });
 
-    it('calls handleImageLoad prop', () => {
-      expect(handleImageLoadSpy)
+    it('calls onImageLoad prop', () => {
+      expect(onImageLoadSpy)
         .toHaveBeenCalled();
     });
   });
