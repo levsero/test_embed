@@ -233,7 +233,8 @@ describe('ChatOfflineForm component', () => {
 
       beforeEach(() => {
         const mockOperatingHours = {
-          account_schedule: [[456]]
+          account_schedule: [[456]],
+          enabled: true
         };
 
         handleOfflineFormBackFn = () => {};
@@ -255,7 +256,8 @@ describe('ChatOfflineForm component', () => {
 
       it('has a props.operatingHours value', () => {
         const expected = {
-          account_schedule: [[456]]
+          account_schedule: [[456]],
+          enabled: true
         };
 
         expect(result.props.operatingHours)
@@ -266,6 +268,96 @@ describe('ChatOfflineForm component', () => {
         expect(result.props.handleOfflineFormBack)
           .toEqual(handleOfflineFormBackFn);
       });
+    });
+  });
+
+  describe('renderOperatingHoursLink', () => {
+    let result,
+      link,
+      mockOperatingHours,
+      handleOperatingHoursClickFn;
+
+    beforeEach(() => {
+      handleOperatingHoursClickFn = () => {};
+
+      const component = instanceRender(
+        <ChatOfflineForm
+        operatingHours={mockOperatingHours}
+        handleOperatingHoursClick={handleOperatingHoursClickFn}
+        offlineMessage={{ screen: 'main' }} />
+      );
+
+      result = component.renderOperatingHoursLink();
+      link = _.get(result, 'props.children');
+    });
+
+    describe('when operating hours are active', () => {
+      beforeAll(() => {
+        mockOperatingHours = {
+          account_schedule: [[456]],
+          enabled: true
+        };
+      });
+
+      it('returns a <p> element at the top', () => {
+        expect(TestUtils.isElementOfType(result, 'p'))
+          .toEqual(true);
+      });
+
+      it('returns the right classes for the <p> element', () => {
+        expect(result.props.className)
+          .toEqual('operatingHoursContainerClass');
+      });
+
+      it('returns a link (<a> element) inside the <p>', () => {
+        expect(TestUtils.isElementOfType(link, 'a'))
+          .toEqual(true);
+      });
+
+      it('returns the right classes for the <a> element', () => {
+        expect(link.props.className)
+          .toEqual('operatingHoursLinkClass');
+      });
+
+      it('returns a prop for onClick for the <a> element', () => {
+        expect(link.props.onClick)
+          .toEqual(handleOperatingHoursClickFn);
+      });
+
+      it('returns a prop for onClick for the <a> element', () => {
+        expect(link.props.children)
+          .toEqual('Our Operating Hours');
+      });
+    });
+
+    describe('when operating hours are not active', () => {
+      beforeAll(() => {
+        mockOperatingHours = {};
+      });
+
+      it('returns nothing', () => {
+        expect(result).toBeUndefined();
+      });
+    });
+  });
+
+  describe('renderOfflineGreeting', () => {
+    let result;
+
+    beforeEach(() => {
+      const component = instanceRender(<ChatOfflineForm offlineMessage={{ screen: 'main' }} />);
+
+      result = component.renderOfflineGreeting();
+    });
+
+    it('renders a type of <p>', () => {
+      expect(TestUtils.isElementOfType(result, 'p'))
+        .toEqual(true);
+    });
+
+    it('has props.required of true', () => {
+      expect(result.props.className)
+        .toEqual('offlineGreetingClass');
     });
   });
 
