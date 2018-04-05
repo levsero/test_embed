@@ -18,6 +18,7 @@ env:
   - TASK=securityscan SECURITYSCAN=srcclr
 
 before_install:
+  - curl -u "$ARTIFACTORY_USERNAME:$ARTIFACTORY_API_KEY" https://zdrepo.jfrog.io/zdrepo/api/npm/npm/auth/zendesk >> ~/.npmrc
   - rvm install 2.3.1
 
 install:
