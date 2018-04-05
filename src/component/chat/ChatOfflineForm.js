@@ -10,9 +10,6 @@ import { EmailField } from 'component/field/EmailField';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { ChatOperatingHours } from 'component/chat/ChatOperatingHours';
 import { OFFLINE_FORM_SCREENS } from 'constants/chat';
-import { OPERATING_HOURS_SCREEN,
-         PRECHAT_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
-
 
 import { locals as styles } from './ChatOfflineForm.scss';
 
@@ -20,8 +17,6 @@ export class ChatOfflineForm extends Component {
   static propTypes = {
     updateFrameSize: PropTypes.func.isRequired,
     chatOfflineFormChanged: PropTypes.func.isRequired,
-    updateChatScreen: PropTypes.func.isRequired,
-    screen: PropTypes.string.isRequired,
     operatingHours: PropTypes.object,
     sendOfflineMessage: PropTypes.func.isRequired,
     handleOfflineFormBack: PropTypes.func.isRequired,
@@ -34,7 +29,6 @@ export class ChatOfflineForm extends Component {
 
   static defaultProps = {
     updateFrameSize: () => {},
-    screen: PRECHAT_SCREEN,
     operatingHours: {},
     isMobile: false,
     offlineMessage: {}

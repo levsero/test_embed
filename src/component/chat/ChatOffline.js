@@ -10,14 +10,12 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { chatOfflineFormChanged,
          sendOfflineMessage,
          handleOfflineFormBack,
-         handleOperatingHoursClick,
-         updateChatScreen } from 'src/redux/modules/chat';
+         handleOperatingHoursClick } from 'src/redux/modules/chat';
 import { getChatOfflineForm,
          getOfflineMessage,
          getOfflineFormSettings,
          getOfflineFormFields,
-         getOperatingHours,
-         getChatScreen } from 'src/redux/modules/chat/chat-selectors';
+         getOperatingHours } from 'src/redux/modules/chat/chat-selectors';
 
 import { locals as styles } from './ChatOffline.scss';
 
@@ -27,8 +25,7 @@ const mapStateToProps = (state) => {
     formFields: getOfflineFormFields(state),
     formSettings: getOfflineFormSettings(state),
     offlineMessage: getOfflineMessage(state),
-    operatingHours: getOperatingHours(state),
-    screen: getChatScreen(state)
+    operatingHours: getOperatingHours(state)
   };
 };
 
@@ -45,8 +42,6 @@ class ChatOffline extends Component {
     offlineMessage: PropTypes.object.isRequired,
     handleCloseClick: PropTypes.func,
     operatingHours: PropTypes.object,
-    updateChatScreen: PropTypes.func.isRequired,
-    screen: PropTypes.string,
     isMobile: PropTypes.bool
   };
 
@@ -72,9 +67,7 @@ class ChatOffline extends Component {
         sendOfflineMessage={this.props.sendOfflineMessage}
         chatOfflineFormChanged={this.props.chatOfflineFormChanged}
         operatingHours={this.props.operatingHours}
-        updateChatScreen={this.props.updateChatScreen}
         updateFrameSize={this.props.updateFrameSize}
-        screen={this.props.screen}
         isMobile={this.props.isMobile} />
     );
   }
@@ -123,8 +116,7 @@ const actionCreators = {
   sendOfflineMessage,
   handleOfflineFormBack,
   handleOperatingHoursClick,
-  getOperatingHours,
-  updateChatScreen
+  getOperatingHours
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(ChatOffline);

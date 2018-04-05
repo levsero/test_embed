@@ -5,7 +5,6 @@ import { Button } from 'component/button/Button';
 import { timeFromMinutes } from 'utility/time';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatOperatingHours.scss';
-import { PRECHAT_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 
 export class ChatOperatingHours extends Component {
   static propTypes = {
@@ -54,7 +53,7 @@ export class ChatOperatingHours extends Component {
         <p>{range}</p>
       </li>
     );
-  };
+  }
 
   renderDays = () => {
     return map(this.daysOfTheWeek(), (dayName, index) => {
