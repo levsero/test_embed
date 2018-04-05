@@ -350,6 +350,7 @@ class WebWidget extends Component {
       ? <ChatOffline
           ref={chat}
           updateFrameSize={this.props.updateFrameSize}
+          updateChatScreen={this.props.updateChatScreen}
           handleCloseClick={(e) => this.props.closeFrame(e, { skipOnClose: true })}
           isMobile={this.props.fullscreen}
         />

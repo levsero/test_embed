@@ -7,11 +7,17 @@ import classNames from 'classnames';
 import { Button } from 'component/button/Button';
 import { ChatOfflineForm } from 'component/chat/ChatOfflineForm';
 import { ScrollContainer } from 'component/container/ScrollContainer';
-import { chatOfflineFormChanged, sendOfflineMessage, handleOfflineFormBack } from 'src/redux/modules/chat';
+import { chatOfflineFormChanged,
+         sendOfflineMessage,
+         handleOfflineFormBack,
+         handleOperatingHoursClick,
+         updateChatScreen } from 'src/redux/modules/chat';
 import { getChatOfflineForm,
          getOfflineMessage,
          getOfflineFormSettings,
-         getOfflineFormFields } from 'src/redux/modules/chat/chat-selectors';
+         getOfflineFormFields,
+         getOperatingHours,
+         getChatScreen } from 'src/redux/modules/chat/chat-selectors';
 
 import { locals as styles } from './ChatOffline.scss';
 
@@ -20,7 +26,9 @@ const mapStateToProps = (state) => {
     formState: getChatOfflineForm(state),
     formFields: getOfflineFormFields(state),
     formSettings: getOfflineFormSettings(state),
-    offlineMessage: getOfflineMessage(state)
+    offlineMessage: getOfflineMessage(state),
+    operatingHours: getOperatingHours(state),
+    screen: getChatScreen(state)
   };
 };
 
@@ -30,11 +38,15 @@ class ChatOffline extends Component {
     chatOfflineFormChanged: PropTypes.func.isRequired,
     sendOfflineMessage: PropTypes.func.isRequired,
     handleOfflineFormBack: PropTypes.func.isRequired,
+    handleOperatingHoursClick: PropTypes.func.isRequired,
     formState: PropTypes.object.isRequired,
     formFields: PropTypes.object.isRequired,
     formSettings: PropTypes.object.isRequired,
     offlineMessage: PropTypes.object.isRequired,
     handleCloseClick: PropTypes.func,
+    operatingHours: PropTypes.object,
+    updateChatScreen: PropTypes.func.isRequired,
+    screen: PropTypes.string,
     isMobile: PropTypes.bool
   };
 
@@ -42,6 +54,7 @@ class ChatOffline extends Component {
     updateFrameSize: () => {},
     handleCloseClick: () => {},
     sendOfflineMessage: () => {},
+    operatingHours: {},
     isMobile: false,
     formSettings: { enabled: false }
   };
@@ -55,9 +68,13 @@ class ChatOffline extends Component {
         formState={this.props.formState}
         offlineMessage={this.props.offlineMessage}
         handleOfflineFormBack={this.props.handleOfflineFormBack}
+        handleOperatingHoursClick={this.props.handleOperatingHoursClick}
         sendOfflineMessage={this.props.sendOfflineMessage}
         chatOfflineFormChanged={this.props.chatOfflineFormChanged}
+        operatingHours={this.props.operatingHours}
+        updateChatScreen={this.props.updateChatScreen}
         updateFrameSize={this.props.updateFrameSize}
+        screen={this.props.screen}
         isMobile={this.props.isMobile} />
     );
   }
@@ -104,7 +121,10 @@ class ChatOffline extends Component {
 const actionCreators = {
   chatOfflineFormChanged,
   sendOfflineMessage,
-  handleOfflineFormBack
+  handleOfflineFormBack,
+  handleOperatingHoursClick,
+  getOperatingHours,
+  updateChatScreen
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(ChatOffline);

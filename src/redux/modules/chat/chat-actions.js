@@ -11,6 +11,7 @@ import {
   SET_VISITOR_INFO_REQUEST_SUCCESS,
   SET_VISITOR_INFO_REQUEST_FAILURE,
   GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
+  GET_OPERATING_HOURS_REQUEST_SUCCESS,
   IS_CHATTING,
   CHAT_RATING_REQUEST_SUCCESS,
   CHAT_RATING_REQUEST_FAILURE,
@@ -37,6 +38,7 @@ import {
   OFFLINE_FORM_REQUEST_SUCCESS,
   OFFLINE_FORM_REQUEST_SENT,
   OFFLINE_FORM_BACK_BUTTON_CLICKED,
+  OFFLINE_FORM_OPERATING_HOURS_LINK_CLICKED,
   UPDATE_CHAT_MENU_VISIBILITY,
   CHAT_RECONNECT,
   UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP
@@ -253,6 +255,17 @@ export function getAccountSettings() {
   };
 }
 
+export function getOperatingHours() {
+  const operatingHours = zChat.getOperatingHours();
+
+  return (dispatch) => {
+    dispatch({
+      type: GET_OPERATING_HOURS_REQUEST_SUCCESS,
+      payload: operatingHours
+    });
+  };
+}
+
 export function getIsChatting() {
   const isChatting = zChat.isChatting();
 
@@ -371,6 +384,12 @@ export function updateContactDetailsVisibility(bool) {
 export function handleOfflineFormBack() {
   return {
     type: OFFLINE_FORM_BACK_BUTTON_CLICKED
+  };
+}
+
+export function handleOperatingHoursClick() {
+  return {
+    type: OFFLINE_FORM_OPERATING_HOURS_LINK_CLICKED
   };
 }
 

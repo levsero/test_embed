@@ -4,6 +4,7 @@ import { getAccountSettings,
          newAgentMessageReceived,
          incrementNewAgentMessageCounter,
          updateLastAgentMessageSeenTimestamp,
+         getOperatingHours,
          getIsChatting } from 'src/redux/modules/chat';
 import { updateActiveEmbed } from 'src/redux/modules/base';
 import { IS_CHATTING } from 'src/redux/modules/chat/chat-action-types';
@@ -54,6 +55,8 @@ const onChatConnected = (prevState, nextState, dispatch) => {
       && !chatAccountSettingsFetched) {
     dispatch(getAccountSettings());
     dispatch(getIsChatting());
+    dispatch(getOperatingHours());
+
     chatAccountSettingsFetched = true;
     mediator.channel.broadcast('newChat.connected', showOnLoad);
   }
