@@ -24,7 +24,9 @@ export class ChatGroup extends Component {
     showAvatar: PropTypes.bool.isRequired,
     handleSendMsg: PropTypes.func,
     onImageLoad: PropTypes.func,
-    chatLogCreatedAt: PropTypes.number
+    chatLogCreatedAt: PropTypes.number,
+    handleImageLoad: PropTypes.func,
+    children: PropTypes.object
   };
 
   static defaultProps = {
@@ -243,6 +245,7 @@ export class ChatGroup extends Component {
         {this.renderName(isAgent, showAvatar, messages)}
         {this.renderChatMessages(isAgent, showAvatar, messages)}
         {this.renderAvatar(showAvatarAsAgent, avatarPath, messages)}
+        {this.props.children}
       </div>
     );
   }
