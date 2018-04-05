@@ -7,6 +7,7 @@ let actions,
   CHAT_MESSAGE_TYPES,
   mockStore,
   mockAccountSettings,
+  mockOperatingHours,
   mockIsChatting,
   mockChatStandalone,
   mockSendChatMsg = jasmine.createSpy('sendChatMsg'),
@@ -62,7 +63,8 @@ describe('chat redux actions', () => {
         isChatting: () => true,
         sendOfflineMsg: mockSendOfflineMsg,
         reconnect: mockReconnect,
-        _getAccountSettings: () => mockAccountSettings
+        _getAccountSettings: () => mockAccountSettings,
+        getOperatingHours: () => mockOperatingHours
       },
       'src/redux/modules/base/base-selectors': {
         getChatStandalone: () => mockChatStandalone
@@ -934,6 +936,29 @@ describe('chat redux actions', () => {
     it('has the value from zChat.getIsChatting in the payload', () => {
       expect(action.payload)
         .toEqual(true);
+    });
+  });
+
+  describe('getOperatingHours', () => {
+    let updateOperatingHoursAction;
+
+    beforeEach(() => {
+      mockOperatingHours = {
+        account_schedule: [[456]]
+      };
+
+      mockStore.dispatch(actions.getOperatingHours());
+      updateOperatingHoursAction = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type GET_OPERATING_HOURS_REQUEST_SUCCESS', () => {
+      expect(updateOperatingHoursAction.type)
+        .toEqual(actionTypes.GET_OPERATING_HOURS_REQUEST_SUCCESS);
+    });
+
+    it('has the value returned from zChat.getOperatingHours() in the payload', () => {
+      expect(updateOperatingHoursAction.payload)
+        .toEqual(mockOperatingHours);
     });
   });
 
