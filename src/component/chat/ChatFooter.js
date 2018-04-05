@@ -97,7 +97,7 @@ export class ChatFooter extends Component {
       <IconButton
         type={ICONS.SEND_CHAT}
         altText={i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')}
-        className={`${styles.iconSendChat} ${styles.iconSendChatMobile}`}
+        className={styles.iconSendChatMobile}
         onClick={this.props.sendChat} />
     );
   }

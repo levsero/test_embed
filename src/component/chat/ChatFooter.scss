@@ -93,22 +93,16 @@
   margin-right: 0;
 }
 
-.iconSendChat {
-  composes: icon;
+.iconSendChatMobile {
+  composes: icon iconMobile;
 
-  svg > path {
-    fill: $zd-color-aluminum !important;
-  }
+  svg {
+    padding: #{8/$font-size}rem #{7/$font-size}rem #{8/$font-size}rem #{9/$font-size}rem;
 
-  &:hover, &:active, &:focus {
-    svg > path {
-      fill: $zd-color-dark-gray !important;
+    path {
+      fill: $zd-color-aluminum !important;
     }
   }
-}
-
-.iconSendChatMobile {
-  composes: iconMobile;
 }
 
 .iconDisabled {
