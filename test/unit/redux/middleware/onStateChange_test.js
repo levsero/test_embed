@@ -533,7 +533,7 @@ describe('onStateChange middleware', () => {
       });
     });
 
-    describe('onNewAgentMessage', () => {
+    describe('onChatScreenInteraction', () => {
       const nextState = [{ nick: 'agent', timestamp: 160 }];
       const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough();
 

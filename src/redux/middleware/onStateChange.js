@@ -41,8 +41,7 @@ const handleNewAgentMessage = (nextState, dispatch) => {
     }
 
     if (otherEmbedOpen) {
-      const messages = getChatMessagesByAgent(nextState);
-      const newAgentMessage = messages[messages.length-1];
+      const newAgentMessage = _.last(getChatMessagesByAgent(nextState));
 
       dispatch(newAgentMessageReceived(newAgentMessage));
     }
@@ -109,7 +108,7 @@ const storeLastAgentMessageSeen = (state, dispatch) => {
   }
 };
 
-const onNewAgentMessage = (prevState, nextState, dispatch) => {
+const onChatScreenInteraction = (prevState, nextState, dispatch) => {
   // only store the last message seen timestamp if user is chatting on the chat screen
   if (inChattingScreen(nextState)) {
     storeLastAgentMessageSeen(nextState, dispatch);
@@ -155,7 +154,7 @@ const onArticleDisplayed = (prevState, nextState) => {
 export default function onStateChange(prevState, nextState, action, dispatch = () => {}) {
   onChatStatusChange(prevState, nextState);
   onChatConnected(prevState, nextState, dispatch);
-  onNewAgentMessage(prevState, nextState, dispatch);
+  onChatScreenInteraction(prevState, nextState, dispatch);
   onNewChatMessage(prevState, nextState, dispatch);
   onArticleDisplayed(prevState, nextState, dispatch);
   onChatStatus(action, dispatch);
