@@ -33,6 +33,11 @@
   padding-left: #{8/$font-size}rem !important;
 }
 
+.scrollBarFix {
+  margin-right: #{1/$font-size}rem !important;
+  padding-right: #{14/$font-size}rem !important;
+}
+
 .scrollContainerMessagesContent {
   composes: scrollContainerContent;
 

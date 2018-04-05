@@ -26,10 +26,12 @@
 
 .textarea {
   composes: u-marginBM u-hsizeAll u-paddingTS u-paddingHS from global;
+  composes: Form-field from '../../styles/components/Form.scss';
   border-radius: #{4/$font-size}rem;
   resize: none;
   outline: none;
   border-color: $zd-color-gainsboro;
+  color: $zd-color-dark-gray;
 
   &::placeholder {
     font-style: italic;
