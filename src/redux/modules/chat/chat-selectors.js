@@ -49,6 +49,7 @@ export const getShowMenu = (state) => getActiveEmbed(state) === 'chat' && getCha
 export const getAgentJoined = (state) => state.chat.agentJoined;
 export const getLastAgentMessageSeenTimestamp = (state) => state.chat.lastAgentMessageSeenTimestamp;
 export const getOperatingHours = (state) => state.chat.operatingHours;
+export const getLoginSettings = (state) => state.chat.accountSettings.login;
 
 export const getThemeShowAvatar = createSelector(
   getThemeMessageType,

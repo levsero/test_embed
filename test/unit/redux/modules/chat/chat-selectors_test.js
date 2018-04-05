@@ -36,6 +36,7 @@ describe('chat selectors', () => {
     getMenuVisible,
     getShowMenu,
     getOperatingHours,
+    getLoginSettings,
     CHATTING_SCREEN,
     EDIT_CONTACT_DETAILS_SCREEN;
 
@@ -105,6 +106,7 @@ describe('chat selectors', () => {
     getOfflineMessage = selectors.getOfflineMessage;
     getMenuVisible = selectors.getMenuVisible;
     getShowMenu = selectors.getShowMenu;
+    getLoginSettings = selectors.getLoginSettings;
   });
 
   afterEach(() => {
@@ -534,7 +536,7 @@ describe('chat selectors', () => {
   describe('getChatMessagesByAgent', () => {
     let result;
     const mockChats = [
-      { nick: 'agent', type: 'chat.msg' },
+      { nick: 'agent:123', type: 'chat.msg' },
       { nick: 'user', type: 'chat.msg' }
     ];
     const mockChatSettings = {
@@ -552,7 +554,7 @@ describe('chat selectors', () => {
         .toEqual(1);
 
       expect(result[0].nick)
-        .toEqual('agent');
+        .toEqual('agent:123');
     });
   });
 
@@ -627,17 +629,21 @@ describe('chat selectors', () => {
       mockChatSettings,
       expectedResult;
 
+    const setIsFirstVisitorMessage = (array, value) => (
+      Object.defineProperty(array, 'isFirstVisitorMessage', { value, enumerable: true })
+    );
+
     describe('when passed a chat log containing valid messages and events', () => {
       beforeEach(() => {
         mockChats = [
           { nick: 'visitor', type: 'chat.memberjoin', timestamp: 1 },
           { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
           { nick: 'visitor', type: 'chat.msg', msg: 'Help please', timestamp: 3 },
-          { nick: 'agent', type: 'chat.memberjoin', timestamp: 4 },
-          { nick: 'agent', type: 'chat.msg', msg: 'Hi', timestamp: 5 },
-          { nick: 'agent', type: 'chat.msg', msg: 'How can I help you?', timestamp: 6 },
+          { nick: 'agent:123', type: 'chat.memberjoin', timestamp: 4 },
+          { nick: 'agent:123', type: 'chat.msg', msg: 'Hi', timestamp: 5 },
+          { nick: 'agent:123', type: 'chat.msg', msg: 'How can I help you?', timestamp: 6 },
           { nick: 'visitor', type: 'chat.msg', msg: 'My laptop is broken', timestamp: 7 },
-          { nick: 'agent', type: 'chat.msg', msg: 'Try turning it on and off again', timestamp: 8 },
+          { nick: 'agent:123', type: 'chat.msg', msg: 'Try turning it on and off again', timestamp: 8 },
           { nick: 'visitor', type: 'chat.msg', msg: 'That fixed it!', timestamp: 9 },
           { nick: 'visitor', type: 'chat.rating', new_rating: 'good', timestamp: 10 },
           { nick: 'visitor', type: 'chat.memberleave', timestamp: 11 }
@@ -651,7 +657,7 @@ describe('chat selectors', () => {
 
         expectedResult = {
           1: [mockChats[0]],
-          2: [mockChats[1], mockChats[2]],
+          2: setIsFirstVisitorMessage([mockChats[1], mockChats[2]], true),
           4: [mockChats[3]],
           5: [mockChats[4], mockChats[5]],
           7: [mockChats[6]],
@@ -662,6 +668,16 @@ describe('chat selectors', () => {
         };
 
         result = getGroupedChatLog(mockChatSettings);
+      });
+
+      it('adds sets the isFirstVisitorMessage property to true on the first group of messages made by the visitor', () => {
+        const firstVisitorMsgGroup = _.find(
+          result,
+          (group) => group[0].type === 'chat.msg' && group[0].nick === 'visitor'
+        );
+
+        expect(firstVisitorMsgGroup.isFirstVisitorMessage)
+          .toEqual(true);
       });
 
       it('returns chats with messages from a single user grouped under the first timestamp, and with events ungrouped', () => {
@@ -677,9 +693,9 @@ describe('chat selectors', () => {
           { nick: 'visitor', type: 'chat.msg', msg: 'Hey', timestamp: 2 },
           { nick: 'visitor', type: 'chat.msg', msg: 'Yo', timestamp: 3 },
           { nick: 'visitor', type: 'chat.msg', msg: 'Oi', timestamp: 4 },
-          { nick: 'agent', type: 'chat.msg', msg: 'What', timestamp: 5 },
-          { nick: 'agent', type: 'chat.msg', msg: 'Calm down', timestamp: 6 },
-          { nick: 'agent', type: 'chat.msg', msg: 'What do you want', timestamp: 7 }
+          { nick: 'agent:123', type: 'chat.msg', msg: 'What', timestamp: 5 },
+          { nick: 'agent:123', type: 'chat.msg', msg: 'Calm down', timestamp: 6 },
+          { nick: 'agent:123', type: 'chat.msg', msg: 'What do you want', timestamp: 7 }
         ];
 
         mockChatSettings = {
@@ -689,7 +705,7 @@ describe('chat selectors', () => {
         };
 
         expectedResult = {
-          1: [mockChats[0], mockChats[1], mockChats[2], mockChats[3]],
+          1: setIsFirstVisitorMessage([mockChats[0], mockChats[1], mockChats[2], mockChats[3]], true),
           5: [mockChats[4], mockChats[5], mockChats[6]]
         };
 
@@ -717,7 +733,7 @@ describe('chat selectors', () => {
 
         expectedResult = {
           1: [mockChats[0]],
-          2: [mockChats[1]]
+          2: setIsFirstVisitorMessage([mockChats[1]], true)
         };
 
         result = getGroupedChatLog(mockChatSettings);
@@ -743,7 +759,7 @@ describe('chat selectors', () => {
         };
 
         expectedResult = {
-          1: [mockChats[0]],
+          1: setIsFirstVisitorMessage([mockChats[0]], true),
           2: [mockChats[1]]
         };
 
@@ -762,7 +778,7 @@ describe('chat selectors', () => {
           { nick: 'visitor', type: 'chat.membercartwheeled', timestamp: 1 },
           { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
           { nick: 'visitor', type: 'chat.package', package: 'suspicious.exe', timestamp: 3 },
-          { nick: 'agent', type: 'chat.msg', msg: 'Hey', timestamp: 4 }
+          { nick: 'agent:123', type: 'chat.msg', msg: 'Hey', timestamp: 4 }
         ];
 
         mockChatSettings = {
@@ -772,7 +788,7 @@ describe('chat selectors', () => {
         };
 
         expectedResult = {
-          2: [mockChats[1]],
+          2: setIsFirstVisitorMessage([mockChats[1]], true),
           4: [mockChats[3]]
         };
 
@@ -790,9 +806,9 @@ describe('chat selectors', () => {
         mockChats = [
           { nick: 'visitor', type: 'chat.memberjoin', timestamp: 1 },
           { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
-          { nick: 'agent', type: 'chat.msg', msg: 'Hey', timestamp: 3 },
+          { nick: 'agent:123', type: 'chat.msg', msg: 'Hey', timestamp: 3 },
           { nick: 'visitor', type: 'chat.rating', new_rating: 'good', timestamp: 4 },
-          { nick: 'agent', type: 'chat.msg', msg: 'Boo', timestamp: 5 },
+          { nick: 'agent:123', type: 'chat.msg', msg: 'Boo', timestamp: 5 },
           { nick: 'visitor', type: 'chat.rating', new_rating: 'bad', timestamp: 6 }
         ];
 
@@ -804,7 +820,7 @@ describe('chat selectors', () => {
 
         expectedResult = {
           1: [mockChats[0]],
-          2: [mockChats[1]],
+          2: setIsFirstVisitorMessage([mockChats[1]], true),
           3: [mockChats[2]],
           4: [mockChats[3]],
           5: [mockChats[4]],
@@ -825,10 +841,10 @@ describe('chat selectors', () => {
         mockChats = [
           { nick: 'visitor', type: 'chat.memberjoin', timestamp: 1 },
           { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
-          { nick: 'agent', type: 'chat.msg', msg: 'Hey', timestamp: 3 },
-          { nick: 'agent', type: 'chat.request.rating', timestamp: 4 },
+          { nick: 'agent:123', type: 'chat.msg', msg: 'Hey', timestamp: 3 },
+          { nick: 'agent:123', type: 'chat.request.rating', timestamp: 4 },
           { nick: 'visitor', type: 'chat.msg', msg: 'Wait', timestamp: 5 },
-          { nick: 'agent', type: 'chat.request.rating', timestamp: 6 }
+          { nick: 'agent:123', type: 'chat.request.rating', timestamp: 6 }
         ];
 
         mockChatSettings = {
@@ -839,7 +855,7 @@ describe('chat selectors', () => {
 
         expectedResult = {
           1: [mockChats[0]],
-          2: [mockChats[1]],
+          2: setIsFirstVisitorMessage([mockChats[1]], true),
           3: [mockChats[2]],
           5: [mockChats[4]],
           6: [mockChats[5]]
@@ -1510,6 +1526,27 @@ describe('chat selectors', () => {
         expect(result)
           .toBe(false);
       });
+    });
+  });
+
+  describe('getLoginSettings', () => {
+    let result;
+    const login = 'login_value';
+    const mockState = {
+      chat: {
+        accountSettings: {
+          login
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getLoginSettings(mockState);
+    });
+
+    it('returns the current state of login', () => {
+      expect(result)
+        .toBe(login);
     });
   });
 });
