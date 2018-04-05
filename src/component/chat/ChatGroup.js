@@ -58,8 +58,13 @@ export class ChatGroup extends Component {
         message = this.renderInlineAttachment(isAgent, chat);
       }
 
+      const wrapperClasses = classNames(
+        styles.wrapper,
+        { [styles.avatarWrapper]: isAgent && showAvatar }
+      );
+
       return (
-        <div key={chat.timestamp} className={styles.wrapper}>
+        <div key={chat.timestamp} className={wrapperClasses}>
           <div className={messageClasses}>
             {message}
           </div>

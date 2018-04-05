@@ -39,6 +39,10 @@ function generateUserCSS(color = defaultColor) {
     .u-userFillColor:not([disabled]) svg path {
       fill: ${listColorStr} !important;
     }
+    .u-userBackgroundColorNoHover {
+      background-color: ${buttonColorStr} !important;
+      color: ${buttonTextColorStr} !important;
+    }
     .u-userBackgroundColor:not([disabled]) {
       background-color: ${buttonColorStr} !important;
       color: ${buttonTextColorStr} !important;
