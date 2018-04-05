@@ -93,7 +93,11 @@ describe('ChatOffline component', () => {
 
     describe('when offline form is enabled', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatOffline formSettings={{ enabled: true }} />);
+        component = instanceRender(
+          <ChatOffline
+          formSettings={{ enabled: true }}
+          operatingHours={{ account_schedule: [[456]] }}
+          />);
 
         result = component.renderOfflineForm();
       });
@@ -101,6 +105,11 @@ describe('ChatOffline component', () => {
       it('renders a ChatOfflineForm component', () => {
         expect(result)
           .toBeDefined();
+      });
+
+      it('relays an operatingHours prop', () => {
+        expect(result.props.operatingHours)
+          .toEqual({ account_schedule: [[456]] });
       });
     });
 
