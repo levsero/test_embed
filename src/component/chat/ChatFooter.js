@@ -70,7 +70,7 @@ export class ChatFooter extends Component {
       <div className={attachmentClasses}>
         <Dropzone onDrop={this.props.handleAttachmentDrop}>
           <IconButton
-            altText={i18n.t('embeddable_framework.chat.icon.menu.hover.label')}
+            altText={i18n.t('embeddable_framework.chat.icon.attachments.hover.label')}
             type={ICONS.PAPERCLIP_SMALL} />
         </Dropzone>
       </div>

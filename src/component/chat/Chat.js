@@ -474,6 +474,7 @@ class Chat extends Component {
         containerClasses={containerClasses}
         footerClasses={footerClasses}
         footerContent={this.renderChatFooter()}
+        fullscreen={isMobile}
         classes={scrollContainerClasses}>
         <div>
           <ChatLog

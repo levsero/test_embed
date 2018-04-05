@@ -9,7 +9,6 @@
 .icon {
   margin-right: #{3/$font-size}rem;
   border-radius: #{4/$font-size}rem;
-  height: #{24/$font-size}rem;
 
   svg {
     padding: #{5/$font-size}rem;
@@ -43,7 +42,6 @@
 }
 
 .iconMobile {
-  margin-right: 0;
   border-radius: 50%;
   margin: 0 #{4/$font-size}rem;
 
@@ -53,6 +51,10 @@
     min-height: #{16/$font-size}rem;
     width: #{16/$font-size}rem;
     height: #{16/$font-size}rem;
+  }
+
+  &:hover, &:active, &:focus {
+    background: $zd-color-platinum;;
   }
 }
 
@@ -82,7 +84,7 @@
   composes: iconMobile;
 
   svg {
-    padding: #{9/$font-size}rem #{3/$font-size}rem #{7/$font-size}rem #{8/$font-size}rem;
+    padding-right: #{8/$font-size}rem;
   }
 }
 
@@ -97,14 +99,16 @@
   svg > path {
     fill: $zd-color-aluminum !important;
   }
+
+  &:hover, &:active, &:focus {
+    svg > path {
+      fill: $zd-color-dark-gray !important;
+    }
+  }
 }
 
 .iconSendChatMobile {
   composes: iconMobile;
-
-  svg {
-    padding: #{8/$font-size}rem #{7/$font-size}rem #{8/$font-size}rem #{9/$font-size}rem;
-  }
 }
 
 .iconDisabled {
