@@ -42,7 +42,7 @@ import WebWidget from 'component/webWidget/WebWidget';
 // TODO: Find a DRY solution
 const zChat = (() => { try { return require('chat-web-sdk'); } catch (_) {} })();
 
-const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles} body { padding: 0 7px; }`;
+const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
 export default function WebWidgetFactory(name) {
   let embed = null;
@@ -120,6 +120,7 @@ export default function WebWidgetFactory(name) {
   function create(name, config = {}, reduxStore = {}) {
     let containerStyle;
     let frameStyle = {};
+    let frameBodyCss = '';
 
     const configDefaults = {
       position: 'right',
@@ -169,12 +170,15 @@ export default function WebWidgetFactory(name) {
         marginRight: margin
       });
       containerStyle = { width: 342 };
+      frameBodyCss = `
+        body { padding: 0 7px; }
+      `;
     }
 
     const frameParams = {
       ref: (el) => {embed.instance = el;},
       frameStyle: frameStyle,
-      css: webWidgetCSS + generateUserCSS(globalConfig.color),
+      css: webWidgetCSS + frameBodyCss + generateUserCSS(globalConfig.color),
       position: globalConfig.position,
       fullscreenable: true,
       transitions: {
