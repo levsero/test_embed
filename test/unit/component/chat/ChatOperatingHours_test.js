@@ -187,7 +187,7 @@ describe('ChatOperatingHours component', () => {
         expect(title.type).toEqual('h5');
       });
 
-      it(`has the right title className for day ${dayIndex}`, () => {
+      it(`has the right className for day ${dayIndex}`, () => {
         const title = day.props.children[0];
 
         expect(title.props.className).toEqual('dayNameClass');

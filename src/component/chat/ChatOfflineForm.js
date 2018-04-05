@@ -126,7 +126,7 @@ export class ChatOfflineForm extends Component {
   renderOfflineGreeting() {
     const offlineGreetingText = i18n.t('embeddable_framework.chat.preChat.offline.greeting');
 
-    return(
+    return (
       <p className={styles.offlineGreeting}>
         {offlineGreetingText}
       </p>
@@ -136,11 +136,11 @@ export class ChatOfflineForm extends Component {
   renderOperatingHoursLink() {
     const { operatingHours } = this.props;
 
-    if (!_.get(operatingHours, 'enabled')) return;
+    if (!operatingHours.enabled) return;
 
     const operatingHoursAnchor = 'Our Operating Hours';
 
-    return(
+    return (
       <p className={styles.operatingHoursContainer}>
         <a className={styles.operatingHoursLink}
            onClick={this.props.handleOperatingHoursClick}>
@@ -177,7 +177,7 @@ export class ChatOfflineForm extends Component {
 
     const { operatingHours } = this.props;
 
-    return(
+    return (
       <ChatOperatingHours
         operatingHours={operatingHours}
         handleOfflineFormBack={this.props.handleOfflineFormBack} />

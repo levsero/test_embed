@@ -324,7 +324,7 @@ describe('ChatOfflineForm component', () => {
           .toEqual(handleOperatingHoursClickFn);
       });
 
-      it('returns a prop for onClick for the <a> element', () => {
+      it('returns a the right label for the link', () => {
         expect(link.props.children)
           .toEqual('Our Operating Hours');
       });
@@ -355,7 +355,7 @@ describe('ChatOfflineForm component', () => {
         .toEqual(true);
     });
 
-    it('has props.required of true', () => {
+    it('has the right className', () => {
       expect(result.props.className)
         .toEqual('offlineGreetingClass');
     });

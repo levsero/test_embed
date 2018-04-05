@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { map, trim } from 'lodash';
+import { trim } from 'lodash';
 import { Button } from 'component/button/Button';
 import { timeFromMinutes } from 'utility/time';
 import { i18n } from 'service/i18n';
@@ -12,17 +12,15 @@ export class ChatOperatingHours extends Component {
     handleOfflineFormBack: PropTypes.func.isRequired
   };
 
-  daysOfTheWeek = () => {
-    return([
-      i18n.t('embeddable_framework.chat.operatingHours.label.sunday'),
-      i18n.t('embeddable_framework.chat.operatingHours.label.monday'),
-      i18n.t('embeddable_framework.chat.operatingHours.label.tuesday'),
-      i18n.t('embeddable_framework.chat.operatingHours.label.wednesday'),
-      i18n.t('embeddable_framework.chat.operatingHours.label.thursday'),
-      i18n.t('embeddable_framework.chat.operatingHours.label.friday'),
-      i18n.t('embeddable_framework.chat.operatingHours.label.saturday')
-    ]);
-  }
+  daysOfTheWeek = [
+    i18n.t('embeddable_framework.chat.operatingHours.label.sunday'),
+    i18n.t('embeddable_framework.chat.operatingHours.label.monday'),
+    i18n.t('embeddable_framework.chat.operatingHours.label.tuesday'),
+    i18n.t('embeddable_framework.chat.operatingHours.label.wednesday'),
+    i18n.t('embeddable_framework.chat.operatingHours.label.thursday'),
+    i18n.t('embeddable_framework.chat.operatingHours.label.friday'),
+    i18n.t('embeddable_framework.chat.operatingHours.label.saturday')
+  ];
 
   hourRange = (range) => {
     const am = trim(i18n.t('embeddable_framework.chat.operatingHours.label.am'));
@@ -56,11 +54,7 @@ export class ChatOperatingHours extends Component {
   }
 
   renderDays = () => {
-    return map(this.daysOfTheWeek(), (dayName, index) => {
-      return(
-        this.renderSingleDay(dayName, index)
-      );
-    });
+    return this.daysOfTheWeek.map((day, index) => this.renderSingleDay(day, index));
   }
 
   renderBackButton = () => {

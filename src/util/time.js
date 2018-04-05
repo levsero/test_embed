@@ -1,15 +1,15 @@
-function _zeroPad(number) {
+function zeroPad(number) {
   if (number < 10) {
     return `0${Math.floor(number)}`;
   }
   return `${number}`;
 }
 
-function _formatHours(number, is24Hour) {
+function formatHours(number, is24Hour) {
   if (!is24Hour && number > 12) {
-    return  _zeroPad(number - 12);
+    return  zeroPad(number - 12);
   }
-  return _zeroPad(number);
+  return zeroPad(number);
 }
 
 function timeFromMinutes(minuteString, am, pm) {
@@ -21,7 +21,7 @@ function timeFromMinutes(minuteString, am, pm) {
   const period = !is24Hour ? amOrPm : '';
 
   return {
-    time: `${_formatHours(hours, is24Hour)}:${_zeroPad(minutes)}`,
+    time: `${formatHours(hours, is24Hour)}:${zeroPad(minutes)}`,
     is24Hour: is24Hour,
     period: period
   };
