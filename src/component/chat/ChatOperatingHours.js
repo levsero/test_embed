@@ -31,24 +31,30 @@ export class ChatOperatingHours extends Component {
     );
   }
 
-  renderSingleDay = (dayName, index) => {
+  renderDayName = (dayName) => {
+    return i18n.t(`embeddable_framework.chat.operatingHours.label.${dayName}`);
+  }
+
+  renderHours = (index) => {
     const { operatingHours } = this.props;
     // This line will need to change when we add departments:
     const hours = operatingHours.account_schedule[index][0];
     const range = hours ? this.hourRange(hours) : 'Closed';
 
-    return(
-      <li className={styles.singleDay} key={index}>
-        <h5 className={styles.dayName}>
-          {i18n.t(`embeddable_framework.chat.operatingHours.label.${dayName}`)}
-        </h5>
-        <p>{range}</p>
-      </li>
-    );
+    return range;
   }
 
   renderDays = () => {
-    return this.daysOfTheWeek.map((day, index) => this.renderSingleDay(day, index));
+    return(
+      <dl className={styles.dayList}>
+        {this.daysOfTheWeek.reduce((accumulator, day, index) => {
+          return accumulator.concat([
+            <dt className={styles.dayName} key={`dt-${index}`}>{this.renderDayName(day)}</dt>,
+            <dd className={styles.hours} key={`dd-${index}`}>{this.renderHours(index)}</dd>
+          ]);
+        }, [])}
+      </dl>
+    );
   }
 
   renderBackButton = () => {

@@ -4,6 +4,7 @@ function zeroPad(number) {
 
 function formatHours(number, is24Hour) {
   const hours = (!is24Hour && number > 12) ? number - 12 : number;
+
   return zeroPad(hours);
 }
 
