@@ -1,15 +1,10 @@
 function zeroPad(number) {
-  if (number < 10) {
-    return `0${Math.floor(number)}`;
-  }
-  return `${number}`;
+  return (number < 10) ? `0${Math.floor(number)}` : `${number}`;
 }
 
 function formatHours(number, is24Hour) {
-  if (!is24Hour && number > 12) {
-    return  zeroPad(number - 12);
-  }
-  return zeroPad(number);
+  const hours = (!is24Hour && number > 12) ? number - 12 : number;
+  return zeroPad(hours);
 }
 
 function timeFromMinutes(minuteString, am, pm) {

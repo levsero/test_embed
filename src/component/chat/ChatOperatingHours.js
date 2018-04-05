@@ -12,15 +12,7 @@ export class ChatOperatingHours extends Component {
     handleOfflineFormBack: PropTypes.func.isRequired
   };
 
-  daysOfTheWeek = [
-    i18n.t('embeddable_framework.chat.operatingHours.label.sunday'),
-    i18n.t('embeddable_framework.chat.operatingHours.label.monday'),
-    i18n.t('embeddable_framework.chat.operatingHours.label.tuesday'),
-    i18n.t('embeddable_framework.chat.operatingHours.label.wednesday'),
-    i18n.t('embeddable_framework.chat.operatingHours.label.thursday'),
-    i18n.t('embeddable_framework.chat.operatingHours.label.friday'),
-    i18n.t('embeddable_framework.chat.operatingHours.label.saturday')
-  ];
+  daysOfTheWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
   hourRange = (range) => {
     const am = trim(i18n.t('embeddable_framework.chat.operatingHours.label.am'));
@@ -47,7 +39,9 @@ export class ChatOperatingHours extends Component {
 
     return(
       <li className={styles.singleDay} key={index}>
-        <h5 className={styles.dayName}>{dayName}</h5>
+        <h5 className={styles.dayName}>
+          {i18n.t(`embeddable_framework.chat.operatingHours.label.${dayName}`)}
+        </h5>
         <p>{range}</p>
       </li>
     );
