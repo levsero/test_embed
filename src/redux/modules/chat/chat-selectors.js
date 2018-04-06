@@ -5,12 +5,6 @@ import { CHATTING_SCREEN } from './chat-screen-types';
 
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 
-const groupChatsByAgent = (state) => {
-  const agentMsgs = getChatMessagesByAgent(state);
-
-  return _.groupBy(agentMsgs, (chat) => chat.nick);
-};
-
 const getFormFields = (settings) => {
   const { form } = settings;
 
@@ -53,6 +47,30 @@ export const getLastAgentMessageSeenTimestamp = (state) => state.chat.lastAgentM
 export const getOperatingHours = (state) => state.chat.operatingHours;
 export const getLoginSettings = (state) => state.chat.accountSettings.login;
 
+export const getIsProactiveSession = (state) => {
+  const chats = Array.from(getChats(state).values());
+  let foundAgentMessage = false;
+
+  // start from most recent message and go back in time until we can determine if session is proactive
+  for (let i = chats.length - 1; i >= 0; i--) {
+    const msg = chats[i];
+    const isVisitor = msg.nick && msg.nick.indexOf('visitor') > -1;
+
+    if (isVisitor) {
+      // if a visitor leaves, chat session has ended and we check foundAgentMessage to determine if proactive
+      if (msg.type === CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE) break;
+      // any event except for memberjoin from a visitor means visitor has interacted, hence session is not proactive
+      if (msg.type !== CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERJOIN) return false;
+    }
+
+    if (_.includes(CHAT_MESSAGE_EVENTS, msg.type) && isAgent(msg.nick)) {
+      foundAgentMessage = true;
+    }
+  }
+
+  return foundAgentMessage;
+};
+
 export const getThemeShowAvatar = createSelector(
   getThemeMessageType,
   (messageType) => {
@@ -66,18 +84,8 @@ export const getThemeShowAvatar = createSelector(
 );
 
 export const getChatNotification = createSelector(
-  [getNotification, getAgents, groupChatsByAgent],
-  (notification, agents, chats) => {
-    const { nick } = notification;
-    const agentChats = chats[nick];
-    const proactive = !!(agentChats && agentChats.length === 1);
-
-    return {
-      ...notification,
-      ...agents[notification.nick],
-      proactive
-    };
-  }
+  [getNotification, getAgents],
+  (notification, agents) => ({ ...notification, ...agents[notification.nick] })
 );
 
 export const getOfflineFormFields = createSelector(

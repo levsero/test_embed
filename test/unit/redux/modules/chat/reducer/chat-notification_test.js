@@ -27,7 +27,8 @@ describe('chat reducer notification', () => {
       display_name: '',
       msg: '',
       show: false,
-      count: 0
+      count: 0,
+      proactive: false
     };
 
     describe('initial state', () => {
@@ -44,7 +45,8 @@ describe('chat reducer notification', () => {
         payload = {
           nick: '123',
           display_name: 'Terence',
-          msg: 'Hello there!'
+          msg: 'Hello there!',
+          proactive: true
         };
 
         const action = { type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED, payload };
@@ -59,23 +61,10 @@ describe('chat reducer notification', () => {
           nick,
           display_name,
           msg,
-          show: true
+          show: true,
+          proactive: true,
+          count: 1
         };
-
-        expect(state)
-          .toEqual(expected);
-      });
-    });
-
-    describe('when a INCREMENT_NEW_AGENT_MESSAGE_COUNTER action is dispatched', () => {
-      beforeEach(() => {
-        const action = { type: actionTypes.INCREMENT_NEW_AGENT_MESSAGE_COUNTER };
-
-        state = reducer(initialState, action);
-      });
-
-      it('updates the state with payload', () => {
-        const expected = { ...mockInitialState, count: 1 };
 
         expect(state)
           .toEqual(expected);
@@ -90,10 +79,8 @@ describe('chat reducer notification', () => {
       });
 
       it('updates the state with payload', () => {
-        const expected = _.merge({}, mockInitialState, { show: false });
-
-        expect(state)
-          .toEqual(expected);
+        expect(state.show)
+          .toEqual(false);
       });
     });
 
@@ -107,10 +94,8 @@ describe('chat reducer notification', () => {
       });
 
       it('resets the state for count to 0', () => {
-        const expected = _.merge({}, mockInitialState, { count: 0 });
-
-        expect(state)
-          .toEqual(expected);
+        expect(state.count)
+          .toEqual(0);
       });
     });
   });

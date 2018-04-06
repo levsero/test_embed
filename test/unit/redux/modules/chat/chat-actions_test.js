@@ -888,20 +888,6 @@ describe('chat redux actions', () => {
     });
   });
 
-  describe('incrementNewAgentMessageCounter', () => {
-    let action;
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.incrementNewAgentMessageCounter());
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches a INCREMENT_NEW_AGENT_MESSAGE_COUNTER action', () => {
-      expect(action.type)
-        .toEqual(actionTypes.INCREMENT_NEW_AGENT_MESSAGE_COUNTER);
-    });
-  });
-
   describe('chatOpened', () => {
     let action;
 

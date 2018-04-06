@@ -519,12 +519,17 @@ class WebWidget extends Component {
     );
   }
 
+  dismissStandaloneChatPopup = () => {
+    this.props.setFixedFrameStyles();
+    this.onCloseClick();
+    this.props.chatNotificationDismissed();
+  }
+
   renderStandaloneChatPopup() {
     const {
       style,
       chatNotification,
       chatNotificationRespond,
-      chatNotificationDismissed,
       setFixedFrameStyles
     } = this.props;
     const onNotificatonResponded = () => {
@@ -532,11 +537,6 @@ class WebWidget extends Component {
       setFixedFrameStyles();
       this.props.onShowMobile();
       this.showChat({ proactive: true });
-    };
-    const onNotificatonDismissed = () => {
-      setFixedFrameStyles();
-      this.onCloseClick();
-      chatNotificationDismissed();
     };
     const containerStyle = { ...style, background: 'transparent' };
 
@@ -548,7 +548,7 @@ class WebWidget extends Component {
             notification={chatNotification}
             shouldShow={chatNotification.show}
             chatNotificationRespond={onNotificatonResponded}
-            chatNotificationDismissed={onNotificatonDismissed} />
+            chatNotificationDismissed={this.dismissStandaloneChatPopup} />
         </Container>
       </div>
     );
