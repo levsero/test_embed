@@ -11,7 +11,7 @@ describe('chat reducer agentJoined', () => {
 
     initMockRegistry({
       'constants/chat': {
-        agentBot: 'agent:trigger'
+        AGENT_BOT: 'agent:trigger'
       }
     });
 

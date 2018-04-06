@@ -17,6 +17,7 @@ import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup'
 import { ChatEmailTranscriptPopup } from 'component/chat/ChatEmailTranscriptPopup';
 import { ChatReconnectionBubble } from 'component/chat/ChatReconnectionBubble';
 import { ChatAgentList } from 'component/chat/ChatAgentList';
+import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
@@ -41,7 +42,8 @@ import { endChat,
          handlePreChatFormChange,
          updateMenuVisibility,
          updateContactDetailsVisibility,
-         resetCurrentMessage } from 'src/redux/modules/chat';
+         resetCurrentMessage,
+         sendOfflineMessage } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import { getPrechatFormFields,
          getAttachmentsEnabled,
@@ -68,10 +70,12 @@ import { getPrechatFormFields,
          getEditContactDetails,
          getAgentJoined,
          getConnection,
-         getLoginSettings } from 'src/redux/modules/chat/chat-selectors';
+         getLoginSettings,
+         getDepartments,
+         getOfflineMessage } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './Chat.scss';
-import { agentBot, CONNECTION_STATUSES } from 'constants/chat';
 import { chatNameDefault } from 'src/util/utils';
+import { AGENT_BOT, CONNECTION_STATUSES, DEPARTMENT_STATUSES } from 'constants/chat';
 
 const mapStateToProps = (state) => {
   const prechatForm = getPrechatFormSettings(state);
@@ -102,7 +106,9 @@ const mapStateToProps = (state) => {
     menuVisible: getMenuVisible(state),
     agentJoined: getAgentJoined(state),
     connection: getConnection(state),
-    loginSettings: getLoginSettings(state)
+    loginSettings: getLoginSettings(state),
+    departments: getDepartments(state),
+    offlineMessage: getOfflineMessage(state)
   };
 };
 
@@ -157,7 +163,10 @@ class Chat extends Component {
     agentJoined: PropTypes.bool,
     connection: PropTypes.string.isRequired,
     resetCurrentMessage: PropTypes.func,
-    loginSettings: PropTypes.object.isRequired
+    loginSettings: PropTypes.object.isRequired,
+    departments: PropTypes.object,
+    offlineMessage: PropTypes.object,
+    sendOfflineMessage: PropTypes.func
   };
 
   static defaultProps = {
@@ -173,6 +182,7 @@ class Chat extends Component {
     events: [],
     chatLog: {},
     lastAgentLeaveEvent: {},
+    preChatFormSettings: {},
     postChatFormSettings: {},
     handleSoundIconClick: () => {},
     userSoundSettings: true,
@@ -190,7 +200,10 @@ class Chat extends Component {
     connection: '',
     resetCurrentMessage: () => {},
     loginSettings: {},
-    visitor: {}
+    visitor: {},
+    departments: {},
+    offlineMessage: {},
+    sendOfflineMessage: () => {}
   };
 
   constructor(props) {
@@ -259,29 +272,32 @@ class Chat extends Component {
   }
 
   onPrechatFormComplete = (info) => {
-    const sendMessage = () => {
-      if (info.message) {
-        this.props.sendMsg(info.message);
+    const selectedDepartment = parseInt(info.department);
+    const isSelectedDepartmentOffline = (!!selectedDepartment &&
+      this.props.departments[selectedDepartment].status !== DEPARTMENT_STATUSES.ONLINE);
+
+    if (isSelectedDepartmentOffline) {
+      this.props.sendOfflineMessage(info);
+      this.props.updateChatScreen(screens.OFFLINE_MESSAGE_SCREEN);
+    } else {
+      const sendOnlineMessage = () => info.message ? this.props.sendMsg(info.message) : null;
+
+      if (selectedDepartment) {
+        this.props.setDepartment(
+          selectedDepartment,
+          sendOnlineMessage,
+          sendOnlineMessage
+        );
+      } else {
+        sendOnlineMessage();
       }
-    };
-
-    if (info.department) {
-      this.props.setDepartment(
-        parseInt(info.department, 10),
-        sendMessage,
-        sendMessage
-      );
+      this.props.setVisitorInfo({
+        display_name: info.display_name || info.name,
+        email: info.email,
+        phone: info.phone
+      });
+      this.props.updateChatScreen(screens.CHATTING_SCREEN);
     }
-    else {
-      sendMessage();
-    }
-
-    this.props.setVisitorInfo({
-      display_name: info.display_name || info.name,
-      email: info.email,
-      phone: info.phone
-    });
-    this.props.updateChatScreen(screens.CHATTING_SCREEN);
     this.props.resetCurrentMessage();
   }
 
@@ -412,19 +428,17 @@ class Chat extends Component {
   }
 
   renderPrechatScreen = () => {
-    if (this.props.screen !== screens.PRECHAT_SCREEN) return;
+    if (this.props.screen !== screens.PRECHAT_SCREEN && this.props.screen !== screens.OFFLINE_MESSAGE_SCREEN) return;
 
     const { form, message } = this.props.prechatFormSettings;
     const scrollContainerClasses = classNames(
       styles.scrollContainer,
       { [styles.mobileContainer]: this.props.isMobile }
     );
+    let formScreen = null;
 
-    return (
-      <ScrollContainer
-        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-        classes={scrollContainerClasses}
-        containerClasses={styles.scrollContainerContent}>
+    if (this.props.screen === screens.PRECHAT_SCREEN) {
+      formScreen = (
         <ChatPrechatForm
           form={form}
           formState={this.props.preChatFormState}
@@ -432,12 +446,27 @@ class Chat extends Component {
           greetingMessage={message}
           visitor={this.props.visitor}
           onFormCompleted={this.onPrechatFormComplete} />
+      );
+    } else if (this.props.screen === screens.OFFLINE_MESSAGE_SCREEN) {
+      formScreen = (
+        <ChatOfflineMessageForm
+          offlineMessage={this.props.offlineMessage}
+          onFormBack={() => this.props.updateChatScreen(screens.PRECHAT_SCREEN)} />
+      );
+    }
+
+    return (
+      <ScrollContainer
+        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+        classes={scrollContainerClasses}
+        containerClasses={styles.scrollContainerContent}>
+        {formScreen}
       </ScrollContainer>
     );
   }
 
   renderAgentTyping = () => {
-    const agentList = _.filter(this.props.agents, (agent, key) => agent.typing && key !== agentBot);
+    const agentList = _.filter(this.props.agents, (agent, key) => agent.typing && key !== AGENT_BOT);
     let typingNotification;
 
     switch (agentList.length) {
@@ -778,7 +807,8 @@ const actionCreators = {
   updateMenuVisibility,
   handleReconnect,
   updateContactDetailsVisibility,
-  resetCurrentMessage
+  resetCurrentMessage,
+  sendOfflineMessage
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);

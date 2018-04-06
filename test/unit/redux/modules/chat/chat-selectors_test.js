@@ -37,6 +37,7 @@ describe('chat selectors', () => {
     getShowMenu,
     getOperatingHours,
     getLoginSettings,
+    getDepartments,
     CHATTING_SCREEN,
     EDIT_CONTACT_DETAILS_SCREEN;
 
@@ -107,11 +108,36 @@ describe('chat selectors', () => {
     getMenuVisible = selectors.getMenuVisible;
     getShowMenu = selectors.getShowMenu;
     getLoginSettings = selectors.getLoginSettings;
+    getDepartments = selectors.getDepartments;
   });
 
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('getDepartments', () => {
+    let mockDepartments,
+      result;
+
+    beforeEach(() => {
+      mockDepartments = {
+        someDepartment: {
+          status: 'online'
+        }
+      };
+
+      result = getDepartments({
+        chat: {
+          departments: mockDepartments
+        }
+      });
+    });
+
+    it('returns the departments', () => {
+      expect(result)
+        .toEqual(mockDepartments);
+    });
   });
 
   describe('getChatNotification', () => {
