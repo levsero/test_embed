@@ -22,6 +22,7 @@ import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { Button } from 'component/button/Button';
 import { i18n } from 'service/i18n';
+import { isFirefox, isIE } from 'utility/devices';
 import { endChat,
          endChatViaPostChatScreen,
          sendMsg,
@@ -459,7 +460,10 @@ class Chat extends Component {
 
     const containerClasses = classNames(
       styles.scrollContainerMessagesContent,
-      { [styles.scrollContainerMobile]: isMobile }
+      {
+        [styles.scrollContainerMobile]: isMobile,
+        [styles.scrollBarFix]: isFirefox() || isIE()
+      }
     );
     const scrollContainerClasses = classNames(
       styles.scrollContainer,

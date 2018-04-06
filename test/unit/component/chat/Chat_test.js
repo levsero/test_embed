@@ -3,7 +3,10 @@ const chattingScreen = 'widget/chat/CHATTING_SCREEN';
 const feedbackScreen = 'widget/chat/FEEDBACK_SCREEN';
 
 describe('Chat component', () => {
-  let Chat, prechatFormSettingsProp;
+  let Chat,
+    isIE,
+    isFirefox,
+    prechatFormSettingsProp;
 
   const chatPath = buildSrcPath('component/chat/Chat');
   const chatConstantsPath = buildSrcPath('constants/chat');
@@ -35,6 +38,9 @@ describe('Chat component', () => {
 
     prechatFormSettingsProp = { form: {}, required: false };
 
+    isIE = false;
+    isFirefox = false;
+
     initMockRegistry({
       './Chat.scss': {
         locals: {
@@ -45,6 +51,7 @@ describe('Chat component', () => {
           scrollContainer: 'scrollContainerClasses',
           scrollContainerContent: 'scrollContainerContentClasses',
           scrollContainerMessagesContent: 'scrollContainerMessagesContentClasses',
+          scrollBarFix: 'scrollBarFix',
           agentListBackButton: 'agentListBackButtonClasses',
           mobileContainer: 'mobileContainerClasses'
         }
@@ -130,6 +137,10 @@ describe('Chat component', () => {
       },
       'service/i18n': {
         i18n: { t: translationSpy }
+      },
+      'utility/devices': {
+        isIE: () => isIE,
+        isFirefox: () => isFirefox
       },
       'constants/chat': {
         agentBot: 'agent:trigger',
@@ -845,7 +856,31 @@ describe('Chat component', () => {
 
       it('adds mobile container classes to scrollContainer', () => {
         expect(component.renderChatScreen().props.containerClasses)
-          .toContain('scrollContainerMobileClasses');
+        .toContain('scrollContainerMobileClasses');
+      });
+    });
+
+    describe('when the browser is Firefox', () => {
+      beforeEach(() => {
+        isFirefox = true;
+        component = instanceRender(<Chat screen={chattingScreen} />);
+      });
+
+      it('adds the scrollbar fix classes to scrollContainer', () => {
+        expect(component.renderChatScreen().props.containerClasses)
+          .toContain('scrollBarFix');
+      });
+    });
+
+    describe('when the browser is Internet Explorer', () => {
+      beforeEach(() => {
+        isIE = true;
+        component = instanceRender(<Chat screen={chattingScreen} />);
+      });
+
+      it('adds the scrollbar fix classes to scrollContainer', () => {
+        expect(component.renderChatScreen().props.containerClasses)
+          .toContain('scrollBarFix');
       });
     });
 

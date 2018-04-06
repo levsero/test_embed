@@ -30,6 +30,12 @@
   padding-left: #{8/$font-size}rem !important;
 }
 
+.scrollBarFix {
+  overflow-y: scroll !important;
+  margin-right: 0 !important;
+  padding-right: #{3$font-size}rem !important;
+}
+
 .scrollContainerMessagesContent {
   composes: scrollContainerContent;
 
