@@ -1,6 +1,7 @@
 describe('Icon components', function() {
   let Icon,
     IconButton,
+    mockRTLValue,
     ICONS;
 
   const iconPath = buildSrcPath('component/Icon');
@@ -15,6 +16,7 @@ describe('Icon components', function() {
   beforeEach(function() {
     mockery.enable();
 
+    mockRTLValue = false;
     ICONS = requireUncached(sharedConstantsPath).ICONS;
 
     initMockRegistry({
@@ -65,6 +67,11 @@ describe('Icon components', function() {
           return false;
         }
       },
+      'service/i18n': {
+        i18n: {
+          isRTL: () => mockRTLValue
+        }
+      },
       'constants/shared': {
         ICONS
       },
@@ -72,7 +79,9 @@ describe('Icon components', function() {
         locals: {
           mobile: 'is-mobile',
           button: 'button',
-          altText: 'altText'
+          altText: 'altText',
+          tooltip: 'tooltip',
+          tooltipShown: 'tooltipShown'
         }
       }
     });
@@ -115,11 +124,13 @@ describe('Icon components', function() {
   describe('IconButton', () => {
     describe('#render', () => {
       let component,
+        wrapperEl,
         buttonEl;
 
       beforeEach(() => {
         component = instanceRender(<IconButton type='Icon--zendesk' altText='Clickable Icon' />);
-        buttonEl = component.render();
+        wrapperEl = component.render();
+        buttonEl = wrapperEl.props.children[0];
       });
 
       describe('child elements', () => {
@@ -139,6 +150,58 @@ describe('Icon components', function() {
           it('renders the alt text for the icon', () => {
             expect(buttonEl.props.children[1].props.children)
               .toMatch('Clickable Icon');
+          });
+        });
+
+        describe('tooltip element', () => {
+          let buttonDisabled = false,
+            tooltipDisabled = false;
+
+          it('renders an element for the tooltip', () => {
+            expect(wrapperEl.props.children[1].props.className)
+              .toContain('tooltip');
+          });
+
+          describe('when the button is hovered over', () => {
+            beforeEach(() => {
+              component = domRender(
+                <IconButton
+                  type='Icon--zendesk'
+                  altText='Clickable Icon'
+                  disabled={buttonDisabled}
+                  disableTooltip={tooltipDisabled} />
+              );
+              component.handleMouseOver();
+            });
+
+            describe('when the button and tooltips are both enabled', () => {
+              it('has the `tooltipShown` class', () => {
+                expect(ReactDOM.findDOMNode(component).querySelector('.tooltipShown'))
+                  .toBeTruthy();
+              });
+            });
+
+            describe('when the button is disabled', () => {
+              beforeAll(() => {
+                buttonDisabled = true;
+              });
+
+              it('does not have the `tooltipShown` class', () => {
+                expect(ReactDOM.findDOMNode(component).querySelector('.tooltipShown'))
+                  .toBeNull();
+              });
+            });
+
+            describe('when the tooltip is disabled', () => {
+              beforeAll(() => {
+                tooltipDisabled = true;
+              });
+
+              it('does not have the `tooltipShown` class', () => {
+                expect(ReactDOM.findDOMNode(component).querySelector('.tooltipShown'))
+                  .toBeNull();
+              });
+            });
           });
         });
       });

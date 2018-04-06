@@ -44,15 +44,17 @@ export class ChatFooter extends Component {
   }
 
   renderEndChatOption = () => {
+    const disabled = !this.props.isChatting;
     const endChatClasses = classNames(
       styles.iconEndChat,
-      { [styles.iconDisabled]: !this.props.isChatting }
+      { [styles.iconDisabled]: disabled }
     );
 
     return (
       <IconButton
         type={ICONS.END_CHAT}
         buttonClassName={endChatClasses}
+        disabled={disabled}
         altText={i18n.t('embeddable_framework.chat.icon.endChat.hover.label')}
         onClick={this.handleEndChatClick} />
     );
@@ -71,6 +73,7 @@ export class ChatFooter extends Component {
           <IconButton
             buttonClassName={attachmentClasses}
             altText={i18n.t('embeddable_framework.chat.icon.attachments.hover.label')}
+            disableTooltip={this.props.isMobile}
             type={ICONS.PAPERCLIP_SMALL} />
         </Dropzone>
     );
@@ -95,6 +98,7 @@ export class ChatFooter extends Component {
     return (
       <IconButton
         type={ICONS.SEND_CHAT}
+        disableTooltip={this.props.isMobile}
         altText={i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')}
         className={styles.iconSendChatMobile}
         onClick={this.props.sendChat} />

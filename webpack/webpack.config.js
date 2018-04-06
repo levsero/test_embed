@@ -34,6 +34,14 @@ var config = {
           'sass-loader'
         ]
       },
+      {
+        test: /\.css$/,
+        include: /node_modules\/@zendesk\/garden-css/,
+        use: [
+          'css-loader?importLoaders=1',
+          'postcss-loader'
+        ]
+      },
       { test: /base\.css$/, loader: 'css-loader' },
       { test: /lodash/, loader: 'imports-loader?define=>false' },
       {
