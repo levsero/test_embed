@@ -21,6 +21,7 @@ import offlineMessage from './chat-offline-message';
 import menuVisible from './chat-menu-visibility';
 import agentJoined from './chat-agent-joined';
 import lastAgentMessageSeenTimestamp from './chat-last-agent-message-seen-timestamp';
+import operatingHours from './chat-operating-hours';
 
 export default combineReducers({
   accountSettings,
@@ -43,5 +44,6 @@ export default combineReducers({
   menuVisible,
   offlineMessage,
   agentJoined,
-  lastAgentMessageSeenTimestamp
+  lastAgentMessageSeenTimestamp,
+  operatingHours
 });

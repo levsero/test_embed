@@ -8,6 +8,7 @@ import { Form } from 'component/form/Form';
 import { Field } from 'component/field/Field';
 import { EmailField } from 'component/field/EmailField';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
+import { ChatOperatingHours } from 'component/chat/ChatOperatingHours';
 import { OFFLINE_FORM_SCREENS } from 'constants/chat';
 
 import { locals as styles } from './ChatOfflineForm.scss';
@@ -16,8 +17,10 @@ export class ChatOfflineForm extends Component {
   static propTypes = {
     updateFrameSize: PropTypes.func.isRequired,
     chatOfflineFormChanged: PropTypes.func.isRequired,
+    operatingHours: PropTypes.object,
     sendOfflineMessage: PropTypes.func.isRequired,
     handleOfflineFormBack: PropTypes.func.isRequired,
+    handleOperatingHoursClick: PropTypes.func.isRequired,
     offlineMessage: PropTypes.object.isRequired,
     formState: PropTypes.object.isRequired,
     formFields: PropTypes.object.isRequired,
@@ -26,6 +29,7 @@ export class ChatOfflineForm extends Component {
 
   static defaultProps = {
     updateFrameSize: () => {},
+    operatingHours: {},
     isMobile: false,
     offlineMessage: {}
   };
@@ -119,10 +123,36 @@ export class ChatOfflineForm extends Component {
     );
   }
 
+  renderOfflineGreeting() {
+    const offlineGreetingText = i18n.t('embeddable_framework.chat.preChat.offline.greeting');
+
+    return (
+      <p className={styles.offlineGreeting}>
+        {offlineGreetingText}
+      </p>
+    );
+  }
+
+  renderOperatingHoursLink() {
+    const { operatingHours } = this.props;
+
+    if (!operatingHours.enabled) return;
+
+    const operatingHoursAnchor = 'Our Operating Hours';
+
+    return (
+      <p className={styles.operatingHoursContainer}>
+        <a className={styles.operatingHoursLink}
+           onClick={this.props.handleOperatingHoursClick}>
+          {operatingHoursAnchor}
+        </a>
+      </p>
+    );
+  }
+
   renderForm() {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.MAIN) return;
 
-    const offlineGreetingText = i18n.t('embeddable_framework.chat.preChat.offline.greeting');
     const submitbuttonText = i18n.t('embeddable_framework.chat.preChat.offline.button.sendMessage');
 
     return (
@@ -132,14 +162,25 @@ export class ChatOfflineForm extends Component {
         onChange={this.props.chatOfflineFormChanged}
         submitButtonClasses={styles.submitButton}
         submitButtonLabel={submitbuttonText}>
-        <p className={styles.offlineGreeting}>
-          {offlineGreetingText}
-        </p>
+        {this.renderOfflineGreeting()}
+        {this.renderOperatingHoursLink()}
         {this.renderNameField()}
         {this.renderEmailField()}
         {this.renderPhoneNumberField()}
         {this.renderMessageField()}
       </Form>
+    );
+  }
+
+  renderOperatingHours() {
+    if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.OPERATING_HOURS) return;
+
+    const { operatingHours, handleOfflineFormBack } = this.props;
+
+    return (
+      <ChatOperatingHours
+        operatingHours={operatingHours}
+        handleOfflineFormBack={handleOfflineFormBack} />
     );
   }
 
@@ -149,6 +190,7 @@ export class ChatOfflineForm extends Component {
         {this.renderForm()}
         {this.renderLoading()}
         {this.renderSuccess()}
+        {this.renderOperatingHours()}
       </div>
     );
   }

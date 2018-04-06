@@ -7,6 +7,7 @@ describe('ChatOfflineForm component', () => {
   const EmailField = noopReactComponent();
   const Button = noopReactComponent();
   const LoadingSpinner = noopReactComponent();
+  const ChatOperatingHours = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
@@ -19,7 +20,9 @@ describe('ChatOfflineForm component', () => {
           submitButton: 'submitButtonClass',
           scrollContainer: 'scrollContainerClass',
           mobileContainer: 'mobileContainerClass',
-          scrollContainerContent: 'scrollContainerContentClass'
+          scrollContainerContent: 'scrollContainerContentClass',
+          operatingHoursContainer: 'operatingHoursContainerClass',
+          operatingHoursLink: 'operatingHoursLinkClass'
         }
       },
       'service/i18n': {
@@ -31,7 +34,8 @@ describe('ChatOfflineForm component', () => {
         OFFLINE_FORM_SCREENS: {
           MAIN: 'main',
           SUCCESS: 'success',
-          LOADING: 'loading'
+          LOADING: 'loading',
+          OPERATING_HOURS: 'operatingHours'
         }
       },
       'component/form/Form': {
@@ -48,6 +52,9 @@ describe('ChatOfflineForm component', () => {
       },
       'component/loading/LoadingSpinner': {
         LoadingSpinner: LoadingSpinner
+      },
+      'component/chat/ChatOperatingHours': {
+        ChatOperatingHours
       }
     });
 
@@ -202,6 +209,155 @@ describe('ChatOfflineForm component', () => {
         expect(result)
           .toBeUndefined();
       });
+    });
+  });
+
+  describe('renderOperatingHours', () => {
+    let result;
+
+    describe('when the screen is not the operating hours screen', () => {
+      beforeEach(() => {
+        const component = instanceRender(<ChatOfflineForm offlineMessage={{ screen: 'main' }} />);
+
+        result = component.renderOperatingHours();
+      });
+
+      it('renders nothing', () => {
+        expect(result)
+          .toBeUndefined();
+      });
+    });
+
+    describe('when the screen is the operatingHours screen', () => {
+      let handleOfflineFormBackFn;
+
+      beforeEach(() => {
+        const mockOperatingHours = {
+          account_schedule: [[456]],
+          enabled: true
+        };
+
+        handleOfflineFormBackFn = () => {};
+
+        const component = instanceRender(
+          <ChatOfflineForm
+            operatingHours={mockOperatingHours}
+            handleOfflineFormBack={handleOfflineFormBackFn}
+            offlineMessage={{ screen: 'operatingHours' }} />
+        );
+
+        result = component.renderOperatingHours();
+      });
+
+      it('returns a <ChatOperatingHours> element', () => {
+        expect(TestUtils.isElementOfType(result, ChatOperatingHours))
+          .toEqual(true);
+      });
+
+      it('has a props.operatingHours value', () => {
+        const expected = {
+          account_schedule: [[456]],
+          enabled: true
+        };
+
+        expect(result.props.operatingHours)
+          .toEqual(expected);
+      });
+
+      it('has a props.handleOfflineFormBack value', () => {
+        expect(result.props.handleOfflineFormBack)
+          .toEqual(handleOfflineFormBackFn);
+      });
+    });
+  });
+
+  describe('renderOperatingHoursLink', () => {
+    let result,
+      link,
+      mockOperatingHours,
+      handleOperatingHoursClickFn;
+
+    beforeEach(() => {
+      handleOperatingHoursClickFn = () => {};
+
+      const component = instanceRender(
+        <ChatOfflineForm
+        operatingHours={mockOperatingHours}
+        handleOperatingHoursClick={handleOperatingHoursClickFn}
+        offlineMessage={{ screen: 'main' }} />
+      );
+
+      result = component.renderOperatingHoursLink();
+      link = _.get(result, 'props.children');
+    });
+
+    describe('when operating hours are active', () => {
+      beforeAll(() => {
+        mockOperatingHours = {
+          account_schedule: [[456]],
+          enabled: true
+        };
+      });
+
+      it('returns a <p> element at the top', () => {
+        expect(TestUtils.isElementOfType(result, 'p'))
+          .toEqual(true);
+      });
+
+      it('returns the right classes for the <p> element', () => {
+        expect(result.props.className)
+          .toEqual('operatingHoursContainerClass');
+      });
+
+      it('returns a link (<a> element) inside the <p>', () => {
+        expect(TestUtils.isElementOfType(link, 'a'))
+          .toEqual(true);
+      });
+
+      it('returns the right classes for the <a> element', () => {
+        expect(link.props.className)
+          .toEqual('operatingHoursLinkClass');
+      });
+
+      it('returns a prop for onClick for the <a> element', () => {
+        expect(link.props.onClick)
+          .toEqual(handleOperatingHoursClickFn);
+      });
+
+      it('returns a the right label for the link', () => {
+        expect(link.props.children)
+          .toEqual('Our Operating Hours');
+      });
+    });
+
+    describe('when operating hours are not active', () => {
+      beforeAll(() => {
+        mockOperatingHours = {};
+      });
+
+      it('returns nothing', () => {
+        expect(result).toBeUndefined();
+      });
+    });
+  });
+
+  describe('renderOfflineGreeting', () => {
+    let result;
+
+    beforeEach(() => {
+      const component = instanceRender(<ChatOfflineForm offlineMessage={{ screen: 'main' }} />);
+
+      result = component.renderOfflineGreeting();
+    });
+
+    it('renders a type of <p>', () => {
+      expect(TestUtils.isElementOfType(result, 'p'))
+        .toEqual(true);
+    });
+
+    it('has the right className', () => {
+      expect(result.props.className)
+        .toEqual('offlineGreetingClass');
     });
   });
 

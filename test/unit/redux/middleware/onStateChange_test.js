@@ -11,6 +11,7 @@ describe('onStateChange middleware', () => {
   const getAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
   const getIsChattingSpy = jasmine.createSpy('getIsChatting');
   const newAgentMessageReceivedSpy = jasmine.createSpy('newAgentMessageReceived');
+  const getOperatingHoursSpy = jasmine.createSpy('getOperatingHours');
   const updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed');
   const audioPlaySpy = jasmine.createSpy('audioPlay');
   const broadcastSpy = jasmine.createSpy('broadcast');
@@ -34,6 +35,7 @@ describe('onStateChange middleware', () => {
         getAccountSettings: getAccountSettingsSpy,
         newAgentMessageReceived: newAgentMessageReceivedSpy,
         incrementNewAgentMessageCounter: incrementNewAgentMessageCounterSpy,
+        getOperatingHours: getOperatingHoursSpy,
         getIsChatting: getIsChattingSpy,
         updateLastAgentMessageSeenTimestamp: updateLastAgentMessageSeenTimestampSpy
       },
@@ -116,6 +118,11 @@ describe('onStateChange middleware', () => {
             .not.toHaveBeenCalled();
         });
 
+        it('does not dispatch the getOperatingHours action', () => {
+          expect(getOperatingHoursSpy)
+            .not.toHaveBeenCalled();
+        });
+
         it('does not call mediator with newChat.connected', () => {
           expect(broadcastSpy)
             .not.toHaveBeenCalledWith('newChat.connected');
@@ -134,6 +141,11 @@ describe('onStateChange middleware', () => {
 
         it('dispatches the getIsChatting action creator', () => {
           expect(getIsChattingSpy)
+            .toHaveBeenCalled();
+        });
+
+        it('dispatches the getOperatingHours action creator', () => {
+          expect(getOperatingHoursSpy)
             .toHaveBeenCalled();
         });
 

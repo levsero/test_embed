@@ -2,7 +2,8 @@ import {
   OFFLINE_FORM_REQUEST_SENT,
   OFFLINE_FORM_REQUEST_FAILURE,
   OFFLINE_FORM_REQUEST_SUCCESS,
-  OFFLINE_FORM_BACK_BUTTON_CLICKED
+  OFFLINE_FORM_BACK_BUTTON_CLICKED,
+  OFFLINE_FORM_OPERATING_HOURS_LINK_CLICKED
 } from '../chat-action-types';
 import { OFFLINE_FORM_SCREENS } from 'constants/chat';
 
@@ -40,6 +41,11 @@ const offlineMessage = (state = initialState, action) => {
       return {
         ...state,
         screen: OFFLINE_FORM_SCREENS.MAIN
+      };
+    case OFFLINE_FORM_OPERATING_HOURS_LINK_CLICKED:
+      return {
+        ...state,
+        screen: OFFLINE_FORM_SCREENS.OPERATING_HOURS
       };
     default:
       return state;

@@ -1,0 +1,33 @@
+@import '../../styles/_vars.scss';
+
+.container {
+  color: $zd-color-oil;
+}
+
+.title {
+  font-size: #{13/$font-size}rem;
+}
+
+.dayList {
+  font-size: #{13/$font-size}rem;
+  margin: #{16/$font-size}rem 0;
+}
+
+.dayName {
+  font-size: #{13/$font-size}rem;
+  font-weight: bold;
+  padding-bottom: #{4/$font-size}rem;
+}
+
+.hours {
+  margin-bottom: #{15/$font-size}rem;
+}
+
+.button {
+  max-width: 100%;
+  width: calc(100% - #{20/$font-size}rem) !important;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: 0 #{10/$font-size}rem;
+}

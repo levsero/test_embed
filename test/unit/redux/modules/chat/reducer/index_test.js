@@ -103,6 +103,11 @@ describe('chat root reducer', () => {
         .toBeDefined();
     });
 
+    it('has the operatingHours sub state', () => {
+      expect(state.operatingHours)
+        .toBeDefined();
+    });
+
     it('has the editContactDetails sub state', () => {
       expect(state.editContactDetails)
         .toBeDefined();

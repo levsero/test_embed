@@ -41,3 +41,18 @@
   margin-top: #{10/$font-size}rem;
   line-height: #{18/$font-size}rem;
 }
+
+.operatingHoursContainer {
+  margin: #{-9/$font-size}rem 0 #{21/$font-size}rem 0;
+}
+
+.operatingHoursLink {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+}
