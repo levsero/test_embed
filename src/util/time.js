@@ -1,5 +1,5 @@
 function zeroPad(number) {
-  return (number < 10) ? `0${Math.floor(number)}` : `${number}`;
+  return (number < 10) ? `0${number}` : `${number}`;
 }
 
 function formatHours(number, is24Hour) {
@@ -12,7 +12,7 @@ function timeFromMinutes(minuteString, am, pm) {
   const minutesFromMidnight = parseInt(minuteString, 10);
   const hours = Math.floor(minutesFromMidnight / 60);
   const minutes = minutesFromMidnight % 60;
-  const is24Hour = (am === '' || pm === '');
+  const is24Hour = !am || !pm;
   const amOrPm = hours >= 12 ? pm : am;
   const period = !is24Hour ? amOrPm : '';
 

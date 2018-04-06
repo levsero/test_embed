@@ -64,7 +64,7 @@ export class ChatOperatingHours extends Component {
       <Button
         className={styles.button}
         label={backButtonLabel}
-        onClick={() => {this.props.handleOfflineFormBack();}}
+        onClick={this.props.handleOfflineFormBack}
         type='button' />
     );
   }
