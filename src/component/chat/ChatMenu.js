@@ -23,7 +23,8 @@ export class ChatMenu extends Component {
     show: PropTypes.bool,
     emailTranscriptOnClick: PropTypes.func,
     isChatting: PropTypes.bool,
-    isMobile: PropTypes.bool
+    isMobile: PropTypes.bool,
+    loginEnabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -34,7 +35,8 @@ export class ChatMenu extends Component {
     show: false,
     emailTranscriptOnClick: () => {},
     isChatting: false,
-    isMobile: false
+    isMobile: false,
+    loginEnabled: false
   };
 
   handleSoundClick = (e) => {
@@ -47,46 +49,53 @@ export class ChatMenu extends Component {
     e.stopPropagation();
   }
 
-  getItemClasses = () => {
-    return this.props.isMobile ? styles.itemMobile : styles.item;
+  renderButton = (onClick, children, disabled = false) => {
+    const classes = this.getItemClasses(disabled);
+
+    return (
+      <button className={classes} onClick={onClick} disabled={disabled}>
+        {children}
+      </button>
+    );
   }
+
+  renderDivider = () => <div className={styles.itemLine} />;
+
+  getItemClasses = (disabled = false) => (
+    classNames(
+      this.props.isMobile ? styles.itemMobile : styles.item,
+      { [styles.disabled]: disabled }
+    )
+  );
 
   renderSoundButton = () => {
     const iconType = this.props.playSound ? 'Icon--sound-on' : 'Icon--sound-off';
+    const children = [
+      i18n.t('embeddable_framework.chat.options.sound'),
+      <Icon key='icon' className={styles.soundIcon} type={iconType} />
+    ];
 
-    return (
-      <button className={this.getItemClasses()} onClick={this.handleSoundClick}>
-        {i18n.t('embeddable_framework.chat.options.sound')}
-        <Icon className={styles.soundIcon} type={iconType} />
-      </button>
-    );
+    return this.renderButton(this.handleSoundClick, children);
   }
 
   renderEmailTranscriptButton = () => {
-    if (!this.props.isChatting) return null;
+    const { emailTranscriptOnClick, isChatting } = this.props;
+    const label = i18n.t('embeddable_framework.chat.options.emailTranscript');
 
-    return (
-      <button className={this.getItemClasses()} onClick={this.props.emailTranscriptOnClick}>
-        {i18n.t('embeddable_framework.chat.options.emailTranscript')}
-      </button>
-    );
+    return this.renderButton(emailTranscriptOnClick, label, !isChatting);
   }
 
   renderContactDetailsButton = () => {
-    return (
-      <button className={this.getItemClasses()} onClick={this.props.contactDetailsOnClick}>
-        {i18n.t('embeddable_framework.chat.options.editContactDetails')}
-      </button>
-    );
+    const { loginEnabled, contactDetailsOnClick } = this.props;
+    const label = i18n.t('embeddable_framework.chat.options.editContactDetails');
+
+    return loginEnabled ? this.renderButton(contactDetailsOnClick, label) : null;
   }
 
   renderEndChatButton = () => {
     const { isMobile, disableEndChat, endChatOnClick } = this.props;
     const label = i18n.t('embeddable_framework.chat.options.endChat');
-    const containerClasses = classNames(
-      this.getItemClasses(),
-      { [styles.disabled]: disableEndChat }
-    );
+    const containerClasses = this.getItemClasses(disableEndChat);
 
     return (isMobile
       ? <div className={containerClasses} onClick={this.preventContainerClick}>
@@ -99,18 +108,15 @@ export class ChatMenu extends Component {
             primary={true}
             disabled={disableEndChat} />
         </div>
-      : <button className={containerClasses} onClick={endChatOnClick} disabled={disableEndChat}>
-          {label}
-        </button>
+      : this.renderButton(endChatOnClick, label, disableEndChat)
       );
   }
 
   renderGoBackButton = () => {
-    return (
-      <button className={this.getItemClasses()} onClick={this.props.onGoBackClick}>
-        {i18n.t('embeddable_framework.chat.options.goBack')}
-      </button>
-    );
+    const { onGoBackClick } = this.props;
+    const label = i18n.t('embeddable_framework.chat.options.goBack');
+
+    return this.renderButton(onGoBackClick, label);
   }
 
   renderSendFileButton = () => {
@@ -133,10 +139,10 @@ export class ChatMenu extends Component {
         className={styles.container}
         trigger={this.props.show}>
         {this.renderSoundButton()}
-        <div className={styles.itemLine} />
+        {this.renderDivider()}
         {this.renderEmailTranscriptButton()}
         {this.renderContactDetailsButton()}
-        <div className={styles.itemLine} />
+        {this.renderDivider()}
         {this.renderEndChatButton()}
       </SlideAppear>
     );

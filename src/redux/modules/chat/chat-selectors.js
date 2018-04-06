@@ -17,6 +17,8 @@ const getFormFields = (settings) => {
   return _.keyBy(_.values(form), 'name');
 };
 
+const isAgent = (nick) => nick ? nick.indexOf('agent:') > -1 : false;
+
 const getChats = (state) => state.chat.chats;
 const getNotification = (state) => state.chat.notification;
 const getThemeMessageType = (state) => state.chat.accountSettings.theme.message_type;
@@ -49,6 +51,7 @@ export const getShowMenu = (state) => getActiveEmbed(state) === 'chat' && getCha
 export const getAgentJoined = (state) => state.chat.agentJoined;
 export const getLastAgentMessageSeenTimestamp = (state) => state.chat.lastAgentMessageSeenTimestamp;
 export const getOperatingHours = (state) => state.chat.operatingHours;
+export const getLoginSettings = (state) => state.chat.accountSettings.login;
 
 export const getThemeShowAvatar = createSelector(
   getThemeMessageType,
@@ -165,10 +168,15 @@ export const getGroupedChatLog = createSelector(
       if (!messageOrEvent) { return groupedChatLog; }
 
       const groupTimestamp = getGroupTimestamp(messageOrEvent, lastUniqueMessageOrEvent);
-      const { latestRating, latestRatingRequest } = this;
+      const { latestRating, latestRatingRequest, firstVisitorMessageSet } = this;
 
       if (groupTimestamp) {
         (groupedChatLog[groupTimestamp] || (groupedChatLog[groupTimestamp] = [])).push(messageOrEvent);
+      }
+
+      if (!firstVisitorMessageSet && isMessage(messageOrEvent) && !isAgent(messageOrEvent.nick)) {
+        groupedChatLog[groupTimestamp].isFirstVisitorMessage = true;
+        this.firstVisitorMessageSet = true;
       }
 
       if (messageOrEvent.type === 'chat.rating') {
@@ -183,7 +191,7 @@ export const getGroupedChatLog = createSelector(
       }
 
       return groupedChatLog;
-    }).bind({ latestRating: {}, latestRatingRequest: {} }), {});
+    }).bind({ latestRating: {}, latestRatingRequest: {}, firstVisitorMessageSet: false }), {});
   }
 );
 
@@ -202,9 +210,8 @@ export const getLastAgentLeaveEvent = createSelector(
     const logValues = _.values(chatLog);
     const payload = _.last(logValues)[0];
     const isLeaveEvent = payload.type === 'chat.memberleave';
-    const isAgent = (payload.nick) ? payload.nick.indexOf('agent:') > -1 : false;
 
-    if (isLeaveEvent && isAgent) { return payload; }
+    if (isLeaveEvent && isAgent(payload.nick)) { return payload; }
   }
 );
 

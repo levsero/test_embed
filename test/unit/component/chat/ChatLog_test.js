@@ -64,7 +64,7 @@ describe('ChatLog component', () => {
     beforeEach(() => {
       const renderChatLog = getRenderChatLogFn();
 
-      result = renderChatLog(chatLog, agents);
+      result = renderChatLog({ chatLog, agents });
     });
 
     it(`returns a single element`, () => {
@@ -111,7 +111,15 @@ describe('ChatLog component', () => {
 
     it('calls renderChatLog with the correct args', () => {
       expect(component.renderChatLog)
-        .toHaveBeenCalledWith(chatLog, agents, chatCommentLeft, goToFeedbackScreenSpy, showAvatar, sendMsg, onImageLoadSpy);
+        .toHaveBeenCalledWith({
+          chatLog,
+          agents,
+          chatCommentLeft,
+          goToFeedbackScreen: goToFeedbackScreenSpy,
+          showAvatar,
+          handleSendMsg: sendMsg,
+          onImageLoad: onImageLoadSpy
+        });
     });
   });
 
@@ -126,7 +134,7 @@ describe('ChatLog component', () => {
       it('returns null', () => {
         const chatLog = {};
 
-        expect(renderChatLog(chatLog, agents)).toEqual(null);
+        expect(renderChatLog({ chatLog, agents })).toEqual(null);
       });
     });
 
@@ -156,6 +164,61 @@ describe('ChatLog component', () => {
             { timestamp: 100, nick: 'agent:123', type: 'chat.msg', display_name: 'Agent 123', msg: 'Hello' }
           ],
           avatarPath: '/path/to/avatar'
+        });
+      });
+
+      describe('renderUpdateInfo', () => {
+        let component,
+          showUpdateInfo,
+          updateInfoOnClickSpy;
+        const chatGroup = [{ timestamp: 100, nick: 'visitor', type: 'chat.msg', msg: 'Hello' }];
+        const chatLog = { 100: chatGroup };
+
+        beforeEach(()=> {
+          updateInfoOnClickSpy = jasmine.createSpy('updateInfoOnClick');
+          component = instanceRender(<ChatLog chatLog={{}} agents={{}} />);
+          spyOn(component, 'renderUpdateInfo');
+          component.renderChatLog({ chatLog, showUpdateInfo, updateInfoOnClick: updateInfoOnClickSpy });
+        });
+
+        describe('when the showUpdateInfo prop is false', () => {
+          beforeAll(() => {
+            showUpdateInfo = false;
+            chatGroup.isFirstVisitorMessage = true;
+          });
+
+          it('is called with false and the updateInfoOnClick prop', () => {
+            expect(component.renderUpdateInfo)
+              .toHaveBeenCalledWith(false, updateInfoOnClickSpy);
+          });
+        });
+
+        describe('when isFirstVisitorMessage on the chat group is false', () => {
+          beforeAll(() => {
+            showUpdateInfo = true;
+            chatGroup.isFirstVisitorMessage = false;
+          });
+
+          it('is called with false and the updateInfoOnClick prop', () => {
+            expect(component.renderUpdateInfo)
+              .toHaveBeenCalledWith(false, updateInfoOnClickSpy);
+          });
+        });
+
+        describe('when isFirstVisitorMessage on the chat group and the showUpdateInfo prop are true', () => {
+          beforeAll(() => {
+            showUpdateInfo = true;
+            chatGroup.isFirstVisitorMessage = true;
+          });
+
+          it('is called with true and the updateInfoOnClick prop', () => {
+            expect(component.renderUpdateInfo)
+              .toHaveBeenCalledWith(true, updateInfoOnClickSpy);
+          });
+        });
+
+        it('is called', () => {
+          expect(component.renderUpdateInfo).toHaveBeenCalled();
         });
       });
     });
@@ -191,7 +254,7 @@ describe('ChatLog component', () => {
         beforeEach(()=> {
           component = domRender(<ChatLog chatLog={{}} agents={{}} />);
           spyOn(component, 'renderRequestRatingButton');
-          component.renderChatLog(chatLog);
+          component.renderChatLog({ chatLog });
         });
 
         it('is called', () => {
@@ -229,7 +292,7 @@ describe('ChatLog component', () => {
       ];
 
       beforeEach(() => {
-        result = renderChatLog(chatLog, agents);
+        result = renderChatLog({ chatLog, agents });
       });
 
       it(`returns a collection with the correct number of elements`, () => {
@@ -419,6 +482,52 @@ describe('ChatLog component', () => {
             }
           ));
         });
+      });
+    });
+  });
+
+  describe('#renderUpdateInfo', () => {
+    let component,
+      mockStringValues,
+      updateInfoOnClickSpy = jasmine.createSpy('updateInfoOnClick');
+
+    beforeEach(() => {
+      component = instanceRender(<ChatLog chatLog={{}} agents={{}} />);
+
+      mockStringValues = {
+        'embeddable_framework.chat.chatLog.login.updateInfo': 'Please update your info'
+      };
+
+      i18n.t.and.callFake((key) => {
+        return mockStringValues[key];
+      });
+    });
+
+    describe('when the showUpdateInfo argument is false', () => {
+      it('returns undefined', () => {
+        expect(component.renderUpdateInfo(false, updateInfoOnClickSpy))
+          .toBeUndefined();
+      });
+    });
+
+    describe('when the showUpdateInfo argument is true', () => {
+      it('returns a div', () => {
+        expect(TestUtils.isElementOfType(component.renderUpdateInfo(true, updateInfoOnClickSpy), 'div'))
+          .toEqual(true);
+      });
+
+      it('returns an element with onClick set to the updateInfoOnClick argument', () => {
+        expect(component.renderUpdateInfo(true, updateInfoOnClickSpy).props.onClick)
+          .toEqual(updateInfoOnClickSpy);
+      });
+
+      it('returns an element containing the correct text as a child', () => {
+        expect(component.renderUpdateInfo(true, updateInfoOnClickSpy).props)
+          .toEqual(
+            jasmine.objectContaining({
+              children: mockStringValues['embeddable_framework.chat.chatLog.login.updateInfo']
+            })
+          );
       });
     });
   });

@@ -145,6 +145,9 @@ describe('Chat component', () => {
       'constants/chat': {
         agentBot: 'agent:trigger',
         CONNECTION_STATUSES
+      },
+      'src/util/utils': {
+        chatNameDefault: noop
       }
     });
 
@@ -400,13 +403,17 @@ describe('Chat component', () => {
 
   describe('onPrechatFormComplete', () => {
     let component, setVisitorInfoSpy, sendMsgSpy, setDepartmentSpy;
-    const formInfo = {
-      display_name: 'Daenerys Targaryen',
-      email: 'mother@of.dragons',
-      phone: '87654321',
-      message: 'bend the knee',
-      department: 12345
-    };
+    let formInfo;
+
+    beforeAll(() => {
+      formInfo = {
+        display_name: 'Daenerys Targaryen',
+        email: 'mother@of.dragons',
+        phone: '87654321',
+        message: 'bend the knee',
+        department: 12345
+      };
+    });
 
     beforeEach(() => {
       setVisitorInfoSpy = jasmine.createSpy('setVisitorInfo');
@@ -431,6 +438,20 @@ describe('Chat component', () => {
 
       expect(setVisitorInfoSpy)
         .toHaveBeenCalledWith(visitorInfo);
+    });
+
+    describe('when display_name is not specified in the form data', () => {
+      const nameValue = 'test name';
+
+      beforeAll(() => {
+        delete formInfo.display_name;
+        formInfo.name = nameValue;
+      });
+
+      it('uses the value of the name as the display_name', () => {
+        expect(setVisitorInfoSpy.calls.mostRecent().args[0].display_name)
+          .toEqual(nameValue);
+      });
     });
 
     describe('when the message is empty', () => {
@@ -1727,6 +1748,42 @@ describe('Chat component', () => {
         expect(result)
           .toBeUndefined();
       });
+    });
+  });
+
+  describe('showContactDetailsFn', () => {
+    let updateMenuVisibilitySpy,
+      updateContactDetailsVisibilitySpy,
+      stopPropagationSpy;
+
+    beforeEach(() => {
+      updateMenuVisibilitySpy = jasmine.createSpy('updateMenuVisibility');
+      updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility');
+      stopPropagationSpy = jasmine.createSpy('stopPropagation');
+
+      const component = instanceRender(
+        <Chat
+          updateMenuVisibility={updateMenuVisibilitySpy}
+          updateContactDetailsVisibility={updateContactDetailsVisibilitySpy}
+        />
+      );
+
+      component.showContactDetailsFn({ stopPropagation: stopPropagationSpy });
+    });
+
+    it('stops the event propagating', () => {
+      expect(stopPropagationSpy)
+        .toHaveBeenCalled();
+    });
+
+    it('calls updateMenuVisibility with false', () => {
+      expect(updateMenuVisibilitySpy)
+        .toHaveBeenCalledWith(false);
+    });
+
+    it('calls updateContactDetailsVisibility with true', () => {
+      expect(updateContactDetailsVisibilitySpy)
+        .toHaveBeenCalledWith(true);
     });
   });
 });

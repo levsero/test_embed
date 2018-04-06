@@ -6,3 +6,12 @@
   height: #{30/$font-size}rem;
   line-height: #{30/$font-size}rem;
 }
+
+.updateInfo {
+  color: #007FAB;
+  text-align: center;
+  margin-top: #{5/$font-size}rem;
+  margin-bottom: #{10/$font-size}rem;
+  cursor: pointer;
+  text-decoration: underline;
+}

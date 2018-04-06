@@ -829,7 +829,8 @@ describe('ChatGroup component', () => {
   });
 
   describe('#render', () => {
-    let component;
+    let component,
+      children;
     const isAgent = true;
     const showAvatar = true;
     const messages = [{
@@ -841,7 +842,16 @@ describe('ChatGroup component', () => {
     }];
 
     beforeEach(() => {
-      component = domRender(<ChatGroup isAgent={isAgent} showAvatar={showAvatar} messages={messages} avatarPath={avatarPath} />);
+      component = domRender(
+        <ChatGroup
+          isAgent={isAgent}
+          showAvatar={showAvatar}
+          messages={messages}
+          avatarPath={avatarPath}
+        >
+          {children}
+        </ChatGroup>
+      );
 
       spyOn(component, 'renderName');
       spyOn(component, 'renderChatMessages');
@@ -860,6 +870,23 @@ describe('ChatGroup component', () => {
 
     it('calls renderAvatar with the correct args', () => {
       expect(component.renderAvatar).toHaveBeenCalledWith(showAvatar && isAgent, avatarPath, messages);
+    });
+
+    describe('when passed a child component', () => {
+      const childElement = <div id='last-child-element' />;
+      let childrenProp;
+
+      beforeAll(() => {
+        children = childElement;
+      });
+
+      beforeEach(() => {
+        childrenProp = component.render().props.children;
+      });
+
+      it('is rendered as the last element in the wrapper element', () => {
+        expect(childrenProp[childrenProp.length - 1]).toEqual(childElement);
+      });
     });
   });
 });

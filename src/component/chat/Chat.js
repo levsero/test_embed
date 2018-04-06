@@ -67,9 +67,11 @@ import { getPrechatFormFields,
          getMenuVisible,
          getEditContactDetails,
          getAgentJoined,
-         getConnection } from 'src/redux/modules/chat/chat-selectors';
+         getConnection,
+         getLoginSettings } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './Chat.scss';
 import { agentBot, CONNECTION_STATUSES } from 'constants/chat';
+import { chatNameDefault } from 'src/util/utils';
 
 const mapStateToProps = (state) => {
   const prechatForm = getPrechatFormSettings(state);
@@ -99,7 +101,8 @@ const mapStateToProps = (state) => {
     editContactDetails: getEditContactDetails(state),
     menuVisible: getMenuVisible(state),
     agentJoined: getAgentJoined(state),
-    connection: getConnection(state)
+    connection: getConnection(state),
+    loginSettings: getLoginSettings(state)
   };
 };
 
@@ -153,7 +156,8 @@ class Chat extends Component {
     menuVisible: PropTypes.bool,
     agentJoined: PropTypes.bool,
     connection: PropTypes.string.isRequired,
-    resetCurrentMessage: PropTypes.func
+    resetCurrentMessage: PropTypes.func,
+    loginSettings: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -184,7 +188,9 @@ class Chat extends Component {
     menuVisible: false,
     agentJoined: false,
     connection: '',
-    resetCurrentMessage: () => {}
+    resetCurrentMessage: () => {},
+    loginSettings: {},
+    visitor: {}
   };
 
   constructor(props) {
@@ -270,10 +276,20 @@ class Chat extends Component {
       sendMessage();
     }
 
-    this.props.setVisitorInfo(_.pick(info, ['display_name', 'email', 'phone']));
+    this.props.setVisitorInfo({
+      display_name: info.display_name || info.name,
+      email: info.email,
+      phone: info.phone
+    });
     this.props.updateChatScreen(screens.CHATTING_SCREEN);
     this.props.resetCurrentMessage();
   }
+
+  showContactDetailsFn = (e) => {
+    e.stopPropagation();
+    this.props.updateMenuVisibility(false);
+    this.props.updateContactDetailsVisibility(true);
+  };
 
   renderChatMenu = () => {
     const {
@@ -283,23 +299,21 @@ class Chat extends Component {
       attachmentsEnabled,
       sendAttachments,
       onBackButtonClick,
-      isMobile
+      isMobile,
+      loginSettings,
+      menuVisible,
+      updateMenuVisibility
     } = this.props;
     const showChatEndFn = (e) => {
       e.stopPropagation();
-      this.props.updateMenuVisibility(false);
+      updateMenuVisibility(false);
       this.setState({
         showEndChatMenu: true
       });
     };
-    const showContactDetailsFn = (e) => {
-      e.stopPropagation();
-      this.props.updateMenuVisibility(false);
-      this.props.updateContactDetailsVisibility(true);
-    };
     const showEmailTranscriptFn = (e) => {
       e.stopPropagation();
-      this.props.updateMenuVisibility(false);
+      updateMenuVisibility(false);
       this.setState({
         showEmailTranscriptMenu: true
       });
@@ -310,18 +324,19 @@ class Chat extends Component {
 
     return (
       <ChatMenu
-        show={this.props.menuVisible}
+        show={menuVisible}
         playSound={userSoundSettings}
         disableEndChat={!isChatting}
         attachmentsEnabled={attachmentsEnabled}
         onGoBackClick={onBackButtonClick}
         onSendFileClick={sendAttachments}
         endChatOnClick={showChatEndFn}
-        contactDetailsOnClick={showContactDetailsFn}
+        contactDetailsOnClick={this.showContactDetailsFn}
         emailTranscriptOnClick={showEmailTranscriptFn}
         onSoundClick={toggleSoundFn}
         isChatting={isChatting}
-        isMobile={isMobile} />
+        isMobile={isMobile}
+        loginEnabled={loginSettings.enabled} />
     );
   }
 
@@ -454,7 +469,7 @@ class Chat extends Component {
   }
 
   renderChatScreen = () => {
-    const { screen, isMobile, sendMsg } = this.props;
+    const { screen, isMobile, sendMsg, loginSettings, visitor } = this.props;
 
     if (screen !== screens.CHATTING_SCREEN) return;
 
@@ -478,6 +493,8 @@ class Chat extends Component {
       { [styles.footerMobile]: isMobile }
     );
 
+    const visitorNameSet = visitor.display_name && !chatNameDefault(visitor.display_name);
+
     return (
       <ScrollContainer
         ref={(el) => { this.scrollContainer = el; }}
@@ -499,6 +516,8 @@ class Chat extends Component {
             goToFeedbackScreen={() => this.props.updateChatScreen(screens.FEEDBACK_SCREEN)}
             handleSendMsg={sendMsg}
             onImageLoad={this.scrollToBottom}
+            showUpdateInfo={loginSettings.enabled && !visitorNameSet}
+            updateInfoOnClick={this.showContactDetailsFn}
           />
           {this.renderQueuePosition()}
           {this.renderAgentTyping()}
