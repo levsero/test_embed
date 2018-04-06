@@ -38,9 +38,8 @@ var config = {
         test: /\.css$/,
         include: /node_modules\/@zendesk\/garden-css/,
         use: [
-          'css-loader?importLoaders=2',
-          'postcss-loader',
-          'sass-loader'
+          'css-loader?importLoaders=1',
+          'postcss-loader'
         ]
       },
       { test: /base\.css$/, loader: 'css-loader' },
