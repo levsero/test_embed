@@ -13,7 +13,6 @@ import { locals as styles } from 'component/chat/ChatEmailTranscriptPopup.scss';
 import { emailValid } from 'src/util/utils';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { Icon } from 'src/component/Icon';
-import { isIE } from 'utility/devices';
 import _ from 'lodash';
 
 export class ChatEmailTranscriptPopup extends Component {
@@ -163,10 +162,8 @@ export class ChatEmailTranscriptPopup extends Component {
   renderLoadingScreen = () => {
     if (this.props.emailTranscript.screen !== EMAIL_TRANSCRIPT_LOADING_SCREEN) return null;
 
-    const spinnerIEClasses = isIE() ? styles.loadingSpinnerIE : '';
-
     return (
-      <div className={`${styles.loadingSpinner} ${spinnerIEClasses}`}>
+      <div className={styles.loadingSpinner}>
         <LoadingSpinner />
       </div>
     );

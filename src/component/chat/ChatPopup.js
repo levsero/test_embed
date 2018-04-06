@@ -11,7 +11,7 @@ import classNames from 'classnames';
 export class ChatPopup extends Component {
   static propTypes = {
     className: PropTypes.string,
-    containerClassName: PropTypes.string,
+    containerClasses: PropTypes.string,
     showCta: PropTypes.bool,
     leftCtaFn: PropTypes.func,
     rightCtaFn: PropTypes.func,
@@ -32,7 +32,7 @@ export class ChatPopup extends Component {
     isMobile: false,
     useOverlay: false,
     className: '',
-    containerClassName: '',
+    containerClasses: '',
     showCta: true,
     leftCtaFn: () => {},
     rightCtaFn: () => {},
@@ -98,10 +98,10 @@ export class ChatPopup extends Component {
   }
 
   renderDefault = () => {
-    const { className, childrenOnClick, children, containerClassName } = this.props;
-    const containerClasses = classNames(
+    const { className, childrenOnClick, children, containerClasses } = this.props;
+    const containerStyles = classNames(
       styles.container,
-      containerClassName
+      containerClasses
     );
 
     return (
@@ -110,7 +110,7 @@ export class ChatPopup extends Component {
         trigger={this.props.show}
         onClick={this.onContainerClick}
         onExited={this.props.onExited}>
-        <div className={containerClasses}>
+        <div className={containerStyles}>
           <div onClick={childrenOnClick}>{children}</div>
           {this.renderCta()}
           {this.renderCloseIcon()}
@@ -120,7 +120,7 @@ export class ChatPopup extends Component {
   }
 
   renderMobileOverlay = () => {
-    const { className, childrenOnClick, children, containerClassName, show } = this.props;
+    const { className, childrenOnClick, children, containerClasses, show } = this.props;
     const popupContainerClasses = classNames(
       styles.popupContainerMobile,
       { [styles.hidden]: !show }
@@ -138,7 +138,7 @@ export class ChatPopup extends Component {
           trigger={show}
           onClick={this.onContainerClick}
           onExited={this.props.onExited}>
-          <div className={containerClassName}>
+          <div className={containerClasses}>
             <div onClick={childrenOnClick}>{children}</div>
             {this.renderCta()}
             {this.renderCloseIcon()}

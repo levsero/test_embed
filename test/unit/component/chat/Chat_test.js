@@ -49,12 +49,13 @@ describe('Chat component', () => {
       './Chat.scss': {
         locals: {
           scrollContainerMobile: 'scrollContainerMobileClasses',
+          scrollContainerMessagesContent: 'scrollContainerMessagesContentClass',
+          scrollContainerMessagesContentDesktop: 'scrollContainerMessagesContentDesktopClass',
           footer: 'footerClasses',
           footerMobile: 'footerMobileClasses',
           agentTyping: 'agentTypingClasses',
           scrollContainer: 'scrollContainerClasses',
           scrollContainerContent: 'scrollContainerContentClasses',
-          scrollContainerMessagesContent: 'scrollContainerMessagesContentClasses',
           scrollBarFix: 'scrollBarFix',
           agentListBackButton: 'agentListBackButtonClasses',
           mobileContainer: 'mobileContainerClasses'
@@ -1026,10 +1027,21 @@ describe('Chat component', () => {
         component = instanceRender(<Chat screen={chattingScreen} />);
       });
 
+      it('adds the scrollContainerMessagesContentDesktop to it', () => {
+        expect(component.renderChatScreen().props.containerClasses)
+          .toContain('scrollContainerMessagesContentDesktopClass');
+      });
+
       it('does not add the scrollContainerMobile class to it', () => {
         expect(component.renderChatScreen().props.containerClasses)
           .not
           .toContain('scrollContainerMobileClasses');
+      });
+
+      it('does not add scrollContainerMessagesContent class to it', () => {
+        expect(component.renderChatScreen().props.containerClasses)
+          .not
+          .toContain('scrollContainerMessagesContentClass');
       });
     });
 
@@ -1038,9 +1050,20 @@ describe('Chat component', () => {
         component = instanceRender(<Chat isMobile={true} screen={chattingScreen} />);
       });
 
+      it('does not add the scrollContainerMessagesContentDesktop to it', () => {
+        expect(component.renderChatScreen().props.containerClasses)
+          .not
+          .toContain('scrollContainerMessagesContentDesktopClass');
+      });
+
       it('adds mobile container classes to scrollContainer', () => {
         expect(component.renderChatScreen().props.containerClasses)
-        .toContain('scrollContainerMobileClasses');
+          .toContain('scrollContainerMobileClasses');
+      });
+
+      it('adds scrollContainerMessagesContent class to it', () => {
+        expect(component.renderChatScreen().props.containerClasses)
+          .toContain('scrollContainerMessagesContentClass');
       });
     });
 
@@ -1076,11 +1099,6 @@ describe('Chat component', () => {
       it('has its classes prop to the scroll container style', () => {
         expect(component.renderChatScreen().props.classes)
           .toEqual('scrollContainerClasses');
-      });
-
-      it('has its containerClasses prop to the scrollContainerContent style', () => {
-        expect(component.renderChatScreen().props.containerClasses)
-          .toEqual('scrollContainerMessagesContentClasses');
       });
     });
   });

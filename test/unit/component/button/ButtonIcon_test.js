@@ -18,8 +18,7 @@ describe('ButtonIcon', () => {
       },
       './ButtonIcon.scss': {
         locals: {
-          'containerActionable': 'containerActionable',
-          'containerIE': 'containerIE'
+          'containerActionable': 'containerActionable'
         }
       }
     });
@@ -69,34 +68,6 @@ describe('ButtonIcon', () => {
 
   describe('render', () => {
     let buttonNode;
-
-    describe('when isIE is true', () => {
-      beforeEach(() => {
-        mockIsIeValue = true;
-        const button = domRender(<ButtonIcon />);
-
-        buttonNode = ReactDOM.findDOMNode(button);
-      });
-
-      it('has IE classes', () => {
-        expect(buttonNode.className)
-          .toContain('containerIE');
-      });
-    });
-
-    describe('when isIE is false', () => {
-      beforeEach(() => {
-        mockIsIeValue = false;
-        const button = domRender(<ButtonIcon />);
-
-        buttonNode = ReactDOM.findDOMNode(button);
-      });
-
-      it('does not have IE classes', () => {
-        expect(buttonNode.className)
-          .not.toContain('containerIE');
-      });
-    });
 
     describe('when props actionable is true', () => {
       beforeEach(() => {

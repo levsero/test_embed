@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Icon } from 'component/Icon';
-import { isIE } from 'utility/devices';
 import { locals as styles } from './ButtonIcon.scss';
 
 export class ButtonIcon extends Component {
@@ -35,11 +34,9 @@ export class ButtonIcon extends Component {
   render = () => {
     const { actionable, className, labelClassName, icon, label } = this.props;
     const actionableStyles = actionable ? styles.containerActionable : '';
-    const ieStyles = isIE() ? styles.containerIE : '';
     const buttonClasses = `
       ${styles.container}
       ${actionableStyles}
-      ${ieStyles}
     `;
 
     return (

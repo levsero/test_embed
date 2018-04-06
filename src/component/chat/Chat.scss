@@ -1,3 +1,8 @@
+/**
+ * 1. Since the parent container the scrollContainer which has header content, Chat header content and a footer
+      the size of all of the aforementioned elements is equal to 220px. 100% - 220px allows us to position
+      the Chat log in an appropriate location in Desktop mode.
+ */
 @import '../../styles/_vars.scss';
 
 .scrollContainerMobile {
@@ -38,8 +43,12 @@
 
 .scrollContainerMessagesContent {
   composes: scrollContainerContent;
-
   margin-top: #{58/$font-size}rem;
+}
+
+.scrollContainerMessagesContentDesktop {
+  composes: scrollContainerMessagesContent;
+  height: calc(100% - #{220/$font-size}rem); /* 1 */
 }
 
 .chatLogContainer {

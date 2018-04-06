@@ -1,3 +1,8 @@
+/**
+ * 1. in IE11 and below, flex adjustment for width is calculated incorrectly, assuming there are only
+      two buttons active on a popup at a given time, the max width is limited to 50% less margin to center the
+      elements properly.
+ */
 @import '../../styles/_vars.scss';
 
 .popupContainerMobile {
@@ -32,7 +37,6 @@
   border-radius: #{3/$font-size}rem;
   box-shadow: 0 0 #{8/$font-size}rem 0 rgba($base-shadow, 0.26);
   width: auto;
-  min-height: #{75/$font-size}rem;
   margin: 0 #{16/$font-size}rem #{30/$font-size}rem;
 }
 
@@ -44,6 +48,7 @@
 .ctaButton {
   composes: u-nbfc u-hsizeAll from global;
   text-overflow: ellipsis;
+  max-width: calc(50% - #{26/$font-size}rem); /* 1 */
 }
 
 .leftCtaBtn {

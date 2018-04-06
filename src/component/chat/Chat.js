@@ -504,13 +504,12 @@ class Chat extends Component {
 
     if (screen !== screens.CHATTING_SCREEN) return;
 
-    const containerClasses = classNames(
-      styles.scrollContainerMessagesContent,
-      {
-        [styles.scrollContainerMobile]: isMobile,
-        [styles.scrollBarFix]: isFirefox() || isIE()
-      }
-    );
+    const containerClasses = classNames({
+      [styles.scrollContainerMessagesContent]: isMobile,
+      [styles.scrollContainerMessagesContentDesktop]: !isMobile,
+      [styles.scrollContainerMobile]: isMobile,
+      [styles.scrollBarFix]: isFirefox() || isIE()
+    });
     const scrollContainerClasses = classNames(
       styles.scrollContainer,
       { [styles.mobileContainer]: isMobile }
