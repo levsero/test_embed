@@ -291,11 +291,13 @@ class Chat extends Component {
       } else {
         sendOnlineMessage();
       }
-      this.props.setVisitorInfo({
-        display_name: info.display_name || info.name,
-        email: info.email,
-        phone: info.phone
-      });
+      this.props.setVisitorInfo(
+        _.omitBy({
+          display_name: info.display_name || info.name,
+          email: info.email,
+          phone: info.phone
+        }, _.isNil)
+      );
       this.props.updateChatScreen(screens.CHATTING_SCREEN);
     }
     this.props.resetCurrentMessage();
