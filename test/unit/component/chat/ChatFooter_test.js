@@ -23,7 +23,6 @@ describe('ChatFooter component', () => {
           iconAttachment: 'iconAttachmentClass',
           iconAttachmentMobile: 'iconAttachmentMobileClass',
           iconMenu: 'iconMenuClass',
-          iconSendChat: 'iconSendChatClass',
           iconSendChatMobile: 'iconSendChatMobileClass'
         }
       },
@@ -102,9 +101,9 @@ describe('ChatFooter component', () => {
       });
 
       it('has disabled classes', () => {
-        expect(result.props.className)
+        expect(result.props.buttonClassName)
           .toContain('iconEndChatClass');
-        expect(result.props.className)
+        expect(result.props.buttonClassName)
           .toContain('iconDisabledClasses');
       });
     });
@@ -117,9 +116,9 @@ describe('ChatFooter component', () => {
       });
 
       it('does not have disabled classes', () => {
-        expect(result.props.className)
+        expect(result.props.buttonClassName)
           .toContain('iconEndChatClass');
-        expect(result.props.className)
+        expect(result.props.buttonClassName)
           .not.toContain('iconDisabledClasses');
       });
     });
@@ -164,9 +163,9 @@ describe('ChatFooter component', () => {
       });
 
       it('does not have mobile specific classes', () => {
-        expect(result.props.className)
+        expect(result.props.children.props.buttonClassName)
           .toContain('iconAttachmentClass');
-        expect(result.props.className)
+        expect(result.props.children.props.buttonClassName)
           .not.toContain('iconAttachmentMobileClass');
       });
     });
@@ -181,9 +180,9 @@ describe('ChatFooter component', () => {
       });
 
       it('has mobile specific classes', () => {
-        expect(result.props.className)
+        expect(result.props.children.props.buttonClassName)
           .toContain('iconAttachmentClass');
-        expect(result.props.className)
+        expect(result.props.children.props.buttonClassName)
           .toContain('iconAttachmentMobileClass');
       });
     });
@@ -199,7 +198,7 @@ describe('ChatFooter component', () => {
     });
 
     it('has correct classes', () => {
-      expect(result.props.className)
+      expect(result.props.buttonClassName)
         .toContain('iconMenuClass');
     });
   });
@@ -216,7 +215,7 @@ describe('ChatFooter component', () => {
 
     it('has correct classes', () => {
       expect(result.props.className)
-        .toContain('iconSendChatClass iconSendChatMobileClass');
+        .toContain('iconSendChatMobileClass');
     });
 
     it('passes sendChat to onClick handler', () => {

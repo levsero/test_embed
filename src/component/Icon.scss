@@ -2,6 +2,11 @@
 
 .mobile {
   composes: is-mobile from global;
+  padding: 0;
+}
+
+.container {
+  display: inline-block;
 }
 
 .button {
@@ -11,6 +16,10 @@
   padding: 0;
   border: none;
   background: transparent;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .altText {

@@ -573,6 +573,7 @@ class WebWidget extends Component {
       <div style={style} data-embed={this.props.activeEmbed}>
         <Container
           style={this.props.style}
+          fullscreen={fullscreen}
           position={this.props.position}
           onClick={this.onContainerClick}
           onDragEnter={this.onContainerDragEnter}>

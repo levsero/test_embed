@@ -64,6 +64,7 @@ export class Icon extends Component {
   render() {
     const icon = icons[this.props.type];
     const iconClasses = classNames(
+      styles.container,
       this.props.className,
       this.props.type,
       { [styles.mobile]: this.props.isMobile }
