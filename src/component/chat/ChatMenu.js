@@ -39,9 +39,33 @@ export class ChatMenu extends Component {
     loginEnabled: false
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      soundButtonClicked: false,
+      soundButtonHovered: false
+    };
+  }
+
   handleSoundClick = (e) => {
     e.stopPropagation();
     this.props.onSoundClick();
+    this.setState({
+      soundButtonClicked: true
+    });
+  }
+
+  handleSoundMouseOver = () => {
+    this.setState({
+      soundButtonHovered: true
+    });
+  }
+
+  handleSoundMouseOut = () => {
+    this.setState({
+      soundButtonHovered: false
+    });
   }
 
   preventContainerClick = (e) => {
@@ -49,11 +73,12 @@ export class ChatMenu extends Component {
     e.stopPropagation();
   }
 
-  renderButton = (onClick, children, disabled = false) => {
-    const classes = this.getItemClasses(disabled);
+  renderButton = (onClick, children, disabled = false, extras = {}) => {
+    const classes = this.getItemClasses(disabled, extras.classNames);
+    const extraProps = extras.props || {};
 
     return (
-      <button className={classes} onClick={onClick} disabled={disabled}>
+      <button className={classes} onClick={onClick} {...extraProps} disabled={disabled}>
         {children}
       </button>
     );
@@ -61,21 +86,31 @@ export class ChatMenu extends Component {
 
   renderDivider = () => <div className={styles.itemLine} />;
 
-  getItemClasses = (disabled = false) => (
+  getItemClasses = (disabled = false, extraClasses = {}) => (
     classNames(
       this.props.isMobile ? styles.itemMobile : styles.item,
-      { [styles.disabled]: disabled }
+      {
+        [styles.disabled]: disabled,
+        ...extraClasses
+      }
     )
   );
 
   renderSoundButton = () => {
     const iconType = this.props.playSound ? 'Icon--sound-on' : 'Icon--sound-off';
+    const buttonExtras = {
+      classNames: { [styles.soundButtonReset]: this.state.soundButtonClicked && !this.state.soundButtonHovered },
+      props: {
+        onMouseOut: this.handleSoundMouseOut,
+        onMouseOver: this.handleSoundMouseOver
+      }
+    };
     const children = [
       i18n.t('embeddable_framework.chat.options.sound'),
       <Icon key='icon' className={styles.soundIcon} type={iconType} />
     ];
 
-    return this.renderButton(this.handleSoundClick, children);
+    return this.renderButton(this.handleSoundClick, children, false, buttonExtras);
   }
 
   renderEmailTranscriptButton = () => {

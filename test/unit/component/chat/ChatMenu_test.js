@@ -14,6 +14,7 @@ describe('ChatMenu component', () => {
           item: 'itemClass',
           container: 'containerClass',
           containerMobile: 'containerMobileClass',
+          soundButtonReset: 'soundButtonReset',
           soundIcon: 'soundIconClass',
           itemLine: 'itemLineClass',
           disabled: 'disabledClass'
@@ -92,6 +93,7 @@ describe('ChatMenu component', () => {
       component,
       children,
       disabled,
+      extras,
       onClickSpy;
     const getItemClassesResult = 'getItemClassesResult';
 
@@ -101,9 +103,13 @@ describe('ChatMenu component', () => {
       onClickSpy = jasmine.createSpy('onClick');
       children = <div id='child-element'></div>;
       disabled = true;
+      extras = {
+        classNames: 'extraClass',
+        props: {}
+      };
 
       spyOn(component, 'getItemClasses').and.returnValue(getItemClassesResult);
-      result = component.renderButton(onClickSpy, children, disabled);
+      result = component.renderButton(onClickSpy, children, disabled, extras);
     });
 
     it('returns a button element', () => {
@@ -128,7 +134,7 @@ describe('ChatMenu component', () => {
 
     it('applies the result of getItemClasses to the className prop', () => {
       expect(component.getItemClasses)
-        .toHaveBeenCalledWith(disabled);
+        .toHaveBeenCalledWith(disabled, extras.classNames);
 
       expect(result.props.className)
         .toEqual(getItemClassesResult);
@@ -244,7 +250,7 @@ describe('ChatMenu component', () => {
         ];
 
         expect(component.renderButton)
-          .toHaveBeenCalledWith(component.handleSoundClick, expectedChildren);
+          .toHaveBeenCalledWith(component.handleSoundClick, expectedChildren, false, jasmine.any(Object));
       });
     });
 
@@ -260,7 +266,7 @@ describe('ChatMenu component', () => {
         ];
 
         expect(component.renderButton)
-          .toHaveBeenCalledWith(component.handleSoundClick, expectedChildren);
+          .toHaveBeenCalledWith(component.handleSoundClick, expectedChildren, false, jasmine.any(Object));
       });
     });
 

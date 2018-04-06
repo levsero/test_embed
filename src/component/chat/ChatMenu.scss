@@ -103,6 +103,14 @@
   border-color: $zd-color-platinum;
 }
 
+.soundButtonReset {
+  background: transparent !important;
+
+  &:hover, &:active, &:focus {
+    background: transparent !important;
+  }
+}
+
 .soundIcon {
   composes: u-inlineBlock from global;
   vertical-align: middle;
