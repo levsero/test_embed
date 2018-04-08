@@ -43,7 +43,8 @@ import { endChat,
          updateMenuVisibility,
          updateContactDetailsVisibility,
          resetCurrentMessage,
-         sendOfflineMessage } from 'src/redux/modules/chat';
+         sendOfflineMessage,
+         clearDepartment } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import { getPrechatFormFields,
          getAttachmentsEnabled,
@@ -166,7 +167,8 @@ class Chat extends Component {
     loginSettings: PropTypes.object.isRequired,
     departments: PropTypes.object,
     offlineMessage: PropTypes.object,
-    sendOfflineMessage: PropTypes.func
+    sendOfflineMessage: PropTypes.func,
+    clearDepartment: PropTypes.func
   };
 
   static defaultProps = {
@@ -203,7 +205,8 @@ class Chat extends Component {
     visitor: {},
     departments: {},
     offlineMessage: {},
-    sendOfflineMessage: () => {}
+    sendOfflineMessage: () => {},
+    clearDepartment: () => {}
   };
 
   constructor(props) {
@@ -289,7 +292,7 @@ class Chat extends Component {
           sendOnlineMessage
         );
       } else {
-        sendOnlineMessage();
+        this.props.clearDepartment(sendOnlineMessage);
       }
       this.props.setVisitorInfo(
         _.omitBy({
@@ -300,6 +303,7 @@ class Chat extends Component {
       );
       this.props.updateChatScreen(screens.CHATTING_SCREEN);
     }
+
     this.props.resetCurrentMessage();
   }
 
@@ -809,7 +813,8 @@ const actionCreators = {
   handleReconnect,
   updateContactDetailsVisibility,
   resetCurrentMessage,
-  sendOfflineMessage
+  sendOfflineMessage,
+  clearDepartment
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);
