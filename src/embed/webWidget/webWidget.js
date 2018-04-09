@@ -30,7 +30,7 @@ import { cappedTimeoutCall,
          getPageKeywords } from 'utility/utils';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
-import { setVisitorInfo } from 'src/redux/modules/chat';
+import { setVisitorInfo, chatNotificationDismissed } from 'src/redux/modules/chat';
 import { resetTalkScreen } from 'src/redux/modules/talk';
 import { getTicketForms,
          getTicketFields } from 'src/redux/modules/submitTicket';
@@ -305,6 +305,19 @@ export default function WebWidgetFactory(name) {
       if (proactive && show) {
         embed.instance.show(options);
         getWebWidgetComponent().showProactiveChat();
+      }
+    });
+
+    mediator.channel.subscribe(prefix + 'webWidget.hideChatNotification', () => {
+      const state = embed.store.getState();
+      const { show, proactive } = getChatNotification(state);
+
+      if (show) {
+        if (isMobileBrowser() && proactive && getActiveEmbed(state) === '') {
+          getWebWidgetComponent().dismissStandaloneChatPopup();
+        } else {
+          embed.store.dispatch(chatNotificationDismissed());
+        }
       }
     });
 

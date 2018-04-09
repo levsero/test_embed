@@ -19,7 +19,6 @@ import {
   CHAT_NOTIFICATION_RESPONDED,
   UPDATE_CHAT_SCREEN,
   NEW_AGENT_MESSAGE_RECEIVED,
-  INCREMENT_NEW_AGENT_MESSAGE_COUNTER,
   CHAT_OPENED,
   CHAT_RATING_COMMENT_REQUEST_SUCCESS,
   CHAT_RATING_COMMENT_REQUEST_FAILURE,
@@ -345,10 +344,6 @@ export function sendAttachments(fileList) {
 
 export function newAgentMessageReceived(chat) {
   return { type: NEW_AGENT_MESSAGE_RECEIVED, payload: chat };
-}
-
-export function incrementNewAgentMessageCounter() {
-  return { type: INCREMENT_NEW_AGENT_MESSAGE_COUNTER };
 }
 
 export function chatOpened() {

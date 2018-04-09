@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import { getAccountSettings,
          newAgentMessageReceived,
-         incrementNewAgentMessageCounter,
          updateLastAgentMessageSeenTimestamp,
          getOperatingHours,
          getIsChatting } from 'src/redux/modules/chat';
@@ -18,6 +17,7 @@ import { getChatMessagesByAgent,
          getChatStatus,
          getChatScreen,
          getLastAgentMessageSeenTimestamp,
+         getIsProactiveSession,
          getUserSoundSettings } from 'src/redux/modules/chat/chat-selectors';
 import { getArticleDisplayed } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getActiveEmbed,
@@ -27,6 +27,27 @@ import { store } from 'service/persistence';
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown');
 let chatAccountSettingsFetched = false;
+let chatNotificationTimeout = null;
+
+const startChatNotificationTimer = ({ proactive }) => {
+  if (chatNotificationTimeout) {
+    clearTimeout(chatNotificationTimeout);
+  }
+
+  const timeout = proactive ? 8000 : 4000;
+
+  chatNotificationTimeout = setTimeout(() => {
+    mediator.channel.broadcast('webWidget.hideChatNotification');
+  }, timeout);
+};
+
+const getNewAgentMessage = (state) => {
+  const agentChats = getChatMessagesByAgent(state);
+  const newAgentMessage = _.last(agentChats);
+  const proactive = getIsProactiveSession(state);
+
+  return { ...newAgentMessage, proactive };
+};
 
 const handleNewAgentMessage = (nextState, dispatch) => {
   const activeEmbed = getActiveEmbed(nextState);
@@ -34,17 +55,13 @@ const handleNewAgentMessage = (nextState, dispatch) => {
   const otherEmbedOpen = widgetShown && activeEmbed !== 'chat';
 
   if (!widgetShown || otherEmbedOpen) {
-    dispatch(incrementNewAgentMessageCounter());
+    const agentMessage = getNewAgentMessage(nextState);
+
+    dispatch(newAgentMessageReceived(agentMessage));
+    startChatNotificationTimer(agentMessage);
 
     if (!widgetShown) {
       mediator.channel.broadcast('newChat.newMessage');
-    }
-
-    if (otherEmbedOpen) {
-      const messages = getChatMessagesByAgent(nextState);
-      const newAgentMessage = messages[messages.length-1];
-
-      dispatch(newAgentMessageReceived(newAgentMessage));
     }
   }
 };
@@ -85,7 +102,7 @@ const hasUnseenAgentMessage = (state) => {
   const timestamp = _.get(store.get('store'), 'lastAgentMessageSeenTimestamp');
 
   if (!timestamp) {
-    return false;
+    return true;
   }
 
   // check if any of the agent messages came after the last stored timestamp
@@ -109,7 +126,7 @@ const storeLastAgentMessageSeen = (state, dispatch) => {
   }
 };
 
-const onNewAgentMessage = (prevState, nextState, dispatch) => {
+const onChatScreenInteraction = (prevState, nextState, dispatch) => {
   // only store the last message seen timestamp if user is chatting on the chat screen
   if (inChattingScreen(nextState)) {
     storeLastAgentMessageSeen(nextState, dispatch);
@@ -155,7 +172,7 @@ const onArticleDisplayed = (prevState, nextState) => {
 export default function onStateChange(prevState, nextState, action, dispatch = () => {}) {
   onChatStatusChange(prevState, nextState);
   onChatConnected(prevState, nextState, dispatch);
-  onNewAgentMessage(prevState, nextState, dispatch);
+  onChatScreenInteraction(prevState, nextState, dispatch);
   onNewChatMessage(prevState, nextState, dispatch);
   onArticleDisplayed(prevState, nextState, dispatch);
   onChatStatus(action, dispatch);

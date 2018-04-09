@@ -38,17 +38,20 @@ describe('chat selectors', () => {
     getOperatingHours,
     getLoginSettings,
     getDepartments,
+    getIsProactiveSession,
     CHATTING_SCREEN,
+    CHAT_MESSAGE_EVENTS,
+    CHAT_SYSTEM_EVENTS,
     EDIT_CONTACT_DETAILS_SCREEN;
 
   beforeEach(() => {
     mockery.enable();
 
     const chatConstantsPath = basePath('src/constants/chat');
-    const CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS;
-    const CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS;
 
+    CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS;
     EDIT_CONTACT_DETAILS_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_SCREEN;
+    CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS;
     CHATTING_SCREEN = 'chatlog';
 
     initMockRegistry({
@@ -109,6 +112,7 @@ describe('chat selectors', () => {
     getShowMenu = selectors.getShowMenu;
     getLoginSettings = selectors.getLoginSettings;
     getDepartments = selectors.getDepartments;
+    getIsProactiveSession = selectors.getIsProactiveSession;
   });
 
   afterEach(() => {
@@ -149,7 +153,8 @@ describe('chat selectors', () => {
       display_name: 'bond',
       msg: 'how are you',
       show: true,
-      playSound: true
+      playSound: true,
+      proactive: true
     };
 
     describe('returns an object', () => {
@@ -173,7 +178,8 @@ describe('chat selectors', () => {
             display_name: 'bond',
             msg: 'how are you',
             show: true,
-            playSound: true
+            playSound: true,
+            proactive: true
           }));
       });
 
@@ -185,72 +191,6 @@ describe('chat selectors', () => {
             msg: 'how are you',
             avatar_path: '/path/'
           }));
-      });
-    });
-
-    describe('when the first message is received from an agent', () => {
-      beforeEach(() => {
-        mockAgents = { 'agent:007': { avatar_path: '/path/' } };
-        mockChats = [{ nick: 'agent:007', type: 'chat.msg', msg: 'how are you' }];
-
-        result = getChatNotification({
-          chat: {
-            notification: mockNotification,
-            agents: mockAgents,
-            chats: { values: () => mockChats }
-          }
-        });
-      });
-
-      it('returns an object with proactive true', () => {
-        expect(result.proactive)
-          .toBe(true);
-      });
-    });
-
-    describe('when more messages are received from the same agent', () => {
-      beforeEach(() => {
-        mockAgents = { 'agent:007': { avatar_path: '/path/' } };
-        mockChats = [
-          { nick: 'agent:007', type: 'chat.msg', msg: 'hi' },
-          { nick: 'agent:007', type: 'chat.msg', msg: 'how are you' }
-        ];
-
-        result = getChatNotification({
-          chat: {
-            notification: mockNotification,
-            agents: mockAgents,
-            chats: { values: () => mockChats }
-          }
-        });
-      });
-
-      it('returns an object with proactive false', () => {
-        expect(result.proactive)
-          .toBe(false);
-      });
-    });
-
-    describe('when more messages are received from a different agent', () => {
-      beforeEach(() => {
-        mockAgents = { 'agent:007': { avatar_path: '/path/' } };
-        mockChats = [
-          { nick: 'agent:other-agent', type: 'chat.msg', msg: 'other agent message' },
-          { nick: 'agent:007', type: 'chat.msg', msg: 'how are you' }
-        ];
-
-        result = getChatNotification({
-          chat: {
-            notification: mockNotification,
-            agents: mockAgents,
-            chats: { values: () => mockChats }
-          }
-        });
-      });
-
-      it('returns an object with proactive true', () => {
-        expect(result.proactive)
-          .toBe(true);
       });
     });
   });
@@ -1573,6 +1513,119 @@ describe('chat selectors', () => {
     it('returns the current state of login', () => {
       expect(result)
         .toBe(login);
+    });
+  });
+
+  describe('getIsProactiveSession', () => {
+    let result;
+    let createSession = (...chats) => {
+      let mockState = { chat: { chats: new Map(chats) } };
+
+      return getIsProactiveSession(mockState);
+    };
+
+    describe('no visitor interaction', () => {
+      describe('only agent messages', () => {
+        beforeEach(() => {
+          result = createSession([1, { nick: 'agent:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }]);
+        });
+
+        it('returns true', () => {
+          expect(result)
+            .toEqual(true);
+        });
+      });
+
+      describe('no agent messages', () => {
+        beforeEach(() => {
+          result = createSession();
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+    });
+
+    describe('has visitor interaction', () => {
+      describe('message chat type', () => {
+        beforeEach(() => {
+          result = createSession([1, { nick: 'visitor:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }]);
+        });
+
+        it('returns false', () => {
+          expect(result)
+            .toEqual(false);
+        });
+      });
+
+      describe('includes member join', () => {
+        describe('followed by visitor message', () => {
+          beforeEach(() => {
+            result = createSession(
+              [1, { nick: 'visitor:007', type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERJOIN }],
+              [2, { nick: 'visitor:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }],
+            );
+          });
+
+          it('returns false', () => {
+            expect(result)
+              .toEqual(false);
+          });
+        });
+
+        describe('followed by agent message', () => {
+          beforeEach(() => {
+            result = createSession(
+              [1, { nick: 'visitor:007', type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERJOIN }],
+              [2, { nick: 'agent:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }],
+            );
+          });
+
+          it('returns true', () => {
+            expect(result)
+              .toEqual(true);
+          });
+        });
+      });
+
+      describe('multiple sessions', () => {
+        describe('agent messages after visitor leaves', () => {
+          beforeEach(() => {
+            result = createSession(
+              [1, { nick: 'visitor:007', type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERJOIN }],
+              [2, { nick: 'visitor:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }],
+              [3, { nick: 'visitor:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }],
+              [4, { nick: 'agent:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }],
+              [5, { nick: 'visitor:007', type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE }],
+              [6, { nick: 'agent:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }],
+            );
+          });
+
+          it('returns true', () => {
+            expect(result)
+              .toEqual(true);
+          });
+        });
+
+        describe('no message after visitor leaves', () => {
+          beforeEach(() => {
+            result = createSession(
+              [1, { nick: 'visitor:007', type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERJOIN }],
+              [2, { nick: 'visitor:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }],
+              [3, { nick: 'visitor:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }],
+              [4, { nick: 'agent:007', type: CHAT_MESSAGE_EVENTS.CHAT_EVENT_MSG }],
+              [5, { nick: 'visitor:007', type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_MEMBERLEAVE }]
+            );
+          });
+
+          it('returns false', () => {
+            expect(result)
+              .toEqual(false);
+          });
+        });
+      });
     });
   });
 });
