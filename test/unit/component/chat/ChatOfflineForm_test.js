@@ -328,7 +328,7 @@ describe('ChatOfflineForm component', () => {
 
       it('returns a the right label for the link', () => {
         expect(link.props.children)
-          .toEqual('Our Operating Hours');
+          .toEqual('embeddable_framework.chat.operatingHours.label.anchor');
       });
     });
 

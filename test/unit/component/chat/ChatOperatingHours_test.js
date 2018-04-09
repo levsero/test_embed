@@ -96,8 +96,8 @@ describe('ChatOperatingHours component', () => {
       });
 
       it('has the right content', () => {
-        expect(title.props.children)
-          .toEqual('embeddable_framework.chat.operatingHours.label.title');
+        expect(title.props.dangerouslySetInnerHTML)
+          .toEqual({ __html: 'embeddable_framework.chat.operatingHours.label.title' });
       });
     });
 
@@ -138,7 +138,7 @@ describe('ChatOperatingHours component', () => {
     });
 
     it('has the right label prop', () => {
-      expect(result.props.label).toEqual('Go Back');
+      expect(result.props.label).toEqual('embeddable_framework.common.button.goBack');
     });
 
     it('has the right onClick prop', () => {
@@ -215,7 +215,7 @@ describe('ChatOperatingHours component', () => {
 
       it('comes up as closed', () => {
         expect(closedDay.props.children)
-          .toEqual('Closed');
+          .toEqual('embeddable_framework.chat.operatingHours.label.closed');
       });
     });
   });

@@ -39,7 +39,7 @@ export class ChatOperatingHours extends Component {
     const { operatingHours } = this.props;
     // This line will need to change when we add departments:
     const hours = operatingHours.account_schedule[index][0];
-    const range = hours ? this.hourRange(hours) : 'Closed';
+    const range = hours ? this.hourRange(hours) : i18n.t('embeddable_framework.chat.operatingHours.label.closed');
 
     return range;
   }
@@ -58,7 +58,7 @@ export class ChatOperatingHours extends Component {
   }
 
   renderBackButton = () => {
-    const backButtonLabel = 'Go Back';
+    const backButtonLabel = i18n.t('embeddable_framework.common.button.goBack');
 
     return(
       <Button
@@ -73,12 +73,12 @@ export class ChatOperatingHours extends Component {
     const { operatingHours } = this.props;
     const title = i18n.t(
       'embeddable_framework.chat.operatingHours.label.title',
-      { timezone: operatingHours.timezone }
+      { timezone: `<span>(${operatingHours.timezone})</span>` }
     );
 
     return (
       <div className={styles.container}>
-        <h4 className={styles.title}>{title}</h4>
+        <h4 className={styles.title} dangerouslySetInnerHTML={{__html: title}} />
         {this.renderDays()}
         {this.renderBackButton()}
       </div>

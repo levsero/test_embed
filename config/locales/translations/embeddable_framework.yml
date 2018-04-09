@@ -42,6 +42,11 @@ parts:
       screenshot: "https://zendesk.box.com/s/t61zjobgsc3i1zjo5l38w6sjsdiaslrp"
       value: "Skip"
   - translation:
+      key: "embeddable_framework.common.button.goBack"
+      title: "A generic navigation label for a button to go back to a previous section"
+      screenshot: "https://drive.google.com/open?id=1L6v2seSK0Rn2v4WOrrwW-rzb0RYEz-Qy"
+      value: "Go Back"
+  - translation:
       key: "embeddable_framework.common.notify.error.generic"
       title: "A message displayed on a styled error element, its purpose is to show a generic error message"
       screenshot: "https://zendesk.box.com/s/3sshpz05wv1fv4fj6wwbmsgbpqqu4c7w"
@@ -279,6 +284,16 @@ parts:
       title: "The label for 'Operating Hours' for a given customer"
       screenshot: "https://drive.google.com/open?id=1VeJPuTOOdlXZG60l5yJZuh3Ag3UJE1yg"
       value: "Operating Hours %(timezone)s"
+  - translation:
+      key: "embeddable_framework.chat.operatingHours.label.anchor"
+      title: "Link anchor text for clicking into the operating hours section"
+      screenshot: "https://drive.google.com/open?id=168W3rF9sZAF6XkV5SQ-9vnKpaSozPVdF"
+      value: "Our Operating Hours"
+  - translation:
+      key: "embeddable_framework.chat.operatingHours.label.closed"
+      title: "What to say when the customer does not open on any given day"
+      screenshot: "https://drive.google.com/open?id=10RZsDXuiEwpiddTlcs5vfldvG7N9XDTa"
+      value: "Closed"
   - translation:
       key: "embeddable_framework.chat.operatingHours.label.monday"
       title: "Day of the week for operating hours: Monday"
@@ -1151,3 +1166,4 @@ parts:
       title: "A link to go back when all agents are offline"
       screenshot: "https://zendesk.box.com/s/jxaz68nditoaugexan0w9lfupdbmvi0s"
       value: "Go back"
+      obsolete: "2018-04-09"
