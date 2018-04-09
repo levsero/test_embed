@@ -24,7 +24,8 @@ import { getChatAvailable,
          getTalkEnabled,
          getShowTicketFormsBackButton } from 'src/redux/modules/selectors';
 import { getArticleViewActive,
-         getSearchFieldFocused } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+         getSearchFieldFocused,
+         getHasSearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getChatNotification, getShowOfflineChat, getIsChatting } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getZopimChatEmbed,
@@ -59,7 +60,8 @@ const mapStateToProps = (state) => {
     showTicketFormsBackButton: getShowTicketFormsBackButton(state),
     chatStandalone: getChatStandalone(state),
     showOfflineChat: getShowOfflineChat(state),
-    isChatting: getIsChatting(state)
+    isChatting: getIsChatting(state),
+    hasSearched: getHasSearched(state)
   };
 };
 
@@ -117,7 +119,8 @@ class WebWidget extends Component {
     chatStandalone: PropTypes.bool.isRequired,
     showOfflineChat: PropTypes.bool.isRequired,
     isChatting: PropTypes.bool.isRequired,
-    onShowMobile: PropTypes.func
+    onShowMobile: PropTypes.func,
+    hasSearched: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -500,7 +503,7 @@ class WebWidget extends Component {
 
   renderChatNotification = () => {
     // For now only display notifications inside Help Center
-    if (this.props.activeEmbed !== helpCenter) return;
+    if (this.props.activeEmbed !== helpCenter || !this.props.hasSearched) return null;
 
     const onNotificatonResponded = () => {
       this.onNextClick(chat);
