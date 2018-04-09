@@ -219,7 +219,12 @@ describe('ChatPrechatForm component', () => {
 
         it('the type attribute', () => {
           expect(field.type)
-            .toBe('number');
+            .toBe('tel');
+        });
+
+        it('with the pattern attribute', () => {
+          expect(field.hasAttribute('pattern'))
+            .toBe(true);
         });
       });
     });
