@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { http } from 'service/transport';
 import { settings } from 'service/settings';
+import { parseUrl } from 'utility/utils';
 import {
   UPDATE_TALK_EMBEDDABLE_CONFIG,
   UPDATE_TALK_AGENT_AVAILABILITY,
@@ -69,13 +70,14 @@ export function updateTalkCallbackForm(formState) {
   };
 }
 
-export function submitTalkCallbackForm(formState, subdomain, serviceUrl, nickname) {
+export function submitTalkCallbackForm(formState, serviceUrl, nickname) {
   return (dispatch, getState) => {
     const formState = getFormState(getState());
     const additionalInfo = _.pickBy({
       name: formState.name,
       description: formState.description
     }, _.identify);
+    const subdomain = parseUrl(serviceUrl).hostname.split('.')[0];
     const params = {
       phoneNumber: formState.phone,
       additionalInfo,

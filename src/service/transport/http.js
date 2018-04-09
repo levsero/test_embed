@@ -149,10 +149,6 @@ function getZendeskHost() {
   return config.zendeskHost;
 }
 
-function getZendeskSubdomain() {
-  return config.zendeskHost.split('.')[0];
-}
-
 function callMeRequest(talkServiceUrl, payload) {
   superagent('POST', `${talkServiceUrl}/talk_embeddables_service/callback_request`)
     .send(payload.params)
@@ -177,6 +173,5 @@ export const http = {
   getImage: getImage,
   get: send,
   getZendeskHost: getZendeskHost,
-  getZendeskSubdomain,
   callMeRequest
 };

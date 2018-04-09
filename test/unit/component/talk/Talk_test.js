@@ -76,7 +76,6 @@ describe('Talk component', () => {
       talk = instanceRender(
         <Talk
           talkConfig={config}
-          zendeskSubdomain='z3npparker'
           submitTalkCallbackForm={submitTalkCallbackFormSpy} />
       );
       form = { clear: jasmine.createSpy('form.clear') };
@@ -97,7 +96,7 @@ describe('Talk component', () => {
           name: 'John',
           email: 'john@john.com',
           description: 'I need help in understanding your products.'
-        }, 'z3npparker', 'https://talk_service.com', 'Support');
+        }, 'https://talk_service.com', 'Support');
     });
   });
 

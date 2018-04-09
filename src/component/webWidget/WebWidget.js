@@ -97,7 +97,6 @@ class WebWidget extends Component {
     closeFrame: PropTypes.func,
     onBackButtonClick: PropTypes.func,
     zendeskHost: PropTypes.string.isRequired,
-    zendeskSubdomain: PropTypes.string.isRequired,
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
     updateAuthenticated: PropTypes.func.isRequired,
@@ -493,7 +492,6 @@ class WebWidget extends Component {
         helpCenterAvailable={this.isHelpCenterAvailable()}
         channelChoiceAvailable={this.isChannelChoiceAvailable()}
         onBackClick={this.onBackClick}
-        zendeskSubdomain={this.props.zendeskSubdomain}
         getFrameDimensions={this.props.getFrameDimensions} />
     );
   }

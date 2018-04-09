@@ -153,7 +153,6 @@ export default function WebWidgetFactory(name) {
       chatConfig,
       rootConfig
     );
-    const zendeskSubdomain = http.getZendeskSubdomain();
 
     if (chatAvailable) {
       setupChat(config.zopimChat, reduxStore, globalConfig.brand);
@@ -229,7 +228,6 @@ export default function WebWidgetFactory(name) {
           talkConfig={talkConfig}
           talkAvailable={talkAvailable}
           zendeskHost={http.getZendeskHost()}
-          zendeskSubdomain={zendeskSubdomain}
           zopimOnNext={zopimOnNext}
           onShowMobile={onShowMobile} />
       </Frame>
