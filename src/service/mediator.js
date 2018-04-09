@@ -21,6 +21,7 @@ const talk = 'talk';
 const state = {};
 
 state[`${launcher}.userHidden`] = false;
+state[`${launcher}.chatHidden`] = false;
 state[`${launcher}.clickActive`] = false;
 state[`${submitTicket}.isVisible`] = false;
 state[`${helpCenter}.isVisible`] = false;
@@ -119,7 +120,7 @@ const show = (_state, options = {}) => {
     }
   } else if (options.showOnLoad && options.isChatting) {
     showEmbed(_state, false);
-  } else if (!_state[`${launcher}.userHidden`]) {
+  } else if (!_state[`${launcher}.userHidden`] && !_state[`${launcher}.chatHidden`]) {
     c.broadcast(`${launcher}.show`, options);
   }
 };
@@ -222,7 +223,8 @@ function init(embedsAccessible, params = {}) {
     state[`${chat}.isOnline`] = true;
 
     if (!submitTicketAvailable() && !helpCenterAvailable() && !talkAvailable() && !state[`${chat}.connectionPending`]) {
-      c.broadcast(`${launcher}.show`, { transition: 'none' });
+      state[`${launcher}.chatHidden`] = false;
+      show(state);
     }
   });
 
@@ -234,7 +236,7 @@ function init(embedsAccessible, params = {}) {
         !helpCenterAvailable() &&
         !talkAvailable()) {
       c.broadcast(`${launcher}.hide`, { transition: 'none' });
-      state[`${launcher}.userHidden`] = true;
+      state[`${launcher}.chatHidden`] = true;
     }
   });
 
@@ -521,7 +523,7 @@ function init(embedsAccessible, params = {}) {
 
       // Fix for when a pro-active message is recieved which opens the zopim window but the launcher
       // was previously hidden with zE.hide()
-      if (!state['.hideOnClose'] && !state[`${launcher}.userHidden`]) {
+      if (!state['.hideOnClose'] && !state[`${launcher}.userHidden`] && !state[`${launcher}.chatHidden`]) {
         setTimeout(
           () => c.broadcast(`${launcher}.show`, { transition: getShowAnimation() }),
           isMobileBrowser() ? 200 : 0
