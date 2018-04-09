@@ -334,7 +334,7 @@ describe('ChatOfflineForm component', () => {
 
     describe('when operating hours are not active', () => {
       beforeAll(() => {
-        mockOperatingHours = {};
+        mockOperatingHours = { enabled: false };
       });
 
       it('returns nothing', () => {

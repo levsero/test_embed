@@ -29,7 +29,7 @@ export class ChatOfflineForm extends Component {
 
   static defaultProps = {
     updateFrameSize: () => {},
-    operatingHours: {},
+    operatingHours: { enabled: false },
     isMobile: false,
     offlineMessage: {}
   };
