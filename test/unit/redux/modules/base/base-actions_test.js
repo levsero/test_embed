@@ -56,25 +56,42 @@ describe('base redux actions', () => {
       actionList;
 
     describe('when the new active embed is chat', () => {
-      beforeEach(() => {
-        embed = 'chat';
-        mockStore.dispatch(actions.updateActiveEmbed(embed));
-        actionList = mockStore.getActions();
+      describe('widget is shown', () => {
+        beforeEach(() => {
+          embed = 'chat';
+          mockStore = createMockStore({ base: { widgetShown: true } });
+          mockStore.dispatch(actions.updateActiveEmbed(embed));
+          actionList = mockStore.getActions();
+        });
+
+        it('dispatches an action of type CHAT_OPENED', () => {
+          expect(actionList[0].type)
+            .toEqual(chatActionTypes.CHAT_OPENED);
+        });
+
+        it('dispatches an action of type UPDATE_ACTIVE_EMBED', () => {
+          expect(actionList[1].type)
+            .toEqual(actionTypes.UPDATE_ACTIVE_EMBED);
+        });
+
+        it('has the embed in the payload', () => {
+          expect(actionList[1].payload)
+            .toEqual(embed);
+        });
       });
 
-      it('dispatches an action of type CHAT_OPENED', () => {
-        expect(actionList[0].type)
-          .toEqual(chatActionTypes.CHAT_OPENED);
-      });
+      describe('widget is not shown', () => {
+        beforeEach(() => {
+          embed = 'chat';
+          mockStore = createMockStore({ base: { widgetShown: false } });
+          mockStore.dispatch(actions.updateActiveEmbed(embed));
+          actionList = mockStore.getActions();
+        });
 
-      it('dispatches an action of type UPDATE_ACTIVE_EMBED', () => {
-        expect(actionList[1].type)
-          .toEqual(actionTypes.UPDATE_ACTIVE_EMBED);
-      });
-
-      it('has the embed in the payload', () => {
-        expect(actionList[1].payload)
-          .toEqual(embed);
+        it('dispatches an action of type UPDATE_ACTIVE_EMBED', () => {
+          expect(actionList[0].type)
+            .toEqual(actionTypes.UPDATE_ACTIVE_EMBED);
+        });
       });
     });
 
