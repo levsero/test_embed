@@ -1,6 +1,6 @@
 import { SDK_DEPARTMENT_UPDATE } from '../chat-action-types';
 
-const initialState = [];
+const initialState = {};
 
 const departments = (state = initialState, action) => {
   const { type, payload } = action;
