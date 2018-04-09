@@ -372,7 +372,8 @@ export default function WebWidgetFactory(name) {
     mediator.channel.subscribe(prefix + 'zopimChat.setUser', (user) => {
       waitForRootComponent(() => {
         if (embed.embedsAvailable.chat) {
-          const { name, email } = user;
+          // Fallback to empty string because Chat SDK doesn't accept "undefined"
+          const { name = '', email = '' } = user;
 
           embed.store.dispatch(setVisitorInfo({ display_name: name, email })); // eslint-disable-line camelcase
         }
