@@ -370,7 +370,7 @@ export function setDepartment(departmentId, successCallback, errCallback) {
   };
 }
 
-export function clearDepartment(successCallback) {
+export function clearDepartment(successCallback = () => {}) {
   return () => {
     zChat.clearVisitorDefaultDepartment(() => {
       successCallback();
