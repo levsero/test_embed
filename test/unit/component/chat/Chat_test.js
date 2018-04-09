@@ -472,6 +472,23 @@ describe('Chat component', () => {
       });
     });
 
+    describe('when the form data has null or undefined values', () => {
+      beforeAll(() => {
+        formInfo = {
+          display_name: 'name',
+          email: undefined,
+          phone: null
+        };
+      });
+
+      it('omits those values from the setVisitorInfo call', () => {
+        const visitorInfo = _.omit(formInfo, ['email', 'phone']);
+
+        expect(setVisitorInfoSpy)
+          .toHaveBeenCalledWith(visitorInfo);
+      });
+    });
+
     describe('when department is specified', () => {
       describe('when department is online', () => {
         beforeAll(() => {
