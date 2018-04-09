@@ -17,9 +17,9 @@ describe('chat reducer: operatingHours', () => {
     let state;
 
     describe('initial state', () => {
-      it('is set to null', () => {
+      it('is set to to an object with an enabled: false property', () => {
         expect(initialState)
-          .toBeNull();
+          .toEqual({ enabled: false });
       });
     });
 
