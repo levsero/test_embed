@@ -2,7 +2,7 @@ import { SDK_CHAT_MEMBER_JOIN, SDK_VISITOR_UPDATE, SET_VISITOR_INFO_REQUEST_SUCC
 
 const initialState = {};
 
-const isAgent = (nick) => nick.startsWith('agent:');
+const isAgent = (nick) => nick.indexOf('agent:') > -1;
 
 const visitor = (state = initialState, action = {}) => {
   const { type, payload } = action;
