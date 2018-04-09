@@ -111,7 +111,7 @@ class Talk extends Component {
     if (helpCenterAvailable) {
       return i18n.t('embeddable_framework.talk.offline.link.help_center');
     } else if (channelChoiceAvailable) {
-      return i18n.t('embeddable_framework.talk.offline.link.channel_choice');
+      return i18n.t('embeddable_framework.common.button.goBack');
     }
 
     return '';

@@ -6,6 +6,10 @@
 
 .title {
   font-size: #{13/$font-size}rem;
+
+  span {
+    font-weight: normal;
+  }
 }
 
 .dayList {

@@ -123,7 +123,7 @@ export class ChatOfflineForm extends Component {
 
     if (!operatingHours.enabled) return;
 
-    const operatingHoursAnchor = 'Our Operating Hours';
+    const operatingHoursAnchor = i18n.t('embeddable_framework.chat.operatingHours.label.anchor');
 
     return (
       <p className={styles.operatingHoursContainer}>
