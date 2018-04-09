@@ -104,13 +104,15 @@ export class ChatPrechatForm extends Component {
 
   renderPhoneField = () => {
     const phoneData = this.props.form.phone;
+    const phonePattern = '[0-9]+'; // taken from Chat SDK
 
     return !phoneData.hidden
          ? <Field
             label={i18n.t('embeddable_framework.common.textLabel.phone_number')}
             required={phoneData.required}
-            type='number'
+            type={'tel'}
             value={this.props.formState.phone}
+            pattern={phonePattern}
             name={phoneData.name} />
          : null;
   }
