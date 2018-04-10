@@ -5,7 +5,7 @@
 }
 
 .ongoingNotificationDesktop {
-  bottom: #{80/$font-size}rem !important;
+  bottom: #{50/$font-size}rem !important;
 }
 
 .ongoingNotificationMobile {
@@ -18,7 +18,7 @@
 
 .notificationContainerMobile {
   border-radius: 0;
-  width: 100%;
+  margin-bottom: 0;
 }
 
 .agentContainer {

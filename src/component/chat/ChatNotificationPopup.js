@@ -73,7 +73,7 @@ export class ChatNotificationPopup extends Component {
       [styles.ongoingNotificationMobile]: !proactive && isMobile
     });
     const containerClassName = classNames(
-      { [styles.notificationContainerMobile]: !proactive && isMobile }
+      { [styles.notificationContainerMobile]: proactive && isMobile }
     );
 
     return (

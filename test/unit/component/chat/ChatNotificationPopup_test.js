@@ -67,6 +67,22 @@ describe('ChatNotificationPopup component', () => {
         expect(chatNotification.props.className)
           .toContain('ongoingNotificationCtaClasses');
       });
+
+      describe('when isMobile is true', () => {
+        beforeEach(() => {
+          chatNotification = shallowRender(
+            <ChatNotificationPopup
+              isMobile={true}
+              notification={mockNotification}
+              chatNotificationDismissed={noop} />
+          );
+        });
+
+        it('passes the expected container class name to ChatPopup', () => {
+          expect(chatNotification.props.containerClassName)
+            .toEqual('notificationContainerMobile');
+        });
+      });
     });
 
     describe('when notification.proactive is false', () => {
@@ -93,11 +109,6 @@ describe('ChatNotificationPopup component', () => {
               notification={mockNotification}
               chatNotificationDismissed={noop} />
           );
-        });
-
-        it('passes the expected container class name to ChatPopup', () => {
-          expect(chatNotification.props.containerClassName)
-            .toEqual('notificationContainerMobile');
         });
 
         it('applies the ongoingNotificationMobile class', () => {

@@ -1557,7 +1557,7 @@ describe('WebWidget component', () => {
 
       it('calls props.setFixedFrameStyles with correct styles', () => {
         expect(setFixedFrameStylesSpy)
-          .toHaveBeenCalledWith({ height: '25%', background: 'transparent' });
+          .toHaveBeenCalledWith({ height: '33%', background: 'transparent' });
       });
     });
 
