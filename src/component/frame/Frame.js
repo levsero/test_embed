@@ -295,7 +295,7 @@ export class Frame extends Component {
     }
   }
 
-  close = (e, options = {}) => {
+  close = (e = {}, options = {}) => {
     if (this.props.preventClose) return;
 
     // e.touches added for automation testing mobile browsers

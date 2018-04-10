@@ -317,11 +317,6 @@ class WebWidget extends Component {
     }
   }
 
-  onCloseClick = () => {
-    this.props.updateActiveEmbed('');
-    this.props.onCancel();
-  }
-
   onBackClick = () => {
     const rootComponent = this.getRootComponent();
     const { activeEmbed, updateBackButtonVisibility, updateActiveEmbed, resetActiveArticle } = this.props;
@@ -521,7 +516,7 @@ class WebWidget extends Component {
 
   dismissStandaloneChatPopup = () => {
     this.props.setFixedFrameStyles();
-    this.onCloseClick();
+    this.props.closeFrame();
     this.props.chatNotificationDismissed();
   }
 

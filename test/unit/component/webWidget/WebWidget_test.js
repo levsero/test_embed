@@ -316,17 +316,20 @@ describe('WebWidget component', () => {
     describe('when ChatNotificationDismiss respond prop is called', () => {
       let chatNotificationDismissedSpy,
         setFixedFrameStylesSpy,
+        closeFrameSpy,
         onShowMobileSpy;
 
       beforeEach(() => {
         chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed');
         setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
+        closeFrameSpy = jasmine.createSpy('closeFrame');
         onShowMobileSpy = jasmine.createSpy('onShowMobile');
         webWidget = domRender(
           <WebWidget
             chatNotification={mockChatNotification}
             chatNotificationDismissed={chatNotificationDismissedSpy}
             setFixedFrameStyles={setFixedFrameStylesSpy}
+            closeFrame={closeFrameSpy}
             onShowMobile={onShowMobileSpy} />
         );
 
@@ -334,7 +337,6 @@ describe('WebWidget component', () => {
         container = result.props.children;
         chatPopup = container.props.children;
 
-        spyOn(webWidget, 'onCloseClick');
         chatPopup.props.chatNotificationDismissed();
       });
 
@@ -343,8 +345,8 @@ describe('WebWidget component', () => {
           .toHaveBeenCalledWith();
       });
 
-      it('calls props.onCloseClick', () => {
-        expect(webWidget.onCloseClick)
+      it('calls props.closeFrame', () => {
+        expect(closeFrameSpy)
           .toHaveBeenCalled();
       });
 
@@ -694,32 +696,6 @@ describe('WebWidget component', () => {
         expect(updateBackButtonVisibilitySpy)
           .toHaveBeenCalledWith(true);
       });
-    });
-  });
-
-  describe('onCloseClick', () => {
-    let webWidget, updateActiveEmbedSpy, onCancelSpy;
-
-    beforeEach(() => {
-      updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed');
-      onCancelSpy = jasmine.createSpy('onCancel');
-
-      webWidget = instanceRender(
-        <WebWidget
-          updateActiveEmbed={updateActiveEmbedSpy}
-          onCancel={onCancelSpy} />
-      );
-      webWidget.onCloseClick();
-    });
-
-    it('calls props.updateActiveEmbed with empty string', () => {
-      expect(updateActiveEmbedSpy)
-        .toHaveBeenCalledWith('');
-    });
-
-    it('calls props.onCancel', () => {
-      expect(onCancelSpy)
-        .toHaveBeenCalled();
     });
   });
 
