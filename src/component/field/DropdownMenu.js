@@ -108,6 +108,7 @@ export class DropdownMenu extends Component {
           name={option.name}
           key={option.name}
           onClick={option.onClick}
+          disabled={option.disabled}
           fullscreen={this.props.fullscreen}
           nestedMenu={option.nestedMenu}
           nameFormat={this.props.optionFormat}

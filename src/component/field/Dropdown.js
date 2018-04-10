@@ -234,6 +234,7 @@ export class Dropdown extends Component {
 
             return {
               name: option.name,
+              disabled: option.disabled,
               onClick: this.setValue(option.value, option.name),
               value: option.value,
               id: _.uniqueId('option-')

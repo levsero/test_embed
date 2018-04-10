@@ -4,10 +4,12 @@ import _ from 'lodash';
 
 import { locals as styles } from './DropdownOption.scss';
 import { i18n } from 'service/i18n';
+import classNames from 'classnames';
 
 export class DropdownOption extends Component {
   static propTypes = {
     backButton: PropTypes.bool,
+    disabled: PropTypes.bool,
     fullscreen: PropTypes.bool,
     name: PropTypes.string,
     nestedMenu: PropTypes.object,
@@ -23,7 +25,8 @@ export class DropdownOption extends Component {
     name: '',
     onClick: () => {},
     updateScreen: () => {},
-    nameFormat: _.identity
+    nameFormat: _.identity,
+    disabled: false
   }
 
   constructor (props) {
@@ -40,7 +43,9 @@ export class DropdownOption extends Component {
     if (this.props.nestedMenu !== null) {
       this.props.updateMenu(this.props.nestedMenu, fromKeyboard);
     } else {
-      this.props.onClick(fromKeyboard);
+      if (!this.props.disabled) {
+        this.props.onClick(fromKeyboard);
+      }
     }
   }
 
@@ -85,8 +90,15 @@ export class DropdownOption extends Component {
   }
 
   render = () => {
-    const focusedClasses = this.state.focused ? styles.fieldFocused : '';
     const borderClasses = this.props.backButton ? styles.fieldBorder : '';
+    const fieldClasses = classNames(
+      styles.field,
+      {
+        [styles.fieldFocused]: this.state.focused,
+        [styles.disabled]: this.props.disabled,
+        [styles.enabled]: !this.props.disabled
+      }
+    );
 
     return (
       <div
@@ -94,7 +106,7 @@ export class DropdownOption extends Component {
         className={borderClasses}
         key={this.props.name}
         onClick={this.handleDropdownOpen}>
-        <div className={`${styles.field} ${focusedClasses}`}>
+        <div className={fieldClasses} disabled={this.props.disabled}>
           {this.renderBackArrow()}
           <div className={styles.name}>
             {this.renderName()}

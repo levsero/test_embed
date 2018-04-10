@@ -437,7 +437,7 @@ describe('dropdown component', () => {
 
       it('should return them in the correct format', () => {
         expect(_.keys(filteredItems[0]))
-          .toEqual(['name', 'onClick', 'value', 'id']);
+          .toEqual(['name', 'disabled', 'onClick', 'value', 'id']);
       });
     });
 
