@@ -677,7 +677,7 @@ describe('chat redux actions', () => {
 
           it('does not broadcast to mediator', () => {
             expect(broadcastSpy)
-              .not.toHaveBeenCalledWith('.show');
+              .not.toHaveBeenCalledWith('newChat.offlineFormOn');
           });
         });
 
@@ -689,7 +689,7 @@ describe('chat redux actions', () => {
 
           it('broadcasts show to mediator', () => {
             expect(broadcastSpy)
-              .toHaveBeenCalledWith('.show');
+              .toHaveBeenCalledWith('newChat.offlineFormOn');
           });
         });
       });

@@ -252,7 +252,7 @@ export function getAccountSettings() {
     }
 
     if (!accountSettings.chat_button.hide_when_offline && getChatStandalone(getState()) && !getChatOnline(getState())) {
-      mediator.channel.broadcast('.show');
+      mediator.channel.broadcast('newChat.offlineFormOn');
     }
 
     dispatch({

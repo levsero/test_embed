@@ -1345,6 +1345,19 @@ describe('mediator', () => {
         });
       });
 
+      describe('offlineFormOn', () => {
+        beforeEach(() => {
+          mediator.init({ submitTicket: false, helpCenter: false, chat: true }, { hideLauncher: false });
+          c.broadcast('newChat.online');
+          c.broadcast('newChat.offlineFormOn');
+        });
+
+        it('broadcasts launcher.show even when chat is offline', () => {
+          expect(launcherSub.show.calls.count())
+            .toBe(1);
+        });
+      });
+
       describe('isChatting', () => {
         beforeEach(() => {
           mediator.init({ submitTicket: false, helpCenter: false, chat: true }, { hideLauncher: false });
