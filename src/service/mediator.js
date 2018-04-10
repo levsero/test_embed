@@ -228,6 +228,11 @@ function init(embedsAccessible, params = {}) {
     }
   });
 
+  c.intercept('newChat.offlineFormOn', () => {
+    state[`${launcher}.chatHidden`] = false;
+    show(state);
+  });
+
   c.intercept('newChat.offline', (_, hideLauncher) => {
     state[`${chat}.isOnline`] = false;
 
