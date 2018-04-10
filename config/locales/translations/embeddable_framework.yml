@@ -601,12 +601,12 @@ parts:
       key: "embeddable_framework.chat.button.oneMessage"
       title: "A button that displays a new message notification. When clicked it brings the user to a chat session in another window"
       screenshot: "https://zendesk.box.com/s/634qfi899tj7f2akkpvlq9pzbvveflyp"
-      value: "1 New message"
+      value: "1 New Message"
   - translation:
       key: "embeddable_framework.chat.button.manyMessages"
       title: "A button that displays a variable amount of new messages as a notification. When clicked it brings the user to a chat session in another window. If your language has more than one plural use New messages: %(plural_number)s"
       screenshot: "https://zendesk.box.com/s/6ygpe29dvmecfxtrdki787km6yywl3ff"
-      value: "%(plural_number)s New messages"
+      value: "%(plural_number)s New Messages"
   - translation:
       key: "embeddable_framework.chat.chatBox.placeholder.typeMessageHere"
       title: "A placeholder text that is displayed in the chat box when there is no content"
