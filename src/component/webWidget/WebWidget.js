@@ -219,7 +219,7 @@ class WebWidget extends Component {
     // chat notification popup.
     if (this.props.fullscreen) {
       const frameStyle = {
-        height: '25%',
+        height: '33%',
         background: 'transparent'
       };
 
@@ -540,7 +540,7 @@ class WebWidget extends Component {
 
     return (
       <div style={style} data-embed={mobileChatPopup}>
-        <Container style={containerStyle}>
+        <Container style={containerStyle} fullscreen={true}>
           <ChatNotificationPopup
             isMobile={true}
             notification={chatNotification}
