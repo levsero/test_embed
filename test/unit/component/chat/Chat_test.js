@@ -417,6 +417,7 @@ describe('Chat component', () => {
       setDepartmentSpy,
       formInfo,
       sendOfflineMessageSpy,
+      clearDepartmentSpy,
       mockDepartments;
 
     beforeEach(() => {
@@ -424,6 +425,7 @@ describe('Chat component', () => {
       sendMsgSpy = jasmine.createSpy('sendMsg');
       setDepartmentSpy = jasmine.createSpy('setDepartment');
       sendOfflineMessageSpy = jasmine.createSpy('sendOfflineMessage');
+      clearDepartmentSpy = jasmine.createSpy('clearDepartment');
       component = instanceRender(
         <Chat
           postChatFormSettings={{ header: 'foo' }}
@@ -433,7 +435,8 @@ describe('Chat component', () => {
           updateChatScreen={updateChatScreenSpy}
           resetCurrentMessage={resetCurrentMessageSpy}
           departments={mockDepartments}
-          sendOfflineMessage={sendOfflineMessageSpy} />
+          sendOfflineMessage={sendOfflineMessageSpy}
+          clearDepartment={clearDepartmentSpy} />
       );
 
       component.onPrechatFormComplete(formInfo);
@@ -525,6 +528,31 @@ describe('Chat component', () => {
           expect(updateChatScreenSpy)
             .toHaveBeenCalledWith(chattingScreen);
         });
+
+        describe('when there is a message to send', () => {
+          beforeAll(() => {
+            formInfo.message = 'Bend the knee m8.';
+          });
+
+          it('sends an online message', () => {
+            setDepartmentSpy.calls.mostRecent().args[1]();
+            expect(sendMsgSpy)
+              .toHaveBeenCalledWith('Bend the knee m8.');
+          });
+        });
+
+        describe('when there is no message to send', () => {
+          beforeAll(() => {
+            formInfo.message = null;
+          });
+
+          it('does not send online message', () => {
+            setDepartmentSpy.calls.mostRecent().args[1]();
+            expect(sendMsgSpy)
+              .not
+              .toHaveBeenCalled();
+          });
+        });
       });
 
       describe('when department is offline', () => {
@@ -569,6 +597,11 @@ describe('Chat component', () => {
         mockDepartments = null;
       });
 
+      it('calls clearDepartment with the correct arguments', () => {
+        expect(clearDepartmentSpy)
+          .toHaveBeenCalledWith(jasmine.any(Function));
+      });
+
       it('should call setVisitorInfo with the correct arguments', () => {
         expect(setVisitorInfoSpy)
           .toHaveBeenCalledWith({
@@ -578,12 +611,18 @@ describe('Chat component', () => {
           });
       });
 
+      it('calls updateChatScreen with the CHATTING_SCREEN', () => {
+        expect(updateChatScreenSpy)
+          .toHaveBeenCalledWith(chattingScreen);
+      });
+
       describe('when there is a message to send', () => {
         beforeAll(() => {
           formInfo.message = 'Bend the knee m8.';
         });
 
         it('sends an online message', () => {
+          clearDepartmentSpy.calls.mostRecent().args[0]();
           expect(sendMsgSpy)
             .toHaveBeenCalledWith('Bend the knee m8.');
         });
@@ -595,6 +634,7 @@ describe('Chat component', () => {
         });
 
         it('does not send online message', () => {
+          clearDepartmentSpy.calls.mostRecent().args[0]();
           expect(sendMsgSpy)
             .not
             .toHaveBeenCalled();

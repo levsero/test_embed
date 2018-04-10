@@ -20,6 +20,7 @@ let actions,
   mockSendFile = jasmine.createSpy('sendFile'),
   mockSendEmailTranscript = jasmine.createSpy('sendEmailTranscript'),
   mockSetVisitorDefaultDepartment = jasmine.createSpy('setVisitorDefaultDepartment'),
+  mockClearVisitorDefaultDepartment = jasmine.createSpy('mockClearVisitorDefaultDepartment'),
   mockSendOfflineMsg = jasmine.createSpy('sendOfflineMsg'),
   mockReconnect = jasmine.createSpy('reconnect'),
   showRatingScreen = false,
@@ -61,6 +62,7 @@ describe('chat redux actions', () => {
         sendFile: mockSendFile,
         sendEmailTranscript: mockSendEmailTranscript,
         setVisitorDefaultDepartment: mockSetVisitorDefaultDepartment,
+        clearVisitorDefaultDepartment: mockClearVisitorDefaultDepartment,
         isChatting: () => true,
         sendOfflineMsg: mockSendOfflineMsg,
         reconnect: mockReconnect,
@@ -1066,6 +1068,38 @@ describe('chat redux actions', () => {
             .not
             .toHaveBeenCalled();
         });
+      });
+    });
+  });
+
+  describe('clearDepartment', () => {
+    const successCallbackSpy = jasmine.createSpy('successCallbackSpy');
+
+    beforeEach(() => {
+      mockStore.dispatch(
+        actions.clearDepartment(successCallbackSpy)
+      );
+    });
+
+    it('calls clearVisitorDefaultDepartment on the Web SDK', () => {
+      expect(mockClearVisitorDefaultDepartment)
+        .toHaveBeenCalled();
+    });
+
+    describe('Web SDK callback', () => {
+      let callbackFn;
+
+      beforeEach(() => {
+        const clearVisitorDefaultDepartmentCalls = mockClearVisitorDefaultDepartment.calls.mostRecent().args;
+
+        callbackFn = clearVisitorDefaultDepartmentCalls[0];
+
+        callbackFn();
+      });
+
+      it('calls success callback', () => {
+        expect(successCallbackSpy)
+          .toHaveBeenCalled();
       });
     });
   });
