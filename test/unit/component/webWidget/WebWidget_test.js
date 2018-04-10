@@ -8,6 +8,7 @@ describe('WebWidget component', () => {
   const webWidgetPath = buildSrcPath('component/webWidget/WebWidget');
 
   const ChatOffline = connectedComponent(noopReactComponent());
+  const ChatNotificationPopup = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
@@ -79,9 +80,7 @@ describe('WebWidget component', () => {
       'component/channelChoice/ChannelChoice': {
         ChannelChoice: noopReactComponent()
       },
-      'component/chat/ChatNotificationPopup': {
-        ChatNotificationPopup: noopReactComponent()
-      },
+      'component/chat/ChatNotificationPopup': { ChatNotificationPopup },
       'src/redux/modules/base': {
         updateActiveEmbed: noop,
         updateEmbedAccessible: noop,
@@ -153,9 +152,9 @@ describe('WebWidget component', () => {
         .toBeFalsy();
     });
 
-    it('renders the chatPopup component', () => {
+    it('does not render the chatPopup component', () => {
       expect(webWidget.renderChatNotification())
-        .toBeTruthy();
+        .toBeFalsy();
     });
 
     describe('when component is set to submitTicket', () => {
@@ -450,13 +449,119 @@ describe('WebWidget component', () => {
   });
 
   describe('renderChatNotification', () => {
-    let result;
+    let result,
+      chatNotification,
+      chatNotificationRespondSpy,
+      chatNotificationDismissedSpy;
+
+    describe('when props.chatNotificationRespond is called', () => {
+      beforeEach(() => {
+        chatNotificationRespondSpy = jasmine.createSpy('chatNotificationRespond');
+
+        result = instanceRender(
+          <WebWidget
+            activeEmbed='helpCenterForm'
+            hasSearched={true}
+            chatNotificationRespond={chatNotificationRespondSpy} />
+        );
+
+        spyOn(result, 'onNextClick');
+
+        const chatNotification = result.renderChatNotification();
+
+        chatNotification.props.chatNotificationRespond();
+      });
+
+      it('calls onNextClick with chat', () => {
+        expect(result.onNextClick)
+          .toHaveBeenCalledWith('chat');
+      });
+
+      it('calls chatNotificationRespond', () => {
+        expect(chatNotificationRespondSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when props.chatNotificationDismissed is called', () => {
+      beforeEach(() => {
+        chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed');
+
+        result = instanceRender(
+          <WebWidget
+            activeEmbed='helpCenterForm'
+            hasSearched={true}
+            chatNotificationDismissed={chatNotificationDismissedSpy} />
+        );
+
+        const chatNotification = result.renderChatNotification();
+
+        chatNotification.props.chatNotificationDismissed();
+      });
+
+      it('calls chatNotificationDismissed', () => {
+        expect(chatNotificationDismissedSpy)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when activeEmbed is not helpCenter', () => {
+      beforeEach(() => {
+        const result = instanceRender(
+          <WebWidget
+            activeEmbed='chat'
+            hasSearched={true} />
+        );
+
+        chatNotification = result.renderChatNotification();
+      });
+
+      it('does not render the ChatNotificationPopup component', () => {
+        expect(chatNotification)
+          .toEqual(null);
+      });
+    });
+
+    describe('when helpCenter has not been previously used for search', () => {
+      beforeEach(() => {
+        const result = instanceRender(
+          <WebWidget
+            activeEmbed='helpCenterForm'
+            hasSearched={false} />
+        );
+
+        chatNotification = result.renderChatNotification();
+      });
+
+      it('does not render the ChatNotificationPopup component', () => {
+        expect(chatNotification)
+          .toEqual(null);
+      });
+    });
+
+    describe('when the activeEmbed is helpCenter and it has previously searched', () => {
+      beforeEach(() => {
+        const result = instanceRender(
+          <WebWidget
+            activeEmbed='helpCenterForm'
+            hasSearched={true} />
+        );
+
+        chatNotification = result.renderChatNotification();
+      });
+
+      it('renders the ChatNotificationPopup component', () => {
+        expect(TestUtils.isElementOfType(chatNotification, ChatNotificationPopup))
+          .toEqual(true);
+      });
+    });
 
     describe('when props.fullscreen and props.helpCenterSearchFocused are true', () => {
       beforeEach(() => {
         const webWidget = instanceRender(
           <WebWidget
             activeEmbed='helpCenterForm'
+            hasSearched={true}
             fullscreen={true}
             helpCenterSearchFocused={true}
           />
@@ -476,6 +581,7 @@ describe('WebWidget component', () => {
         const webWidget = instanceRender(
           <WebWidget
             activeEmbed='helpCenterForm'
+            hasSearched={true}
             fullscreen={false}
             helpCenterSearchFocused={true}
           />
@@ -495,6 +601,7 @@ describe('WebWidget component', () => {
         const webWidget = instanceRender(
           <WebWidget
             activeEmbed='helpCenterForm'
+            hasSearched={true}
             fullscreen={true}
             helpCenterSearchFocused={false}
           />
