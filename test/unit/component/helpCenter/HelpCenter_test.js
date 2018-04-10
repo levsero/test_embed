@@ -78,6 +78,9 @@ describe('HelpCenter component', () => {
       },
       'src/redux/modules/helpCenter/helpCenter-selectors': {},
       'src/redux/modules/talk/talk-selectors': {},
+      'src/redux/modules/chat/chat-selectors': {
+        getNotificationCount: () => 0
+      },
       'src/redux/modules/selectors': {},
       'service/i18n': {
         i18n: {
@@ -125,15 +128,43 @@ describe('HelpCenter component', () => {
 
     describe('when channelchoice is off', () => {
       describe('when chat is online', () => {
-        beforeEach(() => {
-          instanceRender(
-            <HelpCenter chatAvailable={true} buttonLabelKey={buttonLabelKey} channelChoice={false} />
-          );
+        describe('no notifications', () => {
+          beforeEach(() => {
+            instanceRender(
+              <HelpCenter chatAvailable={true} buttonLabelKey={buttonLabelKey} channelChoice={false} />
+            );
+          });
+
+          it('uses the chat label for the button', () => {
+            expect(mockRegistry['service/i18n'].i18n.t)
+              .toHaveBeenCalledWith('embeddable_framework.common.button.chat');
+          });
         });
 
-        it('uses the chat label for the button', () => {
-          expect(mockRegistry['service/i18n'].i18n.t)
-            .toHaveBeenCalledWith('embeddable_framework.common.button.chat');
+        describe('1 notification', () => {
+          beforeEach(() => {
+            instanceRender(
+              <HelpCenter chatNotificationCount={1} chatAvailable={true} buttonLabelKey={buttonLabelKey} channelChoice={false} />
+            );
+          });
+
+          it('uses the chat notification label for the button', () => {
+            expect(mockRegistry['service/i18n'].i18n.t)
+              .toHaveBeenCalledWith('embeddable_framework.chat.button.oneMessage');
+          });
+        });
+
+        describe('more than 1 notification', () => {
+          beforeEach(() => {
+            instanceRender(
+              <HelpCenter chatNotificationCount={3} chatAvailable={true} buttonLabelKey={buttonLabelKey} channelChoice={false} />
+            );
+          });
+
+          it('uses the chat notification label for the button', () => {
+            expect(mockRegistry['service/i18n'].i18n.t)
+              .toHaveBeenCalledWith('embeddable_framework.chat.button.manyMessages', { plural_number: 3 });
+          });
         });
       });
 
