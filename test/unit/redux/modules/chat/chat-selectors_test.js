@@ -65,6 +65,9 @@ describe('chat selectors', () => {
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: (state) => state.base.embed
+      },
+      'service/i18n': {
+        i18n: { t: _.identity }
       }
     });
 
@@ -197,20 +200,18 @@ describe('chat selectors', () => {
 
   describe('getPrechatFormFields', () => {
     let result;
-    const getDepartments = (setValueProperty) => ([
+    const mockDepartments = [
       {
         name: 'Design',
         status: 'online',
-        id: 12345,
-        value: setValueProperty ? 12345 : undefined
+        id: 12345
       },
       {
         name: 'Engineering',
         status: 'online',
-        id: 56789,
-        value: setValueProperty ? 56789 : undefined
+        id: 56789
       }
-    ]);
+    ];
     const mockAccountSettings = {
       prechatForm: {
         form: {
@@ -218,20 +219,36 @@ describe('chat selectors', () => {
           1: { name: 'email', required: true },
           2: { name: 'phone', label: 'Phone Number', required: false }
         }
+      },
+      offlineForm: {
+        enabled: false
       }
     };
     const expectedResult = {
       name: { name: 'name', required: true },
       email: { name: 'email', required: true },
       phone: { name: 'phone', label: 'Phone Number', required: false },
-      departments: getDepartments(true)
+      departments: [
+        {
+          name: 'Design',
+          status: 'online',
+          id: 12345,
+          value: 12345
+        },
+        {
+          name: 'Engineering',
+          status: 'online',
+          id: 56789,
+          value: 56789
+        }
+      ]
     };
 
     beforeEach(() => {
       result = getPrechatFormFields({
         chat: {
           accountSettings: mockAccountSettings,
-          departments: getDepartments(false)
+          departments: mockDepartments
         }
       });
     });
@@ -239,6 +256,56 @@ describe('chat selectors', () => {
     it('returns prechat fields grouped by their name', () => {
       expect(result)
         .toEqual(expectedResult);
+    });
+
+    describe('when a department is offline', () => {
+      beforeEach(() => {
+        mockDepartments[1].status = 'offline';
+      });
+
+      describe('when offline form is off', () => {
+        beforeEach(() => {
+          result = getPrechatFormFields({
+            chat: {
+              accountSettings: mockAccountSettings,
+              departments: mockDepartments
+            }
+          });
+        });
+
+        it('changes the department name to the offline label', () => {
+          expect(result.departments[1].name)
+            .toEqual('embeddable_framework.chat.department.offline.label');
+        });
+
+        it('disables the field', () => {
+          expect(result.departments[1].disabled)
+            .toEqual(true);
+        });
+      });
+
+      describe('when offline form is on', () => {
+        beforeEach(() => {
+          mockAccountSettings.offlineForm.enabled = true;
+
+          result = getPrechatFormFields({
+            chat: {
+              accountSettings: mockAccountSettings,
+              departments: mockDepartments
+            }
+          });
+        });
+
+        it('changes the department name to the offline label', () => {
+          expect(result.departments[1].name)
+            .toEqual('embeddable_framework.chat.department.offline.label');
+        });
+
+        it('does not disable the field', () => {
+          expect(result.departments[1].disabled)
+            .toBeFalsy();
+        });
+      });
     });
   });
 
