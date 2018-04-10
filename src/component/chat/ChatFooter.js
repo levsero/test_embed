@@ -17,7 +17,7 @@ export class ChatFooter extends Component {
     sendChat: PropTypes.func,
     handleAttachmentDrop: PropTypes.func,
     isChatting: PropTypes.bool,
-    menuIconActive: PropTypes.bool,
+    menuVisible: PropTypes.bool,
     toggleMenu: PropTypes.func,
     attachmentsEnabled: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool.isRequired
@@ -28,7 +28,7 @@ export class ChatFooter extends Component {
     sendChat: () => {},
     handleAttachmentDrop: () => {},
     isChatting: false,
-    menuIconActive: false,
+    menuVisible: false,
     toggleMenu: () => {}
   }
 
@@ -82,13 +82,14 @@ export class ChatFooter extends Component {
   renderMenuOption = () => {
     const menuClasses = classNames(
       styles.iconMenu,
-      { [styles.iconActive]: this.props.menuIconActive }
+      { [styles.iconActive]: this.props.menuVisible }
     );
 
     return (
       <IconButton
         type={ICONS.ELLIPSIS}
         buttonClassName={menuClasses}
+        disableTooltip={this.props.menuVisible}
         altText={i18n.t('embeddable_framework.chat.icon.menu.hover.label')}
         onClick={this.handleMenuClick} />
     );
