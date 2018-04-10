@@ -55,7 +55,6 @@ class Talk extends Component {
     updateTalkCallbackForm: PropTypes.func.isRequired,
     submitTalkCallbackForm: PropTypes.func.isRequired,
     talkConfig: PropTypes.object.isRequired,
-    zendeskSubdomain: PropTypes.string.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
     helpCenterAvailable: PropTypes.bool,
@@ -85,7 +84,7 @@ class Talk extends Component {
   handleFormCompleted = (formState) => {
     const { serviceUrl, nickname } = this.props.talkConfig;
 
-    this.props.submitTalkCallbackForm(formState, this.props.zendeskSubdomain, serviceUrl, nickname);
+    this.props.submitTalkCallbackForm(formState, serviceUrl, nickname);
   }
 
   handleFormChange = (formState) => {

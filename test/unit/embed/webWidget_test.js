@@ -18,7 +18,6 @@ describe('embed.webWidget', () => {
     targetCancelHandlerSpy,
     resetTalkScreenSpy,
     mockIsIE,
-    mockZendeskSubdomain,
     mockActiveEmbed,
     mockStoreDispatch,
     mockStore,
@@ -45,7 +44,6 @@ describe('embed.webWidget', () => {
     mockTicketFormsValue = [],
     mockFiltersValue = [],
     mockAttachmentsEnabledValue = true,
-    mockZendeskSubdomain = 'customerfoo';
     mockAuthenticateValue = null;
     mockActiveEmbed = '';
     socketioConnectSpy = jasmine.createSpy('socketio.connect').and.returnValue('socket');
@@ -88,8 +86,7 @@ describe('embed.webWidget', () => {
           getImage: jasmine.createSpy('http.getImage'),
           getZendeskHost: () => {
             return 'zendesk.host';
-          },
-          getZendeskSubdomain: () => mockZendeskSubdomain
+          }
         },
         socketio: {
           connect: socketioConnectSpy,

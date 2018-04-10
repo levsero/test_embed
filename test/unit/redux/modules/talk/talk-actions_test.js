@@ -35,6 +35,11 @@ describe('talk redux actions', () => {
       },
       'src/redux/modules/base': {
         updateBackButtonVisibility: () => { return { type: updateBackButtonVisibilityType }; }
+      },
+      'utility/utils': {
+        parseUrl: () => {
+          return { hostname: 'customer.zendesk.com' };
+        }
       }
     });
 
@@ -247,8 +252,7 @@ describe('talk redux actions', () => {
   });
 
   describe('submitTalkCallbackForm', () => {
-    let subdomain,
-      serviceUrl,
+    let serviceUrl,
       nickname;
 
     beforeEach(() => {
@@ -260,11 +264,10 @@ describe('talk redux actions', () => {
       };
       serviceUrl = 'https://talk_service.com';
       nickname = 'Support';
-      subdomain = 'z3npparker';
       mockStore = createMockStore({
         talk: { formState }
       });
-      mockStore.dispatch(actions.submitTalkCallbackForm(formState, subdomain, serviceUrl, nickname));
+      mockStore.dispatch(actions.submitTalkCallbackForm(formState, serviceUrl, nickname));
       action = mockStore.getActions()[0];
     });
 
@@ -276,7 +279,7 @@ describe('talk redux actions', () => {
             name: 'Johnny',
             description: 'Please help me.'
           },
-          subdomain: 'z3npparker',
+          subdomain: 'customer',
           keyword: 'Support'
         },
         callbacks: { done: jasmine.any(Function), fail: jasmine.any(Function) }
@@ -305,7 +308,7 @@ describe('talk redux actions', () => {
       beforeEach(() => {
         mockSettings = 'Sales';
 
-        mockStore.dispatch(actions.submitTalkCallbackForm(formState, subdomain, serviceUrl, nickname));
+        mockStore.dispatch(actions.submitTalkCallbackForm(formState, serviceUrl, nickname));
       });
 
       it('overrides the nickname with the one from settings and passes it as `keyword`', () => {
