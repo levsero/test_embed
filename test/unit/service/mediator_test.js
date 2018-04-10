@@ -1413,6 +1413,22 @@ describe('mediator', () => {
           expect(launcherSub.show.calls.count())
             .toEqual(1);
         });
+
+        describe('when userHidden is true', () => {
+          beforeEach(() => {
+            mediator.init({ submitTicket: false, helpCenter: false, chat: true }, { hideLauncher: false });
+            c.broadcast('newChat.connected');
+            c.broadcast('.hide');
+
+            reset(launcherSub.show);
+            c.broadcast('newChat.online');
+          });
+
+          it('does not broadcast launcher.show', () => {
+            expect(launcherSub.show.calls.count())
+              .toEqual(0);
+          });
+        });
       });
 
       describe('offline', () => {
