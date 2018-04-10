@@ -47,7 +47,8 @@ import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import {
   getChatVisitor,
   getShowRatingScreen,
-  getIsChatting as getIsChattingState } from 'src/redux/modules/chat/chat-selectors';
+  getIsChatting as getIsChattingState,
+  getChatOnline } from 'src/redux/modules/chat/chat-selectors';
 import { CHAT_MESSAGE_TYPES } from 'src/constants/chat';
 import { getChatStandalone } from 'src/redux/modules/base/base-selectors';
 import { mediator } from 'service/mediator';
@@ -250,7 +251,7 @@ export function getAccountSettings() {
       dispatch(updateChatScreen(PRECHAT_SCREEN));
     }
 
-    if (!accountSettings.chat_button.hide_when_offline && getChatStandalone(getState())) {
+    if (!accountSettings.chat_button.hide_when_offline && getChatStandalone(getState()) && !getChatOnline(getState())) {
       mediator.channel.broadcast('.show');
     }
 

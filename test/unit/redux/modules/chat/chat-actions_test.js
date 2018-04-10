@@ -10,6 +10,7 @@ let actions,
   mockOperatingHours,
   mockIsChatting,
   mockChatStandalone,
+  mockChatOnline,
   mockSendChatMsg = jasmine.createSpy('sendChatMsg'),
   mockSendTyping = jasmine.createSpy('sendTyping'),
   mockSetVisitorInfo = jasmine.createSpy('mockSetVisitorInfo'),
@@ -72,7 +73,8 @@ describe('chat redux actions', () => {
       'src/redux/modules/chat/chat-selectors': {
         getChatVisitor: () => mockVisitor,
         getShowRatingScreen: getShowRatingScreenSpy,
-        getIsChatting: getIsChattingSpy
+        getIsChatting: getIsChattingSpy,
+        getChatOnline: () => mockChatOnline
       },
       'src/constants/chat': {
         CHAT_MESSAGE_TYPES
@@ -665,12 +667,30 @@ describe('chat redux actions', () => {
       describe('when chat is standalone', () => {
         beforeEach(() => {
           mockChatStandalone = true;
-          mockStore.dispatch(actions.getAccountSettings());
         });
 
-        it('broadcasts show to mediator', () => {
-          expect(broadcastSpy)
-            .toHaveBeenCalledWith('.show');
+        describe('when chat is online', () => {
+          beforeEach(() => {
+            mockChatOnline = true;
+            mockStore.dispatch(actions.getAccountSettings());
+          });
+
+          it('does not broadcast to mediator', () => {
+            expect(broadcastSpy)
+              .not.toHaveBeenCalledWith('.show');
+          });
+        });
+
+        describe('when chat is offline', () => {
+          beforeEach(() => {
+            mockChatOnline = false;
+            mockStore.dispatch(actions.getAccountSettings());
+          });
+
+          it('broadcasts show to mediator', () => {
+            expect(broadcastSpy)
+              .toHaveBeenCalledWith('.show');
+          });
         });
       });
     });
