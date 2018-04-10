@@ -17,9 +17,12 @@ describe('onStateChange middleware', () => {
   const broadcastSpy = jasmine.createSpy('broadcast');
   const updateLastAgentMessageSeenTimestampSpy = jasmine.createSpy('updateLastAgentMessageSeenTimestamp');
   const path = buildSrcPath('redux/middleware/onStateChange');
+  let initialTimestamp = 80;
 
-  beforeAll(() => {
+  beforeEach(() => {
     mockery.enable();
+    jasmine.clock().install();
+    jasmine.clock().mockDate(new Date(initialTimestamp));
 
     mockUserSoundSetting = false;
     mockActiveEmbed = '';
@@ -97,7 +100,11 @@ describe('onStateChange middleware', () => {
     stateChangeFn = requireUncached(path).default;
   });
 
-  afterAll(() => {
+  afterEach(() => {
+    jasmine.clock().uninstall();
+  });
+
+  afterEach(() => {
     mockery.disable();
     mockery.deregisterAll();
   });
@@ -185,11 +192,20 @@ describe('onStateChange middleware', () => {
       const nextState = [{ nick: 'agent', timestamp: 30 }, { nick: 'agent', timestamp: 60 }, { nick: 'agent:007', msg: 'latest', timestamp: 70 }];
       const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough();
 
+      beforeEach(() => {
+        broadcastSpy.calls.reset();
+        newAgentMessageReceivedSpy.calls.reset();
+        audioPlaySpy.calls.reset();
+      });
+
+      afterEach(() => {
+        initialTimestamp = 80;
+      });
+
       describe('when there are no new messages', () => {
         describe('when audio settings are on', () => {
           beforeEach(() => {
             mockUserSoundSetting = true;
-            broadcastSpy.calls.reset();
 
             stateChangeFn(prevState, prevState);
           });
@@ -216,7 +232,6 @@ describe('onStateChange middleware', () => {
           beforeEach(() => {
             mockStoreValue = { lastAgentMessageSeenTimestamp: 80 };
             mockUserSoundSetting = true;
-            broadcastSpy.calls.reset();
 
             stateChangeFn(prevState, nextState, {}, dispatchSpy);
           });
@@ -258,26 +273,79 @@ describe('onStateChange middleware', () => {
           describe('when audio settings are on', () => {
             beforeEach(() => {
               mockUserSoundSetting = true;
-
-              stateChangeFn(prevState, nextState, {}, dispatchSpy);
             });
 
-            it('calls sound', () => {
-              expect(audioPlaySpy)
-                .toHaveBeenCalled();
+            describe('messages are recent', () => {
+              beforeAll(() => {
+                initialTimestamp = 60;
+              });
+
+              beforeEach(() => {
+                stateChangeFn(prevState, nextState, {}, dispatchSpy);
+              });
+
+              it('calls sound', () => {
+                expect(audioPlaySpy)
+                  .toHaveBeenCalled();
+              });
+            });
+
+            describe('messages are not recent', () => {
+              beforeEach(() => {
+                stateChangeFn(prevState, nextState, {}, dispatchSpy);
+              });
+
+              it('does not call sound', () => {
+                expect(audioPlaySpy)
+                  .not.toHaveBeenCalled();
+              });
             });
           });
 
           describe('when the embed is not shown', () => {
             beforeEach(() => {
               mockWidgetShown = false;
-
-              stateChangeFn(prevState, nextState, {}, dispatchSpy);
             });
 
-            it('calls mediator with newChat.newMessage', () => {
-              expect(broadcastSpy)
-                .toHaveBeenCalledWith('newChat.newMessage');
+            describe('messages are recent', () => {
+              beforeAll(() => {
+                initialTimestamp = 60;
+              });
+
+              describe('is proactive session', () => {
+                beforeEach(() => {
+                  mockIsProactiveSession = true;
+                  stateChangeFn(prevState, nextState, {}, dispatchSpy);
+                });
+
+                it('calls mediator with newChat.newMessage', () => {
+                  expect(broadcastSpy)
+                    .toHaveBeenCalledWith('newChat.newMessage');
+                });
+              });
+
+              describe('is not proactive session', () => {
+                beforeEach(() => {
+                  mockIsProactiveSession = false;
+                  stateChangeFn(prevState, nextState, {}, dispatchSpy);
+                });
+
+                it('does not call mediator with newChat.newMessage', () => {
+                  expect(broadcastSpy)
+                    .not.toHaveBeenCalled();
+                });
+              });
+            });
+
+            describe('messages are not recent', () => {
+              beforeEach(() => {
+                stateChangeFn(prevState, nextState, {}, dispatchSpy);
+              });
+
+              it('calls mediator with newChat.newMessage', () => {
+                expect(broadcastSpy)
+                  .not.toHaveBeenCalledWith('newChat.newMessage');
+              });
             });
           });
 
@@ -285,7 +353,6 @@ describe('onStateChange middleware', () => {
             beforeEach(() => {
               mockWidgetShown = true;
               mockActiveEmbed = 'helpCenterForm';
-              broadcastSpy.calls.reset();
 
               stateChangeFn(prevState, nextState, {}, dispatchSpy);
             });
@@ -305,7 +372,6 @@ describe('onStateChange middleware', () => {
             beforeEach(() => {
               mockWidgetShown = true;
               mockActiveEmbed = 'chat';
-              newAgentMessageReceivedSpy.calls.reset();
 
               stateChangeFn(prevState, nextState, {}, dispatchSpy);
             });
@@ -399,6 +465,7 @@ describe('onStateChange middleware', () => {
           beforeEach(() => {
             mockStoreValue = { activeEmbed: 'helpCenter' };
             stateChangeFn = requireUncached(path).default;
+            updateActiveEmbedSpy.calls.reset();
 
             stateChangeFn(null, null, action, dispatchSpy);
           });
@@ -444,6 +511,7 @@ describe('onStateChange middleware', () => {
             type: 'something_else'
           };
 
+          broadcastSpy.calls.reset();
           stateChangeFn(null, null, action, dispatchSpy);
         });
 

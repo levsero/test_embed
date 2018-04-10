@@ -26,6 +26,7 @@ import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { store } from 'service/persistence';
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown');
+const createdAtTimestamp = Date.now();
 let chatAccountSettingsFetched = false;
 let chatNotificationTimeout = null;
 
@@ -49,6 +50,10 @@ const getNewAgentMessage = (state) => {
   return { ...newAgentMessage, proactive };
 };
 
+const isRecentMessage = (agentMessage) => {
+  return agentMessage.timestamp && (agentMessage.timestamp > createdAtTimestamp);
+};
+
 const handleNewAgentMessage = (nextState, dispatch) => {
   const activeEmbed = getActiveEmbed(nextState);
   const widgetShown = getWidgetShown(nextState);
@@ -56,11 +61,16 @@ const handleNewAgentMessage = (nextState, dispatch) => {
 
   if (!widgetShown || otherEmbedOpen) {
     const agentMessage = getNewAgentMessage(nextState);
+    const recentMessage = isRecentMessage(agentMessage);
+
+    if (recentMessage && getUserSoundSettings(nextState)) {
+      audio.play('incoming_message');
+    }
 
     dispatch(newAgentMessageReceived(agentMessage));
     startChatNotificationTimer(agentMessage);
 
-    if (!widgetShown) {
+    if (!widgetShown && recentMessage && agentMessage.proactive) {
       mediator.channel.broadcast('newChat.newMessage');
     }
   }
@@ -139,10 +149,6 @@ const onNewChatMessage = (prevState, nextState, dispatch) => {
   const newAgentMessage = next.length > prev.length;
 
   if (newAgentMessage && hasUnseenAgentMessage(nextState)) {
-    if (getUserSoundSettings(nextState)) {
-      audio.play('incoming_message');
-    }
-
     handleNewAgentMessage(nextState, dispatch);
   }
 };

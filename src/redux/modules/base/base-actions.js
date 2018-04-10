@@ -12,8 +12,10 @@ import { emailValid } from 'utility/utils';
 import _ from 'lodash';
 
 export const updateActiveEmbed = (embedName) => {
-  return (dispatch) => {
-    if (embedName === 'chat') {
+  return (dispatch, getState) => {
+    const widgetShown = getState().base.widgetShown;
+
+    if (widgetShown && embedName === 'chat') {
       dispatch(chatOpened());
     }
 
