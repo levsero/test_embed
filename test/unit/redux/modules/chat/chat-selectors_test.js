@@ -40,10 +40,12 @@ describe('chat selectors', () => {
     getDepartments,
     getIsProactiveSession,
     getStandaloneMobileNotificationVisible,
+    getAgentsTyping,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
-    EDIT_CONTACT_DETAILS_SCREEN;
+    EDIT_CONTACT_DETAILS_SCREEN,
+    AGENT_BOT;
 
   beforeEach(() => {
     mockery.enable();
@@ -53,13 +55,15 @@ describe('chat selectors', () => {
     CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS;
     EDIT_CONTACT_DETAILS_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_SCREEN;
     CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS;
+    AGENT_BOT = requireUncached(chatConstantsPath).AGENT_BOT;
     CHATTING_SCREEN = 'chatlog';
 
     initMockRegistry({
       'constants/chat': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS,
-        EDIT_CONTACT_DETAILS_SCREEN
+        EDIT_CONTACT_DETAILS_SCREEN,
+        AGENT_BOT
       },
       './chat-screen-types': {
         CHATTING_SCREEN
@@ -118,6 +122,7 @@ describe('chat selectors', () => {
     getDepartments = selectors.getDepartments;
     getIsProactiveSession = selectors.getIsProactiveSession;
     getStandaloneMobileNotificationVisible = selectors.getStandaloneMobileNotificationVisible;
+    getAgentsTyping = selectors.getAgentsTyping;
   });
 
   afterEach(() => {
@@ -1712,6 +1717,74 @@ describe('chat selectors', () => {
               .toEqual(false);
           });
         });
+      });
+    });
+  });
+
+  describe('getAgentsTyping', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      result = getAgentsTyping(mockState);
+    });
+
+    describe('when the state does not contain any entries', () => {
+      beforeAll(() => {
+        mockState = {
+          chat: {
+            agents: {}
+          }
+        };
+      });
+
+      it('returns an empty array', () => {
+        expect(result)
+          .toEqual([]);
+      });
+    });
+
+    describe('when the state contains agents that are typing', () => {
+      beforeAll(() => {
+        mockState = {
+          chat: {
+            agents: {
+              'agent:123': { nick: 'agent:123', typing: true },
+              'agent:456': { nick: 'agent:456', typing: true },
+              'agent:789': { nick: 'agent:789', typing: false }
+            }
+          }
+        };
+      });
+
+      it('returns a collection of the typing agents', () => {
+        const expected = [
+          { nick: 'agent:123', typing: true },
+          { nick: 'agent:456', typing: true }
+        ];
+
+        expect(result)
+          .toEqual(expected);
+      });
+    });
+
+    describe('when the state contains a message entry from a bot', () => {
+      beforeAll(() => {
+        mockState = {
+          chat: {
+            agents: {
+              'agent:456': { nick: 'agent:456', typing: true },
+              'agent:trigger': { nick: 'agent:trigger', typing: true }
+            }
+          }
+        };
+      });
+
+      it('returns a collection containing only human agents', () => {
+        const expected = [{ nick: 'agent:456', typing: true }];
+
+        expect(result)
+          .toEqual(expected);
       });
     });
   });

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { createSelector } from 'reselect';
-import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
+import { AGENT_BOT, CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
 import { CHATTING_SCREEN } from './chat-screen-types';
 
 import { i18n } from 'service/i18n';
@@ -19,6 +19,9 @@ const getNotification = (state) => state.chat.notification;
 const getThemeMessageType = (state) => state.chat.accountSettings.theme.message_type;
 
 export const getAgents = (state) => state.chat.agents;
+export const getAgentsTyping = (state) => {
+  return _.filter(state.chat.agents, (agent, key) => agent.typing && key !== AGENT_BOT);
+};
 export const getConciergeSettings = (state) => state.chat.accountSettings.concierge;
 export const getConnection = (state) => state.chat.connection;
 export const getCurrentMessage = (state) => state.chat.currentMessage;

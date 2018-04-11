@@ -54,6 +54,7 @@ import { getPrechatFormFields,
          getPrechatFormSettings,
          getIsChatting,
          getAgents,
+         getAgentsTyping,
          getChatMessages,
          getChatEvents,
          getGroupedChatLog,
@@ -79,7 +80,7 @@ import { getPrechatFormFields,
          getOfflineMessage } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './Chat.scss';
 import { chatNameDefault } from 'src/util/utils';
-import { AGENT_BOT, CONNECTION_STATUSES, DEPARTMENT_STATUSES } from 'constants/chat';
+import { CONNECTION_STATUSES, DEPARTMENT_STATUSES } from 'constants/chat';
 
 const mapStateToProps = (state) => {
   const prechatForm = getPrechatFormSettings(state);
@@ -98,6 +99,7 @@ const mapStateToProps = (state) => {
     postChatFormSettings: getPostchatFormSettings(state),
     isChatting: getIsChatting(state),
     agents: getAgents(state),
+    agentsTyping: getAgentsTyping(state),
     rating: getChatRating(state),
     visitor: getChatVisitor(state),
     userSoundSettings: getUserSoundSettings(state),
@@ -146,6 +148,7 @@ class Chat extends Component {
     updateChatScreen: PropTypes.func.isRequired,
     isChatting: PropTypes.bool.isRequired,
     agents: PropTypes.object.isRequired,
+    agentsTyping: PropTypes.array.isRequired,
     visitor: PropTypes.object.isRequired,
     rating: PropTypes.object.isRequired,
     handleSoundIconClick: PropTypes.func.isRequired,
@@ -187,6 +190,7 @@ class Chat extends Component {
     rating: {},
     chats: [],
     events: [],
+    agentsTyping: [],
     chatLog: {},
     lastAgentLeaveEvent: {},
     preChatFormSettings: {},
@@ -227,7 +231,7 @@ class Chat extends Component {
 
   componentDidMount() {
     const { screen, chats, events } = this.props;
-    const hasMessages = chats.length + events.length > 0;
+    const hasMessages = (chats.length + events.length) > 0;
 
     if (screen === screens.CHATTING_SCREEN && hasMessages) {
       this.scrollToBottom();
@@ -237,12 +241,12 @@ class Chat extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const { chats, events, screen } = this.props;
+    const { agentsTyping, chats, events, screen } = this.props;
 
     if (!nextProps.chats && !nextProps.events) return;
 
-    const chatLogLength = chats.length + events.length;
-    const nextChatLogLength = nextProps.chats.length + nextProps.events.length;
+    const chatLogLength = chats.length + events.length + agentsTyping.length;
+    const nextChatLogLength = nextProps.chats.length + nextProps.events.length + nextProps.agentsTyping.length;
     const nextScreen = nextProps.screen;
     const reRenderChatLog = screen !== nextScreen || chatLogLength !== nextChatLogLength;
 
@@ -482,8 +486,6 @@ class Chat extends Component {
     );
   }
 
-  getTypingAgents = () => _.filter(this.props.agents, (agent, key) => agent.typing && key !== AGENT_BOT);
-
   renderAgentTyping = (typingAgents = []) => {
     let typingNotification;
 
@@ -516,7 +518,7 @@ class Chat extends Component {
   }
 
   renderChatScreen = () => {
-    const { screen, isMobile, sendMsg, loginSettings, visitor, hideZendeskLogo } = this.props;
+    const { screen, isMobile, sendMsg, loginSettings, visitor, hideZendeskLogo, agentsTyping } = this.props;
 
     if (screen !== screens.CHATTING_SCREEN) return;
 
@@ -547,7 +549,6 @@ class Chat extends Component {
 
     const visitorNameSet = visitor.display_name && !chatNameDefault(visitor.display_name);
     const emailSet = !!visitor.email;
-    const typingAgents = this.getTypingAgents();
 
     return (
       <ScrollContainer
@@ -574,11 +575,11 @@ class Chat extends Component {
             updateInfoOnClick={this.showContactDetailsFn}
           />
           {this.renderQueuePosition()}
-          {this.renderAgentTyping(typingAgents)}
+          {this.renderAgentTyping(agentsTyping)}
           {
-            (!isMobile || !typingAgents.length)
-            ? this.renderZendeskLogo(logoClasses)
-            : null
+            (!isMobile || !agentsTyping.length)
+              ? this.renderZendeskLogo(logoClasses)
+              : null
           }
         </div>
       </ScrollContainer>
