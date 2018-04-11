@@ -93,7 +93,6 @@ describe('ChatMenu component', () => {
       component,
       children,
       disabled,
-      extras,
       onClickSpy;
     const getItemClassesResult = 'getItemClassesResult';
 
@@ -103,13 +102,8 @@ describe('ChatMenu component', () => {
       onClickSpy = jasmine.createSpy('onClick');
       children = <div id='child-element'></div>;
       disabled = true;
-      extras = {
-        classNames: 'extraClass',
-        props: {}
-      };
-
       spyOn(component, 'getItemClasses').and.returnValue(getItemClassesResult);
-      result = component.renderButton(onClickSpy, children, disabled, extras);
+      result = component.renderButton(onClickSpy, children, disabled);
     });
 
     it('returns a button element', () => {
@@ -134,7 +128,7 @@ describe('ChatMenu component', () => {
 
     it('applies the result of getItemClasses to the className prop', () => {
       expect(component.getItemClasses)
-        .toHaveBeenCalledWith(disabled, extras.classNames);
+        .toHaveBeenCalledWith(disabled);
 
       expect(result.props.className)
         .toEqual(getItemClassesResult);
@@ -238,19 +232,29 @@ describe('ChatMenu component', () => {
       result = component.renderSoundButton();
     });
 
+    it('returns a button element', () => {
+      expect(TestUtils.isElementOfType(result, 'button'))
+        .toEqual(true);
+    });
+
+    it('sets onClick on the returned element to handleSoundClick', () => {
+      expect(result.props.onClick)
+        .toEqual(component.handleSoundClick);
+    });
+
     describe('when playSound is true', () => {
       beforeAll(() => {
         playSound = true;
       });
 
-      it('calls renderButton with the correct arguments', () => {
+      it('renders the correct children within the button', () => {
         expectedChildren = [
           'embeddable_framework.chat.options.sound',
           <Icon key='icon' className='soundIconClass' type='Icon--sound-on' />
         ];
 
-        expect(component.renderButton)
-          .toHaveBeenCalledWith(component.handleSoundClick, expectedChildren, false, jasmine.any(Object));
+        expect(result.props.children)
+          .toEqual(expectedChildren);
       });
     });
 
@@ -259,20 +263,15 @@ describe('ChatMenu component', () => {
         playSound = false;
       });
 
-      it('calls renderButton with the correct arguments', () => {
+      it('renders the correct children within the button', () => {
         expectedChildren = [
           'embeddable_framework.chat.options.sound',
           <Icon key='icon' className='soundIconClass' type='Icon--sound-off' />
         ];
 
-        expect(component.renderButton)
-          .toHaveBeenCalledWith(component.handleSoundClick, expectedChildren, false, jasmine.any(Object));
+        expect(result.props.children)
+          .toEqual(expectedChildren);
       });
-    });
-
-    it('returns the result of the renderButton call', () => {
-      expect(result)
-        .toEqual(renderButtonResult);
     });
   });
 

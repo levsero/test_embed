@@ -73,12 +73,11 @@ export class ChatMenu extends Component {
     e.stopPropagation();
   }
 
-  renderButton = (onClick, children, disabled = false, extras = {}) => {
-    const classes = this.getItemClasses(disabled, extras.classNames);
-    const extraProps = extras.props || {};
+  renderButton = (onClick, children, disabled = false) => {
+    const classes = this.getItemClasses(disabled);
 
     return (
-      <button className={classes} onClick={onClick} {...extraProps} disabled={disabled}>
+      <button className={classes} onClick={onClick} disabled={disabled}>
         {children}
       </button>
     );
@@ -86,31 +85,34 @@ export class ChatMenu extends Component {
 
   renderDivider = () => <div className={styles.itemLine} />;
 
-  getItemClasses = (disabled = false, extraClasses = {}) => (
+  getItemClasses = (disabled = false) => (
     classNames(
       this.props.isMobile ? styles.itemMobile : styles.item,
-      {
-        [styles.disabled]: disabled,
-        ...extraClasses
-      }
+      { [styles.disabled]: disabled }
     )
   );
 
   renderSoundButton = () => {
     const iconType = this.props.playSound ? 'Icon--sound-on' : 'Icon--sound-off';
-    const buttonExtras = {
-      classNames: { [styles.soundButtonReset]: this.state.soundButtonClicked && !this.state.soundButtonHovered },
-      props: {
-        onMouseOut: this.handleSoundMouseOut,
-        onMouseOver: this.handleSoundMouseOver
-      }
-    };
+    const classes = classNames(
+      { [styles.soundButtonReset]: this.state.soundButtonClicked && !this.state.soundButtonHovered }
+    );
     const children = [
       i18n.t('embeddable_framework.chat.options.sound'),
       <Icon key='icon' className={styles.soundIcon} type={iconType} />
     ];
 
-    return this.renderButton(this.handleSoundClick, children, false, buttonExtras);
+    return (
+      <button
+        className={`${this.getItemClasses()} ${classes}`}
+        onClick={this.handleSoundClick}
+        onMouseOver={this.handleSoundMouseOver}
+        onMouseOut={this.handleSoundMouseOut}
+        onFocus={this.handleSoundMouseOver}
+        onBlur={this.handleSoundMouseOut}>
+        {children}
+      </button>
+    );
   }
 
   renderEmailTranscriptButton = () => {
