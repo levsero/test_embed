@@ -270,6 +270,11 @@ parts:
       screenshot: "https://drive.google.com/open?id=13axYwVNISVpj0eb5_r5EnbtXu-Wzo20m"
       value: "Select department"
   - translation:
+      key: "embeddable_framework.chat.department.offline.label"
+      title: "An indicator that a department is offline. The department name will be in the %()s. Do not localize %(department)s"
+      screenshot: "https://drive.google.com/file/d/1qazdqaOHEwBOWr8-StlyYAAx141MJE8e"
+      value: "%(department)s (offline)"
+  - translation:
       key: "embeddable_framework.chat.preChat.offline.button.sendMessage"
       title: "A submit button in the pre-chat form that becomes available once the user has filled in chat details"
       screenshot: "https://zendesk.box.com/s/o5wnlsojizy84zf6b5cnn0ho0x2tj41y"
