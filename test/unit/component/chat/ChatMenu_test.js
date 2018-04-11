@@ -14,6 +14,7 @@ describe('ChatMenu component', () => {
           item: 'itemClass',
           container: 'containerClass',
           containerMobile: 'containerMobileClass',
+          soundButtonReset: 'soundButtonReset',
           soundIcon: 'soundIconClass',
           itemLine: 'itemLineClass',
           disabled: 'disabledClass'
@@ -101,7 +102,6 @@ describe('ChatMenu component', () => {
       onClickSpy = jasmine.createSpy('onClick');
       children = <div id='child-element'></div>;
       disabled = true;
-
       spyOn(component, 'getItemClasses').and.returnValue(getItemClassesResult);
       result = component.renderButton(onClickSpy, children, disabled);
     });
@@ -232,19 +232,29 @@ describe('ChatMenu component', () => {
       result = component.renderSoundButton();
     });
 
+    it('returns a button element', () => {
+      expect(TestUtils.isElementOfType(result, 'button'))
+        .toEqual(true);
+    });
+
+    it('sets onClick on the returned element to handleSoundClick', () => {
+      expect(result.props.onClick)
+        .toEqual(component.handleSoundClick);
+    });
+
     describe('when playSound is true', () => {
       beforeAll(() => {
         playSound = true;
       });
 
-      it('calls renderButton with the correct arguments', () => {
+      it('renders the correct children within the button', () => {
         expectedChildren = [
           'embeddable_framework.chat.options.sound',
           <Icon key='icon' className='soundIconClass' type='Icon--sound-on' />
         ];
 
-        expect(component.renderButton)
-          .toHaveBeenCalledWith(component.handleSoundClick, expectedChildren);
+        expect(result.props.children)
+          .toEqual(expectedChildren);
       });
     });
 
@@ -253,20 +263,15 @@ describe('ChatMenu component', () => {
         playSound = false;
       });
 
-      it('calls renderButton with the correct arguments', () => {
+      it('renders the correct children within the button', () => {
         expectedChildren = [
           'embeddable_framework.chat.options.sound',
           <Icon key='icon' className='soundIconClass' type='Icon--sound-off' />
         ];
 
-        expect(component.renderButton)
-          .toHaveBeenCalledWith(component.handleSoundClick, expectedChildren);
+        expect(result.props.children)
+          .toEqual(expectedChildren);
       });
-    });
-
-    it('returns the result of the renderButton call', () => {
-      expect(result)
-        .toEqual(renderButtonResult);
     });
   });
 
