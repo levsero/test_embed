@@ -2,6 +2,7 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import onStateChange from 'redux-on-state-change';
 import createLogger from 'redux-logger';
+import reduxCatch from 'redux-catch';
 
 import { store } from 'service/persistence';
 import { getEnvironment } from 'src/util/utils';
@@ -22,6 +23,7 @@ export default function(storeName = 'web_widget') {
     collapsed: true,
     titleFormatter: loggerTitleFormatter(storeName)
   });
+  const reduxCatchLogger = reduxCatch((err) => console.error(err)); // eslint-disable-line no-console
   const devToolsExtension = window.parent.__REDUX_DEVTOOLS_EXTENSION__
     && window.parent.__REDUX_DEVTOOLS_EXTENSION__({ name: storeName });
   const middlewares = [
@@ -34,8 +36,8 @@ export default function(storeName = 'web_widget') {
 
   if (enableLogging) {
     storeEnhancers = devToolsExtension
-      ? [applyMiddleware(...middlewares), devToolsExtension]
-      : [applyMiddleware(...middlewares, logger)];
+      ? [applyMiddleware(...middlewares, reduxCatchLogger), devToolsExtension]
+      : [applyMiddleware(...middlewares, reduxCatchLogger, logger)];
   } else {
     storeEnhancers = [applyMiddleware(...middlewares)];
   }

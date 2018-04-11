@@ -15,7 +15,6 @@
 
 .loadingContainer {
   padding: #{18/$font-size}rem;
-  width: #{279/$font-size}rem;
 }
 
 .resultScreen {
@@ -71,8 +70,4 @@
 
 .loadingSpinner {
   composes: u-textCenter from global;
-}
-
-.loadingSpinnerIE {
-  composes: u-paddingBXL u-paddingRXL from global;
 }

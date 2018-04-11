@@ -20,10 +20,6 @@
   }
 }
 
-.containerIE {
-  composes: u-paddingBXL from global;
-}
-
 .containerActionable {
   composes: u-isActionable from global;
 }
