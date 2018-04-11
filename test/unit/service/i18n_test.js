@@ -62,7 +62,8 @@ describe('i18n', () => {
           'pt-BR',
           'no',
           'fil',
-          'he'
+          'he',
+          'zh-tw'
         ]
       },
       'translation/ze_localeIdMap': {
@@ -73,7 +74,8 @@ describe('i18n', () => {
         'pt-BR': 19,
         'no': 34,
         'fil': 47,
-        'he': 30
+        'he': 30,
+        'zh-tw': 9
       },
       'lodash': _,
       'sprintf-js': require('sprintf-js'),
@@ -397,11 +399,76 @@ describe('i18n', () => {
         .toEqual('pt-BR');
     });
 
-    it('should return China\'s locale for `zh` key', () => {
-      i18n.setLocale('zh');
+    describe('zh locales', () => {
+      it('returns China\'s locale for `zh` key', () => {
+        i18n.setLocale('zh');
 
-      expect(i18n.getLocale())
-        .toEqual('zh-cn');
+        expect(i18n.getLocale())
+          .toEqual('zh-cn');
+      });
+
+      it('parses zh-Hant-TW as zh-tw', () => {
+        i18n.setLocale('zh-Hant-TW');
+
+        expect(i18n.getLocale())
+          .toEqual('zh-tw');
+      });
+
+      it('parses zh-Hans-CN as zh-cn', () => {
+        i18n.setLocale('zh-Hans-CN');
+
+        expect(i18n.getLocale())
+          .toEqual('zh-cn');
+      });
+
+      it('parses zh-Hant-HK as zh-tw', () => {
+        i18n.setLocale('zh-Hant-HK');
+
+        expect(i18n.getLocale())
+          .toEqual('zh-tw');
+      });
+
+      it('parses zh-Hans-SG as zh-cn', () => {
+        i18n.setLocale('zh-Hans-SG');
+
+        expect(i18n.getLocale())
+          .toEqual('zh-cn');
+      });
+
+      it('parses zh-Hant-MO as zh-tw', () => {
+        i18n.setLocale('zh-Hant-MO');
+
+        expect(i18n.getLocale())
+          .toEqual('zh-tw');
+      });
+
+      it('parses zh-sg as zh-cn', () => {
+        i18n.setLocale('zh-sg');
+
+        expect(i18n.getLocale())
+          .toEqual('zh-cn');
+      });
+
+      it('parses zh-mo as zh-tw', () => {
+        i18n.setLocale('zh-MO');
+
+        expect(i18n.getLocale())
+          .toEqual('zh-tw');
+      });
+
+      it('parses zh-TW as zh-tw', () => {
+        i18n.setLocale('zh-TW');
+
+        expect(i18n.getLocale())
+          .toEqual('zh-tw');
+      });
+
+      it('parses zh-hk as zh-tw', () => {
+        i18n.setLocale('zh-hk');
+
+        expect(i18n.getLocale())
+          .toEqual('zh-tw');
+      });
     });
 
     it('should return Norwegian locale for `nb` and `nn` key', () => {
