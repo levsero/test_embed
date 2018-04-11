@@ -1,4 +1,4 @@
-import { _ } from 'lodash';
+import _ from 'lodash';
 import {
   SDK_CHAT_MEMBER_JOIN,
   SDK_CHAT_TYPING,
