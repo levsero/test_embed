@@ -42,7 +42,7 @@ export class ChatEmailTranscriptPopup extends Component {
 
   constructor(props) {
     super(props);
-    const email = props.emailTranscript.email ? props.emailTranscript.email : _.get(props.visitor, 'email', '');
+    const email = props.emailTranscript.email || _.get(props.visitor, 'email', '');
 
     this.state = {
       valid: emailValid(email),
@@ -55,7 +55,7 @@ export class ChatEmailTranscriptPopup extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const email = nextProps.emailTranscript.email ? nextProps.emailTranscript.email : _.get(nextProps.visitor, 'email', '');
+    const email = nextProps.emailTranscript.email || _.get(nextProps.visitor, 'email', '');
 
     this.setState({
       formState: { email }
@@ -63,9 +63,10 @@ export class ChatEmailTranscriptPopup extends Component {
   }
 
   handleSave = (e) => {
+    const email = this.props.emailTranscript.email || _.get(this.props.visitor, 'email', '');
+
     e.preventDefault();
     this.props.rightCtaFn(this.state.formState.email);
-    const email = _.get(this.props.visitor, 'email', '');
 
     this.setState({
       valid: emailValid(email),

@@ -8,6 +8,37 @@
   composes: u-paddingVL from global;
 }
 
+.resultContainer {
+  composes: u-paddingAL from global;
+  width: #{275/$font-size}rem;
+}
+
+.loadingContainer {
+  padding: #{18/$font-size}rem;
+}
+
+.resultScreen {
+  composes: u-wordBreakAll from global;
+  overflow: auto;
+}
+
+.resultIcon {
+  float: left;
+  margin-right: #{15/$font-size}rem;
+}
+
+.resultMessage {
+  float: left;
+  width: 88%;
+  font-size: #{13/$font-size}rem;
+  line-height: 1.4;
+  color: $zd-color-oil;
+
+  a {
+    cursor: pointer;
+  }
+}
+
 .title {
   color: $zd-color-dark-gray;
   margin-bottom: #{16/$font-size}rem;

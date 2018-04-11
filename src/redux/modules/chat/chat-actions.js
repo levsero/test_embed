@@ -31,15 +31,17 @@ import {
   EMAIL_TRANSCRIPT_REQUEST_SENT,
   RESET_EMAIL_TRANSCRIPT,
   RESET_EMAIL_TRANSCRIPT_SCREEN,
+  RESET_CONTACT_DETAILS_SCREEN,
   CHAT_OFFLINE_FORM_CHANGED,
   PRE_CHAT_FORM_ON_CHANGE,
   UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
+  UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
+  UPDATE_CHAT_MENU_VISIBILITY,
   OFFLINE_FORM_REQUEST_FAILURE,
   OFFLINE_FORM_REQUEST_SUCCESS,
   OFFLINE_FORM_REQUEST_SENT,
   OFFLINE_FORM_BACK_BUTTON_CLICKED,
   OFFLINE_FORM_OPERATING_HOURS_LINK_CLICKED,
-  UPDATE_CHAT_MENU_VISIBILITY,
   CHAT_RECONNECT,
   UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP,
   RESET_CURRENT_MESSAGE
@@ -170,7 +172,10 @@ export function handleChatBoxChange(msg) {
 
 export function setVisitorInfo(visitor) {
   return (dispatch) => {
-    dispatch({ type: SET_VISITOR_INFO_REQUEST_PENDING });
+    dispatch({
+      type: SET_VISITOR_INFO_REQUEST_PENDING,
+      payload: visitor
+    });
 
     zChat.setVisitorInfo(visitor, (err) => {
       if (!err) {
@@ -217,6 +222,12 @@ export function resetEmailTranscript() {
 export function resetEmailTranscriptScreen() {
   return {
     type: RESET_EMAIL_TRANSCRIPT_SCREEN
+  };
+}
+
+export function resetEditContactDetailsScreen() {
+  return {
+    type: RESET_CONTACT_DETAILS_SCREEN
   };
 }
 
@@ -395,6 +406,13 @@ export function handlePreChatFormChange(state) {
 export function updateContactDetailsVisibility(bool) {
   return {
     type: UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
+    payload: bool
+  };
+}
+
+export function updateEmailTranscriptVisibility(bool) {
+  return {
+    type: UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
     payload: bool
   };
 }
