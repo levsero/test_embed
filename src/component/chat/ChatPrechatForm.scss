@@ -13,6 +13,7 @@
 .greetingMessage {
   color: $zd-color-dark-gray;
   margin-bottom: #{13/$font-size}rem;
+  white-space: pre-line;
 }
 
 .dropdown {
