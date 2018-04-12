@@ -527,6 +527,7 @@ class Chat extends Component {
     );
 
     const visitorNameSet = visitor.display_name && !chatNameDefault(visitor.display_name);
+    const emailSet = !!visitor.email;
 
     return (
       <ScrollContainer
@@ -549,7 +550,7 @@ class Chat extends Component {
             goToFeedbackScreen={() => this.props.updateChatScreen(screens.FEEDBACK_SCREEN)}
             handleSendMsg={sendMsg}
             onImageLoad={this.scrollToBottom}
-            showUpdateInfo={loginSettings.enabled && !visitorNameSet}
+            showUpdateInfo={loginSettings.enabled && !(visitorNameSet && emailSet)}
             updateInfoOnClick={this.showContactDetailsFn}
           />
           {this.renderQueuePosition()}

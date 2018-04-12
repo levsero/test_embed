@@ -24,6 +24,7 @@ describe('Chat component', () => {
   const endChatSpy = jasmine.createSpy('endChat');
   const translationSpy = jasmine.createSpy('translation').and.callFake(_.identity);
   const resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage');
+  const chatNameDefaultSpy = jasmine.createSpy('chatNameDefaultSpy').and.returnValue(false);
 
   const AttachmentBox = noopReactComponent('AttachmentBox');
   const ChatMenu = noopReactComponent('ChatMenu');
@@ -154,7 +155,7 @@ describe('Chat component', () => {
         DEPARTMENT_STATUSES
       },
       'src/util/utils': {
-        chatNameDefault: noop
+        chatNameDefault: chatNameDefaultSpy
       },
       'component/chat/ChatOfflineMessageForm': {
         ChatOfflineMessageForm
@@ -1139,6 +1140,105 @@ describe('Chat component', () => {
       it('has its classes prop to the scroll container style', () => {
         expect(component.renderChatScreen().props.classes)
           .toEqual('scrollContainerClasses');
+      });
+    });
+
+    describe('showUpdateInfo', () => {
+      let loginSettings,
+        visitor,
+        result,
+        showUpdateInfoResult;
+
+      beforeEach(() => {
+        component = instanceRender(
+          <Chat
+            screen={chattingScreen}
+            loginSettings={loginSettings}
+            visitor={visitor}
+          />);
+        result = component.renderChatScreen();
+        showUpdateInfoResult = result.props.children.props.children[0].props.showUpdateInfo;
+      });
+
+      describe('when login settings enabled is not true', () => {
+        beforeAll(() => {
+          loginSettings = {
+            enabled: false
+          };
+        });
+
+        it('should not show update info link', () => {
+          expect(showUpdateInfoResult)
+            .toEqual(false);
+        });
+      });
+
+      describe('when login settings enabled is true', () => {
+        beforeAll(() => {
+          loginSettings = {
+            enabled: true
+          };
+        });
+
+        describe('when visitorNameSet is true', () => {
+          describe('when emailSet is true', () => {
+            beforeAll(() => {
+              visitor = {
+                display_name: 'yolo',
+                email: 'yolo@yolo.com'
+              };
+            });
+
+            it('should not show update info link', () => {
+              expect(showUpdateInfoResult)
+                .toEqual(false);
+            });
+
+            it('should call chatNameDefault', () => {
+              expect(chatNameDefaultSpy)
+                .toHaveBeenCalledWith('yolo');
+            });
+          });
+
+          describe('when emailSet is not true', () => {
+            beforeAll(() => {
+              visitor = {
+                display_name: 'yolo'
+              };
+            });
+
+            it('should show update info link', () => {
+              expect(showUpdateInfoResult)
+                .toEqual(true);
+            });
+          });
+        });
+
+        describe('when visitorNameSet is false', () => {
+          describe('when emailSet is true', () => {
+            beforeAll(() => {
+              visitor = {
+                email: 'yolo@yolo.com'
+              };
+            });
+
+            it('should show update info link', () => {
+              expect(showUpdateInfoResult)
+                .toEqual(true);
+            });
+          });
+
+          describe('when emailSet is not true', () => {
+            beforeAll(() => {
+              visitor = {};
+            });
+
+            it('should show update info link', () => {
+              expect(showUpdateInfoResult)
+                .toEqual(true);
+            });
+          });
+        });
       });
     });
   });
