@@ -47,6 +47,7 @@ export class ChatOperatingHours extends Component {
 
   departments = () => {
     return this.departmentKeys().map((id) => {
+      // TODO: Bring in department names and enter it here
       const dept = {
         name: `Department ${id}`,
         value: id
