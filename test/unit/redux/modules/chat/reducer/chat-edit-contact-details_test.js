@@ -67,23 +67,12 @@ describe('chat reducer editContactDetails', () => {
           .toEqual(EDIT_CONTACT_DETAILS_SCREEN);
       });
 
-      it('sets state.show to false', () => {
-        expect(state.show)
-          .toEqual(false);
-      });
-    });
+      it('updates the display_name and email state', () => {
+        expect(state.display_name)
+          .toEqual('Bob');
 
-    describe('when a SET_VISITOR_INFO_REQUEST_SUCCESS action is dispatched', () => {
-      beforeEach(() => {
-        state = reducer(initialState, {
-          type: actionTypes.SET_VISITOR_INFO_REQUEST_SUCCESS,
-          payload: { display_name: 'Bob', email: 'bob@bob.com' }
-        });
-      });
-
-      it('sets state.status to EDIT_CONTACT_DETAILS_SCREEN', () => {
-        expect(state.status)
-          .toEqual(EDIT_CONTACT_DETAILS_SCREEN);
+        expect(state.email)
+          .toEqual('bob@bob.com');
       });
 
       it('sets state.show to false', () => {
@@ -103,6 +92,14 @@ describe('chat reducer editContactDetails', () => {
       it('sets state.status to EDIT_CONTACT_DETAILS_LOADING_SCREEN', () => {
         expect(state.status)
           .toEqual(EDIT_CONTACT_DETAILS_LOADING_SCREEN);
+      });
+
+      it('updates the display_name and email state', () => {
+        expect(state.display_name)
+          .toEqual('Bob');
+
+        expect(state.email)
+          .toEqual('bob@bob.com');
       });
 
       it('sets state.show to remain unchanged', () => {
@@ -136,6 +133,11 @@ describe('chat reducer editContactDetails', () => {
           type: actionTypes.UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
           payload: payload
         });
+      });
+
+      it('sets state.status to EDIT_CONTACT_DETAILS_SCREEN', () => {
+        expect(state.status)
+          .toEqual(EDIT_CONTACT_DETAILS_SCREEN);
       });
 
       it('sets state.show with payload data', () => {

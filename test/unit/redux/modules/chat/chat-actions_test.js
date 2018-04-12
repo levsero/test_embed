@@ -348,14 +348,19 @@ describe('chat redux actions', () => {
   });
 
   describe('setVisitorInfo', () => {
+    let info;
+
     beforeEach(() => {
-      const info = { email: 'x@x.com' };
+      info = { email: 'x@x.com' };
 
       mockStore.dispatch(actions.setVisitorInfo(info));
     });
 
     it('dispatches a SET_VISITOR_INFO_REQUEST_PENDING action', () => {
-      const expected = { type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING };
+      const expected = {
+        type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING,
+        payload: info
+      };
 
       expect(mockStore.getActions())
         .toContain(jasmine.objectContaining(expected));
@@ -1201,6 +1206,25 @@ describe('chat redux actions', () => {
     it('dispatches UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY action', () => {
       expect(action.type)
         .toEqual(actionTypes.UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY);
+    });
+
+    it('has the correct params in the payload', () => {
+      expect(action.payload)
+        .toEqual(true);
+    });
+  });
+
+  describe('updateEmailTranscriptVisibility', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateEmailTranscriptVisibility(true));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY action', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY);
     });
 
     it('has the correct params in the payload', () => {

@@ -46,6 +46,11 @@ describe('chat email transcript', () => {
         });
       });
 
+      it('resets the error state', () => {
+        expect(state.error)
+          .toBe(false);
+      });
+
       it('updates email to the specified email', () => {
         expect(state.email)
           .toEqual('john@john.com');
@@ -65,6 +70,11 @@ describe('chat email transcript', () => {
         });
       });
 
+      it('resets the error state', () => {
+        expect(state.error)
+          .toBe(false);
+      });
+
       it('updates email to the specified email', () => {
         expect(state.email)
           .toEqual('john@john.com');
@@ -73,25 +83,6 @@ describe('chat email transcript', () => {
       it('updates screen to EMAIL_TRANSCRIPT_SUCCESS_SCREEN', () => {
         expect(state.screen)
           .toEqual(screenTypes.EMAIL_TRANSCRIPT_SUCCESS_SCREEN);
-      });
-    });
-
-    describe('when a EMAIL_TRANSCRIPT_FAILURE action is dispatched', () => {
-      beforeEach(() => {
-        state = reducer(initialState, {
-          type: actionTypes.EMAIL_TRANSCRIPT_FAILURE,
-          payload: 'john@john.com'
-        });
-      });
-
-      it('updates email to the specified email', () => {
-        expect(state.email)
-          .toEqual('john@john.com');
-      });
-
-      it('updates screen to EMAIL_TRANSCRIPT_FAILURE_SCREEN', () => {
-        expect(state.screen)
-          .toEqual(screenTypes.EMAIL_TRANSCRIPT_FAILURE_SCREEN);
       });
     });
 
@@ -124,6 +115,43 @@ describe('chat email transcript', () => {
       it('sets email to nothing', () => {
         expect(state.email)
           .toEqual('');
+      });
+
+      it('updates screen to EMAIL_TRANSCRIPT_SCREEN', () => {
+        expect(state.screen)
+          .toEqual(screenTypes.EMAIL_TRANSCRIPT_SCREEN);
+      });
+    });
+
+    describe('when a SDK_ERROR action is dispatched', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.SDK_ERROR
+        });
+      });
+
+      it('sets the error state to true', () => {
+        expect(state.error)
+          .toBe(true);
+      });
+
+      it('updates screen to EMAIL_TRANSCRIPT_FAILURE_SCREEN', () => {
+        expect(state.screen)
+          .toEqual(screenTypes.EMAIL_TRANSCRIPT_FAILURE_SCREEN);
+      });
+    });
+
+    describe('when an UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY action is dispatched', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
+          payload: true
+        });
+      });
+
+      it('updates show with the value from the payload', () => {
+        expect(state.show)
+          .toBe(true);
       });
 
       it('updates screen to EMAIL_TRANSCRIPT_SCREEN', () => {
