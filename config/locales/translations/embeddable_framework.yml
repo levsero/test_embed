@@ -176,7 +176,7 @@ parts:
       key: "embeddable_framework.chat.emailtranscript.try_again"
       title: "The try again link that appears when an email was not successfully registered for sending a chat transcript. "
       screenshot: "https://zendesk.box.com/s/283wa03wokpn8t7yq4kx4huy86zqqizq"
-      value: "Try again."
+      value: "Try again"
   - translation:
       key: "embeddable_framework.chat.emailtranscript.success_message"
       title: "The message that appears when an email was successfully registered for sending a chat transcript. We have a <b></b> surrounded around email and %(email)s will be replaced by a real email."
