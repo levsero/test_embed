@@ -137,7 +137,7 @@ class Launcher extends Component {
   render = () => {
     const mobile = isMobileBrowser();
     const baseMobileClasses = mobile ? styles.wrapperMobile : '';
-    const shouldShowMobileClasses = mobile && !this.state.unreadMessages > 0;
+    const shouldShowMobileClasses = mobile && !(this.getNotificationCount() > 0);
     const iconMobileClasses = shouldShowMobileClasses ? styles.iconMobile : '';
     const labelMobileClasses = shouldShowMobileClasses ? styles.labelMobile : '';
 
