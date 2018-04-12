@@ -18,7 +18,8 @@ import {
 const initialState = {
   screen: EMAIL_TRANSCRIPT_SCREEN,
   show: false,
-  email: ''
+  email: '',
+  error: false
 };
 
 const emailTranscript = (state = initialState, action) => {
@@ -38,7 +39,8 @@ const emailTranscript = (state = initialState, action) => {
       return {
         ...state,
         screen: screenLookUp[type],
-        email: payload
+        email: payload,
+        error: false
       };
     case RESET_EMAIL_TRANSCRIPT_SCREEN:
       return {
@@ -50,7 +52,8 @@ const emailTranscript = (state = initialState, action) => {
     case SDK_ERROR:
       return {
         ...state,
-        screen: EMAIL_TRANSCRIPT_FAILURE_SCREEN
+        screen: EMAIL_TRANSCRIPT_FAILURE_SCREEN,
+        error: true
       };
     case UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY:
       return {

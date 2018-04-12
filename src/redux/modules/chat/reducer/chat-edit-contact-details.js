@@ -15,7 +15,8 @@ const initialState = {
   status: EDIT_CONTACT_DETAILS_SCREEN,
   show: false,
   display_name: '',
-  email: ''
+  email: '',
+  error: false
 };
 
 const editContactDetails = (state = initialState, action) => {
@@ -28,7 +29,8 @@ const editContactDetails = (state = initialState, action) => {
         status: EDIT_CONTACT_DETAILS_SCREEN,
         display_name: payload.display_name,
         email: payload.email,
-        show: false
+        show: false,
+        error: false
       };
     case SET_VISITOR_INFO_REQUEST_PENDING:
       return {
@@ -40,7 +42,8 @@ const editContactDetails = (state = initialState, action) => {
     case SDK_ERROR:
       return {
         ...state,
-        status: EDIT_CONTACT_DETAILS_ERROR_SCREEN
+        status: EDIT_CONTACT_DETAILS_ERROR_SCREEN,
+        error: true
       };
     case UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY:
       return {
