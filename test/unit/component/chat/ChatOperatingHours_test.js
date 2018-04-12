@@ -20,6 +20,7 @@ describe('ChatOperatingHours component', () => {
   };
 
   const Button = noopReactComponent();
+  const Dropdown = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
@@ -42,6 +43,9 @@ describe('ChatOperatingHours component', () => {
       },
       'component/button/Button': {
         Button: Button
+      },
+      'component/field/Dropdown': {
+        Dropdown: Dropdown
       },
       'utility/time': {
         timeFromMinutes: timeFromMinutes
@@ -150,7 +154,7 @@ describe('ChatOperatingHours component', () => {
     });
   });
 
-  describe('renderDays', () => {
+  describe('renderAccountSchedule', () => {
     let component,
       result,
       dayName,
@@ -163,7 +167,7 @@ describe('ChatOperatingHours component', () => {
           handleOfflineFormBack={handleOfflineFormBackFn} />
       );
 
-      result = component.renderDays();
+      result = component.renderAccountSchedule();
     });
 
     it('returns a definition pair for every day of the week', () => {

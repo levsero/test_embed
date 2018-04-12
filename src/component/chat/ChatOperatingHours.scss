@@ -30,8 +30,8 @@
 .button {
   max-width: 100%;
   width: calc(100% - #{20/$font-size}rem) !important;
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  // position: absolute;
+  // bottom: 0;
+  // left: 0;
   margin: 0 #{10/$font-size}rem;
 }

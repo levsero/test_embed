@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { trim } from 'lodash';
+import { trim, keys } from 'lodash';
+import { Dropdown } from 'component/field/Dropdown';
 import { Button } from 'component/button/Button';
 import { timeFromMinutes } from 'utility/time';
 import { i18n } from 'service/i18n';
@@ -35,25 +36,70 @@ export class ChatOperatingHours extends Component {
     return i18n.t(`embeddable_framework.chat.operatingHours.label.${dayName}`);
   }
 
-  renderHours = (index) => {
-    const { operatingHours } = this.props;
-    // This line will need to change when we add departments:
-    const hours = operatingHours.account_schedule[index][0];
+  renderHours = (index, schedule) => {
+    const hours = schedule[index][0];
     const range = hours ? this.hourRange(hours) : i18n.t('embeddable_framework.chat.operatingHours.label.closed');
 
     return range;
   }
 
-  renderDays = () => {
+  renderSchedule = (schedule, listKey = 'account') => {
     return(
-      <dl className={styles.dayList}>
+      <dl className={styles.dayList} key={`dl-${listKey}`}>
         {this.daysOfTheWeek.reduce((accumulator, day, index) => {
           return accumulator.concat([
             <dt className={styles.dayName} key={`dt-${index}`}>{this.renderDayName(day)}</dt>,
-            <dd className={styles.hours} key={`dd-${index}`}>{this.renderHours(index)}</dd>
+            <dd className={styles.hours} key={`dd-${index}`}>
+              {this.renderHours(index, schedule)}
+            </dd>
           ]);
         }, [])}
       </dl>
+    );
+  }
+
+  renderAccountSchedule = () => {
+    const { operatingHours } = this.props;
+
+    if (!operatingHours.account_schedule) return;
+
+    return this.renderSchedule(operatingHours.account_schedule);
+  }
+
+  renderDepartmentSchedule = () => {
+    const { operatingHours } = this.props;
+
+    if (!operatingHours.department_schedule) return;
+
+    const departmentKeys = keys(operatingHours.department_schedule);
+    const departments = departmentKeys.map((id) => {
+      const dept = {
+        name: `Department ${Math.random()}`,
+        value: id
+      };
+
+      return dept;
+    });
+
+    const schedules = departmentKeys.map((departmentKey) => {
+      const schedule = operatingHours.department_schedule[departmentKey];
+
+      return this.renderSchedule(schedule, `${departmentKey}`);
+    });
+
+    return (
+      <div>
+        <Dropdown
+          className={'styles.dropdown'}
+          menuContainerClassName={'styles.dropdownMenuContainer'}
+          label={'DEPARTMENT'}
+          required={false}
+          name='department'
+          options={departments}
+          onChange={() => {}}
+        />
+        {schedules}
+      </div>
     );
   }
 
@@ -79,7 +125,8 @@ export class ChatOperatingHours extends Component {
     return (
       <div className={styles.container}>
         <h4 className={styles.title} dangerouslySetInnerHTML={{__html: title}} />
-        {this.renderDays()}
+        {this.renderAccountSchedule()}
+        {this.renderDepartmentSchedule()}
         {this.renderBackButton()}
       </div>
     );
