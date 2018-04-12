@@ -4,6 +4,7 @@ describe('ChatContactDetailsPopup component', () => {
     mockFormValidity,
     mockEmailValid,
     mockChatNameDefault,
+    ICONS,
     EDIT_CONTACT_DETAILS_SCREEN,
     EDIT_CONTACT_DETAILS_LOADING_SCREEN,
     EDIT_CONTACT_DETAILS_ERROR_SCREEN;
@@ -23,7 +24,9 @@ describe('ChatContactDetailsPopup component', () => {
     mockery.enable();
 
     const chatConstantsPath = basePath('src/constants/chat');
+    const sharedConstantsPath = basePath('src/constants/shared');
 
+    ICONS = requireUncached(sharedConstantsPath).ICONS;
     EDIT_CONTACT_DETAILS_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_SCREEN;
     EDIT_CONTACT_DETAILS_LOADING_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_LOADING_SCREEN;
     EDIT_CONTACT_DETAILS_ERROR_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_ERROR_SCREEN;
@@ -37,6 +40,9 @@ describe('ChatContactDetailsPopup component', () => {
         locals: {
           popupChildrenContainerLoading: 'popupChildrenContainerLoadingClass'
         }
+      },
+      'constants/shared': {
+        ICONS
       },
       'constants/chat': {
         EDIT_CONTACT_DETAILS_SCREEN,
@@ -160,9 +166,9 @@ describe('ChatContactDetailsPopup component', () => {
     let component;
 
     beforeEach(() => {
-      component = instanceRender(<ChatContactDetailsPopup />);
+      component = instanceRender(<ChatContactDetailsPopup contactDetails={{}} />);
 
-      component.componentWillReceiveProps({ visitor: { display_name: 'bob', email: 'bob@bob.com' } });
+      component.componentWillReceiveProps({ visitor: { display_name: 'bob', email: 'bob@bob.com' }, contactDetails: {} });
     });
 
     describe('when the name is not the default chat name', () => {
@@ -175,9 +181,9 @@ describe('ChatContactDetailsPopup component', () => {
     describe('when the name is the default chat name', () => {
       beforeEach(() => {
         mockChatNameDefault = true;
-        component = instanceRender(<ChatContactDetailsPopup />);
+        component = instanceRender(<ChatContactDetailsPopup contactDetails={{}} />);
 
-        component.componentWillReceiveProps({ visitor: { display_name: 'Visitor 12345' } });
+        component.componentWillReceiveProps({ visitor: { display_name: 'Visitor 12345' }, contactDetails: {} });
       });
 
       it('sets name form state to an empty string', () => {
@@ -199,7 +205,7 @@ describe('ChatContactDetailsPopup component', () => {
 
     describe('when method is called', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatContactDetailsPopup />);
+        component = instanceRender(<ChatContactDetailsPopup contactDetails={{}} />);
 
         spyOn(component, 'renderForm');
         spyOn(component, 'renderLoadingSpinner');
@@ -285,7 +291,7 @@ describe('ChatContactDetailsPopup component', () => {
     });
   });
 
-  describe('renderErrorMessage', () => {
+  describe('renderFailureScreen', () => {
     let errorMessage;
 
     describe('when the state is not in an error screen', () => {
@@ -293,7 +299,7 @@ describe('ChatContactDetailsPopup component', () => {
         const mockScreen = EDIT_CONTACT_DETAILS_SCREEN;
         const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
 
-        errorMessage = component.renderErrorMessage();
+        errorMessage = component.renderFailureScreen();
       });
 
       it('does not render an error message component', () => {
@@ -307,7 +313,7 @@ describe('ChatContactDetailsPopup component', () => {
         const mockScreen = EDIT_CONTACT_DETAILS_ERROR_SCREEN;
         const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
 
-        errorMessage = component.renderErrorMessage();
+        errorMessage = component.renderFailureScreen();
       });
 
       it('renders an error message component', () => {

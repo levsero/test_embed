@@ -179,15 +179,18 @@ describe('Chat component', () => {
   describe('onContainerClick', () => {
     let component,
       updateMenuVisibilitySpy,
-      updateContactDetailsVisibilitySpy;
+      updateContactDetailsVisibilitySpy,
+      updateEmailTranscriptVisibilitySpy;
 
     beforeEach(() => {
       updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility');
+      updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility');
       updateMenuVisibilitySpy = jasmine.createSpy('updateMenuVisibility');
 
       component = instanceRender(
         <Chat
           updateContactDetailsVisibility={updateContactDetailsVisibilitySpy}
+          updateEmailTranscriptVisibility={updateEmailTranscriptVisibilitySpy}
           updateMenuVisibility={updateMenuVisibilitySpy}
         />
       );
@@ -197,9 +200,13 @@ describe('Chat component', () => {
     it('should set the correct state', () => {
       expect(component.state)
         .toEqual(jasmine.objectContaining({
-          showEndChatMenu: false,
-          showEmailTranscriptMenu: false
+          showEndChatMenu: false
         }));
+    });
+
+    it('calls updateEmailTranscriptVisibility with false', () => {
+      expect(updateEmailTranscriptVisibilitySpy)
+        .toHaveBeenCalledWith(false);
     });
 
     it('calls updateContactDetailsVisibility with false', () => {
@@ -309,13 +316,6 @@ describe('Chat component', () => {
           };
           component.componentWillReceiveProps(nextProps);
         });
-
-        it('should set the correct state', () => {
-          expect(component.state)
-            .toEqual(jasmine.objectContaining({
-              showEmailTranscriptMenu: true
-            }));
-        });
       });
 
       describe('when next props is not different from previous props', () => {
@@ -328,13 +328,6 @@ describe('Chat component', () => {
             events: []
           };
           component.componentWillReceiveProps(nextProps);
-        });
-
-        it('should not update state', () => {
-          expect(component.state)
-            .toEqual(jasmine.objectContaining({
-              showEmailTranscriptMenu: false
-            }));
         });
       });
     });
@@ -359,13 +352,6 @@ describe('Chat component', () => {
           };
           component.componentWillReceiveProps(nextProps);
         });
-
-        it('should not update the state', () => {
-          expect(component.state)
-            .toEqual(jasmine.objectContaining({
-              showEmailTranscriptMenu: false
-            }));
-        });
       });
 
       describe('when next props is not different from previous props', () => {
@@ -378,13 +364,6 @@ describe('Chat component', () => {
             events: []
           };
           component.componentWillReceiveProps(nextProps);
-        });
-
-        it('should not update the state', () => {
-          expect(component.state)
-            .toEqual(jasmine.objectContaining({
-              showEmailTranscriptMenu: false
-            }));
         });
       });
     });
@@ -1246,20 +1225,15 @@ describe('Chat component', () => {
         expect(updateContactDetailsVisibilitySpy)
           .toHaveBeenCalledWith(true);
       });
-
-      it('calls updateMenuVisibility with false', () => {
-        expect(updateMenuVisibilitySpy)
-          .toHaveBeenCalledWith(false);
-      });
     });
 
     describe('when prop.emailTranscriptOnClick is called', () => {
-      let updateMenuVisibilitySpy;
+      let updateEmailTranscriptVisibilitySpy;
 
       beforeEach(() => {
-        updateMenuVisibilitySpy = jasmine.createSpy('updateMenuVisibility');
+        updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility');
 
-        component = instanceRender(<Chat updateMenuVisibility={updateMenuVisibilitySpy} />);
+        component = instanceRender(<Chat updateEmailTranscriptVisibility={updateEmailTranscriptVisibilitySpy} />);
 
         spyOn(component, 'setState');
 
@@ -1274,18 +1248,9 @@ describe('Chat component', () => {
           .toHaveBeenCalled();
       });
 
-      it('calls setState with expected arguments', () => {
-        const expected = {
-          showEmailTranscriptMenu: true
-        };
-
-        expect(component.setState)
-          .toHaveBeenCalledWith(jasmine.objectContaining(expected));
-      });
-
-      it('calls updateMenuVisibility with false', () => {
-        expect(updateMenuVisibilitySpy)
-          .toHaveBeenCalledWith(false);
+      it('calls updateEmailTranscriptVisibility with true', () => {
+        expect(updateEmailTranscriptVisibilitySpy)
+          .toHaveBeenCalledWith(true);
       });
     });
 
@@ -1383,7 +1348,11 @@ describe('Chat component', () => {
       beforeEach(() => {
         updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility');
 
-        const component = instanceRender(<Chat updateContactDetailsVisibility={updateContactDetailsVisibilitySpy} />);
+        const component = instanceRender(
+          <Chat
+            updateContactDetailsVisibility={updateContactDetailsVisibilitySpy}
+            editContactDetails={mockEditContactDetails} />
+        );
         const chatContactDetailsPopup = component.renderChatContactDetailsPopup();
 
         chatContactDetailsPopup.props.leftCtaFn();
@@ -1401,7 +1370,11 @@ describe('Chat component', () => {
         mockName = 'Terence';
         mockEmail = 'foo@bar.com';
 
-        const component = instanceRender(<Chat setVisitorInfo={setVisitorInfoSpy} />);
+        const component = instanceRender(
+          <Chat
+            setVisitorInfo={setVisitorInfoSpy}
+            editContactDetails={mockEditContactDetails} />
+        );
         const chatContactDetailsPopup = component.renderChatContactDetailsPopup();
 
         chatContactDetailsPopup.props.rightCtaFn(mockName, mockEmail);
@@ -1421,8 +1394,7 @@ describe('Chat component', () => {
 
     describe('when the popup should be shown', () => {
       beforeEach(() => {
-        component = instanceRender(<Chat />);
-        component.setState({ showEmailTranscriptMenu: true });
+        component = instanceRender(<Chat emailTranscript={{ show: true }} />);
       });
 
       it('passes true to its popup components show prop', () => {
@@ -1433,12 +1405,12 @@ describe('Chat component', () => {
 
     describe('when the popup should not be shown', () => {
       beforeEach(() => {
-        component = instanceRender(<Chat />);
+        component = instanceRender(<Chat emailTranscript={{ show: false }} />);
       });
 
-      it('passes false to its popup components show prop', () => {
-        expect(component.renderChatEmailTranscriptPopup().props.show)
-          .toBe(false);
+      it('does not render the component', () => {
+        expect(component.renderChatEmailTranscriptPopup())
+          .toBeUndefined();
       });
     });
   });
@@ -1973,18 +1945,15 @@ describe('Chat component', () => {
   });
 
   describe('showContactDetailsFn', () => {
-    let updateMenuVisibilitySpy,
-      updateContactDetailsVisibilitySpy,
+    let updateContactDetailsVisibilitySpy,
       stopPropagationSpy;
 
     beforeEach(() => {
-      updateMenuVisibilitySpy = jasmine.createSpy('updateMenuVisibility');
       updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility');
       stopPropagationSpy = jasmine.createSpy('stopPropagation');
 
       const component = instanceRender(
         <Chat
-          updateMenuVisibility={updateMenuVisibilitySpy}
           updateContactDetailsVisibility={updateContactDetailsVisibilitySpy}
         />
       );
@@ -1995,11 +1964,6 @@ describe('Chat component', () => {
     it('stops the event propagating', () => {
       expect(stopPropagationSpy)
         .toHaveBeenCalled();
-    });
-
-    it('calls updateMenuVisibility with false', () => {
-      expect(updateMenuVisibilitySpy)
-        .toHaveBeenCalledWith(false);
     });
 
     it('calls updateContactDetailsVisibility with true', () => {
