@@ -290,15 +290,15 @@ class WebWidget extends Component {
 
     if (embed) {
       this.setComponent(embed);
-    } else if (talkAvailable) {
-      updateActiveEmbed(talk);
-      updateBackButtonVisibility(true);
     } else if (chatAvailable) {
       this.showChat();
       // TODO: track chat started
       if (!oldChat) {
         updateBackButtonVisibility(true);
       }
+    } else if (talkAvailable) {
+      updateActiveEmbed(talk);
+      updateBackButtonVisibility(true);
     } else {
       updateActiveEmbed(submitTicket);
       updateBackButtonVisibility(true);
