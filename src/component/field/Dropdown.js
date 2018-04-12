@@ -111,7 +111,8 @@ export class Dropdown extends Component {
             options={this.formatDropdownOptions(nextProps.options)}
             optionFormat={this.props.optionFormat}
             onOptionClick={this.setValue} />
-        )
+        ),
+        open: this.state.open
       });
     }
   }
