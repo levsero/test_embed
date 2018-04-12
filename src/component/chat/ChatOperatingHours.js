@@ -39,6 +39,33 @@ export class ChatOperatingHours extends Component {
     );
   }
 
+  departmentKeys = () => {
+    const { operatingHours } = this.props;
+
+    return keys(operatingHours.department_schedule);
+  }
+
+  departments = () => {
+    return this.departmentKeys().map((id) => {
+      const dept = {
+        name: `Department ${id}`,
+        value: id
+      };
+
+      return dept;
+    });
+  }
+
+  departmentSchedules = () => {
+    const { operatingHours } = this.props;
+
+    return this.departmentKeys().map((departmentKey) => {
+      const schedule = operatingHours.department_schedule[departmentKey];
+
+      return this.renderSchedule(schedule, `${departmentKey}`);
+    });
+  }
+
   renderDayName = (dayName) => {
     return i18n.t(`embeddable_framework.chat.operatingHours.label.${dayName}`);
   }
@@ -83,24 +110,9 @@ export class ChatOperatingHours extends Component {
 
     if (!operatingHours.department_schedule) return;
 
-    const departmentKeys = keys(operatingHours.department_schedule);
+    const departments = this.departments();
 
-    if (!this.state.activeDepartment) { this.state.activeDepartment = departmentKeys[0]; }
-
-    const departments = departmentKeys.map((id) => {
-      const dept = {
-        name: `Department ${id}`,
-        value: id
-      };
-
-      return dept;
-    });
-
-    const schedules = departmentKeys.map((departmentKey) => {
-      const schedule = operatingHours.department_schedule[departmentKey];
-
-      return this.renderSchedule(schedule, `${departmentKey}`);
-    });
+    if (!this.state.activeDepartment) { this.state.activeDepartment = departments[0].value; }
 
     return (
       <div>
@@ -111,9 +123,10 @@ export class ChatOperatingHours extends Component {
           required={false}
           name='department'
           options={departments}
+          value={departments[0]}
           onChange={this.setActiveDepartment}
         />
-        {schedules}
+        {this.departmentSchedules()}
       </div>
     );
   }
