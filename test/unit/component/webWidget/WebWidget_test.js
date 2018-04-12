@@ -733,6 +733,32 @@ describe('WebWidget component', () => {
       });
     });
 
+    describe('when talk and chat are available', () => {
+      beforeEach(() => {
+        webWidget = instanceRender(
+          <WebWidget
+            helpCenterAvailable={true}
+            talkAvailable={true}
+            talkOnline={true}
+            chatOnline={true}
+            chatAvailable={true}
+            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+            updateActiveEmbed={mockUpdateActiveEmbed} />
+        );
+        webWidget.onNextClick();
+      });
+
+      it('should call updateActiveEmbd with chat', () => {
+        expect(mockUpdateActiveEmbed)
+          .toHaveBeenCalledWith('chat');
+      });
+
+      it('should call updateBackButtonVisibility with true', () => {
+        expect(updateBackButtonVisibilitySpy)
+          .toHaveBeenCalledWith(true);
+      });
+    });
+
     describe('when talk is available and online', () => {
       beforeEach(() => {
         webWidget = instanceRender(
