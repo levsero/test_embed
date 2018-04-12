@@ -113,6 +113,47 @@ describe('HelpCenter component', () => {
   describe('render', () => {
     let buttonLabelKey = 'contact';
 
+    describe('when chatting', () => {
+      describe('no notifications', () => {
+        beforeEach(() => {
+          instanceRender(
+            <HelpCenter chatAvailable={true} buttonLabelKey={buttonLabelKey} channelChoice={false} />
+          );
+        });
+
+        it('uses the chat label for the button', () => {
+          expect(mockRegistry['service/i18n'].i18n.t)
+            .toHaveBeenCalledWith('embeddable_framework.common.button.chat');
+        });
+      });
+
+      describe('1 notification', () => {
+        beforeEach(() => {
+          instanceRender(
+            <HelpCenter chatNotificationCount={1} chatAvailable={true} buttonLabelKey={buttonLabelKey} channelChoice={false} />
+          );
+        });
+
+        it('uses the chat notification label for the button', () => {
+          expect(mockRegistry['service/i18n'].i18n.t)
+            .toHaveBeenCalledWith('embeddable_framework.chat.button.oneMessage');
+        });
+      });
+
+      describe('more than 1 notification', () => {
+        beforeEach(() => {
+          instanceRender(
+            <HelpCenter chatNotificationCount={3} chatAvailable={true} buttonLabelKey={buttonLabelKey} channelChoice={false} />
+          );
+        });
+
+        it('uses the chat notification label for the button', () => {
+          expect(mockRegistry['service/i18n'].i18n.t)
+            .toHaveBeenCalledWith('embeddable_framework.chat.button.manyMessages', { plural_number: 3 });
+        });
+      });
+    });
+
     describe('when channel choice is on', () => {
       beforeEach(() => {
         instanceRender(

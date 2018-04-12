@@ -33,7 +33,8 @@ import { getActiveArticle,
          getChannelChoiceShown,
          getSearchFieldValue } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
-import { getNotificationCount } from 'src/redux/modules/chat/chat-selectors';
+import { getNotificationCount,
+         getIsChatting } from 'src/redux/modules/chat/chat-selectors';
 
 const maximumSearchResults = 9;
 const maximumContextualSearchResults = 3;
@@ -54,7 +55,8 @@ const mapStateToProps = (state) => {
     restrictedImages: getRestrictedImages(state),
     channelChoiceShown: getChannelChoiceShown(state),
     searchFieldValue: getSearchFieldValue(state),
-    chatNotificationCount: getNotificationCount(state)
+    chatNotificationCount: getNotificationCount(state),
+    isChatting: getIsChatting(state)
   };
 };
 
@@ -103,7 +105,8 @@ class HelpCenter extends Component {
     searchFieldValue: PropTypes.string.isRequired,
     handleSearchFieldChange: PropTypes.func.isRequired,
     handleSearchFieldFocus: PropTypes.func.isRequired,
-    chatNotificationCount: PropTypes.number
+    chatNotificationCount: PropTypes.number,
+    isChatting: PropTypes.bool
   };
 
   static defaultProps = {
@@ -133,7 +136,8 @@ class HelpCenter extends Component {
     addRestrictedImage: () => {},
     updateChannelChoiceShown: () => {},
     handleSearchFieldChange: () => {},
-    chatNotificationCount: 0
+    chatNotificationCount: 0,
+    isChatting: false
   };
 
   constructor(props) {
@@ -414,18 +418,28 @@ class HelpCenter extends Component {
 
   render = () => {
     let buttonLabel;
-    const { chatNotificationCount, channelChoice, chatAvailable, talkAvailable, callbackEnabled } = this.props;
+    const { chatNotificationCount,
+            channelChoice,
+            chatAvailable,
+            isChatting,
+            talkAvailable,
+            callbackEnabled } = this.props;
 
-    if (channelChoice || (chatAvailable && talkAvailable)) {
-      buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
-    } else if (chatAvailable) {
+    const renderChatLabel = () => {
       if (chatNotificationCount > 0) {
-        buttonLabel = chatNotificationCount > 1
+        return chatNotificationCount > 1
           ? i18n.t('embeddable_framework.chat.button.manyMessages', { plural_number: chatNotificationCount })
           : i18n.t('embeddable_framework.chat.button.oneMessage');
-      } else {
-        buttonLabel = i18n.t('embeddable_framework.common.button.chat');
       }
+      return i18n.t('embeddable_framework.common.button.chat');
+    };
+
+    if (isChatting) {
+      buttonLabel = renderChatLabel();
+    } else if (channelChoice || (chatAvailable && talkAvailable)) {
+      buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
+    } else if (chatAvailable) {
+      buttonLabel = renderChatLabel();
     } else if (talkAvailable) {
       buttonLabel = callbackEnabled
                   ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback')
