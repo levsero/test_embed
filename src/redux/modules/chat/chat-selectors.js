@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
 import { CHATTING_SCREEN } from './chat-screen-types';
 
+import { i18n } from 'service/i18n';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 
 const getFormFields = (settings) => {
@@ -98,13 +99,24 @@ export const getDepartments = (state) => state.chat.departments;
 const getDepartmentsList = (state) => _.values(state.chat.departments);
 
 export const getPrechatFormFields = createSelector(
-  [getPrechatFormSettings, getDepartmentsList],
-  (prechatSettings, departments) => {
+  [getPrechatFormSettings, getDepartmentsList, getOfflineFormSettings],
+  (prechatSettings, departments, offlineFormSettings) => {
     const formsByKey = getFormFields(prechatSettings);
-    const departmentOptions = _.map(
-      departments,
-      (department) => ({ ...department, value: department.id })
-    );
+    const departmentOptions = _.map(departments, (department) => {
+      let dept = {
+        ...department,
+        value: department.id
+      };
+
+      if (department.status === 'offline') {
+        if (!offlineFormSettings.enabled) {
+          dept.disabled = true;
+        }
+        dept.name = i18n.t('embeddable_framework.chat.department.offline.label', { department: department.name });
+      }
+
+      return dept;
+    });
 
     return _.extend({}, formsByKey, { departments: departmentOptions });
   }

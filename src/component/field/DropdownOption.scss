@@ -2,19 +2,6 @@
 
 .field {
   composes: u-paddingAS from global;
-
-  &:hover {
-    background-color: $zd-color-white-smoke;
-    color: $zd-color-oil;
-
-    .arrowRight {
-      border-left: #{7/$font-size}rem solid $zd-color-dark-gray;
-    }
-
-    .arrowLeft {
-      border-right: #{7/$font-size}rem solid $zd-color-dark-gray;
-    }
-  }
 }
 
 .fieldFocused {
@@ -34,6 +21,26 @@
   composes: u-borderBottom from global;
   margin-bottom: #{3/$font-size}rem;
   padding-bottom: #{3/$font-size}rem;
+}
+
+.disabled {
+  color: $zd-color-iron;
+  cursor: default !important;
+}
+
+.enabled {
+  &:hover {
+    background-color: $zd-color-white-smoke;
+    color: $zd-color-oil;
+
+    .arrowRight {
+      border-left: #{7/$font-size}rem solid $zd-color-dark-gray;
+    }
+
+    .arrowLeft {
+      border-right: #{7/$font-size}rem solid $zd-color-dark-gray;
+    }
+  }
 }
 
 .arrowRight {

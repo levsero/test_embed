@@ -18,7 +18,9 @@ describe('dropdownOption component', () => {
           arrowMobile: 'arrowMobileClasses',
           fieldBorder: 'fieldBorderClasses',
           fieldFocused: 'fieldFocusedClasses',
-          name: 'nameClasses'
+          name: 'nameClasses',
+          disabled: 'disabledClasses',
+          enabled: 'enabledClasses'
         }
       },
       'service/i18n': {
@@ -192,9 +194,12 @@ describe('dropdownOption component', () => {
     });
 
     describe('when there is not a nested menu', () => {
+      let disabled = false;
+
       beforeEach(() => {
         option = domRender(
           <DropdownOption
+            disabled={disabled}
             updateMenu={updateMenuSpy}
             onClick={onClickSpy} />
         );
@@ -202,9 +207,22 @@ describe('dropdownOption component', () => {
         option.handleDropdownOpen();
       });
 
-      it('calls the onClick prop', () => {
-        expect(onClickSpy)
-          .toHaveBeenCalled();
+      describe('when the option is not disabled', () => {
+        it('calls the onClick prop', () => {
+          expect(onClickSpy)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when the option is disabled', () => {
+        beforeAll(() => {
+          disabled = true;
+        });
+
+        it('does not call the onClick prop', () => {
+          expect(onClickSpy)
+            .not.toHaveBeenCalled();
+        });
       });
 
       it('does not call updateMenu prop', () => {
@@ -215,7 +233,7 @@ describe('dropdownOption component', () => {
   });
 
   describe('render', () => {
-    let option;
+    let option, optionField;
 
     describe('when the field is focused', () => {
       beforeEach(() => {
@@ -240,6 +258,40 @@ describe('dropdownOption component', () => {
       it('does not have focused classes', () => {
         expect(ReactDOM.findDOMNode(option).querySelector('.fieldFocusedClasses'))
           .toBeNull();
+      });
+    });
+
+    describe('when the field is disabled', () => {
+      beforeEach(() => {
+        option = instanceRender(<DropdownOption disabled={true} />);
+        optionField = option.render().props.children;
+      });
+
+      it('has disabled classes', () => {
+        expect(optionField.props.className)
+          .toContain('disabledClasses');
+      });
+
+      it('does not have enabled classes', () => {
+        expect(optionField.props.className)
+          .not.toContain('enabledClasses');
+      });
+    });
+
+    describe('when the field is enabled', () => {
+      beforeEach(() => {
+        option = instanceRender(<DropdownOption />);
+        optionField = option.render().props.children;
+      });
+
+      it('has enabled classes', () => {
+        expect(optionField.props.className)
+          .toContain('enabledClasses');
+      });
+
+      it('does not have disabled classes', () => {
+        expect(optionField.props.className)
+          .not.toContain('disabledClasses');
       });
     });
 

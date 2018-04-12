@@ -100,6 +100,23 @@ export class Dropdown extends Component {
     this.height = 0;
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    // For chat when options go online or offline and the text changes
+    if (!_.isEqual(this.props.options, nextProps.options)) {
+      this.setState({
+        displayedMenu: (
+          <DropdownMenu
+            ref={(m) => { this.menu = m; }}
+            fullscreen={this.props.fullscreen}
+            options={this.formatDropdownOptions(nextProps.options)}
+            optionFormat={this.props.optionFormat}
+            onOptionClick={this.setValue} />
+        ),
+        open: this.state.open
+      });
+    }
+  }
+
   componentDidUpdate = () => {
     const el = ReactDOM.findDOMNode(this);
 
@@ -234,6 +251,7 @@ export class Dropdown extends Component {
 
             return {
               name: option.name,
+              disabled: option.disabled,
               onClick: this.setValue(option.value, option.name),
               value: option.value,
               id: _.uniqueId('option-')

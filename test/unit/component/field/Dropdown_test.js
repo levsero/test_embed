@@ -437,7 +437,7 @@ describe('dropdown component', () => {
 
       it('should return them in the correct format', () => {
         expect(_.keys(filteredItems[0]))
-          .toEqual(['name', 'onClick', 'value', 'id']);
+          .toEqual(['name', 'disabled', 'onClick', 'value', 'id']);
       });
     });
 
@@ -548,6 +548,35 @@ describe('dropdown component', () => {
           expect(ReactDOM.findDOMNode(dropdown).querySelector('.inputErrorClasses'))
             .not.toBeNull();
         });
+      });
+    });
+  });
+
+  describe('componentWillReceiveProps', () => {
+    beforeAll(() => {
+      dropdown = domRender(<Dropdown options={options} />);
+      spyOn(dropdown, 'setState');
+    });
+
+    describe('when the option props have not changed', () => {
+      beforeEach(() => {
+        dropdown.componentWillReceiveProps({ options });
+      });
+
+      it('does not update the state', () => {
+        expect(dropdown.setState)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when the option props have changed', () => {
+      beforeEach(() => {
+        dropdown.componentWillReceiveProps({ options: [{ name: 'one', value: 1}] });
+      });
+
+      it('updates the state', () => {
+        expect(dropdown.setState)
+          .toHaveBeenCalled();
       });
     });
   });
