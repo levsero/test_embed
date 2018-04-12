@@ -6,12 +6,19 @@ import { Button } from 'component/button/Button';
 import { timeFromMinutes } from 'utility/time';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatOperatingHours.scss';
+import classNames from 'classnames';
 
 export class ChatOperatingHours extends Component {
   static propTypes = {
     operatingHours: PropTypes.object.isRequired,
     handleOfflineFormBack: PropTypes.func.isRequired
   };
+
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = { activeDepartment: null };
+  }
 
   daysOfTheWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
@@ -43,9 +50,14 @@ export class ChatOperatingHours extends Component {
     return range;
   }
 
-  renderSchedule = (schedule, listKey = 'account') => {
+  renderSchedule = (schedule, departmentKey = 'account') => {
+    const dlClassNames = classNames(
+      styles.dayList,
+      { [styles.hidden]: (departmentKey !== 'account' && this.state.activeDepartment !== departmentKey) }
+    );
+
     return(
-      <dl className={styles.dayList} key={`dl-${listKey}`}>
+      <dl className={dlClassNames} key={`dl-${departmentKey}`}>
         {this.daysOfTheWeek.reduce((accumulator, day, index) => {
           return accumulator.concat([
             <dt className={styles.dayName} key={`dt-${index}`}>{this.renderDayName(day)}</dt>,
@@ -72,9 +84,12 @@ export class ChatOperatingHours extends Component {
     if (!operatingHours.department_schedule) return;
 
     const departmentKeys = keys(operatingHours.department_schedule);
+
+    if (!this.state.activeDepartment) { this.state.activeDepartment = departmentKeys[0]; }
+
     const departments = departmentKeys.map((id) => {
       const dept = {
-        name: `Department ${Math.random()}`,
+        name: `Department ${id}`,
         value: id
       };
 
@@ -90,17 +105,21 @@ export class ChatOperatingHours extends Component {
     return (
       <div>
         <Dropdown
-          className={'styles.dropdown'}
-          menuContainerClassName={'styles.dropdownMenuContainer'}
+          className={styles.dropdown}
+          menuContainerClassName={styles.dropdownMenuContainer}
           label={'DEPARTMENT'}
           required={false}
           name='department'
           options={departments}
-          onChange={() => {}}
+          onChange={this.setActiveDepartment}
         />
         {schedules}
       </div>
     );
+  }
+
+  setActiveDepartment = (departmentId) => {
+    this.setState({ activeDepartment: departmentId });
   }
 
   renderBackButton = () => {
