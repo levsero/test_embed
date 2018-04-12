@@ -22,6 +22,7 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { Button } from 'component/button/Button';
+import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { i18n } from 'service/i18n';
 import { isFirefox, isIE } from 'utility/devices';
 import { endChat,
@@ -280,8 +281,11 @@ class Chat extends Component {
       this.props.departments[selectedDepartment].status !== DEPARTMENT_STATUSES.ONLINE);
 
     if (isSelectedDepartmentOffline) {
-      this.props.sendOfflineMessage(info);
-      this.props.updateChatScreen(screens.OFFLINE_MESSAGE_SCREEN);
+      const successCallback = () => this.props.updateChatScreen(screens.OFFLINE_MESSAGE_SCREEN);
+      const failureCallback = () => this.props.updateChatScreen(screens.PRECHAT_SCREEN);
+
+      this.props.updateChatScreen(screens.LOADING_SCREEN);
+      this.props.sendOfflineMessage(info, successCallback, failureCallback);
     } else {
       const sendOnlineMessage = () => info.message ? this.props.sendMsg(info.message) : null;
 
@@ -433,7 +437,9 @@ class Chat extends Component {
   }
 
   renderPrechatScreen = () => {
-    if (this.props.screen !== screens.PRECHAT_SCREEN && this.props.screen !== screens.OFFLINE_MESSAGE_SCREEN) return;
+    if (this.props.screen !== screens.PRECHAT_SCREEN &&
+        this.props.screen !== screens.OFFLINE_MESSAGE_SCREEN &&
+        this.props.screen !== screens.LOADING_SCREEN) return;
 
     const { form, message } = this.props.prechatFormSettings;
     const scrollContainerClasses = classNames(
@@ -458,6 +464,8 @@ class Chat extends Component {
           offlineMessage={this.props.offlineMessage}
           onFormBack={() => this.props.updateChatScreen(screens.PRECHAT_SCREEN)} />
       );
+    } else if (this.props.screen === screens.LOADING_SCREEN) {
+      formScreen = <LoadingSpinner className={styles.loadingSpinner} />;
     }
 
     return (

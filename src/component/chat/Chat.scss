@@ -11,6 +11,11 @@
   }
 }
 
+.loadingSpinner {
+  display: block;
+  margin: 50% auto 0;
+}
+
 .container {
   height: #{$chat-height/$font-size}rem;
 }

@@ -1,5 +1,6 @@
 const prechatScreen = 'widget/chat/PRECHAT_SCREEN';
 const chattingScreen = 'widget/chat/CHATTING_SCREEN';
+const loadingScreen = 'widget/chat/LOADING_SCREEN';
 const feedbackScreen = 'widget/chat/FEEDBACK_SCREEN';
 const offlineMessageScreen = 'widget/chat/OFFLINE_MESSAGE_SCREEN';
 
@@ -33,6 +34,7 @@ describe('Chat component', () => {
   const ChatPrechatForm = noopReactComponent('ChatPrechatForm');
   const Button = noopReactComponent('Button');
   const ButtonPill = noopReactComponent('ButtonPill');
+  const LoadingSpinner = noopReactComponent('LoadingSpinner');
 
   const CONNECTION_STATUSES = requireUncached(chatConstantsPath).CONNECTION_STATUSES;
   const DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES;
@@ -60,6 +62,9 @@ describe('Chat component', () => {
           agentListBackButton: 'agentListBackButtonClasses',
           mobileContainer: 'mobileContainerClasses'
         }
+      },
+      'component/loading/LoadingSpinner': {
+        LoadingSpinner
       },
       'component/button/Button': {
         Button
@@ -135,6 +140,7 @@ describe('Chat component', () => {
         PRECHAT_SCREEN: prechatScreen,
         CHATTING_SCREEN: chattingScreen,
         FEEDBACK_SCREEN: feedbackScreen,
+        LOADING_SCREEN: loadingScreen,
         OFFLINE_MESSAGE_SCREEN: offlineMessageScreen,
         EMAIL_TRANSCRIPT_SCREEN: EMAIL_TRANSCRIPT_SCREEN,
         EMAIL_TRANSCRIPT_SUCCESS_SCREEN: EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
@@ -573,16 +579,32 @@ describe('Chat component', () => {
           };
         });
 
-        it('calls sendOfflineMessage with the correct arguments', () => {
-          expect(sendOfflineMessageSpy)
-            .toHaveBeenCalledWith({
-              ...formInfo
-            });
+        it('calls updateChatScreen with LOADING_SCREEN', () => {
+          expect(updateChatScreenSpy)
+            .toHaveBeenCalledWith(loadingScreen);
         });
 
-        it('calls updateChatScreen with the OFFLINE_MESSAGE_SCREEN', () => {
+        it('calls sendOfflineMessage with formInfo', () => {
+          expect(sendOfflineMessageSpy)
+            .toHaveBeenCalledWith(formInfo, jasmine.any(Function), jasmine.any(Function));
+        });
+
+        it('calls updateChatScreen with offline screen when the callbackSuccess is invoked', () => {
+          const callbackSuccess = sendOfflineMessageSpy.calls.mostRecent().args[1];
+
+          callbackSuccess();
+
           expect(updateChatScreenSpy)
             .toHaveBeenCalledWith(offlineMessageScreen);
+        });
+
+        it('calls updateChatScreen with preChat screen when the callbackFailure is invoked', () => {
+          const callbackFailure = sendOfflineMessageSpy.calls.mostRecent().args[2];
+
+          callbackFailure();
+
+          expect(updateChatScreenSpy)
+            .toHaveBeenCalledWith(prechatScreen);
         });
       });
     });
@@ -714,6 +736,39 @@ describe('Chat component', () => {
 
         it('renders the ChatOfflineMessageForm component', () => {
           expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm))
+            .toEqual(true);
+        });
+      });
+    });
+
+    describe('when state.screen is `loading`', () => {
+      beforeEach(() => {
+        component = instanceRender(
+          <Chat
+            screen={loadingScreen}
+            prechatFormSettings={prechatFormSettingsProp} />
+        );
+        result = component.renderPrechatScreen();
+      });
+
+      it('returns a component', () => {
+        expect(result)
+          .toBeTruthy();
+      });
+
+      describe('the scroll container wrapper', () => {
+        it('has its classes prop to the scroll container style', () => {
+          expect(result.props.classes)
+            .toEqual('scrollContainerClasses');
+        });
+
+        it('has its containerClasses prop to the scrollContainerContent style', () => {
+          expect(result.props.containerClasses)
+            .toEqual('scrollContainerContentClasses');
+        });
+
+        it('renders the LoadingSpinner component', () => {
+          expect(TestUtils.isElementOfType(result.props.children, LoadingSpinner))
             .toEqual(true);
         });
       });
