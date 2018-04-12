@@ -66,7 +66,7 @@
     "superagent": "^2.0.0",
     "zd-css-buttons": "git+ssh://git@github.com/zendeskgarden/css-buttons.git#2.2.0",
     "zd-css-variables": "git+ssh://git@github.com/zendeskgarden/css-variables.git#0.11.0",
-    "zd-svg-icons": "git+ssh://git@github.com/zendeskgarden/svg-icons.git#1.4.0"
+    "zd-svg-icons": "git+ssh://git@github.com/zendeskgarden/svg-icons.git#9645cba84638ef081d748bbcb7895422b0f18bc1"
   },
   "devDependencies": {
     "app-root-path": "^2.0.1",
