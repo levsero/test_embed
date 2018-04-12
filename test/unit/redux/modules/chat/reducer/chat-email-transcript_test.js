@@ -31,7 +31,9 @@ describe('chat email transcript', () => {
         expect(initialState)
           .toEqual({
             screen: screenTypes.EMAIL_TRANSCRIPT_SCREEN,
-            email: ''
+            show: false,
+            email: '',
+            error: false
           });
       });
     });
