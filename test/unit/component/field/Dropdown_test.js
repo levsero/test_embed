@@ -552,6 +552,35 @@ describe('dropdown component', () => {
     });
   });
 
+  describe('componentWillReceiveProps', () => {
+    beforeAll(() => {
+      dropdown = domRender(<Dropdown options={options} />);
+      spyOn(dropdown, 'setState');
+    });
+
+    describe('when the option props have not changed', () => {
+      beforeEach(() => {
+        dropdown.componentWillReceiveProps({ options });
+      });
+
+      it('does not update the state', () => {
+        expect(dropdown.setState)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when the option props have changed', () => {
+      beforeEach(() => {
+        dropdown.componentWillReceiveProps({ options: [{ name: 'one', value: 1}] });
+      });
+
+      it('updates the state', () => {
+        expect(dropdown.setState)
+          .toHaveBeenCalled();
+      });
+    });
+  });
+
   describe('setValue', () => {
     describe('when the field is not required', () => {
       beforeEach(() => {
