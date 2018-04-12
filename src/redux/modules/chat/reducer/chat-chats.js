@@ -22,8 +22,6 @@ import _ from 'lodash';
 
 const initialState = new Map();
 
-const isAgent = (nick) => nick.indexOf('agent:') > -1;
-
 const concatChat = (chats, chat) => {
   const copy = new Map(chats);
 
@@ -78,11 +76,7 @@ const chats = (state = initialState, action) => {
       return concatChat(state, action.payload.detail);
 
     case SDK_CHAT_FILE:
-      // the payload from this event is only used for incoming files as outgoing files are handled by our custom actions
-      if (isAgent(action.payload.detail.nick)) {
-        return concatSDKFile(state, action.payload.detail);
-      }
-      return state;
+      return concatSDKFile(state, action.payload.detail);
 
     default:
       return state;
