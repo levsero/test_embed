@@ -245,10 +245,6 @@ class Chat extends Component {
     if (nextScreen === screens.CHATTING_SCREEN && reRenderChatLog) {
       this.scrollToBottom();
     }
-    if (nextProps.emailTranscript.screen !== screens.EMAIL_TRANSCRIPT_SCREEN &&
-        nextProps.emailTranscript.screen !== this.props.emailTranscript.screen) {
-      this.setState({ showEmailTranscriptMenu: true });
-    }
 
     this.props.updateChatBackButtonVisibility();
   }
