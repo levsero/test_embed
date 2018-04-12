@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { locals as styles } from './SubmitTicketForm.scss';
+import classNames from 'classnames';
 
 import { AttachmentList } from 'component/attachment/AttachmentList';
 import { Button } from 'component/button/Button';
@@ -430,7 +431,13 @@ export class SubmitTicketForm extends Component {
     const buttonCancel = fullscreen ? null : this.renderCancelButton();
     const attachments = attachmentsEnabled ? this.renderAttachments() : null;
     const hiddenClass = hide ? styles.hidden : '';
-    const containerClasses = this.props.activeTicketForm ? styles.ticketFormContainer : '';
+    const containerClasses = classNames(
+      styles.container,
+      {
+        [styles.ticketFormContainer]: this.props.activeTicketForm,
+        [styles.containerMobile]: fullscreen
+      }
+    );
 
     return (
       <form
@@ -442,7 +449,7 @@ export class SubmitTicketForm extends Component {
         <ScrollContainer
           ref='scrollContainer'
           title={i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)}
-          containerClasses={`${styles.container} ${containerClasses}`}
+          containerClasses={containerClasses}
           getFrameDimensions={this.props.getFrameDimensions}
           footerContent={
             <ButtonGroup rtl={i18n.isRTL()}>

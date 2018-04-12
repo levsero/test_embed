@@ -9,6 +9,10 @@
   height: auto;
 }
 
+.containerMobile {
+  composes: u-textSizeMed from global;
+}
+
 .hidden {
   composes: u-isHidden from global;
 }
