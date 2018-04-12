@@ -253,8 +253,8 @@ describe('ChatGroup component', () => {
           },
           {
             type: 'chat.file',
-            attachment: {
-              mime_type: 'application/pdf',
+            file: {
+              type: 'application/pdf',
               name: 'invoice.pdf',
               size: 16,
               url: 'path://to/file'
@@ -509,8 +509,8 @@ describe('ChatGroup component', () => {
         beforeAll(() => {
           chat = {
             type: 'chat.file',
-            attachment: {
-              mime_type: 'application/pdf',
+            file: {
+              type: 'application/pdf',
               name: 'invoice.pdf',
               size: 1024,
               url: 'path://to/file'
@@ -525,7 +525,7 @@ describe('ChatGroup component', () => {
         it('passes the correct props to the child component', () => {
           expect(result.props).toEqual(jasmine.objectContaining({
             downloading: false,
-            file: chat.attachment,
+            file: chat.file,
             isDownloadable: true
           }));
         });
@@ -535,8 +535,8 @@ describe('ChatGroup component', () => {
         beforeAll(() => {
           chat = {
             type: 'chat.file',
-            attachment: {
-              mime_type: 'image/jpeg',
+            file: {
+              type: 'image/jpeg',
               name: 'penguins.jpg',
               size: 1024,
               url: 'path://to/image'
@@ -549,7 +549,7 @@ describe('ChatGroup component', () => {
         });
 
         it('passes the correct imgSrc prop to the component', () => {
-          expect(result.props.imgSrc).toEqual(chat.attachment.url);
+          expect(result.props.imgSrc).toEqual(chat.file.url);
         });
 
         it('renders the component without a placeholder element', () => {
@@ -570,7 +570,7 @@ describe('ChatGroup component', () => {
           chat = {
             type: 'chat.file',
             file: {
-              mime_type: 'application/pdf',
+              type: 'application/pdf',
               name: 'manual.pdf',
               size: 1024,
               url: 'path://to/file'
@@ -586,7 +586,7 @@ describe('ChatGroup component', () => {
           expect(result.props).toEqual(jasmine.objectContaining({
             downloading: false,
             file: chat.file,
-            isDownloadable: false
+            isDownloadable: true
           }));
         });
 

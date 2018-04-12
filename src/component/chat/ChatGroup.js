@@ -164,7 +164,8 @@ export class ChatGroup extends Component {
 
   renderInlineAttachment = (isAgent, chat) => {
     let inlineAttachment;
-    const file = isAgent ? chat.attachment : chat.file;
+
+    const file = chat.file;
     const extension = file.name.split('.').pop().toUpperCase();
     const icon = FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT;
     const isImage = /(gif|jpe?g|png)$/i.test(extension);
@@ -182,7 +183,7 @@ export class ChatGroup extends Component {
         file={file}
         filenameMaxLength={20}
         icon={icon}
-        isDownloadable={isAgent}
+        isDownloadable={!file.error && !file.uploading}
         uploading={!file.error && file.uploading}
       />
     );
