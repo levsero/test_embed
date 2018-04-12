@@ -412,7 +412,12 @@ describe('chat reducer chats', () => {
             detail = {
               timestamp: Date.now(),
               nick: 'agent:123',
-              display_name: 'Agent 123'
+              display_name: 'Agent 123',
+              attachment: {
+                name: 'file',
+                size: 1,
+                mime_type: 'some/file'
+              }
             };
 
             state = reducer(initialState, {

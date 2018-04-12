@@ -30,6 +30,22 @@ const concatChat = (chats, chat) => {
   return copy.set(chat.timestamp, { ...chat });
 };
 
+const concatSDKFile = (chats, chat) => {
+  const copy = new Map(chats);
+  const file = {
+    lastModified: null,
+    lastModifiedDate: null,
+    name: chat.attachment.name,
+    size: chat.attachment.size,
+    type: chat.attachment.mime_type,
+    uploading: false,
+    url: chat.attachment.url,
+    webkitRelativePath: ''
+  };
+
+  return copy.set(chat.timestamp, { ...chat, file });
+};
+
 const updateChat = (chats, chat) => {
   const copy = new Map(chats),
     prevChat = chats.get(chat.timestamp);
@@ -63,8 +79,10 @@ const chats = (state = initialState, action) => {
 
     case SDK_CHAT_FILE:
       // the payload from this event is only used for incoming files as outgoing files are handled by our custom actions
-      return isAgent(action.payload.detail.nick) ?
-        concatChat(state, action.payload.detail) : state;
+      if (isAgent(action.payload.detail.nick)) {
+        return concatSDKFile(state, action.payload.detail);
+      }
+      return state;
 
     default:
       return state;
