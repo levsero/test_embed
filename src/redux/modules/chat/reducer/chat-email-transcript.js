@@ -4,7 +4,6 @@ import {
   EMAIL_TRANSCRIPT_REQUEST_SENT,
   EMAIL_TRANSCRIPT_IDLE,
   RESET_EMAIL_TRANSCRIPT,
-  RESET_EMAIL_TRANSCRIPT_SCREEN,
   UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
   SDK_ERROR
 } from '../chat-action-types';
@@ -41,11 +40,6 @@ const emailTranscript = (state = initialState, action) => {
         screen: screenLookUp[type],
         email: payload,
         error: false
-      };
-    case RESET_EMAIL_TRANSCRIPT_SCREEN:
-      return {
-        ...state,
-        screen: EMAIL_TRANSCRIPT_SCREEN
       };
     case RESET_EMAIL_TRANSCRIPT:
       return initialState;

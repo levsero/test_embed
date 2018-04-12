@@ -4,7 +4,6 @@ import {
   EDIT_CONTACT_DETAILS_ERROR_SCREEN
 } from 'constants/chat';
 import {
-  RESET_CONTACT_DETAILS_SCREEN,
   SET_VISITOR_INFO_REQUEST_SUCCESS,
   SET_VISITOR_INFO_REQUEST_PENDING,
   SDK_ERROR,
@@ -50,11 +49,6 @@ const editContactDetails = (state = initialState, action) => {
         ...state,
         status: EDIT_CONTACT_DETAILS_SCREEN,
         show: payload
-      };
-    case RESET_CONTACT_DETAILS_SCREEN:
-      return {
-        ...state,
-        status: EDIT_CONTACT_DETAILS_SCREEN
       };
     default:
       return state;
