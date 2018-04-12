@@ -115,14 +115,46 @@ function parseLocale(str) {
     return lowercaseLocale;
   } else if (_.includes(locales, extractLang(locale))) {
     return extractLang(locale);
-  } else if (str === 'zh') {
-    return 'zh-cn';
   } else if (str === 'nb' || str === 'nn') {
     return 'no';
   } else if (str === 'tl') {
     return 'fil';
+  } else if (_.startsWith(str, 'zh')) {
+    return parseZhLocale(str);
   } else {
     return 'en-US';
+  }
+}
+
+// logic taken from https://www.drupal.org/project/drupal/issues/365615
+function parseZhLocale(str) {
+  str = str.toLowerCase();
+  const parts = _.split(str, '-');
+
+  if (parts.length > 2) {
+    const middle = parts[1];
+
+    if (middle === 'hant') {
+      return 'zh-tw';
+    } else if (middle === 'hans') {
+      return 'zh-cn';
+    }
+  }
+
+  switch (str) {
+    case 'zh-sg':
+    case 'zh-cn':
+    case 'zh-my':
+    case 'zh-hans':
+    case 'zh':
+      return 'zh-cn';
+    case 'zh-mo':
+    case 'zh-tw':
+    case 'zh-hk':
+    case 'zh-hant':
+      return 'zh-tw';
+    default:
+      return 'zh-cn';
   }
 }
 
