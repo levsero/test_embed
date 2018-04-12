@@ -1,7 +1,6 @@
 describe('ScrollContainer component', () => {
   let ScrollContainer;
   const containerPath = buildSrcPath('component/container/ScrollContainer');
-  const windowHeight = 500;
 
   beforeEach(() => {
     mockery.enable();
@@ -20,10 +19,8 @@ describe('ScrollContainer component', () => {
           containerDesktop: 'containerDesktopClasses'
         }
       },
-      'utility/globals': {
-        win: {
-          innerHeight: windowHeight
-        }
+      'utility/devices': {
+        isMobileBrowser: () => {}
       }
     });
 

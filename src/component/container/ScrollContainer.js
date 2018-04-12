@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import { isMobileBrowser } from 'utility/devices';
 import { locals as styles } from './ScrollContainer.scss';
+
+const isMobile = isMobileBrowser();
 
 export class ScrollContainer extends Component {
   static propTypes = {
@@ -25,7 +28,7 @@ export class ScrollContainer extends Component {
     containerClasses: '',
     footerClasses: '',
     footerContent: [],
-    fullscreen: false,
+    fullscreen: isMobile,
     headerContent: null,
     scrollShadowVisible: false
   };
