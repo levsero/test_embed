@@ -11,6 +11,7 @@ import isChatting from './chat-is-chatting';
 import visitor from './chat-visitor';
 import rating from './chat-rating';
 import notification from './chat-notification';
+import standaloneMobileNotificationVisible from './chat-standalone-mobile-notification-visible';
 import screen from './chat-screen';
 import userSettings from './user-settings/';
 import emailTranscript from './chat-email-transcript';
@@ -35,6 +36,7 @@ export default combineReducers({
   visitor,
   rating,
   notification,
+  standaloneMobileNotificationVisible,
   screen,
   userSettings,
   emailTranscript,
