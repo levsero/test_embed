@@ -464,7 +464,8 @@ class Chat extends Component {
       <ScrollContainer
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
         classes={scrollContainerClasses}
-        containerClasses={styles.scrollContainerContent}>
+        containerClasses={styles.scrollContainerContent}
+        fullscreen={this.props.isMobile}>
         {formScreen}
       </ScrollContainer>
     );
@@ -658,7 +659,8 @@ class Chat extends Component {
         headerContent={this.renderChatHeader()}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
         classes={scrollContainerClasses}
-        containerClasses={styles.scrollContainerContent}>
+        containerClasses={styles.scrollContainerContent}
+        fullscreen={isMobile}>
         <ChatFeedbackForm
           feedbackMessage={message}
           rating={this.props.rating}
@@ -744,6 +746,7 @@ class Chat extends Component {
         classes={scrollContainerClasses}
         containerClasses={styles.scrollContainerContent}
         footerContent={backToChatButton}
+        fullscreen={isMobile}
         >
         <ChatAgentList agents={agents} />
       </ScrollContainer>

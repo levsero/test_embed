@@ -9,7 +9,7 @@
 .messageBubble {
   composes: genericMessageBubble;
   border-radius: #{16/$font-size}rem;
-  line-height: 16px;
+  line-height: #{16/$font-size}rem;
   padding: #{8/$font-size}rem #{12/$font-size}rem;
 }
 

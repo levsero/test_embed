@@ -6,6 +6,7 @@
 
 .button {
   composes: c-btn c-btn--medium Anim-color u-textNoWrap from global;
+  border-radius: #{4/$font-size}rem;
 }
 
 .filled {

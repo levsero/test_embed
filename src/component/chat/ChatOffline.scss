@@ -10,7 +10,12 @@
 }
 
 .mobileContainer {
+  composes: u-textSizeMed from global;
   height: 100% !important;
+
+  .greeting {
+    font-size: #{14/$font-size}rem !important;
+  }
 }
 
 .container {
