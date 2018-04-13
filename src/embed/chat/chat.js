@@ -42,35 +42,31 @@ function get(name) {
 }
 
 function show(name, showWindow = false) {
-  const zopim = win.$zopim;
-
-  zopim(() => {
+  win.$zopim(() => {
     if (get(name).config.standalone) {
       if (showWindow) {
-        zopim.livechat.window.show();
+        win.$zopim.livechat.window.show();
       } else {
-        zopim.livechat.button.show();
+        win.$zopim.livechat.button.show();
       }
     } else {
-      zopim.livechat.window.show();
+      win.$zopim.livechat.window.show();
     }
 
     // TODO remove when zopim has release mobile notifications
-    if (zopim.livechat.mobileNotifications) {
-      zopim.livechat.mobileNotifications.setDisabled(false);
+    if (win.$zopim.livechat.mobileNotifications) {
+      win.$zopim.livechat.mobileNotifications.setDisabled(false);
     }
   });
 }
 
 function hide() {
-  const zopim = win.$zopim;
-
-  zopim(() => {
-    zopim.livechat.hideAll();
+  win.$zopim(() => {
+    win.$zopim.livechat.hideAll();
 
     // TODO remove when zopim has release mobile notifications
-    if (zopim.livechat.mobileNotifications) {
-      zopim.livechat.mobileNotifications.setDisabled(true);
+    if (win.$zopim.livechat.mobileNotifications) {
+      win.$zopim.livechat.mobileNotifications.setDisabled(true);
     }
   });
 }
@@ -130,7 +126,6 @@ function render(name) {
 function init(name) {
   let zopimShow, zopimHide;
   let zopimApiOverwritten = false;
-  const zopim = win.$zopim;
   const chat = get(name);
   const config = chat.config;
   const overwriteZopimApi = () => {
@@ -180,9 +175,9 @@ function init(name) {
     overwriteZopimApi();
   };
 
-  zopim.onError = () => mediator.channel.broadcast(`${name}.onError`);
+  win.$zopim.onError = () => mediator.channel.broadcast(`${name}.onError`);
 
-  zopim(() => {
+  win.$zopim(() => {
     const zopimLive = win.$zopim.livechat;
     const zopimWin = zopimLive.window;
 
