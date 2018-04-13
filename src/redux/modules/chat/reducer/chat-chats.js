@@ -29,16 +29,21 @@ const concatChat = (chats, chat) => {
 };
 
 const concatSDKFile = (chats, chat) => {
+  if (!chat.timestamp) return chats;
+
   const copy = new Map(chats);
-  const file = {
+  const existingItem = copy.get(chat.timestamp) || {};
+  const existingFile = existingItem.file || {
     lastModified: null,
     lastModifiedDate: null,
-    name: chat.attachment.name,
-    size: chat.attachment.size,
-    type: chat.attachment.mime_type,
-    uploading: false,
-    url: chat.attachment.url,
     webkitRelativePath: ''
+  };
+
+  const file = {
+    ...existingFile,
+    ...chat.attachment,
+    type: chat.attachment.mime_type,
+    uploading: false
   };
 
   return copy.set(chat.timestamp, { ...chat, file });
