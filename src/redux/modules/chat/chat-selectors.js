@@ -46,6 +46,7 @@ export const getAgentJoined = (state) => state.chat.agentJoined;
 export const getLastAgentMessageSeenTimestamp = (state) => state.chat.lastAgentMessageSeenTimestamp;
 export const getOperatingHours = (state) => state.chat.operatingHours;
 export const getLoginSettings = (state) => state.chat.accountSettings.login;
+export const getStandaloneMobileNotificationVisible = (state) => state.chat.standaloneMobileNotificationVisible;
 
 export const getIsProactiveSession = (state) => {
   const chats = Array.from(getChats(state).values());
