@@ -23,6 +23,7 @@ import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { Button } from 'component/button/Button';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
+import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { isFirefox, isIE } from 'utility/devices';
 import { endChat,
@@ -171,7 +172,8 @@ class Chat extends Component {
     departments: PropTypes.object,
     offlineMessage: PropTypes.object,
     sendOfflineMessage: PropTypes.func,
-    clearDepartment: PropTypes.func
+    clearDepartment: PropTypes.func,
+    hideZendeskLogo: PropTypes.bool
   };
 
   static defaultProps = {
@@ -209,7 +211,8 @@ class Chat extends Component {
     departments: {},
     offlineMessage: {},
     sendOfflineMessage: () => {},
-    clearDepartment: () => {}
+    clearDepartment: () => {},
+    hideZendeskLogo: false
   };
 
   constructor(props) {
@@ -440,6 +443,9 @@ class Chat extends Component {
       styles.scrollContainer,
       { [styles.mobileContainer]: this.props.isMobile }
     );
+    const logoFooterClasses = classNames({
+      [styles.logoFooter]: !this.props.hideZendeskLogo
+    });
     let formScreen = null;
 
     if (this.props.screen === screens.PRECHAT_SCREEN) {
@@ -468,6 +474,8 @@ class Chat extends Component {
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
         classes={scrollContainerClasses}
         containerClasses={styles.scrollContainerContent}
+        footerClasses={logoFooterClasses}
+        footerContent={this.renderZendeskLogo()}
         fullscreen={this.props.isMobile}>
         {formScreen}
       </ScrollContainer>
@@ -559,6 +567,7 @@ class Chat extends Component {
           />
           {this.renderQueuePosition()}
           {this.renderAgentTyping()}
+          {this.renderZendeskLogo()}
         </div>
       </ScrollContainer>
     );
@@ -639,6 +648,9 @@ class Chat extends Component {
       styles.scrollContainer,
       { [styles.mobileContainer]: isMobile }
     );
+    const logoFooterClasses = classNames({
+      [styles.logoFooter]: !this.props.hideZendeskLogo
+    });
     const skipClickFn = () => {
       if (this.state.endChatFromFeedbackForm) endChat();
 
@@ -664,6 +676,8 @@ class Chat extends Component {
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
         classes={scrollContainerClasses}
         containerClasses={styles.scrollContainerContent}
+        footerClasses={logoFooterClasses}
+        footerContent={this.renderZendeskLogo()}
         fullscreen={isMobile}>
         <ChatFeedbackForm
           feedbackMessage={message}
@@ -733,13 +747,17 @@ class Chat extends Component {
   }
 
   renderAgentListScreen = () => {
-    const { screen, agents, updateChatScreen, isMobile } = this.props;
+    const { screen, agents, updateChatScreen, isMobile, hideZendeskLogo } = this.props;
 
     if (screen !== screens.AGENT_LIST_SCREEN) return null;
 
     const scrollContainerClasses = classNames(
       styles.scrollContainer,
       { [styles.mobileContainer]: isMobile }
+    );
+    const backToChatClasses = classNames(
+      styles.agentListBackButton,
+      { [styles.agentListBackButtonWithLogo]: !hideZendeskLogo }
     );
     const backButtonOnClick = () => { updateChatScreen(screens.CHATTING_SCREEN); };
     const backToChatButton = (
@@ -748,7 +766,7 @@ class Chat extends Component {
         label={i18n.t('embeddable_framework.chat.agentList.button.backToChat')}
         onTouchStartDisabled={true}
         onClick={backButtonOnClick}
-        className={styles.agentListBackButton} />
+        className={backToChatClasses} />
     );
 
     return (
@@ -760,6 +778,7 @@ class Chat extends Component {
         fullscreen={isMobile}
         >
         <ChatAgentList agents={agents} />
+        {this.renderZendeskLogo()}
       </ScrollContainer>
     );
   }
@@ -778,6 +797,15 @@ class Chat extends Component {
           label={i18n.t('embeddable_framework.chat.chatLog.reconnect.label')} />
       </div>
     );
+  }
+
+  renderZendeskLogo = () => {
+    return !this.props.hideZendeskLogo ?
+      <ZendeskLogo
+        className={styles.zendeskLogo}
+        rtl={i18n.isRTL()}
+        fullscreen={false}
+      /> : null;
   }
 
   render = () => {
