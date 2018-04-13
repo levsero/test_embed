@@ -39,9 +39,11 @@ describe('chat reducer accountSettings login', () => {
 
       beforeEach(() => {
         const mockSettings = {
-          restrict_profile: restrictProfile,
-          phone_display: phoneDisplay,
-          allowed_types: allowedTypes
+          login: {
+            restrict_profile: restrictProfile,
+            phone_display: phoneDisplay,
+            allowed_types: allowedTypes
+          }
         };
 
         state = reducer(initialState, {
