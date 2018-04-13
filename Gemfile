@@ -10,4 +10,5 @@ source 'https://gem.zdsys.com/gems/' do
     gem 'zendesk_deployment', '~> 3.4'
   end
   gem 'zendesk_cldr', '~> 0.2.9'
+  gem 'zendesk_i18n_dev_tools'
 end

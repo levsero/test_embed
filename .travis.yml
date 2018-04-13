@@ -16,6 +16,7 @@ env:
   - TASK=build:prod
   - TASK=build:ac
   - TASK=securityscan SECURITYSCAN=srcclr
+  - TASK=validate-i18n
 
 before_install:
   - curl -u "$ARTIFACTORY_USERNAME:$ARTIFACTORY_API_KEY" https://zdrepo.jfrog.io/zdrepo/api/npm/npm/auth/zendesk >> ~/.npmrc
@@ -32,6 +33,10 @@ script:
     then
         echo "Starting Source clear scan ...";
         ./script/run_sourceclear.sh;
+    elif [[ "$TASK" == "validate-i18n" ]]
+    then
+        echo "Validating translation files";
+        bundle exec ruby ./script/validate_i18n.rb;
     else
         echo "Running unit or integration tests";
         npm run $TASK;
