@@ -653,6 +653,21 @@ describe('Frame', () => {
         expect(dispatchSpy)
           .toHaveBeenCalled();
       });
+
+      describe('when options.onHide is defined', () => {
+        let onHideSpy;
+
+        beforeEach(() => {
+          onHideSpy = jasmine.createSpy('onHide');
+
+          frame.hide({ transition: 'none', onHide: onHideSpy });
+        });
+
+        it('calls options.onHide', () => {
+          expect(onHideSpy)
+            .toHaveBeenCalled();
+        });
+      });
     });
 
     describe('with animation', () => {
@@ -669,6 +684,7 @@ describe('Frame', () => {
         frame = domRender(<Frame {...frameProps}>{mockChild}</Frame>);
 
         frame.hide({ transition: 'downHide' });
+        jasmine.clock().tick(300);
       });
 
       it('applies animation styles to the frame', () => {
@@ -692,6 +708,22 @@ describe('Frame', () => {
       it('calls dispatch', () => {
         expect(dispatchSpy)
           .toHaveBeenCalled();
+      });
+
+      describe('when options.onHide is defined', () => {
+        let onHideSpy;
+
+        beforeEach(() => {
+          onHideSpy = jasmine.createSpy('onHide');
+
+          frame.hide({ transition: 'none', onHide: onHideSpy });
+          jasmine.clock().tick(300);
+        });
+
+        it('calls options.onHide', () => {
+          expect(onHideSpy)
+            .toHaveBeenCalled();
+        });
       });
     });
 
@@ -770,6 +802,21 @@ describe('Frame', () => {
             .toHaveBeenCalled();
         });
 
+        describe('when options.onHide is defined', () => {
+          const onHide = () => {};
+
+          beforeEach(() => {
+            spyOn(frame, 'hide');
+
+            frame.close({}, { onHide });
+          });
+
+          it('calls hide with onHide callback', () => {
+            expect(frame.hide)
+              .toHaveBeenCalledWith(jasmine.objectContaining({ onHide }));
+          });
+        });
+
         describe('when vertical position is bottom', () => {
           beforeEach(() => {
             spyOn(frame, 'hide');
@@ -779,7 +826,7 @@ describe('Frame', () => {
 
           it('should call hide with `downHide` transition', () => {
             expect(frame.hide)
-              .toHaveBeenCalledWith({ transition: 'downHide' });
+              .toHaveBeenCalledWith(jasmine.objectContaining({ transition: 'downHide' }));
           });
         });
 
@@ -797,7 +844,7 @@ describe('Frame', () => {
 
           it('should call hide with `upHide` transition', () => {
             expect(frame.hide)
-              .toHaveBeenCalledWith({ transition: 'upHide' });
+              .toHaveBeenCalledWith(jasmine.objectContaining({ transition: 'upHide' }));
           });
         });
       });
