@@ -1,6 +1,7 @@
 describe('ChatOffline component', () => {
   let ChatOffline;
   const ChatOfflinePath = buildSrcPath('component/chat/ChatOffline');
+  const ZendeskLogo = noopReactComponent('ZendeskLogo');
 
   beforeEach(() => {
     mockery.enable();
@@ -13,16 +14,21 @@ describe('ChatOffline component', () => {
           submitButton: 'submitButtonClass',
           scrollContainer: 'scrollContainerClass',
           mobileContainer: 'mobileContainerClass',
-          scrollContainerContent: 'scrollContainerContentClass'
+          scrollContainerContent: 'scrollContainerContentClass',
+          logoFooter: 'logoFooterClass'
         }
       },
       'service/i18n': {
         i18n: {
-          t: _.identity
+          t: _.identity,
+          isRTL: () => {}
         }
       },
       'component/container/ScrollContainer': {
         ScrollContainer: noopReactComponent()
+      },
+      'component/ZendeskLogo': {
+        ZendeskLogo
       },
       'component/button/Button': {
         Button: noopReactComponent()
@@ -83,6 +89,36 @@ describe('ChatOffline component', () => {
       it('passes the mobile styles to the classes prop', () => {
         expect(result.props.classes)
           .toContain('mobileContainerClass');
+      });
+    });
+
+    describe('when hideZendeskLogo is false', () => {
+      beforeEach(() => {
+        component = instanceRender(<ChatOffline hideZendeskLogo={false} />);
+
+        result = component.render();
+      });
+
+      it('renders logo in the footer with correct classes', () => {
+        expect(TestUtils.isElementOfType(result.props.footerContent, ZendeskLogo))
+          .toBeTruthy();
+        expect(result.props.footerClasses)
+          .toContain('logoFooterClass');
+      });
+    });
+
+    describe('when hideZendeskLogo is true', () => {
+      beforeEach(() => {
+        component = instanceRender(<ChatOffline hideZendeskLogo={true} />);
+
+        result = component.render();
+      });
+
+      it('does not render logo in the footer', () => {
+        expect(result.props.footerContent)
+          .toBeFalsy();
+        expect(result.props.footerClasses)
+          .not.toContain('logoFooterClass');
       });
     });
   });

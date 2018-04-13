@@ -32,6 +32,7 @@ describe('Chat component', () => {
   const Button = noopReactComponent('Button');
   const ButtonPill = noopReactComponent('ButtonPill');
   const LoadingSpinner = noopReactComponent('LoadingSpinner');
+  const ZendeskLogo = noopReactComponent('ZendeskLogo');
 
   const CONNECTION_STATUSES = requireUncached(chatConstantsPath).CONNECTION_STATUSES;
   const DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES;
@@ -57,7 +58,9 @@ describe('Chat component', () => {
           scrollContainerContent: 'scrollContainerContentClasses',
           scrollBarFix: 'scrollBarFix',
           agentListBackButton: 'agentListBackButtonClasses',
-          mobileContainer: 'mobileContainerClasses'
+          mobileContainer: 'mobileContainerClasses',
+          logoFooter: 'logoFooterClasses',
+          agentListBackButtonWithLogo: 'agentListBackButtonWithLogoClasses'
         }
       },
       'component/loading/LoadingSpinner': {
@@ -65,6 +68,9 @@ describe('Chat component', () => {
       },
       'component/button/Button': {
         Button
+      },
+      'component/ZendeskLogo': {
+        ZendeskLogo
       },
       'component/chat/ChatAgentList': {
         ChatAgentList: noopReactComponent()
@@ -142,7 +148,10 @@ describe('Chat component', () => {
         AGENT_LIST_SCREEN
       },
       'service/i18n': {
-        i18n: { t: translationSpy }
+        i18n: {
+          t: translationSpy,
+          isRTL: () => {}
+        }
       },
       'utility/devices': {
         isIE: () => isIE,
@@ -725,6 +734,44 @@ describe('Chat component', () => {
             .toContain('mobileContainerClasses');
         });
       });
+
+      describe('when hideZendeskLogo is false', () => {
+        beforeEach(() => {
+          component = instanceRender(
+            <Chat
+              screen={prechatScreen}
+              prechatFormSettings={prechatFormSettingsProp}
+              hideZendeskLogo={false} />
+          );
+          result = component.renderPrechatScreen();
+        });
+
+        it('renders logo in footer with correct class', () => {
+          expect(TestUtils.isElementOfType(result.props.footerContent, ZendeskLogo))
+            .toBeTruthy();
+          expect(result.props.footerClasses)
+            .toContain('logoFooterClasses');
+        });
+      });
+
+      describe('when hideZendeskLogo is true', () => {
+        beforeEach(() => {
+          component = instanceRender(
+            <Chat
+              screen={prechatScreen}
+              prechatFormSettings={prechatFormSettingsProp}
+              hideZendeskLogo={true} />
+          );
+          result = component.renderPrechatScreen();
+        });
+
+        it('does not render logo in footer', () => {
+          expect(result.props.footerContent)
+            .toBeFalsy();
+          expect(result.props.footerClasses)
+            .not.toContain('logoFooterClasses');
+        });
+      });
     });
   });
 
@@ -884,6 +931,58 @@ describe('Chat component', () => {
           it('does not end the chat', () => {
             skipClickFn();
             expect(endChatSpy).not.toHaveBeenCalled();
+          });
+        });
+      });
+
+      describe('hideZendeskLogo', () => {
+        let result;
+
+        describe('when hideZendeskLogo is false', () => {
+          beforeEach(() => {
+            component = instanceRender(
+              <Chat
+                screen={feedbackScreen}
+                rating={defaultRating}
+                updateChatScreen={updateChatScreenSpy}
+                endChat={endChatSpy}
+                sendChatRating={sendChatRatingSpy}
+                sendChatComment={sendChatCommentSpy}
+                hideZendeskLogo={false}
+              />
+            );
+            result = component.renderPostchatScreen();
+          });
+
+          it('renders logo in footer with correct class', () => {
+            expect(TestUtils.isElementOfType(result.props.footerContent, ZendeskLogo))
+              .toBeTruthy();
+            expect(result.props.footerClasses)
+              .toContain('logoFooterClasses');
+          });
+        });
+
+        describe('when hideZendeskLogo is true', () => {
+          beforeEach(() => {
+            component = instanceRender(
+              <Chat
+                screen={feedbackScreen}
+                rating={defaultRating}
+                updateChatScreen={updateChatScreenSpy}
+                endChat={endChatSpy}
+                sendChatRating={sendChatRatingSpy}
+                sendChatComment={sendChatCommentSpy}
+                hideZendeskLogo={true}
+              />
+            );
+            result = component.renderPostchatScreen();
+          });
+
+          it('does not render logo in footer', () => {
+            expect(result.props.footerContent)
+              .toBeFalsy();
+            expect(result.props.footerClasses)
+              .not.toContain('logoFooterClasses');
           });
         });
       });
@@ -1982,6 +2081,7 @@ describe('Chat component', () => {
   describe('renderAgentListScreen', () => {
     let component,
       isMobile = false,
+      hideZendeskLogo = false,
       updateChatScreenSpy;
 
     beforeEach(() => {
@@ -1990,6 +2090,7 @@ describe('Chat component', () => {
         <Chat
           screen={AGENT_LIST_SCREEN}
           isMobile={isMobile}
+          hideZendeskLogo={hideZendeskLogo}
           updateChatScreen={updateChatScreenSpy} />
       ).renderAgentListScreen();
     });
@@ -2046,7 +2147,7 @@ describe('Chat component', () => {
 
         it('has its className set to agentListBackButton', () => {
           expect(footerContent.props.className)
-            .toEqual('agentListBackButtonClasses');
+            .toContain('agentListBackButtonClasses');
         });
 
         it('has its label set correctly', () => {
@@ -2063,6 +2164,26 @@ describe('Chat component', () => {
             expect(updateChatScreenSpy)
               .toHaveBeenCalledWith(chattingScreen);
           });
+        });
+      });
+    });
+
+    describe('hideZendeskLogo', () => {
+      describe('when hideZendeskLogo is false', () => {
+        it('renders footer with correct class', () => {
+          expect(component.props.footerContent.props.className)
+            .toContain('agentListBackButtonWithLogoClasses');
+        });
+      });
+
+      describe('when hideZendeskLogo is true', () => {
+        beforeAll(() => {
+          hideZendeskLogo = true;
+        });
+
+        it('renders footer with correct class', () => {
+          expect(component.props.footerContent.props.className)
+            .not.toContain('agentListBackButtonWithLogoClasses');
         });
       });
     });
