@@ -545,7 +545,7 @@ class Chat extends Component {
             goToFeedbackScreen={() => this.props.updateChatScreen(screens.FEEDBACK_SCREEN)}
             handleSendMsg={sendMsg}
             onImageLoad={this.scrollToBottom}
-            showUpdateInfo={loginSettings.enabled && !(visitorNameSet && emailSet)}
+            showUpdateInfo={loginSettings.enabled && !(visitorNameSet || emailSet)}
             updateInfoOnClick={this.showContactDetailsFn}
           />
           {this.renderQueuePosition()}

@@ -1106,14 +1106,14 @@ describe('Chat component', () => {
               };
             });
 
-            it('should show update info link', () => {
+            it('should not show update info link', () => {
               expect(showUpdateInfoResult)
-                .toEqual(true);
+                .toEqual(false);
             });
           });
         });
 
-        describe('when visitorNameSet is false', () => {
+        describe('when visitorNameSet is not true', () => {
           describe('when emailSet is true', () => {
             beforeAll(() => {
               visitor = {
@@ -1121,9 +1121,9 @@ describe('Chat component', () => {
               };
             });
 
-            it('should show update info link', () => {
+            it('should not show update info link', () => {
               expect(showUpdateInfoResult)
-                .toEqual(true);
+                .toEqual(false);
             });
           });
 
