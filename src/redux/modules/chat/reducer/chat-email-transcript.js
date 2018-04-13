@@ -1,8 +1,12 @@
-import { EMAIL_TRANSCRIPT_SUCCESS,
-         EMAIL_TRANSCRIPT_FAILURE,
-         EMAIL_TRANSCRIPT_REQUEST_SENT,
-         EMAIL_TRANSCRIPT_IDLE,
-         RESET_EMAIL_TRANSCRIPT } from '../chat-action-types';
+import {
+  EMAIL_TRANSCRIPT_SUCCESS,
+  EMAIL_TRANSCRIPT_FAILURE,
+  EMAIL_TRANSCRIPT_REQUEST_SENT,
+  EMAIL_TRANSCRIPT_IDLE,
+  RESET_EMAIL_TRANSCRIPT,
+  UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
+  SDK_ERROR
+} from '../chat-action-types';
 import {
   EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
   EMAIL_TRANSCRIPT_FAILURE_SCREEN,
@@ -12,7 +16,9 @@ import {
 
 const initialState = {
   screen: EMAIL_TRANSCRIPT_SCREEN,
-  email: ''
+  show: false,
+  email: '',
+  error: false
 };
 
 const emailTranscript = (state = initialState, action) => {
@@ -22,20 +28,32 @@ const emailTranscript = (state = initialState, action) => {
     [EMAIL_TRANSCRIPT_FAILURE]: EMAIL_TRANSCRIPT_FAILURE_SCREEN,
     [EMAIL_TRANSCRIPT_IDLE]: EMAIL_TRANSCRIPT_SCREEN
   };
+  const { type, payload } = action;
 
-  switch (action.type) {
+  switch (type) {
     case EMAIL_TRANSCRIPT_REQUEST_SENT:
     case EMAIL_TRANSCRIPT_SUCCESS:
     case EMAIL_TRANSCRIPT_FAILURE:
     case EMAIL_TRANSCRIPT_IDLE:
       return {
-        screen: screenLookUp[action.type],
-        email: action.payload
+        ...state,
+        screen: screenLookUp[type],
+        email: payload,
+        error: false
       };
     case RESET_EMAIL_TRANSCRIPT:
+      return initialState;
+    case SDK_ERROR:
       return {
+        ...state,
+        screen: EMAIL_TRANSCRIPT_FAILURE_SCREEN,
+        error: true
+      };
+    case UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY:
+      return {
+        ...state,
         screen: EMAIL_TRANSCRIPT_SCREEN,
-        email: ''
+        show: payload
       };
     default:
       return state;

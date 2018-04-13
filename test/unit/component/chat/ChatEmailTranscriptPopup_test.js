@@ -134,7 +134,7 @@ describe('ChatEmailTranscriptPopup component', () => {
     beforeEach(() => {
       component = instanceRender(<ChatEmailTranscriptPopup />);
 
-      component.componentWillReceiveProps({ visitor: { email: 'bob@bob.com' } });
+      component.componentWillReceiveProps({ visitor: { email: 'bob@bob.com' }, emailTranscript: {} });
     });
 
     it('sets email form state to the email visitor prop passed in', () => {

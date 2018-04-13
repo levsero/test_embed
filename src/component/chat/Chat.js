@@ -42,6 +42,7 @@ import { endChat,
          handlePreChatFormChange,
          updateMenuVisibility,
          updateContactDetailsVisibility,
+         updateEmailTranscriptVisibility,
          resetCurrentMessage,
          sendOfflineMessage,
          clearDepartment } from 'src/redux/modules/chat';
@@ -158,6 +159,7 @@ class Chat extends Component {
     queuePosition: PropTypes.number,
     editContactDetails: PropTypes.object.isRequired,
     updateContactDetailsVisibility: PropTypes.func.isRequired,
+    updateEmailTranscriptVisibility: PropTypes.func.isRequired,
     updateChatBackButtonVisibility: PropTypes.func,
     updateMenuVisibility: PropTypes.func,
     menuVisible: PropTypes.bool,
@@ -213,8 +215,7 @@ class Chat extends Component {
     super(props);
 
     this.state = {
-      showEndChatMenu: false,
-      showEmailTranscriptMenu: false
+      showEndChatMenu: false
     };
 
     this.scrollContainer = null;
@@ -244,10 +245,6 @@ class Chat extends Component {
     if (nextScreen === screens.CHATTING_SCREEN && reRenderChatLog) {
       this.scrollToBottom();
     }
-    if (nextProps.emailTranscript.screen !== screens.EMAIL_TRANSCRIPT_SCREEN &&
-        nextProps.emailTranscript.screen !== this.props.emailTranscript.screen) {
-      this.setState({ showEmailTranscriptMenu: true });
-    }
 
     this.props.updateChatBackButtonVisibility();
   }
@@ -266,12 +263,12 @@ class Chat extends Component {
 
   onContainerClick = () => {
     this.setState({
-      showEndChatMenu: false,
-      showEmailTranscriptMenu: false
+      showEndChatMenu: false
     });
 
     this.props.updateMenuVisibility(false);
     this.props.updateContactDetailsVisibility(false);
+    this.props.updateEmailTranscriptVisibility(false);
   }
 
   onPrechatFormComplete = (info) => {
@@ -309,8 +306,12 @@ class Chat extends Component {
 
   showContactDetailsFn = (e) => {
     e.stopPropagation();
-    this.props.updateMenuVisibility(false);
     this.props.updateContactDetailsVisibility(true);
+  };
+
+  showEmailTranscriptFn = (e) => {
+    e.stopPropagation();
+    this.props.updateEmailTranscriptVisibility(true);
   };
 
   renderChatMenu = () => {
@@ -333,13 +334,6 @@ class Chat extends Component {
         showEndChatMenu: true
       });
     };
-    const showEmailTranscriptFn = (e) => {
-      e.stopPropagation();
-      updateMenuVisibility(false);
-      this.setState({
-        showEmailTranscriptMenu: true
-      });
-    };
     const toggleSoundFn = () => {
       handleSoundIconClick({ sound: !userSoundSettings });
     };
@@ -354,7 +348,7 @@ class Chat extends Component {
         onSendFileClick={sendAttachments}
         endChatOnClick={showChatEndFn}
         contactDetailsOnClick={this.showContactDetailsFn}
-        emailTranscriptOnClick={showEmailTranscriptFn}
+        emailTranscriptOnClick={this.showEmailTranscriptFn}
         onSoundClick={toggleSoundFn}
         isChatting={isChatting}
         isMobile={isMobile}
@@ -369,10 +363,10 @@ class Chat extends Component {
       e.stopPropagation();
       this.props.updateMenuVisibility(false);
       this.setState({
-        showEndChatMenu: true,
-        showEmailTranscriptMenu: false
+        showEndChatMenu: true
       });
       this.props.updateContactDetailsVisibility(false);
+      this.props.updateEmailTranscriptVisibility(false);
     };
 
     const sendChatFn = () => {
@@ -672,42 +666,49 @@ class Chat extends Component {
   }
 
   renderChatContactDetailsPopup = () => {
-    const { editContactDetails, updateContactDetailsVisibility, setVisitorInfo, visitor, isMobile } = this.props;
+    const { editContactDetails, setVisitorInfo, visitor, isMobile, updateContactDetailsVisibility } = this.props;
+
+    if (!editContactDetails.show) return;
+
     const hideContactDetailsFn = () => updateContactDetailsVisibility(false);
+    const tryAgainFn = () => updateContactDetailsVisibility(true);
     const saveContactDetailsFn = (name, email) => setVisitorInfo({ display_name: name, email });
 
     return (
       <ChatContactDetailsPopup
+        contactDetails={editContactDetails}
         screen={editContactDetails.status}
         show={editContactDetails.show}
         isMobile={isMobile}
         leftCtaFn={hideContactDetailsFn}
         rightCtaFn={saveContactDetailsFn}
+        tryAgainFn={tryAgainFn}
         visitor={visitor} />
     );
   }
 
   renderChatEmailTranscriptPopup = () => {
-    const hideEmailTranscriptFn = () => {
-      this.setState({ showEmailTranscriptMenu: false });
-    };
-    const sendEmailTranscriptFn = (email) => {
-      this.props.sendEmailTranscript(email);
-    };
-    const tryEmailTranscriptAgain = () => {
-      this.props.resetEmailTranscript();
-      this.setState({ showEmailTranscriptMenu: true });
-    };
+    const {
+      emailTranscript,
+      sendEmailTranscript,
+      updateEmailTranscriptVisibility
+    } = this.props;
+
+    if (!emailTranscript.show) return;
+
+    const hideEmailTranscriptFn = () => updateEmailTranscriptVisibility(false);
+    const tryEmailTranscriptAgain = () => updateEmailTranscriptVisibility(true);
+    const sendEmailTranscriptFn = (email) => sendEmailTranscript(email);
 
     return (
       <ChatEmailTranscriptPopup
-        show={this.state.showEmailTranscriptMenu}
+        show={emailTranscript.show}
         isMobile={this.props.isMobile}
         className={styles.bottomPopup}
         leftCtaFn={hideEmailTranscriptFn}
         rightCtaFn={sendEmailTranscriptFn}
         visitor={this.props.visitor}
-        emailTranscript={this.props.emailTranscript}
+        emailTranscript={emailTranscript}
         tryEmailTranscriptAgain={tryEmailTranscriptAgain}
         resetEmailTranscript={this.props.resetEmailTranscript} />
     );
@@ -814,6 +815,7 @@ const actionCreators = {
   updateMenuVisibility,
   handleReconnect,
   updateContactDetailsVisibility,
+  updateEmailTranscriptVisibility,
   resetCurrentMessage,
   sendOfflineMessage,
   clearDepartment

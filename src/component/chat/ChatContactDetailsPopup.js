@@ -10,6 +10,7 @@ import { EmailField } from 'component/field/EmailField';
 import { Field } from 'component/field/Field';
 import { Icon } from 'component/Icon';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
+import { ICONS } from 'constants/shared';
 
 import { locals as styles } from 'component/chat/ChatContactDetailsPopup.scss';
 
@@ -23,8 +24,10 @@ export class ChatContactDetailsPopup extends Component {
   static propTypes = {
     screen: PropTypes.string.isRequired,
     className: PropTypes.string,
+    contactDetails: PropTypes.object,
     leftCtaFn: PropTypes.func,
     rightCtaFn: PropTypes.func,
+    tryAgainFn: PropTypes.func,
     show: PropTypes.bool,
     isMobile: PropTypes.bool,
     visitor: PropTypes.object
@@ -32,8 +35,10 @@ export class ChatContactDetailsPopup extends Component {
 
   static defaultProps = {
     className: '',
+    contactDetails: {},
     leftCtaFn: () => {},
     rightCtaFn: () => {},
+    tryAgainFn: () => {},
     show: false,
     isMobile: false,
     visitor: {}
@@ -41,8 +46,8 @@ export class ChatContactDetailsPopup extends Component {
 
   constructor(props) {
     super(props);
-    const email = _.get(props.visitor, 'email', '');
-    const name = _.get(props.visitor, 'display_name', '');
+    const email = props.contactDetails.email || _.get(props.visitor, 'email', '');
+    const name = props.contactDetails.display_name || _.get(props.visitor, 'display_name', '');
 
     this.state = {
       valid: emailValid(email, { allowEmpty: true }),
@@ -56,8 +61,8 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const email = _.get(nextProps.visitor, 'email', '');
-    const name = _.get(nextProps.visitor, 'display_name', '');
+    const email = nextProps.contactDetails.email || _.get(nextProps.visitor, 'email', '');
+    const name = nextProps.contactDetails.display_name || _.get(nextProps.visitor, 'display_name', '');
 
     this.setState({
       valid: emailValid(email, { allowEmpty: true }),
@@ -124,15 +129,21 @@ export class ChatContactDetailsPopup extends Component {
     );
   }
 
-  renderErrorMessage() {
+  renderFailureScreen = () => {
     if (this.props.screen !== EDIT_CONTACT_DETAILS_ERROR_SCREEN) return null;
 
+    const failureMessageLabel = i18n.t('embeddable_framework.common.notify.error.generic');
+
     return (
-      <div className={styles.errorContainer}>
-        <Icon type='Icon--error' className={styles.errorIcon} />
-        <p className={styles.errorMsg}>
-          {i18n.t('embeddable_framework.common.notify.error.generic')}
-        </p>
+      <div className={styles.resultContainer}>
+        <div className={styles.resultScreen}>
+          <div className={styles.resultIcon}>
+            <Icon type={ICONS.ERROR_FILL} />
+          </div>
+          <div className={styles.resultMessage}>
+            {failureMessageLabel}
+          </div>
+        </div>
       </div>
     );
   }
@@ -150,7 +161,6 @@ export class ChatContactDetailsPopup extends Component {
           {this.renderTitle()}
           {this.renderNameField()}
           {this.renderEmailField()}
-          {this.renderErrorMessage()}
         </form>
       </div>
     );
@@ -175,7 +185,7 @@ export class ChatContactDetailsPopup extends Component {
         useOverlay={isMobile}
         className={className}
         containerClasses={containerClasses}
-        showCta={!isLoading}
+        showCta={screen === EDIT_CONTACT_DETAILS_SCREEN}
         show={this.props.show}
         leftCtaFn={leftCtaFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
@@ -183,6 +193,7 @@ export class ChatContactDetailsPopup extends Component {
         rightCtaLabel={i18n.t('embeddable_framework.common.button.save')}
         rightCtaDisabled={!this.state.valid}>
         {this.renderForm()}
+        {this.renderFailureScreen()}
         {this.renderLoadingSpinner()}
       </ChatPopup>
     );

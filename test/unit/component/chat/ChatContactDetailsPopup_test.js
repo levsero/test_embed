@@ -4,6 +4,7 @@ describe('ChatContactDetailsPopup component', () => {
     mockFormValidity,
     mockEmailValid,
     mockChatNameDefault,
+    ICONS,
     EDIT_CONTACT_DETAILS_SCREEN,
     EDIT_CONTACT_DETAILS_LOADING_SCREEN,
     EDIT_CONTACT_DETAILS_ERROR_SCREEN;
@@ -23,7 +24,9 @@ describe('ChatContactDetailsPopup component', () => {
     mockery.enable();
 
     const chatConstantsPath = basePath('src/constants/chat');
+    const sharedConstantsPath = basePath('src/constants/shared');
 
+    ICONS = requireUncached(sharedConstantsPath).ICONS;
     EDIT_CONTACT_DETAILS_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_SCREEN;
     EDIT_CONTACT_DETAILS_LOADING_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_LOADING_SCREEN;
     EDIT_CONTACT_DETAILS_ERROR_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_ERROR_SCREEN;
@@ -37,6 +40,9 @@ describe('ChatContactDetailsPopup component', () => {
         locals: {
           popupChildrenContainerLoading: 'popupChildrenContainerLoadingClass'
         }
+      },
+      'constants/shared': {
+        ICONS
       },
       'constants/chat': {
         EDIT_CONTACT_DETAILS_SCREEN,
@@ -157,38 +163,69 @@ describe('ChatContactDetailsPopup component', () => {
   });
 
   describe('componentWillReceiveProps', () => {
-    let component;
+    let component,
+      mockContactDetails;
 
-    beforeEach(() => {
-      component = instanceRender(<ChatContactDetailsPopup />);
-
-      component.componentWillReceiveProps({ visitor: { display_name: 'bob', email: 'bob@bob.com' } });
-    });
-
-    describe('when the name is not the default chat name', () => {
-      it('sets name form state to the display_name visitor prop passed in', () => {
-        expect(component.state.formState.name)
-          .toEqual('bob');
-      });
-    });
-
-    describe('when the name is the default chat name', () => {
+    describe('when contact details have been entered into the popup before', () => {
       beforeEach(() => {
-        mockChatNameDefault = true;
-        component = instanceRender(<ChatContactDetailsPopup />);
+        mockContactDetails = { display_name: 'guy', email: 'guy@guys.com' };
 
-        component.componentWillReceiveProps({ visitor: { display_name: 'Visitor 12345' } });
+        component = instanceRender(<ChatContactDetailsPopup contactDetails={mockContactDetails} />);
+
+        component.componentWillReceiveProps({
+          visitor: { display_name: 'bob', email: 'bob@bob.com' },
+          contactDetails: mockContactDetails
+        });
       });
 
-      it('sets name form state to an empty string', () => {
+      it('sets name form state to the display_name passed in via the contactDetails prop', () => {
         expect(component.state.formState.name)
-          .toEqual('');
+          .toEqual('guy');
+      });
+
+      it('sets name form state to the email passed in via the contactDetails prop', () => {
+        expect(component.state.formState.email)
+          .toEqual('guy@guys.com');
       });
     });
 
-    it('sets email form state to the email visitor prop passed in', () => {
-      expect(component.state.formState.email)
-        .toEqual('bob@bob.com');
+    describe('when contact details have not been entered into the popup before', () => {
+      beforeEach(() => {
+        mockContactDetails = {};
+
+        component = instanceRender(<ChatContactDetailsPopup contactDetails={mockContactDetails} />);
+
+        component.componentWillReceiveProps({
+          visitor: { display_name: 'bob', email: 'bob@bob.com' },
+          contactDetails: mockContactDetails
+        });
+      });
+
+      describe('when the name is not the default chat name', () => {
+        it('sets name form state to the display_name visitor prop passed in', () => {
+          expect(component.state.formState.name)
+            .toEqual('bob');
+        });
+      });
+
+      describe('when the name is the default chat name', () => {
+        beforeEach(() => {
+          mockChatNameDefault = true;
+          component = instanceRender(<ChatContactDetailsPopup contactDetails={{}} />);
+
+          component.componentWillReceiveProps({ visitor: { display_name: 'Visitor 12345' }, contactDetails: {} });
+        });
+
+        it('sets name form state to an empty string', () => {
+          expect(component.state.formState.name)
+            .toEqual('');
+        });
+      });
+
+      it('sets email form state to the email visitor prop passed in', () => {
+        expect(component.state.formState.email)
+          .toEqual('bob@bob.com');
+      });
     });
   });
 
@@ -199,7 +236,7 @@ describe('ChatContactDetailsPopup component', () => {
 
     describe('when method is called', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatContactDetailsPopup />);
+        component = instanceRender(<ChatContactDetailsPopup contactDetails={{}} />);
 
         spyOn(component, 'renderForm');
         spyOn(component, 'renderLoadingSpinner');
@@ -285,7 +322,7 @@ describe('ChatContactDetailsPopup component', () => {
     });
   });
 
-  describe('renderErrorMessage', () => {
+  describe('renderFailureScreen', () => {
     let errorMessage;
 
     describe('when the state is not in an error screen', () => {
@@ -293,7 +330,7 @@ describe('ChatContactDetailsPopup component', () => {
         const mockScreen = EDIT_CONTACT_DETAILS_SCREEN;
         const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
 
-        errorMessage = component.renderErrorMessage();
+        errorMessage = component.renderFailureScreen();
       });
 
       it('does not render an error message component', () => {
@@ -307,7 +344,7 @@ describe('ChatContactDetailsPopup component', () => {
         const mockScreen = EDIT_CONTACT_DETAILS_ERROR_SCREEN;
         const component = instanceRender(<ChatContactDetailsPopup screen={mockScreen} />);
 
-        errorMessage = component.renderErrorMessage();
+        errorMessage = component.renderFailureScreen();
       });
 
       it('renders an error message component', () => {

@@ -42,4 +42,68 @@ describe('chat reducer menu visibility', () => {
         .toEqual(false);
     });
   });
+
+  describe(`when an UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY action is dispatched`, () => {
+    let state;
+
+    describe('when the payload is `true`', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
+          payload: true
+        });
+      });
+
+      it('sets state to `false`', () => {
+        expect(state)
+          .toEqual(false);
+      });
+    });
+
+    describe('when the payload is `false`', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
+          payload: false
+        });
+      });
+
+      it('does not effect the state', () => {
+        expect(state)
+          .toEqual(initialState);
+      });
+    });
+  });
+
+  describe(`when an UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY action is dispatched`, () => {
+    let state;
+
+    describe('when the payload is `true`', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
+          payload: true
+        });
+      });
+
+      it('sets state to `false`', () => {
+        expect(state)
+          .toEqual(false);
+      });
+    });
+
+    describe('when the payload is `false`', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
+          payload: false
+        });
+      });
+
+      it('does not effect the state', () => {
+        expect(state)
+          .toEqual(initialState);
+      });
+    });
+  });
 });
