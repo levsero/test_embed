@@ -1043,61 +1043,26 @@ describe('embed.webWidget', () => {
       });
 
       describe('when webWidget.proactiveChat is dispatched', () => {
-        describe('when there is a proactive chat notification', () => {
-          beforeEach(() => {
-            mockChatNotification = { proactive: true, show: true };
-            webWidget.create('', {}, mockStore);
-            webWidget.render();
-            frame = webWidget.get().instance;
-            component = frame.getRootComponent();
+        beforeEach(() => {
+          webWidget.create('', {}, mockStore);
+          webWidget.render();
+          frame = webWidget.get().instance;
+          component = frame.getRootComponent();
 
-            spyOn(frame, 'show');
-            spyOn(component, 'showProactiveChat');
+          spyOn(frame, 'show');
+          spyOn(component, 'showProactiveChat');
 
-            pluckSubscribeCall(mockMediator, 'webWidget.proactiveChat')();
-          });
-
-          it('call show on Frame', () => {
-            expect(frame.show)
-              .toHaveBeenCalled();
-          });
-
-          it('calls showProactiveChat on the component', () => {
-            expect(component.showProactiveChat)
-              .toHaveBeenCalled();
-          });
+          pluckSubscribeCall(mockMediator, 'webWidget.proactiveChat')();
         });
 
-        describe('when there is no proactive chat notification', () => {
-          beforeEach(() => {
-            mockChatNotification = { proactive: false, show: false };
-            webWidget.create('', {}, mockStore);
-            webWidget.render();
-            frame = webWidget.get().instance;
-            component = frame.getRootComponent();
-
-            spyOn(frame, 'show');
-            spyOn(component, 'showProactiveChat');
-
-            pluckSubscribeCall(mockMediator, 'webWidget.proactiveChat')();
-          });
-
-          it('does not call show on Frame', () => {
-            expect(frame.show)
-              .not.toHaveBeenCalled();
-          });
-
-          it('does not call showProactiveChat on the component', () => {
-            expect(component.showProactiveChat)
-              .not.toHaveBeenCalled();
-          });
+        it('call show on Frame', () => {
+          expect(frame.show)
+            .toHaveBeenCalled();
         });
-      });
 
-      describe('when chat is not available', () => {
-        it('does not dispatch the setVisitorInfo action', () => {
-          expect(webWidget.get().store.dispatch)
-            .not.toHaveBeenCalled();
+        it('calls showProactiveChat on the component', () => {
+          expect(component.showProactiveChat)
+            .toHaveBeenCalled();
         });
       });
     });

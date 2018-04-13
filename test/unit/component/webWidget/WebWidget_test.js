@@ -217,22 +217,84 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when there is a proactive chat popup and no active embed', () => {
-      beforeEach(() => {
-        const mockChatNotification = { proactive: true, show: true };
+    describe('when not on mobile', () => {
+      describe('when props.standaloneMobileNotificationVisible is true', () => {
+        beforeEach(() => {
+          webWidget = instanceRender(
+            <WebWidget
+              fullscreen={false}
+              chatStandaloneMobileNotificationVisible={true} />
+          );
+          spyOn(webWidget, 'renderStandaloneChatPopup');
+          webWidget.render();
+        });
 
-        webWidget = instanceRender(
-          <WebWidget
-            fullscreen={true}
-            activeEmbed={''}
-            chatNotification={mockChatNotification} />
-        );
-        spyOn(webWidget, 'renderStandaloneChatPopup');
-        webWidget.render();
+        it('does not show the standaloneChatPopup', () => {
+          expect(webWidget.renderStandaloneChatPopup)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when on mobile', () => {
+      describe('when props.standaloneMobileNotificationVisible is true', () => {
+        beforeEach(() => {
+          webWidget = instanceRender(
+            <WebWidget
+              fullscreen={true}
+              chatStandaloneMobileNotificationVisible={true} />
+          );
+          spyOn(webWidget, 'renderStandaloneChatPopup');
+          webWidget.render();
+        });
+
+        it('shows the standaloneChatPopup', () => {
+          expect(webWidget.renderStandaloneChatPopup)
+            .toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
+  describe('dismissStandaloneChatPopup', () => {
+    let webWidget,
+      chatNotificationDismissedSpy,
+      setFixedFrameStylesSpy,
+      closeFrameSpy;
+
+    beforeEach(() => {
+      chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed');
+      setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
+      closeFrameSpy = jasmine.createSpy('closeFrame');
+      webWidget = instanceRender(
+        <WebWidget
+          chatNotificationDismissed={chatNotificationDismissedSpy}
+          setFixedFrameStyles={setFixedFrameStylesSpy}
+          closeFrame={closeFrameSpy} />
+      );
+
+      webWidget.dismissStandaloneChatPopup();
+    });
+
+    it('calls props.closeFrame with onHide callback', () => {
+      expect(closeFrameSpy)
+        .toHaveBeenCalledWith({}, { onHide: jasmine.any(Function) });
+    });
+
+    describe('when frame onHide is fired', () => {
+      beforeEach(() => {
+        const onHide = closeFrameSpy.calls.mostRecent().args[1].onHide;
+
+        onHide();
       });
 
-      it('shows the standaloneChatPopup', () => {
-        expect(webWidget.renderStandaloneChatPopup)
+      it('calls props.setFixedFrameStyles with no parameters', () => {
+        expect(setFixedFrameStylesSpy)
+          .toHaveBeenCalledWith();
+      });
+
+      it('calls props.chatNotificationDismissed', () => {
+        expect(chatNotificationDismissedSpy)
           .toHaveBeenCalled();
       });
     });
@@ -246,7 +308,7 @@ describe('WebWidget component', () => {
       mockChatNotification;
 
     beforeEach(() => {
-      mockChatNotification = { show: true };
+      mockChatNotification = { show: false };
 
       webWidget = domRender(<WebWidget chatNotification={mockChatNotification} />);
       result = webWidget.renderStandaloneChatPopup();
@@ -260,7 +322,11 @@ describe('WebWidget component', () => {
     });
 
     it('renders a ChatNotificationPopup with the correct props', () => {
-      const expectedProps = { isMobile: true, shouldShow: true, notification: mockChatNotification };
+      const expectedProps = {
+        isMobile: true,
+        shouldShow: true,
+        notification: { ...mockChatNotification, show: true }
+      };
 
       expect(chatPopup.props)
         .toEqual(jasmine.objectContaining(expectedProps));
@@ -309,49 +375,6 @@ describe('WebWidget component', () => {
       it('calls showChat with proactive true', () => {
         expect(webWidget.showChat)
           .toHaveBeenCalledWith({ proactive: true });
-      });
-    });
-
-    describe('when ChatNotificationDismiss respond prop is called', () => {
-      let chatNotificationDismissedSpy,
-        setFixedFrameStylesSpy,
-        closeFrameSpy,
-        onShowMobileSpy;
-
-      beforeEach(() => {
-        chatNotificationDismissedSpy = jasmine.createSpy('chatNotificationDismissed');
-        setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
-        closeFrameSpy = jasmine.createSpy('closeFrame');
-        onShowMobileSpy = jasmine.createSpy('onShowMobile');
-        webWidget = domRender(
-          <WebWidget
-            chatNotification={mockChatNotification}
-            chatNotificationDismissed={chatNotificationDismissedSpy}
-            setFixedFrameStyles={setFixedFrameStylesSpy}
-            closeFrame={closeFrameSpy}
-            onShowMobile={onShowMobileSpy} />
-        );
-
-        result = webWidget.renderStandaloneChatPopup();
-        container = result.props.children;
-        chatPopup = container.props.children;
-
-        chatPopup.props.chatNotificationDismissed();
-      });
-
-      it('calls props.setFixedFrameStyles with no parameters', () => {
-        expect(setFixedFrameStylesSpy)
-          .toHaveBeenCalledWith();
-      });
-
-      it('calls props.closeFrame', () => {
-        expect(closeFrameSpy)
-          .toHaveBeenCalled();
-      });
-
-      it('calls props.chatNotificationDismissed', () => {
-        expect(chatNotificationDismissedSpy)
-          .toHaveBeenCalled();
       });
     });
   });
@@ -1645,8 +1668,16 @@ describe('WebWidget component', () => {
     });
 
     describe('when not on mobile', () => {
+      const mockChatNotification = { proactive: true, show: true };
+
       beforeEach(() => {
-        webWidget = instanceRender(<WebWidget oldChat={false} fullscreen={false} />);
+        webWidget = instanceRender(
+          <WebWidget
+            oldChat={false}
+            fullscreen={false}
+            chatNotification={mockChatNotification} />
+        );
+
         spyOn(webWidget, 'showChat');
         webWidget.showProactiveChat();
       });
