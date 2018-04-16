@@ -42,6 +42,9 @@ describe('ChatOffline component', () => {
       'src/redux/modules/chat/chat-selectors': {
         getChatOfflineForm: '',
         getOfflineFormFields: ''
+      },
+      'constants/chat': {
+        OFFLINE_FORM_SCREENS: {}
       }
     });
 

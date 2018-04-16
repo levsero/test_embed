@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import { Dropdown } from 'component/field/Dropdown';
-import { Button } from 'component/button/Button';
 import { timeFromMinutes } from 'utility/time';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatOperatingHours.scss';
@@ -11,8 +10,7 @@ import classNames from 'classnames';
 
 export class ChatOperatingHours extends Component {
   static propTypes = {
-    operatingHours: PropTypes.object.isRequired,
-    handleOfflineFormBack: PropTypes.func.isRequired
+    operatingHours: PropTypes.object.isRequired
   };
 
   constructor(props, context) {
@@ -130,18 +128,6 @@ export class ChatOperatingHours extends Component {
     this.setState({ activeDepartment: departmentId });
   }
 
-  renderBackButton = () => {
-    const backButtonLabel = i18n.t('embeddable_framework.common.button.goBack');
-
-    return(
-      <Button
-        className={styles.button}
-        label={backButtonLabel}
-        onClick={this.props.handleOfflineFormBack}
-        type='button' />
-    );
-  }
-
   render = () => {
     const { operatingHours } = this.props;
     const title = i18n.t(
@@ -154,7 +140,6 @@ export class ChatOperatingHours extends Component {
         <h4 className={styles.title} dangerouslySetInnerHTML={{__html: title}} />
         {this.renderAccountSchedule()}
         {this.renderDepartmentSchedule()}
-        {this.renderBackButton()}
       </div>
     );
   }

@@ -231,20 +231,15 @@ describe('ChatOfflineForm component', () => {
     });
 
     describe('when the screen is the operatingHours screen', () => {
-      let handleOfflineFormBackFn;
-
       beforeEach(() => {
         const mockOperatingHours = {
           account_schedule: [[456]],
           enabled: true
         };
 
-        handleOfflineFormBackFn = () => {};
-
         const component = instanceRender(
           <ChatOfflineForm
             operatingHours={mockOperatingHours}
-            handleOfflineFormBack={handleOfflineFormBackFn}
             offlineMessage={{ screen: 'operatingHours' }} />
         );
 
@@ -264,11 +259,6 @@ describe('ChatOfflineForm component', () => {
 
         expect(result.props.operatingHours)
           .toEqual(expected);
-      });
-
-      it('has a props.handleOfflineFormBack value', () => {
-        expect(result.props.handleOfflineFormBack)
-          .toEqual(handleOfflineFormBackFn);
       });
     });
   });

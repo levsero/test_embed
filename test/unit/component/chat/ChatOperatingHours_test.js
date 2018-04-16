@@ -3,7 +3,6 @@ import { timeFromMinutes } from '../../../../src/util/time';
 describe('ChatOperatingHours component', () => {
   let ChatOperatingHours;
   const ChatOperatingHoursPath = buildSrcPath('component/chat/ChatOperatingHours');
-  const handleOfflineFormBackFn = () => {};
 
   const mockOperatingHours = {
     account_schedule: [
@@ -19,7 +18,6 @@ describe('ChatOperatingHours component', () => {
     timezone: 'Australia/Melbourne'
   };
 
-  const Button = noopReactComponent();
   const Dropdown = noopReactComponent();
 
   beforeEach(() => {
@@ -40,9 +38,6 @@ describe('ChatOperatingHours component', () => {
         i18n: {
           t: _.identity
         }
-      },
-      'component/button/Button': {
-        Button: Button
       },
       'component/field/Dropdown': {
         Dropdown: Dropdown
@@ -68,8 +63,7 @@ describe('ChatOperatingHours component', () => {
     beforeEach(() => {
       component = instanceRender(
         <ChatOperatingHours
-          operatingHours={mockOperatingHours}
-          handleOfflineFormBack={handleOfflineFormBackFn} />
+          operatingHours={mockOperatingHours} />
       );
 
       result = component.render();
@@ -118,42 +112,6 @@ describe('ChatOperatingHours component', () => {
     });
   });
 
-  describe('renderBackButton', () => {
-    let component,
-      result;
-
-    beforeEach(() => {
-      component = instanceRender(
-        <ChatOperatingHours
-          operatingHours={mockOperatingHours}
-          handleOfflineFormBack={handleOfflineFormBackFn} />
-      );
-
-      result = component.renderBackButton();
-    });
-
-    it('returns a <div> parent element', () => {
-      expect(TestUtils.isElementOfType(result, Button))
-        .toEqual(true);
-    });
-
-    it('has the right className prop', () => {
-      expect(result.props.className).toEqual('buttonClass');
-    });
-
-    it('has the right label prop', () => {
-      expect(result.props.label).toEqual('embeddable_framework.common.button.goBack');
-    });
-
-    it('has the right onClick prop', () => {
-      expect(result.props.onClick).toEqual(jasmine.any(Function));
-    });
-
-    it('has the right type prop', () => {
-      expect(result.props.type).toEqual('button');
-    });
-  });
-
   describe('renderAccountSchedule', () => {
     let component,
       result,
@@ -163,8 +121,7 @@ describe('ChatOperatingHours component', () => {
     beforeEach(() => {
       component = instanceRender(
         <ChatOperatingHours
-          operatingHours={mockOperatingHours}
-          handleOfflineFormBack={handleOfflineFormBackFn} />
+          operatingHours={mockOperatingHours} />
       );
 
       result = component.renderAccountSchedule();

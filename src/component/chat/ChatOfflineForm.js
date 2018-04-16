@@ -160,12 +160,11 @@ export class ChatOfflineForm extends Component {
   renderOperatingHours() {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.OPERATING_HOURS) return;
 
-    const { operatingHours, handleOfflineFormBack } = this.props;
+    const { operatingHours } = this.props;
 
     return (
       <ChatOperatingHours
-        operatingHours={operatingHours}
-        handleOfflineFormBack={handleOfflineFormBack} />
+        operatingHours={operatingHours} />
     );
   }
 
