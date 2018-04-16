@@ -448,6 +448,7 @@ class Chat extends Component {
           form={form}
           formState={this.props.preChatFormState}
           setFormState={this.props.handlePreChatFormChange}
+          loginEnabled={this.props.loginSettings.enabled}
           greetingMessage={message}
           visitor={this.props.visitor}
           onFormCompleted={this.onPrechatFormComplete} />

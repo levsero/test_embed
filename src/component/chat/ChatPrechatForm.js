@@ -17,7 +17,8 @@ export class ChatPrechatForm extends Component {
     setFormState: PropTypes.func,
     greetingMessage: PropTypes.string,
     visitor: PropTypes.object,
-    onFormCompleted: PropTypes.func
+    onFormCompleted: PropTypes.func,
+    loginEnabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -26,7 +27,8 @@ export class ChatPrechatForm extends Component {
     setFormState: () => {},
     greetingMessage: '',
     visitor: {},
-    onFormCompleted: () => {}
+    onFormCompleted: () => {},
+    loginEnabled: true
   };
 
   constructor() {
@@ -78,6 +80,8 @@ export class ChatPrechatForm extends Component {
   }
 
   renderNameField = () => {
+    if (!this.props.loginEnabled) return;
+
     const nameData = this.props.form.name;
 
     return (
@@ -90,6 +94,8 @@ export class ChatPrechatForm extends Component {
   }
 
   renderEmailField = () => {
+    if (!this.props.loginEnabled) return;
+
     const emailData = this.props.form.email;
 
     return (
@@ -104,17 +110,20 @@ export class ChatPrechatForm extends Component {
 
   renderPhoneField = () => {
     const phoneData = this.props.form.phone;
+
+    if (!this.props.loginEnabled || phoneData.hidden) return;
+
     const phonePattern = '[0-9]+'; // taken from Chat SDK
 
-    return !phoneData.hidden
-         ? <Field
-            label={i18n.t('embeddable_framework.common.textLabel.phone_number')}
-            required={phoneData.required}
-            type={'tel'}
-            value={this.props.formState.phone}
-            pattern={phonePattern}
-            name={phoneData.name} />
-         : null;
+    return (
+      <Field
+        label={i18n.t('embeddable_framework.common.textLabel.phone_number')}
+        required={phoneData.required}
+        type={'tel'}
+        value={this.props.formState.phone}
+        pattern={phonePattern}
+        name={phoneData.name} />
+    );
   }
 
   renderMessageField = () => {

@@ -249,6 +249,28 @@ describe('ChatPrechatForm component', () => {
           .toBe(3);
       });
     });
+
+    describe('when loginEnabled is false', () => {
+      beforeEach(() => {
+        component = domRender(<ChatPrechatForm form={mockFormProp} loginEnabled={false} />);
+        node = ReactDOM.findDOMNode(component);
+      });
+
+      it('does not render the name field', () => {
+        expect(node.querySelector('input[name="name"]'))
+          .toBe(null);
+      });
+
+      it('does not render the email field', () => {
+        expect(node.querySelector('input[name="email"]'))
+          .toBe(null);
+      });
+
+      it('does not render the phone field', () => {
+        expect(node.querySelector('input[name="phone"]'))
+          .toBe(null);
+      });
+    });
   });
 
   describe('when the component is mounted', () => {
