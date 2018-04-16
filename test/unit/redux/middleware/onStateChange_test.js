@@ -7,7 +7,9 @@ describe('onStateChange middleware', () => {
     mockStoreValue,
     mockLastAgentMessageSeenTimestamp,
     mockIsProactiveSession,
-    mockChatScreen;
+    mockChatScreen,
+    mockSubmitTicketAvailable,
+    mockIsChatting;
   const getAccountSettingsSpy = jasmine.createSpy('updateAccountSettings');
   const getIsChattingSpy = jasmine.createSpy('getIsChatting');
   const newAgentMessageReceivedSpy = jasmine.createSpy('newAgentMessageReceived');
@@ -32,6 +34,8 @@ describe('onStateChange middleware', () => {
     mockLastAgentMessageSeenTimestamp = 123;
     mockChatScreen = '';
     mockIsProactiveSession = false;
+    mockSubmitTicketAvailable = false;
+    mockIsChatting = false;
 
     initMockRegistry({
       'src/redux/modules/chat': {
@@ -70,10 +74,12 @@ describe('onStateChange middleware', () => {
         getOfflineFormSettings: () => mockOfflineFormSettings,
         getLastAgentMessageSeenTimestamp: () => mockLastAgentMessageSeenTimestamp,
         getChatScreen: () => mockChatScreen,
-        getIsProactiveSession: () => mockIsProactiveSession
+        getIsProactiveSession: () => mockIsProactiveSession,
+        getIsChatting: () => mockIsChatting
       },
       'src/redux/modules/chat/chat-action-types': {
-        IS_CHATTING: 'IS_CHATTING'
+        IS_CHATTING: 'IS_CHATTING',
+        END_CHAT_REQUEST_SUCCESS: 'END_CHAT_REQUEST_SUCCESS'
       },
       'src/constants/chat': {
         CONNECTION_STATUSES: {
@@ -85,7 +91,8 @@ describe('onStateChange middleware', () => {
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed,
-        getWidgetShown: () => mockWidgetShown
+        getWidgetShown: () => mockWidgetShown,
+        getSubmitTicketEmbed: () => mockSubmitTicketAvailable
       },
       'service/persistence': {
         store: {
@@ -525,9 +532,52 @@ describe('onStateChange middleware', () => {
     describe('onChatStatusChange', () => {
       beforeEach(() => {
         broadcastSpy.calls.reset();
+        updateActiveEmbedSpy.calls.reset();
       });
 
       describe('chatStatus goes from online to offline', () => {
+        describe('when submit ticket available', () => {
+          describe('when chatting', () => {
+            beforeEach(() => {
+              mockSubmitTicketAvailable = true;
+              mockIsChatting = true;
+              stateChangeFn('online', 'offline');
+            });
+
+            it('does not update active embed', () => {
+              expect(updateActiveEmbedSpy)
+                .not
+                .toHaveBeenCalled();
+            });
+          });
+
+          describe('when not chatting', () => {
+            beforeEach(() => {
+              mockSubmitTicketAvailable = true;
+              mockIsChatting = false;
+              stateChangeFn('online', 'offline');
+            });
+
+            it('updates active embed to submit ticket', () => {
+              expect(updateActiveEmbedSpy)
+                .toHaveBeenCalledWith('ticketSubmissionForm');
+            });
+          });
+        });
+
+        describe('when submit ticket not available', () => {
+          beforeEach(() => {
+            mockSubmitTicketAvailable = false;
+            stateChangeFn('online', 'offline');
+          });
+
+          it('does not update active embed', () => {
+            expect(updateActiveEmbedSpy)
+              .not
+              .toHaveBeenCalled();
+          });
+        });
+
         describe('when offline form is disabled', () => {
           beforeEach(() => {
             stateChangeFn('online', 'offline');
@@ -652,6 +702,74 @@ describe('onStateChange middleware', () => {
             expect(updateLastAgentMessageSeenTimestampSpy)
               .not.toHaveBeenCalled();
           });
+        });
+      });
+    });
+
+    describe('onChatEnd', () => {
+      let actionType;
+
+      beforeEach(() => {
+        updateActiveEmbedSpy.calls.reset();
+      });
+
+      describe('when action type is END_CHAT_REQUEST_SUCCESS', () => {
+        beforeAll(() => {
+          actionType = 'END_CHAT_REQUEST_SUCCESS';
+        });
+
+        describe('when not offline', () => {
+          beforeEach(() => {
+            mockSubmitTicketAvailable = true;
+            stateChangeFn(null, 'online', { type: actionType });
+          });
+
+          it('does not update active embed', () => {
+            expect(updateActiveEmbedSpy)
+              .not
+              .toHaveBeenCalled();
+          });
+        });
+
+        describe('when submit ticket is not available', () => {
+          beforeEach(() => {
+            mockSubmitTicketAvailable = false;
+            stateChangeFn(null, 'offline', { type: actionType });
+          });
+
+          it('does not update active embed', () => {
+            expect(updateActiveEmbedSpy)
+              .not
+              .toHaveBeenCalled();
+          });
+        });
+
+        describe('when all conditions are met', () => {
+          beforeEach(() => {
+            mockSubmitTicketAvailable = true;
+            stateChangeFn(null, 'offline', { type: actionType });
+          });
+
+          it('update active embed to submit ticket', () => {
+            expect(updateActiveEmbedSpy)
+              .toHaveBeenCalledWith('ticketSubmissionForm');
+          });
+        });
+      });
+
+      describe('when action type is not END_CHAT_REQUEST_SUCCESS', () => {
+        beforeAll(() => {
+          actionType = 'yolo';
+        });
+
+        beforeEach(() => {
+          stateChangeFn(null, null, { type: actionType });
+        });
+
+        it('does not update active embed', () => {
+          expect(updateActiveEmbedSpy)
+            .not
+            .toHaveBeenCalled();
         });
       });
     });

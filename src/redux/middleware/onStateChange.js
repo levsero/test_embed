@@ -6,7 +6,7 @@ import { getAccountSettings,
          getOperatingHours,
          getIsChatting } from 'src/redux/modules/chat';
 import { updateActiveEmbed } from 'src/redux/modules/base';
-import { IS_CHATTING } from 'src/redux/modules/chat/chat-action-types';
+import { IS_CHATTING, END_CHAT_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types';
 import { CONNECTION_STATUSES } from 'src/constants/chat';
 import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
@@ -18,10 +18,12 @@ import { getChatMessagesByAgent,
          getChatScreen,
          getLastAgentMessageSeenTimestamp,
          getIsProactiveSession,
-         getUserSoundSettings } from 'src/redux/modules/chat/chat-selectors';
+         getUserSoundSettings,
+         getIsChatting as getIsChattingState } from 'src/redux/modules/chat/chat-selectors';
 import { getArticleDisplayed } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getActiveEmbed,
-         getWidgetShown } from 'src/redux/modules/base/base-selectors';
+         getWidgetShown,
+         getSubmitTicketEmbed } from 'src/redux/modules/base/base-selectors';
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { store } from 'service/persistence';
 
@@ -153,7 +155,7 @@ const onNewChatMessage = (prevState, nextState, dispatch) => {
   }
 };
 
-const onChatStatusChange = (prevState, nextState) => {
+const onChatStatusChange = (prevState, nextState, dispatch) => {
   if (getChatStatus(prevState) !== getChatStatus(nextState)) {
     if (getChatOnline(nextState)) {
       mediator.channel.broadcast('newChat.online');
@@ -161,6 +163,17 @@ const onChatStatusChange = (prevState, nextState) => {
       const hideLauncher = !getOfflineFormSettings(nextState).enabled;
 
       mediator.channel.broadcast('newChat.offline', hideLauncher);
+      if (getSubmitTicketEmbed(nextState) && !getIsChattingState(nextState)) {
+        dispatch(updateActiveEmbed('ticketSubmissionForm'));
+      }
+    }
+  }
+};
+
+const onChatEnd = (nextState, action={}, dispatch) => {
+  if (action.type === END_CHAT_REQUEST_SUCCESS) {
+    if (!getChatOnline(nextState) && getSubmitTicketEmbed(nextState)) {
+      dispatch(updateActiveEmbed('ticketSubmissionForm'));
     }
   }
 };
@@ -176,10 +189,11 @@ const onArticleDisplayed = (prevState, nextState) => {
 };
 
 export default function onStateChange(prevState, nextState, action, dispatch = () => {}) {
-  onChatStatusChange(prevState, nextState);
+  onChatStatusChange(prevState, nextState, dispatch);
   onChatConnected(prevState, nextState, dispatch);
   onChatScreenInteraction(prevState, nextState, dispatch);
   onNewChatMessage(prevState, nextState, dispatch);
   onArticleDisplayed(prevState, nextState, dispatch);
   onChatStatus(action, dispatch);
+  onChatEnd(nextState, action, dispatch);
 }
