@@ -45,6 +45,21 @@ export class ChatPrechatForm extends Component {
     this.handleFormChange();
   }
 
+  isDepartmentOffline = (departments, departmentId) => {
+    const department = _.find(departments, (d) => d.id == departmentId); // eslint-disable-line eqeqeq
+
+    return _.get(department, 'status') === 'offline';
+  }
+
+  isFieldRequired = (fallback = false) => {
+    const { form, formState } = this.props;
+    const isDepartmentSelected = formState.department !== '';
+
+    return (isDepartmentSelected)
+      ? this.isDepartmentOffline(form.departments, formState.department)
+      : fallback;
+  }
+
   handleFormSubmit = (e) => {
     e.preventDefault();
 
@@ -62,13 +77,17 @@ export class ChatPrechatForm extends Component {
                     .reduce(reduceNames, {})
                     .value();
 
+    this.props.setFormState(values);
+
     // The `checkValidity` is not available on the form dom element created
     // by jsdom during unit testing. This sanity check allows our unit tests to pass.
     // See this Github issue: https://github.com/tmpvar/jsdom/issues/544
-    const valid = !!(this.form.checkValidity && this.form.checkValidity());
+    setTimeout(() => {
+      const valid = !!(this.form.checkValidity && this.form.checkValidity());
 
-    this.setState({ valid });
-    this.props.setFormState(values);
+      // FIXME: This is not tested due to timing pollution on our specs
+      this.setState({ valid });
+    }, 0);
   }
 
   renderGreetingMessage = () => {
@@ -80,28 +99,30 @@ export class ChatPrechatForm extends Component {
   }
 
   renderNameField = () => {
-    if (!this.props.loginEnabled) return;
+    if (!this.props.loginEnabled) return null;
 
     const nameData = this.props.form.name;
+    const required = this.isFieldRequired(nameData.required);
 
     return (
       <Field
         label={i18n.t('embeddable_framework.common.textLabel.name')}
-        required={nameData.required}
+        required={required}
         value={this.props.formState.name}
         name={nameData.name} />
     );
   }
 
   renderEmailField = () => {
-    if (!this.props.loginEnabled) return;
+    if (!this.props.loginEnabled) return null;
 
     const emailData = this.props.form.email;
+    const required = this.isFieldRequired(emailData.required);
 
     return (
       <Field
         label={i18n.t('embeddable_framework.common.textLabel.email')}
-        required={emailData.required}
+        required={required}
         value={this.props.formState.email}
         pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
         name={emailData.name} />
@@ -111,7 +132,7 @@ export class ChatPrechatForm extends Component {
   renderPhoneField = () => {
     const phoneData = this.props.form.phone;
 
-    if (!this.props.loginEnabled || phoneData.hidden) return;
+    if (!this.props.loginEnabled || phoneData.hidden) return null;
 
     const phonePattern = '[0-9]+'; // taken from Chat SDK
 
@@ -128,11 +149,12 @@ export class ChatPrechatForm extends Component {
 
   renderMessageField = () => {
     const messageData = this.props.form.message;
+    const required = this.isFieldRequired(messageData.required);
 
     return (
       <Field
         label={i18n.t('embeddable_framework.common.textLabel.message')}
-        required={messageData.required}
+        required={required}
         value={this.props.formState.message}
         input={<textarea rows='3' />}
         name={messageData.name} />
@@ -147,7 +169,7 @@ export class ChatPrechatForm extends Component {
       </span>
     );
 
-    if (_.size(departments) === 0) return;
+    if (_.size(departments) === 0) return null;
 
     return (
       <Dropdown
