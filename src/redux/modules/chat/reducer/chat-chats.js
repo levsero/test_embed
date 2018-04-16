@@ -22,8 +22,6 @@ import _ from 'lodash';
 
 const initialState = new Map();
 
-const isAgent = (nick) => nick.indexOf('agent:') > -1;
-
 const concatChat = (chats, chat) => {
   const copy = new Map(chats);
 
@@ -31,16 +29,21 @@ const concatChat = (chats, chat) => {
 };
 
 const concatSDKFile = (chats, chat) => {
+  if (!chat.timestamp) return chats;
+
   const copy = new Map(chats);
-  const file = {
+  const existingItem = copy.get(chat.timestamp) || {};
+  const existingFile = existingItem.file || {
     lastModified: null,
     lastModifiedDate: null,
-    name: chat.attachment.name,
-    size: chat.attachment.size,
-    type: chat.attachment.mime_type,
-    uploading: false,
-    url: chat.attachment.url,
     webkitRelativePath: ''
+  };
+
+  const file = {
+    ...existingFile,
+    ...chat.attachment,
+    type: chat.attachment.mime_type,
+    uploading: false
   };
 
   return copy.set(chat.timestamp, { ...chat, file });
@@ -78,11 +81,7 @@ const chats = (state = initialState, action) => {
       return concatChat(state, action.payload.detail);
 
     case SDK_CHAT_FILE:
-      // the payload from this event is only used for incoming files as outgoing files are handled by our custom actions
-      if (isAgent(action.payload.detail.nick)) {
-        return concatSDKFile(state, action.payload.detail);
-      }
-      return state;
+      return concatSDKFile(state, action.payload.detail);
 
     default:
       return state;

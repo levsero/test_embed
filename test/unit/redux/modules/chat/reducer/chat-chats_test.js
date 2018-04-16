@@ -392,7 +392,12 @@ describe('chat reducer chats', () => {
             detail = {
               timestamp: Date.now(),
               nick: 'visitor',
-              display_name: 'Visitor'
+              display_name: 'Visitor',
+              attachment: {
+                name: 'file',
+                size: 1,
+                mime_type: 'some/file'
+              }
             };
 
             state = reducer(initialState, {
@@ -401,9 +406,12 @@ describe('chat reducer chats', () => {
             });
           });
 
-          it('does not change the state', () => {
-            expect(state)
-              .toEqual(initialState);
+          it('adds the message to the chats collection', () => {
+            expect(state.size)
+              .toEqual(1);
+
+            expect(state.get(detail.timestamp))
+              .toEqual(jasmine.objectContaining(detail));
           });
         });
 
