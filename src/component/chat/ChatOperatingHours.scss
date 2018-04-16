@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  color: $zd-color-oil;
+  color: $zd-color-dark-gray;
 }
 
 .title {
@@ -29,6 +29,11 @@
 
 .dropdown {
   margin: #{20/$font-size}rem 0;
+}
+
+.dropdownLabel {
+  color: $zd-color-dark-gray !important;
+  font-size: #{13/$font-size}rem;
 }
 
 .dropdownMenuContainer {

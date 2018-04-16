@@ -334,6 +334,39 @@ describe('dropdown component', () => {
     });
   });
 
+  describe('renderLabel', () => {
+    let label;
+
+    describe('when label is -', () => {
+      beforeEach(() => {
+        dropdown = instanceRender(<Dropdown labelClasses='labelClassesProp' label='-' />);
+        label = dropdown.renderLabel();
+      });
+
+      it('does not return a html element', () => {
+        expect(label)
+          .toBeFalsy();
+      });
+    });
+
+    describe('when label is not -', () => {
+      beforeEach(() => {
+        dropdown = instanceRender(<Dropdown labelClasses='labelClassesProp' label='yo' />);
+        label = dropdown.renderLabel();
+      });
+
+      it('returns a html element containing the label', () => {
+        expect(label.props.children)
+          .toContain('yo');
+      });
+
+      it('adds props.labelClassesProp to the label', () => {
+        expect(label.props.className)
+          .toContain('labelClassesProp');
+      });
+    });
+  });
+
   describe('handleKeyDown', () => {
     let preventDefaultSpy;
 

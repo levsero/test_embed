@@ -113,6 +113,7 @@ export class ChatOperatingHours extends Component {
           className={styles.dropdown}
           menuContainerClassName={styles.dropdownMenuContainer}
           label={i18n.t('embeddable_framework.chat.preChat.online.dropdown.selectDepartment')}
+          labelClasses={styles.dropdownLabel}
           required={false}
           name='department'
           options={departments}
