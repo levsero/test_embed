@@ -99,9 +99,12 @@ describe('ChatOffline component', () => {
         result = component.render();
       });
 
-      it('renders logo in the footer with correct classes', () => {
+      it('renders logo in the footer', () => {
         expect(TestUtils.isElementOfType(result.props.footerContent, ZendeskLogo))
           .toBeTruthy();
+      });
+
+      it('renders footer with correct classes', () => {
         expect(result.props.footerClasses)
           .toContain('logoFooterClass');
       });
@@ -117,6 +120,9 @@ describe('ChatOffline component', () => {
       it('does not render logo in the footer', () => {
         expect(result.props.footerContent)
           .toBeFalsy();
+      });
+
+      it('renders footer with correct classes', () => {
         expect(result.props.footerClasses)
           .not.toContain('logoFooterClass');
       });

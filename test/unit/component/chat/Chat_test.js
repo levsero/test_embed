@@ -53,6 +53,7 @@ describe('Chat component', () => {
           scrollContainerMessagesContentDesktop: 'scrollContainerMessagesContentDesktopClass',
           footer: 'footerClasses',
           footerMobile: 'footerMobileClasses',
+          footerMobileWithLogo: 'footerMobileWithLogoClasses',
           agentTyping: 'agentTypingClasses',
           scrollContainer: 'scrollContainerClasses',
           scrollContainerContent: 'scrollContainerContentClasses',
@@ -60,6 +61,8 @@ describe('Chat component', () => {
           agentListBackButton: 'agentListBackButtonClasses',
           mobileContainer: 'mobileContainerClasses',
           logoFooter: 'logoFooterClasses',
+          zendeskLogo: 'zendeskLogoClasses',
+          zendeskLogoChatMobile: 'zendeskLogoChatMobileClasses',
           agentListBackButtonWithLogo: 'agentListBackButtonWithLogoClasses'
         }
       },
@@ -746,9 +749,12 @@ describe('Chat component', () => {
           result = component.renderPrechatScreen();
         });
 
-        it('renders logo in footer with correct class', () => {
+        it('renders logo in footer', () => {
           expect(TestUtils.isElementOfType(result.props.footerContent, ZendeskLogo))
             .toBeTruthy();
+        });
+
+        it('renders footer with correct class', () => {
           expect(result.props.footerClasses)
             .toContain('logoFooterClasses');
         });
@@ -768,6 +774,9 @@ describe('Chat component', () => {
         it('does not render logo in footer', () => {
           expect(result.props.footerContent)
             .toBeFalsy();
+        });
+
+        it('renders footer with correct class', () => {
           expect(result.props.footerClasses)
             .not.toContain('logoFooterClasses');
         });
@@ -954,9 +963,12 @@ describe('Chat component', () => {
             result = component.renderPostchatScreen();
           });
 
-          it('renders logo in footer with correct class', () => {
+          it('renders logo in footer', () => {
             expect(TestUtils.isElementOfType(result.props.footerContent, ZendeskLogo))
               .toBeTruthy();
+          });
+
+          it('renders footer with correct class', () => {
             expect(result.props.footerClasses)
               .toContain('logoFooterClasses');
           });
@@ -981,6 +993,9 @@ describe('Chat component', () => {
           it('does not render logo in footer', () => {
             expect(result.props.footerContent)
               .toBeFalsy();
+          });
+
+          it('renders footer with correct class', () => {
             expect(result.props.footerClasses)
               .not.toContain('logoFooterClasses');
           });
@@ -991,42 +1006,185 @@ describe('Chat component', () => {
 
   describe('renderChatScreen', () => {
     let component, result;
-    const renderChatComponent = (ratingsEnabled, agents, isMobile) => (
+    const renderChatComponent = ({
+      ratingsEnabled = false,
+      agents = {},
+      isMobile = false,
+      hideZendeskLogo = false
+    }) => (
       instanceRender(
         <Chat
           screen={chattingScreen}
           ratingSettings={{ enabled: ratingsEnabled }}
           agents={agents}
-          isMobile={isMobile} />
+          isMobile={isMobile}
+          hideZendeskLogo={hideZendeskLogo} />
       )
     );
 
     describe('render', () => {
       beforeEach(() => {
-        component = renderChatComponent(true, {});
-      });
-
-      describe('footer classNames on non-mobile devices', () => {
-        it('has desktop specific classes', () => {
-          result = component.renderChatScreen();
-          expect(result.props.footerClasses)
-            .toContain('footerClasses');
-          expect(result.props.footerClasses)
-            .not.toContain('footerMobileClasses');
+        component = renderChatComponent({
+          ratingsEnabled: true
         });
       });
 
-      describe('footer classNames on mobile devices', () => {
-        beforeEach(() => {
-          component = renderChatComponent(true, {}, true);
+      describe('footer classnames', () => {
+        describe('on non-mobile devices', () => {
+          it('has desktop specific classes', () => {
+            result = component.renderChatScreen();
+            expect(result.props.footerClasses)
+              .toContain('footerClasses');
+            expect(result.props.footerClasses)
+              .not.toContain('footerMobileClasses');
+            expect(result.props.footerClasses)
+              .not.toContain('footerMobileWithLogoClasses');
+          });
         });
 
-        it('has mobile specific classes', () => {
-          result = component.renderChatScreen();
-          expect(result.props.footerClasses)
-            .toContain('footerClasses');
-          expect(result.props.footerClasses)
-            .toContain('footerMobileClasses');
+        describe('on mobile devices with logo', () => {
+          beforeEach(() => {
+            component = renderChatComponent({
+              isMobile: true
+            });
+          });
+
+          it('has mobile specific classes', () => {
+            result = component.renderChatScreen();
+            expect(result.props.footerClasses)
+              .toContain('footerClasses');
+            expect(result.props.footerClasses)
+              .toContain('footerMobileClasses');
+            expect(result.props.footerClasses)
+              .toContain('footerMobileWithLogoClasses');
+          });
+        });
+
+        describe('on mobile devices without logo', () => {
+          beforeEach(() => {
+            component = renderChatComponent({
+              isMobile: true,
+              hideZendeskLogo: true
+            });
+          });
+
+          it('has mobile specific classes', () => {
+            result = component.renderChatScreen();
+            expect(result.props.footerClasses)
+              .toContain('footerClasses');
+            expect(result.props.footerClasses)
+              .toContain('footerMobileClasses');
+            expect(result.props.footerClasses)
+              .not.toContain('footerMobileWithLogoClasses');
+          });
+        });
+      });
+
+      describe('zendeskLogo', () => {
+        let logo;
+
+        const findLogo = (parent) => {
+          const firstLevelChildren = React.Children.map(
+            parent.props.children, child => child
+          );
+          const secondLevelChildren = React.Children.map(
+            firstLevelChildren[0].props.children, child => child
+          );
+
+          return _.find(secondLevelChildren, child => {
+            return TestUtils.isElementOfType(child, ZendeskLogo);
+          });
+        };
+
+        describe('on non-mobile devices with logo', () => {
+          it('renders logo', () => {
+            result = component.renderChatScreen();
+            logo = findLogo(result);
+            expect(logo)
+              .toBeTruthy();
+          });
+
+          it('renders logo with desktop specific classes', () => {
+            result = component.renderChatScreen();
+            logo = findLogo(result);
+            expect(logo.props.className)
+              .toContain('zendeskLogoClasses');
+            expect(logo.props.className)
+              .not.toContain('zendeskLogoChatMobileClasses');
+          });
+        });
+
+        describe('on non-mobile devices without logo', () => {
+          beforeEach(() => {
+            component = renderChatComponent({
+              hideZendeskLogo: true
+            });
+          });
+
+          it('does not render logo', () => {
+            result = component.renderChatScreen();
+            logo = findLogo(result);
+            expect(logo)
+              .toBeFalsy();
+          });
+        });
+
+        describe('on mobile devices without logo', () => {
+          beforeEach(() => {
+            component = renderChatComponent({
+              isMobile: true,
+              hideZendeskLogo: true
+            });
+          });
+
+          it('does not render logo', () => {
+            result = component.renderChatScreen();
+            logo = findLogo(result);
+            expect(logo)
+              .toBeFalsy();
+          });
+        });
+
+        describe('on mobile devices with logo and no typing agent', () => {
+          beforeEach(() => {
+            component = renderChatComponent({
+              isMobile: true
+            });
+          });
+
+          it('renders logo', () => {
+            result = component.renderChatScreen();
+            logo = findLogo(result);
+            expect(logo)
+              .toBeTruthy();
+          });
+
+          it('renders logo with mobile specific classes', () => {
+            result = component.renderChatScreen();
+            logo = findLogo(result);
+            expect(logo.props.className)
+              .toContain('zendeskLogoClasses');
+            expect(logo.props.className)
+              .toContain('zendeskLogoChatMobileClasses');
+          });
+        });
+
+        describe('on mobile devices with logo and typing agent', () => {
+          beforeEach(() => {
+            component = renderChatComponent({
+              agents: {
+                'agent:1': { typing: true }
+              },
+              isMobile: true
+            });
+          });
+
+          it('renders logo with mobile specific classes', () => {
+            result = component.renderChatScreen();
+            logo = findLogo(result);
+            expect(logo)
+              .toBeFalsy();
+          });
         });
       });
 
@@ -1735,17 +1893,19 @@ describe('Chat component', () => {
 
   describe('renderAgentTyping', () => {
     let agentTypingComponent,
-      mockAgents;
+      mockAgents,
+      typingAgents;
 
     describe('when no agents are typing a message', () => {
       beforeEach(() => {
-        mockAgents = [
-          { display_name: 'Wayne', typing: false }
-        ];
+        mockAgents = {
+          'agent:1': { typing: false }
+        };
 
         const component = instanceRender(<Chat chat={{ rating: null }} agents={mockAgents} />);
 
-        agentTypingComponent = component.renderAgentTyping();
+        typingAgents = component.getTypingAgents();
+        agentTypingComponent = component.renderAgentTyping(typingAgents);
       });
 
       it('renders nothing', () => {
@@ -1756,13 +1916,14 @@ describe('Chat component', () => {
 
     describe('when there is an agent typing a message', () => {
       beforeEach(() => {
-        mockAgents = [
-          { display_name: 'Wayne', typing: true }
-        ];
+        mockAgents = {
+          'agent:1': { typing: true }
+        };
 
         const component = instanceRender(<Chat chat={{ rating: null }} agents={mockAgents} />);
 
-        agentTypingComponent = component.renderAgentTyping();
+        typingAgents = component.getTypingAgents();
+        agentTypingComponent = component.renderAgentTyping(typingAgents);
       });
 
       it('renders the notification style', () => {
@@ -1779,12 +1940,13 @@ describe('Chat component', () => {
     describe('when a trigger agent bot is typing', () => {
       beforeEach(() => {
         mockAgents = {
-          'agent:trigger': { display_name: 'agent', typing: true }
+          'agent:trigger': { typing: true }
         };
 
         const component = instanceRender(<Chat chat={{ rating: null }} agents={mockAgents} />);
 
-        agentTypingComponent = component.renderAgentTyping();
+        typingAgents = component.getTypingAgents();
+        agentTypingComponent = component.renderAgentTyping(typingAgents);
       });
 
       it('renders nothing', () => {
@@ -1795,14 +1957,15 @@ describe('Chat component', () => {
 
     describe('when two agents are typing a message', () => {
       beforeEach(() => {
-        mockAgents = [
-          { display_name: 'Wayne', typing: true },
-          { display_name: 'Terence', typing: true }
-        ];
+        mockAgents = {
+          'agent:1': { typing: true },
+          'agent:2': { typing: true }
+        };
 
         const component = instanceRender(<Chat chat={{ rating: null }} agents={mockAgents} />);
 
-        agentTypingComponent = component.renderAgentTyping();
+        typingAgents = component.getTypingAgents();
+        agentTypingComponent = component.renderAgentTyping(typingAgents);
       });
 
       it('renders the notification style', () => {
@@ -1818,15 +1981,16 @@ describe('Chat component', () => {
 
     describe('when more than two agents are typing a message', () => {
       beforeEach(() => {
-        mockAgents = [
-          { display_name: 'Wayne', typing: true },
-          { display_name: 'Terence', typing: true },
-          { display_name: 'Mandy', typing: true }
-        ];
+        mockAgents = {
+          'agent:1': { typing: true },
+          'agent:2': { typing: true },
+          'agent:3': { typing: true }
+        };
 
         const component = instanceRender(<Chat chat={{ rating: null }} agents={mockAgents} />);
 
-        agentTypingComponent = component.renderAgentTyping();
+        typingAgents = component.getTypingAgents();
+        agentTypingComponent = component.renderAgentTyping(typingAgents);
       });
 
       it('renders the notification style', () => {
