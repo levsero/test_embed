@@ -1110,7 +1110,9 @@ describe('chat redux actions', () => {
   });
 
   describe('sendOfflineMessage', () => {
-    let action;
+    let action,
+      callbackSuccessSpy,
+      callbackFailureSpy;
     const mockFormState = {
       name: 'Boromir',
       email: 'boromir@gondor.nw',
@@ -1118,7 +1120,10 @@ describe('chat redux actions', () => {
     };
 
     beforeEach(() => {
-      mockStore.dispatch(actions.sendOfflineMessage(mockFormState));
+      callbackSuccessSpy = jasmine.createSpy('callbackSuccess');
+      callbackFailureSpy = jasmine.createSpy('callbackFailure');
+
+      mockStore.dispatch(actions.sendOfflineMessage(mockFormState, callbackSuccessSpy, callbackFailureSpy));
       action = mockStore.getActions()[0];
     });
 
@@ -1130,6 +1135,18 @@ describe('chat redux actions', () => {
     it('dispatches OFFLINE_FORM_REQUEST_SENT action', () => {
       expect(action.type)
         .toEqual(actionTypes.OFFLINE_FORM_REQUEST_SENT);
+    });
+
+    it('does not call callbackSuccess', () => {
+      expect(callbackSuccessSpy)
+        .not
+        .toHaveBeenCalled();
+    });
+
+    it('does not call callbackFailure', () => {
+      expect(callbackFailureSpy)
+        .not
+        .toHaveBeenCalled();
     });
 
     describe('Web SDK callback', () => {
@@ -1156,6 +1173,17 @@ describe('chat redux actions', () => {
           expect(action.payload)
             .toEqual(mockFormState);
         });
+
+        it('calls callbackSuccess', () => {
+          expect(callbackSuccessSpy)
+            .toHaveBeenCalled();
+        });
+
+        it('does not call callbackFailure', () => {
+          expect(callbackFailureSpy)
+            .not
+            .toHaveBeenCalled();
+        });
       });
 
       describe('when there are errors', () => {
@@ -1167,6 +1195,17 @@ describe('chat redux actions', () => {
         it('dispatches OFFLINE_FORM_REQUEST_FAILURE action', () => {
           expect(action.type)
             .toEqual(actionTypes.OFFLINE_FORM_REQUEST_FAILURE);
+        });
+
+        it('calls callbackFailure', () => {
+          expect(callbackFailureSpy)
+            .toHaveBeenCalled();
+        });
+
+        it('does not call callbackSuccess', () => {
+          expect(callbackSuccessSpy)
+            .not
+            .toHaveBeenCalled();
         });
       });
     });

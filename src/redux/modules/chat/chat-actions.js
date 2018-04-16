@@ -415,7 +415,10 @@ export function handleOperatingHoursClick() {
   };
 }
 
-export function sendOfflineMessage(formState) {
+export function sendOfflineMessage(
+  formState,
+  successCallback = () => {},
+  failureCallback = () => {}) {
   return (dispatch) => {
     dispatch({ type: OFFLINE_FORM_REQUEST_SENT });
 
@@ -425,8 +428,10 @@ export function sendOfflineMessage(formState) {
           type: OFFLINE_FORM_REQUEST_SUCCESS,
           payload: formState
         });
+        successCallback();
       } else {
         dispatch({ type: OFFLINE_FORM_REQUEST_FAILURE });
+        failureCallback();
       }
     });
   };
