@@ -3,6 +3,8 @@ describe('ChatOffline component', () => {
   const ChatOfflinePath = buildSrcPath('component/chat/ChatOffline');
   const ZendeskLogo = noopReactComponent('ZendeskLogo');
 
+  const Button = noopReactComponent();
+
   beforeEach(() => {
     mockery.enable();
 
@@ -30,9 +32,7 @@ describe('ChatOffline component', () => {
       'component/ZendeskLogo': {
         ZendeskLogo
       },
-      'component/button/Button': {
-        Button: noopReactComponent()
-      },
+      'component/button/Button': { Button },
       'component/chat/ChatOfflineForm': {
         ChatOfflineForm: noopReactComponent()
       },
@@ -44,7 +44,9 @@ describe('ChatOffline component', () => {
         getOfflineFormFields: ''
       },
       'constants/chat': {
-        OFFLINE_FORM_SCREENS: {}
+        OFFLINE_FORM_SCREENS: {
+          OPERATING_HOURS: 'OPERATING_HOURS'
+        }
       }
     });
 
@@ -199,6 +201,37 @@ describe('ChatOffline component', () => {
       it('renders a component', () => {
         expect(result)
           .toBeDefined();
+      });
+    });
+  });
+
+  describe('renderFooterContent', () => {
+    let component,
+      result;
+
+    describe('when screen is not operating hours screen', () => {
+      beforeEach(() => {
+        component = instanceRender(<ChatOffline offlineMessage={{ screen: '' }} />);
+
+        result = component.renderFooterContent();
+      });
+
+      it('does not render a component', () => {
+        expect(result)
+          .not.toBeDefined();
+      });
+    });
+
+    describe('when screen is operating hours screen', () => {
+      beforeEach(() => {
+        component = instanceRender(<ChatOffline offlineMessage={{ screen: 'OPERATING_HOURS' }} />);
+
+        result = component.renderFooterContent();
+      });
+
+      it('renders a button component', () => {
+        expect(TestUtils.isElementOfType(result, Button))
+          .toEqual(true);
       });
     });
   });

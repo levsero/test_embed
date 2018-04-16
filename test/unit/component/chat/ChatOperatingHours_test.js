@@ -3,8 +3,9 @@ import { timeFromMinutes } from '../../../../src/util/time';
 describe('ChatOperatingHours component', () => {
   let ChatOperatingHours;
   const ChatOperatingHoursPath = buildSrcPath('component/chat/ChatOperatingHours');
+  const Dropdown = noopReactComponent();
 
-  const mockOperatingHours = {
+  const mockAccountOperatingHours = {
     account_schedule: [
       [{start: 456, end: 789}],
       [{start: 456, end: 789}],
@@ -17,8 +18,34 @@ describe('ChatOperatingHours component', () => {
     enabled: true,
     timezone: 'Australia/Melbourne'
   };
-
-  const Dropdown = noopReactComponent();
+  const mockDepartmentOperatingHours = {
+    department_schedule: [
+      {
+        name: 'Sales',
+        id: 111,
+        0: [{start: 456, end: 789}],
+        1: [{start: 456, end: 789}],
+        2: [],
+        3: [{start: 456, end: 789}],
+        4: [{start: 456, end: 789}],
+        5: [{start: 456, end: 789}],
+        6: []
+      },
+      {
+        name: 'Billing',
+        id: 222,
+        0: [{start: 456, end: 789}],
+        1: [{start: 456, end: 789}],
+        2: [],
+        3: [{start: 456, end: 789}],
+        4: [{start: 456, end: 789}],
+        5: [{start: 456, end: 789}],
+        6: []
+      }
+    ],
+    enabled: true,
+    timezone: 'Australia/Melbourne'
+  };
 
   beforeEach(() => {
     mockery.enable();
@@ -39,9 +66,7 @@ describe('ChatOperatingHours component', () => {
           t: _.identity
         }
       },
-      'component/field/Dropdown': {
-        Dropdown: Dropdown
-      },
+      'component/field/Dropdown': { Dropdown },
       'utility/time': {
         timeFromMinutes: timeFromMinutes
       }
@@ -63,7 +88,7 @@ describe('ChatOperatingHours component', () => {
     beforeEach(() => {
       component = instanceRender(
         <ChatOperatingHours
-          operatingHours={mockOperatingHours} />
+          operatingHours={mockAccountOperatingHours} />
       );
 
       result = component.render();
@@ -112,7 +137,168 @@ describe('ChatOperatingHours component', () => {
     });
   });
 
+  describe('formatDepartments', () => {
+    let component, result;
+
+    beforeEach(() => {
+      component = instanceRender(
+        <ChatOperatingHours operatingHours={mockDepartmentOperatingHours} />
+      );
+
+      result = component.formatDepartments();
+    });
+
+    it('returns an array of formatted departments', () => {
+      const expected = [
+        {
+          name: 'Sales',
+          value: 111
+        },
+        {
+          name: 'Billing',
+          value: 222
+        }
+      ];
+
+      expect(result)
+        .toEqual(expected);
+    });
+  });
+
+  describe('setActiveDepartment', () => {
+    let component;
+
+    beforeEach(() => {
+      component = instanceRender(
+        <ChatOperatingHours operatingHours={mockDepartmentOperatingHours} />
+      );
+      spyOn(component, 'setState');
+
+      component.setActiveDepartment(123);
+    });
+
+    it('returns the selected department', () => {
+      expect(component.setState)
+        .toHaveBeenCalledWith({ activeDepartment: 123 });
+    });
+  });
+
+  describe('getSelectedDepartment', () => {
+    let component, result;
+
+    beforeEach(() => {
+      component = instanceRender(
+        <ChatOperatingHours operatingHours={mockDepartmentOperatingHours} />
+      );
+      component.setState({ activeDepartment: 222 });
+
+      result = component.getSelectedDepartment();
+    });
+
+    it('returns the selected department', () => {
+      expect(result)
+        .toEqual(mockDepartmentOperatingHours.department_schedule[1]);
+    });
+  });
+
+  describe('renderDepartmentSchedule', () => {
+    let component,
+      result,
+      dropdown;
+    const mockFormattedDropdowns = [
+      { name: 'Billing', value: 123 },
+      { name: 'Sales', value: 321 }
+    ];
+
+    describe('when department operating hours exist', () => {
+      beforeEach(() => {
+        component = instanceRender(
+          <ChatOperatingHours operatingHours={mockDepartmentOperatingHours} />
+        );
+
+        spyOn(component, 'getSelectedDepartment').and.returnValue('mockSelectedDept');
+        spyOn(component, 'formatDepartments').and.returnValue(mockFormattedDropdowns);
+        spyOn(component, 'renderSchedule');
+
+        result = component.renderDepartmentSchedule();
+        dropdown = result.props.children[0];
+      });
+
+      it('renders a dropdown component', () => {
+        expect(TestUtils.isElementOfType(dropdown, Dropdown))
+          .toEqual(true);
+      });
+
+      it('passes the formattedDepartments in to the dropdown as options', () => {
+        expect(dropdown.props.options)
+          .toEqual(mockFormattedDropdowns);
+      });
+
+      it('passes the first formattedDepartment in to the dropdown as value', () => {
+        expect(dropdown.props.value)
+          .toEqual(mockFormattedDropdowns[0]);
+      });
+
+      it('calls renderSchedule with the departments schedule', () => {
+        expect(component.renderSchedule)
+          .toHaveBeenCalledWith('mockSelectedDept');
+      });
+    });
+
+    describe('when account operating hours exist', () => {
+      beforeEach(() => {
+        component = instanceRender(
+          <ChatOperatingHours operatingHours={mockAccountOperatingHours} />
+        );
+
+        result = component.renderDepartmentSchedule();
+      });
+
+      it('does not render anything', () => {
+        expect(result)
+          .toBeFalsy();
+      });
+    });
+  });
+
   describe('renderAccountSchedule', () => {
+    let component,
+      result;
+
+    describe('when account operating hours exist', () => {
+      beforeEach(() => {
+        component = instanceRender(
+          <ChatOperatingHours operatingHours={mockAccountOperatingHours} />
+        );
+
+        spyOn(component, 'renderSchedule');
+
+        result = component.renderAccountSchedule();
+      });
+
+      it('calls renderSchedule with the account schedule', () => {
+        expect(component.renderSchedule)
+          .toHaveBeenCalledWith(mockAccountOperatingHours.account_schedule);
+      });
+    });
+
+    describe('when departments operating hours exist', () => {
+      beforeEach(() => {
+        component = instanceRender(
+          <ChatOperatingHours operatingHours={mockDepartmentOperatingHours} />
+        );
+
+        result = component.renderAccountSchedule();
+      });
+
+      it('does not render anything', () => {
+        expect(result)
+          .toBeFalsy();
+      });
+    });
+  });
+
+  describe('renderSchedule', () => {
     let component,
       result,
       dayName,
@@ -120,11 +306,10 @@ describe('ChatOperatingHours component', () => {
 
     beforeEach(() => {
       component = instanceRender(
-        <ChatOperatingHours
-          operatingHours={mockOperatingHours} />
+        <ChatOperatingHours operatingHours={mockAccountOperatingHours} />
       );
 
-      result = component.renderAccountSchedule();
+      result = component.renderSchedule(mockAccountOperatingHours.account_schedule);
     });
 
     it('returns a definition pair for every day of the week', () => {

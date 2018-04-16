@@ -6,7 +6,6 @@ import { Dropdown } from 'component/field/Dropdown';
 import { timeFromMinutes } from 'utility/time';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatOperatingHours.scss';
-import classNames from 'classnames';
 
 export class ChatOperatingHours extends Component {
   static propTypes = {
@@ -38,26 +37,22 @@ export class ChatOperatingHours extends Component {
     );
   }
 
-  departments = () => {
+  formatDepartments = () => {
     const { department_schedule: schedule } = this.props.operatingHours;
 
     return schedule.map((schedule) => {
-      const dept = {
+      return {
         name: schedule.name,
         value: schedule.id
       };
-
-      return dept;
     });
   }
 
-  departmentSchedules = () => {
+  getSelectedDepartment = () => {
     const { department_schedule: schedule } = this.props.operatingHours;
     const departmentKey = this.state.activeDepartment;
 
-    const selectedSchedule = _.find(schedule, (d) => d.id == departmentKey); // eslint-disable-line eqeqeq
-
-    return this.renderSchedule(selectedSchedule, `${departmentKey}`);
+    return _.find(schedule, (d) => d.id == departmentKey); // eslint-disable-line eqeqeq
   }
 
   renderDayName = (dayName) => {
@@ -72,12 +67,8 @@ export class ChatOperatingHours extends Component {
   }
 
   renderSchedule = (schedule) => {
-    const dlClassNames = classNames(
-      styles.dayList
-    );
-
     return(
-      <dl className={dlClassNames}>
+      <dl className={styles.dayList}>
         {this.daysOfTheWeek.reduce((accumulator, day, index) => {
           return accumulator.concat([
             <dt className={styles.dayName} key={`dt-${index}`}>{this.renderDayName(day)}</dt>,
@@ -103,9 +94,11 @@ export class ChatOperatingHours extends Component {
 
     if (!operatingHours.department_schedule) return;
 
-    const departments = this.departments();
+    const departments = this.formatDepartments();
 
     if (!this.state.activeDepartment) { this.state.activeDepartment = departments[0].value; }
+
+    const selectedDepartment = this.getSelectedDepartment();
 
     return (
       <div>
@@ -120,7 +113,7 @@ export class ChatOperatingHours extends Component {
           value={departments[0]}
           onChange={this.setActiveDepartment}
         />
-        {this.departmentSchedules()}
+        {this.renderSchedule(selectedDepartment)}
       </div>
     );
   }
