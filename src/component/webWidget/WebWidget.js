@@ -379,9 +379,6 @@ class WebWidget extends Component {
         this.isChannelChoiceAvailable()
       );
     };
-    // Only render Zendesk logo on desktop for now. Mobile support would be
-    // added later in another task.
-    const hideLogo = hideZendeskLogo || fullscreen;
 
     return (showOfflineChat)
       ? <ChatOffline
@@ -389,7 +386,7 @@ class WebWidget extends Component {
           updateFrameSize={updateFrameSize}
           handleCloseClick={(e) => closeFrame(e, { skipOnClose: true })}
           isMobile={fullscreen}
-          hideZendeskLogo={hideLogo}
+          hideZendeskLogo={hideZendeskLogo}
         />
       : <Chat
           ref={chat}
@@ -400,7 +397,7 @@ class WebWidget extends Component {
           getFrameDimensions={getFrameDimensions}
           updateChatBackButtonVisibility={updateChatBackButtonVisibility}
           onBackButtonClick={onBackButtonClick}
-          hideZendeskLogo={hideLogo} />;
+          hideZendeskLogo={hideZendeskLogo} />;
   }
 
   renderHelpCenter = () => {

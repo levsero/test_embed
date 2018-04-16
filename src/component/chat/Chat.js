@@ -482,20 +482,21 @@ class Chat extends Component {
     );
   }
 
-  renderAgentTyping = () => {
-    const agentList = _.filter(this.props.agents, (agent, key) => agent.typing && key !== AGENT_BOT);
+  getTypingAgents = () => _.filter(this.props.agents, (agent, key) => agent.typing && key !== AGENT_BOT);
+
+  renderAgentTyping = (typingAgents = []) => {
     let typingNotification;
 
-    switch (agentList.length) {
+    switch (typingAgents.length) {
       case 0: return null;
       case 1:
-        const agent = agentList[0].display_name;
+        const agent = typingAgents[0].display_name;
 
         typingNotification = i18n.t('embeddable_framework.chat.chatLog.isTyping', { agent });
         break;
       case 2:
-        const agent1 = agentList[0].display_name,
-          agent2 = agentList[1].display_name;
+        const agent1 = typingAgents[0].display_name,
+          agent2 = typingAgents[1].display_name;
 
         typingNotification = i18n.t('embeddable_framework.chat.chatLog.isTyping_two', { agent1, agent2 });
         break;
@@ -515,7 +516,7 @@ class Chat extends Component {
   }
 
   renderChatScreen = () => {
-    const { screen, isMobile, sendMsg, loginSettings, visitor } = this.props;
+    const { screen, isMobile, sendMsg, loginSettings, visitor, hideZendeskLogo } = this.props;
 
     if (screen !== screens.CHATTING_SCREEN) return;
 
@@ -535,11 +536,18 @@ class Chat extends Component {
     );
     const footerClasses = classNames(
       styles.footer,
-      { [styles.footerMobile]: isMobile }
+      {
+        [styles.footerMobile]: isMobile,
+        [styles.footerMobileWithLogo]: isMobile && !hideZendeskLogo
+      }
+    );
+    const logoClasses = classNames(
+      { [styles.zendeskLogoChatMobile]: isMobile }
     );
 
     const visitorNameSet = visitor.display_name && !chatNameDefault(visitor.display_name);
     const emailSet = !!visitor.email;
+    const typingAgents = this.getTypingAgents();
 
     return (
       <ScrollContainer
@@ -566,8 +574,12 @@ class Chat extends Component {
             updateInfoOnClick={this.showContactDetailsFn}
           />
           {this.renderQueuePosition()}
-          {this.renderAgentTyping()}
-          {this.renderZendeskLogo()}
+          {this.renderAgentTyping(typingAgents)}
+          {
+            (!isMobile || !typingAgents.length)
+            ? this.renderZendeskLogo(logoClasses)
+            : null
+          }
         </div>
       </ScrollContainer>
     );
@@ -799,10 +811,10 @@ class Chat extends Component {
     );
   }
 
-  renderZendeskLogo = () => {
+  renderZendeskLogo = (extraClasses = '') => {
     return !this.props.hideZendeskLogo ?
       <ZendeskLogo
-        className={styles.zendeskLogo}
+        className={`${styles.zendeskLogo} ${extraClasses}`}
         rtl={i18n.isRTL()}
         fullscreen={false}
       /> : null;

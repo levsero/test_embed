@@ -84,6 +84,10 @@
   margin-top: #{12/$font-size}rem !important;
 }
 
+.footerMobileWithLogo {
+  margin-top: #{24/$font-size}rem !important;
+}
+
 .chatEnd {
   composes: u-textCenter from global;
 }
@@ -136,6 +140,11 @@
 
 .zendeskLogo {
   z-index: 1;
+}
+
+.zendeskLogoChatMobile {
+  bottom: #{48/$font-size}rem;
+  left: #{12/$font-size}rem;
 }
 
 .logoFooter {

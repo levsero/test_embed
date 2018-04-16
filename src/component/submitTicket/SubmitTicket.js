@@ -325,7 +325,7 @@ class SubmitTicket extends Component {
   }
 
   renderZendeskLogo = () => {
-    return this.props.hideZendeskLogo || this.props.fullscreen
+    return this.props.hideZendeskLogo
          ? null
          : <ZendeskLogo
              formSuccess={this.props.showNotification}
