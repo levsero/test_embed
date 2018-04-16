@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { trim, keys } from 'lodash';
+import _ from 'lodash';
+
 import { Dropdown } from 'component/field/Dropdown';
 import { Button } from 'component/button/Button';
 import { timeFromMinutes } from 'utility/time';
@@ -23,8 +24,8 @@ export class ChatOperatingHours extends Component {
   daysOfTheWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
   hourRange = (range) => {
-    const am = trim(i18n.t('embeddable_framework.chat.operatingHours.label.am'));
-    const pm = trim(i18n.t('embeddable_framework.chat.operatingHours.label.pm'));
+    const am = _.trim(i18n.t('embeddable_framework.chat.operatingHours.label.am'));
+    const pm = _.trim(i18n.t('embeddable_framework.chat.operatingHours.label.pm'));
     const open = timeFromMinutes(range.start, am, pm);
     const closed = timeFromMinutes(range.end, am, pm);
 
@@ -39,18 +40,13 @@ export class ChatOperatingHours extends Component {
     );
   }
 
-  departmentKeys = () => {
-    const { operatingHours } = this.props;
-
-    return keys(operatingHours.department_schedule);
-  }
-
   departments = () => {
-    return this.departmentKeys().map((id) => {
-      // TODO: Bring in department names and enter it here
+    const { department_schedule: schedule } = this.props.operatingHours;
+
+    return schedule.map((schedule) => {
       const dept = {
-        name: `Department ${id}`,
-        value: id
+        name: schedule.name,
+        value: schedule.id
       };
 
       return dept;
@@ -58,13 +54,12 @@ export class ChatOperatingHours extends Component {
   }
 
   departmentSchedules = () => {
-    const { operatingHours } = this.props;
+    const { department_schedule: schedule } = this.props.operatingHours;
+    const departmentKey = this.state.activeDepartment;
 
-    return this.departmentKeys().map((departmentKey) => {
-      const schedule = operatingHours.department_schedule[departmentKey];
+    const selectedSchedule = _.find(schedule, (d) => d.id == departmentKey); // eslint-disable-line eqeqeq
 
-      return this.renderSchedule(schedule, `${departmentKey}`);
-    });
+    return this.renderSchedule(selectedSchedule, `${departmentKey}`);
   }
 
   renderDayName = (dayName) => {
@@ -78,14 +73,13 @@ export class ChatOperatingHours extends Component {
     return range;
   }
 
-  renderSchedule = (schedule, departmentKey = 'account') => {
+  renderSchedule = (schedule) => {
     const dlClassNames = classNames(
-      styles.dayList,
-      { [styles.hidden]: (departmentKey !== 'account' && this.state.activeDepartment !== departmentKey) }
+      styles.dayList
     );
 
     return(
-      <dl className={dlClassNames} key={`dl-${departmentKey}`}>
+      <dl className={dlClassNames}>
         {this.daysOfTheWeek.reduce((accumulator, day, index) => {
           return accumulator.concat([
             <dt className={styles.dayName} key={`dt-${index}`}>{this.renderDayName(day)}</dt>,
@@ -120,7 +114,7 @@ export class ChatOperatingHours extends Component {
         <Dropdown
           className={styles.dropdown}
           menuContainerClassName={styles.dropdownMenuContainer}
-          label={'DEPARTMENT'}
+          label={i18n.t('embeddable_framework.chat.preChat.online.dropdown.selectDepartment')}
           required={false}
           name='department'
           options={departments}

@@ -16,7 +16,7 @@ import { getChatOfflineForm,
          getOfflineMessage,
          getOfflineFormSettings,
          getOfflineFormFields,
-         getOperatingHours } from 'src/redux/modules/chat/chat-selectors';
+         getGroupedOperatingHours } from 'src/redux/modules/chat/chat-selectors';
 
 import { locals as styles } from './ChatOffline.scss';
 
@@ -26,7 +26,7 @@ const mapStateToProps = (state) => {
     formFields: getOfflineFormFields(state),
     formSettings: getOfflineFormSettings(state),
     offlineMessage: getOfflineMessage(state),
-    operatingHours: getOperatingHours(state)
+    operatingHours: getGroupedOperatingHours(state)
   };
 };
 
@@ -133,7 +133,7 @@ const actionCreators = {
   sendOfflineMessage,
   handleOfflineFormBack,
   handleOperatingHoursClick,
-  getOperatingHours
+  getGroupedOperatingHours
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(ChatOffline);
