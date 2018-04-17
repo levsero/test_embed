@@ -39,6 +39,7 @@ describe('chat selectors', () => {
     getLoginSettings,
     getDepartments,
     getIsProactiveSession,
+    getStandaloneMobileNotificationVisible,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
@@ -116,6 +117,7 @@ describe('chat selectors', () => {
     getLoginSettings = selectors.getLoginSettings;
     getDepartments = selectors.getDepartments;
     getIsProactiveSession = selectors.getIsProactiveSession;
+    getStandaloneMobileNotificationVisible = selectors.getStandaloneMobileNotificationVisible;
   });
 
   afterEach(() => {
@@ -1580,6 +1582,24 @@ describe('chat selectors', () => {
     it('returns the current state of login', () => {
       expect(result)
         .toBe(login);
+    });
+  });
+
+  describe('getStandaloneMobileNotificationVisible', () => {
+    let result;
+    const mockState = {
+      chat: {
+        standaloneMobileNotificationVisible: true
+      }
+    };
+
+    beforeEach(() => {
+      result = getStandaloneMobileNotificationVisible(mockState);
+    });
+
+    it('retuns the current state of standaloneMobileNotificationVisible', () => {
+      expect(result)
+        .toBe(true);
     });
   });
 

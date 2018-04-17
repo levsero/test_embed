@@ -274,6 +274,7 @@ export class Frame extends Component {
     const hideFinished = () => {
       this.setState({ visible: false });
       onHide(this);
+      if (options.onHide) options.onHide();
       store.dispatch(widgetHideAnimationComplete());
     };
 
@@ -306,7 +307,7 @@ export class Frame extends Component {
 
     const transition = isPositionTop ? 'upHide' : 'downHide';
 
-    this.hide({ transition });
+    this.hide({ transition, onHide: options.onHide });
 
     if (!options.skipOnClose) {
       this.props.onClose(this, options);

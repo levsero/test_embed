@@ -298,12 +298,8 @@ export default function WebWidgetFactory(name) {
     });
 
     mediator.channel.subscribe(prefix + 'webWidget.proactiveChat', (options = {}) => {
-      const { proactive, show } = getChatNotification(embed.store.getState());
-
-      if (proactive && show) {
-        embed.instance.show(options);
-        getWebWidgetComponent().showProactiveChat();
-      }
+      embed.instance.show(options);
+      getWebWidgetComponent().showProactiveChat();
     });
 
     mediator.channel.subscribe(prefix + 'webWidget.hideChatNotification', () => {

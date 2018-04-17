@@ -26,7 +26,10 @@ import { getChatAvailable,
 import { getArticleViewActive,
          getSearchFieldFocused,
          getHasSearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
-import { getChatNotification, getShowOfflineChat, getIsChatting } from 'src/redux/modules/chat/chat-selectors';
+import { getChatNotification,
+         getShowOfflineChat,
+         getIsChatting,
+         getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getZopimChatEmbed,
          getActiveEmbed,
@@ -48,6 +51,7 @@ const mapStateToProps = (state) => {
     articleViewActive: getArticleViewActive(state),
     helpCenterSearchFocused: getSearchFieldFocused(state),
     chatNotification: getChatNotification(state),
+    chatStandaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state),
     activeEmbed: getActiveEmbed(state),
     authenticated: getAuthenticated(state),
     talkEnabled: getTalkEnabled(state),
@@ -72,6 +76,7 @@ class WebWidget extends Component {
     callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
     chatNotification: PropTypes.object.isRequired,
+    chatStandaloneMobileNotificationVisible: PropTypes.bool.isRequired,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool,
     getFrameDimensions: PropTypes.func.isRequired,
@@ -218,8 +223,6 @@ class WebWidget extends Component {
   }
 
   showProactiveChat = () => {
-    // Set the Web Widget iframe to a fixed size for the mobile
-    // chat notification popup.
     if (this.props.fullscreen) {
       const frameStyle = {
         height: '33%',
@@ -228,7 +231,11 @@ class WebWidget extends Component {
 
       this.props.setFixedFrameStyles(frameStyle);
     } else {
-      this.showChat({ proactive: true });
+      const { proactive, show } = this.props.chatNotification;
+
+      if (proactive && show) {
+        this.showChat({ proactive: true });
+      }
     }
   }
 
@@ -530,9 +537,12 @@ class WebWidget extends Component {
   }
 
   dismissStandaloneChatPopup = () => {
-    this.props.setFixedFrameStyles();
-    this.props.closeFrame();
-    this.props.chatNotificationDismissed();
+    const onHide = () => {
+      this.props.chatNotificationDismissed();
+      this.props.setFixedFrameStyles();
+    };
+
+    this.props.closeFrame({}, { onHide });
   }
 
   renderStandaloneChatPopup() {
@@ -549,14 +559,15 @@ class WebWidget extends Component {
       this.showChat({ proactive: true });
     };
     const containerStyle = { ...style, background: 'transparent' };
+    const notification = { ...chatNotification, show: true };
 
     return (
       <div style={style} data-embed={mobileChatPopup}>
         <Container style={containerStyle} fullscreen={true}>
           <ChatNotificationPopup
             isMobile={true}
-            notification={chatNotification}
-            shouldShow={chatNotification.show}
+            notification={notification}
+            shouldShow={true}
             chatNotificationRespond={onNotificatonResponded}
             chatNotificationDismissed={this.dismissStandaloneChatPopup} />
         </Container>
@@ -567,11 +578,10 @@ class WebWidget extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const { fullscreen, chatNotification } = this.props;
-    const { proactive, show } = chatNotification;
-    const shouldRenderChatNotificationPopup = (fullscreen && proactive && show) && this.noActiveEmbed();
+    const { fullscreen } = this.props;
 
-    if (shouldRenderChatNotificationPopup) return this.renderStandaloneChatPopup();
+    if (fullscreen && this.props.chatStandaloneMobileNotificationVisible)
+      return this.renderStandaloneChatPopup();
 
     // TODO: Once single iframe is GA'd the containers for each child can be moved
     // here and this won't be needed to fix dodgy animation.
