@@ -16,7 +16,10 @@ import { updateActiveEmbed,
          updateEmbedAccessible,
          updateBackButtonVisibility,
          updateAuthenticated } from 'src/redux/modules/base';
-import { chatNotificationDismissed, updateChatScreen, chatNotificationRespond } from 'src/redux/modules/chat';
+import { chatNotificationDismissed,
+         updateChatScreen,
+         chatNotificationRespond,
+         showStandaloneMobileNotification } from 'src/redux/modules/chat';
 import { resetActiveArticle } from 'src/redux/modules/helpCenter';
 import { getChatAvailable,
          getChatEnabled,
@@ -124,7 +127,8 @@ class WebWidget extends Component {
     showOfflineChat: PropTypes.bool.isRequired,
     isChatting: PropTypes.bool.isRequired,
     onShowMobile: PropTypes.func,
-    hasSearched: PropTypes.bool.isRequired
+    hasSearched: PropTypes.bool.isRequired,
+    showStandaloneMobileNotification: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -224,12 +228,14 @@ class WebWidget extends Component {
 
   showProactiveChat = () => {
     if (this.props.fullscreen) {
+      const { setFixedFrameStyles, showStandaloneMobileNotification } = this.props;
       const frameStyle = {
         height: '33%',
         background: 'transparent'
       };
 
-      this.props.setFixedFrameStyles(frameStyle);
+      setFixedFrameStyles(frameStyle);
+      showStandaloneMobileNotification();
     } else {
       const { proactive, show } = this.props.chatNotification;
 
@@ -617,7 +623,8 @@ const actionCreators = {
   updateAuthenticated,
   chatNotificationDismissed,
   chatNotificationRespond,
-  updateChatScreen
+  updateChatScreen,
+  showStandaloneMobileNotification
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(WebWidget);

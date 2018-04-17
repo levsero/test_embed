@@ -1674,15 +1674,18 @@ describe('WebWidget component', () => {
     let webWidget;
 
     describe('when on mobile', () => {
-      let setFixedFrameStylesSpy;
+      let setFixedFrameStylesSpy,
+        showStandaloneMobileNotificationSpy;
 
       beforeEach(() => {
         setFixedFrameStylesSpy = jasmine.createSpy('setFixedFrameStyles');
+        showStandaloneMobileNotificationSpy = jasmine.createSpy('showStandaloneMobileNotification');
         webWidget = instanceRender(
           <WebWidget
             oldChat={false}
             fullscreen={true}
-            setFixedFrameStyles={setFixedFrameStylesSpy} />
+            setFixedFrameStyles={setFixedFrameStylesSpy}
+            showStandaloneMobileNotification={showStandaloneMobileNotificationSpy} />
         );
         webWidget.showProactiveChat();
       });
@@ -1690,6 +1693,11 @@ describe('WebWidget component', () => {
       it('calls props.setFixedFrameStyles with correct styles', () => {
         expect(setFixedFrameStylesSpy)
           .toHaveBeenCalledWith({ height: '33%', background: 'transparent' });
+      });
+
+      it('calls showStandaloneMobileNotification', () => {
+        expect(showStandaloneMobileNotificationSpy)
+          .toHaveBeenCalled();
       });
     });
 

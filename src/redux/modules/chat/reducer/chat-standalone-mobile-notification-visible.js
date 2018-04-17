@@ -1,6 +1,6 @@
 import { CHAT_NOTIFICATION_DISMISSED,
          CHAT_NOTIFICATION_RESPONDED,
-         NEW_AGENT_MESSAGE_RECEIVED } from '../chat-action-types';
+         SHOW_STANDALONE_MOBILE_NOTIFICATION } from '../chat-action-types';
 
 const initialState = false;
 
@@ -9,8 +9,8 @@ const standaloneMobileNotificationVisible = (state = initialState, action) => {
     case CHAT_NOTIFICATION_DISMISSED:
     case CHAT_NOTIFICATION_RESPONDED:
       return false;
-    case NEW_AGENT_MESSAGE_RECEIVED:
-      return action.payload.proactive;
+    case SHOW_STANDALONE_MOBILE_NOTIFICATION:
+      return true;
     default:
       return state;
   }

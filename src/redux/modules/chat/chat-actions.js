@@ -42,7 +42,8 @@ import {
   OFFLINE_FORM_OPERATING_HOURS_LINK_CLICKED,
   CHAT_RECONNECT,
   UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP,
-  RESET_CURRENT_MESSAGE
+  RESET_CURRENT_MESSAGE,
+  SHOW_STANDALONE_MOBILE_NOTIFICATION
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import {
@@ -457,4 +458,8 @@ export function updateLastAgentMessageSeenTimestamp(timestamp) {
     type: UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP,
     payload: timestamp
   };
+}
+
+export function showStandaloneMobileNotification() {
+  return { type: SHOW_STANDALONE_MOBILE_NOTIFICATION };
 }

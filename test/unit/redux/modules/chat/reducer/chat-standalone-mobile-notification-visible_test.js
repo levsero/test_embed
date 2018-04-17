@@ -31,18 +31,14 @@ describe('chat reducer standalone mobile notification visible', () => {
       });
     });
 
-    describe('when a NEW_AGENT_MESSAGE_RECEIVED action is dispatched', () => {
-      let payload;
-
+    describe('when a SHOW_STANDALONE_MOBILE_NOTIFICATION action is dispatched', () => {
       beforeEach(() => {
-        payload = { proactive: true };
-
-        const action = { type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED, payload };
+        const action = { type: actionTypes.SHOW_STANDALONE_MOBILE_NOTIFICATION };
 
         state = reducer(initialState, action);
       });
 
-      it('updates the state with the proactive property on the payload', () => {
+      it('sets the state to true', () => {
         expect(state)
           .toBe(true);
       });
