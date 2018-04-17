@@ -84,6 +84,10 @@
   margin-top: #{12/$font-size}rem !important;
 }
 
+.footerMobileWithLogo {
+  margin-top: #{24/$font-size}rem !important;
+}
+
 .chatEnd {
   composes: u-textCenter from global;
 }
@@ -126,6 +130,23 @@
   max-width: unset;
 }
 
+.agentListBackButtonWithLogo {
+  margin-bottom: #{24/$font-size}rem;
+}
+
 .reconnectContainer {
   composes: u-flex u-posFill u-posAbsolute u-flexAlignItemsCenter u-flexJustifyCenter from global;
+}
+
+.zendeskLogo {
+  z-index: 1;
+}
+
+.zendeskLogoChatMobile {
+  bottom: #{48/$font-size}rem;
+  left: #{12/$font-size}rem;
+}
+
+.logoFooter {
+  height: #{12/$font-size}rem;
 }

@@ -39,3 +39,11 @@
   margin-top: #{6/$font-size}rem;
   font-size: #{13/$font-size}rem;
 }
+
+.zendeskLogo {
+  z-index: 1;
+}
+
+.logoFooter {
+  height: #{12/$font-size}rem;
+}

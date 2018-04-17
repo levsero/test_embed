@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { Button } from 'component/button/Button';
 import { ChatOfflineForm } from 'component/chat/ChatOfflineForm';
 import { ScrollContainer } from 'component/container/ScrollContainer';
+import { ZendeskLogo } from 'component/ZendeskLogo';
 import { chatOfflineFormChanged,
          sendOfflineMessage,
          handleOfflineFormBack,
@@ -42,7 +43,8 @@ class ChatOffline extends Component {
     offlineMessage: PropTypes.object.isRequired,
     handleCloseClick: PropTypes.func,
     operatingHours: PropTypes.object,
-    isMobile: PropTypes.bool
+    isMobile: PropTypes.bool,
+    hideZendeskLogo: PropTypes.bool
   };
 
   static defaultProps = {
@@ -51,6 +53,7 @@ class ChatOffline extends Component {
     sendOfflineMessage: () => {},
     operatingHours: {},
     isMobile: false,
+    hideZendeskLogo: false,
     formSettings: { enabled: false }
   };
 
@@ -89,12 +92,24 @@ class ChatOffline extends Component {
     );
   }
 
+  renderZendeskLogo = () => {
+    return !this.props.hideZendeskLogo ?
+      <ZendeskLogo
+        className={styles.zendeskLogo}
+        rtl={i18n.isRTL()}
+        fullscreen={false}
+      /> : null;
+  }
+
   render() {
-    const { isMobile } = this.props;
+    const { isMobile, hideZendeskLogo } = this.props;
     const scrollContainerClasses = classNames(
       styles.scrollContainer,
       { [styles.mobileContainer]: isMobile }
     );
+    const logoFooterClasses = classNames({
+      [styles.logoFooter]: !hideZendeskLogo
+    });
 
     setTimeout(() => this.props.updateFrameSize(), 0);
 
@@ -103,6 +118,8 @@ class ChatOffline extends Component {
         ref='scrollContainer'
         classes={scrollContainerClasses}
         containerClasses={styles.scrollContainerContent}
+        footerClasses={logoFooterClasses}
+        footerContent={this.renderZendeskLogo()}
         title={i18n.t('embeddable_framework.chat.title')}>
         {this.renderOfflineForm()}
         {this.renderChatOfflineScreen()}

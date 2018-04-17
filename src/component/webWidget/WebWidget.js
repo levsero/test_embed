@@ -357,12 +357,24 @@ class WebWidget extends Component {
   }
 
   renderChat = () => {
-    const { activeEmbed, showOfflineChat } = this.props;
+    const {
+      activeEmbed,
+      showOfflineChat,
+      updateFrameSize,
+      getFrameDimensions,
+      fullscreen,
+      position,
+      closeFrame,
+      updateChatScreen,
+      onBackButtonClick,
+      updateBackButtonVisibility,
+      hideZendeskLogo
+    } = this.props;
 
     if (activeEmbed !== chat) return;
 
     const updateChatBackButtonVisibility = () => {
-      this.props.updateBackButtonVisibility(
+      updateBackButtonVisibility(
         this.isHelpCenterAvailable() ||
         this.isChannelChoiceAvailable()
       );
@@ -371,19 +383,21 @@ class WebWidget extends Component {
     return (showOfflineChat)
       ? <ChatOffline
           ref={chat}
-          updateFrameSize={this.props.updateFrameSize}
-          handleCloseClick={(e) => this.props.closeFrame(e, { skipOnClose: true })}
-          isMobile={this.props.fullscreen}
+          updateFrameSize={updateFrameSize}
+          handleCloseClick={(e) => closeFrame(e, { skipOnClose: true })}
+          isMobile={fullscreen}
+          hideZendeskLogo={hideZendeskLogo}
         />
       : <Chat
           ref={chat}
-          isMobile={this.props.fullscreen}
-          updateFrameSize={this.props.updateFrameSize}
-          updateChatScreen={this.props.updateChatScreen}
-          position={this.props.position}
-          getFrameDimensions={this.props.getFrameDimensions}
+          isMobile={fullscreen}
+          updateFrameSize={updateFrameSize}
+          updateChatScreen={updateChatScreen}
+          position={position}
+          getFrameDimensions={getFrameDimensions}
           updateChatBackButtonVisibility={updateChatBackButtonVisibility}
-          onBackButtonClick={this.props.onBackButtonClick} />;
+          onBackButtonClick={onBackButtonClick}
+          hideZendeskLogo={hideZendeskLogo} />;
   }
 
   renderHelpCenter = () => {
