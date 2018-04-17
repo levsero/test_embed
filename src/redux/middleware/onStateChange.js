@@ -163,7 +163,7 @@ const onChatStatusChange = (prevState, nextState, dispatch) => {
       const hideLauncher = !getOfflineFormSettings(nextState).enabled;
 
       mediator.channel.broadcast('newChat.offline', hideLauncher);
-      if (getSubmitTicketEmbed(nextState) && !getIsChattingState(nextState)) {
+      if (getSubmitTicketEmbed(nextState) && !getIsChattingState(nextState) && getActiveEmbed(nextState) === 'chat') {
         dispatch(updateActiveEmbed('ticketSubmissionForm'));
       }
     }

@@ -541,6 +541,7 @@ describe('onStateChange middleware', () => {
             beforeEach(() => {
               mockSubmitTicketAvailable = true;
               mockIsChatting = true;
+              mockActiveEmbed = 'chat';
               stateChangeFn('online', 'offline');
             });
 
@@ -552,15 +553,33 @@ describe('onStateChange middleware', () => {
           });
 
           describe('when not chatting', () => {
-            beforeEach(() => {
-              mockSubmitTicketAvailable = true;
-              mockIsChatting = false;
-              stateChangeFn('online', 'offline');
+            describe('when active embed is chat', () => {
+              beforeEach(() => {
+                mockSubmitTicketAvailable = true;
+                mockIsChatting = false;
+                mockActiveEmbed = 'chat';
+                stateChangeFn('online', 'offline');
+              });
+
+              it('updates active embed to submit ticket', () => {
+                expect(updateActiveEmbedSpy)
+                  .toHaveBeenCalledWith('ticketSubmissionForm');
+              });
             });
 
-            it('updates active embed to submit ticket', () => {
-              expect(updateActiveEmbedSpy)
-                .toHaveBeenCalledWith('ticketSubmissionForm');
+            describe('when active embed is not chat', () => {
+              beforeEach(() => {
+                mockSubmitTicketAvailable = true;
+                mockIsChatting = false;
+                mockActiveEmbed = 'helpCenterForm';
+                stateChangeFn('online', 'offline');
+              });
+
+              it('does not update active embed', () => {
+                expect(updateActiveEmbedSpy)
+                  .not
+                  .toHaveBeenCalled();
+              });
             });
           });
         });
