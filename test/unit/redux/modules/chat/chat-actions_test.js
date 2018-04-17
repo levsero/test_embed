@@ -1323,4 +1323,18 @@ describe('chat redux actions', () => {
         .toEqual(actionTypes.CHAT_RECONNECT);
     });
   });
+
+  describe('showStandaloneMobileNotification', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.showStandaloneMobileNotification());
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches SHOW_STANDALONE_MOBILE_NOTIFICATION action', () => {
+      expect(action.type)
+        .toBe(actionTypes.SHOW_STANDALONE_MOBILE_NOTIFICATION);
+    });
+  });
 });
