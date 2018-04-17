@@ -17,12 +17,13 @@ const isAgent = (nick) => nick ? nick.indexOf('agent:') > -1 : false;
 const getChats = (state) => state.chat.chats;
 const getNotification = (state) => state.chat.notification;
 const getThemeMessageType = (state) => state.chat.accountSettings.theme.message_type;
+const getOrderedAgents = (state) => state.chat.agents;
+const getFirstAgent = (state) => getOrderedAgents(state).values().next().value;
+const getConciergeSettings = (state) => state.chat.accountSettings.concierge;
 
-export const getAgents = (state) => state.chat.agents;
 export const getAgentsTyping = (state) => {
   return _.filter(state.chat.agents, (agent, key) => agent.typing && key !== AGENT_BOT);
 };
-export const getConciergeSettings = (state) => state.chat.accountSettings.concierge;
 export const getConnection = (state) => state.chat.connection;
 export const getCurrentMessage = (state) => state.chat.currentMessage;
 export const getChatOnline = (state) => _.includes(['online', 'away'], getChatStatus(state));
@@ -51,6 +52,32 @@ export const getLastAgentMessageSeenTimestamp = (state) => state.chat.lastAgentM
 export const getOperatingHours = (state) => state.chat.operatingHours;
 export const getLoginSettings = (state) => state.chat.accountSettings.login;
 export const getStandaloneMobileNotificationVisible = (state) => state.chat.standaloneMobileNotificationVisible;
+
+export const getAgents = createSelector(
+  getOrderedAgents,
+  (orderedAgents) => {
+    const arrAgents = Array.from(orderedAgents)
+        .map((agent) => ({ [agent[0]]: agent[1] }));
+
+    return Object.assign({}, ...arrAgents);
+  }
+);
+
+export const getCurrentConcierge = createSelector(
+  [getFirstAgent, getConciergeSettings],
+  (firstAgent, conciergeSettings) => {
+    if (!firstAgent) {
+      return conciergeSettings;
+    }
+    if (!firstAgent.avatar_path) {
+      return {
+        ...firstAgent,
+        avatar_path: conciergeSettings.avatar_path
+      };
+    }
+    return firstAgent;
+  }
+);
 
 export const getIsProactiveSession = (state) => {
   const chats = Array.from(getChats(state).values());

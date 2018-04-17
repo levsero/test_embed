@@ -63,7 +63,7 @@ import { getPrechatFormFields,
          getCurrentMessage,
          getChatRating,
          getUserSoundSettings,
-         getConciergeSettings,
+         getCurrentConcierge,
          getPostchatFormSettings,
          getRatingSettings,
          getEmailTranscript,
@@ -94,7 +94,7 @@ const mapStateToProps = (state) => {
     lastAgentLeaveEvent: getLastAgentLeaveEvent(state),
     currentMessage: getCurrentMessage(state),
     screen: getChatScreen(state),
-    concierge: getConciergeSettings(state),
+    concierge: getCurrentConcierge(state),
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
     postChatFormSettings: getPostchatFormSettings(state),
     isChatting: getIsChatting(state),
@@ -419,7 +419,7 @@ class Chat extends Component {
     // Title in chat refers to the byline and display_name refers to the display title
     const { avatar_path, display_name, title } = concierge;
     const displayName = _.has(display_name, 'toString') ? display_name.toString() : display_name; // eslint-disable-line camelcase
-    const byline = _.has(title, 'toString') ? title.toString() : title;
+    const byline = title ? title : i18n.t('embeddable_framework.chat.header.by_line');
     const showRating = screen === screens.CHATTING_SCREEN && ratingSettings.enabled && agentJoined;
     const onAgentDetailsClick = (screen === screens.CHATTING_SCREEN && _.size(agents) > 0)
                   ? () => updateChatScreen(screens.AGENT_LIST_SCREEN)
