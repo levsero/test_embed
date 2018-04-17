@@ -17,7 +17,6 @@ import { getChatOfflineForm,
          getOfflineFormSettings,
          getOfflineFormFields,
          getGroupedOperatingHours } from 'src/redux/modules/chat/chat-selectors';
-import { OFFLINE_FORM_SCREENS } from 'constants/chat';
 
 import { locals as styles } from './ChatOffline.scss';
 
@@ -103,23 +102,6 @@ class ChatOffline extends Component {
       /> : null;
   }
 
-  renderFooterContent = () => {
-    if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.OPERATING_HOURS) return;
-
-    const backButtonLabel = i18n.t('embeddable_framework.common.button.goBack');
-
-    return (
-      <div>
-        <Button
-          className={styles.buttonFooter}
-          label={backButtonLabel}
-          onClick={this.props.handleOfflineFormBack}
-          type='button' />
-        {this.renderZendeskLogo()}
-      </div>
-    );
-  }
-
   render() {
     const { isMobile, hideZendeskLogo } = this.props;
     const scrollContainerClasses = classNames(
@@ -138,7 +120,7 @@ class ChatOffline extends Component {
         classes={scrollContainerClasses}
         containerClasses={styles.scrollContainerContent}
         footerClasses={logoFooterClasses}
-        footerContent={this.renderFooterContent()}
+        footerContent={this.renderZendeskLogo()}
         title={i18n.t('embeddable_framework.chat.title')}>
         {this.renderOfflineForm()}
         {this.renderChatOfflineScreen()}

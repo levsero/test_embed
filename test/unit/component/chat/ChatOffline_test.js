@@ -204,35 +204,4 @@ describe('ChatOffline component', () => {
       });
     });
   });
-
-  describe('renderFooterContent', () => {
-    let component,
-      result;
-
-    describe('when screen is not operating hours screen', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOffline offlineMessage={{ screen: '' }} />);
-
-        result = component.renderFooterContent();
-      });
-
-      it('does not render a component', () => {
-        expect(result)
-          .not.toBeDefined();
-      });
-    });
-
-    describe('when screen is operating hours screen', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOffline offlineMessage={{ screen: 'OPERATING_HOURS' }} />);
-
-        result = component.renderFooterContent();
-      });
-
-      it('renders a button component', () => {
-        expect(TestUtils.isElementOfType(result, Button))
-          .toEqual(true);
-      });
-    });
-  });
 });

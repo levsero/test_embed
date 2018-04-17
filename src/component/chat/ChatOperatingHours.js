@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
+import { Button } from 'component/button/Button';
 import { Dropdown } from 'component/field/Dropdown';
 import { timeFromMinutes } from 'utility/time';
 import { i18n } from 'service/i18n';
@@ -9,7 +10,8 @@ import { locals as styles } from './ChatOperatingHours.scss';
 
 export class ChatOperatingHours extends Component {
   static propTypes = {
-    operatingHours: PropTypes.object.isRequired
+    operatingHours: PropTypes.object.isRequired,
+    handleOfflineFormBack: PropTypes.func.isRequired
   };
 
   constructor(props, context) {
@@ -81,6 +83,18 @@ export class ChatOperatingHours extends Component {
     );
   }
 
+  renderBackButton = () => {
+    const backButtonLabel = i18n.t('embeddable_framework.common.button.goBack');
+
+    return(
+      <Button
+        className={styles.button}
+        label={backButtonLabel}
+        onClick={this.props.handleOfflineFormBack}
+        type='button' />
+    );
+  }
+
   renderAccountSchedule = () => {
     const { operatingHours } = this.props;
 
@@ -134,6 +148,7 @@ export class ChatOperatingHours extends Component {
         <h4 className={styles.title} dangerouslySetInnerHTML={{__html: title}} />
         {this.renderAccountSchedule()}
         {this.renderDepartmentSchedule()}
+        {this.renderBackButton()}
       </div>
     );
   }

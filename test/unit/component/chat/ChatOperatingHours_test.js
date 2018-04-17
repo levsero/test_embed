@@ -4,6 +4,7 @@ describe('ChatOperatingHours component', () => {
   let ChatOperatingHours;
   const ChatOperatingHoursPath = buildSrcPath('component/chat/ChatOperatingHours');
   const Dropdown = noopReactComponent();
+  const Button = noopReactComponent();
 
   const mockAccountOperatingHours = {
     account_schedule: [
@@ -66,6 +67,7 @@ describe('ChatOperatingHours component', () => {
           t: _.identity
         }
       },
+      'component/button/Button': { Button },
       'component/field/Dropdown': { Dropdown },
       'utility/time': {
         timeFromMinutes: timeFromMinutes
@@ -134,6 +136,42 @@ describe('ChatOperatingHours component', () => {
       it('is contained in the right element', () => {
         expect(list.type).toEqual('dl');
       });
+    });
+  });
+
+  describe('renderBackButton', () => {
+    let component,
+      result;
+
+    beforeEach(() => {
+      component = instanceRender(
+        <ChatOperatingHours
+          handleOfflineFormBack={() => {}}
+          operatingHours={mockAccountOperatingHours} />
+      );
+
+      result = component.renderBackButton();
+    });
+
+    it('returns a <div> parent element', () => {
+      expect(TestUtils.isElementOfType(result, Button))
+        .toEqual(true);
+    });
+
+    it('has the right className prop', () => {
+      expect(result.props.className).toEqual('buttonClass');
+    });
+
+    it('has the right label prop', () => {
+      expect(result.props.label).toEqual('embeddable_framework.common.button.goBack');
+    });
+
+    it('has the right onClick prop', () => {
+      expect(result.props.onClick).toEqual(jasmine.any(Function));
+    });
+
+    it('has the right type prop', () => {
+      expect(result.props.type).toEqual('button');
     });
   });
 

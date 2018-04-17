@@ -24,11 +24,16 @@
 }
 
 .hours {
-  margin-bottom: #{15/$font-size}rem;
+  margin-bottom: #{12/$font-size}rem;
+}
+
+.button {
+  max-width: 100%;
+  width: 100%;
 }
 
 .dropdown {
-  margin: #{20/$font-size}rem 0;
+  margin: #{16/$font-size}rem 0;
 }
 
 .dropdownLabel {
