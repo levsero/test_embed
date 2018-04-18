@@ -197,6 +197,11 @@ parts:
       title: "The resend text that shows if a message send fails for the second time."
       screenshot: "https://zendesk.box.com/s/kx69e0et86r5a56w6xas3oxsef0f416d"
       value: "Failed to send"
+  - translation:
+      key: "embeddable_framework.chat.header.by_line"
+      title: "This is the default byline text if an agent/company does not have one."
+      screenshot: "https://drive.google.com/open?id=14o6od3wZ-7tjqix2bJlu0JLg9Br2NxG9"
+      value: "Customer Support"
 
   # Chat Web SDK
   - translation:
