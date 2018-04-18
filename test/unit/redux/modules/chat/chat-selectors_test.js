@@ -1055,7 +1055,10 @@ describe('chat selectors', () => {
     let result;
     const mockChatSettings = {
       chat: {
-        agents: new Map([['link', 'link']])
+        agents: new Map([
+          ['agent:123', { nick: 'agent:123'} ],
+          ['agent:trigger', { nick: 'agent:trigger'} ]
+        ])
       }
     };
 
@@ -1063,10 +1066,10 @@ describe('chat selectors', () => {
       result = getAgents(mockChatSettings);
     });
 
-    it('returns the current state of agents', () => {
+    it('returns the current state of agents with triggers filtered out', () => {
       expect(result)
         .toEqual({
-          'link': 'link'
+          'agent:123': { nick: 'agent:123' }
         });
     });
   });
