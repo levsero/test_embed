@@ -182,8 +182,7 @@ describe('embed.webWidget', () => {
         document: global.document,
         getDocumentHost: () => {
           return document.body;
-        },
-        win: global.window
+        }
       },
       'service/authentication' : {
         authentication: {
