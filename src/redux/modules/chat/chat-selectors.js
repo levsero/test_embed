@@ -58,7 +58,7 @@ export const getAgents = createSelector(
         .filter((agent) => agent[0] !== AGENT_BOT)
         .map((agent) => ({ [agent[0]]: agent[1] }));
 
-    return Object.assign({}, ...arrAgents);
+    return _.assign({}, ...arrAgents);
   }
 );
 
