@@ -21,9 +21,7 @@ import { getZoomSizingRatio,
          isIE,
          isMobileBrowser,
          setScaleLock } from 'utility/devices';
-import { document,
-         getDocumentHost,
-         win } from 'utility/globals';
+import { document, getDocumentHost } from 'utility/globals';
 import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedTimeoutCall,
@@ -570,8 +568,6 @@ export default function WebWidgetFactory(name) {
   }
 
   function setupChat(config, store, brand) {
-    win.zChat = zChat;
-
     zChat.init(makeChatConfig(config));
 
     if (brand) {
