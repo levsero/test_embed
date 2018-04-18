@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  color: $zd-color-oil;
+  color: $zd-color-dark-gray;
 }
 
 .title {
@@ -24,14 +24,28 @@
 }
 
 .hours {
-  margin-bottom: #{15/$font-size}rem;
+  margin-bottom: #{12/$font-size}rem;
 }
 
 .button {
   max-width: 100%;
-  width: calc(100% - #{20/$font-size}rem) !important;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  margin: 0 #{10/$font-size}rem;
+  width: 100%;
+}
+
+.dropdown {
+  margin: #{16/$font-size}rem 0;
+}
+
+.dropdownLabel {
+  color: $zd-color-dark-gray !important;
+  font-size: #{13/$font-size}rem;
+}
+
+.dropdownMenuContainer {
+  height: auto !important;
+  max-height: #{200/$font-size}rem;
+}
+
+.hidden {
+  composes: u-isHiddenVisually from global;
 }

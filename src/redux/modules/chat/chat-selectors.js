@@ -152,6 +152,26 @@ export const getPrechatFormFields = createSelector(
   }
 );
 
+export const getGroupedOperatingHours = createSelector(
+  [getOperatingHours, getDepartmentsList],
+  (operatingHours, departments) => {
+    if (operatingHours.department_schedule) {
+      return {
+        ...operatingHours,
+        department_schedule: _.map(operatingHours.department_schedule, (schedule, key) => {
+          const department = _.find(departments, (d) => d.id == key); // eslint-disable-line eqeqeq
+
+          return {
+            ...schedule,
+            ...department
+          };
+        })
+      };
+    } else {
+      return operatingHours;
+    }
+  }
+);
 export const getChatMessages = createSelector(
   [getChats],
   (chats) => {

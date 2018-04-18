@@ -3,6 +3,8 @@ describe('ChatOffline component', () => {
   const ChatOfflinePath = buildSrcPath('component/chat/ChatOffline');
   const ZendeskLogo = noopReactComponent('ZendeskLogo');
 
+  const Button = noopReactComponent();
+
   beforeEach(() => {
     mockery.enable();
 
@@ -30,9 +32,7 @@ describe('ChatOffline component', () => {
       'component/ZendeskLogo': {
         ZendeskLogo
       },
-      'component/button/Button': {
-        Button: noopReactComponent()
-      },
+      'component/button/Button': { Button },
       'component/chat/ChatOfflineForm': {
         ChatOfflineForm: noopReactComponent()
       },
@@ -42,6 +42,11 @@ describe('ChatOffline component', () => {
       'src/redux/modules/chat/chat-selectors': {
         getChatOfflineForm: '',
         getOfflineFormFields: ''
+      },
+      'constants/chat': {
+        OFFLINE_FORM_SCREENS: {
+          OPERATING_HOURS: 'OPERATING_HOURS'
+        }
       }
     });
 

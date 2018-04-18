@@ -30,6 +30,7 @@ export class Dropdown extends Component {
     onChange: PropTypes.func,
     options: PropTypes.array.isRequired,
     label: PropTypes.string,
+    labelClasses: PropTypes.string,
     required: PropTypes.bool,
     value: PropTypes.object,
     optionFormat: PropTypes.func,
@@ -57,6 +58,7 @@ export class Dropdown extends Component {
     description: '',
     onChange: () => {},
     options: [],
+    labelClasses: '',
     label: '-',
     required: false,
     placeholderNode: '-',
@@ -361,13 +363,13 @@ export class Dropdown extends Component {
   }
 
   renderLabel = (landscapeClasses, mobileClasses) => {
-    const { label, required } = this.props;
+    const { label, required, labelClasses } = this.props;
     const includeLabel = label !== '-';
     const requiredLabel = required ? '*' : '';
 
     if (includeLabel) {
       return (
-        <div className={`${styles.label} ${landscapeClasses} ${mobileClasses}`}>
+        <div className={`${styles.label} ${landscapeClasses} ${mobileClasses} ${labelClasses}`}>
           {label}{requiredLabel}
         </div>
       );

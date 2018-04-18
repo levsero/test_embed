@@ -38,6 +38,7 @@ describe('chat selectors', () => {
     getMenuVisible,
     getShowMenu,
     getOperatingHours,
+    getGroupedOperatingHours,
     getLoginSettings,
     getDepartments,
     getIsProactiveSession,
@@ -117,6 +118,7 @@ describe('chat selectors', () => {
     getQueuePosition = selectors.getQueuePosition;
     getEditContactDetails = selectors.getEditContactDetails;
     getOperatingHours = selectors.getOperatingHours;
+    getGroupedOperatingHours = selectors.getGroupedOperatingHours;
     getOfflineMessage = selectors.getOfflineMessage;
     getMenuVisible = selectors.getMenuVisible;
     getShowMenu = selectors.getShowMenu;
@@ -1522,6 +1524,45 @@ describe('chat selectors', () => {
     it('returns the current state of operatingHours', () => {
       expect(result)
         .toEqual(operatingHoursPayload);
+    });
+  });
+
+  describe('getGroupedOperatingHours', () => {
+    let result;
+    const operatingHoursPayload = {
+      department_schedule: {
+        123: [[456]]
+      }
+    };
+    const mockState = {
+      chat: {
+        operatingHours: operatingHoursPayload,
+        departments: [
+          {
+            name: 'Design',
+            id: 123
+          }
+        ]
+      }
+    };
+
+    beforeEach(() => {
+      result = getGroupedOperatingHours(mockState);
+    });
+
+    it('returns the current state of operatingHours', () => {
+      const expected = {
+        department_schedule: [
+          {
+            name: 'Design',
+            id: 123,
+            0: [456]
+          }
+        ]
+      };
+
+      expect(result)
+        .toEqual(expected);
     });
   });
 

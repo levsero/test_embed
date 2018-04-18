@@ -164,8 +164,8 @@ export class ChatOfflineForm extends Component {
 
     return (
       <ChatOperatingHours
-        operatingHours={operatingHours}
-        handleOfflineFormBack={handleOfflineFormBack} />
+        handleOfflineFormBack={handleOfflineFormBack}
+        operatingHours={operatingHours} />
     );
   }
 

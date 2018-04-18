@@ -16,7 +16,7 @@ import { getChatOfflineForm,
          getOfflineMessage,
          getOfflineFormSettings,
          getOfflineFormFields,
-         getOperatingHours } from 'src/redux/modules/chat/chat-selectors';
+         getGroupedOperatingHours } from 'src/redux/modules/chat/chat-selectors';
 
 import { locals as styles } from './ChatOffline.scss';
 
@@ -26,7 +26,7 @@ const mapStateToProps = (state) => {
     formFields: getOfflineFormFields(state),
     formSettings: getOfflineFormSettings(state),
     offlineMessage: getOfflineMessage(state),
-    operatingHours: getOperatingHours(state)
+    operatingHours: getGroupedOperatingHours(state)
   };
 };
 
@@ -54,7 +54,8 @@ class ChatOffline extends Component {
     operatingHours: {},
     isMobile: false,
     hideZendeskLogo: false,
-    formSettings: { enabled: false }
+    formSettings: { enabled: false },
+    offlineMessage: {}
   };
 
   renderOfflineForm = () => {
@@ -133,7 +134,7 @@ const actionCreators = {
   sendOfflineMessage,
   handleOfflineFormBack,
   handleOperatingHoursClick,
-  getOperatingHours
+  getGroupedOperatingHours
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(ChatOffline);
