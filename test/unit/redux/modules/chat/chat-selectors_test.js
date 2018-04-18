@@ -1790,7 +1790,7 @@ describe('chat selectors', () => {
       beforeAll(() => {
         mockState = {
           chat: {
-            agents: {}
+            agents: new Map()
           }
         };
       });
@@ -1805,11 +1805,11 @@ describe('chat selectors', () => {
       beforeAll(() => {
         mockState = {
           chat: {
-            agents: {
-              'agent:123': { nick: 'agent:123', typing: true },
-              'agent:456': { nick: 'agent:456', typing: true },
-              'agent:789': { nick: 'agent:789', typing: false }
-            }
+            agents: new Map([
+              ['agent:123', { nick: 'agent:123', typing: true }],
+              ['agent:456', { nick: 'agent:456', typing: true }],
+              ['agent:789', { nick: 'agent:789', typing: false }]
+            ])
           }
         };
       });
@@ -1829,10 +1829,10 @@ describe('chat selectors', () => {
       beforeAll(() => {
         mockState = {
           chat: {
-            agents: {
-              'agent:456': { nick: 'agent:456', typing: true },
-              'agent:trigger': { nick: 'agent:trigger', typing: true }
-            }
+            agents: new Map([
+              ['agent:456', { nick: 'agent:456', typing: true }],
+              ['agent:trigger', { nick: 'agent:trigger', typing: true }]
+            ])
           }
         };
       });
