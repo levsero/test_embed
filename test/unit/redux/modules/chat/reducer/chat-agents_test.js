@@ -1,3 +1,5 @@
+import Map from 'core-js/library/es6/map';
+
 describe('chat reducer agents', () => {
   let reducer,
     actionTypes,
@@ -24,9 +26,9 @@ describe('chat reducer agents', () => {
     let state;
 
     describe('initial state', () => {
-      it('is set to an empty object', () => {
+      it('is set to an empty map object', () => {
         expect(initialState)
-          .toEqual({});
+          .toEqual(new Map());
       });
     });
 
@@ -50,7 +52,7 @@ describe('chat reducer agents', () => {
       });
 
       it('updates the agent with properties from the payload', () => {
-        expect(state['agent:mcbob'])
+        expect(state.get('agent:mcbob'))
           .toEqual(jasmine.objectContaining(payload.detail));
       });
     });
@@ -74,7 +76,7 @@ describe('chat reducer agents', () => {
       });
 
       it('updates the agents typing property', () => {
-        expect(state['agent:mcbob'].typing)
+        expect(state.get('agent:mcbob').typing)
           .toEqual(true);
       });
     });
@@ -107,18 +109,16 @@ describe('chat reducer agents', () => {
           });
 
           it('adds an entry for the member', () => {
-            expect(state)
+            expect(state.get('agent:mcbob'))
               .toEqual(jasmine.objectContaining({
-                'agent:mcbob': { nick: payload.detail.nick }
+                nick: payload.detail.nick
               }));
           });
         });
 
         describe('when the member exists in the state already', () => {
           beforeEach(() => {
-            const currentState = {
-              'agent:mcbob': {}
-            };
+            const currentState = new Map([['agent:mcbob': {}]]);
 
             state = reducer(currentState, {
               type: actionTypes.SDK_CHAT_MEMBER_JOIN,
@@ -127,7 +127,7 @@ describe('chat reducer agents', () => {
           });
 
           it('updates the entry for the member', () => {
-            expect(state['agent:mcbob'].nick)
+            expect(state.get('agent:mcbob').nick)
               .toEqual(payload.detail.nick);
           });
         });
@@ -163,10 +163,10 @@ describe('chat reducer agents', () => {
           }
         };
 
-        currentState = {
-          'agent:mcbob': {},
-          'agent:mcjim': {}
-        };
+        currentState = new Map([
+          ['agent:mcbob', {}],
+          ['agent:mcjim', {}]
+        ]);
       });
 
       describe('when the member is an agent', () => {
@@ -180,12 +180,12 @@ describe('chat reducer agents', () => {
         });
 
         it('removes the state entry for the agent', () => {
-          expect(state['agent:mcbob'])
+          expect(state.get('agent:mcbob'))
             .toBeUndefined();
         });
 
         it('keeps other agents in the state', () => {
-          expect(state['agent:mcjim'])
+          expect(state.get('agent:mcjim'))
             .toEqual({});
         });
       });
@@ -209,9 +209,7 @@ describe('chat reducer agents', () => {
 
     describe('when a END_CHAT_REQUEST_SUCCESS action is dispatched', () => {
       beforeEach(() => {
-        const currentState = {
-          'agent:cena': {}
-        };
+        const currentState = new Map([['agent:cena', {}]]);
 
         state = reducer(currentState, {
           type: actionTypes.END_CHAT_REQUEST_SUCCESS
@@ -220,15 +218,13 @@ describe('chat reducer agents', () => {
 
       it('resets reducer to initial state', () => {
         expect(state)
-          .toEqual({});
+          .toEqual(new Map());
       });
     });
 
     describe('when a CHAT_RECONNECT action is dispatched', () => {
       beforeEach(() => {
-        const currentState = {
-          'agent:cena': {}
-        };
+        const currentState = new Map([['agent:cena', {}]]);
 
         state = reducer(currentState, {
           type: actionTypes.CHAT_RECONNECT
@@ -237,7 +233,7 @@ describe('chat reducer agents', () => {
 
       it('resets reducer to initial state', () => {
         expect(state)
-          .toEqual({});
+          .toEqual(new Map());
       });
     });
   });

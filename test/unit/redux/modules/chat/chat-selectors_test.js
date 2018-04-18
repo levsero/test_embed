@@ -1,7 +1,9 @@
+import Map from 'core-js/library/es6/map';
+
 describe('chat selectors', () => {
   let getAgents,
     getAttachmentsEnabled,
-    getConciergeSettings,
+    getCurrentConcierge,
     getConnection,
     getCurrentMessage,
     getChatEvents,
@@ -83,7 +85,7 @@ describe('chat selectors', () => {
 
     getAgents = selectors.getAgents;
     getAttachmentsEnabled = selectors.getAttachmentsEnabled;
-    getConciergeSettings = selectors.getConciergeSettings;
+    getCurrentConcierge = selectors.getCurrentConcierge;
     getConnection = selectors.getConnection;
     getCurrentMessage = selectors.getCurrentMessage;
     getChatEvents = selectors.getChatEvents;
@@ -169,7 +171,7 @@ describe('chat selectors', () => {
 
     describe('returns an object', () => {
       beforeEach(() => {
-        mockAgents = { 'agent:007': { avatar_path: '/path/' } };
+        mockAgents = new Map([['agent:007', { avatar_path: '/path/' }]]);
         mockChats = [{ nick: 'agent:007', type: 'chat.msg', msg: 'how are you' }];
 
         result = getChatNotification({
@@ -978,21 +980,74 @@ describe('chat selectors', () => {
     });
   });
 
-  describe('getConciergeSettings', () => {
-    let result;
-    const mockChatSettings = {
-      chat: {
-        accountSettings: { concierge: 'foo.bar' }
-      }
-    };
+  describe('getCurrentConcierge', () => {
+    let result,
+      mockChatSettings;
 
     beforeEach(() => {
-      result = getConciergeSettings(mockChatSettings);
+      result = getCurrentConcierge(mockChatSettings);
     });
 
-    it('returns the current state of accountSettings.concierge', () => {
-      expect(result)
-        .toEqual('foo.bar');
+    describe('when there is no agent', () => {
+      beforeAll(() => {
+        mockChatSettings = {
+          chat: {
+            agents: new Map(),
+            accountSettings: { concierge: 'foo.bar' }
+          }
+        };
+      });
+
+      it('returns account concierge', () => {
+        expect(result)
+          .toEqual('foo.bar');
+      });
+    });
+
+    describe('when first agent does not have custom avatar', () => {
+      beforeAll(() => {
+        mockChatSettings = {
+          chat: {
+            agents: new Map([
+              ['1', { display_name: 'hello', title: 'hello' }],
+              ['2', { avatar_path: 'https://yolo.com/yolo.gif' }]
+            ]),
+            accountSettings: { concierge: { avatar_path: 'https://company.com/avatar.gif' } }
+          }
+        };
+      });
+
+      it('returns first agent concierge with account avatar', () => {
+        expect(result)
+          .toEqual({
+            display_name: 'hello',
+            title: 'hello',
+            avatar_path: 'https://company.com/avatar.gif'
+          });
+      });
+    });
+
+    describe('when first agent has all details', () => {
+      beforeAll(() => {
+        mockChatSettings = {
+          chat: {
+            agents: new Map([
+              ['1', { display_name: 'hello', title: 'hello', avatar_path: 'https://hello.com/hello.gif' }],
+              ['2': { avatar_path: 'https://yolo.com/yolo.gif' }]
+            ]),
+            accountSettings: { concierge: { avatar_path: 'https://company.com/avatar.gif' } }
+          }
+        };
+      });
+
+      it('returns first agent concierge', () => {
+        expect(result)
+          .toEqual({
+            display_name: 'hello',
+            title: 'hello',
+            avatar_path: 'https://hello.com/hello.gif'
+          });
+      });
     });
   });
 
@@ -1000,7 +1055,7 @@ describe('chat selectors', () => {
     let result;
     const mockChatSettings = {
       chat: {
-        agents: 'Link'
+        agents: new Map([['link', 'link']])
       }
     };
 
@@ -1010,7 +1065,9 @@ describe('chat selectors', () => {
 
     it('returns the current state of agents', () => {
       expect(result)
-        .toEqual('Link');
+        .toEqual({
+          'link': 'link'
+        });
     });
   });
 
