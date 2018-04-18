@@ -414,24 +414,24 @@ describe('ChatPrechatForm component', () => {
   });
 
   describe('handleFormChange', () => {
-    let component, setFormStateSpy;
+    let component, onPrechatFormChangeSpy;
 
     beforeEach(() => {
-      setFormStateSpy = jasmine.createSpy('setFormState');
-      component = instanceRender(<ChatPrechatForm form={mockFormProp} setFormState={setFormStateSpy} />);
+      onPrechatFormChangeSpy = jasmine.createSpy('onPrechatFormChange');
+      component = instanceRender(<ChatPrechatForm form={mockFormProp} onPrechatFormChange={onPrechatFormChangeSpy} />);
       mockFormValidity = true;
       component.form = mockForm;
 
       component.handleFormChange();
     });
 
-    it('calls setFormState', () => {
-      expect(setFormStateSpy)
+    it('calls onPrechatFormChange', () => {
+      expect(onPrechatFormChangeSpy)
         .toHaveBeenCalled();
     });
 
-    it('calls setFormState with the form element names mapped to their values', () => {
-      expect(setFormStateSpy)
+    it('calls onPrechatFormChange with the form element names mapped to their values', () => {
+      expect(onPrechatFormChangeSpy)
         .toHaveBeenCalledWith(
           jasmine.objectContaining({
             display_name: 'John Snow',
@@ -440,11 +440,11 @@ describe('ChatPrechatForm component', () => {
         );
     });
 
-    it('calls setFormState without the values from elements with type submit', () => {
-      expect(setFormStateSpy.calls.count())
+    it('calls onPrechatFormChange without the values from elements with type submit', () => {
+      expect(onPrechatFormChangeSpy.calls.count())
         .toEqual(1);
 
-      const formArgument = setFormStateSpy.calls.first().args[0];
+      const formArgument = onPrechatFormChangeSpy.calls.first().args[0];
 
       expect(Object.keys(formArgument))
         .not

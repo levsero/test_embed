@@ -14,7 +14,7 @@ export class ChatPrechatForm extends Component {
   static propTypes = {
     form: PropTypes.object,
     formState: PropTypes.object,
-    setFormState: PropTypes.func,
+    onPrechatFormChange: PropTypes.func,
     greetingMessage: PropTypes.string,
     visitor: PropTypes.object,
     onFormCompleted: PropTypes.func,
@@ -24,7 +24,7 @@ export class ChatPrechatForm extends Component {
   static defaultProps = {
     form: {},
     formState: {},
-    setFormState: () => {},
+    onPrechatFormChange: () => {},
     greetingMessage: '',
     visitor: {},
     onFormCompleted: () => {},
@@ -77,7 +77,7 @@ export class ChatPrechatForm extends Component {
                     .reduce(reduceNames, {})
                     .value();
 
-    this.props.setFormState(values);
+    this.props.onPrechatFormChange(values);
 
     // The `checkValidity` is not available on the form dom element created
     // by jsdom during unit testing. This sanity check allows our unit tests to pass.
