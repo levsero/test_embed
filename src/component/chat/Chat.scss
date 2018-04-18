@@ -97,8 +97,7 @@
 }
 
 .agentTyping {
-  composes: u-posAbsolute u-paddingTS from global;
-  bottom: #{130/$font-size}rem;
+  margin-bottom: #{12/$font-size}rem;
   color: $zd-color-aluminum;
   width: #{301/$font-size}rem;
   background: linear-gradient(to bottom, rgba($zd-color-white, 0), rgba($zd-color-white, 0.8));

@@ -316,7 +316,8 @@ describe('Chat component', () => {
         nextProps = {
           screen: 'screen',
           chats: [],
-          events: []
+          events: [],
+          agentsTyping: []
         };
 
         component.componentWillReceiveProps(nextProps);
@@ -1172,9 +1173,7 @@ describe('Chat component', () => {
         describe('on mobile devices with logo and typing agent', () => {
           beforeEach(() => {
             component = renderChatComponent({
-              agents: {
-                'agent:1': { typing: true }
-              },
+              agentsTyping: [{ nick: 'agent:1', typing: true }],
               isMobile: true
             });
           });
@@ -1183,7 +1182,7 @@ describe('Chat component', () => {
             result = component.renderChatScreen();
             logo = findLogo(result);
             expect(logo)
-              .toBeFalsy();
+              .toBeTruthy();
           });
         });
       });
@@ -1892,20 +1891,14 @@ describe('Chat component', () => {
   });
 
   describe('renderAgentTyping', () => {
-    let agentTypingComponent,
-      mockAgents,
-      typingAgents;
+    let agentTypingComponent;
 
     describe('when no agents are typing a message', () => {
       beforeEach(() => {
-        mockAgents = {
-          'agent:1': { typing: false }
-        };
+        const mockTypingAgents = [];
+        const component = instanceRender(<Chat chat={{ rating: null }} />);
 
-        const component = instanceRender(<Chat chat={{ rating: null }} agents={mockAgents} />);
-
-        typingAgents = component.getTypingAgents();
-        agentTypingComponent = component.renderAgentTyping(typingAgents);
+        agentTypingComponent = component.renderAgentTyping(mockTypingAgents);
       });
 
       it('renders nothing', () => {
@@ -1916,14 +1909,12 @@ describe('Chat component', () => {
 
     describe('when there is an agent typing a message', () => {
       beforeEach(() => {
-        mockAgents = {
-          'agent:1': { typing: true }
-        };
+        const mockTypingAgents = [
+          { nick: 'agent:1', typing: true }
+        ];
+        const component = instanceRender(<Chat chat={{ rating: null }} />);
 
-        const component = instanceRender(<Chat chat={{ rating: null }} agents={mockAgents} />);
-
-        typingAgents = component.getTypingAgents();
-        agentTypingComponent = component.renderAgentTyping(typingAgents);
+        agentTypingComponent = component.renderAgentTyping(mockTypingAgents);
       });
 
       it('renders the notification style', () => {
@@ -1937,35 +1928,15 @@ describe('Chat component', () => {
       });
     });
 
-    describe('when a trigger agent bot is typing', () => {
-      beforeEach(() => {
-        mockAgents = {
-          'agent:trigger': { typing: true }
-        };
-
-        const component = instanceRender(<Chat chat={{ rating: null }} agents={mockAgents} />);
-
-        typingAgents = component.getTypingAgents();
-        agentTypingComponent = component.renderAgentTyping(typingAgents);
-      });
-
-      it('renders nothing', () => {
-        expect(agentTypingComponent)
-          .toBeNull();
-      });
-    });
-
     describe('when two agents are typing a message', () => {
       beforeEach(() => {
-        mockAgents = {
-          'agent:1': { typing: true },
-          'agent:2': { typing: true }
-        };
+        const mockTypingAgents = [
+          { nick: 'agent:1', typing: true },
+          { nick: 'agent:2', typing: true }
+        ];
+        const component = instanceRender(<Chat chat={{ rating: null }} />);
 
-        const component = instanceRender(<Chat chat={{ rating: null }} agents={mockAgents} />);
-
-        typingAgents = component.getTypingAgents();
-        agentTypingComponent = component.renderAgentTyping(typingAgents);
+        agentTypingComponent = component.renderAgentTyping(mockTypingAgents);
       });
 
       it('renders the notification style', () => {
@@ -1981,16 +1952,15 @@ describe('Chat component', () => {
 
     describe('when more than two agents are typing a message', () => {
       beforeEach(() => {
-        mockAgents = {
-          'agent:1': { typing: true },
-          'agent:2': { typing: true },
-          'agent:3': { typing: true }
-        };
+        const mockTypingAgents = [
+          { nick: 'agent:1',  typing: true },
+          { nick: 'agent:2',  typing: true },
+          { nick: 'agent:3',  typing: true }
+        ];
 
-        const component = instanceRender(<Chat chat={{ rating: null }} agents={mockAgents} />);
+        const component = instanceRender(<Chat chat={{ rating: null }} />);
 
-        typingAgents = component.getTypingAgents();
-        agentTypingComponent = component.renderAgentTyping(typingAgents);
+        agentTypingComponent = component.renderAgentTyping(mockTypingAgents);
       });
 
       it('renders the notification style', () => {
