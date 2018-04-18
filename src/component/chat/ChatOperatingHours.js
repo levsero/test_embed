@@ -23,7 +23,7 @@ export class ChatOperatingHours extends Component {
   componentWillMount = () => {
     if (this.props.operatingHours.department_schedule) {
       this.setState({
-        activeDepartment: this.formatDepartments()[0].value
+        activeDepartment: this.formatDepartmentsForDropdown()[0].value
       });
     }
   }
@@ -47,22 +47,22 @@ export class ChatOperatingHours extends Component {
     );
   }
 
-  formatDepartments = () => {
-    const { department_schedule: schedule } = this.props.operatingHours;
+  formatDepartmentsForDropdown = () => {
+    const { department_schedule: departmentSchedule } = this.props.operatingHours;
 
-    return schedule.map((schedule) => {
+    return departmentSchedule.map((deptSchedule) => {
       return {
-        name: schedule.name,
-        value: schedule.id
+        name: deptSchedule.name,
+        value: deptSchedule.id
       };
     });
   }
 
-  getSelectedDepartment = () => {
+  getSelectedDepartmentSchedule = () => {
     const { department_schedule: schedule } = this.props.operatingHours;
     const departmentKey = this.state.activeDepartment;
 
-    return _.find(schedule, (d) => d.id == departmentKey); // eslint-disable-line eqeqeq
+    return _.find(schedule, (d) => { return d.id === departmentKey;} );
   }
 
   renderDayName = (dayName) => {
@@ -116,8 +116,8 @@ export class ChatOperatingHours extends Component {
 
     if (!operatingHours.department_schedule) return;
 
-    const departments = this.formatDepartments();
-    const selectedDepartment = this.getSelectedDepartment();
+    const departments = this.formatDepartmentsForDropdown();
+    const selectedDepartmentSchedule = this.getSelectedDepartmentSchedule();
 
     return (
       <div>
@@ -132,7 +132,7 @@ export class ChatOperatingHours extends Component {
           value={departments[0]}
           onChange={this.setActiveDepartment}
         />
-        {this.renderSchedule(selectedDepartment)}
+        {this.renderSchedule(selectedDepartmentSchedule)}
       </div>
     );
   }

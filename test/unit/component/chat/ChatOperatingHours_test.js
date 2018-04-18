@@ -175,7 +175,7 @@ describe('ChatOperatingHours component', () => {
     });
   });
 
-  describe('formatDepartments', () => {
+  describe('formatDepartmentsForDropdown', () => {
     let component, result;
 
     beforeEach(() => {
@@ -183,7 +183,7 @@ describe('ChatOperatingHours component', () => {
         <ChatOperatingHours operatingHours={mockDepartmentOperatingHours} />
       );
 
-      result = component.formatDepartments();
+      result = component.formatDepartmentsForDropdown();
     });
 
     it('returns an array of formatted departments', () => {
@@ -215,13 +215,13 @@ describe('ChatOperatingHours component', () => {
       component.setActiveDepartment(123);
     });
 
-    it('returns the selected department', () => {
+    it('calls setState with the selected department', () => {
       expect(component.setState)
         .toHaveBeenCalledWith({ activeDepartment: 123 });
     });
   });
 
-  describe('getSelectedDepartment', () => {
+  describe('getSelectedDepartmentSchedule', () => {
     let component, result;
 
     beforeEach(() => {
@@ -230,7 +230,7 @@ describe('ChatOperatingHours component', () => {
       );
       component.setState({ activeDepartment: 222 });
 
-      result = component.getSelectedDepartment();
+      result = component.getSelectedDepartmentSchedule();
     });
 
     it('returns the selected department', () => {
@@ -254,8 +254,8 @@ describe('ChatOperatingHours component', () => {
           <ChatOperatingHours operatingHours={mockDepartmentOperatingHours} />
         );
 
-        spyOn(component, 'getSelectedDepartment').and.returnValue('mockSelectedDept');
-        spyOn(component, 'formatDepartments').and.returnValue(mockFormattedDropdowns);
+        spyOn(component, 'getSelectedDepartmentSchedule').and.returnValue('mockSelectedDept');
+        spyOn(component, 'formatDepartmentsForDropdown').and.returnValue(mockFormattedDropdowns);
         spyOn(component, 'renderSchedule');
 
         result = component.renderDepartmentSchedule();
