@@ -21,9 +21,7 @@ const getOrderedAgents = (state) => state.chat.agents;
 const getFirstAgent = (state) => getOrderedAgents(state).values().next().value;
 const getConciergeSettings = (state) => state.chat.accountSettings.concierge;
 
-export const getAgentsTyping = (state) => {
-  return _.filter(state.chat.agents, (agent, key) => agent.typing && key !== AGENT_BOT);
-};
+export const getAgentsTyping = (state) => _.filter(getAgents(state), (agent, key) => agent.typing && key !== AGENT_BOT);
 export const getConnection = (state) => state.chat.connection;
 export const getCurrentMessage = (state) => state.chat.currentMessage;
 export const getChatOnline = (state) => _.includes(['online', 'away'], getChatStatus(state));
