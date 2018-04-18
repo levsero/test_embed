@@ -20,6 +20,14 @@ export class ChatOperatingHours extends Component {
     this.state = { activeDepartment: null };
   }
 
+  componentWillMount = () => {
+    if (this.props.operatingHours.department_schedule) {
+      this.setState({
+        activeDepartment: this.formatDepartments()[0].value
+      });
+    }
+  }
+
   daysOfTheWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
   hourRange = (range) => {
@@ -109,9 +117,6 @@ export class ChatOperatingHours extends Component {
     if (!operatingHours.department_schedule) return;
 
     const departments = this.formatDepartments();
-
-    if (!this.state.activeDepartment) { this.state.activeDepartment = departments[0].value; }
-
     const selectedDepartment = this.getSelectedDepartment();
 
     return (
