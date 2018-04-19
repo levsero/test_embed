@@ -1017,7 +1017,7 @@ describe('Chat component', () => {
         <Chat
           screen={chattingScreen}
           ratingSettings={{ enabled: ratingsEnabled }}
-          agents={agents}
+          activeAgents={agents}
           isMobile={isMobile}
           hideZendeskLogo={hideZendeskLogo} />
       )
@@ -1841,7 +1841,7 @@ describe('Chat component', () => {
 
         beforeEach(() => {
           queuePosition = 5;
-          const component = instanceRender(<Chat agents={mockAgents} queuePosition={queuePosition} />);
+          const component = instanceRender(<Chat activeAgents={mockAgents} queuePosition={queuePosition} />);
 
           queuePositionComponent = component.renderQueuePosition();
         });
@@ -1862,7 +1862,7 @@ describe('Chat component', () => {
       describe('when the queuePosition prop is zero', () => {
         beforeEach(() => {
           queuePosition = 0;
-          const component = instanceRender(<Chat agents={mockAgents} queuePosition={queuePosition} />);
+          const component = instanceRender(<Chat activeAgents={mockAgents} queuePosition={queuePosition} />);
 
           queuePositionComponent = component.renderQueuePosition();
         });
@@ -1878,7 +1878,7 @@ describe('Chat component', () => {
       beforeEach(() => {
         mockAgents = {'agent123456': { display_name: 'Wayne', typing: false }};
         queuePosition = 5;
-        const component = instanceRender(<Chat agents={mockAgents} queuePosition={queuePosition} />);
+        const component = instanceRender(<Chat activeAgents={mockAgents} queuePosition={queuePosition} />);
 
         queuePositionComponent = component.renderQueuePosition();
       });
@@ -1990,7 +1990,7 @@ describe('Chat component', () => {
         <Chat
           ratingSettings={ratingSettings}
           agentJoined={agentJoined}
-          agents={agents}
+          activeAgents={agents}
           screen={screen}
           updateChatScreen={updateChatScreenSpy} />
         );

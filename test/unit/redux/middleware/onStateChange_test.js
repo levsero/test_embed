@@ -18,7 +18,7 @@ describe('onStateChange middleware', () => {
   const audioPlaySpy = jasmine.createSpy('audioPlay');
   const broadcastSpy = jasmine.createSpy('broadcast');
   const updateLastAgentMessageSeenTimestampSpy = jasmine.createSpy('updateLastAgentMessageSeenTimestamp');
-  const getAgentsSpy = jasmine.createSpy('getAgents').and.callFake(_.identity);
+  const getActiveAgentsSpy = jasmine.createSpy('getActiveAgents').and.callFake(_.identity);
   const path = buildSrcPath('redux/middleware/onStateChange');
   let initialTimestamp = 80;
 
@@ -77,7 +77,7 @@ describe('onStateChange middleware', () => {
         getChatScreen: () => mockChatScreen,
         getIsProactiveSession: () => mockIsProactiveSession,
         getIsChatting: () => mockIsChatting,
-        getAgents: getAgentsSpy
+        getActiveAgents: getActiveAgentsSpy
       },
       'src/redux/modules/chat/chat-action-types': {
         IS_CHATTING: 'IS_CHATTING',
@@ -817,8 +817,8 @@ describe('onStateChange middleware', () => {
           };
         });
 
-        it('does not call getAgents', () => {
-          expect(getAgentsSpy)
+        it('does not call getActiveAgents', () => {
+          expect(getActiveAgentsSpy)
             .not.toHaveBeenCalled();
         });
       });
@@ -832,8 +832,8 @@ describe('onStateChange middleware', () => {
           };
         });
 
-        it('does not call getAgents', () => {
-          expect(getAgentsSpy)
+        it('does not call getActiveAgents', () => {
+          expect(getActiveAgentsSpy)
             .not.toHaveBeenCalled();
         });
       });
@@ -849,8 +849,8 @@ describe('onStateChange middleware', () => {
           };
         });
 
-        it('calls getAgents with previous state', () => {
-          expect(getAgentsSpy)
+        it('calls getActiveAgents with previous state', () => {
+          expect(getActiveAgentsSpy)
             .toHaveBeenCalledWith(prevState);
         });
 

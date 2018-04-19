@@ -24,7 +24,7 @@ let actions,
   mockSendOfflineMsg = jasmine.createSpy('sendOfflineMsg'),
   mockReconnect = jasmine.createSpy('reconnect'),
   showRatingScreen = false,
-  getAgentsSpy = jasmine.createSpy('getAgents'),
+  getActiveAgentsSpy = jasmine.createSpy('getActiveAgents'),
   getShowRatingScreenSpy = jasmine.createSpy('getShowRatingScreenSpy').and.callFake(() => showRatingScreen),
   getIsChattingSpy = jasmine.createSpy('getIsChatting').and.callFake(() => mockIsChatting);
 
@@ -78,7 +78,7 @@ describe('chat redux actions', () => {
         getShowRatingScreen: getShowRatingScreenSpy,
         getIsChatting: getIsChattingSpy,
         getChatOnline: () => mockChatOnline,
-        getAgents: getAgentsSpy
+        getActiveAgents: getActiveAgentsSpy
       },
       'src/constants/chat': {
         CHAT_MESSAGE_TYPES
@@ -299,8 +299,8 @@ describe('chat redux actions', () => {
             .toContain(actionTypes.END_CHAT_REQUEST_SUCCESS);
         });
 
-        it('calls getAgents selector', () => {
-          expect(getAgentsSpy)
+        it('calls getActiveAgents selector', () => {
+          expect(getActiveAgentsSpy)
             .toHaveBeenCalled();
         });
       });

@@ -53,7 +53,7 @@ import { getPrechatFormFields,
          getAttachmentsEnabled,
          getPrechatFormSettings,
          getIsChatting,
-         getAgents,
+         getActiveAgents,
          getAgentsTyping,
          getChatMessages,
          getChatEvents,
@@ -100,7 +100,7 @@ const mapStateToProps = (state) => {
     postChatFormSettings: getPostchatFormSettings(state),
     isChatting: getIsChatting(state),
     allAgents: getAllAgents(state),
-    agents: getAgents(state),
+    activeAgents: getActiveAgents(state),
     agentsTyping: getAgentsTyping(state),
     rating: getChatRating(state),
     visitor: getChatVisitor(state),
@@ -150,7 +150,7 @@ class Chat extends Component {
     updateChatScreen: PropTypes.func.isRequired,
     isChatting: PropTypes.bool.isRequired,
     allAgents: PropTypes.object.isRequired,
-    agents: PropTypes.object.isRequired,
+    activeAgents: PropTypes.object.isRequired,
     agentsTyping: PropTypes.array.isRequired,
     visitor: PropTypes.object.isRequired,
     rating: PropTypes.object.isRequired,
@@ -202,7 +202,7 @@ class Chat extends Component {
     userSoundSettings: true,
     ratingSettings: { enabled: false },
     allAgents: {},
-    agents: {},
+    activeAgents: {},
     getFrameDimensions: () => {},
     sendEmailTranscript: () => {},
     emailTranscript: {},
@@ -418,14 +418,14 @@ class Chat extends Component {
       ratingSettings,
       updateChatScreen,
       screen,
-      agents
+      activeAgents
     } = this.props;
     // Title in chat refers to the byline and display_name refers to the display title
     const { avatar_path, display_name, title } = concierge;
     const displayName = _.has(display_name, 'toString') ? display_name.toString() : display_name; // eslint-disable-line camelcase
     const byline = title ? title : i18n.t('embeddable_framework.chat.header.by_line');
     const showRating = screen === screens.CHATTING_SCREEN && ratingSettings.enabled && agentJoined;
-    const onAgentDetailsClick = (screen === screens.CHATTING_SCREEN && _.size(agents) > 0)
+    const onAgentDetailsClick = (screen === screens.CHATTING_SCREEN && _.size(activeAgents) > 0)
                   ? () => updateChatScreen(screens.AGENT_LIST_SCREEN)
                   : null;
 
@@ -622,9 +622,9 @@ class Chat extends Component {
   }
 
   renderQueuePosition = () => {
-    const { queuePosition, agents } = this.props;
+    const { queuePosition, activeAgents } = this.props;
 
-    if (!queuePosition || _.size(agents) > 0) return null;
+    if (!queuePosition || _.size(activeAgents) > 0) return null;
 
     return (
       <div className={styles.queuePosition}>
@@ -764,7 +764,7 @@ class Chat extends Component {
   }
 
   renderAgentListScreen = () => {
-    const { screen, agents, updateChatScreen, isMobile, hideZendeskLogo } = this.props;
+    const { screen, activeAgents, updateChatScreen, isMobile, hideZendeskLogo } = this.props;
 
     if (screen !== screens.AGENT_LIST_SCREEN) return null;
 
@@ -794,7 +794,7 @@ class Chat extends Component {
         footerContent={backToChatButton}
         fullscreen={isMobile}
         >
-        <ChatAgentList agents={agents} />
+        <ChatAgentList agents={activeAgents} />
         {this.renderZendeskLogo()}
       </ScrollContainer>
     );

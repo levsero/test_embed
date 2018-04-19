@@ -52,7 +52,7 @@ import {
   getShowRatingScreen,
   getIsChatting as getIsChattingState,
   getChatOnline,
-  getAgents } from 'src/redux/modules/chat/chat-selectors';
+  getActiveAgents } from 'src/redux/modules/chat/chat-selectors';
 import { CHAT_MESSAGE_TYPES } from 'src/constants/chat';
 import { getChatStandalone } from 'src/redux/modules/base/base-selectors';
 import { mediator } from 'service/mediator';
@@ -120,9 +120,9 @@ export const endChat = () => {
   return (dispatch, getState) => {
     zChat.endChat((err) => {
       if (!err) {
-        const onlineAgents = getAgents(getState());
+        const activeAgents = getActiveAgents(getState());
 
-        dispatch({ type: CHAT_ALL_AGENTS_INACTIVE, payload: onlineAgents });
+        dispatch({ type: CHAT_ALL_AGENTS_INACTIVE, payload: activeAgents });
         dispatch({ type: END_CHAT_REQUEST_SUCCESS });
       } else {
         dispatch({ type: END_CHAT_REQUEST_FAILURE });

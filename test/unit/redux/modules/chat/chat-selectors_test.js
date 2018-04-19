@@ -1,7 +1,7 @@
 import Map from 'core-js/library/es6/map';
 
 describe('chat selectors', () => {
-  let getAgents,
+  let getActiveAgents,
     getAttachmentsEnabled,
     getCurrentConcierge,
     getConnection,
@@ -84,7 +84,7 @@ describe('chat selectors', () => {
     mockery.registerAllowable(chatSelectorsPath);
     const selectors = requireUncached(chatSelectorsPath);
 
-    getAgents = selectors.getAgents;
+    getActiveAgents = selectors.getActiveAgents;
     getAttachmentsEnabled = selectors.getAttachmentsEnabled;
     getCurrentConcierge = selectors.getCurrentConcierge;
     getConnection = selectors.getConnection;
@@ -1053,7 +1053,7 @@ describe('chat selectors', () => {
     });
   });
 
-  describe('getAgents', () => {
+  describe('getActiveAgents', () => {
     let result;
     const mockChatSettings = {
       chat: {
@@ -1065,7 +1065,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getAgents(mockChatSettings);
+      result = getActiveAgents(mockChatSettings);
     });
 
     it('returns the current state of agents with triggers filtered out', () => {

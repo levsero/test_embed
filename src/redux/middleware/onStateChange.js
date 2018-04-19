@@ -23,7 +23,7 @@ import { getChatMessagesByAgent,
          getIsProactiveSession,
          getUserSoundSettings,
          getIsChatting as getIsChattingState,
-         getAgents } from 'src/redux/modules/chat/chat-selectors';
+         getActiveAgents } from 'src/redux/modules/chat/chat-selectors';
 import { getArticleDisplayed } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getActiveEmbed,
          getWidgetShown,
@@ -198,7 +198,7 @@ const onAgentLeave = (prevState, { type, payload }, dispatch) => {
                    .indexOf('agent:') > -1;
 
   if (memberLeaveEvent && isAgent) {
-    const agents = getAgents(prevState);
+    const agents = getActiveAgents(prevState);
 
     dispatch({
       type: CHAT_AGENT_INACTIVE,
