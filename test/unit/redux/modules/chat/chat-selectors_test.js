@@ -1,7 +1,7 @@
 import Map from 'core-js/library/es6/map';
 
 describe('chat selectors', () => {
-  let getAgents,
+  let getActiveAgents,
     getAttachmentsEnabled,
     getCurrentConcierge,
     getConnection,
@@ -44,6 +44,7 @@ describe('chat selectors', () => {
     getIsProactiveSession,
     getStandaloneMobileNotificationVisible,
     getAgentsTyping,
+    getAllAgents,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
@@ -84,7 +85,7 @@ describe('chat selectors', () => {
     mockery.registerAllowable(chatSelectorsPath);
     const selectors = requireUncached(chatSelectorsPath);
 
-    getAgents = selectors.getAgents;
+    getActiveAgents = selectors.getActiveAgents;
     getAttachmentsEnabled = selectors.getAttachmentsEnabled;
     getCurrentConcierge = selectors.getCurrentConcierge;
     getConnection = selectors.getConnection;
@@ -127,6 +128,7 @@ describe('chat selectors', () => {
     getIsProactiveSession = selectors.getIsProactiveSession;
     getStandaloneMobileNotificationVisible = selectors.getStandaloneMobileNotificationVisible;
     getAgentsTyping = selectors.getAgentsTyping;
+    getAllAgents = selectors.getAllAgents;
   });
 
   afterEach(() => {
@@ -1053,7 +1055,7 @@ describe('chat selectors', () => {
     });
   });
 
-  describe('getAgents', () => {
+  describe('getActiveAgents', () => {
     let result;
     const mockChatSettings = {
       chat: {
@@ -1065,7 +1067,7 @@ describe('chat selectors', () => {
     };
 
     beforeEach(() => {
-      result = getAgents(mockChatSettings);
+      result = getActiveAgents(mockChatSettings);
     });
 
     it('returns the current state of agents with triggers filtered out', () => {
@@ -1887,6 +1889,39 @@ describe('chat selectors', () => {
         expect(result)
           .toEqual(expected);
       });
+    });
+  });
+
+  describe('getAllAgents', () => {
+    let result,
+      inactiveAgents;
+    const agents = new Map([
+      ['agent:terence', { display_name: 'Terence Liew' }],
+      ['agent:apoorv', { display_name: 'Apoorv' }]
+    ]);
+
+    inactiveAgents = {
+      'agent:sonic': { display_name: 'A. D. Ciotto' },
+      'agent:bcoppard': { display_name: 'B. C.' }
+    };
+
+    const mockChatSettings = {
+      chat: { agents, inactiveAgents }
+    };
+
+    beforeEach(() => {
+      result = getAllAgents(mockChatSettings);
+    });
+
+    it('returns all agents in the current state', () => {
+      const expected = {
+        'agent:terence': { display_name: 'Terence Liew' },
+        'agent:apoorv':  { display_name: 'Apoorv' },
+        ...inactiveAgents
+      };
+
+      expect(result)
+        .toEqual(expected);
     });
   });
 });

@@ -18,6 +18,7 @@ describe('onStateChange middleware', () => {
   const audioPlaySpy = jasmine.createSpy('audioPlay');
   const broadcastSpy = jasmine.createSpy('broadcast');
   const updateLastAgentMessageSeenTimestampSpy = jasmine.createSpy('updateLastAgentMessageSeenTimestamp');
+  const getActiveAgentsSpy = jasmine.createSpy('getActiveAgents').and.callFake(_.identity);
   const path = buildSrcPath('redux/middleware/onStateChange');
   let initialTimestamp = 80;
 
@@ -75,11 +76,14 @@ describe('onStateChange middleware', () => {
         getLastAgentMessageSeenTimestamp: () => mockLastAgentMessageSeenTimestamp,
         getChatScreen: () => mockChatScreen,
         getIsProactiveSession: () => mockIsProactiveSession,
-        getIsChatting: () => mockIsChatting
+        getIsChatting: () => mockIsChatting,
+        getActiveAgents: getActiveAgentsSpy
       },
       'src/redux/modules/chat/chat-action-types': {
         IS_CHATTING: 'IS_CHATTING',
-        END_CHAT_REQUEST_SUCCESS: 'END_CHAT_REQUEST_SUCCESS'
+        END_CHAT_REQUEST_SUCCESS: 'END_CHAT_REQUEST_SUCCESS',
+        SDK_CHAT_MEMBER_LEAVE: 'SDK_CHAT_MEMBER_LEAVE',
+        CHAT_AGENT_INACTIVE: 'CHAT_AGENT_INACTIVE'
       },
       'src/constants/chat': {
         CONNECTION_STATUSES: {
@@ -789,6 +793,75 @@ describe('onStateChange middleware', () => {
           expect(updateActiveEmbedSpy)
             .not
             .toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('onAgentLeave', () => {
+      let prevState,
+        action,
+        dispatchSpy;
+
+      beforeEach(() => {
+        dispatchSpy = jasmine.createSpy('dispatch');
+
+        stateChangeFn(prevState, {}, action, dispatchSpy);
+      });
+
+      describe('when the type of action is not SDK_CHAT_MEMBER_LEAVE', () => {
+        beforeAll(() => {
+          prevState = {};
+          action = {
+            type: 'some_type_that_is_not_member_leave',
+            payload: { detail: { nick: 'agent:terence' } }
+          };
+        });
+
+        it('does not call getActiveAgents', () => {
+          expect(getActiveAgentsSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when the type of user is not an agent', () => {
+        beforeAll(() => {
+          prevState = {};
+          action = {
+            type: 'SDK_CHAT_MEMBER_LEAVE',
+            payload: { detail: { nick: 'visitor' } }
+          };
+        });
+
+        it('does not call getActiveAgents', () => {
+          expect(getActiveAgentsSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when the action type is SDK_CHAT_MEMBER_LEAVE and the user is an agent', () => {
+        beforeAll(() => {
+          prevState = {
+            'agent:terence': { nick: 'agent:terence' }
+          };
+          action = {
+            type: 'SDK_CHAT_MEMBER_LEAVE',
+            payload: { detail: { nick: 'agent:terence' } }
+          };
+        });
+
+        it('calls getActiveAgents with previous state', () => {
+          expect(getActiveAgentsSpy)
+            .toHaveBeenCalledWith(prevState);
+        });
+
+        it('dispatches CHAT_AGENT_INACTIVE with expected payload', () => {
+          const expected = {
+            type: 'CHAT_AGENT_INACTIVE',
+            payload: { nick: 'agent:terence' }
+          };
+
+          expect(dispatchSpy)
+            .toHaveBeenCalledWith(expected);
         });
       });
     });

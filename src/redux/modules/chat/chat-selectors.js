@@ -20,8 +20,12 @@ const getThemeMessageType = (state) => state.chat.accountSettings.theme.message_
 const getOrderedAgents = (state) => state.chat.agents;
 const getFirstAgent = (state) => getOrderedAgents(state).values().next().value;
 const getConciergeSettings = (state) => state.chat.accountSettings.concierge;
+const getInactiveAgents = (state) => state.chat.inactiveAgents;
 
-export const getAgentsTyping = (state) => _.filter(getAgents(state), (agent, key) => agent.typing && key !== AGENT_BOT);
+export const getAgentsTyping = (state) => {
+  return _.filter(getActiveAgents(state), (agent, key) => agent.typing && key !== AGENT_BOT);
+};
+export const getAllAgents = (state) => _.extend({}, getActiveAgents(state),  getInactiveAgents(state));
 export const getConnection = (state) => state.chat.connection;
 export const getCurrentMessage = (state) => state.chat.currentMessage;
 export const getChatOnline = (state) => _.includes(['online', 'away'], getChatStatus(state));
@@ -51,7 +55,7 @@ export const getOperatingHours = (state) => state.chat.operatingHours;
 export const getLoginSettings = (state) => state.chat.accountSettings.login;
 export const getStandaloneMobileNotificationVisible = (state) => state.chat.standaloneMobileNotificationVisible;
 
-export const getAgents = createSelector(
+export const getActiveAgents = createSelector(
   getOrderedAgents,
   (orderedAgents) => {
     const arrAgents = Array.from(orderedAgents)
@@ -115,7 +119,7 @@ export const getThemeShowAvatar = createSelector(
 );
 
 export const getChatNotification = createSelector(
-  [getNotification, getAgents],
+  [getNotification, getActiveAgents],
   (notification, agents) => ({ ...notification, ...agents[notification.nick] })
 );
 
@@ -268,7 +272,7 @@ export const getGroupedChatLog = createSelector(
 );
 
 export const getShowRatingScreen = createSelector(
-  [getChatRating, getRatingSettings, getAgents],
+  [getChatRating, getRatingSettings, getActiveAgents],
   (rating, ratingSettings, agents) => (
     !rating.value && ratingSettings.enabled && _.size(agents) > 0
   )

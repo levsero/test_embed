@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import accountSettings from './account-settings/';
 import accountStatus from './chat-account-status';
 import agents from './chat-agents';
+import inactiveAgents from './chat-inactive-agents';
 import chats from './chat-chats';
 import connection from './chat-connection';
 import currentMessage from './chat-current-message';
@@ -47,5 +48,6 @@ export default combineReducers({
   offlineMessage,
   agentJoined,
   lastAgentMessageSeenTimestamp,
-  operatingHours
+  operatingHours,
+  inactiveAgents
 });

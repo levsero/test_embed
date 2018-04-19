@@ -53,7 +53,7 @@ import { getPrechatFormFields,
          getAttachmentsEnabled,
          getPrechatFormSettings,
          getIsChatting,
-         getAgents,
+         getActiveAgents,
          getAgentsTyping,
          getChatMessages,
          getChatEvents,
@@ -77,7 +77,8 @@ import { getPrechatFormFields,
          getConnection,
          getLoginSettings,
          getDepartments,
-         getOfflineMessage } from 'src/redux/modules/chat/chat-selectors';
+         getOfflineMessage,
+         getAllAgents } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './Chat.scss';
 import { chatNameDefault } from 'src/util/utils';
 import { CONNECTION_STATUSES, DEPARTMENT_STATUSES } from 'constants/chat';
@@ -98,7 +99,8 @@ const mapStateToProps = (state) => {
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
     postChatFormSettings: getPostchatFormSettings(state),
     isChatting: getIsChatting(state),
-    agents: getAgents(state),
+    allAgents: getAllAgents(state),
+    activeAgents: getActiveAgents(state),
     agentsTyping: getAgentsTyping(state),
     rating: getChatRating(state),
     visitor: getChatVisitor(state),
@@ -147,7 +149,8 @@ class Chat extends Component {
     sendChatComment: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
     isChatting: PropTypes.bool.isRequired,
-    agents: PropTypes.object.isRequired,
+    allAgents: PropTypes.object.isRequired,
+    activeAgents: PropTypes.object.isRequired,
     agentsTyping: PropTypes.array.isRequired,
     visitor: PropTypes.object.isRequired,
     rating: PropTypes.object.isRequired,
@@ -198,7 +201,8 @@ class Chat extends Component {
     handleSoundIconClick: () => {},
     userSoundSettings: true,
     ratingSettings: { enabled: false },
-    agents: {},
+    allAgents: {},
+    activeAgents: {},
     getFrameDimensions: () => {},
     sendEmailTranscript: () => {},
     emailTranscript: {},
@@ -414,14 +418,14 @@ class Chat extends Component {
       ratingSettings,
       updateChatScreen,
       screen,
-      agents
+      activeAgents
     } = this.props;
     // Title in chat refers to the byline and display_name refers to the display title
     const { avatar_path, display_name, title } = concierge;
     const displayName = _.has(display_name, 'toString') ? display_name.toString() : display_name; // eslint-disable-line camelcase
     const byline = title ? title : i18n.t('embeddable_framework.chat.header.by_line');
     const showRating = screen === screens.CHATTING_SCREEN && ratingSettings.enabled && agentJoined;
-    const onAgentDetailsClick = (screen === screens.CHATTING_SCREEN && _.size(agents) > 0)
+    const onAgentDetailsClick = (screen === screens.CHATTING_SCREEN && _.size(activeAgents) > 0)
                   ? () => updateChatScreen(screens.AGENT_LIST_SCREEN)
                   : null;
 
@@ -566,7 +570,7 @@ class Chat extends Component {
             showAvatar={this.props.showAvatar}
             chatLog={this.props.chatLog}
             lastAgentLeaveEvent={this.props.lastAgentLeaveEvent}
-            agents={this.props.agents}
+            agents={this.props.allAgents}
             chatCommentLeft={!!this.props.rating.comment}
             goToFeedbackScreen={() => this.props.updateChatScreen(screens.FEEDBACK_SCREEN)}
             handleSendMsg={sendMsg}
@@ -618,9 +622,9 @@ class Chat extends Component {
   }
 
   renderQueuePosition = () => {
-    const { queuePosition, agents } = this.props;
+    const { queuePosition, activeAgents } = this.props;
 
-    if (!queuePosition || _.size(agents) > 0) return null;
+    if (!queuePosition || _.size(activeAgents) > 0) return null;
 
     return (
       <div className={styles.queuePosition}>
@@ -760,7 +764,7 @@ class Chat extends Component {
   }
 
   renderAgentListScreen = () => {
-    const { screen, agents, updateChatScreen, isMobile, hideZendeskLogo } = this.props;
+    const { screen, activeAgents, updateChatScreen, isMobile, hideZendeskLogo } = this.props;
 
     if (screen !== screens.AGENT_LIST_SCREEN) return null;
 
@@ -790,7 +794,7 @@ class Chat extends Component {
         footerContent={backToChatButton}
         fullscreen={isMobile}
         >
-        <ChatAgentList agents={agents} />
+        <ChatAgentList agents={activeAgents} />
         {this.renderZendeskLogo()}
       </ScrollContainer>
     );

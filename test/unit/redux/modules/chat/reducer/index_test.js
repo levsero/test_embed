@@ -117,5 +117,10 @@ describe('chat root reducer', () => {
       expect(state.menuVisible)
         .toBeDefined();
     });
+
+    it('has the inactive agents sub state', () => {
+      expect(state.inactiveAgents)
+        .toBeDefined();
+    });
   });
 });
