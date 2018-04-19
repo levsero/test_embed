@@ -979,23 +979,37 @@ describe('chat redux actions', () => {
   describe('getOperatingHours', () => {
     let updateOperatingHoursAction;
 
-    beforeEach(() => {
-      mockOperatingHours = {
-        account_schedule: [[456]]
-      };
+    describe('when operating hours enabled', () => {
+      beforeEach(() => {
+        mockOperatingHours = {
+          account_schedule: [[456]]
+        };
 
-      mockStore.dispatch(actions.getOperatingHours());
-      updateOperatingHoursAction = mockStore.getActions()[0];
+        mockStore.dispatch(actions.getOperatingHours());
+        updateOperatingHoursAction = mockStore.getActions()[0];
+      });
+
+      it('dispatches an action of type GET_OPERATING_HOURS_REQUEST_SUCCESS', () => {
+        expect(updateOperatingHoursAction.type)
+          .toEqual(actionTypes.GET_OPERATING_HOURS_REQUEST_SUCCESS);
+      });
+
+      it('has the value returned from zChat.getOperatingHours() in the payload', () => {
+        expect(updateOperatingHoursAction.payload)
+          .toEqual(mockOperatingHours);
+      });
     });
 
-    it('dispatches an action of type GET_OPERATING_HOURS_REQUEST_SUCCESS', () => {
-      expect(updateOperatingHoursAction.type)
-        .toEqual(actionTypes.GET_OPERATING_HOURS_REQUEST_SUCCESS);
-    });
+    describe('when operating hours disabled', () => {
+      beforeEach(() => {
+        mockOperatingHours = undefined;
+        mockStore.dispatch(actions.getOperatingHours());
+      });
 
-    it('has the value returned from zChat.getOperatingHours() in the payload', () => {
-      expect(updateOperatingHoursAction.payload)
-        .toEqual(mockOperatingHours);
+      it('does not dispatches an action of type GET_OPERATING_HOURS_REQUEST_SUCCESS', () => {
+        expect(mockStore.getActions().length)
+          .toEqual(0);
+      });
     });
   });
 
