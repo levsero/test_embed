@@ -6,7 +6,10 @@ import { getAccountSettings,
          getOperatingHours,
          getIsChatting } from 'src/redux/modules/chat';
 import { updateActiveEmbed } from 'src/redux/modules/base';
-import { IS_CHATTING, END_CHAT_REQUEST_SUCCESS } from 'src/redux/modules/chat/chat-action-types';
+import { IS_CHATTING,
+         END_CHAT_REQUEST_SUCCESS,
+         SDK_CHAT_MEMBER_LEAVE,
+         CHAT_AGENT_INACTIVE } from 'src/redux/modules/chat/chat-action-types';
 import { CONNECTION_STATUSES } from 'src/constants/chat';
 import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
@@ -19,7 +22,8 @@ import { getChatMessagesByAgent,
          getLastAgentMessageSeenTimestamp,
          getIsProactiveSession,
          getUserSoundSettings,
-         getIsChatting as getIsChattingState } from 'src/redux/modules/chat/chat-selectors';
+         getIsChatting as getIsChattingState,
+         getAgents } from 'src/redux/modules/chat/chat-selectors';
 import { getArticleDisplayed } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getActiveEmbed,
          getWidgetShown,
@@ -91,7 +95,7 @@ const onChatConnected = (prevState, nextState, dispatch) => {
   }
 };
 
-const onChatStatus = (action = {}, dispatch) => {
+const onChatStatus = (action, dispatch) => {
   if (action.type === IS_CHATTING) {
     mediator.channel.broadcast('newChat.isChatting', action.payload, showOnLoad);
     if (action.payload) {
@@ -170,7 +174,7 @@ const onChatStatusChange = (prevState, nextState, dispatch) => {
   }
 };
 
-const onChatEnd = (nextState, action={}, dispatch) => {
+const onChatEnd = (nextState, action, dispatch) => {
   if (action.type === END_CHAT_REQUEST_SUCCESS) {
     if (!getChatOnline(nextState) && getSubmitTicketEmbed(nextState)) {
       dispatch(updateActiveEmbed('ticketSubmissionForm'));
@@ -188,7 +192,22 @@ const onArticleDisplayed = (prevState, nextState) => {
   }
 };
 
-export default function onStateChange(prevState, nextState, action, dispatch = () => {}) {
+const onAgentLeave = (prevState, { type, payload }, dispatch) => {
+  const memberLeaveEvent = type === SDK_CHAT_MEMBER_LEAVE;
+  const isAgent = _.get(payload, 'detail.nick', '')
+                   .indexOf('agent:') > -1;
+
+  if (memberLeaveEvent && isAgent) {
+    const agents = getAgents(prevState);
+
+    dispatch({
+      type: CHAT_AGENT_INACTIVE,
+      payload: agents[payload.detail.nick]
+    });
+  }
+};
+
+export default function onStateChange(prevState, nextState, action = {}, dispatch = () => {}) {
   onChatStatusChange(prevState, nextState, dispatch);
   onChatConnected(prevState, nextState, dispatch);
   onChatScreenInteraction(prevState, nextState, dispatch);
@@ -196,4 +215,5 @@ export default function onStateChange(prevState, nextState, action, dispatch = (
   onArticleDisplayed(prevState, nextState, dispatch);
   onChatStatus(action, dispatch);
   onChatEnd(nextState, action, dispatch);
+  onAgentLeave(prevState, action, dispatch);
 }
