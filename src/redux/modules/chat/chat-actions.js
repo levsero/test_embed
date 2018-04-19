@@ -276,10 +276,12 @@ export function getOperatingHours() {
   const operatingHours = zChat.getOperatingHours();
 
   return (dispatch) => {
-    dispatch({
-      type: GET_OPERATING_HOURS_REQUEST_SUCCESS,
-      payload: operatingHours
-    });
+    if (operatingHours) {
+      dispatch({
+        type: GET_OPERATING_HOURS_REQUEST_SUCCESS,
+        payload: operatingHours
+      });
+    }
   };
 }
 
