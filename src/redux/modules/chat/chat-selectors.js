@@ -136,6 +136,7 @@ export const getPrechatFormFields = createSelector(
   [getPrechatFormSettings, getDepartmentsList, getOfflineFormSettings],
   (prechatSettings, departments, offlineFormSettings) => {
     const formsByKey = getFormFields(prechatSettings);
+    let firstOnlineDepartment = true;
     const departmentOptions = _.map(departments, (department) => {
       let dept = {
         ...department,
@@ -147,8 +148,12 @@ export const getPrechatFormFields = createSelector(
           dept.disabled = true;
         }
         dept.name = i18n.t('embeddable_framework.chat.department.offline.label', { department: department.name });
+      } else {
+        if (firstOnlineDepartment && _.get(formsByKey, 'department.required', false)) {
+          dept.default = true;
+          firstOnlineDepartment = false;
+        }
       }
-
       return dept;
     });
 

@@ -213,7 +213,20 @@ describe('chat selectors', () => {
 
   describe('getPrechatFormFields', () => {
     let result;
-    const mockDepartments = [
+    let mockAccountSettings = {
+      prechatForm: {
+        form: {
+          0: { name: 'name', required: true },
+          1: { name: 'email', required: true },
+          2: { name: 'phone', label: 'Phone Number', required: false },
+          3: { name: 'department', label: 'Department', required: true }
+        }
+      },
+      offlineForm: {
+        enabled: false
+      }
+    };
+    let mockDepartments = [
       {
         name: 'Design',
         status: 'online',
@@ -221,41 +234,15 @@ describe('chat selectors', () => {
       },
       {
         name: 'Engineering',
-        status: 'online',
+        status: 'offline',
         id: 56789
+      },
+      {
+        name: 'Medicine',
+        status: 'online',
+        id: 86734
       }
     ];
-    const mockAccountSettings = {
-      prechatForm: {
-        form: {
-          0: { name: 'name', required: true },
-          1: { name: 'email', required: true },
-          2: { name: 'phone', label: 'Phone Number', required: false }
-        }
-      },
-      offlineForm: {
-        enabled: false
-      }
-    };
-    const expectedResult = {
-      name: { name: 'name', required: true },
-      email: { name: 'email', required: true },
-      phone: { name: 'phone', label: 'Phone Number', required: false },
-      departments: [
-        {
-          name: 'Design',
-          status: 'online',
-          id: 12345,
-          value: 12345
-        },
-        {
-          name: 'Engineering',
-          status: 'online',
-          id: 56789,
-          value: 56789
-        }
-      ]
-    };
 
     beforeEach(() => {
       result = getPrechatFormFields({
@@ -266,57 +253,78 @@ describe('chat selectors', () => {
       });
     });
 
-    it('returns prechat fields grouped by their name', () => {
-      expect(result)
-        .toEqual(expectedResult);
-    });
-
-    describe('when a department is offline', () => {
-      beforeEach(() => {
-        mockDepartments[1].status = 'offline';
+    describe('standard form fields', () => {
+      it('returns name field', () => {
+        expect(result.name)
+          .toEqual({ name: 'name', required: true });
       });
 
-      describe('when offline form is off', () => {
-        beforeEach(() => {
-          result = getPrechatFormFields({
-            chat: {
-              accountSettings: mockAccountSettings,
-              departments: mockDepartments
-            }
-          });
-        });
+      it('returns email field', () => {
+        expect(result.email)
+          .toEqual({ name: 'email', required: true });
+      });
 
-        it('changes the department name to the offline label', () => {
+      it('returns phone field', () => {
+        expect(result.phone)
+          .toEqual({ name: 'phone', label: 'Phone Number', required: false });
+      });
+    });
+
+    describe('department dropdown field', () => {
+      describe('department is offline', () => {
+        it('returns department that is disabled and has correct label', () => {
           expect(result.departments[1].name)
             .toEqual('embeddable_framework.chat.department.offline.label');
-        });
-
-        it('disables the field', () => {
           expect(result.departments[1].disabled)
             .toEqual(true);
         });
+
+        describe('when there is an offline form', () => {
+          beforeAll(() => {
+            mockAccountSettings.offlineForm.enabled = true;
+          });
+
+          afterEach(() => {
+            mockAccountSettings.offlineForm.enabled = false;
+          });
+
+          it('returns department that is not disabled', () => {
+            expect(result.departments[1].disabled)
+              .toBeUndefined();
+          });
+        });
       });
 
-      describe('when offline form is on', () => {
-        beforeEach(() => {
-          mockAccountSettings.offlineForm.enabled = true;
-
-          result = getPrechatFormFields({
-            chat: {
-              accountSettings: mockAccountSettings,
-              departments: mockDepartments
-            }
+      describe('department is online', () => {
+        describe('first department', () => {
+          it('returns department with default set to true', () => {
+            expect(result.departments[0].default)
+              .toEqual(true);
           });
         });
 
-        it('changes the department name to the offline label', () => {
-          expect(result.departments[1].name)
-            .toEqual('embeddable_framework.chat.department.offline.label');
+        describe('not first department', () => {
+          it('returns department with no default', () => {
+            expect(result.departments[2].default)
+              .toBeUndefined();
+          });
         });
 
-        it('does not disable the field', () => {
-          expect(result.departments[1].disabled)
-            .toBeFalsy();
+        describe('when department is not required', () => {
+          beforeAll(() => {
+            mockAccountSettings.prechatForm.form[3].required = false;
+          });
+
+          afterEach(() => {
+            mockAccountSettings.prechatForm.form[3].required = true;
+          });
+
+          it('returns all departments with no default', () => {
+            for (let i = 0; i < mockDepartments.length; i++) {
+              expect(result.departments[i].default)
+                .toBeUndefined();
+            }
+          });
         });
       });
     });
