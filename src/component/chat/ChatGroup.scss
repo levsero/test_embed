@@ -57,16 +57,14 @@
 }
 
 .messageErrorContainer {
-  margin-top: #{2/$font-size}rem;
+  margin-top: #{7/$font-size}rem;
   margin-bottom: $spacing-tny;
-}
-
-.attachmentMessageErrorContainer {
-  margin-top: $spacing-tny;
-  text-align: right;
+  display: inline-block;
+  float: right;
+  width: #{202/$font-size}rem;
 
   [dir='rtl'] & {
-    text-align: left;
+    float: left;
   }
 }
 
@@ -134,4 +132,20 @@
 
 .fadeUp {
   @include fade-up(200ms);
+}
+
+.attachmentMessageError {
+  display: inline-block;
+  hyphens: auto;
+  line-height: #{18/$font-size}rem;
+  max-width: calc(#{202/$font-size}rem - #{19/$font-size}rem);
+  word-break: break-word;
+}
+
+.attachmentErrorMessageContainer {
+  float: right;
+
+  [dir='rtl'] & {
+    float: left;
+  }
 }

@@ -11,23 +11,30 @@ export class MessageError extends Component {
   static propTypes = {
     errorMessage: PropTypes.string.isRequired,
     handleError: PropTypes.func,
-    className: PropTypes.string
+    className: PropTypes.string,
+    messageErrorClasses: PropTypes.string
+  };
+
+  static defaultProps = {
+    messageErrorClasses: ''
   };
 
   render() {
-    const errorClasses = classNames(styles.container, this.props.className);
-
     let errorTag;
+    const { messageErrorClasses } = this.props;
+    const errorClasses = classNames(styles.container, this.props.className);
 
     if (this.props.handleError) {
       errorTag = (
-        <a className={styles.messageErrorLink}
+        <a className={`${styles.messageErrorLink} ${messageErrorClasses}`}
            onClick={this.props.handleError}>
            {this.props.errorMessage}
         </a>
       );
     } else {
-      errorTag = this.props.errorMessage;
+      errorTag = (
+        <span className={messageErrorClasses}>{this.props.errorMessage}</span>
+      );
     }
 
     return (
