@@ -43,14 +43,16 @@ import {
   CHAT_RECONNECT,
   UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP,
   RESET_CURRENT_MESSAGE,
-  SHOW_STANDALONE_MOBILE_NOTIFICATION
+  SHOW_STANDALONE_MOBILE_NOTIFICATION,
+  CHAT_ALL_AGENTS_INACTIVE
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import {
   getChatVisitor,
   getShowRatingScreen,
   getIsChatting as getIsChattingState,
-  getChatOnline } from 'src/redux/modules/chat/chat-selectors';
+  getChatOnline,
+  getAgents } from 'src/redux/modules/chat/chat-selectors';
 import { CHAT_MESSAGE_TYPES } from 'src/constants/chat';
 import { getChatStandalone } from 'src/redux/modules/base/base-selectors';
 import { mediator } from 'service/mediator';
@@ -115,9 +117,12 @@ export function sendMsg(msg, timestamp=Date.now()) {
 }
 
 export const endChat = () => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     zChat.endChat((err) => {
       if (!err) {
+        const onlineAgents = getAgents(getState());
+
+        dispatch({ type: CHAT_ALL_AGENTS_INACTIVE, payload: onlineAgents });
         dispatch({ type: END_CHAT_REQUEST_SUCCESS });
       } else {
         dispatch({ type: END_CHAT_REQUEST_FAILURE });

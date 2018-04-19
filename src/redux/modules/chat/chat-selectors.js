@@ -20,7 +20,9 @@ const getThemeMessageType = (state) => state.chat.accountSettings.theme.message_
 const getOrderedAgents = (state) => state.chat.agents;
 const getFirstAgent = (state) => getOrderedAgents(state).values().next().value;
 const getConciergeSettings = (state) => state.chat.accountSettings.concierge;
+const getInactiveAgents = (state) => state.chat.inactiveAgents;
 
+export const getAllAgents = (state) => _.extend({}, getAgents(state),  getInactiveAgents(state));
 export const getAgentsTyping = (state) => _.filter(getAgents(state), (agent, key) => agent.typing && key !== AGENT_BOT);
 export const getConnection = (state) => state.chat.connection;
 export const getCurrentMessage = (state) => state.chat.currentMessage;

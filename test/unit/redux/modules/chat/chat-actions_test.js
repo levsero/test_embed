@@ -24,6 +24,7 @@ let actions,
   mockSendOfflineMsg = jasmine.createSpy('sendOfflineMsg'),
   mockReconnect = jasmine.createSpy('reconnect'),
   showRatingScreen = false,
+  getAgentsSpy = jasmine.createSpy('getAgents'),
   getShowRatingScreenSpy = jasmine.createSpy('getShowRatingScreenSpy').and.callFake(() => showRatingScreen),
   getIsChattingSpy = jasmine.createSpy('getIsChatting').and.callFake(() => mockIsChatting);
 
@@ -76,7 +77,8 @@ describe('chat redux actions', () => {
         getChatVisitor: () => mockVisitor,
         getShowRatingScreen: getShowRatingScreenSpy,
         getIsChatting: getIsChattingSpy,
-        getChatOnline: () => mockChatOnline
+        getChatOnline: () => mockChatOnline,
+        getAgents: getAgentsSpy
       },
       'src/constants/chat': {
         CHAT_MESSAGE_TYPES
@@ -287,11 +289,19 @@ describe('chat redux actions', () => {
           makeEndChatCall();
         });
 
+        it('dispatches a CHAT_ALL_AGENTS_INACTIVE action', () => {
+          expect(mockStore.getActions()[0].type)
+            .toContain(actionTypes.CHAT_ALL_AGENTS_INACTIVE);
+        });
+
         it('dispatches a END_CHAT_REQUEST_SUCCESS action', () => {
-          expect(mockStore.getActions())
-            .toContain({
-              type: actionTypes.END_CHAT_REQUEST_SUCCESS
-            });
+          expect(mockStore.getActions()[1].type)
+            .toContain(actionTypes.END_CHAT_REQUEST_SUCCESS);
+        });
+
+        it('calls getAgents selector', () => {
+          expect(getAgentsSpy)
+            .toHaveBeenCalled();
         });
       });
 

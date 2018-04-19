@@ -43,6 +43,8 @@ export const UPDATE_CHAT_MENU_VISIBILITY = 'widget/chat/UPDATE_CHAT_MENU_VISIBIL
 export const UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP = 'widget/chat/UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP';
 export const RESET_CURRENT_MESSAGE = 'widget/chat/RESET_CURRENT_MESSAGE';
 export const SHOW_STANDALONE_MOBILE_NOTIFICATION = 'widget/chat/SHOW_STANDALONE_MOBILE_NOTIFICATION';
+export const CHAT_ALL_AGENTS_INACTIVE = 'widget/chat/CHAT_ALL_AGENTS_INACTIVE';
+export const CHAT_AGENT_INACTIVE = 'widget/chat/CHAT_AGENT_INACTIVE';
 
 export const SDK_ERROR = 'websdk/error';
 export const SDK_CHAT_MSG = 'websdk/chat.msg';

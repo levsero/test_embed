@@ -77,7 +77,8 @@ import { getPrechatFormFields,
          getConnection,
          getLoginSettings,
          getDepartments,
-         getOfflineMessage } from 'src/redux/modules/chat/chat-selectors';
+         getOfflineMessage,
+         getAllAgents } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './Chat.scss';
 import { chatNameDefault } from 'src/util/utils';
 import { CONNECTION_STATUSES, DEPARTMENT_STATUSES } from 'constants/chat';
@@ -98,6 +99,7 @@ const mapStateToProps = (state) => {
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
     postChatFormSettings: getPostchatFormSettings(state),
     isChatting: getIsChatting(state),
+    allAgents: getAllAgents(state),
     agents: getAgents(state),
     agentsTyping: getAgentsTyping(state),
     rating: getChatRating(state),
@@ -147,6 +149,7 @@ class Chat extends Component {
     sendChatComment: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
     isChatting: PropTypes.bool.isRequired,
+    allAgents: PropTypes.object.isRequired,
     agents: PropTypes.object.isRequired,
     agentsTyping: PropTypes.array.isRequired,
     visitor: PropTypes.object.isRequired,
@@ -198,6 +201,7 @@ class Chat extends Component {
     handleSoundIconClick: () => {},
     userSoundSettings: true,
     ratingSettings: { enabled: false },
+    allAgents: {},
     agents: {},
     getFrameDimensions: () => {},
     sendEmailTranscript: () => {},
@@ -566,7 +570,7 @@ class Chat extends Component {
             showAvatar={this.props.showAvatar}
             chatLog={this.props.chatLog}
             lastAgentLeaveEvent={this.props.lastAgentLeaveEvent}
-            agents={this.props.agents}
+            agents={this.props.allAgents}
             chatCommentLeft={!!this.props.rating.comment}
             goToFeedbackScreen={() => this.props.updateChatScreen(screens.FEEDBACK_SCREEN)}
             handleSendMsg={sendMsg}
