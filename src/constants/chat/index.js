@@ -8,7 +8,8 @@ export const CHAT_SYSTEM_EVENTS = {
   CHAT_EVENT_MEMBERLEAVE:     'chat.memberleave',
   CHAT_EVENT_COMMENT:         'chat.comment',
   CHAT_EVENT_RATING:          'chat.rating',
-  CHAT_EVENT_REQUEST_RATING:  'chat.request.rating'
+  CHAT_EVENT_REQUEST_RATING:  'chat.request.rating',
+  CHAT_EVENT_CONTACT_DETAILS_UPDATED: 'chat.contact_details.updated'
 };
 
 export const ATTACHMENT_ERROR_TYPES = {
