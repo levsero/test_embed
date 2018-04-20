@@ -1,5 +1,4 @@
 module.exports = {
-  'ecmaFeatures': { 'jsx': true },
   'plugins': ['react'],
   'rules': {
     'react/prop-types': 2,
