@@ -4,6 +4,8 @@ var webpack = require('webpack');
 var DashboardPlugin = require('webpack-dashboard/plugin');
 var root = config.root;
 
+root.mode = 'development';
+
 root.devtool = 'cheap-module-eval-source-map';
 
 // Uncomment the line below for testing CSP.
