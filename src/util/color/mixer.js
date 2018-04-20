@@ -1,7 +1,6 @@
 import generateColor from 'color';
 
 export class ColorMixer {
-
   static defaultLightYIQ = 190;
   static almostWhiteYIQ = 240;
 

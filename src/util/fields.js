@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Field } from 'component/field/Field';
 import { Dropdown } from 'component/field/Dropdown';
 import { isMobileBrowser,
-         isLandscape } from 'utility/devices';
+  isLandscape } from 'utility/devices';
 import { Checkbox } from 'component/field/Checkbox';
 
 const getCustomFields = (customFields, formState, options = {}) => {
@@ -57,9 +57,9 @@ const getCustomFields = (customFields, formState, options = {}) => {
   };
 
   const fields = _.chain(customFields)
-                  .map(mapFields)
-                  .compact()
-                  .value();
+    .map(mapFields)
+    .compact()
+    .value();
 
   return {
     fields: _.reject(fields, isCheckbox),

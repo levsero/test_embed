@@ -36,7 +36,7 @@ describe('base reducer activeEmbed', () => {
     });
   });
 
-  describe(`when an UPDATE_ACTIVE_EMBED action is dispatched`, () => {
+  describe('when an UPDATE_ACTIVE_EMBED action is dispatched', () => {
     let activeEmbed,
       state;
 
@@ -55,7 +55,7 @@ describe('base reducer activeEmbed', () => {
     });
   });
 
-  describe(`when an GET_ARTICLE_REQUEST_SUCCESS action is dispatched`, () => {
+  describe('when an GET_ARTICLE_REQUEST_SUCCESS action is dispatched', () => {
     let state;
 
     beforeEach(() => {

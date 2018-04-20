@@ -1,19 +1,19 @@
 import _ from 'lodash';
 import { FORM_ON_CHANGE,
-         TICKET_FORM_UPDATE,
-         TICKET_FORMS_REQUEST_SENT,
-         TICKET_FORMS_REQUEST_SUCCESS,
-         TICKET_FORMS_REQUEST_FAILURE,
-         TICKET_SUBMISSION_REQUEST_SENT,
-         TICKET_SUBMISSION_REQUEST_SUCCESS,
-         TICKET_SUBMISSION_REQUEST_FAILURE,
-         TICKET_FIELDS_REQUEST_SENT,
-         TICKET_FIELDS_REQUEST_SUCCESS,
-         TICKET_FIELDS_REQUEST_FAILURE } from './submitTicket-action-types';
+  TICKET_FORM_UPDATE,
+  TICKET_FORMS_REQUEST_SENT,
+  TICKET_FORMS_REQUEST_SUCCESS,
+  TICKET_FORMS_REQUEST_FAILURE,
+  TICKET_SUBMISSION_REQUEST_SENT,
+  TICKET_SUBMISSION_REQUEST_SUCCESS,
+  TICKET_SUBMISSION_REQUEST_FAILURE,
+  TICKET_FIELDS_REQUEST_SENT,
+  TICKET_FIELDS_REQUEST_SUCCESS,
+  TICKET_FIELDS_REQUEST_FAILURE } from './submitTicket-action-types';
 import { getFormState,
-         getActiveTicketForm,
-         getTicketFields as getTicketFieldsState,
-         getTicketFormsAvailable } from 'src/redux/modules/submitTicket/submitTicket-selectors';
+  getActiveTicketForm,
+  getTicketFields as getTicketFieldsState,
+  getTicketFormsAvailable } from 'src/redux/modules/submitTicket/submitTicket-selectors';
 import { http } from 'service/transport';
 import { formatRequestData } from './helpers/formatter';
 import { i18n } from 'service/i18n';

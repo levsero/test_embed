@@ -1,6 +1,6 @@
 import { CHAT_BOX_CHANGED,
-         RESET_CURRENT_MESSAGE,
-         PRE_CHAT_FORM_ON_CHANGE } from '../chat-action-types';
+  RESET_CURRENT_MESSAGE,
+  PRE_CHAT_FORM_ON_CHANGE } from '../chat-action-types';
 
 const initialState = '';
 

@@ -113,11 +113,13 @@ export class HelpCenterArticle extends Component {
       let cleanHtml = sanitizeHtml(body, sanitizeHtmlOptions);
 
       // Inject a table wrapper to allow horizontal scrolling
+      /* eslint-disable no-useless-escape */
       cleanHtml = cleanHtml.replace(/\<table/g, `<div class="${styles['table-wrap']}"><table`);
       cleanHtml = cleanHtml.replace(/\/table\>/g, '/table></div>');
 
       // Removes a single newline from start to end tags
       cleanHtml = cleanHtml.replace(/>\n</g, '><');
+      /* eslint-enable no-useless-escape */
 
       container.innerHTML = cleanHtml;
 
@@ -184,6 +186,7 @@ export class HelpCenterArticle extends Component {
   }
 
   filterVideoEmbed = (tagName, attribs) => {
+    /* eslint-disable no-useless-escape */
     const allowedAttribs = _.pick(attribs, allowedIframeAttribs);
 
     if (!allowedAttribs.src) return false;
@@ -203,8 +206,9 @@ export class HelpCenterArticle extends Component {
     });
 
     return hasMatched
-         ? { tagName, attribs: allowedAttribs }
-         : false;
+      ? { tagName, attribs: allowedAttribs }
+      : false;
+    /* eslint-enable no-useless-escape */
   }
 
   replaceArticleImages = (activeArticle, lastActiveArticleId) => {
@@ -294,9 +298,9 @@ export class HelpCenterArticle extends Component {
     };
 
     return _.chain(htmlEl.getElementsByTagName('img'))
-            .filter(filterHcImages)
-            .map(addLocaleToPath)
-            .value();
+      .filter(filterHcImages)
+      .map(addLocaleToPath)
+      .value();
   }
 
   renderOriginalArticleButton = () => {

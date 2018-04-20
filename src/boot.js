@@ -11,9 +11,9 @@ import { renderer } from 'service/renderer';
 import { settings } from 'service/settings';
 import { http } from 'service/transport';
 import { appendMetaTag,
-         clickBusterHandler,
-         getMetaTagsByName,
-         isMobileBrowser } from 'utility/devices';
+  clickBusterHandler,
+  getMetaTagsByName,
+  isMobileBrowser } from 'utility/devices';
 import { initMobileScaling } from 'utility/mobileScaling';
 import { handleIdentifyRecieved } from 'src/redux/modules/base';
 import { displayArticle } from 'src/redux/modules/helpCenter';

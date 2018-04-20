@@ -15,8 +15,8 @@ import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
 import { transitionFactory } from 'service/transitionFactory';
 import { clickBusterRegister,
-         getZoomSizingRatio,
-         isMobileBrowser } from 'utility/devices';
+  getZoomSizingRatio,
+  isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
 import { cssTimeToMs } from 'utility/utils';
 import { updateWidgetShown, widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
@@ -32,11 +32,11 @@ const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 const zIndex = settings.get('zIndex');
 const isPositionTop = settings.get('position.vertical') === 'top';
 const defaultHideTransition = isPositionTop
-                            ? transitionFactory.webWidget.upHide()
-                            : transitionFactory.webWidget.downHide();
+  ? transitionFactory.webWidget.upHide()
+  : transitionFactory.webWidget.downHide();
 const defaultShowTransition = isPositionTop
-                            ? transitionFactory.webWidget.downShow()
-                            : transitionFactory.webWidget.upShow();
+  ? transitionFactory.webWidget.downShow()
+  : transitionFactory.webWidget.upShow();
 const defaultMarginTop = isPositionTop && !isMobileBrowser() ? '15px' : 0;
 
 export class Frame extends Component {
@@ -134,8 +134,8 @@ export class Frame extends Component {
       const rootComponent = this.child.refs.rootComponent;
 
       return rootComponent.getWrappedInstance
-           ? rootComponent.getWrappedInstance()
-           : rootComponent;
+        ? rootComponent.getWrappedInstance()
+        : rootComponent;
     }
   }
 
@@ -205,8 +205,8 @@ export class Frame extends Component {
       }
 
       return fullscreen
-           ? fullscreenStyle
-           : popoverStyle;
+        ? fullscreenStyle
+        : popoverStyle;
     };
 
     if (this.props.fullscreenable && isMobileBrowser()) {

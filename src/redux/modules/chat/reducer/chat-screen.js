@@ -1,6 +1,6 @@
 import { UPDATE_CHAT_SCREEN,
-         CHAT_NOTIFICATION_RESPONDED,
-         SDK_CHAT_MEMBER_JOIN } from '../chat-action-types';
+  CHAT_NOTIFICATION_RESPONDED,
+  SDK_CHAT_MEMBER_JOIN } from '../chat-action-types';
 import { CHATTING_SCREEN } from '../chat-screen-types';
 
 const initialState = CHATTING_SCREEN;

@@ -683,7 +683,7 @@ describe('SubmitTicketForm component', () => {
         { id: '8888888', prefill: { '*': 324, 'en-GB': 10101001 } }
       ];
 
-      describe(`when current locale is 'en-GB'`, () => {
+      describe('when current locale is \'en-GB\'', () => {
         const expectation = [{
           1111111: '',
           '2222222': '',
@@ -705,7 +705,7 @@ describe('SubmitTicketForm component', () => {
         });
       });
 
-      describe(`when current locale is '*' (fallback locale)`, () => {
+      describe('when current locale is \'*\' (fallback locale)', () => {
         const expectation = [{
           1111111: '',
           '2222222': '',

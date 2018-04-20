@@ -63,8 +63,8 @@ export class AttachmentList extends Component {
     const createAttachmentFn = (file) => {
       const maxSize = Math.round(maxFileSize / 1024 / 1024);
       const errorMessage = (file.size >= maxFileSize)
-                         ? i18n.t('embeddable_framework.submitTicket.attachments.error.size', { maxSize })
-                         : null;
+        ? i18n.t('embeddable_framework.submitTicket.attachments.error.size', { maxSize })
+        : null;
 
       setTimeout(() => this.createAttachment(file, errorMessage), 0);
     };
@@ -152,7 +152,7 @@ export class AttachmentList extends Component {
 
   filterAttachments = (includeUploading) => {
     return _.chain(this.state.attachments)
-            .filter((a) => (!a.uploading || includeUploading) && !a.errorMessage);
+      .filter((a) => (!a.uploading || includeUploading) && !a.errorMessage);
   }
 
   uploadedAttachments = () => {
@@ -161,14 +161,14 @@ export class AttachmentList extends Component {
 
   numUploadedAttachments = () => {
     return this.filterAttachments(false)
-               .size()
-               .value();
+      .size()
+      .value();
   }
 
   numValidAttachments = () => {
     return this.filterAttachments(true)
-               .size()
-               .value();
+      .size()
+      .value();
   }
 
   attachmentsReady = () => {
@@ -189,8 +189,8 @@ export class AttachmentList extends Component {
       if (file && file.name) {
         const extension = file.name.split('.').pop().toUpperCase();
         const icon = attachment.errorMessage
-                   ? ICONS.PREVIEW_ERROR
-                   : FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT;
+          ? ICONS.PREVIEW_ERROR
+          : FILETYPE_ICONS[extension] || ICONS.PREVIEW_DEFAULT;
 
         return (
           <Attachment
@@ -222,10 +222,10 @@ export class AttachmentList extends Component {
   render() {
     const numAttachments = this.numUploadedAttachments();
     const title = (numAttachments > 0)
-                ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount',
-                    { count: numAttachments }
-                  )
-                : i18n.t('embeddable_framework.submitTicket.attachments.title');
+      ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount',
+        { count: numAttachments }
+      )
+      : i18n.t('embeddable_framework.submitTicket.attachments.title');
     const errorMessage = this.state.errorMessage ? this.renderErrorMessage() : null;
     const attachmentComponents = this.renderAttachments();
 

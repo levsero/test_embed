@@ -19,8 +19,8 @@ export class ButtonDropzone extends Component {
 
   render = () => {
     const label = this.props.isMobile
-                ? i18n.t('embeddable_framework.submitTicket.attachments.button.label_mobile')
-                : i18n.t('embeddable_framework.submitTicket.attachments.button.label');
+      ? i18n.t('embeddable_framework.submitTicket.attachments.button.label_mobile')
+      : i18n.t('embeddable_framework.submitTicket.attachments.button.label');
 
     return (
       <Dropzone

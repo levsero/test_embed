@@ -71,8 +71,8 @@ class Launcher extends Component {
 
     if (notificationCount) {
       return notificationCount > 1
-           ? i18n.t('embeddable_framework.chat.notification_multiple', { count: notificationCount })
-           : i18n.t('embeddable_framework.chat.notification');
+        ? i18n.t('embeddable_framework.chat.notification_multiple', { count: notificationCount })
+        : i18n.t('embeddable_framework.chat.notification');
     } else if (chatAvailable && talkAvailable) {
       return i18n.t(label);
     } else if (chatAvailable && !helpCenterAvailable) {
@@ -90,8 +90,8 @@ class Launcher extends Component {
 
     if (notificationCount) {
       return notificationCount > 1
-           ? i18n.t('embeddable_framework.chat.notification_multiple', { count: notificationCount })
-           : i18n.t('embeddable_framework.chat.notification');
+        ? i18n.t('embeddable_framework.chat.notification_multiple', { count: notificationCount })
+        : i18n.t('embeddable_framework.chat.notification');
     }
 
     switch (this.props.activeEmbed) {

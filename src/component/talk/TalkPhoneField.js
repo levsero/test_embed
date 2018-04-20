@@ -5,7 +5,7 @@ import { Dropdown } from 'component/field/Dropdown';
 import { Field } from 'component/field/Field';
 import { Flag } from 'component/Flag';
 import { isMobileBrowser,
-         isLandscape } from 'utility/devices';
+  isLandscape } from 'utility/devices';
 
 import { countriesByIso, countriesByName } from './talkCountries';
 import { locals as styles } from './TalkPhoneField.scss';

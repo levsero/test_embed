@@ -1527,7 +1527,7 @@ describe('Frame', () => {
       spyOn(frame, 'updateFrameLocale');
     });
 
-    describe(`when the iframe's document is ready`, () => {
+    describe('when the iframe\'s document is ready', () => {
       beforeEach(() => {
         jasmine.clock().tick(0);
 
@@ -1541,7 +1541,7 @@ describe('Frame', () => {
       });
     });
 
-    describe(`when the iframe's document is not ready`, () => {
+    describe('when the iframe\'s document is not ready', () => {
       beforeEach(() => {
         jasmine.clock().tick(0);
 

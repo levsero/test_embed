@@ -34,7 +34,7 @@ function init() {
   const expiry = Date.now() + timeToExpire;
 
   checkSuid(suid) ? setSuid(suid.id, expiry, suid.tabs.count + 1, 0)
-                  : setSuid(generateUid(), expiry, 1, 0);
+    : setSuid(generateUid(), expiry, 1, 0);
 }
 
 function getBuid() {
@@ -52,7 +52,7 @@ function getSuid() {
   const expiry = Date.now() + timeToExpire;
 
   return checkSuid(suid) ? suid
-                         : setSuid(generateUid(), expiry, 1, 0);
+    : setSuid(generateUid(), expiry, 1, 0);
 }
 
 function unload() {

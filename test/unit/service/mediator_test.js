@@ -54,8 +54,8 @@ describe('mediator', () => {
       'utility/scrollHacks': jasmine.createSpyObj(
         'scrollHacks',
         ['setScrollKiller',
-         'setWindowScroll',
-         'revertWindowScroll']
+          'setWindowScroll',
+          'revertWindowScroll']
       ),
       'utility/pages': {
         isOnHelpCenterPage: () => {
@@ -74,7 +74,7 @@ describe('mediator', () => {
     authenticationSub = jasmine.createSpyObj(
       'authentication',
       ['logout',
-       'renew']
+        'renew']
     );
 
     beaconSub = jasmine.createSpyObj(
@@ -85,26 +85,26 @@ describe('mediator', () => {
     launcherSub = jasmine.createSpyObj(
       'launcher',
       ['hide',
-       'show',
-       'setUnreadMsgs',
-       'refreshLocale']
+        'show',
+        'setUnreadMsgs',
+        'refreshLocale']
     );
 
     submitTicketSub = jasmine.createSpyObj(
       'submitTicket',
       ['hide',
-       'update',
-       'refreshLocale']
+        'update',
+        'refreshLocale']
     );
 
     chatSub = jasmine.createSpyObj(
       'chat',
       ['show',
-       'showWithAnimation',
-       'hide',
-       'activate',
-       'setUser',
-       'refreshLocale']
+        'showWithAnimation',
+        'hide',
+        'activate',
+        'setUser',
+        'refreshLocale']
     );
 
     helpCenterSub = jasmine.createSpyObj(
@@ -115,18 +115,18 @@ describe('mediator', () => {
     talkSub = jasmine.createSpyObj(
       'talk',
       ['show',
-      'hide']
+        'hide']
     );
 
     webWidgetSub = jasmine.createSpyObj(
       'webWidget',
       ['show',
-       'hide',
-       'update',
-       'refreshLocale',
-       'zopimChatStarted',
-       'zopimChatEnded',
-       'proactiveChat']
+        'hide',
+        'update',
+        'refreshLocale',
+        'zopimChatStarted',
+        'zopimChatEnded',
+        'proactiveChat']
     );
 
     initSubscriptionSpies = function(names) {
@@ -172,7 +172,7 @@ describe('mediator', () => {
     mockery.disable();
   });
 
- /* ****************************************** *
+  /* ****************************************** *
   *                   zE API                   *
   * ****************************************** */
 
@@ -222,7 +222,7 @@ describe('mediator', () => {
     });
   });
 
- /* ****************************************** *
+  /* ****************************************** *
   *                  IDENTIFY                  *
   * ****************************************** */
 
@@ -321,7 +321,7 @@ describe('mediator', () => {
     });
   });
 
- /* ****************************************** *
+  /* ****************************************** *
   *                 AUTHENTICATE               *
   * ****************************************** */
 
@@ -433,7 +433,7 @@ describe('mediator', () => {
     });
   });
 
- /* ****************************************** *
+  /* ****************************************** *
   *                 SET LOCALE                 *
   * ****************************************** */
 
@@ -467,7 +467,7 @@ describe('mediator', () => {
     });
   });
 
- /* ****************************************** *
+  /* ****************************************** *
   *                  LAUNCHER                  *
   * ****************************************** */
 
@@ -811,7 +811,7 @@ describe('mediator', () => {
 
         c.broadcast(`${chat}.onHide`); // close
 
-        c.broadcast(`.activate`); // open
+        c.broadcast('.activate'); // open
         jasmine.clock().tick(0);
 
         expect(webWidgetSub.show.calls.count())
@@ -891,7 +891,7 @@ describe('mediator', () => {
           .toEqual(1);
 
         expect(chatSub.show.calls.count())
-         .toEqual(0);
+          .toEqual(0);
       });
 
       it('causes onNextClick to open to chat always', () => {
@@ -921,7 +921,7 @@ describe('mediator', () => {
 
           reset(launcherSub.show);
 
-          c.broadcast(`.hide`);
+          c.broadcast('.hide');
           c.broadcast(`${chat}.onOnline`);
           c.broadcast(`${helpCenter}.onNextClick`);
 
@@ -1067,7 +1067,7 @@ describe('mediator', () => {
     });
   });
 
- /* ****************************************** *
+  /* ****************************************** *
   *             TICKET SUBMISSION              *
   * ****************************************** */
 
@@ -1307,7 +1307,7 @@ describe('mediator', () => {
     });
   });
 
- /* ****************************************** *
+  /* ****************************************** *
   *                   CHAT                     *
   * ****************************************** */
 
@@ -1826,7 +1826,7 @@ describe('mediator', () => {
             beforeEach(() => {
               mediator.init({ chat: true }, { newChat: true });
               c.broadcast('.activate');
-              c.broadcast(`newChat.connected`);
+              c.broadcast('newChat.connected');
             });
 
             it('shows webWidget instead of chat', () => {
@@ -1922,7 +1922,7 @@ describe('mediator', () => {
     });
   });
 
- /* ****************************************** *
+  /* ****************************************** *
   *                 HELP CENTER                *
   * ****************************************** */
 
@@ -2160,7 +2160,7 @@ describe('mediator', () => {
     });
   });
 
- /* ****************************************** *
+  /* ****************************************** *
   *                  SUPPRESS                  *
   * ****************************************** */
 
@@ -2353,7 +2353,7 @@ describe('mediator', () => {
     });
   });
 
- /* ****************************************** *
+  /* ****************************************** *
   *                 NAKED ZOPIM                *
   * ****************************************** */
 
@@ -2425,7 +2425,7 @@ describe('mediator', () => {
     });
   });
 
- /* ****************************************** *
+  /* ****************************************** *
   *                  ZOPIM API                 *
   * ****************************************** */
 
@@ -2623,7 +2623,7 @@ describe('mediator', () => {
       c.broadcast('talk.agentAvailability', true);
 
       c.broadcast(`${launcher}.onClick`);
-      c.broadcast(`webWidget.onClose`);
+      c.broadcast('webWidget.onClose');
 
       c.broadcast('talk.agentAvailability', false);
 

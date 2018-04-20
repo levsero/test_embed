@@ -78,8 +78,8 @@ export class ChannelChoice extends Component {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     const channelChoice = this.props.isMobile
-                        ? this.renderMobile()
-                        : this.renderDesktop();
+      ? this.renderMobile()
+      : this.renderDesktop();
 
     return (
       <div>

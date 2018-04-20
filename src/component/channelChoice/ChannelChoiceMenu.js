@@ -29,8 +29,8 @@ export class ChannelChoiceMenu extends Component {
 
   handleChatClick = () => {
     return this.props.chatAvailable
-         ? this.handleNextClick('chat')
-         : (e) => e.stopPropagation(); // prevent container from hiding channelChoice
+      ? this.handleNextClick('chat')
+      : (e) => e.stopPropagation(); // prevent container from hiding channelChoice
   }
 
   handleNextClick = (embed) => {
@@ -46,8 +46,8 @@ export class ChannelChoiceMenu extends Component {
       ? i18n.t('embeddable_framework.channelChoice.button.label.request_callback')
       : i18n.t('embeddable_framework.channelChoice.button.label.call_us');
     const label = (talkAvailable)
-                ? onlineLabel
-                : i18n.t('embeddable_framework.channelChoice.button.label.talk_offline_v2');
+      ? onlineLabel
+      : i18n.t('embeddable_framework.channelChoice.button.label.talk_offline_v2');
     const disabledStyle = !talkAvailable ? styles.talkBtnDisabled : '';
 
     return (
@@ -81,8 +81,8 @@ export class ChannelChoiceMenu extends Component {
     const { chatAvailable } = this.props;
     const chatBtnStyle = !chatAvailable ? styles.chatBtnDisabled : '';
     const chatLabel = (chatAvailable)
-                    ? i18n.t('embeddable_framework.common.button.chat')
-                    : i18n.t('embeddable_framework.channelChoice.button.label.chat_offline_v2');
+      ? i18n.t('embeddable_framework.common.button.chat')
+      : i18n.t('embeddable_framework.channelChoice.button.label.chat_offline_v2');
 
     return (
       <ButtonIcon

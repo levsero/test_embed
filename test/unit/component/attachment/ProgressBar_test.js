@@ -33,8 +33,8 @@ describe('ProgressBar component', () => {
 
     beforeEach(() => {
       component = domRender(<ProgressBar
-          percentLoaded={percentLoaded}
-          fakeProgress={fakeProgress}
+        percentLoaded={percentLoaded}
+        fakeProgress={fakeProgress}
       />);
       element = component.render();
       innerEl = element.props.children;

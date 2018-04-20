@@ -9,14 +9,14 @@ import { ChatOfflineForm } from 'component/chat/ChatOfflineForm';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { chatOfflineFormChanged,
-         sendOfflineMessage,
-         handleOfflineFormBack,
-         handleOperatingHoursClick } from 'src/redux/modules/chat';
+  sendOfflineMessage,
+  handleOfflineFormBack,
+  handleOperatingHoursClick } from 'src/redux/modules/chat';
 import { getChatOfflineForm,
-         getOfflineMessage,
-         getOfflineFormSettings,
-         getOfflineFormFields,
-         getGroupedOperatingHours } from 'src/redux/modules/chat/chat-selectors';
+  getOfflineMessage,
+  getOfflineFormSettings,
+  getOfflineFormFields,
+  getGroupedOperatingHours } from 'src/redux/modules/chat/chat-selectors';
 
 import { locals as styles } from './ChatOffline.scss';
 

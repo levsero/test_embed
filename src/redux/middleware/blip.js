@@ -1,20 +1,20 @@
 import { TALK_CALLBACK_SUCCESS } from 'src/redux/modules/talk/talk-action-types';
 import { UPDATE_ACTIVE_EMBED } from 'src/redux/modules/base/base-action-types';
 import { ARTICLE_CLICKED,
-         ORIGINAL_ARTICLE_CLICKED,
-         SEARCH_REQUEST_SUCCESS,
-         SEARCH_REQUEST_FAILURE } from 'src/redux/modules/helpCenter/helpCenter-action-types';
+  ORIGINAL_ARTICLE_CLICKED,
+  SEARCH_REQUEST_SUCCESS,
+  SEARCH_REQUEST_FAILURE } from 'src/redux/modules/helpCenter/helpCenter-action-types';
 import { beacon } from 'service/beacon';
 import { getEmbeddableConfig,
-         getAgentAvailability,
-         getFormState,
-         getAverageWaitTime } from 'src/redux/modules/talk/talk-selectors';
+  getAgentAvailability,
+  getFormState,
+  getAverageWaitTime } from 'src/redux/modules/talk/talk-selectors';
 import { getTotalUserSearches,
-         getResultsCount,
-         getSearchTerm,
-         getArticleClicked,
-         getActiveArticle,
-         getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+  getResultsCount,
+  getSearchTerm,
+  getArticleClicked,
+  getActiveArticle,
+  getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { i18n } from 'service/i18n';
 
 const createTalkBlipData = (state, phone) => {

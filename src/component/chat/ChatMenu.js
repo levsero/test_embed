@@ -136,17 +136,17 @@ export class ChatMenu extends Component {
 
     return (isMobile
       ? <div className={containerClasses} onClick={this.preventContainerClick}>
-          <Button
-            onTouchStartDisabled={true}
-            onClick={endChatOnClick}
-            label={label}
-            type={'button'}
-            className={styles.endChatMobileButton}
-            primary={true}
-            disabled={disableEndChat} />
-        </div>
+        <Button
+          onTouchStartDisabled={true}
+          onClick={endChatOnClick}
+          label={label}
+          type={'button'}
+          className={styles.endChatMobileButton}
+          primary={true}
+          disabled={disableEndChat} />
+      </div>
       : this.renderButton(endChatOnClick, label, disableEndChat)
-      );
+    );
   }
 
   renderGoBackButton = () => {

@@ -142,8 +142,8 @@ describe('ChatOffline component', () => {
       beforeEach(() => {
         component = instanceRender(
           <ChatOffline
-          formSettings={{ enabled: true }}
-          operatingHours={{ account_schedule: [[456]] }}
+            formSettings={{ enabled: true }}
+            operatingHours={{ account_schedule: [[456]] }}
           />);
 
         result = component.renderOfflineForm();

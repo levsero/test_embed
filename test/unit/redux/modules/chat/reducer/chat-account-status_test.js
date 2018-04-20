@@ -30,7 +30,7 @@ describe('chat reducer account_status', () => {
       });
     });
 
-    describe(`when a SDK_ACCOUNT_STATUS action is dispatched`, () => {
+    describe('when a SDK_ACCOUNT_STATUS action is dispatched', () => {
       let accountStatus;
 
       beforeEach(() => {

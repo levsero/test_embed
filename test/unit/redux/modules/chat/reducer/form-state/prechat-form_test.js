@@ -23,7 +23,7 @@ describe('chat reducer formState preChatForm', () => {
       });
     });
 
-    describe(`when an action of type PRE_CHAT_FORM_ON_CHANGE is dispatched`, () => {
+    describe('when an action of type PRE_CHAT_FORM_ON_CHANGE is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: chatActionTypes.PRE_CHAT_FORM_ON_CHANGE,
@@ -37,7 +37,7 @@ describe('chat reducer formState preChatForm', () => {
       });
     });
 
-    describe(`when an action of type IDENTIFY_RECIEVED is dispatched`, () => {
+    describe('when an action of type IDENTIFY_RECIEVED is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: baseActionTypes.IDENTIFY_RECIEVED,
@@ -65,7 +65,7 @@ describe('chat reducer formState preChatForm', () => {
 
         it('updates the state while maintaining the keys not in the payload', () => {
           expect(state)
-          .toEqual({ ...state, ...mockFormUpdate });
+            .toEqual({ ...state, ...mockFormUpdate });
         });
       });
     });

@@ -1159,7 +1159,7 @@ describe('chat selectors', () => {
       result = getNotificationCount(mockChatSettings);
     });
 
-    it(`returns the current state of the notification's count`, () => {
+    it('returns the current state of the notification\'s count', () => {
       expect(result)
         .toEqual(123);
     });
@@ -1291,7 +1291,7 @@ describe('chat selectors', () => {
       result = getChatOfflineForm(mockChatSettings);
     });
 
-    it(`returns the current state of the notification's count`, () => {
+    it('returns the current state of the notification\'s count', () => {
       expect(result)
         .toEqual(mockChatSettings.chat.formState.offlineForm);
     });

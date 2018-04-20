@@ -2,7 +2,7 @@ import {
   UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
   UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
   UPDATE_CHAT_MENU_VISIBILITY
- } from '../chat-action-types';
+} from '../chat-action-types';
 
 const initialState = false;
 

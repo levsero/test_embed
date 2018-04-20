@@ -6,7 +6,7 @@ import { store } from 'service/persistence';
 import { settings } from 'service/settings';
 import { location } from 'utility/globals';
 import { base64encode,
-         referrerPolicyUrl } from 'utility/utils';
+  referrerPolicyUrl } from 'utility/utils';
 
 let config;
 const defaultPayload = {
@@ -94,7 +94,7 @@ function sendFile(payload) {
 
   /* eslint camelcase:0 */
   return superagent(payload.method.toUpperCase(),
-                    buildFullUrl(payload.path))
+    buildFullUrl(payload.path))
     .query({ filename: payload.file.name })
     .query({ via_id: settings.get('viaId') })
     .attach('uploaded_data', payload.file)

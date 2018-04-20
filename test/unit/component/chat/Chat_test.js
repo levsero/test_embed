@@ -1653,17 +1653,17 @@ describe('Chat component', () => {
       chatContactDetailsPopup = component.renderChatContactDetailsPopup();
     });
 
-    it(`passes a status string to the popup component's screen prop`, () => {
+    it('passes a status string to the popup component\'s screen prop', () => {
       expect(chatContactDetailsPopup.props.screen)
         .toBe(mockEditContactDetails.status);
     });
 
-    it(`passes the correct value to the popup component's show prop`, () => {
+    it('passes the correct value to the popup component\'s show prop', () => {
       expect(chatContactDetailsPopup.props.show)
         .toBe(mockEditContactDetails.show);
     });
 
-    it(`passes an expected object to the popup component's visitor prop`, () => {
+    it('passes an expected object to the popup component\'s visitor prop', () => {
       expect(chatContactDetailsPopup.props.visitor)
         .toEqual(jasmine.objectContaining(mockVisitor));
     });
@@ -1993,7 +1993,7 @@ describe('Chat component', () => {
           activeAgents={agents}
           screen={screen}
           updateChatScreen={updateChatScreenSpy} />
-        );
+      );
 
       chatHeaderComponent = component.renderChatHeader();
     });

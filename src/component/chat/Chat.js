@@ -27,58 +27,58 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { isFirefox, isIE } from 'utility/devices';
 import { endChat,
-         endChatViaPostChatScreen,
-         sendMsg,
-         sendAttachments,
-         setVisitorInfo,
-         setDepartment,
-         getAccountSettings,
-         handleChatBoxChange,
-         sendChatRating,
-         sendChatComment,
-         updateChatScreen,
-         handleSoundIconClick,
-         sendEmailTranscript,
-         resetEmailTranscript,
-         handleReconnect,
-         handlePreChatFormChange,
-         updateMenuVisibility,
-         updateContactDetailsVisibility,
-         updateEmailTranscriptVisibility,
-         resetCurrentMessage,
-         sendOfflineMessage,
-         clearDepartment } from 'src/redux/modules/chat';
+  endChatViaPostChatScreen,
+  sendMsg,
+  sendAttachments,
+  setVisitorInfo,
+  setDepartment,
+  getAccountSettings,
+  handleChatBoxChange,
+  sendChatRating,
+  sendChatComment,
+  updateChatScreen,
+  handleSoundIconClick,
+  sendEmailTranscript,
+  resetEmailTranscript,
+  handleReconnect,
+  handlePreChatFormChange,
+  updateMenuVisibility,
+  updateContactDetailsVisibility,
+  updateEmailTranscriptVisibility,
+  resetCurrentMessage,
+  sendOfflineMessage,
+  clearDepartment } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import { getPrechatFormFields,
-         getAttachmentsEnabled,
-         getPrechatFormSettings,
-         getIsChatting,
-         getActiveAgents,
-         getAgentsTyping,
-         getChatMessages,
-         getChatEvents,
-         getGroupedChatLog,
-         getChatScreen,
-         getChatVisitor,
-         getCurrentMessage,
-         getChatRating,
-         getUserSoundSettings,
-         getCurrentConcierge,
-         getPostchatFormSettings,
-         getRatingSettings,
-         getEmailTranscript,
-         getLastAgentLeaveEvent,
-         getThemeShowAvatar,
-         getPreChatFormState,
-         getQueuePosition,
-         getMenuVisible,
-         getEditContactDetails,
-         getAgentJoined,
-         getConnection,
-         getLoginSettings,
-         getDepartments,
-         getOfflineMessage,
-         getAllAgents } from 'src/redux/modules/chat/chat-selectors';
+  getAttachmentsEnabled,
+  getPrechatFormSettings,
+  getIsChatting,
+  getActiveAgents,
+  getAgentsTyping,
+  getChatMessages,
+  getChatEvents,
+  getGroupedChatLog,
+  getChatScreen,
+  getChatVisitor,
+  getCurrentMessage,
+  getChatRating,
+  getUserSoundSettings,
+  getCurrentConcierge,
+  getPostchatFormSettings,
+  getRatingSettings,
+  getEmailTranscript,
+  getLastAgentLeaveEvent,
+  getThemeShowAvatar,
+  getPreChatFormState,
+  getQueuePosition,
+  getMenuVisible,
+  getEditContactDetails,
+  getAgentJoined,
+  getConnection,
+  getLoginSettings,
+  getDepartments,
+  getOfflineMessage,
+  getAllAgents } from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './Chat.scss';
 import { chatNameDefault } from 'src/util/utils';
 import { CONNECTION_STATUSES, DEPARTMENT_STATUSES } from 'constants/chat';
@@ -410,6 +410,7 @@ class Chat extends Component {
   }
 
   renderChatHeader = () => {
+    /* eslint-disable camelcase */
     const {
       rating,
       sendChatRating,
@@ -422,23 +423,24 @@ class Chat extends Component {
     } = this.props;
     // Title in chat refers to the byline and display_name refers to the display title
     const { avatar_path, display_name, title } = concierge;
-    const displayName = _.has(display_name, 'toString') ? display_name.toString() : display_name; // eslint-disable-line camelcase
+    const displayName = _.has(display_name, 'toString') ? display_name.toString() : display_name;
     const byline = title ? title : i18n.t('embeddable_framework.chat.header.by_line');
     const showRating = screen === screens.CHATTING_SCREEN && ratingSettings.enabled && agentJoined;
     const onAgentDetailsClick = (screen === screens.CHATTING_SCREEN && _.size(activeAgents) > 0)
-                  ? () => updateChatScreen(screens.AGENT_LIST_SCREEN)
-                  : null;
+      ? () => updateChatScreen(screens.AGENT_LIST_SCREEN)
+      : null;
 
     return (
       <ChatHeader
         showRating={showRating}
         rating={rating.value}
         updateRating={sendChatRating}
-        avatar={avatar_path} // eslint-disable-line camelcase
+        avatar={avatar_path}
         title={displayName}
         byline={byline}
         onAgentDetailsClick={onAgentDetailsClick} />
     );
+    /* eslint-enable camelcase */
   }
 
   renderPrechatScreen = () => {
@@ -684,8 +686,8 @@ class Chat extends Component {
     };
 
     const cancelButtonTextKey = isChatting
-                              ? 'embeddable_framework.common.button.cancel'
-                              : 'embeddable_framework.chat.postChat.rating.button.skip';
+      ? 'embeddable_framework.common.button.cancel'
+      : 'embeddable_framework.chat.postChat.rating.button.skip';
 
     return (
       <ScrollContainer
@@ -793,7 +795,7 @@ class Chat extends Component {
         containerClasses={styles.scrollContainerContent}
         footerContent={backToChatButton}
         fullscreen={isMobile}
-        >
+      >
         <ChatAgentList agents={activeAgents} />
         {this.renderZendeskLogo()}
       </ScrollContainer>

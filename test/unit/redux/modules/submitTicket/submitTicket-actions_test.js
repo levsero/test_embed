@@ -110,7 +110,7 @@ describe('submitTicket redux actions', () => {
           const searchRequest = httpGetSpy.calls.mostRecent().args;
           const callbackFn = searchRequest[0].callbacks.done;
 
-          callbackFn({ text: `{"ticket_forms":[{"id":123}],"count":7}` });
+          callbackFn({ text: '{"ticket_forms":[{"id":123}],"count":7}' });
           action = mockStore.getActions()[1];
         });
 
@@ -185,7 +185,7 @@ describe('submitTicket redux actions', () => {
           const searchRequest = httpGetSpy.calls.mostRecent().args;
           const callbackFn = searchRequest[0].callbacks.done;
 
-          callbackFn({ text: `{"ticketFields":[{"id":456}],"count":3}` });
+          callbackFn({ text: '{"ticketFields":[{"id":456}],"count":3}' });
           action = mockStore.getActions()[1];
         });
 
@@ -270,7 +270,7 @@ describe('submitTicket redux actions', () => {
           const request = httpSendSpy.calls.mostRecent().args;
           const callbackFn = request[0].callbacks.done;
 
-          callbackFn({ text: `{"request":"success"}` });
+          callbackFn({ text: '{"request":"success"}' });
           action = mockStore.getActions()[1];
         });
 

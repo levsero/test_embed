@@ -9,7 +9,7 @@ import _ from 'lodash';
 
 import { launcherStyles } from './launcherStyles.js';
 import { document,
-         getDocumentHost } from 'utility/globals';
+  getDocumentHost } from 'utility/globals';
 import { Frame } from 'component/frame/Frame';
 import Launcher from 'component/Launcher';
 import { beacon } from 'service/beacon';
@@ -18,7 +18,7 @@ import { settings } from 'service/settings';
 import { generateUserCSS } from 'utility/color/styles';
 import { transitionFactory } from 'service/transitionFactory';
 import { isMobileBrowser,
-         getZoomSizingRatio } from 'utility/devices';
+  getZoomSizingRatio } from 'utility/devices';
 
 const launcherCSS = `${require('globalCSS')} ${launcherStyles}`;
 
@@ -60,9 +60,9 @@ function create(name, config, reduxStore) {
     };
 
     const result = _.chain(frameStyle)
-                    .pick(['marginTop', 'marginBottom', 'marginLeft', 'marginRight'])
-                    .mapValues(adjustMargin)
-                    .value();
+      .pick(['marginTop', 'marginBottom', 'marginLeft', 'marginRight'])
+      .mapValues(adjustMargin)
+      .value();
 
     return _.extend({}, frameStyle, result);
   };

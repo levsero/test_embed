@@ -6,10 +6,10 @@ import { getSettingsChatSuppress } from './settings/settings-selectors';
 import { getEmbeddableConfigEnabled, getAgentAvailability } from './talk/talk-selectors';
 import { getActiveTicketForm, getTicketForms } from './submitTicket/submitTicket-selectors';
 import { getHelpCenterEmbed,
-         getSubmitTicketEmbed,
-         getZopimChatEmbed,
-         getTalkEmbed,
-         getChatEmbed as getNewChatEmbed } from './base/base-selectors';
+  getSubmitTicketEmbed,
+  getZopimChatEmbed,
+  getTalkEmbed,
+  getChatEmbed as getNewChatEmbed } from './base/base-selectors';
 
 /*
  * Terms:

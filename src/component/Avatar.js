@@ -38,7 +38,7 @@ export class Avatar extends Component {
     const classes = `${styles.avatar} ${className}`;
 
     return _.isEmpty(src)
-         ? this.renderDefault(classes, fallbackIcon)
-         : this.renderCustom(classes);
+      ? this.renderDefault(classes, fallbackIcon)
+      : this.renderCustom(classes);
   }
 }

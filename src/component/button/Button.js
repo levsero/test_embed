@@ -32,8 +32,8 @@ export class Button extends Component {
     const mobileClasses = this.props.fullscreen ? styles.mobile : '';
     const allowedTypes = /^(submit|button)$/i;
     const type = allowedTypes.test(this.props.type)
-               ? this.props.type
-               : 'button';
+      ? this.props.type
+      : 'button';
 
     return (
       <input

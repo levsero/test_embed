@@ -41,7 +41,7 @@ export class EmailField extends Component {
         fieldClasses={this.props.fieldClasses}
         labelClasses={this.props.labelClasses}
         inputClasses={this.props.inputClasses}
-        />
+      />
     );
   }
 }

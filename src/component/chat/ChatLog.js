@@ -90,8 +90,8 @@ export class ChatLog extends Component {
     if (!this.validEventType(event, showButtonForRating)) return;
 
     const labelKey = (event.type === 'chat.rating')
-                   ? 'embeddable_framework.chat.chatLog.button.leaveComment'
-                   : 'embeddable_framework.chat.chatLog.button.rateChat';
+      ? 'embeddable_framework.chat.chatLog.button.leaveComment'
+      : 'embeddable_framework.chat.chatLog.button.rateChat';
 
     return (
       <Button

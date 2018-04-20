@@ -161,7 +161,7 @@ describe('HelpCenterArticle component', () => {
 
     describe('when the article has a \\n between start and end tags', () => {
       beforeEach(() => {
-        mockArticle.body += `<ul>\n<li>\n<p>One</p></li>\n<li>Two</li>\n</ul>`;
+        mockArticle.body += '<ul>\n<li>\n<p>One</p></li>\n<li>Two</li>\n</ul>';
 
         helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
         content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
@@ -169,7 +169,7 @@ describe('HelpCenterArticle component', () => {
 
       it('removes the \\n between start and end tags', () => {
         expect(content.innerHTML)
-          .toMatch(`<ul><li><p>One</p></li><li>Two</li></ul>`);
+          .toMatch('<ul><li><p>One</p></li><li>Two</li></ul>');
       });
     });
 
@@ -417,7 +417,7 @@ describe('HelpCenterArticle component', () => {
         _.forEach(invalidUrls, (url) => {
           it(`returns false for ${url}`, () => {
             expect(helpCenterArticle.filterVideoEmbed('iframe', { src: url }))
-            .toBe(false);
+              .toBe(false);
           });
         });
       });
@@ -797,7 +797,7 @@ describe('HelpCenterArticle component', () => {
         });
       });
 
-      describe(`when the browser isn't IE and a parent anchor link is found`, () => {
+      describe('when the browser isn\'t IE and a parent anchor link is found', () => {
         beforeEach(() => {
           preventDefaultSpy = jasmine.createSpy('preventDefault');
           mockClosestAnchor = { setAttribute: noop, getAttribute: noop };
@@ -822,7 +822,7 @@ describe('HelpCenterArticle component', () => {
       });
     });
 
-    describe(`when the href refers to the article's body`, () => {
+    describe('when the href refers to the article\'s body', () => {
       beforeEach(() => {
         preventDefaultSpy = jasmine.createSpy('preventDefault');
         scrollIntoViewSpy = jasmine.createSpy('scrollIntoView');
@@ -910,12 +910,12 @@ describe('HelpCenterArticle component', () => {
         helpCenterArticle.handleClick(mockEvent);
       });
 
-      it(`calls setAttribute with target '_blank'`, () => {
+      it('calls setAttribute with target \'_blank\'', () => {
         expect(setAttributeSpy)
           .toHaveBeenCalledWith('target', '_blank');
       });
 
-      it(`calls setAttribute with rel 'noopener noreferrer'`, () => {
+      it('calls setAttribute with rel \'noopener noreferrer\'', () => {
         expect(setAttributeSpy)
           .toHaveBeenCalledWith('rel', 'noopener noreferrer');
       });

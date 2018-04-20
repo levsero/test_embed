@@ -4,7 +4,7 @@ import { settings } from 'service/settings';
 import { mediator } from 'service/mediator';
 import { themeColor } from 'utility/color/validate';
 import { document, win,
-         getDocumentHost } from 'utility/globals';
+  getDocumentHost } from 'utility/globals';
 import { cappedTimeoutCall } from 'utility/utils';
 import { updateZopimChatStatus } from 'src/redux/modules/zopimChat';
 import { updateSettingsChatSuppress, resetSettingsChatSuppress } from 'src/redux/modules/settings';

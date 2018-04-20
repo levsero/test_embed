@@ -9,12 +9,12 @@ describe('ChatPrechatForm component', () => {
   const Field = class extends Component {
     render() {
       return this.props.input
-           ? React.cloneElement(this.props.input, _.extend({}, this.props))
-           : <input
-              name={this.props.name}
-              required={this.props.required}
-              pattern={this.props.pattern}
-              type={this.props.type} />;
+        ? React.cloneElement(this.props.input, _.extend({}, this.props))
+        : <input
+          name={this.props.name}
+          required={this.props.required}
+          pattern={this.props.pattern}
+          type={this.props.type} />;
     }
   };
 
@@ -339,9 +339,9 @@ describe('ChatPrechatForm component', () => {
         { name: 'Engineering', status: 'online', id: 56789, value: 56789 }
       ],
       getRenderDepartmentsFieldFn = (formProp) => (
-      instanceRender(<ChatPrechatForm form={formProp} />)
-        .renderDepartmentsField
-    );
+        instanceRender(<ChatPrechatForm form={formProp} />)
+          .renderDepartmentsField
+      );
 
     describe('when there are departments in the form', () => {
       beforeEach(() => {

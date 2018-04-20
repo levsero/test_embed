@@ -187,8 +187,8 @@ export class SearchField extends Component {
     `;
 
     const searchIcons = fullscreen
-                      ? this.renderMobileIcons()
-                      : this.renderSearchLoadingIcon();
+      ? this.renderMobileIcons()
+      : this.renderSearchLoadingIcon();
 
     return (
       <div className={searchContainerClasses}>

@@ -14,7 +14,7 @@ const findFieldId = (name, ticketFields) => {
 
 const formatNameFromEmail = (email) => {
   const localPart = email.split('@', 2)[0];
-  const newName = localPart.split(/[._\-]/);
+  const newName = localPart.split(/[._\-]/); // eslint-disable-line no-useless-escape
 
   return _.map(newName, _.capitalize).join(' ');
 };
@@ -52,8 +52,8 @@ export const formatRequestData = (formState, ticketFormsAvailable, ticketFields,
   const subjectData = ticketFormsAvailable && subjectField ? formState[subjectField] : formState.subject;
   const subjectAllowed = settings.get('contactForm.subject') || ticketFormsAvailable;
   const subject = subjectAllowed && !_.isEmpty(subjectData)
-                ? subjectData
-                : (descriptionData.length <= 50) ? descriptionData : `${descriptionData.slice(0,50)}...`;
+    ? subjectData
+    : (descriptionData.length <= 50) ? descriptionData : `${descriptionData.slice(0,50)}...`;
 
   return {
     'request': {

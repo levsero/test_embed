@@ -5,13 +5,13 @@ import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
 import { http } from 'service/transport';
 import { win,
-         document as doc,
-         navigator } from 'utility/globals';
+  document as doc,
+  navigator } from 'utility/globals';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { nowInSeconds,
-         parseUrl,
-         referrerPolicyUrl,
-         sha1 } from 'utility/utils';
+  parseUrl,
+  referrerPolicyUrl,
+  sha1 } from 'utility/utils';
 
 let config = {
   method: 'GET',

@@ -22,7 +22,7 @@ export class ChatOfflineMessageForm extends Component {
     return (
       <div className={styles.successContainer}>
         <p className={styles.message}>
-         {i18n.t('embeddable_framework.chat.preChat.offline.label.confirmation')}
+          {i18n.t('embeddable_framework.chat.preChat.offline.label.confirmation')}
         </p>
         <div className={styles.info}>
           <b>{name}</b>
@@ -38,5 +38,4 @@ export class ChatOfflineMessageForm extends Component {
       </div>
     );
   }
-
 }

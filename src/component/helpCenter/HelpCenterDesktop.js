@@ -115,33 +115,33 @@ export class HelpCenterDesktop extends Component {
 
   renderHeaderContent = () => {
     return (this.props.articleViewActive || !this.props.hasSearched)
-         ? null
-         : this.renderForm();
+      ? null
+      : this.renderForm();
   }
 
   renderBodyForm = () => {
     return this.props.hasSearched
-         ? null
-         : this.renderForm();
+      ? null
+      : this.renderForm();
   }
 
   renderZendeskLogo = () => {
     return !this.props.hideZendeskLogo
-         ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />
-         : null;
+      ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />
+      : null;
   }
 
   renderChannelChoice = () => {
     return this.props.channelChoice
-         ? <ChannelChoicePopupDesktop
-             submitTicketAvailable={this.props.submitTicketAvailable}
-             chatEnabled={this.props.chatEnabled}
-             callbackEnabled={this.props.callbackEnabled}
-             talkAvailable={this.props.talkAvailable}
-             chatAvailable={this.props.chatAvailable}
-             talkEnabled={this.props.talkEnabled}
-             onNextClick={this.props.onNextClick} />
-         : null;
+      ? <ChannelChoicePopupDesktop
+        submitTicketAvailable={this.props.submitTicketAvailable}
+        chatEnabled={this.props.chatEnabled}
+        callbackEnabled={this.props.callbackEnabled}
+        talkAvailable={this.props.talkAvailable}
+        chatAvailable={this.props.chatAvailable}
+        talkEnabled={this.props.talkEnabled}
+        onNextClick={this.props.onNextClick} />
+      : null;
   }
 
   renderFooterContent = () => {

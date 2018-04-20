@@ -66,20 +66,20 @@ export class ChatPopup extends Component {
 
     return (showCta)
       ? <div className={styles.ctaContainer}>
-          <Button
-            onTouchStartDisabled={true}
-            label={leftCtaLabel}
-            className={this.ctaButtonStyle('left')}
-            primary={false}
-            onClick={leftCtaFn} />
-          <Button
-            onTouchStartDisabled={true}
-            label={rightCtaLabel}
-            className={this.ctaButtonStyle('right')}
-            primary={true}
-            disabled={rightCtaDisabled}
-            onClick={rightCtaFn} />
-        </div>
+        <Button
+          onTouchStartDisabled={true}
+          label={leftCtaLabel}
+          className={this.ctaButtonStyle('left')}
+          primary={false}
+          onClick={leftCtaFn} />
+        <Button
+          onTouchStartDisabled={true}
+          label={rightCtaLabel}
+          className={this.ctaButtonStyle('right')}
+          primary={true}
+          disabled={rightCtaDisabled}
+          onClick={rightCtaFn} />
+      </div>
       : null;
   }
 
