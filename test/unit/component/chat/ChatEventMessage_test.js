@@ -66,6 +66,11 @@ describe('ChatEventMessage component', () => {
       { description: 'chat comment submitted',
         event: { nick: 'visitor', type: 'chat.comment' },
         expectedString: 'embeddable_framework.chat.chatlog.comment.submitted'
+      },
+      {
+        description: 'chat contact details updated',
+        event: { type: 'chat.contact_details.updated' },
+        expectedString: 'embeddable_framework.chat.contact_details.updated'
       }
     ];
 
