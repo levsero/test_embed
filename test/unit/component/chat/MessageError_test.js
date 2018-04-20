@@ -100,7 +100,7 @@ describe('MessageError component', () => {
 
         it('renders the correct messageErrorLink className', () => {
           expect(errorElement.props.className)
-            .toEqual('messageErrorLink');
+            .toContain('messageErrorLink');
         });
       });
 
@@ -114,7 +114,7 @@ describe('MessageError component', () => {
         });
 
         it('renders the error message', () => {
-          expect(errorElement)
+          expect(errorElement.props.children)
             .toEqual(errorMessage);
         });
 

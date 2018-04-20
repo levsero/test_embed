@@ -196,7 +196,10 @@ export class ChatGroup extends Component {
         <div>
           {inlineAttachment}
           <div className={styles.messageErrorContainer}>
-            <MessageError errorMessage={errorMessage} />
+            <MessageError
+              className={styles.attachmentErrorMessageContainer}
+              messageErrorClasses={styles.attachmentMessageError}
+              errorMessage={errorMessage} />
           </div>
         </div>
       );
