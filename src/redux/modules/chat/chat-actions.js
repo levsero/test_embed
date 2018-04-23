@@ -174,18 +174,18 @@ export function handleChatBoxChange(msg) {
   };
 }
 
-export function setVisitorInfo(visitor) {
+export function setVisitorInfo(visitor, timestamp=Date.now()) {
   return (dispatch) => {
     dispatch({
       type: SET_VISITOR_INFO_REQUEST_PENDING,
-      payload: visitor
+      payload: { ...visitor, timestamp }
     });
 
     zChat.setVisitorInfo(visitor, (err) => {
       if (!err) {
         dispatch({
           type: SET_VISITOR_INFO_REQUEST_SUCCESS,
-          payload: visitor
+          payload: { ...visitor, timestamp }
         });
       } else {
         dispatch({ type: SET_VISITOR_INFO_REQUEST_FAILURE });

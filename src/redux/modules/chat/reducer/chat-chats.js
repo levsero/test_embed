@@ -14,13 +14,24 @@ import {
   CHAT_MSG_REQUEST_FAILURE,
   CHAT_FILE_REQUEST_SENT,
   CHAT_FILE_REQUEST_SUCCESS,
-  CHAT_FILE_REQUEST_FAILURE
+  CHAT_FILE_REQUEST_FAILURE,
+  SET_VISITOR_INFO_REQUEST_SUCCESS
 } from '../chat-action-types';
-import { CHAT_MESSAGE_TYPES } from 'constants/chat';
+import { CHAT_MESSAGE_TYPES, CHAT_SYSTEM_EVENTS } from 'constants/chat';
 
 import _ from 'lodash';
 
 const initialState = new Map();
+
+const concatContactDetailsUpdated = (chats, payload) => {
+  const copy = new Map(chats);
+  const contactDetailsUpdated = {
+    timestamp: payload.timestamp,
+    type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_CONTACT_DETAILS_UPDATED
+  };
+
+  return copy.set(payload.timestamp, contactDetailsUpdated);
+};
 
 const concatChat = (chats, chat) => {
   const copy = new Map(chats);
@@ -83,6 +94,8 @@ const chats = (state = initialState, action) => {
     case SDK_CHAT_FILE:
       return concatSDKFile(state, action.payload.detail);
 
+    case SET_VISITOR_INFO_REQUEST_SUCCESS:
+      return concatContactDetailsUpdated(state, action.payload);
     default:
       return state;
   }

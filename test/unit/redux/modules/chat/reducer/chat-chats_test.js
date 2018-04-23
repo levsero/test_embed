@@ -4,7 +4,8 @@ describe('chat reducer chats', () => {
   let reducer,
     actionTypes,
     initialState,
-    CHAT_MESSAGE_TYPES;
+    CHAT_MESSAGE_TYPES,
+    CHAT_SYSTEM_EVENTS;
 
   const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-chats');
   const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
@@ -12,13 +13,15 @@ describe('chat reducer chats', () => {
   const chatConstants = requireUncached(chatConstantsPath);
 
   CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
+  CHAT_SYSTEM_EVENTS = chatConstants.CHAT_SYSTEM_EVENTS;
 
   beforeEach(() => {
     mockery.enable();
 
     initMockRegistry({
       'constants/chat': {
-        CHAT_MESSAGE_TYPES
+        CHAT_MESSAGE_TYPES,
+        CHAT_SYSTEM_EVENTS
       }
     });
 
@@ -344,6 +347,35 @@ describe('chat reducer chats', () => {
           expect(state.get(timestamp))
             .toEqual(failurePayload);
         });
+      });
+    });
+
+    describe('when a SET_VISITOR_INFO_REQUEST_SUCCESS action is dispatched', () => {
+      let state;
+      const timestamp = Date.now();
+
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.SET_VISITOR_INFO_REQUEST_SUCCESS,
+          payload: { timestamp }
+        });
+      });
+
+      afterEach(() => {
+        initialState.clear();
+      });
+
+      it('updates the existing chat in the chats collection', () => {
+        const expectedPayload = {
+          timestamp,
+          type: CHAT_SYSTEM_EVENTS.CHAT_EVENT_CONTACT_DETAILS_UPDATED
+        };
+
+        expect(state.size)
+          .toEqual(1);
+
+        expect(state.get(timestamp))
+          .toEqual(expectedPayload);
       });
     });
 

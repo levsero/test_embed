@@ -358,18 +358,20 @@ describe('chat redux actions', () => {
   });
 
   describe('setVisitorInfo', () => {
-    let info;
+    let info,
+      timestamp;
 
     beforeEach(() => {
       info = { email: 'x@x.com' };
+      timestamp = Date.now();
 
-      mockStore.dispatch(actions.setVisitorInfo(info));
+      mockStore.dispatch(actions.setVisitorInfo(info, timestamp));
     });
 
     it('dispatches a SET_VISITOR_INFO_REQUEST_PENDING action', () => {
       const expected = {
         type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING,
-        payload: info
+        payload: { ...info, timestamp }
       };
 
       expect(mockStore.getActions())
@@ -399,7 +401,7 @@ describe('chat redux actions', () => {
           expect(mockStore.getActions())
             .toContain({
               type: actionTypes.SET_VISITOR_INFO_REQUEST_SUCCESS,
-              payload: { email: 'x@x.com' }
+              payload: { email: 'x@x.com', timestamp }
             });
         });
       });

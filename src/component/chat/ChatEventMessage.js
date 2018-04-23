@@ -39,6 +39,9 @@ export class ChatEventMessage extends Component {
           : i18n.t('embeddable_framework.chat.chatLog.rating.removed');
       case 'chat.comment':
         return i18n.t('embeddable_framework.chat.chatlog.comment.submitted');
+
+      case 'chat.contact_details.updated':
+        return i18n.t('embeddable_framework.chat.contact_details.updated');
     }
   }
 
