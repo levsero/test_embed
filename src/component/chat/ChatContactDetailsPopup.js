@@ -61,8 +61,10 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const email = nextProps.contactDetails.email || _.get(nextProps.visitor, 'email', '');
-    const name = nextProps.contactDetails.display_name || _.get(nextProps.visitor, 'display_name', '');
+    const email = this.state.formState.email || nextProps.contactDetails.email || _.get(nextProps.visitor, 'email', '');
+    const name = this.state.formState.name ||
+      nextProps.contactDetails.display_name ||
+      _.get(nextProps.visitor, 'display_name', '');
 
     this.setState({
       valid: emailValid(email, { allowEmpty: true }),

@@ -227,6 +227,36 @@ describe('ChatContactDetailsPopup component', () => {
           .toEqual('bob@bob.com');
       });
     });
+
+    describe('when user is still entering contact details', () => {
+      beforeEach(() => {
+        mockContactDetails = { display_name: 'guy', email: 'guy@guys.com' };
+
+        component = instanceRender(<ChatContactDetailsPopup contactDetails={mockContactDetails} />);
+
+        component.state = {
+          formState: {
+            name: 'I am not done yet',
+            email: 'still@notdone.yet'
+          }
+        };
+
+        component.componentWillReceiveProps({
+          visitor: { display_name: 'bob', email: 'bob@bob.com' },
+          contactDetails: mockContactDetails
+        });
+      });
+
+      it('uses component state for the email field', () => {
+        expect(component.state.formState.email)
+          .toEqual('still@notdone.yet');
+      });
+
+      it('uses component state for the name field', () => {
+        expect(component.state.formState.name)
+          .toEqual('I am not done yet');
+      });
+    });
   });
 
   describe('render', () => {
