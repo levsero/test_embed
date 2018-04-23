@@ -42,7 +42,7 @@
     "@zendesk/garden-css-variables": "^3.1.0",
     "airbrake-js": "^0.5.9",
     "airwaves": "~0.3.0",
-    "chat-web-sdk": "git+ssh://git@github.com/zendesk/chat-web-sdk.git#v5.0.0",
+    "chat-web-sdk": "git+ssh://git@github.com/zendesk/chat-web-sdk.git#v6.0.0",
     "classnames": "^2.2.5",
     "color": "~0.7.3",
     "core-js": "^2.5.1",
