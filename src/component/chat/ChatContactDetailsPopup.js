@@ -61,6 +61,10 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // The component state must be shown first because it the user's typed values that have
+    // not been saved yet. If this does not exist yet, then we must show the previously submitted
+    // contact details. If this does not exist either, then we must show any existing visitor info
+    // details we have (eg. this can be sourced via zE.identify()).
     const email = this.state.formState.email || nextProps.contactDetails.email || _.get(nextProps.visitor, 'email', '');
     const name = this.state.formState.name ||
       nextProps.contactDetails.display_name ||
