@@ -90,7 +90,7 @@ export class ChatContactDetailsPopup extends Component {
     }
   }
 
-  handleKeyDown = (e) => {
+  handleKeyPress = (e) => {
     if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
       e.preventDefault();
       this.handleSave();
@@ -125,7 +125,7 @@ export class ChatContactDetailsPopup extends Component {
         label={i18n.t('embeddable_framework.common.textLabel.name')}
         value={this.state.formState.name}
         name='name'
-        onKeyDown={this.handleKeyDown} />
+        onKeyPress={this.handleKeyPress} />
     );
   }
 
@@ -141,7 +141,7 @@ export class ChatContactDetailsPopup extends Component {
         label={i18n.t('embeddable_framework.common.textLabel.email')}
         value={this.state.formState.email}
         name='email'
-        onKeyDown={this.handleKeyDown} />
+        onKeyPress={this.handleKeyPress} />
     );
   }
 

@@ -146,7 +146,7 @@ describe('ChatContactDetailsPopup component', () => {
     });
   });
 
-  describe('handleKeyDown', () => {
+  describe('handleKeyPress', () => {
     const keyCodes = { enter: 13, a: 65 };
     let component;
     let event = { keyCode: keyCodes.enter, preventDefault: () => false };
@@ -159,7 +159,7 @@ describe('ChatContactDetailsPopup component', () => {
     describe('when the user presses <Enter>', () => {
       describe('when shift is _not_ pressed simultaneously', () => {
         it('interprets it as a send signal and sends the message', () => {
-          component.handleKeyDown(event);
+          component.handleKeyPress(event);
 
           expect(component.handleSave)
             .toHaveBeenCalled();
@@ -169,7 +169,7 @@ describe('ChatContactDetailsPopup component', () => {
       describe('when shift _is_ pressed simultaneously', () => {
         it('does not send the message and enters a line break', () => {
           event = _.merge(event, { shiftKey: true });
-          component.handleKeyDown(event);
+          component.handleKeyPress(event);
 
           expect(component.handleSave)
             .not.toHaveBeenCalled();
@@ -180,7 +180,7 @@ describe('ChatContactDetailsPopup component', () => {
     describe('when the user presses any other key', () =>{
       it('does not send the message', () => {
         event = _.merge(event, { keyCode: keyCodes.a });
-        component.handleKeyDown(event);
+        component.handleKeyPress(event);
 
         expect(component.handleSave)
           .not.toHaveBeenCalled();

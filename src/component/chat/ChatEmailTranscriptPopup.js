@@ -75,7 +75,7 @@ export class ChatEmailTranscriptPopup extends Component {
     });
   }
 
-  handleKeyDown = (e) => {
+  handleKeyPress = (e) => {
     if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
       e.preventDefault();
       this.handleSave(e);
@@ -110,7 +110,7 @@ export class ChatEmailTranscriptPopup extends Component {
         label={i18n.t('embeddable_framework.form.field.email.label')}
         value={this.state.formState.email}
         name='email'
-        onKeyDown={this.handleKeyDown} />
+        onKeyPress={this.handleKeyPress} />
     );
   }
 
