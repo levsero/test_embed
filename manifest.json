@@ -67,59 +67,5 @@
         }
       ]
     }
-  ],
-  "index": "web_widget.js",
-  "externals": {
-    "es6-shim": {
-      "version": "0.35.3",
-      "url": "https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js",
-      "ignoreValidation": true
-    },
-    "react": {
-      "version": "16.2.0",
-      "url": "https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"
-    },
-    "react-dom": {
-      "version": "16.2.0",
-      "url": "https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"
-    },
-    "lodash": {
-      "version": "4.0.0",
-      "url": "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.0.0/lodash.min.js"
-    },
-    "superagent": {
-      "version": "2.0.0",
-      "url": "https://cdnjs.cloudflare.com/ajax/libs/superagent/2.0.0/superagent.min.js"
-    },
-    "chat-web-sdk": {
-      "version": "6.0.0",
-      "url": "https://static.zdassets.com/web_widget/externals/chat-web-sdk/6.0.0/web_sdk.js"
-    },
-    "socket.io-client": {
-      "version": "2.0.4",
-      "url": "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js"
-    },
-    "libphonenumber-js": {
-      "version": "0.4.49",
-      "url": "https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/0.4.49/libphonenumber-js.min.js"
-    }
-  },
-  "internal": {
-    "index": "web_widget.js",
-    "scripts": ["ze_translations.js", "ze_localeIdMap.js", "ze_countries.js"]
-  },
-  "features": [
-    {
-      "name": "common",
-      "externals": ["es6-shim", "react", "react-dom", "lodash", "superagent"]
-    },
-    {
-      "name": "talk",
-      "externals": ["socket.io-client", "libphonenumber-js"]
-    },
-    {
-      "name": "chat",
-      "externals": ["chat-web-sdk"]
-    }
   ]
 }
