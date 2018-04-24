@@ -202,6 +202,11 @@ parts:
       title: "This is the default byline text if an agent/company does not have one."
       screenshot: "https://drive.google.com/open?id=14o6od3wZ-7tjqix2bJlu0JLg9Br2NxG9"
       value: "Customer Support"
+  - translation:
+      key: "embeddable_framework.chat.contact_details.updated"
+      title: "This is the text that shows in the chat log when user updates their contact details."
+      screenshot: "https://drive.google.com/open?id=102QAXq889nan1Wl7ZI1IXjJPQ0Hkto3c"
+      value: "Contact details updated"
 
   # Chat Web SDK
   - translation:
