@@ -35,7 +35,8 @@ export class Field extends Component {
     type: PropTypes.string,
     validateInput: PropTypes.func,
     onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func
+    onMouseLeave: PropTypes.func,
+    onKeyDown: PropTypes.func
   };
 
   static defaultProps = {
@@ -58,7 +59,8 @@ export class Field extends Component {
     value: '',
     validateInput: () => true,
     onMouseEnter: () => {},
-    onMouseLeave: () => {}
+    onMouseLeave: () => {},
+    onKeyDown: () => {}
   };
 
   constructor(props, context) {
@@ -217,7 +219,9 @@ export class Field extends Component {
       <div
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
-        className={`${styles.container} ${this.props.fieldContainerClasses}`}>
+        onKeyDown={this.props.onKeyDown}
+        className={`${styles.container} ${this.props.fieldContainerClasses}`}
+        tabIndex="0">
         <label className={styles.labelContainer}>
           <div className={fieldLabelClasses}>
             {this.props.label}

@@ -14,7 +14,8 @@ export class EmailField extends Component {
     labelClasses: PropTypes.string,
     fieldClasses: PropTypes.string,
     inputClasses: PropTypes.string,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    onKeyDown: PropTypes.func
   };
 
   static defaultProps = {
@@ -25,7 +26,8 @@ export class EmailField extends Component {
     labelClasses: '',
     fieldClasses: '',
     inputClasses: '',
-    placeholder: ''
+    placeholder: '',
+    onKeyDown: () => {}
   };
 
   render = () => {
@@ -41,6 +43,7 @@ export class EmailField extends Component {
         fieldClasses={this.props.fieldClasses}
         labelClasses={this.props.labelClasses}
         inputClasses={this.props.inputClasses}
+        onKeyDown={this.props.onKeyDown}
       />
     );
   }
