@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
+import { keyCodes } from 'utility/keyboard';
 import { document as doc } from 'utility/globals';
 import { i18n } from 'service/i18n';
 import { emailValid, chatNameDefault } from 'src/util/utils';
@@ -89,6 +90,13 @@ export class ChatContactDetailsPopup extends Component {
     }
   }
 
+  handleKeyDown = (e) => {
+    if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
+      e.preventDefault();
+      this.handleSave();
+    }
+  }
+
   handleFormChange = (e) => {
     const { name, value } = e.target;
     const fieldState = { [name]: value };
@@ -116,7 +124,8 @@ export class ChatContactDetailsPopup extends Component {
         inputClasses={inputClasses}
         label={i18n.t('embeddable_framework.common.textLabel.name')}
         value={this.state.formState.name}
-        name='name'/>
+        name='name'
+        onKeyDown={this.handleKeyDown} />
     );
   }
 
@@ -131,7 +140,8 @@ export class ChatContactDetailsPopup extends Component {
         inputClasses={inputClasses}
         label={i18n.t('embeddable_framework.common.textLabel.email')}
         value={this.state.formState.email}
-        name='email'/>
+        name='email'
+        onKeyDown={this.handleKeyDown} />
     );
   }
 

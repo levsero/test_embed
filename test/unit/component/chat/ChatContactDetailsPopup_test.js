@@ -77,6 +77,12 @@ describe('ChatContactDetailsPopup component', () => {
       },
       'utility/globals': {
         document: document
+      },
+      'utility/keyboard': {
+        keyCodes: {
+          'a': 65,
+          'ENTER': 13
+        }
       }
     });
 
@@ -136,6 +142,48 @@ describe('ChatContactDetailsPopup component', () => {
       it('calls blur on the activeElement', () => {
         expect(document.activeElement.blur)
           .toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('handleKeyDown', () => {
+    const keyCodes = { enter: 13, a: 65 };
+    let component;
+    let event = { keyCode: keyCodes.enter, preventDefault: () => false };
+
+    beforeEach(() => {
+      component = instanceRender(<ChatContactDetailsPopup />);
+      spyOn(component, 'handleSave');
+    });
+
+    describe('when the user presses <Enter>', () => {
+      describe('when shift is _not_ pressed simultaneously', () => {
+        it('interprets it as a send signal and sends the message', () => {
+          component.handleKeyDown(event);
+
+          expect(component.handleSave)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when shift _is_ pressed simultaneously', () => {
+        it('does not send the message and enters a line break', () => {
+          event = _.merge(event, { shiftKey: true });
+          component.handleKeyDown(event);
+
+          expect(component.handleSave)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when the user presses any other key', () =>{
+      it('does not send the message', () => {
+        event = _.merge(event, { keyCode: keyCodes.a });
+        component.handleKeyDown(event);
+
+        expect(component.handleSave)
+          .not.toHaveBeenCalled();
       });
     });
   });
