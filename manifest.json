@@ -67,5 +67,6 @@
         }
       ]
     }
-  ]
+  ],
+  "index": "web_widget.js"
 }
