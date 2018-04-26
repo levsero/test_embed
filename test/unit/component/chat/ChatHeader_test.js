@@ -1,6 +1,7 @@
 describe('ChatHeader component', () => {
   let ChatHeader;
   const chatHeaderPath = buildSrcPath('component/chat/ChatHeader');
+  const fontSize = 12;
 
   class MockAvatar extends React.Component {
     render() {
@@ -39,6 +40,9 @@ describe('ChatHeader component', () => {
           ratingIconActive: 'ratingIconActive',
           clickable:'clickableClasses'
         }
+      },
+      'constants/shared': {
+        FONT_SIZE: fontSize
       }
     });
 
@@ -157,9 +161,9 @@ describe('ChatHeader component', () => {
         avatarContainer = component.renderAvatarContainer();
       });
 
-      it('sets the style width to 32/12rem', () => {
+      it('sets the style width to 32/FONT_SIZErem', () => {
         expect(avatarContainer.props.style.width)
-          .toBe(`${32/12}rem`);
+          .toBe(`${32/fontSize}rem`);
       });
 
       it('calls renderAvatars with the concierge details', () => {
@@ -179,9 +183,9 @@ describe('ChatHeader component', () => {
         avatarContainer = component.renderAvatarContainer();
       });
 
-      it('sets the style width to 52/12rem', () => {
+      it('sets the style width to 52/FONT_SIZErem', () => {
         expect(avatarContainer.props.style.width)
-          .toBe(`${52/12}rem`);
+          .toBe(`${52/fontSize}rem`);
       });
 
       it('calls renderAvatars with the concierge details', () => {
@@ -201,9 +205,9 @@ describe('ChatHeader component', () => {
         avatarContainer = component.renderAvatarContainer();
       });
 
-      it('sets the style width to 72/12rem', () => {
+      it('sets the style width to 72/FONT_SIZErem', () => {
         expect(avatarContainer.props.style.width)
-          .toBe(`${72/12}rem`);
+          .toBe(`${72/fontSize}rem`);
       });
 
       it('calls renderAvatars with the concierge details', () => {
@@ -223,9 +227,9 @@ describe('ChatHeader component', () => {
         avatarContainer = component.renderAvatarContainer();
       });
 
-      it('sets the style width to 72/12rem', () => {
+      it('sets the style width to 72/FONT_SIZErem', () => {
         expect(avatarContainer.props.style.width)
-          .toBe(`${72/12}rem`);
+          .toBe(`${72/fontSize}rem`);
       });
 
       it('calls renderAvatars with just the first three avatars', () => {

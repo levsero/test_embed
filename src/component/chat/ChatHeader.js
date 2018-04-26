@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { Avatar } from 'component/Avatar';
 import { ChatRatingGroup } from 'component/chat/ChatRatingGroup';
+import { FONT_SIZE } from 'constants/shared';
 
 import { locals as styles } from './ChatHeader.scss';
 
@@ -49,7 +50,7 @@ export class ChatHeader extends Component {
     }
 
     const avatars = _.clone(concierge).slice(0, 3);
-    const style = { width: `${(avatarWidth + multipleAvatarWidth)/12}rem` };
+    const style = { width: `${(avatarWidth + multipleAvatarWidth)/FONT_SIZE}rem` };
 
     return (
       <div className={styles.avatarContainer} style={style} >
