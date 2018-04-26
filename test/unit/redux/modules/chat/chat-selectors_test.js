@@ -868,7 +868,8 @@ describe('chat selectors', () => {
 
         mockChatSettings = {
           chat: {
-            chats: { values: () => mockChats }
+            chats: { values: () => mockChats },
+            sessionTimestamp: 1
           }
         };
 
@@ -919,6 +920,42 @@ describe('chat selectors', () => {
       });
 
       it('filters out all except the final rating request', () => {
+        expect(result)
+          .toEqual(expectedResult);
+      });
+    });
+
+    describe('when passed a chat log with prior sessions with rating requests', () => {
+      beforeEach(() => {
+        mockChats = [
+          { nick: 'visitor', type: 'chat.memberjoin', timestamp: 1 },
+          { nick: 'visitor', type: 'chat.msg', msg: 'Hello', timestamp: 2 },
+          { nick: 'agent:123', type: 'chat.msg', msg: 'Hey', timestamp: 3 },
+          { nick: 'visitor', type: 'chat.rating', new_rating: 'bad', timestamp: 4 },
+          { nick: 'visitor', type: 'chat.memberleave', timestamp: 5 },
+          { nick: 'visitor', type: 'chat.memberjoin', timestamp: 6 }
+        ];
+
+        mockChatSettings = {
+          chat: {
+            chats: { values: () => mockChats },
+            sessionTimestamp: 5
+          }
+        };
+
+        expectedResult = {
+          1: [mockChats[0]],
+          2: setIsFirstVisitorMessage([mockChats[1]], true),
+          3: [mockChats[2]],
+          4: [mockChats[3]],
+          5: [mockChats[4]],
+          6: [mockChats[5]]
+        };
+
+        result = getGroupedChatLog(mockChatSettings);
+      });
+
+      it('invalidates isLastRating value on the previous chat session', () => {
         expect(result)
           .toEqual(expectedResult);
       });
