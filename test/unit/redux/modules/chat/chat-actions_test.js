@@ -135,31 +135,54 @@ describe('chat redux actions', () => {
       action;
 
     beforeEach(() => {
-      message = 'new message';
       mockStore.dispatch(actions.handleChatBoxChange(message));
       action = mockStore.getActions()[0];
     });
 
-    it('dispatches an action of type CHAT_BOX_CHANGED', () => {
-      expect(action.type)
-        .toEqual(actionTypes.CHAT_BOX_CHANGED);
+    afterEach(() => {
+      mockSendTyping.calls.reset();
     });
 
-    it('has the message in the payload', () => {
-      expect(action.payload)
-        .toEqual(message);
+    describe('when message length greater than 0', () => {
+      beforeAll(() => {
+        message = 'new message';
+      });
+
+      it('dispatches an action of type CHAT_BOX_CHANGED', () => {
+        expect(action.type)
+          .toEqual(actionTypes.CHAT_BOX_CHANGED);
+      });
+
+      it('has the message in the payload', () => {
+        expect(action.payload)
+          .toEqual(message);
+      });
+
+      it('calls sendTyping(true) on the Web SDK', () => {
+        expect(mockSendTyping)
+          .toHaveBeenCalledWith(true);
+      });
     });
 
-    it('calls sendTyping(true) on the Web SDK', () => {
-      expect(mockSendTyping)
-        .toHaveBeenCalledWith(true);
-    });
+    describe('when message length is 0', () => {
+      beforeAll(() => {
+        message = '';
+      });
 
-    it('calls sendTyping(false) on the Web SDK after 2 seconds', () => {
-      jasmine.clock().tick(2000);
+      it('dispatches an action of type CHAT_BOX_CHANGED', () => {
+        expect(action.type)
+          .toEqual(actionTypes.CHAT_BOX_CHANGED);
+      });
 
-      expect(mockSendTyping)
-        .toHaveBeenCalledWith(false);
+      it('has the message in the payload', () => {
+        expect(action.payload)
+          .toEqual(message);
+      });
+
+      it('calls sendTyping(false) on the Web SDK', () => {
+        expect(mockSendTyping)
+          .toHaveBeenCalledWith(false);
+      });
     });
   });
 
@@ -169,6 +192,11 @@ describe('chat redux actions', () => {
     beforeEach(() => {
       message = 'Hi there';
       mockStore.dispatch(actions.sendMsg(message));
+    });
+
+    it('calls sendTyping with false', () => {
+      expect(mockSendTyping)
+        .toHaveBeenCalledWith(false);
     });
 
     it('calls sendChatMsg on the Web SDK', () => {
