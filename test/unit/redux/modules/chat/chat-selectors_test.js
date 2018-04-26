@@ -1010,18 +1010,42 @@ describe('chat selectors', () => {
         };
       });
 
-      it('returns account concierge', () => {
+      it('returns account concierge in an array', () => {
         expect(result)
-          .toEqual('foo.bar');
+          .toEqual(['foo.bar']);
       });
     });
 
-    describe('when first agent does not have custom avatar', () => {
+    describe('when agent does not have custom avatar', () => {
       beforeAll(() => {
         mockChatSettings = {
           chat: {
             agents: new Map([
-              ['1', { display_name: 'hello', title: 'hello' }],
+              ['1', { display_name: 'hello', title: 'hello' }]
+            ]),
+            accountSettings: { concierge: { avatar_path: 'https://company.com/avatar.gif' } }
+          }
+        };
+      });
+
+      it('returns agent concierges with account avatar in an array', () => {
+        expect(result)
+          .toEqual([
+            {
+              display_name: 'hello',
+              title: 'hello',
+              avatar_path: 'https://company.com/avatar.gif'
+            }
+          ]);
+      });
+    });
+
+    describe('when there are multiple agents', () => {
+      beforeAll(() => {
+        mockChatSettings = {
+          chat: {
+            agents: new Map([
+              ['1', { display_name: 'hello', title: 'hello', avatar_path: 'https://hello.com/hello.gif' }],
               ['2', { avatar_path: 'https://yolo.com/yolo.gif' }]
             ]),
             accountSettings: { concierge: { avatar_path: 'https://company.com/avatar.gif' } }
@@ -1029,36 +1053,18 @@ describe('chat selectors', () => {
         };
       });
 
-      it('returns first agent concierge with account avatar', () => {
+      it('returns all agents in an array', () => {
         expect(result)
-          .toEqual({
-            display_name: 'hello',
-            title: 'hello',
-            avatar_path: 'https://company.com/avatar.gif'
-          });
-      });
-    });
-
-    describe('when first agent has all details', () => {
-      beforeAll(() => {
-        mockChatSettings = {
-          chat: {
-            agents: new Map([
-              ['1', { display_name: 'hello', title: 'hello', avatar_path: 'https://hello.com/hello.gif' }],
-              ['2': { avatar_path: 'https://yolo.com/yolo.gif' }]
-            ]),
-            accountSettings: { concierge: { avatar_path: 'https://company.com/avatar.gif' } }
-          }
-        };
-      });
-
-      it('returns first agent concierge', () => {
-        expect(result)
-          .toEqual({
-            display_name: 'hello',
-            title: 'hello',
-            avatar_path: 'https://hello.com/hello.gif'
-          });
+          .toEqual([
+            {
+              display_name: 'hello',
+              title: 'hello',
+              avatar_path: 'https://hello.com/hello.gif'
+            },
+            {
+              avatar_path: 'https://yolo.com/yolo.gif'
+            }
+          ]);
       });
     });
   });

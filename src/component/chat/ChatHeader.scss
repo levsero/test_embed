@@ -5,13 +5,32 @@
 @import '../../styles/_vars.scss';
 
 .avatar {
+  position: absolute;
   svg {
     padding-left: #{1/$font-size}rem;
   }
 }
 
+.avatarContainer {
+  position: relative;
+}
+
 .avatar:not([src]) {
   border: #{1/$font-size}rem solid $zd-color-iron;
+}
+
+.avatar:nth-child(1) {
+  left: 0;
+}
+
+.avatar:nth-child(2) {
+  left: 20;
+  border: white #{1/$font-size}rem solid;
+}
+
+.avatar:nth-child(3) {
+  left: 40;
+  border: white #{1/$font-size}rem solid;
 }
 
 .container {
