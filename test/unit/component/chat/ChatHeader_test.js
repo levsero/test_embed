@@ -157,9 +157,9 @@ describe('ChatHeader component', () => {
         avatarContainer = component.renderAvatarContainer();
       });
 
-      it('sets the style width to 32', () => {
+      it('sets the style width to 32/12rem', () => {
         expect(avatarContainer.props.style.width)
-          .toBe(32);
+          .toBe(`${32/12}rem`);
       });
 
       it('calls renderAvatars with the concierge details', () => {
@@ -179,9 +179,9 @@ describe('ChatHeader component', () => {
         avatarContainer = component.renderAvatarContainer();
       });
 
-      it('sets the style width to 52', () => {
+      it('sets the style width to 52/12rem', () => {
         expect(avatarContainer.props.style.width)
-          .toBe(52);
+          .toBe(`${52/12}rem`);
       });
 
       it('calls renderAvatars with the concierge details', () => {
@@ -201,9 +201,9 @@ describe('ChatHeader component', () => {
         avatarContainer = component.renderAvatarContainer();
       });
 
-      it('sets the style width to 72', () => {
+      it('sets the style width to 72/12rem', () => {
         expect(avatarContainer.props.style.width)
-          .toBe(72);
+          .toBe(`${72/12}rem`);
       });
 
       it('calls renderAvatars with the concierge details', () => {
@@ -223,9 +223,9 @@ describe('ChatHeader component', () => {
         avatarContainer = component.renderAvatarContainer();
       });
 
-      it('sets the style width to 72', () => {
+      it('sets the style width to 72/12rem', () => {
         expect(avatarContainer.props.style.width)
-          .toBe(72);
+          .toBe(`${72/12}rem`);
       });
 
       it('calls renderAvatars with just the first three avatars', () => {

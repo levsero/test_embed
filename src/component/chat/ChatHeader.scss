@@ -24,12 +24,12 @@
 }
 
 .avatar:nth-child(2) {
-  left: 20;
+  left: #{20/$font-size}rem;
   border: white #{1/$font-size}rem solid;
 }
 
 .avatar:nth-child(3) {
-  left: 40;
+  left: #{40/$font-size}rem;
   border: white #{1/$font-size}rem solid;
 }
 

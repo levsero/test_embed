@@ -20,9 +20,6 @@ export class ChatHeader extends Component {
   };
 
   static defaultProps = {
-    avatar: '',
-    title: '',
-    byline: '',
     updateRating: () => {},
     rating: null,
     concierge: [{}],
@@ -52,7 +49,7 @@ export class ChatHeader extends Component {
     }
 
     const avatars = _.clone(concierge).slice(0, 3);
-    const style = { width: avatarWidth + multipleAvatarWidth };
+    const style = { width: `${(avatarWidth + multipleAvatarWidth)/12}rem` };
 
     return (
       <div className={styles.avatarContainer} style={style} >
