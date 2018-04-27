@@ -63,7 +63,8 @@ describe('Chat component', () => {
           logoFooter: 'logoFooterClasses',
           zendeskLogo: 'zendeskLogoClasses',
           zendeskLogoChatMobile: 'zendeskLogoChatMobileClasses',
-          agentListBackButtonWithLogo: 'agentListBackButtonWithLogoClasses'
+          agentListBackButtonWithLogo: 'agentListBackButtonWithLogoClasses',
+          historyFetchingContainer: 'historyFetchingContainerClasses'
         }
       },
       'component/loading/LoadingSpinner': {
@@ -98,6 +99,9 @@ describe('Chat component', () => {
       },
       'component/chat/ChatLog': {
         ChatLog: noopReactComponent()
+      },
+      'component/chat/ChatHistoryLog': {
+        ChatHistoryLog: noopReactComponent()
       },
       'component/container/Container': {
         Container: noopReactComponent()
@@ -141,6 +145,9 @@ describe('Chat component', () => {
       },
       'src/redux/modules/chat/chat-selectors': {
         getPrechatFormFields: noop
+      },
+      'src/redux/modules/chat/chat-history-selectors': {
+        getHasMoreHistory: noop
       },
       'src/redux/modules/chat/chat-screen-types': {
         PRECHAT_SCREEN: prechatScreen,
@@ -1244,7 +1251,7 @@ describe('Chat component', () => {
 
       it("passes the event to the chatLog component's `lastAgentLeaveEvent` prop", () => {
         const scrollContainer = component.renderChatScreen().props.children;
-        const chatLog = scrollContainer.props.children[0];
+        const chatLog = scrollContainer.props.children[1];
         const lastAgentLeaveEvent = chatLog.props.lastAgentLeaveEvent;
 
         expect(lastAgentLeaveEvent)
@@ -1265,7 +1272,7 @@ describe('Chat component', () => {
 
       it("passes null to the chatLog component's `lastAgentLeaveEvent` prop", () => {
         const scrollContainer = component.renderChatScreen().props.children;
-        const chatLog = scrollContainer.props.children[0];
+        const chatLog = scrollContainer.props.children[1];
         const lastAgentLeaveEvent = chatLog.props.lastAgentLeaveEvent;
 
         expect(lastAgentLeaveEvent)
@@ -1367,7 +1374,7 @@ describe('Chat component', () => {
             visitor={visitor}
           />);
         result = component.renderChatScreen();
-        showUpdateInfoResult = result.props.children.props.children[0].props.showUpdateInfo;
+        showUpdateInfoResult = result.props.children.props.children[1].props.showUpdateInfo;
       });
 
       describe('when login settings enabled is not true', () => {
@@ -2381,6 +2388,59 @@ describe('Chat component', () => {
     it('calls updateContactDetailsVisibility with true', () => {
       expect(updateContactDetailsVisibilitySpy)
         .toHaveBeenCalledWith(true);
+    });
+  });
+
+  describe('renderHistoryFetching', () => {
+    let requestStatus,
+      result;
+
+    beforeEach(() => {
+      const component = instanceRender(<Chat historyRequestStatus={requestStatus} />);
+
+      result = component.renderHistoryFetching();
+    });
+
+    describe('when the request status is set to pending', () => {
+      beforeAll(() => {
+        requestStatus = 'pending';
+      });
+
+      it('returns a div with the expected class', () => {
+        expect(result.props.className)
+          .toEqual('historyFetchingContainerClasses');
+      });
+    });
+
+    describe('when the request status is not pendng', () => {
+      beforeAll(() => {
+        requestStatus = 'failed';
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toBeNull();
+      });
+    });
+  });
+
+  describe('handleChatScreenScrolled', () => {
+    const fetchConversationHistorySpy = jasmine.createSpy();
+    let component;
+
+    beforeEach(() => {
+      const container = jasmine.createSpyObj('scrollContainer', {
+        isAtTop: () => true
+      });
+
+      component = instanceRender(<Chat hasMoreHistory={true} historyRequestStatus='not_pending' fetchConversationHistory={fetchConversationHistorySpy} />);
+      component.scrollContainer = container;
+      component.handleChatScreenScrolled();
+    });
+
+    it('calls the expected action', () => {
+      expect(fetchConversationHistorySpy)
+        .toHaveBeenCalled();
     });
   });
 });

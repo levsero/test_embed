@@ -1,0 +1,7 @@
+@import '../../styles/_vars.scss';
+
+.chatHistoryContainer {
+  border-bottom: #{1/$font-size}rem solid $zd-color-gainsboro;
+  margin-bottom: #{10/$font-size}rem;
+  padding-bottom: #{10/$font-size}rem;
+}

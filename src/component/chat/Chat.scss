@@ -4,6 +4,7 @@
       the Chat log in an appropriate location in Desktop mode.
  */
 @import '../../styles/_vars.scss';
+@import '../../styles/mixins.scss';
 
 .scrollContainerMobile {
   .agentTyping {
@@ -101,6 +102,24 @@
   color: $zd-color-aluminum;
   width: #{301/$font-size}rem;
   background: linear-gradient(to bottom, rgba($zd-color-white, 0), rgba($zd-color-white, 0.8));
+}
+
+.historyFetchingContainer {
+  composes: u-posAbsolute u-flex u-flexAlignItemsCenter u-flexJustifyCenter from global;
+  top: #{110/$font-size}rem;
+  left: 0;
+  right: 0;
+}
+
+.historyFetchingText {
+  composes: u-backgroundWhite from global;
+  @include fade-in(200ms);
+  border-radius: #{30/$font-size}rem !important;
+  box-shadow: 0 #{1/$font-size}rem #{10/$font-size}rem 0 rgba(0, 0, 0, 0.2);
+  max-width: 90%;
+  height: #{30/$font-size}rem;
+  line-height: #{30/$font-size}rem;
+  padding: 0 #{12/$font-size}rem;
 }
 
 .loadingEllipses {

@@ -45,6 +45,9 @@ export const RESET_CURRENT_MESSAGE = 'widget/chat/RESET_CURRENT_MESSAGE';
 export const SHOW_STANDALONE_MOBILE_NOTIFICATION = 'widget/chat/SHOW_STANDALONE_MOBILE_NOTIFICATION';
 export const CHAT_ALL_AGENTS_INACTIVE = 'widget/chat/CHAT_ALL_AGENTS_INACTIVE';
 export const CHAT_AGENT_INACTIVE = 'widget/chat/CHAT_AGENT_INACTIVE';
+export const HISTORY_REQUEST_SENT = 'widget/chat/HISTORY_REQUEST_SENT';
+export const HISTORY_REQUEST_SUCCESS = 'widget/chat/HISTORY_REQUEST_SUCCESS';
+export const HISTORY_REQUEST_FAILURE = 'widget/chat/HISTORY_REQUEST_FAILURE';
 
 export const SDK_ERROR = 'websdk/error';
 export const SDK_CHAT_MSG = 'websdk/chat.msg';
@@ -61,3 +64,12 @@ export const SDK_VISITOR_UPDATE = 'websdk/visitor_update';
 export const SDK_DEPARTMENT_UPDATE = 'websdk/department_update';
 export const SDK_CONNECTION_UPDATE = 'websdk/connection_update';
 export const SDK_ACCOUNT_STATUS = 'websdk/account_status';
+
+export const SDK_HISTORY_CHAT_MSG = 'websdk/history/chat.msg';
+export const SDK_HISTORY_CHAT_FILE = 'websdk/history/chat.file';
+export const SDK_HISTORY_CHAT_QUEUE_POSITION = 'websdk/history/chat.queue_position';
+export const SDK_HISTORY_CHAT_MEMBER_JOIN = 'websdk/history/chat.memberjoin';
+export const SDK_HISTORY_CHAT_MEMBER_LEAVE = 'websdk/history/chat.memberleave';
+export const SDK_HISTORY_CHAT_REQUEST_RATING = 'websdk/history/chat.request.rating';
+export const SDK_HISTORY_CHAT_RATING = 'websdk/history/chat.rating';
+export const SDK_HISTORY_CHAT_COMMENT = 'websdk/history/chat.comment';

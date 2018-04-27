@@ -52,89 +52,13 @@ describe('ChatLog component', () => {
     mockery.disable();
   });
 
-  const getRenderChatLogFn = () => {
-    const component = domRender(<ChatLog showAvatar={true} chatLog={{}} agents={{}} />);
-
-    return component.renderChatLog.bind(component);
-  };
-
-  const expectSingleElementWithProps = (chatLog, elementTypeName, elementType, expectedProps) => {
-    let result;
-
-    beforeEach(() => {
-      const renderChatLog = getRenderChatLogFn();
-
-      result = renderChatLog({ chatLog, agents });
-    });
-
-    it('returns a single element', () => {
-      expect(result.length).toEqual(1);
-    });
-
-    it(`returns an element of type ${elementTypeName}`, () => {
-      expect(TestUtils.isElementOfType(result[0], elementType)).toEqual(true);
-    });
-
-    it('is passed the expected props', () => {
-      expect(result[0].props).toEqual(jasmine.objectContaining(expectedProps));
-    });
-  };
-
-  describe('#render', () => {
-    const chatCommentLeft = false;
-    const goToFeedbackScreenSpy = jasmine.createSpy('goToFeedbackScreen');
-    const onImageLoadSpy = jasmine.createSpy('onImageLoad');
-
-    let component;
-    let chatLog = {
-      100: [{ timestamp: 100, nick: 'visitor', type: 'chat.memberjoin' }],
-      200: [{ timestamp: 200, nick: 'visitor', type: 'chat.msg', msg: 'Hello' }]
-    };
-    let showAvatar = true,
-      sendMsg = () => {};
-
-    beforeEach(() => {
-      component = domRender(
-        <ChatLog
-          showAvatar={showAvatar}
-          chatLog={chatLog}
-          agents={agents}
-          chatCommentLeft={chatCommentLeft}
-          goToFeedbackScreen={goToFeedbackScreenSpy}
-          handleSendMsg={sendMsg}
-          onImageLoad={onImageLoadSpy}
-        />);
-
-      spyOn(component, 'renderChatLog');
-      component.render();
-    });
-
-    it('calls renderChatLog with the correct args', () => {
-      expect(component.renderChatLog)
-        .toHaveBeenCalledWith({
-          chatLog,
-          agents,
-          chatCommentLeft,
-          goToFeedbackScreen: goToFeedbackScreenSpy,
-          showAvatar,
-          handleSendMsg: sendMsg,
-          onImageLoad: onImageLoadSpy
-        });
-    });
-  });
-
   describe('#renderChatLog', () => {
-    let renderChatLog;
-
-    beforeEach(() => {
-      renderChatLog = getRenderChatLogFn();
-    });
-
     describe('when passed an empty chat log arg', () => {
-      it('returns null', () => {
-        const chatLog = {};
+      it('returns empty array', () => {
+        const component = domRender(<ChatLog showAvatar={true} chatLog={{}} agents={{}} />);
+        const log = component.renderChatLog();
 
-        expect(renderChatLog({ chatLog, agents })).toEqual(null);
+        expect(log).toEqual([]);
       });
     });
 
@@ -143,13 +67,28 @@ describe('ChatLog component', () => {
         const chatLog = {
           100: [{ timestamp: 100, nick: 'visitor', type: 'chat.msg', msg: 'Hello' }]
         };
+        let result;
 
-        expectSingleElementWithProps(chatLog, 'ChatGroup', ChatGroup, {
-          isAgent: false,
-          messages: [
-            { timestamp: 100, nick: 'visitor', type: 'chat.msg', msg: 'Hello' }
-          ],
-          avatarPath: undefined
+        beforeEach(() => {
+          const component = domRender(<ChatLog showAvatar={true} chatLog={chatLog} />);
+
+          result = component.renderChatLog();
+        });
+
+        it('returns a single element', () => {
+          expect(result.length).toEqual(1);
+        });
+
+        it('returns an element of type ChatGroup', () => {
+          expect(TestUtils.isElementOfType(result[0], ChatGroup)).toEqual(true);
+        });
+
+        it('is passed the expected props', () => {
+          expect(result[0].props).toEqual(jasmine.objectContaining({
+            isAgent: false,
+            messages: [{ timestamp: 100, nick: 'visitor', type: 'chat.msg', msg: 'Hello' }],
+            avatarPath: undefined
+          }));
         });
       });
 
@@ -157,13 +96,28 @@ describe('ChatLog component', () => {
         const chatLog = {
           100: [{ timestamp: 100, nick: 'agent:123', type: 'chat.msg', display_name: 'Agent 123', msg: 'Hello' }]
         };
+        let result;
 
-        expectSingleElementWithProps(chatLog, 'ChatGroup', ChatGroup, {
-          isAgent: true,
-          messages: [
-            { timestamp: 100, nick: 'agent:123', type: 'chat.msg', display_name: 'Agent 123', msg: 'Hello' }
-          ],
-          avatarPath: '/path/to/avatar'
+        beforeEach(() => {
+          const component = domRender(<ChatLog showAvatar={true} chatLog={chatLog} />);
+
+          result = component.renderChatLog();
+        });
+
+        it('returns a single element', () => {
+          expect(result.length).toEqual(1);
+        });
+
+        it('returns an element of type ChatGroup', () => {
+          expect(TestUtils.isElementOfType(result[0], ChatGroup)).toEqual(true);
+        });
+
+        it('is passed the expected props', () => {
+          expect(result[0].props).toEqual(jasmine.objectContaining({
+            isAgent: true,
+            messages: [{ display_name: 'Agent 123', timestamp: 100, nick: 'agent:123', type: 'chat.msg', msg: 'Hello' }],
+            avatarPath: undefined
+          }));
         });
       });
 
@@ -176,9 +130,10 @@ describe('ChatLog component', () => {
 
         beforeEach(()=> {
           updateInfoOnClickSpy = jasmine.createSpy('updateInfoOnClick');
-          component = instanceRender(<ChatLog chatLog={{}} agents={{}} />);
+          component = instanceRender(<ChatLog showUpdateInfo={showUpdateInfo} updateInfoOnClick={updateInfoOnClickSpy} chatLog={chatLog} />);
+
           spyOn(component, 'renderUpdateInfo');
-          component.renderChatLog({ chatLog, showUpdateInfo, updateInfoOnClick: updateInfoOnClickSpy });
+          component.renderChatLog();
         });
 
         describe('when the showUpdateInfo prop is false', () => {
@@ -232,10 +187,28 @@ describe('ChatLog component', () => {
         ]
       };
 
-      expectSingleElementWithProps(chatLog, 'ChatGroup', ChatGroup, {
-        isAgent: false,
-        messages: chatLog[100],
-        avatarPath: undefined
+      let result;
+
+      beforeEach(() => {
+        const component = domRender(<ChatLog showAvatar={true} chatLog={chatLog} />);
+
+        result = component.renderChatLog();
+      });
+
+      it('returns a single element', () => {
+        expect(result.length).toEqual(1);
+      });
+
+      it('returns an element of type ChatGroup', () => {
+        expect(TestUtils.isElementOfType(result[0], ChatGroup)).toEqual(true);
+      });
+
+      it('is passed the expected props', () => {
+        expect(result[0].props).toEqual(jasmine.objectContaining({
+          isAgent: false,
+          messages: chatLog[100],
+          avatarPath: undefined
+        }));
       });
     });
 
@@ -244,17 +217,35 @@ describe('ChatLog component', () => {
         100: [{ timestamp: 100, nick: 'visitor', type: 'chat.memberjoin' }]
       };
 
-      expectSingleElementWithProps(chatLog, 'ChatEventMessage', ChatEventMessage, {
-        event: { timestamp: 100, nick: 'visitor', type: 'chat.memberjoin' }
+      let result;
+
+      beforeEach(() => {
+        const component = domRender(<ChatLog showAvatar={true} chatLog={chatLog} />);
+
+        result = component.renderChatLog();
+      });
+
+      it('returns a single element', () => {
+        expect(result.length).toEqual(1);
+      });
+
+      it('returns an element of type ChatEventMessage', () => {
+        expect(TestUtils.isElementOfType(result[0], ChatEventMessage)).toEqual(true);
+      });
+
+      it('is passed the expected props', () => {
+        expect(result[0].props).toEqual(jasmine.objectContaining({
+          event: { timestamp: 100, nick: 'visitor', type: 'chat.memberjoin' }
+        }));
       });
 
       describe('renderRequestRatingButton', () => {
         let component;
 
         beforeEach(()=> {
-          component = domRender(<ChatLog chatLog={{}} agents={{}} />);
+          component = domRender(<ChatLog chatLog={chatLog} agents={{}} />);
           spyOn(component, 'renderRequestRatingButton');
-          component.renderChatLog({ chatLog });
+          component.renderChatLog();
         });
 
         it('is called', () => {
@@ -292,7 +283,9 @@ describe('ChatLog component', () => {
       ];
 
       beforeEach(() => {
-        result = renderChatLog({ chatLog, agents });
+        const component = domRender(<ChatLog chatLog={chatLog} agents={agents} />);
+
+        result = component.renderChatLog();
       });
 
       it('returns a collection with the correct number of elements', () => {

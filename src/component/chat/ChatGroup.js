@@ -237,6 +237,14 @@ export class ChatGroup extends Component {
       /> : null;
   }
 
+  renderDivider = (messages) => {
+    const isFirstGroup = _.get(messages, '0.first');
+    const timestamp = _.get(messages, '0.timestamp');
+    const timestampString = timestamp ? new Date(timestamp).toLocaleString() : null;
+
+    return isFirstGroup ? <div className={styles.divider}>{timestampString}</div> : null;
+  }
+
   render() {
     const { isAgent, messages, avatarPath, showAvatar } = this.props;
     const showAvatarAsAgent = isAgent && showAvatar;
@@ -246,6 +254,7 @@ export class ChatGroup extends Component {
         ref={(el) => { this.container = el; }}
         className={styles.container}
       >
+        {this.renderDivider(messages)}
         {this.renderName(isAgent, showAvatar, messages)}
         {this.renderChatMessages(isAgent, showAvatar, messages)}
         {this.renderAvatar(showAvatarAsAgent, avatarPath, messages)}

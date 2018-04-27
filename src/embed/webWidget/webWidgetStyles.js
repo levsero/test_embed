@@ -25,6 +25,7 @@ import ChatMenuStyles from 'component/chat/ChatMenu.scss';
 import ChatGroupStyles from 'component/chat/ChatGroup.scss';
 import ChatEventMessageStyles from 'component/chat/ChatEventMessage.scss';
 import ChatLogStyles from 'component/chat/ChatLog.scss';
+import ChatHistoryLogStyles from 'component/chat/ChatHistoryLog.scss';
 import ChatReconnectionBubbleStyles from 'component/chat/ChatReconnectionBubble.scss';
 import ChatFeedbackForm from 'component/chat/ChatFeedbackForm.scss';
 import ChatOfflineFormStyles from 'component/chat/ChatOfflineForm.scss';
@@ -86,6 +87,7 @@ export const webWidgetStyles = `
   ${ChatGroupStyles}
   ${ChatEventMessageStyles}
   ${ChatLogStyles}
+  ${ChatHistoryLogStyles}
   ${ChatReconnectionBubbleStyles}
   ${ChatFeedbackForm}
   ${ChatOfflineFormStyles}

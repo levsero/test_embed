@@ -29,7 +29,7 @@ export class ChatLog extends Component {
     this.createdTimestamp = Date.now();
   }
 
-  renderChatLog(props) {
+  renderChatLog = () => {
     const {
       chatLog,
       agents,
@@ -40,9 +40,9 @@ export class ChatLog extends Component {
       onImageLoad,
       showUpdateInfo,
       updateInfoOnClick
-    } = props;
+    } = this.props;
 
-    const chatLogEl = _.map(chatLog, (chatLogItem, timestamp) => {
+    const chatLogs = _.map(chatLog, (chatLogItem, timestamp) => {
       // message groups and events are both returned as arrays; we can determine the type of the entire timestamped item 'group' by reading the type value of the first entry
       const chatLogItemType = _.get(chatLogItem, '0.type');
 
@@ -81,7 +81,7 @@ export class ChatLog extends Component {
       }
     });
 
-    return chatLogEl.length ? chatLogEl : null;
+    return chatLogs;
   }
 
   renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreen) {
@@ -129,6 +129,12 @@ export class ChatLog extends Component {
   }
 
   render() {
-    return this.renderChatLog(this.props);
+    const chatLogs = this.renderChatLog();
+
+    return chatLogs.length ? (
+      <div>
+        {chatLogs}
+      </div>
+    ) : null;
   }
 }

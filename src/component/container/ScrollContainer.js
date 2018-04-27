@@ -20,7 +20,8 @@ export class ScrollContainer extends Component {
     headerContent: PropTypes.element,
     scrollShadowVisible: PropTypes.bool,
     title: PropTypes.string.isRequired,
-    classes: PropTypes.string
+    classes: PropTypes.string,
+    onContentScrolled: PropTypes.func
   };
 
   static defaultProps = {
@@ -30,7 +31,8 @@ export class ScrollContainer extends Component {
     footerContent: [],
     fullscreen: isMobile,
     headerContent: null,
-    scrollShadowVisible: false
+    scrollShadowVisible: false,
+    onContentScrolled: () => {}
   };
 
   constructor(props, context) {
@@ -68,6 +70,22 @@ export class ScrollContainer extends Component {
     container.scrollTop = container.scrollHeight;
   }
 
+  scrollTo = (pos) => {
+    this.content.scrollTop = pos;
+  }
+
+  getScrollTop = () => {
+    return this.content.scrollTop;
+  }
+
+  isAtTop = () => {
+    return this.content.scrollTop === 0;
+  }
+
+  isAtBottom = () => {
+    return (this.content.scrollTop + this.content.clientHeight) >= this.content.scrollHeight;
+  }
+
   setScrollShadowVisible = (visible) => {
     this.setState({ scrollShadowVisible: visible });
   }
@@ -90,7 +108,8 @@ export class ScrollContainer extends Component {
       fullscreen,
       headerContent,
       containerClasses,
-      classes
+      classes,
+      onContentScrolled
     } = this.props;
     const headerClasses = classNames(styles.header, styles.userHeader);
     const titleClasses = classNames(styles.title, { [styles.titleMobile]: fullscreen });
@@ -119,7 +138,8 @@ export class ScrollContainer extends Component {
         </header>
         <div
           ref={(el) => {this.content = el;}}
-          className={contentClasses}>
+          className={contentClasses}
+          onScroll={onContentScrolled}>
           {this.props.children}
         </div>
         {this.renderFooter()}

@@ -93,6 +93,63 @@ describe('ScrollContainer component', () => {
       .toEqual(100);
   });
 
+  it('sets scrollTop to value when calling `this.scrollTo`', () => {
+    const scrollContainer = domRender(<ScrollContainer fullscreen={true} />);
+
+    scrollContainer.content.scrollHeight = 100;
+
+    scrollContainer.scrollTo(80);
+
+    expect(scrollContainer.content.scrollTop)
+      .toEqual(80);
+  });
+
+  describe('isAtTop', () => {
+    it('returns true if scroll position is at the top', () => {
+      const scrollContainer = domRender(<ScrollContainer fullscreen={true} />);
+
+      scrollContainer.content.scrollTop = 0;
+
+      expect(scrollContainer.isAtTop())
+        .toEqual(true);
+    });
+
+    it('returns false if scroll position is not at the top', () => {
+      const scrollContainer = domRender(<ScrollContainer fullscreen={true} />);
+
+      scrollContainer.content.scrollTop = 10;
+
+      expect(scrollContainer.isAtTop())
+        .toEqual(false);
+    });
+  });
+
+  describe('isAtBottom', () => {
+    it('returns true if scroll position is at the bottom', () => {
+      const scrollContainer = domRender(<ScrollContainer fullscreen={true} />);
+
+      scrollContainer.content.scrollTop = 10;
+      scrollContainer.content.clientHeight = 20;
+
+      scrollContainer.content.scrollHeight = 30;
+
+      expect(scrollContainer.isAtBottom())
+        .toEqual(true);
+    });
+
+    it('returns false if scroll position is not at the bottom', () => {
+      const scrollContainer = domRender(<ScrollContainer fullscreen={true} />);
+
+      scrollContainer.content.scrollTop = 10;
+      scrollContainer.content.clientHeight = 20;
+
+      scrollContainer.content.scrollHeight = 40;
+
+      expect(scrollContainer.isAtBottom())
+        .toEqual(false);
+    });
+  });
+
   it('should change component state when calling `this.setScrollShadowVisible`', () => {
     const container = domRender(<ScrollContainer fullscreen={true} />);
 
@@ -233,6 +290,22 @@ describe('ScrollContainer component', () => {
         expect(result.type)
           .toEqual('footer');
       });
+    });
+  });
+
+  describe('onContentScrolled', () => {
+    const onContentScrolledSpy = jasmine.createSpy();
+    let component;
+
+    beforeEach(() => {
+      component = domRender(<ScrollContainer onContentScrolled={onContentScrolledSpy} />);
+    });
+
+    it('is called when content element is scrolled', () => {
+      TestUtils.Simulate.scroll(component.content);
+
+      expect(onContentScrolledSpy)
+        .toHaveBeenCalled();
     });
   });
 });
