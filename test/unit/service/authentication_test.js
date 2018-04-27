@@ -17,7 +17,7 @@ describe('authentication', function() {
     mockRegistry = initMockRegistry({
       'service/settings': {
         settings: {
-          get: noop
+          getSupportAuthSettings: noop
         }
       },
       'service/transport': {
@@ -233,7 +233,7 @@ describe('authentication', function() {
         }
       };
       mockStore.get = function() { return zeoauth; };
-      mockSettings.get = function() { return body; };
+      mockSettings.getSupportAuthSettings = function() { return body; };
 
       authentication.init();
     });

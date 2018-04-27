@@ -153,7 +153,9 @@ export default function WebWidgetFactory(name) {
     );
 
     if (chatAvailable) {
-      setupChat(config.zopimChat, reduxStore, globalConfig.brand);
+      const authentication = settings.getChatAuthSettings();
+
+      setupChat({ ...chatConfig, authentication }, reduxStore, globalConfig.brand);
     }
 
     if (talkAvailable) {
@@ -416,7 +418,7 @@ export default function WebWidgetFactory(name) {
     if (!embed.config.helpCenterForm) return;
 
     const config = embed.config.helpCenterForm;
-    const authSetting = settings.get('authenticate');
+    const authSetting = settings.getSupportAuthSettings();
 
     if (config.contextualHelpEnabled &&
         !hasManuallySetContextualSuggestions &&
@@ -430,7 +432,7 @@ export default function WebWidgetFactory(name) {
       authentication.revoke(config.tokensRevokedAt);
     }
 
-    if (authSetting && authSetting.jwt) {
+    if (authSetting) {
       authentication.authenticate(authSetting.jwt);
     }
   }
@@ -597,11 +599,15 @@ export default function WebWidgetFactory(name) {
 
     config = _.extend({}, chatConfigDefaults, config);
     /* eslint-disable camelcase */
-    const overrideProxyObject = config.overrideProxy
-      ? { override_proxy: config.overrideProxy }
-      : {};
+    const authentication = config.authentication
+      ? { jwt_fn: (callback) => callback(config.authentication.jwt) }
+      : null;
 
-    return _.extend({}, { account_key: config.zopimId }, overrideProxyObject);
+    return _.omitBy({
+      account_key: config.zopimId,
+      override_proxy: config.overrideProxy,
+      authentication
+    }, _.isNil);
     /* eslint-enable camelcase */
   }
 

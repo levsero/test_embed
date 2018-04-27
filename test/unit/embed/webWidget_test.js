@@ -9,7 +9,8 @@ describe('embed.webWidget', () => {
     mockTalkSuppressedValue,
     mockTicketFormsValue,
     mockAttachmentsEnabledValue,
-    mockAuthenticateValue,
+    mockSupportAuthValue,
+    mockChatAuthValue,
     mockFiltersValue,
     mockFrame,
     mockNicknameValue,
@@ -17,6 +18,8 @@ describe('embed.webWidget', () => {
     socketioMapEventsToActionsSpy,
     targetCancelHandlerSpy,
     resetTalkScreenSpy,
+    zChatInitSpy,
+    authenticateSpy,
     mockIsIE,
     mockActiveEmbed,
     mockStoreDispatch,
@@ -24,11 +27,9 @@ describe('embed.webWidget', () => {
     mockWebWidget,
     mockChatNotification;
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
-  const authenticateSpy = jasmine.createSpy();
   const revokeSpy = jasmine.createSpy();
   const getTicketFormsSpy = jasmine.createSpy('ticketForms');
   const getTicketFieldsSpy = jasmine.createSpy('ticketFields');
-  const zChatInitSpy = jasmine.createSpy('zChatInit');
   const zChatAddTagSpy = jasmine.createSpy('zChatAddTag');
   const zChatFirehoseSpy = jasmine.createSpy('zChatFirehose').and.callThrough();
   const callMeScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
@@ -44,11 +45,14 @@ describe('embed.webWidget', () => {
     mockTicketFormsValue = [],
     mockFiltersValue = [],
     mockAttachmentsEnabledValue = true,
-    mockAuthenticateValue = null;
+    mockSupportAuthValue = null;
+    mockChatAuthValue = null;
     mockActiveEmbed = '';
     socketioConnectSpy = jasmine.createSpy('socketio.connect').and.returnValue('socket');
     socketioMapEventsToActionsSpy = jasmine.createSpy('socketio.mapEventsToActions');
     resetTalkScreenSpy = jasmine.createSpy('resetTalkScreen');
+    zChatInitSpy = jasmine.createSpy('zChatInit');
+    authenticateSpy = jasmine.createSpy('authenticate');
     mockNicknameValue = null;
     mockStoreDispatch = jasmine.createSpy('dispatch');
     mockStore = { getState: noop, dispatch: mockStoreDispatch };
@@ -97,7 +101,6 @@ describe('embed.webWidget', () => {
         settings: {
           get: (value) => {
             return _.get({
-              authenticate: mockAuthenticateValue,
               contactOptions: { enabled: false },
               helpCenter: {
                 suppress: mockHelpCenterSuppressedValue,
@@ -113,7 +116,9 @@ describe('embed.webWidget', () => {
                 nickname: mockNicknameValue
               }
             }, value, null);
-          }
+          },
+          getSupportAuthSettings: () => mockSupportAuthValue,
+          getChatAuthSettings: () => mockChatAuthValue
         }
       },
       'service/mediator': {
@@ -750,13 +755,14 @@ describe('embed.webWidget', () => {
       });
     });
 
-    describe('setUpChat', () => {
-      const chatConfig = { zopimId: '123abc' };
+    describe('setupChat', () => {
+      let chatConfig;
 
       /* eslint-disable camelcase */
       beforeEach(() => {
-        webWidget.create('', { zopimChat: chatConfig });
+        chatConfig = { zopimId: '123abc' };
 
+        webWidget.create('', { zopimChat: chatConfig });
         faythe = webWidget.get();
       });
 
@@ -767,7 +773,54 @@ describe('embed.webWidget', () => {
 
       it('calls zChat init without the override_proxy key', () => {
         expect(zChatInitSpy)
-          .not.toHaveBeenCalledWith({ override_proxy: jasmine.any(String) });
+          .not.toHaveBeenCalledWith(jasmine.objectContaining({ override_proxy: jasmine.any(String) }));
+      });
+
+      describe('when authentication exists in the config', () => {
+        beforeEach(() => {
+          mockChatAuthValue = { jwt: 'token' };
+          webWidget.create('', { zopimChat: chatConfig });
+          faythe = webWidget.get();
+        });
+
+        it('calls zChat init with the authentcation property', () => {
+          expect(zChatInitSpy)
+            .toHaveBeenCalledWith({
+              account_key: '123abc',
+              authentication: { jwt_fn: jasmine.any(Function) }
+            });
+        });
+
+        describe('when jwt_fn is called', () => {
+          let callbackSpy;
+
+          beforeEach(() => {
+            const options = zChatInitSpy.calls.mostRecent().args[0];
+
+            callbackSpy = jasmine.createSpy('chat');
+            options.authentication.jwt_fn(callbackSpy);
+          });
+
+          it('calls the callback function with the jwt token', () => {
+            expect(callbackSpy)
+              .toHaveBeenCalledWith('token');
+          });
+        });
+      });
+
+      describe('when authentication does not exist in the config', () => {
+        beforeEach(() => {
+          webWidget.create('', { zopimChat: chatConfig });
+          faythe = webWidget.get();
+        });
+
+        it('does not call zChat init with the authentcation property', () => {
+          expect(zChatInitSpy)
+            .not.toHaveBeenCalledWith(
+              jasmine.objectContaining({
+                authentication: { jwt_fn: jasmine.any(Function) }
+              }));
+        });
       });
 
       it('sets up firehose data', () => {
@@ -1345,27 +1398,45 @@ describe('embed.webWidget', () => {
 
   describe('postRender', () => {
     describe('authentication', () => {
-      it('should call authentication.revoke if there is a tokensRevokedAt property in the config', () => {
-        webWidget.create('', {
-          helpCenterForm: {
-            tokensRevokedAt: Math.floor(Date.now() / 1000)
-          }
+      describe('when there are valid support auth settings', () => {
+        beforeEach(() => {
+          webWidget.create('', { helpCenterForm: {} });
+          mockSupportAuthValue = { jwt: 'token' };
+          webWidget.postRender();
         });
-        webWidget.postRender();
 
-        expect(revokeSpy)
-          .toHaveBeenCalledWith(webWidget.get().config.helpCenterForm.tokensRevokedAt);
+        it('calls authentication.authenticate with the jwt token', () => {
+          expect(authenticateSpy)
+            .toHaveBeenCalledWith('token');
+        });
       });
 
-      it('should call authentication.authenticate if there is a jwt token in settings', () => {
-        webWidget.create('', { helpCenterForm: {} });
+      describe('when there are not valid support auth settings', () => {
+        beforeEach(() => {
+          webWidget.create('', { helpCenterForm: {} });
+          webWidget.postRender();
+        });
 
-        mockAuthenticateValue = { jwt: 'token' };
+        it('does not call authentication.authenticate with the jwt token', () => {
+          expect(authenticateSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
 
-        webWidget.postRender();
+      describe('when there is a tokensRevokedAt property in the config', () => {
+        beforeEach(() => {
+          webWidget.create('', {
+            helpCenterForm: {
+              tokensRevokedAt: Math.floor(Date.now() / 1000)
+            }
+          });
+          webWidget.postRender();
+        });
 
-        expect(authenticateSpy)
-          .toHaveBeenCalledWith('token');
+        it('calls authentication.revoke with tokensRevokedAt value', () => {
+          expect(revokeSpy)
+            .toHaveBeenCalledWith(webWidget.get().config.helpCenterForm.tokensRevokedAt);
+        });
       });
     });
 
