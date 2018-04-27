@@ -274,9 +274,9 @@ describe('ChatOfflineForm component', () => {
 
       const component = instanceRender(
         <ChatOfflineForm
-        operatingHours={mockOperatingHours}
-        handleOperatingHoursClick={handleOperatingHoursClickFn}
-        offlineMessage={{ screen: 'main' }} />
+          operatingHours={mockOperatingHours}
+          handleOperatingHoursClick={handleOperatingHoursClickFn}
+          offlineMessage={{ screen: 'main' }} />
       );
 
       result = component.renderOperatingHoursLink();

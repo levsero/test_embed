@@ -18,13 +18,13 @@ export class ChatAgentList extends Component {
 
     return (
       _.map(agents, (agent, agentId) => (
-          <div key={agentId} className={styles.container}>
-            <Avatar className={styles.avatar} src={agent.avatar_path} fallbackIcon="Icon--agent-avatar" />
-            <div className={styles.textContainer}>
-              <div className={styles.name}>{agent.display_name}</div>
-              <div className={styles.title}>{agent.title}</div>
-            </div>
+        <div key={agentId} className={styles.container}>
+          <Avatar className={styles.avatar} src={agent.avatar_path} fallbackIcon="Icon--agent-avatar" />
+          <div className={styles.textContainer}>
+            <div className={styles.name}>{agent.display_name}</div>
+            <div className={styles.title}>{agent.title}</div>
           </div>
+        </div>
       ))
     );
   }

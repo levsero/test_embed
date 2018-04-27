@@ -5,7 +5,7 @@ import { store } from 'service/persistence';
 import { settings } from 'service/settings';
 import { http } from 'service/transport';
 import { base64decode,
-         sha1 } from 'utility/utils';
+  sha1 } from 'utility/utils';
 
 const renewTime = 20 * 60; // 20 mins in secs
 

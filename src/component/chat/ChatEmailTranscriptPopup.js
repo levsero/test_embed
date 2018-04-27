@@ -5,9 +5,9 @@ import { ChatPopup } from 'component/chat/ChatPopup';
 import { EmailField } from 'component/field/EmailField';
 import { i18n } from 'service/i18n';
 import { EMAIL_TRANSCRIPT_SUCCESS_SCREEN,
-         EMAIL_TRANSCRIPT_FAILURE_SCREEN,
-         EMAIL_TRANSCRIPT_SCREEN,
-         EMAIL_TRANSCRIPT_LOADING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
+  EMAIL_TRANSCRIPT_FAILURE_SCREEN,
+  EMAIL_TRANSCRIPT_SCREEN,
+  EMAIL_TRANSCRIPT_LOADING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { ICONS } from 'constants/shared';
 import { locals as styles } from 'component/chat/ChatEmailTranscriptPopup.scss';
 import { emailValid } from 'src/util/utils';
@@ -175,7 +175,7 @@ export class ChatEmailTranscriptPopup extends Component {
     const isEmailTranscriptResult = this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_SUCCESS_SCREEN ||
                                     this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_FAILURE_SCREEN;
     let childrenContainerClasses = isEmailTranscriptResult
-                                 ? styles.resultContainer : styles.childrenContainer;
+      ? styles.resultContainer : styles.childrenContainer;
 
     if (this.props.emailTranscript.screen === EMAIL_TRANSCRIPT_LOADING_SCREEN) {
       childrenContainerClasses = styles.loadingContainer;

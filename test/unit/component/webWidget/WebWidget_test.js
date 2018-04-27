@@ -1983,11 +1983,11 @@ describe('WebWidget component', () => {
       beforeEach(() => {
         webWidget = instanceRender(
           <WebWidget
-          channelChoice={true}
-          submitTicketAvailable={true}
-          talkAvailable={true}
-          chatAvailable={true}
-          isChatting={true}
+            channelChoice={true}
+            submitTicketAvailable={true}
+            talkAvailable={true}
+            chatAvailable={true}
+            isChatting={true}
           />
         );
       });
@@ -2006,11 +2006,11 @@ describe('WebWidget component', () => {
           beforeEach(() => {
             webWidget = instanceRender(
               <WebWidget
-              channelChoice={true}
-              submitTicketAvailable={false}
-              talkAvailable={false}
-              chatAvailable={false}
-              isChatting={isChatting}
+                channelChoice={true}
+                submitTicketAvailable={false}
+                talkAvailable={false}
+                chatAvailable={false}
+                isChatting={isChatting}
               />
             );
           });
@@ -2025,11 +2025,11 @@ describe('WebWidget component', () => {
           beforeEach(() => {
             webWidget = instanceRender(
               <WebWidget
-              channelChoice={true}
-              submitTicketAvailable={true}
-              talkAvailable={false}
-              chatAvailable={false}
-              isChatting={isChatting}
+                channelChoice={true}
+                submitTicketAvailable={true}
+                talkAvailable={false}
+                chatAvailable={false}
+                isChatting={isChatting}
               />
             );
           });
@@ -2044,11 +2044,11 @@ describe('WebWidget component', () => {
           beforeEach(() => {
             webWidget = instanceRender(
               <WebWidget
-              channelChoice={true}
-              submitTicketAvailable={true}
-              talkAvailable={false}
-              chatAvailable={true}
-              isChatting={isChatting}
+                channelChoice={true}
+                submitTicketAvailable={true}
+                talkAvailable={false}
+                chatAvailable={true}
+                isChatting={isChatting}
               />
             );
           });
@@ -2065,11 +2065,11 @@ describe('WebWidget component', () => {
           beforeEach(() => {
             webWidget = instanceRender(
               <WebWidget
-              channelChoice={false}
-              submitTicketAvailable={false}
-              talkAvailable={true}
-              chatAvailable={false}
-              isChatting={isChatting}
+                channelChoice={false}
+                submitTicketAvailable={false}
+                talkAvailable={true}
+                chatAvailable={false}
+                isChatting={isChatting}
               />
             );
           });
@@ -2084,11 +2084,11 @@ describe('WebWidget component', () => {
           beforeEach(() => {
             webWidget = instanceRender(
               <WebWidget
-              channelChoice={false}
-              submitTicketAvailable={true}
-              talkAvailable={true}
-              chatAvailable={false}
-              isChatting={isChatting}
+                channelChoice={false}
+                submitTicketAvailable={true}
+                talkAvailable={true}
+                chatAvailable={false}
+                isChatting={isChatting}
               />
             );
           });

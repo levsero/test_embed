@@ -248,13 +248,13 @@ describe('Render phone field', () => {
 
     beforeEach(() => {
       phoneField = domRender(
-          <TalkPhoneField
-            label='Phone'
-            required={true}
-            supportedCountries={['US', 'AU']}
-            country='AU'
-            value='+61430999721' />
-        );
+        <TalkPhoneField
+          label='Phone'
+          required={true}
+          supportedCountries={['US', 'AU']}
+          country='AU'
+          value='+61430999721' />
+      );
       field = TestUtils.findRenderedComponentWithType(phoneField, MockField);
     });
 

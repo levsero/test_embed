@@ -20,14 +20,14 @@ describe('Render email field', () => {
     mockery.registerAllowable(emailFieldPath);
     EmailField = requireUncached(emailFieldPath).EmailField;
     emailField = domRender(
-        <EmailField
-          label='Email'
-          required={true}
-          value='hello@hello.com'
-          fieldContainerClasses='someClass'
-          fieldClasses='someClass2'
-          placeholder='Please enter your email here...' />
-      );
+      <EmailField
+        label='Email'
+        required={true}
+        value='hello@hello.com'
+        fieldContainerClasses='someClass'
+        fieldClasses='someClass2'
+        placeholder='Please enter your email here...' />
+    );
     field = TestUtils.findRenderedComponentWithType(emailField, MockField);
   });
 

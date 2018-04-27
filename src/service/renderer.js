@@ -180,8 +180,8 @@ function initMediator(config) {
     mediator.initZopimStandalone();
   } else if (embeds) {
     const signInRequired = embeds.helpCenterForm
-                         ? embeds.helpCenterForm.props.signInRequired
-                         : false;
+      ? embeds.helpCenterForm.props.signInRequired
+      : false;
     const submitTicketAccessible = !!embeds.ticketSubmissionForm;
     const zopimChatAccessible = !!embeds.zopimChat;
     const channelChoiceAccessible = settings.get('contactOptions').enabled

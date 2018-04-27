@@ -73,9 +73,9 @@ export class ChatPrechatForm extends Component {
       return result;
     };
     const values = _.chain(this.form.elements)
-                    .reject((field) => field.type === 'submit')
-                    .reduce(reduceNames, {})
-                    .value();
+      .reject((field) => field.type === 'submit')
+      .reduce(reduceNames, {})
+      .value();
 
     this.props.onPrechatFormChange(values);
 
@@ -94,8 +94,8 @@ export class ChatPrechatForm extends Component {
     const { greetingMessage } = this.props;
 
     return greetingMessage !== ''
-         ? <div className={styles.greetingMessage}>{greetingMessage}</div>
-         : null;
+      ? <div className={styles.greetingMessage}>{greetingMessage}</div>
+      : null;
   }
 
   renderNameField = () => {

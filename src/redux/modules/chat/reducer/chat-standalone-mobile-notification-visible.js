@@ -1,6 +1,6 @@
 import { CHAT_NOTIFICATION_DISMISSED,
-         CHAT_NOTIFICATION_RESPONDED,
-         SHOW_STANDALONE_MOBILE_NOTIFICATION } from '../chat-action-types';
+  CHAT_NOTIFICATION_RESPONDED,
+  SHOW_STANDALONE_MOBILE_NOTIFICATION } from '../chat-action-types';
 
 const initialState = false;
 

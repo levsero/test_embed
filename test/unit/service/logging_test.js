@@ -94,9 +94,9 @@ describe('logging', () => {
       it('should exist in pattern list', () => {
         const mapFn = (pattern) => pattern.toString();
         const result = _.chain(patternList)
-                        .map(mapFn)
-                        .indexOf(pattern.toString())
-                        .value();
+          .map(mapFn)
+          .indexOf(pattern.toString())
+          .value();
 
         expect(result)
           .not.toEqual(-1);

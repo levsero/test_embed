@@ -4,8 +4,8 @@ import _ from 'lodash';
 import { settings } from 'service/settings';
 import { isMobileBrowser } from 'utility/devices';
 import { setScrollKiller,
-         setWindowScroll,
-         revertWindowScroll } from 'utility/scrollHacks';
+  setWindowScroll,
+  revertWindowScroll } from 'utility/scrollHacks';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { emailValid } from 'utility/utils';
 
@@ -507,7 +507,7 @@ function init(embedsAccessible, params = {}) {
 
   c.subscribe(
     ['webWidget.onClose',
-     `${chat}.onHide`].join(','),
+      `${chat}.onHide`].join(','),
     () => {
       if (isMobileBrowser()) {
         setScrollKiller(false);

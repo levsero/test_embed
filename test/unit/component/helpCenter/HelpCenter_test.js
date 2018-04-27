@@ -294,7 +294,7 @@ describe('HelpCenter component', () => {
         <HelpCenter
           showBackButton={showBackButtonSpy}
           performContextualSearch={mockPerformContextualSearch} />
-        );
+      );
     });
 
     it('should call performContextualSearch', () => {

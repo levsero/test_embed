@@ -13,31 +13,31 @@ import { Container } from 'component/container/Container';
 import HelpCenter from 'component/helpCenter/HelpCenter';
 import SubmitTicket from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
-         updateEmbedAccessible,
-         updateBackButtonVisibility,
-         updateAuthenticated } from 'src/redux/modules/base';
+  updateEmbedAccessible,
+  updateBackButtonVisibility,
+  updateAuthenticated } from 'src/redux/modules/base';
 import { chatNotificationDismissed,
-         updateChatScreen,
-         chatNotificationRespond,
-         showStandaloneMobileNotification } from 'src/redux/modules/chat';
+  updateChatScreen,
+  chatNotificationRespond,
+  showStandaloneMobileNotification } from 'src/redux/modules/chat';
 import { resetActiveArticle } from 'src/redux/modules/helpCenter';
 import { getChatAvailable,
-         getChatEnabled,
-         getTalkAvailable,
-         getTalkEnabled,
-         getShowTicketFormsBackButton } from 'src/redux/modules/selectors';
+  getChatEnabled,
+  getTalkAvailable,
+  getTalkEnabled,
+  getShowTicketFormsBackButton } from 'src/redux/modules/selectors';
 import { getArticleViewActive,
-         getSearchFieldFocused,
-         getHasSearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+  getSearchFieldFocused,
+  getHasSearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getChatNotification,
-         getShowOfflineChat,
-         getIsChatting,
-         getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors';
+  getShowOfflineChat,
+  getIsChatting,
+  getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getZopimChatEmbed,
-         getActiveEmbed,
-         getAuthenticated,
-         getChatStandalone } from 'src/redux/modules/base/base-selectors';
+  getActiveEmbed,
+  getAuthenticated,
+  getChatStandalone } from 'src/redux/modules/base/base-selectors';
 import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors';
 
 const submitTicket = 'ticketSubmissionForm';
@@ -395,22 +395,22 @@ class WebWidget extends Component {
 
     return (showOfflineChat)
       ? <ChatOffline
-          ref={chat}
-          updateFrameSize={updateFrameSize}
-          handleCloseClick={(e) => closeFrame(e, { skipOnClose: true })}
-          isMobile={fullscreen}
-          hideZendeskLogo={hideZendeskLogo}
-        />
+        ref={chat}
+        updateFrameSize={updateFrameSize}
+        handleCloseClick={(e) => closeFrame(e, { skipOnClose: true })}
+        isMobile={fullscreen}
+        hideZendeskLogo={hideZendeskLogo}
+      />
       : <Chat
-          ref={chat}
-          isMobile={fullscreen}
-          updateFrameSize={updateFrameSize}
-          updateChatScreen={updateChatScreen}
-          position={position}
-          getFrameDimensions={getFrameDimensions}
-          updateChatBackButtonVisibility={updateChatBackButtonVisibility}
-          onBackButtonClick={onBackButtonClick}
-          hideZendeskLogo={hideZendeskLogo} />;
+        ref={chat}
+        isMobile={fullscreen}
+        updateFrameSize={updateFrameSize}
+        updateChatScreen={updateChatScreen}
+        position={position}
+        getFrameDimensions={getFrameDimensions}
+        updateChatBackButtonVisibility={updateChatBackButtonVisibility}
+        onBackButtonClick={onBackButtonClick}
+        hideZendeskLogo={hideZendeskLogo} />;
   }
 
   renderHelpCenter = () => {

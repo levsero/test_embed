@@ -27,7 +27,7 @@ describe('chat reducer menu visibility', () => {
     });
   });
 
-  describe(`when an UPDATE_CHAT_MENU_VISIBILITY action is dispatched`, () => {
+  describe('when an UPDATE_CHAT_MENU_VISIBILITY action is dispatched', () => {
     let state;
 
     beforeEach(() => {
@@ -43,7 +43,7 @@ describe('chat reducer menu visibility', () => {
     });
   });
 
-  describe(`when an UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY action is dispatched`, () => {
+  describe('when an UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY action is dispatched', () => {
     let state;
 
     describe('when the payload is `true`', () => {
@@ -75,7 +75,7 @@ describe('chat reducer menu visibility', () => {
     });
   });
 
-  describe(`when an UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY action is dispatched`, () => {
+  describe('when an UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY action is dispatched', () => {
     let state;
 
     describe('when the payload is `true`', () => {

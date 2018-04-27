@@ -58,12 +58,12 @@ export class SlideAppear extends Component {
       <Transition in={this.props.trigger} timeout={duration} unmountOnExit={true} onExited={this.props.onExited}>
         {(status) => {
           return (
-          <div onClick={this.props.onClick}
-            className={this.props.className}
-            style={{ ...style, ...transitionStyles[status] }}>
-            {this.props.children}
-          </div>
-        );}}
+            <div onClick={this.props.onClick}
+              className={this.props.className}
+              style={{ ...style, ...transitionStyles[status] }}>
+              {this.props.children}
+            </div>
+          );}}
       </Transition>
     );
   }

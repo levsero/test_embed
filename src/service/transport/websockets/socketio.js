@@ -1,6 +1,6 @@
 import { talkEmbeddableConfigEventToAction,
-         talkAgentAvailabilityEventToAction,
-         talkAverageWaitTimeEventToAction } from './events';
+  talkAgentAvailabilityEventToAction,
+  talkAverageWaitTimeEventToAction } from './events';
 import { parseUrl } from 'utility/utils';
 
 const io = (() => { try { return require('socket.io-client'); } catch (_) {} })();

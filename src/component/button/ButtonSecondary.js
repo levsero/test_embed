@@ -25,18 +25,18 @@ export class ButtonSecondary extends Component {
     const buttonClasses = `${styles.button} ${this.props.className}`;
 
     return (this.props.disabled)
-         ? <div
-             className={buttonClasses}
-             style={this.props.style}
-             disabled={true}>
-             {this.props.label}
-           </div>
-         : <div
-             onClick={this.props.onClick}
-             onTouchStart={this.props.onClick}
-             className={buttonClasses}
-             style={this.props.style}>
-             {this.props.label}
-           </div>;
+      ? <div
+        className={buttonClasses}
+        style={this.props.style}
+        disabled={true}>
+        {this.props.label}
+      </div>
+      : <div
+        onClick={this.props.onClick}
+        onTouchStart={this.props.onClick}
+        className={buttonClasses}
+        style={this.props.style}>
+        {this.props.label}
+      </div>;
   }
 }

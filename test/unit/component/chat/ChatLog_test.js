@@ -67,7 +67,7 @@ describe('ChatLog component', () => {
       result = renderChatLog({ chatLog, agents });
     });
 
-    it(`returns a single element`, () => {
+    it('returns a single element', () => {
       expect(result.length).toEqual(1);
     });
 
@@ -295,7 +295,7 @@ describe('ChatLog component', () => {
         result = renderChatLog({ chatLog, agents });
       });
 
-      it(`returns a collection with the correct number of elements`, () => {
+      it('returns a collection with the correct number of elements', () => {
         expect(result.length).toEqual(7);
       });
 

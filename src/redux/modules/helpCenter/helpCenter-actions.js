@@ -7,22 +7,22 @@ import { location } from 'utility/globals';
 import { isOnHostMappedDomain } from 'utility/pages';
 
 import { SEARCH_REQUEST_SENT,
-         SEARCH_REQUEST_SUCCESS,
-         SEARCH_REQUEST_FAILURE,
-         CONTEXTUAL_SEARCH_REQUEST_SENT,
-         CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
-         CONTEXTUAL_SEARCH_REQUEST_FAILURE,
-         ARTICLE_CLICKED,
-         SEARCH_BAR_CHANGED,
-         ORIGINAL_ARTICLE_CLICKED,
-         ARTICLE_CLOSED,
-         ADD_RESTRICTED_IMAGE,
-         CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN,
-         GET_ARTICLE_REQUEST_SENT,
-         GET_ARTICLE_REQUEST_SUCCESS,
-         GET_ARTICLE_REQUEST_FAILURE,
-         SEARCH_FIELD_CHANGED,
-         SEARCH_FIELD_FOCUSED } from './helpCenter-action-types';
+  SEARCH_REQUEST_SUCCESS,
+  SEARCH_REQUEST_FAILURE,
+  CONTEXTUAL_SEARCH_REQUEST_SENT,
+  CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
+  CONTEXTUAL_SEARCH_REQUEST_FAILURE,
+  ARTICLE_CLICKED,
+  SEARCH_BAR_CHANGED,
+  ORIGINAL_ARTICLE_CLICKED,
+  ARTICLE_CLOSED,
+  ADD_RESTRICTED_IMAGE,
+  CHANNEL_CHOICE_SCREEN_CHANGE_INTENT_SHOWN,
+  GET_ARTICLE_REQUEST_SENT,
+  GET_ARTICLE_REQUEST_SUCCESS,
+  GET_ARTICLE_REQUEST_FAILURE,
+  SEARCH_FIELD_CHANGED,
+  SEARCH_FIELD_FOCUSED } from './helpCenter-action-types';
 
 const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
   const token = authentication.getToken();
@@ -56,7 +56,7 @@ export function performImageSearch(path, done) {
   http.getImage(constructHelpCenterPayload(path, null, done));
 
   // Temporary to stop middleware from breaking until we properly implement images
-  return({ type: '' });
+  return ({ type: '' });
 }
 
 export function performSearch(query, done = () => {}, fail = () => {}) {

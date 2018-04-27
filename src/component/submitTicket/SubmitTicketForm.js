@@ -178,8 +178,8 @@ export class SubmitTicketForm extends Component {
       .reject((field) => field.type === 'submit')
       .reduce((result, field) => {
         result[field.name] = (field.type === 'checkbox')
-                           ? field.checked ? 1 : 0
-                           : field.value;
+          ? field.checked ? 1 : 0
+          : field.value;
 
         return result;
       },
@@ -197,7 +197,7 @@ export class SubmitTicketForm extends Component {
 
     return prefillTicketFieldValid
          ? _.unionWith(prefillTicketForm, prefillTicketField, (a1, a2) => a1.id == a2.id) // eslint-disable-line
-         : prefillFieldData;
+      : prefillFieldData;
   }
 
   filterPrefillFields = (fields, prefillTicketForm, prefillTicketField) => {
@@ -219,9 +219,9 @@ export class SubmitTicketForm extends Component {
     };
 
     return _.chain(prefillData)
-            .map(mapPrefillFields)
-            .compact()
-            .value();
+      .map(mapPrefillFields)
+      .compact()
+      .value();
   }
 
   // Passed in as params so the tests don't break
@@ -252,8 +252,8 @@ export class SubmitTicketForm extends Component {
   updateForm = () => {
     const form = ReactDOM.findDOMNode(this.refs.form);
     const attachmentsReady = this.props.attachmentsEnabled
-                           ? this.refs.attachments.attachmentsReady()
-                           : true;
+      ? this.refs.attachments.attachmentsReady()
+      : true;
 
     this.props.setFormState(this.getFormState());
     this.setState({
@@ -302,13 +302,13 @@ export class SubmitTicketForm extends Component {
     const label = i18n.t('embeddable_framework.submitTicket.field.subject.label');
 
     return !this.props.subjectEnabled
-         ? null
-         : <Field
-            key='subject'
-            name='subject'
-            label={label}
-            value={this.props.formState.subject}
-            disabled={this.props.previewEnabled} />;
+      ? null
+      : <Field
+        key='subject'
+        name='subject'
+        label={label}
+        value={this.props.formState.subject}
+        disabled={this.props.previewEnabled} />;
   }
 
   renderEmailField = () => {

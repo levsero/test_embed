@@ -1,33 +1,33 @@
 import _ from 'lodash';
 
 import { getAccountSettings,
-         newAgentMessageReceived,
-         updateLastAgentMessageSeenTimestamp,
-         getOperatingHours,
-         getIsChatting } from 'src/redux/modules/chat';
+  newAgentMessageReceived,
+  updateLastAgentMessageSeenTimestamp,
+  getOperatingHours,
+  getIsChatting } from 'src/redux/modules/chat';
 import { updateActiveEmbed } from 'src/redux/modules/base';
 import { IS_CHATTING,
-         END_CHAT_REQUEST_SUCCESS,
-         SDK_CHAT_MEMBER_LEAVE,
-         CHAT_AGENT_INACTIVE } from 'src/redux/modules/chat/chat-action-types';
+  END_CHAT_REQUEST_SUCCESS,
+  SDK_CHAT_MEMBER_LEAVE,
+  CHAT_AGENT_INACTIVE } from 'src/redux/modules/chat/chat-action-types';
 import { CONNECTION_STATUSES } from 'src/constants/chat';
 import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
 import { getChatMessagesByAgent,
-         getConnection,
-         getOfflineFormSettings,
-         getChatOnline,
-         getChatStatus,
-         getChatScreen,
-         getLastAgentMessageSeenTimestamp,
-         getIsProactiveSession,
-         getUserSoundSettings,
-         getIsChatting as getIsChattingState,
-         getActiveAgents } from 'src/redux/modules/chat/chat-selectors';
+  getConnection,
+  getOfflineFormSettings,
+  getChatOnline,
+  getChatStatus,
+  getChatScreen,
+  getLastAgentMessageSeenTimestamp,
+  getIsProactiveSession,
+  getUserSoundSettings,
+  getIsChatting as getIsChattingState,
+  getActiveAgents } from 'src/redux/modules/chat/chat-selectors';
 import { getArticleDisplayed } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getActiveEmbed,
-         getWidgetShown,
-         getSubmitTicketEmbed } from 'src/redux/modules/base/base-selectors';
+  getWidgetShown,
+  getSubmitTicketEmbed } from 'src/redux/modules/base/base-selectors';
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { store } from 'service/persistence';
 
@@ -195,7 +195,7 @@ const onArticleDisplayed = (prevState, nextState) => {
 const onAgentLeave = (prevState, { type, payload }, dispatch) => {
   const memberLeaveEvent = type === SDK_CHAT_MEMBER_LEAVE;
   const isAgent = _.get(payload, 'detail.nick', '')
-                   .indexOf('agent:') > -1;
+    .indexOf('agent:') > -1;
 
   if (memberLeaveEvent && isAgent) {
     const agents = getActiveAgents(prevState);

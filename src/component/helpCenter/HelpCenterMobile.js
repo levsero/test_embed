@@ -129,18 +129,18 @@ export class HelpCenterMobile extends Component {
 
   renderChannelChoice = () => {
     return this.props.channelChoice
-         ? <div className={styles.channelChoiceContainer}>
-             <ChannelChoicePopupMobile
-               submitTicketAvailable={this.props.submitTicketAvailable}
-               chatEnabled={this.props.chatEnabled}
-               callbackEnabled={this.props.callbackEnabled}
-               talkAvailable={this.props.talkAvailable}
-               talkEnabled={this.props.talkEnabled}
-               chatAvailable={this.props.chatAvailable}
-               onNextClick={this.props.onNextClick}
-               onCancelClick={() => this.props.setChannelChoiceShown(false)} />
-           </div>
-         : null;
+      ? <div className={styles.channelChoiceContainer}>
+        <ChannelChoicePopupMobile
+          submitTicketAvailable={this.props.submitTicketAvailable}
+          chatEnabled={this.props.chatEnabled}
+          callbackEnabled={this.props.callbackEnabled}
+          talkAvailable={this.props.talkAvailable}
+          talkEnabled={this.props.talkEnabled}
+          chatAvailable={this.props.chatAvailable}
+          onNextClick={this.props.onNextClick}
+          onCancelClick={() => this.props.setChannelChoiceShown(false)} />
+      </div>
+      : null;
   }
 
   renderSearchField = () => {
@@ -165,11 +165,11 @@ export class HelpCenterMobile extends Component {
 
   renderSearchFieldButton = () => {
     return !this.state.showIntroScreen
-         ? null
-         : <SearchFieldButton
-             ref='searchFieldButton'
-             onClick={this.handleSearchBoxClicked}
-             searchTerm={this.props.searchFieldValue} />;
+      ? null
+      : <SearchFieldButton
+        ref='searchFieldButton'
+        onClick={this.handleSearchBoxClicked}
+        searchTerm={this.props.searchFieldValue} />;
   }
 
   renderForm = () => {
@@ -193,19 +193,19 @@ export class HelpCenterMobile extends Component {
 
   renderFormContainer = () => {
     return this.props.articleViewActive || !this.state.showIntroScreen
-         ? null
-         : (<div>
-             {this.renderForm()}
-             {this.renderLinkContent()}
-           </div>);
+      ? null
+      : (<div>
+        {this.renderForm()}
+        {this.renderLinkContent()}
+      </div>);
   }
 
   renderLinkContent = () => {
     if (!this.props.showNextButton || !this.state.showIntroScreen) return null;
 
     const linkContext = this.props.chatAvailable
-                      ? i18n.t('embeddable_framework.helpCenter.label.linkContext.chat')
-                      : i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
+      ? i18n.t('embeddable_framework.helpCenter.label.linkContext.chat')
+      : i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
 
     return (
       <div className={styles.linkContainer}>
@@ -219,8 +219,8 @@ export class HelpCenterMobile extends Component {
 
   renderHeaderContent = () => {
     return (this.props.articleViewActive || this.state.showIntroScreen)
-         ? null
-         : this.renderForm();
+      ? null
+      : this.renderForm();
   }
 
   renderFooterContent = () => {
@@ -242,16 +242,16 @@ export class HelpCenterMobile extends Component {
 
   renderZendeskLogo = (hideZendeskLogo) => {
     return !hideZendeskLogo
-         ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={true} />
-         : null;
+      ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={true} />
+      : null;
   }
 
   render = () => {
     const mobileHideLogoState = this.props.hasSearched;
     const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
     const containerClasses = !this.props.showNextButton && hideZendeskLogo
-                           ? styles.container
-                           : '';
+      ? styles.container
+      : '';
 
     return (
       <div>

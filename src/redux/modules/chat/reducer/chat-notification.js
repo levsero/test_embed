@@ -1,6 +1,6 @@
 import { CHAT_NOTIFICATION_DISMISSED,
-         NEW_AGENT_MESSAGE_RECEIVED,
-         CHAT_OPENED } from '../chat-action-types';
+  NEW_AGENT_MESSAGE_RECEIVED,
+  CHAT_OPENED } from '../chat-action-types';
 
 const initialState = {
   nick: '',
@@ -16,7 +16,7 @@ const notification = (state = initialState, action) => {
     case CHAT_NOTIFICATION_DISMISSED:
       return { ...state, show: false };
     case NEW_AGENT_MESSAGE_RECEIVED:
-      const { proactive, nick, display_name, msg } = action.payload;
+      const { proactive, nick, display_name, msg } = action.payload; // eslint-disable-line camelcase
 
       return {
         ...state,

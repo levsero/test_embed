@@ -19,14 +19,14 @@ import {
   CALLBACK_AND_PHONE_SCREEN,
   SUCCESS_NOTIFICATION_SCREEN } from 'src/redux/modules/talk/talk-screen-types';
 import { updateTalkCallbackForm,
-         submitTalkCallbackForm } from 'src/redux/modules/talk';
+  submitTalkCallbackForm } from 'src/redux/modules/talk';
 import { getEmbeddableConfig,
-         getAgentAvailability,
-         getFormState,
-         getScreen,
-         getCallback,
-         getAverageWaitTime,
-         getAverageWaitTimeEnabled } from 'src/redux/modules/talk/talk-selectors';
+  getAgentAvailability,
+  getFormState,
+  getScreen,
+  getCallback,
+  getAverageWaitTime,
+  getAverageWaitTimeEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './Talk.scss';
@@ -150,9 +150,9 @@ class Talk extends Component {
   }
 
   renderFormScreen = () => {
-    const phoneLabel = i18n.t(`embeddable_framework.common.textLabel.phone_number`);
-    const nameLabel = i18n.t(`embeddable_framework.common.textLabel.name`);
-    const descriptionLabel = i18n.t(`embeddable_framework.common.textLabel.description`);
+    const phoneLabel = i18n.t('embeddable_framework.common.textLabel.phone_number');
+    const nameLabel = i18n.t('embeddable_framework.common.textLabel.name');
+    const descriptionLabel = i18n.t('embeddable_framework.common.textLabel.description');
     let { phone, name, description, country } = this.props.formState;
 
     return (

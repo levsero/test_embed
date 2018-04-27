@@ -27,8 +27,8 @@ export class MessageError extends Component {
     if (this.props.handleError) {
       errorTag = (
         <a className={`${styles.messageErrorLink} ${messageErrorClasses}`}
-           onClick={this.props.handleError}>
-           {this.props.errorMessage}
+          onClick={this.props.handleError}>
+          {this.props.errorMessage}
         </a>
       );
     } else {

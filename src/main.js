@@ -4,7 +4,7 @@ import { boot } from './boot';
 import { logging } from 'service/logging';
 import { isBlacklisted } from 'utility/devices';
 import { win,
-         document as doc } from 'utility/globals';
+  document as doc } from 'utility/globals';
 
 try {
   if (!isBlacklisted()) {

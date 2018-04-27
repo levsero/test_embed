@@ -239,8 +239,8 @@ export class Dropdown extends Component {
     const options = _.cloneDeep(optionsProp);
     const groupByFn = (option) => {
       return (option.name.indexOf('::') > -1)
-           ? option.name.split('::')[0]
-           : '';
+        ? option.name.split('::')[0]
+        : '';
     };
     const mapFn = (group, key, allGroups) => {
       if (_.isEmpty(key)) {
@@ -288,10 +288,10 @@ export class Dropdown extends Component {
     };
 
     return _.chain(options)
-            .groupBy(groupByFn)
-            .flatMap(mapFn)
-            .compact()
-            .value();
+      .groupBy(groupByFn)
+      .flatMap(mapFn)
+      .compact()
+      .value();
   }
 
   renderDropdownArrow = () => {

@@ -2,7 +2,7 @@ import _ from 'lodash';
 import jsSha1 from 'sha1';
 
 import { document as doc,
-         location } from 'utility/globals';
+  location } from 'utility/globals';
 
 const zendeskStagingDomain = 'zd-staging';
 
@@ -21,19 +21,20 @@ function parseUrl(url) {
  * @return {string}         The split string
  */
 function splitPath(path) {
+  /* eslint no-useless-escape: 0 */
   return decodeURIComponent(path)
-          .replace(/\#|\:/g, ' ') // Strip out '#' and ':' characters.
-          .replace(/\/(\d+(?:\.\w+)?)(?:$|\/)/g, ' ')
-          .replace(/\.[^.]{1,4}$/, '')
-          .replace(/[\/\.\|_\-]/g, ' ');
+    .replace(/\#|\:/g, ' ') // Strip out '#' and ':' characters.
+    .replace(/\/(\d+(?:\.\w+)?)(?:$|\/)/g, ' ')
+    .replace(/\.[^.]{1,4}$/, '')
+    .replace(/[\/\.\|_\-]/g, ' ');
 }
 
 function getPageKeywords() {
   // If the hostpage has a URL pathname containing a hash (e.g http://foo.com/#/path),
   // location.pathname will break and only return '/', so we need to append location.hash.
   return splitPath(location.pathname + location.hash)
-         .replace(/\s+/g, ' ')
-         .trim();
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function getPageTitle() {

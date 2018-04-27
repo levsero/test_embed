@@ -41,7 +41,7 @@ describe('base reducer back button', () => {
     });
   });
 
-  describe(`when an UPDATE_BACK_BUTTON_VISIBILITY action is dispatched`, () => {
+  describe('when an UPDATE_BACK_BUTTON_VISIBILITY action is dispatched', () => {
     let state;
 
     beforeEach(() => {
@@ -57,7 +57,7 @@ describe('base reducer back button', () => {
     });
   });
 
-  describe(`when an GET_ARTICLE_REQUEST_SUCCESS action is dispatched`, () => {
+  describe('when an GET_ARTICLE_REQUEST_SUCCESS action is dispatched', () => {
     let state;
 
     beforeEach(() => {
@@ -72,7 +72,7 @@ describe('base reducer back button', () => {
     });
   });
 
-  describe(`when an TICKET_SUBMISSION_REQUEST_SUCCESS action is dispatched`, () => {
+  describe('when an TICKET_SUBMISSION_REQUEST_SUCCESS action is dispatched', () => {
     let state;
 
     beforeEach(() => {

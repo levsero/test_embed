@@ -98,9 +98,9 @@ const initStore = (settings, options, defaults) => {
   };
 
   return _.chain(options)
-          .reduce(reduceFn, {})
-          .defaultsDeep(defaults)
-          .value();
+    .reduce(reduceFn, {})
+    .defaultsDeep(defaults)
+    .value();
 };
 
 function init(reduxStore = { dispatch: () => {} }) {
@@ -118,7 +118,7 @@ function init(reduxStore = { dispatch: () => {} }) {
 
   // Limit number of fallback locales.
   webWidgetStore.helpCenter.localeFallbacks = _.take(webWidgetStore.helpCenter.localeFallbacks,
-                                                     maxLocaleFallbacks);
+    maxLocaleFallbacks);
 
   reduxStore.dispatch(updateSettingsChatSuppress(webWidgetStore.chat.suppress));
 }

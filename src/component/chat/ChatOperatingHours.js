@@ -77,7 +77,7 @@ export class ChatOperatingHours extends Component {
   }
 
   renderSchedule = (schedule) => {
-    return(
+    return (
       <dl className={styles.dayList}>
         {this.daysOfTheWeek.reduce((accumulator, day, index) => {
           return accumulator.concat([
@@ -94,7 +94,7 @@ export class ChatOperatingHours extends Component {
   renderBackButton = () => {
     const backButtonLabel = i18n.t('embeddable_framework.common.button.goBack');
 
-    return(
+    return (
       <Button
         className={styles.button}
         label={backButtonLabel}

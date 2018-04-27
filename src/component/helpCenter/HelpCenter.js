@@ -10,31 +10,31 @@ import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile';
 import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
 import { updateSearchTerm,
-         handleArticleClick,
-         performSearch,
-         performContextualSearch,
-         performImageSearch,
-         handleOriginalArticleClicked,
-         addRestrictedImage,
-         updateChannelChoiceShown,
-         handleSearchFieldChange,
-         handleSearchFieldFocus } from 'src/redux/modules/helpCenter';
+  handleArticleClick,
+  performSearch,
+  performContextualSearch,
+  performImageSearch,
+  handleOriginalArticleClicked,
+  addRestrictedImage,
+  updateChannelChoiceShown,
+  handleSearchFieldChange,
+  handleSearchFieldFocus } from 'src/redux/modules/helpCenter';
 import { getActiveArticle,
-         getResultsCount,
-         getSearchLoading,
-         getSearchFailed,
-         getSearchTerm,
-         getPreviousSearchTerm,
-         getHasSearched,
-         getHasContextuallySearched,
-         getArticles,
-         getArticleViewActive,
-         getRestrictedImages,
-         getChannelChoiceShown,
-         getSearchFieldValue } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+  getResultsCount,
+  getSearchLoading,
+  getSearchFailed,
+  getSearchTerm,
+  getPreviousSearchTerm,
+  getHasSearched,
+  getHasContextuallySearched,
+  getArticles,
+  getArticleViewActive,
+  getRestrictedImages,
+  getChannelChoiceShown,
+  getSearchFieldValue } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getNotificationCount,
-         getIsChatting } from 'src/redux/modules/chat/chat-selectors';
+  getIsChatting } from 'src/redux/modules/chat/chat-selectors';
 
 const maximumSearchResults = 9;
 const maximumContextualSearchResults = 3;
@@ -159,8 +159,8 @@ class HelpCenter extends Component {
 
   getHelpCenterComponent = () => {
     return (this.props.fullscreen)
-         ? this.refs.helpCenterMobile
-         : this.refs.helpCenterDesktop;
+      ? this.refs.helpCenterMobile
+      : this.refs.helpCenterDesktop;
   }
 
   interactiveSearchSuccessFn = () => {
@@ -245,8 +245,8 @@ class HelpCenter extends Component {
     // attempt the search with each locale in that array in order. Otherwise
     // try the search with no locale (injects an empty string into localeFallbacks).
     const localeFallbacks = !_.isEmpty(this.props.localeFallbacks)
-                          ? this.props.localeFallbacks.slice()
-                          : [''];
+      ? this.props.localeFallbacks.slice()
+      : [''];
     const doneFn = (res) => {
       if (res.ok) {
         if (res.body.count > 0 || _.isEmpty(localeFallbacks)) {
@@ -419,11 +419,11 @@ class HelpCenter extends Component {
   render = () => {
     let buttonLabel;
     const { chatNotificationCount,
-            channelChoice,
-            chatAvailable,
-            isChatting,
-            talkAvailable,
-            callbackEnabled } = this.props;
+      channelChoice,
+      chatAvailable,
+      isChatting,
+      talkAvailable,
+      callbackEnabled } = this.props;
 
     const renderChatLabel = () => {
       if (chatNotificationCount > 0) {
@@ -442,15 +442,15 @@ class HelpCenter extends Component {
       buttonLabel = renderChatLabel();
     } else if (talkAvailable) {
       buttonLabel = callbackEnabled
-                  ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback')
-                  : i18n.t('embeddable_framework.helpCenter.submitButton.label.phone');
+        ? i18n.t('embeddable_framework.helpCenter.submitButton.label.callback')
+        : i18n.t('embeddable_framework.helpCenter.submitButton.label.phone');
     } else {
       buttonLabel = i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`); // eslint-disable-line
     }
 
     const helpCenter = (this.props.fullscreen)
-                     ? this.renderHelpCenterMobile(buttonLabel)
-                     : this.renderHelpCenterDesktop(buttonLabel);
+      ? this.renderHelpCenterMobile(buttonLabel)
+      : this.renderHelpCenterDesktop(buttonLabel);
 
     return (
       <div>

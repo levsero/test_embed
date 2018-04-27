@@ -7,9 +7,9 @@ describe('styles', () => {
   const stylesPath = buildSrcPath('util/color/styles');
   const trimWhitespace = (str) => {
     return _.chain(str.split('\n'))
-            .map(_.trim)
-            .toString()
-            .value();
+      .map(_.trim)
+      .toString()
+      .value();
   };
 
   beforeEach(() => {

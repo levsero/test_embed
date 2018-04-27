@@ -59,8 +59,8 @@ export const getActiveAgents = createSelector(
   getOrderedAgents,
   (orderedAgents) => {
     const arrAgents = Array.from(orderedAgents)
-        .filter((agent) => agent[0] !== AGENT_BOT)
-        .map((agent) => ({ [agent[0]]: agent[1] }));
+      .filter((agent) => agent[0] !== AGENT_BOT)
+      .map((agent) => ({ [agent[0]]: agent[1] }));
 
     return _.assign({}, ...arrAgents);
   }

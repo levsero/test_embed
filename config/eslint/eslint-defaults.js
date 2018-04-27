@@ -25,6 +25,7 @@ module.exports = {
       'always'
     ],
     'strict': 0,
+    'no-case-declarations': 0,
     'no-multiple-empty-lines': [
       2,
       {
@@ -37,7 +38,7 @@ module.exports = {
     'no-spaced-func': 2,
     'camelcase': 2,
     'newline-after-var': 2,
-    'space-after-keywords': 2,
+    'keyword-spacing': 2,
     'dot-notation': 2,
     'eqeqeq': 2,
     'spaced-comment': 2,

@@ -27,7 +27,7 @@ describe('base reducer authenticated', () => {
     });
   });
 
-  describe(`when an UPDATE_AUTHENTICATED action is dispatched`, () => {
+  describe('when an UPDATE_AUTHENTICATED action is dispatched', () => {
     let payload,
       state;
 

@@ -18,20 +18,20 @@ import { transitionFactory } from 'service/transitionFactory';
 import { http, socketio } from 'service/transport';
 import { generateUserCSS } from 'utility/color/styles';
 import { getZoomSizingRatio,
-         isIE,
-         isMobileBrowser,
-         setScaleLock } from 'utility/devices';
+  isIE,
+  isMobileBrowser,
+  setScaleLock } from 'utility/devices';
 import { document, getDocumentHost } from 'utility/globals';
 import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedTimeoutCall,
-         getPageKeywords } from 'utility/utils';
+  getPageKeywords } from 'utility/utils';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
 import { setVisitorInfo, chatNotificationDismissed } from 'src/redux/modules/chat';
 import { resetTalkScreen } from 'src/redux/modules/talk';
 import { getTicketForms,
-         getTicketFields } from 'src/redux/modules/submitTicket';
+  getTicketFields } from 'src/redux/modules/submitTicket';
 
 import WebWidget from 'component/webWidget/WebWidget';
 
@@ -137,11 +137,11 @@ export default function WebWidgetFactory(name) {
     const chatAvailable = !!chatConfig;
     const channelChoice = settings.get('contactOptions').enabled && submitTicketAvailable;
     const submitTicketSettings = submitTicketAvailable
-                               ? setUpSubmitTicket(config.ticketSubmissionForm, reduxStore)
-                               : {};
+      ? setUpSubmitTicket(config.ticketSubmissionForm, reduxStore)
+      : {};
     const helpCenterSettings = helpCenterAvailable
-                             ? setUpHelpCenter(config.helpCenterForm)
-                             : {};
+      ? setUpHelpCenter(config.helpCenterForm)
+      : {};
     const rootConfig = _.omit(config, ['ticketSubmissionForm', 'helpCenterForm', 'zopimChat', 'talk']);
     const globalConfig = _.extend(
       configDefaults,
@@ -253,7 +253,7 @@ export default function WebWidgetFactory(name) {
 
   function render() {
     if (embed && embed.instance) {
-      throw new Error(`WebWidget has already been rendered.`);
+      throw new Error('WebWidget has already been rendered.');
     }
 
     const element = getDocumentHost().appendChild(document.createElement('div'));
@@ -541,9 +541,9 @@ export default function WebWidgetFactory(name) {
       }
 
       return _.chain(settingTicketForms)
-              .map((ticketForm) => ticketForm.id)
-              .compact()
-              .value();
+        .map((ticketForm) => ticketForm.id)
+        .compact()
+        .value();
     });
 
     const { customFields } = config;
@@ -598,8 +598,8 @@ export default function WebWidgetFactory(name) {
     config = _.extend({}, chatConfigDefaults, config);
     /* eslint-disable camelcase */
     const overrideProxyObject = config.overrideProxy
-                              ? { override_proxy: config.overrideProxy }
-                              : {};
+      ? { override_proxy: config.overrideProxy }
+      : {};
 
     return _.extend({}, { account_key: config.zopimId }, overrideProxyObject);
     /* eslint-enable camelcase */

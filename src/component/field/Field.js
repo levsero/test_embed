@@ -4,8 +4,8 @@ import _ from 'lodash';
 
 import { locals as styles } from './Field.scss';
 import { isMobileBrowser,
-         isLandscape,
-         isIos } from 'utility/devices';
+  isLandscape,
+  isIos } from 'utility/devices';
 
 export class Field extends Component {
   static propTypes = {
@@ -171,17 +171,17 @@ export class Field extends Component {
     }
 
     return (this.props.input)
-         ? React.cloneElement(
-             this.props.input,
-             _.extend({}, sharedProps, fieldProps, { className: fieldInputClasses })
-           )
-         : <input {...sharedProps} {...fieldProps} className={fieldInputClasses} />;
+      ? React.cloneElement(
+        this.props.input,
+        _.extend({}, sharedProps, fieldProps, { className: fieldInputClasses })
+      )
+      : <input {...sharedProps} {...fieldProps} className={fieldInputClasses} />;
   }
 
   renderDescription = () => {
     return (this.props.description !== '')
-         ? <div className={styles.description}>{this.props.description}</div>
-         : null;
+      ? <div className={styles.description}>{this.props.description}</div>
+      : null;
   }
 
   render = () => {

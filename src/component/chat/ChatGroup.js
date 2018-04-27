@@ -10,7 +10,7 @@ import { MessageError } from 'component/chat/MessageError';
 import { ImageMessage } from 'component/chat/ImageMessage';
 import { ICONS, FILETYPE_ICONS } from 'constants/shared';
 import { ATTACHMENT_ERROR_TYPES,
-         CHAT_MESSAGE_TYPES } from 'constants/chat';
+  CHAT_MESSAGE_TYPES } from 'constants/chat';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatGroup.scss';
 import classNames from 'classnames';

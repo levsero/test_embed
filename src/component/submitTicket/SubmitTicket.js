@@ -152,9 +152,9 @@ class SubmitTicket extends Component {
         // represents arbitrary binary data.
         // Reference: http://stackoverflow.com/questions/1176022/unknown-file-type-mime
         const attachmentTypes = _.chain(attachmentsList.uploadedAttachments())
-                                 .map('file.type')
-                                 .map((t) => _.isEmpty(t) ? 'application/octet-stream' : t)
-                                 .value();
+          .map('file.type')
+          .map((t) => _.isEmpty(t) ? 'application/octet-stream' : t)
+          .value();
 
         _.extend(params, {
           email: _.get(this.props.formState, 'email'),
@@ -299,11 +299,11 @@ class SubmitTicket extends Component {
 
     const { fullscreen } = this.props;
     const containerClasses = fullscreen
-                           ? styles.ticketFormsContainerMobile
-                           : styles.ticketFormsContainer;
+      ? styles.ticketFormsContainerMobile
+      : styles.ticketFormsContainer;
     const footerClasses = fullscreen
-                        ? styles.ticketFormsFooterMobile
-                        : styles.ticketFormsFooter;
+      ? styles.ticketFormsFooterMobile
+      : styles.ticketFormsFooter;
     const titleMobileClasses = fullscreen ? styles.ticketFormsListMobile : '';
 
     return (
@@ -326,31 +326,31 @@ class SubmitTicket extends Component {
 
   renderZendeskLogo = () => {
     return this.props.hideZendeskLogo
-         ? null
-         : <ZendeskLogo
-             formSuccess={this.props.showNotification}
-             rtl={i18n.isRTL()}
-             fullscreen={this.props.fullscreen} />;
+      ? null
+      : <ZendeskLogo
+        formSuccess={this.props.showNotification}
+        rtl={i18n.isRTL()}
+        fullscreen={this.props.fullscreen} />;
   }
 
   renderAttachmentBox = () => {
     return this.state.isDragActive && this.props.attachmentsEnabled
-         ? <AttachmentBox
-             onDragLeave={this.handleDragLeave}
-             dimensions={this.props.getFrameDimensions()}
-             onDrop={this.handleOnDrop} />
-         : null;
+      ? <AttachmentBox
+        onDragLeave={this.handleDragLeave}
+        dimensions={this.props.getFrameDimensions()}
+        onDrop={this.handleOnDrop} />
+      : null;
   }
 
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     const content = (_.isEmpty(this.props.ticketForms) || this.props.activeTicketForm)
-                  ? this.renderForm()
-                  : this.renderTicketFormList();
+      ? this.renderForm()
+      : this.renderTicketFormList();
     const display = this.props.loading
-                  ? this.renderLoadingSpinner()
-                  : content;
+      ? this.renderLoadingSpinner()
+      : content;
 
     return (
       <div>

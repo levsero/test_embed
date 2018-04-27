@@ -69,13 +69,13 @@ export class ChatFooter extends Component {
     );
 
     return (
-        <Dropzone onDrop={this.props.handleAttachmentDrop}>
-          <IconButton
-            buttonClassName={attachmentClasses}
-            altText={i18n.t('embeddable_framework.chat.icon.attachments.hover.label')}
-            disableTooltip={this.props.isMobile}
-            type={ICONS.PAPERCLIP_SMALL} />
-        </Dropzone>
+      <Dropzone onDrop={this.props.handleAttachmentDrop}>
+        <IconButton
+          buttonClassName={attachmentClasses}
+          altText={i18n.t('embeddable_framework.chat.icon.attachments.hover.label')}
+          disableTooltip={this.props.isMobile}
+          type={ICONS.PAPERCLIP_SMALL} />
+      </Dropzone>
     );
   }
 

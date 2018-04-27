@@ -51,10 +51,10 @@ export class Attachment extends Component {
     const size = _.max([bytes, 1000]);
 
     return size >= 1000000
-           ? i18n.t('embeddable_framework.submitTicket.attachments.size_megabyte',
-             { size: _.floor(size / 1000000, 1) })
-           : i18n.t('embeddable_framework.submitTicket.attachments.size_kilobyte',
-             { size: _.floor(size / 1000) });
+      ? i18n.t('embeddable_framework.submitTicket.attachments.size_megabyte',
+        { size: _.floor(size / 1000000, 1) })
+      : i18n.t('embeddable_framework.submitTicket.attachments.size_kilobyte',
+        { size: _.floor(size / 1000) });
   }
 
   truncateFilename = (filename, filenameMaxLength, trailingCharsLength) => {
@@ -99,11 +99,11 @@ export class Attachment extends Component {
 
   render() {
     const { file,
-            downloading,
-            errorMessage,
-            filenameMaxLength,
-            isDownloadable,
-            uploading } = this.props;
+      downloading,
+      errorMessage,
+      filenameMaxLength,
+      isDownloadable,
+      uploading } = this.props;
 
     const containerClasses = classNames(
       styles.container,
