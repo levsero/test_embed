@@ -570,13 +570,11 @@ parts:
       title: "A text that describes the intent of the following element. It points the user to leave a comment in the textarea"
       screenshot: "https://zendesk.box.com/s/ony1lhy6951mebjnw0ujx2sbo1fokuf9"
       value: "Leave a comment"
-      obsolete: "2017-03-23"
   - translation:
       key: "embeddable_framework.chat.postChat.rating.placeholder.optional"
       title: "A greyed-out text that is displayed in a textarea to signify that entering text into it is optional"
       screenshot: "https://zendesk.box.com/s/iccte733qnja3ez1qhnyj80dhzyanzz5"
       value: "(optional)"
-      obsolete: "2017-03-23"
   - translation:
       key: "embeddable_framework.chat.postChat.rating.plainDescription"
       title: "A text that describes the intent of the following element. It points the user to leave a comment in the textarea"
