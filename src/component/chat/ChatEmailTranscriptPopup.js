@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { keyCodes } from 'utility/keyboard';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { EmailField } from 'component/field/EmailField';
 import { i18n } from 'service/i18n';
@@ -74,6 +75,13 @@ export class ChatEmailTranscriptPopup extends Component {
     });
   }
 
+  handleKeyPress = (e) => {
+    if (e.keyCode === keyCodes.ENTER && !e.shiftKey) {
+      e.preventDefault();
+      this.handleSave(e);
+    }
+  }
+
   handleFormChange = (e) => {
     const { name, value } = e.target;
     const fieldState = { [name]: value };
@@ -101,7 +109,8 @@ export class ChatEmailTranscriptPopup extends Component {
         inputClasses={inputClasses}
         label={i18n.t('embeddable_framework.form.field.email.label')}
         value={this.state.formState.email}
-        name='email' />
+        name='email'
+        onKeyPress={this.handleKeyPress} />
     );
   }
 

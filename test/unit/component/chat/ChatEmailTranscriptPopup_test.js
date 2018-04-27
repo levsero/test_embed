@@ -59,6 +59,12 @@ describe('ChatEmailTranscriptPopup component', () => {
       'component/loading/LoadingSpinner': noopReactComponent,
       'utility/devices': {
         isIE: () => false
+      },
+      'utility/keyboard': {
+        keyCodes: {
+          'a': 65,
+          'ENTER': 13
+        }
       }
     });
 
@@ -103,6 +109,48 @@ describe('ChatEmailTranscriptPopup component', () => {
     it('calls props.rightCtaFn with form state name and email', () => {
       expect(rightCtaFnSpy)
         .toHaveBeenCalledWith('bob@zd.com');
+    });
+  });
+
+  describe('handleKeyPress', () => {
+    const keyCodes = { enter: 13, a: 65 };
+    let component;
+    let event = { keyCode: keyCodes.enter, preventDefault: () => false };
+
+    beforeEach(() => {
+      component = instanceRender(<ChatEmailTranscriptPopup />);
+      spyOn(component, 'handleSave');
+    });
+
+    describe('when the user presses <Enter>', () => {
+      describe('when shift is _not_ pressed simultaneously', () => {
+        it('interprets it as a send signal and sends the message', () => {
+          component.handleKeyPress(event);
+
+          expect(component.handleSave)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when shift _is_ pressed simultaneously', () => {
+        it('does not send the message and enters a line break', () => {
+          event = _.merge(event, { shiftKey: true });
+          component.handleKeyPress(event);
+
+          expect(component.handleSave)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when the user presses any other key', () =>{
+      it('does not send the message', () => {
+        event = _.merge(event, { keyCode: keyCodes.a });
+        component.handleKeyPress(event);
+
+        expect(component.handleSave)
+          .not.toHaveBeenCalled();
+      });
     });
   });
 
