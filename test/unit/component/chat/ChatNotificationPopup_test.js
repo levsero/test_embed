@@ -1,7 +1,7 @@
 describe('ChatNotificationPopup component', () => {
   let ChatNotificationPopup;
   const chatMenuPath = buildSrcPath('component/chat/ChatNotificationPopup'),
-    noopAvatar = noopReactComponent('Avatar');
+    Avatar = noopReactComponent('Avatar');
 
   beforeEach(() => {
     mockery.enable();
@@ -9,18 +9,17 @@ describe('ChatNotificationPopup component', () => {
     initMockRegistry({
       './ChatNotificationPopup.scss': {
         locals: {
-          ongoingNotificationCta: 'ongoingNotificationCtaClasses',
-          ongoingNotificationDesktop: 'ongoingNotificationDesktopClasses',
-          ongoingNotificationMobile: 'ongoingNotificationMobileClasses',
-          agentMessageOverflow: 'agentMessageOverflowClasses',
-          proactiveAvatar: 'proactiveAvatarClasses',
-          avatar: 'avatarClasses',
-          notificationContainerMobile: 'notificationContainerMobile'
+          proactiveNotificationDesktop: 'proactiveNotificationDesktopClass',
+          proactiveNotificationMobile: 'proactiveNotificationMobileClass',
+          ongoingNotificationNoResultsDesktop: 'ongoingNotificationNoResultsDesktopClass',
+          ongoingNotificationDesktop: 'ongoingNotificationDesktopClass',
+          ongoingNotificationMobile: 'ongoingNotificationMobileClass',
+          agentMessageOverflow: 'agentMessageOverflowClass',
+          proactiveAvatar: 'proactiveAvatarClass',
+          avatar: 'avatarClass'
         }
       },
-      'component/Avatar': {
-        Avatar: noopAvatar
-      },
+      'component/Avatar': { Avatar },
       'component/chat/ChatPopup': {
         ChatPopup: class extends Component {
           render() {
@@ -63,11 +62,6 @@ describe('ChatNotificationPopup component', () => {
     });
 
     describe('when notification.proactive is true', () => {
-      it('applies the ongoingNotificationCta class', () => {
-        expect(chatNotification.props.className)
-          .toContain('ongoingNotificationCtaClasses');
-      });
-
       describe('when isMobile is true', () => {
         beforeEach(() => {
           chatNotification = shallowRender(
@@ -79,27 +73,29 @@ describe('ChatNotificationPopup component', () => {
         });
 
         it('passes the expected container class name to ChatPopup', () => {
-          expect(chatNotification.props.containerClassName)
-            .toEqual('notificationContainerMobile');
+          expect(chatNotification.props.className)
+            .toEqual('proactiveNotificationMobileClass');
+        });
+      });
+
+      describe('when isMobile is false', () => {
+        beforeEach(() => {
+          chatNotification = shallowRender(
+            <ChatNotificationPopup
+              isMobile={false}
+              notification={mockNotification}
+              chatNotificationDismissed={noop} />
+          );
+        });
+
+        it('passes the expected container class name to ChatPopup', () => {
+          expect(chatNotification.props.className)
+            .toEqual('proactiveNotificationDesktopClass');
         });
       });
     });
 
     describe('when notification.proactive is false', () => {
-      beforeEach(() => {
-        mockNotification = { show: true, proactive: false };
-        chatNotification = shallowRender(
-          <ChatNotificationPopup
-            notification={mockNotification}
-            chatNotificationDismissed={noop} />
-        );
-      });
-
-      it('applies the ongoingNotificationDesktop class', () => {
-        expect(chatNotification.props.className)
-          .toContain('ongoingNotificationDesktopClasses');
-      });
-
       describe('when isMobile is true', () => {
         beforeEach(() => {
           mockNotification = { show: true, proactive: false };
@@ -113,7 +109,60 @@ describe('ChatNotificationPopup component', () => {
 
         it('applies the ongoingNotificationMobile class', () => {
           expect(chatNotification.props.className)
-            .toContain('ongoingNotificationMobileClasses');
+            .toContain('ongoingNotificationMobileClass');
+        });
+      });
+
+      describe('when isMobile is false', () => {
+        beforeEach(() => {
+          mockNotification = { show: true, proactive: false };
+          chatNotification = shallowRender(
+            <ChatNotificationPopup
+              isMobile={false}
+              notification={mockNotification}
+              chatNotificationDismissed={noop} />
+          );
+        });
+
+        it('applies the ongoingNotificationNoResultsDesktop class', () => {
+          expect(chatNotification.props.className)
+            .toContain('ongoingNotificationNoResultsDesktopClass');
+        });
+      });
+
+      describe('when isMobile is false and resultsCount is 0', () => {
+        beforeEach(() => {
+          mockNotification = { show: true, proactive: false };
+          chatNotification = shallowRender(
+            <ChatNotificationPopup
+              isMobile={false}
+              resultsCount={0}
+              notification={mockNotification}
+              chatNotificationDismissed={noop} />
+          );
+        });
+
+        it('applies the ongoingNotificationNoResultsDesktop class', () => {
+          expect(chatNotification.props.className)
+            .toContain('ongoingNotificationNoResultsDesktopClass');
+        });
+      });
+
+      describe('when isMobile is false and resultsCount is greater than 0', () => {
+        beforeEach(() => {
+          mockNotification = { show: true, proactive: false };
+          chatNotification = shallowRender(
+            <ChatNotificationPopup
+              isMobile={false}
+              resultsCount={1}
+              notification={mockNotification}
+              chatNotificationDismissed={noop} />
+          );
+        });
+
+        it('applies the ongoingNotificationDesktop class', () => {
+          expect(chatNotification.props.className)
+            .toContain('ongoingNotificationDesktopClass');
         });
       });
     });
@@ -170,7 +219,7 @@ describe('ChatNotificationPopup component', () => {
 
     const getChildAvatar = (component) => (
       component.props.children.find(
-        (el) => TestUtils.isElementOfType(el, noopAvatar)
+        (el) => TestUtils.isElementOfType(el, Avatar)
       )
     );
 
@@ -194,7 +243,7 @@ describe('ChatNotificationPopup component', () => {
 
       it('applies proactiveAvatar classes to the avatar', () => {
         expect(getChildAvatar(proactiveContent).props.className)
-          .toContain('proactiveAvatarClasses');
+          .toContain('proactiveAvatarClass');
       });
 
       it('calls renderAgentName with the display_name from the notification prop', () => {
@@ -210,7 +259,7 @@ describe('ChatNotificationPopup component', () => {
 
     describe('when the chat is not proactive', () => {
       beforeEach(() => {
-        mockNotification = { show: true, proactive: false };
+        mockNotification = { show: true, proactive: false, display_name: '' };
         chatNotification = domRender(
           <ChatNotificationPopup
             notification={mockNotification}
@@ -223,7 +272,7 @@ describe('ChatNotificationPopup component', () => {
 
       it('applies avatar classes to the avatar', () => {
         expect(getChildAvatar(proactiveContent).props.className)
-          .toContain('avatarClasses');
+          .toContain('avatarClass');
       });
 
       it('calls renderAgentName with an empty string', () => {
@@ -336,7 +385,7 @@ describe('ChatNotificationPopup component', () => {
 
       it('has agentMessageOverflow classes', () => {
         expect(agentMessage.props.className)
-          .toContain('agentMessageOverflowClasses');
+          .toContain('agentMessageOverflowClass');
       });
     });
 
@@ -358,7 +407,45 @@ describe('ChatNotificationPopup component', () => {
 
       it('does not have agentMessageOverflow classes', () => {
         expect(agentMessage.props.className)
-          .not.toContain('agentMessageOverflowClasses');
+          .not.toContain('agentMessageOverflowClass');
+      });
+    });
+  });
+
+  describe('renderAvatar', () => {
+    let result;
+
+    describe('when avatarPath is an empty string', () => {
+      beforeEach(() => {
+        const mockNotification = { avatar_path: '', proactive: true };
+        const component = instanceRender(<ChatNotificationPopup notification={mockNotification} />);
+
+        result = component.renderAvatar(
+          mockNotification.avatar_path,
+          mockNotification.proactive
+        );
+      });
+
+      it('does not render an avatar', () => {
+        expect(result)
+          .toBeNull();
+      });
+    });
+
+    describe('when avatarPath is not an empty string', () => {
+      beforeEach(() => {
+        const mockNotification = { avatar_path: 'www.terence.com/img.jpeg', proactive: true };
+        const component = instanceRender(<ChatNotificationPopup notification={mockNotification} />);
+
+        result = component.renderAvatar(
+          mockNotification.avatar_path,
+          mockNotification.proactive
+        );
+      });
+
+      it('renders an avatar', () => {
+        expect(TestUtils.isElementOfType(result, Avatar))
+          .toEqual(true);
       });
     });
   });

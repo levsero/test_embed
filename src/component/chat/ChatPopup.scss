@@ -35,9 +35,15 @@
   position: relative;
   background-color: $zd-color-white;
   border-radius: #{3/$font-size}rem;
-  box-shadow: 0 0 #{8/$font-size}rem 0 rgba($base-shadow, 0.26);
+  box-shadow: 0 0 #{8/$font-size}rem 0 rgba($base-shadow, 0.3);
   width: auto;
-  margin: 0 #{16/$font-size}rem #{30/$font-size}rem;
+  margin: 0 #{10/$font-size}rem;
+  opacity: 0.98;
+}
+
+.containerMobile {
+  composes: container;
+  margin: 0 #{20/$font-size}rem;
 }
 
 .ctaContainer {
@@ -77,11 +83,16 @@
 }
 
 .closeIcon {
-  composes: u-posAbsolute u-posStart--vert u-posEnd--flush u-paddingRS u-isActionable from global;
+  composes: u-posAbsolute u-isActionable from global;
   color: $zd-color-aluminum;
+  top: #{10/$font-size}rem;
+
+  [dir="ltr"] & {
+    right: #{10/$font-size}rem;
+  }
 
   [dir="rtl"] & {
-    right: 0;
+    left: #{10/$font-size}rem;
   }
 
   &:hover {

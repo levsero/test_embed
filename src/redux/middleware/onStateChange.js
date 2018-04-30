@@ -41,7 +41,7 @@ const startChatNotificationTimer = ({ proactive }) => {
     clearTimeout(chatNotificationTimeout);
   }
 
-  const timeout = proactive ? 8000 : 4000;
+  const timeout = proactive ? 5000 : 3000;
 
   chatNotificationTimeout = setTimeout(() => {
     mediator.channel.broadcast('webWidget.hideChatNotification');

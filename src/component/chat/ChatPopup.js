@@ -98,18 +98,22 @@ export class ChatPopup extends Component {
   }
 
   renderDefault = () => {
-    const { className, childrenOnClick, children, containerClasses } = this.props;
-    const containerStyles = classNames(
-      styles.container,
-      containerClasses
-    );
+    const { className, childrenOnClick, children, containerClasses, isMobile } = this.props;
+    const containerStyles = classNames(containerClasses, {
+      [styles.container]: !isMobile,
+      [styles.containerMobile]: isMobile
+    });
 
     return (
       <SlideAppear
         className={`${className} ${styles.containerWrapper}`}
         trigger={this.props.show}
         onClick={this.onContainerClick}
-        onExited={this.props.onExited}>
+        onExited={this.props.onExited}
+        direction='up'
+        duration={200}
+        startPosHeight='-10px'
+        endPosHeight='0px'>
         <div className={containerStyles}>
           <div onClick={childrenOnClick}>{children}</div>
           {this.renderCta()}
@@ -130,10 +134,10 @@ export class ChatPopup extends Component {
       <div className={popupContainerClasses}>
         <div className={styles.overlayMobile} />
         <SlideAppear
-          direction={'down'}
+          direction='down'
           duration={200}
-          startPosHeight={'-10px'}
-          endPosHeight={'0px'}
+          startPosHeight='-10px'
+          endPosHeight='0px'
           className={`${className} ${styles.wrapperMobile}`}
           trigger={show}
           onClick={this.onContainerClick}

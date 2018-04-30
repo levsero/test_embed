@@ -1,39 +1,59 @@
 @import '../../styles/_vars.scss';
 
-.ongoingNotificationCta {
+.proactiveNotificationDesktop {
   bottom: #{10/$font-size}rem !important;
 }
 
 .ongoingNotificationDesktop {
-  bottom: #{50/$font-size}rem !important;
+  bottom: #{80/$font-size}rem !important;
 }
 
-.ongoingNotificationMobile {
-  bottom: 0px !important;
+.ongoingNotificationNoResultsDesktop {
+  bottom: #{65/$font-size}rem !important;
 }
 
 .proactiveContainer {
   composes: u-flex u-flexAlignItemsCenter from global;
 }
 
-.notificationContainerMobile {
+.proactiveNotificationMobile {
   border-radius: 0;
-  margin-bottom: 0;
+  bottom: #{18/$font-size}rem !important;
+}
+
+.ongoingNotificationMobile {
+  border-radius: 0;
+  bottom: #{72/$font-size}rem !important;
 }
 
 .agentContainer {
   composes: u-inlineBlock from global;
-  width: #{230/$font-size}rem;
+  width: auto;
+  margin: #{20/$font-size}rem;
+  margin-bottom: #{15/$font-size}rem;
+}
+
+.ongoingAgentContainer {
+  margin-top: #{15/$font-size}rem;
+}
+
+.agentContainerWithAvatar {
+  margin-left: 0;
+
+  [dir='rtl'] & {
+    margin-right: 0;
+  }
 }
 
 .agentName {
   composes: u-textBold from global;
-  padding-bottom: #{2/$font-size}rem;
+  padding-bottom: #{4/$font-size}rem;
 }
 
 .agentMessage {
   composes: u-posRelative u-nbfc from global;
-  max-height: #{33/$font-size}rem;
+  line-height: #{18/$font-size}rem;
+  max-height: #{36/$font-size}rem;
   word-break: break-all;
 }
 

@@ -119,8 +119,17 @@ export const getThemeShowAvatar = createSelector(
 );
 
 export const getChatNotification = createSelector(
-  [getNotification, getActiveAgents],
-  (notification, agents) => ({ ...notification, ...agents[notification.nick] })
+  [getNotification, getActiveAgents, getConciergeSettings],
+  (notification, agents, conciergeSettings) => {
+    const currentAgent = agents[notification.nick];
+    const avatar_path = _.get(currentAgent, 'avatar_path') || conciergeSettings.avatar_path; // eslint-disable-line camelcase
+
+    return ({
+      ...notification,
+      ...currentAgent,
+      avatar_path
+    });
+  }
 );
 
 export const getOfflineFormFields = createSelector(
