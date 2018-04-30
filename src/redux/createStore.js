@@ -10,6 +10,7 @@ import { getEnvironment } from 'src/util/utils';
 import reducer from 'src/redux/modules/reducer';
 import onStateChangeFn from 'src/redux/middleware/onStateChange';
 import persist from 'src/redux/middleware/persist';
+import throttle from 'src/redux/middleware/throttle';
 
 import { sendBlips } from 'src/redux/middleware/blip';
 
@@ -17,7 +18,7 @@ function loggerTitleFormatter(storeName) {
   return (action) => [`${storeName}`, `%c${String(action.type)}`, '%c'].join(' ');
 }
 
-export default function(storeName = 'web_widget') {
+export default function(storeName = 'web_widget', options = {}) {
   const enableLogging = __DEV__ || getEnvironment() === 'staging' || store.get('debug');
   const logger = createLogger({
     collapsed: true,
@@ -27,6 +28,7 @@ export default function(storeName = 'web_widget') {
   const devToolsExtension = window.parent.__REDUX_DEVTOOLS_EXTENSION__
     && window.parent.__REDUX_DEVTOOLS_EXTENSION__({ name: storeName });
   const middlewares = [
+    throttle(options.throttleEvents),
     thunk,
     onStateChange(onStateChangeFn),
     sendBlips,

@@ -57,6 +57,7 @@ const renderPreview = (options) => {
   const containerStyle = {
     width: frameStyle.width
   };
+  const store = createStore('chatpreview', { throttleEvents: true });
 
   const frameParams = {
     css: `${require('globalCSS')} ${webWidgetStyles}`,
@@ -67,7 +68,7 @@ const renderPreview = (options) => {
   };
 
   const component = (
-    <Frame {...frameParams} store={createStore()}>
+    <Frame {...frameParams} store={store}>
       <Container
         style={containerStyle}>
         <Chat
