@@ -355,4 +355,172 @@ describe('settings', () => {
         .toBeUndefined();
     });
   });
+
+  describe('#getSupportAuthSettings', () => {
+    let mockSettings,
+      supportAuthSettings;
+
+    beforeEach(() => {
+      mockSettings = {
+        webWidget: {
+          authenticate: {
+            support: { jwt: 'abc' }
+          }
+        }
+      };
+
+      mockRegistry['utility/globals'].win.zESettings = mockSettings;
+      settings.init();
+      supportAuthSettings = settings.getSupportAuthSettings();
+    });
+
+    describe('when authenticate is defined', () => {
+      describe('when authenticate.support is defined', () => {
+        describe('when jwt property is defined', () => {
+          it('returns the auth settings', () => {
+            expect(supportAuthSettings)
+              .toEqual({ jwt: 'abc' });
+          });
+        });
+
+        describe('when jwt property is not defined', () => {
+          beforeEach(() => {
+            mockSettings.webWidget.authenticate.support = {};
+            mockRegistry['utility/globals'].win.zESettings = mockSettings;
+            settings.init();
+
+            supportAuthSettings = settings.getSupportAuthSettings();
+          });
+
+          describe('when authenticate.jwt property is defined', () => {
+            beforeEach(() => {
+              mockSettings.webWidget.authenticate.jwt = 'abc';
+              mockRegistry['utility/globals'].win.zESettings = mockSettings;
+              settings.init();
+
+              supportAuthSettings = settings.getSupportAuthSettings();
+            });
+
+            it('returns the auth settings', () => {
+              expect(supportAuthSettings)
+                .toEqual(jasmine.objectContaining({ jwt: 'abc' }));
+            });
+          });
+
+          describe('when jwt property is not defined', () => {
+            it('returns null', () => {
+              expect(supportAuthSettings)
+                .toBeNull();
+            });
+          });
+        });
+      });
+
+      describe('when authenticate.support is not defined', () => {
+        describe('when jwt property is defined', () => {
+          beforeEach(() => {
+            mockSettings.webWidget.authenticate = { jwt: 'abc' };
+            mockRegistry['utility/globals'].win.zESettings = mockSettings;
+            settings.init();
+
+            supportAuthSettings = settings.getSupportAuthSettings();
+          });
+
+          it('returns the auth settings', () => {
+            expect(supportAuthSettings)
+              .toEqual({ jwt: 'abc' });
+          });
+        });
+
+        describe('when jwt property is not defined', () => {
+          beforeEach(() => {
+            mockSettings.webWidget.authenticate = {};
+            mockRegistry['utility/globals'].win.zESettings = mockSettings;
+            settings.init();
+
+            supportAuthSettings = settings.getSupportAuthSettings();
+          });
+
+          it('returns null', () => {
+            expect(supportAuthSettings)
+              .toBeNull();
+          });
+        });
+      });
+    });
+
+    describe('when authenticate is not defined', () => {
+      beforeEach(() => {
+        mockSettings.webWidget = {};
+        mockRegistry['utility/globals'].win.zESettings = mockSettings;
+        settings.init();
+
+        supportAuthSettings = settings.getSupportAuthSettings();
+      });
+
+      it('returns null', () => {
+        expect(supportAuthSettings)
+          .toBeNull();
+      });
+    });
+  });
+
+  describe('#getChatAuthSettings', () => {
+    let mockSettings,
+      chatAuthSettings;
+
+    describe('when authenticate.chat is defined', () => {
+      beforeEach(() => {
+        mockSettings = {
+          webWidget: {
+            authenticate: {
+              chat: { jwt: 'abc' }
+            }
+          }
+        };
+
+        mockRegistry['utility/globals'].win.zESettings = mockSettings;
+        settings.init();
+
+        chatAuthSettings = settings.getChatAuthSettings();
+      });
+
+      describe('when jwt property is defined', () => {
+        it('returns the auth object', () => {
+          expect(chatAuthSettings)
+            .toEqual({ jwt: 'abc' });
+        });
+      });
+
+      describe('when jwt property is not defined', () => {
+        beforeEach(() => {
+          mockSettings.webWidget.authenticate.chat = {};
+          mockRegistry['utility/globals'].win.zESettings = mockSettings;
+          settings.init();
+
+          chatAuthSettings = settings.getChatAuthSettings();
+        });
+
+        it('returns null', () => {
+          expect(chatAuthSettings)
+            .toBeNull();
+        });
+      });
+    });
+
+    describe('when authenticate.chat is not defined', () => {
+      beforeEach(() => {
+        mockSettings.webWidget.authenticate = {};
+        mockRegistry['utility/globals'].win.zESettings = mockSettings;
+        settings.init();
+
+        chatAuthSettings = settings.getChatAuthSettings();
+      });
+
+      it('returns null', () => {
+        expect(chatAuthSettings)
+          .toBeNull();
+      });
+    });
+  });
 });

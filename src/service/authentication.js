@@ -74,7 +74,7 @@ function requestOAuthToken(jwt) {
 function renewOAuthToken(token) {
   const id = token.id;
   const params = {
-    body: settings.get('authenticate').jwt,
+    body: settings.getSupportAuthSettings().jwt,
     token: {
       'oauth_token': token.token,
       'oauth_expiry': token.expiry

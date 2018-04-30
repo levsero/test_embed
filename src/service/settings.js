@@ -7,6 +7,8 @@ import { updateSettingsChatSuppress } from 'src/redux/modules/settings';
 const optionWhitelist = {
   webWidget: [
     'authenticate',
+    'authenticate.support',
+    'authenticate.chat',
     'contactOptions.enabled',
     'contactOptions.contactButton',
     'contactOptions.chatLabelOnline',
@@ -167,6 +169,26 @@ function getTrackSettings() {
   }, _.isEmpty);
 }
 
+function getSupportAuthSettings() {
+  let authSetting = get('authenticate.support');
+
+  if (authSetting && authSetting.jwt) {
+    return authSetting;
+  }
+
+  // If webWidget.authenticate.support setting is not valid.
+  // Fallback to original webWidget.authenticate setting
+  authSetting = get('authenticate');
+
+  return (authSetting && authSetting.jwt) ? authSetting : null;
+}
+
+function getChatAuthSettings() {
+  const authSetting = get('authenticate.chat');
+
+  return (authSetting && authSetting.jwt) ? authSetting : null;
+}
+
 function enableCustomizations() {
   webWidgetCustomizations = true;
 }
@@ -176,5 +198,7 @@ export const settings = {
   get,
   getTranslations,
   getTrackSettings,
+  getSupportAuthSettings,
+  getChatAuthSettings,
   enableCustomizations
 };
