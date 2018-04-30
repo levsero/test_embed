@@ -13,7 +13,7 @@ import { locals as styles } from './ChatHeader.scss';
 export class ChatHeader extends Component {
   static propTypes = {
     title: PropTypes.string,
-    concierge: PropTypes.array,
+    concierges: PropTypes.array,
     updateRating: PropTypes.func,
     rating: PropTypes.string,
     showRating: PropTypes.bool,
@@ -23,7 +23,7 @@ export class ChatHeader extends Component {
   static defaultProps = {
     updateRating: () => {},
     rating: null,
-    concierge: [{}],
+    concierges: [{}],
     showRating: false
   };
 
@@ -38,9 +38,9 @@ export class ChatHeader extends Component {
   }
 
   renderAvatarContainer = () => {
-    const { concierge } = this.props;
+    const { concierges } = this.props;
     const avatarWidth = 32;
-    const avatarSize = concierge.length;
+    const avatarSize = concierges.length;
     let multipleAvatarWidth = 0;
 
     if (avatarSize === 2) {
@@ -49,7 +49,7 @@ export class ChatHeader extends Component {
       multipleAvatarWidth = 40;
     }
 
-    const avatars = _.clone(concierge).slice(0, 3);
+    const avatars = concierges.slice(0, 3);
     const style = { width: `${(avatarWidth + multipleAvatarWidth)/FONT_SIZE}rem` };
 
     return (
@@ -69,9 +69,9 @@ export class ChatHeader extends Component {
   }
 
   render = () => {
-    const { showRating, onAgentDetailsClick, concierge } = this.props;
+    const { showRating, onAgentDetailsClick, concierges } = this.props;
     // Title in chat refers to the byline and display_name refers to the display title
-    const { display_name: displayName, title } = concierge[0];
+    const { display_name: displayName, title } = concierges[0];
     const subText = title ? title : i18n.t('embeddable_framework.chat.header.by_line');
     const titleText = displayName ? displayName : i18n.t('embeddable_framework.chat.header.default.title');
     const ratingButtons = showRating ? this.renderRatingButtons() : null;

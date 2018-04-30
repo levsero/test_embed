@@ -65,10 +65,10 @@ export const getActiveAgents = createSelector(
   }
 );
 
-export const getCurrentConcierge = createSelector(
+export const getCurrentConcierges = createSelector(
   [getActiveAgents, getConciergeSettings],
   (agents, conciergeSettings) => {
-    if (!_.size(agents)) {
+    if (_.size(agents) === 0) {
       return [conciergeSettings];
     }
 

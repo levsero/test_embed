@@ -60,7 +60,7 @@ describe('ChatHeader component', () => {
 
     beforeEach(() => {
       const props = {
-        concierge: [
+        concierges: [
           {
             avatar: 'https://example.com/snake',
             display_name: 'Luke Skywalker',
@@ -153,7 +153,7 @@ describe('ChatHeader component', () => {
     describe('when there is one agent', () => {
       beforeEach(() => {
         const props = {
-          concierge: [ avatarDetails ]
+          concierges: [ avatarDetails ]
         };
 
         component = domRender(<ChatHeader {...props} />);
@@ -175,7 +175,7 @@ describe('ChatHeader component', () => {
     describe('when there are two agents', () => {
       beforeEach(() => {
         const props = {
-          concierge: [ avatarDetails, avatarDetails ]
+          concierges: [ avatarDetails, avatarDetails ]
         };
 
         component = domRender(<ChatHeader {...props} />);
@@ -197,7 +197,7 @@ describe('ChatHeader component', () => {
     describe('when there are three agents', () => {
       beforeEach(() => {
         const props = {
-          concierge: [ avatarDetails, avatarDetails, avatarDetails ]
+          concierges: [ avatarDetails, avatarDetails, avatarDetails ]
         };
 
         component = domRender(<ChatHeader {...props} />);
@@ -219,7 +219,7 @@ describe('ChatHeader component', () => {
     describe('when there are more than three agents', () => {
       beforeEach(() => {
         const props = {
-          concierge: [ avatarDetails, avatarDetails, avatarDetails, avatarDetails ]
+          concierges: [ avatarDetails, avatarDetails, avatarDetails, avatarDetails ]
         };
 
         component = domRender(<ChatHeader {...props} />);
@@ -249,11 +249,11 @@ describe('ChatHeader component', () => {
 
     beforeEach(() => {
       const props = {
-        concierge: [ avatarDetails, avatarDetails, avatarDetails ]
+        concierges: [ avatarDetails, avatarDetails, avatarDetails ]
       };
 
       component = domRender(<ChatHeader {...props} />);
-      avatars = component.renderAvatars(props.concierge);
+      avatars = component.renderAvatars(props.concierges);
     });
 
     it('returns an array of Avatars', () => {

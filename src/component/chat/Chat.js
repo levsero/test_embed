@@ -63,7 +63,7 @@ import { getPrechatFormFields,
   getCurrentMessage,
   getChatRating,
   getUserSoundSettings,
-  getCurrentConcierge,
+  getCurrentConcierges,
   getPostchatFormSettings,
   getRatingSettings,
   getEmailTranscript,
@@ -95,7 +95,7 @@ const mapStateToProps = (state) => {
     lastAgentLeaveEvent: getLastAgentLeaveEvent(state),
     currentMessage: getCurrentMessage(state),
     screen: getChatScreen(state),
-    concierge: getCurrentConcierge(state),
+    concierges: getCurrentConcierges(state),
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
     postChatFormSettings: getPostchatFormSettings(state),
     isChatting: getIsChatting(state),
@@ -123,7 +123,7 @@ const mapStateToProps = (state) => {
 class Chat extends Component {
   static propTypes = {
     attachmentsEnabled: PropTypes.bool.isRequired,
-    concierge: PropTypes.array.isRequired,
+    concierges: PropTypes.array.isRequired,
     chats: PropTypes.array.isRequired,
     events: PropTypes.array.isRequired,
     chatLog: PropTypes.object.isRequired,
@@ -189,7 +189,7 @@ class Chat extends Component {
     updateFrameSize: () => {},
     onBackButtonClick: () => {},
     getAccountSettings: () => {},
-    concierge: [],
+    concierges: [],
     rating: {},
     chats: [],
     events: [],
@@ -413,7 +413,7 @@ class Chat extends Component {
     const {
       rating,
       sendChatRating,
-      concierge,
+      concierges,
       agentJoined,
       ratingSettings,
       updateChatScreen,
@@ -430,7 +430,7 @@ class Chat extends Component {
         showRating={showRating}
         rating={rating.value}
         updateRating={sendChatRating}
-        concierge={concierge}
+        concierges={concierges}
         onAgentDetailsClick={onAgentDetailsClick} />
     );
   }

@@ -3,7 +3,7 @@ import Map from 'core-js/library/es6/map';
 describe('chat selectors', () => {
   let getActiveAgents,
     getAttachmentsEnabled,
-    getCurrentConcierge,
+    getCurrentConcierges,
     getConnection,
     getCurrentMessage,
     getChatEvents,
@@ -87,7 +87,7 @@ describe('chat selectors', () => {
 
     getActiveAgents = selectors.getActiveAgents;
     getAttachmentsEnabled = selectors.getAttachmentsEnabled;
-    getCurrentConcierge = selectors.getCurrentConcierge;
+    getCurrentConcierges = selectors.getCurrentConcierges;
     getConnection = selectors.getConnection;
     getCurrentMessage = selectors.getCurrentMessage;
     getChatEvents = selectors.getChatEvents;
@@ -992,12 +992,12 @@ describe('chat selectors', () => {
     });
   });
 
-  describe('getCurrentConcierge', () => {
+  describe('getCurrentConcierges', () => {
     let result,
       mockChatSettings;
 
     beforeEach(() => {
-      result = getCurrentConcierge(mockChatSettings);
+      result = getCurrentConcierges(mockChatSettings);
     });
 
     describe('when there is no agent', () => {
