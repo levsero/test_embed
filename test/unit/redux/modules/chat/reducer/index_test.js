@@ -122,5 +122,10 @@ describe('chat root reducer', () => {
       expect(state.inactiveAgents)
         .toBeDefined();
     });
+
+    it('has the sessionTimestamp sub state', () => {
+      expect(state.sessionTimestamp)
+        .toBeDefined();
+    });
   });
 });
