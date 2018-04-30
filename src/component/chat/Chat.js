@@ -63,7 +63,7 @@ import { getPrechatFormFields,
   getCurrentMessage,
   getChatRating,
   getUserSoundSettings,
-  getCurrentConcierge,
+  getCurrentConcierges,
   getPostchatFormSettings,
   getRatingSettings,
   getEmailTranscript,
@@ -95,7 +95,7 @@ const mapStateToProps = (state) => {
     lastAgentLeaveEvent: getLastAgentLeaveEvent(state),
     currentMessage: getCurrentMessage(state),
     screen: getChatScreen(state),
-    concierge: getCurrentConcierge(state),
+    concierges: getCurrentConcierges(state),
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
     postChatFormSettings: getPostchatFormSettings(state),
     isChatting: getIsChatting(state),
@@ -123,7 +123,7 @@ const mapStateToProps = (state) => {
 class Chat extends Component {
   static propTypes = {
     attachmentsEnabled: PropTypes.bool.isRequired,
-    concierge: PropTypes.object.isRequired,
+    concierges: PropTypes.array.isRequired,
     chats: PropTypes.array.isRequired,
     events: PropTypes.array.isRequired,
     chatLog: PropTypes.object.isRequired,
@@ -189,7 +189,7 @@ class Chat extends Component {
     updateFrameSize: () => {},
     onBackButtonClick: () => {},
     getAccountSettings: () => {},
-    concierge: {},
+    concierges: [],
     rating: {},
     chats: [],
     events: [],
@@ -410,21 +410,16 @@ class Chat extends Component {
   }
 
   renderChatHeader = () => {
-    /* eslint-disable camelcase */
     const {
       rating,
       sendChatRating,
-      concierge,
+      concierges,
       agentJoined,
       ratingSettings,
       updateChatScreen,
       screen,
       activeAgents
     } = this.props;
-    // Title in chat refers to the byline and display_name refers to the display title
-    const { avatar_path, display_name, title } = concierge;
-    const displayName = _.has(display_name, 'toString') ? display_name.toString() : display_name;
-    const byline = title ? title : i18n.t('embeddable_framework.chat.header.by_line');
     const showRating = screen === screens.CHATTING_SCREEN && ratingSettings.enabled && agentJoined;
     const onAgentDetailsClick = (screen === screens.CHATTING_SCREEN && _.size(activeAgents) > 0)
       ? () => updateChatScreen(screens.AGENT_LIST_SCREEN)
@@ -435,12 +430,9 @@ class Chat extends Component {
         showRating={showRating}
         rating={rating.value}
         updateRating={sendChatRating}
-        avatar={avatar_path}
-        title={displayName}
-        byline={byline}
+        concierges={concierges}
         onAgentDetailsClick={onAgentDetailsClick} />
     );
-    /* eslint-enable camelcase */
   }
 
   renderPrechatScreen = () => {

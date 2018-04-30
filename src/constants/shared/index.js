@@ -1,5 +1,7 @@
-// TODO: this is an incomplete list, and should probably include exports for all the other icons we use as well
+// If this changes it also needs to change in styles vars
+export const FONT_SIZE = 12;
 
+// TODO: this is an incomplete list, and should probably include exports for all the other icons we use as well
 export const ICONS = {
   ELLIPSIS:             'Icon--ellipsis',
   END_CHAT:             'Icon--endChat',

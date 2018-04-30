@@ -18,7 +18,6 @@ const getChats = (state) => state.chat.chats;
 const getNotification = (state) => state.chat.notification;
 const getThemeMessageType = (state) => state.chat.accountSettings.theme.message_type;
 const getOrderedAgents = (state) => state.chat.agents;
-const getFirstAgent = (state) => getOrderedAgents(state).values().next().value;
 const getConciergeSettings = (state) => state.chat.accountSettings.concierge;
 const getInactiveAgents = (state) => state.chat.inactiveAgents;
 
@@ -67,19 +66,22 @@ export const getActiveAgents = createSelector(
   }
 );
 
-export const getCurrentConcierge = createSelector(
-  [getFirstAgent, getConciergeSettings],
-  (firstAgent, conciergeSettings) => {
-    if (!firstAgent) {
-      return conciergeSettings;
+export const getCurrentConcierges = createSelector(
+  [getActiveAgents, getConciergeSettings],
+  (agents, conciergeSettings) => {
+    if (_.size(agents) === 0) {
+      return [conciergeSettings];
     }
-    if (!firstAgent.avatar_path) {
-      return {
-        ...firstAgent,
-        avatar_path: conciergeSettings.avatar_path
-      };
-    }
-    return firstAgent;
+
+    return _.map(agents, (agent) => {
+      if (!agent.avatar_path) {
+        return {
+          ...agent,
+          avatar_path: conciergeSettings.avatar_path
+        };
+      }
+      return agent;
+    });
   }
 );
 
