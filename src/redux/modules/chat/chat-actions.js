@@ -69,6 +69,8 @@ const getChatMessagePayload = (msg, visitor, timestamp) => ({
 });
 
 const sendMsgRequest = (msg, visitor, timestamp) => {
+  zChat.sendTyping(false);
+
   return {
     type: CHAT_MSG_REQUEST_SENT,
     payload: {
@@ -162,6 +164,8 @@ export function resetCurrentMessage() {
   };
 }
 
+const stopTypingIndicator = _.debounce(() => zChat.sendTyping(false), chatTypingTimeout);
+
 export function handleChatBoxChange(msg) {
   return dispatch => {
     dispatch({
@@ -169,8 +173,12 @@ export function handleChatBoxChange(msg) {
       payload: msg
     });
 
-    zChat.sendTyping(true);
-    setTimeout(() => zChat.sendTyping(false), chatTypingTimeout);
+    if (msg.length === 0) {
+      zChat.sendTyping(false);
+    } else {
+      zChat.sendTyping(true);
+      stopTypingIndicator();
+    }
   };
 }
 
