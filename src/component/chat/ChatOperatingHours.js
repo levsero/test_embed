@@ -36,15 +36,18 @@ export class ChatOperatingHours extends Component {
     const open = timeFromMinutes(range.start, am, pm);
     const closed = timeFromMinutes(range.end, am, pm);
 
-    return i18n.t(
-      'embeddable_framework.chat.operatingHours.label.hourRange',
-      {
-        openingHour: open.time,
-        openingPeriod: open.period,
-        closingHour: closed.time,
-        closingPeriod: closed.period
-      }
-    );
+    // special state for when operating hours are for the full day
+    return (range.start === 0 && range.end === 1440) ?
+      i18n.t('embeddable_framework.chat.operatingHours.label.openAllDay') :
+      i18n.t(
+        'embeddable_framework.chat.operatingHours.label.hourRange',
+        {
+          openingHour: open.time,
+          openingPeriod: open.period,
+          closingHour: closed.time,
+          closingPeriod: closed.period
+        }
+      );
   }
 
   formatDepartmentsForDropdown = () => {
