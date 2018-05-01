@@ -474,7 +474,7 @@ describe('settings', () => {
         mockSettings = {
           webWidget: {
             authenticate: {
-              chat: { jwt: 'abc' }
+              chat: { jwtFn: () => {} }
             }
           }
         };
@@ -485,14 +485,14 @@ describe('settings', () => {
         chatAuthSettings = settings.getChatAuthSettings();
       });
 
-      describe('when jwt property is defined', () => {
+      describe('when jwtFn property is defined', () => {
         it('returns the auth object', () => {
           expect(chatAuthSettings)
-            .toEqual({ jwt: 'abc' });
+            .toEqual({ jwtFn: jasmine.any(Function) });
         });
       });
 
-      describe('when jwt property is not defined', () => {
+      describe('when jwtFn property is not defined', () => {
         beforeEach(() => {
           mockSettings.webWidget.authenticate.chat = {};
           mockRegistry['utility/globals'].win.zESettings = mockSettings;

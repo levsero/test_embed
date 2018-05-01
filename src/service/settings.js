@@ -186,7 +186,7 @@ function getSupportAuthSettings() {
 function getChatAuthSettings() {
   const authSetting = get('authenticate.chat');
 
-  return (authSetting && authSetting.jwt) ? authSetting : null;
+  return (authSetting && authSetting.jwtFn) ? authSetting : null;
 }
 
 function enableCustomizations() {
