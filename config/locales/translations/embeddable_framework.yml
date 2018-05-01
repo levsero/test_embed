@@ -207,6 +207,11 @@ parts:
       title: "This is the text that shows in the chat log when user updates their contact details."
       screenshot: "https://drive.google.com/open?id=102QAXq889nan1Wl7ZI1IXjJPQ0Hkto3c"
       value: "Contact details updated"
+  - translation:
+      key: "embeddable_framework.chat.fetching_history"
+      title: "This is the text that shows in the chat log when user is fetching old messages"
+      screenshot: "https://drive.google.com/open?id=1lUBpQbQA5sUMW42VBaAFaEaoE4qsqaZ0"
+      value: "Loading messages..."
 
   # Chat Web SDK
   - translation:
