@@ -600,7 +600,7 @@ export default function WebWidgetFactory(name) {
     config = _.extend({}, chatConfigDefaults, config);
     /* eslint-disable camelcase */
     const authentication = config.authentication
-      ? { jwt_fn: (callback) => callback(config.authentication.jwt) }
+      ? { jwt_fn: config.authentication.jwtFn }
       : null;
 
     return _.omitBy({

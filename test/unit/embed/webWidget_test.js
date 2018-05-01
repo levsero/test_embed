@@ -778,7 +778,7 @@ describe('embed.webWidget', () => {
 
       describe('when authentication exists in the config', () => {
         beforeEach(() => {
-          mockChatAuthValue = { jwt: 'token' };
+          mockChatAuthValue = { jwtFn: () => {} };
           webWidget.create('', { zopimChat: chatConfig });
           faythe = webWidget.get();
         });
@@ -789,22 +789,6 @@ describe('embed.webWidget', () => {
               account_key: '123abc',
               authentication: { jwt_fn: jasmine.any(Function) }
             });
-        });
-
-        describe('when jwt_fn is called', () => {
-          let callbackSpy;
-
-          beforeEach(() => {
-            const options = zChatInitSpy.calls.mostRecent().args[0];
-
-            callbackSpy = jasmine.createSpy('chat');
-            options.authentication.jwt_fn(callbackSpy);
-          });
-
-          it('calls the callback function with the jwt token', () => {
-            expect(callbackSpy)
-              .toHaveBeenCalledWith('token');
-          });
         });
       });
 
