@@ -48,6 +48,24 @@ describe('ChatOperatingHours component', () => {
     timezone: 'Australia/Melbourne'
   };
 
+  const mockDepartmentOperatingHoursWithManySchedules = {
+    department_schedule: [
+      {
+        name: 'Sales',
+        id: 111,
+        0: [{start: 456, end: 789}, {start: 800, end: 900}],
+        1: [{start: 456, end: 789}],
+        2: [{start: 800, end: 900}],
+        3: [{start: 456, end: 789}],
+        4: [{start: 456, end: 789}],
+        5: [{start: 456, end: 789}],
+        6: [{start: 456, end: 789}]
+      }
+    ],
+    enabled: true,
+    timezone: 'Australia/Melbourne'
+  };
+
   beforeEach(() => {
     mockery.enable();
 
@@ -59,7 +77,7 @@ describe('ChatOperatingHours component', () => {
           singleDay: 'singleDayClass',
           dayName: 'dayNameClass',
           button: 'buttonClass',
-          hours: 'hoursClass'
+          lastTiming: 'lastTiming'
         }
       },
       'service/i18n': {
@@ -340,66 +358,96 @@ describe('ChatOperatingHours component', () => {
     let component,
       result,
       dayName,
-      range;
+      range,
+      operatingHours;
 
     beforeEach(() => {
       component = instanceRender(
-        <ChatOperatingHours operatingHours={mockAccountOperatingHours} />
+        <ChatOperatingHours operatingHours={operatingHours} />
       );
-
-      result = component.renderSchedule(mockAccountOperatingHours.account_schedule);
+      result = component.renderSchedule(operatingHours.account_schedule || operatingHours.department_schedule[0]);
     });
 
-    it('returns a definition pair for every day of the week', () => {
-      expect(result.props.children.length).toEqual(14);
+    describe('when using an account schedule', () => {
+      beforeAll(() => {
+        operatingHours = mockAccountOperatingHours;
+      });
+
+      it('returns a definition pair for every day of the week', () => {
+        expect(result.props.children.length).toEqual(14);
+      });
+
+      _.times(7, (dayIndex) => {
+        beforeEach(() => {
+          dayName = result.props.children[dayIndex];
+          range = result.props.children[dayIndex + 1];
+        });
+
+        it(`contains information about day ${dayIndex} in the right element`, () => {
+          expect(dayName.type).toEqual('dt');
+        });
+
+        it(`has the right className prop for day ${dayIndex}`, () => {
+          expect(dayName.props.className).toEqual('dayNameClass');
+        });
+
+        it(`has the right className for the hour range on day ${dayIndex}`, () => {
+          expect(range.props.className).toEqual('lastTiming');
+        });
+
+        it(`contains information about the range on day ${dayIndex} in the right element`, () => {
+          expect(range.type).toEqual('dd');
+        });
+      });
+
+      describe('for days with opening hours', () => {
+        let openDayRange;
+
+        beforeEach(() => {
+          openDayRange = result.props.children[1];
+        });
+
+        it('contains a string with the range of hours', () => {
+          expect(openDayRange.props.children)
+            .toEqual('embeddable_framework.chat.operatingHours.label.hourRange');
+        });
+      });
+
+      describe('for days without opening hours', () => {
+        let closedDay;
+
+        beforeEach(() => {
+          closedDay = result.props.children[5];
+        });
+
+        it('comes up as closed', () => {
+          expect(closedDay.props.children)
+            .toEqual('embeddable_framework.chat.operatingHours.label.closed');
+        });
+      });
     });
 
-    _.times(7, (dayIndex) => {
-      beforeEach(() => {
-        dayName = result.props.children[dayIndex];
-        range = result.props.children[dayIndex + 1];
+    describe('when there are many schedules to one deparment', () => {
+      beforeAll(() => {
+        operatingHours = mockDepartmentOperatingHoursWithManySchedules;
       });
 
-      it(`contains information about day ${dayIndex} in the right element`, () => {
-        expect(dayName.type).toEqual('dt');
+      it('returns correct number of day items to render', () => {
+        expect(result.props.children.length).toEqual(15);
       });
 
-      it(`has the right className prop for day ${dayIndex}`, () => {
-        expect(dayName.props.className).toEqual('dayNameClass');
-      });
+      _.times(7, (dayIndex) => {
+        beforeEach(() => {
+          range = result.props.children[dayIndex * 2];
+        });
 
-      it(`has the right className for the hour range on day ${dayIndex}`, () => {
-        expect(range.props.className).toEqual('hoursClass');
-      });
+        it(`has the right className for the hour range on day ${dayIndex}`, () => {
+          expect(range.props.className).toEqual('lastTiming');
+        });
 
-      it(`contains information about the range on day ${dayIndex} in the right element`, () => {
-        expect(range.type).toEqual('dd');
-      });
-    });
-
-    describe('for days with opening hours', () => {
-      let openDayRange;
-
-      beforeEach(() => {
-        openDayRange = result.props.children[1];
-      });
-
-      it('contains a string with the range of hours', () => {
-        expect(openDayRange.props.children)
-          .toEqual('embeddable_framework.chat.operatingHours.label.hourRange');
-      });
-    });
-
-    describe('for days without opening hours', () => {
-      let closedDay;
-
-      beforeEach(() => {
-        closedDay = result.props.children[5];
-      });
-
-      it('comes up as closed', () => {
-        expect(closedDay.props.children)
-          .toEqual('embeddable_framework.chat.operatingHours.label.closed');
+        it(`contains information about the range on day ${dayIndex} in the right element`, () => {
+          expect(range.type).toEqual('dd');
+        });
       });
     });
   });

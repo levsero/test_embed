@@ -65,28 +65,46 @@ export class ChatOperatingHours extends Component {
     return _.find(schedule, (d) => { return d.id === departmentKey;} );
   }
 
-  renderDayName = (dayName) => {
-    return i18n.t(`embeddable_framework.chat.operatingHours.label.${dayName}`);
+  renderHours = (daySchedule, dayScheduleIndex) => {
+    return daySchedule.map((hours, index) => {
+      const range = this.hourRange(hours);
+      const timingStyle = index === daySchedule.length - 1 ? styles.lastTiming : '';
+
+      return (
+        <dd key={`dd-${dayScheduleIndex}-${index}`} className={timingStyle}>
+          {range}
+        </dd>
+      );
+    });
   }
 
-  renderHours = (index, schedule) => {
-    const hours = schedule[index][0];
-    const range = hours ? this.hourRange(hours) : i18n.t('embeddable_framework.chat.operatingHours.label.closed');
-
-    return range;
+  renderDayName = (dayName, index) => {
+    return (
+      <dt className={styles.dayName}
+        key={`dt-${index}`}>
+        {i18n.t(`embeddable_framework.chat.operatingHours.label.${dayName}`)}
+      </dt>
+    );
   }
 
   renderSchedule = (schedule) => {
+    const dayElems = this.daysOfTheWeek.reduce((listElemItems, day, index) => {
+      const dayName = this.renderDayName(day, index);
+      const closed = (
+        <dd key={`dd-${index}-closed`} className={styles.lastTiming}>
+          {i18n.t('embeddable_framework.chat.operatingHours.label.closed')}
+        </dd>
+      );
+      const hourTimings = (schedule[index].length > 0)
+        ? this.renderHours(schedule[index], index)
+        : [closed];
+
+      return listElemItems.concat([dayName, ...hourTimings]);
+    }, []);
+
     return (
       <dl className={styles.dayList}>
-        {this.daysOfTheWeek.reduce((accumulator, day, index) => {
-          return accumulator.concat([
-            <dt className={styles.dayName} key={`dt-${index}`}>{this.renderDayName(day)}</dt>,
-            <dd className={styles.hours} key={`dd-${index}`}>
-              {this.renderHours(index, schedule)}
-            </dd>
-          ]);
-        }, [])}
+        {dayElems}
       </dl>
     );
   }
