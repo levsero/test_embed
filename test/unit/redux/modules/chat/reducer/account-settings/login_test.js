@@ -63,5 +63,37 @@ describe('chat reducer accountSettings login', () => {
           .toEqual(expected);
       });
     });
+
+    describe('when a UPDATE_PREVIEWER_SETTINGS action is dispatched', () => {
+      const restrictProfile = true;
+      const phoneDisplay = true;
+      const allowedTypes = { loginMethod1: 'method1', loginMethod2: 'method2' };
+
+      beforeEach(() => {
+        const mockSettings = {
+          login: {
+            restrict_profile: restrictProfile,
+            phone_display: phoneDisplay,
+            allowed_types: allowedTypes
+          }
+        };
+
+        state = reducer(initialState, {
+          type: actionTypes.UPDATE_PREVIEWER_SETTINGS,
+          payload: mockSettings
+        });
+      });
+
+      it('sets the state correctly', () => {
+        const expected = {
+          enabled: !restrictProfile,
+          phoneEnabled: phoneDisplay,
+          loginTypes: allowedTypes
+        };
+
+        expect(state)
+          .toEqual(expected);
+      });
+    });
   });
 });

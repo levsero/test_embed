@@ -1452,4 +1452,43 @@ describe('chat redux actions', () => {
       });
     });
   });
+
+  describe('updatePreviewerScreen', () => {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updatePreviewerScreen('chatting'));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches UPDATE_PREVIEWER_SCREEN action', () => {
+      expect(action.type)
+        .toBe(actionTypes.UPDATE_PREVIEWER_SCREEN);
+    });
+
+    it('has the correct params in the payload', () => {
+      expect(action.payload)
+        .toBe('chatting');
+    });
+  });
+
+  describe('updatePreviewerSettings', () => {
+    let action;
+    const settings = { rating: { enabled: true } };
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updatePreviewerSettings(settings));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches UPDATE_PREVIEWER_SETTINGS action', () => {
+      expect(action.type)
+        .toBe(actionTypes.UPDATE_PREVIEWER_SETTINGS);
+    });
+
+    it('has the correct params in the payload', () => {
+      expect(action.payload)
+        .toBe(settings);
+    });
+  });
 });

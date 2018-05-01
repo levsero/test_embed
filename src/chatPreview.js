@@ -10,6 +10,7 @@ import Chat from 'component/chat/Chat';
 import { Container } from 'component/container/Container';
 import { Frame } from 'component/frame/Frame';
 import { i18n } from 'service/i18n';
+import { updatePreviewerScreen, updatePreviewerSettings } from 'src/redux/modules/chat';
 
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles.js';
 
@@ -87,8 +88,18 @@ const renderPreview = (options) => {
     _.defer(preview.updateFrameSize);
   });
 
+  const updateScreen = (screen) => {
+    store.dispatch(updatePreviewerScreen(screen));
+  };
+
+  const updateSettings = (settings) => {
+    store.dispatch(updatePreviewerSettings(settings));
+  };
+
   return {
-    _component: preview
+    _component: preview,
+    updateScreen,
+    updateSettings
   };
 };
 

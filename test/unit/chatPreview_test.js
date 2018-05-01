@@ -12,6 +12,8 @@ describe('chatPreview file', () => {
       marginRight: '16px'
     }
   };
+  const updatePreviewerScreenSpy = jasmine.createSpy('updatePreviewerScreen');
+  const updatePreviewerSettingsSpy = jasmine.createSpy('updatePreviewerSettings');
 
   beforeEach(() => {
     mockery.enable();
@@ -41,8 +43,12 @@ describe('chatPreview file', () => {
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['setLocale'])
       },
+      'src/redux/modules/chat': {
+        updatePreviewerScreen: updatePreviewerScreenSpy,
+        updatePreviewerSettings: updatePreviewerSettingsSpy
+      },
       'embed/webWidget/webWidgetStyles.js': '',
-      'src/redux/createStore': noop
+      'src/redux/createStore': () => ({ dispatch: noop })
     });
 
     requireUncached(previewPath);
@@ -182,6 +188,38 @@ describe('chatPreview file', () => {
         expect(() => window.zE.renderPreview())
           .toThrow();
       });
+    });
+  });
+
+  describe('updateScreen', () => {
+    let element;
+
+    beforeEach(() => {
+      element = document.body.appendChild(document.createElement('div'));
+      const preview = window.zE.renderPreview({ element });
+
+      preview.updateScreen('chatting');
+    });
+
+    it('calls updatePreviewerScreen action with the payload', () => {
+      expect(updatePreviewerScreenSpy)
+        .toHaveBeenCalledWith('chatting');
+    });
+  });
+
+  describe('updateSettings', () => {
+    let element;
+
+    beforeEach(() => {
+      element = document.body.appendChild(document.createElement('div'));
+      const preview = window.zE.renderPreview({ element });
+
+      preview.updateSettings({ rating: { enabled: true } });
+    });
+
+    it('calls updatePreviewerSettings action with the payload', () => {
+      expect(updatePreviewerSettingsSpy)
+        .toHaveBeenCalledWith({ rating: { enabled: true } });
     });
   });
 });

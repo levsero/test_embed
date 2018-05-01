@@ -55,5 +55,29 @@ describe('chat reducer accountSettings theme', () => {
           .toEqual(expected);
       });
     });
+
+    describe('when a UPDATE_PREVIEWER_SETTINGS action is dispatched', () => {
+      beforeEach(() => {
+        const mockSettings = {
+          theme: {
+            message_type: 'bubble_avatar'
+          }
+        };
+
+        state = reducer(initialState, {
+          type: actionTypes.UPDATE_PREVIEWER_SETTINGS,
+          payload: mockSettings
+        });
+      });
+
+      it('sets the action payload as the state', () => {
+        const expected = {
+          message_type: 'bubble_avatar'
+        };
+
+        expect(state)
+          .toEqual(expected);
+      });
+    });
   });
 });

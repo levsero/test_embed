@@ -1,4 +1,4 @@
-import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS } from '../../chat-action-types';
+import { GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS, UPDATE_PREVIEWER_SETTINGS } from '../../chat-action-types';
 
 const initialState = {
   form: {
@@ -13,6 +13,7 @@ const initialState = {
 const offlineForm = (state = initialState, action) => {
   switch (action.type) {
     case GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS:
+    case UPDATE_PREVIEWER_SETTINGS:
       return {
         ...action.payload.forms.offline_form,
         enabled: !action.payload.chat_button.hide_when_offline

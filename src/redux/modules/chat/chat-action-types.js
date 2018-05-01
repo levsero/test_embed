@@ -48,6 +48,8 @@ export const CHAT_AGENT_INACTIVE = 'widget/chat/CHAT_AGENT_INACTIVE';
 export const HISTORY_REQUEST_SENT = 'widget/chat/HISTORY_REQUEST_SENT';
 export const HISTORY_REQUEST_SUCCESS = 'widget/chat/HISTORY_REQUEST_SUCCESS';
 export const HISTORY_REQUEST_FAILURE = 'widget/chat/HISTORY_REQUEST_FAILURE';
+export const UPDATE_PREVIEWER_SCREEN = 'widget/chat/UPDATE_PREVIEWER_SCREEN';
+export const UPDATE_PREVIEWER_SETTINGS = 'widget/chat/UPDATE_PREVIEWER_SETTINGS';
 
 export const SDK_ERROR = 'websdk/error';
 export const SDK_CHAT_MSG = 'websdk/chat.msg';

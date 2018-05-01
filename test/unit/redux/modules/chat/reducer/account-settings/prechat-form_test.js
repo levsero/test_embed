@@ -80,5 +80,36 @@ describe('chat reducer accountSettings prechatForm', () => {
           .toEqual(settings.forms.pre_chat_form);
       });
     });
+
+    describe('when a UPDATE_PREVIEWER_SETTINGS action is dispatched', () => {
+      let settings;
+      const mockForm = {
+        0: { name: 'name', required: true },
+        1: { name: 'email', required: true }
+      };
+
+      beforeEach(() => {
+        settings = {
+          forms: {
+            pre_chat_form: {
+              form: mockForm,
+              message: 'Hello, World!',
+              profile_required: false,
+              required: true
+            }
+          }
+        };
+
+        state = reducer(initialState, {
+          type: actionTypes.UPDATE_PREVIEWER_SETTINGS,
+          payload: settings
+        });
+      });
+
+      it('sets the action payload as the state', () => {
+        expect(state)
+          .toEqual(settings.forms.pre_chat_form);
+      });
+    });
   });
 });
