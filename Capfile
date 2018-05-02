@@ -14,6 +14,7 @@ set :email_notification, ['deploys@zendesk.com',
 
 set :framework_files,    ['main.js',
                           'webWidgetPreview.js',
+                          'chatPreview.js',
                           'bootstrap.js']
 
 set :branch, ENV['REVISION'] || 'master'
