@@ -28,7 +28,8 @@ import { getChatAvailable,
   getShowTicketFormsBackButton } from 'src/redux/modules/selectors';
 import { getArticleViewActive,
   getSearchFieldFocused,
-  getHasSearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+  getHasSearched,
+  getResultsCount } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getChatNotification,
   getShowOfflineChat,
   getIsChatting,
@@ -68,7 +69,8 @@ const mapStateToProps = (state) => {
     chatStandalone: getChatStandalone(state),
     showOfflineChat: getShowOfflineChat(state),
     isChatting: getIsChatting(state),
-    hasSearched: getHasSearched(state)
+    hasSearched: getHasSearched(state),
+    resultsCount: getResultsCount(state)
   };
 };
 
@@ -128,7 +130,8 @@ class WebWidget extends Component {
     isChatting: PropTypes.bool.isRequired,
     onShowMobile: PropTypes.func,
     hasSearched: PropTypes.bool.isRequired,
-    showStandaloneMobileNotification: PropTypes.func.isRequired
+    showStandaloneMobileNotification: PropTypes.func.isRequired,
+    resultsCount: PropTypes.number.isRequired
   };
 
   static defaultProps = {
@@ -534,6 +537,7 @@ class WebWidget extends Component {
 
     return (
       <ChatNotificationPopup
+        resultsCount={this.props.resultsCount}
         isMobile={this.props.fullscreen}
         notification={this.props.chatNotification}
         shouldShow={shouldShow}

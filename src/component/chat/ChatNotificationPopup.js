@@ -14,6 +14,7 @@ export class ChatNotificationPopup extends Component {
     isMobile: PropTypes.bool,
     notification: PropTypes.object.isRequired,
     shouldShow: PropTypes.bool.isRequired,
+    resultsCount: PropTypes.number.isRequired,
     chatNotificationDismissed: PropTypes.func.isRequired,
     chatNotificationRespond: PropTypes.func.isRequired
   }
@@ -48,16 +49,27 @@ export class ChatNotificationPopup extends Component {
     );
   }
 
-  renderProactiveContent = () => {
-    const { avatar_path: avatarPath, display_name, proactive, msg } = this.props.notification; // eslint-disable-line camelcase
-    const agentName = proactive ? display_name : ''; // eslint-disable-line camelcase
+  renderAvatar = (avatarPath, proactive) => {
     const avatarClasses = proactive ? styles.proactiveAvatar : styles.avatar;
+
+    if (avatarPath === '') return null;
+
+    return <Avatar className={avatarClasses} src={avatarPath} fallbackIcon="Icon--avatar" />;
+  }
+
+  renderProactiveContent = () => {
+    const { avatar_path: avatarPath, display_name: displayName , proactive, msg } = this.props.notification; // eslint-disable-line camelcase
+    const noAvatar = (avatarPath === '');
+    const agentContainerStyle = classNames(styles.agentContainer, {
+      [styles.agentContainerWithAvatar]: !noAvatar,
+      [styles.ongoingAgentContainer]: !proactive
+    });
 
     return (
       <div className={styles.proactiveContainer}>
-        <Avatar className={avatarClasses} src={avatarPath} fallbackIcon="Icon--avatar" />
-        <div className={styles.agentContainer}>
-          {this.renderAgentName(agentName)}
+        {this.renderAvatar(avatarPath, proactive)}
+        <div className={agentContainerStyle}>
+          {this.renderAgentName(displayName)}
           {this.renderAgentMessage(msg)}
         </div>
       </div>
@@ -65,16 +77,23 @@ export class ChatNotificationPopup extends Component {
   }
 
   render = () => {
-    const { notification, shouldShow, chatNotificationDismissed, chatNotificationRespond, isMobile } = this.props;
+    const {
+      notification,
+      shouldShow,
+      chatNotificationDismissed,
+      chatNotificationRespond,
+      isMobile,
+      resultsCount
+    } = this.props;
     const { proactive } = notification;
-    const className = classNames({
-      [styles.ongoingNotificationCta]: proactive,
-      [styles.ongoingNotificationDesktop]: !proactive && !isMobile,
-      [styles.ongoingNotificationMobile]: !proactive && isMobile
+    const hasArticleResults = (resultsCount > 0);
+    const componentStyles = classNames({
+      [styles.proactiveNotificationDesktop]: proactive && !isMobile,
+      [styles.proactiveNotificationMobile]: proactive && isMobile,
+      [styles.ongoingNotificationDesktop]: hasArticleResults && !proactive && !isMobile,
+      [styles.ongoingNotificationMobile]: !proactive && isMobile,
+      [styles.ongoingNotificationNoResultsDesktop]: !hasArticleResults && !proactive && !isMobile
     });
-    const containerClassName = classNames(
-      { [styles.notificationContainerMobile]: proactive && isMobile }
-    );
 
     return (
       <ChatPopup
@@ -82,8 +101,7 @@ export class ChatNotificationPopup extends Component {
         showCta={proactive}
         isDismissible={true}
         onCloseIconClick={chatNotificationDismissed}
-        className={className}
-        containerClassName={containerClassName}
+        className={componentStyles}
         show={notification.show && shouldShow}
         leftCtaLabel={i18n.t('embeddable_framework.chat.popup.button.dismiss')}
         leftCtaFn={chatNotificationDismissed}

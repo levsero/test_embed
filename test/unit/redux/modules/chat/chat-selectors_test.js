@@ -163,7 +163,8 @@ describe('chat selectors', () => {
   describe('getChatNotification', () => {
     let result,
       mockAgents,
-      mockChats;
+      mockChats,
+      mockConciergeSettings;
     const mockNotification = {
       nick: 'agent:007',
       display_name: 'bond',
@@ -177,12 +178,14 @@ describe('chat selectors', () => {
       beforeEach(() => {
         mockAgents = new Map([['agent:007', { avatar_path: '/path/' }]]);
         mockChats = [{ nick: 'agent:007', type: 'chat.msg', msg: 'how are you' }];
+        mockConciergeSettings = { avatar_path: '' };
 
         result = getChatNotification({
           chat: {
             notification: mockNotification,
             agents: mockAgents,
-            chats: { values: () => mockChats }
+            chats: { values: () => mockChats },
+            accountSettings: { concierge: mockConciergeSettings }
           }
         });
       });
@@ -207,6 +210,50 @@ describe('chat selectors', () => {
             msg: 'how are you',
             avatar_path: '/path/'
           }));
+      });
+    });
+
+    describe('when current agent has a personal avatar path', () => {
+      beforeEach(() => {
+        mockAgents = new Map([['agent:007', { avatar_path: 'www.terence.com/avatar.jpeg' }]]);
+        mockChats = [{ nick: 'agent:007', type: 'chat.msg', msg: 'how are you' }];
+        mockConciergeSettings = { avatar_path: 'www.zen.desk/avatar.jpeg' };
+
+        result = getChatNotification({
+          chat: {
+            notification: mockNotification,
+            agents: mockAgents,
+            chats: { values: () => mockChats },
+            accountSettings: { concierge: mockConciergeSettings }
+          }
+        });
+      });
+
+      it('returns an object with the agents personal avatar path', () => {
+        expect(result.avatar_path)
+          .toEqual('www.terence.com/avatar.jpeg');
+      });
+    });
+
+    describe('when current agent does not have their own avatar', () => {
+      beforeEach(() => {
+        mockAgents = new Map([['agent:007', { avatar_path: '' }]]);
+        mockChats = [{ nick: 'agent:007', type: 'chat.msg', msg: 'how are you' }];
+        mockConciergeSettings = { avatar_path: 'www.zen.desk/avatar.jpeg' };
+
+        result = getChatNotification({
+          chat: {
+            notification: mockNotification,
+            agents: mockAgents,
+            chats: { values: () => mockChats },
+            accountSettings: { concierge: mockConciergeSettings }
+          }
+        });
+      });
+
+      it('returns an object with the company\'s avatar path', () => {
+        expect(result.avatar_path)
+          .toEqual('www.zen.desk/avatar.jpeg');
       });
     });
   });
