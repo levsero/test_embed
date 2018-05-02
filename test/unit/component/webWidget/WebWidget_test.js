@@ -6,8 +6,6 @@ describe('WebWidget component', () => {
     mockUpdateActiveEmbed;
   const clearFormSpy = jasmine.createSpy();
   const webWidgetPath = buildSrcPath('component/webWidget/WebWidget');
-
-  const ChatOffline = connectedComponent(noopReactComponent());
   const ChatNotificationPopup = noopReactComponent();
 
   beforeEach(() => {
@@ -42,7 +40,7 @@ describe('WebWidget component', () => {
       }
     }
 
-    class MockChatOnline extends Component {
+    class MockChat extends Component {
       constructor() {
         super();
         this.state = {};
@@ -72,8 +70,7 @@ describe('WebWidget component', () => {
           }
         }
       },
-      'component/chat/Chat': connectedComponent(<MockChatOnline />),
-      'component/chat/ChatOffline': ChatOffline,
+      'component/chat/Chat': connectedComponent(<MockChat />),
       'component/helpCenter/HelpCenter': connectedComponent(<MockHelpCenter />),
       'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),
       'component/talk/Talk': connectedComponent(<MockTalk />),
@@ -380,92 +377,63 @@ describe('WebWidget component', () => {
   });
 
   describe('renderChat', () => {
-    let result;
+    const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility');
+    let webWidget;
 
-    describe('when props.showOfflineChat is true', () => {
-      beforeEach(() => {
-        const webWidget = instanceRender(
-          <WebWidget
-            activeEmbed='chat'
-            showOfflineChat={true} />
-        );
-
-        result = webWidget.renderChat();
-      });
-
-      it('renders ChatOffline', () => {
-        expect(TestUtils.isElementOfType(result, ChatOffline))
-          .toEqual(true);
-      });
+    beforeEach(() => {
+      webWidget = instanceRender(
+        <WebWidget
+          updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+          activeEmbed='chat'
+          showOfflineChat={true} />
+      );
     });
 
-    describe('when props.showOfflineForm is false', () => {
-      const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility');
-      let webWidget;
+    describe('the function passed to updateChatBackButtonVisibility', () => {
+      let chatComponent;
 
-      beforeEach(() => {
-        webWidget = instanceRender(
-          <WebWidget
-            activeEmbed='chat'
-            showOfflineForm={false}
-            chatStatus='offline'
-            updateBackButtonVisibility={updateBackButtonVisibilitySpy} />
-        );
+      describe('when isHelpCenterAvailable is true', () => {
+        beforeEach(() => {
+          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(true);
+          spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(false);
 
-        result = webWidget.renderChat();
-      });
-
-      it('renders Chat', () => {
-        expect(result.ref)
-          .toEqual('chat');
-      });
-
-      describe('the function passed to updateChatBackButtonVisibility', () => {
-        let chatComponent;
-
-        describe('when isHelpCenterAvailable is true', () => {
-          beforeEach(() => {
-            spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(true);
-            spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(false);
-
-            chatComponent = webWidget.renderChat();
-            chatComponent.props.updateChatBackButtonVisibility();
-          });
-
-          it('calls updateBackButtonVisibility with true', () => {
-            expect(updateBackButtonVisibilitySpy)
-              .toHaveBeenCalledWith(true);
-          });
+          chatComponent = webWidget.renderChat();
+          chatComponent.props.updateChatBackButtonVisibility();
         });
 
-        describe('when isChannelChoiceAvailable is true', () => {
-          beforeEach(() => {
-            spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
-            spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(true);
+        it('calls updateBackButtonVisibility with true', () => {
+          expect(updateBackButtonVisibilitySpy)
+            .toHaveBeenCalledWith(true);
+        });
+      });
 
-            chatComponent = webWidget.renderChat();
-            chatComponent.props.updateChatBackButtonVisibility();
-          });
+      describe('when isChannelChoiceAvailable is true', () => {
+        beforeEach(() => {
+          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
+          spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(true);
 
-          it('calls updateBackButtonVisibility with true', () => {
-            expect(updateBackButtonVisibilitySpy)
-              .toHaveBeenCalledWith(true);
-          });
+          chatComponent = webWidget.renderChat();
+          chatComponent.props.updateChatBackButtonVisibility();
         });
 
-        describe('when isChannelChoiceAvailable and isHelpCenterAvailable are false', () => {
-          beforeEach(() => {
-            spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
-            spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(false);
+        it('calls updateBackButtonVisibility with true', () => {
+          expect(updateBackButtonVisibilitySpy)
+            .toHaveBeenCalledWith(true);
+        });
+      });
 
-            chatComponent = webWidget.renderChat();
-            chatComponent.props.updateChatBackButtonVisibility();
-          });
+      describe('when isChannelChoiceAvailable and isHelpCenterAvailable are false', () => {
+        beforeEach(() => {
+          spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
+          spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(false);
 
-          it('calls updateBackButtonVisibility with true', () => {
-            expect(updateBackButtonVisibilitySpy)
-              .toHaveBeenCalledWith(false);
-          });
+          chatComponent = webWidget.renderChat();
+          chatComponent.props.updateChatBackButtonVisibility();
+        });
+
+        it('calls updateBackButtonVisibility with false', () => {
+          expect(updateBackButtonVisibilitySpy)
+            .toHaveBeenCalledWith(false);
         });
       });
     });
