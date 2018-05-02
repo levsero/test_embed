@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { win } from 'utility/globals';
 import { objectDifference } from 'utility/utils';
 import { updateSettingsChatSuppress,
-         updateSettings } from 'src/redux/modules/settings';
+  updateSettings } from 'src/redux/modules/settings';
 
 const optionWhitelist = {
   webWidget: [
