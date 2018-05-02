@@ -50,6 +50,36 @@ describe('settings redux actions', () => {
     });
   });
 
+  describe('updateSettings', () => {
+    let action;
+    const someSettings = {
+      webWidget: {
+        chat: {
+          visitor: {
+            departments: {
+              department: 'yo'
+            }
+          }
+        }
+      }
+    };
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateSettings(someSettings));
+      action = mockStore.getActions()[0];
+    });
+
+    it('updates settings for chat suppress to true', () => {
+      const expected = {
+        type: actionTypes.UPDATE_SETTINGS,
+        payload: someSettings
+      };
+
+      expect(action)
+        .toEqual(expected);
+    });
+  });
+
   describe('resetSettingsChatSuppress', () => {
     let action;
 
