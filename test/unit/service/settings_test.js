@@ -9,12 +9,14 @@ describe('settings', () => {
   const createMockStore = configureMockStore();
   const mockStore = createMockStore();
   const mockUpdateSettingsChatSuppressAction = 'UPDATE_SETTINGS_CHAT_SUPPRESS';
+  const mockUpdateSettingsAction = 'UPDATE_SETTINGS';
 
   beforeEach(() => {
     mockery.enable();
     mockRegistry = initMockRegistry({
       'src/redux/modules/settings': {
-        updateSettingsChatSuppress: () => { return { type: mockUpdateSettingsChatSuppressAction }; }
+        updateSettingsChatSuppress: () => { return { type: mockUpdateSettingsChatSuppressAction }; },
+        updateSettings: () => { return { type: mockUpdateSettingsAction }; }
       },
       'utility/globals': {
         win: {
@@ -163,6 +165,13 @@ describe('settings', () => {
       expect(mockStore.getActions()[0].type)
         .toEqual(mockUpdateSettingsChatSuppressAction);
     });
+
+    it('calls updateSettings', () => {
+      settings.init(mockStore);
+
+      expect(mockStore.getActions()[1].type)
+        .toEqual(mockUpdateSettingsAction);
+    });
   });
 
   describe('#get', () => {
@@ -187,7 +196,12 @@ describe('settings', () => {
             localeFallbacks: ['fr']
           },
           chat: {
-            suppress: true
+            suppress: true,
+            visitor: {
+              departments: {
+                department: ''
+              }
+            }
           },
           talk: {
             suppress: true
@@ -204,6 +218,11 @@ describe('settings', () => {
     it('returns user setting for helpCenter.originalArticleButton', () => {
       expect(settings.get('helpCenter.originalArticleButton'))
         .toBe(false);
+    });
+
+    it('returns chat department settings', () => {
+      expect(settings.get('chat.visitor.departments.department'))
+        .toBe('');
     });
 
     it('returns user setting for suppress', () => {
