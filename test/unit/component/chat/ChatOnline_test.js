@@ -4,13 +4,13 @@ const loadingScreen = 'widget/chat/LOADING_SCREEN';
 const feedbackScreen = 'widget/chat/FEEDBACK_SCREEN';
 const offlineMessageScreen = 'widget/chat/OFFLINE_MESSAGE_SCREEN';
 
-describe('Chat component', () => {
-  let Chat,
+describe('ChatOnline component', () => {
+  let ChatOnline,
     isIE,
     isFirefox,
     prechatFormSettingsProp;
 
-  const chatPath = buildSrcPath('component/chat/Chat');
+  const chatPath = buildSrcPath('component/chat/ChatOnline');
   const chatConstantsPath = buildSrcPath('constants/chat');
 
   const AGENT_LIST_SCREEN = 'widget/chat/AGENT_LIST_SCREEN';
@@ -46,7 +46,7 @@ describe('Chat component', () => {
     isFirefox = false;
 
     initMockRegistry({
-      './Chat.scss': {
+      './ChatOnline.scss': {
         locals: {
           scrollContainerMobile: 'scrollContainerMobileClasses',
           scrollContainerMessagesContent: 'scrollContainerMessagesContentClass',
@@ -181,7 +181,7 @@ describe('Chat component', () => {
     });
 
     mockery.registerAllowable(chatPath);
-    Chat = requireUncached(chatPath).default.WrappedComponent;
+    ChatOnline = requireUncached(chatPath).default.WrappedComponent;
   });
 
   afterEach(() => {
@@ -207,7 +207,7 @@ describe('Chat component', () => {
       updateMenuVisibilitySpy = jasmine.createSpy('updateMenuVisibility');
 
       component = instanceRender(
-        <Chat
+        <ChatOnline
           updateContactDetailsVisibility={updateContactDetailsVisibilitySpy}
           updateEmailTranscriptVisibility={updateEmailTranscriptVisibilitySpy}
           updateMenuVisibility={updateMenuVisibilitySpy}
@@ -246,7 +246,7 @@ describe('Chat component', () => {
       events;
 
     beforeEach(() => {
-      component = instanceRender(<Chat screen={currentScreen} chats={chats} events={events} />);
+      component = instanceRender(<ChatOnline screen={currentScreen} chats={chats} events={events} />);
       spyOn(component, 'scrollToBottom');
       component.componentDidMount();
     });
@@ -299,7 +299,7 @@ describe('Chat component', () => {
     beforeEach(() => {
       updateChatBackButtonVisibilitySpy = jasmine.createSpy('updateChatBackButtonVisibility');
 
-      const component = instanceRender(<Chat updateChatBackButtonVisibility={updateChatBackButtonVisibilitySpy} />);
+      const component = instanceRender(<ChatOnline updateChatBackButtonVisibility={updateChatBackButtonVisibilitySpy} />);
 
       component.componentDidMount();
     });
@@ -319,7 +319,7 @@ describe('Chat component', () => {
 
       beforeEach(() => {
         updateChatBackButtonVisibilitySpy = jasmine.createSpy('updateChatBackButtonVisibility');
-        component = instanceRender(<Chat updateChatBackButtonVisibility={updateChatBackButtonVisibilitySpy} screen='screen' chats={[]} events={[]} />);
+        component = instanceRender(<ChatOnline updateChatBackButtonVisibility={updateChatBackButtonVisibilitySpy} screen='screen' chats={[]} events={[]} />);
         nextProps = {
           screen: 'screen',
           chats: [],
@@ -354,7 +354,7 @@ describe('Chat component', () => {
       sendOfflineMessageSpy = jasmine.createSpy('sendOfflineMessage');
       clearDepartmentSpy = jasmine.createSpy('clearDepartment');
       component = instanceRender(
-        <Chat
+        <ChatOnline
           postChatFormSettings={{ header: 'foo' }}
           setVisitorInfo={setVisitorInfoSpy}
           sendMsg={sendMsgSpy}
@@ -598,7 +598,7 @@ describe('Chat component', () => {
     describe('when state.screen is `prechat`', () => {
       beforeEach(() => {
         component = instanceRender(
-          <Chat
+          <ChatOnline
             screen={prechatScreen}
             prechatFormSettings={prechatFormSettingsProp} />
         );
@@ -631,7 +631,7 @@ describe('Chat component', () => {
     describe('when state.screen is `offlinemessage`', () => {
       beforeEach(() => {
         component = instanceRender(
-          <Chat
+          <ChatOnline
             screen={offlineMessageScreen}
             prechatFormSettings={prechatFormSettingsProp} />
         );
@@ -664,7 +664,7 @@ describe('Chat component', () => {
     describe('when state.screen is `loading`', () => {
       beforeEach(() => {
         component = instanceRender(
-          <Chat
+          <ChatOnline
             screen={loadingScreen}
             prechatFormSettings={prechatFormSettingsProp} />
         );
@@ -697,7 +697,7 @@ describe('Chat component', () => {
     describe('when state.screen is not `prechat` and not `offlinemessage`', () => {
       beforeEach(() => {
         component = instanceRender(
-          <Chat
+          <ChatOnline
             screen={'yoloScreen'}
             prechatFormSettings={prechatFormSettingsProp} />
         );
@@ -714,7 +714,7 @@ describe('Chat component', () => {
       describe('when user is on mobile', () => {
         beforeEach(() => {
           component = instanceRender(
-            <Chat
+            <ChatOnline
               screen={prechatScreen}
               prechatFormSettings={prechatFormSettingsProp}
               isMobile={true} />
@@ -731,7 +731,7 @@ describe('Chat component', () => {
       describe('when user is not on mobile', () => {
         beforeEach(() => {
           component = instanceRender(
-            <Chat
+            <ChatOnline
               screen={prechatScreen}
               prechatFormSettings={prechatFormSettingsProp}
               isMobile={false} />
@@ -749,7 +749,7 @@ describe('Chat component', () => {
       describe('when hideZendeskLogo is false', () => {
         beforeEach(() => {
           component = instanceRender(
-            <Chat
+            <ChatOnline
               screen={prechatScreen}
               prechatFormSettings={prechatFormSettingsProp}
               hideZendeskLogo={false} />
@@ -771,7 +771,7 @@ describe('Chat component', () => {
       describe('when hideZendeskLogo is true', () => {
         beforeEach(() => {
           component = instanceRender(
-            <Chat
+            <ChatOnline
               screen={prechatScreen}
               prechatFormSettings={prechatFormSettingsProp}
               hideZendeskLogo={true} />
@@ -798,7 +798,7 @@ describe('Chat component', () => {
     describe('when state.screen is not `feedback`', () => {
       beforeEach(() => {
         component = instanceRender(
-          <Chat
+          <ChatOnline
             screen={chattingScreen}
           />
         );
@@ -818,7 +818,7 @@ describe('Chat component', () => {
 
       beforeEach(() => {
         component = instanceRender(
-          <Chat
+          <ChatOnline
             screen={feedbackScreen}
             rating={defaultRating}
             updateChatScreen={updateChatScreenSpy}
@@ -958,7 +958,7 @@ describe('Chat component', () => {
         describe('when hideZendeskLogo is false', () => {
           beforeEach(() => {
             component = instanceRender(
-              <Chat
+              <ChatOnline
                 screen={feedbackScreen}
                 rating={defaultRating}
                 updateChatScreen={updateChatScreenSpy}
@@ -985,7 +985,7 @@ describe('Chat component', () => {
         describe('when hideZendeskLogo is true', () => {
           beforeEach(() => {
             component = instanceRender(
-              <Chat
+              <ChatOnline
                 screen={feedbackScreen}
                 rating={defaultRating}
                 updateChatScreen={updateChatScreenSpy}
@@ -1021,7 +1021,7 @@ describe('Chat component', () => {
       hideZendeskLogo = false
     }) => (
       instanceRender(
-        <Chat
+        <ChatOnline
           screen={chattingScreen}
           ratingSettings={{ enabled: ratingsEnabled }}
           activeAgents={agents}
@@ -1196,7 +1196,7 @@ describe('Chat component', () => {
 
       describe('the renderChatHeader call', () => {
         beforeEach(() => {
-          component = instanceRender(<Chat screen={chattingScreen} />);
+          component = instanceRender(<ChatOnline screen={chattingScreen} />);
           spyOn(component, 'renderChatHeader');
           component.renderChatScreen();
         });
@@ -1211,7 +1211,7 @@ describe('Chat component', () => {
     describe('when state.screen is not `chatting`', () => {
       beforeEach(() => {
         component = instanceRender(
-          <Chat
+          <ChatOnline
             screen={prechatScreen}
             prechatFormSettings={prechatFormSettingsProp} />
         );
@@ -1226,7 +1226,7 @@ describe('Chat component', () => {
     describe('when state.screen is `chatting`', () => {
       beforeEach(() => {
         component = instanceRender(
-          <Chat
+          <ChatOnline
             screen={chattingScreen}
             prechatFormSettings={prechatFormSettingsProp} />
         );
@@ -1243,7 +1243,7 @@ describe('Chat component', () => {
 
       beforeEach(() => {
         component = instanceRender(
-          <Chat
+          <ChatOnline
             screen={chattingScreen}
             lastAgentLeaveEvent={leaveEvent} />
         );
@@ -1264,7 +1264,7 @@ describe('Chat component', () => {
 
       beforeEach(() => {
         component = instanceRender(
-          <Chat
+          <ChatOnline
             screen={chattingScreen}
             lastAgentLeaveEvent={leaveEvent} />
         );
@@ -1282,7 +1282,7 @@ describe('Chat component', () => {
 
     describe('for non mobile devices', () => {
       beforeEach(() => {
-        component = instanceRender(<Chat screen={chattingScreen} />);
+        component = instanceRender(<ChatOnline screen={chattingScreen} />);
       });
 
       it('adds the scrollContainerMessagesContentDesktop to it', () => {
@@ -1305,7 +1305,7 @@ describe('Chat component', () => {
 
     describe('for mobile devices', () => {
       beforeEach(() => {
-        component = instanceRender(<Chat isMobile={true} screen={chattingScreen} />);
+        component = instanceRender(<ChatOnline isMobile={true} screen={chattingScreen} />);
       });
 
       it('does not add the scrollContainerMessagesContentDesktop to it', () => {
@@ -1328,7 +1328,7 @@ describe('Chat component', () => {
     describe('when the browser is Firefox', () => {
       beforeEach(() => {
         isFirefox = true;
-        component = instanceRender(<Chat screen={chattingScreen} />);
+        component = instanceRender(<ChatOnline screen={chattingScreen} />);
       });
 
       it('adds the scrollbar fix classes to scrollContainer', () => {
@@ -1340,7 +1340,7 @@ describe('Chat component', () => {
     describe('when the browser is Internet Explorer', () => {
       beforeEach(() => {
         isIE = true;
-        component = instanceRender(<Chat screen={chattingScreen} />);
+        component = instanceRender(<ChatOnline screen={chattingScreen} />);
       });
 
       it('adds the scrollbar fix classes to scrollContainer', () => {
@@ -1351,7 +1351,7 @@ describe('Chat component', () => {
 
     describe('the scroll container wrapper', () => {
       beforeEach(() => {
-        component = instanceRender(<Chat screen={chattingScreen} />);
+        component = instanceRender(<ChatOnline screen={chattingScreen} />);
       });
 
       it('has its classes prop to the scroll container style', () => {
@@ -1368,7 +1368,7 @@ describe('Chat component', () => {
 
       beforeEach(() => {
         component = instanceRender(
-          <Chat
+          <ChatOnline
             screen={chattingScreen}
             loginSettings={loginSettings}
             visitor={visitor}
@@ -1470,7 +1470,7 @@ describe('Chat component', () => {
 
     describe('when method is called', () => {
       beforeEach(() => {
-        component = instanceRender(<Chat />);
+        component = instanceRender(<ChatOnline />);
       });
 
       it('returns a ChatMenu component', () => {
@@ -1481,7 +1481,7 @@ describe('Chat component', () => {
 
     describe('when prop.menuVisible is false', () => {
       beforeEach(() => {
-        component = instanceRender(<Chat menuVisible={false} />);
+        component = instanceRender(<ChatOnline menuVisible={false} />);
       });
 
       it('passes false to its popup components show prop', () => {
@@ -1492,7 +1492,7 @@ describe('Chat component', () => {
 
     describe('when prop.menuVisible is true', () => {
       beforeEach(() => {
-        component = instanceRender(<Chat menuVisible={true} />);
+        component = instanceRender(<ChatOnline menuVisible={true} />);
       });
 
       it('passes true to its popup components show prop', () => {
@@ -1506,7 +1506,7 @@ describe('Chat component', () => {
 
       beforeEach(() => {
         updateMenuVisibilitySpy = jasmine.createSpy('updateMenuVisibility');
-        component = instanceRender(<Chat updateMenuVisibility={updateMenuVisibilitySpy} />);
+        component = instanceRender(<ChatOnline updateMenuVisibility={updateMenuVisibilitySpy} />);
 
         spyOn(component, 'setState');
 
@@ -1540,7 +1540,7 @@ describe('Chat component', () => {
       beforeEach(() => {
         updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility');
         component = instanceRender(
-          <Chat updateContactDetailsVisibility={updateContactDetailsVisibilitySpy} />
+          <ChatOnline updateContactDetailsVisibility={updateContactDetailsVisibilitySpy} />
         );
 
         const chatMenu = component.renderChatMenu();
@@ -1564,7 +1564,7 @@ describe('Chat component', () => {
       beforeEach(() => {
         updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility');
 
-        component = instanceRender(<Chat updateEmailTranscriptVisibility={updateEmailTranscriptVisibilitySpy} />);
+        component = instanceRender(<ChatOnline updateEmailTranscriptVisibility={updateEmailTranscriptVisibilitySpy} />);
 
         spyOn(component, 'setState');
 
@@ -1590,7 +1590,7 @@ describe('Chat component', () => {
         mockUserSoundSettings = false;
         handleSoundIconClickSpy = jasmine.createSpy('handleSoundIconClick');
         component = instanceRender(
-          <Chat
+          <ChatOnline
             userSoundSettings={mockUserSoundSettings}
             handleSoundIconClick={handleSoundIconClickSpy} />
         );
@@ -1615,7 +1615,7 @@ describe('Chat component', () => {
     describe('when the notification should be shown', () => {
       beforeEach(() => {
         component = instanceRender(
-          <Chat chat={{ rating: null }} />
+          <ChatOnline chat={{ rating: null }} />
         );
         component.setState({ showEndChatMenu: true });
       });
@@ -1628,7 +1628,7 @@ describe('Chat component', () => {
 
     describe('when the notification should not be shown', () => {
       beforeEach(() => {
-        component = instanceRender(<Chat chat={{ rating: null }} />);
+        component = instanceRender(<ChatOnline chat={{ rating: null }} />);
       });
 
       it('passes false to its popup components show prop', () => {
@@ -1652,7 +1652,7 @@ describe('Chat component', () => {
       mockVisitor = { name: 'Terence', email: 'foo@bar.com' };
 
       const component = instanceRender(
-        <Chat
+        <ChatOnline
           editContactDetails={mockEditContactDetails}
           visitor={mockVisitor} />
       );
@@ -1680,7 +1680,7 @@ describe('Chat component', () => {
         updateContactDetailsVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility');
 
         const component = instanceRender(
-          <Chat
+          <ChatOnline
             updateContactDetailsVisibility={updateContactDetailsVisibilitySpy}
             editContactDetails={{ show: true }} />
         );
@@ -1700,7 +1700,7 @@ describe('Chat component', () => {
         updateContactDetailsVisibilitySpy = jasmine.createSpy('updateContactDetailsVisibility');
 
         const component = instanceRender(
-          <Chat
+          <ChatOnline
             updateContactDetailsVisibility={updateContactDetailsVisibilitySpy}
             editContactDetails={mockEditContactDetails} />
         );
@@ -1722,7 +1722,7 @@ describe('Chat component', () => {
         mockEmail = 'foo@bar.com';
 
         const component = instanceRender(
-          <Chat
+          <ChatOnline
             setVisitorInfo={setVisitorInfoSpy}
             editContactDetails={mockEditContactDetails} />
         );
@@ -1748,7 +1748,7 @@ describe('Chat component', () => {
     describe('when the popup should be shown', () => {
       beforeEach(() => {
         component = instanceRender(
-          <Chat emailTranscript={{ show: true }} />
+          <ChatOnline emailTranscript={{ show: true }} />
         );
       });
 
@@ -1760,7 +1760,7 @@ describe('Chat component', () => {
 
     describe('when the popup should not be shown', () => {
       beforeEach(() => {
-        component = instanceRender(<Chat emailTranscript={{ show: false }} />);
+        component = instanceRender(<ChatOnline emailTranscript={{ show: false }} />);
       });
 
       it('does not render the component', () => {
@@ -1774,7 +1774,7 @@ describe('Chat component', () => {
         updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility');
 
         const component = instanceRender(
-          <Chat
+          <ChatOnline
             updateEmailTranscriptVisibility={updateEmailTranscriptVisibilitySpy}
             emailTranscript={{ show: true }} />
         );
@@ -1794,7 +1794,7 @@ describe('Chat component', () => {
         updateEmailTranscriptVisibilitySpy = jasmine.createSpy('updateEmailTranscriptVisibility');
 
         const component = instanceRender(
-          <Chat
+          <ChatOnline
             updateEmailTranscriptVisibility={updateEmailTranscriptVisibilitySpy}
             emailTranscript={{ show: true }} />
         );
@@ -1817,7 +1817,7 @@ describe('Chat component', () => {
         mockEmailTranscript = { show: true, email: 'foo@bar.com' };
 
         const component = instanceRender(
-          <Chat
+          <ChatOnline
             sendEmailTranscript={sendEmailTranscriptSpy}
             emailTranscript={mockEmailTranscript} />
         );
@@ -1848,7 +1848,7 @@ describe('Chat component', () => {
 
         beforeEach(() => {
           queuePosition = 5;
-          const component = instanceRender(<Chat activeAgents={mockAgents} queuePosition={queuePosition} />);
+          const component = instanceRender(<ChatOnline activeAgents={mockAgents} queuePosition={queuePosition} />);
 
           queuePositionComponent = component.renderQueuePosition();
         });
@@ -1869,7 +1869,7 @@ describe('Chat component', () => {
       describe('when the queuePosition prop is zero', () => {
         beforeEach(() => {
           queuePosition = 0;
-          const component = instanceRender(<Chat activeAgents={mockAgents} queuePosition={queuePosition} />);
+          const component = instanceRender(<ChatOnline activeAgents={mockAgents} queuePosition={queuePosition} />);
 
           queuePositionComponent = component.renderQueuePosition();
         });
@@ -1885,7 +1885,7 @@ describe('Chat component', () => {
       beforeEach(() => {
         mockAgents = {'agent123456': { display_name: 'Wayne', typing: false }};
         queuePosition = 5;
-        const component = instanceRender(<Chat activeAgents={mockAgents} queuePosition={queuePosition} />);
+        const component = instanceRender(<ChatOnline activeAgents={mockAgents} queuePosition={queuePosition} />);
 
         queuePositionComponent = component.renderQueuePosition();
       });
@@ -1903,7 +1903,7 @@ describe('Chat component', () => {
     describe('when no agents are typing a message', () => {
       beforeEach(() => {
         const mockTypingAgents = [];
-        const component = instanceRender(<Chat chat={{ rating: null }} />);
+        const component = instanceRender(<ChatOnline chat={{ rating: null }} />);
 
         agentTypingComponent = component.renderAgentTyping(mockTypingAgents);
       });
@@ -1919,7 +1919,7 @@ describe('Chat component', () => {
         const mockTypingAgents = [
           { nick: 'agent:1', typing: true }
         ];
-        const component = instanceRender(<Chat chat={{ rating: null }} />);
+        const component = instanceRender(<ChatOnline chat={{ rating: null }} />);
 
         agentTypingComponent = component.renderAgentTyping(mockTypingAgents);
       });
@@ -1941,7 +1941,7 @@ describe('Chat component', () => {
           { nick: 'agent:1', typing: true },
           { nick: 'agent:2', typing: true }
         ];
-        const component = instanceRender(<Chat chat={{ rating: null }} />);
+        const component = instanceRender(<ChatOnline chat={{ rating: null }} />);
 
         agentTypingComponent = component.renderAgentTyping(mockTypingAgents);
       });
@@ -1965,7 +1965,7 @@ describe('Chat component', () => {
           { nick: 'agent:3',  typing: true }
         ];
 
-        const component = instanceRender(<Chat chat={{ rating: null }} />);
+        const component = instanceRender(<ChatOnline chat={{ rating: null }} />);
 
         agentTypingComponent = component.renderAgentTyping(mockTypingAgents);
       });
@@ -1994,7 +1994,7 @@ describe('Chat component', () => {
       updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
 
       const component = instanceRender(
-        <Chat
+        <ChatOnline
           ratingSettings={ratingSettings}
           agentJoined={agentJoined}
           activeAgents={agents}
@@ -2134,7 +2134,7 @@ describe('Chat component', () => {
     let component;
     const renderChatComponent = (screen, attachmentsEnabled) => (
       instanceRender(
-        <Chat screen={screen} attachmentsEnabled={attachmentsEnabled} prechatFormSettings={prechatFormSettingsProp} />
+        <ChatOnline screen={screen} attachmentsEnabled={attachmentsEnabled} prechatFormSettings={prechatFormSettingsProp} />
       )
     );
 
@@ -2191,7 +2191,7 @@ describe('Chat component', () => {
       result;
 
     beforeEach(() => {
-      const component = instanceRender(<Chat connection={connectionStatus} />);
+      const component = instanceRender(<ChatOnline connection={connectionStatus} />);
 
       result = component.renderChatReconnectionBubble();
     });
@@ -2228,7 +2228,7 @@ describe('Chat component', () => {
     beforeEach(() => {
       updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
       component = instanceRender(
-        <Chat
+        <ChatOnline
           screen={AGENT_LIST_SCREEN}
           isMobile={isMobile}
           hideZendeskLogo={hideZendeskLogo}
@@ -2335,7 +2335,7 @@ describe('Chat component', () => {
       result;
 
     beforeEach(() => {
-      const component = instanceRender(<Chat connection={connectionStatus} />);
+      const component = instanceRender(<ChatOnline connection={connectionStatus} />);
 
       result = component.renderChatReconnectButton();
     });
@@ -2372,7 +2372,7 @@ describe('Chat component', () => {
       stopPropagationSpy = jasmine.createSpy('stopPropagation');
 
       const component = instanceRender(
-        <Chat
+        <ChatOnline
           updateContactDetailsVisibility={updateContactDetailsVisibilitySpy}
         />
       );
@@ -2396,7 +2396,7 @@ describe('Chat component', () => {
       result;
 
     beforeEach(() => {
-      const component = instanceRender(<Chat historyRequestStatus={requestStatus} />);
+      const component = instanceRender(<ChatOnline historyRequestStatus={requestStatus} />);
 
       result = component.renderHistoryFetching();
     });
@@ -2433,7 +2433,7 @@ describe('Chat component', () => {
         isAtTop: () => true
       });
 
-      component = instanceRender(<Chat hasMoreHistory={true} historyRequestStatus='not_pending' fetchConversationHistory={fetchConversationHistorySpy} />);
+      component = instanceRender(<ChatOnline hasMoreHistory={true} historyRequestStatus='not_pending' fetchConversationHistory={fetchConversationHistorySpy} />);
       component.scrollContainer = container;
       component.handleChatScreenScrolled();
     });

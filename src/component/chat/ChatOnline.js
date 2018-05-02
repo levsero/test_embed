@@ -52,7 +52,10 @@ import { endChat,
   fetchConversationHistory } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import * as selectors from 'src/redux/modules/chat/chat-selectors';
-import { locals as styles } from './Chat.scss';
+import { getHasMoreHistory,
+  getHistoryRequestStatus,
+  getGroupedPastChatsBySession } from 'src/redux/modules/chat/chat-history-selectors';
+import { locals as styles } from './ChatOnline.scss';
 import { chatNameDefault } from 'src/util/utils';
 import { CONNECTION_STATUSES, DEPARTMENT_STATUSES } from 'constants/chat';
 
@@ -65,9 +68,9 @@ const mapStateToProps = (state) => {
     chats: selectors.getChatMessages(state),
     events: selectors.getChatEvents(state),
     chatLog: selectors.getGroupedChatLog(state),
-    hasMoreHistory: selectors.getHasMoreHistory(state),
-    historyRequestStatus: selectors.getHistoryRequestStatus(state),
-    chatHistoryLog: selectors.getGroupedPastChatsBySession(state),
+    hasMoreHistory: getHasMoreHistory(state),
+    historyRequestStatus: getHistoryRequestStatus(state),
+    chatHistoryLog: getGroupedPastChatsBySession(state),
     lastAgentLeaveEvent: selectors.getLastAgentLeaveEvent(state),
     currentMessage: selectors.getCurrentMessage(state),
     screen: selectors.getChatScreen(state),

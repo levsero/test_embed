@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import createStore from 'src/redux/createStore';
 
-import Chat from 'component/chat/Chat';
+import ChatOnline from 'component/chat/ChatOnline';
 import { Container } from 'component/container/Container';
 import { Frame } from 'component/frame/Frame';
 import { i18n } from 'service/i18n';
@@ -71,7 +71,7 @@ const renderPreview = (options) => {
     <Frame {...frameParams} store={store}>
       <Container
         style={containerStyle}>
-        <Chat
+        <ChatOnline
           ref={(chat) => chatComponent = chat}
           style={containerStyle} />
       </Container>

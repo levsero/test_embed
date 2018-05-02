@@ -32,7 +32,7 @@ import ChatOfflineFormStyles from 'component/chat/ChatOfflineForm.scss';
 import ChatOfflineStyles from 'component/chat/ChatOffline.scss';
 import ChatOperatingHoursStyles from 'component/chat/ChatOperatingHours.scss';
 import ChatOfflineMessageFormStyles from 'component/chat/ChatOfflineMessageForm.scss';
-import ChatStyles from 'component/chat/Chat.scss';
+import ChatOnlineStyles from 'component/chat/ChatOnline.scss';
 import ContainerStyles from 'component/container/Container.scss';
 import DropdownStyles from 'component/field/Dropdown.scss';
 import DropdownOptionStyles from 'component/field/DropdownOption.scss';
@@ -94,7 +94,7 @@ export const webWidgetStyles = `
   ${ChatOfflineMessageFormStyles}
   ${ChatOfflineStyles}
   ${ChatOperatingHoursStyles}
-  ${ChatStyles}
+  ${ChatOnlineStyles}
   ${ContainerStyles}
   ${DropdownStyles}
   ${DropdownOptionStyles}

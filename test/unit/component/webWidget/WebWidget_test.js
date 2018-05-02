@@ -42,7 +42,7 @@ describe('WebWidget component', () => {
       }
     }
 
-    class MockChat extends Component {
+    class MockChatOnline extends Component {
       constructor() {
         super();
         this.state = {};
@@ -72,7 +72,7 @@ describe('WebWidget component', () => {
           }
         }
       },
-      'component/chat/Chat': connectedComponent(<MockChat />),
+      'component/chat/Chat': connectedComponent(<MockChatOnline />),
       'component/chat/ChatOffline': ChatOffline,
       'component/helpCenter/HelpCenter': connectedComponent(<MockHelpCenter />),
       'component/submitTicket/SubmitTicket': connectedComponent(<MockSubmitTicket />),

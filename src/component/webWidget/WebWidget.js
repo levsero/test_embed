@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
-import Chat from 'component/chat/Chat';
+import ChatOnline from 'component/chat/ChatOnline';
 import ChatOffline from 'component/chat/ChatOffline';
 import Talk from 'component/talk/Talk';
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
@@ -404,7 +404,7 @@ class WebWidget extends Component {
         isMobile={fullscreen}
         hideZendeskLogo={hideZendeskLogo}
       />
-      : <Chat
+      : <ChatOnline
         ref={chat}
         isMobile={fullscreen}
         updateFrameSize={updateFrameSize}
