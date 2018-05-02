@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import chatPropTypes from 'types/chat';
+import classNames from 'classnames';
+import _ from 'lodash';
 
 import { Avatar } from 'component/Avatar';
 import { MessageBubble } from 'component/shared/MessageBubble';
@@ -13,8 +15,7 @@ import { ATTACHMENT_ERROR_TYPES,
   CHAT_MESSAGE_TYPES } from 'constants/chat';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatGroup.scss';
-import classNames from 'classnames';
-import _ from 'lodash';
+import { Icon } from 'component/Icon';
 
 export class ChatGroup extends Component {
   static propTypes = {
@@ -97,7 +98,7 @@ export class ChatGroup extends Component {
       let message;
 
       if (chat.msg) {
-        message = this.renderMessage(isAgent, chat, showAvatar);
+        message = this.renderPrintedMessage(chat, isAgent, showAvatar);
       } else if (chat.file || chat.attachment) {
         message = this.renderInlineAttachment(isAgent, chat);
       }
@@ -121,45 +122,59 @@ export class ChatGroup extends Component {
     });
   }
 
-  renderMessage = (isAgent, chat, showAvatar) => {
+  renderMessageBubble = (chat, isAgent, showAvatar) => {
+    const { msg, options } = chat;
     const messageBubbleClasses = classNames({
       [styles.messageBubble]: showAvatar,
       [styles.userBackground]: !isAgent,
       [styles.agentBackground]: isAgent
     });
 
-    const message = (
+    return (
       <MessageBubble
         className={messageBubbleClasses}
-        message={chat.msg}
-        options={chat.options}
+        message={msg}
+        options={options}
         handleSendMsg={this.props.handleSendMsg}
       />
     );
+  }
 
-    if (chat.status === CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE) {
-      let messageError;
+  renderErrorMessage = (chat, isAgent, showAvatar) => {
+    const { numFailedTries, msg, timestamp, options } = chat;
+    const messageError = (numFailedTries === 1)
+      ? <MessageError
+        errorMessage={i18n.t('embeddable_framework.chat.messagefailed.resend')}
+        handleError={() => this.props.handleSendMsg(msg, timestamp)} />
+      : <MessageError errorMessage={i18n.t('embeddable_framework.chat.messagefailed.failed_twice')} />;
 
-      if (chat.numFailedTries === 1) {
-        messageError = (
-          <MessageError
-            errorMessage={i18n.t('embeddable_framework.chat.messagefailed.resend')}
-            handleError={() => this.props.handleSendMsg(chat.msg, chat.timestamp)} />
-        );
-      } else {
-        messageError = <MessageError errorMessage={i18n.t('embeddable_framework.chat.messagefailed.failed_twice')} />;
-      }
-
-      return (
-        <div>
-          {message}
-          <div className={styles.messageErrorContainer}>
-            {messageError}
-          </div>
+    return (
+      <div>
+        {this.renderMessageBubble(msg, options, isAgent, showAvatar)}
+        <div className={styles.messageErrorContainer}>
+          {messageError}
         </div>
-      );
-    }
-    return message;
+      </div>
+    );
+  }
+
+  renderDefaultMessage = (chat, isAgent, showAvatar) => {
+    const sentIndicator = (chat.status === CHAT_MESSAGE_TYPES.CHAT_MESSAGE_SUCCESS)
+      ? <Icon className={styles.sentIndicator} type='Icon--mini-tick' />
+      : null;
+
+    return (
+      <div className={styles.defaultMessageContainer}>
+        {sentIndicator}
+        {this.renderMessageBubble(chat, isAgent, showAvatar)}
+      </div>
+    );
+  }
+
+  renderPrintedMessage = (chat, isAgent, showAvatar) => {
+    return (chat.status === CHAT_MESSAGE_TYPES.CHAT_MESSAGE_FAILURE)
+      ? this.renderErrorMessage(chat, isAgent, showAvatar)
+      : this.renderDefaultMessage(chat, isAgent, showAvatar);
   }
 
   renderInlineAttachment = (isAgent, chat) => {

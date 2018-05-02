@@ -62,6 +62,7 @@ describe('Icon components', function() {
       'zd-svg-icons/src/14-error-fill.svg': DummyIcon,
       'zd-svg-icons/src/14-remove.svg': DummyIcon,
       'icons/widget-icon_menu.svg': DummyIcon,
+      '@zendeskgarden/svg-icons/src/12/check-sm-stroke.svg': DummyIcon,
       'utility/devices': {
         isMobileBrowser: function() {
           return false;

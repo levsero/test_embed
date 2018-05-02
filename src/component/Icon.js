@@ -47,7 +47,8 @@ const icons = {
   'Icon--checkmark-fill': require('zd-svg-icons/src/14-checkmark-fill.svg'),
   'Icon--remove': require('zd-svg-icons/src/14-remove.svg'),
   [ICONS.MENU]: require('icons/widget-icon_menu.svg'),
-  [ICONS.ERROR_FILL]: require('zd-svg-icons/src/14-error-fill.svg')
+  [ICONS.ERROR_FILL]: require('zd-svg-icons/src/14-error-fill.svg'),
+  'Icon--mini-tick': require('@zendeskgarden/svg-icons/src/12/check-sm-stroke.svg')
 };
 
 export class Icon extends Component {
