@@ -1,0 +1,6 @@
+tap "caskroom/cask"
+brew "cairo"
+brew "imagemagick"
+brew "graphicsmagick"
+brew "selenium-server-standalone"
+cask "chromedriver"
