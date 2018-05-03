@@ -97,6 +97,11 @@ parts:
       title: "A short lengthed message that describes the product uses cookies to store data."
       screenshot: "https://zendesk.box.com/s/owtd3fzje8crsf86g2vqto0jdg4z904c"
       value: "This widget uses cookies."
+  - translation:
+      key: "embeddable_framework.common.today"
+      title: "This should be a string that denotes the present day."
+      screenshot: "https://drive.google.com/open?id=1853VGYeFs-o0_19jY4xlM8zIcmPENbXE"
+      value: "Today"
 
   # Launcher embed
   - translation:
