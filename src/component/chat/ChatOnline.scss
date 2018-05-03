@@ -113,7 +113,6 @@
 
 .historyFetchingText {
   composes: u-backgroundWhite from global;
-  @include fade-in(200ms);
   border-radius: #{30/$font-size}rem !important;
   box-shadow: 0 #{1/$font-size}rem #{10/$font-size}rem 0 rgba(0, 0, 0, 0.2);
   max-width: 90%;

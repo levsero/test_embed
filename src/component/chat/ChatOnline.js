@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
+import Transition from 'react-transition-group/Transition';
 
 import { ButtonPill } from 'component/button/ButtonPill';
 import { ChatBox } from 'component/chat/ChatBox';
@@ -554,9 +555,28 @@ class Chat extends Component {
   }
 
   renderHistoryFetching = () => {
-    return this.props.historyRequestStatus === 'pending' ? (
+    const { historyRequestStatus } = this.props;
+    const duration = 250;
+    const defaultStyle = {
+      transition: `opacity ${duration}ms ease-in-out`,
+      opacity: 0,
+    };
+    const transitionStyles = {
+      entering: { opacity: 0 },
+      entered:  { opacity: 1 },
+    };
+
+    return this.props.historyRequestStatus ? (
       <div className={styles.historyFetchingContainer}>
-        <div className={styles.historyFetchingText}>{i18n.t('embeddable_framework.chat.fetching_history')}</div>
+        <Transition in={historyRequestStatus === 'pending'} timeout={duration + 300}>
+          {(state) => (
+            <div
+              style={{...defaultStyle, ...transitionStyles[state]}}
+              className={styles.historyFetchingText}>
+              {i18n.t('embeddable_framework.chat.fetching_history')}
+            </div>
+          )}
+        </Transition>
       </div>
     ) : null;
   }

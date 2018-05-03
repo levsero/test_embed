@@ -2412,9 +2412,9 @@ describe('ChatOnline component', () => {
       });
     });
 
-    describe('when the request status is not pendng', () => {
+    describe('when the request status is null', () => {
       beforeAll(() => {
-        requestStatus = 'failed';
+        requestStatus = null;
       });
 
       it('returns null', () => {
