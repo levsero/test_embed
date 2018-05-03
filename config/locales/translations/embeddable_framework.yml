@@ -365,6 +365,11 @@ parts:
       screenshot: "https://drive.google.com/open?id=1xdLSyIspULTxD5poQpMpCqHIK74jFR47"
       value: "%(openingHour)s %(openingPeriod)s to %(closingHour)s %(closingPeriod)s"
   - translation:
+      key: "embeddable_framework.chat.operatingHours.label.openAllDay"
+      title: "This is shown in place of an hour range when a customer's operating hours are for the whole day: midnight to midnight"
+      screenshot: "https://drive.google.com/open?id=1Y2D0hg8EB7auSRRThpDhIoXbzIxV9cqT"
+      value: "Open all day"
+  - translation:
       key: "embeddable_framework.chat.offline.label.noForm"
       title: "The label to display if all agents are online and the customer doesn't have a contact form"
       screenshot: "https://drive.google.com/open?id=1cWlcbhwpVpNwVdLKNWm6d2fE80RW4jq7"
