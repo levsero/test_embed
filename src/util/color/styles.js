@@ -138,6 +138,10 @@ function generateWebWidgetPreviewCSS(color) {
         background: ${headerBackgroundColorStr} !important;
       }
     }
+    .u-userBackgroundColorNoHover {
+      background-color: ${buttonColorStr} !important;
+      color: ${buttonTextColorStr} !important;
+    }
   `);
 }
 

@@ -17,6 +17,7 @@ import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles.js';
 let chatComponent = null;
 const defaultOptions = {
   locale: 'en-US',
+  color: '#659700',
   styles: {
     float: 'right',
     width: 342,
@@ -85,9 +86,9 @@ const renderPreview = (options) => {
   options.element.appendChild(container);
   preview = ReactDOM.render(component, container);
 
-  waitForComponent(() => {
-    _.defer(preview.updateFrameSize);
-  });
+  const setColor = (color = defaultOptions.color) => {
+    preview.setButtonColor(color);
+  };
 
   const updateScreen = (screen) => {
     store.dispatch(updatePreviewerScreen(screen));
@@ -103,11 +104,17 @@ const renderPreview = (options) => {
     store.dispatch({ type: actionType, payload: data });
   };
 
+  waitForComponent(() => {
+    _.defer(preview.updateFrameSize);
+    setColor();
+  });
+
   return {
     _component: preview,
     updateScreen,
     updateSettings,
-    updateChatState
+    updateChatState,
+    setColor
   };
 };
 

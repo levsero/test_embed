@@ -192,6 +192,37 @@ describe('chatPreview file', () => {
     });
   });
 
+  describe('setColor', () => {
+    let preview, component;
+
+    beforeEach(() => {
+      const element = document.body.appendChild(document.createElement('div'));
+
+      preview = window.zE.renderPreview({ element });
+      component = preview._component;
+    });
+
+    describe('when a color parameter is supplied', () => {
+      it('should call setButtonColor with that color value', () => {
+        spyOn(component, 'setButtonColor');
+        preview.setColor('#FF0000');
+
+        expect(component.setButtonColor)
+          .toHaveBeenCalledWith('#FF0000');
+      });
+    });
+
+    describe('when no color parameter is supplied', () => {
+      it('should call setButtonColor with the default color value', () => {
+        spyOn(component, 'setButtonColor');
+        preview.setColor();
+
+        expect(component.setButtonColor)
+          .toHaveBeenCalledWith(defaultOptions.color);
+      });
+    });
+  });
+
   describe('updateScreen', () => {
     let element;
 
