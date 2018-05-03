@@ -19,8 +19,12 @@ describe('onStateChange middleware', () => {
   const broadcastSpy = jasmine.createSpy('broadcast');
   const updateLastAgentMessageSeenTimestampSpy = jasmine.createSpy('updateLastAgentMessageSeenTimestamp');
   const getActiveAgentsSpy = jasmine.createSpy('getActiveAgents').and.callFake(_.identity);
+  const clearDepartmentSpy = jasmine.createSpy('clearDepartment');
+  const setDepartmentSpy = jasmine.createSpy('setDepartment');
   const path = buildSrcPath('redux/middleware/onStateChange');
   let initialTimestamp = 80;
+  let mockDepartmentLists = [];
+  let mockGetSettingsChatDepartment = '';
 
   beforeEach(() => {
     mockery.enable();
@@ -44,7 +48,9 @@ describe('onStateChange middleware', () => {
         newAgentMessageReceived: newAgentMessageReceivedSpy,
         getOperatingHours: getOperatingHoursSpy,
         getIsChatting: getIsChattingSpy,
-        updateLastAgentMessageSeenTimestamp: updateLastAgentMessageSeenTimestampSpy
+        updateLastAgentMessageSeenTimestamp: updateLastAgentMessageSeenTimestampSpy,
+        clearDepartment: clearDepartmentSpy,
+        setDepartment: setDepartmentSpy
       },
       'src/redux/modules/base': {
         updateActiveEmbed: updateActiveEmbedSpy
@@ -77,7 +83,11 @@ describe('onStateChange middleware', () => {
         getChatScreen: () => mockChatScreen,
         getIsProactiveSession: () => mockIsProactiveSession,
         getIsChatting: () => mockIsChatting,
-        getActiveAgents: getActiveAgentsSpy
+        getActiveAgents: getActiveAgentsSpy,
+        getDepartmentsList: () => mockDepartmentLists
+      },
+      'src/redux/modules/settings/settings-selectors': {
+        getSettingsChatDepartment: () => mockGetSettingsChatDepartment
       },
       'src/redux/modules/chat/chat-action-types': {
         IS_CHATTING: 'IS_CHATTING',
@@ -193,6 +203,56 @@ describe('onStateChange middleware', () => {
           it('does not call mediator with newChat.connected with the store value', () => {
             expect(broadcastSpy)
               .not.toHaveBeenCalledWith('newChat.connected', false);
+          });
+        });
+
+        describe('when department supplied via settings', () => {
+          beforeAll(() => {
+            setDepartmentSpy.calls.reset();
+            clearDepartmentSpy.calls.reset();
+            mockGetSettingsChatDepartment = 'Department';
+            mockDepartmentLists = [
+              {
+                name: 'Department',
+                id: 10
+              }
+            ];
+          });
+
+          it('calls setDepartment with correct args', () => {
+            expect(setDepartmentSpy)
+              .toHaveBeenCalledWith(10);
+          });
+
+          it('does not call clearDepartment', () => {
+            expect(clearDepartmentSpy)
+              .not
+              .toHaveBeenCalled();
+          });
+        });
+
+        describe('when department not supplied via settings', () => {
+          beforeAll(() => {
+            setDepartmentSpy.calls.reset();
+            clearDepartmentSpy.calls.reset();
+            mockGetSettingsChatDepartment = '';
+            mockDepartmentLists = [
+              {
+                name: 'Department',
+                id: 10
+              }
+            ];
+          });
+
+          it('does not call setDepartment', () => {
+            expect(setDepartmentSpy)
+              .not
+              .toHaveBeenCalled();
+          });
+
+          it('calls clearDepartment', () => {
+            expect(clearDepartmentSpy)
+              .toHaveBeenCalled();
           });
         });
       });

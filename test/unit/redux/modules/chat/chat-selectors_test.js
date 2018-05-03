@@ -41,6 +41,7 @@ describe('chat selectors', () => {
     getGroupedOperatingHours,
     getLoginSettings,
     getDepartments,
+    getDepartmentsList,
     getIsProactiveSession,
     getStandaloneMobileNotificationVisible,
     getAgentsTyping,
@@ -125,6 +126,7 @@ describe('chat selectors', () => {
     getShowMenu = selectors.getShowMenu;
     getLoginSettings = selectors.getLoginSettings;
     getDepartments = selectors.getDepartments;
+    getDepartmentsList = selectors.getDepartmentsList;
     getIsProactiveSession = selectors.getIsProactiveSession;
     getStandaloneMobileNotificationVisible = selectors.getStandaloneMobileNotificationVisible;
     getAgentsTyping = selectors.getAgentsTyping;
@@ -148,6 +150,28 @@ describe('chat selectors', () => {
       };
 
       result = getDepartments({
+        chat: {
+          departments: mockDepartments
+        }
+      });
+    });
+
+    it('returns the departments', () => {
+      expect(result)
+        .toEqual(mockDepartments);
+    });
+  });
+
+  describe('getDepartmentsList', () => {
+    let mockDepartments,
+      result;
+
+    beforeEach(() => {
+      mockDepartments = [
+        { status: 'online' }
+      ];
+
+      result = getDepartmentsList({
         chat: {
           departments: mockDepartments
         }

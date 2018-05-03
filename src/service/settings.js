@@ -2,7 +2,8 @@ import _ from 'lodash';
 
 import { win } from 'utility/globals';
 import { objectDifference } from 'utility/utils';
-import { updateSettingsChatSuppress } from 'src/redux/modules/settings';
+import { updateSettingsChatSuppress,
+  updateSettings } from 'src/redux/modules/settings';
 
 const optionWhitelist = {
   webWidget: [
@@ -15,6 +16,7 @@ const optionWhitelist = {
     'contactOptions.chatLabelOffline',
     'contactOptions.contactFormLabel',
     'chat.suppress',
+    'chat.visitor.departments.department',
     'color.theme',
     'color.button',
     'color.header',
@@ -69,7 +71,12 @@ const webWidgetStoreDefaults = {
     suppress: false
   },
   chat: {
-    suppress: false
+    suppress: false,
+    visitor: {
+      departments: {
+        department: ''
+      }
+    }
   },
   launcher: {},
   margin: 8,
@@ -123,6 +130,10 @@ function init(reduxStore = { dispatch: () => {} }) {
     maxLocaleFallbacks);
 
   reduxStore.dispatch(updateSettingsChatSuppress(webWidgetStore.chat.suppress));
+  reduxStore.dispatch(updateSettings({
+    ...settings,
+    webWidget: webWidgetStore
+  }));
 }
 
 function get(path) {

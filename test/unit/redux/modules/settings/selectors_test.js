@@ -1,5 +1,6 @@
 describe('settings selectors', () => {
-  let getSettingsChatSuppress;
+  let getSettingsChatSuppress,
+    getSettingsChatDepartment;
 
   beforeEach(() => {
     mockery.enable();
@@ -11,6 +12,7 @@ describe('settings selectors', () => {
     const selectors = requireUncached(settingsSelectorsPath);
 
     getSettingsChatSuppress = selectors.getSettingsChatSuppress;
+    getSettingsChatDepartment = selectors.getSettingsChatDepartment;
   });
 
   describe('getSettingsChatSuppress', () => {
@@ -32,6 +34,25 @@ describe('settings selectors', () => {
     it('returns true', () => {
       expect(result)
         .toEqual(mockSuppress);
+    });
+  });
+
+  describe('getSettingsChatDepartment', () => {
+    let result;
+
+    beforeEach(() => {
+      const mockState = {
+        settings: {
+          chat: { department: 'yolo' }
+        }
+      };
+
+      result = getSettingsChatDepartment(mockState);
+    });
+
+    it('returns yolo', () => {
+      expect(result)
+        .toEqual('yolo');
     });
   });
 });

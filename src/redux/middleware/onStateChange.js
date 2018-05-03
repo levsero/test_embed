@@ -4,7 +4,9 @@ import { getAccountSettings,
   newAgentMessageReceived,
   updateLastAgentMessageSeenTimestamp,
   getOperatingHours,
-  getIsChatting } from 'src/redux/modules/chat';
+  getIsChatting,
+  clearDepartment,
+  setDepartment } from 'src/redux/modules/chat';
 import { updateActiveEmbed } from 'src/redux/modules/base';
 import { IS_CHATTING,
   END_CHAT_REQUEST_SUCCESS,
@@ -23,13 +25,15 @@ import { getChatMessagesByAgent,
   getIsProactiveSession,
   getUserSoundSettings,
   getIsChatting as getIsChattingState,
-  getActiveAgents } from 'src/redux/modules/chat/chat-selectors';
+  getActiveAgents,
+  getDepartmentsList } from 'src/redux/modules/chat/chat-selectors';
 import { getArticleDisplayed } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getActiveEmbed,
   getWidgetShown,
   getSubmitTicketEmbed } from 'src/redux/modules/base/base-selectors';
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { store } from 'service/persistence';
+import { getSettingsChatDepartment } from 'src/redux/modules/settings/settings-selectors';
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown');
 const createdAtTimestamp = Date.now();
@@ -84,14 +88,24 @@ const handleNewAgentMessage = (nextState, dispatch) => {
 
 const onChatConnected = (prevState, nextState, dispatch) => {
   if (getConnection(prevState) === CONNECTION_STATUSES.CONNECTING
-      && getConnection(nextState) !== CONNECTION_STATUSES.CONNECTING
-      && !chatAccountSettingsFetched) {
-    dispatch(getAccountSettings());
-    dispatch(getIsChatting());
-    dispatch(getOperatingHours());
+      && getConnection(nextState) !== CONNECTION_STATUSES.CONNECTING) {
+    const visitorDepartmentName = getSettingsChatDepartment(nextState);
+    const visitorDepartment = _.find(getDepartmentsList(nextState), (dep) => dep.name === visitorDepartmentName);
+    const visitorDepartmentId = _.get(visitorDepartment, 'id');
 
-    chatAccountSettingsFetched = true;
-    mediator.channel.broadcast('newChat.connected', showOnLoad);
+    if (visitorDepartmentId) {
+      dispatch(setDepartment(visitorDepartmentId));
+    } else {
+      dispatch(clearDepartment());
+    }
+
+    if (!chatAccountSettingsFetched) {
+      dispatch(getAccountSettings());
+      dispatch(getIsChatting());
+      dispatch(getOperatingHours());
+      chatAccountSettingsFetched = true;
+      mediator.channel.broadcast('newChat.connected', showOnLoad);
+    }
   }
 };
 
