@@ -33,6 +33,19 @@
   border: white #{1/$font-size}rem solid;
 }
 
+.avatarOverflow {
+  composes: u-flex u-flexJustifyCenter u-flexAlignItemsCenter from global;
+  border: #{1/$font-size}rem solid $zd-color-iron !important;
+  border-radius: 50%;
+  background-color: $zd-color-white;
+  height: #{32/$font-size}rem;
+  width: #{32/$font-size}rem;
+}
+
+.avatarOverflowText {
+  color: $zd-color-oil;
+}
+
 .container {
   composes: u-flex u-flexAlignItemsCenter u-posStart--flush u-posAbsolute u-hsizeAll from global;
   background-color: $base-color;

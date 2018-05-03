@@ -37,6 +37,16 @@ export class ChatHeader extends Component {
     });
   }
 
+  renderOverflow = (overflowCount) => {
+    if (overflowCount <= 0) return;
+
+    return (
+      <div className={`${styles.avatarOverflow} ${styles.avatar}`}>
+        <span className={styles.avatarOverflowText}>+{overflowCount}</span>
+      </div>
+    );
+  }
+
   renderAvatarContainer = () => {
     const { concierges } = this.props;
     const avatarWidth = 32;
@@ -49,12 +59,14 @@ export class ChatHeader extends Component {
       multipleAvatarWidth = 40;
     }
 
-    const avatars = concierges.slice(0, 3);
+    const overflowCount = avatarSize > 3 ? avatarSize - 2 : 0;
+    const avatars = concierges.slice(0, overflowCount ? 2 : 3);
     const style = { width: `${(avatarWidth + multipleAvatarWidth)/FONT_SIZE}rem` };
 
     return (
       <div className={styles.avatarContainer} style={style} >
         {this.renderAvatars(avatars)}
+        {this.renderOverflow(overflowCount)}
       </div>
     );
   }
