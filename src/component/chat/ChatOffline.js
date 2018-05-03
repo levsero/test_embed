@@ -112,8 +112,6 @@ class ChatOffline extends Component {
       [styles.logoFooter]: !hideZendeskLogo
     });
 
-    setTimeout(() => this.props.updateFrameSize(), 0);
-
     return (
       <ScrollContainer
         ref='scrollContainer'

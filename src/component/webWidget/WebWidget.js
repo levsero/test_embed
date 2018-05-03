@@ -5,7 +5,6 @@ import _ from 'lodash';
 
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import Chat from 'component/chat/Chat';
-import ChatOffline from 'component/chat/ChatOffline';
 import Talk from 'component/talk/Talk';
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
 import { ChatNotificationPopup } from 'component/chat/ChatNotificationPopup';
@@ -31,7 +30,6 @@ import { getArticleViewActive,
   getHasSearched,
   getResultsCount } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getChatNotification,
-  getShowOfflineChat,
   getIsChatting,
   getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
@@ -67,7 +65,6 @@ const mapStateToProps = (state) => {
     ticketForms: getTicketForms(state),
     showTicketFormsBackButton: getShowTicketFormsBackButton(state),
     chatStandalone: getChatStandalone(state),
-    showOfflineChat: getShowOfflineChat(state),
     isChatting: getIsChatting(state),
     hasSearched: getHasSearched(state),
     resultsCount: getResultsCount(state)
@@ -126,7 +123,6 @@ class WebWidget extends Component {
     articleViewActive: PropTypes.bool.isRequired,
     helpCenterSearchFocused: PropTypes.bool.isRequired,
     chatStandalone: PropTypes.bool.isRequired,
-    showOfflineChat: PropTypes.bool.isRequired,
     isChatting: PropTypes.bool.isRequired,
     onShowMobile: PropTypes.func,
     hasSearched: PropTypes.bool.isRequired,
@@ -373,47 +369,28 @@ class WebWidget extends Component {
   }
 
   renderChat = () => {
-    const {
-      activeEmbed,
-      showOfflineChat,
-      updateFrameSize,
-      getFrameDimensions,
-      fullscreen,
-      position,
-      closeFrame,
-      updateChatScreen,
-      onBackButtonClick,
-      updateBackButtonVisibility,
-      hideZendeskLogo
-    } = this.props;
-
-    if (activeEmbed !== chat) return;
+    if (this.props.activeEmbed !== chat) return;
 
     const updateChatBackButtonVisibility = () => {
-      updateBackButtonVisibility(
+      this.props.updateBackButtonVisibility(
         this.isHelpCenterAvailable() ||
         this.isChannelChoiceAvailable()
       );
     };
 
-    return (showOfflineChat)
-      ? <ChatOffline
+    return (
+      <Chat
         ref={chat}
-        updateFrameSize={updateFrameSize}
-        handleCloseClick={(e) => closeFrame(e, { skipOnClose: true })}
-        isMobile={fullscreen}
-        hideZendeskLogo={hideZendeskLogo}
-      />
-      : <Chat
-        ref={chat}
-        isMobile={fullscreen}
-        updateFrameSize={updateFrameSize}
-        updateChatScreen={updateChatScreen}
-        position={position}
-        getFrameDimensions={getFrameDimensions}
+        updateFrameSize={this.props.updateFrameSize}
+        isMobile={this.props.fullscreen}
+        hideZendeskLogo={this.props.hideZendeskLogo}
+        handleCloseClick={(e) => this.props.closeFrame(e, { skipOnClose: true })}
+        getFrameDimensions={this.props.getFrameDimensions}
+        position={this.props.position}
         updateChatBackButtonVisibility={updateChatBackButtonVisibility}
-        onBackButtonClick={onBackButtonClick}
-        hideZendeskLogo={hideZendeskLogo} />;
+        onBackButtonClick={this.props.onBackButtonClick}
+      />
+    );
   }
 
   renderHelpCenter = () => {
