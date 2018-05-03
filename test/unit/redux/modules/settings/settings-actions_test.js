@@ -69,7 +69,7 @@ describe('settings redux actions', () => {
       action = mockStore.getActions()[0];
     });
 
-    it('updates settings for chat suppress to true', () => {
+    it('updates settings for departments with expected values', () => {
       const expected = {
         type: actionTypes.UPDATE_SETTINGS,
         payload: someSettings

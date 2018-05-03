@@ -50,7 +50,7 @@ describe('settings selectors', () => {
       result = getSettingsChatDepartment(mockState);
     });
 
-    it('returns true', () => {
+    it('returns yolo', () => {
       expect(result)
         .toEqual('yolo');
     });

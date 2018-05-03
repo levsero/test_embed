@@ -53,7 +53,7 @@ describe('chat reducer suppress', () => {
       });
     });
 
-    describe('when department has not been set', () => {
+    describe('when department has been set', () => {
       beforeAll(() => {
         someSettings = {
           webWidget: {

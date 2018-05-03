@@ -199,7 +199,7 @@ describe('settings', () => {
             suppress: true,
             visitor: {
               departments: {
-                department: ''
+                department: 'yolo'
               }
             }
           },
@@ -222,7 +222,7 @@ describe('settings', () => {
 
     it('returns chat department settings', () => {
       expect(settings.get('chat.visitor.departments.department'))
-        .toBe('');
+        .toBe('yolo');
     });
 
     it('returns user setting for suppress', () => {
