@@ -14,7 +14,7 @@ const screen = (state = initialState, action) => {
     case SDK_CHAT_MEMBER_JOIN:
       return CHATTING_SCREEN;
     case UPDATE_PREVIEWER_SCREEN:
-      return action.payload;
+      return action.payload.screen;
     default:
       return state;
   }

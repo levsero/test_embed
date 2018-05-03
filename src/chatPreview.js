@@ -91,7 +91,7 @@ const renderPreview = (options) => {
   };
 
   const updateScreen = (screen) => {
-    store.dispatch(updatePreviewerScreen(screen));
+    store.dispatch(updatePreviewerScreen({ screen, status: screen !== 'widget/chat/OFFLINE_SCREEN' }));
   };
 
   const updateSettings = (settings) => {
