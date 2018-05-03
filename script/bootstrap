@@ -2,8 +2,6 @@
 
 set -e
 
-webDriverBrewPackages=(cairo imagemagick graphicsmagick selenium-server-standalone chromedriver)
-
 heading() {
   echo "$1... \c";
 }
@@ -42,13 +40,7 @@ try "Downloading translations" "script/fetch_i18n"
 try "Building Engagement Framework" "npm run build"
 bold "Installing UI Regression Tooling"
 
-for pkg in ${webDriverBrewPackages[@]}; do
-  if brew list -1 | grep -q "^${pkg}"; then
-    bold "'$pkg' is already installed"
-  else
-    try "Installing $pkg" "brew install $pkg"
-  fi
-done
+try "Installing brew formulae" "brew bundle"
 
 try "Installing webdriverio & webdrivercss" "PKG_CONFIG_PATH=\"/opt/X11/lib/pkgconfig\" npm install webdrivercss webdriverio --quiet > /dev/null"
 
