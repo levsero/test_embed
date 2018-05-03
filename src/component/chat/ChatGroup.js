@@ -16,6 +16,8 @@ import { locals as styles } from './ChatGroup.scss';
 import classNames from 'classnames';
 import _ from 'lodash';
 
+const moment = (() => { try { return require('moment'); } catch (_) {} })();
+
 export class ChatGroup extends Component {
   static propTypes = {
     messages: PropTypes.arrayOf(chatPropTypes.chatMessage),
@@ -237,12 +239,18 @@ export class ChatGroup extends Component {
       /> : null;
   }
 
+  getDateTime = (timestamp) => {
+    const ts = moment(timestamp);
+
+    ts.locale(i18n.getLocale());
+    return ts.format('lll');
+  }
+
   renderDivider = (messages) => {
     const isFirstGroup = _.get(messages, '0.first');
     const timestamp = _.get(messages, '0.timestamp');
-    const timestampString = timestamp ? new Date(timestamp).toLocaleString() : null;
 
-    return isFirstGroup ? <div className={styles.divider}>{timestampString}</div> : null;
+    return isFirstGroup ? <div className={styles.divider}>{this.getDateTime(timestamp)}</div> : null;
   }
 
   render() {

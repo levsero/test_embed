@@ -1,7 +1,31 @@
 @import '../../styles/_vars.scss';
 
-.chatHistoryContainer {
-  border-bottom: #{1/$font-size}rem solid $zd-color-gainsboro;
+.divider {
+  margin-top: #{10/$font-size}rem;
   margin-bottom: #{10/$font-size}rem;
-  padding-bottom: #{10/$font-size}rem;
+  padding-top: #{10/$font-size}rem;
+  overflow: hidden;
+  text-align: center;
+  color: $zd-color-aluminum;
+
+  &:before,
+  &:after {
+    background-color: $zd-color-iron;
+    content: "";
+    display: inline-block;
+    height: #{1/$font-size}rem;
+    position: relative;
+    vertical-align: middle;
+    width: 50%;
+  }
+
+  &:before {
+    right: #{12/$font-size}rem;
+    margin-left: -50%;
+  }
+
+  &:after {
+    left: #{12/$font-size}rem;
+    margin-right: -50%;
+  }
 }

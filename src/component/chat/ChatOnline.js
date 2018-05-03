@@ -96,7 +96,8 @@ const mapStateToProps = (state) => {
     connection: selectors.getConnection(state),
     loginSettings: selectors.getLoginSettings(state),
     departments: selectors.getDepartments(state),
-    offlineMessage: selectors.getOfflineMessage(state)
+    offlineMessage: selectors.getOfflineMessage(state),
+    firstMessageTimestamp: selectors.getFirstMessageTimestamp(state)
   };
 };
 
@@ -163,7 +164,8 @@ class Chat extends Component {
     sendOfflineMessage: PropTypes.func,
     clearDepartment: PropTypes.func,
     fetchConversationHistory: PropTypes.func,
-    hideZendeskLogo: PropTypes.bool
+    hideZendeskLogo: PropTypes.bool,
+    firstMessageTimestamp: PropTypes.number
   };
 
   static defaultProps = {
@@ -208,7 +210,8 @@ class Chat extends Component {
     sendOfflineMessage: () => {},
     clearDepartment: () => {},
     fetchConversationHistory: () => {},
-    hideZendeskLogo: false
+    hideZendeskLogo: false,
+    firstMessageTimestamp: null
   };
 
   constructor(props) {
@@ -632,6 +635,7 @@ class Chat extends Component {
             chatHistoryLog={this.props.chatHistoryLog}
             showAvatar={this.props.showAvatar}
             agents={this.props.allAgents}
+            firstMessageTimestamp={this.props.firstMessageTimestamp}
           />
           <ChatLog
             showAvatar={this.props.showAvatar}

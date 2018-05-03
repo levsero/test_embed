@@ -46,6 +46,7 @@ describe('chat selectors', () => {
     getStandaloneMobileNotificationVisible,
     getAgentsTyping,
     getAllAgents,
+    getFirstMessageTimestamp,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
@@ -131,6 +132,7 @@ describe('chat selectors', () => {
     getStandaloneMobileNotificationVisible = selectors.getStandaloneMobileNotificationVisible;
     getAgentsTyping = selectors.getAgentsTyping;
     getAllAgents = selectors.getAllAgents;
+    getFirstMessageTimestamp = selectors.getFirstMessageTimestamp;
   });
 
   afterEach(() => {
@@ -2044,6 +2046,38 @@ describe('chat selectors', () => {
 
       expect(result)
         .toEqual(expected);
+    });
+  });
+
+  describe('getFirstMessageTimestamp', () => {
+    let result,
+      mockChatSettings = {
+        chat: {
+          chats: new Map([
+            [1, { timestamp: 1 }],
+            [2, { timestamp: 2 }]
+          ])
+        }
+      };
+
+    beforeEach(() => {
+      result = getFirstMessageTimestamp(mockChatSettings);
+    });
+
+    it('returns the first chat message timestamp', () => {
+      expect(result)
+        .toEqual(1);
+    });
+
+    describe('no chats', () => {
+      beforeEach(() => {
+        result = getFirstMessageTimestamp({ chat: {chats: new Map()}});
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toBeNull;
+      });
     });
   });
 });

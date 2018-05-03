@@ -64,6 +64,11 @@
           "name": "chat-web-sdk",
           "version": "6.0.0",
           "url": "https://static.zdassets.com/web_widget/externals/chat-web-sdk/6.0.0/web_sdk.js"
+        },
+        {
+          "name": "moment",
+          "version": "2.22.1",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment-with-locales.min.js"
         }
       ]
     }

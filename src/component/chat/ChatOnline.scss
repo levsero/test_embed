@@ -113,6 +113,7 @@
 
 .historyFetchingText {
   composes: u-backgroundWhite from global;
+  color: $zd-color-dark-gray;
   border-radius: #{30/$font-size}rem !important;
   box-shadow: 0 #{1/$font-size}rem #{10/$font-size}rem 0 rgba(0, 0, 0, 0.2);
   max-width: 90%;

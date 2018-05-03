@@ -83,11 +83,11 @@
   margin-bottom: #{10/$font-size}rem;
   overflow: hidden;
   text-align: center;
-  color: $zd-color-gainsboro;
+  color: $zd-color-aluminum;
 
   &:before,
   &:after {
-    background-color: $zd-color-gainsboro;
+    background-color: $zd-color-iron;
     content: "";
     display: inline-block;
     height: #{1/$font-size}rem;
