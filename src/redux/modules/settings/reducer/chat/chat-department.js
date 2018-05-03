@@ -11,12 +11,7 @@ const department = (state = initialState, action) => {
 
   switch (type) {
     case UPDATE_SETTINGS:
-      const newDepartment = _.get(payload, 'chat.visitor.departments.department');
-
-      if (newDepartment) {
-        return newDepartment;
-      }
-      return state;
+      return _.get(payload, 'webWidget.chat.visitor.departments.department', state);
     default:
       return state;
   }

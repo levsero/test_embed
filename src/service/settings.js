@@ -130,7 +130,10 @@ function init(reduxStore = { dispatch: () => {} }) {
     maxLocaleFallbacks);
 
   reduxStore.dispatch(updateSettingsChatSuppress(webWidgetStore.chat.suppress));
-  reduxStore.dispatch(updateSettings(webWidgetStore));
+  reduxStore.dispatch(updateSettings({
+    ...settings,
+    webWidget: webWidgetStore
+  }));
 }
 
 function get(path) {
