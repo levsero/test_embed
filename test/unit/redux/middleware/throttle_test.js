@@ -53,6 +53,7 @@ describe('throttle middleware', () => {
 
       describe('and an allowed action is passed in', () => {
         beforeEach(() => {
+          nextSpy.calls.reset();
           action = { type: 'UPDATE_PREVIEWER_SCREEN' };
           throttle(true)()(nextSpy)(action);
         });
@@ -60,6 +61,19 @@ describe('throttle middleware', () => {
         it('calls next function with the action passed in', () => {
           expect(nextSpy)
             .toHaveBeenCalledWith({ type: 'UPDATE_PREVIEWER_SCREEN' });
+        });
+      });
+
+      describe('and a web_sdk event is passed in', () => {
+        beforeEach(() => {
+          nextSpy.calls.reset();
+          action = { type: 'websdk/something' };
+          throttle(true)()(nextSpy)(action);
+        });
+
+        it('calls next function with the action passed in', () => {
+          expect(nextSpy)
+            .toHaveBeenCalledWith({ type: 'websdk/something' });
         });
       });
     });

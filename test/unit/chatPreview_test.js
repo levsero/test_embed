@@ -14,6 +14,7 @@ describe('chatPreview file', () => {
   };
   const updatePreviewerScreenSpy = jasmine.createSpy('updatePreviewerScreen');
   const updatePreviewerSettingsSpy = jasmine.createSpy('updatePreviewerSettings');
+  const dispatchSpy = jasmine.createSpy('dispatch');
 
   beforeEach(() => {
     mockery.enable();
@@ -48,7 +49,7 @@ describe('chatPreview file', () => {
         updatePreviewerSettings: updatePreviewerSettingsSpy
       },
       'embed/webWidget/webWidgetStyles.js': '',
-      'src/redux/createStore': () => ({ dispatch: noop })
+      'src/redux/createStore': () => ({ dispatch: dispatchSpy })
     });
 
     requireUncached(previewPath);
@@ -220,6 +221,40 @@ describe('chatPreview file', () => {
     it('calls updatePreviewerSettings action with the payload', () => {
       expect(updatePreviewerSettingsSpy)
         .toHaveBeenCalledWith({ rating: { enabled: true } });
+    });
+  });
+
+  describe('updateChatState', () => {
+    let element, action, preview;
+
+    beforeEach(() => {
+      dispatchSpy.calls.reset();
+      element = document.body.appendChild(document.createElement('div'));
+      preview = window.zE.renderPreview({ element });
+    });
+
+    describe('when detail does not have a type', () => {
+      beforeEach(() => {
+        action = { type: 'account_status', detail: 'online' };
+        preview.updateChatState(action);
+      });
+
+      it('calls store.dispatch with the type of the root object', () => {
+        expect(dispatchSpy)
+          .toHaveBeenCalledWith({ type: 'websdk/account_status', payload: action });
+      });
+    });
+
+    describe('when detail does have a type', () => {
+      beforeEach(() => {
+        action = { type: 'chat', detail: { type: 'chat.memberjoin' } };
+        preview.updateChatState(action);
+      });
+
+      it('calls store.dispatch with the type of the detail key', () => {
+        expect(dispatchSpy)
+          .toHaveBeenCalledWith({ type: 'websdk/chat.memberjoin', payload: action });
+      });
     });
   });
 });

@@ -227,6 +227,21 @@
       window.preview = zE.renderPreview({
         element: document.getElementById('previewContainer')
       });
+
+      const events = [
+        { type: "account_status", detail: "online" },
+        { type: "visitor_update", detail: { email: "", display_name: "Visitor 85153315" } },
+        { type: "connection_update", detail: "connected" },
+        { type: "chat", detail: {timestamp: 1525325772386, nick: "visitor", type: "chat.memberjoin", display_name: "Visitor 1525325771"} },
+        { type: "chat", detail: {timestamp: 1525325926444, nick: "visitor", type: "chat.msg", display_name: "Visitor 1525325926", msg: "hey"} },
+        { type: "chat", detail: {timestamp: 1525325936518, nick: "agent:1689357", type: "chat.memberjoin", display_name: "Briana Coppard"} },
+        { type: "chat", detail: {timestamp: 1525325939026, nick: "agent:1689357", type: "chat.msg", display_name: "Briana Coppard", msg: "hey"} },
+        { type: "agent_update", detail: {avatar_path: "https://v2assets.zopim.io/2EkTn0An31opxOLXuGgRCy5nPnSNmpe6-agents-1689357?1524707165289", display_name: "Briana Coppard", title: "Customer Service", nick: "agent:1689357"} },
+      ]
+
+      events.forEach((event) => {
+        window.preview.updateChatState(event);
+      });
     </script>
 
   </body>

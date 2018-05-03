@@ -74,6 +74,7 @@ const renderPreview = (options) => {
         style={containerStyle}>
         <Chat
           ref={(chat) => chatComponent = chat}
+          updateChatBackButtonVisibility={() => {}}
           style={containerStyle} />
       </Container>
     </Frame>
@@ -96,10 +97,17 @@ const renderPreview = (options) => {
     store.dispatch(updatePreviewerSettings(settings));
   };
 
+  const updateChatState = (data) => {
+    const actionType = data.detail.type ? `websdk/${data.detail.type}` : `websdk/${data.type}`;
+
+    store.dispatch({ type: actionType, payload: data });
+  };
+
   return {
     _component: preview,
     updateScreen,
-    updateSettings
+    updateSettings,
+    updateChatState
   };
 };
 
