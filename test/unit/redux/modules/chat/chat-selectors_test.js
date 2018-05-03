@@ -76,6 +76,9 @@ describe('chat selectors', () => {
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: (state) => state.base.embed
       },
+      'src/redux/modules/settings/settings-selectors': {
+        getSettingsChatDepartmentsEnabled: (state) => state.settings.chat.departments.enabled
+      },
       'service/i18n': {
         i18n: { t: _.identity }
       }
@@ -314,13 +317,88 @@ describe('chat selectors', () => {
         id: 86734
       }
     ];
+    let state;
 
     beforeEach(() => {
-      result = getPrechatFormFields({
-        chat: {
-          accountSettings: mockAccountSettings,
-          departments: mockDepartments
-        }
+      result = getPrechatFormFields(state);
+    });
+
+    describe('enabled departments', () => {
+      describe('is empty', () => {
+        beforeAll(() => {
+          state = {
+            chat: {
+              accountSettings: mockAccountSettings,
+              departments: mockDepartments
+            },
+            settings: {
+              chat: {
+                departments: {
+                  enabled: []
+                }
+              }
+            }
+          };
+        });
+
+        it('does not filter departments', () => {
+          expect(result.departments.length)
+            .toEqual(3);
+        });
+      });
+
+      describe('is not empty', () => {
+        describe('using ids', () => {
+          beforeAll(() => {
+            state = {
+              chat: {
+                accountSettings: mockAccountSettings,
+                departments: mockDepartments
+              },
+              settings: {
+                chat: {
+                  departments: {
+                    enabled:  [12345, 86734]
+                  }
+                }
+              }
+            };
+          });
+
+          it('filters departments correctly', () => {
+            expect(result.departments.length)
+              .toEqual(2);
+            result.departments.forEach((department) => {
+              expect([12345, 86734].includes(department.id))
+                .toEqual(true);
+            });
+          });
+        });
+        describe('using names', () => {
+          beforeAll(() => {
+            state = {
+              chat: {
+                accountSettings: mockAccountSettings,
+                departments: mockDepartments
+              },
+              settings: {
+                chat: {
+                  departments: {
+                    enabled:  ['Design', 'Medicine']
+                  }
+                }
+              }
+            };
+          });
+          it('filters departments correctly', () => {
+            expect(result.departments.length)
+              .toEqual(2);
+            result.departments.forEach((department) => {
+              expect([12345, 86734].includes(department.id))
+                .toEqual(true);
+            });
+          });
+        });
       });
     });
 
@@ -342,6 +420,22 @@ describe('chat selectors', () => {
     });
 
     describe('department dropdown field', () => {
+      beforeAll(() => {
+        state = {
+          chat: {
+            accountSettings: mockAccountSettings,
+            departments: mockDepartments
+          },
+          settings: {
+            chat: {
+              departments: {
+                enabled:  []
+              }
+            }
+          }
+        };
+      });
+
       describe('department is offline', () => {
         it('returns department that is disabled and has correct label', () => {
           expect(result.departments[1].name)
