@@ -7,7 +7,9 @@ const allowedActions = [
 
 export default function throttle(block) {
   return () => (next) => (action) => {
-    if (!block || allowedActions.includes(action.type) || action.type.indexOf('websdk/') === 0) {
+    const isSDKActionType = action.type && action.type.indexOf('websdk/') === 0;
+
+    if (!block || allowedActions.includes(action.type) || isSDKActionType) {
       return next(action);
     }
   };
