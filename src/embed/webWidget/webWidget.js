@@ -577,7 +577,13 @@ export default function WebWidgetFactory(name) {
     }
 
     zChat.getFirehose().on('data', (data) => {
-      const actionType = data.detail.type ? `websdk/${data.detail.type}` : `websdk/${data.type}`;
+      let actionType;
+
+      if (data.type === 'history') {
+        actionType = `websdk/history/${data.detail.type}`;
+      } else {
+        actionType = data.detail.type ? `websdk/${data.detail.type}` : `websdk/${data.type}`;
+      }
 
       store.dispatch({ type: actionType, payload: data });
     });

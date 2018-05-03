@@ -44,7 +44,10 @@ import {
   UPDATE_LAST_AGENT_MESSAGE_SEEN_TIMESTAMP,
   RESET_CURRENT_MESSAGE,
   SHOW_STANDALONE_MOBILE_NOTIFICATION,
-  CHAT_ALL_AGENTS_INACTIVE
+  CHAT_ALL_AGENTS_INACTIVE,
+  HISTORY_REQUEST_SENT,
+  HISTORY_REQUEST_SUCCESS,
+  HISTORY_REQUEST_FAILURE
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import {
@@ -478,3 +481,23 @@ export function updateLastAgentMessageSeenTimestamp(timestamp) {
 export function showStandaloneMobileNotification() {
   return { type: SHOW_STANDALONE_MOBILE_NOTIFICATION };
 }
+
+export const fetchConversationHistory = () => {
+  return (dispatch) => {
+    dispatch({ type: HISTORY_REQUEST_SENT });
+
+    zChat.fetchChatHistory((err, data) => {
+      if (err) {
+        dispatch({
+          type: HISTORY_REQUEST_FAILURE,
+          payload: err
+        });
+      } else {
+        dispatch({
+          type: HISTORY_REQUEST_SUCCESS,
+          payload: data
+        });
+      }
+    });
+  };
+};

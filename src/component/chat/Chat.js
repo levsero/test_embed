@@ -8,6 +8,7 @@ import { ButtonPill } from 'component/button/ButtonPill';
 import { ChatBox } from 'component/chat/ChatBox';
 import { ChatFooter } from 'component/chat/ChatFooter';
 import { ChatLog } from 'component/chat/ChatLog';
+import { ChatHistoryLog } from 'component/chat/ChatHistoryLog';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ChatMenu } from 'component/chat/ChatMenu';
 import { ChatPrechatForm } from 'component/chat/ChatPrechatForm';
@@ -47,7 +48,8 @@ import { endChat,
   updateEmailTranscriptVisibility,
   resetCurrentMessage,
   sendOfflineMessage,
-  clearDepartment } from 'src/redux/modules/chat';
+  clearDepartment,
+  fetchConversationHistory } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import { getPrechatFormFields,
   getAttachmentsEnabled,
@@ -79,6 +81,9 @@ import { getPrechatFormFields,
   getDepartments,
   getOfflineMessage,
   getAllAgents } from 'src/redux/modules/chat/chat-selectors';
+import { getHasMoreHistory,
+  getHistoryRequestStatus,
+  getGroupedPastChatsBySession } from 'src/redux/modules/chat/chat-history-selectors';
 import { locals as styles } from './Chat.scss';
 import { chatNameDefault } from 'src/util/utils';
 import { CONNECTION_STATUSES, DEPARTMENT_STATUSES } from 'constants/chat';
@@ -92,6 +97,9 @@ const mapStateToProps = (state) => {
     chats: getChatMessages(state),
     events: getChatEvents(state),
     chatLog: getGroupedChatLog(state),
+    hasMoreHistory: getHasMoreHistory(state),
+    historyRequestStatus: getHistoryRequestStatus(state),
+    chatHistoryLog: getGroupedPastChatsBySession(state),
     lastAgentLeaveEvent: getLastAgentLeaveEvent(state),
     currentMessage: getCurrentMessage(state),
     screen: getChatScreen(state),
@@ -127,6 +135,9 @@ class Chat extends Component {
     chats: PropTypes.array.isRequired,
     events: PropTypes.array.isRequired,
     chatLog: PropTypes.object.isRequired,
+    hasMoreHistory: PropTypes.bool,
+    historyRequestStatus: PropTypes.string,
+    chatHistoryLog: PropTypes.array,
     lastAgentLeaveEvent: PropTypes.object.isRequired,
     currentMessage: PropTypes.string.isRequired,
     endChat: PropTypes.func.isRequired,
@@ -179,6 +190,7 @@ class Chat extends Component {
     offlineMessage: PropTypes.object,
     sendOfflineMessage: PropTypes.func,
     clearDepartment: PropTypes.func,
+    fetchConversationHistory: PropTypes.func,
     hideZendeskLogo: PropTypes.bool
   };
 
@@ -195,6 +207,9 @@ class Chat extends Component {
     events: [],
     agentsTyping: [],
     chatLog: {},
+    hasMoreHistory: false,
+    historyRequestStatus: '',
+    chatHistoryLog: [],
     lastAgentLeaveEvent: {},
     preChatFormSettings: {},
     postChatFormSettings: {},
@@ -220,6 +235,7 @@ class Chat extends Component {
     offlineMessage: {},
     sendOfflineMessage: () => {},
     clearDepartment: () => {},
+    fetchConversationHistory: () => {},
     hideZendeskLogo: false
   };
 
@@ -231,6 +247,14 @@ class Chat extends Component {
     };
 
     this.scrollContainer = null;
+
+    this.chatHistoryLog = null;
+    this.chatHistoryLogLength = null;
+    this.chatScrollPos = null;
+    this.chatScrolledToBottom = true;
+
+    this.updateFrameSizeTimer = null;
+    this.scrollToBottomTimer = null;
   }
 
   componentDidMount() {
@@ -245,20 +269,63 @@ class Chat extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const { agentsTyping, chats, events, screen } = this.props;
-
     if (!nextProps.chats && !nextProps.events) return;
 
-    const chatLogLength = chats.length + events.length + agentsTyping.length;
-    const nextChatLogLength = nextProps.chats.length + nextProps.events.length + nextProps.agentsTyping.length;
-    const nextScreen = nextProps.screen;
-    const reRenderChatLog = screen !== nextScreen || chatLogLength !== nextChatLogLength;
+    this.props.updateChatBackButtonVisibility();
+  }
 
-    if (nextScreen === screens.CHATTING_SCREEN && reRenderChatLog) {
+  componentWillUpdate(nextProps) {
+    if (
+      this.props.screen === screens.CHATTING_SCREEN &&
+      nextProps.screen === screens.CHATTING_SCREEN
+    ) {
+      if (this.chatHistoryLog) {
+        this.chatHistoryLogLength = this.chatHistoryLog.getScrollHeight();
+        this.updateChatScrollPos();
+      }
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.screen !== screens.CHATTING_SCREEN) return;
+
+    if (
+      prevProps.screen !== screens.CHATTING_SCREEN ||
+      this.chatScrolledToBottom
+    ) {
       this.scrollToBottom();
+      return;
     }
 
-    this.props.updateChatBackButtonVisibility();
+    if (this.chatHistoryLog) {
+      const chatHistoryLogLengthDiff = this.chatHistoryLog.getScrollHeight() - this.chatHistoryLogLength;
+
+      if (chatHistoryLogLengthDiff !== 0) {
+        this.scrollContainer.scrollTo(this.chatScrollPos + chatHistoryLogLengthDiff);
+      }
+
+      // TODO: For now, scrollToBottom on new messages.
+      // Change this later when working on https://zendesk.atlassian.net/browse/CE-3067
+      const newLogCount =
+        (this.props.chats.length + this.props.events.length) -
+        (prevProps.chats.length + prevProps.events.length);
+
+      if (newLogCount > 0) {
+        this.scrollToBottom();
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.updateFrameSizeTimer);
+    clearTimeout(this.scrollToBottomTimer);
+  }
+
+  updateChatScrollPos = () => {
+    if (this.props.screen !== screens.CHATTING_SCREEN) return;
+
+    this.chatScrollPos = this.scrollContainer.getScrollTop();
+    this.chatScrolledToBottom = this.scrollContainer.isAtBottom();
   }
 
   toggleMenu = () => {
@@ -266,7 +333,7 @@ class Chat extends Component {
   }
 
   scrollToBottom = () => {
-    setTimeout(() => {
+    this.scrollToBottomTimer = setTimeout(() => {
       if (this.scrollContainer) {
         this.scrollContainer.scrollToBottom();
       }
@@ -515,6 +582,14 @@ class Chat extends Component {
     );
   }
 
+  renderHistoryFetching = () => {
+    return this.props.historyRequestStatus === 'pending' ? (
+      <div className={styles.historyFetchingContainer}>
+        <div className={styles.historyFetchingText}>{i18n.t('embeddable_framework.chat.fetching_history')}</div>
+      </div>
+    ) : null;
+  }
+
   renderChatScreen = () => {
     const { screen, isMobile, sendMsg, loginSettings, visitor, hideZendeskLogo, agentsTyping } = this.props;
 
@@ -552,6 +627,7 @@ class Chat extends Component {
       <ScrollContainer
         ref={(el) => { this.scrollContainer = el; }}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+        onContentScrolled={_.debounce(this.handleChatScreenScrolled, 100)}
         headerContent={this.renderChatHeader()}
         headerClasses={styles.header}
         containerClasses={containerClasses}
@@ -560,6 +636,12 @@ class Chat extends Component {
         fullscreen={isMobile}
         classes={scrollContainerClasses}>
         <div className={chatLogContainerClasses}>
+          <ChatHistoryLog
+            ref={(el) => { this.chatHistoryLog = el; }}
+            chatHistoryLog={this.props.chatHistoryLog}
+            showAvatar={this.props.showAvatar}
+            agents={this.props.allAgents}
+          />
           <ChatLog
             showAvatar={this.props.showAvatar}
             chatLog={this.props.chatLog}
@@ -579,9 +661,22 @@ class Chat extends Component {
               ? this.renderZendeskLogo(logoClasses)
               : null
           }
+          {this.renderHistoryFetching()}
         </div>
       </ScrollContainer>
     );
+  }
+
+  handleChatScreenScrolled = () => {
+    if (!this.scrollContainer) return;
+
+    if (
+      this.scrollContainer.isAtTop() &&
+      this.props.hasMoreHistory &&
+      this.props.historyRequestStatus !== 'pending'
+    ) {
+      this.props.fetchConversationHistory();
+    }
   }
 
   handleDragEnter = () => {
@@ -825,7 +920,7 @@ class Chat extends Component {
       { [styles.mobileContainer]: this.props.isMobile }
     );
 
-    setTimeout(() => this.props.updateFrameSize(), 0);
+    this.updateFrameSizeTimer = setTimeout(() => this.props.updateFrameSize(), 0);
 
     return (
       <div className={containerStyle}>
@@ -867,7 +962,8 @@ const actionCreators = {
   updateEmailTranscriptVisibility,
   resetCurrentMessage,
   sendOfflineMessage,
-  clearDepartment
+  clearDepartment,
+  fetchConversationHistory
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);

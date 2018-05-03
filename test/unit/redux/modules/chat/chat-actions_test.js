@@ -26,7 +26,8 @@ let actions,
   showRatingScreen = false,
   getActiveAgentsSpy = jasmine.createSpy('getActiveAgents'),
   getShowRatingScreenSpy = jasmine.createSpy('getShowRatingScreenSpy').and.callFake(() => showRatingScreen),
-  getIsChattingSpy = jasmine.createSpy('getIsChatting').and.callFake(() => mockIsChatting);
+  getIsChattingSpy = jasmine.createSpy('getIsChatting').and.callFake(() => mockIsChatting),
+  mockFetchChatHistory = jasmine.createSpy('fetchChatHistory');
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -68,7 +69,8 @@ describe('chat redux actions', () => {
         sendOfflineMsg: mockSendOfflineMsg,
         reconnect: mockReconnect,
         _getAccountSettings: () => mockAccountSettings,
-        getOperatingHours: () => mockOperatingHours
+        getOperatingHours: () => mockOperatingHours,
+        fetchChatHistory: mockFetchChatHistory
       },
       'src/redux/modules/base/base-selectors': {
         getChatStandalone: () => mockChatStandalone
@@ -1389,6 +1391,65 @@ describe('chat redux actions', () => {
     it('dispatches SHOW_STANDALONE_MOBILE_NOTIFICATION action', () => {
       expect(action.type)
         .toBe(actionTypes.SHOW_STANDALONE_MOBILE_NOTIFICATION);
+    });
+  });
+
+  describe('fetchConversationHistory', () => {
+    let returnedActions;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.fetchConversationHistory());
+      returnedActions = mockStore.getActions();
+    });
+
+    it('calls fetchChatHistory on the Web SDK', () => {
+      expect(mockFetchChatHistory)
+        .toHaveBeenCalled();
+    });
+
+    it('dispatches an action of type HISTORY_REQUEST_SENT', () => {
+      expect(returnedActions[0].type)
+        .toEqual(actionTypes.HISTORY_REQUEST_SENT);
+    });
+
+    describe('when there are errors', () => {
+      const error = 123;
+
+      beforeAll(() => {
+        mockFetchChatHistory.and.callFake((callback) => {
+          callback(error);
+        });
+      });
+
+      it('dispatches an action of type HISTORY_REQUEST_FAILURE', () => {
+        expect(returnedActions[1].type)
+          .toEqual(actionTypes.HISTORY_REQUEST_FAILURE);
+      });
+
+      it('returns the error as payload', () => {
+        expect(returnedActions[1].payload)
+          .toEqual(error);
+      });
+    });
+
+    describe('when there are no errors', () => {
+      const data = 1234;
+
+      beforeAll(() => {
+        mockFetchChatHistory.and.callFake((callback) => {
+          callback(null, data);
+        });
+      });
+
+      it('dispatches an action of type HISTORY_REQUEST_SUCCESS', () => {
+        expect(returnedActions[1].type)
+          .toEqual(actionTypes.HISTORY_REQUEST_SUCCESS);
+      });
+
+      it('returns the data as payload', () => {
+        expect(returnedActions[1].payload)
+          .toEqual(data);
+      });
     });
   });
 });

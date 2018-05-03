@@ -127,5 +127,10 @@ describe('chat root reducer', () => {
       expect(state.sessionTimestamp)
         .toBeDefined();
     });
+
+    it('has the chatHistory sub state', () => {
+      expect(state.chatHistory)
+        .toBeDefined();
+    });
   });
 });

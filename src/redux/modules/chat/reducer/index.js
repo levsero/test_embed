@@ -5,6 +5,7 @@ import accountStatus from './chat-account-status';
 import agents from './chat-agents';
 import inactiveAgents from './chat-inactive-agents';
 import chats from './chat-chats';
+import chatHistory from './chat-history';
 import connection from './chat-connection';
 import currentMessage from './chat-current-message';
 import departments from './chat-departments';
@@ -31,6 +32,7 @@ export default combineReducers({
   account_status: accountStatus,
   agents,
   chats,
+  chatHistory,
   connection,
   currentMessage,
   departments,
