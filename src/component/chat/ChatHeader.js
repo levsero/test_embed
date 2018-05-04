@@ -59,7 +59,7 @@ export class ChatHeader extends Component {
       multipleAvatarWidth = 40;
     }
 
-    const overflowCount = avatarSize > 3 ? avatarSize - 2 : 0;
+    const overflowCount = avatarSize > 3 ? Math.min(avatarSize - 2, 99) : 0;
     const avatars = concierges.slice(0, overflowCount ? 2 : 3);
     const style = { width: `${(avatarWidth + multipleAvatarWidth)/FONT_SIZE}rem` };
 

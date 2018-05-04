@@ -260,13 +260,21 @@ describe('ChatHeader component', () => {
         expect(component.renderOverflow)
           .toHaveBeenCalledWith(2);
 
-        const props = {
+        let props = {
           concierges: [ avatarDetails, avatarDetails, avatarDetails, avatarDetails, avatarDetails ]
         };
 
         component = domRender(<ChatHeader {...props} />);
         expect(component.renderOverflow)
           .toHaveBeenCalledWith(3);
+
+        props = {
+          concierges: [...Array(150).keys()].map(() => avatarDetails)
+        };
+
+        component = domRender(<ChatHeader {...props} />);
+        expect(component.renderOverflow)
+          .toHaveBeenCalledWith(99);
       });
     });
   });
