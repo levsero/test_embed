@@ -15,8 +15,7 @@ import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatGroup.scss';
 import classNames from 'classnames';
 import _ from 'lodash';
-
-const moment = (() => { try { return require('moment'); } catch (_) {} })();
+import { DateTime } from 'luxon';
 
 export class ChatGroup extends Component {
   static propTypes = {
@@ -240,10 +239,9 @@ export class ChatGroup extends Component {
   }
 
   getDateTime = (timestamp) => {
-    const ts = moment(timestamp);
+    const ts = DateTime.fromMillis(timestamp);
 
-    ts.locale(i18n.getLocale());
-    return ts.format('lll');
+    return ts.toLocaleString(DateTime.DATETIME_MED);
   }
 
   renderDivider = (messages) => {

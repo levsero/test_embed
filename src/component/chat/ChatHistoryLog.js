@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { DateTime } from 'luxon';
 import _ from 'lodash';
+
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatHistoryLog.scss';
 
 import { ChatGroup } from 'component/chat/ChatGroup';
 import { ChatEventMessage } from 'component/chat/ChatEventMessage';
 import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
-
-const moment = (() => { try { return require('moment'); } catch (_) {} })();
 
 export class ChatHistoryLog extends Component {
   static propTypes = {
@@ -35,18 +35,16 @@ export class ChatHistoryLog extends Component {
   }
 
   renderDivider = () => {
-    const ts = moment(this.props.firstMessageTimestamp);
-    const isToday = ts.isSame(new Date(), 'day');
-    let format = null;
+    const ts = DateTime.fromMillis(this.props.firstMessageTimestamp);
+    const onSameDay = ts.hasSame(Date.now(), 'days');
+    let format;
 
-    ts.locale(i18n.getLocale());
-    if (isToday) {
-      const today = i18n.t('embeddable_framework.common.today');
-
-      format = ts.format(`[${today}] LT`);
+    if (onSameDay) {
+      format = `${i18n.t('embeddable_framework.common.today')} ${ts.toLocaleString(DateTime.TIME_SIMPLE)}`;
     } else {
-      format = ts.format('lll');
+      format = ts.toLocaleString(DateTime.DATETIME_MED);
     }
+
     return <div className={styles.divider}>{format}</div>;
   }
 

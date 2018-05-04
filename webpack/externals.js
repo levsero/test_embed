@@ -8,6 +8,5 @@ module.exports = {
   'translation/ze_countries': 'zECountries',
   'chat-web-sdk': 'zChat',
   'libphonenumber-js': 'libphonenumber',
-  'socket.io-client': 'io',
-  'moment': 'moment'
+  'socket.io-client': 'io'
 };
