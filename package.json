@@ -32,6 +32,7 @@
     "test:ci": "NODE_ENV=test node script/jasmine-runner.js",
     "test:debug": "node debug script/jasmine-runner.js",
     "lint": "eslint src test --ignore-pattern=src/translation/*.js",
+    "lint-fix": "eslint --fix src test --ignore-pattern=src/translation/*.js",
     "validate-manifest": "node script/validate_manifest.js"
   },
   "author": "Zendesk",

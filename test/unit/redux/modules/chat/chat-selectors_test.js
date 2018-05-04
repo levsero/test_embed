@@ -51,6 +51,7 @@ describe('chat selectors', () => {
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
     EDIT_CONTACT_DETAILS_SCREEN,
+    DEPARTMENT_STATUSES,
     AGENT_BOT;
 
   beforeEach(() => {
@@ -62,6 +63,7 @@ describe('chat selectors', () => {
     EDIT_CONTACT_DETAILS_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_SCREEN;
     CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS;
     AGENT_BOT = requireUncached(chatConstantsPath).AGENT_BOT;
+    DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES;
     CHATTING_SCREEN = 'chatlog';
 
     initMockRegistry({
@@ -69,13 +71,17 @@ describe('chat selectors', () => {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS,
         EDIT_CONTACT_DETAILS_SCREEN,
-        AGENT_BOT
+        AGENT_BOT,
+        DEPARTMENT_STATUSES
       },
       './chat-screen-types': {
         CHATTING_SCREEN
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: (state) => state.base.embed
+      },
+      'src/redux/modules/settings/settings-selectors': {
+        getSettingsChatDepartmentsEnabled: (state) => state.settings.chat.departments.enabled
       },
       'service/i18n': {
         i18n: { t: _.identity }
@@ -316,13 +322,90 @@ describe('chat selectors', () => {
         id: 86734
       }
     ];
+    let state;
 
     beforeEach(() => {
-      result = getPrechatFormFields({
-        chat: {
-          accountSettings: mockAccountSettings,
-          departments: mockDepartments
-        }
+      result = getPrechatFormFields(state);
+    });
+
+    describe('enabled departments', () => {
+      describe('is empty', () => {
+        beforeAll(() => {
+          state = {
+            chat: {
+              accountSettings: mockAccountSettings,
+              departments: mockDepartments
+            },
+            settings: {
+              chat: {
+                departments: {
+                  enabled: []
+                }
+              }
+            }
+          };
+        });
+
+        it('does not filter departments', () => {
+          expect(result.departments.length)
+            .toEqual(3);
+        });
+      });
+
+      describe('is not empty', () => {
+        describe('using ids', () => {
+          beforeAll(() => {
+            state = {
+              chat: {
+                accountSettings: mockAccountSettings,
+                departments: mockDepartments
+              },
+              settings: {
+                chat: {
+                  departments: {
+                    enabled:  [12345, 86734]
+                  }
+                }
+              }
+            };
+          });
+
+          it('filters departments correctly', () => {
+            expect(result.departments.length)
+              .toEqual(2);
+            result.departments.forEach((department) => {
+              expect([12345, 86734].includes(department.id))
+                .toEqual(true);
+            });
+          });
+        });
+
+        describe('using names', () => {
+          beforeAll(() => {
+            state = {
+              chat: {
+                accountSettings: mockAccountSettings,
+                departments: mockDepartments
+              },
+              settings: {
+                chat: {
+                  departments: {
+                    enabled:  ['Design', 'Medicine']
+                  }
+                }
+              }
+            };
+          });
+
+          it('filters departments correctly', () => {
+            expect(result.departments.length)
+              .toEqual(2);
+            result.departments.forEach((department) => {
+              expect([12345, 86734].includes(department.id))
+                .toEqual(true);
+            });
+          });
+        });
       });
     });
 
@@ -344,6 +427,22 @@ describe('chat selectors', () => {
     });
 
     describe('department dropdown field', () => {
+      beforeAll(() => {
+        state = {
+          chat: {
+            accountSettings: mockAccountSettings,
+            departments: mockDepartments
+          },
+          settings: {
+            chat: {
+              departments: {
+                enabled:  []
+              }
+            }
+          }
+        };
+      });
+
       describe('department is offline', () => {
         it('returns department that is disabled and has correct label', () => {
           expect(result.departments[1].name)

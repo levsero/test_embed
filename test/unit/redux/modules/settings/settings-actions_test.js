@@ -59,6 +59,9 @@ describe('settings redux actions', () => {
             departments: {
               department: 'yo'
             }
+          },
+          departments: {
+            enabled: ['oleta', 'bin tapi']
           }
         }
       }

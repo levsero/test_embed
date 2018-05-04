@@ -17,6 +17,7 @@ const optionWhitelist = {
     'contactOptions.contactFormLabel',
     'chat.suppress',
     'chat.visitor.departments.department',
+    'chat.departments.enabled',
     'color.theme',
     'color.button',
     'color.header',
@@ -74,7 +75,8 @@ const webWidgetStoreDefaults = {
     suppress: false,
     visitor: {
       departments: {
-        department: ''
+        department: '',
+        enabled: []
       }
     }
   },

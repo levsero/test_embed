@@ -1,6 +1,7 @@
 describe('settings selectors', () => {
   let getSettingsChatSuppress,
-    getSettingsChatDepartment;
+    getSettingsChatDepartment,
+    getSettingsChatDepartmentsEnabled;
 
   beforeEach(() => {
     mockery.enable();
@@ -13,6 +14,7 @@ describe('settings selectors', () => {
 
     getSettingsChatSuppress = selectors.getSettingsChatSuppress;
     getSettingsChatDepartment = selectors.getSettingsChatDepartment;
+    getSettingsChatDepartmentsEnabled = selectors.getSettingsChatDepartmentsEnabled;
   });
 
   describe('getSettingsChatSuppress', () => {
@@ -53,6 +55,29 @@ describe('settings selectors', () => {
     it('returns yolo', () => {
       expect(result)
         .toEqual('yolo');
+    });
+  });
+
+  describe('getSettingsChatDepartmentsEnabled', () => {
+    let result;
+
+    beforeEach(() => {
+      const mockState = {
+        settings: {
+          chat: {
+            departments: {
+              enabled: ['bin tapi']
+            }
+          }
+        }
+      };
+
+      result = getSettingsChatDepartmentsEnabled(mockState);
+    });
+
+    it('returns ["bin tapi"]', () => {
+      expect(result)
+        .toEqual(['bin tapi']);
     });
   });
 });

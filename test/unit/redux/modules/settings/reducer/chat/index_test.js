@@ -38,5 +38,10 @@ describe('settings chat reducer', () => {
       expect(state.department)
         .toBeDefined();
     });
+
+    it('has the departments enabled sub state', () => {
+      expect(state.departments.enabled)
+        .toBeDefined();
+    });
   });
 });
