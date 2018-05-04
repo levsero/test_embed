@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
+import Transition from 'react-transition-group/Transition';
 
 import { ButtonPill } from 'component/button/ButtonPill';
 import { ChatBox } from 'component/chat/ChatBox';
@@ -95,7 +96,8 @@ const mapStateToProps = (state) => {
     connection: selectors.getConnection(state),
     loginSettings: selectors.getLoginSettings(state),
     departments: selectors.getDepartments(state),
-    offlineMessage: selectors.getOfflineMessage(state)
+    offlineMessage: selectors.getOfflineMessage(state),
+    firstMessageTimestamp: selectors.getFirstMessageTimestamp(state)
   };
 };
 
@@ -162,7 +164,8 @@ class Chat extends Component {
     sendOfflineMessage: PropTypes.func,
     clearDepartment: PropTypes.func,
     fetchConversationHistory: PropTypes.func,
-    hideZendeskLogo: PropTypes.bool
+    hideZendeskLogo: PropTypes.bool,
+    firstMessageTimestamp: PropTypes.number
   };
 
   static defaultProps = {
@@ -207,7 +210,8 @@ class Chat extends Component {
     sendOfflineMessage: () => {},
     clearDepartment: () => {},
     fetchConversationHistory: () => {},
-    hideZendeskLogo: false
+    hideZendeskLogo: false,
+    firstMessageTimestamp: null
   };
 
   constructor(props) {
@@ -554,9 +558,28 @@ class Chat extends Component {
   }
 
   renderHistoryFetching = () => {
-    return this.props.historyRequestStatus === 'pending' ? (
+    const { historyRequestStatus } = this.props;
+    const duration = 250;
+    const defaultStyle = {
+      transition: `opacity ${duration}ms ease-in-out`,
+      opacity: 0,
+    };
+    const transitionStyles = {
+      entering: { opacity: 0 },
+      entered:  { opacity: 1 },
+    };
+
+    return this.props.historyRequestStatus ? (
       <div className={styles.historyFetchingContainer}>
-        <div className={styles.historyFetchingText}>{i18n.t('embeddable_framework.chat.fetching_history')}</div>
+        <Transition in={historyRequestStatus === 'pending'} timeout={duration + 300}>
+          {(state) => (
+            <div
+              style={{...defaultStyle, ...transitionStyles[state]}}
+              className={styles.historyFetchingText}>
+              {i18n.t('embeddable_framework.chat.fetching_history')}
+            </div>
+          )}
+        </Transition>
       </div>
     ) : null;
   }
@@ -612,6 +635,7 @@ class Chat extends Component {
             chatHistoryLog={this.props.chatHistoryLog}
             showAvatar={this.props.showAvatar}
             agents={this.props.allAgents}
+            firstMessageTimestamp={this.props.firstMessageTimestamp}
           />
           <ChatLog
             showAvatar={this.props.showAvatar}

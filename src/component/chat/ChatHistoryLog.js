@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { DateTime } from 'luxon';
 import _ from 'lodash';
+
+import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatHistoryLog.scss';
 
 import { ChatGroup } from 'component/chat/ChatGroup';
@@ -11,11 +14,13 @@ export class ChatHistoryLog extends Component {
   static propTypes = {
     chatHistoryLog: PropTypes.array,
     agents: PropTypes.object,
-    showAvatar: PropTypes.bool.isRequired
+    showAvatar: PropTypes.bool.isRequired,
+    firstMessageTimestamp: PropTypes.number,
   };
 
   static defaultProps = {
-    chatHistoryLog: []
+    chatHistoryLog: [],
+    firstMessageTimestamp: null
   };
 
   constructor(props) {
@@ -27,6 +32,20 @@ export class ChatHistoryLog extends Component {
 
   getScrollHeight = () => {
     return (this.container && this.container.scrollHeight) || 0;
+  }
+
+  renderDivider = () => {
+    const ts = DateTime.fromMillis(this.props.firstMessageTimestamp);
+    const onSameDay = ts.hasSame(Date.now(), 'days');
+    let format;
+
+    if (onSameDay) {
+      format = `${i18n.t('embeddable_framework.common.today')} ${ts.toLocaleString(DateTime.TIME_SIMPLE)}`;
+    } else {
+      format = ts.toLocaleString(DateTime.DATETIME_MED);
+    }
+
+    return <div className={styles.divider}>{format}</div>;
   }
 
   renderPastSession = (pastChats) => {
@@ -73,9 +92,9 @@ export class ChatHistoryLog extends Component {
     return chatLogs.length ? (
       <div
         ref={(el) => { this.container = el; }}
-        className={styles.chatHistoryContainer}
       >
         {chatLogs}
+        {this.renderDivider()}
       </div>
     ) : null;
   }

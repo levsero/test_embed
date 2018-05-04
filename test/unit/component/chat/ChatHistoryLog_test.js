@@ -22,7 +22,8 @@ describe('ChatHistoryLog component', () => {
     CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS;
 
     i18n = {
-      t: jasmine.createSpy()
+      t: _.identity,
+      getLocale: () => 'en'
     };
 
     initMockRegistry({
@@ -236,6 +237,39 @@ describe('ChatHistoryLog component', () => {
     });
   });
 
+  describe('renderDivider', () => {
+    let result,
+      timestamp;
+
+    beforeEach(() => {
+      const component = instanceRender(<ChatHistoryLog firstMessageTimestamp={timestamp} />);
+
+      result = component.renderDivider();
+    });
+
+    describe('random date time', () => {
+      beforeAll(() => {
+        timestamp = 1234;
+      });
+
+      it('renders timestamp in the divider', () => {
+        expect(result.props.children)
+          .toContain('Jan 1, 1970');
+      });
+    });
+
+    describe('current date', () => {
+      beforeAll(() => {
+        timestamp = Date.now();
+      });
+
+      it('renders Today as date in divider', () => {
+        expect(result.props.children)
+          .toContain('embeddable_framework.common.today');
+      });
+    });
+  });
+
   describe('render', () => {
     let result;
     const sessions = [
@@ -265,7 +299,10 @@ describe('ChatHistoryLog component', () => {
     });
 
     it('renders the correct number of children', () => {
-      expect(result.props.children.length).toEqual(7);
+      expect(result.props.children.length)
+        .toEqual(2);
+      expect(result.props.children[0].length)
+        .toEqual(7);
     });
   });
 });
