@@ -50,6 +50,7 @@ describe('chat selectors', () => {
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
     EDIT_CONTACT_DETAILS_SCREEN,
+    DEPARTMENT_STATUSES,
     AGENT_BOT;
 
   beforeEach(() => {
@@ -61,6 +62,7 @@ describe('chat selectors', () => {
     EDIT_CONTACT_DETAILS_SCREEN = requireUncached(chatConstantsPath).EDIT_CONTACT_DETAILS_SCREEN;
     CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS;
     AGENT_BOT = requireUncached(chatConstantsPath).AGENT_BOT;
+    DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES;
     CHATTING_SCREEN = 'chatlog';
 
     initMockRegistry({
@@ -68,7 +70,8 @@ describe('chat selectors', () => {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS,
         EDIT_CONTACT_DETAILS_SCREEN,
-        AGENT_BOT
+        AGENT_BOT,
+        DEPARTMENT_STATUSES
       },
       './chat-screen-types': {
         CHATTING_SCREEN
@@ -374,6 +377,7 @@ describe('chat selectors', () => {
             });
           });
         });
+
         describe('using names', () => {
           beforeAll(() => {
             state = {
@@ -390,6 +394,7 @@ describe('chat selectors', () => {
               }
             };
           });
+
           it('filters departments correctly', () => {
             expect(result.departments.length)
               .toEqual(2);

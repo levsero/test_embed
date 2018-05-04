@@ -75,7 +75,7 @@ describe('settings selectors', () => {
       result = getSettingsChatDepartmentsEnabled(mockState);
     });
 
-    it('returns [\'bin tapi\']', () => {
+    it('returns ["bin tapi"]', () => {
       expect(result)
         .toEqual(['bin tapi']);
     });

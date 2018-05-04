@@ -11,9 +11,7 @@ const department = (state = initialState, action) => {
 
   switch (type) {
     case UPDATE_SETTINGS:
-      const newDepartment = _.get(payload, 'chat.departments.enabled');
-
-      return newDepartment || state;
+      return _.get(payload, 'chat.departments.enabled', state);
     default:
       return state;
   }

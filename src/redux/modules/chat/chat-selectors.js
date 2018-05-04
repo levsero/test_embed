@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { createSelector } from 'reselect';
-import { AGENT_BOT, CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
+import { AGENT_BOT, CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS, DEPARTMENT_STATUSES } from 'constants/chat';
 import { CHATTING_SCREEN } from './chat-screen-types';
 
 import { i18n } from 'service/i18n';
@@ -150,20 +150,22 @@ export const getPrechatFormFields = createSelector(
   (prechatSettings, departments, offlineFormSettings, settingsChatDepartmentsEnabled) => {
     const formsByKey = getFormFields(prechatSettings);
     let firstOnlineDepartment = true;
+    const filterDepartments = (departments) => _.filter(departments, (department) => {
+      return settingsChatDepartmentsEnabled.includes(department.name) ||
+        settingsChatDepartmentsEnabled.includes(department.id);
+    });
+    const validDepartments = settingsChatDepartmentsEnabled.length > 0
+      ? filterDepartments(departments)
+      : departments;
     const departmentOptions = _.map(
-      settingsChatDepartmentsEnabled.length > 0 ?
-        _.filter(departments, (department) => {
-          return settingsChatDepartmentsEnabled.includes(department.name) ||
-            settingsChatDepartmentsEnabled.includes(department.id);
-        }) :
-        departments,
+      validDepartments,
       (department) => {
         let dept = {
           ...department,
           value: department.id
         };
 
-        if (department.status === 'offline') {
+        if (department.status === DEPARTMENT_STATUSES.OFFLINE) {
           if (!offlineFormSettings.enabled) {
             dept.disabled = true;
           }
