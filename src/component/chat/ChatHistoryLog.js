@@ -40,7 +40,9 @@ export class ChatHistoryLog extends Component {
     let format;
 
     if (onSameDay) {
-      format = `${i18n.t('embeddable_framework.common.today')} ${ts.toLocaleString(DateTime.TIME_SIMPLE)}`;
+      const timeFormat = ts.toLocaleString(DateTime.TIME_SIMPLE);
+
+      format = i18n.t('embeddable_framework.common.today', { time: timeFormat });
     } else {
       format = ts.toLocaleString(DateTime.DATETIME_MED);
     }
