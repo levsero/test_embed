@@ -1,4 +1,4 @@
-describe('chat reducer suppress', () => {
+describe('chat reducer department', () => {
   let reducer,
     actionTypes,
     initialState;
