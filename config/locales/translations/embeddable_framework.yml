@@ -99,9 +99,9 @@ parts:
       value: "This widget uses cookies."
   - translation:
       key: "embeddable_framework.common.today"
-      title: "This should be a string that denotes the present day."
-      screenshot: "https://drive.google.com/open?id=1853VGYeFs-o0_19jY4xlM8zIcmPENbXE"
-      value: "Today"
+      title: "This should be a string that denotes the present day. Time will be the time component for the current day. %()s stands for string and does not need to be translated."
+      screenshot: "https://drive.google.com/open?id=1da0oNnWxu93qXO8Gz6RBVfqNjFYPyAqS"
+      value: "Today %(time)s"
 
   # Launcher embed
   - translation:
