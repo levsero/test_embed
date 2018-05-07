@@ -35,8 +35,9 @@ const concatContactDetailsUpdated = (chats, payload) => {
 
 const concatChat = (chats, chat) => {
   const copy = new Map(chats);
+  const timestamp = chat.timestamp || Date.now();
 
-  return copy.set(chat.timestamp, { ...chat });
+  return copy.set(timestamp, { ...chat, timestamp });
 };
 
 const concatSDKFile = (chats, chat) => {
