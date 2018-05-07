@@ -13,17 +13,10 @@ import {
 
 const initialState = new Map();
 
-const concatChat = (chats, chat) => {
-  const copy = new Map(chats);
-
-  return copy.set(chat.timestamp, { ...chat });
-};
-
 const concatSDKFile = (chats, chat) => {
   if (!chat.timestamp) return chats;
 
-  const copy = new Map(chats);
-  const existingItem = copy.get(chat.timestamp) || {};
+  const existingItem = chats.get(chat.timestamp) || {};
   const existingFile = existingItem.file || {
     lastModified: null,
     lastModifiedDate: null,
@@ -37,10 +30,15 @@ const concatSDKFile = (chats, chat) => {
     uploading: false
   };
 
-  return copy.set(chat.timestamp, { ...chat, file });
+  return new Map([
+    ...new Map().set(chat.timestamp, { ...chat, file }),
+    ...chats
+  ]);
 };
 
 const chats = (state = initialState, action) => {
+  const detail = action.payload && action.payload.detail;
+
   switch (action.type) {
     case SDK_HISTORY_CHAT_QUEUE_POSITION:
     case SDK_HISTORY_CHAT_REQUEST_RATING:
@@ -49,10 +47,17 @@ const chats = (state = initialState, action) => {
     case SDK_HISTORY_CHAT_MSG:
     case SDK_HISTORY_CHAT_MEMBER_JOIN:
     case SDK_HISTORY_CHAT_MEMBER_LEAVE:
-      return concatChat(state, action.payload.detail);
+      const newEntry = new Map();
+
+      newEntry.set(
+        detail.timestamp,
+        (detail.nick === '__trigger') ? { ...detail, nick: 'agent:trigger' } : detail
+      );
+
+      return new Map([...newEntry, ...state]);
 
     case SDK_HISTORY_CHAT_FILE:
-      return concatSDKFile(state, action.payload.detail);
+      return concatSDKFile(state, detail);
 
     default:
       return state;

@@ -9,10 +9,12 @@ export class ChatEventMessage extends Component {
   static propTypes = {
     event: PropTypes.object.isRequired,
     children: PropTypes.object,
+    divider: PropTypes.node,
     chatLogCreatedAt: PropTypes.number
   };
 
   static defaultProps = {
+    divider: null,
     chatLogCreatedAt: 0
   };
 
@@ -57,6 +59,7 @@ export class ChatEventMessage extends Component {
 
     return (
       <div key={event.timestamp} className={wrapperClasses}>
+        {this.props.divider}
         {this.renderEventMessage(event)}
         {this.props.children}
       </div>

@@ -22,7 +22,7 @@ describe('ChatHistoryLog component', () => {
     CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS;
     CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS;
 
-    dateTimeSpy = jasmine.createSpy();
+    dateTimeSpy = jasmine.createSpy('dateTime');
 
     i18n = {
       t: _.identity
@@ -244,9 +244,9 @@ describe('ChatHistoryLog component', () => {
 
   describe('renderDivider', () => {
     beforeEach(() => {
-      const component = instanceRender(<ChatHistoryLog firstMessageTimestamp={1234} />);
+      const component = instanceRender(<ChatHistoryLog />);
 
-      component.renderDivider();
+      component.renderDivider(1234);
     });
 
     it('calls formatter with timestamp and showToday option', () => {

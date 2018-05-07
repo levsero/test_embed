@@ -33,8 +33,8 @@ export class ChatHistoryLog extends Component {
     return (this.container && this.container.scrollHeight) || 0;
   }
 
-  renderDivider = () => {
-    const format = dateTime(this.props.firstMessageTimestamp, { showToday: true });
+  renderDivider = (timestamp) => {
+    const format = dateTime(timestamp, { showToday: true });
 
     return <div className={styles.divider}>{format}</div>;
   }
@@ -68,6 +68,7 @@ export class ChatHistoryLog extends Component {
           <ChatEventMessage
             key={timestamp}
             event={group[0]}
+            divider={_.get(group, '0.first') ? this.renderDivider(_.get(group, '0.timestamp')) : null}
             chatLogCreatedAt={this.createdTimestamp}
           />
         );
@@ -85,7 +86,7 @@ export class ChatHistoryLog extends Component {
         ref={(el) => { this.container = el; }}
       >
         {chatLogs}
-        {this.renderDivider()}
+        {this.renderDivider(this.props.firstMessageTimestamp)}
       </div>
     ) : null;
   }
