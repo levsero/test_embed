@@ -62,6 +62,10 @@ const sendTalkOpenedBlip = (state) => {
   beacon.trackUserAction('talk', 'opened', 'phoneNumber', value);
 };
 
+const sendChatOpenedBlip = (state, chatType) => {
+  beacon.trackUserAction('chat', 'opened', chatType);
+};
+
 const sendHelpCenterFirstSearchBlip = (state) => {
   if (getTotalUserSearches(state) === 0) {
     beacon.trackUserAction('helpCenter', 'search', 'helpCenterForm', getSearchTerm(state));
@@ -92,6 +96,10 @@ export function sendBlips({ getState }) {
       case UPDATE_ACTIVE_EMBED:
         if (payload === 'talk') {
           sendTalkOpenedBlip(prevState);
+        } else if (payload === 'chat') {
+          sendChatOpenedBlip(prevState, 'newChat');
+        } else if (payload === 'zopimChat') {
+          sendChatOpenedBlip(prevState, 'zopimChat');
         }
         break;
       case ARTICLE_CLICKED:

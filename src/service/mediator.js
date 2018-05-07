@@ -108,10 +108,6 @@ const resetActiveEmbed = () => {
   }
 };
 
-const trackChatStarted = () => {
-  c.broadcast('beacon.trackUserAction', 'chat', 'opened', chat);
-};
-
 const show = (_state, options = {}) => {
   if (_state['.activatePending']) {
     showEmbed(_state, true);
@@ -126,10 +122,6 @@ const show = (_state, options = {}) => {
 };
 
 const showEmbed = (_state, viaActivate = false) => {
-  if (_state.activeEmbed === chat) {
-    trackChatStarted();
-  }
-
   if (_state.activeEmbed === chat && isMobileBrowser()) {
     c.broadcast(`${chat}.show`);
   } else {
@@ -428,8 +420,6 @@ function init(embedsAccessible, params = {}) {
       }
       setScrollKiller(false);
     }
-
-    trackChatStarted();
 
     state[`${helpCenter}.isVisible`] = false;
     state.activeEmbed = chat;
