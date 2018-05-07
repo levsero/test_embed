@@ -59,6 +59,9 @@ describe('boot', () => {
       },
       'src/redux/modules/helpCenter': {
         displayArticle: noop
+      },
+      'src/redux/modules/settings': {
+        updateSettings: noop
       }
     });
 

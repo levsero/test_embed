@@ -3,10 +3,18 @@ import thunk from 'redux-thunk';
 
 let actions,
   actionTypes,
-  mockStore;
+  mockStore,
+  mockGetConnection,
+  mockGetDepartmentsList;
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
+const chatConstantsPath = buildSrcPath('constants/chat');
+const chatConstants = requireUncached(chatConstantsPath);
+const CONNECTION_STATUSES = chatConstants.CONNECTION_STATUSES;
+
+let setDepartmentSpy = jasmine.createSpy('setDepartment').and.returnValue({ type: 'yolo' });
+let clearDepartmentSpy = jasmine.createSpy('clearDepartment').and.returnValue({ type: 'yolo'});
 
 describe('settings redux actions', () => {
   beforeEach(() => {
@@ -17,6 +25,21 @@ describe('settings redux actions', () => {
 
     mockery.registerAllowable(actionsPath);
     mockery.registerAllowable(actionTypesPath);
+    mockery.registerAllowable(chatConstantsPath);
+
+    initMockRegistry({
+      'constants/chat': {
+        CONNECTION_STATUSES
+      },
+      'src/redux/modules/chat/chat-selectors': {
+        getConnection: () => mockGetConnection,
+        getDepartmentsList: () => mockGetDepartmentsList
+      },
+      'src/redux/modules/chat/chat-actions': {
+        setDepartment: setDepartmentSpy,
+        clearDepartment: clearDepartmentSpy
+      }
+    });
 
     actions = requireUncached(actionsPath);
     actionTypes = requireUncached(actionTypesPath);
@@ -27,6 +50,116 @@ describe('settings redux actions', () => {
   afterEach(() => {
     mockery.disable();
     mockery.deregisterAll();
+  });
+
+  describe('updateSettings', () => {
+    let someSettings;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.updateSettings(someSettings));
+    });
+
+    afterEach(() => {
+      setDepartmentSpy.calls.reset();
+      clearDepartmentSpy.calls.reset();
+    });
+
+    describe('when chat is connected', () => {
+      beforeAll(() => {
+        mockGetConnection = CONNECTION_STATUSES.CONNECTED;
+        mockGetDepartmentsList = [{ name: 'yo', id: 123 }, { name: 'yoyo', id: 345 }];
+      });
+
+      describe('when given valid department name', () => {
+        beforeAll(() => {
+          someSettings = {
+            webWidget: {
+              chat: {
+                visitor: {
+                  departments: {
+                    department: 'yo'
+                  }
+                }
+              }
+            }
+          };
+        });
+
+        it('calls setDepartment with the correct args', () => {
+          expect(setDepartmentSpy)
+            .toHaveBeenCalledWith(123);
+        });
+
+        it('dispatches updateSettings action', () => {
+          const expected = {
+            type: actionTypes.UPDATE_SETTINGS,
+            payload: someSettings
+          };
+
+          expect(mockStore.getActions()[0])
+            .toEqual(expected);
+        });
+      });
+
+      describe('when given an invalid department name', () => {
+        beforeAll(() => {
+          someSettings = {
+            webWidget: {
+              chat: {
+                visitor: {
+                  departments: {
+                    department: 'yowrgfwewe'
+                  }
+                }
+              }
+            }
+          };
+        });
+
+        it('calls clearDepartment', () => {
+          expect(clearDepartmentSpy)
+            .toHaveBeenCalled();
+        });
+
+        it('dispatches updateSettings action', () => {
+          const expected = {
+            type: actionTypes.UPDATE_SETTINGS,
+            payload: someSettings
+          };
+
+          expect(mockStore.getActions()[0])
+            .toEqual(expected);
+        });
+      });
+    });
+
+    describe('when chat is not connected', () => {
+      beforeAll(() => {
+        mockGetConnection = CONNECTION_STATUSES.CONNECTING;
+      });
+
+      it('does not call setDepartment', () => {
+        expect(setDepartmentSpy)
+          .not
+          .toHaveBeenCalled();
+      });
+
+      it('does not call clearDepartment', () => {
+        expect(clearDepartmentSpy)
+          .not
+          .toHaveBeenCalled();
+      });
+
+      it('dispatches updateSettings action', () => {
+        const expected = {
+          type: actionTypes.UPDATE_SETTINGS,
+          payload: someSettings
+        };
+
+        expect(mockStore.getActions()[0])
+          .toEqual(expected);
+      });
+    });
   });
 
   describe('updateSettingsChatSuppress', () => {
@@ -43,39 +176,6 @@ describe('settings redux actions', () => {
       const expected = {
         type: actionTypes.UPDATE_SETTINGS_CHAT_SUPPRESS,
         payload: true
-      };
-
-      expect(action)
-        .toEqual(expected);
-    });
-  });
-
-  describe('updateSettings', () => {
-    let action;
-    const someSettings = {
-      webWidget: {
-        chat: {
-          visitor: {
-            departments: {
-              department: 'yo'
-            }
-          },
-          departments: {
-            enabled: ['oleta', 'bin tapi']
-          }
-        }
-      }
-    };
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.updateSettings(someSettings));
-      action = mockStore.getActions()[0];
-    });
-
-    it('updates settings for departments with expected values', () => {
-      const expected = {
-        type: actionTypes.UPDATE_SETTINGS,
-        payload: someSettings
       };
 
       expect(action)

@@ -17,7 +17,7 @@ import { appendMetaTag,
 import { initMobileScaling } from 'utility/mobileScaling';
 import { handleIdentifyRecieved } from 'src/redux/modules/base';
 import { displayArticle } from 'src/redux/modules/helpCenter';
-
+import { updateSettings } from 'src/redux/modules/settings';
 import createStore from 'src/redux/createStore';
 
 const handleQueue = (queue) => {
@@ -121,6 +121,7 @@ const setupWidgetQueue = (win, postRenderQueue, reduxStore) => {
     identify: postRenderQueueCallback.bind('identify'),
     logout: postRenderQueueCallback.bind('logout'),
     activate: postRenderQueueCallback.bind('activate'),
+    updateSettings: postRenderQueueCallback.bind('updateSettings'),
     configureIPMWidget: postRenderQueueCallback.bind('configureIPMWidget'),
     showIPMArticle: postRenderQueueCallback.bind('showIPMArticle'),
     hideIPMWidget: postRenderQueueCallback.bind('hideIPMWidget'),
@@ -273,6 +274,9 @@ const setupWidgetApi = (win, reduxStore) => {
   win.zE.setLocale = (locale) => {
     i18n.setLocale(locale, true);
     mediator.channel.broadcast('.onSetLocale', locale);
+  };
+  win.zE.updateSettings = (newSettings) => {
+    reduxStore.dispatch(updateSettings(newSettings));
   };
 };
 
