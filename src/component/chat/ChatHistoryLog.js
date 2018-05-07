@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { DateTime } from 'luxon';
 import _ from 'lodash';
 
-import { i18n } from 'service/i18n';
+import { dateTime } from 'utility/formatters';
 import { locals as styles } from './ChatHistoryLog.scss';
 
 import { ChatGroup } from 'component/chat/ChatGroup';
@@ -15,7 +14,7 @@ export class ChatHistoryLog extends Component {
     chatHistoryLog: PropTypes.array,
     agents: PropTypes.object,
     showAvatar: PropTypes.bool.isRequired,
-    firstMessageTimestamp: PropTypes.number,
+    firstMessageTimestamp: PropTypes.number
   };
 
   static defaultProps = {
@@ -35,17 +34,7 @@ export class ChatHistoryLog extends Component {
   }
 
   renderDivider = () => {
-    const ts = DateTime.fromMillis(this.props.firstMessageTimestamp);
-    const onSameDay = ts.hasSame(Date.now(), 'days');
-    let format;
-
-    if (onSameDay) {
-      const timeFormat = ts.toLocaleString(DateTime.TIME_SIMPLE);
-
-      format = i18n.t('embeddable_framework.common.today', { time: timeFormat });
-    } else {
-      format = ts.toLocaleString(DateTime.DATETIME_MED);
-    }
+    const format = dateTime(this.props.firstMessageTimestamp, { showToday: true });
 
     return <div className={styles.divider}>{format}</div>;
   }

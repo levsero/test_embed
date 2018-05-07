@@ -48,6 +48,9 @@ describe('ChatGroup component', () => {
       'service/i18n': {
         i18n
       },
+      'utility/formatters': {
+        dateTime: _.identity
+      },
       './ChatGroup.scss': {
         locals: {
           container: 'container',

@@ -2,6 +2,7 @@ describe('ChatHistoryLog component', () => {
   let ChatHistoryLog,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
+    dateTimeSpy,
     i18n;
 
   let agents = {
@@ -21,9 +22,10 @@ describe('ChatHistoryLog component', () => {
     CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS;
     CHAT_SYSTEM_EVENTS = requireUncached(chatConstantsPath).CHAT_SYSTEM_EVENTS;
 
+    dateTimeSpy = jasmine.createSpy();
+
     i18n = {
-      t: _.identity,
-      getLocale: () => 'en'
+      t: _.identity
     };
 
     initMockRegistry({
@@ -39,7 +41,10 @@ describe('ChatHistoryLog component', () => {
       },
       'service/i18n': {
         i18n
-      }
+      },
+      'utility/formatters': {
+        dateTime: dateTimeSpy
+      },
     });
 
     mockery.registerAllowable(chatHistoryLogPath);
@@ -238,35 +243,15 @@ describe('ChatHistoryLog component', () => {
   });
 
   describe('renderDivider', () => {
-    let result,
-      timestamp;
-
     beforeEach(() => {
-      const component = instanceRender(<ChatHistoryLog firstMessageTimestamp={timestamp} />);
+      const component = instanceRender(<ChatHistoryLog firstMessageTimestamp={1234} />);
 
-      result = component.renderDivider();
+      component.renderDivider();
     });
 
-    describe('random date time', () => {
-      beforeAll(() => {
-        timestamp = 1234;
-      });
-
-      it('renders timestamp in the divider', () => {
-        expect(result.props.children)
-          .toContain('Jan 1, 1970');
-      });
-    });
-
-    describe('current date', () => {
-      beforeAll(() => {
-        timestamp = Date.now();
-      });
-
-      it('renders Today as date in divider', () => {
-        expect(result.props.children)
-          .toContain('embeddable_framework.common.today');
-      });
+    it('calls formatter with timestamp and showToday option', () => {
+      expect(dateTimeSpy)
+        .toHaveBeenCalledWith(1234, { showToday: true });
     });
   });
 

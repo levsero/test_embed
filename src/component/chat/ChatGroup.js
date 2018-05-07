@@ -15,7 +15,7 @@ import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatGroup.scss';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { DateTime } from 'luxon';
+import { dateTime } from 'utility/formatters';
 
 export class ChatGroup extends Component {
   static propTypes = {
@@ -238,17 +238,11 @@ export class ChatGroup extends Component {
       /> : null;
   }
 
-  getDateTime = (timestamp) => {
-    const ts = DateTime.fromMillis(timestamp);
-
-    return ts.toLocaleString(DateTime.DATETIME_MED);
-  }
-
   renderDivider = (messages) => {
     const isFirstGroup = _.get(messages, '0.first');
     const timestamp = _.get(messages, '0.timestamp');
 
-    return isFirstGroup ? <div className={styles.divider}>{this.getDateTime(timestamp)}</div> : null;
+    return isFirstGroup ? <div className={styles.divider}>{dateTime(timestamp)}</div> : null;
   }
 
   render() {
