@@ -5,7 +5,8 @@ import { CHATTING_SCREEN } from './chat-screen-types';
 
 import { i18n } from 'service/i18n';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
-import { getSettingsChatDepartmentsEnabled } from 'src/redux/modules/settings/settings-selectors';
+import { getSettingsChatDepartmentsEnabled,
+  getSettingsChatDepartment } from 'src/redux/modules/settings/settings-selectors';
 
 const getFormFields = (settings) => {
   const { form } = settings;
@@ -151,8 +152,14 @@ export const getDepartments = (state) => state.chat.departments;
 export const getDepartmentsList = (state) => _.values(state.chat.departments);
 
 export const getPrechatFormFields = createSelector(
-  [getPrechatFormSettings, getDepartmentsList, getOfflineFormSettings, getSettingsChatDepartmentsEnabled],
-  (prechatSettings, departments, offlineFormSettings, settingsChatDepartmentsEnabled) => {
+  [
+    getPrechatFormSettings,
+    getDepartmentsList,
+    getOfflineFormSettings,
+    getSettingsChatDepartmentsEnabled,
+    getSettingsChatDepartment
+  ],
+  (prechatSettings, departments, offlineFormSettings, settingsChatDepartmentsEnabled, selectedDepartmentSetting) => {
     const formsByKey = getFormFields(prechatSettings);
     let firstOnlineDepartment = true;
     const filterDepartments = (departments) => _.filter(departments, (department) => {
@@ -162,28 +169,38 @@ export const getPrechatFormFields = createSelector(
     const validDepartments = settingsChatDepartmentsEnabled.length > 0
       ? filterDepartments(departments)
       : departments;
-    const departmentOptions = _.map(
-      validDepartments,
-      (department) => {
-        let dept = {
-          ...department,
-          value: department.id
-        };
+    const selectedDepartment = selectedDepartmentSetting
+      ? _.find(validDepartments, (dept) => {
+        return dept.name === selectedDepartmentSetting && dept.status === DEPARTMENT_STATUSES.ONLINE;
+      })
+      : null;
 
-        if (department.status === DEPARTMENT_STATUSES.OFFLINE) {
-          if (!offlineFormSettings.enabled) {
-            dept.disabled = true;
-          }
-          dept.name = i18n.t('embeddable_framework.chat.department.offline.label', { department: department.name });
-        } else {
-          if (firstOnlineDepartment && _.get(formsByKey, 'department.required', false)) {
-            dept.default = true;
-            firstOnlineDepartment = false;
-          }
-        }
-        return dept;
+    const departmentOptions = _.map(validDepartments, (department) => {
+      let departmentOption = {
+        ...department,
+        value: department.id
+      };
+
+      if (selectedDepartment && department.name === selectedDepartment.name) {
+        departmentOption.default = true;
       }
-    );
+
+      if (department.status === DEPARTMENT_STATUSES.OFFLINE) {
+        if (!offlineFormSettings.enabled) {
+          departmentOption.disabled = true;
+        }
+        departmentOption.name = i18n.t(
+          'embeddable_framework.chat.department.offline.label',
+          { department: department.name }
+        );
+      } else {
+        if (firstOnlineDepartment && _.get(formsByKey, 'department.required', false) && !selectedDepartment) {
+          departmentOption.default = true;
+          firstOnlineDepartment = false;
+        }
+      }
+      return departmentOption;
+    });
 
     return _.extend({}, formsByKey, { departments: departmentOptions });
   }
