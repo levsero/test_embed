@@ -41,8 +41,10 @@ describe('chat reducer departments enabled', () => {
     describe('when departments enabled has not been set', () => {
       beforeAll(() => {
         someSettings = {
-          chat: {
-            suppress: true
+          webWidget: {
+            chat: {
+              suppress: true
+            }
           }
         };
       });
@@ -56,9 +58,11 @@ describe('chat reducer departments enabled', () => {
     describe('when departments enabled has been set', () => {
       beforeAll(() => {
         someSettings = {
-          chat: {
-            departments: {
-              enabled: ['Dep']
+          webWidget: {
+            chat: {
+              departments: {
+                enabled: ['Dep']
+              }
             }
           }
         };

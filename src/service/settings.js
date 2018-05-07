@@ -73,10 +73,12 @@ const webWidgetStoreDefaults = {
   },
   chat: {
     suppress: false,
+    departments: {
+      enabled: []
+    },
     visitor: {
       departments: {
-        department: '',
-        enabled: []
+        department: ''
       }
     }
   },
