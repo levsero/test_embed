@@ -11,7 +11,7 @@ const department = (state = initialState, action) => {
 
   switch (type) {
     case UPDATE_SETTINGS:
-      return _.get(payload, 'chat.departments.enabled', state);
+      return _.get(payload, 'webWidget.chat.departments.enabled', state);
     default:
       return state;
   }
