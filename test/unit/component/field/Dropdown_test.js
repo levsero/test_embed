@@ -447,6 +447,7 @@ describe('dropdown component', () => {
 
     beforeAll(() => {
       dropdown = domRender(<Dropdown />);
+      spyOn(dropdown, 'setState');
 
       items = dropdown.formatDropdownOptions(options);
     });
@@ -495,6 +496,11 @@ describe('dropdown component', () => {
     it('sets this.selected to the option if it is the default option', () => {
       expect(dropdown.selected)
         .toEqual({ name: 'baz', value: 3, default: true });
+    });
+
+    it('calls setState with the selected dropdown', () => {
+      expect(dropdown.setState)
+        .toHaveBeenCalledWith({ selected: { name: 'baz', value: 3, default: true } });
     });
   });
 
