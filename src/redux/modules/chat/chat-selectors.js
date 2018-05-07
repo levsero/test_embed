@@ -57,7 +57,7 @@ export const getOperatingHours = (state) => state.chat.operatingHours;
 export const getLoginSettings = (state) => state.chat.accountSettings.login;
 export const getStandaloneMobileNotificationVisible = (state) => state.chat.standaloneMobileNotificationVisible;
 export const getFirstMessageTimestamp = (state) => {
-  const first = state.chat.chats.values().next().value;
+  const first = getChats(state).values().next().value;
 
   return first ? first.timestamp : Date.now();
 };

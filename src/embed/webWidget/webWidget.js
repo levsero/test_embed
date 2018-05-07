@@ -610,10 +610,10 @@ export default function WebWidgetFactory(name) {
     };
 
     config = _.extend({}, chatConfigDefaults, config);
+
     /* eslint-disable camelcase */
-    const authentication = config.authentication && config.authentication.jwtFn
-      ? { jwt_fn: config.authentication.jwtFn }
-      : null;
+    const jwtFn = _.get(config, 'authentication.jwtFn');
+    const authentication = jwtFn ? { jwt_fn: jwtFn } : null;
 
     return _.omitBy({
       account_key: config.zopimId,
