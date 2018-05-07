@@ -3,22 +3,15 @@ import _ from 'lodash';
 
 import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
 
-const getHistory = state => state.chat.chatHistory;
-const getPastChats = state => getHistory(state).chats;
+const getPastChats = state => state.chat.chatHistory.chats;
 
-const getSortedArrayFromMap = map => [...map.values()].sort((a, b) => a.timestamp - b.timestamp);
 const isMessage = entry => _.includes(CHAT_MESSAGE_EVENTS, entry.type);
 const isEvent = entry => _.includes(CHAT_SYSTEM_EVENTS, entry.type);
-
-export const getHasMoreHistory = createSelector(
-  [getHistory],
-  history => history.hasMore
-);
 
 const getPastChatsBySession = createSelector(
   [getPastChats],
   (chatsMap) => {
-    const chatsArr = getSortedArrayFromMap(chatsMap);
+    const chatsArr = [...chatsMap.values()];
     let session = [];
 
     return _.reduce(chatsArr, (pastSessions, chat, idx) => {
@@ -70,12 +63,10 @@ const getGroupedChat = chatsArr => {
   }, {});
 };
 
+export const getHasMoreHistory = state => state.chat.chatHistory.hasMore;
+export const getHistoryRequestStatus = state => state.chat.chatHistory.requestStatus;
+
 export const getGroupedPastChatsBySession = createSelector(
   [getPastChatsBySession],
   pastSessions => _.map(pastSessions, session => getGroupedChat(session))
-);
-
-export const getHistoryRequestStatus = createSelector(
-  [getHistory],
-  history => history.requestStatus
 );

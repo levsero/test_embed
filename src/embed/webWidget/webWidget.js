@@ -28,7 +28,7 @@ import { cappedTimeoutCall,
   getPageKeywords } from 'utility/utils';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
-import { setVisitorInfo, chatNotificationDismissed } from 'src/redux/modules/chat';
+import { setVisitorInfo, chatNotificationDismissed, fetchConversationHistory } from 'src/redux/modules/chat';
 import { resetTalkScreen } from 'src/redux/modules/talk';
 import { getTicketForms,
   getTicketFields } from 'src/redux/modules/submitTicket';
@@ -572,6 +572,12 @@ export default function WebWidgetFactory(name) {
   function setupChat(config, store, brand) {
     zChat.init(makeChatConfig(config));
 
+    zChat.setOnFirstReady({
+      fetchHistory: () => {
+        if (config.authentication.jwtFn) store.dispatch(fetchConversationHistory());
+      }
+    });
+
     if (brand) {
       zChat.addTag(brand);
     }
@@ -604,10 +610,10 @@ export default function WebWidgetFactory(name) {
     };
 
     config = _.extend({}, chatConfigDefaults, config);
+
     /* eslint-disable camelcase */
-    const authentication = config.authentication
-      ? { jwt_fn: config.authentication.jwtFn }
-      : null;
+    const jwtFn = _.get(config, 'authentication.jwtFn');
+    const authentication = jwtFn ? { jwt_fn: jwtFn } : null;
 
     return _.omitBy({
       account_key: config.zopimId,

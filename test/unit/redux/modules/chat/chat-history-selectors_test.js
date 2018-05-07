@@ -83,9 +83,9 @@ describe('chat history selectors', () => {
         chat: {
           chatHistory: {
             chats: new Map([
-              [3, { chat: 'c', timestamp: 3 }],
-              [2, { chat: 'b', timestamp: 2 }],
               [1, { chat: 'a', timestamp: 1, first: true }],
+              [2, { chat: 'b', timestamp: 2 }],
+              [3, { chat: 'c', timestamp: 3 }],
               [4, { chat: 'd', timestamp: 4 }],
               [5, { chat: 'e', timestamp: 5, first: true }]
             ])

@@ -32,6 +32,7 @@ describe('embed.webWidget', () => {
   const getTicketFieldsSpy = jasmine.createSpy('ticketFields');
   const zChatAddTagSpy = jasmine.createSpy('zChatAddTag');
   const zChatFirehoseSpy = jasmine.createSpy('zChatFirehose').and.callThrough();
+  const zChatSetOnFirstReadySpy = jasmine.createSpy('zChatSetOnFirstReady').and.callThrough();
   const callMeScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
 
   beforeEach(() => {
@@ -156,6 +157,7 @@ describe('embed.webWidget', () => {
       'chat-web-sdk': {
         init: zChatInitSpy,
         addTag: zChatAddTagSpy,
+        setOnFirstReady: zChatSetOnFirstReadySpy,
         getFirehose: () => {
           return {
             on: zChatFirehoseSpy

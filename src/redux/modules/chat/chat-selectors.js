@@ -59,7 +59,7 @@ export const getStandaloneMobileNotificationVisible = (state) => state.chat.stan
 export const getFirstMessageTimestamp = (state) => {
   const first = getChats(state).values().next().value;
 
-  return first && first.timestamp;
+  return first ? first.timestamp : Date.now();
 };
 
 export const getActiveAgents = createSelector(
