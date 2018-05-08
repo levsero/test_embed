@@ -15,6 +15,7 @@ describe('chatPreview file', () => {
   const updatePreviewerScreenSpy = jasmine.createSpy('updatePreviewerScreen');
   const updatePreviewerSettingsSpy = jasmine.createSpy('updatePreviewerSettings');
   const dispatchSpy = jasmine.createSpy('dispatch');
+  const createStoreSpy = jasmine.createSpy().and.callFake(() => ({ dispatch: dispatchSpy }));
 
   beforeEach(() => {
     mockery.enable();
@@ -52,7 +53,11 @@ describe('chatPreview file', () => {
       'src/redux/modules/chat/chat-screen-types': {
         OFFLINE_MESSAGE_SCREEN: 'OFFLINE_MESSAGE_SCREEN'
       },
-      'src/redux/createStore': () => ({ dispatch: dispatchSpy })
+      'src/redux/createStore': createStoreSpy,
+      'src/redux/modules/chat/chat-action-types': {
+        UPDATE_PREVIEWER_SETTINGS: 'UPDATE_PREVIEWER_SETTINGS',
+        UPDATE_PREVIEWER_SCREEN: 'UPDATE_PREVIEWER_SCREEN'
+      }
     });
 
     requireUncached(previewPath);
@@ -184,6 +189,48 @@ describe('chatPreview file', () => {
 
         expect(element.querySelector('.rootComponent'))
           .toBeDefined();
+      });
+    });
+
+    describe('createStore', () => {
+      beforeEach(() => {
+        window.zE.renderPreview({ element });
+      });
+
+      it('is called with the correct params', () => {
+        expect(createStoreSpy)
+          .toHaveBeenCalledWith('chatpreview', {
+            throttleEvents: true,
+            allowedActionsFn: jasmine.any(Function)
+          });
+      });
+
+      describe('allowedActions param', () => {
+        let allowedActionsFn;
+
+        beforeEach(() => {
+          allowedActionsFn = createStoreSpy.calls.mostRecent().args[1].allowedActionsFn;
+        });
+
+        it('does not allow normal events', () => {
+          expect(allowedActionsFn('CHAT_MSG_REQUEST_SUCCESS'))
+            .toEqual(false);
+        });
+
+        it('allows webSDK events', () => {
+          expect(allowedActionsFn('websdk/something'))
+            .toEqual(true);
+        });
+
+        it('allows UPDATE_PREVIEWER_SETTINGS events', () => {
+          expect(allowedActionsFn('UPDATE_PREVIEWER_SETTINGS'))
+            .toEqual(true);
+        });
+
+        it('allows UPDATE_PREVIEWER_SCREEN events', () => {
+          expect(allowedActionsFn('UPDATE_PREVIEWER_SCREEN'))
+            .toEqual(true);
+        });
       });
     });
 

@@ -12,6 +12,7 @@ import { Frame } from 'component/frame/Frame';
 import { i18n } from 'service/i18n';
 import { updatePreviewerScreen, updatePreviewerSettings } from 'src/redux/modules/chat';
 import { OFFLINE_MESSAGE_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
+import { UPDATE_PREVIEWER_SCREEN, UPDATE_PREVIEWER_SETTINGS } from 'src/redux/modules/chat/chat-action-types';
 
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles.js';
 
@@ -60,7 +61,18 @@ const renderPreview = (options) => {
   const containerStyle = {
     width: frameStyle.width
   };
-  const store = createStore('chatpreview', { throttleEvents: true });
+
+  const allowThrottleActions = (type) => {
+    const allowedActions = [
+      UPDATE_PREVIEWER_SETTINGS,
+      UPDATE_PREVIEWER_SCREEN
+    ];
+    const isSDKActionType = type && type.indexOf('websdk/') === 0;
+
+    return isSDKActionType || allowedActions.includes(type);
+  };
+
+  const store = createStore('chatpreview', { throttleEvents: true, allowedActionsFn: allowThrottleActions });
 
   const frameParams = {
     css: `${require('globalCSS')} ${webWidgetStyles}`,
