@@ -16,7 +16,7 @@
           Screen: <select onchange="window.preview.updateScreen(this.value)">
             <option value="widget/chat/CHATTING_SCREEN">Chat Log</option>
             <option value="widget/chat/PRECHAT_SCREEN">Pre Chat Form</option>
-            <option value="widget/chat/OFFLINE_SCREEN">Offline Form</option>
+            <option value="widget/chat/OFFLINE_MESSAGE_SCREEN">Offline Form</option>
           </select>
         </div>
       <div>
@@ -41,7 +41,7 @@
       text: null
     },
     chat_button: {
-      hide_when_offline: true
+      hide_when_offline: false
     },
     chat_window: {
       mobile_mode: 'overlay',

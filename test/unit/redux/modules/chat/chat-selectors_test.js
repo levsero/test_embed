@@ -1529,6 +1529,17 @@ describe('chat selectors', () => {
       });
     });
 
+    describe('when ratings.disableEndScreen is true', () => {
+      beforeEach(() => {
+        mockState.chat.rating.disableEndScreen = true;
+        result = getShowRatingScreen(mockState);
+      });
+
+      it('returns false', () => {
+        expect(result).toBe(false);
+      });
+    });
+
     describe('when a rating has not been submitted, ratings are enabled and there are agents in the chat', () => {
       beforeEach(() => {
         result = getShowRatingScreen(mockState);

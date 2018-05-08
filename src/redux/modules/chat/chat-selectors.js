@@ -328,7 +328,7 @@ export const getGroupedChatLog = createSelector(
 export const getShowRatingScreen = createSelector(
   [getChatRating, getRatingSettings, getActiveAgents],
   (rating, ratingSettings, agents) => (
-    !rating.value && ratingSettings.enabled && _.size(agents) > 0
+    !rating.value && ratingSettings.enabled && _.size(agents) > 0 && !rating.disableEndScreen
   )
 );
 

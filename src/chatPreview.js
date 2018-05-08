@@ -11,6 +11,7 @@ import { Container } from 'component/container/Container';
 import { Frame } from 'component/frame/Frame';
 import { i18n } from 'service/i18n';
 import { updatePreviewerScreen, updatePreviewerSettings } from 'src/redux/modules/chat';
+import { OFFLINE_MESSAGE_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles.js';
 
@@ -91,7 +92,7 @@ const renderPreview = (options) => {
   };
 
   const updateScreen = (screen) => {
-    store.dispatch(updatePreviewerScreen({ screen, status: screen !== 'widget/chat/OFFLINE_SCREEN' }));
+    store.dispatch(updatePreviewerScreen({ screen, status: screen !== OFFLINE_MESSAGE_SCREEN }));
   };
 
   const updateSettings = (settings) => {

@@ -58,7 +58,7 @@ describe('chat reducer screens', () => {
       beforeEach(() => {
         state = reducer(initialState, {
           type: actionTypes.UPDATE_PREVIEWER_SCREEN,
-          payload: 'prechat_screen'
+          payload: { screen: 'prechat_screen' }
         });
       });
 

@@ -49,6 +49,9 @@ describe('chatPreview file', () => {
         updatePreviewerSettings: updatePreviewerSettingsSpy
       },
       'embed/webWidget/webWidgetStyles.js': '',
+      'src/redux/modules/chat/chat-screen-types': {
+        OFFLINE_MESSAGE_SCREEN: 'OFFLINE_MESSAGE_SCREEN'
+      },
       'src/redux/createStore': () => ({ dispatch: dispatchSpy })
     });
 
@@ -224,18 +227,33 @@ describe('chatPreview file', () => {
   });
 
   describe('updateScreen', () => {
-    let element;
+    let element, preview;
 
     beforeEach(() => {
       element = document.body.appendChild(document.createElement('div'));
-      const preview = window.zE.renderPreview({ element });
-
-      preview.updateScreen('chatting');
+      preview = window.zE.renderPreview({ element });
     });
 
-    it('calls updatePreviewerScreen action with the payload', () => {
-      expect(updatePreviewerScreenSpy)
-        .toHaveBeenCalledWith('chatting');
+    describe('when screen is an online screen', () => {
+      beforeEach(() => {
+        preview.updateScreen('chatting');
+      });
+
+      it('calls updatePreviewerScreen action with a payload with status true', () => {
+        expect(updatePreviewerScreenSpy)
+          .toHaveBeenCalledWith({ screen: 'chatting', status: true });
+      });
+    });
+
+    describe('when screen is an offline screen', () => {
+      beforeEach(() => {
+        preview.updateScreen('OFFLINE_MESSAGE_SCREEN');
+      });
+
+      it('calls updatePreviewerScreen action with a payload with status false', () => {
+        expect(updatePreviewerScreenSpy)
+          .toHaveBeenCalledWith({ screen: 'OFFLINE_MESSAGE_SCREEN', status: false });
+      });
     });
   });
 
