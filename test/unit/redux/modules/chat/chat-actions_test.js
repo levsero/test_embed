@@ -68,7 +68,7 @@ describe('chat redux actions', () => {
         isChatting: () => true,
         sendOfflineMsg: mockSendOfflineMsg,
         reconnect: mockReconnect,
-        _getAccountSettings: () => mockAccountSettings,
+        getAccountSettings: () => mockAccountSettings,
         getOperatingHours: () => mockOperatingHours,
         fetchChatHistory: mockFetchChatHistory
       },
@@ -667,7 +667,7 @@ describe('chat redux actions', () => {
           .toBe(actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS);
       });
 
-      it('has the value returned from zChat._getAccountSettings() in the payload', () => {
+      it('has the value returned from zChat.getAccountSettings() in the payload', () => {
         expect(updateAccountSettingsAction.payload)
           .toEqual(mockAccountSettings);
       });
@@ -688,7 +688,7 @@ describe('chat redux actions', () => {
           .toEqual(actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS);
       });
 
-      it('has the value returned from zChat._getAccountSettings() in the payload', () => {
+      it('has the value returned from zChat.getAccountSettings() in the payload', () => {
         expect(updateAccountSettingsAction.payload)
           .toEqual(mockAccountSettings);
       });

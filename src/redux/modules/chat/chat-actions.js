@@ -265,7 +265,7 @@ export function sendChatComment(comment = '') {
 }
 
 export function getAccountSettings() {
-  const accountSettings = zChat._getAccountSettings();
+  const accountSettings = zChat.getAccountSettings();
 
   return (dispatch, getState) => {
     if (accountSettings.forms.pre_chat_form.required && !getIsChattingState(getState())) {
