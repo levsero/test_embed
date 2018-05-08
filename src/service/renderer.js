@@ -161,6 +161,15 @@ function init(config, reduxStore = dummyStore) {
     mediator.channel.subscribe('.updateZoom', function(ratio) {
       propagateFontRatio(ratio);
     });
+
+    if (module.hot) {
+      module.hot.accept('embed/webWidget/webWidget.js', () => {
+        require('embed/webWidget/webWidget.js');
+
+        if (embedsMap.webWidget)
+          reduxStore.dispatch(updateEmbedAccessible('webWidget', true));
+      });
+    }
   }
 }
 
