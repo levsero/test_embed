@@ -20,6 +20,17 @@ function generateJWT(sharedSecret) {
   return jwt.sign(message, sharedSecret);
 }
 
+function generateChatJWT(sharedSecret) {
+  const message = {
+    name: 'zenguy',
+    email: 'zenguy@zendesk.com',
+    iat: Math.floor(Date.now() / 1000),
+    external_id: 'zguy'
+  };
+
+  return jwt.sign(message, sharedSecret);
+}
+
 glob('./example/*-template.html', function(err, files) {
   if (err) {
     console.error(err);
@@ -36,7 +47,8 @@ glob('./example/*-template.html', function(err, files) {
       'zopimId': process.env.WATCH_ZOPIM_ID,
       'talkIntegration': process.env.WATCH_TALK_INTEGRATION,
       'talkNickname': process.env.WATCH_TALK_NICKNAME,
-      'jwt': generateJWT(process.env.WATCH_SHARED_SECRET)
+      'jwt': generateJWT(process.env.WATCH_SHARED_SECRET),
+      'chatJwt': generateChatJWT(process.env.WATCH_CHAT_SHARED_SECRET || 'abc')
     };
     const resultHtml = html.replace(/{{(\w+)}}/g, function(match, key) {
       return replaceMap[key];
