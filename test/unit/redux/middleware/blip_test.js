@@ -158,7 +158,7 @@ describe('blip middleware', () => {
         });
       });
 
-      describe('payload is not talk', () => {
+      describe('payload is chat', () => {
         beforeEach(() => {
           action = {
             type: UPDATE_ACTIVE_EMBED,
@@ -167,9 +167,24 @@ describe('blip middleware', () => {
           sendBlips({ getState: () => flatState })(nextSpy)(action);
         });
 
-        it('does not call trackUserAction', () => {
+        it('calls trackUserAction with the correct params', () => {
           expect(beaconSpy.trackUserAction)
-            .not.toHaveBeenCalled();
+            .toHaveBeenCalledWith('chat', 'opened', 'newChat');
+        });
+      });
+
+      describe('payload is zopimChat', () => {
+        beforeEach(() => {
+          action = {
+            type: UPDATE_ACTIVE_EMBED,
+            payload: 'zopimChat'
+          };
+          sendBlips({ getState: () => flatState })(nextSpy)(action);
+        });
+
+        it('calls trackUserAction with the correct params', () => {
+          expect(beaconSpy.trackUserAction)
+            .toHaveBeenCalledWith('chat', 'opened', 'zopimChat');
         });
       });
     });
