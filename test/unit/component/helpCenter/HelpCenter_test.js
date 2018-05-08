@@ -283,8 +283,9 @@ describe('HelpCenter component', () => {
     const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
 
     let helpCenter,
+      showBackButtonSpy,
       mockPerformContextualSearch,
-      showBackButtonSpy;
+      mockArticleClicked = false;
 
     beforeEach(() => {
       mockPerformContextualSearch = jasmine.createSpy('mockPerformContextualSearch');
@@ -293,7 +294,8 @@ describe('HelpCenter component', () => {
       helpCenter = domRender(
         <HelpCenter
           showBackButton={showBackButtonSpy}
-          performContextualSearch={mockPerformContextualSearch} />
+          performContextualSearch={mockPerformContextualSearch}
+          articleClicked={mockArticleClicked} />
       );
     });
 
@@ -448,76 +450,131 @@ describe('HelpCenter component', () => {
         .not.toHaveBeenCalled();
     });
 
-    it('shouldn\'t call showBackButton if no results', () => {
-      const searchOptions = { labels: ['foo', 'bar'] };
+    describe('if there are no results', () => {
+      it('does not call showBackButton', () => {
+        const searchOptions = { labels: ['foo', 'bar'] };
 
-      helpCenter.showBackButton = showBackButton;
+        helpCenter.showBackButton = showBackButton;
 
-      helpCenter.contextualSearch(searchOptions);
+        helpCenter.contextualSearch(searchOptions);
 
-      expect(mockPerformContextualSearch)
-        .toHaveBeenCalled();
+        expect(mockPerformContextualSearch)
+          .toHaveBeenCalled();
 
-      const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
+        const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
 
-      expect(recentCallArgs.label_names)
-        .toEqual(searchOptions.labels.join(','));
+        expect(recentCallArgs.label_names)
+          .toEqual(searchOptions.labels.join(','));
 
-      expect(recentCallArgs.locale)
-        .toBeFalsy();
+        expect(recentCallArgs.locale)
+          .toBeFalsy();
 
-      expect(recentCallArgs.origin)
-        .toBeFalsy();
+        expect(recentCallArgs.origin)
+          .toBeFalsy();
 
-      mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadNoResults);
+        mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadNoResults);
 
-      expect(helpCenter.showBackButton)
-        .not.toHaveBeenCalled();
+        expect(helpCenter.showBackButton)
+          .not.toHaveBeenCalled();
+      });
     });
 
-    it('should set states and call showBackButton if results, with search', () => {
-      const searchOptions = { search: 'foo bar' };
+    describe('if there are results', () => {
+      describe('with search', () => {
+        let searchOptions;
 
-      helpCenter.contextualSearch(searchOptions);
+        beforeEach(() => {
+          searchOptions = { search: 'foo bar' };
+          helpCenter.contextualSearch(searchOptions);
+        });
 
-      expect(mockPerformContextualSearch)
-        .toHaveBeenCalled();
+        it('sets states', () => {
+          expect(mockPerformContextualSearch)
+            .toHaveBeenCalled();
 
-      const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
+          const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
 
-      expect(recentCallArgs)
-        .toEqual(jasmine.objectContaining({
-          query: searchOptions.search,
-          locale: undefined
-        }));
+          expect(recentCallArgs)
+            .toEqual(jasmine.objectContaining({
+              query: searchOptions.search,
+              locale: undefined
+            }));
+        });
 
-      mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadResults);
+        describe('when viewing the result list', () => {
+          beforeAll(() => {
+            mockArticleClicked = false;
+          });
 
-      expect(showBackButtonSpy)
-        .toHaveBeenCalledWith(false);
-    });
+          it('calls showBackButton', () => {
+            mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadResults);
 
-    it('should set states and call showBackButton if results, with labels', () => {
-      /* eslint camelcase:0 */
-      const searchOptions = { labels: ['foo', 'bar'] };
+            expect(showBackButtonSpy)
+              .toHaveBeenCalledWith(false);
+          });
+        });
 
-      helpCenter.contextualSearch(searchOptions);
+        describe('when viewing the article', () => {
+          beforeAll(() => {
+            mockArticleClicked = true;
+          });
 
-      expect(mockPerformContextualSearch)
-        .toHaveBeenCalled();
+          it('does not call showBackButton', () => {
+            mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadResults);
 
-      const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
+            expect(showBackButtonSpy)
+              .not.toHaveBeenCalled();
+          });
+        });
+      });
 
-      expect(recentCallArgs)
-        .toEqual(jasmine.objectContaining({
-          locale: undefined,
-          label_names: searchOptions.labels.join(',')
-        }));
+      describe('with labels', () => {
+        let searchOptions;
 
-      mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadResults);
+        beforeEach(() => {
+          searchOptions = { labels: ['foo', 'bar'] };
+          helpCenter.contextualSearch(searchOptions);
+        });
 
-      expect(showBackButtonSpy)
-        .toHaveBeenCalledWith(false);
+        it('sets states', () => {
+          expect(mockPerformContextualSearch)
+            .toHaveBeenCalled();
+
+          const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
+
+          expect(recentCallArgs)
+            .toEqual(jasmine.objectContaining({
+              locale: undefined,
+              label_names: searchOptions.labels.join(',')
+            }));
+        });
+
+        describe('when viewing the result list', () => {
+          beforeAll(() => {
+            mockArticleClicked = false;
+          });
+
+          it('calls showBackButton', () => {
+            mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadResults);
+
+            expect(showBackButtonSpy)
+              .toHaveBeenCalledWith(false);
+          });
+        });
+
+        describe('when viewing the article', () => {
+          beforeAll(() => {
+            mockArticleClicked = true;
+          });
+
+          it('does not call showBackButton', () => {
+            mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadResults);
+
+            expect(showBackButtonSpy)
+              .not.toHaveBeenCalled();
+          });
+        });
+      });
     });
 
     it('should request 3 results', () => {

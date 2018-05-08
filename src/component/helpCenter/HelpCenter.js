@@ -20,6 +20,7 @@ import { updateSearchTerm,
   handleSearchFieldChange,
   handleSearchFieldFocus } from 'src/redux/modules/helpCenter';
 import { getActiveArticle,
+  getArticleClicked,
   getResultsCount,
   getSearchLoading,
   getSearchFailed,
@@ -41,6 +42,7 @@ const maximumContextualSearchResults = 3;
 
 const mapStateToProps = (state) => {
   return {
+    articleClicked: getArticleClicked(state),
     resultsCount: getResultsCount(state),
     activeArticle: getActiveArticle(state),
     searchLoading: getSearchLoading(state),
@@ -93,6 +95,7 @@ class HelpCenter extends Component {
     updateSearchTerm: PropTypes.func.isRequired,
     handleArticleClick: PropTypes.func.isRequired,
     zendeskHost: PropTypes.string.isRequired,
+    articleClicked: PropTypes.bool,
     resultsCount: PropTypes.number.isRequired,
     articles: PropTypes.array.isRequired,
     hasSearched: PropTypes.bool.isRequired,
@@ -129,6 +132,7 @@ class HelpCenter extends Component {
     updateSearchTerm: () => {},
     articles: [],
     articleViewActive: false,
+    articleClicked: false,
     handleOriginalArticleClicked: () => {},
     hasSearched: false,
     activeArticle: null,
@@ -197,8 +201,11 @@ class HelpCenter extends Component {
 
     const successFn = (res) => {
       if (res.body.count > 0) {
-        this.props.showBackButton(false);
         this.props.updateSearchTerm(searchTerm);
+
+        if (!this.props.articleClicked) {
+          this.props.showBackButton(false);
+        }
 
         if (this.refs.helpCenterMobile) {
           this.refs.helpCenterMobile.setIntroScreen();
