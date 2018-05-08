@@ -70,6 +70,7 @@
 
 .userBackground {
   composes: u-userBackgroundColorNoHover from global;
+  display: inline-block;
 }
 
 .agentBackground {
@@ -147,5 +148,34 @@
 
   [dir='rtl'] & {
     float: left;
+  }
+}
+
+.sentIndicator {
+  color: $zd-color-aluminum;
+  height: #{12/$font-size}rem;
+  left: -#{15/$font-size}rem;
+  position: absolute;
+  top: calc(50% - #{5/$font-size}rem);
+  width: #{12/$font-size}rem;
+
+  svg {
+    min-height: #{12/$font-size}rem;
+    min-width: #{12/$font-size}rem;
+    max-height: #{12/$font-size}rem;
+    max-width: #{12/$font-size}rem;
+  }
+
+  [dir='rtl'] & {
+    right: -#{15/$font-size}rem;
+    left: 0;
+  }
+}
+
+.defaultMessageContainer {
+  position: relative;
+
+  & > * {
+    display: inline-block;
   }
 }

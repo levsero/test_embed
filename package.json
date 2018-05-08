@@ -41,6 +41,7 @@
     "@zendesk/garden-css-arrows": "^1.1.0",
     "@zendesk/garden-css-tooltips": "^2.1.0",
     "@zendesk/garden-css-variables": "^3.1.0",
+    "@zendeskgarden/svg-icons": "~4.0.0",
     "airbrake-js": "^0.5.9",
     "airwaves": "~0.3.0",
     "chat-web-sdk": "git+ssh://git@github.com/zendesk/chat-web-sdk.git#v7.0.0",
@@ -67,8 +68,7 @@
     "sprintf-js": "^1.1.1",
     "superagent": "^2.0.0",
     "zd-css-buttons": "git+ssh://git@github.com/zendeskgarden/css-buttons.git#2.2.0",
-    "zd-css-variables": "git+ssh://git@github.com/zendeskgarden/css-variables.git#0.11.0",
-    "zd-svg-icons": "git+ssh://git@github.com/zendeskgarden/svg-icons-archive.git#1.4.0"
+    "zd-css-variables": "git+ssh://git@github.com/zendeskgarden/css-variables.git#0.11.0"
   },
   "devDependencies": {
     "app-root-path": "^2.0.1",
