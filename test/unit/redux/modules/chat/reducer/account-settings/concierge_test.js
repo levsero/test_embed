@@ -63,5 +63,29 @@ describe('chat reducer accountSettings concierge', () => {
           .toEqual(settings.concierge);
       });
     });
+
+    describe('when a UPDATE_PREVIEWER_SETTINGS action is dispatched', () => {
+      let settings;
+
+      beforeEach(() => {
+        settings = {
+          concierge: {
+            avatar_path: 'r.m',
+            display_name: 'Rick',
+            title: 'Rickiest Rick'
+          }
+        };
+
+        state = reducer(initialState, {
+          type: actionTypes.UPDATE_PREVIEWER_SETTINGS,
+          payload: settings
+        });
+      });
+
+      it('sets the action payload as the state', () => {
+        expect(state)
+          .toEqual(settings.concierge);
+      });
+    });
   });
 });

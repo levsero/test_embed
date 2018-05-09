@@ -201,7 +201,10 @@ describe('embed.webWidget', () => {
       'service/transitionFactory' : {
         transitionFactory: requireUncached(buildTestPath('unit/mocks/mockTransitionFactory')).mockTransitionFactory
       },
-      'lodash': _
+      'lodash': _,
+      'constants/chat': {
+        SDK_ACTION_TYPE_PREFIX: 'websdk'
+      }
     });
 
     mockery.registerAllowable(webWidgetPath);

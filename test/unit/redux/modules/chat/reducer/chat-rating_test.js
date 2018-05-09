@@ -22,7 +22,7 @@ describe('chat reducer agents', () => {
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);
 
-    initialState = reducer(null, { type: '' });
+    initialState = reducer(undefined, { type: '' });
   });
 
   afterAll(() => {
@@ -34,9 +34,13 @@ describe('chat reducer agents', () => {
     let state;
 
     describe('initial state', () => {
-      it('is set to a null value', () => {
+      it('is set to an object with the correct keys', () => {
         expect(initialState)
-          .toEqual(null);
+          .toEqual({
+            value: null,
+            disableEndScreen: false,
+            comment: null
+          });
       });
     });
 
@@ -44,7 +48,8 @@ describe('chat reducer agents', () => {
       const payload = 'bad';
       const expectedState = {
         value: payload,
-        comment: null
+        comment: null,
+        disableEndScreen: false
       };
 
       describe('when the initial state is empty', () => {
@@ -64,7 +69,8 @@ describe('chat reducer agents', () => {
       describe('when the initial state contains a previous rating and comment', () => {
         const initialState = {
           value: 'good',
-          comment: 'a previous ratings comment'
+          comment: 'a previous ratings comment',
+          disableEndScreen: false
         };
 
         beforeEach(() => {
@@ -85,7 +91,9 @@ describe('chat reducer agents', () => {
       const payload = 'Great work!';
 
       const expectedState = {
-        comment: payload
+        comment: payload,
+        value: null,
+        disableEndScreen: false
       };
 
       beforeEach(() => {
@@ -103,27 +111,40 @@ describe('chat reducer agents', () => {
 
     describe('when a END_CHAT_REQUEST_SUCESS action is dispatched', () => {
       beforeEach(() => {
-        state = reducer(initialState, {
+        state = reducer({}, {
           type: actionTypes.END_CHAT_REQUEST_SUCCESS
         });
       });
 
       it('clears the state', () => {
         expect(state)
-          .toEqual({ value: null });
+          .toEqual(initialState);
       });
     });
 
     describe('when a CHAT_RECONNECT action is dispatched', () => {
       beforeEach(() => {
-        state = reducer(initialState, {
+        state = reducer({}, {
           type: actionTypes.CHAT_RECONNECT
         });
       });
 
       it('clears the state', () => {
         expect(state)
-          .toEqual({ value: null });
+          .toEqual(initialState);
+      });
+    });
+
+    describe('when a UPDATE_PREVIEWER_SCREEN action is dispatched', () => {
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.UPDATE_PREVIEWER_SCREEN
+        });
+      });
+
+      it('sets disableEndScreen to true', () => {
+        expect(state)
+          .toEqual(jasmine.objectContaining({ disableEndScreen: true }));
       });
     });
   });

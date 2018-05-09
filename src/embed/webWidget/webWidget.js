@@ -32,6 +32,7 @@ import { setVisitorInfo, chatNotificationDismissed, fetchConversationHistory } f
 import { resetTalkScreen } from 'src/redux/modules/talk';
 import { getTicketForms,
   getTicketFields } from 'src/redux/modules/submitTicket';
+import { SDK_ACTION_TYPE_PREFIX } from 'constants/chat';
 
 import WebWidget from 'component/webWidget/WebWidget';
 
@@ -586,9 +587,11 @@ export default function WebWidgetFactory(name) {
       let actionType;
 
       if (data.type === 'history') {
-        actionType = `websdk/history/${data.detail.type}`;
+        actionType = `${SDK_ACTION_TYPE_PREFIX}/history/${data.detail.type}`;
       } else {
-        actionType = data.detail.type ? `websdk/${data.detail.type}` : `websdk/${data.type}`;
+        actionType = data.detail.type
+          ? `${SDK_ACTION_TYPE_PREFIX}/${data.detail.type}`
+          : `${SDK_ACTION_TYPE_PREFIX}/${data.type}`;
       }
 
       store.dispatch({ type: actionType, payload: data });

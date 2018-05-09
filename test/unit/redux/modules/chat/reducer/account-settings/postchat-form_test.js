@@ -103,5 +103,42 @@ describe('chat reducer accountSettings postchatForm', () => {
         });
       });
     });
+
+    describe('when a UPDATE_PREVIEWER_SETTINGS action is dispatched', () => {
+      let settings,
+        mockHeader,
+        mockMessage;
+
+      beforeEach(() => {
+        mockHeader = 'It was nice chatting with you!';
+        mockMessage = 'Would you like to leave a comment?';
+
+        const mockPostChatForm = {
+          header: { toString: () => mockHeader },
+          message: { toString: () => mockMessage }
+        };
+
+        settings = {
+          forms: {
+            post_chat_form: mockPostChatForm
+          }
+        };
+
+        state = reducer(initialState, {
+          type: actionTypes.UPDATE_PREVIEWER_SETTINGS,
+          payload: settings
+        });
+      });
+
+      it('sets the action payload as the state', () => {
+        const expected = {
+          header: mockHeader,
+          message: mockMessage
+        };
+
+        expect(state)
+          .toEqual(expected);
+      });
+    });
   });
 });

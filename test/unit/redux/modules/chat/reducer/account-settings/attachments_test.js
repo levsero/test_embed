@@ -1,4 +1,4 @@
-describe('chat reducer accountSettings theme', () => {
+describe('chat reducer accountSettings attachment', () => {
   let reducer,
     actionTypes,
     initialState;
@@ -6,7 +6,7 @@ describe('chat reducer accountSettings theme', () => {
   beforeAll(() => {
     mockery.enable();
 
-    const reducerPath = buildSrcPath('redux/modules/chat/reducer/account-settings/theme');
+    const reducerPath = buildSrcPath('redux/modules/chat/reducer/account-settings/attachments');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
 
     reducer = requireUncached(reducerPath).default;
@@ -24,59 +24,60 @@ describe('chat reducer accountSettings theme', () => {
     let state;
 
     describe('initial state', () => {
-      it('sets the initial state to an empty with an empty message_type property', () => {
-        const expected = { message_type: '' };
+      it('enabled is true', () => {
+        expect(initialState.enabled)
+          .toEqual(true);
+      });
 
-        expect(initialState)
-          .toEqual(expected);
+      it('allowed_extensions is an array containing some extensions', () => {
+        expect(initialState.allowed_extensions)
+          .toEqual('png,jpg,jpeg,gif,txt,pdf');
       });
     });
 
     describe('when a GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS action is dispatched', () => {
+      let settings;
+
       beforeEach(() => {
-        const mockSettings = {
-          theme: {
-            message_type: 'bubble_avatar'
+        settings = {
+          file_sending: {
+            allowed_extensions: 'exe',
+            enabled: false
           }
         };
 
         state = reducer(initialState, {
           type: actionTypes.GET_ACCOUNT_SETTINGS_REQUEST_SUCCESS,
-          payload: mockSettings
+          payload: settings
         });
       });
 
       it('sets the action payload as the state', () => {
-        const expected = {
-          message_type: 'bubble_avatar'
-        };
-
         expect(state)
-          .toEqual(expected);
+          .toEqual(settings.file_sending);
       });
     });
 
     describe('when a UPDATE_PREVIEWER_SETTINGS action is dispatched', () => {
+      let settings;
+
       beforeEach(() => {
-        const mockSettings = {
-          theme: {
-            message_type: 'bubble_avatar'
+        settings = {
+          file_sending: {
+            allowed_extensions: 'exe',
+            enabled: false
           }
         };
 
         state = reducer(initialState, {
           type: actionTypes.UPDATE_PREVIEWER_SETTINGS,
-          payload: mockSettings
+          payload: settings
         });
       });
 
       it('sets the action payload as the state', () => {
-        const expected = {
-          message_type: 'bubble_avatar'
-        };
-
         expect(state)
-          .toEqual(expected);
+          .toEqual(settings.file_sending);
       });
     });
   });

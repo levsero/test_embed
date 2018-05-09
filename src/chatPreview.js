@@ -10,12 +10,17 @@ import Chat from 'component/chat/Chat';
 import { Container } from 'component/container/Container';
 import { Frame } from 'component/frame/Frame';
 import { i18n } from 'service/i18n';
+import { updatePreviewerScreen, updatePreviewerSettings } from 'src/redux/modules/chat';
+import { OFFLINE_MESSAGE_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
+import { UPDATE_PREVIEWER_SCREEN, UPDATE_PREVIEWER_SETTINGS } from 'src/redux/modules/chat/chat-action-types';
+import { SDK_ACTION_TYPE_PREFIX } from 'constants/chat';
 
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles.js';
 
 let chatComponent = null;
 const defaultOptions = {
   locale: 'en-US',
+  color: '#659700',
   styles: {
     float: 'right',
     width: 342,
@@ -57,7 +62,18 @@ const renderPreview = (options) => {
   const containerStyle = {
     width: frameStyle.width
   };
-  const store = createStore('chatpreview', { throttleEvents: true });
+
+  const allowThrottleActions = (type) => {
+    const allowedActions = [
+      UPDATE_PREVIEWER_SETTINGS,
+      UPDATE_PREVIEWER_SCREEN
+    ];
+    const isSDKActionType = type && type.indexOf(`${SDK_ACTION_TYPE_PREFIX}/`) === 0;
+
+    return isSDKActionType || allowedActions.includes(type);
+  };
+
+  const store = createStore('chatpreview', { throttleEvents: true, allowedActionsFn: allowThrottleActions });
 
   const frameParams = {
     css: `${require('globalCSS')} ${webWidgetStyles}`,
@@ -73,6 +89,7 @@ const renderPreview = (options) => {
         style={containerStyle}>
         <Chat
           ref={(chat) => chatComponent = chat}
+          updateChatBackButtonVisibility={() => {}}
           style={containerStyle} />
       </Container>
     </Frame>
@@ -83,12 +100,37 @@ const renderPreview = (options) => {
   options.element.appendChild(container);
   preview = ReactDOM.render(component, container);
 
+  const setColor = (color = defaultOptions.color) => {
+    preview.setButtonColor(color);
+  };
+
+  const updateScreen = (screen) => {
+    store.dispatch(updatePreviewerScreen({ screen, status: screen !== OFFLINE_MESSAGE_SCREEN }));
+  };
+
+  const updateSettings = (settings) => {
+    store.dispatch(updatePreviewerSettings(settings));
+  };
+
+  const updateChatState = (data) => {
+    const actionType = data.detail.type
+      ? `${SDK_ACTION_TYPE_PREFIX}/${data.detail.type}`
+      : `${SDK_ACTION_TYPE_PREFIX}/${data.type}`;
+
+    store.dispatch({ type: actionType, payload: data });
+  };
+
   waitForComponent(() => {
     _.defer(preview.updateFrameSize);
+    setColor();
   });
 
   return {
-    _component: preview
+    _component: preview,
+    updateScreen,
+    updateSettings,
+    updateChatState,
+    setColor
   };
 };
 

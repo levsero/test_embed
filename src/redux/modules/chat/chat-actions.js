@@ -1,6 +1,8 @@
 const zChat = (() => { try { return require('chat-web-sdk'); } catch (_) {} })();
 
 import {
+  UPDATE_PREVIEWER_SCREEN,
+  UPDATE_PREVIEWER_SETTINGS,
   END_CHAT_REQUEST_SUCCESS,
   END_CHAT_REQUEST_FAILURE,
   CHAT_MSG_REQUEST_SENT,
@@ -499,5 +501,19 @@ export const fetchConversationHistory = () => {
         });
       }
     });
+  };
+};
+
+export const updatePreviewerScreen = (screen) => {
+  return {
+    type: UPDATE_PREVIEWER_SCREEN,
+    payload: screen
+  };
+};
+
+export const updatePreviewerSettings = (settings) => {
+  return {
+    type: UPDATE_PREVIEWER_SETTINGS,
+    payload: settings
   };
 };

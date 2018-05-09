@@ -73,5 +73,42 @@ describe('chat reducer accountSettings offlineForm', () => {
           .toEqual(jasmine.objectContaining({ enabled: true }));
       });
     });
+
+    describe('when a UPDATE_PREVIEWER_SETTINGS action is dispatched', () => {
+      let settings;
+
+      beforeEach(() => {
+        settings = {
+          forms: {
+            offline_form: {
+              form: {
+                0: { name: 'name', required: true },
+                1: { name: 'email', required: true },
+                2: { name: 'phone', label: 'Phone Number', required: true },
+                3: { name: 'message', label: 'Message', required: false }
+              }
+            }
+          },
+          chat_button: {
+            hide_when_offline: false
+          }
+        };
+
+        state = reducer(initialState, {
+          type: actionTypes.UPDATE_PREVIEWER_SETTINGS,
+          payload: settings
+        });
+      });
+
+      it('sets the offline_form payload as part of the state', () => {
+        expect(state)
+          .toEqual(jasmine.objectContaining(settings.forms.offline_form));
+      });
+
+      it('sets the inverse of hide_when_offline as enabled', () => {
+        expect(state)
+          .toEqual(jasmine.objectContaining({ enabled: true }));
+      });
+    });
   });
 });

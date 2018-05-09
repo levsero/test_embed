@@ -5,6 +5,7 @@ const glob = require('glob');
 const confPath = appRoot + process.argv[3];
 const watchConfPath = fs.existsSync(confPath) ? confPath : appRoot + '/config/.watch.example';
 const jwt = require('jsonwebtoken');
+const chatSettingsExample = require(appRoot + '/example/chatSettingsExample.js');
 
 require('dotenv').config({ path: watchConfPath });
 
@@ -48,7 +49,8 @@ glob('./example/*-template.html', function(err, files) {
       'talkIntegration': process.env.WATCH_TALK_INTEGRATION,
       'talkNickname': process.env.WATCH_TALK_NICKNAME,
       'jwt': generateJWT(process.env.WATCH_SHARED_SECRET),
-      'chatJwt': generateChatJWT(process.env.WATCH_CHAT_SHARED_SECRET || 'abc')
+      'chatJwt': generateChatJWT(process.env.WATCH_CHAT_SHARED_SECRET || 'abc'),
+      'chatSettings': chatSettingsExample
     };
     const resultHtml = html.replace(/{{(\w+)}}/g, function(match, key) {
       return replaceMap[key];
