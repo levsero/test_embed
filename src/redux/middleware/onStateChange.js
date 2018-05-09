@@ -30,6 +30,7 @@ import { getChatMessagesByAgent,
 import { getArticleDisplayed } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getActiveEmbed,
   getWidgetShown,
+  getIPMWidget,
   getSubmitTicketEmbed } from 'src/redux/modules/base/base-selectors';
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { store } from 'service/persistence';
@@ -201,7 +202,7 @@ const onArticleDisplayed = (prevState, nextState) => {
   const nextDisplay = getArticleDisplayed(nextState);
 
   if (!prevDisplay && nextDisplay) {
-    const ipmWidget = prevState.base.embeds.ipmWidget;
+    const ipmWidget = getIPMWidget(prevState);
 
     if (ipmWidget) {
       mediator.channel.broadcast('ipm.webWidget.show');

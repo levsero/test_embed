@@ -233,17 +233,16 @@ const getConfig = (win, postRenderQueue, reduxStore, devApi = null) => {
 };
 
 const setupIPMApi = (win, reduxStore, embeddableConfig = {}) => {
-  const existingConfig = embeddableConfig.embeds && !_.isEmpty(embeddableConfig.embeds);
-  const ipmReduxStore = existingConfig ? reduxStore : createStore('ipm');
+  const existingConfig = !_.isEmpty(embeddableConfig.embeds);
   const prefix = existingConfig ? '' : 'ipm.';
 
   win.zE.configureIPMWidget = (config) => {
     if (!existingConfig) {
-      renderer.initIPM(config, embeddableConfig, ipmReduxStore);
+      renderer.initIPM(config, embeddableConfig, reduxStore);
     }
   };
   win.zE.showIPMArticle = (articleId) => {
-    ipmReduxStore.dispatch(displayArticle(articleId));
+    reduxStore.dispatch(displayArticle(articleId));
   };
   win.zE.showIPMWidget = () => {
     mediator.channel.broadcast(`${prefix}webWidget.show`);

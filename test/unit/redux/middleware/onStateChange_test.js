@@ -25,6 +25,7 @@ describe('onStateChange middleware', () => {
   let mockDepartmentLists = [];
   let mockGetSettingsChatDepartment = '';
   let mockWidgetShown = false;
+  let mockIPMWidget = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -100,12 +101,13 @@ describe('onStateChange middleware', () => {
         }
       },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
-        getArticleDisplayed: (state) => state && state.articleDisplayed
+        getArticleDisplayed: _.identity
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed,
         getWidgetShown: () => mockWidgetShown,
-        getSubmitTicketEmbed: () => mockSubmitTicketAvailable
+        getSubmitTicketEmbed: () => mockSubmitTicketAvailable,
+        getIPMWidget: () => mockIPMWidget
       },
       'service/persistence': {
         store: {
@@ -461,15 +463,13 @@ describe('onStateChange middleware', () => {
       });
 
       describe('articleDisplayed goes from false to true', () => {
-        let ipmWidget;
-
         beforeEach(() => {
-          stateChangeFn({ articleDisplayed: false, base: { embeds: { ipmWidget } } }, { articleDisplayed: true });
+          stateChangeFn(false, true);
         });
 
         describe('ipm widget', () => {
           beforeAll(() => {
-            ipmWidget = true;
+            mockIPMWidget = true;
           });
 
           it('calls mediator to show ipm widget', () => {
@@ -480,7 +480,7 @@ describe('onStateChange middleware', () => {
 
         describe('main widget', () => {
           beforeAll(() => {
-            ipmWidget = false;
+            mockIPMWidget = false;
           });
 
           describe('widget is not shown', () => {
@@ -509,7 +509,7 @@ describe('onStateChange middleware', () => {
 
       describe('articleDisplayed goes from true to true', () => {
         beforeEach(() => {
-          stateChangeFn({ articleDisplayed: true }, { articleDisplayed: true });
+          stateChangeFn(true, true);
         });
 
         it('does not call mediator', () => {
@@ -520,7 +520,7 @@ describe('onStateChange middleware', () => {
 
       describe('articleDisplayed goes from true to false', () => {
         beforeEach(() => {
-          stateChangeFn({ articleDisplayed: true }, { articleDisplayed: false });
+          stateChangeFn(true, false);
         });
 
         it('does not call mediator', () => {
