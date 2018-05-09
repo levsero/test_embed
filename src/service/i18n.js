@@ -5,8 +5,6 @@ import { settings } from 'service/settings';
 import zETranslations from 'translation/ze_translations';
 import zELocaleIdMap from 'translation/ze_localeIdMap';
 
-import frameworkYamlFile from '../../config/locales/translations/embeddable_framework.yml';
-
 const keyLookupTable = {
   launcherLabel: [
     'embeddable_framework.launcher.label.help',
@@ -199,10 +197,15 @@ const partReducer = (list, part) => {
 };
 
 function setFallbackTranslations() {
-  const translations = parseYamlTranslations(frameworkYamlFile);
+  // Only import the translations yml file in development
+  // This saves approx 67kb in bundle size
+  if (__DEV__) {
+    const frameworkYamlFile = require('../../config/locales/translations/embeddable_framework.yml');
+    const translations = parseYamlTranslations(frameworkYamlFile);
 
-  if (!_.isEmpty(translations)) {
-    fallbackTranslations = translations;
+    if (!_.isEmpty(translations)) {
+      fallbackTranslations = translations;
+    }
   }
 }
 
