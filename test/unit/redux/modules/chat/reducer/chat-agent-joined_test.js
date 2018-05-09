@@ -100,6 +100,50 @@ describe('chat reducer agentJoined', () => {
       });
     });
 
+    describe('when a SDK_CHAT_MEMBER_LEAVE action is dispatched', () => {
+      let payload;
+      const randomState = {
+        'yolo': 'yolo'
+      };
+
+      beforeEach(() => {
+        state = reducer(randomState, {
+          type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
+          payload
+        });
+      });
+
+      describe('when agent leaves', () => {
+        beforeAll(() => {
+          payload = {
+            detail: {
+              nick: 'agent:123'
+            }
+          };
+        });
+
+        it('does not change state', () => {
+          expect(state)
+            .toEqual(randomState);
+        });
+      });
+
+      describe('when user leaves', () => {
+        beforeAll(() => {
+          payload = {
+            detail: {
+              nick: 'visitor'
+            }
+          };
+        });
+
+        it('clears the state', () => {
+          expect(state)
+            .toEqual(initialState);
+        });
+      });
+    });
+
     describe('when a END_CHAT_REQUEST_SUCCESS action is dispatched', () => {
       describe('when the member is an agent', () => {
         beforeEach(() => {
