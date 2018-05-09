@@ -22,7 +22,7 @@ export class ChatMenu extends Component {
     endChatOnClick: PropTypes.func,
     show: PropTypes.bool,
     emailTranscriptOnClick: PropTypes.func,
-    isChatting: PropTypes.bool,
+    emailTranscriptEnabled: PropTypes.bool,
     isMobile: PropTypes.bool,
     loginEnabled: PropTypes.bool
   };
@@ -34,7 +34,7 @@ export class ChatMenu extends Component {
     contactDetailsOnClick: () => {},
     show: false,
     emailTranscriptOnClick: () => {},
-    isChatting: false,
+    emailTranscriptEnabled: false,
     isMobile: false,
     loginEnabled: false
   };
@@ -116,10 +116,10 @@ export class ChatMenu extends Component {
   }
 
   renderEmailTranscriptButton = () => {
-    const { emailTranscriptOnClick, isChatting } = this.props;
+    const { emailTranscriptOnClick, emailTranscriptEnabled } = this.props;
     const label = i18n.t('embeddable_framework.chat.options.emailTranscript');
 
-    return this.renderButton(emailTranscriptOnClick, label, !isChatting);
+    return this.renderButton(emailTranscriptOnClick, label, !emailTranscriptEnabled);
   }
 
   renderContactDetailsButton = () => {
