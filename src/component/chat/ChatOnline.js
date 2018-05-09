@@ -382,7 +382,8 @@ class Chat extends Component {
       isMobile,
       loginSettings,
       menuVisible,
-      updateMenuVisibility
+      updateMenuVisibility,
+      chats
     } = this.props;
     const showChatEndFn = (e) => {
       e.stopPropagation();
@@ -407,7 +408,7 @@ class Chat extends Component {
         contactDetailsOnClick={this.showContactDetailsFn}
         emailTranscriptOnClick={this.showEmailTranscriptFn}
         onSoundClick={toggleSoundFn}
-        isChatting={isChatting}
+        emailTranscriptEnabled={chats.length > 0}
         isMobile={isMobile}
         loginEnabled={loginSettings.enabled} />
     );

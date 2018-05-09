@@ -279,11 +279,11 @@ describe('ChatMenu component', () => {
     let result,
       component;
     const renderButtonResult = 'renderButtonResult';
-    const isChatting = false;
+    const emailTranscriptEnabled = false;
     const emailTranscriptOnClickSpy = jasmine.createSpy('emailTranscriptOnClick');
 
     beforeEach(() => {
-      component = instanceRender(<ChatMenu emailTranscriptOnClick={emailTranscriptOnClickSpy} isChatting={isChatting} />);
+      component = instanceRender(<ChatMenu emailTranscriptOnClick={emailTranscriptOnClickSpy} emailTranscriptEnabled={emailTranscriptEnabled} />);
 
       spyOn(component, 'renderButton').and.returnValue(renderButtonResult);
       result = component.renderEmailTranscriptButton();
@@ -291,7 +291,7 @@ describe('ChatMenu component', () => {
 
     it('calls renderButton with the correct arguments', () => {
       expect(component.renderButton)
-        .toHaveBeenCalledWith(emailTranscriptOnClickSpy, 'embeddable_framework.chat.options.emailTranscript', !isChatting);
+        .toHaveBeenCalledWith(emailTranscriptOnClickSpy, 'embeddable_framework.chat.options.emailTranscript', !emailTranscriptEnabled);
     });
 
     it('returns the result of the renderButton call', () => {
