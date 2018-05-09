@@ -13,6 +13,9 @@ describe('chat reducer agents', () => {
           BAD: 'bad',
           NOT_SET: null
         }
+      },
+      'src/constants/chat': {
+        AGENT_BOT: 'agent:trigger'
       }
     });
 
@@ -87,6 +90,53 @@ describe('chat reducer agents', () => {
       });
     });
 
+    describe('when a SDK_CHAT_RATING action is dispatched', () => {
+      const payload = {
+        detail: {
+          new_rating: 'bad'
+        }
+      };
+      const expectedState = {
+        value: 'bad',
+        comment: null,
+        disableEndScreen: false
+      };
+
+      describe('when the initial state is empty', () => {
+        beforeEach(() => {
+          state = reducer(initialState, {
+            type: actionTypes.SDK_CHAT_RATING,
+            payload: payload
+          });
+        });
+
+        it('updates the state with the rating from the payload', () => {
+          expect(state)
+            .toEqual(expectedState);
+        });
+      });
+
+      describe('when the initial state contains a previous rating and comment', () => {
+        const initialState = {
+          value: 'good',
+          comment: 'a previous ratings comment',
+          disableEndScreen: false
+        };
+
+        beforeEach(() => {
+          state = reducer(initialState, {
+            type: actionTypes.SDK_CHAT_RATING,
+            payload: payload
+          });
+        });
+
+        it('clears any previous comment stored in the state', () => {
+          expect(state)
+            .toEqual(expectedState);
+        });
+      });
+    });
+
     describe('when a CHAT_RATING_COMMENT_REQUEST_SUCCESS action is dispatched', () => {
       const payload = 'Great work!';
 
@@ -109,7 +159,33 @@ describe('chat reducer agents', () => {
       });
     });
 
-    describe('when a END_CHAT_REQUEST_SUCESS action is dispatched', () => {
+    describe('when a SDK_CHAT_COMMENT action is dispatched', () => {
+      const payload = {
+        detail: {
+          new_comment: 'Great work!'
+        }
+      };
+
+      const expectedState = {
+        comment: 'Great work!',
+        value: null,
+        disableEndScreen: false
+      };
+
+      beforeEach(() => {
+        state = reducer(initialState, {
+          type: actionTypes.SDK_CHAT_COMMENT,
+          payload: payload
+        });
+      });
+
+      it('sets the comment in the state', () => {
+        expect(state)
+          .toEqual(expectedState);
+      });
+    });
+
+    describe('when a END_CHAT_REQUEST_SUCCESS action is dispatched', () => {
       beforeEach(() => {
         state = reducer({}, {
           type: actionTypes.END_CHAT_REQUEST_SUCCESS
@@ -119,6 +195,50 @@ describe('chat reducer agents', () => {
       it('clears the state', () => {
         expect(state)
           .toEqual(initialState);
+      });
+    });
+
+    describe('when a SDK_CHAT_MEMBER_LEAVE action is dispatched', () => {
+      let payload;
+      const randomState = {
+        'yolo': 'yolo'
+      };
+
+      beforeEach(() => {
+        state = reducer(randomState, {
+          type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
+          payload
+        });
+      });
+
+      describe('when agent leaves', () => {
+        beforeAll(() => {
+          payload = {
+            detail: {
+              nick: 'agent:123'
+            }
+          };
+        });
+
+        it('does not change state', () => {
+          expect(state)
+            .toEqual(randomState);
+        });
+      });
+
+      describe('when user leaves', () => {
+        beforeAll(() => {
+          payload = {
+            detail: {
+              nick: 'visitor'
+            }
+          };
+        });
+
+        it('clears the state', () => {
+          expect(state)
+            .toEqual(initialState);
+        });
       });
     });
 
