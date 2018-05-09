@@ -2,7 +2,6 @@ describe('onStateChange middleware', () => {
   let stateChangeFn,
     mockUserSoundSetting,
     mockActiveEmbed,
-    mockWidgetShown,
     mockOfflineFormSettings,
     mockStoreValue,
     mockLastAgentMessageSeenTimestamp,
@@ -25,6 +24,7 @@ describe('onStateChange middleware', () => {
   let initialTimestamp = 80;
   let mockDepartmentLists = [];
   let mockGetSettingsChatDepartment = '';
+  let mockWidgetShown = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -33,7 +33,6 @@ describe('onStateChange middleware', () => {
 
     mockUserSoundSetting = false;
     mockActiveEmbed = '';
-    mockWidgetShown = false;
     mockStoreValue = { widgetShown: false };
     mockOfflineFormSettings = { enabled: false };
     mockLastAgentMessageSeenTimestamp = 123;
@@ -101,7 +100,7 @@ describe('onStateChange middleware', () => {
         }
       },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
-        getArticleDisplayed: _.identity
+        getArticleDisplayed: (state) => state && state.articleDisplayed
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed,
@@ -462,22 +461,55 @@ describe('onStateChange middleware', () => {
       });
 
       describe('articleDisplayed goes from false to true', () => {
+        let ipmWidget;
+
         beforeEach(() => {
-          stateChangeFn(false, true);
+          stateChangeFn({ articleDisplayed: false, base: { embeds: { ipmWidget } } }, { articleDisplayed: true });
         });
 
-        it('calls mediator', () => {
-          expect(broadcastSpy)
-            .toHaveBeenCalledWith('.hide', true);
+        describe('ipm widget', () => {
+          beforeAll(() => {
+            ipmWidget = true;
+          });
 
-          expect(broadcastSpy)
-            .toHaveBeenCalledWith('ipm.webWidget.show');
+          it('calls mediator to show ipm widget', () => {
+            expect(broadcastSpy)
+              .toHaveBeenCalledWith('ipm.webWidget.show');
+          });
+        });
+
+        describe('main widget', () => {
+          beforeAll(() => {
+            ipmWidget = false;
+          });
+
+          describe('widget is not shown', () => {
+            beforeAll(() => {
+              mockWidgetShown = false;
+            });
+
+            it('calls mediator to show main widget', () => {
+              expect(broadcastSpy)
+                .toHaveBeenCalledWith('.activate');
+            });
+          });
+
+          describe('widget is shown', () => {
+            beforeAll(() => {
+              mockWidgetShown = true;
+            });
+
+            it('does not call mediator', () => {
+              expect(broadcastSpy)
+                .not.toHaveBeenCalled();
+            });
+          });
         });
       });
 
       describe('articleDisplayed goes from true to true', () => {
         beforeEach(() => {
-          stateChangeFn(true, true);
+          stateChangeFn({ articleDisplayed: true }, { articleDisplayed: true });
         });
 
         it('does not call mediator', () => {
@@ -488,7 +520,7 @@ describe('onStateChange middleware', () => {
 
       describe('articleDisplayed goes from true to false', () => {
         beforeEach(() => {
-          stateChangeFn(true, false);
+          stateChangeFn({ articleDisplayed: true }, { articleDisplayed: false });
         });
 
         it('does not call mediator', () => {

@@ -201,8 +201,15 @@ const onArticleDisplayed = (prevState, nextState) => {
   const nextDisplay = getArticleDisplayed(nextState);
 
   if (!prevDisplay && nextDisplay) {
-    mediator.channel.broadcast('.hide', true);
-    mediator.channel.broadcast('ipm.webWidget.show');
+    const ipmWidget = prevState.base.embeds.ipmWidget;
+
+    if (ipmWidget) {
+      mediator.channel.broadcast('ipm.webWidget.show');
+    } else {
+      const widgetShown = getWidgetShown(prevState);
+
+      if (!widgetShown) mediator.channel.broadcast('.activate');
+    }
   }
 };
 

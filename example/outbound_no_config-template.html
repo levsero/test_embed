@@ -6,39 +6,8 @@
   <script src="/dist/bootstrap.js" inline></script>
   <script>
     zE(function() {
-      zE.devRender({
-        newChat: true,
-        ipmAllowed: true,
-        embeds: {
-          "helpCenterForm": {
-            "embed": "helpCenter",
-            "props": {
-              "position": "right"
-            }
-          },
-          "launcher": {
-            "embed": "launcher",
-            "props": {
-              "position": "right"
-            }
-          },
-          "zopimChat": {
-            "embed": "chat",
-            "props": {
-              "zopimId": "{{zopimId}}"
-            }
-          },
-          "ticketSubmissionForm": {
-            "embed": "submitTicket",
-            "props": {
-              "attachmentsEnabled": true,
-              "position": "right"
-            }
-          }
-        }
-      });
+      zE.devRender({ ipmAllowed: true });
     });
-
     function configure() {
       var outboundConfig = {
         embeds: {

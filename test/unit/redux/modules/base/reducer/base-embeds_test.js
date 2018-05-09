@@ -21,9 +21,9 @@ describe('base reducer embeds', () => {
   });
 
   describe('initial state', () => {
-    it('is set to an empty array', () => {
+    it('is set to an empty object', () => {
       expect(initialState)
-        .toEqual([]);
+        .toEqual({});
     });
   });
 
