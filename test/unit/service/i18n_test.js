@@ -202,29 +202,47 @@ describe('i18n', () => {
       i18n.setLocale('en-US');
     });
 
-    describe('when a yml file contains a translation string', () => {
+    describe('when __DEV__ is false', () => {
       beforeEach(() => {
-        i18n.setFallbackTranslations();
-      });
-
-      it('sets the string to be available as a fallback for translate', () => {
-        expect(i18n.t(stringKeyFromFile))
-          .toBe(stringValueFromFile);
-      });
-    });
-
-    describe('when a yml file does not contain a translation string', () => {
-      beforeAll(() => {
-        translationFromFile = undefined;
-      });
-
-      beforeEach(() => {
+        global.__DEV__ = false;
         i18n.setFallbackTranslations();
       });
 
       it('does not set the string to be available as a fallback for translate', () => {
         expect(i18n.t(stringKeyFromFile))
           .toBe(`Missing translation (en-US): ${stringKeyFromFile}`);
+      });
+    });
+
+    describe('when __DEV__ is true', () => {
+      beforeEach(() => {
+        global.__DEV__ = true;
+      });
+
+      describe('when a yml file contains a translation string', () => {
+        beforeEach(() => {
+          i18n.setFallbackTranslations();
+        });
+
+        it('sets the string to be available as a fallback for translate', () => {
+          expect(i18n.t(stringKeyFromFile))
+            .toBe(stringValueFromFile);
+        });
+      });
+
+      describe('when a yml file does not contain a translation string', () => {
+        beforeAll(() => {
+          translationFromFile = undefined;
+        });
+
+        beforeEach(() => {
+          i18n.setFallbackTranslations();
+        });
+
+        it('does not set the string to be available as a fallback for translate', () => {
+          expect(i18n.t(stringKeyFromFile))
+            .toBe(`Missing translation (en-US): ${stringKeyFromFile}`);
+        });
       });
     });
   });
