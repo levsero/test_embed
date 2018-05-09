@@ -13,6 +13,7 @@ import { i18n } from 'service/i18n';
 import { updatePreviewerScreen, updatePreviewerSettings } from 'src/redux/modules/chat';
 import { OFFLINE_MESSAGE_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { UPDATE_PREVIEWER_SCREEN, UPDATE_PREVIEWER_SETTINGS } from 'src/redux/modules/chat/chat-action-types';
+import { SDK_ACTION_TYPE_PREFIX } from 'constants/chat';
 
 import { webWidgetStyles } from 'embed/webWidget/webWidgetStyles.js';
 
@@ -67,7 +68,7 @@ const renderPreview = (options) => {
       UPDATE_PREVIEWER_SETTINGS,
       UPDATE_PREVIEWER_SCREEN
     ];
-    const isSDKActionType = type && type.indexOf('websdk/') === 0;
+    const isSDKActionType = type && type.indexOf(`${SDK_ACTION_TYPE_PREFIX}/`) === 0;
 
     return isSDKActionType || allowedActions.includes(type);
   };
@@ -112,7 +113,9 @@ const renderPreview = (options) => {
   };
 
   const updateChatState = (data) => {
-    const actionType = data.detail.type ? `websdk/${data.detail.type}` : `websdk/${data.type}`;
+    const actionType = data.detail.type
+      ? `${SDK_ACTION_TYPE_PREFIX}/${data.detail.type}`
+      : `${SDK_ACTION_TYPE_PREFIX}/${data.type}`;
 
     store.dispatch({ type: actionType, payload: data });
   };

@@ -57,6 +57,9 @@ describe('chatPreview file', () => {
       'src/redux/modules/chat/chat-action-types': {
         UPDATE_PREVIEWER_SETTINGS: 'UPDATE_PREVIEWER_SETTINGS',
         UPDATE_PREVIEWER_SCREEN: 'UPDATE_PREVIEWER_SCREEN'
+      },
+      'constants/chat': {
+        SDK_ACTION_TYPE_PREFIX: 'websdk'
       }
     });
 

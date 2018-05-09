@@ -51,3 +51,5 @@ export const DEPARTMENT_STATUSES = {
   ONLINE: 'online',
   OFFLINE: 'offline'
 };
+
+export const SDK_ACTION_TYPE_PREFIX = 'websdk';
