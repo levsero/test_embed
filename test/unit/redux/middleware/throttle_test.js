@@ -18,6 +18,10 @@ describe('throttle middleware', () => {
     let action;
     const nextSpy = jasmine.createSpy('nextSpy');
 
+    afterEach(() => {
+      nextSpy.calls.reset();
+    });
+
     describe('when block is false', () => {
       beforeEach(() => {
         action = { type: 'random_type' };
@@ -33,7 +37,6 @@ describe('throttle middleware', () => {
     describe('when block is true', () => {
       describe('and a non allowed action is passed in', () => {
         beforeEach(() => {
-          nextSpy.calls.reset();
           action = { type: 'random_type' };
           throttle(true)()(nextSpy)(action);
         });
@@ -46,7 +49,6 @@ describe('throttle middleware', () => {
 
       describe('and an allowed action is passed in', () => {
         beforeEach(() => {
-          nextSpy.calls.reset();
           action = { type: 'UPDATE_PREVIEWER_SCREEN' };
           throttle(true, () => true)()(nextSpy)(action);
         });

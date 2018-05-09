@@ -253,20 +253,24 @@ describe('chatPreview file', () => {
     });
 
     describe('when a color parameter is supplied', () => {
-      it('should call setButtonColor with that color value', () => {
+      beforeEach(() => {
         spyOn(component, 'setButtonColor');
         preview.setColor('#FF0000');
+      });
 
+      it('should call setButtonColor with that color value', () => {
         expect(component.setButtonColor)
           .toHaveBeenCalledWith('#FF0000');
       });
     });
 
     describe('when no color parameter is supplied', () => {
-      it('should call setButtonColor with the default color value', () => {
+      beforeEach(() => {
         spyOn(component, 'setButtonColor');
         preview.setColor();
+      });
 
+      it('should call setButtonColor with the default color value', () => {
         expect(component.setButtonColor)
           .toHaveBeenCalledWith(defaultOptions.color);
       });
@@ -324,15 +328,18 @@ describe('chatPreview file', () => {
     let element, action, preview;
 
     beforeEach(() => {
-      dispatchSpy.calls.reset();
       element = document.body.appendChild(document.createElement('div'));
       preview = window.zE.renderPreview({ element });
+      preview.updateChatState(action);
+    });
+
+    afterEach(() => {
+      dispatchSpy.calls.reset();
     });
 
     describe('when detail does not have a type', () => {
-      beforeEach(() => {
+      beforeAll(() => {
         action = { type: 'account_status', detail: 'online' };
-        preview.updateChatState(action);
       });
 
       it('calls store.dispatch with the type of the root object', () => {
@@ -342,9 +349,8 @@ describe('chatPreview file', () => {
     });
 
     describe('when detail does have a type', () => {
-      beforeEach(() => {
+      beforeAll(() => {
         action = { type: 'chat', detail: { type: 'chat.memberjoin' } };
-        preview.updateChatState(action);
       });
 
       it('calls store.dispatch with the type of the detail key', () => {
