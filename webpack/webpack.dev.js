@@ -1,11 +1,9 @@
-const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 const common = require('./webpack.common.js');
-
-const version = String(fs.readFileSync('dist/VERSION_HASH')).trim();
 
 module.exports = merge(common, {
   mode: 'development',
@@ -28,12 +26,15 @@ module.exports = merge(common, {
   },
   plugins: [
     new webpack.DefinePlugin({
-      __EMBEDDABLE_VERSION__: JSON.stringify(version),
       __DEV__: JSON.stringify(true)
     }),
     new webpack.WatchIgnorePlugin([
       path.resolve(__dirname, './node_modules/'),
       path.resolve(__dirname, './test/')
-    ])
+    ]),
+    new ProgressBarPlugin({
+      format: 'Build [:bar] :percent (:elapsed seconds)',
+      clear: false,
+    })
   ]
 });

@@ -1,5 +1,6 @@
+const fs = require('fs');
 const path = require('path');
-const prefix = process.cwd();
+const webpack = require('webpack');
 
 const svgoConfig = JSON.stringify({
   plugins: [
@@ -7,6 +8,8 @@ const svgoConfig = JSON.stringify({
     { convertPathData: false }
   ]
 });
+const prefix = process.cwd();
+const version = String(fs.readFileSync('dist/VERSION_HASH')).trim();
 
 module.exports = {
   entry: {
@@ -87,5 +90,10 @@ module.exports = {
     },
     extensions: ['.js', '.jsx'],
     modules: ['node_modules']
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      __EMBEDDABLE_VERSION__: JSON.stringify(version)
+    })
+  ]
 };
