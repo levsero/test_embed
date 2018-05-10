@@ -26,6 +26,7 @@ import agentJoined from './chat-agent-joined';
 import lastAgentMessageSeenTimestamp from './chat-last-agent-message-seen-timestamp';
 import operatingHours from './chat-operating-hours';
 import currentSessionStartTime from './chat-current-session-start-time';
+import socialLogin from './chat-social-login';
 
 export default combineReducers({
   accountSettings,
@@ -53,5 +54,6 @@ export default combineReducers({
   lastAgentMessageSeenTimestamp,
   operatingHours,
   inactiveAgents,
-  currentSessionStartTime
+  currentSessionStartTime,
+  socialLogin
 });
