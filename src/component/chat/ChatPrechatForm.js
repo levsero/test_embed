@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import { Field } from 'component/field/Field';
 import { Button } from 'component/button/Button';
 import { Dropdown } from 'component/field/Dropdown';
+import { ChatSocialLogin } from 'component/chat/ChatSocialLogin';
 
 import { i18n } from 'service/i18n';
 
@@ -18,7 +20,10 @@ export class ChatPrechatForm extends Component {
     greetingMessage: PropTypes.string,
     visitor: PropTypes.object,
     onFormCompleted: PropTypes.func,
-    loginEnabled: PropTypes.bool
+    loginEnabled: PropTypes.bool,
+    socialLogin: PropTypes.object.isRequired,
+    chatVisitor: PropTypes.object.isRequired,
+    initiateSocialLogout: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -28,7 +33,8 @@ export class ChatPrechatForm extends Component {
     greetingMessage: '',
     visitor: {},
     onFormCompleted: () => {},
-    loginEnabled: true
+    loginEnabled: true,
+    socialLogin: {}
   };
 
   constructor() {
@@ -103,9 +109,14 @@ export class ChatPrechatForm extends Component {
 
     const nameData = this.props.form.name;
     const required = this.isFieldRequired(nameData.required);
+    const atLeastOneSocialLogin = (_.size(this.props.socialLogin.authUrls) > 0);
+    const fieldContainerStyle = classNames({
+      [styles.nameFieldWithSocialLogin]: atLeastOneSocialLogin
+    });
 
     return (
       <Field
+        fieldContainerClasses={fieldContainerStyle}
         label={i18n.t('embeddable_framework.common.textLabel.name')}
         required={required}
         value={this.props.formState.name}
@@ -186,6 +197,17 @@ export class ChatPrechatForm extends Component {
     );
   }
 
+  renderSocialLogin() {
+    return (
+      <ChatSocialLogin
+        socialLogin={this.props.socialLogin}
+        chatVisitor={this.props.chatVisitor}
+        initiateSocialLogout={this.props.initiateSocialLogout}
+        nameField={this.renderNameField()}
+        emailField={this.renderEmailField()} />
+    );
+  }
+
   render = () => {
     return (
       <form
@@ -195,10 +217,9 @@ export class ChatPrechatForm extends Component {
         ref={(el) => { this.form = el; }}
         className={`${styles.form}`}>
         {this.renderGreetingMessage()}
-        {this.renderNameField()}
-        {this.renderEmailField()}
-        {this.renderPhoneField()}
+        {this.renderSocialLogin()}
         {this.renderDepartmentsField()}
+        {this.renderPhoneField()}
         {this.renderMessageField()}
         <Button
           onTouchStartDisabled={true}

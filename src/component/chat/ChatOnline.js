@@ -41,7 +41,8 @@ import {
   updateEmailTranscriptVisibility,
   resetCurrentMessage,
   sendOfflineMessage,
-  clearDepartment } from 'src/redux/modules/chat';
+  clearDepartment,
+  initiateSocialLogout } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import * as selectors from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './ChatOnline.scss';
@@ -71,7 +72,9 @@ const mapStateToProps = (state) => {
     connection: selectors.getConnection(state),
     loginSettings: selectors.getLoginSettings(state),
     departments: selectors.getDepartments(state),
-    offlineMessage: selectors.getOfflineMessage(state)
+    offlineMessage: selectors.getOfflineMessage(state),
+    socialLogin: selectors.getSocialLogin(state),
+    chatVisitor: selectors.getChatVisitor(state)
   };
 };
 
@@ -123,6 +126,9 @@ class Chat extends Component {
     sendOfflineMessage: PropTypes.func,
     clearDepartment: PropTypes.func,
     hideZendeskLogo: PropTypes.bool
+    socialLogin: PropTypes.object.isRequired,
+    chatVisitor: PropTypes.object.isRequired,
+    initiateSocialLogout: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -301,6 +307,9 @@ class Chat extends Component {
     if (this.props.screen === screens.PRECHAT_SCREEN) {
       formScreen = (
         <ChatPrechatForm
+          socialLogin={this.props.socialLogin}
+          chatVisitor={this.props.chatVisitor}
+          initiateSocialLogout={this.props.initiateSocialLogout}
           form={form}
           formState={this.props.preChatFormState}
           onPrechatFormChange={this.props.handlePreChatFormChange}
@@ -604,7 +613,8 @@ const actionCreators = {
   updateEmailTranscriptVisibility,
   resetCurrentMessage,
   sendOfflineMessage,
-  clearDepartment
+  clearDepartment,
+  initiateSocialLogout
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);
