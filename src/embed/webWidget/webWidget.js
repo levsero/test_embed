@@ -140,9 +140,11 @@ export default function WebWidgetFactory(name) {
     const submitTicketSettings = submitTicketAvailable
       ? setUpSubmitTicket(config.ticketSubmissionForm, reduxStore)
       : {};
-    const helpCenterSettings = helpCenterAvailable
+    const helpCenterSettings = helpCenterAvailable || config.ipmAllowed
       ? setUpHelpCenter(config.helpCenterForm)
       : {};
+    // if HC is unavailable but IPM requested it, ipmHelpCenterAvailable will be true
+    const ipmHelpCenterAvailable = !helpCenterAvailable && config.ipmAllowed;
     const rootConfig = _.omit(config, ['ticketSubmissionForm', 'helpCenterForm', 'zopimChat', 'talk']);
     const globalConfig = _.extend(
       configDefaults,
@@ -212,6 +214,7 @@ export default function WebWidgetFactory(name) {
           fullscreen={isMobileBrowser()}
           helpCenterAvailable={helpCenterAvailable}
           helpCenterConfig={helpCenterSettings.config}
+          ipmHelpCenterAvailable={ipmHelpCenterAvailable}
           isOnHelpCenterPage={isOnHelpCenterPage()}
           hideZendeskLogo={globalConfig.hideZendeskLogo}
           imagesSender={helpCenterSettings.imagesSenderFn}

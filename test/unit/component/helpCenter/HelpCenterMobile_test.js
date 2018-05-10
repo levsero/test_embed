@@ -274,4 +274,38 @@ describe('HelpCenterMobile component', () => {
       });
     });
   });
+
+  describe('renderFooterContent', () => {
+    it('is not rendered when show next button is false', () => {
+      const component = instanceRender(<HelpCenterMobile showNextButton={false} />);
+
+      expect(component.renderFooterContent())
+        .toBeNull();
+    });
+
+    it('is not rendered when in intro screen', () => {
+      const component = instanceRender(<HelpCenterMobile />);
+
+      component.setState({ showIntroScreen: true });
+
+      expect(component.renderFooterContent())
+        .toBeNull();
+    });
+
+    it('is not rendered when search field is focused', () => {
+      const component = instanceRender(<HelpCenterMobile />);
+
+      component.setState({ searchFieldFocused: true });
+
+      expect(component.renderFooterContent())
+        .toBeNull();
+    });
+
+    it('is rendered when show next button is true and is in article view', () => {
+      const component = instanceRender(<HelpCenterMobile articleViewActive={true} showNextButton={true} />);
+
+      expect(component.renderFooterContent())
+        .not.toBeNull();
+    });
+  });
 });

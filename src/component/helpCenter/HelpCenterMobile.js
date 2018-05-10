@@ -127,6 +127,11 @@ export class HelpCenterMobile extends Component {
     this.props.search();
   }
 
+  showFooterContent = () => {
+    return this.props.showNextButton &&
+      (this.props.articleViewActive || (!this.state.showIntroScreen && !this.state.searchFieldFocused));
+  }
+
   renderChannelChoice = () => {
     return this.props.channelChoice
       ? <div className={styles.channelChoiceContainer}>
@@ -224,20 +229,18 @@ export class HelpCenterMobile extends Component {
   }
 
   renderFooterContent = () => {
-    if (!this.props.showNextButton ||
-       (this.state.showIntroScreen || this.state.searchFieldFocused)) return null;
-
-    return (
-      <div className={styles.buttonContainer}>
-        <ButtonGroup rtl={i18n.isRTL()}>
-          <Button
-            fullscreen={true}
-            label={this.props.buttonLabel}
-            onTouchStartDisabled={true}
-            onClick={this.props.handleNextClick} />
-        </ButtonGroup>
-      </div>
-    );
+    return this.showFooterContent() ?
+      (
+        <div className={styles.buttonContainer}>
+          <ButtonGroup rtl={i18n.isRTL()}>
+            <Button
+              fullscreen={true}
+              label={this.props.buttonLabel}
+              onTouchStartDisabled={true}
+              onClick={this.props.handleNextClick} />
+          </ButtonGroup>
+        </div>
+      ) : null;
   }
 
   renderZendeskLogo = (hideZendeskLogo) => {

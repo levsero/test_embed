@@ -120,7 +120,7 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderBodyForm = () => {
-    return this.props.hasSearched
+    return (this.props.hasSearched || this.props.articleViewActive)
       ? null
       : this.renderForm();
   }
@@ -145,19 +145,19 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderFooterContent = () => {
-    if (!this.props.showNextButton || !this.props.hasSearched) return null;
-
-    return (
-      <div className={styles.buttonContainer}>
-        <ButtonGroup rtl={i18n.isRTL()}>
-          <Button
-            fullscreen={false}
-            label={this.props.buttonLabel}
-            onClick={this.props.handleNextClick} />
-        </ButtonGroup>
-        {this.renderChannelChoice()}
-      </div>
-    );
+    return this.props.showNextButton && (this.props.hasSearched || this.props.articleViewActive)
+      ? (
+        <div className={styles.buttonContainer}>
+          <ButtonGroup rtl={i18n.isRTL()}>
+            <Button
+              fullscreen={false}
+              label={this.props.buttonLabel}
+              onClick={this.props.handleNextClick} />
+          </ButtonGroup>
+          {this.renderChannelChoice()}
+        </div>
+      )
+      : null;
   }
 
   render = () => {

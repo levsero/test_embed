@@ -254,4 +254,57 @@ describe('HelpCenterDesktop component', () => {
       });
     });
   });
+
+  describe('renderFooterContent', () => {
+    it('is not rendered when user has not searched', () => {
+      const component = instanceRender(<HelpCenterDesktop hasSearched={false} />);
+
+      expect(component.renderFooterContent())
+        .toBeNull();
+    });
+
+    it('is not rendered when show next button is false', () => {
+      const component = instanceRender(<HelpCenterDesktop showNextButton={false} />);
+
+      expect(component.renderFooterContent())
+        .toBeNull();
+    });
+
+    it('is rendered when show next button is true and user has searched', () => {
+      const component = instanceRender(<HelpCenterDesktop showNextButton={true} hasSearched={true} />);
+
+      expect(component.renderFooterContent())
+        .not.toBeNull();
+    });
+
+    it('is rendered when show next button is true and in article view', () => {
+      const component = instanceRender(<HelpCenterDesktop showNextButton={true} articleViewActive={true} />);
+
+      expect(component.renderFooterContent())
+        .not.toBeNull();
+    });
+  });
+
+  describe('renderBodyForm', () => {
+    it('is not rendered when user has searched', () => {
+      const component = instanceRender(<HelpCenterDesktop hasSearched={true} />);
+
+      expect(component.renderBodyForm())
+        .toBeNull();
+    });
+
+    it('is not rendered when article view is active', () => {
+      const component = instanceRender(<HelpCenterDesktop articleViewActive={true} />);
+
+      expect(component.renderBodyForm())
+        .toBeNull();
+    });
+
+    it('is rendered when not in article view and user has not searched', () => {
+      const component = instanceRender(<HelpCenterDesktop articleViewActive={false} hasSearched={false} />);
+
+      expect(component.renderBodyForm())
+        .not.toBeNull();
+    });
+  });
 });

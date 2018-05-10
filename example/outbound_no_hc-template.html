@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Local Test</title>
+  <script src="/dist/bootstrap.js" inline></script>
+  <script>
+    zE(function() {
+      zE.devRender({
+        ipmAllowed: true,
+        embeds: {
+          "launcher": {
+            "embed": "launcher",
+            "props": {
+              "position": "right"
+            }
+          },
+          "ticketSubmissionForm": {
+            "embed": "submitTicket",
+            "props": {
+              "attachmentsEnabled": true,
+              "position": "right"
+            }
+          }
+        }
+      });
+    });
+
+    function configure() {
+      var outboundConfig = {
+        embeds: {
+          "helpCenterForm": {
+            "embed": "helpCenter",
+            "props": {
+              "color": "#0000FF"
+            }
+          }
+        }
+      }
+      zE.configureIPMWidget(outboundConfig);
+    }
+
+    function showArticle() {
+      var articleId = 218994228;
+      zE.showIPMArticle(articleId);
+    }
+
+    function hideWidget() {
+      zE.hideIPMWidget();
+    }
+  </script>
+</head>
+<body>
+  <h1>Outbound widget</h1>
+  <button onclick="configure()">Configure Outbound widget</button>
+  <button onclick="showArticle()">Show an article</button>
+  <button onclick="hideWidget()">Hide widget</button>
+</body>
+</html>

@@ -154,6 +154,17 @@ describe('WebWidget component', () => {
         .toBeFalsy();
     });
 
+    describe('when ipm is activated but help center is not available', () => {
+      beforeEach(() => {
+        webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' helpCenterAvailable={false} ipmHelpCenterAvailable={true} />);
+      });
+
+      it('renders help center', () => {
+        expect(webWidget.renderHelpCenter())
+          .not.toBeFalsy();
+      });
+    });
+
     describe('when component is set to submitTicket', () => {
       beforeEach(() => {
         webWidget = domRender(<WebWidget activeEmbed='ticketSubmissionForm' helpCenterAvailable={true} />);
@@ -821,6 +832,28 @@ describe('WebWidget component', () => {
           .toHaveBeenCalledWith(true);
       });
     });
+
+    describe('when ipm is activated', () => {
+      beforeEach(() => {
+        webWidget = instanceRender(
+          <WebWidget
+            ipmHelpCenterAvailable={true}
+            updateBackButtonVisibility={updateBackButtonVisibilitySpy}
+            updateActiveEmbed={mockUpdateActiveEmbed} />
+        );
+        webWidget.onNextClick();
+      });
+
+      it('calls updateActiveEmbed with ticketSubmissionForm', () => {
+        expect(mockUpdateActiveEmbed)
+          .toHaveBeenCalledWith('ticketSubmissionForm');
+      });
+
+      it('does not update back button visibility', () => {
+        expect(updateBackButtonVisibilitySpy)
+          .not.toHaveBeenCalled();
+      });
+    });
   });
 
   describe('#onBackClick', () => {
@@ -1396,6 +1429,25 @@ describe('WebWidget component', () => {
     });
 
     describe('when help center is not available', () => {
+      describe('when widget is activated by ipm and in article view', () => {
+        beforeEach(() => {
+          webWidget = domRender(
+            <WebWidget
+              updateActiveEmbed={updateActiveEmbedSpy}
+              ipmHelpCenterAvailable={true}
+              articleViewActive={true}
+              activeEmbed='' />
+          );
+
+          webWidget.resetActiveEmbed();
+        });
+
+        it('calls updateActiveEmbed with helpCenterForm', () => {
+          expect(updateActiveEmbedSpy)
+            .toHaveBeenCalledWith('helpCenterForm');
+        });
+      });
+
       describe('when channelChoice is available', () => {
         beforeEach(() => {
           webWidget = instanceRender(

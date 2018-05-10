@@ -339,6 +339,62 @@ describe('embed.webWidget', () => {
       });
     });
 
+    describe('ipm', () => {
+      describe('ipm mode is not on', () => {
+        beforeEach(() => {
+          const config = {
+            ticketSubmissionForm: { formTitleKey: 'foo' }
+          };
+
+          webWidget.create('', config);
+
+          faythe = webWidget.get().component.props.children;
+        });
+
+        it('passes in ipmHelpCenterAvailable as false', () => {
+          expect(faythe.props.ipmHelpCenterAvailable)
+            .toBeFalsy();
+        });
+      });
+
+      describe('no hc and ipm mode on', () => {
+        beforeEach(() => {
+          const config = {
+            ticketSubmissionForm: { formTitleKey: 'foo' },
+            ipmAllowed: true
+          };
+
+          webWidget.create('', config);
+
+          faythe = webWidget.get().component.props.children;
+        });
+
+        it('passes in ipmHelpCenterAvailable as true', () => {
+          expect(faythe.props.ipmHelpCenterAvailable)
+            .toEqual(true);
+        });
+      });
+
+      describe('has hc and ipm mode on', () => {
+        beforeEach(() => {
+          const config = {
+            ticketSubmissionForm: { formTitleKey: 'foo' },
+            helpCenterForm: { formTitleKey: 'bar' },
+            ipmAllowed: true
+          };
+
+          webWidget.create('', config);
+
+          faythe = webWidget.get().component.props.children;
+        });
+
+        it('passes in ipmHelpCenterAvailable as false', () => {
+          expect(faythe.props.ipmHelpCenterAvailable)
+            .toEqual(false);
+        });
+      });
+    });
+
     describe('child props', () => {
       beforeEach(() => {
         const config = {

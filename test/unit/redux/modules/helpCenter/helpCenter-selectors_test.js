@@ -210,18 +210,6 @@ describe('helpCenter selectors', () => {
         });
       });
     });
-
-    describe('when articleDisplayed is true', () => {
-      beforeEach(() => {
-        mockHelpCenterState.helpCenter.articleDisplayed = true;
-        result = getHasSearched(mockHelpCenterState);
-      });
-
-      it('state of hasSearched should be true', () => {
-        expect(result)
-          .toEqual(true);
-      });
-    });
   });
 
   describe('getTotalUserSearches', () => {
