@@ -9,6 +9,7 @@ describe('ChatOfflineForm component', () => {
   const LoadingSpinner = noopReactComponent();
   const ChatOperatingHours = noopReactComponent();
   const ChatOfflineMessageForm = noopReactComponent();
+  const ChatSocialLogin = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
@@ -23,7 +24,8 @@ describe('ChatOfflineForm component', () => {
           mobileContainer: 'mobileContainerClass',
           scrollContainerContent: 'scrollContainerContentClass',
           operatingHoursContainer: 'operatingHoursContainerClass',
-          operatingHoursLink: 'operatingHoursLinkClass'
+          operatingHoursLink: 'operatingHoursLinkClass',
+          nameFieldWithSocialLogin: 'nameFieldWithSocialLoginClass'
         }
       },
       'service/i18n': {
@@ -59,7 +61,8 @@ describe('ChatOfflineForm component', () => {
       },
       'component/chat/ChatOfflineMessageForm': {
         ChatOfflineMessageForm
-      }
+      },
+      'component/chat/ChatSocialLogin': { ChatSocialLogin }
     });
 
     mockery.registerAllowable(ChatOfflineFormPath);
@@ -353,29 +356,92 @@ describe('ChatOfflineForm component', () => {
     });
   });
 
-  describe('renderNameField', () => {
-    let result;
+  describe('renderSocialLogin', () => {
+    let component;
 
     beforeEach(() => {
-      const mockFormFields = { name: { required: true } };
-      const component = instanceRender(<ChatOfflineForm formFields={mockFormFields} />);
+      component = instanceRender(<ChatOfflineForm />);
+
+      spyOn(component, 'renderNameField');
+      spyOn(component, 'renderEmailField');
+
+      component.renderSocialLogin();
+    });
+
+    it('calls renderNameField', () => {
+      expect(component.renderNameField)
+        .toHaveBeenCalled();
+    });
+
+    it('calls renderEmailField', () => {
+      expect(component.renderEmailField)
+        .toHaveBeenCalled();
+    });
+  });
+
+  describe('renderNameField', () => {
+    let result,
+      componentArgs;
+
+    beforeEach(() => {
+      const component = instanceRender(<ChatOfflineForm {...componentArgs} />);
 
       result = component.renderNameField();
     });
 
-    it('renders a type of Field', () => {
-      expect(TestUtils.isElementOfType(result, Field))
-        .toEqual(true);
+    describe('when called', () => {
+      beforeAll(() => {
+        componentArgs = {
+          formFields: {
+            name: { required: true }
+          }
+        };
+      });
+
+      it('renders a type of Field', () => {
+        expect(TestUtils.isElementOfType(result, Field))
+          .toEqual(true);
+      });
+
+      it('has props.name of name', () => {
+        expect(result.props.name)
+          .toEqual('name');
+      });
+
+      it('has props.required of true', () => {
+        expect(result.props.required)
+          .toEqual(true);
+      });
     });
 
-    it('has props.name of name', () => {
-      expect(result.props.name)
-        .toEqual('name');
+    describe('when there is at least one social login available', () => {
+      beforeAll(() => {
+        componentArgs = {
+          socialLogin: {
+            authUrls: [{ Goggle: 'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY' }]
+          }
+        };
+      });
+
+      it('renders with expected style', () => {
+        expect(result.props.fieldContainerClasses)
+          .toContain('nameFieldWithSocialLoginClass');
+      });
     });
 
-    it('has props.required of true', () => {
-      expect(result.props.required)
-        .toEqual(true);
+    describe('when there are no social logins available', () => {
+      beforeAll(() => {
+        componentArgs = {
+          socialLogin: {
+            authUrls: []
+          }
+        };
+      });
+
+      it('renders with expected style', () => {
+        expect(result.props.fieldContainerClasses)
+          .not.toContain('nameFieldWithSocialLoginClass');
+      });
     });
   });
 

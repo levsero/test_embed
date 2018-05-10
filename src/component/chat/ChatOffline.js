@@ -11,12 +11,15 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 import { chatOfflineFormChanged,
   sendOfflineMessage,
   handleOfflineFormBack,
-  handleOperatingHoursClick } from 'src/redux/modules/chat';
+  handleOperatingHoursClick,
+  initiateSocialLogout } from 'src/redux/modules/chat';
 import { getChatOfflineForm,
   getOfflineMessage,
   getOfflineFormSettings,
   getOfflineFormFields,
-  getGroupedOperatingHours } from 'src/redux/modules/chat/chat-selectors';
+  getGroupedOperatingHours,
+  getSocialLogin,
+  getChatVisitor } from 'src/redux/modules/chat/chat-selectors';
 
 import { locals as styles } from './ChatOffline.scss';
 
@@ -26,7 +29,9 @@ const mapStateToProps = (state) => {
     formFields: getOfflineFormFields(state),
     formSettings: getOfflineFormSettings(state),
     offlineMessage: getOfflineMessage(state),
-    operatingHours: getGroupedOperatingHours(state)
+    operatingHours: getGroupedOperatingHours(state),
+    socialLogin: getSocialLogin(state),
+    chatVisitor: getChatVisitor(state)
   };
 };
 
@@ -34,6 +39,7 @@ class ChatOffline extends Component {
   static propTypes = {
     updateFrameSize: PropTypes.func.isRequired,
     chatOfflineFormChanged: PropTypes.func.isRequired,
+    initiateSocialLogout: PropTypes.func.isRequired,
     sendOfflineMessage: PropTypes.func.isRequired,
     handleOfflineFormBack: PropTypes.func.isRequired,
     handleOperatingHoursClick: PropTypes.func.isRequired,
@@ -41,6 +47,8 @@ class ChatOffline extends Component {
     formFields: PropTypes.object.isRequired,
     formSettings: PropTypes.object.isRequired,
     offlineMessage: PropTypes.object.isRequired,
+    socialLogin: PropTypes.object.isRequired,
+    chatVisitor: PropTypes.object.isRequired,
     handleCloseClick: PropTypes.func,
     operatingHours: PropTypes.object,
     isMobile: PropTypes.bool,
@@ -63,6 +71,9 @@ class ChatOffline extends Component {
 
     return (
       <ChatOfflineForm
+        initiateSocialLogout={this.props.initiateSocialLogout}
+        chatVisitor={this.props.chatVisitor}
+        socialLogin={this.props.socialLogin}
         formFields={this.props.formFields}
         formState={this.props.formState}
         offlineMessage={this.props.offlineMessage}
@@ -132,7 +143,8 @@ const actionCreators = {
   sendOfflineMessage,
   handleOfflineFormBack,
   handleOperatingHoursClick,
-  getGroupedOperatingHours
+  getGroupedOperatingHours,
+  initiateSocialLogout
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(ChatOffline);

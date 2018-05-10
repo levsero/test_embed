@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { i18n } from 'service/i18n';
+import classNames from 'classnames';
 
 import { Form } from 'component/form/Form';
 import { Field } from 'component/field/Field';
@@ -10,6 +11,7 @@ import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { ChatOperatingHours } from 'component/chat/ChatOperatingHours';
 import { OFFLINE_FORM_SCREENS } from 'constants/chat';
 import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm';
+import { ChatSocialLogin } from 'component/chat/ChatSocialLogin';
 
 import { locals as styles } from './ChatOfflineForm.scss';
 
@@ -17,6 +19,7 @@ export class ChatOfflineForm extends Component {
   static propTypes = {
     updateFrameSize: PropTypes.func.isRequired,
     chatOfflineFormChanged: PropTypes.func.isRequired,
+    initiateSocialLogout: PropTypes.func.isRequired,
     operatingHours: PropTypes.object,
     sendOfflineMessage: PropTypes.func.isRequired,
     handleOfflineFormBack: PropTypes.func.isRequired,
@@ -24,23 +27,33 @@ export class ChatOfflineForm extends Component {
     offlineMessage: PropTypes.object.isRequired,
     formState: PropTypes.object.isRequired,
     formFields: PropTypes.object.isRequired,
-    isMobile: PropTypes.bool
+    isMobile: PropTypes.bool,
+    socialLogin: PropTypes.object.isRequired,
+    chatVisitor: PropTypes.object.isRequired
   };
 
   static defaultProps = {
     updateFrameSize: () => {},
     operatingHours: { enabled: false },
     isMobile: false,
-    offlineMessage: {}
+    offlineMessage: {},
+    initiateSocialLogout: () => {},
+    socialLogin: {}
   };
 
   renderNameField() {
-    const isRequired = !!_.get(this.props.formFields, 'name.required');
-    const value = _.get(this.props.formState, 'name', '');
+    const { formFields, formState, socialLogin } = this.props;
+    const isRequired = !!_.get(formFields, 'name.required');
+    const value = _.get(formState, 'name', '');
+    const atLeastOneSocialLogin = (_.size(socialLogin.authUrls) > 0);
+    const fieldContainerStyle = classNames({
+      [styles.nameFieldWithSocialLogin]: atLeastOneSocialLogin
+    });
 
     return (
       <Field
         name='name'
+        fieldContainerClasses={fieldContainerStyle}
         label={i18n.t('embeddable_framework.common.textLabel.name')}
         value={value}
         required={isRequired} />
@@ -135,6 +148,17 @@ export class ChatOfflineForm extends Component {
     );
   }
 
+  renderSocialLogin() {
+    return (
+      <ChatSocialLogin
+        socialLogin={this.props.socialLogin}
+        chatVisitor={this.props.chatVisitor}
+        initiateSocialLogout={this.props.initiateSocialLogout}
+        nameField={this.renderNameField()}
+        emailField={this.renderEmailField()} />
+    );
+  }
+
   renderForm() {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.MAIN) return;
 
@@ -149,8 +173,7 @@ export class ChatOfflineForm extends Component {
         submitButtonLabel={submitbuttonText}>
         {this.renderOfflineGreeting()}
         {this.renderOperatingHoursLink()}
-        {this.renderNameField()}
-        {this.renderEmailField()}
+        {this.renderSocialLogin()}
         {this.renderPhoneNumberField()}
         {this.renderMessageField()}
       </Form>
