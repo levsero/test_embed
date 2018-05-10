@@ -49,7 +49,11 @@ import {
   CHAT_ALL_AGENTS_INACTIVE,
   HISTORY_REQUEST_SENT,
   HISTORY_REQUEST_SUCCESS,
-  HISTORY_REQUEST_FAILURE
+  HISTORY_REQUEST_FAILURE,
+  UPDATE_SOCIAL_LOGIN_URLS,
+  CHAT_SOCIAL_LOGOUT_PENDING,
+  CHAT_SOCIAL_LOGOUT_SUCCESS,
+  CHAT_SOCIAL_LOGOUT_FAILURE
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import {
@@ -58,7 +62,11 @@ import {
   getIsChatting as getIsChattingState,
   getChatOnline,
   getActiveAgents } from 'src/redux/modules/chat/chat-selectors';
-import { CHAT_MESSAGE_TYPES, AGENT_BOT, EVENT_TRIGGER } from 'src/constants/chat';
+import {
+  CHAT_MESSAGE_TYPES,
+  AGENT_BOT,
+  EVENT_TRIGGER,
+  WHITELISTED_SOCIAL_LOGINS } from 'src/constants/chat';
 import { getChatStandalone } from 'src/redux/modules/base/base-selectors';
 import { mediator } from 'service/mediator';
 import _ from 'lodash';
@@ -84,6 +92,18 @@ const getChatMessagePayload = (msg, visitor, timestamp) => ({
   display_name: visitor.display_name,
   msg
 });
+
+const getSocialLoginUrls = (loginTypes = {}) => {
+  return _.reduce(loginTypes, (accumulator, enabled, key) => {
+    const whitelisted = _.includes(WHITELISTED_SOCIAL_LOGINS, key);
+
+    if (enabled && whitelisted) {
+      accumulator[key] = zChat.getAuthLoginUrl(key);
+    }
+
+    return accumulator;
+  }, {});
+};
 
 const sendMsgRequest = (msg, visitor, timestamp) => {
   zChat.sendTyping(false);
@@ -288,6 +308,15 @@ export function getAccountSettings() {
 
     if (!accountSettings.chat_button.hide_when_offline && getChatStandalone(getState()) && !getChatOnline(getState())) {
       mediator.channel.broadcast('newChat.offlineFormOn');
+    }
+
+    if (accountSettings.login) {
+      const loginTypes = accountSettings.login.allowed_types;
+
+      dispatch({
+        type: UPDATE_SOCIAL_LOGIN_URLS,
+        payload: getSocialLoginUrls(loginTypes)
+      });
     }
 
     dispatch({
@@ -535,3 +564,15 @@ export const updatePreviewerSettings = (settings) => {
     payload: settings
   };
 };
+
+export function initiateSocialLogout() {
+  return (dispatch) => {
+    dispatch({ type: CHAT_SOCIAL_LOGOUT_PENDING });
+
+    zChat.doAuthLogout((err) => {
+      (err)
+        ? dispatch({ type: CHAT_SOCIAL_LOGOUT_FAILURE })
+        : dispatch({ type: CHAT_SOCIAL_LOGOUT_SUCCESS });
+    });
+  };
+}
