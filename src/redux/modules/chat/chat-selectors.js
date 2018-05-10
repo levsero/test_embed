@@ -27,6 +27,7 @@ export const getAgentsTyping = (state) => {
   return _.filter(getActiveAgents(state), (agent, key) => agent.typing && key !== AGENT_BOT);
 };
 export const getAllAgents = (state) => _.extend({}, getActiveAgents(state),  getInactiveAgents(state));
+export const getSocialLogin = (state) => state.chat.socialLogin;
 export const getConnection = (state) => state.chat.connection;
 export const getCurrentMessage = (state) => state.chat.currentMessage;
 export const getCurrentSessionStartTime = (state) => state.chat.currentSessionStartTime;

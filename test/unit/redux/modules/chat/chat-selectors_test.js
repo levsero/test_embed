@@ -48,6 +48,7 @@ describe('chat selectors', () => {
     getAllAgents,
     getFirstMessageTimestamp,
     getCurrentSessionStartTime,
+    getSocialLogin,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
@@ -142,6 +143,7 @@ describe('chat selectors', () => {
     getAllAgents = selectors.getAllAgents;
     getFirstMessageTimestamp = selectors.getFirstMessageTimestamp;
     getCurrentSessionStartTime = selectors.getCurrentSessionStartTime;
+    getSocialLogin = selectors.getSocialLogin;
   });
 
   afterEach(() => {
@@ -2306,6 +2308,29 @@ describe('chat selectors', () => {
         expect(result)
           .toBeNull;
       });
+    });
+  });
+
+  describe('getSocialLogin', () => {
+    let result,
+      mockChatSettings = {
+        chat: {
+          socialLogin: {
+            authenticated: false,
+            authUrls: {},
+            screen: '',
+            avatarPath: ''
+          }
+        }
+      };
+
+    beforeEach(() => {
+      result = getSocialLogin(mockChatSettings);
+    });
+
+    it('returns the current state of socialLogin', () => {
+      expect(result)
+        .toEqual(mockChatSettings.chat.socialLogin);
     });
   });
 });
