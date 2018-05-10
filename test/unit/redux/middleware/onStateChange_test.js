@@ -2,7 +2,6 @@ describe('onStateChange middleware', () => {
   let stateChangeFn,
     mockUserSoundSetting,
     mockActiveEmbed,
-    mockWidgetShown,
     mockOfflineFormSettings,
     mockStoreValue,
     mockLastAgentMessageSeenTimestamp,
@@ -15,6 +14,7 @@ describe('onStateChange middleware', () => {
   const newAgentMessageReceivedSpy = jasmine.createSpy('newAgentMessageReceived');
   const getOperatingHoursSpy = jasmine.createSpy('getOperatingHours');
   const updateActiveEmbedSpy = jasmine.createSpy('updateActiveEmbed');
+  const updateBackButtonVisibilitySpy = jasmine.createSpy('updateBackButtonVisibility');
   const audioPlaySpy = jasmine.createSpy('audioPlay');
   const broadcastSpy = jasmine.createSpy('broadcast');
   const updateLastAgentMessageSeenTimestampSpy = jasmine.createSpy('updateLastAgentMessageSeenTimestamp');
@@ -25,6 +25,9 @@ describe('onStateChange middleware', () => {
   let initialTimestamp = 80;
   let mockDepartmentLists = [];
   let mockGetSettingsChatDepartment = '';
+  let mockWidgetShown = false;
+  let mockIPMWidget = false;
+  let mockHelpCenterEmbed = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -33,7 +36,6 @@ describe('onStateChange middleware', () => {
 
     mockUserSoundSetting = false;
     mockActiveEmbed = '';
-    mockWidgetShown = false;
     mockStoreValue = { widgetShown: false };
     mockOfflineFormSettings = { enabled: false };
     mockLastAgentMessageSeenTimestamp = 123;
@@ -53,7 +55,8 @@ describe('onStateChange middleware', () => {
         setDepartment: setDepartmentSpy
       },
       'src/redux/modules/base': {
-        updateActiveEmbed: updateActiveEmbedSpy
+        updateActiveEmbed: updateActiveEmbedSpy,
+        updateBackButtonVisibility: updateBackButtonVisibilitySpy
       },
       'service/audio': {
         audio: {
@@ -106,7 +109,9 @@ describe('onStateChange middleware', () => {
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed,
         getWidgetShown: () => mockWidgetShown,
-        getSubmitTicketEmbed: () => mockSubmitTicketAvailable
+        getSubmitTicketEmbed: () => mockSubmitTicketAvailable,
+        getHelpCenterEmbed: () => mockHelpCenterEmbed,
+        getIPMWidget: () => mockIPMWidget
       },
       'service/persistence': {
         store: {
@@ -457,27 +462,89 @@ describe('onStateChange middleware', () => {
     });
 
     describe('onArticleDisplayed', () => {
+      const dispatchSpy = jasmine.createSpy('dispatch').and.callThrough();
+
       beforeEach(() => {
         broadcastSpy.calls.reset();
+        dispatchSpy.calls.reset();
+        updateBackButtonVisibilitySpy.calls.reset();
       });
 
       describe('articleDisplayed goes from false to true', () => {
         beforeEach(() => {
-          stateChangeFn(false, true);
+          stateChangeFn(false, true, dispatchSpy);
         });
 
-        it('calls mediator', () => {
-          expect(broadcastSpy)
-            .toHaveBeenCalledWith('.hide', true);
+        describe('ipm widget', () => {
+          beforeAll(() => {
+            mockIPMWidget = true;
+          });
 
-          expect(broadcastSpy)
-            .toHaveBeenCalledWith('ipm.webWidget.show');
+          it('calls mediator to show ipm widget', () => {
+            expect(broadcastSpy)
+              .toHaveBeenCalledWith('ipm.webWidget.show');
+          });
+
+          it('hides back button', () => {
+            expect(updateBackButtonVisibilitySpy)
+              .toHaveBeenCalledWith(false);
+          });
+        });
+
+        describe('main widget', () => {
+          beforeAll(() => {
+            mockIPMWidget = false;
+          });
+
+          describe('widget is not shown', () => {
+            beforeAll(() => {
+              mockWidgetShown = false;
+            });
+
+            it('calls mediator to show main widget', () => {
+              expect(broadcastSpy)
+                .toHaveBeenCalledWith('.activate');
+            });
+          });
+
+          describe('widget is shown', () => {
+            beforeAll(() => {
+              mockWidgetShown = true;
+            });
+
+            it('does not call mediator', () => {
+              expect(broadcastSpy)
+                .not.toHaveBeenCalled();
+            });
+          });
+
+          describe('hc is not available', () => {
+            beforeAll(() => {
+              mockHelpCenterEmbed = false;
+            });
+
+            it('hides the back button', () => {
+              expect(updateBackButtonVisibilitySpy)
+                .toHaveBeenCalledWith(false);
+            });
+          });
+
+          describe('hc is available', () => {
+            beforeAll(() => {
+              mockHelpCenterEmbed = true;
+            });
+
+            it('shows the back button', () => {
+              expect(updateBackButtonVisibilitySpy)
+                .toHaveBeenCalledWith(true);
+            });
+          });
         });
       });
 
       describe('articleDisplayed goes from true to true', () => {
         beforeEach(() => {
-          stateChangeFn(true, true);
+          stateChangeFn(true, true, dispatchSpy);
         });
 
         it('does not call mediator', () => {
@@ -488,7 +555,7 @@ describe('onStateChange middleware', () => {
 
       describe('articleDisplayed goes from true to false', () => {
         beforeEach(() => {
-          stateChangeFn(true, false);
+          stateChangeFn(true, false, dispatchSpy);
         });
 
         it('does not call mediator', () => {

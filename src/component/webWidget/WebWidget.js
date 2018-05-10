@@ -127,7 +127,8 @@ class WebWidget extends Component {
     onShowMobile: PropTypes.func,
     hasSearched: PropTypes.bool.isRequired,
     showStandaloneMobileNotification: PropTypes.func.isRequired,
-    resultsCount: PropTypes.number.isRequired
+    resultsCount: PropTypes.number.isRequired,
+    ipmHelpCenterAvailable: PropTypes.bool
   };
 
   static defaultProps = {
@@ -162,7 +163,8 @@ class WebWidget extends Component {
     talkConfig: {},
     resetActiveArticle: () => {},
     articleViewActive: false,
-    onShowMobile: () => {}
+    onShowMobile: () => {},
+    ipmHelpCenterAvailable: false
   };
 
   setComponent = (activeComponent) => {
@@ -247,18 +249,23 @@ class WebWidget extends Component {
   setAuthenticated = (bool) => this.props.updateAuthenticated(bool);
 
   resetActiveEmbed = () => {
-    const { chatStandalone, updateActiveEmbed, updateBackButtonVisibility, talkAvailable, chatAvailable } = this.props;
+    const { chatStandalone, updateActiveEmbed, updateBackButtonVisibility, talkAvailable,
+      chatAvailable, articleViewActive, ipmHelpCenterAvailable } = this.props;
     let backButton = false;
 
     if (this.isHelpCenterAvailable()) {
       updateActiveEmbed(helpCenter);
-      backButton = this.props.articleViewActive;
+      backButton = articleViewActive;
     } else if (this.isChannelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
     } else if (talkAvailable) {
       updateActiveEmbed(talk);
     } else if (chatAvailable || chatStandalone) {
       this.showChat();
+    } else if (ipmHelpCenterAvailable && articleViewActive) {
+      // we only go into this condition if HC is injected by IPM
+      updateActiveEmbed(helpCenter);
+      backButton = false;
     } else {
       updateActiveEmbed(submitTicket);
       backButton = this.props.showTicketFormsBackButton;
@@ -298,7 +305,8 @@ class WebWidget extends Component {
   }
 
   onNextClick = (embed) => {
-    const { updateBackButtonVisibility, updateActiveEmbed, oldChat, chatAvailable, talkAvailable } = this.props;
+    const { updateBackButtonVisibility, ipmHelpCenterAvailable, updateActiveEmbed, oldChat,
+      chatAvailable, talkAvailable } = this.props;
 
     if (embed) {
       this.setComponent(embed);
@@ -313,7 +321,9 @@ class WebWidget extends Component {
       updateBackButtonVisibility(true);
     } else {
       updateActiveEmbed(submitTicket);
-      updateBackButtonVisibility(true);
+      if (!ipmHelpCenterAvailable) {
+        updateBackButtonVisibility(true);
+      }
     }
   }
 
@@ -333,13 +343,15 @@ class WebWidget extends Component {
 
   onBackClick = () => {
     const rootComponent = this.getRootComponent();
-    const { activeEmbed, updateBackButtonVisibility, updateActiveEmbed, resetActiveArticle } = this.props;
+    const { ipmHelpCenterAvailable, activeEmbed, updateBackButtonVisibility, updateActiveEmbed,
+      resetActiveArticle } = this.props;
     const helpCenterAvailable = this.isHelpCenterAvailable();
     const channelChoiceAvailable = this.isChannelChoiceAvailable();
 
     if (activeEmbed === helpCenter) {
       updateBackButtonVisibility(false);
       resetActiveArticle();
+      if (ipmHelpCenterAvailable) updateActiveEmbed(channelChoice);
     } else if (this.props.showTicketFormsBackButton) {
       rootComponent.clearForm();
       updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable);
@@ -394,7 +406,7 @@ class WebWidget extends Component {
   }
 
   renderHelpCenter = () => {
-    if (!this.props.helpCenterAvailable) return;
+    if (!this.props.helpCenterAvailable && !this.props.ipmHelpCenterAvailable) return;
 
     const { helpCenterConfig, submitTicketAvailable, chatAvailable, talkAvailable } = this.props;
     const classes = this.props.activeEmbed !== helpCenter ? 'u-isHidden' : '';

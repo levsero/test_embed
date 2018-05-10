@@ -1,6 +1,6 @@
 import { UPDATE_EMBED } from '../base-action-types';
 
-const initialState = [];
+const initialState = {};
 const embeds = (state = initialState, action) => {
   const { type, payload } = action;
 

@@ -132,7 +132,7 @@ const setupWidgetQueue = (win, postRenderQueue, reduxStore) => {
     devApi = {
       devRender: (config) => {
         if (config.ipmAllowed) {
-          setupIPMApi(win, config);
+          setupIPMApi(win, reduxStore, config);
         }
         renderer.init(config, reduxStore);
       }
@@ -181,7 +181,7 @@ const displayOssAttribution = () => {
   console.info(message); // eslint-disable-line no-console
 };
 
-const getConfig = (win, postRenderQueue, reduxStore) => {
+const getConfig = (win, postRenderQueue, reduxStore, devApi = null) => {
   if (win.zESkipWebWidget) return;
 
   const configLoadStart = Date.now();
@@ -193,8 +193,8 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
 
     beacon.setConfig(config);
 
-    if (config.ipmAllowed) {
-      setupIPMApi(win, config);
+    if (config.ipmAllowed && !devApi) {
+      setupIPMApi(win, reduxStore, config);
     }
 
     // Only send 1/10 times
@@ -232,20 +232,23 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
   }, false);
 };
 
-const setupIPMApi = (win, embeddableConfig = {}) => {
-  const ipmReduxStore = createStore('ipm');
+const setupIPMApi = (win, reduxStore, embeddableConfig = {}) => {
+  const existingConfig = !_.isEmpty(embeddableConfig.embeds);
+  const prefix = existingConfig ? '' : 'ipm.';
 
   win.zE.configureIPMWidget = (config) => {
-    renderer.initIPM(config, embeddableConfig, ipmReduxStore);
+    if (!existingConfig) {
+      renderer.initIPM(config, embeddableConfig, reduxStore);
+    }
   };
   win.zE.showIPMArticle = (articleId) => {
-    ipmReduxStore.dispatch(displayArticle(articleId));
+    reduxStore.dispatch(displayArticle(articleId));
   };
   win.zE.showIPMWidget = () => {
-    mediator.channel.broadcast('ipm.webWidget.show');
+    mediator.channel.broadcast(`${prefix}webWidget.show`);
   };
   win.zE.hideIPMWidget = () => {
-    mediator.channel.broadcast('ipm.webWidget.hide');
+    mediator.channel.broadcast(`${prefix}webWidget.hide`);
   };
 };
 
@@ -297,7 +300,7 @@ const start = (win, doc) => {
   win.onunload = identity.unload;
 
   boot.setupWidgetApi(win, reduxStore);
-  boot.getConfig(win, postRenderQueue, reduxStore);
+  boot.getConfig(win, postRenderQueue, reduxStore, devApi);
 
   displayOssAttribution();
 

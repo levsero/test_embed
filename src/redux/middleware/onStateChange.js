@@ -7,7 +7,7 @@ import { getAccountSettings,
   getIsChatting,
   clearDepartment,
   setDepartment } from 'src/redux/modules/chat';
-import { updateActiveEmbed } from 'src/redux/modules/base';
+import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules/base';
 import { IS_CHATTING,
   END_CHAT_REQUEST_SUCCESS,
   SDK_CHAT_MEMBER_LEAVE,
@@ -30,6 +30,8 @@ import { getChatMessagesByAgent,
 import { getArticleDisplayed } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { getActiveEmbed,
   getWidgetShown,
+  getIPMWidget,
+  getHelpCenterEmbed,
   getSubmitTicketEmbed } from 'src/redux/modules/base/base-selectors';
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { store } from 'service/persistence';
@@ -196,13 +198,22 @@ const onChatEnd = (nextState, action, dispatch) => {
   }
 };
 
-const onArticleDisplayed = (prevState, nextState) => {
+const onArticleDisplayed = (prevState, nextState, dispatch) => {
   const prevDisplay = getArticleDisplayed(prevState);
   const nextDisplay = getArticleDisplayed(nextState);
 
   if (!prevDisplay && nextDisplay) {
-    mediator.channel.broadcast('.hide', true);
-    mediator.channel.broadcast('ipm.webWidget.show');
+    const ipmWidget = getIPMWidget(prevState);
+
+    if (ipmWidget) {
+      mediator.channel.broadcast('ipm.webWidget.show');
+      dispatch(updateBackButtonVisibility(false));
+    } else {
+      const widgetShown = getWidgetShown(prevState);
+
+      dispatch(updateBackButtonVisibility(getHelpCenterEmbed(prevState)));
+      if (!widgetShown) mediator.channel.broadcast('.activate');
+    }
   }
 };
 

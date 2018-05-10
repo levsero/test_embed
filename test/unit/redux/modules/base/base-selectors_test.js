@@ -6,6 +6,7 @@ describe('base selectors', () => {
     getChatEmbed,
     getAuthenticated,
     getWidgetShown,
+    getIPMWidget,
     getChatStandalone;
 
   beforeEach(() => {
@@ -25,6 +26,7 @@ describe('base selectors', () => {
     getAuthenticated = selectors.getAuthenticated;
     getWidgetShown = selectors.getWidgetShown;
     getChatStandalone = selectors.getChatStandalone;
+    getIPMWidget = selectors.getIPMWidget;
   });
 
   describe('getActiveEmbed', () => {
@@ -212,5 +214,25 @@ describe('base selectors', () => {
     });
 
     additionalEmbeds.forEach(refuteChatStandAlone);
+  });
+
+  describe('getIPMWidget', () => {
+    let result;
+    const mockState = {
+      base: {
+        embeds: {
+          ipmWidget: true
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getIPMWidget(mockState);
+    });
+
+    it('returns whether IPM widget is activated', () => {
+      expect(result)
+        .toEqual(true);
+    });
   });
 });
