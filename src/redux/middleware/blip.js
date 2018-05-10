@@ -15,7 +15,6 @@ import { getTotalUserSearches,
   getArticleClicked,
   getActiveArticle,
   getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
-import { getChatEmbed } from 'src/redux/modules/base/base-selectors';
 import { getIsChatting } from 'src/redux/modules/chat/chat-selectors';
 
 import { i18n } from 'service/i18n';
@@ -107,7 +106,7 @@ export function sendBlips({ getState }) {
 
         const isChatting = getIsChatting(prevState);
 
-        if (!isChatting && getChatEmbed(prevState) && payload === 'chat' && !chatOpenedBlipSent) {
+        if (!isChatting && payload === 'chat' && !chatOpenedBlipSent) {
           sendChatOpenedBlip();
           chatOpenedBlipSent = true;
         }

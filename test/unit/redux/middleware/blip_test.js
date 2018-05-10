@@ -33,9 +33,6 @@ describe('blip middleware', () => {
       'src/redux/modules/chat/chat-selectors': {
         getIsChatting: (prevState) => prevState.isChatting
       },
-      'src/redux/modules/base/base-selectors': {
-        getChatEmbed: (prevState) => prevState.chatEmbed
-      },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getTotalUserSearches: (prevState) => prevState.totalUserSearches,
         getSearchTerm: (prevState) => prevState.searchTerm,
@@ -168,44 +165,26 @@ describe('blip middleware', () => {
           mockIsChatting = false;
         });
 
-        describe('when using old chat', () => {
+        describe('payload is zopimChat', () => {
           beforeAll(() => {
-            mockChatEmbed = false;
+            payload = 'zopimChat';
           });
 
-          it('does not send chat opened blip', () => {
+          it('does not send chatOpened blip', () => {
             expect(beaconSpy.trackUserAction)
               .not
               .toHaveBeenCalled();
           });
         });
 
-        describe('when using new chat', () => {
+        describe('payload is chat', () => {
           beforeAll(() => {
-            mockChatEmbed = true;
+            payload = 'chat';
           });
 
-          describe('payload is zopimChat', () => {
-            beforeAll(() => {
-              payload = 'zopimChat';
-            });
-
-            it('does not send chatOpened blip', () => {
-              expect(beaconSpy.trackUserAction)
-                .not
-                .toHaveBeenCalled();
-            });
-          });
-
-          describe('payload is chat', () => {
-            beforeAll(() => {
-              payload = 'chat';
-            });
-
-            it('calls trackUserAction with the correct params', () => {
-              expect(beaconSpy.trackUserAction)
-                .toHaveBeenCalledWith('chat', 'opened', 'newChat');
-            });
+          it('calls trackUserAction with the correct params', () => {
+            expect(beaconSpy.trackUserAction)
+              .toHaveBeenCalledWith('chat', 'opened', 'newChat');
           });
         });
       });
