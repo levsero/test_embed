@@ -96,7 +96,9 @@ describe('onStateChange middleware', () => {
         IS_CHATTING: 'IS_CHATTING',
         END_CHAT_REQUEST_SUCCESS: 'END_CHAT_REQUEST_SUCCESS',
         SDK_CHAT_MEMBER_LEAVE: 'SDK_CHAT_MEMBER_LEAVE',
-        CHAT_AGENT_INACTIVE: 'CHAT_AGENT_INACTIVE'
+        CHAT_AGENT_INACTIVE: 'CHAT_AGENT_INACTIVE',
+        CHAT_SOCIAL_LOGIN_SUCCESS: 'CHAT_SOCIAL_LOGIN_SUCCESS',
+        SDK_VISITOR_UPDATE: 'SDK_VISITOR_UPDATE'
       },
       'src/constants/chat': {
         CONNECTION_STATUSES: {
@@ -989,6 +991,94 @@ describe('onStateChange middleware', () => {
 
           expect(dispatchSpy)
             .toHaveBeenCalledWith(expected);
+        });
+      });
+    });
+
+    describe('onVisitorUpdate', () => {
+      let action,
+        dispatchSpy,
+        avatarPath;
+
+      beforeEach(() => {
+        dispatchSpy = jasmine.createSpy('dispatch');
+
+        stateChangeFn({}, {}, action, dispatchSpy);
+      });
+
+      describe('when the type of action is SDK_VISITOR_UPDATE', () => {
+        describe('when the user is authenticated to a social media', () => {
+          beforeAll(() => {
+            avatarPath = 'www.terence.com/myAvatar.jpeg';
+
+            action = {
+              type: 'SDK_VISITOR_UPDATE',
+              payload: {
+                detail: {
+                  auth: {
+                    'avatar$string': avatarPath,
+                    'verified$bool': true
+                  }
+                }
+              }
+            };
+          });
+
+          it('calls dispatch with expected args', () => {
+            const expected = {
+              type: 'CHAT_SOCIAL_LOGIN_SUCCESS',
+              payload: avatarPath
+            };
+
+            expect(dispatchSpy)
+              .toHaveBeenCalledWith(expected);
+          });
+        });
+
+        describe('when the user is not authenticated to a social media', () => {
+          beforeAll(() => {
+            avatarPath = 'www.terence.com/myAvatar.jpeg';
+
+            action = {
+              type: 'SDK_VISITOR_UPDATE',
+              payload: {
+                detail: {
+                  auth: {
+                    'avatar$string': avatarPath,
+                    'verified$bool': false
+                  }
+                }
+              }
+            };
+          });
+
+          it('does not call dispatch', () => {
+            expect(dispatchSpy)
+              .not.toHaveBeenCalled();
+          });
+        });
+      });
+
+      describe('when the type of action is not SDK_VISITOR_UPDATE', () => {
+        beforeAll(() => {
+          avatarPath = 'www.terence.com/myAvatar.jpeg';
+
+          action = {
+            type: 'END_CHAT_REQUEST_SUCCESS',
+            payload: {
+              detail: {
+                auth: {
+                  'avatar$string': avatarPath,
+                  'verified$bool': true
+                }
+              }
+            }
+          };
+        });
+
+        it('does not call dispatch', () => {
+          expect(dispatchSpy)
+            .not.toHaveBeenCalled();
         });
       });
     });
