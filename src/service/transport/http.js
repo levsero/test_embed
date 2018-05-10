@@ -27,6 +27,14 @@ function init(_config) {
   config = _.extend(defaultConfig, _config);
 }
 
+function updateConfig(updates) {
+  config = _.extend(config, updates);
+}
+
+function getConfig() {
+  return config;
+}
+
 function send(payload, addType = true) {
   if (!config.zendeskHost) {
     throw 'Missing zendeskHost config param.';
@@ -173,5 +181,7 @@ export const http = {
   getImage: getImage,
   get: send,
   getZendeskHost: getZendeskHost,
-  callMeRequest
+  callMeRequest,
+  updateConfig,
+  getConfig
 };

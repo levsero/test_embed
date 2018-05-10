@@ -97,6 +97,27 @@ describe('http', () => {
     });
   });
 
+  describe('#updateConfig', () => {
+    beforeEach(() => {
+      const testConfig = {
+        test: 'config',
+        a: 'b'
+      };
+
+      http.init(testConfig);
+    });
+
+    it('updates the config', () => {
+      http.updateConfig({ test: 'config2' });
+
+      expect(http.getConfig())
+        .toEqual(jasmine.objectContaining({
+          test: 'config2',
+          a: 'b'
+        }));
+    });
+  });
+
   describe('#send', () => {
     let payload,
       config;

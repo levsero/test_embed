@@ -12,7 +12,7 @@ describe('boot', () => {
     identitySpy = registerImportSpy('identity', 'init'),
     loggingSpy = registerImportSpy('logging', 'init', 'error'),
     persistenceSpy = registerImportSpy('persistence', 'store'),
-    transportSpy = registerImportSpy('http', 'get', 'init'),
+    transportSpy = registerImportSpy('http', 'get', 'init', 'updateConfig'),
     mediatorSpy = { mediator: registerImportSpy('channel', 'broadcast', 'subscribe') },
     rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks');
 
@@ -170,7 +170,7 @@ describe('boot', () => {
 
     describe('when the request succeeds', () => {
       let doneHandler;
-      const config = {};
+      let config = {};
 
       beforeEach(() => {
         jasmine.clock().install();
@@ -194,6 +194,11 @@ describe('boot', () => {
           .toHaveBeenCalledWith(config);
       });
 
+      it('does not update http config if hostMapping is not present', () => {
+        expect(transportSpy.http.updateConfig)
+          .not.toHaveBeenCalled();
+      });
+
       it('calls beacon.sendPageView', () => {
         expect(beaconSpy.beacon.sendPageView)
           .toHaveBeenCalled();
@@ -212,6 +217,19 @@ describe('boot', () => {
       it('does not call beacon.sendConfigLoadTime', () => {
         expect(beaconSpy.beacon.sendConfigLoadTime)
           .not.toHaveBeenCalled();
+      });
+
+      describe('when hostMapping is present', () => {
+        beforeAll(() => {
+          config = {
+            hostMapping: 'test.zd.com'
+          };
+        });
+
+        it('updates http config', () => {
+          expect(transportSpy.http.updateConfig)
+            .toHaveBeenCalledWith({ zendeskHost: 'test.zd.com' });
+        });
       });
 
       describe('when win.zESettings is not defined', () => {

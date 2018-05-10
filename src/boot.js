@@ -188,6 +188,10 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
   const done = (res) => {
     const config = res.body;
 
+    if (config.hostMapping) {
+      http.updateConfig({ zendeskHost: config.hostMapping });
+    }
+
     // Remove this code once Rollbar is GA'd
     logging.init(config.useRollbar);
 
