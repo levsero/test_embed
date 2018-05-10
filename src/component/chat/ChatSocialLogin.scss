@@ -1,0 +1,99 @@
+@import '../../styles/_vars.scss';
+
+$avatar-size: #{30/$font-size}rem;
+$logout-spacing: #{18/$font-size}rem;
+$avatar-logout-spacing: $avatar-size + $logout-spacing;
+
+.socialLoginContainer {
+  margin-bottom: #{15/$font-size}rem;
+}
+
+.socialLoginOptions {
+  position: relative;
+  top: #{3/$font-size}rem;
+  margin-left: #{5/$font-size}rem;
+
+  [dir='rtl'] & {
+    margin-left: 0;
+    margin-right: #{5/$font-size}rem;
+  }
+}
+
+.defaultProfileFieldsContainer {
+  margin-bottom: #{20/$font-size}rem;
+}
+
+.authProfileName {
+  font-weight: bold;
+}
+
+.authProfileContainer {
+  position: relative;
+  word-break: break-all;
+  background-color: $zd-color-anti-flash-white;
+  border-radius: #{4/$font-size}rem;
+  margin-bottom: #{15/$font-size}rem;
+  margin-top: #{8/$font-size}rem;
+  min-height: #{35/$font-size}rem;
+  padding-top: #{8/$font-size}rem;
+  padding-bottom: #{8/$font-size}rem;
+  padding-left: #{15/$font-size}rem;
+  line-height: #{18/$font-size}rem;
+
+  [dir='rtl'] & {
+    padding-left: 0;
+    padding-right: #{15/$font-size}rem;
+  }
+}
+
+.authProfileFieldContainer {
+  display: inline-block;
+  max-width: calc(100% - #{70/$font-size}rem);
+  padding-left: #{12/$font-size}rem;
+
+  [dir='rtl'] & {
+    padding-left: 0;
+    padding-right: #{12/$font-size}rem;
+  }
+}
+
+.logoutIcon {
+  position: absolute;
+  top: #{18/$font-size}rem;
+  color: $zd-color-aluminum;
+
+  [dir='ltr'] & {
+    right: #{16/$font-size}rem;
+  }
+
+  [dir='rtl'] & {
+    left: #{16/$font-size}rem;
+  }
+
+  svg {
+    path {
+      fill: $zd-color-aluminum;
+    }
+  }
+}
+
+.loadingSpinner {
+  composes: logoutIcon;
+  height: #{15/$font-size}rem;
+  width: #{15/$font-size}rem;
+}
+
+.avatar {
+  display: inline-block !important;
+  vertical-align: top;
+  height: #{30/$font-size}rem;
+  width: #{30/$font-size}rem;
+  margin-top: #{2/$font-size}rem;
+
+  svg {
+    min-height: #{30/$font-size}rem;
+    min-width: #{30/$font-size}rem;
+    max-height: #{30/$font-size}rem;
+    max-width: #{30/$font-size}rem;
+  }
+}
