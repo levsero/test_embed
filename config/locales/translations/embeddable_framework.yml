@@ -271,7 +271,7 @@ parts:
       value: "Or social sign in:"
   - translation:
       key: "embeddable_framework.chat.form.common.field.social_login.title"
-      title: "A title to describe the field below that the user is currently logged in with the details displayed."
+      title: "A title to describe the field below that the user is currently logged in with the details displayed. Use 'Profile' ONLY to avoid formal/informal"
       screenshot: "https://drive.google.com/file/d/1ZUkCi60UCyGUeED5VavW8WkCrPECbLOx/view?usp=sharing"
       value: "Your profile:"
   - translation:
