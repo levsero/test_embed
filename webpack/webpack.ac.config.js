@@ -1,9 +1,13 @@
-var config = require('./webpack.prod.config');
-var externals = require('./externals');
-var path = require('path');
-var prefix = process.cwd();
+const path = require('path');
+const merge = require('webpack-merge');
 
-config.entry = { 'web_widget': path.join(prefix, '/src/main.js') };
-config.externals = externals;
+const config = require('./webpack.prod.js');
+const externals = require('./externals');
+const prefix = process.cwd();
 
-module.exports = config;
+module.exports = merge(config, {
+  entry: {
+    'web_widget': path.join(prefix, '/src/main.js')
+  },
+  externals
+});

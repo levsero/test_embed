@@ -1,12 +1,17 @@
-var config = require('./webpack.dev.config');
-var externals = require('./externals');
-var path = require('path');
-var prefix = process.cwd();
+const path = require('path');
+const merge = require('webpack-merge');
 
-config.entry = { 'web_widget': path.join(prefix, '/src/main.js') };
-config.externals = externals;
+const config = require('./webpack.dev.js');
+const externals = require('./externals');
+const prefix = process.cwd();
 
-config.devServer.contentBase = ['example', './'];
-config.devServer.publicPath = '/dist/web_widget/FFFFFF/';
-
-module.exports = config;
+module.exports = merge(config, {
+  entry: {
+    'web_widget': path.join(prefix, '/src/main.js')
+  },
+  externals,
+  devServer: {
+    contentBase: ['example', './'],
+    publicPath: '/dist/web_widget/FFFFFF/'
+  }
+});
