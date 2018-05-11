@@ -265,6 +265,16 @@ parts:
       screenshot: "https://zendesk.box.com/s/mtl15a783261tdd42rb5tt8i3ptw1hpp"
       value: "Edit contact details"
   - translation:
+      key: "embeddable_framework.chat.form.common.field.social_login.label"
+      title: "The description under a name field that presents the option to use social media login to fill in name and email details."
+      screenshot: "https://drive.google.com/file/d/1GcLRhx8t1RHPvvg88B4P6H6TsCsYc5av/view?usp=sharing"
+      value: "Or social sign in:"
+  - translation:
+      key: "embeddable_framework.chat.form.common.field.social_login.title"
+      title: "A title to describe the field below that the user is currently logged in with the details displayed."
+      screenshot: "https://drive.google.com/file/d/1ZUkCi60UCyGUeED5VavW8WkCrPECbLOx/view?usp=sharing"
+      value: "Your profile:"
+  - translation:
       key: "embeddable_framework.chat.form.editContact.button.save"
       title: "A button to confirm and save all details placed in a form modal of Edit contact Details"
       screenshot: "https://zendesk.box.com/s/e8rnqew6iwbgu945kln1nkangupp8vbs"
