@@ -30,7 +30,15 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          'css-loader?modules&importLoaders=2&localIdentName=[path][name]-[local]',
+          {
+            loader: 'css-loader',
+            options: {
+              minimize: true,
+              modules: true,
+              localIdentName: '[path][name]-[local]',
+              importLoaders: 2
+            }
+          },
           'postcss-loader',
           'sass-loader'
         ]
