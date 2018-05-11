@@ -22,7 +22,7 @@
     "build:ac": "webpack --config ./webpack/webpack.ac.config.js",
     "watchConf": "node script/update_watch_config",
     "postwatchConf": "npm run watch",
-    "watch": "webpack-dev-server --config ./webpack/webpack.dev.js --inline --hot",
+    "watch": "webpack-dev-server --config ./webpack/webpack.dev.js",
     "watchConf:ac": "node script/update_watch_config",
     "postwatchConf:ac": "npm run watch:ac",
     "watch:ac": "node script/start_ac_dev.js -- $npm_package_config_watchConfigPath && npm run prewatch && webpack-dev-server --config ./webpack/webpack.ac.dev.config.js",
