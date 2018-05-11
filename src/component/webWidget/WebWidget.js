@@ -256,16 +256,16 @@ class WebWidget extends Component {
     if (this.isHelpCenterAvailable()) {
       updateActiveEmbed(helpCenter);
       backButton = articleViewActive;
+    } else if (ipmHelpCenterAvailable && articleViewActive) {
+      // we only go into this condition if HC is injected by IPM
+      updateActiveEmbed(helpCenter);
+      backButton = false;
     } else if (this.isChannelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
     } else if (talkAvailable) {
       updateActiveEmbed(talk);
     } else if (chatAvailable || chatStandalone) {
       this.showChat();
-    } else if (ipmHelpCenterAvailable && articleViewActive) {
-      // we only go into this condition if HC is injected by IPM
-      updateActiveEmbed(helpCenter);
-      backButton = false;
     } else {
       updateActiveEmbed(submitTicket);
       backButton = this.props.showTicketFormsBackButton;
