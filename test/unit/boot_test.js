@@ -143,21 +143,13 @@ describe('boot', () => {
   describe('#getConfig', () => {
     let win,
       postRenderQueue,
-      isDev,
       mockGetCalls;
 
     beforeEach(() => {
-      isDev = global.__DEV__;
-      global.__DEV__ = false;
-
       win = {};
       postRenderQueue = [];
 
       mockGetCalls = transportSpy.http.get.calls;
-    });
-
-    afterEach(() => {
-      global.__DEV__ = isDev;
     });
 
     it('makes a GET request to /embeddable/config', () => {
