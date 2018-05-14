@@ -14,6 +14,7 @@ We are based in Melbourne, Australia and our timezone is **GMT+10**. You can alw
 ## Getting Started
 *Note: This assumes you already have node and [nvm](https://github.com/creationix/nvm) installed.*
 
+### Set up NVM
 Ensure `$NVM_DIR` is set and pointing to the location of your nvm installation:
 ```
 echo $NVM_DIR
@@ -30,6 +31,20 @@ Ensure that you can run nvm from your command line, and then run the following
 nvm use
 ```
 
+### Set up Artifactory
+Log into [your artifactory account](https://zdrepo.jfrog.io/zdrepo/webapp/#/home), clicking on 'Welcome, <username>' and copying the API key.
+Add the API key along with your username to your `rc` (`.bashrc` or `.zshrc`) file:
+```
+export ARTIFACTORY_USERNAME='<username>' // your email minus '@zendesk.com'
+export ARTIFACTORY_API_KEY='<api_key>'
+```
+
+Add the Artifactory repo to npm:
+```
+npm config set @zendesk:registry https://zdrepo.jfrog.io/zdrepo/api/npm/npm/
+```
+
+### Run the bootstrap scropt
 Run the following commands inside this folder:
 
 ```bash
