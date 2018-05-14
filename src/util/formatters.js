@@ -11,7 +11,7 @@ import { DateTime } from 'luxon';
 import { i18n } from 'service/i18n';
 
 export function dateTime(timestamp, opts = {}) {
-  const ts = DateTime.fromMillis(timestamp);
+  const ts = toDateTime(timestamp);
 
   if (opts.showToday) {
     const onSameDay = ts.hasSame(Date.now(), 'days');
@@ -23,4 +23,16 @@ export function dateTime(timestamp, opts = {}) {
     }
   }
   return ts.toLocaleString(DateTime.DATETIME_MED);
+}
+
+function toDateTime(timestamp) {
+  let locale = i18n.getLocale();
+  let ts = DateTime.fromMillis(timestamp);
+
+  try {
+    return ts.setLocale(locale);
+  } catch (_) {
+    // in case supplied locale is not supported
+    return ts.setLocale('en');
+  }
 }
