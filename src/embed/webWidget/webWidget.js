@@ -578,11 +578,14 @@ export default function WebWidgetFactory(name) {
 
     zChat.setOnFirstReady({
       fetchHistory: () => {
-        if (config.authentication.jwtFn) store.dispatch(fetchConversationHistory());
+        if (config.authentication.jwtFn) {
+          zChat.addTag(brand);
+          store.dispatch(fetchConversationHistory());
+        }
       }
     });
 
-    if (brand) {
+    if (brand && !_.get(config, 'authentication.jwtFn')) {
       zChat.addTag(brand);
     }
 
