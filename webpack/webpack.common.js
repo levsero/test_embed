@@ -12,15 +12,10 @@ const prefix = process.cwd();
 const version = String(fs.readFileSync('dist/VERSION_HASH')).trim();
 
 module.exports = {
-  entry: {
-    main: path.join(prefix, '/src/main.js'),
-    webWidgetPreview: path.join(prefix, '/src/webWidgetPreview.js'),
-    chatPreview: path.join(prefix, '/src/chatPreview.js')
-  },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
@@ -51,7 +46,6 @@ module.exports = {
           'postcss-loader'
         ]
       },
-      { test: /base\.css$/, loader: 'css-loader' },
       { test: /lodash/, loader: 'imports-loader?define=>false' },
       {
         test: /\.svg$/,
@@ -96,7 +90,7 @@ module.exports = {
       icons: path.join(prefix + '/src/asset/icons'),
       globalCSS: path.join(prefix + '/src/styles/globals.scss')
     },
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js'],
     modules: ['node_modules']
   },
   plugins: [

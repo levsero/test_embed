@@ -4,9 +4,15 @@ const merge = require('webpack-merge');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 const common = require('./webpack.common.js');
+const prefix = process.cwd();
 
 module.exports = merge(common, {
   mode: 'development',
+  entry: {
+    main: path.join(prefix, '/src/main.js'),
+    webWidgetPreview: path.join(prefix, '/src/webWidgetPreview.js'),
+    chatPreview: path.join(prefix, '/src/chatPreview.js')
+  },
   module: {
     rules: [
       {
