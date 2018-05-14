@@ -131,6 +131,9 @@ const setupWidgetQueue = (win, postRenderQueue, reduxStore) => {
   if (__DEV__) {
     devApi = {
       devRender: (config) => {
+        if (config.ipmAllowed) {
+          setupIPMApi(win, reduxStore, config);
+        }
         renderer.init(config, reduxStore);
       }
     };
@@ -190,7 +193,7 @@ const getConfig = (win, postRenderQueue, reduxStore) => {
 
     beacon.setConfig(config);
 
-    if (config.ipmAllowed || __DEV__) {
+    if (config.ipmAllowed) {
       setupIPMApi(win, reduxStore, config);
     }
 
