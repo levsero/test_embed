@@ -670,29 +670,60 @@ describe('WebWidget component', () => {
       });
 
       describe('when channel choice is not available', () => {
-        let onCancelSpy;
+        let onCancelSpy,
+          ipmHelpCenterAvailable;
 
         beforeEach(() => {
           onCancelSpy = jasmine.createSpy('onCancelSpy');
           webWidget = instanceRender(
             <WebWidget
               onCancel={onCancelSpy}
+              ipmHelpCenterAvailable={ipmHelpCenterAvailable}
               updateActiveEmbed={mockUpdateActiveEmbed} />
           );
 
           spyOn(webWidget, 'isHelpCenterAvailable').and.returnValue(false);
           spyOn(webWidget, 'isChannelChoiceAvailable').and.returnValue(false);
-          webWidget.onCancelClick();
         });
 
-        it('should call onCancel prop', () => {
-          expect(onCancelSpy)
-            .toHaveBeenCalled();
+        describe('when IPM help center is not available', () => {
+          beforeEach(() => {
+            webWidget.onCancelClick();
+          });
+
+          beforeAll(() => {
+            ipmHelpCenterAvailable = false;
+          });
+
+          it('calls onCancel prop', () => {
+            expect(onCancelSpy)
+              .toHaveBeenCalled();
+          });
+
+          it('calls updateActiveEmbed with an empty string', () => {
+            expect(mockUpdateActiveEmbed)
+              .toHaveBeenCalledWith('');
+          });
         });
 
-        it('should call updateActiveEmbed with an empty string', () => {
-          expect(mockUpdateActiveEmbed)
-            .toHaveBeenCalledWith('');
+        describe('when IPM help center is available', () => {
+          beforeEach(() => {
+            webWidget.onCancelClick();
+          });
+
+          beforeAll(() => {
+            ipmHelpCenterAvailable = true;
+          });
+
+          it('calls onCancel prop', () => {
+            expect(onCancelSpy)
+              .toHaveBeenCalled();
+          });
+
+          it('does not set update active embed', () => {
+            expect(mockUpdateActiveEmbed)
+              .not.toHaveBeenCalled();
+          });
         });
       });
     });

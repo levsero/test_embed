@@ -328,15 +328,17 @@ class WebWidget extends Component {
   }
 
   onCancelClick = () => {
-    const { updateActiveEmbed, onCancel, updateBackButtonVisibility } = this.props;
+    const { ipmHelpCenterAvailable, updateActiveEmbed, onCancel, updateBackButtonVisibility } = this.props;
 
     if (this.isHelpCenterAvailable()) {
       this.showHelpCenter();
     } else if (this.isChannelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
       updateBackButtonVisibility(false);
-    } else {
-      updateActiveEmbed('');
+    }  else {
+      if (!ipmHelpCenterAvailable) {
+        updateActiveEmbed('');
+      }
       onCancel();
     }
   }
@@ -358,6 +360,7 @@ class WebWidget extends Component {
     } else if (helpCenterAvailable) {
       this.showHelpCenter();
     } else {
+      if (ipmHelpCenterAvailable) resetActiveArticle();
       updateActiveEmbed(channelChoice);
       updateBackButtonVisibility(false);
     }
