@@ -33,6 +33,8 @@ describe('embed.webWidget', () => {
   const zChatAddTagSpy = jasmine.createSpy('zChatAddTag');
   const zChatFirehoseSpy = jasmine.createSpy('zChatFirehose').and.callThrough();
   const zChatSetOnFirstReadySpy = jasmine.createSpy('zChatSetOnFirstReady').and.callThrough();
+  const zChatOnSpy = jasmine.createSpy('zChatOn');
+
   const callMeScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
 
   beforeEach(() => {
@@ -155,6 +157,7 @@ describe('embed.webWidget', () => {
         CALLBACK_ONLY_SCREEN: callMeScreen
       },
       'chat-web-sdk': {
+        on: zChatOnSpy,
         init: zChatInitSpy,
         addTag: zChatAddTagSpy,
         setOnFirstReady: zChatSetOnFirstReadySpy,
@@ -866,6 +869,11 @@ describe('embed.webWidget', () => {
                 authentication: { jwt_fn: jasmine.any(Function) }
               }));
         });
+      });
+
+      it('sets up error handling for chat web sdk', () => {
+        expect(zChatOnSpy)
+          .toHaveBeenCalledWith('error', jasmine.any(Function));
       });
 
       it('sets up firehose data', () => {

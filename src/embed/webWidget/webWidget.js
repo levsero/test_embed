@@ -32,7 +32,7 @@ import { setVisitorInfo, chatNotificationDismissed, fetchConversationHistory } f
 import { resetTalkScreen } from 'src/redux/modules/talk';
 import { getTicketForms,
   getTicketFields } from 'src/redux/modules/submitTicket';
-import { SDK_ACTION_TYPE_PREFIX } from 'constants/chat';
+import { SDK_ACTION_TYPE_PREFIX, JWT_ERROR } from 'constants/chat';
 
 import WebWidget from 'component/webWidget/WebWidget';
 
@@ -574,11 +574,18 @@ export default function WebWidgetFactory(name) {
   }
 
   function setupChat(config, store, brand) {
+    zChat.on('error', (e) => {
+      if (_.get(e, 'extra.reason') === JWT_ERROR) {
+        _.unset(config, 'authentication');
+        setupChat(makeChatConfig(config), store, brand);
+      }
+    });
+
     zChat.init(makeChatConfig(config));
 
     zChat.setOnFirstReady({
       fetchHistory: () => {
-        if (config.authentication.jwtFn) {
+        if (_.get(config, 'authentication.jwtFn')) {
           zChat.addTag(brand);
           store.dispatch(fetchConversationHistory());
         }
