@@ -15,7 +15,7 @@ describe('chat reducer agents', () => {
         }
       },
       'src/constants/chat': {
-        AGENT_BOT: 'agent:trigger'
+        isAgent: (nick) => nick.indexOf('agent:') > -1 && nick !== 'agent:trigger'
       }
     });
 

@@ -6,7 +6,7 @@ import { CHAT_RATING_REQUEST_SUCCESS,
   SDK_CHAT_MEMBER_LEAVE,
   SDK_CHAT_RATING,
   SDK_CHAT_COMMENT } from '../chat-action-types';
-import { AGENT_BOT } from 'src/constants/chat';
+import { isAgent } from 'src/constants/chat';
 import { ChatRatings } from 'component/chat/ChatRatingGroup';
 
 const initialState = {
@@ -14,8 +14,6 @@ const initialState = {
   disableEndScreen: false,
   comment: null
 };
-
-const isAgent = (nick) => nick.indexOf('agent:') > -1 && nick !== AGENT_BOT;
 
 const rating = (state = initialState, action = {}) => {
   const { type, payload } = action;
