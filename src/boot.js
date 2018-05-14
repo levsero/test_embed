@@ -131,9 +131,6 @@ const setupWidgetQueue = (win, postRenderQueue, reduxStore) => {
   if (__DEV__) {
     devApi = {
       devRender: (config) => {
-        if (config.ipmAllowed) {
-          setupIPMApi(win, reduxStore, config);
-        }
         renderer.init(config, reduxStore);
       }
     };
@@ -181,7 +178,7 @@ const displayOssAttribution = () => {
   console.info(message); // eslint-disable-line no-console
 };
 
-const getConfig = (win, postRenderQueue, reduxStore, devApi = null) => {
+const getConfig = (win, postRenderQueue, reduxStore) => {
   if (win.zESkipWebWidget) return;
 
   const configLoadStart = Date.now();
@@ -193,7 +190,7 @@ const getConfig = (win, postRenderQueue, reduxStore, devApi = null) => {
 
     beacon.setConfig(config);
 
-    if (config.ipmAllowed && !devApi) {
+    if (config.ipmAllowed || __DEV__) {
       setupIPMApi(win, reduxStore, config);
     }
 

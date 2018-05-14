@@ -48,6 +48,7 @@ glob('./example/*-template.html', function(err, files) {
       'zopimId': process.env.WATCH_ZOPIM_ID,
       'talkIntegration': process.env.WATCH_TALK_INTEGRATION,
       'talkNickname': process.env.WATCH_TALK_NICKNAME,
+      'articleId': process.env.WATCH_ARTICLE_ID,
       'jwt': generateJWT(process.env.WATCH_SHARED_SECRET),
       'chatJwt': generateChatJWT(process.env.WATCH_CHAT_SHARED_SECRET || 'abc'),
       'chatSettings': chatSettingsExample
