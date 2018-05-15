@@ -6,6 +6,27 @@
 @import '../../styles/_vars.scss';
 @import '../../styles/mixins.scss';
 
+.scrollContainerContent {
+  height: 100%;
+  max-height: none;
+  margin-right: #{7/$font-size}rem !important;
+  margin-left: #{7/$font-size}rem !important;
+  padding-right: #{8/$font-size}rem !important;
+  padding-left: #{8/$font-size}rem !important;
+}
+
+.scrollContainer {
+  height: #{$chat-height/$font-size}rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileContainer {
+  composes: u-textSizeMed from global;
+  height: 100% !important;
+}
+
 .scrollContainerMobile {
   .agentTyping {
     bottom: #{48/$font-size}rem;
@@ -26,67 +47,8 @@
   height: 100% !important;
 }
 
-.scrollContainer {
-  composes: container;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.scrollContainerContent {
-  height: 100%;
-  max-height: none;
-  margin-right: #{7/$font-size}rem !important;
-  margin-left: #{7/$font-size}rem !important;
-  padding-right: #{8/$font-size}rem !important;
-  padding-left: #{8/$font-size}rem !important;
-}
-
-.scrollBarFix {
-  overflow-y: scroll !important;
-  margin-right: 0 !important;
-  padding-right: #{3$font-size}rem !important;
-}
-
-.scrollContainerMessagesContent {
-  composes: scrollContainerContent;
-  margin-top: #{58/$font-size}rem;
-}
-
-.scrollContainerMessagesContentDesktop {
-  composes: scrollContainerMessagesContent;
-  height: calc(100% - #{220/$font-size}rem); /* 1 */
-}
-
 .chatLogContainer {
   overflow: hidden;
-}
-
-.chatLogContainerMobile {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-.header {
-  composes: u-marginBM from global;
-  position: relative;
-}
-
-.footer {
-  box-shadow: 0 0 #{12/$font-size}rem #{8/$font-size}rem $zd-color-white;
-  padding: #{8/$font-size}rem #{15/$font-size}rem !important;
-}
-
-.footerMobile {
-  padding: 0 !important;
-  border-top: $thin-border-size solid $zd-color-gainsboro;
-  margin-top: #{12/$font-size}rem !important;
-}
-
-.footerMobileWithLogo {
-  margin-top: #{24/$font-size}rem !important;
 }
 
 .chatEnd {
@@ -95,52 +57,6 @@
 
 .chatEndPopupDescription {
   composes: u-paddingVL u-paddingLL u-paddingRL from global;
-}
-
-.agentTyping {
-  margin-bottom: #{12/$font-size}rem;
-  color: $zd-color-aluminum;
-  width: #{301/$font-size}rem;
-  background: linear-gradient(to bottom, rgba($zd-color-white, 0), rgba($zd-color-white, 0.8));
-}
-
-.historyFetchingContainer {
-  composes: u-posAbsolute u-flex u-flexAlignItemsCenter u-flexJustifyCenter from global;
-  top: #{110/$font-size}rem;
-  left: 0;
-  right: 0;
-}
-
-.historyFetchingText {
-  composes: u-backgroundWhite from global;
-  color: $zd-color-dark-gray;
-  border-radius: #{30/$font-size}rem !important;
-  box-shadow: 0 #{1/$font-size}rem #{10/$font-size}rem 0 rgba(0, 0, 0, 0.2);
-  max-width: 90%;
-  height: #{30/$font-size}rem;
-  line-height: #{30/$font-size}rem;
-  padding: 0 #{12/$font-size}rem;
-}
-
-.loadingEllipses {
-  composes: u-inlineBlock from global;
-  padding-right: #{2/$font-size}rem;
-  margin-right: #{5/$font-size}rem;
-}
-
-.loadingEllipsesItem {
-  background-color: $zd-color-iron !important;
-  width: #{4/$font-size}rem;
-  height: #{4/$font-size}rem;
-  margin-right: #{1/$font-size}rem;
-  margin-bottom: #{2/$font-size}rem;
-}
-
-.queuePosition {
-  composes: u-textCenter from global;
-  margin-top: #{5/$font-size}rem;
-  margin-bottom: #{10/$font-size}rem;
-  color: $zd-color-aluminum;
 }
 
 .agentListBackButton {
@@ -158,11 +74,6 @@
 
 .zendeskLogo {
   z-index: 1;
-}
-
-.zendeskLogoChatMobile {
-  bottom: #{48/$font-size}rem;
-  left: #{12/$font-size}rem;
 }
 
 .logoFooter {
