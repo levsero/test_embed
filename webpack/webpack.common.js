@@ -1,36 +1,39 @@
-var path = require('path');
-var fs = require('fs');
-var prefix = process.cwd();
-var svgoConfig = JSON.stringify({
+const fs = require('fs');
+const path = require('path');
+const webpack = require('webpack');
+
+const svgoConfig = JSON.stringify({
   plugins: [
-    {removeTitle: true},
-    {convertPathData: false}
+    { removeTitle: true },
+    { convertPathData: false }
   ]
 });
+const prefix = process.cwd();
+const version = String(fs.readFileSync('dist/VERSION_HASH')).trim();
 
-var config = {
-  entry: {
-    main: path.join(prefix, '/src/main.js'),
-    webWidgetPreview: path.join(prefix, '/src/webWidgetPreview.js'),
-    chatPreview: path.join(prefix, '/src/chatPreview.js')
-  },
-  output: {
-    path: path.join(prefix, 'dist'),
-    filename: '[name].js'
-  },
+module.exports = {
   module: {
     rules: [
       {
         test: /\.js$/,
-        exclude: /(node_modules)/,
-        use: {
-          loader: 'babel-loader?cacheDirectory=true'
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        options: {
+          cacheDirectory: true
         }
       },
       {
         test: /\.scss$/,
         use: [
-          'css-loader?modules&importLoaders=2&localIdentName=[path][name]-[local]',
+          {
+            loader: 'css-loader',
+            options: {
+              minimize: true,
+              modules: true,
+              localIdentName: '[path][name]-[local]',
+              importLoaders: 2
+            }
+          },
           'postcss-loader',
           'sass-loader'
         ]
@@ -43,7 +46,6 @@ var config = {
           'postcss-loader'
         ]
       },
-      { test: /base\.css$/, loader: 'css-loader' },
       { test: /lodash/, loader: 'imports-loader?define=>false' },
       {
         test: /\.svg$/,
@@ -53,18 +55,22 @@ var config = {
         ]
       },
       {
-        test: /chat-web-sdk/,
-        use: ['source-map-loader']
-      },
-      {
         test: /\.png$/,
         use: 'url-loader'
       },
       {
         test: /\.(yml|yaml)/,
-        use: [ 'json-loader', 'yaml-loader' ]
+        use: [
+          'json-loader',
+          'yaml-loader'
+        ]
       }
     ]
+  },
+  output: {
+    path: path.join(prefix, 'dist'),
+    publicPath: '/dist/',
+    filename: '[name].js'
   },
   resolve: {
     alias: {
@@ -84,11 +90,12 @@ var config = {
       icons: path.join(prefix + '/src/asset/icons'),
       globalCSS: path.join(prefix + '/src/styles/globals.scss')
     },
+    extensions: ['.js'],
     modules: ['node_modules']
-  }
-};
-
-module.exports = {
-  root: config,
-  version: String(fs.readFileSync('dist/VERSION_HASH')).trim()
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      __EMBEDDABLE_VERSION__: JSON.stringify(version)
+    })
+  ]
 };
