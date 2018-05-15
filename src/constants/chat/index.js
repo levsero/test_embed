@@ -56,5 +56,3 @@ export const DEPARTMENT_STATUSES = {
 export const SDK_ACTION_TYPE_PREFIX = 'websdk';
 
 export const JWT_ERROR = 'jwt verification error';
-
-export const isAgent = (nick) => nick.indexOf('agent:') > -1 && nick !== AGENT_BOT;

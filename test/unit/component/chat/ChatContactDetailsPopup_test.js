@@ -72,7 +72,9 @@ describe('ChatContactDetailsPopup component', () => {
         }
       },
       'src/util/utils': {
-        emailValid: () => mockEmailValid,
+        emailValid: () => mockEmailValid
+      },
+      'src/util/chat': {
         chatNameDefault: () => mockChatNameDefault
       },
       'utility/globals': {

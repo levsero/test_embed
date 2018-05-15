@@ -6,7 +6,7 @@ import { CHAT_RATING_REQUEST_SUCCESS,
   SDK_CHAT_MEMBER_LEAVE,
   SDK_CHAT_RATING,
   SDK_CHAT_COMMENT } from '../chat-action-types';
-import { isAgent } from 'src/constants/chat';
+import { isAgent } from 'src/util/chat';
 import { ChatRatings } from 'component/chat/ChatRatingGroup';
 
 const initialState = {

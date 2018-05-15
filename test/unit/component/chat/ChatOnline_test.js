@@ -142,6 +142,9 @@ describe('ChatOnline component', () => {
         CONNECTION_STATUSES,
         DEPARTMENT_STATUSES
       },
+      'src/util/chat': {
+        chatNameDefault: chatNameDefaultSpy
+      },
       'component/chat/ChatOfflineMessageForm': {
         ChatOfflineMessageForm
       }

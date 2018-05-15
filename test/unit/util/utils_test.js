@@ -7,7 +7,6 @@ describe('utils', () => {
     cssTimeToMs,
     base64encode,
     emailValid,
-    chatNameDefault,
     referrerPolicyUrl,
     getEnvironment,
     cappedTimeoutCall;
@@ -49,7 +48,6 @@ describe('utils', () => {
     nowInSeconds = require(utilPath).nowInSeconds;
     base64encode = require(utilPath).base64encode;
     emailValid = require(utilPath).emailValid;
-    chatNameDefault = require(utilPath).chatNameDefault;
     referrerPolicyUrl = require(utilPath).referrerPolicyUrl;
     getEnvironment = require(utilPath).getEnvironment;
     cappedTimeoutCall = require(utilPath).cappedTimeoutCall;
@@ -336,38 +334,6 @@ describe('utils', () => {
           .toEqual(true);
       });
     });
-  });
-
-  describe('chatNameDefault', () => {
-    const validNames = [
-      'Visitor 26681136',
-      'Visitor 1234567890463274356726736476353276435674834747835746574647878372436573657847',
-      'Visitor 000000'
-    ];
-    const invalidNames = [
-      'Mike',
-      '',
-      'visitor joe',
-      'visitor 123',
-      'Visitor jay',
-      '??! []',
-      'Visitor []',
-      null,
-      undefined,
-      {},
-      [],
-      10000
-    ];
-
-    _.forEach(validNames, (name) => it(`should return true for ${name}`, () => {
-      expect(chatNameDefault(name))
-        .toEqual(true);
-    }));
-
-    _.forEach(invalidNames, (name) => it(`should return false for ${name}`, () => {
-      expect(chatNameDefault(name))
-        .toEqual(false);
-    }));
   });
 
   describe('referrerPolicyUrl', () => {
