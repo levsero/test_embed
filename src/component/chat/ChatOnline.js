@@ -45,7 +45,6 @@ import {
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import * as selectors from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './ChatOnline.scss';
-import { chatNameDefault } from 'src/util/chat';
 import { CONNECTION_STATUSES, DEPARTMENT_STATUSES } from 'constants/chat';
 
 const mapStateToProps = (state) => {

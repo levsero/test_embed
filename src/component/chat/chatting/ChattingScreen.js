@@ -29,7 +29,7 @@ import { getHasMoreHistory,
   getHistoryRequestStatus,
   getGroupedPastChatsBySession } from 'src/redux/modules/chat/chat-history-selectors';
 import { locals as styles } from './ChattingScreen.scss';
-import { chatNameDefault } from 'src/util/utils';
+import { chatNameDefault } from 'src/util/chat';
 
 const mapStateToProps = (state) => {
   return {

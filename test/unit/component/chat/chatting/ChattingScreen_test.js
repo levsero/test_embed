@@ -96,7 +96,7 @@ describe('ChattingScreen component', () => {
         isIE: () => isIE,
         isFirefox: () => isFirefox
       },
-      'src/util/utils': {
+      'src/util/chat': {
         chatNameDefault: chatNameDefaultSpy
       }
     });

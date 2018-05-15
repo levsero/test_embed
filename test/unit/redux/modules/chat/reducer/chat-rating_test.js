@@ -1,7 +1,8 @@
-describe('chat reducer agents', () => {
+describe('chat ratings', () => {
   let reducer,
     actionTypes,
-    initialState;
+    initialState,
+    mockIsAgent;
 
   beforeAll(() => {
     mockery.enable();
@@ -14,8 +15,8 @@ describe('chat reducer agents', () => {
           NOT_SET: null
         }
       },
-      'src/constants/chat': {
-        isAgent: (nick) => nick.indexOf('agent:') > -1 && nick !== 'agent:trigger'
+      'src/util/chat': {
+        isAgent: () => mockIsAgent
       }
     });
 
@@ -213,6 +214,7 @@ describe('chat reducer agents', () => {
 
       describe('when agent leaves', () => {
         beforeAll(() => {
+          mockIsAgent = true;
           payload = {
             detail: {
               nick: 'agent:123'
@@ -228,6 +230,7 @@ describe('chat reducer agents', () => {
 
       describe('when user leaves', () => {
         beforeAll(() => {
+          mockIsAgent = false;
           payload = {
             detail: {
               nick: 'visitor'

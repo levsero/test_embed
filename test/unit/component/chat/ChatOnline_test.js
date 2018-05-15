@@ -143,7 +143,7 @@ describe('ChatOnline component', () => {
         DEPARTMENT_STATUSES
       },
       'src/util/chat': {
-        chatNameDefault: chatNameDefaultSpy
+        chatNameDefault: noop
       },
       'component/chat/ChatOfflineMessageForm': {
         ChatOfflineMessageForm
