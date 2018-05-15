@@ -577,7 +577,7 @@ export default function WebWidgetFactory(name) {
     zChat.on('error', (e) => {
       if (_.get(e, 'extra.reason') === JWT_ERROR) {
         _.unset(config, 'authentication');
-        setupChat(makeChatConfig(config), store, brand);
+        setupChat(config, store, brand);
       }
     });
 
