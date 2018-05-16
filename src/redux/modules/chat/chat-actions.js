@@ -66,14 +66,16 @@ import _ from 'lodash';
 const chatTypingTimeout = 2000;
 let history = [];
 
-zChat.on('history', (data) => {
-  const eventData = (data.nick === EVENT_TRIGGER)
-    ? { ...data, nick: AGENT_BOT }
-    : data;
-  const newEntry = [eventData.timestamp, eventData];
+if (zChat) {
+  zChat.on('history', (data) => {
+    const eventData = (data.nick === EVENT_TRIGGER)
+      ? { ...data, nick: AGENT_BOT }
+      : data;
+    const newEntry = [eventData.timestamp, eventData];
 
-  history.unshift(newEntry);
-});
+    history.unshift(newEntry);
+  });
+}
 
 const getChatMessagePayload = (msg, visitor, timestamp) => ({
   type: 'chat.msg',
