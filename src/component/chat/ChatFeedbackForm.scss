@@ -32,7 +32,12 @@
   resize: none;
   outline: none;
   border-color: $zd-color-gainsboro;
-  color: $zd-color-dark-gray;
+  color: $zd-color-oil !important;
+
+  &:focus {
+    border: $thin-border-size solid $stroke-focused-color;
+    box-shadow: 0 0 0 #{3/$font-size}rem rgba(153,153,153, 0.4);
+  }
 
   &::placeholder {
     font-style: italic;

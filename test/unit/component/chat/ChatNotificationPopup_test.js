@@ -9,7 +9,6 @@ describe('ChatNotificationPopup component', () => {
     initMockRegistry({
       './ChatNotificationPopup.scss': {
         locals: {
-          proactiveNotificationDesktop: 'proactiveNotificationDesktopClass',
           proactiveNotificationMobile: 'proactiveNotificationMobileClass',
           ongoingNotificationNoResultsDesktop: 'ongoingNotificationNoResultsDesktopClass',
           ongoingNotificationDesktop: 'ongoingNotificationDesktopClass',
@@ -75,22 +74,6 @@ describe('ChatNotificationPopup component', () => {
         it('passes the expected container class name to ChatPopup', () => {
           expect(chatNotification.props.className)
             .toEqual('proactiveNotificationMobileClass');
-        });
-      });
-
-      describe('when isMobile is false', () => {
-        beforeEach(() => {
-          chatNotification = shallowRender(
-            <ChatNotificationPopup
-              isMobile={false}
-              notification={mockNotification}
-              chatNotificationDismissed={noop} />
-          );
-        });
-
-        it('passes the expected container class name to ChatPopup', () => {
-          expect(chatNotification.props.className)
-            .toEqual('proactiveNotificationDesktopClass');
         });
       });
     });

@@ -105,7 +105,6 @@
 .avatar {
   position: absolute;
   transition: top 300ms ease-in-out;
-  padding-bottom: #{5/$font-size}rem !important;
 
   svg {
     min-width: #{32/$font-size}rem;

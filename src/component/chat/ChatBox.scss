@@ -17,6 +17,7 @@
 
   .input {
     height: #{50/$font-size}rem !important;
+    color: $zd-color-oil !important;
 
     &::placeholder {
       color: $zd-color-gainsboro;

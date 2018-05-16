@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -88,7 +89,6 @@ export class ChatNotificationPopup extends Component {
     const { proactive } = notification;
     const hasArticleResults = (resultsCount > 0);
     const componentStyles = classNames({
-      [styles.proactiveNotificationDesktop]: proactive && !isMobile,
       [styles.proactiveNotificationMobile]: proactive && isMobile,
       [styles.ongoingNotificationDesktop]: hasArticleResults && !proactive && !isMobile,
       [styles.ongoingNotificationMobile]: !proactive && isMobile,

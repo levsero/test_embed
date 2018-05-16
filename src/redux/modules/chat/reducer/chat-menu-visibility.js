@@ -1,7 +1,8 @@
 import {
   UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
   UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
-  UPDATE_CHAT_MENU_VISIBILITY
+  UPDATE_CHAT_MENU_VISIBILITY,
+  CHAT_FILE_REQUEST_SUCCESS
 } from '../chat-action-types';
 
 const initialState = false;
@@ -22,6 +23,8 @@ const menuVisible = (state = initialState, action) => {
         return false;
       }
       return state;
+    case CHAT_FILE_REQUEST_SUCCESS:
+      return false;
     default:
       return state;
   }
