@@ -560,19 +560,19 @@ class Chat extends Component {
 
   renderHistoryFetching = () => {
     const { historyRequestStatus } = this.props;
-    const duration = 250;
+    const duration = 500;
     const defaultStyle = {
       transition: `opacity ${duration}ms ease-in-out`,
       opacity: 0,
     };
     const transitionStyles = {
-      entering: { opacity: 0 },
+      entering: { opacity: 0.9 },
       entered:  { opacity: 1 },
     };
 
     return this.props.historyRequestStatus ? (
       <div className={styles.historyFetchingContainer}>
-        <Transition in={historyRequestStatus === 'pending'} timeout={duration + 300}>
+        <Transition in={historyRequestStatus === 'pending'} timeout={0}>
           {(state) => (
             <div
               style={{...defaultStyle, ...transitionStyles[state]}}
