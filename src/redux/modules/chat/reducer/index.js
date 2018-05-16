@@ -25,7 +25,7 @@ import menuVisible from './chat-menu-visibility';
 import agentJoined from './chat-agent-joined';
 import lastAgentMessageSeenTimestamp from './chat-last-agent-message-seen-timestamp';
 import operatingHours from './chat-operating-hours';
-import sessionTimestamp from './chat-session-timestamp';
+import currentSessionStartTime from './chat-current-session-start-time';
 
 export default combineReducers({
   accountSettings,
@@ -53,5 +53,5 @@ export default combineReducers({
   lastAgentMessageSeenTimestamp,
   operatingHours,
   inactiveAgents,
-  sessionTimestamp
+  currentSessionStartTime
 });

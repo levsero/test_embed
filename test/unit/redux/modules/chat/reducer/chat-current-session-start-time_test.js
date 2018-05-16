@@ -1,4 +1,4 @@
-describe('chat reducer sessionTimestamp', () => {
+describe('chat reducer currentSessionStartTime', () => {
   let reducer,
     actionTypes,
     initialState;
@@ -6,7 +6,7 @@ describe('chat reducer sessionTimestamp', () => {
   beforeAll(() => {
     mockery.enable();
 
-    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-session-timestamp');
+    const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-current-session-start-time');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
 
     reducer = requireUncached(reducerPath).default;
@@ -37,48 +37,53 @@ describe('chat reducer sessionTimestamp', () => {
         state = reducer(currentState, actionObj);
       });
 
-      describe('NEW_AGENT_MESSAGE_RECEIVED', () => {
+      describe('SDK_CHAT_MSG', () => {
         beforeAll(() => {
-          currentState = initialState;
           actionObj = {
-            type: actionTypes.NEW_AGENT_MESSAGE_RECEIVED,
-            payload: { timestamp: 1524785984445 }
+            type: actionTypes.SDK_CHAT_MSG,
+            payload: {
+              detail: {
+                timestamp: 345345345435
+              }
+            }
           };
         });
 
-        it('sets the state to the value passed in the payload', () => {
-          expect(state)
-            .toEqual(1524785984445);
+        describe('when timestamp exists already', () => {
+          beforeAll(() => {
+            currentState = 123;
+          });
+
+          it('does not change state', () => {
+            expect(state)
+              .toEqual(123);
+          });
+        });
+
+        describe('when timestamp does not exist already', () => {
+          beforeAll(() => {
+            currentState = null;
+          });
+
+          it('sets the state to the value passed in the payload', () => {
+            expect(state)
+              .toEqual(345345345435);
+          });
         });
       });
 
-      describe('CHAT_MSG_REQUEST_SUCCESS', () => {
+      describe('END_CHAT_REQUEST_SUCCESS', () => {
         beforeAll(() => {
           currentState = initialState;
           actionObj = {
-            type: actionTypes.CHAT_MSG_REQUEST_SUCCESS,
-            payload: { timestamp: 345345345435 }
-          };
-        });
-
-        it('sets the state to the value passed in the payload', () => {
-          expect(state)
-            .toEqual(345345345435);
-        });
-      });
-
-      describe('SDK_CHAT_MEMBER_LEAVE', () => {
-        beforeAll(() => {
-          currentState = initialState;
-          actionObj = {
-            type: actionTypes.SDK_CHAT_MEMBER_LEAVE,
+            type: actionTypes.END_CHAT_REQUEST_SUCCESS,
             payload: { nick: 'visitor', timestamp: 345345345435 }
           };
         });
 
         it('resets the state to the initialState', () => {
           expect(state)
-            .toEqual(null);
+            .toEqual(initialState);
         });
       });
 
@@ -93,7 +98,7 @@ describe('chat reducer sessionTimestamp', () => {
 
         it('resets the state to the initialState', () => {
           expect(state)
-            .toEqual(null);
+            .toEqual(initialState);
         });
       });
     });

@@ -29,7 +29,7 @@ export const getAgentsTyping = (state) => {
 export const getAllAgents = (state) => _.extend({}, getActiveAgents(state),  getInactiveAgents(state));
 export const getConnection = (state) => state.chat.connection;
 export const getCurrentMessage = (state) => state.chat.currentMessage;
-export const getSessionTimestamp = (state) => state.chat.sessionTimestamp;
+export const getCurrentSessionStartTime = (state) => state.chat.currentSessionStartTime;
 export const getChatOnline = (state) => _.includes(['online', 'away'], getChatStatus(state));
 export const getChatRating = (state) => state.chat.rating;
 export const getChatScreen = (state) => state.chat.screen;
@@ -258,9 +258,9 @@ export const getChatEvents = createSelector(
 );
 
 export const getGroupedChatLog = createSelector(
-  [getChats, getSessionTimestamp],
-  (chats, sessionTimestamp) => {
-    const chatsArr = Array.from(chats.values());
+  [getChats, getCurrentSessionStartTime],
+  (chats, currentSessionStartTime) => {
+    const chatsArr = _.cloneDeep(Array.from(chats.values()));
     let lastUniqueMessageOrEvent;
 
     const isMessage = (messageOrEvent) => (
@@ -306,7 +306,7 @@ export const getGroupedChatLog = createSelector(
       }
 
       if (messageOrEvent.type === 'chat.rating') {
-        if (sessionTimestamp && messageOrEvent.timestamp >= sessionTimestamp) {
+        if (currentSessionStartTime && messageOrEvent.timestamp >= currentSessionStartTime) {
           latestRating.isLastRating = false;
           messageOrEvent.isLastRating = true;
           this.latestRating = messageOrEvent;
