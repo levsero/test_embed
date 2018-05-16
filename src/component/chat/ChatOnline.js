@@ -224,12 +224,13 @@ class Chat extends Component {
     this.scrollContainer = null;
 
     this.chatHistoryLog = null;
-    this.chatHistoryLogLength = null;
     this.chatScrollPos = null;
     this.chatScrolledToBottom = true;
 
     this.updateFrameSizeTimer = null;
     this.scrollToBottomTimer = null;
+
+    this.scrollHeightAtFetch = null;
   }
 
   componentDidMount() {
@@ -255,7 +256,6 @@ class Chat extends Component {
       nextProps.screen === screens.CHATTING_SCREEN
     ) {
       if (this.chatHistoryLog) {
-        this.chatHistoryLogLength = this.chatHistoryLog.getScrollHeight();
         this.updateChatScrollPos();
       }
     }
@@ -272,11 +272,11 @@ class Chat extends Component {
       return;
     }
 
-    if (this.chatHistoryLog) {
-      const chatHistoryLogLengthDiff = this.chatHistoryLog.getScrollHeight() - this.chatHistoryLogLength;
+    if (this.scrollContainer) {
+      const scrollContainerLengthDiff = this.scrollContainer.getScrollHeight() - this.scrollHeightAtFetch;
 
-      if (chatHistoryLogLengthDiff !== 0) {
-        this.scrollContainer.scrollTo(this.chatScrollPos + chatHistoryLogLengthDiff);
+      if (scrollContainerLengthDiff !== 0) {
+        this.scrollContainer.scrollTo(this.chatScrollPos + scrollContainerLengthDiff);
       }
 
       // TODO: For now, scrollToBottom on new messages.
@@ -560,7 +560,7 @@ class Chat extends Component {
 
   renderHistoryFetching = () => {
     const { historyRequestStatus } = this.props;
-    const duration = 500;
+    const duration = 300;
     const defaultStyle = {
       transition: `opacity ${duration}ms ease-in-out`,
       opacity: 0,
@@ -622,7 +622,7 @@ class Chat extends Component {
       <ScrollContainer
         ref={(el) => { this.scrollContainer = el; }}
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-        onContentScrolled={_.debounce(this.handleChatScreenScrolled, 100)}
+        onContentScrolled={this.handleChatScreenScrolled}
         headerContent={this.renderChatHeader()}
         headerClasses={styles.header}
         containerClasses={containerClasses}
@@ -671,6 +671,7 @@ class Chat extends Component {
       this.props.hasMoreHistory &&
       this.props.historyRequestStatus !== 'pending'
     ) {
+      this.scrollHeightAtFetch = this.scrollContainer.getScrollHeight();
       this.props.fetchConversationHistory();
     }
   }

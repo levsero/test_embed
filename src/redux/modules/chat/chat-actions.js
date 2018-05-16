@@ -58,12 +58,22 @@ import {
   getIsChatting as getIsChattingState,
   getChatOnline,
   getActiveAgents } from 'src/redux/modules/chat/chat-selectors';
-import { CHAT_MESSAGE_TYPES } from 'src/constants/chat';
+import { CHAT_MESSAGE_TYPES, AGENT_BOT, EVENT_TRIGGER } from 'src/constants/chat';
 import { getChatStandalone } from 'src/redux/modules/base/base-selectors';
 import { mediator } from 'service/mediator';
 import _ from 'lodash';
 
 const chatTypingTimeout = 2000;
+let history = [];
+
+zChat.on('history', (data) => {
+  const eventData = (data.nick === EVENT_TRIGGER)
+    ? { ...data, nick: AGENT_BOT }
+    : data;
+  const newEntry = [eventData.timestamp, eventData];
+
+  history.unshift(newEntry);
+});
 
 const getChatMessagePayload = (msg, visitor, timestamp) => ({
   type: 'chat.msg',
@@ -489,6 +499,10 @@ export const fetchConversationHistory = () => {
     dispatch({ type: HISTORY_REQUEST_SENT });
 
     zChat.fetchChatHistory((err, data) => {
+      /*
+        This callback is invoked either when the API errors out or
+        after the next batch of history messages has been passed into firehose.
+      */
       if (err) {
         dispatch({
           type: HISTORY_REQUEST_FAILURE,
@@ -497,9 +511,11 @@ export const fetchConversationHistory = () => {
       } else {
         dispatch({
           type: HISTORY_REQUEST_SUCCESS,
-          payload: data
+          payload: { ...data, history }
         });
       }
+
+      history = [];
     });
   };
 };

@@ -70,7 +70,8 @@ describe('chat redux actions', () => {
         reconnect: mockReconnect,
         getAccountSettings: () => mockAccountSettings,
         getOperatingHours: () => mockOperatingHours,
-        fetchChatHistory: mockFetchChatHistory
+        fetchChatHistory: mockFetchChatHistory,
+        on: noop
       },
       'src/redux/modules/base/base-selectors': {
         getChatStandalone: () => mockChatStandalone
@@ -1433,7 +1434,7 @@ describe('chat redux actions', () => {
     });
 
     describe('when there are no errors', () => {
-      const data = 1234;
+      const data = { count: 20, has_more: true };
 
       beforeAll(() => {
         mockFetchChatHistory.and.callFake((callback) => {
@@ -1447,8 +1448,13 @@ describe('chat redux actions', () => {
       });
 
       it('returns the data as payload', () => {
+        const expected = {
+          ...data,
+          history: []
+        };
+
         expect(returnedActions[1].payload)
-          .toEqual(data);
+          .toEqual(expected);
       });
     });
   });
