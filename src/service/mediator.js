@@ -19,6 +19,7 @@ const helpCenter = 'helpCenterForm';
 const channelChoice = 'channelChoice';
 const talk = 'talk';
 const state = {};
+let chatOpenedBlipSent = false;
 
 state[`${launcher}.userHidden`] = false;
 state[`${launcher}.chatHidden`] = false;
@@ -108,6 +109,13 @@ const resetActiveEmbed = () => {
   }
 };
 
+const trackChatStarted = () => {
+  if (!chatOpenedBlipSent) {
+    c.broadcast('beacon.trackUserAction', 'chat', 'opened', chat);
+    chatOpenedBlipSent = true;
+  }
+};
+
 const show = (_state, options = {}) => {
   if (_state['.activatePending']) {
     showEmbed(_state, true);
@@ -122,6 +130,10 @@ const show = (_state, options = {}) => {
 };
 
 const showEmbed = (_state, viaActivate = false) => {
+  if (_state.activeEmbed === chat) {
+    trackChatStarted();
+  }
+
   if (_state.activeEmbed === chat && isMobileBrowser()) {
     c.broadcast(`${chat}.show`);
   } else {
@@ -420,6 +432,8 @@ function init(embedsAccessible, params = {}) {
       }
       setScrollKiller(false);
     }
+
+    trackChatStarted();
 
     state[`${helpCenter}.isVisible`] = false;
     state.activeEmbed = chat;
