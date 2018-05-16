@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { ChatAgentList } from 'component/chat/ChatAgentList';
+import { AgentList } from 'component/chat/agents/AgentList';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { Button } from 'component/button/Button';
 import { ZendeskLogo } from 'component/ZendeskLogo';
@@ -74,7 +74,7 @@ class AgentScreen extends Component {
         footerContent={this.renderBackButton()}
         fullscreen={isMobile}
       >
-        <ChatAgentList agents={activeAgents} />
+        <AgentList agents={activeAgents} />
         {this.renderZendeskLogo()}
       </ScrollContainer>
     );

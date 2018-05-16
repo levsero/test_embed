@@ -32,8 +32,8 @@ describe('AgentScreen component', () => {
       'component/ZendeskLogo': {
         ZendeskLogo
       },
-      'component/chat/ChatAgentList': {
-        ChatAgentList: noopReactComponent()
+      'component/chat/agents/AgentList': {
+        AgentList: noopReactComponent()
       },
       'component/container/ScrollContainer': {
         ScrollContainer: scrollContainerComponent()
@@ -72,11 +72,9 @@ describe('AgentScreen component', () => {
   describe('render', () => {
     let component,
       isMobile = false,
-      hideZendeskLogo = false,
-      updateChatScreenSpy;
+      hideZendeskLogo = false;
 
     beforeEach(() => {
-      updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
       component = instanceRender(
         <AgentScreen
           isMobile={isMobile}

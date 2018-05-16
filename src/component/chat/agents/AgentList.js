@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { locals as styles } from './ChatAgentList.scss';
+import { locals as styles } from './AgentList.scss';
 import _ from 'lodash';
 import { Avatar } from 'component/Avatar';
 
-export class ChatAgentList extends Component {
+export class AgentList extends Component {
   static propTypes = {
     agents: PropTypes.object.isRequired
   };
