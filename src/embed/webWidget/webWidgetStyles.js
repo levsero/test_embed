@@ -34,6 +34,7 @@ import ChatOperatingHoursStyles from 'component/chat/ChatOperatingHours.scss';
 import ChatOfflineMessageFormStyles from 'component/chat/ChatOfflineMessageForm.scss';
 import ChatOnlineStyles from 'component/chat/ChatOnline.scss';
 import ChattingScreenStyles from 'component/chat/chatting/ChattingScreen.scss';
+import AgentScreenStyles from 'component/chat/agents/AgentScreen.scss';
 import ContainerStyles from 'component/container/Container.scss';
 import DropdownStyles from 'component/field/Dropdown.scss';
 import DropdownOptionStyles from 'component/field/DropdownOption.scss';
@@ -97,6 +98,7 @@ export const webWidgetStyles = `
   ${ChatOperatingHoursStyles}
   ${ChatOnlineStyles}
   ${ChattingScreenStyles}
+  ${AgentScreenStyles}
   ${ContainerStyles}
   ${DropdownStyles}
   ${DropdownOptionStyles}

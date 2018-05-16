@@ -25,10 +25,10 @@ describe('ChatOnline component', () => {
   const ChatReconnectionBubble = noopReactComponent('ChatReconnectionBubble');
   const ChatOfflineMessageForm = noopReactComponent('ChatOfflineMessageForm');
   const ChatPrechatForm = noopReactComponent('ChatPrechatForm');
-  const Button = noopReactComponent('Button');
   const ButtonPill = noopReactComponent('ButtonPill');
   const LoadingSpinner = noopReactComponent('LoadingSpinner');
   const ZendeskLogo = noopReactComponent('ZendeskLogo');
+  const AgentScreen = noopReactComponent('AgentScreen');
 
   const CONNECTION_STATUSES = requireUncached(chatConstantsPath).CONNECTION_STATUSES;
   const DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES;
@@ -60,16 +60,11 @@ describe('ChatOnline component', () => {
       'component/loading/LoadingSpinner': {
         LoadingSpinner
       },
-      'component/button/Button': {
-        Button
-      },
       'component/ZendeskLogo': {
         ZendeskLogo
       },
-      'component/chat/ChatAgentList': {
-        ChatAgentList: noopReactComponent()
-      },
       'component/chat/chatting/ChattingScreen': noopReactComponent(),
+      'component/chat/agents/AgentScreen': AgentScreen,
       'component/button/ButtonPill': {
         ButtonPill
       },
@@ -1429,111 +1424,34 @@ describe('ChatOnline component', () => {
 
   describe('renderAgentListScreen', () => {
     let component,
-      isMobile = false,
-      hideZendeskLogo = false,
-      updateChatScreenSpy;
+      screen;
 
     beforeEach(() => {
-      updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
       component = instanceRender(
         <ChatOnline
-          screen={AGENT_LIST_SCREEN}
-          isMobile={isMobile}
-          hideZendeskLogo={hideZendeskLogo}
-          updateChatScreen={updateChatScreenSpy} />
+          screen={screen} />
       ).renderAgentListScreen();
     });
 
-    describe('for non mobile devices', () => {
+    describe('when the screen is not AGENT_LIST_SCREEN', () => {
       beforeAll(() => {
-        isMobile = false;
+        screen = chattingScreen;
       });
 
-      it('does not add the scrollContainerMobile class to it', () => {
-        expect(component.props.classes)
-          .not
-          .toContain('mobileContainerClasses');
+      it('returns nothing', () => {
+        expect(component)
+          .toBeFalsy();
       });
     });
 
-    describe('for mobile devices', () => {
+    describe('when the screen is AGENT_LIST_SCREEN', () => {
       beforeAll(() => {
-        isMobile = true;
+        screen = AGENT_LIST_SCREEN;
       });
 
-      it('adds mobile classes to the scrollContainer', () => {
-        expect(component.props.classes)
-          .toContain('mobileContainerClasses');
-      });
-    });
-
-    describe('the scroll container wrapper', () => {
-      beforeAll(() => {
-        isMobile = false;
-      });
-
-      it('has its classes prop to the scroll container style', () => {
-        expect(component.props.classes)
-          .toEqual('scrollContainerClasses');
-      });
-
-      it('has its containerClasses prop to the scrollContainerContent style', () => {
-        expect(component.props.containerClasses)
-          .toEqual('scrollContainerContentClasses');
-      });
-
-      describe('the footerContent', () => {
-        let footerContent;
-
-        beforeEach(() => {
-          footerContent = component.props.footerContent;
-        });
-
-        it('is a button', () => {
-          expect(TestUtils.isElementOfType(footerContent, Button))
-            .toEqual(true);
-        });
-
-        it('has its className set to agentListBackButton', () => {
-          expect(footerContent.props.className)
-            .toContain('agentListBackButtonClasses');
-        });
-
-        it('has its label set correctly', () => {
-          expect(footerContent.props.label)
-            .toEqual('embeddable_framework.chat.agentList.button.backToChat');
-        });
-
-        describe('the onClick prop', () => {
-          beforeEach(() => {
-            footerContent.props.onClick();
-          });
-
-          it('calls updateChatScreen with chatting screen', () => {
-            expect(updateChatScreenSpy)
-              .toHaveBeenCalledWith(chattingScreen);
-          });
-        });
-      });
-    });
-
-    describe('hideZendeskLogo', () => {
-      describe('when hideZendeskLogo is false', () => {
-        it('renders footer with correct class', () => {
-          expect(component.props.footerContent.props.className)
-            .toContain('agentListBackButtonWithLogoClasses');
-        });
-      });
-
-      describe('when hideZendeskLogo is true', () => {
-        beforeAll(() => {
-          hideZendeskLogo = true;
-        });
-
-        it('renders footer with correct class', () => {
-          expect(component.props.footerContent.props.className)
-            .not.toContain('agentListBackButtonWithLogoClasses');
-        });
+      it('returns a AgentScreen component', () => {
+        expect(TestUtils.isElementOfType(component, AgentScreen))
+          .toEqual(true);
       });
     });
   });
