@@ -40,6 +40,7 @@ export const CHAT_MESSAGE_TYPES = {
 };
 
 export const AGENT_BOT = 'agent:trigger';
+export const EVENT_TRIGGER = '__trigger';
 
 export const CONNECTION_STATUSES = {
   CONNECTING: 'connecting',

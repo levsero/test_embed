@@ -23,38 +23,30 @@ describe('chat reducer chatHistory chats', () => {
       let state,
         detail;
 
-      const sdkActionTypes = [
-        chatActionTypes.SDK_HISTORY_CHAT_QUEUE_POSITION,
-        chatActionTypes.SDK_HISTORY_CHAT_REQUEST_RATING,
-        chatActionTypes.SDK_HISTORY_CHAT_MSG,
-        chatActionTypes.SDK_HISTORY_CHAT_RATING,
-        chatActionTypes.SDK_HISTORY_CHAT_COMMENT,
-        chatActionTypes.SDK_HISTORY_CHAT_MEMBER_JOIN,
-        chatActionTypes.SDK_HISTORY_CHAT_MEMBER_LEAVE
-      ];
+      describe('when HISTORY_REQUEST_SUCCESS action is dispatched', () => {
+        beforeEach(() => {
+          detail = {
+            timestamp: Date.now(),
+            nick: 'visitor 136248723',
+            display_name: 'Mr Abc'
+          };
 
-      sdkActionTypes.forEach((actionType) => {
-        describe(`when a ${actionType} action is dispatched`, () => {
-          beforeEach(() => {
-            detail = {
-              timestamp: Date.now(),
-              nick: 'visitor:x',
-              display_name: 'Mr X'
-            };
+          const newEntry = [detail.timestamp, detail];
 
-            state = reducer(initialState, {
-              type: actionType,
-              payload: { detail }
-            });
+          state = reducer(initialState, {
+            type: chatActionTypes.HISTORY_REQUEST_SUCCESS,
+            payload: {
+              history: [newEntry]
+            }
           });
+        });
 
-          it('adds the message to the chats collection', () => {
-            expect(state.size)
-              .toEqual(1);
+        it('adds the message to the chats collection', () => {
+          expect(state.size)
+            .toEqual(1);
 
-            expect(state.get(detail.timestamp))
-              .toEqual(jasmine.objectContaining(detail));
-          });
+          expect(state.get(detail.timestamp))
+            .toEqual(jasmine.objectContaining(detail));
         });
       });
 

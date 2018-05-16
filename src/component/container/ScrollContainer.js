@@ -74,6 +74,10 @@ export class ScrollContainer extends Component {
     this.content.scrollTop = pos;
   }
 
+  getScrollHeight = () => {
+    return this.content.scrollHeight;
+  }
+
   getScrollTop = () => {
     return this.content.scrollTop;
   }

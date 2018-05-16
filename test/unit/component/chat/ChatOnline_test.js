@@ -239,6 +239,160 @@ describe('ChatOnline component', () => {
     });
   });
 
+  describe('componentDidUpdate', () => {
+    let component,
+      componentProps,
+      prevProps,
+      scrollToSpy,
+      mockGetScrollHeight,
+      mockChatScrolledToBottom,
+      mockScrollHeightAtFetch,
+      mockChatScrollPos;
+
+    beforeEach(() => {
+      scrollToSpy = jasmine.createSpy('scrollTo');
+
+      component = instanceRender(<ChatOnline {...componentProps} />);
+      component.scrollContainer = {
+        scrollTo: scrollToSpy,
+        getScrollHeight: mockGetScrollHeight
+      };
+      component.chatScrolledToBottom = mockChatScrolledToBottom;
+      component.scrollHeightAtFetch = mockScrollHeightAtFetch;
+      component.chatScrollPos = mockChatScrollPos;
+
+      spyOn(component, 'scrollToBottom');
+
+      component.componentDidUpdate(prevProps);
+    });
+
+    describe('when props.screen is not CHATTING_SCREEN', () => {
+      beforeAll(() => {
+        componentProps = { screen: 'nonexistent screen' };
+      });
+
+      it('does not call scrollTo on scrollContainer', () => {
+        expect(scrollToSpy)
+          .not.toHaveBeenCalled();
+      });
+
+      it('does not call scrollToBottom', () => {
+        expect(component.scrollToBottom)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when props.screen is CHATTING_SCREEN', () => {
+      describe('when prevProps.screen is not CHATTING_SCREEN', () => {
+        beforeAll(() => {
+          mockChatScrolledToBottom = null;
+          componentProps = { screen: chattingScreen };
+          prevProps = { screen: 'nonexistent screen' };
+        });
+
+        it('calls scrollToBottom', () => {
+          expect(component.scrollToBottom)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when chatScrolledToBottom has a value', () => {
+        beforeAll(() => {
+          mockChatScrolledToBottom = 500;
+          componentProps = { screen: chattingScreen };
+          prevProps = { screen: chattingScreen };
+        });
+
+        it('calls scrollToBottom', () => {
+          expect(component.scrollToBottom)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when chatScrolledToBottom does not have a value and prevProps is CHATTING_SCREEN', () => {
+        beforeAll(() => {
+          mockChatScrolledToBottom = null;
+          mockGetScrollHeight = noop;
+          componentProps = { screen: chattingScreen, chats: [], events: [] };
+          prevProps = { screen: chattingScreen, chats: [], events: [] };
+        });
+
+        it('does not call scrollToBottom', () => {
+          expect(component.scrollToBottom)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when scrollContainer height has changed since fetching data', () => {
+        beforeAll(() => {
+          componentProps = { screen: chattingScreen, chats: [], events: [] };
+          prevProps = { screen: chattingScreen, chats: [], events: [] };
+          mockGetScrollHeight = () => 10;
+          mockScrollHeightAtFetch = 5;
+          mockChatScrollPos = 1;
+        });
+
+        it('calls scrollTo on scrollContainer with an expected value', () => {
+          const difference = mockGetScrollHeight() - mockScrollHeightAtFetch;
+          const expected = mockChatScrollPos + difference;
+
+          expect(scrollToSpy)
+            .toHaveBeenCalledWith(expected);
+        });
+      });
+
+      describe('when scrollContainer height has not changed since fetching data', () => {
+        beforeAll(() => {
+          componentProps = { screen: chattingScreen, chats: [], events: [] };
+          prevProps = { screen: chattingScreen, chats: [], events: [] };
+          mockGetScrollHeight = () => 10;
+          mockScrollHeightAtFetch = 10;
+          mockChatScrollPos = 1;
+        });
+
+        it('does not call scrollTo on scrollContainer', () => {
+          expect(scrollToSpy)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when the chat log count has changed', () => {
+        beforeAll(() => {
+          const previousLog = { chats: [], events: [] };
+          const latestLog = {
+            chats: [{ type: 'chat.msg', msg: 'Hello' }],
+            events: []
+          };
+
+          componentProps = { screen: chattingScreen, ...latestLog };
+          prevProps = { screen: chattingScreen, ...previousLog };
+          mockGetScrollHeight = noop;
+        });
+
+        it('calls scrollToBottom', () => {
+          expect(component.scrollToBottom)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when the chat log count has not changed', () => {
+        beforeAll(() => {
+          const previousLog = { chats: [], events: [] };
+          const latestLog = { chats: [], events: [] };
+
+          componentProps = { screen: chattingScreen, ...latestLog };
+          prevProps = { screen: chattingScreen, ...previousLog };
+          mockGetScrollHeight = noop;
+        });
+
+        it('does not call scrollToBottom', () => {
+          expect(component.scrollToBottom)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
   describe('componentDidMount', () => {
     let component,
       currentScreen,
@@ -2425,21 +2579,30 @@ describe('ChatOnline component', () => {
   });
 
   describe('handleChatScreenScrolled', () => {
-    const fetchConversationHistorySpy = jasmine.createSpy();
-    let component;
+    let component,
+      fetchConversationHistorySpy,
+      getScrollHeightSpy;
 
     beforeEach(() => {
-      const container = jasmine.createSpyObj('scrollContainer', {
-        isAtTop: () => true
-      });
+      fetchConversationHistorySpy = jasmine.createSpy('fetchConversationHistory');
+      getScrollHeightSpy = jasmine.createSpy('getScrollHeight');
 
       component = instanceRender(<ChatOnline hasMoreHistory={true} historyRequestStatus='not_pending' fetchConversationHistory={fetchConversationHistorySpy} />);
-      component.scrollContainer = container;
+      component.scrollContainer = {
+        isAtTop: () => true,
+        getScrollHeight: getScrollHeightSpy
+      };
+
       component.handleChatScreenScrolled();
     });
 
-    it('calls the expected action', () => {
+    it('calls props.fetchConversationHistory', () => {
       expect(fetchConversationHistorySpy)
+        .toHaveBeenCalled();
+    });
+
+    it('calls getScrollHeight on scrollContainer', () => {
+      expect(getScrollHeightSpy)
         .toHaveBeenCalled();
     });
   });
