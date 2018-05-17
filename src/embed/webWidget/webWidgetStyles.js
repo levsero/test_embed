@@ -11,7 +11,7 @@ import ChannelChoiceDesktopStyles from 'component/channelChoice/ChannelChoiceDes
 import ChannelChoicePopupMobileStyles from 'component/channelChoice/ChannelChoicePopupMobile.scss';
 import ChannelChoiceMobileStyles from 'component/channelChoice/ChannelChoiceMobile.scss';
 import ChannelChoicePopupDesktopStyles from 'component/channelChoice/ChannelChoicePopupDesktop.scss';
-import ChatAgentListStyles from 'component/chat/ChatAgentList.scss';
+import AgentListStyles from 'component/chat/agents/AgentList.scss';
 import ChatBoxStyles from 'component/chat/ChatBox.scss';
 import ChatPopupStyles from 'component/chat/ChatPopup.scss';
 import ChatNotificationPopupStyles from 'component/chat/ChatNotificationPopup.scss';
@@ -34,6 +34,7 @@ import ChatOperatingHoursStyles from 'component/chat/ChatOperatingHours.scss';
 import ChatOfflineMessageFormStyles from 'component/chat/ChatOfflineMessageForm.scss';
 import ChatOnlineStyles from 'component/chat/ChatOnline.scss';
 import ChattingScreenStyles from 'component/chat/chatting/ChattingScreen.scss';
+import AgentScreenStyles from 'component/chat/agents/AgentScreen.scss';
 import ContainerStyles from 'component/container/Container.scss';
 import DropdownStyles from 'component/field/Dropdown.scss';
 import DropdownOptionStyles from 'component/field/DropdownOption.scss';
@@ -61,6 +62,7 @@ import { sharedStyles } from 'embed/sharedStyles.js';
 
 export const webWidgetStyles = `
   ${sharedStyles}
+  ${AgentListStyles}
   ${AttachmentStyles}
   ${AttachmentBoxStyles}
   ${AttachmentListStyles}
@@ -74,7 +76,6 @@ export const webWidgetStyles = `
   ${ChannelChoicePopupDesktopStyles}
   ${ChannelChoiceMobileStyles}
   ${ChannelChoicePopupMobileStyles}
-  ${ChatAgentListStyles}
   ${ChatBoxStyles}
   ${ChatPopupStyles}
   ${ChatNotificationPopupStyles}
@@ -97,6 +98,7 @@ export const webWidgetStyles = `
   ${ChatOperatingHoursStyles}
   ${ChatOnlineStyles}
   ${ChattingScreenStyles}
+  ${AgentScreenStyles}
   ${ContainerStyles}
   ${DropdownStyles}
   ${DropdownOptionStyles}

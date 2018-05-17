@@ -6,6 +6,7 @@ import classNames from 'classnames';
 
 import { ButtonPill } from 'component/button/ButtonPill';
 import ChattingScreen from 'component/chat/chatting/ChattingScreen';
+import AgentScreen from 'component/chat/agents/AgentScreen';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ChatMenu } from 'component/chat/ChatMenu';
 import { ChatPrechatForm } from 'component/chat/ChatPrechatForm';
@@ -14,11 +15,9 @@ import { ChatPopup } from 'component/chat/ChatPopup';
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup';
 import { ChatEmailTranscriptPopup } from 'component/chat/ChatEmailTranscriptPopup';
 import { ChatReconnectionBubble } from 'component/chat/ChatReconnectionBubble';
-import { ChatAgentList } from 'component/chat/ChatAgentList';
 import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
-import { Button } from 'component/button/Button';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
@@ -60,7 +59,6 @@ const mapStateToProps = (state) => {
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
     postChatFormSettings: selectors.getPostchatFormSettings(state),
     isChatting: selectors.getIsChatting(state),
-    activeAgents: selectors.getActiveAgents(state),
     rating: selectors.getChatRating(state),
     visitor: selectors.getChatVisitor(state),
     concierges: selectors.getCurrentConcierges(state),
@@ -99,7 +97,6 @@ class Chat extends Component {
     sendChatComment: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
     isChatting: PropTypes.bool.isRequired,
-    activeAgents: PropTypes.object.isRequired,
     rating: PropTypes.object.isRequired,
     handleSoundIconClick: PropTypes.func.isRequired,
     userSoundSettings: PropTypes.bool.isRequired,
@@ -139,7 +136,6 @@ class Chat extends Component {
     postChatFormSettings: {},
     handleSoundIconClick: () => {},
     userSoundSettings: true,
-    activeAgents: {},
     getFrameDimensions: () => {},
     sendEmailTranscript: () => {},
     emailTranscript: {},
@@ -529,39 +525,12 @@ class Chat extends Component {
   }
 
   renderAgentListScreen = () => {
-    const { screen, activeAgents, updateChatScreen, isMobile, hideZendeskLogo } = this.props;
-
-    if (screen !== screens.AGENT_LIST_SCREEN) return null;
-
-    const scrollContainerClasses = classNames(
-      styles.scrollContainer,
-      { [styles.mobileContainer]: isMobile }
-    );
-    const backToChatClasses = classNames(
-      styles.agentListBackButton,
-      { [styles.agentListBackButtonWithLogo]: !hideZendeskLogo }
-    );
-    const backButtonOnClick = () => { updateChatScreen(screens.CHATTING_SCREEN); };
-    const backToChatButton = (
-      <Button
-        fullscreen={isMobile}
-        label={i18n.t('embeddable_framework.chat.agentList.button.backToChat')}
-        onTouchStartDisabled={true}
-        onClick={backButtonOnClick}
-        className={backToChatClasses} />
-    );
+    if (this.props.screen !== screens.AGENT_LIST_SCREEN) return null;
 
     return (
-      <ScrollContainer
-        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-        classes={scrollContainerClasses}
-        containerClasses={styles.scrollContainerContent}
-        footerContent={backToChatButton}
-        fullscreen={isMobile}
-      >
-        <ChatAgentList agents={activeAgents} />
-        {this.renderZendeskLogo()}
-      </ScrollContainer>
+      <AgentScreen
+        hideZendeskLogo={this.props.hideZendeskLogo}
+        isMobile={this.props.isMobile} />
     );
   }
 

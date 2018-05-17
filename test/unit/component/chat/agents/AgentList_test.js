@@ -1,6 +1,6 @@
-describe('ChatAgentList component', () => {
-  let ChatAgentList;
-  const chatAgentListPath = buildSrcPath('component/chat/ChatAgentList');
+describe('AgentList component', () => {
+  let AgentList;
+  const AgentListPath = buildSrcPath('component/chat/agents/AgentList');
   const Avatar = noopReactComponent('Avatar');
 
   const findComponentByType = (components, type) => (
@@ -11,7 +11,7 @@ describe('ChatAgentList component', () => {
     mockery.enable();
 
     initMockRegistry({
-      './ChatAgentList.scss': {
+      './AgentList.scss': {
         locals: {
           'container': 'containerClasses',
           'avatar': 'avatarClasses',
@@ -25,8 +25,8 @@ describe('ChatAgentList component', () => {
       }
     });
 
-    mockery.registerAllowable(chatAgentListPath);
-    ChatAgentList = requireUncached(chatAgentListPath).ChatAgentList;
+    mockery.registerAllowable(AgentListPath);
+    AgentList = requireUncached(AgentListPath).AgentList;
   });
 
   afterEach(() => {
@@ -39,7 +39,7 @@ describe('ChatAgentList component', () => {
       component;
 
     beforeEach(() => {
-      component = instanceRender(<ChatAgentList agents={agents} />);
+      component = instanceRender(<AgentList agents={agents} />);
     });
 
     describe('when no agents are passed to the prop', () => {
