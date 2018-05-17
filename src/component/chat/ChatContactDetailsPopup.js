@@ -186,7 +186,10 @@ export class ChatContactDetailsPopup extends Component {
     if (this.props.screen !== EDIT_CONTACT_DETAILS_LOADING_SCREEN) return null;
 
     return (
-      <LoadingSpinner className={styles.loadingSpinner} />
+      <LoadingSpinner
+        height={32}
+        width={32}
+        className={styles.loadingSpinner} />
     );
   }
 

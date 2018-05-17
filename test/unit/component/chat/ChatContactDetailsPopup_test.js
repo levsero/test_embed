@@ -493,6 +493,16 @@ describe('ChatContactDetailsPopup component', () => {
         expect(TestUtils.isElementOfType(loadingSpinner, LoadingSpinner))
           .toEqual(true);
       });
+
+      it('passes the right width prop', () => {
+        expect(loadingSpinner.props.width)
+          .toEqual(32);
+      });
+
+      it('passes the right height prop', () => {
+        expect(loadingSpinner.props.height)
+          .toEqual(32);
+      });
     });
   });
 });
