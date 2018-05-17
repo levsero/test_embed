@@ -106,4 +106,37 @@ describe('chat reducer menu visibility', () => {
       });
     });
   });
+
+  describe('when a CHAT_FILE_REQUEST_SUCCESS action is dispatched', () => {
+    let state, payloadBool;
+
+    beforeEach(() => {
+      state = reducer(initialState, {
+        type: actionTypes.CHAT_FILE_REQUEST_SUCCESS,
+        payload: payloadBool
+      });
+    });
+
+    describe('when the payload is false', () => {
+      beforeAll(() => {
+        payloadBool = false;
+      });
+
+      it('sets the action payload to false', () => {
+        expect(state)
+          .toEqual(false);
+      });
+    });
+
+    describe('when the payload is true', () => {
+      beforeAll(() => {
+        payloadBool = true;
+      });
+
+      it('also sets the action payload to false', () => {
+        expect(state)
+          .toEqual(false);
+      });
+    });
+  });
 });
