@@ -10,7 +10,9 @@ describe('chat root reducer', () => {
       'component/chat/ChatRatingGroup': {
         ChatRatings: { NOT_SET: null }
       },
-      'constants/chat': {}
+      'constants/chat': {
+        OFFLINE_FORM_SCREENS: {}
+      }
     });
 
     reducer = requireUncached(reducerPath).default;
@@ -123,8 +125,8 @@ describe('chat root reducer', () => {
         .toBeDefined();
     });
 
-    it('has the sessionTimestamp sub state', () => {
-      expect(state.sessionTimestamp)
+    it('has the currentSessionStartTime sub state', () => {
+      expect(state.currentSessionStartTime)
         .toBeDefined();
     });
 

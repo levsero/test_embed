@@ -47,6 +47,7 @@ describe('chat selectors', () => {
     getAgentsTyping,
     getAllAgents,
     getFirstMessageTimestamp,
+    getCurrentSessionStartTime,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
@@ -140,11 +141,31 @@ describe('chat selectors', () => {
     getAgentsTyping = selectors.getAgentsTyping;
     getAllAgents = selectors.getAllAgents;
     getFirstMessageTimestamp = selectors.getFirstMessageTimestamp;
+    getCurrentSessionStartTime = selectors.getCurrentSessionStartTime;
   });
 
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('getCurrentSessionStartTime', () => {
+    let mockCurrentSessionStartTime,
+      result;
+
+    beforeEach(() => {
+      mockCurrentSessionStartTime = 123;
+      result = getCurrentSessionStartTime({
+        chat: {
+          currentSessionStartTime: mockCurrentSessionStartTime
+        }
+      });
+    });
+
+    it('returns the current session start time', () => {
+      expect(result)
+        .toEqual(123);
+    });
   });
 
   describe('getDepartments', () => {
@@ -973,7 +994,8 @@ describe('chat selectors', () => {
 
         mockChatSettings = {
           chat: {
-            chats: { values: () => mockChats }
+            chats: { values: () => mockChats },
+            currentSessionStartTime: 1
           }
         };
 
@@ -985,7 +1007,7 @@ describe('chat selectors', () => {
           7: [mockChats[6]],
           8: [mockChats[7]],
           9: [mockChats[8]],
-          10: [mockChats[9]],
+          10: [{ ...mockChats[9], isLastRating: true }],
           11: [mockChats[10]]
         };
 
@@ -1137,7 +1159,7 @@ describe('chat selectors', () => {
         mockChatSettings = {
           chat: {
             chats: { values: () => mockChats },
-            sessionTimestamp: 1
+            currentSessionStartTime: 1
           }
         };
 
@@ -1145,7 +1167,7 @@ describe('chat selectors', () => {
           1: [mockChats[0]],
           2: setIsFirstVisitorMessage([mockChats[1]], true),
           3: [mockChats[2]],
-          4: [mockChats[3]],
+          4: [{ ...mockChats[3], isLastRating: false }],
           5: [mockChats[4]],
           6: [{ ...mockChats[5], isLastRating: true }]
         };
@@ -1207,7 +1229,7 @@ describe('chat selectors', () => {
         mockChatSettings = {
           chat: {
             chats: { values: () => mockChats },
-            sessionTimestamp: 5
+            currentSessionStartTime: 5
           }
         };
 
@@ -1215,7 +1237,7 @@ describe('chat selectors', () => {
           1: [mockChats[0]],
           2: setIsFirstVisitorMessage([mockChats[1]], true),
           3: [mockChats[2]],
-          4: [mockChats[3]],
+          4: [{ ...mockChats[3], isLastRating: false }],
           5: [mockChats[4]],
           6: [mockChats[5]]
         };
