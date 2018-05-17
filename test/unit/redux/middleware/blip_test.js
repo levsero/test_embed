@@ -30,9 +30,6 @@ describe('blip middleware', () => {
         getFormState: _.identity,
         getAverageWaitTime: (prevState) => prevState.averageWaitTime
       },
-      'src/redux/modules/chat/chat-selectors': {
-        getIsChatting: (prevState) => prevState.isChatting
-      },
       'src/redux/modules/helpCenter/helpCenter-selectors': {
         getTotalUserSearches: (prevState) => prevState.totalUserSearches,
         getSearchTerm: (prevState) => prevState.searchTerm,
@@ -122,10 +119,7 @@ describe('blip middleware', () => {
     });
 
     describe('action has type UPDATE_ACTIVE_EMBED', () => {
-      let flatState,
-        mockChatEmbed,
-        mockIsChatting,
-        payload;
+      let flatState;
 
       beforeEach(() => {
         flatState = {
@@ -133,65 +127,20 @@ describe('blip middleware', () => {
           nickname: 'Support',
           supportedCountries: '1, 10, 9, 89',
           averageWaitTime: 10,
-          agentAvailability: true,
-          chatEmbed: mockChatEmbed,
-          isChatting: mockIsChatting
+          agentAvailability: true
         };
 
         beaconSpy.trackUserAction.calls.reset();
         nextSpy = jasmine.createSpy('nextSpy');
-
-        action = {
-          type: UPDATE_ACTIVE_EMBED,
-          payload
-        };
-        sendBlips({ getState: () => flatState })(nextSpy)(action);
-      });
-
-      describe('when chatting', () => {
-        beforeAll(() => {
-          mockIsChatting = true;
-        });
-
-        it('should not send chatOpened blip', () => {
-          expect(beaconSpy.trackUserAction)
-            .not
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when not chatting', () => {
-        beforeAll(() => {
-          mockIsChatting = false;
-        });
-
-        describe('payload is zopimChat', () => {
-          beforeAll(() => {
-            payload = 'zopimChat';
-          });
-
-          it('does not send chatOpened blip', () => {
-            expect(beaconSpy.trackUserAction)
-              .not
-              .toHaveBeenCalled();
-          });
-        });
-
-        describe('payload is chat', () => {
-          beforeAll(() => {
-            payload = 'chat';
-          });
-
-          it('calls trackUserAction with the correct params', () => {
-            expect(beaconSpy.trackUserAction)
-              .toHaveBeenCalledWith('chat', 'opened', 'newChat');
-          });
-        });
       });
 
       describe('payload is talk', () => {
-        beforeAll(() => {
-          payload = 'talk';
+        beforeEach(() => {
+          action = {
+            type: UPDATE_ACTIVE_EMBED,
+            payload: 'talk'
+          };
+          sendBlips({ getState: () => flatState })(nextSpy)(action);
         });
 
         it('calls trackUserAction with the correct params', () => {
@@ -206,6 +155,36 @@ describe('blip middleware', () => {
 
           expect(beaconSpy.trackUserAction)
             .toHaveBeenCalledWith('talk', 'opened', 'phoneNumber', expectedValue);
+        });
+      });
+
+      describe('payload is chat', () => {
+        beforeEach(() => {
+          action = {
+            type: UPDATE_ACTIVE_EMBED,
+            payload: 'chat'
+          };
+          sendBlips({ getState: () => flatState })(nextSpy)(action);
+        });
+
+        it('calls trackUserAction with the correct params', () => {
+          expect(beaconSpy.trackUserAction)
+            .toHaveBeenCalledWith('chat', 'opened', 'newChat');
+        });
+      });
+
+      describe('payload is zopimChat', () => {
+        beforeEach(() => {
+          action = {
+            type: UPDATE_ACTIVE_EMBED,
+            payload: 'zopimChat'
+          };
+          sendBlips({ getState: () => flatState })(nextSpy)(action);
+        });
+
+        it('calls trackUserAction with the correct params', () => {
+          expect(beaconSpy.trackUserAction)
+            .toHaveBeenCalledWith('chat', 'opened', 'zopimChat');
         });
       });
     });

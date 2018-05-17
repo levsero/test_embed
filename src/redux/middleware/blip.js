@@ -15,12 +15,7 @@ import { getTotalUserSearches,
   getArticleClicked,
   getActiveArticle,
   getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
-import { getIsChatting } from 'src/redux/modules/chat/chat-selectors';
-
 import { i18n } from 'service/i18n';
-
-let talkOpenedBlipSent = false;
-let chatOpenedBlipSent = false;
 
 const createTalkBlipData = (state, phone) => {
   const { nickname, supportedCountries } = getEmbeddableConfig(state);
@@ -67,8 +62,8 @@ const sendTalkOpenedBlip = (state) => {
   beacon.trackUserAction('talk', 'opened', 'phoneNumber', value);
 };
 
-const sendChatOpenedBlip = () => {
-  beacon.trackUserAction('chat', 'opened', 'newChat');
+const sendChatOpenedBlip = (state, chatType) => {
+  beacon.trackUserAction('chat', 'opened', chatType);
 };
 
 const sendHelpCenterFirstSearchBlip = (state) => {
@@ -99,16 +94,12 @@ export function sendBlips({ getState }) {
         sendTalkCallbackRequestBlip(prevState);
         break;
       case UPDATE_ACTIVE_EMBED:
-        if (payload === 'talk' && !talkOpenedBlipSent) {
+        if (payload === 'talk') {
           sendTalkOpenedBlip(prevState);
-          talkOpenedBlipSent = true;
-        }
-
-        const isChatting = getIsChatting(prevState);
-
-        if (!isChatting && payload === 'chat' && !chatOpenedBlipSent) {
-          sendChatOpenedBlip();
-          chatOpenedBlipSent = true;
+        } else if (payload === 'chat') {
+          sendChatOpenedBlip(prevState, 'newChat');
+        } else if (payload === 'zopimChat') {
+          sendChatOpenedBlip(prevState, 'zopimChat');
         }
         break;
       case ARTICLE_CLICKED:
