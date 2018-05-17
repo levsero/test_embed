@@ -59,8 +59,7 @@ describe('ChatGroup component', () => {
           messageBubble: 'messageBubbleClass',
           userBackground: 'userBackgroundClass',
           agentBackground: 'agentBackgroundClass',
-          avatarDefault: 'avatarDefaultClass',
-          avatarWithSrc: 'avatarWithSrcClass',
+          avatar: 'avatarClass',
           nameAvatar: 'nameAvatarClass',
           nameNoAvatar: 'nameNoAvatarClass',
           fadeIn: 'fadeInClass',
@@ -901,7 +900,7 @@ describe('ChatGroup component', () => {
         });
 
         it('passes the correct props to the child component', () => {
-          expect(result.props.className).toContain('avatarWithSrcClass');
+          expect(result.props.className).toContain('avatarClass');
           expect(result.props.src).toEqual(avatarPath);
         });
       });
@@ -916,7 +915,7 @@ describe('ChatGroup component', () => {
         });
 
         it('passes the correct props to the child component', () => {
-          expect(result.props.className).toContain('avatarDefaultClass');
+          expect(result.props.className).toContain('avatarClass');
           expect(result.props.src).toEqual('');
         });
 
@@ -933,7 +932,7 @@ describe('ChatGroup component', () => {
         });
 
         it('passes the correct classnames to the child component', () => {
-          expect(result.props.className).toContain('avatarWithSrcClass');
+          expect(result.props.className).toContain('avatarClass');
           expect(result.props.className).toContain('fadeInClass');
         });
       });
@@ -947,7 +946,7 @@ describe('ChatGroup component', () => {
         });
 
         it('passes the correct classnames to the child component', () => {
-          expect(result.props.className).toContain('avatarWithSrcClass');
+          expect(result.props.className).toContain('avatarClass');
           expect(result.props.className).not.toContain('fadeInClass');
         });
       });

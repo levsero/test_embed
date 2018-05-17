@@ -103,8 +103,11 @@
 }
 
 .avatar {
+  width: #{32/$font-size}rem;
+  height: #{32/$font-size}rem;
   position: absolute;
   transition: top 300ms ease-in-out;
+  bottom: #{5/$font-size}rem;
 
   svg {
     min-width: #{32/$font-size}rem;
@@ -112,18 +115,6 @@
     max-width: #{32/$font-size}rem;
     max-height: #{32/$font-size}rem;
   }
-}
-
-.avatarDefault {
-  composes: avatar;
-  height: #{32/$font-size}rem;
-  width: #{32/$font-size}rem;
-}
-
-.avatarWithSrc {
-  composes: avatar;
-  height: #{32/$font-size}rem;
-  width: #{32/$font-size}rem;
 }
 
 .fadeIn {

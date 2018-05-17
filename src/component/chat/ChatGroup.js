@@ -26,7 +26,6 @@ export class ChatGroup extends Component {
     handleSendMsg: PropTypes.func,
     onImageLoad: PropTypes.func,
     chatLogCreatedAt: PropTypes.number,
-    handleImageLoad: PropTypes.func,
     children: PropTypes.object
   };
 
@@ -43,34 +42,6 @@ export class ChatGroup extends Component {
 
     this.container = null;
     this.avatar = null;
-  }
-
-  componentDidMount() {
-    this.updateAvatarPosition();
-  }
-
-  componentDidUpdate() {
-    this.updateAvatarPosition();
-  }
-
-  updateAvatarPosition = () => {
-    if (!this.container || !this.avatar) return;
-
-    const messageBubbleMargin = 5; // Ensure alignment with the accompanying messageBubble
-    const containerHeight = this.container.getBoundingClientRect().height;
-    const avatarHeight = this.avatar.getBoundingClientRect().height;
-    const newTopPosition = containerHeight - avatarHeight - messageBubbleMargin;
-
-    if (this.avatar.style.top !== newTopPosition) {
-      this.avatar.style.top = newTopPosition;
-    }
-  }
-
-  handleImageLoad = () => {
-    this.props.onImageLoad();
-    setTimeout(() => {
-      this.updateAvatarPosition();
-    }, 0);
   }
 
   renderName = (isAgent, showAvatar, messages) => {
@@ -228,7 +199,7 @@ export class ChatGroup extends Component {
         <ImageMessage
           imgSrc={file.url}
           placeholderEl={placeholderEl}
-          onImageLoad={this.handleImageLoad}
+          onImageLoad={this.props.onImageLoad}
         />
       );
     }
@@ -239,8 +210,7 @@ export class ChatGroup extends Component {
   renderAvatar = (showAvatarAsAgent, avatarPath = '', messages) => {
     const shouldAnimate = _.get(messages, '0.timestamp') > this.props.chatLogCreatedAt;
     const avatarClasses = classNames({
-      [styles.avatarWithSrc]: avatarPath,
-      [styles.avatarDefault]: !avatarPath,
+      [styles.avatar]: true,
       [styles.fadeIn]: shouldAnimate
     });
 
