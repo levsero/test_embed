@@ -167,6 +167,12 @@ function identify(user) {
   http.sendWithMeta(payload);
 }
 
+function checkEntryLoadTime(entry) {
+  const name = entry.name;
+
+  return name.indexOf('main.js') !== -1 || name.indexOf('web_widget.js') !== -1;
+}
+
 function getFrameworkLoadTime() {
   let entry;
   const now = Date.now();
@@ -176,7 +182,7 @@ function getFrameworkLoadTime() {
   try {
     if ('performance' in window && 'getEntries' in window.performance) {
       entry = _.find(window.performance.getEntries(), function(entry) {
-        return entry.name.indexOf('main.js') !== -1;
+        return checkEntryLoadTime(entry);
       });
 
       if (entry && entry.duration) {
