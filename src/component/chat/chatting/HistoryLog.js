@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import { dateTime } from 'utility/formatters';
-import { locals as styles } from './ChatHistoryLog.scss';
+import { locals as styles } from './HistoryLog.scss';
 
-import { ChatGroup } from 'component/chat/ChatGroup';
-import { ChatEventMessage } from 'component/chat/ChatEventMessage';
+import { ChatGroup } from 'component/chat/chatting/ChatGroup';
+import { EventMessage } from 'component/chat/chatting/EventMessage';
 import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
 
-export class ChatHistoryLog extends Component {
+export class HistoryLog extends Component {
   static propTypes = {
     chatHistoryLog: PropTypes.array,
     agents: PropTypes.object,
@@ -65,7 +65,7 @@ export class ChatHistoryLog extends Component {
         );
       } else if (_.includes(CHAT_SYSTEM_EVENTS, groupType)) {
         return (
-          <ChatEventMessage
+          <EventMessage
             key={timestamp}
             event={group[0]}
             divider={_.get(group, '0.first') ? this.renderDivider(_.get(group, '0.timestamp')) : null}

@@ -1,6 +1,6 @@
 describe('ChatBox component', () => {
   let ChatBox;
-  const chatBoxPath = buildSrcPath('component/chat/ChatBox');
+  const chatBoxPath = buildSrcPath('component/chat/chatting/ChatBox');
 
   beforeEach(() => {
     mockery.enable();

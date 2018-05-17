@@ -1,8 +1,8 @@
-describe('ChatEventMessage component', () => {
-  let ChatEventMessage,
+describe('EventMessage component', () => {
+  let EventMessage,
     i18n;
 
-  const chatEventMessagePath = buildSrcPath('component/chat/ChatEventMessage');
+  const EventMessagePath = buildSrcPath('component/chat/chatting/EventMessage');
   const mockStringValues = {
     'embeddable_framework.chat.chatLog.chatStarted': 'Chat started',
     'embeddable_framework.chat.chatLog.rating.good': 'Good',
@@ -19,7 +19,7 @@ describe('ChatEventMessage component', () => {
     };
 
     initMockRegistry({
-      './ChatEventMessage.scss': {
+      './EventMessage.scss': {
         locals: {
           'eventMessage': 'eventMessageClass',
           'fadeIn': 'fadeInClass'
@@ -30,8 +30,8 @@ describe('ChatEventMessage component', () => {
       }
     });
 
-    mockery.registerAllowable(chatEventMessagePath);
-    ChatEventMessage = requireUncached(chatEventMessagePath).ChatEventMessage;
+    mockery.registerAllowable(EventMessagePath);
+    EventMessage = requireUncached(EventMessagePath).EventMessage;
   });
 
   afterEach(() => {
@@ -77,7 +77,7 @@ describe('ChatEventMessage component', () => {
     testCases.forEach((testCase) => {
       describe(`when passed a ${testCase.description}`, () => {
         beforeEach(() => {
-          domRender(<ChatEventMessage event={testCase.event} />);
+          domRender(<EventMessage event={testCase.event} />);
         });
 
         it('returns the appropriate string', () => {
@@ -113,7 +113,7 @@ describe('ChatEventMessage component', () => {
             return mockStringValues[key];
           });
 
-          domRender(<ChatEventMessage event={testCase.event} />);
+          domRender(<EventMessage event={testCase.event} />);
         });
 
         it('returns the appropriate string', () => {
@@ -139,7 +139,7 @@ describe('ChatEventMessage component', () => {
         return mockStringValues[key];
       });
 
-      const component = domRender(<ChatEventMessage event={event} />);
+      const component = domRender(<EventMessage event={event} />);
 
       componentNode = ReactDOM.findDOMNode(component);
     });
@@ -152,7 +152,7 @@ describe('ChatEventMessage component', () => {
     describe('when rendering a new event', () => {
       beforeEach(() => {
         const component = domRender(
-          <ChatEventMessage event={event} chatLogCreatedAt={event.timestamp - 1} />
+          <EventMessage event={event} chatLogCreatedAt={event.timestamp - 1} />
         );
 
         componentNode = ReactDOM.findDOMNode(component);
@@ -167,7 +167,7 @@ describe('ChatEventMessage component', () => {
     describe('when rendering an old event', () => {
       beforeEach(() => {
         const component = domRender(
-          <ChatEventMessage event={event} chatLogCreatedAt={event.timestamp + 1} />
+          <EventMessage event={event} chatLogCreatedAt={event.timestamp + 1} />
         );
 
         componentNode = ReactDOM.findDOMNode(component);
@@ -185,9 +185,9 @@ describe('ChatEventMessage component', () => {
 
       beforeEach(() => {
         const component = domRender(
-          <ChatEventMessage event={event}>
+          <EventMessage event={event}>
             {childElement}
-          </ChatEventMessage>
+          </EventMessage>
         );
 
         children = component.render().props.children;

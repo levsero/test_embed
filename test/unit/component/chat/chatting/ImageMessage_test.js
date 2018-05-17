@@ -2,7 +2,7 @@ describe('ImageMessage component', () => {
   let ImageMessage,
     component;
 
-  const imageMessagePath = buildSrcPath('component/chat/ImageMessage');
+  const imageMessagePath = buildSrcPath('component/chat/chatting/ImageMessage');
   const placeholderEl = '<div>Image Loading...</div>';
   const onImageLoadSpy = jasmine.createSpy('onImageLoad');
 

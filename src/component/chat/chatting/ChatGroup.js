@@ -8,8 +8,8 @@ import _ from 'lodash';
 import { Avatar } from 'component/Avatar';
 import { MessageBubble } from 'component/shared/MessageBubble';
 import { Attachment } from 'component/attachment/Attachment';
-import { MessageError } from 'component/chat/MessageError';
-import { ImageMessage } from 'component/chat/ImageMessage';
+import { MessageError } from 'component/chat/chatting/MessageError';
+import { ImageMessage } from 'component/chat/chatting/ImageMessage';
 import { ICONS, FILETYPE_ICONS } from 'constants/shared';
 import { ATTACHMENT_ERROR_TYPES,
   CHAT_MESSAGE_TYPES } from 'constants/chat';

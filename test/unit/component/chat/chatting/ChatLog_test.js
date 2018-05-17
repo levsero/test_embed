@@ -8,11 +8,11 @@ describe('ChatLog component', () => {
     'agent:123': { display_name: 'Agent123', nick: 'agent:123', typing: false, avatar_path: '/path/to/avatar'}
   };
 
-  const chatLogPath = buildSrcPath('component/chat/ChatLog');
+  const chatLogPath = buildSrcPath('component/chat/chatting/ChatLog');
   const chatConstantsPath = buildSrcPath('constants/chat');
 
   const ChatGroup = noopReactComponent();
-  const ChatEventMessage = noopReactComponent();
+  const EventMessage = noopReactComponent();
   const Button = noopReactComponent();
 
   beforeEach(() => {
@@ -26,8 +26,8 @@ describe('ChatLog component', () => {
     };
 
     initMockRegistry({
-      'component/chat/ChatGroup': { ChatGroup },
-      'component/chat/ChatEventMessage': { ChatEventMessage },
+      'component/chat/chatting/ChatGroup': { ChatGroup },
+      'component/chat/chatting/EventMessage': { EventMessage },
       'component/button/Button': { Button },
       'constants/chat': {
         CHAT_MESSAGE_EVENTS,
@@ -229,8 +229,8 @@ describe('ChatLog component', () => {
         expect(result.length).toEqual(1);
       });
 
-      it('returns an element of type ChatEventMessage', () => {
-        expect(TestUtils.isElementOfType(result[0], ChatEventMessage)).toEqual(true);
+      it('returns an element of type EventMessage', () => {
+        expect(TestUtils.isElementOfType(result[0], EventMessage)).toEqual(true);
       });
 
       it('is passed the expected props', () => {
@@ -273,13 +273,13 @@ describe('ChatLog component', () => {
       };
 
       const expectedResult = [
-        { component: ChatEventMessage, props: { event: chatLog[100][0] }},
+        { component: EventMessage, props: { event: chatLog[100][0] }},
         { component: ChatGroup, props: { isAgent: false, messages: chatLog[200], avatarPath: undefined }},
-        { component: ChatEventMessage, props: { event: chatLog[400][0] }},
+        { component: EventMessage, props: { event: chatLog[400][0] }},
         { component: ChatGroup, props: { isAgent: true, messages: chatLog[500], avatarPath: '/path/to/avatar' }},
         { component: ChatGroup, props: { isAgent: false, messages: chatLog[700], avatarPath: undefined }},
-        { component: ChatEventMessage, props: { event: chatLog[800][0] }},
-        { component: ChatEventMessage, props: { event: chatLog[900][0] }}
+        { component: EventMessage, props: { event: chatLog[800][0] }},
+        { component: EventMessage, props: { event: chatLog[900][0] }}
       ];
 
       beforeEach(() => {

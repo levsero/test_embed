@@ -2,7 +2,7 @@ describe('MessageError component', () => {
   let MessageError,
     ICONS;
 
-  const messageErrorPath = buildSrcPath('component/chat/MessageError');
+  const messageErrorPath = buildSrcPath('component/chat/chatting/MessageError');
   const sharedConstantsPath = buildSrcPath('constants/shared');
   const Icon = noopReactComponent();
 

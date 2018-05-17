@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { locals as styles } from './ChatFooter.scss';
+import { locals as styles } from './ChattingFooter.scss';
 import classNames from 'classnames';
 
 import { i18n } from 'service/i18n';
@@ -10,7 +10,7 @@ import { Dropzone } from 'component/Dropzone';
 
 import { ICONS } from 'constants/shared';
 
-export class ChatFooter extends Component {
+export class ChattingFooter extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     endChat: PropTypes.func,
