@@ -56,7 +56,7 @@ export class ChatGroup extends Component {
   updateAvatarPosition = () => {
     if (!this.container || !this.avatar) return;
 
-    const messageBubbleMargin = 5; //Ensure alignment with the accompanying messageBubble
+    const messageBubbleMargin = 5; // Ensure alignment with the accompanying messageBubble
     const containerHeight = this.container.getBoundingClientRect().height;
     const avatarHeight = this.avatar.getBoundingClientRect().height;
     const newTopPosition = containerHeight - avatarHeight - messageBubbleMargin;
