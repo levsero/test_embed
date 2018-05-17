@@ -716,6 +716,11 @@ describe('mediator', () => {
           jasmine.clock().tick(0);
         });
 
+        it('sends a `chat launch` user action blip', () => {
+          expect(beaconSub.trackUserAction.calls.count())
+            .toEqual(1);
+        });
+
         it('launches chat', () => {
           expect(webWidgetSub.show.calls.count())
             .toEqual(0);
@@ -810,6 +815,15 @@ describe('mediator', () => {
         jasmine.clock().tick(0);
 
         expect(webWidgetSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('sends a `chat launch` user action blip on next click to open chat', () => {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);  // open
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        expect(beaconSub.trackUserAction.calls.count())
           .toEqual(1);
       });
 
