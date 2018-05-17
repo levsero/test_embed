@@ -6,8 +6,6 @@ const offlineMessageScreen = 'widget/chat/OFFLINE_MESSAGE_SCREEN';
 
 describe('ChatOnline component', () => {
   let ChatOnline,
-    isIE,
-    isFirefox,
     prechatFormSettingsProp;
 
   const chatPath = buildSrcPath('component/chat/ChatOnline');
@@ -19,9 +17,7 @@ describe('ChatOnline component', () => {
   const sendChatRatingSpy = jasmine.createSpy('sendChatRating');
   const sendChatCommentSpy = jasmine.createSpy('sendChatComment');
   const endChatSpy = jasmine.createSpy('endChat');
-  const translationSpy = jasmine.createSpy('translation').and.callFake(_.identity);
   const resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage');
-  const chatNameDefaultSpy = jasmine.createSpy('chatNameDefaultSpy').and.returnValue(false);
 
   const AttachmentBox = noopReactComponent('AttachmentBox');
   const ChatMenu = noopReactComponent('ChatMenu');
@@ -42,9 +38,6 @@ describe('ChatOnline component', () => {
 
     prechatFormSettingsProp = { form: {}, required: false };
 
-    isIE = false;
-    isFirefox = false;
-
     initMockRegistry({
       './ChatOnline.scss': {
         locals: {
@@ -54,17 +47,14 @@ describe('ChatOnline component', () => {
           footer: 'footerClasses',
           footerMobile: 'footerMobileClasses',
           footerMobileWithLogo: 'footerMobileWithLogoClasses',
-          agentTyping: 'agentTypingClasses',
           scrollContainer: 'scrollContainerClasses',
           scrollContainerContent: 'scrollContainerContentClasses',
-          scrollBarFix: 'scrollBarFix',
           agentListBackButton: 'agentListBackButtonClasses',
           mobileContainer: 'mobileContainerClasses',
           logoFooter: 'logoFooterClasses',
           zendeskLogo: 'zendeskLogoClasses',
           zendeskLogoChatMobile: 'zendeskLogoChatMobileClasses',
-          agentListBackButtonWithLogo: 'agentListBackButtonWithLogoClasses',
-          historyFetchingContainer: 'historyFetchingContainerClasses'
+          agentListBackButtonWithLogo: 'agentListBackButtonWithLogoClasses'
         }
       },
       'component/loading/LoadingSpinner': {
@@ -79,11 +69,9 @@ describe('ChatOnline component', () => {
       'component/chat/ChatAgentList': {
         ChatAgentList: noopReactComponent()
       },
+      'component/chat/chatting/ChattingScreen': noopReactComponent(),
       'component/button/ButtonPill': {
         ButtonPill
-      },
-      'component/chat/ChatBox': {
-        ChatBox: noopReactComponent()
       },
       'component/chat/ChatHeader': {
         ChatHeader: noopReactComponent()
@@ -91,17 +79,8 @@ describe('ChatOnline component', () => {
       'component/chat/ChatPrechatForm': {
         ChatPrechatForm
       },
-      'component/chat/ChatFooter': {
-        ChatFooter: noopReactComponent()
-      },
       'component/chat/ChatMenu': {
         ChatMenu: ChatMenu
-      },
-      'component/chat/ChatLog': {
-        ChatLog: noopReactComponent()
-      },
-      'component/chat/ChatHistoryLog': {
-        ChatHistoryLog: noopReactComponent()
       },
       'component/container/Container': {
         Container: noopReactComponent()
@@ -159,21 +138,14 @@ describe('ChatOnline component', () => {
       },
       'service/i18n': {
         i18n: {
-          t: translationSpy,
+          t: _.identity,
           isRTL: () => {}
         }
-      },
-      'utility/devices': {
-        isIE: () => isIE,
-        isFirefox: () => isFirefox
       },
       'constants/chat': {
         AGENT_BOT: 'agent:trigger',
         CONNECTION_STATUSES,
         DEPARTMENT_STATUSES
-      },
-      'src/util/utils': {
-        chatNameDefault: chatNameDefaultSpy
       },
       'component/chat/ChatOfflineMessageForm': {
         ChatOfflineMessageForm
@@ -192,7 +164,6 @@ describe('ChatOnline component', () => {
     sendChatRatingSpy.calls.reset();
     sendChatCommentSpy.calls.reset();
     endChatSpy.calls.reset();
-    translationSpy.calls.reset();
   });
 
   describe('onContainerClick', () => {
@@ -236,214 +207,6 @@ describe('ChatOnline component', () => {
     it('calls updateMenuVisibility with false', () => {
       expect(updateMenuVisibilitySpy)
         .toHaveBeenCalledWith(false);
-    });
-  });
-
-  describe('componentDidUpdate', () => {
-    let component,
-      componentProps,
-      prevProps,
-      scrollToSpy,
-      mockGetScrollHeight,
-      mockChatScrolledToBottom,
-      mockScrollHeightAtFetch,
-      mockChatScrollPos;
-
-    beforeEach(() => {
-      scrollToSpy = jasmine.createSpy('scrollTo');
-
-      component = instanceRender(<ChatOnline {...componentProps} />);
-      component.scrollContainer = {
-        scrollTo: scrollToSpy,
-        getScrollHeight: mockGetScrollHeight
-      };
-      component.chatScrolledToBottom = mockChatScrolledToBottom;
-      component.scrollHeightAtFetch = mockScrollHeightAtFetch;
-      component.chatScrollPos = mockChatScrollPos;
-
-      spyOn(component, 'scrollToBottom');
-
-      component.componentDidUpdate(prevProps);
-    });
-
-    describe('when props.screen is not CHATTING_SCREEN', () => {
-      beforeAll(() => {
-        componentProps = { screen: 'nonexistent screen' };
-      });
-
-      it('does not call scrollTo on scrollContainer', () => {
-        expect(scrollToSpy)
-          .not.toHaveBeenCalled();
-      });
-
-      it('does not call scrollToBottom', () => {
-        expect(component.scrollToBottom)
-          .not.toHaveBeenCalled();
-      });
-    });
-
-    describe('when props.screen is CHATTING_SCREEN', () => {
-      describe('when prevProps.screen is not CHATTING_SCREEN', () => {
-        beforeAll(() => {
-          mockChatScrolledToBottom = null;
-          componentProps = { screen: chattingScreen };
-          prevProps = { screen: 'nonexistent screen' };
-        });
-
-        it('calls scrollToBottom', () => {
-          expect(component.scrollToBottom)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when chatScrolledToBottom has a value', () => {
-        beforeAll(() => {
-          mockChatScrolledToBottom = 500;
-          componentProps = { screen: chattingScreen };
-          prevProps = { screen: chattingScreen };
-        });
-
-        it('calls scrollToBottom', () => {
-          expect(component.scrollToBottom)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when chatScrolledToBottom does not have a value and prevProps is CHATTING_SCREEN', () => {
-        beforeAll(() => {
-          mockChatScrolledToBottom = null;
-          mockGetScrollHeight = noop;
-          componentProps = { screen: chattingScreen, chats: [], events: [] };
-          prevProps = { screen: chattingScreen, chats: [], events: [] };
-        });
-
-        it('does not call scrollToBottom', () => {
-          expect(component.scrollToBottom)
-            .not.toHaveBeenCalled();
-        });
-      });
-
-      describe('when scrollContainer height has changed since fetching data', () => {
-        beforeAll(() => {
-          componentProps = { screen: chattingScreen, chats: [], events: [] };
-          prevProps = { screen: chattingScreen, chats: [], events: [] };
-          mockGetScrollHeight = () => 10;
-          mockScrollHeightAtFetch = 5;
-          mockChatScrollPos = 1;
-        });
-
-        it('calls scrollTo on scrollContainer with an expected value', () => {
-          const difference = mockGetScrollHeight() - mockScrollHeightAtFetch;
-          const expected = mockChatScrollPos + difference;
-
-          expect(scrollToSpy)
-            .toHaveBeenCalledWith(expected);
-        });
-      });
-
-      describe('when scrollContainer height has not changed since fetching data', () => {
-        beforeAll(() => {
-          componentProps = { screen: chattingScreen, chats: [], events: [] };
-          prevProps = { screen: chattingScreen, chats: [], events: [] };
-          mockGetScrollHeight = () => 10;
-          mockScrollHeightAtFetch = 10;
-          mockChatScrollPos = 1;
-        });
-
-        it('does not call scrollTo on scrollContainer', () => {
-          expect(scrollToSpy)
-            .not.toHaveBeenCalled();
-        });
-      });
-
-      describe('when the chat log count has changed', () => {
-        beforeAll(() => {
-          const previousLog = { chats: [], events: [] };
-          const latestLog = {
-            chats: [{ type: 'chat.msg', msg: 'Hello' }],
-            events: []
-          };
-
-          componentProps = { screen: chattingScreen, ...latestLog };
-          prevProps = { screen: chattingScreen, ...previousLog };
-          mockGetScrollHeight = noop;
-        });
-
-        it('calls scrollToBottom', () => {
-          expect(component.scrollToBottom)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when the chat log count has not changed', () => {
-        beforeAll(() => {
-          const previousLog = { chats: [], events: [] };
-          const latestLog = { chats: [], events: [] };
-
-          componentProps = { screen: chattingScreen, ...latestLog };
-          prevProps = { screen: chattingScreen, ...previousLog };
-          mockGetScrollHeight = noop;
-        });
-
-        it('does not call scrollToBottom', () => {
-          expect(component.scrollToBottom)
-            .not.toHaveBeenCalled();
-        });
-      });
-    });
-  });
-
-  describe('componentDidMount', () => {
-    let component,
-      currentScreen,
-      chats,
-      events;
-
-    beforeEach(() => {
-      component = instanceRender(<ChatOnline screen={currentScreen} chats={chats} events={events} />);
-      spyOn(component, 'scrollToBottom');
-      component.componentDidMount();
-    });
-
-    describe('when current screen is CHATTING_SCREEN', () => {
-      describe('when there are chats', () => {
-        beforeAll(() => {
-          currentScreen = chattingScreen;
-          chats = [1,2];
-          events = [3];
-        });
-
-        it('scrolls to bottom', () => {
-          expect(component.scrollToBottom)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when there are no chats', () => {
-        beforeAll(() => {
-          currentScreen = chattingScreen;
-          chats = [];
-          events = [];
-        });
-
-        it('does not scroll to bottom', () => {
-          expect(component.scrollToBottom)
-            .not.toHaveBeenCalled();
-        });
-      });
-    });
-
-    describe('when current screen is not CHATTING_SCREEN', () => {
-      beforeAll(() => {
-        currentScreen = feedbackScreen;
-        chats = [1,2];
-        events = [3];
-      });
-
-      it('does not scroll to bottom', () => {
-        expect(component.scrollToBottom)
-          .not.toHaveBeenCalled();
-      });
     });
   });
 
@@ -1167,200 +930,7 @@ describe('ChatOnline component', () => {
   });
 
   describe('renderChatScreen', () => {
-    let component, result;
-    const renderChatComponent = ({
-      ratingsEnabled = false,
-      agents = {},
-      isMobile = false,
-      hideZendeskLogo = false
-    }) => (
-      instanceRender(
-        <ChatOnline
-          screen={chattingScreen}
-          ratingSettings={{ enabled: ratingsEnabled }}
-          activeAgents={agents}
-          isMobile={isMobile}
-          hideZendeskLogo={hideZendeskLogo} />
-      )
-    );
-
-    describe('render', () => {
-      beforeEach(() => {
-        component = renderChatComponent({
-          ratingsEnabled: true
-        });
-      });
-
-      describe('footer classnames', () => {
-        describe('on non-mobile devices', () => {
-          it('has desktop specific classes', () => {
-            result = component.renderChatScreen();
-            expect(result.props.footerClasses)
-              .toContain('footerClasses');
-            expect(result.props.footerClasses)
-              .not.toContain('footerMobileClasses');
-            expect(result.props.footerClasses)
-              .not.toContain('footerMobileWithLogoClasses');
-          });
-        });
-
-        describe('on mobile devices with logo', () => {
-          beforeEach(() => {
-            component = renderChatComponent({
-              isMobile: true
-            });
-          });
-
-          it('has mobile specific classes', () => {
-            result = component.renderChatScreen();
-            expect(result.props.footerClasses)
-              .toContain('footerClasses');
-            expect(result.props.footerClasses)
-              .toContain('footerMobileClasses');
-            expect(result.props.footerClasses)
-              .toContain('footerMobileWithLogoClasses');
-          });
-        });
-
-        describe('on mobile devices without logo', () => {
-          beforeEach(() => {
-            component = renderChatComponent({
-              isMobile: true,
-              hideZendeskLogo: true
-            });
-          });
-
-          it('has mobile specific classes', () => {
-            result = component.renderChatScreen();
-            expect(result.props.footerClasses)
-              .toContain('footerClasses');
-            expect(result.props.footerClasses)
-              .toContain('footerMobileClasses');
-            expect(result.props.footerClasses)
-              .not.toContain('footerMobileWithLogoClasses');
-          });
-        });
-      });
-
-      describe('zendeskLogo', () => {
-        let logo;
-
-        const findLogo = (parent) => {
-          const firstLevelChildren = React.Children.map(
-            parent.props.children, child => child
-          );
-          const secondLevelChildren = React.Children.map(
-            firstLevelChildren[0].props.children, child => child
-          );
-
-          return _.find(secondLevelChildren, child => {
-            return TestUtils.isElementOfType(child, ZendeskLogo);
-          });
-        };
-
-        describe('on non-mobile devices with logo', () => {
-          it('renders logo', () => {
-            result = component.renderChatScreen();
-            logo = findLogo(result);
-            expect(logo)
-              .toBeTruthy();
-          });
-
-          it('renders logo with desktop specific classes', () => {
-            result = component.renderChatScreen();
-            logo = findLogo(result);
-            expect(logo.props.className)
-              .toContain('zendeskLogoClasses');
-            expect(logo.props.className)
-              .not.toContain('zendeskLogoChatMobileClasses');
-          });
-        });
-
-        describe('on non-mobile devices without logo', () => {
-          beforeEach(() => {
-            component = renderChatComponent({
-              hideZendeskLogo: true
-            });
-          });
-
-          it('does not render logo', () => {
-            result = component.renderChatScreen();
-            logo = findLogo(result);
-            expect(logo)
-              .toBeFalsy();
-          });
-        });
-
-        describe('on mobile devices without logo', () => {
-          beforeEach(() => {
-            component = renderChatComponent({
-              isMobile: true,
-              hideZendeskLogo: true
-            });
-          });
-
-          it('does not render logo', () => {
-            result = component.renderChatScreen();
-            logo = findLogo(result);
-            expect(logo)
-              .toBeFalsy();
-          });
-        });
-
-        describe('on mobile devices with logo and no typing agent', () => {
-          beforeEach(() => {
-            component = renderChatComponent({
-              isMobile: true
-            });
-          });
-
-          it('renders logo', () => {
-            result = component.renderChatScreen();
-            logo = findLogo(result);
-            expect(logo)
-              .toBeTruthy();
-          });
-
-          it('renders logo with mobile specific classes', () => {
-            result = component.renderChatScreen();
-            logo = findLogo(result);
-            expect(logo.props.className)
-              .toContain('zendeskLogoClasses');
-            expect(logo.props.className)
-              .toContain('zendeskLogoChatMobileClasses');
-          });
-        });
-
-        describe('on mobile devices with logo and typing agent', () => {
-          beforeEach(() => {
-            component = renderChatComponent({
-              agentsTyping: [{ nick: 'agent:1', typing: true }],
-              isMobile: true
-            });
-          });
-
-          it('renders logo with mobile specific classes', () => {
-            result = component.renderChatScreen();
-            logo = findLogo(result);
-            expect(logo)
-              .toBeTruthy();
-          });
-        });
-      });
-
-      describe('the renderChatHeader call', () => {
-        beforeEach(() => {
-          component = instanceRender(<ChatOnline screen={chattingScreen} />);
-          spyOn(component, 'renderChatHeader');
-          component.renderChatScreen();
-        });
-
-        it('calls renderChatHeader', () => {
-          expect(component.renderChatHeader)
-            .toHaveBeenCalled();
-        });
-      });
-    });
+    let component;
 
     describe('when state.screen is not `chatting`', () => {
       beforeEach(() => {
@@ -1389,227 +959,6 @@ describe('ChatOnline component', () => {
       it('returns a component', () => {
         expect(component.renderChatScreen())
           .toBeTruthy();
-      });
-    });
-
-    describe('when state.lastAgentLeaveEvent contains an event', () => {
-      const leaveEvent = {nick: 'agent:123', type: 'chat.memberleave'};
-
-      beforeEach(() => {
-        component = instanceRender(
-          <ChatOnline
-            screen={chattingScreen}
-            lastAgentLeaveEvent={leaveEvent} />
-        );
-      });
-
-      it("passes the event to the chatLog component's `lastAgentLeaveEvent` prop", () => {
-        const scrollContainer = component.renderChatScreen().props.children;
-        const chatLog = scrollContainer.props.children[1];
-        const lastAgentLeaveEvent = chatLog.props.lastAgentLeaveEvent;
-
-        expect(lastAgentLeaveEvent)
-          .toEqual(leaveEvent);
-      });
-    });
-
-    describe('when state.lastAgentLeaveEvent does not contain an event', () => {
-      const leaveEvent = null;
-
-      beforeEach(() => {
-        component = instanceRender(
-          <ChatOnline
-            screen={chattingScreen}
-            lastAgentLeaveEvent={leaveEvent} />
-        );
-      });
-
-      it("passes null to the chatLog component's `lastAgentLeaveEvent` prop", () => {
-        const scrollContainer = component.renderChatScreen().props.children;
-        const chatLog = scrollContainer.props.children[1];
-        const lastAgentLeaveEvent = chatLog.props.lastAgentLeaveEvent;
-
-        expect(lastAgentLeaveEvent)
-          .toEqual(null);
-      });
-    });
-
-    describe('for non mobile devices', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOnline screen={chattingScreen} />);
-      });
-
-      it('adds the scrollContainerMessagesContentDesktop to it', () => {
-        expect(component.renderChatScreen().props.containerClasses)
-          .toContain('scrollContainerMessagesContentDesktopClass');
-      });
-
-      it('does not add the scrollContainerMobile class to it', () => {
-        expect(component.renderChatScreen().props.containerClasses)
-          .not
-          .toContain('scrollContainerMobileClasses');
-      });
-
-      it('does not add scrollContainerMessagesContent class to it', () => {
-        expect(component.renderChatScreen().props.containerClasses)
-          .not
-          .toContain('scrollContainerMessagesContentClass');
-      });
-    });
-
-    describe('for mobile devices', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOnline isMobile={true} screen={chattingScreen} />);
-      });
-
-      it('does not add the scrollContainerMessagesContentDesktop to it', () => {
-        expect(component.renderChatScreen().props.containerClasses)
-          .not
-          .toContain('scrollContainerMessagesContentDesktopClass');
-      });
-
-      it('adds mobile container classes to scrollContainer', () => {
-        expect(component.renderChatScreen().props.containerClasses)
-          .toContain('scrollContainerMobileClasses');
-      });
-
-      it('adds scrollContainerMessagesContent class to it', () => {
-        expect(component.renderChatScreen().props.containerClasses)
-          .toContain('scrollContainerMessagesContentClass');
-      });
-    });
-
-    describe('when the browser is Firefox', () => {
-      beforeEach(() => {
-        isFirefox = true;
-        component = instanceRender(<ChatOnline screen={chattingScreen} />);
-      });
-
-      it('adds the scrollbar fix classes to scrollContainer', () => {
-        expect(component.renderChatScreen().props.containerClasses)
-          .toContain('scrollBarFix');
-      });
-    });
-
-    describe('when the browser is Internet Explorer', () => {
-      beforeEach(() => {
-        isIE = true;
-        component = instanceRender(<ChatOnline screen={chattingScreen} />);
-      });
-
-      it('adds the scrollbar fix classes to scrollContainer', () => {
-        expect(component.renderChatScreen().props.containerClasses)
-          .toContain('scrollBarFix');
-      });
-    });
-
-    describe('the scroll container wrapper', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOnline screen={chattingScreen} />);
-      });
-
-      it('has its classes prop to the scroll container style', () => {
-        expect(component.renderChatScreen().props.classes)
-          .toEqual('scrollContainerClasses');
-      });
-    });
-
-    describe('showUpdateInfo', () => {
-      let loginSettings,
-        visitor,
-        result,
-        showUpdateInfoResult;
-
-      beforeEach(() => {
-        component = instanceRender(
-          <ChatOnline
-            screen={chattingScreen}
-            loginSettings={loginSettings}
-            visitor={visitor}
-          />);
-        result = component.renderChatScreen();
-        showUpdateInfoResult = result.props.children.props.children[1].props.showUpdateInfo;
-      });
-
-      describe('when login settings enabled is not true', () => {
-        beforeAll(() => {
-          loginSettings = {
-            enabled: false
-          };
-        });
-
-        it('should not show update info link', () => {
-          expect(showUpdateInfoResult)
-            .toEqual(false);
-        });
-      });
-
-      describe('when login settings enabled is true', () => {
-        beforeAll(() => {
-          loginSettings = {
-            enabled: true
-          };
-        });
-
-        describe('when visitorNameSet is true', () => {
-          describe('when emailSet is true', () => {
-            beforeAll(() => {
-              visitor = {
-                display_name: 'yolo',
-                email: 'yolo@yolo.com'
-              };
-            });
-
-            it('should not show update info link', () => {
-              expect(showUpdateInfoResult)
-                .toEqual(false);
-            });
-
-            it('should call chatNameDefault', () => {
-              expect(chatNameDefaultSpy)
-                .toHaveBeenCalledWith('yolo');
-            });
-          });
-
-          describe('when emailSet is not true', () => {
-            beforeAll(() => {
-              visitor = {
-                display_name: 'yolo'
-              };
-            });
-
-            it('should not show update info link', () => {
-              expect(showUpdateInfoResult)
-                .toEqual(false);
-            });
-          });
-        });
-
-        describe('when visitorNameSet is not true', () => {
-          describe('when emailSet is true', () => {
-            beforeAll(() => {
-              visitor = {
-                email: 'yolo@yolo.com'
-              };
-            });
-
-            it('should not show update info link', () => {
-              expect(showUpdateInfoResult)
-                .toEqual(false);
-            });
-          });
-
-          describe('when emailSet is not true', () => {
-            beforeAll(() => {
-              visitor = {};
-            });
-
-            it('should show update info link', () => {
-              expect(showUpdateInfoResult)
-                .toEqual(true);
-            });
-          });
-        });
       });
     });
   });
@@ -1989,301 +1338,6 @@ describe('ChatOnline component', () => {
     });
   });
 
-  describe('renderQueuePosition', () => {
-    let queuePositionComponent, queuePosition, mockAgents;
-
-    describe('when there is no agent in the chat', () => {
-      beforeEach(() => {
-        mockAgents = {};
-      });
-
-      describe('when the queuePosition prop is greater than zero', () => {
-        const translationKey = 'embeddable_framework.chat.chatLog.queuePosition';
-
-        beforeEach(() => {
-          queuePosition = 5;
-          const component = instanceRender(<ChatOnline activeAgents={mockAgents} queuePosition={queuePosition} />);
-
-          queuePositionComponent = component.renderQueuePosition();
-        });
-
-        it('calls the i18n translate function with the correct key and value', () => {
-          expect(translationSpy)
-            .toHaveBeenCalledWith(translationKey, { value: queuePosition });
-        });
-
-        it('returns a component displaying the result of the i18n translate call', () => {
-          const expectedContent = translationSpy(translationKey, { value: queuePosition });
-
-          expect(queuePositionComponent.props.children)
-            .toEqual(expectedContent);
-        });
-      });
-
-      describe('when the queuePosition prop is zero', () => {
-        beforeEach(() => {
-          queuePosition = 0;
-          const component = instanceRender(<ChatOnline activeAgents={mockAgents} queuePosition={queuePosition} />);
-
-          queuePositionComponent = component.renderQueuePosition();
-        });
-
-        it('returns null', () => {
-          expect(queuePositionComponent)
-            .toBeNull();
-        });
-      });
-    });
-
-    describe('when there is an agent in the chat', () => {
-      beforeEach(() => {
-        mockAgents = {'agent123456': { display_name: 'Wayne', typing: false }};
-        queuePosition = 5;
-        const component = instanceRender(<ChatOnline activeAgents={mockAgents} queuePosition={queuePosition} />);
-
-        queuePositionComponent = component.renderQueuePosition();
-      });
-
-      it('returns null', () => {
-        expect(queuePositionComponent)
-          .toBeNull();
-      });
-    });
-  });
-
-  describe('renderAgentTyping', () => {
-    let agentTypingComponent;
-
-    describe('when no agents are typing a message', () => {
-      beforeEach(() => {
-        const mockTypingAgents = [];
-        const component = instanceRender(<ChatOnline chat={{ rating: null }} />);
-
-        agentTypingComponent = component.renderAgentTyping(mockTypingAgents);
-      });
-
-      it('renders nothing', () => {
-        expect(agentTypingComponent)
-          .toBeNull();
-      });
-    });
-
-    describe('when there is an agent typing a message', () => {
-      beforeEach(() => {
-        const mockTypingAgents = [
-          { nick: 'agent:1', typing: true }
-        ];
-        const component = instanceRender(<ChatOnline chat={{ rating: null }} />);
-
-        agentTypingComponent = component.renderAgentTyping(mockTypingAgents);
-      });
-
-      it('renders the notification style', () => {
-        expect(agentTypingComponent.props.className)
-          .toEqual('agentTypingClasses');
-      });
-
-      it('renders a notification that signifies a single agent typing', () => {
-        expect(agentTypingComponent.props.children[1])
-          .toEqual('embeddable_framework.chat.chatLog.isTyping');
-      });
-    });
-
-    describe('when two agents are typing a message', () => {
-      beforeEach(() => {
-        const mockTypingAgents = [
-          { nick: 'agent:1', typing: true },
-          { nick: 'agent:2', typing: true }
-        ];
-        const component = instanceRender(<ChatOnline chat={{ rating: null }} />);
-
-        agentTypingComponent = component.renderAgentTyping(mockTypingAgents);
-      });
-
-      it('renders the notification style', () => {
-        expect(agentTypingComponent.props.className)
-          .toEqual('agentTypingClasses');
-      });
-
-      it('renders a notification that signifies two agents typing', () => {
-        expect(agentTypingComponent.props.children[1])
-          .toEqual('embeddable_framework.chat.chatLog.isTyping_two');
-      });
-    });
-
-    describe('when more than two agents are typing a message', () => {
-      beforeEach(() => {
-        const mockTypingAgents = [
-          { nick: 'agent:1',  typing: true },
-          { nick: 'agent:2',  typing: true },
-          { nick: 'agent:3',  typing: true }
-        ];
-
-        const component = instanceRender(<ChatOnline chat={{ rating: null }} />);
-
-        agentTypingComponent = component.renderAgentTyping(mockTypingAgents);
-      });
-
-      it('renders the notification style', () => {
-        expect(agentTypingComponent.props.className)
-          .toEqual('agentTypingClasses');
-      });
-
-      it('renders a notification that signifies multiple agents typing', () => {
-        expect(agentTypingComponent.props.children[1])
-          .toEqual('embeddable_framework.chat.chatLog.isTyping_multiple');
-      });
-    });
-  });
-
-  describe('renderChatHeader', () => {
-    let agentJoined,
-      ratingSettings,
-      agents,
-      screen,
-      updateChatScreenSpy,
-      chatHeaderComponent;
-
-    beforeEach(() => {
-      updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
-
-      const component = instanceRender(
-        <ChatOnline
-          ratingSettings={ratingSettings}
-          agentJoined={agentJoined}
-          activeAgents={agents}
-          screen={screen}
-          updateChatScreen={updateChatScreenSpy} />
-      );
-
-      chatHeaderComponent = component.renderChatHeader();
-    });
-
-    describe('when there is an agent actively in the chat', () => {
-      beforeAll(() => {
-        agents = { 'agent:123456': { display_name: 'agent' } };
-      });
-
-      describe('when on the chatting screen', () => {
-        beforeAll(() => {
-          screen = chattingScreen;
-        });
-
-        beforeEach(() => {
-          chatHeaderComponent.props.onAgentDetailsClick();
-        });
-
-        it('passes a function which calls updateChatScreen with agent list screen', () => {
-          expect(updateChatScreenSpy)
-            .toHaveBeenCalledWith(AGENT_LIST_SCREEN);
-        });
-      });
-
-      describe('when not on the chatting screen', () => {
-        beforeAll(() => {
-          screen = feedbackScreen;
-        });
-
-        it('passes null to the onAgentDetailsClick prop', () => {
-          expect(chatHeaderComponent.props.onAgentDetailsClick)
-            .toBeNull();
-        });
-      });
-    });
-
-    describe('when there is no agent actively in the chat', () => {
-      beforeAll(() => {
-        screen = chattingScreen;
-        agents = {};
-      });
-
-      it('passes null to the onAgentDetailsClick prop', () => {
-        expect(chatHeaderComponent.props.onAgentDetailsClick)
-          .toBeNull();
-      });
-    });
-
-    describe('when agent has joined', () => {
-      beforeAll(() => {
-        agentJoined = true;
-      });
-
-      describe('when on the chatting screen', () => {
-        beforeAll(() => {
-          screen = chattingScreen;
-        });
-
-        describe('when rating settings enabled', () => {
-          beforeAll(() => {
-            ratingSettings = { enabled: true };
-          });
-
-          it('shows rating', () => {
-            expect(chatHeaderComponent.props.showRating)
-              .toEqual(true);
-          });
-        });
-
-        describe('when rating settings not enabled', () => {
-          beforeAll(() => {
-            ratingSettings = { enabled: false };
-          });
-
-          it('does not show rating', () => {
-            expect(chatHeaderComponent.props.showRating)
-              .toEqual(false);
-          });
-        });
-      });
-
-      describe('when not on the chatting screen', () => {
-        beforeAll(() => {
-          screen = feedbackScreen;
-        });
-
-        describe('when rating settings enabled', () => {
-          beforeAll(() => {
-            ratingSettings = { enabled: true };
-          });
-
-          it('does not show rating', () => {
-            expect(chatHeaderComponent.props.showRating)
-              .toEqual(false);
-          });
-        });
-      });
-    });
-
-    describe('when agent has not joined', () => {
-      beforeAll(() => {
-        screen = chattingScreen;
-        agentJoined = false;
-      });
-
-      describe('when rating settings enabled', () => {
-        beforeAll(() => {
-          ratingSettings = { enabled: true };
-        });
-
-        it('does not show rating', () => {
-          expect(chatHeaderComponent.props.showRating)
-            .toEqual(false);
-        });
-      });
-
-      describe('when rating settings not enabled', () => {
-        beforeAll(() => {
-          ratingSettings = { enabled: false };
-        });
-
-        it('does not show rating', () => {
-          expect(chatHeaderComponent.props.showRating)
-            .toEqual(false);
-        });
-      });
-    });
-  });
-
   describe('renderAttachmentsBox', () => {
     let component;
     const renderChatComponent = (screen, attachmentsEnabled) => (
@@ -2542,68 +1596,6 @@ describe('ChatOnline component', () => {
     it('calls updateContactDetailsVisibility with true', () => {
       expect(updateContactDetailsVisibilitySpy)
         .toHaveBeenCalledWith(true);
-    });
-  });
-
-  describe('renderHistoryFetching', () => {
-    let requestStatus,
-      result;
-
-    beforeEach(() => {
-      const component = instanceRender(<ChatOnline historyRequestStatus={requestStatus} />);
-
-      result = component.renderHistoryFetching();
-    });
-
-    describe('when the request status is set to pending', () => {
-      beforeAll(() => {
-        requestStatus = 'pending';
-      });
-
-      it('returns a div with the expected class', () => {
-        expect(result.props.className)
-          .toEqual('historyFetchingContainerClasses');
-      });
-    });
-
-    describe('when the request status is null', () => {
-      beforeAll(() => {
-        requestStatus = null;
-      });
-
-      it('returns null', () => {
-        expect(result)
-          .toBeNull();
-      });
-    });
-  });
-
-  describe('handleChatScreenScrolled', () => {
-    let component,
-      fetchConversationHistorySpy,
-      getScrollHeightSpy;
-
-    beforeEach(() => {
-      fetchConversationHistorySpy = jasmine.createSpy('fetchConversationHistory');
-      getScrollHeightSpy = jasmine.createSpy('getScrollHeight');
-
-      component = instanceRender(<ChatOnline hasMoreHistory={true} historyRequestStatus='not_pending' fetchConversationHistory={fetchConversationHistorySpy} />);
-      component.scrollContainer = {
-        isAtTop: () => true,
-        getScrollHeight: getScrollHeightSpy
-      };
-
-      component.handleChatScreenScrolled();
-    });
-
-    it('calls props.fetchConversationHistory', () => {
-      expect(fetchConversationHistorySpy)
-        .toHaveBeenCalled();
-    });
-
-    it('calls getScrollHeight on scrollContainer', () => {
-      expect(getScrollHeightSpy)
-        .toHaveBeenCalled();
     });
   });
 });
