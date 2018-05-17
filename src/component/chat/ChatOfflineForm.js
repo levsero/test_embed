@@ -29,6 +29,7 @@ export class ChatOfflineForm extends Component {
     formFields: PropTypes.object.isRequired,
     isMobile: PropTypes.bool,
     socialLogin: PropTypes.object.isRequired,
+    authUrls: PropTypes.object.isRequired,
     chatVisitor: PropTypes.object.isRequired
   };
 
@@ -38,16 +39,16 @@ export class ChatOfflineForm extends Component {
     isMobile: false,
     offlineMessage: {},
     initiateSocialLogout: () => {},
-    socialLogin: {}
+    socialLogin: {},
+    authUrls: {}
   };
 
   renderNameField() {
-    const { formFields, formState, socialLogin } = this.props;
+    const { formFields, formState, authUrls } = this.props;
     const isRequired = !!_.get(formFields, 'name.required');
     const value = _.get(formState, 'name', '');
-    const atLeastOneSocialLogin = (_.size(socialLogin.authUrls) > 0);
     const fieldContainerStyle = classNames({
-      [styles.nameFieldWithSocialLogin]: atLeastOneSocialLogin
+      [styles.nameFieldWithSocialLogin]: _.size(authUrls) > 0
     });
 
     return (
@@ -151,6 +152,7 @@ export class ChatOfflineForm extends Component {
   renderSocialLogin() {
     return (
       <ChatSocialLogin
+        authUrls={this.props.authUrls}
         socialLogin={this.props.socialLogin}
         chatVisitor={this.props.chatVisitor}
         initiateSocialLogout={this.props.initiateSocialLogout}

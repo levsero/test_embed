@@ -21,6 +21,7 @@ export class ChatPrechatForm extends Component {
     visitor: PropTypes.object,
     onFormCompleted: PropTypes.func,
     loginEnabled: PropTypes.bool,
+    authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
     chatVisitor: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired
@@ -34,6 +35,7 @@ export class ChatPrechatForm extends Component {
     visitor: {},
     onFormCompleted: () => {},
     loginEnabled: true,
+    authUrls: {},
     socialLogin: {}
   };
 
@@ -105,13 +107,14 @@ export class ChatPrechatForm extends Component {
   }
 
   renderNameField = () => {
-    if (!this.props.loginEnabled) return null;
+    const { loginEnabled, form, formState, authUrls } = this.props;
 
-    const nameData = this.props.form.name;
+    if (!loginEnabled) return null;
+
+    const nameData = form.name;
     const required = this.isFieldRequired(nameData.required);
-    const atLeastOneSocialLogin = (_.size(this.props.socialLogin.authUrls) > 0);
     const fieldContainerStyle = classNames({
-      [styles.nameFieldWithSocialLogin]: atLeastOneSocialLogin
+      [styles.nameFieldWithSocialLogin]: _.size(authUrls) > 0
     });
 
     return (
@@ -119,7 +122,7 @@ export class ChatPrechatForm extends Component {
         fieldContainerClasses={fieldContainerStyle}
         label={i18n.t('embeddable_framework.common.textLabel.name')}
         required={required}
-        value={this.props.formState.name}
+        value={formState.name}
         name={nameData.name} />
     );
   }
@@ -200,6 +203,7 @@ export class ChatPrechatForm extends Component {
   renderSocialLogin() {
     return (
       <ChatSocialLogin
+        authUrls={this.props.authUrls}
         socialLogin={this.props.socialLogin}
         chatVisitor={this.props.chatVisitor}
         initiateSocialLogout={this.props.initiateSocialLogout}

@@ -1,5 +1,4 @@
 import {
-  UPDATE_SOCIAL_LOGIN_URLS,
   CHAT_SOCIAL_LOGIN_SUCCESS,
   CHAT_SOCIAL_LOGOUT_SUCCESS,
   CHAT_SOCIAL_LOGOUT_PENDING,
@@ -8,7 +7,6 @@ import {
 
 const initialState = {
   authenticated: false,
-  authUrls: {},
   screen: '',
   avatarPath: ''
 };
@@ -17,11 +15,6 @@ const socialLogin = (state = initialState, action = {}) => {
   const { type, payload } = action;
 
   switch (type) {
-    case UPDATE_SOCIAL_LOGIN_URLS:
-      return {
-        ...state,
-        authUrls: { ...payload }
-      };
     case CHAT_SOCIAL_LOGIN_SUCCESS:
       return {
         ...state,

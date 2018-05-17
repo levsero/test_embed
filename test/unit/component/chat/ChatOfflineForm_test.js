@@ -417,9 +417,7 @@ describe('ChatOfflineForm component', () => {
     describe('when there is at least one social login available', () => {
       beforeAll(() => {
         componentArgs = {
-          socialLogin: {
-            authUrls: [{ Goggle: 'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY' }]
-          }
+          authUrls: [{ Goggle: 'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY' }]
         };
       });
 
@@ -432,9 +430,7 @@ describe('ChatOfflineForm component', () => {
     describe('when there are no social logins available', () => {
       beforeAll(() => {
         componentArgs = {
-          socialLogin: {
-            authUrls: []
-          }
+          authUrls: []
         };
       });
 

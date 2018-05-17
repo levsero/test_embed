@@ -27,7 +27,6 @@ describe('chat reducer socialLogin', () => {
       it('is set to an expected default object', () => {
         const expected = {
           authenticated: false,
-          authUrls: {},
           screen: '',
           avatarPath: ''
         };
@@ -43,29 +42,6 @@ describe('chat reducer socialLogin', () => {
 
       beforeEach(() => {
         state = reducer(initialState, action);
-      });
-
-      describe('UPDATE_SOCIAL_LOGIN_URLS', () => {
-        beforeAll(() => {
-          payload = {
-            google: 'https://www.zopim.com/auth/Google/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY',
-            facebook: 'https://www.zopim.com/auth/Facebook/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY'
-          };
-          action = {
-            type: actionTypes.UPDATE_SOCIAL_LOGIN_URLS,
-            payload: payload
-          };
-        });
-
-        it('updates the state with the payload', () => {
-          const expected = {
-            ...initialState,
-            authUrls: payload
-          };
-
-          expect(state)
-            .toEqual(expected);
-        });
       });
 
       describe('CHAT_SOCIAL_LOGIN_SUCCESS', () => {

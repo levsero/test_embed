@@ -12,6 +12,7 @@ import { CHAT_SOCIAL_LOGIN_SCREENS } from 'constants/chat';
 
 export class ChatSocialLogin extends Component {
   static propTypes = {
+    authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
     chatVisitor: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
@@ -20,6 +21,7 @@ export class ChatSocialLogin extends Component {
   };
 
   static defaultProps = {
+    authUrls: {},
     socialLogin: {},
     chatVisitor: {},
     initiateSocialLogout: () => {},
@@ -70,7 +72,7 @@ export class ChatSocialLogin extends Component {
   }
 
   renderSocialLoginField() {
-    const { authUrls } = this.props.socialLogin;
+    const { authUrls } = this.props;
 
     if (_.size(authUrls) === 0) return null;
 

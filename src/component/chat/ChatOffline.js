@@ -19,6 +19,7 @@ import { getChatOfflineForm,
   getOfflineFormFields,
   getGroupedOperatingHours,
   getSocialLogin,
+  getAuthUrls,
   getChatVisitor } from 'src/redux/modules/chat/chat-selectors';
 
 import { locals as styles } from './ChatOffline.scss';
@@ -31,6 +32,7 @@ const mapStateToProps = (state) => {
     offlineMessage: getOfflineMessage(state),
     operatingHours: getGroupedOperatingHours(state),
     socialLogin: getSocialLogin(state),
+    authUrls: getAuthUrls(state),
     chatVisitor: getChatVisitor(state)
   };
 };
@@ -48,6 +50,7 @@ class ChatOffline extends Component {
     formSettings: PropTypes.object.isRequired,
     offlineMessage: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
+    authUrls: PropTypes.object.isRequired,
     chatVisitor: PropTypes.object.isRequired,
     handleCloseClick: PropTypes.func,
     operatingHours: PropTypes.object,
@@ -74,6 +77,7 @@ class ChatOffline extends Component {
         initiateSocialLogout={this.props.initiateSocialLogout}
         chatVisitor={this.props.chatVisitor}
         socialLogin={this.props.socialLogin}
+        authUrls={this.props.authUrls}
         formFields={this.props.formFields}
         formState={this.props.formState}
         offlineMessage={this.props.offlineMessage}

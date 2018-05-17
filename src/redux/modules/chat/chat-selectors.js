@@ -1,6 +1,13 @@
+const zChat = (() => { try { return require('chat-web-sdk'); } catch (_) {} })();
+
 import _ from 'lodash';
 import { createSelector } from 'reselect';
-import { AGENT_BOT, CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS, DEPARTMENT_STATUSES } from 'constants/chat';
+import {
+  AGENT_BOT,
+  CHAT_MESSAGE_EVENTS,
+  CHAT_SYSTEM_EVENTS,
+  DEPARTMENT_STATUSES,
+  WHITELISTED_SOCIAL_LOGINS } from 'constants/chat';
 import { CHATTING_SCREEN } from './chat-screen-types';
 
 import { i18n } from 'service/i18n';
@@ -62,6 +69,23 @@ export const getFirstMessageTimestamp = (state) => {
 
   return first ? first.timestamp : Date.now();
 };
+
+export const getAuthUrls = createSelector(
+  getLoginSettings,
+  (loginSettingsObj) => {
+    if (!zChat.getAuthLoginUrl) return {};
+
+    return _.reduce(loginSettingsObj.loginTypes, (accumulator, enabled, socialMedia) => {
+      const whitelisted = _.includes(WHITELISTED_SOCIAL_LOGINS, socialMedia);
+
+      if (enabled && whitelisted) {
+        accumulator[socialMedia] = zChat.getAuthLoginUrl(socialMedia);
+      }
+
+      return accumulator;
+    }, {});
+  }
+);
 
 export const getActiveAgents = createSelector(
   getOrderedAgents,

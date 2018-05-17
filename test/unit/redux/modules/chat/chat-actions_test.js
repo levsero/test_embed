@@ -624,8 +624,7 @@ describe('chat redux actions', () => {
   });
 
   describe('getAccountSettings', () => {
-    let action,
-      updateAccountSettingsAction;
+    let updateAccountSettingsAction;
 
     describe('when the prechat form is required', () => {
       let updateScreenAction;
@@ -749,65 +748,6 @@ describe('chat redux actions', () => {
               .toHaveBeenCalledWith('newChat.offlineFormOn');
           });
         });
-      });
-    });
-
-    describe('when accountSettings.login exists', () => {
-      beforeEach(() => {
-        mockStore.dispatch(actions.getAccountSettings());
-        action = mockStore.getActions()[0];
-      });
-
-      describe('when chat is not standalone', () => {
-        beforeAll(() => {
-          mockAccountSettings = {
-            login: {
-              allowed_types: {
-                facebook: true,
-                google: true,
-                twitter: false
-              }
-            },
-            forms: { pre_chat_form: {} },
-            chat_button: {}
-          };
-        });
-
-        it('dispatches an action type of UPDATE_SOCIAL_LOGIN_URLS with an expected payload', () => {
-          const expected = {
-            type: actionTypes.UPDATE_SOCIAL_LOGIN_URLS,
-            payload: {
-              facebook: 'www.foo.com/facebook/bar-baz',
-              google: 'www.foo.com/google/bar-baz'
-            }
-          };
-
-          expect(action)
-            .toEqual(expected);
-        });
-      });
-    });
-
-    describe('when accountSettings.login does not exists', () => {
-      beforeEach(() => {
-        mockAccountSettings = {
-          forms: { pre_chat_form: {} },
-          chat_button: {}
-        };
-
-        mockStore.dispatch(actions.getAccountSettings());
-        action = mockStore.getActions();
-      });
-
-      it('does not dispatch an action type of UPDATE_SOCIAL_LOGIN_URLS', () => {
-        const actionSizeEqualToOne = (_.size(action) === 1);
-        const actionTypeNotSocialLogin = (action.type !== actionTypes.UPDATE_SOCIAL_LOGIN_URLS);
-
-        expect(actionSizeEqualToOne)
-          .toEqual(true);
-
-        expect(actionTypeNotSocialLogin)
-          .toEqual(true);
       });
     });
   });

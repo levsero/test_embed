@@ -105,10 +105,8 @@ describe('ChatSocialLogin component', () => {
     describe('when there is at least one social login available', () => {
       beforeAll(() => {
         componentArgs = {
-          socialLogin: {
-            authenticated: true,
-            authUrls: [{ Goggle: 'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY' }]
-          }
+          socialLogin: { authenticated: true },
+          authUrls: [{ Goggle: 'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY' }]
         };
       });
 
@@ -119,7 +117,7 @@ describe('ChatSocialLogin component', () => {
 
       it('calls renderSocialLoginOptions with expected args', () => {
         expect(component.renderSocialLoginOptions)
-          .toHaveBeenCalledWith(componentArgs.socialLogin.authUrls);
+          .toHaveBeenCalledWith(componentArgs.authUrls);
       });
 
       it('renders the social login label', () => {
@@ -131,9 +129,7 @@ describe('ChatSocialLogin component', () => {
     describe('when there are no social logins available', () => {
       beforeAll(() => {
         componentArgs = {
-          socialLogin: {
-            authUrls: []
-          }
+          authUrls: []
         };
       });
 

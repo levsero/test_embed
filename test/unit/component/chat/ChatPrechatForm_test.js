@@ -296,9 +296,7 @@ describe('ChatPrechatForm component', () => {
       beforeAll(() => {
         componentArgs = {
           form: mockFormProp,
-          socialLogin: {
-            authUrls: [{ Goggle: 'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY' }]
-          }
+          authUrls: [{ Goggle: 'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY' }]
         };
       });
 
@@ -312,9 +310,7 @@ describe('ChatPrechatForm component', () => {
       beforeAll(() => {
         componentArgs = {
           form: mockFormProp,
-          socialLogin: {
-            authUrls: []
-          }
+          authUrls: []
         };
       });
 
