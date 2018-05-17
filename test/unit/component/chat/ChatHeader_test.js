@@ -158,6 +158,7 @@ describe('ChatHeader component', () => {
 
         component = domRender(<ChatHeader {...props} />);
         spyOn(component, 'renderAvatars');
+        spyOn(component, 'renderOverflow');
         avatarContainer = component.renderAvatarContainer();
       });
 
@@ -170,6 +171,11 @@ describe('ChatHeader component', () => {
         expect(component.renderAvatars)
           .toHaveBeenCalledWith([ avatarDetails ]);
       });
+
+      it('calls renderOverflow with 0', () => {
+        expect(component.renderOverflow)
+          .toHaveBeenCalledWith(0);
+      });
     });
 
     describe('when there are two agents', () => {
@@ -180,6 +186,7 @@ describe('ChatHeader component', () => {
 
         component = domRender(<ChatHeader {...props} />);
         spyOn(component, 'renderAvatars');
+        spyOn(component, 'renderOverflow');
         avatarContainer = component.renderAvatarContainer();
       });
 
@@ -192,6 +199,11 @@ describe('ChatHeader component', () => {
         expect(component.renderAvatars)
           .toHaveBeenCalledWith([ avatarDetails, avatarDetails ]);
       });
+
+      it('calls renderOverflow with 0', () => {
+        expect(component.renderOverflow)
+          .toHaveBeenCalledWith(0);
+      });
     });
 
     describe('when there are three agents', () => {
@@ -202,6 +214,7 @@ describe('ChatHeader component', () => {
 
         component = domRender(<ChatHeader {...props} />);
         spyOn(component, 'renderAvatars');
+        spyOn(component, 'renderOverflow');
         avatarContainer = component.renderAvatarContainer();
       });
 
@@ -214,6 +227,11 @@ describe('ChatHeader component', () => {
         expect(component.renderAvatars)
           .toHaveBeenCalledWith([ avatarDetails, avatarDetails, avatarDetails ]);
       });
+
+      it('calls renderOverflow with 0', () => {
+        expect(component.renderOverflow)
+          .toHaveBeenCalledWith(0);
+      });
     });
 
     describe('when there are more than three agents', () => {
@@ -224,6 +242,7 @@ describe('ChatHeader component', () => {
 
         component = domRender(<ChatHeader {...props} />);
         spyOn(component, 'renderAvatars');
+        spyOn(component, 'renderOverflow');
         avatarContainer = component.renderAvatarContainer();
       });
 
@@ -232,9 +251,30 @@ describe('ChatHeader component', () => {
           .toBe(`${72/fontSize}rem`);
       });
 
-      it('calls renderAvatars with just the first three avatars', () => {
+      it('calls renderAvatars with just the first two avatars', () => {
         expect(component.renderAvatars)
-          .toHaveBeenCalledWith([ avatarDetails, avatarDetails, avatarDetails ]);
+          .toHaveBeenCalledWith([ avatarDetails, avatarDetails ]);
+      });
+
+      it('calls renderOverflow with the correct value', () => {
+        expect(component.renderOverflow)
+          .toHaveBeenCalledWith(2);
+
+        let props = {
+          concierges: [ avatarDetails, avatarDetails, avatarDetails, avatarDetails, avatarDetails ]
+        };
+
+        component = domRender(<ChatHeader {...props} />);
+        expect(component.renderOverflow)
+          .toHaveBeenCalledWith(3);
+
+        props = {
+          concierges: [...Array(150).keys()].map(() => avatarDetails)
+        };
+
+        component = domRender(<ChatHeader {...props} />);
+        expect(component.renderOverflow)
+          .toHaveBeenCalledWith(99);
       });
     });
   });
