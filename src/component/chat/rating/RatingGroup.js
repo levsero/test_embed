@@ -4,15 +4,15 @@ import _ from 'lodash';
 
 import { ButtonIcon } from 'component/button/ButtonIcon';
 
-import { locals as styles } from './ChatRatingGroup.scss';
+import { locals as styles } from './RatingGroup.scss';
 
-export const ChatRatings = {
+export const ratings = {
   GOOD: 'good',
   BAD: 'bad',
   NOT_SET: null
 };
 
-export class ChatRatingGroup extends Component {
+export class RatingGroup extends Component {
   static propTypes = {
     updateRating: PropTypes.func.isRequired,
     rating: PropTypes.string,
@@ -21,20 +21,20 @@ export class ChatRatingGroup extends Component {
   }
 
   static defaultProps = {
-    rating: ChatRatings.NOT_SET,
+    rating: ratings.NOT_SET,
     rtl: false,
     className: ''
   }
 
   ratingClickedHandler = (value) => {
-    const rating = this.props.rating === value ? ChatRatings.NOT_SET : value;
+    const rating = this.props.rating === value ? ratings.NOT_SET : value;
 
     this.props.updateRating(rating);
   }
 
   renderThumbsUpButton = () => {
     const { rating, rtl } = this.props;
-    const thumbUpActiveStyle = rating === ChatRatings.GOOD ? styles.ratingIconActive : '';
+    const thumbUpActiveStyle = rating === ratings.GOOD ? styles.ratingIconActive : '';
     const iconStyles = !rtl ? styles.leftRatingIcon : styles.ratingIcon;
 
     return (
@@ -43,13 +43,13 @@ export class ChatRatingGroup extends Component {
         className={`${iconStyles} ${thumbUpActiveStyle}`}
         iconClasses={styles.icon}
         icon='Icon--thumbUp'
-        onClick={() => this.ratingClickedHandler(ChatRatings.GOOD)} />
+        onClick={() => this.ratingClickedHandler(ratings.GOOD)} />
     );
   }
 
   renderThumbsDownButton = () => {
     const { rating, rtl } = this.props;
-    const thumbDownActiveStyle = rating === ChatRatings.BAD ? styles.ratingIconActive : '';
+    const thumbDownActiveStyle = rating === ratings.BAD ? styles.ratingIconActive : '';
     const iconStyles = !rtl ? styles.ratingIcon : styles.leftRatingIcon;
 
     return (
@@ -58,7 +58,7 @@ export class ChatRatingGroup extends Component {
         className={`${iconStyles} ${thumbDownActiveStyle}`}
         iconClasses={styles.icon}
         icon='Icon--thumbDown'
-        onClick={() => this.ratingClickedHandler(ChatRatings.BAD)} />
+        onClick={() => this.ratingClickedHandler(ratings.BAD)} />
     );
   }
 

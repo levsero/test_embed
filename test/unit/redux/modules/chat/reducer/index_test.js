@@ -7,8 +7,8 @@ describe('chat root reducer', () => {
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/index');
 
     initMockRegistry({
-      'component/chat/ChatRatingGroup': {
-        ChatRatings: { NOT_SET: null }
+      'component/chat/rating/RatingGroup': {
+        ratings: { NOT_SET: null }
       },
       'constants/chat': {
         OFFLINE_FORM_SCREENS: {}

@@ -8,8 +8,8 @@ describe('chat ratings', () => {
     mockery.enable();
 
     initMockRegistry({
-      'component/chat/ChatRatingGroup': {
-        ChatRatings: {
+      'component/chat/rating/RatingGroup': {
+        ratings: {
           GOOD: 'good',
           BAD: 'bad',
           NOT_SET: null

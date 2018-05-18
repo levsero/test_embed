@@ -19,7 +19,7 @@ import ChatContactDetailsPopupStyles from 'component/chat/ChatContactDetailsPopu
 import ChatEmailTranscriptPopupStyles from 'component/chat/ChatEmailTranscriptPopup.scss';
 import ChatHeaderStyles from 'component/chat/ChatHeader.scss';
 import ChattingFooterStyles from 'component/chat/chatting/ChattingFooter.scss';
-import ChatRatingGroupStyles from 'component/chat/ChatRatingGroup.scss';
+import RatingGroupStyles from 'component/chat/rating/RatingGroup.scss';
 import ChatPrechatFormStyles from 'component/chat/ChatPrechatForm.scss';
 import ChatMenuStyles from 'component/chat/ChatMenu.scss';
 import ChatGroupStyles from 'component/chat/chatting/ChatGroup.scss';
@@ -27,7 +27,7 @@ import EventMessageStyles from 'component/chat/chatting/EventMessage.scss';
 import ChatLogStyles from 'component/chat/chatting/ChatLog.scss';
 import HistoryLogStyles from 'component/chat/chatting/HistoryLog.scss';
 import ChatReconnectionBubbleStyles from 'component/chat/ChatReconnectionBubble.scss';
-import ChatFeedbackForm from 'component/chat/ChatFeedbackForm.scss';
+import FeedbackForm from 'component/chat/rating/FeedbackForm.scss';
 import ChatOfflineFormStyles from 'component/chat/ChatOfflineForm.scss';
 import ChatSocialLoginStyles from 'component/chat/ChatSocialLogin.scss';
 import ChatOfflineStyles from 'component/chat/ChatOffline.scss';
@@ -85,7 +85,7 @@ export const webWidgetStyles = `
   ${ChatEmailTranscriptPopupStyles}
   ${ChatHeaderStyles}
   ${ChattingFooterStyles}
-  ${ChatRatingGroupStyles}
+  ${RatingGroupStyles}
   ${ChatPrechatFormStyles}
   ${ChatMenuStyles}
   ${ChatGroupStyles}
@@ -93,7 +93,7 @@ export const webWidgetStyles = `
   ${ChatLogStyles}
   ${HistoryLogStyles}
   ${ChatReconnectionBubbleStyles}
-  ${ChatFeedbackForm}
+  ${FeedbackForm}
   ${ChatOfflineFormStyles}
   ${ChatOfflineMessageFormStyles}
   ${ChatOfflineStyles}

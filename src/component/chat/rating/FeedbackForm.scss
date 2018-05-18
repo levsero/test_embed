@@ -1,4 +1,4 @@
-@import '../../styles/_vars.scss';
+@import '../../../styles/_vars.scss';
 
 .feedbackMessage {
   composes: u-block u-textBold from global;
@@ -27,7 +27,7 @@
 
 .textarea {
   composes: u-marginBM u-hsizeAll u-paddingTS u-paddingHS from global;
-  composes: Form-field from '../../styles/components/Form.scss';
+  composes: Form-field from '../../../styles/components/Form.scss';
   border-radius: #{4/$font-size}rem;
   resize: none;
   outline: none;
@@ -48,6 +48,6 @@
   composes: u-marginBS u-block from global;
 }
 
-.chatRatingGroup {
+.ratingGroup {
   composes: u-marginBS u-marginTT from global;
 }

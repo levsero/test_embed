@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { ChatFeedbackForm } from 'component/chat/ChatFeedbackForm';
+import { FeedbackForm } from 'component/chat/rating/FeedbackForm';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
@@ -113,7 +113,7 @@ class RatingScreen extends Component {
         footerClasses={logoFooterClasses}
         footerContent={this.renderZendeskLogo()}
         fullscreen={isMobile}>
-        <ChatFeedbackForm
+        <FeedbackForm
           feedbackMessage={message}
           rating={this.props.rating}
           skipClickFn={this.skipClick}

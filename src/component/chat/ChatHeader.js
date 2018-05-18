@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import { i18n } from 'service/i18n';
 import { Avatar } from 'component/Avatar';
-import { ChatRatingGroup } from 'component/chat/ChatRatingGroup';
+import { RatingGroup } from 'component/chat/rating/RatingGroup';
 import { FONT_SIZE } from 'constants/shared';
 
 import { locals as styles } from './ChatHeader.scss';
@@ -73,7 +73,7 @@ export class ChatHeader extends Component {
 
   renderRatingButtons = () => {
     return (
-      <ChatRatingGroup
+      <RatingGroup
         updateRating={this.props.updateRating}
         rtl={i18n.rtl}
         rating={this.props.rating} />

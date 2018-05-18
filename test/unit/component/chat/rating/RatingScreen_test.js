@@ -8,7 +8,7 @@ describe('RatingScreen component', () => {
   const sendChatCommentSpy = jasmine.createSpy('sendChatComment');
   const endChatSpy = jasmine.createSpy('endChat');
 
-  const ChatFeedbackForm = noopReactComponent('ChatFeedbackForm');
+  const FeedbackForm = noopReactComponent('FeedbackForm');
   const ZendeskLogo = noopReactComponent('ZendeskLogo');
 
   beforeEach(() => {
@@ -22,8 +22,8 @@ describe('RatingScreen component', () => {
           logoFooter: 'logoFooterClasses'
         }
       },
-      'component/chat/ChatFeedbackForm': {
-        ChatFeedbackForm
+      'component/chat/rating/FeedbackForm': {
+        FeedbackForm
       },
       'component/chat/ChatHeader': {
         ChatHeader: noopReactComponent()
@@ -90,10 +90,10 @@ describe('RatingScreen component', () => {
       endChatSpy.calls.reset();
     });
 
-    it('returns a component with the ChatFeedbackForm component as the first child', () => {
+    it('returns a component with the FeedbackForm component as the first child', () => {
       const firstChild = component.render().props.children;
 
-      expect(TestUtils.isElementOfType(firstChild, ChatFeedbackForm)).toEqual(true);
+      expect(TestUtils.isElementOfType(firstChild, FeedbackForm)).toEqual(true);
     });
 
     describe('the scroll container wrapper', () => {
@@ -108,7 +108,7 @@ describe('RatingScreen component', () => {
       });
     });
 
-    describe('the sendClickFn passed as a prop to the ChatFeedbackForm', () => {
+    describe('the sendClickFn passed as a prop to the FeedbackForm', () => {
       beforeEach(() => {
         component.skipClick();
       });

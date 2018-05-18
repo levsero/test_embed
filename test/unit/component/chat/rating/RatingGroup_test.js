@@ -1,7 +1,7 @@
-describe('ChatRatingGroup component', () => {
-  let ChatRatingGroup,
+describe('RatingGroup component', () => {
+  let RatingGroup,
     ChatRatings;
-  const chatRatingGroupPath = buildSrcPath('component/chat/ChatRatingGroup');
+  const RatingGroupPath = buildSrcPath('component/chat/rating/RatingGroup');
 
   beforeEach(() => {
     mockery.enable();
@@ -16,7 +16,7 @@ describe('ChatRatingGroup component', () => {
           }
         }
       },
-      './ChatRatingGroup.scss': {
+      './RatingGroup.scss': {
         locals: {
           ratingIconActive: 'ratingIconActive',
           ratingIcon: 'ratingIcon',
@@ -27,9 +27,9 @@ describe('ChatRatingGroup component', () => {
       }
     });
 
-    mockery.registerAllowable(chatRatingGroupPath);
-    ChatRatingGroup = requireUncached(chatRatingGroupPath).ChatRatingGroup;
-    ChatRatings = requireUncached(chatRatingGroupPath).ChatRatings;
+    mockery.registerAllowable(RatingGroupPath);
+    RatingGroup = requireUncached(RatingGroupPath).RatingGroup;
+    ChatRatings = requireUncached(RatingGroupPath).ratings;
   });
 
   afterEach(() => {
@@ -38,24 +38,24 @@ describe('ChatRatingGroup component', () => {
   });
 
   describe('render', () => {
-    let chatratingGroupNode;
+    let RatingGroupNode;
 
     describe('when the rating value is good', () => {
       beforeEach(() => {
-        const component = domRender(<ChatRatingGroup rating={ChatRatings.GOOD} />);
+        const component = domRender(<RatingGroup rating={ChatRatings.GOOD} />);
 
-        chatratingGroupNode = ReactDOM.findDOMNode(component);
+        RatingGroupNode = ReactDOM.findDOMNode(component);
       });
 
       it('renders active styles for thumbUp button', () => {
-        const buttonIconNode = chatratingGroupNode.querySelector('.Icon--thumbUp');
+        const buttonIconNode = RatingGroupNode.querySelector('.Icon--thumbUp');
 
         expect(buttonIconNode.className)
           .toContain('ratingIconActive');
       });
 
       it('does not render active styles for thumbDown button', () => {
-        const buttonIconNode = chatratingGroupNode.querySelector('.Icon--thumbDown');
+        const buttonIconNode = RatingGroupNode.querySelector('.Icon--thumbDown');
 
         expect(buttonIconNode.className)
           .not.toContain('ratingIconActive');
@@ -64,20 +64,20 @@ describe('ChatRatingGroup component', () => {
 
     describe('when the rating value is bad', () => {
       beforeEach(() => {
-        const component = domRender(<ChatRatingGroup rating={ChatRatings.BAD} />);
+        const component = domRender(<RatingGroup rating={ChatRatings.BAD} />);
 
-        chatratingGroupNode = ReactDOM.findDOMNode(component);
+        RatingGroupNode = ReactDOM.findDOMNode(component);
       });
 
       it('renders active styles for thumbDown button', () => {
-        const buttonIconNode = chatratingGroupNode.querySelector('.Icon--thumbDown');
+        const buttonIconNode = RatingGroupNode.querySelector('.Icon--thumbDown');
 
         expect(buttonIconNode.className)
           .toContain('ratingIconActive');
       });
 
       it('does not render active styles for thumbDown button', () => {
-        const buttonIconNode = chatratingGroupNode.querySelector('.Icon--thumbUp');
+        const buttonIconNode = RatingGroupNode.querySelector('.Icon--thumbUp');
 
         expect(buttonIconNode.className)
           .not.toContain('ratingIconActive');
@@ -89,11 +89,11 @@ describe('ChatRatingGroup component', () => {
         thumbDownNode;
 
       beforeEach(() => {
-        const component = domRender(<ChatRatingGroup />);
+        const component = domRender(<RatingGroup />);
 
-        chatratingGroupNode = ReactDOM.findDOMNode(component);
-        thumbUpNode = chatratingGroupNode.querySelector('.Icon--thumbUp');
-        thumbDownNode = chatratingGroupNode.querySelector('.Icon--thumbDown');
+        RatingGroupNode = ReactDOM.findDOMNode(component);
+        thumbUpNode = RatingGroupNode.querySelector('.Icon--thumbUp');
+        thumbDownNode = RatingGroupNode.querySelector('.Icon--thumbDown');
       });
 
       it('renders both buttons without active styles', () => {
@@ -106,68 +106,68 @@ describe('ChatRatingGroup component', () => {
     });
 
     describe('when rtl is false', () => {
-      let chatRatingGroupChildren;
+      let RatingGroupChildren;
 
       beforeEach(() => {
-        const component = domRender(<ChatRatingGroup />);
+        const component = domRender(<RatingGroup />);
 
-        chatRatingGroupChildren = ReactDOM.findDOMNode(component).children;
+        RatingGroupChildren = ReactDOM.findDOMNode(component).children;
       });
 
       describe('thumbs up icon', () => {
         it('renders first', () => {
-          expect(chatRatingGroupChildren[0].className)
+          expect(RatingGroupChildren[0].className)
             .toContain('Icon--thumbUp');
         });
 
         it('has leftRatingIcon classes', () => {
-          expect(chatRatingGroupChildren[0].className)
+          expect(RatingGroupChildren[0].className)
             .toContain('leftRatingIcon');
         });
       });
 
       describe('thumbs down icon', () => {
         it('renders second', () => {
-          expect(chatRatingGroupChildren[1].className)
+          expect(RatingGroupChildren[1].className)
             .toContain('Icon--thumbDown');
         });
 
         it('has ratingIcon classes', () => {
-          expect(chatRatingGroupChildren[1].className)
+          expect(RatingGroupChildren[1].className)
             .toContain('ratingIcon');
         });
       });
     });
 
     describe('when rtl is true', () => {
-      let chatRatingGroupChildren;
+      let RatingGroupChildren;
 
       beforeEach(() => {
-        const component = domRender(<ChatRatingGroup rtl={true} />);
+        const component = domRender(<RatingGroup rtl={true} />);
 
-        chatRatingGroupChildren = ReactDOM.findDOMNode(component).children;
+        RatingGroupChildren = ReactDOM.findDOMNode(component).children;
       });
 
       describe('thumbs up icon', () => {
         it('renders second', () => {
-          expect(chatRatingGroupChildren[1].className)
+          expect(RatingGroupChildren[1].className)
             .toContain('Icon--thumbUp');
         });
 
         it('has ratingIcon classes', () => {
-          expect(chatRatingGroupChildren[1].className)
+          expect(RatingGroupChildren[1].className)
             .toContain('ratingIcon');
         });
       });
 
       describe('thumbs down icon', () => {
         it('renders first', () => {
-          expect(chatRatingGroupChildren[0].className)
+          expect(RatingGroupChildren[0].className)
             .toContain('Icon--thumbDown');
         });
 
         it('has leftRatingIcon classes', () => {
-          expect(chatRatingGroupChildren[0].className)
+          expect(RatingGroupChildren[0].className)
             .toContain('leftRatingIcon');
         });
       });
@@ -184,7 +184,7 @@ describe('ChatRatingGroup component', () => {
         mockUpdateRating = jasmine.createSpy('updateRating');
         mockRating = ChatRatings.GOOD;
 
-        component = instanceRender(<ChatRatingGroup updateRating={mockUpdateRating} />);
+        component = instanceRender(<RatingGroup updateRating={mockUpdateRating} />);
         component.ratingClickedHandler(mockRating);
       });
 
@@ -200,7 +200,7 @@ describe('ChatRatingGroup component', () => {
         mockRating = ChatRatings.GOOD;
 
         component = instanceRender(
-          <ChatRatingGroup
+          <RatingGroup
             rating={mockRating}
             updateRating={mockUpdateRating} />
         );

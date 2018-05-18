@@ -1,8 +1,8 @@
-describe('ChatFeedbackForm component', () => {
-  let ChatFeedbackForm,
+describe('FeedbackForm component', () => {
+  let FeedbackForm,
     mockChatRatings;
 
-  const ChatFeedbackFormPath = buildSrcPath('component/chat/ChatFeedbackForm');
+  const FeedbackFormPath = buildSrcPath('component/chat/rating/FeedbackForm');
 
   beforeEach(() => {
     mockery.enable();
@@ -14,7 +14,7 @@ describe('ChatFeedbackForm component', () => {
     };
 
     initMockRegistry({
-      './ChatFeedbackForm.scss': {
+      './FeedbackForm.scss': {
         locals: {
           button: 'buttonClasses',
           rightButton: 'rightButtonClasses'
@@ -29,9 +29,9 @@ describe('ChatFeedbackForm component', () => {
           }
         }
       },
-      'component/chat/ChatRatingGroup': {
-        ChatRatingGroup: noopReactComponent(),
-        ChatRatings: mockChatRatings
+      'component/chat/rating/RatingGroup': {
+        RatingGroup: noopReactComponent(),
+        ratings: mockChatRatings
       },
       'component/container/ScrollContainer': {
         ScrollContainer: scrollContainerComponent()
@@ -43,8 +43,8 @@ describe('ChatFeedbackForm component', () => {
       }
     });
 
-    mockery.registerAllowable(ChatFeedbackFormPath);
-    ChatFeedbackForm = requireUncached(ChatFeedbackFormPath).ChatFeedbackForm;
+    mockery.registerAllowable(FeedbackFormPath);
+    FeedbackForm = requireUncached(FeedbackFormPath).FeedbackForm;
   });
 
   afterEach(() => {
@@ -57,7 +57,7 @@ describe('ChatFeedbackForm component', () => {
 
     describe('when a rating is not yet chosen', () => {
       beforeEach(() => {
-        const component = domRender(<ChatFeedbackForm />);
+        const component = domRender(<FeedbackForm />);
         const componentNode = ReactDOM.findDOMNode(component);
 
         rightButton = componentNode.querySelector('.rightButtonClasses');
@@ -71,7 +71,7 @@ describe('ChatFeedbackForm component', () => {
 
     describe('when a rating is chosen', () => {
       beforeEach(() => {
-        const component = domRender(<ChatFeedbackForm rating={mockChatRatings.GOOD} />);
+        const component = domRender(<FeedbackForm rating={mockChatRatings.GOOD} />);
         const componentNode = ReactDOM.findDOMNode(component);
 
         rightButton = componentNode.querySelector('.rightButtonClasses');
