@@ -7,10 +7,9 @@ import classNames from 'classnames';
 import { ButtonPill } from 'component/button/ButtonPill';
 import ChattingScreen from 'component/chat/chatting/ChattingScreen';
 import AgentScreen from 'component/chat/agents/AgentScreen';
-import { ChatHeader } from 'component/chat/ChatHeader';
+import RatingScreen from 'component/chat/rating/RatingScreen';
 import { ChatMenu } from 'component/chat/ChatMenu';
 import { ChatPrechatForm } from 'component/chat/ChatPrechatForm';
-import { ChatFeedbackForm } from 'component/chat/ChatFeedbackForm';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup';
 import { ChatEmailTranscriptPopup } from 'component/chat/ChatEmailTranscriptPopup';
@@ -22,14 +21,11 @@ import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import {
-  endChat,
   endChatViaPostChatScreen,
   sendMsg,
   sendAttachments,
   setVisitorInfo,
   setDepartment,
-  sendChatRating,
-  sendChatComment,
   updateChatScreen,
   handleSoundIconClick,
   sendEmailTranscript,
@@ -58,11 +54,9 @@ const mapStateToProps = (state) => {
     events: selectors.getChatEvents(state),
     screen: selectors.getChatScreen(state),
     prechatFormSettings: { ...prechatForm, form: prechatFormFields },
-    postChatFormSettings: selectors.getPostchatFormSettings(state),
     isChatting: selectors.getIsChatting(state),
     rating: selectors.getChatRating(state),
     visitor: selectors.getChatVisitor(state),
-    concierges: selectors.getCurrentConcierges(state),
     userSoundSettings: selectors.getUserSoundSettings(state),
     emailTranscript: selectors.getEmailTranscript(state),
     preChatFormState: selectors.getPreChatFormState(state),
@@ -82,23 +76,18 @@ const mapStateToProps = (state) => {
 class Chat extends Component {
   static propTypes = {
     attachmentsEnabled: PropTypes.bool.isRequired,
-    concierges: PropTypes.array.isRequired,
     chats: PropTypes.array.isRequired,
     events: PropTypes.array.isRequired,
-    endChat: PropTypes.func.isRequired,
     endChatViaPostChatScreen: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
     sendAttachments: PropTypes.func.isRequired,
     prechatFormSettings: PropTypes.object.isRequired,
-    postChatFormSettings: PropTypes.object.isRequired,
     isMobile: PropTypes.bool,
     sendMsg: PropTypes.func.isRequired,
     setVisitorInfo: PropTypes.func.isRequired,
     setDepartment: PropTypes.func.isRequired,
     onBackButtonClick: PropTypes.func,
     handleReconnect: PropTypes.func.isRequired,
-    sendChatRating: PropTypes.func.isRequired,
-    sendChatComment: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
     isChatting: PropTypes.bool.isRequired,
     rating: PropTypes.object.isRequired,
@@ -141,7 +130,6 @@ class Chat extends Component {
     chats: [],
     events: [],
     preChatFormSettings: {},
-    postChatFormSettings: {},
     handleSoundIconClick: () => {},
     userSoundSettings: true,
     getFrameDimensions: () => {},
@@ -168,7 +156,8 @@ class Chat extends Component {
     super(props);
 
     this.state = {
-      showEndChatMenu: false
+      showEndChatMenu: false,
+      endChatFromFeedbackForm: false
     };
 
     this.updateFrameSizeTimer = null;
@@ -420,63 +409,18 @@ class Chat extends Component {
     );
   }
 
-  renderChatHeader = () => {
-    return (
-      <ChatHeader
-        showRating={false}
-        rating={this.props.rating.value}
-        updateRating={this.props.sendChatRating}
-        concierges={this.props.concierges} />
-    );
-  }
-
   renderPostchatScreen = () => {
     if (this.props.screen !== screens.FEEDBACK_SCREEN) return null;
 
-    const { sendChatRating, updateChatScreen, endChat, sendChatComment, rating, isChatting, isMobile } = this.props;
-    const { message } = this.props.postChatFormSettings;
-    const scrollContainerClasses = classNames(
-      styles.scrollContainer,
-      { [styles.mobileContainer]: isMobile }
-    );
-    const logoFooterClasses = classNames({
-      [styles.logoFooter]: !this.props.hideZendeskLogo
-    });
-    const skipClickFn = () => {
-      if (this.state.endChatFromFeedbackForm) endChat();
-
-      updateChatScreen(screens.CHATTING_SCREEN);
+    const onRatingButtonClick = () => {
       this.setState({ endChatFromFeedbackForm: false });
     };
-    const sendClickFn = (newRating, text) => {
-      if (newRating !== rating.value) sendChatRating(newRating);
-      if (text) sendChatComment(text);
-      if (this.state.endChatFromFeedbackForm) endChat();
-
-      updateChatScreen(screens.CHATTING_SCREEN);
-      this.setState({ endChatFromFeedbackForm: false });
-    };
-
-    const cancelButtonTextKey = isChatting
-      ? 'embeddable_framework.common.button.cancel'
-      : 'embeddable_framework.chat.postChat.rating.button.skip';
 
     return (
-      <ScrollContainer
-        headerContent={this.renderChatHeader()}
-        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-        classes={scrollContainerClasses}
-        containerClasses={styles.scrollContainerContent}
-        footerClasses={logoFooterClasses}
-        footerContent={this.renderZendeskLogo()}
-        fullscreen={isMobile}>
-        <ChatFeedbackForm
-          feedbackMessage={message}
-          rating={this.props.rating}
-          skipClickFn={skipClickFn}
-          sendClickFn={sendClickFn}
-          cancelButtonText={i18n.t(cancelButtonTextKey)} />
-      </ScrollContainer>
+      <RatingScreen
+        onRatingButtonClick={onRatingButtonClick}
+        endChatFromFeedbackForm={this.state.endChatFromFeedbackForm}
+      />
     );
   }
 
@@ -598,12 +542,9 @@ class Chat extends Component {
 
 const actionCreators = {
   sendMsg,
-  endChat,
   endChatViaPostChatScreen,
   setVisitorInfo,
   setDepartment,
-  sendChatRating,
-  sendChatComment,
   updateChatScreen,
   sendAttachments,
   handleSoundIconClick,

@@ -14,14 +14,10 @@ describe('ChatOnline component', () => {
   const AGENT_LIST_SCREEN = 'widget/chat/AGENT_LIST_SCREEN';
 
   const updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
-  const sendChatRatingSpy = jasmine.createSpy('sendChatRating');
-  const sendChatCommentSpy = jasmine.createSpy('sendChatComment');
-  const endChatSpy = jasmine.createSpy('endChat');
   const resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage');
 
   const AttachmentBox = noopReactComponent('AttachmentBox');
   const ChatMenu = noopReactComponent('ChatMenu');
-  const ChatFeedbackForm = noopReactComponent('ChatFeedbackForm');
   const ChatReconnectionBubble = noopReactComponent('ChatReconnectionBubble');
   const ChatOfflineMessageForm = noopReactComponent('ChatOfflineMessageForm');
   const ChatPrechatForm = noopReactComponent('ChatPrechatForm');
@@ -65,11 +61,9 @@ describe('ChatOnline component', () => {
       },
       'component/chat/chatting/ChattingScreen': noopReactComponent(),
       'component/chat/agents/AgentScreen': AgentScreen,
+      'component/chat/rating/RatingScreen': noopReactComponent(),
       'component/button/ButtonPill': {
         ButtonPill
-      },
-      'component/chat/ChatHeader': {
-        ChatHeader: noopReactComponent()
       },
       'component/chat/ChatPrechatForm': {
         ChatPrechatForm
@@ -88,9 +82,6 @@ describe('ChatOnline component', () => {
       },
       'component/chat/ChatEmailTranscriptPopup': {
         ChatEmailTranscriptPopup: noopReactComponent()
-      },
-      'component/chat/ChatFeedbackForm': {
-        ChatFeedbackForm
       },
       'component/chat/ChatRatingGroup': {
         ChatRatings: {}
@@ -112,9 +103,6 @@ describe('ChatOnline component', () => {
         handleChatBoxChange: noop,
         setVisitorInfo: noop,
         updateChatScreen: updateChatScreenSpy,
-        sendChatRating: sendChatRatingSpy,
-        sendChatComment: sendChatCommentSpy,
-        endChat: endChatSpy,
         resetCurrentMessage: resetCurrentMessageSpy
       },
       'src/redux/modules/chat/chat-selectors': {
@@ -159,9 +147,6 @@ describe('ChatOnline component', () => {
     mockery.disable();
 
     updateChatScreenSpy.calls.reset();
-    sendChatRatingSpy.calls.reset();
-    sendChatCommentSpy.calls.reset();
-    endChatSpy.calls.reset();
   });
 
   describe('onContainerClick', () => {
@@ -712,11 +697,7 @@ describe('ChatOnline component', () => {
 
     describe('when state.screen is not `feedback`', () => {
       beforeEach(() => {
-        component = instanceRender(
-          <ChatOnline
-            screen={chattingScreen}
-          />
-        );
+        component = instanceRender(<ChatOnline screen={chattingScreen} />);
       });
 
       it('does not return anything', () => {
@@ -726,203 +707,13 @@ describe('ChatOnline component', () => {
     });
 
     describe('when state.screen is `feedback`', () => {
-      const defaultRating = {
-        value: 'default_rating',
-        comment: null
-      };
-
       beforeEach(() => {
-        component = instanceRender(
-          <ChatOnline
-            screen={feedbackScreen}
-            rating={defaultRating}
-            updateChatScreen={updateChatScreenSpy}
-            endChat={endChatSpy}
-            sendChatRating={sendChatRatingSpy}
-            sendChatComment={sendChatCommentSpy}
-          />
-        );
+        component = instanceRender(<ChatOnline screen={feedbackScreen} />);
       });
 
       it('returns a component', () => {
         expect(component.renderPostchatScreen())
           .toBeTruthy();
-      });
-
-      it('returns a component with the ChatFeedbackForm component as the first child', () => {
-        const firstChild = component.renderPostchatScreen().props.children;
-
-        expect(TestUtils.isElementOfType(firstChild, ChatFeedbackForm)).toEqual(true);
-      });
-
-      describe('the scroll container wrapper', () => {
-        it('has its classes prop to the scroll container style', () => {
-          expect(component.renderPostchatScreen().props.classes)
-            .toEqual('scrollContainerClasses');
-        });
-
-        it('has its containerClasses prop to the scrollContainerContent style', () => {
-          expect(component.renderPostchatScreen().props.containerClasses)
-            .toEqual('scrollContainerContentClasses');
-        });
-      });
-
-      describe('the sendClickFn passed as a prop to the ChatFeedbackForm', () => {
-        let chatFeedbackFormComponent, sendClickFn;
-
-        beforeEach(() => {
-          chatFeedbackFormComponent = component.renderPostchatScreen().props.children;
-          sendClickFn = chatFeedbackFormComponent.props.sendClickFn;
-        });
-
-        it('sends the chat rating if it has changed', () => {
-          const newRating = { value: 'updated_rating'};
-
-          sendClickFn(newRating);
-          expect(sendChatRatingSpy).toHaveBeenCalledWith(newRating);
-        });
-
-        it('does not send the chat rating if it is the same', () => {
-          sendClickFn(defaultRating.value);
-          expect(sendChatRatingSpy).not.toHaveBeenCalled();
-        });
-
-        it('sends the comment if one is submitted', () => {
-          const chatReviewComment = 'you are nice';
-
-          sendClickFn(defaultRating.value, chatReviewComment);
-          expect(sendChatCommentSpy).toHaveBeenCalledWith(chatReviewComment);
-        });
-
-        it('does not send the comment if it is not specified', () => {
-          sendClickFn(defaultRating.value, null);
-          expect(sendChatCommentSpy).not.toHaveBeenCalled();
-        });
-
-        it('redirects to the chatting screen', () => {
-          sendClickFn(defaultRating.value);
-          expect(updateChatScreenSpy).toHaveBeenCalledWith(chattingScreen);
-        });
-
-        describe('when the components state has endChatFromFeedbackForm set to true', () => {
-          beforeEach(() => {
-            component.setState({ endChatFromFeedbackForm: true });
-            sendClickFn = sendClickFn.bind(component);
-          });
-
-          it('ends the chat', () => {
-            sendClickFn(defaultRating.value);
-            expect(endChatSpy).toHaveBeenCalled();
-          });
-        });
-
-        describe('when the components state has endChatFromFeedbackForm set to false', () => {
-          beforeEach(() => {
-            component.setState({ endChatFromFeedbackForm: false });
-            sendClickFn = sendClickFn.bind(component);
-          });
-
-          it('does not end the chat', () => {
-            sendClickFn(defaultRating.value);
-            expect(endChatSpy).not.toHaveBeenCalled();
-          });
-        });
-      });
-
-      describe('the skipClickFn passed as a prop to the ChatFeedbackForm', () => {
-        let chatFeedbackFormComponent, skipClickFn;
-
-        beforeEach(() => {
-          chatFeedbackFormComponent = component.renderPostchatScreen().props.children;
-          skipClickFn = chatFeedbackFormComponent.props.skipClickFn;
-        });
-
-        it('redirects to the chatting screen', () => {
-          skipClickFn();
-          expect(updateChatScreenSpy).toHaveBeenCalledWith(chattingScreen);
-        });
-
-        describe('when the components state has endChatFromFeedbackForm set to true', () => {
-          beforeEach(() => {
-            component.setState({ endChatFromFeedbackForm: true });
-            skipClickFn = skipClickFn.bind(component);
-          });
-
-          it('ends the chat', () => {
-            skipClickFn();
-            expect(endChatSpy).toHaveBeenCalled();
-          });
-        });
-
-        describe('when the components state has endChatFromFeedbackForm set to false', () => {
-          beforeEach(() => {
-            component.setState({ endChatFromFeedbackForm: false });
-            skipClickFn = skipClickFn.bind(component);
-          });
-
-          it('does not end the chat', () => {
-            skipClickFn();
-            expect(endChatSpy).not.toHaveBeenCalled();
-          });
-        });
-      });
-
-      describe('hideZendeskLogo', () => {
-        let result;
-
-        describe('when hideZendeskLogo is false', () => {
-          beforeEach(() => {
-            component = instanceRender(
-              <ChatOnline
-                screen={feedbackScreen}
-                rating={defaultRating}
-                updateChatScreen={updateChatScreenSpy}
-                endChat={endChatSpy}
-                sendChatRating={sendChatRatingSpy}
-                sendChatComment={sendChatCommentSpy}
-                hideZendeskLogo={false}
-              />
-            );
-            result = component.renderPostchatScreen();
-          });
-
-          it('renders logo in footer', () => {
-            expect(TestUtils.isElementOfType(result.props.footerContent, ZendeskLogo))
-              .toBeTruthy();
-          });
-
-          it('renders footer with correct class', () => {
-            expect(result.props.footerClasses)
-              .toContain('logoFooterClasses');
-          });
-        });
-
-        describe('when hideZendeskLogo is true', () => {
-          beforeEach(() => {
-            component = instanceRender(
-              <ChatOnline
-                screen={feedbackScreen}
-                rating={defaultRating}
-                updateChatScreen={updateChatScreenSpy}
-                endChat={endChatSpy}
-                sendChatRating={sendChatRatingSpy}
-                sendChatComment={sendChatCommentSpy}
-                hideZendeskLogo={true}
-              />
-            );
-            result = component.renderPostchatScreen();
-          });
-
-          it('does not render logo in footer', () => {
-            expect(result.props.footerContent)
-              .toBeFalsy();
-          });
-
-          it('renders footer with correct class', () => {
-            expect(result.props.footerClasses)
-              .not.toContain('logoFooterClasses');
-          });
-        });
       });
     });
   });
