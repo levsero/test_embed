@@ -41,7 +41,6 @@ import WebWidget from 'component/webWidget/WebWidget';
 // from loading.
 // TODO: Find a DRY solution
 const zChat = (() => { try { return require('chat-web-sdk'); } catch (_) {} })();
-
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
 export default function WebWidgetFactory(name) {

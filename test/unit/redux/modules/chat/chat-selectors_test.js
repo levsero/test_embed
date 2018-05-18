@@ -48,11 +48,14 @@ describe('chat selectors', () => {
     getAllAgents,
     getFirstMessageTimestamp,
     getCurrentSessionStartTime,
+    getSocialLogin,
+    getAuthUrls,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
     EDIT_CONTACT_DETAILS_SCREEN,
     DEPARTMENT_STATUSES,
+    WHITELISTED_SOCIAL_LOGINS,
     AGENT_BOT;
 
   beforeEach(() => {
@@ -65,6 +68,7 @@ describe('chat selectors', () => {
     CHAT_MESSAGE_EVENTS = requireUncached(chatConstantsPath).CHAT_MESSAGE_EVENTS;
     AGENT_BOT = requireUncached(chatConstantsPath).AGENT_BOT;
     DEPARTMENT_STATUSES = requireUncached(chatConstantsPath).DEPARTMENT_STATUSES;
+    WHITELISTED_SOCIAL_LOGINS = requireUncached(chatConstantsPath).WHITELISTED_SOCIAL_LOGINS;
     CHATTING_SCREEN = 'chatlog';
 
     initMockRegistry({
@@ -73,7 +77,8 @@ describe('chat selectors', () => {
         CHAT_SYSTEM_EVENTS,
         EDIT_CONTACT_DETAILS_SCREEN,
         AGENT_BOT,
-        DEPARTMENT_STATUSES
+        DEPARTMENT_STATUSES,
+        WHITELISTED_SOCIAL_LOGINS
       },
       './chat-screen-types': {
         CHATTING_SCREEN
@@ -87,6 +92,9 @@ describe('chat selectors', () => {
       },
       'service/i18n': {
         i18n: { t: _.identity }
+      },
+      'chat-web-sdk': {
+        getAuthLoginUrl: (socialMedia) => `www.foo.com/${socialMedia}/bar-baz`
       }
     });
 
@@ -142,6 +150,8 @@ describe('chat selectors', () => {
     getAllAgents = selectors.getAllAgents;
     getFirstMessageTimestamp = selectors.getFirstMessageTimestamp;
     getCurrentSessionStartTime = selectors.getCurrentSessionStartTime;
+    getSocialLogin = selectors.getSocialLogin;
+    getAuthUrls = selectors.getAuthUrls;
   });
 
   afterEach(() => {
@@ -2305,6 +2315,109 @@ describe('chat selectors', () => {
       it('returns null', () => {
         expect(result)
           .toBeNull;
+      });
+    });
+  });
+
+  describe('getSocialLogin', () => {
+    let result,
+      mockChatSettings = {
+        chat: {
+          socialLogin: {
+            authenticated: false,
+            authUrls: {},
+            screen: '',
+            avatarPath: ''
+          }
+        }
+      };
+
+    beforeEach(() => {
+      result = getSocialLogin(mockChatSettings);
+    });
+
+    it('returns the current state of socialLogin', () => {
+      expect(result)
+        .toEqual(mockChatSettings.chat.socialLogin);
+    });
+  });
+
+  describe('getAuthUrls', () => {
+    let result,
+      mockChatSettings;
+
+    beforeEach(() => {
+      result = getAuthUrls(mockChatSettings);
+    });
+
+    describe('when there are no enabled social media', () => {
+      beforeAll(() => {
+        mockChatSettings = {
+          chat: {
+            accountSettings: {
+              login: {
+                loginTypes: {}
+              }
+            }
+          }
+        };
+      });
+
+      it('returns an empty object', () => {
+        expect(result)
+          .toEqual({});
+      });
+    });
+
+    describe('when there are enabled social medias', () => {
+      beforeAll(() => {
+        mockChatSettings = {
+          chat: {
+            accountSettings: {
+              login: {
+                loginTypes: {
+                  facebook: true,
+                  google: true
+                }
+              }
+            }
+          }
+        };
+      });
+
+      it('returns an object with authentication urls bound to each social media', () => {
+        const expected = {
+          facebook: 'www.foo.com/facebook/bar-baz',
+          google: 'www.foo.com/google/bar-baz'
+        };
+
+        expect(result)
+          .toEqual(expected);
+      });
+    });
+
+    describe('when there are enabled and disabled social medias', () => {
+      beforeAll(() => {
+        mockChatSettings = {
+          chat: {
+            accountSettings: {
+              login: {
+                loginTypes: {
+                  facebook: false,
+                  google: true,
+                  twitter: false
+                }
+              }
+            }
+          }
+        };
+      });
+
+      it('returns an object with authentication urls for enabled social medias', () => {
+        const expected = { google: 'www.foo.com/google/bar-baz' };
+
+        expect(result)
+          .toEqual(expected);
       });
     });
   });

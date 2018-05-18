@@ -384,3 +384,44 @@
     width: #{13/$font-size}rem;
   }
 }
+
+.Icon--facebook {
+  svg {
+    min-width: #{15/$font-size}rem;
+    min-height: #{15/$font-size}rem;
+    max-width: #{15/$font-size}rem;
+    max-height: #{15/$font-size}rem;
+    height: #{15/$font-size}rem;
+    width: #{15/$font-size}rem;
+
+    path {
+      fill: $facebook-blue;
+    }
+  }
+}
+
+.Icon--google {
+  svg {
+    min-width: #{15/$font-size}rem;
+    min-height: #{15/$font-size}rem;
+    max-height: #{15/$font-size}rem;
+    max-width: #{15/$font-size}rem;
+    height: #{15/$font-size}rem;
+    width: #{15/$font-size}rem;
+
+    path {
+      fill: $google-plus-red;
+    }
+  }
+}
+
+.Icon--trash-fill {
+  svg {
+    min-width: #{15/$font-size}rem;
+    min-height: #{15/$font-size}rem;
+    max-height: #{15/$font-size}rem;
+    max-width: #{15/$font-size}rem;
+    height: #{15/$font-size}rem;
+    width: #{15/$font-size}rem;
+  }
+}

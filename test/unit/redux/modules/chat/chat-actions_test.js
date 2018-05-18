@@ -5,12 +5,14 @@ let actions,
   actionTypes,
   screenTypes,
   CHAT_MESSAGE_TYPES,
+  WHITELISTED_SOCIAL_LOGINS,
   mockStore,
   mockAccountSettings,
   mockOperatingHours,
   mockIsChatting,
   mockChatStandalone,
   mockChatOnline,
+  mockDoAuthLogoutArgs,
   mockSendChatMsg = jasmine.createSpy('sendChatMsg'),
   mockSendTyping = jasmine.createSpy('sendTyping'),
   mockSetVisitorInfo = jasmine.createSpy('mockSetVisitorInfo'),
@@ -52,6 +54,7 @@ describe('chat redux actions', () => {
     mockery.registerAllowable(chatConstantsPath);
 
     CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
+    WHITELISTED_SOCIAL_LOGINS = chatConstants.WHITELISTED_SOCIAL_LOGINS;
 
     initMockRegistry({
       'chat-web-sdk': {
@@ -71,7 +74,9 @@ describe('chat redux actions', () => {
         getAccountSettings: () => mockAccountSettings,
         getOperatingHours: () => mockOperatingHours,
         fetchChatHistory: mockFetchChatHistory,
-        on: noop
+        on: noop,
+        getAuthLoginUrl: (key) => `www.foo.com/${key}/bar-baz`,
+        doAuthLogout: (cb) => cb(mockDoAuthLogoutArgs)
       },
       'src/redux/modules/base/base-selectors': {
         getChatStandalone: () => mockChatStandalone
@@ -84,7 +89,8 @@ describe('chat redux actions', () => {
         getActiveAgents: getActiveAgentsSpy
       },
       'src/constants/chat': {
-        CHAT_MESSAGE_TYPES
+        CHAT_MESSAGE_TYPES,
+        WHITELISTED_SOCIAL_LOGINS
       },
       'service/mediator': {
         mediator: {
@@ -1495,6 +1501,47 @@ describe('chat redux actions', () => {
     it('has the correct params in the payload', () => {
       expect(action.payload)
         .toBe(settings);
+    });
+  });
+
+  describe('initiateSocialLogout', () => {
+    let returnedActions;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.initiateSocialLogout());
+      returnedActions = mockStore.getActions();
+    });
+
+    describe('when zChat.doAuthLogout does not throw an error', () => {
+      beforeAll(() => {
+        mockDoAuthLogoutArgs = false;
+      });
+
+      it('dispatches an action type of CHAT_SOCIAL_LOGOUT_PENDING', () => {
+        expect(returnedActions[0].type)
+          .toEqual(actionTypes.CHAT_SOCIAL_LOGOUT_PENDING);
+      });
+
+      it('dispatches an action type of CHAT_SOCIAL_LOGOUT_SUCCESS', () => {
+        expect(returnedActions[1].type)
+          .toEqual(actionTypes.CHAT_SOCIAL_LOGOUT_SUCCESS);
+      });
+    });
+
+    describe('when zChat.doAuthLogout throws an error', () => {
+      beforeAll(() => {
+        mockDoAuthLogoutArgs = true;
+      });
+
+      it('dispatches an action type of CHAT_SOCIAL_LOGOUT_PENDING', () => {
+        expect(returnedActions[0].type)
+          .toEqual(actionTypes.CHAT_SOCIAL_LOGOUT_PENDING);
+      });
+
+      it('dispatches an action type of CHAT_SOCIAL_LOGOUT_FAILURE', () => {
+        expect(returnedActions[1].type)
+          .toEqual(actionTypes.CHAT_SOCIAL_LOGOUT_FAILURE);
+      });
     });
   });
 });

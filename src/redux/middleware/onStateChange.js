@@ -11,7 +11,9 @@ import { updateActiveEmbed, updateBackButtonVisibility } from 'src/redux/modules
 import { IS_CHATTING,
   END_CHAT_REQUEST_SUCCESS,
   SDK_CHAT_MEMBER_LEAVE,
-  CHAT_AGENT_INACTIVE } from 'src/redux/modules/chat/chat-action-types';
+  CHAT_AGENT_INACTIVE,
+  SDK_VISITOR_UPDATE,
+  CHAT_SOCIAL_LOGIN_SUCCESS } from 'src/redux/modules/chat/chat-action-types';
 import { CONNECTION_STATUSES } from 'src/constants/chat';
 import { audio } from 'service/audio';
 import { mediator } from 'service/mediator';
@@ -232,6 +234,20 @@ const onAgentLeave = (prevState, { type, payload }, dispatch) => {
   }
 };
 
+const onVisitorUpdate = ({ type, payload }, dispatch) => {
+  const isVisitorUpdate = (type === SDK_VISITOR_UPDATE);
+  const authObj = _.get(payload, 'detail.auth');
+  const avatarPath = _.get(authObj, 'avatar$string');
+  const isSociallyAuth = _.get(authObj, 'verified$bool');
+
+  if (isVisitorUpdate && isSociallyAuth) {
+    dispatch({
+      type: CHAT_SOCIAL_LOGIN_SUCCESS,
+      payload: avatarPath
+    });
+  }
+};
+
 export default function onStateChange(prevState, nextState, action = {}, dispatch = () => {}) {
   onChatStatusChange(prevState, nextState, dispatch);
   onChatConnected(prevState, nextState, dispatch);
@@ -241,4 +257,5 @@ export default function onStateChange(prevState, nextState, action = {}, dispatc
   onChatStatus(action, dispatch);
   onChatEnd(nextState, action, dispatch);
   onAgentLeave(prevState, action, dispatch);
+  onVisitorUpdate(action, dispatch);
 }

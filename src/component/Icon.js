@@ -49,6 +49,9 @@ const icons = {
   'Icon--thumbUp': require('icons/widget-icon_thumb-up.svg'),
   'Icon--tick': require('icons/widget-icon_tick.svg'),
   'Icon--zendesk': require('icons/widget-icon_zendesk.svg'),
+  'Icon--facebook': require('icons/widget-icon_facebook.svg'),
+  'Icon--google': require('icons/widget-icon_google-plus.svg'),
+  'Icon--trash-fill': require('@zendeskgarden/svg-icons/src/16/trash-fill.svg')
 };
 
 export class Icon extends Component {

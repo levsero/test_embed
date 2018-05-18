@@ -1,10 +1,9 @@
 describe('ChatPrechatForm component', () => {
   let ChatPrechatForm,
-    mockForm,
-    mockFormValidity,
-    mockFormProp;
+    mockFormValidity;
   const chatPrechatFormPath = buildSrcPath('component/chat/ChatPrechatForm');
   const Dropdown = noopReactComponent();
+  const ChatSocialLogin = noopReactComponent();
 
   const Field = class extends Component {
     render() {
@@ -18,6 +17,30 @@ describe('ChatPrechatForm component', () => {
     }
   };
 
+  const mockFormProp = {
+    name: { name: 'name', required: true },
+    email: { name: 'email', required: true },
+    phone: { name: 'phone', label: 'Phone Number', required: false, hidden: false },
+    message: { name: 'message', label: 'Message', required: false }
+  };
+  const mockForm = {
+    checkValidity: () => mockFormValidity,
+    elements: [
+      {
+        name: 'display_name',
+        value: 'John Snow'
+      },
+      {
+        name: 'email',
+        value: 'j@l.r'
+      },
+      {
+        name: 'button',
+        type: 'submit'
+      }
+    ]
+  };
+
   beforeEach(() => {
     mockery.enable();
 
@@ -25,7 +48,9 @@ describe('ChatPrechatForm component', () => {
 
     initMockRegistry({
       './ChatPrechatForm.scss': {
-        locals: {}
+        locals: {
+          nameFieldWithSocialLogin: 'nameFieldWithSocialLoginClass'
+        }
       },
       'component/button/Button': {
         Button: noopReactComponent()
@@ -34,37 +59,13 @@ describe('ChatPrechatForm component', () => {
       'component/field/Dropdown': {
         Dropdown
       },
+      'component/chat/ChatSocialLogin': { ChatSocialLogin },
       'service/i18n': {
         i18n: {
           t: noop
         }
       }
     });
-
-    mockFormProp = {
-      name: { name: 'name', required: true },
-      email: { name: 'email', required: true },
-      phone: { name: 'phone', label: 'Phone Number', required: false, hidden: false },
-      message: { name: 'message', label: 'Message', required: false }
-    };
-
-    mockForm = {
-      checkValidity: () => mockFormValidity,
-      elements: [
-        {
-          name: 'display_name',
-          value: 'John Snow'
-        },
-        {
-          name: 'email',
-          value: 'j@l.r'
-        },
-        {
-          name: 'button',
-          type: 'submit'
-        }
-      ]
-    };
 
     mockery.registerAllowable(chatPrechatFormPath);
     ChatPrechatForm = requireUncached(chatPrechatFormPath).ChatPrechatForm;
@@ -220,44 +221,102 @@ describe('ChatPrechatForm component', () => {
     });
   });
 
-  describe('renderNameField', () => {
-    let result,
-      node,
-      component;
+  describe('renderSocialLogin', () => {
+    let component;
 
     beforeEach(() => {
-      const mockForm = {
-        ...mockFormProp,
-        name: { required: true }
-      };
+      component = instanceRender(<ChatPrechatForm form={mockFormProp} />);
 
-      component = instanceRender(<ChatPrechatForm form={mockForm} />);
+      spyOn(component, 'renderNameField');
+      spyOn(component, 'renderEmailField');
+
+      component.renderSocialLogin();
+    });
+
+    it('calls renderNameField', () => {
+      expect(component.renderNameField)
+        .toHaveBeenCalled();
+    });
+
+    it('calls renderEmailField', () => {
+      expect(component.renderEmailField)
+        .toHaveBeenCalled();
+    });
+  });
+
+  describe('renderNameField', () => {
+    let result,
+      component,
+      componentArgs;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatPrechatForm {...componentArgs} />);
 
       spyOn(component, 'isFieldRequired');
 
       result = component.renderNameField();
     });
 
-    it('renders a Field component', () => {
-      expect(TestUtils.isElementOfType(result, Field))
-        .toEqual(true);
-    });
+    describe('when called', () => {
+      beforeAll(() => {
+        componentArgs = {
+          form: {
+            ...mockFormProp,
+            name: { required: true }
+          }
+        };
+      });
 
-    it('calls isFieldRequired with expected arguments', () => {
-      expect(component.isFieldRequired)
-        .toHaveBeenCalledWith(true);
+      it('renders a Field component', () => {
+        expect(TestUtils.isElementOfType(result, Field))
+          .toEqual(true);
+      });
+
+      it('calls isFieldRequired with expected arguments', () => {
+        expect(component.isFieldRequired)
+          .toHaveBeenCalledWith(true);
+      });
     });
 
     describe('when loginEnabled is false', () => {
-      beforeEach(() => {
-        const chatPrechatForm = domRender(<ChatPrechatForm form={mockFormProp} loginEnabled={false} />);
-
-        node = ReactDOM.findDOMNode(chatPrechatForm);
+      beforeAll(() => {
+        componentArgs = {
+          form: mockFormProp,
+          loginEnabled: false
+        };
       });
 
       it('does not render the name field', () => {
-        expect(node.querySelector('input[name="name"]'))
+        expect(result)
           .toBe(null);
+      });
+    });
+
+    describe('when there is at least one social login available', () => {
+      beforeAll(() => {
+        componentArgs = {
+          form: mockFormProp,
+          authUrls: [{ Goggle: 'https://www.zopim.com/auth/goggle/3DsjCpVY6RGFpfrfQk88xJ6DqnM82JMJ-mJhKBcIWnWUWJY' }]
+        };
+      });
+
+      it('renders with expected style', () => {
+        expect(result.props.fieldContainerClasses)
+          .toContain('nameFieldWithSocialLoginClass');
+      });
+    });
+
+    describe('when there are no social logins available', () => {
+      beforeAll(() => {
+        componentArgs = {
+          form: mockFormProp,
+          authUrls: []
+        };
+      });
+
+      it('renders with expected style', () => {
+        expect(result.props.fieldContainerClasses)
+          .not.toContain('nameFieldWithSocialLoginClass');
       });
     });
   });
