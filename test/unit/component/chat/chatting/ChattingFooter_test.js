@@ -1,7 +1,7 @@
-describe('ChatFooter component', () => {
-  let ChatFooter,
+describe('ChattingFooter component', () => {
+  let ChattingFooter,
     i18n;
-  const chatFooterPath = buildSrcPath('component/chat/ChatFooter');
+  const ChattingFooterPath = buildSrcPath('component/chat/chatting/ChattingFooter');
 
   beforeEach(() => {
     mockery.enable();
@@ -14,7 +14,7 @@ describe('ChatFooter component', () => {
       'service/i18n': {
         i18n
       },
-      './ChatFooter.scss': {
+      './ChattingFooter.scss': {
         locals: {
           iconContainer: 'iconsClass',
           containerMobile: 'containerMobileClass',
@@ -37,8 +37,8 @@ describe('ChatFooter component', () => {
       }
     });
 
-    mockery.registerAllowable(chatFooterPath);
-    ChatFooter = requireUncached(chatFooterPath).ChatFooter;
+    mockery.registerAllowable(ChattingFooterPath);
+    ChattingFooter = requireUncached(ChattingFooterPath).ChattingFooter;
   });
 
   afterEach(() => {
@@ -51,7 +51,7 @@ describe('ChatFooter component', () => {
 
     describe('icons', () => {
       beforeEach(() => {
-        component = domRender(<ChatFooter />);
+        component = domRender(<ChattingFooter />);
         componentNode = ReactDOM.findDOMNode(component);
       });
 
@@ -65,7 +65,7 @@ describe('ChatFooter component', () => {
       let result;
 
       beforeEach(() => {
-        component = instanceRender(<ChatFooter isMobile={false} />);
+        component = instanceRender(<ChattingFooter isMobile={false} />);
         result = component.render();
       });
 
@@ -79,7 +79,7 @@ describe('ChatFooter component', () => {
       let result;
 
       beforeEach(() => {
-        component = instanceRender(<ChatFooter isMobile={true} />);
+        component = instanceRender(<ChattingFooter isMobile={true} />);
         result = component.render();
       });
 
@@ -95,7 +95,7 @@ describe('ChatFooter component', () => {
 
     describe('when props.isChatting is false', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChatFooter isChatting={false} />);
+        const component = instanceRender(<ChattingFooter isChatting={false} />);
 
         result = component.renderEndChatOption();
       });
@@ -110,7 +110,7 @@ describe('ChatFooter component', () => {
 
     describe('when props.isChatting is true', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChatFooter isChatting={true} />);
+        const component = instanceRender(<ChattingFooter isChatting={true} />);
 
         result = component.renderEndChatOption();
       });
@@ -129,7 +129,7 @@ describe('ChatFooter component', () => {
 
     describe('when props.attachmentsEnabled is true', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChatFooter attachmentsEnabled={true} />);
+        const component = instanceRender(<ChattingFooter attachmentsEnabled={true} />);
 
         result = component.renderAttachmentOption();
       });
@@ -142,7 +142,7 @@ describe('ChatFooter component', () => {
 
     describe('when props.attachmentsEnabled is false', () => {
       beforeEach(() => {
-        const component = instanceRender(<ChatFooter attachmentsEnabled={false} />);
+        const component = instanceRender(<ChattingFooter attachmentsEnabled={false} />);
 
         result = component.renderAttachmentOption();
       });
@@ -156,7 +156,7 @@ describe('ChatFooter component', () => {
     describe('on non-mobile devices', () => {
       beforeEach(() => {
         const component = instanceRender(
-          <ChatFooter attachmentsEnabled={true} isMobile={false} />
+          <ChattingFooter attachmentsEnabled={true} isMobile={false} />
         );
 
         result = component.renderAttachmentOption();
@@ -173,7 +173,7 @@ describe('ChatFooter component', () => {
     describe('on mobile devices', () => {
       beforeEach(() => {
         const component = instanceRender(
-          <ChatFooter attachmentsEnabled={true} isMobile={true} />
+          <ChattingFooter attachmentsEnabled={true} isMobile={true} />
         );
 
         result = component.renderAttachmentOption();
@@ -192,7 +192,7 @@ describe('ChatFooter component', () => {
     let result;
 
     beforeEach(() => {
-      const component = instanceRender(<ChatFooter />);
+      const component = instanceRender(<ChattingFooter />);
 
       result = component.renderMenuOption();
     });
@@ -208,7 +208,7 @@ describe('ChatFooter component', () => {
 
     beforeEach(() => {
       sendChatSpy = jasmine.createSpy();
-      const component = instanceRender(<ChatFooter sendChat={sendChatSpy} />);
+      const component = instanceRender(<ChattingFooter sendChat={sendChatSpy} />);
 
       result = component.renderSendChatOption();
     });
@@ -231,7 +231,7 @@ describe('ChatFooter component', () => {
       stopPropagationSpy = jasmine.createSpy();
       toggleMenuSpy = jasmine.createSpy();
 
-      component = instanceRender(<ChatFooter showIcons={true} toggleMenu={toggleMenuSpy} />);
+      component = instanceRender(<ChattingFooter showIcons={true} toggleMenu={toggleMenuSpy} />);
       component.handleMenuClick({ stopPropagation: stopPropagationSpy });
     });
 
@@ -255,7 +255,7 @@ describe('ChatFooter component', () => {
 
     describe('when props.isChatting is false', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatFooter isChatting={false} endChat={endChatSpy} />);
+        component = instanceRender(<ChattingFooter isChatting={false} endChat={endChatSpy} />);
 
         component.handleEndChatClick('some event');
       });
@@ -268,7 +268,7 @@ describe('ChatFooter component', () => {
 
     describe('when props.isChatting is true', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatFooter isChatting={true} endChat={endChatSpy} />);
+        component = instanceRender(<ChattingFooter isChatting={true} endChat={endChatSpy} />);
 
         component.handleEndChatClick('some event');
       });

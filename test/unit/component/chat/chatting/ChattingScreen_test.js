@@ -49,20 +49,20 @@ describe('ChattingScreen component', () => {
       'component/ZendeskLogo': {
         ZendeskLogo
       },
-      'component/chat/ChatBox': {
+      'component/chat/chatting/ChatBox': {
         ChatBox: noopReactComponent()
       },
       'component/chat/ChatHeader': {
         ChatHeader: noopReactComponent()
       },
-      'component/chat/ChatFooter': {
-        ChatFooter: noopReactComponent()
+      'component/chat/chatting/ChattingFooter': {
+        ChattingFooter: noopReactComponent()
       },
-      'component/chat/ChatLog': {
+      'component/chat/chatting/ChatLog': {
         ChatLog: noopReactComponent()
       },
-      'component/chat/ChatHistoryLog': {
-        ChatHistoryLog: noopReactComponent()
+      'component/chat/chatting/HistoryLog': {
+        HistoryLog: noopReactComponent()
       },
       'component/loading/LoadingEllipses': {
         LoadingEllipses: noopReactComponent()

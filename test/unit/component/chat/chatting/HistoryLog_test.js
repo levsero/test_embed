@@ -1,5 +1,5 @@
-describe('ChatHistoryLog component', () => {
-  let ChatHistoryLog,
+describe('HistoryLog component', () => {
+  let HistoryLog,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
     dateTimeSpy,
@@ -9,11 +9,11 @@ describe('ChatHistoryLog component', () => {
     'agent:123': { display_name: 'Agent123', nick: 'agent:123', typing: false, avatar_path: '/path/to/avatar'}
   };
 
-  const chatHistoryLogPath = buildSrcPath('component/chat/ChatHistoryLog');
+  const HistoryLogPath = buildSrcPath('component/chat/chatting/HistoryLog');
   const chatConstantsPath = buildSrcPath('constants/chat');
 
   const ChatGroup = noopReactComponent();
-  const ChatEventMessage = noopReactComponent();
+  const EventMessage = noopReactComponent();
   const Button = noopReactComponent();
 
   beforeEach(() => {
@@ -29,14 +29,14 @@ describe('ChatHistoryLog component', () => {
     };
 
     initMockRegistry({
-      'component/chat/ChatGroup': { ChatGroup },
-      'component/chat/ChatEventMessage': { ChatEventMessage },
+      'component/chat/chatting/ChatGroup': { ChatGroup },
+      'component/chat/chatting/EventMessage': { EventMessage },
       'component/button/Button': { Button },
       'constants/chat': {
         CHAT_MESSAGE_EVENTS,
         CHAT_SYSTEM_EVENTS
       },
-      './ChatHistoryLog.scss': {
+      './HistoryLog.scss': {
         locals: {}
       },
       'service/i18n': {
@@ -47,8 +47,8 @@ describe('ChatHistoryLog component', () => {
       },
     });
 
-    mockery.registerAllowable(chatHistoryLogPath);
-    ChatHistoryLog = requireUncached(chatHistoryLogPath).ChatHistoryLog;
+    mockery.registerAllowable(HistoryLogPath);
+    HistoryLog = requireUncached(HistoryLogPath).HistoryLog;
   });
 
   afterEach(() => {
@@ -59,7 +59,7 @@ describe('ChatHistoryLog component', () => {
   describe('#renderPastSession', () => {
     describe('when passed an empty log arg', () => {
       it('returns empty array', () => {
-        const component = domRender(<ChatHistoryLog showAvatar={true} chatHistoryLog={{}} agents={{}} />);
+        const component = domRender(<HistoryLog showAvatar={true} HistoryLog={{}} agents={{}} />);
         const log = component.renderPastSession();
 
         expect(log).toEqual([]);
@@ -74,7 +74,7 @@ describe('ChatHistoryLog component', () => {
         let result;
 
         beforeEach(() => {
-          const component = domRender(<ChatHistoryLog showAvatar={true} />);
+          const component = domRender(<HistoryLog showAvatar={true} />);
 
           result = component.renderPastSession(log);
         });
@@ -103,7 +103,7 @@ describe('ChatHistoryLog component', () => {
         let result;
 
         beforeEach(() => {
-          const component = domRender(<ChatHistoryLog showAvatar={true} />);
+          const component = domRender(<HistoryLog showAvatar={true} />);
 
           result = component.renderPastSession(log);
         });
@@ -138,7 +138,7 @@ describe('ChatHistoryLog component', () => {
       let result;
 
       beforeEach(() => {
-        const component = domRender(<ChatHistoryLog showAvatar={true} />);
+        const component = domRender(<HistoryLog showAvatar={true} />);
 
         result = component.renderPastSession(log);
       });
@@ -168,7 +168,7 @@ describe('ChatHistoryLog component', () => {
       let result;
 
       beforeEach(() => {
-        const component = domRender(<ChatHistoryLog showAvatar={true} />);
+        const component = domRender(<HistoryLog showAvatar={true} />);
 
         result = component.renderPastSession(log);
       });
@@ -177,8 +177,8 @@ describe('ChatHistoryLog component', () => {
         expect(result.length).toEqual(1);
       });
 
-      it('returns an element of type ChatEventMessage', () => {
-        expect(TestUtils.isElementOfType(result[0], ChatEventMessage)).toEqual(true);
+      it('returns an element of type EventMessage', () => {
+        expect(TestUtils.isElementOfType(result[0], EventMessage)).toEqual(true);
       });
 
       it('is passed the expected props', () => {
@@ -207,17 +207,17 @@ describe('ChatHistoryLog component', () => {
       };
 
       const expectedResult = [
-        { component: ChatEventMessage, props: { event: log[100][0] }},
+        { component: EventMessage, props: { event: log[100][0] }},
         { component: ChatGroup, props: { isAgent: false, messages: log[200], avatarPath: undefined }},
-        { component: ChatEventMessage, props: { event: log[400][0] }},
+        { component: EventMessage, props: { event: log[400][0] }},
         { component: ChatGroup, props: { isAgent: true, messages: log[500], avatarPath: '/path/to/avatar' }},
         { component: ChatGroup, props: { isAgent: false, messages: log[700], avatarPath: undefined }},
-        { component: ChatEventMessage, props: { event: log[800][0] }},
-        { component: ChatEventMessage, props: { event: log[900][0] }}
+        { component: EventMessage, props: { event: log[800][0] }},
+        { component: EventMessage, props: { event: log[900][0] }}
       ];
 
       beforeEach(() => {
-        const component = domRender(<ChatHistoryLog agents={agents} />);
+        const component = domRender(<HistoryLog agents={agents} />);
 
         result = component.renderPastSession(log);
       });
@@ -244,7 +244,7 @@ describe('ChatHistoryLog component', () => {
 
   describe('renderDivider', () => {
     beforeEach(() => {
-      const component = instanceRender(<ChatHistoryLog />);
+      const component = instanceRender(<HistoryLog />);
 
       component.renderDivider(1234);
     });
@@ -278,7 +278,7 @@ describe('ChatHistoryLog component', () => {
     ];
 
     beforeEach(() => {
-      const component = domRender(<ChatHistoryLog chatHistoryLog={sessions} agents={agents} />);
+      const component = domRender(<HistoryLog chatHistoryLog={sessions} agents={agents} />);
 
       result = component.render();
     });

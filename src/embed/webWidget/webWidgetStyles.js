@@ -12,20 +12,20 @@ import ChannelChoicePopupMobileStyles from 'component/channelChoice/ChannelChoic
 import ChannelChoiceMobileStyles from 'component/channelChoice/ChannelChoiceMobile.scss';
 import ChannelChoicePopupDesktopStyles from 'component/channelChoice/ChannelChoicePopupDesktop.scss';
 import AgentListStyles from 'component/chat/agents/AgentList.scss';
-import ChatBoxStyles from 'component/chat/ChatBox.scss';
+import ChatBoxStyles from 'component/chat/chatting/ChatBox.scss';
 import ChatPopupStyles from 'component/chat/ChatPopup.scss';
 import ChatNotificationPopupStyles from 'component/chat/ChatNotificationPopup.scss';
 import ChatContactDetailsPopupStyles from 'component/chat/ChatContactDetailsPopup.scss';
 import ChatEmailTranscriptPopupStyles from 'component/chat/ChatEmailTranscriptPopup.scss';
 import ChatHeaderStyles from 'component/chat/ChatHeader.scss';
-import ChatFooterStyles from 'component/chat/ChatFooter.scss';
+import ChattingFooterStyles from 'component/chat/chatting/ChattingFooter.scss';
 import ChatRatingGroupStyles from 'component/chat/ChatRatingGroup.scss';
 import ChatPrechatFormStyles from 'component/chat/ChatPrechatForm.scss';
 import ChatMenuStyles from 'component/chat/ChatMenu.scss';
-import ChatGroupStyles from 'component/chat/ChatGroup.scss';
-import ChatEventMessageStyles from 'component/chat/ChatEventMessage.scss';
-import ChatLogStyles from 'component/chat/ChatLog.scss';
-import ChatHistoryLogStyles from 'component/chat/ChatHistoryLog.scss';
+import ChatGroupStyles from 'component/chat/chatting/ChatGroup.scss';
+import EventMessageStyles from 'component/chat/chatting/EventMessage.scss';
+import ChatLogStyles from 'component/chat/chatting/ChatLog.scss';
+import HistoryLogStyles from 'component/chat/chatting/HistoryLog.scss';
 import ChatReconnectionBubbleStyles from 'component/chat/ChatReconnectionBubble.scss';
 import ChatFeedbackForm from 'component/chat/ChatFeedbackForm.scss';
 import ChatOfflineFormStyles from 'component/chat/ChatOfflineForm.scss';
@@ -46,10 +46,10 @@ import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.scss
 import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.scss';
 import HelpCenterResultsStyles from 'component/helpCenter/HelpCenterResults.scss';
 import IconFieldButtonStyles from 'component/button/IconFieldButton.scss';
-import ImageMessageStyles from 'component/chat/ImageMessage.scss';
+import ImageMessageStyles from 'component/chat/chatting/ImageMessage.scss';
 import LoadingEllipsesStyles from 'component/loading/LoadingEllipses.scss';
 import MessageBubbleStyles from 'component/shared/MessageBubble/MessageBubble.scss';
-import MessageErrorStyles from 'component/chat/MessageError.scss';
+import MessageErrorStyles from 'component/chat/chatting/MessageError.scss';
 import MessageOptionsStyles from 'component/shared/MessageOptions/MessageOptions.scss';
 import ProgressBarStyles from 'component/attachment/ProgressBar.scss';
 import SearchFieldButtonStyles from 'component/button/SearchFieldButton.scss';
@@ -83,14 +83,14 @@ export const webWidgetStyles = `
   ${ChatContactDetailsPopupStyles}
   ${ChatEmailTranscriptPopupStyles}
   ${ChatHeaderStyles}
-  ${ChatFooterStyles}
+  ${ChattingFooterStyles}
   ${ChatRatingGroupStyles}
   ${ChatPrechatFormStyles}
   ${ChatMenuStyles}
   ${ChatGroupStyles}
-  ${ChatEventMessageStyles}
+  ${EventMessageStyles}
   ${ChatLogStyles}
-  ${ChatHistoryLogStyles}
+  ${HistoryLogStyles}
   ${ChatReconnectionBubbleStyles}
   ${ChatFeedbackForm}
   ${ChatOfflineFormStyles}

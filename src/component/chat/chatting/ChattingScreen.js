@@ -5,10 +5,10 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import Transition from 'react-transition-group/Transition';
 
-import { ChatBox } from 'component/chat/ChatBox';
-import { ChatFooter } from 'component/chat/ChatFooter';
-import { ChatLog } from 'component/chat/ChatLog';
-import { ChatHistoryLog } from 'component/chat/ChatHistoryLog';
+import { ChatBox } from 'component/chat/chatting/ChatBox';
+import { ChattingFooter } from 'component/chat/chatting/ChattingFooter';
+import { ChatLog } from 'component/chat/chatting/ChatLog';
+import { HistoryLog } from 'component/chat/chatting/HistoryLog';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { LoadingEllipses } from 'component/loading/LoadingEllipses';
@@ -290,7 +290,7 @@ class ChattingScreen extends Component {
     };
 
     return (
-      <ChatFooter
+      <ChattingFooter
         attachmentsEnabled={this.props.attachmentsEnabled}
         isMobile={isMobile}
         endChat={this.props.showChatEndFn}
@@ -304,7 +304,7 @@ class ChattingScreen extends Component {
           currentMessage={currentMessage}
           sendChat={sendChatFn}
           handleChatBoxChange={handleChatBoxChange} />
-      </ChatFooter>
+      </ChattingFooter>
     );
   }
 
@@ -386,7 +386,7 @@ class ChattingScreen extends Component {
         fullscreen={isMobile}
         classes={scrollContainerClasses}>
         <div className={chatLogContainerClasses}>
-          <ChatHistoryLog
+          <HistoryLog
             ref={(el) => { this.chatHistoryLog = el; }}
             chatHistoryLog={this.props.chatHistoryLog}
             showAvatar={this.props.showAvatar}

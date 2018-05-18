@@ -4,8 +4,8 @@ import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatLog.scss';
 
-import { ChatGroup } from 'component/chat/ChatGroup';
-import { ChatEventMessage } from 'component/chat/ChatEventMessage';
+import { ChatGroup } from 'component/chat/chatting/ChatGroup';
+import { EventMessage } from 'component/chat/chatting/EventMessage';
 import { Button } from 'component/button/Button';
 import { CHAT_MESSAGE_EVENTS, CHAT_SYSTEM_EVENTS } from 'constants/chat';
 
@@ -70,13 +70,13 @@ export class ChatLog extends Component {
         const event = chatLogItem[0];
 
         return (
-          <ChatEventMessage
+          <EventMessage
             event={event}
             key={timestamp}
             chatLogCreatedAt={this.createdTimestamp}
           >
             {this.renderRequestRatingButton(event, chatCommentLeft, goToFeedbackScreen)}
-          </ChatEventMessage>
+          </EventMessage>
         );
       }
     });

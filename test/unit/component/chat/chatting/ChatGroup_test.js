@@ -5,7 +5,7 @@ describe('ChatGroup component', () => {
     FILETYPE_ICONS,
     i18n;
 
-  const chatGroupPath = buildSrcPath('component/chat/ChatGroup');
+  const chatGroupPath = buildSrcPath('component/chat/chatting/ChatGroup');
   const chatConstantsPath = buildSrcPath('constants/chat');
   const sharedConstantsPath = buildSrcPath('constants/shared');
 
@@ -37,8 +37,8 @@ describe('ChatGroup component', () => {
       'component/Avatar': { Avatar },
       'component/shared/MessageBubble': { MessageBubble },
       'component/attachment/Attachment': { Attachment },
-      'component/chat/MessageError': { MessageError },
-      'component/chat/ImageMessage': { ImageMessage },
+      'component/chat/chatting/MessageError': { MessageError },
+      'component/chat/chatting/ImageMessage': { ImageMessage },
       'constants/chat': {
         ATTACHMENT_ERROR_TYPES,
         CHAT_MESSAGE_TYPES

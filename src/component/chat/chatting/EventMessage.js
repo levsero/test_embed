@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { i18n } from 'service/i18n';
-import { locals as styles } from './ChatEventMessage.scss';
+import { locals as styles } from './EventMessage.scss';
 import classNames from 'classnames';
 
-export class ChatEventMessage extends Component {
+export class EventMessage extends Component {
   static propTypes = {
     event: PropTypes.object.isRequired,
     children: PropTypes.object,
