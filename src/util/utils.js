@@ -114,12 +114,6 @@ function emailValid(email, options = { allowEmpty: false }) {
   return validRegex.test(email) || validEmpty;
 }
 
-function chatNameDefault(name) {
-  const nameRegex = new RegExp(/^Visitor [0-9]{3,}$/);
-
-  return nameRegex.test(name);
-}
-
 function referrerPolicyUrl(policy, url) {
   // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy#Examples
   // for reference on why each case does what it does
@@ -164,6 +158,5 @@ export {
   sha1,
   emailValid,
   referrerPolicyUrl,
-  getEnvironment,
-  chatNameDefault
+  getEnvironment
 };

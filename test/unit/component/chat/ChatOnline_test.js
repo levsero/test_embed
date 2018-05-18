@@ -142,6 +142,9 @@ describe('ChatOnline component', () => {
         CONNECTION_STATUSES,
         DEPARTMENT_STATUSES
       },
+      'src/util/chat': {
+        isDefaultNickname: noop
+      },
       'component/chat/ChatOfflineMessageForm': {
         ChatOfflineMessageForm
       }
