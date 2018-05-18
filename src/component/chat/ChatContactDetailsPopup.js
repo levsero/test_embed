@@ -6,7 +6,7 @@ import { keyCodes } from 'utility/keyboard';
 import { document as doc } from 'utility/globals';
 import { i18n } from 'service/i18n';
 import { emailValid } from 'src/util/utils';
-import { chatNameDefault } from 'src/util/chat';
+import { isDefaultNickname } from 'src/util/chat';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { EmailField } from 'component/field/EmailField';
 import { Field } from 'component/field/Field';
@@ -55,7 +55,7 @@ export class ChatContactDetailsPopup extends Component {
       valid: emailValid(email, { allowEmpty: true }),
       formState: {
         email,
-        name: chatNameDefault(name) ? '' : name
+        name: isDefaultNickname(name) ? '' : name
       }
     };
 
@@ -76,7 +76,7 @@ export class ChatContactDetailsPopup extends Component {
       valid: emailValid(email, { allowEmpty: true }),
       formState: {
         email,
-        name: chatNameDefault(name) ? '' : name
+        name: isDefaultNickname(name) ? '' : name
       }
     });
   }

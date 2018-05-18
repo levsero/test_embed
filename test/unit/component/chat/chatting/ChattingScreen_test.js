@@ -8,7 +8,7 @@ describe('ChattingScreen component', () => {
   const updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
   const translationSpy = jasmine.createSpy('translation').and.callFake(_.identity);
   const resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage');
-  const chatNameDefaultSpy = jasmine.createSpy('chatNameDefaultSpy').and.returnValue(false);
+  const isDefaultNicknameSpy = jasmine.createSpy('isDefaultNicknameSpy').and.returnValue(false);
 
   const Button = noopReactComponent('Button');
   const LoadingSpinner = noopReactComponent('LoadingSpinner');
@@ -97,7 +97,7 @@ describe('ChattingScreen component', () => {
         isFirefox: () => isFirefox
       },
       'src/util/chat': {
-        chatNameDefault: chatNameDefaultSpy
+        isDefaultNickname: isDefaultNicknameSpy
       }
     });
 
@@ -633,8 +633,8 @@ describe('ChattingScreen component', () => {
                 .toEqual(false);
             });
 
-            it('should call chatNameDefault', () => {
-              expect(chatNameDefaultSpy)
+            it('should call isDefaultNickname', () => {
+              expect(isDefaultNicknameSpy)
                 .toHaveBeenCalledWith('yolo');
             });
           });

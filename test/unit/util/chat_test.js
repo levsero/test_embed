@@ -1,5 +1,5 @@
 describe('chat utils', () => {
-  let chatNameDefault,
+  let isDefaultNickname,
     isAgent;
 
   const chatUtilPath = buildSrcPath('util/chat');
@@ -15,7 +15,7 @@ describe('chat utils', () => {
       }
     });
 
-    chatNameDefault = require(chatUtilPath).chatNameDefault;
+    isDefaultNickname = require(chatUtilPath).isDefaultNickname;
     isAgent = require(chatUtilPath).isAgent;
   });
 
@@ -25,7 +25,7 @@ describe('chat utils', () => {
     mockery.disable();
   });
 
-  describe('chatNameDefault', () => {
+  describe('isDefaultNickname', () => {
     const validNames = [
       'Visitor 26681136',
       'Visitor 1234567890463274356726736476353276435674834747835746574647878372436573657847',
@@ -47,12 +47,12 @@ describe('chat utils', () => {
     ];
 
     _.forEach(validNames, (name) => it(`should return true for ${name}`, () => {
-      expect(chatNameDefault(name))
+      expect(isDefaultNickname(name))
         .toEqual(true);
     }));
 
     _.forEach(invalidNames, (name) => it(`should return false for ${name}`, () => {
-      expect(chatNameDefault(name))
+      expect(isDefaultNickname(name))
         .toEqual(false);
     }));
   });

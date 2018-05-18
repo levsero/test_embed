@@ -3,7 +3,7 @@ describe('ChatContactDetailsPopup component', () => {
     mockForm,
     mockFormValidity,
     mockEmailValid,
-    mockChatNameDefault,
+    mockIsDefaultNickname,
     ICONS,
     EDIT_CONTACT_DETAILS_SCREEN,
     EDIT_CONTACT_DETAILS_LOADING_SCREEN,
@@ -33,7 +33,7 @@ describe('ChatContactDetailsPopup component', () => {
 
     mockFormValidity = false;
     mockEmailValid = true;
-    mockChatNameDefault = false;
+    mockIsDefaultNickname = false;
 
     initMockRegistry({
       'component/chat/ChatContactDetailsPopup.scss': {
@@ -75,7 +75,7 @@ describe('ChatContactDetailsPopup component', () => {
         emailValid: () => mockEmailValid
       },
       'src/util/chat': {
-        chatNameDefault: () => mockChatNameDefault
+        isDefaultNickname: () => mockIsDefaultNickname
       },
       'utility/globals': {
         document: document
@@ -260,7 +260,7 @@ describe('ChatContactDetailsPopup component', () => {
 
       describe('when the name is the default chat name', () => {
         beforeEach(() => {
-          mockChatNameDefault = true;
+          mockIsDefaultNickname = true;
           component = instanceRender(<ChatContactDetailsPopup contactDetails={{}} />);
 
           component.componentWillReceiveProps({ visitor: { display_name: 'Visitor 12345' }, contactDetails: {} });

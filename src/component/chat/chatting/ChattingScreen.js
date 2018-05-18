@@ -29,7 +29,7 @@ import { getHasMoreHistory,
   getHistoryRequestStatus,
   getGroupedPastChatsBySession } from 'src/redux/modules/chat/chat-history-selectors';
 import { locals as styles } from './ChattingScreen.scss';
-import { chatNameDefault } from 'src/util/chat';
+import { isDefaultNickname } from 'src/util/chat';
 
 const mapStateToProps = (state) => {
   return {
@@ -370,7 +370,7 @@ class ChattingScreen extends Component {
       }
     );
 
-    const visitorNameSet = visitor.display_name && !chatNameDefault(visitor.display_name);
+    const visitorNameSet = visitor.display_name && !isDefaultNickname(visitor.display_name);
     const emailSet = !!visitor.email;
 
     return (
