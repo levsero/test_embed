@@ -34,7 +34,7 @@ describe('embed.webWidget', () => {
   const zChatFirehoseSpy = jasmine.createSpy('zChatFirehose').and.callThrough();
   const zChatSetOnFirstReadySpy = jasmine.createSpy('zChatSetOnFirstReady').and.callThrough();
   const zChatOnSpy = jasmine.createSpy('zChatOn');
-
+  const AUTHENTICATION_STARTED = 'widget/chat/AUTHENTICATION_STARTED';
   const callMeScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
 
   beforeEach(() => {
@@ -207,6 +207,9 @@ describe('embed.webWidget', () => {
       'lodash': _,
       'constants/chat': {
         SDK_ACTION_TYPE_PREFIX: 'websdk'
+      },
+      'src/redux/modules/chat/chat-action-types': {
+        AUTHENTICATION_STARTED
       }
     });
 
@@ -842,8 +845,9 @@ describe('embed.webWidget', () => {
 
       describe('when authentication exists in the config', () => {
         beforeEach(() => {
+          mockStoreDispatch.calls.reset();
           mockChatAuthValue = { jwtFn: () => {} };
-          webWidget.create('', { zopimChat: chatConfig });
+          webWidget.create('', { zopimChat: chatConfig }, mockStore);
           faythe = webWidget.get();
         });
 
@@ -854,11 +858,19 @@ describe('embed.webWidget', () => {
               authentication: { jwt_fn: jasmine.any(Function) }
             });
         });
+
+        it('dispatches AUTHENTICATION_STARTED action', () => {
+          expect(mockStoreDispatch)
+            .toHaveBeenCalledWith({
+              type: AUTHENTICATION_STARTED
+            });
+        });
       });
 
       describe('when authentication does not exist in the config', () => {
         beforeEach(() => {
-          webWidget.create('', { zopimChat: chatConfig });
+          mockStoreDispatch.calls.reset();
+          webWidget.create('', { zopimChat: chatConfig }, mockStore);
           faythe = webWidget.get();
         });
 
@@ -868,6 +880,12 @@ describe('embed.webWidget', () => {
               jasmine.objectContaining({
                 authentication: { jwt_fn: jasmine.any(Function) }
               }));
+        });
+
+        it('does not dispatch AUTHENTICATION_STARTED action', () => {
+          expect(mockStoreDispatch)
+            .not
+            .toHaveBeenCalled();
         });
       });
 

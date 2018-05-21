@@ -10,6 +10,7 @@ let actions,
   mockAccountSettings,
   mockOperatingHours,
   mockIsChatting,
+  mockIsAuthenticated,
   mockChatStandalone,
   mockChatOnline,
   mockDoAuthLogoutArgs,
@@ -29,6 +30,7 @@ let actions,
   getActiveAgentsSpy = jasmine.createSpy('getActiveAgents'),
   getShowRatingScreenSpy = jasmine.createSpy('getShowRatingScreenSpy').and.callFake(() => showRatingScreen),
   getIsChattingSpy = jasmine.createSpy('getIsChatting').and.callFake(() => mockIsChatting),
+  getIsAuthenticatedSpy = jasmine.createSpy('getIsAuthenticatedSpy').and.callFake(() => mockIsAuthenticated),
   mockFetchChatHistory = jasmine.createSpy('fetchChatHistory');
 
 const middlewares = [thunk];
@@ -86,7 +88,8 @@ describe('chat redux actions', () => {
         getShowRatingScreen: getShowRatingScreenSpy,
         getIsChatting: getIsChattingSpy,
         getChatOnline: () => mockChatOnline,
-        getActiveAgents: getActiveAgentsSpy
+        getActiveAgents: getActiveAgentsSpy,
+        getIsAuthenticated: getIsAuthenticatedSpy
       },
       'src/constants/chat': {
         CHAT_MESSAGE_TYPES,
@@ -405,55 +408,85 @@ describe('chat redux actions', () => {
       mockStore.dispatch(actions.setVisitorInfo(info, timestamp));
     });
 
-    it('dispatches a SET_VISITOR_INFO_REQUEST_PENDING action', () => {
-      const expected = {
-        type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING,
-        payload: { ...info, timestamp }
-      };
-
-      expect(mockStore.getActions())
-        .toContain(jasmine.objectContaining(expected));
-    });
-
-    it('calls setVisitorInfo on the Web SDK', () => {
-      expect(mockSetVisitorInfo)
-        .toHaveBeenCalled();
-    });
-
-    describe('Web SDK callback', () => {
-      let callbackFn;
-
-      beforeEach(() => {
-        const setVisitorInfoCalls = mockSetVisitorInfo.calls.mostRecent().args;
-
-        callbackFn = setVisitorInfoCalls[1];
+    describe('when not authenticated', () => {
+      beforeAll(() => {
+        mockIsAuthenticated = false;
       });
 
-      describe('when there are no errors', () => {
-        beforeEach(() => {
-          callbackFn();
-        });
+      it('dispatches a SET_VISITOR_INFO_REQUEST_PENDING action', () => {
+        const expected = {
+          type: actionTypes.SET_VISITOR_INFO_REQUEST_PENDING,
+          payload: { ...info, timestamp }
+        };
 
-        it('dispatches a SET_VISITOR_INFO_REQUEST_SUCCESS action with the correct payload', () => {
-          expect(mockStore.getActions())
-            .toContain({
-              type: actionTypes.SET_VISITOR_INFO_REQUEST_SUCCESS,
-              payload: { email: 'x@x.com', timestamp }
-            });
-        });
+        expect(mockStore.getActions())
+          .toContain(jasmine.objectContaining(expected));
       });
 
-      describe('when there are errors', () => {
+      it('calls setVisitorInfo on the Web SDK', () => {
+        expect(mockSetVisitorInfo)
+          .toHaveBeenCalled();
+      });
+
+      describe('Web SDK callback', () => {
+        let callbackFn;
+
         beforeEach(() => {
-          callbackFn(['error!']);
+          const setVisitorInfoCalls = mockSetVisitorInfo.calls.mostRecent().args;
+
+          callbackFn = setVisitorInfoCalls[1];
         });
 
-        it('dispatches a SET_VISITOR_INFO_REQUEST_FAILURE action', () => {
-          expect(mockStore.getActions())
-            .toContain({
-              type: actionTypes.SET_VISITOR_INFO_REQUEST_FAILURE
-            });
+        describe('when there are no errors', () => {
+          beforeEach(() => {
+            callbackFn();
+          });
+
+          it('dispatches a SET_VISITOR_INFO_REQUEST_SUCCESS action with the correct payload', () => {
+            expect(mockStore.getActions())
+              .toContain({
+                type: actionTypes.SET_VISITOR_INFO_REQUEST_SUCCESS,
+                payload: { email: 'x@x.com', timestamp }
+              });
+          });
         });
+
+        describe('when there are errors', () => {
+          beforeEach(() => {
+            callbackFn(['error!']);
+          });
+
+          it('dispatches a SET_VISITOR_INFO_REQUEST_FAILURE action', () => {
+            expect(mockStore.getActions())
+              .toContain({
+                type: actionTypes.SET_VISITOR_INFO_REQUEST_FAILURE
+              });
+          });
+        });
+      });
+    });
+
+    describe('when authenticated', () => {
+      beforeAll(() => {
+        mockIsAuthenticated = true;
+      });
+
+      it('does not dispatch a SET_VISITOR_INFO_REQUEST_PENDING action', () => {
+        expect(mockStore.getActions().map((action) => action.type))
+          .not
+          .toContain(actionTypes.SET_VISITOR_INFO_REQUEST_PENDING);
+      });
+
+      it('does not dispatch a SET_VISITOR_INFO_REQUEST_SUCCESS action', () => {
+        expect(mockStore.getActions().map((action) => action.type))
+          .not
+          .toContain(actionTypes.SET_VISITOR_INFO_REQUEST_SUCCESS);
+      });
+
+      it('does not dispatch a SET_VISITOR_INFO_REQUEST_FAILURE action', () => {
+        expect(mockStore.getActions().map((action) => action.type))
+          .not
+          .toContain(actionTypes.SET_VISITOR_INFO_REQUEST_FAILURE);
       });
     });
   });
