@@ -33,6 +33,7 @@ import { resetTalkScreen } from 'src/redux/modules/talk';
 import { getTicketForms,
   getTicketFields } from 'src/redux/modules/submitTicket';
 import { SDK_ACTION_TYPE_PREFIX, JWT_ERROR } from 'constants/chat';
+import { IS_AUTHENTICATED, IS_NOT_AUTHENTICATED } from 'src/redux/modules/chat/chat-action-types';
 
 import WebWidget from 'component/webWidget/WebWidget';
 
@@ -576,10 +577,18 @@ export default function WebWidgetFactory(name) {
     zChat.on('error', (e) => {
       if (_.get(e, 'extra.reason') === JWT_ERROR) {
         _.unset(config, 'authentication');
+        store.dispatch({
+          type: IS_NOT_AUTHENTICATED
+        });
         setupChat(config, store, brand);
       }
     });
 
+    if (config.authentication) {
+      store.dispatch({
+        type: IS_AUTHENTICATED
+      });
+    }
     zChat.init(makeChatConfig(config));
 
     zChat.setOnFirstReady({
