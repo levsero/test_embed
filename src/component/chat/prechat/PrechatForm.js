@@ -10,9 +10,9 @@ import { ChatSocialLogin } from 'component/chat/ChatSocialLogin';
 
 import { i18n } from 'service/i18n';
 
-import { locals as styles } from './ChatPrechatForm.scss';
+import { locals as styles } from './PrechatForm.scss';
 
-export class ChatPrechatForm extends Component {
+export class PrechatForm extends Component {
   static propTypes = {
     form: PropTypes.object,
     formState: PropTypes.object,

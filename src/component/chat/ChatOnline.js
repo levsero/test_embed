@@ -1,75 +1,52 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import classNames from 'classnames';
 
 import { ButtonPill } from 'component/button/ButtonPill';
 import ChattingScreen from 'component/chat/chatting/ChattingScreen';
 import AgentScreen from 'component/chat/agents/AgentScreen';
 import RatingScreen from 'component/chat/rating/RatingScreen';
+import PrechatScreen from 'component/chat/prechat/PrechatScreen';
 import { ChatMenu } from 'component/chat/ChatMenu';
-import { ChatPrechatForm } from 'component/chat/ChatPrechatForm';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { ChatContactDetailsPopup } from 'component/chat/ChatContactDetailsPopup';
 import { ChatEmailTranscriptPopup } from 'component/chat/ChatEmailTranscriptPopup';
 import { ChatReconnectionBubble } from 'component/chat/ChatReconnectionBubble';
-import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm';
-import { ScrollContainer } from 'component/container/ScrollContainer';
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
-import { LoadingSpinner } from 'component/loading/LoadingSpinner';
-import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import {
   endChatViaPostChatScreen,
-  sendMsg,
   sendAttachments,
   setVisitorInfo,
-  setDepartment,
-  updateChatScreen,
   handleSoundIconClick,
   sendEmailTranscript,
   resetEmailTranscript,
   handleReconnect,
-  handlePreChatFormChange,
   updateMenuVisibility,
   updateContactDetailsVisibility,
-  updateEmailTranscriptVisibility,
-  resetCurrentMessage,
-  sendOfflineMessage,
-  clearDepartment,
-  initiateSocialLogout } from 'src/redux/modules/chat';
+  updateEmailTranscriptVisibility } from 'src/redux/modules/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
 import * as selectors from 'src/redux/modules/chat/chat-selectors';
 import { locals as styles } from './ChatOnline.scss';
-import { CONNECTION_STATUSES, DEPARTMENT_STATUSES } from 'constants/chat';
+import { CONNECTION_STATUSES } from 'constants/chat';
 
 const mapStateToProps = (state) => {
-  const prechatForm = selectors.getPrechatFormSettings(state);
-  const prechatFormFields = selectors.getPrechatFormFields(state);
-
   return {
     attachmentsEnabled: selectors.getAttachmentsEnabled(state),
     chats: selectors.getChatMessages(state),
     events: selectors.getChatEvents(state),
     screen: selectors.getChatScreen(state),
-    prechatFormSettings: { ...prechatForm, form: prechatFormFields },
     isChatting: selectors.getIsChatting(state),
     rating: selectors.getChatRating(state),
     visitor: selectors.getChatVisitor(state),
     userSoundSettings: selectors.getUserSoundSettings(state),
     emailTranscript: selectors.getEmailTranscript(state),
-    preChatFormState: selectors.getPreChatFormState(state),
     editContactDetails: selectors.getEditContactDetails(state),
     menuVisible: selectors.getMenuVisible(state),
     agentJoined: selectors.getAgentJoined(state),
     connection: selectors.getConnection(state),
-    loginSettings: selectors.getLoginSettings(state),
-    departments: selectors.getDepartments(state),
-    offlineMessage: selectors.getOfflineMessage(state),
-    authUrls: selectors.getAuthUrls(state),
-    socialLogin: selectors.getSocialLogin(state),
-    chatVisitor: selectors.getChatVisitor(state)
+    loginSettings: selectors.getLoginSettings(state)
   };
 };
 
@@ -81,14 +58,10 @@ class Chat extends Component {
     endChatViaPostChatScreen: PropTypes.func.isRequired,
     screen: PropTypes.string.isRequired,
     sendAttachments: PropTypes.func.isRequired,
-    prechatFormSettings: PropTypes.object.isRequired,
     isMobile: PropTypes.bool,
-    sendMsg: PropTypes.func.isRequired,
     setVisitorInfo: PropTypes.func.isRequired,
-    setDepartment: PropTypes.func.isRequired,
     onBackButtonClick: PropTypes.func,
     handleReconnect: PropTypes.func.isRequired,
-    updateChatScreen: PropTypes.func.isRequired,
     isChatting: PropTypes.bool.isRequired,
     rating: PropTypes.object.isRequired,
     handleSoundIconClick: PropTypes.func.isRequired,
@@ -98,8 +71,6 @@ class Chat extends Component {
     emailTranscript: PropTypes.object.isRequired,
     resetEmailTranscript: PropTypes.func,
     visitor: PropTypes.object.isRequired,
-    preChatFormState: PropTypes.object,
-    handlePreChatFormChange: PropTypes.func,
     updateFrameSize: PropTypes.func.isRequired,
     editContactDetails: PropTypes.object.isRequired,
     updateContactDetailsVisibility: PropTypes.func.isRequired,
@@ -109,17 +80,8 @@ class Chat extends Component {
     menuVisible: PropTypes.bool,
     agentJoined: PropTypes.bool,
     connection: PropTypes.string.isRequired,
-    resetCurrentMessage: PropTypes.func,
     loginSettings: PropTypes.object.isRequired,
-    departments: PropTypes.object,
-    offlineMessage: PropTypes.object,
-    sendOfflineMessage: PropTypes.func,
-    clearDepartment: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
-    authUrls: PropTypes.object.isRequired,
-    socialLogin: PropTypes.object.isRequired,
-    chatVisitor: PropTypes.object.isRequired,
-    initiateSocialLogout: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -129,7 +91,6 @@ class Chat extends Component {
     rating: {},
     chats: [],
     events: [],
-    preChatFormSettings: {},
     handleSoundIconClick: () => {},
     userSoundSettings: true,
     getFrameDimensions: () => {},
@@ -142,13 +103,8 @@ class Chat extends Component {
     updateFrameSize: () => {},
     menuVisible: false,
     connection: '',
-    resetCurrentMessage: () => {},
     loginSettings: {},
     visitor: {},
-    departments: {},
-    offlineMessage: {},
-    sendOfflineMessage: () => {},
-    clearDepartment: () => {},
     hideZendeskLogo: false
   };
 
@@ -189,42 +145,6 @@ class Chat extends Component {
     this.props.updateMenuVisibility(false);
     this.props.updateContactDetailsVisibility(false);
     this.props.updateEmailTranscriptVisibility(false);
-  }
-
-  onPrechatFormComplete = (info) => {
-    const selectedDepartment = parseInt(info.department);
-    const isSelectedDepartmentOffline = (!!selectedDepartment &&
-      this.props.departments[selectedDepartment].status !== DEPARTMENT_STATUSES.ONLINE);
-
-    if (isSelectedDepartmentOffline) {
-      const successCallback = () => this.props.updateChatScreen(screens.OFFLINE_MESSAGE_SCREEN);
-      const failureCallback = () => this.props.updateChatScreen(screens.PRECHAT_SCREEN);
-
-      this.props.updateChatScreen(screens.LOADING_SCREEN);
-      this.props.sendOfflineMessage(info, successCallback, failureCallback);
-    } else {
-      const sendOnlineMessage = () => info.message ? this.props.sendMsg(info.message) : null;
-
-      if (selectedDepartment) {
-        this.props.setDepartment(
-          selectedDepartment,
-          sendOnlineMessage,
-          sendOnlineMessage
-        );
-      } else {
-        this.props.clearDepartment(sendOnlineMessage);
-      }
-      this.props.setVisitorInfo(
-        _.omitBy({
-          display_name: info.display_name || info.name,
-          email: info.email,
-          phone: info.phone
-        }, _.isNil)
-      );
-      this.props.updateChatScreen(screens.CHATTING_SCREEN);
-    }
-
-    this.props.resetCurrentMessage();
   }
 
   showContactDetailsFn = (e) => {
@@ -285,51 +205,10 @@ class Chat extends Component {
         this.props.screen !== screens.OFFLINE_MESSAGE_SCREEN &&
         this.props.screen !== screens.LOADING_SCREEN) return;
 
-    const { form, message } = this.props.prechatFormSettings;
-    const scrollContainerClasses = classNames(
-      styles.scrollContainer,
-      { [styles.mobileContainer]: this.props.isMobile }
-    );
-    const logoFooterClasses = classNames({
-      [styles.logoFooter]: !this.props.hideZendeskLogo
-    });
-    let formScreen = null;
-
-    if (this.props.screen === screens.PRECHAT_SCREEN) {
-      formScreen = (
-        <ChatPrechatForm
-          authUrls={this.props.authUrls}
-          socialLogin={this.props.socialLogin}
-          chatVisitor={this.props.chatVisitor}
-          initiateSocialLogout={this.props.initiateSocialLogout}
-          form={form}
-          formState={this.props.preChatFormState}
-          onPrechatFormChange={this.props.handlePreChatFormChange}
-          loginEnabled={this.props.loginSettings.enabled}
-          greetingMessage={message}
-          visitor={this.props.visitor}
-          onFormCompleted={this.onPrechatFormComplete} />
-      );
-    } else if (this.props.screen === screens.OFFLINE_MESSAGE_SCREEN) {
-      formScreen = (
-        <ChatOfflineMessageForm
-          offlineMessage={this.props.offlineMessage}
-          onFormBack={() => this.props.updateChatScreen(screens.PRECHAT_SCREEN)} />
-      );
-    } else if (this.props.screen === screens.LOADING_SCREEN) {
-      formScreen = <LoadingSpinner className={styles.loadingSpinner} />;
-    }
-
     return (
-      <ScrollContainer
-        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-        classes={scrollContainerClasses}
-        containerClasses={styles.scrollContainerContent}
-        footerClasses={logoFooterClasses}
-        footerContent={this.renderZendeskLogo()}
-        fullscreen={this.props.isMobile}>
-        {formScreen}
-      </ScrollContainer>
+      <PrechatScreen
+        hideZendeskLogo={this.props.hideZendeskLogo}
+        isMobile={this.props.isMobile} />
     );
   }
 
@@ -505,15 +384,6 @@ class Chat extends Component {
     );
   }
 
-  renderZendeskLogo = () => {
-    return !this.props.hideZendeskLogo ?
-      <ZendeskLogo
-        className={`${styles.zendeskLogo}`}
-        rtl={i18n.isRTL()}
-        fullscreen={false}
-      /> : null;
-  }
-
   render = () => {
     const containerStyle = classNames(
       styles.container,
@@ -541,24 +411,16 @@ class Chat extends Component {
 }
 
 const actionCreators = {
-  sendMsg,
   endChatViaPostChatScreen,
   setVisitorInfo,
-  setDepartment,
-  updateChatScreen,
   sendAttachments,
   handleSoundIconClick,
   sendEmailTranscript,
   resetEmailTranscript,
-  handlePreChatFormChange,
   updateMenuVisibility,
   handleReconnect,
   updateContactDetailsVisibility,
-  updateEmailTranscriptVisibility,
-  resetCurrentMessage,
-  sendOfflineMessage,
-  clearDepartment,
-  initiateSocialLogout
+  updateEmailTranscriptVisibility
 };
 
 export default connect(mapStateToProps, actionCreators, null, { withRef: true })(Chat);

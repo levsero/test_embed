@@ -1,7 +1,7 @@
-describe('ChatPrechatForm component', () => {
-  let ChatPrechatForm,
+describe('PrechatForm component', () => {
+  let PrechatForm,
     mockFormValidity;
-  const chatPrechatFormPath = buildSrcPath('component/chat/ChatPrechatForm');
+  const PrechatFormPath = buildSrcPath('component/chat/prechat/PrechatForm');
   const Dropdown = noopReactComponent();
   const ChatSocialLogin = noopReactComponent();
 
@@ -47,7 +47,7 @@ describe('ChatPrechatForm component', () => {
     mockFormValidity = false;
 
     initMockRegistry({
-      './ChatPrechatForm.scss': {
+      './PrechatForm.scss': {
         locals: {
           nameFieldWithSocialLogin: 'nameFieldWithSocialLoginClass'
         }
@@ -67,8 +67,8 @@ describe('ChatPrechatForm component', () => {
       }
     });
 
-    mockery.registerAllowable(chatPrechatFormPath);
-    ChatPrechatForm = requireUncached(chatPrechatFormPath).ChatPrechatForm;
+    mockery.registerAllowable(PrechatFormPath);
+    PrechatForm = requireUncached(PrechatFormPath).PrechatForm;
   });
 
   afterEach(() => {
@@ -81,7 +81,7 @@ describe('ChatPrechatForm component', () => {
       result;
 
     beforeEach(() => {
-      component = instanceRender(<ChatPrechatForm form={mockFormProp} />);
+      component = instanceRender(<PrechatForm form={mockFormProp} />);
 
       spyOn(component, 'renderGreetingMessage');
       spyOn(component, 'renderNameField');
@@ -135,7 +135,7 @@ describe('ChatPrechatForm component', () => {
 
     beforeEach(() => {
       const component = instanceRender(
-        <ChatPrechatForm form={mockFormProp} greetingMessage={greetingMessage} />
+        <PrechatForm form={mockFormProp} greetingMessage={greetingMessage} />
       );
 
       result = component.renderGreetingMessage();
@@ -179,7 +179,7 @@ describe('ChatPrechatForm component', () => {
       };
 
       const component = instanceRender(
-        <ChatPrechatForm form={mockForm} />
+        <PrechatForm form={mockForm} />
       );
 
       result = component.renderPhoneField();
@@ -209,9 +209,9 @@ describe('ChatPrechatForm component', () => {
 
     describe('when loginEnabled is false', () => {
       beforeEach(() => {
-        const chatPrechatForm = domRender(<ChatPrechatForm form={mockFormProp} loginEnabled={false} />);
+        const component = domRender(<PrechatForm form={mockFormProp} loginEnabled={false} />);
 
-        node = ReactDOM.findDOMNode(chatPrechatForm);
+        node = ReactDOM.findDOMNode(component);
       });
 
       it('does not render the phone field', () => {
@@ -225,7 +225,7 @@ describe('ChatPrechatForm component', () => {
     let component;
 
     beforeEach(() => {
-      component = instanceRender(<ChatPrechatForm form={mockFormProp} />);
+      component = instanceRender(<PrechatForm form={mockFormProp} />);
 
       spyOn(component, 'renderNameField');
       spyOn(component, 'renderEmailField');
@@ -250,7 +250,7 @@ describe('ChatPrechatForm component', () => {
       componentArgs;
 
     beforeEach(() => {
-      component = instanceRender(<ChatPrechatForm {...componentArgs} />);
+      component = instanceRender(<PrechatForm {...componentArgs} />);
 
       spyOn(component, 'isFieldRequired');
 
@@ -332,7 +332,7 @@ describe('ChatPrechatForm component', () => {
         email: { required: true }
       };
 
-      component = instanceRender(<ChatPrechatForm form={mockForm} />);
+      component = instanceRender(<PrechatForm form={mockForm} />);
 
       spyOn(component, 'isFieldRequired');
 
@@ -351,9 +351,9 @@ describe('ChatPrechatForm component', () => {
 
     describe('when loginEnabled is false', () => {
       beforeEach(() => {
-        const chatPrechatForm = domRender(<ChatPrechatForm form={mockFormProp} loginEnabled={false} />);
+        const component = domRender(<PrechatForm form={mockFormProp} loginEnabled={false} />);
 
-        node = ReactDOM.findDOMNode(chatPrechatForm);
+        node = ReactDOM.findDOMNode(component);
       });
 
       it('does not render the email field', () => {
@@ -373,7 +373,7 @@ describe('ChatPrechatForm component', () => {
         message: { required: true }
       };
 
-      component = instanceRender(<ChatPrechatForm form={mockForm} />);
+      component = instanceRender(<PrechatForm form={mockForm} />);
 
       spyOn(component, 'isFieldRequired');
 
@@ -398,7 +398,7 @@ describe('ChatPrechatForm component', () => {
         { name: 'Engineering', status: 'online', id: 56789, value: 56789 }
       ],
       getRenderDepartmentsFieldFn = (formProp) => (
-        instanceRender(<ChatPrechatForm form={formProp} />)
+        instanceRender(<PrechatForm form={formProp} />)
           .renderDepartmentsField
       );
 
@@ -477,7 +477,7 @@ describe('ChatPrechatForm component', () => {
 
     beforeEach(() => {
       onPrechatFormChangeSpy = jasmine.createSpy('onPrechatFormChange');
-      component = instanceRender(<ChatPrechatForm form={mockFormProp} onPrechatFormChange={onPrechatFormChangeSpy} />);
+      component = instanceRender(<PrechatForm form={mockFormProp} onPrechatFormChange={onPrechatFormChangeSpy} />);
       mockFormValidity = true;
       component.form = mockForm;
 
@@ -518,7 +518,7 @@ describe('ChatPrechatForm component', () => {
     beforeEach(() => {
       onFormCompletedSpy = jasmine.createSpy('onFormCompleted');
       component = instanceRender(
-        <ChatPrechatForm
+        <PrechatForm
           form={mockFormProp}
           onFormCompleted={onFormCompletedSpy}
           formState={formState}
@@ -537,7 +537,7 @@ describe('ChatPrechatForm component', () => {
     let component;
 
     beforeEach(() => {
-      component = instanceRender(<ChatPrechatForm form={mockFormProp} />);
+      component = instanceRender(<PrechatForm form={mockFormProp} />);
       spyOn(component, 'handleFormChange');
       component.componentDidMount();
     });
@@ -554,9 +554,9 @@ describe('ChatPrechatForm component', () => {
       result;
 
     beforeEach(() => {
-      const chatPrechatForm = instanceRender(<ChatPrechatForm form={mockFormProp} />);
+      const component = instanceRender(<PrechatForm form={mockFormProp} />);
 
-      result = chatPrechatForm.isDepartmentOffline(mockDepartments, mockDepartmentId);
+      result = component.isDepartmentOffline(mockDepartments, mockDepartmentId);
     });
 
     describe('when no matching department was found', () => {
@@ -609,7 +609,7 @@ describe('ChatPrechatForm component', () => {
     let mockFallback,
       mockDepartment,
       mockDepartments,
-      chatPrechatForm,
+      component,
       result;
 
     beforeEach(() => {
@@ -623,13 +623,13 @@ describe('ChatPrechatForm component', () => {
         department: mockDepartment
       };
 
-      chatPrechatForm = instanceRender(
-        <ChatPrechatForm form={form} formState={formState} />
+      component = instanceRender(
+        <PrechatForm form={form} formState={formState} />
       );
 
-      spyOn(chatPrechatForm, 'isDepartmentOffline');
+      spyOn(component, 'isDepartmentOffline');
 
-      result = chatPrechatForm.isFieldRequired(mockFallback);
+      result = component.isFieldRequired(mockFallback);
     });
 
     describe('when a department value exists', () => {
@@ -640,7 +640,7 @@ describe('ChatPrechatForm component', () => {
       });
 
       it('calls isDepartmentOffline with expected arguments', () => {
-        expect(chatPrechatForm.isDepartmentOffline)
+        expect(component.isDepartmentOffline)
           .toHaveBeenCalledWith(mockDepartments, mockDepartment);
       });
     });
@@ -653,7 +653,7 @@ describe('ChatPrechatForm component', () => {
       });
 
       it('does not call isDepartmentOffline', () => {
-        expect(chatPrechatForm.isDepartmentOffline)
+        expect(component.isDepartmentOffline)
           .not
           .toHaveBeenCalled();
       });

@@ -20,7 +20,7 @@ import ChatEmailTranscriptPopupStyles from 'component/chat/ChatEmailTranscriptPo
 import ChatHeaderStyles from 'component/chat/ChatHeader.scss';
 import ChattingFooterStyles from 'component/chat/chatting/ChattingFooter.scss';
 import RatingGroupStyles from 'component/chat/rating/RatingGroup.scss';
-import ChatPrechatFormStyles from 'component/chat/ChatPrechatForm.scss';
+import PrechatFormStyles from 'component/chat/prechat/PrechatForm.scss';
 import ChatMenuStyles from 'component/chat/ChatMenu.scss';
 import ChatGroupStyles from 'component/chat/chatting/ChatGroup.scss';
 import EventMessageStyles from 'component/chat/chatting/EventMessage.scss';
@@ -37,6 +37,7 @@ import ChatOnlineStyles from 'component/chat/ChatOnline.scss';
 import ChattingScreenStyles from 'component/chat/chatting/ChattingScreen.scss';
 import AgentScreenStyles from 'component/chat/agents/AgentScreen.scss';
 import RatingScreenStyles from 'component/chat/rating/RatingScreen.scss';
+import PrechatScreenStyles from 'component/chat/prechat/PrechatScreen.scss';
 import ContainerStyles from 'component/container/Container.scss';
 import DropdownStyles from 'component/field/Dropdown.scss';
 import DropdownOptionStyles from 'component/field/DropdownOption.scss';
@@ -86,7 +87,7 @@ export const webWidgetStyles = `
   ${ChatHeaderStyles}
   ${ChattingFooterStyles}
   ${RatingGroupStyles}
-  ${ChatPrechatFormStyles}
+  ${PrechatFormStyles}
   ${ChatMenuStyles}
   ${ChatGroupStyles}
   ${EventMessageStyles}
@@ -103,6 +104,7 @@ export const webWidgetStyles = `
   ${ChattingScreenStyles}
   ${AgentScreenStyles}
   ${RatingScreenStyles}
+  ${PrechatScreenStyles}
   ${ContainerStyles}
   ${DropdownStyles}
   ${DropdownOptionStyles}
