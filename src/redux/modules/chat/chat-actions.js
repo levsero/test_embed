@@ -72,7 +72,7 @@ import _ from 'lodash';
 const chatTypingTimeout = 2000;
 let history = [];
 
-if (zChat) {
+if (zChat && zChat.on) {
   zChat.on('history', (data) => {
     const eventData = (data.nick === EVENT_TRIGGER)
       ? { ...data, nick: AGENT_BOT }
