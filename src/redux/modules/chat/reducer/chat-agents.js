@@ -16,7 +16,7 @@ const concatOrUpdateAgent = (agents, nickname, data) => {
   const copy = new Map(agents),
     prevAgent = agents.get(nickname);
 
-  copy.set(nickname, { ...prevAgent, ...data});
+  copy.set(nickname, { ...prevAgent, ...data });
   return copy;
 };
 

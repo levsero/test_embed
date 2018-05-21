@@ -7,10 +7,10 @@ import { CHAT_RATING_REQUEST_SUCCESS,
   SDK_CHAT_RATING,
   SDK_CHAT_COMMENT } from '../chat-action-types';
 import { isAgent } from 'src/util/chat';
-import { ChatRatings } from 'component/chat/ChatRatingGroup';
+import { ratings } from 'component/chat/rating/RatingGroup';
 
 const initialState = {
-  value: ChatRatings.NOT_SET,
+  value: ratings.NOT_SET,
   disableEndScreen: false,
   comment: null
 };

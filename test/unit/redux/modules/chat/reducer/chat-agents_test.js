@@ -11,6 +11,12 @@ describe('chat reducer agents', () => {
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-agents');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
 
+    initMockRegistry({
+      'component/chat/rating/RatingGroup': {
+        ratings: {}
+      }
+    });
+
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);
 

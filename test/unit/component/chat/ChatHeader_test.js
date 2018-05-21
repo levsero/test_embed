@@ -16,8 +16,8 @@ describe('ChatHeader component', () => {
       'component/Avatar': {
         Avatar: MockAvatar
       },
-      'component/chat/ChatRatingGroup': {
-        ChatRatingGroup: noopReactComponent()
+      'component/chat/rating/RatingGroup': {
+        RatingGroup: noopReactComponent()
       },
       'component/button/ButtonIcon': {
         ButtonIcon: class extends Component {

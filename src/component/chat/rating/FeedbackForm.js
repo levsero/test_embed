@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { i18n } from 'service/i18n';
-import { ChatRatingGroup, ChatRatings } from 'component/chat/ChatRatingGroup';
+import { RatingGroup, ratings } from 'component/chat/rating/RatingGroup';
 import { Button } from 'component/button/Button';
 
-import { locals as styles } from './ChatFeedbackForm.scss';
+import { locals as styles } from './FeedbackForm.scss';
 
-export class ChatFeedbackForm extends Component {
+export class FeedbackForm extends Component {
   static propTypes = {
     skipClickFn: PropTypes.func.isRequired,
     sendClickFn: PropTypes.func.isRequired,
@@ -19,7 +19,7 @@ export class ChatFeedbackForm extends Component {
   static defaultProps = {
     feedbackMessage: '',
     rating: {
-      value: ChatRatings.NOT_SET
+      value: ratings.NOT_SET
     }
   }
 
@@ -34,7 +34,7 @@ export class ChatFeedbackForm extends Component {
 
   renderActionButtons = () => {
     const { cancelButtonText } = this.props;
-    const disabled = this.state.selectedRating === ChatRatings.NOT_SET;
+    const disabled = this.state.selectedRating === ratings.NOT_SET;
 
     return (
       <div className={styles.buttonGroup}>
@@ -62,8 +62,8 @@ export class ChatFeedbackForm extends Component {
         <label className={styles.feedbackMessage}>
           {feedbackMessage || i18n.t('embeddable_framework.chat.postChat.rating.title')}
         </label>
-        <ChatRatingGroup
-          className={styles.chatRatingGroup}
+        <RatingGroup
+          className={styles.ratingGroup}
           rating={this.state.selectedRating}
           updateRating={(rating) => this.setState({ selectedRating: rating })}
         />
