@@ -30,10 +30,10 @@ describe('chat reducer isAuthenticated', () => {
       });
     });
 
-    describe('when a IS_AUTHENTICATED action is dispatched', () => {
+    describe('when a AUTHENTICATION_STARTED action is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.IS_AUTHENTICATED
+          type: actionTypes.AUTHENTICATION_STARTED
         });
       });
 
@@ -43,10 +43,10 @@ describe('chat reducer isAuthenticated', () => {
       });
     });
 
-    describe('when a IS_NOT_AUTHENTICATED action is dispatched', () => {
+    describe('when a AUTHENTICATION_FAILED action is dispatched', () => {
       beforeEach(() => {
         state = reducer(initialState, {
-          type: actionTypes.IS_NOT_AUTHENTICATED
+          type: actionTypes.AUTHENTICATION_FAILED
         });
       });
 

@@ -34,7 +34,7 @@ describe('embed.webWidget', () => {
   const zChatFirehoseSpy = jasmine.createSpy('zChatFirehose').and.callThrough();
   const zChatSetOnFirstReadySpy = jasmine.createSpy('zChatSetOnFirstReady').and.callThrough();
   const zChatOnSpy = jasmine.createSpy('zChatOn');
-  const IS_AUTHENTICATED = 'widget/chat/IS_AUTHENTICATED';
+  const AUTHENTICATION_STARTED = 'widget/chat/AUTHENTICATION_STARTED';
   const callMeScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
 
   beforeEach(() => {
@@ -209,7 +209,7 @@ describe('embed.webWidget', () => {
         SDK_ACTION_TYPE_PREFIX: 'websdk'
       },
       'src/redux/modules/chat/chat-action-types': {
-        IS_AUTHENTICATED
+        AUTHENTICATION_STARTED
       }
     });
 
@@ -859,10 +859,10 @@ describe('embed.webWidget', () => {
             });
         });
 
-        it('dispatches IS_AUTHENTICATED action', () => {
+        it('dispatches AUTHENTICATION_STARTED action', () => {
           expect(mockStoreDispatch)
             .toHaveBeenCalledWith({
-              type: IS_AUTHENTICATED
+              type: AUTHENTICATION_STARTED
             });
         });
       });
@@ -882,7 +882,7 @@ describe('embed.webWidget', () => {
               }));
         });
 
-        it('does not dispatch IS_AUTHENTICATED action', () => {
+        it('does not dispatch AUTHENTICATION_STARTED action', () => {
           expect(mockStoreDispatch)
             .not
             .toHaveBeenCalled();
