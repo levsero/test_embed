@@ -38,7 +38,7 @@ export class AttachmentBox extends Component {
           <div className={styles.dropzoneChild}>
             <Icon type='Icon--paperclip-large' />
             <p className={styles.dropzoneChildLabel}>
-              {i18n.t('embeddable_framework.submitTicket.attachments.box.label')}
+              {i18n.t('embeddable_framework.common.attachments.dragdrop')}
             </p>
           </div>
         </Dropzone>
