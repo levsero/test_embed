@@ -12,6 +12,9 @@ describe('chat root reducer', () => {
       },
       'constants/chat': {
         OFFLINE_FORM_SCREENS: {}
+      },
+      'src/util/chat': {
+        isAgent: {}
       }
     });
 
@@ -60,7 +63,8 @@ describe('chat root reducer', () => {
       'socialLogin',
       'standaloneMobileNotificationVisible',
       'userSettings',
-      'visitor'
+      'visitor',
+      'isAuthenticated'
     ];
 
     it('has the expected sub states', () => {

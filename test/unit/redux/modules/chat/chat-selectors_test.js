@@ -50,6 +50,7 @@ describe('chat selectors', () => {
     getCurrentSessionStartTime,
     getSocialLogin,
     getAuthUrls,
+    getIsAuthenticated,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
@@ -152,6 +153,7 @@ describe('chat selectors', () => {
     getCurrentSessionStartTime = selectors.getCurrentSessionStartTime;
     getSocialLogin = selectors.getSocialLogin;
     getAuthUrls = selectors.getAuthUrls;
+    getIsAuthenticated = selectors.getIsAuthenticated;
   });
 
   afterEach(() => {
@@ -221,6 +223,23 @@ describe('chat selectors', () => {
     it('returns the departments', () => {
       expect(result)
         .toEqual(mockDepartments);
+    });
+  });
+
+  describe('getIsAuthenticated', () => {
+    let result;
+
+    beforeEach(() => {
+      result = getIsAuthenticated({
+        chat: {
+          isAuthenticated: true
+        }
+      });
+    });
+
+    it('returns if user is authenticated', () => {
+      expect(result)
+        .toEqual(true);
     });
   });
 

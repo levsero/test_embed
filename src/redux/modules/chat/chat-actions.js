@@ -60,7 +60,8 @@ import {
   getShowRatingScreen,
   getIsChatting as getIsChattingState,
   getChatOnline,
-  getActiveAgents } from 'src/redux/modules/chat/chat-selectors';
+  getActiveAgents,
+  getIsAuthenticated } from 'src/redux/modules/chat/chat-selectors';
 import {
   CHAT_MESSAGE_TYPES,
   AGENT_BOT,
@@ -206,22 +207,24 @@ export function handleChatBoxChange(msg) {
 }
 
 export function setVisitorInfo(visitor, timestamp=Date.now()) {
-  return (dispatch) => {
-    dispatch({
-      type: SET_VISITOR_INFO_REQUEST_PENDING,
-      payload: { ...visitor, timestamp }
-    });
+  return (dispatch, getState) => {
+    if (!getIsAuthenticated(getState())) {
+      dispatch({
+        type: SET_VISITOR_INFO_REQUEST_PENDING,
+        payload: { ...visitor, timestamp }
+      });
 
-    zChat.setVisitorInfo(visitor, (err) => {
-      if (!err) {
-        dispatch({
-          type: SET_VISITOR_INFO_REQUEST_SUCCESS,
-          payload: { ...visitor, timestamp }
-        });
-      } else {
-        dispatch({ type: SET_VISITOR_INFO_REQUEST_FAILURE });
-      }
-    });
+      zChat.setVisitorInfo(visitor, (err) => {
+        if (!err) {
+          dispatch({
+            type: SET_VISITOR_INFO_REQUEST_SUCCESS,
+            payload: { ...visitor, timestamp }
+          });
+        } else {
+          dispatch({ type: SET_VISITOR_INFO_REQUEST_FAILURE });
+        }
+      });
+    }
   };
 }
 
