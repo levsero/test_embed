@@ -14,6 +14,7 @@ import { Icon } from 'component/Icon';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { ICONS } from 'constants/shared';
 
+import classNames from 'classnames';
 import { locals as styles } from 'component/chat/ChatContactDetailsPopup.scss';
 
 import {
@@ -116,15 +117,27 @@ export class ChatContactDetailsPopup extends Component {
     return <h4 className={styles.title}>{title}</h4>;
   }
 
-  renderNameField = () => {
-    const inputClasses = this.props.isMobile ? styles.fieldInputMobile : '';
+  generateInputClasses = () => {
+    return classNames(
+      { [styles.fieldInputMobile]: this.props.isMobile },
+      { [styles.fieldInputAuthDisabled]: this.props.isAuthenticated }
+    );
+  }
 
+  generateFieldClasses = () => {
+    return classNames(
+      styles.field,
+      { [styles.fieldAuthDisabled]: this.props.isAuthenticated }
+    );
+  }
+
+  renderNameField = () => {
     return (
       <Field
         fieldContainerClasses={styles.fieldContainer}
-        fieldClasses={styles.field}
+        fieldClasses={this.generateFieldClasses()}
         labelClasses={styles.fieldLabel}
-        inputClasses={inputClasses}
+        inputClasses={this.generateInputClasses()}
         label={i18n.t('embeddable_framework.common.textLabel.name')}
         value={this.state.formState.name}
         name='name'
@@ -134,14 +147,12 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   renderEmailField = () => {
-    const inputClasses = this.props.isMobile ? styles.fieldInputMobile : '';
-
     return (
       <EmailField
         fieldContainerClasses={styles.fieldContainer}
-        fieldClasses={styles.field}
+        fieldClasses={this.generateFieldClasses()}
         labelClasses={styles.fieldLabel}
-        inputClasses={inputClasses}
+        inputClasses={this.generateInputClasses()}
         label={i18n.t('embeddable_framework.common.textLabel.email')}
         value={this.state.formState.email}
         name='email'

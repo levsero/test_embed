@@ -38,7 +38,11 @@ describe('ChatContactDetailsPopup component', () => {
     initMockRegistry({
       'component/chat/ChatContactDetailsPopup.scss': {
         locals: {
-          popupChildrenContainerLoading: 'popupChildrenContainerLoadingClass'
+          popupChildrenContainerLoading: 'popupChildrenContainerLoadingClass',
+          field: 'field',
+          fieldAuthDisabled: 'fieldAuthDisabled',
+          fieldInputMobile: 'fieldInputMobile',
+          fieldInputAuthDisabled: 'fieldInputAuthDisabled'
         }
       },
       'constants/shared': {
@@ -462,6 +466,170 @@ describe('ChatContactDetailsPopup component', () => {
       it('does not render a form component', () => {
         expect(form)
           .toEqual(null);
+      });
+    });
+  });
+
+  describe('renderNameField', () => {
+    let form,
+      component;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatContactDetailsPopup />);
+      spyOn(component, 'generateFieldClasses');
+      spyOn(component, 'generateInputClasses');
+      form = component.renderNameField();
+    });
+
+    it('calls generateInputClasses', () => {
+      expect(component.generateInputClasses)
+        .toHaveBeenCalled();
+    });
+
+    it('calls generateFieldClasses', () => {
+      expect(component.generateFieldClasses)
+        .toHaveBeenCalled();
+    });
+  });
+
+  describe('renderEmailField', () => {
+    let form,
+      component;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatContactDetailsPopup />);
+      spyOn(component, 'generateFieldClasses');
+      spyOn(component, 'generateInputClasses');
+      form = component.renderEmailField();
+    });
+
+    it('calls generateInputClasses', () => {
+      expect(component.generateInputClasses)
+        .toHaveBeenCalled();
+    });
+
+    it('calls generateFieldClasses', () => {
+      expect(component.generateFieldClasses)
+        .toHaveBeenCalled();
+    });
+  });
+
+  describe('generateFieldClasses', () => {
+    let result,
+      component,
+      mockIsAuthenticated;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatContactDetailsPopup isAuthenticated={mockIsAuthenticated} />);
+      result = component.generateFieldClasses();
+    });
+
+    it('renders field class', () => {
+      expect(result)
+        .toContain('field');
+    });
+
+    describe('when authenticated', () => {
+      beforeAll(() => {
+        mockIsAuthenticated = true;
+      });
+
+      it('renders fieldAuthDisabled class', () => {
+        expect(result)
+          .toContain('fieldAuthDisabled');
+      });
+    });
+
+    describe('when not authenticated', () => {
+      beforeAll(() => {
+        mockIsAuthenticated = false;
+      });
+
+      it('does not render fieldAuthDisabled class', () => {
+        expect(result)
+          .not
+          .toContain('fieldAuthDisabled');
+      });
+    });
+  });
+
+   describe('generateInputClasses', () => {
+    let result,
+      component,
+      mockIsAuthenticated,
+      mockIsMobile;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatContactDetailsPopup isAuthenticated={mockIsAuthenticated} isMobile={mockIsMobile} />);
+      result = component.generateInputClasses();
+    });
+
+    describe('when authenticated', () => {
+      beforeAll(() => {
+        mockIsAuthenticated = true;
+      });
+
+      it('renders fieldInputAuthDisabled', () => {
+        expect(result)
+          .toContain('fieldInputAuthDisabled');
+      });
+
+      describe('when inputMobile is true', () => {
+        beforeAll(() => {
+          mockIsMobile = true;
+        });
+
+        it('renders fieldInputMobile', () => {
+          expect(result)
+            .toContain('fieldInputMobile');
+        });
+      });
+
+      describe('when inputMobile is false', () => {
+        beforeAll(() => {
+          mockIsMobile = false;
+        });
+
+        it('does not render fieldInputMobile', () => {
+          expect(result)
+            .not
+            .toContain('fieldInputMobile');
+        });
+      });
+    });
+
+    describe('when not authenticated', () => {
+      beforeAll(() => {
+        mockIsAuthenticated = false;
+      });
+
+      it('does not render fieldInputAuthDisabled', () => {
+        expect(result)
+          .not
+          .toContain('fieldInputAuthDisabled');
+      });
+
+      describe('when inputMobile is true', () => {
+        beforeAll(() => {
+          mockIsMobile = true;
+        });
+
+        it('renders fieldInputMobile', () => {
+          expect(result)
+            .toContain('fieldInputMobile');
+        });
+      });
+
+      describe('when inputMobile is false', () => {
+        beforeAll(() => {
+          mockIsMobile = false;
+        });
+
+        it('does not render fieldInputMobile', () => {
+          expect(result)
+            .not
+            .toContain('fieldInputMobile');
+        });
       });
     });
   });

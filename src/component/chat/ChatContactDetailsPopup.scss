@@ -54,6 +54,15 @@
   composes: u-paddingVS u-paddingHM from global;
 }
 
+.fieldAuthDisabled {
+  background: #EEEEEE !important;
+  border: none !important;
+}
+
+.fieldInputAuthDisabled {
+  color: $zd-color-aluminum !important;
+}
+
 .fieldContainer:last-of-type {
   margin-bottom: #{20/$font-size}rem !important;
 }
