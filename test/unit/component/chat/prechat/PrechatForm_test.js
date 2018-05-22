@@ -515,6 +515,7 @@ describe('PrechatForm component', () => {
     let component,
       onFormCompletedSpy,
       mockSocialLogin,
+      mockIsAuthenticated,
       mockVisitor;
     const formState = {
       name: 'someName',
@@ -530,6 +531,7 @@ describe('PrechatForm component', () => {
           onFormCompleted={onFormCompletedSpy}
           formState={formState}
           visitor={mockVisitor}
+          isAuthenticated={mockIsAuthenticated}
           socialLogin={mockSocialLogin}
         />
       );
@@ -554,6 +556,25 @@ describe('PrechatForm component', () => {
         mockSocialLogin = {
           authenticated: true
         };
+        mockVisitor = {
+          display_name: 'yolo',
+          email: 'email@email.com'
+        };
+      });
+
+      it('calls onFormCompleted spy with formState prop where name and email are from social details', () => {
+        expect(onFormCompletedSpy)
+          .toHaveBeenCalledWith({
+            ...formState,
+            name: 'yolo',
+            email: 'email@email.com'
+          });
+      });
+    });
+
+    describe('when authenticated', () => {
+      beforeAll(() => {
+        mockIsAuthenticated = true;
         mockVisitor = {
           display_name: 'yolo',
           email: 'email@email.com'
