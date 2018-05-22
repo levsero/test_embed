@@ -7,10 +7,10 @@ import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { Avatar } from 'component/Avatar';
 
 import { i18n } from 'service/i18n';
-import { locals as styles } from './ChatSocialLogin.scss';
+import { locals as styles } from './UserProfile.scss';
 import { CHAT_SOCIAL_LOGIN_SCREENS } from 'constants/chat';
 
-export class ChatSocialLogin extends Component {
+export class UserProfile extends Component {
   static propTypes = {
     authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,

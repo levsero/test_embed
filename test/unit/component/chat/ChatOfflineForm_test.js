@@ -9,7 +9,7 @@ describe('ChatOfflineForm component', () => {
   const LoadingSpinner = noopReactComponent();
   const ChatOperatingHours = noopReactComponent();
   const ChatOfflineMessageForm = noopReactComponent();
-  const ChatSocialLogin = noopReactComponent();
+  const UserProfile = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
@@ -62,7 +62,7 @@ describe('ChatOfflineForm component', () => {
       'component/chat/ChatOfflineMessageForm': {
         ChatOfflineMessageForm
       },
-      'component/chat/ChatSocialLogin': { ChatSocialLogin }
+      'component/chat/UserProfile': { UserProfile }
     });
 
     mockery.registerAllowable(ChatOfflineFormPath);
@@ -397,7 +397,7 @@ describe('ChatOfflineForm component', () => {
     });
   });
 
-  describe('renderSocialLogin', () => {
+  describe('renderUserProfile', () => {
     let component;
 
     beforeEach(() => {
@@ -406,7 +406,7 @@ describe('ChatOfflineForm component', () => {
       spyOn(component, 'renderNameField');
       spyOn(component, 'renderEmailField');
 
-      component.renderSocialLogin();
+      component.renderUserProfile();
     });
 
     it('calls renderNameField', () => {

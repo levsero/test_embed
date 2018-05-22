@@ -1,6 +1,6 @@
-describe('ChatSocialLogin component', () => {
-  let ChatSocialLogin;
-  const chatSocialLoginPath = buildSrcPath('component/chat/ChatSocialLogin');
+describe('UserProfile component', () => {
+  let UserProfile;
+  const UserProfilePath = buildSrcPath('component/chat/UserProfile');
   const chatConstantsPath = buildSrcPath('constants/chat');
   const Icon = noopReactComponent();
   const LoadingSpinner = noopReactComponent();
@@ -13,7 +13,7 @@ describe('ChatSocialLogin component', () => {
     mockery.enable();
 
     initMockRegistry({
-      './ChatSocialLogin.scss': {
+      './UserProfile.scss': {
         locals: {
           authProfileFieldContainer: 'authProfileFieldContainerClasses',
           historyAuthProfileFieldContainer: 'historyAuthProfileFieldContainerClasses'
@@ -32,8 +32,8 @@ describe('ChatSocialLogin component', () => {
       }
     });
 
-    mockery.registerAllowable(chatSocialLoginPath);
-    ChatSocialLogin = requireUncached(chatSocialLoginPath).ChatSocialLogin;
+    mockery.registerAllowable(UserProfilePath);
+    UserProfile = requireUncached(UserProfilePath).UserProfile;
   });
 
   afterEach(() => {
@@ -46,7 +46,7 @@ describe('ChatSocialLogin component', () => {
       componentArgs;
 
     beforeEach(() => {
-      component = instanceRender(<ChatSocialLogin {...componentArgs} />);
+      component = instanceRender(<UserProfile {...componentArgs} />);
 
       spyOn(component, 'renderAuthedProfileField');
       spyOn(component, 'renderDefaultProfileFields');
@@ -97,7 +97,7 @@ describe('ChatSocialLogin component', () => {
       componentArgs;
 
     beforeEach(() => {
-      component = instanceRender(<ChatSocialLogin {...componentArgs} />);
+      component = instanceRender(<UserProfile {...componentArgs} />);
 
       spyOn(component, 'renderSocialLoginOptions');
 
@@ -155,7 +155,7 @@ describe('ChatSocialLogin component', () => {
     };
 
     beforeEach(() => {
-      const component = instanceRender(<ChatSocialLogin />);
+      const component = instanceRender(<UserProfile />);
 
       result = component.renderSocialLoginOptions(authUrls);
     });
@@ -205,7 +205,7 @@ describe('ChatSocialLogin component', () => {
         emailField: noopReactComponent()
       };
 
-      component = instanceRender(<ChatSocialLogin {...componentArgs} />);
+      component = instanceRender(<UserProfile {...componentArgs} />);
 
       spyOn(component, 'renderSocialLoginField');
 
@@ -237,7 +237,7 @@ describe('ChatSocialLogin component', () => {
       componentArgs;
 
     beforeEach(() => {
-      const component = instanceRender(<ChatSocialLogin {...componentArgs} />);
+      const component = instanceRender(<UserProfile {...componentArgs} />);
 
       result = component.renderAuthedProfileField();
     });

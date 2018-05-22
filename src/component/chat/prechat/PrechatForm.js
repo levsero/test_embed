@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { Field } from 'component/field/Field';
 import { Button } from 'component/button/Button';
 import { Dropdown } from 'component/field/Dropdown';
-import { ChatSocialLogin } from 'component/chat/ChatSocialLogin';
+import { UserProfile } from 'component/chat/UserProfile';
 
 import { i18n } from 'service/i18n';
 
@@ -205,9 +205,9 @@ export class PrechatForm extends Component {
     );
   }
 
-  renderSocialLogin() {
+  renderUserProfile() {
     return (
-      <ChatSocialLogin
+      <UserProfile
         authUrls={this.props.authUrls}
         socialLogin={this.props.socialLogin}
         visitor={this.props.visitor}
@@ -227,7 +227,7 @@ export class PrechatForm extends Component {
         ref={(el) => { this.form = el; }}
         className={`${styles.form}`}>
         {this.renderGreetingMessage()}
-        {this.renderSocialLogin()}
+        {this.renderUserProfile()}
         {this.renderDepartmentsField()}
         {this.renderPhoneField()}
         {this.renderMessageField()}

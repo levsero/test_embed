@@ -11,7 +11,7 @@ import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { ChatOperatingHours } from 'component/chat/ChatOperatingHours';
 import { OFFLINE_FORM_SCREENS } from 'constants/chat';
 import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm';
-import { ChatSocialLogin } from 'component/chat/ChatSocialLogin';
+import { UserProfile } from 'component/chat/UserProfile';
 
 import { locals as styles } from './ChatOfflineForm.scss';
 
@@ -150,9 +150,9 @@ export class ChatOfflineForm extends Component {
     );
   }
 
-  renderSocialLogin() {
+  renderUserProfile() {
     return (
-      <ChatSocialLogin
+      <UserProfile
         authUrls={this.props.authUrls}
         socialLogin={this.props.socialLogin}
         visitor={this.props.visitor}
@@ -182,7 +182,7 @@ export class ChatOfflineForm extends Component {
         submitButtonLabel={submitbuttonText}>
         {this.renderOfflineGreeting()}
         {this.renderOperatingHoursLink()}
-        {this.renderSocialLogin()}
+        {this.renderUserProfile()}
         {this.renderPhoneNumberField()}
         {this.renderMessageField()}
       </Form>
