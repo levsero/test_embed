@@ -1,6 +1,17 @@
 describe('ChatPopup component', () => {
   let ChatPopup;
   const chatPopupPath = buildSrcPath('component/chat/ChatPopup');
+  const Button = (
+    class extends Component {
+      render() {
+        const { className, disabled, onClick } = this.props;
+
+        return (
+          <input className={className} disabled={disabled} onClick={onClick} />
+        );
+      }
+    }
+  );
 
   beforeEach(() => {
     mockery.enable();
@@ -15,7 +26,11 @@ describe('ChatPopup component', () => {
           'popupContainerMobile': 'popupContainerMobileClasses',
           'hidden': 'hiddenClasses',
           'overlayMobile': 'overlayMobileClasses',
-          'wrapperMobile': 'wrapperMobileClasses'
+          'wrapperMobile': 'wrapperMobileClasses',
+          'ctaContainer': 'ctaContainer',
+          'ctaContainerNoCenter': 'ctaContainerNoCenter',
+          'fullWidthButton': 'fullWidthButton',
+          'ctaBtnMobile': 'ctaBtnMobile'
         }
       },
       'component/Avatar': {
@@ -33,15 +48,7 @@ describe('ChatPopup component', () => {
         }
       },
       'component/button/Button': {
-        Button: class extends Component {
-          render() {
-            const { className, disabled, onClick } = this.props;
-
-            return (
-              <input className={className} disabled={disabled} onClick={onClick} />
-            );
-          }
-        }
+        Button
       },
       'component/transition/SlideAppear': {
         SlideAppear: noopReactComponent()
@@ -218,13 +225,86 @@ describe('ChatPopup component', () => {
     let component;
 
     describe('when showCta is true', () => {
+      let mockShowOnlyLeftCta,
+        result;
+
       beforeEach(() => {
-        component = instanceRender(<ChatPopup showCta={true} />);
+        component = instanceRender(<ChatPopup showCta={true} showOnlyLeftCta={mockShowOnlyLeftCta}/>);
+        result = component.renderCta();
       });
 
       it('renders the cta element', () => {
         expect(component.renderCta())
           .not.toBeNull();
+      });
+
+      describe('when showOnlyLeftCta is false', () => {
+        beforeAll(() => {
+          mockShowOnlyLeftCta = false;
+        });
+
+        it('renders both the left and right buttons', () => {
+          expect(TestUtils.isElementOfType(result.props.children[0], Button))
+            .toEqual(true);
+
+          expect(TestUtils.isElementOfType(result.props.children[1], Button))
+            .toEqual(true);
+
+          expect(result.props.children.length)
+            .toEqual(2);
+        });
+
+        it('renders ctaContainer class', () => {
+          expect(result.props.className)
+            .toContain('ctaContainer');
+          expect(result.props.className)
+            .not
+            .toContain('ctaContainerNoCenter');
+        });
+
+        it('does not render fullWidthButton', () => {
+          expect(result.props.children[0].props.className)
+            .not
+            .toContain('fullWidthButton');
+        });
+
+        it('renders leftCtaButton class', () => {
+          expect(result.props.children[0].props.className)
+            .toContain('leftCtaBtnClasses');
+        });
+      });
+
+      describe('when showOnlyLeftCta is true', () => {
+        beforeAll(() => {
+          mockShowOnlyLeftCta = true;
+        });
+
+        it('renders only left button', () => {
+          expect(TestUtils.isElementOfType(result.props.children[0], Button))
+            .toEqual(true);
+
+          expect(result.props.children[1])
+            .toEqual(null);
+        });
+
+        it('renders ctaContainerNoCenter class', () => {
+          expect(result.props.className)
+            .not
+            .toEqual('ctaContainer');
+          expect(result.props.className)
+            .toContain('ctaContainerNoCenter');
+        });
+
+        it('renders fullWidthButton', () => {
+          expect(result.props.children[0].props.className)
+            .toContain('fullWidthButton');
+        });
+
+        it('does not render leftCtaButton class', () => {
+          expect(result.props.children[0].props.className)
+            .not
+            .toContain('leftCtaBtnClasses');
+        });
       });
     });
 

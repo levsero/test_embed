@@ -471,14 +471,13 @@ describe('ChatContactDetailsPopup component', () => {
   });
 
   describe('renderNameField', () => {
-    let form,
-      component;
+    let component;
 
     beforeEach(() => {
       component = instanceRender(<ChatContactDetailsPopup />);
       spyOn(component, 'generateFieldClasses');
       spyOn(component, 'generateInputClasses');
-      form = component.renderNameField();
+      component.renderNameField();
     });
 
     it('calls generateInputClasses', () => {
@@ -493,14 +492,13 @@ describe('ChatContactDetailsPopup component', () => {
   });
 
   describe('renderEmailField', () => {
-    let form,
-      component;
+    let component;
 
     beforeEach(() => {
       component = instanceRender(<ChatContactDetailsPopup />);
       spyOn(component, 'generateFieldClasses');
       spyOn(component, 'generateInputClasses');
-      form = component.renderEmailField();
+      component.renderEmailField();
     });
 
     it('calls generateInputClasses', () => {
@@ -553,7 +551,7 @@ describe('ChatContactDetailsPopup component', () => {
     });
   });
 
-   describe('generateInputClasses', () => {
+  describe('generateInputClasses', () => {
     let result,
       component,
       mockIsAuthenticated,

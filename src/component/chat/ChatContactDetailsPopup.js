@@ -222,7 +222,7 @@ export class ChatContactDetailsPopup extends Component {
         containerClasses={containerClasses}
         showCta={screen === EDIT_CONTACT_DETAILS_SCREEN}
         show={this.props.show}
-        showOnlyLeftCta={this.props.isAuthenticated}
+        showOnlyLeftCta={isAuthenticated}
         leftCtaFn={leftCtaFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
         rightCtaFn={this.handleSave}

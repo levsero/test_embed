@@ -51,10 +51,19 @@
   padding-bottom: #{20/$font-size}rem !important;
 }
 
+.ctaContainerNoCenter {
+  composes: u-paddingHL from global;
+  padding-bottom: #{20/$font-size}rem !important;
+}
+
 .ctaButton {
   composes: u-nbfc u-hsizeAll from global;
   text-overflow: ellipsis;
   max-width: calc(50% - #{26/$font-size}rem); /* 1 */
+}
+
+.fullWidthButton {
+  width: 100%;
 }
 
 .leftCtaBtn {

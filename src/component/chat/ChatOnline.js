@@ -88,6 +88,11 @@ class Chat extends Component {
     connection: PropTypes.string.isRequired,
     loginSettings: PropTypes.object.isRequired,
     hideZendeskLogo: PropTypes.bool,
+    authUrls: PropTypes.object.isRequired,
+    socialLogin: PropTypes.object.isRequired,
+    chatVisitor: PropTypes.object.isRequired,
+    initiateSocialLogout: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool
   };
 
   static defaultProps = {
@@ -111,7 +116,12 @@ class Chat extends Component {
     connection: '',
     loginSettings: {},
     visitor: {},
-    hideZendeskLogo: false
+    departments: {},
+    offlineMessage: {},
+    sendOfflineMessage: () => {},
+    clearDepartment: () => {},
+    hideZendeskLogo: false,
+    isAuthenticated: false
   };
 
   constructor(props) {
@@ -310,7 +320,12 @@ class Chat extends Component {
   }
 
   renderChatContactDetailsPopup = () => {
-    const { editContactDetails, setVisitorInfo, visitor, isMobile, updateContactDetailsVisibility, isAuthenticated } = this.props;
+    const { editContactDetails,
+      setVisitorInfo,
+      visitor,
+      isMobile,
+      updateContactDetailsVisibility,
+      isAuthenticated } = this.props;
 
     if (!editContactDetails.show) return;
 
