@@ -70,9 +70,9 @@ export class PrechatForm extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    const { authenticated } = this.props.socialLogin;
+    const { authenticated: isSociallyAuthenticated } = this.props.socialLogin;
     const { visitor, isAuthenticated } = this.props;
-    const formData = authenticated || isAuthenticated
+    const formData = isSociallyAuthenticated || isAuthenticated
       ? { ...this.props.formState, name: visitor.display_name, email: visitor.email }
       : this.props.formState;
 

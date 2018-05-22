@@ -91,9 +91,9 @@ export class UserProfile extends Component {
 
   render = () => {
     const { isAuthenticated, socialLogin } = this.props;
-    const { authenticated } = socialLogin;
+    const { authenticated: isSociallyAuthenticated } = socialLogin;
 
-    return (authenticated || isAuthenticated)
+    return (isSociallyAuthenticated || isAuthenticated)
       ? this.renderAuthedProfileField()
       : this.renderDefaultProfileFields();
   }

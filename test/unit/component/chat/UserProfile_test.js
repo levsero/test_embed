@@ -245,13 +245,16 @@ describe('UserProfile component', () => {
     it('renders a child for the avatar, details and logout button', () => {
       const authContainer = result.props.children[1];
 
+      expect(authContainer.props.children.length > 0)
+        .toBe(true);
+
       _.forEach(authContainer.props.children, (child) => {
         expect(child)
           .toBeTruthy();
       });
     });
 
-    it('profile has authProfileFieldContainer classes', () => {
+    it('has a profile with authProfileFieldContainer classes', () => {
       const authContainer = result.props.children[1];
       const targetElement = authContainer.props.children[1];
 
@@ -316,7 +319,7 @@ describe('UserProfile component', () => {
           .toBeFalsy();
       });
 
-      it('profile has historyAuthProfileFieldContainer classes', () => {
+      it('has a profile with historyAuthProfileFieldContainer classes', () => {
         const authContainer = result.props.children[1];
         const targetElement = authContainer.props.children[1];
 
