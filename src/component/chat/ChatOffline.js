@@ -33,7 +33,7 @@ const mapStateToProps = (state) => {
     operatingHours: getGroupedOperatingHours(state),
     socialLogin: getSocialLogin(state),
     authUrls: getAuthUrls(state),
-    chatVisitor: getChatVisitor(state)
+    visitor: getChatVisitor(state)
   };
 };
 
@@ -51,7 +51,7 @@ class ChatOffline extends Component {
     offlineMessage: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
     authUrls: PropTypes.object.isRequired,
-    chatVisitor: PropTypes.object.isRequired,
+    visitor: PropTypes.object.isRequired,
     handleCloseClick: PropTypes.func,
     operatingHours: PropTypes.object,
     isMobile: PropTypes.bool,
@@ -75,7 +75,7 @@ class ChatOffline extends Component {
     return (
       <ChatOfflineForm
         initiateSocialLogout={this.props.initiateSocialLogout}
-        chatVisitor={this.props.chatVisitor}
+        visitor={this.props.visitor}
         socialLogin={this.props.socialLogin}
         authUrls={this.props.authUrls}
         formFields={this.props.formFields}

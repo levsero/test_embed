@@ -37,8 +37,6 @@ describe('formatters', () => {
     });
 
     it('does not throw error when locale is not supported', () => {
-      mockLocale = 'gibberish';
-
       expect(dateTime(new Date(1525654192982)))
         .toContain('May 7, 2018');
     });

@@ -76,15 +76,24 @@ describe('ChatOfflineForm component', () => {
 
   describe('renderForm', () => {
     let component,
-      result;
+      result,
+      mockSocialLogin,
+      mockVisitor;
 
     beforeEach(() => {
       const mockFormState = {
         name: 'Terence',
-        message: 'I need coffee'
+        message: 'I need coffee',
+        email: 'terence@terence.com'
       };
 
-      component = instanceRender(<ChatOfflineForm formState={mockFormState} offlineMessage={{ screen: 'main' }} />);
+      component = instanceRender(
+        <ChatOfflineForm
+          formState={mockFormState}
+          offlineMessage={{ screen: 'main' }}
+          socialLogin={mockSocialLogin}
+          visitor={mockVisitor} />
+      );
 
       spyOn(component, 'renderNameField');
       spyOn(component, 'renderEmailField');
@@ -94,14 +103,46 @@ describe('ChatOfflineForm component', () => {
       result = component.renderForm();
     });
 
-    it('has a props.formState value', () => {
-      const expected = {
-        name: 'Terence',
-        message: 'I need coffee'
-      };
+    describe('when not socially logged in', () => {
+      beforeAll(() => {
+        mockSocialLogin = {
+          authenticated: false
+        };
+      });
 
-      expect(result.props.formState)
-        .toEqual(jasmine.objectContaining(expected));
+      it('has a props.formState value', () => {
+        const expected = {
+          name: 'Terence',
+          message: 'I need coffee',
+          email: 'terence@terence.com'
+        };
+
+        expect(result.props.formState)
+          .toEqual(jasmine.objectContaining(expected));
+      });
+    });
+
+    describe('when socially logged in', () => {
+      beforeAll(() => {
+        mockSocialLogin = {
+          authenticated: true
+        };
+        mockVisitor = {
+          display_name: 'yolo',
+          email: 'email@email.com'
+        };
+      });
+
+      it('has a props.formState value and social email and name', () => {
+        const expected = {
+          name: 'yolo',
+          message: 'I need coffee',
+          email: 'email@email.com'
+        };
+
+        expect(result.props.formState)
+          .toEqual(jasmine.objectContaining(expected));
+      });
     });
 
     it('has a props.submitbuttonClasses value', () => {

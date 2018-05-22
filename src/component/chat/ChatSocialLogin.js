@@ -14,7 +14,7 @@ export class ChatSocialLogin extends Component {
   static propTypes = {
     authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
-    chatVisitor: PropTypes.object.isRequired,
+    visitor: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
     nameField: PropTypes.node,
     emailField: PropTypes.node
@@ -23,7 +23,7 @@ export class ChatSocialLogin extends Component {
   static defaultProps = {
     authUrls: {},
     socialLogin: {},
-    chatVisitor: {},
+    visitor: {},
     initiateSocialLogout: () => {},
     nameField: null,
     emailField: null
@@ -31,7 +31,7 @@ export class ChatSocialLogin extends Component {
 
   renderAuthedProfileField() {
     const { screen, avatarPath } = this.props.socialLogin;
-    const { display_name: displayName, email } = this.props.chatVisitor;
+    const { display_name: displayName, email } = this.props.visitor;
     const logoutButton = (screen !== CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_PENDING)
       ? <Icon className={styles.logoutIcon}
         type='Icon--trash-fill'

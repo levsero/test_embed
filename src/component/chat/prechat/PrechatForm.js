@@ -18,12 +18,11 @@ export class PrechatForm extends Component {
     formState: PropTypes.object,
     onPrechatFormChange: PropTypes.func,
     greetingMessage: PropTypes.string,
-    visitor: PropTypes.object,
+    visitor: PropTypes.object.isRequired,
     onFormCompleted: PropTypes.func,
     loginEnabled: PropTypes.bool,
     authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
-    chatVisitor: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired
   };
 
@@ -70,8 +69,13 @@ export class PrechatForm extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
+    const { authenticated } = this.props.socialLogin;
+    const { visitor } = this.props;
+    const formData = authenticated ?
+      { ...this.props.formState, name: visitor.display_name, email: visitor.email }
+      : this.props.formState;
 
-    this.props.onFormCompleted(this.props.formState);
+    this.props.onFormCompleted(formData);
   }
 
   handleFormChange = () => {
@@ -205,7 +209,7 @@ export class PrechatForm extends Component {
       <ChatSocialLogin
         authUrls={this.props.authUrls}
         socialLogin={this.props.socialLogin}
-        chatVisitor={this.props.chatVisitor}
+        visitor={this.props.visitor}
         initiateSocialLogout={this.props.initiateSocialLogout}
         nameField={this.renderNameField()}
         emailField={this.renderEmailField()} />
