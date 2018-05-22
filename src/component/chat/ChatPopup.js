@@ -25,7 +25,8 @@ export class ChatPopup extends Component {
     isDismissible: PropTypes.bool,
     onCloseIconClick: PropTypes.func,
     isMobile: PropTypes.bool,
-    useOverlay: PropTypes.bool
+    useOverlay: PropTypes.bool,
+    showOnlyLeftCta: PropTypes.bool
   };
 
   static defaultProps = {
@@ -44,7 +45,8 @@ export class ChatPopup extends Component {
     show: false,
     onExited: () => {},
     isDismissible: false,
-    onCloseIconClick: () => {}
+    onCloseIconClick: () => {},
+    showOnlyLeftCta: false
   };
 
   onContainerClick = (e) => {

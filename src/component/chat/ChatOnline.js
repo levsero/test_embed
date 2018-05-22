@@ -46,7 +46,13 @@ const mapStateToProps = (state) => {
     menuVisible: selectors.getMenuVisible(state),
     agentJoined: selectors.getAgentJoined(state),
     connection: selectors.getConnection(state),
-    loginSettings: selectors.getLoginSettings(state)
+    loginSettings: selectors.getLoginSettings(state),
+    departments: selectors.getDepartments(state),
+    offlineMessage: selectors.getOfflineMessage(state),
+    authUrls: selectors.getAuthUrls(state),
+    socialLogin: selectors.getSocialLogin(state),
+    chatVisitor: selectors.getChatVisitor(state),
+    isAuthenticated: selectors.getIsAuthenticated(state)
   };
 };
 
@@ -304,7 +310,7 @@ class Chat extends Component {
   }
 
   renderChatContactDetailsPopup = () => {
-    const { editContactDetails, setVisitorInfo, visitor, isMobile, updateContactDetailsVisibility } = this.props;
+    const { editContactDetails, setVisitorInfo, visitor, isMobile, updateContactDetailsVisibility, isAuthenticated } = this.props;
 
     if (!editContactDetails.show) return;
 
@@ -321,7 +327,8 @@ class Chat extends Component {
         leftCtaFn={hideContactDetailsFn}
         rightCtaFn={saveContactDetailsFn}
         tryAgainFn={tryAgainFn}
-        visitor={visitor} />
+        visitor={visitor}
+        isAuthenticated={isAuthenticated} />
     );
   }
 

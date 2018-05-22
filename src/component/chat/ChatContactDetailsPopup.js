@@ -32,7 +32,8 @@ export class ChatContactDetailsPopup extends Component {
     tryAgainFn: PropTypes.func,
     show: PropTypes.bool,
     isMobile: PropTypes.bool,
-    visitor: PropTypes.object
+    visitor: PropTypes.object,
+    isAuthenticated: PropTypes.bool
   }
 
   static defaultProps = {
@@ -43,7 +44,8 @@ export class ChatContactDetailsPopup extends Component {
     tryAgainFn: () => {},
     show: false,
     isMobile: false,
-    visitor: {}
+    visitor: {},
+    isAuthenticated: false
   }
 
   constructor(props) {
@@ -126,7 +128,8 @@ export class ChatContactDetailsPopup extends Component {
         label={i18n.t('embeddable_framework.common.textLabel.name')}
         value={this.state.formState.name}
         name='name'
-        onKeyPress={this.handleKeyPress} />
+        onKeyPress={this.handleKeyPress}
+        disabled={this.props.isAuthenticated} />
     );
   }
 
@@ -196,7 +199,7 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   render = () => {
-    const { isMobile, className, leftCtaFn, screen } = this.props;
+    const { isMobile, className, leftCtaFn, screen, isAuthenticated } = this.props;
     const isLoading = (screen === EDIT_CONTACT_DETAILS_LOADING_SCREEN);
     const containerClasses = (isLoading) ? styles.popupChildrenContainerLoading : '';
 
@@ -208,6 +211,7 @@ export class ChatContactDetailsPopup extends Component {
         containerClasses={containerClasses}
         showCta={screen === EDIT_CONTACT_DETAILS_SCREEN}
         show={this.props.show}
+        showOnlyLeftCta={this.props.isAuthenticated}
         leftCtaFn={leftCtaFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
         rightCtaFn={this.handleSave}
