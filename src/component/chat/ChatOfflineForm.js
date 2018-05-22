@@ -30,7 +30,8 @@ export class ChatOfflineForm extends Component {
     isMobile: PropTypes.bool,
     socialLogin: PropTypes.object.isRequired,
     authUrls: PropTypes.object.isRequired,
-    visitor: PropTypes.object.isRequired
+    visitor: PropTypes.object.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -156,6 +157,7 @@ export class ChatOfflineForm extends Component {
         socialLogin={this.props.socialLogin}
         visitor={this.props.visitor}
         initiateSocialLogout={this.props.initiateSocialLogout}
+        isAuthenticated={this.props.isAuthenticated}
         nameField={this.renderNameField()}
         emailField={this.renderEmailField()} />
     );

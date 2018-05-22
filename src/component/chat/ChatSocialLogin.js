@@ -17,7 +17,8 @@ export class ChatSocialLogin extends Component {
     visitor: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
     nameField: PropTypes.node,
-    emailField: PropTypes.node
+    emailField: PropTypes.node,
+    isAuthenticated: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -30,8 +31,12 @@ export class ChatSocialLogin extends Component {
   };
 
   renderAuthedProfileField() {
-    const { screen, avatarPath } = this.props.socialLogin;
-    const { display_name: displayName, email } = this.props.visitor;
+    const { isAuthenticated, socialLogin, visitor } = this.props;
+    const { screen, avatarPath } = socialLogin;
+    const { display_name: displayName, email } = visitor;
+    const profileClasses = isAuthenticated
+      ? styles.historyAuthProfileFieldContainer
+      : styles.authProfileFieldContainer;
     const logoutButton = (screen !== CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_PENDING)
       ? <Icon className={styles.logoutIcon}
         type='Icon--trash-fill'
@@ -42,12 +47,12 @@ export class ChatSocialLogin extends Component {
       <div>
         <p>{i18n.t('embeddable_framework.chat.form.common.field.social_login.title')}</p>
         <div className={styles.authProfileContainer}>
-          <Avatar className={styles.avatar} src={avatarPath} fallbackIcon="Icon--agent-avatar" />
-          <div className={styles.authProfileFieldContainer}>
+          {!isAuthenticated && <Avatar className={styles.avatar} src={avatarPath} fallbackIcon="Icon--agent-avatar" />}
+          <div className={profileClasses}>
             <div className={styles.authProfileName}>{displayName}</div>
             <div>{email}</div>
           </div>
-          {logoutButton}
+          {!isAuthenticated && logoutButton}
         </div>
       </div>
     );
@@ -85,9 +90,10 @@ export class ChatSocialLogin extends Component {
   }
 
   render = () => {
-    const { authenticated } = this.props.socialLogin;
+    const { isAuthenticated, socialLogin } = this.props;
+    const { authenticated } = socialLogin;
 
-    return (authenticated)
+    return (authenticated || isAuthenticated)
       ? this.renderAuthedProfileField()
       : this.renderDefaultProfileFields();
   }

@@ -57,6 +57,10 @@ $avatar-logout-spacing: $avatar-size + $logout-spacing;
   }
 }
 
+.historyAuthProfileFieldContainer {
+  max-width: calc(100% - #{20/$font-size}rem);
+}
+
 .logoutIcon {
   position: absolute;
   top: #{18/$font-size}rem;

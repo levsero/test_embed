@@ -15,6 +15,8 @@ describe('ChatSocialLogin component', () => {
     initMockRegistry({
       './ChatSocialLogin.scss': {
         locals: {
+          authProfileFieldContainer: 'authProfileFieldContainerClasses',
+          historyAuthProfileFieldContainer: 'historyAuthProfileFieldContainerClasses'
         }
       },
       'constants/chat': {
@@ -240,39 +242,86 @@ describe('ChatSocialLogin component', () => {
       result = component.renderAuthedProfileField();
     });
 
-    describe('when the screen is pending logout', () => {
-      beforeAll(() => {
-        componentArgs = {
-          socialLogin: {
-            screen: CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_PENDING
-          }
-        };
-      });
+    it('renders a child for the avatar, details and logout button', () => {
+      const authContainer = result.props.children[1];
 
-      it('renders a LoadingSpinner', () => {
-        const authContainer = result.props.children[1];
-        const targetElement = authContainer.props.children[2];
-
-        expect(TestUtils.isElementOfType(targetElement, LoadingSpinner))
-          .toEqual(true);
+      _.forEach(authContainer.props.children, (child) => {
+        expect(child)
+          .toBeTruthy();
       });
     });
 
-    describe('when the screen is not pending logout', () => {
+    it('profile has authProfileFieldContainer classes', () => {
+      const authContainer = result.props.children[1];
+      const targetElement = authContainer.props.children[1];
+
+      expect(targetElement.props.className)
+        .toEqual('authProfileFieldContainerClasses');
+    });
+
+    describe('when authenitcated via social auth', () => {
+      describe('when the screen is pending logout', () => {
+        beforeAll(() => {
+          componentArgs = {
+            socialLogin: {
+              screen: CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_PENDING
+            }
+          };
+        });
+
+        it('renders a LoadingSpinner', () => {
+          const authContainer = result.props.children[1];
+          const targetElement = authContainer.props.children[2];
+
+          expect(TestUtils.isElementOfType(targetElement, LoadingSpinner))
+            .toEqual(true);
+        });
+      });
+
+      describe('when the screen is not pending logout', () => {
+        beforeAll(() => {
+          componentArgs = {
+            socialLogin: {
+              screen: CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_SUCCESS
+            }
+          };
+        });
+
+        it('renders an Icon', () => {
+          const authContainer = result.props.children[1];
+          const targetElement = authContainer.props.children[2];
+
+          expect(TestUtils.isElementOfType(targetElement, Icon))
+            .toEqual(true);
+        });
+      });
+    });
+
+    describe('when authenticated via jwt token', () => {
       beforeAll(() => {
         componentArgs = {
-          socialLogin: {
-            screen: CHAT_SOCIAL_LOGIN_SCREENS.LOGOUT_SUCCESS
-          }
+          socialLogin: {},
+          isAuthenticated: true
         };
       });
 
-      it('renders an Icon', () => {
+      it('only renders a child for the details', () => {
         const authContainer = result.props.children[1];
-        const targetElement = authContainer.props.children[2];
 
-        expect(TestUtils.isElementOfType(targetElement, Icon))
-          .toEqual(true);
+        expect(authContainer.props.children[0])
+          .toBeFalsy();
+        expect(authContainer.props.children[1])
+          .toBeTruthy();
+        expect(authContainer.props.children[2])
+          .toBeFalsy();
+      });
+
+      it('profile has historyAuthProfileFieldContainer classes', () => {
+        const authContainer = result.props.children[1];
+        const targetElement = authContainer.props.children[1];
+
+        expect(targetElement.props.className)
+          .toEqual('historyAuthProfileFieldContainerClasses');
       });
     });
   });

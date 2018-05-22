@@ -23,7 +23,8 @@ export class PrechatForm extends Component {
     loginEnabled: PropTypes.bool,
     authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
-    initiateSocialLogout: PropTypes.func.isRequired
+    initiateSocialLogout: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -211,6 +212,7 @@ export class PrechatForm extends Component {
         socialLogin={this.props.socialLogin}
         visitor={this.props.visitor}
         initiateSocialLogout={this.props.initiateSocialLogout}
+        isAuthenticated={this.props.isAuthenticated}
         nameField={this.renderNameField()}
         emailField={this.renderEmailField()} />
     );
