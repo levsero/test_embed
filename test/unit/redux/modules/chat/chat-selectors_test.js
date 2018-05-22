@@ -2373,6 +2373,29 @@ describe('chat selectors', () => {
       beforeAll(() => {
         mockChatSettings = {
           chat: {
+            isAuthenticated: true,
+            accountSettings: {
+              login: {
+                loginTypes: {
+                  facebook: true,
+                  google: true
+                }
+              }
+            }
+          }
+        };
+      });
+
+      it('returns an empty object', () => {
+        expect(result)
+          .toEqual({});
+      });
+    });
+
+    describe('when the user is authenticated', () => {
+      beforeAll(() => {
+        mockChatSettings = {
+          chat: {
             accountSettings: {
               login: {
                 loginTypes: {}

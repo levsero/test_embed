@@ -73,9 +73,9 @@ export const getFirstMessageTimestamp = (state) => {
 };
 
 export const getAuthUrls = createSelector(
-  getLoginSettings,
-  (loginSettingsObj) => {
-    if (!zChat.getAuthLoginUrl) return {};
+  [getLoginSettings, getIsAuthenticated],
+  (loginSettingsObj, isAuthenticated) => {
+    if (!zChat.getAuthLoginUrl || isAuthenticated) return {};
 
     return _.reduce(loginSettingsObj.loginTypes, (accumulator, enabled, socialMedia) => {
       const whitelisted = _.includes(WHITELISTED_SOCIAL_LOGINS, socialMedia);
