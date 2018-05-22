@@ -142,7 +142,8 @@ export class ChatContactDetailsPopup extends Component {
         label={i18n.t('embeddable_framework.common.textLabel.email')}
         value={this.state.formState.email}
         name='email'
-        onKeyPress={this.handleKeyPress} />
+        onKeyPress={this.handleKeyPress}
+        disabled={this.props.isAuthenticated} />
     );
   }
 
