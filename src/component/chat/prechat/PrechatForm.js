@@ -69,8 +69,13 @@ export class PrechatForm extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
+    const { authenticated } = this.props.socialLogin;
+    const { visitor } = this.props;
+    const formData = authenticated ?
+      { ...this.props.formState, name: visitor.display_name, email: visitor.email }
+      : this.props.formState;
 
-    this.props.onFormCompleted(this.props.formState);
+    this.props.onFormCompleted(formData);
   }
 
   handleFormChange = () => {

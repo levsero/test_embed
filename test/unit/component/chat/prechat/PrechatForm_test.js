@@ -512,8 +512,15 @@ describe('PrechatForm component', () => {
   });
 
   describe('handleFormSubmit', () => {
-    let component, onFormCompletedSpy;
-    const formState = 'mockFormState';
+    let component,
+      onFormCompletedSpy,
+      mockSocialLogin,
+      mockVisitor;
+    const formState = {
+      name: 'someName',
+      email: 'someEmail@someEmail.com',
+      message: 'someMessage'
+    };
 
     beforeEach(() => {
       onFormCompletedSpy = jasmine.createSpy('onFormCompleted');
@@ -522,14 +529,45 @@ describe('PrechatForm component', () => {
           form={mockFormProp}
           onFormCompleted={onFormCompletedSpy}
           formState={formState}
+          visitor={mockVisitor}
+          socialLogin={mockSocialLogin}
         />
       );
       component.handleFormSubmit({ preventDefault: noop });
     });
 
-    it('calls onFormCompleted spy with the formState prop', () => {
-      expect(onFormCompletedSpy)
-        .toHaveBeenCalledWith(formState);
+    describe('when not socially logged in', () => {
+      beforeAll(() => {
+        mockSocialLogin = {
+          authenticated: false
+        };
+      });
+
+      it('calls onFormCompleted spy with the formState prop', () => {
+        expect(onFormCompletedSpy)
+          .toHaveBeenCalledWith(formState);
+      });
+    });
+
+    describe('when socially logged in', () => {
+      beforeAll(() => {
+        mockSocialLogin = {
+          authenticated: true
+        };
+        mockVisitor = {
+          display_name: 'yolo',
+          email: 'email@email.com'
+        };
+      });
+
+      it('calls onFormCompleted spy with formState prop where name and email are from social details', () => {
+        expect(onFormCompletedSpy)
+          .toHaveBeenCalledWith({
+            ...formState,
+            name: 'yolo',
+            email: 'email@email.com'
+          });
+      });
     });
   });
 

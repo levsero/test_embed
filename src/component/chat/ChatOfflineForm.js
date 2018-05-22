@@ -165,10 +165,15 @@ export class ChatOfflineForm extends Component {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.MAIN) return;
 
     const submitbuttonText = i18n.t('embeddable_framework.chat.preChat.offline.button.sendMessage');
+    const { authenticated } = this.props.socialLogin;
+    const { visitor, formState } = this.props;
+    const formData = authenticated ?
+      { ...formState, name: visitor.display_name, email: visitor.email }
+      : this.props.formState;
 
     return (
       <Form
-        formState={this.props.formState}
+        formState={formData}
         onCompleted={this.props.sendOfflineMessage}
         onChange={this.props.chatOfflineFormChanged}
         submitButtonClasses={styles.submitButton}
