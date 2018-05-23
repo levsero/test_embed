@@ -249,7 +249,7 @@ export class Dropdown extends Component {
           if (!_.includes(_.keys(allGroups), option.name)) {
             if (option.default) {
               this.selected = option;
-              if (this.setState) {
+              if (this.state) {
                 this.setState({ selected: option });
               }
             }
