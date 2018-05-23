@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import _ from 'lodash';
 
 import { ButtonPill } from 'component/button/ButtonPill';
 import ChattingScreen from 'component/chat/chatting/ChattingScreen';
@@ -325,13 +326,14 @@ class Chat extends Component {
       visitor,
       isMobile,
       updateContactDetailsVisibility,
-      isAuthenticated } = this.props;
+      isAuthenticated, socialLogin } = this.props;
 
     if (!editContactDetails.show) return;
 
     const hideContactDetailsFn = () => updateContactDetailsVisibility(false);
     const tryAgainFn = () => updateContactDetailsVisibility(true);
     const saveContactDetailsFn = (name, email) => setVisitorInfo({ display_name: name, email });
+    const isAuthenticatedAtAll = isAuthenticated || _.get(socialLogin, 'authenticated', false);
 
     return (
       <ChatContactDetailsPopup
@@ -343,7 +345,7 @@ class Chat extends Component {
         rightCtaFn={saveContactDetailsFn}
         tryAgainFn={tryAgainFn}
         visitor={visitor}
-        isAuthenticated={isAuthenticated} />
+        isAuthenticated={isAuthenticatedAtAll} />
     );
   }
 
