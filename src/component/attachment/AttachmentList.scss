@@ -6,7 +6,7 @@
 }
 
 .container {
-  composes: u-block u-marginTM u-marginBS from global;
+  composes: u-block u-marginBS from global;
   composes: Form-fieldContainer from '../../styles/components/Form.scss';
 }
 

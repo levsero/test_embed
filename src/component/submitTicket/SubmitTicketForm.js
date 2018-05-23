@@ -364,7 +364,7 @@ export class SubmitTicketForm extends Component {
     ticketFieldsElem.allFields.unshift([this.renderNameField(), this.renderEmailField()]);
 
     return (
-      <div ref='formWrapper'>
+      <div ref='formWrapper' className={styles.formWrapper}>
         <div className={`${styles.ticketFormTitle} ${titleMobileClasses}`}>
           {activeTicketForm.display_name}
         </div>
@@ -385,7 +385,7 @@ export class SubmitTicketForm extends Component {
     );
 
     return (
-      <div ref='formWrapper'>
+      <div ref='formWrapper' className={styles.formWrapper}>
         {this.renderNameField()}
         {this.renderEmailField()}
         {ticketFields.fields}
