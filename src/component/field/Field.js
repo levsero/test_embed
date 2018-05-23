@@ -220,8 +220,7 @@ export class Field extends Component {
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
         onKeyDown={this.props.onKeyPress}
-        className={`${styles.container} ${this.props.fieldContainerClasses}`}
-        tabIndex="0">
+        className={`${styles.container} ${this.props.fieldContainerClasses}`}>
         <label className={styles.labelContainer}>
           <div className={fieldLabelClasses}>
             {this.props.label}
