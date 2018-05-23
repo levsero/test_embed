@@ -11,7 +11,7 @@ export class ButtonPill extends Component {
   static propTypes = {
     fullscreen: PropTypes.bool,
     label: PropTypes.string.isRequired,
-    classname: PropTypes.string,
+    containerClass: PropTypes.string,
     onClick: PropTypes.func,
     showIcon: PropTypes.bool
   };
@@ -20,12 +20,12 @@ export class ButtonPill extends Component {
     fullscreen: false,
     onClick: () => {},
     showIcon: false,
-    classname: ''
+    containerClass: ''
   };
 
   render = () => {
-    const { classname, fullscreen, showIcon, onClick, label } = this.props;
-    const buttonStyles = classNames(styles.pill, classname, {
+    const { containerClass, fullscreen, showIcon, onClick, label } = this.props;
+    const buttonStyles = classNames(styles.pill, containerClass, {
       [styles.fullscreen]: fullscreen,
       [styles.rtl]: i18n.isRTL()
     });
