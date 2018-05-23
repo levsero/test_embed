@@ -521,6 +521,7 @@ describe('helpCenter redux actions', () => {
         .toHaveBeenCalledWith(jasmine.objectContaining({
           method: 'get',
           path: '/api/v2/help_center/articles/123.json',
+          useHostMappingIfAvailable: true,
           callbacks: {
             done: jasmine.any(Function),
             fail: jasmine.any(Function)

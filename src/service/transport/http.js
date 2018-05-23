@@ -41,7 +41,7 @@ function send(payload, addType = true) {
   }
 
   const request = superagent(payload.method.toUpperCase(),
-    buildFullUrl(payload.path, payload.forceHttp))
+    buildFullUrl(payload))
     .timeout(payload.timeout || 60000)
     .set('Authorization', payload.authorization);
 
@@ -102,7 +102,7 @@ function sendFile(payload) {
 
   /* eslint camelcase:0 */
   return superagent(payload.method.toUpperCase(),
-    buildFullUrl(payload.path))
+    buildFullUrl(payload))
     .query({ filename: payload.file.name })
     .query({ via_id: settings.get('viaId') })
     .attach('uploaded_data', payload.file)
@@ -146,11 +146,15 @@ function getImage(payload) {
     .end(onEnd);
 }
 
-function buildFullUrl(path, forceHttp = false) {
-  const scheme = forceHttp ? config.insecureScheme : config.scheme;
-  const host = forceHttp ? location.hostname : config.zendeskHost;
+function buildFullUrl(payload) {
+  const scheme = payload.forceHttp ? config.insecureScheme : config.scheme;
+  const host = payload.forceHttp ? location.hostname : getHostName(payload.useHostMappingIfAvailable);
 
-  return scheme + '://' + host + path;
+  return scheme + '://' + host + payload.path;
+}
+
+function getHostName(useHostMappingIfAvailable) {
+  return useHostMappingIfAvailable && config.hostMapping ? config.hostMapping : config.zendeskHost;
 }
 
 function getZendeskHost() {
