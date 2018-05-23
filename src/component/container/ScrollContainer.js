@@ -82,6 +82,12 @@ export class ScrollContainer extends Component {
     return this.content.scrollTop;
   }
 
+  getScrollBottom = () => {
+    const { scrollHeight, scrollTop, offsetHeight } = this.content;
+
+    return scrollHeight - (scrollTop + offsetHeight);
+  }
+
   isAtTop = () => {
     return this.content.scrollTop === 0;
   }
