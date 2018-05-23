@@ -414,6 +414,25 @@ describe('http', () => {
           .toContain('helpme.mofo.io');
       });
     });
+
+    describe('when useHostMappingIfAvailable is set', () => {
+      let urlArg;
+
+      beforeEach(() => {
+        payload.useHostMappingIfAvailable = true;
+        config.hostMapping = 'help.x.yz';
+
+        http.init(config);
+        http.send(payload);
+
+        urlArg = mockRegistry.superagent.calls.mostRecent().args[1];
+      });
+
+      it('uses the hostmapped domain', () => {
+        expect(urlArg)
+          .toContain('help.x.yz');
+      });
+    });
   });
 
   describe('#sendWithMeta', () => {

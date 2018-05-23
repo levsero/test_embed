@@ -228,7 +228,7 @@ describe('boot', () => {
 
         it('updates http config', () => {
           expect(transportSpy.http.updateConfig)
-            .toHaveBeenCalledWith({ zendeskHost: 'test.zd.com' });
+            .toHaveBeenCalledWith({ hostMapping: 'test.zd.com' });
         });
       });
 

@@ -32,6 +32,7 @@ const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
   return {
     method: 'get',
     forceHttp: forceHttp,
+    useHostMappingIfAvailable: true,
     path,
     query: queryParams,
     authorization: token ? `Bearer ${token}` : '',
@@ -164,6 +165,7 @@ export function displayArticle(articleId) {
     http.get({
       method: 'get',
       path: `/api/v2/help_center/articles/${articleId}.json`,
+      useHostMappingIfAvailable: true,
       callbacks: {
         done: (res) => dispatch({
           type: GET_ARTICLE_REQUEST_SUCCESS,
