@@ -91,7 +91,6 @@ class Chat extends Component {
     authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
     chatVisitor: PropTypes.object.isRequired,
-    initiateSocialLogout: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool
   };
 
