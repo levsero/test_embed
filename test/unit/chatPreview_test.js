@@ -71,28 +71,7 @@ describe('chatPreview file', () => {
     mockery.disable();
   });
 
-  describe('window.zE', () => {
-    describe('when window.zE is not already defined', () => {
-      it('exposes a new zE global with renderPreview function', () => {
-        expect(window.zE)
-          .toEqual({ renderPreview: jasmine.any(Function) });
-      });
-    });
-
-    describe('when window.zE is already defined', () => {
-      beforeEach(() => {
-        window.zE = { someOtherMethod: () => {} };
-        requireUncached(previewPath);
-      });
-
-      it('extends it with the renderPreview function', () => {
-        expect(window.zE)
-          .toEqual({ someOtherMethod: jasmine.any(Function), renderPreview: jasmine.any(Function) });
-      });
-    });
-  });
-
-  describe('zE.renderPreview', () => {
+  describe('zEPreview.renderPreview', () => {
     let element;
 
     beforeEach(() => {
@@ -101,7 +80,7 @@ describe('chatPreview file', () => {
 
     describe('when calling with an element property in options', () => {
       it('should not throw an error', () => {
-        expect(() => window.zE.renderPreview({ element }))
+        expect(() => window.zEPreview.renderPreview({ element }))
           .not.toThrow();
       });
 
@@ -114,7 +93,7 @@ describe('chatPreview file', () => {
 
         describe('when a locale option is used', () => {
           it('should call i18n.setLocale with the set value', () => {
-            window.zE.renderPreview({ element, locale: 'fr' });
+            window.zEPreview.renderPreview({ element, locale: 'fr' });
 
             expect(mockSetLocale)
               .toHaveBeenCalledWith('fr');
@@ -123,7 +102,7 @@ describe('chatPreview file', () => {
 
         describe('when a locale option is not used', () => {
           it('should call i18n.setLocale with the default value', () => {
-            window.zE.renderPreview({ element });
+            window.zEPreview.renderPreview({ element });
 
             expect(mockSetLocale)
               .toHaveBeenCalledWith(defaultOptions.locale);
@@ -132,7 +111,7 @@ describe('chatPreview file', () => {
       });
 
       it('passes the correct props to Frame', () => {
-        const preview = window.zE.renderPreview({ element });
+        const preview = window.zEPreview.renderPreview({ element });
 
         const props = preview._component.props;
 
@@ -156,7 +135,7 @@ describe('chatPreview file', () => {
           };
 
           beforeEach(() => {
-            preview = window.zE.renderPreview({ element, styles })._component;
+            preview = window.zEPreview.renderPreview({ element, styles })._component;
           });
 
           it('passes updated styles to Frame', () => {
@@ -172,7 +151,7 @@ describe('chatPreview file', () => {
 
         describe('when no styles object is passed in', () => {
           beforeEach(() => {
-            preview = window.zE.renderPreview({ element })._component;
+            preview = window.zEPreview.renderPreview({ element })._component;
           });
 
           it('uses default styles', () => {
@@ -188,7 +167,7 @@ describe('chatPreview file', () => {
       });
 
       it('writes the preview to the parent element', () => {
-        window.zE.renderPreview({ element });
+        window.zEPreview.renderPreview({ element });
 
         expect(element.querySelector('.rootComponent'))
           .toBeDefined();
@@ -197,7 +176,7 @@ describe('chatPreview file', () => {
 
     describe('createStore', () => {
       beforeEach(() => {
-        window.zE.renderPreview({ element });
+        window.zEPreview.renderPreview({ element });
       });
 
       it('is called with the correct params', () => {
@@ -239,7 +218,7 @@ describe('chatPreview file', () => {
 
     describe('when calling with no element property in options', () => {
       it('should throw an error', () => {
-        expect(() => window.zE.renderPreview())
+        expect(() => window.zEPreview.renderPreview())
           .toThrow();
       });
     });
@@ -251,7 +230,7 @@ describe('chatPreview file', () => {
     beforeEach(() => {
       const element = document.body.appendChild(document.createElement('div'));
 
-      preview = window.zE.renderPreview({ element });
+      preview = window.zEPreview.renderPreview({ element });
       component = preview._component;
     });
 
@@ -285,7 +264,7 @@ describe('chatPreview file', () => {
 
     beforeEach(() => {
       element = document.body.appendChild(document.createElement('div'));
-      preview = window.zE.renderPreview({ element });
+      preview = window.zEPreview.renderPreview({ element });
     });
 
     describe('when screen is an online screen', () => {
@@ -316,7 +295,7 @@ describe('chatPreview file', () => {
 
     beforeEach(() => {
       element = document.body.appendChild(document.createElement('div'));
-      const preview = window.zE.renderPreview({ element });
+      const preview = window.zEPreview.renderPreview({ element });
 
       preview.updateSettings({ rating: { enabled: true } });
     });
@@ -332,7 +311,7 @@ describe('chatPreview file', () => {
 
     beforeEach(() => {
       element = document.body.appendChild(document.createElement('div'));
-      preview = window.zE.renderPreview({ element });
+      preview = window.zEPreview.renderPreview({ element });
       preview.updateChatState(action);
     });
 

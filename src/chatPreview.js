@@ -134,4 +134,4 @@ const renderPreview = (options) => {
   };
 };
 
-window.zE = _.extend(window.zE, { renderPreview });
+window.zEPreview = { renderPreview };
