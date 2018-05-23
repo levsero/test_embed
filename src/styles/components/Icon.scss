@@ -124,16 +124,17 @@
   }
 }
 
-.Icon--link {
-  padding-left: #{7/$font-size}rem !important;
-  padding-right: 0 !important;
+.Icon--arrow-down {
+  position: relative;
+  top: #{1/$font-size}rem;
+  padding-left: #{5/$font-size}rem;
 
   svg {
-    fill: $zd-color-aluminum;
-    min-width: #{8/$font-size}rem; /* 1 */
-    min-height: #{8/$font-size}rem; /* 1 */
-    height: #{8/$font-size}rem;
-    width: #{8/$font-size}rem;
+    fill: $zd-color-dark-gray;
+    min-width: #{12/$font-size}rem; /* 1 */
+    min-height: #{12/$font-size}rem; /* 1 */
+    height: #{12/$font-size}rem;
+    width: #{12/$font-size}rem;
   }
 }
 

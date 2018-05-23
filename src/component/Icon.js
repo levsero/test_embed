@@ -29,7 +29,7 @@ const icons = {
   'Icon--close': require('icons/widget-icon_close.svg'),
   'Icon--error': require('@zendeskgarden/svg-icons/src/14/error.svg'),
   'Icon--launcher-talk': require('icons/widget-icon_launcher-talk.svg'),
-  'Icon--link': require('icons/widget-icon_link.svg'),
+  'Icon--arrow-down': require('icons/widget-icon_arrow-down-stroke.svg'),
   'Icon--link-external': require('@zendeskgarden/svg-icons/src/14/link-external.svg'),
   'Icon--mini-tick': require('@zendeskgarden/svg-icons/src/12/check-sm-stroke.svg'),
   'Icon--paperclip-large': require('@zendeskgarden/svg-icons/src/14/attachment.svg'),
