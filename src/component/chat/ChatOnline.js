@@ -46,7 +46,13 @@ const mapStateToProps = (state) => {
     menuVisible: selectors.getMenuVisible(state),
     agentJoined: selectors.getAgentJoined(state),
     connection: selectors.getConnection(state),
-    loginSettings: selectors.getLoginSettings(state)
+    loginSettings: selectors.getLoginSettings(state),
+    departments: selectors.getDepartments(state),
+    offlineMessage: selectors.getOfflineMessage(state),
+    authUrls: selectors.getAuthUrls(state),
+    socialLogin: selectors.getSocialLogin(state),
+    chatVisitor: selectors.getChatVisitor(state),
+    isAuthenticated: selectors.getIsAuthenticated(state)
   };
 };
 
@@ -82,6 +88,11 @@ class Chat extends Component {
     connection: PropTypes.string.isRequired,
     loginSettings: PropTypes.object.isRequired,
     hideZendeskLogo: PropTypes.bool,
+    authUrls: PropTypes.object.isRequired,
+    socialLogin: PropTypes.object.isRequired,
+    chatVisitor: PropTypes.object.isRequired,
+    initiateSocialLogout: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool
   };
 
   static defaultProps = {
@@ -105,7 +116,12 @@ class Chat extends Component {
     connection: '',
     loginSettings: {},
     visitor: {},
-    hideZendeskLogo: false
+    departments: {},
+    offlineMessage: {},
+    sendOfflineMessage: () => {},
+    clearDepartment: () => {},
+    hideZendeskLogo: false,
+    isAuthenticated: false
   };
 
   constructor(props) {
@@ -304,7 +320,12 @@ class Chat extends Component {
   }
 
   renderChatContactDetailsPopup = () => {
-    const { editContactDetails, setVisitorInfo, visitor, isMobile, updateContactDetailsVisibility } = this.props;
+    const { editContactDetails,
+      setVisitorInfo,
+      visitor,
+      isMobile,
+      updateContactDetailsVisibility,
+      isAuthenticated } = this.props;
 
     if (!editContactDetails.show) return;
 
@@ -321,7 +342,8 @@ class Chat extends Component {
         leftCtaFn={hideContactDetailsFn}
         rightCtaFn={saveContactDetailsFn}
         tryAgainFn={tryAgainFn}
-        visitor={visitor} />
+        visitor={visitor}
+        isAuthenticated={isAuthenticated} />
     );
   }
 

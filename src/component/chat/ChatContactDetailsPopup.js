@@ -14,6 +14,7 @@ import { Icon } from 'component/Icon';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { ICONS } from 'constants/shared';
 
+import classNames from 'classnames';
 import { locals as styles } from 'component/chat/ChatContactDetailsPopup.scss';
 
 import {
@@ -32,7 +33,8 @@ export class ChatContactDetailsPopup extends Component {
     tryAgainFn: PropTypes.func,
     show: PropTypes.bool,
     isMobile: PropTypes.bool,
-    visitor: PropTypes.object
+    visitor: PropTypes.object,
+    isAuthenticated: PropTypes.bool
   }
 
   static defaultProps = {
@@ -43,7 +45,8 @@ export class ChatContactDetailsPopup extends Component {
     tryAgainFn: () => {},
     show: false,
     isMobile: false,
-    visitor: {}
+    visitor: {},
+    isAuthenticated: false
   }
 
   constructor(props) {
@@ -114,35 +117,47 @@ export class ChatContactDetailsPopup extends Component {
     return <h4 className={styles.title}>{title}</h4>;
   }
 
-  renderNameField = () => {
-    const inputClasses = this.props.isMobile ? styles.fieldInputMobile : '';
+  generateInputClasses = () => {
+    return classNames(
+      { [styles.fieldInputMobile]: this.props.isMobile },
+      { [styles.fieldInputAuthDisabled]: this.props.isAuthenticated }
+    );
+  }
 
+  generateFieldClasses = () => {
+    return classNames(
+      styles.field,
+      { [styles.fieldAuthDisabled]: this.props.isAuthenticated }
+    );
+  }
+
+  renderNameField = () => {
     return (
       <Field
         fieldContainerClasses={styles.fieldContainer}
-        fieldClasses={styles.field}
+        fieldClasses={this.generateFieldClasses()}
         labelClasses={styles.fieldLabel}
-        inputClasses={inputClasses}
+        inputClasses={this.generateInputClasses()}
         label={i18n.t('embeddable_framework.common.textLabel.name')}
         value={this.state.formState.name}
         name='name'
-        onKeyPress={this.handleKeyPress} />
+        onKeyPress={this.handleKeyPress}
+        disabled={this.props.isAuthenticated} />
     );
   }
 
   renderEmailField = () => {
-    const inputClasses = this.props.isMobile ? styles.fieldInputMobile : '';
-
     return (
       <EmailField
         fieldContainerClasses={styles.fieldContainer}
-        fieldClasses={styles.field}
+        fieldClasses={this.generateFieldClasses()}
         labelClasses={styles.fieldLabel}
-        inputClasses={inputClasses}
+        inputClasses={this.generateInputClasses()}
         label={i18n.t('embeddable_framework.common.textLabel.email')}
         value={this.state.formState.email}
         name='email'
-        onKeyPress={this.handleKeyPress} />
+        onKeyPress={this.handleKeyPress}
+        disabled={this.props.isAuthenticated} />
     );
   }
 
@@ -195,7 +210,7 @@ export class ChatContactDetailsPopup extends Component {
   }
 
   render = () => {
-    const { isMobile, className, leftCtaFn, screen } = this.props;
+    const { isMobile, className, leftCtaFn, screen, isAuthenticated } = this.props;
     const isLoading = (screen === EDIT_CONTACT_DETAILS_LOADING_SCREEN);
     const containerClasses = (isLoading) ? styles.popupChildrenContainerLoading : '';
 
@@ -207,6 +222,7 @@ export class ChatContactDetailsPopup extends Component {
         containerClasses={containerClasses}
         showCta={screen === EDIT_CONTACT_DETAILS_SCREEN}
         show={this.props.show}
+        showOnlyLeftCta={isAuthenticated}
         leftCtaFn={leftCtaFn}
         leftCtaLabel={i18n.t('embeddable_framework.common.button.cancel')}
         rightCtaFn={this.handleSave}

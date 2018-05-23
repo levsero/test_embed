@@ -15,7 +15,8 @@ export class EmailField extends Component {
     fieldClasses: PropTypes.string,
     inputClasses: PropTypes.string,
     placeholder: PropTypes.string,
-    onKeyPress: PropTypes.func
+    onKeyPress: PropTypes.func,
+    disabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -27,7 +28,8 @@ export class EmailField extends Component {
     fieldClasses: '',
     inputClasses: '',
     placeholder: '',
-    onKeyPress: () => {}
+    onKeyPress: () => {},
+    disabled: false
   };
 
   render = () => {
@@ -44,6 +46,7 @@ export class EmailField extends Component {
         labelClasses={this.props.labelClasses}
         inputClasses={this.props.inputClasses}
         onKeyPress={this.props.onKeyPress}
+        disabled={this.props.disabled}
       />
     );
   }

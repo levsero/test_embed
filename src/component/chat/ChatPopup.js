@@ -25,7 +25,8 @@ export class ChatPopup extends Component {
     isDismissible: PropTypes.bool,
     onCloseIconClick: PropTypes.func,
     isMobile: PropTypes.bool,
-    useOverlay: PropTypes.bool
+    useOverlay: PropTypes.bool,
+    showOnlyLeftCta: PropTypes.bool
   };
 
   static defaultProps = {
@@ -44,7 +45,8 @@ export class ChatPopup extends Component {
     show: false,
     onExited: () => {},
     isDismissible: false,
-    onCloseIconClick: () => {}
+    onCloseIconClick: () => {},
+    showOnlyLeftCta: false
   };
 
   onContainerClick = (e) => {
@@ -64,23 +66,40 @@ export class ChatPopup extends Component {
       leftCtaLabel, rightCtaLabel, rightCtaDisabled
     } = this.props;
 
-    return (showCta)
-      ? <div className={styles.ctaContainer}>
-        <Button
-          onTouchStartDisabled={true}
-          label={leftCtaLabel}
-          className={this.ctaButtonStyle('left')}
-          primary={false}
-          onClick={leftCtaFn} />
-        <Button
-          onTouchStartDisabled={true}
-          label={rightCtaLabel}
-          className={this.ctaButtonStyle('right')}
-          primary={true}
-          disabled={rightCtaDisabled}
-          onClick={rightCtaFn} />
+    if (!showCta) return null;
+
+    const leftCtaButtonClasses = classNames(
+      { [this.ctaButtonStyle('left')]: !this.props.showOnlyLeftCta },
+      { [styles.fullWidthButton]: this.props.showOnlyLeftCta }
+    );
+    const ctaContainerClasses = classNames(
+      { [styles.ctaContainer]: !this.props.showOnlyLeftCta },
+      { [styles.ctaContainerNoCenter]: this.props.showOnlyLeftCta }
+    );
+    const leftCtaButton = (
+      <Button
+        onTouchStartDisabled={true}
+        label={leftCtaLabel}
+        className={leftCtaButtonClasses}
+        primary={false}
+        onClick={leftCtaFn} />
+    );
+    const rightCtaButton = !this.props.showOnlyLeftCta ? (
+      <Button
+        onTouchStartDisabled={true}
+        label={rightCtaLabel}
+        className={this.ctaButtonStyle('right')}
+        primary={true}
+        disabled={rightCtaDisabled}
+        onClick={rightCtaFn} />
+    ) : null;
+
+    return (
+      <div className={ctaContainerClasses}>
+        {leftCtaButton}
+        {rightCtaButton}
       </div>
-      : null;
+    );
   }
 
   renderCloseIcon = () => {
