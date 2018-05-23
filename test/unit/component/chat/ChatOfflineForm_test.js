@@ -9,7 +9,7 @@ describe('ChatOfflineForm component', () => {
   const LoadingSpinner = noopReactComponent();
   const ChatOperatingHours = noopReactComponent();
   const ChatOfflineMessageForm = noopReactComponent();
-  const ChatSocialLogin = noopReactComponent();
+  const UserProfile = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
@@ -62,7 +62,7 @@ describe('ChatOfflineForm component', () => {
       'component/chat/ChatOfflineMessageForm': {
         ChatOfflineMessageForm
       },
-      'component/chat/ChatSocialLogin': { ChatSocialLogin }
+      'component/chat/UserProfile': { UserProfile }
     });
 
     mockery.registerAllowable(ChatOfflineFormPath);
@@ -78,7 +78,8 @@ describe('ChatOfflineForm component', () => {
     let component,
       result,
       mockSocialLogin,
-      mockVisitor;
+      mockVisitor,
+      mockIsAuthenticated;
 
     beforeEach(() => {
       const mockFormState = {
@@ -92,6 +93,7 @@ describe('ChatOfflineForm component', () => {
           formState={mockFormState}
           offlineMessage={{ screen: 'main' }}
           socialLogin={mockSocialLogin}
+          isAuthenticated={mockIsAuthenticated}
           visitor={mockVisitor} />
       );
 
@@ -127,6 +129,27 @@ describe('ChatOfflineForm component', () => {
         mockSocialLogin = {
           authenticated: true
         };
+        mockVisitor = {
+          display_name: 'yolo',
+          email: 'email@email.com'
+        };
+      });
+
+      it('has a props.formState value and social email and name', () => {
+        const expected = {
+          name: 'yolo',
+          message: 'I need coffee',
+          email: 'email@email.com'
+        };
+
+        expect(result.props.formState)
+          .toEqual(jasmine.objectContaining(expected));
+      });
+    });
+
+    describe('when authenticated', () => {
+      beforeAll(() => {
+        mockIsAuthenticated = true;
         mockVisitor = {
           display_name: 'yolo',
           email: 'email@email.com'
@@ -397,7 +420,7 @@ describe('ChatOfflineForm component', () => {
     });
   });
 
-  describe('renderSocialLogin', () => {
+  describe('renderUserProfile', () => {
     let component;
 
     beforeEach(() => {
@@ -406,7 +429,7 @@ describe('ChatOfflineForm component', () => {
       spyOn(component, 'renderNameField');
       spyOn(component, 'renderEmailField');
 
-      component.renderSocialLogin();
+      component.renderUserProfile();
     });
 
     it('calls renderNameField', () => {

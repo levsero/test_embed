@@ -11,7 +11,7 @@ import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { ChatOperatingHours } from 'component/chat/ChatOperatingHours';
 import { OFFLINE_FORM_SCREENS } from 'constants/chat';
 import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm';
-import { ChatSocialLogin } from 'component/chat/ChatSocialLogin';
+import { UserProfile } from 'component/chat/UserProfile';
 
 import { locals as styles } from './ChatOfflineForm.scss';
 
@@ -30,7 +30,8 @@ export class ChatOfflineForm extends Component {
     isMobile: PropTypes.bool,
     socialLogin: PropTypes.object.isRequired,
     authUrls: PropTypes.object.isRequired,
-    visitor: PropTypes.object.isRequired
+    visitor: PropTypes.object.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -149,13 +150,14 @@ export class ChatOfflineForm extends Component {
     );
   }
 
-  renderSocialLogin() {
+  renderUserProfile() {
     return (
-      <ChatSocialLogin
+      <UserProfile
         authUrls={this.props.authUrls}
         socialLogin={this.props.socialLogin}
         visitor={this.props.visitor}
         initiateSocialLogout={this.props.initiateSocialLogout}
+        isAuthenticated={this.props.isAuthenticated}
         nameField={this.renderNameField()}
         emailField={this.renderEmailField()} />
     );
@@ -165,9 +167,9 @@ export class ChatOfflineForm extends Component {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.MAIN) return;
 
     const submitbuttonText = i18n.t('embeddable_framework.chat.preChat.offline.button.sendMessage');
-    const { authenticated } = this.props.socialLogin;
-    const { visitor, formState } = this.props;
-    const formData = authenticated ?
+    const { authenticated: isSociallyAuthenticated } = this.props.socialLogin;
+    const { visitor, formState, isAuthenticated } = this.props;
+    const formData = isSociallyAuthenticated || isAuthenticated ?
       { ...formState, name: visitor.display_name, email: visitor.email }
       : this.props.formState;
 
@@ -180,7 +182,7 @@ export class ChatOfflineForm extends Component {
         submitButtonLabel={submitbuttonText}>
         {this.renderOfflineGreeting()}
         {this.renderOperatingHoursLink()}
-        {this.renderSocialLogin()}
+        {this.renderUserProfile()}
         {this.renderPhoneNumberField()}
         {this.renderMessageField()}
       </Form>

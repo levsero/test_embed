@@ -20,7 +20,8 @@ import { getChatOfflineForm,
   getGroupedOperatingHours,
   getSocialLogin,
   getAuthUrls,
-  getChatVisitor } from 'src/redux/modules/chat/chat-selectors';
+  getChatVisitor,
+  getIsAuthenticated } from 'src/redux/modules/chat/chat-selectors';
 
 import { locals as styles } from './ChatOffline.scss';
 
@@ -33,7 +34,8 @@ const mapStateToProps = (state) => {
     operatingHours: getGroupedOperatingHours(state),
     socialLogin: getSocialLogin(state),
     authUrls: getAuthUrls(state),
-    visitor: getChatVisitor(state)
+    visitor: getChatVisitor(state),
+    isAuthenticated: getIsAuthenticated(state)
   };
 };
 
@@ -55,7 +57,8 @@ class ChatOffline extends Component {
     handleCloseClick: PropTypes.func,
     operatingHours: PropTypes.object,
     isMobile: PropTypes.bool,
-    hideZendeskLogo: PropTypes.bool
+    hideZendeskLogo: PropTypes.bool,
+    isAuthenticated: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -87,6 +90,7 @@ class ChatOffline extends Component {
         chatOfflineFormChanged={this.props.chatOfflineFormChanged}
         operatingHours={this.props.operatingHours}
         updateFrameSize={this.props.updateFrameSize}
+        isAuthenticated={this.props.isAuthenticated}
         isMobile={this.props.isMobile} />
     );
   }

@@ -3,7 +3,7 @@ describe('PrechatForm component', () => {
     mockFormValidity;
   const PrechatFormPath = buildSrcPath('component/chat/prechat/PrechatForm');
   const Dropdown = noopReactComponent();
-  const ChatSocialLogin = noopReactComponent();
+  const UserProfile = noopReactComponent();
 
   const Field = class extends Component {
     render() {
@@ -59,7 +59,7 @@ describe('PrechatForm component', () => {
       'component/field/Dropdown': {
         Dropdown
       },
-      'component/chat/ChatSocialLogin': { ChatSocialLogin },
+      'component/chat/UserProfile': { UserProfile },
       'service/i18n': {
         i18n: {
           t: noop
@@ -221,7 +221,7 @@ describe('PrechatForm component', () => {
     });
   });
 
-  describe('renderSocialLogin', () => {
+  describe('renderUserProfile', () => {
     let component;
 
     beforeEach(() => {
@@ -230,7 +230,7 @@ describe('PrechatForm component', () => {
       spyOn(component, 'renderNameField');
       spyOn(component, 'renderEmailField');
 
-      component.renderSocialLogin();
+      component.renderUserProfile();
     });
 
     it('calls renderNameField', () => {
@@ -515,6 +515,7 @@ describe('PrechatForm component', () => {
     let component,
       onFormCompletedSpy,
       mockSocialLogin,
+      mockIsAuthenticated,
       mockVisitor;
     const formState = {
       name: 'someName',
@@ -530,6 +531,7 @@ describe('PrechatForm component', () => {
           onFormCompleted={onFormCompletedSpy}
           formState={formState}
           visitor={mockVisitor}
+          isAuthenticated={mockIsAuthenticated}
           socialLogin={mockSocialLogin}
         />
       );
@@ -554,6 +556,25 @@ describe('PrechatForm component', () => {
         mockSocialLogin = {
           authenticated: true
         };
+        mockVisitor = {
+          display_name: 'yolo',
+          email: 'email@email.com'
+        };
+      });
+
+      it('calls onFormCompleted spy with formState prop where name and email are from social details', () => {
+        expect(onFormCompletedSpy)
+          .toHaveBeenCalledWith({
+            ...formState,
+            name: 'yolo',
+            email: 'email@email.com'
+          });
+      });
+    });
+
+    describe('when authenticated', () => {
+      beforeAll(() => {
+        mockIsAuthenticated = true;
         mockVisitor = {
           display_name: 'yolo',
           email: 'email@email.com'

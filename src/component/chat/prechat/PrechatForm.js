@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { Field } from 'component/field/Field';
 import { Button } from 'component/button/Button';
 import { Dropdown } from 'component/field/Dropdown';
-import { ChatSocialLogin } from 'component/chat/ChatSocialLogin';
+import { UserProfile } from 'component/chat/UserProfile';
 
 import { i18n } from 'service/i18n';
 
@@ -23,7 +23,8 @@ export class PrechatForm extends Component {
     loginEnabled: PropTypes.bool,
     authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
-    initiateSocialLogout: PropTypes.func.isRequired
+    initiateSocialLogout: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -69,10 +70,10 @@ export class PrechatForm extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    const { authenticated } = this.props.socialLogin;
-    const { visitor } = this.props;
-    const formData = authenticated ?
-      { ...this.props.formState, name: visitor.display_name, email: visitor.email }
+    const { authenticated: isSociallyAuthenticated } = this.props.socialLogin;
+    const { visitor, isAuthenticated } = this.props;
+    const formData = isSociallyAuthenticated || isAuthenticated
+      ? { ...this.props.formState, name: visitor.display_name, email: visitor.email }
       : this.props.formState;
 
     this.props.onFormCompleted(formData);
@@ -204,13 +205,14 @@ export class PrechatForm extends Component {
     );
   }
 
-  renderSocialLogin() {
+  renderUserProfile() {
     return (
-      <ChatSocialLogin
+      <UserProfile
         authUrls={this.props.authUrls}
         socialLogin={this.props.socialLogin}
         visitor={this.props.visitor}
         initiateSocialLogout={this.props.initiateSocialLogout}
+        isAuthenticated={this.props.isAuthenticated}
         nameField={this.renderNameField()}
         emailField={this.renderEmailField()} />
     );
@@ -225,7 +227,7 @@ export class PrechatForm extends Component {
         ref={(el) => { this.form = el; }}
         className={`${styles.form}`}>
         {this.renderGreetingMessage()}
-        {this.renderSocialLogin()}
+        {this.renderUserProfile()}
         {this.renderDepartmentsField()}
         {this.renderPhoneField()}
         {this.renderMessageField()}

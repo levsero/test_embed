@@ -29,7 +29,7 @@ import HistoryLogStyles from 'component/chat/chatting/HistoryLog.scss';
 import ChatReconnectionBubbleStyles from 'component/chat/ChatReconnectionBubble.scss';
 import FeedbackForm from 'component/chat/rating/FeedbackForm.scss';
 import ChatOfflineFormStyles from 'component/chat/ChatOfflineForm.scss';
-import ChatSocialLoginStyles from 'component/chat/ChatSocialLogin.scss';
+import UserProfileStyles from 'component/chat/UserProfile.scss';
 import ChatOfflineStyles from 'component/chat/ChatOffline.scss';
 import ChatOperatingHoursStyles from 'component/chat/ChatOperatingHours.scss';
 import ChatOfflineMessageFormStyles from 'component/chat/ChatOfflineMessageForm.scss';
@@ -98,7 +98,7 @@ export const webWidgetStyles = `
   ${ChatOfflineFormStyles}
   ${ChatOfflineMessageFormStyles}
   ${ChatOfflineStyles}
-  ${ChatSocialLoginStyles}
+  ${UserProfileStyles}
   ${ChatOperatingHoursStyles}
   ${ChatOnlineStyles}
   ${ChattingScreenStyles}
