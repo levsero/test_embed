@@ -29,3 +29,7 @@
 .ticketFormContainer {
   composes: u-paddingTN from global;
 }
+
+.formWrapper {
+  margin-bottom: #{15/$font-size}rem;
+}
