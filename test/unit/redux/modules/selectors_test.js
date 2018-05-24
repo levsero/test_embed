@@ -17,6 +17,7 @@ describe('selectors', () => {
     talkEmbeddableConfigEnabledValue,
     agentAvailabilityValue,
     activeTicketFormValue,
+    activeEmbedValue,
     ticketFormsValue;
 
   beforeEach(() => {
@@ -24,6 +25,7 @@ describe('selectors', () => {
 
     const selectorsPath = buildSrcPath('redux/modules/selectors');
 
+    activeEmbedValue = '';
     settingsChatSuppressValue = false;
     zopimChatOnlineValue = false;
     showOfflineFormValue = true;
@@ -39,6 +41,7 @@ describe('selectors', () => {
 
     initMockRegistry({
       './base/base-selectors': {
+        getActiveEmbed: () => activeEmbedValue,
         getHelpCenterEmbed: () => helpCenterEmbedValue,
         getSubmitTicketEmbed: () => submitTicketEmbedValue,
         getChatEmbed: () => chatEmbedValue,
@@ -410,9 +413,9 @@ describe('selectors', () => {
   describe('getShowTicketFormsBackButton', () => {
     let result;
 
-    describe('when submitTicket is avalilable and has an activeForm and more then 1 form', () => {
+    describe('when submitTicket is the active embed and has an activeForm and more then 1 form', () => {
       beforeEach(() => {
-        submitTicketEmbedValue = true;
+        activeEmbedValue = 'submitTicket';
         activeTicketFormValue = 1;
         ticketFormsValue = [1, 2, 3];
 
@@ -425,9 +428,9 @@ describe('selectors', () => {
       });
     });
 
-    describe('when submitTicket is not available', () => {
+    describe('when submitTicket is not the active embed', () => {
       beforeEach(() => {
-        submitTicketEmbedValue = false;
+        activeEmbedValue = 'chat';
         activeTicketFormValue = 1;
         ticketFormsValue = [1, 2, 3];
         result = getShowTicketFormsBackButton();
@@ -441,7 +444,7 @@ describe('selectors', () => {
 
     describe('when active ticket form is falsy', () => {
       beforeEach(() => {
-        submitTicketEmbedValue = true;
+        activeEmbedValue = 'submitTicket';
         activeTicketFormValue = null;
         ticketFormsValue = [1, 2, 3];
         result = getShowTicketFormsBackButton();
@@ -455,7 +458,7 @@ describe('selectors', () => {
 
     describe('when there is only one form', () => {
       beforeEach(() => {
-        submitTicketEmbedValue = true;
+        activeEmbedValue = 'submitTicket';
         activeTicketFormValue = 1;
         ticketFormsValue = [1];
         result = getShowTicketFormsBackButton();
