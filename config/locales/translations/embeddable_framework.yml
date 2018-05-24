@@ -12,6 +12,11 @@ parts:
       screenshot: "https://zendesk.box.com/s/3514kju8pwjj7mz5i4qq92obfr1vq88j"
       value: "Cancel"
   - translation:
+      key: "embeddable_framework.common.button.done"
+      title: "A generic label for a button that indicates an action is done."
+      screenshot: "https://drive.google.com/open?id=1NnVdsOGm6K7ztaSA6psI7i_wM3zyYpg7"
+      value: "Done"
+  - translation:
       key: "embeddable_framework.common.button.send"
       title: "A generic label to describe the button's action to send something. e.g send a form (not submit), action, etc"
       screenshot: "https://zendesk.box.com/s/d01wl1cw7rjr4f3euac0wh8jnlrgn82w"
@@ -112,6 +117,16 @@ parts:
       title: "A text that displays the number of new messages that are ongoing that were sent by an agent. It can be displayed on buttons, labels, etc. If your language has more than one plural use New messages: %(plural_number)s"
       screenshot: "https://drive.google.com/file/d/1DxPO239aNKnfng4F2auSQceHf3H2ctlr/view?usp=sharing"
       value: "%(plural_number)s new messages"
+  - translation:
+      key: "embeddable_framework.common.notify.message.thanks_for_reaching_out"
+      title: "Success message that is displayed after a form is completed, indicating appreciation from customer for user reaching out."
+      screenshot: "https://drive.google.com/open?id=1CiiYs0xjIPO_w4CGGseuUVQUs1lBypiu"
+      value: "Thanks for reaching out."
+  - translation:
+      key: "embeddable_framework.common.notify.message.get_back"
+      title: "Success message that is displayed after a form is completed, indicating customer will get back to user soon."
+      screenshot: "https://drive.google.com/open?id=1wzf7c06mTD4LgHWyO1oy1yntdUC9cjLC"
+      value: "We'll get back to you soon."
 
   # Launcher embed
   - translation:
@@ -1191,6 +1206,11 @@ parts:
       title: "Header message for the call us (display phone number) screen to instruct users that the following number below is available for use."
       screenshot: "https://zendesk.box.com/s/96zongpdclysquuwag03ivisxeeo8tss"
       value: "Call the phone number below to get in contact with us."
+  - translation:
+      key: "embeddable_framework.talk.phoneOnly.new_message"
+      title: "Header message for the call us (display phone number) screen to instruct users that the following number below is available for use."
+      screenshot: "https://drive.google.com/open?id=1dHZcYU12vr0vFLMQZyEAEkokxYcB3ak_"
+      value: "Call us at the phone number below to get in contact with us."
   - translation:
       key: "embeddable_framework.talk.notify.error.phone_number_already_in_queue"
       title: "A message displayed on a styled error element, its purpose is to show an error message that describes the phone number the user entered is already tracked and processing"
