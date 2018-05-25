@@ -4,7 +4,8 @@ describe('logging', () => {
     airbrakeAddFilterSpy,
     airbrakeNotifySpy,
     rollbarInitSpy,
-    rollbarErrorSpy;
+    rollbarErrorSpy,
+    mockIsIE;
   const loggingPath = buildSrcPath('service/logging');
 
   beforeEach(() => {
@@ -35,6 +36,9 @@ describe('logging', () => {
       },
       'utility/utils': {
         getEnvironment: () => 'production'
+      },
+      'utility/devices': {
+        isIE: () => mockIsIE
       }
     });
 
@@ -140,20 +144,51 @@ describe('logging', () => {
   });
 
   describe('#init', () => {
-    describe('when useRollbar is true', () => {
+    const rollbarExpectation = {
+      accessToken: '94eb0137fdc14471b21b34c5a04f9359',
+      endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
+      hostWhiteList: ['assets.zd-staging.com', 'assets.zendesk.com']
+    };
+    const airbrakeExpectation = {
+      projectId: '124081',
+      projectKey: '8191392d5f8c97c8297a08521aab9189'
+    };
+
+    describe('when useRollbar is true and the browser is IE', () => {
       beforeEach(() => {
-        logging.init(true);
+        const useRollbar = true;
+
+        mockIsIE = true;
+        logging.init(useRollbar);
+      });
+
+      it('should register Airbrake id and key', () => {
+        expect(airbrakeInitSpy)
+          .toHaveBeenCalledWith(airbrakeExpectation);
+      });
+
+      it('should add a filter event handler', () => {
+        expect(airbrakeAddFilterSpy)
+          .toHaveBeenCalled();
+      });
+
+      it('should not init Rollbar', () => {
+        expect(rollbarInitSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when useRollbar is true and the browser is not IE', () => {
+      beforeEach(() => {
+        const useRollbar = true;
+
+        mockIsIE = false;
+        logging.init(useRollbar);
       });
 
       it('should call init on Rollbar', () => {
-        const expectation = {
-          accessToken: '94eb0137fdc14471b21b34c5a04f9359',
-          endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
-          hostWhiteList: ['assets.zd-staging.com', 'assets.zendesk.com']
-        };
-
         expect(rollbarInitSpy)
-          .toHaveBeenCalledWith(jasmine.objectContaining(expectation));
+          .toHaveBeenCalledWith(jasmine.objectContaining(rollbarExpectation));
       });
 
       it('should not init Airbrake', () => {
@@ -162,19 +197,41 @@ describe('logging', () => {
       });
     });
 
-    describe('when useRollbar is false', () => {
+    describe('when useRollbar is false and the browser is IE', () => {
       beforeEach(() => {
-        logging.init();
+        const useRollbar = false;
+
+        mockIsIE = true;
+        logging.init(useRollbar);
       });
 
       it('should register Airbrake id and key', () => {
-        const expectedOptions = {
-          projectId: '124081',
-          projectKey: '8191392d5f8c97c8297a08521aab9189'
-        };
-
         expect(airbrakeInitSpy)
-          .toHaveBeenCalledWith(expectedOptions);
+          .toHaveBeenCalledWith(airbrakeExpectation);
+      });
+
+      it('should add a filter event handler', () => {
+        expect(airbrakeAddFilterSpy)
+          .toHaveBeenCalled();
+      });
+
+      it('should not init Rollbar', () => {
+        expect(rollbarInitSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when useRollbar is false and the browser is not IE', () => {
+      beforeEach(() => {
+        const useRollbar = false;
+
+        mockIsIE = false;
+        logging.init(useRollbar);
+      });
+
+      it('should register Airbrake id and key', () => {
+        expect(airbrakeInitSpy)
+          .toHaveBeenCalledWith(airbrakeExpectation);
       });
 
       it('should add a filter event handler', () => {
