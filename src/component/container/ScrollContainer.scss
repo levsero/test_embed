@@ -9,6 +9,9 @@
 .container {
   composes: u-nbfc from global;
   box-sizing: border-box;
+  height: 550px;
+  display: flex;
+  flex-direction: column;
 }
 
 .containerDesktop {
@@ -38,7 +41,7 @@
   composes: u-paddingHS u-marginHS u-paddingTM from global;
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: #{350/$font-size}rem;
+  flex-grow: 1;
   box-sizing: border-box;
 
   /*
