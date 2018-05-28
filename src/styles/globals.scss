@@ -4,7 +4,6 @@
   @import './main.scss';
   @import './suit.scss';
   @import './utils.scss';
-  @import '../../node_modules/@zendesk/garden-css-variables/dist/index';
-  @import '../../node_modules/@zendesk/garden-css-tooltips/dist/index';
-  @import '../../node_modules/@zendesk/garden-css-arrows/dist/index';
+  @import '@zendeskgarden/css-arrows';
+  @import '@zendeskgarden/css-tooltips';
 }
