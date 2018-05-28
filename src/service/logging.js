@@ -2,6 +2,7 @@ import airbrakeJs from 'airbrake-js';
 import Rollbar from 'vendor/rollbar.umd.nojson.min.js';
 import _ from 'lodash';
 
+import { isIE } from 'utility/devices';
 import { getEnvironment } from 'utility/utils';
 
 let airbrake;
@@ -52,7 +53,7 @@ const errorFilter = (notice) => {
 };
 
 function init(shouldUseRollbar = false) {
-  useRollbar = shouldUseRollbar;
+  useRollbar = !isIE() && shouldUseRollbar;
 
   if (useRollbar) {
     rollbar = Rollbar.init(rollbarConfig);
