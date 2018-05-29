@@ -415,7 +415,7 @@ describe('selectors', () => {
 
     describe('when submitTicket is the active embed and has an activeForm and more then 1 form', () => {
       beforeEach(() => {
-        activeEmbedValue = 'submitTicket';
+        activeEmbedValue = 'ticketSubmissionForm';
         activeTicketFormValue = 1;
         ticketFormsValue = [1, 2, 3];
 
@@ -444,7 +444,7 @@ describe('selectors', () => {
 
     describe('when active ticket form is falsy', () => {
       beforeEach(() => {
-        activeEmbedValue = 'submitTicket';
+        activeEmbedValue = 'ticketSubmissionForm';
         activeTicketFormValue = null;
         ticketFormsValue = [1, 2, 3];
         result = getShowTicketFormsBackButton();
@@ -458,7 +458,7 @@ describe('selectors', () => {
 
     describe('when there is only one form', () => {
       beforeEach(() => {
-        activeEmbedValue = 'submitTicket';
+        activeEmbedValue = 'ticketSubmissionForm';
         activeTicketFormValue = 1;
         ticketFormsValue = [1];
         result = getShowTicketFormsBackButton();
