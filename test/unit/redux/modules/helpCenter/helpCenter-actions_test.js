@@ -503,6 +503,7 @@ describe('helpCenter redux actions', () => {
     let action;
 
     beforeEach(() => {
+      mockIsOnHostMappedDomainValue = true;
       mockStore.dispatch(actions.displayArticle(123));
       action = mockStore.getActions()[0];
     });

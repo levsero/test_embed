@@ -32,7 +32,7 @@ const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
   return {
     method: 'get',
     forceHttp: forceHttp,
-    useHostMappingIfAvailable: true,
+    useHostMappingIfAvailable: isOnHostMappedDomain(),
     path,
     query: queryParams,
     authorization: token ? `Bearer ${token}` : '',
@@ -161,11 +161,13 @@ export function handleSearchFieldFocus(value) {
 export function displayArticle(articleId) {
   return (dispatch) => {
     dispatch({ type: GET_ARTICLE_REQUEST_SENT });
+    const forceHttp = isOnHostMappedDomain() && location.protocol === 'http:';
 
     http.get({
       method: 'get',
+      forceHttp: forceHttp,
       path: `/api/v2/help_center/articles/${articleId}.json`,
-      useHostMappingIfAvailable: true,
+      useHostMappingIfAvailable: isOnHostMappedDomain(),
       callbacks: {
         done: (res) => dispatch({
           type: GET_ARTICLE_REQUEST_SUCCESS,
