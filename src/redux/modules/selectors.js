@@ -31,6 +31,6 @@ export const getTalkAvailable = (state) => getTalkEnabled(state) && getAgentAvai
 export const getShowTicketFormsBackButton = createSelector(
   [getActiveTicketForm, getTicketForms, getActiveEmbed],
   (activeForm, ticketForms, activeEmbed) => {
-    return activeForm && ticketForms.length > 1 && activeEmbed === 'submitTicket';
+    return activeForm && ticketForms.length > 1 && activeEmbed === 'ticketSubmissionForm';
   }
 );
