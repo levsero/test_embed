@@ -163,6 +163,7 @@ export class HelpCenterDesktop extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
+    const customHeightClasses = !this.props.hasSearched ? styles.noCustomHeight : '';
     let footerClasses = '';
 
     if (!this.props.showNextButton && this.props.hasSearched) {
@@ -179,6 +180,7 @@ export class HelpCenterDesktop extends Component {
           ref='scrollContainer'
           hideZendeskLogo={this.props.hideZendeskLogo}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
+          classes={customHeightClasses}
           footerClasses={footerClasses}
           headerContent={this.renderHeaderContent()}
           footerContent={this.renderFooterContent()}>

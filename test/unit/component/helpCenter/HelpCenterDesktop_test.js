@@ -60,7 +60,8 @@ describe('HelpCenterDesktop component', () => {
         locals: {
           footer: 'footerClasses',
           footerArticleView: 'footerArticleViewClasses',
-          footerLogo: 'footerLogoClasses'
+          footerLogo: 'footerLogoClasses',
+          noCustomHeight: 'noCustomHeight'
         }
       },
       'service/i18n': {
@@ -193,7 +194,44 @@ describe('HelpCenterDesktop component', () => {
   describe('render', () => {
     const mockNotification = { show: false };
     let helpCenterDesktop,
-      footerClasses;
+      footerClasses,
+      result;
+
+    describe('height of HC', () => {
+      let helpCenterDesktop,
+        mockHasSearched;
+
+      beforeEach(() => {
+        helpCenterDesktop = domRender(
+          <HelpCenterDesktop
+            hasSearched={mockHasSearched} />
+        );
+
+        result = helpCenterDesktop.render();
+      });
+
+      describe('when hasSearched is true', () => {
+        beforeAll(() => {
+          mockHasSearched = true;
+        });
+
+        it('should render 550px height', () => {
+          expect(result.props.children[0].props.classes)
+            .toEqual('');
+        });
+      });
+
+      describe('when hasSearched is false', () => {
+        beforeAll(() => {
+          mockHasSearched = false;
+        });
+
+        it('should not render 550px height', () => {
+          expect(result.props.children[0].props.classes)
+            .toEqual('noCustomHeight');
+        });
+      });
+    });
 
     describe('when props.showNextButton is false and props.hasSearched is true', () => {
       describe('when props.articleViewActive is true and zendesk logo is hidden', () => {
