@@ -1,3 +1,9 @@
+export const HISTORY_REQUEST_STATUS = {
+  PENDING: 'pending',
+  DONE:    'done',
+  FAIL:    'fail'
+};
+
 export const WHITELISTED_SOCIAL_LOGINS = {
   GOOGLE: 'google',
   FACEBOOK: 'facebook'

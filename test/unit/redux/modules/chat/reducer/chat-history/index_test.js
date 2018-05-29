@@ -4,7 +4,14 @@ describe('chat chat-history reducer', () => {
   beforeAll(() => {
     mockery.enable();
 
+    const chatConstantsPath = buildSrcPath('constants/chat');
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-history/index');
+
+    initMockRegistry({
+      'constants/chat': {
+        HISTORY_REQUEST_STATUS: requireUncached(chatConstantsPath).HISTORY_REQUEST_STATUS
+      }
+    });
 
     reducer = requireUncached(reducerPath).default;
   });

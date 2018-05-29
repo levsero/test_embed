@@ -29,7 +29,7 @@ import * as selectors from 'src/redux/modules/chat/chat-selectors';
 import { getHasMoreHistory,
   getHistoryRequestStatus,
   getGroupedPastChatsBySession } from 'src/redux/modules/chat/chat-history-selectors';
-import { SCROLL_BOTTOM_THRESHOLD } from 'constants/chat';
+import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat';
 import { locals as styles } from './ChattingScreen.scss';
 import { isDefaultNickname, isAgent } from 'src/util/chat';
 
@@ -152,7 +152,8 @@ class ChattingScreen extends Component {
   }
 
   componentWillUpdate(prevProps) {
-    if (prevProps.historyRequestStatus === 'pending' && this.props.historyRequestStatus === 'done') {
+    if (prevProps.historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING &&
+        this.props.historyRequestStatus === HISTORY_REQUEST_STATUS.DONE) {
       this.scrollHeightBeforeUpdate = this.scrollContainer.getScrollHeight();
     }
   }
@@ -192,7 +193,7 @@ class ChattingScreen extends Component {
 
     if (!newMessage) return;
 
-    if (lastUserMessage !== 'visitor') {
+    if (isAgent(lastUserMessage)) {
       (scrollCloseToBottom)
         ? this.setState({ notificationCount: 0 })
         : this.setState({ notificationCount: this.state.notificationCount + 1 });
@@ -223,7 +224,7 @@ class ChattingScreen extends Component {
     if (
       this.scrollContainer.isAtTop() &&
       this.props.hasMoreHistory &&
-      this.props.historyRequestStatus !== 'pending'
+      this.props.historyRequestStatus !== HISTORY_REQUEST_STATUS.PENDING
     ) {
       this.props.fetchConversationHistory();
     }
@@ -290,7 +291,7 @@ class ChattingScreen extends Component {
 
     return this.props.historyRequestStatus ? (
       <div className={styles.historyFetchingContainer}>
-        <Transition in={historyRequestStatus === 'pending'} timeout={0}>
+        <Transition in={historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING} timeout={0}>
           {(state) => (
             <div
               style={{...defaultStyle, ...transitionStyles[state]}}
@@ -385,7 +386,7 @@ class ChattingScreen extends Component {
     return (
       <ButtonPill
         showIcon={true}
-        classname={styles.scrollBottomPill}
+        containerClass={styles.scrollBottomPill}
         onClick={goToBottomFn}
         label={pillLabel} />
     );
