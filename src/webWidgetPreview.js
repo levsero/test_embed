@@ -88,7 +88,7 @@ const renderWebWidgetPreview = (options) => {
   };
 
   waitForSubmitTicketComponent(() => {
-    preview.updateFrameSize();
+    _.defer(preview.updateFrameSize);
     setColor(options.color);
   });
 
