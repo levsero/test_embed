@@ -38,10 +38,11 @@
   "author": "Zendesk",
   "license": "All Rights Reserved",
   "dependencies": {
-    "@zendesk/garden-css-arrows": "^1.1.0",
-    "@zendesk/garden-css-tooltips": "^2.1.0",
-    "@zendesk/garden-css-variables": "^3.1.0",
+    "@zendeskgarden/css-arrows": "^3.1.0",
+    "@zendeskgarden/css-tooltips": "^4.0.1",
+    "@zendeskgarden/css-variables": "^4.1.3",
     "@zendeskgarden/svg-icons": "~4.0.0",
+    "@zendeskgarden/css-buttons": "6.0.0",
     "airbrake-js": "^0.5.9",
     "airwaves": "~0.3.0",
     "chat-web-sdk": "git+ssh://git@github.com/zendesk/chat-web-sdk.git#v8.0.0",
@@ -66,9 +67,7 @@
     "sha1": "^1.1.1",
     "socket.io-client": "^2.0.4",
     "sprintf-js": "^1.1.1",
-    "superagent": "^2.0.0",
-    "zd-css-buttons": "git+ssh://git@github.com/zendeskgarden/css-buttons.git#2.2.0",
-    "zd-css-variables": "git+ssh://git@github.com/zendeskgarden/css-variables.git#0.11.0"
+    "superagent": "^2.0.0"
   },
   "devDependencies": {
     "app-root-path": "^2.0.1",

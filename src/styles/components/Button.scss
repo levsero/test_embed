@@ -3,7 +3,7 @@
  */
 @import '../_vars.scss';
 @import '../mixins.scss';
-@import '../../../node_modules/zd-css-buttons/dist/index';
+@import '@zendeskgarden/css-buttons';
 
 $Button-baseFontSize: #{14/$font-size}rem;
 $Button-nudge: 5;
