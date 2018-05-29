@@ -13,7 +13,7 @@ parts:
       value: "Cancel"
   - translation:
       key: "embeddable_framework.common.button.done"
-      title: "A generic label for a button that indicates an action is done."
+      title: "A generic label for a button that indicates an action is done/completed (ref glossary.all.758)."
       screenshot: "https://drive.google.com/open?id=1NnVdsOGm6K7ztaSA6psI7i_wM3zyYpg7"
       value: "Done"
   - translation:
