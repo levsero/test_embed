@@ -1415,16 +1415,34 @@ describe('mediator', () => {
 
       describe('online', () => {
         beforeEach(() => {
-          mediator.init({ submitTicket: false, helpCenter: false, chat: true }, { hideLauncher: false });
+          jasmine.clock().install();
+          mediator.init({ submitTicket: false, helpCenter: false, chat: true }, { hideLauncher: false, newChat: true });
           c.broadcast('newChat.connected');
-
           reset(launcherSub.show);
-          c.broadcast('newChat.online');
         });
 
-        it('broadcasts launcher.show', () => {
-          expect(launcherSub.show.calls.count())
-            .toEqual(1);
+        describe('when newChat is not visibile', () => {
+          beforeEach(() => {
+            c.broadcast('newChat.online');
+          });
+
+          it('broadcasts launcher.show', () => {
+            expect(launcherSub.show.calls.count())
+              .toEqual(1);
+          });
+        });
+
+        describe('when newChat is visible', () => {
+          beforeEach(() => {
+            c.broadcast(`${launcher}.onClick`);
+            jasmine.clock().tick(0);
+            c.broadcast('newChat.online');
+          });
+
+          it('does not broadcast launcher.show', () => {
+            expect(launcherSub.show.calls.count())
+              .toEqual(0);
+          });
         });
 
         describe('when userHidden is true', () => {

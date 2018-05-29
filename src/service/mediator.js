@@ -228,7 +228,9 @@ function init(embedsAccessible, params = {}) {
 
     if (!submitTicketAvailable() && !helpCenterAvailable() && !talkAvailable() && !state[`${chat}.connectionPending`]) {
       state[`${launcher}.chatHidden`] = false;
-      show(state);
+      if (!state[`${newChat}.isVisible`]) {
+        show(state);
+      }
     }
   });
 
