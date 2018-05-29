@@ -14,14 +14,17 @@ const errorMessageBlacklist = [
   'timeout of [0-9]+ms exceeded',
   /^(\(unknown\): )?(Script error).?$/
 ];
+const hostBlackList = [
+  /^((?!(.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com)).*)$/
+];
 const rollbarConfig =  {
   accessToken: '94eb0137fdc14471b21b34c5a04f9359',
   captureUncaught: true,
   captureUnhandledRejections: true,
   endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
-  hostWhiteList: ['assets.zd-staging.com', 'assets.zendesk.com'],
+  hostBlackList: hostBlackList,
   ignoredMessages: errorMessageBlacklist,
-  maxItems: 100,
+  maxItems: 10,
   payload: {
     environment: getEnvironment(),
     client: {
@@ -93,5 +96,6 @@ export const logging = {
   errorFilter,
 
   // Exported for testing
-  errorMessageBlacklist
+  errorMessageBlacklist,
+  hostBlackList
 };
