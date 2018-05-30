@@ -102,12 +102,12 @@ export const getActiveAgents = createSelector(
 const getConciergeSettings = (state) => {
   let { concierge } = state.chat.accountSettings;
 
-if (state.settings.chat.avatarUrl) {
-    concierge.avatar_path = state.settings.chat.avatarUrl;
+  if (state.settings.chat.avatarPath) {
+    concierge.avatar_path = state.settings.chat.avatarPath;
   }
 
   return concierge;
-}
+};
 
 export const getCurrentConcierges = createSelector(
   [getActiveAgents, getConciergeSettings],

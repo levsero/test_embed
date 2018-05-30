@@ -3,15 +3,15 @@ import { _ } from 'lodash';
 
 const initialState = null;
 
-const avatarUrl = (state = initialState, action) => {
+const avatarPath = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
     case UPDATE_SETTINGS:
-      return _.get(payload, 'chat.concierge.avatarUrl', state);
+      return _.get(payload, 'chat.concierge.avatarPath', state);
     default:
       return state;
   }
 };
 
-export default avatarUrl;
+export default avatarPath;
