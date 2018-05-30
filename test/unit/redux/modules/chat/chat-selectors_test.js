@@ -3,6 +3,7 @@ import Map from 'core-js/library/es6/map';
 describe('chat selectors', () => {
   let getActiveAgents,
     getAttachmentsEnabled,
+    getConciergeSettings,
     getCurrentConcierges,
     getConnection,
     getCurrentMessage,
@@ -107,6 +108,7 @@ describe('chat selectors', () => {
     getActiveAgents = selectors.getActiveAgents;
     getAttachmentsEnabled = selectors.getAttachmentsEnabled;
     getCurrentConcierges = selectors.getCurrentConcierges;
+    getConciergeSettings = selectors.getConciergeSettings;
     getConnection = selectors.getConnection;
     getCurrentMessage = selectors.getCurrentMessage;
     getChatEvents = selectors.getChatEvents;
@@ -269,6 +271,11 @@ describe('chat selectors', () => {
             agents: mockAgents,
             chats: { values: () => mockChats },
             accountSettings: { concierge: mockConciergeSettings }
+          },
+          settings: {
+            chat: {
+              avatarPath: null
+            }
           }
         });
       });
@@ -308,6 +315,11 @@ describe('chat selectors', () => {
             agents: mockAgents,
             chats: { values: () => mockChats },
             accountSettings: { concierge: mockConciergeSettings }
+          },
+          settings: {
+            chat: {
+              avatarPath: null
+            }
           }
         });
       });
@@ -330,6 +342,11 @@ describe('chat selectors', () => {
             agents: mockAgents,
             chats: { values: () => mockChats },
             accountSettings: { concierge: mockConciergeSettings }
+          },
+          settings: {
+            chat: {
+              avatarPath: null
+            }
           }
         });
       });
@@ -1362,6 +1379,11 @@ describe('chat selectors', () => {
           chat: {
             agents: new Map(),
             accountSettings: { concierge: 'foo.bar' }
+          },
+          settings: {
+            chat: {
+              avatarPath: null
+            }
           }
         };
       });
@@ -1380,6 +1402,11 @@ describe('chat selectors', () => {
               ['1', { display_name: 'hello', title: 'hello' }]
             ]),
             accountSettings: { concierge: { avatar_path: 'https://company.com/avatar.gif' } }
+          },
+          settings: {
+            chat: {
+              avatarPath: null
+            }
           }
         };
       });
@@ -1405,6 +1432,11 @@ describe('chat selectors', () => {
               ['2', { avatar_path: 'https://yolo.com/yolo.gif' }]
             ]),
             accountSettings: { concierge: { avatar_path: 'https://company.com/avatar.gif' } }
+          },
+          settings: {
+            chat: {
+              avatarPath: null
+            }
           }
         };
       });
