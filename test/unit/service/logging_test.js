@@ -51,6 +51,55 @@ describe('logging', () => {
     mockery.disable();
   });
 
+  describe('hostBlackList', () => {
+    let regex;
+
+    beforeEach(() => {
+      regex = new RegExp(logging.hostBlackList[0]);
+    });
+
+    describe('when the trace contains patterns to blacklist', () => {
+      const traceList = [
+        'File https://www.betabrand.com/angular/bower_components/tinymce/tinymce.min.js line 2 col 13017 in m',
+        'File "webpack-internal:///./node_modules/component-emitter/index.js" line 133 col 20 in Request.Emitter.emit',
+        'File https://v2.zopim.com/ line 7462 col 1 in t.exports</m.increment'
+      ];
+
+      it('has at least one entry', () => {
+        expect(traceList.length)
+          .toBeGreaterThan(0);
+      });
+
+      it('returns true for all patterns', () => {
+        traceList.forEach((pattern) => {
+          expect(regex.test(pattern))
+            .toEqual(true);
+        });
+      });
+    });
+
+    describe('when the trace contains patterns that should not be blacklisted', () => {
+      const traceList = [
+        'File https://assets.zendesk.com/embeddable_framework/main.js line 51 col 1060096 in render/</</<',
+        'https://static.zdassets.com/web_widget/00b4ca1a169d2dc52a34f2938e7280039c621394/web_widget.js',
+        'https://static-staging.zdassets.com/ekr/asset_composer.js?key=7144da5b-c5f6-4e4a-8e14-3db3d8404d35',
+        'assets.zd-staging.com/embeddable_framework/webWidgetPreview.js'
+      ];
+
+      it('has at least one entry', () => {
+        expect(traceList.length)
+          .toBeGreaterThan(0);
+      });
+
+      it('returns false for all patterns', () => {
+        traceList.forEach((pattern) => {
+          expect(regex.test(pattern))
+            .toEqual(false);
+        });
+      });
+    });
+  });
+
   describe('errorMessageBlacklist', () => {
     let patternList;
 
@@ -147,7 +196,6 @@ describe('logging', () => {
     const rollbarExpectation = {
       accessToken: '94eb0137fdc14471b21b34c5a04f9359',
       endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
-      hostWhiteList: ['assets.zd-staging.com', 'assets.zendesk.com']
     };
     const airbrakeExpectation = {
       projectId: '124081',
