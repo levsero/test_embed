@@ -9,7 +9,8 @@ import { mediator } from 'service/mediator';
 import { logging } from 'service/logging';
 import { settings } from 'service/settings';
 import { win } from 'utility/globals';
-import { updateEmbedAccessible } from 'src/redux/modules/base';
+import { updateEmbedAccessible,
+  updateArturos } from 'src/redux/modules/base';
 
 const embedsMap = {
   'chat': chat,
@@ -134,7 +135,7 @@ function init(config, reduxStore = dummyStore) {
     i18n.setLocale(config.locale);
     loadAudio(config);
 
-    const { newChat, embeds = {} } = config;
+    const { newChat, newHeight, embeds = {} } = config;
     const useNewChatEmbed = !!embeds.zopimChat && newChat;
     const hasSingleIframeEmbeds = !!embeds.ticketSubmissionForm
       || !!embeds.helpCenterForm
@@ -146,6 +147,12 @@ function init(config, reduxStore = dummyStore) {
       parsedConfig = addPropsToConfig('webWidget', config, parsedConfig, reduxStore);
     }
 
+    const arturos = {
+      newHeight: !!newHeight,
+      newChat: !!newChat
+    };
+
+    reduxStore.dispatch(updateArturos(arturos));
     renderEmbeds(parsedConfig, config, reduxStore);
 
     renderedEmbeds = parsedConfig;

@@ -50,6 +50,30 @@ describe('base redux actions', () => {
     mockery.deregisterAll();
   });
 
+  describe('updateArturos', () => {
+    let arturos,
+      action;
+
+    beforeEach(() => {
+      arturos = {
+        newChat: true
+      };
+
+      mockStore.dispatch(actions.updateArturos(arturos));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action with UPDATE_ARTUROS', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_ARTUROS);
+    });
+
+    it('dispatches the correct payload', () => {
+      expect(action.payload)
+        .toEqual(arturos);
+    });
+  });
+
   describe('updateActiveEmbed', () => {
     let embed,
       action,

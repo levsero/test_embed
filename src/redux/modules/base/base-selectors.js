@@ -7,6 +7,7 @@ export const getActiveEmbed = (state) => state.base.activeEmbed;
 export const getAuthenticated = (state) => state.base.authenticated;
 export const getWidgetShown = (state) => state.base.widgetShown;
 export const getIPMWidget = (state) => !!state.base.embeds.ipmWidget;
+export const getNewHeight = (state) => !!state.base.arturos.newHeight;
 
 export const getChatStandalone = (state) => {
   const otherProducts = getSubmitTicketEmbed(state) ||

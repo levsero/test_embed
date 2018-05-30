@@ -6,6 +6,7 @@ describe('renderer', () => {
     mockWebWidget,
     mockWebWidgetFactory,
     mockUpdateEmbedAccessible,
+    mockUpdateArturos,
     loadSoundSpy;
   const updateBaseFontSize = jasmine.createSpy();
   const updateFrameSize = jasmine.createSpy();
@@ -39,6 +40,7 @@ describe('renderer', () => {
     mockery.enable();
 
     mockUpdateEmbedAccessible = jasmine.createSpy();
+    mockUpdateArturos = jasmine.createSpy();
 
     mockLauncher = embedMocker('mockLauncher');
     mockChat = embedMocker('mockChat');
@@ -86,7 +88,8 @@ describe('renderer', () => {
         win: global.window
       },
       'src/redux/modules/base': {
-        updateEmbedAccessible: mockUpdateEmbedAccessible
+        updateEmbedAccessible: mockUpdateEmbedAccessible,
+        updateArturos: mockUpdateArturos
       }
     });
 
@@ -137,6 +140,12 @@ describe('renderer', () => {
       renderer.init(configJSON);
 
       const mockLauncherRecentCall = mockLauncher.create.calls.mostRecent();
+
+      expect(mockUpdateArturos)
+        .toHaveBeenCalledWith({
+          newHeight: false,
+          newChat: false
+        });
 
       expect(mockUpdateEmbedAccessible)
         .toHaveBeenCalledWith(jasmine.any(String), true);

@@ -21,14 +21,21 @@ describe('base root reducer', () => {
       state = reducer({}, { type: '' });
     });
 
-    it('has the activeEmbed sub state', () => {
-      expect(state.activeEmbed)
-        .toBeDefined();
-    });
+    const subStateList = [
+      'activeEmbed',
+      'authenticated',
+      'widgetShown',
+      'embeds',
+      'backButtonVisible',
+      'arturos'
+    ];
 
-    it('has the embeds sub state', () => {
-      expect(state.embeds)
-        .toBeDefined();
+    it('has the expected substates', () => {
+      _.keys(state).forEach((subState) => {
+        if (!subStateList.includes(subState)) {
+          fail(`${subState} sub state is missing`);
+        }
+      });
     });
   });
 });

@@ -7,7 +7,8 @@ describe('base selectors', () => {
     getAuthenticated,
     getWidgetShown,
     getIPMWidget,
-    getChatStandalone;
+    getChatStandalone,
+    getNewHeight;
 
   beforeEach(() => {
     mockery.enable();
@@ -27,6 +28,7 @@ describe('base selectors', () => {
     getWidgetShown = selectors.getWidgetShown;
     getChatStandalone = selectors.getChatStandalone;
     getIPMWidget = selectors.getIPMWidget;
+    getNewHeight = selectors.getNewHeight;
   });
 
   describe('getActiveEmbed', () => {
@@ -233,6 +235,66 @@ describe('base selectors', () => {
     it('returns whether IPM widget is activated', () => {
       expect(result)
         .toEqual(true);
+    });
+  });
+
+  describe('getNewHeight', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      result = getNewHeight(mockState);
+    });
+
+    describe('when newHeight is true', () => {
+      beforeAll(() => {
+        mockState = {
+          base: {
+            arturos: {
+              newHeight: true
+            }
+          }
+        };
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when newHeight is false', () => {
+      beforeAll(() => {
+        mockState = {
+          base: {
+            arturos: {
+              newHeight: false
+            }
+          }
+        };
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+
+    describe('when newHeight does not exist', () => {
+      beforeAll(() => {
+        mockState = {
+          base: {
+            arturos: {
+              newChat: true
+            }
+          }
+        };
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
     });
   });
 });
