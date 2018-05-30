@@ -10,7 +10,7 @@ const trackNewGAEvent = (action, label, category, value) => {
 
     const payload = {
       hitType: 'event',
-      eventCategory: category || GA_CATEGORY,
+      eventCategory: category,
       eventAction: action,
       eventLabel: label,
       eventValue: value
@@ -32,7 +32,7 @@ const trackOldGAEvent = (action, label, category, value) => {
     const trackers = gat._getTrackers() || [ gat._getTrackerByName() ];
 
     _.forEach(trackers, (tracker) => {
-      tracker._trackEvent(category || GA_CATEGORY, action, label, value);
+      tracker._trackEvent(category, action, label, value);
     });
   });
 };
@@ -55,7 +55,7 @@ function init() {
   }
 }
 
-function track(action, label, category, value) {
+function track(action, label, category = GA_CATEGORY, value) {
   if (!ga) return null;
 
   if (_.isFunction(ga)) {
@@ -65,7 +65,14 @@ function track(action, label, category, value) {
   }
 }
 
+function get() {
+  return ga;
+}
+
 export const GA = {
   init,
-  track
+  track,
+
+  // used for testing
+  get
 };
