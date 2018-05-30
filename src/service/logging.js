@@ -1,5 +1,4 @@
 import Rollbar from 'vendor/rollbar.umd.min.js';
-import _ from 'lodash';
 
 import { isIE } from 'utility/devices';
 import { getEnvironment } from 'utility/utils';

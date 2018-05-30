@@ -12,19 +12,7 @@ describe('logging', () => {
     rollbarErrorSpy = jasmine.createSpy('rollbarError');
 
     initMockRegistry({
-<<<<<<< HEAD
-      'airbrake-js': (opts) => {
-        airbrakeInitSpy(opts);
-
-        return {
-          addFilter: airbrakeAddFilterSpy,
-          notify: airbrakeNotifySpy
-        };
-      },
       'vendor/rollbar.umd.min.js': {
-=======
-      'vendor/rollbar.umd.nojson.min.js': {
->>>>>>> Remove Airbrake implementation and tests
         init: (params) => {
           rollbarInitSpy(params);
 
@@ -190,25 +178,6 @@ describe('logging', () => {
   });
 
   describe('#init', () => {
-    const rollbarExpectation = {
-      accessToken: '94eb0137fdc14471b21b34c5a04f9359',
-      captureUncaught: true,
-      captureUnhandledRejections: true,
-      endpoint: 'https://rollbar-eu.zendesk.com/api/1/item/',
-      ignoredMessages: [
-        'Access-Control-Allow-Origin',
-        'timeout of [0-9]+ms exceeded',
-        /^(\(unknown\): )?(Script error).?$/
-      ],
-      maxItems: 10,
-      payload: {
-        environment: 'production',
-        client: {
-          javascript: { code_version: 'bob1337' } // eslint-disable-line camelcase
-        }
-      }
-    };
-
     describe('when useRollbar is true and the browser is IE', () => {
       beforeEach(() => {
         const useRollbar = true;
@@ -234,8 +203,21 @@ describe('logging', () => {
       it('should call init on Rollbar', () => {
         const expectation = {
           accessToken: '94eb0137fdc14471b21b34c5a04f9359',
-          endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
-          hostWhiteList: ['assets.zd-staging.com', 'assets.zendesk.com']
+          captureUncaught: true,
+          captureUnhandledRejections: true,
+          endpoint: 'https://rollbar-eu.zendesk.com/api/1/item/',
+          ignoredMessages: [
+            'Access-Control-Allow-Origin',
+            'timeout of [0-9]+ms exceeded',
+            /^(\(unknown\): )?(Script error).?$/
+          ],
+          maxItems: 10,
+          payload: {
+            environment: 'production',
+            client: {
+              javascript: { code_version: 'bob1337' } // eslint-disable-line camelcase
+            }
+          }
         };
 
         expect(rollbarInitSpy)
