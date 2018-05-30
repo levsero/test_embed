@@ -27,7 +27,6 @@ const getChats = (state) => state.chat.chats;
 const getNotification = (state) => state.chat.notification;
 const getThemeMessageType = (state) => state.chat.accountSettings.theme.message_type;
 const getOrderedAgents = (state) => state.chat.agents;
-const getConciergeSettings = (state) => state.chat.accountSettings.concierge;
 const getInactiveAgents = (state) => state.chat.inactiveAgents;
 
 export const getAgentsTyping = (state) => {
@@ -99,6 +98,16 @@ export const getActiveAgents = createSelector(
     return _.assign({}, ...arrAgents);
   }
 );
+
+const getConciergeSettings = (state) => {
+  let { concierge } = state.chat.accountSettings;
+
+if (state.settings.chat.avatarUrl) {
+    concierge.avatar_path = state.settings.chat.avatarUrl;
+  }
+
+  return concierge;
+}
 
 export const getCurrentConcierges = createSelector(
   [getActiveAgents, getConciergeSettings],
