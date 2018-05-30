@@ -1,5 +1,5 @@
 import airbrakeJs from 'airbrake-js';
-import Rollbar from 'vendor/rollbar.umd.nojson.min.js';
+import Rollbar from 'vendor/rollbar.umd.min.js';
 import _ from 'lodash';
 
 import { isIE } from 'utility/devices';
@@ -21,9 +21,9 @@ const rollbarConfig =  {
   accessToken: '94eb0137fdc14471b21b34c5a04f9359',
   captureUncaught: true,
   captureUnhandledRejections: true,
-  endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
   hostBlackList: hostBlackList,
   hostWhiteList: ['assets.zd-staging.com', 'assets.zendesk.com'],
+  endpoint: 'https://rollbar-eu.zendesk.com/api/1/item/',
   ignoredMessages: errorMessageBlacklist,
   maxItems: 10,
   payload: {
@@ -60,7 +60,7 @@ function init(shouldUseRollbar = false) {
   useRollbar = !isIE() && shouldUseRollbar;
 
   if (useRollbar) {
-    rollbar = Rollbar.init(rollbarConfig);
+    rollbar = new Rollbar.init(rollbarConfig);
   } else {
     // Remove this code once Rollbar is GA'd
     airbrake = new airbrakeJs({
