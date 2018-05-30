@@ -10,6 +10,7 @@ import { store } from 'service/persistence';
 import { renderer } from 'service/renderer';
 import { settings } from 'service/settings';
 import { http } from 'service/transport';
+import { GA } from 'service/analytics/googleAnalytics';
 import { appendMetaTag,
   clickBusterHandler,
   getMetaTagsByName,
@@ -102,6 +103,7 @@ const setupServices = (reduxStore) => {
 
   settings.init(reduxStore);
   authentication.init();
+  GA.init();
 };
 
 const setupWidgetQueue = (win, postRenderQueue, reduxStore) => {
