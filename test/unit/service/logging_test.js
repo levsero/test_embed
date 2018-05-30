@@ -27,7 +27,7 @@ describe('logging', () => {
           notify: airbrakeNotifySpy
         };
       },
-      'vendor/rollbar.umd.nojson.min.js': {
+      'vendor/rollbar.umd.min.js': {
         init: (params) => {
           rollbarInitSpy(params);
 
@@ -195,8 +195,21 @@ describe('logging', () => {
   describe('#init', () => {
     const rollbarExpectation = {
       accessToken: '94eb0137fdc14471b21b34c5a04f9359',
-      endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
-      hostWhiteList: ['assets.zd-staging.com', 'assets.zendesk.com']
+      captureUncaught: true,
+      captureUnhandledRejections: true,
+      endpoint: 'https://rollbar-eu.zendesk.com/api/1/item/',
+      ignoredMessages: [
+        'Access-Control-Allow-Origin',
+        'timeout of [0-9]+ms exceeded',
+        /^(\(unknown\): )?(Script error).?$/
+      ],
+      maxItems: 10,
+      payload: {
+        environment: 'production',
+        client: {
+          javascript: { code_version: 'bob1337' } // eslint-disable-line camelcase
+        }
+      }
     };
     const airbrakeExpectation = {
       projectId: '124081',
