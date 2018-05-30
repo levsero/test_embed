@@ -99,7 +99,7 @@ export const getActiveAgents = createSelector(
   }
 );
 
-const getConciergeSettings = (state) => {
+export const getConciergeSettings = (state) => {
   let { concierge } = state.chat.accountSettings;
 
   if (state.settings.chat.avatarPath) {

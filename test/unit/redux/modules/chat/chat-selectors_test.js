@@ -1365,6 +1365,53 @@ describe('chat selectors', () => {
     });
   });
 
+  describe('getConciergeSettings', () => {
+    let result,
+      settingsAvatarPath,
+      mockSettings;
+
+    beforeEach(() => {
+      mockSettings = {
+        chat: {
+          accountSettings: {
+            concierge: {
+              avatar_path: 'https://i.imgur.com/moKYjJx.jpg'
+            }
+          }
+        },
+        settings: {
+          chat: {
+            avatarPath: settingsAvatarPath
+          }
+        }
+      };
+
+      result = getConciergeSettings(mockSettings);
+    });
+
+    describe('when an avatarPath is set via zESettings', () => {
+      beforeAll(() => {
+        settingsAvatarPath = 'https://i.imgur.com/3mZBYfn.jpg';
+      });
+
+      it('returns the overriden path as an avatar_path', () => {
+        expect(result)
+          .toEqual({ avatar_path: 'https://i.imgur.com/3mZBYfn.jpg' });
+      });
+    });
+
+    describe('there is no override via zESettings', () => {
+      beforeAll(() => {
+        settingsAvatarPath = null;
+      });
+
+      it('returns the overriden path as an avatar_path', () => {
+        expect(result)
+          .toEqual({ avatar_path: 'https://i.imgur.com/moKYjJx.jpg' });
+      });
+    });
+  });
+
   describe('getCurrentConcierges', () => {
     let result,
       mockChatSettings;
