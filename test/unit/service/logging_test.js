@@ -196,6 +196,7 @@ describe('logging', () => {
     const rollbarExpectation = {
       accessToken: '94eb0137fdc14471b21b34c5a04f9359',
       endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
+      hostWhiteList: ['assets.zd-staging.com', 'assets.zendesk.com']
     };
     const airbrakeExpectation = {
       projectId: '124081',

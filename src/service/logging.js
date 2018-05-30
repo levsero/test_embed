@@ -23,6 +23,7 @@ const rollbarConfig =  {
   captureUnhandledRejections: true,
   endpoint: 'https://rollbar-eu.zendesk.com/api/1/',
   hostBlackList: hostBlackList,
+  hostWhiteList: ['assets.zd-staging.com', 'assets.zendesk.com'],
   ignoredMessages: errorMessageBlacklist,
   maxItems: 10,
   payload: {
