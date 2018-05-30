@@ -1,11 +1,8 @@
-import airbrakeJs from 'airbrake-js';
 import Rollbar from 'vendor/rollbar.umd.min.js';
-import _ from 'lodash';
 
 import { isIE } from 'utility/devices';
 import { getEnvironment } from 'utility/utils';
 
-let airbrake;
 let rollbar;
 let useRollbar = false;
 let errorServiceInitialised = false;
@@ -36,41 +33,13 @@ const rollbarConfig =  {
   }
 };
 
-// Remove this code once Rollbar is GA'd
-const errorFilter = (notice) => {
-  const errorMessageRegex = new RegExp(errorMessageBlacklist.join('|'));
-
-  notice.errors = _.filter(notice.errors, (error) => {
-    const validBacktrace = _.some(error.backtrace, (backtrace) => {
-      // TODO: Once we know what the path will look like for asset composer build,
-      // allow this filtering to handle that too.
-      return _.includes(backtrace.file, '/embeddable_framework/main.js');
-    });
-
-    return validBacktrace && !errorMessageRegex.test(error.message);
-  });
-
-  // airbrake-js will filter out the error if null is returned, and will
-  // send it through if the notice object is returned.
-  // See #Filtering Errors: https://github.com/airbrake/airbrake-js
-  return notice.errors.length > 0 ? notice : null;
-};
-
 function init(shouldUseRollbar = false) {
   useRollbar = !isIE() && shouldUseRollbar;
 
   if (useRollbar) {
-    rollbar = new Rollbar.init(rollbarConfig);
-  } else {
-    // Remove this code once Rollbar is GA'd
-    airbrake = new airbrakeJs({
-      projectId: '124081',
-      projectKey: '8191392d5f8c97c8297a08521aab9189'
-    });
-    airbrake.addFilter(errorFilter);
+    rollbar = Rollbar.init(rollbarConfig);
+    errorServiceInitialised = true;
   }
-
-  errorServiceInitialised = true;
 }
 
 function error(err) {
@@ -87,14 +56,14 @@ function error(err) {
 }
 
 function pushError(err) {
-  // Remove this code once Rollbar is GA'd
-  useRollbar ? rollbar.error(err) : airbrake.notify(err);
+  if (useRollbar) {
+    rollbar.error(err);
+  }
 }
 
 export const logging = {
   init,
   error,
-  errorFilter,
 
   // Exported for testing
   errorMessageBlacklist,

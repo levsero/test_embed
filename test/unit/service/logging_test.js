@@ -1,8 +1,5 @@
 describe('logging', () => {
   let logging,
-    airbrakeInitSpy,
-    airbrakeAddFilterSpy,
-    airbrakeNotifySpy,
     rollbarInitSpy,
     rollbarErrorSpy,
     mockIsIE;
@@ -11,22 +8,10 @@ describe('logging', () => {
   beforeEach(() => {
     mockery.enable();
 
-    airbrakeInitSpy = jasmine.createSpy('airbrakeInit');
-    airbrakeAddFilterSpy = jasmine.createSpy('addFilter');
-    airbrakeNotifySpy = jasmine.createSpy('notify');
-
     rollbarInitSpy = jasmine.createSpy('rollbarInit');
     rollbarErrorSpy = jasmine.createSpy('rollbarError');
 
     initMockRegistry({
-      'airbrake-js': (opts) => {
-        airbrakeInitSpy(opts);
-
-        return {
-          addFilter: airbrakeAddFilterSpy,
-          notify: airbrakeNotifySpy
-        };
-      },
       'vendor/rollbar.umd.min.js': {
         init: (params) => {
           rollbarInitSpy(params);
@@ -193,29 +178,6 @@ describe('logging', () => {
   });
 
   describe('#init', () => {
-    const rollbarExpectation = {
-      accessToken: '94eb0137fdc14471b21b34c5a04f9359',
-      captureUncaught: true,
-      captureUnhandledRejections: true,
-      endpoint: 'https://rollbar-eu.zendesk.com/api/1/item/',
-      ignoredMessages: [
-        'Access-Control-Allow-Origin',
-        'timeout of [0-9]+ms exceeded',
-        /^(\(unknown\): )?(Script error).?$/
-      ],
-      maxItems: 10,
-      payload: {
-        environment: 'production',
-        client: {
-          javascript: { code_version: 'bob1337' } // eslint-disable-line camelcase
-        }
-      }
-    };
-    const airbrakeExpectation = {
-      projectId: '124081',
-      projectKey: '8191392d5f8c97c8297a08521aab9189'
-    };
-
     describe('when useRollbar is true and the browser is IE', () => {
       beforeEach(() => {
         const useRollbar = true;
@@ -224,17 +186,7 @@ describe('logging', () => {
         logging.init(useRollbar);
       });
 
-      it('should register Airbrake id and key', () => {
-        expect(airbrakeInitSpy)
-          .toHaveBeenCalledWith(airbrakeExpectation);
-      });
-
-      it('should add a filter event handler', () => {
-        expect(airbrakeAddFilterSpy)
-          .toHaveBeenCalled();
-      });
-
-      it('should not init Rollbar', () => {
+      it('should not call init on Rollbar', () => {
         expect(rollbarInitSpy)
           .not.toHaveBeenCalled();
       });
@@ -249,13 +201,27 @@ describe('logging', () => {
       });
 
       it('should call init on Rollbar', () => {
-        expect(rollbarInitSpy)
-          .toHaveBeenCalledWith(jasmine.objectContaining(rollbarExpectation));
-      });
+        const expectation = {
+          accessToken: '94eb0137fdc14471b21b34c5a04f9359',
+          captureUncaught: true,
+          captureUnhandledRejections: true,
+          endpoint: 'https://rollbar-eu.zendesk.com/api/1/item/',
+          ignoredMessages: [
+            'Access-Control-Allow-Origin',
+            'timeout of [0-9]+ms exceeded',
+            /^(\(unknown\): )?(Script error).?$/
+          ],
+          maxItems: 10,
+          payload: {
+            environment: 'production',
+            client: {
+              javascript: { code_version: 'bob1337' } // eslint-disable-line camelcase
+            }
+          }
+        };
 
-      it('should not init Airbrake', () => {
-        expect(airbrakeInitSpy)
-          .not.toHaveBeenCalled();
+        expect(rollbarInitSpy)
+          .toHaveBeenCalledWith(jasmine.objectContaining(expectation));
       });
     });
 
@@ -267,17 +233,7 @@ describe('logging', () => {
         logging.init(useRollbar);
       });
 
-      it('should register Airbrake id and key', () => {
-        expect(airbrakeInitSpy)
-          .toHaveBeenCalledWith(airbrakeExpectation);
-      });
-
-      it('should add a filter event handler', () => {
-        expect(airbrakeAddFilterSpy)
-          .toHaveBeenCalled();
-      });
-
-      it('should not init Rollbar', () => {
+      it('should not call init on Rollbar', () => {
         expect(rollbarInitSpy)
           .not.toHaveBeenCalled();
       });
@@ -291,17 +247,7 @@ describe('logging', () => {
         logging.init(useRollbar);
       });
 
-      it('should register Airbrake id and key', () => {
-        expect(airbrakeInitSpy)
-          .toHaveBeenCalledWith(airbrakeExpectation);
-      });
-
-      it('should add a filter event handler', () => {
-        expect(airbrakeAddFilterSpy)
-          .toHaveBeenCalled();
-      });
-
-      it('should not init Rollbar', () => {
+      it('should not call init on Rollbar', () => {
         expect(rollbarInitSpy)
           .not.toHaveBeenCalled();
       });
@@ -361,11 +307,6 @@ describe('logging', () => {
           expect(rollbarErrorSpy)
             .not.toHaveBeenCalled();
         });
-
-        it('should not call airbrake.notify', () => {
-          expect(airbrakeNotifySpy)
-            .not.toHaveBeenCalled();
-        });
       });
 
       describe('when logging service is initialised', () => {
@@ -387,90 +328,11 @@ describe('logging', () => {
             logging.error(errPayload);
           });
 
-          it('should call Airbrake.notify', () => {
-            expect(airbrakeNotifySpy)
-              .toHaveBeenCalledWith(errPayload);
+          it('should not call Rollbar.error', () => {
+            expect(rollbarErrorSpy)
+              .not.toHaveBeenCalled();
           });
         });
-      });
-    });
-  });
-
-  describe('#errorFilter', () => {
-    let notice;
-    let errorA, errorB;
-
-    beforeEach(() => {
-      errorA = {
-        message: 'Valid error baby!',
-        backtrace: [
-          { file: 'eval at <anonymous> (https://assets.zendesk.com/embeddable_framework/main.js:1:2), <anonymous>' },
-          { file: 'eval at <anonymous> (http://assets.zendesk.com/embeddable_framework/main.js:3:4), <anonymous>' }
-        ]
-      };
-      errorB = {
-        message: 'Another valid error baby!',
-        backtrace: [
-          { file: 'eval at <anonymous> (https://assets.zendesk.com/embeddable_framework/main.js:5:6), <anonymous>' },
-          { file: 'eval at <anonymous> (http://assets.zendesk.com/embeddable_framework/main.js:7:8), <anonymous>' }
-        ]
-      };
-      notice = {
-        errors: [errorA, errorB]
-      };
-    });
-
-    describe('when an error is valid', () => {
-      it('returns the notice object', () => {
-        expect(logging.errorFilter(notice))
-          .toBe(notice);
-      });
-
-      it('error should not be dropped', () => {
-        expect(logging.errorFilter(notice).errors)
-          .toContain(errorA);
-
-        expect(logging.errorFilter(notice).errors)
-          .toContain(errorB);
-      });
-    });
-
-    describe('when all errors are invalid', () => {
-      it('should return null', () => {
-        errorA.message = 'No \'Access-Control-Allow-Origin\' header is present on the requested resource';
-        errorB.backtrace[0].file = 'eval at <anonymous> (https://pizzapasta.com/intercom.js:1:2), <anonymous>';
-        errorB.backtrace[1].file = 'eval at <anonymous> (https://gyros.com/salesforce.js:3:4), <anonymous>';
-
-        expect(logging.errorFilter(notice))
-          .toBe(null);
-      });
-    });
-
-    describe('when an error contains a cross origin message', () => {
-      it('should be dropped', () => {
-        errorA.message = 'No \'Access-Control-Allow-Origin\' header is present on the requested resource';
-
-        expect(logging.errorFilter(notice).errors)
-          .not.toContain(errorA);
-      });
-    });
-
-    describe('when an error contains a timeout exceeded error', () => {
-      it('should be dropped', () => {
-        errorB.message = 'timeout of 10000ms exceeded';
-
-        expect(logging.errorFilter(notice).errors)
-          .not.toContain(errorB);
-      });
-    });
-
-    describe('when error does not originate from embeddable framework', () => {
-      it('should be dropped', () => {
-        errorA.backtrace[0].file = 'eval at <anonymous> (https://pizzapasta.com/intercom.js:1:2), <anonymous>';
-        errorA.backtrace[1].file = 'eval at <anonymous> (https://gyros.com/salesforce.js:3:4), <anonymous>';
-
-        expect(logging.errorFilter(notice).errors)
-          .not.toContain(errorA);
       });
     });
   });
