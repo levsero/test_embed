@@ -24,13 +24,15 @@ class AgentScreen extends Component {
     isMobile: PropTypes.bool,
     activeAgents: PropTypes.object.isRequired,
     hideZendeskLogo: PropTypes.bool,
-    updateChatScreen: PropTypes.func.isRequired
+    updateChatScreen: PropTypes.func.isRequired,
+    newHeight: PropTypes.bool
   };
 
   static defaultProps = {
     isMobile: false,
     activeAgents: {},
-    hideZendeskLogo: false
+    hideZendeskLogo: false,
+    newHeight: false
   };
 
   renderZendeskLogo = () => {
@@ -60,7 +62,7 @@ class AgentScreen extends Component {
   }
 
   render = () => {
-    const { activeAgents, isMobile } = this.props;
+    const { activeAgents, isMobile, newHeight } = this.props;
     const scrollContainerClasses = classNames(
       styles.scrollContainer,
       { [styles.mobileContainer]: isMobile }
@@ -73,6 +75,7 @@ class AgentScreen extends Component {
         containerClasses={styles.scrollContainerContent}
         footerContent={this.renderBackButton()}
         fullscreen={isMobile}
+        newHeight={newHeight}
       >
         <AgentList agents={activeAgents} />
         {this.renderZendeskLogo()}

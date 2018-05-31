@@ -13,6 +13,7 @@ import { locals as styles } from './HelpCenterDesktop.scss';
 
 export class HelpCenterDesktop extends Component {
   static propTypes = {
+    newHeight: PropTypes.bool,
     articleViewActive: PropTypes.bool,
     buttonLabel: PropTypes.string.isRequired,
     channelChoice: PropTypes.bool,
@@ -39,6 +40,7 @@ export class HelpCenterDesktop extends Component {
   };
 
   static defaultProps = {
+    newHeight: false,
     articleViewActive: false,
     channelChoice: false,
     formTitleKey: 'help',
@@ -163,7 +165,7 @@ export class HelpCenterDesktop extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const customHeightClasses = !this.props.hasSearched ? styles.noCustomHeight : '';
+    const customHeightClasses = this.props.newHeight && !this.props.hasSearched ? styles.noCustomHeight : '';
     let footerClasses = '';
 
     if (!this.props.showNextButton && this.props.hasSearched) {
@@ -183,7 +185,8 @@ export class HelpCenterDesktop extends Component {
           classes={customHeightClasses}
           footerClasses={footerClasses}
           headerContent={this.renderHeaderContent()}
-          footerContent={this.renderFooterContent()}>
+          footerContent={this.renderFooterContent()}
+          newHeight={this.props.newHeight}>
           {this.renderBodyForm()}
           {this.props.children}
         </ScrollContainer>

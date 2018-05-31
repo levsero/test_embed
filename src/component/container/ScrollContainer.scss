@@ -9,6 +9,9 @@
 .container {
   composes: u-nbfc from global;
   box-sizing: border-box;
+}
+
+.newHeightContainer {
   height: 550px;
   display: flex;
   flex-direction: column;
@@ -37,11 +40,19 @@
   composes: u-textSizeBaseMobile from global;
 }
 
+.newHeightContent {
+  flex-grow: 1;
+  max-height: auto;
+}
+
+.noNewHeightContent {
+  max-height: #{350/$font-size}rem;
+}
+
 .content {
   composes: u-paddingHS u-marginHS u-paddingTM from global;
   overflow-y: auto;
   overflow-x: hidden;
-  flex-grow: 1;
   box-sizing: border-box;
 
   /*

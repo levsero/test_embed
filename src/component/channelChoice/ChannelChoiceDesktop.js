@@ -18,7 +18,8 @@ export class ChannelChoiceDesktop extends Component {
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
-    chatEnabled: PropTypes.bool
+    chatEnabled: PropTypes.bool,
+    newHeight: PropTypes.bool
   };
 
   static defaultProps = {
@@ -26,7 +27,8 @@ export class ChannelChoiceDesktop extends Component {
     talkAvailable: false,
     talkEnabled: false,
     submitTicketAvailable: true,
-    chatEnabled: false
+    chatEnabled: false,
+    newHeight: false
   };
 
   renderZendeskLogo = () => {
@@ -62,7 +64,7 @@ export class ChannelChoiceDesktop extends Component {
   }
 
   render = () => {
-    const { formTitleKey, hideZendeskLogo } = this.props;
+    const { formTitleKey, hideZendeskLogo, newHeight } = this.props;
     const footerClasses = hideZendeskLogo ? styles.footerNoLogo : '';
 
     return (
@@ -73,7 +75,8 @@ export class ChannelChoiceDesktop extends Component {
           footerContent={this.renderZendeskLogo()}
           footerClasses={footerClasses}
           hideZendeskLogo={hideZendeskLogo}
-          title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}>
+          title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}
+          newHeight={newHeight}>
           {this.renderBody()}
         </ScrollContainer>
       </div>

@@ -199,36 +199,55 @@ describe('HelpCenterDesktop component', () => {
 
     describe('height of HC', () => {
       let helpCenterDesktop,
-        mockHasSearched;
+        mockHasSearched,
+        mockNewHeight;
 
       beforeEach(() => {
         helpCenterDesktop = domRender(
           <HelpCenterDesktop
-            hasSearched={mockHasSearched} />
+            hasSearched={mockHasSearched}
+            newHeight={mockNewHeight} />
         );
 
         result = helpCenterDesktop.render();
       });
 
-      describe('when hasSearched is true', () => {
+      describe('when newHeight is true', () => {
         beforeAll(() => {
-          mockHasSearched = true;
+          mockNewHeight = true;
         });
 
-        it('should render 550px height', () => {
-          expect(result.props.children[0].props.classes)
-            .toEqual('');
+        describe('when hasSearched is true', () => {
+          beforeAll(() => {
+            mockHasSearched = true;
+          });
+
+          it('should render 550px height', () => {
+            expect(result.props.children[0].props.classes)
+              .toEqual('');
+          });
+        });
+
+        describe('when hasSearched is false', () => {
+          beforeAll(() => {
+            mockHasSearched = false;
+          });
+
+          it('should not render the new 550px height', () => {
+            expect(result.props.children[0].props.classes)
+              .toEqual('noCustomHeight');
+          });
         });
       });
 
-      describe('when hasSearched is false', () => {
+      describe('when newHeight is false', () => {
         beforeAll(() => {
-          mockHasSearched = false;
+          mockNewHeight = false;
         });
 
-        it('should not render 550px height', () => {
+        it('should not apply any custom height classes', () => {
           expect(result.props.children[0].props.classes)
-            .toEqual('noCustomHeight');
+            .toEqual('');
         });
       });
     });

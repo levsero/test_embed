@@ -69,7 +69,8 @@ class SubmitTicket extends Component {
     searchTerm: PropTypes.string,
     hasContextuallySearched: PropTypes.bool,
     showNotification: PropTypes.bool.isRequired,
-    activeTicketFormFields: PropTypes.array
+    activeTicketFormFields: PropTypes.array,
+    newHeight: PropTypes.bool
   };
 
   static defaultProps = {
@@ -95,7 +96,8 @@ class SubmitTicket extends Component {
     activeTicketForm: null,
     updateFrameSize: () => {},
     activeTicketFormFields: [],
-    hasContextuallySearched: false
+    hasContextuallySearched: false,
+    newHeight: false
   };
 
   constructor(props, context) {
@@ -213,7 +215,8 @@ class SubmitTicket extends Component {
       <ScrollContainer
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         fullscreen={this.props.fullscreen}
-        containerClasses={styles.ticketFormsContainer}>
+        containerClasses={styles.ticketFormsContainer}
+        newHeight={this.props.newHeight}>
         <div className={`${styles.loadingSpinner} ${spinnerIEClasses}`}>
           <LoadingSpinner />
         </div>
@@ -233,7 +236,7 @@ class SubmitTicket extends Component {
   }
 
   renderForm = () => {
-    const { activeTicketForm, ticketFormSettings, activeTicketFormFields, ticketFields } = this.props;
+    const { newHeight, activeTicketForm, ticketFormSettings, activeTicketFormFields, ticketFields } = this.props;
     const getformByIdFn = (form) => parseInt(form.id) === parseInt(activeTicketForm.id);
     const activeTicketFormSettings = activeTicketForm ? _.find(ticketFormSettings, getformByIdFn) : {};
     const activeTicketFormPrefill = _.get(activeTicketFormSettings, 'fields', []);
@@ -241,6 +244,7 @@ class SubmitTicket extends Component {
 
     return (
       <SubmitTicketForm
+        newHeight={newHeight}
         ref='submitTicketForm'
         onCancel={this.props.onCancel}
         fullscreen={this.props.fullscreen}
@@ -272,7 +276,9 @@ class SubmitTicket extends Component {
 
     return (
       <div className={styles.notify} ref='notification'>
-        <ScrollContainer title={i18n.t('embeddable_framework.submitTicket.notify.message.success')}>
+        <ScrollContainer
+          title={i18n.t('embeddable_framework.submitTicket.notify.message.success')}
+          newHeight={this.props.newHeight}>
           <Icon
             type='Icon--tick'
             className={iconClasses} />
@@ -313,7 +319,8 @@ class SubmitTicket extends Component {
         fullscreen={fullscreen}
         scrollShadowVisible={!fullscreen}
         containerClasses={containerClasses}
-        footerClasses={footerClasses}>
+        footerClasses={footerClasses}
+        newHeight={this.props.newHeight}>
         <div className={`${styles.ticketFormsListTitle} ${titleMobileClasses}`}>
           {i18n.t('embeddable_framework.submitTicket.ticketForms.title')}
         </div>

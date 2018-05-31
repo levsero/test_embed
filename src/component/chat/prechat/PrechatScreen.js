@@ -77,7 +77,8 @@ class PrechatScreen extends Component {
     socialLogin: PropTypes.object.isRequired,
     loginSettings: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired
+    isAuthenticated: PropTypes.bool.isRequired,
+    newHeight: PropTypes.bool
   };
 
   static defaultProps = {
@@ -88,7 +89,8 @@ class PrechatScreen extends Component {
     clearDepartment: () => {},
     resetCurrentMessage: () => {},
     preChatFormSettings: {},
-    loginSettings: {}
+    loginSettings: {},
+    newHeight: false
   };
 
   onPrechatFormComplete = (info) => {
@@ -180,7 +182,8 @@ class PrechatScreen extends Component {
         containerClasses={styles.scrollContainerContent}
         footerClasses={logoFooterClasses}
         footerContent={this.renderZendeskLogo()}
-        fullscreen={this.props.isMobile}>
+        fullscreen={this.props.isMobile}
+        newHeight={this.props.newHeight}>
         {formScreen}
       </ScrollContainer>
     );

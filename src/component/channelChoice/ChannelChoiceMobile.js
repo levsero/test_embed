@@ -18,14 +18,16 @@ export class ChannelChoiceMobile extends Component {
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
-    chatEnabled: PropTypes.bool
+    chatEnabled: PropTypes.bool,
+    newHeight: PropTypes.bool
   };
 
   static defaultProps = {
     talkAvailable: false,
     talkEnabled: false,
     submitTicketAvailable: true,
-    chatEnabled: false
+    chatEnabled: false,
+    newHeight: false
   };
 
   renderCancelButton = () => {
@@ -46,7 +48,8 @@ export class ChannelChoiceMobile extends Component {
       formTitleKey,
       talkAvailable,
       talkEnabled,
-      callbackEnabled
+      callbackEnabled,
+      newHeight
     } = this.props;
 
     return (
@@ -55,7 +58,8 @@ export class ChannelChoiceMobile extends Component {
         fullscreen={true}
         containerClasses={styles.container}
         footerContent={this.renderCancelButton()}
-        title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}>
+        title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}
+        newHeight={newHeight}>
         <ChannelChoicePopupMobile
           submitTicketAvailable={this.props.submitTicketAvailable}
           chatEnabled={this.props.chatEnabled}

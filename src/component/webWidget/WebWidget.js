@@ -36,7 +36,8 @@ import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getZopimChatEmbed,
   getActiveEmbed,
   getAuthenticated,
-  getChatStandalone } from 'src/redux/modules/base/base-selectors';
+  getChatStandalone,
+  getNewHeight } from 'src/redux/modules/base/base-selectors';
 import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors';
 
 const submitTicket = 'ticketSubmissionForm';
@@ -67,7 +68,8 @@ const mapStateToProps = (state) => {
     chatStandalone: getChatStandalone(state),
     isChatting: getIsChatting(state),
     hasSearched: getHasSearched(state),
-    resultsCount: getResultsCount(state)
+    resultsCount: getResultsCount(state),
+    newHeight: getNewHeight(state)
   };
 };
 
@@ -128,7 +130,8 @@ class WebWidget extends Component {
     hasSearched: PropTypes.bool.isRequired,
     showStandaloneMobileNotification: PropTypes.func.isRequired,
     resultsCount: PropTypes.number.isRequired,
-    ipmHelpCenterAvailable: PropTypes.bool
+    ipmHelpCenterAvailable: PropTypes.bool,
+    newHeight: PropTypes.bool
   };
 
   static defaultProps = {
@@ -164,7 +167,8 @@ class WebWidget extends Component {
     resetActiveArticle: () => {},
     articleViewActive: false,
     onShowMobile: () => {},
-    ipmHelpCenterAvailable: false
+    ipmHelpCenterAvailable: false,
+    newHeight: false
   };
 
   setComponent = (activeComponent) => {
@@ -404,6 +408,7 @@ class WebWidget extends Component {
         position={this.props.position}
         updateChatBackButtonVisibility={updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}
+        newHeight={this.props.newHeight}
       />
     );
   }
@@ -441,7 +446,8 @@ class WebWidget extends Component {
           chatAvailable={chatAvailable}
           zendeskHost={this.props.zendeskHost}
           chatNotificationDismissed={this.props.chatNotificationDismissed}
-          updateChatScreen={this.props.updateChatScreen} />
+          updateChatScreen={this.props.updateChatScreen}
+          newHeight={this.props.newHeight} />
       </div>
     );
   }
@@ -473,7 +479,8 @@ class WebWidget extends Component {
           ticketFieldSettings={this.props.ticketFieldSettings}
           ticketFormSettings={this.props.ticketFormSettings}
           updateFrameSize={this.props.updateFrameSize}
-          fullscreen={this.props.fullscreen} />
+          fullscreen={this.props.fullscreen}
+          newHeight={this.props.newHeight} />
       </div>
     );
   }
@@ -494,7 +501,8 @@ class WebWidget extends Component {
         isMobile={this.props.fullscreen}
         onNextClick={this.setComponent}
         onCancelClick={this.props.closeFrame}
-        hideZendeskLogo={this.props.hideZendeskLogo} />
+        hideZendeskLogo={this.props.hideZendeskLogo}
+        newHeight={this.props.newHeight} />
     );
   }
 
@@ -503,6 +511,7 @@ class WebWidget extends Component {
 
     return (
       <Talk
+        newHeight={this.props.newHeight}
         ref={talk}
         hideZendeskLogo={this.props.hideZendeskLogo}
         style={this.props.style}
