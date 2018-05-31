@@ -100,7 +100,7 @@ export const getActiveAgents = createSelector(
 );
 
 export const getConciergeSettings = (state) => {
-  let { concierge } = state.chat.accountSettings;
+  let concierge = _.cloneDeep(state.chat.accountSettings.concierge);
 
   if (state.settings.chat.avatarPath) {
     concierge.avatar_path = state.settings.chat.avatarPath;

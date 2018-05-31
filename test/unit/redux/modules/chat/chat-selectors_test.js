@@ -1400,7 +1400,7 @@ describe('chat selectors', () => {
       });
     });
 
-    describe('there is no override via zESettings', () => {
+    describe('when there is no override via zESettings', () => {
       beforeAll(() => {
         settingsAvatarPath = null;
       });
@@ -1408,6 +1408,22 @@ describe('chat selectors', () => {
       it('returns the overriden path as an avatar_path', () => {
         expect(result)
           .toEqual({ avatar_path: 'https://i.imgur.com/moKYjJx.jpg' });
+      });
+    });
+
+    describe('the state.chat.accountSettings.concierge state', () => {
+      beforeAll(() => {
+        settingsAvatarPath = null;
+      });
+
+      it('does not copy it by reference', () => {
+        expect(result)
+          .not.toBe(mockSettings.chat.accountSettings.concierge);
+      });
+
+      it('contains the same data', () => {
+        expect(result)
+          .toEqual(mockSettings.chat.accountSettings.concierge);
       });
     });
   });
