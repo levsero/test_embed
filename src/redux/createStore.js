@@ -12,6 +12,7 @@ import onStateChangeFn from 'src/redux/middleware/onStateChange';
 import persist from 'src/redux/middleware/persist';
 import throttle from 'src/redux/middleware/throttle';
 
+import { trackAnalytics } from 'src/redux/middleware/analytics';
 import { sendBlips } from 'src/redux/middleware/blip';
 
 function loggerTitleFormatter(storeName) {
@@ -32,6 +33,7 @@ export default function(storeName = 'web_widget', options = {}) {
     thunk,
     onStateChange(onStateChangeFn),
     sendBlips,
+    trackAnalytics,
     persist
   ];
   let storeEnhancers;
