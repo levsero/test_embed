@@ -111,6 +111,11 @@ describe('settings', () => {
         expect(settings.get('zIndex'))
           .toEqual(defaults.zIndex);
       });
+
+      it('has the correct value chat concierge avatarPath', () => {
+        expect(settings.get('chat.concierge.avatarPath'))
+          .toBeNull();
+      });
     });
   });
 
@@ -197,6 +202,9 @@ describe('settings', () => {
           },
           chat: {
             suppress: true,
+            concierge: {
+              avatarPath: 'https://i.imgur.com/3mZBYfn.jpg'
+            },
             visitor: {
               departments: {
                 department: 'yolo'
@@ -223,6 +231,11 @@ describe('settings', () => {
     it('returns chat department settings', () => {
       expect(settings.get('chat.visitor.departments.department'))
         .toBe('yolo');
+    });
+
+    it('returns chat concierge avatarPath', () => {
+      expect(settings.get('chat.concierge.avatarPath'))
+        .toBe('https://i.imgur.com/3mZBYfn.jpg');
     });
 
     it('returns user setting for suppress', () => {

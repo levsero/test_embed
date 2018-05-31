@@ -43,5 +43,10 @@ describe('settings chat reducer', () => {
       expect(state.departments.enabled)
         .toBeDefined();
     });
+
+    it('has the avatarPath sub state', () => {
+      expect(state.avatarPath)
+        .toBeDefined();
+    });
   });
 });

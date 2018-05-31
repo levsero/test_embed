@@ -20,7 +20,7 @@ export function resetSettingsChatSuppress() {
   return { type: RESET_SETTINGS_CHAT_SUPPRESS };
 }
 
-export function updateSettings (settings) {
+export function updateSettings(settings) {
   return (dispatch, getState) => {
     dispatch({
       type: UPDATE_SETTINGS,

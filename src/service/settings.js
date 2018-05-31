@@ -15,9 +15,10 @@ const optionWhitelist = {
     'contactOptions.chatLabelOnline',
     'contactOptions.chatLabelOffline',
     'contactOptions.contactFormLabel',
+    'chat.concierge.avatarPath',
+    'chat.departments.enabled',
     'chat.suppress',
     'chat.visitor.departments.department',
-    'chat.departments.enabled',
     'color.theme',
     'color.button',
     'color.header',
@@ -72,10 +73,13 @@ const webWidgetStoreDefaults = {
     suppress: false
   },
   chat: {
-    suppress: false,
+    concierge: {
+      avatarPath: null
+    },
     departments: {
       enabled: []
     },
+    suppress: false,
     visitor: {
       departments: {
         department: ''
