@@ -222,7 +222,7 @@ describe('HelpCenterDesktop component', () => {
             mockHasSearched = true;
           });
 
-          it('should render 550px height', () => {
+          it('should not apply any custom height classes', () => {
             expect(result.props.children[0].props.classes)
               .toEqual('');
           });

@@ -138,9 +138,8 @@ describe('ScrollContainer component', () => {
             .toContain('newHeightContainer');
         });
 
-        it('does not have "noNewHeightContent" classes in content', () => {
+        it('has "noNewHeightContent" classes in content', () => {
           expect(container.props.children[1].props.className)
-            .not
             .toContain('noNewHeightContent');
         });
 
@@ -162,8 +161,9 @@ describe('ScrollContainer component', () => {
             .toContain('newHeightContainer');
         });
 
-        it('has "noNewHeightContent" classes in content', () => {
+        it('does not have "noNewHeightContent" classes in content', () => {
           expect(container.props.children[1].props.className)
+            .not
             .toContain('noNewHeightContent');
         });
 

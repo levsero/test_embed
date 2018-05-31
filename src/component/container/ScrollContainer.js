@@ -134,7 +134,7 @@ export class ScrollContainer extends Component {
     const contentClasses = classNames(
       styles.content,
       { [styles.newHeightContent]: newHeight && !isMobile },
-      { [styles.noNewHeightContent]: !newHeight && isMobile },
+      { [styles.noNewHeightContent]: !newHeight && !isMobile },
       containerClasses,
       {
         [styles.contentMobile]: fullscreen,
