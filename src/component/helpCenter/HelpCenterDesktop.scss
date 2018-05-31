@@ -20,3 +20,7 @@
 .footerArticleView {
   composes: u-paddingTT from global;
 }
+
+.noCustomHeight {
+  height: auto;
+}

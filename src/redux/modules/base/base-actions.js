@@ -1,5 +1,6 @@
 import {
   UPDATE_ACTIVE_EMBED,
+  UPDATE_ARTUROS,
   UPDATE_EMBED,
   UPDATE_BACK_BUTTON_VISIBILITY,
   UPDATE_AUTHENTICATED,
@@ -10,6 +11,13 @@ import {
 import { chatOpened } from 'src/redux/modules/chat';
 import { emailValid } from 'utility/utils';
 import _ from 'lodash';
+
+export const updateArturos = (payload) => {
+  return {
+    type: UPDATE_ARTUROS,
+    payload
+  };
+};
 
 export const updateActiveEmbed = (embedName) => {
   return (dispatch, getState) => {

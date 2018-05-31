@@ -61,7 +61,8 @@ class Talk extends Component {
     channelChoiceAvailable: PropTypes.bool,
     onBackClick: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
-    updateFrameSize: PropTypes.func
+    updateFrameSize: PropTypes.func,
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -303,13 +304,14 @@ class Talk extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const { screen, isMobile } = this.props;
+    const { screen, isMobile, newHeight } = this.props;
     const footerClasses = (screen !== SUCCESS_NOTIFICATION_SCREEN && !isMobile) ? styles.footer : '';
     const contentClasses = (isMobile) ? styles.contentMobile : styles.content;
 
     return (
       <ScrollContainer
         ref='scrollContainer'
+        newHeight={newHeight}
         containerClasses={styles.scrollContainer}
         hideZendeskLogo={this.props.hideZendeskLogo}
         footerClasses={footerClasses}

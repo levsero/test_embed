@@ -91,6 +91,9 @@ describe('HelpCenter component', () => {
           t: jasmine.createSpy()
         }
       },
+      'src/redux/modules/base/base-selectors': {
+        getNewHeight: () => true
+      },
       'utility/globals': {
         win: window,
         document: document

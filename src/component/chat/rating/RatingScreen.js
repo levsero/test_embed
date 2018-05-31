@@ -43,7 +43,8 @@ class RatingScreen extends Component {
     updateChatScreen: PropTypes.func.isRequired,
     endChat: PropTypes.func.isRequired,
     sendChatComment: PropTypes.func.isRequired,
-    sendChatRating: PropTypes.func.isRequired
+    sendChatRating: PropTypes.func.isRequired,
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -91,7 +92,7 @@ class RatingScreen extends Component {
   }
 
   render = () => {
-    const { isMobile } = this.props;
+    const { isMobile, newHeight } = this.props;
     const { message } = this.props.postChatFormSettings;
     const scrollContainerClasses = classNames(
       styles.scrollContainer,
@@ -112,7 +113,8 @@ class RatingScreen extends Component {
         containerClasses={styles.scrollContainerContent}
         footerClasses={logoFooterClasses}
         footerContent={this.renderZendeskLogo()}
-        fullscreen={isMobile}>
+        fullscreen={isMobile}
+        newHeight={newHeight}>
         <FeedbackForm
           feedbackMessage={message}
           rating={this.props.rating}

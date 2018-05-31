@@ -11,6 +11,12 @@
   box-sizing: border-box;
 }
 
+.newHeightContainer {
+  height: #{550/$font-size}rem;
+  display: flex;
+  flex-direction: column;
+}
+
 .containerDesktop {
   border-radius: #{8/$font-size}rem;
 }
@@ -34,11 +40,19 @@
   composes: u-textSizeBaseMobile from global;
 }
 
+.newHeightContent {
+  flex-grow: 1;
+  max-height: auto;
+}
+
+.noNewHeightContent {
+  max-height: #{350/$font-size}rem;
+}
+
 .content {
   composes: u-paddingHS u-marginHS u-paddingTM from global;
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: #{350/$font-size}rem;
   box-sizing: border-box;
 
   /*

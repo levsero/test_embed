@@ -99,7 +99,8 @@ class ChattingScreen extends Component {
     loginSettings: PropTypes.object.isRequired,
     fetchConversationHistory: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
-    firstMessageTimestamp: PropTypes.number
+    firstMessageTimestamp: PropTypes.number,
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -393,7 +394,7 @@ class ChattingScreen extends Component {
   }
 
   render = () => {
-    const { isMobile, sendMsg, loginSettings, visitor, hideZendeskLogo, agentsTyping } = this.props;
+    const { newHeight, isMobile, sendMsg, loginSettings, visitor, hideZendeskLogo, agentsTyping } = this.props;
     const containerClasses = classNames({
       [styles.scrollContainerMessagesContent]: isMobile,
       [styles.scrollContainerMessagesContentDesktop]: !isMobile,
@@ -430,7 +431,8 @@ class ChattingScreen extends Component {
         footerClasses={footerClasses}
         footerContent={this.renderChatFooter()}
         fullscreen={isMobile}
-        classes={scrollContainerClasses}>
+        classes={scrollContainerClasses}
+        newHeight={newHeight}>
         <div className={chatLogContainerClasses}>
           <HistoryLog
             ref={(el) => { this.chatHistoryLog = el; }}

@@ -60,7 +60,8 @@ describe('HelpCenterDesktop component', () => {
         locals: {
           footer: 'footerClasses',
           footerArticleView: 'footerArticleViewClasses',
-          footerLogo: 'footerLogoClasses'
+          footerLogo: 'footerLogoClasses',
+          noCustomHeight: 'noCustomHeight'
         }
       },
       'service/i18n': {
@@ -193,7 +194,63 @@ describe('HelpCenterDesktop component', () => {
   describe('render', () => {
     const mockNotification = { show: false };
     let helpCenterDesktop,
-      footerClasses;
+      footerClasses,
+      result;
+
+    describe('height of HC', () => {
+      let helpCenterDesktop,
+        mockHasSearched,
+        mockNewHeight;
+
+      beforeEach(() => {
+        helpCenterDesktop = domRender(
+          <HelpCenterDesktop
+            hasSearched={mockHasSearched}
+            newHeight={mockNewHeight} />
+        );
+
+        result = helpCenterDesktop.render();
+      });
+
+      describe('when newHeight is true', () => {
+        beforeAll(() => {
+          mockNewHeight = true;
+        });
+
+        describe('when hasSearched is true', () => {
+          beforeAll(() => {
+            mockHasSearched = true;
+          });
+
+          it('should not apply any custom height classes', () => {
+            expect(result.props.children[0].props.classes)
+              .toEqual('');
+          });
+        });
+
+        describe('when hasSearched is false', () => {
+          beforeAll(() => {
+            mockHasSearched = false;
+          });
+
+          it('should not render the new 550px height', () => {
+            expect(result.props.children[0].props.classes)
+              .toEqual('noCustomHeight');
+          });
+        });
+      });
+
+      describe('when newHeight is false', () => {
+        beforeAll(() => {
+          mockNewHeight = false;
+        });
+
+        it('should not apply any custom height classes', () => {
+          expect(result.props.children[0].props.classes)
+            .toEqual('');
+        });
+      });
+    });
 
     describe('when props.showNextButton is false and props.hasSearched is true', () => {
       describe('when props.articleViewActive is true and zendesk logo is hidden', () => {

@@ -58,7 +58,8 @@ class ChatOffline extends Component {
     operatingHours: PropTypes.object,
     isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
-    isAuthenticated: PropTypes.bool.isRequired
+    isAuthenticated: PropTypes.bool.isRequired,
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -122,7 +123,7 @@ class ChatOffline extends Component {
   }
 
   render() {
-    const { isMobile, hideZendeskLogo } = this.props;
+    const { isMobile, hideZendeskLogo, newHeight } = this.props;
     const scrollContainerClasses = classNames(
       styles.scrollContainer,
       { [styles.mobileContainer]: isMobile }
@@ -138,7 +139,8 @@ class ChatOffline extends Component {
         containerClasses={styles.scrollContainerContent}
         footerClasses={logoFooterClasses}
         footerContent={this.renderZendeskLogo()}
-        title={i18n.t('embeddable_framework.chat.title')}>
+        title={i18n.t('embeddable_framework.chat.title')}
+        newHeight={newHeight}>
         {this.renderOfflineForm()}
         {this.renderChatOfflineScreen()}
       </ScrollContainer>

@@ -1,5 +1,7 @@
 describe('ScrollContainer component', () => {
-  let ScrollContainer;
+  let ScrollContainer,
+    mockNewHeight,
+    mockIsMobile = false;
   const containerPath = buildSrcPath('component/container/ScrollContainer');
 
   beforeEach(() => {
@@ -16,11 +18,17 @@ describe('ScrollContainer component', () => {
           contentBigheader: 'contentBigheaderClasses',
           userHeader: 'userHeaderClassesYo',
           container: 'containerClasses',
-          containerDesktop: 'containerDesktopClasses'
+          containerDesktop: 'containerDesktopClasses',
+          newHeightContainer: 'newHeightContainer',
+          newHeightContent: 'newHeightContent',
+          noNewHeightContent: 'noNewHeightContent'
         }
       },
       'utility/devices': {
-        isMobileBrowser: () => {}
+        isMobileBrowser: () => mockIsMobile
+      },
+      'src/redux/modules/base/base-selectors': {
+        getNewHeight: () => mockNewHeight
       }
     });
 
@@ -53,6 +61,119 @@ describe('ScrollContainer component', () => {
 
     expect(container.props.className)
       .toMatch('containerDesktopClasses');
+  });
+
+  describe('newHeight', () => {
+    let container;
+
+    beforeEach(() => {
+      container = shallowRender(<ScrollContainer newHeight={mockNewHeight} />);
+    });
+
+    describe('when newHeight is true', () => {
+      beforeAll(() => {
+        mockNewHeight = true;
+      });
+
+      describe('when isMobile is false', () => {
+        beforeAll(() => {
+          mockIsMobile = false;
+        });
+
+        it('has "newHeightContainer" classes', () => {
+          expect(container.props.className)
+            .toContain('newHeightContainer');
+        });
+
+        it('does not have "noNewHeightContent" classes in content', () => {
+          expect(container.props.children[1].props.className)
+            .not
+            .toContain('noNewHeightContent');
+        });
+
+        it('has "newHeightContent" classes in content', () => {
+          expect(container.props.children[1].props.className)
+            .toContain('newHeightContent');
+        });
+      });
+
+      describe('when isMobile is true', () => {
+        beforeAll(() => {
+          mockIsMobile = true;
+        });
+
+        it('does not have "newHeightContainer" classes', () => {
+          expect(container.props.className)
+            .not
+            .toContain('newHeightContainer');
+        });
+
+        it('does not have "noNewHeightContent" classes in content', () => {
+          expect(container.props.children[1].props.className)
+            .not
+            .toContain('noNewHeightContent');
+        });
+
+        it('does not have "newHeightContent" classes in content', () => {
+          expect(container.props.children[1].props.className)
+            .not
+            .toContain('newHeightContent');
+        });
+      });
+    });
+
+    describe('when newHeight is false', () => {
+      beforeAll(() => {
+        mockNewHeight = false;
+      });
+
+      describe('when isMobile is false', () => {
+        beforeAll(() => {
+          mockIsMobile = false;
+        });
+
+        it('does not have "newHeightContainer" classes', () => {
+          expect(container.props.className)
+            .not
+            .toContain('newHeightContainer');
+        });
+
+        it('has "noNewHeightContent" classes in content', () => {
+          expect(container.props.children[1].props.className)
+            .toContain('noNewHeightContent');
+        });
+
+        it('does not have "newHeightContent" classes in content', () => {
+          expect(container.props.children[1].props.className)
+            .not
+            .toContain('newHeightContent');
+        });
+      });
+
+      describe('when isMobile is true', () => {
+        beforeAll(() => {
+          mockIsMobile = true;
+        });
+
+        it('does not have "newHeightContainer" classes', () => {
+          expect(container.props.className)
+            .not
+            .toContain('newHeightContainer');
+        });
+
+        it('does not have "noNewHeightContent" classes in content', () => {
+          expect(container.props.children[1].props.className)
+            .not
+            .toContain('noNewHeightContent');
+        });
+
+        it('does not have "newHeightContent" classes in content', () => {
+          expect(container.props.children[1].props.className)
+            .not
+            .toContain('newHeightContent');
+        });
+      });
+    });
   });
 
   describe('when headerContent is not null', () => {

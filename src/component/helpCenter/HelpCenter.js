@@ -64,6 +64,7 @@ const mapStateToProps = (state) => {
 
 class HelpCenter extends Component {
   static propTypes = {
+    newHeight: PropTypes.bool.isRequired,
     activeArticle: PropTypes.object,
     buttonLabelKey: PropTypes.string,
     callbackEnabled: PropTypes.bool.isRequired,
@@ -384,7 +385,8 @@ class HelpCenter extends Component {
         searchFieldValue={this.props.searchFieldValue}
         shadowVisible={shadowVisible}
         updateFrameSize={this.props.updateFrameSize}
-        updateChatScreen={this.props.updateChatScreen}>
+        updateChatScreen={this.props.updateChatScreen}
+        newHeight={this.props.newHeight}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterDesktop>

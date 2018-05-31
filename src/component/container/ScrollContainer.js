@@ -21,7 +21,8 @@ export class ScrollContainer extends Component {
     scrollShadowVisible: PropTypes.bool,
     title: PropTypes.string.isRequired,
     classes: PropTypes.string,
-    onContentScrolled: PropTypes.func
+    onContentScrolled: PropTypes.func,
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -119,17 +120,21 @@ export class ScrollContainer extends Component {
       headerContent,
       containerClasses,
       classes,
-      onContentScrolled
+      onContentScrolled,
+      newHeight
     } = this.props;
     const headerClasses = classNames(styles.header, styles.userHeader);
     const titleClasses = classNames(styles.title, { [styles.titleMobile]: fullscreen });
     const scrollContainerClasses = classNames(
       classes,
       styles.container,
+      { [styles.newHeightContainer]: newHeight && !isMobile },
       { [styles.containerDesktop]: !fullscreen }
     );
     const contentClasses = classNames(
       styles.content,
+      { [styles.newHeightContent]: newHeight && !isMobile },
+      { [styles.noNewHeightContent]: !newHeight && !isMobile },
       containerClasses,
       {
         [styles.contentMobile]: fullscreen,
