@@ -14,7 +14,8 @@ describe('boot', () => {
     persistenceSpy = registerImportSpy('persistence', 'store'),
     transportSpy = registerImportSpy('http', 'get', 'init', 'updateConfig'),
     mediatorSpy = { mediator: registerImportSpy('channel', 'broadcast', 'subscribe') },
-    rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks');
+    rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks'),
+    gaSpy = registerImportSpy('GA', 'init');
 
   beforeEach(() => {
     mockery.enable();
@@ -26,6 +27,7 @@ describe('boot', () => {
       'service/identity': identitySpy,
       'service/logging': loggingSpy,
       'service/persistence': persistenceSpy,
+      'service/analytics/googleAnalytics': gaSpy,
       'service/settings': {
         settings: {
           get: noop,
@@ -82,6 +84,8 @@ describe('boot', () => {
       expect(authenticationSpy.authentication.init)
         .toHaveBeenCalled();
       expect(transportSpy.http.init)
+        .toHaveBeenCalled();
+      expect(gaSpy.GA.init)
         .toHaveBeenCalled();
     });
 

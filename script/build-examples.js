@@ -51,7 +51,8 @@ glob('./example/*-template.html', function(err, files) {
       'articleId': process.env.WATCH_ARTICLE_ID,
       'jwt': generateJWT(process.env.WATCH_SHARED_SECRET),
       'chatJwt': generateChatJWT(process.env.WATCH_CHAT_SHARED_SECRET || 'abc'),
-      'chatSettings': chatSettingsExample
+      'chatSettings': chatSettingsExample,
+      'GAId': process.env.WATCH_GA_ID
     };
     const resultHtml = html.replace(/{{(\w+)}}/g, function(match, key) {
       return replaceMap[key];

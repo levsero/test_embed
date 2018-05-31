@@ -43,3 +43,5 @@ export const FILETYPE_ICONS = {
   RAR:      ICONS.PREVIEW_ZIP,
   ZIP:      ICONS.PREVIEW_ZIP
 };
+
+export const GA_CATEGORY = 'Zendesk Web Widget';
