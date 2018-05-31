@@ -62,7 +62,7 @@ class Talk extends Component {
     onBackClick: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
     updateFrameSize: PropTypes.func,
-    newHeight: PropTypes.bool
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -74,8 +74,7 @@ class Talk extends Component {
     helpCenterAvailable: false,
     channelChoiceAvailable: false,
     onBackClick: () => {},
-    agentAvailability: true,
-    newHeight: false
+    agentAvailability: true
   };
 
   constructor() {

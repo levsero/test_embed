@@ -100,7 +100,7 @@ class ChattingScreen extends Component {
     fetchConversationHistory: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
     firstMessageTimestamp: PropTypes.number,
-    newHeight: PropTypes.bool
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -126,8 +126,7 @@ class ChattingScreen extends Component {
     visitor: {},
     fetchConversationHistory: () => {},
     hideZendeskLogo: false,
-    firstMessageTimestamp: null,
-    newHeight: false
+    firstMessageTimestamp: null
   };
 
   constructor(props) {

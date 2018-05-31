@@ -78,7 +78,7 @@ class PrechatScreen extends Component {
     loginSettings: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
-    newHeight: PropTypes.bool
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -89,8 +89,7 @@ class PrechatScreen extends Component {
     clearDepartment: () => {},
     resetCurrentMessage: () => {},
     preChatFormSettings: {},
-    loginSettings: {},
-    newHeight: false
+    loginSettings: {}
   };
 
   onPrechatFormComplete = (info) => {

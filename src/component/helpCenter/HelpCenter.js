@@ -64,7 +64,7 @@ const mapStateToProps = (state) => {
 
 class HelpCenter extends Component {
   static propTypes = {
-    newHeight: PropTypes.bool,
+    newHeight: PropTypes.bool.isRequired,
     activeArticle: PropTypes.object,
     buttonLabelKey: PropTypes.string,
     callbackEnabled: PropTypes.bool.isRequired,
@@ -114,7 +114,6 @@ class HelpCenter extends Component {
   };
 
   static defaultProps = {
-    newHeight: false,
     buttonLabelKey: 'message',
     callbackEnabled: false,
     channelChoice: false,

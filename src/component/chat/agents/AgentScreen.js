@@ -25,14 +25,13 @@ class AgentScreen extends Component {
     activeAgents: PropTypes.object.isRequired,
     hideZendeskLogo: PropTypes.bool,
     updateChatScreen: PropTypes.func.isRequired,
-    newHeight: PropTypes.bool
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
     isMobile: false,
     activeAgents: {},
-    hideZendeskLogo: false,
-    newHeight: false
+    hideZendeskLogo: false
   };
 
   renderZendeskLogo = () => {

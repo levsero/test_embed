@@ -70,7 +70,7 @@ class SubmitTicket extends Component {
     hasContextuallySearched: PropTypes.bool,
     showNotification: PropTypes.bool.isRequired,
     activeTicketFormFields: PropTypes.array,
-    newHeight: PropTypes.bool
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -96,8 +96,7 @@ class SubmitTicket extends Component {
     activeTicketForm: null,
     updateFrameSize: () => {},
     activeTicketFormFields: [],
-    hasContextuallySearched: false,
-    newHeight: false
+    hasContextuallySearched: false
   };
 
   constructor(props, context) {

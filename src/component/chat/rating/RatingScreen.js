@@ -44,7 +44,7 @@ class RatingScreen extends Component {
     endChat: PropTypes.func.isRequired,
     sendChatComment: PropTypes.func.isRequired,
     sendChatRating: PropTypes.func.isRequired,
-    newHeight: PropTypes.bool
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -53,8 +53,7 @@ class RatingScreen extends Component {
     sendChatRating: () => {},
     postChatFormSettings: {},
     hideZendeskLogo: false,
-    onRatingButtonClick: () => {},
-    newHeight: false
+    onRatingButtonClick: () => {}
   };
 
   renderZendeskLogo = () => {

@@ -13,7 +13,7 @@ import { locals as styles } from './HelpCenterDesktop.scss';
 
 export class HelpCenterDesktop extends Component {
   static propTypes = {
-    newHeight: PropTypes.bool,
+    newHeight: PropTypes.bool.isRequired,
     articleViewActive: PropTypes.bool,
     buttonLabel: PropTypes.string.isRequired,
     channelChoice: PropTypes.bool,
@@ -40,7 +40,6 @@ export class HelpCenterDesktop extends Component {
   };
 
   static defaultProps = {
-    newHeight: false,
     articleViewActive: false,
     channelChoice: false,
     formTitleKey: 'help',

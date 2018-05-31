@@ -23,14 +23,13 @@ class Chat extends Component {
     onBackButtonClick: PropTypes.func,
     showOfflineChat: PropTypes.bool.isRequired,
     updateChatBackButtonVisibility: PropTypes.func.isRequired,
-    newHeight: PropTypes.bool
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
     isMobile: false,
     hideZendeskLogo: false,
-    updateFrameSize: () => {},
-    newHeight: false
+    updateFrameSize: () => {}
   };
 
   constructor() {

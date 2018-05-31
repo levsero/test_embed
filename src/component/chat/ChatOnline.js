@@ -93,7 +93,7 @@ class Chat extends Component {
     socialLogin: PropTypes.object.isRequired,
     chatVisitor: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool,
-    newHeight: PropTypes.bool
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -122,8 +122,7 @@ class Chat extends Component {
     sendOfflineMessage: () => {},
     clearDepartment: () => {},
     hideZendeskLogo: false,
-    isAuthenticated: false,
-    newHeight: false
+    isAuthenticated: false
   };
 
   constructor(props) {

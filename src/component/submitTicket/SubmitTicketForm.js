@@ -53,7 +53,7 @@ export class SubmitTicketForm extends Component {
     setFormState: PropTypes.func,
     subjectEnabled: PropTypes.bool,
     submit: PropTypes.func.isRequired,
-    newHeight: PropTypes.bool
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -70,8 +70,7 @@ export class SubmitTicketForm extends Component {
     onCancel: () => {},
     previewEnabled: false,
     setFormState: () => {},
-    subjectEnabled: false,
-    newHeight: false
+    subjectEnabled: false
   };
 
   constructor(props, context) {

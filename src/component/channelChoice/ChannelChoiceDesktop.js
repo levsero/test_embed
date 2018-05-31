@@ -19,7 +19,7 @@ export class ChannelChoiceDesktop extends Component {
     talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatEnabled: PropTypes.bool,
-    newHeight: PropTypes.bool
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -27,8 +27,7 @@ export class ChannelChoiceDesktop extends Component {
     talkAvailable: false,
     talkEnabled: false,
     submitTicketAvailable: true,
-    chatEnabled: false,
-    newHeight: false
+    chatEnabled: false
   };
 
   renderZendeskLogo = () => {

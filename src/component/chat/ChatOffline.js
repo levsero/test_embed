@@ -59,7 +59,7 @@ class ChatOffline extends Component {
     isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     isAuthenticated: PropTypes.bool.isRequired,
-    newHeight: PropTypes.bool
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -70,8 +70,7 @@ class ChatOffline extends Component {
     isMobile: false,
     hideZendeskLogo: false,
     formSettings: { enabled: false },
-    offlineMessage: {},
-    newHeight: false
+    offlineMessage: {}
   };
 
   renderOfflineForm = () => {

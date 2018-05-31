@@ -131,7 +131,7 @@ class WebWidget extends Component {
     showStandaloneMobileNotification: PropTypes.func.isRequired,
     resultsCount: PropTypes.number.isRequired,
     ipmHelpCenterAvailable: PropTypes.bool,
-    newHeight: PropTypes.bool
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -167,8 +167,7 @@ class WebWidget extends Component {
     resetActiveArticle: () => {},
     articleViewActive: false,
     onShowMobile: () => {},
-    ipmHelpCenterAvailable: false,
-    newHeight: false
+    ipmHelpCenterAvailable: false
   };
 
   setComponent = (activeComponent) => {
