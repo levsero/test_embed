@@ -62,8 +62,8 @@
       "externals": [
         {
           "name": "chat-web-sdk",
-          "version": "8.0.0",
-          "url": "https://static.zdassets.com/web_widget/externals/chat-web-sdk/8.0.0/web_sdk.js"
+          "version": "9.0.0",
+          "url": "https://static.zdassets.com/web_widget/externals/chat-web-sdk/9.0.0/web_sdk.js"
         }
       ]
     }
