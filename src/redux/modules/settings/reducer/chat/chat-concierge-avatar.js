@@ -1,5 +1,5 @@
 import { UPDATE_SETTINGS } from '../../settings-action-types';
-import { _ } from 'lodash';
+import _ from 'lodash';
 
 const initialState = null;
 
