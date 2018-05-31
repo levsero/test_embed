@@ -308,4 +308,34 @@ describe('ScrollContainer component', () => {
         .toHaveBeenCalled();
     });
   });
+
+  describe('getScrollBottom', () => {
+    let result,
+      mockScrollHeight,
+      mockScrollTop,
+      mockOffsetHeight;
+
+    beforeEach(() => {
+      const component = instanceRender(<ScrollContainer />);
+
+      mockScrollHeight = 100;
+      mockScrollTop = 50;
+      mockOffsetHeight = 20;
+
+      component.content = {
+        scrollHeight: mockScrollHeight,
+        scrollTop: mockScrollTop,
+        offsetHeight: mockOffsetHeight
+      };
+
+      result = component.getScrollBottom();
+    });
+
+    it('returns the expected value', () => {
+      const expected = mockScrollHeight - (mockScrollTop + mockOffsetHeight);
+
+      expect(expected)
+        .toEqual(result);
+    });
+  });
 });

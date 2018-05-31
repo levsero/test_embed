@@ -400,7 +400,6 @@ class Chat extends Component {
     return (
       <div className={styles.reconnectContainer}>
         <ButtonPill
-          showIcon={false}
           onClick={this.props.handleReconnect}
           label={i18n.t('embeddable_framework.chat.chatLog.reconnect.label')} />
       </div>

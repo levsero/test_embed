@@ -1,3 +1,9 @@
+export const HISTORY_REQUEST_STATUS = {
+  PENDING: 'pending',
+  DONE:    'done',
+  FAIL:    'fail'
+};
+
 export const WHITELISTED_SOCIAL_LOGINS = {
   GOOGLE: 'google',
   FACEBOOK: 'facebook'
@@ -67,3 +73,5 @@ export const DEPARTMENT_STATUSES = {
 export const SDK_ACTION_TYPE_PREFIX = 'websdk';
 
 export const JWT_ERROR = 'jwt verification error';
+
+export const SCROLL_BOTTOM_THRESHOLD = 150; // Unit in px

@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { locals as styles } from './ButtonPill.scss';
+import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
+
+import { locals as styles } from './ButtonPill.scss';
 
 export class ButtonPill extends Component {
   static propTypes = {
     fullscreen: PropTypes.bool,
     label: PropTypes.string.isRequired,
+    containerClass: PropTypes.string,
     onClick: PropTypes.func,
     showIcon: PropTypes.bool
   };
@@ -16,24 +19,24 @@ export class ButtonPill extends Component {
   static defaultProps = {
     fullscreen: false,
     onClick: () => {},
-    showIcon: true
+    showIcon: false,
+    containerClass: ''
   };
 
   render = () => {
-    const screenStyles = this.props.fullscreen ? styles.fullscreen : '';
-    const directionStyles = i18n.isRTL() ? styles.rtl : '';
-    const buttonClasses = `
-      ${styles.pill}
-      ${screenStyles}
-      ${directionStyles}
-    `;
-    const icon = this.props.showIcon ? <Icon type='Icon--link' /> : null;
+    const { containerClass, fullscreen, showIcon, onClick, label } = this.props;
+    const buttonStyles = classNames(styles.pill, containerClass, {
+      [styles.fullscreen]: fullscreen,
+      [styles.rtl]: i18n.isRTL()
+    });
+
+    const icon = (showIcon) ? <Icon type='Icon--arrow-down' /> : null;
 
     return (
       <div
-        onClick={this.props.onClick}
-        className={buttonClasses}>
-        {this.props.label}
+        onClick={onClick}
+        className={buttonStyles}>
+        {label}
         {icon}
       </div>
     );

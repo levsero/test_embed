@@ -11,6 +11,7 @@ import { ChatLog } from 'component/chat/chatting/ChatLog';
 import { HistoryLog } from 'component/chat/chatting/HistoryLog';
 import { ChatHeader } from 'component/chat/ChatHeader';
 import { ScrollContainer } from 'component/container/ScrollContainer';
+import { ButtonPill } from 'component/button/ButtonPill';
 import { LoadingEllipses } from 'component/loading/LoadingEllipses';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
@@ -28,8 +29,9 @@ import * as selectors from 'src/redux/modules/chat/chat-selectors';
 import { getHasMoreHistory,
   getHistoryRequestStatus,
   getGroupedPastChatsBySession } from 'src/redux/modules/chat/chat-history-selectors';
+import { SCROLL_BOTTOM_THRESHOLD, HISTORY_REQUEST_STATUS } from 'constants/chat';
 import { locals as styles } from './ChattingScreen.scss';
-import { isDefaultNickname } from 'src/util/chat';
+import { isDefaultNickname, isAgent } from 'src/util/chat';
 
 const mapStateToProps = (state) => {
   return {
@@ -129,15 +131,15 @@ class ChattingScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.scrollContainer = null;
+    this.state = {
+      notificationCount: 0
+    };
 
     this.chatHistoryLog = null;
-    this.chatScrollPos = null;
-    this.chatScrolledToBottom = true;
 
+    this.scrollContainer = null;
+    this.scrollHeightBeforeUpdate = null;
     this.scrollToBottomTimer = null;
-
-    this.scrollHeightAtFetch = null;
   }
 
   componentDidMount() {
@@ -149,34 +151,17 @@ class ChattingScreen extends Component {
     }
   }
 
-  componentWillUpdate() {
-    if (this.chatHistoryLog) {
-      this.updateChatScrollPos();
+  componentWillUpdate(prevProps) {
+    if (prevProps.historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING &&
+        this.props.historyRequestStatus === HISTORY_REQUEST_STATUS.DONE) {
+      this.scrollHeightBeforeUpdate = this.scrollContainer.getScrollHeight();
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.chatScrolledToBottom) {
-      this.scrollToBottom();
-      return;
-    }
-
     if (this.scrollContainer) {
-      const scrollContainerLengthDiff = this.scrollContainer.getScrollHeight() - this.scrollHeightAtFetch;
-
-      if (scrollContainerLengthDiff !== 0) {
-        this.scrollContainer.scrollTo(this.chatScrollPos + scrollContainerLengthDiff);
-      }
-
-      // TODO: For now, scrollToBottom on new messages.
-      // Change this later when working on https://zendesk.atlassian.net/browse/CE-3067
-      const newLogCount =
-        (this.props.chats.length + this.props.events.length) -
-        (prevProps.chats.length + prevProps.events.length);
-
-      if (newLogCount > 0) {
-        this.scrollToBottom();
-      }
+      this.didUpdateFetchHistory();
+      this.didUpdateNewEntry(prevProps);
     }
   }
 
@@ -184,9 +169,45 @@ class ChattingScreen extends Component {
     clearTimeout(this.scrollToBottomTimer);
   }
 
-  updateChatScrollPos = () => {
-    this.chatScrollPos = this.scrollContainer.getScrollTop();
-    this.chatScrolledToBottom = this.scrollContainer.isAtBottom();
+  didUpdateFetchHistory = () => {
+    if (!this.scrollHeightBeforeUpdate) return;
+
+    const scrollTop = this.scrollContainer.getScrollTop();
+    const scrollHeight = this.scrollContainer.getScrollHeight();
+    const lengthDifference = scrollHeight - this.scrollHeightBeforeUpdate;
+
+    // When chat history is fetched, we record the scroll just before
+    // the component updates in order to adjust the  scrollTop
+    // by the difference in container height of pre and post update.
+    if (lengthDifference !== 0) {
+      this.scrollContainer.scrollTo(scrollTop + lengthDifference);
+      this.scrollHeightBeforeUpdate = null;
+    }
+  }
+
+  didUpdateNewEntry = (prevProps) => {
+    const newChatCount = (this.props.chats.length) - (prevProps.chats.length);
+    const lastUserMessage = _.get(_.last(this.props.chats), 'nick');
+    const newMessage = (newChatCount > 0);
+    const scrollCloseToBottom = this.isScrollCloseToBottom();
+
+    if (!newMessage) return;
+
+    if (isAgent(lastUserMessage)) {
+      (scrollCloseToBottom)
+        ? this.setState({ notificationCount: 0 })
+        : this.setState({ notificationCount: this.state.notificationCount + 1 });
+    }
+
+    if (scrollCloseToBottom || lastUserMessage === 'visitor') {
+      this.scrollToBottom();
+    }
+  }
+
+  isScrollCloseToBottom = () => {
+    return (this.scrollContainer)
+      ? this.scrollContainer.getScrollBottom() < SCROLL_BOTTOM_THRESHOLD
+      : false;
   }
 
   scrollToBottom = () => {
@@ -203,10 +224,13 @@ class ChattingScreen extends Component {
     if (
       this.scrollContainer.isAtTop() &&
       this.props.hasMoreHistory &&
-      this.props.historyRequestStatus !== 'pending'
+      this.props.historyRequestStatus !== HISTORY_REQUEST_STATUS.PENDING
     ) {
-      this.scrollHeightAtFetch = this.scrollContainer.getScrollHeight();
       this.props.fetchConversationHistory();
+    }
+
+    if (this.isScrollCloseToBottom()) {
+      this.setState({ notificationCount: 0 });
     }
   }
 
@@ -226,7 +250,7 @@ class ChattingScreen extends Component {
     let typingNotification;
 
     switch (typingAgents.length) {
-      case 0: return null;
+      case 0: return <div className={styles.noAgentTyping} />;
       case 1:
         const agent = typingAgents[0].display_name;
 
@@ -267,7 +291,7 @@ class ChattingScreen extends Component {
 
     return this.props.historyRequestStatus ? (
       <div className={styles.historyFetchingContainer}>
-        <Transition in={historyRequestStatus === 'pending'} timeout={0}>
+        <Transition in={historyRequestStatus === HISTORY_REQUEST_STATUS.PENDING} timeout={0}>
           {(state) => (
             <div
               style={{...defaultStyle, ...transitionStyles[state]}}
@@ -346,6 +370,28 @@ class ChattingScreen extends Component {
       /> : null;
   }
 
+  renderScrollPill = () => {
+    if (this.state.notificationCount === 0) return null;
+
+    const { notificationCount } = this.state;
+    const goToBottomFn = () => {
+      this.scrollToBottom();
+      this.setState({ notificationCount: 0 });
+    };
+
+    const pillLabel = (notificationCount > 1)
+      ? i18n.t('embeddable_framework.chat.button.manyMessages', { plural_number: notificationCount })
+      : i18n.t('embeddable_framework.chat.button.oneMessage');
+
+    return (
+      <ButtonPill
+        showIcon={true}
+        containerClass={styles.scrollBottomPill}
+        onClick={goToBottomFn}
+        label={pillLabel} />
+    );
+  }
+
   render = () => {
     const { isMobile, sendMsg, loginSettings, visitor, hideZendeskLogo, agentsTyping } = this.props;
     const containerClasses = classNames({
@@ -413,6 +459,7 @@ class ChattingScreen extends Component {
               : null
           }
           {this.renderHistoryFetching()}
+          {this.renderScrollPill()}
         </div>
       </ScrollContainer>
     );

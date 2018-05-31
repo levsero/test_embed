@@ -6,8 +6,15 @@ describe('chat reducer chatHistory requestStatus', () => {
   beforeAll(() => {
     mockery.enable();
 
+    const chatConstantsPath = buildSrcPath('constants/chat');
     const reducerPath = buildSrcPath('redux/modules/chat/reducer/chat-history/request-status');
     const actionTypesPath = buildSrcPath('redux/modules/chat/chat-action-types');
+
+    initMockRegistry({
+      'constants/chat': {
+        HISTORY_REQUEST_STATUS: requireUncached(chatConstantsPath).HISTORY_REQUEST_STATUS
+      }
+    });
 
     reducer = requireUncached(reducerPath).default;
     actionTypes = requireUncached(actionTypesPath);

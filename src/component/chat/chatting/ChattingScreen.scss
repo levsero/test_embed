@@ -9,9 +9,10 @@
 }
 
 .agentTyping {
-  margin-bottom: #{12/$font-size}rem;
+  margin-top: #{8/$font-size}rem;
+  margin-bottom: #{9/$font-size}rem;
   color: $zd-color-aluminum;
-  width: #{301/$font-size}rem;
+  width: 100%;
   background: linear-gradient(to bottom, rgba($zd-color-white, 0), rgba($zd-color-white, 0.8));
 }
 
@@ -118,4 +119,19 @@
 .scrollContainerMessagesContentDesktop {
   composes: scrollContainerMessagesContent;
   height: calc(100% - #{220/$font-size}rem); /* 1 */
+}
+
+.scrollBottomPill {
+  height: #{30/$font-size}rem;
+  padding: #{7/$font-size}rem #{15/$font-size}rem #{8/$font-size}rem !important;
+  color: $zd-color-oil;
+  bottom: #{145/$font-size}rem;
+  left: 50%;
+  position: fixed;
+  transform: translateX(-50%);
+}
+
+.noAgentTyping {
+  height: #{26/$font-size}rem;
+  width: 100%;
 }
