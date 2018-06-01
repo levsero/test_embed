@@ -73,12 +73,10 @@ describe('settings redux actions', () => {
       describe('when given valid department name', () => {
         beforeAll(() => {
           someSettings = {
-            webWidget: {
-              chat: {
-                visitor: {
-                  departments: {
-                    department: 'yo'
-                  }
+            chat: {
+              visitor: {
+                departments: {
+                  department: 'yo'
                 }
               }
             }
@@ -93,7 +91,11 @@ describe('settings redux actions', () => {
         it('dispatches updateSettings action', () => {
           const expected = {
             type: actionTypes.UPDATE_SETTINGS,
-            payload: someSettings
+            payload: {
+              webWidget: {
+                ...someSettings
+              }
+            }
           };
 
           expect(mockStore.getActions()[0])

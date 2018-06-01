@@ -8,7 +8,7 @@ const avatarPath = (state = initialState, action) => {
 
   switch (type) {
     case UPDATE_SETTINGS:
-      return _.get(payload, 'chat.concierge.avatarPath', state);
+      return _.get(payload, 'webWidget.chat.concierge.avatarPath', state);
     default:
       return state;
   }

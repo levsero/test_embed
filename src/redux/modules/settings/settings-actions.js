@@ -22,6 +22,14 @@ export function resetSettingsChatSuppress() {
 
 export function updateSettings(settings) {
   return (dispatch, getState) => {
+    if (!_.get(settings, 'webWidget')) {
+      settings = {
+        webWidget: {
+          ...settings
+        }
+      };
+    }
+
     dispatch({
       type: UPDATE_SETTINGS,
       payload: settings

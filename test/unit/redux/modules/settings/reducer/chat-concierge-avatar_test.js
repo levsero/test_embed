@@ -42,9 +42,11 @@ describe('chat concierge avatar reducer', () => {
       describe('when the avatarPath is set', () => {
         beforeAll(() => {
           payload = {
-            chat: {
-              concierge: {
-                avatarPath: 'https://i.imgur.com/3mZBYfn.jpg'
+            webWidget: {
+              chat: {
+                concierge: {
+                  avatarPath: 'https://i.imgur.com/3mZBYfn.jpg'
+                }
               }
             }
           };

@@ -48,5 +48,10 @@ describe('settings chat reducer', () => {
       expect(state.avatarPath)
         .toBeDefined();
     });
+
+    it('has the mobile notifications disabled state', () => {
+      expect(state.mobileNotificationsDisabled)
+        .toBeDefined();
+    });
   });
 });

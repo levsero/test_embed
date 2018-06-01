@@ -209,6 +209,11 @@ describe('settings', () => {
               departments: {
                 department: 'yolo'
               }
+            },
+            mobile: {
+              notifications: {
+                disable: true
+              }
             }
           },
           talk: {
@@ -231,6 +236,11 @@ describe('settings', () => {
     it('returns chat department settings', () => {
       expect(settings.get('chat.visitor.departments.department'))
         .toBe('yolo');
+    });
+
+    it('returns mobile notifications disable settings', () => {
+      expect(settings.get('chat.mobile.notifications.disable'))
+        .toBe(true);
     });
 
     it('returns chat concierge avatarPath', () => {
