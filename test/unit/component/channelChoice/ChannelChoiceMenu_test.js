@@ -3,25 +3,25 @@ describe('ChannelChoiceMenu component', () => {
 
   const channelChoiceMenuPath = buildSrcPath('component/channelChoice/ChannelChoiceMenu');
 
+  const ButtonIcon = noopReactComponent();
+
   beforeEach(() => {
     mockery.enable();
 
     initMockRegistry({
       './ChannelChoiceMenu.scss': {
         locals: {
-          chatBtnDisabled: 'chatBtnDisabled',
-          talkBtnDisabled: 'talkBtnDisabled'
+          btn: 'btnClass',
+          btnEnabled: 'btnEnabledClass',
+          buttonTalk: 'buttonTalkClass',
+          chatBtnDisabled: 'chatBtnDisabledClass',
+          iconTalk: 'iconTalkClass',
+          newIcon: 'newIconClass',
+          newIconDisabled: 'newIconDisabledClass',
+          talkBtnDisabled: 'talkBtnDisabledClass'
         }
       },
-      'component/button/ButtonIcon': {
-        ButtonIcon: class extends Component {
-          render() {
-            const { className, labelClassName } = this.props;
-
-            return <div className={`${className} ${labelClassName}`} />;
-          }
-        }
-      },
+      'component/button/ButtonIcon': { ButtonIcon },
       'service/i18n': {
         i18n: { t: _.identity }
       }
@@ -36,170 +36,301 @@ describe('ChannelChoiceMenu component', () => {
   });
 
   describe('render', () => {
-    let component, componentNode;
+    let component;
 
     beforeEach(() => {
-      component = domRender(
-        <ChannelChoiceMenu
-          buttonClasses='ButtonClasses'
-          labelClasses='LabelClasses' />
-      );
+      component = instanceRender(<ChannelChoiceMenu />);
 
-      componentNode = ReactDOM.findDOMNode(component);
+      spyOn(component, 'renderTalkButton');
+      spyOn(component, 'renderChatButton');
+      spyOn(component, 'renderSubmitTicketButton');
+
+      component.render();
     });
 
-    it('applies buttonClasses prop', () => {
-      expect(componentNode.querySelector('.ButtonClasses'))
-        .not.toBeNull();
+    it('calls renderTalkButton', () => {
+      expect(component.renderTalkButton)
+        .toHaveBeenCalled();
     });
 
-    it('applies labelClasses prop', () => {
-      expect(componentNode.querySelector('.LabelClasses'))
-        .not.toBeNull();
+    it('calls renderChatButton', () => {
+      expect(component.renderChatButton)
+        .toHaveBeenCalled();
     });
 
-    describe('when chatAvailable is false', () => {
-      beforeEach(() => {
-        component = domRender(
-          <ChannelChoiceMenu
-            chatAvailable={false}
-            chatEnabled={true} />
-        );
+    it('calls renderSubmitTicketButton', () => {
+      expect(component.renderSubmitTicketButton)
+        .toHaveBeenCalled();
+    });
+  });
 
-        componentNode = ReactDOM.findDOMNode(component);
+  describe('renderTalkLabel', () => {
+    let result,
+      component,
+      componentProps;
+
+    beforeEach(() => {
+      component = instanceRender(<ChannelChoiceMenu {...componentProps} />);
+
+      result = component.renderTalkLabel();
+    });
+
+    describe('when talkAvailable is true', () => {
+      describe('when callbackEnabled is true', () => {
+        beforeAll(() => {
+          componentProps = {
+            talkAvailable: true,
+            callbackEnabled: true
+          };
+        });
+
+        it('returns the expected string', () => {
+          expect(result)
+            .toEqual('embeddable_framework.channelChoice.button.label.request_callback');
+        });
       });
 
-      it('has chat disabled styles', () => {
-        expect(componentNode.querySelector('.chatBtnDisabled'))
-          .not.toBeNull();
+      describe('when callbackEnabled is false', () => {
+        beforeAll(() => {
+          componentProps = {
+            talkAvailable: true,
+            callbackEnabled: false
+          };
+        });
+
+        it('returns the expected string', () => {
+          expect(result)
+            .toEqual('embeddable_framework.channelChoice.button.label.call_us');
+        });
       });
     });
 
-    describe('when chatAvailable is true', () => {
-      beforeEach(() => {
-        component = domRender(
-          <ChannelChoiceMenu
-            chatEnabled={true}
-            chatAvailable={true} />
-        );
+    describe('when talkAvailable is false', () => {
+      describe('when newChannelChoice is true', () => {
+        beforeAll(() => {
+          componentProps = {
+            talkAvailable: false,
+            newChannelChoice: true
+          };
+        });
 
-        componentNode = ReactDOM.findDOMNode(component);
+        it('returns a span element with two children', () => {
+          expect(result.type)
+            .toEqual('span');
+
+          expect(result.props.children.length)
+            .toEqual(2);
+        });
       });
 
-      it('does not have chat disabled styles', () => {
-        expect(componentNode.querySelector('.chatBtnDisabled'))
-          .toBeNull();
+      describe('when newChannelChoice is false', () => {
+        beforeAll(() => {
+          componentProps = {
+            talkAvailable: false,
+            newChannelChoice: false
+          };
+        });
+
+        it('returns the expected string', () => {
+          expect(result)
+            .toEqual('embeddable_framework.channelChoice.button.label.talk_offline_v2');
+        });
       });
     });
   });
 
   describe('renderTalkButton', () => {
-    let result;
+    let result,
+      component,
+      componentProps,
+      mockShowInitialTalkOption;
 
-    describe('when talk is enabled', () => {
-      beforeEach(() => {
-        const component = domRender(
-          <ChannelChoiceMenu
-            talkEnabled={true} />
-        );
+    beforeEach(() => {
+      component = instanceRender(<ChannelChoiceMenu {...componentProps} />);
+      component.showInitialTalkOption = mockShowInitialTalkOption;
 
-        result = component.renderTalkButton();
+      spyOn(component, 'handleNextClick');
+      spyOn(component, 'renderTalkLabel');
+
+      result = component.renderTalkButton();
+    });
+
+    describe('when showInitialTalkOption is true', () => {
+      beforeAll(() => {
+        mockShowInitialTalkOption = true;
       });
 
-      it('returns a component', () => {
-        expect(result)
-          .not.toBeNull();
-      });
-
-      describe('when callback is enabled', () => {
-        beforeEach(() => {
-          const component = domRender(
-            <ChannelChoiceMenu
-              talkAvailable={true}
-              talkEnabled={true}
-              callbackEnabled={true} />
-          );
-
-          result = component.renderTalkButton();
+      describe('when called', () => {
+        beforeAll(() => {
+          componentProps = {
+            talkAvailable: true,
+            labelClasses: 'talkLabelClass'
+          };
         });
 
-        it('renders an element with "Request a callback" string', () => {
-          expect(result.props.label)
-            .toEqual('embeddable_framework.channelChoice.button.label.request_callback');
-        });
-      });
-
-      describe('when callback is not enabled', () => {
-        beforeEach(() => {
-          const component = domRender(
-            <ChannelChoiceMenu
-              talkAvailable={true}
-              talkEnabled={true}
-              callbackEnabled={false} />
-          );
-
-          result = component.renderTalkButton();
+        it('returns a ButtonIcon component', () => {
+          expect(TestUtils.isElementOfType(result, ButtonIcon))
+            .toEqual(true);
         });
 
-        it('renders an element with "Call us" string', () => {
-          expect(result.props.label)
-            .toEqual('embeddable_framework.channelChoice.button.label.call_us');
-        });
-      });
-
-      describe('when talk is available', () => {
-        beforeEach(() => {
-          const component = domRender(
-            <ChannelChoiceMenu
-              talkAvailable={true}
-              talkEnabled={true} />
-          );
-
-          result = component.renderTalkButton();
+        it('calls handleNextClick with \'talk\'', () => {
+          expect(component.handleNextClick)
+            .toHaveBeenCalledWith('talk');
         });
 
-        it('renders the component without disabled classes', () => {
-          expect(result.props.className)
-            .not.toContain('talkBtnDisabled');
+        it('calls renderTalkLabel', () => {
+          expect(component.renderTalkLabel)
+            .toHaveBeenCalled();
         });
 
-        it('renders the component with actionable prop as true', () => {
+        it('passes talkAvailable to props.actionable', () => {
           expect(result.props.actionable)
-            .toBe(true);
+            .toEqual(componentProps.talkAvailable);
+        });
+
+        it('passes labelClasses to props.labelClassName', () => {
+          expect(result.props.labelClassName)
+            .toEqual(componentProps.labelClasses);
         });
       });
 
-      describe('when talk is not available', () => {
-        beforeEach(() => {
-          const component = domRender(
-            <ChannelChoiceMenu
-              talkAvailable={false}
-              talkEnabled={true} />
-          );
+      describe('props.className', () => {
+        describe('when newChannelChoice is true', () => {
+          describe('when talkAvailable is true', () => {
+            beforeAll(() => {
+              componentProps = {
+                newChannelChoice: true,
+                talkAvailable: true
+              };
+            });
 
-          result = component.renderTalkButton();
+            it('has btn class', () => {
+              expect(result.props.className)
+                .toContain('btnClass');
+            });
+
+            it('has btnEnabled class', () => {
+              expect(result.props.className)
+                .toContain('btnEnabledClass');
+            });
+          });
+
+          describe('when talkAvailable is false', () => {
+            beforeAll(() => {
+              componentProps = {
+                newChannelChoice: true,
+                talkAvailable: false
+              };
+            });
+
+            it('has btn class', () => {
+              expect(result.props.className)
+                .toContain('btnClass');
+            });
+
+            it('does not have btnEnabled class', () => {
+              expect(result.props.className)
+                .not.toContain('btnEnabledClass');
+            });
+          });
         });
 
-        it('renders the component with disabled classes', () => {
-          expect(result.props.className)
-            .toContain('talkBtnDisabled');
+        describe('when newChannelChoice is false', () => {
+          beforeAll(() => {
+            componentProps = { newChannelChoice: false };
+          });
+
+          it('does not have btn class', () => {
+            expect(result.props.className)
+              .not.toContain('btnClass');
+          });
+
+          it('has buttonTalk class', () => {
+            expect(result.props.className)
+              .toContain('buttonTalk');
+          });
+        });
+      });
+
+      describe('props.iconClasses', () => {
+        describe('when newChannelChoice is true', () => {
+          describe('when talkAvailable is true', () => {
+            beforeAll(() => {
+              componentProps = {
+                newChannelChoice: true,
+                talkAvailable: true
+              };
+            });
+
+            it('has newIcon class', () => {
+              expect(result.props.iconClasses)
+                .toContain('newIconClass');
+            });
+
+            it('does not have newIconDisabled class', () => {
+              expect(result.props.iconClasses)
+                .not.toContain('newIconDisabledClass');
+            });
+          });
+
+          describe('when talkAvailable is false', () => {
+            beforeAll(() => {
+              componentProps = {
+                newChannelChoice: true,
+                talkAvailable: false
+              };
+            });
+
+            it('does not have newIcon class', () => {
+              expect(result.props.iconClasses)
+                .not.toContain('newIconClass');
+            });
+
+            it('has newIconDisabled class', () => {
+              expect(result.props.iconClasses)
+                .toContain('newIconDisabledClass');
+            });
+          });
         });
 
-        it('renders the component with actionable prop as false', () => {
-          expect(result.props.actionable)
-            .toBe(false);
+        describe('when newChannelChoice is false', () => {
+          beforeAll(() => {
+            componentProps = { newChannelChoice: false };
+          });
+
+          it('has iconTalk class', () => {
+            expect(result.props.iconClasses)
+              .toContain('iconTalkClass');
+          });
+        });
+      });
+
+      describe('when newChannelChoice is true', () => {
+        beforeAll(() => {
+          componentProps = { newChannelChoice: true };
+        });
+
+        it('passes newChannelChoice icon type to props.icon', () => {
+          expect(result.props.icon)
+            .toEqual('Icon--new-channelChoice-talk');
+        });
+      });
+
+      describe('when newChannelChoice is false', () => {
+        beforeAll(() => {
+          componentProps = { newChannelChoice: false };
+        });
+
+        it('passes default channelChoice icon type to props.icon', () => {
+          expect(result.props.icon)
+            .toEqual('Icon--channelChoice-talk');
         });
       });
     });
 
-    describe('when talk is not enabled', () => {
-      beforeEach(() => {
-        const component = domRender(
-          <ChannelChoiceMenu
-            talkEnabled={false} />
-        );
-
-        result = component.renderTalkButton();
+    describe('when showInitialTalkOption is true', () => {
+      beforeAll(() => {
+        mockShowInitialTalkOption = false;
       });
 
       it('returns null', () => {
@@ -209,96 +340,431 @@ describe('ChannelChoiceMenu component', () => {
     });
   });
 
+  describe('renderChatLabel', () => {
+    let result,
+      component,
+      componentProps;
+
+    beforeEach(() => {
+      component = instanceRender(<ChannelChoiceMenu {...componentProps} />);
+
+      result = component.renderChatLabel();
+    });
+
+    describe('when chatAvailable is true', () => {
+      beforeAll(() => {
+        componentProps = {
+          chatAvailable: true,
+          newChannelChoice: false
+        };
+      });
+
+      it('returns the expected string', () => {
+        expect(result)
+          .toEqual('embeddable_framework.common.button.chat');
+      });
+    });
+
+    describe('when chatAvailable is false', () => {
+      describe('when newChannelChoice is true', () => {
+        beforeAll(() => {
+          componentProps = {
+            chatAvailable: false,
+            newChannelChoice: true
+          };
+        });
+
+        it('returns a span element with two children', () => {
+          expect(result.type)
+            .toEqual('span');
+
+          expect(result.props.children.length)
+            .toEqual(2);
+        });
+      });
+
+      describe('when newChannelChoice is false', () => {
+        beforeAll(() => {
+          componentProps = {
+            chatAvailable: false,
+            newChannelChoice: false
+          };
+        });
+
+        it('returns the expected string', () => {
+          expect(result)
+            .toEqual('embeddable_framework.channelChoice.button.label.chat_offline_v2');
+        });
+      });
+    });
+  });
+
   describe('renderChatButton', () => {
-    let component;
+    let result,
+      component,
+      componentProps,
+      mockShowInitialChatOption;
 
-    describe('when chat is enabled', () => {
-      beforeEach(() => {
-        component = domRender(
-          <ChannelChoiceMenu
-            chatEnabled={true} />
-        );
+    beforeEach(() => {
+      component = instanceRender(<ChannelChoiceMenu {...componentProps} />);
+      component.showInitialChatOption = mockShowInitialChatOption;
+
+      spyOn(component, 'handleChatClick');
+      spyOn(component, 'renderChatLabel');
+
+      result = component.renderChatButton();
+    });
+
+    describe('when showInitialChatOption is true', () => {
+      beforeAll(() => {
+        mockShowInitialChatOption = true;
       });
 
-      it('returns a component', () => {
-        expect(component.renderChatButton())
-          .not.toBeNull();
+      describe('when called', () => {
+        beforeAll(() => {
+          componentProps = {
+            chatAvailable: true,
+            labelClasses: 'talkLabelClass'
+          };
+        });
+
+        it('returns a ButtonIcon component', () => {
+          expect(TestUtils.isElementOfType(result, ButtonIcon))
+            .toEqual(true);
+        });
+
+        it('calls handleChatClick', () => {
+          expect(component.handleChatClick)
+            .toHaveBeenCalled();
+        });
+
+        it('calls renderChatLabel', () => {
+          expect(component.renderChatLabel)
+            .toHaveBeenCalled();
+        });
+
+        it('passes chatAvailable to props.actionable', () => {
+          expect(result.props.actionable)
+            .toEqual(componentProps.chatAvailable);
+        });
+
+        it('passes labelClasses to props.labelClassName', () => {
+          expect(result.props.labelClassName)
+            .toEqual(componentProps.labelClasses);
+        });
       });
 
-      describe('when chat is available', () => {
-        beforeEach(() => {
-          component = domRender(
-            <ChannelChoiceMenu
-              chatAvailable={true}
-              chatEnabled={true} />
-          );
+      describe('props.className', () => {
+        describe('when newChannelChoice is true', () => {
+          describe('when chatAvailable is true', () => {
+            beforeAll(() => {
+              componentProps = {
+                newChannelChoice: true,
+                chatAvailable: true
+              };
+            });
+
+            it('has btn class', () => {
+              expect(result.props.className)
+                .toContain('btnClass');
+            });
+
+            it('has btnEnabled class', () => {
+              expect(result.props.className)
+                .toContain('btnEnabledClass');
+            });
+          });
+
+          describe('when chatAvailable is false', () => {
+            beforeAll(() => {
+              componentProps = {
+                newChannelChoice: true,
+                chatAvailable: false
+              };
+            });
+
+            it('has btn class', () => {
+              expect(result.props.className)
+                .toContain('btnClass');
+            });
+
+            it('does not have btnEnabled class', () => {
+              expect(result.props.className)
+                .not.toContain('btnEnabledClass');
+            });
+          });
         });
 
-        it('renders the component without disabled classes', () => {
-          expect(component.renderChatButton().props.className)
-            .not.toContain('chatBtnDisabled');
+        describe('when newChannelChoice is false', () => {
+          beforeAll(() => {
+            componentProps = { newChannelChoice: false };
+          });
+
+          it('does not have btn class', () => {
+            expect(result.props.className)
+              .not.toContain('btnClass');
+          });
+
+          it('does not have btnEnabled class', () => {
+            expect(result.props.className)
+              .not.toContain('btnEnabledClass');
+          });
+        });
+
+        describe('when chatAvailable is true', () => {
+          beforeAll(() => {
+            componentProps = { chatAvailable: true };
+          });
+
+          it('does not have chatBtnDisabled class', () => {
+            expect(result.props.className)
+              .not.toContain('chatBtnDisabledClass');
+          });
+        });
+
+        describe('when chatAvailable is false', () => {
+          beforeAll(() => {
+            componentProps = { chatAvailable: false };
+          });
+
+          it('has chatBtnDisabled class', () => {
+            expect(result.props.className)
+              .toContain('chatBtnDisabledClass');
+          });
         });
       });
 
-      describe('when chat is offline', () => {
-        beforeEach(() => {
-          component = domRender(
-            <ChannelChoiceMenu
-              chatEnabled={true}
-              chatAvailable={false} />
-          );
+      describe('props.iconClasses', () => {
+        describe('when newChannelChoice is true', () => {
+          describe('when chatAvailable is true', () => {
+            beforeAll(() => {
+              componentProps = {
+                newChannelChoice: true,
+                chatAvailable: true
+              };
+            });
+
+            it('has newIcon class', () => {
+              expect(result.props.iconClasses)
+                .toEqual('newIconClass');
+            });
+
+            it('does not have newIconDisabled class', () => {
+              expect(result.props.iconClasses)
+                .not.toEqual('newIconDisabledClass');
+            });
+          });
+
+          describe('when chatAvailable is false', () => {
+            beforeAll(() => {
+              componentProps = {
+                newChannelChoice: true,
+                chatAvailable: false
+              };
+            });
+
+            it('does not have newIcon class', () => {
+              expect(result.props.iconClasses)
+                .not.toEqual('newIconClass');
+            });
+
+            it('has newIconDisabled class', () => {
+              expect(result.props.iconClasses)
+                .toEqual('newIconDisabledClass');
+            });
+          });
         });
 
-        it('renders the component with disabled classes', () => {
-          expect(component.renderChatButton().props.className)
-            .toContain('chatBtnDisabled');
+        describe('when newChannelChoice is false', () => {
+          beforeAll(() => {
+            componentProps = { newChannelChoice: false };
+          });
+
+          it('does not have newIcon class', () => {
+            expect(result.props.iconClasses)
+              .not.toEqual('newIconClass');
+          });
+
+          it('does not have newIconDisabled class', () => {
+            expect(result.props.iconClasses)
+              .not.toEqual('newIconDisabledClass');
+          });
+        });
+      });
+
+      describe('when newChannelChoice is true', () => {
+        beforeAll(() => {
+          componentProps = { newChannelChoice: true };
+        });
+
+        it('passes newChannelChoice icon type to props.icon', () => {
+          expect(result.props.icon)
+            .toEqual('Icon--new-channelChoice-chat');
+        });
+      });
+
+      describe('when newChannelChoice is false', () => {
+        beforeAll(() => {
+          componentProps = { newChannelChoice: false };
+        });
+
+        it('passes default channelChoice icon type to props.icon', () => {
+          expect(result.props.icon)
+            .toEqual('Icon--chat');
         });
       });
     });
 
-    describe('when chat is not enabled', () => {
-      beforeEach(() => {
-        component = domRender(
-          <ChannelChoiceMenu
-            chatEnabled={false} />
-        );
+    describe('when showInitialChatOption is true', () => {
+      beforeAll(() => {
+        mockShowInitialChatOption = false;
       });
 
       it('returns null', () => {
-        expect(component.renderChatButton())
+        expect(result)
           .toBeNull();
       });
     });
   });
 
   describe('renderSubmitTicketButton', () => {
-    let component;
+    let result,
+      component,
+      componentProps;
 
-    describe('when submit ticket is available', () => {
-      beforeEach(() => {
-        component = domRender(
-          <ChannelChoiceMenu
-            submitTicketAvailable={true} />
-        );
+    beforeEach(() => {
+      component = instanceRender(<ChannelChoiceMenu {...componentProps} />);
+
+      spyOn(component, 'handleNextClick');
+
+      result = component.renderSubmitTicketButton();
+    });
+
+    describe('when submitTicketAvailable is true', () => {
+      beforeAll(() => {
+        componentProps = {
+          submitTicketAvailable: true,
+          labelClasses: 'labelClass'
+        };
       });
 
-      it('returns a component', () => {
-        expect(component.renderSubmitTicketButton())
-          .not.toBeNull();
+      it('returns a ButtonIcon component', () => {
+        expect(TestUtils.isElementOfType(result, ButtonIcon))
+          .toEqual(true);
+      });
+
+      it('calls handleNextClick', () => {
+        expect(component.handleNextClick)
+          .toHaveBeenCalledWith('ticketSubmissionForm');
+      });
+
+      it('passes the expected string to props.label', () => {
+        expect(result.props.label)
+          .toEqual('embeddable_framework.channelChoice.button.label.submitTicket');
+      });
+
+      it('passes labelClasses to props.labelClassName', () => {
+        expect(result.props.labelClassName)
+          .toEqual(componentProps.labelClasses);
+      });
+
+      describe('when newChannelChoice is true', () => {
+        beforeAll(() => {
+          componentProps = {
+            ...componentProps,
+            newChannelChoice: true
+          };
+        });
+
+        it('passes the expected string to props.icon', () => {
+          expect(result.props.icon)
+            .toEqual('Icon--new-channelChoice-contactForm');
+        });
+      });
+
+      describe('when newChannelChoice is false', () => {
+        beforeAll(() => {
+          componentProps = {
+            ...componentProps,
+            newChannelChoice: false
+          };
+        });
+
+        it('passes the expected string to props.icon', () => {
+          expect(result.props.icon)
+            .toEqual('Icon--channelChoice-contactForm');
+        });
       });
     });
 
-    describe('when submit ticket is not available', () => {
-      beforeEach(() => {
-        component = domRender(
-          <ChannelChoiceMenu
-            submitTicketAvailable={false} />
-        );
+    describe('when submitTicketAvailable is false', () => {
+      beforeAll(() => {
+        componentProps = {
+          submitTicketAvailable: false
+        };
       });
 
       it('returns null', () => {
-        expect(component.renderSubmitTicketButton())
+        expect(result)
           .toBeNull();
+      });
+    });
+
+    describe('props.iconClasses', () => {
+      describe('when newChannelChoice is true', () => {
+        beforeAll(() => {
+          componentProps = { newChannelChoice: true };
+        });
+
+        it('has newIcon class', () => {
+          expect(result.props.iconClasses)
+            .toContain('newIconClass');
+        });
+      });
+
+      describe('when newChannelChoice is false', () => {
+        beforeAll(() => {
+          componentProps = { newChannelChoice: false };
+        });
+
+        it('does not have newIcon class', () => {
+          expect(result.props.iconClasses)
+            .not.toContain('newIconClass');
+        });
+      });
+    });
+
+    describe('props.className', () => {
+      describe('when newChannelChoice is true', () => {
+        beforeAll(() => {
+          componentProps = { newChannelChoice: true };
+        });
+
+        it('has btn class', () => {
+          expect(result.props.className)
+            .toContain('btnClass');
+        });
+
+        it('has btnEnabled class', () => {
+          expect(result.props.className)
+            .toContain('btnEnabledClass');
+        });
+      });
+
+      describe('when newChannelChoice is false', () => {
+        beforeAll(() => {
+          componentProps = { newChannelChoice: false };
+        });
+
+        it('does not have btn class', () => {
+          expect(result.props.className)
+            .not.toContain('btnClass');
+        });
+
+        it('does not have btnEnabled class', () => {
+          expect(result.props.className)
+            .not.toContain('btnEnabledClass');
+        });
       });
     });
   });
