@@ -1026,48 +1026,120 @@ describe('HelpCenter component', () => {
   });
 
   describe('handleNextClick', () => {
-    let helpCenter,
-      onNextClickSpy,
-      updateChannelChoiceShownSpy;
+    let componentProps,
+      mockUpdateChannelChoiceShown,
+      mockOnNextClick,
+      mockEvent;
 
     beforeEach(() => {
-      onNextClickSpy = jasmine.createSpy('onNextClick');
-      updateChannelChoiceShownSpy = jasmine.createSpy('updateChannelChoiceShown');
+      mockEvent = { preventDefault: jasmine.createSpy('preventDefault') };
+      mockUpdateChannelChoiceShown = jasmine.createSpy('updateChannelChoiceShown');
+      mockOnNextClick = jasmine.createSpy('onNextClick');
+
+      const component = instanceRender(
+        <HelpCenter
+          updateChannelChoiceShown={mockUpdateChannelChoiceShown}
+          onNextClick={mockOnNextClick}
+          {...componentProps} />
+      );
+
+      component.handleNextClick(mockEvent);
+
+      jasmine.clock().tick(0);
     });
 
-    describe('when props.channelChoice is true', () => {
-      beforeEach(() => {
-        helpCenter = domRender(
-          <HelpCenter
-            chatOnline={true}
-            channelChoice={true}
-            updateChannelChoiceShown={updateChannelChoiceShownSpy} />
-        );
-
-        helpCenter.handleNextClick({ preventDefault: noop });
-        jasmine.clock().tick(0);
-      });
-
-      it('calls updateChannelChoiceShown on the next tick', () => {
-        expect(updateChannelChoiceShownSpy)
-          .toHaveBeenCalledWith(true);
-      });
-    });
-
-    describe('when props.channelChoice is false', () => {
-      beforeEach(() => {
-        helpCenter = domRender(
-          <HelpCenter
-            chatOnline={true}
-            channelChoice={false}
-            onNextClick={onNextClickSpy} />
-        );
-        helpCenter.handleNextClick({ preventDefault: noop });
-      });
-
-      it('should call props.onNextClick', () => {
-        expect(onNextClickSpy)
+    describe('when called', () => {
+      it('calls preventDefault', () => {
+        expect(mockEvent.preventDefault)
           .toHaveBeenCalled();
+      });
+    });
+
+    describe('when newChannelChoice is true', () => {
+      beforeAll(() => {
+        componentProps = { newChannelChoice: true };
+      });
+
+      describe('when channelChoice is true', () => {
+        beforeAll(() => {
+          componentProps = {
+            ...componentProps,
+            channelChoice: true
+          };
+        });
+
+        it('calls onNextClick', () => {
+          expect(mockOnNextClick)
+            .toHaveBeenCalled();
+        });
+
+        it('does not call updateChannelChoiceShown', () => {
+          expect(mockUpdateChannelChoiceShown)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when channelChoice is false', () => {
+        beforeAll(() => {
+          componentProps = {
+            ...componentProps,
+            channelChoice: false
+          };
+        });
+
+        it('calls onNextClick', () => {
+          expect(mockOnNextClick)
+            .toHaveBeenCalled();
+        });
+
+        it('does not call updateChannelChoiceShown', () => {
+          expect(mockUpdateChannelChoiceShown)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when newChannelChoice is false', () => {
+      beforeAll(() => {
+        componentProps = { newChannelChoice: false };
+      });
+
+      describe('when channelChoice is true', () => {
+        beforeAll(() => {
+          componentProps = {
+            ...componentProps,
+            channelChoice: true
+          };
+        });
+
+        it('does not call onNextClick', () => {
+          expect(mockOnNextClick)
+            .not.toHaveBeenCalled();
+        });
+
+        it('calls updateChannelChoiceShown with true', () => {
+          expect(mockUpdateChannelChoiceShown)
+            .toHaveBeenCalledWith(true);
+        });
+      });
+
+      describe('when channelChoice is false', () => {
+        beforeAll(() => {
+          componentProps = {
+            ...componentProps,
+            channelChoice: false
+          };
+        });
+
+        it('calls onNextClick', () => {
+          expect(mockOnNextClick)
+            .toHaveBeenCalled();
+        });
+
+        it('does not call updateChannelChoiceShown', () => {
+          expect(mockUpdateChannelChoiceShown)
+            .not.toHaveBeenCalled();
+        });
       });
     });
   });
