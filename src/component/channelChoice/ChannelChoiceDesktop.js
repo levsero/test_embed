@@ -47,6 +47,7 @@ export class ChannelChoiceDesktop extends Component {
       talkEnabled,
       callbackEnabled,
       newChannelChoice } = this.props;
+    const divider = !hideZendeskLogo && !newChannelChoice ? <hr className={styles.hr} /> : null;
     const containerStyle = !hideZendeskLogo ? styles.inner : '';
 
     return (
@@ -66,14 +67,15 @@ export class ChannelChoiceDesktop extends Component {
   }
 
   render = () => {
-    const { formTitleKey, hideZendeskLogo, newHeight } = this.props;
+    const { formTitleKey, hideZendeskLogo, newHeight, newChannelChoice } = this.props;
     const footerClasses = hideZendeskLogo ? styles.footerNoLogo : '';
+    const containerStyle = (newChannelChoice) ? styles.newChannelChoiceContainer : styles.container;
 
     return (
       <div>
         <ScrollContainer
           ref='scrollContainer'
-          containerClasses={styles.container}
+          containerClasses={containerStyle}
           footerContent={this.renderZendeskLogo()}
           footerClasses={footerClasses}
           hideZendeskLogo={hideZendeskLogo}
