@@ -137,7 +137,7 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderChannelChoice = () => {
-    return this.props.channelChoice
+    return (this.props.channelChoiceShown)
       ? <ChannelChoicePopupDesktop
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
@@ -150,14 +150,19 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderFooterContent = () => {
-    return this.props.showNextButton && (this.props.hasSearched || this.props.articleViewActive)
+    const { channelChoice, newChannelChoice, showNextButton, hasSearched, articleViewActive } = this.props;
+    const onClickHandler = (newChannelChoice && channelChoice)
+      ? this.props.onNextClick
+      : this.props.handleNextClick;
+
+    return showNextButton && (hasSearched || articleViewActive)
       ? (
         <div className={styles.buttonContainer}>
           <ButtonGroup rtl={i18n.isRTL()}>
             <Button
               fullscreen={false}
               label={this.props.buttonLabel}
-              onClick={this.props.handleNextClick} />
+              onClick={onClickHandler} />
           </ButtonGroup>
           {this.renderChannelChoice()}
         </div>

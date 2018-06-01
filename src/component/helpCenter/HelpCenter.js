@@ -286,12 +286,14 @@ class HelpCenter extends Component {
   }
 
   handleNextClick = (e) => {
+    const { newChannelChoice, channelChoice, updateChannelChoiceShown, onNextClick } = this.props;
+
     e.preventDefault();
 
-    if (this.props.channelChoice) {
-      setTimeout(() => this.props.updateChannelChoiceShown(true), 0);
+    if (!newChannelChoice && channelChoice) {
+      setTimeout(() => updateChannelChoiceShown(true), 0);
     } else {
-      this.props.onNextClick();
+      onNextClick();
     }
   }
 

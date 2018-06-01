@@ -284,7 +284,7 @@ class WebWidget extends Component {
   }
 
   show = (viaActivate = false) => {
-    const { activeEmbed, chatAvailable } = this.props;
+    const { activeEmbed, chatAvailable, newChannelChoice, talkAvailable } = this.props;
 
     // If chat came online when contact form was open it should
     // replace it when it's next opened.
@@ -299,9 +299,17 @@ class WebWidget extends Component {
       this.props.zopimOnNext();
       return;
     }
-    // If zopim or talk has gone offline we will need to reset the embed
-    const chatOffline = _.includes([zopimChat, channelChoice], activeEmbed) && !chatAvailable;
-    const talkOffline = _.includes([talk, channelChoice], activeEmbed) && !this.props.talkAvailable;
+
+    /*
+      For both variables below they must satisfy the following to be true
+      1. If their activeEmbeds are enabled (e.g. zopimChat, talk)
+      2. If the activeEmbed is channelChoice and newChannelChoice is false
+      3. If the activeEmbed is channelChoice and newChannelChoice is true and when their products wouldn't show
+    */
+    const newChannelChoiceNotAvailable = !newChannelChoice || (newChannelChoice && !this.isChannelChoiceAvailable());
+    const newChannelChoiceOffline = (activeEmbed === channelChoice && newChannelChoiceNotAvailable);
+    const chatOffline = (activeEmbed === zopimChat || newChannelChoiceOffline && !chatAvailable);
+    const talkOffline = (activeEmbed === talk || newChannelChoiceOffline && !talkAvailable);
 
     if (this.noActiveEmbed() || viaActivate || chatOffline || talkOffline) this.resetActiveEmbed();
   }
@@ -314,10 +322,19 @@ class WebWidget extends Component {
   }
 
   onNextClick = (embed) => {
-    const { updateBackButtonVisibility, ipmHelpCenterAvailable, updateActiveEmbed, oldChat,
-      chatAvailable, talkAvailable } = this.props;
+    const {
+      updateBackButtonVisibility,
+      ipmHelpCenterAvailable,
+      updateActiveEmbed,
+      oldChat,
+      chatAvailable,
+      talkAvailable,
+      newChannelChoice } = this.props;
 
-    if (embed) {
+    if (newChannelChoice && this.isChannelChoiceAvailable()) {
+      updateActiveEmbed(channelChoice);
+      updateBackButtonVisibility(true);
+    } else if (embed) {
       this.setComponent(embed);
     } else if (chatAvailable) {
       this.showChat();
@@ -353,9 +370,14 @@ class WebWidget extends Component {
   }
 
   onBackClick = () => {
+    const {
+      ipmHelpCenterAvailable,
+      activeEmbed,
+      updateBackButtonVisibility,
+      updateActiveEmbed,
+      resetActiveArticle,
+      newChannelChoice } = this.props;
     const rootComponent = this.getRootComponent();
-    const { ipmHelpCenterAvailable, activeEmbed, updateBackButtonVisibility, updateActiveEmbed,
-      resetActiveArticle } = this.props;
     const helpCenterAvailable = this.isHelpCenterAvailable();
     const channelChoiceAvailable = this.isChannelChoiceAvailable();
 
@@ -366,6 +388,9 @@ class WebWidget extends Component {
     } else if (this.props.showTicketFormsBackButton) {
       rootComponent.clearForm();
       updateBackButtonVisibility(helpCenterAvailable || channelChoiceAvailable);
+    } else if (newChannelChoice && channelChoiceAvailable && activeEmbed !== channelChoice) {
+      updateActiveEmbed(channelChoice);
+      updateBackButtonVisibility(helpCenterAvailable);
     } else if (helpCenterAvailable) {
       this.showHelpCenter();
     } else {
