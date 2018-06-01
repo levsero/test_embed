@@ -1,5 +1,29 @@
 @import '../../styles/_vars.scss';
 
+.btn {
+  padding: 0 !important;
+  margin: 0 #{6/$font-size}rem #{12/$font-size}rem;
+  height: #{84/$font-size}rem;
+  box-shadow: 0 #{1/$font-size}rem #{8/$font-size}rem 0 rgba(0,0,0,0.2);
+  border-radius: #{4/$font-size}rem;
+}
+
+.btnEnabled {
+  &:hover, &:focus, &:active {
+    box-shadow: 0 #{1/$font-size}rem #{8/$font-size}rem 0 rgba(0,0,0,0.3);
+    text-decoration: underline;
+  }
+
+  &:hover {
+    background-color: $zd-color-white;
+  }
+
+  &:focus, &:active {
+    background-color: $zd-color-white-smoke;
+  }
+}
+
+
 .btnDisabled {
   background-color: $zd-color-white !important;
   color: $zd-color-aluminum !important;
@@ -44,4 +68,44 @@
       stroke: $zd-color-dark-gray;
     }
   }
+}
+
+.icon {
+  padding-left: #{30/$font-size}rem;
+  padding-right: #{25/$font-size}rem;
+  width: #{30/$font-size}rem;
+  height: #{30/$font-size}rem;
+
+  svg {
+    min-width: #{30/$font-size}rem;
+    min-height: #{30/$font-size}rem;
+    max-width: #{30/$font-size}rem;
+    max-height: #{30/$font-size}rem;
+  }
+}
+
+.newIcon {
+  composes: u-userColor from global;
+  composes: icon;
+
+  svg {
+    path, rect {
+      fill: currentColor !important;
+    }
+  }
+}
+
+.newIconDisabled {
+  composes: icon;
+
+  svg {
+    path, rect {
+      fill: $zd-color-iron !important;
+    }
+  }
+}
+
+.offlineLabelOption {
+  color: $zd-color-oil;
+  margin-bottom: #{5/$font-size}rem;
 }

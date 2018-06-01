@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import { i18n } from 'service/i18n';
 import { ButtonIcon } from 'component/button/ButtonIcon';
@@ -30,6 +31,13 @@ export class ChannelChoiceMenu extends Component {
     newChannelChoice: false
   };
 
+  constructor(props) {
+    super(props);
+
+    this.showInitialTalkOption = props.talkAvailable;
+    this.showInitialChatOption = props.chatAvailable;
+  }
+
   handleChatClick = () => {
     return this.props.chatAvailable
       ? this.handleNextClick('chat')
@@ -40,61 +48,117 @@ export class ChannelChoiceMenu extends Component {
     return () => this.props.onNextClick(embed);
   }
 
-  renderTalkButton = () => {
-    const { talkAvailable, talkEnabled } = this.props;
-
-    if (!talkEnabled) return null;
-
-    const onlineLabel = (this.props.callbackEnabled)
+  renderTalkLabel = () => {
+    const { callbackEnabled, newChannelChoice, talkAvailable } = this.props;
+    const optionLabel = (callbackEnabled)
       ? i18n.t('embeddable_framework.channelChoice.button.label.request_callback')
       : i18n.t('embeddable_framework.channelChoice.button.label.call_us');
-    const label = (talkAvailable)
-      ? onlineLabel
+    const offlineLabel = (newChannelChoice)
+      ? (
+        <span>
+          <div className={styles.offlineLabelOption}>{optionLabel}</div>
+          <div>{i18n.t('embeddable_framework.channelChoice.button.label.no_available_agents')}</div>
+        </span>
+      )
       : i18n.t('embeddable_framework.channelChoice.button.label.talk_offline_v2');
-    const disabledStyle = !talkAvailable ? styles.talkBtnDisabled : '';
+
+    return (talkAvailable)
+      ? optionLabel
+      : offlineLabel;
+  }
+
+  renderTalkButton = () => {
+    if (!this.showInitialTalkOption) return null;
+
+    const { talkAvailable, newChannelChoice, buttonClasses } = this.props;
+    const iconType = (newChannelChoice) ? 'Icon--new-channelChoice-talk' : 'Icon--channelChoice-talk';
+    const iconStyle = classNames({
+      [styles.newIcon]: newChannelChoice && talkAvailable,
+      [styles.newIconDisabled]: newChannelChoice && !talkAvailable,
+      [styles.iconTalk]: !newChannelChoice
+    });
+    const buttonStyle = classNames(buttonClasses, {
+      [styles.btn]: newChannelChoice,
+      [styles.btnEnabled]: newChannelChoice && talkAvailable,
+      [styles.talkBtnDisabled]: !talkAvailable,
+      [styles.buttonTalk]: !newChannelChoice
+    });
 
     return (
       <ButtonIcon
         actionable={talkAvailable}
-        className={`${this.props.buttonClasses} ${styles.buttonTalk} ${disabledStyle}`}
+        className={buttonStyle}
         labelClassName={this.props.labelClasses}
         onClick={this.handleNextClick('talk')}
-        iconClasses={styles.iconTalk}
-        label={label}
-        icon='Icon--channelChoice-talk' />
+        iconClasses={iconStyle}
+        label={this.renderTalkLabel()}
+        icon={iconType} />
     );
   }
 
   renderSubmitTicketButton = () => {
     if (!this.props.submitTicketAvailable) return null;
 
+    const { newChannelChoice, buttonClasses } = this.props;
+    const iconType = (newChannelChoice) ? 'Icon--new-channelChoice-contactForm' : 'Icon--channelChoice-contactForm';
+    const iconStyle = (newChannelChoice) ? styles.newIcon : '';
+    const buttonStyle = classNames(buttonClasses, {
+      [styles.btn]: newChannelChoice,
+      [styles.btnEnabled]: newChannelChoice
+    });
+
     return (
       <ButtonIcon
-        className={this.props.buttonClasses}
+        className={buttonStyle}
+        iconClasses={iconStyle}
         labelClassName={this.props.labelClasses}
         onClick={this.handleNextClick('ticketSubmissionForm')}
         label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
-        icon='Icon--channelChoice-contactForm' />
+        icon={iconType} />
     );
   }
 
-  renderChatButton = () => {
-    if (!this.props.chatEnabled) return null;
-
-    const { chatAvailable } = this.props;
-    const chatBtnStyle = !chatAvailable ? styles.chatBtnDisabled : '';
-    const chatLabel = (chatAvailable)
-      ? i18n.t('embeddable_framework.common.button.chat')
+  renderChatLabel = () => {
+    const { chatAvailable, newChannelChoice } = this.props;
+    const optionLabel = i18n.t('embeddable_framework.common.button.chat');
+    const offlineLabel = (newChannelChoice)
+      ? (
+        <span>
+          <div className={styles.offlineLabelOption}>{optionLabel}</div>
+          <div>{i18n.t('embeddable_framework.channelChoice.button.label.no_available_agents')}</div>
+        </span>
+      )
       : i18n.t('embeddable_framework.channelChoice.button.label.chat_offline_v2');
+
+    return (chatAvailable)
+      ? optionLabel
+      : offlineLabel;
+  }
+
+  renderChatButton = () => {
+    if (!this.showInitialChatOption) return null;
+
+    const { chatAvailable, newChannelChoice, buttonClasses } = this.props;
+    const iconType = (newChannelChoice) ? 'Icon--new-channelChoice-chat' : 'Icon--chat';
+    const iconStyle = classNames({
+      [styles.newIcon]: newChannelChoice && chatAvailable,
+      [styles.newIconDisabled]: newChannelChoice && !chatAvailable
+    });
+    const buttonStyle = classNames(buttonClasses, {
+      [styles.btn]: newChannelChoice,
+      [styles.btnEnabled]: newChannelChoice && chatAvailable,
+      [styles.chatBtnDisabled]: !chatAvailable
+    });
 
     return (
       <ButtonIcon
         actionable={chatAvailable}
-        className={`${chatBtnStyle} ${this.props.buttonClasses}`}
+        className={buttonStyle}
+        iconClasses={iconStyle}
         labelClassName={this.props.labelClasses}
         onClick={this.handleChatClick()}
-        label={chatLabel}
-        icon='Icon--chat' />
+        label={this.renderChatLabel()}
+        icon={iconType} />
     );
   }
 

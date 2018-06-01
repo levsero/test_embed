@@ -11,7 +11,7 @@ export class ButtonIcon extends Component {
     labelClassName: PropTypes.string,
     icon: PropTypes.string,
     iconClasses: PropTypes.string,
-    label: PropTypes.string,
+    label: PropTypes.node,
     onClick: PropTypes.func
   };
 
@@ -21,7 +21,7 @@ export class ButtonIcon extends Component {
     labelClassName: '',
     icon: '',
     iconClasses: '',
-    label: '',
+    label: null,
     onClick: () => {}
   };
 
