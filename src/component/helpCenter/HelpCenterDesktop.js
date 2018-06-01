@@ -17,6 +17,8 @@ export class HelpCenterDesktop extends Component {
     articleViewActive: PropTypes.bool,
     buttonLabel: PropTypes.string.isRequired,
     channelChoice: PropTypes.bool,
+    channelChoiceShown: PropTypes.bool,
+    newChannelChoice: PropTypes.bool,
     chatAvailable: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
     formTitleKey: PropTypes.string,
@@ -42,6 +44,8 @@ export class HelpCenterDesktop extends Component {
   static defaultProps = {
     articleViewActive: false,
     channelChoice: false,
+    channelChoiceShown: false,
+    newChannelChoice: false,
     formTitleKey: 'help',
     hasSearched: false,
     hideZendeskLogo: false,

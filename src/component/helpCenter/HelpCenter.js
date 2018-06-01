@@ -69,6 +69,8 @@ class HelpCenter extends Component {
     buttonLabelKey: PropTypes.string,
     callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
+    newChannelChoice: PropTypes.bool.isRequired,
+    channelChoiceShown: PropTypes.bool.isRequired,
     chatEnabled: PropTypes.bool.isRequired,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool.isRequired,
@@ -105,7 +107,6 @@ class HelpCenter extends Component {
     restrictedImages: PropTypes.object.isRequired,
     addRestrictedImage: PropTypes.func,
     updateChannelChoiceShown: PropTypes.func.isRequired,
-    channelChoiceShown: PropTypes.bool.isRequired,
     searchFieldValue: PropTypes.string.isRequired,
     handleSearchFieldChange: PropTypes.func.isRequired,
     handleSearchFieldFocus: PropTypes.func.isRequired,
@@ -142,7 +143,8 @@ class HelpCenter extends Component {
     updateChannelChoiceShown: () => {},
     handleSearchFieldChange: () => {},
     chatNotificationCount: 0,
-    isChatting: false
+    isChatting: false,
+    newChannelChoice: false
   };
 
   constructor(props) {
@@ -374,7 +376,8 @@ class HelpCenter extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         isLoading={this.props.searchLoading}
         onNextClick={this.props.onNextClick}
-        channelChoice={this.props.channelChoiceShown}
+        channelChoice={this.props.channelChoice}
+        channelChoiceShown={this.props.channelChoiceShown}
         callbackEnabled={this.props.callbackEnabled}
         talkEnabled={this.props.talkEnabled}
         talkAvailable={this.props.talkAvailable}
@@ -386,7 +389,8 @@ class HelpCenter extends Component {
         shadowVisible={shadowVisible}
         updateFrameSize={this.props.updateFrameSize}
         updateChatScreen={this.props.updateChatScreen}
-        newHeight={this.props.newHeight}>
+        newHeight={this.props.newHeight}
+        newChannelChoice={this.props.newChannelChoice}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterDesktop>

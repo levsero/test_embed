@@ -134,7 +134,8 @@ class WebWidget extends Component {
     resultsCount: PropTypes.number.isRequired,
     ipmHelpCenterAvailable: PropTypes.bool,
     newHeight: PropTypes.bool.isRequired,
-    mobileNotificationsDisabled: PropTypes.bool
+    mobileNotificationsDisabled: PropTypes.bool,
+    newChannelChoice: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -171,7 +172,8 @@ class WebWidget extends Component {
     articleViewActive: false,
     onShowMobile: () => {},
     ipmHelpCenterAvailable: false,
-    mobileNotificationsDisabled: false
+    mobileNotificationsDisabled: false,
+    newChannelChoice: false
   };
 
   setComponent = (activeComponent) => {
@@ -450,7 +452,8 @@ class WebWidget extends Component {
           zendeskHost={this.props.zendeskHost}
           chatNotificationDismissed={this.props.chatNotificationDismissed}
           updateChatScreen={this.props.updateChatScreen}
-          newHeight={this.props.newHeight} />
+          newHeight={this.props.newHeight}
+          newChannelChoice={this.props.newChannelChoice} />
       </div>
     );
   }
@@ -505,7 +508,8 @@ class WebWidget extends Component {
         onNextClick={this.setComponent}
         onCancelClick={this.props.closeFrame}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        newHeight={this.props.newHeight} />
+        newHeight={this.props.newHeight}
+        newChannelChoice={this.props.newChannelChoice} />
     );
   }
 

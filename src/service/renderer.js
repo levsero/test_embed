@@ -107,6 +107,7 @@ function renderEmbeds(parsedConfig, config, reduxStore) {
       reduxStore.dispatch(updateEmbedAccessible(embedName, true));
       configItem.props.visible = config.embeds && !config.embeds.talk && !config.embeds.zopimChat && !hideLauncher;
       configItem.props.hideZendeskLogo = config.hideZendeskLogo;
+      configItem.props.newChannelChoice = config.newChannelChoice;
       configItem.props.brand = config.brand;
       configItem.props.ipmAllowed = config.ipmAllowed;
 

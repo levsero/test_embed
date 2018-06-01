@@ -8,8 +8,9 @@ import { locals as styles } from './ChannelChoiceMenu.scss';
 export class ChannelChoiceMenu extends Component {
   static propTypes = {
     onNextClick: PropTypes.func.isRequired,
-    chatAvailable: PropTypes.bool.isRequired,
     callbackEnabled: PropTypes.bool.isRequired,
+    newChannelChoice: PropTypes.bool.isRequired,
+    chatAvailable: PropTypes.bool,
     buttonClasses: PropTypes.string,
     labelClasses: PropTypes.string,
     talkAvailable: PropTypes.bool,
@@ -24,7 +25,9 @@ export class ChannelChoiceMenu extends Component {
     talkAvailable: false,
     talkEnabled: false,
     submitTicketAvailable: true,
-    chatEnabled: false
+    chatAvailable: false,
+    chatEnabled: false,
+    newChannelChoice: false
   };
 
   handleChatClick = () => {
