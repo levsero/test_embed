@@ -4,6 +4,8 @@ describe('ChannelChoiceMobile component', () => {
     channelChoiceComponent;
   const channelChoicePath = buildSrcPath('component/channelChoice/ChannelChoiceMobile');
 
+  const Button = noopReactComponent();
+
   beforeEach(() => {
     mockery.enable();
 
@@ -18,9 +20,7 @@ describe('ChannelChoiceMobile component', () => {
           }
         }
       },
-      'component/button/Button': {
-        Button: noopReactComponent()
-      },
+      'component/button/Button': { Button },
       'component/container/ScrollContainer': {
         ScrollContainer: class extends Component {
           render() {
@@ -58,6 +58,39 @@ describe('ChannelChoiceMobile component', () => {
     it('renders the ChannelChoiceMobilePopup component', () => {
       expect(channelChoiceComponent.querySelector('.ChannelChoicePopupMobile'))
         .not.toBeNull();
+    });
+  });
+
+  describe('renderCancelButton', () => {
+    let result,
+      componentProps;
+
+    beforeEach(() => {
+      const component = instanceRender(<ChannelChoiceMobile {...componentProps} />);
+
+      result = component.renderCancelButton();
+    });
+
+    describe('when newChannelChoice is true', () => {
+      beforeAll(() => {
+        componentProps = { newChannelChoice: true };
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toBeNull();
+      });
+    });
+
+    describe('when newChannelChoice is false', () => {
+      beforeAll(() => {
+        componentProps = { newChannelChoice: false };
+      });
+
+      it('returns a Button component', () => {
+        expect(TestUtils.isElementOfType(result, Button))
+          .toEqual(true);
+      });
     });
   });
 });
