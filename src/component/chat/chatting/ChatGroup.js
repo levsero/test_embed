@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import { Avatar } from 'component/Avatar';
+import { ChatGroupAvatar } from 'component/chat/chatting/ChatGroupAvatar';
 import { MessageBubble } from 'component/shared/MessageBubble';
 import { Attachment } from 'component/attachment/Attachment';
 import { MessageError } from 'component/chat/chatting/MessageError';
@@ -26,7 +27,8 @@ export class ChatGroup extends Component {
     handleSendMsg: PropTypes.func,
     onImageLoad: PropTypes.func,
     chatLogCreatedAt: PropTypes.number,
-    children: PropTypes.object
+    children: PropTypes.object,
+    socialLogin: PropTypes.object
   };
 
   static defaultProps = {
@@ -34,14 +36,15 @@ export class ChatGroup extends Component {
     isAgent: false,
     handleSendMsg: () => {},
     onImageLoad: () => {},
-    chatLogCreatedAt: 0
+    chatLogCreatedAt: 0,
+    socialLogin: {}
   };
 
   constructor(props) {
     super(props);
 
     this.container = null;
-    this.avatar = null;
+    this.avatar = new ChatGroupAvatar(this.props);
   }
 
   renderName = (isAgent, showAvatar, messages) => {
@@ -79,7 +82,8 @@ export class ChatGroup extends Component {
       const wrapperClasses = classNames(
         styles.wrapper,
         {
-          [styles.avatarWrapper]: isAgent && showAvatar,
+          [styles.avatarAgentWrapper]: this.avatar.shouldDisplay() && this.avatar.isAgent,
+          [styles.avatarEndUserWrapper]: this.avatar.shouldDisplay() && this.avatar.isEndUser,
           [styles.fadeUp]: shouldAnimate
         }
       );
@@ -207,25 +211,27 @@ export class ChatGroup extends Component {
     return inlineAttachment;
   }
 
-  renderAvatar = (showAvatarAsAgent, avatarPath = '', messages) => {
+  renderAvatar = (messages) => {
+    if (!this.avatar.shouldDisplay()) return;
+
     const shouldAnimate = _.get(messages, '0.timestamp') > this.props.chatLogCreatedAt;
     const avatarClasses = classNames({
       [styles.avatar]: true,
+      [styles.agentAvatar]: this.avatar.isAgent,
+      [styles.endUserAvatar]: this.avatar.isEndUser,
       [styles.fadeIn]: shouldAnimate
     });
 
-    return showAvatarAsAgent ?
-      <Avatar
-        ref={(el) => { this.avatar = ReactDOM.findDOMNode(el); }}
-        className={avatarClasses}
-        src={avatarPath}
-        fallbackIcon='Icon--agent-avatar'
-      /> : null;
+    return (<Avatar
+      ref={(el) => { ReactDOM.findDOMNode(el); }}
+      className={avatarClasses}
+      src={this.avatar.path()}
+      fallbackIcon='Icon--agent-avatar'
+    />);
   }
 
   render() {
-    const { isAgent, messages, avatarPath, showAvatar } = this.props;
-    const showAvatarAsAgent = isAgent && showAvatar;
+    const { isAgent, messages, showAvatar } = this.props;
 
     return (
       <div
@@ -234,7 +240,7 @@ export class ChatGroup extends Component {
       >
         {this.renderName(isAgent, showAvatar, messages)}
         {this.renderChatMessages(isAgent, showAvatar, messages)}
-        {this.renderAvatar(showAvatarAsAgent, avatarPath, messages)}
+        {this.renderAvatar(messages)}
         {this.props.children}
       </div>
     );

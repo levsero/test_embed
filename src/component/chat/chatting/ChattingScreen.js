@@ -58,7 +58,8 @@ const mapStateToProps = (state) => {
     menuVisible: selectors.getMenuVisible(state),
     agentJoined: selectors.getAgentJoined(state),
     loginSettings: selectors.getLoginSettings(state),
-    firstMessageTimestamp: selectors.getFirstMessageTimestamp(state)
+    firstMessageTimestamp: selectors.getFirstMessageTimestamp(state),
+    socialLogin: selectors.getSocialLogin(state)
   };
 };
 
@@ -100,7 +101,8 @@ class ChattingScreen extends Component {
     fetchConversationHistory: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
     firstMessageTimestamp: PropTypes.number,
-    newHeight: PropTypes.bool.isRequired
+    newHeight: PropTypes.bool.isRequired,
+    socialLogin: PropTypes.object
   };
 
   static defaultProps = {
@@ -126,7 +128,8 @@ class ChattingScreen extends Component {
     visitor: {},
     fetchConversationHistory: () => {},
     hideZendeskLogo: false,
-    firstMessageTimestamp: null
+    firstMessageTimestamp: null,
+    socialLogin: {}
   };
 
   constructor(props) {
@@ -458,6 +461,7 @@ class ChattingScreen extends Component {
             onImageLoad={this.scrollToBottom}
             showUpdateInfo={!!loginSettings.enabled && !(visitorNameSet || emailSet)}
             updateInfoOnClick={this.showContactDetailsFn}
+            socialLogin={this.props.socialLogin}
           />
           {this.renderQueuePosition()}
           {this.renderAgentTyping(agentsTyping)}
