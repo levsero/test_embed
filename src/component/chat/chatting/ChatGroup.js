@@ -223,7 +223,6 @@ export class ChatGroup extends Component {
     });
 
     return (<Avatar
-      ref={(el) => { ReactDOM.findDOMNode(el); }}
       className={avatarClasses}
       src={this.avatar.path()}
       fallbackIcon='Icon--agent-avatar'
