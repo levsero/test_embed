@@ -30,6 +30,6 @@ export class ChatGroupAvatar {
   }
 
   hasSocialLoginAvatar = () => {
-    return (!!this.socialLogin && this.socialLogin.avatarPath !== '');
+    return !!this.socialLogin && this.socialLogin.avatarPath !== '';
   }
 }
