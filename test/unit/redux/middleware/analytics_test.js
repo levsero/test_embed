@@ -4,6 +4,7 @@ describe('analytics middleware', () => {
     loadtime;
   const UPDATE_ACTIVE_EMBED = 'widget/base/UPDATE_ACTIVE_EMBED';
   const SDK_CHAT_MEMBER_JOIN = 'widget/chat/SDK_CHAT_MEMBER_JOIN';
+  const OFFLINE_FORM_REQUEST_SUCCESS = 'widget/chat/OFFLINE_FORM_REQUEST_SUCCESS';
 
   beforeEach(() => {
     const blipPath = buildSrcPath('redux/middleware/analytics');
@@ -23,6 +24,7 @@ describe('analytics middleware', () => {
       },
       'src/redux/modules/chat/chat-action-types': {
         SDK_CHAT_MEMBER_JOIN,
+        OFFLINE_FORM_REQUEST_SUCCESS
       }
     });
 
@@ -178,6 +180,25 @@ describe('analytics middleware', () => {
               .toHaveBeenCalled();
           });
         });
+      });
+    });
+
+    describe('action has type OFFLINE_FORM_REQUEST_SUCCESS', () => {
+      beforeEach(() => {
+        const payload = {
+          department: 'testing'
+        };
+
+        action = {
+          type: OFFLINE_FORM_REQUEST_SUCCESS,
+          payload
+        };
+        trackAnalytics({ getState: () => {} })(noop)(action);
+      });
+
+      it('calls GA.track with the correct params', () => {
+        expect(GASpy.track)
+          .toHaveBeenCalledWith('Chat Offline Message Sent', 'testing');
       });
     });
   });
