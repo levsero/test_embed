@@ -3,7 +3,8 @@ import { GA } from 'service/analytics/googleAnalytics';
 import { UPDATE_ACTIVE_EMBED } from 'src/redux/modules/base/base-action-types';
 import { SDK_CHAT_MEMBER_JOIN,
   OFFLINE_FORM_REQUEST_SUCCESS,
-  SDK_CHAT_RATING } from 'src/redux/modules/chat/chat-action-types';
+  SDK_CHAT_RATING,
+  SDK_CHAT_COMMENT } from 'src/redux/modules/chat/chat-action-types';
 import { getIsChatting } from 'src/redux/modules/chat/chat-selectors';
 
 const isAgent = (nick) => nick.indexOf('agent:') > -1;
@@ -41,6 +42,11 @@ export function trackAnalytics({ getState }) {
           } else {
             GA.track('Chat Rating Removed');
           }
+        }
+        break;
+      case SDK_CHAT_COMMENT:
+        if (isAfterLoadTime) {
+          GA.track('Chat Comment Submitted');
         }
         break;
     }

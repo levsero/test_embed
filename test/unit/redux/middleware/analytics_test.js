@@ -6,6 +6,7 @@ describe('analytics middleware', () => {
   const SDK_CHAT_MEMBER_JOIN = 'widget/chat/SDK_CHAT_MEMBER_JOIN';
   const OFFLINE_FORM_REQUEST_SUCCESS = 'widget/chat/OFFLINE_FORM_REQUEST_SUCCESS';
   const SDK_CHAT_RATING = 'widget/chat/SDK_CHAT_RATING';
+  const SDK_CHAT_COMMENT = 'widget/chat/SDK_CHAT_COMMENT';
 
   beforeEach(() => {
     const blipPath = buildSrcPath('redux/middleware/analytics');
@@ -26,7 +27,8 @@ describe('analytics middleware', () => {
       'src/redux/modules/chat/chat-action-types': {
         SDK_CHAT_MEMBER_JOIN,
         OFFLINE_FORM_REQUEST_SUCCESS,
-        SDK_CHAT_RATING
+        SDK_CHAT_RATING,
+        SDK_CHAT_COMMENT
       }
     });
 
@@ -260,6 +262,47 @@ describe('analytics middleware', () => {
             expect(GASpy.track)
               .toHaveBeenCalledWith('Chat Rating Removed');
           });
+        });
+      });
+    });
+
+    describe('action has type SDK_CHAT_COMMENT', () => {
+      let timestamp;
+
+      beforeEach(() => {
+        const payload = {
+          detail: {
+            timestamp
+          }
+        };
+
+        action = {
+          type: SDK_CHAT_COMMENT,
+          payload
+        };
+        trackAnalytics({ getState: () => {} })(noop)(action);
+      });
+
+      describe('when payload is recieved before initialization', () => {
+        beforeAll(() => {
+          timestamp = loadtime - 10000;
+        });
+
+        it('does not call GA.track', () => {
+          expect(GASpy.track)
+            .not
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when payload is recieved after initialization', () => {
+        beforeAll(() => {
+          timestamp = loadtime + 10000;
+        });
+
+        it('calls GA.track with the correct params', () => {
+          expect(GASpy.track)
+            .toHaveBeenCalledWith('Chat Comment Submitted');
         });
       });
     });
