@@ -1,6 +1,7 @@
 describe('analytics middleware', () => {
   let trackAnalytics,
     GASpy,
+    mockIsAgent = false,
     loadtime;
   const UPDATE_ACTIVE_EMBED = 'widget/base/UPDATE_ACTIVE_EMBED';
   const SDK_CHAT_MEMBER_JOIN = 'widget/chat/SDK_CHAT_MEMBER_JOIN';
@@ -32,6 +33,9 @@ describe('analytics middleware', () => {
         SDK_CHAT_RATING,
         SDK_CHAT_COMMENT,
         PRE_CHAT_FORM_SUBMIT
+      },
+      'src/util/chat': {
+        isAgent: () => mockIsAgent
       }
     });
 
@@ -129,13 +133,11 @@ describe('analytics middleware', () => {
     });
 
     describe('action has type SDK_CHAT_MEMBER_JOIN', () => {
-      let nick,
-        timestamp;
+      let timestamp;
 
       beforeEach(() => {
         const payload = {
           detail: {
-            nick,
             timestamp,
             display_name: 'Bob Ross' // eslint-disable-line camelcase
           }
@@ -149,10 +151,6 @@ describe('analytics middleware', () => {
       });
 
       describe('when payload is not from an agent', () => {
-        beforeAll(() => {
-          nick = 'visitor:234';
-        });
-
         it('does not call GA.track', () => {
           expect(GASpy.track)
             .not
@@ -162,7 +160,7 @@ describe('analytics middleware', () => {
 
       describe('when payload is from an agent', () => {
         beforeAll(() => {
-          nick = 'agent:123';
+          mockIsAgent = true;
         });
 
         describe('when payload is recieved after initialization', () => {

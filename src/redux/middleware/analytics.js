@@ -8,8 +8,8 @@ import { SDK_CHAT_MEMBER_JOIN,
   PRE_CHAT_FORM_SUBMIT } from 'src/redux/modules/chat/chat-action-types';
 import { getIsChatting,
   getDepartments } from 'src/redux/modules/chat/chat-selectors';
+import { isAgent } from 'src/util/chat';
 
-const isAgent = (nick) => nick.indexOf('agent:') > -1;
 const loadtime = Date.now();
 
 export function trackAnalytics({ getState }) {
