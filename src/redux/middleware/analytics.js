@@ -4,8 +4,10 @@ import { UPDATE_ACTIVE_EMBED } from 'src/redux/modules/base/base-action-types';
 import { SDK_CHAT_MEMBER_JOIN,
   OFFLINE_FORM_REQUEST_SUCCESS,
   SDK_CHAT_RATING,
-  SDK_CHAT_COMMENT } from 'src/redux/modules/chat/chat-action-types';
-import { getIsChatting } from 'src/redux/modules/chat/chat-selectors';
+  SDK_CHAT_COMMENT,
+  PRE_CHAT_FORM_SUBMIT } from 'src/redux/modules/chat/chat-action-types';
+import { getIsChatting,
+  getDepartments } from 'src/redux/modules/chat/chat-selectors';
 
 const isAgent = (nick) => nick.indexOf('agent:') > -1;
 const loadtime = Date.now();
@@ -48,6 +50,12 @@ export function trackAnalytics({ getState }) {
         if (isAfterLoadTime) {
           GA.track('Chat Comment Submitted');
         }
+        break;
+      case PRE_CHAT_FORM_SUBMIT:
+        const deptId = parseInt(payload.department);
+        const dept = getDepartments(prevState)[deptId];
+
+        GA.track('Chat Request Form Submitted', _.get(dept, 'name'));
         break;
     }
     return next(action);

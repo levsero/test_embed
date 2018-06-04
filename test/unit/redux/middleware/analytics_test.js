@@ -7,6 +7,7 @@ describe('analytics middleware', () => {
   const OFFLINE_FORM_REQUEST_SUCCESS = 'widget/chat/OFFLINE_FORM_REQUEST_SUCCESS';
   const SDK_CHAT_RATING = 'widget/chat/SDK_CHAT_RATING';
   const SDK_CHAT_COMMENT = 'widget/chat/SDK_CHAT_COMMENT';
+  const PRE_CHAT_FORM_SUBMIT = 'widget/chat/PRE_CHAT_FORM_SUBMIT';
 
   beforeEach(() => {
     const blipPath = buildSrcPath('redux/middleware/analytics');
@@ -19,7 +20,8 @@ describe('analytics middleware', () => {
         GA: GASpy
       },
       'src/redux/modules/chat/chat-selectors': {
-        getIsChatting: (prevState) => prevState.isChatting
+        getIsChatting: (prevState) => prevState.isChatting,
+        getDepartments: (prevState) => prevState.departments
       },
       'src/redux/modules/base/base-action-types': {
         UPDATE_ACTIVE_EMBED
@@ -28,7 +30,8 @@ describe('analytics middleware', () => {
         SDK_CHAT_MEMBER_JOIN,
         OFFLINE_FORM_REQUEST_SUCCESS,
         SDK_CHAT_RATING,
-        SDK_CHAT_COMMENT
+        SDK_CHAT_COMMENT,
+        PRE_CHAT_FORM_SUBMIT
       }
     });
 
@@ -304,6 +307,32 @@ describe('analytics middleware', () => {
           expect(GASpy.track)
             .toHaveBeenCalledWith('Chat Comment Submitted');
         });
+      });
+    });
+
+    describe('action has type PRE_CHAT_FORM_SUBMIT', () => {
+      beforeEach(() => {
+        const payload = {
+          department: '123'
+        };
+        const flatState = {
+          departments: {
+            123: {
+              name: 'Support'
+            }
+          }
+        };
+
+        action = {
+          type: PRE_CHAT_FORM_SUBMIT,
+          payload
+        };
+        trackAnalytics({ getState: () => flatState })(noop)(action);
+      });
+
+      it('call GA.track with the correct params', () => {
+        expect(GASpy.track)
+          .toHaveBeenCalledWith('Chat Request Form Submitted', 'Support');
       });
     });
   });
