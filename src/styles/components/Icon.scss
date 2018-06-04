@@ -127,7 +127,7 @@
 .Icon--arrow-down {
   position: relative;
   top: #{1/$font-size}rem;
-  padding-left: #{5/$font-size}rem;
+  padding-left: #{5/$font-size}rem !important;
 
   svg {
     fill: $zd-color-dark-gray;
@@ -135,6 +135,11 @@
     min-height: #{12/$font-size}rem; /* 1 */
     height: #{12/$font-size}rem;
     width: #{12/$font-size}rem;
+  }
+
+  [dir='rtl'] & {
+    padding-left: 0 !important;
+    padding-right: #{5/$font-size}rem !important;
   }
 }
 

@@ -16,10 +16,21 @@
   background: linear-gradient(to bottom, rgba($zd-color-white, 0), rgba($zd-color-white, 0.8));
 }
 
+.agentTypingMobile {
+  composes: agentTyping;
+  margin-top: 0;
+  margin-bottom: #{5/$font-size}rem;
+}
+
 .loadingEllipses {
   composes: u-inlineBlock from global;
   padding-right: #{2/$font-size}rem;
   margin-right: #{5/$font-size}rem;
+
+  [dir='rtl'] & {
+    margin-right: 0;
+    margin-left: #{5/$font-size}rem;
+  }
 }
 
 .loadingEllipsesItem {
@@ -54,7 +65,14 @@
 
 .zendeskLogoChatMobile {
   bottom: #{48/$font-size}rem;
-  left: #{12/$font-size}rem;
+
+  [dir='rtl'] & {
+    right: #{12/$font-size}rem;
+  }
+
+  [dir='ltr'] & {
+    left: #{12/$font-size}rem;
+  }
 }
 
 .footer {
@@ -131,7 +149,17 @@
   transform: translateX(-50%);
 }
 
+.scrollBottomPillMobile {
+  composes: scrollBottomPill;
+  bottom: #{60/$font-size}rem;
+}
+
 .noAgentTyping {
   height: #{26/$font-size}rem;
   width: 100%;
+}
+
+.noAgentTypingMobile {
+  composes: noAgentTyping;
+  height: #{14/$font-size}rem;
 }

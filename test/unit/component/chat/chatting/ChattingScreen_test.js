@@ -40,6 +40,7 @@ describe('ChattingScreen component', () => {
           footerMobile: 'footerMobileClasses',
           footerMobileWithLogo: 'footerMobileWithLogoClasses',
           agentTyping: 'agentTypingClasses',
+          agentTypingMobile: 'agentTypingMobileClasses',
           scrollContainer: 'scrollContainerClasses',
           scrollContainerContent: 'scrollContainerContentClasses',
           scrollBarFix: 'scrollBarFix',
@@ -48,7 +49,10 @@ describe('ChattingScreen component', () => {
           zendeskLogo: 'zendeskLogoClasses',
           zendeskLogoChatMobile: 'zendeskLogoChatMobileClasses',
           historyFetchingContainer: 'historyFetchingContainerClasses',
-          noAgentTyping: 'noAgentTypingClass'
+          noAgentTyping: 'noAgentTypingClass',
+          noAgentTypingMobile: 'noAgentTypingMobileClass',
+          scrollBottomPill: 'scrollBottomPillClass',
+          scrollBottomPillMobile: 'scrollBottomPillMobileClass'
         }
       },
       'component/loading/LoadingSpinner': {
@@ -385,6 +389,10 @@ describe('ChattingScreen component', () => {
 
     describe('when it is a new log entry', () => {
       beforeAll(() => {
+        mockPrevProps = {
+          chats: [{ nick: 'visitor', type: 'chat.msg' }],
+          events: []
+        };
         componentProps = {
           chats: [
             { nick: 'visitor', type: 'chat.msg' },
@@ -392,37 +400,35 @@ describe('ChattingScreen component', () => {
           ],
           events: []
         };
-        mockPrevProps = {
-          chats: [{ nick: 'visitor', type: 'chat.msg' }],
-          events: []
-        };
       });
 
-      describe('when scroll is at bottom and last message is not a visitor', () => {
-        beforeAll(() => {
-          mockIsAgent = true;
-          mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(true);
+      describe('when last message is not a visitor', () => {
+        describe('when scroll is at bottom', () => {
+          beforeAll(() => {
+            mockIsAgent = true;
+            mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(true);
+          });
+
+          it('calls setState with expected args', () => {
+            const expected = { notificationCount: 0 };
+
+            expect(component.setState)
+              .toHaveBeenCalledWith(expected);
+          });
         });
 
-        it('calls setState with expected args', () => {
-          const expected = { notificationCount: 0 };
+        describe('when scroll is not at bottom', () => {
+          beforeAll(() => {
+            mockIsAgent = true;
+            mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(false);
+          });
 
-          expect(component.setState)
-            .toHaveBeenCalledWith(expected);
-        });
-      });
+          it('calls setState with expected args', () => {
+            const expected = { notificationCount: 1 };
 
-      describe('when scroll is not at bottom and last message is not a visitor', () => {
-        beforeAll(() => {
-          mockIsAgent = true;
-          mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(false);
-        });
-
-        it('calls setState with expected args', () => {
-          const expected = { notificationCount: 1 };
-
-          expect(component.setState)
-            .toHaveBeenCalledWith(expected);
+            expect(component.setState)
+              .toHaveBeenCalledWith(expected);
+          });
         });
       });
 
@@ -443,8 +449,47 @@ describe('ChattingScreen component', () => {
             .toHaveBeenCalled();
         });
       });
+    });
 
-      describe('when scroll is close to bottom', () => {
+    describe('when the log entry is the same', () => {
+      beforeAll(() => {
+        mockPrevProps = {
+          chats: [{ nick: 'visitor', type: 'chat.msg' }],
+          events: []
+        };
+        componentProps = {
+          chats: [{ nick: 'visitor', type: 'chat.msg' }],
+          events: []
+        };
+        mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(false);
+      });
+
+      it('does not call scrollToBottom', () => {
+        expect(component.scrollToBottom)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when it is a new event entry', () => {
+      beforeAll(() => {
+        mockPrevProps = {
+          chats: [],
+          events: [
+            { timestamp: 73870, nick: 'visitor', type: 'chat.memberjoin', display_name: 'zenguy' },
+            { timestamp: 80869, nick: 'agent:450578159', type: 'chat.memberjoin', display_name: 'Terence Liew' }
+          ]
+        };
+        componentProps = {
+          chats: [],
+          events: [
+            { timestamp: 73870, nick: 'visitor', type: 'chat.memberjoin', display_name: 'zenguy' },
+            { timestamp: 80869, nick: 'agent:450578159', type: 'chat.memberjoin', display_name: 'Terence Liew' },
+            { timestamp: 85011, nick: 'visitor', type: 'chat.rating', display_name: 'zenguy', new_rating: 'good', rating: undefined }
+          ]
+        };
+      });
+
+      describe('when scroll is at the bottom', () => {
         beforeAll(() => {
           mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(true);
         });
@@ -454,19 +499,37 @@ describe('ChattingScreen component', () => {
             .toHaveBeenCalled();
         });
       });
+
+      describe('when scroll is not at the bottom', () => {
+        beforeAll(() => {
+          mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(false);
+        });
+
+        it('does not call scrollToBottom', () => {
+          expect(component.scrollToBottom)
+            .not.toHaveBeenCalled();
+        });
+      });
     });
 
-    describe('when the log entry is the same', () => {
+    describe('when the event entry is the same', () => {
       beforeAll(() => {
         componentProps = {
-          chats: [{ nick: 'visitor', type: 'chat.msg' }],
-          events: []
+          chats: [],
+          events: [
+            { timestamp: 73870, nick: 'visitor', type: 'chat.memberjoin', display_name: 'zenguy' },
+          ]
         };
         mockPrevProps = {
-          chats: [{ nick: 'visitor', type: 'chat.msg' }],
-          events: []
+          chats: [],
+          events: [
+            { timestamp: 73870, nick: 'visitor', type: 'chat.memberjoin', display_name: 'zenguy' },
+          ]
         };
-        mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(false);
+      });
+
+      beforeAll(() => {
+        mockIsScrollCloseToBottom = jasmine.createSpy('isScrollCloseToBottom').and.returnValue(true);
       });
 
       it('does not call scrollToBottom', () => {
@@ -603,20 +666,11 @@ describe('ChattingScreen component', () => {
       };
 
       describe('on non-mobile devices with logo', () => {
-        it('renders logo', () => {
+        it('does not render logo', () => {
           result = component.render();
           logo = findLogo(result);
           expect(logo)
-            .toBeTruthy();
-        });
-
-        it('renders logo with desktop specific classes', () => {
-          result = component.render();
-          logo = findLogo(result);
-          expect(logo.props.className)
-            .toContain('zendeskLogoClasses');
-          expect(logo.props.className)
-            .not.toContain('zendeskLogoChatMobileClasses');
+            .toBeFalsy();
         });
       });
 
@@ -989,20 +1043,67 @@ describe('ChattingScreen component', () => {
   describe('renderAgentTyping', () => {
     let agentTypingComponent;
 
-    describe('when no agents are typing a message', () => {
-      beforeEach(() => {
-        const mockTypingAgents = [];
-        const component = instanceRender(<ChattingScreen chat={{ rating: null }} />);
+    describe('when called', () => {
+      describe('when it is mobile mode', () => {
+        beforeEach(() => {
+          const component = instanceRender(<ChattingScreen isMobile={true} chat={{ rating: null }} />);
 
-        agentTypingComponent = component.renderAgentTyping(mockTypingAgents);
+          agentTypingComponent = component.renderAgentTyping();
+        });
+
+        it('renders with agentTypingMobile class', () => {
+          expect(agentTypingComponent.props.className)
+            .toEqual('noAgentTypingMobileClass');
+        });
       });
 
-      it('renders a div with expected styles', () => {
-        expect(agentTypingComponent.type)
-          .toEqual('div');
+      describe('when it is not mobile mode', () => {
+        beforeEach(() => {
+          const component = instanceRender(<ChattingScreen isMobile={false} chat={{ rating: null }} />);
 
-        expect(agentTypingComponent.props.className)
-          .toEqual('noAgentTypingClass');
+          agentTypingComponent = component.renderAgentTyping();
+        });
+
+        it('renders with agentTyping class', () => {
+          expect(agentTypingComponent.props.className)
+            .toEqual('noAgentTypingClass');
+        });
+      });
+    });
+
+    describe('when no agents are typing a message', () => {
+      describe('when it is mobile mode', () => {
+        beforeEach(() => {
+          const mockTypingAgents = [];
+          const component = instanceRender(<ChattingScreen isMobile={true} chat={{ rating: null }} />);
+
+          agentTypingComponent = component.renderAgentTyping(mockTypingAgents);
+        });
+
+        it('renders a div with expected styles', () => {
+          expect(agentTypingComponent.type)
+            .toEqual('div');
+
+          expect(agentTypingComponent.props.className)
+            .toEqual('noAgentTypingMobileClass');
+        });
+      });
+
+      describe('when it is not mobile mode', () => {
+        beforeEach(() => {
+          const mockTypingAgents = [];
+          const component = instanceRender(<ChattingScreen isMobile={false} chat={{ rating: null }} />);
+
+          agentTypingComponent = component.renderAgentTyping(mockTypingAgents);
+        });
+
+        it('renders a div with expected styles', () => {
+          expect(agentTypingComponent.type)
+            .toEqual('div');
+
+          expect(agentTypingComponent.props.className)
+            .toEqual('noAgentTypingClass');
+        });
       });
     });
 
@@ -1212,10 +1313,11 @@ describe('ChattingScreen component', () => {
   describe('renderScrollPill', () => {
     let result,
       component,
+      componentProps,
       mockNotificationCount;
 
     beforeEach(() => {
-      component = instanceRender(<ChattingScreen />);
+      component = instanceRender(<ChattingScreen {...componentProps} />);
       component.scrollContainer = { getScrollHeight: noop };
       component.setState({ notificationCount: mockNotificationCount });
 
@@ -1260,6 +1362,34 @@ describe('ChattingScreen component', () => {
 
         expect(translationSpy)
           .toHaveBeenCalledWith(translationKey);
+      });
+    });
+
+    describe('when it is mobile mode', () => {
+      beforeAll(() => {
+        mockNotificationCount = 1;
+        componentProps = {
+          isMobile: true
+        };
+      });
+
+      it('has scrollBottomPillMobile class', () => {
+        expect(result.props.containerClass)
+          .toContain('scrollBottomPillMobileClass');
+      });
+    });
+
+    describe('when it is not mobile mode', () => {
+      beforeAll(() => {
+        mockNotificationCount = 1;
+        componentProps = {
+          isMobile: false
+        };
+      });
+
+      it('has scrollBottomPill class', () => {
+        expect(result.props.containerClass)
+          .toContain('scrollBottomPillClass');
       });
     });
   });
