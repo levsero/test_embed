@@ -793,6 +793,11 @@ parts:
 
   # Channel Choice component
   - translation:
+      key: "embeddable_framework.channelChoice.button.label.no_available_agents"
+      title: "The label under a channel option text that describes that there's no available agents (online) to attend to the customer at this time."
+      screenshot: "https://drive.google.com/open?id=180OcmT-0BUJUGrc9Bc6Z1UmX7Art4pFx"
+      value: "No available agents"
+  - translation:
       key: "embeddable_framework.channelChoice.button.label.submitTicket"
       title: "The label for the submit ticket option in the list. The same text as embeddable_framework.helpCenter.submitButton.label.submitTicket.message"
       screenshot: "https://zendesk.box.com/s/cybiy7gshwetcw9y8yd0o40ddixfdjj6"
