@@ -126,7 +126,22 @@ describe('logging', () => {
         'script error'
       ]
     };
-    const blacklistedErrors = [accessControl, timeoutExceeded, scriptError];
+    const maxItems = {
+      pattern: 'maxItems has been hit, ignoring errors until reset.',
+      validStrings: [
+        'maxItems has been hit, ignoring errors until reset.'
+      ]
+    };
+    const crossOriginPropertyAccess = {
+      pattern: /Permission denied to access property "(.)+" on cross-origin object/,
+      validStrings: [
+        'Permission denied to access property "helpCenter" on cross-origin object',
+        'Permission denied to access property "max-height" on cross-origin object',
+        'Permission denied to access property "d_br@dfords0n1337-420.....blaze itttt" on cross-origin object'
+      ]
+    };
+
+    const blacklistedErrors = [accessControl, timeoutExceeded, scriptError, maxItems, crossOriginPropertyAccess];
 
     const patternExistSpec = (pattern) => {
       it('should exist in pattern list', () => {
@@ -161,7 +176,7 @@ describe('logging', () => {
     });
 
     blacklistedErrors.forEach((blacklistedError) => {
-      const { pattern, validStrings, invalidStrings } = blacklistedError;
+      const { pattern, validStrings, invalidStrings = [] } = blacklistedError;
 
       describe(pattern, () => {
         patternExistSpec(pattern);
@@ -209,7 +224,9 @@ describe('logging', () => {
           ignoredMessages: [
             'Access-Control-Allow-Origin',
             'timeout of [0-9]+ms exceeded',
-            /^(\(unknown\): )?(Script error).?$/
+            /^(\(unknown\): )?(Script error).?$/,
+            'maxItems has been hit, ignoring errors until reset.',
+            /Permission denied to access property "(.)+" on cross-origin object/
           ],
           maxItems: 10,
           payload: {
@@ -261,6 +278,15 @@ describe('logging', () => {
         message: 'error'
       }
     };
+    const customData = {
+      embedName: 'webWidget',
+      configItem: {
+        embedName: 'webWidget',
+        color: '#e99a27',
+        position: 'left',
+        visible: false
+      }
+    };
 
     beforeEach(() => {
       spyOn(console, 'error');
@@ -287,7 +313,7 @@ describe('logging', () => {
 
       describe('when special flag is set on error object', () => {
         afterEach(() => {
-          errPayload.error.special = false;
+          _.unset(errPayload, 'error.special');
         });
 
         it('should throw', () => {
@@ -313,19 +339,19 @@ describe('logging', () => {
         describe('when Rollbar is enabled', () => {
           beforeEach(() => {
             logging.init(true);
-            logging.error(errPayload);
+            logging.error(errPayload, customData);
           });
 
           it('should call Rollbar.error', () => {
             expect(rollbarErrorSpy)
-              .toHaveBeenCalledWith(errPayload);
+              .toHaveBeenCalledWith(errPayload, customData);
           });
         });
 
         describe('when Rollbar is not enabled', () => {
           beforeEach(() => {
             logging.init();
-            logging.error(errPayload);
+            logging.error(errPayload, customData);
           });
 
           it('should not call Rollbar.error', () => {

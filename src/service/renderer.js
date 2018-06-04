@@ -113,13 +113,14 @@ function renderEmbeds(parsedConfig, config, reduxStore) {
       embedsMap[configItem.embed].create(embedName, configItem.props, reduxStore);
       embedsMap[configItem.embed].render(embedName);
     } catch (err) {
-      logging.error({
-        error: err,
-        context: {
-          embedName: embedName,
-          configItem: configItem
-        }
-      });
+      const customData = {
+        embedName: embedName,
+        configItem: configItem
+      };
+
+      if (!_.isEmpty(err)) {
+        logging.error(err, customData);
+      }
     }
   });
 }

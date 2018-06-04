@@ -9,7 +9,9 @@ let errorServiceInitialised = false;
 const errorMessageBlacklist = [
   'Access-Control-Allow-Origin',
   'timeout of [0-9]+ms exceeded',
-  /^(\(unknown\): )?(Script error).?$/
+  /^(\(unknown\): )?(Script error).?$/,
+  'maxItems has been hit, ignoring errors until reset.',
+  /Permission denied to access property "(.)+" on cross-origin object/
 ];
 const hostBlackList = [
   /^((?!(.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com)).*)$/
@@ -42,7 +44,7 @@ function init(shouldUseRollbar = false) {
   }
 }
 
-function error(err) {
+function error(err, customData) {
   if (__DEV__) {
     /* eslint no-console:0 */
     console.error(err.error.message || err.error);
@@ -50,14 +52,14 @@ function error(err) {
     if (err.error.special) {
       throw err.error.message;
     } else if (errorServiceInitialised) {
-      pushError(err);
+      pushError(err, customData);
     }
   }
 }
 
-function pushError(err) {
+function pushError(err, customData) {
   if (useRollbar) {
-    rollbar.error(err);
+    rollbar.error(err, customData);
   }
 }
 
