@@ -1,6 +1,5 @@
 export class ChatGroupAvatar {
   constructor(props) {
-    this.props = props;
     this.socialLogin = props.socialLogin;
     this.showAvatar = props.showAvatar;
     this.avatarPath = props.avatarPath;
@@ -31,6 +30,6 @@ export class ChatGroupAvatar {
   }
 
   hasSocialLoginAvatar = () => {
-    return (this.socialLogin && this.socialLogin.avatarPath !== '');
+    return (!!this.socialLogin && this.socialLogin.avatarPath !== '');
   }
 }
