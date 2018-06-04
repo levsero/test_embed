@@ -44,7 +44,7 @@ export class ChatGroup extends Component {
     super(props);
 
     this.container = null;
-    this.avatar = new ChatGroupAvatar(this.props);
+    this.avatar = new ChatGroupAvatar(props);
   }
 
   renderName = (isAgent, showAvatar, messages) => {

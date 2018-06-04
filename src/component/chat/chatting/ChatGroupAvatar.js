@@ -2,6 +2,7 @@ export class ChatGroupAvatar {
   constructor(props) {
     this.props = props;
     this.socialLogin = props.socialLogin;
+    this.showAvatar = props.showAvatar;
     this.avatarPath = props.avatarPath;
     this.isAgent = props.isAgent;
     this.isEndUser = !props.isAgent;
@@ -16,7 +17,7 @@ export class ChatGroupAvatar {
   }
 
   shouldDisplay = () => {
-    if (!this.props.showAvatar) {
+    if (!this.showAvatar) {
       return false;
     } else if (this.userWithAvatar() || this.isAgent) {
       return true;
