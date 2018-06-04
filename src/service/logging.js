@@ -9,7 +9,9 @@ let errorServiceInitialised = false;
 const errorMessageBlacklist = [
   'Access-Control-Allow-Origin',
   'timeout of [0-9]+ms exceeded',
-  /^(\(unknown\): )?(Script error).?$/
+  /^(\(unknown\): )?(Script error).?$/,
+  'maxItems has been hit, ignoring errors until reset.',
+  /Permission denied to access property "(.)+" on cross-origin object/
 ];
 const hostBlackList = [
   /^((?!(.*(assets|static|static-staging)\.(zd-staging|zendesk|zdassets)\.com)).*)$/

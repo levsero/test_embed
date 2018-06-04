@@ -126,7 +126,22 @@ describe('logging', () => {
         'script error'
       ]
     };
-    const blacklistedErrors = [accessControl, timeoutExceeded, scriptError];
+    const maxItems = {
+      pattern: 'maxItems has been hit, ignoring errors until reset.',
+      validStrings: [
+        'maxItems has been hit, ignoring errors until reset.'
+      ]
+    };
+    const crossOriginPropertyAccess = {
+      pattern: /Permission denied to access property "(.)+" on cross-origin object/,
+      validStrings: [
+        'Permission denied to access property "helpCenter" on cross-origin object',
+        'Permission denied to access property "max-height" on cross-origin object',
+        'Permission denied to access property "d_br@dfords0n1337-420.....blaze itttt" on cross-origin object'
+      ]
+    };
+
+    const blacklistedErrors = [accessControl, timeoutExceeded, scriptError, maxItems, crossOriginPropertyAccess];
 
     const patternExistSpec = (pattern) => {
       it('should exist in pattern list', () => {
@@ -161,7 +176,7 @@ describe('logging', () => {
     });
 
     blacklistedErrors.forEach((blacklistedError) => {
-      const { pattern, validStrings, invalidStrings } = blacklistedError;
+      const { pattern, validStrings, invalidStrings = [] } = blacklistedError;
 
       describe(pattern, () => {
         patternExistSpec(pattern);
@@ -209,7 +224,9 @@ describe('logging', () => {
           ignoredMessages: [
             'Access-Control-Allow-Origin',
             'timeout of [0-9]+ms exceeded',
-            /^(\(unknown\): )?(Script error).?$/
+            /^(\(unknown\): )?(Script error).?$/,
+            'maxItems has been hit, ignoring errors until reset.',
+            /Permission denied to access property "(.)+" on cross-origin object/
           ],
           maxItems: 10,
           payload: {
