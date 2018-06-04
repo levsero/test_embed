@@ -5,6 +5,7 @@ describe('analytics middleware', () => {
   const UPDATE_ACTIVE_EMBED = 'widget/base/UPDATE_ACTIVE_EMBED';
   const SDK_CHAT_MEMBER_JOIN = 'widget/chat/SDK_CHAT_MEMBER_JOIN';
   const OFFLINE_FORM_REQUEST_SUCCESS = 'widget/chat/OFFLINE_FORM_REQUEST_SUCCESS';
+  const SDK_CHAT_RATING = 'widget/chat/SDK_CHAT_RATING';
 
   beforeEach(() => {
     const blipPath = buildSrcPath('redux/middleware/analytics');
@@ -24,7 +25,8 @@ describe('analytics middleware', () => {
       },
       'src/redux/modules/chat/chat-action-types': {
         SDK_CHAT_MEMBER_JOIN,
-        OFFLINE_FORM_REQUEST_SUCCESS
+        OFFLINE_FORM_REQUEST_SUCCESS,
+        SDK_CHAT_RATING
       }
     });
 
@@ -199,6 +201,66 @@ describe('analytics middleware', () => {
       it('calls GA.track with the correct params', () => {
         expect(GASpy.track)
           .toHaveBeenCalledWith('Chat Offline Message Sent', 'testing');
+      });
+    });
+
+    describe('action has type SDK_CHAT_RATING', () => {
+      let rating,
+        timestamp;
+
+      beforeEach(() => {
+        const payload = {
+          detail: {
+            new_rating: rating, // eslint-disable-line camelcase
+            timestamp
+          }
+        };
+
+        action = {
+          type: SDK_CHAT_RATING,
+          payload
+        };
+        trackAnalytics({ getState: () => {} })(noop)(action);
+      });
+
+      describe('when payload is recieved before initialization', () => {
+        beforeAll(() => {
+          timestamp = loadtime - 10000;
+        });
+
+        it('does not call GA.track', () => {
+          expect(GASpy.track)
+            .not
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when payload is recieved after initialization', () => {
+        beforeAll(() => {
+          timestamp = loadtime + 10000;
+        });
+
+        describe('when new_rating has a value', () => {
+          beforeAll(() => {
+            rating = 'good';
+          });
+
+          it('calls GA.track with the correct params', () => {
+            expect(GASpy.track)
+              .toHaveBeenCalledWith('Chat Rating Good');
+          });
+        });
+
+        describe('when new_rating does not have a value', () => {
+          beforeAll(() => {
+            rating = null;
+          });
+
+          it('calls GA.track with the correct params', () => {
+            expect(GASpy.track)
+              .toHaveBeenCalledWith('Chat Rating Removed');
+          });
+        });
       });
     });
   });
