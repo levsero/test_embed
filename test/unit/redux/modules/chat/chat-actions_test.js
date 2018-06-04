@@ -1577,4 +1577,29 @@ describe('chat redux actions', () => {
       });
     });
   });
+
+  describe('handlePrechatFormSubmit', () => {
+    let action,
+      mockFormState;
+
+    beforeEach(() => {
+      mockFormState = {
+        department: '123',
+        message: 'foo'
+      };
+
+      mockStore.dispatch(actions.handlePrechatFormSubmit(mockFormState));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches PRE_CHAT_FORM_SUBMIT action', () => {
+      expect(action.type)
+        .toEqual(actionTypes.PRE_CHAT_FORM_SUBMIT);
+    });
+
+    it('has the correct params in the payload', () => {
+      expect(action.payload)
+        .toEqual(mockFormState);
+    });
+  });
 });

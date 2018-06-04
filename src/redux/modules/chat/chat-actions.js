@@ -34,6 +34,7 @@ import {
   RESET_EMAIL_TRANSCRIPT,
   CHAT_OFFLINE_FORM_CHANGED,
   PRE_CHAT_FORM_ON_CHANGE,
+  PRE_CHAT_FORM_SUBMIT,
   UPDATE_CHAT_CONTACT_DETAILS_VISIBILITY,
   UPDATE_CHAT_EMAIL_TRANSCRIPT_VISIBILITY,
   UPDATE_CHAT_MENU_VISIBILITY,
@@ -554,5 +555,12 @@ export function initiateSocialLogout() {
         ? dispatch({ type: CHAT_SOCIAL_LOGOUT_FAILURE })
         : dispatch({ type: CHAT_SOCIAL_LOGOUT_SUCCESS });
     });
+  };
+}
+
+export function handlePrechatFormSubmit(info) {
+  return {
+    type: PRE_CHAT_FORM_SUBMIT,
+    payload: info
   };
 }

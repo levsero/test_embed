@@ -21,6 +21,7 @@ import {
   sendOfflineMessage,
   setVisitorInfo,
   clearDepartment,
+  handlePrechatFormSubmit,
   initiateSocialLogout } from 'src/redux/modules/chat';
 import {
   getDepartments,
@@ -72,6 +73,7 @@ class PrechatScreen extends Component {
     setVisitorInfo: PropTypes.func.isRequired,
     resetCurrentMessage: PropTypes.func,
     prechatFormSettings: PropTypes.object.isRequired,
+    handlePrechatFormSubmit: PropTypes.func.isRequired,
     offlineMessage: PropTypes.object,
     authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
@@ -122,7 +124,7 @@ class PrechatScreen extends Component {
           phone: info.phone
         }, _.isNil)
       );
-      this.props.updateChatScreen(screens.CHATTING_SCREEN);
+      this.props.handlePrechatFormSubmit(info);
     }
 
     this.props.resetCurrentMessage();
@@ -198,6 +200,7 @@ const actionCreators = {
   clearDepartment,
   resetCurrentMessage,
   handlePreChatFormChange,
+  handlePrechatFormSubmit,
   initiateSocialLogout
 };
 
