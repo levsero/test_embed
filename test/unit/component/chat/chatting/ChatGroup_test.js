@@ -1,3 +1,5 @@
+import { ChatGroupAvatar } from '../../../../../src/component/chat/chatting/ChatGroupAvatar';
+
 describe('ChatGroup component', () => {
   let ChatGroup,
     ATTACHMENT_ERROR_TYPES,
@@ -39,6 +41,7 @@ describe('ChatGroup component', () => {
       'component/attachment/Attachment': { Attachment },
       'component/chat/chatting/MessageError': { MessageError },
       'component/chat/chatting/ImageMessage': { ImageMessage },
+      'component/chat/chatting/ChatGroupAvatar': { ChatGroupAvatar },
       'constants/chat': {
         ATTACHMENT_ERROR_TYPES,
         CHAT_MESSAGE_TYPES
@@ -876,81 +879,7 @@ describe('ChatGroup component', () => {
       renderAvatar = getComponentMethod('renderAvatar');
     });
 
-    describe('when showAvatarAsAgent is false', () => {
-      const showAvatarAsAgent = false;
-
-      it('returns nothing', () => {
-        const result = renderAvatar(showAvatarAsAgent, avatarPath, messages);
-
-        expect(result).toEqual(null);
-      });
-    });
-
-    describe('when showAvatarAsAgent is true', () => {
-      let result;
-      const showAvatarAsAgent = true;
-
-      describe('and provided with a path to an avatar', () => {
-        beforeEach(() => {
-          result = renderAvatar(showAvatarAsAgent, avatarPath, messages);
-        });
-
-        it('returns an Avatar component', () => {
-          expect(TestUtils.isElementOfType(result, Avatar)).toEqual(true);
-        });
-
-        it('passes the correct props to the child component', () => {
-          expect(result.props.className).toContain('avatarClass');
-          expect(result.props.src).toEqual(avatarPath);
-        });
-      });
-
-      describe('and not provided with a path to an avatar', () => {
-        beforeEach(() => {
-          result = renderAvatar(showAvatarAsAgent, undefined, messages);
-        });
-
-        it('returns an Avatar component', () => {
-          expect(TestUtils.isElementOfType(result, Avatar)).toEqual(true);
-        });
-
-        it('passes the correct props to the child component', () => {
-          expect(result.props.className).toContain('avatarClass');
-          expect(result.props.src).toEqual('');
-        });
-
-        it('passes the correct fallback icon prop to the child component', () => {
-          expect(result.props).toEqual(jasmine.objectContaining({
-            fallbackIcon: 'Icon--agent-avatar'
-          }));
-        });
-      });
-
-      describe('and avatar belongs to a new chat group', () => {
-        beforeEach(() => {
-          result = renderAvatar(showAvatarAsAgent, avatarPath, messages);
-        });
-
-        it('passes the correct classnames to the child component', () => {
-          expect(result.props.className).toContain('avatarClass');
-          expect(result.props.className).toContain('fadeInClass');
-        });
-      });
-
-      describe('and avatar belongs to an old chat group', () => {
-        beforeEach(() => {
-          renderAvatar = getComponentMethod('renderAvatar', {
-            chatLogCreatedAt: fakeTimestamp + 1
-          });
-          result = renderAvatar(showAvatarAsAgent, avatarPath, messages);
-        });
-
-        it('passes the correct classnames to the child component', () => {
-          expect(result.props.className).toContain('avatarClass');
-          expect(result.props.className).not.toContain('fadeInClass');
-        });
-      });
-    });
+    // New tests to go here
   });
 
   describe('#render', () => {
@@ -994,7 +923,7 @@ describe('ChatGroup component', () => {
     });
 
     it('calls renderAvatar with the correct args', () => {
-      expect(component.renderAvatar).toHaveBeenCalledWith(showAvatar && isAgent, avatarPath, messages);
+      expect(component.renderAvatar).toHaveBeenCalledWith(messages);
     });
 
     describe('when passed a child component', () => {
