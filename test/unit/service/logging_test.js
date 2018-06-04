@@ -261,6 +261,15 @@ describe('logging', () => {
         message: 'error'
       }
     };
+    const customData = {
+      embedName: 'webWidget',
+      configItem: {
+        embedName: 'webWidget',
+        color: '#e99a27',
+        position: 'left',
+        visible: false
+      }
+    };
 
     beforeEach(() => {
       spyOn(console, 'error');
@@ -287,7 +296,7 @@ describe('logging', () => {
 
       describe('when special flag is set on error object', () => {
         afterEach(() => {
-          errPayload.error.special = false;
+          _.unset(errPayload, 'error.special');
         });
 
         it('should throw', () => {
@@ -313,19 +322,19 @@ describe('logging', () => {
         describe('when Rollbar is enabled', () => {
           beforeEach(() => {
             logging.init(true);
-            logging.error(errPayload);
+            logging.error(errPayload, customData);
           });
 
           it('should call Rollbar.error', () => {
             expect(rollbarErrorSpy)
-              .toHaveBeenCalledWith(errPayload);
+              .toHaveBeenCalledWith(errPayload, customData);
           });
         });
 
         describe('when Rollbar is not enabled', () => {
           beforeEach(() => {
             logging.init();
-            logging.error(errPayload);
+            logging.error(errPayload, customData);
           });
 
           it('should not call Rollbar.error', () => {
