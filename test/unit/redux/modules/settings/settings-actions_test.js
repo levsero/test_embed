@@ -5,7 +5,8 @@ let actions,
   actionTypes,
   mockStore,
   mockGetConnection,
-  mockGetDepartmentsList;
+  mockGetDepartmentsList,
+  mockGetSettingsChatTags;
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -15,6 +16,8 @@ const CONNECTION_STATUSES = chatConstants.CONNECTION_STATUSES;
 
 let setDepartmentSpy = jasmine.createSpy('setDepartment').and.returnValue({ type: 'yolo' });
 let clearDepartmentSpy = jasmine.createSpy('clearDepartment').and.returnValue({ type: 'yolo'});
+let addTagSpy = jasmine.createSpy('addTag');
+let removeTagSpy = jasmine.createSpy('removeTag');
 
 describe('settings redux actions', () => {
   beforeEach(() => {
@@ -28,6 +31,10 @@ describe('settings redux actions', () => {
     mockery.registerAllowable(chatConstantsPath);
 
     initMockRegistry({
+      'chat-web-sdk': {
+        addTag: addTagSpy,
+        removeTag: removeTagSpy
+      },
       'constants/chat': {
         CONNECTION_STATUSES
       },
@@ -38,6 +45,9 @@ describe('settings redux actions', () => {
       'src/redux/modules/chat/chat-actions': {
         setDepartment: setDepartmentSpy,
         clearDepartment: clearDepartmentSpy
+      },
+      'src/redux/modules/settings/settings-selectors': {
+        getSettingsChatTags: () => mockGetSettingsChatTags
       }
     });
 
@@ -62,6 +72,8 @@ describe('settings redux actions', () => {
     afterEach(() => {
       setDepartmentSpy.calls.reset();
       clearDepartmentSpy.calls.reset();
+      removeTagSpy.calls.reset();
+      addTagSpy.calls.reset();
     });
 
     describe('when chat is connected', () => {
@@ -133,11 +145,82 @@ describe('settings redux actions', () => {
             .toEqual(expected);
         });
       });
+
+      describe('when new tags are present', () => {
+        beforeAll(() => {
+          someSettings = {
+            chat: {
+              tags: ['firstTagYolo', 'secondTagYolo']
+            }
+          };
+        });
+
+        it('calls addTag exactly twice', () => {
+          expect(addTagSpy.calls.count())
+            .toEqual(2);
+        });
+
+        it('adds firstTagYolo', () => {
+          expect(addTagSpy.calls.argsFor(0)[0])
+            .toEqual('firstTagYolo');
+        });
+
+        it('adds secondTagYolo', () => {
+          expect(addTagSpy.calls.argsFor(1)[0])
+            .toEqual('secondTagYolo');
+        });
+
+        describe('when old tags are present', () => {
+          beforeAll(() => {
+            mockGetSettingsChatTags = ['firstTag', 'secondTag'];
+          });
+
+          it('calls removeTag exactly twice', () => {
+            expect(removeTagSpy.calls.count())
+              .toEqual(2);
+          });
+
+          it('removes firstTag', () => {
+            expect(removeTagSpy.calls.argsFor(0)[0])
+              .toEqual('firstTag');
+          });
+
+          it('removes secondTag', () => {
+            expect(removeTagSpy.calls.argsFor(1)[0])
+              .toEqual('secondTag');
+          });
+        });
+
+        describe('when olds tags are not present', () => {
+          beforeAll(() => {
+            mockGetSettingsChatTags = [];
+          });
+
+          it('does not call removeTag', () => {
+            expect(removeTagSpy)
+              .not
+              .toHaveBeenCalled();
+          });
+        });
+      });
+
+      describe('when new tags are not present', () => {});
     });
 
     describe('when chat is not connected', () => {
       beforeAll(() => {
         mockGetConnection = CONNECTION_STATUSES.CONNECTING;
+        someSettings = {
+          webWidget: {
+            chat: {
+              visitor: {
+                departments: {
+                  department: 'yo'
+                }
+              }
+            }
+          }
+        };
       });
 
       it('does not call setDepartment', () => {
@@ -148,6 +231,18 @@ describe('settings redux actions', () => {
 
       it('does not call clearDepartment', () => {
         expect(clearDepartmentSpy)
+          .not
+          .toHaveBeenCalled();
+      });
+
+      it('does not call addTag', () => {
+        expect(addTagSpy)
+          .not
+          .toHaveBeenCalled();
+      });
+
+      it('does not call removeTag', () => {
+        expect(removeTagSpy)
           .not
           .toHaveBeenCalled();
       });

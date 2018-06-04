@@ -6,8 +6,11 @@ import {
 import { CONNECTION_STATUSES } from 'constants/chat';
 import { getConnection, getDepartmentsList } from 'src/redux/modules/chat/chat-selectors';
 import { setDepartment, clearDepartment } from 'src/redux/modules/chat/chat-actions';
+import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors';
 
 import _ from 'lodash';
+
+const zChat = (() => { try { return require('chat-web-sdk'); } catch (_) {} })();
 
 export function updateSettingsChatSuppress(bool) {
   return {
@@ -30,6 +33,8 @@ export function updateSettings(settings) {
       };
     }
 
+    const oldTags = getSettingsChatTags(getState());
+
     dispatch({
       type: UPDATE_SETTINGS,
       payload: settings
@@ -46,6 +51,18 @@ export function updateSettings(settings) {
         dispatch(setDepartment(visitorDepartmentId));
       } else {
         dispatch(clearDepartment());
+      }
+
+      const tags = _.get(settings, 'webWidget.chat.tags');
+
+      if (_.isArray(tags)) {
+        _.forEach(oldTags, (tag) => {
+          zChat.removeTag(tag);
+        });
+
+        _.forEach(tags, (tag) => {
+          zChat.addTag(tag);
+        });
       }
     }
   };
