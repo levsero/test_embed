@@ -39,6 +39,7 @@ import { getZopimChatEmbed,
   getChatStandalone,
   getNewHeight } from 'src/redux/modules/base/base-selectors';
 import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors';
+import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
@@ -69,7 +70,8 @@ const mapStateToProps = (state) => {
     isChatting: getIsChatting(state),
     hasSearched: getHasSearched(state),
     resultsCount: getResultsCount(state),
-    newHeight: getNewHeight(state)
+    newHeight: getNewHeight(state),
+    mobileNotificationsDisabled: getSettingsMobileNotificationsDisabled(state)
   };
 };
 
@@ -131,7 +133,8 @@ class WebWidget extends Component {
     showStandaloneMobileNotification: PropTypes.func.isRequired,
     resultsCount: PropTypes.number.isRequired,
     ipmHelpCenterAvailable: PropTypes.bool,
-    newHeight: PropTypes.bool.isRequired
+    newHeight: PropTypes.bool.isRequired,
+    mobileNotificationsDisabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -167,7 +170,8 @@ class WebWidget extends Component {
     resetActiveArticle: () => {},
     articleViewActive: false,
     onShowMobile: () => {},
-    ipmHelpCenterAvailable: false
+    ipmHelpCenterAvailable: false,
+    mobileNotificationsDisabled: false
   };
 
   setComponent = (activeComponent) => {
@@ -590,7 +594,7 @@ class WebWidget extends Component {
 
     const { fullscreen } = this.props;
 
-    if (fullscreen && this.props.chatStandaloneMobileNotificationVisible)
+    if (fullscreen && this.props.chatStandaloneMobileNotificationVisible && !this.props.mobileNotificationsDisabled)
       return this.renderStandaloneChatPopup();
 
     // TODO: Once single iframe is GA'd the containers for each child can be moved
