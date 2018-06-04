@@ -2,7 +2,8 @@ describe('settings selectors', () => {
   let getSettingsChatSuppress,
     getSettingsChatDepartment,
     getSettingsChatDepartmentsEnabled,
-    getSettingsMobileNotificationsDisabled;
+    getSettingsMobileNotificationsDisabled,
+    getSettingsChatTags;
 
   beforeEach(() => {
     mockery.enable();
@@ -17,6 +18,26 @@ describe('settings selectors', () => {
     getSettingsChatDepartment = selectors.getSettingsChatDepartment;
     getSettingsChatDepartmentsEnabled = selectors.getSettingsChatDepartmentsEnabled;
     getSettingsMobileNotificationsDisabled = selectors.getSettingsMobileNotificationsDisabled;
+    getSettingsChatTags = selectors.getSettingsChatTags;
+  });
+
+  describe('getSettingsChatTags', () => {
+    let result;
+
+    beforeEach(() => {
+      const mockState = {
+        settings: {
+          chat: { tags: ['yolo', 'yolo2'] }
+        }
+      };
+
+      result = getSettingsChatTags(mockState);
+    });
+
+    it('returns true', () => {
+      expect(result)
+        .toEqual(['yolo', 'yolo2']);
+    });
   });
 
   describe('getSettingsMobileNotificationsDisabled', () => {
