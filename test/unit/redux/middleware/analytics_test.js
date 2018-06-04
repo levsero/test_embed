@@ -1,7 +1,9 @@
 describe('analytics middleware', () => {
   let trackAnalytics,
-    GASpy;
+    GASpy,
+    loadtime;
   const UPDATE_ACTIVE_EMBED = 'widget/base/UPDATE_ACTIVE_EMBED';
+  const SDK_CHAT_MEMBER_JOIN = 'widget/chat/SDK_CHAT_MEMBER_JOIN';
 
   beforeEach(() => {
     const blipPath = buildSrcPath('redux/middleware/analytics');
@@ -17,10 +19,14 @@ describe('analytics middleware', () => {
         getIsChatting: (prevState) => prevState.isChatting
       },
       'src/redux/modules/base/base-action-types': {
-        UPDATE_ACTIVE_EMBED: UPDATE_ACTIVE_EMBED
+        UPDATE_ACTIVE_EMBED
+      },
+      'src/redux/modules/chat/chat-action-types': {
+        SDK_CHAT_MEMBER_JOIN,
       }
     });
 
+    loadtime = Date.now();
     trackAnalytics = requireUncached(blipPath).trackAnalytics;
   });
 
@@ -32,6 +38,10 @@ describe('analytics middleware', () => {
   describe('trackAnalytics', () => {
     let action,
       nextSpy;
+
+    afterEach(() => {
+      GASpy.track.calls.reset();
+    });
 
     describe('next', () => {
       beforeEach(() => {
@@ -59,13 +69,12 @@ describe('analytics middleware', () => {
         };
 
         GASpy.track.calls.reset();
-        nextSpy = jasmine.createSpy('nextSpy');
 
         action = {
           type: UPDATE_ACTIVE_EMBED,
           payload
         };
-        trackAnalytics({ getState: () => flatState })(nextSpy)(action);
+        trackAnalytics({ getState: () => flatState })(noop)(action);
       });
 
       describe('when chatting', () => {
@@ -105,6 +114,68 @@ describe('analytics middleware', () => {
           it('calls GA.track with the correct name', () => {
             expect(GASpy.track)
               .toHaveBeenCalledWith('Chat Opened');
+          });
+        });
+      });
+    });
+
+    describe('action has type SDK_CHAT_MEMBER_JOIN', () => {
+      let nick,
+        timestamp;
+
+      beforeEach(() => {
+        const payload = {
+          detail: {
+            nick,
+            timestamp,
+            display_name: 'Bob Ross' // eslint-disable-line camelcase
+          }
+        };
+
+        action = {
+          type: SDK_CHAT_MEMBER_JOIN,
+          payload
+        };
+        trackAnalytics({ getState: () => {} })(noop)(action);
+      });
+
+      describe('when payload is not from an agent', () => {
+        beforeAll(() => {
+          nick = 'visitor:234';
+        });
+
+        it('does not call GA.track', () => {
+          expect(GASpy.track)
+            .not
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when payload is from an agent', () => {
+        beforeAll(() => {
+          nick = 'agent:123';
+        });
+
+        describe('when payload is recieved after initialization', () => {
+          beforeAll(() => {
+            timestamp = loadtime + 10000;
+          });
+
+          it('calls GA.track with the correct params', () => {
+            expect(GASpy.track)
+              .toHaveBeenCalledWith('Chat Served by Operator', 'Bob Ross');
+          });
+        });
+
+        describe('when payload is recieved before initialization', () => {
+          beforeAll(() => {
+            timestamp = loadtime - 10000;
+          });
+
+          it('does not call GA.track', () => {
+            expect(GASpy.track)
+              .not
+              .toHaveBeenCalled();
           });
         });
       });
