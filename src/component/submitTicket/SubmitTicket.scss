@@ -74,3 +74,12 @@
 .loadingSpinnerIE {
   composes: u-paddingBXL u-paddingRXL from global;
 }
+
+.successScreenScrollContainer {
+  position: relative;
+  flex: 1;
+}
+
+.hideFooter {
+  display: none;
+}

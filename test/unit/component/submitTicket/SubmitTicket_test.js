@@ -2,7 +2,8 @@ describe('Submit ticket component', () => {
   let SubmitTicket,
     mockStoreValue,
     mockIsIEValue,
-    mockIsMobileBrowserValue;
+    mockIsMobileBrowserValue,
+    SuccessNotification =  noopReactComponent();
 
   const formParams = {
     'name': 'bob',
@@ -84,9 +85,6 @@ describe('Submit ticket component', () => {
       'component/ZendeskLogo': {
         ZendeskLogo: noopReactComponent()
       },
-      'component/button/Button': {
-        Button: noopReactComponent()
-      },
       'component/loading/LoadingSpinner': {
         LoadingSpinner: noopReactComponent()
       },
@@ -103,6 +101,9 @@ describe('Submit ticket component', () => {
             return <div className='attachment_box' />;
           }
         }
+      },
+      'component/shared/SuccessNotification': {
+        SuccessNotification
       },
       'service/i18n': {
         i18n: {
@@ -122,6 +123,11 @@ describe('Submit ticket component', () => {
       'service/persistence': {
         store: {
           get: () => mockStoreValue
+        }
+      },
+      'src/constants/shared': {
+        ICONS: {
+          SUCCESS_CONTACT_FORM: 'icon'
         }
       },
       'src/redux/modules/submitTicket': {},
@@ -318,6 +324,38 @@ describe('Submit ticket component', () => {
       it('does not return an element', () => {
         expect(notification)
           .toBeFalsy();
+      });
+    });
+
+    describe('newHeight', () => {
+      let mockHeight;
+
+      beforeEach(() => {
+        const submitTicket = domRender(<SubmitTicket showNotification={true} newHeight={mockHeight} />);
+
+        notification = submitTicket.renderNotification();
+      });
+
+      describe('when newHeight is true', () => {
+        beforeAll(() => {
+          mockHeight = true;
+        });
+
+        it('should render SuccessNotification', () => {
+          expect(TestUtils.isElementOfType(notification.props.children, SuccessNotification))
+            .toEqual(true);
+        });
+      });
+
+      describe('when newHeight is false', () => {
+        beforeAll(() => {
+          mockHeight = false;
+        });
+
+        it('should not render SuccessNotification', () => {
+          expect(TestUtils.isElementOfType(notification.props.children, SuccessNotification))
+            .toEqual(false);
+        });
       });
     });
   });

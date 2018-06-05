@@ -11,11 +11,13 @@ import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
+import { SuccessNotification } from 'component/shared/SuccessNotification';
 import { handleFormChange, handleTicketFormClick, handleTicketSubmission } from 'src/redux/modules/submitTicket';
 import * as selectors from 'src/redux/modules/submitTicket/submitTicket-selectors';
 import { getHasContextuallySearched } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { i18n } from 'service/i18n';
 import { isIE } from 'utility/devices';
+import { ICONS } from 'src/constants/shared';
 import { getSearchTerm } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 
 const mapStateToProps = (state) => {
@@ -270,6 +272,25 @@ class SubmitTicket extends Component {
 
   renderNotification = () => {
     if (!this.props.showNotification) return;
+
+    if (this.props.newHeight) {
+      const footerClasses = this.props.fullscreen || this.props.hideZendeskLogo
+        ? styles.hideFooter
+        : '';
+
+      return (
+        <ScrollContainer
+          containerClasses={styles.successScreenScrollContainer}
+          footerClasses={footerClasses}
+          title={i18n.t('embeddable_framework.submitTicket.notify.message.success')}
+          newHeight={true}>
+          <SuccessNotification
+            onDoneClick={this.props.onCancel}
+            icon={ICONS.SUCCESS_CONTACT_FORM}
+            isMobile={this.props.fullscreen} />
+        </ScrollContainer>
+      );
+    }
 
     const iconClasses = `${styles.notifyIcon} u-userFillColor u-userTextColor`;
 
