@@ -69,6 +69,8 @@ describe('Icon components', function() {
       '@zendeskgarden/svg-icons/src/26/file-spreadsheet.svg': DummyIcon,
       '@zendeskgarden/svg-icons/src/26/file-zip.svg': DummyIcon,
       '@zendeskgarden/svg-icons/src/26/file.svg': DummyIcon,
+      'icons/widget-icon_success_contactForm.svg': DummyIcon,
+      'icons/widget-icon_success_talk.svg': DummyIcon,
       'utility/devices': {
         isMobileBrowser: function() {
           return false;

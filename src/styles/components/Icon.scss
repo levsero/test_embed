@@ -431,3 +431,21 @@
     width: #{15/$font-size}rem;
   }
 }
+
+.Icon--success-contactForm {
+  svg {
+    min-width: #{160/$font-size}rem;
+    min-height: #{150/$font-size}rem;
+    height: #{150/$font-size}rem;
+    width: #{160/$font-size}rem;
+  }
+}
+
+.Icon--success-talk {
+  svg {
+    min-width: #{160/$font-size}rem;
+    min-height: #{150/$font-size}rem;
+    height: #{150/$font-size}rem;
+    width: #{160/$font-size}rem;
+  }
+}
