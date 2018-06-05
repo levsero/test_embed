@@ -114,6 +114,9 @@ describe('WebWidget component', () => {
       },
       'service/settings': {
         settings: { get: noop }
+      },
+      'src/redux/modules/settings/settings-selectors': {
+        getSettingsMobileNotificationsDisabled: noop
       }
     });
 
@@ -258,6 +261,25 @@ describe('WebWidget component', () => {
 
         it('shows the standaloneChatPopup', () => {
           expect(webWidget.renderStandaloneChatPopup)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when props.mobileNotificationsDisabled is true', () => {
+        beforeEach(() => {
+          webWidget = instanceRender(
+            <WebWidget
+              fullscreen={true}
+              chatStandaloneMobileNotificationVisible={true}
+              mobileNotificationsDisabled={true} />
+          );
+          spyOn(webWidget, 'renderStandaloneChatPopup');
+          webWidget.render();
+        });
+
+        it('does not show the standaloneChatPopup', () => {
+          expect(webWidget.renderStandaloneChatPopup)
+            .not
             .toHaveBeenCalled();
         });
       });

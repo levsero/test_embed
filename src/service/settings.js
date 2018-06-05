@@ -19,6 +19,7 @@ const optionWhitelist = {
     'chat.departments.enabled',
     'chat.suppress',
     'chat.visitor.departments.department',
+    'chat.mobile.notifications.disable',
     'color.theme',
     'color.button',
     'color.header',
@@ -83,6 +84,11 @@ const webWidgetStoreDefaults = {
     visitor: {
       departments: {
         department: ''
+      }
+    },
+    mobile: {
+      notifications: {
+        disable: false
       }
     }
   },
