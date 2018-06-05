@@ -187,20 +187,19 @@ class ChattingScreen extends Component {
   }
 
   didUpdateNewEntry = (prevProps) => {
-    const newChatCount = (this.props.chats.length) - (prevProps.chats.length);
+    const newMessage = ((this.props.chats.length) - (prevProps.chats.length)) > 0;
+    const newEvent = ((this.props.events.length) - (prevProps.events.length)) > 0;
     const lastUserMessage = _.get(_.last(this.props.chats), 'nick');
-    const newMessage = (newChatCount > 0);
     const scrollCloseToBottom = this.isScrollCloseToBottom();
 
-    if (!newMessage) return;
-
-    if (isAgent(lastUserMessage)) {
+    if (newMessage && isAgent(lastUserMessage)) {
       (scrollCloseToBottom)
         ? this.setState({ notificationCount: 0 })
         : this.setState({ notificationCount: this.state.notificationCount + 1 });
     }
 
-    if (scrollCloseToBottom || lastUserMessage === 'visitor') {
+    if ((newMessage && (scrollCloseToBottom || lastUserMessage === 'visitor')) ||
+        (newEvent && scrollCloseToBottom)) {
       this.scrollToBottom();
     }
   }
@@ -249,9 +248,15 @@ class ChattingScreen extends Component {
 
   renderAgentTyping = (typingAgents = []) => {
     let typingNotification;
+    const agentTypingStyles = (this.props.isMobile)
+      ? styles.agentTypingMobile
+      : styles.agentTyping;
+    const noAgentTypingStyles = (this.props.isMobile)
+      ? styles.noAgentTypingMobile
+      : styles.noAgentTyping;
 
     switch (typingAgents.length) {
-      case 0: return <div className={styles.noAgentTyping} />;
+      case 0: return <div className={noAgentTypingStyles} />;
       case 1:
         const agent = typingAgents[0].display_name;
 
@@ -268,7 +273,7 @@ class ChattingScreen extends Component {
     }
 
     return (
-      <div className={styles.agentTyping}>
+      <div className={agentTypingStyles}>
         <LoadingEllipses
           useUserColor={false}
           className={styles.loadingEllipses}
@@ -375,6 +380,7 @@ class ChattingScreen extends Component {
     if (this.state.notificationCount === 0) return null;
 
     const { notificationCount } = this.state;
+    const containerStyles = (this.props.isMobile) ? styles.scrollBottomPillMobile : styles.scrollBottomPill;
     const goToBottomFn = () => {
       this.scrollToBottom();
       this.setState({ notificationCount: 0 });
@@ -387,7 +393,7 @@ class ChattingScreen extends Component {
     return (
       <ButtonPill
         showIcon={true}
-        containerClass={styles.scrollBottomPill}
+        containerClass={containerStyles}
         onClick={goToBottomFn}
         label={pillLabel} />
     );
@@ -456,7 +462,7 @@ class ChattingScreen extends Component {
           {this.renderQueuePosition()}
           {this.renderAgentTyping(agentsTyping)}
           {
-            (!isMobile || !agentsTyping.length)
+            (isMobile)
               ? this.renderZendeskLogo()
               : null
           }
