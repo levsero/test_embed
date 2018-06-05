@@ -2,7 +2,8 @@ describe('Talk component', () => {
   let Talk,
     i18nTranslateSpy,
     libPhoneNumberFormatSpy,
-    libPhoneNumberParseSpy;
+    libPhoneNumberParseSpy,
+    SuccessNotification = noopReactComponent();
   const callbackScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
   const phoneOnlyScreen = 'widget/talk/PHONE_ONLY_SCREEN';
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
@@ -35,7 +36,13 @@ describe('Talk component', () => {
       'component/Icon': { Icon: noopReactComponent },
       'component/container/ScrollContainer': { ScrollContainer: MockScrollContainer },
       'component/ZendeskLogo': { ZendeskLogo: noopReactComponent },
+      'component/shared/SuccessNotification': { SuccessNotification },
       'service/i18n': { i18n: { t: i18nTranslateSpy, isRTL: _.noop } },
+      'src/constants/shared': {
+        ICONS: {
+          SUCCESS_TALK: 'icon'
+        }
+      },
       'src/redux/modules/talk': {
         updateTalkScreen: noop,
         updateTalkCallbackForm: noop
@@ -374,6 +381,39 @@ describe('Talk component', () => {
     it('formats the phone number', () => {
       expect(formatPhoneNumberSpy)
         .toHaveBeenCalledWith(config.phoneNumber);
+    });
+  });
+
+  describe('renderSuccessNotificationScreen', () => {
+    let mockNewHeight,
+      result,
+      talk;
+
+    beforeEach(() => {
+      talk = instanceRender(<Talk newHeight={mockNewHeight} />);
+      result = talk.renderSuccessNotificationScreen();
+    });
+
+    describe('when newHeight is true', () => {
+      beforeAll(() => {
+        mockNewHeight = true;
+      });
+
+      it('should render SuccessNotification component', () => {
+        expect(TestUtils.isElementOfType(result, SuccessNotification))
+          .toEqual(true);
+      });
+    });
+
+    describe('when newHeight is false', () => {
+      beforeAll(() => {
+        mockNewHeight = false;
+      });
+
+      it('should render original sucess notification', () => {
+        expect(TestUtils.isElementOfType(result, 'div'))
+          .toEqual(true);
+      });
     });
   });
 

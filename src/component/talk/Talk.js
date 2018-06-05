@@ -9,7 +9,11 @@ import { Form } from 'component/form/Form';
 import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
+import { SuccessNotification } from 'component/shared/SuccessNotification';
 import { errorCodes } from './talkErrorCodes';
+import { ICONS } from 'src/constants/shared';
+
+import classNames from 'classnames';
 
 const libphonenumber = (() => { try { return require('libphonenumber-js'); } catch (_) {} })();
 
@@ -215,6 +219,16 @@ class Talk extends Component {
   }
 
   renderSuccessNotificationScreen = () => {
+    if (this.props.newHeight) {
+      return (
+        <SuccessNotification
+          icon={ICONS.SUCCESS_TALK}
+          onDoneClick={this.props.onBackClick}
+          isMobile={this.props.isMobile}
+        />
+      );
+    }
+
     const iconClasses = `${styles.notifyIcon} u-userFillColor u-userTextColor`;
 
     return (
@@ -304,8 +318,13 @@ class Talk extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const { screen, isMobile, newHeight } = this.props;
-    const footerClasses = (screen !== SUCCESS_NOTIFICATION_SCREEN && !isMobile) ? styles.footer : '';
+    const { isMobile, screen, newHeight } = this.props;
+    const footerClasses = classNames(
+      {
+        [styles.footer]: screen !== SUCCESS_NOTIFICATION_SCREEN && !isMobile,
+        [styles.hideFooter]: screen === SUCCESS_NOTIFICATION_SCREEN && isMobile
+      }
+    );
     const contentClasses = (isMobile) ? styles.contentMobile : styles.content;
 
     return (

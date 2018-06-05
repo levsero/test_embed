@@ -1,7 +1,10 @@
 @import '../../styles/_vars.scss';
 
 .scrollContainer {
+  flex: 1;
+  position: relative;
   max-height: none;
+  height: auto;
 }
 
 .content {
@@ -26,6 +29,11 @@
 
 .footer {
   composes: u-paddingVN from global;
+  height: #{24/$font-size}rem;
+}
+
+.hideFooter {
+  display: none;
 }
 
 .notify {
