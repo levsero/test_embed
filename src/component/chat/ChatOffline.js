@@ -92,7 +92,8 @@ class ChatOffline extends Component {
         operatingHours={this.props.operatingHours}
         updateFrameSize={this.props.updateFrameSize}
         isAuthenticated={this.props.isAuthenticated}
-        isMobile={this.props.isMobile} />
+        isMobile={this.props.isMobile}
+        newHeight={this.props.newHeight} />
     );
   }
 

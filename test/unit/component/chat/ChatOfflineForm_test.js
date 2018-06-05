@@ -1,5 +1,6 @@
 describe('ChatOfflineForm component', () => {
-  let ChatOfflineForm;
+  let ChatOfflineForm,
+    SuccessNotification = noopReactComponent();
   const ChatOfflineFormPath = buildSrcPath('component/chat/ChatOfflineForm');
 
   const Form = noopReactComponent();
@@ -62,7 +63,15 @@ describe('ChatOfflineForm component', () => {
       'component/chat/ChatOfflineMessageForm': {
         ChatOfflineMessageForm
       },
-      'component/chat/UserProfile': { UserProfile }
+      'component/chat/UserProfile': { UserProfile },
+      'component/shared/SuccessNotification': {
+        SuccessNotification
+      },
+      'src/constants/shared': {
+        ICONS: {
+          SUCCESS_CONTACT_FORM: 'icon'
+        }
+      }
     });
 
     mockery.registerAllowable(ChatOfflineFormPath);
@@ -242,28 +251,57 @@ describe('ChatOfflineForm component', () => {
     };
 
     describe('when the screen is the success screen', () => {
+      let mockNewHeight;
+
       beforeEach(() => {
         offlineMessageProp = { screen: 'success', details: mockFormValues };
         onFormBackSpy = jasmine.createSpy('onFormBack');
 
         const component = instanceRender(
-          <ChatOfflineForm offlineMessage={offlineMessageProp} handleOfflineFormBack={onFormBackSpy}/>
+          <ChatOfflineForm offlineMessage={offlineMessageProp} handleOfflineFormBack={onFormBackSpy} newHeight={mockNewHeight}/>
         );
 
         result = component.renderSuccess();
       });
 
-      it('renders ChatOfflineMessageForm', () => {
-        expect(TestUtils.isElementOfType(result, ChatOfflineMessageForm))
-          .toEqual(true);
+      describe('when newHeight is true', () => {
+        beforeAll(() => {
+          mockNewHeight = true;
+        });
+
+        it('does not render ChatOfflineMessageForm', () => {
+          expect(TestUtils.isElementOfType(result, ChatOfflineMessageForm))
+            .toEqual(false);
+        });
+
+        it('renders SuccessNotification', () => {
+          expect(TestUtils.isElementOfType(result, SuccessNotification))
+            .toEqual(true);
+        });
       });
 
-      it('passes the correct props to ChatOfflineMessageForm', () => {
-        expect(result.props.offlineMessage)
-          .toEqual(offlineMessageProp);
+      describe('when newHeight is false', () => {
+        beforeAll(() => {
+          mockNewHeight = false;
+        });
 
-        expect(result.props.onFormBack)
-          .toEqual(onFormBackSpy);
+        it('does not render SuccessNotification', () => {
+          expect(TestUtils.isElementOfType(result, SuccessNotification))
+            .toEqual(false);
+        });
+
+        it('renders ChatOfflineMessageForm', () => {
+          expect(TestUtils.isElementOfType(result, ChatOfflineMessageForm))
+            .toEqual(true);
+        });
+
+        it('passes the correct props to ChatOfflineMessageForm', () => {
+          expect(result.props.offlineMessage)
+            .toEqual(offlineMessageProp);
+
+          expect(result.props.onFormBack)
+            .toEqual(onFormBackSpy);
+        });
       });
     });
 
