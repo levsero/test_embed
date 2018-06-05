@@ -12,7 +12,6 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 import { SuccessNotification } from 'component/shared/SuccessNotification';
 import { errorCodes } from './talkErrorCodes';
 import { ICONS } from 'src/constants/shared';
-
 import classNames from 'classnames';
 
 const libphonenumber = (() => { try { return require('libphonenumber-js'); } catch (_) {} })();
@@ -207,10 +206,30 @@ class Talk extends Component {
   }
 
   renderPhoneOnlyScreen = () => {
+    const containerClasses = classNames(
+      styles.phoneOnlyContainer,
+      { [styles.phoneOnlyMobileContainer]: this.props.isMobile }
+    );
+
+    let talkIcon = null;
+    let callUsMessage = i18n.t('embeddable_framework.talk.phoneOnly.message');
+
+    if (this.props.newHeight) {
+      talkIcon = (
+        <Icon
+          type={ICONS.TALK}
+          className='u-userFillCustomColor'
+          isMobile={this.props.isMobile}
+        />
+      );
+      callUsMessage = i18n.t('embeddable_framework.talk.phoneOnly.new_message');
+    }
+
     return (
-      <div className={styles.phoneOnlyContainer}>
+      <div className={containerClasses}>
+        {talkIcon}
         <p className={styles.phoneOnlyMessage}>
-          {i18n.t('embeddable_framework.talk.phoneOnly.message')}
+          {callUsMessage}
         </p>
         {this.renderAverageWaitTime()}
         <div className={styles.phoneNumber}>{this.renderPhoneNumber()}</div>

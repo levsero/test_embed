@@ -5,8 +5,9 @@ const webpack = require('webpack');
 const svgoConfig = JSON.stringify({
   plugins: [
     { removeTitle: true },
-    { convertPathData: false }
-  ]
+    { convertPathData: false },
+    { convertStyleToAttrs: false}
+   ]
 });
 const prefix = process.cwd();
 const version = String(fs.readFileSync('dist/VERSION_HASH')).trim();

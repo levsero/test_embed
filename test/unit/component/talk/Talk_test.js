@@ -3,7 +3,8 @@ describe('Talk component', () => {
     i18nTranslateSpy,
     libPhoneNumberFormatSpy,
     libPhoneNumberParseSpy,
-    SuccessNotification = noopReactComponent();
+    SuccessNotification = noopReactComponent(),
+    Icon = noopReactComponent();
   const callbackScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
   const phoneOnlyScreen = 'widget/talk/PHONE_ONLY_SCREEN';
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
@@ -33,7 +34,7 @@ describe('Talk component', () => {
       'component/field/Field': { Field: noopReactComponent },
       'component/field/EmailField': { EmailField: noopReactComponent },
       'component/talk/TalkPhoneField': { TalkPhoneField: noopReactComponent },
-      'component/Icon': { Icon: noopReactComponent },
+      'component/Icon': { Icon },
       'component/container/ScrollContainer': { ScrollContainer: MockScrollContainer },
       'component/ZendeskLogo': { ZendeskLogo: noopReactComponent },
       'component/shared/SuccessNotification': { SuccessNotification },
@@ -381,6 +382,49 @@ describe('Talk component', () => {
     it('formats the phone number', () => {
       expect(formatPhoneNumberSpy)
         .toHaveBeenCalledWith(config.phoneNumber);
+    });
+
+    describe('newHeight', () => {
+      let mockNewHeight,
+        result;
+
+      beforeEach(() => {
+        const talk = instanceRender(<Talk newHeight={mockNewHeight} />);
+
+        result = talk.renderPhoneOnlyScreen();
+      });
+
+      describe('when newHeight is true', () => {
+        beforeAll(() => {
+          mockNewHeight = true;
+        });
+
+        it('renders new message string', () => {
+          expect(result.props.children[1].props.children)
+            .toEqual('embeddable_framework.talk.phoneOnly.new_message');
+        });
+
+        it('renders talk icon', () => {
+          expect(TestUtils.isElementOfType(result.props.children[0], Icon))
+            .toEqual(true);
+        });
+      });
+
+      describe('when newHeight is false', () => {
+        beforeAll(() => {
+          mockNewHeight = false;
+        });
+
+        it('renders old message string', () => {
+          expect(result.props.children[1].props.children)
+            .toEqual('embeddable_framework.talk.phoneOnly.message');
+        });
+
+        it('does not render talk icon', () => {
+          expect(TestUtils.isElementOfType(result.props.children[0], Icon))
+            .toEqual(false);
+        });
+      });
     });
   });
 

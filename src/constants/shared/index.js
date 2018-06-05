@@ -20,7 +20,8 @@ export const ICONS = {
   DASH:                 'Icon--dash',
   BACK:                 'Icon--back',
   SUCCESS_CONTACT_FORM: 'Icon--success-contactForm',
-  SUCCESS_TALK:         'Icon--success-talk'
+  SUCCESS_TALK:         'Icon--success-talk',
+  TALK:                 'Icon--talk'
 };
 
 export const FILETYPE_ICONS = {
