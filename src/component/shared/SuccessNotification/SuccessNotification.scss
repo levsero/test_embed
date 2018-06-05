@@ -1,0 +1,48 @@
+@import '../../../styles/_vars.scss';
+
+.button {
+  composes: u-sizeFull from global;
+}
+
+.buttonContainer {
+  composes: u-posAbsolute u-marginBM from global;
+  bottom: 0;
+  left: #{7/$font-size}rem;
+  right: #{7/$font-size}rem;
+}
+
+.container {
+  composes: u-posFill u-posAbsolute from global;
+  height: 100%;
+}
+
+.content {
+  composes: u-textCenter u-textSizeNml u-textHeightMed from global;
+  margin-top: #{50/$font-size}rem !important;
+}
+
+.contentMobile {
+  composes: u-textHeightLrg u-textSize15 from global;
+}
+
+.firstMessage {
+  composes: u-textBold u-userTextColor from global;
+}
+
+.firstMessageDesktop {
+  composes: u-textSizeMed from global;
+}
+
+.firstMessageMobile {
+  composes: u-textSizeLrg from global;
+}
+
+.messages {
+  p {
+    margin: $spacing-tny !important;
+  }
+}
+
+.icon {
+  composes: u-userFillCustomColor from global;
+}

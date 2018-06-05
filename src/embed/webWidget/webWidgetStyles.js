@@ -59,6 +59,7 @@ import SearchFieldStyles from 'component/field/SearchField.scss';
 import SearchInputStyles from 'component/field/SearchInput.scss';
 import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.scss';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.scss';
+import SuccessNotificationStyles from 'component/shared/SuccessNotification/SuccessNotification.scss';
 import TalkStyles from 'component/talk/Talk.scss';
 import TalkPhoneFieldStyles from 'component/talk/TalkPhoneField.scss';
 import { sharedStyles } from 'embed/sharedStyles.js';
@@ -126,6 +127,7 @@ export const webWidgetStyles = `
   ${SearchInputStyles}
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
+  ${SuccessNotificationStyles}
   ${TalkStyles}
   ${TalkPhoneFieldStyles}
 `;
