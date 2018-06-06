@@ -68,13 +68,12 @@ export class FeedbackForm extends Component {
           updateRating={(rating) => this.setState({ selectedRating: rating })}
         />
         <label htmlFor='feedbackTextarea' className={styles.feedbackDescription}>
-          {i18n.t('embeddable_framework.chat.postChat.rating.description')}
+          {i18n.t('embeddable_framework.chat.postChat.rating.plainDescription')}
         </label>
         <textarea
           id='feedbackTextarea'
           ref={(el) => { this.textarea = el; }}
           className={styles.textarea}
-          placeholder={i18n.t('embeddable_framework.chat.postChat.rating.placeholder.optional')}
           rows={6}
           defaultValue={rating.comment} />
         {this.renderActionButtons()}
