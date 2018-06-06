@@ -55,12 +55,15 @@ export class ChannelChoiceMobile extends Component {
       newHeight,
       newChannelChoice
     } = this.props;
+    const containerStyle = (newHeight)
+      ? styles.newContainer
+      : styles.container;
 
     return (
       <ScrollContainer
         hideZendeskLogo={true}
         fullscreen={true}
-        containerClasses={styles.container}
+        containerClasses={containerStyle}
         footerContent={this.renderCancelButton()}
         title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}
         newHeight={newHeight}>

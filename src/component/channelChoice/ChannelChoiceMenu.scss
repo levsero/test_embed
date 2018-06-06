@@ -3,7 +3,7 @@
 .btn {
   padding: 0 !important;
   margin: 0 #{6/$font-size}rem #{12/$font-size}rem;
-  height: #{84/$font-size}rem;
+  height: #{75/$font-size}rem;
   box-shadow: 0 #{1/$font-size}rem #{8/$font-size}rem 0 rgba(0,0,0,0.2);
   border-radius: #{4/$font-size}rem;
 }
@@ -45,20 +45,6 @@
   }
 }
 
-.iconTalk {
-  padding-right: #{13/$font-size}rem !important;
-
-  svg {
-    height: #{18/$font-size}rem !important;
-    width: #{18/$font-size}rem !important;
-
-    path {
-      stroke: $zd-color-monsoon;
-      fill: none !important;
-    }
-  }
-}
-
 .buttonTalk {
   padding-left: #{9/$font-size}rem !important;
 
@@ -70,11 +56,29 @@
   }
 }
 
-.icon {
-  padding-left: #{30/$font-size}rem;
-  padding-right: #{25/$font-size}rem;
-  width: #{30/$font-size}rem;
-  height: #{30/$font-size}rem;
+.oldIcon {
+  padding-left: 0;
+  width: #{16/$font-size}rem;
+  height: #{16/$font-size}rem;
+
+  svg {
+    min-width: #{16/$font-size}rem;
+    min-height: #{16/$font-size}rem;
+    max-width: #{16/$font-size}rem;
+    max-height: #{16/$font-size}rem;
+  }
+
+  [dir='rtl'] & {
+    padding-left: #{15/$font-size}rem;
+    padding-right: 0 !important;
+  }
+}
+
+.iconTalk {
+  padding-left: #{31/$font-size}rem;
+  padding-right: #{14/$font-size}rem !important;
+  height: #{30/$font-size}rem !important;
+  width: #{30/$font-size}rem !important;
 
   svg {
     min-width: #{30/$font-size}rem;
@@ -82,11 +86,66 @@
     max-width: #{30/$font-size}rem;
     max-height: #{30/$font-size}rem;
   }
+
+  [dir='rtl'] & {
+    padding-left: #{14/$font-size}rem;
+    padding-right: #{31/$font-size}rem !important;
+  }
+}
+
+.oldIconTalk {
+  svg path {
+    stroke: $zd-color-monsoon;
+    fill: none !important;
+  }
+
+  &:hover, &:focus, &:active {
+    svg path {
+      stroke: $zd-color-dark-gray;
+    }
+  }
+}
+
+.iconSubmitTicket {
+  padding-left: #{31/$font-size}rem;
+  padding-right: #{18/$font-size}rem !important;
+  width: #{27/$font-size}rem;
+  height: #{27/$font-size}rem;
+
+  svg {
+    min-width: #{27/$font-size}rem;
+    min-height: #{27/$font-size}rem;
+    max-width: #{27/$font-size}rem;
+    max-height: #{27/$font-size}rem;
+  }
+
+  [dir='rtl'] & {
+    padding-left: #{18/$font-size}rem;
+    padding-right: #{31/$font-size}rem !important;
+  }
+}
+
+.iconChat {
+  padding-left: #{30/$font-size}rem;
+  padding-right: #{14/$font-size}rem !important;
+  width: #{32/$font-size}rem;
+  height: #{32/$font-size}rem;
+
+  svg {
+    min-width: #{32/$font-size}rem;
+    min-height: #{32/$font-size}rem;
+    max-width: #{32/$font-size}rem;
+    max-height: #{32/$font-size}rem;
+  }
+
+  [dir='rtl'] & {
+    padding-left: #{14/$font-size}rem;
+    padding-right: #{30/$font-size}rem !important;
+  }
 }
 
 .newIcon {
   composes: u-userColor from global;
-  composes: icon;
 
   svg {
     path, rect {
@@ -96,8 +155,6 @@
 }
 
 .newIconDisabled {
-  composes: icon;
-
   svg {
     path, rect {
       fill: $zd-color-iron !important;

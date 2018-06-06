@@ -3,7 +3,7 @@
     <rect width="28.44" height="1.76" x="17.75" y="17.63" fill="#CCCCCB" fill-rule="nonzero" rx=".88"/>
     <rect width="28.44" height="1.76" x="17.75" y="24.66" fill="#CCCCCB" fill-rule="nonzero" rx=".88"/>
     <rect width="14.22" height="1.76" x="17.75" y="31.7" fill="#CCCCCB" fill-rule="nonzero" rx=".88"/>
-    <path d="M34.15,2.64 C32.9369117,1.46778498 31.0130883,1.46778498 29.8,2.64 L24.3,7.58 L39.64,7.58 L34.15,2.64 Z"/>
+    <path fill-opacity=".1" d="M34.15,2.64 C32.9369117,1.46778498 31.0130883,1.46778498 29.8,2.64 L24.3,7.58 L39.64,7.58 L34.15,2.64 Z"/>
     <polygon fill="#CCC" fill-rule="nonzero" points="59.55 25.45 59.55 26.67 60.23 26.06" opacity=".3"/>
     <path fill="#CCC" fill-rule="nonzero" d="M34.17,2.64 C32.9602921,1.46901693 31.0397079,1.46901693 29.83,2.64 L24.32,7.58 L39.67,7.58 L34.17,2.64 Z" opacity=".3"/>
     <polygon fill="#CCC" fill-rule="nonzero" points="4.44 25.43 3.79 26.02 4.44 26.62" opacity=".3"/>

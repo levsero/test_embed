@@ -13,3 +13,8 @@
   padding-left: 0 !important; /* 1 */
   padding-right: 0 !important; /* 1 */
 }
+
+.newContainer {
+  composes: container;
+  padding-top: $spacing-sml !important; /* 1 */
+}
