@@ -114,9 +114,9 @@ describe('ChannelChoiceMobile component', () => {
       result = component.renderCancelButton();
     });
 
-    describe('when newChannelChoice is true', () => {
+    describe('when newHeight is true', () => {
       beforeAll(() => {
-        componentProps = { newChannelChoice: true };
+        componentProps = { newHeight: true };
       });
 
       it('returns null', () => {
@@ -125,9 +125,9 @@ describe('ChannelChoiceMobile component', () => {
       });
     });
 
-    describe('when newChannelChoice is false', () => {
+    describe('when newHeight is false', () => {
       beforeAll(() => {
-        componentProps = { newChannelChoice: false };
+        componentProps = { newHeight: false };
       });
 
       it('returns a Button component', () => {

@@ -69,7 +69,6 @@ class HelpCenter extends Component {
     buttonLabelKey: PropTypes.string,
     callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
-    newChannelChoice: PropTypes.bool.isRequired,
     channelChoiceShown: PropTypes.bool.isRequired,
     chatEnabled: PropTypes.bool.isRequired,
     formTitleKey: PropTypes.string,
@@ -144,7 +143,7 @@ class HelpCenter extends Component {
     handleSearchFieldChange: () => {},
     chatNotificationCount: 0,
     isChatting: false,
-    newChannelChoice: false
+    newHeight: false
   };
 
   constructor(props) {
@@ -286,11 +285,11 @@ class HelpCenter extends Component {
   }
 
   handleNextClick = (e) => {
-    const { newChannelChoice, channelChoice, updateChannelChoiceShown, onNextClick } = this.props;
+    const { newHeight, channelChoice, updateChannelChoiceShown, onNextClick } = this.props;
 
     e.preventDefault();
 
-    if (!newChannelChoice && channelChoice) {
+    if (!newHeight && channelChoice) {
       setTimeout(() => updateChannelChoiceShown(true), 0);
     } else {
       onNextClick();
@@ -391,8 +390,7 @@ class HelpCenter extends Component {
         shadowVisible={shadowVisible}
         updateFrameSize={this.props.updateFrameSize}
         updateChatScreen={this.props.updateChatScreen}
-        newHeight={this.props.newHeight}
-        newChannelChoice={this.props.newChannelChoice}>
+        newHeight={this.props.newHeight}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterDesktop>

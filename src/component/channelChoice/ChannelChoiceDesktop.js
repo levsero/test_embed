@@ -19,8 +19,7 @@ export class ChannelChoiceDesktop extends Component {
     talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatEnabled: PropTypes.bool,
-    newHeight: PropTypes.bool.isRequired,
-    newChannelChoice: PropTypes.bool.isRequired
+    newHeight: PropTypes.bool
   };
 
   static defaultProps = {
@@ -29,7 +28,7 @@ export class ChannelChoiceDesktop extends Component {
     talkEnabled: false,
     submitTicketAvailable: true,
     chatEnabled: false,
-    newChannelChoice: false
+    newHeight: false
   };
 
   renderZendeskLogo = () => {
@@ -46,14 +45,14 @@ export class ChannelChoiceDesktop extends Component {
       talkAvailable,
       talkEnabled,
       callbackEnabled,
-      newChannelChoice } = this.props;
-    const divider = !hideZendeskLogo && !newChannelChoice ? <hr className={styles.hr} /> : null;
+      newHeight } = this.props;
+    const divider = !hideZendeskLogo && !newHeight ? <hr className={styles.hr} /> : null;
     const containerStyle = !hideZendeskLogo ? styles.inner : '';
 
     return (
       <div className={containerStyle}>
         <ChannelChoiceMenu
-          newChannelChoice={newChannelChoice}
+          newHeight={newHeight}
           submitTicketAvailable={this.props.submitTicketAvailable}
           chatEnabled={this.props.chatEnabled}
           callbackEnabled={callbackEnabled}
@@ -67,9 +66,9 @@ export class ChannelChoiceDesktop extends Component {
   }
 
   render = () => {
-    const { formTitleKey, hideZendeskLogo, newHeight, newChannelChoice } = this.props;
+    const { formTitleKey, hideZendeskLogo, newHeight } = this.props;
     const footerClasses = hideZendeskLogo ? styles.footerNoLogo : '';
-    const containerStyle = (newChannelChoice) ? styles.newChannelChoiceContainer : styles.container;
+    const containerStyle = (newHeight) ? styles.newChannelChoiceContainer : styles.container;
 
     return (
       <div>

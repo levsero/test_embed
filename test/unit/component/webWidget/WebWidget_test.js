@@ -1045,10 +1045,10 @@ describe('WebWidget component', () => {
       });
     });
 
-    describe('when newChannelChoice is available and activeEmbed is not channelChoice', () => {
+    describe('when newHeight is available and activeEmbed is not channelChoice', () => {
       beforeAll(() => {
         _.assign(componentProps, {
-          newChannelChoice: true,
+          newHeight: true,
           channelChoiceAvailable: true,
           activeEmbed: 'channelChoice',
           helpCenterAvailable: true

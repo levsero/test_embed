@@ -128,8 +128,7 @@ export default function WebWidgetFactory(name) {
     const configDefaults = {
       position: 'right',
       hideZendeskLogo: false,
-      color: '#659700',
-      newChannelChoice: false
+      color: '#659700'
     };
     const talkConfig = config.talk;
     const talkAvailable = !!talkConfig && !settings.get('talk.suppress');
@@ -218,7 +217,6 @@ export default function WebWidgetFactory(name) {
           ipmHelpCenterAvailable={ipmHelpCenterAvailable}
           isOnHelpCenterPage={isOnHelpCenterPage()}
           hideZendeskLogo={globalConfig.hideZendeskLogo}
-          newChannelChoice={globalConfig.newChannelChoice}
           imagesSender={helpCenterSettings.imagesSenderFn}
           localeFallbacks={settings.get('helpCenter.localeFallbacks')}
           onCancel={submitTicketSettings.onCancel}

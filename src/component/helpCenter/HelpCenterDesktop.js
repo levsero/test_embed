@@ -18,7 +18,6 @@ export class HelpCenterDesktop extends Component {
     buttonLabel: PropTypes.string.isRequired,
     channelChoice: PropTypes.bool,
     channelChoiceShown: PropTypes.bool,
-    newChannelChoice: PropTypes.bool,
     chatAvailable: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
     formTitleKey: PropTypes.string,
@@ -45,7 +44,7 @@ export class HelpCenterDesktop extends Component {
     articleViewActive: false,
     channelChoice: false,
     channelChoiceShown: false,
-    newChannelChoice: false,
+    newHeight: false,
     formTitleKey: 'help',
     hasSearched: false,
     hideZendeskLogo: false,
@@ -150,8 +149,8 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderFooterContent = () => {
-    const { channelChoice, newChannelChoice, showNextButton, hasSearched, articleViewActive } = this.props;
-    const onClickHandler = (newChannelChoice && channelChoice)
+    const { channelChoice, newHeight, showNextButton, hasSearched, articleViewActive } = this.props;
+    const onClickHandler = (newHeight && channelChoice)
       ? this.props.onNextClick
       : this.props.handleNextClick;
 

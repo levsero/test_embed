@@ -19,8 +19,7 @@ export class ChannelChoice extends Component {
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
     updateFrameSize: PropTypes.func,
-    newHeight: PropTypes.bool.isRequired,
-    newChannelChoice: PropTypes.bool.isRequired
+    newHeight: PropTypes.bool
   };
 
   static defaultProps = {
@@ -34,7 +33,7 @@ export class ChannelChoice extends Component {
     submitTicketAvailable: true,
     chatEnabled: false,
     updateFrameSize: () => {},
-    newChannelChoice: false
+    newHeight: false
   };
 
   handleNextClick = (embed) => {
@@ -42,7 +41,7 @@ export class ChannelChoice extends Component {
   }
 
   renderMobile = () => {
-    const { onCancelClick, chatAvailable, formTitleKey, newHeight, newChannelChoice } = this.props;
+    const { onCancelClick, chatAvailable, formTitleKey, newHeight } = this.props;
 
     return (
       <ChannelChoiceMobile
@@ -56,13 +55,12 @@ export class ChannelChoice extends Component {
         chatEnabled={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
         handleCancelClick={onCancelClick}
-        newHeight={newHeight}
-        newChannelChoice={newChannelChoice} />
+        newHeight={newHeight} />
     );
   }
 
   renderDesktop = () => {
-    const { formTitleKey, hideZendeskLogo, newHeight, newChannelChoice } = this.props;
+    const { formTitleKey, hideZendeskLogo, newHeight } = this.props;
 
     return (
       <ChannelChoiceDesktop
@@ -76,8 +74,7 @@ export class ChannelChoice extends Component {
         chatEnabled={this.props.chatEnabled}
         handleNextClick={this.handleNextClick}
         hideZendeskLogo={hideZendeskLogo}
-        newHeight={newHeight}
-        newChannelChoice={newChannelChoice} />
+        newHeight={newHeight} />
     );
   }
 

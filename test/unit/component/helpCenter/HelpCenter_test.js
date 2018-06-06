@@ -1055,9 +1055,9 @@ describe('HelpCenter component', () => {
       });
     });
 
-    describe('when newChannelChoice is true', () => {
+    describe('when newHeight is true', () => {
       beforeAll(() => {
-        componentProps = { newChannelChoice: true };
+        componentProps = { newHeight: true };
       });
 
       describe('when channelChoice is true', () => {
@@ -1099,9 +1099,9 @@ describe('HelpCenter component', () => {
       });
     });
 
-    describe('when newChannelChoice is false', () => {
+    describe('when newHeight is false', () => {
       beforeAll(() => {
-        componentProps = { newChannelChoice: false };
+        componentProps = { newHeight: false };
       });
 
       describe('when channelChoice is true', () => {

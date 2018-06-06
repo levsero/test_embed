@@ -18,6 +18,8 @@ describe('ChannelChoiceMenu component', () => {
           iconTalk: 'iconTalkClass',
           newIcon: 'newIconClass',
           newIconDisabled: 'newIconDisabledClass',
+          oldIcon: 'oldIconClass',
+          oldIconTalk: 'oldIconTalkClass',
           talkBtnDisabled: 'talkBtnDisabledClass'
         }
       },
@@ -106,11 +108,11 @@ describe('ChannelChoiceMenu component', () => {
     });
 
     describe('when talkAvailable is false', () => {
-      describe('when newChannelChoice is true', () => {
+      describe('when newHeight is true', () => {
         beforeAll(() => {
           componentProps = {
             talkAvailable: false,
-            newChannelChoice: true
+            newHeight: true
           };
         });
 
@@ -123,11 +125,11 @@ describe('ChannelChoiceMenu component', () => {
         });
       });
 
-      describe('when newChannelChoice is false', () => {
+      describe('when newHeight is false', () => {
         beforeAll(() => {
           componentProps = {
             talkAvailable: false,
-            newChannelChoice: false
+            newHeight: false
           };
         });
 
@@ -195,11 +197,11 @@ describe('ChannelChoiceMenu component', () => {
       });
 
       describe('props.className', () => {
-        describe('when newChannelChoice is true', () => {
+        describe('when newHeight is true', () => {
           describe('when talkAvailable is true', () => {
             beforeAll(() => {
               componentProps = {
-                newChannelChoice: true,
+                newHeight: true,
                 talkAvailable: true
               };
             });
@@ -218,7 +220,7 @@ describe('ChannelChoiceMenu component', () => {
           describe('when talkAvailable is false', () => {
             beforeAll(() => {
               componentProps = {
-                newChannelChoice: true,
+                newHeight: true,
                 talkAvailable: false
               };
             });
@@ -235,9 +237,9 @@ describe('ChannelChoiceMenu component', () => {
           });
         });
 
-        describe('when newChannelChoice is false', () => {
+        describe('when newHeight is false', () => {
           beforeAll(() => {
-            componentProps = { newChannelChoice: false };
+            componentProps = { newHeight: false };
           });
 
           it('does not have btn class', () => {
@@ -253,11 +255,11 @@ describe('ChannelChoiceMenu component', () => {
       });
 
       describe('props.iconClasses', () => {
-        describe('when newChannelChoice is true', () => {
+        describe('when newHeight is true', () => {
           describe('when talkAvailable is true', () => {
             beforeAll(() => {
               componentProps = {
-                newChannelChoice: true,
+                newHeight: true,
                 talkAvailable: true
               };
             });
@@ -276,7 +278,7 @@ describe('ChannelChoiceMenu component', () => {
           describe('when talkAvailable is false', () => {
             beforeAll(() => {
               componentProps = {
-                newChannelChoice: true,
+                newHeight: true,
                 talkAvailable: false
               };
             });
@@ -293,37 +295,42 @@ describe('ChannelChoiceMenu component', () => {
           });
         });
 
-        describe('when newChannelChoice is false', () => {
+        describe('when newHeight is false', () => {
           beforeAll(() => {
-            componentProps = { newChannelChoice: false };
+            componentProps = { newHeight: false };
           });
 
-          it('has iconTalk class', () => {
+          it('has oldIcon class', () => {
             expect(result.props.iconClasses)
-              .toContain('iconTalkClass');
+              .toContain('oldIconClass');
+          });
+
+          it('has oldIconTalk class', () => {
+            expect(result.props.iconClasses)
+              .toContain('oldIconTalkClass');
           });
         });
       });
 
-      describe('when newChannelChoice is true', () => {
+      describe('when newHeight is true', () => {
         beforeAll(() => {
-          componentProps = { newChannelChoice: true };
+          componentProps = { newHeight: true };
         });
 
-        it('passes newChannelChoice icon type to props.icon', () => {
+        it('passes newHeight icon type to props.icon', () => {
           expect(result.props.icon)
-            .toEqual('Icon--new-channelChoice-talk');
+            .toContain('Icon--new-channelChoice-talk');
         });
       });
 
-      describe('when newChannelChoice is false', () => {
+      describe('when newHeight is false', () => {
         beforeAll(() => {
-          componentProps = { newChannelChoice: false };
+          componentProps = { newHeight: false };
         });
 
         it('passes default channelChoice icon type to props.icon', () => {
           expect(result.props.icon)
-            .toEqual('Icon--channelChoice-talk');
+            .toContain('Icon--channelChoice-talk');
         });
       });
     });
@@ -355,7 +362,7 @@ describe('ChannelChoiceMenu component', () => {
       beforeAll(() => {
         componentProps = {
           chatAvailable: true,
-          newChannelChoice: false
+          newHeight: false
         };
       });
 
@@ -366,11 +373,11 @@ describe('ChannelChoiceMenu component', () => {
     });
 
     describe('when chatAvailable is false', () => {
-      describe('when newChannelChoice is true', () => {
+      describe('when newHeight is true', () => {
         beforeAll(() => {
           componentProps = {
             chatAvailable: false,
-            newChannelChoice: true
+            newHeight: true
           };
         });
 
@@ -383,11 +390,11 @@ describe('ChannelChoiceMenu component', () => {
         });
       });
 
-      describe('when newChannelChoice is false', () => {
+      describe('when newHeight is false', () => {
         beforeAll(() => {
           componentProps = {
             chatAvailable: false,
-            newChannelChoice: false
+            newHeight: false
           };
         });
 
@@ -455,11 +462,11 @@ describe('ChannelChoiceMenu component', () => {
       });
 
       describe('props.className', () => {
-        describe('when newChannelChoice is true', () => {
+        describe('when newHeight is true', () => {
           describe('when chatAvailable is true', () => {
             beforeAll(() => {
               componentProps = {
-                newChannelChoice: true,
+                newHeight: true,
                 chatAvailable: true
               };
             });
@@ -478,7 +485,7 @@ describe('ChannelChoiceMenu component', () => {
           describe('when chatAvailable is false', () => {
             beforeAll(() => {
               componentProps = {
-                newChannelChoice: true,
+                newHeight: true,
                 chatAvailable: false
               };
             });
@@ -495,9 +502,9 @@ describe('ChannelChoiceMenu component', () => {
           });
         });
 
-        describe('when newChannelChoice is false', () => {
+        describe('when newHeight is false', () => {
           beforeAll(() => {
-            componentProps = { newChannelChoice: false };
+            componentProps = { newHeight: false };
           });
 
           it('does not have btn class', () => {
@@ -535,82 +542,87 @@ describe('ChannelChoiceMenu component', () => {
       });
 
       describe('props.iconClasses', () => {
-        describe('when newChannelChoice is true', () => {
+        describe('when newHeight is true', () => {
           describe('when chatAvailable is true', () => {
             beforeAll(() => {
               componentProps = {
-                newChannelChoice: true,
+                newHeight: true,
                 chatAvailable: true
               };
             });
 
             it('has newIcon class', () => {
               expect(result.props.iconClasses)
-                .toEqual('newIconClass');
+                .toContain('newIconClass');
             });
 
             it('does not have newIconDisabled class', () => {
               expect(result.props.iconClasses)
-                .not.toEqual('newIconDisabledClass');
+                .not.toContain('newIconDisabledClass');
             });
           });
 
           describe('when chatAvailable is false', () => {
             beforeAll(() => {
               componentProps = {
-                newChannelChoice: true,
+                newHeight: true,
                 chatAvailable: false
               };
             });
 
             it('does not have newIcon class', () => {
               expect(result.props.iconClasses)
-                .not.toEqual('newIconClass');
+                .not.toContain('newIconClass');
             });
 
             it('has newIconDisabled class', () => {
               expect(result.props.iconClasses)
-                .toEqual('newIconDisabledClass');
+                .toContain('newIconDisabledClass');
             });
           });
         });
 
-        describe('when newChannelChoice is false', () => {
+        describe('when newHeight is false', () => {
           beforeAll(() => {
-            componentProps = { newChannelChoice: false };
+            componentProps = { newHeight: false };
+          });
+
+          it('has chatBtnDisabled class', () => {
+            expect(result.props.className)
+              .toContain('chatBtnDisabledClass');
           });
 
           it('does not have newIcon class', () => {
             expect(result.props.iconClasses)
-              .not.toEqual('newIconClass');
+              .not.toContain('newIconClass');
           });
 
           it('does not have newIconDisabled class', () => {
             expect(result.props.iconClasses)
-              .not.toEqual('newIconDisabledClass');
+              .not.toContain('newIconDisabledClass');
           });
         });
       });
 
-      describe('when newChannelChoice is true', () => {
+      describe('when newHeight is true', () => {
         beforeAll(() => {
-          componentProps = { newChannelChoice: true };
+          componentProps = { newHeight: true };
         });
 
-        it('passes newChannelChoice icon type to props.icon', () => {
+        it('passes newHeight icon type to props.icon', () => {
           expect(result.props.icon)
-            .toEqual('Icon--new-channelChoice-chat');
+            .toContain('Icon--new-channelChoice-chat');
         });
       });
 
-      describe('when newChannelChoice is false', () => {
+      describe('when newHeight is false', () => {
         beforeAll(() => {
-          componentProps = { newChannelChoice: false };
+          componentProps = { newHeight: false };
         });
 
         it('passes default channelChoice icon type to props.icon', () => {
           expect(result.props.icon)
-            .toEqual('Icon--chat');
+            .toContain('Icon--chat');
         });
       });
     });
@@ -668,12 +680,9 @@ describe('ChannelChoiceMenu component', () => {
           .toEqual(componentProps.labelClasses);
       });
 
-      describe('when newChannelChoice is true', () => {
+      describe('when newHeight is true', () => {
         beforeAll(() => {
-          componentProps = {
-            ...componentProps,
-            newChannelChoice: true
-          };
+          _.assign(componentProps, { newHeight: true });
         });
 
         it('passes the expected string to props.icon', () => {
@@ -682,12 +691,9 @@ describe('ChannelChoiceMenu component', () => {
         });
       });
 
-      describe('when newChannelChoice is false', () => {
+      describe('when newHeight is false', () => {
         beforeAll(() => {
-          componentProps = {
-            ...componentProps,
-            newChannelChoice: false
-          };
+          _.assign(componentProps, { newHeight: false });
         });
 
         it('passes the expected string to props.icon', () => {
@@ -711,9 +717,9 @@ describe('ChannelChoiceMenu component', () => {
     });
 
     describe('props.iconClasses', () => {
-      describe('when newChannelChoice is true', () => {
+      describe('when newHeight is true', () => {
         beforeAll(() => {
-          componentProps = { newChannelChoice: true };
+          componentProps = { newHeight: true };
         });
 
         it('has newIcon class', () => {
@@ -722,9 +728,14 @@ describe('ChannelChoiceMenu component', () => {
         });
       });
 
-      describe('when newChannelChoice is false', () => {
+      describe('when newHeight is false', () => {
         beforeAll(() => {
-          componentProps = { newChannelChoice: false };
+          componentProps = { newHeight: false };
+        });
+
+        it('has oldIcon class', () => {
+          expect(result.props.iconClasses)
+            .toContain('oldIconClass');
         });
 
         it('does not have newIcon class', () => {
@@ -735,9 +746,9 @@ describe('ChannelChoiceMenu component', () => {
     });
 
     describe('props.className', () => {
-      describe('when newChannelChoice is true', () => {
+      describe('when newHeight is true', () => {
         beforeAll(() => {
-          componentProps = { newChannelChoice: true };
+          componentProps = { newHeight: true };
         });
 
         it('has btn class', () => {
@@ -751,9 +762,9 @@ describe('ChannelChoiceMenu component', () => {
         });
       });
 
-      describe('when newChannelChoice is false', () => {
+      describe('when newHeight is false', () => {
         beforeAll(() => {
-          componentProps = { newChannelChoice: false };
+          componentProps = { newHeight: false };
         });
 
         it('does not have btn class', () => {

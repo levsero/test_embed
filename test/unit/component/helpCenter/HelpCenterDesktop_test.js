@@ -302,12 +302,12 @@ describe('HelpCenterDesktop component', () => {
         handleNextClickSpy.calls.reset();
       });
 
-      describe('when newChannelChoice is true', () => {
+      describe('when newHeight is true', () => {
         describe('when channelChoice is true', () => {
           beforeAll(() => {
             componentProps = {
               ...componentProps,
-              newChannelChoice: true,
+              newHeight: true,
               channelChoice: true
             };
           });
@@ -331,7 +331,7 @@ describe('HelpCenterDesktop component', () => {
           beforeAll(() => {
             componentProps = {
               ...componentProps,
-              newChannelChoice: true,
+              newHeight: true,
               channelChoice: false
             };
           });
@@ -352,11 +352,11 @@ describe('HelpCenterDesktop component', () => {
         });
       });
 
-      describe('when newChannelChoice is false', () => {
+      describe('when newHeight is false', () => {
         beforeAll(() => {
           componentProps = {
             ...componentProps,
-            newChannelChoice: false
+            newHeight: false
           };
         });
 

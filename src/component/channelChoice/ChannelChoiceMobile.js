@@ -19,8 +19,7 @@ export class ChannelChoiceMobile extends Component {
     talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatEnabled: PropTypes.bool,
-    newHeight: PropTypes.bool.isRequired,
-    newChannelChoice: PropTypes.bool.isRequired
+    newHeight: PropTypes.bool
   };
 
   static defaultProps = {
@@ -28,11 +27,11 @@ export class ChannelChoiceMobile extends Component {
     talkEnabled: false,
     submitTicketAvailable: true,
     chatEnabled: false,
-    newChannelChoice: false
+    newHeight: false
   };
 
   renderCancelButton = () => {
-    if (this.props.newChannelChoice) return null;
+    if (this.props.newHeight) return null;
 
     return (
       <Button
@@ -52,8 +51,7 @@ export class ChannelChoiceMobile extends Component {
       talkAvailable,
       talkEnabled,
       callbackEnabled,
-      newHeight,
-      newChannelChoice
+      newHeight
     } = this.props;
     const containerStyle = (newHeight)
       ? styles.newContainer
@@ -78,7 +76,7 @@ export class ChannelChoiceMobile extends Component {
           talkAvailable={talkAvailable}
           talkEnabled={talkEnabled}
           showCancelButton={false}
-          newChannelChoice={newChannelChoice} />
+          newHeight={newHeight} />
       </ScrollContainer>
     );
   }
