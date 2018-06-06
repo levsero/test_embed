@@ -19,17 +19,20 @@ export class ChannelChoiceMobile extends Component {
     talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatEnabled: PropTypes.bool,
-    newHeight: PropTypes.bool.isRequired
+    newHeight: PropTypes.bool
   };
 
   static defaultProps = {
     talkAvailable: false,
     talkEnabled: false,
     submitTicketAvailable: true,
-    chatEnabled: false
+    chatEnabled: false,
+    newHeight: false
   };
 
   renderCancelButton = () => {
+    if (this.props.newHeight) return null;
+
     return (
       <Button
         fullscreen={true}
@@ -50,12 +53,15 @@ export class ChannelChoiceMobile extends Component {
       callbackEnabled,
       newHeight
     } = this.props;
+    const containerStyle = (newHeight)
+      ? styles.newContainer
+      : styles.container;
 
     return (
       <ScrollContainer
         hideZendeskLogo={true}
         fullscreen={true}
-        containerClasses={styles.container}
+        containerClasses={containerStyle}
         footerContent={this.renderCancelButton()}
         title={i18n.t(`embeddable_framework.launcher.label.${formTitleKey}`)}
         newHeight={newHeight}>
@@ -69,7 +75,8 @@ export class ChannelChoiceMobile extends Component {
           callbackEnabled={callbackEnabled}
           talkAvailable={talkAvailable}
           talkEnabled={talkEnabled}
-          showCancelButton={false} />
+          showCancelButton={false}
+          newHeight={newHeight} />
       </ScrollContainer>
     );
   }

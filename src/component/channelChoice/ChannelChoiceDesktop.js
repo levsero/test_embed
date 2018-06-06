@@ -19,7 +19,7 @@ export class ChannelChoiceDesktop extends Component {
     talkEnabled: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatEnabled: PropTypes.bool,
-    newHeight: PropTypes.bool.isRequired
+    newHeight: PropTypes.bool
   };
 
   static defaultProps = {
@@ -27,7 +27,8 @@ export class ChannelChoiceDesktop extends Component {
     talkAvailable: false,
     talkEnabled: false,
     submitTicketAvailable: true,
-    chatEnabled: false
+    chatEnabled: false,
+    newHeight: false
   };
 
   renderZendeskLogo = () => {
@@ -43,13 +44,15 @@ export class ChannelChoiceDesktop extends Component {
       handleNextClick,
       talkAvailable,
       talkEnabled,
-      callbackEnabled } = this.props;
-    const divider = !hideZendeskLogo ? <hr className={styles.hr} /> : null;
+      callbackEnabled,
+      newHeight } = this.props;
+    const divider = !hideZendeskLogo && !newHeight ? <hr className={styles.hr} /> : null;
     const containerStyle = !hideZendeskLogo ? styles.inner : '';
 
     return (
       <div className={containerStyle}>
         <ChannelChoiceMenu
+          newHeight={newHeight}
           submitTicketAvailable={this.props.submitTicketAvailable}
           chatEnabled={this.props.chatEnabled}
           callbackEnabled={callbackEnabled}
@@ -65,12 +68,13 @@ export class ChannelChoiceDesktop extends Component {
   render = () => {
     const { formTitleKey, hideZendeskLogo, newHeight } = this.props;
     const footerClasses = hideZendeskLogo ? styles.footerNoLogo : '';
+    const containerStyle = (newHeight) ? styles.newChannelChoiceContainer : styles.container;
 
     return (
       <div>
         <ScrollContainer
           ref='scrollContainer'
-          containerClasses={styles.container}
+          containerClasses={containerStyle}
           footerContent={this.renderZendeskLogo()}
           footerClasses={footerClasses}
           hideZendeskLogo={hideZendeskLogo}

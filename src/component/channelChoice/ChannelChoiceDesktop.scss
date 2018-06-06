@@ -28,3 +28,8 @@
   padding-left: 0 !important; /* 1 */
   padding-right: 0 !important; /* 1 */
 }
+
+.newChannelChoiceContainer {
+  composes: container;
+  padding-top: #{20/$font-size}rem !important;
+}

@@ -22,6 +22,9 @@ function generateUserCSS(color = defaultColor) {
   const headerBackgroundColorStr = mixer.highlightColor(headerColorStr);
 
   return (`
+    .u-userColor {
+      color: ${baseColor} !important;
+    }
     .rf-CheckboxGroup__checkbox:checked + span:before,
     .u-userTextColor:not([disabled]) {
       color: ${listColorStr} !important;

@@ -51,7 +51,10 @@ const icons = {
   'Icon--zendesk': require('icons/widget-icon_zendesk.svg'),
   'Icon--facebook': require('icons/widget-icon_facebook.svg'),
   'Icon--google': require('icons/widget-icon_google-plus.svg'),
-  'Icon--trash-fill': require('@zendeskgarden/svg-icons/src/16/trash-fill.svg')
+  'Icon--trash-fill': require('@zendeskgarden/svg-icons/src/16/trash-fill.svg'),
+  'Icon--new-channelChoice-contactForm': require('icons/widget-icon_new-channelChoice-contactForm.svg'),
+  'Icon--new-channelChoice-chat': require('icons/widget-icon_new-channelChoice-chat.svg'),
+  'Icon--new-channelChoice-talk': require('icons/widget-icon_new-channelChoice-talk.svg')
 };
 
 export class Icon extends Component {

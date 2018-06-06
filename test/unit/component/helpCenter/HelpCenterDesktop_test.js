@@ -3,18 +3,14 @@ describe('HelpCenterDesktop component', () => {
 
   const helpCenterDesktopPath = buildSrcPath('component/helpCenter/HelpCenterDesktop');
 
+  const ChannelChoicePopupDesktop = noopReactComponent();
+
   beforeEach(() => {
     mockery.enable();
 
     initMockRegistry({
       'React': React,
-      'component/channelChoice/ChannelChoicePopupDesktop': {
-        ChannelChoicePopupDesktop: class extends Component {
-          render() {
-            return <div className='ChannelChoicePopupDesktop' />;
-          }
-        }
-      },
+      'component/channelChoice/ChannelChoicePopupDesktop': { ChannelChoicePopupDesktop },
       'component/field/SearchField': {
         SearchField: class extends Component {
           focus() {}
@@ -152,45 +148,6 @@ describe('HelpCenterDesktop component', () => {
     });
   });
 
-  describe('channelChoice', () => {
-    let helpCenterDesktop,
-      helpCenterDesktopComponent;
-
-    describe('when props.channelChoice is true', () => {
-      beforeEach(() => {
-        helpCenterDesktop = domRender(
-          <HelpCenterDesktop
-            hasSearched={true}
-            showNextButton={true}
-            channelChoice={true} />
-        );
-        helpCenterDesktopComponent = ReactDOM.findDOMNode(helpCenterDesktop);
-      });
-
-      it('should render the ChannelChoicePopupDesktop component', () => {
-        expect(helpCenterDesktopComponent.querySelector('.ChannelChoicePopupDesktop'))
-          .not.toBeNull();
-      });
-    });
-
-    describe('when props.channelChoice is false', () => {
-      beforeEach(() => {
-        helpCenterDesktop = domRender(
-          <HelpCenterDesktop
-            hasSearched={true}
-            showNextButton={true}
-            channelChoice={false} />
-        );
-        helpCenterDesktopComponent = ReactDOM.findDOMNode(helpCenterDesktop);
-      });
-
-      it('should not render the ChannelChoicePopupDesktop component', () => {
-        expect(helpCenterDesktopComponent.querySelector('.ChannelChoicePopupDesktop'))
-          .toBeNull();
-      });
-    });
-  });
-
   describe('render', () => {
     const mockNotification = { show: false };
     let helpCenterDesktop,
@@ -313,32 +270,170 @@ describe('HelpCenterDesktop component', () => {
   });
 
   describe('renderFooterContent', () => {
-    it('is not rendered when user has not searched', () => {
-      const component = instanceRender(<HelpCenterDesktop hasSearched={false} />);
+    let result,
+      componentProps,
+      buttonComponent,
+      onNextClickSpy,
+      handleNextClickSpy;
 
-      expect(component.renderFooterContent())
-        .toBeNull();
+    beforeEach(() => {
+      const component = instanceRender(<HelpCenterDesktop {...componentProps} />);
+
+      result = component.renderFooterContent();
+      buttonComponent = _.get(result, 'props.children[0].props.children');
     });
 
-    it('is not rendered when show next button is false', () => {
-      const component = instanceRender(<HelpCenterDesktop showNextButton={false} />);
+    describe('onClickHandler', () => {
+      beforeAll(() => {
+        onNextClickSpy = jasmine.createSpy('onNextClick');
+        handleNextClickSpy = jasmine.createSpy('handleNextClick');
 
-      expect(component.renderFooterContent())
-        .toBeNull();
+        // To render component with onClick prop
+        componentProps = {
+          showNextButton: true,
+          hasSearched: true,
+          onNextClick: onNextClickSpy,
+          handleNextClick: handleNextClickSpy
+        };
+      });
+
+      afterEach(() => {
+        onNextClickSpy.calls.reset();
+        handleNextClickSpy.calls.reset();
+      });
+
+      describe('when newHeight is true', () => {
+        describe('when channelChoice is true', () => {
+          beforeAll(() => {
+            componentProps = {
+              ...componentProps,
+              newHeight: true,
+              channelChoice: true
+            };
+          });
+
+          it('calls onNextClick', () => {
+            buttonComponent.props.onClick();
+
+            expect(onNextClickSpy)
+              .toHaveBeenCalled();
+          });
+
+          it('does not call handleNextClick', () => {
+            buttonComponent.props.onClick();
+
+            expect(handleNextClickSpy)
+              .not.toHaveBeenCalled();
+          });
+        });
+
+        describe('when channelChoice is false', () => {
+          beforeAll(() => {
+            componentProps = {
+              ...componentProps,
+              newHeight: true,
+              channelChoice: false
+            };
+          });
+
+          it('does not call onNextClick', () => {
+            buttonComponent.props.onClick();
+
+            expect(onNextClickSpy)
+              .not.toHaveBeenCalled();
+          });
+
+          it('calls handleNextClick', () => {
+            buttonComponent.props.onClick();
+
+            expect(handleNextClickSpy)
+              .toHaveBeenCalled();
+          });
+        });
+      });
+
+      describe('when newHeight is false', () => {
+        beforeAll(() => {
+          componentProps = {
+            ...componentProps,
+            newHeight: false
+          };
+        });
+
+        it('does not call onNextClick', () => {
+          buttonComponent.props.onClick();
+
+          expect(onNextClickSpy)
+            .not.toHaveBeenCalled();
+        });
+
+        it('calls handleNextClick', () => {
+          buttonComponent.props.onClick();
+
+          expect(handleNextClickSpy)
+            .toHaveBeenCalled();
+        });
+      });
     });
 
-    it('is rendered when show next button is true and user has searched', () => {
-      const component = instanceRender(<HelpCenterDesktop showNextButton={true} hasSearched={true} />);
+    describe('when showNextButton is true', () => {
+      beforeAll(() => {
+        componentProps = { showNextButton: true };
+      });
 
-      expect(component.renderFooterContent())
-        .not.toBeNull();
+      describe('when hasSearched is true', () => {
+        beforeAll(() => {
+          componentProps = {
+            ...componentProps,
+            hasSearched: true
+          };
+        });
+
+        it('returns a div', () => {
+          expect(result.type)
+            .toEqual('div');
+        });
+      });
+
+      describe('when articleViewActive is true', () => {
+        beforeAll(() => {
+          componentProps = {
+            ...componentProps,
+            articleViewActive: true
+          };
+        });
+
+        it('returns a div', () => {
+          expect(result.type)
+            .toEqual('div');
+        });
+      });
+
+      describe('when hasSearched and articleViewActive are both false', () => {
+        beforeAll(() => {
+          componentProps = {
+            ...componentProps,
+            articleViewActive: false,
+            hasSearched: false
+          };
+        });
+
+        it('returns null', () => {
+          expect(result)
+            .toBeNull();
+        });
+      });
     });
 
-    it('is rendered when show next button is true and in article view', () => {
-      const component = instanceRender(<HelpCenterDesktop showNextButton={true} articleViewActive={true} />);
+    describe('when showNextButton is false', () => {
+      beforeAll(() => {
+        componentProps = { showNextButton: false };
+      });
 
-      expect(component.renderFooterContent())
-        .not.toBeNull();
+      it('returns null', () => {
+        expect(result)
+          .toBeNull();
+      });
     });
   });
 
@@ -362,6 +457,39 @@ describe('HelpCenterDesktop component', () => {
 
       expect(component.renderBodyForm())
         .not.toBeNull();
+    });
+  });
+
+  describe('renderChannelChoice', () => {
+    let result,
+      mockChannelChoiceShown;
+
+    beforeEach(() => {
+      const component = instanceRender(<HelpCenterDesktop channelChoiceShown={mockChannelChoiceShown} />);
+
+      result = component.renderChannelChoice();
+    });
+
+    describe('when channelChoiceShown is true', () => {
+      beforeAll(() => {
+        mockChannelChoiceShown = true;
+      });
+
+      it('returns a ChannelChoicePopupDesktop component', () => {
+        expect(TestUtils.isElementOfType(result, ChannelChoicePopupDesktop))
+          .toEqual(true);
+      });
+    });
+
+    describe('when channelChoiceShown is false', () => {
+      beforeAll(() => {
+        mockChannelChoiceShown = false;
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toBeNull();
+      });
     });
   });
 });

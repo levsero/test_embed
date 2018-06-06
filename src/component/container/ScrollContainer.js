@@ -22,7 +22,7 @@ export class ScrollContainer extends Component {
     title: PropTypes.string.isRequired,
     classes: PropTypes.string,
     onContentScrolled: PropTypes.func,
-    newHeight: PropTypes.bool.isRequired
+    newHeight: PropTypes.bool
   };
 
   static defaultProps = {
@@ -33,7 +33,8 @@ export class ScrollContainer extends Component {
     fullscreen: isMobile,
     headerContent: null,
     scrollShadowVisible: false,
-    onContentScrolled: () => {}
+    onContentScrolled: () => {},
+    newHeight: false
   };
 
   constructor(props, context) {

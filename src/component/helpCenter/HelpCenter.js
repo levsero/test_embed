@@ -69,6 +69,7 @@ class HelpCenter extends Component {
     buttonLabelKey: PropTypes.string,
     callbackEnabled: PropTypes.bool.isRequired,
     channelChoice: PropTypes.bool,
+    channelChoiceShown: PropTypes.bool.isRequired,
     chatEnabled: PropTypes.bool.isRequired,
     formTitleKey: PropTypes.string,
     fullscreen: PropTypes.bool.isRequired,
@@ -105,7 +106,6 @@ class HelpCenter extends Component {
     restrictedImages: PropTypes.object.isRequired,
     addRestrictedImage: PropTypes.func,
     updateChannelChoiceShown: PropTypes.func.isRequired,
-    channelChoiceShown: PropTypes.bool.isRequired,
     searchFieldValue: PropTypes.string.isRequired,
     handleSearchFieldChange: PropTypes.func.isRequired,
     handleSearchFieldFocus: PropTypes.func.isRequired,
@@ -142,7 +142,8 @@ class HelpCenter extends Component {
     updateChannelChoiceShown: () => {},
     handleSearchFieldChange: () => {},
     chatNotificationCount: 0,
-    isChatting: false
+    isChatting: false,
+    newHeight: false
   };
 
   constructor(props) {
@@ -284,12 +285,14 @@ class HelpCenter extends Component {
   }
 
   handleNextClick = (e) => {
+    const { newHeight, channelChoice, updateChannelChoiceShown, onNextClick } = this.props;
+
     e.preventDefault();
 
-    if (this.props.channelChoice) {
-      setTimeout(() => this.props.updateChannelChoiceShown(true), 0);
+    if (!newHeight && channelChoice) {
+      setTimeout(() => updateChannelChoiceShown(true), 0);
     } else {
-      this.props.onNextClick();
+      onNextClick();
     }
   }
 
@@ -374,7 +377,8 @@ class HelpCenter extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         isLoading={this.props.searchLoading}
         onNextClick={this.props.onNextClick}
-        channelChoice={this.props.channelChoiceShown}
+        channelChoice={this.props.channelChoice}
+        channelChoiceShown={this.props.channelChoiceShown}
         callbackEnabled={this.props.callbackEnabled}
         talkEnabled={this.props.talkEnabled}
         talkAvailable={this.props.talkAvailable}

@@ -19,7 +19,7 @@ export class ChannelChoice extends Component {
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
     updateFrameSize: PropTypes.func,
-    newHeight: PropTypes.bool.isRequired
+    newHeight: PropTypes.bool
   };
 
   static defaultProps = {
@@ -32,7 +32,8 @@ export class ChannelChoice extends Component {
     talkEnabled: false,
     submitTicketAvailable: true,
     chatEnabled: false,
-    updateFrameSize: () => {}
+    updateFrameSize: () => {},
+    newHeight: false
   };
 
   handleNextClick = (embed) => {
