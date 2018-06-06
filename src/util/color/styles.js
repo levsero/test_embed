@@ -100,6 +100,9 @@ function generateUserCSS(color = defaultColor) {
         background: ${headerBackgroundColorStr} !important;
       }
     }
+    .u-userHeaderButtonColorMobile {
+      fill: ${headerTextColorStr} !important;
+    }
   `);
 }
 
