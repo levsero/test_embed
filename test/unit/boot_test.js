@@ -223,6 +223,92 @@ describe('boot', () => {
           .not.toHaveBeenCalled();
       });
 
+      describe('filterEmbeds', () => {
+        describe('talk config is available but talk feature is not', () => {
+          beforeAll(() => {
+            document.zendesk = {
+              web_widget: { // eslint-disable-line camelcase
+                features: ['chat']
+              }
+            };
+
+            config = {
+              embeds: {
+                'helpCenterForm': {
+                  'embed': 'helpCenter',
+                  'props': {
+                    'position': 'right'
+                  }
+                },
+                'talk': {
+                  'embed': 'talk',
+                  'props': {
+                    'color': 'black'
+                  }
+                }
+              }
+            };
+          });
+
+          it('filters out talk from config', () => {
+            expect(beaconSpy.beacon.setConfig)
+              .toHaveBeenCalledWith({
+                embeds: {
+                  'helpCenterForm': {
+                    'embed': 'helpCenter',
+                    'props': {
+                      'position': 'right'
+                    }
+                  }
+                }
+              });
+          });
+        });
+
+        describe('chat config is available but chat feature is not', () => {
+          beforeAll(() => {
+            document.zendesk = {
+              web_widget: { // eslint-disable-line camelcase
+                features: ['help_center']
+              }
+            };
+
+            config = {
+              newChat: true,
+              embeds: {
+                'helpCenterForm': {
+                  'embed': 'helpCenter',
+                  'props': {
+                    'position': 'right'
+                  }
+                },
+                'zopimChat': {
+                  'embed': 'chat',
+                  'props': {
+                    'zopimId': 'P6xCvZrbOWtNh1gArZXCkD0q0MnIvAfA'
+                  }
+                }
+              }
+            };
+          });
+
+          it('filters out zopimChat from config', () => {
+            expect(beaconSpy.beacon.setConfig)
+              .toHaveBeenCalledWith({
+                newChat: true,
+                embeds: {
+                  'helpCenterForm': {
+                    'embed': 'helpCenter',
+                    'props': {
+                      'position': 'right'
+                    }
+                  }
+                }
+              });
+          });
+        });
+      });
+
       describe('when hostMapping is present', () => {
         beforeAll(() => {
           config = {

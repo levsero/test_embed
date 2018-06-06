@@ -183,12 +183,27 @@ const displayOssAttribution = () => {
   console.info(message); // eslint-disable-line no-console
 };
 
+const filterEmbeds = (config) => {
+  const features = _.get(document.zendesk, 'web_widget.features');
+
+  // If there are no features available to read, do not do filtering
+  if (!features) return config;
+  // If talk feature isn't available, act as if talk isn't in the config
+  if (!_.includes(features, 'talk') && _.has(config.embeds, 'talk')) delete config.embeds.talk;
+  // If chat feature isn't available and new chat is requested, act as if chat isn't in the config
+  if (!_.includes(features, 'chat') && config.newChat && _.has(config.embeds, 'zopimChat')) {
+    delete config.embeds.zopimChat;
+  }
+
+  return config;
+};
+
 const getConfig = (win, postRenderQueue, reduxStore) => {
   if (win.zESkipWebWidget) return;
 
   const configLoadStart = Date.now();
   const done = (res) => {
-    const config = res.body;
+    const config = filterEmbeds(res.body);
 
     if (config.hostMapping) {
       http.updateConfig({ hostMapping: config.hostMapping });
