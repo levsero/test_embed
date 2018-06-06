@@ -332,7 +332,9 @@ class WebWidget extends Component {
 
     if (newHeight && this.isChannelChoiceAvailable()) {
       updateActiveEmbed(channelChoice);
-      updateBackButtonVisibility(true);
+      if (!ipmHelpCenterAvailable) {
+        updateBackButtonVisibility(true);
+      }
     } else if (embed) {
       this.setComponent(embed);
     } else if (chatAvailable) {
