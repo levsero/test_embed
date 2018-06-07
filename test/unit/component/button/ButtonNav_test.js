@@ -12,8 +12,10 @@ describe('ButtonNav', () => {
       },
       './ButtonNav.scss': {
         locals: {
-          'left': 'left',
-          'right': 'right'
+          left: 'leftClasses',
+          right: 'rightClasses',
+          desktop: 'desktopClasses',
+          fullscreen: 'mobileClasses'
         }
       }
     });
@@ -39,12 +41,12 @@ describe('ButtonNav', () => {
       });
 
       it('has left classes', () => {
-        expect(componentNode.querySelector('.left'))
+        expect(componentNode.querySelector('.leftClasses'))
           .not.toBeNull();
       });
 
       it('does not have right classes', () => {
-        expect(componentNode.querySelector('.right'))
+        expect(componentNode.querySelector('.rightClasses'))
           .toBeNull();
       });
     });
@@ -57,12 +59,48 @@ describe('ButtonNav', () => {
       });
 
       it('has right classes', () => {
-        expect(componentNode.querySelector('.right'))
+        expect(componentNode.querySelector('.rightClasses'))
           .not.toBeNull();
       });
 
       it('does not have left classes', () => {
-        expect(componentNode.querySelector('.left'))
+        expect(componentNode.querySelector('.leftClasses'))
+          .toBeNull();
+      });
+    });
+
+    describe('when on mobile', () => {
+      beforeEach(() => {
+        const component = domRender(<ButtonNav fullscreen={true} />);
+
+        componentNode = ReactDOM.findDOMNode(component);
+      });
+
+      it('has mobile classes', () => {
+        expect(componentNode.querySelector('.mobileClasses'))
+          .not.toBeNull();
+      });
+
+      it('does not have desktop classes', () => {
+        expect(componentNode.querySelector('.desktopClasses'))
+          .toBeNull();
+      });
+    });
+
+    describe('when on desktop', () => {
+      beforeEach(() => {
+        const component = domRender(<ButtonNav />);
+
+        componentNode = ReactDOM.findDOMNode(component);
+      });
+
+      it('has desktop classes', () => {
+        expect(componentNode.querySelector('.desktopClasses'))
+          .not.toBeNull();
+      });
+
+      it('does not have mobile classes', () => {
+        expect(componentNode.querySelector('.mobileClasses'))
           .toBeNull();
       });
     });

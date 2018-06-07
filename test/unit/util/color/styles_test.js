@@ -151,6 +151,18 @@ describe('styles', () => {
             .toContain(trimWhitespace(expectedCss));
         });
       });
+
+      describe('u-userHeaderButtonColorMobile', () => {
+        const expectedCss = `
+        .u-userHeaderButtonColorMobile {
+          fill: #227C7B !important;
+        }`;
+
+        it('is calculated to the same color with a darker text color', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
     });
 
     describe('when the color is not light', () => {
@@ -271,6 +283,18 @@ describe('styles', () => {
             .toContain(trimWhitespace(expectedCss));
         });
       });
+
+      describe('u-userHeaderButtonColorMobile', () => {
+        const expectedCss = `
+        .u-userHeaderButtonColorMobile {
+          fill: white !important;
+        }`;
+
+        it('is calculated to the same color', () => {
+          expect(trimWhitespace(css))
+            .toContain(trimWhitespace(expectedCss));
+        });
+      });
     });
   });
 
@@ -336,6 +360,9 @@ describe('styles', () => {
           svg {
             background: #4C602A !important;
           }
+        }
+        .u-userHeaderButtonColorMobile {
+          fill: white !important;
         }`;
 
         it('prefers the header colour over the base colour', () => {
@@ -367,6 +394,9 @@ describe('styles', () => {
           svg {
             background: #FF47A3 !important;
           }
+        }
+        .u-userHeaderButtonColorMobile {
+          fill: white !important;
         }`;
 
         it('falls back to the base colour', () => {

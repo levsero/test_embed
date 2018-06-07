@@ -24,7 +24,7 @@ export class ButtonNav extends Component {
     const { className, fullscreen, position, rtl } = this.props;
     const isLeft = (position === 'left');
     const isRight = (position === 'right');
-    const fullscreenStyles = (fullscreen) ? styles.fullscreen : '';
+    const fullscreenStyles = (fullscreen) ? styles.fullscreen : styles.desktop;
     const directionStyles = (rtl) ? styles.rtl : '';
     const buttonStyles = styles.button;
     let positionStyles;

@@ -5,9 +5,9 @@
 }
 
 .button {
-  composes: u-posAbsolute u-posStart--vertFlush u-marginTS u-userHeaderButtonColor from global;
+  composes: u-posAbsolute u-posStart--vertFlush from global;
   composes: Button from '../../styles/components/Button.scss';
-  composes: AnimColorEaseInOut from '../../styles/components/Animation.scss';
+  margin-top: #{10/$font-size}rem !important;
   margin-right: #{14/$font-size}rem !important;
   margin-left: #{14/$font-size}rem !important;
   padding: #{6/$font-size}rem !important;
@@ -21,8 +21,18 @@
   composes: u-posEnd--flush from global;
 }
 
+.desktop {
+  composes: u-userHeaderButtonColor from global;
+  composes: AnimColorEaseInOut from '../../styles/components/Animation.scss';
+}
+
 .fullscreen {
-  composes: u-isActionable u-textSizeBaseMobile from global;
+  composes: u-isActionable u-textSizeBaseMobile u-userHeaderButtonColorMobile from global;
+
+  margin-top: 0 !important;
+  margin-right: #{2/$font-size}rem !important;
+  margin-left: #{2/$font-size}rem !important;
+  padding: #{16/$font-size}rem !important;
 }
 
 .right {
