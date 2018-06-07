@@ -75,11 +75,14 @@
   composes: u-paddingBXL u-paddingRXL from global;
 }
 
-.successScreenScrollContainer {
-  position: relative;
-  flex: 1;
+.button {
+  width: 100%;
 }
 
-.hideFooter {
-  display: none;
+.zendeskLogoButton {
+  margin-bottom: #{25/$font-size}rem;
+}
+
+.noZendeskLogoButton {
+  margin-bottom: #{5/$font-size}rem;
 }

@@ -1,14 +1,7 @@
 describe('SuccessNotification component', () => {
   let SuccessNotification;
   const successNotificationPath = buildSrcPath('component/shared/SuccessNotification');
-
-  class MockIcon extends React.Component {
-    render() {
-      return (
-        <div className='Avatar' />
-      );
-    }
-  }
+  const Icon = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
@@ -16,11 +9,12 @@ describe('SuccessNotification component', () => {
     initMockRegistry({
       './SuccessNotification.scss': {
         locals: {
-          'button': 'btnClass'
+          'button': 'btnClass',
+          'contentMobile': 'contentMobile'
         }
       },
       'component/Icon': {
-        Icon: MockIcon
+        Icon
       },
       'component/button/Button': {
         Button: class extends Component {
@@ -49,26 +43,6 @@ describe('SuccessNotification component', () => {
     mockery.disable();
   });
 
-  describe('onDoneClick', () => {
-    let componentNode, onDoneSpy;
-
-    beforeEach(() => {
-      onDoneSpy = jasmine.createSpy();
-      const component = domRender(
-        <SuccessNotification onDoneClick={onDoneSpy} />
-      );
-
-      componentNode = ReactDOM.findDOMNode(component);
-    });
-
-    it('calls onDoneClick prop on button click', () => {
-      componentNode.querySelector('.btnClass').click();
-
-      expect(onDoneSpy)
-        .toHaveBeenCalled();
-    });
-  });
-
   describe('icon', () => {
     let component;
 
@@ -79,13 +53,30 @@ describe('SuccessNotification component', () => {
     });
 
     it('renders the icon', () => {
-      expect(() => TestUtils.findRenderedComponentWithType(component, MockIcon))
+      expect(() => TestUtils.findRenderedComponentWithType(component, Icon))
         .not.toThrow();
     });
 
     it('the rendered Icon has the type of the icon prop', () => {
-      expect(TestUtils.findRenderedComponentWithType(component, MockIcon).props.type)
+      expect(TestUtils.findRenderedComponentWithType(component, Icon).props.type)
         .toEqual('my-icon');
+    });
+  });
+
+  describe('contentClasses', () => {
+    let component,
+      result;
+
+    beforeEach(() => {
+      component = domRender(
+        <SuccessNotification isMobile={true} />
+      );
+      result = component.render();
+    });
+
+    it('renders contentMobile class', () => {
+      expect(result.props.className)
+        .toContain('contentMobile');
     });
   });
 });

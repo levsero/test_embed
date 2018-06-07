@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { i18n } from 'service/i18n';
 import classNames from 'classnames';
 
+import { OFFLINE_FORM_SCREENS } from 'constants/chat';
 import { Button } from 'component/button/Button';
 import { ChatOfflineForm } from 'component/chat/ChatOfflineForm';
 import { ScrollContainer } from 'component/container/ScrollContainer';
@@ -115,7 +116,7 @@ class ChatOffline extends Component {
   }
 
   renderZendeskLogo = () => {
-    return !this.props.hideZendeskLogo ?
+    return !this.props.hideZendeskLogo && !this.props.isMobile ?
       <ZendeskLogo
         className={styles.zendeskLogo}
         rtl={i18n.isRTL()}
@@ -123,28 +124,54 @@ class ChatOffline extends Component {
       /> : null;
   }
 
-  render() {
-    const { isMobile, hideZendeskLogo, newHeight } = this.props;
-    const scrollContainerClasses = classNames(
-      styles.scrollContainer,
-      { [styles.mobileContainer]: isMobile }
+  renderFooterContent = () => {
+    if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.SUCCESS || !this.props.newHeight) return;
+
+    const buttonContainer = classNames(
+      {
+        [styles.zendeskLogoButton]: !this.props.hideZendeskLogo && !this.props.isMobile,
+        [styles.noZendeskLogoButton]: this.props.hideZendeskLogo || this.props.isMobile
+      }
     );
-    const logoFooterClasses = classNames({
-      [styles.logoFooter]: !hideZendeskLogo
-    });
 
     return (
-      <ScrollContainer
-        ref='scrollContainer'
-        classes={scrollContainerClasses}
-        containerClasses={styles.scrollContainerContent}
-        footerClasses={logoFooterClasses}
-        footerContent={this.renderZendeskLogo()}
-        title={i18n.t('embeddable_framework.chat.title')}
-        newHeight={newHeight}>
-        {this.renderOfflineForm()}
-        {this.renderChatOfflineScreen()}
-      </ScrollContainer>
+      <div className={buttonContainer}>
+        <Button
+          onTouchStartDisabled={true}
+          label={i18n.t('embeddable_framework.common.button.done')}
+          className={styles.button}
+          primary={false}
+          onClick={this.props.handleOfflineFormBack}
+          type='button'
+          fullscreen={this.props.isMobile}
+        />
+      </div>
+    );
+  }
+
+  render() {
+    const { isMobile, newHeight } = this.props;
+    const scrollContainerClasses = classNames(
+      {
+        [styles.mobileContainer]: isMobile,
+        [styles.scrollContainer]: !this.props.newHeight
+      }
+    );
+
+    return (
+      <div>
+        <ScrollContainer
+          ref='scrollContainer'
+          classes={scrollContainerClasses}
+          containerClasses={styles.scrollContainerContent}
+          footerContent={this.renderFooterContent()}
+          title={i18n.t('embeddable_framework.chat.title')}
+          newHeight={newHeight}>
+          {this.renderOfflineForm()}
+          {this.renderChatOfflineScreen()}
+        </ScrollContainer>
+        {this.renderZendeskLogo()}
+      </div>
     );
   }
 }

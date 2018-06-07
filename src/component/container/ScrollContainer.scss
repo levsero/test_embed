@@ -11,10 +11,25 @@
   box-sizing: border-box;
 }
 
-.newHeightContainer {
+.newHeightDesktop {
   height: #{550/$font-size}rem;
+}
+
+.newHeightMobile {
+  height: 100%;
+}
+
+.newHeightFlexContainer {
   display: flex;
   flex-direction: column;
+}
+
+.newHeightContent {
+  flex-grow: 1;
+}
+
+.noNewHeightContent {
+  max-height: #{350/$font-size}rem;
 }
 
 .containerDesktop {
@@ -38,15 +53,6 @@
 
 .titleMobile {
   composes: u-textSizeBaseMobile from global;
-}
-
-.newHeightContent {
-  flex-grow: 1;
-  max-height: auto;
-}
-
-.noNewHeightContent {
-  max-height: #{350/$font-size}rem;
 }
 
 .content {

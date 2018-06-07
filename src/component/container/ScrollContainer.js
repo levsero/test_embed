@@ -129,13 +129,15 @@ export class ScrollContainer extends Component {
     const scrollContainerClasses = classNames(
       classes,
       styles.container,
-      { [styles.newHeightContainer]: newHeight && !isMobile },
+      { [styles.newHeightFlexContainer]: newHeight },
+      { [styles.newHeightDesktop]: newHeight && !fullscreen },
+      { [styles.newHeightMobile]: newHeight && fullscreen },
       { [styles.containerDesktop]: !fullscreen }
     );
     const contentClasses = classNames(
       styles.content,
-      { [styles.newHeightContent]: newHeight && !isMobile },
-      { [styles.noNewHeightContent]: !newHeight && !isMobile },
+      { [styles.newHeightContent]: newHeight },
+      { [styles.noNewHeightContent]: !newHeight },
       containerClasses,
       {
         [styles.contentMobile]: fullscreen,

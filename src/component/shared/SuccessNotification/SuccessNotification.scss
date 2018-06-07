@@ -1,21 +1,5 @@
 @import '../../../styles/_vars.scss';
 
-.button {
-  composes: u-sizeFull from global;
-}
-
-.buttonContainer {
-  composes: u-posAbsolute u-marginBM from global;
-  bottom: 0;
-  left: #{7/$font-size}rem;
-  right: #{7/$font-size}rem;
-}
-
-.container {
-  composes: u-posFill u-posAbsolute from global;
-  height: 100%;
-}
-
 .content {
   composes: u-textCenter u-textSizeNml u-textHeightMed from global;
   margin-top: #{50/$font-size}rem !important;

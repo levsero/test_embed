@@ -1,14 +1,5 @@
 @import '../../styles/_vars.scss';
 
-.button {
-  max-width: 100%;
-  width: calc(100% - #{20/$font-size}rem);
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  margin: 0 #{10/$font-size}rem;
-}
-
 .mobileContainer {
   composes: u-textSizeMed from global;
   height: 100% !important;
@@ -44,6 +35,14 @@
   z-index: 1;
 }
 
-.logoFooter {
-  height: #{12/$font-size}rem;
+.button {
+  width: 100%;
+}
+
+.zendeskLogoButton {
+  margin-bottom: #{25/$font-size}rem;
+}
+
+.noZendeskLogoButton {
+  margin-bottom: #{5/$font-size}rem;
 }

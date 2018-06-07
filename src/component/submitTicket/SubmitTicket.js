@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import { locals as styles } from './SubmitTicket.scss';
 
+import { Button } from 'component/button/Button';
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { Icon } from 'component/Icon';
@@ -19,6 +20,8 @@ import { i18n } from 'service/i18n';
 import { isIE } from 'utility/devices';
 import { ICONS } from 'src/constants/shared';
 import { getSearchTerm } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+
+import classNames from 'classnames';
 
 const mapStateToProps = (state) => {
   return {
@@ -274,18 +277,32 @@ class SubmitTicket extends Component {
     if (!this.props.showNotification) return;
 
     if (this.props.newHeight) {
-      const footerClasses = this.props.fullscreen || this.props.hideZendeskLogo
-        ? styles.hideFooter
-        : '';
+      const buttonContainer = classNames(
+        {
+          [styles.zendeskLogoButton]: !(this.props.hideZendeskLogo || this.props.fullscreen),
+          [styles.noZendeskLogoButton]: this.props.hideZendeskLogo || this.props.fullscreen
+        }
+      );
+      const doneButton = (
+        <div className={buttonContainer}>
+          <Button
+            onTouchStartDisabled={true}
+            label={i18n.t('embeddable_framework.common.button.done')}
+            className={styles.button}
+            primary={false}
+            onClick={this.props.onCancel}
+            type='button'
+            fullscreen={this.props.fullscreen}
+          />
+        </div>
+      );
 
       return (
         <ScrollContainer
-          containerClasses={styles.successScreenScrollContainer}
-          footerClasses={footerClasses}
           title={i18n.t('embeddable_framework.submitTicket.notify.message.success')}
-          newHeight={true}>
+          newHeight={true}
+          footerContent={doneButton}>
           <SuccessNotification
-            onDoneClick={this.props.onCancel}
             icon={ICONS.SUCCESS_CONTACT_FORM}
             isMobile={this.props.fullscreen} />
         </ScrollContainer>

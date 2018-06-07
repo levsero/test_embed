@@ -27,15 +27,6 @@
   composes: u-marginBM from global;
 }
 
-.footer {
-  composes: u-paddingVN from global;
-  height: #{24/$font-size}rem;
-}
-
-.hideFooter {
-  display: none;
-}
-
 .notify {
   composes: u-textCenter from global;
 }
@@ -107,4 +98,16 @@
 
 .offlineLink {
   composes: u-isActionable u-textCenter u-userLinkColor from global;
+}
+
+.button {
+  width: 100%;
+}
+
+.zendeskLogoButton {
+  margin-bottom: #{25/$font-size}rem;
+}
+
+.noZendeskLogoButton {
+  margin-bottom: #{5/$font-size}rem;
 }

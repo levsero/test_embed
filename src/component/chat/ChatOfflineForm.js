@@ -112,8 +112,7 @@ export class ChatOfflineForm extends Component {
       return (
         <SuccessNotification
           icon={ICONS.SUCCESS_CONTACT_FORM}
-          isMobile={this.props.isMobile}
-          onDoneClick={this.props.handleOfflineFormBack} />
+          isMobile={this.props.isMobile} />
       );
     }
 
