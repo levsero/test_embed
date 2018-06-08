@@ -47,23 +47,31 @@ export function updateSettings(settings) {
       const visitorDepartment = _.find(getDepartmentsList(state), (dep) => dep.name === visitorDepartmentName);
       const visitorDepartmentId = _.get(visitorDepartment, 'id');
 
-      if (visitorDepartmentId) {
-        dispatch(setDepartment(visitorDepartmentId));
-      } else {
-        dispatch(clearDepartment());
-      }
+      handleDepartmentChange(visitorDepartmentId, dispatch);
 
       const tags = _.get(settings, 'webWidget.chat.tags');
 
-      if (_.isArray(tags)) {
-        _.forEach(oldTags, (tag) => {
-          zChat.removeTag(tag);
-        });
-
-        _.forEach(tags, (tag) => {
-          zChat.addTag(tag);
-        });
-      }
+      handleTagsChange(tags, oldTags);
     }
   };
 }
+
+const handleTagsChange = (tags, oldTags) => {
+  if (!_.isEqual(tags, oldTags) && _.isArray(tags)) {
+    _.forEach(oldTags, (tag) => {
+      zChat.removeTag(tag);
+    });
+
+    _.forEach(tags, (tag) => {
+      zChat.addTag(tag);
+    });
+  }
+};
+
+const handleDepartmentChange = (visitorDepartmentId, dispatch) => {
+  if (visitorDepartmentId) {
+    dispatch(setDepartment(visitorDepartmentId));
+  } else {
+    dispatch(clearDepartment());
+  }
+};
