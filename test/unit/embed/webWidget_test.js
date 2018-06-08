@@ -25,7 +25,10 @@ describe('embed.webWidget', () => {
     mockStoreDispatch,
     mockStore,
     mockWebWidget,
-    mockChatNotification;
+    mockChatNotification,
+    mockMobileNotificationsDisabled,
+    mockWidgetShown,
+    mockState;
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
   const revokeSpy = jasmine.createSpy();
   const getTicketFormsSpy = jasmine.createSpy('ticketForms');
@@ -58,7 +61,9 @@ describe('embed.webWidget', () => {
     authenticateSpy = jasmine.createSpy('authenticate');
     mockNicknameValue = null;
     mockStoreDispatch = jasmine.createSpy('dispatch');
-    mockStore = { getState: noop, dispatch: mockStoreDispatch };
+    mockStore = {
+      getState: () => mockState, dispatch: mockStoreDispatch
+    };
     mockChatNotification = { show: false, proactive: false };
 
     targetCancelHandlerSpy = jasmine.createSpy();
@@ -148,10 +153,14 @@ describe('embed.webWidget', () => {
         getTicketFields: getTicketFieldsSpy
       },
       'src/redux/modules/base/base-selectors': {
-        getActiveEmbed: () => mockActiveEmbed
+        getActiveEmbed: () => mockActiveEmbed,
+        getWidgetShown: () => mockWidgetShown
       },
       'src/redux/modules/chat/chat-selectors': {
         getChatNotification: () => mockChatNotification
+      },
+      'src/redux/modules/settings/settings-selectors': {
+        getSettingsMobileNotificationsDisabled: () => mockMobileNotificationsDisabled
       },
       'src/redux/modules/talk/talk-screen-types': {
         CALLBACK_ONLY_SCREEN: callMeScreen
@@ -1166,26 +1175,59 @@ describe('embed.webWidget', () => {
       });
 
       describe('when webWidget.proactiveChat is dispatched', () => {
-        beforeEach(() => {
-          webWidget.create('', {}, mockStore);
-          webWidget.render();
-          frame = webWidget.get().instance;
-          component = frame.getRootComponent();
+        describe('when notifications should render', () => {
+          beforeEach(() => {
+            webWidget.create('', {}, mockStore);
+            webWidget.render();
+            frame = webWidget.get().instance;
+            component = frame.getRootComponent();
 
-          spyOn(frame, 'show');
-          spyOn(component, 'showProactiveChat');
+            spyOn(frame, 'show');
+            spyOn(component, 'showProactiveChat');
 
-          pluckSubscribeCall(mockMediator, 'webWidget.proactiveChat')();
+            pluckSubscribeCall(mockMediator, 'webWidget.proactiveChat')();
+          });
+
+          it('call show on Frame', () => {
+            expect(frame.show)
+              .toHaveBeenCalled();
+          });
+
+          it('calls showProactiveChat on the component', () => {
+            expect(component.showProactiveChat)
+              .toHaveBeenCalled();
+          });
         });
+      });
 
-        it('call show on Frame', () => {
-          expect(frame.show)
-            .toHaveBeenCalled();
-        });
+      describe('when webWidget.proactiveChat is dispatched', () => {
+        describe('when mobile notifications should not render', () => {
+          beforeEach(() => {
+            mockIsMobileBrowser = true;
+            mockMobileNotificationsDisabled = true;
+            mockWidgetShown = false;
+            webWidget.create('', {}, mockStore);
+            webWidget.render();
+            frame = webWidget.get().instance;
+            component = frame.getRootComponent();
 
-        it('calls showProactiveChat on the component', () => {
-          expect(component.showProactiveChat)
-            .toHaveBeenCalled();
+            spyOn(frame, 'show');
+            spyOn(component, 'showProactiveChat');
+
+            pluckSubscribeCall(mockMediator, 'webWidget.proactiveChat')();
+          });
+
+          it('does not call show on Frame', () => {
+            expect(frame.show)
+              .not
+              .toHaveBeenCalled();
+          });
+
+          it('does not call showProactiveChat on the component', () => {
+            expect(component.showProactiveChat)
+              .not
+              .toHaveBeenCalled();
+          });
         });
       });
     });
