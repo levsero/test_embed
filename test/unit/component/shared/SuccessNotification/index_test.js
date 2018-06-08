@@ -10,7 +10,9 @@ describe('SuccessNotification component', () => {
       './SuccessNotification.scss': {
         locals: {
           'button': 'btnClass',
-          'contentMobile': 'contentMobile'
+          'contentMobile': 'contentMobile',
+          'mobileMessages': 'mobileMessages',
+          'desktopMessages': 'desktopMessages'
         }
       },
       'component/Icon': {
@@ -77,6 +79,53 @@ describe('SuccessNotification component', () => {
     it('renders contentMobile class', () => {
       expect(result.props.className)
         .toContain('contentMobile');
+    });
+  });
+
+  describe('messageClasses', () => {
+    let component,
+      result,
+      mockIsMobile;
+
+    beforeEach(() => {
+      component = domRender(
+        <SuccessNotification isMobile={mockIsMobile} />
+      );
+      result = component.render();
+    });
+
+    describe('when isMobile is true', () => {
+      beforeAll(() => {
+        mockIsMobile = true;
+      });
+
+      it('renders mobileMessages class', () => {
+        expect(result.props.children[1].props.className)
+          .toContain('mobileMessages');
+      });
+
+      it('does not render desktopMessages class', () => {
+        expect(result.props.children[1].props.className)
+          .not
+          .toContain('desktopMessages');
+      });
+    });
+
+    describe('when isMobile is false', () => {
+      beforeAll(() => {
+        mockIsMobile = false;
+      });
+
+      it('does not render mobileMessages class', () => {
+        expect(result.props.children[1].props.className)
+          .not
+          .toContain('mobileMessages');
+      });
+
+      it('renders desktopMessages class', () => {
+        expect(result.props.children[1].props.className)
+          .toContain('desktopMessages');
+      });
     });
   });
 });

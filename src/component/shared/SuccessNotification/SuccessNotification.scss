@@ -27,6 +27,16 @@
   }
 }
 
+.mobileMessages {
+  composes: messages;
+  margin-top: #{25/$font-size}rem;
+}
+
+.desktopMessages {
+  composes: messages;
+  margin-top: #{20/$font-size}rem;
+}
+
 .icon {
   composes: u-userFillCustomColor from global;
 }

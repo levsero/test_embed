@@ -32,6 +32,10 @@ export class SuccessNotification extends Component {
         [styles.firstMessageDesktop]: !this.props.isMobile
       }
     );
+    const messageClasses = classNames({
+      [styles.mobileMessages]: this.props.isMobile,
+      [styles.desktopMessages]: !this.props.isMobile
+    });
 
     return (
       <div className={contentClasses}>
@@ -40,7 +44,7 @@ export class SuccessNotification extends Component {
           type={this.props.icon}
           isMobile={this.props.isMobile}
         />
-        <div className={styles.messages}>
+        <div className={messageClasses}>
           <p className={firstMessageClasses}>
             {i18n.t('embeddable_framework.common.notify.message.thanks_for_reaching_out')}
           </p>
