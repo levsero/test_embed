@@ -44,12 +44,11 @@ const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
 };
 
 const formatResults = (response) => {
-  const json = response.body;
-  const articles = json.results;
+  const { results = [], count = 0 } = response.body;
 
   return {
-    articles,
-    resultsCount: json.count
+    articles: results,
+    resultsCount: count
   };
 };
 
