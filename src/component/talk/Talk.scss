@@ -65,7 +65,7 @@
 }
 
 .phoneNumber {
-  composes: u-textCenter from global;
+  composes: u-textCenter u-userLinkColor from global;
   font-size: #{20/$font-size}rem;
 }
 

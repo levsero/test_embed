@@ -844,42 +844,22 @@ describe('Talk component', () => {
       phoneNumber: '+61405474139'
     };
 
-    describe('when accessed from a mobile device', () => {
-      beforeEach(() => {
-        const talk = instanceRender(<Talk isMobile={true} embeddableConfig={mockEmbeddableConfig} />);
+    beforeEach(() => {
+      const talk = instanceRender(<Talk embeddableConfig={mockEmbeddableConfig} />);
 
-        result = talk.renderPhoneNumber();
-      });
-
-      it('renders an anchor link', () => {
-        expect(result.type)
-          .toEqual('a');
-      });
-
-      it('has a href value of "tel:+61405474139"', () => {
-        const expected = `tel:${mockEmbeddableConfig.phoneNumber}`;
-
-        expect(result.props.href)
-          .toContain(expected);
-      });
+      result = talk.renderPhoneNumber();
     });
 
-    describe('when accessed from a desktop environment', () => {
-      beforeEach(() => {
-        const talk = instanceRender(<Talk isMobile={false} embeddableConfig={mockEmbeddableConfig} />);
+    it('renders an anchor link', () => {
+      expect(result.type)
+        .toEqual('a');
+    });
 
-        result = talk.renderPhoneNumber();
-      });
+    it('has a href value of "tel:+61405474139"', () => {
+      const expected = `tel:${mockEmbeddableConfig.phoneNumber}`;
 
-      it('renders a span', () => {
-        expect(result.type)
-          .toEqual('span');
-      });
-
-      it('renders with a number inside the span', () => {
-        expect(result.props.children)
-          .toEqual(mockEmbeddableConfig.phoneNumber);
-      });
+      expect(result.props.href)
+        .toContain(expected);
     });
   });
 });

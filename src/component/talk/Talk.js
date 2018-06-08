@@ -125,9 +125,7 @@ class Talk extends Component {
     const { phoneNumber } = this.props.embeddableConfig;
     const formattedPhoneNumber = this.formatPhoneNumber(phoneNumber);
 
-    return (this.props.isMobile)
-      ? <a className={styles.phoneLink} href={`tel:${phoneNumber}`} target='_blank'>{formattedPhoneNumber}</a>
-      : <span>{formattedPhoneNumber}</span>;
+    return (<a className={styles.phoneLink} href={`tel:${phoneNumber}`} target='_blank'>{formattedPhoneNumber}</a>);
   }
 
   renderAverageWaitTime = () => {
