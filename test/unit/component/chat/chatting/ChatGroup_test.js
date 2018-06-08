@@ -1,5 +1,3 @@
-import { ChatGroupAvatar } from '../../../../../src/component/chat/chatting/ChatGroupAvatar';
-
 describe('ChatGroup component', () => {
   let ChatGroup,
     ATTACHMENT_ERROR_TYPES,
@@ -8,6 +6,7 @@ describe('ChatGroup component', () => {
     i18n;
 
   const chatGroupPath = buildSrcPath('component/chat/chatting/ChatGroup');
+  const chatGroupAvatarPath = buildSrcPath('component/chat/chatting/ChatGroupAvatar');
   const chatConstantsPath = buildSrcPath('constants/chat');
   const sharedConstantsPath = buildSrcPath('constants/shared');
 
@@ -17,6 +16,7 @@ describe('ChatGroup component', () => {
   const MessageError = noopReactComponent();
   const ImageMessage = noopReactComponent();
   const Icon = noopReactComponent();
+  const ChatGroupAvatar = requireUncached(chatGroupAvatarPath).ChatGroupAvatar;
 
   let chatConstants = requireUncached(chatConstantsPath);
   let CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
