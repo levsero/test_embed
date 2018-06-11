@@ -90,9 +90,13 @@ export function performContextualSearch(query, done = () => {}, fail = () => {})
 
   return (dispatch) => {
     const doneFn = (response) => {
-      dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_SUCCESS, payload: formatResults(response) });
-
-      done(response);
+      if (response.body) {
+        dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_SUCCESS, payload: formatResults(response) });
+        done(response);
+      } else {
+        dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_FAILURE });
+        fail();
+      }
     };
     const failFn = (error) => {
       dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_FAILURE });
