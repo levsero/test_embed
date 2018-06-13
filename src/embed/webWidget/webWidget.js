@@ -389,7 +389,7 @@ export default function WebWidgetFactory(name) {
       waitForRootComponent(() => {
         if (embed.embedsAvailable.helpCenterForm) {
           hasManuallySetContextualSuggestions = true;
-          performContextualHelp(options, embed.config);
+          performContextualHelp(options);
         }
       });
     });
@@ -436,7 +436,7 @@ export default function WebWidgetFactory(name) {
         !isOnHelpCenterPage()) {
       const options = { url: true };
 
-      waitForRootComponent(() => performContextualHelp(options, embed.config));
+      waitForRootComponent(() => performContextualHelp(options));
     }
 
     if (config.tokensRevokedAt) {
@@ -470,7 +470,7 @@ export default function WebWidgetFactory(name) {
     cappedTimeoutCall(contextualSearchFn, 500, 20);
   }
 
-  function performContextualHelp(options, config) {
+  function performContextualHelp(options) {
     contextualSearchOptions = options;
 
     const onHitFn = (options) => () => {
@@ -478,15 +478,10 @@ export default function WebWidgetFactory(name) {
       useMouseDistanceContexualSearch = false;
     };
 
-    if (!isMobileBrowser() && useMouseDistanceContexualSearch) {
+    if (useMouseDistanceContexualSearch) {
       const launcherElement = document.getElementById('launcher');
 
-      const position = {
-        horizontal: settings.get('position.horizontal') || config.position,
-        vertical: settings.get('position.vertical') || 'bottom'
-      };
-
-      cancelTargetHandler = mouse.target(launcherElement, onHitFn(options), position);
+      cancelTargetHandler = mouse.target(launcherElement, onHitFn(options), isMobileBrowser());
     } else {
       webWidget.keywordsSearch(options);
     }

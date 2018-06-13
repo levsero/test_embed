@@ -1,19 +1,18 @@
-import { document } from 'utility/globals';
-
 let element = null;
-let anchor = {};
+let isOnMobile = false;
 let onHitHandler = () => {};
 
-const HITBOX_SCALE = 2;
-
-// This is a temporary module that will soon be deleted in favour of a widget on-click solution.
+// This is a temporary module that will soon be deleted in favour of a more robust widget on-click solution.
 // TODO: - Delete this module and all associated references and tests
 //       - Remove all traces of mouse driven contextual help logic from the codebase
-function target(domElement, onHit, position = { horizontal: 'right', vertical: 'bottom' }) {
+function target(domElement, onHit, isMobile = false) {
   if (element) return;
 
-  element = domElement;
-  anchor = position;
+  const iframeDoc = domElement.contentDocument
+                  || domElement.contentWindow.document;
+
+  element = iframeDoc.getElementById('Embed');
+  isOnMobile = isMobile;
   onHitHandler = onHit;
   addListener();
 
@@ -21,64 +20,27 @@ function target(domElement, onHit, position = { horizontal: 'right', vertical: '
   return () => removeListener();
 }
 
-function handleMouseMove(event) {
-  const { clientX: mouseX, clientY: mouseY } = event;
-  const hitbox = getElementHitbox(element, anchor);
-
-  if (__DEV__) {
-    drawDebugBox(hitbox);
-  }
-
-  if (pointInHitbox(mouseX, mouseY, hitbox)) {
-    onHitHandler();
-    removeListener();
-  }
-}
-
-function getElementHitbox(element, anchor) {
-  const bounds = element.getBoundingClientRect();
-  const x = (anchor.horizontal === 'left') ? bounds.left : bounds.left - bounds.width;
-  const y = (anchor.vertical === 'top') ? bounds.top : bounds.top - bounds.height;
-
-  return {
-    x,
-    y,
-    width: bounds.width * HITBOX_SCALE,
-    height: bounds.height * HITBOX_SCALE
-  };
-}
-
-function pointInHitbox(x, y, hitbox) {
-  const right = hitbox.x + hitbox.width;
-  const bottom = hitbox.y + hitbox.height;
-
-  return (x > hitbox.x && x < right) &&
-         (y > hitbox.y && y < bottom);
+function handleClick() {
+  onHitHandler();
+  removeListener();
 }
 
 function addListener() {
-  document.addEventListener('mousemove', handleMouseMove);
+  if (isOnMobile) {
+    element.addEventListener('touchstart', handleClick);
+  } else {
+    element.addEventListener('click', handleClick);
+  }
 }
 
 function removeListener() {
-  document.removeEventListener('mousemove', handleMouseMove);
-}
-
-function drawDebugBox(hitbox) {
-  const rect = document.getElementById('zeBox');
-
-  if (!rect) {
-    return;
+  if (isOnMobile) {
+    element.removeEventListener('touchstart', handleClick);
+  } else {
+    element.removeEventListener('click', handleClick);
   }
-
-  rect.setAttribute('x', hitbox.x);
-  rect.setAttribute('y', hitbox.y);
-  rect.setAttribute('width', hitbox.width);
-  rect.setAttribute('height', hitbox.height);
 }
 
 export const mouse = {
-  target,
-  _getElementHitbox: getElementHitbox,
-  _pointInHitbox: pointInHitbox
+  target
 };
