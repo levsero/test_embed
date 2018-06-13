@@ -12,6 +12,45 @@ import { isAgent } from 'src/util/chat';
 
 const loadtime = Date.now();
 
+const trackChatOpened = (payload, prevState) => {
+  const isChatting = getIsChatting(prevState);
+
+  if (!isChatting && payload === 'chat') {
+    GA.track('Chat Opened');
+  }
+};
+
+const trackChatServedByOperator = (payload, isAfterLoadTime) => {
+  if (isAgent(payload.detail.nick) && isAfterLoadTime) {
+    GA.track('Chat Served by Operator', payload.detail.display_name);
+  }
+};
+
+const trackChatRating = (payload, isAfterLoadTime) => {
+  const rating = payload.detail.new_rating;
+
+  if (isAfterLoadTime) {
+    if (rating) {
+      GA.track(`Chat Rating ${_.startCase(payload.detail.new_rating)}`);
+    } else {
+      GA.track('Chat Rating Removed');
+    }
+  }
+};
+
+const trackChatComment = (isAfterLoadTime) => {
+  if (isAfterLoadTime) {
+    GA.track('Chat Comment Submitted');
+  }
+};
+
+const trackChatRequestFormSubmitted = (payload, prevState) => {
+  const deptId = parseInt(payload.department);
+  const dept = getDepartments(prevState)[deptId];
+
+  GA.track('Chat Request Form Submitted', _.get(dept, 'name'));
+};
+
 export function trackAnalytics({ getState }) {
   return (next) => (action) => {
     const { type, payload } = action;
@@ -21,41 +60,22 @@ export function trackAnalytics({ getState }) {
 
     switch (type) {
       case UPDATE_ACTIVE_EMBED:
-        const isChatting = getIsChatting(prevState);
-
-        if (!isChatting && payload === 'chat') {
-          GA.track('Chat Opened');
-        }
+        trackChatOpened(payload, prevState);
         break;
       case SDK_CHAT_MEMBER_JOIN:
-        if (isAgent(payload.detail.nick) && isAfterLoadTime) {
-          GA.track('Chat Served by Operator', payload.detail.display_name);
-        }
+        trackChatServedByOperator(payload, isAfterLoadTime);
         break;
       case OFFLINE_FORM_REQUEST_SUCCESS:
         GA.track('Chat Offline Message Sent', payload.department);
         break;
       case SDK_CHAT_RATING:
-        const rating = payload.detail.new_rating;
-
-        if (isAfterLoadTime) {
-          if (rating) {
-            GA.track(`Chat Rating ${_.startCase(payload.detail.new_rating)}`);
-          } else {
-            GA.track('Chat Rating Removed');
-          }
-        }
+        trackChatRating(payload, isAfterLoadTime);
         break;
       case SDK_CHAT_COMMENT:
-        if (isAfterLoadTime) {
-          GA.track('Chat Comment Submitted');
-        }
+        trackChatComment(isAfterLoadTime);
         break;
       case PRE_CHAT_FORM_SUBMIT:
-        const deptId = parseInt(payload.department);
-        const dept = getDepartments(prevState)[deptId];
-
-        GA.track('Chat Request Form Submitted', _.get(dept, 'name'));
+        trackChatRequestFormSubmitted(payload, prevState);
         break;
     }
     return next(action);

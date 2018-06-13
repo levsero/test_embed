@@ -58,11 +58,9 @@ describe('analytics middleware', () => {
 
     describe('next', () => {
       beforeEach(() => {
-        const flatState = {};
-
         nextSpy = jasmine.createSpy('nextSpy');
         action = { type: 'random_type'};
-        trackAnalytics({ getState: () => flatState })(nextSpy)(action);
+        trackAnalytics({ getState: () => ({}) })(nextSpy)(action);
       });
 
       it('calls next function', () => {
@@ -80,8 +78,6 @@ describe('analytics middleware', () => {
         flatState = {
           isChatting: mockIsChatting
         };
-
-        GASpy.track.calls.reset();
 
         action = {
           type: UPDATE_ACTIVE_EMBED,
@@ -163,7 +159,7 @@ describe('analytics middleware', () => {
           mockIsAgent = true;
         });
 
-        describe('when payload is recieved after initialization', () => {
+        describe('when payload is received after initialization', () => {
           beforeAll(() => {
             timestamp = loadtime + 10000;
           });
@@ -174,7 +170,7 @@ describe('analytics middleware', () => {
           });
         });
 
-        describe('when payload is recieved before initialization', () => {
+        describe('when payload is received before initialization', () => {
           beforeAll(() => {
             timestamp = loadtime - 10000;
           });
@@ -226,7 +222,7 @@ describe('analytics middleware', () => {
         trackAnalytics({ getState: () => {} })(noop)(action);
       });
 
-      describe('when payload is recieved before initialization', () => {
+      describe('when payload is received before initialization', () => {
         beforeAll(() => {
           timestamp = loadtime - 10000;
         });
@@ -238,7 +234,7 @@ describe('analytics middleware', () => {
         });
       });
 
-      describe('when payload is recieved after initialization', () => {
+      describe('when payload is received after initialization', () => {
         beforeAll(() => {
           timestamp = loadtime + 10000;
         });
@@ -284,7 +280,7 @@ describe('analytics middleware', () => {
         trackAnalytics({ getState: () => {} })(noop)(action);
       });
 
-      describe('when payload is recieved before initialization', () => {
+      describe('when payload is received before initialization', () => {
         beforeAll(() => {
           timestamp = loadtime - 10000;
         });
@@ -296,7 +292,7 @@ describe('analytics middleware', () => {
         });
       });
 
-      describe('when payload is recieved after initialization', () => {
+      describe('when payload is received after initialization', () => {
         beforeAll(() => {
           timestamp = loadtime + 10000;
         });
