@@ -1,5 +1,3 @@
-import { ChatGroupAvatar } from '../../../../../src/component/chat/chatting/ChatGroupAvatar';
-
 describe('ChatGroupAvatar class', () => {
   let parentProps,
     isAgent,
@@ -7,6 +5,9 @@ describe('ChatGroupAvatar class', () => {
     avatarPath,
     socialLogin,
     subject;
+
+  const chatGroupAvatarPath = buildSrcPath('component/chat/chatting/ChatGroupAvatar');
+  const ChatGroupAvatar = requireUncached(chatGroupAvatarPath).ChatGroupAvatar;
 
   beforeEach(() => {
     parentProps = {
