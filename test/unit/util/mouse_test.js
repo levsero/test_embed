@@ -7,7 +7,6 @@ describe('mouse', () => {
     mockery.enable();
 
     const mockRegistry = initMockRegistry({
-      'lodash': _,
       'utility/globals': {
         document: {
           addEventListener: jasmine.createSpy('addEventListener'),
@@ -73,111 +72,113 @@ describe('mouse', () => {
     });
   });
 
-  describe('#_hasTargetHit', () => {
-    let distance,
-      speed,
-      isMovingTowards,
-      result;
+  describe('#_getElementHitbox', () => {
+    let mockElement,
+      mockAnchor,
+      mockBoundingRect;
 
-    describe('when the minimum distance has not been reached', () => {
-      beforeEach(() => {
-        distance = 0.26;
-        speed = 0.1;
-      });
+    beforeEach(() => {
+      mockAnchor = { horizontal: 'left', vertical: 'top' };
+      mockBoundingRect = {
+        top: 10,
+        left: 10,
+        width: 100,
+        height: 200
+      };
+      mockElement = { getBoundingClientRect: () => {
+        return mockBoundingRect;
+      }};
+    });
 
-      describe('when the mouse is moving towards the target', () => {
-        beforeEach(() => {
-          isMovingTowards = true;
-          result = mouse._hasTargetHit(distance, speed, isMovingTowards);
-        });
+    it('returns a hitbox with scaled width', () => {
+      expect(mouse._getElementHitbox(mockElement, mockAnchor).width)
+        .toBe(200);
+    });
 
-        it('should return false', () => {
-          expect(result)
-            .toBe(false);
-        });
-      });
+    it('returns a hitbox with scaled height', () => {
+      expect(mouse._getElementHitbox(mockElement, mockAnchor).height)
+        .toBe(400);
+    });
 
-      describe('when the mouse is moving away from the target', () => {
-        beforeEach(() => {
-          isMovingTowards = false;
-          result = mouse._hasTargetHit(distance, speed, isMovingTowards);
-        });
-
-        it('should return false', () => {
-          expect(result)
-            .toBe(false);
-        });
+    describe('when the horizontal anchor is left', () => {
+      it('returns a hitbox with widget anchored to the left', () => {
+        expect(mouse._getElementHitbox(mockElement, mockAnchor).x)
+          .toBe(10);
       });
     });
 
-    describe('when the minimum distance has been reached', () => {
+    describe('when the horizontal anchor is right', () => {
       beforeEach(() => {
-        distance = 0.24;
-        speed = 0.1;
+        mockAnchor = { horizontal: 'right', vertical: 'top' };
+        mockBoundingRect = {
+          top: 10,
+          left: 1000,
+          width: 100,
+          height: 200
+        };
       });
 
-      describe('when the mouse is moving towards the target', () => {
-        beforeEach(() => {
-          isMovingTowards = true;
-          result = mouse._hasTargetHit(distance, speed, isMovingTowards);
-        });
+      it('returns a hitbox with widget anchored to the right', () => {
+        expect(mouse._getElementHitbox(mockElement, mockAnchor).x)
+          .toBe(900);
+      });
+    });
 
-        it('should return true', () => {
-          expect(result)
-            .toBe(true);
-        });
+    describe('when the vertical anchor is top', () => {
+      it('returns a hitbox with widget anchored to the top', () => {
+        expect(mouse._getElementHitbox(mockElement, mockAnchor).y)
+          .toBe(10);
+      });
+    });
+
+    describe('when the vertical anchor is bottom', () => {
+      beforeEach(() => {
+        mockAnchor = { horizontal: 'left', vertical: 'bottom' };
+        mockBoundingRect = {
+          top: 1000,
+          left: 10,
+          width: 100,
+          height: 200
+        };
       });
 
-      describe('when the mouse is moving away from the target', () => {
-        beforeEach(() => {
-          isMovingTowards = false;
-          result = mouse._hasTargetHit(distance, speed, isMovingTowards);
-        });
-
-        it('should return false', () => {
-          expect(result)
-            .toBe(false);
-        });
+      it('returns a hitbox with widget anchored to the bottom', () => {
+        expect(mouse._getElementHitbox(mockElement, mockAnchor).y)
+          .toBe(800);
       });
     });
   });
 
-  describe('#_getMouseProperties', () => {
-    let props;
+  describe('#_pointInHitbox', () => {
+    let mockHitbox;
 
-    describe('returns an object', () => {
-      beforeEach(() => {
-        const now = new Date();
-        const lastEvent = { clientX: 100, clientY: 200, time: new Date(now.getTime() - 1000) };
-        const event = { clientX: 150, clientY: 250 };
+    beforeEach(() => {
+      mockHitbox = {
+        x: 10,
+        y: 10,
+        width: 100,
+        height: 200
+      };
+    });
 
-        jasmine.clock().mockDate(now);
-        props = mouse._getMouseProperties(event, lastEvent);
+    describe('when the point is outside the hitbox', () => {
+      it('returns false', () => {
+        expect(mouse._pointInHitbox(9, 209, mockHitbox))
+          .toBe(false);
       });
+    });
 
-      it('containing correct x and y props', () => {
-        const expectation = {
-          x: 150,
-          y: 250
-        };
-
-        expect(props)
-          .toEqual(jasmine.objectContaining(expectation));
+    describe('when the point is on the hitbox', () => {
+      it('returns false', () => {
+        expect(mouse._pointInHitbox(10, 210, mockHitbox))
+          .toBe(false);
       });
+    });
 
-      it('containing correct speed prop', () => {
-        expect(props.speed)
-          .toBeCloseTo(0.071, 3);
-      });
-
-      it('containing the correct vx and vy props', () => {
-        const expectation = {
-          vx: 0.05,
-          vy: 0.05
-        };
-
-        expect(props)
-          .toEqual(jasmine.objectContaining(expectation));
+    describe('when the point is inside the hitbox', () => {
+      it('returns true', () => {
+        expect(mouse._pointInHitbox(11, 209, mockHitbox))
+          .toBe(true);
       });
     });
   });
