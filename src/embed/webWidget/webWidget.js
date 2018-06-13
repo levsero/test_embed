@@ -26,7 +26,7 @@ import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedTimeoutCall,
   getPageKeywords } from 'utility/utils';
-import { getActiveEmbed, getWidgetShown } from 'src/redux/modules/base/base-selectors';
+import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
 import { setVisitorInfo, chatNotificationDismissed, fetchConversationHistory } from 'src/redux/modules/chat';
 import { resetTalkScreen } from 'src/redux/modules/talk';
@@ -306,9 +306,8 @@ export default function WebWidgetFactory(name) {
       const state = embed.store.getState();
       const isMobileNotificationsDisabled = getSettingsMobileNotificationsDisabled(state);
       const isMobile = isMobileBrowser();
-      const isWidgetShown = getWidgetShown(state);
 
-      if (!(isMobile && isMobileNotificationsDisabled && !isWidgetShown)) {
+      if (!(isMobile && isMobileNotificationsDisabled)) {
         embed.instance.show(options);
         getWebWidgetComponent().showProactiveChat();
       }

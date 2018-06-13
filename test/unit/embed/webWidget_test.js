@@ -27,7 +27,6 @@ describe('embed.webWidget', () => {
     mockWebWidget,
     mockChatNotification,
     mockMobileNotificationsDisabled,
-    mockWidgetShown,
     mockState;
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
   const revokeSpy = jasmine.createSpy();
@@ -153,8 +152,7 @@ describe('embed.webWidget', () => {
         getTicketFields: getTicketFieldsSpy
       },
       'src/redux/modules/base/base-selectors': {
-        getActiveEmbed: () => mockActiveEmbed,
-        getWidgetShown: () => mockWidgetShown
+        getActiveEmbed: () => mockActiveEmbed
       },
       'src/redux/modules/chat/chat-selectors': {
         getChatNotification: () => mockChatNotification
@@ -1198,14 +1196,11 @@ describe('embed.webWidget', () => {
               .toHaveBeenCalled();
           });
         });
-      });
 
-      describe('when webWidget.proactiveChat is dispatched', () => {
         describe('when mobile notifications should not render', () => {
           beforeEach(() => {
             mockIsMobileBrowser = true;
             mockMobileNotificationsDisabled = true;
-            mockWidgetShown = false;
             webWidget.create('', {}, mockStore);
             webWidget.render();
             frame = webWidget.get().instance;
