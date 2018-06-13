@@ -1335,19 +1335,6 @@ describe('embed.webWidget', () => {
             expect(targetListener)
               .toHaveBeenCalled();
           });
-
-          describe('when user is on mobile', () => {
-            beforeEach(() => {
-              mockIsMobileBrowser = true;
-              spyOn(webWidget, 'keywordsSearch');
-              pluckSubscribeCall(mockMediator, 'helpCenterForm.setHelpCenterSuggestions')({ search: 'foo' });
-            });
-
-            it('should call keywordsSearch', () => {
-              expect(webWidget.keywordsSearch)
-                .toHaveBeenCalledWith({ search: 'foo' });
-            });
-          });
         });
 
         describe('when mouse driven contextual search is disabled', () => {
