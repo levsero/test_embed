@@ -34,7 +34,6 @@ import { getTicketForms,
   getTicketFields } from 'src/redux/modules/submitTicket';
 import { SDK_ACTION_TYPE_PREFIX, JWT_ERROR } from 'constants/chat';
 import { AUTHENTICATION_STARTED, AUTHENTICATION_FAILED } from 'src/redux/modules/chat/chat-action-types';
-import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors';
 
 import WebWidget from 'component/webWidget/WebWidget';
 
@@ -303,14 +302,8 @@ export default function WebWidgetFactory(name) {
     });
 
     mediator.channel.subscribe(prefix + 'webWidget.proactiveChat', (options = {}) => {
-      const state = embed.store.getState();
-      const isMobileNotificationsDisabled = getSettingsMobileNotificationsDisabled(state);
-      const isMobile = isMobileBrowser();
-
-      if (!(isMobile && isMobileNotificationsDisabled)) {
-        embed.instance.show(options);
-        getWebWidgetComponent().showProactiveChat();
-      }
+      embed.instance.show(options);
+      getWebWidgetComponent().showProactiveChat();
     });
 
     mediator.channel.subscribe(prefix + 'webWidget.hideChatNotification', () => {
