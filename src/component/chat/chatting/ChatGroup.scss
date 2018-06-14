@@ -16,8 +16,12 @@
   }
 }
 
-.avatarWrapper {
+.avatarAgentWrapper {
   margin-left: #{40/$font-size}rem;
+}
+
+.avatarEndUserWrapper {
+  margin-right: #{40/$font-size}rem;
 }
 
 .message {
@@ -115,6 +119,14 @@
     max-width: #{32/$font-size}rem;
     max-height: #{32/$font-size}rem;
   }
+}
+
+.agentAvatar {
+  left: 0;
+}
+
+.endUserAvatar {
+  right: 0;
 }
 
 .fadeIn {

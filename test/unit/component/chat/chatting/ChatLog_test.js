@@ -524,4 +524,24 @@ describe('ChatLog component', () => {
       });
     });
   });
+
+  describe('#render', () => {
+    let component,
+      socialLogin;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatLog chatLog={{}} agents={{}} socialLogin={socialLogin} />);
+    });
+
+    describe('props', () => {
+      beforeAll(() => {
+        socialLogin = { avatarPath: 'heynow' };
+      });
+
+      it('has a props.socialLogin value', () => {
+        expect(component.props.socialLogin)
+          .toEqual(socialLogin);
+      });
+    });
+  });
 });

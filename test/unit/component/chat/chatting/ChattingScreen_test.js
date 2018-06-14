@@ -575,26 +575,35 @@ describe('ChattingScreen component', () => {
     });
   });
 
-  describe('render', () => {
+  describe('#render', () => {
     let component, result;
     const renderChatComponent = ({
       ratingsEnabled = false,
       agents = {},
       isMobile = false,
-      hideZendeskLogo = false
+      hideZendeskLogo = false,
+      socialLogin = { avatarPath: 'heynow' }
     }) => (
       instanceRender(
         <ChattingScreen
           ratingSettings={{ enabled: ratingsEnabled }}
           activeAgents={agents}
           isMobile={isMobile}
-          hideZendeskLogo={hideZendeskLogo} />
+          hideZendeskLogo={hideZendeskLogo}
+          socialLogin={socialLogin} />
       )
     );
 
     beforeEach(() => {
       component = renderChatComponent({
         ratingsEnabled: true
+      });
+    });
+
+    describe('props', () => {
+      it('has a props.socialLogin value', () => {
+        expect(component.props.socialLogin)
+          .toEqual({ avatarPath: 'heynow' });
       });
     });
 

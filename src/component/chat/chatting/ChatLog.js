@@ -20,7 +20,12 @@ export class ChatLog extends Component {
     handleSendMsg: PropTypes.func,
     onImageLoad: PropTypes.func,
     showUpdateInfo: PropTypes.bool.isRequired,
-    updateInfoOnClick: PropTypes.func
+    updateInfoOnClick: PropTypes.func,
+    socialLogin: PropTypes.object
+  };
+
+  static defaultProps = {
+    socialLogin: {}
   };
 
   constructor(props) {
@@ -39,7 +44,8 @@ export class ChatLog extends Component {
       handleSendMsg,
       onImageLoad,
       showUpdateInfo,
-      updateInfoOnClick
+      updateInfoOnClick,
+      socialLogin
     } = this.props;
 
     const chatLogs = _.map(chatLog, (chatLogItem, timestamp) => {
@@ -62,6 +68,7 @@ export class ChatLog extends Component {
             showAvatar={showAvatar}
             onImageLoad={onImageLoad}
             handleSendMsg={handleSendMsg}
+            socialLogin={socialLogin}
             chatLogCreatedAt={this.createdTimestamp}>
             {this.renderUpdateInfo(shouldRenderUpdateInfo, updateInfoOnClick)}
           </ChatGroup>

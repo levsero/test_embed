@@ -6,6 +6,7 @@ describe('ChatGroup component', () => {
     i18n;
 
   const chatGroupPath = buildSrcPath('component/chat/chatting/ChatGroup');
+  const chatGroupAvatarPath = buildSrcPath('component/chat/chatting/ChatGroupAvatar');
   const chatConstantsPath = buildSrcPath('constants/chat');
   const sharedConstantsPath = buildSrcPath('constants/shared');
 
@@ -15,6 +16,7 @@ describe('ChatGroup component', () => {
   const MessageError = noopReactComponent();
   const ImageMessage = noopReactComponent();
   const Icon = noopReactComponent();
+  const ChatGroupAvatar = requireUncached(chatGroupAvatarPath).ChatGroupAvatar;
 
   let chatConstants = requireUncached(chatConstantsPath);
   let CHAT_MESSAGE_TYPES = chatConstants.CHAT_MESSAGE_TYPES;
@@ -39,6 +41,7 @@ describe('ChatGroup component', () => {
       'component/attachment/Attachment': { Attachment },
       'component/chat/chatting/MessageError': { MessageError },
       'component/chat/chatting/ImageMessage': { ImageMessage },
+      'component/chat/chatting/ChatGroupAvatar': { ChatGroupAvatar },
       'constants/chat': {
         ATTACHMENT_ERROR_TYPES,
         CHAT_MESSAGE_TYPES
@@ -56,6 +59,10 @@ describe('ChatGroup component', () => {
       './ChatGroup.scss': {
         locals: {
           wrapper: 'wrapperClass',
+          avatarAgentWrapper: 'agentWrapperClass',
+          avatarEndUserWrapper: 'endUserWrapperClass',
+          agentAvatar: 'agentAvatarClass',
+          endUserAvatar: 'endUserAvatarClass',
           messageBubble: 'messageBubbleClass',
           userBackground: 'userBackgroundClass',
           agentBackground: 'agentBackgroundClass',
@@ -567,24 +574,56 @@ describe('ChatGroup component', () => {
     });
 
     describe('when the message is new', () => {
-      beforeAll(() => {
-        isAgent = true;
-        messages = [
-          {
-            type: 'chat.msg',
-            nick: 'agent:123',
-            display_name: 'Agent 123',
-            msg: 'Sure. Here is the bill:',
-            timestamp: fakeTimestamp
-          }
-        ];
+      describe('and the sender is an agent', () => {
+        beforeAll(() => {
+          componentArgs = {
+            showAvatar: true,
+            isAgent: true
+          };
+          messages = [
+            {
+              type: 'chat.msg',
+              nick: 'agent:123',
+              display_name: 'Agent 123',
+              msg: 'Sure. Here is the bill:',
+              timestamp: fakeTimestamp
+            }
+          ];
+        });
+
+        it('renders the wrapper with correct classnames', () => {
+          const wrapperClasses = result[0].props.className;
+
+          expect(wrapperClasses).toContain('wrapperClass');
+          expect(wrapperClasses).toContain('fadeUpClass');
+          expect(wrapperClasses).toContain('agentWrapperClass');
+        });
       });
 
-      it('render the wrapper with correct classnames', () => {
-        const wrapperClasses = result[0].props.className;
+      describe('and the sender is an end-user', () => {
+        beforeAll(() => {
+          componentArgs = {
+            showAvatar: true,
+            isAgent: false
+          };
+          messages = [
+            {
+              type: 'chat.msg',
+              nick: 'chatsta',
+              display_name: 'Chat Gangsta',
+              msg: 'Help me out yo',
+              timestamp: fakeTimestamp
+            }
+          ];
+        });
 
-        expect(wrapperClasses).toContain('wrapperClass');
-        expect(wrapperClasses).toContain('fadeUpClass');
+        it('renders the wrapper with correct classnames', () => {
+          const wrapperClasses = result[0].props.className;
+
+          expect(wrapperClasses).toContain('wrapperClass');
+          expect(wrapperClasses).toContain('fadeUpClass');
+          expect(wrapperClasses).toContain('endUserWrapperClass');
+        });
       });
     });
 
@@ -605,7 +644,7 @@ describe('ChatGroup component', () => {
         ];
       });
 
-      it('render the wrapper with correct classnames', () => {
+      it('renders the wrapper with correct classnames', () => {
         const wrapperClasses = result[0].props.className;
 
         expect(wrapperClasses).toContain('wrapperClass');
@@ -870,84 +909,67 @@ describe('ChatGroup component', () => {
         timestamp: fakeTimestamp
       }
     ];
-    let renderAvatar;
+    let componentArgs, renderAvatar, result;
 
     beforeEach(() => {
-      renderAvatar = getComponentMethod('renderAvatar');
+      renderAvatar = getComponentMethod('renderAvatar', componentArgs);
+      result = renderAvatar(messages);
     });
 
-    describe('when showAvatarAsAgent is false', () => {
-      const showAvatarAsAgent = false;
+    describe('when the showAvatar prop is false', () => {
+      beforeAll(() => {
+        componentArgs = {
+          showAvatar: false
+        };
+      });
 
-      it('returns nothing', () => {
-        const result = renderAvatar(showAvatarAsAgent, avatarPath, messages);
-
-        expect(result).toEqual(null);
+      it('does not return an avatar', () => {
+        expect(result).toBeUndefined();
       });
     });
 
-    describe('when showAvatarAsAgent is true', () => {
-      let result;
-      const showAvatarAsAgent = true;
-
-      describe('and provided with a path to an avatar', () => {
-        beforeEach(() => {
-          result = renderAvatar(showAvatarAsAgent, avatarPath, messages);
+    describe('when the showAvatar prop is true', () => {
+      describe('and the sender is an agent', () => {
+        beforeAll(() => {
+          componentArgs = {
+            showAvatar: true,
+            isAgent: true
+          };
         });
 
-        it('returns an Avatar component', () => {
-          expect(TestUtils.isElementOfType(result, Avatar)).toEqual(true);
+        it('returns an avatar', () => {
+          expect(TestUtils.isElementOfType(result, Avatar))
+            .toBeTruthy();
         });
 
-        it('passes the correct props to the child component', () => {
-          expect(result.props.className).toContain('avatarClass');
-          expect(result.props.src).toEqual(avatarPath);
-        });
-      });
+        it('contains the right classnames', () => {
+          expect(result.props.className)
+            .toContain('agentAvatarClass');
 
-      describe('and not provided with a path to an avatar', () => {
-        beforeEach(() => {
-          result = renderAvatar(showAvatarAsAgent, undefined, messages);
-        });
-
-        it('returns an Avatar component', () => {
-          expect(TestUtils.isElementOfType(result, Avatar)).toEqual(true);
-        });
-
-        it('passes the correct props to the child component', () => {
-          expect(result.props.className).toContain('avatarClass');
-          expect(result.props.src).toEqual('');
-        });
-
-        it('passes the correct fallback icon prop to the child component', () => {
-          expect(result.props).toEqual(jasmine.objectContaining({
-            fallbackIcon: 'Icon--agent-avatar'
-          }));
+          expect(result.props.className)
+            .not.toContain('endUserAvatarClass');
         });
       });
 
-      describe('and avatar belongs to a new chat group', () => {
-        beforeEach(() => {
-          result = renderAvatar(showAvatarAsAgent, avatarPath, messages);
+      describe('and the sender is an end-user', () => {
+        beforeAll(() => {
+          componentArgs = {
+            showAvatar: true,
+            isAgent: false
+          };
         });
 
-        it('passes the correct classnames to the child component', () => {
-          expect(result.props.className).toContain('avatarClass');
-          expect(result.props.className).toContain('fadeInClass');
-        });
-      });
-
-      describe('and avatar belongs to an old chat group', () => {
-        beforeEach(() => {
-          renderAvatar = getComponentMethod('renderAvatar', {
-            chatLogCreatedAt: fakeTimestamp + 1
-          });
-          result = renderAvatar(showAvatarAsAgent, avatarPath, messages);
+        it('returns an avatar', () => {
+          expect(TestUtils.isElementOfType(result, Avatar))
+            .toBeTruthy();
         });
 
-        it('passes the correct classnames to the child component', () => {
-          expect(result.props.className).toContain('avatarClass');
-          expect(result.props.className).not.toContain('fadeInClass');
+        it('contains the right classnames', () => {
+          expect(result.props.className)
+            .toContain('endUserAvatarClass');
+
+          expect(result.props.className)
+            .not.toContain('agentAvatarClass');
         });
       });
     });
@@ -965,6 +987,9 @@ describe('ChatGroup component', () => {
       display_name: 'Agent 123',
       msg: 'Hello'
     }];
+    const socialLogin = {
+      avatarPath: 'https://i.ytimg.com/vi/otyP039Kbis/hqdefault.jpg'
+    };
 
     beforeEach(() => {
       component = domRender(
@@ -973,6 +998,7 @@ describe('ChatGroup component', () => {
           showAvatar={showAvatar}
           messages={messages}
           avatarPath={avatarPath}
+          socialLogin={socialLogin}
         >
           {children}
         </ChatGroup>
@@ -985,6 +1011,16 @@ describe('ChatGroup component', () => {
       component.render();
     });
 
+    it('has a props.socialLogin value', () => {
+      expect(component.props.socialLogin)
+        .toEqual(socialLogin);
+    });
+
+    it('contains an avatar property consisting of a ChatGroupAvatar', () => {
+      expect(component.avatar instanceof ChatGroupAvatar)
+        .toBeTruthy();
+    });
+
     it('calls renderName with the correct args', () => {
       expect(component.renderName).toHaveBeenCalledWith(isAgent, showAvatar, messages);
     });
@@ -994,7 +1030,7 @@ describe('ChatGroup component', () => {
     });
 
     it('calls renderAvatar with the correct args', () => {
-      expect(component.renderAvatar).toHaveBeenCalledWith(showAvatar && isAgent, avatarPath, messages);
+      expect(component.renderAvatar).toHaveBeenCalledWith(messages);
     });
 
     describe('when passed a child component', () => {
