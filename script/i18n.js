@@ -145,15 +145,22 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
           return JSON.parse(res.entity).locale;
         })
         .reduce(function(result, el) {
-          result[el.locale] = _.reduce(el.translations, function(res, el, key) {
-            // TODO: There was once issues with the encoding of translations for certain
-            // locales that caused strange characters to render in the widget. The workaround
-            // for this was to encode all strings in a URI format. This makes the translations file
-            // size bigger and may not be needed. If i18n and QA find no issues, we can remove this comment
-            // and go forward with storing the strings in plain text.
-            // PR: https://github.com/zendesk/embeddable_framework/pull/255
-            // res[key] = encodeURIComponent(el);
-            res[key] = el;
+          result[el.locale] = _.reduce(el.translations, function(res, elem, key) {
+            let string = elem;
+
+            // For all french based languages any terminal request converts the space in front of any
+            // punctuation marks into a no-break unicode space. This means triggers won't work on them.
+            // This converts that space into the correct space character which shouldn't make a big
+            // difference on how they're rendered.  http://jkorpela.fi/chars/spaces.html
+            if (el.locale.indexOf('fr') === 0) {
+              _.forEach(string, (char, index) => {
+                if (char.charCodeAt(0) === '160') {
+                  string[index] = '32';
+                }
+              });
+            }
+
+            res[key] = string;
             return res;
           }, {});
           result[el.locale].rtl = el.rtl;
