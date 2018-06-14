@@ -38,6 +38,8 @@ import { getActiveEmbed,
 import { CHATTING_SCREEN } from 'src/redux/modules/chat/chat-screen-types';
 import { store } from 'service/persistence';
 import { getSettingsChatDepartment } from 'src/redux/modules/settings/settings-selectors';
+import { getSettingsMobileNotificationsDisabled } from 'src/redux/modules/settings/settings-selectors';
+import { isMobileBrowser } from 'utility/devices';
 
 const showOnLoad = _.get(store.get('store'), 'widgetShown');
 const createdAtTimestamp = Date.now();
@@ -76,6 +78,8 @@ const handleNewAgentMessage = (nextState, dispatch) => {
   if (!widgetShown || otherEmbedOpen) {
     const agentMessage = getNewAgentMessage(nextState);
     const recentMessage = isRecentMessage(agentMessage);
+    const isMobileNotificationsDisabled = getSettingsMobileNotificationsDisabled(nextState);
+    const isMobile = isMobileBrowser();
 
     if (recentMessage && getUserSoundSettings(nextState)) {
       audio.play('incoming_message');
@@ -84,7 +88,7 @@ const handleNewAgentMessage = (nextState, dispatch) => {
     dispatch(newAgentMessageReceived(agentMessage));
     startChatNotificationTimer(agentMessage);
 
-    if (!widgetShown && recentMessage && agentMessage.proactive) {
+    if (!widgetShown && recentMessage && agentMessage.proactive && !(isMobile && isMobileNotificationsDisabled)) {
       mediator.channel.broadcast('newChat.newMessage');
     }
   }

@@ -28,6 +28,8 @@ describe('onStateChange middleware', () => {
   let mockWidgetShown = false;
   let mockIPMWidget = false;
   let mockHelpCenterEmbed = false;
+  let mockMobileNotificationsDisabled = false;
+  let mockIsMobileBrowser = false;
 
   beforeEach(() => {
     mockery.enable();
@@ -90,7 +92,8 @@ describe('onStateChange middleware', () => {
         getDepartmentsList: () => mockDepartmentLists
       },
       'src/redux/modules/settings/settings-selectors': {
-        getSettingsChatDepartment: () => mockGetSettingsChatDepartment
+        getSettingsChatDepartment: () => mockGetSettingsChatDepartment,
+        getSettingsMobileNotificationsDisabled: () => mockMobileNotificationsDisabled
       },
       'src/redux/modules/chat/chat-action-types': {
         IS_CHATTING: 'IS_CHATTING',
@@ -122,6 +125,9 @@ describe('onStateChange middleware', () => {
       },
       'src/redux/modules/chat/chat-screen-types': {
         CHATTING_SCREEN: 'chatting'
+      },
+      'utility/devices': {
+        isMobileBrowser() { return mockIsMobileBrowser; }
       }
     });
 
@@ -276,11 +282,11 @@ describe('onStateChange middleware', () => {
         audioPlaySpy.calls.reset();
       });
 
-      afterEach(() => {
-        initialTimestamp = 80;
-      });
-
       describe('when there are no new messages', () => {
+        beforeAll(() => {
+          initialTimestamp = 80;
+        });
+
         describe('when audio settings are on', () => {
           beforeEach(() => {
             mockUserSoundSetting = true;
@@ -306,6 +312,10 @@ describe('onStateChange middleware', () => {
       });
 
       describe('when there are new messages', () => {
+        beforeAll(() => {
+          initialTimestamp = 60;
+        });
+
         describe('when there are no unseen messages', () => {
           beforeEach(() => {
             mockStoreValue = { lastAgentMessageSeenTimestamp: 80 };
@@ -373,6 +383,10 @@ describe('onStateChange middleware', () => {
                 stateChangeFn(prevState, nextState, {}, dispatchSpy);
               });
 
+              beforeAll(() => {
+                initialTimestamp = 80;
+              });
+
               it('does not call sound', () => {
                 expect(audioPlaySpy)
                   .not.toHaveBeenCalled();
@@ -411,6 +425,36 @@ describe('onStateChange middleware', () => {
                 it('does not call mediator with newChat.newMessage', () => {
                   expect(broadcastSpy)
                     .not.toHaveBeenCalled();
+                });
+              });
+
+              describe('when isMobileNotificationsDisabled is true', () => {
+                beforeEach(() => {
+                  mockIsProactiveSession = true;
+                  mockWidgetShown = false;
+                  mockIsMobileBrowser = true;
+                  mockMobileNotificationsDisabled = true;
+                  stateChangeFn(prevState, nextState, {}, dispatchSpy);
+                });
+
+                it('does not call mediator with newChat.newMessage', () => {
+                  expect(broadcastSpy)
+                    .not.toHaveBeenCalled();
+                });
+              });
+
+              describe('when isMobileNotificationsDisabled is false', () => {
+                beforeEach(() => {
+                  mockIsProactiveSession = true;
+                  mockWidgetShown = false;
+                  mockIsMobileBrowser = true;
+                  mockMobileNotificationsDisabled = false;
+                  stateChangeFn(prevState, nextState, {}, dispatchSpy);
+                });
+
+                it('does call mediator with newChat.newMessage', () => {
+                  expect(broadcastSpy)
+                    .toHaveBeenCalled();
                 });
               });
             });
