@@ -11,6 +11,7 @@ describe('PrechatScreen component', () => {
   const chatConstantsPath = buildSrcPath('constants/chat');
 
   const updateChatScreenSpy = jasmine.createSpy('updateChatScreen');
+  const handlePrechatFormSubmitSpy = jasmine.createSpy('handlePrechatFormSubmit');
   const resetCurrentMessageSpy = jasmine.createSpy('resetCurrentMessage');
 
   const ChatOfflineMessageForm = noopReactComponent('ChatOfflineMessageForm');
@@ -56,6 +57,7 @@ describe('PrechatScreen component', () => {
         handleChatBoxChange: noop,
         setVisitorInfo: noop,
         updateChatScreen: updateChatScreenSpy,
+        handlePrechatFormSubmit: handlePrechatFormSubmitSpy,
         resetCurrentMessage: resetCurrentMessageSpy
       },
       'src/redux/modules/chat/chat-selectors': {
@@ -117,6 +119,7 @@ describe('PrechatScreen component', () => {
           sendMsg={sendMsgSpy}
           setDepartment={setDepartmentSpy}
           updateChatScreen={updateChatScreenSpy}
+          handlePrechatFormSubmit={handlePrechatFormSubmitSpy}
           resetCurrentMessage={resetCurrentMessageSpy}
           departments={mockDepartments}
           sendOfflineMessage={sendOfflineMessageSpy}
@@ -131,6 +134,7 @@ describe('PrechatScreen component', () => {
       sendMsgSpy.calls.reset();
       setDepartmentSpy.calls.reset();
       updateChatScreenSpy.calls.reset();
+      handlePrechatFormSubmitSpy.calls.reset();
       sendOfflineMessageSpy.calls.reset();
     });
 
@@ -208,9 +212,9 @@ describe('PrechatScreen component', () => {
             });
         });
 
-        it('calls updateChatScreen with the CHATTING_SCREEN', () => {
-          expect(updateChatScreenSpy)
-            .toHaveBeenCalledWith(chattingScreen);
+        it('calls handlePrechatFormSubmit with the form info', () => {
+          expect(handlePrechatFormSubmitSpy)
+            .toHaveBeenCalledWith(formInfo);
         });
 
         describe('when there is a message to send', () => {
@@ -311,9 +315,9 @@ describe('PrechatScreen component', () => {
           });
       });
 
-      it('calls updateChatScreen with the CHATTING_SCREEN', () => {
-        expect(updateChatScreenSpy)
-          .toHaveBeenCalledWith(chattingScreen);
+      it('calls handlePrechatFormSubmit with the form info', () => {
+        expect(handlePrechatFormSubmitSpy)
+          .toHaveBeenCalledWith(formInfo);
       });
 
       describe('when there is a message to send', () => {
