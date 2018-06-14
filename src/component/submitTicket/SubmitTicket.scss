@@ -74,3 +74,15 @@
 .loadingSpinnerIE {
   composes: u-paddingBXL u-paddingRXL from global;
 }
+
+.button {
+  width: 100%;
+}
+
+.zendeskLogoButton {
+  margin-bottom: #{25/$font-size}rem;
+}
+
+.noZendeskLogoButton {
+  margin-bottom: #{5/$font-size}rem;
+}

@@ -12,7 +12,8 @@ import { ChatOperatingHours } from 'component/chat/ChatOperatingHours';
 import { OFFLINE_FORM_SCREENS } from 'constants/chat';
 import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm';
 import { UserProfile } from 'component/chat/UserProfile';
-
+import { SuccessNotification } from 'component/shared/SuccessNotification';
+import { ICONS } from 'src/constants/shared';
 import { locals as styles } from './ChatOfflineForm.scss';
 
 export class ChatOfflineForm extends Component {
@@ -31,7 +32,8 @@ export class ChatOfflineForm extends Component {
     socialLogin: PropTypes.object.isRequired,
     authUrls: PropTypes.object.isRequired,
     visitor: PropTypes.object.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired
+    isAuthenticated: PropTypes.bool.isRequired,
+    newHeight: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -105,6 +107,14 @@ export class ChatOfflineForm extends Component {
 
   renderSuccess() {
     if (this.props.offlineMessage.screen !== OFFLINE_FORM_SCREENS.SUCCESS) return;
+
+    if (this.props.newHeight) {
+      return (
+        <SuccessNotification
+          icon={ICONS.SUCCESS_CONTACT_FORM}
+          isMobile={this.props.isMobile} />
+      );
+    }
 
     return (
       <ChatOfflineMessageForm

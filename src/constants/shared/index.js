@@ -18,7 +18,10 @@ export const ICONS = {
   SEND_CHAT:            'Icon--sendChat',
   MENU:                 'Icon--menu',
   DASH:                 'Icon--dash',
-  BACK:                 'Icon--back'
+  BACK:                 'Icon--back',
+  SUCCESS_CONTACT_FORM: 'Icon--success-contactForm',
+  SUCCESS_TALK:         'Icon--success-talk',
+  TALK:                 'Icon--talk'
 };
 
 export const FILETYPE_ICONS = {

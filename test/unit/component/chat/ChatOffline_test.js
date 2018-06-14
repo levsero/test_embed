@@ -17,7 +17,9 @@ describe('ChatOffline component', () => {
           scrollContainer: 'scrollContainerClass',
           mobileContainer: 'mobileContainerClass',
           scrollContainerContent: 'scrollContainerContentClass',
-          logoFooter: 'logoFooterClass'
+          logoFooter: 'logoFooterClass',
+          noZendeskLogoButton: 'noZendeskLogoButton',
+          zendeskLogoButton: 'zendeskLogoButton'
         }
       },
       'service/i18n': {
@@ -45,7 +47,8 @@ describe('ChatOffline component', () => {
       },
       'constants/chat': {
         OFFLINE_FORM_SCREENS: {
-          OPERATING_HOURS: 'OPERATING_HOURS'
+          OPERATING_HOURS: 'OPERATING_HOURS',
+          SUCCESS: 'SUCCESS'
         }
       }
     });
@@ -59,28 +62,210 @@ describe('ChatOffline component', () => {
     mockery.disable();
   });
 
+  describe('renderZendeskLogo', () => {
+    let chatOffline,
+      result,
+      mockHideZendeskLogo,
+      mockIsMobile;
+
+    beforeEach(() => {
+      chatOffline = domRender(<ChatOffline hideZendeskLogo={mockHideZendeskLogo} isMobile={mockIsMobile} />);
+      result = chatOffline.renderZendeskLogo();
+    });
+
+    describe('when hideZendeskLogo is true', () => {
+      beforeAll(() => {
+        mockHideZendeskLogo = true;
+      });
+
+      describe('when isMobile is true', () => {
+        beforeAll(() => {
+          mockIsMobile = true;
+        });
+
+        it('does not render zendesk logo', () => {
+          expect(result)
+            .toBeFalsy();
+        });
+      });
+
+      describe('when isMobile is false', () => {
+        beforeAll(() => {
+          mockIsMobile = false;
+        });
+
+        it('does not render zendesk logo', () => {
+          expect(result)
+            .toBeFalsy();
+        });
+      });
+    });
+
+    describe('when hideZendeskLogo is false', () => {
+      beforeAll(() => {
+        mockHideZendeskLogo = false;
+      });
+
+      describe('when isMobile is true', () => {
+        beforeAll(() => {
+          mockIsMobile = true;
+        });
+
+        it('does not render zendesk logo', () => {
+          expect(result)
+            .toBeFalsy();
+        });
+      });
+
+      describe('when isMobile is false', () => {
+        beforeAll(() => {
+          mockIsMobile = false;
+        });
+
+        it('renders zendesk logo', () => {
+          expect(TestUtils.isElementOfType(result, ZendeskLogo))
+            .toEqual(true);
+        });
+      });
+    });
+  });
+
+  describe('renderFooterContent', () => {
+    let chatOffline,
+      result,
+      mockOfflineMessage,
+      mockNewHeight,
+      mockHideZendeskLogo,
+      mockIsMobile;
+
+    beforeEach(() => {
+      chatOffline = instanceRender(<ChatOffline
+        newHeight={mockNewHeight}
+        offlineMessage={mockOfflineMessage}
+        isMobile={mockIsMobile}
+        hideZendeskLogo={mockHideZendeskLogo} />);
+      result = chatOffline.renderFooterContent();
+    });
+
+    describe('when screen is not OFFLINE_FORM_SCREENS.SUCCESS', () => {
+      beforeAll(() => {
+        mockOfflineMessage = {
+          screen: 'yoloScreen'
+        };
+      });
+
+      it('does not render footer content', () => {
+        expect(result)
+          .toBeFalsy();
+      });
+    });
+
+    describe('when newHeight is false', () => {
+      beforeAll(() => {
+        mockNewHeight = false;
+      });
+
+      it('does not render footer content', () => {
+        expect(result)
+          .toBeFalsy();
+      });
+    });
+
+    describe('when footer content required', () => {
+      beforeAll(() => {
+        mockNewHeight = true;
+        mockOfflineMessage = {
+          screen: 'SUCCESS'
+        };
+      });
+
+      describe('when on mobile', () => {
+        beforeAll(() => {
+          mockIsMobile = true;
+        });
+
+        it('renders noZendeskLogoButton class', () => {
+          expect(result.props.className)
+            .toContain('noZendeskLogoButton');
+        });
+
+        it('does not render zendeskLogoButton class', () => {
+          expect(result.props.className)
+            .not
+            .toContain('zendeskLogoButton');
+        });
+      });
+
+      describe('when hideZendeskLogo is true', () => {
+        beforeAll(() => {
+          mockHideZendeskLogo = true;
+        });
+
+        it('renders noZendeskLogoButton', () => {
+          expect(result.props.className)
+            .toContain('noZendeskLogoButton');
+        });
+
+        it('does not renders zendeskLogoButton', () => {
+          expect(result.props.className)
+            .not
+            .toContain('zendeskLogoButton');
+        });
+      });
+
+      describe('when zendesk logo required', () => {
+        beforeAll(() => {
+          mockHideZendeskLogo = false;
+          mockIsMobile = false;
+        });
+
+        it('renders zendeskLogoButton', () => {
+          expect(result.props.className)
+            .toContain('zendeskLogoButton');
+        });
+
+        it('does not render noZendeskLogoButton', () => {
+          expect(result.props.className)
+            .not
+            .toContain('noZendeskLogoButton');
+        });
+      });
+    });
+  });
+
   describe('render', () => {
     let component,
       result;
 
     beforeEach(() => {
       component = instanceRender(<ChatOffline />);
-
+      spyOn(component, 'renderFooterContent');
+      spyOn(component, 'renderZendeskLogo');
       result = component.render();
     });
 
+    it('calls renderZendeskLogo', () => {
+      expect(component.renderZendeskLogo)
+        .toHaveBeenCalled();
+    });
+
+    it('calls renderFooterContent', () => {
+      expect(component.renderFooterContent)
+        .toHaveBeenCalled();
+    });
+
     it('has a props.containerClasses value', () => {
-      expect(result.props.containerClasses)
+      expect(result.props.children[0].props.containerClasses)
         .toEqual('scrollContainerContentClass');
     });
 
     it('has a props.classes value', () => {
-      expect(result.props.classes)
+      expect(result.props.children[0].props.classes)
         .toEqual('scrollContainerClass');
     });
 
     it('has a props.title value', () => {
-      expect(result.props.title)
+      expect(result.props.children[0].props.title)
         .toEqual('embeddable_framework.chat.title');
     });
 
@@ -92,44 +277,21 @@ describe('ChatOffline component', () => {
       });
 
       it('passes the mobile styles to the classes prop', () => {
-        expect(result.props.classes)
+        expect(result.props.children[0].props.classes)
           .toContain('mobileContainerClass');
       });
     });
 
-    describe('when hideZendeskLogo is false', () => {
+    describe('when the newHeight prop is false', () => {
       beforeEach(() => {
-        component = instanceRender(<ChatOffline hideZendeskLogo={false} />);
+        component = instanceRender(<ChatOffline newHeight={false} />);
 
         result = component.render();
       });
 
-      it('renders logo in the footer', () => {
-        expect(TestUtils.isElementOfType(result.props.footerContent, ZendeskLogo))
-          .toBeTruthy();
-      });
-
-      it('renders footer with correct classes', () => {
-        expect(result.props.footerClasses)
-          .toContain('logoFooterClass');
-      });
-    });
-
-    describe('when hideZendeskLogo is true', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOffline hideZendeskLogo={true} />);
-
-        result = component.render();
-      });
-
-      it('does not render logo in the footer', () => {
-        expect(result.props.footerContent)
-          .toBeFalsy();
-      });
-
-      it('renders footer with correct classes', () => {
-        expect(result.props.footerClasses)
-          .not.toContain('logoFooterClass');
+      it('passes the scrollContainer styles to the classes prop', () => {
+        expect(result.props.children[0].props.classes)
+          .toContain('scrollContainerClass');
       });
     });
   });

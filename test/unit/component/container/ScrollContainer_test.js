@@ -19,9 +19,11 @@ describe('ScrollContainer component', () => {
           userHeader: 'userHeaderClassesYo',
           container: 'containerClasses',
           containerDesktop: 'containerDesktopClasses',
-          newHeightContainer: 'newHeightContainer',
+          newHeightFlexContainer: 'newHeightFlexContainer',
           newHeightContent: 'newHeightContent',
-          noNewHeightContent: 'noNewHeightContent'
+          noNewHeightContent: 'noNewHeightContent',
+          newHeightDesktop: 'newHeightDesktop',
+          newHeightMobile: 'newHeightMobile'
         }
       },
       'utility/devices': {
@@ -64,10 +66,13 @@ describe('ScrollContainer component', () => {
   });
 
   describe('newHeight', () => {
-    let container;
+    let container,
+      mockIsFullScreen,
+      result;
 
     beforeEach(() => {
-      container = shallowRender(<ScrollContainer newHeight={mockNewHeight} />);
+      container = instanceRender(<ScrollContainer newHeight={mockNewHeight} fullscreen={mockIsFullScreen} />);
+      result = container.render();
     });
 
     describe('when newHeight is true', () => {
@@ -75,49 +80,53 @@ describe('ScrollContainer component', () => {
         mockNewHeight = true;
       });
 
-      describe('when isMobile is false', () => {
+      it('renders newHeightFlexContainer class', () => {
+        expect(result.props.className)
+          .toContain('newHeightFlexContainer');
+      });
+
+      it('renders newHeightContent class', () => {
+        expect(result.props.children[1].props.className)
+          .toContain('newHeightContent');
+      });
+
+      it('does not render noNewHeightContent class', () => {
+        expect(result.props.children[1].props.className)
+          .not
+          .toContain('noNewHeightContent');
+      });
+
+      describe('when on mobile', () => {
         beforeAll(() => {
-          mockIsMobile = false;
+          mockIsFullScreen = true;
         });
 
-        it('has "newHeightContainer" classes', () => {
-          expect(container.props.className)
-            .toContain('newHeightContainer');
+        it('renders newHeightMobile class', () => {
+          expect(result.props.className)
+            .toContain('newHeightMobile');
         });
 
-        it('does not have "noNewHeightContent" classes in content', () => {
-          expect(container.props.children[1].props.className)
+        it('does not render newHeightDesktop class', () => {
+          expect(result.props.className)
             .not
-            .toContain('noNewHeightContent');
-        });
-
-        it('has "newHeightContent" classes in content', () => {
-          expect(container.props.children[1].props.className)
-            .toContain('newHeightContent');
+            .toContain('newHeightDesktop');
         });
       });
 
-      describe('when isMobile is true', () => {
+      describe('when not on mobile', () => {
         beforeAll(() => {
-          mockIsMobile = true;
+          mockIsFullScreen = false;
         });
 
-        it('does not have "newHeightContainer" classes', () => {
-          expect(container.props.className)
+        it('does not render newHeightMobile class', () => {
+          expect(result.props.className)
             .not
-            .toContain('newHeightContainer');
+            .toContain('newHeightMobile');
         });
 
-        it('does not have "noNewHeightContent" classes in content', () => {
-          expect(container.props.children[1].props.className)
-            .not
-            .toContain('noNewHeightContent');
-        });
-
-        it('does not have "newHeightContent" classes in content', () => {
-          expect(container.props.children[1].props.className)
-            .not
-            .toContain('newHeightContent');
+        it('renders newHeightDesktop class', () => {
+          expect(result.props.className)
+            .toContain('newHeightDesktop');
         });
       });
     });
@@ -127,50 +136,56 @@ describe('ScrollContainer component', () => {
         mockNewHeight = false;
       });
 
-      describe('when isMobile is false', () => {
+      it('does not render newHeightFlexContainer class', () => {
+        expect(result.props.className)
+          .not
+          .toContain('newHeightFlexContainer');
+      });
+
+      it('does not render newHeightContent class', () => {
+        expect(result.props.children[1].props.className)
+          .not
+          .toContain('newHeightContent');
+      });
+
+      it('renders noNewHeightContent class', () => {
+        expect(result.props.children[1].props.className)
+          .toContain('noNewHeightContent');
+      });
+
+      describe('when on mobile', () => {
         beforeAll(() => {
-          mockIsMobile = false;
+          mockIsFullScreen = true;
         });
 
-        it('does not have "newHeightContainer" classes', () => {
-          expect(container.props.className)
+        it('does not render newHeightMobile class', () => {
+          expect(result.props.className)
             .not
-            .toContain('newHeightContainer');
+            .toContain('newHeightMobile');
         });
 
-        it('has "noNewHeightContent" classes in content', () => {
-          expect(container.props.children[1].props.className)
-            .toContain('noNewHeightContent');
-        });
-
-        it('does not have "newHeightContent" classes in content', () => {
-          expect(container.props.children[1].props.className)
+        it('does not render newHeightDesktop class', () => {
+          expect(result.props.className)
             .not
-            .toContain('newHeightContent');
+            .toContain('newHeightDesktop');
         });
       });
 
-      describe('when isMobile is true', () => {
+      describe('when not on mobile', () => {
         beforeAll(() => {
-          mockIsMobile = true;
+          mockIsFullScreen = false;
         });
 
-        it('does not have "newHeightContainer" classes', () => {
-          expect(container.props.className)
+        it('does not render newHeightMobile class', () => {
+          expect(result.props.className)
             .not
-            .toContain('newHeightContainer');
+            .toContain('newHeightMobile');
         });
 
-        it('does not have "noNewHeightContent" classes in content', () => {
-          expect(container.props.children[1].props.className)
+        it('does not render newHeightDesktop class', () => {
+          expect(result.props.className)
             .not
-            .toContain('noNewHeightContent');
-        });
-
-        it('does not have "newHeightContent" classes in content', () => {
-          expect(container.props.children[1].props.className)
-            .not
-            .toContain('newHeightContent');
+            .toContain('newHeightDesktop');
         });
       });
     });

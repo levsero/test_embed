@@ -2,7 +2,10 @@ describe('Talk component', () => {
   let Talk,
     i18nTranslateSpy,
     libPhoneNumberFormatSpy,
-    libPhoneNumberParseSpy;
+    libPhoneNumberParseSpy,
+    SuccessNotification = noopReactComponent(),
+    Icon = noopReactComponent(),
+    ZendeskLogo = noopReactComponent();
   const callbackScreen = 'widget/talk/CALLBACK_ONLY_SCREEN';
   const phoneOnlyScreen = 'widget/talk/PHONE_ONLY_SCREEN';
   const successNotificationScreen = 'widget/talk/SUCCESS_NOTIFICATION_SCREEN';
@@ -28,14 +31,21 @@ describe('Talk component', () => {
     initMockRegistry({
       'React': React,
       'libphonenumber-js': { format: libPhoneNumberFormatSpy, parse: libPhoneNumberParseSpy },
+      'component/button/Button': { Button: noopReactComponent },
       'component/form/Form': { Form: noopReactComponent },
       'component/field/Field': { Field: noopReactComponent },
       'component/field/EmailField': { EmailField: noopReactComponent },
       'component/talk/TalkPhoneField': { TalkPhoneField: noopReactComponent },
-      'component/Icon': { Icon: noopReactComponent },
+      'component/Icon': { Icon },
       'component/container/ScrollContainer': { ScrollContainer: MockScrollContainer },
-      'component/ZendeskLogo': { ZendeskLogo: noopReactComponent },
+      'component/ZendeskLogo': { ZendeskLogo },
+      'component/shared/SuccessNotification': { SuccessNotification },
       'service/i18n': { i18n: { t: i18nTranslateSpy, isRTL: _.noop } },
+      'src/constants/shared': {
+        ICONS: {
+          SUCCESS_TALK: 'icon'
+        }
+      },
       'src/redux/modules/talk': {
         updateTalkScreen: noop,
         updateTalkCallbackForm: noop
@@ -48,9 +58,11 @@ describe('Talk component', () => {
       'src/redux/modules/talk/talk-selectors': {},
       './Talk.scss': {
         locals: {
-          footer: 'footerClasses',
           content: 'contentClasses',
-          contentMobile: 'contentMobileClasses'
+          contentMobile: 'contentMobileClasses',
+          scrollContainer: 'scrollContainer',
+          noZendeskLogoButton: 'noZendeskLogoButton',
+          zendeskLogoButton: 'zendeskLogoButton'
         }
       }
     });
@@ -190,12 +202,214 @@ describe('Talk component', () => {
     });
   });
 
+  describe('renderFooterContent', () => {
+    let talk,
+      result,
+      mockScreen,
+      mockNewHeight,
+      mockHideZendeskLogo,
+      mockIsMobile;
+
+    beforeEach(() => {
+      talk = instanceRender(<Talk
+        newHeight={mockNewHeight}
+        screen={mockScreen}
+        isMobile={mockIsMobile}
+        hideZendeskLogo={mockHideZendeskLogo} />);
+      result = talk.renderFooterContent();
+    });
+
+    describe('when screen is not SUCCESS_NOTIFICATION_SCREEN', () => {
+      beforeAll(() => {
+        mockScreen = 'yoloScreen';
+      });
+
+      it('does not render footer content', () => {
+        expect(result)
+          .toBeFalsy();
+      });
+    });
+
+    describe('when newHeight is false', () => {
+      beforeAll(() => {
+        mockNewHeight = false;
+      });
+
+      it('does not render footer content', () => {
+        expect(result)
+          .toBeFalsy();
+      });
+    });
+
+    describe('when footer content required', () => {
+      beforeAll(() => {
+        mockNewHeight = true;
+        mockScreen = successNotificationScreen;
+      });
+
+      describe('when on mobile', () => {
+        beforeAll(() => {
+          mockIsMobile = true;
+        });
+
+        it('renders noZendeskLogoButton class', () => {
+          expect(result.props.className)
+            .toContain('noZendeskLogoButton');
+        });
+
+        it('does not render zendeskLogoButton class', () => {
+          expect(result.props.className)
+            .not
+            .toContain('zendeskLogoButton');
+        });
+      });
+
+      describe('when hideZendeskLogo is true', () => {
+        beforeAll(() => {
+          mockHideZendeskLogo = true;
+        });
+
+        it('renders noZendeskLogoButton', () => {
+          expect(result.props.className)
+            .toContain('noZendeskLogoButton');
+        });
+
+        it('does not renders zendeskLogoButton', () => {
+          expect(result.props.className)
+            .not
+            .toContain('zendeskLogoButton');
+        });
+      });
+
+      describe('when zendesk logo required', () => {
+        beforeAll(() => {
+          mockHideZendeskLogo = false;
+          mockIsMobile = false;
+        });
+
+        it('renders zendeskLogoButton', () => {
+          expect(result.props.className)
+            .toContain('zendeskLogoButton');
+        });
+
+        it('does not render noZendeskLogoButton', () => {
+          expect(result.props.className)
+            .not
+            .toContain('noZendeskLogoButton');
+        });
+      });
+    });
+  });
+
+  describe('renderZendeskLogo', () => {
+    let talk,
+      result,
+      mockHideZendeskLogo,
+      mockIsMobile;
+
+    beforeEach(() => {
+      talk = domRender(<Talk hideZendeskLogo={mockHideZendeskLogo} isMobile={mockIsMobile} />);
+      result = talk.renderZendeskLogo();
+    });
+
+    describe('when hideZendeskLogo is true', () => {
+      beforeAll(() => {
+        mockHideZendeskLogo = true;
+      });
+
+      describe('when isMobile is true', () => {
+        beforeAll(() => {
+          mockIsMobile = true;
+        });
+
+        it('does not render zendesk logo', () => {
+          expect(result)
+            .toBeFalsy();
+        });
+      });
+
+      describe('when isMobile is false', () => {
+        beforeAll(() => {
+          mockIsMobile = false;
+        });
+
+        it('does not render zendesk logo', () => {
+          expect(result)
+            .toBeFalsy();
+        });
+      });
+    });
+
+    describe('when hideZendeskLogo is false', () => {
+      beforeAll(() => {
+        mockHideZendeskLogo = false;
+      });
+
+      describe('when isMobile is true', () => {
+        beforeAll(() => {
+          mockIsMobile = true;
+        });
+
+        it('does not render zendesk logo', () => {
+          expect(result)
+            .toBeFalsy();
+        });
+      });
+
+      describe('when isMobile is false', () => {
+        beforeAll(() => {
+          mockIsMobile = false;
+        });
+
+        it('renders zendesk logo', () => {
+          expect(TestUtils.isElementOfType(result, ZendeskLogo))
+            .toEqual(true);
+        });
+      });
+    });
+  });
+
   describe('render', () => {
-    let talk, scrollContainer;
+    let talk,
+      scrollContainer,
+      result;
+
+    describe('newHeight', () => {
+      let mockNewHeight;
+
+      beforeEach(() => {
+        talk = instanceRender(<Talk newHeight={mockNewHeight} />);
+        result = talk.render();
+      });
+
+      describe('when newHeight is true', () => {
+        beforeAll(() => {
+          mockNewHeight = true;
+        });
+
+        it('does not render scrollContainer styles', () => {
+          expect(result.props.children[0].props.containerClasses)
+            .toEqual('');
+        });
+      });
+
+      describe('when newHeight is false', () => {
+        beforeAll(() => {
+          mockNewHeight = false;
+        });
+
+        it('renders scrollContainer styles', () => {
+          expect(result.props.children[0].props.containerClasses)
+            .toEqual('scrollContainer');
+        });
+      });
+    });
 
     describe('when not on mobile', () => {
       beforeEach(() => {
         talk = domRender(<Talk />);
+        spyOn(talk, 'renderFooterContent');
+        result = talk.renderFooterContent();
         scrollContainer = TestUtils.findRenderedComponentWithType(talk, MockScrollContainer);
       });
 
@@ -203,11 +417,18 @@ describe('Talk component', () => {
         expect(scrollContainer.props.children.props.className)
           .toBe('contentClasses');
       });
+
+      it('calls renderFooterContent', () => {
+        expect(talk.renderFooterContent)
+          .toHaveBeenCalled();
+      });
     });
 
     describe('when on mobile', () => {
       beforeEach(() => {
         talk = domRender(<Talk isMobile={true} />);
+        spyOn(talk, 'renderFooterContent');
+        result = talk.renderFooterContent();
         scrollContainer = TestUtils.findRenderedComponentWithType(talk, MockScrollContainer);
       });
 
@@ -215,31 +436,10 @@ describe('Talk component', () => {
         expect(scrollContainer.props.children.props.className)
           .toBe('contentMobileClasses');
       });
-    });
 
-    describe('when not on the success notification screen', () => {
-      describe('when not on mobile', () => {
-        beforeEach(() => {
-          talk = domRender(<Talk />);
-          scrollContainer = TestUtils.findRenderedComponentWithType(talk, MockScrollContainer);
-        });
-
-        it('applies the footer styles to the scroll container', () => {
-          expect(scrollContainer.props.footerClasses)
-            .toBe('footerClasses');
-        });
-      });
-
-      describe('when on mobile', () => {
-        beforeEach(() => {
-          talk = domRender(<Talk isMobile={true} />);
-          scrollContainer = TestUtils.findRenderedComponentWithType(talk, MockScrollContainer);
-        });
-
-        it('does not apply the footer styles to the scroll container', () => {
-          expect(scrollContainer.props.footerClasses)
-            .toBe('');
-        });
+      it('calls renderFooterContent', () => {
+        expect(talk.renderFooterContent)
+          .toHaveBeenCalled();
       });
     });
 
@@ -374,6 +574,82 @@ describe('Talk component', () => {
     it('formats the phone number', () => {
       expect(formatPhoneNumberSpy)
         .toHaveBeenCalledWith(config.phoneNumber);
+    });
+
+    describe('newHeight', () => {
+      let mockNewHeight,
+        result;
+
+      beforeEach(() => {
+        const talk = instanceRender(<Talk newHeight={mockNewHeight} />);
+
+        result = talk.renderPhoneOnlyScreen();
+      });
+
+      describe('when newHeight is true', () => {
+        beforeAll(() => {
+          mockNewHeight = true;
+        });
+
+        it('renders new message string', () => {
+          expect(result.props.children[1].props.children)
+            .toEqual('embeddable_framework.talk.phoneOnly.new_message');
+        });
+
+        it('renders talk icon', () => {
+          expect(TestUtils.isElementOfType(result.props.children[0], Icon))
+            .toEqual(true);
+        });
+      });
+
+      describe('when newHeight is false', () => {
+        beforeAll(() => {
+          mockNewHeight = false;
+        });
+
+        it('renders old message string', () => {
+          expect(result.props.children[1].props.children)
+            .toEqual('embeddable_framework.talk.phoneOnly.message');
+        });
+
+        it('does not render talk icon', () => {
+          expect(TestUtils.isElementOfType(result.props.children[0], Icon))
+            .toEqual(false);
+        });
+      });
+    });
+  });
+
+  describe('renderSuccessNotificationScreen', () => {
+    let mockNewHeight,
+      result,
+      talk;
+
+    beforeEach(() => {
+      talk = instanceRender(<Talk newHeight={mockNewHeight} />);
+      result = talk.renderSuccessNotificationScreen();
+    });
+
+    describe('when newHeight is true', () => {
+      beforeAll(() => {
+        mockNewHeight = true;
+      });
+
+      it('should render SuccessNotification component', () => {
+        expect(TestUtils.isElementOfType(result, SuccessNotification))
+          .toEqual(true);
+      });
+    });
+
+    describe('when newHeight is false', () => {
+      beforeAll(() => {
+        mockNewHeight = false;
+      });
+
+      it('should render original sucess notification', () => {
+        expect(TestUtils.isElementOfType(result, 'div'))
+          .toEqual(true);
+      });
     });
   });
 
@@ -568,42 +844,22 @@ describe('Talk component', () => {
       phoneNumber: '+61405474139'
     };
 
-    describe('when accessed from a mobile device', () => {
-      beforeEach(() => {
-        const talk = instanceRender(<Talk isMobile={true} embeddableConfig={mockEmbeddableConfig} />);
+    beforeEach(() => {
+      const talk = instanceRender(<Talk embeddableConfig={mockEmbeddableConfig} />);
 
-        result = talk.renderPhoneNumber();
-      });
-
-      it('renders an anchor link', () => {
-        expect(result.type)
-          .toEqual('a');
-      });
-
-      it('has a href value of "tel:+61405474139"', () => {
-        const expected = `tel:${mockEmbeddableConfig.phoneNumber}`;
-
-        expect(result.props.href)
-          .toContain(expected);
-      });
+      result = talk.renderPhoneNumber();
     });
 
-    describe('when accessed from a desktop environment', () => {
-      beforeEach(() => {
-        const talk = instanceRender(<Talk isMobile={false} embeddableConfig={mockEmbeddableConfig} />);
+    it('renders an anchor link', () => {
+      expect(result.type)
+        .toEqual('a');
+    });
 
-        result = talk.renderPhoneNumber();
-      });
+    it('has a href value of "tel:+61405474139"', () => {
+      const expected = `tel:${mockEmbeddableConfig.phoneNumber}`;
 
-      it('renders a span', () => {
-        expect(result.type)
-          .toEqual('span');
-      });
-
-      it('renders with a number inside the span', () => {
-        expect(result.props.children)
-          .toEqual(mockEmbeddableConfig.phoneNumber);
-      });
+      expect(result.props.href)
+        .toContain(expected);
     });
   });
 });

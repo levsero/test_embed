@@ -89,9 +89,10 @@ export class SubmitTicketForm extends Component {
   }
 
   componentDidUpdate = () => {
-    if (this.refs.formWrapper && this.props.formState && this.state.shouldRemoveForm) {
-      const form = ReactDOM.findDOMNode(this.refs.form);
+    const form = ReactDOM.findDOMNode(this.refs.form);
+    const isValid = form.checkValidity() && this.attachmentsReady();
 
+    if (this.refs.formWrapper && this.props.formState && this.state.shouldRemoveForm) {
       _.forEach(form.elements, function(field) {
         if (field.type === 'submit') {
           return;
@@ -114,6 +115,10 @@ export class SubmitTicketForm extends Component {
           field.checked = false;
         }
       }, this);
+    }
+
+    if (this.state.isValid !== isValid) {
+      this.setState({ isValid });
     }
   }
 
@@ -250,15 +255,18 @@ export class SubmitTicketForm extends Component {
     this.props.setFormState(formState);
   }
 
-  updateForm = () => {
-    const form = ReactDOM.findDOMNode(this.refs.form);
-    const attachmentsReady = this.props.attachmentsEnabled
+  attachmentsReady = () => {
+    return this.props.attachmentsEnabled
       ? this.refs.attachments.attachmentsReady()
       : true;
+  }
+
+  updateForm = () => {
+    const form = ReactDOM.findDOMNode(this.refs.form);
 
     this.props.setFormState(this.getFormState());
     this.setState({
-      isValid: form.checkValidity() && attachmentsReady
+      isValid: form.checkValidity() && this.attachmentsReady()
     });
   }
 

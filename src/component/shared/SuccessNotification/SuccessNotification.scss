@@ -1,0 +1,42 @@
+@import '../../../styles/_vars.scss';
+
+.content {
+  composes: u-textCenter u-textSizeNml u-textHeightMed from global;
+  margin-top: #{50/$font-size}rem !important;
+}
+
+.contentMobile {
+  composes: u-textHeightLrg u-textSize15 from global;
+}
+
+.firstMessage {
+  composes: u-textBold u-userTextColor from global;
+}
+
+.firstMessageDesktop {
+  composes: u-textSizeMed from global;
+}
+
+.firstMessageMobile {
+  composes: u-textSizeLrg from global;
+}
+
+.messages {
+  p {
+    margin: $spacing-tny !important;
+  }
+}
+
+.mobileMessages {
+  composes: messages;
+  margin-top: #{25/$font-size}rem;
+}
+
+.desktopMessages {
+  composes: messages;
+  margin-top: #{20/$font-size}rem;
+}
+
+.icon {
+  composes: u-userFillCustomColor from global;
+}

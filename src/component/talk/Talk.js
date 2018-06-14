@@ -9,7 +9,11 @@ import { Form } from 'component/form/Form';
 import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
+import { SuccessNotification } from 'component/shared/SuccessNotification';
 import { errorCodes } from './talkErrorCodes';
+import { ICONS } from 'src/constants/shared';
+import { Button } from 'component/button/Button';
+import classNames from 'classnames';
 
 const libphonenumber = (() => { try { return require('libphonenumber-js'); } catch (_) {} })();
 
@@ -121,9 +125,7 @@ class Talk extends Component {
     const { phoneNumber } = this.props.embeddableConfig;
     const formattedPhoneNumber = this.formatPhoneNumber(phoneNumber);
 
-    return (this.props.isMobile)
-      ? <a className={styles.phoneLink} href={`tel:${phoneNumber}`} target='_blank'>{formattedPhoneNumber}</a>
-      : <span>{formattedPhoneNumber}</span>;
+    return (<a className={styles.phoneLink} href={`tel:${phoneNumber}`} target='_blank'>{formattedPhoneNumber}</a>);
   }
 
   renderAverageWaitTime = () => {
@@ -203,10 +205,30 @@ class Talk extends Component {
   }
 
   renderPhoneOnlyScreen = () => {
+    const containerClasses = classNames(
+      styles.phoneOnlyContainer,
+      { [styles.phoneOnlyMobileContainer]: this.props.isMobile }
+    );
+
+    let talkIcon = null;
+    let callUsMessage = i18n.t('embeddable_framework.talk.phoneOnly.message');
+
+    if (this.props.newHeight) {
+      talkIcon = (
+        <Icon
+          type={ICONS.TALK}
+          className='u-userFillCustomColor'
+          isMobile={this.props.isMobile}
+        />
+      );
+      callUsMessage = i18n.t('embeddable_framework.talk.phoneOnly.new_message');
+    }
+
     return (
-      <div className={styles.phoneOnlyContainer}>
+      <div className={containerClasses}>
+        {talkIcon}
         <p className={styles.phoneOnlyMessage}>
-          {i18n.t('embeddable_framework.talk.phoneOnly.message')}
+          {callUsMessage}
         </p>
         {this.renderAverageWaitTime()}
         <div className={styles.phoneNumber}>{this.renderPhoneNumber()}</div>
@@ -215,6 +237,15 @@ class Talk extends Component {
   }
 
   renderSuccessNotificationScreen = () => {
+    if (this.props.newHeight) {
+      return (
+        <SuccessNotification
+          icon={ICONS.SUCCESS_TALK}
+          isMobile={this.props.isMobile}
+        />
+      );
+    }
+
     const iconClasses = `${styles.notifyIcon} u-userFillColor u-userTextColor`;
 
     return (
@@ -275,9 +306,36 @@ class Talk extends Component {
   }
 
   renderZendeskLogo = () => {
-    if (this.props.hideZendeskLogo) return;
+    if (this.props.hideZendeskLogo || this.props.isMobile) return;
 
     return <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />;
+  }
+
+  renderFooterContent = () => {
+    if (!(this.props.screen === SUCCESS_NOTIFICATION_SCREEN && this.props.newHeight)) {
+      return null;
+    }
+
+    const buttonContainer = classNames(
+      {
+        [styles.zendeskLogoButton]: !(this.props.hideZendeskLogo || this.props.isMobile),
+        [styles.noZendeskLogoButton]: this.props.hideZendeskLogo || this.props.isMobile
+      }
+    );
+
+    return (
+      <div className={buttonContainer}>
+        <Button
+          onTouchStartDisabled={true}
+          label={i18n.t('embeddable_framework.common.button.done')}
+          className={styles.button}
+          primary={false}
+          onClick={this.props.onBackClick}
+          type='button'
+          fullscreen={this.props.isMobile}
+        />
+      </div>
+    );
   }
 
   resolveErrorMessage(code) {
@@ -304,25 +362,26 @@ class Talk extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const { screen, isMobile, newHeight } = this.props;
-    const footerClasses = (screen !== SUCCESS_NOTIFICATION_SCREEN && !isMobile) ? styles.footer : '';
+    const { isMobile, newHeight } = this.props;
     const contentClasses = (isMobile) ? styles.contentMobile : styles.content;
+    const scrollContainerClasses = !this.props.newHeight ? styles.scrollContainer : '';
 
     return (
-      <ScrollContainer
-        ref='scrollContainer'
-        newHeight={newHeight}
-        containerClasses={styles.scrollContainer}
-        hideZendeskLogo={this.props.hideZendeskLogo}
-        footerClasses={footerClasses}
-        footerContent={this.renderZendeskLogo()}
-        getFrameDimensions={this.props.getFrameDimensions}
-        title={this.renderFormTitle()}>
-        <div className={contentClasses}>
-          {this.renderContent()}
-          {this.renderOfflineScreen()}
-        </div>
-      </ScrollContainer>
+      <div>
+        <ScrollContainer
+          ref='scrollContainer'
+          newHeight={newHeight}
+          containerClasses={scrollContainerClasses}
+          footerContent={this.renderFooterContent()}
+          getFrameDimensions={this.props.getFrameDimensions}
+          title={this.renderFormTitle()}>
+          <div className={contentClasses}>
+            {this.renderContent()}
+            {this.renderOfflineScreen()}
+          </div>
+        </ScrollContainer>
+        {this.renderZendeskLogo()}
+      </div>
     );
   }
 }

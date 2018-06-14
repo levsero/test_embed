@@ -188,6 +188,8 @@ describe('SubmitTicketForm component', () => {
     const submitTicketFormNode = ReactDOM.findDOMNode(submitTicketForm);
     const submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
 
+    submitTicketForm.refs.form.checkValidity = () => true;
+
     expect(submitElem.disabled)
       .toEqual(true);
 
@@ -224,6 +226,8 @@ describe('SubmitTicketForm component', () => {
           setFormState={mockSetFormState}
           formState={mockFormState} />
       );
+
+      submitTicketForm.refs.form.checkValidity = () => true;
 
       spyOn(submitTicketForm, 'prefillFormState');
 
@@ -410,6 +414,7 @@ describe('SubmitTicketForm component', () => {
 
     beforeEach(() => {
       submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} previewEnabled={true} />);
+      submitTicketForm.refs.form.checkValidity = () => true;
     });
 
     describe('when submit button is clicked', () => {
