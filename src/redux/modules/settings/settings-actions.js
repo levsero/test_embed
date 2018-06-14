@@ -12,6 +12,26 @@ import _ from 'lodash';
 
 const zChat = (() => { try { return require('chat-web-sdk'); } catch (_) {} })();
 
+const handleTagsChange = (tags, oldTags) => {
+  if (!_.isEqual(tags, oldTags) && _.isArray(tags)) {
+    _.forEach(oldTags, (tag) => {
+      zChat.removeTag(tag);
+    });
+
+    _.forEach(tags, (tag) => {
+      zChat.addTag(tag);
+    });
+  }
+};
+
+const handleDepartmentChange = (visitorDepartmentId, dispatch) => {
+  if (visitorDepartmentId) {
+    dispatch(setDepartment(visitorDepartmentId));
+  } else {
+    dispatch(clearDepartment());
+  }
+};
+
 export function updateSettingsChatSuppress(bool) {
   return {
     type: UPDATE_SETTINGS_CHAT_SUPPRESS,
@@ -55,23 +75,3 @@ export function updateSettings(settings) {
     }
   };
 }
-
-const handleTagsChange = (tags, oldTags) => {
-  if (!_.isEqual(tags, oldTags) && _.isArray(tags)) {
-    _.forEach(oldTags, (tag) => {
-      zChat.removeTag(tag);
-    });
-
-    _.forEach(tags, (tag) => {
-      zChat.addTag(tag);
-    });
-  }
-};
-
-const handleDepartmentChange = (visitorDepartmentId, dispatch) => {
-  if (visitorDepartmentId) {
-    dispatch(setDepartment(visitorDepartmentId));
-  } else {
-    dispatch(clearDepartment());
-  }
-};

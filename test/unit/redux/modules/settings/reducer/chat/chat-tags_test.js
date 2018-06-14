@@ -51,7 +51,7 @@ describe('chat reducer tags', () => {
         currentState = initialState;
       });
 
-      it('set the state to true', () => {
+      it('sets the state to the correct tags', () => {
         expect(state)
           .toEqual(['yolo', 'yolo2']);
       });

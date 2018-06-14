@@ -34,7 +34,7 @@ describe('settings selectors', () => {
       result = getSettingsChatTags(mockState);
     });
 
-    it('returns true', () => {
+    it('sets the correct tags', () => {
       expect(result)
         .toEqual(['yolo', 'yolo2']);
     });
