@@ -4,6 +4,8 @@ describe('PrechatForm component', () => {
   const PrechatFormPath = buildSrcPath('component/chat/prechat/PrechatForm');
   const Dropdown = noopReactComponent();
   const UserProfile = noopReactComponent();
+  const ScrollContainer = noopReactComponent();
+  const ZendeskLogo = noopReactComponent();
 
   const Field = class extends Component {
     render() {
@@ -49,7 +51,8 @@ describe('PrechatForm component', () => {
     initMockRegistry({
       './PrechatForm.scss': {
         locals: {
-          nameFieldWithSocialLogin: 'nameFieldWithSocialLoginClass'
+          nameFieldWithSocialLogin: 'nameFieldWithSocialLoginClass',
+          mobileContainer: 'mobileContainerClass'
         }
       },
       'component/button/Button': {
@@ -62,9 +65,12 @@ describe('PrechatForm component', () => {
       'component/chat/UserProfile': { UserProfile },
       'service/i18n': {
         i18n: {
-          t: noop
+          t: noop,
+          isRTL: () => {}
         }
-      }
+      },
+      'component/container/ScrollContainer': { ScrollContainer },
+      'component/ZendeskLogo': { ZendeskLogo }
     });
 
     mockery.registerAllowable(PrechatFormPath);
@@ -78,17 +84,19 @@ describe('PrechatForm component', () => {
 
   describe('render', () => {
     let component,
-      result;
+      result,
+      mockIsMobile;
 
     beforeEach(() => {
-      component = instanceRender(<PrechatForm form={mockFormProp} />);
+      component = instanceRender(<PrechatForm form={mockFormProp} isMobile={mockIsMobile} />);
 
       spyOn(component, 'renderGreetingMessage');
-      spyOn(component, 'renderNameField');
-      spyOn(component, 'renderEmailField');
-      spyOn(component, 'renderPhoneField');
+      spyOn(component, 'renderUserProfile');
       spyOn(component, 'renderDepartmentsField');
+      spyOn(component, 'renderPhoneField');
       spyOn(component, 'renderMessageField');
+      spyOn(component, 'renderZendeskLogo');
+      spyOn(component, 'renderSubmitButton');
 
       result = component.render();
     });
@@ -98,18 +106,8 @@ describe('PrechatForm component', () => {
         .toHaveBeenCalled();
     });
 
-    it('calls renderNameField', () => {
-      expect(component.renderNameField)
-        .toHaveBeenCalled();
-    });
-
-    it('calls renderEmailField', () => {
-      expect(component.renderEmailField)
-        .toHaveBeenCalled();
-    });
-
-    it('calls renderPhoneField', () => {
-      expect(component.renderPhoneField)
+    it('calls renderUserProfile', () => {
+      expect(component.renderUserProfile)
         .toHaveBeenCalled();
     });
 
@@ -118,14 +116,90 @@ describe('PrechatForm component', () => {
         .toHaveBeenCalled();
     });
 
+    it('calls renderPhoneField', () => {
+      expect(component.renderPhoneField)
+        .toHaveBeenCalled();
+    });
+
     it('calls renderMessageField', () => {
       expect(component.renderMessageField)
+        .toHaveBeenCalled();
+    });
+
+    it('calls renderZendeskLogo', () => {
+      expect(component.renderZendeskLogo)
+        .toHaveBeenCalled();
+    });
+
+    it('calls renderSubmitButton', () => {
+      expect(component.renderSubmitButton)
         .toHaveBeenCalled();
     });
 
     it('returns a form component', () => {
       expect(result.type)
         .toEqual('form');
+    });
+
+    describe('scrollContainer.classes', () => {
+      describe('when it is mobile mode', () => {
+        beforeAll(() => {
+          mockIsMobile = true;
+        });
+
+        it('contains mobile styles', () => {
+          const targetElem = result.props.children;
+
+          expect(targetElem.props.classes)
+            .toContain('mobileContainerClass');
+        });
+      });
+
+      describe('when it is desktop mode', () => {
+        beforeAll(() => {
+          mockIsMobile = false;
+        });
+
+        it('does not contain mobile styles', () => {
+          const targetElem = result.props.children;
+
+          expect(targetElem.props.classes)
+            .not.toContain('mobileContainerClass');
+        });
+      });
+    });
+  });
+
+  describe('renderZendeskLogo', () => {
+    let result,
+      mockHideZendeskLogo;
+
+    beforeEach(() => {
+      const component = instanceRender(<PrechatForm form={mockFormProp} hideZendeskLogo={mockHideZendeskLogo} />);
+
+      result = component.renderZendeskLogo();
+    });
+
+    describe('when hideZendeskLogo is true', () => {
+      beforeAll(() => {
+        mockHideZendeskLogo = true;
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toBeNull();
+      });
+    });
+
+    describe('when hideZendeskLogo is false', () => {
+      beforeAll(() => {
+        mockHideZendeskLogo = false;
+      });
+
+      it('renders the zendesk logo', () => {
+        expect(TestUtils.isElementOfType(result, ZendeskLogo))
+          .toEqual(true);
+      });
     });
   });
 
