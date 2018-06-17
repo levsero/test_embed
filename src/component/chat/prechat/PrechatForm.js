@@ -7,6 +7,8 @@ import { Field } from 'component/field/Field';
 import { Button } from 'component/button/Button';
 import { Dropdown } from 'component/field/Dropdown';
 import { UserProfile } from 'component/chat/UserProfile';
+import { ScrollContainer } from 'component/container/ScrollContainer';
+import { ZendeskLogo } from 'component/ZendeskLogo';
 
 import { i18n } from 'service/i18n';
 
@@ -24,7 +26,10 @@ export class PrechatForm extends Component {
     authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired
+    isAuthenticated: PropTypes.bool.isRequired,
+    isMobile: PropTypes.bool,
+    newHeight: PropTypes.bool.isRequired,
+    hideZendeskLogo: PropTypes.bool
   };
 
   static defaultProps = {
@@ -36,7 +41,9 @@ export class PrechatForm extends Component {
     onFormCompleted: () => {},
     loginEnabled: true,
     authUrls: {},
-    socialLogin: {}
+    socialLogin: {},
+    isMobile: false,
+    hideZendeskLogo: false
   };
 
   constructor() {
@@ -218,7 +225,31 @@ export class PrechatForm extends Component {
     );
   }
 
+  renderSubmitButton() {
+    return (
+      <Button
+        className={styles.submitBtn}
+        onTouchStartDisabled={true}
+        label={i18n.t('embeddable_framework.chat.preChat.online.button.startChat')}
+        disabled={!this.state.valid}
+        type='submit' />
+    );
+  }
+
+  renderZendeskLogo = () => {
+    return !this.props.hideZendeskLogo ?
+      <ZendeskLogo
+        className={`${styles.zendeskLogo}`}
+        rtl={i18n.isRTL()}
+        fullscreen={false}
+      /> : null;
+  }
+
   render = () => {
+    const scrollContainerClasses = classNames(styles.scrollContainer, {
+      [styles.mobileContainer]: this.props.isMobile
+    });
+
     return (
       <form
         noValidate={true}
@@ -226,17 +257,21 @@ export class PrechatForm extends Component {
         onChange={this.handleFormChange}
         ref={(el) => { this.form = el; }}
         className={`${styles.form}`}>
-        {this.renderGreetingMessage()}
-        {this.renderUserProfile()}
-        {this.renderDepartmentsField()}
-        {this.renderPhoneField()}
-        {this.renderMessageField()}
-        <Button
-          onTouchStartDisabled={true}
-          label={i18n.t('embeddable_framework.chat.preChat.online.button.startChat')}
-          disabled={!this.state.valid}
-          className={styles.button}
-          type='submit' />
+        <ScrollContainer
+          title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+          classes={scrollContainerClasses}
+          containerClasses={styles.scrollContainerContent}
+          footerContent={this.renderSubmitButton()}
+          fullscreen={this.props.isMobile}
+          newHeight={this.props.newHeight}
+          scrollShadowVisible={true}>
+          {this.renderGreetingMessage()}
+          {this.renderUserProfile()}
+          {this.renderDepartmentsField()}
+          {this.renderPhoneField()}
+          {this.renderMessageField()}
+          {this.renderZendeskLogo()}
+        </ScrollContainer>
       </form>
     );
   }
