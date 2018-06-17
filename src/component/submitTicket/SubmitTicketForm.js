@@ -462,7 +462,7 @@ export class SubmitTicketForm extends Component {
           containerClasses={containerClasses}
           getFrameDimensions={this.props.getFrameDimensions}
           footerContent={
-            <ButtonGroup rtl={i18n.isRTL()}>
+            <ButtonGroup rtl={i18n.isRTL()} containerClasses={styles.buttonGroup}>
               {buttonCancel}
               <Button
                 fullscreen={fullscreen}
