@@ -350,170 +350,114 @@ describe('PrechatScreen component', () => {
 
   describe('render', () => {
     let component,
-      result;
+      mockScreen;
 
-    describe('when state.screen is `prechat`', () => {
-      beforeEach(() => {
-        component = instanceRender(
-          <PrechatScreen
-            screen={prechatScreen}
-            prechatFormSettings={prechatFormSettingsProp} />
-        );
-        result = component.render();
+    beforeEach(() => {
+      const prechatFormSettings = { form: {}, message: '' };
+
+      component = instanceRender(<PrechatScreen screen={mockScreen} prechatFormSettings={prechatFormSettings} />);
+
+      spyOn(component, 'renderPreChatForm');
+      spyOn(component, 'renderLoadingSpinner');
+
+      component.render();
+    });
+
+    describe('when the screen is prechat screen', () => {
+      beforeAll(() => {
+        mockScreen = prechatScreen;
       });
 
-      describe('the scroll container wrapper', () => {
-        it('has its classes prop to the scroll container style', () => {
-          expect(result.props.classes)
-            .toEqual('scrollContainerClasses');
-        });
-
-        it('has its containerClasses prop to the scrollContainerContent style', () => {
-          expect(result.props.containerClasses)
-            .toEqual('scrollContainerContentClasses');
-        });
-
-        it('renders the PrechatForm component', () => {
-          expect(TestUtils.isElementOfType(result.props.children, PrechatForm))
-            .toEqual(true);
-        });
+      it('calls renderPreChatForm', () => {
+        expect(component.renderPreChatForm)
+          .toHaveBeenCalled();
       });
     });
 
-    describe('when state.screen is `offlinemessage`', () => {
-      beforeEach(() => {
-        component = instanceRender(
-          <PrechatScreen
-            screen={offlineMessageScreen}
-            prechatFormSettings={prechatFormSettingsProp} />
-        );
-        result = component.render();
+    describe('when the screen is loading screen', () => {
+      beforeAll(() => {
+        mockScreen = loadingScreen;
       });
 
-      describe('the scroll container wrapper', () => {
-        it('has its classes prop to the scroll container style', () => {
-          expect(result.props.classes)
-            .toEqual('scrollContainerClasses');
-        });
-
-        it('has its containerClasses prop to the scrollContainerContent style', () => {
-          expect(result.props.containerClasses)
-            .toEqual('scrollContainerContentClasses');
-        });
-
-        it('renders the ChatOfflineMessageForm component', () => {
-          expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm))
-            .toEqual(true);
-        });
+      it('calls renderLoadingSpinner', () => {
+        expect(component.renderLoadingSpinner)
+          .toHaveBeenCalled();
       });
     });
 
-    describe('when state.screen is `loading`', () => {
-      beforeEach(() => {
-        component = instanceRender(
-          <PrechatScreen
-            screen={loadingScreen}
-            prechatFormSettings={prechatFormSettingsProp} />
-        );
-        result = component.render();
+    describe('when the screen is unrecognised', () => {
+      beforeAll(() => {
+        mockScreen = 'bob screen';
       });
 
-      describe('the scroll container wrapper', () => {
-        it('has its classes prop to the scroll container style', () => {
-          expect(result.props.classes)
-            .toEqual('scrollContainerClasses');
-        });
+      it('does not call renderPreChatForm', () => {
+        expect(component.renderPreChatForm)
+          .not.toHaveBeenCalled();
+      });
 
-        it('has its containerClasses prop to the scrollContainerContent style', () => {
-          expect(result.props.containerClasses)
-            .toEqual('scrollContainerContentClasses');
-        });
+      it('does not call renderLoadingSpinner', () => {
+        expect(component.renderLoadingSpinner)
+          .not.toHaveBeenCalled();
+      });
+    });
+  });
 
-        it('renders the LoadingSpinner component', () => {
-          expect(TestUtils.isElementOfType(result.props.children, LoadingSpinner))
-            .toEqual(true);
-        });
+  describe('renderPreChatForm', () => {
+    let result;
+
+    beforeEach(() => {
+      const prechatFormSettings = { form: {}, message: '' };
+      const component = instanceRender(<PrechatScreen prechatFormSettings={prechatFormSettings} />);
+
+      result = component.renderPreChatForm();
+    });
+
+    it('renders renderPreChatForm', () => {
+      expect(TestUtils.isElementOfType(result, PrechatForm))
+        .toEqual(true);
+    });
+  });
+
+  describe('renderLoadingSpinner', () => {
+    let result,
+      mockIsMobile;
+
+    beforeEach(() => {
+      const prechatFormSettings = { form: {}, message: '' };
+      const component = instanceRender(<PrechatScreen prechatFormSettings={prechatFormSettings} isMobile={mockIsMobile} />);
+
+      result = component.renderLoadingSpinner();
+    });
+
+    describe('when it is mobile mode', () => {
+      beforeAll(() => {
+        mockIsMobile = true;
+      });
+
+      it('renders with mobile styles', () => {
+        expect(result.props.classes)
+          .toContain('mobileContainerClasses');
+      });
+
+      it('renders a loading spinner', () => {
+        expect(TestUtils.isElementOfType(result.props.children[0], LoadingSpinner))
+          .toEqual(true);
       });
     });
 
-    describe('scroll container classes', () => {
-      describe('when user is on mobile', () => {
-        beforeEach(() => {
-          component = instanceRender(
-            <PrechatScreen
-              screen={prechatScreen}
-              prechatFormSettings={prechatFormSettingsProp}
-              isMobile={true} />
-          );
-          result = component.render();
-        });
-
-        it('render mobileContainer class on scroll container', () => {
-          expect(result.props.classes)
-            .toContain('mobileContainerClasses');
-        });
+    describe('when it is desktop mode', () => {
+      beforeAll(() => {
+        mockIsMobile = false;
       });
 
-      describe('when user is not on mobile', () => {
-        beforeEach(() => {
-          component = instanceRender(
-            <PrechatScreen
-              screen={prechatScreen}
-              prechatFormSettings={prechatFormSettingsProp}
-              isMobile={false} />
-          );
-          result = component.render();
-        });
-
-        it('does not render mobileContainer class on scroll container', () => {
-          expect(result.props.classes)
-            .not
-            .toContain('mobileContainerClasses');
-        });
+      it('does not render with mobile styles', () => {
+        expect(result.props.classes)
+          .not.toContain('mobileContainerClasses');
       });
 
-      describe('when hideZendeskLogo is false', () => {
-        beforeEach(() => {
-          component = instanceRender(
-            <PrechatScreen
-              screen={prechatScreen}
-              prechatFormSettings={prechatFormSettingsProp}
-              hideZendeskLogo={false} />
-          );
-          result = component.render();
-        });
-
-        it('renders logo in footer', () => {
-          expect(TestUtils.isElementOfType(result.props.footerContent, ZendeskLogo))
-            .toBeTruthy();
-        });
-
-        it('renders footer with correct class', () => {
-          expect(result.props.footerClasses)
-            .toContain('logoFooterClasses');
-        });
-      });
-
-      describe('when hideZendeskLogo is true', () => {
-        beforeEach(() => {
-          component = instanceRender(
-            <PrechatScreen
-              screen={prechatScreen}
-              prechatFormSettings={prechatFormSettingsProp}
-              hideZendeskLogo={true} />
-          );
-          result = component.render();
-        });
-
-        it('does not render logo in footer', () => {
-          expect(result.props.footerContent)
-            .toBeFalsy();
-        });
-
-        it('renders footer with correct class', () => {
-          expect(result.props.footerClasses)
-            .not.toContain('logoFooterClasses');
-        });
+      it('renders a loading spinner', () => {
+        expect(TestUtils.isElementOfType(result.props.children[0], LoadingSpinner))
+          .toEqual(true);
       });
     });
   });
