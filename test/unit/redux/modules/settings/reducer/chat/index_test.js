@@ -53,5 +53,10 @@ describe('settings chat reducer', () => {
       expect(state.mobileNotificationsDisabled)
         .toBeDefined();
     });
+
+    it('has the tags state', () => {
+      expect(state.tags)
+        .toBeDefined();
+    });
   });
 });
