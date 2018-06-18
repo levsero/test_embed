@@ -7,13 +7,13 @@ Note that to start using this API, you will need to embed the widget using the n
 All commands follow a basic syntax:
 
 ```JavaScript
-zE('web_widget:<action>', '<event|property>', <parameters>);
+  zE('webWidget:<action>', '<event|property>', <parameters>);
 ```
 
 ## Example
 
 ```JavaScript
-  zE('web_widget:on', 'show', () => {
+  zE('webWidget:on', 'show', () => {
     console.log("The widget has been shown!");
   });
 ```
@@ -25,7 +25,7 @@ zE('web_widget:<action>', '<event|property>', <parameters>);
 Get the current visibility of the widget.
 
 ```JavaScript
-zE('web_widget:get', 'isOpen');
+  zE('webWidget:get', 'isOpen');
 ```
 
 ##### Parameters
@@ -43,7 +43,7 @@ Boolean
 Executes a callback when the widget is shown.
 
 ```JavaScript
-zE('web_widget:on', 'show', callback<function>);
+  zE('webWidget:on', 'show', callback<function>);
 ```
 
 ##### Parameters
@@ -53,7 +53,7 @@ zE('web_widget:on', 'show', callback<function>);
 ##### Example
 
 ```JavaScript
-  zE('web_widget:on', 'show', () => {
+  zE('webWidget:on', 'show', () => {
     console.log("The widget has been shown!");
   });
 ```
@@ -65,7 +65,7 @@ zE('web_widget:on', 'show', callback<function>);
 Executes a callback when the widget is hidden.
 
 ```JavaScript
-zE('web_widget:on', 'show', callback<function>);
+  zE('webWidget:on', 'hide', callback<function>);
 ```
 
 ##### Parameters
@@ -75,7 +75,7 @@ zE('web_widget:on', 'show', callback<function>);
 ##### Example
 
 ```JavaScript
-  zE('web_widget:on', 'hide', () => {
+  zE('webWidget:on', 'hide', () => {
     console.log("The widget has been hidden!");
   });
 ```
@@ -91,7 +91,7 @@ zE('web_widget:on', 'show', callback<function>);
 Clears an end-user's session.
 
 ```JavaScript
-  zE('web_widget:perform', 'logout');
+  zE('webWidget:perform', 'logout');
 ```
 
 ##### Parameters
@@ -102,7 +102,7 @@ None
 
 #### perform identify
 
-zE('web_widget:perform', 'identify', data<hash>);
+zE('webWidget:perform', 'identify', data<hash>);
 
 Identifies an end-user to Zendesk.
 
@@ -119,7 +119,7 @@ The Widget also uses the information to pre-populate the contact or pre-chat cha
 ##### Example
 
 ```JavaScript
-  zE('web_widget:perform', 'identify', {
+  zE('webWidget:perform', 'identify', {
     name: 'Akira Kogane',
     email: 'akira@voltron.com',
     organization: 'Voltron, Inc.'
@@ -131,7 +131,7 @@ The Widget also uses the information to pre-populate the contact or pre-chat cha
 
 #### perform prefill
 
-zE('web_widget:perform', 'prefill', data<hash>);
+zE('webWidget:perform', 'prefill', data<hash>);
 
 Pre-fills an end-user's details on forms inside the Web Widget.
 
@@ -142,7 +142,7 @@ Pre-fills an end-user's details on forms inside the Web Widget.
 ##### Example
 
 ```JavaScript
-  zE('web_widget:perform', 'identify', {
+  zE('webWidget:perform', 'prefill', {
     name: 'Isamu Kurogane',
     email: 'isamu@voltron.com',
   });
@@ -158,7 +158,7 @@ Pre-fills an end-user's details on forms inside the Web Widget.
 Set the title of the chat window.
 
 ```JavaScript
-  zE('web_widget:set', 'chat:title', title<string>);
+  zE('webWidget:set', 'chat:title', title<string>);
 ```
 
 ##### Parameters
@@ -168,7 +168,7 @@ Set the title of the chat window.
 ##### Example
 
 ```JavaScript
-  zE('web_widget:set', 'chat:title', "Acme Inc. Support");
+  zE('webWidget:set', 'chat:title', "Acme Inc. Support");
 ```
 
 ---
@@ -179,7 +179,7 @@ Add tags to the current chat session.
 *Note*: All tags are converted to lowercase.
 
 ```JavaScript
-  zE('web_widget:set', 'chat:tags', tag1 [,tag2, ...]);
+  zE('webWidget:set', 'chat:tags', tag1 [,tag2, ...]);
 ```
 
 ##### Parameters
@@ -190,7 +190,7 @@ Add tags to the current chat session.
 ##### Example
 
 ```JavaScript
-  zE('web_widget:set', 'chat:tags', ['vip', 'customer', 'support']);
+  zE('webWidget:set', 'chat:tags', ['vip', 'customer', 'support']);
 ```
 ---
 
@@ -199,7 +199,7 @@ Add tags to the current chat session.
 Remove tag(s) from the current chat session.
 
 ```JavaScript
-  zE('web_widget:remove', 'chat:tags', tag1 [,tag2, ...]);
+  zE('webWidget:remove', 'chat:tags', tag1 [,tag2, ...]);
 ```
 
 ##### Parameters
@@ -210,7 +210,7 @@ Remove tag(s) from the current chat session.
 ##### Example
 
 ```JavaScript
-  zE('web_widget:remove', 'chat:tags', ['vip', 'enterprise']);
+  zE('webWidget:remove', 'chat:tags', ['vip', 'enterprise']);
 ```
 ---
 
@@ -219,7 +219,7 @@ Remove tag(s) from the current chat session.
 Make the visitor send a message.  Starts a chat session if one is not already in progress.
 
 ```JavaScript
-  zE('web_widget:send', 'chat:message', message<string>);
+  zE('webWidget:send', 'chat:message', message<string>);
 ```
 
 ##### Parameters
@@ -229,7 +229,7 @@ Make the visitor send a message.  Starts a chat session if one is not already in
 ##### Example
 
 ```JavaScript
-  zE('web_widget:send', 'chat:message', 'I\'d like the Jambalaya, please');
+  zE('webWidget:send', 'chat:message', 'I\'d like the Jambalaya, please');
 ```
 ---
 
@@ -238,7 +238,7 @@ Make the visitor send a message.  Starts a chat session if one is not already in
 Checks whether a chat session is in progress.
 
 ```JavaScript
-  zE('web_widget:get', 'chat:isChatting');
+  zE('webWidget:get', 'chat:isChatting');
 ```
 
 ##### Parameters
@@ -253,7 +253,7 @@ Boolean
 
 #### perform chat:end
 
-zE('web_widget:perform', 'chat:end');
+zE('webWidget:perform', 'chat:end');
 
 End the current chat session.
 
@@ -268,7 +268,7 @@ None
 Register a callback to be fired when the widget successfully connects to the server.
 
 ```JavaScript
-  zE('web_widget:on', 'chat:connected', callback<function>);
+  zE('webWidget:on', 'chat:connected', callback<function>);
 ```
 
 ##### Parameters
@@ -278,7 +278,7 @@ Register a callback to be fired when the widget successfully connects to the ser
 ##### Example
 
 ```JavaScript
-  zE('web_widget:on', 'chat:connected', () => {
+  zE('webWidget:on', 'chat:connected', () => {
     console.log('successfully connected to Zendesk Chat!');
   });
 ```
@@ -291,7 +291,7 @@ Register a callback to be fired when a chat starts.
 
 
 ```JavaScript
-  zE('web_widget:on', 'chat:start', callback<function>);
+  zE('webWidget:on', 'chat:start', callback<function>);
 ```
 
 ##### Parameters
@@ -301,7 +301,7 @@ Register a callback to be fired when a chat starts.
 ##### Example
 
 ```JavaScript
-  zE('web_widget:on', 'chat:start', () => {
+  zE('webWidget:on', 'chat:start', () => {
     console.log('successfully started a Zendesk Chat!');
   });
 ```
@@ -315,7 +315,7 @@ Register a callback to be fired when a chat ends.
 A chat only ends when the visitor (and not the agent) ends the chat, or when the visitor has been idle for an extended period of time.
 
 ```JavaScript
-  zE('web_widget:on', 'chat:end', callback<function>);
+  zE('webWidget:on', 'chat:end', callback<function>);
 ```
 
 ##### Parameters
@@ -325,7 +325,7 @@ A chat only ends when the visitor (and not the agent) ends the chat, or when the
 ##### Example
 
 ```JavaScript
-  zE('web_widget:on', 'chat:end', () => {
+  zE('webWidget:on', 'chat:end', () => {
     console.log('successfully ended a Zendesk Chat session!');
   });
 ```
@@ -338,7 +338,7 @@ Register a callback to be fired when the account status changes.  The callback w
 *Note*: The callback will also be called when a department’s status changes.
 
 ```JavaScript
-  zE('web_widget:on', 'chat:status', status<string>, callback<function>);
+  zE('webWidget:on', 'chat:status', status<string>, callback<function>);
 ```
 
 ##### Parameters
@@ -349,7 +349,7 @@ Register a callback to be fired when the account status changes.  The callback w
 ##### Example
 
 ```JavaScript
-  zE('web_widget:on', 'chat:status', 'offline', () => {
+  zE('webWidget:on', 'chat:status', 'offline', () => {
     console.log('This chat session is now offline');
   });
 ```
@@ -361,7 +361,7 @@ Register a callback to be fired when the account status changes.  The callback w
 Register a callback to be fired when the number of unread messages changes.  The callback will also be called once when this function is executed.
 
 ```JavaScript
-  zE('web_widget:on', 'chat:unreadMessages', (number<int>) => {});
+  zE('webWidget:on', 'chat:unreadMessages', (number<int>) => {});
 ```
 
 ##### Parameters
@@ -371,8 +371,8 @@ Register a callback to be fired when the number of unread messages changes.  The
 ##### Example
 
 ```JavaScript
-  zE('web_widget:on', 'chat:unreadMessages', (number) => {
-    console.log(`It seems you have ${number} undead messages!`);
+  zE('webWidget:on', 'chat:unreadMessages', (number) => {
+    console.log(`It seems you have ${number} unread messages!`);
   });
 ```
 ---
@@ -382,29 +382,32 @@ Register a callback to be fired when the number of unread messages changes.  The
 #### set chat:departments
 [comment]: <> (This is meant to be used for zopim's departments.filter)
 [comment]: <> (It seemed to me that `set` was clearer as a verb for this)
-[comment]: <> (but I'm on the fence. We could also use 'web_widget:filter', 'chat:departments')
+[comment]: <> (but I'm on the fence. We could also use 'webWidget:filter', 'chat:departments')
 [comment]: <> (but I'm on the fence.)
-[comment]: <> (We could also use 'web_widget:filter', 'chat:departments')
+[comment]: <> (We could also use 'webWidget:filter', 'chat:departments')
 
 Display only the specified departments in the pre-chat form. All other departments will be hidden regardless of their status.
 
 Department names are matched in a case-insensitive manner.
 
-Passing in no additional parameters causes all departments to be displayed.  If none of department names or IDs passed in are valid (e.g. an empty string is passed in), the department dropdown menu will be hidden.
+Passing in no additional parameters causes all departments to be displayed.  If none of department names or IDs passed in are valid (e.g. an empty string is passed in), or if `null` is passed as the third parameter, the department dropdown menu will be hidden.
 
 ```JavaScript
-  zE('web_widget:set', 'chat:departments', department1<int|string> [,department2<int|string>, ...]);
+  zE('webWidget:set', 'chat:departments', department1<int|string|null> [,department2<int|string>, ...]);
 ```
 
 ##### Parameters
 
-* `department1`: String or integer. A single department, either by name or ID, or
+* `department1`: Integer, string or null. A single department, either by name or ID, or
 * `[department1, department2, ...]`: Array of strings or integers. Multiple departments by name or ID
 
 ##### Example
 
 ```JavaScript
-  zE('web_widget:set', 'chat:departments', ['finance', 'hr', 'sales']);
+  zE('webWidget:set', 'chat:departments', ['finance', 'hr', 'sales']);
+
+  // to hide the field:
+  zE('webWidget:set', 'chat:departments',  null);
 ```
 ---
 
@@ -413,7 +416,7 @@ Passing in no additional parameters causes all departments to be displayed.  If 
 Set the department label.
 
 ```JavaScript
-  zE('web_widget:set', 'chat:departments:label', label<string>);
+  zE('webWidget:set', 'chat:departments:label', label<string>);
 ```
 
 ##### Parameters
@@ -423,7 +426,7 @@ Set the department label.
 ##### Example
 
 ```JavaScript
-  zE('web_widget:set', 'chat:departments:label', 'Select a department');
+  zE('webWidget:set', 'chat:departments:label', 'Select a department');
 ```
 ---
 
@@ -438,7 +441,7 @@ Chat requests will be routed to this department unless the visitor selects anoth
 Offline messages will also be routed to this department.
 
 ```JavaScript
-  zE('web_widget:set', 'chat:departments:visitorDepartment', department<int|string>);
+  zE('webWidget:set', 'chat:departments:visitorDepartment', department<int|string>);
 ```
 
 ##### Parameters
@@ -448,7 +451,7 @@ Offline messages will also be routed to this department.
 ##### Example
 
 ```JavaScript
-  zE('web_widget:set', 'chat:departments:visitorDepartment', 'Sales');
+  zE('webWidget:set', 'chat:departments:visitorDepartment', 'Sales');
 ```
 ---
 
@@ -460,7 +463,7 @@ Clear the visitor’s default department.
 
 
 ```JavaScript
-  zE('web_widget:clear', 'chat:departments:visitorDepartment');
+  zE('webWidget:clear', 'chat:departments:visitorDepartment');
 ```
 
 ##### Parameters
@@ -472,7 +475,7 @@ None
 Return an object containing information about the specified department, including its ID, name and status. Return undefined if the department is not found or not enabled.
 
 ```JavaScript
-  zE('web_widget:get', 'chat:departments:department', department<int|string>);
+  zE('webWidget:get', 'chat:departments:department', department<int|string>);
 ```
 
 ##### Parameters
@@ -482,7 +485,7 @@ Return an object containing information about the specified department, includin
 ##### Example
 
 ```JavaScript
-  zE('web_widget:get', 'chat:departments:department', 'Accounting');
+  zE('webWidget:get', 'chat:departments:department', 'Accounting');
 ```
 
 ##### Return value
@@ -497,7 +500,7 @@ Return an object containing information about the specified department, includin
 Return a list of all enabled departments containing information about each department including its id, name and status.
 
 ```JavaScript
-  zE('web_widget:get', 'chat:departments:all');
+  zE('webWidget:get', 'chat:departments:all');
 ```
 
 ##### Parameters
@@ -519,7 +522,7 @@ Set the concierge’s avatar.
 
 
 ```JavaScript
-  zE('web_widget:set', 'chat:concierge:avatar', path<string>);
+  zE('webWidget:set', 'chat:concierge:avatar', path<string>);
 ```
 
 ##### Parameters
@@ -529,7 +532,7 @@ Set the concierge’s avatar.
 ##### Example
 
 ```JavaScript
-  zE('web_widget:set', 'chat:concierge:avatar', 'https://example.com/img/avatar.jpg');
+  zE('webWidget:set', 'chat:concierge:avatar', 'https://example.com/img/avatar.jpg');
 ```
 ---
 
@@ -539,7 +542,7 @@ Set the concierge’s name.
 
 
 ```JavaScript
-  zE('web_widget:set', 'chat:concierge:name', name<string>);
+  zE('webWidget:set', 'chat:concierge:name', name<string>);
 ```
 
 ##### Parameters
@@ -549,7 +552,7 @@ Set the concierge’s name.
 ##### Example
 
 ```JavaScript
-  zE('web_widget:set', 'chat:concierge:name', 'Jane Doe');
+  zE('webWidget:set', 'chat:concierge:name', 'Jane Doe');
 ```
 ---
 
@@ -559,7 +562,7 @@ Set the concierge’s title.
 
 
 ```JavaScript
-  zE('web_widget:set', 'chat:concierge:title', title<string>);
+  zE('webWidget:set', 'chat:concierge:title', title<string>);
 ```
 
 ##### Parameters
@@ -569,7 +572,7 @@ Set the concierge’s title.
 ##### Example
 
 ```JavaScript
-  zE('web_widget:set', 'chat:concierge:title', 'Live Support');
+  zE('webWidget:set', 'chat:concierge:title', 'Live Support');
 ```
 ---
 
@@ -583,7 +586,7 @@ Status can be "online" or "offline".
 
 
 ```JavaScript
-  zE('web_widget:set', 'chat:prechat:greetings', greetings<hash>);
+  zE('webWidget:set', 'chat:prechat:greetings', greetings<hash>);
 ```
 
 ##### Parameters
@@ -593,7 +596,7 @@ Status can be "online" or "offline".
 ##### Example
 
 ```JavaScript
-  zE('web_widget:set', 'chat:prechat:greetings', {
+  zE('webWidget:set', 'chat:prechat:greetings', {
     online: 'Chat with us',
     offline: 'Leave us a message'
   });
@@ -607,7 +610,7 @@ Status can be "online" or "offline".
 Set the greeting message displayed on the offline form.
 
 ```JavaScript
-  zE('web_widget:set', 'chat:offline:greetings', greeting<string>);
+  zE('webWidget:set', 'chat:offline:greetings', greeting<string>);
 ```
 
 ##### Parameters
@@ -617,7 +620,7 @@ Set the greeting message displayed on the offline form.
 ##### Example
 
 ```JavaScript
-  zE('web_widget:set', 'chat:offline:greeting', "We're currently offline. Please leave us a message");
+  zE('webWidget:set', 'chat:offline:greeting', "We're currently offline. Please leave us a message");
 ```
 ---
 
@@ -631,7 +634,7 @@ Programmatically update visitor’s webpath.
 Note: Chat triggers set to run "when a visitor has loaded the chat widget" will be fired when the visitor path is changed.
 
 ```JavaScript
-  zE('web_widget:set', 'chat:visitor:path', options<hash>?);
+  zE('webWidget:set', 'chat:visitor:path', options<hash>?);
 ```
 
 ##### Parameters
@@ -642,10 +645,10 @@ Note: Chat triggers set to run "when a visitor has loaded the chat widget" will 
 
 ```JavaScript
   // Without options
-  zE('web_widget:set', 'chat:visitor:path');
+  zE('webWidget:set', 'chat:visitor:path');
 
   // With options
-  zE('web_widget:set', 'chat:visitor:path', {
+  zE('webWidget:set', 'chat:visitor:path', {
     url: 'http://example.com',
     title: "Ready to rock'n'roll!"
   });
@@ -663,7 +666,7 @@ Note: the mobile notifications feature is mobile overlay mode only.
 
 
 ```JavaScript
-  zE('web_widget:set', 'chat:mobile:notifications', enabled<boolean>);
+  zE('webWidget:set', 'chat:mobile:notifications', enabled<boolean>);
 ```
 
 ##### Parameters
@@ -673,6 +676,6 @@ Note: the mobile notifications feature is mobile overlay mode only.
 ##### Example
 
 ```JavaScript
-  zE('web_widget:set', 'chat:mobile:notifications', false);
+  zE('webWidget:set', 'chat:mobile:notifications', false);
 ```
 ---
