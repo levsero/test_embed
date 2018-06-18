@@ -1,6 +1,6 @@
-# Zendesk zE() Queue API for the Web Widget
+# zE() API for the Web Widget
 
-As the Web Widget integrates more services, channels and features, we've focused on designing a consistent and coherent API, using a callback queue that ensures commands are executed after the widget has loaded on a given page.
+As the Web Widget integrates more services, channels and features, we've focused on designing a consistent and coherent API that allows interacting with a wide range of Zendesk channels inside the widget.
 
 Note that to start using this API, you will need to embed the widget using the new snippet, which can be found on the Widget's setup page.
 
@@ -106,7 +106,7 @@ zE('webWidget:perform', 'identify', data<hash>);
 
 Identifies an end-user to Zendesk.
 
-If you have access to your end user's name and email use perform identify to pass the details their details to your Zendesk Support account.
+If you have access to your end-user's name and email use perform identify to pass the details to your Zendesk Support account.
 
 If the user's email doesn't already exist in your Zendesk Support account, a new user record with those details is created.
 
@@ -472,7 +472,7 @@ None
 
 #### get chat:departments:department
 
-Return an object containing information about the specified department, including its ID, name and status. Return undefined if the department is not found or not enabled.
+Return an object containing information about the specified department, including its ID, name and status. Otherwise return `undefined` if the department is not found or not enabled.
 
 ```JavaScript
   zE('webWidget:get', 'chat:departments:department', department<int|string>);
@@ -491,7 +491,7 @@ Return an object containing information about the specified department, includin
 ##### Return value
 
 * An object containing information about the specified department, including its id, name and status.
-* `undefined` if the department is not found or not enabled.
+* Otherwise `undefined` if the department is not found or not enabled.
 
 ---
 
@@ -660,7 +660,7 @@ Note: Chat triggers set to run "when a visitor has loaded the chat widget" will 
 
 #### set chat:mobile:notifications
 
-Disable/enable the showing of mobile notifications. This method should be called on every page that notifications should be disabled, as they are enabled by default.
+Disable/Re-enable the showing of mobile notifications. This method should be called on every page that notifications should be disabled, as they are enabled by default.
 
 Note: the mobile notifications feature is mobile overlay mode only.
 
