@@ -13,7 +13,8 @@ set :deploy_files, [
 
 set :ekr_aws_credentials, Aws::Credentials.new(ENV['WEB_WIDGET_AWS_ACCESS_KEY'], ENV['WEB_WIDGET_AWS_SECRET_KEY'])
 set :ekr_aws_region, ENV['STATIC_ASSETS_AWS_REGION']
-set :ekr_s3_release_directory, "web_widget/#{fetch(:version)}"
+set :ekr_s3_release_directory_versioned, "web_widget/#{fetch(:version)}"
+set :ekr_s3_release_directory_latest, 'web_widget/latest'
 set :ekr_s3_bucket_name, ENV['STATIC_ASSETS_AWS_BUCKET_NAME']
 set :static_assets_domain, ENV['STATIC_ASSETS_DOMAIN']
 set :ekr_base_url, ENV['EKR_BASE_URL']
@@ -33,10 +34,11 @@ namespace :ac_embeddable_framework do
 
   desc 'Release to Amazon S3 for asset composer'
   task :release_to_s3 do
-    release_directory = fetch(:ekr_s3_release_directory)
+    release_directory_versioned = fetch(:ekr_s3_release_directory_versioned)
     files = fetch(:deploy_files)
 
-    s3_deployer.upload_files('dist', release_directory, files)
+    s3_deployer.upload_files('dist', release_directory_versioned, files)
+    s3_deployer.upload_files('dist', fetch(:ekr_s3_release_directory_latest), files)
 
     # Temporary fix to get the newest, non public version of the chat SDK
     # into asset composer. This will be removed when we re-engineer the way
@@ -47,7 +49,7 @@ namespace :ac_embeddable_framework do
       ['web_sdk.js']
     )
 
-    s3_deployer.upload_translations('dist/locales', release_directory);
+    s3_deployer.upload_translations('dist/locales', release_directory_versioned);
   end
 
   desc 'Release the current version to EKR'
@@ -86,11 +88,11 @@ def ekr_jwt_payload
 end
 
 def version_exists_on_s3?
-  s3_deployer.object_exists?("#{fetch(:ekr_s3_release_directory)}/")
+  s3_deployer.object_exists?("#{fetch(:ekr_s3_release_directory_versioned)}/")
 end
 
 def version_error
-  "Folder #{fetch(:ekr_s3_release_directory)} does not exist on the bucket"
+  "Folder #{fetch(:ekr_s3_release_directory_versioned)} does not exist on the bucket"
 end
 
 def s3_deployer
