@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import { ScrollContainer } from 'component/container/ScrollContainer';
+import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm';
 import { PrechatForm } from 'component/chat/prechat/PrechatForm';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { i18n } from 'service/i18n';
@@ -128,6 +129,21 @@ class PrechatScreen extends Component {
     this.props.resetCurrentMessage();
   }
 
+  renderChatOfflineForm() {
+    return (
+      <ScrollContainer
+        title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
+        classes={this.getScrollContainerClasses()}
+        containerClasses={styles.scrollContainerContent}
+        fullscreen={this.props.isMobile}
+        newHeight={this.props.newHeight}>
+        <ChatOfflineMessageForm
+          offlineMessage={this.props.offlineMessage}
+          onFormBack={() => this.props.updateChatScreen(screens.PRECHAT_SCREEN)} />
+      </ScrollContainer>
+    );
+  }
+
   renderPreChatForm() {
     const { form, message } = this.props.prechatFormSettings;
 
@@ -173,6 +189,7 @@ class PrechatScreen extends Component {
     switch (this.props.screen) {
       case screens.PRECHAT_SCREEN: return this.renderPreChatForm();
       case screens.LOADING_SCREEN: return this.renderLoadingSpinner();
+      case screens.OFFLINE_MESSAGE_SCREEN: return this.renderChatOfflineForm();
     }
   }
 }
