@@ -229,13 +229,13 @@
   box-sizing: border-box;
 
   svg {
-    fill: $zd-color-monsoon;
-    color: #999;
+    fill: $zd-color-white;
+    color: $zd-color-white;
     min-width: #{15/$font-size}rem; /* 1 */
     min-height: #{15/$font-size}rem; /* 1 */
     height: #{15/$font-size}rem;
     width: #{15/$font-size}rem;
-    padding: #{7/$font-size}rem 0 0;
+    padding: #{8/$font-size}rem 0 0;
     display: inline-block;
     position: relative;
   }
