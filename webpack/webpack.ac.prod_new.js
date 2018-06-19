@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const merge = require('webpack-merge');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 const common = require('./webpack.common.js');
 const prodConf = require('./webpack.prod.js');
@@ -51,6 +52,41 @@ module.exports = merge(common, {
   },
   plugins: [
     new webpack.HashedModuleIdsPlugin(),
+    new ManifestPlugin({
+      fileName: 'asset_manifest.json',
+      publicPath: '',
+      sort: function (a, b) {
+        // move runtime.js to the top
+        if (a.name === 'runtime.js') {
+          return -1;
+        }
+        if (b.name === 'runtime.js') {
+          return 1;
+        }
+        // move web_widget to the bottom
+        if (a.name === 'web_widget.js') {
+          return 1;
+        }
+        if (b.name === 'web_widget.js') {
+          return -1;
+        }
+        // other assets will be compared alphabetically
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      },
+      generate: function (seed, files) {
+        const assets =  files.map(function (file) {
+          return file.path;
+        }, seed);
+
+        return { assets };
+      }
+    }),
     ...prodConf.plugins
   ]
 });
