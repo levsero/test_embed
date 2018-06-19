@@ -57,6 +57,12 @@ class Chat extends Component {
     }
   }
 
+  handleDragEnter = () => {
+    if (this.online) {
+      this.online.getWrappedInstance().handleDragEnter();
+    }
+  }
+
   renderChatOnline = () => {
     if (this.props.showOfflineChat) return;
 
