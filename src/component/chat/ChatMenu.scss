@@ -91,6 +91,7 @@
 }
 
 .endChatMobileButton {
+  height: #{35/$font-size}rem;
   width: 100%;
   max-width: none;
   border-radius: #{4/$font-size}rem;
