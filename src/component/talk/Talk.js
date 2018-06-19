@@ -362,9 +362,12 @@ class Talk extends Component {
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const { isMobile, newHeight } = this.props;
+    const { isMobile, newHeight, screen } = this.props;
     const contentClasses = (isMobile) ? styles.contentMobile : styles.content;
-    const scrollContainerClasses = !this.props.newHeight ? styles.scrollContainer : '';
+    const scrollContainerClasses = classNames({
+      [styles.scrollContainer]: !newHeight,
+      [styles.scrollContainerSuccess]: screen === SUCCESS_NOTIFICATION_SCREEN
+    });
 
     return (
       <div>

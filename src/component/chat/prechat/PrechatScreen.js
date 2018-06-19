@@ -93,6 +93,12 @@ class PrechatScreen extends Component {
     loginSettings: {}
   };
 
+  getScrollContainerClasses() {
+    return classNames(styles.scrollContainer, {
+      [styles.mobileContainer]: this.props.isMobile
+    });
+  }
+
   onPrechatFormComplete = (info) => {
     const selectedDepartment = parseInt(info.department);
     const isSelectedDepartmentOffline = (!!selectedDepartment &&
@@ -168,19 +174,14 @@ class PrechatScreen extends Component {
   }
 
   renderLoadingSpinner() {
-    const scrollContainerClasses = classNames(
-      styles.scrollContainer,
-      { [styles.mobileContainer]: this.props.isMobile }
-    );
-
     return (
       <ScrollContainer
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
-        classes={scrollContainerClasses}
+        classes={this.getScrollContainerClasses()}
         containerClasses={styles.scrollContainerContent}
         fullscreen={this.props.isMobile}
         newHeight={this.props.newHeight}>
-        <LoadingSpinner className={styles.loadingSpinner} />;
+        <LoadingSpinner className={styles.loadingSpinner} />
       </ScrollContainer>
     );
   }

@@ -50,6 +50,10 @@
   composes: u-marginBL from global;
 }
 
+.notSearchedLogo {
+  margin-bottom: #{40/$font-size}rem;
+}
+
 .fullscreen {
   composes: u-paddingHN u-paddingBN from global;
 

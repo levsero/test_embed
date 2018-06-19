@@ -109,6 +109,7 @@ export class HelpCenterDesktop extends Component {
         <SearchField
           ref='searchField'
           fullscreen={false}
+          hideZendeskLogo={this.props.hideZendeskLogo}
           onChangeValue={this.props.handleOnChangeValue}
           hasSearched={this.props.hasSearched}
           onSearchIconClick={this.handleSubmit}
@@ -157,7 +158,7 @@ export class HelpCenterDesktop extends Component {
     return showNextButton && (hasSearched || articleViewActive)
       ? (
         <div className={styles.buttonContainer}>
-          <ButtonGroup rtl={i18n.isRTL()}>
+          <ButtonGroup rtl={i18n.isRTL()} containerClasses={styles.buttonGroup}>
             <Button
               fullscreen={false}
               label={this.props.buttonLabel}

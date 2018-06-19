@@ -7,6 +7,10 @@
   height: auto;
 }
 
+.scrollContainerSuccess {
+  overflow-y: hidden;
+}
+
 .content {
   composes: u-textHeightMed from global;
 }
@@ -105,9 +109,9 @@
 }
 
 .zendeskLogoButton {
-  margin-bottom: #{25/$font-size}rem;
+  margin-bottom: #{40/$font-size}rem;
 }
 
 .noZendeskLogoButton {
-  margin-bottom: #{5/$font-size}rem;
+  margin-bottom: #{20/$font-size}rem;
 }
