@@ -7,21 +7,22 @@ export class ButtonGroup extends Component {
     children: PropTypes.node.isRequired,
     fullscreen: PropTypes.bool,
     rtl: PropTypes.bool,
-    style: PropTypes.element
+    style: PropTypes.element,
+    containerClasses: PropTypes.string
   };
 
   static defaultProps = {
     fullscreen: false,
     rtl: false,
-    style: null
+    style: null,
+    containerClasses: ''
   };
 
   render = () => {
     const { rtl, fullscreen } = this.props;
     const directionStyles = (rtl) ? styles.buttonLeft : styles.buttonRight;
     const buttonDirectionStyles = (!fullscreen) ? directionStyles : '';
-
-    const buttonClasses = `${styles.container} ${buttonDirectionStyles}`;
+    const buttonClasses = `${styles.container} ${buttonDirectionStyles} ${this.props.containerClasses}`;
 
     return (
       <div

@@ -1,9 +1,9 @@
 describe('ChatOffline component', () => {
   let ChatOffline;
   const ChatOfflinePath = buildSrcPath('component/chat/ChatOffline');
-  const ZendeskLogo = noopReactComponent('ZendeskLogo');
 
   const Button = noopReactComponent();
+  const ChatOfflineForm = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
@@ -31,13 +31,8 @@ describe('ChatOffline component', () => {
       'component/container/ScrollContainer': {
         ScrollContainer: noopReactComponent()
       },
-      'component/ZendeskLogo': {
-        ZendeskLogo
-      },
       'component/button/Button': { Button },
-      'component/chat/ChatOfflineForm': {
-        ChatOfflineForm: noopReactComponent()
-      },
+      'component/chat/ChatOfflineForm': { ChatOfflineForm },
       'src/redux/modules/chat': {
         ChatOfflineFormChanged: ''
       },
@@ -60,74 +55,6 @@ describe('ChatOffline component', () => {
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
-  });
-
-  describe('renderZendeskLogo', () => {
-    let chatOffline,
-      result,
-      mockHideZendeskLogo,
-      mockIsMobile;
-
-    beforeEach(() => {
-      chatOffline = domRender(<ChatOffline hideZendeskLogo={mockHideZendeskLogo} isMobile={mockIsMobile} />);
-      result = chatOffline.renderZendeskLogo();
-    });
-
-    describe('when hideZendeskLogo is true', () => {
-      beforeAll(() => {
-        mockHideZendeskLogo = true;
-      });
-
-      describe('when isMobile is true', () => {
-        beforeAll(() => {
-          mockIsMobile = true;
-        });
-
-        it('does not render zendesk logo', () => {
-          expect(result)
-            .toBeFalsy();
-        });
-      });
-
-      describe('when isMobile is false', () => {
-        beforeAll(() => {
-          mockIsMobile = false;
-        });
-
-        it('does not render zendesk logo', () => {
-          expect(result)
-            .toBeFalsy();
-        });
-      });
-    });
-
-    describe('when hideZendeskLogo is false', () => {
-      beforeAll(() => {
-        mockHideZendeskLogo = false;
-      });
-
-      describe('when isMobile is true', () => {
-        beforeAll(() => {
-          mockIsMobile = true;
-        });
-
-        it('does not render zendesk logo', () => {
-          expect(result)
-            .toBeFalsy();
-        });
-      });
-
-      describe('when isMobile is false', () => {
-        beforeAll(() => {
-          mockIsMobile = false;
-        });
-
-        it('renders zendesk logo', () => {
-          expect(TestUtils.isElementOfType(result, ZendeskLogo))
-            .toEqual(true);
-        });
-      });
-    });
   });
 
   describe('renderFooterContent', () => {
@@ -179,190 +106,93 @@ describe('ChatOffline component', () => {
         };
       });
 
-      describe('when on mobile', () => {
-        beforeAll(() => {
-          mockIsMobile = true;
-        });
-
-        it('renders noZendeskLogoButton class', () => {
-          expect(result.props.className)
-            .toContain('noZendeskLogoButton');
-        });
-
-        it('does not render zendeskLogoButton class', () => {
-          expect(result.props.className)
-            .not
-            .toContain('zendeskLogoButton');
-        });
-      });
-
-      describe('when hideZendeskLogo is true', () => {
-        beforeAll(() => {
-          mockHideZendeskLogo = true;
-        });
-
-        it('renders noZendeskLogoButton', () => {
-          expect(result.props.className)
-            .toContain('noZendeskLogoButton');
-        });
-
-        it('does not renders zendeskLogoButton', () => {
-          expect(result.props.className)
-            .not
-            .toContain('zendeskLogoButton');
-        });
-      });
-
-      describe('when zendesk logo required', () => {
-        beforeAll(() => {
-          mockHideZendeskLogo = false;
-          mockIsMobile = false;
-        });
-
-        it('renders zendeskLogoButton', () => {
-          expect(result.props.className)
-            .toContain('zendeskLogoButton');
-        });
-
-        it('does not render noZendeskLogoButton', () => {
-          expect(result.props.className)
-            .not
-            .toContain('noZendeskLogoButton');
-        });
+      it('renders a button', () => {
+        expect(TestUtils.isElementOfType(result, Button))
+          .toEqual(true);
       });
     });
   });
 
   describe('render', () => {
     let component,
-      result;
+      mockFormSettings;
 
     beforeEach(() => {
-      component = instanceRender(<ChatOffline />);
-      spyOn(component, 'renderFooterContent');
-      spyOn(component, 'renderZendeskLogo');
-      result = component.render();
+      component = instanceRender(<ChatOffline formSettings={mockFormSettings}/>);
+
+      spyOn(component, 'renderOfflineForm');
+      spyOn(component, 'renderChatOfflineScreen');
+
+      component.render();
     });
 
-    it('calls renderZendeskLogo', () => {
-      expect(component.renderZendeskLogo)
-        .toHaveBeenCalled();
-    });
-
-    it('calls renderFooterContent', () => {
-      expect(component.renderFooterContent)
-        .toHaveBeenCalled();
-    });
-
-    it('has a props.containerClasses value', () => {
-      expect(result.props.children[0].props.containerClasses)
-        .toEqual('scrollContainerContentClass');
-    });
-
-    it('has a props.classes value', () => {
-      expect(result.props.children[0].props.classes)
-        .toEqual('scrollContainerClass');
-    });
-
-    it('has a props.title value', () => {
-      expect(result.props.children[0].props.title)
-        .toEqual('embeddable_framework.chat.title');
-    });
-
-    describe('when the isMobile prop is true', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOffline isMobile={true} />);
-
-        result = component.render();
+    describe('when formSettings is enabled', () => {
+      beforeAll(() => {
+        mockFormSettings = { enabled: true };
       });
 
-      it('passes the mobile styles to the classes prop', () => {
-        expect(result.props.children[0].props.classes)
-          .toContain('mobileContainerClass');
+      it('calls renderOfflineForm', () => {
+        expect(component.renderOfflineForm)
+          .toHaveBeenCalled();
       });
     });
 
-    describe('when the newHeight prop is false', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOffline newHeight={false} />);
-
-        result = component.render();
+    describe('when formSettings is not enabled', () => {
+      beforeAll(() => {
+        mockFormSettings = { enabled: false };
       });
 
-      it('passes the scrollContainer styles to the classes prop', () => {
-        expect(result.props.children[0].props.classes)
-          .toContain('scrollContainerClass');
+      it('calls renderChatOfflineScreen', () => {
+        expect(component.renderChatOfflineScreen)
+          .toHaveBeenCalled();
       });
     });
   });
 
   describe('renderOfflineForm', () => {
-    let component,
-      result;
+    let result;
 
-    describe('when offline form is enabled', () => {
-      beforeEach(() => {
-        component = instanceRender(
-          <ChatOffline
-            formSettings={{ enabled: true }}
-            operatingHours={{ account_schedule: [[456]] }}
-          />);
+    beforeEach(() => {
+      const component = instanceRender(<ChatOffline />);
 
-        result = component.renderOfflineForm();
-      });
-
-      it('renders a ChatOfflineForm component', () => {
-        expect(result)
-          .toBeDefined();
-      });
-
-      it('relays an operatingHours prop', () => {
-        expect(result.props.operatingHours)
-          .toEqual({ account_schedule: [[456]] });
-      });
+      result = component.renderOfflineForm();
     });
 
-    describe('when offline form is disabled', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOffline formSettings={{ enabled: false }} />);
-
-        result = component.renderOfflineForm();
-      });
-
-      it('does not render a component', () => {
-        expect(result)
-          .not.toBeDefined();
-      });
+    it('renders ChatOfflineForm', () => {
+      expect(TestUtils.isElementOfType(result, ChatOfflineForm))
+        .toEqual(true);
     });
   });
 
   describe('renderChatOfflineScreen', () => {
-    let component,
-      result;
+    let result,
+      mockIsMobile;
 
-    describe('when offline form is enabled', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOffline formSettings={{ enabled: true }} />);
+    beforeEach(() => {
+      const component = instanceRender(<ChatOffline isMobile={mockIsMobile} />);
 
-        result = component.renderChatOfflineScreen();
+      result = component.renderChatOfflineScreen();
+    });
+
+    describe('when it is mobile mode', () => {
+      beforeAll(() => {
+        mockIsMobile = true;
       });
 
-      it('does not render a component', () => {
-        expect(result)
-          .not.toBeDefined();
+      it('has mobile styles', () => {
+        expect(result.props.classes)
+          .toContain('mobileContainerClass');
       });
     });
 
-    describe('when offline form is disabled', () => {
-      beforeEach(() => {
-        component = instanceRender(<ChatOffline formSettings={{ enabled: false }} />);
-
-        result = component.renderChatOfflineScreen();
+    describe('when it is desktop mode', () => {
+      beforeAll(() => {
+        mockIsMobile = false;
       });
 
-      it('renders a component', () => {
-        expect(result)
-          .toBeDefined();
+      it('does not have mobile styles', () => {
+        expect(result.props.classes)
+          .not.toContain('mobileContainerClass');
       });
     });
   });

@@ -11,6 +11,13 @@ describe('ChatOfflineForm component', () => {
   const ChatOperatingHours = noopReactComponent();
   const ChatOfflineMessageForm = noopReactComponent();
   const UserProfile = noopReactComponent();
+  const ZendeskLogo = noopReactComponent();
+  const ScrollContainer = noopReactComponent();
+
+  const mainScreen = 'main';
+  const successScreen = 'success';
+  const loadingScreen = 'loading';
+  const operatingHoursScreen = 'operatingHours';
 
   beforeEach(() => {
     mockery.enable();
@@ -31,15 +38,16 @@ describe('ChatOfflineForm component', () => {
       },
       'service/i18n': {
         i18n: {
-          t: _.identity
+          t: _.identity,
+          isRTL: () => {}
         }
       },
       'constants/chat': {
         OFFLINE_FORM_SCREENS: {
-          MAIN: 'main',
-          SUCCESS: 'success',
-          LOADING: 'loading',
-          OPERATING_HOURS: 'operatingHours'
+          MAIN: mainScreen,
+          SUCCESS: successScreen,
+          LOADING: loadingScreen,
+          OPERATING_HOURS: operatingHoursScreen
         }
       },
       'component/form/Form': {
@@ -71,7 +79,9 @@ describe('ChatOfflineForm component', () => {
         ICONS: {
           SUCCESS_CONTACT_FORM: 'icon'
         }
-      }
+      },
+      'component/ZendeskLogo': { ZendeskLogo },
+      'component/container/ScrollContainer': { ScrollContainer }
     });
 
     mockery.registerAllowable(ChatOfflineFormPath);
@@ -83,128 +93,316 @@ describe('ChatOfflineForm component', () => {
     mockery.disable();
   });
 
-  describe('renderForm', () => {
+  describe('validate', () => {
     let component,
-      result,
-      mockSocialLogin,
-      mockVisitor,
-      mockIsAuthenticated;
+      mockCheckValidity,
+      mockFormState;
 
     beforeEach(() => {
-      const mockFormState = {
-        name: 'Terence',
-        message: 'I need coffee',
-        email: 'terence@terence.com'
+      component = instanceRender(<ChatOfflineForm formState={mockFormState} />);
+      component.offlineForm = {
+        checkValidity: () => mockCheckValidity
       };
 
-      component = instanceRender(
+      spyOn(component, 'setState');
+
+      component.validate();
+    });
+
+    describe('when form is valid', () => {
+      beforeAll(() => {
+        mockCheckValidity = true;
+      });
+
+      describe('when formState is empty', () => {
+        beforeAll(() => {
+          mockFormState = {};
+        });
+
+        it('calls setState with an object containing "valid: false"', () => {
+          const expected = { valid: false };
+
+          expect(component.setState)
+            .toHaveBeenCalledWith(expected);
+        });
+      });
+
+      describe('when formState is not empty', () => {
+        beforeAll(() => {
+          mockFormState = { name: 'terence' };
+        });
+
+        it('calls setState with true', () => {
+          const expected = { valid: true };
+
+          expect(component.setState)
+            .toHaveBeenCalledWith(expected);
+        });
+      });
+    });
+
+    describe('when form is not valid', () => {
+      beforeAll(() => {
+        mockCheckValidity = false;
+      });
+
+      it('calls setState with an object containing "valid: false"', () => {
+        const expected = { valid: false };
+
+        expect(component.setState)
+          .toHaveBeenCalledWith(expected);
+      });
+    });
+  });
+
+  describe('handleFormChanged', () => {
+    let component,
+      mockEvent,
+      mockOfflineForm,
+      chatOfflineFormChangedSpy;
+
+    beforeEach(() => {
+      chatOfflineFormChangedSpy = jasmine.createSpy('chatOfflineFormChanged');
+
+      component = instanceRender(<ChatOfflineForm chatOfflineFormChanged={chatOfflineFormChangedSpy} />);
+
+      spyOn(component, 'validate');
+
+      component.offlineForm = mockOfflineForm;
+      mockEvent = { target: { name: 'email', value: 'bobba@bob.com' } };
+
+      component.handleFormChanged(mockEvent);
+    });
+
+    describe('when offlineForm is exists', () => {
+      beforeAll(() => {
+        mockOfflineForm = { foo: 'bar' };
+      });
+
+      it('calls validate', () => {
+        expect(component.validate)
+          .toHaveBeenCalled();
+      });
+
+      it('calls chatOfflineFormChanged with expected args', () => {
+        const expected = { email: 'bobba@bob.com' };
+
+        expect(chatOfflineFormChangedSpy)
+          .toHaveBeenCalledWith(expected);
+      });
+    });
+
+    describe('when offlineForm does not exist', () => {
+      beforeAll(() => {
+        mockOfflineForm = undefined;
+      });
+
+      it('does not call validate', () => {
+        expect(component.validate)
+          .not.toHaveBeenCalled();
+      });
+
+      it('does not call chatOfflineFormChanged', () => {
+        expect(chatOfflineFormChangedSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('renderZendeskLogo', () => {
+    let result,
+      mockHideZendeskLogo;
+
+    beforeEach(() => {
+      const component = instanceRender(<ChatOfflineForm hideZendeskLogo={mockHideZendeskLogo} />);
+
+      result = component.renderZendeskLogo();
+    });
+
+    describe('when hideZendeskLogo is true', () => {
+      beforeAll(() => {
+        mockHideZendeskLogo = true;
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toBeNull();
+      });
+    });
+
+    describe('when hideZendeskLogo is false', () => {
+      beforeAll(() => {
+        mockHideZendeskLogo = false;
+      });
+
+      it('renders the zendesk logo', () => {
+        expect(TestUtils.isElementOfType(result, ZendeskLogo))
+          .toEqual(true);
+      });
+    });
+  });
+
+  describe('handleFormSubmit', () => {
+    let mockVisitor,
+      mockSocialLogin,
+      mockFormState,
+      mockIsAuthenticated,
+      sendOfflineMessageSpy;
+
+    beforeEach(() => {
+      mockFormState = { phone: '04028889342', message: 'halp!' };
+      mockVisitor = { display_name: 'T-bone steak', email: 'dog@gone.com' };
+      sendOfflineMessageSpy = jasmine.createSpy('sendOfflineMessage');
+
+      const component = instanceRender(
         <ChatOfflineForm
           formState={mockFormState}
-          offlineMessage={{ screen: 'main' }}
+          visitor={mockVisitor}
           socialLogin={mockSocialLogin}
           isAuthenticated={mockIsAuthenticated}
-          visitor={mockVisitor} />
+          sendOfflineMessage={sendOfflineMessageSpy} />
       );
 
-      spyOn(component, 'renderNameField');
-      spyOn(component, 'renderEmailField');
-      spyOn(component, 'renderPhoneNumberField');
-      spyOn(component, 'renderMessageField');
-
-      result = component.renderForm();
+      component.handleFormSubmit({ preventDefault: () => {} });
     });
 
-    describe('when not socially logged in', () => {
-      beforeAll(() => {
-        mockSocialLogin = {
-          authenticated: false
-        };
-      });
-
-      it('has a props.formState value', () => {
-        const expected = {
-          name: 'Terence',
-          message: 'I need coffee',
-          email: 'terence@terence.com'
-        };
-
-        expect(result.props.formState)
-          .toEqual(jasmine.objectContaining(expected));
-      });
+    afterEach(() => {
+      sendOfflineMessageSpy.calls.reset();
     });
 
-    describe('when socially logged in', () => {
+    describe('when socially authenticated', () => {
       beforeAll(() => {
-        mockSocialLogin = {
-          authenticated: true
-        };
-        mockVisitor = {
-          display_name: 'yolo',
-          email: 'email@email.com'
-        };
+        mockSocialLogin = { authenticated: true };
       });
 
-      it('has a props.formState value and social email and name', () => {
+      it('calls sendOfflineMessage with the expected args', () => {
         const expected = {
-          name: 'yolo',
-          message: 'I need coffee',
-          email: 'email@email.com'
+          ...mockFormState,
+          name: 'T-bone steak',
+          email: 'dog@gone.com'
         };
 
-        expect(result.props.formState)
-          .toEqual(jasmine.objectContaining(expected));
+        expect(sendOfflineMessageSpy)
+          .toHaveBeenCalledWith(expected);
       });
     });
 
     describe('when authenticated', () => {
       beforeAll(() => {
         mockIsAuthenticated = true;
-        mockVisitor = {
-          display_name: 'yolo',
-          email: 'email@email.com'
-        };
       });
 
-      it('has a props.formState value and social email and name', () => {
+      it('calls sendOfflineMessage with the expected args', () => {
         const expected = {
-          name: 'yolo',
-          message: 'I need coffee',
-          email: 'email@email.com'
+          ...mockFormState,
+          name: 'T-bone steak',
+          email: 'dog@gone.com'
         };
 
-        expect(result.props.formState)
-          .toEqual(jasmine.objectContaining(expected));
+        expect(sendOfflineMessageSpy)
+          .toHaveBeenCalledWith(expected);
       });
     });
 
-    it('has a props.submitbuttonClasses value', () => {
-      expect(result.props.submitButtonClasses)
-        .toEqual('submitButtonClass');
+    describe('when it is not authenticated', () => {
+      beforeAll(() => {
+        mockSocialLogin = { authenticated: false };
+        mockIsAuthenticated = false;
+      });
+
+      it('calls sendOfflineMessage with the expected args', () => {
+        expect(sendOfflineMessageSpy)
+          .toHaveBeenCalledWith(mockFormState);
+      });
+    });
+  });
+
+  describe('renderForm', () => {
+    let component,
+      result,
+      mockOfflineMessage;
+
+    beforeEach(() => {
+      component = instanceRender(<ChatOfflineForm offlineMessage={mockOfflineMessage} />);
+
+      spyOn(component, 'renderSubmitButton');
+      spyOn(component, 'renderOfflineGreeting');
+      spyOn(component, 'renderOperatingHoursLink');
+      spyOn(component, 'renderNameField');
+      spyOn(component, 'renderEmailField');
+      spyOn(component, 'renderPhoneNumberField');
+      spyOn(component, 'renderMessageField');
+      spyOn(component, 'renderZendeskLogo');
+      spyOn(component, 'getScrollContainerClasses');
+
+      result = component.renderForm();
     });
 
-    it('has a props.submitButtonlabel value', () => {
-      expect(result.props.submitButtonLabel)
-        .toEqual('embeddable_framework.chat.preChat.offline.button.sendMessage');
+    describe('when offlineMessage\'s screen is in the main state', () => {
+      beforeAll(() => {
+        mockOfflineMessage = { screen: mainScreen };
+      });
+
+      it('returns a form', () => {
+        expect(result.type)
+          .toEqual('form');
+      });
+
+      it('calls renderSubmitButton', () => {
+        expect(component.renderSubmitButton)
+          .toHaveBeenCalled();
+      });
+
+      it('calls renderOfflineGreeting', () => {
+        expect(component.renderOfflineGreeting)
+          .toHaveBeenCalled();
+      });
+
+      it('calls renderOperatingHoursLink', () => {
+        expect(component.renderOperatingHoursLink)
+          .toHaveBeenCalled();
+      });
+
+      it('calls renderNameField', () => {
+        expect(component.renderNameField)
+          .toHaveBeenCalled();
+      });
+
+      it('calls renderEmailField', () => {
+        expect(component.renderEmailField)
+          .toHaveBeenCalled();
+      });
+
+      it('calls renderPhoneNumberField', () => {
+        expect(component.renderPhoneNumberField)
+          .toHaveBeenCalled();
+      });
+
+      it('calls renderMessageField', () => {
+        expect(component.renderMessageField)
+          .toHaveBeenCalled();
+      });
+
+      it('calls renderZendeskLogo', () => {
+        expect(component.renderZendeskLogo)
+          .toHaveBeenCalled();
+      });
+
+      it('calls getScrollContainerClasses', () => {
+        expect(component.getScrollContainerClasses)
+          .toHaveBeenCalled();
+      });
     });
 
-    it('calls renderNameField', () => {
-      expect(component.renderNameField)
-        .toHaveBeenCalled();
-    });
+    describe('when offlineMessage\'s screen is not in the main state', () => {
+      beforeAll(() => {
+        mockOfflineMessage = { screen: operatingHoursScreen };
+      });
 
-    it('calls renderEmailField', () => {
-      expect(component.renderEmailField)
-        .toHaveBeenCalled();
-    });
-
-    it('calls renderPhoneNumberField', () => {
-      expect(component.renderPhoneNumberField)
-        .toHaveBeenCalled();
-    });
-
-    it('calls renderMessageField', () => {
-      expect(component.renderMessageField)
-        .toHaveBeenCalled();
+      it('returns null', () => {
+        expect(result)
+          .toBeNull();
+      });
     });
   });
 
@@ -219,7 +417,10 @@ describe('ChatOfflineForm component', () => {
       });
 
       it('renders a type of LoadingSpinner', () => {
-        expect(TestUtils.isElementOfType(result.props.children, LoadingSpinner))
+        const wrapperElem = result.props.children;
+        const targetElem = wrapperElem.props.children;
+
+        expect(TestUtils.isElementOfType(targetElem, LoadingSpinner))
           .toEqual(true);
       });
     });
@@ -270,12 +471,12 @@ describe('ChatOfflineForm component', () => {
         });
 
         it('does not render ChatOfflineMessageForm', () => {
-          expect(TestUtils.isElementOfType(result, ChatOfflineMessageForm))
+          expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm))
             .toEqual(false);
         });
 
         it('renders SuccessNotification', () => {
-          expect(TestUtils.isElementOfType(result, SuccessNotification))
+          expect(TestUtils.isElementOfType(result.props.children[0], SuccessNotification))
             .toEqual(true);
         });
       });
@@ -291,15 +492,17 @@ describe('ChatOfflineForm component', () => {
         });
 
         it('renders ChatOfflineMessageForm', () => {
-          expect(TestUtils.isElementOfType(result, ChatOfflineMessageForm))
+          expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm))
             .toEqual(true);
         });
 
         it('passes the correct props to ChatOfflineMessageForm', () => {
-          expect(result.props.offlineMessage)
+          const targetElem = result.props.children;
+
+          expect(targetElem.props.offlineMessage)
             .toEqual(offlineMessageProp);
 
-          expect(result.props.onFormBack)
+          expect(targetElem.props.onFormBack)
             .toEqual(onFormBackSpy);
         });
       });
@@ -329,9 +532,9 @@ describe('ChatOfflineForm component', () => {
         result = component.renderOperatingHours();
       });
 
-      it('renders nothing', () => {
+      it('returns null', () => {
         expect(result)
-          .toBeUndefined();
+          .toBeNull();
       });
     });
 
@@ -352,17 +555,20 @@ describe('ChatOfflineForm component', () => {
       });
 
       it('returns a <ChatOperatingHours> element', () => {
-        expect(TestUtils.isElementOfType(result, ChatOperatingHours))
+        const targetElem = result.props.children;
+
+        expect(TestUtils.isElementOfType(targetElem, ChatOperatingHours))
           .toEqual(true);
       });
 
       it('has a props.operatingHours value', () => {
+        const targetElem = result.props.children;
         const expected = {
           account_schedule: [[456]],
           enabled: true
         };
 
-        expect(result.props.operatingHours)
+        expect(targetElem.props.operatingHours)
           .toEqual(expected);
       });
     });

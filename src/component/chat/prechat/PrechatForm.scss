@@ -4,6 +4,12 @@
 
 @import '../../../styles/_vars.scss';
 
+.scrollContainerContent {
+  padding-bottom: #{20/$font-size}rem;
+  height: 100%;
+  max-height: none;
+}
+
 .button {
   composes: u-sizeFull u-marginTM from global;
 
@@ -31,4 +37,35 @@
 
 .nameFieldWithSocialLogin {
   margin-bottom: #{7/$font-size}rem !important;
+}
+
+.scrollContainer {
+  height: #{$chat-height/$font-size}rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileContainer {
+  composes: u-textSizeMed from global;
+  height: 100% !important;
+}
+
+.submitBtn {
+  margin-top: #{15/$font-size}rem;
+  margin-bottom: #{15/$font-size}rem;
+  height: #{40/$font-size}rem;
+  float: right;
+
+  [dir='rtl'] & {
+    float: left;
+  }
+}
+
+.zendeskLogo {
+  z-index: 1;
+
+  [dir='rtl'] & {
+    right: #{16/$font-size}rem;
+  }
 }

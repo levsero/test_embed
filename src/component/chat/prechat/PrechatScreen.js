@@ -6,9 +6,7 @@ import _ from 'lodash';
 
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { PrechatForm } from 'component/chat/prechat/PrechatForm';
-import { ChatOfflineMessageForm } from 'component/chat/ChatOfflineMessageForm';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
-import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { DEPARTMENT_STATUSES } from 'constants/chat';
 import * as screens from 'src/redux/modules/chat/chat-screen-types';
@@ -130,64 +128,52 @@ class PrechatScreen extends Component {
     this.props.resetCurrentMessage();
   }
 
-  renderZendeskLogo = () => {
-    return !this.props.hideZendeskLogo ?
-      <ZendeskLogo
-        className={`${styles.zendeskLogo}`}
-        rtl={i18n.isRTL()}
-        fullscreen={false}
-      /> : null;
+  renderPreChatForm() {
+    const { form, message } = this.props.prechatFormSettings;
+
+    return (
+      <PrechatForm
+        authUrls={this.props.authUrls}
+        socialLogin={this.props.socialLogin}
+        chatVisitor={this.props.visitor}
+        initiateSocialLogout={this.props.initiateSocialLogout}
+        form={form}
+        formState={this.props.preChatFormState}
+        onPrechatFormChange={this.props.handlePreChatFormChange}
+        loginEnabled={this.props.loginSettings.enabled}
+        greetingMessage={message}
+        isAuthenticated={this.props.isAuthenticated}
+        visitor={this.props.visitor}
+        onFormCompleted={this.onPrechatFormComplete}
+        isMobile={this.props.isMobile}
+        newHeight={this.props.newHeight}
+        hideZendeskLogo={this.props.hideZendeskLogo} />
+    );
   }
 
-  render = () => {
-    const { form, message } = this.props.prechatFormSettings;
+  renderLoadingSpinner() {
     const scrollContainerClasses = classNames(
       styles.scrollContainer,
       { [styles.mobileContainer]: this.props.isMobile }
     );
-    const logoFooterClasses = classNames({
-      [styles.logoFooter]: !this.props.hideZendeskLogo
-    });
-    let formScreen = null;
-
-    if (this.props.screen === screens.PRECHAT_SCREEN) {
-      formScreen = (
-        <PrechatForm
-          authUrls={this.props.authUrls}
-          socialLogin={this.props.socialLogin}
-          chatVisitor={this.props.visitor}
-          initiateSocialLogout={this.props.initiateSocialLogout}
-          form={form}
-          formState={this.props.preChatFormState}
-          onPrechatFormChange={this.props.handlePreChatFormChange}
-          loginEnabled={this.props.loginSettings.enabled}
-          greetingMessage={message}
-          isAuthenticated={this.props.isAuthenticated}
-          visitor={this.props.visitor}
-          onFormCompleted={this.onPrechatFormComplete} />
-      );
-    } else if (this.props.screen === screens.OFFLINE_MESSAGE_SCREEN) {
-      formScreen = (
-        <ChatOfflineMessageForm
-          offlineMessage={this.props.offlineMessage}
-          onFormBack={() => this.props.updateChatScreen(screens.PRECHAT_SCREEN)} />
-      );
-    } else if (this.props.screen === screens.LOADING_SCREEN) {
-      formScreen = <LoadingSpinner className={styles.loadingSpinner} />;
-    }
 
     return (
       <ScrollContainer
         title={i18n.t('embeddable_framework.helpCenter.label.link.chat')}
         classes={scrollContainerClasses}
         containerClasses={styles.scrollContainerContent}
-        footerClasses={logoFooterClasses}
-        footerContent={this.renderZendeskLogo()}
         fullscreen={this.props.isMobile}
         newHeight={this.props.newHeight}>
-        {formScreen}
+        <LoadingSpinner className={styles.loadingSpinner} />;
       </ScrollContainer>
     );
+  }
+
+  render = () => {
+    switch (this.props.screen) {
+      case screens.PRECHAT_SCREEN: return this.renderPreChatForm();
+      case screens.LOADING_SCREEN: return this.renderLoadingSpinner();
+    }
   }
 }
 
