@@ -31,18 +31,6 @@
   font-size: #{13/$font-size}rem;
 }
 
-.zendeskLogo {
-  z-index: 1;
-}
-
 .button {
   width: 100%;
-}
-
-.zendeskLogoButton {
-  margin-bottom: #{25/$font-size}rem;
-}
-
-.noZendeskLogoButton {
-  margin-bottom: #{5/$font-size}rem;
 }

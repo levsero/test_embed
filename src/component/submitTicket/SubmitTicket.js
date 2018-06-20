@@ -299,6 +299,7 @@ class SubmitTicket extends Component {
 
       return (
         <ScrollContainer
+          containerClasses={styles.scrollContainerSuccess}
           title={i18n.t('embeddable_framework.submitTicket.notify.message.success')}
           newHeight={true}
           footerContent={doneButton}>
