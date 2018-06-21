@@ -24,3 +24,8 @@
 .noCustomHeight {
   height: auto;
 }
+
+.buttonGroup {
+  margin-top: #{15/$font-size}rem;
+  margin-bottom: #{15/$font-size}rem;
+}

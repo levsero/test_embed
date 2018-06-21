@@ -363,6 +363,7 @@ describe('PrechatScreen component', () => {
 
       spyOn(component, 'renderPreChatForm');
       spyOn(component, 'renderLoadingSpinner');
+      spyOn(component, 'renderChatOfflineForm');
 
       component.render();
     });
@@ -389,6 +390,17 @@ describe('PrechatScreen component', () => {
       });
     });
 
+    describe('when the screen is offline message screen', () => {
+      beforeAll(() => {
+        mockScreen = offlineMessageScreen;
+      });
+
+      it('calls renderChatOfflineForm', () => {
+        expect(component.renderChatOfflineForm)
+          .toHaveBeenCalled();
+      });
+    });
+
     describe('when the screen is unrecognised', () => {
       beforeAll(() => {
         mockScreen = 'bob screen';
@@ -403,6 +415,26 @@ describe('PrechatScreen component', () => {
         expect(component.renderLoadingSpinner)
           .not.toHaveBeenCalled();
       });
+
+      it('does not call renderChatOfflineForm', () => {
+        expect(component.renderChatOfflineForm)
+          .not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('renderChatOfflineForm', () => {
+    let result;
+
+    beforeEach(() => {
+      const component = instanceRender(<PrechatScreen />);
+
+      result = component.renderChatOfflineForm();
+    });
+
+    it('renders ChatOfflineMessageForm', () => {
+      expect(TestUtils.isElementOfType(result.props.children, ChatOfflineMessageForm))
+        .toEqual(true);
     });
   });
 
@@ -424,13 +456,35 @@ describe('PrechatScreen component', () => {
 
   describe('renderLoadingSpinner', () => {
     let result,
+      component;
+
+    beforeEach(() => {
+      component = instanceRender(<PrechatScreen />);
+
+      spyOn(component, 'getScrollContainerClasses');
+
+      result = component.renderLoadingSpinner();
+    });
+
+    it('calls getScrollContainerClasses', () => {
+      expect(component.getScrollContainerClasses)
+        .toHaveBeenCalled();
+    });
+
+    it('renders a LoadingSpinner', () => {
+      expect(TestUtils.isElementOfType(result.props.children, LoadingSpinner))
+        .toEqual(true);
+    });
+  });
+
+  describe('getScrollContainerClasses', () => {
+    let result,
       mockIsMobile;
 
     beforeEach(() => {
-      const prechatFormSettings = { form: {}, message: '' };
-      const component = instanceRender(<PrechatScreen prechatFormSettings={prechatFormSettings} isMobile={mockIsMobile} />);
+      const component = instanceRender(<PrechatScreen isMobile={mockIsMobile} />);
 
-      result = component.renderLoadingSpinner();
+      result = component.getScrollContainerClasses();
     });
 
     describe('when it is mobile mode', () => {
@@ -439,13 +493,8 @@ describe('PrechatScreen component', () => {
       });
 
       it('renders with mobile styles', () => {
-        expect(result.props.classes)
+        expect(result)
           .toContain('mobileContainerClasses');
-      });
-
-      it('renders a loading spinner', () => {
-        expect(TestUtils.isElementOfType(result.props.children[0], LoadingSpinner))
-          .toEqual(true);
       });
     });
 
@@ -455,13 +504,8 @@ describe('PrechatScreen component', () => {
       });
 
       it('does not render with mobile styles', () => {
-        expect(result.props.classes)
+        expect(result)
           .not.toContain('mobileContainerClasses');
-      });
-
-      it('renders a loading spinner', () => {
-        expect(TestUtils.isElementOfType(result.props.children[0], LoadingSpinner))
-          .toEqual(true);
       });
     });
   });

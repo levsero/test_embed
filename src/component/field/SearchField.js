@@ -16,7 +16,8 @@ export class SearchField extends Component {
     onChange: PropTypes.func,
     onChangeValue: PropTypes.func,
     onFocus: PropTypes.func,
-    onSearchIconClick: PropTypes.func
+    onSearchIconClick: PropTypes.func,
+    hideZendeskLogo: PropTypes.bool
   };
 
   static defaultProps = {
@@ -27,7 +28,8 @@ export class SearchField extends Component {
     onChange: () => {},
     onChangeValue: () => {},
     onFocus: () => {},
-    onSearchIconClick:  () => {}
+    onSearchIconClick:  () => {},
+    hideZendeskLogo: false
   };
 
   constructor(props, context) {
@@ -170,9 +172,10 @@ export class SearchField extends Component {
   }
 
   render = () => {
-    const { fullscreen, hasSearched } = this.props;
+    const { fullscreen, hasSearched, hideZendeskLogo } = this.props;
     const fullscreenStyle = fullscreen ? styles.fullscreen : '';
-    const searchedStyle = hasSearched ? styles.searched : styles.notSearched;
+    const initialSearchStyle = (hideZendeskLogo) ? styles.notSearched : styles.notSearchedLogo;
+    const searchedStyle = hasSearched ? styles.searched : initialSearchStyle;
     const searchContainerClasses = `
       ${styles.searchContainer}
       ${searchedStyle}

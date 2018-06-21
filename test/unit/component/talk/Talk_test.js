@@ -61,6 +61,7 @@ describe('Talk component', () => {
           content: 'contentClasses',
           contentMobile: 'contentMobileClasses',
           scrollContainer: 'scrollContainer',
+          scrollContainerSuccess: 'scrollContainerSuccessClass',
           noZendeskLogoButton: 'noZendeskLogoButton',
           zendeskLogoButton: 'zendeskLogoButton'
         }
@@ -373,6 +374,34 @@ describe('Talk component', () => {
     let talk,
       scrollContainer,
       result;
+
+    describe('when screen is success notification', () => {
+      beforeEach(() => {
+        talk = instanceRender(<Talk screen={successNotificationScreen} />);
+        result = talk.render();
+      });
+
+      it('renders scrollContainerSuccess style', () => {
+        const scrollContainer = result.props.children[0];
+
+        expect(scrollContainer.props.containerClasses)
+          .toContain('scrollContainerSuccessClass');
+      });
+    });
+
+    describe('when screen is not success notification', () => {
+      beforeEach(() => {
+        talk = instanceRender(<Talk screen={'bob'} />);
+        result = talk.render();
+      });
+
+      it('does not render scrollContainerSuccess style', () => {
+        const scrollContainer = result.props.children[0];
+
+        expect(scrollContainer.props.containerClasses)
+          .not.toContain('scrollContainerSuccessClass');
+      });
+    });
 
     describe('newHeight', () => {
       let mockNewHeight;

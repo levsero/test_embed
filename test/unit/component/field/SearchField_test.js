@@ -14,7 +14,11 @@ describe('SearchField component', () => {
       './SearchField.scss': {
         locals: {
           hidden: 'hidden',
-          clearInput: 'clearInput'
+          clearInput: 'clearInput',
+          fullscreen: 'fullscreenClass',
+          notSearched: 'notSearchedClass',
+          notSearchedLogo: 'notSearchedLogoClass',
+          searched: 'searchedClass'
         }
       },
       'component/button/IconFieldButton': {
@@ -62,6 +66,78 @@ describe('SearchField component', () => {
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('classname', () => {
+    let result,
+      componentProps;
+
+    beforeEach(() => {
+      const component = instanceRender(<SearchField {...componentProps} />);
+
+      result = component.render();
+    });
+
+    describe('when props.hasSearched is true', () => {
+      beforeAll(() => {
+        componentProps = { hasSearched: true };
+      });
+
+      it('has searched class', () => {
+        expect(result.props.className)
+          .toContain('searchedClass');
+      });
+    });
+
+    describe('when props.hasSearched is false', () => {
+      beforeAll(() => {
+        componentProps = { hasSearched: false };
+      });
+
+      describe('when props.hideZendeskLogo is true', () => {
+        beforeAll(() => {
+          _.assign(componentProps, { hideZendeskLogo: true });
+        });
+
+        it('has notSearched class', () => {
+          expect(result.props.className)
+            .toContain('notSearchedClass');
+        });
+      });
+
+      describe('when props.hideZendeskLogo is false', () => {
+        beforeAll(() => {
+          _.assign(componentProps, { hideZendeskLogo: false });
+        });
+
+        it('has notSearchedLogo class', () => {
+          expect(result.props.className)
+            .toContain('notSearchedLogoClass');
+        });
+      });
+    });
+
+    describe('when props.fullscreen is true', () => {
+      beforeAll(() => {
+        componentProps = { fullscreen: true };
+      });
+
+      it('has fullscreen class', () => {
+        expect(result.props.className)
+          .toContain('fullscreenClass');
+      });
+    });
+
+    describe('when props.fullscreen is false', () => {
+      beforeAll(() => {
+        componentProps = { fullscreen: false };
+      });
+
+      it('does not have fullscreen class', () => {
+        expect(result.props.className)
+          .not.toContain('fullscreenClass');
+      });
+    });
   });
 
   describe('SearchField', () => {
