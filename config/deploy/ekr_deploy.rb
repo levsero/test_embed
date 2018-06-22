@@ -8,8 +8,7 @@ set :deploy_files, [
   'manifest.json',
   'ze_translations.js',
   'ze_localeIdMap.js',
-  'ze_countries.js',
-  'asset_manifest.json'
+  'ze_countries.js'
 ]
 
 set :ekr_aws_credentials, Aws::Credentials.new(ENV['WEB_WIDGET_AWS_ACCESS_KEY'], ENV['WEB_WIDGET_AWS_SECRET_KEY'])
@@ -40,9 +39,6 @@ namespace :ac_embeddable_framework do
 
     s3_deployer.upload_files('dist', release_directory_versioned, files)
     s3_deployer.upload_files('dist', fetch(:ekr_s3_release_directory_latest), files)
-    vendored_assets = JSON.parse(File.read('dist/asset_manifest.json'))['assets']
-    s3_deployer.upload_files('dist', release_directory_versioned, vendored_assets)
-    s3_deployer.upload_files('dist', fetch(:ekr_s3_release_directory_latest), vendored_assets)
 
     # Temporary fix to get the newest, non public version of the chat SDK
     # into asset composer. This will be removed when we re-engineer the way
@@ -54,6 +50,16 @@ namespace :ac_embeddable_framework do
     )
 
     s3_deployer.upload_translations('dist/locales', release_directory_versioned);
+  end
+
+  desc 'Release vendored assets to Amazon S3 for asset composer'
+  task :release_chunks_to_s3 do
+    release_directory_versioned = fetch(:ekr_s3_release_directory_versioned)
+
+    vendored_assets = JSON.parse(File.read('dist/asset_manifest.json'))['assets']
+    vendored_assets = ['asset_manifest.json'] + vendored_assets
+    s3_deployer.upload_files('dist', release_directory_versioned, vendored_assets)
+    s3_deployer.upload_files('dist', fetch(:ekr_s3_release_directory_latest), vendored_assets)
   end
 
   desc 'Release the current version to EKR'
