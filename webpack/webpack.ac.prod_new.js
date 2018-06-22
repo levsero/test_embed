@@ -11,6 +11,18 @@ const TRANSLATIONS_CHUNK = 'translations';
 const COMMON_VENDOR_CHUNK = 'common_vendor';
 const CHAT_VENDOR_CHUNK = 'chat_vendor';
 const TALK_VENDOR_CHUNK = 'talk_vendor';
+const WEB_WIDGET_CHUNK = 'web_widget';
+const RUNTIME_CHUNK = 'runtime';
+
+// Assets must be downloaded in the order specified in CHUNKS
+const CHUNKS = [
+  RUNTIME_CHUNK,
+  COMMON_VENDOR_CHUNK,
+  TRANSLATIONS_CHUNK,
+  CHAT_VENDOR_CHUNK,
+  TALK_VENDOR_CHUNK,
+  WEB_WIDGET_CHUNK
+];
 
 const splitChunkConfig = (name, type = 'initial') => {
   return {
@@ -24,7 +36,7 @@ module.exports = merge(common, {
   mode: 'production',
   devtool: false,
   entry: {
-    'web_widget': path.join(CWD, '/src/main.js'),
+    [WEB_WIDGET_CHUNK]: path.join(CWD, '/src/main.js'),
     [TRANSLATIONS_CHUNK]: [
       path.join(CWD, '/src/translation/ze_translations.js'),
       path.join(CWD, '/src/translation/ze_countries.js'),
@@ -56,28 +68,15 @@ module.exports = merge(common, {
       fileName: 'asset_manifest.json',
       publicPath: '',
       sort: function (a, b) {
-        // move runtime.js to the top
-        if (a.name === 'runtime.js') {
-          return -1;
+        const chunkA = CHUNKS.indexOf(a.chunk.name),
+          chunkB = CHUNKS.indexOf(b.chunk.name);
+
+        // Sanity check to make sure all chunks are accounted for
+        if (chunkA === -1 || chunkB === -1) {
+          throw "Found chunk that's not in CHUNKS constant!";
         }
-        if (b.name === 'runtime.js') {
-          return 1;
-        }
-        // move web_widget to the bottom
-        if (a.name === 'web_widget.js') {
-          return 1;
-        }
-        if (b.name === 'web_widget.js') {
-          return -1;
-        }
-        // other assets will be compared alphabetically
-        if (a.name < b.name) {
-          return -1;
-        }
-        if (a.name > b.name) {
-          return 1;
-        }
-        return 0;
+
+        return chunkA - chunkB;
       },
       generate: function (seed, files) {
         const assets =  files.map(function (file) {
