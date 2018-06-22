@@ -187,14 +187,21 @@ describe('analytics middleware', () => {
     describe('action has type OFFLINE_FORM_REQUEST_SUCCESS', () => {
       beforeEach(() => {
         const payload = {
-          department: 'testing'
+          department: 234
+        };
+        const flatState = {
+          departments: {
+            234: {
+              name: 'testing'
+            }
+          }
         };
 
         action = {
           type: OFFLINE_FORM_REQUEST_SUCCESS,
           payload
         };
-        trackAnalytics({ getState: () => {} })(noop)(action);
+        trackAnalytics({ getState: () => flatState })(noop)(action);
       });
 
       it('calls GA.track with the correct params', () => {

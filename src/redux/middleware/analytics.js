@@ -12,6 +12,12 @@ import { isAgent } from 'src/util/chat';
 
 const loadtime = Date.now();
 
+const getDepartmentName = (payload, prevState) => {
+  const deptId = parseInt(payload.department);
+
+  return _.get(getDepartments(prevState)[deptId], 'name');
+};
+
 const trackChatOpened = (payload, prevState) => {
   const isChatting = getIsChatting(prevState);
 
@@ -45,10 +51,11 @@ const trackChatComment = (isAfterLoadTime) => {
 };
 
 const trackChatRequestFormSubmitted = (payload, prevState) => {
-  const deptId = parseInt(payload.department);
-  const dept = getDepartments(prevState)[deptId];
+  GA.track('Chat Request Form Submitted', getDepartmentName(payload, prevState));
+};
 
-  GA.track('Chat Request Form Submitted', _.get(dept, 'name'));
+const trackOfflineMessageSent = (payload, prevState) => {
+  GA.track('Chat Offline Message Sent', getDepartmentName(payload, prevState));
 };
 
 export function trackAnalytics({ getState }) {
@@ -66,7 +73,7 @@ export function trackAnalytics({ getState }) {
         trackChatServedByOperator(payload, isAfterLoadTime);
         break;
       case OFFLINE_FORM_REQUEST_SUCCESS:
-        GA.track('Chat Offline Message Sent', payload.department);
+        trackOfflineMessageSent(payload, prevState);
         break;
       case SDK_CHAT_RATING:
         trackChatRating(payload, isAfterLoadTime);
