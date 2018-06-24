@@ -1,5 +1,6 @@
 describe('ChatOffline component', () => {
-  let Chat;
+  let Chat,
+    handleDragEnterSpy = jasmine.createSpy('handleDragEnter');
   const ChatPath = buildSrcPath('component/chat/Chat');
 
   const ChatOffline = noopReactComponent();
@@ -21,6 +22,7 @@ describe('ChatOffline component', () => {
   });
 
   afterEach(() => {
+    handleDragEnterSpy.calls.reset();
     mockery.deregisterAll();
     mockery.disable();
   });
@@ -45,6 +47,18 @@ describe('ChatOffline component', () => {
         expect(component.renderChatOnline())
           .toBeFalsy();
       });
+
+      describe('handleDragEnter', () => {
+        beforeEach(() => {
+          component.handleDragEnter();
+        });
+
+        it('does not call handleDragEnterSpy', () => {
+          expect(handleDragEnterSpy)
+            .not
+            .toHaveBeenCalled();
+        });
+      });
     });
 
     describe('when props.showOfflineForm is false', () => {
@@ -63,6 +77,24 @@ describe('ChatOffline component', () => {
       it('does not render ChatOffline component', () => {
         expect(component.renderChatOffline())
           .toBeFalsy();
+      });
+
+      describe('handleDragEnter', () => {
+        beforeEach(() => {
+          component.online = {
+            getWrappedInstance: () => {
+              return {
+                handleDragEnter: handleDragEnterSpy
+              };
+            }
+          };
+          component.handleDragEnter();
+        });
+
+        it('does call handleDragEnterSpy', () => {
+          expect(handleDragEnterSpy)
+            .toHaveBeenCalled();
+        });
       });
     });
   });
