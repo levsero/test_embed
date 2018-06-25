@@ -1,4 +1,16 @@
 ## Changelog
+### 25 June 2018
+- Released minor changes to Web Widget design. Learn more [here](https://support.zendesk.com/hc/en-us/articles/360001558868/preview/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MzYwMDAxNTU4ODY4LCJleHAiOjE1Mjk2Mjk5MzR9.ghVRlZt9MdhwNfX2Q_P1oF2-GHtuKxCpMqsSyH63mh0).
+  - Widget height is now fixed (except for initial Help Center search state). 
+  - The channel choice menu (when Talk and Chat are enabled or when enabled via the channel choice API) is now displayed as a separate “screen” in the Web Widget. Previously this was a pop-up menu displayed above the Help Center search results or article view.
+  - Form submission (contact form and callback form) and Talk Call Us screens now also conform to the new fixed height with minor visual design updates.
+
+### 18 June 2018
+- Released an emergency fix to Contextual Help to mitigate traffic issues. The change has altered the user experience. Previously the widget would pre-load Contextual Help results so that the results would appear immediately after clicking on the launcher. Now there is a slight delay prior to displaying results. 
+
+### 14 June 2018
+- Released an update to the Web Widget snippet which is now available to all customers in the Setup tab of Widget admin.
+
 ### 28 March 2018
 - Fixed prefill issues. Prefill now appears for any field when submitting a second ticket via the Web Widget without refreshing the page, and for the description field when ticket form is not enabled.
 
