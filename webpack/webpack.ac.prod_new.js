@@ -16,12 +16,12 @@ const RUNTIME_CHUNK = 'runtime';
 
 // Assets must be downloaded in the order specified in CHUNKS
 const CHUNKS = [
-  RUNTIME_CHUNK,
-  COMMON_VENDOR_CHUNK,
-  TRANSLATIONS_CHUNK,
-  CHAT_VENDOR_CHUNK,
-  TALK_VENDOR_CHUNK,
-  WEB_WIDGET_CHUNK
+  { name: RUNTIME_CHUNK },
+  { name: COMMON_VENDOR_CHUNK },
+  { name: TRANSLATIONS_CHUNK },
+  { name: CHAT_VENDOR_CHUNK, feature: 'chat' },
+  { name: TALK_VENDOR_CHUNK, feature: 'talk' },
+  { name: WEB_WIDGET_CHUNK }
 ];
 
 const splitChunkConfig = (name, type = 'initial') => {
@@ -68,19 +68,24 @@ module.exports = merge(common, {
       fileName: 'asset_manifest.json',
       publicPath: '',
       sort: function (a, b) {
-        const chunkA = CHUNKS.indexOf(a.chunk.name),
-          chunkB = CHUNKS.indexOf(b.chunk.name);
+        const indexA = CHUNKS.findIndex(chunk => chunk.name === a.chunk.name),
+          indexB = CHUNKS.findIndex(chunk => chunk.name === b.chunk.name);
 
         // Sanity check to make sure all chunks are accounted for
-        if (chunkA === -1 || chunkB === -1) {
+        if (indexA === -1 || indexB === -1) {
           throw "Found chunk that's not in CHUNKS constant!";
         }
 
-        return chunkA - chunkB;
+        return indexA - indexB;
       },
       generate: function (seed, files) {
         const assets =  files.map(function (file) {
-          return file.path;
+          const chunk = CHUNKS.find(chunk => chunk.name === file.chunk.name);
+          const asset = { path: file.path };
+
+          if (chunk.feature) asset.feature = chunk.feature;
+
+          return asset;
         }, seed);
 
         return { assets };
