@@ -7,7 +7,7 @@ const svgoConfig = JSON.stringify({
     { removeTitle: true },
     { convertPathData: false },
     { convertStyleToAttrs: false}
-   ]
+  ]
 });
 const prefix = process.cwd();
 const version = String(fs.readFileSync('dist/VERSION_HASH')).trim();
@@ -25,6 +25,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
+        exclude: /node_modules\/@zendeskgarden/,
         use: [
           {
             loader: 'css-loader',
@@ -41,7 +42,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: /node_modules\/@zendesk\/garden-css/,
+        include: /node_modules\/@zendeskgarden/,
         use: [
           'css-loader?importLoaders=1',
           'postcss-loader'
