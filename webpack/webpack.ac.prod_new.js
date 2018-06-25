@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const merge = require('webpack-merge');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 const common = require('./webpack.common.js');
 const prodConf = require('./webpack.prod.js');
@@ -10,6 +11,18 @@ const TRANSLATIONS_CHUNK = 'translations';
 const COMMON_VENDOR_CHUNK = 'common_vendor';
 const CHAT_VENDOR_CHUNK = 'chat_vendor';
 const TALK_VENDOR_CHUNK = 'talk_vendor';
+const WEB_WIDGET_CHUNK = 'web_widget';
+const RUNTIME_CHUNK = 'runtime';
+
+// Assets must be downloaded in the order specified in CHUNKS
+const CHUNKS = [
+  { name: RUNTIME_CHUNK },
+  { name: COMMON_VENDOR_CHUNK },
+  { name: TRANSLATIONS_CHUNK },
+  { name: CHAT_VENDOR_CHUNK, feature: 'chat' },
+  { name: TALK_VENDOR_CHUNK, feature: 'talk' },
+  { name: WEB_WIDGET_CHUNK }
+];
 
 const splitChunkConfig = (name, type = 'initial') => {
   return {
@@ -23,7 +36,7 @@ module.exports = merge(common, {
   mode: 'production',
   devtool: false,
   entry: {
-    'web_widget': path.join(CWD, '/src/main.js'),
+    [WEB_WIDGET_CHUNK]: path.join(CWD, '/src/main.js'),
     [TRANSLATIONS_CHUNK]: [
       path.join(CWD, '/src/translation/ze_translations.js'),
       path.join(CWD, '/src/translation/ze_countries.js'),
@@ -51,6 +64,33 @@ module.exports = merge(common, {
   },
   plugins: [
     new webpack.HashedModuleIdsPlugin(),
+    new ManifestPlugin({
+      fileName: 'asset_manifest.json',
+      publicPath: '',
+      sort: function (a, b) {
+        const indexA = CHUNKS.findIndex(chunk => chunk.name === a.chunk.name),
+          indexB = CHUNKS.findIndex(chunk => chunk.name === b.chunk.name);
+
+        // Sanity check to make sure all chunks are accounted for
+        if (indexA === -1 || indexB === -1) {
+          throw "Found chunk that's not in CHUNKS constant!";
+        }
+
+        return indexA - indexB;
+      },
+      generate: function (seed, files) {
+        const assets =  files.map(function (file) {
+          const chunk = CHUNKS.find(chunk => chunk.name === file.chunk.name);
+          const asset = { path: file.path };
+
+          if (chunk.feature) asset.feature = chunk.feature;
+
+          return asset;
+        }, seed);
+
+        return { assets };
+      }
+    }),
     ...prodConf.plugins
   ]
 });

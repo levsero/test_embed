@@ -52,6 +52,16 @@ namespace :ac_embeddable_framework do
     s3_deployer.upload_translations('dist/locales', release_directory_versioned);
   end
 
+  desc 'Release vendored assets to Amazon S3 for asset composer'
+  task :release_chunks_to_s3 do
+    release_directory_versioned = fetch(:ekr_s3_release_directory_versioned)
+
+    vendored_assets = JSON.parse(File.read('dist/asset_manifest.json'))['assets']
+    vendored_assets = ['asset_manifest.json'] + vendored_assets
+    s3_deployer.upload_files('dist', release_directory_versioned, vendored_assets)
+    s3_deployer.upload_files('dist', fetch(:ekr_s3_release_directory_latest), vendored_assets)
+  end
+
   desc 'Release the current version to EKR'
   task :release_to_ekr do
     raise version_error unless version_exists_on_s3?
@@ -107,3 +117,4 @@ end
 
 before 'ac_embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
 before 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:build_assets'
+before 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:release_chunks_to_s3'
