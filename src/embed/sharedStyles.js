@@ -7,7 +7,6 @@ import ButtonStyles from 'component/button/Button.scss';
 import ButtonNavStyles from 'component/button/ButtonNav.scss';
 import ZendeskLogoStyles from 'component/ZendeskLogo.scss';
 import NavigationStyles from 'component/frame/Navigation.scss';
-import TextFieldStyles from '@zendeskgarden/react-textfields/dist/styles.css';
 
 export const sharedStyles = `
   ${CheckboxStyles}
@@ -19,5 +18,4 @@ export const sharedStyles = `
   ${ZendeskLogoStyles}
   ${IconStyles}
   ${NavigationStyles}
-  ${TextFieldStyles.toString()}
 `;
