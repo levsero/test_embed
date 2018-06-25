@@ -5,7 +5,7 @@ describe('ChatLog component', () => {
     i18n;
 
   let agents = {
-    'agent:123': { display_name: 'Agent123', nick: 'agent:123', typing: false, avatar_path: '/path/to/avatar'}
+    'agent:123': { display_name: 'Agent123', nick: 'agent:123', typing: false, avatar_path: '/path/to/avatar' }
   };
 
   const chatLogPath = buildSrcPath('component/chat/chatting/ChatLog');
@@ -97,9 +97,12 @@ describe('ChatLog component', () => {
           100: [{ timestamp: 100, nick: 'agent:123', type: 'chat.msg', display_name: 'Agent 123', msg: 'Hello' }]
         };
         let result;
+        let agentsProp;
 
         beforeEach(() => {
-          const component = domRender(<ChatLog showAvatar={true} chatLog={chatLog} />);
+          const component = domRender(
+            <ChatLog showAvatar={true} chatLog={chatLog} agents={agentsProp} conciergeAvatar='/path/to/concierge' />
+          );
 
           result = component.renderChatLog();
         });
@@ -116,8 +119,31 @@ describe('ChatLog component', () => {
           expect(result[0].props).toEqual(jasmine.objectContaining({
             isAgent: true,
             messages: [{ display_name: 'Agent 123', timestamp: 100, nick: 'agent:123', type: 'chat.msg', msg: 'Hello' }],
-            avatarPath: undefined
           }));
+        });
+
+        describe('when avatar path exists for avatar', () => {
+          beforeAll(() => {
+            agentsProp = agents;
+          });
+
+          it('is passed through to the child', () => {
+            expect(result[0].props).toEqual(jasmine.objectContaining({
+              avatarPath: '/path/to/avatar'
+            }));
+          });
+        });
+
+        describe('when avatar path does not exist for avatar', () => {
+          beforeAll(() => {
+            agentsProp = { nick: 'agent:123' };
+          });
+
+          it('passed the concierge avatar to the child', () => {
+            expect(result[0].props).toEqual(jasmine.objectContaining({
+              avatarPath: '/path/to/concierge'
+            }));
+          });
         });
       });
 

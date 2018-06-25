@@ -21,7 +21,8 @@ export class ChatLog extends Component {
     onImageLoad: PropTypes.func,
     showUpdateInfo: PropTypes.bool.isRequired,
     updateInfoOnClick: PropTypes.func,
-    socialLogin: PropTypes.object
+    socialLogin: PropTypes.object,
+    conciergeAvatar: PropTypes.string
   };
 
   static defaultProps = {
@@ -45,7 +46,8 @@ export class ChatLog extends Component {
       onImageLoad,
       showUpdateInfo,
       updateInfoOnClick,
-      socialLogin
+      socialLogin,
+      conciergeAvatar
     } = this.props;
 
     const chatLogs = _.map(chatLog, (chatLogItem, timestamp) => {
@@ -56,7 +58,7 @@ export class ChatLog extends Component {
         const chatGroup = chatLogItem;
         const groupNick = _.get(chatGroup, '0.nick', 'visitor');
         const isAgent = groupNick.indexOf('agent:') > -1;
-        const avatarPath = _.get(agents, `${groupNick}.avatar_path`);
+        const avatarPath = _.get(agents, `${groupNick}.avatar_path`) || conciergeAvatar;
         const shouldRenderUpdateInfo = showUpdateInfo && chatGroup.isFirstVisitorMessage;
 
         return (
