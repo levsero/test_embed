@@ -64,7 +64,8 @@ describe('chat root reducer', () => {
       'standaloneMobileNotificationVisible',
       'userSettings',
       'visitor',
-      'isAuthenticated'
+      'isAuthenticated',
+      'vendor'
     ];
 
     it('has the expected sub states', () => {

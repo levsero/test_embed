@@ -12,6 +12,7 @@ import { Frame } from 'component/frame/Frame';
 import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
+import { logging } from 'service/logging';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { transitionFactory } from 'service/transitionFactory';
@@ -28,7 +29,11 @@ import { cappedTimeoutCall,
   getPageKeywords } from 'utility/utils';
 import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
 import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
-import { setVisitorInfo, chatNotificationDismissed, fetchConversationHistory } from 'src/redux/modules/chat';
+import { setVisitorInfo,
+  chatNotificationDismissed,
+  fetchConversationHistory,
+  handleChatVendorLoaded,
+  setChatHistoryHandler } from 'src/redux/modules/chat';
 import { resetTalkScreen } from 'src/redux/modules/talk';
 import { getTicketForms,
   getTicketFields } from 'src/redux/modules/submitTicket';
@@ -38,11 +43,6 @@ import { AUTHENTICATION_STARTED, AUTHENTICATION_FAILED } from 'src/redux/modules
 import WebWidget from 'component/webWidget/WebWidget';
 import { loadTalkVendors } from 'src/redux/modules/talk';
 
-// Any external dependencies that are optional must be wrapped in a try...catch
-// when being required. This will stop an exception which prevents the Widget
-// from loading.
-// TODO: Find a DRY solution
-const zChat = (() => { try { return require('chat-web-sdk'); } catch (_) {} })();
 const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 
 export default function WebWidgetFactory(name) {
@@ -575,49 +575,61 @@ export default function WebWidgetFactory(name) {
   }
 
   function setupChat(config, store, brand) {
-    zChat.on('error', (e) => {
-      if (_.get(e, 'extra.reason') === JWT_ERROR) {
-        _.unset(config, 'authentication');
-        store.dispatch({
-          type: AUTHENTICATION_FAILED
-        });
-        setupChat(config, store, brand);
-      }
-    });
+    const onSuccess = (zChat) => {
+      store.dispatch(handleChatVendorLoaded({ zChat }));
+      store.dispatch(setChatHistoryHandler());
 
-    if (config.authentication) {
-      store.dispatch({
-        type: AUTHENTICATION_STARTED
-      });
-    }
-    zChat.init(makeChatConfig(config));
-
-    zChat.setOnFirstReady({
-      fetchHistory: () => {
-        if (_.get(config, 'authentication.jwtFn')) {
-          if (brand) zChat.addTag(brand);
-          store.dispatch(fetchConversationHistory());
+      zChat.on('error', (e) => {
+        if (_.get(e, 'extra.reason') === JWT_ERROR) {
+          _.unset(config, 'authentication');
+          store.dispatch({
+            type: AUTHENTICATION_FAILED
+          });
+          setupChat(config, store, brand);
         }
+      });
+
+      if (config.authentication) {
+        store.dispatch({
+          type: AUTHENTICATION_STARTED
+        });
       }
-    });
+      zChat.init(makeChatConfig(config));
 
-    if (brand && !_.get(config, 'authentication.jwtFn')) {
-      zChat.addTag(brand);
-    }
+      zChat.setOnFirstReady({
+        fetchHistory: () => {
+          if (_.get(config, 'authentication.jwtFn')) {
+            if (brand) zChat.addTag(brand);
+            store.dispatch(fetchConversationHistory());
+          }
+        }
+      });
 
-    zChat.getFirehose().on('data', (data) => {
-      let actionType;
-
-      if (data.type === 'history') {
-        actionType = `${SDK_ACTION_TYPE_PREFIX}/history/${data.detail.type}`;
-      } else {
-        actionType = data.detail.type
-          ? `${SDK_ACTION_TYPE_PREFIX}/${data.detail.type}`
-          : `${SDK_ACTION_TYPE_PREFIX}/${data.type}`;
+      if (brand && !_.get(config, 'authentication.jwtFn')) {
+        zChat.addTag(brand);
       }
 
-      store.dispatch({ type: actionType, payload: data });
-    });
+      zChat.getFirehose().on('data', (data) => {
+        let actionType;
+
+        if (data.type === 'history') {
+          actionType = `${SDK_ACTION_TYPE_PREFIX}/history/${data.detail.type}`;
+        } else {
+          actionType = data.detail.type
+            ? `${SDK_ACTION_TYPE_PREFIX}/${data.detail.type}`
+            : `${SDK_ACTION_TYPE_PREFIX}/${data.type}`;
+        }
+
+        store.dispatch({ type: actionType, payload: data });
+      });
+    };
+    const onFailure = (err) => {
+      logging.error(err);
+    };
+
+    import('chat-web-sdk')
+      .then(onSuccess)
+      .catch(onFailure);
   }
 
   function setupTalk(config, store) {

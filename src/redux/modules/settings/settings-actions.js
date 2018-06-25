@@ -4,15 +4,13 @@ import {
   UPDATE_SETTINGS
 } from './settings-action-types';
 import { CONNECTION_STATUSES } from 'constants/chat';
-import { getConnection, getDepartmentsList } from 'src/redux/modules/chat/chat-selectors';
+import { getConnection, getDepartmentsList, getZChatVendor } from 'src/redux/modules/chat/chat-selectors';
 import { setDepartment, clearDepartment } from 'src/redux/modules/chat/chat-actions';
 import { getSettingsChatTags } from 'src/redux/modules/settings/settings-selectors';
 
 import _ from 'lodash';
 
-const zChat = (() => { try { return require('chat-web-sdk'); } catch (_) {} })();
-
-const handleTagsChange = (tags, oldTags) => {
+const handleTagsChange = (zChat, tags, oldTags) => {
   if (!_.isEqual(tags, oldTags) && _.isArray(tags)) {
     _.forEach(oldTags, (tag) => {
       zChat.removeTag(tag);
@@ -45,6 +43,8 @@ export function resetSettingsChatSuppress() {
 
 export function updateSettings(settings) {
   return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
+
     if (!_.get(settings, 'webWidget')) {
       settings = {
         webWidget: {
@@ -71,7 +71,7 @@ export function updateSettings(settings) {
 
       const tags = _.get(settings, 'webWidget.chat.tags');
 
-      handleTagsChange(tags, oldTags);
+      handleTagsChange(zChat, tags, oldTags);
     }
   };
 }

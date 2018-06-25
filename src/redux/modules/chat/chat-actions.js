@@ -1,5 +1,3 @@
-const zChat = (() => { try { return require('chat-web-sdk'); } catch (_) {} })();
-
 import {
   UPDATE_PREVIEWER_SCREEN,
   UPDATE_PREVIEWER_SETTINGS,
@@ -53,7 +51,8 @@ import {
   HISTORY_REQUEST_FAILURE,
   CHAT_SOCIAL_LOGOUT_PENDING,
   CHAT_SOCIAL_LOGOUT_SUCCESS,
-  CHAT_SOCIAL_LOGOUT_FAILURE
+  CHAT_SOCIAL_LOGOUT_FAILURE,
+  CHAT_VENDOR_LOADED
 } from './chat-action-types';
 import { PRECHAT_SCREEN, FEEDBACK_SCREEN } from './chat-screen-types';
 import {
@@ -62,7 +61,8 @@ import {
   getIsChatting as getIsChattingState,
   getChatOnline,
   getActiveAgents,
-  getIsAuthenticated } from 'src/redux/modules/chat/chat-selectors';
+  getIsAuthenticated,
+  getZChatVendor } from 'src/redux/modules/chat/chat-selectors';
 import {
   CHAT_MESSAGE_TYPES,
   AGENT_BOT,
@@ -74,17 +74,6 @@ import _ from 'lodash';
 const chatTypingTimeout = 2000;
 let history = [];
 
-if (zChat && zChat.on) {
-  zChat.on('history', (data) => {
-    const eventData = (data.nick === EVENT_TRIGGER)
-      ? { ...data, nick: AGENT_BOT }
-      : data;
-    const newEntry = [eventData.timestamp, eventData];
-
-    history.unshift(newEntry);
-  });
-}
-
 const getChatMessagePayload = (msg, visitor, timestamp) => ({
   type: 'chat.msg',
   timestamp,
@@ -94,14 +83,18 @@ const getChatMessagePayload = (msg, visitor, timestamp) => ({
 });
 
 const sendMsgRequest = (msg, visitor, timestamp) => {
-  zChat.sendTyping(false);
+  return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
 
-  return {
-    type: CHAT_MSG_REQUEST_SENT,
-    payload: {
-      ...getChatMessagePayload(msg, visitor, timestamp),
-      status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING
-    }
+    zChat.sendTyping(false);
+
+    dispatch({
+      type: CHAT_MSG_REQUEST_SENT,
+      payload: {
+        ...getChatMessagePayload(msg, visitor, timestamp),
+        status: CHAT_MESSAGE_TYPES.CHAT_MESSAGE_PENDING
+      }
+    });
   };
 };
 
@@ -128,6 +121,7 @@ const sendMsgFailure = (msg, visitor, timestamp) => {
 export function sendMsg(msg, timestamp=Date.now()) {
   return (dispatch, getState) => {
     let visitor = getChatVisitor(getState());
+    const zChat = getZChatVendor(getState());
 
     dispatch(sendMsgRequest(msg, visitor, timestamp));
 
@@ -145,6 +139,8 @@ export function sendMsg(msg, timestamp=Date.now()) {
 
 export const endChat = () => {
   return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
+
     zChat.endChat((err) => {
       if (!err) {
         const activeAgents = getActiveAgents(getState());
@@ -189,10 +185,12 @@ export function resetCurrentMessage() {
   };
 }
 
-const stopTypingIndicator = _.debounce(() => zChat.sendTyping(false), chatTypingTimeout);
+const stopTypingIndicator = _.debounce((zChat) => zChat.sendTyping(false), chatTypingTimeout);
 
 export function handleChatBoxChange(msg) {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
+
     dispatch({
       type: CHAT_BOX_CHANGED,
       payload: msg
@@ -202,13 +200,15 @@ export function handleChatBoxChange(msg) {
       zChat.sendTyping(false);
     } else {
       zChat.sendTyping(true);
-      stopTypingIndicator();
+      stopTypingIndicator(zChat);
     }
   };
 }
 
 export function setVisitorInfo(visitor, timestamp=Date.now()) {
   return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
+
     if (!getIsAuthenticated(getState())) {
       dispatch({
         type: SET_VISITOR_INFO_REQUEST_PENDING,
@@ -230,7 +230,9 @@ export function setVisitorInfo(visitor, timestamp=Date.now()) {
 }
 
 export function sendEmailTranscript(email) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
+
     dispatch({
       type: EMAIL_TRANSCRIPT_REQUEST_SENT,
       payload: email
@@ -259,7 +261,9 @@ export function resetEmailTranscript() {
 }
 
 export function sendChatRating(rating = null) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
+
     zChat.sendChatRating(rating, (err) => {
       if (!err) {
         dispatch({
@@ -274,7 +278,9 @@ export function sendChatRating(rating = null) {
 }
 
 export function sendChatComment(comment = '') {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
+
     zChat.sendChatComment(comment, (err) => {
       if (!err) {
         dispatch({
@@ -289,9 +295,10 @@ export function sendChatComment(comment = '') {
 }
 
 export function getAccountSettings() {
-  const accountSettings = zChat.getAccountSettings();
-
   return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
+    const accountSettings = zChat.getAccountSettings();
+
     if (accountSettings.forms.pre_chat_form.required && !getIsChattingState(getState())) {
       dispatch(updateChatScreen(PRECHAT_SCREEN));
     }
@@ -308,9 +315,10 @@ export function getAccountSettings() {
 }
 
 export function getOperatingHours() {
-  const operatingHours = zChat.getOperatingHours();
+  return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
+    const operatingHours = zChat.getOperatingHours();
 
-  return (dispatch) => {
     if (operatingHours) {
       dispatch({
         type: GET_OPERATING_HOURS_REQUEST_SUCCESS,
@@ -321,11 +329,14 @@ export function getOperatingHours() {
 }
 
 export function getIsChatting() {
-  const isChatting = zChat.isChatting();
+  return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
+    const isChatting = zChat.isChatting();
 
-  return {
-    type: IS_CHATTING,
-    payload: isChatting
+    dispatch({
+      type: IS_CHATTING,
+      payload: isChatting
+    });
   };
 }
 
@@ -339,6 +350,7 @@ export function chatNotificationRespond() {
 
 export function sendAttachments(fileList) {
   return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
     const visitor = getChatVisitor(getState());
 
     _.forEach(fileList, file => {
@@ -406,7 +418,9 @@ export function chatOfflineFormChanged(formState) {
 }
 
 export function setDepartment(departmentId, successCallback, errCallback) {
-  return () => {
+  return (_, getState) => {
+    const zChat = getZChatVendor(getState());
+
     zChat.setVisitorDefaultDepartment(departmentId, (err) => {
       if (!err) {
         successCallback();
@@ -418,7 +432,9 @@ export function setDepartment(departmentId, successCallback, errCallback) {
 }
 
 export function clearDepartment(successCallback = () => {}) {
-  return () => {
+  return (_, getState) => {
+    const zChat = getZChatVendor(getState());
+
     zChat.clearVisitorDefaultDepartment(() => {
       successCallback();
     });
@@ -462,7 +478,9 @@ export function sendOfflineMessage(
   formState,
   successCallback = () => {},
   failureCallback = () => {}) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
+
     dispatch({ type: OFFLINE_FORM_REQUEST_SENT });
 
     zChat.sendOfflineMsg(formState, (err) => {
@@ -488,10 +506,14 @@ export function updateMenuVisibility(visible) {
 }
 
 export function handleReconnect() {
-  zChat.reconnect();
+  return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
 
-  return {
-    type: CHAT_RECONNECT
+    zChat.reconnect();
+
+    dispatch({
+      type: CHAT_RECONNECT
+    });
   };
 }
 
@@ -507,7 +529,9 @@ export function showStandaloneMobileNotification() {
 }
 
 export const fetchConversationHistory = () => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
+
     dispatch({ type: HISTORY_REQUEST_SENT });
 
     zChat.fetchChatHistory((err, data) => {
@@ -547,7 +571,9 @@ export const updatePreviewerSettings = (settings) => {
 };
 
 export function initiateSocialLogout() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const zChat = getZChatVendor(getState());
+
     dispatch({ type: CHAT_SOCIAL_LOGOUT_PENDING });
 
     zChat.doAuthLogout((err) => {
@@ -562,5 +588,30 @@ export function handlePrechatFormSubmit(info) {
   return {
     type: PRE_CHAT_FORM_SUBMIT,
     payload: info
+  };
+}
+
+export function handleChatVendorLoaded(vendor) {
+  return {
+    type: CHAT_VENDOR_LOADED,
+    payload: vendor
+  };
+}
+
+// TODO: Remove this function.
+// It was added temporarily when transitioning to use dynamic import()
+// for the chat-web-sdk
+export function setChatHistoryHandler() {
+  return (_, getState) => {
+    const zChat = getZChatVendor(getState());
+
+    zChat.on('history', (data) => {
+      const eventData = (data.nick === EVENT_TRIGGER)
+        ? { ...data, nick: AGENT_BOT }
+        : data;
+      const newEntry = [eventData.timestamp, eventData];
+
+      history.unshift(newEntry);
+    });
   };
 }

@@ -31,16 +31,18 @@ describe('settings redux actions', () => {
     mockery.registerAllowable(chatConstantsPath);
 
     initMockRegistry({
-      'chat-web-sdk': {
-        addTag: addTagSpy,
-        removeTag: removeTagSpy
-      },
       'constants/chat': {
         CONNECTION_STATUSES
       },
       'src/redux/modules/chat/chat-selectors': {
         getConnection: () => mockGetConnection,
-        getDepartmentsList: () => mockGetDepartmentsList
+        getDepartmentsList: () => mockGetDepartmentsList,
+        getZChatVendor: () => {
+          return {
+            addTag: addTagSpy,
+            removeTag: removeTagSpy
+          };
+        }
       },
       'src/redux/modules/chat/chat-actions': {
         setDepartment: setDepartmentSpy,
