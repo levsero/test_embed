@@ -28,7 +28,7 @@
     "postwatchConf:ac": "npm run watch:ac",
     "watch:ac": "node script/start_ac_dev.js -- $npm_package_config_watchConfigPath && npm run prewatch && webpack-dev-server --config ./webpack/webpack.ac.dev.js",
     "build": "npm run build-setup:prod && npm run build:prod",
-    "build-ac": "npm run build-setup:prod && npm run build:ac",
+    "build-ac": "npm run build-setup:prod && npm run build:ac && npm run build:ac_new",
     "test": "node script/jasmine-runner.js",
     "test:ci": "NODE_ENV=test node script/jasmine-runner.js",
     "test:debug": "node debug script/jasmine-runner.js",

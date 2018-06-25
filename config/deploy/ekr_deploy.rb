@@ -117,3 +117,4 @@ end
 
 before 'ac_embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
 before 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:build_assets'
+before 'ac_embeddable_framework:release_to_s3', 'ac_embeddable_framework:release_chunks_to_s3'
