@@ -11,11 +11,7 @@ If you're using the new snippet, follow the steps in this section to get the Web
 The new snippet looks as follows:
 
 ```html
-<script>/*<![CDATA[*/window.zE||(function(e,t,s){var n=window.zE=window.zEmbed=function(){n._.push(arguments)},
-a=n.s=e.createElement(t),r=e.getElementsByTagName(t)[0];n.set=function(e){
-n.set._.push(e)},n._=[],n.set._=[],a.async=true,a.setAttribute("charset","utf-8"),
-a.src="https://static.zdassets.com/ekr/asset_composer.js?key="+s,
-n.t=+new Date,a.type="text/javascript",r.parentNode.insertBefore(a,r)})(document,"script","xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");/*]]>*/</script>
+<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"> </script>
 ```
 
 To get the Web Widget working in GTM:
