@@ -56,7 +56,7 @@ namespace :ac_embeddable_framework do
   task :release_chunks_to_s3 do
     release_directory_versioned = fetch(:ekr_s3_release_directory_versioned)
 
-    vendored_assets = JSON.parse(File.read('dist/asset_manifest.json'))['assets']
+    vendored_assets = JSON.parse(File.read('dist/asset_manifest.json'))['assets'].map { |asset| asset['path'] }
     vendored_assets = ['asset_manifest.json'] + vendored_assets
     s3_deployer.upload_files('dist', release_directory_versioned, vendored_assets)
     s3_deployer.upload_files('dist', fetch(:ekr_s3_release_directory_latest), vendored_assets)
