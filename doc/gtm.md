@@ -1,6 +1,6 @@
 ## Google Tag Manager support
 
-Zendesk has two versions of the Web Widget snippet. You can use either the original or new snippet with [Google Tag Manager][gtm-link] (GTM).
+Zendesk has two versions of the Web Widget snippet. You can use either the legacy or new snippet with [Google Tag Manager][gtm-link] (GTM).
 
 If you're setting up the Web Widget with GTM for the first time, we recommend using the new snippet and following the procedure outlined below.
 
@@ -22,11 +22,11 @@ To get the Web Widget working in GTM:
 4. [Edit][gtm-update-tag-link] the new tag and paste the copied snippet code in the HTML textbox.
 5. Configure the [Fire On step][gtm-fire-on-step-link] to run whenever you'd like on your website.
 
-### Adding the Web Widget via Google Tag Manager (Original snippet)
+### Adding the Web Widget via Google Tag Manager (legacy snippet)
 
-If you're using the original snipppet, follow the steps in this section to get the Web Widget working in GTM.
+If you're using the legacy snippet, follow the steps in this section to get the Web Widget working in GTM.
 
-The original snippet looks as follows:
+The legacy snippet looks as follows:
 
 ```html
 <script>/*<![CDATA[*/window.zEmbed||function(e,t){var n,o,d,i,s,a=[],r=document.createElement("iframe");
