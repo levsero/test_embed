@@ -1,9 +1,10 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  composes: u-paddingAS u-flex u-flexAlignItemsCenter u-isDisabled from global;
+  composes: u-flex u-flexAlignItemsCenter u-isDisabled from global;
 
   color: $zd-color-dark-gray;
+  padding: #{10/$font-size}rem;
 
   .Icon svg path {
     fill: $zd-color-monsoon;

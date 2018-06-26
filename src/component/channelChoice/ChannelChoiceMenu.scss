@@ -147,6 +147,8 @@
 .newIcon {
   composes: u-userColor from global;
 
+  box-sizing: content-box;
+
   svg {
     path, rect {
       fill: currentColor !important;

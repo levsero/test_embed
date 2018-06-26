@@ -60,8 +60,7 @@ $menu-height: #{200/$font-size}rem;
   outline: none;
   padding-bottom: #{8/$font-size}rem !important;
   padding-top: #{8/$font-size}rem !important;
-  height: #{18/$font-size}rem;
-  line-height: #{18/$font-size}rem;
+  line-height: #{20/$font-size}rem;
 
   &:focus {
     border: $thin-border-size solid $stroke-focused-color;

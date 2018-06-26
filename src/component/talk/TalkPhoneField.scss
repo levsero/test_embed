@@ -64,7 +64,6 @@ $menu-height: #{200/$font-size}rem;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border-right: none;
-  height: $flag-size;
 
   [dir="rtl"] & {
     border-top-right-radius: #{4/$font-size}rem;
@@ -75,10 +74,6 @@ $menu-height: #{200/$font-size}rem;
     border-bottom-left-radius: 0;
     border-left: none;
   }
-}
-
-.dropdownMobile {
-  height: $flag-size-mobile;
 }
 
 .arrow {

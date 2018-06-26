@@ -15,6 +15,7 @@
   padding: #{6/$font-size}rem;
   height: #{16/$font-size}rem;
   width: #{16/$font-size}rem;
+  box-sizing: content-box;
 
   &:hover, &:focus, &:active {
     background-color: $zd-color-white;
