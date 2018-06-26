@@ -40,7 +40,8 @@
 }
 
 .noResults {
-  composes: u-textCenter u-textSizeMed from global;
+  composes: u-textCenter from global;
+  font-size: $font-size-lrg;
   margin: 50% 0;
 }
 

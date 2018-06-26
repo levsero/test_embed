@@ -31,7 +31,7 @@
 }
 
 .labelPortrait {
-  composes: u-textSizeMed from global;
+  font-size: $font-size-lrg;
 }
 
 .labelLandscape {

@@ -10,7 +10,7 @@
 }
 
 .containerMobile {
-  composes: u-textSizeMed from global;
+  font-size: $font-size-mobile;
 }
 
 .hidden {

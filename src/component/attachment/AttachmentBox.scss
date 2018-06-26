@@ -17,7 +17,9 @@
 }
 
 .dropzoneChild {
-  composes: u-textCenter u-posRelative u-posCenter--vert u-textSizeMed from global;
+  composes: u-textCenter u-posRelative u-posCenter--vert from global;
+
+  font-size: $font-size-lrg;
 }
 
 .dropzoneChildLabel {
