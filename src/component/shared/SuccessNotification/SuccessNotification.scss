@@ -21,7 +21,7 @@
 }
 
 .firstMessageMobile {
-  composes: u-textSizeLrg from global;
+  font-size: #{16/$font-size}rem;
 }
 
 .messages {

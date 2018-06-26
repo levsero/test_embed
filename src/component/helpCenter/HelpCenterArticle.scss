@@ -1,7 +1,9 @@
 @import '../../styles/_vars.scss';
 
 .title {
-  composes: u-textSizeLrg u-marginBT u-textBold u-textBody u-hsizeAll u-tableCell from global;
+  composes: u-marginBT u-textBold u-textBody u-hsizeAll u-tableCell from global;
+
+  font-size: #{16/$font-size}rem;
 }
 
 .originalArticleButton {
