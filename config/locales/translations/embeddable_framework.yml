@@ -832,6 +832,11 @@ parts:
 
   # Help Center component
   - translation:
+      key: "embeddable_framework.helpCenter.content.useSearchBar"
+      title: "A description that appears in a large space to direct the user to begin searching for content using the above search bar."
+      screenshot: "https://drive.google.com/file/d/1YVKfDExZZqaxTteGyRgIQ0feSytOT35X/view?usp=sharing"
+      value: "Type in a search term in the search bar above to find an article"
+  - translation:
       key: "embeddable_framework.helpCenter.form.title.help"
       title: "Default title of the help center form (https://zendesk.box.com/s/4kqdjtt90g8o9g6zu3jdnnlqarwhavpi). Must match glossary entry."
       screenshot: "https://zendesk.box.com/s/4kqdjtt90g8o9g6zu3jdnnlqarwhavpi"
