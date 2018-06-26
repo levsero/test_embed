@@ -1,8 +1,7 @@
 describe('Talk component', () => {
   let Talk,
     i18nTranslateSpy,
-    libPhoneNumberFormatSpy,
-    libPhoneNumberParseSpy,
+    libPhoneNumberVendor,
     SuccessNotification = noopReactComponent(),
     Icon = noopReactComponent(),
     ZendeskLogo = noopReactComponent();
@@ -22,15 +21,10 @@ describe('Talk component', () => {
 
     const talkPath = buildSrcPath('component/talk/Talk');
 
-    libPhoneNumberFormatSpy = jasmine.createSpy('libphonenumber.format').and.callFake((phoneObj) => phoneObj.phone);
-    libPhoneNumberParseSpy = jasmine.createSpy('libphonenumber.parse').and.callFake((phone) => {
-      return { country: 'AU', phone };
-    });
     i18nTranslateSpy = jasmine.createSpy('i18n.translate').and.callFake((key) => key);
 
     initMockRegistry({
       'React': React,
-      'libphonenumber-js': { format: libPhoneNumberFormatSpy, parse: libPhoneNumberParseSpy },
       'component/button/Button': { Button: noopReactComponent },
       'component/form/Form': { Form: noopReactComponent },
       'component/field/Field': { Field: noopReactComponent },
@@ -129,9 +123,18 @@ describe('Talk component', () => {
   });
 
   describe('formatPhoneNumber', () => {
+    let libPhoneNumberFormatSpy,
+      libPhoneNumberParseSpy;
+
     beforeEach(() => {
+      libPhoneNumberFormatSpy = jasmine.createSpy('libphonenumber.format').and.callFake((phoneObj) => phoneObj.phone);
+      libPhoneNumberParseSpy = jasmine.createSpy('libphonenumber.parse').and.callFake((phone) => {
+        return { country: 'AU', phone };
+      });
+
+      const libPhoneNumberVendor = { format: libPhoneNumberFormatSpy, parse: libPhoneNumberParseSpy };
       const config = { phoneNumber: '+61361275109' };
-      const talk = instanceRender(<Talk embeddableConfig={config} />);
+      const talk = instanceRender(<Talk embeddableConfig={config} libphonenumber={libPhoneNumberVendor} />);
 
       talk.formatPhoneNumber(config.phoneNumber);
     });
@@ -156,7 +159,11 @@ describe('Talk component', () => {
       describe('when the average wait time is greater than 1', () => {
         beforeEach(() => {
           mockAverageWaitTime = '5';
-          talk = domRender(<Talk averageWaitTime={mockAverageWaitTime} averageWaitTimeEnabled={true}/>);
+          talk = domRender(
+            <Talk
+              averageWaitTime={mockAverageWaitTime}
+              averageWaitTimeEnabled={true} />
+          );
           result = talk.renderAverageWaitTime();
         });
 
@@ -174,7 +181,11 @@ describe('Talk component', () => {
       describe('when the average wait time is not greater than 1', () => {
         beforeEach(() => {
           mockAverageWaitTime = '1';
-          talk = domRender(<Talk averageWaitTime={mockAverageWaitTime} averageWaitTimeEnabled={true} />);
+          talk = domRender(
+            <Talk
+              averageWaitTime={mockAverageWaitTime}
+              averageWaitTimeEnabled={true} />
+          );
           result = talk.renderAverageWaitTime();
         });
 
@@ -212,11 +223,13 @@ describe('Talk component', () => {
       mockIsMobile;
 
     beforeEach(() => {
-      talk = instanceRender(<Talk
-        newHeight={mockNewHeight}
-        screen={mockScreen}
-        isMobile={mockIsMobile}
-        hideZendeskLogo={mockHideZendeskLogo} />);
+      talk = instanceRender(
+        <Talk
+          newHeight={mockNewHeight}
+          screen={mockScreen}
+          isMobile={mockIsMobile}
+          hideZendeskLogo={mockHideZendeskLogo} />
+      );
       result = talk.renderFooterContent();
     });
 
@@ -309,7 +322,11 @@ describe('Talk component', () => {
       mockIsMobile;
 
     beforeEach(() => {
-      talk = domRender(<Talk hideZendeskLogo={mockHideZendeskLogo} isMobile={mockIsMobile} />);
+      talk = domRender(
+        <Talk
+          hideZendeskLogo={mockHideZendeskLogo}
+          isMobile={mockIsMobile} />
+      );
       result = talk.renderZendeskLogo();
     });
 
@@ -486,7 +503,12 @@ describe('Talk component', () => {
 
     describe('when on the call me back form screen', () => {
       beforeEach(() => {
-        talk = domRender(<Talk formTitleKey='formTitle' formState={{ phone: '' }} screen={callbackScreen} />);
+        talk = domRender(
+          <Talk
+            formTitleKey='formTitle'
+            formState={{ phone: '' }}
+            screen={callbackScreen} />
+        );
         scrollContainer = TestUtils.findRenderedComponentWithType(talk, MockScrollContainer);
       });
 
@@ -799,7 +821,12 @@ describe('Talk component', () => {
 
       describe('when help center is available', () => {
         beforeEach(() => {
-          talk = domRender(<Talk agentAvailability={false} helpCenterAvailable={true} />);
+          talk = domRender(
+            <Talk
+              agentAvailability={false}
+              helpCenterAvailable={true}
+              libphonenumber={libPhoneNumberVendor} />
+          );
           link = talk.renderOfflineScreen().props.children[1];
         });
 
@@ -811,7 +838,12 @@ describe('Talk component', () => {
 
       describe('when channel choice is available', () => {
         beforeEach(() => {
-          talk = domRender(<Talk agentAvailability={false} channelChoiceAvailable={true} />);
+          talk = domRender(
+            <Talk
+              agentAvailability={false}
+              channelChoiceAvailable={true}
+              libphonenumber={libPhoneNumberVendor} />
+          );
           link = talk.renderOfflineScreen().props.children[1];
         });
 

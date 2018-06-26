@@ -1,3 +1,7 @@
+require('babel-register')({
+  plugins: ['dynamic-import-node']
+});
+
 const Jasmine = require('jasmine');
 const SpecReporter = require('jasmine-spec-reporter');
 
@@ -10,5 +14,6 @@ if (env !== 'test') {
   jRunner.configureDefaultReporter({ print: () => {} });
   jRunner.addReporter(new SpecReporter());
 }
+
 jRunner.loadConfigFile('test/jasmine.json');
 jRunner.execute();

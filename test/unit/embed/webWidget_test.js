@@ -14,8 +14,6 @@ describe('embed.webWidget', () => {
     mockFiltersValue,
     mockFrame,
     mockNicknameValue,
-    socketioConnectSpy,
-    socketioMapEventsToActionsSpy,
     targetCancelHandlerSpy,
     resetTalkScreenSpy,
     zChatInitSpy,
@@ -52,8 +50,6 @@ describe('embed.webWidget', () => {
     mockSupportAuthValue = null;
     mockChatAuthValue = null;
     mockActiveEmbed = '';
-    socketioConnectSpy = jasmine.createSpy('socketio.connect').and.returnValue('socket');
-    socketioMapEventsToActionsSpy = jasmine.createSpy('socketio.mapEventsToActions');
     resetTalkScreenSpy = jasmine.createSpy('resetTalkScreen');
     zChatInitSpy = jasmine.createSpy('zChatInit');
     authenticateSpy = jasmine.createSpy('authenticate');
@@ -97,10 +93,6 @@ describe('embed.webWidget', () => {
           getZendeskHost: () => {
             return 'zendesk.host';
           }
-        },
-        socketio: {
-          connect: socketioConnectSpy,
-          mapEventsToActions: socketioMapEventsToActionsSpy
         }
       },
       'service/settings': {
@@ -144,7 +136,8 @@ describe('embed.webWidget', () => {
         setVisitorInfo: (user) => user
       },
       'src/redux/modules/talk': {
-        resetTalkScreen: resetTalkScreenSpy
+        resetTalkScreen: resetTalkScreenSpy,
+        loadTalkVendors: noop
       },
       'src/redux/modules/submitTicket': {
         getTicketForms: getTicketFormsSpy,
@@ -170,6 +163,8 @@ describe('embed.webWidget', () => {
           };
         }
       },
+      'socket.io-client': {},
+      'libphonenumber-js': {},
       'utility/devices': {
         isMobileBrowser() { return mockIsMobileBrowser; },
         setScaleLock: jasmine.createSpy('setScaleLock'),
@@ -579,16 +574,6 @@ describe('embed.webWidget', () => {
         expect(zChatInitSpy)
           .not.toHaveBeenCalled();
       });
-
-      it('does not call socketio.connect', () => {
-        expect(socketioConnectSpy)
-          .not.toHaveBeenCalled();
-      });
-
-      it('does not call socketio.mapEventsToActions', () => {
-        expect(socketioMapEventsToActionsSpy)
-          .not.toHaveBeenCalled();
-      });
     });
 
     describe('when ticketSubmissionForm is part of config', () => {
@@ -674,17 +659,7 @@ describe('embed.webWidget', () => {
 
     describe('when talk is part of config', () => {
       beforeEach(() => {
-        webWidget.create('', { talk: {} });
-      });
-
-      it('calls socketio.connect', () => {
-        expect(socketioConnectSpy)
-          .toHaveBeenCalled();
-      });
-
-      it('calls socketio.mapEventsToActions', () => {
-        expect(socketioMapEventsToActionsSpy)
-          .toHaveBeenCalled();
+        webWidget.create('', { talk: {} }, { dispatch: () => {} });
       });
 
       describe('when talk is suppressed', () => {
@@ -938,33 +913,46 @@ describe('embed.webWidget', () => {
     });
 
     describe('setupTalk', () => {
-      const talkConfig = { serviceUrl: 'https://customer.zendesk.com', nickname: 'Support' };
+      let mockTalkConfig,
+        mockReduxStore,
+        loadTalkVendorsSpy;
 
       beforeEach(() => {
-        webWidget.create('', { talk: talkConfig }, 'reduxStore');
+        mockTalkConfig = { serviceUrl: 'https://customer.zendesk.com', nickname: 'Support' };
+        mockReduxStore = { dispatch: jasmine.createSpy('dispatch') };
+        loadTalkVendorsSpy = jasmine.createSpy('loadTalkVendors').and.returnValue({ type: 'loadTalkVendors' });
+
+        mockRegistry['src/redux/modules/talk'].loadTalkVendors = loadTalkVendorsSpy;
+
+        webWidget.create('', { talk: mockTalkConfig }, mockReduxStore);
       });
 
-      it('calls socketio.connect with serviceUrl, subdomain and nickname (as keyword)', () => {
-        expect(socketioConnectSpy)
-          .toHaveBeenCalledWith('https://customer.zendesk.com', 'Support');
+      it('dispatches the loadTalkVendors action creator', () => {
+        expect(mockReduxStore.dispatch)
+          .toHaveBeenCalledWith({ type: 'loadTalkVendors' });
       });
 
-      describe('when a nickname exists in settings', () => {
+      describe('dispatches the loadTalkVendors action creator', () => {
+        let args;
+
         beforeEach(() => {
-          mockNicknameValue = 'Sales';
-
-          webWidget.create('', { talk: talkConfig }, 'reduxStore');
+          args = loadTalkVendorsSpy.calls.mostRecent().args;
         });
 
-        it('overrides the nickname in config', () => {
-          expect(socketioConnectSpy)
-            .toHaveBeenCalledWith('https://customer.zendesk.com', 'Sales');
+        it('with an array of dynamic import promises', () => {
+          expect(args[0])
+            .toEqual(jasmine.arrayContaining([jasmine.any(Promise), jasmine.any(Promise)]));
         });
-      });
 
-      it('calls socketio.mapEventsToActions with the socket and redux store', () => {
-        expect(socketioMapEventsToActionsSpy)
-          .toHaveBeenCalledWith('socket', 'reduxStore');
+        it('with the talk service url', () => {
+          expect(args[1])
+            .toEqual('https://customer.zendesk.com');
+        });
+
+        it('with the talk nickname', () => {
+          expect(args[2])
+            .toEqual('Support');
+        });
       });
     });
 

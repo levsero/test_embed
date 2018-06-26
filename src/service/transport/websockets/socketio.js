@@ -3,16 +3,14 @@ import { talkEmbeddableConfigEventToAction,
   talkAverageWaitTimeEventToAction } from './events';
 import { parseUrl } from 'utility/utils';
 
-const io = (() => { try { return require('socket.io-client'); } catch (_) {} })();
+const TALK_SERVICE_PATH = '/talk_embeddables_service/socket.io';
 
-const talkServicePath = '/talk_embeddables_service/socket.io';
-
-function connect(serviceUrl, nickname) {
+function connect(io, serviceUrl, nickname) {
   const subdomain = parseUrl(serviceUrl).hostname.split('.')[0];
 
   return io(serviceUrl, {
     query: `subdomain=${subdomain}&keyword=${nickname}`,
-    path: talkServicePath,
+    path: TALK_SERVICE_PATH,
     reconnectionAttempts: 6,
     transports: ['websocket']
   });

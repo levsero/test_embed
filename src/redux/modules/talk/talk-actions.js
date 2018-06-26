@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { http } from 'service/transport';
+import { http, socketio } from 'service/transport';
 import { settings } from 'service/settings';
 import { parseUrl } from 'utility/utils';
 import {
@@ -12,7 +12,8 @@ import {
   UPDATE_CALLBACK_FORM,
   TALK_CALLBACK_REQUEST,
   TALK_CALLBACK_SUCCESS,
-  TALK_CALLBACK_FAILURE
+  TALK_CALLBACK_FAILURE,
+  TALK_VENDOR_LOADED
 } from './talk-action-types';
 import { getFormState, getInitialScreen } from './talk-selectors';
 import { updateBackButtonVisibility } from 'src/redux/modules/base';
@@ -113,5 +114,26 @@ export function submitTalkCallbackForm(formState, serviceUrl, nickname) {
       params,
       callbacks
     });
+  };
+}
+
+export function loadTalkVendors(vendors, serviceUrl, nickname) {
+  return (dispatch) => {
+    return Promise
+      .all(vendors)
+      .then(([{ default: io }, libphonenumber]) => {
+        dispatch(handleTalkVendorLoaded({ io, libphonenumber }));
+
+        const socket = socketio.connect(io, serviceUrl, nickname);
+
+        socketio.mapEventsToActions(socket, { dispatch });
+      });
+  };
+}
+
+export function handleTalkVendorLoaded(vendor) {
+  return {
+    type: TALK_VENDOR_LOADED,
+    payload: vendor
   };
 }

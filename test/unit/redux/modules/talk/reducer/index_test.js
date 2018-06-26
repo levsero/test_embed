@@ -45,5 +45,10 @@ describe('talk root reducer', () => {
       expect(state.callback)
         .toBeDefined();
     });
+
+    it('has the vendor sub state', () => {
+      expect(state.vendor)
+        .toBeDefined();
+    });
   });
 });
