@@ -1,6 +1,6 @@
 ## Google Tag Manager support
 
-Zendesk has two versions of the Web Widget snippet. You can use either the original or new snippet with [Google Tag Manager][gtm-link] (GTM).
+Zendesk has two versions of the Web Widget snippet. You can use either the legacy or new snippet with [Google Tag Manager][gtm-link] (GTM).
 
 If you're setting up the Web Widget with GTM for the first time, we recommend using the new snippet and following the procedure outlined below.
 
@@ -11,11 +11,7 @@ If you're using the new snippet, follow the steps in this section to get the Web
 The new snippet looks as follows:
 
 ```html
-<script>/*<![CDATA[*/window.zE||(function(e,t,s){var n=window.zE=window.zEmbed=function(){n._.push(arguments)},
-a=n.s=e.createElement(t),r=e.getElementsByTagName(t)[0];n.set=function(e){
-n.set._.push(e)},n._=[],n.set._=[],a.async=true,a.setAttribute("charset","utf-8"),
-a.src="https://static.zdassets.com/ekr/asset_composer.js?key="+s,
-n.t=+new Date,a.type="text/javascript",r.parentNode.insertBefore(a,r)})(document,"script","xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");/*]]>*/</script>
+<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"> </script>
 ```
 
 To get the Web Widget working in GTM:
@@ -23,17 +19,14 @@ To get the Web Widget working in GTM:
 1. Create a new [Custom HTML Tag][gtm-custom-tag-link] in GTM.
 2. Sign in to your Zendesk Support account as an admin and go to **Admin > Channels > Widget**.
 3. Select the **Setup** tab and copy the snippet code.
+4. [Edit][gtm-update-tag-link] the new tag and paste the copied snippet code in the HTML textbox.
+5. Configure the [Fire On step][gtm-fire-on-step-link] to run whenever you'd like on your website.
 
-    <img alt="An example of the Zendesk widget settings and where to copy the snippet" src="https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_snippet.png" width="650px" />
+### Adding the Web Widget via Google Tag Manager (legacy snippet)
 
-5. [Edit][gtm-update-tag-link] the new tag and paste the copied snippet code in the HTML textbox.
-4. Configure the [Fire On step][gtm-fire-on-step-link] to run whenever you'd like on your website.
+If you're using the legacy snippet, follow the steps in this section to get the Web Widget working in GTM.
 
-### Adding the Web Widget via Google Tag Manager (Original snippet)
-
-If you're using the original snipppet, follow the steps in this section to get the Web Widget working in GTM.
-
-The original snippet looks as follows:
+The legacy snippet looks as follows:
 
 ```html
 <script>/*<![CDATA[*/window.zEmbed||function(e,t){var n,o,d,i,s,a=[],r=document.createElement("iframe");
