@@ -1,4 +1,6 @@
-import { CONTEXTUAL_SEARCH_REQUEST_SUCCESS, SEARCH_REQUEST_SUCCESS } from '../helpCenter-action-types';
+import { CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
+  SEARCH_REQUEST_SUCCESS,
+  SEARCH_REQUEST_FAILURE } from '../helpCenter-action-types';
 
 const initialState = [];
 
@@ -9,6 +11,8 @@ const articles = (state = initialState, action) => {
     case CONTEXTUAL_SEARCH_REQUEST_SUCCESS:
     case SEARCH_REQUEST_SUCCESS:
       return payload.articles;
+    case SEARCH_REQUEST_FAILURE:
+      return [];
     default:
       return state;
   }
