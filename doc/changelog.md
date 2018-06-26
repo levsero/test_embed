@@ -1,6 +1,6 @@
 ## Changelog
 ### 25 June 2018
-- Released minor changes to Web Widget design. Learn more [here](https://support.zendesk.com/hc/en-us/articles/360001558868/preview/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MzYwMDAxNTU4ODY4LCJleHAiOjE1Mjk2Mjk5MzR9.ghVRlZt9MdhwNfX2Q_P1oF2-GHtuKxCpMqsSyH63mh0).
+- Released minor changes to Web Widget design. Learn more [here](https://support.zendesk.com/hc/en-us/articles/360001558868-Update-to-Web-Widget-interface-and-experience).
   - Widget height is now fixed (except for initial Help Center search state). 
   - The channel choice menu (when Talk and Chat are enabled or when enabled via the channel choice API) is now displayed as a separate “screen” in the Web Widget. Previously this was a pop-up menu displayed above the Help Center search results or article view.
   - Form submission (contact form and callback form) and Talk Call Us screens now also conform to the new fixed height with minor visual design updates.
