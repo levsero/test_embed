@@ -17,9 +17,10 @@
 }
 
 .ticketFormsListMobile {
-  composes: u-paddingHL u-textSize15 from global;
+  composes: u-paddingHL from global;
   padding-top: #{24/$font-size}rem;
   padding-bottom: #{24/$font-size}rem;
+  font-size: $font-size-mobile;
 
   &:hover, &:focus, &:active {
     background: $zd-color-snow;

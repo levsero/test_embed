@@ -23,7 +23,7 @@
 }
 
 .ticketFormTitleMobile {
-  composes: u-textSize15 from global;
+  font-size: $font-size-mobile;
 }
 
 .ticketFormContainer {

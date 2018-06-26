@@ -165,7 +165,7 @@ $menu-height: #{200/$font-size}rem;
 }
 
 .labelPortrait {
-  composes: u-textSize15 from global;
+  font-size: $font-size-mobile;
 }
 
 .labelLandscape {

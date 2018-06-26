@@ -16,7 +16,8 @@
 }
 
 .contentMobile {
-  composes: u-textHeightLrg u-textSize15 from global;
+  composes: u-textHeightLrg from global;
+  font-size: $font-size-mobile;
 }
 
 .form {
@@ -62,7 +63,8 @@
 }
 
 .phoneOnlyMobileContainer {
-  composes: u-textHeightLrg u-textSize15 from global;
+  composes: u-textHeightLrg from global;
+  font-size: $font-size-mobile;
 }
 
 .phoneOnlyMessage {
