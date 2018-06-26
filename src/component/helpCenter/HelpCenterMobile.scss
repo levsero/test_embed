@@ -18,8 +18,9 @@
 }
 
 .searchTitle {
-  composes: u-textSizeBaseMobile u-marginTM u-textCenter from global;
+  composes: u-marginTM u-textCenter from global;
 
+  font-size: $font-size-mobile;
   padding-top: 20%; /* 2 */
   padding-top: calc(30% - (#{40/$font-size}rem));
 
@@ -40,7 +41,9 @@
 }
 
 .linkContainer {
-  composes: u-textSizeBaseMobile u-textCenter u-marginTL from global;
+  composes: u-textCenter u-marginTL from global;
+
+  font-size: $font-size-mobile;
 }
 
 .container {

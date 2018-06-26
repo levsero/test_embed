@@ -28,7 +28,7 @@
 }
 
 .itemMobile {
-  composes: u-textSizeBaseMobile from global;
+  font-size: $font-size-mobile;
 }
 
 .listBottom {
@@ -49,7 +49,7 @@
 }
 
 .noResultsMobile {
-  composes: u-textSizeBaseMobile from global;
+  font-size: $font-size-mobile;
 }
 
 .noResultsParagraph {
@@ -69,7 +69,7 @@
 }
 
 .legendMobile {
-  composes: u-textSizeBaseMobile from global;
+  font-size: $font-size-mobile;
 }
 
 .contextualNoResults {

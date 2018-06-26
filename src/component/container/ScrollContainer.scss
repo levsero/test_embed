@@ -52,7 +52,7 @@
 }
 
 .titleMobile {
-  composes: u-textSizeBaseMobile from global;
+  font-size: $font-size-mobile;
 }
 
 .content {

@@ -18,8 +18,9 @@
 }
 
 .mobile {
-  composes: u-sizeFull u-textSizeBaseMobile u-textTruncate from global;
+  composes: u-sizeFull u-textTruncate from global;
 
+  font-size: $font-size-mobile;
   line-height: 2.5;
   max-width: 100%; /* 1 */
 }

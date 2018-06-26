@@ -6,7 +6,9 @@
 }
 
 .searchTerm {
-  composes: Arrange-sizeFit u-textSizeBaseMobile u-hsizeAll u-textBody u-paddingHT from global;
+  composes: Arrange-sizeFit u-hsizeAll u-textBody u-paddingHT from global;
+
+  font-size: $font-size-mobile;
 }
 
 .container {
