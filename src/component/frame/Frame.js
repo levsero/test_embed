@@ -20,6 +20,7 @@ import { clickBusterRegister,
 import { win } from 'utility/globals';
 import { cssTimeToMs } from 'utility/utils';
 import { updateWidgetShown, widgetHideAnimationComplete } from 'src/redux/modules/base/base-actions';
+import { FONT_SIZE } from 'constants/shared';
 
 // Unregister lodash from window._
 if (!__DEV__) {
@@ -27,7 +28,7 @@ if (!__DEV__) {
 }
 
 const scrollingStyleDelay = 50; // small delay so that safari has finished rendering
-const sizingRatio = 12 * getZoomSizingRatio();
+const sizingRatio = FONT_SIZE * getZoomSizingRatio();
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 const zIndex = settings.get('zIndex');
 const isPositionTop = settings.get('position.vertical') === 'top';

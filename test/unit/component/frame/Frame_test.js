@@ -137,6 +137,9 @@ describe('Frame', () => {
         updateWidgetShown: mockUpdateWidgetShown,
         widgetHideAnimationComplete: mockWidgetHideAnimationComplete
       },
+      'constants/shared': {
+        FONT_SIZE: 14
+      },
       'lodash': _,
       'component/Icon': {
         Icon: noop
