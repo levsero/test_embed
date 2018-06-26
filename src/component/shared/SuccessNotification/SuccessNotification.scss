@@ -1,7 +1,8 @@
 @import '../../../styles/_vars.scss';
 
 .content {
-  composes: u-textCenter u-textSizeNml u-textHeightMed from global;
+  composes: u-textCenter u-textHeightMed from global;
+  font-size: #{14/$font-size}rem !important;
   margin-top: #{50/$font-size}rem !important;
   margin-bottom: 80%;
 }

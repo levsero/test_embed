@@ -61,7 +61,9 @@
 }
 
 .legend {
-  composes: u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody u-textBold from global;
+  composes: u-paddingTT Arrange Arrange--middle u-textBody u-textBold from global;
+
+  font-size: #{14/$font-size}rem !important;
 }
 
 .legendContent {

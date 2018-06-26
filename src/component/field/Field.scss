@@ -35,7 +35,7 @@
 }
 
 .labelLandscape {
-  composes: u-textSizeSml from global;
+  font-size: #{13/$font-size}rem
 }
 
 .container {

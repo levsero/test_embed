@@ -6,8 +6,8 @@
 
  // If this changes it also needs to change in javascript shared constants
 $font-size: 14;
-
 $font-size-lrg: #{15/$font-size}rem;
+$font-size-mobile: #{15/$font-size}rem;
 
 $thin-border-size: #{1.1/$font-size}rem; /* 1 */
 

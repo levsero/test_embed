@@ -46,6 +46,6 @@
 }
 
 .label {
-  composes: u-pullLeft u-textSizeNml from global;
+  composes: u-pullLeft from global;
   padding-top: #{1/$font-size}rem;
 }

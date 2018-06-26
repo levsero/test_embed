@@ -77,7 +77,7 @@ $menu-height: #{200/$font-size}rem;
 }
 
 .labelLandscape {
-  composes: u-textSizeSml from global;
+  font-size: #{13/$font-size}rem;
 }
 
 .menuContainer {
