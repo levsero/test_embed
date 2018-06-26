@@ -40,7 +40,7 @@ $Button-nudge: 5;
 * ZendeskGarden style override
 */
 .c-btn {
-  font-size: #{13/$font-size}rem;
+  font-size: $font-size-lrg;
   padding-right: #{24/$font-size}rem;
   padding-left: #{24/$font-size}rem;
   min-width: 0;

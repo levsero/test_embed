@@ -5,7 +5,7 @@
 }
 
 .title {
-  font-size: #{13/$font-size}rem;
+  font-size: $font-size-lrg;
 
   span {
     font-weight: normal;
@@ -13,12 +13,12 @@
 }
 
 .dayList {
-  font-size: #{13/$font-size}rem;
+  font-size: $font-size-lrg;
   margin: #{16/$font-size}rem 0;
 }
 
 .dayName {
-  font-size: #{13/$font-size}rem;
+  font-size: $font-size-lrg;
   font-weight: bold;
   padding-bottom: #{4/$font-size}rem;
 }
@@ -38,7 +38,7 @@
 
 .dropdownLabel {
   color: $zd-color-dark-gray !important;
-  font-size: #{13/$font-size}rem;
+  font-size: $font-size-lrg;
 }
 
 .dropdownMenuContainer {

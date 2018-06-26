@@ -11,6 +11,7 @@ import { settings } from 'service/settings';
 import { win } from 'utility/globals';
 import { updateEmbedAccessible,
   updateArturos } from 'src/redux/modules/base';
+import { FONT_SIZE } from 'constants/shared';
 
 const embedsMap = {
   'chat': chat,
@@ -246,7 +247,7 @@ function postRenderCallbacks() {
 }
 
 function propagateFontRatio(ratio) {
-  const fontSize = (12 * ratio.toFixed(2)) + 'px';
+  const fontSize = (FONT_SIZE * ratio.toFixed(2)) + 'px';
 
   renderedEmbedsApply((embed) => {
     embed.updateBaseFontSize(fontSize);

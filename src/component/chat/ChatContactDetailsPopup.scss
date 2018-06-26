@@ -30,7 +30,7 @@
 .resultMessage {
   float: left;
   width: 88%;
-  font-size: #{13/$font-size}rem;
+  font-size: $font-size-lrg;
   line-height: 1.4;
   color: $zd-color-oil;
 
@@ -43,7 +43,7 @@
   color: $zd-color-dark-gray;
   margin-bottom: #{16/$font-size}rem;
   text-align: center;
-  font-size: #{13/$font-size}rem;
+  font-size: $font-size-lrg;
 }
 
 .form {
@@ -69,12 +69,12 @@
 
 .fieldLabel {
   composes: u-marginBS from global;
-  font-size: #{13/$font-size}rem !important;
+  font-size: $font-size-lrg !important;
   color: $zd-color-dark-gray !important;
 }
 
 .fieldInputMobile {
-  font-size: #{13/$font-size}rem !important;
+  font-size: $font-size-lrg !important;
 }
 
 .loadingSpinner {

@@ -1,7 +1,7 @@
 @import '../../styles/_vars.scss';
 
 .successContainer {
-  font-size: #{13/$font-size}rem;
+  font-size: $font-size-lrg;
   line-height: #{20/$font-size}rem;
   color: $zd-color-oil;
 }

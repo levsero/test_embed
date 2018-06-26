@@ -41,7 +41,8 @@
 
   word-break: break-word;
   line-height: 1.5;
-  font-size: #{13/$font-size}rem;
+  font-size: $font-size-lrg;
+  max-width: #{339/$font-size}rem;
 
   p {
     margin-bottom: #{15/$font-size}rem;
@@ -89,7 +90,7 @@
   }
 
   h4 {
-    font-size: #{13/$font-size}rem;
+    font-size: $font-size-lrg;
   }
 
   h5, .wysiwyg-font-size-small {
@@ -137,7 +138,7 @@
   table {
     word-break: normal;
     text-align: left;
-    font-size: #{13/$font-size}rem;
+    font-size: $font-size-lrg;
     margin-bottom: #{10/$font-size}rem;
     margin-right: #{3/$font-size}rem;
   }

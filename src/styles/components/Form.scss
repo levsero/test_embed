@@ -33,7 +33,7 @@
   border-radius: #{4/$font-size}rem;
   padding: #{9.5/$font-size}rem $spacing-sml #{9.5/$font-size}rem;
   color: $secondary-color;
-  font-size: #{13/$font-size}rem;
+  font-size: $font-size-lrg;
 
   textarea, input, select {
     border: none;
