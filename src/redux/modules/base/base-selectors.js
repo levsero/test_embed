@@ -1,3 +1,6 @@
+import { store } from 'service/persistence';
+import { isTokenValid } from 'utility/utils';
+
 export const getSubmitTicketEmbed = (state) => !!state.base.embeds.ticketSubmissionForm;
 export const getZopimChatEmbed = (state) => !!state.base.embeds.zopimChat;
 export const getChatEmbed = (state) => !!state.base.embeds.chat;
@@ -16,3 +19,15 @@ export const getChatStandalone = (state) => {
 
   return getChatEmbed(state) && !otherProducts;
 };
+
+export const getOAuth = () => {
+  return store.get('zE_oauth');
+};
+
+export const getAuthToken = () => {
+  const oauth = getOAuth();
+
+  return (oauth && oauth.token) ? oauth.token : null;
+};
+
+export const getBaseIsAuthenticated = () => isTokenValid(getOAuth());

@@ -1,3 +1,4 @@
+import jsonwebtoken from 'jsonwebtoken';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
@@ -7,7 +8,19 @@ let actions,
   chatNotificationDismissedSpy,
   chatOpenedSpy,
   mockEmailValidValue,
-  mockStore;
+  mockStore,
+  mockAuthSettings,
+  mockOAuth,
+  mockBaseIsAuthenticated,
+  mockIsTokenValid,
+  mockExtractTokenId,
+  mockIsTokenRenewable,
+  mockIsTokenRevoked,
+  mockPersistentStoreValue,
+  persistentStoreRemoveSpy = jasmine.createSpy('remove'),
+  persistentStoreSetSpy = jasmine.createSpy('set'),
+  httpPostSpy = jasmine.createSpy('http'),
+  broadcastSpy = jasmine.createSpy('broadcast');
 
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
@@ -28,7 +41,41 @@ describe('base redux actions', () => {
         chatNotificationDismissed: chatNotificationDismissedSpy,
         chatOpened: chatOpenedSpy
       },
-      'utility/utils': { emailValid: () => mockEmailValidValue }
+      'utility/utils': {
+        emailValid: () => mockEmailValidValue,
+        isTokenValid: () => mockIsTokenValid,
+        extractTokenId: () => mockExtractTokenId,
+        isTokenRenewable: () => mockIsTokenRenewable,
+        isTokenRevoked: () => mockIsTokenRevoked
+      },
+      'service/settings': {
+        settings: {
+          getSupportAuthSettings: () => mockAuthSettings
+        }
+      },
+      'src/redux/modules/base/base-selectors': {
+        getOAuth: () => mockOAuth,
+        getBaseIsAuthenticated: () => mockBaseIsAuthenticated
+      },
+      'service/mediator': {
+        mediator: {
+          channel: {
+            broadcast: broadcastSpy
+          }
+        }
+      },
+      'service/persistence': {
+        store: {
+          get: () => mockPersistentStoreValue,
+          remove: persistentStoreRemoveSpy,
+          set: persistentStoreSetSpy
+        }
+      },
+      'service/transport': {
+        http: {
+          send: httpPostSpy
+        }
+      }
     });
 
     const actionsPath = buildSrcPath('redux/modules/base');
@@ -46,6 +93,10 @@ describe('base redux actions', () => {
   });
 
   afterEach(() => {
+    httpPostSpy.calls.reset();
+    persistentStoreSetSpy.calls.reset();
+    persistentStoreRemoveSpy.calls.reset();
+    broadcastSpy.calls.reset();
     mockery.disable();
     mockery.deregisterAll();
   });
@@ -325,6 +376,319 @@ describe('base redux actions', () => {
     it('dispatches an action of type WIDGET_HIDE_ANIMATION_COMPLETE', () => {
       expect(action.type)
         .toEqual(actionTypes.WIDGET_HIDE_ANIMATION_COMPLETE);
+    });
+  });
+
+  describe('logout', function() {
+    let action;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.logout());
+      action = mockStore.getActions()[0];
+    });
+
+    it('clears existing zE_oauth objects from localstorage', () => {
+      expect(persistentStoreRemoveSpy)
+        .toHaveBeenCalledWith('zE_oauth');
+    });
+
+    it('dispatch AUTHENTICATION_LOGGED_OUT', () => {
+      expect(action.type)
+        .toEqual(actionTypes.AUTHENTICATION_LOGGED_OUT);
+    });
+  });
+
+  describe('authenticate', () => {
+    let actionsList,
+      newToken = 'yoloToken';
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.authenticate(newToken));
+      actionsList = mockStore.getActions();
+    });
+
+    it('dispatch AUTHENTICATION_PENDING action', () => {
+      expect(actionsList[0].type)
+        .toEqual(actionTypes.AUTHENTICATION_PENDING);
+    });
+
+    describe('when authentication is required', () => {
+      beforeAll(() => {
+        newToken = 'someNewToken';
+        mockExtractTokenId = 'notTheSameIdAszeoauth';
+        mockBaseIsAuthenticated = false;
+      });
+
+      it('should request a new oauth token', () => {
+        const payload = httpPostSpy.calls.mostRecent().args[0];
+        const params = payload.params;
+
+        expect(httpPostSpy)
+          .toHaveBeenCalled();
+
+        expect(payload.method)
+          .toBe('POST');
+
+        expect(payload.path)
+          .toBe('/embeddable/authenticate');
+
+        expect(params)
+          .toEqual({
+            body: newToken
+          });
+      });
+    });
+
+    describe('when authentication is not required', () => {
+      beforeAll(() => {
+        mockBaseIsAuthenticated = true;
+        mockOAuth = null;
+      });
+
+      it('broadcasts authentication.onSuccess', () => {
+        expect(broadcastSpy)
+          .toHaveBeenCalledWith('authentication.onSuccess');
+      });
+
+      it('dispatchs AUTHENTICATION_SUCCESS action', () => {
+        expect(actionsList[1].type)
+          .toEqual(actionTypes.AUTHENTICATION_SUCCESS);
+      });
+    });
+  });
+
+  describe('renewToken', () => {
+    let zeoauth,
+      renewPayload;
+
+    beforeEach(() => {
+      const jwtPayload = {
+        'iat': 1458011438,
+        'jti': '1234567890',
+        'name': 'Jim Bob',
+        'email': 'jbob@zendesk.com'
+      };
+      const body = { jwt: jsonwebtoken.sign(jwtPayload, 'pencil') };
+
+      zeoauth = {
+        id: '3498589cd03c34be6155b5a6498fe9786985da01', // sha1 hash of jbob@zendesk.com
+        token: 'abcde',
+        expiry: Math.floor(Date.now() / 1000) + (20 * 60),
+        createdAt: Math.floor(Date.now() / 1000) - (1.6 * 60 * 60)
+      };
+      renewPayload = {
+        body: body.jwt,
+        token: {
+          'oauth_token': zeoauth.token,
+          'oauth_expiry': zeoauth.expiry
+        }
+      };
+      mockOAuth = zeoauth;
+      mockAuthSettings = body;
+    });
+
+    describe('when the oauth token is renewable', () => {
+      beforeEach(() => {
+        mockIsTokenRenewable = true;
+        mockStore.dispatch(actions.renewToken());
+      });
+
+      it('should request a new oauth token', () => {
+        const payload = httpPostSpy.calls.mostRecent().args[0];
+        const params = payload.params;
+
+        expect(httpPostSpy)
+          .toHaveBeenCalled();
+
+        expect(payload.method)
+          .toBe('POST');
+
+        expect(payload.path)
+          .toBe('/embeddable/authenticate/renew');
+
+        expect(params)
+          .toEqual(renewPayload);
+      });
+
+      describe('success callback', () => {
+        let mockStatus,
+          action;
+
+        beforeEach(() => {
+          let doneCallback = httpPostSpy.calls.mostRecent().args[0].callbacks.done;
+
+          /* eslint-disable camelcase */
+          doneCallback({
+            status: mockStatus,
+            body: {
+              oauth_token: 'abcde',
+              oauth_expiry: 'someExpiry',
+              oauth_created_at: 'createdAt'
+            }
+          });
+          /* eslint-enable camelcase */
+
+          action = mockStore.getActions()[0];
+        });
+
+        describe('when successful', () => {
+          beforeAll(() => {
+            mockStatus = 200;
+          });
+
+          it('stores the token', () => {
+            expect(persistentStoreSetSpy)
+              .toHaveBeenCalledWith('zE_oauth', {
+                'id': zeoauth.id,
+                'token': 'abcde',
+                'expiry': 'someExpiry',
+                'createdAt': 'createdAt'
+              });
+          });
+
+          it('broadcasts authentication.onSuccess', () => {
+            expect(broadcastSpy)
+              .toHaveBeenCalledWith('authentication.onSuccess');
+          });
+
+          it('dispatchs AUTHENTICATION_SUCCESS action', () => {
+            expect(action.type)
+              .toEqual(actionTypes.AUTHENTICATION_SUCCESS);
+          });
+        });
+
+        describe('when not successful', () => {
+          beforeAll(() => {
+            mockStatus = 987;
+          });
+
+          it('does not store the token', () => {
+            expect(persistentStoreSetSpy)
+              .not
+              .toHaveBeenCalled();
+          });
+
+          it('does not broadcast authentication.onSuccess', () => {
+            expect(broadcastSpy)
+              .not
+              .toHaveBeenCalledWith('authentication.onSuccess');
+          });
+
+          it('does not dispatch AUTHENTICATION_SUCCESS action', () => {
+            expect(action)
+              .toBeUndefined();
+          });
+        });
+      });
+
+      describe('fail callback', () => {
+        let mockStatus,
+          action;
+
+        beforeEach(() => {
+          let failCallback = httpPostSpy.calls.mostRecent().args[0].callbacks.fail;
+
+          failCallback({
+            status: mockStatus
+          });
+
+          action = mockStore.getActions()[0];
+        });
+
+        describe('when successful', () => {
+          beforeAll(() => {
+            mockStatus = 200;
+          });
+
+          it('does not remove token', () => {
+            expect(persistentStoreRemoveSpy)
+              .not
+              .toHaveBeenCalled();
+          });
+
+          it('does not dispatch AUTHENTICATION_FAILURE action', () => {
+            expect(action)
+              .toBeUndefined();
+          });
+        });
+
+        describe('when not successful', () => {
+          beforeAll(() => {
+            mockStatus = 400;
+          });
+
+          it('does remove token', () => {
+            expect(persistentStoreRemoveSpy)
+              .toHaveBeenCalledWith('zE_oauth');
+          });
+
+          it('does dispatch AUTHENTICATION_FAILURE action', () => {
+            expect(action.type)
+              .toEqual(actionTypes.AUTHENTICATION_FAILURE);
+          });
+        });
+      });
+    });
+
+    describe('when the oauth token is not renewable', () => {
+      beforeEach(() => {
+        mockIsTokenRenewable = false;
+        mockStore.dispatch(actions.renewToken());
+      });
+
+      it('should return and not request a new oauth token', () => {
+        expect(httpPostSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('revokeToken', () => {
+    let action,
+      revokedAt;
+
+    beforeEach(() => {
+      mockStore.dispatch(actions.revokeToken(revokedAt));
+      action = mockStore.getActions()[0];
+    });
+
+    describe('when no oauth stored', () => {
+      beforeAll(() => {
+        mockOAuth = null;
+      });
+
+      it('dispatches AUTHENTICATION_TOKEN_NOT_REVOKED', () => {
+        expect(action.type)
+          .toEqual(actionTypes.AUTHENTICATION_TOKEN_NOT_REVOKED);
+      });
+    });
+
+    describe('when token is not revoked', () => {
+      beforeAll(() => {
+        mockIsTokenRevoked = false;
+      });
+
+      it('dispatches AUTHENTICATION_TOKEN_NOT_REVOKED', () => {
+        expect(action.type)
+          .toEqual(actionTypes.AUTHENTICATION_TOKEN_NOT_REVOKED);
+      });
+    });
+
+    describe('when token is revoked and oauth is stored', () => {
+      beforeAll(() => {
+        mockOAuth = 'someauth';
+        mockIsTokenRevoked = true;
+      });
+
+      it('clears existing zE_oauth objects from localstorage', () => {
+        expect(persistentStoreRemoveSpy)
+          .toHaveBeenCalledWith('zE_oauth');
+      });
+
+      it('dispatch AUTHENTICATION_TOKEN_REVOKED', () => {
+        expect(action.type)
+          .toEqual(actionTypes.AUTHENTICATION_TOKEN_REVOKED);
+      });
     });
   });
 });

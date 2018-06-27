@@ -8,7 +8,12 @@ describe('base selectors', () => {
     getWidgetShown,
     getIPMWidget,
     getChatStandalone,
-    getNewHeight;
+    getNewHeight,
+    getOAuth,
+    getAuthToken,
+    getBaseIsAuthenticated,
+    mockStoreValue,
+    isTokenValidSpy = jasmine.createSpy('isTokenValid');
 
   beforeEach(() => {
     mockery.enable();
@@ -16,6 +21,17 @@ describe('base selectors', () => {
     const selectorsPath = buildSrcPath('redux/modules/base/base-selectors');
 
     mockery.registerAllowable(selectorsPath);
+
+    initMockRegistry({
+      'service/persistence': {
+        store: {
+          get: () => mockStoreValue
+        }
+      },
+      'utility/utils': {
+        isTokenValid: isTokenValidSpy
+      }
+    });
 
     const selectors = requireUncached(selectorsPath);
 
@@ -29,6 +45,9 @@ describe('base selectors', () => {
     getChatStandalone = selectors.getChatStandalone;
     getIPMWidget = selectors.getIPMWidget;
     getNewHeight = selectors.getNewHeight;
+    getOAuth = selectors.getOAuth;
+    getAuthToken = selectors.getAuthToken;
+    getBaseIsAuthenticated = selectors.getBaseIsAuthenticated;
   });
 
   describe('getActiveEmbed', () => {
@@ -295,6 +314,75 @@ describe('base selectors', () => {
         expect(result)
           .toEqual(false);
       });
+    });
+  });
+
+  describe('getOAuth', () => {
+    let result;
+
+    beforeEach(() => {
+      mockStoreValue = 'someAuth';
+      result = getOAuth();
+    });
+
+    it('returns correct oauth details', () => {
+      expect(result)
+        .toEqual('someAuth');
+    });
+  });
+
+  describe('getAuthToken', () => {
+    let result;
+
+    beforeEach(() => {
+      result = getAuthToken();
+    });
+
+    describe('when token does exist', () => {
+      beforeAll(() => {
+        mockStoreValue = {
+          token: 'token'
+        };
+      });
+
+      it('returns the token', () => {
+        expect(result)
+          .toEqual('token');
+      });
+    });
+
+    describe('when token does not exist', () => {
+      beforeAll(() => {
+        mockStoreValue = {};
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toEqual(null);
+      });
+    });
+
+    describe('when whole token object does not exist', () => {
+      beforeAll(() => {
+        mockStoreValue = undefined;
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toEqual(null);
+      });
+    });
+  });
+
+  describe('getBaseIsAuthenticated', () => {
+    beforeEach(() => {
+      mockStoreValue = 'yolo';
+      getBaseIsAuthenticated();
+    });
+
+    it('calls isTokenValid with correct params', () => {
+      expect(isTokenValidSpy)
+        .toHaveBeenCalledWith('yolo');
     });
   });
 });
