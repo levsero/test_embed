@@ -23,7 +23,6 @@ describe('base root reducer', () => {
 
     const subStateList = [
       'activeEmbed',
-      'authenticated',
       'widgetShown',
       'embeds',
       'backButtonVisible',

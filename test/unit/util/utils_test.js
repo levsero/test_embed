@@ -580,7 +580,7 @@ describe('utils', () => {
       result = extractTokenId(jwt);
     });
 
-    describe('invalid jwt', () => {
+    describe('when there is an invalid jwt', () => {
       beforeAll(() => {
         jwt = 'sdfgyuioiuygfvbh';
       });
@@ -591,7 +591,7 @@ describe('utils', () => {
       });
     });
 
-    describe('valid jwt with email', () => {
+    describe('when there is a valid jwt with email', () => {
       beforeAll(() => {
         jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20ifQ.bQcIku6h4lURPrw-gu_irjfYdbwZW8cVB9tCGA-crCA';
       });

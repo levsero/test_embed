@@ -3,7 +3,6 @@ import {
   UPDATE_ARTUROS,
   UPDATE_EMBED,
   UPDATE_BACK_BUTTON_VISIBILITY,
-  UPDATE_AUTHENTICATED,
   UPDATE_WIDGET_SHOWN,
   IDENTIFY_RECIEVED,
   WIDGET_HIDE_ANIMATION_COMPLETE,
@@ -171,13 +170,6 @@ export const updateBackButtonVisibility = (visible = true) => {
   return {
     type: UPDATE_BACK_BUTTON_VISIBILITY,
     payload: visible
-  };
-};
-
-export const updateAuthenticated = (bool) => {
-  return {
-    type: UPDATE_AUTHENTICATED,
-    payload: bool
   };
 };
 

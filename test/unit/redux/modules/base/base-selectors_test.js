@@ -4,7 +4,6 @@ describe('base selectors', () => {
     getTalkEmbed,
     getActiveEmbed,
     getChatEmbed,
-    getAuthenticated,
     getWidgetShown,
     getIPMWidget,
     getChatStandalone,
@@ -40,7 +39,6 @@ describe('base selectors', () => {
     getHelpCenterEmbed = selectors.getHelpCenterEmbed;
     getTalkEmbed = selectors.getTalkEmbed;
     getChatEmbed = selectors.getChatEmbed;
-    getAuthenticated = selectors.getAuthenticated;
     getWidgetShown = selectors.getWidgetShown;
     getChatStandalone = selectors.getChatStandalone;
     getIPMWidget = selectors.getIPMWidget;
@@ -143,24 +141,6 @@ describe('base selectors', () => {
     });
 
     it('returns the current state of embed.chat', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
-
-  describe('getAuthenticated', () => {
-    let result;
-    const mockState = {
-      base: {
-        authenticated: true
-      }
-    };
-
-    beforeEach(() => {
-      result = getAuthenticated(mockState);
-    });
-
-    it('returns the current state of authenticated', () => {
       expect(result)
         .toEqual(true);
     });
