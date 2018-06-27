@@ -149,6 +149,10 @@ export class Frame extends Component {
     return this.state.iframeDimensions;
   }
 
+  getFrameHead = () => {
+    return this.getContentDocument().head;
+  }
+
   updateFrameLocale = () => {
     const html = this.getContentDocument().documentElement;
     const direction = i18n.isRTL() ? 'rtl' : 'ltr';
