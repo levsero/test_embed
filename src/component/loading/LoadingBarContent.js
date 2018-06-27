@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { locals as styles } from './LoadingContentBars.scss';
+import { locals as styles } from './LoadingBarContent.scss';
 
-export class LoadingContentBars extends Component {
+export class LoadingBarContent extends Component {
   static propTypes = {
     containerClasses: PropTypes.string
   };

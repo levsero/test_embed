@@ -6,7 +6,7 @@ describe('HelpCenterDesktop component', () => {
   const contextualSearchRequestSent = 'CONTEXTUAL_SEARCH_REQUEST_SENT';
 
   const ChannelChoicePopupDesktop = noopReactComponent();
-  const LoadingContentBars = noopReactComponent();
+  const LoadingBarContent = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
@@ -55,7 +55,7 @@ describe('HelpCenterDesktop component', () => {
       'component/button/ButtonGroup': {
         ButtonGroup: noopReactComponent()
       },
-      'component/loading/LoadingContentBars': { LoadingContentBars },
+      'component/loading/LoadingBarContent': { LoadingBarContent },
       './HelpCenterDesktop.scss': {
         locals: {
           footer: 'footerClasses',
@@ -651,8 +651,8 @@ describe('HelpCenterDesktop component', () => {
           mockArticleViewActive = false;
         });
 
-        it('returns a LoadingContentBars component', () => {
-          expect(TestUtils.isElementOfType(result, LoadingContentBars))
+        it('returns a LoadingBarContent component', () => {
+          expect(TestUtils.isElementOfType(result, LoadingBarContent))
             .toEqual(true);
         });
       });

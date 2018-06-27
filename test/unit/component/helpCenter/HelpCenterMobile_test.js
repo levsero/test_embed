@@ -6,7 +6,7 @@ describe('HelpCenterMobile component', () => {
 
   const contextualSearchRequestSent = 'CONTEXTUAL_SEARCH_REQUEST_SENT';
 
-  const LoadingContentBars = noopReactComponent();
+  const LoadingBarContent = noopReactComponent();
 
   beforeEach(() => {
     onSearchFieldFocusSpy = jasmine.createSpy();
@@ -62,7 +62,7 @@ describe('HelpCenterMobile component', () => {
       'component/button/ButtonGroup': {
         ButtonGroup: noopReactComponent()
       },
-      'component/loading/LoadingContentBars': { LoadingContentBars },
+      'component/loading/LoadingBarContent': { LoadingBarContent },
       './HelpCenterMobile.scss': {
         locals: {
           container: 'containerClasses',
@@ -377,8 +377,8 @@ describe('HelpCenterMobile component', () => {
             mockArticleViewActive = false;
           });
 
-          it('returns a LoadingContentBars component', () => {
-            expect(TestUtils.isElementOfType(result, LoadingContentBars))
+          it('returns a LoadingBarContent component', () => {
+            expect(TestUtils.isElementOfType(result, LoadingBarContent))
               .toEqual(true);
           });
         });

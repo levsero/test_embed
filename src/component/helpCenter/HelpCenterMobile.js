@@ -8,7 +8,7 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { SearchFieldButton } from 'component/button/SearchFieldButton';
 import { ZendeskLogo } from 'component/ZendeskLogo';
-import { LoadingContentBars } from 'component/loading/LoadingContentBars';
+import { LoadingBarContent } from 'component/loading/LoadingBarContent';
 import { i18n } from 'service/i18n';
 import { CONTEXTUAL_SEARCH_REQUEST_SENT } from 'src/redux/modules/helpCenter/helpCenter-action-types';
 
@@ -264,7 +264,7 @@ export class HelpCenterMobile extends Component {
     if (this.state.showIntroScreen) return null;
 
     return (contextualSearchPending && !articleViewActive)
-      ? <LoadingContentBars />
+      ? <LoadingBarContent />
       : children;
   }
 
