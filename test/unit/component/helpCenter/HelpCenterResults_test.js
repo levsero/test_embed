@@ -5,6 +5,7 @@ describe('HelpCenterResults component', () => {
     articles;
 
   const helpCenterResultsPath = buildSrcPath('component/helpCenter/HelpCenterResults');
+  const contextualSearchRequestSuccess = 'CONTEXTUAL_SEARCH_REQUEST_SUCCESS';
 
   beforeEach(() => {
     mockery.enable();
@@ -26,7 +27,10 @@ describe('HelpCenterResults component', () => {
           legend: 'legendClasses',
           resultsBorder: 'borderClasses',
           resultsPadding: 'resultsPaddingClasses',
-          listBottom: 'listBottomClasses'
+          listBottom: 'listBottomClasses',
+          contextualNoResultsMobile: 'contextualNoResultsMobileClass',
+          useSearchBarTextMobile: 'useSearchBarTextMobileClass',
+          useSearchBarTextDesktop: 'useSearchBarTextDesktopClass'
         }
       },
       'service/i18n': {
@@ -37,6 +41,9 @@ describe('HelpCenterResults component', () => {
           isRTL: jasmine.createSpy(),
           t: _.identity
         }
+      },
+      'src/redux/modules/helpCenter/helpCenter-action-types': {
+        CONTEXTUAL_SEARCH_REQUEST_SUCCESS: contextualSearchRequestSuccess
       }
     });
 
@@ -206,7 +213,80 @@ describe('HelpCenterResults component', () => {
     });
   });
 
-  describe('#renderNoResults', () => {
+  describe('renderNoResults', () => {
+    let component,
+      mockHasContextualSearched,
+      mockContextualSearchScreen;
+
+    beforeEach(() => {
+      component = instanceRender(
+        <HelpCenterResults
+          hasContextualSearched={mockHasContextualSearched}
+          contextualSearchScreen={mockContextualSearchScreen}
+        />);
+
+      spyOn(component, 'renderContextualNoResults');
+      spyOn(component, 'renderDefaultNoResults');
+
+      component.renderNoResults();
+    });
+
+    describe('when props.hasContextualSearched is true', () => {
+      beforeAll(() => {
+        mockHasContextualSearched = true;
+      });
+
+      describe('when props.contextualSearchScreen is successful', () => {
+        beforeAll(() => {
+          mockContextualSearchScreen = contextualSearchRequestSuccess;
+        });
+
+        it('calls renderContextualNoResults', () => {
+          expect(component.renderContextualNoResults)
+            .toHaveBeenCalled();
+        });
+
+        it('does not call renderDefaultNoResults', () => {
+          expect(component.renderDefaultNoResults)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when props.contextualSearchScreen is not successful', () => {
+        beforeAll(() => {
+          mockContextualSearchScreen = 'foo screen';
+        });
+
+        it('calls renderDefaultNoResults', () => {
+          expect(component.renderDefaultNoResults)
+            .toHaveBeenCalled();
+        });
+
+        it('does not call renderContextualNoResults', () => {
+          expect(component.renderContextualNoResults)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when props.hasContextualSearched is false', () => {
+      beforeAll(() => {
+        mockHasContextualSearched = false;
+      });
+
+      it('calls renderDefaultNoResults', () => {
+        expect(component.renderDefaultNoResults)
+          .toHaveBeenCalled();
+      });
+
+      it('does not call renderContextualNoResults', () => {
+        expect(component.renderContextualNoResults)
+          .not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('renderDefaultNoResults', () => {
     describe('when props.searchFailed is false', () => {
       beforeEach(() => {
         component = instanceRender(
@@ -214,7 +294,7 @@ describe('HelpCenterResults component', () => {
             searchFailed={false}
             previousSearchTerm={'Help me!'} />
         );
-        component.renderNoResults();
+        component.renderDefaultNoResults();
       });
 
       it('displays the embeddable_framework.helpCenter.search.noResults.title label with the previousSearchTerm', () => {
@@ -234,7 +314,7 @@ describe('HelpCenterResults component', () => {
       beforeEach(() => {
         mockI18n = mockRegistry['service/i18n'].i18n;
         component = instanceRender(<HelpCenterResults searchFailed={true} />);
-        component.renderNoResults();
+        component.renderDefaultNoResults();
       });
 
       it('displays the embeddable_framework.helpCenter.search.error.title label', () => {
@@ -266,6 +346,77 @@ describe('HelpCenterResults component', () => {
 
           expect(mockI18n.t)
             .toHaveBeenCalledWith('embeddable_framework.helpCenter.search.error.body');
+        });
+      });
+    });
+  });
+
+  describe('renderContextualNoResults', () => {
+    let result,
+      mockFullscreen;
+
+    beforeEach(() => {
+      const component = instanceRender(<HelpCenterResults fullscreen={mockFullscreen} />);
+
+      result = component.renderContextualNoResults();
+    });
+
+    it('displays the embeddable_framework.helpCenter.content.useSearchBar string', () => {
+      const paragraphElement = result.props.children;
+      const targetContent = paragraphElement.props.children;
+
+      expect(targetContent)
+        .toEqual('embeddable_framework.helpCenter.content.useSearchBar');
+    });
+
+    describe('useSearchBarStyles', () => {
+      describe('when props.fullscreen is true', () => {
+        beforeAll(() => {
+          mockFullscreen = true;
+        });
+
+        it('renders with useSearchBarTextMobile class', () => {
+          const targetElement = result.props.children;
+
+          expect(targetElement.props.className)
+            .toContain('useSearchBarTextMobileClass');
+        });
+      });
+
+      describe('when props.fullscreen is false', () => {
+        beforeAll(() => {
+          mockFullscreen = false;
+        });
+
+        it('renders with useSearchBarTextDesktop class', () => {
+          const targetElement = result.props.children;
+
+          expect(targetElement.props.className)
+            .toContain('useSearchBarTextDesktopClass');
+        });
+      });
+    });
+
+    describe('containerStyles', () => {
+      describe('when props.fullscreen is true', () => {
+        beforeAll(() => {
+          mockFullscreen = true;
+        });
+
+        it('renders with contextualNoResultsMobile class', () => {
+          expect(result.props.className)
+            .toContain('contextualNoResultsMobileClass');
+        });
+      });
+
+      describe('when props.fullscreen is false', () => {
+        beforeAll(() => {
+          mockFullscreen = false;
+        });
+
+        it('does not render with contextualNoResultsMobile class', () => {
+          expect(result.props.className)
+            .not.toContain('contextualNoResultsMobileClass');
         });
       });
     });
