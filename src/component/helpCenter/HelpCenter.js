@@ -32,7 +32,8 @@ import { getActiveArticle,
   getArticleViewActive,
   getRestrictedImages,
   getChannelChoiceShown,
-  getSearchFieldValue } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+  getSearchFieldValue,
+  getContextualSearchScreen } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getNotificationCount,
   getIsChatting } from 'src/redux/modules/chat/chat-selectors';
@@ -51,6 +52,7 @@ const mapStateToProps = (state) => {
     previousSearchTerm: getPreviousSearchTerm(state),
     hasSearched: getHasSearched(state),
     hasContextualSearched: getHasContextuallySearched(state),
+    contextualSearchScreen: getContextualSearchScreen(state),
     callbackEnabled: isCallbackEnabled(state),
     articleViewActive: getArticleViewActive(state),
     articles: getArticles(state),
@@ -110,7 +112,8 @@ class HelpCenter extends Component {
     handleSearchFieldChange: PropTypes.func.isRequired,
     handleSearchFieldFocus: PropTypes.func.isRequired,
     chatNotificationCount: PropTypes.number,
-    isChatting: PropTypes.bool
+    isChatting: PropTypes.bool,
+    contextualSearchScreen: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -323,6 +326,7 @@ class HelpCenter extends Component {
       searchFailed,
       previousSearchTerm,
       hasContextualSearched,
+      contextualSearchScreen,
       articleViewActive,
       hasSearched,
       articles
@@ -341,6 +345,7 @@ class HelpCenter extends Component {
         previousSearchTerm={previousSearchTerm}
         handleArticleClick={this.handleArticleClick}
         hasContextualSearched={hasContextualSearched}
+        contextualSearchScreen={contextualSearchScreen}
         showContactButton={showNextButton}
         hideZendeskLogo={hideZendeskLogo} />
     );
@@ -364,12 +369,11 @@ class HelpCenter extends Component {
   }
 
   renderHelpCenterDesktop = (buttonLabel) => {
-    const shadowVisible = this.props.articleViewActive ||
-                          this.props.resultsCount > 0;
-
     return (
       <HelpCenterDesktop
         ref={(el) => { this.helpCenterDesktop = el; }}
+        hasContextualSearched={this.props.hasContextualSearched}
+        contextualSearchScreen={this.props.contextualSearchScreen}
         chatAvailable={this.props.chatAvailable}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
@@ -390,7 +394,6 @@ class HelpCenter extends Component {
         buttonLabel={buttonLabel}
         formTitleKey={this.props.formTitleKey}
         searchFieldValue={this.props.searchFieldValue}
-        shadowVisible={shadowVisible}
         updateFrameSize={this.props.updateFrameSize}
         updateChatScreen={this.props.updateChatScreen}
         newHeight={this.props.newHeight}>
@@ -415,6 +418,7 @@ class HelpCenter extends Component {
         showNextButton={this.props.showNextButton}
         chatAvailable={this.props.chatAvailable}
         hasContextualSearched={this.props.hasContextualSearched}
+        contextualSearchScreen={this.props.contextualSearchScreen}
         channelChoice={this.props.channelChoiceShown}
         callbackEnabled={this.props.callbackEnabled}
         talkEnabled={this.props.talkEnabled}

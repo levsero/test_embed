@@ -3,7 +3,10 @@ describe('HelpCenterDesktop component', () => {
 
   const helpCenterDesktopPath = buildSrcPath('component/helpCenter/HelpCenterDesktop');
 
+  const contextualSearchRequestSent = 'CONTEXTUAL_SEARCH_REQUEST_SENT';
+
   const ChannelChoicePopupDesktop = noopReactComponent();
+  const LoadingContentBars = noopReactComponent();
 
   beforeEach(() => {
     mockery.enable();
@@ -52,6 +55,7 @@ describe('HelpCenterDesktop component', () => {
       'component/button/ButtonGroup': {
         ButtonGroup: noopReactComponent()
       },
+      'component/loading/LoadingContentBars': { LoadingContentBars },
       './HelpCenterDesktop.scss': {
         locals: {
           footer: 'footerClasses',
@@ -68,6 +72,9 @@ describe('HelpCenterDesktop component', () => {
           isRTL: jasmine.createSpy(),
           t: _.identity
         }
+      },
+      'src/redux/modules/helpCenter/helpCenter-action-types': {
+        CONTEXTUAL_SEARCH_REQUEST_SENT: contextualSearchRequestSent
       }
     });
 
@@ -489,6 +496,176 @@ describe('HelpCenterDesktop component', () => {
       it('returns null', () => {
         expect(result)
           .toBeNull();
+      });
+    });
+  });
+
+  describe('renderHeaderContent', () => {
+    let component,
+      componentProps;
+
+    beforeEach(() => {
+      component = instanceRender(<HelpCenterDesktop {...componentProps} />);
+
+      spyOn(component, 'renderForm');
+
+      component.renderHeaderContent();
+    });
+
+    describe('when articleViewActive is true', () => {
+      beforeAll(() => {
+        componentProps = { articleViewActive: true };
+      });
+
+      it('does not call renderForm', () => {
+        expect(component.renderForm)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when articleViewActive is false', () => {
+      beforeAll(() => {
+        componentProps = { articleViewActive: false };
+      });
+
+      describe('when any searched method is used', () => {
+        beforeAll(() => {
+          _.assignIn(componentProps, {
+            hasContextualSearched: true,
+            hasSearched: true
+          });
+        });
+
+        it('calls renderForm', () => {
+          expect(component.renderForm)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when no searched method is used', () => {
+        beforeAll(() => {
+          _.assignIn(componentProps, {
+            hasContextualSearched: false,
+            hasSearched: false
+          });
+        });
+
+        it('does not call renderForm', () => {
+          expect(component.renderForm)
+            .not.toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
+  describe('renderBodyForm', () => {
+    let component,
+      componentProps;
+
+    beforeEach(() => {
+      component = instanceRender(<HelpCenterDesktop {...componentProps} />);
+
+      spyOn(component, 'renderForm');
+
+      component.renderBodyForm();
+    });
+
+    describe('when articleViewActive is true', () => {
+      beforeAll(() => {
+        componentProps = { articleViewActive: true };
+      });
+
+      it('does not call renderForm', () => {
+        expect(component.renderForm)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when articleViewActive is false', () => {
+      beforeAll(() => {
+        componentProps = { articleViewActive: false };
+      });
+
+      describe('when any searched method is used', () => {
+        beforeAll(() => {
+          _.assignIn(componentProps, { hasSearched: true });
+        });
+
+        it('does not call renderForm', () => {
+          expect(component.renderForm)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when no searched method is used', () => {
+        beforeAll(() => {
+          _.assignIn(componentProps, { hasSearched: false });
+        });
+
+        it('calls renderForm', () => {
+          expect(component.renderForm)
+            .toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
+  describe('renderChildContent', () => {
+    let result,
+      mockChildren,
+      mockContextualSearchScreen,
+      mockArticleViewActive;
+
+    beforeEach(() => {
+      mockChildren = <div />;
+
+      const component = instanceRender(
+        <HelpCenterDesktop
+          articleViewActive={mockArticleViewActive}
+          contextualSearchScreen={mockContextualSearchScreen}>
+          {mockChildren}
+        </HelpCenterDesktop>
+      );
+
+      result = component.renderChildContent();
+    });
+
+    describe('when contextualSearchScreen is sent', () => {
+      beforeAll(() => {
+        mockContextualSearchScreen = contextualSearchRequestSent;
+      });
+
+      describe('when articleViewActive is true', () => {
+        beforeAll(() => {
+          mockArticleViewActive = true;
+        });
+
+        it('returns child contents', () => {
+          expect(result)
+            .toEqual(mockChildren);
+        });
+      });
+
+      describe('when articleViewActive is false', () => {
+        beforeAll(() => {
+          mockArticleViewActive = false;
+        });
+
+        it('returns a LoadingContentBars component', () => {
+          expect(TestUtils.isElementOfType(result, LoadingContentBars))
+            .toEqual(true);
+        });
+      });
+    });
+
+    describe('when contextualSearchScreen is not sent', () => {
+      beforeAll(() => {
+        mockContextualSearchScreen = 'foo screen';
+      });
+
+      it('returns child contents', () => {
+        expect(result)
+          .toEqual(mockChildren);
       });
     });
   });

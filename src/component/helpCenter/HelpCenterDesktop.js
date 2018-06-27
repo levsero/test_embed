@@ -7,7 +7,9 @@ import { ChannelChoicePopupDesktop } from 'component/channelChoice/ChannelChoice
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
+import { LoadingContentBars } from 'component/loading/LoadingContentBars';
 import { i18n } from 'service/i18n';
+import { CONTEXTUAL_SEARCH_REQUEST_SENT } from 'src/redux/modules/helpCenter/helpCenter-action-types';
 
 import { locals as styles } from './HelpCenterDesktop.scss';
 
@@ -29,7 +31,6 @@ export class HelpCenterDesktop extends Component {
     onNextClick: PropTypes.func,
     search: PropTypes.func.isRequired,
     searchFieldValue: PropTypes.string,
-    shadowVisible: PropTypes.bool,
     showNextButton: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatEnabled: PropTypes.bool,
@@ -37,7 +38,8 @@ export class HelpCenterDesktop extends Component {
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
     updateFrameSize: PropTypes.func,
-    updateChatScreen: PropTypes.func
+    updateChatScreen: PropTypes.func,
+    contextualSearchScreen: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -51,7 +53,6 @@ export class HelpCenterDesktop extends Component {
     isLoading: false,
     onNextClick: () => {},
     searchFieldValue: '',
-    shadowVisible: false,
     showNextButton: true,
     submitTicketAvailable: true,
     chatEnabled: false,
@@ -75,10 +76,13 @@ export class HelpCenterDesktop extends Component {
       });
     }
 
-    const shadowVisible = this.props.shadowVisible &&
-                          !(!this.props.showNextButton && this.props.hideZendeskLogo);
+    const shadowVisible = !(!this.props.showNextButton && this.props.hideZendeskLogo);
 
     this.refs.scrollContainer.setScrollShadowVisible(shadowVisible);
+  }
+
+  getSearchField() {
+    return this.searchField;
   }
 
   focusField = () => {
@@ -125,7 +129,7 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderBodyForm = () => {
-    return (this.props.hasSearched || this.props.articleViewActive)
+    return (this.props.articleViewActive || this.props.hasSearched)
       ? null
       : this.renderForm();
   }
@@ -170,6 +174,15 @@ export class HelpCenterDesktop extends Component {
       : null;
   }
 
+  renderChildContent() {
+    const { children, contextualSearchScreen, articleViewActive } = this.props;
+    const contextualSearchPending = (contextualSearchScreen === CONTEXTUAL_SEARCH_REQUEST_SENT);
+
+    return (contextualSearchPending && !articleViewActive)
+      ? <LoadingContentBars containerClasses={styles.loadingBars} />
+      : children;
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
@@ -196,7 +209,7 @@ export class HelpCenterDesktop extends Component {
           footerContent={this.renderFooterContent()}
           newHeight={this.props.newHeight}>
           {this.renderBodyForm()}
-          {this.props.children}
+          {this.renderChildContent()}
         </ScrollContainer>
         {this.renderZendeskLogo()}
       </div>

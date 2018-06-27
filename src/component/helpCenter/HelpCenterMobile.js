@@ -8,7 +8,9 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { SearchFieldButton } from 'component/button/SearchFieldButton';
 import { ZendeskLogo } from 'component/ZendeskLogo';
+import { LoadingContentBars } from 'component/loading/LoadingContentBars';
 import { i18n } from 'service/i18n';
+import { CONTEXTUAL_SEARCH_REQUEST_SENT } from 'src/redux/modules/helpCenter/helpCenter-action-types';
 
 import { locals as styles } from './HelpCenterMobile.scss';
 
@@ -36,7 +38,8 @@ export class HelpCenterMobile extends Component {
     setChannelChoiceShown: PropTypes.func,
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
-    callbackEnabled: PropTypes.bool.isRequired
+    callbackEnabled: PropTypes.bool.isRequired,
+    contextualSearchScreen: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -82,6 +85,10 @@ export class HelpCenterMobile extends Component {
     if (this.searchField) {
       this.searchField.setState({ searchInputVal: this.props.searchFieldValue });
     }
+  }
+
+  getSearchField() {
+    return this.searchField;
   }
 
   resetState = () => {
@@ -198,10 +205,12 @@ export class HelpCenterMobile extends Component {
   renderFormContainer = () => {
     return this.props.articleViewActive || !this.state.showIntroScreen
       ? null
-      : (<div>
-        {this.renderForm()}
-        {this.renderLinkContent()}
-      </div>);
+      : (
+        <div>
+          {this.renderForm()}
+          {this.renderLinkContent()}
+        </div>
+      );
   }
 
   renderLinkContent = () => {
@@ -248,6 +257,17 @@ export class HelpCenterMobile extends Component {
       : null;
   }
 
+  renderChildContent() {
+    const { children, contextualSearchScreen, articleViewActive } = this.props;
+    const contextualSearchPending = (contextualSearchScreen === CONTEXTUAL_SEARCH_REQUEST_SENT);
+
+    if (this.state.showIntroScreen) return null;
+
+    return (contextualSearchPending && !articleViewActive)
+      ? <LoadingContentBars />
+      : children;
+  }
+
   render = () => {
     const mobileHideLogoState = this.props.hasSearched;
     const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
@@ -266,7 +286,7 @@ export class HelpCenterMobile extends Component {
           containerClasses={containerClasses}
           isVirtualKeyboardOpen={this.state.searchFieldFocused}>
           {this.renderFormContainer()}
-          {this.props.children}
+          {this.renderChildContent()}
         </ScrollContainer>
         {this.renderZendeskLogo(hideZendeskLogo)}
         {this.renderChannelChoice()}

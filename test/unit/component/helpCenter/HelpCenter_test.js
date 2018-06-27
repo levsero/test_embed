@@ -49,11 +49,23 @@ describe('HelpCenter component', () => {
       },
       'component/helpCenter/HelpCenterDesktop': {
         HelpCenterDesktop: class extends Component {
+          constructor(props) {
+            super(props);
+
+            this.searchField = null;
+            this.helpCenterDesktop = null;
+          }
+
           focusField() {}
+
+          getSearchField() {
+            return this.searchField;
+          }
+
           render() {
             return (
-              <div>
-                <SearchField ref='searchField' />
+              <div ref={(el) => { this.helpCenterDesktop = el; }}>
+                <SearchField ref={(el) => { this.searchField = el; }} />
                 {this.props.children}
               </div>
             );
@@ -62,11 +74,23 @@ describe('HelpCenter component', () => {
       },
       'component/helpCenter/HelpCenterMobile': {
         HelpCenterMobile: class extends Component {
+          constructor(props) {
+            super(props);
+
+            this.searchField = null;
+            this.helpCenterMobile = null;
+          }
+
           hasContextualSearched() {}
+
+          getSearchField() {
+            return this.searchField;
+          }
+
           render() {
             return (
-              <div>
-                <SearchField ref='searchField' />
+              <div ref={(el) => { this.helpCenterMobile = el; }}>
+                <SearchField ref={(el) => { this.searchField = el; }} />
                 {this.props.children}
               </div>
             );
@@ -636,7 +660,7 @@ describe('HelpCenter component', () => {
       );
 
       helpCenter.focusField = focusField;
-      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'valid';
+      helpCenter.getHelpCenterComponent().getSearchField().getValue = () => 'valid';
     });
 
     describe('when performing a contextual search', () => {
@@ -755,7 +779,7 @@ describe('HelpCenter component', () => {
           );
 
           helpCenter.focusField = focusField;
-          helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'valid';
+          helpCenter.getHelpCenterComponent().getSearchField().getValue = () => 'valid';
 
           helpCenter.performSearchWithLocaleFallback(query, successFn);
         });
@@ -876,14 +900,14 @@ describe('HelpCenter component', () => {
 
       helpCenter.performSearchWithLocaleFallback = mockPerformSearchWithLocaleFallback;
 
-      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => '';
+      helpCenter.getHelpCenterComponent().getSearchField().getValue = () => '';
 
       helpCenter.search();
 
       expect(mockPerformSearchWithLocaleFallback.calls.count())
         .toEqual(0);
 
-      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'valid';
+      helpCenter.getHelpCenterComponent().getSearchField().getValue = () => 'valid';
 
       helpCenter.search();
 
@@ -893,7 +917,7 @@ describe('HelpCenter component', () => {
 
     it('should call blur and hide the virtual keyboard', () => {
       const helpCenter = domRender(<HelpCenter performSearch={noop} fullscreen={true} />);
-      const searchField = helpCenter.getHelpCenterComponent().refs.searchField;
+      const searchField = helpCenter.getHelpCenterComponent().getSearchField();
 
       searchField.getValue = () => 'valid';
 
@@ -912,7 +936,7 @@ describe('HelpCenter component', () => {
 
       helpCenter.performSearchWithLocaleFallback = mockPerformSearchWithLocaleFallback;
 
-      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => searchTerm;
+      helpCenter.getHelpCenterComponent().getSearchField().getValue = () => searchTerm;
 
       helpCenter.search();
 
@@ -934,7 +958,7 @@ describe('HelpCenter component', () => {
       helpCenter.performSearchWithLocaleFallback = mockPerformSearchWithLocaleFallback;
       helpCenter.interactiveSearchSuccessFn = mockSearchSuccessFn;
 
-      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'valid';
+      helpCenter.getHelpCenterComponent().getSearchField().getValue = () => 'valid';
 
       mockPerformSearchWithLocaleFallback.calls.reset();
       mockSearchSuccessFn.calls.reset();
@@ -978,7 +1002,7 @@ describe('HelpCenter component', () => {
           showBackButton={noop} />
       );
 
-      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => searchTerm;
+      helpCenter.getHelpCenterComponent().getSearchField().getValue = () => searchTerm;
       helpCenter.performSearchWithLocaleFallback({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
 
       mockPerformSearch.calls.mostRecent().args[1](responsePayload);

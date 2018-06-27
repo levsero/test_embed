@@ -4,6 +4,10 @@ describe('HelpCenterMobile component', () => {
 
   const helpCenterMobilePath = buildSrcPath('component/helpCenter/HelpCenterMobile');
 
+  const contextualSearchRequestSent = 'CONTEXTUAL_SEARCH_REQUEST_SENT';
+
+  const LoadingContentBars = noopReactComponent();
+
   beforeEach(() => {
     onSearchFieldFocusSpy = jasmine.createSpy();
     mockery.enable();
@@ -58,6 +62,7 @@ describe('HelpCenterMobile component', () => {
       'component/button/ButtonGroup': {
         ButtonGroup: noopReactComponent()
       },
+      'component/loading/LoadingContentBars': { LoadingContentBars },
       './HelpCenterMobile.scss': {
         locals: {
           container: 'containerClasses',
@@ -72,6 +77,9 @@ describe('HelpCenterMobile component', () => {
           isRTL: jasmine.createSpy(),
           t: _.identity
         }
+      },
+      'src/redux/modules/helpCenter/helpCenter-action-types': {
+        CONTEXTUAL_SEARCH_REQUEST_SENT: contextualSearchRequestSent
       }
     });
 
@@ -306,6 +314,86 @@ describe('HelpCenterMobile component', () => {
 
       expect(component.renderFooterContent())
         .not.toBeNull();
+    });
+  });
+
+  describe('renderChildContent', () => {
+    let result,
+      mockChildren,
+      mockContextualSearchScreen,
+      mockArticleViewActive,
+      mockShowIntroScreen;
+
+    beforeEach(() => {
+      mockChildren = <div />;
+
+      const component = instanceRender(
+        <HelpCenterMobile
+          articleViewActive={mockArticleViewActive}
+          contextualSearchScreen={mockContextualSearchScreen}>
+          {mockChildren}
+        </HelpCenterMobile>
+      );
+
+      component.setState({ showIntroScreen: mockShowIntroScreen });
+
+      result = component.renderChildContent();
+    });
+
+    describe('when showIntroScreen is true', () => {
+      beforeAll(() => {
+        mockShowIntroScreen = true;
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toBeNull();
+      });
+    });
+
+    describe('when showIntroScreen is false', () => {
+      beforeAll(() => {
+        mockShowIntroScreen = false;
+      });
+
+      describe('when contextualSearchScreen is sent', () => {
+        beforeAll(() => {
+          mockContextualSearchScreen = contextualSearchRequestSent;
+        });
+
+        describe('when articleViewActive is true', () => {
+          beforeAll(() => {
+            mockArticleViewActive = true;
+          });
+
+          it('returns child contents', () => {
+            expect(result)
+              .toEqual(mockChildren);
+          });
+        });
+
+        describe('when articleViewActive is false', () => {
+          beforeAll(() => {
+            mockArticleViewActive = false;
+          });
+
+          it('returns a LoadingContentBars component', () => {
+            expect(TestUtils.isElementOfType(result, LoadingContentBars))
+              .toEqual(true);
+          });
+        });
+      });
+
+      describe('when contextualSearchScreen is not sent', () => {
+        beforeAll(() => {
+          mockContextualSearchScreen = 'foo screen';
+        });
+
+        it('returns child contents', () => {
+          expect(result)
+            .toEqual(mockChildren);
+        });
+      });
     });
   });
 });
