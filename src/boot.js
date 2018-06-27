@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { identity } from 'service/identity';
@@ -103,7 +102,6 @@ const setupServices = (reduxStore) => {
   });
 
   settings.init(reduxStore);
-  authentication.init();
   GA.init();
 };
 
