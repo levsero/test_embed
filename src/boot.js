@@ -16,7 +16,8 @@ import { appendMetaTag,
   getMetaTagsByName,
   isMobileBrowser } from 'utility/devices';
 import { initMobileScaling } from 'utility/mobileScaling';
-import { handleIdentifyRecieved } from 'src/redux/modules/base';
+import { handleIdentifyRecieved,
+  logout } from 'src/redux/modules/base';
 import { displayArticle } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
 import createStore from 'src/redux/createStore';
@@ -280,7 +281,7 @@ const setupWidgetApi = (win, reduxStore) => {
     reduxStore.dispatch(handleIdentifyRecieved(_.pick(user, ['name', 'email']), _.isString));
   };
   win.zE.logout = () => {
-    mediator.channel.broadcast('.logout');
+    reduxStore.dispatch(logout());
   };
   win.zE.setHelpCenterSuggestions = (options) => {
     mediator.channel.broadcast('.onSetHelpCenterSuggestions', options);

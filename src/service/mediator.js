@@ -325,10 +325,6 @@ function init(embedsAccessible, params = {}) {
     }
   });
 
-  c.intercept('.logout', () => {
-    c.broadcast('authentication.logout');
-  });
-
   c.intercept('.zopimShow', () => {
     c.broadcast('webWidget.hide');
 

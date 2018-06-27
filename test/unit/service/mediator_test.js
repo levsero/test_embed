@@ -133,7 +133,6 @@ describe('mediator', () => {
       c.subscribe(`${names.beacon}.identify`, beaconSub.identify);
       c.subscribe(`${names.beacon}.trackUserAction`, beaconSub.trackUserAction);
 
-      c.subscribe(`${names.authentication}.logout`, authenticationSub.logout);
       c.subscribe(`${names.authentication}.renew`, authenticationSub.renew);
 
       c.subscribe(`${names.launcher}.hide`, launcherSub.hide);
@@ -394,24 +393,6 @@ describe('mediator', () => {
         expect(launcherSub.show.calls.count())
           .toEqual(0);
       });
-    });
-  });
-
-  describe('.logout', () => {
-    const names = {
-      authentication: 'authentication'
-    };
-
-    beforeEach(() => {
-      initSubscriptionSpies(names);
-      mediator.init({ submitTicket: true, helpCenter: false });
-    });
-
-    it('should broadcast authentication.logout', () => {
-      c.broadcast('authentication.logout');
-
-      expect(authenticationSub.logout)
-        .toHaveBeenCalled();
     });
   });
 
