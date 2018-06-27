@@ -27,6 +27,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
+        exclude: /node_modules\/@zendeskgarden/,
         use: [
           {
             loader: 'css-loader',
@@ -43,7 +44,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: /node_modules\/@zendesk\/garden-css/,
+        include: /node_modules\/@zendeskgarden/,
         use: [
           'css-loader?importLoaders=1',
           'postcss-loader'
