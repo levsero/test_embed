@@ -19,6 +19,7 @@ import { generateUserCSS } from 'utility/color/styles';
 import { transitionFactory } from 'service/transitionFactory';
 import { isMobileBrowser,
   getZoomSizingRatio } from 'utility/devices';
+import { renewToken } from 'src/redux/modules/base';
 
 const launcherCSS = `${require('globalCSS')} ${launcherStyles}`;
 
@@ -50,6 +51,8 @@ function create(name, config, reduxStore) {
 
     beacon.trackUserAction('launcher', 'click', name);
     mediator.channel.broadcast(name + '.onClick');
+    // Re-authenticate user if their oauth token is within 20 minutes of expiring
+    reduxStore.dispatch(renewToken());
   };
   const adjustFrameStyleMargins = (frameStyle) => {
     const zoomRatio = getZoomSizingRatio();

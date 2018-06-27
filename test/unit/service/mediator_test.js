@@ -2,7 +2,6 @@ describe('mediator', () => {
   let mockRegistry,
     mediator,
     c,
-    authenticationSub,
     beaconSub,
     launcherSub,
     webWidgetSub,
@@ -71,12 +70,6 @@ describe('mediator', () => {
 
     c = mediator.channel;
 
-    authenticationSub = jasmine.createSpyObj(
-      'authentication',
-      ['logout',
-        'renew']
-    );
-
     beaconSub = jasmine.createSpyObj(
       'beacon',
       ['identify', 'trackUserAction']
@@ -132,8 +125,6 @@ describe('mediator', () => {
     initSubscriptionSpies = function(names) {
       c.subscribe(`${names.beacon}.identify`, beaconSub.identify);
       c.subscribe(`${names.beacon}.trackUserAction`, beaconSub.trackUserAction);
-
-      c.subscribe(`${names.authentication}.renew`, authenticationSub.renew);
 
       c.subscribe(`${names.launcher}.hide`, launcherSub.hide);
       c.subscribe(`${names.launcher}.show`, launcherSub.show);
@@ -393,24 +384,6 @@ describe('mediator', () => {
         expect(launcherSub.show.calls.count())
           .toEqual(0);
       });
-    });
-  });
-
-  describe('.renew', () => {
-    const names = {
-      authentication: 'authentication'
-    };
-
-    beforeEach(() => {
-      initSubscriptionSpies(names);
-      mediator.init({ submitTicket: true, helpCenter: false });
-    });
-
-    it('should broadcast authentication.renew', () => {
-      c.broadcast('authentication.renew');
-
-      expect(authenticationSub.renew)
-        .toHaveBeenCalled();
     });
   });
 
@@ -909,18 +882,6 @@ describe('mediator', () => {
           expect(launcherSub.show.calls.count())
             .toEqual(0);
         });
-      });
-    });
-
-    describe('with authenticated help center', () => {
-      it('broadcasts authentication.renew when onClick is called', () => {
-        mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
-
-        c.broadcast('authentication.onSuccess');
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(authenticationSub.renew)
-          .toHaveBeenCalled();
       });
     });
 

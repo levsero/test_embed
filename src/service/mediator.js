@@ -450,11 +450,6 @@ function init(embedsAccessible, params = {}) {
   c.intercept(`${launcher}.onClick`, () => {
     if (state[`${launcher}.clickActive`] === true) return;
 
-    // Re-authenticate user if their oauth token is within 20 minutes of expiring
-    if (helpCenterAvailable()) {
-      c.broadcast('authentication.renew');
-    }
-
     // When opening chat on mobile, directly broadcast a chat.show event.
     // Because zopim can open in a new tab, we need to make sure we don't make a call to `setScrollKiller`.
     // If we do the host page will be frozen when the user exits the zopim chat tab.
