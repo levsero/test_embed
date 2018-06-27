@@ -27,6 +27,9 @@ global.document = global.window.document;
 global.navigator = global.window.navigator;
 global.location = global.window.location;
 
+// This global is a workaround for a bug in ThemeProvider from Garden
+global.Element = global.window.Element;
+
 /*
   Tests are failing because DOM is missing or unexpectedly mutated.
   The reason is because `import` is hoisted at the top and evaluated first before the DOM is ready.
