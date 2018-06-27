@@ -81,7 +81,7 @@
   -webkit-overflow-scrolling: touch;
   composes: u-overflowAuto from global;
   box-sizing: border-box;
-  height: calc(100% - #{119/$font-size}rem);
+  height: calc(100% - #{108/$font-size}rem);
   max-height: initial;
   max-width: 100%;
 
@@ -91,7 +91,7 @@
 }
 
 .contentBigheader {
-  height: calc(100% - #{177/$font-size}rem);
+  height: calc(100% - #{166/$font-size}rem);
 }
 
 .footer {
