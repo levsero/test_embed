@@ -48,7 +48,6 @@ const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 export default function WebWidgetFactory(name) {
   let embed = null;
   let hasManuallySetContextualSuggestions = false;
-  let hasAuthenticatedSuccessfully = false;
   let useMouseDistanceContexualSearch = false;
   let contextualSearchOptions = {};
   let cancelTargetHandler = null;
@@ -385,14 +384,6 @@ export default function WebWidgetFactory(name) {
           hasManuallySetContextualSuggestions = true;
           performContextualHelp(options);
         }
-      });
-    });
-
-    mediator.channel.subscribe(prefix + 'helpCenterForm.isAuthenticated', () => {
-      hasAuthenticatedSuccessfully = true;
-
-      waitForRootComponent(() => {
-        getWebWidgetComponent().setAuthenticated(hasAuthenticatedSuccessfully);
       });
     });
   }

@@ -1377,11 +1377,9 @@ describe('embed.webWidget', () => {
     });
 
     describe('with authenticated help center', () => {
-      let mockMediator,
-        mockOptions;
+      let mockOptions;
 
       beforeEach(() => {
-        mockMediator = mockRegistry['service/mediator'].mediator;
         mockIsBaseAuthenticated = true;
         webWidget.create('',
           {
@@ -1396,7 +1394,6 @@ describe('embed.webWidget', () => {
         webWidgetComponent = webWidget.get().instance.getRootComponent();
         childComponent = webWidgetComponent.getRootComponent();
 
-        spyOn(webWidgetComponent, 'setAuthenticated');
         spyOn(childComponent, 'contextualSearch');
       });
 
@@ -1413,16 +1410,12 @@ describe('embed.webWidget', () => {
         expect(childComponent.contextualSearch)
           .not.toHaveBeenCalled();
 
-        pluckSubscribeCall(mockMediator, 'helpCenterForm.isAuthenticated')();
         jasmine.clock().tick();
         webWidget.keywordsSearch({ url: true });
         jasmine.clock().tick();
 
         expect(childComponent.contextualSearch)
           .toHaveBeenCalledWith({ url: true, pageKeywords: 'foo bar' });
-
-        expect(webWidgetComponent.setAuthenticated)
-          .toHaveBeenCalledWith(true);
       });
 
       describe('when sign-in is not required', () => {
@@ -1459,7 +1452,6 @@ describe('embed.webWidget', () => {
           childComponent = webWidgetComponent.getHelpCenterComponent();
 
           spyOn(childComponent, 'contextualSearch');
-          pluckSubscribeCall(mockMediator, 'helpCenterForm.isAuthenticated')();
           webWidget.keywordsSearch(mockOptions);
         });
 

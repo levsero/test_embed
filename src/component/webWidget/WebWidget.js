@@ -13,8 +13,7 @@ import HelpCenter from 'component/helpCenter/HelpCenter';
 import SubmitTicket from 'component/submitTicket/SubmitTicket';
 import { updateActiveEmbed,
   updateEmbedAccessible,
-  updateBackButtonVisibility,
-  updateAuthenticated } from 'src/redux/modules/base';
+  updateBackButtonVisibility } from 'src/redux/modules/base';
 import { chatNotificationDismissed,
   updateChatScreen,
   chatNotificationRespond,
@@ -112,7 +111,6 @@ class WebWidget extends Component {
     zendeskHost: PropTypes.string.isRequired,
     updateActiveEmbed: PropTypes.func.isRequired,
     updateBackButtonVisibility: PropTypes.func.isRequired,
-    updateAuthenticated: PropTypes.func.isRequired,
     chatNotificationDismissed: PropTypes.func.isRequired,
     chatNotificationRespond: PropTypes.func.isRequired,
     updateChatScreen: PropTypes.func.isRequired,
@@ -253,8 +251,6 @@ class WebWidget extends Component {
       }
     }
   }
-
-  setAuthenticated = (bool) => this.props.updateAuthenticated(bool);
 
   resetActiveEmbed = () => {
     const { chatStandalone, updateActiveEmbed, updateBackButtonVisibility, talkAvailable,
@@ -657,7 +653,6 @@ const actionCreators = {
   updateActiveEmbed,
   updateEmbedAccessible,
   updateBackButtonVisibility,
-  updateAuthenticated,
   chatNotificationDismissed,
   chatNotificationRespond,
   updateChatScreen,

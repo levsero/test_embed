@@ -81,8 +81,7 @@ describe('WebWidget component', () => {
       'src/redux/modules/base': {
         updateActiveEmbed: noop,
         updateEmbedAccessible: noop,
-        updateBackButtonVisibility: noop,
-        updateAuthenticated: noop
+        updateBackButtonVisibility: noop
       },
       'src/redux/modules/chat': {
         chatNotificationDismissed: noop,
@@ -638,22 +637,6 @@ describe('WebWidget component', () => {
         expect(result.props.shouldShow)
           .toEqual(true);
       });
-    });
-  });
-
-  describe('setAuthenticated', () => {
-    let webWidget,
-      updateAuthenticatedSpy;
-
-    beforeEach(() => {
-      updateAuthenticatedSpy = jasmine.createSpy('updateAuthenticated');
-      webWidget = instanceRender(<WebWidget updateAuthenticated={updateAuthenticatedSpy} />);
-      webWidget.setAuthenticated(true);
-    });
-
-    it('should call props.updateAuthenticated with a boolean value', () => {
-      expect(updateAuthenticatedSpy)
-        .toHaveBeenCalledWith(true);
     });
   });
 

@@ -578,8 +578,6 @@ function initMessaging() {
         c.broadcast(`${launcher}.show`, { transition: 'none' });
       }
     }
-
-    c.broadcast(`${helpCenter}.isAuthenticated`);
   });
 }
 
