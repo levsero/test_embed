@@ -2,7 +2,6 @@ describe('embed.webWidget', () => {
   let webWidget,
     mockRegistry,
     mockIsOnHelpCenterPageValue,
-    mockGetTokenValue,
     mockIsMobileBrowser,
     mockHelpCenterSuppressedValue,
     mockContactFormSuppressedValue,
@@ -25,9 +24,10 @@ describe('embed.webWidget', () => {
     mockWebWidget,
     mockChatNotification,
     mockState,
-    mockChatVendorImport;
+    mockChatVendorImport,
+    mockIsBaseAuthenticated;
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
-  const revokeSpy = jasmine.createSpy();
+  const revokeTokenSpy = jasmine.createSpy();
   const getTicketFormsSpy = jasmine.createSpy('ticketForms');
   const getTicketFieldsSpy = jasmine.createSpy('ticketFields');
   const zChatAddTagSpy = jasmine.createSpy('zChatAddTag');
@@ -39,7 +39,6 @@ describe('embed.webWidget', () => {
 
   beforeEach(() => {
     mockIsOnHelpCenterPageValue = false;
-    mockGetTokenValue = null;
     mockIsMobileBrowser = false;
     mockIsIE = false;
     mockHelpCenterSuppressedValue = false;
@@ -159,7 +158,8 @@ describe('embed.webWidget', () => {
         getTicketFields: getTicketFieldsSpy
       },
       'src/redux/modules/base/base-selectors': {
-        getActiveEmbed: () => mockActiveEmbed
+        getActiveEmbed: () => mockActiveEmbed,
+        getIsBaseAuthenticated: () => mockIsBaseAuthenticated
       },
       'src/redux/modules/chat/chat-selectors': {
         getChatNotification: () => mockChatNotification
@@ -197,12 +197,9 @@ describe('embed.webWidget', () => {
           return document.body;
         }
       },
-      'service/authentication' : {
-        authentication: {
-          getToken: () => mockGetTokenValue,
-          authenticate: authenticateSpy,
-          revoke: revokeSpy
-        }
+      'src/redux/modules/base' : {
+        authenticate: authenticateSpy,
+        revokeToken: revokeTokenSpy
       },
       'service/transitionFactory' : {
         transitionFactory: requireUncached(buildTestPath('unit/mocks/mockTransitionFactory')).mockTransitionFactory
@@ -1361,6 +1358,7 @@ describe('embed.webWidget', () => {
 
     describe('without authenticated help center', () => {
       beforeEach(() => {
+        mockIsBaseAuthenticated = false;
         webWidget.create('', { helpCenterForm: { signInRequired: true } });
         webWidget.render();
 
@@ -1384,6 +1382,7 @@ describe('embed.webWidget', () => {
 
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
+        mockIsBaseAuthenticated = true;
         webWidget.create('',
           {
             helpCenterForm: {
@@ -1404,12 +1403,13 @@ describe('embed.webWidget', () => {
       it('should wait until authenticate is true before searching', () => {
         // Simulate the page load contextual request that is sent when mouse distance
         // is less than minimum.
+        mockIsBaseAuthenticated = false;
         webWidget.keywordsSearch({ url: true }, {
           distance: 0.24,
           speed: 0
         });
         jasmine.clock().tick();
-
+        mockIsBaseAuthenticated = true;
         expect(childComponent.contextualSearch)
           .not.toHaveBeenCalled();
 
@@ -1448,6 +1448,7 @@ describe('embed.webWidget', () => {
 
       describe('when HelpCenter has successfully authenticated', () => {
         beforeEach(() => {
+          mockIsBaseAuthenticated = true;
           mockOptions = { mock: 'options' };
 
           webWidget.create('', { helpCenterForm: { signInRequired: true } });
@@ -1496,12 +1497,12 @@ describe('embed.webWidget', () => {
     describe('authentication', () => {
       describe('when there are valid support auth settings', () => {
         beforeEach(() => {
-          webWidget.create('', { helpCenterForm: {} });
+          webWidget.create('', { helpCenterForm: {} }, {dispatch: () => {}});
           mockSupportAuthValue = { jwt: 'token' };
           webWidget.postRender();
         });
 
-        it('calls authentication.authenticate with the jwt token', () => {
+        it('calls authenticate with the jwt token', () => {
           expect(authenticateSpy)
             .toHaveBeenCalledWith('token');
         });
@@ -1525,12 +1526,15 @@ describe('embed.webWidget', () => {
             helpCenterForm: {
               tokensRevokedAt: Math.floor(Date.now() / 1000)
             }
+          },
+          {
+            dispatch: () => {}
           });
           webWidget.postRender();
         });
 
         it('calls authentication.revoke with tokensRevokedAt value', () => {
-          expect(revokeSpy)
+          expect(revokeTokenSpy)
             .toHaveBeenCalledWith(webWidget.get().config.helpCenterForm.tokensRevokedAt);
         });
       });
