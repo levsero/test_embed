@@ -7,7 +7,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
-import { ThemeProvider } from '@zendeskgarden/react-theming';
 
 import { locals as styles } from './Frame.scss';
 
@@ -146,10 +145,6 @@ export class Frame extends Component {
 
   getFrameDimensions = () => {
     return this.state.iframeDimensions;
-  }
-
-  getFrameHead = () => {
-    return this.getContentDocument().head;
   }
 
   updateFrameLocale = () => {
@@ -401,21 +396,19 @@ export class Frame extends Component {
     });
 
     const wrapper = (
-      <ThemeProvider rtl={i18n.isRTL()} target={this.getFrameHead()}>
-        <EmbedWrapper
-          ref={(el) => { this.child = el; }}
-          baseCSS={`${this.props.css} ${baseFontCSS}`}
-          reduxStore={this.props.store}
-          handleBackClick={this.back}
-          handleCloseClick={this.close}
-          useBackButton={this.props.useBackButton}
-          updateFrameSize={this.updateFrameSize}
-          hideCloseButton={this.props.hideCloseButton}
-          name={this.props.name}
-          fullscreen={this.props.fullscreenable && isMobileBrowser()}>
-          {newChild}
-        </EmbedWrapper>
-      </ThemeProvider>
+      <EmbedWrapper
+        ref={(el) => { this.child = el; }}
+        baseCSS={`${this.props.css} ${baseFontCSS}`}
+        reduxStore={this.props.store}
+        handleBackClick={this.back}
+        handleCloseClick={this.close}
+        useBackButton={this.props.useBackButton}
+        updateFrameSize={this.updateFrameSize}
+        hideCloseButton={this.props.hideCloseButton}
+        name={this.props.name}
+        fullscreen={this.props.fullscreenable && isMobileBrowser()}>
+        {newChild}
+      </EmbedWrapper>
     );
 
     this.injectEmbedIntoFrame(wrapper);
