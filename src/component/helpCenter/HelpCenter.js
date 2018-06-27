@@ -152,6 +152,9 @@ class HelpCenter extends Component {
     this.state = {
       images: []
     };
+
+    this.helpCenterMobile = null;
+    this.helpCenterDesktop = null;
   }
 
   pauseAllVideos = () => {
@@ -165,8 +168,8 @@ class HelpCenter extends Component {
 
   getHelpCenterComponent = () => {
     return (this.props.fullscreen)
-      ? this.refs.helpCenterMobile
-      : this.refs.helpCenterDesktop;
+      ? this.helpCenterMobile
+      : this.helpCenterDesktop;
   }
 
   interactiveSearchSuccessFn = () => {
@@ -175,8 +178,8 @@ class HelpCenter extends Component {
   }
 
   focusField = () => {
-    if (this.refs.helpCenterDesktop) {
-      this.refs.helpCenterDesktop.focusField();
+    if (this.helpCenterDesktop) {
+      this.helpCenterDesktop.focusField();
     }
   }
 
@@ -209,8 +212,8 @@ class HelpCenter extends Component {
           this.props.showBackButton(false);
         }
 
-        if (this.refs.helpCenterMobile) {
-          this.refs.helpCenterMobile.setIntroScreen();
+        if (this.helpCenterMobile) {
+          this.helpCenterMobile.setIntroScreen();
         }
       }
     };
@@ -224,7 +227,7 @@ class HelpCenter extends Component {
   }
 
   search = () => {
-    const searchField = this.getHelpCenterComponent().refs.searchField;
+    const searchField = this.getHelpCenterComponent().getSearchField();
     const searchTerm = searchField.getValue();
 
     if (_.isEmpty(searchTerm)) {
@@ -297,7 +300,7 @@ class HelpCenter extends Component {
   }
 
   resetState = () => {
-    this.refs.helpCenterMobile.resetState();
+    this.helpCenterMobile.resetState();
   }
 
   handleArticleClick = (articleIndex, e) => {
@@ -366,7 +369,7 @@ class HelpCenter extends Component {
 
     return (
       <HelpCenterDesktop
-        ref='helpCenterDesktop'
+        ref={(el) => { this.helpCenterDesktop = el; }}
         chatAvailable={this.props.chatAvailable}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
@@ -400,7 +403,7 @@ class HelpCenter extends Component {
   renderHelpCenterMobile = (buttonLabel) => {
     return (
       <HelpCenterMobile
-        ref='helpCenterMobile'
+        ref={(el) => { this.helpCenterMobile = el; }}
         handleOnChangeValue={this.props.handleSearchFieldChange}
         onSearchFieldFocus={this.props.handleSearchFieldFocus}
         submitTicketAvailable={this.props.submitTicketAvailable}

@@ -65,22 +65,22 @@ export class HelpCenterMobile extends Component {
       searchFieldFocused: false,
       showIntroScreen: true
     };
+
+    this.searchField = null;
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { searchField } = this.refs;
-
     // We have to do this check in componentDidUpdate so that
     // the searchField is the most recent one and ios focuses
     // on the correct one.
     if (prevState.showIntroScreen === true &&
         this.state.showIntroScreen === false &&
         this.props.hasContextualSearched === false) {
-      searchField.focus();
+      this.searchField.focus();
     }
 
-    if (searchField) {
-      searchField.setState({ searchInputVal: this.props.searchFieldValue });
+    if (this.searchField) {
+      this.searchField.setState({ searchInputVal: this.props.searchFieldValue });
     }
   }
 
@@ -156,7 +156,7 @@ export class HelpCenterMobile extends Component {
     return (
       <div className={searchFieldClasses}>
         <SearchField
-          ref='searchField'
+          ref={(el) => { this.searchField = el; }}
           fullscreen={true}
           onFocus={this.handleOnFocus}
           onBlur={this.handleOnBlur}
@@ -189,7 +189,6 @@ export class HelpCenterMobile extends Component {
         <h1 className={`${styles.searchTitle} ${hiddenClasses}`}>
           {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
         </h1>
-
         {this.renderSearchFieldButton()}
         {this.renderSearchField()}
       </form>

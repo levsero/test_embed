@@ -65,11 +65,12 @@ export class HelpCenterDesktop extends Component {
     super(props, context);
 
     this.agentMessage = null;
+    this.searchField = null;
   }
 
   componentDidUpdate = () => {
-    if (this.refs.searchField) {
-      this.refs.searchField.setState({
+    if (this.searchField) {
+      this.searchField.setState({
         searchInputVal: this.props.searchFieldValue
       });
     }
@@ -82,11 +83,10 @@ export class HelpCenterDesktop extends Component {
 
   focusField = () => {
     if (!this.props.articleViewActive) {
-      const searchField = this.refs.searchField;
-      const searchFieldInputNode = searchField.getSearchField();
+      const searchFieldInputNode = this.searchField.getSearchField();
       const strLength = searchFieldInputNode.value.length;
 
-      searchField.focus();
+      this.searchField.focus();
 
       if (searchFieldInputNode.setSelectionRange) {
         searchFieldInputNode.setSelectionRange(strLength, strLength);
@@ -107,7 +107,7 @@ export class HelpCenterDesktop extends Component {
         className={styles.form}
         onSubmit={this.handleSubmit}>
         <SearchField
-          ref='searchField'
+          ref={(el) => { this.searchField = el; }}
           fullscreen={false}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onChangeValue={this.props.handleOnChangeValue}
