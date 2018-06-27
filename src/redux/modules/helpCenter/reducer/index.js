@@ -6,7 +6,6 @@ import articleClicked from './helpCenter-articleClicked';
 import searchFailed from './helpCenter-searchFailed';
 import searchTerm from './helpCenter-searchTerm';
 import totalUserSearches from './helpCenter-totalUserSearches';
-import hasContextuallySearched from './helpCenter-hasContextuallySearched';
 import articles from './helpCenter-articles';
 import resultsCount from './helpCenter-resultsCount';
 import restrictedImages from './helpCenter-restrictedImages';
@@ -24,7 +23,6 @@ export default combineReducers({
   articles,
   resultsCount,
   totalUserSearches,
-  hasContextuallySearched,
   restrictedImages,
   channelChoiceShown,
   searchFieldValue,
