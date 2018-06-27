@@ -29,13 +29,13 @@ import { getArticleViewActive,
   getSearchFieldFocused,
   getHasSearched,
   getResultsCount } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+import { getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors';
 import { getChatNotification,
   getIsChatting,
   getStandaloneMobileNotificationVisible } from 'src/redux/modules/chat/chat-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getZopimChatEmbed,
   getActiveEmbed,
-  getAuthenticated,
   getChatStandalone,
   getNewHeight } from 'src/redux/modules/base/base-selectors';
 import { getTicketForms } from 'src/redux/modules/submitTicket/submitTicket-selectors';
@@ -57,7 +57,7 @@ const mapStateToProps = (state) => {
     chatNotification: getChatNotification(state),
     chatStandaloneMobileNotificationVisible: getStandaloneMobileNotificationVisible(state),
     activeEmbed: getActiveEmbed(state),
-    authenticated: getAuthenticated(state),
+    authenticated: getBaseIsAuthenticated(),
     talkEnabled: getTalkEnabled(state),
     talkAvailable: getTalkAvailable(state),
     callbackEnabled: isCallbackEnabled(state),

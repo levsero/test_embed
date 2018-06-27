@@ -4,11 +4,11 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { Icon } from 'component/Icon';
-import { authentication } from 'service/authentication';
 import { i18n } from 'service/i18n';
 import { parseUrl } from 'utility/utils';
 
 import { locals as styles } from './HelpCenterArticle.scss';
+import { getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors';
 
 const sanitizeHtml = require('sanitize-html');
 
@@ -229,7 +229,7 @@ export class HelpCenterArticle extends Component {
     const htmlEl = parseHtmlString(articleBody);
     const imgEls = this.getArticleImages(htmlEl, domain, locale);
 
-    if (imgEls.length === 0 || !authentication.getToken()) {
+    if (imgEls.length === 0 || !getBaseIsAuthenticated()) {
       return articleBody;
     }
 
