@@ -1,6 +1,12 @@
 import { createSelector } from 'reselect';
 
+import {
+  CONTEXTUAL_SEARCH_REQUEST_SENT,
+  CONTEXTUAL_SEARCH_REQUEST_SUCCESS
+} from 'src/redux/modules/helpCenter/helpCenter-action-types';
+
 const getContextualSearch = (state) => state.helpCenter.contextualSearch;
+const getContextualSearchScreen = (state) => getContextualSearch(state).screen;
 
 export const getActiveArticle = (state) => state.helpCenter.activeArticle;
 export const getSearchLoading = (state) => state.helpCenter.searchLoading;
@@ -18,7 +24,14 @@ export const getRestrictedImages = (state) => state.helpCenter.restrictedImages;
 export const getSearchFieldValue = (state) => state.helpCenter.searchFieldValue;
 export const getSearchFieldFocused = (state) => !!state.helpCenter.searchFieldFocused;
 export const getHasContextuallySearched = (state) => getContextualSearch(state).hasSearched;
-export const getContextualSearchScreen = (state) => getContextualSearch(state).screen;
+
+export const getIsContextualSearchPending = (state) => {
+  return getContextualSearchScreen(state) === CONTEXTUAL_SEARCH_REQUEST_SENT;
+};
+
+export const getIsContextualSearchSuccessful = (state) => {
+  return getContextualSearchScreen(state) === CONTEXTUAL_SEARCH_REQUEST_SUCCESS;
+};
 
 export const getHasSearched = createSelector(
   [getHasContextuallySearched, getTotalUserSearches],

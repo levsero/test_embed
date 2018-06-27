@@ -9,7 +9,6 @@ import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { LoadingBarContent } from 'component/loading/LoadingBarContent';
 import { i18n } from 'service/i18n';
-import { CONTEXTUAL_SEARCH_REQUEST_SENT } from 'src/redux/modules/helpCenter/helpCenter-action-types';
 
 import { locals as styles } from './HelpCenterDesktop.scss';
 
@@ -39,7 +38,7 @@ export class HelpCenterDesktop extends Component {
     talkEnabled: PropTypes.bool,
     updateFrameSize: PropTypes.func,
     updateChatScreen: PropTypes.func,
-    contextualSearchScreen: PropTypes.string.isRequired
+    isContextualSearchPending: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -175,10 +174,9 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderChildContent() {
-    const { children, contextualSearchScreen, articleViewActive } = this.props;
-    const contextualSearchPending = (contextualSearchScreen === CONTEXTUAL_SEARCH_REQUEST_SENT);
+    const { children, isContextualSearchPending, articleViewActive } = this.props;
 
-    return (contextualSearchPending && !articleViewActive)
+    return (isContextualSearchPending && !articleViewActive)
       ? <LoadingBarContent containerClasses={styles.loadingBars} />
       : children;
   }

@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './HelpCenterResults.scss';
-import { CONTEXTUAL_SEARCH_REQUEST_SUCCESS } from 'src/redux/modules/helpCenter/helpCenter-action-types';
 
 export class HelpCenterResults extends Component {
   static propTypes = {
@@ -15,7 +14,7 @@ export class HelpCenterResults extends Component {
     fullscreen: PropTypes.bool,
     handleArticleClick: PropTypes.func,
     hasContextualSearched: PropTypes.bool.isRequired,
-    contextualSearchScreen: PropTypes.string.isRequired,
+    isContextualSearchSuccessful: PropTypes.bool.isRequired,
     previousSearchTerm: PropTypes.string,
     searchFailed: PropTypes.bool,
     showContactButton: PropTypes.bool,
@@ -121,9 +120,9 @@ export class HelpCenterResults extends Component {
   }
 
   renderNoResults = () => {
-    const { hasContextualSearched, contextualSearchScreen } = this.props;
+    const { hasContextualSearched, isContextualSearchSuccessful } = this.props;
 
-    return (hasContextualSearched && contextualSearchScreen === CONTEXTUAL_SEARCH_REQUEST_SUCCESS)
+    return (hasContextualSearched && isContextualSearchSuccessful)
       ? this.renderContextualNoResults()
       : this.renderDefaultNoResults();
   }

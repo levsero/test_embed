@@ -3,8 +3,6 @@ describe('HelpCenterDesktop component', () => {
 
   const helpCenterDesktopPath = buildSrcPath('component/helpCenter/HelpCenterDesktop');
 
-  const contextualSearchRequestSent = 'CONTEXTUAL_SEARCH_REQUEST_SENT';
-
   const ChannelChoicePopupDesktop = noopReactComponent();
   const LoadingBarContent = noopReactComponent();
 
@@ -72,9 +70,6 @@ describe('HelpCenterDesktop component', () => {
           isRTL: jasmine.createSpy(),
           t: _.identity
         }
-      },
-      'src/redux/modules/helpCenter/helpCenter-action-types': {
-        CONTEXTUAL_SEARCH_REQUEST_SENT: contextualSearchRequestSent
       }
     });
 
@@ -613,7 +608,7 @@ describe('HelpCenterDesktop component', () => {
   describe('renderChildContent', () => {
     let result,
       mockChildren,
-      mockContextualSearchScreen,
+      mockIsContextualSearchPending,
       mockArticleViewActive;
 
     beforeEach(() => {
@@ -622,7 +617,7 @@ describe('HelpCenterDesktop component', () => {
       const component = instanceRender(
         <HelpCenterDesktop
           articleViewActive={mockArticleViewActive}
-          contextualSearchScreen={mockContextualSearchScreen}>
+          isContextualSearchPending={mockIsContextualSearchPending}>
           {mockChildren}
         </HelpCenterDesktop>
       );
@@ -630,9 +625,9 @@ describe('HelpCenterDesktop component', () => {
       result = component.renderChildContent();
     });
 
-    describe('when contextualSearchScreen is sent', () => {
+    describe('when isContextualSearchPending is true', () => {
       beforeAll(() => {
-        mockContextualSearchScreen = contextualSearchRequestSent;
+        mockIsContextualSearchPending = true;
       });
 
       describe('when articleViewActive is true', () => {
@@ -658,9 +653,9 @@ describe('HelpCenterDesktop component', () => {
       });
     });
 
-    describe('when contextualSearchScreen is not sent', () => {
+    describe('when isContextualSearchPending is false', () => {
       beforeAll(() => {
-        mockContextualSearchScreen = 'foo screen';
+        mockIsContextualSearchPending = false;
       });
 
       it('returns child contents', () => {

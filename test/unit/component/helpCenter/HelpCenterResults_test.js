@@ -5,7 +5,6 @@ describe('HelpCenterResults component', () => {
     articles;
 
   const helpCenterResultsPath = buildSrcPath('component/helpCenter/HelpCenterResults');
-  const contextualSearchRequestSuccess = 'CONTEXTUAL_SEARCH_REQUEST_SUCCESS';
 
   beforeEach(() => {
     mockery.enable();
@@ -41,9 +40,6 @@ describe('HelpCenterResults component', () => {
           isRTL: jasmine.createSpy(),
           t: _.identity
         }
-      },
-      'src/redux/modules/helpCenter/helpCenter-action-types': {
-        CONTEXTUAL_SEARCH_REQUEST_SUCCESS: contextualSearchRequestSuccess
       }
     });
 
@@ -216,14 +212,14 @@ describe('HelpCenterResults component', () => {
   describe('renderNoResults', () => {
     let component,
       mockHasContextualSearched,
-      mockContextualSearchScreen;
+      mockIsContextualSearchSuccessful;
 
     beforeEach(() => {
       component = instanceRender(
         <HelpCenterResults
           hasContextualSearched={mockHasContextualSearched}
-          contextualSearchScreen={mockContextualSearchScreen}
-        />);
+          isContextualSearchSuccessful={mockIsContextualSearchSuccessful} />
+      );
 
       spyOn(component, 'renderContextualNoResults');
       spyOn(component, 'renderDefaultNoResults');
@@ -236,9 +232,9 @@ describe('HelpCenterResults component', () => {
         mockHasContextualSearched = true;
       });
 
-      describe('when props.contextualSearchScreen is successful', () => {
+      describe('when props.isContextualSearchSuccessful is true', () => {
         beforeAll(() => {
-          mockContextualSearchScreen = contextualSearchRequestSuccess;
+          mockIsContextualSearchSuccessful = true;
         });
 
         it('calls renderContextualNoResults', () => {
@@ -252,9 +248,9 @@ describe('HelpCenterResults component', () => {
         });
       });
 
-      describe('when props.contextualSearchScreen is not successful', () => {
+      describe('when props.isContextualSearchSuccessful is false', () => {
         beforeAll(() => {
-          mockContextualSearchScreen = 'foo screen';
+          mockIsContextualSearchSuccessful = false;
         });
 
         it('calls renderDefaultNoResults', () => {

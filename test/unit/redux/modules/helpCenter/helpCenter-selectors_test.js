@@ -6,7 +6,8 @@ describe('helpCenter selectors', () => {
     getPreviousSearchTerm,
     getHasSearched,
     getHasContextuallySearched,
-    getContextualSearchScreen,
+    getIsContextualSearchPending,
+    getIsContextualSearchSuccessful,
     getActiveArticle,
     getResultsCount,
     getArticles,
@@ -16,9 +17,18 @@ describe('helpCenter selectors', () => {
     getArticleDisplayed,
     getSearchFieldValue,
     getSearchFieldFocused;
+  const contextualSearchRequestPending = 'CONTEXTUAL_SEARCH_REQUEST_SENT';
+  const contextualSearchRequestSuccess = 'CONTEXTUAL_SEARCH_REQUEST_SUCCESS';
 
   beforeEach(() => {
     mockery.enable();
+
+    initMockRegistry({
+      'src/redux/modules/helpCenter/helpCenter-action-types': {
+        CONTEXTUAL_SEARCH_REQUEST_SENT: contextualSearchRequestPending,
+        CONTEXTUAL_SEARCH_REQUEST_SUCCESS: contextualSearchRequestSuccess
+      }
+    });
 
     const selectorsPath = buildSrcPath('redux/modules/helpCenter/helpCenter-selectors');
 
@@ -33,7 +43,8 @@ describe('helpCenter selectors', () => {
     getPreviousSearchTerm = selectors.getPreviousSearchTerm;
     getHasSearched = selectors.getHasSearched;
     getHasContextuallySearched = selectors.getHasContextuallySearched;
-    getContextualSearchScreen = selectors.getContextualSearchScreen;
+    getIsContextualSearchPending = selectors.getIsContextualSearchPending;
+    getIsContextualSearchSuccessful = selectors.getIsContextualSearchSuccessful;
     getActiveArticle = selectors.getActiveArticle;
     getResultsCount = selectors.getResultsCount;
     getArticles = selectors.getArticles;
@@ -286,25 +297,81 @@ describe('helpCenter selectors', () => {
     });
   });
 
-  describe('getContextualSearchScreen', () => {
+  describe('getIsContextualSearchPending', () => {
     let result,
-      mockHelpCenterState;
+      mockContextualSearchScreen;
 
     beforeEach(() => {
-      mockHelpCenterState = {
+      const mockHelpCenterState = {
         helpCenter: {
           contextualSearch: {
-            screen: 'CONTEXTUAL_SEARCH_REQUEST_SENT'
+            screen: mockContextualSearchScreen
           }
         }
       };
 
-      result = getContextualSearchScreen(mockHelpCenterState);
+      result = getIsContextualSearchPending(mockHelpCenterState);
     });
 
-    it('returns the current state of screen', () => {
-      expect(result)
-        .toEqual('CONTEXTUAL_SEARCH_REQUEST_SENT');
+    describe('when contextual search screen is pending', () => {
+      beforeAll(() => {
+        mockContextualSearchScreen = contextualSearchRequestPending;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when contextual search screen is not pending', () => {
+      beforeAll(() => {
+        mockContextualSearchScreen = contextualSearchRequestSuccess;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+  });
+
+  describe('getIsContextualSearchSuccessful', () => {
+    let result,
+      mockContextualSearchScreen;
+
+    beforeEach(() => {
+      const mockHelpCenterState = {
+        helpCenter: {
+          contextualSearch: {
+            screen: mockContextualSearchScreen
+          }
+        }
+      };
+
+      result = getIsContextualSearchSuccessful(mockHelpCenterState);
+    });
+
+    describe('when contextual search screen is successful', () => {
+      beforeAll(() => {
+        mockContextualSearchScreen = contextualSearchRequestSuccess;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when contextual search screen is not successful', () => {
+      beforeAll(() => {
+        mockContextualSearchScreen = contextualSearchRequestPending;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
     });
   });
 

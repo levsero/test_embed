@@ -33,7 +33,8 @@ import { getActiveArticle,
   getRestrictedImages,
   getChannelChoiceShown,
   getSearchFieldValue,
-  getContextualSearchScreen } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+  getIsContextualSearchPending,
+  getIsContextualSearchSuccessful } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getNotificationCount,
   getIsChatting } from 'src/redux/modules/chat/chat-selectors';
@@ -52,7 +53,8 @@ const mapStateToProps = (state) => {
     previousSearchTerm: getPreviousSearchTerm(state),
     hasSearched: getHasSearched(state),
     hasContextualSearched: getHasContextuallySearched(state),
-    contextualSearchScreen: getContextualSearchScreen(state),
+    isContextualSearchPending: getIsContextualSearchPending(state),
+    isContextualSearchSuccessful: getIsContextualSearchSuccessful(state),
     callbackEnabled: isCallbackEnabled(state),
     articleViewActive: getArticleViewActive(state),
     articles: getArticles(state),
@@ -113,7 +115,8 @@ class HelpCenter extends Component {
     handleSearchFieldFocus: PropTypes.func.isRequired,
     chatNotificationCount: PropTypes.number,
     isChatting: PropTypes.bool,
-    contextualSearchScreen: PropTypes.string.isRequired
+    isContextualSearchPending: PropTypes.bool.isRequired,
+    isContextualSearchSuccessful: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -326,7 +329,7 @@ class HelpCenter extends Component {
       searchFailed,
       previousSearchTerm,
       hasContextualSearched,
-      contextualSearchScreen,
+      isContextualSearchSuccessful,
       articleViewActive,
       hasSearched,
       articles
@@ -345,7 +348,7 @@ class HelpCenter extends Component {
         previousSearchTerm={previousSearchTerm}
         handleArticleClick={this.handleArticleClick}
         hasContextualSearched={hasContextualSearched}
-        contextualSearchScreen={contextualSearchScreen}
+        isContextualSearchSuccessful={isContextualSearchSuccessful}
         showContactButton={showNextButton}
         hideZendeskLogo={hideZendeskLogo} />
     );
@@ -373,7 +376,7 @@ class HelpCenter extends Component {
       <HelpCenterDesktop
         ref={(el) => { this.helpCenterDesktop = el; }}
         hasContextualSearched={this.props.hasContextualSearched}
-        contextualSearchScreen={this.props.contextualSearchScreen}
+        isContextualSearchPending={this.props.isContextualSearchPending}
         chatAvailable={this.props.chatAvailable}
         submitTicketAvailable={this.props.submitTicketAvailable}
         chatEnabled={this.props.chatEnabled}
@@ -418,7 +421,7 @@ class HelpCenter extends Component {
         showNextButton={this.props.showNextButton}
         chatAvailable={this.props.chatAvailable}
         hasContextualSearched={this.props.hasContextualSearched}
-        contextualSearchScreen={this.props.contextualSearchScreen}
+        isContextualSearchPending={this.props.isContextualSearchPending}
         channelChoice={this.props.channelChoiceShown}
         callbackEnabled={this.props.callbackEnabled}
         talkEnabled={this.props.talkEnabled}

@@ -4,8 +4,6 @@ describe('HelpCenterMobile component', () => {
 
   const helpCenterMobilePath = buildSrcPath('component/helpCenter/HelpCenterMobile');
 
-  const contextualSearchRequestSent = 'CONTEXTUAL_SEARCH_REQUEST_SENT';
-
   const LoadingBarContent = noopReactComponent();
 
   beforeEach(() => {
@@ -77,9 +75,6 @@ describe('HelpCenterMobile component', () => {
           isRTL: jasmine.createSpy(),
           t: _.identity
         }
-      },
-      'src/redux/modules/helpCenter/helpCenter-action-types': {
-        CONTEXTUAL_SEARCH_REQUEST_SENT: contextualSearchRequestSent
       }
     });
 
@@ -320,7 +315,7 @@ describe('HelpCenterMobile component', () => {
   describe('renderChildContent', () => {
     let result,
       mockChildren,
-      mockContextualSearchScreen,
+      mockIsContextualSearchPending,
       mockArticleViewActive,
       mockShowIntroScreen;
 
@@ -330,7 +325,7 @@ describe('HelpCenterMobile component', () => {
       const component = instanceRender(
         <HelpCenterMobile
           articleViewActive={mockArticleViewActive}
-          contextualSearchScreen={mockContextualSearchScreen}>
+          isContextualSearchPending={mockIsContextualSearchPending}>
           {mockChildren}
         </HelpCenterMobile>
       );
@@ -356,9 +351,9 @@ describe('HelpCenterMobile component', () => {
         mockShowIntroScreen = false;
       });
 
-      describe('when contextualSearchScreen is sent', () => {
+      describe('when isContextualSearchPending is true', () => {
         beforeAll(() => {
-          mockContextualSearchScreen = contextualSearchRequestSent;
+          mockIsContextualSearchPending = true;
         });
 
         describe('when articleViewActive is true', () => {
@@ -384,9 +379,9 @@ describe('HelpCenterMobile component', () => {
         });
       });
 
-      describe('when contextualSearchScreen is not sent', () => {
+      describe('when isContextualSearchPending is false', () => {
         beforeAll(() => {
-          mockContextualSearchScreen = 'foo screen';
+          mockIsContextualSearchPending = false;
         });
 
         it('returns child contents', () => {
