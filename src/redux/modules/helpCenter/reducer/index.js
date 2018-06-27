@@ -13,6 +13,7 @@ import channelChoiceShown from './helpCenter-channelChoiceShown';
 import searchFieldValue from './helpCenter-searchFieldValue';
 import searchFieldFocused from './helpCenter-searchFieldFocused';
 import articleDisplayed from './helpCenter-articleDisplayed';
+import contextualSearch from './helpCenter-contextualSearch';
 
 export default combineReducers({
   activeArticle,
@@ -27,5 +28,6 @@ export default combineReducers({
   channelChoiceShown,
   searchFieldValue,
   searchFieldFocused,
-  articleDisplayed
+  articleDisplayed,
+  contextualSearch
 });
