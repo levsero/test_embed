@@ -21,6 +21,7 @@
     "build:prod": "script/fetch_i18n && webpack --config ./webpack/webpack.prod.js",
     "build:ac": "webpack --config ./webpack/webpack.ac.prod.js",
     "build:ac_new": "webpack --config ./webpack/webpack.ac.prod_new.js",
+    "build:ac-validate": "npm run build:ac && npm run build:ac_new && npm run size",
     "watchConf": "node script/update_watch_config",
     "postwatchConf": "npm run watch",
     "watch": "webpack-dev-server --config ./webpack/webpack.dev.js",

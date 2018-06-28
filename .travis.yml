@@ -10,11 +10,11 @@ cache:
     - vendor/bundle
 
 env:
+  - TASK=build:ac-validate
   - TASK=lint
   - TASK=validate-manifest
   - TASK=test:ci
   - TASK=build:prod
-  - TASK=build:ac
   - TASK=securityscan SECURITYSCAN=srcclr
   - TASK=validate-i18n
 
