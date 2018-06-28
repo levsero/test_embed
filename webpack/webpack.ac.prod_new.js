@@ -2,9 +2,10 @@ const webpack = require('webpack');
 const path = require('path');
 const merge = require('webpack-merge');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const common = require('./webpack.common.js');
-const prodConf = require('./webpack.prod.js');
 
 const CWD = process.cwd();
 const TRANSLATIONS_CHUNK = 'translations';
@@ -91,6 +92,13 @@ module.exports = merge(common, {
         return { assets };
       }
     }),
-    ...prodConf.plugins
+    new webpack.DefinePlugin({
+      __DEV__: JSON.stringify(false),
+      'process.env.NODE_ENV': JSON.stringify('production')
+    }),
+    new OptimizeCSSAssetsPlugin({
+      cssProcessorOptions: { discardComments: { removeAll: true } },
+    }),
+    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false })
   ]
 });

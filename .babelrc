@@ -1,5 +1,4 @@
 {
-  "comments": true,
   "presets": ["env", "react", "stage-2"],
   "ignore": ["src/translation/*.js"]
 }
