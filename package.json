@@ -49,11 +49,11 @@
     },
     {
       "path": "dist/talk_vendor.*.js",
-      "maxSize": "50 KB"
+      "maxSize": "55 KB"
     },
     {
       "path": "dist/chat_vendor.*.js",
-      "maxSize": "50 KB"
+      "maxSize": "55 KB"
     }
   ],
   "author": "Zendesk",
