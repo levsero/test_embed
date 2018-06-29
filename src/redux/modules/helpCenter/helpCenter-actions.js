@@ -5,6 +5,7 @@ import { settings } from 'service/settings';
 import { location } from 'utility/globals';
 import { isOnHostMappedDomain } from 'utility/pages';
 import { getAuthToken } from 'src/redux/modules/base/base-selectors';
+import { i18n } from 'service/i18n';
 
 import { SEARCH_REQUEST_SENT,
   SEARCH_REQUEST_SUCCESS,
@@ -13,7 +14,6 @@ import { SEARCH_REQUEST_SENT,
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
   CONTEXTUAL_SEARCH_REQUEST_FAILURE,
   ARTICLE_CLICKED,
-  SEARCH_BAR_CHANGED,
   ORIGINAL_ARTICLE_CLICKED,
   ARTICLE_CLOSED,
   ADD_RESTRICTED_IMAGE,
@@ -23,6 +23,8 @@ import { SEARCH_REQUEST_SENT,
   GET_ARTICLE_REQUEST_FAILURE,
   SEARCH_FIELD_CHANGED,
   SEARCH_FIELD_FOCUSED } from './helpCenter-action-types';
+
+const maximumContextualSearchResults = 3;
 
 const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
   const token = getAuthToken();
@@ -78,20 +80,39 @@ export function performSearch(query, done = () => {}, fail = () => {}) {
 
     dispatch({
       type: SEARCH_REQUEST_SENT,
-      payload: {}
+      payload: query.query
     });
 
     http.send(constructHelpCenterPayload(path, query, doneFn, failFn));
   };
 }
 
-export function performContextualSearch(query, done = () => {}, fail = () => {}) {
-  const path = '/api/v2/help_center/articles/embeddable_search.json';
-
+export function performContextualSearch(options, done = () => {}, fail = () => {}) {
   return (dispatch) => {
+    const path = '/api/v2/help_center/articles/embeddable_search.json';
+
+    /* eslint camelcase:0 */
+    let query = {
+      locale: i18n.getLocale(),
+      per_page: maximumContextualSearchResults
+    };
+    let searchTerm;
+
+    // This `isString` check is needed in the case that a user passes in only a
+    // string to `zE.setHelpCenterSuggestions`. It avoids options.search evaluating
+    // to true in that case because it equals the string function `String.prototype.search`.
+    if (_.isString(options.search) && options.search.length > 0) {
+      searchTerm = query.query = options.search;
+    } else if (_.isArray(options.labels) && options.labels.length > 0) {
+      searchTerm = query.label_names = options.labels.join(',');
+    } else if (options.url && options.pageKeywords && options.pageKeywords.length > 0) {
+      searchTerm = query.query = options.pageKeywords;
+    } else {
+      return;
+    }
+
     const doneFn = (response) => {
       dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_SUCCESS, payload: formatResults(response) });
-
       done(response);
     };
     const failFn = (error) => {
@@ -99,8 +120,7 @@ export function performContextualSearch(query, done = () => {}, fail = () => {})
       fail(error);
     };
 
-    dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_SENT });
-
+    dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_SENT, payload: searchTerm });
     http.send(constructHelpCenterPayload(path, query, doneFn, failFn));
   };
 }
@@ -115,13 +135,6 @@ export function handleArticleClick(article) {
   return {
     type: ARTICLE_CLICKED,
     payload: article
-  };
-}
-
-export function updateSearchTerm(term) {
-  return {
-    type: SEARCH_BAR_CHANGED,
-    payload: term
   };
 }
 

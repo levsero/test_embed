@@ -2,8 +2,9 @@ import {
   SEARCH_REQUEST_SUCCESS,
   CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
   CONTEXTUAL_SEARCH_REQUEST_FAILURE,
-  SEARCH_BAR_CHANGED,
-  SEARCH_REQUEST_FAILURE
+  CONTEXTUAL_SEARCH_REQUEST_SENT,
+  SEARCH_REQUEST_FAILURE,
+  SEARCH_REQUEST_SENT
 } from '../helpCenter-action-types';
 
 const initialState = {
@@ -23,7 +24,8 @@ const searchTerm = (state = initialState, action) => {
         ...state,
         previous: state.current
       };
-    case SEARCH_BAR_CHANGED:
+    case SEARCH_REQUEST_SENT:
+    case CONTEXTUAL_SEARCH_REQUEST_SENT:
       return {
         ...state,
         current: payload

@@ -9,8 +9,7 @@ import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop';
 import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile';
 import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
-import { updateSearchTerm,
-  handleArticleClick,
+import { handleArticleClick,
   performSearch,
   performContextualSearch,
   performImageSearch,
@@ -40,7 +39,6 @@ import { getNotificationCount,
   getIsChatting } from 'src/redux/modules/chat/chat-selectors';
 
 const maximumSearchResults = 9;
-const maximumContextualSearchResults = 3;
 
 const mapStateToProps = (state) => {
   return {
@@ -98,7 +96,6 @@ class HelpCenter extends Component {
     talkEnabled: PropTypes.bool.isRequired,
     updateFrameSize: PropTypes.func,
     updateChatScreen: PropTypes.func,
-    updateSearchTerm: PropTypes.func.isRequired,
     handleArticleClick: PropTypes.func.isRequired,
     zendeskHost: PropTypes.string.isRequired,
     articleClicked: PropTypes.bool,
@@ -137,7 +134,6 @@ class HelpCenter extends Component {
     updateFrameSize: () => {},
     updateChatScreen: () => {},
     handleArticleClick: () => {},
-    updateSearchTerm: () => {},
     articles: [],
     articleViewActive: false,
     articleClicked: false,
@@ -162,6 +158,18 @@ class HelpCenter extends Component {
 
     this.helpCenterMobile = null;
     this.helpCenterDesktop = null;
+  }
+
+  componentDidUpdate() {
+    if (this.props.articles.length > 0) {
+      if (!this.props.articleClicked) {
+        this.props.showBackButton(false);
+      }
+
+      if (this.refs.helpCenterMobile) {
+        this.refs.helpCenterMobile.setIntroScreen();
+      }
+    }
   }
 
   pauseAllVideos = () => {
@@ -191,46 +199,7 @@ class HelpCenter extends Component {
   }
 
   contextualSearch = (options) => {
-    /* eslint camelcase:0 */
-    const hasLabelsKey = options.labels &&
-                         _.isArray(options.labels) &&
-                         options.labels.length > 0;
-    const query = {};
-    let searchTerm;
-
-    // This `isString` check is needed in the case that a user passes in only a
-    // string to `zE.setHelpCenterSuggestions`. It avoids options.search evaluating
-    // to true in that case because it equals the string function `String.prototype.search`.
-    if (_.isString(options.search) && options.search.length > 0) {
-      searchTerm = query.query = options.search;
-    } else if (hasLabelsKey) {
-      searchTerm = query.label_names = options.labels.join(',');
-    } else if (options.url && options.pageKeywords && options.pageKeywords.length > 0) {
-      searchTerm = query.query = options.pageKeywords;
-    } else {
-      return;
-    }
-
-    const successFn = (res) => {
-      if (res.body.count > 0) {
-        this.props.updateSearchTerm(searchTerm);
-
-        if (!this.props.articleClicked) {
-          this.props.showBackButton(false);
-        }
-
-        if (this.helpCenterMobile) {
-          this.helpCenterMobile.setIntroScreen();
-        }
-      }
-    };
-
-    _.extend(query, {
-      locale: i18n.getLocale(),
-      per_page: maximumContextualSearchResults
-    });
-
-    this.performContextualSearch(query, successFn);
+    this.props.performContextualSearch(options, ()=>{}, this.focusField);
   }
 
   search = () => {
@@ -241,14 +210,13 @@ class HelpCenter extends Component {
       return;
     }
 
+    /* eslint camelcase:0 */
     const query = {
       locale: i18n.getLocale(),
       query: searchTerm,
       per_page: maximumSearchResults,
       origin: 'web_widget'
     };
-
-    this.props.updateSearchTerm(searchTerm);
 
     this.performSearchWithLocaleFallback(query, this.interactiveSearchSuccessFn);
 
@@ -280,18 +248,6 @@ class HelpCenter extends Component {
     };
 
     this.props.performSearch(query, doneFn, this.focusField);
-  }
-
-  performContextualSearch = (query, successFn) => {
-    const doneFn = (res) => {
-      if (res.ok) {
-        successFn(res, query);
-      } else {
-        this.focusField();
-      }
-    };
-
-    this.props.performContextualSearch(query, doneFn, this.focusField);
   }
 
   handleNextClick = (e) => {
@@ -490,7 +446,6 @@ const actionCreators = {
   handleSearchFieldFocus,
   updateChannelChoiceShown,
   handleArticleClick,
-  updateSearchTerm,
   performSearch,
   performImageSearch,
   performContextualSearch,
