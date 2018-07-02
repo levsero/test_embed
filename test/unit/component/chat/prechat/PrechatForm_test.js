@@ -2,11 +2,12 @@ describe('PrechatForm component', () => {
   let PrechatForm,
     mockFormValidity;
   const PrechatFormPath = buildSrcPath('component/chat/prechat/PrechatForm');
-  const Dropdown = noopReactComponent();
   const UserProfile = noopReactComponent();
   const ScrollContainer = noopReactComponent();
   const ZendeskLogo = noopReactComponent();
   const TextField = noopReactComponent();
+  const SelectField = noopReactComponent();
+  const Item = noopReactComponent();
   const EmailField = noopReactComponent();
 
   const mockFormProp = {
@@ -49,9 +50,6 @@ describe('PrechatForm component', () => {
         Button: noopReactComponent()
       },
       'component/field/EmailField': { EmailField },
-      'component/field/Dropdown': {
-        Dropdown
-      },
       'component/chat/UserProfile': { UserProfile },
       'service/i18n': {
         i18n: {
@@ -64,6 +62,12 @@ describe('PrechatForm component', () => {
         Label: noopReactComponent(),
         Input: noopReactComponent(),
         Textarea: noopReactComponent()
+      },
+      '@zendeskgarden/react-select': {
+        SelectField,
+        Label: noopReactComponent(),
+        Item,
+        Select: noopReactComponent()
       },
       'component/container/ScrollContainer': { ScrollContainer },
       'component/ZendeskLogo': { ZendeskLogo }
@@ -239,7 +243,6 @@ describe('PrechatForm component', () => {
 
   describe('renderPhoneField', () => {
     let result,
-      node,
       mockHidden;
 
     beforeEach(() => {
@@ -281,11 +284,11 @@ describe('PrechatForm component', () => {
       beforeEach(() => {
         const component = domRender(<PrechatForm form={mockFormProp} loginEnabled={false} />);
 
-        node = ReactDOM.findDOMNode(component);
+        result = component.renderPhoneField();
       });
 
       it('does not render the phone field', () => {
-        expect(node.querySelector('input[name="phone"]'))
+        expect(result)
           .toBe(null);
       });
     });
@@ -483,14 +486,41 @@ describe('PrechatForm component', () => {
         result = renderDepartmentsFieldFn();
       });
 
-      it('returns a dropdown', () => {
-        expect(TestUtils.isElementOfType(result, Dropdown))
+      it('returns a SelectField', () => {
+        expect(TestUtils.isElementOfType(result, SelectField))
           .toEqual(true);
       });
 
-      it('sets the label prop from the department settings', () => {
-        expect(result.props.label)
+      it('uses the label prop in the label element', () => {
+        expect(result.props.children[0].props.children)
           .toEqual(formProp.department.label);
+      });
+
+      describe('dropdown options', () => {
+        let options;
+
+        beforeEach(() => {
+          options = result.props.children[1].props.options;
+        });
+
+        it('has the right length', () => {
+          expect(options.length)
+            .toEqual(2);
+        });
+
+        it('have the type Item', () => {
+          _.forEach(options, (option) => {
+            expect(TestUtils.isElementOfType(option, Item))
+              .toEqual(true);
+          });
+        });
+
+        it('sets the name correctly for each item', () => {
+          _.forEach(options, (option, index) => {
+            expect(option.props.children)
+              .toEqual(departments[index].name);
+          });
+        });
       });
 
       describe('when the required setting is true', () => {
@@ -504,8 +534,8 @@ describe('PrechatForm component', () => {
           result = renderDepartmentsFieldFn();
         });
 
-        it('sets the required attribute to true', () => {
-          expect(result.props.required)
+        it('sets the required attribute to true on the select element', () => {
+          expect(result.props.children[1].props.required)
             .toEqual(true);
         });
       });
@@ -521,8 +551,8 @@ describe('PrechatForm component', () => {
           result = renderDepartmentsFieldFn();
         });
 
-        it('sets the required attribute to false', () => {
-          expect(result.props.required)
+        it('sets the required attribute to false on the else element', () => {
+          expect(result.props.children[1].props.required)
             .toEqual(false);
         });
       });

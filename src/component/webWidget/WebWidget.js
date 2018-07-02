@@ -104,6 +104,7 @@ class WebWidget extends Component {
     ticketFieldSettings: PropTypes.array,
     ticketFormSettings: PropTypes.array,
     updateFrameSize: PropTypes.func,
+    getFrameContentDocument: PropTypes.func,
     setFixedFrameStyles: PropTypes.func,
     zopimOnNext: PropTypes.func,
     closeFrame: PropTypes.func,
@@ -428,6 +429,7 @@ class WebWidget extends Component {
       <Chat
         ref={chat}
         updateFrameSize={this.props.updateFrameSize}
+        getFrameContentDocument={this.props.getFrameContentDocument}
         isMobile={this.props.fullscreen}
         hideZendeskLogo={this.props.hideZendeskLogo}
         handleCloseClick={(e) => this.props.closeFrame(e, { skipOnClose: true })}

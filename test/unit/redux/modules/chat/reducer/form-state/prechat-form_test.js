@@ -13,6 +13,7 @@ describe('chat reducer formState preChatForm', () => {
       name: 'test name',
       phone: '123456789',
       email: 'foo@bar',
+      department: 'Sales',
       message: 'message text'
     };
 
@@ -23,6 +24,7 @@ describe('chat reducer formState preChatForm', () => {
             name: '',
             email: '',
             phone: '',
+            department: '',
             message: ''
           });
       });

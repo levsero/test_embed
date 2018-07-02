@@ -73,6 +73,7 @@ class PrechatScreen extends Component {
     resetCurrentMessage: PropTypes.func,
     prechatFormSettings: PropTypes.object.isRequired,
     handlePrechatFormSubmit: PropTypes.func.isRequired,
+    getFrameContentDocument: PropTypes.func.isRequired,
     offlineMessage: PropTypes.object,
     authUrls: PropTypes.object.isRequired,
     socialLogin: PropTypes.object.isRequired,
@@ -155,6 +156,7 @@ class PrechatScreen extends Component {
 
     return (
       <PrechatForm
+        getFrameContentDocument={this.props.getFrameContentDocument}
         authUrls={this.props.authUrls}
         socialLogin={this.props.socialLogin}
         chatVisitor={this.props.visitor}

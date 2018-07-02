@@ -15,6 +15,7 @@ const mapStateToProps = (state) => {
 class Chat extends Component {
   static propTypes = {
     updateFrameSize: PropTypes.func.isRequired,
+    getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
     hideZendeskLogo: PropTypes.bool,
     handleCloseClick: PropTypes.func,
@@ -78,6 +79,7 @@ class Chat extends Component {
         isMobile={this.props.isMobile}
         position={this.props.position}
         updateFrameSize={this.props.updateFrameSize}
+        getFrameContentDocument={this.props.getFrameContentDocument}
         getFrameDimensions={this.props.getFrameDimensions}
         updateChatBackButtonVisibility={this.props.updateChatBackButtonVisibility}
         onBackButtonClick={this.props.onBackButtonClick}

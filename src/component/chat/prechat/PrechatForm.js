@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
+import {
+  Select,
+  SelectField,
+  Label as SelectLabel,
+  Item } from '@zendeskgarden/react-select';
 
 import { EmailField } from 'component/field/EmailField';
 import { Button } from 'component/button/Button';
-import { Dropdown } from 'component/field/Dropdown';
 import { UserProfile } from 'component/chat/UserProfile';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
@@ -28,6 +32,7 @@ export class PrechatForm extends Component {
     socialLogin: PropTypes.object.isRequired,
     initiateSocialLogout: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
+    getFrameContentDocument: PropTypes.func.isRequired,
     isMobile: PropTypes.bool,
     newHeight: PropTypes.bool.isRequired,
     hideZendeskLogo: PropTypes.bool
@@ -44,7 +49,8 @@ export class PrechatForm extends Component {
     authUrls: {},
     socialLogin: {},
     isMobile: false,
-    hideZendeskLogo: false
+    hideZendeskLogo: false,
+    getFrameContentDocument: () => ({})
   };
 
   constructor() {
@@ -62,9 +68,13 @@ export class PrechatForm extends Component {
   }
 
   isDepartmentOffline = (departments, departmentId) => {
-    const department = _.find(departments, (d) => d.id == departmentId); // eslint-disable-line eqeqeq
+    const department = this.findDepartment(departments, departmentId);
 
     return _.get(department, 'status') === 'offline';
+  }
+
+  findDepartment = (departments, departmentId) => {
+    return _.find(departments, (d) => d.id == departmentId) || {}; // eslint-disable-line eqeqeq
   }
 
   isFieldRequired = (fallback = false) => {
@@ -104,11 +114,19 @@ export class PrechatForm extends Component {
     // by jsdom during unit testing. This sanity check allows our unit tests to pass.
     // See this Github issue: https://github.com/tmpvar/jsdom/issues/544
     setTimeout(() => {
+      const { form, formState } = this.props;
       const valid = !!(this.form.checkValidity && this.form.checkValidity());
+      const deptValid = _.get(form, 'department.required') && formState.department;
 
       // FIXME: This is not tested due to timing pollution on our specs
-      this.setState({ valid });
+      this.setState({ valid: valid && deptValid });
     }, 0);
+  }
+
+  handleSelectChange = (value) => {
+    this.props.onPrechatFormChange({ department: value });
+
+    this.handleFormChange();
   }
 
   renderGreetingMessage = () => {
@@ -205,26 +223,32 @@ export class PrechatForm extends Component {
 
   renderDepartmentsField = () => {
     const { department: departmentSettings, departments } = this.props.form;
-    const placeholderNode = (
-      <span className={styles.defaultDropdownText}>
-        {i18n.t('embeddable_framework.chat.preChat.online.dropdown.selectDepartment')}
-      </span>
-    );
 
     if (_.size(departments) === 0) return null;
 
+    const options = _.map(departments, (dept) => {
+      return <Item key={dept.id}>{dept.name}</Item>;
+    });
+
+    const selectedDepartment = this.findDepartment(departments, this.props.formState.department);
+
     return (
-      <Dropdown
-        className={styles.dropdown}
-        menuContainerClassName={styles.dropdownMenuContainer}
-        label={departmentSettings.label}
-        required={departmentSettings.required}
-        name='department'
-        options={departments}
-        onChange={this.handleFormChange}
-        placeholderNode={placeholderNode}
-        disableMenuUp={true}
-      />
+      <SelectField className={styles.textField}>
+        <SelectLabel>
+          {departmentSettings.label}
+        </SelectLabel>
+        <Select
+          required={departmentSettings.required}
+          placeholder={i18n.t('embeddable_framework.chat.preChat.online.dropdown.selectDepartment')}
+          name='department'
+          selectedKey={selectedDepartment.id}
+          appendToNode={this.props.getFrameContentDocument().body}
+          onChange={this.handleSelectChange}
+          popperModifiers={{ flip: { enabled: false }, preventOverflow: { escapeWithReference: true } }}
+          options={options}>
+          {selectedDepartment.name}
+        </Select>
+      </SelectField>
     );
   }
 

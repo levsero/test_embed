@@ -151,10 +151,6 @@ export class Frame extends Component {
     return this.state.iframeDimensions;
   }
 
-  getFrameHead = () => {
-    return this.getContentDocument().head;
-  }
-
   updateFrameLocale = () => {
     const html = this.getContentDocument().documentElement;
     const direction = i18n.isRTL() ? 'rtl' : 'ltr';
@@ -400,11 +396,12 @@ export class Frame extends Component {
       setFixedFrameStyles: this.setFixedFrameStyles,
       closeFrame: this.close,
       getFrameDimensions: this.getFrameDimensions,
-      onBackButtonClick: this.back
+      onBackButtonClick: this.back,
+      getFrameContentDocument: this.getContentDocument
     });
 
     const wrapper = (
-      <StyleSheetManager target={this.getFrameHead()}>
+      <StyleSheetManager target={this.getContentDocument().head}>
         <ThemeProvider theme={gardenOverrides} rtl={i18n.isRTL()}>
           <EmbedWrapper
             ref={(el) => { this.child = el; }}

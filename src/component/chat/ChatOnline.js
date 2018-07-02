@@ -80,6 +80,7 @@ class Chat extends Component {
     resetEmailTranscript: PropTypes.func,
     visitor: PropTypes.object.isRequired,
     updateFrameSize: PropTypes.func.isRequired,
+    getFrameContentDocument: PropTypes.func.isRequired,
     editContactDetails: PropTypes.object.isRequired,
     updateContactDetailsVisibility: PropTypes.func.isRequired,
     updateEmailTranscriptVisibility: PropTypes.func.isRequired,
@@ -227,6 +228,7 @@ class Chat extends Component {
 
     return (
       <PrechatScreen
+        getFrameContentDocument={this.props.getFrameContentDocument}
         hideZendeskLogo={this.props.hideZendeskLogo}
         isMobile={this.props.isMobile}
         newHeight={this.props.newHeight} />
