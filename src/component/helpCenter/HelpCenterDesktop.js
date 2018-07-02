@@ -7,6 +7,7 @@ import { ChannelChoicePopupDesktop } from 'component/channelChoice/ChannelChoice
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
+import { LoadingBarContent } from 'component/loading/LoadingBarContent';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './HelpCenterDesktop.scss';
@@ -29,7 +30,6 @@ export class HelpCenterDesktop extends Component {
     onNextClick: PropTypes.func,
     search: PropTypes.func.isRequired,
     searchFieldValue: PropTypes.string,
-    shadowVisible: PropTypes.bool,
     showNextButton: PropTypes.bool,
     submitTicketAvailable: PropTypes.bool,
     chatEnabled: PropTypes.bool,
@@ -37,7 +37,8 @@ export class HelpCenterDesktop extends Component {
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
     updateFrameSize: PropTypes.func,
-    updateChatScreen: PropTypes.func
+    updateChatScreen: PropTypes.func,
+    isContextualSearchPending: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -51,7 +52,6 @@ export class HelpCenterDesktop extends Component {
     isLoading: false,
     onNextClick: () => {},
     searchFieldValue: '',
-    shadowVisible: false,
     showNextButton: true,
     submitTicketAvailable: true,
     chatEnabled: false,
@@ -65,28 +65,31 @@ export class HelpCenterDesktop extends Component {
     super(props, context);
 
     this.agentMessage = null;
+    this.searchField = null;
   }
 
   componentDidUpdate = () => {
-    if (this.refs.searchField) {
-      this.refs.searchField.setState({
+    if (this.searchField) {
+      this.searchField.setState({
         searchInputVal: this.props.searchFieldValue
       });
     }
 
-    const shadowVisible = this.props.shadowVisible &&
-                          !(!this.props.showNextButton && this.props.hideZendeskLogo);
+    const shadowVisible = !(!this.props.showNextButton && this.props.hideZendeskLogo);
 
     this.refs.scrollContainer.setScrollShadowVisible(shadowVisible);
   }
 
+  getSearchField() {
+    return this.searchField;
+  }
+
   focusField = () => {
     if (!this.props.articleViewActive) {
-      const searchField = this.refs.searchField;
-      const searchFieldInputNode = searchField.getSearchField();
+      const searchFieldInputNode = this.searchField.getSearchField();
       const strLength = searchFieldInputNode.value.length;
 
-      searchField.focus();
+      this.searchField.focus();
 
       if (searchFieldInputNode.setSelectionRange) {
         searchFieldInputNode.setSelectionRange(strLength, strLength);
@@ -107,7 +110,7 @@ export class HelpCenterDesktop extends Component {
         className={styles.form}
         onSubmit={this.handleSubmit}>
         <SearchField
-          ref='searchField'
+          ref={(el) => { this.searchField = el; }}
           fullscreen={false}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onChangeValue={this.props.handleOnChangeValue}
@@ -125,7 +128,7 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderBodyForm = () => {
-    return (this.props.hasSearched || this.props.articleViewActive)
+    return (this.props.articleViewActive || this.props.hasSearched)
       ? null
       : this.renderForm();
   }
@@ -170,6 +173,14 @@ export class HelpCenterDesktop extends Component {
       : null;
   }
 
+  renderChildContent() {
+    const { children, isContextualSearchPending, articleViewActive } = this.props;
+
+    return (isContextualSearchPending && !articleViewActive)
+      ? <LoadingBarContent containerClasses={styles.loadingBars} />
+      : children;
+  }
+
   render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
@@ -196,7 +207,7 @@ export class HelpCenterDesktop extends Component {
           footerContent={this.renderFooterContent()}
           newHeight={this.props.newHeight}>
           {this.renderBodyForm()}
-          {this.props.children}
+          {this.renderChildContent()}
         </ScrollContainer>
         {this.renderZendeskLogo()}
       </div>

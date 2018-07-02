@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import { i18n } from 'service/i18n';
 
@@ -12,7 +13,8 @@ export class HelpCenterResults extends Component {
     articles: PropTypes.array,
     fullscreen: PropTypes.bool,
     handleArticleClick: PropTypes.func,
-    hasContextualSearched: PropTypes.bool,
+    hasContextualSearched: PropTypes.bool.isRequired,
+    isContextualSearchSuccessful: PropTypes.bool.isRequired,
     previousSearchTerm: PropTypes.string,
     searchFailed: PropTypes.bool,
     showContactButton: PropTypes.bool,
@@ -24,7 +26,6 @@ export class HelpCenterResults extends Component {
     articles: [],
     fullscreen: false,
     handleArticleClick: () => {},
-    hasContextualSearched: false,
     previousSearchTerm: '',
     searchFailed: false,
     showContactButton: true,
@@ -75,7 +76,22 @@ export class HelpCenterResults extends Component {
     );
   }
 
-  renderNoResults = () => {
+  renderContextualNoResults() {
+    const useSearchBarStyles = (this.props.fullscreen) ? styles.useSearchBarTextMobile : styles.useSearchBarTextDesktop;
+    const containerStyles = classNames(styles.contextualNoResults, {
+      [styles.contextualNoResultsMobile]: this.props.fullscreen
+    });
+
+    return (
+      <div className={containerStyles}>
+        <p className={useSearchBarStyles}>
+          {i18n.t('embeddable_framework.helpCenter.content.useSearchBar')}
+        </p>
+      </div>
+    );
+  }
+
+  renderDefaultNoResults() {
     const noResultsClasses = this.props.fullscreen
                            ? styles.noResultsMobile
                            : styles.noResultsDesktop;
@@ -101,6 +117,14 @@ export class HelpCenterResults extends Component {
         </p>
       </div>
     );
+  }
+
+  renderNoResults = () => {
+    const { hasContextualSearched, isContextualSearchSuccessful } = this.props;
+
+    return (hasContextualSearched && isContextualSearchSuccessful)
+      ? this.renderContextualNoResults()
+      : this.renderDefaultNoResults();
   }
 
   renderLegend = () => {

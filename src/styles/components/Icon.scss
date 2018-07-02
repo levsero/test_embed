@@ -25,14 +25,6 @@
 }
 
 .Icon--search {
-  padding-left: #{6/$font-size}rem;
-  padding-right: #{8/$font-size}rem;
-
-  [dir='rtl'] & {
-    padding-left: #{3/$font-size}rem;
-    padding-right: #{6/$font-size}rem;
-  }
-
   svg {
     fill: $zd-color-aluminum;
     min-width: #{14/$font-size}rem; /* 1 */

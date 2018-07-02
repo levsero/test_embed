@@ -4,6 +4,8 @@ describe('HelpCenterMobile component', () => {
 
   const helpCenterMobilePath = buildSrcPath('component/helpCenter/HelpCenterMobile');
 
+  const LoadingBarContent = noopReactComponent();
+
   beforeEach(() => {
     onSearchFieldFocusSpy = jasmine.createSpy();
     mockery.enable();
@@ -58,6 +60,7 @@ describe('HelpCenterMobile component', () => {
       'component/button/ButtonGroup': {
         ButtonGroup: noopReactComponent()
       },
+      'component/loading/LoadingBarContent': { LoadingBarContent },
       './HelpCenterMobile.scss': {
         locals: {
           container: 'containerClasses',
@@ -306,6 +309,86 @@ describe('HelpCenterMobile component', () => {
 
       expect(component.renderFooterContent())
         .not.toBeNull();
+    });
+  });
+
+  describe('renderChildContent', () => {
+    let result,
+      mockChildren,
+      mockIsContextualSearchPending,
+      mockArticleViewActive,
+      mockShowIntroScreen;
+
+    beforeEach(() => {
+      mockChildren = <div />;
+
+      const component = instanceRender(
+        <HelpCenterMobile
+          articleViewActive={mockArticleViewActive}
+          isContextualSearchPending={mockIsContextualSearchPending}>
+          {mockChildren}
+        </HelpCenterMobile>
+      );
+
+      component.setState({ showIntroScreen: mockShowIntroScreen });
+
+      result = component.renderChildContent();
+    });
+
+    describe('when showIntroScreen is true', () => {
+      beforeAll(() => {
+        mockShowIntroScreen = true;
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toBeNull();
+      });
+    });
+
+    describe('when showIntroScreen is false', () => {
+      beforeAll(() => {
+        mockShowIntroScreen = false;
+      });
+
+      describe('when isContextualSearchPending is true', () => {
+        beforeAll(() => {
+          mockIsContextualSearchPending = true;
+        });
+
+        describe('when articleViewActive is true', () => {
+          beforeAll(() => {
+            mockArticleViewActive = true;
+          });
+
+          it('returns child contents', () => {
+            expect(result)
+              .toEqual(mockChildren);
+          });
+        });
+
+        describe('when articleViewActive is false', () => {
+          beforeAll(() => {
+            mockArticleViewActive = false;
+          });
+
+          it('returns a LoadingBarContent component', () => {
+            expect(TestUtils.isElementOfType(result, LoadingBarContent))
+              .toEqual(true);
+          });
+        });
+      });
+
+      describe('when isContextualSearchPending is false', () => {
+        beforeAll(() => {
+          mockIsContextualSearchPending = false;
+        });
+
+        it('returns child contents', () => {
+          expect(result)
+            .toEqual(mockChildren);
+        });
+      });
     });
   });
 });

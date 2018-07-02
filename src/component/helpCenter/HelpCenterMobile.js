@@ -8,6 +8,7 @@ import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { SearchFieldButton } from 'component/button/SearchFieldButton';
 import { ZendeskLogo } from 'component/ZendeskLogo';
+import { LoadingBarContent } from 'component/loading/LoadingBarContent';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './HelpCenterMobile.scss';
@@ -36,7 +37,8 @@ export class HelpCenterMobile extends Component {
     setChannelChoiceShown: PropTypes.func,
     talkAvailable: PropTypes.bool,
     talkEnabled: PropTypes.bool,
-    callbackEnabled: PropTypes.bool.isRequired
+    callbackEnabled: PropTypes.bool.isRequired,
+    isContextualSearchPending: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -65,23 +67,27 @@ export class HelpCenterMobile extends Component {
       searchFieldFocused: false,
       showIntroScreen: true
     };
+
+    this.searchField = null;
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { searchField } = this.refs;
-
     // We have to do this check in componentDidUpdate so that
     // the searchField is the most recent one and ios focuses
     // on the correct one.
     if (prevState.showIntroScreen === true &&
         this.state.showIntroScreen === false &&
         this.props.hasContextualSearched === false) {
-      searchField.focus();
+      this.searchField.focus();
     }
 
-    if (searchField) {
-      searchField.setState({ searchInputVal: this.props.searchFieldValue });
+    if (this.searchField) {
+      this.searchField.setState({ searchInputVal: this.props.searchFieldValue });
     }
+  }
+
+  getSearchField() {
+    return this.searchField;
   }
 
   resetState = () => {
@@ -156,7 +162,7 @@ export class HelpCenterMobile extends Component {
     return (
       <div className={searchFieldClasses}>
         <SearchField
-          ref='searchField'
+          ref={(el) => { this.searchField = el; }}
           fullscreen={true}
           onFocus={this.handleOnFocus}
           onBlur={this.handleOnBlur}
@@ -189,7 +195,6 @@ export class HelpCenterMobile extends Component {
         <h1 className={`${styles.searchTitle} ${hiddenClasses}`}>
           {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
         </h1>
-
         {this.renderSearchFieldButton()}
         {this.renderSearchField()}
       </form>
@@ -199,10 +204,12 @@ export class HelpCenterMobile extends Component {
   renderFormContainer = () => {
     return this.props.articleViewActive || !this.state.showIntroScreen
       ? null
-      : (<div>
-        {this.renderForm()}
-        {this.renderLinkContent()}
-      </div>);
+      : (
+        <div>
+          {this.renderForm()}
+          {this.renderLinkContent()}
+        </div>
+      );
   }
 
   renderLinkContent = () => {
@@ -249,6 +256,16 @@ export class HelpCenterMobile extends Component {
       : null;
   }
 
+  renderChildContent() {
+    const { children, isContextualSearchPending, articleViewActive } = this.props;
+
+    if (this.state.showIntroScreen) return null;
+
+    return (isContextualSearchPending && !articleViewActive)
+      ? <LoadingBarContent />
+      : children;
+  }
+
   render = () => {
     const mobileHideLogoState = this.props.hasSearched;
     const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
@@ -267,7 +284,7 @@ export class HelpCenterMobile extends Component {
           containerClasses={containerClasses}
           isVirtualKeyboardOpen={this.state.searchFieldFocused}>
           {this.renderFormContainer()}
-          {this.props.children}
+          {this.renderChildContent()}
         </ScrollContainer>
         {this.renderZendeskLogo(hideZendeskLogo)}
         {this.renderChannelChoice()}

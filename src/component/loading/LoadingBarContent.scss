@@ -1,0 +1,28 @@
+@import '../../styles/_vars.scss';
+
+.container {
+  height: #{350/$font-size}rem !important;
+  width: 100%;
+}
+
+.barBase {
+  height: #{12/$font-size}rem;
+  border-radius: #{6.5/$font-size}rem;
+  background-color: $zd-color-platinum;
+  margin-bottom: #{16/$font-size}rem;
+}
+
+.barWidth30Percent {
+  composes: barBase;
+  width: 30%;
+}
+
+.barWidth90Percent {
+  composes: barBase;
+  width: 90%;
+}
+
+.barWidth70Percent {
+  composes: barBase;
+  width: 70%;
+}
