@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { TextField, Label, Textarea } from '@zendeskgarden/react-textfields';
 
-import { Field } from 'component/field/Field';
 import { i18n } from 'service/i18n';
 import { keyCodes } from 'utility/keyboard';
 
@@ -33,34 +33,29 @@ export class ChatBox extends Component {
     this.props.handleChatBoxChange(value);
   }
 
-  chatBoxTextarea = () => {
-    return (
-      <textarea
-        onKeyDown={this.handleKeyDown}
-        rows={this.props.isMobile ? 1 : 2} />);
-  }
-
   render = () => {
     const placeholder = i18n.t('embeddable_framework.chat.chatBox.placeholder.typeMessageHere');
-    const fieldClasses = classNames(
-      { [styles.fieldMobile]: this.props.isMobile }
-    );
     const inputClasses = classNames(
       styles.input,
-      { [styles.inputMobile]: this.props.isMobile }
+      { [styles.inputMobile]: this.props.isMobile,
+        [styles.fieldMobile]: this.props.isMobile }
     );
 
     return (
       <div className={styles.container}>
-        <Field
-          labelClasses={styles.label}
-          fieldClasses={fieldClasses}
-          inputClasses={inputClasses}
-          placeholder={placeholder}
-          input={this.chatBoxTextarea()}
-          onChange={this.handleChange}
-          name='chatBox'
-          value={this.props.currentMessage} />
+        <TextField>
+          <Label className={styles.label}>
+            {placeholder}
+          </Label>
+          <Textarea
+            value={this.props.currentMessage}
+            onChange={this.handleChange}
+            onKeyDown={this.handleKeyDown}
+            className={inputClasses}
+            placeholder={placeholder}
+            name='chatBox'
+            rows={this.props.isMobile ? 1 : 3} />
+        </TextField>
       </div>
     );
   }
