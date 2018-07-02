@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { TextField, Label, Input } from '@zendeskgarden/react-textfields';
 
 import { keyCodes } from 'utility/keyboard';
 import { document as doc } from 'utility/globals';
@@ -9,12 +10,10 @@ import { emailValid } from 'src/util/utils';
 import { isDefaultNickname } from 'src/util/chat';
 import { ChatPopup } from 'component/chat/ChatPopup';
 import { EmailField } from 'component/field/EmailField';
-import { Field } from 'component/field/Field';
 import { Icon } from 'component/Icon';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { ICONS } from 'constants/shared';
 
-import classNames from 'classnames';
 import { locals as styles } from 'component/chat/ChatContactDetailsPopup.scss';
 
 import {
@@ -117,32 +116,18 @@ export class ChatContactDetailsPopup extends Component {
     return <h4 className={styles.title}>{title}</h4>;
   }
 
-  generateInputClasses = () => {
-    return classNames(
-      { [styles.fieldInputMobile]: this.props.isMobile },
-      { [styles.fieldInputAuthDisabled]: this.props.isAuthenticated }
-    );
-  }
-
-  generateFieldClasses = () => {
-    return classNames(
-      styles.field,
-      { [styles.fieldAuthDisabled]: this.props.isAuthenticated }
-    );
-  }
-
   renderNameField = () => {
     return (
-      <Field
-        fieldContainerClasses={styles.fieldContainer}
-        fieldClasses={this.generateFieldClasses()}
-        labelClasses={styles.fieldLabel}
-        inputClasses={this.generateInputClasses()}
-        label={i18n.t('embeddable_framework.common.textLabel.name')}
-        value={this.state.formState.name}
-        name='name'
-        onKeyPress={this.handleKeyPress}
-        disabled={this.props.isAuthenticated} />
+      <TextField className={styles.nameContainer}>
+        <Label>
+          {i18n.t('embeddable_framework.common.textLabel.name')}
+        </Label>
+        <Input
+          value={this.state.formState.name}
+          name='name'
+          onKeyPress={this.handleKeyPress}
+          disabled={this.props.isAuthenticated} />
+      </TextField>
     );
   }
 
@@ -150,9 +135,7 @@ export class ChatContactDetailsPopup extends Component {
     return (
       <EmailField
         fieldContainerClasses={styles.fieldContainer}
-        fieldClasses={this.generateFieldClasses()}
-        labelClasses={styles.fieldLabel}
-        inputClasses={this.generateInputClasses()}
+        fieldClasses={styles.field}
         label={i18n.t('embeddable_framework.common.textLabel.email')}
         value={this.state.formState.email}
         name='email'

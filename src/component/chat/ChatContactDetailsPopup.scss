@@ -51,30 +51,7 @@
 }
 
 .field {
-  composes: u-paddingVS u-paddingHM from global;
-}
-
-.fieldAuthDisabled {
-  background: #EEEEEE !important;
-  border: none !important;
-}
-
-.fieldInputAuthDisabled {
-  color: $zd-color-aluminum !important;
-}
-
-.fieldContainer:last-of-type {
-  margin-bottom: #{20/$font-size}rem !important;
-}
-
-.fieldLabel {
-  composes: u-marginBS from global;
-  font-size: $font-size-lrg !important;
-  color: $zd-color-dark-gray !important;
-}
-
-.fieldInputMobile {
-  font-size: $font-size-lrg !important;
+  margin-bottom: #{10/$font-size}rem;
 }
 
 .loadingSpinner {
@@ -95,4 +72,8 @@
   composes: u-inlineBlock from global;
   color: $error-color;
   width: calc(100% - #{27/$font-size}rem);
+}
+
+.nameContainer {
+  margin-bottom: #{20/$font-size}rem;
 }
