@@ -26,30 +26,26 @@ import { store } from 'service/persistence';
 import { http } from 'service/transport';
 
 function onAuthRequestSuccess(res, id, dispatch) {
-  if (res.status === 200) {
-    store.set(
-      'zE_oauth',
-      {
-        'id': id,
-        'token': res.body.oauth_token,
-        'expiry': res.body.oauth_expiry,
-        'createdAt': res.body.oauth_created_at
-      }
-    );
-    mediator.channel.broadcast('authentication.onSuccess');
-    dispatch({
-      type: AUTHENTICATION_SUCCESS
-    });
-  }
+  store.set(
+    'zE_oauth',
+    {
+      'id': id,
+      'token': res.body.oauth_token,
+      'expiry': res.body.oauth_expiry,
+      'createdAt': res.body.oauth_created_at
+    }
+  );
+  mediator.channel.broadcast('authentication.onSuccess');
+  dispatch({
+    type: AUTHENTICATION_SUCCESS
+  });
 }
 
 function onAuthRequestFailure(res, dispatch) {
-  if (res.status !== 200) {
-    store.remove('zE_oauth');
-    dispatch({
-      type: AUTHENTICATION_FAILURE
-    });
-  }
+  store.remove('zE_oauth');
+  dispatch({
+    type: AUTHENTICATION_FAILURE
+  });
 }
 
 export const authenticate = (webToken) => {
@@ -60,8 +56,9 @@ export const authenticate = (webToken) => {
 
     const oauth = getOAuth();
     const webTokenId = extractTokenId(webToken);
+    const authenticationRequired = !getBaseIsAuthenticated() || (oauth && webTokenId !== oauth.id);
 
-    if (!getBaseIsAuthenticated() || (oauth && webTokenId !== oauth.id)) {
+    if (authenticationRequired) {
       store.remove('zE_oauth');
 
       const payload = {

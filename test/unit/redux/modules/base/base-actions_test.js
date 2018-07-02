@@ -492,15 +492,13 @@ describe('base redux actions', () => {
       });
 
       describe('success callback', () => {
-        let mockStatus,
-          action;
+        let action;
 
         beforeEach(() => {
           let doneCallback = httpPostSpy.calls.mostRecent().args[0].callbacks.done;
 
           /* eslint-disable camelcase */
           doneCallback({
-            status: mockStatus,
             body: {
               oauth_token: 'abcde',
               oauth_expiry: 'someExpiry',
@@ -512,101 +510,45 @@ describe('base redux actions', () => {
           action = mockStore.getActions()[0];
         });
 
-        describe('when successful', () => {
-          beforeAll(() => {
-            mockStatus = 200;
-          });
-
-          it('stores the token', () => {
-            expect(persistentStoreSetSpy)
-              .toHaveBeenCalledWith('zE_oauth', {
-                'id': zeoauth.id,
-                'token': 'abcde',
-                'expiry': 'someExpiry',
-                'createdAt': 'createdAt'
-              });
-          });
-
-          it('broadcasts authentication.onSuccess', () => {
-            expect(broadcastSpy)
-              .toHaveBeenCalledWith('authentication.onSuccess');
-          });
-
-          it('dispatchs AUTHENTICATION_SUCCESS action', () => {
-            expect(action.type)
-              .toEqual(actionTypes.AUTHENTICATION_SUCCESS);
-          });
+        it('stores the token', () => {
+          expect(persistentStoreSetSpy)
+            .toHaveBeenCalledWith('zE_oauth', {
+              'id': zeoauth.id,
+              'token': 'abcde',
+              'expiry': 'someExpiry',
+              'createdAt': 'createdAt'
+            });
         });
 
-        describe('when not successful', () => {
-          beforeAll(() => {
-            mockStatus = 987;
-          });
+        it('broadcasts authentication.onSuccess', () => {
+          expect(broadcastSpy)
+            .toHaveBeenCalledWith('authentication.onSuccess');
+        });
 
-          it('does not store the token', () => {
-            expect(persistentStoreSetSpy)
-              .not
-              .toHaveBeenCalled();
-          });
-
-          it('does not broadcast authentication.onSuccess', () => {
-            expect(broadcastSpy)
-              .not
-              .toHaveBeenCalledWith('authentication.onSuccess');
-          });
-
-          it('does not dispatch AUTHENTICATION_SUCCESS action', () => {
-            expect(action)
-              .toBeUndefined();
-          });
+        it('dispatchs AUTHENTICATION_SUCCESS action', () => {
+          expect(action.type)
+            .toEqual(actionTypes.AUTHENTICATION_SUCCESS);
         });
       });
 
       describe('fail callback', () => {
-        let mockStatus,
-          action;
+        let action;
 
         beforeEach(() => {
           let failCallback = httpPostSpy.calls.mostRecent().args[0].callbacks.fail;
 
-          failCallback({
-            status: mockStatus
-          });
-
+          failCallback();
           action = mockStore.getActions()[0];
         });
 
-        describe('when successful', () => {
-          beforeAll(() => {
-            mockStatus = 200;
-          });
-
-          it('does not remove token', () => {
-            expect(persistentStoreRemoveSpy)
-              .not
-              .toHaveBeenCalled();
-          });
-
-          it('does not dispatch AUTHENTICATION_FAILURE action', () => {
-            expect(action)
-              .toBeUndefined();
-          });
+        it('does remove token', () => {
+          expect(persistentStoreRemoveSpy)
+            .toHaveBeenCalledWith('zE_oauth');
         });
 
-        describe('when not successful', () => {
-          beforeAll(() => {
-            mockStatus = 400;
-          });
-
-          it('does remove token', () => {
-            expect(persistentStoreRemoveSpy)
-              .toHaveBeenCalledWith('zE_oauth');
-          });
-
-          it('does dispatch AUTHENTICATION_FAILURE action', () => {
-            expect(action.type)
-              .toEqual(actionTypes.AUTHENTICATION_FAILURE);
-          });
+        it('does dispatch AUTHENTICATION_FAILURE action', () => {
+          expect(action.type)
+            .toEqual(actionTypes.AUTHENTICATION_FAILURE);
         });
       });
     });
