@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import classNames from 'classnames';
+import { TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
 
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { Button } from 'component/button/Button';
-import { Field } from 'component/field/Field';
 import { EmailField } from 'component/field/EmailField';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { ChatOperatingHours } from 'component/chat/ChatOperatingHours';
@@ -71,16 +71,21 @@ export class ChatOfflineForm extends Component {
     const isRequired = !!_.get(formFields, 'name.required');
     const value = _.get(formState, 'name', '');
     const fieldContainerStyle = classNames({
-      [styles.nameFieldWithSocialLogin]: _.size(authUrls) > 0
+      [styles.nameFieldWithSocialLogin]: _.size(authUrls) > 0,
+      [styles.textField]: _.size(authUrls) === 0
     });
 
     return (
-      <Field
-        name='name'
-        fieldContainerClasses={fieldContainerStyle}
-        label={i18n.t('embeddable_framework.common.textLabel.name')}
-        value={value}
-        required={isRequired} />
+      <TextField className={fieldContainerStyle}>
+        <Label>
+          {i18n.t('embeddable_framework.common.textLabel.name')}
+        </Label>
+        <Input
+          required={isRequired}
+          value={value}
+          onChange={() => {}}
+          name='name' />
+      </TextField>
     );
   }
 
@@ -102,12 +107,17 @@ export class ChatOfflineForm extends Component {
     const value = _.get(this.props.formState, 'phone', '');
 
     return (
-      <Field
-        key='phone'
-        name='phone'
-        label={i18n.t('embeddable_framework.common.textLabel.phone_number')}
-        value={value}
-        required={isRequired} />
+      <TextField className={styles.textField}>
+        <Label>
+          {i18n.t('embeddable_framework.common.textLabel.phone_number')}
+        </Label>
+        <Input
+          required={isRequired}
+          value={value}
+          onChange={() => {}}
+          type='tel'
+          name='phone' />
+      </TextField>
     );
   }
 
@@ -116,13 +126,17 @@ export class ChatOfflineForm extends Component {
     const value = _.get(this.props.formState, 'message', '');
 
     return (
-      <Field
-        key='message'
-        name='message'
-        label={i18n.t('embeddable_framework.common.textLabel.message')}
-        input={<textarea rows='5' />}
-        value={value}
-        required={isRequired} />
+      <TextField>
+        <Label>
+          {i18n.t('embeddable_framework.common.textLabel.message')}
+        </Label>
+        <Textarea
+          required={isRequired}
+          value={value}
+          onChange={() => {}}
+          rows='5'
+          name='message' />
+      </TextField>
     );
   }
 

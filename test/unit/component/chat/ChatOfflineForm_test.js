@@ -13,6 +13,7 @@ describe('ChatOfflineForm component', () => {
   const UserProfile = noopReactComponent();
   const ZendeskLogo = noopReactComponent();
   const ScrollContainer = noopReactComponent();
+  const TextField = noopReactComponent();
 
   const mainScreen = 'main';
   const successScreen = 'success';
@@ -41,6 +42,12 @@ describe('ChatOfflineForm component', () => {
           t: _.identity,
           isRTL: () => {}
         }
+      },
+      '@zendeskgarden/react-textfields': {
+        TextField,
+        Label: noopReactComponent(),
+        Input: noopReactComponent(),
+        Textarea: noopReactComponent()
       },
       'constants/chat': {
         OFFLINE_FORM_SCREENS: {
@@ -706,18 +713,18 @@ describe('ChatOfflineForm component', () => {
         };
       });
 
-      it('renders a type of Field', () => {
-        expect(TestUtils.isElementOfType(result, Field))
+      it('renders a type of TextField', () => {
+        expect(TestUtils.isElementOfType(result, TextField))
           .toEqual(true);
       });
 
       it('has props.name of name', () => {
-        expect(result.props.name)
+        expect(result.props.children[1].props.name)
           .toEqual('name');
       });
 
       it('has props.required of true', () => {
-        expect(result.props.required)
+        expect(result.props.children[1].props.required)
           .toEqual(true);
       });
     });
@@ -730,7 +737,7 @@ describe('ChatOfflineForm component', () => {
       });
 
       it('renders with expected style', () => {
-        expect(result.props.fieldContainerClasses)
+        expect(result.props.className)
           .toContain('nameFieldWithSocialLoginClass');
       });
     });
@@ -780,18 +787,18 @@ describe('ChatOfflineForm component', () => {
       result = component.renderPhoneNumberField();
     });
 
-    it('renders a type of Field', () => {
-      expect(TestUtils.isElementOfType(result, Field))
+    it('renders a type of TextField', () => {
+      expect(TestUtils.isElementOfType(result, TextField))
         .toEqual(true);
     });
 
     it('has props.name of phone', () => {
-      expect(result.props.name)
+      expect(result.props.children[1].props.name)
         .toEqual('phone');
     });
 
     it('has props.required of true', () => {
-      expect(result.props.required)
+      expect(result.props.children[1].props.required)
         .toEqual(true);
     });
   });
@@ -806,18 +813,18 @@ describe('ChatOfflineForm component', () => {
       result = component.renderMessageField();
     });
 
-    it('renders a type of Field', () => {
-      expect(TestUtils.isElementOfType(result, Field))
+    it('renders a type of TextField', () => {
+      expect(TestUtils.isElementOfType(result, TextField))
         .toEqual(true);
     });
 
     it('has props.name of message', () => {
-      expect(result.props.name)
+      expect(result.props.children[1].props.name)
         .toEqual('message');
     });
 
     it('has props.required of true', () => {
-      expect(result.props.required)
+      expect(result.props.children[1].props.required)
         .toEqual(true);
     });
   });
