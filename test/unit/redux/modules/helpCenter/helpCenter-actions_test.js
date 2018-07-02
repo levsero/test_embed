@@ -47,6 +47,9 @@ describe('helpCenter redux actions', () => {
       },
       'utility/pages': {
         isOnHostMappedDomain: () => mockIsOnHostMappedDomainValue
+      },
+      'src/constants/helpCenter': {
+        MAXIMUM_CONTEXTUAL_SEARCH_RESULTS: 3
       }
     });
 
@@ -271,7 +274,7 @@ describe('helpCenter redux actions', () => {
           .toEqual(actionTypes.CONTEXTUAL_SEARCH_REQUEST_SENT);
       });
 
-      it('dispatches an action with payload containing the search term', () => {
+      it('dispatches an action with payload containing labels joined into a string', () => {
         expect(action.payload)
           .toEqual('authy,authy2');
       });
@@ -290,7 +293,7 @@ describe('helpCenter redux actions', () => {
           .toEqual(actionTypes.CONTEXTUAL_SEARCH_REQUEST_SENT);
       });
 
-      it('dispatches an action with payload containing the search term', () => {
+      it('dispatches an action with payload containing the page keywords as the search term', () => {
         expect(action.payload)
           .toEqual(pageKeywords);
       });

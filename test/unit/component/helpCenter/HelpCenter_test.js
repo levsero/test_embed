@@ -115,6 +115,9 @@ describe('HelpCenter component', () => {
       'utility/globals': {
         win: window,
         document: document
+      },
+      'src/constants/helpCenter': {
+        MAXIMUM_SEARCH_RESULTS: 9
       }
     });
 

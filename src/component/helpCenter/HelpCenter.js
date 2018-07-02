@@ -37,8 +37,7 @@ import { getActiveArticle,
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getNotificationCount,
   getIsChatting } from 'src/redux/modules/chat/chat-selectors';
-
-const maximumSearchResults = 9;
+import { MAXIMUM_SEARCH_RESULTS } from 'src/constants/helpCenter';
 
 const mapStateToProps = (state) => {
   return {
@@ -214,7 +213,7 @@ class HelpCenter extends Component {
     const query = {
       locale: i18n.getLocale(),
       query: searchTerm,
-      per_page: maximumSearchResults,
+      per_page: MAXIMUM_SEARCH_RESULTS,
       origin: 'web_widget'
     };
 

@@ -6,6 +6,7 @@ import { location } from 'utility/globals';
 import { isOnHostMappedDomain } from 'utility/pages';
 import { getAuthToken } from 'src/redux/modules/base/base-selectors';
 import { i18n } from 'service/i18n';
+import { MAXIMUM_CONTEXTUAL_SEARCH_RESULTS } from 'src/constants/helpCenter';
 
 import { SEARCH_REQUEST_SENT,
   SEARCH_REQUEST_SUCCESS,
@@ -23,8 +24,6 @@ import { SEARCH_REQUEST_SENT,
   GET_ARTICLE_REQUEST_FAILURE,
   SEARCH_FIELD_CHANGED,
   SEARCH_FIELD_FOCUSED } from './helpCenter-action-types';
-
-const maximumContextualSearchResults = 3;
 
 const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
   const token = getAuthToken();
@@ -94,7 +93,7 @@ export function performContextualSearch(options, done = () => {}, fail = () => {
     /* eslint camelcase:0 */
     let query = {
       locale: i18n.getLocale(),
-      per_page: maximumContextualSearchResults
+      per_page: MAXIMUM_CONTEXTUAL_SEARCH_RESULTS
     };
     let searchTerm;
 
