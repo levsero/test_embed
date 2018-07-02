@@ -11,6 +11,7 @@ import { ThemeProvider } from '@zendeskgarden/react-theming';
 import { StyleSheetManager } from 'styled-components';
 
 import { locals as styles } from './Frame.scss';
+import gardenOverrides from './gardenOverrides';
 
 import { EmbedWrapper } from 'component/frame/EmbedWrapper';
 import { i18n } from 'service/i18n';
@@ -404,7 +405,7 @@ export class Frame extends Component {
 
     const wrapper = (
       <StyleSheetManager target={this.getFrameHead()}>
-        <ThemeProvider rtl={i18n.isRTL()}>
+        <ThemeProvider theme={gardenOverrides} rtl={i18n.isRTL()}>
           <EmbedWrapper
             ref={(el) => { this.child = el; }}
             baseCSS={`${this.props.css} ${baseFontCSS}`}
