@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { logging } from 'service/logging';
 import { http, socketio } from 'service/transport';
 import { settings } from 'service/settings';
 import { parseUrl } from 'utility/utils';
@@ -119,15 +120,21 @@ export function submitTalkCallbackForm(formState, serviceUrl, nickname) {
 
 export function loadTalkVendors(vendors, serviceUrl, nickname) {
   return (dispatch) => {
+    const onSuccess = ([{ default: io }, libphonenumber]) => {
+      dispatch(handleTalkVendorLoaded({ io, libphonenumber }));
+
+      const socket = socketio.connect(io, serviceUrl, nickname);
+
+      socketio.mapEventsToActions(socket, { dispatch });
+    };
+    const onFailure = (err) => {
+      logging.error(err);
+    };
+
     return Promise
       .all(vendors)
-      .then(([{ default: io }, libphonenumber]) => {
-        dispatch(handleTalkVendorLoaded({ io, libphonenumber }));
-
-        const socket = socketio.connect(io, serviceUrl, nickname);
-
-        socketio.mapEventsToActions(socket, { dispatch });
-      });
+      .then(onSuccess)
+      .catch(onFailure);
   };
 }
 

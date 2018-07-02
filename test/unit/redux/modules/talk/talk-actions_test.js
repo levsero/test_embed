@@ -28,6 +28,7 @@ describe('talk redux actions', () => {
     };
 
     initMockRegistry({
+      'service/logging': { error: () => {} },
       'service/transport': { http: httpSpy, socketio: socketioSpy },
       'service/settings': {
         settings: {
