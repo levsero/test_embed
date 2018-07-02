@@ -146,12 +146,11 @@ export class PrechatForm extends Component {
     const required = this.isFieldRequired(emailData.required);
 
     return (
-      <Field
+      <EmailField
         label={i18n.t('embeddable_framework.common.textLabel.email')}
-        required={required}
         value={this.props.formState.email}
-        pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
-        name={emailData.name} />
+        name={emailData.name}
+        required={required} />
     );
   }
 

@@ -92,6 +92,7 @@ export class ChatOfflineForm extends Component {
       <EmailField
         label={i18n.t('embeddable_framework.common.textLabel.email')}
         value={value}
+        name='email'
         required={isRequired} />
     );
   }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Field } from './Field';
+import { TextField, Label, Input } from '@zendeskgarden/react-textfields';
+
+import { locals as styles } from './EmailField.scss';
 
 export class EmailField extends Component {
   static propTypes = {
@@ -10,44 +12,39 @@ export class EmailField extends Component {
     ]),
     label: PropTypes.string,
     required: PropTypes.bool,
-    fieldContainerClasses: PropTypes.string,
-    labelClasses: PropTypes.string,
-    fieldClasses: PropTypes.string,
-    inputClasses: PropTypes.string,
     placeholder: PropTypes.string,
     onKeyPress: PropTypes.func,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    name: PropTypes.string
   };
 
   static defaultProps = {
     label: '',
     required: false,
     value: '',
-    fieldContainerClasses: '',
-    labelClasses: '',
-    fieldClasses: '',
-    inputClasses: '',
     placeholder: '',
     onKeyPress: () => {},
-    disabled: false
+    disabled: false,
+    name: ''
   };
 
   render = () => {
     return (
-      <Field
-        label={this.props.label}
-        required={this.props.required}
-        value={this.props.value}
-        placeholder={this.props.placeholder}
-        name='email'
-        pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
-        fieldContainerClasses={this.props.fieldContainerClasses}
-        fieldClasses={this.props.fieldClasses}
-        labelClasses={this.props.labelClasses}
-        inputClasses={this.props.inputClasses}
-        onKeyPress={this.props.onKeyPress}
-        disabled={this.props.disabled}
-      />
+      <TextField className={styles.container}>
+        <Label>
+          {this.props.label}
+        </Label>
+        <Input
+          required={this.props.required}
+          value={this.props.value}
+          onChange={() => {}} // stop react warning
+          placeholder={this.props.placeholder}
+          onKeyPress={this.props.onKeyPress}
+          disabled={this.props.disabled}
+          name={this.props.name}
+          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
+          type='email' />
+      </TextField>
     );
   }
 }

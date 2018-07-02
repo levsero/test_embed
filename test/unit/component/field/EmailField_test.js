@@ -1,34 +1,19 @@
 describe('Render email field', () => {
-  let emailField,
-    field,
-    EmailField;
+  let EmailField;
 
   const emailFieldPath = buildSrcPath('component/field/EmailField');
 
-  class MockField extends Component {
-    render() {
-      return <div />;
-    }
-  }
-
   beforeEach(() => {
     mockery.enable();
+
     initMockRegistry({
-      'React': React,
-      './Field': { Field: MockField }
+      './EmailField.scss': {
+        locals: {}
+      }
     });
+
     mockery.registerAllowable(emailFieldPath);
     EmailField = requireUncached(emailFieldPath).EmailField;
-    emailField = domRender(
-      <EmailField
-        label='Email'
-        required={true}
-        value='hello@hello.com'
-        fieldContainerClasses='someClass'
-        fieldClasses='someClass2'
-        placeholder='Please enter your email here...' />
-    );
-    field = TestUtils.findRenderedComponentWithType(emailField, MockField);
   });
 
   afterEach(() => {
@@ -36,27 +21,30 @@ describe('Render email field', () => {
     mockery.disable();
   });
 
-  it('returns an email field component with a pattern prop', () => {
-    expect(field.props.pattern)
-      .toBeDefined();
-  });
+  describe('render', () => {
+    let emailField,
+      field;
 
-  it('returns an email field component with a name prop', () => {
-    expect(field.props.name)
-      .toEqual('email');
-  });
+    beforeEach(() => {
+      emailField = domRender(
+        <EmailField
+          label='Email'
+          required={true}
+          name='email'
+          value='hello@hello.com'
+          placeholder='Please enter your email here...' />
+      );
+      field = emailField.render();
+    });
 
-  it('returns a email field component with the correct props', () => {
-    const expectedProps = {
-      label: 'Email',
-      value: 'hello@hello.com',
-      required: true,
-      fieldContainerClasses: 'someClass',
-      fieldClasses: 'someClass2',
-      placeholder: 'Please enter your email here...'
-    };
+    it('returns an email field component with a pattern prop', () => {
+      expect(field.props.children[1].props.pattern)
+        .toBeDefined();
+    });
 
-    expect(emailField.props)
-      .toEqual(jasmine.objectContaining(expectedProps));
+    it('returns an email field component with a name prop', () => {
+      expect(field.props.children[1].props.name)
+        .toEqual('email');
+    });
   });
 });
