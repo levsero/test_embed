@@ -19,7 +19,12 @@ describe('chat reducer formState preChatForm', () => {
     describe('initial state', () => {
       it('formState is set to an empty object', () => {
         expect(initialState)
-          .toEqual({});
+          .toEqual({
+            name: '',
+            email: '',
+            phone: '',
+            message: ''
+          });
       });
     });
 

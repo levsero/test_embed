@@ -6,18 +6,8 @@ describe('PrechatForm component', () => {
   const UserProfile = noopReactComponent();
   const ScrollContainer = noopReactComponent();
   const ZendeskLogo = noopReactComponent();
-
-  const Field = class extends Component {
-    render() {
-      return this.props.input
-        ? React.cloneElement(this.props.input, _.extend({}, this.props))
-        : <input
-          name={this.props.name}
-          required={this.props.required}
-          pattern={this.props.pattern}
-          type={this.props.type} />;
-    }
-  };
+  const TextField = noopReactComponent();
+  const EmailField = noopReactComponent();
 
   const mockFormProp = {
     name: { name: 'name', required: true },
@@ -58,7 +48,7 @@ describe('PrechatForm component', () => {
       'component/button/Button': {
         Button: noopReactComponent()
       },
-      'component/field/Field': { Field },
+      'component/field/EmailField': { EmailField },
       'component/field/Dropdown': {
         Dropdown
       },
@@ -68,6 +58,12 @@ describe('PrechatForm component', () => {
           t: noop,
           isRTL: () => {}
         }
+      },
+      '@zendeskgarden/react-textfields': {
+        TextField,
+        Label: noopReactComponent(),
+        Input: noopReactComponent(),
+        Textarea: noopReactComponent()
       },
       'component/container/ScrollContainer': { ScrollContainer },
       'component/ZendeskLogo': { ZendeskLogo }
@@ -276,7 +272,7 @@ describe('PrechatForm component', () => {
       });
 
       it('renders the phone field', () => {
-        expect(TestUtils.isElementOfType(result, Field))
+        expect(TestUtils.isElementOfType(result, TextField))
           .toEqual(true);
       });
     });
@@ -341,8 +337,8 @@ describe('PrechatForm component', () => {
         };
       });
 
-      it('renders a Field component', () => {
-        expect(TestUtils.isElementOfType(result, Field))
+      it('renders a TextField component', () => {
+        expect(TestUtils.isElementOfType(result, TextField))
           .toEqual(true);
       });
 
@@ -375,7 +371,7 @@ describe('PrechatForm component', () => {
       });
 
       it('renders with expected style', () => {
-        expect(result.props.fieldContainerClasses)
+        expect(result.props.className)
           .toContain('nameFieldWithSocialLoginClass');
       });
     });
@@ -389,7 +385,7 @@ describe('PrechatForm component', () => {
       });
 
       it('renders with expected style', () => {
-        expect(result.props.fieldContainerClasses)
+        expect(result.props.className)
           .not.toContain('nameFieldWithSocialLoginClass');
       });
     });
@@ -413,8 +409,8 @@ describe('PrechatForm component', () => {
       result = component.renderEmailField();
     });
 
-    it('renders a Field component', () => {
-      expect(TestUtils.isElementOfType(result, Field))
+    it('renders a EmailField component', () => {
+      expect(TestUtils.isElementOfType(result, EmailField))
         .toEqual(true);
     });
 
@@ -454,8 +450,8 @@ describe('PrechatForm component', () => {
       result = component.renderMessageField();
     });
 
-    it('renders a Field component', () => {
-      expect(TestUtils.isElementOfType(result, Field))
+    it('renders a TextField component', () => {
+      expect(TestUtils.isElementOfType(result, TextField))
         .toEqual(true);
     });
 

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
+import { TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
 
-import { Field } from 'component/field/Field';
+import { EmailField } from 'component/field/EmailField';
 import { Button } from 'component/button/Button';
 import { Dropdown } from 'component/field/Dropdown';
 import { UserProfile } from 'component/chat/UserProfile';
@@ -126,16 +127,21 @@ export class PrechatForm extends Component {
     const nameData = form.name;
     const required = this.isFieldRequired(nameData.required);
     const fieldContainerStyle = classNames({
-      [styles.nameFieldWithSocialLogin]: _.size(authUrls) > 0
+      [styles.nameFieldWithSocialLogin]: _.size(authUrls) > 0,
+      [styles.textField]: _.size(authUrls) === 0
     });
 
     return (
-      <Field
-        fieldContainerClasses={fieldContainerStyle}
-        label={i18n.t('embeddable_framework.common.textLabel.name')}
-        required={required}
-        value={formState.name}
-        name={nameData.name} />
+      <TextField className={fieldContainerStyle}>
+        <Label>
+          {i18n.t('embeddable_framework.common.textLabel.name')}
+        </Label>
+        <Input
+          required={required}
+          value={formState.name}
+          onChange={() => {}}
+          name={nameData.name} />
+      </TextField>
     );
   }
 
@@ -162,13 +168,18 @@ export class PrechatForm extends Component {
     const phonePattern = '[0-9]+'; // taken from Chat SDK
 
     return (
-      <Field
-        label={i18n.t('embeddable_framework.common.textLabel.phone_number')}
-        required={phoneData.required}
-        type={'tel'}
-        value={this.props.formState.phone}
-        pattern={phonePattern}
-        name={phoneData.name} />
+      <TextField className={styles.textField}>
+        <Label>
+          {i18n.t('embeddable_framework.common.textLabel.phone_number')}
+        </Label>
+        <Input
+          required={phoneData.required}
+          value={this.props.formState.phone}
+          onChange={() => {}}
+          type='tel'
+          pattern={phonePattern}
+          name={phoneData.name} />
+      </TextField>
     );
   }
 
@@ -177,12 +188,17 @@ export class PrechatForm extends Component {
     const required = this.isFieldRequired(messageData.required);
 
     return (
-      <Field
-        label={i18n.t('embeddable_framework.common.textLabel.message')}
-        required={required}
-        value={this.props.formState.message}
-        input={<textarea rows='3' />}
-        name={messageData.name} />
+      <TextField>
+        <Label>
+          {i18n.t('embeddable_framework.common.textLabel.message')}
+        </Label>
+        <Textarea
+          required={required}
+          value={this.props.formState.message}
+          onChange={() => {}}
+          rows='4'
+          name={messageData.name} />
+      </TextField>
     );
   }
 
