@@ -31,6 +31,9 @@ $body-color: $zd-color-oil;
 $secondary-color: $zd-color-aluminum;
 $neutral-link-color: #007FAB;
 
+// Fields
+$field-margin-bottom: #{20/$font-size}rem;
+
 // Errors
 $error-color: $zd-color-flamingo;
 $error-text-color: $zd-color-monsoon;
