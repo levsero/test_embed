@@ -37,6 +37,7 @@ export class EmailField extends Component {
         <Input
           required={this.props.required}
           value={this.props.value}
+          autoComplete='off'
           onChange={() => {}} // stop react warning
           placeholder={this.props.placeholder}
           onKeyPress={this.props.onKeyPress}

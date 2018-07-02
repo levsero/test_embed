@@ -125,6 +125,7 @@ export class ChatContactDetailsPopup extends Component {
         <Input
           value={this.state.formState.name}
           name='name'
+          autoComplete='off'
           onKeyPress={this.handleKeyPress}
           disabled={this.props.isAuthenticated} />
       </TextField>

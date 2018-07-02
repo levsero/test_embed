@@ -83,6 +83,7 @@ export class ChatOfflineForm extends Component {
         <Input
           required={isRequired}
           value={value}
+          autoComplete='off'
           onChange={() => {}}
           name='name' />
       </TextField>

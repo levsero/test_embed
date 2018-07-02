@@ -137,6 +137,7 @@ export class PrechatForm extends Component {
           {i18n.t('embeddable_framework.common.textLabel.name')}
         </Label>
         <Input
+          autoComplete='off'
           required={required}
           value={formState.name}
           onChange={() => {}}
