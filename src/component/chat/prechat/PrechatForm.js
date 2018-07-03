@@ -245,6 +245,7 @@ export class PrechatForm extends Component {
           appendToNode={this.props.getFrameContentDocument().body}
           onChange={this.handleSelectChange}
           popperModifiers={{ flip: { enabled: false }, preventOverflow: { escapeWithReference: true } }}
+          dropdownProps={{ style: { maxHeight: '140px', overflow: 'auto' } }}
           options={options}>
           {selectedDepartment.name}
         </Select>
