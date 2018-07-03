@@ -78,45 +78,6 @@ describe('SearchField component', () => {
       result = component.render();
     });
 
-    describe('when props.hasSearched is true', () => {
-      beforeAll(() => {
-        componentProps = { hasSearched: true };
-      });
-
-      it('has searched class', () => {
-        expect(result.props.className)
-          .toContain('searchedClass');
-      });
-    });
-
-    describe('when props.hasSearched is false', () => {
-      beforeAll(() => {
-        componentProps = { hasSearched: false };
-      });
-
-      describe('when props.hideZendeskLogo is true', () => {
-        beforeAll(() => {
-          _.assign(componentProps, { hideZendeskLogo: true });
-        });
-
-        it('has notSearched class', () => {
-          expect(result.props.className)
-            .toContain('notSearchedClass');
-        });
-      });
-
-      describe('when props.hideZendeskLogo is false', () => {
-        beforeAll(() => {
-          _.assign(componentProps, { hideZendeskLogo: false });
-        });
-
-        it('has notSearchedLogo class', () => {
-          expect(result.props.className)
-            .toContain('notSearchedLogoClass');
-        });
-      });
-    });
-
     describe('when props.fullscreen is true', () => {
       beforeAll(() => {
         componentProps = { fullscreen: true };
@@ -125,6 +86,21 @@ describe('SearchField component', () => {
       it('has fullscreen class', () => {
         expect(result.props.className)
           .toContain('fullscreenClass');
+      });
+
+      it('does not have searched class', () => {
+        expect(result.props.className)
+          .not.toContain('searchedClass');
+      });
+
+      it('does not have notSearched class', () => {
+        expect(result.props.className)
+          .not.toContain('notSearchedClass');
+      });
+
+      it('does not have notSearchedLogo class', () => {
+        expect(result.props.className)
+          .not.toContain('notSearchedLogoClass');
       });
     });
 
@@ -136,6 +112,45 @@ describe('SearchField component', () => {
       it('does not have fullscreen class', () => {
         expect(result.props.className)
           .not.toContain('fullscreenClass');
+      });
+
+      describe('when props.hasSearched is true', () => {
+        beforeAll(() => {
+          _.assign(componentProps, { hasSearched: true });
+        });
+
+        it('has searched class', () => {
+          expect(result.props.className)
+            .toContain('searchedClass');
+        });
+      });
+
+      describe('when props.hasSearched is false', () => {
+        beforeAll(() => {
+          _.assign(componentProps, { hasSearched: false });
+        });
+
+        describe('when props.hideZendeskLogo is true', () => {
+          beforeAll(() => {
+            _.assign(componentProps, { hideZendeskLogo: true });
+          });
+
+          it('has notSearched class', () => {
+            expect(result.props.className)
+              .toContain('notSearchedClass');
+          });
+        });
+
+        describe('when props.hideZendeskLogo is false', () => {
+          beforeAll(() => {
+            _.assign(componentProps, { hideZendeskLogo: false });
+          });
+
+          it('has notSearchedLogo class', () => {
+            expect(result.props.className)
+              .toContain('notSearchedLogoClass');
+          });
+        });
       });
     });
   });

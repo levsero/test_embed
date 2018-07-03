@@ -116,7 +116,8 @@ class HelpCenter extends Component {
     chatNotificationCount: PropTypes.number,
     isChatting: PropTypes.bool,
     isContextualSearchPending: PropTypes.bool.isRequired,
-    isContextualSearchSuccessful: PropTypes.bool.isRequired
+    isContextualSearchSuccessful: PropTypes.bool.isRequired,
+    contextualHelpEnabled: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -432,7 +433,8 @@ class HelpCenter extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         buttonLabel={buttonLabel}
         formTitleKey={this.props.formTitleKey}
-        setChannelChoiceShown={this.props.updateChannelChoiceShown}>
+        setChannelChoiceShown={this.props.updateChannelChoiceShown}
+        contextualHelpEnabled={this.props.contextualHelpEnabled}>
         {this.renderResults()}
         {this.renderArticles()}
       </HelpCenterMobile>
