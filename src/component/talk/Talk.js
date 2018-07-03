@@ -15,8 +15,6 @@ import { ICONS } from 'src/constants/shared';
 import { Button } from 'component/button/Button';
 import classNames from 'classnames';
 
-const libphonenumber = (() => { try { return require('libphonenumber-js'); } catch (_) {} })();
-
 import {
   CALLBACK_ONLY_SCREEN,
   PHONE_ONLY_SCREEN,
@@ -30,7 +28,8 @@ import { getEmbeddableConfig,
   getScreen,
   getCallback,
   getAverageWaitTime,
-  getAverageWaitTimeEnabled } from 'src/redux/modules/talk/talk-selectors';
+  getAverageWaitTimeEnabled,
+  getLibPhoneNumberVendor } from 'src/redux/modules/talk/talk-selectors';
 import { i18n } from 'service/i18n';
 
 import { locals as styles } from './Talk.scss';
@@ -43,7 +42,8 @@ const mapStateToProps = (state) => {
     screen: getScreen(state),
     callback: getCallback(state),
     averageWaitTime: getAverageWaitTime(state),
-    averageWaitTimeEnabled: getAverageWaitTimeEnabled(state)
+    averageWaitTimeEnabled: getAverageWaitTimeEnabled(state),
+    libphonenumber: getLibPhoneNumberVendor(state)
   };
 };
 
@@ -66,7 +66,8 @@ class Talk extends Component {
     onBackClick: PropTypes.func,
     hideZendeskLogo: PropTypes.bool,
     updateFrameSize: PropTypes.func,
-    newHeight: PropTypes.bool.isRequired
+    newHeight: PropTypes.bool.isRequired,
+    libphonenumber: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -78,7 +79,11 @@ class Talk extends Component {
     helpCenterAvailable: false,
     channelChoiceAvailable: false,
     onBackClick: () => {},
-    agentAvailability: true
+    agentAvailability: true,
+    libphonenumber: {
+      parse: () => {},
+      format: () => {}
+    }
   };
 
   constructor() {
@@ -104,6 +109,7 @@ class Talk extends Component {
   }
 
   formatPhoneNumber = (phoneNumber, format = 'International') => {
+    const { libphonenumber } = this.props;
     const parsed = libphonenumber.parse(phoneNumber);
 
     return libphonenumber.format(parsed, format);
@@ -177,7 +183,8 @@ class Talk extends Component {
           required={true}
           supportedCountries={this.props.embeddableConfig.supportedCountries}
           country={country}
-          value={phone} />
+          value={phone}
+          libphonenumber={this.props.libphonenumber} />
         <Field label={nameLabel}
           value={name}
           name='name' />

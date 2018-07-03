@@ -15,7 +15,7 @@ import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { transitionFactory } from 'service/transitionFactory';
-import { http, socketio } from 'service/transport';
+import { http } from 'service/transport';
 import { generateUserCSS } from 'utility/color/styles';
 import { getZoomSizingRatio,
   isIE,
@@ -36,6 +36,7 @@ import { SDK_ACTION_TYPE_PREFIX, JWT_ERROR } from 'constants/chat';
 import { AUTHENTICATION_STARTED, AUTHENTICATION_FAILED } from 'src/redux/modules/chat/chat-action-types';
 
 import WebWidget from 'component/webWidget/WebWidget';
+import { loadTalkVendors } from 'src/redux/modules/talk';
 
 // Any external dependencies that are optional must be wrapped in a try...catch
 // when being required. This will stop an exception which prevents the Widget
@@ -620,10 +621,11 @@ export default function WebWidgetFactory(name) {
   }
 
   function setupTalk(config, store) {
-    const nickname = settings.get('talk.nickname') || config.nickname;
-    const socket = socketio.connect(config.serviceUrl, nickname);
-
-    socketio.mapEventsToActions(socket, store);
+    store.dispatch(loadTalkVendors(
+      [import('socket.io-client'), import('libphonenumber-js')],
+      config.serviceUrl,
+      settings.get('talk.nickname') || config.nickname
+    ));
   }
 
   function makeChatConfig(config) {

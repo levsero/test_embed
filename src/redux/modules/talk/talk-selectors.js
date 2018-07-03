@@ -12,6 +12,8 @@ export const getCallback = (state) => state.talk.callback;
 export const getAverageWaitTime = (state) => state.talk.averageWaitTime;
 export const getAverageWaitTimeEnabled = (state) => state.talk.averageWaitTimeEnabled;
 export const getInitialScreen = (state) => `${getCapability(state)}_SCREEN`;
+export const getSocketIoVendor = (state) => state.talk.vendor.io;
+export const getLibPhoneNumberVendor = (state) => state.talk.vendor.libphonenumber;
 
 export const isCallbackEnabled = (state) => {
   const { capability } = state.talk.embeddableConfig;

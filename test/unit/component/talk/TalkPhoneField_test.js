@@ -1,5 +1,6 @@
 describe('Render phone field', () => {
   let TalkPhoneField,
+    libphonenumber,
     mockIsMobileBrowserValue,
     mockIsLandscapeValue,
     mockSupportedCountries;
@@ -24,6 +25,7 @@ describe('Render phone field', () => {
     }
   }
 
+  libphonenumber = require('libphonenumber-js');
   mockIsMobileBrowserValue = false;
   mockIsLandscapeValue = false;
   mockSupportedCountries = ['AU', 'US', 'ZM'];
@@ -76,7 +78,11 @@ describe('Render phone field', () => {
 
     describe('when the form has no previous country and phone value', () => {
       beforeEach(() => {
-        phoneField = domRender(<TalkPhoneField supportedCountries={mockSupportedCountries} />);
+        phoneField = domRender(
+          <TalkPhoneField
+            supportedCountries={mockSupportedCountries}
+            libphonenumber={libphonenumber} />
+        );
       });
 
       it('sets the first country via alphabetical sort to the default country', () => {
@@ -103,7 +109,8 @@ describe('Render phone field', () => {
           <TalkPhoneField
             supportedCountries={mockSupportedCountries}
             country='ZM'
-            value='+260123654247' />
+            value='+260123654247'
+            libphonenumber={libphonenumber} />
         );
       });
 
@@ -134,7 +141,8 @@ describe('Render phone field', () => {
         phoneField = domRender(
           <TalkPhoneField
             supportedCountries={mockSupportedCountries}
-            country='US' />
+            country='US'
+            libphonenumber={libphonenumber} />
         );
 
         spyOn(phoneField, 'triggerCountryChange');
@@ -157,7 +165,8 @@ describe('Render phone field', () => {
           <TalkPhoneField
             supportedCountries={mockSupportedCountries}
             value='+61403354742'
-            country='AU' />
+            country='AU'
+            libphonenumber={libphonenumber} />
         );
 
         spyOn(phoneField.input, 'validate');
@@ -185,7 +194,7 @@ describe('Render phone field', () => {
   });
 
   it('handles empty values', () => {
-    const phoneField = domRender(<TalkPhoneField />);
+    const phoneField = domRender(<TalkPhoneField libphonenumber={libphonenumber} />);
 
     phoneField.componentWillReceiveProps({ value: '' });
 
@@ -194,7 +203,12 @@ describe('Render phone field', () => {
   });
 
   it('fires field events on initial render', () => {
-    const phoneField = domRender(<TalkPhoneField country='AU' value='61422222222' />);
+    const phoneField = domRender(
+      <TalkPhoneField
+        country='AU'
+        value='61422222222'
+        libphonenumber={libphonenumber} />
+    );
     const field = TestUtils.findRenderedComponentWithType(phoneField, MockField);
 
     expect(field.blurred)
@@ -206,8 +220,11 @@ describe('Render phone field', () => {
 
   it('triggers onCountryChange on country select', () => {
     const selectSpy = jasmine.createSpy('onSelect');
-    const phoneField = domRender(<TalkPhoneField
-      onCountrySelect={selectSpy} />);
+    const phoneField = domRender(
+      <TalkPhoneField
+        onCountrySelect={selectSpy}
+        libphonenumber={libphonenumber} />
+    );
 
     phoneField.handleCountrySelected('US');
 
@@ -221,7 +238,7 @@ describe('Render phone field', () => {
     beforeEach(() => {
       mockIsMobileBrowserValue = true;
 
-      phoneField = domRender(<TalkPhoneField />);
+      phoneField = domRender(<TalkPhoneField libphonenumber={libphonenumber} />);
     });
 
     it('has the default mobile classes when isMobileBrowser is true', () => {
@@ -253,7 +270,8 @@ describe('Render phone field', () => {
           required={true}
           supportedCountries={['US', 'AU']}
           country='AU'
-          value='+61430999721' />
+          value='+61430999721'
+          libphonenumber={libphonenumber} />
       );
       field = TestUtils.findRenderedComponentWithType(phoneField, MockField);
     });

@@ -15,6 +15,9 @@ module.exports = merge(common, {
     chatPreview: path.join(prefix, '/src/chatPreview.js')
   },
   plugins: [
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1
+    }),
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(false),
       'process.env.NODE_ENV': JSON.stringify('production')

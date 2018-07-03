@@ -10,8 +10,6 @@ import { isMobileBrowser,
 import { countriesByIso, countriesByName } from './talkCountries';
 import { locals as styles } from './TalkPhoneField.scss';
 
-const libphonenumber = (() => { try { return require('libphonenumber-js'); } catch (_) {} })();
-
 export class TalkPhoneField extends Component {
   static propTypes = {
     value: PropTypes.oneOfType([
@@ -23,7 +21,8 @@ export class TalkPhoneField extends Component {
     getFrameDimensions: PropTypes.func.isRequired,
     country: PropTypes.string,
     onCountrySelect: PropTypes.func,
-    supportedCountries: PropTypes.array.isRequired
+    supportedCountries: PropTypes.array.isRequired,
+    libphonenumber: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -86,6 +85,8 @@ export class TalkPhoneField extends Component {
   }
 
   validate = (value) => {
+    const { libphonenumber } = this.props;
+
     return libphonenumber.isValidNumber(value, this.state.country);
   }
 
@@ -108,6 +109,8 @@ export class TalkPhoneField extends Component {
   }
 
   formatPhoneNumber(text, country) {
+    const { libphonenumber } = this.props;
+
     return country ? new libphonenumber.asYouType(country).input(text) : '';
   }
 

@@ -31,6 +31,9 @@ module.exports = merge(common, {
     headers: { 'Cache-Control': 'no-cache, no-store' }
   },
   plugins: [
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1
+    }),
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(true)
     }),

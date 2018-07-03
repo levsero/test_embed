@@ -20,7 +20,6 @@ describe('socketio', () => {
     talkAverageWaitTimeEventToActionSpy = jasmine.createSpy('talkAverageWaitTimeEventToAction');
 
     initMockRegistry({
-      'socket.io-client': ioSpy,
       './events': {
         talkEmbeddableConfigEventToAction: talkEmbeddableConfigEventToActionSpy,
         talkAgentAvailabilityEventToAction: talkAgentAvailabilityEventToActionSpy,
@@ -46,7 +45,7 @@ describe('socketio', () => {
     let args, socket;
 
     beforeEach(() => {
-      socket = socketio.connect(`https://${mockTalkServiceHostname}`, 'Support');
+      socket = socketio.connect(ioSpy, `https://${mockTalkServiceHostname}`, 'Support');
       args = ioSpy.calls.mostRecent().args;
     });
 

@@ -7,3 +7,4 @@ export const UPDATE_CALLBACK_FORM = 'widget/talk/UPDATE_CALLBACK_FORM';
 export const TALK_CALLBACK_REQUEST = 'widget/talk/TALK_CALLBACK_REQUEST';
 export const TALK_CALLBACK_SUCCESS = 'widget/talk/TALK_CALLBACK_SUCCESS';
 export const TALK_CALLBACK_FAILURE = 'widget/talk/TALK_CALLBACK_FAILURE';
+export const TALK_VENDOR_LOADED = 'widget/talk/TALK_VENDOR_LOADED';

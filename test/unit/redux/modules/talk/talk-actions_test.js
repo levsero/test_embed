@@ -11,7 +11,8 @@ let actions,
 const middlewares = [thunk];
 const createMockStore = configureMockStore(middlewares);
 const updateBackButtonVisibilityType = 'MOCK_UPDATE_BACK_BUTTON';
-let httpSpy = jasmine.createSpyObj('http', ['callMeRequest']);
+let httpSpy = jasmine.createSpyObj('http', ['callMeRequest']),
+  socketioSpy;
 
 describe('talk redux actions', () => {
   let action,
@@ -21,9 +22,14 @@ describe('talk redux actions', () => {
     mockery.enable();
 
     talkBackButtonEmbedsValue = false;
+    socketioSpy = {
+      connect: jasmine.createSpy('connect'),
+      mapEventsToActions: jasmine.createSpy('mapEventsToActions').and.returnValue('mockSocket')
+    };
 
     initMockRegistry({
-      'service/transport': { http: httpSpy },
+      'service/logging': { error: () => {} },
+      'service/transport': { http: httpSpy, socketio: socketioSpy },
       'service/settings': {
         settings: {
           get: () => mockSettings
@@ -383,6 +389,77 @@ describe('talk redux actions', () => {
         expect(action.payload)
           .toEqual(expectedError);
       });
+    });
+  });
+
+  describe('loadTalkVendors', () => {
+    let action;
+
+    describe('when all vendors are loaded', () => {
+      let mockPromises,
+        mockServiceUrl,
+        mockNickname,
+        response;
+
+      beforeEach(() => {
+        mockPromises = [
+          Promise.resolve({ default: 'mockio' }),
+          Promise.resolve('mockLibphonenumber')
+        ];
+        mockServiceUrl = 'https://kruger-industrial-smoothing.zendesk.com';
+        mockNickname = 'koko_the_monkey';
+
+        response = mockStore.dispatch(actions.loadTalkVendors(mockPromises, mockServiceUrl, mockNickname));
+      });
+
+      it('dispatches an action of type TALK_VENDOR_LOADED with the loaded vendors', () => {
+        response.then(() => {
+          action = mockStore.getActions()[0];
+          expect(action.type)
+            .toBe(actionTypes.TALK_VENDOR_LOADED);
+
+          expect(action.payload)
+            .toEqual({ io: 'mockio', libphonenumber: 'mockLibphonenumber' });
+        });
+      });
+
+      it('calls socketio.connect with the io vendor, service url and nickname', () => {
+        response.then(() => {
+          expect(socketioSpy.connect.calls.mostRecent().args)
+            .toEqual(['mockio', mockServiceUrl, mockNickname]);
+        });
+      });
+
+      it('calls socketio.mapEventsToActions with the socket', () => {
+        response.then(() => {
+          expect(socketioSpy.mapEventsToActions.calls.mostRecent().args[0])
+            .toBe('mockSocket');
+        });
+      });
+    });
+  });
+
+  describe('handleTalkVendorLoaded', () => {
+    let action,
+      mockPayload;
+
+    beforeEach(() => {
+      mockPayload = {
+        io: 'socket.io-client'
+      };
+
+      mockStore.dispatch(actions.handleTalkVendorLoaded(mockPayload));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type TALK_VENDOR_LOADED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.TALK_VENDOR_LOADED);
+    });
+
+    it('dispatches an action with the loaded vendor', () => {
+      expect(action.payload)
+        .toEqual(mockPayload);
     });
   });
 });
