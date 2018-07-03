@@ -462,6 +462,7 @@ class WebWidget extends Component {
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}
           position={this.props.position}
+          contextualHelpEnabled={helpCenterConfig.contextualHelpEnabled}
           buttonLabelKey={helpCenterConfig.buttonLabelKey}
           formTitleKey={helpCenterConfig.formTitleKey}
           showBackButton={this.props.updateBackButtonVisibility}

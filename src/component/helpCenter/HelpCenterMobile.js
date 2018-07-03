@@ -39,6 +39,7 @@ export class HelpCenterMobile extends Component {
     talkEnabled: PropTypes.bool,
     callbackEnabled: PropTypes.bool.isRequired,
     isContextualSearchPending: PropTypes.bool.isRequired,
+    contextualHelpEnabled: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -65,7 +66,7 @@ export class HelpCenterMobile extends Component {
 
     this.state = {
       searchFieldFocused: false,
-      showIntroScreen: true
+      showIntroScreen: !props.contextualHelpEnabled
     };
 
     this.searchField = null;
