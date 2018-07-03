@@ -59,6 +59,7 @@ export const CHAT_SOCIAL_LOGOUT_SUCCESS = 'widget/chat/CHAT_SOCIAL_LOGOUT_SUCCES
 export const CHAT_SOCIAL_LOGOUT_FAILURE = 'widget/chat/CHAT_SOCIAL_LOGOUT_FAILURE';
 export const AUTHENTICATION_STARTED = 'widget/chat/AUTHENTICATION_STARTED';
 export const AUTHENTICATION_FAILED = 'widget/chat/AUTHENTICATION_FAILED';
+export const CHAT_VENDOR_LOADED = 'widget/chat/CHAT_VENDOR_LOADED';
 
 export const SDK_ERROR = `${SDK_ACTION_TYPE_PREFIX}/error`;
 export const SDK_CHAT_MSG = `${SDK_ACTION_TYPE_PREFIX}/chat.msg`;

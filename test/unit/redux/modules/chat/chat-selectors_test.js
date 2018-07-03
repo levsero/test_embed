@@ -52,6 +52,7 @@ describe('chat selectors', () => {
     getSocialLogin,
     getAuthUrls,
     getIsAuthenticated,
+    getZChatVendor,
     CHATTING_SCREEN,
     CHAT_MESSAGE_EVENTS,
     CHAT_SYSTEM_EVENTS,
@@ -95,9 +96,6 @@ describe('chat selectors', () => {
       'service/i18n': {
         i18n: { t: _.identity }
       },
-      'chat-web-sdk': {
-        getAuthLoginUrl: (socialMedia) => `www.foo.com/${socialMedia}/bar-baz`
-      }
     });
 
     const chatSelectorsPath = buildSrcPath('redux/modules/chat/chat-selectors');
@@ -156,6 +154,7 @@ describe('chat selectors', () => {
     getSocialLogin = selectors.getSocialLogin;
     getAuthUrls = selectors.getAuthUrls;
     getIsAuthenticated = selectors.getIsAuthenticated;
+    getZChatVendor = selectors.getZChatVendor;
   });
 
   afterEach(() => {
@@ -2476,6 +2475,11 @@ describe('chat selectors', () => {
                   google: true
                 }
               }
+            },
+            vendor: {
+              zChat: {
+                getAuthLoginUrl: (socialMedia) => `www.foo.com/${socialMedia}/bar-baz`
+              }
             }
           }
         };
@@ -2494,6 +2498,11 @@ describe('chat selectors', () => {
             accountSettings: {
               login: {
                 loginTypes: {}
+              }
+            },
+            vendor: {
+              zChat: {
+                getAuthLoginUrl: (socialMedia) => `www.foo.com/${socialMedia}/bar-baz`
               }
             }
           }
@@ -2516,6 +2525,11 @@ describe('chat selectors', () => {
                   facebook: true,
                   google: true
                 }
+              }
+            },
+            vendor: {
+              zChat: {
+                getAuthLoginUrl: (socialMedia) => `www.foo.com/${socialMedia}/bar-baz`
               }
             }
           }
@@ -2545,6 +2559,11 @@ describe('chat selectors', () => {
                   twitter: false
                 }
               }
+            },
+            vendor: {
+              zChat: {
+                getAuthLoginUrl: (socialMedia) => `www.foo.com/${socialMedia}/bar-baz`
+              }
             }
           }
         };
@@ -2556,6 +2575,28 @@ describe('chat selectors', () => {
         expect(result)
           .toEqual(expected);
       });
+    });
+  });
+
+  describe('getZChatVendor', () => {
+    let result,
+      mockChatSettings;
+
+    beforeEach(() => {
+      mockChatSettings = {
+        chat: {
+          vendor: {
+            zChat: 'mockZChat'
+          }
+        }
+      };
+
+      result = getZChatVendor(mockChatSettings);
+    });
+
+    it('returns the zChat vendor', () => {
+      expect(result)
+        .toBe('mockZChat');
     });
   });
 });

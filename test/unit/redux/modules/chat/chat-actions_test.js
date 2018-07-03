@@ -59,27 +59,6 @@ describe('chat redux actions', () => {
     WHITELISTED_SOCIAL_LOGINS = chatConstants.WHITELISTED_SOCIAL_LOGINS;
 
     initMockRegistry({
-      'chat-web-sdk': {
-        sendChatMsg: mockSendChatMsg,
-        sendTyping: mockSendTyping,
-        endChat: mockEndChat,
-        setVisitorInfo: mockSetVisitorInfo,
-        sendChatRating: mockSendChatRating,
-        sendChatComment: mockSendChatComment,
-        sendFile: mockSendFile,
-        sendEmailTranscript: mockSendEmailTranscript,
-        setVisitorDefaultDepartment: mockSetVisitorDefaultDepartment,
-        clearVisitorDefaultDepartment: mockClearVisitorDefaultDepartment,
-        isChatting: () => true,
-        sendOfflineMsg: mockSendOfflineMsg,
-        reconnect: mockReconnect,
-        getAccountSettings: () => mockAccountSettings,
-        getOperatingHours: () => mockOperatingHours,
-        fetchChatHistory: mockFetchChatHistory,
-        on: noop,
-        getAuthLoginUrl: (key) => `www.foo.com/${key}/bar-baz`,
-        doAuthLogout: (cb) => cb(mockDoAuthLogoutArgs)
-      },
       'src/redux/modules/base/base-selectors': {
         getChatStandalone: () => mockChatStandalone
       },
@@ -89,7 +68,30 @@ describe('chat redux actions', () => {
         getIsChatting: getIsChattingSpy,
         getChatOnline: () => mockChatOnline,
         getActiveAgents: getActiveAgentsSpy,
-        getIsAuthenticated: getIsAuthenticatedSpy
+        getIsAuthenticated: getIsAuthenticatedSpy,
+        getZChatVendor: () => {
+          return {
+            sendChatMsg: mockSendChatMsg,
+            sendTyping: mockSendTyping,
+            endChat: mockEndChat,
+            setVisitorInfo: mockSetVisitorInfo,
+            sendChatRating: mockSendChatRating,
+            sendChatComment: mockSendChatComment,
+            sendFile: mockSendFile,
+            sendEmailTranscript: mockSendEmailTranscript,
+            setVisitorDefaultDepartment: mockSetVisitorDefaultDepartment,
+            clearVisitorDefaultDepartment: mockClearVisitorDefaultDepartment,
+            isChatting: () => true,
+            sendOfflineMsg: mockSendOfflineMsg,
+            reconnect: mockReconnect,
+            getAccountSettings: () => mockAccountSettings,
+            getOperatingHours: () => mockOperatingHours,
+            fetchChatHistory: mockFetchChatHistory,
+            on: noop,
+            getAuthLoginUrl: (key) => `www.foo.com/${key}/bar-baz`,
+            doAuthLogout: (cb) => cb(mockDoAuthLogoutArgs)
+          };
+        }
       },
       'src/constants/chat': {
         CHAT_MESSAGE_TYPES,
@@ -1600,6 +1602,30 @@ describe('chat redux actions', () => {
     it('has the correct params in the payload', () => {
       expect(action.payload)
         .toEqual(mockFormState);
+    });
+  });
+
+  describe('handleChatVendorLoaded', () => {
+    let action,
+      mockPayload;
+
+    beforeEach(() => {
+      mockPayload = {
+        zChat: 'chat-web-sdk'
+      };
+
+      mockStore.dispatch(actions.handleChatVendorLoaded(mockPayload));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action of type CHAT_VENDOR_LOADED', () => {
+      expect(action.type)
+        .toEqual(actionTypes.CHAT_VENDOR_LOADED);
+    });
+
+    it('dispatches an action with the loaded vendor', () => {
+      expect(action.payload)
+        .toEqual(mockPayload);
     });
   });
 });

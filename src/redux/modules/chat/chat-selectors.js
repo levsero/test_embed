@@ -1,5 +1,3 @@
-const zChat = (() => { try { return require('chat-web-sdk'); } catch (_) {} })();
-
 import _ from 'lodash';
 import { createSelector } from 'reselect';
 import {
@@ -64,6 +62,7 @@ export const getOperatingHours = (state) => state.chat.operatingHours;
 export const getLoginSettings = (state) => state.chat.accountSettings.login;
 export const getStandaloneMobileNotificationVisible = (state) => state.chat.standaloneMobileNotificationVisible;
 export const getIsAuthenticated = (state) => state.chat.isAuthenticated;
+export const getZChatVendor = (state) => state.chat.vendor.zChat;
 
 export const getFirstMessageTimestamp = (state) => {
   const first = getChats(state).values().next().value;
@@ -72,8 +71,8 @@ export const getFirstMessageTimestamp = (state) => {
 };
 
 export const getAuthUrls = createSelector(
-  [getLoginSettings, getIsAuthenticated],
-  (loginSettingsObj, isAuthenticated) => {
+  [getLoginSettings, getIsAuthenticated, getZChatVendor],
+  (loginSettingsObj, isAuthenticated, zChat) => {
     if (!zChat.getAuthLoginUrl || isAuthenticated) return {};
 
     return _.reduce(loginSettingsObj.loginTypes, (accumulator, enabled, socialMedia) => {

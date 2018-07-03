@@ -24,7 +24,8 @@ describe('embed.webWidget', () => {
     mockStore,
     mockWebWidget,
     mockChatNotification,
-    mockState;
+    mockState,
+    mockChatVendorImport;
   const webWidgetPath = buildSrcPath('embed/webWidget/webWidget');
   const revokeSpy = jasmine.createSpy();
   const getTicketFormsSpy = jasmine.createSpy('ticketForms');
@@ -59,6 +60,17 @@ describe('embed.webWidget', () => {
       getState: () => mockState, dispatch: mockStoreDispatch
     };
     mockChatNotification = { show: false, proactive: false };
+    mockChatVendorImport = Promise.resolve({
+      on: zChatOnSpy,
+      init: zChatInitSpy,
+      addTag: zChatAddTagSpy,
+      setOnFirstReady: zChatSetOnFirstReadySpy,
+      getFirehose: () => {
+        return {
+          on: zChatFirehoseSpy
+        };
+      }
+    });
 
     targetCancelHandlerSpy = jasmine.createSpy();
 
@@ -83,6 +95,9 @@ describe('embed.webWidget', () => {
         i18n: {
           getLocale: () => 'fr'
         }
+      },
+      'service/logging': {
+        error: () => {}
       },
       'service/transport': {
         http: {
@@ -152,17 +167,7 @@ describe('embed.webWidget', () => {
       'src/redux/modules/talk/talk-screen-types': {
         CALLBACK_ONLY_SCREEN: callMeScreen
       },
-      'chat-web-sdk': {
-        on: zChatOnSpy,
-        init: zChatInitSpy,
-        addTag: zChatAddTagSpy,
-        setOnFirstReady: zChatSetOnFirstReadySpy,
-        getFirehose: () => {
-          return {
-            on: zChatFirehoseSpy
-          };
-        }
-      },
+      'chat-web-sdk': mockChatVendorImport,
       'socket.io-client': {},
       'libphonenumber-js': {},
       'utility/devices': {
@@ -646,17 +651,6 @@ describe('embed.webWidget', () => {
       });
     });
 
-    describe('when zopimChat is part of config', () => {
-      beforeEach(() => {
-        webWidget.create('', { zopimChat: {} });
-      });
-
-      it('calls zChat init', () => {
-        expect(zChatInitSpy)
-          .toHaveBeenCalled();
-      });
-    });
-
     describe('when talk is part of config', () => {
       beforeEach(() => {
         webWidget.create('', { talk: {} }, { dispatch: () => {} });
@@ -801,86 +795,135 @@ describe('embed.webWidget', () => {
     });
 
     describe('setupChat', () => {
-      let chatConfig;
+      let chatConfig,
+        mockReduxStore,
+        handleChatVendorLoadedSpy,
+        setChatHistoryHandlerSpy;
 
       /* eslint-disable camelcase */
       beforeEach(() => {
         chatConfig = { zopimId: '123abc' };
+        mockReduxStore = { dispatch: jasmine.createSpy('dispatch') };
+        handleChatVendorLoadedSpy = jasmine
+          .createSpy('handleChatVendorLoaded')
+          .and.returnValue({ type: 'handleChatVendorLoaded' });
+        setChatHistoryHandlerSpy = jasmine
+          .createSpy('setChatHistoryHandler')
+          .and.returnValue({ type: 'setChatHistoryHandler' });
 
-        webWidget.create('', { zopimChat: chatConfig });
+        mockRegistry = initMockRegistry({
+          'src/redux/modules/chat': {
+            handleChatVendorLoaded: handleChatVendorLoadedSpy,
+            setChatHistoryHandler: setChatHistoryHandlerSpy
+          },
+          ...mockRegistry
+        });
+
+        webWidget.create('', { zopimChat: chatConfig }, mockReduxStore);
         faythe = webWidget.get();
       });
 
+      it('dispatches the handleChatVendorLoaded action creator with zChat vendor', () => {
+        mockChatVendorImport.then((mockZChat) => {
+          expect(mockReduxStore.dispatch.calls[0].args[0])
+            .toEqual({ type: 'handleChatVendorLoaded' });
+
+          expect(handleChatVendorLoadedSpy.calls.mostRecent().args[0])
+            .toEqual({ zChat: mockZChat });
+        });
+      });
+
+      it('dispatches the setChatHistoryHandler action creator', () => {
+        mockChatVendorImport.then(() => {
+          expect(mockReduxStore.dispach.calls[1].args[0])
+            .toEqual({ type: 'setChatHistoryHandler' });
+
+          expect(setChatHistoryHandlerSpy)
+            .toHaveBeenCalled();
+        });
+      });
+
       it('calls zChat init with the chat key', () => {
-        expect(zChatInitSpy)
-          .toHaveBeenCalledWith({ account_key: '123abc' });
+        mockChatVendorImport.then((mockZChat) => {
+          expect(mockZChat.init.calls.mostRecent().args[0])
+            .toEqual({ account_key: '123abc' });
+        });
       });
 
       it('calls zChat init without the override_proxy key', () => {
-        expect(zChatInitSpy)
-          .not.toHaveBeenCalledWith(jasmine.objectContaining({ override_proxy: jasmine.any(String) }));
+        mockChatVendorImport.then((mockZChat) => {
+          expect(mockZChat.init.calls.mostRecent().args[0])
+            .not.toContain({ override_proxy: jasmine.any(String) });
+        });
       });
 
       describe('when authentication exists in the config', () => {
         beforeEach(() => {
-          mockStoreDispatch.calls.reset();
           mockChatAuthValue = { jwtFn: () => {} };
           webWidget.create('', { zopimChat: chatConfig }, mockStore);
           faythe = webWidget.get();
         });
 
         it('calls zChat init with the authentcation property', () => {
-          expect(zChatInitSpy)
-            .toHaveBeenCalledWith({
-              account_key: '123abc',
-              authentication: { jwt_fn: jasmine.any(Function) }
-            });
+          mockChatVendorImport.then((mockZChat) => {
+            expect(mockZChat.init.calls.mostRecent().args[0])
+              .toEqual({
+                account_key: '123abc',
+                authentication: { jwt_fn: jasmine.any(Function) }
+              });
+          });
         });
 
         it('dispatches AUTHENTICATION_STARTED action', () => {
-          expect(mockStoreDispatch)
-            .toHaveBeenCalledWith({
-              type: AUTHENTICATION_STARTED
-            });
+          mockChatVendorImport.then(() => {
+            expect(mockReduxStore.dispatch.calls[2].args[0])
+              .toEqual({ type: AUTHENTICATION_STARTED });
+          });
         });
       });
 
       describe('when authentication does not exist in the config', () => {
         beforeEach(() => {
-          mockStoreDispatch.calls.reset();
           webWidget.create('', { zopimChat: chatConfig }, mockStore);
           faythe = webWidget.get();
         });
 
         it('does not call zChat init with the authentcation property', () => {
-          expect(zChatInitSpy)
-            .not.toHaveBeenCalledWith(
-              jasmine.objectContaining({
-                authentication: { jwt_fn: jasmine.any(Function) }
-              }));
+          mockChatVendorImport.then((mockZChat) => {
+            expect(mockZChat.init.calls.mostRecent().args[0])
+              .not.toContain({ authentication: { jwt_fn: jasmine.any(Function) } });
+          });
         });
 
         it('does not dispatch AUTHENTICATION_STARTED action', () => {
-          expect(mockStoreDispatch)
-            .not
-            .toHaveBeenCalled();
+          mockChatVendorImport.then(() => {
+            expect(mockReduxStore.dispatch)
+              .not
+              .toHaveBeenCalled();
+          });
         });
       });
 
       it('sets up error handling for chat web sdk', () => {
-        expect(zChatOnSpy)
-          .toHaveBeenCalledWith('error', jasmine.any(Function));
+        mockChatVendorImport.then((mockZChat) => {
+          expect(mockZChat.on.calls.mostRecent().args)
+            .toEqual(['error', jasmine.any(Function)]);
+        });
       });
 
       it('sets up firehose data', () => {
-        expect(zChatFirehoseSpy)
-          .toHaveBeenCalled();
+        mockChatVendorImport.then((mockZChat) => {
+          expect(mockZChat.getFirehose)
+            .toHaveBeenCalled();
+        });
       });
 
       describe('when brand does not exist in config', () => {
         it('does not call zChat.addTag', () => {
-          expect(zChatAddTagSpy)
-            .not.toHaveBeenCalled();
+          mockChatVendorImport.then(() => {
+            expect(zChatAddTagSpy)
+              .not.toHaveBeenCalled();
+          });
         });
       });
 
@@ -890,8 +933,10 @@ describe('embed.webWidget', () => {
         });
 
         it('calls zChat.addTag with the brand', () => {
-          expect(zChatAddTagSpy)
-            .toHaveBeenCalledWith('z3n');
+          mockChatVendorImport.then((mockZChat) => {
+            expect(mockZChat.addTag.calls.mostRecent().args[0])
+              .toEqual('z3n');
+          });
         });
       });
 
@@ -905,8 +950,10 @@ describe('embed.webWidget', () => {
         });
 
         it('calls zChat init with the chat key and the override_proxy key', () => {
-          expect(zChatInitSpy)
-            .toHaveBeenCalledWith({ account_key: '123abc', override_proxy: 'hades.zopim.org'});
+          mockChatVendorImport.then((mockZChat) => {
+            expect(mockZChat.init.calls.mostRecent().args[0])
+              .toEqual({ account_key: '123abc', override_proxy: 'hades.zopim.org'});
+          });
         });
       });
       /* eslint-enable camelcase */
