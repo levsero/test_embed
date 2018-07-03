@@ -8,6 +8,7 @@ describe('helpCenter selectors', () => {
     getHasContextuallySearched,
     getIsContextualSearchPending,
     getIsContextualSearchSuccessful,
+    getIsContextualSearchFailure,
     getActiveArticle,
     getResultsCount,
     getArticles,
@@ -16,9 +17,11 @@ describe('helpCenter selectors', () => {
     getChannelChoiceShown,
     getArticleDisplayed,
     getSearchFieldValue,
-    getSearchFieldFocused;
+    getSearchFieldFocused,
+    getIsContextualSearchComplete;
   const contextualSearchRequestPending = 'CONTEXTUAL_SEARCH_REQUEST_SENT';
   const contextualSearchRequestSuccess = 'CONTEXTUAL_SEARCH_REQUEST_SUCCESS';
+  const contextualSearchRequestFailure = 'CONTEXTUAL_SEARCH_REQUEST_FAILURE';
 
   beforeEach(() => {
     mockery.enable();
@@ -26,7 +29,8 @@ describe('helpCenter selectors', () => {
     initMockRegistry({
       'src/redux/modules/helpCenter/helpCenter-action-types': {
         CONTEXTUAL_SEARCH_REQUEST_SENT: contextualSearchRequestPending,
-        CONTEXTUAL_SEARCH_REQUEST_SUCCESS: contextualSearchRequestSuccess
+        CONTEXTUAL_SEARCH_REQUEST_SUCCESS: contextualSearchRequestSuccess,
+        CONTEXTUAL_SEARCH_REQUEST_FAILURE: contextualSearchRequestFailure
       }
     });
 
@@ -54,6 +58,8 @@ describe('helpCenter selectors', () => {
     getSearchFieldValue = selectors.getSearchFieldValue;
     getSearchFieldFocused = selectors.getSearchFieldFocused;
     getArticleDisplayed = selectors.getArticleDisplayed;
+    getIsContextualSearchFailure = selectors.getIsContextualSearchFailure;
+    getIsContextualSearchComplete = selectors.getIsContextualSearchComplete;
   });
 
   describe('getSearchLoading', () => {
@@ -364,6 +370,95 @@ describe('helpCenter selectors', () => {
     });
 
     describe('when contextual search screen is not successful', () => {
+      beforeAll(() => {
+        mockContextualSearchScreen = contextualSearchRequestPending;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+  });
+
+  describe('getIsContextualSearchFailure', () => {
+    let result,
+      mockContextualSearchScreen;
+
+    beforeEach(() => {
+      const mockHelpCenterState = {
+        helpCenter: {
+          contextualSearch: {
+            screen: mockContextualSearchScreen
+          }
+        }
+      };
+
+      result = getIsContextualSearchFailure(mockHelpCenterState);
+    });
+
+    describe('when contextual search screen is a failure', () => {
+      beforeAll(() => {
+        mockContextualSearchScreen = contextualSearchRequestFailure;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when contextual search screen is not a failure', () => {
+      beforeAll(() => {
+        mockContextualSearchScreen = contextualSearchRequestSuccess;
+      });
+
+      it('returns false', () => {
+        expect(result)
+          .toEqual(false);
+      });
+    });
+  });
+
+  describe('getIsContextualSearchComplete', () => {
+    let result,
+      mockContextualSearchScreen;
+
+    beforeEach(() => {
+      const mockHelpCenterState = {
+        helpCenter: {
+          contextualSearch: {
+            screen: mockContextualSearchScreen
+          }
+        }
+      };
+
+      result = getIsContextualSearchComplete(mockHelpCenterState);
+    });
+
+    describe('when contextual search screen is a failure', () => {
+      beforeAll(() => {
+        mockContextualSearchScreen = contextualSearchRequestFailure;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when contextual search screen is a success', () => {
+      beforeAll(() => {
+        mockContextualSearchScreen = contextualSearchRequestSuccess;
+      });
+
+      it('returns true', () => {
+        expect(result)
+          .toEqual(true);
+      });
+    });
+
+    describe('when contextual search screen is pending', () => {
       beforeAll(() => {
         mockContextualSearchScreen = contextualSearchRequestPending;
       });

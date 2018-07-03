@@ -34,7 +34,7 @@ import { getActiveArticle,
   getChannelChoiceShown,
   getSearchFieldValue,
   getIsContextualSearchPending,
-  getIsContextualSearchSuccessful } from 'src/redux/modules/helpCenter/helpCenter-selectors';
+  getIsContextualSearchComplete } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { isCallbackEnabled } from 'src/redux/modules/talk/talk-selectors';
 import { getNotificationCount,
   getIsChatting } from 'src/redux/modules/chat/chat-selectors';
@@ -54,7 +54,7 @@ const mapStateToProps = (state) => {
     hasSearched: getHasSearched(state),
     hasContextualSearched: getHasContextuallySearched(state),
     isContextualSearchPending: getIsContextualSearchPending(state),
-    isContextualSearchSuccessful: getIsContextualSearchSuccessful(state),
+    isContextualSearchComplete: getIsContextualSearchComplete(state),
     callbackEnabled: isCallbackEnabled(state),
     articleViewActive: getArticleViewActive(state),
     articles: getArticles(state),
@@ -116,8 +116,8 @@ class HelpCenter extends Component {
     chatNotificationCount: PropTypes.number,
     isChatting: PropTypes.bool,
     isContextualSearchPending: PropTypes.bool.isRequired,
-    isContextualSearchSuccessful: PropTypes.bool.isRequired,
-    contextualHelpEnabled: PropTypes.bool.isRequired
+    contextualHelpEnabled: PropTypes.bool.isRequired,
+    isContextualSearchComplete: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -330,7 +330,7 @@ class HelpCenter extends Component {
       searchFailed,
       previousSearchTerm,
       hasContextualSearched,
-      isContextualSearchSuccessful,
+      isContextualSearchComplete,
       articleViewActive,
       hasSearched,
       articles
@@ -349,7 +349,7 @@ class HelpCenter extends Component {
         previousSearchTerm={previousSearchTerm}
         handleArticleClick={this.handleArticleClick}
         hasContextualSearched={hasContextualSearched}
-        isContextualSearchSuccessful={isContextualSearchSuccessful}
+        isContextualSearchComplete={isContextualSearchComplete}
         showContactButton={showNextButton}
         hideZendeskLogo={hideZendeskLogo} />
     );

@@ -2,7 +2,8 @@ import { createSelector } from 'reselect';
 
 import {
   CONTEXTUAL_SEARCH_REQUEST_SENT,
-  CONTEXTUAL_SEARCH_REQUEST_SUCCESS
+  CONTEXTUAL_SEARCH_REQUEST_SUCCESS,
+  CONTEXTUAL_SEARCH_REQUEST_FAILURE
 } from 'src/redux/modules/helpCenter/helpCenter-action-types';
 
 const getContextualSearch = (state) => state.helpCenter.contextualSearch;
@@ -31,6 +32,14 @@ export const getIsContextualSearchPending = (state) => {
 
 export const getIsContextualSearchSuccessful = (state) => {
   return getContextualSearchScreen(state) === CONTEXTUAL_SEARCH_REQUEST_SUCCESS;
+};
+
+export const getIsContextualSearchFailure = (state) => {
+  return getContextualSearchScreen(state) === CONTEXTUAL_SEARCH_REQUEST_FAILURE;
+};
+
+export const getIsContextualSearchComplete = (state) => {
+  return getIsContextualSearchSuccessful(state) || getIsContextualSearchFailure(state);
 };
 
 export const getHasSearched = createSelector(

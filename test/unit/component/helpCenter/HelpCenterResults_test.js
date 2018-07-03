@@ -212,13 +212,13 @@ describe('HelpCenterResults component', () => {
   describe('renderNoResults', () => {
     let component,
       mockHasContextualSearched,
-      mockIsContextualSearchSuccessful;
+      mockIsContextualSearchComplete;
 
     beforeEach(() => {
       component = instanceRender(
         <HelpCenterResults
           hasContextualSearched={mockHasContextualSearched}
-          isContextualSearchSuccessful={mockIsContextualSearchSuccessful} />
+          isContextualSearchComplete={mockIsContextualSearchComplete} />
       );
 
       spyOn(component, 'renderContextualNoResults');
@@ -232,9 +232,9 @@ describe('HelpCenterResults component', () => {
         mockHasContextualSearched = true;
       });
 
-      describe('when props.isContextualSearchSuccessful is true', () => {
+      describe('when props.isContextualSearchComplete is true', () => {
         beforeAll(() => {
-          mockIsContextualSearchSuccessful = true;
+          mockIsContextualSearchComplete = true;
         });
 
         it('calls renderContextualNoResults', () => {
@@ -248,9 +248,9 @@ describe('HelpCenterResults component', () => {
         });
       });
 
-      describe('when props.isContextualSearchSuccessful is false', () => {
+      describe('when props.isContextualSearchComplete is false', () => {
         beforeAll(() => {
-          mockIsContextualSearchSuccessful = false;
+          mockIsContextualSearchComplete = false;
         });
 
         it('calls renderDefaultNoResults', () => {
