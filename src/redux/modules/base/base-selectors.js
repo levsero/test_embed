@@ -1,5 +1,5 @@
 import { store } from 'service/persistence';
-import { isTokenValid } from 'utility/utils';
+import { isTokenValid } from 'src/redux/modules/base/helpers/auth';
 
 export const getSubmitTicketEmbed = (state) => !!state.base.embeds.ticketSubmissionForm;
 export const getZopimChatEmbed = (state) => !!state.base.embeds.zopimChat;

@@ -27,7 +27,7 @@ describe('base selectors', () => {
           get: () => mockStoreValue
         }
       },
-      'utility/utils': {
+      'src/redux/modules/base/helpers/auth': {
         isTokenValid: isTokenValidSpy
       }
     });

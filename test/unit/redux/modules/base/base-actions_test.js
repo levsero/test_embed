@@ -15,7 +15,6 @@ let actions,
   mockIsTokenValid,
   mockExtractTokenId,
   mockIsTokenRenewable,
-  mockIsTokenRevoked,
   mockPersistentStoreValue,
   persistentStoreRemoveSpy = jasmine.createSpy('remove'),
   persistentStoreSetSpy = jasmine.createSpy('set'),
@@ -41,12 +40,11 @@ describe('base redux actions', () => {
         chatNotificationDismissed: chatNotificationDismissedSpy,
         chatOpened: chatOpenedSpy
       },
-      'utility/utils': {
+      'src/redux/modules/base/helpers/auth': {
         emailValid: () => mockEmailValidValue,
         isTokenValid: () => mockIsTokenValid,
         extractTokenId: () => mockExtractTokenId,
-        isTokenRenewable: () => mockIsTokenRenewable,
-        isTokenRevoked: () => mockIsTokenRevoked
+        isTokenRenewable: () => mockIsTokenRenewable
       },
       'service/settings': {
         settings: {
@@ -400,7 +398,7 @@ describe('base redux actions', () => {
         mockBaseIsAuthenticated = false;
       });
 
-      it('should request a new oauth token', () => {
+      it('requests a new oauth token', () => {
         const payload = httpPostSpy.calls.mostRecent().args[0];
         const params = payload.params;
 
@@ -474,7 +472,7 @@ describe('base redux actions', () => {
         mockStore.dispatch(actions.renewToken());
       });
 
-      it('should request a new oauth token', () => {
+      it('requests a new oauth token', () => {
         const payload = httpPostSpy.calls.mostRecent().args[0];
         const params = payload.params;
 
@@ -588,7 +586,10 @@ describe('base redux actions', () => {
 
     describe('when token is not revoked', () => {
       beforeAll(() => {
-        mockIsTokenRevoked = false;
+        mockOAuth = {
+          createdAt: 10
+        };
+        revokedAt = 8;
       });
 
       it('dispatches AUTHENTICATION_TOKEN_NOT_REVOKED', () => {
@@ -599,8 +600,10 @@ describe('base redux actions', () => {
 
     describe('when token is revoked and oauth is stored', () => {
       beforeAll(() => {
-        mockOAuth = 'someauth';
-        mockIsTokenRevoked = true;
+        mockOAuth = {
+          createdAt: 7
+        };
+        revokedAt = 8;
       });
 
       it('clears existing zE_oauth objects from localstorage', () => {

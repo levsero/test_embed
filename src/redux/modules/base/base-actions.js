@@ -18,8 +18,7 @@ import { getOAuth, getBaseIsAuthenticated } from 'src/redux/modules/base/base-se
 import { chatOpened } from 'src/redux/modules/chat';
 import { emailValid,
   extractTokenId,
-  isTokenRenewable,
-  isTokenRevoked } from 'utility/utils';
+  isTokenRenewable } from 'src/redux/modules/base/helpers/auth';
 import { mediator } from 'service/mediator';
 import _ from 'lodash';
 import { store } from 'service/persistence';
@@ -112,7 +111,7 @@ export const renewToken = () => {
 export const revokeToken = (revokedAt) => {
   const oauth = getOAuth();
 
-  if (oauth && isTokenRevoked(oauth, revokedAt)) {
+  if (oauth && oauth.createdAt <= revokedAt) {
     store.remove('zE_oauth');
     return {
       type: AUTHENTICATION_TOKEN_REVOKED
