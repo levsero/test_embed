@@ -263,7 +263,7 @@ export class HelpCenterMobile extends Component {
     if (this.state.showIntroScreen) return null;
 
     return (isContextualSearchPending && !articleViewActive)
-      ? <LoadingBarContent />
+      ? <LoadingBarContent containerClasses={styles.loadingBarContent} />
       : children;
   }
 

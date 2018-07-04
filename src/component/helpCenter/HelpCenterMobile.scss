@@ -56,6 +56,10 @@
   animation: channelChoiceAppear 100ms ease-in-out;
 }
 
+.loadingBarContent {
+  padding-top: #{5/$font-size}rem;
+}
+
 @keyframes channelChoiceAppear {
   from {
     opacity: 0;
