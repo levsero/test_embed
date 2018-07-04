@@ -136,7 +136,9 @@ describe('helpCenter reducer searchTerm', () => {
     beforeEach(() => {
       state = reducer(initialStateObj, {
         type: actionTypes.SEARCH_REQUEST_SENT,
-        payload: 'baz'
+        payload: {
+          searchTerm: 'baz'
+        }
       });
     });
 
@@ -161,7 +163,9 @@ describe('helpCenter reducer searchTerm', () => {
     beforeEach(() => {
       state = reducer(initialStateObj, {
         type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SENT,
-        payload: 'baz'
+        payload: {
+          searchTerm: 'baz'
+        }
       });
     });
 

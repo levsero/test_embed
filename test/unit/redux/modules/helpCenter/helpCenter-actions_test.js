@@ -6,6 +6,7 @@ let mockIsOnHostMappedDomainValue,
   mockSettingsValue,
   mockStore,
   mockLocale,
+  mockGetLastSearchTimestamp,
   actions,
   actionTypes;
 const httpPostSpy = jasmine.createSpy('http.send');
@@ -50,6 +51,9 @@ describe('helpCenter redux actions', () => {
       },
       'src/constants/helpCenter': {
         MAXIMUM_CONTEXTUAL_SEARCH_RESULTS: 3
+      },
+      'src/redux/modules/helpCenter/helpCenter-selectors': {
+        getLastSearchTimestamp: () => mockGetLastSearchTimestamp
       }
     });
 
@@ -79,6 +83,10 @@ describe('helpCenter redux actions', () => {
     };
 
     beforeEach(() => {
+      mockGetLastSearchTimestamp = Date.now();
+
+      spyOn(Date, 'now').and.callFake(() => mockGetLastSearchTimestamp);
+
       mockStore.dispatch(actions.performSearch(query));
       action = mockStore.getActions()[0];
     });
@@ -87,23 +95,30 @@ describe('helpCenter redux actions', () => {
       httpPostSpy.calls.reset();
     });
 
-    it('dispatches an action of type SEARCH_REQUEST_SENT', () => {
-      expect(action.type)
-        .toEqual(actionTypes.SEARCH_REQUEST_SENT);
-    });
+    describe('when the action is dispatched', () => {
+      it('dispatches an action of type SEARCH_REQUEST_SENT', () => {
+        expect(action.type)
+          .toEqual(actionTypes.SEARCH_REQUEST_SENT);
+      });
 
-    it('dispatches an action with payload containing the search term', () => {
-      expect(action.payload)
-        .toEqual(query.query);
-    });
+      it('dispatches an action with payload containing the search term', () => {
+        const expected = {
+          searchTerm: query.query,
+          timestamp: Date.now()
+        };
 
-    it('sends a http search request with the correct params', () => {
-      expect(httpPostSpy)
-        .toHaveBeenCalledWith(jasmine.objectContaining({
-          method: 'get',
-          path: '/api/v2/help_center/search.json',
-          query
-        }));
+        expect(action.payload)
+          .toEqual(expected);
+      });
+
+      it('sends a http search request with the correct params', () => {
+        expect(httpPostSpy)
+          .toHaveBeenCalledWith(jasmine.objectContaining({
+            method: 'get',
+            path: '/api/v2/help_center/search.json',
+            query
+          }));
+      });
     });
 
     describe('when authentication is true', () => {
@@ -153,7 +168,7 @@ describe('helpCenter redux actions', () => {
 
     describe('search response', () => {
       let callbackFn,
-        actions;
+        dispatchedActions;
 
       describe('when the request is successful', () => {
         beforeEach(() => {
@@ -167,11 +182,11 @@ describe('helpCenter redux actions', () => {
 
           callbackFn = searchRequest[0].callbacks.done;
           callbackFn(mockResponse);
-          actions = mockStore.getActions();
+          dispatchedActions = mockStore.getActions();
         });
 
         it('dispatches an action of type SEARCH_REQUEST_SUCCESS', () => {
-          expect(actions[1].type)
+          expect(dispatchedActions[1].type)
             .toEqual(actionTypes.SEARCH_REQUEST_SUCCESS);
         });
       });
@@ -182,11 +197,11 @@ describe('helpCenter redux actions', () => {
 
           callbackFn = searchRequest[0].callbacks.fail;
           callbackFn();
-          action = mockStore.getActions()[1];
+          dispatchedActions = mockStore.getActions();
         });
 
         it('dispatches an action of type SEARCH_REQUEST_FAILURE', () => {
-          expect(action.type)
+          expect(dispatchedActions[1].type)
             .toEqual(actionTypes.SEARCH_REQUEST_FAILURE);
         });
       });
@@ -203,6 +218,10 @@ describe('helpCenter redux actions', () => {
       pageKeywords = 'https github com zendesk embeddable framework blob master src component helpCenter HelpCenter';
 
     beforeEach(() => {
+      mockGetLastSearchTimestamp = Date.now();
+
+      spyOn(Date, 'now').and.callFake(() => mockGetLastSearchTimestamp);
+
       doneSpy = jasmine.createSpy('done');
       failSpy = jasmine.createSpy('fail');
       mockLocale = 'yoloLocale';
@@ -255,8 +274,13 @@ describe('helpCenter redux actions', () => {
       });
 
       it('dispatches an action with payload containing the search term', () => {
+        const expected = {
+          searchTerm: 'yolo',
+          timestamp: mockGetLastSearchTimestamp
+        };
+
         expect(action.payload)
-          .toEqual('yolo');
+          .toEqual(expected);
       });
     });
 
@@ -275,8 +299,13 @@ describe('helpCenter redux actions', () => {
       });
 
       it('dispatches an action with payload containing labels joined into a string', () => {
+        const expected = {
+          searchTerm: 'authy,authy2',
+          timestamp: mockGetLastSearchTimestamp
+        };
+
         expect(action.payload)
-          .toEqual('authy,authy2');
+          .toEqual(expected);
       });
     });
 
@@ -294,8 +323,13 @@ describe('helpCenter redux actions', () => {
       });
 
       it('dispatches an action with payload containing the page keywords as the search term', () => {
+        const expected = {
+          searchTerm: pageKeywords,
+          timestamp: mockGetLastSearchTimestamp
+        };
+
         expect(action.payload)
-          .toEqual(pageKeywords);
+          .toEqual(expected);
       });
     });
 
