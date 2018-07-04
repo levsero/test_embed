@@ -14,7 +14,7 @@ export class HelpCenterResults extends Component {
     fullscreen: PropTypes.bool,
     handleArticleClick: PropTypes.func,
     hasContextualSearched: PropTypes.bool.isRequired,
-    isContextualSearchSuccessful: PropTypes.bool.isRequired,
+    isContextualSearchComplete: PropTypes.bool.isRequired,
     previousSearchTerm: PropTypes.string,
     searchFailed: PropTypes.bool,
     showContactButton: PropTypes.bool,
@@ -120,9 +120,9 @@ export class HelpCenterResults extends Component {
   }
 
   renderNoResults = () => {
-    const { hasContextualSearched, isContextualSearchSuccessful } = this.props;
+    const { hasContextualSearched, isContextualSearchComplete } = this.props;
 
-    return (hasContextualSearched && isContextualSearchSuccessful)
+    return (hasContextualSearched && isContextualSearchComplete)
       ? this.renderContextualNoResults()
       : this.renderDefaultNoResults();
   }
