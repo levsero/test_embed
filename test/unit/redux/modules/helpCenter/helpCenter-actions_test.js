@@ -5,6 +5,7 @@ let mockIsOnHostMappedDomainValue,
   mockAuthenticateValue,
   mockSettingsValue,
   mockStore,
+  mockLocale,
   actions,
   actionTypes;
 const httpPostSpy = jasmine.createSpy('http.send');
@@ -17,10 +18,6 @@ describe('helpCenter redux actions', () => {
 
     const middlewares = [thunk];
     const createMockStore = configureMockStore(middlewares);
-
-    mockIsOnHostMappedDomainValue = false;
-    mockAuthenticateValue = '';
-    mockSettingsValue = null;
 
     initMockRegistry({
       'service/transport': {
@@ -38,6 +35,11 @@ describe('helpCenter redux actions', () => {
       'src/redux/modules/base/base-selectors': {
         getAuthToken: () => mockAuthenticateValue
       },
+      'service/i18n': {
+        i18n: {
+          getLocale: () => mockLocale
+        }
+      },
       'utility/globals': {
         location: {
           protocol: 'http:'
@@ -45,6 +47,9 @@ describe('helpCenter redux actions', () => {
       },
       'utility/pages': {
         isOnHostMappedDomain: () => mockIsOnHostMappedDomainValue
+      },
+      'src/constants/helpCenter': {
+        MAXIMUM_CONTEXTUAL_SEARCH_RESULTS: 3
       }
     });
 
@@ -69,7 +74,9 @@ describe('helpCenter redux actions', () => {
 
   describe('#performSearch', () => {
     let action;
-    const query = 'can I haz cheezburger?';
+    const query = {
+      query: 'can I haz cheezburger?'
+    };
 
     beforeEach(() => {
       mockStore.dispatch(actions.performSearch(query));
@@ -83,6 +90,11 @@ describe('helpCenter redux actions', () => {
     it('dispatches an action of type SEARCH_REQUEST_SENT', () => {
       expect(action.type)
         .toEqual(actionTypes.SEARCH_REQUEST_SENT);
+    });
+
+    it('dispatches an action with payload containing the search term', () => {
+      expect(action.payload)
+        .toEqual(query.query);
     });
 
     it('sends a http search request with the correct params', () => {
@@ -131,7 +143,7 @@ describe('helpCenter redux actions', () => {
         mockStore.dispatch(actions.performSearch(query));
       });
 
-      it('gets the authorization header from authentication', () => {
+      it('includes the filter properties', () => {
         expect(httpPostSpy)
           .toHaveBeenCalledWith(jasmine.objectContaining({
             query: query
@@ -182,11 +194,19 @@ describe('helpCenter redux actions', () => {
   });
 
   describe('#performContextualSearch', () => {
-    let action;
-    const query = 'can I haz cheezburger?';
+    let action,
+      doneSpy,
+      failSpy,
+      options = {
+        search: 'yolo'
+      },
+      pageKeywords = 'https github com zendesk embeddable framework blob master src component helpCenter HelpCenter';
 
     beforeEach(() => {
-      mockStore.dispatch(actions.performContextualSearch(query));
+      doneSpy = jasmine.createSpy('done');
+      failSpy = jasmine.createSpy('fail');
+      mockLocale = 'yoloLocale';
+      mockStore.dispatch(actions.performContextualSearch(options, doneSpy, failSpy));
       action = mockStore.getActions()[0];
     });
 
@@ -194,25 +214,94 @@ describe('helpCenter redux actions', () => {
       httpPostSpy.calls.reset();
     });
 
-    it('dispatches an action of type CONTEXTUAL_SEARCH_REQUEST_SENT', () => {
-      expect(action.type)
-        .toEqual(actionTypes.CONTEXTUAL_SEARCH_REQUEST_SENT);
-    });
-
     it('sends a http search request with the correct params', () => {
+      /* eslint camelcase:0 */
       expect(httpPostSpy)
         .toHaveBeenCalledWith(jasmine.objectContaining({
           method: 'get',
           path: '/api/v2/help_center/articles/embeddable_search.json',
-          query
+          query: jasmine.objectContaining({
+            query: 'yolo',
+            locale: 'yoloLocale',
+            per_page: 3
+          })
         }));
     });
 
-    describe('when authentication is true', () => {
-      beforeEach(() => {
-        mockAuthenticateValue = 'abc123';
+    describe('invalid options provided', () => {
+      beforeAll(() => {
+        options = {};
+      });
 
-        mockStore.dispatch(actions.performContextualSearch(query));
+      it('does not dispatch an action of type CONTEXTUAL_SEARCH_REQUEST_SENT', () => {
+        expect(action)
+          .toBeUndefined();
+      });
+    });
+
+    describe('options.search exists', () => {
+      beforeAll(() => {
+        options = {
+          search: 'yolo',
+          labels: ['authy', 'authy2'],
+          url: true,
+          pageKeywords
+        };
+      });
+
+      it('dispatches an action of type CONTEXTUAL_SEARCH_REQUEST_SENT', () => {
+        expect(action.type)
+          .toEqual(actionTypes.CONTEXTUAL_SEARCH_REQUEST_SENT);
+      });
+
+      it('dispatches an action with payload containing the search term', () => {
+        expect(action.payload)
+          .toEqual('yolo');
+      });
+    });
+
+    describe('options.labels exists', () => {
+      beforeAll(() => {
+        options = {
+          labels: ['authy', 'authy2'],
+          url: true,
+          pageKeywords
+        };
+      });
+
+      it('dispatches an action of type CONTEXTUAL_SEARCH_REQUEST_SENT', () => {
+        expect(action.type)
+          .toEqual(actionTypes.CONTEXTUAL_SEARCH_REQUEST_SENT);
+      });
+
+      it('dispatches an action with payload containing labels joined into a string', () => {
+        expect(action.payload)
+          .toEqual('authy,authy2');
+      });
+    });
+
+    describe('options.pageKeyWords exists', () => {
+      beforeAll(() => {
+        options = {
+          url: true,
+          pageKeywords
+        };
+      });
+
+      it('dispatches an action of type CONTEXTUAL_SEARCH_REQUEST_SENT', () => {
+        expect(action.type)
+          .toEqual(actionTypes.CONTEXTUAL_SEARCH_REQUEST_SENT);
+      });
+
+      it('dispatches an action with payload containing the page keywords as the search term', () => {
+        expect(action.payload)
+          .toEqual(pageKeywords);
+      });
+    });
+
+    describe('when authentication is true', () => {
+      beforeAll(() => {
+        mockAuthenticateValue = 'abc123';
       });
 
       it('gets the authorization header from authentication', () => {
@@ -224,10 +313,8 @@ describe('helpCenter redux actions', () => {
     });
 
     describe('when on a hostmapped page', () => {
-      beforeEach(() => {
+      beforeAll(() => {
         mockIsOnHostMappedDomainValue = true;
-
-        mockStore.dispatch(actions.performContextualSearch(query));
       });
 
       it('sets forceHttp to true', () => {
@@ -239,16 +326,18 @@ describe('helpCenter redux actions', () => {
     });
 
     describe('when help center filters are part of settings', () => {
-      beforeEach(() => {
-        mockSettingsValue = 'filter';
-
-        mockStore.dispatch(actions.performContextualSearch(query));
+      beforeAll(() => {
+        mockSettingsValue = {
+          section: 'filter'
+        };
       });
 
-      it('gets the authorization header from authentication', () => {
+      it('includes the filter properties', () => {
         expect(httpPostSpy)
           .toHaveBeenCalledWith(jasmine.objectContaining({
-            query: query
+            query: jasmine.objectContaining({
+              section: 'filter'
+            })
           }));
       });
     });
@@ -276,20 +365,31 @@ describe('helpCenter redux actions', () => {
           expect(action.payload.resultsCount)
             .toEqual(1);
         });
+
+        it('calls done callback with correct params', () => {
+          expect(doneSpy)
+            .toHaveBeenCalledWith(mockResponse);
+        });
       });
 
       describe('when the request is unsuccessful', () => {
         beforeEach(() => {
           const searchRequest = httpPostSpy.calls.mostRecent().args;
 
+          mockResponse = { 'error': 'error' };
           callbackFn = searchRequest[0].callbacks.fail;
-          callbackFn();
+          callbackFn(mockResponse);
           action = mockStore.getActions()[1];
         });
 
         it('dispatches an action of type CONTEXTUAL_SEARCH_REQUEST_FAILURE', () => {
           expect(action.type)
             .toEqual(actionTypes.CONTEXTUAL_SEARCH_REQUEST_FAILURE);
+        });
+
+        it('calls fail callback with correct params', () => {
+          expect(failSpy)
+            .toHaveBeenCalledWith(mockResponse);
         });
       });
     });
@@ -367,25 +467,6 @@ describe('helpCenter redux actions', () => {
     it('contains the article in the payload', () => {
       expect(action.payload)
         .toEqual(mockArticle);
-    });
-  });
-
-  describe('#updateSearchTerm', () => {
-    let action;
-
-    beforeEach(() => {
-      mockStore.dispatch(actions.updateSearchTerm('foobar'));
-      action = mockStore.getActions()[0];
-    });
-
-    it('dispatches an action of type SEARCH_BAR_CHANGED', () => {
-      expect(action.type)
-        .toEqual(actionTypes.SEARCH_BAR_CHANGED);
-    });
-
-    it('contains the search term in the payload', () => {
-      expect(action.payload)
-        .toEqual('foobar');
     });
   });
 

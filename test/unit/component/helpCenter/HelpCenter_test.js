@@ -1,8 +1,6 @@
 describe('HelpCenter component', () => {
   let HelpCenter,
-    mockRegistry,
-    mockPageKeywords,
-    showBackButton;
+    mockRegistry;
 
   const helpCenterPath = buildSrcPath('component/helpCenter/HelpCenter');
 
@@ -20,11 +18,7 @@ describe('HelpCenter component', () => {
   }
 
   beforeEach(() => {
-    showBackButton = jasmine.createSpy('showBackButton');
-
     mockery.enable();
-
-    mockPageKeywords = 'billy bob thorton';
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -121,6 +115,9 @@ describe('HelpCenter component', () => {
       'utility/globals': {
         win: window,
         document: document
+      },
+      'src/constants/helpCenter': {
+        MAXIMUM_SEARCH_RESULTS: 9
       }
     });
 
@@ -135,6 +132,75 @@ describe('HelpCenter component', () => {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('componentDidUpdate', () => {
+    let helpCenter,
+      showBackButtonSpy,
+      articles,
+      articleClicked,
+      setIntroScreenSpy;
+
+    beforeEach(() => {
+      showBackButtonSpy = jasmine.createSpy('showBackButton');
+      setIntroScreenSpy = jasmine.createSpy('setIntroScreen');
+      helpCenter = domRender(<HelpCenter showBackButton={showBackButtonSpy}
+        articles={articles}
+        articleClicked={articleClicked} />);
+      helpCenter.getHelpCenterComponent().refs = {
+        helpCenterMobile: {
+          setIntroScreen: setIntroScreenSpy
+        }
+      };
+      helpCenter.componentDidUpdate();
+    });
+
+    describe('when there are no articles', () => {
+      beforeAll(() => {
+        articles = [];
+      });
+
+      it('does not call showBackButton', () => {
+        expect(showBackButtonSpy)
+          .not
+          .toHaveBeenCalled();
+      });
+
+      it('does not call setIntroScreen', () => {
+        expect(setIntroScreenSpy)
+          .not
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when there are articles', () => {
+      beforeAll(() => {
+        articles = ['yeah', 'some', 'articles'];
+      });
+
+      describe('article was clicked', () => {
+        beforeAll(() => {
+          articleClicked = true;
+        });
+
+        it('does not call showBackButton', () => {
+          expect(showBackButtonSpy)
+            .not
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('article was not clicked', () => {
+        beforeAll(() => {
+          articleClicked = false;
+        });
+
+        it('calls showBackButton with the correct params', () => {
+          expect(showBackButtonSpy)
+            .toHaveBeenCalledWith(false);
+        });
+      });
+    });
   });
 
   describe('render', () => {
@@ -306,9 +372,6 @@ describe('HelpCenter component', () => {
   });
 
   describe('contextualSearch', () => {
-    const responsePayloadResults = {ok: true, body: {results: [1, 2, 3], count: 3}};
-    const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
-
     let helpCenter,
       showBackButtonSpy,
       mockPerformContextualSearch,
@@ -327,309 +390,14 @@ describe('HelpCenter component', () => {
     });
 
     it('should call performContextualSearch', () => {
-      helpCenter.contextualSearch({ search: 'foo bar' });
-
-      expect(mockPerformContextualSearch)
-        .toHaveBeenCalled();
-    });
-
-    it('should call performContextualSearch with the right payload for search attribute', () => {
-      const searchOptions = { search: 'foo bar' };
-
-      helpCenter.contextualSearch(searchOptions);
-
-      const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
-
-      expect(recentCallArgs.query)
-        .toEqual(searchOptions.search);
-
-      expect(recentCallArgs.label_names)
-        .toBeFalsy();
-    });
-
-    it('should call performContextualSearch with the right payload for labels attribute', () => {
-      const searchOptions = { labels: ['foo', 'bar'] };
-
-      helpCenter.contextualSearch(searchOptions);
-
-      const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
-
-      expect(recentCallArgs)
-        .toEqual(jasmine.objectContaining({
-          label_names: searchOptions.labels.join(',')
-        }));
-    });
-
-    it('should call performContextualSearch with the right payload for search and labels attribute', () => {
-      const searchOptions = {
-        search: 'my search',
-        labels: ['foo', 'bar']
-      };
-
-      helpCenter.contextualSearch(searchOptions);
-
-      const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
-
-      expect(recentCallArgs)
-        .toEqual(jasmine.objectContaining({
-          query: searchOptions.search
-        }));
-    });
-
-    it('should call performContextualSearch with the right payload for search, labels and url attribute', () => {
-      const searchOptions = {
-        search: 'my search',
-        labels: ['foo', 'bar'],
-        url: true,
-        pageKeywords: mockPageKeywords
-      };
-
-      helpCenter.contextualSearch(searchOptions);
-
-      const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
-
-      expect(recentCallArgs)
-        .toEqual(jasmine.objectContaining({
-          query: searchOptions.search
-        }));
-    });
-
-    it('should call performContextualSearch with the right payload for labels and url attribute', () => {
-      const searchOptions = {
-        labels: ['foo', 'bar'],
-        url: true,
-        pageKeywords: mockPageKeywords
-      };
-
-      helpCenter.contextualSearch(searchOptions);
-
-      const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
-
-      expect(recentCallArgs)
-        .toEqual(jasmine.objectContaining({
-          label_names: searchOptions.labels.join(',')
-        }));
-    });
-
-    it('should call performContextualSearch with the right payload for url attribute', () => {
-      const searchOptions = { url: true, pageKeywords: mockPageKeywords };
-
-      helpCenter.contextualSearch(searchOptions);
-
-      const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
-
-      expect(recentCallArgs)
-        .toEqual(jasmine.objectContaining({
-          query: mockPageKeywords
-        }));
-    });
-
-    it('shouldn\'t call performContextualSearch if no valid search options were passed', () => {
-      let searchOptions = { foo: 'bar' };
-
-      helpCenter.contextualSearch(searchOptions);
-
-      expect(mockPerformContextualSearch)
-        .not.toHaveBeenCalled();
-
-      searchOptions = 5;
-
-      helpCenter.contextualSearch(searchOptions);
-
-      expect(mockPerformContextualSearch)
-        .not.toHaveBeenCalled();
-
-      searchOptions = false;
-
-      helpCenter.contextualSearch(searchOptions);
-
-      expect(mockPerformContextualSearch)
-        .not.toHaveBeenCalled();
-
-      searchOptions = 'foo bar';
-
-      helpCenter.contextualSearch(searchOptions);
-
-      expect(mockPerformContextualSearch)
-        .not.toHaveBeenCalled();
-
-      searchOptions = { labels: [] };
-
-      helpCenter.contextualSearch(searchOptions);
-
-      expect(mockPerformContextualSearch)
-        .not.toHaveBeenCalled();
-
-      searchOptions = { search: '' };
-
-      helpCenter.contextualSearch(searchOptions);
-
-      expect(mockPerformContextualSearch)
-        .not.toHaveBeenCalled();
-    });
-
-    it('shouldn\'t call performContextualSearch if url keywords are empty', () => {
-      let searchOptions = { url: true, pageKeywords: '' };
-
-      helpCenter.contextualSearch(searchOptions);
-
-      expect(mockPerformContextualSearch)
-        .not.toHaveBeenCalled();
-    });
-
-    describe('if there are no results', () => {
-      it('does not call showBackButton', () => {
-        const searchOptions = { labels: ['foo', 'bar'] };
-
-        helpCenter.showBackButton = showBackButton;
-
-        helpCenter.contextualSearch(searchOptions);
-
-        expect(mockPerformContextualSearch)
-          .toHaveBeenCalled();
-
-        const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
-
-        expect(recentCallArgs.label_names)
-          .toEqual(searchOptions.labels.join(','));
-
-        expect(recentCallArgs.locale)
-          .toBeFalsy();
-
-        expect(recentCallArgs.origin)
-          .toBeFalsy();
-
-        mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadNoResults);
-
-        expect(helpCenter.showBackButton)
-          .not.toHaveBeenCalled();
-      });
-    });
-
-    describe('if there are results', () => {
-      describe('with search', () => {
-        let searchOptions;
-
-        beforeEach(() => {
-          searchOptions = { search: 'foo bar' };
-          helpCenter.contextualSearch(searchOptions);
-        });
-
-        it('sets states', () => {
-          expect(mockPerformContextualSearch)
-            .toHaveBeenCalled();
-
-          const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
-
-          expect(recentCallArgs)
-            .toEqual(jasmine.objectContaining({
-              query: searchOptions.search,
-              locale: undefined
-            }));
-        });
-
-        describe('when viewing the result list', () => {
-          beforeAll(() => {
-            mockArticleClicked = false;
-          });
-
-          it('calls showBackButton', () => {
-            mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadResults);
-
-            expect(showBackButtonSpy)
-              .toHaveBeenCalledWith(false);
-          });
-        });
-
-        describe('when viewing the article', () => {
-          beforeAll(() => {
-            mockArticleClicked = true;
-          });
-
-          it('does not call showBackButton', () => {
-            mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadResults);
-
-            expect(showBackButtonSpy)
-              .not.toHaveBeenCalled();
-          });
-        });
-      });
-
-      describe('with labels', () => {
-        let searchOptions;
-
-        beforeEach(() => {
-          searchOptions = { labels: ['foo', 'bar'] };
-          helpCenter.contextualSearch(searchOptions);
-        });
-
-        it('sets states', () => {
-          expect(mockPerformContextualSearch)
-            .toHaveBeenCalled();
-
-          const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
-
-          expect(recentCallArgs)
-            .toEqual(jasmine.objectContaining({
-              locale: undefined,
-              label_names: searchOptions.labels.join(',')
-            }));
-        });
-
-        describe('when viewing the result list', () => {
-          beforeAll(() => {
-            mockArticleClicked = false;
-          });
-
-          it('calls showBackButton', () => {
-            mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadResults);
-
-            expect(showBackButtonSpy)
-              .toHaveBeenCalledWith(false);
-          });
-        });
-
-        describe('when viewing the article', () => {
-          beforeAll(() => {
-            mockArticleClicked = true;
-          });
-
-          it('does not call showBackButton', () => {
-            mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadResults);
-
-            expect(showBackButtonSpy)
-              .not.toHaveBeenCalled();
-          });
-        });
-      });
-    });
-
-    it('requests 3 results', () => {
-      const searchOptions = { search: 'foo bar' };
-
-      helpCenter.contextualSearch(searchOptions);
-
-      expect(mockPerformContextualSearch)
-        .toHaveBeenCalled();
-
-      const recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args[0];
-
-      expect(recentCallArgs.per_page)
-        .toEqual(3);
-    });
-
-    it('should not call focusField', () => {
-      const searchOptions = { search: 'foo bar' };
+      const options = { search: 'foo bar' };
       const focusField = jasmine.createSpy('focusField');
 
       helpCenter.focusField = focusField;
+      helpCenter.contextualSearch(options);
 
-      helpCenter.contextualSearch(searchOptions);
-
-      mockPerformContextualSearch.calls.mostRecent().args[1](responsePayloadResults);
-
-      expect(focusField)
-        .not.toHaveBeenCalled();
+      expect(mockPerformContextualSearch)
+        .toHaveBeenCalledWith(options, jasmine.any(Function), focusField);
     });
   });
 
@@ -661,55 +429,6 @@ describe('HelpCenter component', () => {
 
       helpCenter.focusField = focusField;
       helpCenter.getHelpCenterComponent().getSearchField().getValue = () => 'valid';
-    });
-
-    describe('when performing a contextual search', () => {
-      let recentCallArgs;
-
-      beforeEach(() => {
-        helpCenter.performContextualSearch(query, successFn);
-        recentCallArgs = mockPerformContextualSearch.calls.mostRecent().args;
-      });
-
-      it('should call performContextualSearch with corrent payload', () => {
-        expect(mockPerformContextualSearch)
-          .toHaveBeenCalled();
-
-        expect(recentCallArgs[0])
-          .toEqual(jasmine.objectContaining({
-            query: searchTerm,
-            locale: 'en-us'
-          }));
-      });
-
-      describe('when the search is successful', () => {
-        it('should call successFn', () => {
-          recentCallArgs[1](responsePayloadResults);
-
-          expect(successFn)
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('when the search fails', () => {
-        describe('when the response status is not 200 OK', () => {
-          it('should call focusField', () => {
-            recentCallArgs[1](responsePayloadError);
-
-            expect(helpCenter.focusField)
-              .toHaveBeenCalled();
-          });
-        });
-
-        describe('when the failFn callback is fired', () => {
-          it('should call focusField', () => {
-            recentCallArgs[2]();
-
-            expect(helpCenter.focusField)
-              .toHaveBeenCalled();
-          });
-        });
-      });
     });
 
     describe('when performing a regular search', () => {

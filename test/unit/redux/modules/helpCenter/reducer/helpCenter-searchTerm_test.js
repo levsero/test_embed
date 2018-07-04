@@ -126,7 +126,7 @@ describe('helpCenter reducer searchTerm', () => {
     });
   });
 
-  describe('when an SEARCH_BAR_CHANGED action is dispatched', () => {
+  describe('when an SEARCH_REQUEST_SENT action is dispatched', () => {
     let state;
     const initialStateObj = {
       current: 'foobar',
@@ -135,7 +135,32 @@ describe('helpCenter reducer searchTerm', () => {
 
     beforeEach(() => {
       state = reducer(initialStateObj, {
-        type: actionTypes.SEARCH_BAR_CHANGED,
+        type: actionTypes.SEARCH_REQUEST_SENT,
+        payload: 'baz'
+      });
+    });
+
+    it('sets the current state to the payload passed in', () => {
+      expect(state.current)
+        .toEqual('baz');
+    });
+
+    it('does not change the previous state', () => {
+      expect(state.previous)
+        .toEqual(initialStateObj.previous);
+    });
+  });
+
+  describe('when an CONTEXTUAL_SEARCH_REQUEST_SENT action is dispatched', () => {
+    let state;
+    const initialStateObj = {
+      current: 'foobar',
+      previous: 'foobar'
+    };
+
+    beforeEach(() => {
+      state = reducer(initialStateObj, {
+        type: actionTypes.CONTEXTUAL_SEARCH_REQUEST_SENT,
         payload: 'baz'
       });
     });

@@ -1,4 +1,3 @@
-export const SEARCH_BAR_CHANGED = 'widget/helpCenter/SEARCH_BAR_CHANGED';
 export const SEARCH_REQUEST_SENT = 'widget/helpCenter/SEARCH_REQUEST_SENT';
 export const SEARCH_REQUEST_SUCCESS = 'widget/helpCenter/SEARCH_REQUEST_SUCCESS';
 export const SEARCH_REQUEST_FAILURE = 'widget/helpCenter/SEARCH_REQUEST_FAILURE';
