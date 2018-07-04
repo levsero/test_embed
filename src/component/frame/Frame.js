@@ -402,7 +402,7 @@ export class Frame extends Component {
 
     const wrapper = (
       <StyleSheetManager target={this.getContentDocument().head}>
-        <ThemeProvider theme={gardenOverrides} rtl={i18n.isRTL()}>
+        <ThemeProvider theme={gardenOverrides} rtl={i18n.isRTL()} document={this.getContentDocument()}>
           <EmbedWrapper
             ref={(el) => { this.child = el; }}
             baseCSS={`${this.props.css} ${baseFontCSS}`}
