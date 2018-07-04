@@ -2,7 +2,7 @@ describe('HelpCenterArticle component', () => {
   let HelpCenterArticle,
     scrollIntoView,
     mockArticle,
-    mockOauthToken,
+    mockBaseIsAuthenticated,
     mockParseUrlValue;
   const helpCenterArticlePath = buildSrcPath('component/helpCenter/HelpCenterArticle');
 
@@ -10,7 +10,7 @@ describe('HelpCenterArticle component', () => {
     scrollIntoView = jasmine.createSpy();
 
     global.document.zendeskHost = 'dev.zd-dev.com';
-    mockOauthToken = 'abc';
+    mockBaseIsAuthenticated = false;
     mockParseUrlValue = {
       hostname: global.document.zendeskHost
     };
@@ -21,10 +21,8 @@ describe('HelpCenterArticle component', () => {
 
     initMockRegistry({
       'React': React,
-      'service/authentication': {
-        authentication: {
-          getToken: () => mockOauthToken
-        }
+      'src/redux/modules/base/base-selectors': {
+        getBaseIsAuthenticated: () => mockBaseIsAuthenticated
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
@@ -481,7 +479,7 @@ describe('HelpCenterArticle component', () => {
 
     describe('when there is no valid oauth token', () => {
       it('returns the unmodified article body', () => {
-        mockOauthToken = null;
+        mockBaseIsAuthenticated = false;
         mockArticle.body += `<img src="https://${mockZendeskHost}/hc/article_attachments/img.png" />`;
 
         expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
@@ -491,7 +489,7 @@ describe('HelpCenterArticle component', () => {
 
     describe('when there are valid images and an oauth token', () => {
       beforeEach(() => {
-        mockOauthToken = 'abc';
+        mockBaseIsAuthenticated = true;
         mockArticle.body += `<img src="https://${mockZendeskHost}/hc/article_attachments/img0.png" />
                              <img src="https://${mockZendeskHost}/hc/article_attachments/img1.png" />`;
       });

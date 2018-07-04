@@ -35,10 +35,8 @@ describe('helpCenter redux actions', () => {
           get: () => mockSettingsValue
         }
       },
-      'service/authentication': {
-        authentication: {
-          getToken: () => mockAuthenticateValue
-        }
+      'src/redux/modules/base/base-selectors': {
+        getAuthToken: () => mockAuthenticateValue
       },
       'utility/globals': {
         location: {

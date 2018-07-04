@@ -4,6 +4,7 @@ describe('embed.launcher', () => {
     mockRegistry,
     mockIsMobileBrowser,
     mockZoomSizingRatioValue;
+  const mockToken = 'someMockedToken';
   const launcherPath = buildSrcPath('embed/launcher/launcher');
 
   beforeEach(() => {
@@ -63,6 +64,9 @@ describe('embed.launcher', () => {
       'lodash': _,
       'service/transitionFactory' : {
         transitionFactory: requireUncached(buildTestPath('unit/mocks/mockTransitionFactory')).mockTransitionFactory
+      },
+      'src/redux/modules/base': {
+        renewToken: () => mockToken
       }
     });
 
@@ -138,6 +142,34 @@ describe('embed.launcher', () => {
       it('sets fullscreenable to false', () => {
         expect(frame.props.fullscreenable)
           .toEqual(false);
+      });
+    });
+
+    describe('launcher onClick', () => {
+      let config,
+        reduxStore,
+        dispatchSpy,
+        bob,
+        frame,
+        child;
+
+      beforeEach(() => {
+        dispatchSpy = jasmine.createSpy('dispatch');
+        reduxStore = {
+          dispatch: dispatchSpy
+        };
+        launcher.create('bob', config, reduxStore);
+        bob = launcher.get('bob');
+        frame = bob.component;
+        child = frame.props.children;
+        child.props.onClick({
+          preventDefault: () => {}
+        });
+      });
+
+      it('calls dispatch', () => {
+        expect(dispatchSpy)
+          .toHaveBeenCalledWith(mockToken);
       });
     });
   });

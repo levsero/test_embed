@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { identity } from 'service/identity';
@@ -16,7 +15,8 @@ import { appendMetaTag,
   getMetaTagsByName,
   isMobileBrowser } from 'utility/devices';
 import { initMobileScaling } from 'utility/mobileScaling';
-import { handleIdentifyRecieved } from 'src/redux/modules/base';
+import { handleIdentifyRecieved,
+  logout } from 'src/redux/modules/base';
 import { displayArticle } from 'src/redux/modules/helpCenter';
 import { updateSettings } from 'src/redux/modules/settings';
 import createStore from 'src/redux/createStore';
@@ -102,7 +102,6 @@ const setupServices = (reduxStore) => {
   });
 
   settings.init(reduxStore);
-  authentication.init();
   GA.init();
 };
 
@@ -280,7 +279,7 @@ const setupWidgetApi = (win, reduxStore) => {
     reduxStore.dispatch(handleIdentifyRecieved(_.pick(user, ['name', 'email']), _.isString));
   };
   win.zE.logout = () => {
-    mediator.channel.broadcast('.logout');
+    reduxStore.dispatch(logout());
   };
   win.zE.setHelpCenterSuggestions = (options) => {
     mediator.channel.broadcast('.onSetHelpCenterSuggestions', options);

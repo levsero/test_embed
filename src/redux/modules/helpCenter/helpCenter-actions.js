@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
-import { authentication } from 'service/authentication';
 import { http } from 'service/transport';
 import { settings } from 'service/settings';
 import { location } from 'utility/globals';
 import { isOnHostMappedDomain } from 'utility/pages';
+import { getAuthToken } from 'src/redux/modules/base/base-selectors';
 
 import { SEARCH_REQUEST_SENT,
   SEARCH_REQUEST_SUCCESS,
@@ -25,7 +25,7 @@ import { SEARCH_REQUEST_SENT,
   SEARCH_FIELD_FOCUSED } from './helpCenter-action-types';
 
 const constructHelpCenterPayload = (path, query, doneFn, failFn) => {
-  const token = authentication.getToken();
+  const token = getAuthToken();
   const forceHttp = isOnHostMappedDomain() && location.protocol === 'http:';
   const queryParams = _.extend(query, settings.get('helpCenter.filter'));
 

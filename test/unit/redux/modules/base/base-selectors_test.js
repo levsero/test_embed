@@ -4,11 +4,15 @@ describe('base selectors', () => {
     getTalkEmbed,
     getActiveEmbed,
     getChatEmbed,
-    getAuthenticated,
     getWidgetShown,
     getIPMWidget,
     getChatStandalone,
-    getNewHeight;
+    getNewHeight,
+    getOAuth,
+    getAuthToken,
+    getBaseIsAuthenticated,
+    mockStoreValue,
+    isTokenValidSpy = jasmine.createSpy('isTokenValid');
 
   beforeEach(() => {
     mockery.enable();
@@ -17,6 +21,17 @@ describe('base selectors', () => {
 
     mockery.registerAllowable(selectorsPath);
 
+    initMockRegistry({
+      'service/persistence': {
+        store: {
+          get: () => mockStoreValue
+        }
+      },
+      'src/redux/modules/base/helpers/auth': {
+        isTokenValid: isTokenValidSpy
+      }
+    });
+
     const selectors = requireUncached(selectorsPath);
 
     getZopimChatEmbed = selectors.getZopimChatEmbed;
@@ -24,11 +39,13 @@ describe('base selectors', () => {
     getHelpCenterEmbed = selectors.getHelpCenterEmbed;
     getTalkEmbed = selectors.getTalkEmbed;
     getChatEmbed = selectors.getChatEmbed;
-    getAuthenticated = selectors.getAuthenticated;
     getWidgetShown = selectors.getWidgetShown;
     getChatStandalone = selectors.getChatStandalone;
     getIPMWidget = selectors.getIPMWidget;
     getNewHeight = selectors.getNewHeight;
+    getOAuth = selectors.getOAuth;
+    getAuthToken = selectors.getAuthToken;
+    getBaseIsAuthenticated = selectors.getBaseIsAuthenticated;
   });
 
   describe('getActiveEmbed', () => {
@@ -124,24 +141,6 @@ describe('base selectors', () => {
     });
 
     it('returns the current state of embed.chat', () => {
-      expect(result)
-        .toEqual(true);
-    });
-  });
-
-  describe('getAuthenticated', () => {
-    let result;
-    const mockState = {
-      base: {
-        authenticated: true
-      }
-    };
-
-    beforeEach(() => {
-      result = getAuthenticated(mockState);
-    });
-
-    it('returns the current state of authenticated', () => {
       expect(result)
         .toEqual(true);
     });
@@ -295,6 +294,75 @@ describe('base selectors', () => {
         expect(result)
           .toEqual(false);
       });
+    });
+  });
+
+  describe('getOAuth', () => {
+    let result;
+
+    beforeEach(() => {
+      mockStoreValue = 'someAuth';
+      result = getOAuth();
+    });
+
+    it('returns correct oauth details', () => {
+      expect(result)
+        .toEqual('someAuth');
+    });
+  });
+
+  describe('getAuthToken', () => {
+    let result;
+
+    beforeEach(() => {
+      result = getAuthToken();
+    });
+
+    describe('when token does exist', () => {
+      beforeAll(() => {
+        mockStoreValue = {
+          token: 'token'
+        };
+      });
+
+      it('returns the token', () => {
+        expect(result)
+          .toEqual('token');
+      });
+    });
+
+    describe('when token does not exist', () => {
+      beforeAll(() => {
+        mockStoreValue = {};
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toEqual(null);
+      });
+    });
+
+    describe('when whole token object does not exist', () => {
+      beforeAll(() => {
+        mockStoreValue = undefined;
+      });
+
+      it('returns null', () => {
+        expect(result)
+          .toEqual(null);
+      });
+    });
+  });
+
+  describe('getBaseIsAuthenticated', () => {
+    beforeEach(() => {
+      mockStoreValue = 'yolo';
+      getBaseIsAuthenticated();
+    });
+
+    it('calls isTokenValid with correct params', () => {
+      expect(isTokenValidSpy)
+        .toHaveBeenCalledWith('yolo');
     });
   });
 });

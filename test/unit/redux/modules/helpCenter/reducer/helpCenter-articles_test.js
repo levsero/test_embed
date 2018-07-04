@@ -76,4 +76,19 @@ describe('helpCenter reducer articles', () => {
         .toEqual(expected);
     });
   });
+
+  describe('when an SEARCH_REQUEST_FAILURE action is dispatched', () => {
+    let state;
+
+    beforeEach(() => {
+      state = reducer(initialState, {
+        type: actionTypes.SEARCH_REQUEST_FAILURE
+      });
+    });
+
+    it('resets state', () => {
+      expect(state)
+        .toEqual([]);
+    });
+  });
 });

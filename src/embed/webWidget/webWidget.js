@@ -9,7 +9,6 @@ import _ from 'lodash';
 
 import { webWidgetStyles } from './webWidgetStyles.js';
 import { Frame } from 'component/frame/Frame';
-import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { logging } from 'service/logging';
@@ -27,7 +26,8 @@ import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedTimeoutCall,
   getPageKeywords } from 'utility/utils';
-import { getActiveEmbed } from 'src/redux/modules/base/base-selectors';
+import { getActiveEmbed,
+  getIsBaseAuthenticated } from 'src/redux/modules/base/base-selectors';
 import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
 import { setVisitorInfo,
   chatNotificationDismissed,
@@ -39,7 +39,7 @@ import { getTicketForms,
   getTicketFields } from 'src/redux/modules/submitTicket';
 import { SDK_ACTION_TYPE_PREFIX, JWT_ERROR } from 'constants/chat';
 import { AUTHENTICATION_STARTED, AUTHENTICATION_FAILED } from 'src/redux/modules/chat/chat-action-types';
-
+import { authenticate, revokeToken } from 'src/redux/modules/base';
 import WebWidget from 'component/webWidget/WebWidget';
 import { loadTalkVendors } from 'src/redux/modules/talk';
 
@@ -48,7 +48,6 @@ const webWidgetCSS = `${require('globalCSS')} ${webWidgetStyles}`;
 export default function WebWidgetFactory(name) {
   let embed = null;
   let hasManuallySetContextualSuggestions = false;
-  let hasAuthenticatedSuccessfully = false;
   let useMouseDistanceContexualSearch = false;
   let contextualSearchOptions = {};
   let cancelTargetHandler = null;
@@ -387,14 +386,6 @@ export default function WebWidgetFactory(name) {
         }
       });
     });
-
-    mediator.channel.subscribe(prefix + 'helpCenterForm.isAuthenticated', () => {
-      hasAuthenticatedSuccessfully = true;
-
-      waitForRootComponent(() => {
-        getWebWidgetComponent().setAuthenticated(hasAuthenticatedSuccessfully);
-      });
-    });
   }
 
   function get() {
@@ -434,11 +425,11 @@ export default function WebWidgetFactory(name) {
     }
 
     if (config.tokensRevokedAt) {
-      authentication.revoke(config.tokensRevokedAt);
+      embed.store.dispatch(revokeToken(config.tokensRevokedAt));
     }
 
     if (authSetting) {
-      authentication.authenticate(authSetting.jwt);
+      embed.store.dispatch(authenticate(authSetting.jwt));
     }
   }
 
@@ -446,7 +437,7 @@ export default function WebWidgetFactory(name) {
     const contextualSearchFn = () => {
       const helpCenterComponent = getWebWidgetComponent().getHelpCenterComponent();
       const signInNotRequired = embed.config.helpCenterForm.signInRequired === false;
-      const isAuthenticated = signInNotRequired || hasAuthenticatedSuccessfully || isOnHelpCenterPage();
+      const isAuthenticated = signInNotRequired || getIsBaseAuthenticated() || isOnHelpCenterPage();
 
       if (isAuthenticated && helpCenterComponent) {
         if (options.url) {

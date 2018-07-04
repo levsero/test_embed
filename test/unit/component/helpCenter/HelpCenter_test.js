@@ -604,7 +604,7 @@ describe('HelpCenter component', () => {
       });
     });
 
-    it('should request 3 results', () => {
+    it('requests 3 results', () => {
       const searchOptions = { search: 'foo bar' };
 
       helpCenter.contextualSearch(searchOptions);

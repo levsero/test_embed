@@ -6,7 +6,6 @@ describe('boot', () => {
     };
   };
   const bootPath = buildSrcPath('boot'),
-    authenticationSpy = registerImportSpy('authentication', 'init'),
     beaconSpy = registerImportSpy('beacon', 'setConfig', 'sendPageView', 'trackSettings', 'sendConfigLoadTime'),
     i18nSpy = registerImportSpy('i18n', 'init', 'setLocale'),
     identitySpy = registerImportSpy('identity', 'init'),
@@ -21,7 +20,6 @@ describe('boot', () => {
     mockery.enable();
 
     initMockRegistry({
-      'service/authentication': authenticationSpy,
       'service/beacon': beaconSpy,
       'service/i18n': i18nSpy,
       'service/identity': identitySpy,
@@ -57,7 +55,8 @@ describe('boot', () => {
         initMobileScaling: noop
       },
       'src/redux/modules/base': {
-        handleIdentifyRecieved: noop
+        handleIdentifyRecieved: noop,
+        logout: noop
       },
       'src/redux/modules/helpCenter': {
         displayArticle: noop
@@ -80,8 +79,6 @@ describe('boot', () => {
     it('sets up the services', () => {
       boot.setupServices({});
       expect(identitySpy.identity.init)
-        .toHaveBeenCalled();
-      expect(authenticationSpy.authentication.init)
         .toHaveBeenCalled();
       expect(transportSpy.http.init)
         .toHaveBeenCalled();
