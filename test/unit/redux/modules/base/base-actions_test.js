@@ -41,10 +41,12 @@ describe('base redux actions', () => {
         chatOpened: chatOpenedSpy
       },
       'src/redux/modules/base/helpers/auth': {
-        emailValid: () => mockEmailValidValue,
         isTokenValid: () => mockIsTokenValid,
         extractTokenId: () => mockExtractTokenId,
         isTokenRenewable: () => mockIsTokenRenewable
+      },
+      'src/util/utils': {
+        emailValid: () => mockEmailValidValue
       },
       'service/settings': {
         settings: {
