@@ -161,10 +161,6 @@ class HelpCenter extends Component {
 
   componentDidUpdate() {
     if (this.props.articles.length > 0) {
-      if (!this.props.articleClicked) {
-        this.props.showBackButton(false);
-      }
-
       if (this.refs.helpCenterMobile) {
         this.refs.helpCenterMobile.setIntroScreen();
       }
