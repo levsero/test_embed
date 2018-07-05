@@ -16,9 +16,9 @@ import {
 import { settings } from 'service/settings';
 import { getOAuth, getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors';
 import { chatOpened } from 'src/redux/modules/chat';
-import { emailValid,
-  extractTokenId,
+import { extractTokenId,
   isTokenRenewable } from 'src/redux/modules/base/helpers/auth';
+import { emailValid } from 'src/util/utils';
 import { mediator } from 'service/mediator';
 import _ from 'lodash';
 import { store } from 'service/persistence';
