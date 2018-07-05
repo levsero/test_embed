@@ -5,6 +5,7 @@ import { settings } from 'service/settings';
 import { location } from 'utility/globals';
 import { isOnHostMappedDomain } from 'utility/pages';
 import { getAuthToken } from 'src/redux/modules/base/base-selectors';
+import { getLastSearchTimestamp } from 'src/redux/modules/helpCenter/helpCenter-selectors';
 import { i18n } from 'service/i18n';
 import { MAXIMUM_CONTEXTUAL_SEARCH_RESULTS } from 'src/constants/helpCenter';
 
@@ -53,6 +54,15 @@ const formatResults = (response) => {
   };
 };
 
+const preventSearchCompleteDispatch = (getState, timestamp) => {
+  /* This is implemented in order to prevent slow connections from returning
+     successful responses in quick succession which causes screen states to
+     flicker on the front-end which causes a weird experience and could potentially
+     render an incorrect state. To prevent that we only dispatch the promised callbacks
+     if it's the last message recorded via its ID. */
+  return timestamp !== getLastSearchTimestamp(getState());
+};
+
 export function performImageSearch(path, done) {
   http.getImage(constructHelpCenterPayload(path, null, done));
 
@@ -61,10 +71,13 @@ export function performImageSearch(path, done) {
 }
 
 export function performSearch(query, done = () => {}, fail = () => {}) {
+  const timestamp = Date.now();
   const path = '/api/v2/help_center/search.json';
 
-  return (dispatch) => {
+  return (dispatch, getState) => {
     const doneFn = (response) => {
+      if (preventSearchCompleteDispatch(getState, timestamp)) return;
+
       dispatch({
         type: SEARCH_REQUEST_SUCCESS,
         payload: formatResults(response)
@@ -73,13 +86,15 @@ export function performSearch(query, done = () => {}, fail = () => {}) {
       done(response);
     };
     const failFn = (error) => {
+      if (preventSearchCompleteDispatch(getState, timestamp)) return;
+
       dispatch({ type: SEARCH_REQUEST_FAILURE });
       fail(error);
     };
 
     dispatch({
       type: SEARCH_REQUEST_SENT,
-      payload: query.query
+      payload: { searchTerm: query.query, timestamp }
     });
 
     http.send(constructHelpCenterPayload(path, query, doneFn, failFn));
@@ -87,9 +102,10 @@ export function performSearch(query, done = () => {}, fail = () => {}) {
 }
 
 export function performContextualSearch(options, done = () => {}, fail = () => {}) {
-  return (dispatch) => {
-    const path = '/api/v2/help_center/articles/embeddable_search.json';
+  const timestamp = Date.now();
+  const path = '/api/v2/help_center/articles/embeddable_search.json';
 
+  return (dispatch, getState) => {
     /* eslint camelcase:0 */
     let query = {
       locale: i18n.getLocale(),
@@ -111,15 +127,20 @@ export function performContextualSearch(options, done = () => {}, fail = () => {
     }
 
     const doneFn = (response) => {
+      if (preventSearchCompleteDispatch(getState, timestamp)) return;
+
       dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_SUCCESS, payload: formatResults(response) });
       done(response);
     };
     const failFn = (error) => {
+      if (preventSearchCompleteDispatch(getState, timestamp)) return;
+
       dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_FAILURE });
       fail(error);
     };
 
-    dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_SENT, payload: searchTerm });
+    dispatch({ type: CONTEXTUAL_SEARCH_REQUEST_SENT, payload: { searchTerm, timestamp } });
+
     http.send(constructHelpCenterPayload(path, query, doneFn, failFn));
   };
 }

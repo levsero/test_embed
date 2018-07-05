@@ -28,7 +28,7 @@ const searchTerm = (state = initialState, action) => {
     case CONTEXTUAL_SEARCH_REQUEST_SENT:
       return {
         ...state,
-        current: payload
+        current: payload.searchTerm
       };
     default:
       return state;
