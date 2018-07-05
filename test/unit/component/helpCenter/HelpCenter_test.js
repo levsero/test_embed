@@ -136,18 +136,14 @@ describe('HelpCenter component', () => {
 
   describe('componentDidUpdate', () => {
     let helpCenter,
-      showBackButtonSpy,
       articles,
-      articleClicked,
       setIntroScreenSpy;
 
     beforeEach(() => {
-      showBackButtonSpy = jasmine.createSpy('showBackButton');
       setIntroScreenSpy = jasmine.createSpy('setIntroScreen');
-      helpCenter = domRender(<HelpCenter showBackButton={showBackButtonSpy}
-        articles={articles}
-        articleClicked={articleClicked} />);
-      helpCenter.getHelpCenterComponent().refs = {
+      helpCenter = domRender(<HelpCenter
+        articles={articles} />);
+      helpCenter.refs = {
         helpCenterMobile: {
           setIntroScreen: setIntroScreenSpy
         }
@@ -158,12 +154,6 @@ describe('HelpCenter component', () => {
     describe('when there are no articles', () => {
       beforeAll(() => {
         articles = [];
-      });
-
-      it('does not call showBackButton', () => {
-        expect(showBackButtonSpy)
-          .not
-          .toHaveBeenCalled();
       });
 
       it('does not call setIntroScreen', () => {
@@ -178,27 +168,9 @@ describe('HelpCenter component', () => {
         articles = ['yeah', 'some', 'articles'];
       });
 
-      describe('article was clicked', () => {
-        beforeAll(() => {
-          articleClicked = true;
-        });
-
-        it('does not call showBackButton', () => {
-          expect(showBackButtonSpy)
-            .not
-            .toHaveBeenCalled();
-        });
-      });
-
-      describe('article was not clicked', () => {
-        beforeAll(() => {
-          articleClicked = false;
-        });
-
-        it('calls showBackButton with the correct params', () => {
-          expect(showBackButtonSpy)
-            .toHaveBeenCalledWith(false);
-        });
+      it('calls setIntroScreen', () => {
+        expect(setIntroScreenSpy)
+          .toHaveBeenCalled();
       });
     });
   });
