@@ -12,7 +12,6 @@ cache:
 env:
   - TASK=build:ac-validate
   - TASK=lint
-  - TASK=validate-manifest
   - TASK=test:ci
   - TASK=build:prod
   - TASK=securityscan SECURITYSCAN=srcclr
