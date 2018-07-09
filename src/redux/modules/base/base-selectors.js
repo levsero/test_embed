@@ -1,5 +1,7 @@
 import { store } from 'service/persistence';
 import { isTokenValid } from 'src/redux/modules/base/helpers/auth';
+import _ from 'lodash';
+import { createSelector } from 'reselect';
 
 export const getSubmitTicketEmbed = (state) => !!state.base.embeds.ticketSubmissionForm;
 export const getZopimChatEmbed = (state) => !!state.base.embeds.zopimChat;
@@ -30,4 +32,17 @@ export const getAuthToken = () => {
 };
 
 export const getBaseIsAuthenticated = () => isTokenValid(getOAuth());
+export const getEmbeddableConfig = (state) => state.base.embeddableConfig;
+export const getHelpCenterContextualEnabled = createSelector(
+  getEmbeddableConfig,
+  (embeddableConfig) => {
+    return _.get(embeddableConfig, 'embeds.helpCenterForm.props.contextualHelpEnabled', false);
+  }
+);
+export const getHelpCenterSignInRequired = createSelector(
+  getEmbeddableConfig,
+  (embeddableConfig) => {
+    return _.get(embeddableConfig, 'embeds.helpCenterForm.props.signInRequired', false);
+  }
+);
 export const getQueue = (state) => state.base.queue;

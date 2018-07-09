@@ -16,6 +16,8 @@ describe('boot', () => {
     rendererSpy = registerImportSpy('renderer', 'init', 'postRenderCallbacks'),
     gaSpy = registerImportSpy('GA', 'init');
 
+  let updateEmbeddableConfigSpy = jasmine.createSpy('updateEmbeddableConfig');
+
   beforeEach(() => {
     mockery.enable();
 
@@ -43,7 +45,7 @@ describe('boot', () => {
       'service/mediator': mediatorSpy,
       'service/renderer': rendererSpy,
       'src/redux/createStore': () => ({
-        dispatch: noop
+        dispatch: jasmine.createSpy.and.callThrough()
       }),
       'utility/devices': {
         appendMetaTag: noop,
@@ -56,7 +58,8 @@ describe('boot', () => {
       },
       'src/redux/modules/base': {
         handleIdentifyRecieved: noop,
-        logout: noop
+        logout: noop,
+        updateEmbeddableConfig: updateEmbeddableConfigSpy
       },
       'src/redux/modules/helpCenter': {
         displayArticle: noop
@@ -71,6 +74,7 @@ describe('boot', () => {
   });
 
   afterEach(() => {
+    updateEmbeddableConfigSpy.calls.reset();
     mockery.deregisterAll();
     mockery.disable();
   });
@@ -178,7 +182,11 @@ describe('boot', () => {
         jasmine.clock().mockDate(new Date());
 
         spyOn(boot, 'handlePostRenderQueue');
-        boot.getConfig(win, postRenderQueue);
+        let reduxStore = {
+          dispatch: jasmine.createSpy().and.callThrough()
+        };
+
+        boot.getConfig(win, postRenderQueue, reduxStore);
         doneHandler = mockGetCalls.mostRecent().args[0].callbacks.done;
 
         Math.random = jasmine.createSpy('random').and.returnValue(1);
@@ -188,6 +196,11 @@ describe('boot', () => {
 
       afterEach(() => {
         jasmine.clock().uninstall();
+      });
+
+      it('calls updateEmbeddableConfig with the correct args', () => {
+        expect(updateEmbeddableConfigSpy)
+          .toHaveBeenCalledWith(config);
       });
 
       it('calls beacon.setConfig with the config', () => {

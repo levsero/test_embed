@@ -5,6 +5,7 @@ import widgetShown from './base-embed-shown';
 import embeds from './base-embeds';
 import backButtonVisible from './back-button-visibility';
 import arturos from './base-arturos';
+import embeddableConfig from './base-embeddable-config';
 import queue from './base-queue';
 
 export default combineReducers({
@@ -13,6 +14,7 @@ export default combineReducers({
   embeds,
   backButtonVisible,
   arturos,
-  queue
+  queue,
+  embeddableConfig
 });
 

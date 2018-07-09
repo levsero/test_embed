@@ -12,6 +12,9 @@ describe('base selectors', () => {
     getAuthToken,
     getBaseIsAuthenticated,
     getQueue,
+    getEmbeddableConfig,
+    getHelpCenterContextualEnabled,
+    getHelpCenterSignInRequired,
     mockStoreValue,
     isTokenValidSpy = jasmine.createSpy('isTokenValid');
 
@@ -48,6 +51,82 @@ describe('base selectors', () => {
     getAuthToken = selectors.getAuthToken;
     getBaseIsAuthenticated = selectors.getBaseIsAuthenticated;
     getQueue = selectors.getQueue;
+    getEmbeddableConfig = selectors.getEmbeddableConfig;
+    getHelpCenterContextualEnabled = selectors.getHelpCenterContextualEnabled;
+    getHelpCenterSignInRequired = selectors.getHelpCenterSignInRequired;
+  });
+
+  describe('getHelpCenterSignInRequired', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      mockState = {
+        base: {
+          embeddableConfig: {
+            embeds: {
+              helpCenterForm: {
+                props: {
+                  signInRequired: true
+                }
+              }
+            }
+          }
+        }
+      };
+      result = getHelpCenterSignInRequired(mockState);
+    });
+
+    it('returns true', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('getHelpCenterContextualEnabled', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      mockState = {
+        base: {
+          embeddableConfig: {
+            embeds: {
+              helpCenterForm: {
+                props: {
+                  contextualHelpEnabled: true
+                }
+              }
+            }
+          }
+        }
+      };
+      result = getHelpCenterContextualEnabled(mockState);
+    });
+
+    it('returns true', () => {
+      expect(result)
+        .toEqual(true);
+    });
+  });
+
+  describe('getEmbeddableConfig', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      mockState = {
+        base: {
+          embeddableConfig: 'yoloConfig'
+        }
+      };
+      result = getEmbeddableConfig(mockState);
+    });
+
+    it('returns the embeddableConfig', () => {
+      expect(result)
+        .toEqual('yoloConfig');
+    });
   });
 
   describe('getQueue', () => {

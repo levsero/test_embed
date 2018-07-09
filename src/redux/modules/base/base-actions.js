@@ -12,6 +12,7 @@ import {
   AUTHENTICATION_TOKEN_REVOKED,
   AUTHENTICATION_TOKEN_NOT_REVOKED,
   AUTHENTICATION_LOGGED_OUT,
+  UPDATE_EMBEDDABLE_CONFIG,
   UPDATE_QUEUE,
   REMOVE_FROM_QUEUE
 } from './base-action-types';
@@ -129,6 +130,13 @@ export const logout = () => {
   store.remove('zE_oauth');
   return {
     type: AUTHENTICATION_LOGGED_OUT
+  };
+};
+
+export const updateEmbeddableConfig = (rawEmbeddableConfig) => {
+  return {
+    type: UPDATE_EMBEDDABLE_CONFIG,
+    payload: rawEmbeddableConfig
   };
 };
 

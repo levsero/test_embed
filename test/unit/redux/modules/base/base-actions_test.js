@@ -101,6 +101,36 @@ describe('base redux actions', () => {
     mockery.deregisterAll();
   });
 
+  describe('updateEmbeddableConfig', () => {
+    let action,
+      mockConfig;
+
+    beforeEach(() => {
+      mockConfig = {
+        embeds: {
+          helpCenterForm: {
+            props: {
+              signInRequired: true
+            }
+          }
+        }
+      };
+
+      mockStore.dispatch(actions.updateEmbeddableConfig(mockConfig));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action with UPDATE_EMBEDDABLE_CONFIG', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_EMBEDDABLE_CONFIG);
+    });
+
+    it('dispatches the correct payload', () => {
+      expect(action.payload)
+        .toEqual(mockConfig);
+    });
+  });
+
   describe('removeFromQueue', () => {
     let mockMethodName,
       action;
