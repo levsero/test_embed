@@ -18,7 +18,9 @@ describe('helpCenter selectors', () => {
     getArticleDisplayed,
     getSearchFieldValue,
     getSearchFieldFocused,
-    getIsContextualSearchComplete;
+    getIsContextualSearchComplete,
+    getManualContextualSuggestions;
+
   const contextualSearchRequestPending = 'CONTEXTUAL_SEARCH_REQUEST_SENT';
   const contextualSearchRequestSuccess = 'CONTEXTUAL_SEARCH_REQUEST_SUCCESS';
   const contextualSearchRequestFailure = 'CONTEXTUAL_SEARCH_REQUEST_FAILURE';
@@ -60,6 +62,29 @@ describe('helpCenter selectors', () => {
     getArticleDisplayed = selectors.getArticleDisplayed;
     getIsContextualSearchFailure = selectors.getIsContextualSearchFailure;
     getIsContextualSearchComplete = selectors.getIsContextualSearchComplete;
+    getManualContextualSuggestions = selectors.getManualContextualSuggestions;
+  });
+
+  describe('getManualContextualSuggestions', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        manualContextualSuggestions: {
+          query: 'yolo'
+        }
+      }
+    };
+
+    beforeEach(() => {
+      result = getManualContextualSuggestions(mockHelpCenterState);
+    });
+
+    it('returns the current state of manualContextualSuggestions', () => {
+      expect(result)
+        .toEqual({
+          query: 'yolo'
+        });
+    });
   });
 
   describe('getSearchLoading', () => {

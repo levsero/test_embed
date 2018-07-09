@@ -26,6 +26,7 @@ export const getSearchFieldValue = (state) => state.helpCenter.searchFieldValue;
 export const getSearchFieldFocused = (state) => !!state.helpCenter.searchFieldFocused;
 export const getHasContextuallySearched = (state) => getContextualSearch(state).hasSearched;
 export const getLastSearchTimestamp = (state) => state.helpCenter.lastSearchTimestamp;
+export const getManualContextualSuggestions = (state) => state.helpCenter.manualContextualSuggestions;
 
 export const getIsContextualSearchPending = (state) => {
   return getContextualSearchScreen(state) === CONTEXTUAL_SEARCH_REQUEST_SENT;
