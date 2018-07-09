@@ -101,6 +101,52 @@ describe('base redux actions', () => {
     mockery.deregisterAll();
   });
 
+  describe('removeFromQueue', () => {
+    let mockMethodName,
+      action;
+
+    beforeEach(() => {
+      mockMethodName = 'someMethodName';
+      mockStore.dispatch(actions.removeFromQueue(mockMethodName));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action with REMOVE_FROM_QUEUE', () => {
+      expect(action.type)
+        .toEqual(actionTypes.REMOVE_FROM_QUEUE);
+    });
+
+    it('dispatches the correct payload', () => {
+      expect(action.payload)
+        .toEqual('someMethodName');
+    });
+  });
+
+  describe('updateQueue', () => {
+    let mockPayload,
+      action;
+
+    beforeEach(() => {
+      mockPayload = {
+        some: 'payload'
+      };
+      mockStore.dispatch(actions.updateQueue(mockPayload));
+      action = mockStore.getActions()[0];
+    });
+
+    it('dispatches an action with UPDATE_QUEUE', () => {
+      expect(action.type)
+        .toEqual(actionTypes.UPDATE_QUEUE);
+    });
+
+    it('dispatches the correct payload', () => {
+      expect(action.payload)
+        .toEqual({
+          some: 'payload'
+        });
+    });
+  });
+
   describe('updateArturos', () => {
     let arturos,
       action;

@@ -11,7 +11,9 @@ import {
   AUTHENTICATION_PENDING,
   AUTHENTICATION_TOKEN_REVOKED,
   AUTHENTICATION_TOKEN_NOT_REVOKED,
-  AUTHENTICATION_LOGGED_OUT
+  AUTHENTICATION_LOGGED_OUT,
+  UPDATE_QUEUE,
+  REMOVE_FROM_QUEUE
 } from './base-action-types';
 import { settings } from 'service/settings';
 import { getOAuth, getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors';
@@ -196,6 +198,20 @@ export const handleIdentifyRecieved = (payload) => {
   return {
     type: IDENTIFY_RECIEVED,
     payload: userDetails
+  };
+};
+
+export const updateQueue = (payload) => {
+  return {
+    type: UPDATE_QUEUE,
+    payload
+  };
+};
+
+export const removeFromQueue = (methodName) => {
+  return {
+    type: REMOVE_FROM_QUEUE,
+    payload: methodName
   };
 };
 

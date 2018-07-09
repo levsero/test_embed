@@ -5,12 +5,14 @@ import widgetShown from './base-embed-shown';
 import embeds from './base-embeds';
 import backButtonVisible from './back-button-visibility';
 import arturos from './base-arturos';
+import queue from './base-queue';
 
 export default combineReducers({
   activeEmbed,
   widgetShown,
   embeds,
   backButtonVisible,
-  arturos
+  arturos,
+  queue
 });
 

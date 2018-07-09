@@ -30,3 +30,4 @@ export const getAuthToken = () => {
 };
 
 export const getBaseIsAuthenticated = () => isTokenValid(getOAuth());
+export const getQueue = (state) => state.base.queue;

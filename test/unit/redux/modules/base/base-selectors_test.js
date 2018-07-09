@@ -11,6 +11,7 @@ describe('base selectors', () => {
     getOAuth,
     getAuthToken,
     getBaseIsAuthenticated,
+    getQueue,
     mockStoreValue,
     isTokenValidSpy = jasmine.createSpy('isTokenValid');
 
@@ -46,6 +47,30 @@ describe('base selectors', () => {
     getOAuth = selectors.getOAuth;
     getAuthToken = selectors.getAuthToken;
     getBaseIsAuthenticated = selectors.getBaseIsAuthenticated;
+    getQueue = selectors.getQueue;
+  });
+
+  describe('getQueue', () => {
+    let result,
+      mockState;
+
+    beforeEach(() => {
+      mockState = {
+        base: {
+          queue: {
+            someMethod: ['yeah', 'some', 'args']
+          }
+        }
+      };
+      result = getQueue(mockState);
+    });
+
+    it('returns the queue', () => {
+      expect(result)
+        .toEqual({
+          someMethod: ['yeah', 'some', 'args']
+        });
+    });
   });
 
   describe('getActiveEmbed', () => {
