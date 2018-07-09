@@ -32,6 +32,7 @@ export const getAuthToken = () => {
 };
 
 export const getBaseIsAuthenticated = () => isTokenValid(getOAuth());
+export const getIsAuthenticationPending = (state) => state.base.isAuthenticationPending;
 export const getEmbeddableConfig = (state) => state.base.embeddableConfig;
 export const getHelpCenterContextualEnabled = createSelector(
   getEmbeddableConfig,

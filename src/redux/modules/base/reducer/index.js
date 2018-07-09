@@ -6,6 +6,7 @@ import embeds from './base-embeds';
 import backButtonVisible from './back-button-visibility';
 import arturos from './base-arturos';
 import embeddableConfig from './base-embeddable-config';
+import isAuthenticationPending from './base-is-authentication-pending';
 import queue from './base-queue';
 
 export default combineReducers({
@@ -14,6 +15,7 @@ export default combineReducers({
   embeds,
   backButtonVisible,
   arturos,
+  isAuthenticationPending,
   queue,
   embeddableConfig
 });

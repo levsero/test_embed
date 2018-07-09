@@ -28,7 +28,8 @@ describe('base root reducer', () => {
       'backButtonVisible',
       'arturos',
       'queue',
-      'embeddableConfig'
+      'embeddableConfig',
+      'isAuthenticationPending'
     ];
 
     it('has the expected substates', () => {
