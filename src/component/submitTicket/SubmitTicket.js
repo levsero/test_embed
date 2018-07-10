@@ -48,6 +48,7 @@ class SubmitTicket extends Component {
     formTitleKey: PropTypes.string.isRequired,
     formState: PropTypes.object.isRequired,
     getFrameDimensions: PropTypes.func.isRequired,
+    getFrameContentDocument: PropTypes.func.isRequired,
     hideZendeskLogo: PropTypes.bool,
     loading: PropTypes.bool.isRequired,
     maxFileCount: PropTypes.number,
@@ -259,6 +260,7 @@ class SubmitTicket extends Component {
         attachmentsEnabled={this.props.attachmentsEnabled}
         subjectEnabled={this.props.subjectEnabled}
         maxFileCount={this.props.maxFileCount}
+        getFrameContentDocument={this.props.getFrameContentDocument}
         maxFileSize={this.props.maxFileSize}
         formState={this.props.formState}
         setFormState={this.props.handleFormChange}

@@ -497,6 +497,7 @@ class WebWidget extends Component {
           customFields={submitTicketConfig.customFields}
           formTitleKey={submitTicketConfig.formTitleKey}
           getFrameDimensions={this.props.getFrameDimensions}
+          getFrameContentDocument={this.props.getFrameContentDocument}
           hideZendeskLogo={this.props.hideZendeskLogo}
           maxFileCount={submitTicketConfig.maxFileCount}
           maxFileSize={submitTicketConfig.maxFileSize}

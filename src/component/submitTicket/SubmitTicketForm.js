@@ -41,6 +41,7 @@ export class SubmitTicketForm extends Component {
     children: PropTypes.element.isRequired,
     activeTicketForm: PropTypes.object,
     getFrameDimensions: PropTypes.func.isRequired,
+    getFrameContentDocument: PropTypes.func.isRequired,
     ticketFormSettings: PropTypes.array,
     ticketFieldSettings: PropTypes.array,
     formState: PropTypes.object,
@@ -374,7 +375,8 @@ export class SubmitTicketForm extends Component {
       this.props.formState,
       {
         getFrameDimensions: this.props.getFrameDimensions,
-        onChange: this.updateForm
+        onChange: this.updateForm,
+        getFrameContentDocument: this.props.getFrameContentDocument
       }
     );
     const titleMobileClasses = this.props.fullscreen ? styles.ticketFormTitleMobile : '';

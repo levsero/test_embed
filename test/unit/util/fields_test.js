@@ -123,8 +123,8 @@ describe('fields', () => {
       'component/field/SelectField': {
         SelectField: noopReactComponent()
       },
-      'component/field/Dropdown': {
-        Dropdown: noopReactComponent()
+      'component/field/NestedDropdown': {
+        NestedDropdown: noopReactComponent()
       },
       'service/i18n': {
         i18n: {

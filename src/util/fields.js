@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 
-import { Dropdown } from 'component/field/Dropdown';
+import { NestedDropdown } from 'component/field/NestedDropdown';
 import { isMobileBrowser,
   isLandscape } from 'utility/devices';
 import { TextField, Textarea, Label, Input, Hint } from '@zendeskgarden/react-textfields';
@@ -32,6 +32,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
     const sharedProps = {
       ...options,
       getFrameDimensions: options.getFrameDimensions,
+      getFrameContentDocument: options.getFrameContentDocument,
       description: field.description,
       fullscreen: isMobileBrowser(),
       key: title,
@@ -59,7 +60,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
       case 'tagger':
         const defaultOption = _.find(field.custom_field_options, (option) => option.default);
 
-        return <Dropdown {...sharedProps} options={field.custom_field_options} value={defaultOption} />;
+        return <NestedDropdown {...sharedProps} options={field.custom_field_options} value={defaultOption} />;
 
       case 'integer':
         const integerFieldProps = {
