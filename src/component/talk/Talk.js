@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 
-import { Field } from 'component/field/Field';
 import { TalkPhoneField } from 'component/talk/TalkPhoneField';
 import { Form } from 'component/form/Form';
 import { Icon } from 'component/Icon';
@@ -14,6 +13,7 @@ import { errorCodes } from './talkErrorCodes';
 import { ICONS } from 'src/constants/shared';
 import { Button } from 'component/button/Button';
 import classNames from 'classnames';
+import { TextField, Label, Input, Textarea } from '@zendeskgarden/react-textfields';
 
 import {
   CALLBACK_ONLY_SCREEN,
@@ -185,14 +185,19 @@ class Talk extends Component {
           country={country}
           value={phone}
           libphonenumber={this.props.libphonenumber} />
-        <Field label={nameLabel}
-          value={name}
-          name='name' />
-        <Field
-          label={descriptionLabel}
-          value={description}
-          input={<textarea rows='3' />}
-          name='description' />
+        <TextField className={styles.textField}>
+          <Label>{nameLabel}</Label>
+          <Input
+            value={name}
+            name='name' />
+        </TextField>
+        <TextField className={styles.textField}>
+          <Label>{descriptionLabel}</Label>
+          <Textarea
+            value={description}
+            rows='4'
+            name='description' />
+        </TextField>
         {this.renderErrorNotification()}
       </Form>
     );

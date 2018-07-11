@@ -27,7 +27,6 @@ describe('Talk component', () => {
       'React': React,
       'component/button/Button': { Button: noopReactComponent },
       'component/form/Form': { Form: noopReactComponent },
-      'component/field/Field': { Field: noopReactComponent },
       'component/field/EmailField': { EmailField: noopReactComponent },
       'component/talk/TalkPhoneField': { TalkPhoneField: noopReactComponent },
       'component/Icon': { Icon },
@@ -59,6 +58,12 @@ describe('Talk component', () => {
           noZendeskLogoButton: 'noZendeskLogoButton',
           zendeskLogoButton: 'zendeskLogoButton'
         }
+      },
+      '@zendeskgarden/react-textfields': {
+        TextField: noopReactComponent(),
+        Label: noopReactComponent(),
+        Input: noopReactComponent(),
+        Textarea: noopReactComponent()
       }
     });
 
