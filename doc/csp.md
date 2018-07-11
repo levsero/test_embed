@@ -1,3 +1,4 @@
+
 ## Content Security Policy (CSP) support
 
 The HTTP [Content-Security-Policy](http://www.html5rocks.com/en/tutorials/security/content-security-policy/) response header helps guard against cross-site scripting attacks. The header specifies a whitelist that controls the resources the browser is allowed to load when rendering the page. This section describes how to add the Web Widget to the whitelist.
@@ -9,48 +10,26 @@ Zendesk uses a third-party library named [Rollbar.js](https://rollbar.com/) to t
 
 ### Whitelisting the Web Widget
 
-Adding a source to the header's `script-src` directive is not enough to whitelist the Web Widget. You must also include some supporting JavaScript in your site.
-
 **To whitelist the Web Widget**
 
-1. Add `assets.zendesk.com` to the header's `script-src` directive. Example:
 
-    ```
-    Content-Security-Policy: script-src 'self' https://assets.zendesk.com
-    ```
+#### Via HTTP Header
 
-2. Create a JavaScript file containing the following script and save it in your domain.
+Add `static.zdassets.com` and `ekr.zdassets.com` to the header's `script-src` directive. Example:
 
-    ```js
-    window.zEmbed||(function(){
-      var queue = [];
+```js
+Content-Security-Policy: script-src 'self' https://static.zdassets.com https://ekr.zdassets.com
+```
 
-      window.zEmbed = function() {
-        queue.push(arguments);
-      }
-      window.zE = window.zE || window.zEmbed;
-      document.zendeskHost = 'your_subdomain.zendesk.com';
-      document.zEQueue = queue;
-    }());
-    ```
+Whitelisting the widget with a HTTP Header is the recommended way.
 
-    Replace `your_subdomain` with your Zendesk Support subdomain.
+#### Via `<meta>` Tag
 
-3. Add the script to your site. Example:
+If you are not able to modify or edit your server's headers, you may alternatively add the policy using a `<meta>` tag. Example:
 
-    ```html
-    <script type="text/javascript" src="webwidget_csp.js"></script>
-    ```
-
-    The link must appear before the `<script>` tag detailed in the next step.
-
-4. Add the following script _after_ the script in step 3:
-
-    ```html
-    <script src="//assets.zendesk.com/embeddable_framework/main.js" data-ze-csp="true" async defer></script>
-    ```
-
-    **Note**: The additional attributes are required.
+ ```html
+ <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://static.zdassets.com https://ekr.zdassets.com">
+ ```
 
 
 ### Whitelisting the Web Widget when Chat is enabled
@@ -61,12 +40,12 @@ If Zendesk Chat is [enabled](https://support.zendesk.com/hc/en-us/articles/20390
 * `https://*.zopim.io`
 * `wss://*.zopim.com`
 
-You must also relax your policy for inline scripts and CSS styles by specifying `'unsafe-inline'` in both the `script-src` and `style-src ` directives. This is because a snippet and styles for chat are injected into the host page at runtime.
+You must also relax your policy for inline scripts and CSS styles by specifying `'unsafe-inline'` in both the `script-src` and `style-src` directives. This is because a snippet and styles for chat are injected into the host page at runtime.
 
 Example header:
 
 ```
-Content-Security-Policy: script-src 'self' https://assets.zendesk.com https://*.zopim.com wss://*.zopim.com https://*.zopim.io 'unsafe-'inline'; style-src 'unsafe-inline'
+Content-Security-Policy: script-src 'self' https://static.zdassets.com https://ekr.zdassets.com https://*.zopim.com wss://*.zopim.com https://*.zopim.org https://*.zopim.io 'unsafe-inline'; style-src 'unsafe-inline'
 ```
 
 For more information, see the discussion named [Content Security Policy](https://chat.zendesk.com/hc/en-us/community/posts/210316137/comments/211646308) in the Zendesk Chat community.
