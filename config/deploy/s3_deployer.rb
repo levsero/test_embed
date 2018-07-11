@@ -65,9 +65,9 @@ class S3Deployer
   def content_type_header(file)
     extension = File.extname(file)
 
-    if extension == 'js'
+    if extension == '.js'
       'application/javascript;'
-    elsif extension == 'json'
+    elsif extension == '.json'
       'application/json;'
     else
       ''
