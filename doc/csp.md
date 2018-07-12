@@ -8,11 +8,9 @@ The HTTP [Content-Security-Policy](http://www.html5rocks.com/en/tutorials/securi
 
 Zendesk uses a third-party library named [Rollbar.js](https://rollbar.com/) to track exceptions on sites that embed the widget. See [Rollbar.js](https://developer.zendesk.com/embeddables/docs/widget/legal#rollbar.js) in the Legal notices.
 
-
 ### Whitelisting the Web Widget
 
 **To whitelist the Web Widget**
-
 
 #### Via HTTP Header
 
