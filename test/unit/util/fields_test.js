@@ -131,6 +131,9 @@ describe('fields', () => {
       'utility/devices': {
         isMobileBrowser: noop,
         isLandscape: noop
+      },
+      './fields.scss': {
+        locals: {}
       }
     });
 
@@ -197,7 +200,9 @@ describe('fields', () => {
       });
 
       it('should return the field', () => {
-        expect(customFields.allFields[0].props.label)
+        const labelElement = customFields.allFields[0].props.children[0];
+
+        expect(labelElement.props.children)
           .toBe('What is your query about?');
       });
     });
@@ -242,7 +247,9 @@ describe('fields', () => {
       });
 
       it('should return the field', () => {
-        expect(customFields.allFields[0].props.label)
+        const labelElement = customFields.allFields[0].props.children[0];
+
+        expect(labelElement.props.children)
           .toBe('What is your query about?');
       });
     });
@@ -250,10 +257,13 @@ describe('fields', () => {
 
     describe('props', () => {
       it('should pass through the id to name', () => {
-        expect(customFields.allFields[0].props.name)
+        const field1 = customFields.allFields[0].props.children[1];
+        const field2 = customFields.allFields[1];
+
+        expect(field1.props.name)
           .toEqual('22660514');
 
-        expect(customFields.allFields[1].props.name)
+        expect(field2.props.name)
           .toEqual(10006);
       });
 
@@ -264,12 +274,16 @@ describe('fields', () => {
         });
 
         it('should respect the required prop', () => {
-          expect(customFields.allFields[0].props.required)
+          const inputElement = customFields.allFields[0].props.children[1];
+
+          expect(inputElement.props.required)
             .toEqual(true);
         });
 
         it('should respect the `required_in_portal` setting over the `required` one', () => {
-          expect(customFields.allFields[1].props.required)
+          const inputElement = customFields.allFields[1].props.children[1];
+
+          expect(inputElement.props.required)
             .toEqual(false);
         });
       });
@@ -281,12 +295,16 @@ describe('fields', () => {
         });
 
         it('should pass through the title', () => {
-          expect(customFields.allFields[0].props.label)
+          const labelElement = customFields.allFields[0].props.children[0];
+
+          expect(labelElement.props.children)
             .toEqual('Order Details');
         });
 
         it('should pass through the `title_in_portal` instead of `title` if it exists', () => {
-          expect(customFields.allFields[1].props.label)
+          const labelElement = customFields.allFields[1].props.children[0];
+
+          expect(labelElement.props.children)
             .toEqual('How can we help?');
         });
       });
@@ -310,12 +328,16 @@ describe('fields', () => {
         });
 
         it('should pass in a pattern', () => {
-          expect(customFields.allFields[0].props.pattern)
+          const inputElement = customFields.allFields[0].props.children[1];
+
+          expect(inputElement.props.pattern)
             .toBeTruthy();
         });
 
         it('should be type number', () => {
-          expect(customFields.allFields[0].props.type)
+          const inputElement = customFields.allFields[0].props.children[1];
+
+          expect(inputElement.props.type)
             .toEqual('number');
         });
       });
@@ -327,17 +349,23 @@ describe('fields', () => {
         });
 
         it('should pass in a pattern', () => {
-          expect(customFields.allFields[0].props.pattern)
+          const inputElement = customFields.allFields[0].props.children[1];
+
+          expect(inputElement.props.pattern)
             .toBeTruthy();
         });
 
         it('should be type number', () => {
-          expect(customFields.allFields[0].props.type)
+          const inputElement = customFields.allFields[0].props.children[1];
+
+          expect(inputElement.props.type)
             .toEqual('number');
         });
 
         it('should assign a step', () => {
-          expect(customFields.allFields[0].props.step)
+          const inputElement = customFields.allFields[0].props.children[1];
+
+          expect(inputElement.props.step)
             .toEqual('any');
         });
       });

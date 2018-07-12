@@ -1,0 +1,19 @@
+@import '../styles/_vars.scss';
+
+.fieldContainer {
+  margin-bottom: $field-margin-bottom;
+}
+
+.fieldLabel {
+  font-size: #{14/$font-size}rem !important;
+}
+
+.fieldInput {
+  height: #{38/$font-size}rem;
+  font-size: #{14/$font-size}rem !important;
+}
+
+.textareaInput {
+  height: #{105/$font-size}rem;
+  font-size: #{14/$font-size}rem !important;
+}

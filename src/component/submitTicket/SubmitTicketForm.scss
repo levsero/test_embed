@@ -38,3 +38,20 @@
   margin-top: #{15/$font-size}rem;
   margin-bottom: #{15/$font-size}rem;
 }
+
+.fieldContainer {
+  margin-bottom: $field-margin-bottom;
+}
+
+.fieldLabel {
+  font-size: #{14/$font-size}rem !important;
+}
+
+.fieldInput {
+}
+
+.textareaInput {
+  height: #{105/$font-size}rem;
+  font-size: #{14/$font-size}rem !important;
+  border-radius: #{4/$font-size}rem;
+}

@@ -7,6 +7,7 @@ import ButtonStyles from 'component/button/Button.scss';
 import ButtonNavStyles from 'component/button/ButtonNav.scss';
 import ZendeskLogoStyles from 'component/ZendeskLogo.scss';
 import NavigationStyles from 'component/frame/Navigation.scss';
+import fieldsStyles from 'utility/fields.scss';
 
 export const sharedStyles = `
   ${CheckboxStyles}
@@ -18,4 +19,5 @@ export const sharedStyles = `
   ${ZendeskLogoStyles}
   ${IconStyles}
   ${NavigationStyles}
+  ${fieldsStyles}
 `;

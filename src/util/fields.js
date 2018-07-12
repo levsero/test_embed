@@ -1,13 +1,24 @@
 import React from 'react';
 import _ from 'lodash';
 
-import { Field } from 'component/field/Field';
 import { Dropdown } from 'component/field/Dropdown';
 import { isMobileBrowser,
   isLandscape } from 'utility/devices';
 import { Checkbox } from 'component/field/Checkbox';
+import { TextField, Textarea, Label, Input } from '@zendeskgarden/react-textfields';
+import { locals as styles } from './fields.scss';
 
 const getCustomFields = (customFields, formState, options = {}) => {
+  const renderField = (sharedProps) => {
+    return (
+      <TextField className={styles.fieldContainer} key={sharedProps.key}>
+        <Label className={styles.fieldLabel}>
+          {sharedProps.label}
+        </Label>
+        <Input className={styles.fieldInput} {...sharedProps} />
+      </TextField>
+    );
+  };
   const isCheckbox = (field) => {
     return field && field.props && field.props.type === 'checkbox';
   };
@@ -38,19 +49,43 @@ const getCustomFields = (customFields, formState, options = {}) => {
     switch (field.type) {
       case 'text':
       case 'subject':
-        return <Field {...sharedProps} />;
+        return renderField(sharedProps);
+
       case 'tagger':
         const defaultOption = _.find(field.custom_field_options, (option) => option.default);
 
         return <Dropdown {...sharedProps} options={field.custom_field_options} value={defaultOption} />;
 
       case 'integer':
-        return <Field {...sharedProps} pattern='\d+' type='number' />;
+        const integerFieldProps = {
+          ...sharedProps,
+          pattern: /\d+/,
+          type: 'number'
+        };
+
+        return renderField(integerFieldProps);
+
       case 'decimal':
-        return <Field {...sharedProps} pattern='\d*([.,]\d+)?' type='number' step='any' />;
+        const decimalFieldProps = {
+          ...sharedProps,
+          pattern: /\d*([.,]\d+)?/,
+          type: 'number',
+          step: 'any'
+        };
+
+        return renderField(decimalFieldProps);
+
       case 'textarea':
       case 'description':
-        return <Field {...sharedProps} input={<textarea rows='5' />} />;
+        return (
+          <TextField className={styles.fieldContainer} key={sharedProps.key}>
+            <Label className={styles.fieldLabel}>
+              {sharedProps.label}
+            </Label>
+            <Textarea className={styles.textareaInput} {...sharedProps} rows='5' />
+          </TextField>
+        );
+
       case 'checkbox':
         return <Checkbox {...sharedProps} uncheck={!!clearCheckboxes} label={title} type='checkbox' />;
     }

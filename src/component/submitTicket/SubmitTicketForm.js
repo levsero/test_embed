@@ -10,10 +10,11 @@ import { AttachmentList } from 'component/attachment/AttachmentList';
 import { Button } from 'component/button/Button';
 import { ButtonSecondary } from 'component/button/ButtonSecondary';
 import { ButtonGroup } from 'component/button/ButtonGroup';
-import { Field } from 'component/field/Field';
 import { ScrollContainer } from 'component/container/ScrollContainer';
+import { EmailField } from 'component/field/EmailField';
 import { i18n } from 'service/i18n';
 import { getCustomFields } from 'utility/fields';
+import { TextField, Textarea, Label, Input } from '@zendeskgarden/react-textfields';
 
 const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
 const sendingButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.sending';
@@ -308,53 +309,66 @@ export class SubmitTicketForm extends Component {
   }
 
   renderSubjectField = () => {
-    const label = i18n.t('embeddable_framework.submitTicket.field.subject.label');
+    const subjectField = (
+      <TextField className={styles.fieldContainer}>
+        <Label className={styles.fieldLabel}>
+          {i18n.t('embeddable_framework.submitTicket.field.subject.label')}
+        </Label>
+        <Input
+          key='subject'
+          className={styles.fieldInput}
+          value={this.props.formState.subject}
+          disabled={this.props.previewEnabled} />
+      </TextField>
+    );
 
-    return !this.props.subjectEnabled
-      ? null
-      : <Field
-        key='subject'
-        name='subject'
-        label={label}
-        value={this.props.formState.subject}
-        disabled={this.props.previewEnabled} />;
+    return this.props.subjectEnabled
+      ? subjectField
+      : null;
   }
 
   renderEmailField = () => {
     return (
-      <Field
+      <EmailField
         key='email'
         name='email'
-        type='email'
+        disabled={this.props.previewEnabled}
         label={i18n.t('embeddable_framework.form.field.email.label')}
         required={true}
-        pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
-        value={this.props.formState.email}
-        disabled={this.props.previewEnabled} />
+        value={this.props.formState.email} />
     );
   }
 
   renderNameField = () => {
     return (
-      <Field
-        key='name'
-        name='name'
-        label={i18n.t('embeddable_framework.submitTicket.field.name.label')}
-        value={this.props.formState.name}
-        disabled={this.props.previewEnabled} />
+      <TextField className={styles.fieldContainer}>
+        <Label className={styles.fieldLabel}>
+          {i18n.t('embeddable_framework.submitTicket.field.name.label')}
+        </Label>
+        <Input
+          key='name'
+          name='name'
+          type='name'
+          className={styles.fieldInput}
+          disabled={this.props.previewEnabled}
+          value={this.props.formState.name} />
+      </TextField>
     );
   }
 
   renderDescriptionField = () => {
     return (
-      <Field
-        key='description'
-        name='description'
-        label={i18n.t('embeddable_framework.submitTicket.field.description.label')}
-        required={true}
-        value={this.props.formState.description}
-        input={<textarea rows='5' />}
-        disabled={this.props.previewEnabled} />
+      <TextField className={styles.fieldContainer}>
+        <Label className={styles.fieldLabel}>
+          {i18n.t('embeddable_framework.submitTicket.field.description.label')}
+        </Label>
+        <Textarea
+          key='description'
+          className={styles.textareaInput}
+          disabled={this.props.previewEnabled}
+          required={true}
+          rows='5' />
+      </TextField>
     );
   }
 

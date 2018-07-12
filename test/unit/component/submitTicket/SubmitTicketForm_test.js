@@ -139,6 +139,13 @@ describe('SubmitTicketForm component', () => {
           };
         }
       },
+      'component/field/EmailField': {
+        EmailField: class extends Component {
+          render() {
+            return <input key='email' name='email' value={this.props.value} />;
+          }
+        }
+      },
       'utility/globals': {
         win: window
       },
@@ -307,31 +314,34 @@ describe('SubmitTicketForm component', () => {
   });
 
   describe('#renderSubjectField', () => {
-    let submitTicketForm;
+    let result;
 
     describe('when the subject field is enabled', () => {
       beforeEach(() => {
-        submitTicketForm = domRender(
+        const submitTicketForm = instanceRender(
           <SubmitTicketForm subjectEnabled={true} />
         );
+
+        result = submitTicketForm.renderSubjectField();
       });
 
       it('should render the subject field', () => {
-        expect(submitTicketForm.renderSubjectField())
-          .toBeDefined();
+        const labelElement = result.props.children[0];
 
-        expect(submitTicketForm.renderSubjectField().props.name)
-          .toBe('subject');
+        expect(labelElement.props.children)
+          .toBe('embeddable_framework.submitTicket.field.subject.label');
       });
     });
 
     describe('when the subject field is disabled', () => {
       beforeEach(() => {
-        submitTicketForm = domRender(<SubmitTicketForm />);
+        const submitTicketForm = instanceRender(<SubmitTicketForm />);
+
+        result = submitTicketForm.renderSubjectField();
       });
 
       it('should not render the subject field', () => {
-        expect(submitTicketForm.renderSubjectField())
+        expect(result)
           .toBeNull();
       });
     });
@@ -363,16 +373,16 @@ describe('SubmitTicketForm component', () => {
     });
 
     it('should render the name field', () => {
-      const nameField = formElements[1]; // first field in form
+      const nameField = formElements[1].firstChild; // first field in form
 
-      expect(nameField.getAttribute('name'))
-        .toBe('name');
+      expect(nameField.innerHTML)
+        .toBe('embeddable_framework.submitTicket.field.name.label');
     });
 
     it('should render the email field', () => {
       const emailField = formElements[2]; // second field in form
 
-      expect(emailField.getAttribute('name'))
+      expect(emailField.name)
         .toBe('email');
     });
 
@@ -676,8 +686,7 @@ describe('SubmitTicketForm component', () => {
         <SubmitTicketForm
           setFormState={mockSetFormState}
           activeTicketForm={mockTicketForm}
-          ticketFields={mockTicketFields}
-          formState={mockFormState} />
+          ticketFields={mockTicketFields} />
       );
     });
 
