@@ -50,7 +50,7 @@ If Zendesk Chat is [enabled](https://support.zendesk.com/hc/en-us/articles/20390
 * `https://*.zopim.io`
 * `wss://*.zopim.com`
 
-You must also relax your policy for inline scripts and CSS styles by specifying `'unsafe-inline'` in both the `script-src` and `style-src` directives. This is because a snippet and styles for chat are injected into the host page at runtime.
+You must also relax your policy for inline scripts and CSS styles by specifying `'unsafe-inline'` in both the `script-src` and `style-src` directives. This is because the snippet and styles for chat are injected into the host page at runtime.
 
 Example header:
 
