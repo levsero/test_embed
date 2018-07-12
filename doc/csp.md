@@ -36,7 +36,7 @@ In order to implement the CSP as described in this document, you need to be usin
 
 ```html
 <!-- Start of Zendesk Widget script -->
-<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=<long chain of letters numbers and dashes>"> </script>
+<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"> </script>
 <!-- End of Zendesk Widget script -->
 ```
 
