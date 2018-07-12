@@ -1,7 +1,8 @@
-
 ## Content Security Policy (CSP) support
 
 The HTTP [Content-Security-Policy](http://www.html5rocks.com/en/tutorials/security/content-security-policy/) response header helps guard against cross-site scripting attacks. The header specifies a whitelist that controls the resources the browser is allowed to load when rendering the page. This section describes how to add the Web Widget to the whitelist.
+
+<p class="alert alert-warning" style="margin-top:20px;"><strong>Note</strong>: This security policy works with the new, dynamic version of the Zendesk Web Widget snippet. Please ensure that your snippet looks like <a href="#using-the-dynamic-snippet">the example</a> below or see <a href="#using-the-dynamic-snippet">the details to change it</a>.</p>
 
 <p class="alert alert-warning" style="margin-top:20px;"><strong>Note</strong>: If Zendesk Chat is enabled for the widget, see <a href="#whitelisting-the-web-widget-when-chat-is-enabled">Whitelisting the Web Widget when Chat is enabled</a> below.</p>
 
@@ -31,6 +32,17 @@ If you are not able to modify or edit your server's headers, you may alternative
  <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://static.zdassets.com https://ekr.zdassets.com">
  ```
 
+### Using the dynamic snippet
+
+In order to implement the CSP as described in this document, you need to be using Zendesk's dynamic snippet, which has been optimized for performance. The dynamic snippet is much smaller in size and looks like this:
+
+```html
+<!-- Start of Zendesk Widget script -->
+<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=<long chain of letters numbers and dashes>"> </script>
+<!-- End of Zendesk Widget script -->
+```
+
+If your snippet looks longer than the one above, you can go to the Widget settings page by going to Admin > Widget, click on the _Setup_ tab for your brand and safely replace your snippet with the one shown in the installation instructions.
 
 ### Whitelisting the Web Widget when Chat is enabled
 
