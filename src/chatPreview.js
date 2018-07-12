@@ -112,6 +112,12 @@ const renderPreview = (options) => {
     store.dispatch(updatePreviewerSettings(settings));
   };
 
+  const updateLocale = (locale) => {
+    i18n.setLocale(locale, true);
+    preview.updateFrameLocale();
+    getComponent().getActiveComponent().forceUpdate();
+  };
+
   const updateChatState = (data) => {
     const actionType = data.detail.type
       ? `${SDK_ACTION_TYPE_PREFIX}/${data.detail.type}`
@@ -130,7 +136,8 @@ const renderPreview = (options) => {
     updateScreen,
     updateSettings,
     updateChatState,
-    setColor
+    setColor,
+    updateLocale
   };
 };
 
