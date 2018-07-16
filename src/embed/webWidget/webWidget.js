@@ -27,7 +27,7 @@ import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedTimeoutCall,
   getPageKeywords } from 'utility/utils';
 import { getActiveEmbed,
-  getIsBaseAuthenticated } from 'src/redux/modules/base/base-selectors';
+  getBaseIsAuthenticated } from 'src/redux/modules/base/base-selectors';
 import { getChatNotification } from 'src/redux/modules/chat/chat-selectors';
 import { setVisitorInfo,
   chatNotificationDismissed,
@@ -437,7 +437,7 @@ export default function WebWidgetFactory(name) {
     const contextualSearchFn = () => {
       const helpCenterComponent = getWebWidgetComponent().getHelpCenterComponent();
       const signInNotRequired = embed.config.helpCenterForm.signInRequired === false;
-      const isAuthenticated = signInNotRequired || getIsBaseAuthenticated() || isOnHelpCenterPage();
+      const isAuthenticated = signInNotRequired || getBaseIsAuthenticated() || isOnHelpCenterPage();
 
       if (isAuthenticated && helpCenterComponent) {
         if (options.url) {
