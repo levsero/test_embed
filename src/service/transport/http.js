@@ -53,6 +53,11 @@ function send(payload, addType = true) {
 
   if (payload.query) request.query(payload.query);
 
+  // in dev, skip the CDN cache by always appending a query string to bust the cache
+  if (__DEV__ && payload.method.toUpperCase() === 'GET') {
+    request.query({ _: Date.now() });
+  }
+
   if (payload.locale) request.set('Accept-Language', payload.locale);
 
   request.end((err, res) => {
