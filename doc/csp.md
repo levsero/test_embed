@@ -20,7 +20,7 @@ Add `static.zdassets.com` and `ekr.zdassets.com` to the header's `script-src` di
 Content-Security-Policy: script-src 'self' https://static.zdassets.com https://ekr.zdassets.com
 ```
 
-Whitelisting the widget with an HTTP Header is the recommended way.
+Whitelisting the widget with an HTTP header is the recommended way.
 
 #### Using a `<meta>` Tag
 
