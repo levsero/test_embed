@@ -12,7 +12,7 @@ Zendesk uses a third-party library named [Rollbar.js](https://rollbar.com/) to t
 
 **To whitelist the Web Widget**
 
-#### Via HTTP Header
+#### Using an HTTP Header
 
 Add `static.zdassets.com` and `ekr.zdassets.com` to the header's `script-src` directive. Example:
 
@@ -20,11 +20,11 @@ Add `static.zdassets.com` and `ekr.zdassets.com` to the header's `script-src` di
 Content-Security-Policy: script-src 'self' https://static.zdassets.com https://ekr.zdassets.com
 ```
 
-Whitelisting the widget with a HTTP Header is the recommended way.
+Whitelisting the widget with an HTTP Header is the recommended way.
 
-#### Via `<meta>` Tag
+#### Using a `<meta>` Tag
 
-If you are not able to modify or edit your server's headers, you may alternatively add the policy using a `<meta>` tag. Example:
+If you can't modify or edit your server's headers, you may alternatively add the policy using a `<meta>` tag. Example:
 
  ```html
  <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://static.zdassets.com https://ekr.zdassets.com">
@@ -32,7 +32,7 @@ If you are not able to modify or edit your server's headers, you may alternative
 
 ### Using the new snippet
 
-In order to implement the CSP as described in this document, you need to be using Zendesk's new snippet, which has been optimized for performance. The new snippet is much smaller in size and looks like this:
+To implement the CSP as described in this document, you need to use the new Zendesk snippet, which has been optimized for performance. The new snippet is much shorter and looks like this:
 
 ```html
 <!-- Start of Zendesk Widget script -->
@@ -40,7 +40,7 @@ In order to implement the CSP as described in this document, you need to be usin
 <!-- End of Zendesk Widget script -->
 ```
 
-If your snippet looks longer than the one above, you can go to the Widget settings page by going to Admin > Widget, click on the _Setup_ tab for your brand and safely replace your snippet with the one shown in the installation instructions.
+If your snippet looks longer than the one above, you can replace it with the new one. In Zendesk Support, go to *Admin* > *Widget*, click the *Setup* tab for your brand, and safely replace your snippet with the one shown in the installation instructions.
 
 ### Whitelisting the Web Widget when Chat is enabled
 
