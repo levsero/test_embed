@@ -159,7 +159,7 @@ describe('embed.webWidget', () => {
       },
       'src/redux/modules/base/base-selectors': {
         getActiveEmbed: () => mockActiveEmbed,
-        getIsBaseAuthenticated: () => mockIsBaseAuthenticated
+        getBaseIsAuthenticated: () => mockIsBaseAuthenticated
       },
       'src/redux/modules/chat/chat-selectors': {
         getChatNotification: () => mockChatNotification
