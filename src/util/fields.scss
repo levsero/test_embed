@@ -1,10 +1,10 @@
 @import '../styles/_vars.scss';
 
 .fieldContainer {
-  margin-bottom: $field-margin-bottom;
+  margin-bottom: $field-margin-bottom !important;
 }
 
-.fieldLabel {
+.fieldLabelMobile {
   font-size: #{14/$font-size}rem !important;
 }
 
@@ -16,4 +16,30 @@
 .textareaInput {
   height: #{105/$font-size}rem;
   font-size: #{14/$font-size}rem !important;
+}
+
+.hasCheckboxMobile {
+  [dir='ltr'] & {
+    padding-left: #{22/$font-size}rem !important;
+  }
+
+  [dir='rtl'] & {
+    padding-right: #{22/$font-size}rem !important;
+  }
+
+  &:before {
+    width: #{14/$font-size}rem !important;
+    height: #{14/$font-size}rem !important;
+    margin-top: -0.05rem !important;
+  }
+}
+
+.checkboxDescriptionMobile {
+  [dir='ltr'] & {
+    padding-left: #{22/$font-size}rem !important;
+  }
+
+  [dir='rtl'] & {
+    padding-right: #{22/$font-size}rem !important;
+  }
 }

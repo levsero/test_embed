@@ -1,3 +1,5 @@
+import { Checkbox } from '@zendeskgarden/react-checkboxes';
+
 describe('fields', () => {
   let getCustomFields,
     mockLocaleIdValue;
@@ -82,7 +84,8 @@ describe('fields', () => {
     title_in_portal: 'Can we call you?',
     required_in_portal: false,
     visible_in_portal: true,
-    editable_in_portal: true
+    editable_in_portal: true,
+    description: 'this is the description'
   };
   const descriptionFieldPayload = {
     id: '2284527',
@@ -119,9 +122,6 @@ describe('fields', () => {
       },
       'component/field/Dropdown': {
         Dropdown: noopReactComponent()
-      },
-      'component/field/Checkbox': {
-        Checkbox: noopReactComponent()
       },
       'service/i18n': {
         i18n: {
@@ -373,50 +373,30 @@ describe('fields', () => {
       describe('checkbox field', () => {
         let checkboxField;
 
-        describe('when clearCheckboxes option is false', () => {
-          beforeEach(() => {
-            payload = [checkboxFieldPayload];
-            customFields = getCustomFields(payload, {});
-            checkboxField = customFields.allFields[0];
-          });
+        beforeEach(() => {
+          payload = [checkboxFieldPayload];
+          customFields = getCustomFields(payload, {});
 
-          it('should assign a type of checkbox', () => {
-            expect(checkboxField.props.type)
-              .toEqual('checkbox');
-          });
-
-          it('should pass through a label', () => {
-            expect(checkboxField.props.label)
-              .toEqual('Can we call you?');
-          });
-
-          it('should pass through the uncheck prop as false', () => {
-            expect(checkboxField.props.uncheck)
-              .toBe(false);
-          });
+          checkboxField = customFields.allFields[0];
         });
 
-        describe('when clearCheckboxes option is true', () => {
-          beforeEach(() => {
-            payload = [checkboxFieldPayload];
-            customFields = getCustomFields(payload, { clearCheckboxes: true });
-            checkboxField = customFields.allFields[0];
-          });
+        it('returns a Checkbox element', () => {
+          expect(checkboxField.type)
+            .toEqual(Checkbox);
+        });
 
-          it('should assign a type of checkbox', () => {
-            expect(checkboxField.props.type)
-              .toEqual('checkbox');
-          });
+        it('has a label', () => {
+          const label = checkboxField.props.children[0];
 
-          it('should pass through a label', () => {
-            expect(checkboxField.props.label)
-              .toEqual('Can we call you?');
-          });
+          expect(label.props.children)
+            .toEqual('Can we call you?');
+        });
 
-          it('should pass through the uncheck prop as true', () => {
-            expect(checkboxField.props.uncheck)
-              .toBe(true);
-          });
+        it('has a description', () => {
+          const message = checkboxField.props.children[1];
+
+          expect(message.props.children)
+            .toEqual('this is the description');
         });
       });
     });
