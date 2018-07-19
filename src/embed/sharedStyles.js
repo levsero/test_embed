@@ -1,4 +1,3 @@
-import CheckboxStyles from 'component/field/Checkbox.scss';
 import LoadingSpinnerStyles from 'component/loading/LoadingSpinner.scss';
 import ScrollContainerStyles from 'component/container/ScrollContainer.scss';
 import AvatarStyles from 'component/Avatar.scss';
@@ -10,7 +9,6 @@ import NavigationStyles from 'component/frame/Navigation.scss';
 import fieldsStyles from 'utility/fields.scss';
 
 export const sharedStyles = `
-  ${CheckboxStyles}
   ${LoadingSpinnerStyles}
   ${ScrollContainerStyles}
   ${AvatarStyles}

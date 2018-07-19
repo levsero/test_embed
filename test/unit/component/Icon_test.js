@@ -26,7 +26,6 @@ describe('Icon components', function() {
       'icons/widget-icon_channelChoice-contactForm.svg': DummyIcon,
       'icons/widget-icon_channelChoice-talk.svg': DummyIcon,
       'icons/widget-icon_chat.svg': DummyIcon,
-      'icons/widget-icon_checkboxCheck.svg': DummyIcon,
       'icons/widget-icon_circle_tick.svg': DummyIcon,
       'icons/widget-icon_clearInput.svg': DummyIcon,
       'icons/widget-icon_close.svg': DummyIcon,

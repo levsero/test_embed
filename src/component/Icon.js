@@ -22,7 +22,6 @@ const icons = {
   'Icon--channelChoice-contactForm': require('icons/widget-icon_channelChoice-contactForm.svg'),
   'Icon--channelChoice-talk': require('icons/widget-icon_channelChoice-talk.svg'),
   'Icon--chat': require('icons/widget-icon_chat.svg'),
-  'Icon--check': require('icons/widget-icon_checkboxCheck.svg'),
   'Icon--checkmark-fill': require('@zendeskgarden/svg-icons/src/14/checkmark-fill.svg'),
   'Icon--chevron': require('@zendeskgarden/svg-icons/src/14/chevron.svg'),
   'Icon--clearInput': require('icons/widget-icon_clearInput.svg'),
