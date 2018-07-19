@@ -42,6 +42,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
       name: field.id,
       label: title,
       required: !!field.required_in_portal,
+      'aria-required': !!field.required_in_portal,
       value: formState[field.id]
     };
     const { visible_in_portal: visible, editable_in_portal: editable } = field; // eslint-disable-line camelcase

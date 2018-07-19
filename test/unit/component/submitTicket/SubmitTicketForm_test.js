@@ -221,8 +221,7 @@ describe('SubmitTicketForm component', () => {
     let submitTicketForm;
     const expectedFormState = {
       name: formParams.name,
-      email: formParams.email,
-      clearCheckboxes: true
+      email: formParams.email
     };
 
     beforeEach(() => {

@@ -302,8 +302,7 @@ export class SubmitTicketForm extends Component {
     this.setState(initialState);
     this.props.setFormState({
       name: formState.name,
-      email: formState.email,
-      clearCheckboxes: true
+      email: formState.email
     });
     this.prefillFormState();
   }
