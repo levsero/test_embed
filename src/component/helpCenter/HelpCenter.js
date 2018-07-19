@@ -20,6 +20,7 @@ import { handleArticleClick,
 import { getActiveArticle,
   getArticleClicked,
   getResultsCount,
+  getResultsLocale,
   getSearchLoading,
   getSearchFailed,
   getSearchTerm,
@@ -42,6 +43,7 @@ const mapStateToProps = (state) => {
   return {
     articleClicked: getArticleClicked(state),
     resultsCount: getResultsCount(state),
+    resultsLocale: getResultsLocale(state),
     activeArticle: getActiveArticle(state),
     searchLoading: getSearchLoading(state),
     searchFailed: getSearchFailed(state),
@@ -97,6 +99,7 @@ class HelpCenter extends Component {
     zendeskHost: PropTypes.string.isRequired,
     articleClicked: PropTypes.bool,
     resultsCount: PropTypes.number.isRequired,
+    resultsLocale: PropTypes.string.isRequired,
     articles: PropTypes.array.isRequired,
     hasSearched: PropTypes.bool.isRequired,
     handleOriginalArticleClicked: PropTypes.func.isRequired,
@@ -273,6 +276,7 @@ class HelpCenter extends Component {
       fullscreen,
       hideZendeskLogo,
       searchFailed,
+      resultsLocale,
       previousSearchTerm,
       hasContextualSearched,
       isContextualSearchComplete,
@@ -291,6 +295,7 @@ class HelpCenter extends Component {
         articles={articles}
         applyPadding={applyPadding}
         searchFailed={searchFailed}
+        locale={resultsLocale}
         previousSearchTerm={previousSearchTerm}
         handleArticleClick={this.handleArticleClick}
         hasContextualSearched={hasContextualSearched}
@@ -307,6 +312,7 @@ class HelpCenter extends Component {
       <HelpCenterArticle
         activeArticle={this.props.activeArticle}
         zendeskHost={this.props.zendeskHost}
+        locale={this.props.resultsLocale}
         originalArticleButton={this.props.originalArticleButton}
         handleOriginalArticleClick={this.props.handleOriginalArticleClicked}
         storedImages={this.props.restrictedImages}

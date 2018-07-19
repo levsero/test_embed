@@ -11,6 +11,7 @@ describe('helpCenter selectors', () => {
     getIsContextualSearchFailure,
     getActiveArticle,
     getResultsCount,
+    getResultsLocale,
     getArticles,
     getArticleViewActive,
     getTotalUserSearches,
@@ -67,6 +68,7 @@ describe('helpCenter selectors', () => {
     getIsContextualSearchSuccessful = selectors.getIsContextualSearchSuccessful;
     getActiveArticle = selectors.getActiveArticle;
     getResultsCount = selectors.getResultsCount;
+    getResultsLocale = selectors.getResultsLocale;
     getArticles = selectors.getArticles;
     getArticleViewActive = selectors.getArticleViewActive;
     getTotalUserSearches = selectors.getTotalUserSearches;
@@ -706,6 +708,24 @@ describe('helpCenter selectors', () => {
     it('returns the current state of resultsCount', () => {
       expect(result)
         .toEqual(5);
+    });
+  });
+
+  describe('getResultsLocale', () => {
+    let result;
+    const mockHelpCenterState = {
+      helpCenter: {
+        resultsLocale: 'de'
+      }
+    };
+
+    beforeEach(() => {
+      result = getResultsLocale(mockHelpCenterState);
+    });
+
+    it('returns the current state of resultsLocale', () => {
+      expect(result)
+        .toEqual('de');
     });
   });
 

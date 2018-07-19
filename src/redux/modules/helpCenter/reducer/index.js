@@ -8,6 +8,7 @@ import searchTerm from './helpCenter-searchTerm';
 import totalUserSearches from './helpCenter-totalUserSearches';
 import articles from './helpCenter-articles';
 import resultsCount from './helpCenter-resultsCount';
+import resultsLocale from './helpCenter-resultsLocale';
 import restrictedImages from './helpCenter-restrictedImages';
 import channelChoiceShown from './helpCenter-channelChoiceShown';
 import searchFieldValue from './helpCenter-searchFieldValue';
@@ -25,6 +26,7 @@ export default combineReducers({
   searchTerm,
   articles,
   resultsCount,
+  resultsLocale,
   totalUserSearches,
   restrictedImages,
   channelChoiceShown,

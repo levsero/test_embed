@@ -29,6 +29,7 @@ describe('helpCenter root reducer', () => {
       'searchTerm',
       'articles',
       'resultsCount',
+      'resultsLocale',
       'totalUserSearches',
       'restrictedImages',
       'channelChoiceShown',
