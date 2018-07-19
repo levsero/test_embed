@@ -59,6 +59,46 @@ describe('NestedDropdown component', () => {
     mockery.disable();
   });
 
+  describe('initial state', () => {
+    let component;
+
+    describe('when no defaultOption is passed in', () => {
+      beforeEach(() => {
+        component = instanceRender(
+          <NestedDropdown options={mockOptions} />
+        );
+      });
+
+      it('selectedKey is undefined', () => {
+        expect(component.state.selectedKey)
+          .toEqual(undefined);
+      });
+
+      it('displayedKey is an empty string', () => {
+        expect(component.state.displayedKey)
+          .toEqual('');
+      });
+    });
+
+    describe('when a defaultOption is passed in', () => {
+      beforeEach(() => {
+        component = instanceRender(
+          <NestedDropdown options={mockOptions} defaultOption={{ name: 'pizza', value: 'pizza' }} />
+        );
+      });
+
+      it('selectedKey is set to the value of the defaultOption', () => {
+        expect(component.state.selectedKey)
+          .toEqual('pizza');
+      });
+
+      it('displayedKey is set to the value of the defaultOption', () => {
+        expect(component.state.displayedKey)
+          .toEqual('pizza');
+      });
+    });
+  });
+
   describe('instance variables', () => {
     let component,
       groupedOptions,

@@ -29,10 +29,12 @@ export class NestedDropdown extends Component {
   constructor(props) {
     super();
 
+    const { defaultOption } = props;
+
     this.state = {
-      selectedKey: undefined,
+      selectedKey: defaultOption ? defaultOption.value : undefined,
       focusedKey: undefined,
-      displayedKey: ''
+      displayedKey: defaultOption ? defaultOption.value : ''
     };
 
     this.groupedOptions = this.groupOptions(props.options);

@@ -60,7 +60,7 @@ const getCustomFields = (customFields, formState, options = {}) => {
       case 'tagger':
         const defaultOption = _.find(field.custom_field_options, (option) => option.default);
 
-        return <NestedDropdown {...sharedProps} options={field.custom_field_options} value={defaultOption} />;
+        return <NestedDropdown {...sharedProps} options={field.custom_field_options} defaultOption={defaultOption} />;
 
       case 'integer':
         const integerFieldProps = {
