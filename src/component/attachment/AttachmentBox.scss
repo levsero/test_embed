@@ -23,6 +23,7 @@
 }
 
 .dropzoneChildLabel {
-  composes: Form-fieldLabel from '../../styles/components/Form.scss';
   composes: u-marginTS from global;
+  font-weight: 700;
+  color: $zd-color-grey-800;
 }

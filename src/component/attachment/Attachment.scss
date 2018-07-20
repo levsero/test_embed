@@ -2,8 +2,8 @@
 
 .container {
   composes: u-paddingAS u-posRelative from global;
-  border: $thin-border-size solid $stroke-color;
-  color: $secondary-color;
+  border: $thin-border-size solid $zd-color-grey-300;
+  background-color: $zd-color-grey-100;
 }
 
 .containerError {
@@ -21,12 +21,14 @@
 }
 
 .previewName {
-  composes: u-flex u-textBody from global;
+  composes: u-flex from global;
+  color: $zd-color-grey-800;
   overflow: hidden;
 }
 
 .secondaryText {
   composes: u-block from global;
+  color: $zd-color-grey-600;
 }
 
 .secondaryTextError {
@@ -34,18 +36,19 @@
 }
 
 .downloadSize {
-  color: $secondary-color;
+  color: $zd-color-grey-600;
 }
 
 .downloadText {
   composes: u-marginLT from global;
-  color: #007FAB;
+  color: $zd-color-blue-600;
 }
 
 .icon {
   composes: u-paddingTN u-isActionable from global;
 
   svg {
+    fill: $zd-color-grey-500 !important;
     min-width: #{10/$font-size}rem; /* 1 */
     min-height: #{10/$font-size}rem; /* 1 */
     height: #{10/$font-size}rem;

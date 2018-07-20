@@ -12,7 +12,10 @@
 
 .label {
   composes: u-textXHeight from global;
-  composes: Form-fieldLabel from '../../styles/components/Form.scss';
+
+  margin-bottom: #{6/$font-size}rem;
+  font-weight: 700;
+  color: $zd-color-grey-800;
 }
 
 .attachment {

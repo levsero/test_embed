@@ -1,14 +1,14 @@
 @import '../../styles/_vars.scss';
 
 .container {
-  background-color: $zd-color-gainsboro;
+  background-color: $zd-color-grey-300;
   border-radius: #{4/$font-size}rem;
   margin-top: $spacing-tny;
 }
 
 .progressBar {
   height: #{5/$font-size}rem;
-  background-color: $zd-color-chateau-green;
+  background-color: $zd-color-green-500;
   border-radius: #{4/$font-size}rem;
 }
 

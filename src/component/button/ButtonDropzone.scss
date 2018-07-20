@@ -5,7 +5,7 @@
   composes: Container--dashed from '../../styles/components/Container.scss';
 
   padding: #{14/$font-size}rem #{10/$font-size}rem;
-  color: $secondary-color;
+  color: $zd-color-grey-800;
 }
 
 .dropzoneActive {
