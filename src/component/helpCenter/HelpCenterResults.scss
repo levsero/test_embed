@@ -11,7 +11,7 @@
 }
 
 .item {
-  color: $zd-color-aluminum;
+  color: $zd-color-grey-500;
   list-style: decimal;
   font-size: $font-size-lrg;
   margin-bottom: #{7/$font-size}rem;
@@ -41,6 +41,7 @@
 
 .noResults {
   composes: u-textCenter from global;
+  color: $zd-color-grey-800;
   font-size: $font-size-lrg;
   margin: 50% 0;
 }
@@ -54,7 +55,7 @@
 }
 
 .noResultsParagraph {
-  composes: u-textSecondary from global;
+  color: $zd-color-grey-600;
 }
 
 .noResultsParagraphDesktop {
@@ -64,6 +65,7 @@
 .legend {
   composes: u-paddingTT Arrange Arrange--middle u-textBody u-textBold from global;
 
+  color: $zd-color-grey-800;
   font-size: #{14/$font-size}rem !important;
 }
 
