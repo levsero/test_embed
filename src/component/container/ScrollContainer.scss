@@ -73,7 +73,7 @@
     width: #{3/$font-size}rem;
   }
   &::-webkit-scrollbar-thumb {
-    background: $base-border-color;
+    background: $zd-color-grey-300;
     border-radius: #{3/$font-size}rem;
   }
 }

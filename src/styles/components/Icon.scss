@@ -53,12 +53,12 @@
 
     &:hover, &:active, &:focus {
       path {
-        fill: $zd-color-algae;
+        fill: $zd-color-grey-600;
       }
     }
 
     path {
-      fill: $zd-color-iron;
+      fill: $zd-color-grey-500;
     }
   }
 }

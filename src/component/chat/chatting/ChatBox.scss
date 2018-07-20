@@ -17,7 +17,7 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background: $base-border-color;
+      background: $zd-color-grey-300;
       border-radius: #{4/$font-size}rem;
     }
   }
