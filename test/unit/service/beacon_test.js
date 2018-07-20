@@ -502,30 +502,44 @@ describe('beacon', () => {
   });
 
   describe('identify', () => {
-    let mockTransport;
-
+    let mockTransportSpy;
     const name = 'John';
     const email = 'john@example.com';
 
     beforeEach(() => {
-      mockTransport = mockRegistry['service/transport'];
-
-      beacon.init(true);
-
-      beacon.identify({ name: name, email: email });
+      mockTransportSpy = mockRegistry['service/transport'].http;
     });
 
-    it('sends correct payload using transport.send', () => {
-      expect(mockTransport.http.sendWithMeta)
-        .toHaveBeenCalled();
+    describe('with throttleIdentify turned off', () => {
+      beforeEach(() => {
+        beacon.init(true);
+        beacon.identify({ name: name, email: email });
+      });
 
-      const payload = mockTransport.http.sendWithMeta.calls.mostRecent().args[0];
+      it('sends correct payload using transport.send', () => {
+        expect(mockTransportSpy.sendWithMeta)
+          .toHaveBeenCalled();
 
-      expect(payload.method)
-        .toBe('GET');
+        const payload = mockTransportSpy.sendWithMeta.calls.mostRecent().args[0];
 
-      expect(payload.path)
-        .toBe('/embeddable_identify');
+        expect(payload.method)
+          .toBe('GET');
+
+        expect(payload.path)
+          .toBe('/embeddable_identify');
+      });
+    });
+
+    describe('with throttleIdentify turned on', () => {
+      beforeEach(() => {
+        beacon.setConfig({ throttleIdentify: true });
+        beacon.identify({ name: name, email: email });
+      });
+
+      it('does not call transport.send', () => {
+        expect(mockTransportSpy.sendWithMeta)
+          .not.toHaveBeenCalled();
+      });
     });
   });
 

@@ -17,7 +17,8 @@ let config = {
   method: 'GET',
   endpoint: '/embeddable_blip',
   identifyEndpoint: '/embeddable_identify',
-  reduceBlipping: false
+  reduceBlipping: false,
+  throttleIdentify: false
 };
 
 const sendPageViewWhenReady = () => {
@@ -70,7 +71,8 @@ const sendPageView = () => {
 
 function setConfig(_config) {
   _.merge(config, {
-    reduceBlipping: !!_config.reduceBlipping
+    reduceBlipping: !!_config.reduceBlipping,
+    throttleIdentify: !!_config.throttleIdentify
   });
 }
 
@@ -153,6 +155,8 @@ function trackSettings(settings) {
 }
 
 function identify(user) {
+  if (config.throttleIdentify) return;
+
   const { method, identifyEndpoint } = config;
   const payload = {
     type: 'user',
