@@ -160,14 +160,6 @@ class HelpCenter extends Component {
     this.helpCenterDesktop = null;
   }
 
-  componentDidUpdate() {
-    if (this.props.articles.length > 0) {
-      if (this.refs.helpCenterMobile) {
-        this.refs.helpCenterMobile.setIntroScreen();
-      }
-    }
-  }
-
   pauseAllVideos = () => {
     const componentNode = ReactDOM.findDOMNode(this);
     const videoList = componentNode.getElementsByTagName('video');
