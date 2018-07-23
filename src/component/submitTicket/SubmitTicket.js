@@ -331,9 +331,9 @@ class SubmitTicket extends Component {
 
     return _.map(ticketForms, (form, key) => {
       return (
-        <div key={key} data-id={form.id} className={`${styles.ticketFormsList} u-userTextColor ${mobileClasses}`}>
+        <li key={key} data-id={form.id} className={`${styles.ticketFormsList} u-userTextColor ${mobileClasses}`}>
           {form.display_name}
-        </div>
+        </li>
       );
     });
   }
@@ -362,9 +362,9 @@ class SubmitTicket extends Component {
         <div className={`${styles.ticketFormsListTitle} ${titleMobileClasses}`}>
           {i18n.t('embeddable_framework.submitTicket.ticketForms.title')}
         </div>
-        <div onClick={this.handleTicketFormsListClick}>
+        <ul onClick={this.handleTicketFormsListClick}>
           {this.renderTicketFormOptions()}
-        </div>
+        </ul>
       </ScrollContainer>
     );
   }
