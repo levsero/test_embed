@@ -38,7 +38,7 @@
 }
 
 .messageAgent {
-  color: $zd-color-oil;
+  color: $zd-color-grey-800;
   float: left;
 
   [dir='rtl'] & {
@@ -78,13 +78,13 @@
 }
 
 .agentBackground {
-  background: $zd-color-anti-flash-white;
+  background: $zd-color-grey-200;
   max-width: #{219/$font-size}rem !important;
 }
 
 .name {
   margin: #{8/$font-size}rem 0;
-  color: $zd-color-aluminum !important;
+  color: $zd-color-grey-500 !important;
 }
 
 .nameAvatar {
@@ -154,7 +154,7 @@
 }
 
 .sentIndicator {
-  color: $zd-color-aluminum;
+  color: $zd-color-grey-400;
   height: #{12/$font-size}rem;
   left: -#{15/$font-size}rem;
   position: absolute;

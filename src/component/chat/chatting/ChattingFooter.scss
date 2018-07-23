@@ -22,16 +22,16 @@
     height: #{14/$font-size}rem;
 
     g {
-      fill: $zd-color-aluminum !important;
+      fill: $zd-color-grey-500 !important;
     }
   }
 
   &:hover, &:active, &:focus {
     cursor: pointer;
-    background: $zd-color-platinum;
+    background: $zd-color-grey-200;
 
     svg > g {
-      fill: $zd-color-dark-gray !important;
+      fill: $zd-color-grey-700 !important;
     }
   }
 }
@@ -111,7 +111,7 @@
 
 .iconDisabled {
   svg > g {
-    fill: $zd-color-iron !important;
+    fill: $zd-color-grey-400 !important;
   }
 
   &:hover, &:active, &:focus {
@@ -119,7 +119,7 @@
     background: none;
 
     svg > g {
-      fill: $zd-color-iron !important;
+      fill: $zd-color-grey-400 !important;
     }
   }
 }
