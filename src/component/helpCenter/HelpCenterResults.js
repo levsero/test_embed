@@ -70,9 +70,9 @@ export class HelpCenterResults extends Component {
     const articleLinks = _.map(articles, this.renderResultRow);
 
     return (
-      <ul className={`${styles.list} ${paddingClasses} ${mobileClasses}`}>
+      <ol className={`${styles.list} ${paddingClasses} ${mobileClasses}`}>
         {articleLinks}
-      </ul>
+      </ol>
     );
   }
 
