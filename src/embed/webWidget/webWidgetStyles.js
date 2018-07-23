@@ -55,9 +55,7 @@ import MessageBubbleStyles from 'component/shared/MessageBubble/MessageBubble.sc
 import MessageErrorStyles from 'component/chat/chatting/MessageError.scss';
 import MessageOptionsStyles from 'component/shared/MessageOptions/MessageOptions.scss';
 import ProgressBarStyles from 'component/attachment/ProgressBar.scss';
-import SearchFieldButtonStyles from 'component/button/SearchFieldButton.scss';
 import SearchFieldStyles from 'component/field/SearchField.scss';
-import SearchInputStyles from 'component/field/SearchInput.scss';
 import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.scss';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.scss';
 import SuccessNotificationStyles from 'component/shared/SuccessNotification/SuccessNotification.scss';
@@ -127,9 +125,7 @@ export const webWidgetStyles = `
   ${MessageErrorStyles}
   ${MessageOptionsStyles}
   ${ProgressBarStyles}
-  ${SearchFieldButtonStyles}
   ${SearchFieldStyles}
-  ${SearchInputStyles}
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
   ${SuccessNotificationStyles}

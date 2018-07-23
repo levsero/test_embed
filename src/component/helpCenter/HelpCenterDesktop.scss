@@ -1,5 +1,9 @@
 @import '../../styles/_vars.scss';
 
+.title {
+  margin-bottom: #{10/$font-size}rem;
+}
+
 .form {
   composes: u-cf from global;
   composes: Form from '../../styles/components/Form.scss';

@@ -22,7 +22,8 @@ export class ScrollContainer extends Component {
     title: PropTypes.string.isRequired,
     classes: PropTypes.string,
     onContentScrolled: PropTypes.func,
-    newHeight: PropTypes.bool
+    newHeight: PropTypes.bool,
+    titleClasses: PropTypes.string
   };
 
   static defaultProps = {
@@ -34,7 +35,8 @@ export class ScrollContainer extends Component {
     headerContent: null,
     scrollShadowVisible: false,
     onContentScrolled: () => {},
-    newHeight: false
+    newHeight: false,
+    titleClasses: ''
   };
 
   constructor(props, context) {
@@ -125,7 +127,7 @@ export class ScrollContainer extends Component {
       newHeight
     } = this.props;
     const headerClasses = classNames(styles.header, styles.userHeader);
-    const titleClasses = classNames(styles.title, { [styles.titleMobile]: fullscreen });
+    const titleClasses = classNames(styles.title, this.props.titleClasses, { [styles.titleMobile]: fullscreen });
     const scrollContainerClasses = classNames(
       classes,
       styles.container,

@@ -6,7 +6,6 @@ import { ButtonGroup } from 'component/button/ButtonGroup';
 import { ChannelChoicePopupMobile } from 'component/channelChoice/ChannelChoicePopupMobile';
 import { ScrollContainer } from 'component/container/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
-import { SearchFieldButton } from 'component/button/SearchFieldButton';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { LoadingBarContent } from 'component/loading/LoadingBarContent';
 import { i18n } from 'service/i18n';
@@ -110,8 +109,10 @@ export class HelpCenterMobile extends Component {
   }
 
   handleSearchBoxClicked = () => {
-    this.setState({ showIntroScreen: false });
-    this.setSearchFieldFocused(true);
+    if (this.state.showIntroScreen) {
+      this.setState({ showIntroScreen: false });
+      this.setSearchFieldFocused(true);
+    }
   }
 
   handleOnBlur = () => {
@@ -156,32 +157,18 @@ export class HelpCenterMobile extends Component {
   }
 
   renderSearchField = () => {
-    // needs to be hidden rather then return null so the
-    // field can be focused on
-    const searchFieldClasses = this.state.showIntroScreen ? 'u-isHidden' : '';
-
     return (
-      <div className={searchFieldClasses}>
-        <SearchField
-          ref={(el) => { this.searchField = el; }}
-          fullscreen={true}
-          onFocus={this.handleOnFocus}
-          onBlur={this.handleOnBlur}
-          onChangeValue={this.props.handleOnChangeValue}
-          hasSearched={this.props.hasSearched}
-          onSearchIconClick={this.handleSubmit}
-          isLoading={this.props.isLoading} />
-      </div>
-    );
-  }
-
-  renderSearchFieldButton = () => {
-    return !this.state.showIntroScreen
-      ? null
-      : <SearchFieldButton
-        ref='searchFieldButton'
+      <SearchField
+        ref={(el) => { this.searchField = el; }}
+        fullscreen={true}
+        onFocus={this.handleOnFocus}
+        onBlur={this.handleOnBlur}
+        onChangeValue={this.props.handleOnChangeValue}
+        hasSearched={this.props.hasSearched}
+        onSearchIconClick={this.handleSubmit}
         onClick={this.handleSearchBoxClicked}
-        searchTerm={this.props.searchFieldValue} />;
+        isLoading={this.props.isLoading} />
+    );
   }
 
   renderForm = () => {
@@ -196,7 +183,6 @@ export class HelpCenterMobile extends Component {
         <h1 className={`${styles.searchTitle} ${hiddenClasses}`}>
           {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
         </h1>
-        {this.renderSearchFieldButton()}
         {this.renderSearchField()}
       </form>
     );

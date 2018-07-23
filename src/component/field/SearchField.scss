@@ -5,71 +5,66 @@
 
 @import '../../styles/_vars.scss';
 
-.searchIcon {
-  composes: Arrange-sizeFit u-isActionable u-paddingHN from global;
+.container {
+  align-items: center;
+  border: $thin-border-size solid $stroke-color;
+  border-radius: #{4/$font-size}rem;
 }
 
-.searchIconFocused {
-  composes: u-userTextColor u-userFillColor from global;
+.desktopContainer {
+  composes: container;
+  padding-left: #{10/$font-size}rem;
+  margin-bottom: $field-margin-bottom;
 }
 
-.searchLoadingIcon {
-  composes: u-paddingRS from global;
+.mobileContainer {
+  composes: container;
+  padding-left: #{8/$font-size}rem;
+  height: #{40/$font-size}rem;
+  padding-top: #{0/$font-size}rem;
+  padding-bottom: #{0/$font-size}rem;
+  margin-top: #{30/$font-size}rem;
 }
 
-.hidden {
-  composes: u-isHidden from global;
+.mobileSearchInput {
+  font-size: $font-size-mobile;
+  height: #{43/$font-size}rem;
+
+  [dir='rtl'] & {
+    padding-left: 0 !important;
+    padding-right: #{11/$font-size}rem !important;
+  }
 }
 
-.searchLoadingIconContainer {
-  composes: Arrange-sizeFit u-isActionable from global;
+.mobileSearchIcon {
+  max-height: 100%;
+  padding: #{12/$font-size}rem;
+  background-color: $zd-color-grey-200;
+  margin: 0 auto!important;
 }
 
-.clearInput {
+.mobileClearInput {
   composes: u-isActionable u-textCenter u-marginRS from global;
   composes: Icon Icon--clearInput from '../../styles/components/Icon.scss';
 }
 
-.clearInputContainer {
+.mobileNonSearchIconContainer {
   composes: Arrange-sizeFit u-isActionable from global;
+  margin: 0;
+  max-height: 100%;
+  width: #{40/$font-size}rem;
 }
 
-.mobileIconsContainer {
-  composes: u-displayInherit from global;
-}
+.desktopSearchOrLoading {
+  composes: u-userColor from global;
+  margin: 0;
+  max-height: 100%;
 
-.searchContainer {
-  composes: u-cf from global;
-}
-
-.searched {
-  composes: u-paddingTM from global;
-}
-
-.notSearched {
-  composes: u-marginBL from global;
-}
-
-.notSearchedLogo {
-  margin-bottom: #{40/$font-size}rem;
-}
-
-.fullscreen {
-  composes: u-paddingHN u-paddingBN from global;
-
-  padding-top: #{18/$font-size}rem;
-}
-
-.searchInputFullscreen {
-  composes: is-mobile from global;
-}
-
-.searchInput {
-  composes: Arrange Arrange--middle u-isSelectable u-paddingVN u-paddingRN from global;
-  composes: Form-field Form-field--search from '../../styles/components/Form.scss';
-}
-
-.focused {
-  composes: Form-field--focused from '../../styles/components/Form.scss';
-  backface-visibility: hidden; /* 1 */
+  &:hover {
+    svg {
+      path {
+        fill: currentColor !important;
+      }
+    }
+  };
 }

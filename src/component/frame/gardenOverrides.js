@@ -33,6 +33,12 @@ const checkboxLabelMobileOverrides = isMobileBrowser() ? css`
     [dir='rtl'] & {
       padding-right: ${22/FONT_SIZE}rem !important;
     }
+    :focus {
+      box-shadow: ${'0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important;'}
+    }
+
+    box-shadow: ${props => props.focused && `0 0 0 ${3/FONT_SIZE}rem rgba(153,153,153, 0.4) !important`}
+    border-color: ${props => props.focused && `${zdColorAluminum} !important`}
 
     &:before {
       width: ${14/FONT_SIZE}rem !important;

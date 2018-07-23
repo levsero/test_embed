@@ -23,7 +23,9 @@ describe('ScrollContainer component', () => {
           newHeightContent: 'newHeightContent',
           noNewHeightContent: 'noNewHeightContent',
           newHeightDesktop: 'newHeightDesktop',
-          newHeightMobile: 'newHeightMobile'
+          newHeightMobile: 'newHeightMobile',
+          title: 'title',
+          titleMobile: 'titleMobile'
         }
       },
       'utility/devices': {
@@ -63,6 +65,69 @@ describe('ScrollContainer component', () => {
 
     expect(container.props.className)
       .toMatch('containerDesktopClasses');
+  });
+
+  describe('titleClasses', () => {
+    let container,
+      mockIsFullScreen,
+      mockTitleClasses,
+      result;
+
+    beforeEach(() => {
+      container = instanceRender(<ScrollContainer titleClasses={mockTitleClasses} fullscreen={mockIsFullScreen} />);
+      result = container.render().props.children[0].props.children[0].props.className;
+    });
+
+    it('includes title in titleClasses', () => {
+      expect(result)
+        .toContain('title');
+    });
+
+    describe('when title props are provided', () => {
+      beforeAll(() => {
+        mockTitleClasses = 'yolo';
+      });
+
+      it('includes titleMobile in titleClasses', () => {
+        expect(result)
+          .toContain('yolo');
+      });
+    });
+
+    describe('when title props are not provided', () => {
+      beforeAll(() => {
+        mockTitleClasses = '';
+      });
+
+      it('includes titleMobile in titleClasses', () => {
+        expect(result)
+          .not
+          .toContain('yolo');
+      });
+    });
+
+    describe('when fullscreen is true', () => {
+      beforeAll(() => {
+        mockIsFullScreen = true;
+      });
+
+      it('includes titleMobile in titleClasses', () => {
+        expect(result)
+          .toContain('titleMobile');
+      });
+    });
+
+    describe('when fullscreen is false', () => {
+      beforeAll(() => {
+        mockIsFullScreen = false;
+      });
+
+      it('does not include titleMobile in titleClasses', () => {
+        expect(result)
+          .not
+          .toContain('titleMobile');
+      });
+    });
   });
 
   describe('newHeight', () => {
