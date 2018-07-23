@@ -3,7 +3,7 @@
 .container {
   composes: u-flex u-flexAlignItemsCenter u-isDisabled from global;
 
-  color: $zd-color-dark-gray;
+  color: $zd-color-grey-800;
   padding: #{10/$font-size}rem;
 
   .Icon svg path {

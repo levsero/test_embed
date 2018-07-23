@@ -26,7 +26,7 @@
 
 .btnDisabled {
   background-color: $zd-color-white !important;
-  color: $zd-color-aluminum !important;
+  color: $zd-color-grey-600 !important;
 }
 
 .chatBtnDisabled {
@@ -41,7 +41,7 @@
   composes: btnDisabled;
 
   svg path {
-    stroke: $zd-color-iron !important;
+    stroke: $zd-color-grey-400 !important;
   }
 }
 
@@ -159,7 +159,7 @@
 .newIconDisabled {
   svg {
     path, rect {
-      fill: $zd-color-iron !important;
+      fill: $zd-color-grey-400 !important;
     }
   }
 }
