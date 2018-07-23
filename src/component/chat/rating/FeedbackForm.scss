@@ -4,6 +4,7 @@
   composes: u-block u-textBold from global;
   margin-top: #{60/$font-size}rem;
   margin-bottom: #{10/$font-size}rem;
+  color: $zd-color-grey-800;
 }
 
 .buttonGroup {
