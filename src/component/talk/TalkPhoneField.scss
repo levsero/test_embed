@@ -162,6 +162,7 @@ $menu-height: #{200/$font-size}rem;
 .label {
   composes: u-textXHeight from global;
   composes: Form-fieldLabel from '../../styles/components/Form.scss';
+  color: $zd-color-grey-800;
 }
 
 .labelPortrait {
