@@ -105,7 +105,6 @@ export class ChatEmailTranscriptPopup extends Component {
       <EmailField
         fieldContainerClasses={styles.fieldContainer}
         fieldClasses={styles.field}
-        labelClasses={styles.fieldLabel}
         inputClasses={inputClasses}
         label={i18n.t('embeddable_framework.form.field.email.label')}
         value={this.state.formState.email}
@@ -162,7 +161,7 @@ export class ChatEmailTranscriptPopup extends Component {
       <div className={styles.resultMessage}>
         {failureMessageLabel}
         <br />
-        <a onClick={this.props.tryEmailTranscriptAgain}>{tryAgainLabel}</a>
+        <a className={styles.tryAgain} onClick={this.props.tryEmailTranscriptAgain}>{tryAgainLabel}</a>
       </div>
     );
 

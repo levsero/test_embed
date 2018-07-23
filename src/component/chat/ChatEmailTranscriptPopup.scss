@@ -29,10 +29,10 @@
 
 .resultMessage {
   float: left;
-  width: 88%;
+  width: 86%;
   font-size: $font-size-lrg;
   line-height: 1.4;
-  color: $zd-color-oil;
+  color: $zd-color-grey-800;
 
   a {
     cursor: pointer;
@@ -40,7 +40,7 @@
 }
 
 .title {
-  color: $zd-color-dark-gray;
+  color: $zd-color-grey-800;
   margin-bottom: #{16/$font-size}rem;
   text-align: center;
   font-size: $font-size-lrg;
@@ -58,16 +58,14 @@
   margin-bottom: #{20/$font-size}rem !important;
 }
 
-.fieldLabel {
-  composes: u-marginBS from global;
-  font-size: $font-size-lrg !important;
-  color: $zd-color-dark-gray !important;
-}
-
 .fieldInputMobile {
   font-size: $font-size-lrg !important;
 }
 
 .loadingSpinner {
   composes: u-textCenter from global;
+}
+
+.tryAgain {
+  color: $zd-color-blue-600 !important;
 }

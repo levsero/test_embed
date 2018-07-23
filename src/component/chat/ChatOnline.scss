@@ -11,6 +11,7 @@
 
 .chatEndPopupDescription {
   composes: u-paddingVL u-paddingLL u-paddingRL from global;
+  color: $zd-color-grey-800;
 }
 
 .reconnectContainer {

@@ -352,13 +352,13 @@
 
 .Icon--error-fill {
   path {
-    fill: $zd-color-flamingo;
+    fill: $error-color;
   }
 }
 
 .Icon--checkmark-fill {
   path {
-    fill: $zd-color-chateau-green;
+    fill: $zd-color-green-500;
   }
   svg {
     min-width: #{15/$font-size}rem;
