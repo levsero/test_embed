@@ -51,7 +51,6 @@
   &:hover, &:focus, &:active {
     svg path {
       fill: none !important;
-      stroke: $zd-color-dark-gray;
     }
   }
 }
@@ -157,6 +156,8 @@
 }
 
 .newIconDisabled {
+  box-sizing: content-box;
+
   svg {
     path, rect {
       fill: $zd-color-grey-400 !important;
