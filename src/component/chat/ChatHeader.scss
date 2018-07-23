@@ -53,11 +53,11 @@
   background-color: $zd-color-white;
   height: #{34/$font-size}rem;
   width: #{34/$font-size}rem;
-  border: $zd-color-iron #{2/$font-size}rem solid;
+  border: $zd-color-grey-400 #{2/$font-size}rem solid;
 }
 
 .avatarOverflowText {
-  color: $zd-color-aluminum;
+  color: $zd-color-grey-500;
 }
 
 .container {
@@ -72,7 +72,7 @@
 }
 
 .textContainer {
-  color: $zd-color-oil;
+  color: $zd-color-grey-800;
   line-height: #{15/$font-size}rem;
   padding-top: #{1/$font-size}rem;
 }

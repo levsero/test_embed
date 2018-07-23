@@ -7,16 +7,16 @@
   padding: #{10/$font-size}rem;
 
   .Icon svg path {
-    fill: $zd-color-monsoon;
+    fill: $zd-color-grey-600;
   }
 
   &:hover, &:focus, &:active {
     background: $zd-color-anti-flash-white;
     border-radius: #{4/$font-size}rem;
-    color: $zd-color-oil;
+    color: $zd-color-grey-800;
 
     .Icon svg path {
-      fill: $zd-color-dark-gray;
+      fill: $zd-color-grey-800;
     }
   }
 }
