@@ -8,6 +8,7 @@ import {
   Item,
   NextItem,
   PreviousItem,
+  Hint,
   Label } from '@zendeskgarden/react-select';
 
 export class NestedDropdown extends Component {
@@ -16,6 +17,7 @@ export class NestedDropdown extends Component {
     options: PropTypes.array.isRequired,
     label: PropTypes.string,
     name: PropTypes.string,
+    description: PropTypes.string,
     required: PropTypes.bool
   }
 
@@ -23,6 +25,7 @@ export class NestedDropdown extends Component {
     label: '',
     name: '',
     required: false,
+    description: '',
     getFrameContentDocument: () => ({})
   }
 
@@ -163,6 +166,7 @@ export class NestedDropdown extends Component {
       <div>
         <SelectField>
           <Label>{this.props.label}</Label>
+          <Hint>{this.props.description}</Hint>
           <Select
             isOpen={this.state.isOpen}
             focusedKey={this.state.focusedKey}

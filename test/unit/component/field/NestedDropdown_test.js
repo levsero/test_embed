@@ -44,6 +44,7 @@ describe('NestedDropdown component', () => {
         Label: noopReactComponent(),
         Item,
         Select: noopReactComponent(),
+        Hint: noopReactComponent(),
         Separator,
         NextItem,
         PreviousItem
@@ -286,7 +287,7 @@ describe('NestedDropdown component', () => {
       let displayedValue;
 
       beforeEach(() => {
-        displayedValue = component.render().props.children[0].props.children[1].props.children;
+        displayedValue = component.render().props.children[0].props.children[2].props.children;
       });
 
       it('displays the default value of -', () => {
@@ -300,7 +301,7 @@ describe('NestedDropdown component', () => {
 
       beforeEach(() => {
         component.setState({ displayedKey: 'pizza' });
-        displayedValue = component.render().props.children[0].props.children[1].props.children;
+        displayedValue = component.render().props.children[0].props.children[2].props.children;
       });
 
       it('displays the name of the value', () => {
@@ -314,7 +315,7 @@ describe('NestedDropdown component', () => {
 
       beforeEach(() => {
         component.setState({ displayedKey: 'fruits__apple' });
-        displayedValue = component.render().props.children[0].props.children[1].props.children;
+        displayedValue = component.render().props.children[0].props.children[2].props.children;
       });
 
       it('displays the last section of the name of the value', () => {
