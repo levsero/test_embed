@@ -215,7 +215,7 @@ export function setVisitorInfo(visitor, timestamp=Date.now()) {
         payload: { ...visitor, timestamp }
       });
 
-      zChat.setVisitorInfo(visitor, (err) => {
+      zChat && zChat.setVisitorInfo(visitor, (err) => {
         if (!err) {
           dispatch({
             type: SET_VISITOR_INFO_REQUEST_SUCCESS,
