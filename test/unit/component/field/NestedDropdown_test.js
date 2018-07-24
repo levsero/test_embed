@@ -102,22 +102,22 @@ describe('NestedDropdown component', () => {
 
   describe('instance variables', () => {
     let component,
-      groupedOptions,
-      formattedOptions,
-      topLevel;
+      options,
+      items,
+      topLevelMenu;
 
     beforeEach(() => {
       component = instanceRender(
         <NestedDropdown options={mockOptions} />
       );
-      groupedOptions = component.groupedOptions;
-      formattedOptions = component.formattedOptions;
-      topLevel = component.topLevel;
+      options = component.options;
+      items = component.items;
+      topLevelMenu = component.topLevelMenu;
     });
 
-    describe('groupedOptions', () => {
+    describe('options', () => {
       it('equals the options grouped by their name value', () => {
-        expect(groupedOptions)
+        expect(options)
           .toEqual({
             'pizza': { name: 'pizza', value: 'pizza' },
             'ice cream': { name: 'ice cream', value: 'ice cream' },
@@ -130,9 +130,9 @@ describe('NestedDropdown component', () => {
       });
     });
 
-    describe('formattedOptions', () => {
-      it('equals the groupedOptions converted to the correct item type', () => {
-        _.forEach(formattedOptions, (option, key) => {
+    describe('items', () => {
+      it('equals the options converted to the correct item type', () => {
+        _.forEach(items, (option, key) => {
           const nextItemKeys = key === 'vegetable' || key === 'fruits';
 
           expect(TestUtils.isElementOfType(option, nextItemKeys ? NextItem : Item))
@@ -141,9 +141,9 @@ describe('NestedDropdown component', () => {
       });
     });
 
-    describe('topLevel', () => {
+    describe('topLevelMenu', () => {
       it('equals just the items in the initial menu screen', () => {
-        expect(topLevel.length)
+        expect(topLevelMenu.length)
           .toEqual(4);
       });
     });
@@ -210,7 +210,7 @@ describe('NestedDropdown component', () => {
     });
   });
 
-  describe('retrieveMenuItems', () => {
+  describe('renderMenuItems', () => {
     let component,
       selectedKey,
       menuItems;
@@ -219,7 +219,7 @@ describe('NestedDropdown component', () => {
       component = domRender(
         <NestedDropdown options={mockOptions} />
       );
-      menuItems = component.retrieveMenuItems(selectedKey);
+      menuItems = component.renderMenuItems(selectedKey);
     });
 
     describe('when selectedKey is undefined', () => {
@@ -229,7 +229,7 @@ describe('NestedDropdown component', () => {
 
       it('returns the top level items', () => {
         expect(menuItems)
-          .toEqual(component.topLevel);
+          .toEqual(component.topLevelMenu);
       });
     });
 

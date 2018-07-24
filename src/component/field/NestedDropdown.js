@@ -36,94 +36,97 @@ export class NestedDropdown extends Component {
 
     this.state = {
       selectedKey: defaultOption ? defaultOption.value : undefined,
-      focusedKey: undefined,
       displayedKey: defaultOption ? defaultOption.value : ''
     };
 
-    this.groupedOptions = this.groupOptions(props.options);
-    this.formattedOptions = this.sortOptions(this.groupedOptions);
-    this.topLevel = _.filter(this.formattedOptions, (option, key) => !key.includes('::'));
+    this.options = this.groupOptions(props.options);
+    this.items = this.renderItems(this.options);
+    this.topLevelMenu = _.filter(this.items, (option, key) => !_.includes(key, '::'));
   }
 
   groupOptions = (options) => {
     return _.chain(options)
       .sortBy('name')
       .groupBy('name')
-      .reduce((acc, item, key) => {
+      .reduce((groupedOptions, option, name) => {
         // Handle cases where parent isn't specified in the dropdown options
         // eg 1::2::3 is a value but 1::2 isn't
-        const splitKey = key.split('::').slice(0, -1);
+        // Adds the missing keys to the object
+        const splitName = name.split('::').slice(0, -1);
 
-        _.forEach(splitKey, (_, index) => {
-          const nestedOption = key.split('::', index+1).join('::');
+        _.forEach(splitName, (_, index) => {
+          const nestedOption = name.split('::', index+1).join('::');
 
-          if (!acc[nestedOption]) {
-            acc[nestedOption] = { name: nestedOption, value: `${nestedOption}-nested` };
+          if (!groupedOptions[nestedOption]) {
+            groupedOptions[nestedOption] = { name: nestedOption, value: `${nestedOption}-nested` };
           }
         });
 
-        // Add main key to options
-        acc[key] = _.head(item);
+        // Add main key to object
+        groupedOptions[name] = _.head(option);
 
-        return acc;
+        return groupedOptions;
       }, {})
       .value();
   }
 
-  sortOptions = (options) => {
-    return _.reduce(options, (acc, item, key, obj) => {
-      const depth = key.split('::');
-      const name = depth[depth.length-1];
-      const nested = _.filter(obj, stuff => stuff.name.includes(key));
+  renderItems = (options) => {
+    return _.reduce(options, (items, option, name) => {
+      const hasNestedOptions = this.findNestedOptionsByName(name).length > 1;
+      const splitName = name.split('::');
+      const titleName = splitName[splitName.length-1];
 
-      if (nested.length > 1) {
-        acc[key] = <NextItem key={`${item.value}-next`}>{name}</NextItem>;
+      if (hasNestedOptions) {
+        items[name] = <NextItem key={`${option.value}-next`}>{titleName}</NextItem>;
       } else {
-        acc[key] = <Item key={item.value}>{name}</Item>;
+        items[name] = <Item key={option.value}>{titleName}</Item>;
       }
 
-      return acc;
+      return items;
     }, {});
   }
 
   findOptionNameFromValue = (value) => {
-    const option = _.find(this.groupedOptions, (option) => option.value === value);
+    const option = _.find(this.options, (option) => option.value === value);
     const name = _.get(option, 'name', '').split('::');
 
     return name[name.length-1];
   }
 
   findNestedOptionsByName = (name) => {
-    return _.filter(this.groupedOptions, option => {
-      return option.name && option.name.includes(name);
+    return _.filter(this.options, option => {
+      return _.includes(option.name, name);
     });
   }
 
   findNestedMenuByName = (name) => {
-    return _.filter(this.groupedOptions, option => {
-      return option.name && option.name.includes(name.split('::').slice(0, -1).join('::'));
+    return _.filter(this.options, option => {
+      // Removes the final `::name` value from the name string
+      const optionMenuName = name.split('::').slice(0, -1).join('::');
+
+      return _.includes(option.name, optionMenuName);
     });
   }
 
   formatBackMenu = (menu, backName, depth) => {
-    const leaf = _.chain(menu.slice(1))
-      .filter(subitem => subitem.name.split('::').length === depth)
-      .map(subitem => this.formattedOptions[subitem.name])
+    const items = _.chain(menu.slice(1))
+      .filter(titleItem => titleItem.name.split('::').length === depth) // Get items at the correct depth
+      .map(titleItem => this.items[titleItem.name]) // Map to their react components
       .value();
 
-    const back = backName ? this.groupedOptions[backName] : '';
+    const back = backName ? this.options[backName] : '';
 
     return [
       <PreviousItem key={`${back.value}-prev`}>{this.findOptionNameFromValue(menu[0].value)}</PreviousItem>,
       <Separator key={`${menu[0].value}-separator`} />,
-      ...leaf
+      ...items
     ];
   }
 
-  retrieveMenuItems = (selectedKey) => {
-    const selectedKeyOption = _.find(this.groupedOptions, (option) => option.value === selectedKey);
+  renderMenuItems = (selectedKey) => {
+    const selectedKeyOption = _.find(this.options, (option) => option.value === selectedKey);
 
-    if (!selectedKeyOption) return this.topLevel;
+    if (!selectedKeyOption) return this.topLevelMenu;
 
     const nestedOptions = this.findNestedOptionsByName(selectedKeyOption.name);
     const splitName = selectedKeyOption.name.split('::');
@@ -143,16 +146,16 @@ export class NestedDropdown extends Component {
       return this.formatBackMenu(menu, backName, depth);
     // Otherwise return the top level of options
     } else {
-      return this.topLevel;
+      return this.topLevelMenu;
     }
   }
 
   handleChange = (selectedKey) => {
     let displayedKey = this.state.displayedKey;
 
-    if (selectedKey.includes('-prev')) {
+    if (_.includes(selectedKey, '-prev')) {
       selectedKey = selectedKey.replace('-prev', '');
-    } else if (selectedKey.includes('-next')) {
+    } else if (_.includes(selectedKey, '-next')) {
       selectedKey = selectedKey.replace('-next', '');
     } else {
       displayedKey = selectedKey;
@@ -169,11 +172,10 @@ export class NestedDropdown extends Component {
           <Hint>{this.props.description}</Hint>
           <Select
             isOpen={this.state.isOpen}
-            focusedKey={this.state.focusedKey}
             appendToNode={this.props.getFrameContentDocument().body}
             onStateChange={newState => this.setState(newState)}
             onChange={this.handleChange}
-            options={this.retrieveMenuItems(this.state.selectedKey)}
+            options={this.renderMenuItems(this.state.selectedKey)}
             dropdownProps={{ style: { maxHeight: 215, overflow: 'auto' }}}>
             {this.findOptionNameFromValue(this.state.displayedKey) || '-'}
           </Select>
